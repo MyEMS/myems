@@ -548,10 +548,11 @@ const EquipmentEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => {
     ]
   );
 
-  // Initialize spaces and equipment list only once
+  // Initialize spaces and equipment list (mount-only)
   useEffect(() => {
     if (uuid === null || !uuid) {
       setSpaceCascaderHidden(false);
+      let isResponseOK = false;
       fetch(APIBaseURL + '/spaces/tree', {
         method: 'GET',
         headers: {
@@ -563,61 +564,73 @@ const EquipmentEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => {
       })
         .then(response => {
           if (response.ok) {
-            return response.json();
+            isResponseOK = true;
           }
-          throw new Error('Network response was not ok');
+          return response.json();
         })
         .then(json => {
-          // rename keys
-          json = JSON.parse(
-            JSON.stringify([json])
-              .split('"id":')
-              .join('"value":')
-              .split('"name":')
-              .join('"label":')
-          );
-          setCascaderOptions(json);
-          setSelectedSpaceName([json[0]].map(o => o.label));
-          let selectedSpaceID = [json[0]].map(o => o.value);
-          // get Equipments by root Space ID
-          return fetch(APIBaseURL + '/spaces/' + selectedSpaceID + '/equipments', {
-            method: 'GET',
-            headers: {
-              'Content-type': 'application/json',
-              'User-UUID': getCookieValue('user_uuid'),
-              Token: getCookieValue('token')
-            },
-            body: null
-          });
-        })
-        .then(response => {
-          if (response.ok) {
-            return response.json();
-          }
-          throw new Error('Network response was not ok');
-        })
-        .then(json => {
-          json = JSON.parse(
-            JSON.stringify([json])
-              .split('"id":')
-              .join('"value":')
-              .split('"name":')
-              .join('"label":')
-          );
-          setEquipmentList(json[0]);
-          if (json[0].length > 0) {
-            setSelectedEquipment(json[0][0].value);
-            // enable submit button
-            setSubmitButtonDisabled(false);
+          if (isResponseOK) {
+            // rename keys
+            json = JSON.parse(
+              JSON.stringify([json])
+                .split('"id":')
+                .join('"value":')
+                .split('"name":')
+                .join('"label":')
+            );
+            setCascaderOptions(json);
+            setSelectedSpaceName([json[0]].map(o => o.label));
+            let selectedSpaceID = [json[0]].map(o => o.value);
+            // get Equipments by root Space ID
+            let isResponseOK = false;
+            fetch(APIBaseURL + '/spaces/' + selectedSpaceID + '/equipments', {
+              method: 'GET',
+              headers: {
+                'Content-type': 'application/json',
+                'User-UUID': getCookieValue('user_uuid'),
+                Token: getCookieValue('token')
+              },
+              body: null
+            })
+              .then(response => {
+                if (response.ok) {
+                  isResponseOK = true;
+                }
+                return response.json();
+              })
+              .then(json => {
+                if (isResponseOK) {
+                  json = JSON.parse(
+                    JSON.stringify([json])
+                      .split('"id":')
+                      .join('"value":')
+                      .split('"name":')
+                      .join('"label":')
+                  );
+                  setEquipmentList(json[0]);
+                  if (json[0].length > 0) {
+                    setSelectedEquipment(json[0][0].value);
+                    // enable submit button
+                    setSubmitButtonDisabled(false);
+                  } else {
+                    setSelectedEquipment(undefined);
+                    // disable submit button
+                    setSubmitButtonDisabled(true);
+                  }
+                } else {
+                  toast.error(t(json.description));
+                }
+              })
+              .catch(err => {
+                console.log(err);
+              });
+            // end of get Equipments by root Space ID
           } else {
-            setSelectedEquipment(undefined);
-            // disable submit button
-            setSubmitButtonDisabled(true);
+            toast.error(t(json.description));
           }
         })
         .catch(err => {
           console.log(err);
-          toast.error(t('Failed to load spaces and equipment data'));
         });
     } else {
       setSpaceCascaderHidden(true);
@@ -633,7 +646,7 @@ const EquipmentEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => {
     setSubmitButtonDisabled
   ]);
 
-  // Load data when uuid is provided
+  // Load data when uuid or parameters change (no reinitialization)
   useEffect(() => {
     if (uuid !== null && uuid) {
       let url =
