@@ -5,8 +5,16 @@
 				<uib-tabset>
 					<uib-tab heading="{{'COMMON.MICROGRID' | translate}}">
 						<div class="panel-body" ng-controller="MicrogridController">
-							<a ng-click="addMicrogrid()" class="btn btn-primary btn-rounded  btn-outline" href=""><i class="fa fa-plus-circle"></i> {{'SETTING.ADD_MICROGRID' | translate}}</a>
-							<a ng-click="importMicrogrid()" class="btn btn-primary btn-rounded  btn-outline" href=""><i class="fa fa-plus-circle"></i> {{'SETTING.IMPORT' | translate}}</a>
+                                                        <div class="col-md-3">
+							    <a ng-click="addMicrogrid()" class="btn btn-primary btn-rounded  btn-outline" href=""><i class="fa fa-plus-circle"></i> {{'SETTING.ADD_MICROGRID' | translate}}</a>
+							    <a ng-click="importMicrogrid()" class="btn btn-primary btn-rounded  btn-outline" href=""><i class="fa fa-plus-circle"></i> {{'SETTING.IMPORT' | translate}}</a>
+                                                        </div>
+                                                        <div class="col-md-9">
+                                                            <input type="text" class="form-control m-b-xs"
+                                                                placeholder="{{'SETTING.SEARCH' | translate}}"
+                                                                ng-model="searchKeyword"
+                                                                ng-keyup="searchMicrogrids()">
+                                                        </div>
 							<br>
 							<br>
 							<table class="footable table table-bordered table-hover" data-sort="true" data-page-size="15">

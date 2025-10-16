@@ -66,6 +66,29 @@ app.controller('MicrogridController', function(
 		});
 	};
 
+        let searchDebounceTimer = null;
+        $scope.searchMicrogrids = function() {
+                let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+                const rawKeyword = $scope.searchKeyword || "";
+                const trimmedKeyword = rawKeyword.trim();
+                if (searchDebounceTimer) {
+                    clearTimeout(searchDebounceTimer);
+                }
+                searchDebounceTimer = setTimeout(() => {
+                    if (!trimmedKeyword) {
+                        $scope.getAllMicrogrids();
+                        return;
+                    }
+                MicrogridService.searchMicrogrids(trimmedKeyword, headers, function (response) {
+                        if (angular.isDefined(response.status) && response.status === 200) {
+                                $scope.microgrids = response.data;
+                        } else {
+                                $scope.microgrids = [];
+                        }
+                });
+                }, 300);
+        };
+
 	$scope.addMicrogrid = function() {
 		var modalInstance = $uibModal.open({
 			templateUrl: 'views/settings/microgrid/microgrid.model.html',
