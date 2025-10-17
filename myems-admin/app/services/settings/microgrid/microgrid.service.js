@@ -10,7 +10,7 @@ app.factory('MicrogridService', function($http) {
             });
         },
         searchMicrogrids: function(query, headers, callback) {
-            $http.get(getAPI()+'microgrids', { params: { q: query } }, {headers})
+            $http.get(getAPI()+'microgrids', { params: { q: query },headers: headers })
             .then(function (response) {
                 callback(response);
             }, function (response) {
