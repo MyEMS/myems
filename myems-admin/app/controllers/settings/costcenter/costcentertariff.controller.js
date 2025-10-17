@@ -7,8 +7,10 @@ app.controller('CostCenterTariffController', function (
     CostCenterService,
     TariffService,
     CostCenterTariffService,
-    toaster) {
+    toaster
+) {
     $scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
+
     $scope.getAllCostCenters = function () {
         let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
         CostCenterService.getAllCostCenters(headers, function (response) {
@@ -22,7 +24,6 @@ app.controller('CostCenterTariffController', function (
                 $scope.costcenters = [];
             }
         });
-
     };
 
     $scope.getTariffsByCostCenterID = function (id) {
@@ -30,28 +31,33 @@ app.controller('CostCenterTariffController', function (
         CostCenterTariffService.getTariffsByCostCenterID(id, headers, function (response) {
             if (angular.isDefined(response.status) && response.status === 200) {
                 $scope.costcentertariffs = response.data;
+                $scope.getAllTariffs();
             } else {
                 $scope.costcentertariffs = [];
+                $scope.getAllTariffs();
             }
         });
-
     };
 
     $scope.changeCostCenter = function () {
         $scope.getTariffsByCostCenterID($scope.currentCostCenter.id);
     };
 
-
     $scope.getAllTariffs = function () {
         let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
         TariffService.getAllTariffs(headers, function (response) {
             if (angular.isDefined(response.status) && response.status === 200) {
-                $scope.tariffs = response.data;
+                let allTariffs = response.data;
+                if ($scope.costcentertariffs && $scope.costcentertariffs.length > 0) {
+                    const boundIds = $scope.costcentertariffs.map(t => t.id);
+                    $scope.tariffs = allTariffs.filter(t => !boundIds.includes(t.id));
+                } else {
+                    $scope.tariffs = allTariffs;
+                }
             } else {
                 $scope.tariffs = [];
             }
         });
-
     };
 
     $scope.pairTariff = function (dragEl, dropEl) {
@@ -63,7 +69,9 @@ app.controller('CostCenterTariffController', function (
                 toaster.pop({
                     type: "success",
                     title: $translate.instant("TOASTER.SUCCESS_TITLE"),
-                    body: $translate.instant("TOASTER.SUCCESS_ADD_BODY", {template: $translate.instant("TOASTER.BIND_TARIFF_SUCCESS")}),
+                    body: $translate.instant("TOASTER.SUCCESS_ADD_BODY", {
+                        template: $translate.instant("TOASTER.BIND_TARIFF_SUCCESS")
+                    }),
                     showCloseButton: true,
                 });
                 $scope.getTariffsByCostCenterID($scope.currentCostCenter.id);
@@ -90,10 +98,12 @@ app.controller('CostCenterTariffController', function (
                 toaster.pop({
                     type: "success",
                     title: $translate.instant("TOASTER.SUCCESS_TITLE"),
-                    body: $translate.instant("TOASTER.SUCCESS_DELETE_BODY", {template: $translate.instant("TOASTER.UNBIND_TARIFF_SUCCESS")}),
+                    body: $translate.instant("TOASTER.SUCCESS_DELETE_BODY", {
+                        template: $translate.instant("TOASTER.UNBIND_TARIFF_SUCCESS")
+                    }),
                     showCloseButton: true,
                 });
-
+                
                 $scope.getTariffsByCostCenterID($scope.currentCostCenter.id);
             } else {
                 toaster.pop({
@@ -106,12 +116,10 @@ app.controller('CostCenterTariffController', function (
         });
     };
 
-
     $scope.getAllCostCenters();
     $scope.getAllTariffs();
 
-  	$scope.$on('handleBroadcastCostCenterChanged', function(event) {
-  		$scope.getAllCostCenters();
-  	});
-
+    $scope.$on('handleBroadcastCostCenterChanged', function (event) {
+        $scope.getAllCostCenters();
+    });
 });
