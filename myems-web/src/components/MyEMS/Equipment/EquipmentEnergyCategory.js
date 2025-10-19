@@ -60,7 +60,7 @@ const EquipmentEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => {
       createCookie('user_uuid', user_uuid, settings.cookieExpireTime);
       createCookie('token', token, settings.cookieExpireTime);
     }
-  });
+  }, []);
 
   useEffect(() => {
     let timer = setInterval(() => {
@@ -548,10 +548,11 @@ const EquipmentEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => {
     ]
   );
 
+  // Initialize spaces and equipment list (mount-only)
   useEffect(() => {
-    let isResponseOK = false;
     if (uuid === null || !uuid) {
       setSpaceCascaderHidden(false);
+      let isResponseOK = false;
       fetch(APIBaseURL + '/spaces/tree', {
         method: 'GET',
         headers: {
@@ -633,6 +634,21 @@ const EquipmentEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => {
         });
     } else {
       setSpaceCascaderHidden(true);
+    }
+  }, [
+    uuid,
+    t,
+    setSpaceCascaderHidden,
+    setCascaderOptions,
+    setSelectedSpaceName,
+    setEquipmentList,
+    setSelectedEquipment,
+    setSubmitButtonDisabled
+  ]);
+
+  // Load data when uuid or parameters change (no reinitialization)
+  useEffect(() => {
+    if (uuid !== null && uuid) {
       let url =
         APIBaseURL +
         '/reports/equipmentenergycategory?' +
@@ -654,14 +670,11 @@ const EquipmentEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => {
     }
   }, [
     uuid,
-    loadData,
-    setSpaceCascaderHidden,
-    basePeriodDateRange,
-    language,
     periodType,
+    basePeriodDateRange,
     reportingPeriodDateRange,
-    t,
-    setSubmitButtonDisabled
+    language,
+    loadData
   ]);
 
   const labelClasses = 'ls text-uppercase text-600 font-weight-semi-bold mb-0';
