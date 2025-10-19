@@ -5,12 +5,18 @@
 				<uib-tabset>
 					<uib-tab heading="{{'COMMON.COMBINED_EQUIPMENT' | translate}}">
 						<div class="panel-body" ng-controller="CombinedEquipmentController">
-							<a ng-click="addCombinedEquipment()" class="btn btn-primary btn-rounded  btn-outline"
-								href=""><i class="fa fa-plus-circle"></i>
-								{{'COMBINED_EQUIPMENT.ADD_COMBINED_EQUIPMENT' | translate}}</a>
-							<a ng-click="importCombinedEquipment()" class="btn btn-primary btn-rounded  btn-outline" href=""><i class="fa fa-plus-circle"></i> {{'SETTING.IMPORT' | translate}}</a>
-							<br>
-							<br>
+							<div class="col-md-3">
+							   <a ng-click="addCombinedEquipment()" class="btn btn-primary btn-rounded  btn-outline"
+							     	href=""><i class="fa fa-plus-circle"></i>
+								   {{'COMBINED_EQUIPMENT.ADD_COMBINED_EQUIPMENT' | translate}}</a>
+							   <a ng-click="importCombinedEquipment()" class="btn btn-primary btn-rounded  btn-outline" href=""><i class="fa fa-plus-circle"></i> {{'SETTING.IMPORT' | translate}}</a>
+							</div>
+							<div class="col-md-9">
+								<input type="text" class="form-control m-b-xs"
+									   placeholder="{{'SETTING.SEARCH' | translate}}"
+									   ng-model="searchKeyword"
+									   ng-keyup="searchCombinedEquipments()">
+							</div>
 							<table class="footable table table-bordered table-hover" data-sort="true" data-page-size="15">
 								<thead>
 									<tr>

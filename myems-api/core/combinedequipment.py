@@ -16,6 +16,7 @@ class CombinedEquipmentCollection:
     Combined equipments represent groups of related equipment that work together
     in the energy management system, such as HVAC systems, lighting groups, etc.
     """
+
     def __init__(self):
         pass
 
@@ -56,6 +57,12 @@ class CombinedEquipmentCollection:
         else:
             api_key_control(req)
 
+        search_query = req.get_param('q', default=None)
+        if search_query is not None:
+            search_query = search_query.strip()
+        else:
+            search_query = ''
+
         # Connect to database and retrieve cost centers
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()
@@ -92,9 +99,13 @@ class CombinedEquipmentCollection:
         query = (" SELECT id, name, uuid, "
                  "        is_input_counted, is_output_counted, "
                  "        cost_center_id, svg_id, camera_url, description "
-                 " FROM tbl_combined_equipments "
-                 " ORDER BY id ")
-        cursor.execute(query)
+                 " FROM tbl_combined_equipments ")
+        params = []
+        if search_query:
+            query += " WHERE name LIKE %s OR   description LIKE %s "
+            params = [f'%{search_query}%', f'%{search_query}%']
+        query += " ORDER BY id "
+        cursor.execute(query, params)
         rows_combined_equipments = cursor.fetchall()
 
         # Build result list with all combined equipment data

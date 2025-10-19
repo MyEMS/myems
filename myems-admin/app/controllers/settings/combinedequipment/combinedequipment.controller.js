@@ -14,7 +14,7 @@ app.controller('CombinedEquipmentController', function (
 	$scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
 	$scope.exportdata = '';
 	$scope.importdata = '';
-
+    $scope.searchKeyword = '';
 	$scope.getAllCombinedEquipments = function () {
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 		CombinedEquipmentService.getAllCombinedEquipments(headers, function (response) {
@@ -266,6 +266,39 @@ app.controller('CombinedEquipmentController', function (
 
 		});
 		$rootScope.modalInstance = modalInstance;
+	};
+
+	let searchDebounceTimer = null;
+	function safeApply(scope) {
+		if (!scope.$$phase && !scope.$root.$$phase) {
+			scope.$apply();
+		}
+	}
+	$scope.searchCombinedEquipments = function() {
+		const headers = {
+			"User-UUID": $scope.cur_user?.uuid,
+			"Token": $scope.cur_user?.token
+		};
+
+		const rawKeyword = $scope.searchKeyword || "";
+		const trimmedKeyword = rawKeyword.trim();
+
+		if (searchDebounceTimer) {
+			clearTimeout(searchDebounceTimer);
+		}
+
+		searchDebounceTimer = setTimeout(() => {
+			if (!trimmedKeyword) {
+				$scope.getAllCombinedEquipments();
+				safeApply($scope);
+				return;
+			}
+
+			CombinedEquipmentService.searchCombinedEquipments(trimmedKeyword, headers, (response) => {
+				$scope.combinedequipments = (response.status === 200) ? response.data : [];
+				$scope.parentmeters = [...$scope.combinedequipments];
+			});
+		}, 300);
 	};
 
 	$scope.getAllCostCenters();
