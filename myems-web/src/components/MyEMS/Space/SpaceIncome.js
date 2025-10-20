@@ -620,8 +620,6 @@ const SpaceIncome = ({ setRedirect, setRedirectUrl, t }) => {
     },
     [
       periodType,
-      basePeriodDateRange,
-      reportingPeriodDateRange,
       language,
       setSubmitButtonDisabled,
       setSpinnerHidden,
@@ -667,8 +665,6 @@ const SpaceIncome = ({ setRedirect, setRedirectUrl, t }) => {
           setSelectedSpaceName([json[0]].map(o => o.label));
           // select root space ID
           setSelectedSpaceID([json[0]].map(o => o.value));
-          // load data with root space ID
-          loadData([json[0]].map(o => o.value));
         } else {
           toast.error(t(json.description));
         }
@@ -676,7 +672,13 @@ const SpaceIncome = ({ setRedirect, setRedirectUrl, t }) => {
       .catch(err => {
         console.log(err);
       });
-  }, [t, loadData]);
+  }, [t]);
+
+  useEffect(() => {
+    if (selectedSpaceID) {
+      loadData(selectedSpaceID);
+    }
+  }, [selectedSpaceID, loadData]);
 
   const labelClasses = 'ls text-uppercase text-600 font-weight-semi-bold mb-0';
 

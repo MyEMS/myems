@@ -385,10 +385,10 @@ const MeterEnergy = ({ setRedirect, setRedirectUrl, t }) => {
     ]
   );
   useEffect(() => {
-    let isResponseOK = false;
     if (uuid === null || !uuid) {
       setSpaceCascaderHidden(false);
       setMeterSearchHidden(false);
+      let isResponseOK = false;
       fetch(APIBaseURL + '/spaces/tree', {
         method: 'GET',
         headers: {
@@ -473,6 +473,11 @@ const MeterEnergy = ({ setRedirect, setRedirectUrl, t }) => {
     } else {
       setSpaceCascaderHidden(true);
       setMeterSearchHidden(true);
+    }
+  }, [uuid, t]);
+
+  useEffect(() => {
+    if (uuid !== null && uuid) {
       let url =
         APIBaseURL +
         '/reports/meterenergy?' +
@@ -492,7 +497,7 @@ const MeterEnergy = ({ setRedirect, setRedirectUrl, t }) => {
         language;
       loadData(url);
     }
-  }, [uuid, periodType, basePeriodDateRange, reportingPeriodDateRange, language, loadData, t]);
+  }, [uuid, periodType, basePeriodDateRange, reportingPeriodDateRange, language, loadData]);
 
   const labelClasses = 'ls text-uppercase text-600 font-weight-semi-bold mb-0';
 
