@@ -55,6 +55,12 @@ class EnergyFlowDiagramCollection:
         else:
             api_key_control(req)
 
+        search_query = req.get_param('q', default=None)
+        if search_query is not None:
+            search_query = search_query.strip()
+        else:
+            search_query = ''
+
         # Connect to database
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()
@@ -145,9 +151,14 @@ class EnergyFlowDiagramCollection:
                                                "meter": meter})
 
         query = (" SELECT id, name, uuid "
-                 " FROM tbl_energy_flow_diagrams "
-                 " ORDER BY id ")
-        cursor.execute(query)
+                 " FROM tbl_energy_flow_diagrams ")
+
+        params=[]
+        if search_query:
+            query += " WHERE name LIKE %s"
+            params = [f'%{search_query}%']
+        query +=  " ORDER BY id "
+        cursor.execute(query,params)
         rows_energy_flow_diagrams = cursor.fetchall()
 
         result = list()
