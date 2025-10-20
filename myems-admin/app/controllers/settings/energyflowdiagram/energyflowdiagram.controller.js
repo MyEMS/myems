@@ -12,7 +12,7 @@ app.controller('EnergyFlowDiagramController', function(
 	$scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
 	$scope.exportdata = '';
 	$scope.importdata = '';
-
+	$scope.searchKeyword = '';
 	$scope.getAllEnergyFlowDiagrams = function() {
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 		EnergyFlowDiagramService.getAllEnergyFlowDiagrams(headers, function (response) {
@@ -225,6 +225,40 @@ app.controller('EnergyFlowDiagramController', function(
 		});
 		$rootScope.modalInstance = modalInstance;
 	};
+
+	let searchDebounceTimer = null;
+	function safeApply(scope) {
+		if (!scope.$$phase && !scope.$root.$$phase) {
+			scope.$apply();
+		}
+	}
+	$scope.searchEnergyFlowDiagrams = function() {
+		const headers = {
+			"User-UUID": $scope.cur_user?.uuid,
+			"Token": $scope.cur_user?.token
+		};
+
+		const rawKeyword = $scope.searchKeyword || "";
+		const trimmedKeyword = rawKeyword.trim();
+
+		if (searchDebounceTimer) {
+			clearTimeout(searchDebounceTimer);
+		}
+
+		searchDebounceTimer = setTimeout(() => {
+			if (!trimmedKeyword) {
+				$scope.getAllEnergyFlowDiagrams();
+				safeApply($scope);
+				return;
+			}
+
+			EnergyFlowDiagramService.searchEnergyFlowDiagrams(trimmedKeyword, headers, (response) => {
+				$scope.energyflowdiagrams = (response.status === 200) ? response.data : [];
+				$scope.parentmeters = [...$scope.energyflowdiagrams];
+			});
+		}, 300);
+	};
+
 
 	$scope.getAllEnergyFlowDiagrams();
 });
