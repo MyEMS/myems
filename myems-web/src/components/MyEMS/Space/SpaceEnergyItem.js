@@ -612,12 +612,6 @@ const SpaceEnergyItem = ({ setRedirect, setRedirectUrl, t }) => {
       });
   }, [t]);
 
-  useEffect(() => {
-    if (selectedSpaceID) {
-      loadData(selectedSpaceID);
-    }
-  }, [selectedSpaceID, loadData]);
-
   const labelClasses = 'ls text-uppercase text-600 font-weight-semi-bold mb-0';
 
   let onSpaceCascaderChange = (value, selectedOptions) => {
