@@ -14,6 +14,7 @@ import {
   Label
 } from 'reactstrap';
 import RealtimeChart from './RealtimeChart';
+import blankPage from '../../../assets/img/generic/blank-page.png';  // Placeholder background image
 import { getCookieValue, createCookie, checkEmpty } from '../../../helpers/utils';
 import withRedirect from '../../../hoc/withRedirect';
 import { withTranslation } from 'react-i18next';
@@ -141,7 +142,7 @@ const DistributionSystem = ({ setRedirect, setRedirectUrl, t }) => {
           setSelectedDistributionSystemID(systems[0].value);
         } else {
           setSelectedDistributionSystemID(undefined);
-          toast.info(t('No distribution systems found for this space'));
+          // Remove toast info prompt
         }
         setSpinnerHidden(true);
       } else {
@@ -226,6 +227,10 @@ const DistributionSystem = ({ setRedirect, setRedirectUrl, t }) => {
 
     setPosition(position);
     setShow(true);
+    if (pt_id !== '') {
+      // getChartsData()
+      // getPointName()
+    }
   };
 
   const onMenuClick = e => {
@@ -301,15 +306,21 @@ const DistributionSystem = ({ setRedirect, setRedirectUrl, t }) => {
         </CardBody>
       </Card>
       <Row noGutters>
+      {selectedDistributionSystemID && (
         <Col lg="4" className="pr-lg-2" key={uuid()}>
           <RealtimeChart distributionSystemID={selectedDistributionSystemID} />
         </Col>
-        <Col lg="8" className="pr-lg-2">
-          {selectedDistributionSystemID && (
-            <div onContextMenu={onContextMenu} dangerouslySetInnerHTML={images[selectedDistributionSystemID]} />
-          )}
-        </Col>
-      </Row>
+      )}
+      <Col lg="8" className="pr-lg-2">
+        {selectedDistributionSystemID ? (
+          <div onContextMenu={onContextMenu} dangerouslySetInnerHTML={images[selectedDistributionSystemID]} />
+        ) : (
+          <div className="blank-page-image-container d-flex align-items-center justify-content-center" style={{ height: '400px' }}>
+            <img className="img-fluid" src={blankPage} alt="No data" />
+          </div>
+        )}
+      </Col>
+    </Row>
       <Card className="bg-light">
         <div onContextMenu={onContextMenu} className="demo">
           <ScorpioMenu
