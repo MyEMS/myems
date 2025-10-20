@@ -60,6 +60,29 @@ app.controller('PhotovoltaicPowerStationController', function(
 		});
 	};
 
+        let searchDebounceTimer = null;
+        $scope.searchPhotovoltaicPowerStations = function() {
+                let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+                const rawKeyword = $scope.searchKeyword || "";
+                const trimmedKeyword = rawKeyword.trim();
+                if (searchDebounceTimer) {
+                    clearTimeout(searchDebounceTimer);
+                }               
+                searchDebounceTimer = setTimeout(() => {
+                    if (!trimmedKeyword) {
+                        $scope.getAllPhotovoltaicPowerStations();
+                        return;
+                    }
+                PhotovoltaicPowerStationService.searchPhotovoltaicPowerStations(trimmedKeyword, headers, function (response) {
+                        if (angular.isDefined(response.status) && response.status === 200) {
+                                $scope.photovoltaicpowerstations = response.data;
+                        } else {
+                                $scope.photovoltaicpowerstations = [];
+                        }       
+                });
+                }, 300);
+        };
+
 	$scope.getAllPhaseOfLifecycles = function() {
 		$scope.phaseoflifecycles = [
 			{"code":"1use", "name": $translate.instant("PHOTOVOLTAIC_POWER_STATION.PHASE_1USE")},

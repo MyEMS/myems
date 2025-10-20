@@ -49,6 +49,12 @@ class PhotovoltaicPowerStationCollection:
             resp: Falcon response object
         """
         access_control(req)
+        search_query = req.get_param('q', default=None)
+        if search_query is not None and len(search_query.strip()) > 0:
+            search_query = search_query.strip()
+        else:
+            search_query = ''
+
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()
 
@@ -91,9 +97,13 @@ class PhotovoltaicPowerStationCollection:
         query = (" SELECT id, name, uuid, "
                  "        station_code, address, latitude, longitude, rated_capacity, rated_power, "
                  "        contact_id, cost_center_id, svg_id, is_cost_data_displayed, phase_of_lifecycle, description "
-                 " FROM tbl_photovoltaic_power_stations "
-                 " ORDER BY id ")
-        cursor.execute(query)
+                 " FROM tbl_photovoltaic_power_stations ")
+        params = []
+        if search_query:
+            query += " WHERE name LIKE %s OR address LIKE %s OR description LIKE %s "
+            params = [f'%{search_query}%', f'%{search_query}%', f'%{search_query}%']
+        query += " ORDER BY id "
+        cursor.execute(query, params)
         rows_photovoltaic_power_stations = cursor.fetchall()
 
         result = list()
