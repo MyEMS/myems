@@ -13,7 +13,7 @@ app.controller('SVGController', function(
 	$scope.exportdata = '';
 	$scope.importdata = '';
 	$scope.current_svg = null;
-
+	$scope.searchKeyword = '';
 	$scope.getAllSVGs = function() {
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token, "QUICKMODE": true };
 		SVGService.getAllSVGs(headers, function(response) {
@@ -239,6 +239,39 @@ app.controller('SVGController', function(
 
 		});
 		$rootScope.modalInstance = modalInstance;
+	};
+
+	let searchDebounceTimer = null;
+	function safeApply(scope) {
+		if (!scope.$$phase && !scope.$root.$$phase) {
+			scope.$apply();
+		}
+	}
+	$scope.searchSVGs = function() {
+		const headers = {
+			"User-UUID": $scope.cur_user?.uuid,
+			"Token": $scope.cur_user?.token
+		};
+
+		const rawKeyword = $scope.searchKeyword || "";
+		const trimmedKeyword = rawKeyword.trim();
+
+		if (searchDebounceTimer) {
+			clearTimeout(searchDebounceTimer);
+		}
+
+		searchDebounceTimer = setTimeout(() => {
+			if (!trimmedKeyword) {
+				$scope.getAllSVGs();
+				safeApply($scope);
+				return;
+			}
+
+			SVGService.searchSVGs(trimmedKeyword, headers, (response) => {
+				$scope.svgs = (response.status === 200) ? response.data : [];
+				$scope.parentmeters = [...$scope.svgs];
+			});
+		}, 300);
 	};
 
 	$scope.getAllSVGs();
