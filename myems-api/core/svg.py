@@ -15,6 +15,7 @@ class SVGCollection:
     It provides endpoints for listing all SVGs and creating new SVGs.
     SVGs are used for displaying graphical representations in the energy management system.
     """
+
     def __init__(self):
         """Initialize SVGCollection"""
         pass
@@ -33,10 +34,17 @@ class SVGCollection:
             access_control(req)
         else:
             api_key_control(req)
+
+        search_query = req.get_param('q', default=None)
+        if search_query is not None:
+            search_query = search_query.strip()
+        else:
+            search_query = ''
+
         # if turn quick mode on, do not return source code
         is_quick_mode = False
         if 'QUICKMODE' in req.headers and \
-            isinstance(req.headers['QUICKMODE'], str) and \
+                isinstance(req.headers['QUICKMODE'], str) and \
                 len(str.strip(req.headers['QUICKMODE'])) > 0 and \
                 str.lower(req.headers['QUICKMODE']) in ('true', 't', 'on', 'yes', 'y'):
             is_quick_mode = True
@@ -45,15 +53,18 @@ class SVGCollection:
         cursor = cnx.cursor()
         if is_quick_mode:
             query = (" SELECT id, name, uuid, description "
-                     " FROM tbl_svgs "
-                     " ORDER BY id ")
-            cursor.execute(query)
+                     " FROM tbl_svgs ")
+            params = []
+            if search_query:
+                query += " WHERE name LIKE %s    OR  description LIKE %s "
+                params = [f'%{search_query}%', f'%{search_query}%']
+            query += " ORDER BY id "
+            cursor.execute(query, params)
             rows_svgs = cursor.fetchall()
 
             result = list()
             if rows_svgs is not None and len(rows_svgs) > 0:
                 for row in rows_svgs:
-
                     meta_result = {"id": row[0],
                                    "name": row[1],
                                    "uuid": row[2],
@@ -61,9 +72,13 @@ class SVGCollection:
                     result.append(meta_result)
         else:
             query = (" SELECT id, name, uuid, source_code, description "
-                     " FROM tbl_svgs "
-                     " ORDER BY id ")
-            cursor.execute(query)
+                     " FROM tbl_svgs ")
+            params = []
+            if search_query:
+                query += " WHERE name LIKE %s    OR  description LIKE %s "
+                params = [f'%{search_query}%', f'%{search_query}%']
+            query += " ORDER BY id "
+            cursor.execute(query, params)
             rows_svgs = cursor.fetchall()
 
             result = list()
