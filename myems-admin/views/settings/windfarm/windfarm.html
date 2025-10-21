@@ -5,8 +5,16 @@
 				<uib-tabset>
 					<uib-tab heading="{{'COMMON.WIND_FARM' | translate}}">
 						<div class="panel-body" ng-controller="WindFarmController">
-							<a ng-click="addWindFarm()" class="btn btn-primary btn-rounded  btn-outline" href=""><i class="fa fa-plus-circle"></i> {{'SETTING.ADD_WIND_FARM' | translate}}</a>
-							<a ng-click="importWindFarm()" class="btn btn-primary btn-rounded  btn-outline" href=""><i class="fa fa-plus-circle"></i> {{'SETTING.IMPORT' | translate}}</a>
+                                                        <div class="col-md-3">
+							    <a ng-click="addWindFarm()" class="btn btn-primary btn-rounded  btn-outline" href=""><i class="fa fa-plus-circle"></i> {{'SETTING.ADD_WIND_FARM' | translate}}</a>
+							    <a ng-click="importWindFarm()" class="btn btn-primary btn-rounded  btn-outline" href=""><i class="fa fa-plus-circle"></i> {{'SETTING.IMPORT' | translate}}</a>
+                                                        </div>
+                                                        <div class="col-md-9">
+                                                            <input type="text" class="form-control m-b-xs"
+                                                                placeholder="{{'SETTING.SEARCH' | translate}}"
+                                                                ng-model="searchKeyword"
+                                                                ng-keyup="searchWindFarms()">
+                                                        </div>
 							<br>
 							<br>
 							<table class="footable table table-bordered table-hover" data-sort="true" data-page-size="15">

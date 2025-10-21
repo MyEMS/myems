@@ -10,7 +10,7 @@ app.factory('WindFarmService', function($http) {
             });
         },
         searchWindFarms: function(query, headers, callback) {
-            $http.get(getAPI()+'windfarms', { params: { q: query } }, {headers})
+            $http.get(getAPI()+'windfarms', { params: { q: query },headers: headers })
             .then(function (response) {
                 callback(response);
             }, function (response) {
