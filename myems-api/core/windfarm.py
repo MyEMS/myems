@@ -26,6 +26,12 @@ class WindFarmCollection:
     @staticmethod
     def on_get(req, resp):
         access_control(req)
+        search_query = req.get_param('q', default=None)
+        if search_query is not None and len(search_query.strip()) > 0:
+            search_query = search_query.strip()
+        else:
+            search_query = ''
+
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()
 
@@ -67,9 +73,13 @@ class WindFarmCollection:
         query = (" SELECT id, name, uuid, "
                  "        address, latitude, longitude, rated_power, "
                  "        contact_id, cost_center_id, svg_id, description "
-                 " FROM tbl_wind_farms "
-                 " ORDER BY id ")
-        cursor.execute(query)
+                 " FROM tbl_wind_farms ")
+        params = []
+        if search_query:
+            query += " WHERE name LIKE %s OR address LIKE %s OR description LIKE %s "
+            params = [f'%{search_query}%', f'%{search_query}%', f'%{search_query}%']
+        query += " ORDER BY id "
+        cursor.execute(query, params)
         rows_spaces = cursor.fetchall()
 
         result = list()

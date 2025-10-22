@@ -60,6 +60,29 @@ app.controller('WindFarmController', function(
 		});
 	};
 
+        let searchDebounceTimer = null;
+        $scope.searchWindFarms = function() {
+                let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+                const rawKeyword = $scope.searchKeyword || "";
+                const trimmedKeyword = rawKeyword.trim();
+                if (searchDebounceTimer) {
+                    clearTimeout(searchDebounceTimer);
+                }               
+                searchDebounceTimer = setTimeout(() => {
+                    if (!trimmedKeyword) {
+                        $scope.getAllWindFarms();
+                        return;
+                    }
+                WindFarmService.searchWindFarms(trimmedKeyword, headers, function (response) {
+                        if (angular.isDefined(response.status) && response.status === 200) {
+                                $scope.windfarms = response.data;
+                        } else {
+                                $scope.windfarms = [];
+                        }       
+                });
+                }, 300);
+        };
+
 	$scope.addWindFarm = function() {
 		var modalInstance = $uibModal.open({
 			templateUrl: 'views/settings/windfarm/windfarm.model.html',
