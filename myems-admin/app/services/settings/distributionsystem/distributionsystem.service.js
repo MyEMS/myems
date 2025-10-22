@@ -10,7 +10,10 @@ app.factory('DistributionSystemService', function($http) {
             });
         },
         searchDistributionSystems: function(query, headers, callback) {
-            $http.get(getAPI()+'distributionsystems', { params: { q: query } }, {headers})
+            $http.get(getAPI()+'distributionsystems', {
+                params: {q: query},
+                headers: headers
+            })
             .then(function (response) {
                 callback(response);
             }, function (response) {
