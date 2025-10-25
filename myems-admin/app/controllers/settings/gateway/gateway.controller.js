@@ -24,6 +24,29 @@ app.controller('GatewayController', function($scope,
 
 	};
 
+        let searchDebounceTimer = null;
+        $scope.searchGateways = function() {
+                let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+                const rawKeyword = $scope.searchKeyword || "";
+                const trimmedKeyword = rawKeyword.trim();
+                if (searchDebounceTimer) {
+                    clearTimeout(searchDebounceTimer);
+                }               
+                searchDebounceTimer = setTimeout(() => {
+                    if (!trimmedKeyword) {
+                        $scope.getAllGateways();
+                        return;
+                    }
+                GatewayService.searchGateways(trimmedKeyword, headers, function (response) {
+                        if (angular.isDefined(response.status) && response.status === 200) {
+                                $scope.gateways = response.data;
+                        } else {
+                                $scope.gateways = [];
+                        }       
+                });
+                }, 300);
+        };
+
 	$scope.addGateway = function() {
 		var modalInstance = $uibModal.open({
 			templateUrl: 'views/settings/gateway/gateway.model.html',

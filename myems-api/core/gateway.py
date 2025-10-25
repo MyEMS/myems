@@ -28,12 +28,22 @@ class GatewayCollection:
     @staticmethod
     def on_get(req, resp):
         admin_control(req)
+        search_query = req.get_param('q', default=None)
+        if search_query is not None and len(search_query.strip()) > 0:
+            search_query = search_query.strip()
+        else:
+            search_query = ''
+
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()
         query = (" SELECT id, name, uuid, token, last_seen_datetime_utc, description "
-                 " FROM tbl_gateways "
-                 " ORDER BY id ")
-        cursor.execute(query)
+                 " FROM tbl_gateways ")
+        params = []
+        if search_query:
+            query += " WHERE name LIKE %s OR description LIKE %s "
+            params = [f'%{search_query}%', f'%{search_query}%']
+        query += " ORDER BY id "
+        cursor.execute(query, params)
         rows = cursor.fetchall()
         cursor.close()
         cnx.close()
