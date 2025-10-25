@@ -10,7 +10,7 @@ app.factory('GatewayService', function($http) {
             });
         },
         searchGateways: function(query, headers, callback) {  
-            $http.get(getAPI() + 'gateways', {params:{q:query}}, {headers})  
+            $http.get(getAPI() + 'gateways', { params: { q: query },headers: headers })  
             .then(function (response) {
                 callback(response);
             }, function (response) {
