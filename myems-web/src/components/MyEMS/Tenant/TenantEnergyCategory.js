@@ -737,9 +737,32 @@ const TenantEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => {
   );
 
   useEffect(() => {
-    let isResponseOK = false;
+    if (uuid !== null && uuid) {
+      let url =
+        APIBaseURL +
+        '/reports/tenantenergycategory?' +
+        'tenantuuid=' +
+        uuid +
+        '&periodtype=' +
+        periodType +
+        '&baseperiodstartdatetime=' +
+        (basePeriodDateRange[0] != null ? moment(basePeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss') : '') +
+        '&baseperiodenddatetime=' +
+        (basePeriodDateRange[1] != null ? moment(basePeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss') : '') +
+        '&reportingperiodstartdatetime=' +
+        moment(reportingPeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss') +
+        '&reportingperiodenddatetime=' +
+        moment(reportingPeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss') +
+        '&language=' +
+        language;
+      loadData(url);
+    }
+  }, [uuid, periodType, basePeriodDateRange, reportingPeriodDateRange, language, loadData]);
+
+  useEffect(() => {
     if (uuid === null || !uuid) {
       setSpaceCascaderHidden(false);
+      let isResponseOK = false;
       fetch(APIBaseURL + '/spaces/tree', {
         method: 'GET',
         headers: {
@@ -822,40 +845,8 @@ const TenantEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => {
         });
     } else {
       setSpaceCascaderHidden(true);
-      let url =
-        APIBaseURL +
-        '/reports/tenantenergycategory?' +
-        'tenantuuid=' +
-        uuid +
-        '&periodtype=' +
-        periodType +
-        '&baseperiodstartdatetime=' +
-        (basePeriodDateRange[0] != null ? moment(basePeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss') : '') +
-        '&baseperiodenddatetime=' +
-        (basePeriodDateRange[1] != null ? moment(basePeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss') : '') +
-        '&reportingperiodstartdatetime=' +
-        moment(reportingPeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss') +
-        '&reportingperiodenddatetime=' +
-        moment(reportingPeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss') +
-        '&language=' +
-        language;
-      loadData(url);
     }
-  }, [
-    uuid,
-    periodType,
-    basePeriodDateRange,
-    reportingPeriodDateRange,
-    language,
-    loadData,
-    t,
-    setSpaceCascaderHidden,
-    setCascaderOptions,
-    setSelectedSpaceName,
-    setTenantList,
-    setSelectedTenant,
-    setSubmitButtonDisabled
-  ]);
+  }, [uuid, t]);
 
   const labelClasses = 'ls text-uppercase text-600 font-weight-semi-bold mb-0';
 

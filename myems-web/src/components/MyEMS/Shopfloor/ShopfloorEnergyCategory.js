@@ -713,10 +713,9 @@ const ShopfloorEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => {
   );
 
   useEffect(() => {
-    let isResponseOK = false;
-
     if (uuid === null || !uuid) {
       setSpaceCascaderHidden(false);
+      let isResponseOK = false;
       fetch(APIBaseURL + '/spaces/tree', {
         method: 'GET',
         headers: {
@@ -799,6 +798,11 @@ const ShopfloorEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => {
         });
     } else {
       setSpaceCascaderHidden(true);
+    }
+  }, [uuid, t]);
+
+  useEffect(() => {
+    if (uuid !== null && uuid) {
       let url =
         APIBaseURL +
         '/reports/shopfloorenergycategory?' +
@@ -818,7 +822,7 @@ const ShopfloorEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => {
         language;
       loadData(url);
     }
-  }, [t, basePeriodDateRange, language, loadData, periodType, reportingPeriodDateRange, uuid]);
+  }, [uuid, periodType, basePeriodDateRange, reportingPeriodDateRange, language, loadData]);
 
   const labelClasses = 'ls text-uppercase text-600 font-weight-semi-bold mb-0';
 
