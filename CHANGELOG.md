@@ -5,6 +5,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 ### Added
+### Changed
+### Fixed
+### Removed
+
+
+## [v5.10.0] - 2025-10-26
+### Added
 - added search function to shopfloor setting in myems-admin and myems-api
 - added search function to user setting in myems-admin and myems-api
 - added search function to energy flow diagram setting in myems-admin and myems-api
@@ -33,6 +40,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - fixed space cascader reset issue of tenant energy category report in myems-web
 - fixed paginator issue of detaileddatatable in myems-web
 ### Removed
+- None
 
 ## [v5.9.0] - 2025-09-28
 ### Added
@@ -2082,7 +2090,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Removed
 -   None.
 
-[Unreleased]: https://gitee.com/MyEMS/myems/compare/v5.9.0...HEAD
+[Unreleased]: https://gitee.com/MyEMS/myems/compare/v5.10.0...HEAD
+[5.10.0]: https://gitee.com/MyEMS/myems/compare/v5.9.0...v5.10.0
 [5.9.0]: https://gitee.com/MyEMS/myems/compare/v5.8.0...v5.9.0
 [5.8.0]: https://gitee.com/MyEMS/myems/compare/v5.7.1...v5.8.0
 [5.7.1]: https://gitee.com/MyEMS/myems/compare/v5.7.0...v5.7.1

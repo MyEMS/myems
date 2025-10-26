@@ -1,7 +1,8 @@
-export const version = '5.9.0';
+export const version = '5.10.0';
 export const navbarBreakPoint = 'xl'; // Vertical navbar breakpoint
 export const topNavbarBreakpoint = 'lg';
 // export const APIBaseURL = 'http://127.0.0.1:8000';
+// export const APIBaseURL = 'http://myems.cloud:8000';
 export const APIBaseURL = window.location.protocol + '//' + window.location.hostname + ':' + window.location.port + '/api';
 export const settings = {
   isFluid: true,

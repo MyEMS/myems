@@ -188,5 +188,3 @@ mysql -u root -p < myems_production_db.sql
 
 ## 相关文档
 - [MyEMS 官方文档](https://myems.io/docs/installation/database)
-- [MyEMS GitHub 仓库](https://github.com/MyEMS/myems)
-
