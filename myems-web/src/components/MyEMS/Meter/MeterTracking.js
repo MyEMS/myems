@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useState, useContext } from 'react';
+import React, { Fragment, useEffect, useState, useContext, useCallback } from 'react';
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -118,6 +118,75 @@ const MeterTracking = ({ setRedirect, setRedirectUrl, t }) => {
   const [endIntegrityRate, setEndIntegrityRate] = useState(0);
   const [fullIntegrityRate, setFullIntegrityRate] = useState(0);
 
+
+  const [tablePage, setTablePage] = useState(() => {
+    if (typeof window === 'undefined') {
+      return 1;
+    }
+    const saved = window.sessionStorage.getItem('metertracking_page');
+    const parsed = Number.parseInt(saved, 10);
+    return Number.isFinite(parsed) && parsed > 0 ? parsed : 1;
+  });
+  const persistTablePage = useCallback(page => {
+    const next = Math.max(1, Number.parseInt(page, 10) || 1);
+    if (typeof window !== 'undefined') {
+      window.sessionStorage.setItem('metertracking_page', String(next));
+    }
+    setTablePage(next);
+  }, []);
+
+  const loadEnergyCategories = useCallback(spaceId => {
+    if (!spaceId) {
+      setEnergyCategoryOptions([{ value: 'all', label: t('All'), uuid: '' }]);
+      setEnergyCategory('all');
+      setSubmitButtonDisabled(false);
+      return;
+    }
+    let isResponseOK = false;
+    setSubmitButtonDisabled(true);
+    fetch(`${APIBaseURL}/spaces/${spaceId}/treemetersenergycategories`, {
+      method: 'GET',
+      headers: {
+        'Content-type': 'application/json',
+        'User-UUID': getCookieValue('user_uuid'),
+        Token: getCookieValue('token')
+      },
+      body: null
+    })
+      .then(response => {
+        if (response.ok) {
+          isResponseOK = true;
+        }
+        return response.json();
+      })
+      .then(json => {
+        if (isResponseOK) {
+          json = JSON.parse(
+            JSON.stringify([json])
+              .split('"id":')
+              .join('"value":')
+              .split('"name":')
+              .join('"label":')
+          );
+          if (json[0].length > 0) {
+            setEnergyCategoryOptions([{ value: 'all', label: t('All'), uuid: '' }].concat(json[0]));
+          } else {
+            setEnergyCategoryOptions([{ value: 'all', label: t('All'), uuid: '' }]);
+          }
+          setEnergyCategory('all');
+        } else {
+          toast.error(t(json.description));
+        }
+      })
+      .catch(err => {
+        console.log(err);
+      })
+      .finally(() => {
+        setSubmitButtonDisabled(false);
+      });
+  }, [t]);
+
+
   useEffect(() => {
     let isResponseOK = false;
     fetch(APIBaseURL + '/spaces/tree', {
@@ -146,58 +215,31 @@ const MeterTracking = ({ setRedirect, setRedirectUrl, t }) => {
               .join('"label":')
           );
           setCascaderOptions(json);
-          // set the default selected space
-          setSelectedSpaceName([json[0]].map(o => o.label));
-          setSelectedSpaceID([json[0]].map(o => o.value));
-          fetch(APIBaseURL + '/spaces/' + selectedSpaceID + '/treemetersenergycategories', {
-            method: 'GET',
-            headers: {
-              'Content-type': 'application/json',
-              'User-UUID': getCookieValue('user_uuid'),
-              Token: getCookieValue('token')
-            },
-            body: null
-          })
-            .then(response => {
-              if (response.ok) {
-                isResponseOK = true;
-              }
-              return response.json();
-            })
-            .then(json => {
-              if (isResponseOK) {
-                json = JSON.parse(
-                  JSON.stringify([json])
-                    .split('"id":')
-                    .join('"value":')
-                    .split('"name":')
-                    .join('"label":')
-                );
-                if (json[0].length > 0) {
-                  setEnergyCategoryOptions([{ value: 'all', label: t('All'), uuid: '' }].concat(json[0]));
-                } else {
-                  setEnergyCategoryOptions([{ value: 'all', label: t('All'), uuid: '' }]);
-                }
-              } else {
-                toast.error(t(json.description));
-              }
-            })
-            .catch(err => {
-              console.log(err);
-            });
+          if (json[0]) {
+            const defaultSpace = json[0];
+            setSelectedSpaceName(defaultSpace.label);
+            const defaultSpaceId = defaultSpace.value;
+            setSelectedSpaceID(defaultSpaceId);
+            loadEnergyCategories(defaultSpaceId);
+          } else {
+            setSelectedSpaceName(undefined);
+            setSelectedSpaceID(undefined);
+            setEnergyCategoryOptions([{ value: 'all', label: t('All'), uuid: '' }]);
+            setSubmitButtonDisabled(false);
+          }
           // hide export button
           setExportButtonHidden(true);
-          setSubmitButtonDisabled(false);
           setSpinnerHidden(true);
         } else {
           toast.error(t(json.description));
         }
-        return [json[0]].map(o => o.value);
       })
       .catch(err => {
         console.log(err);
+        setSubmitButtonDisabled(false);
       });
-  }, [t, selectedSpaceID]);
+  }, [t, loadEnergyCategories]);
+
   const DetailedDataTable = loadable(() => import('../common/DetailedDataTable'));
 
   const nameFormatter = (dataField, { name, uuid }) => (
@@ -302,47 +344,12 @@ const MeterTracking = ({ setRedirect, setRedirectUrl, t }) => {
 
   let onSpaceCascaderChange = (value, selectedOptions) => {
     setSelectedSpaceName(selectedOptions.map(o => o.label).join('/'));
-    setSelectedSpaceID(value[value.length - 1]);
-    let isResponseOK = false;
-    fetch(APIBaseURL + '/spaces/' + selectedSpaceID + '/treemetersenergycategories', {
-      method: 'GET',
-      headers: {
-        'Content-type': 'application/json',
-        'User-UUID': getCookieValue('user_uuid'),
-        Token: getCookieValue('token')
-      },
-      body: null
-    })
-      .then(response => {
-        if (response.ok) {
-          isResponseOK = true;
-        }
-        return response.json();
-      })
-      .then(json => {
-        if (isResponseOK) {
-          json = JSON.parse(
-            JSON.stringify([json])
-              .split('"id":')
-              .join('"value":')
-              .split('"name":')
-              .join('"label":')
-          );
-          if (json[0].length > 0) {
-            setEnergyCategoryOptions([{ value: 'all', label: t('All'), uuid: '' }].concat(json[0]));
-            setEnergyCategory('all');
-          } else {
-            setEnergyCategoryOptions([{ value: 'all', label: t('All'), uuid: '' }]);
-            setEnergyCategory('all');
-          }
-        } else {
-          toast.error(t(json.description));
-        }
-        setSubmitButtonDisabled(false);
-      })
-      .catch(err => {
-        console.log(err);
-      });
+    const nextSpaceId = value[value.length - 1];
+    setSelectedSpaceID(nextSpaceId);
+    setResultDataHidden(true);
+    setMeterList([]);
+    persistTablePage(1);
+    loadEnergyCategories(nextSpaceId);
   };
 
   let onReportingPeriodChange = DateRange => {
@@ -374,6 +381,7 @@ const MeterTracking = ({ setRedirect, setRedirectUrl, t }) => {
     setResultDataHidden(true);
     // Reinitialize tables
     setMeterList([]);
+    persistTablePage(1);
 
     let isResponseOK = false;
     fetch(
@@ -423,6 +431,9 @@ const MeterTracking = ({ setRedirect, setRedirectUrl, t }) => {
             });
           });
           setMeterList(meters);
+          const totalPages = Math.max(1, Math.ceil(meters.length / 50));
+          const nextPage = Math.min(tablePage || 1, totalPages);
+          persistTablePage(nextPage);
 
           setStartIntegrityRate(json['start_integrity_rate'] * 100);
           setEndIntegrityRate(json['end_integrity_rate'] * 100);
@@ -579,7 +590,16 @@ const MeterTracking = ({ setRedirect, setRedirectUrl, t }) => {
             <CountUp end={fullIntegrityRate} duration={2} prefix="" separator="," decimals={2} decimal="." />
           </CardSummary>
         </div>
-        <DetailedDataTable data={meterList} title={t('Meter List')} columns={columns} pagesize={50} />
+
+        <DetailedDataTable
+          data={meterList}
+          title={t('Meter List')}
+          columns={columns}
+          pagesize={50}
+          page={tablePage}
+          onChangePage={persistTablePage}
+        />
+
       </div>
     </Fragment>
   );
