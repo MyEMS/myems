@@ -31,6 +31,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - fixed space cascader reset issue of space reports in myems-web
 - fixed space cascader reset issue of store energy category report in myems-web
 - fixed space cascader reset issue of tenant energy category report in myems-web
+- fixed paginator issue of detaileddatatable in myems-web
 ### Removed
 
 ## [v5.9.0] - 2025-09-28
