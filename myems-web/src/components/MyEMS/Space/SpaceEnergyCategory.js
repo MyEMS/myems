@@ -915,6 +915,12 @@ const SpaceEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => {
   );
 
   useEffect(() => {
+    if (cascaderOptions && cascaderOptions.length > 0) {
+      loadWithSpaceTree(cascaderOptions[0]);
+    }
+  }, [cascaderOptions, loadWithSpaceTree]);
+
+  useEffect(() => {
     let isResponseOK = false;
     fetch(APIBaseURL + '/spaces/tree', {
       method: 'GET',
@@ -949,8 +955,6 @@ const SpaceEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => {
           setSelectedSpaceName([json[0]].map(o => o.label));
           // select root space id
           setSelectedSpaceID([json[0]].map(o => o.value));
-          // load data with space tree
-          loadWithSpaceTree(json);
         } else {
           toast.error(t(json.description));
         }
@@ -958,7 +962,7 @@ const SpaceEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => {
       .catch(err => {
         console.log(err);
       });
-  }, [t, loadWithSpaceTree]);
+  }, [t]);
 
   const labelClasses = 'ls text-uppercase text-600 font-weight-semi-bold mb-0';
 
