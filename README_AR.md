@@ -1,7 +1,7 @@
 <p align="center">
    <img alt="logo" src="https://myems.io/img/myems.png" width="150" height="150">
 </p>
-<h1 align="center" style="margin: 30px 0 30px; font-weight: bold;">MyEMS v5.9.0</h1>
+<h1 align="center" style="margin: 30px 0 30px; font-weight: bold;">MyEMS v5.10.0</h1>
 <h3 align="center">نظام إدارة الطاقة مفتوح المصدر الرائد في الصناعة</h3>
 <h6 align="center">ما يقرب من ألف حالة مشروع</h6>
 <h6 align="center">ملتزم بالبقاء مفتوح المصدر إلى الأبد</h6>
