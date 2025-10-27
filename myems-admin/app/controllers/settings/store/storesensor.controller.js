@@ -9,13 +9,21 @@ app.controller('StoreSensorController', function (
     StoreSensorService,
     toaster,
     SweetAlert) {
-    $scope.currentStore = {selected:undefined};
+
+    $scope.currentStore = {selected: undefined};
     $scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
+    $scope.storesensors = [];
+
     $scope.getAllSensors = function () {
         let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
         SensorService.getAllSensors(headers, function (response) {
             if (angular.isDefined(response.status) && response.status === 200) {
-                $scope.sensors = response.data;
+                let allSensors = response.data;
+                $scope.sensors = allSensors.filter(function(sensor) {
+                    return !$scope.storesensors.some(function(storesensor) {
+                        return storesensor.id === sensor.id;
+                    });
+                });
             } else {
                 $scope.sensors = [];
             }
@@ -27,15 +35,17 @@ app.controller('StoreSensorController', function (
         StoreSensorService.getSensorsByStoreID(id, headers, function (response) {
             if (angular.isDefined(response.status) && response.status === 200) {
                 $scope.storesensors = response.data;
+                $scope.getAllSensors();
             } else {
                 $scope.storesensors = [];
+                $scope.getAllSensors();
             }
         });
     };
 
-    $scope.changeStore=function(item,model){
-        $scope.currentStore=item;
-        $scope.currentStore.selected=model;
+    $scope.changeStore = function(item, model) {
+        $scope.currentStore = item;
+        $scope.currentStore.selected = model;
         $scope.getSensorsByStoreID($scope.currentStore.id);
     };
 
@@ -89,7 +99,8 @@ app.controller('StoreSensorController', function (
                     body: $translate.instant("TOASTER.UNBIND_SENSOR_SUCCESS"),
                     showCloseButton: true,
                 });
-                $scope.getSensorsByStoreID($scope.currentStore.id);
+                $scope.getSensorsByStoreID($scope.currentStore.id); 
+                $scope.getAllSensors();
             } else {
                 toaster.pop({
                     type: "error",
@@ -101,10 +112,10 @@ app.controller('StoreSensorController', function (
         });
     };
 
-    $scope.getAllSensors();
     $scope.getAllStores();
+    $scope.getAllSensors();
+    $scope.$on('handleBroadcastStoreChanged', function(event) {
+        $scope.getAllStores();
+    });
 
-  	$scope.$on('handleBroadcastStoreChanged', function(event) {
-      $scope.getAllStores();
-  	});
 });

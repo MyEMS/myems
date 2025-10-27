@@ -1,5 +1,3 @@
-'use strict';
-
 app.controller('ShopfloorSensorController', function (
     $scope,
     $window,
@@ -9,39 +7,49 @@ app.controller('ShopfloorSensorController', function (
     ShopfloorSensorService,
     toaster,
     SweetAlert) {
-    $scope.currentShopfloor = {selected:undefined};
+
+    $scope.currentShopfloor = {selected: undefined};
     $scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
-    $scope.getAllSensors = function () {
+    $scope.shopfloorsensors = [];
+
+    $scope.getAllSensors = function() {
         let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
-        SensorService.getAllSensors(headers, function (response) {
+        SensorService.getAllSensors(headers, function(response) {
             if (angular.isDefined(response.status) && response.status === 200) {
-                $scope.sensors = response.data;
+                let allSensors = response.data;
+                $scope.sensors = allSensors.filter(function(sensor) {
+                    return !($scope.shopfloorsensors || []).some(function(ss) {
+                        return ss.id === sensor.id;
+                    });
+                });
             } else {
                 $scope.sensors = [];
             }
         });
     };
 
-    $scope.getSensorsByShopfloorID = function (id) {
+    $scope.getSensorsByShopfloorID = function(id) {
         let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
-        ShopfloorSensorService.getSensorsByShopfloorID(id, headers, function (response) {
+        ShopfloorSensorService.getSensorsByShopfloorID(id, headers, function(response) {
             if (angular.isDefined(response.status) && response.status === 200) {
                 $scope.shopfloorsensors = response.data;
+                $scope.getAllSensors();
             } else {
                 $scope.shopfloorsensors = [];
+                $scope.getAllSensors();
             }
         });
     };
 
-    $scope.changeShopfloor=function(item,model){
-        $scope.currentShopfloor=item;
-        $scope.currentShopfloor.selected=model;
+    $scope.changeShopfloor = function(item, model) {
+        $scope.currentShopfloor = item;
+        $scope.currentShopfloor.selected = model;
         $scope.getSensorsByShopfloorID($scope.currentShopfloor.id);
     };
 
-    $scope.getAllShopfloors = function () {
+    $scope.getAllShopfloors = function() {
         let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
-        ShopfloorService.getAllShopfloors(headers, function (response) {
+        ShopfloorService.getAllShopfloors(headers, function(response) {
             if (angular.isDefined(response.status) && response.status === 200) {
                 $scope.shopfloors = response.data;
             } else {
@@ -50,11 +58,11 @@ app.controller('ShopfloorSensorController', function (
         });
     };
 
-    $scope.pairSensor = function (dragEl, dropEl) {
+    $scope.pairSensor = function(dragEl, dropEl) {
         var sensorid = angular.element('#' + dragEl).scope().sensor.id;
         var shopfloorid = $scope.currentShopfloor.id;
         let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
-        ShopfloorSensorService.addPair(shopfloorid, sensorid, headers, function (response) {
+        ShopfloorSensorService.addPair(shopfloorid, sensorid, headers, function(response) {
             if (angular.isDefined(response.status) && response.status === 201) {
                 toaster.pop({
                     type: "success",
@@ -62,7 +70,7 @@ app.controller('ShopfloorSensorController', function (
                     body: $translate.instant("TOASTER.BIND_SENSOR_SUCCESS"),
                     showCloseButton: true,
                 });
-                $scope.getSensorsByShopfloorID($scope.currentShopfloor.id);
+                $scope.getSensorsByShopfloorID(shopfloorid);
             } else {
                 toaster.pop({
                     type: "error",
@@ -74,14 +82,12 @@ app.controller('ShopfloorSensorController', function (
         });
     };
 
-    $scope.deleteSensorPair = function (dragEl, dropEl) {
-        if (angular.element('#' + dragEl).hasClass('source')) {
-            return;
-        }
+    $scope.deleteSensorPair = function(dragEl, dropEl) {
+        if (angular.element('#' + dragEl).hasClass('source')) return;
         var shopfloorsensorid = angular.element('#' + dragEl).scope().shopfloorsensor.id;
         var shopfloorid = $scope.currentShopfloor.id;
         let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
-        ShopfloorSensorService.deletePair(shopfloorid, shopfloorsensorid, headers, function (response) {
+        ShopfloorSensorService.deletePair(shopfloorid, shopfloorsensorid, headers, function(response) {
             if (angular.isDefined(response.status) && response.status === 204) {
                 toaster.pop({
                     type: "success",
@@ -89,7 +95,8 @@ app.controller('ShopfloorSensorController', function (
                     body: $translate.instant("TOASTER.UNBIND_SENSOR_SUCCESS"),
                     showCloseButton: true,
                 });
-                $scope.getSensorsByShopfloorID($scope.currentShopfloor.id);
+                $scope.getSensorsByShopfloorID(shopfloorid);
+                $scope.getAllSensors();
             } else {
                 toaster.pop({
                     type: "error",
@@ -101,10 +108,11 @@ app.controller('ShopfloorSensorController', function (
         });
     };
 
-    $scope.getAllSensors();
     $scope.getAllShopfloors();
+    $scope.getAllSensors();
 
-  	$scope.$on('handleBroadcastShopfloorChanged', function(event) {
-      $scope.getAllShopfloors();
-  	});
+    $scope.$on('handleBroadcastShopfloorChanged', function(event) {
+        $scope.getAllShopfloors();
+    });
+
 });
