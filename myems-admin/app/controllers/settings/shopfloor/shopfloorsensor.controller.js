@@ -10,6 +10,7 @@ app.controller('ShopfloorSensorController', function (
 
     $scope.currentShopfloor = {selected: undefined};
     $scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
+    $scope.shopfloorsensors = [];
 
     $scope.getAllSensors = function() {
         let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
@@ -17,7 +18,7 @@ app.controller('ShopfloorSensorController', function (
             if (angular.isDefined(response.status) && response.status === 200) {
                 let allSensors = response.data;
                 $scope.sensors = allSensors.filter(function(sensor) {
-                    return !$scope.shopfloorsensors.some(function(ss) {
+                    return !($scope.shopfloorsensors || []).some(function(ss) {
                         return ss.id === sensor.id;
                     });
                 });

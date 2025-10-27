@@ -12,6 +12,7 @@ app.controller('StoreCommandController', function (
 
     $scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
     $scope.currentStore = {selected: undefined};
+    $scope.storecommands = [];
 
     $scope.getAllCommands = function() {
         let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };

@@ -12,6 +12,8 @@ app.controller('StoreSensorController', function (
 
     $scope.currentStore = {selected: undefined};
     $scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
+    $scope.storesensors = [];
+
     $scope.getAllSensors = function () {
         let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
         SensorService.getAllSensors(headers, function (response) {
@@ -46,6 +48,7 @@ app.controller('StoreSensorController', function (
         $scope.currentStore.selected = model;
         $scope.getSensorsByStoreID($scope.currentStore.id);
     };
+
     $scope.getAllStores = function () {
         let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
         StoreService.getAllStores(headers, function (response) {
