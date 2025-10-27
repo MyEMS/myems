@@ -1,19 +1,21 @@
 'use strict';
-
 app.controller('StorePointController', function (
     $window,
-    $scope, 
-    $translate, 
-    StoreService, 
-    DataSourceService, 
-    PointService, 
-    StorePointService,  
-    toaster, 
-    SweetAlert) {
+    $scope,
+    $timeout,
+    $translate,
+    StoreService,
+    DataSourceService,
+    PointService,
+    StorePointService,
+    toaster,
+    SweetAlert
+) {
     $scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
-    $scope.currentStore = {selected:undefined};
+    $scope.currentStore = { selected: undefined };
+
     $scope.getAllDataSources = function () {
-		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+        let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
         DataSourceService.getAllDataSources(headers, function (response) {
             if (angular.isDefined(response.status) && response.status === 200) {
                 $scope.datasources = response.data;
@@ -28,10 +30,16 @@ app.controller('StorePointController', function (
     };
 
     $scope.getPointsByDataSourceID = function (id) {
-		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+        let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
         PointService.getPointsByDataSourceID(id, headers, function (response) {
             if (angular.isDefined(response.status) && response.status === 200) {
-                $scope.points = response.data;
+                let allPoints = response.data;
+                if ($scope.storepoints && $scope.storepoints.length > 0) {
+                    const boundIds = $scope.storepoints.map(p => p.id);
+                    $scope.points = allPoints.filter(p => !boundIds.includes(p.id));
+                } else {
+                    $scope.points = allPoints;
+                }
             } else {
                 $scope.points = [];
             }
@@ -43,16 +51,18 @@ app.controller('StorePointController', function (
         StorePointService.getPointsByStoreID(id, headers, function (response) {
             if (angular.isDefined(response.status) && response.status === 200) {
                 $scope.storepoints = response.data;
+                if ($scope.currentDataSource) {
+                    $scope.getPointsByDataSourceID($scope.currentDataSource);
+                }
             } else {
                 $scope.storepoints = [];
             }
         });
-
     };
 
-    $scope.changeStore=function(item,model){
-        $scope.currentStore=item;
-        $scope.currentStore.selected=model;
+    $scope.changeStore = function (item, model) {
+        $scope.currentStore = item;
+        $scope.currentStore.selected = model;
         $scope.getPointsByStoreID($scope.currentStore.id);
     };
 
@@ -66,11 +76,15 @@ app.controller('StorePointController', function (
         StoreService.getAllStores(headers, function (response) {
             if (angular.isDefined(response.status) && response.status === 200) {
                 $scope.stores = response.data;
+                $timeout(function () {
+                    if ($scope.currentStore.id) {
+                        $scope.getPointsByStoreID($scope.currentStore.id);
+                    }
+                }, 1000);
             } else {
                 $scope.stores = [];
             }
         });
-
     };
 
     $scope.pairPoint = function (dragEl, dropEl) {
@@ -82,7 +96,7 @@ app.controller('StorePointController', function (
                 toaster.pop({
                     type: "success",
                     title: $translate.instant("TOASTER.SUCCESS_TITLE"),
-                    body: $translate.instant("TOASTER.BIND_POINT_SUCCESS"),
+                    body: $translate.instant('TOASTER.BIND_POINT_SUCCESS'),
                     showCloseButton: true,
                 });
                 $scope.getPointsByStoreID($scope.currentStore.id);
@@ -127,7 +141,7 @@ app.controller('StorePointController', function (
     $scope.getAllDataSources();
     $scope.getAllStores();
 
-  	$scope.$on('handleBroadcastStoreChanged', function(event) {
-      $scope.getAllStores();
-  	});
+    $scope.$on('handleBroadcastStoreChanged', function (event) {
+        $scope.getAllStores();
+    });
 });

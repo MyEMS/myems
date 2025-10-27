@@ -1,20 +1,21 @@
 'use strict';
-
 app.controller('DistributionCircuitPointController', function (
-    $scope, 
-	$window,
-    $timeout, 
-    $translate, 
-    DistributionCircuitService, 
-    DataSourceService, 
-    PointService, 
-    DistributionCircuitPointService, 
-    toaster, 
-    SweetAlert) {
+    $scope,
+    $window,
+    $timeout,
+    $translate,
+    DistributionCircuitService,
+    DataSourceService,
+    PointService,
+    DistributionCircuitPointService,
+    toaster,
+    SweetAlert
+) {
     $scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
-    $scope.currentDistributionCircuit = {selected:undefined};
+    $scope.currentDistributionCircuit = { selected: undefined };
+
     $scope.getAllDataSources = function () {
-		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+        let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
         DataSourceService.getAllDataSources(headers, function (response) {
             if (angular.isDefined(response.status) && response.status === 200) {
                 $scope.datasources = response.data;
@@ -29,10 +30,16 @@ app.controller('DistributionCircuitPointController', function (
     };
 
     $scope.getPointsByDataSourceID = function (id) {
-		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+        let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
         PointService.getPointsByDataSourceID(id, headers, function (response) {
             if (angular.isDefined(response.status) && response.status === 200) {
-                $scope.points = response.data;
+                let allPoints = response.data;
+                if ($scope.distributioncircuitpoints && $scope.distributioncircuitpoints.length > 0) {
+                    const boundIds = $scope.distributioncircuitpoints.map(p => p.id);
+                    $scope.points = allPoints.filter(p => !boundIds.includes(p.id));
+                } else {
+                    $scope.points = allPoints;
+                }
             } else {
                 $scope.points = [];
             }
@@ -44,16 +51,19 @@ app.controller('DistributionCircuitPointController', function (
         DistributionCircuitPointService.getPointsByDistributionCircuitID(id, headers, function (response) {
             if (angular.isDefined(response.status) && response.status === 200) {
                 $scope.distributioncircuitpoints = response.data;
+                if ($scope.currentDataSource) {
+                    $scope.getPointsByDataSourceID($scope.currentDataSource);
+                }
             } else {
                 $scope.distributioncircuitpoints = [];
             }
         });
     };
 
-    $scope.changeDistributionCircuit=function(item,model){
-  	  $scope.currentDistributionCircuit=item;
-  	  $scope.currentDistributionCircuit.selected=model;
-  	  $scope.getPointsByDistributionCircuitID($scope.currentDistributionCircuit.id);
+    $scope.changeDistributionCircuit = function (item, model) {
+        $scope.currentDistributionCircuit = item;
+        $scope.currentDistributionCircuit.selected = model;
+        $scope.getPointsByDistributionCircuitID($scope.currentDistributionCircuit.id);
     };
 
     $scope.changeDataSource = function (item, model) {
@@ -66,17 +76,18 @@ app.controller('DistributionCircuitPointController', function (
         DistributionCircuitService.getAllDistributionCircuits(headers, function (response) {
             if (angular.isDefined(response.status) && response.status === 200) {
                 $scope.distributioncircuits = response.data;
-                for(var i = 0; i < $scope.distributioncircuits.length; i++) {
-                  $scope.distributioncircuits[i].name = $scope.distributioncircuits[i].distribution_system.name + '/' + $scope.distributioncircuits[i].name;
-               }
+                for (var i = 0; i < $scope.distributioncircuits.length; i++) {
+                    $scope.distributioncircuits[i].name = $scope.distributioncircuits[i].distribution_system.name + '/' + $scope.distributioncircuits[i].name;
+                }
                 $timeout(function () {
-                    $scope.getPointsByDistributionCircuitID($scope.currentDistributionCircuit.id);
+                    if ($scope.currentDistributionCircuit.id) {
+                        $scope.getPointsByDistributionCircuitID($scope.currentDistributionCircuit.id);
+                    }
                 }, 1000);
             } else {
                 $scope.distributioncircuits = [];
             }
         });
-
     };
 
     $scope.pairPoint = function (dragEl, dropEl) {
@@ -110,7 +121,7 @@ app.controller('DistributionCircuitPointController', function (
         var distributioncircuitpointid = angular.element('#' + dragEl).scope().distributioncircuitpoint.id;
         var distributioncircuitid = $scope.currentDistributionCircuit.id;
         let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
-        DistributionCircuitPointService.deletePair(distributioncircuitid, distributioncircuitpointid, headers,  function (response) {
+        DistributionCircuitPointService.deletePair(distributioncircuitid, distributioncircuitpointid, headers, function (response) {
             if (angular.isDefined(response.status) && response.status === 204) {
                 toaster.pop({
                     type: "success",
@@ -133,7 +144,7 @@ app.controller('DistributionCircuitPointController', function (
     $scope.getAllDataSources();
     $scope.getAllDistributionCircuits();
 
-    $scope.$on('handleBroadcastDistributionCircuitChanged', function(event) {
-      $scope.getAllDistributionCircuits();
-  	});
+    $scope.$on('handleBroadcastDistributionCircuitChanged', function (event) {
+        $scope.getAllDistributionCircuits();
+    });
 });
