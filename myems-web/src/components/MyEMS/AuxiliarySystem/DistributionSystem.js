@@ -9,9 +9,12 @@ import {
   Form,
   FormGroup,
   Row,
-  Spinner
+  Spinner,
+  Input,
+  Label
 } from 'reactstrap';
 import RealtimeChart from './RealtimeChart';
+import blankPage from '../../../assets/img/generic/blank-page.png';  // Placeholder background image
 import { getCookieValue, createCookie, checkEmpty } from '../../../helpers/utils';
 import withRedirect from '../../../hoc/withRedirect';
 import { withTranslation } from 'react-i18next';
@@ -21,6 +24,7 @@ import useInterval from '../../../hooks/useInterval';
 import { APIBaseURL, settings } from '../../../config';
 import ScorpioMenu from 'scorpio-menu';
 import Dialog from '../common/dialog/dialog';
+import Cascader from 'rc-cascader';
 
 const DistributionSystem = ({ setRedirect, setRedirectUrl, t }) => {
   useEffect(() => {
@@ -33,7 +37,6 @@ const DistributionSystem = ({ setRedirect, setRedirectUrl, t }) => {
       setRedirectUrl(`/authentication/basic/login`);
       setRedirect(true);
     } else {
-      //update expires time of cookies
       createCookie('is_logged_in', true, settings.cookieExpireTime);
       createCookie('user_name', user_name, settings.cookieExpireTime);
       createCookie('user_display_name', user_display_name, settings.cookieExpireTime);
@@ -53,8 +56,6 @@ const DistributionSystem = ({ setRedirect, setRedirectUrl, t }) => {
     return () => clearInterval(timer);
   }, [setRedirectUrl, setRedirect]);
 
-  // State
-  // Right Click Menu
   const [display, setDisplay] = useState('none');
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const [show, setShow] = useState(false);
@@ -63,59 +64,100 @@ const DistributionSystem = ({ setRedirect, setRedirectUrl, t }) => {
   const [type, setType] = useState('');
   const [arr, setArr] = useState({ timeArr: [], valueArr: [] });
 
-  // Query Parameters
   const [distributionSystemList, setDistributionSystemList] = useState([]);
   const [selectedDistributionSystemID, setSelectedDistributionSystemID] = useState(undefined);
+  const [cascaderOptions, setCascaderOptions] = useState(undefined);
+  const [selectedSpaceName, setSelectedSpaceName] = useState(undefined);
 
-  //Results
-  const [images, setImages] = useState([]);
+  const [images, setImages] = useState({});
   const [spinnerHidden, setSpinnerHidden] = useState(false);
 
   useEffect(() => {
-    let isResponseOK = false;
-    fetch(APIBaseURL + '/distributionsystems', {
-      method: 'GET',
-      headers: {
-        'Content-type': 'application/json',
-        'User-UUID': getCookieValue('user_uuid'),
-        Token: getCookieValue('token')
-      },
-      body: null
-    })
-      .then(response => {
-        if (response.ok) {
-          isResponseOK = true;
-        }
-        return response.json();
-      })
-      .then(json => {
+    const loadSpaces = async () => {
+      let isResponseOK = false;
+      try {
+        const response = await fetch(APIBaseURL + '/spaces/tree', {
+          method: 'GET',
+          headers: {
+            'Content-type': 'application/json',
+            'User-UUID': getCookieValue('user_uuid'),
+            Token: getCookieValue('token')
+          }
+        });
+        if (response.ok) isResponseOK = true;
+        const json = await response.json();
         if (isResponseOK) {
-          // rename keys
-          json = JSON.parse(
-            JSON.stringify(json)
+          const spaceOptions = JSON.parse(
+            JSON.stringify([json])
               .split('"id":')
               .join('"value":')
               .split('"name":')
               .join('"label":')
           );
-
-          setDistributionSystemList(json);
-          setSelectedDistributionSystemID([json[0]].map(o => o.value));
-
-          let images = {};
-          json.forEach((currentValue, index) => {
-            images[currentValue['value']] = { __html: currentValue['svg']['source_code'] };
-          });
-          setImages(images);
-          setSpinnerHidden(true);
+          setCascaderOptions(spaceOptions);
+          if (spaceOptions.length > 0 && spaceOptions[0]) {
+            setSelectedSpaceName(spaceOptions[0].label);
+            const rootSpaceId = spaceOptions[0].value;
+            if (rootSpaceId) loadDistributionSystemsBySpace(rootSpaceId);
+          }
         } else {
           toast.error(t(json.description));
         }
-      })
-      .catch(err => {
+      } catch (err) {
         console.log(err);
-      });
+      }
+    };
+
+    loadSpaces();
   }, [t]);
+
+  const loadDistributionSystemsBySpace = async (spaceId) => {
+    let isResponseOK = false;
+    try {
+      const response = await fetch(`${APIBaseURL}/spaces/${spaceId}/distributionsystems`, {
+        method: 'GET',
+        headers: {
+          'Content-type': 'application/json',
+          'User-UUID': getCookieValue('user_uuid'),
+          Token: getCookieValue('token')
+        }
+      });
+      if (response.ok) isResponseOK = true;
+      const json = await response.json();
+      if (isResponseOK) {
+        const systems = JSON.parse(
+          JSON.stringify(json)
+            .split('"id":')
+            .join('"value":')
+            .split('"name":')
+            .join('"label":')
+        );
+        setDistributionSystemList(systems);
+        const imagesMap = {};
+        systems.forEach(system => {
+          imagesMap[system.value] = { __html: system.svg?.source_code };
+        });
+        setImages(imagesMap);
+        if (systems.length > 0) {
+          setSelectedDistributionSystemID(systems[0].value);
+        } else {
+          setSelectedDistributionSystemID(undefined);
+          // Remove toast info prompt
+        }
+        setSpinnerHidden(true);
+      } else {
+        toast.error(t(json.description));
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const onSpaceCascaderChange = (value, selectedOptions) => {
+    setSelectedSpaceName(selectedOptions.map(o => o.label).join('/'));
+    const spaceId = value[value.length - 1];
+    loadDistributionSystemsBySpace(spaceId);
+  };
 
   const labelClasses = 'ls text-uppercase text-600 font-weight-semi-bold mb-0';
 
@@ -219,12 +261,26 @@ const DistributionSystem = ({ setRedirect, setRedirectUrl, t }) => {
           <BreadcrumbItem active>{t('Distribution System')}</BreadcrumbItem>
         </Breadcrumb>
       </div>
-      <Card className="bg-light mb-3">
-        <CardBody className="p-3">
+      <Card className="mb-3">
+        <CardBody>
           <Form>
-            <Row form style={{ height: '38px' }}>
-              <Col xs={6} sm={3} style={{ height: '37px' }}>
+            <Row form className="align-items-center">
+              <Col xs={12} sm={3}>
                 <FormGroup>
+                  <Label className={labelClasses}>{t('Space')}</Label>
+                  <Cascader
+                    options={cascaderOptions}
+                    onChange={onSpaceCascaderChange}
+                    changeOnSelect
+                    expandTrigger="hover"
+                  >
+                    <Input bsSize="sm" value={selectedSpaceName || ''} readOnly />
+                  </Cascader>
+                </FormGroup>
+              </Col>
+              <Col xs={12} sm={3}>
+                <FormGroup>
+                  <Label className={labelClasses}>{t('Distribution System')}</Label>
                   <CustomInput
                     type="select"
                     id="distributionSystemSelect"
@@ -232,9 +288,10 @@ const DistributionSystem = ({ setRedirect, setRedirectUrl, t }) => {
                     bsSize="sm"
                     value={selectedDistributionSystemID}
                     onChange={onDistributionSystemChange}
+                    disabled={!distributionSystemList.length}
                   >
                     {distributionSystemList.map((distributionSystem, index) => (
-                      <option value={distributionSystem.value} key={distributionSystem.value}>
+                      <option value={distributionSystem.value} key={index}>
                         {distributionSystem.label}
                       </option>
                     ))}
@@ -242,24 +299,28 @@ const DistributionSystem = ({ setRedirect, setRedirectUrl, t }) => {
                 </FormGroup>
               </Col>
               <Col xs="auto">
-                <FormGroup>
-                  <br />
-                  <Spinner color="primary" hidden={spinnerHidden} />
-                </FormGroup>
+                <Spinner color="primary" hidden={spinnerHidden} />
               </Col>
             </Row>
           </Form>
         </CardBody>
       </Card>
       <Row noGutters>
+      {selectedDistributionSystemID && (
         <Col lg="4" className="pr-lg-2" key={uuid()}>
           <RealtimeChart distributionSystemID={selectedDistributionSystemID} />
         </Col>
-
-        <Col lg="8" className="pr-lg-2">
+      )}
+      <Col lg="8" className="pr-lg-2">
+        {selectedDistributionSystemID ? (
           <div onContextMenu={onContextMenu} dangerouslySetInnerHTML={images[selectedDistributionSystemID]} />
-        </Col>
-      </Row>
+        ) : (
+          <div className="blank-page-image-container d-flex align-items-center justify-content-center" style={{ height: '400px' }}>
+            <img className="img-fluid" src={blankPage} alt="No data" />
+          </div>
+        )}
+      </Col>
+    </Row>
       <Card className="bg-light">
         <div onContextMenu={onContextMenu} className="demo">
           <ScorpioMenu

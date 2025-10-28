@@ -5572,7 +5572,20 @@ class DistributionSystemCollection:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.SPACE_NOT_FOUND')
 
-        query = (" SELECT d.id, d.name, d.uuid "
+        svg_dict = dict()
+        cursor.execute(" SELECT id, name, uuid, source_code "
+                       " FROM tbl_svgs ")
+        rows_svgs = cursor.fetchall()
+        if rows_svgs is not None and len(rows_svgs) > 0:
+            for row in rows_svgs:
+                svg_dict[row[0]] = {
+                    "id": row[0],
+                    "name": row[1],
+                    "uuid": row[2],
+                    "source_code": row[3]
+                }
+
+        query = (" SELECT d.id, d.name, d.uuid, d.svg_id, d.description "
                  " FROM tbl_spaces s, tbl_spaces_distribution_systems sd, tbl_distribution_systems d "
                  " WHERE sd.space_id = s.id AND d.id = sd.distribution_system_id AND s.id = %s "
                  " ORDER BY d.id ")
@@ -5582,9 +5595,18 @@ class DistributionSystemCollection:
         result = list()
         if rows is not None and len(rows) > 0:
             for row in rows:
-                meta_result = {"id": row[0], "name": row[1], "uuid": row[2]}
+                svg_info = svg_dict.get(row[3], None)
+                meta_result = {
+                    "id": row[0],
+                    "name": row[1],
+                    "uuid": row[2],
+                    "svg": svg_info,  
+                    "description": row[4]
+                }
                 result.append(meta_result)
 
+        cursor.close() 
+        cnx.close() 
         resp.text = json.dumps(result)
 
     @staticmethod
