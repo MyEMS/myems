@@ -270,7 +270,7 @@ app.controller('TariffController', function(
 		const trimmedKeyword = rawKeyword.trim();
 
 		if (searchDebounceTimer) {
-			clearTimeout(searchbounceTimer);
+			clearTimeout(searchDebounceTimer);
 		}
 
 		searchDebounceTimer = setTimeout( () => {
