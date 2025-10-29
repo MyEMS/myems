@@ -280,7 +280,7 @@ app.controller('TariffController', function(
 				return;
 			}
 			TariffService.searchTariffs(trimmedKeyword, headers, (response) => {
-				$scope.Tariffs = (response.status === 200) ? response.data : [];
+				$scope.tariffs = (response.status === 200) ? response.data : [];
 				$scope.parentmeters = [...$scope.tariffs];
 			});
 		},300);
