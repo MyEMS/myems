@@ -51,8 +51,8 @@ class TariffCollection:
                  " WHERE t.energy_category_id = ec.id ")
         params = []
         if search_query:
-            query += " WHERE name LIKE %s   OR  description LIKE %s "
-            params = [f'%{search_query}%', f'%{search_query}%']
+            query += " AND t.name LIKE %s "
+            params = [f'%{search_query}%']
         query += " ORDER BY id "
         cursor.execute(query, params)
 
