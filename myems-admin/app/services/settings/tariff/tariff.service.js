@@ -10,7 +10,10 @@ app.factory('TariffService', function($http) {
             });
         },
         searchTariffs: function(query, headers, callback) {
-            $http.get(getAPI()+'tariffs', { params: { q: query } }, {headers})
+            $http.get(getAPI()+'tariffs', {
+                params: {q: query},
+                headers: headers
+            })
             .then(function (response) {
                 callback(response);
             }, function (response) {

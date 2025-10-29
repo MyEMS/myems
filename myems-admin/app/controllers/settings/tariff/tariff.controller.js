@@ -15,6 +15,7 @@ app.controller('TariffController', function(
 	$scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
 	$scope.exportdata = '';
 	$scope.importdata = '';
+	$scope.searchKeyword = '';
 
 	$scope.getAllCategories = function() {
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
@@ -252,6 +253,37 @@ app.controller('TariffController', function(
 
 		});
 		$rootScope.modalInstance = modalInstance;
+	};
+
+	let searchDebounceTimer = null;
+	function safeApply(scope) {
+		if (!scope.$$phase && !scope.$root.$$phase) {
+			scope.$apply();
+		}
+	}
+	$scope.searchTariffs = function() {
+		const headers = {
+			"User-UUID": $scope.cur_user?.uuid,
+			"Token": $scope.cur_user?.token
+		};
+		const rawKeyword = $scope.searchKeyword || "";
+		const trimmedKeyword = rawKeyword.trim();
+
+		if (searchDebounceTimer) {
+			clearTimeout(searchbounceTimer);
+		}
+
+		searchDebounceTimer = setTimeout( () => {
+			if (!trimmedKeyword) {
+				$scope.getAllTariffs();
+				safeApply($scope);
+				return;
+			}
+			TariffService.searchTariffs(trimmedKeyword, headers, (response) => {
+				$scope.Tariffs = (response.status === 200) ? response.data : [];
+				$scope.parentmeters = [...$scope.tariffs];
+			});
+		},300);
 	};
 
 	$scope.getAllTariffs();
