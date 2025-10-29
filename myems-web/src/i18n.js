@@ -1287,6 +1287,7 @@ const resources = {
       'Space Production': '产量能耗分析',
       'Equipment Tracking': '设备台账',
       'Equipment Comparison': '对比分析',
+      'Store Comparison': '对比分析',
       'Environment Monitor': '环境监测',
       'Meter Energy': '计量表能耗分析',
       'Meter Carbon': '计量表碳排放分析',
