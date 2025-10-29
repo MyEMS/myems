@@ -44,7 +44,11 @@ class TariffCollection:
         cursor = cnx.cursor()
 
         query = (" SELECT t.id, t.name, t.uuid, "
-                 " FROM tbl_tariffs t")
+                 "        ec.id AS energy_category_id, ec.name AS energy_category_name, "
+                 "        t.tariff_type, t.unit_of_price, "
+                 "        t.valid_from_datetime_utc, t.valid_through_datetime_utc "
+                 " FROM tbl_tariffs t, tbl_energy_categories ec "
+                 " WHERE t.energy_category_id = ec.id ")
         params = []
         if search_query:
             query += " WHERE name LIKE %s   OR  description LIKE %s "
