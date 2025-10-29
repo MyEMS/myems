@@ -19,6 +19,7 @@ class TariffCollection:
         """Initialize TariffCollection"""
         pass
 
+
     @staticmethod
     def on_options(req, resp):
         """Handle OPTIONS requests for CORS preflight"""
@@ -33,6 +34,12 @@ class TariffCollection:
             access_control(req)
         else:
             api_key_control(req)
+
+        search_query = req.get_param('q', default=None)
+        if search_query is not None:
+            search_query = search_query.strip()
+        else:
+            search_query = ''
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()
 
@@ -41,9 +48,14 @@ class TariffCollection:
                  "        t.tariff_type, t.unit_of_price, "
                  "        t.valid_from_datetime_utc, t.valid_through_datetime_utc "
                  " FROM tbl_tariffs t, tbl_energy_categories ec "
-                 " WHERE t.energy_category_id = ec.id "
-                 " ORDER BY t.name ")
-        cursor.execute(query)
+                 " WHERE t.energy_category_id = ec.id ")
+        params = []
+        if search_query:
+            query += " AND t.name LIKE %s "
+            params = [f'%{search_query}%']
+        query += " ORDER BY id "
+        cursor.execute(query, params)
+
         rows = cursor.fetchall()
 
         timezone_offset = int(config.utc_offset[1:3]) * 60 + int(config.utc_offset[4:6])
