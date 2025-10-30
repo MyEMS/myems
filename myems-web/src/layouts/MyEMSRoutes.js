@@ -58,6 +58,7 @@ import VirtualMeterCost from '../components/MyEMS/Meter/VirtualMeterCost';
 import VirtualMeterEnergy from '../components/MyEMS/Meter/VirtualMeterEnergy';
 import VirtualMeterSaving from '../components/MyEMS/Meter/VirtualMeterSaving';
 import VirtualMeterPlan from '../components/MyEMS/Meter/VirtualMeterPlan';
+import VirtualMeterComparison from '../components/MyEMS/Meter/VirtualMeterComparison';
 // Tenant
 import TenantEnergyCategory from '../components/MyEMS/Tenant/TenantEnergyCategory';
 import TenantEnergyItem from '../components/MyEMS/Tenant/TenantEnergyItem';
@@ -171,6 +172,7 @@ const MyEMSRoutes = () => (
     <Route path="/meter/virtualmetercarbon" exact component={VirtualMeterCarbon} />
     <Route path="/meter/virtualmetercost" exact component={VirtualMeterCost} />
     <Route path="/meter/virtualmeterbatch" exact component={VirtualMeterBatch} />
+    <Route path="/meter/virtualmetercomparison" exact component={VirtualMeterComparison} />
     <Route path="/meter/offlinemeterenergy" exact component={OfflineMeterEnergy} />
     <Route path="/meter/offlinemetercarbon" exact component={OfflineMeterCarbon} />
     <Route path="/meter/offlinemetercost" exact component={OfflineMeterCost} />
