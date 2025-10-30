@@ -45,6 +45,7 @@ import MeterPlan from '../components/MyEMS/Meter/MeterPlan';
 import MeterSubmetersBalance from '../components/MyEMS/Meter/MeterSubmetersBalance';
 import MeterTracking from '../components/MyEMS/Meter/MeterTracking';
 import MeterTrend from '../components/MyEMS/Meter/MeterTrend';
+import PowerQulity from '../components/MyEMS/Meter/PowerQulity';
 import OfflineMeterBatch from '../components/MyEMS/Meter/OfflineMeterBatch';
 import OfflineMeterCarbon from '../components/MyEMS/Meter/OfflineMeterCarbon';
 import OfflineMeterCost from '../components/MyEMS/Meter/OfflineMeterCost';
@@ -165,6 +166,7 @@ const MyEMSRoutes = () => (
     <Route path="/meter/metersubmetersbalance" exact component={MeterSubmetersBalance} />
     <Route path="/meter/meterbatch" exact component={MeterBatch} />
     <Route path="/meter/metertracking" exact component={MeterTracking} />
+    <Route path="/meter/powerqulity" exact component={PowerQulity} />
     <Route path="/meter/virtualmetersaving" exact component={VirtualMeterSaving} />
     <Route path="/meter/virtualmeterplan" exact component={VirtualMeterPlan} />
     <Route path="/meter/virtualmeterenergy" exact component={VirtualMeterEnergy} />
