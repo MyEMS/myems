@@ -70,6 +70,7 @@ export const meterRoutes = {
     { to: '/meter/meterbatch', name: 'Meter Batch Analysis' },
     { to: '/meter/metercomparison', name: 'Meter Comparison' },
     { to: '/meter/metertracking', name: 'Meter Tracking' },
+    { to: '/meter/powerqulity', name: 'Power Qulity' },
     { to: '/meter/virtualmeterenergy', name: 'Virtual Meter Energy' },
     { to: '/meter/virtualmetercarbon', name: 'Virtual Meter Carbon' },
     { to: '/meter/virtualmetercost', name: 'Virtual Meter Cost' },
@@ -165,7 +166,7 @@ export const auxiliarySystemRoutes = {
   icon: 'tv',
   children: [
     { to: '/auxiliarysystem/energyflowdiagram', name: 'Energy Flow Diagram' },
-    { to: '/auxiliarysystem/distributionsystem', name: 'Distribution System' }
+    { to: '/auxiliarysystem/distributionsystem', name: 'Distribution System' },
   ]
 };
 
