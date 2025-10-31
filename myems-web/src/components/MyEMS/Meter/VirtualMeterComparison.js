@@ -748,7 +748,7 @@ const VirtualMeterComparison = ({ setRedirect, setRedirectUrl, t }) => {
         <div className="card-deck">
           <CardSummary
             id="cardSummary1"
-            title={t('VIRTUAL METER CATEGORY VALUE UNIT', {
+            title={t('METER CATEGORY VALUE UNIT', {
               METER: virtualMeter1['name'],
               CATEGORY: virtualMeter1['energy_category_name'],
               UNIT: '(' + virtualMeter1['unit_of_measure'] + ')'
@@ -766,7 +766,7 @@ const VirtualMeterComparison = ({ setRedirect, setRedirectUrl, t }) => {
           </CardSummary>
           <CardSummary
             id="cardSummary2"
-            title={t('VIRTUAL METER CATEGORY VALUE UNIT', {
+            title={t('METER CATEGORY VALUE UNIT', {
               METER: virtualMeter2['name'],
               CATEGORY: virtualMeter2['energy_category_name'],
               UNIT: '(' + virtualMeter2['unit_of_measure'] + ')'
@@ -803,7 +803,7 @@ const VirtualMeterComparison = ({ setRedirect, setRedirectUrl, t }) => {
 
         <MultiTrendChart
           baseTitle={{
-            name: 'VIRTUAL METER CATEGORY VALUE UNIT',
+            name: 'METER CATEGORY VALUE UNIT',
             substitute: ['METER', 'CATEGORY', 'VALUE', 'UNIT'],
             METER: { a0: virtualMeter1['name'] },
             CATEGORY: { a0: virtualMeter1['energy_category_name'] },
@@ -811,7 +811,7 @@ const VirtualMeterComparison = ({ setRedirect, setRedirectUrl, t }) => {
             UNIT: { a0: '(' + virtualMeter1['unit_of_measure'] + ')' }
           }}
           reportingTitle={{
-            name: 'VIRTUAL METER CATEGORY VALUE UNIT',
+            name: 'METER CATEGORY VALUE UNIT',
             substitute: ['METER', 'CATEGORY', 'VALUE', 'UNIT'],
             METER: { a0: virtualMeter2['name'] },
             CATEGORY: { a0: virtualMeter2['energy_category_name'] },
@@ -819,7 +819,7 @@ const VirtualMeterComparison = ({ setRedirect, setRedirectUrl, t }) => {
             UNIT: { a0: '(' + virtualMeter2['unit_of_measure'] + ')' }
           }}
           baseTooltipTitle={{
-            name: 'VIRTUAL METER CATEGORY VALUE UNIT',
+            name: 'METER CATEGORY VALUE UNIT',
             substitute: ['METER', 'CATEGORY', 'VALUE', 'UNIT'],
             METER: { a0: virtualMeter1['name'] },
             CATEGORY: { a0: virtualMeter1['energy_category_name'] },
@@ -827,7 +827,7 @@ const VirtualMeterComparison = ({ setRedirect, setRedirectUrl, t }) => {
             UNIT: { a0: '(' + virtualMeter1['unit_of_measure'] + ')' }
           }}
           reportingTooltipTitle={{
-            name: 'VIRTUAL METER CATEGORY VALUE UNIT',
+            name: 'METER CATEGORY VALUE UNIT',
             substitute: ['METER', 'CATEGORY', 'VALUE', 'UNIT'],
             METER: { a0: virtualMeter2['name'] },
             CATEGORY: { a0: virtualMeter2['energy_category_name'] },
