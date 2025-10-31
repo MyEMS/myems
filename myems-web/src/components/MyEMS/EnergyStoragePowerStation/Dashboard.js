@@ -387,12 +387,6 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
     <Fragment>
       <div className="card-deck">
         <Spinner color="primary" hidden={spinnerHidden} />
-        <Spinner color="secondary" hidden={spinnerHidden} />
-        <Spinner color="success" hidden={spinnerHidden} />
-        <Spinner color="danger" hidden={spinnerHidden} />
-        <Spinner color="warning" hidden={spinnerHidden} />
-        <Spinner color="info" hidden={spinnerHidden} />
-        <Spinner color="light" hidden={spinnerHidden} />
 
         <CardSummary rate={''} title={t('Number of Power Stations')} footunit={''} color="powerStation">
           {1 && (
