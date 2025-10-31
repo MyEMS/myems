@@ -119,7 +119,8 @@ export const storeRoutes = {
     { to: '/store/statistics', name: 'Statistics' },
     { to: '/store/saving', name: 'Saving' },
     { to: '/store/plan', name: 'Plan' },
-    { to: '/store/batch', name: 'Batch Analysis' }
+    { to: '/store/batch', name: 'Batch Analysis' },
+    { to: '/store/comparison', name: 'Store Comparison' }
   ]
 };
 

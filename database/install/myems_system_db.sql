@@ -992,6 +992,7 @@ VALUES
 (507,'Batch Analysis','/store/batch',500,0),
 (508,'Carbon','/store/carbon',500,0),
 (509,'Plan','/store/plan',500,1),
+(510,'Store Comparison','/store/comparison',500,0),
 (600,'Shopfloor Data','/shopfloor',NULL,0),
 (601,'Energy Category Data','/shopfloor/energycategory',600,0),
 (602,'Energy Item Data','/shopfloor/energyitem',600,0),
