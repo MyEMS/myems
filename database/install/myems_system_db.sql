@@ -970,6 +970,7 @@ VALUES
 (323,'Offline Meter Plan','/meter/offlinemeterplan',300,1),
 (324,'Virtual Meter Plan','/meter/virtualmeterplan',300,1),
 (325, 'Virtual Meter Comparison', '/meter/virtualmetercomparison', 300, 0),
+(326,'Power Qulity','/meter/powerqulity',300,0),
 (400,'Tenant Data','/tenant',NULL,0),
 (401,'Energy Category Data','/tenant/energycategory',400,0),
 (402,'Energy Item Data','/tenant/energyitem',400,0),
