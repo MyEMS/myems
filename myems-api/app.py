@@ -171,6 +171,8 @@ from reports import virtualmetercost
 from reports import virtualmeterenergy
 from reports import virtualmetersaving
 from reports import virtualmeterplan
+from reports import virtualmetercomparison
+
 
 ########################################################################################################################
 # BEGIN imports for Enterprise Version
@@ -1463,6 +1465,8 @@ api.add_route('/reports/virtualmetercarbon',
               virtualmetercarbon.Reporting())
 api.add_route('/reports/virtualmetercost',
               virtualmetercost.Reporting())
+api.add_route('/reports/virtualmetercomparison',
+              virtualmetercomparison.Reporting())
 
 ########################################################################################################################
 # BEGIN Routes for Enterprise Edition

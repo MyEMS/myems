@@ -24,7 +24,7 @@ ScheduleDetails.propTypes = {
   xaxisData: PropTypes.array.isRequired,
   seriesName: PropTypes.array.isRequired,
   seriesData: PropTypes.array.isRequired,
-  markAreaData: PropTypes.array.isRequired
+  markAreaData: PropTypes.array.isRequired,
 };
 
 export default withTranslation()(ScheduleDetails);

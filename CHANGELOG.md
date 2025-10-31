@@ -8,6 +8,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - added space cascader to distribution system in myems-web
 - added search function to tariff setting in myems-admin and myems-api
 - added power qulity report
+- added virtual meter comparison report
 ### Changed
 ### Fixed
 - fixed list refresh issues in all binding functions of stores, shopflors and distribution systems in myems-admin
