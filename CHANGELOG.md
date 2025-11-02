@@ -7,7 +7,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Added
 - added space cascader to distribution system in myems-web
 - added search function to tariff setting in myems-admin and myems-api
-- added power qulity report
+- added power quality report
+- added shopfloor comparison report
 - added store comparison report
 - added virtual meter comparison report
 ### Changed

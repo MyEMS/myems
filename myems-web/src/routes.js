@@ -70,7 +70,7 @@ export const meterRoutes = {
     { to: '/meter/meterbatch', name: 'Meter Batch Analysis' },
     { to: '/meter/metercomparison', name: 'Meter Comparison' },
     { to: '/meter/metertracking', name: 'Meter Tracking' },
-    { to: '/meter/powerqulity', name: 'Power Qulity' },
+    { to: '/meter/powerquality', name: 'Power Quality' },
     { to: '/meter/virtualmeterenergy', name: 'Virtual Meter Energy' },
     { to: '/meter/virtualmetercarbon', name: 'Virtual Meter Carbon' },
     { to: '/meter/virtualmetercost', name: 'Virtual Meter Cost' },

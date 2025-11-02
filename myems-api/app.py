@@ -82,7 +82,7 @@ from reports import metersaving
 from reports import metersubmetersbalance
 from reports import metertracking
 from reports import metertrend
-from reports import powerqulity
+from reports import powerquality
 from reports import microgriddashboard
 from reports import microgriddetails
 from reports import microgriddetailsbms
@@ -1367,8 +1367,8 @@ api.add_route('/reports/photovoltaicpowerstationitemcarbon',
               photovoltaicpowerstationitemcarbon.Reporting())
 api.add_route('/reports/pointrealtime',
               pointrealtime.Reporting())
-api.add_route('/reports/powerqulity',
-              powerqulity.Reporting())
+api.add_route('/reports/powerquality',
+              powerquality.Reporting())
 api.add_route('/reports/shopfloorcarbon',
               shopfloorcarbon.Reporting())
 api.add_route('/reports/shopfloorcost',

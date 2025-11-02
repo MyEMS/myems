@@ -45,7 +45,7 @@ import MeterPlan from '../components/MyEMS/Meter/MeterPlan';
 import MeterSubmetersBalance from '../components/MyEMS/Meter/MeterSubmetersBalance';
 import MeterTracking from '../components/MyEMS/Meter/MeterTracking';
 import MeterTrend from '../components/MyEMS/Meter/MeterTrend';
-import PowerQulity from '../components/MyEMS/Meter/PowerQulity';
+import PowerQuality from '../components/MyEMS/Meter/PowerQuality';
 import OfflineMeterBatch from '../components/MyEMS/Meter/OfflineMeterBatch';
 import OfflineMeterCarbon from '../components/MyEMS/Meter/OfflineMeterCarbon';
 import OfflineMeterCost from '../components/MyEMS/Meter/OfflineMeterCost';

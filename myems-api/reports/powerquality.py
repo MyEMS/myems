@@ -4,7 +4,7 @@ import falcon
 import mysql.connector
 import simplejson as json
 import config
-import excelexporters.powerqulity
+import excelexporters.powerquality
 from core import utilities
 from core.useractivity import access_control, api_key_control
 
