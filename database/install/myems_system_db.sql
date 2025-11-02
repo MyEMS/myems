@@ -1016,6 +1016,7 @@ VALUES
 (710,'Batch Analysis','/combinedequipment/batch',700,0),
 (711,'Carbon','/combinedequipment/carbon',700,0),
 (712,'Plan','/combinedequipment/plan',700,1),
+(713,'Combined Equipment Comparison','/combinedequipment/comparison',700,0),
 (800,'Auxiliary System','/auxiliarysystem',NULL,0),
 (801,'Energy Flow Diagram','/auxiliarysystem/energyflowdiagram',800,0),
 (802,'Distribution System','/auxiliarysystem/distributionsystem',800,0),

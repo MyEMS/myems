@@ -73,6 +73,7 @@ from reports import meterbatch
 from reports import metercarbon
 from reports import metercomparison
 from reports import equipmentcomparison
+from reports import combinedequipmentcomparison
 from reports import storecomparison
 from reports import metercost
 from reports import meterenergy
@@ -1269,6 +1270,8 @@ api.add_route('/reports/metercomparison',
               metercomparison.Reporting())
 api.add_route('/reports/equipmentcomparison',
               equipmentcomparison.Reporting())
+api.add_route('/reports/combinedequipmentcomparison',
+              combinedequipmentcomparison.Reporting())
 api.add_route('/reports/storecomparison',
               storecomparison.Reporting())
 api.add_route('/reports/metercost',
