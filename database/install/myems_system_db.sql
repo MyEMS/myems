@@ -1003,6 +1003,7 @@ VALUES
 (607,'Batch Analysis','/shopfloor/batch',600,0),
 (608,'Carbon','/shopfloor/carbon',600,0),
 (609,'Plan','/shopfloor/plan',600,1),
+(610,'Shopfloor Comparison','/shopfloor/comparison',600,0),
 (700,'Combined Equipment Data','/combinedequipment',NULL,0),
 (701,'Energy Category Data','/combinedequipment/energycategory',700,0),
 (702,'Energy Item Data','/combinedequipment/energyitem',700,0),

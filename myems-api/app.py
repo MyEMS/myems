@@ -124,6 +124,7 @@ from reports import photovoltaicpowerstationitemcarbon
 from reports import shopfloorbatch
 from reports import shopfloorcarbon
 from reports import shopfloorcost
+from reports import shopfloorcomparison
 from reports import shopfloordashboard
 from reports import shopfloorenergycategory
 from reports import shopfloorenergyitem
@@ -1372,6 +1373,8 @@ api.add_route('/reports/shopfloorcarbon',
               shopfloorcarbon.Reporting())
 api.add_route('/reports/shopfloorcost',
               shopfloorcost.Reporting())
+api.add_route('/reports/shopfloorcomparison',
+              shopfloorcomparison.Reporting())
 api.add_route('/reports/shopfloordashboard',
               shopfloordashboard.Reporting())
 api.add_route('/reports/shopfloorenergycategory',
