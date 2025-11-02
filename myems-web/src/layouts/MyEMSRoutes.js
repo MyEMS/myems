@@ -45,7 +45,7 @@ import MeterPlan from '../components/MyEMS/Meter/MeterPlan';
 import MeterSubmetersBalance from '../components/MyEMS/Meter/MeterSubmetersBalance';
 import MeterTracking from '../components/MyEMS/Meter/MeterTracking';
 import MeterTrend from '../components/MyEMS/Meter/MeterTrend';
-import PowerQulity from '../components/MyEMS/Meter/PowerQulity';
+import PowerQuality from '../components/MyEMS/Meter/PowerQuality';
 import OfflineMeterBatch from '../components/MyEMS/Meter/OfflineMeterBatch';
 import OfflineMeterCarbon from '../components/MyEMS/Meter/OfflineMeterCarbon';
 import OfflineMeterCost from '../components/MyEMS/Meter/OfflineMeterCost';
@@ -92,6 +92,7 @@ import ShopfloorStatistics from '../components/MyEMS/Shopfloor/ShopfloorStatisti
 import ShopfloorSaving from '../components/MyEMS/Shopfloor/ShopfloorSaving';
 import ShopfloorPlan from '../components/MyEMS/Shopfloor/ShopfloorPlan';
 import ShopfloorBatch from '../components/MyEMS/Shopfloor/ShopfloorBatch';
+import ShopfloorComparison from '../components/MyEMS/Shopfloor/ShopfloorComparison';
 // CombinedEquipment
 import CombinedEquipmentBatch from '../components/MyEMS/CombinedEquipment/CombinedEquipmentBatch';
 import CombinedEquipmentCarbon from '../components/MyEMS/CombinedEquipment/CombinedEquipmentCarbon';
@@ -219,6 +220,7 @@ const MyEMSRoutes = () => (
     <Route path="/shopfloor/saving" exact component={ShopfloorSaving} />
     <Route path="/shopfloor/plan" exact component={ShopfloorPlan} />
     <Route path="/shopfloor/batch" exact component={ShopfloorBatch} />
+    <Route path="/shopfloor/comparison" exact component={ShopfloorComparison} />
 
     {/*CombinedEquipment*/}
     <Route path="/combinedequipment/batch" exact component={CombinedEquipmentBatch} />

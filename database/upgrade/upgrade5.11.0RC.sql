@@ -12,8 +12,9 @@ START TRANSACTION;
 INSERT INTO myems_system_db.tbl_menus (id,name,route, parent_menu_id,is_hidden)
 VALUES
 (325, 'Virtual Meter Comparison', '/meter/virtualmetercomparison', 300, 0),
-(326, 'Power Qulity', '/meter/powerqulity', 300, 0),
-(510, 'Store Comparison', '/store/comparison', 500, 0);
+(326, 'Power Quality', '/meter/powerquality', 300, 0),
+(510, 'Store Comparison', '/store/comparison', 500, 0),
+(610, 'Shopfloor Comparison', '/shopfloor/comparison', 600, 0);
 
 -- UPDATE VERSION NUMBER
 UPDATE `myems_system_db`.`tbl_versions` SET version='5.11.0RC', release_date='2025-11-28' WHERE id=1;
