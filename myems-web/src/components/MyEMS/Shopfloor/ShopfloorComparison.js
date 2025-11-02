@@ -1001,13 +1001,6 @@ const ShopfloorComparison = ({ setRedirect, setRedirectUrl, t }) => {
           rates={{ a0: [] }}
         />
 
-        <MultipleLineChart
-          reportingTitle={t('Operating Characteristic Curve')}
-          baseTitle=""
-          labels={parameterLineChartLabels}
-          data={parameterLineChartData}
-          options={parameterLineChartOptions}
-        />
         <br />
         <DetailedDataTable
           data={detailedDataTableData}
