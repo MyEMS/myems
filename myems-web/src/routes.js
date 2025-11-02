@@ -137,7 +137,8 @@ export const shopfloorRoutes = {
     { to: '/shopfloor/statistics', name: 'Statistics' },
     { to: '/shopfloor/saving', name: 'Saving' },
     { to: '/shopfloor/plan', name: 'Plan' },
-    { to: '/shopfloor/batch', name: 'Batch Analysis' }
+    { to: '/shopfloor/batch', name: 'Batch Analysis' },
+    { to: '/shopfloor/comparison', name: 'Shopfloor Comparison' }
   ]
 };
 
