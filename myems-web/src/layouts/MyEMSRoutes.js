@@ -170,7 +170,7 @@ const MyEMSRoutes = () => (
     <Route path="/meter/metersubmetersbalance" exact component={MeterSubmetersBalance} />
     <Route path="/meter/meterbatch" exact component={MeterBatch} />
     <Route path="/meter/metertracking" exact component={MeterTracking} />
-    <Route path="/meter/powerqulity" exact component={PowerQulity} />
+    <Route path="/meter/powerquality" exact component={PowerQuality} />
     <Route path="/meter/virtualmetersaving" exact component={VirtualMeterSaving} />
     <Route path="/meter/virtualmeterplan" exact component={VirtualMeterPlan} />
     <Route path="/meter/virtualmeterenergy" exact component={VirtualMeterEnergy} />
