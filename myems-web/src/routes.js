@@ -121,7 +121,7 @@ export const storeRoutes = {
     { to: '/store/saving', name: 'Saving' },
     { to: '/store/plan', name: 'Plan' },
     { to: '/store/batch', name: 'Batch Analysis' },
-    { to: '/store/batch', name: 'Batch Analysis' }
+    { to: '/store/comparison', name: 'Store Comparison' }
   ]
 };
 
@@ -139,7 +139,7 @@ export const shopfloorRoutes = {
     { to: '/shopfloor/saving', name: 'Saving' },
     { to: '/shopfloor/plan', name: 'Plan' },
     { to: '/shopfloor/batch', name: 'Batch Analysis' },
-    { to: '/shopfloor/batch', name: 'Batch Analysis' }
+    { to: '/shopfloor/comparison', name: 'Shopfloor Comparison' }
   ]
 };
 
@@ -160,7 +160,7 @@ export const combinedEquipmentRoutes = {
     { to: '/combinedequipment/saving', name: 'Saving' },
     { to: '/combinedequipment/plan', name: 'Plan' },
     { to: '/combinedequipment/batch', name: 'Batch Analysis' },
-    { to: '/combinedequipment/batch', name: 'Batch Analysis' }
+    { to: '/combinedequipment/comparison', name: 'Combined Equipment Comparison' }
   ]
 };
 
@@ -170,7 +170,6 @@ export const auxiliarySystemRoutes = {
   icon: 'tv',
   children: [
     { to: '/auxiliarysystem/energyflowdiagram', name: 'Energy Flow Diagram' },
-    { to: '/auxiliarysystem/distributionsystem', name: 'Distribution System' },
     { to: '/auxiliarysystem/distributionsystem', name: 'Distribution System' }
   ]
 };
