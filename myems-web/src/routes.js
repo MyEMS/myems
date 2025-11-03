@@ -70,7 +70,7 @@ export const meterRoutes = {
     { to: '/meter/meterbatch', name: 'Meter Batch Analysis' },
     { to: '/meter/metercomparison', name: 'Meter Comparison' },
     { to: '/meter/metertracking', name: 'Meter Tracking' },
-    { to: '/meter/powerqulity', name: 'Power Qulity' },
+    { to: '/meter/powerquality', name: 'Power Quality' },
     { to: '/meter/virtualmeterenergy', name: 'Virtual Meter Energy' },
     { to: '/meter/virtualmetercarbon', name: 'Virtual Meter Carbon' },
     { to: '/meter/virtualmetercost', name: 'Virtual Meter Cost' },
@@ -137,7 +137,8 @@ export const shopfloorRoutes = {
     { to: '/shopfloor/statistics', name: 'Statistics' },
     { to: '/shopfloor/saving', name: 'Saving' },
     { to: '/shopfloor/plan', name: 'Plan' },
-    { to: '/shopfloor/batch', name: 'Batch Analysis' }
+    { to: '/shopfloor/batch', name: 'Batch Analysis' },
+    { to: '/shopfloor/comparison', name: 'Shopfloor Comparison' }
   ]
 };
 

@@ -83,7 +83,7 @@ from reports import metersaving
 from reports import metersubmetersbalance
 from reports import metertracking
 from reports import metertrend
-from reports import powerqulity
+from reports import powerquality
 from reports import microgriddashboard
 from reports import microgriddetails
 from reports import microgriddetailsbms
@@ -125,6 +125,7 @@ from reports import photovoltaicpowerstationitemcarbon
 from reports import shopfloorbatch
 from reports import shopfloorcarbon
 from reports import shopfloorcost
+from reports import shopfloorcomparison
 from reports import shopfloordashboard
 from reports import shopfloorenergycategory
 from reports import shopfloorenergyitem
@@ -1369,12 +1370,14 @@ api.add_route('/reports/photovoltaicpowerstationitemcarbon',
               photovoltaicpowerstationitemcarbon.Reporting())
 api.add_route('/reports/pointrealtime',
               pointrealtime.Reporting())
-api.add_route('/reports/powerqulity',
-              powerqulity.Reporting())
+api.add_route('/reports/powerquality',
+              powerquality.Reporting())
 api.add_route('/reports/shopfloorcarbon',
               shopfloorcarbon.Reporting())
 api.add_route('/reports/shopfloorcost',
               shopfloorcost.Reporting())
+api.add_route('/reports/shopfloorcomparison',
+              shopfloorcomparison.Reporting())
 api.add_route('/reports/shopfloordashboard',
               shopfloordashboard.Reporting())
 api.add_route('/reports/shopfloorenergycategory',
