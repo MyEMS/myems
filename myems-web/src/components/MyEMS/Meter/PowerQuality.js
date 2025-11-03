@@ -32,7 +32,7 @@ import blankPage from '../../../assets/img/generic/blank-page.png';
 
 // Detailed data table removed
 
-const PowerQulity = ({ setRedirect, setRedirectUrl, t }) => {
+const PowerQuality = ({ setRedirect, setRedirectUrl, t }) => {
   let current_moment = moment();
   useEffect(() => {
     let is_logged_in = getCookieValue('is_logged_in');
@@ -298,7 +298,7 @@ const PowerQulity = ({ setRedirect, setRedirectUrl, t }) => {
     let isResponseOK = false;
     fetch(
       APIBaseURL +
-        '/reports/powerqulity?' +
+        '/reports/powerquality?' +
         'meterid=' +
         selectedMeter +
         '&reportingperiodstartdatetime=' +
@@ -372,7 +372,7 @@ const PowerQulity = ({ setRedirect, setRedirectUrl, t }) => {
   const handleExport = e => {
     e.preventDefault();
     const mimeType = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
-    const fileName = 'powerqulity.xlsx';
+    const fileName = 'powerquality.xlsx';
     var fileUrl = 'data:' + mimeType + ';base64,' + excelBytesBase64;
     fetch(fileUrl)
       .then(response => response.blob())
@@ -600,4 +600,4 @@ const PowerQulity = ({ setRedirect, setRedirectUrl, t }) => {
   );
 };
 
-export default withTranslation()(withRedirect(PowerQulity));
+export default withTranslation()(withRedirect(PowerQuality));
