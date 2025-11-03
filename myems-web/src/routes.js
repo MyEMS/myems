@@ -102,7 +102,6 @@ export const tenantRoutes = {
     { to: '/tenant/saving', name: 'Saving' },
     { to: '/tenant/plan', name: 'Plan' },
     { to: '/tenant/bill', name: 'Tenant Bill' },
-    { to: '/tenant/batch', name: 'Batch Analysis' }
     { to: '/tenant/batch', name: 'Batch Analysis' },
     { to: '/tenant/comparison', name: 'Tenant Comparison' }
   ]
@@ -122,7 +121,6 @@ export const storeRoutes = {
     { to: '/store/saving', name: 'Saving' },
     { to: '/store/plan', name: 'Plan' },
     { to: '/store/batch', name: 'Batch Analysis' },
-    { to: '/store/comparison', name: 'Store Comparison' }
     { to: '/store/batch', name: 'Batch Analysis' }
   ]
 };
@@ -141,7 +139,6 @@ export const shopfloorRoutes = {
     { to: '/shopfloor/saving', name: 'Saving' },
     { to: '/shopfloor/plan', name: 'Plan' },
     { to: '/shopfloor/batch', name: 'Batch Analysis' },
-    { to: '/shopfloor/comparison', name: 'Shopfloor Comparison' }
     { to: '/shopfloor/batch', name: 'Batch Analysis' }
   ]
 };
@@ -163,7 +160,6 @@ export const combinedEquipmentRoutes = {
     { to: '/combinedequipment/saving', name: 'Saving' },
     { to: '/combinedequipment/plan', name: 'Plan' },
     { to: '/combinedequipment/batch', name: 'Batch Analysis' },
-    { to: '/combinedequipment/comparison', name: 'Combined Equipment Comparison' }
     { to: '/combinedequipment/batch', name: 'Batch Analysis' }
   ]
 };
