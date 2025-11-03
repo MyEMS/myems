@@ -73,8 +73,7 @@ from reports import meterbatch
 from reports import metercarbon
 from reports import metercomparison
 from reports import equipmentcomparison
-from reports import combinedequipmentcomparison
-from reports import storecomparison
+from reports import tenantcomparison
 from reports import metercost
 from reports import meterenergy
 from reports import meterrealtime
@@ -83,7 +82,6 @@ from reports import metersaving
 from reports import metersubmetersbalance
 from reports import metertracking
 from reports import metertrend
-from reports import powerquality
 from reports import microgriddashboard
 from reports import microgriddetails
 from reports import microgriddetailsbms
@@ -125,7 +123,6 @@ from reports import photovoltaicpowerstationitemcarbon
 from reports import shopfloorbatch
 from reports import shopfloorcarbon
 from reports import shopfloorcost
-from reports import shopfloorcomparison
 from reports import shopfloordashboard
 from reports import shopfloorenergycategory
 from reports import shopfloorenergyitem
@@ -174,8 +171,6 @@ from reports import virtualmetercost
 from reports import virtualmeterenergy
 from reports import virtualmetersaving
 from reports import virtualmeterplan
-from reports import virtualmetercomparison
-
 
 ########################################################################################################################
 # BEGIN imports for Enterprise Version
@@ -1271,10 +1266,8 @@ api.add_route('/reports/metercomparison',
               metercomparison.Reporting())
 api.add_route('/reports/equipmentcomparison',
               equipmentcomparison.Reporting())
-api.add_route('/reports/combinedequipmentcomparison',
-              combinedequipmentcomparison.Reporting())
-api.add_route('/reports/storecomparison',
-              storecomparison.Reporting())
+api.add_route('/reports/tenantcomparison',
+              tenantcomparison.Reporting())
 api.add_route('/reports/metercost',
               metercost.Reporting())
 api.add_route('/reports/meterenergy',
@@ -1370,14 +1363,10 @@ api.add_route('/reports/photovoltaicpowerstationitemcarbon',
               photovoltaicpowerstationitemcarbon.Reporting())
 api.add_route('/reports/pointrealtime',
               pointrealtime.Reporting())
-api.add_route('/reports/powerquality',
-              powerquality.Reporting())
 api.add_route('/reports/shopfloorcarbon',
               shopfloorcarbon.Reporting())
 api.add_route('/reports/shopfloorcost',
               shopfloorcost.Reporting())
-api.add_route('/reports/shopfloorcomparison',
-              shopfloorcomparison.Reporting())
 api.add_route('/reports/shopfloordashboard',
               shopfloordashboard.Reporting())
 api.add_route('/reports/shopfloorenergycategory',
@@ -1474,8 +1463,6 @@ api.add_route('/reports/virtualmetercarbon',
               virtualmetercarbon.Reporting())
 api.add_route('/reports/virtualmetercost',
               virtualmetercost.Reporting())
-api.add_route('/reports/virtualmetercomparison',
-              virtualmetercomparison.Reporting())
 
 ########################################################################################################################
 # BEGIN Routes for Enterprise Edition

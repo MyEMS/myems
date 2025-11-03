@@ -70,14 +70,12 @@ export const meterRoutes = {
     { to: '/meter/meterbatch', name: 'Meter Batch Analysis' },
     { to: '/meter/metercomparison', name: 'Meter Comparison' },
     { to: '/meter/metertracking', name: 'Meter Tracking' },
-    { to: '/meter/powerquality', name: 'Power Quality' },
     { to: '/meter/virtualmeterenergy', name: 'Virtual Meter Energy' },
     { to: '/meter/virtualmetercarbon', name: 'Virtual Meter Carbon' },
     { to: '/meter/virtualmetercost', name: 'Virtual Meter Cost' },
     { to: '/meter/virtualmeterbatch', name: 'Virtual Meter Batch Analysis' },
     { to: '/meter/virtualmetersaving', name: 'Virtual Meter Saving' },
     { to: '/meter/virtualmeterplan', name: 'Virtual Meter Plan' },
-    { to: '/meter/virtualmetercomparison', name: 'Virtual Meter Comparison' },
     { to: '/meter/offlinemeterenergy', name: 'Offline Meter Energy' },
     { to: '/meter/offlinemetercarbon', name: 'Offline Meter Carbon' },
     { to: '/meter/offlinemetercost', name: 'Offline Meter Cost' },
@@ -102,7 +100,8 @@ export const tenantRoutes = {
     { to: '/tenant/saving', name: 'Saving' },
     { to: '/tenant/plan', name: 'Plan' },
     { to: '/tenant/bill', name: 'Tenant Bill' },
-    { to: '/tenant/batch', name: 'Batch Analysis' }
+    { to: '/tenant/batch', name: 'Batch Analysis' },
+    { to: '/tenant/comparison', name: 'Tenant Comparison' }
   ]
 };
 
@@ -119,8 +118,7 @@ export const storeRoutes = {
     { to: '/store/statistics', name: 'Statistics' },
     { to: '/store/saving', name: 'Saving' },
     { to: '/store/plan', name: 'Plan' },
-    { to: '/store/batch', name: 'Batch Analysis' },
-    { to: '/store/comparison', name: 'Store Comparison' }
+    { to: '/store/batch', name: 'Batch Analysis' }
   ]
 };
 
@@ -137,8 +135,7 @@ export const shopfloorRoutes = {
     { to: '/shopfloor/statistics', name: 'Statistics' },
     { to: '/shopfloor/saving', name: 'Saving' },
     { to: '/shopfloor/plan', name: 'Plan' },
-    { to: '/shopfloor/batch', name: 'Batch Analysis' },
-    { to: '/shopfloor/comparison', name: 'Shopfloor Comparison' }
+    { to: '/shopfloor/batch', name: 'Batch Analysis' }
   ]
 };
 
@@ -158,8 +155,7 @@ export const combinedEquipmentRoutes = {
     { to: '/combinedequipment/statistics', name: 'Statistics' },
     { to: '/combinedequipment/saving', name: 'Saving' },
     { to: '/combinedequipment/plan', name: 'Plan' },
-    { to: '/combinedequipment/batch', name: 'Batch Analysis' },
-    { to: '/combinedequipment/comparison', name: 'Combined Equipment Comparison' }
+    { to: '/combinedequipment/batch', name: 'Batch Analysis' }
   ]
 };
 
@@ -169,7 +165,7 @@ export const auxiliarySystemRoutes = {
   icon: 'tv',
   children: [
     { to: '/auxiliarysystem/energyflowdiagram', name: 'Energy Flow Diagram' },
-    { to: '/auxiliarysystem/distributionsystem', name: 'Distribution System' },
+    { to: '/auxiliarysystem/distributionsystem', name: 'Distribution System' }
   ]
 };
 
