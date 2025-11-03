@@ -106,6 +106,7 @@ import CombinedEquipmentOutput from '../components/MyEMS/CombinedEquipment/Combi
 import CombinedEquipmentSaving from '../components/MyEMS/CombinedEquipment/CombinedEquipmentSaving';
 import CombinedEquipmentPlan from '../components/MyEMS/CombinedEquipment/CombinedEquipmentPlan';
 import CombinedEquipmentStatistics from '../components/MyEMS/CombinedEquipment/CombinedEquipmentStatistics';
+import CombinedEquipmentComparison from '../components/MyEMS/CombinedEquipment/CombinedEquipmentComparison';
 // Auxiliary System
 import EnergyFlowDiagram from '../components/MyEMS/AuxiliarySystem/EnergyFlowDiagram';
 import DistributionSystem from '../components/MyEMS/AuxiliarySystem/DistributionSystem';
@@ -235,6 +236,7 @@ const MyEMSRoutes = () => (
     <Route path="/combinedequipment/saving" exact component={CombinedEquipmentSaving} />
     <Route path="/combinedequipment/plan" exact component={CombinedEquipmentPlan} />
     <Route path="/combinedequipment/statistics" exact component={CombinedEquipmentStatistics} />
+    <Route path="/combinedequipment/comparison" exact component={CombinedEquipmentComparison} />
 
     {/*Auxiliary System*/}
     <Route path="/auxiliarysystem/energyflowdiagram" exact component={EnergyFlowDiagram} />
