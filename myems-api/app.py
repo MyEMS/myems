@@ -75,6 +75,7 @@ from reports import metercomparison
 from reports import equipmentcomparison
 from reports import combinedequipmentcomparison
 from reports import storecomparison
+from reports import tenantcomparison
 from reports import metercost
 from reports import meterenergy
 from reports import meterrealtime
@@ -1275,6 +1276,8 @@ api.add_route('/reports/combinedequipmentcomparison',
               combinedequipmentcomparison.Reporting())
 api.add_route('/reports/storecomparison',
               storecomparison.Reporting())
+api.add_route('/reports/tenantcomparison',
+              tenantcomparison.Reporting())
 api.add_route('/reports/metercost',
               metercost.Reporting())
 api.add_route('/reports/meterenergy',

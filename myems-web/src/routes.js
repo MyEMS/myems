@@ -102,7 +102,8 @@ export const tenantRoutes = {
     { to: '/tenant/saving', name: 'Saving' },
     { to: '/tenant/plan', name: 'Plan' },
     { to: '/tenant/bill', name: 'Tenant Bill' },
-    { to: '/tenant/batch', name: 'Batch Analysis' }
+    { to: '/tenant/batch', name: 'Batch Analysis' },
+    { to: '/tenant/comparison', name: 'Tenant Comparison' }
   ]
 };
 
@@ -169,7 +170,7 @@ export const auxiliarySystemRoutes = {
   icon: 'tv',
   children: [
     { to: '/auxiliarysystem/energyflowdiagram', name: 'Energy Flow Diagram' },
-    { to: '/auxiliarysystem/distributionsystem', name: 'Distribution System' },
+    { to: '/auxiliarysystem/distributionsystem', name: 'Distribution System' }
   ]
 };
 
