@@ -1294,7 +1294,6 @@ const resources = {
       std: 'Std',
       p5: 'P5',
       p95: 'P95'
-      SubMeter: 'Submeter'
     }
   },
   zh_CN: {
@@ -2580,7 +2579,6 @@ const resources = {
       std: '标准差',
       p5: 'P5',
       p95: 'P95'
-      SubMeter: '分表'
     }
   },
   de: {
@@ -3904,7 +3902,6 @@ const resources = {
       std: 'Écart-type',
       p5: 'P5',
       p95: 'P95'
-      SubMeter: 'Subtable'
     }
   },
   fr: {
@@ -5187,7 +5184,6 @@ const resources = {
       'Severe Exceed Count': 'Conteo de excedencias severas',
       'Worst Unbalance': 'Desbalance máximo',
       Hz: 'Hz'
-      SubMeter: 'Sous - table'
     }
   },
   es: {
@@ -6477,7 +6473,6 @@ const resources = {
       'Severe Exceed Count': 'Число серьёзных превышений',
       'Worst Unbalance': 'Максимальный небаланс',
       Hz: 'Гц'
-      SubMeter: 'Tabla dividida'
     }
   },
   ru: {
@@ -7766,7 +7761,6 @@ const resources = {
       'Severe Exceed Count': 'عدد التجاوزات الحادة',
       'Worst Unbalance': 'أقصى عدم توازن',
       Hz: 'هرتز'
-      SubMeter: 'Підтаблиця'
     }
   },
   ar: {
@@ -9063,7 +9057,6 @@ const resources = {
       std: 'الانحراف المعياري',
       p5: 'P5',
       p95: 'P95'
-      SubMeter: 'تقسيم الجدول'
     }
   },
   vi: {
@@ -10359,7 +10352,6 @@ const resources = {
       std: 'ส่วนเบี่ยงเบนมาตรฐาน',
       p5: 'P5',
       p95: 'P95'
-      SubMeter: 'Bảng phụ'
     }
   },
   th: {
@@ -11653,7 +11645,6 @@ const resources = {
       std: 'Std',
       p5: 'P5',
       p95: 'P95'
-      SubMeter: 'ตารางแยก'
     }
   },
   tr: {
@@ -12951,7 +12942,6 @@ const resources = {
       std: 'Sisihan piawai',
       p5: 'P5',
       p95: 'P95'
-      SubMeter: 'Podtablica'
     }
   },
   ms: {
@@ -14234,7 +14224,6 @@ const resources = {
       'Severe Exceed Count': 'Jumlah pelampauan berat',
       'Worst Unbalance': 'Ketidakseimbangan maksimum',
       Hz: 'Hz'
-      SubMeter: 'Subjadual'
     }
   },
   id: {
@@ -15548,7 +15537,6 @@ const resources = {
       std: 'Desvio padrão',
       p5: 'P5',
       p95: 'P95'
-      SubMeter: 'Subtable'
     }
   },
   zh_TW: {
@@ -16856,7 +16844,6 @@ const resources = {
       std: '標準差',
       p5: 'P5',
       p95: 'P95'
-      SubMeter: '分錶'
     }
   },
   pt: {
@@ -18144,7 +18131,6 @@ const resources = {
       std: 'Ст. откл.',
       p5: 'P5',
       p95: 'P95'
-      SubMeter: 'Submetro'
     }
   },
 };
