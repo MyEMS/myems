@@ -982,6 +982,7 @@ VALUES
 (408,'Batch Analysis','/tenant/batch',400,0),
 (409,'Carbon','/tenant/carbon',400,0),
 (410,'Plan','/tenant/plan',400,1),
+(411,'Tenant Comparison','/tenant/comparison',400,0),
 (500,'Store Data','/store',NULL,0),
 (501,'Energy Category Data','/store/energycategory',500,0),
 (502,'Energy Item Data','/store/energyitem',500,0),

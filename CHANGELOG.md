@@ -11,6 +11,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - added power quality report
 - added shopfloor comparison report
 - added store comparison report
+- added tenant comparison report
 - added virtual meter comparison report
 ### Changed
 ### Fixed

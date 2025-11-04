@@ -13,6 +13,7 @@ INSERT INTO myems_system_db.tbl_menus (id,name,route, parent_menu_id,is_hidden)
 VALUES
 (325, 'Virtual Meter Comparison', '/meter/virtualmetercomparison', 300, 0),
 (326, 'Power Quality', '/meter/powerquality', 300, 0),
+(411, 'Tenant Comparison', '/tenant/comparison', 400, 0),
 (510, 'Store Comparison', '/store/comparison', 500, 0),
 (610, 'Shopfloor Comparison', '/shopfloor/comparison', 600, 0),
 (713, 'Combined Equipment Comparison', '/combinedequipment/comparison', 700, 0);
