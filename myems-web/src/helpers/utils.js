@@ -165,15 +165,42 @@ export const getTotalPrice = (cart, baseItems) =>
 //===============================
 // Helpers
 //===============================
-export const getPaginationArray = (totalSize, sizePerPage) => {
-  const noOfPages = Math.ceil(totalSize / sizePerPage);
-  const array = [];
-  let pageNo = 1;
-  while (pageNo <= noOfPages) {
-    array.push(pageNo);
-    pageNo = pageNo + 1;
+export const getPaginationArray = (totalSize, sizePerPage, currentPage = 1) => {
+  const totalPages = Math.ceil(totalSize / sizePerPage);
+  const maxVisiblePageNumbers = 9;
+
+  if (totalPages <= maxVisiblePageNumbers) {
+    return Array.from({ length: totalPages }, (_, i) => i + 1);
   }
-  return array;
+
+  const pages = [];
+
+  const showEllipsisAfterFirst = currentPage >= 6;
+  const showEllipsisBeforeLast = currentPage + 5 <= totalPages;
+
+  if (showEllipsisAfterFirst && showEllipsisBeforeLast) {
+    pages.push(1);
+    pages.push('ellipsis');
+    for (let i = currentPage - 2; i <= currentPage + 2; i++) {
+      pages.push(i);
+    }
+    pages.push('ellipsis');
+    pages.push(totalPages);
+  } else if (!showEllipsisAfterFirst) {
+    for (let i = 1; i <= 7; i++) {
+      pages.push(i);
+    }
+    pages.push('ellipsis');
+    pages.push(totalPages);
+  } else {
+    pages.push(1);
+    pages.push('ellipsis');
+    for (let i = totalPages - 6; i <= totalPages; i++) {
+      pages.push(i);
+    }
+  }
+
+  return pages;
 };
 
 export const capitalize = str => (str.charAt(0).toUpperCase() + str.slice(1)).replace(/-/g, ' ');
