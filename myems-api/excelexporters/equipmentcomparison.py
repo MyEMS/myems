@@ -294,20 +294,8 @@ def generate_excel(
         reporting_period_data1 = report["reporting_period1"]
         reporting_period_data2 = report["reporting_period2"]
         diff_data = report["diff"]
-        parameters_names_len = len(report["parameters1"]["names"])
-        parameters_data = report["parameters1"]
         parameters_parameters_datas_len = 0
-        for i in range(0, parameters_names_len):
-            if len(parameters_data["timestamps"][i]) == 0:
-                continue
-            parameters_parameters_datas_len += 1
-        parameters_names_len = len(report["parameters2"]["names"])
-        parameters_data = report["parameters2"]
-        for i in range(0, parameters_names_len):
-            if len(parameters_data["timestamps"][i]) == 0:
-                continue
-            parameters_parameters_datas_len += 1
-        start_detail_data_row_num = 15 + (parameters_parameters_datas_len + 1 + 1) * 6
+        start_detail_data_row_num = 15 + (parameters_parameters_datas_len + 1 + 1) * 6 - 4
         ws["B14"].font = title_font
         ws["B14"] = equipment1_name + " and " + equipment2_name + _("Detailed Data")
 
