@@ -58,8 +58,7 @@ class Reporting:
     # Step 2: query the meter and energy category
     # Step 3: query associated points
     # Step 4: query reporting period energy consumption
-    # Step 5: query associated points data
-    # Step 6: construct the report
+    # Step 5: construct the report
     ####################################################################################################################
     @staticmethod
     def on_get(req, resp):
@@ -362,145 +361,9 @@ class Reporting:
         for meter1_value, meter2_value in zip(reporting1['values'], reporting2['values']):
             diff['values'].append(meter1_value - meter2_value)
             diff['total_in_category'] += meter1_value - meter2_value
+
         ################################################################################################################
-        # Step 5: query associated points data
-        ################################################################################################################
-        parameters_data1 = dict()
-        parameters_data1['names'] = list()
-        parameters_data1['timestamps'] = list()
-        parameters_data1['values'] = list()
-
-        if not is_quick_mode:
-            for point in point_list1:
-                point_values = []
-                point_timestamps = []
-                if point['object_type'] == 'ENERGY_VALUE':
-                    query = (" SELECT utc_date_time, actual_value "
-                             " FROM tbl_energy_value "
-                             " WHERE point_id = %s "
-                             "       AND utc_date_time BETWEEN %s AND %s "
-                             " ORDER BY utc_date_time ")
-                    cursor_historical.execute(query, (point['id'],
-                                                      reporting_start_datetime_utc,
-                                                      reporting_end_datetime_utc))
-                    rows = cursor_historical.fetchall()
-
-                    if rows is not None and len(rows) > 0:
-                        for row in rows:
-                            current_datetime_local = row[0].replace(tzinfo=timezone.utc) + \
-                                                     timedelta(minutes=timezone_offset)
-                            current_datetime = current_datetime_local.isoformat()[0:19]
-                            point_timestamps.append(current_datetime)
-                            point_values.append(row[1])
-                elif point['object_type'] == 'ANALOG_VALUE':
-                    query = (" SELECT utc_date_time, actual_value "
-                             " FROM tbl_analog_value "
-                             " WHERE point_id = %s "
-                             "       AND utc_date_time BETWEEN %s AND %s "
-                             " ORDER BY utc_date_time ")
-                    cursor_historical.execute(query, (point['id'],
-                                                      reporting_start_datetime_utc,
-                                                      reporting_end_datetime_utc))
-                    rows = cursor_historical.fetchall()
-
-                    if rows is not None and len(rows) > 0:
-                        for row in rows:
-                            current_datetime_local = row[0].replace(tzinfo=timezone.utc) + \
-                                                     timedelta(minutes=timezone_offset)
-                            current_datetime = current_datetime_local.isoformat()[0:19]
-                            point_timestamps.append(current_datetime)
-                            point_values.append(row[1])
-                elif point['object_type'] == 'DIGITAL_VALUE':
-                    query = (" SELECT utc_date_time, actual_value "
-                             " FROM tbl_digital_value "
-                             " WHERE point_id = %s "
-                             "       AND utc_date_time BETWEEN %s AND %s "
-                             " ORDER BY utc_date_time ")
-                    cursor_historical.execute(query, (point['id'],
-                                                      reporting_start_datetime_utc,
-                                                      reporting_end_datetime_utc))
-                    rows = cursor_historical.fetchall()
-
-                    if rows is not None and len(rows) > 0:
-                        for row in rows:
-                            current_datetime_local = row[0].replace(tzinfo=timezone.utc) + \
-                                                     timedelta(minutes=timezone_offset)
-                            current_datetime = current_datetime_local.isoformat()[0:19]
-                            point_timestamps.append(current_datetime)
-                            point_values.append(row[1])
-
-                parameters_data1['names'].append(point['name'] + ' (' + point['units'] + ')')
-                parameters_data1['timestamps'].append(point_timestamps)
-                parameters_data1['values'].append(point_values)
-
-        parameters_data2 = dict()
-        parameters_data2['names'] = list()
-        parameters_data2['timestamps'] = list()
-        parameters_data2['values'] = list()
-        if not is_quick_mode:
-            for point in point_list2:
-                point_values = []
-                point_timestamps = []
-                if point['object_type'] == 'ENERGY_VALUE':
-                    query = (" SELECT utc_date_time, actual_value "
-                             " FROM tbl_energy_value "
-                             " WHERE point_id = %s "
-                             "       AND utc_date_time BETWEEN %s AND %s "
-                             " ORDER BY utc_date_time ")
-                    cursor_historical.execute(query, (point['id'],
-                                                      reporting_start_datetime_utc,
-                                                      reporting_end_datetime_utc))
-                    rows = cursor_historical.fetchall()
-
-                    if rows is not None and len(rows) > 0:
-                        for row in rows:
-                            current_datetime_local = row[0].replace(tzinfo=timezone.utc) + \
-                                                     timedelta(minutes=timezone_offset)
-                            current_datetime = current_datetime_local.isoformat()[0:19]
-                            point_timestamps.append(current_datetime)
-                            point_values.append(row[1])
-                elif point['object_type'] == 'ANALOG_VALUE':
-                    query = (" SELECT utc_date_time, actual_value "
-                             " FROM tbl_analog_value "
-                             " WHERE point_id = %s "
-                             "       AND utc_date_time BETWEEN %s AND %s "
-                             " ORDER BY utc_date_time ")
-                    cursor_historical.execute(query, (point['id'],
-                                                      reporting_start_datetime_utc,
-                                                      reporting_end_datetime_utc))
-                    rows = cursor_historical.fetchall()
-
-                    if rows is not None and len(rows) > 0:
-                        for row in rows:
-                            current_datetime_local = row[0].replace(tzinfo=timezone.utc) + \
-                                                     timedelta(minutes=timezone_offset)
-                            current_datetime = current_datetime_local.isoformat()[0:19]
-                            point_timestamps.append(current_datetime)
-                            point_values.append(row[1])
-                elif point['object_type'] == 'DIGITAL_VALUE':
-                    query = (" SELECT utc_date_time, actual_value "
-                             " FROM tbl_digital_value "
-                             " WHERE point_id = %s "
-                             "       AND utc_date_time BETWEEN %s AND %s "
-                             " ORDER BY utc_date_time ")
-                    cursor_historical.execute(query, (point['id'],
-                                                      reporting_start_datetime_utc,
-                                                      reporting_end_datetime_utc))
-                    rows = cursor_historical.fetchall()
-
-                    if rows is not None and len(rows) > 0:
-                        for row in rows:
-                            current_datetime_local = row[0].replace(tzinfo=timezone.utc) + \
-                                                     timedelta(minutes=timezone_offset)
-                            current_datetime = current_datetime_local.isoformat()[0:19]
-                            point_timestamps.append(current_datetime)
-                            point_values.append(row[1])
-
-                parameters_data2['names'].append(point['name'] + ' (' + point['units'] + ')')
-                parameters_data2['timestamps'].append(point_timestamps)
-                parameters_data2['values'].append(point_values)
-        ################################################################################################################
-        # Step 6: construct the report
+        # Step 5: construct the report
         ################################################################################################################
         if cursor_system:
             cursor_system.close()
@@ -528,11 +391,6 @@ class Reporting:
                 "timestamps": reporting1['timestamps'],
                 "values": reporting1['values'],
             },
-            "parameters1": {
-                "names": parameters_data1['names'],
-                "timestamps": parameters_data1['timestamps'],
-                "values": parameters_data1['values']
-            },
             "meter2": {
                 "name": meter2['name'],
                 "energy_category_id": meter2['energy_category_id'],
@@ -543,11 +401,6 @@ class Reporting:
                 "total_in_category": reporting2['total_in_category'],
                 "timestamps": reporting2['timestamps'],
                 "values": reporting2['values'],
-            },
-            "parameters2": {
-                "names": parameters_data2['names'],
-                "timestamps": parameters_data2['timestamps'],
-                "values": parameters_data2['values']
             },
             "diff": {
                 "values": diff['values'],
