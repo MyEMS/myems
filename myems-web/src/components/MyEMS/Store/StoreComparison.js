@@ -131,10 +131,10 @@ const StoreComparison = ({ setRedirect, setRedirectUrl, t }) => {
   const [reportingPeriodEnergyConsumptionInCategory1, setReportingPeriodEnergyConsumptionInCategory1] = useState(0);
   const [reportingPeriodEnergyConsumptionInCategory2, setReportingPeriodEnergyConsumptionInCategory2] = useState(0);
   const [reportingPeriodEnergyConsumptionInDifference, setReportingPeriodEnergyConsumptionInDifference] = useState(0);
-  const [equipmentLineChartData1, setEquipmentLineChartData1] = useState({ a0: [] });
-  const [equipmentLineChartData2, setEquipmentLineChartData2] = useState({ a0: [] });
-  const [equipmentLineChartLabels1, setEquipmentLineChartLabels1] = useState({ a0: [] });
-  const [equipmentLineChartLabels2, setEquipmentLineChartLabels2] = useState({ a0: [] });
+  const [equipmentLineChartData1, setStoreLineChartData1] = useState({ a0: [] });
+  const [equipmentLineChartData2, setStoreLineChartData2] = useState({ a0: [] });
+  const [equipmentLineChartLabels1, setStoreLineChartLabels1] = useState({ a0: [] });
+  const [equipmentLineChartLabels2, setStoreLineChartLabels2] = useState({ a0: [] });
   const [detailedDataTableColumns, setDetailedDataTableColumns] = useState([
     { dataField: 'startdatetime', text: t('Datetime'), sort: true }
   ]);
@@ -172,7 +172,7 @@ const StoreComparison = ({ setRedirect, setRedirectUrl, t }) => {
           setSelectedSpaceName1([json[0]].map(o => o.label));
           setSelectedSpaceName2([json[0]].map(o => o.label));
           let selectedSpaceID = [json[0]].map(o => o.value);
-          // get Equipments by root Space ID
+          // get Stores by root Space ID
           let isResponseOK = false;
           fetch(APIBaseURL + '/spaces/' + selectedSpaceID + '/stores', {
             method: 'GET',
@@ -217,7 +217,7 @@ const StoreComparison = ({ setRedirect, setRedirectUrl, t }) => {
             .catch(err => {
               console.log(err);
             });
-          // end of get Equipments by root Space ID
+          // end of get Stores by root Space ID
         } else {
           toast.error(t(json.description));
         }
@@ -370,7 +370,7 @@ const StoreComparison = ({ setRedirect, setRedirectUrl, t }) => {
       });
   };
 
-  const onSearchEquipment1 = ({ target }) => {
+  const onSearchStore1 = ({ target }) => {
     const keyword = target.value.toLowerCase();
     const filteredResult = storeList1.filter(equipment => equipment.label.toLowerCase().includes(keyword));
     setFilteredStoreList1(keyword.length ? filteredResult : storeList1);
@@ -387,7 +387,7 @@ const StoreComparison = ({ setRedirect, setRedirectUrl, t }) => {
     customInputTarget.value = filteredResult[0].value;
   };
 
-  const onSearchEquipment2 = ({ target }) => {
+  const onSearchStore2 = ({ target }) => {
     const keyword = target.value.toLowerCase();
     const filteredResult = storetList2.filter(equipment => equipment.label.toLowerCase().includes(keyword));
     setFilteredStoreList2(keyword.length ? filteredResult : storetList2);
@@ -529,23 +529,23 @@ const StoreComparison = ({ setRedirect, setRedirectUrl, t }) => {
 
           let timestamps1 = {};
           timestamps1['a0'] = json['reporting_period1']['timestamps'];
-          setEquipmentLineChartLabels1(timestamps1);
+          setStoreLineChartLabels1(timestamps1);
 
           let timestamps2 = {};
           timestamps2['a0'] = json['reporting_period2']['timestamps'];
-          setEquipmentLineChartLabels2(timestamps2);
+          setStoreLineChartLabels2(timestamps2);
 
           let values1 = { a0: [] };
           json['reporting_period1']['values'].forEach((currentValue, index) => {
             values1['a0'][index] = currentValue === null ? null : currentValue.toFixed(2);
           });
-          setEquipmentLineChartData1(values1);
+          setStoreLineChartData1(values1);
 
           let values2 = { a0: [] };
           json['reporting_period2']['values'].forEach((currentValue, index) => {
             values2['a0'][index] = currentValue === null ? null : currentValue.toFixed(2);
           });
-          setEquipmentLineChartData2(values2);
+          setStoreLineChartData2(values2);
 
           setDetailedDataTableColumns([
             {
@@ -701,7 +701,7 @@ const StoreComparison = ({ setRedirect, setRedirectUrl, t }) => {
                   </Label>
 
                   <Form inline>
-                    <Input placeholder={t('Search')} bsSize="sm" onChange={onSearchEquipment1} />
+                    <Input placeholder={t('Search')} bsSize="sm" onChange={onSearchStore1} />
                     <CustomInput
                       type="select"
                       id="storeSelect1"
@@ -743,7 +743,7 @@ const StoreComparison = ({ setRedirect, setRedirectUrl, t }) => {
                   </Label>
 
                   <Form inline>
-                    <Input placeholder={t('Search')} bsSize="sm" onChange={onSearchEquipment2} />
+                    <Input placeholder={t('Search')} bsSize="sm" onChange={onSearchStore2} />
                     <CustomInput
                       type="select"
                       id="storeSelect2"
