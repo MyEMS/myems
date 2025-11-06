@@ -135,9 +135,6 @@ const ShopfloorComparison = ({ setRedirect, setRedirectUrl, t }) => {
   const [shopfloorLineChartData2, setShopfloorLineChartData2] = useState({ a0: [] });
   const [shopfloorLineChartLabels1, setShopfloorLineChartLabels1] = useState({ a0: [] });
   const [shopfloorLineChartLabels2, setShopfloorLineChartLabels2] = useState({ a0: [] });
-  const [parameterLineChartOptions, setParameterLineChartOptions] = useState([]);
-  const [parameterLineChartData, setParameterLineChartData] = useState({});
-  const [parameterLineChartLabels, setParameterLineChartLabels] = useState([]);
   const [detailedDataTableColumns, setDetailedDataTableColumns] = useState([
     { dataField: 'startdatetime', text: t('Datetime'), sort: true }
   ]);
@@ -549,48 +546,6 @@ const ShopfloorComparison = ({ setRedirect, setRedirectUrl, t }) => {
             values2['a0'][index] = currentValue === null ? null : currentValue.toFixed(2);
           });
           setShopfloorLineChartData2(values2);
-
-          names1 = [];
-          let index1 = 0;
-          json['parameters1']['names'].forEach((currentValue, index) => {
-            names1.push({ 
-              value: 'a' + index1, 
-              label: json['shopfloor1']['name'] + ' ' + json['energy_category']['name'] + ' (' + json['energy_category']['unit_of_measure'] + ')'
-            });
-            index1 = index1 + 1;
-          });
-          json['parameters2']['names'].forEach((currentValue, index) => {
-            names1.push({ 
-              value: 'a' + index1, 
-              label: json['shopfloor2']['name'] + ' ' + json['energy_category']['name'] + ' (' + json['energy_category']['unit_of_measure'] + ')'
-            });
-            index1 = index1 + 1;
-          });
-          setParameterLineChartOptions(names1);
-
-          timestamps1 = {};
-          index1 = 0;
-          json['parameters1']['timestamps'].forEach((currentValue, index) => {
-            timestamps1['a' + index1] = currentValue;
-            index1 = index1 + 1;
-          });
-          json['parameters2']['timestamps'].forEach((currentValue, index) => {
-            timestamps1['a' + index1] = currentValue;
-            index1 = index1 + 1;
-          });
-          setParameterLineChartLabels(timestamps1);
-
-          index1 = 0;
-          let values = { a0: [] };
-          json['parameters1']['values'].forEach((currentValue, index) => {
-            values['a' + index1] = currentValue;
-            index1 += 1;
-          });
-          json['parameters2']['values'].forEach((currentValue, index) => {
-            values['a' + index1] = currentValue;
-            index1 += 1;
-          });
-          setParameterLineChartData(values);
 
           setDetailedDataTableColumns([
             {
