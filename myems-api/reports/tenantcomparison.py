@@ -26,8 +26,7 @@ class Reporting:
     # Step 2: query the tenant and energy category
     # Step 3: query tenant input category hourly data (pre-aggregated by background service)
     # Step 4: aggregate tenant energy consumption data by period
-    # Step 5: query tenant associated points data
-    # Step 6: construct the report
+    # Step 5: construct the report
     ####################################################################################################################
     @staticmethod
     def on_get(req, resp):

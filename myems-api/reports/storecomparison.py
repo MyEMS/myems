@@ -26,8 +26,7 @@ class Reporting:
     # Step 2: query the store and energy category
     # Step 3: query store input category hourly data (pre-aggregated by background service)
     # Step 4: aggregate store energy consumption data by period
-    # Step 5: query store associated points data
-    # Step 6: construct the report
+    # Step 5: construct the report
     ####################################################################################################################
     @staticmethod
     def on_get(req, resp):

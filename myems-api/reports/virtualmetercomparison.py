@@ -58,8 +58,7 @@ class Reporting:
     # Step 2: query the virtual meter and energy category
     # Step 3: parse equation and get associated points
     # Step 4: query reporting period energy consumption
-    # Step 5: query associated points data
-    # Step 6: construct the report
+    # Step 5: construct the report
     ####################################################################################################################
     @staticmethod
     def on_get(req, resp):

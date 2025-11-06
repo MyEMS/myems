@@ -26,15 +26,14 @@ class Reporting:
     # Step 2: query the combined equipment and energy category
     # Step 3: query combined equipment input category hourly data (pre-aggregated by background service)
     # Step 4: aggregate combined equipment energy consumption data by period
-    # Step 5: query combined equipment associated points data
-    # Step 6: construct the report
+    # Step 5: construct the report
     ####################################################################################################################
     @staticmethod
     def on_get(req, resp):
         if (
-            "API-KEY" not in req.headers
-            or not isinstance(req.headers["API-KEY"], str)
-            or len(str.strip(req.headers["API-KEY"])) == 0
+                "API-KEY" not in req.headers
+                or not isinstance(req.headers["API-KEY"], str)
+                or len(str.strip(req.headers["API-KEY"])) == 0
         ):
             access_control(req)
         else:
@@ -176,8 +175,8 @@ class Reporting:
             ) - timedelta(minutes=timezone_offset)
             # nomalize the start datetime
             if (
-                config.minutes_to_count == 30
-                and reporting_start_datetime_utc.minute >= 30
+                    config.minutes_to_count == 30
+                    and reporting_start_datetime_utc.minute >= 30
             ):
                 reporting_start_datetime_utc = reporting_start_datetime_utc.replace(
                     minute=30, second=0, microsecond=0
@@ -221,9 +220,9 @@ class Reporting:
         # if turn quick mode on, do not return parameters data and excel file
         is_quick_mode = False
         if (
-            quick_mode is not None
-            and len(str.strip(quick_mode)) > 0
-            and str.lower(str.strip(quick_mode)) in ("true", "t", "on", "yes", "y")
+                quick_mode is not None
+                and len(str.strip(quick_mode)) > 0
+                and str.lower(str.strip(quick_mode)) in ("true", "t", "on", "yes", "y")
         ):
             is_quick_mode = True
 
@@ -482,7 +481,7 @@ class Reporting:
                 if i < len(combined_equipment2_energy_data["values"])
                 else None
             )
-            
+
             # Calculate difference, handling None values
             if combined_equipment1_value is None and combined_equipment2_value is None:
                 diff_value = None
@@ -493,9 +492,8 @@ class Reporting:
             else:
                 diff_value = combined_equipment1_value - combined_equipment2_value
                 diff["total_in_category"] += diff_value
-                
-            diff["values"].append(diff_value)
 
+            diff["values"].append(diff_value)
 
         ################################################################################################################
         # Step 5: construct the report
@@ -559,4 +557,3 @@ class Reporting:
             )
 
         resp.text = json.dumps(result)
-
