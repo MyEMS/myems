@@ -497,20 +497,7 @@ class Reporting:
             diff["values"].append(diff_value)
 
         ################################################################################################################
-        # Step 5: query store associated points data (for detailed parameters)
-        ################################################################################################################
-        parameters_data1 = dict()
-        parameters_data1["names"] = list()
-        parameters_data1["timestamps"] = list()
-        parameters_data1["values"] = list()
-
-        parameters_data2 = dict()
-        parameters_data2["names"] = list()
-        parameters_data2["timestamps"] = list()
-        parameters_data2["values"] = list()
-
-        ################################################################################################################
-        # Step 6: construct the report
+        # Step 5: construct the report
         ################################################################################################################
         if cursor_system:
             cursor_system.close()
@@ -550,16 +537,6 @@ class Reporting:
                 "total_in_category": store2_energy_data["total_in_category"],
                 "timestamps": store2_energy_data["timestamps"],
                 "values": store2_energy_data["values"],
-            },
-            "parameters1": {
-                "names": parameters_data1["names"],
-                "timestamps": parameters_data1["timestamps"],
-                "values": parameters_data1["values"],
-            },
-            "parameters2": {
-                "names": parameters_data2["names"],
-                "timestamps": parameters_data2["timestamps"],
-                "values": parameters_data2["values"],
             },
             "diff": {
                 "values": diff["values"],
