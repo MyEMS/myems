@@ -16,6 +16,7 @@ VALUES
 (411, 'Tenant Comparison', '/tenant/comparison', 400, 0),
 (510, 'Store Comparison', '/store/comparison', 500, 0),
 (610, 'Shopfloor Comparison', '/shopfloor/comparison', 600, 0),
+(116, 'Space Comparison','/space/comparison',100,0),
 (713, 'Combined Equipment Comparison', '/combinedequipment/comparison', 700, 0);
 
 -- UPDATE VERSION NUMBER

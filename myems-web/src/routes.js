@@ -28,7 +28,8 @@ export const spaceRoutes = {
     { to: '/space/prediction', name: 'Prediction' },
     { to: '/space/environmentmonitor', name: 'Environment Monitor' },
     { to: '/space/enterproduction', name: 'Enter Production' },
-    { to: '/space/production', name: 'Space Production' }
+    { to: '/space/production', name: 'Space Production' },
+    { to: '/space/comparison', name: 'Space Comparison' }
   ]
 };
 

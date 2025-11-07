@@ -36,7 +36,7 @@ import blankPage from '../../../assets/img/generic/blank-page.png';
 
 const DetailedDataTable = loadable(() => import('../common/DetailedDataTable'));
 
-const StoreComparison = ({ setRedirect, setRedirectUrl, t }) => {
+const SpaceComparison = ({ setRedirect, setRedirectUrl, t }) => {
   let current_moment = moment();
   useEffect(() => {
     let is_logged_in = getCookieValue('is_logged_in');
@@ -72,12 +72,9 @@ const StoreComparison = ({ setRedirect, setRedirectUrl, t }) => {
   //Query Form
   const [selectedSpaceName1, setSelectedSpaceName1] = useState(undefined);
   const [selectedSpaceName2, setSelectedSpaceName2] = useState(undefined);
-  const [storeList1, setStoreList1] = useState([]);
-  const [storetList2, setStoreList2] = useState([]);
-  const [filteredStoreList1, setFilteredStoreList1] = useState([]);
-  const [filteredStoreList2, setFilteredStoreList2] = useState([]);
-  const [selectedStore1, setSelectedStore1] = useState(undefined);
-  const [selectedStore2, setSelectedStore2] = useState(undefined);
+
+  const [selectedSpace1, setSelectedSpace1] = useState(undefined);
+  const [selectedSpace2, setSelectedSpace2] = useState(undefined);
   const [energyCategoryList, setEnergyCategoryList] = useState([]);
   const [selectedEnergyCategory, setSelectedEnergyCategory] = useState(undefined);
   const [periodType, setPeriodType] = useState('daily');
@@ -115,11 +112,11 @@ const StoreComparison = ({ setRedirect, setRedirectUrl, t }) => {
   const [exportButtonHidden, setExportButtonHidden] = useState(true);
   const [resultDataHidden, setResultDataHidden] = useState(true);
   //Results
-  const [store1, setStore1] = useState({
+  const [space1, setSpace1] = useState({
     id: undefined,
     name: undefined
   });
-  const [store2, setStore2] = useState({
+  const [space2, setSpace2] = useState({
     id: undefined,
     name: undefined
   });
@@ -131,10 +128,10 @@ const StoreComparison = ({ setRedirect, setRedirectUrl, t }) => {
   const [reportingPeriodEnergyConsumptionInCategory1, setReportingPeriodEnergyConsumptionInCategory1] = useState(0);
   const [reportingPeriodEnergyConsumptionInCategory2, setReportingPeriodEnergyConsumptionInCategory2] = useState(0);
   const [reportingPeriodEnergyConsumptionInDifference, setReportingPeriodEnergyConsumptionInDifference] = useState(0);
-  const [storeChartData1, setStoreLineChartData1] = useState({ a0: [] });
-  const [storeChartData2, setStoreLineChartData2] = useState({ a0: [] });
-  const [storeChartLabels1, setStoreLineChartLabels1] = useState({ a0: [] });
-  const [storeChartLabels2, setStoreLineChartLabels2] = useState({ a0: [] });
+  const [spaceLineChartData1, setSpaceLineChartData1] = useState({ a0: [] });
+  const [spaceLineChartData2, setSpaceLineChartData2] = useState({ a0: [] });
+  const [spaceLineChartLabels1, setSpaceLineChartLabels1] = useState({ a0: [] });
+  const [spaceLineChartLabels2, setSpaceLineChartLabels2] = useState({ a0: [] });
   const [detailedDataTableColumns, setDetailedDataTableColumns] = useState([
     { dataField: 'startdatetime', text: t('Datetime'), sort: true }
   ]);
@@ -171,53 +168,8 @@ const StoreComparison = ({ setRedirect, setRedirectUrl, t }) => {
           setCascaderOptions(json);
           setSelectedSpaceName1([json[0]].map(o => o.label));
           setSelectedSpaceName2([json[0]].map(o => o.label));
-          let selectedSpaceID = [json[0]].map(o => o.value);
-          // get Stores by root Space ID
-          let isResponseOK = false;
-          fetch(APIBaseURL + '/spaces/' + selectedSpaceID + '/stores', {
-            method: 'GET',
-            headers: {
-              'Content-type': 'application/json',
-              'User-UUID': getCookieValue('user_uuid'),
-              Token: getCookieValue('token')
-            },
-            body: null
-          })
-            .then(response => {
-              if (response.ok) {
-                isResponseOK = true;
-              }
-              return response.json();
-            })
-            .then(json => {
-              if (isResponseOK) {
-                json = JSON.parse(
-                  JSON.stringify([json])
-                    .split('"id":')
-                    .join('"value":')
-                    .split('"name":')
-                    .join('"label":')
-                );
-
-                setStoreList1(json[0]);
-                setStoreList2(json[0]);
-                setFilteredStoreList1(json[0]);
-                setFilteredStoreList2(json[0]);
-                if (json[0].length > 0) {
-                  setSelectedStore1(json[0][0].value);
-                  setSelectedStore2(json[0][0].value);
-                } else {
-                  setSelectedStore1(undefined);
-                  setSelectedStore2(undefined);
-                }
-              } else {
-                toast.error(t(json.description));
-              }
-            })
-            .catch(err => {
-              console.log(err);
-            });
-          // end of get Stores by root Space ID
+          setSelectedSpace1([json[0]].map(o => o.value));
+          setSelectedSpace2([json[0]].map(o => o.value));
         } else {
           toast.error(t(json.description));
         }
@@ -275,134 +227,15 @@ const StoreComparison = ({ setRedirect, setRedirectUrl, t }) => {
   let onSpaceCascaderChange1 = (value, selectedOptions) => {
     setSelectedSpaceName1(selectedOptions.map(o => o.label).join('/'));
     let selectedSpaceID = value[value.length - 1];
-    let isResponseOK = false;
-    fetch(APIBaseURL + '/spaces/' + selectedSpaceID + '/stores', {
-      method: 'GET',
-      headers: {
-        'Content-type': 'application/json',
-        'User-UUID': getCookieValue('user_uuid'),
-        Token: getCookieValue('token')
-      },
-      body: null
-    })
-      .then(response => {
-        if (response.ok) {
-          isResponseOK = true;
-        }
-        return response.json();
-      })
-      .then(json => {
-        if (isResponseOK) {
-          json = JSON.parse(
-            JSON.stringify([json])
-              .split('"id":')
-              .join('"value":')
-              .split('"name":')
-              .join('"label":')
-          );
-
-          setStoreList1(json[0]);
-          setFilteredStoreList1(json[0]);
-          if (json[0].length > 0) {
-            setSelectedStore1(json[0][0].value);
-            // enable submit button
-            setSubmitButtonDisabled(false);
-          } else {
-            setSelectedStore1(undefined);
-            // disable submit button
-            setSubmitButtonDisabled(true);
-          }
-        } else {
-          toast.error(t(json.description));
-        }
-      })
-      .catch(err => {
-        console.log(err);
-      });
+    setSelectedSpace1(selectedSpaceID);
   };
 
   let onSpaceCascaderChange2 = (value, selectedOptions) => {
     setSelectedSpaceName2(selectedOptions.map(o => o.label).join('/'));
     let selectedSpaceID = value[value.length - 1];
-    let isResponseOK = false;
-    fetch(APIBaseURL + '/spaces/' + selectedSpaceID + '/stores', {
-      method: 'GET',
-      headers: {
-        'Content-type': 'application/json',
-        'User-UUID': getCookieValue('user_uuid'),
-        Token: getCookieValue('token')
-      },
-      body: null
-    })
-      .then(response => {
-        if (response.ok) {
-          isResponseOK = true;
-        }
-        return response.json();
-      })
-      .then(json => {
-        if (isResponseOK) {
-          json = JSON.parse(
-            JSON.stringify([json])
-              .split('"id":')
-              .join('"value":')
-              .split('"name":')
-              .join('"label":')
-          );
-
-          setStoreList2(json[0]);
-          setFilteredStoreList2(json[0]);
-          if (json[0].length > 0) {
-            setSelectedStore2(json[0][0].value);
-            // enable submit button
-            setSubmitButtonDisabled(false);
-          } else {
-            setSelectedStore2(undefined);
-            // disable submit button
-            setSubmitButtonDisabled(true);
-          }
-        } else {
-          toast.error(t(json.description));
-        }
-      })
-      .catch(err => {
-        console.log(err);
-      });
+    setSelectedSpace2(selectedSpaceID);
   };
 
-  const onSearchStore1 = ({ target }) => {
-    const keyword = target.value.toLowerCase();
-    const filteredResult = storeList1.filter(equipment => equipment.label.toLowerCase().includes(keyword));
-    setFilteredStoreList1(keyword.length ? filteredResult : storeList1);
-    if (filteredResult.length > 0) {
-      setSelectedStore1(filteredResult[0].value);
-      // enable submit button
-      setSubmitButtonDisabled(false);
-    } else {
-      setSelectedStore1(undefined);
-      // disable submit button
-      setSubmitButtonDisabled(true);
-    }
-    let customInputTarget = document.getElementById('storeSelect1');
-    customInputTarget.value = filteredResult[0].value;
-  };
-
-  const onSearchStore2 = ({ target }) => {
-    const keyword = target.value.toLowerCase();
-    const filteredResult = storetList2.filter(equipment => equipment.label.toLowerCase().includes(keyword));
-    setFilteredStoreList2(keyword.length ? filteredResult : storetList2);
-    if (filteredResult.length > 0) {
-      setSelectedStore2(filteredResult[0].value);
-      // enable submit button
-      setSubmitButtonDisabled(false);
-    } else {
-      setSelectedStore2(undefined);
-      // disable submit button
-      setSubmitButtonDisabled(true);
-    }
-    let customInputTarget = document.getElementById('storeSelect2');
-    customInputTarget.value = filteredResult[0].value;
-  };
 
   // Callback fired when value changed
   let onReportingPeriodChange = DateRange => {
@@ -472,11 +305,11 @@ const StoreComparison = ({ setRedirect, setRedirectUrl, t }) => {
     let isResponseOK = false;
     fetch(
       APIBaseURL +
-        '/reports/storecomparison?' +
-        'storeid1=' +
-        selectedStore1 +
-        '&storeid2=' +
-        selectedStore2 +
+        '/reports/spacecomparison?' +
+        'spaceid1=' +
+        selectedSpace1 +
+        '&spaceid2=' +
+        selectedSpace2 +
         '&energycategoryid=' +
         selectedEnergyCategory +
         '&periodtype=' +
@@ -505,13 +338,13 @@ const StoreComparison = ({ setRedirect, setRedirectUrl, t }) => {
       })
       .then(json => {
         if (isResponseOK) {
-          setStore1({
-            id: json['store1']['id'],
-            name: json['store1']['name']
+          setSpace1({
+            id: json['space1']['id'],
+            name: json['space1']['name']
           });
-          setStore2({
-            id: json['store2']['id'],
-            name: json['store2']['name']
+          setSpace2({
+            id: json['space2']['id'],
+            name: json['space2']['name']
           });
           setEnergyCategory({
             id: json['energy_category']['id'],
@@ -529,23 +362,23 @@ const StoreComparison = ({ setRedirect, setRedirectUrl, t }) => {
 
           let timestamps1 = {};
           timestamps1['a0'] = json['reporting_period1']['timestamps'];
-          setStoreLineChartLabels1(timestamps1);
+          setSpaceLineChartLabels1(timestamps1);
 
           let timestamps2 = {};
           timestamps2['a0'] = json['reporting_period2']['timestamps'];
-          setStoreLineChartLabels2(timestamps2);
+          setSpaceLineChartLabels2(timestamps2);
 
           let values1 = { a0: [] };
           json['reporting_period1']['values'].forEach((currentValue, index) => {
             values1['a0'][index] = currentValue === null ? null : currentValue.toFixed(2);
           });
-          setStoreLineChartData1(values1);
+          setSpaceLineChartData1(values1);
 
           let values2 = { a0: [] };
           json['reporting_period2']['values'].forEach((currentValue, index) => {
             values2['a0'][index] = currentValue === null ? null : currentValue.toFixed(2);
           });
-          setStoreLineChartData2(values2);
+          setSpaceLineChartData2(values2);
 
           setDetailedDataTableColumns([
             {
@@ -556,7 +389,7 @@ const StoreComparison = ({ setRedirect, setRedirectUrl, t }) => {
             {
               dataField: 'a0',
               text:
-                json['store1']['name'] +
+                json['space1']['name'] +
                 ' ' +
                 json['energy_category']['name'] +
                 ' (' +
@@ -574,7 +407,7 @@ const StoreComparison = ({ setRedirect, setRedirectUrl, t }) => {
             {
               dataField: 'a1',
               text:
-                json['store2']['name'] +
+                json['space2']['name'] +
                 ' ' +
                 json['energy_category']['name'] +
                 ' (' +
@@ -652,7 +485,7 @@ const StoreComparison = ({ setRedirect, setRedirectUrl, t }) => {
   const handleExport = e => {
     e.preventDefault();
     const mimeType = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
-    const fileName = 'StoreComparison.xlsx';
+    const fileName = 'SpaceComparison.xlsx';
     var fileUrl = 'data:' + mimeType + ';base64,' + excelBytesBase64;
     fetch(fileUrl)
       .then(response => response.blob())
@@ -670,8 +503,8 @@ const StoreComparison = ({ setRedirect, setRedirectUrl, t }) => {
     <Fragment>
       <div>
         <Breadcrumb>
-          <BreadcrumbItem>{t('Store Data')}</BreadcrumbItem>
-          <BreadcrumbItem active>{t('Store Comparison')}</BreadcrumbItem>
+          <BreadcrumbItem>{t('Space Data')}</BreadcrumbItem>
+          <BreadcrumbItem active>{t('Space Comparison')}</BreadcrumbItem>
         </Breadcrumb>
       </div>
       <Card className="bg-light mb-3">
@@ -694,30 +527,6 @@ const StoreComparison = ({ setRedirect, setRedirectUrl, t }) => {
                   </Cascader>
                 </FormGroup>
               </Col>
-              <Col xs="auto">
-                <FormGroup>
-                  <Label className={labelClasses} for="storeSelect1">
-                    {t('Store')}1
-                  </Label>
-
-                  <Form inline>
-                    <Input placeholder={t('Search')} bsSize="sm" onChange={onSearchStore1} />
-                    <CustomInput
-                      type="select"
-                      id="storeSelect1"
-                      name="storeSelect1"
-                      bsSize="sm"
-                      onChange={({ target }) => setSelectedStore1(target.value)}
-                    >
-                      {filteredStoreList1.map((equipment, index) => (
-                        <option value={equipment.value} key={equipment.value}>
-                          {equipment.label}
-                        </option>
-                      ))}
-                    </CustomInput>
-                  </Form>
-                </FormGroup>
-              </Col>
             </Row>
             <Row form>
               <Col xs={6} sm={3}>
@@ -734,30 +543,6 @@ const StoreComparison = ({ setRedirect, setRedirectUrl, t }) => {
                   >
                     <Input value={selectedSpaceName2 || ''} readOnly />
                   </Cascader>
-                </FormGroup>
-              </Col>
-              <Col xs="auto">
-                <FormGroup>
-                  <Label className={labelClasses} for="storeSelect2">
-                    {t('Store')}2
-                  </Label>
-
-                  <Form inline>
-                    <Input placeholder={t('Search')} bsSize="sm" onChange={onSearchStore2} />
-                    <CustomInput
-                      type="select"
-                      id="storeSelect2"
-                      name="storeSelect2"
-                      bsSize="sm"
-                      onChange={({ target }) => setSelectedStore2(target.value)}
-                    >
-                      {filteredStoreList2.map((equipment, index) => (
-                        <option value={equipment.value} key={equipment.value}>
-                          {equipment.label}
-                        </option>
-                      ))}
-                    </CustomInput>
-                  </Form>
                 </FormGroup>
               </Col>
             </Row>
@@ -864,7 +649,7 @@ const StoreComparison = ({ setRedirect, setRedirectUrl, t }) => {
           <CardSummary
             id="cardSummary1"
             title={t('EQUIPMENT CATEGORY VALUE UNIT', {
-              EQUIPMENT: store1['name'],
+              EQUIPMENT: space1['name'],
               CATEGORY: energyCategory['name'],
               UNIT: '(' + energyCategory['unit_of_measure'] + ')'
             })}
@@ -882,7 +667,7 @@ const StoreComparison = ({ setRedirect, setRedirectUrl, t }) => {
           <CardSummary
             id="cardSummary2"
             title={t('EQUIPMENT CATEGORY VALUE UNIT', {
-              EQUIPMENT: store2['name'],
+              EQUIPMENT: space2['name'],
               CATEGORY: energyCategory['name'],
               UNIT: '(' + energyCategory['unit_of_measure'] + ')'
             })}
@@ -920,7 +705,7 @@ const StoreComparison = ({ setRedirect, setRedirectUrl, t }) => {
           baseTitle={{
             name: 'EQUIPMENT CATEGORY VALUE UNIT',
             substitute: ['EQUIPMENT', 'CATEGORY', 'VALUE', 'UNIT'],
-            EQUIPMENT: { a0: store1['name'] },
+            EQUIPMENT: { a0: space1['name'] },
             CATEGORY: { a0: energyCategory['name'] },
             VALUE: { a0: reportingPeriodEnergyConsumptionInCategory1.toFixed(2) },
             UNIT: { a0: '(' + energyCategory['unit_of_measure'] + ')' }
@@ -928,7 +713,7 @@ const StoreComparison = ({ setRedirect, setRedirectUrl, t }) => {
           reportingTitle={{
             name: 'EQUIPMENT CATEGORY VALUE UNIT',
             substitute: ['EQUIPMENT', 'CATEGORY', 'VALUE', 'UNIT'],
-            EQUIPMENT: { a0: store2['name'] },
+            EQUIPMENT: { a0: space2['name'] },
             CATEGORY: { a0: energyCategory['name'] },
             VALUE: { a0: reportingPeriodEnergyConsumptionInCategory2.toFixed(2) },
             UNIT: { a0: '(' + energyCategory['unit_of_measure'] + ')' }
@@ -936,7 +721,7 @@ const StoreComparison = ({ setRedirect, setRedirectUrl, t }) => {
           baseTooltipTitle={{
             name: 'EQUIPMENT CATEGORY VALUE UNIT',
             substitute: ['EQUIPMENT', 'CATEGORY', 'VALUE', 'UNIT'],
-            EQUIPMENT: { a0: store1['name'] },
+            EQUIPMENT: { a0: space1['name'] },
             CATEGORY: { a0: energyCategory['name'] },
             VALUE: null,
             UNIT: { a0: '(' + energyCategory['unit_of_measure'] + ')' }
@@ -944,15 +729,15 @@ const StoreComparison = ({ setRedirect, setRedirectUrl, t }) => {
           reportingTooltipTitle={{
             name: 'EQUIPMENT CATEGORY VALUE UNIT',
             substitute: ['EQUIPMENT', 'CATEGORY', 'VALUE', 'UNIT'],
-            EQUIPMENT: { a0: store2['name'] },
+            EQUIPMENT: { a0: space2['name'] },
             CATEGORY: { a0: energyCategory['name'] },
             VALUE: null,
             UNIT: { a0: '(' + energyCategory['unit_of_measure'] + ')' }
           }}
-          baseLabels={storeChartLabels1}
-          baseData={storeChartData1}
-          reportingLabels={storeChartLabels2}
-          reportingData={storeChartData2}
+          baseLabels={spaceLineChartLabels1}
+          baseData={spaceLineChartData1}
+          reportingLabels={spaceLineChartLabels2}
+          reportingData={spaceLineChartData2}
           rates={{ a0: [] }}
         />
         <br />
@@ -967,4 +752,4 @@ const StoreComparison = ({ setRedirect, setRedirectUrl, t }) => {
   );
 };
 
-export default withTranslation()(withRedirect(StoreComparison));
+export default withTranslation()(withRedirect(SpaceComparison));
