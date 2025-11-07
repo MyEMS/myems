@@ -10,6 +10,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - added combined equipment comparison report
 - added power quality report
 - added shopfloor comparison report
+- added space comparison report
 - added store comparison report
 - added tenant comparison report
 - added virtual meter comparison report
