@@ -73,8 +73,8 @@ const SpaceComparison = ({ setRedirect, setRedirectUrl, t }) => {
   const [selectedSpaceName1, setSelectedSpaceName1] = useState(undefined);
   const [selectedSpaceName2, setSelectedSpaceName2] = useState(undefined);
 
-  const [selectedSpace1, setSelectedSpace1] = useState(undefined);
-  const [selectedSpace2, setSelectedSpace2] = useState(undefined);
+  const [selectedSpace1, setSelectedSpace1] = useState('1');
+  const [selectedSpace2, setSelectedSpace2] = useState('1');
   const [energyCategoryList, setEnergyCategoryList] = useState([]);
   const [selectedEnergyCategory, setSelectedEnergyCategory] = useState(undefined);
   const [periodType, setPeriodType] = useState('daily');

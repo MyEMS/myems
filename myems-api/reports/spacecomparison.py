@@ -62,7 +62,7 @@ class Reporting:
             raise falcon.HTTPError(
                 status=falcon.HTTP_400,
                 title="API.BAD_REQUEST",
-                description="API.INVALID_SPACE_ID",
+                name="API.INVALID_SPACE_ID",
             )
 
         if space_id1 is not None:
@@ -71,7 +71,7 @@ class Reporting:
                 raise falcon.HTTPError(
                     status=falcon.HTTP_400,
                     title="API.BAD_REQUEST",
-                    description="API.INVALID_SPACE_ID",
+                    name="API.INVALID_SPACE_ID",
                 )
 
         if space_uuid1 is not None:
@@ -84,14 +84,14 @@ class Reporting:
                 raise falcon.HTTPError(
                     status=falcon.HTTP_400,
                     title="API.BAD_REQUEST",
-                    description="API.INVALID_SPACE_ID",
+                    name="API.INVALID_SPACE_ID",
                 )
 
         if space_id2 is None and space_uuid2 is None:
             raise falcon.HTTPError(
                 status=falcon.HTTP_400,
                 title="API.BAD_REQUEST",
-                description="API.INVALID_SPACE_ID",
+                name="API.INVALID_SPACE_ID",
             )
 
         if space_id2 is not None:
@@ -100,7 +100,7 @@ class Reporting:
                 raise falcon.HTTPError(
                     status=falcon.HTTP_400,
                     title="API.BAD_REQUEST",
-                    description="API.INVALID_SPACE_ID",
+                    name="API.INVALID_SPACE_ID",
                 )
 
         if space_uuid2 is not None:
@@ -113,14 +113,14 @@ class Reporting:
                 raise falcon.HTTPError(
                     status=falcon.HTTP_400,
                     title="API.BAD_REQUEST",
-                    description="API.INVALID_SPACE_ID",
+                    name="API.INVALID_SPACE_ID",
                 )
 
         if energy_category_id is None:
             raise falcon.HTTPError(
                 status=falcon.HTTP_400,
                 title="API.BAD_REQUEST",
-                description="API.INVALID_ENERGY_CATEGORY_ID",
+                name="API.INVALID_ENERGY_CATEGORY_ID",
             )
         else:
             energy_category_id = str.strip(energy_category_id)
@@ -128,14 +128,14 @@ class Reporting:
                 raise falcon.HTTPError(
                     status=falcon.HTTP_400,
                     title="API.BAD_REQUEST",
-                    description="API.INVALID_ENERGY_CATEGORY_ID",
+                    name="API.INVALID_ENERGY_CATEGORY_ID",
                 )
 
         if period_type is None:
             raise falcon.HTTPError(
                 status=falcon.HTTP_400,
                 title="API.BAD_REQUEST",
-                description="API.INVALID_PERIOD_TYPE",
+                name="API.INVALID_PERIOD_TYPE",
             )
         else:
             period_type = str.strip(period_type)
@@ -143,7 +143,7 @@ class Reporting:
                 raise falcon.HTTPError(
                     status=falcon.HTTP_400,
                     title="API.BAD_REQUEST",
-                    description="API.INVALID_PERIOD_TYPE",
+                    name="API.INVALID_PERIOD_TYPE",
                 )
 
         timezone_offset = int(config.utc_offset[1:3]) * 60 + int(config.utc_offset[4:6])
@@ -154,7 +154,7 @@ class Reporting:
             raise falcon.HTTPError(
                 status=falcon.HTTP_400,
                 title="API.BAD_REQUEST",
-                description="API.INVALID_REPORTING_PERIOD_START_DATETIME",
+                name="API.INVALID_REPORTING_PERIOD_START_DATETIME",
             )
         else:
             reporting_period_start_datetime_local = str.strip(
@@ -168,7 +168,7 @@ class Reporting:
                 raise falcon.HTTPError(
                     status=falcon.HTTP_400,
                     title="API.BAD_REQUEST",
-                    description="API.INVALID_REPORTING_PERIOD_START_DATETIME",
+                    name="API.INVALID_REPORTING_PERIOD_START_DATETIME",
                 )
             reporting_start_datetime_utc = reporting_start_datetime_utc.replace(
                 tzinfo=timezone.utc
@@ -190,7 +190,7 @@ class Reporting:
             raise falcon.HTTPError(
                 status=falcon.HTTP_400,
                 title="API.BAD_REQUEST",
-                description="API.INVALID_REPORTING_PERIOD_END_DATETIME",
+                name="API.INVALID_REPORTING_PERIOD_END_DATETIME",
             )
         else:
             reporting_period_end_datetime_local = str.strip(
@@ -204,7 +204,7 @@ class Reporting:
                 raise falcon.HTTPError(
                     status=falcon.HTTP_400,
                     title="API.BAD_REQUEST",
-                    description="API.INVALID_REPORTING_PERIOD_END_DATETIME",
+                    name="API.INVALID_REPORTING_PERIOD_END_DATETIME",
                 )
             reporting_end_datetime_utc = reporting_end_datetime_utc.replace(
                 tzinfo=timezone.utc
@@ -214,7 +214,7 @@ class Reporting:
             raise falcon.HTTPError(
                 status=falcon.HTTP_400,
                 title="API.BAD_REQUEST",
-                description="API.INVALID_REPORTING_PERIOD_END_DATETIME",
+                name="API.INVALID_REPORTING_PERIOD_END_DATETIME",
             )
 
         # if turn quick mode on, do not return parameters data and excel file
@@ -241,12 +241,12 @@ class Reporting:
         # Query space 1
         if space_id1 is not None:
             cursor_system.execute(
-                " SELECT id, description FROM tbl_spaces WHERE id = %s ", (space_id1,)
+                " SELECT id, name FROM tbl_spaces WHERE id = %s ", (space_id1,)
             )
             row_space1 = cursor_system.fetchone()
         elif space_uuid1 is not None:
             cursor_system.execute(
-                " SELECT id, description FROM tbl_spaces WHERE uuid = %s ",
+                " SELECT id, name FROM tbl_spaces WHERE uuid = %s ",
                 (space_uuid1,),
             )
             row_space1 = cursor_system.fetchone()
@@ -269,7 +269,7 @@ class Reporting:
             raise falcon.HTTPError(
                 status=falcon.HTTP_404,
                 title="API.NOT_FOUND",
-                description="API.SPACE_NOT_FOUND",
+                name="API.SPACE_NOT_FOUND",
             )
 
         space1 = dict()
@@ -279,12 +279,12 @@ class Reporting:
         # Query space 2
         if space_id2 is not None:
             cursor_system.execute(
-                " SELECT id, description FROM tbl_spaces WHERE id = %s ", (space_id2,)
+                " SELECT id, name FROM tbl_spaces WHERE id = %s ", (space_id2,)
             )
             row_space2 = cursor_system.fetchone()
         elif space_uuid2 is not None:
             cursor_system.execute(
-                " SELECT id, description FROM tbl_spaces WHERE uuid = %s ",
+                " SELECT id, name FROM tbl_spaces WHERE uuid = %s ",
                 (space_uuid2,),
             )
             row_space2 = cursor_system.fetchone()
@@ -307,7 +307,7 @@ class Reporting:
             raise falcon.HTTPError(
                 status=falcon.HTTP_404,
                 title="API.NOT_FOUND",
-                description="API.SPACE_NOT_FOUND",
+                name="API.SPACE_NOT_FOUND",
             )
 
         space2 = dict()
@@ -339,7 +339,7 @@ class Reporting:
             raise falcon.HTTPError(
                 status=falcon.HTTP_404,
                 title="API.NOT_FOUND",
-                description="API.ENERGY_CATEGORY_NOT_FOUND",
+                name="API.ENERGY_CATEGORY_NOT_FOUND",
             )
 
         energy_category = dict()
