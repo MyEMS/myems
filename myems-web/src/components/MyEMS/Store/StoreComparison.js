@@ -131,10 +131,10 @@ const StoreComparison = ({ setRedirect, setRedirectUrl, t }) => {
   const [reportingPeriodEnergyConsumptionInCategory1, setReportingPeriodEnergyConsumptionInCategory1] = useState(0);
   const [reportingPeriodEnergyConsumptionInCategory2, setReportingPeriodEnergyConsumptionInCategory2] = useState(0);
   const [reportingPeriodEnergyConsumptionInDifference, setReportingPeriodEnergyConsumptionInDifference] = useState(0);
-  const [equipmentLineChartData1, setStoreLineChartData1] = useState({ a0: [] });
-  const [equipmentLineChartData2, setStoreLineChartData2] = useState({ a0: [] });
-  const [equipmentLineChartLabels1, setStoreLineChartLabels1] = useState({ a0: [] });
-  const [equipmentLineChartLabels2, setStoreLineChartLabels2] = useState({ a0: [] });
+  const [storeChartData1, setStoreLineChartData1] = useState({ a0: [] });
+  const [storeChartData2, setStoreLineChartData2] = useState({ a0: [] });
+  const [storeChartLabels1, setStoreLineChartLabels1] = useState({ a0: [] });
+  const [storeChartLabels2, setStoreLineChartLabels2] = useState({ a0: [] });
   const [detailedDataTableColumns, setDetailedDataTableColumns] = useState([
     { dataField: 'startdatetime', text: t('Datetime'), sort: true }
   ]);
@@ -949,10 +949,10 @@ const StoreComparison = ({ setRedirect, setRedirectUrl, t }) => {
             VALUE: null,
             UNIT: { a0: '(' + energyCategory['unit_of_measure'] + ')' }
           }}
-          baseLabels={equipmentLineChartLabels1}
-          baseData={equipmentLineChartData1}
-          reportingLabels={equipmentLineChartLabels2}
-          reportingData={equipmentLineChartData2}
+          baseLabels={storeChartLabels1}
+          baseData={storeChartData1}
+          reportingLabels={storeChartLabels2}
+          reportingData={storeChartData2}
           rates={{ a0: [] }}
         />
         <br />

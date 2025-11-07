@@ -128,10 +128,10 @@ const SpaceComparison = ({ setRedirect, setRedirectUrl, t }) => {
   const [reportingPeriodEnergyConsumptionInCategory1, setReportingPeriodEnergyConsumptionInCategory1] = useState(0);
   const [reportingPeriodEnergyConsumptionInCategory2, setReportingPeriodEnergyConsumptionInCategory2] = useState(0);
   const [reportingPeriodEnergyConsumptionInDifference, setReportingPeriodEnergyConsumptionInDifference] = useState(0);
-  const [equipmentLineChartData1, setEquipmentLineChartData1] = useState({ a0: [] });
-  const [equipmentLineChartData2, setEquipmentLineChartData2] = useState({ a0: [] });
-  const [equipmentLineChartLabels1, setEquipmentLineChartLabels1] = useState({ a0: [] });
-  const [equipmentLineChartLabels2, setEquipmentLineChartLabels2] = useState({ a0: [] });
+  const [spaceLineChartData1, setSpaceLineChartData1] = useState({ a0: [] });
+  const [spaceLineChartData2, setSpaceLineChartData2] = useState({ a0: [] });
+  const [spaceLineChartLabels1, setSpaceLineChartLabels1] = useState({ a0: [] });
+  const [spaceLineChartLabels2, setSpaceLineChartLabels2] = useState({ a0: [] });
   const [detailedDataTableColumns, setDetailedDataTableColumns] = useState([
     { dataField: 'startdatetime', text: t('Datetime'), sort: true }
   ]);
@@ -360,23 +360,23 @@ const SpaceComparison = ({ setRedirect, setRedirectUrl, t }) => {
 
           let timestamps1 = {};
           timestamps1['a0'] = json['reporting_period1']['timestamps'];
-          setEquipmentLineChartLabels1(timestamps1);
+          setSpaceLineChartLabels1(timestamps1);
 
           let timestamps2 = {};
           timestamps2['a0'] = json['reporting_period2']['timestamps'];
-          setEquipmentLineChartLabels2(timestamps2);
+          setSpaceLineChartLabels2(timestamps2);
 
           let values1 = { a0: [] };
           json['reporting_period1']['values'].forEach((currentValue, index) => {
             values1['a0'][index] = currentValue === null ? null : currentValue.toFixed(2);
           });
-          setEquipmentLineChartData1(values1);
+          setSpaceLineChartData1(values1);
 
           let values2 = { a0: [] };
           json['reporting_period2']['values'].forEach((currentValue, index) => {
             values2['a0'][index] = currentValue === null ? null : currentValue.toFixed(2);
           });
-          setEquipmentLineChartData2(values2);
+          setSpaceLineChartData2(values2);
 
           setDetailedDataTableColumns([
             {
@@ -732,10 +732,10 @@ const SpaceComparison = ({ setRedirect, setRedirectUrl, t }) => {
             VALUE: null,
             UNIT: { a0: '(' + energyCategory['unit_of_measure'] + ')' }
           }}
-          baseLabels={equipmentLineChartLabels1}
-          baseData={equipmentLineChartData1}
-          reportingLabels={equipmentLineChartLabels2}
-          reportingData={equipmentLineChartData2}
+          baseLabels={spaceLineChartLabels1}
+          baseData={spaceLineChartData1}
+          reportingLabels={spaceLineChartLabels2}
+          reportingData={spaceLineChartData2}
           rates={{ a0: [] }}
         />
         <br />
