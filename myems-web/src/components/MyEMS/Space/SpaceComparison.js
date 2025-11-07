@@ -72,8 +72,7 @@ const SpaceComparison = ({ setRedirect, setRedirectUrl, t }) => {
   //Query Form
   const [selectedSpaceName1, setSelectedSpaceName1] = useState(undefined);
   const [selectedSpaceName2, setSelectedSpaceName2] = useState(undefined);
-  const [spaceList1, setSpaceList1] = useState([]);
-  const [spacetList2, setSpaceList2] = useState([]);
+
   const [selectedSpace1, setSelectedSpace1] = useState(undefined);
   const [selectedSpace2, setSelectedSpace2] = useState(undefined);
   const [energyCategoryList, setEnergyCategoryList] = useState([]);
@@ -169,51 +168,6 @@ const SpaceComparison = ({ setRedirect, setRedirectUrl, t }) => {
           setCascaderOptions(json);
           setSelectedSpaceName1([json[0]].map(o => o.label));
           setSelectedSpaceName2([json[0]].map(o => o.label));
-          let selectedSpaceID = [json[0]].map(o => o.value);
-          // get Equipments by root Space ID
-          let isResponseOK = false;
-          fetch(APIBaseURL + '/spaces/' + selectedSpaceID + '/spaces', {
-            method: 'GET',
-            headers: {
-              'Content-type': 'application/json',
-              'User-UUID': getCookieValue('user_uuid'),
-              Token: getCookieValue('token')
-            },
-            body: null
-          })
-            .then(response => {
-              if (response.ok) {
-                isResponseOK = true;
-              }
-              return response.json();
-            })
-            .then(json => {
-              if (isResponseOK) {
-                json = JSON.parse(
-                  JSON.stringify([json])
-                    .split('"id":')
-                    .join('"value":')
-                    .split('"name":')
-                    .join('"label":')
-                );
-
-                setSpaceList1(json[0]);
-                setSpaceList2(json[0]);
-                if (json[0].length > 0) {
-                  setSelectedSpace1(json[0][0].value);
-                  setSelectedSpace2(json[0][0].value);
-                } else {
-                  setSelectedSpace1(undefined);
-                  setSelectedSpace2(undefined);
-                }
-              } else {
-                toast.error(t(json.description));
-              }
-            })
-            .catch(err => {
-              console.log(err);
-            });
-          // end of get Equipments by root Space ID
         } else {
           toast.error(t(json.description));
         }

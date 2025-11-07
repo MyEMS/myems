@@ -84,7 +84,7 @@ def generate_excel(
 
     wb = Workbook()
     ws = wb.active
-    ws.title = "StoreComparison"
+    ws.title = "SpaceComparison"
     # Row height
     ws.row_dimensions[1].height = 102
     for i in range(2, 2000 + 1):
@@ -144,13 +144,13 @@ def generate_excel(
 
     # Title
     ws["B3"].alignment = b_r_alignment
-    ws["B3"] = _("Store") + "1:"
+    ws["B3"] = _("Space") + "1:"
     ws["C3"].border = b_border
     ws["C3"].alignment = b_c_alignment
     ws["C3"] = space1_name
 
     ws["D3"].alignment = b_r_alignment
-    ws["D3"] = _("Store") + "2:"
+    ws["D3"] = _("Space") + "2:"
     ws["E3"].border = b_border
     ws["E3"].alignment = b_c_alignment
     ws["E3"] = space2_name
@@ -522,7 +522,7 @@ def generate_excel(
 
         # Title
         parameters_ws["B3"].alignment = b_r_alignment
-        parameters_ws["B3"] = _("Store") + "1:"
+        parameters_ws["B3"] = _("Space") + "1:"
         parameters_ws["C3"].border = b_border
         parameters_ws["C3"].alignment = b_c_alignment
         parameters_ws["C3"] = space1_name
@@ -663,7 +663,7 @@ def generate_excel(
 
         # Title
         parameters_ws["B3"].alignment = b_r_alignment
-        parameters_ws["B3"] = _("Store") + "2:"
+        parameters_ws["B3"] = _("Space") + "2:"
         parameters_ws["C3"].border = b_border
         parameters_ws["C3"].alignment = b_c_alignment
         parameters_ws["C3"] = space2_name
