@@ -929,6 +929,7 @@ VALUES
 (113,'Production','/space/production',100,1),
 (114,'Enter Production','/space/enterproduction',100,1),
 (115,'Prediction','/space/prediction',100,1),
+(116,'Space Comparison','/space/comparison',100,0),
 (200,'Equipment Data','/equipment',NULL,0),
 (201,'Energy Category Data','/equipment/energycategory',200,0),
 (202,'Energy Item Data','/equipment/energyitem',200,0),
