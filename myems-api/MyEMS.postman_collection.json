@@ -1,9 +1,10 @@
 {
 	"info": {
-		"_postman_id": "85739821-6a0e-4777-a68a-f1ac46880af5",
+		"_postman_id": "e7371fc7-4c9b-4b8c-9ae3-ce5efa0a308b",
 		"name": "MyEMS",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "10906958"
+		"_exporter_id": "49878914",
+		"_collection_link": "https://zhanyujie200-5579729.postman.co/workspace/zhanyujie's-Workspace~53fe22a4-5f8d-4883-8ed9-6cdf8ae0118b/collection/49878914-e7371fc7-4c9b-4b8c-9ae3-ce5efa0a308b?action=share&source=collection_link&creator=49878914"
 	},
 	"item": [
 		{
@@ -26443,146 +26444,6 @@
 					"response": []
 				},
 				{
-					"name": "Combined Equipment Cost Report",
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "User-UUID",
-								"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
-								"description": "Any admin users' UUID"
-							},
-							{
-								"key": "Token",
-								"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
-								"description": "Login first to get a valid token"
-							},
-							{
-								"key": "API-Key",
-								"value": "c5ee62be2792ed4a59de1096511934288f4c192363529dafc00b3b35f81f224a5cc44c9aae46ac8966dc52f1ea0039395551bdf3f86aff6bb2b6b032834fc139",
-								"description": "Create API Key at myems-admin",
-								"disabled": true
-							}
-						],
-						"url": {
-							"raw": "{{base_url}}/reports/combinedequipmentcost?combinedequipmentid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"reports",
-								"combinedequipmentcost"
-							],
-							"query": [
-								{
-									"key": "combinedequipmentid",
-									"value": "1",
-									"description": "use id or uuid"
-								},
-								{
-									"key": "combinedequipmentuuid",
-									"value": "48aab70f-2e32-4518-9986-a6b7395acf58",
-									"description": "use id or uuid",
-									"disabled": true
-								},
-								{
-									"key": "periodtype",
-									"value": "daily"
-								},
-								{
-									"key": "baseperiodstartdatetime",
-									"value": "2020-08-01T00:00:00"
-								},
-								{
-									"key": "baseperiodenddatetime",
-									"value": "2020-09-01T00:00:00"
-								},
-								{
-									"key": "reportingperiodstartdatetime",
-									"value": "2020-09-01T00:00:00"
-								},
-								{
-									"key": "reportingperiodenddatetime",
-									"value": "2020-10-01T00:00:00"
-								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Combined Equipment Cost Report (Quick Mode)",
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "User-UUID",
-								"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
-								"description": "Any admin users' UUID"
-							},
-							{
-								"key": "Token",
-								"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
-								"description": "Login first to get a valid token"
-							},
-							{
-								"key": "API-Key",
-								"value": "c5ee62be2792ed4a59de1096511934288f4c192363529dafc00b3b35f81f224a5cc44c9aae46ac8966dc52f1ea0039395551bdf3f86aff6bb2b6b032834fc139",
-								"description": "Create API Key at myems-admin",
-								"disabled": true
-							}
-						],
-						"url": {
-							"raw": "{{base_url}}/reports/combinedequipmentcost?combinedequipmentid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00&quickmode=true",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"reports",
-								"combinedequipmentcost"
-							],
-							"query": [
-								{
-									"key": "combinedequipmentid",
-									"value": "1",
-									"description": "use id or uuid"
-								},
-								{
-									"key": "periodtype",
-									"value": "daily"
-								},
-								{
-									"key": "baseperiodstartdatetime",
-									"value": "2020-08-01T00:00:00"
-								},
-								{
-									"key": "baseperiodenddatetime",
-									"value": "2020-09-01T00:00:00"
-								},
-								{
-									"key": "reportingperiodstartdatetime",
-									"value": "2020-09-01T00:00:00"
-								},
-								{
-									"key": "reportingperiodenddatetime",
-									"value": "2020-10-01T00:00:00"
-								},
-								{
-									"key": "combinedequipmentuuid",
-									"value": "48aab70f-2e32-4518-9986-a6b7395acf58",
-									"description": "use id or uuid",
-									"disabled": true
-								},
-								{
-									"key": "quickmode",
-									"value": "true"
-								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
 					"name": "Combined Equipment Carbon Dioxide Emission Report",
 					"request": {
 						"method": "GET",
@@ -26712,6 +26573,293 @@
 								{
 									"key": "reportingperiodenddatetime",
 									"value": "2020-10-01T00:00:00"
+								},
+								{
+									"key": "quickmode",
+									"value": "true"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Combined Equipment comparison",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "User-UUID",
+								"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+								"description": "Any admin users' UUID"
+							},
+							{
+								"key": "Token",
+								"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+								"description": "Login first to get a valid token"
+							},
+							{
+								"key": "API-Key",
+								"value": "c5ee62be2792ed4a59de1096511934288f4c192363529dafc00b3b35f81f224a5cc44c9aae46ac8966dc52f1ea0039395551bdf3f86aff6bb2b6b032834fc139",
+								"description": "Create API Key at myems-admin",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/reports/combinedequipmentcomparison?combinedequipmentid1=1&combinedequipmentid2=2&reportingperiodstartdatetime=2025-10-01T00:00:00&reportingperiodenddatetime=2025-11-01T00:00:00&periodtype=hourly",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"reports",
+								"combinedequipmentcomparison"
+							],
+							"query": [
+								{
+									"key": "combinedequipmentid1",
+									"value": "1"
+								},
+								{
+									"key": "combinedequipmentid2",
+									"value": "2"
+								},
+								{
+									"key": "combinedequipmentuuid1",
+									"value": "f92c1673-b865-4e9c-ba20-6269b1196f64",
+									"description": "use combinedequipmentid or combinedequipmentuuid",
+									"disabled": true
+								},
+								{
+									"key": "combinedequipmentuuid2",
+									"value": "891f5275-186a-4a3c-8732-caf67b3884a5",
+									"description": "use combinedequipmentid or combinedequipmentuuid",
+									"disabled": true
+								},
+								{
+									"key": "reportingperiodstartdatetime",
+									"value": "2025-10-01T00:00:00"
+								},
+								{
+									"key": "reportingperiodenddatetime",
+									"value": "2025-11-01T00:00:00"
+								},
+								{
+									"key": "periodtype",
+									"value": "hourly"
+								},
+								{
+									"key": "quickmode",
+									"value": "false",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Combined Equipment comparison(Quick Mode)",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "User-UUID",
+								"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+								"description": "Any admin users' UUID"
+							},
+							{
+								"key": "Token",
+								"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+								"description": "Login first to get a valid token"
+							},
+							{
+								"key": "API-Key",
+								"value": "c5ee62be2792ed4a59de1096511934288f4c192363529dafc00b3b35f81f224a5cc44c9aae46ac8966dc52f1ea0039395551bdf3f86aff6bb2b6b032834fc139",
+								"description": "Create API Key at myems-admin",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/reports/combinedequipmentcomparison?combinedequipmentid1=1&combinedequipmentid2=2&reportingperiodstartdatetime=2025-10-01T00:00:00&reportingperiodenddatetime=2025-11-01T00:00:00&periodtype=hourly&quickmode=true",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"reports",
+								"combinedequipmentcomparison"
+							],
+							"query": [
+								{
+									"key": "combinedequipmentid1",
+									"value": "1"
+								},
+								{
+									"key": "combinedequipmentid2",
+									"value": "2"
+								},
+								{
+									"key": "combinedequipmentuuid1",
+									"value": "f92c1673-b865-4e9c-ba20-6269b1196f64",
+									"description": "use combinedequipmentid or combinedequipmentuuid",
+									"disabled": true
+								},
+								{
+									"key": "combinedequipmentuuid2",
+									"value": "891f5275-186a-4a3c-8732-caf67b3884a5",
+									"description": "use combinedequipmentid or combinedequipmentuuid",
+									"disabled": true
+								},
+								{
+									"key": "reportingperiodstartdatetime",
+									"value": "2025-10-01T00:00:00"
+								},
+								{
+									"key": "reportingperiodenddatetime",
+									"value": "2025-11-01T00:00:00"
+								},
+								{
+									"key": "periodtype",
+									"value": "hourly"
+								},
+								{
+									"key": "quickmode",
+									"value": "true"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Combined Equipment Cost Report",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "User-UUID",
+								"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+								"description": "Any admin users' UUID"
+							},
+							{
+								"key": "Token",
+								"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+								"description": "Login first to get a valid token"
+							},
+							{
+								"key": "API-Key",
+								"value": "c5ee62be2792ed4a59de1096511934288f4c192363529dafc00b3b35f81f224a5cc44c9aae46ac8966dc52f1ea0039395551bdf3f86aff6bb2b6b032834fc139",
+								"description": "Create API Key at myems-admin",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/reports/combinedequipmentcost?combinedequipmentid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"reports",
+								"combinedequipmentcost"
+							],
+							"query": [
+								{
+									"key": "combinedequipmentid",
+									"value": "1",
+									"description": "use id or uuid"
+								},
+								{
+									"key": "combinedequipmentuuid",
+									"value": "48aab70f-2e32-4518-9986-a6b7395acf58",
+									"description": "use id or uuid",
+									"disabled": true
+								},
+								{
+									"key": "periodtype",
+									"value": "daily"
+								},
+								{
+									"key": "baseperiodstartdatetime",
+									"value": "2020-08-01T00:00:00"
+								},
+								{
+									"key": "baseperiodenddatetime",
+									"value": "2020-09-01T00:00:00"
+								},
+								{
+									"key": "reportingperiodstartdatetime",
+									"value": "2020-09-01T00:00:00"
+								},
+								{
+									"key": "reportingperiodenddatetime",
+									"value": "2020-10-01T00:00:00"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Combined Equipment Cost Report (Quick Mode)",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "User-UUID",
+								"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+								"description": "Any admin users' UUID"
+							},
+							{
+								"key": "Token",
+								"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+								"description": "Login first to get a valid token"
+							},
+							{
+								"key": "API-Key",
+								"value": "c5ee62be2792ed4a59de1096511934288f4c192363529dafc00b3b35f81f224a5cc44c9aae46ac8966dc52f1ea0039395551bdf3f86aff6bb2b6b032834fc139",
+								"description": "Create API Key at myems-admin",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/reports/combinedequipmentcost?combinedequipmentid=1&periodtype=daily&baseperiodstartdatetime=2020-08-01T00:00:00&baseperiodenddatetime=2020-09-01T00:00:00&reportingperiodstartdatetime=2020-09-01T00:00:00&reportingperiodenddatetime=2020-10-01T00:00:00&quickmode=true",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"reports",
+								"combinedequipmentcost"
+							],
+							"query": [
+								{
+									"key": "combinedequipmentid",
+									"value": "1",
+									"description": "use id or uuid"
+								},
+								{
+									"key": "periodtype",
+									"value": "daily"
+								},
+								{
+									"key": "baseperiodstartdatetime",
+									"value": "2020-08-01T00:00:00"
+								},
+								{
+									"key": "baseperiodenddatetime",
+									"value": "2020-09-01T00:00:00"
+								},
+								{
+									"key": "reportingperiodstartdatetime",
+									"value": "2020-09-01T00:00:00"
+								},
+								{
+									"key": "reportingperiodenddatetime",
+									"value": "2020-10-01T00:00:00"
+								},
+								{
+									"key": "combinedequipmentuuid",
+									"value": "48aab70f-2e32-4518-9986-a6b7395acf58",
+									"description": "use id or uuid",
+									"disabled": true
 								},
 								{
 									"key": "quickmode",
@@ -28418,6 +28566,153 @@
 								{
 									"key": "reportingperiodenddatetime",
 									"value": "2020-11-01T00:00:00"
+								},
+								{
+									"key": "quickmode",
+									"value": "true"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Equipment comparison",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "User-UUID",
+								"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+								"description": "Any admin users' UUID"
+							},
+							{
+								"key": "Token",
+								"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+								"description": "Login first to get a valid token"
+							},
+							{
+								"key": "API-Key",
+								"value": "c5ee62be2792ed4a59de1096511934288f4c192363529dafc00b3b35f81f224a5cc44c9aae46ac8966dc52f1ea0039395551bdf3f86aff6bb2b6b032834fc139",
+								"description": "Create API Key at myems-admin",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/reports/equipmentcomparison?equipmentid1=1&equipmentid2=2&reportingperiodstartdatetime=2025-10-01T00:00:00&reportingperiodenddatetime=2025-11-01T00:00:00&periodtype=hourly",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"reports",
+								"equipmentcomparison"
+							],
+							"query": [
+								{
+									"key": "equipmentid1",
+									"value": "1"
+								},
+								{
+									"key": "equipmentid2",
+									"value": "2"
+								},
+								{
+									"key": "equipmentuuid1",
+									"value": "9969178d-ae9a-4ba4-88ef-a178449d87ab",
+									"description": "use equipmentid or equipmentuuid",
+									"disabled": true
+								},
+								{
+									"key": "equipmentuuid2",
+									"value": "84c3f080-c07a-4b9f-bf87-6041d4e46177",
+									"description": "use equipmentid or equipmentuuid",
+									"disabled": true
+								},
+								{
+									"key": "reportingperiodstartdatetime",
+									"value": "2025-10-01T00:00:00"
+								},
+								{
+									"key": "reportingperiodenddatetime",
+									"value": "2025-11-01T00:00:00"
+								},
+								{
+									"key": "periodtype",
+									"value": "hourly"
+								},
+								{
+									"key": "quickmode",
+									"value": "false",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Equipment comparison(Quick Mode)",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "User-UUID",
+								"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+								"description": "Any admin users' UUID"
+							},
+							{
+								"key": "Token",
+								"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+								"description": "Login first to get a valid token"
+							},
+							{
+								"key": "API-Key",
+								"value": "c5ee62be2792ed4a59de1096511934288f4c192363529dafc00b3b35f81f224a5cc44c9aae46ac8966dc52f1ea0039395551bdf3f86aff6bb2b6b032834fc139",
+								"description": "Create API Key at myems-admin",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/reports/equipmentcomparison?equipmentid1=1&equipmentid2=2&reportingperiodstartdatetime=2025-10-01T00:00:00&reportingperiodenddatetime=2025-11-01T00:00:00&periodtype=hourly&quickmode=true",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"reports",
+								"equipmentcomparison"
+							],
+							"query": [
+								{
+									"key": "equipmentid1",
+									"value": "1"
+								},
+								{
+									"key": "equipmentid2",
+									"value": "2"
+								},
+								{
+									"key": "equipmentuuid1",
+									"value": "9969178d-ae9a-4ba4-88ef-a178449d87ab",
+									"description": "use equipmentid or equipmentuuid",
+									"disabled": true
+								},
+								{
+									"key": "equipmentuuid2",
+									"value": "84c3f080-c07a-4b9f-bf87-6041d4e46177",
+									"description": "use equipmentid or equipmentuuid",
+									"disabled": true
+								},
+								{
+									"key": "reportingperiodstartdatetime",
+									"value": "2025-10-01T00:00:00"
+								},
+								{
+									"key": "reportingperiodenddatetime",
+									"value": "2025-11-01T00:00:00"
+								},
+								{
+									"key": "periodtype",
+									"value": "hourly"
 								},
 								{
 									"key": "quickmode",
@@ -32152,6 +32447,153 @@
 					"response": []
 				},
 				{
+					"name": "Shopfloor comparison",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "User-UUID",
+								"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+								"description": "Any admin users' UUID"
+							},
+							{
+								"key": "Token",
+								"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+								"description": "Login first to get a valid token"
+							},
+							{
+								"key": "API-Key",
+								"value": "c5ee62be2792ed4a59de1096511934288f4c192363529dafc00b3b35f81f224a5cc44c9aae46ac8966dc52f1ea0039395551bdf3f86aff6bb2b6b032834fc139",
+								"description": "Create API Key at myems-admin",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/reports/shopfloorcomparison?shopfloorid1=1&shopfloorid2=2&periodtype=hourly&reportingperiodstartdatetime=2025-10-01T00:00:00&reportingperiodenddatetime=2025-11-01T00:00:00",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"reports",
+								"shopfloorcomparison"
+							],
+							"query": [
+								{
+									"key": "shopfloorid1",
+									"value": "1"
+								},
+								{
+									"key": "shopfloorid2",
+									"value": "2"
+								},
+								{
+									"key": "quickmode",
+									"value": "false",
+									"disabled": true
+								},
+								{
+									"key": "shopflooruuid1",
+									"value": "4ce9e437-e1e4-4593-8054-ef1490fee971",
+									"description": "use shopfloorid or shopflooruuid",
+									"disabled": true
+								},
+								{
+									"key": "shopflooruuid2",
+									"value": "747832e7-5691-4f6d-bff6-82a1eace205a",
+									"description": "use shopfloorid or shopflooruuid",
+									"disabled": true
+								},
+								{
+									"key": "periodtype",
+									"value": "hourly"
+								},
+								{
+									"key": "reportingperiodstartdatetime",
+									"value": "2025-10-01T00:00:00"
+								},
+								{
+									"key": "reportingperiodenddatetime",
+									"value": "2025-11-01T00:00:00"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Shopfloor comparison(Quick Mode)",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "User-UUID",
+								"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+								"description": "Any admin users' UUID"
+							},
+							{
+								"key": "Token",
+								"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+								"description": "Login first to get a valid token"
+							},
+							{
+								"key": "API-Key",
+								"value": "c5ee62be2792ed4a59de1096511934288f4c192363529dafc00b3b35f81f224a5cc44c9aae46ac8966dc52f1ea0039395551bdf3f86aff6bb2b6b032834fc139",
+								"description": "Create API Key at myems-admin",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/reports/shopfloorcomparison?shopfloorid1=1&shopfloorid2=2&quickmode=true&periodtype=hourly&reportingperiodstartdatetime=2025-10-01T00:00:00&reportingperiodenddatetime=2025-11-01T00:00:00",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"reports",
+								"shopfloorcomparison"
+							],
+							"query": [
+								{
+									"key": "shopfloorid1",
+									"value": "1"
+								},
+								{
+									"key": "shopfloorid2",
+									"value": "2"
+								},
+								{
+									"key": "quickmode",
+									"value": "true"
+								},
+								{
+									"key": "shopflooruuid1",
+									"value": "4ce9e437-e1e4-4593-8054-ef1490fee971",
+									"description": "use shopfloorid or shopflooruuid",
+									"disabled": true
+								},
+								{
+									"key": "shopflooruuid2",
+									"value": "747832e7-5691-4f6d-bff6-82a1eace205a",
+									"description": "use shopfloorid or shopflooruuid",
+									"disabled": true
+								},
+								{
+									"key": "periodtype",
+									"value": "hourly"
+								},
+								{
+									"key": "reportingperiodstartdatetime",
+									"value": "2025-10-01T00:00:00"
+								},
+								{
+									"key": "reportingperiodenddatetime",
+									"value": "2025-11-01T00:00:00"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "Shopfloor Cost Report",
 					"request": {
 						"method": "GET",
@@ -34551,6 +34993,153 @@
 					"response": []
 				},
 				{
+					"name": "Store comparison",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "User-UUID",
+								"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+								"description": "Any admin users' UUID"
+							},
+							{
+								"key": "Token",
+								"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+								"description": "Login first to get a valid token"
+							},
+							{
+								"key": "API-Key",
+								"value": "c5ee62be2792ed4a59de1096511934288f4c192363529dafc00b3b35f81f224a5cc44c9aae46ac8966dc52f1ea0039395551bdf3f86aff6bb2b6b032834fc139",
+								"description": "Create API Key at myems-admin",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/reports/storecomparison?storeid1=1&storeid2=2&periodtype=hourly&reportingperiodstartdatetime=2025-10-01T00:00:00&reportingperiodenddatetime=2025-11-01T00:00:00",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"reports",
+								"storecomparison"
+							],
+							"query": [
+								{
+									"key": "storeid1",
+									"value": "1"
+								},
+								{
+									"key": "storeid2",
+									"value": "2"
+								},
+								{
+									"key": "quickmode",
+									"value": "false",
+									"disabled": true
+								},
+								{
+									"key": "storeuuid1",
+									"value": "27e46eff-8ac9-4e6d-9d3c-5d6ff10192ef",
+									"description": "use storeid or storeuuid",
+									"disabled": true
+								},
+								{
+									"key": "storeuuid2",
+									"value": "87ec4c27-b35b-4ddb-824d-472db37d1328",
+									"description": "use storeid or storeuuid",
+									"disabled": true
+								},
+								{
+									"key": "periodtype",
+									"value": "hourly"
+								},
+								{
+									"key": "reportingperiodstartdatetime",
+									"value": "2025-10-01T00:00:00"
+								},
+								{
+									"key": "reportingperiodenddatetime",
+									"value": "2025-11-01T00:00:00"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Store comparison(Quick Mode)",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "User-UUID",
+								"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+								"description": "Any admin users' UUID"
+							},
+							{
+								"key": "Token",
+								"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+								"description": "Login first to get a valid token"
+							},
+							{
+								"key": "API-Key",
+								"value": "c5ee62be2792ed4a59de1096511934288f4c192363529dafc00b3b35f81f224a5cc44c9aae46ac8966dc52f1ea0039395551bdf3f86aff6bb2b6b032834fc139",
+								"description": "Create API Key at myems-admin",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/reports/storecomparison?storeid1=1&storeid2=2&quickmode=true&periodtype=hourly&reportingperiodstartdatetime=2025-10-01T00:00:00&reportingperiodenddatetime=2025-11-01T00:00:00",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"reports",
+								"storecomparison"
+							],
+							"query": [
+								{
+									"key": "storeid1",
+									"value": "1"
+								},
+								{
+									"key": "storeid2",
+									"value": "2"
+								},
+								{
+									"key": "quickmode",
+									"value": "true"
+								},
+								{
+									"key": "storeuuid1",
+									"value": "27e46eff-8ac9-4e6d-9d3c-5d6ff10192ef",
+									"description": "use storeid or storeuuid",
+									"disabled": true
+								},
+								{
+									"key": "storeuuid2",
+									"value": "87ec4c27-b35b-4ddb-824d-472db37d1328",
+									"description": "use storeid or storeuuid",
+									"disabled": true
+								},
+								{
+									"key": "periodtype",
+									"value": "hourly"
+								},
+								{
+									"key": "reportingperiodstartdatetime",
+									"value": "2025-10-01T00:00:00"
+								},
+								{
+									"key": "reportingperiodenddatetime",
+									"value": "2025-11-01T00:00:00"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "Store Cost Report",
 					"request": {
 						"method": "GET",
@@ -35671,6 +36260,153 @@
 								{
 									"key": "reportingperiodenddatetime",
 									"value": "2020-11-01T00:00:00"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Tenant comparison",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "User-UUID",
+								"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+								"description": "Any admin users' UUID"
+							},
+							{
+								"key": "Token",
+								"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+								"description": "Login first to get a valid token"
+							},
+							{
+								"key": "API-Key",
+								"value": "c5ee62be2792ed4a59de1096511934288f4c192363529dafc00b3b35f81f224a5cc44c9aae46ac8966dc52f1ea0039395551bdf3f86aff6bb2b6b032834fc139",
+								"description": "Create API Key at myems-admin",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/reports/tenantcomparison?tenantid1=1&tenantid2=2&periodtype=hourly&reportingperiodstartdatetime=2025-10-01T00:00:00&reportingperiodenddatetime=2025-11-01T00:00:00",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"reports",
+								"tenantcomparison"
+							],
+							"query": [
+								{
+									"key": "tenantid1",
+									"value": "1"
+								},
+								{
+									"key": "tenantid2",
+									"value": "2"
+								},
+								{
+									"key": "quickmode",
+									"value": "false",
+									"disabled": true
+								},
+								{
+									"key": "tenantuuid1",
+									"value": "2e69055a-9272-43b5-aa49-b7038c716053",
+									"description": "use tenantid or tenantuuid",
+									"disabled": true
+								},
+								{
+									"key": "tenantuuid2",
+									"value": "b8e8a287-52fd-48a7-a66b-3eb537165f3e",
+									"description": "use tenantid or tenantuuid",
+									"disabled": true
+								},
+								{
+									"key": "periodtype",
+									"value": "hourly"
+								},
+								{
+									"key": "reportingperiodstartdatetime",
+									"value": "2025-10-01T00:00:00"
+								},
+								{
+									"key": "reportingperiodenddatetime",
+									"value": "2025-11-01T00:00:00"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Tenant comparison(Quick Mode)",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "User-UUID",
+								"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+								"description": "Any admin users' UUID"
+							},
+							{
+								"key": "Token",
+								"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+								"description": "Login first to get a valid token"
+							},
+							{
+								"key": "API-Key",
+								"value": "c5ee62be2792ed4a59de1096511934288f4c192363529dafc00b3b35f81f224a5cc44c9aae46ac8966dc52f1ea0039395551bdf3f86aff6bb2b6b032834fc139",
+								"description": "Create API Key at myems-admin",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/reports/tenantcomparison?tenantid1=1&tenantid2=2&quickmode=true&periodtype=hourly&reportingperiodstartdatetime=2025-10-01T00:00:00&reportingperiodenddatetime=2025-11-01T00:00:00",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"reports",
+								"tenantcomparison"
+							],
+							"query": [
+								{
+									"key": "tenantid1",
+									"value": "1"
+								},
+								{
+									"key": "tenantid2",
+									"value": "2"
+								},
+								{
+									"key": "quickmode",
+									"value": "true"
+								},
+								{
+									"key": "tenantuuid1",
+									"value": "2e69055a-9272-43b5-aa49-b7038c716053",
+									"description": "use tenantid or tenantuuid",
+									"disabled": true
+								},
+								{
+									"key": "tenantuuid2",
+									"value": "b8e8a287-52fd-48a7-a66b-3eb537165f3e",
+									"description": "use tenantid or tenantuuid",
+									"disabled": true
+								},
+								{
+									"key": "periodtype",
+									"value": "hourly"
+								},
+								{
+									"key": "reportingperiodstartdatetime",
+									"value": "2025-10-01T00:00:00"
+								},
+								{
+									"key": "reportingperiodenddatetime",
+									"value": "2025-11-01T00:00:00"
 								}
 							]
 						}
@@ -36868,6 +37604,153 @@
 								{
 									"key": "quickmode",
 									"value": "true"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Virtual Meter comparison",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "User-UUID",
+								"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+								"description": "Any admin users' UUID"
+							},
+							{
+								"key": "Token",
+								"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+								"description": "Login first to get a valid token"
+							},
+							{
+								"key": "API-Key",
+								"value": "c5ee62be2792ed4a59de1096511934288f4c192363529dafc00b3b35f81f224a5cc44c9aae46ac8966dc52f1ea0039395551bdf3f86aff6bb2b6b032834fc139",
+								"description": "Create API Key at myems-admin",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/reports/virtualmetercomparison?virtualmeterid1=1&virtualmeterid2=2&periodtype=hourly&reportingperiodstartdatetime=2025-10-01T00:00:00&reportingperiodenddatetime=2025-11-01T00:00:00",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"reports",
+								"virtualmetercomparison"
+							],
+							"query": [
+								{
+									"key": "virtualmeterid1",
+									"value": "1"
+								},
+								{
+									"key": "virtualmeterid2",
+									"value": "2"
+								},
+								{
+									"key": "quickmode",
+									"value": "false",
+									"disabled": true
+								},
+								{
+									"key": "virtualmeteruuid1",
+									"value": "64943615-655a-41d7-b5cf-f105eec8d341",
+									"description": "use virtualmeterid or virtualmeteruuid",
+									"disabled": true
+								},
+								{
+									"key": "virtualmeteruuid2",
+									"value": "7dc3fec5-d0b5-4d0c-a26d-4dc42fbd62f6",
+									"description": "use virtualmeterid or virtualmeteruuid",
+									"disabled": true
+								},
+								{
+									"key": "periodtype",
+									"value": "hourly"
+								},
+								{
+									"key": "reportingperiodstartdatetime",
+									"value": "2025-10-01T00:00:00"
+								},
+								{
+									"key": "reportingperiodenddatetime",
+									"value": "2025-11-01T00:00:00"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Virtual Meter comparison(Quick Mode)",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "User-UUID",
+								"value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+								"description": "Any admin users' UUID"
+							},
+							{
+								"key": "Token",
+								"value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+								"description": "Login first to get a valid token"
+							},
+							{
+								"key": "API-Key",
+								"value": "c5ee62be2792ed4a59de1096511934288f4c192363529dafc00b3b35f81f224a5cc44c9aae46ac8966dc52f1ea0039395551bdf3f86aff6bb2b6b032834fc139",
+								"description": "Create API Key at myems-admin",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/reports/virtualmetercomparison?virtualmeterid1=1&virtualmeterid2=2&quickmode=true&periodtype=hourly&reportingperiodstartdatetime=2025-10-01T00:00:00&reportingperiodenddatetime=2025-11-01T00:00:00",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"reports",
+								"virtualmetercomparison"
+							],
+							"query": [
+								{
+									"key": "virtualmeterid1",
+									"value": "1"
+								},
+								{
+									"key": "virtualmeterid2",
+									"value": "2"
+								},
+								{
+									"key": "quickmode",
+									"value": "true"
+								},
+								{
+									"key": "virtualmeteruuid1",
+									"value": "64943615-655a-41d7-b5cf-f105eec8d341",
+									"description": "use virtualmeterid or virtualmeteruuid",
+									"disabled": true
+								},
+								{
+									"key": "virtualmeteruuid2",
+									"value": "7dc3fec5-d0b5-4d0c-a26d-4dc42fbd62f6",
+									"description": "use virtualmeterid or virtualmeteruuid",
+									"disabled": true
+								},
+								{
+									"key": "periodtype",
+									"value": "hourly"
+								},
+								{
+									"key": "reportingperiodstartdatetime",
+									"value": "2025-10-01T00:00:00"
+								},
+								{
+									"key": "reportingperiodenddatetime",
+									"value": "2025-11-01T00:00:00"
 								}
 							]
 						}
