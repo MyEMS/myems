@@ -11,6 +11,7 @@ app.controller('CombinedEquipmentParameterController', function (
     OfflineMeterService,
     CombinedEquipmentParameterService,
     CombinedEquipmentService,
+    CombinedEquipmentDataSourceService,
     PointService,
     toaster,
     SweetAlert) {
@@ -39,6 +40,7 @@ app.controller('CombinedEquipmentParameterController', function (
 		$scope.currentCombinedEquipment.selected = model;
 		$scope.is_show_add_parameter = true;
 		$scope.getParametersByCombinedEquipmentID($scope.currentCombinedEquipment.id);
+		$scope.getPointsByCombinedEquipmentID($scope.currentCombinedEquipment.id);
 	};
 
 	$scope.getParametersByCombinedEquipmentID = function (id) {
@@ -278,11 +280,25 @@ app.controller('CombinedEquipmentParameterController', function (
 				$scope.points = [];
 			}
 		});
+	};
 
+	$scope.getPointsByCombinedEquipmentID = function (id) {
+		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+		// 先尝试获取数据源绑定的数据点
+		CombinedEquipmentDataSourceService.getDataSourcePointsByCombinedEquipmentID(id, headers, function (response) {
+			if (angular.isDefined(response.status) && response.status === 200 && response.data.length > 0) {
+				// 如果有绑定的数据源，使用数据源的数据点
+				$scope.points = response.data;
+			} else {
+				// 如果没有绑定数据源，或者数据源没有数据点，则查询系统全部数据点（向后兼容）
+				$scope.getAllPoints();
+			}
+		});
 	};
 
 	$scope.getAllCombinedEquipments();
 	$scope.getMergedMeters();
+	// 初始化时加载全部数据点，当选择组合设备后会根据数据源过滤
 	$scope.getAllPoints();
 
 	$scope.$on('handleBroadcastCombinedEquipmentChanged', function (event) {
