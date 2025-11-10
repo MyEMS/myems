@@ -179,7 +179,6 @@ const SpaceCarbon = ({ setRedirect, setRedirectUrl, t }) => {
       // Reinitialize tables
       setDetailedDataTableData([]);
       setChildSpacesTableData([]);
-
       let isResponseOK = false;
       fetch(
         APIBaseURL +
@@ -711,6 +710,8 @@ const SpaceCarbon = ({ setRedirect, setRedirectUrl, t }) => {
     },
     [
       periodType,
+      basePeriodDateRange,
+      reportingPeriodDateRange,
       language,
       setSubmitButtonDisabled,
       setSpinnerHidden,

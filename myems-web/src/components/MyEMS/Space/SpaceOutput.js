@@ -519,6 +519,8 @@ const SpaceOutput = ({ setRedirect, setRedirectUrl, t }) => {
     },
     [
       periodType,
+      basePeriodDateRange,
+      reportingPeriodDateRange,
       language,
       setSubmitButtonDisabled,
       setSpinnerHidden,
