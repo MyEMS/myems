@@ -659,6 +659,15 @@ class EquipmentParameterCollection:
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()
 
+        cursor.execute(" SELECT id "
+                       " FROM tbl_equipments_data_sources "
+                       " WHERE equipment_id = %s ", (id_,))
+        rows = cursor.fetchall()
+        if rows is not None and len(rows) > 0:
+            is_bind_data_source = True
+        else:
+            is_bind_data_source = False
+        
         cursor.execute(" SELECT name "
                        " FROM tbl_equipments "
                        " WHERE id = %s ", (id_,))
@@ -726,6 +735,8 @@ class EquipmentParameterCollection:
         cursor.execute(query, (id_, ))
         rows_parameters = cursor.fetchall()
 
+        last_index = 0
+        is_finish_get_data = False
         result = list()
         if rows_parameters is not None and len(rows_parameters) > 0:
             for row in rows_parameters:
@@ -734,6 +745,12 @@ class EquipmentParameterCollection:
                 numerator_meter = None
                 denominator_meter = None
                 if row[2] == 'point':
+                    if is_bind_data_source == True:
+                        continue
+                    if is_finish_get_data == False:
+                        is_finish_get_data = True
+                    else:
+                        continue
                     point = point_dict.get(row[4], None)
                     constant = None
                     numerator_meter = None
@@ -767,6 +784,25 @@ class EquipmentParameterCollection:
                                "numerator_meter": numerator_meter,
                                "denominator_meter": denominator_meter}
                 result.append(meta_result)
+                last_index = meta_result['id']
+
+            if is_bind_data_source == True:
+                cursor.execute(" SELECT id, name FROM tbl_points ORDER BY id ")
+                rows = cursor.fetchall()
+                result_points = list()
+                last_index = last_index + 1
+                if rows is not None and len(rows) > 0:
+                    for row in rows:
+                        point = point_dict.get(row[0], None)
+                        meta_result = {"id": last_index,
+                                       "name": None,
+                                       "parameter_type": 'point',
+                                       "constant": None,
+                                       "point": point,
+                                       "numerator_meter": None,
+                                       "denominator_meter": None}
+                        result.append(meta_result)
+                        last_index = last_index + 1
 
         cursor.close()
         cnx.close()
@@ -3231,3 +3267,172 @@ class EquipmentClone:
 
             resp.status = falcon.HTTP_201
             resp.location = '/equipments/' + str(new_id)
+
+class EquipmentDataSourceCollection:
+    def __init__(self):
+        pass
+
+    @staticmethod
+    def on_options(req, resp, id_):
+        _ = req
+        _ = id_
+        resp.status = falcon.HTTP_200
+
+    @staticmethod
+    def on_get(req, resp, id_):
+        if 'API-KEY' not in req.headers or \
+                not isinstance(req.headers['API-KEY'], str) or \
+                len(str.strip(req.headers['API-KEY'])) == 0:
+            access_control(req)
+        else:
+            api_key_control(req)
+
+        if not id_.isdigit() or int(id_) <= 0:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_EQUIPMENT_ID')
+
+        cnx = mysql.connector.connect(**config.myems_system_db)
+        cursor = cnx.cursor()
+
+        cursor.execute(" SELECT name FROM tbl_equipments WHERE id = %s ", (id_,))
+        if cursor.fetchone() is None:
+            cursor.close()
+            cnx.close()
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                   description='API.EQUIPMENT_NOT_FOUND')
+
+        query = (" SELECT ds.id, ds.name, ds.uuid "
+                 " FROM tbl_equipments e, tbl_equipments_data_sources eds, tbl_data_sources ds "
+                 " WHERE eds.equipment_id = e.id AND ds.id = eds.data_source_id AND e.id = %s "
+                 " ORDER BY ds.id ")
+        cursor.execute(query, (id_,))
+        rows = cursor.fetchall()
+
+        result = list()
+        if rows is not None and len(rows) > 0:
+            for row in rows:
+                meta_result = {"id": row[0], "name": row[1], "uuid": row[2]}
+                result.append(meta_result)
+
+        cursor.close()
+        cnx.close()
+
+        resp.text = json.dumps(result)
+
+    @staticmethod
+    @user_logger
+    def on_post(req, resp, id_):
+        admin_control(req)
+        try:
+            raw_json = req.stream.read().decode('utf-8')
+        except Exception as ex:
+            raise falcon.HTTPError(status=falcon.HTTP_400,
+                                   title='API.BAD_REQUEST',
+                                   description='API.FAILED_TO_READ_REQUEST_STREAM')
+
+        if not id_.isdigit() or int(id_) <= 0:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_EQUIPMENT_ID')
+
+        new_values = json.loads(raw_json)
+
+        if 'data_source_id' not in new_values['data'].keys() or \
+                not isinstance(new_values['data']['data_source_id'], int) or \
+                new_values['data']['data_source_id'] <= 0:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_DATA_SOURCE_ID')
+
+        data_source_id = new_values['data']['data_source_id']
+
+        cnx = mysql.connector.connect(**config.myems_system_db)
+        cursor = cnx.cursor()
+
+        cursor.execute(" SELECT name FROM tbl_equipments WHERE id = %s ", (id_,))
+        if cursor.fetchone() is None:
+            cursor.close()
+            cnx.close()
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                   description='API.EQUIPMENT_NOT_FOUND')
+
+        cursor.execute(" SELECT name FROM tbl_data_sources WHERE id = %s ", (data_source_id,))
+        if cursor.fetchone() is None:
+            cursor.close()
+            cnx.close()
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                   description='API.DATA_SOURCE_NOT_FOUND')
+
+        cursor.execute(" SELECT id "
+                       " FROM tbl_equipments_data_sources "
+                       " WHERE equipment_id = %s AND data_source_id = %s", (id_, data_source_id))
+        if cursor.fetchone() is not None:
+            cursor.close()
+            cnx.close()
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR',
+                                   description='API.EQUIPMENT_DATA_SOURCE_RELATION_EXISTS')
+
+        cursor.execute(" INSERT INTO tbl_equipments_data_sources (equipment_id, data_source_id) "
+                       " VALUES (%s, %s) ", (id_, data_source_id))
+        cnx.commit()
+        cursor.close()
+        cnx.close()
+
+        resp.status = falcon.HTTP_201
+        resp.location = '/equipments/' + str(id_) + '/datasources/' + str(data_source_id)
+
+class EquipmentDataSourceItem:
+    def __init__(self):
+        pass
+
+    @staticmethod
+    def on_options(req, resp, id_, dsid):
+        _ = req
+        _ = id_
+        _ = dsid
+        resp.status = falcon.HTTP_200
+
+    @staticmethod
+    @user_logger
+    def on_delete(req, resp, id_, dsid):
+        admin_control(req)
+
+        if not id_.isdigit() or int(id_) <= 0:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_EQUIPMENT_ID')
+
+        if not dsid.isdigit() or int(dsid) <= 0:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_DATA_SOURCE_ID')
+
+        cnx = mysql.connector.connect(**config.myems_system_db)
+        cursor = cnx.cursor()
+
+        cursor.execute(" SELECT name FROM tbl_equipments WHERE id = %s ", (id_,))
+        if cursor.fetchone() is None:
+            cursor.close()
+            cnx.close()
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                   description='API.EQUIPMENT_NOT_FOUND')
+
+        cursor.execute(" SELECT name FROM tbl_data_sources WHERE id = %s ", (dsid,))
+        if cursor.fetchone() is None:
+            cursor.close()
+            cnx.close()
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                   description='API.DATA_SOURCE_NOT_FOUND')
+
+        cursor.execute(" SELECT id "
+                       " FROM tbl_equipments_data_sources "
+                       " WHERE equipment_id = %s AND data_source_id = %s ", (id_, dsid))
+        if cursor.fetchone() is None:
+            cursor.close()
+            cnx.close()
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                   description='API.EQUIPMENT_DATA_SOURCE_RELATION_NOT_FOUND')
+
+        cursor.execute(" DELETE FROM tbl_equipments_data_sources "
+                       " WHERE equipment_id = %s AND data_source_id = %s ", (id_, dsid))
+        cnx.commit()
+        cursor.close()
+        cnx.close()
+
+        resp.status = falcon.HTTP_204
