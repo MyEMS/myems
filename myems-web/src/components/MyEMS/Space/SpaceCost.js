@@ -711,6 +711,8 @@ const SpaceCost = ({ setRedirect, setRedirectUrl, t }) => {
     },
     [
       periodType,
+      basePeriodDateRange,
+      reportingPeriodDateRange,
       language,
       setSubmitButtonDisabled,
       setSpinnerHidden,
