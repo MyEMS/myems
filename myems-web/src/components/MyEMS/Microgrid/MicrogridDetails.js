@@ -1,5 +1,6 @@
 import React, { Fragment, useState, useEffect, useContext } from 'react';
-import { Card, CardBody, Col, Row, Table, Nav, NavItem, NavLink, TabContent, TabPane } from 'reactstrap';
+import { Card, CardBody, Col, Row, Table, Nav, NavItem, NavLink, TabContent, TabPane, Button, Form, FormGroup, Input, CustomInput, Spinner } from 'reactstrap';
+import Cascader from 'rc-cascader';
 import MultipleLineChart from '../common/MultipleLineChart';
 import SectionLineChart from '../common/SectionLineChart';
 import { getCookieValue, createCookie, checkEmpty } from '../../../helpers/utils';
@@ -14,6 +15,7 @@ import DetailsTable from './DetailsTable';
 import { isIterableArray } from '../../../helpers/utils';
 import classNames from 'classnames';
 import AppContext from '../../../context/Context';
+import blankPage from '../../../assets/img/generic/blank-page.png';
 
 const MicrogridDetails = ({ setRedirect, setRedirectUrl, t }) => {
   const location = useLocation();
@@ -65,7 +67,59 @@ const MicrogridDetails = ({ setRedirect, setRedirectUrl, t }) => {
     if (activeTabBottom !== tab) setActiveTabBottom(tab);
   };
 
-  // State
+  // Fullscreen state
+  const [isFullscreen, setIsFullscreen] = useState(false);
+  const toggleFullscreen = () => {
+    setIsFullscreen(!isFullscreen);
+  };
+
+  // Bottom section pinned to top state
+  const [isBottomSectionPinned, setIsBottomSectionPinned] = useState(false);
+  const toggleBottomSectionPin = () => {
+    setIsBottomSectionPinned(!isBottomSectionPinned);
+  };
+
+  // Check if current tab has data
+  const hasTabData = () => {
+    switch (activeTabBottom) {
+      case '1':
+        return parameterLineChartLabels && Object.keys(parameterLineChartLabels).length > 0 &&
+               parameterLineChartData && Object.keys(parameterLineChartData).length > 0;
+      case '2':
+        return scheduleXaxisData && scheduleXaxisData.length > 0 &&
+               scheduleSeriesData && scheduleSeriesData.length > 0;
+      case '3':
+        return true; // Table always has structure
+      case '4':
+        return isIterableArray(PCSDetailsList) && PCSDetailsList.length > 0;
+      case '5':
+        return isIterableArray(BMSDetailsList) && BMSDetailsList.length > 0;
+      case '6':
+        return isIterableArray(PVDetailsList) && PVDetailsList.length > 0;
+      case '7':
+        return isIterableArray(EVChargerDetailsList) && EVChargerDetailsList.length > 0;
+      case '8':
+        return isIterableArray(GeneratorDetailsList) && GeneratorDetailsList.length > 0;
+      case '9':
+        return isIterableArray(GridDetailsList) && GridDetailsList.length > 0;
+      case '10':
+        return isIterableArray(LoadDetailsList) && LoadDetailsList.length > 0;
+      case '11':
+        return isIterableArray(HeatpumpDetailsList) && HeatpumpDetailsList.length > 0;
+      default:
+        return false;
+    }
+  };
+
+  // State for space selection
+  const [selectedSpaceName, setSelectedSpaceName] = useState(undefined);
+  const [microgridList, setMicrogridList] = useState([]);
+  const [filteredMicrogridList, setFilteredMicrogridList] = useState([]);
+  const [selectedMicrogrid, setSelectedMicrogrid] = useState(undefined);
+  const [cascaderOptions, setCascaderOptions] = useState(undefined);
+  const [spaceCascaderHidden, setSpaceCascaderHidden] = useState(false);
+  const [spinnerHidden, setSpinnerHidden] = useState(true);
+  const [resultDataHidden, setResultDataHidden] = useState(true);
 
   //Results
 
@@ -115,8 +169,105 @@ const MicrogridDetails = ({ setRedirect, setRedirectUrl, t }) => {
   const [HeatpumpDetailsList, setHeatpumpDetailsList] = useState([]);
 
   useEffect(() => {
+    if (microgridUUID === null || !microgridUUID) {
+      // No UUID, show space selector
+      let isResponseOK = false;
+      setSpaceCascaderHidden(false);
+      fetch(APIBaseURL + '/spaces/tree', {
+        method: 'GET',
+        headers: {
+          'Content-type': 'application/json',
+          'User-UUID': getCookieValue('user_uuid'),
+          Token: getCookieValue('token')
+        },
+        body: null
+      })
+        .then(response => {
+          if (response.ok) {
+            isResponseOK = true;
+          }
+          return response.json();
+        })
+        .then(json => {
+          if (isResponseOK) {
+            // rename keys
+            json = JSON.parse(
+              JSON.stringify([json])
+                .split('"id":')
+                .join('"value":')
+                .split('"name":')
+                .join('"label":')
+            );
+            setCascaderOptions(json);
+            setSelectedSpaceName([json[0]].map(o => o.label));
+            let selectedSpaceID = [json[0]].map(o => o.value);
+            // get Microgrids by root Space ID
+            let isResponseOK = false;
+            fetch(APIBaseURL + '/spaces/' + selectedSpaceID + '/microgrids', {
+              method: 'GET',
+              headers: {
+                'Content-type': 'application/json',
+                'User-UUID': getCookieValue('user_uuid'),
+                Token: getCookieValue('token')
+              },
+              body: null
+            })
+              .then(response => {
+                if (response.ok) {
+                  isResponseOK = true;
+                }
+                return response.json();
+              })
+              .then(json => {
+                if (isResponseOK) {
+                  json = JSON.parse(
+                    JSON.stringify([json])
+                      .split('"id":')
+                      .join('"value":')
+                      .split('"name":')
+                      .join('"label":')
+                  );
+                  setMicrogridList(json[0]);
+                  setFilteredMicrogridList(json[0]);
+                  if (json[0].length > 0) {
+                    // select the first microgrid
+                    let microgridID = json[0][0].value;
+                    setSelectedMicrogrid(microgridID);
+                    // automatically submit with the first microgrid
+                    loadData(APIBaseURL + '/reports/microgriddetails?id=' + microgridID);
+                  } else {
+                    setSelectedMicrogrid(undefined);
+                    setResultDataHidden(true);
+                  }
+                } else {
+                  toast.error(t(json.description));
+                }
+              })
+              .catch(err => {
+                console.log(err);
+              });
+            // end of get Microgrids by root Space ID
+          } else {
+            toast.error(t(json.description));
+          }
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    } else {
+      setSpaceCascaderHidden(true);
+      loadData(APIBaseURL + '/reports/microgriddetails?uuid=' + microgridUUID);
+    }
+  }, [microgridUUID]);
+
+  const loadData = url => {
+    // show spinner
+    setSpinnerHidden(false);
+    // hide result data
+    setResultDataHidden(true);
+
     let isResponseOK = false;
-    fetch(APIBaseURL + '/reports/microgriddetails?uuid=' + microgridUUID, {
+    fetch(url, {
       method: 'GET',
       headers: {
         'Content-type': 'application/json',
@@ -133,6 +284,12 @@ const MicrogridDetails = ({ setRedirect, setRedirectUrl, t }) => {
       })
       .then(json => {
         if (isResponseOK) {
+          if (microgridUUID !== null && microgridUUID) {
+            setFilteredMicrogridList([
+              { id: json['microgrid']['id'], label: json['microgrid']['name'] }
+            ]);
+            setSelectedMicrogrid(json['microgrid']['id']);
+          }
           console.log(json);
           setMicrogridID(json['microgrid']['id']);
           setMicrogridName(json['microgrid']['name']);
@@ -250,12 +407,77 @@ const MicrogridDetails = ({ setRedirect, setRedirectUrl, t }) => {
             names.push({ value: 'a' + index, label: currentValue });
           });
           setParameterLineChartOptions(names);
+          // hide spinner
+          setSpinnerHidden(true);
+          // show result data
+          setResultDataHidden(false);
+        } else {
+          toast.error(t(json.description));
+          // hide spinner
+          setSpinnerHidden(true);
+        }
+      })
+      .catch(err => {
+        console.log(err);
+        // hide spinner
+        setSpinnerHidden(true);
+      });
+  };
+
+  const onSpaceCascaderChange = (value, selectedOptions) => {
+    setSelectedSpaceName(selectedOptions.map(o => o.label).join('/'));
+    let selectedSpaceID = value[value.length - 1];
+    let isResponseOK = false;
+    fetch(APIBaseURL + '/spaces/' + selectedSpaceID + '/microgrids', {
+      method: 'GET',
+      headers: {
+        'Content-type': 'application/json',
+        'User-UUID': getCookieValue('user_uuid'),
+        Token: getCookieValue('token')
+      },
+      body: null
+    })
+      .then(response => {
+        if (response.ok) {
+          isResponseOK = true;
+        }
+        return response.json();
+      })
+      .then(json => {
+        if (isResponseOK) {
+          json = JSON.parse(
+            JSON.stringify([json])
+              .split('"id":')
+              .join('"value":')
+              .split('"name":')
+              .join('"label":')
+          );
+          setMicrogridList(json[0]);
+          setFilteredMicrogridList(json[0]);
+          if (json[0].length > 0) {
+            // select the first microgrid
+            let microgridID = json[0][0].value;
+            setSelectedMicrogrid(microgridID);
+            // automatically submit with the first microgrid
+            loadData(APIBaseURL + '/reports/microgriddetails?id=' + microgridID);
+          } else {
+            setSelectedMicrogrid(undefined);
+            setResultDataHidden(true);
+          }
+        } else {
+          toast.error(t(json.description));
         }
       })
       .catch(err => {
         console.log(err);
       });
-  }, []);
+  };
+
+  const onMicrogridChange = event => {
+    let microgridID = event.target.value;
+    setSelectedMicrogrid(microgridID);
+    loadData(APIBaseURL + '/reports/microgriddetails?id=' + microgridID);
+  };
 
   const labelClasses = 'ls text-uppercase text-600 font-weight-semi-bold mb-0';
 
@@ -551,6 +773,47 @@ const MicrogridDetails = ({ setRedirect, setRedirectUrl, t }) => {
 
   return (
     <Fragment>
+      <Form>
+        <Row form>
+          <Col xs={6} sm={3} hidden={spaceCascaderHidden}>
+            <FormGroup className="form-group">
+              <Cascader options={cascaderOptions} onChange={onSpaceCascaderChange} changeOnSelect expandTrigger="hover">
+                <Input bsSize="sm" value={selectedSpaceName || ''} readOnly />
+              </Cascader>
+            </FormGroup>
+          </Col>
+          <Col xs="auto">
+            <FormGroup>
+              <Form inline>
+                <CustomInput
+                  type="select"
+                  id="microgridSelect"
+                  name="microgridSelect"
+                  bsSize="sm"
+                  onChange={onMicrogridChange}
+                  value={selectedMicrogrid || ''}
+                >
+                  <option value="">{t('Select Microgrid')}</option>
+                  {filteredMicrogridList.map((microgrid, index) => (
+                    <option value={microgrid.value} key={index}>
+                      {microgrid.label}
+                    </option>
+                  ))}
+                </CustomInput>
+              </Form>
+            </FormGroup>
+          </Col>
+          <Col xs="auto">
+            <FormGroup>
+              <Spinner color="primary" hidden={spinnerHidden} />
+            </FormGroup>
+          </Col>
+        </Row>
+      </Form>
+      <div style={{ visibility: resultDataHidden ? 'visible' : 'hidden', display: resultDataHidden ? '' : 'none' }}>
+        <img className="img-fluid" src={blankPage} alt="" />
+      </div>
+      <div style={{ visibility: resultDataHidden ? 'hidden' : 'visible', display: resultDataHidden ? 'none' : '' }}>
       <Row noGutters>
         <Col lg="3" className="pr-lg-2">
           <Nav tabs>
@@ -613,7 +876,7 @@ const MicrogridDetails = ({ setRedirect, setRedirectUrl, t }) => {
                           <th className="pr-0 text-right">{totalEfficiency}%</th>
                         </tr>
                         <tr className="border-bottom">
-                          <th className="pl-0 pb-0">Discharge Achievement Rate</th>
+                          <th className="pl-0 pb-0">{t('Discharge Achievement Rate')}</th>
                           <th className="pr-0 text-right">
                             {((100 * todayDischargeEnergyValue) / microgridRatedCapacity).toFixed(2)}%
                           </th>
@@ -715,7 +978,53 @@ const MicrogridDetails = ({ setRedirect, setRedirectUrl, t }) => {
           </TabContent>
         </Col>
         <Col lg="6" className="pr-lg-2" key={uuid()}>
-          <div dangerouslySetInnerHTML={microgridSVG} />
+          <div
+            style={{
+              position: isFullscreen ? 'fixed' : 'relative',
+              top: isFullscreen ? 0 : 'auto',
+              left: isFullscreen ? 0 : 'auto',
+              width: isFullscreen ? '100vw' : '100%',
+              height: isFullscreen ? '100vh' : 'auto',
+              backgroundColor: isFullscreen ? '#fff' : 'transparent',
+              zIndex: isFullscreen ? 9999 : 'auto',
+              display: isFullscreen ? 'flex' : 'block',
+              alignItems: isFullscreen ? 'center' : 'flex-start',
+              justifyContent: isFullscreen ? 'center' : 'flex-start',
+              overflow: isFullscreen ? 'auto' : 'visible',
+              padding: isFullscreen ? '20px' : '0'
+            }}
+          >
+            <Button
+              color="secondary"
+              size="sm"
+              onClick={toggleFullscreen}
+              style={{
+                position: 'absolute',
+                top: isFullscreen ? '20px' : '10px',
+                right: isFullscreen ? '20px' : '10px',
+                zIndex: isFullscreen ? 10000 : 10,
+                opacity: 0.8,
+                minWidth: '32px',
+                padding: '4px 8px'
+              }}
+              title={isFullscreen ? '退出全屏' : '全屏显示'}
+            >
+              {isFullscreen ? '✕' : '⛶'}
+            </Button>
+            <div
+              style={{
+                width: isFullscreen ? '100%' : '100%',
+                height: isFullscreen ? '100%' : 'auto',
+                display: isFullscreen ? 'flex' : 'block',
+                alignItems: isFullscreen ? 'center' : 'flex-start',
+                justifyContent: isFullscreen ? 'center' : 'flex-start',
+                maxWidth: isFullscreen ? '100%' : '100%',
+                maxHeight: isFullscreen ? '100%' : 'none',
+                overflow: isFullscreen ? 'auto' : 'visible'
+              }}
+              dangerouslySetInnerHTML={microgridSVG}
+            />
+          </div>
         </Col>
         <Col lg="3" className="pr-lg-2">
           <Nav tabs>
@@ -726,7 +1035,7 @@ const MicrogridDetails = ({ setRedirect, setRedirectUrl, t }) => {
                   toggleTabRight('1');
                 }}
               >
-                <h6>{t('Devices')}</h6>
+                <h6>{t('Device Status')}</h6>
               </NavLink>
             </NavItem>
             <NavItem className="cursor-pointer">
@@ -736,7 +1045,7 @@ const MicrogridDetails = ({ setRedirect, setRedirectUrl, t }) => {
                   toggleTabRight('2');
                 }}
               >
-                <h6>{t('General')}</h6>
+                <h6>{t('Basic Information')}</h6>
               </NavLink>
             </NavItem>
           </Nav>
@@ -748,28 +1057,28 @@ const MicrogridDetails = ({ setRedirect, setRedirectUrl, t }) => {
                     <Table borderless className="fs--1 mb-0">
                       <tbody>
                         <tr className="border-bottom">
-                          <th className="pl-0 pb-0">Communication Gateway</th>
-                          <th className="pr-0 text-right">Normal</th>
+                          <th className="pl-0 pb-0">网关</th>
+                          <th className="pr-0 text-right">在线</th>
                         </tr>
                         <tr className="border-bottom">
-                          <th className="pl-0">PCS</th>
-                          <th className="pr-0 text-right">Normal</th>
+                          <th className="pl-0">储能</th>
+                          <th className="pr-0 text-right">运行</th>
                         </tr>
                         <tr className="border-bottom">
-                          <th className="pl-0">电池</th>
-                          <th className="pr-0 text-right ">Normal</th>
+                          <th className="pl-0">负载</th>
+                          <th className="pr-0 text-right ">运行</th>
                         </tr>
                         <tr className="border-bottom">
                           <th className="pl-0 pb-0">光伏</th>
-                          <th className="pr-0 text-right">Normal</th>
+                          <th className="pr-0 text-right">运行</th>
                         </tr>
                         <tr className="border-bottom">
                           <th className="pl-0 pb-0">充电桩</th>
-                          <th className="pr-0 text-right">Normal</th>
+                          <th className="pr-0 text-right">运行</th>
                         </tr>
                         <tr className="border-bottom">
                           <th className="pl-0 pb-0">电网表</th>
-                          <th className="pr-0 text-right">Normal</th>
+                          <th className="pr-0 text-right">运行</th>
                         </tr>
                       </tbody>
                     </Table>
@@ -812,8 +1121,61 @@ const MicrogridDetails = ({ setRedirect, setRedirectUrl, t }) => {
           </TabContent>
         </Col>
       </Row>
+      </div>
 
-      <Nav tabs>
+      {/* Overlay to cover content when bottom section is pinned and has no data */}
+      {isBottomSectionPinned && !hasTabData() && !resultDataHidden && (
+        <div
+          style={{
+            position: 'fixed',
+            top: '60px',
+            left: '250px',
+            width: 'calc(100% - 250px)',
+            height: 'calc(100vh - 60px)',
+            backgroundColor: '#fff',
+            zIndex: 9997,
+            pointerEvents: 'none'
+          }}
+        />
+      )}
+
+      <div
+        style={{ visibility: resultDataHidden ? 'hidden' : 'visible', display: resultDataHidden ? 'none' : '' }}
+      >
+      <div
+        style={{
+          position: isBottomSectionPinned ? 'fixed' : 'relative',
+          top: isBottomSectionPinned ? '60px' : 'auto',
+          left: isBottomSectionPinned ? '250px' : 'auto',
+          width: isBottomSectionPinned ? 'calc(100% - 250px)' : 'auto',
+          backgroundColor: isBottomSectionPinned ? '#fff' : 'transparent',
+          zIndex: isBottomSectionPinned ? 9998 : 'auto',
+          padding: isBottomSectionPinned ? '10px 15px' : '0',
+          paddingTop: isBottomSectionPinned ? '10px' : '40px',
+          boxShadow: isBottomSectionPinned ? '0 2px 8px rgba(0,0,0,0.1)' : 'none',
+          marginTop: isBottomSectionPinned ? '0' : 'auto'
+        }}
+      >
+        {!isFullscreen && (
+          <Button
+            color="secondary"
+            size="sm"
+            onClick={toggleBottomSectionPin}
+            style={{
+              position: 'absolute',
+              top: isBottomSectionPinned ? '10px' : '5px',
+              right: '10px',
+              zIndex: 9999,
+              opacity: 0.8,
+              minWidth: '32px',
+              padding: '4px 8px'
+            }}
+            title={isBottomSectionPinned ? '恢复原位置' : '提升到顶部'}
+          >
+            {isBottomSectionPinned ? '↓' : '↑'}
+          </Button>
+        )}
+        <Nav tabs>
         <NavItem className="cursor-pointer">
           <NavLink
             className={classNames({ active: activeTabBottom === '1' })}
@@ -877,7 +1239,7 @@ const MicrogridDetails = ({ setRedirect, setRedirectUrl, t }) => {
               fetchPVDetails();
             }}
           >
-            <h6>{t('PV')}</h6>
+            <h6>{t('Photovoltaic')}</h6>
           </NavLink>
         </NavItem>
 
@@ -901,7 +1263,7 @@ const MicrogridDetails = ({ setRedirect, setRedirectUrl, t }) => {
               fetchGeneratorDetails();
             }}
           >
-            <h6>{t('Generators')}</h6>
+            <h6>{t('Generator')}</h6>
           </NavLink>
         </NavItem>
 
@@ -937,20 +1299,27 @@ const MicrogridDetails = ({ setRedirect, setRedirectUrl, t }) => {
               fetchHeatpumpDetails();
             }}
           >
-            <h6>{t('Heatpump')}</h6>
+            <h6>{t('Heat Pump')}</h6>
           </NavLink>
         </NavItem>
       </Nav>
-      <TabContent activeTab={activeTabBottom}>
-        <TabPane tabId="1">
-          <MultipleLineChart
-            reportingTitle=""
-            baseTitle=""
-            labels={parameterLineChartLabels}
-            data={parameterLineChartData}
-            options={parameterLineChartOptions}
-          />
-        </TabPane>
+      <div
+        style={{
+          maxHeight: isBottomSectionPinned ? 'calc(100vh - 200px)' : '600px',
+          overflowY: 'auto',
+          overflowX: 'hidden'
+        }}
+      >
+        <TabContent activeTab={activeTabBottom}>
+          <TabPane tabId="1">
+            <MultipleLineChart
+              reportingTitle=""
+              baseTitle=""
+              labels={parameterLineChartLabels}
+              data={parameterLineChartData}
+              options={parameterLineChartOptions}
+            />
+          </TabPane>
         <TabPane tabId="2">
           <Card className="mb-3 fs--1">
             <CardBody className="bg-light">
@@ -1058,6 +1427,9 @@ const MicrogridDetails = ({ setRedirect, setRedirectUrl, t }) => {
             GeneratorDetailsList.map(({ id, ...rest }) => <DetailsTable key={id} id={id} {...rest} />)}
         </TabPane>
       </TabContent>
+      </div>
+      </div>
+      </div>
     </Fragment>
   );
 };
