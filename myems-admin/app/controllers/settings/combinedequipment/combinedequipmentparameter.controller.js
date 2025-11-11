@@ -39,16 +39,19 @@ app.controller('CombinedEquipmentParameterController', function (
 		$scope.currentCombinedEquipment = item;
 		$scope.currentCombinedEquipment.selected = model;
 		$scope.is_show_add_parameter = true;
-		$scope.getParametersByCombinedEquipmentID($scope.currentCombinedEquipment.id);
-		$scope.getPointsByCombinedEquipmentID($scope.currentCombinedEquipment.id);
+		$scope.getParametersByCombinedEquipmentID($scope.currentCombinedEquipment.id, true);
 	};
 
-	$scope.getParametersByCombinedEquipmentID = function (id) {
+	$scope.getParametersByCombinedEquipmentID = function (id, shouldGetPoints) {
 		$scope.combinedequipmentparameters = [];
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 		CombinedEquipmentParameterService.getParametersByCombinedEquipmentID(id, headers, function (response) {
 			if (angular.isDefined(response.status) && response.status === 200) {
 				$scope.combinedequipmentparameters = response.data;
+			}
+			// 如果需要获取数据点，在参数加载完成后获取
+			if (shouldGetPoints) {
+				$scope.getPointsByCombinedEquipmentID(id);
 			}
 		});
 	};
@@ -69,7 +72,7 @@ app.controller('CombinedEquipmentParameterController', function (
 		});
 		modalInstance.result.then(function (combinedequipmentparameter) {
 			var combinedequipmentid = $scope.currentCombinedEquipment.id;
-			if (combinedequipmentparameter.point != null) {
+			if (combinedequipmentparameter.point != null && combinedequipmentparameter.point.id != null) {
 				combinedequipmentparameter.point_id = combinedequipmentparameter.point.id;
 			}
 			if (combinedequipmentparameter.numerator_meter != null) {
@@ -87,7 +90,7 @@ app.controller('CombinedEquipmentParameterController', function (
 						body: $translate.instant("TOASTER.SUCCESS_ADD_BODY", { template: $translate.instant("COMBINED_EQUIPMENT.PARAMETER") }),
 						showCloseButton: true,
 					});
-					$scope.getParametersByCombinedEquipmentID($scope.currentCombinedEquipment.id);
+					$scope.getParametersByCombinedEquipmentID($scope.currentCombinedEquipment.id, true);
 				} else {
 					toaster.pop({
 						type: "error",
@@ -120,7 +123,7 @@ app.controller('CombinedEquipmentParameterController', function (
 		});
 
 		modalInstance.result.then(function (modifiedCombinedEquipmentParameter) {
-			if (modifiedCombinedEquipmentParameter.point != null) {
+			if (modifiedCombinedEquipmentParameter.point != null && modifiedCombinedEquipmentParameter.point.id != null) {
 				modifiedCombinedEquipmentParameter.point_id = modifiedCombinedEquipmentParameter.point.id;
 			}
 			if (modifiedCombinedEquipmentParameter.numerator_meter != null) {
@@ -138,7 +141,7 @@ app.controller('CombinedEquipmentParameterController', function (
 						body: $translate.instant("TOASTER.SUCCESS_UPDATE_BODY", { template: $translate.instant("COMBINED_EQUIPMENT.PARAMETER") }),
 						showCloseButton: true,
 					});
-					$scope.getParametersByCombinedEquipmentID($scope.currentCombinedEquipment.id);
+					$scope.getParametersByCombinedEquipmentID($scope.currentCombinedEquipment.id, true);
 				} else {
 					toaster.pop({
 						type: "error",
@@ -177,7 +180,7 @@ app.controller('CombinedEquipmentParameterController', function (
 								body: $translate.instant("TOASTER.SUCCESS_DELETE_BODY", { template: $translate.instant("COMBINED_EQUIPMENT.PARAMETER") }),
 								showCloseButton: true,
 							});
-							$scope.getParametersByCombinedEquipmentID($scope.currentCombinedEquipment.id);
+							$scope.getParametersByCombinedEquipmentID($scope.currentCombinedEquipment.id, true);
 						} else {
 							toaster.pop({
 								type: "error",
@@ -282,16 +285,58 @@ app.controller('CombinedEquipmentParameterController', function (
 		});
 	};
 
+	// 从参数中提取已绑定的数据点（parameter_type='point' 的数据点）
+	$scope.getBoundPointsFromParameters = function () {
+		var boundPoints = [];
+		if (angular.isDefined($scope.combinedequipmentparameters) && $scope.combinedequipmentparameters.length > 0) {
+			for (var i = 0; i < $scope.combinedequipmentparameters.length; i++) {
+				var param = $scope.combinedequipmentparameters[i];
+				if (param.parameter_type === 'point' && param.point != null && param.point.id != null) {
+					// 检查是否已存在，避免重复
+					var exists = false;
+					for (var j = 0; j < boundPoints.length; j++) {
+						if (boundPoints[j].id === param.point.id) {
+							exists = true;
+							break;
+						}
+					}
+					if (!exists) {
+						boundPoints.push(param.point);
+					}
+				}
+			}
+		}
+		return boundPoints;
+	};
+
 	$scope.getPointsByCombinedEquipmentID = function (id) {
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 		// 先尝试获取数据源绑定的数据点
 		CombinedEquipmentDataSourceService.getDataSourcePointsByCombinedEquipmentID(id, headers, function (response) {
 			if (angular.isDefined(response.status) && response.status === 200 && response.data.length > 0) {
-				// 如果有绑定的数据源，使用数据源的数据点
-				$scope.points = response.data;
+				// 如果有绑定的数据源，显示全部数据源的数据点 + 已绑定的数据点（去重）
+				var dataSourcePoints = response.data;
+				var boundPoints = $scope.getBoundPointsFromParameters();
+				
+				// 合并数据点，以数据源数据点为主，添加不在数据源中的已绑定数据点
+				var mergedPoints = angular.copy(dataSourcePoints);
+				var dataSourcePointIds = {};
+				for (var i = 0; i < dataSourcePoints.length; i++) {
+					dataSourcePointIds[dataSourcePoints[i].id] = true;
+				}
+				
+				// 添加不在数据源中的已绑定数据点
+				for (var j = 0; j < boundPoints.length; j++) {
+					if (!dataSourcePointIds[boundPoints[j].id]) {
+						mergedPoints.push(boundPoints[j]);
+					}
+				}
+				
+				$scope.points = mergedPoints;
 			} else {
-				// 如果没有绑定数据源，或者数据源没有数据点，则查询系统全部数据点（向后兼容）
-				$scope.getAllPoints();
+				// 如果没有绑定数据源，只显示已绑定的数据点
+				var boundPoints = $scope.getBoundPointsFromParameters();
+				$scope.points = boundPoints;
 			}
 		});
 	};
@@ -312,12 +357,20 @@ app.controller('ModalAddCombinedEquipmentParameterCtrl', function ($scope, $uibM
 	$scope.operation = "COMBINED_EQUIPMENT.ADD_PARAMETER";
 	$scope.combinedequipmentparameter = {
 		parameter_type: "constant",
+		point: {}  // 初始化point对象，以便ui-select可以设置point.id
 	};
 	$scope.is_disabled = false;
 	$scope.points = params.points;
 	$scope.mergedmeters = params.mergedmeters;
 	$scope.ok = function () {
-
+		if ($scope.combinedequipmentparameter.parameter_type === 'point' && $scope.combinedequipmentparameter.point.id != null) {
+			for (var i = 0; i < $scope.points.length; i++) {
+				if ($scope.points[i].id === $scope.combinedequipmentparameter.point.id) {
+					$scope.combinedequipmentparameter.point = $scope.points[i];
+					break;
+				}
+			}
+		}
 		$uibModalInstance.close($scope.combinedequipmentparameter);
 	};
 
