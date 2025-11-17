@@ -862,10 +862,21 @@ class CombinedEquipmentParameterCollection:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.COMBINED_EQUIPMENT_NOT_FOUND')
 
-        query = (" SELECT id, name "
-                 " FROM tbl_points ")
-        cursor.execute(query)
-        rows_points = cursor.fetchall()
+        cursor.execute(" SELECT data_source_id "
+                       " FROM tbl_combined_equipments_data_sources "
+                       " WHERE combined_equipment_id = %s ", (id_,))
+        rows_data_sources = cursor.fetchall()
+        data_source_ids = tuple({row[0] for row in rows_data_sources if row[0] is not None})
+
+        if len(data_source_ids) > 0:
+            format_strings = ','.join(['%s'] * len(data_source_ids))
+            query = (" SELECT id, name "
+                     " FROM tbl_points "
+                     " WHERE data_source_id IN (" + format_strings + ") ")
+            cursor.execute(query, data_source_ids)
+            rows_points = cursor.fetchall()
+        else:
+            rows_points = list()
 
         point_dict = dict()
         if rows_points is not None and len(rows_points) > 0:
@@ -1044,6 +1055,18 @@ class CombinedEquipmentParameterCollection:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.NOT_FOUND',
                                    description='API.COMBINED_EQUIPMENT_NOT_FOUND')
 
+        cursor.execute(" SELECT data_source_id "
+                       " FROM tbl_combined_equipments_data_sources "
+                       " WHERE combined_equipment_id = %s ", (id_,))
+        rows_data_sources = cursor.fetchall()
+        data_source_ids = tuple({row[0] for row in rows_data_sources if row[0] is not None})
+
+        cursor.execute(" SELECT data_source_id "
+                       " FROM tbl_combined_equipments_data_sources "
+                       " WHERE combined_equipment_id = %s ", (id_,))
+        rows_data_sources = cursor.fetchall()
+        data_source_ids = tuple({row[0] for row in rows_data_sources if row[0] is not None})
+
         cursor.execute(" SELECT name "
                        " FROM tbl_combined_equipments_parameters "
                        " WHERE name = %s AND combined_equipment_id = %s ", (name, id_))
@@ -1061,10 +1084,17 @@ class CombinedEquipmentParameterCollection:
                 raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                        description='API.INVALID_POINT_ID')
 
+            if len(data_source_ids) == 0:
+                cursor.close()
+                cnx.close()
+                raise falcon.HTTPError(status=falcon.HTTP_400, title='API.NOT_FOUND',
+                                       description='API.POINT_NOT_FOUND')
+
+            format_strings = ','.join(['%s'] * len(data_source_ids))
             query = (" SELECT id, name "
                      " FROM tbl_points "
-                     " WHERE id = %s ")
-            cursor.execute(query, (point_id,))
+                     " WHERE id = %s AND data_source_id IN (" + format_strings + ") ")
+            cursor.execute(query, (point_id,) + data_source_ids)
             if cursor.fetchone() is None:
                 cursor.close()
                 cnx.close()
@@ -1192,10 +1222,21 @@ class CombinedEquipmentParameterItem:
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()
 
-        query = (" SELECT id, name "
-                 " FROM tbl_points ")
-        cursor.execute(query)
-        rows_points = cursor.fetchall()
+        cursor.execute(" SELECT data_source_id "
+                       " FROM tbl_combined_equipments_data_sources "
+                       " WHERE combined_equipment_id = %s ", (id_,))
+        rows_data_sources = cursor.fetchall()
+        data_source_ids = tuple({row[0] for row in rows_data_sources if row[0] is not None})
+
+        if len(data_source_ids) > 0:
+            format_strings = ','.join(['%s'] * len(data_source_ids))
+            query = (" SELECT id, name "
+                     " FROM tbl_points "
+                     " WHERE data_source_id IN (" + format_strings + ") ")
+            cursor.execute(query, data_source_ids)
+            rows_points = cursor.fetchall()
+        else:
+            rows_points = list()
 
         point_dict = dict()
         if rows_points is not None and len(rows_points) > 0:
@@ -1456,10 +1497,17 @@ class CombinedEquipmentParameterItem:
                 raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                        description='API.INVALID_POINT_ID')
 
+            if len(data_source_ids) == 0:
+                cursor.close()
+                cnx.close()
+                raise falcon.HTTPError(status=falcon.HTTP_400, title='API.NOT_FOUND',
+                                       description='API.POINT_NOT_FOUND')
+
+            format_strings = ','.join(['%s'] * len(data_source_ids))
             query = (" SELECT id, name "
                      " FROM tbl_points "
-                     " WHERE id = %s ")
-            cursor.execute(query, (point_id,))
+                     " WHERE id = %s AND data_source_id IN (" + format_strings + ") ")
+            cursor.execute(query, (point_id,) + data_source_ids)
             row = cursor.fetchone()
             if row is None:
                 cursor.close()

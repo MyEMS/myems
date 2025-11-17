@@ -12,7 +12,6 @@ app.controller('CombinedEquipmentParameterController', function (
     CombinedEquipmentParameterService,
     CombinedEquipmentService,
     CombinedEquipmentDataSourceService,
-    PointService,
     toaster,
     SweetAlert) {
     $scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
@@ -49,7 +48,6 @@ app.controller('CombinedEquipmentParameterController', function (
 			if (angular.isDefined(response.status) && response.status === 200) {
 				$scope.combinedequipmentparameters = response.data;
 			}
-			// 如果需要获取数据点，在参数加载完成后获取
 			if (shouldGetPoints) {
 				$scope.getPointsByCombinedEquipmentID(id);
 			}
@@ -152,7 +150,6 @@ app.controller('CombinedEquipmentParameterController', function (
 				}
 			});
 		}, function () {
-			//do nothing;
 		});
 		$rootScope.modalInstance = modalInstance;
 	};
@@ -274,25 +271,12 @@ app.controller('CombinedEquipmentParameterController', function (
 		});
 	};
 
-	$scope.getAllPoints = function () {
-		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
-		PointService.getAllPoints(headers, function (response) {
-			if (angular.isDefined(response.status) && response.status === 200) {
-				$scope.points = response.data;
-			} else {
-				$scope.points = [];
-			}
-		});
-	};
-
-	// 从参数中提取已绑定的数据点（parameter_type='point' 的数据点）
 	$scope.getBoundPointsFromParameters = function () {
 		var boundPoints = [];
 		if (angular.isDefined($scope.combinedequipmentparameters) && $scope.combinedequipmentparameters.length > 0) {
 			for (var i = 0; i < $scope.combinedequipmentparameters.length; i++) {
 				var param = $scope.combinedequipmentparameters[i];
 				if (param.parameter_type === 'point' && param.point != null && param.point.id != null) {
-					// 检查是否已存在，避免重复
 					var exists = false;
 					for (var j = 0; j < boundPoints.length; j++) {
 						if (boundPoints[j].id === param.point.id) {
@@ -311,21 +295,17 @@ app.controller('CombinedEquipmentParameterController', function (
 
 	$scope.getPointsByCombinedEquipmentID = function (id) {
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
-		// 先尝试获取数据源绑定的数据点
 		CombinedEquipmentDataSourceService.getDataSourcePointsByCombinedEquipmentID(id, headers, function (response) {
 			if (angular.isDefined(response.status) && response.status === 200 && response.data.length > 0) {
-				// 如果有绑定的数据源，显示全部数据源的数据点 + 已绑定的数据点（去重）
 				var dataSourcePoints = response.data;
 				var boundPoints = $scope.getBoundPointsFromParameters();
 				
-				// 合并数据点，以数据源数据点为主，添加不在数据源中的已绑定数据点
 				var mergedPoints = angular.copy(dataSourcePoints);
 				var dataSourcePointIds = {};
 				for (var i = 0; i < dataSourcePoints.length; i++) {
 					dataSourcePointIds[dataSourcePoints[i].id] = true;
 				}
 				
-				// 添加不在数据源中的已绑定数据点
 				for (var j = 0; j < boundPoints.length; j++) {
 					if (!dataSourcePointIds[boundPoints[j].id]) {
 						mergedPoints.push(boundPoints[j]);
@@ -334,7 +314,6 @@ app.controller('CombinedEquipmentParameterController', function (
 				
 				$scope.points = mergedPoints;
 			} else {
-				// 如果没有绑定数据源，只显示已绑定的数据点
 				var boundPoints = $scope.getBoundPointsFromParameters();
 				$scope.points = boundPoints;
 			}
@@ -343,8 +322,6 @@ app.controller('CombinedEquipmentParameterController', function (
 
 	$scope.getAllCombinedEquipments();
 	$scope.getMergedMeters();
-	// 初始化时加载全部数据点，当选择组合设备后会根据数据源过滤
-	$scope.getAllPoints();
 
 	$scope.$on('handleBroadcastCombinedEquipmentChanged', function (event) {
 		$scope.getAllCombinedEquipments();
@@ -357,7 +334,7 @@ app.controller('ModalAddCombinedEquipmentParameterCtrl', function ($scope, $uibM
 	$scope.operation = "COMBINED_EQUIPMENT.ADD_PARAMETER";
 	$scope.combinedequipmentparameter = {
 		parameter_type: "constant",
-		point: {}  // 初始化point对象，以便ui-select可以设置point.id
+		point: {}
 	};
 	$scope.is_disabled = false;
 	$scope.points = params.points;
