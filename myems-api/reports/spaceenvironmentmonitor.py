@@ -68,6 +68,7 @@ class Reporting:
         sensor_id = req.params.get('sensorid')
         sensor_uuid = req.params.get('sensoruuid')
         quick_mode = req.params.get('quickmode')
+        time_range = req.params.get('timerange', '1h')
 
         ################################################################################################################
         # Step 1: valid parameters
@@ -84,6 +85,10 @@ class Reporting:
                                        title='API.BAD_REQUEST',
                                        description='API.INVALID_SENSOR_UUID')
 
+        valid_time_ranges = ['1h', '24h']
+        if time_range not in valid_time_ranges:
+            time_range = '1h' 
+
         is_quick_mode = False
         if quick_mode is not None and \
                 len(str.strip(quick_mode)) > 0 and \
@@ -95,7 +100,11 @@ class Reporting:
             timezone_offset = -timezone_offset
 
         reporting_end_datetime_utc = datetime.utcnow()
-        reporting_start_datetime_utc = reporting_end_datetime_utc - timedelta(minutes=60)
+
+        if time_range == '24h':
+            reporting_start_datetime_utc = reporting_end_datetime_utc - timedelta(hours=24)
+        else:
+            reporting_start_datetime_utc = reporting_end_datetime_utc - timedelta(minutes=60)
 
         ################################################################################################################
         # Step 2: query the sensor
@@ -256,6 +265,7 @@ class Reporting:
                 "values": parameters_data['values']
             },
 
+            "time_range": time_range
         }
 
         resp.text = json.dumps(result)

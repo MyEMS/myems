@@ -6,8 +6,8 @@ import { APIBaseURL } from '../../../config';
 import { getCookieValue } from '../../../helpers/utils';
 import { toast } from 'react-toastify';
 
-const dividerBorder = '1px solid rgba(255, 255, 255, 0.15)';
-const listItemBorderColor = 'rgba(255, 255, 255, 0.05)';
+const dividerBorder = '1px solid rgba(0, 0, 0, 0.05)';
+const listItemBorderColor = 'rgba(0, 0, 0, 0.05)';
 
 class RealtimeData extends Component {
   _isMounted = false;
@@ -139,42 +139,43 @@ class RealtimeData extends Component {
   }
 
   render() {
-    const { t } = this.props;
+    const { t, isActive, onClick } = this.props;
 
     return (
-      <Card className="mb-3 overflow-hidden" style={{ minWidth: '12rem', maxWidth: '25%' }}>
-        <CardHeader className="bg-transparent position-relative">
-          <h5>{this.props.sensorName}</h5>
-          <div
-            className="real-time-user display-4 font-weight-normal"
-            style={{ display: !this.state.currentEnergyValue ? 'none' : 'inline' }}
-          >
-            {this.state.currentEnergyValue}
-          </div>
+      <Card
+        className={`h-100 shadow-sm cursor-pointer ${isActive ? 'border-primary' : 'border-light'}`}
+        onClick={onClick}
+      >
+        <CardHeader className="bg-white border-bottom py-3">
+          <h6 className="mb-0">{this.props.sensorName}</h6>
+          {this.state.currentEnergyValue && (
+            <div className="display-5 font-weight-bold mt-2">
+              {this.state.currentEnergyValue}
+            </div>
+          )}
         </CardHeader>
-        <CardBody className="fs--1 position-relative">
-          <p
-            className="pb-2"
-            style={{ borderBottom: dividerBorder, display: !this.state.energyValuePointName ? 'none' : 'inline' }}
-          >
-            {t('Trend in the last hour of Energy Value Point')} {this.state.energyValuePointName}
-          </p>
-          <ListGroup flush className="mt-4">
+        <CardBody className="p-3">
+          {this.state.energyValuePointName && (
+            <p className="pb-2 text-muted small" style={{ borderBottom: dividerBorder }}>
+              {t('Trend in the last hour of')} {this.state.energyValuePointName}
+            </p>
+          )}
+          <ListGroup flush className="mt-3">
             <ListGroupItem
-              className="bg-transparent d-flex justify-content-between px-0 py-1 font-weight-semi-bold border-top-0"
+              className="bg-transparent d-flex justify-content-between px-0 py-2 font-weight-semibold border-top-0"
               style={{ borderColor: listItemBorderColor }}
             >
-              <p className="mb-0">{t('Point')}</p>
-              <p className="mb-0">{t('Realtime Value')}</p>
+              <span className="text-muted">{t('Point')}</span>
+              <span className="text-muted">{t('Value')}</span>
             </ListGroupItem>
             {this.state.pointList.map(pointItem => (
               <ListGroupItem
                 key={uuid()}
-                className="bg-transparent d-flex justify-content-between px-0 py-1"
+                className="bg-transparent d-flex justify-content-between px-0 py-2"
                 style={{ borderColor: listItemBorderColor }}
               >
-                <p className="mb-0">{pointItem['name']}</p>
-                <p className="mb-0">{pointItem['value']}</p>
+                <span>{pointItem['name']}</span>
+                <span className="font-weight-semibold">{pointItem['value']}</span>
               </ListGroupItem>
             ))}
           </ListGroup>

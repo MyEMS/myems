@@ -17,6 +17,7 @@ import {
 } from 'reactstrap';
 import Cascader from 'rc-cascader';
 import RealtimeData from './RealtimeData';
+import EnvironmentTrendChart from './EnvironmentTrendChart';
 import { getCookieValue, createCookie, checkEmpty } from '../../../helpers/utils';
 import withRedirect from '../../../hoc/withRedirect';
 import { withTranslation } from 'react-i18next';
@@ -33,6 +34,15 @@ const SpaceEnvironmentMonitor = ({ setRedirect, setRedirectUrl, t }) => {
   const len = 8;
   const [resultDataHidden, setResultDataHidden] = useState(true);
 
+  const [selectedSpaceName, setSelectedSpaceName] = useState(undefined);
+  const [cascaderOptions, setCascaderOptions] = useState(undefined);
+  const [sensorList, setSensorList] = useState([]);
+  const [spinnerHidden, setSpinnerHidden] = useState(false);
+  const [currentSensorId, setCurrentSensorId] = useState(null);
+
+  const token = getCookieValue('token');
+  const userUuid = getCookieValue('user_uuid');
+
   useEffect(() => {
     let is_logged_in = getCookieValue('is_logged_in');
     let user_name = getCookieValue('user_name');
@@ -43,7 +53,6 @@ const SpaceEnvironmentMonitor = ({ setRedirect, setRedirectUrl, t }) => {
       setRedirectUrl(`/authentication/basic/login`);
       setRedirect(true);
     } else {
-      //update expires time of cookies
       createCookie('is_logged_in', true, settings.cookieExpireTime);
       createCookie('user_name', user_name, settings.cookieExpireTime);
       createCookie('user_display_name', user_display_name, settings.cookieExpireTime);
@@ -63,21 +72,14 @@ const SpaceEnvironmentMonitor = ({ setRedirect, setRedirectUrl, t }) => {
     return () => clearInterval(timer);
   }, [setRedirect, setRedirectUrl]);
 
-  // State
-  const [selectedSpaceName, setSelectedSpaceName] = useState(undefined);
-  const [cascaderOptions, setCascaderOptions] = useState(undefined);
-  const [sensorList, setSensorList] = useState([]);
-  const [spinnerHidden, setSpinnerHidden] = useState(false);
-
   useEffect(() => {
-    //begin of getting space tree
     let isResponseOK = false;
     fetch(APIBaseURL + '/spaces/tree', {
       method: 'GET',
       headers: {
         'Content-type': 'application/json',
-        'User-UUID': getCookieValue('user_uuid'),
-        Token: getCookieValue('token')
+        'User-UUID': userUuid,
+        Token: token
       },
       body: null
     })
@@ -89,7 +91,6 @@ const SpaceEnvironmentMonitor = ({ setRedirect, setRedirectUrl, t }) => {
       })
       .then(json => {
         if (isResponseOK) {
-          // rename keys
           json = JSON.parse(
             JSON.stringify([json])
               .split('"id":')
@@ -98,33 +99,32 @@ const SpaceEnvironmentMonitor = ({ setRedirect, setRedirectUrl, t }) => {
               .join('"label":')
           );
           setCascaderOptions(json);
-          // set the default space
           setSelectedSpaceName([json[0]].map(o => o.label));
           let selectedSpaceID = [json[0]].map(o => o.value);
-          //begin of getting sensors of the default space
-          let isSecondResponseOK = false;
           fetch(APIBaseURL + '/spaces/' + selectedSpaceID + '/sensors', {
             method: 'GET',
             headers: {
               'Content-type': 'application/json',
-              'User-UUID': getCookieValue('user_uuid'),
-              Token: getCookieValue('token')
+              'User-UUID': userUuid,
+              Token: token
             },
             body: null
           })
             .then(response => {
               if (response.ok) {
-                isSecondResponseOK = true;
+                isResponseOK = true;
               }
               return response.json();
             })
             .then(json => {
-              if (isSecondResponseOK) {
+              if (isResponseOK) {
                 json = JSON.parse(JSON.stringify([json]));
-
-                setSensorList(json[0]);    
+                setSensorList(json[0]);
                 setSpinnerHidden(true);
                 setResultDataHidden(json[0].length === 0);
+                if (json[0] && json[0].length > 0) {
+                  setCurrentSensorId(json[0][0].id);
+                }
               } else {
                 toast.error(t(json.description));
               }
@@ -132,7 +132,6 @@ const SpaceEnvironmentMonitor = ({ setRedirect, setRedirectUrl, t }) => {
             .catch(err => {
               console.log(err);
             });
-          //end of getting sensors of the default space
         } else {
           toast.error(t(json.description));
         }
@@ -140,8 +139,7 @@ const SpaceEnvironmentMonitor = ({ setRedirect, setRedirectUrl, t }) => {
       .catch(err => {
         console.log(err);
       });
-    //end of getting space tree
-  }, [t]);
+  }, [t, userUuid, token]);
 
   const labelClasses = 'ls text-uppercase text-600 font-weight-semi-bold mb-0';
 
@@ -149,14 +147,13 @@ const SpaceEnvironmentMonitor = ({ setRedirect, setRedirectUrl, t }) => {
     setSelectedSpaceName(selectedOptions.map(o => o.label).join('/'));
     let selectedSpaceID = value[value.length - 1];
     setSpinnerHidden(false);
-    //begin of getting sensors of the selected space
     let isResponseOK = false;
     fetch(APIBaseURL + '/spaces/' + selectedSpaceID + '/sensors', {
       method: 'GET',
       headers: {
         'Content-type': 'application/json',
-        'User-UUID': getCookieValue('user_uuid'),
-        Token: getCookieValue('token')
+        'User-UUID': userUuid,
+        Token: token
       },
       body: null
     })
@@ -169,11 +166,14 @@ const SpaceEnvironmentMonitor = ({ setRedirect, setRedirectUrl, t }) => {
       .then(json => {
         if (isResponseOK) {
           json = JSON.parse(JSON.stringify([json]));
-
-          setSensorList(json[0]);  
-
+          setSensorList(json[0]);
           setSpinnerHidden(true);
           setResultDataHidden(json[0].length === 0);
+          if (json[0] && json[0].length > 0) {
+            setCurrentSensorId(json[0][0].id);
+          } else {
+            setCurrentSensorId(null);
+          }
         } else {
           toast.error(t(json.description));
         }
@@ -181,36 +181,37 @@ const SpaceEnvironmentMonitor = ({ setRedirect, setRedirectUrl, t }) => {
       .catch(err => {
         console.log(err);
       });
-    //end of getting sensors of the selected space
   };
 
   useEffect(() => {
     const sensorLen = sensorList.length;
     const maxCursor = Math.ceil(sensorLen / len);
-
     setCursor(1);
     setMaxCursor(maxCursor);
-  if(sensorLen>0){
-    document.getElementById('cursor_2').hidden = true;
-    document.getElementById('cursor_3').hidden = true;
-    document.getElementById('cursor_4').hidden = true;
-    if (maxCursor === 2) {
-      document.getElementById('cursor_2').hidden = false;
+    if (sensorLen > 0) {
+      document.getElementById('cursor_2').hidden = true;
+      document.getElementById('cursor_3').hidden = true;
+      document.getElementById('cursor_4').hidden = true;
+      if (maxCursor === 2) {
+        document.getElementById('cursor_2').hidden = false;
+      }
+      if (maxCursor === 3) {
+        document.getElementById('cursor_2').hidden = false;
+        document.getElementById('cursor_3').hidden = false;
+      }
+      if (maxCursor >= 4) {
+        document.getElementById('cursor_2').hidden = false;
+        document.getElementById('cursor_3').hidden = false;
+        document.getElementById('cursor_4').hidden = false;
+      }
     }
-    if (maxCursor === 3) {
-      document.getElementById('cursor_2').hidden = false;
-      document.getElementById('cursor_3').hidden = false;
-    }
-    if (maxCursor >= 4) {
-      document.getElementById('cursor_2').hidden = false;
-      document.getElementById('cursor_3').hidden = false;
-      document.getElementById('cursor_4').hidden = false;
-    }
-   }
   }, [sensorList]);
 
   useEffect(() => {
     setSelectSensorList(sensorList.slice(cursor * len - 8, cursor * len));
+    if (selectSensorList.length > 0) {
+      setCurrentSensorId(selectSensorList[0].id);
+    }
   }, [sensorList, cursor]);
 
   function getCursor(location) {
@@ -237,6 +238,7 @@ const SpaceEnvironmentMonitor = ({ setRedirect, setRedirectUrl, t }) => {
           </BreadcrumbItem>
         </Breadcrumb>
       </div>
+
       <Card className="bg-light mb-3">
         <CardBody className="p-3">
           <Form>
@@ -267,50 +269,73 @@ const SpaceEnvironmentMonitor = ({ setRedirect, setRedirectUrl, t }) => {
           </Form>
         </CardBody>
       </Card>
+
+      {currentSensorId && sensorList.length > 0 && (
+        <div className="mb-4">
+          <EnvironmentTrendChart
+            sensorId={currentSensorId}
+            sensorName={sensorList.find(s => s.id === currentSensorId)?.name || 'Unknown Sensor'}
+            apiBaseUrl={APIBaseURL}
+            token={token}
+            userUuid={userUuid}
+            isActive={true}
+          />
+        </div>
+      )}
+
+      <div className="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4">
+        {selectSensorList.map(sensor => (
+          <div className="col" key={uuid()}>
+            <RealtimeData
+              sensorId={sensor['id']}
+              sensorName={sensor['name']}
+              isActive={sensor.id === currentSensorId}
+              onClick={() => setCurrentSensorId(sensor.id)}
+            />
+          </div>
+        ))}
+      </div>
+
+      {sensorList.length > 0 && (
+        <Pagination className="mt-4 justify-content-center">
+          <PaginationItem>
+            <PaginationLink first href="#" onClick={() => setCursor(1)} />
+          </PaginationItem>
+          <PaginationItem>
+            <PaginationLink previous href="#" onClick={() => (cursor - 1 >= 1 ? setCursor(cursor - 1) : null)} />
+          </PaginationItem>
+          <PaginationItem>
+            <PaginationLink href="#" onClick={() => setCursor(getCursor(1))}>
+              {getCursor(1)}
+            </PaginationLink>
+          </PaginationItem>
+          <PaginationItem id="cursor_2">
+            <PaginationLink href="#" onClick={() => setCursor(getCursor(2))}>
+              {getCursor(2)}
+            </PaginationLink>
+          </PaginationItem>
+          <PaginationItem id="cursor_3">
+            <PaginationLink href="#" onClick={() => setCursor(getCursor(3))}>
+              {getCursor(3)}
+            </PaginationLink>
+          </PaginationItem>
+          <PaginationItem id="cursor_4">
+            <PaginationLink href="#" onClick={() => setCursor(getCursor(4))}>
+              {getCursor(4)}
+            </PaginationLink>
+          </PaginationItem>
+          <PaginationItem>
+            <PaginationLink next href="#" onClick={() => (cursor + 1 <= maxCursor ? setCursor(cursor + 1) : null)} />
+          </PaginationItem>
+          <PaginationItem>
+            <PaginationLink last href="#" onClick={() => setCursor(maxCursor)} />
+          </PaginationItem>
+        </Pagination>
+      )}
+
       <div className="blank-page-image-container" style={{ visibility: resultDataHidden ? 'visible' : 'hidden', display: resultDataHidden ? '' : 'none' }}>
         <img className="img-fluid" src={blankPage} alt="" />
       </div>
-      <div className="card-deck">
-        {selectSensorList.map(sensor => (
-          <RealtimeData key={uuid()} sensorId={sensor['id']} sensorName={sensor['name']} />
-        ))}
-      </div>
-    {sensorList.length > 0 && (
-      <Pagination>
-        <PaginationItem>
-          <PaginationLink first href="#" onClick={() => setCursor(1)} />
-        </PaginationItem>
-        <PaginationItem>
-          <PaginationLink previous href="#" onClick={() => (cursor - 1 >= 1 ? setCursor(cursor - 1) : null)} />
-        </PaginationItem>
-        <PaginationItem>
-          <PaginationLink href="#" onClick={() => setCursor(getCursor(1))}>
-            {getCursor(1)}
-          </PaginationLink>
-        </PaginationItem>
-        <PaginationItem id="cursor_2">
-          <PaginationLink href="#" onClick={() => setCursor(getCursor(2))}>
-            {getCursor(2)}
-          </PaginationLink>
-        </PaginationItem>
-        <PaginationItem id="cursor_3">
-          <PaginationLink href="#" onClick={() => setCursor(getCursor(3))}>
-            {getCursor(3)}
-          </PaginationLink>
-        </PaginationItem>
-        <PaginationItem id="cursor_4">
-          <PaginationLink href="#" onClick={() => setCursor(getCursor(4))}>
-            {getCursor(4)}
-          </PaginationLink>
-        </PaginationItem>
-        <PaginationItem>
-          <PaginationLink next href="#" onClick={() => (cursor + 1 <= maxCursor ? setCursor(cursor + 1) : null)} />
-        </PaginationItem>
-        <PaginationItem>
-          <PaginationLink last href="#" onClick={() => setCursor(maxCursor)} />
-        </PaginationItem>
-      </Pagination>
-    )}
     </Fragment>
   );
 };
