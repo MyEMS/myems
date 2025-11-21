@@ -53,11 +53,16 @@ class Reporting:
     # Step 2: query the microgrid list
     # Step 3: query charge energy data
     # Step 4: query discharge energy data
-    # Step 5: query charge billing data
-    # Step 6: query discharge billing data
-    # Step 7: query charge carbon data
-    # Step 8: query discharge carbon data
-    # Step 9: construct the report
+    # Step 5: query photovoltaic energy data
+    # Step 6: query evcharger energy data
+    # Step 7: query load energy data
+    # Step 8: query grid buy energy data
+    # Step 9: query grid sell energy data
+    # Step 10: query charge billing data
+    # Step 11: query discharge billing data
+    # Step 12: query charge carbon data
+    # Step 13: query discharge carbon data
+    # Step 14: construct the report
     ####################################################################################################################
     @staticmethod
     def on_get(req, resp):
@@ -279,7 +284,107 @@ class Reporting:
             new_microgrid_list.append(microgrid)
         microgrid_list = new_microgrid_list
         ################################################################################################################
-        # Step 5:  query charge billing data
+        # Step 5: query photovoltaic energy data
+        ################################################################################################################
+        query = (" SELECT microgrid_id, SUM(actual_value) "
+                 " FROM tbl_microgrid_photovoltaic_hourly "
+                 " GROUP BY microgrid_id ")
+        cursor_energy_db.execute(query, )
+        rows_microgrids_subtotal_photovoltaic_energy = cursor_energy_db.fetchall()
+
+        new_microgrid_list = list()
+        total_photovoltaic_energy = Decimal(0.0)
+        for microgrid in microgrid_list:
+            microgrid['subtotal_photovoltaic_energy'] = Decimal(0.0)
+            for row in rows_microgrids_subtotal_photovoltaic_energy:
+                if row[0] == microgrid['id']:
+                    microgrid['subtotal_photovoltaic_energy'] = row[1]
+                    total_photovoltaic_energy += microgrid['subtotal_photovoltaic_energy']
+                    break
+            new_microgrid_list.append(microgrid)
+        microgrid_list = new_microgrid_list
+        ################################################################################################################
+        # Step 6: query evcharger energy data
+        ################################################################################################################
+        query = (" SELECT microgrid_id, SUM(actual_value) "
+                 " FROM tbl_microgrid_evcharger_hourly "
+                 " GROUP BY microgrid_id ")
+        cursor_energy_db.execute(query, )
+        rows_microgrids_subtotal_evcharger_energy = cursor_energy_db.fetchall()
+
+        new_microgrid_list = list()
+        total_evcharger_energy = Decimal(0.0)
+        for microgrid in microgrid_list:
+            microgrid['subtotal_evcharger_energy'] = Decimal(0.0)
+            for row in rows_microgrids_subtotal_evcharger_energy:
+                if row[0] == microgrid['id']:
+                    microgrid['subtotal_evcharger_energy'] = row[1]
+                    total_evcharger_energy += microgrid['subtotal_evcharger_energy']
+                    break
+            new_microgrid_list.append(microgrid)
+        microgrid_list = new_microgrid_list
+        ################################################################################################################
+        # Step 7: query load energy data
+        ################################################################################################################
+        query = (" SELECT microgrid_id, SUM(actual_value) "
+                 " FROM tbl_microgrid_load_hourly "
+                 " GROUP BY microgrid_id ")
+        cursor_energy_db.execute(query, )
+        rows_microgrids_subtotal_load_energy = cursor_energy_db.fetchall()
+
+        new_microgrid_list = list()
+        total_load_energy = Decimal(0.0)
+        for microgrid in microgrid_list:
+            microgrid['subtotal_load_energy'] = Decimal(0.0)
+            for row in rows_microgrids_subtotal_load_energy:
+                if row[0] == microgrid['id']:
+                    microgrid['subtotal_load_energy'] = row[1]
+                    total_load_energy += microgrid['subtotal_load_energy']
+                    break
+            new_microgrid_list.append(microgrid)
+        microgrid_list = new_microgrid_list
+        ################################################################################################################
+        # Step 8: query grid buy energy data
+        ################################################################################################################
+        query = (" SELECT microgrid_id, SUM(actual_value) "
+                 " FROM tbl_microgrid_grid_buy_hourly "
+                 " GROUP BY microgrid_id ")
+        cursor_energy_db.execute(query, )
+        rows_microgrids_subtotal_grid_buy_energy = cursor_energy_db.fetchall()
+
+        new_microgrid_list = list()
+        total_grid_buy_energy = Decimal(0.0)
+        for microgrid in microgrid_list:
+            microgrid['subtotal_grid_buy_energy'] = Decimal(0.0)
+            for row in rows_microgrids_subtotal_grid_buy_energy:
+                if row[0] == microgrid['id']:
+                    microgrid['subtotal_grid_buy_energy'] = row[1]
+                    total_grid_buy_energy += microgrid['subtotal_grid_buy_energy']
+                    break
+            new_microgrid_list.append(microgrid)
+        microgrid_list = new_microgrid_list
+        ################################################################################################################
+        # Step 9: query grid sell energy data
+        ################################################################################################################
+        query = (" SELECT microgrid_id, SUM(actual_value) "
+                 " FROM tbl_microgrid_grid_sell_hourly "
+                 " GROUP BY microgrid_id ")
+        cursor_energy_db.execute(query, )
+        rows_microgrids_subtotal_grid_sell_energy = cursor_energy_db.fetchall()
+
+        new_microgrid_list = list()
+        total_grid_sell_energy = Decimal(0.0)
+        for microgrid in microgrid_list:
+            microgrid['subtotal_grid_sell_energy'] = Decimal(0.0)
+            for row in rows_microgrids_subtotal_grid_sell_energy:
+                if row[0] == microgrid['id']:
+                    microgrid['subtotal_grid_sell_energy'] = row[1]
+                    total_grid_sell_energy += microgrid['subtotal_grid_sell_energy']
+                    break
+            new_microgrid_list.append(microgrid)
+        microgrid_list = new_microgrid_list
+        ################################################################################################################
+        # Step 10:  query charge billing data
         ################################################################################################################
         query = (" SELECT microgrid_id, SUM(actual_value) "
                  " FROM tbl_microgrid_charge_hourly "
@@ -299,7 +404,7 @@ class Reporting:
             new_microgrid_list.append(microgrid)
         microgrid_list = new_microgrid_list
         ################################################################################################################
-        # Step 6: query discharge billing data
+        # Step 11: query discharge billing data
         ################################################################################################################
         query = (" SELECT microgrid_id, SUM(actual_value) "
                  " FROM tbl_microgrid_discharge_hourly "
@@ -319,7 +424,7 @@ class Reporting:
             new_microgrid_list.append(microgrid)
         microgrid_list = new_microgrid_list
         ################################################################################################################
-        # Step 7:  query charge carbon data
+        # Step 12:  query charge carbon data
         ################################################################################################################
         query = (" SELECT microgrid_id, SUM(actual_value) "
                  " FROM tbl_microgrid_charge_hourly "
@@ -338,7 +443,7 @@ class Reporting:
             new_microgrid_list.append(microgrid)
         microgrid_list = new_microgrid_list
         ################################################################################################################
-        # Step 8: query discharge carbon data
+        # Step 13: query discharge carbon data
         ################################################################################################################
         query = (" SELECT microgrid_id, SUM(actual_value) "
                  " FROM tbl_microgrid_discharge_hourly "
@@ -357,7 +462,7 @@ class Reporting:
             new_microgrid_list.append(microgrid)
         microgrid_list = new_microgrid_list
         ################################################################################################################
-        # Step 7: construct the report
+        # Step 14: construct the report
         ################################################################################################################
         if cursor_system_db:
             cursor_system_db.close()
@@ -383,6 +488,11 @@ class Reporting:
         result['microgrids'] = microgrid_list
         result['total_charge_energy'] = total_charge_energy
         result['total_discharge_energy'] = total_discharge_energy
+        result['total_photovoltaic_energy'] = total_photovoltaic_energy
+        result['total_evcharger_energy'] = total_evcharger_energy
+        result['total_load_energy'] = total_load_energy
+        result['total_grid_buy_energy'] = total_grid_buy_energy
+        result['total_grid_sell_energy'] = total_grid_sell_energy
         result['total_charge_billing'] = total_charge_billing
         result['total_discharge_billing'] = total_discharge_billing
         result['total_charge_carbon'] = total_charge_carbon

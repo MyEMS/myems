@@ -99,6 +99,11 @@ from reports import microgriddetailspv
 from reports import microgridlist
 from reports import microgridreportingenergy
 from reports import microgridsenergy
+from reports import microgridphotovoltaic
+from reports import microgridevcharger
+from reports import microgridload
+from reports import microgridgridbuy
+from reports import microgridgridsell
 from reports import microgridsbilling
 from reports import microgridscarbon
 from reports import offlinemeterbatch
@@ -635,7 +640,7 @@ api.add_route('/microgrids/{id_}/clone',
               microgrid.MicrogridClone())
 api.add_route('/microgrids/{id_}/datasources',
               microgrid.MicrogridDataSourceCollection())
-api.add_route('/microgrids/{id_}/datasources/{dsid}', 
+api.add_route('/microgrids/{id_}/datasources/{dsid}',
               microgrid.MicrogridDataSourceItem())
 api.add_route('/microgrids/{id_}/datasourcepoints',
               microgrid.MicrogridDataSourcePointCollection())
@@ -1323,6 +1328,16 @@ api.add_route('/reports/microgridreportingenergy',
               microgridreportingenergy.Reporting())
 api.add_route('/reports/microgridsenergy',
               microgridsenergy.Reporting())
+api.add_route('/reports/microgridphotovoltaic',
+              microgridphotovoltaic.Reporting())
+api.add_route('/reports/microgridevcharger',
+              microgridevcharger.Reporting())
+api.add_route('/reports/microgridload',
+              microgridload.Reporting())
+api.add_route('/reports/microgridgridbuy',
+              microgridgridbuy.Reporting())
+api.add_route('/reports/microgridgridsell',
+              microgridgridsell.Reporting())
 api.add_route('/reports/microgridsbilling',
               microgridsbilling.Reporting())
 api.add_route('/reports/microgridscarbon',
