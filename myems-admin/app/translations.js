@@ -2222,7 +2222,7 @@ function config($translateProvider) {
                     SVG_SYSTEM: '组态可视化系统 ㊭',
                     ADVANCED_REPORT: '高级报表 ㊭',
                     ENERGY_PLAN_FILE: '能源计划 ㊭',
-                    SVG: 'SVG ㊭'
+                    SVG: 'SVG'
                 },
                 FDD: {
                     FDD: '故障检测与诊断 ㊭',
