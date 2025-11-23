@@ -17,7 +17,6 @@ import {
 } from 'reactstrap';
 import Cascader from 'rc-cascader';
 import RealtimeData from './RealtimeData';
-import EnvironmentTrendChart from './EnvironmentTrendChart';
 import { getCookieValue, createCookie, checkEmpty } from '../../../helpers/utils';
 import withRedirect from '../../../hoc/withRedirect';
 import { withTranslation } from 'react-i18next';
@@ -28,10 +27,9 @@ import { Link } from 'react-router-dom';
 import blankPage from '../../../assets/img/generic/blank-page.png';
 
 const SpaceEnvironmentMonitor = ({ setRedirect, setRedirectUrl, t }) => {
-  const [cursor, setCursor] = useState(0);
-  const [maxCursor, setMaxCursor] = useState(0);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [sensorsPerPage] = useState(3);
   const [selectSensorList, setSelectSensorList] = useState([]);
-  const len = 8;
   const [resultDataHidden, setResultDataHidden] = useState(true);
 
   const [selectedSpaceName, setSelectedSpaceName] = useState(undefined);
@@ -59,7 +57,7 @@ const SpaceEnvironmentMonitor = ({ setRedirect, setRedirectUrl, t }) => {
       createCookie('user_uuid', user_uuid, settings.cookieExpireTime);
       createCookie('token', token, settings.cookieExpireTime);
     }
-  });
+  }, [setRedirect, setRedirectUrl]);
 
   useEffect(() => {
     let timer = setInterval(() => {
@@ -124,6 +122,7 @@ const SpaceEnvironmentMonitor = ({ setRedirect, setRedirectUrl, t }) => {
                 setResultDataHidden(json[0].length === 0);
                 if (json[0] && json[0].length > 0) {
                   setCurrentSensorId(json[0][0].id);
+                  updatePaginationData(json[0], currentPage);
                 }
               } else {
                 toast.error(t(json.description));
@@ -171,8 +170,11 @@ const SpaceEnvironmentMonitor = ({ setRedirect, setRedirectUrl, t }) => {
           setResultDataHidden(json[0].length === 0);
           if (json[0] && json[0].length > 0) {
             setCurrentSensorId(json[0][0].id);
+            setCurrentPage(1);
+            updatePaginationData(json[0], 1);
           } else {
             setCurrentSensorId(null);
+            setSelectSensorList([]);
           }
         } else {
           toast.error(t(json.description));
@@ -183,50 +185,23 @@ const SpaceEnvironmentMonitor = ({ setRedirect, setRedirectUrl, t }) => {
       });
   };
 
-  useEffect(() => {
-    const sensorLen = sensorList.length;
-    const maxCursor = Math.ceil(sensorLen / len);
-    setCursor(1);
-    setMaxCursor(maxCursor);
-    if (sensorLen > 0) {
-      document.getElementById('cursor_2').hidden = true;
-      document.getElementById('cursor_3').hidden = true;
-      document.getElementById('cursor_4').hidden = true;
-      if (maxCursor === 2) {
-        document.getElementById('cursor_2').hidden = false;
-      }
-      if (maxCursor === 3) {
-        document.getElementById('cursor_2').hidden = false;
-        document.getElementById('cursor_3').hidden = false;
-      }
-      if (maxCursor >= 4) {
-        document.getElementById('cursor_2').hidden = false;
-        document.getElementById('cursor_3').hidden = false;
-        document.getElementById('cursor_4').hidden = false;
-      }
-    }
-  }, [sensorList]);
+  const updatePaginationData = (data, page) => {
+    const indexOfLastSensor = page * sensorsPerPage;
+    const indexOfFirstSensor = indexOfLastSensor - sensorsPerPage;
+    const currentSensors = data.slice(indexOfFirstSensor, indexOfLastSensor);
+    setSelectSensorList(currentSensors);
+  };
 
   useEffect(() => {
-    setSelectSensorList(sensorList.slice(cursor * len - 8, cursor * len));
-    if (selectSensorList.length > 0) {
-      setCurrentSensorId(selectSensorList[0].id);
+    if (sensorList.length > 0) {
+      updatePaginationData(sensorList, currentPage);
     }
-  }, [sensorList, cursor]);
+  }, [currentPage, sensorList, sensorsPerPage]);
 
-  function getCursor(location) {
-    switch (location) {
-      default:
-      case 1:
-        return cursor > maxCursor - 3 && maxCursor - 3 >= 0 ? maxCursor - 3 : cursor;
-      case 2:
-        return cursor > maxCursor - 3 && maxCursor - 3 >= 0 ? maxCursor - 2 : cursor + 1;
-      case 3:
-        return cursor > maxCursor - 3 && maxCursor - 3 >= 0 ? maxCursor - 1 : cursor + 2;
-      case 4:
-        return cursor > maxCursor - 3 && maxCursor - 3 >= 0 ? maxCursor : cursor + 3;
-    }
-  }
+  const paginate = (pageNumber, e) => {
+    e.preventDefault();
+    setCurrentPage(pageNumber);
+  };
 
   return (
     <Fragment>
@@ -270,20 +245,7 @@ const SpaceEnvironmentMonitor = ({ setRedirect, setRedirectUrl, t }) => {
         </CardBody>
       </Card>
 
-      {currentSensorId && sensorList.length > 0 && (
-        <div className="mb-4">
-          <EnvironmentTrendChart
-            sensorId={currentSensorId}
-            sensorName={sensorList.find(s => s.id === currentSensorId)?.name || 'Unknown Sensor'}
-            apiBaseUrl={APIBaseURL}
-            token={token}
-            userUuid={userUuid}
-            isActive={true}
-          />
-        </div>
-      )}
-
-      <div className="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4">
+      <div className="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-3">
         {selectSensorList.map(sensor => (
           <div className="col" key={uuid()}>
             <RealtimeData
@@ -296,39 +258,20 @@ const SpaceEnvironmentMonitor = ({ setRedirect, setRedirectUrl, t }) => {
         ))}
       </div>
 
-      {sensorList.length > 0 && (
-        <Pagination className="mt-4 justify-content-center">
-          <PaginationItem>
-            <PaginationLink first href="#" onClick={() => setCursor(1)} />
+      {sensorList.length > sensorsPerPage && (
+        <Pagination className="mt-3 justify-content-center">
+          <PaginationItem disabled={currentPage === 1}>
+            <PaginationLink previous href="#" onClick={(e) => paginate(currentPage - 1, e)} />
           </PaginationItem>
-          <PaginationItem>
-            <PaginationLink previous href="#" onClick={() => (cursor - 1 >= 1 ? setCursor(cursor - 1) : null)} />
-          </PaginationItem>
-          <PaginationItem>
-            <PaginationLink href="#" onClick={() => setCursor(getCursor(1))}>
-              {getCursor(1)}
-            </PaginationLink>
-          </PaginationItem>
-          <PaginationItem id="cursor_2">
-            <PaginationLink href="#" onClick={() => setCursor(getCursor(2))}>
-              {getCursor(2)}
-            </PaginationLink>
-          </PaginationItem>
-          <PaginationItem id="cursor_3">
-            <PaginationLink href="#" onClick={() => setCursor(getCursor(3))}>
-              {getCursor(3)}
-            </PaginationLink>
-          </PaginationItem>
-          <PaginationItem id="cursor_4">
-            <PaginationLink href="#" onClick={() => setCursor(getCursor(4))}>
-              {getCursor(4)}
-            </PaginationLink>
-          </PaginationItem>
-          <PaginationItem>
-            <PaginationLink next href="#" onClick={() => (cursor + 1 <= maxCursor ? setCursor(cursor + 1) : null)} />
-          </PaginationItem>
-          <PaginationItem>
-            <PaginationLink last href="#" onClick={() => setCursor(maxCursor)} />
+          {[...Array(Math.ceil(sensorList.length / sensorsPerPage))].map((_, index) => (
+            <PaginationItem key={index} active={index + 1 === currentPage}>
+              <PaginationLink href="#" onClick={(e) => paginate(index + 1, e)}>
+                {index + 1}
+              </PaginationLink>
+            </PaginationItem>
+          ))}
+          <PaginationItem disabled={currentPage === Math.ceil(sensorList.length / sensorsPerPage)}>
+            <PaginationLink next href="#" onClick={(e) => paginate(currentPage + 1, e)} />
           </PaginationItem>
         </Pagination>
       )}
