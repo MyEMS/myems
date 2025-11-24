@@ -11,6 +11,7 @@ app.controller('EquipmentParameterController', function(
     OfflineMeterService,
     EquipmentParameterService,
     EquipmentService,
+    EquipmentDataSourceService,
     PointService,
     toaster,SweetAlert) {
     $scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
@@ -36,6 +37,7 @@ app.controller('EquipmentParameterController', function(
 	$scope.changeEquipment=function(item,model){
 		$scope.currentEquipment=item;
 		$scope.currentEquipment.selected=model;
+	        $scope.getAddPoints();
     	$scope.is_show_add_parameter = true;
 		$scope.getParametersByEquipmentID($scope.currentEquipment.id);
 	};
@@ -59,7 +61,7 @@ app.controller('EquipmentParameterController', function(
 			resolve: {
 				params: function() {
 					return {
-						points: angular.copy($scope.points),
+						points: angular.copy($scope.add_points),
 						mergedmeters: angular.copy($scope.mergedmeters),
 					};
 				}
@@ -102,15 +104,16 @@ app.controller('EquipmentParameterController', function(
 	};
 
 	$scope.editEquipmentParameter = function(equipmentparameter) {
+            $scope.getEditPoints(equipmentparameter).then(function() {
 		var modalInstance = $uibModal.open({
 			templateUrl: 'views/settings/equipment/equipmentparameter.model.html',
 			controller: 'ModalEditEquipmentParameterCtrl',
-  		windowClass: "animated fadeIn",
+  		        windowClass: "animated fadeIn",
 			resolve: {
 				params: function() {
 					return {
 						equipmentparameter: angular.copy(equipmentparameter),
-						points: angular.copy($scope.points),
+						points: angular.copy($scope.edit_points),
 						mergedmeters: angular.copy($scope.mergedmeters),
 					};
 				}
@@ -151,6 +154,7 @@ app.controller('EquipmentParameterController', function(
 			//do nothing;
 		});
 		$rootScope.modalInstance = modalInstance;
+            })
 	};
 
 	$scope.deleteEquipmentParameter = function(equipmentparameter) {
@@ -285,9 +289,37 @@ app.controller('EquipmentParameterController', function(
 
 	};
 
+	$scope.getAddPoints = function() {
+		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+		EquipmentDataSourceService.getAddPoints($scope.currentEquipment.id, headers, function (response) {
+			if (angular.isDefined(response.status) && response.status === 200) {
+				$scope.add_points = response.data;
+			} else {
+				$scope.add_points = [];
+			}
+		});
+	};
+
+	$scope.getEditPoints = function(equipmentparameter) {
+            return new Promise(function(resolve, reject) {
+		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+		EquipmentDataSourceService.getEditPoints($scope.currentEquipment.id, equipmentparameter.id, headers, function (response) {
+			if (angular.isDefined(response.status) && response.status === 200) {
+				$scope.edit_points = response.data;
+                                resolve($scope.edit_points);
+			} else {
+				$scope.edit_points = [];
+                                resolve($scope.edit_points);
+			}
+		});
+            });
+	};
+
 	$scope.getAllEquipments();
 	$scope.getMergedMeters();
 	$scope.getAllPoints();
+	//$scope.getAddEditPoints(equipmentparameter);
+	//$scope.getAddEditPoints();
 
 	$scope.$on('handleBroadcastEquipmentChanged', function(event) {
     	$scope.getAllEquipments();

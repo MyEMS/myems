@@ -5,6 +5,7 @@ import mysql.connector
 import simplejson as json
 from core.useractivity import user_logger, admin_control, access_control, api_key_control
 import config
+from decimal import Decimal
 
 
 class EquipmentCollection:
@@ -745,12 +746,6 @@ class EquipmentParameterCollection:
                 numerator_meter = None
                 denominator_meter = None
                 if row[2] == 'point':
-                    if is_bind_data_source == True:
-                        continue
-                    if is_finish_get_data == False:
-                        is_finish_get_data = True
-                    else:
-                        continue
                     point = point_dict.get(row[4], None)
                     constant = None
                     numerator_meter = None
@@ -785,24 +780,6 @@ class EquipmentParameterCollection:
                                "denominator_meter": denominator_meter}
                 result.append(meta_result)
                 last_index = meta_result['id']
-
-            if is_bind_data_source == True:
-                cursor.execute(" SELECT id, name FROM tbl_points ORDER BY id ")
-                rows = cursor.fetchall()
-                result_points = list()
-                last_index = last_index + 1
-                if rows is not None and len(rows) > 0:
-                    for row in rows:
-                        point = point_dict.get(row[0], None)
-                        meta_result = {"id": last_index,
-                                       "name": None,
-                                       "parameter_type": 'point',
-                                       "constant": None,
-                                       "point": point,
-                                       "numerator_meter": None,
-                                       "denominator_meter": None}
-                        result.append(meta_result)
-                        last_index = last_index + 1
 
         cursor.close()
         cnx.close()
@@ -3436,3 +3413,181 @@ class EquipmentDataSourceItem:
         cnx.close()
 
         resp.status = falcon.HTTP_204
+
+class EquipmentAddPointsCollection:
+    def __init__(self):
+        pass
+
+    @staticmethod
+    def on_options(req, resp, id_):
+        _ = req
+        resp.status = falcon.HTTP_200
+        _ = id_
+
+    @staticmethod
+    def on_get(req, resp, id_):
+        if 'API-KEY' not in req.headers or \
+                not isinstance(req.headers['API-KEY'], str) or \
+                len(str.strip(req.headers['API-KEY'])) == 0:
+            access_control(req)
+        else:
+            api_key_control(req)
+        if not id_.isdigit() or int(id_) <= 0:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_EQUIPMENT_ID')
+
+        cnx = mysql.connector.connect(**config.myems_system_db)
+        cursor = cnx.cursor()
+
+        pids = list()
+        cursor.execute(" SELECT id "
+                       " FROM tbl_points "
+                       " WHERE data_source_id in(select data_source_id from tbl_equipments_data_sources where equipment_id = %s) ", (id_,))
+        rows = cursor.fetchall()
+        if rows is not None and len(rows) > 0:
+            for row in rows:
+                pids.append(row[0])
+                
+        query = (" SELECT id, name, uuid "
+                 " FROM tbl_data_sources ")
+        cursor.execute(query)
+        rows_data_sources = cursor.fetchall()
+
+        data_source_dict = dict()
+        if rows_data_sources is not None and len(rows_data_sources) > 0:
+            for row in rows_data_sources:
+                data_source_dict[row[0]] = {"id": row[0],
+                                            "name": row[1],
+                                            "uuid": row[2]}
+
+        query = (" SELECT id, name, data_source_id, object_type, units, "
+                 "        high_limit, low_limit, higher_limit, lower_limit, ratio, offset_constant, "
+                 "        is_trend, is_virtual, address, description, faults, definitions "
+                 " FROM tbl_points ")
+        cursor.execute(query)
+        rows = cursor.fetchall()
+        cursor.close()
+        cnx.close()
+
+        result = list()
+        if rows is not None and len(rows) > 0:
+            for row in rows:
+                if row[0] not in pids:
+                    continue
+                meta_result = {"id": row[0],
+                               "name": row[1],
+                               "data_source": data_source_dict.get(row[2], None),
+                               "object_type": row[3],
+                               "units": row[4],
+                               "high_limit": row[5],
+                               "low_limit": row[6],
+                               "higher_limit": row[7],
+                               "lower_limit": row[8],
+                               "ratio": Decimal(row[9]),
+                               "offset_constant": Decimal(row[10]),
+                               "is_trend": bool(row[11]),
+                               "is_virtual": bool(row[12]),
+                               "address": row[13],
+                               "description": row[14],
+                               "faults": row[15],
+                               "definitions": row[16]}
+                result.append(meta_result)
+        resp.text = json.dumps(result)
+
+class EquipmentEditPointsCollection:
+    def __init__(self):
+        pass
+
+    @staticmethod
+    def on_options(req, resp, id_, pid):
+        _ = req
+        resp.status = falcon.HTTP_200
+        _ = id_
+        _ = pid
+
+    @staticmethod
+    def on_get(req, resp, id_, pid):
+        if 'API-KEY' not in req.headers or \
+                not isinstance(req.headers['API-KEY'], str) or \
+                len(str.strip(req.headers['API-KEY'])) == 0:
+            access_control(req)
+        else:
+            api_key_control(req)
+        if not id_.isdigit() or int(id_) <= 0:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_EQUIPMENT_ID')
+
+        cnx = mysql.connector.connect(**config.myems_system_db)
+        cursor = cnx.cursor()
+
+        equipment_pids = list()
+        cursor.execute(" SELECT point_id "
+                       " FROM tbl_equipments_parameters "
+                       " WHERE id = %s ", (pid,))
+        rows = cursor.fetchall()
+        if rows is not None and len(rows) > 0:
+            for row in rows:
+                equipment_pids.append(row[0])
+                
+        pids = list()
+        cursor.execute(" SELECT id "
+                       " FROM tbl_points "
+                       " WHERE data_source_id in(select data_source_id from tbl_equipments_data_sources where equipment_id = %s) ", (id_,))
+        rows = cursor.fetchall()
+        if rows is not None and len(rows) > 0:
+            for row in rows:
+                pids.append(row[0])
+                
+        pids = pids + equipment_pids
+        query = (" SELECT id, name, uuid "
+                 " FROM tbl_data_sources ")
+        cursor.execute(query)
+        rows_data_sources = cursor.fetchall()
+
+        data_source_dict = dict()
+        if rows_data_sources is not None and len(rows_data_sources) > 0:
+            for row in rows_data_sources:
+                data_source_dict[row[0]] = {"id": row[0],
+                                            "name": row[1],
+                                            "uuid": row[2]}
+
+        query = (" SELECT id, name, data_source_id, object_type, units, "
+                 "        high_limit, low_limit, higher_limit, lower_limit, ratio, offset_constant, "
+                 "        is_trend, is_virtual, address, description, faults, definitions "
+                 " FROM tbl_points ")
+        cursor.execute(query)
+        rows = cursor.fetchall()
+        cursor.close()
+        cnx.close()
+
+        result_first = list()
+        result = list()
+        if rows is not None and len(rows) > 0:
+            for row in rows:
+                if row[0] not in pids:
+                    continue
+                meta_result = {"id": row[0],
+                               "name": row[1],
+                               "data_source": data_source_dict.get(row[2], None),
+                               "object_type": row[3],
+                               "units": row[4],
+                               "high_limit": row[5],
+                               "low_limit": row[6],
+                               "higher_limit": row[7],
+                               "lower_limit": row[8],
+                               "ratio": Decimal(row[9]),
+                               "offset_constant": Decimal(row[10]),
+                               "is_trend": bool(row[11]),
+                               "is_virtual": bool(row[12]),
+                               "address": row[13],
+                               "description": row[14],
+                               "faults": row[15],
+                               "definitions": row[16]}
+                result_first.append(meta_result)
+        for item in result_first:
+            if item['id'] in equipment_pids:
+                result.insert(0,item)
+            else:
+                result.append(item)
+        resp.text = json.dumps(result)
+

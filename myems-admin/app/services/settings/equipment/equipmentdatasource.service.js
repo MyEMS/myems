@@ -33,6 +33,22 @@ app.factory('EquipmentDataSourceService', function($http) {
             }, function (response) {
                 callback(response);
             });
+        },
+        getAddPoints:function(id, headers, callback){
+            $http.get(getAPI() + 'equipments/'+id+'/addpoints', {headers})
+            .then(function (response) {
+                callback(response);
+            }, function (response) {
+                callback(response);
+            });
+        },
+        getEditPoints:function(id, pid, headers, callback){
+            $http.get(getAPI() + 'equipments/'+id+'/editpoints/'+pid, {headers})
+            .then(function (response) {
+                callback(response);
+            }, function (response) {
+                callback(response);
+            });
         }
     };
 });
