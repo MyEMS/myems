@@ -155,6 +155,13 @@ function config($translateProvider) {
                     USER: 'Users',
                     PRIVILEGE: 'Privileges',
                     API_KEY: 'API Key',
+                    LOG: 'Logs Display',
+                    USER_UUID: 'User UUID',
+                    REQUEST_DATETIME_UTC: 'Request Datetime (UTC)',
+                    REQUEST_METHOD: 'Request Method',
+                    RESOURCE_TYPE: 'Resource Type',
+                    RESOURCE_ID: 'Resource ID',
+                    REQUEST_BODY: 'Request Body',
                 }
             },
             LOGIN: {
@@ -2237,6 +2244,13 @@ function config($translateProvider) {
                     USER: '用户设置',
                     PRIVILEGE: '权限设置',
                     API_KEY: 'API密钥',
+                    LOG: '日志显示',
+                    USER_UUID: '用户UUID',
+                    REQUEST_DATETIME_UTC: '请求时间(UTC)',
+                    REQUEST_METHOD: '请求方法',
+                    RESOURCE_TYPE: '资源类型',
+                    RESOURCE_ID: '资源ID',
+                    REQUEST_BODY: '请求体',
                 }
             },
             LOGIN: {
@@ -4327,7 +4341,14 @@ function config($translateProvider) {
                     USERSETTING: 'Benutzer und Berechtigungen',
                     USER: 'Benutzer',
                     PRIVILEGE: 'Privilegien',
-                    API_KEY: 'API-Schlüssel'
+                    API_KEY: 'API-Schlüssel',
+                    LOG: 'Logs Display',
+                    USER_UUID: 'User UUID',
+                    REQUEST_DATETIME_UTC: 'Request Datetime (UTC)',
+                    REQUEST_METHOD: 'Request Method',
+                    RESOURCE_TYPE: 'Resource Type',
+                    RESOURCE_ID: 'Resource ID',
+                    REQUEST_BODY: 'Request Body',
                 }
             },
             LOGIN: {
@@ -6409,6 +6430,13 @@ function config($translateProvider) {
                     USER: 'Usagers',
                     PRIVILEGE: 'Privilèges',
                     API_KEY: 'Clé API',
+                    LOG: 'Logs Display',
+                    USER_UUID: 'User UUID',
+                    REQUEST_DATETIME_UTC: 'Request Datetime (UTC)',
+                    REQUEST_METHOD: 'Request Method',
+                    RESOURCE_TYPE: 'Resource Type',
+                    RESOURCE_ID: 'Resource ID',
+                    REQUEST_BODY: 'Request Body',
                 }
             },
             LOGIN: {
@@ -8488,6 +8516,13 @@ function config($translateProvider) {
                     USER: 'Usuarios',
                     PRIVILEGE: 'Privilegios',
                     API_KEY: 'Clave API',
+                    LOG: 'Logs Display',
+                    USER_UUID: 'User UUID',
+                    REQUEST_DATETIME_UTC: 'Request Datetime (UTC)',
+                    REQUEST_METHOD: 'Request Method',
+                    RESOURCE_TYPE: 'Resource Type',
+                    RESOURCE_ID: 'Resource ID',
+                    REQUEST_BODY: 'Request Body',
                 }
             },
             LOGIN: {
@@ -14730,6 +14765,13 @@ function config($translateProvider) {
                     USER: 'Người dùng',
                     PRIVILEGE: 'Quyền',
                     API_KEY: 'Khóa API',
+                    LOG: 'Logs Display',
+                    USER_UUID: 'User UUID',
+                    REQUEST_DATETIME_UTC: 'Request Datetime (UTC)',
+                    REQUEST_METHOD: 'Request Method',
+                    RESOURCE_TYPE: 'Resource Type',
+                    RESOURCE_ID: 'Resource ID',
+                    REQUEST_BODY: 'Request Body',
                 }
             },
             LOGIN: {
@@ -18886,6 +18928,13 @@ function config($translateProvider) {
                     USER: 'Kullanıcı',
                     PRIVILEGE: 'Ayrıcalık',
                     API_KEY: 'API Anahtarı',
+                    LOG: 'Logs Display',
+                    USER_UUID: 'User UUID',
+                    REQUEST_DATETIME_UTC: 'Request Datetime (UTC)',
+                    REQUEST_METHOD: 'Request Method',
+                    RESOURCE_TYPE: 'Resource Type',
+                    RESOURCE_ID: 'Resource ID',
+                    REQUEST_BODY: 'Request Body',
                 }
             },
             LOGIN: {
@@ -25121,6 +25170,13 @@ function config($translateProvider) {
                     USER: '⽤⼾設置',
                     PRIVILEGE: '權限設置',
                     API_KEY: 'API密鑰',
+                    LOG: '日誌顯示',
+                    USER_UUID: '用戶UUID',
+                    REQUEST_DATETIME_UTC: '請求時間(UTC)',
+                    REQUEST_METHOD: '請求方法',
+                    RESOURCE_TYPE: '資源類型',
+                    RESOURCE_ID: '資源ID',
+                    REQUEST_BODY: '請求體',
                 }
             },
             LOGIN: {

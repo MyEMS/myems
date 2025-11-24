@@ -11,7 +11,7 @@ from core import advancedreport, apikey, command, controlmode, energyflowdiagram
     shopfloor, webmessage, distributionsystem, store, emailmessage, tenanttype, wechatmessage, space, gateway, \
     offlinemeter, rule, energycategory, sensor, energyitem, notification, menu, datarepairfile, workingcalendar, \
     microgrid,  virtualpowerplant, energystoragecontainer, energystoragepowerstation, photovoltaicpowerstation, \
-    windfarm, energyplanfile, svg, protocol, ticket, iotsimcard
+    windfarm, energyplanfile, svg, protocol, ticket, iotsimcard, log
 
 from reports import advancedreportfile
 from reports import combinedequipmentbatch
@@ -73,10 +73,10 @@ from reports import meterbatch
 from reports import metercarbon
 from reports import metercomparison
 from reports import equipmentcomparison
-from reports import combinedequipmentcomparison
-from reports import storecomparison
-from reports import spacecomparison
-from reports import tenantcomparison
+# from reports import combinedequipmentcomparison
+# from reports import storecomparison
+# from reports import spacecomparison
+# from reports import tenantcomparison
 from reports import metercost
 from reports import meterenergy
 from reports import meterrealtime
@@ -760,6 +760,9 @@ api.add_route('/points/import',
 api.add_route('/points/{id_}/clone',
               point.PointClone())
 
+api.add_route('/logs',
+              log.LogCollection())
+
 api.add_route('/apikeys',
               apikey.ApiKeyCollection())
 api.add_route('/apikeys/{id_}',
@@ -1278,14 +1281,14 @@ api.add_route('/reports/metercomparison',
               metercomparison.Reporting())
 api.add_route('/reports/equipmentcomparison',
               equipmentcomparison.Reporting())
-api.add_route('/reports/combinedequipmentcomparison',
-              combinedequipmentcomparison.Reporting())
-api.add_route('/reports/storecomparison',
-              storecomparison.Reporting())
-api.add_route('/reports/spacecomparison',
-              spacecomparison.Reporting())
-api.add_route('/reports/tenantcomparison',
-              tenantcomparison.Reporting())
+# api.add_route('/reports/combinedequipmentcomparison',
+#               combinedequipmentcomparison.Reporting())
+# api.add_route('/reports/storecomparison',
+#               storecomparison.Reporting())
+# api.add_route('/reports/spacecomparison',
+#               spacecomparison.Reporting())
+# api.add_route('/reports/tenantcomparison',
+#               tenantcomparison.Reporting())
 api.add_route('/reports/metercost',
               metercost.Reporting())
 api.add_route('/reports/meterenergy',

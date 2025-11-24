@@ -1,0 +1,49 @@
+<div class="wrapper wrapper-content">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="tabs-container">
+                <uib-tabset>
+                    <uib-tab heading="{{'MENU.USERSETTING.LOG' | translate}}">
+                        <div class="panel-body" ng-controller="LogController">
+                            <table class="footable table table-bordered table-hover" data-sort="true" data-page-size="15">
+                                <thead>
+                                    <tr>
+                                        <th class="text-center" data-type="numeric">{{'SETTING.ID' | translate}}</th>
+                                        <th class="text-center">{{'USERSETTING.USER_UUID' | translate}}</th>
+                                        <th class="text-center">{{'USERSETTING.REQUEST_DATETIME_UTC' | translate}}</th>
+                                        <th class="text-center">{{'USERSETTING.REQUEST_METHOD' | translate}}</th>
+                                        <th class="text-center">{{'USERSETTING.RESOURCE_TYPE' | translate}}</th>
+                                        <th class="text-center">{{'USERSETTING.RESOURCE_ID' | translate}}</th>
+                                        <th class="text-center">{{'USERSETTING.REQUEST_BODY' | translate}}</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="log in logs">
+                                        <td class="text-center">{{ log.id }}</td>
+                                        <td class="text-center">{{ log.user_uuid }}</td>
+                                        <td class="text-center">{{ log.request_datetime_utc }}</td>
+                                        <td class="text-center">{{ log.request_method }}</td>
+                                        <td class="text-center">{{ log.resource_type }}</td>
+                                        <td class="text-center">{{ log.resource_id }}</td>
+                                        <td class="text-center" style="max-width: 400px; word-wrap: break-word;">
+                                            {{ log.request_body }}
+                                        </td>
+                                    </tr>
+                                </tbody>
+                                <tfoot class="hide-if-no-paging">
+                                    <tr>
+                                        <td colspan="7">
+                                            <ul class="pagination pull-right"></ul>
+                                        </td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </uib-tab>
+                </uib-tabset>
+            </div>
+        </div>
+    </div>
+</div>
+
+
