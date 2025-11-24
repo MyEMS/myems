@@ -940,6 +940,15 @@ class CombinedEquipmentParameterCollection:
                 denominator_meter = None
                 if row[2] == 'point':
                     point = point_dict.get(row[4], None)
+                    if point is None and row[4] is not None:
+                        query = (" SELECT id, name "
+                                 " FROM tbl_points "
+                                 " WHERE id = %s ")
+                        cursor.execute(query, (row[4],))
+                        point_row = cursor.fetchone()
+                        if point_row is not None:
+                            point = {"id": point_row[0],
+                                     "name": point_row[1]}
                     constant = None
                     numerator_meter = None
                     denominator_meter = None
@@ -1289,10 +1298,10 @@ class CombinedEquipmentParameterItem:
                  " WHERE combined_equipment_id = %s AND id = %s ")
         cursor.execute(query, (id_, pid))
         row = cursor.fetchone()
-        cursor.close()
-        cnx.close()
 
         if row is None:
+            cursor.close()
+            cnx.close()
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.COMBINED_EQUIPMENT_PARAMETER_NOT_FOUND_OR_NOT_MATCH')
         else:
@@ -1302,6 +1311,15 @@ class CombinedEquipmentParameterItem:
             denominator_meter = None
             if row[2] == 'point':
                 point = point_dict.get(row[4], None)
+                if point is None and row[4] is not None:
+                    query = (" SELECT id, name "
+                             " FROM tbl_points "
+                             " WHERE id = %s ")
+                    cursor.execute(query, (row[4],))
+                    point_row = cursor.fetchone()
+                    if point_row is not None:
+                        point = {"id": point_row[0],
+                                 "name": point_row[1]}
                 constant = None
                 numerator_meter = None
                 denominator_meter = None
@@ -1334,6 +1352,8 @@ class CombinedEquipmentParameterItem:
                            "numerator_meter": numerator_meter,
                            "denominator_meter": denominator_meter}
 
+        cursor.close()
+        cnx.close()
         resp.text = json.dumps(meta_result)
 
     @staticmethod

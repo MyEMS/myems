@@ -33,6 +33,10 @@ app.controller(
     };
 
     $scope.getDataSourcesByCombinedEquipmentID = function (id) {
+      if (!id) {
+        $scope.combinedequipmentdatasources = [];
+        return;
+      }
       let headers = {
         "User-UUID": $scope.cur_user.uuid,
         Token: $scope.cur_user.token,
@@ -54,9 +58,11 @@ app.controller(
     $scope.changeCombinedEquipment = function (item, model) {
       $scope.currentCombinedEquipment = item;
       $scope.currentCombinedEquipment.selected = model;
-      $scope.getDataSourcesByCombinedEquipmentID(
-        $scope.currentCombinedEquipment.id
-      );
+      if ($scope.currentCombinedEquipment && $scope.currentCombinedEquipment.id) {
+        $scope.getDataSourcesByCombinedEquipmentID(
+          $scope.currentCombinedEquipment.id
+        );
+      }
     };
 
     $scope.getAllCombinedEquipments = function () {
@@ -70,11 +76,13 @@ app.controller(
         function (response) {
           if (angular.isDefined(response.status) && response.status === 200) {
             $scope.combinedequipments = response.data;
-            $timeout(function () {
-              $scope.getDataSourcesByCombinedEquipmentID(
-                $scope.currentCombinedEquipment.id
-              );
-            }, 1000);
+            if ($scope.currentCombinedEquipment && $scope.currentCombinedEquipment.id) {
+              $timeout(function () {
+                $scope.getDataSourcesByCombinedEquipmentID(
+                  $scope.currentCombinedEquipment.id
+                );
+              }, 1000);
+            }
           } else {
             $scope.combinedequipments = [];
           }
@@ -83,6 +91,9 @@ app.controller(
     };
 
     $scope.pairDataSource = function (dragEl, dropEl) {
+      if (!$scope.currentCombinedEquipment || !$scope.currentCombinedEquipment.id) {
+        return;
+      }
       var datasourceid = angular.element("#" + dragEl).scope().datasource.id;
       var combinedequipmentid = $scope.currentCombinedEquipment.id;
       let headers = {

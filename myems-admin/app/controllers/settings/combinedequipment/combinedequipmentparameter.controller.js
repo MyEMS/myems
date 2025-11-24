@@ -49,109 +49,119 @@ app.controller('CombinedEquipmentParameterController', function (
 				$scope.combinedequipmentparameters = response.data;
 			}
 			if (shouldGetPoints) {
-				$scope.getPointsByCombinedEquipmentID(id);
+				$scope.getPointsByCombinedEquipmentID(id, false);
 			}
 		});
 	};
 
 	$scope.addCombinedEquipmentParameter = function () {
-		var modalInstance = $uibModal.open({
-			templateUrl: 'views/settings/combinedequipment/combinedequipmentparameter.model.html',
-			controller: 'ModalAddCombinedEquipmentParameterCtrl',
-			windowClass: "animated fadeIn",
-			resolve: {
-				params: function () {
-					return {
-						points: angular.copy($scope.points),
-						mergedmeters: angular.copy($scope.mergedmeters),
-					};
-				}
-			}
-		});
-		modalInstance.result.then(function (combinedequipmentparameter) {
-			var combinedequipmentid = $scope.currentCombinedEquipment.id;
-			if (combinedequipmentparameter.point != null && combinedequipmentparameter.point.id != null) {
-				combinedequipmentparameter.point_id = combinedequipmentparameter.point.id;
-			}
-			if (combinedequipmentparameter.numerator_meter != null) {
-				combinedequipmentparameter.numerator_meter_uuid = combinedequipmentparameter.numerator_meter.uuid;
-			}
-			if (combinedequipmentparameter.denominator_meter != null) {
-				combinedequipmentparameter.denominator_meter_uuid = combinedequipmentparameter.denominator_meter.uuid;
-			}
-			let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
-			CombinedEquipmentParameterService.addCombinedEquipmentParameter(combinedequipmentid, combinedequipmentparameter, headers, function (response) {
-				if (angular.isDefined(response.status) && response.status === 201) {
-					toaster.pop({
-						type: "success",
-						title: $translate.instant("TOASTER.SUCCESS_TITLE"),
-						body: $translate.instant("TOASTER.SUCCESS_ADD_BODY", { template: $translate.instant("COMBINED_EQUIPMENT.PARAMETER") }),
-						showCloseButton: true,
-					});
-					$scope.getParametersByCombinedEquipmentID($scope.currentCombinedEquipment.id, true);
-				} else {
-					toaster.pop({
-						type: "error",
-						title: $translate.instant("TOASTER.ERROR_ADD_BODY", { template: $translate.instant("COMBINED_EQUIPMENT.PARAMETER") }),
-						body: $translate.instant(response.data.description),
-						showCloseButton: true,
-					});
+		if (!$scope.currentCombinedEquipment || !$scope.currentCombinedEquipment.id) {
+			return;
+		}
+		$scope.getPointsByCombinedEquipmentID($scope.currentCombinedEquipment.id, false, function() {
+			var modalInstance = $uibModal.open({
+				templateUrl: 'views/settings/combinedequipment/combinedequipmentparameter.model.html',
+				controller: 'ModalAddCombinedEquipmentParameterCtrl',
+				windowClass: "animated fadeIn",
+				resolve: {
+					params: function () {
+						return {
+							points: angular.copy($scope.points || []),
+							mergedmeters: angular.copy($scope.mergedmeters || []),
+						};
+					}
 				}
 			});
-		}, function () {
+			modalInstance.result.then(function (combinedequipmentparameter) {
+				var combinedequipmentid = $scope.currentCombinedEquipment.id;
+				if (combinedequipmentparameter.point != null && combinedequipmentparameter.point.id != null) {
+					combinedequipmentparameter.point_id = combinedequipmentparameter.point.id;
+				}
+				if (combinedequipmentparameter.numerator_meter != null) {
+					combinedequipmentparameter.numerator_meter_uuid = combinedequipmentparameter.numerator_meter.uuid;
+				}
+				if (combinedequipmentparameter.denominator_meter != null) {
+					combinedequipmentparameter.denominator_meter_uuid = combinedequipmentparameter.denominator_meter.uuid;
+				}
+				let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+				CombinedEquipmentParameterService.addCombinedEquipmentParameter(combinedequipmentid, combinedequipmentparameter, headers, function (response) {
+					if (angular.isDefined(response.status) && response.status === 201) {
+						toaster.pop({
+							type: "success",
+							title: $translate.instant("TOASTER.SUCCESS_TITLE"),
+							body: $translate.instant("TOASTER.SUCCESS_ADD_BODY", { template: $translate.instant("COMBINED_EQUIPMENT.PARAMETER") }),
+							showCloseButton: true,
+						});
+						$scope.getParametersByCombinedEquipmentID($scope.currentCombinedEquipment.id, true);
+					} else {
+						toaster.pop({
+							type: "error",
+							title: $translate.instant("TOASTER.ERROR_ADD_BODY", { template: $translate.instant("COMBINED_EQUIPMENT.PARAMETER") }),
+							body: $translate.instant(response.data.description),
+							showCloseButton: true,
+						});
+					}
+				});
+			}, function () {
 
+			});
+			$rootScope.modalInstance = modalInstance;
 		});
-		$rootScope.modalInstance = modalInstance;
 	};
 
 	$scope.editCombinedEquipmentParameter = function (combinedequipmentparameter) {
-		var modalInstance = $uibModal.open({
-			templateUrl: 'views/settings/combinedequipment/combinedequipmentparameter.model.html',
-			controller: 'ModalEditCombinedEquipmentParameterCtrl',
-			windowClass: "animated fadeIn",
-			resolve: {
-				params: function () {
-					return {
-						combinedequipmentparameter: angular.copy(combinedequipmentparameter),
-						points: angular.copy($scope.points),
-						mergedmeters: angular.copy($scope.mergedmeters),
-					};
-				}
-			}
-		});
-
-		modalInstance.result.then(function (modifiedCombinedEquipmentParameter) {
-			if (modifiedCombinedEquipmentParameter.point != null && modifiedCombinedEquipmentParameter.point.id != null) {
-				modifiedCombinedEquipmentParameter.point_id = modifiedCombinedEquipmentParameter.point.id;
-			}
-			if (modifiedCombinedEquipmentParameter.numerator_meter != null) {
-				modifiedCombinedEquipmentParameter.numerator_meter_uuid = modifiedCombinedEquipmentParameter.numerator_meter.uuid;
-			}
-			if (modifiedCombinedEquipmentParameter.denominator_meter != null) {
-				modifiedCombinedEquipmentParameter.denominator_meter_uuid = modifiedCombinedEquipmentParameter.denominator_meter.uuid;
-			}
-			let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
-			CombinedEquipmentParameterService.editCombinedEquipmentParameter($scope.currentCombinedEquipment.id, modifiedCombinedEquipmentParameter, headers, function (response) {
-				if (angular.isDefined(response.status) && response.status === 200) {
-					toaster.pop({
-						type: "success",
-						title: $translate.instant("TOASTER.SUCCESS_TITLE"),
-						body: $translate.instant("TOASTER.SUCCESS_UPDATE_BODY", { template: $translate.instant("COMBINED_EQUIPMENT.PARAMETER") }),
-						showCloseButton: true,
-					});
-					$scope.getParametersByCombinedEquipmentID($scope.currentCombinedEquipment.id, true);
-				} else {
-					toaster.pop({
-						type: "error",
-						title: $translate.instant("TOASTER.ERROR_UPDATE_BODY", { template: $translate.instant("COMBINED_EQUIPMENT.PARAMETER") }),
-						body: $translate.instant(response.data.description),
-						showCloseButton: true,
-					});
+		if (!$scope.currentCombinedEquipment || !$scope.currentCombinedEquipment.id) {
+			return;
+		}
+		$scope.getPointsByCombinedEquipmentID($scope.currentCombinedEquipment.id, true, function() {
+			var modalInstance = $uibModal.open({
+				templateUrl: 'views/settings/combinedequipment/combinedequipmentparameter.model.html',
+				controller: 'ModalEditCombinedEquipmentParameterCtrl',
+				windowClass: "animated fadeIn",
+				resolve: {
+					params: function () {
+						return {
+							combinedequipmentparameter: angular.copy(combinedequipmentparameter),
+							points: angular.copy($scope.points || []),
+							mergedmeters: angular.copy($scope.mergedmeters || []),
+						};
+					}
 				}
 			});
-		}, function () {
+
+			modalInstance.result.then(function (modifiedCombinedEquipmentParameter) {
+				if (modifiedCombinedEquipmentParameter.point != null && modifiedCombinedEquipmentParameter.point.id != null) {
+					modifiedCombinedEquipmentParameter.point_id = modifiedCombinedEquipmentParameter.point.id;
+				}
+				if (modifiedCombinedEquipmentParameter.numerator_meter != null) {
+					modifiedCombinedEquipmentParameter.numerator_meter_uuid = modifiedCombinedEquipmentParameter.numerator_meter.uuid;
+				}
+				if (modifiedCombinedEquipmentParameter.denominator_meter != null) {
+					modifiedCombinedEquipmentParameter.denominator_meter_uuid = modifiedCombinedEquipmentParameter.denominator_meter.uuid;
+				}
+				let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+				CombinedEquipmentParameterService.editCombinedEquipmentParameter($scope.currentCombinedEquipment.id, modifiedCombinedEquipmentParameter, headers, function (response) {
+					if (angular.isDefined(response.status) && response.status === 200) {
+						toaster.pop({
+							type: "success",
+							title: $translate.instant("TOASTER.SUCCESS_TITLE"),
+							body: $translate.instant("TOASTER.SUCCESS_UPDATE_BODY", { template: $translate.instant("COMBINED_EQUIPMENT.PARAMETER") }),
+							showCloseButton: true,
+						});
+						$scope.getParametersByCombinedEquipmentID($scope.currentCombinedEquipment.id, true);
+					} else {
+						toaster.pop({
+							type: "error",
+							title: $translate.instant("TOASTER.ERROR_UPDATE_BODY", { template: $translate.instant("COMBINED_EQUIPMENT.PARAMETER") }),
+							body: $translate.instant(response.data.description),
+							showCloseButton: true,
+						});
+					}
+				});
+			}, function () {
+			});
+			$rootScope.modalInstance = modalInstance;
 		});
-		$rootScope.modalInstance = modalInstance;
 	};
 
 	$scope.deleteCombinedEquipmentParameter = function (combinedequipmentparameter) {
@@ -293,30 +303,40 @@ app.controller('CombinedEquipmentParameterController', function (
 		return boundPoints;
 	};
 
-	$scope.getPointsByCombinedEquipmentID = function (id) {
+	$scope.getPointsByCombinedEquipmentID = function (id, shouldGetBoundPoints, callback) {
+		if (!id) {
+			if (callback) callback();
+			return;
+		}
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 		CombinedEquipmentDataSourceService.getDataSourcePointsByCombinedEquipmentID(id, headers, function (response) {
 			if (angular.isDefined(response.status) && response.status === 200 && response.data.length > 0) {
 				var dataSourcePoints = response.data;
-				var boundPoints = $scope.getBoundPointsFromParameters();
-				
-				var mergedPoints = angular.copy(dataSourcePoints);
-				var dataSourcePointIds = {};
-				for (var i = 0; i < dataSourcePoints.length; i++) {
-					dataSourcePointIds[dataSourcePoints[i].id] = true;
-				}
-				
-				for (var j = 0; j < boundPoints.length; j++) {
-					if (!dataSourcePointIds[boundPoints[j].id]) {
-						mergedPoints.push(boundPoints[j]);
+				if (shouldGetBoundPoints) {
+					var boundPoints = $scope.getBoundPointsFromParameters();
+					var mergedPoints = angular.copy(dataSourcePoints);
+					var dataSourcePointIds = {};
+					for (var i = 0; i < dataSourcePoints.length; i++) {
+						dataSourcePointIds[dataSourcePoints[i].id] = true;
 					}
+					for (var j = 0; j < boundPoints.length; j++) {
+						if (!dataSourcePointIds[boundPoints[j].id]) {
+							mergedPoints.push(boundPoints[j]);
+						}
+					}
+					$scope.points = mergedPoints;
+				} else {
+					$scope.points = dataSourcePoints;
 				}
-				
-				$scope.points = mergedPoints;
 			} else {
-				var boundPoints = $scope.getBoundPointsFromParameters();
-				$scope.points = boundPoints;
+				if (shouldGetBoundPoints) {
+					var boundPoints = $scope.getBoundPointsFromParameters();
+					$scope.points = boundPoints;
+				} else {
+					$scope.points = [];
+				}
 			}
+			if (callback) callback();
 		});
 	};
 
@@ -362,6 +382,25 @@ app.controller('ModalEditCombinedEquipmentParameterCtrl', function ($scope, $uib
 	$scope.points = params.points;
 	$scope.mergedmeters = params.mergedmeters;
 	$scope.is_disabled = true;
+	
+	if ($scope.combinedequipmentparameter.parameter_type === 'point' && 
+		$scope.combinedequipmentparameter.point != null && 
+		$scope.combinedequipmentparameter.point.id != null) {
+		var pointFound = false;
+		for (var i = 0; i < $scope.points.length; i++) {
+			if ($scope.points[i].id === $scope.combinedequipmentparameter.point.id) {
+				pointFound = true;
+				break;
+			}
+		}
+		if (!pointFound && $scope.combinedequipmentparameter.point.id) {
+			$scope.points.push({
+				id: $scope.combinedequipmentparameter.point.id,
+				name: $scope.combinedequipmentparameter.point.name
+			});
+		}
+	}
+	
 	$scope.ok = function () {
 		$uibModalInstance.close($scope.combinedequipmentparameter);
 	};
