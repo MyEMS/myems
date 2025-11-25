@@ -78,12 +78,12 @@ const MeterComparison = ({ setRedirect, setRedirectUrl, t }) => {
   const [filteredMeterList2, setFilteredMeterList2] = useState([]);
   const [selectedMeter1, setSelectedMeter1] = useState(undefined);
   const [selectedMeter2, setSelectedMeter2] = useState(undefined);
-  const [periodType, setPeriodType] = useState('daily');
+  const [periodType, setPeriodType] = useState('hourly');
   const [cascaderOptions, setCascaderOptions] = useState(undefined);
   const [reportingPeriodDateRange, setReportingPeriodDateRange] = useState([
     current_moment
       .clone()
-      .startOf('month')
+      .subtract(24, 'hours')
       .toDate(),
     current_moment.toDate()
   ]);
@@ -725,7 +725,7 @@ const MeterComparison = ({ setRedirect, setRedirectUrl, t }) => {
                     id="periodType"
                     name="periodType"
                     bsSize="sm"
-                    defaultValue="daily"
+                    defaultValue="hourly"
                     onChange={({ target }) => setPeriodType(target.value)}
                   >
                     {periodTypeOptions.map((periodType, index) => (
