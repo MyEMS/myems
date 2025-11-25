@@ -74,7 +74,7 @@ const MeterTrend = ({ setRedirect, setRedirectUrl, t }) => {
   const [reportingPeriodDateRange, setReportingPeriodDateRange] = useState([
     current_moment
       .clone()
-      .startOf('month')
+      .subtract(24, 'hours')
       .toDate(),
     current_moment.toDate()
   ]);

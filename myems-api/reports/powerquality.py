@@ -529,11 +529,11 @@ class Reporting:
         }
         # export result to Excel file and then encode the file to base64 string
         if not is_quick_mode:
-            result['excel_bytes_base64'] = excelexporters.powerqulity.export(result,
-                                                                             meter['name'],
-                                                                             reporting_period_start_datetime_local,
-                                                                             reporting_period_end_datetime_local,
-                                                                             None,
-                                                                             language)
+            result['excel_bytes_base64'] = excelexporters.powerquality.export(result,
+                                                                              meter['name'],
+                                                                              reporting_period_start_datetime_local,
+                                                                              reporting_period_end_datetime_local,
+                                                                              None,
+                                                                              language)
 
         resp.text = json.dumps(result)

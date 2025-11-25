@@ -75,25 +75,15 @@ const MeterCarbon = ({ setRedirect, setRedirectUrl, t }) => {
   const [meterList, setMeterList] = useState([]);
   const [filteredMeterList, setFilteredMeterList] = useState([]);
   const [selectedMeter, setSelectedMeter] = useState(undefined);
-  const [comparisonType, setComparisonType] = useState('month-on-month');
-  const [periodType, setPeriodType] = useState('daily');
+  const [comparisonType, setComparisonType] = useState('none-comparison');
+  const [periodType, setPeriodType] = useState('hourly');
   const [cascaderOptions, setCascaderOptions] = useState(undefined);
-  const [basePeriodDateRange, setBasePeriodDateRange] = useState([
-    current_moment
-      .clone()
-      .subtract(1, 'months')
-      .startOf('month')
-      .toDate(),
-    current_moment
-      .clone()
-      .subtract(1, 'months')
-      .toDate()
-  ]);
+  const [basePeriodDateRange, setBasePeriodDateRange] = useState([null, null]);
   const [basePeriodDateRangePickerDisabled, setBasePeriodDateRangePickerDisabled] = useState(true);
   const [reportingPeriodDateRange, setReportingPeriodDateRange] = useState([
     current_moment
       .clone()
-      .startOf('month')
+      .subtract(24, 'hours')
       .toDate(),
     current_moment.toDate()
   ]);
@@ -793,7 +783,7 @@ const MeterCarbon = ({ setRedirect, setRedirectUrl, t }) => {
                     id="comparisonType"
                     name="comparisonType"
                     bsSize="sm"
-                    defaultValue="month-on-month"
+                    defaultValue="none-comparison"
                     onChange={onComparisonTypeChange}
                   >
                     {comparisonTypeOptions.map((comparisonType, index) => (
@@ -814,7 +804,7 @@ const MeterCarbon = ({ setRedirect, setRedirectUrl, t }) => {
                     id="periodType"
                     name="periodType"
                     bsSize="sm"
-                    defaultValue="daily"
+                    defaultValue="hourly"
                     onChange={({ target }) => setPeriodType(target.value)}
                   >
                     {periodTypeOptions.map((periodType, index) => (
