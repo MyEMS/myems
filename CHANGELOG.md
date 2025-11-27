@@ -14,6 +14,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - added store comparison report
 - added tenant comparison report
 - added virtual meter comparison report
+- added 24-hour trend charts for space environmental monitor
 ### Changed
 - updated the format of displaying the paging numbers in the detailed data table in myems-web
 ### Fixed
