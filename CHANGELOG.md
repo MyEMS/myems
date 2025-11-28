@@ -19,6 +19,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - updated the format of displaying the paging numbers in the detailed data table in myems-web
 ### Fixed
 - fixed list refresh issues in all binding functions of stores, shopflors and distribution systems in myems-admin
+- fixed issue in virtual point procedure in myems-normalization
 ### Removed
 
 
