@@ -786,7 +786,9 @@ class WebMessageBatch:
 
         cnx = mysql.connector.connect(**config.myems_fdd_db)
         cursor = cnx.cursor()
-        cursor.execute(" DELETE FROM tbl_web_messages WHERE id in (" + ids + ")", ())
+        id_list = [int(id_str) for id_str in ids.split(',')]
+        placeholders = ','.join(['%s'] * len(id_list))
+        cursor.execute(f"DELETE FROM tbl_web_messages WHERE id IN ({placeholders})", id_list)
         cnx.commit()
         if cursor:
             cursor.close()
