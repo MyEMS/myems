@@ -20,6 +20,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Fixed
 - fixed list refresh issues in all binding functions of stores, shopflors and distribution systems in myems-admin
 - fixed issue in virtual point procedure in myems-normalization
+- fixed issue of web message batch delete function in myems-api
 ### Removed
 
 
