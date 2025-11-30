@@ -237,6 +237,12 @@ api.add_route('/combinedequipments/{id_}/parameters',
               combinedequipment.CombinedEquipmentParameterCollection())
 api.add_route('/combinedequipments/{id_}/parameters/{pid}',
               combinedequipment.CombinedEquipmentParameterItem())
+api.add_route('/combinedequipments/{id_}/datasources',
+              combinedequipment.CombinedEquipmentDataSourceCollection())
+api.add_route('/combinedequipments/{id_}/datasources/{dsid}',
+              combinedequipment.CombinedEquipmentDataSourceItem())
+api.add_route('/combinedequipments/{id_}/datasourcepoints',
+              combinedequipment.CombinedEquipmentDataSourcePointCollection())
 api.add_route('/combinedequipments/{id_}/virtualmeters',
               combinedequipment.CombinedEquipmentVirtualMeterCollection())
 api.add_route('/combinedequipments/{id_}/virtualmeters/{mid}',

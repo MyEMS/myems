@@ -126,6 +126,19 @@ CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_combined_equipments_parameters
 CREATE INDEX `tbl_combined_equipment_parameters_index_1` ON `myems_system_db`.`tbl_combined_equipments_parameters` (`combined_equipment_id`);
 
 -- ---------------------------------------------------------------------------------------------------------------------
+-- Table `myems_system_db`.`tbl_combined_equipments_data_sources`
+-- ---------------------------------------------------------------------------------------------------------------------
+DROP TABLE IF EXISTS `myems_system_db`.`tbl_combined_equipments_data_sources`;
+
+CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_combined_equipments_data_sources` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `combined_equipment_id` BIGINT NOT NULL,
+  `data_source_id` BIGINT NOT NULL,
+  PRIMARY KEY (`id`));
+CREATE INDEX `tbl_combined_equipments_data_sources_index_1`
+ON `myems_system_db`.`tbl_combined_equipments_data_sources` (`combined_equipment_id`);
+
+-- ---------------------------------------------------------------------------------------------------------------------
 -- Table `myems_system_db`.`tbl_combined_equipments_virtual_meters`
 -- ---------------------------------------------------------------------------------------------------------------------
 DROP TABLE IF EXISTS `myems_system_db`.`tbl_combined_equipments_virtual_meters` ;

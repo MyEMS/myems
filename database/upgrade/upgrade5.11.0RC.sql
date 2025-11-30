@@ -19,6 +19,22 @@ VALUES
 (116, 'Space Comparison','/space/comparison',100,0),
 (713, 'Combined Equipment Comparison', '/combinedequipment/comparison', 700, 0);
 
+CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_equipments_data_sources` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `equipment_id` BIGINT NOT NULL,
+  `data_source_id` BIGINT NOT NULL,
+  PRIMARY KEY (`id`));
+CREATE INDEX `tbl_equipments_data_sources_index_1`
+ON `myems_system_db`.`tbl_equipments_data_sources` (`equipment_id`);
+
+CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_combined_equipments_data_sources` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `combined_equipment_id` BIGINT NOT NULL,
+  `data_source_id` BIGINT NOT NULL,
+  PRIMARY KEY (`id`));
+CREATE INDEX `tbl_combined_equipments_data_sources_index_1`
+ON `myems_system_db`.`tbl_combined_equipments_data_sources` (`combined_equipment_id`);
+
 -- UPDATE VERSION NUMBER
 UPDATE `myems_system_db`.`tbl_versions` SET version='5.11.0RC', release_date='2025-11-28' WHERE id=1;
 
