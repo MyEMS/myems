@@ -60,9 +60,12 @@ class LogCollection:
         result = []
         
         # Parse time zone offset using regex for robustness
-        match = re.match(r'([+-])(\d{2})(\d{2})', config.utc_offset)
+        match = re.match(r'([+-]?)(\d{2}):?(\d{2})', config.utc_offset)
         if match:
             sign, hours, minutes = match.groups()
+            # Default to + if no sign provided
+            if sign == '':
+                sign = '+'
             offset = timedelta(hours=int(hours), minutes=int(minutes))
             if sign == '-':
                 offset = -offset
