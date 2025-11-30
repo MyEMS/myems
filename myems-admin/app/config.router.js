@@ -2028,6 +2028,37 @@ app
                             ]
                         }
                     })
+                    .state('users.log', {
+                        url: "/log",
+                        templateUrl: "views/users/log/log.html",
+                        data: {
+                            pageTitle: 'MENU.USERSETTING.LOG'
+                        },
+
+                        resolve: {
+                            deps: [
+                                '$ocLazyLoad',
+                                function ($ocLazyLoad) {
+                                    return $ocLazyLoad.load(['toaster']).then(
+                                        function () {
+                                            return $ocLazyLoad.load([{
+                                                files: ['js/plugins/footable/footable.all.min.js', 'css/plugins/footable/footable.core.css']
+                                            }, {
+                                                name: 'ui.footable',
+                                                files: ['js/plugins/footable/angular-footable.js']
+                                            }, {
+                                                serie: true,
+                                                files: [
+                                                    'app/services/users/log/log.service.js',
+                                                    'app/controllers/users/log/log.controller.js'
+                                                ]
+                                            }]);
+                                        }
+                                    );
+                                }
+                            ]
+                        }
+                    })
                     .state('users.apikey', {
                         url: "/apikey",
                         templateUrl: "views/users/apikey/apikey.html",

@@ -17,6 +17,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - added 24-hour trend charts for space environmental monitor
 - added binding data source to equpment function in myems-api and myems-admin
 - added binding data source to combined equpment function in myems-api and myems-admin
+- added audit log to myems-api and myems-admin
 
 ### Changed
 - updated the format of displaying the paging numbers in the detailed data table in myems-web

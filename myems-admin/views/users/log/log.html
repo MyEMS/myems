@@ -1,0 +1,61 @@
+<div class="wrapper wrapper-content">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="tabs-container">
+                <uib-tabset>
+                    <uib-tab heading="{{'MENU.USERSETTING.LOG_LIST' | translate}}">
+                        <div ng-controller="LogController">
+                            <div class="panel-body">
+                                <div class="table-responsive">
+                                    <table class="table table-bordered table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th class="text-center" data-type="numeric">{{'SETTING.ID' | translate}}</th>
+                                                <th class="text-center">{{'USER.USERNAME' | translate}}</th>
+                                                <th class="text-center">{{'MENU.USERSETTING.REQUEST_DATETIME_UTC' | translate}}</th>
+                                                <th class="text-center">{{'MENU.USERSETTING.REQUEST_METHOD' | translate}}</th>
+                                                <th class="text-center">{{'MENU.USERSETTING.RESOURCE_TYPE' | translate}}</th>
+                                                <th class="text-center">{{'MENU.USERSETTING.RESOURCE_ID' | translate}}</th>
+                                                <th class="text-center">{{'MENU.USERSETTING.REQUEST_BODY' | translate}}</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="log in paginatedLogs">
+                                                <td class="text-center">{{ log.id }}</td>
+                                                <td class="text-center">{{ log.user_name || log.user_uuid }}</td>
+                                                <td class="text-center">{{ log.request_datetime }}</td>
+                                                <td class="text-center">{{ log.request_method }}</td>
+                                                <td class="text-center">{{ log.resource_type }}</td>
+                                                <td class="text-center">{{ log.resource_id }}</td>
+                                                <td class="text-center" style="max-width: 400px; word-wrap: break-word;">
+                                                    {{ log.request_body }}
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="text-right" ng-if="logs.length > paging.pageSize">
+                                    <uib-pagination class="pagination pagination-sm m-b-none"
+                                                    total-items="logs.length"
+                                                    items-per-page="paging.pageSize"
+                                                    max-size="7"
+                                                    ng-model="paging.currentPage"
+                                                    boundary-links="true"
+                                                    rotate="false"
+                                                    previous-text="«"
+                                                    next-text="»"
+                                                    first-text="««"
+                                                    last-text="»»"
+                                                    ng-change="pageChanged()">
+                                    </uib-pagination>
+                                </div>
+                            </div>
+                        </div>
+                    </uib-tab>
+                </uib-tabset>
+            </div>
+        </div>
+    </div>
+</div>
+
+
