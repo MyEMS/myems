@@ -745,6 +745,19 @@ CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_equipments_commands` (
 CREATE INDEX `tbl_equipments_comands_index_1` ON `myems_system_db`.`tbl_equipments_commands` (`equipment_id`);
 
 -- ---------------------------------------------------------------------------------------------------------------------
+-- Table `myems_system_db`.`tbl_equipments_data_sources`
+-- ---------------------------------------------------------------------------------------------------------------------
+DROP TABLE IF EXISTS `myems_system_db`.`tbl_equipments_data_sources`;
+
+CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_equipments_data_sources` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `equipment_id` BIGINT NOT NULL,
+  `data_source_id` BIGINT NOT NULL,
+  PRIMARY KEY (`id`));
+CREATE INDEX `tbl_equipments_data_sources_index_1`
+ON `myems_system_db`.`tbl_equipments_data_sources` (`equipment_id`);
+
+-- ---------------------------------------------------------------------------------------------------------------------
 -- Table `myems_system_db`.`tbl_equipments_meters`
 -- ---------------------------------------------------------------------------------------------------------------------
 DROP TABLE IF EXISTS `myems_system_db`.`tbl_equipments_meters` ;

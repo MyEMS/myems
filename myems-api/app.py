@@ -528,6 +528,15 @@ api.add_route('/equipments/import',
 api.add_route('/equipments/{id_}/clone',
               equipment.EquipmentClone())
 
+api.add_route('/equipments/{id_}/datasources',
+              equipment.EquipmentDataSourceCollection())
+api.add_route('/equipments/{id_}/datasources/{dsid}', 
+              equipment.EquipmentDataSourceItem())
+api.add_route('/equipments/{id_}/addpoints',
+              equipment.EquipmentAddPointsCollection())
+api.add_route('/equipments/{id_}/editpoints/{pid}',
+              equipment.EquipmentEditPointsCollection())
+
 api.add_route('/gateways',
               gateway.GatewayCollection())
 api.add_route('/gateways/{id_}',
