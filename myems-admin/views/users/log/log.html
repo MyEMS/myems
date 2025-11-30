@@ -3,7 +3,7 @@
         <div class="col-lg-12">
             <div class="tabs-container">
                 <uib-tabset>
-                    <uib-tab heading="{{'MENU.USERSETTING.LOG' | translate}}">
+                    <uib-tab heading="{{'MENU.USERSETTING.LOG_LIST' | translate}}">
                         <div ng-controller="LogController">
                             <div class="panel-body">
                                 <div class="table-responsive">
@@ -23,7 +23,7 @@
                                             <tr ng-repeat="log in paginatedLogs">
                                                 <td class="text-center">{{ log.id }}</td>
                                                 <td class="text-center">{{ log.user_name || log.user_uuid }}</td>
-                                                <td class="text-center">{{ log.request_datetime_utc }}</td>
+                                                <td class="text-center">{{ log.request_datetime }}</td>
                                                 <td class="text-center">{{ log.request_method }}</td>
                                                 <td class="text-center">{{ log.resource_type }}</td>
                                                 <td class="text-center">{{ log.resource_id }}</td>
