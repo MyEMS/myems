@@ -5,6 +5,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 ### Added
+### Changed
+### Fixed
+### Removed
+
+
+## [v5.11.0] - 2025-11-30
+### Added
 - added space cascader to distribution system in myems-web
 - added search function to tariff setting in myems-admin and myems-api
 - added combined equipment comparison report
@@ -18,16 +25,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - added binding data source to equpment function in myems-api and myems-admin
 - added binding data source to combined equpment function in myems-api and myems-admin
 - added audit log to myems-api and myems-admin
-
 ### Changed
 - updated the format of displaying the paging numbers in the detailed data table in myems-web
-
 ### Fixed
 - fixed list refresh issues in all binding functions of stores, shopflors and distribution systems in myems-admin
 - fixed issue in virtual point procedure in myems-normalization
 - fixed issue of web message batch delete function in myems-api
 ### Removed
-
+- None
 
 ## [v5.10.0] - 2025-10-26
 ### Added
@@ -2109,7 +2114,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Removed
 -   None.
 
-[Unreleased]: https://gitee.com/MyEMS/myems/compare/v5.10.0...HEAD
+[Unreleased]: https://gitee.com/MyEMS/myems/compare/v5.11.0...HEAD
+[5.11.0]: https://gitee.com/MyEMS/myems/compare/v5.10.0...v5.11.0
 [5.10.0]: https://gitee.com/MyEMS/myems/compare/v5.9.0...v5.10.0
 [5.9.0]: https://gitee.com/MyEMS/myems/compare/v5.8.0...v5.9.0
 [5.8.0]: https://gitee.com/MyEMS/myems/compare/v5.7.1...v5.8.0

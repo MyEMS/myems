@@ -1,7 +1,7 @@
 <p align="center">
    <img alt="logo" src="https://myems.io/img/myems.png" width="150" height="150">
 </p>
-<h1 align="center" style="margin: 30px 0 30px; font-weight: bold;">MyEMS v5.10.0</h1>
+<h1 align="center" style="margin: 30px 0 30px; font-weight: bold;">MyEMS v5.11.0</h1>
 <h3 align="center">Hệ thống quản lý năng lượng mã nguồn mở hàng đầu ngành</h3>
 <h6 align="center">Gần một nghìn trường hợp dự án</h6>
 <h6 align="center">Cam kết mã nguồn mở vĩnh viễn</h6>
