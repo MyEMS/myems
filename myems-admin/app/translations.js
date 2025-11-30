@@ -155,6 +155,14 @@ function config($translateProvider) {
                     USER: 'Users',
                     PRIVILEGE: 'Privileges',
                     API_KEY: 'API Key',
+                    LOG: 'Audit Logs',
+                    LOG_LIST: 'Audit Logs List',
+                    USER_UUID: 'User UUID',
+                    REQUEST_DATETIME_UTC: 'Request Datetime',
+                    REQUEST_METHOD: 'Request Method',
+                    RESOURCE_TYPE: 'Resource Type',
+                    RESOURCE_ID: 'Resource ID',
+                    REQUEST_BODY: 'Request Body',
                 }
             },
             LOGIN: {
@@ -2239,6 +2247,14 @@ function config($translateProvider) {
                     USER: '用户设置',
                     PRIVILEGE: '权限设置',
                     API_KEY: 'API密钥',
+                    LOG: '审计日志',
+                    LOG_LIST: '审计日志列表',
+                    USER_UUID: '用户UUID',
+                    REQUEST_DATETIME_UTC: '请求时间',
+                    REQUEST_METHOD: '请求方法',
+                    RESOURCE_TYPE: '资源类型',
+                    RESOURCE_ID: '资源ID',
+                    REQUEST_BODY: '请求体',
                 }
             },
             LOGIN: {
@@ -4331,7 +4347,15 @@ function config($translateProvider) {
                     USERSETTING: 'Benutzer und Berechtigungen',
                     USER: 'Benutzer',
                     PRIVILEGE: 'Privilegien',
-                    API_KEY: 'API-Schlüssel'
+                    API_KEY: 'API-Schlüssel',
+                    LOG: 'Audit Logs',
+                    LOG_LIST: 'Audit Logs List',
+                    USER_UUID: 'User UUID',
+                    REQUEST_DATETIME_UTC: 'Request Datetime',
+                    REQUEST_METHOD: 'Request Method',
+                    RESOURCE_TYPE: 'Resource Type',
+                    RESOURCE_ID: 'Resource ID',
+                    REQUEST_BODY: 'Request Body',
                 }
             },
             LOGIN: {
@@ -6415,6 +6439,14 @@ function config($translateProvider) {
                     USER: 'Usagers',
                     PRIVILEGE: 'Privilèges',
                     API_KEY: 'Clé API',
+                    LOG: 'Audit Logs',
+                    LOG_LIST: 'Audit Logs List',
+                    USER_UUID: 'User UUID',
+                    REQUEST_DATETIME_UTC: 'Request Datetime',
+                    REQUEST_METHOD: 'Request Method',
+                    RESOURCE_TYPE: 'Resource Type',
+                    RESOURCE_ID: 'Resource ID',
+                    REQUEST_BODY: 'Request Body',
                 }
             },
             LOGIN: {
@@ -8496,6 +8528,14 @@ function config($translateProvider) {
                     USER: 'Usuarios',
                     PRIVILEGE: 'Privilegios',
                     API_KEY: 'Clave API',
+                    LOG: 'Audit Logs',
+                    LOG_LIST: 'Audit Logs List',
+                    USER_UUID: 'User UUID',
+                    REQUEST_DATETIME_UTC: 'Request Datetime',
+                    REQUEST_METHOD: 'Request Method',
+                    RESOURCE_TYPE: 'Resource Type',
+                    RESOURCE_ID: 'Resource ID',
+                    REQUEST_BODY: 'Request Body',
                 }
             },
             LOGIN: {
@@ -14744,6 +14784,14 @@ function config($translateProvider) {
                     USER: 'Người dùng',
                     PRIVILEGE: 'Quyền',
                     API_KEY: 'Khóa API',
+                    LOG: 'Audit Logs',
+                    LOG_LIST: 'Audit Logs List',
+                    USER_UUID: 'User UUID',
+                    REQUEST_DATETIME_UTC: 'Request Datetime',
+                    REQUEST_METHOD: 'Request Method',
+                    RESOURCE_TYPE: 'Resource Type',
+                    RESOURCE_ID: 'Resource ID',
+                    REQUEST_BODY: 'Request Body',
                 }
             },
             LOGIN: {
@@ -18904,6 +18952,14 @@ function config($translateProvider) {
                     USER: 'Kullanıcı',
                     PRIVILEGE: 'Ayrıcalık',
                     API_KEY: 'API Anahtarı',
+                    LOG: 'Audit Logs',
+                    LOG_LIST: 'Audit Logs List',
+                    USER_UUID: 'User UUID',
+                    REQUEST_DATETIME_UTC: 'Request Datetime',
+                    REQUEST_METHOD: 'Request Method',
+                    RESOURCE_TYPE: 'Resource Type',
+                    RESOURCE_ID: 'Resource ID',
+                    REQUEST_BODY: 'Request Body',
                 }
             },
             LOGIN: {
@@ -25145,6 +25201,14 @@ function config($translateProvider) {
                     USER: '⽤⼾設置',
                     PRIVILEGE: '權限設置',
                     API_KEY: 'API密鑰',
+                    LOG: '審計日誌',
+                    LOG_LIST: '審計日誌列表',
+                    USER_UUID: '用戶UUID',
+                    REQUEST_DATETIME_UTC: '請求時間',
+                    REQUEST_METHOD: '請求方法',
+                    RESOURCE_TYPE: '資源類型',
+                    RESOURCE_ID: '資源ID',
+                    REQUEST_BODY: '請求體',
                 }
             },
             LOGIN: {

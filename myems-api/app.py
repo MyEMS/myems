@@ -11,7 +11,7 @@ from core import advancedreport, apikey, command, controlmode, energyflowdiagram
     shopfloor, webmessage, distributionsystem, store, emailmessage, tenanttype, wechatmessage, space, gateway, \
     offlinemeter, rule, energycategory, sensor, energyitem, notification, menu, datarepairfile, workingcalendar, \
     microgrid,  virtualpowerplant, energystoragecontainer, energystoragepowerstation, photovoltaicpowerstation, \
-    windfarm, energyplanfile, svg, protocol, ticket, iotsimcard
+    windfarm, energyplanfile, svg, protocol, ticket, iotsimcard, log
 
 from reports import advancedreportfile
 from reports import combinedequipmentbatch
@@ -774,6 +774,9 @@ api.add_route('/points/import',
               point.PointImport())
 api.add_route('/points/{id_}/clone',
               point.PointClone())
+
+api.add_route('/logs',
+              log.LogCollection())
 
 api.add_route('/apikeys',
               apikey.ApiKeyCollection())
