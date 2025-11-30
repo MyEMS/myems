@@ -42,8 +42,8 @@ class VersionItem:
             req: Falcon request object
             resp: Falcon response object
         """
-        result = {"version": 'MyEMS v5.10.0',
-                  "release-date": '2025-10-26',
+        result = {"version": 'MyEMS v5.11.0',
+                  "release-date": '2025-11-30',
                   "licensed-to": 'COMMUNITY',
                   "website": "https://myems.io"}
         resp.text = json.dumps(result)

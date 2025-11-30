@@ -36,6 +36,6 @@ CREATE INDEX `tbl_combined_equipments_data_sources_index_1`
 ON `myems_system_db`.`tbl_combined_equipments_data_sources` (`combined_equipment_id`);
 
 -- UPDATE VERSION NUMBER
-UPDATE `myems_system_db`.`tbl_versions` SET version='5.11.0RC', release_date='2025-11-28' WHERE id=1;
+UPDATE `myems_system_db`.`tbl_versions` SET version='5.11.0', release_date='2025-11-30' WHERE id=1;
 
 COMMIT;
