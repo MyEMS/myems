@@ -37,7 +37,7 @@ app.controller('EquipmentParameterController', function(
 	$scope.changeEquipment=function(item,model){
 		$scope.currentEquipment=item;
 		$scope.currentEquipment.selected=model;
-	        $scope.getAddPoints();
+	        //$scope.getAddPoints();
     	$scope.is_show_add_parameter = true;
 		$scope.getParametersByEquipmentID($scope.currentEquipment.id);
 	};
@@ -53,7 +53,7 @@ app.controller('EquipmentParameterController', function(
 	};
 
 	$scope.addEquipmentParameter = function() {
-
+            $scope.getAddPoints().then(function() {
 		var modalInstance = $uibModal.open({
 			templateUrl: 'views/settings/equipment/equipmentparameter.model.html',
 			controller: 'ModalAddEquipmentParameterCtrl',
@@ -68,18 +68,18 @@ app.controller('EquipmentParameterController', function(
 			}
 		});
 		modalInstance.result.then(function(equipmentparameter) {
-        var equipmentid = $scope.currentEquipment.id;
-        if (equipmentparameter.point != null) {
-            equipmentparameter.point_id = equipmentparameter.point.id;
-        }
-        if (equipmentparameter.numerator_meter != null) {
-            equipmentparameter.numerator_meter_uuid = equipmentparameter.numerator_meter.uuid;
-        }
-        if (equipmentparameter.denominator_meter != null) {
-            equipmentparameter.denominator_meter_uuid = equipmentparameter.denominator_meter.uuid;
-        }
-		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
-		EquipmentParameterService.addEquipmentParameter(equipmentid, equipmentparameter, headers, function (response) {
+                    var equipmentid = $scope.currentEquipment.id;
+                    if (equipmentparameter.point != null) {
+                        equipmentparameter.point_id = equipmentparameter.point.id;
+                    }
+                    if (equipmentparameter.numerator_meter != null) {
+                        equipmentparameter.numerator_meter_uuid = equipmentparameter.numerator_meter.uuid;
+                    }
+                    if (equipmentparameter.denominator_meter != null) {
+                        equipmentparameter.denominator_meter_uuid = equipmentparameter.denominator_meter.uuid;
+                    }
+		    let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+		    EquipmentParameterService.addEquipmentParameter(equipmentid, equipmentparameter, headers, function (response) {
 			if (angular.isDefined(response.status) && response.status === 201) {
 				toaster.pop({
 					type: "success",
@@ -96,12 +96,13 @@ app.controller('EquipmentParameterController', function(
 					showCloseButton: true,
 				});
 			}
-		});
-	}, function() {
+		    });
+	        }, function() {
 
-		});
-		$rootScope.modalInstance = modalInstance;
-	};
+  	        });
+       	        $rootScope.modalInstance = modalInstance;
+            })
+        };
 
 	$scope.editEquipmentParameter = function(equipmentparameter) {
             $scope.getEditPoints(equipmentparameter).then(function() {
@@ -290,14 +291,18 @@ app.controller('EquipmentParameterController', function(
 	};
 
 	$scope.getAddPoints = function() {
+            return new Promise(function(resolve, reject) {
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 		EquipmentDataSourceService.getAddPoints($scope.currentEquipment.id, headers, function (response) {
 			if (angular.isDefined(response.status) && response.status === 200) {
 				$scope.add_points = response.data;
+                                resolve($scope.add_points);
 			} else {
 				$scope.add_points = [];
+                                resolve($scope.add_points);
 			}
 		});
+            });
 	};
 
 	$scope.getEditPoints = function(equipmentparameter) {
