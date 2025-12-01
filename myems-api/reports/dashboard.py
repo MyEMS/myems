@@ -923,7 +923,7 @@ class Reporting:
                 result['reporting_period_input']['deeps'].append(
                     reporting_input[energy_category_id]['deep'])
                 result['reporting_period_input']['increment_rates'].append(
-                    (reporting_input[energy_category_id]['values'][12] -
+                    (reporting_input[energy_category_id]['subtotal'] -
                      base_input[energy_category_id]['subtotal']) /
                     base_input[energy_category_id]['subtotal']
                     if base_input[energy_category_id]['subtotal'] > 0.0 else None)
@@ -987,7 +987,7 @@ class Reporting:
                 result['reporting_period_cost']['deeps'].append(
                     reporting_cost[energy_category_id]['deep'])
                 result['reporting_period_cost']['increment_rates'].append(
-                    (reporting_cost[energy_category_id]['values'][12] -
+                    (reporting_cost[energy_category_id]['subtotal'] -
                      base_cost[energy_category_id]['subtotal']) /
                     base_cost[energy_category_id]['subtotal']
                     if base_cost[energy_category_id]['subtotal'] > 0.0 else None)
@@ -995,8 +995,8 @@ class Reporting:
 
         result['reporting_period_cost']['total_increment_rate'] = \
             (result['reporting_period_cost']['total'] - result['base_period_cost']['total']) / \
-            result['reporting_period_cost']['total'] \
-            if result['reporting_period_cost']['total'] > Decimal(0.0) else None
+            result['base_period_cost']['total'] \
+            if result['base_period_cost']['total'] > Decimal(0.0) else None
 
         result['reporting_period_output'] = dict()
         result['reporting_period_output']['names'] = list()
@@ -1045,7 +1045,7 @@ class Reporting:
                 result['reporting_period_output']['deeps'].append(
                     reporting_output[energy_category_id]['deep'])
                 result['reporting_period_output']['increment_rates'].append(
-                    (reporting_output[energy_category_id]['values'][12] -
+                    (reporting_output[energy_category_id]['subtotal'] -
                      base_output[energy_category_id]['subtotal']) /
                     base_output[energy_category_id]['subtotal']
                     if base_output[energy_category_id]['subtotal'] > 0.0 else None)
@@ -1054,9 +1054,9 @@ class Reporting:
                 result['reporting_period_output']['total_in_kgco2e'] += \
                     reporting_output[energy_category_id]['subtotal_in_kgco2e']
         result['reporting_period_output']['increment_rate_in_kgce'] = \
-            (result['reporting_period_output']['total_in_kgce'] - result['base_period_input']['total_in_kgce']) / \
+            (result['reporting_period_output']['total_in_kgce'] - result['base_period_output']['total_in_kgce']) / \
             result['base_period_output']['total_in_kgce'] \
-            if result['reporting_period_output']['total_in_kgce'] > Decimal(0.0) else None
+            if result['base_period_output']['total_in_kgce'] > Decimal(0.0) else None
 
         result['reporting_period_output']['increment_rate_in_kgco2e'] = \
             (result['reporting_period_output']['total_in_kgco2e'] - result['base_period_output']['total_in_kgco2e']) / \
