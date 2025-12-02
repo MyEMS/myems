@@ -3286,90 +3286,78 @@ class SpaceTreeCollection:
                                    description='API.INVALID_TOKEN')
         token = str.strip(req.headers['TOKEN'])
 
-        # Verify User Session
+        # Optimized: Use a single JOIN query to get session, user, and privilege data
         cnx = mysql.connector.connect(**config.myems_user_db)
         cursor = cnx.cursor()
-        query = (" SELECT utc_expires "
-                 " FROM tbl_sessions "
-                 " WHERE user_uuid = %s AND token = %s")
-        cursor.execute(query, (user_uuid, token,))
-        row = cursor.fetchone()
-
-        if row is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.USER_SESSION_NOT_FOUND')
-        else:
-            utc_expires = row[0]
-            if datetime.utcnow() > utc_expires:
-                cursor.close()
-                cnx.close()
-                raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                       description='API.USER_SESSION_TIMEOUT')
-        # get privilege
-        query = (" SELECT is_admin, privilege_id "
-                 " FROM tbl_users "
-                 " WHERE uuid = %s ")
-        cursor.execute(query, (user_uuid,))
-        row = cursor.fetchone()
-        if row is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND', description='API.USER_NOT_FOUND')
-        else:
-            is_admin = bool(row[0])
-            privilege_id = row[1]
-
-        # get space_id in privilege
-        if is_admin:
-            space_id = 1
-        elif privilege_id is None:
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.PRIVILEGE_NOT_FOUND')
-        else:
-            query = (" SELECT data "
-                     " FROM tbl_privileges "
-                     " WHERE id = %s ")
-            cursor.execute(query, (privilege_id,))
+        try:
+            # Combined query to get session expiry, user admin status, privilege_id, and privilege data in one go
+            query = (" SELECT s.utc_expires, u.is_admin, u.privilege_id, p.data "
+                     " FROM tbl_sessions s "
+                     " INNER JOIN tbl_users u ON s.user_uuid = u.uuid "
+                     " LEFT JOIN tbl_privileges p ON u.privilege_id = p.id "
+                     " WHERE s.user_uuid = %s AND s.token = %s")
+            cursor.execute(query, (user_uuid, token,))
             row = cursor.fetchone()
-            cursor.close()
-            cnx.close()
 
             if row is None:
                 raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                       description='API.PRIVILEGE_NOT_FOUND')
-            try:
-                data = json.loads(row[0])
-            except Exception as ex:
-                raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR', description=str(ex))
+                                       description='API.USER_SESSION_NOT_FOUND')
 
-            if 'spaces' not in data or len(data['spaces']) == 0:
-                raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                       description='API.SPACE_NOT_FOUND_IN_PRIVILEGE')
+            utc_expires = row[0]
+            if datetime.utcnow() > utc_expires:
+                raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                       description='API.USER_SESSION_TIMEOUT')
 
-            space_id = data['spaces'][0]
-            if space_id is None:
+            is_admin = bool(row[1])
+            privilege_id = row[2]
+            privilege_data = row[3]
+
+            # get space_id in privilege
+            if is_admin:
+                space_id = 1
+            elif privilege_id is None:
                 raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                        description='API.PRIVILEGE_NOT_FOUND')
+            else:
+                if privilege_data is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.PRIVILEGE_NOT_FOUND')
+                try:
+                    data = json.loads(privilege_data)
+                except Exception as ex:
+                    raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR', description=str(ex))
+
+                if 'spaces' not in data or len(data['spaces']) == 0:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.SPACE_NOT_FOUND_IN_PRIVILEGE')
+
+                space_id = data['spaces'][0]
+                if space_id is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.PRIVILEGE_NOT_FOUND')
+        finally:
+            cursor.close()
+            cnx.close()
+
         # get all spaces
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()
+        try:
+            query = (" SELECT id, name, parent_space_id "
+                     " FROM tbl_spaces "
+                     " ORDER BY id ")
+            cursor.execute(query)
+            rows_spaces = cursor.fetchall()
+            node_dict = dict()
+            if rows_spaces is not None and len(rows_spaces) > 0:
+                for row in rows_spaces:
+                    parent_node = node_dict[row[2]] if row[2] is not None else None
+                    node_dict[row[0]] = AnyNode(id=row[0], parent=parent_node, name=row[1])
 
-        query = (" SELECT id, name, parent_space_id "
-                 " FROM tbl_spaces "
-                 " ORDER BY id ")
-        cursor.execute(query)
-        rows_spaces = cursor.fetchall()
-        node_dict = dict()
-        if rows_spaces is not None and len(rows_spaces) > 0:
-            for row in rows_spaces:
-                parent_node = node_dict[row[2]] if row[2] is not None else None
-                node_dict[row[0]] = AnyNode(id=row[0], parent=parent_node, name=row[1])
-
-        cursor.close()
-        cnx.close()
-        resp.text = JsonExporter(sort_keys=True).export(node_dict[space_id], )
+            resp.text = JsonExporter(sort_keys=True).export(node_dict[space_id], )
+        finally:
+            cursor.close()
+            cnx.close()
 
 
 # Get energy categories of all meters in the space tree
@@ -5600,13 +5588,13 @@ class DistributionSystemCollection:
                     "id": row[0],
                     "name": row[1],
                     "uuid": row[2],
-                    "svg": svg_info,  
+                    "svg": svg_info,
                     "description": row[4]
                 }
                 result.append(meta_result)
 
-        cursor.close() 
-        cnx.close() 
+        cursor.close()
+        cnx.close()
         resp.text = json.dumps(result)
 
     @staticmethod

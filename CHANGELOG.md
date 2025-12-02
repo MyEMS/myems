@@ -6,6 +6,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ## [Unreleased]
 ### Added
 ### Changed
+- udpated get space tree action in myems-api
 ### Fixed
 - fixed issues of dashboard in myems-api
 ### Removed
