@@ -373,39 +373,38 @@ class MenuWebCollection:
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()
 
-        # Query to retrieve first level menus (parent menus)
+        # Optimized: Single query to retrieve all non-hidden menus
+        # This reduces database round trips from 2 to 1
+        # MySQL compatible: parent_menu_id IS NULL comes first in ORDER BY
         query = (" SELECT id, route, parent_menu_id "
                  " FROM tbl_menus "
-                 " WHERE parent_menu_id IS NULL AND is_hidden = 0 ")
+                 " WHERE is_hidden = 0 "
+                 " ORDER BY (parent_menu_id IS NULL) DESC, id ")
         cursor.execute(query)
         rows_menus = cursor.fetchall()
 
-        # Build first level routes dictionary
+        # Build first level routes dictionary and result structure in one pass
         first_level_routes = {}
-        if rows_menus is not None and len(rows_menus) > 0:
+        result = {}
+
+        if rows_menus:
             for row in rows_menus:
-                first_level_routes[row[0]] = {
-                    'route': row[1],
-                    'children': []
-                }
+                menu_id, route, parent_menu_id = row
 
-        # Query to retrieve child menus
-        query = (" SELECT id, route, parent_menu_id "
-                 " FROM tbl_menus "
-                 " WHERE parent_menu_id IS NOT NULL AND is_hidden = 0 ")
-        cursor.execute(query)
-        rows_menus = cursor.fetchall()
-
-        # Add child routes to their parents
-        if rows_menus is not None and len(rows_menus) > 0:
-            for row in rows_menus:
-                if row[2] in first_level_routes.keys():
-                    first_level_routes[row[2]]['children'].append(row[1])
-
-        # Build final result structure
-        result = dict()
-        for _id, item in first_level_routes.items():
-            result[item['route']] = item['children']
+                if parent_menu_id is None:
+                    # First level menu (parent)
+                    first_level_routes[menu_id] = {
+                        'route': route,
+                        'children': []
+                    }
+                    result[route] = []
+                else:
+                    # Child menu - optimized: direct dictionary lookup instead of .keys()
+                    if parent_menu_id in first_level_routes:
+                        first_level_routes[parent_menu_id]['children'].append(route)
+                        # Update result directly
+                        parent_route = first_level_routes[parent_menu_id]['route']
+                        result[parent_route].append(route)
 
         cursor.close()
         cnx.close()
