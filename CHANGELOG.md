@@ -5,10 +5,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 ### Added
+- added indexes to myems_system_db.tbl_menus in database
 ### Changed
 - udpated get space tree action in myems-api
 ### Fixed
 - fixed issues of dashboard in myems-api
+- optimized get web menu action in myems-api
 ### Removed
 
 
