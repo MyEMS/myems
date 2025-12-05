@@ -11,6 +11,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Fixed
 - fixed issues of dashboard in myems-api
 - optimized get web menu action in myems-api
+- fixed the issue of setting tariff data to 6 decimal places
 ### Removed
 
 
