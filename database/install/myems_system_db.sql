@@ -936,6 +936,9 @@ CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_menus` (
   `parent_menu_id` BIGINT,
   `is_hidden` BOOL NOT NULL,
   PRIMARY KEY (`id`));
+  CREATE INDEX idx_menus_hidden_parent ON myems_system_db.tbl_menus (is_hidden, parent_menu_id);
+  CREATE INDEX idx_menus_is_hidden ON myems_system_db.tbl_menus (is_hidden);
+  CREATE INDEX idx_menus_parent_id ON myems_system_db.tbl_menus (parent_menu_id);
 
 INSERT INTO myems_system_db.tbl_menus (id,name,route, parent_menu_id,is_hidden)
 VALUES
@@ -2738,7 +2741,7 @@ CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_versions` (
 INSERT INTO `myems_system_db`.`tbl_versions`
 (`id`, `version`, `release_date`)
 VALUES
-(1, '5.11.0', '2025-11-30');
+(1, '5.12.0RC', '2025-12-20');
 
 -- ---------------------------------------------------------------------------------------------------------------------
 -- Table `myems_system_db`.`tbl_wind_farms`
