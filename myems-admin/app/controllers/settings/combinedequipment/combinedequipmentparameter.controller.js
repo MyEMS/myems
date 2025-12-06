@@ -346,6 +346,14 @@ app.controller('CombinedEquipmentParameterController', function (
 	$scope.$on('handleBroadcastCombinedEquipmentChanged', function (event) {
 		$scope.getAllCombinedEquipments();
 	});
+
+	$scope.$on('handleBroadcastCombinedEquipmentDataSourceChanged', function (event, data) {
+		if ($scope.currentCombinedEquipment && $scope.currentCombinedEquipment.id) {
+			if (!data || !data.combinedEquipmentId || data.combinedEquipmentId === $scope.currentCombinedEquipment.id) {
+				$scope.getPointsByCombinedEquipmentID($scope.currentCombinedEquipment.id, false);
+			}
+		}
+	});
 });
 
 

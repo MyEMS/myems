@@ -4,6 +4,7 @@ app.controller(
   "CombinedEquipmentDataSourceController",
   function (
     $scope,
+    $rootScope,
     $window,
     $timeout,
     $translate,
@@ -116,6 +117,9 @@ app.controller(
             $scope.getDataSourcesByCombinedEquipmentID(
               $scope.currentCombinedEquipment.id
             );
+            $rootScope.$broadcast("handleBroadcastCombinedEquipmentDataSourceChanged", {
+              combinedEquipmentId: combinedequipmentid
+            });
           } else {
             toaster.pop({
               type: "error",
@@ -188,6 +192,9 @@ app.controller(
               $scope.getDataSourcesByCombinedEquipmentID(
                 $scope.currentCombinedEquipment.id
               );
+              $rootScope.$broadcast("handleBroadcastCombinedEquipmentDataSourceChanged", {
+                combinedEquipmentId: combinedequipmentid
+              });
             } else {
               toaster.pop({
                 type: "error",
