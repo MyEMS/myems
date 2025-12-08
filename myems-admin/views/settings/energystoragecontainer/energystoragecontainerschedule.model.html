@@ -7,7 +7,7 @@
 			<div class="col-sm-3 b-r">
                 <form method="get" class="form-horizontal">
                     <div class="form-group">
-                        <label class="col-sm-5 control-label">{{'SETTING.NAME' | translate}}</label>
+                        <label class="col-sm-5 control-label">{{'SETTING.NAME' | translate}}<span class="text-danger">*</span></label>
                         <div class="col-sm-7">
                             <input ng-model="controlmode.name" type="text" class="form-control">
                         </div>
@@ -362,7 +362,7 @@
 							</td>
 							<td class="text-center sm">
 								<input type="number" min="-10000" step="0.01" ng-model="t.power"
-									class="form-control input-sm" style="widtg:100%">
+									class="form-control input-sm" style="width:100%">
 							</td>
 							<td class="text-center sm">
 								<a class="btn btn-primary btn-rounded btn-xs"

@@ -48,7 +48,7 @@
                   <input ng-model="virtualpowerplant.description" type="text" name="virtualpowerplantdescription" class="form-control">
               </div>
             </div>
-            <div class="form-group" ng-show="virtualpowerplant.qrcode"><label class="col-sm-2 control-label">{{'COMMON.QR_CODE' | translate}} </label>
+            <div class="form-group" ng-show="virtualpowerplant.qrcode"><label class="col-sm-2 control-label">{{'COMMON.QR_CODE' | translate}}</label>
              <div class="col-sm-10">
                   <div>
                        <qrcode data="{{virtualpowerplant.qrcode}}" version="1" error-correction-level="L" size="100" color="#fff" background="#000" download></qrcode>

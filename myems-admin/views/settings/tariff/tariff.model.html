@@ -6,7 +6,7 @@
         <div class="row">
             <div class="col-sm-4 b-r">
                 <form method="get" class="form-horizontal">
-                    <div class="form-group"><label class="col-sm-5 control-label">{{'SETTING.TARIFF_NAME' | translate}}</label>
+                    <div class="form-group"><label class="col-sm-5 control-label">{{'SETTING.TARIFF_NAME' | translate}}<span class="text-danger">*</span></label>
                         <div class="col-sm-7">
                             <input ng-model="tariff.name" type="text" class="form-control">
                         </div>
@@ -23,7 +23,7 @@
                         </div>
                     </div>
                     <div class="hr-line-dashed"></div>
-                    <div class="form-group"><label class="col-sm-5 control-label">{{'SETTING.TARIFF_TYPE' | translate}}</label>
+                    <div class="form-group"><label class="col-sm-5 control-label">{{'SETTING.TARIFF_TYPE' | translate}}<span class="text-danger">*</span></label>
                         <div class="col-sm-7">
                             <select ng-disabled="disable"  ng-model="tariff.tariff_type" class="form-control m-b" name="tariff">
                                 <option value="timeofuse" selected>{{'SETTING.TIMEOFUSE' | translate}} </option>
@@ -31,20 +31,20 @@
                         </div>
                     </div>
                     <div class="hr-line-dashed"></div>
-                    <div class="form-group"><label class="col-sm-5 control-label">{{'SETTING.UNIT' | translate}}</label>
+                    <div class="form-group"><label class="col-sm-5 control-label">{{'SETTING.UNIT' | translate}}<span class="text-danger">*</span></label>
                         <div class="col-sm-7">
                             <input ng-model="tariff.unit_of_price" type="text" class="form-control">
                         </div>
                     </div>
                     <div class="hr-line-dashed"></div>
-                    <div class="form-group"><label class="col-sm-5 control-label">{{'SETTING.TARIFF_VALID_FROM' | translate}}</label>
+                    <div class="form-group"><label class="col-sm-5 control-label">{{'SETTING.TARIFF_VALID_FROM' | translate}}<span class="text-danger">*</span></label>
                         <div class="col-sm-7">
                             <input date-range-picker class="form-control date-picker" type="text" ng-model="tariff.valid_from" options="dtOptions"
                             placeholder="{{'SETTING.SELECT_DATE' | translate}}" readonly="" />
                         </div>
                     </div>
                     <div class="hr-line-dashed"></div>
-                    <div class="form-group"><label class="col-sm-5 control-label">{{'SETTING.TARIFF_VALID_THROUGH' | translate}}</label>
+                    <div class="form-group"><label class="col-sm-5 control-label">{{'SETTING.TARIFF_VALID_THROUGH' | translate}}<span class="text-danger">*</span></label>
                         <div class="col-sm-7">
                             <input date-range-picker class="form-control date-picker" type="text" ng-model="tariff.valid_through" options="dtOptions"
                             placeholder="{{'SETTING.SELECT_DATE' | translate}}" readonly="" />
