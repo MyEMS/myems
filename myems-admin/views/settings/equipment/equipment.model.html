@@ -60,7 +60,7 @@
                     <input ng-model="equipment.description" type="text" name="equipmentdescription" class="form-control" >
                 </div>
             </div>
-            <div class="form-group" ng-show="equipment.qrcode"><label class="col-sm-3 control-label">{{'COMMON.QR_CODE' | translate}} </label>
+            <div class="form-group" ng-show="equipment.qrcode"><label class="col-sm-3 control-label">{{'COMMON.QR_CODE' | translate}}</label>
                 <div class="col-sm-9">
                     <div>
                         <qrcode data="{{equipment.qrcode}}" version="1" error-correction-level="L" size="100" color="#fff" background="#000" download></qrcode>
