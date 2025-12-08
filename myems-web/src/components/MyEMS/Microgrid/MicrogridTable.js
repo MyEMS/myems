@@ -15,15 +15,22 @@ const CustomTotal = ({ sizePerPage, totalSize, page, lastIndex }) => (
   </span>
 );
 
-const nameFormatter = nameuuid => (
-  <Link
-    to={'/singlemicrogrid/details?uuid=' + nameuuid.substring(nameuuid.length - 36, nameuuid.length)}
-    target="_blank"
-    className="font-weight-semi-bold"
-  >
-    {nameuuid.substring(0, nameuuid.length - 36)}
-  </Link>
-);
+const nameFormatter = nameuuid => {
+  if (!nameuuid || typeof nameuuid !== 'string') {
+    return <span>-</span>;
+  }
+  const uuid = nameuuid.length >= 36 ? nameuuid.substring(nameuuid.length - 36, nameuuid.length) : '';
+  const name = nameuuid.length >= 36 ? nameuuid.substring(0, nameuuid.length - 36) : nameuuid;
+  return (
+    <Link
+      to={'/singlemicrogrid/details?uuid=' + uuid}
+      target="_blank"
+      className="font-weight-semi-bold"
+    >
+      {name}
+    </Link>
+  );
+};
 
 const SelectRowInput = ({ indeterminate, rowIndex, ...rest }) => (
   <div className="custom-control custom-checkbox">
