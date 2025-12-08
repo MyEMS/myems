@@ -4,7 +4,7 @@
     </div>
     <div class="modal-body">
         <form role="form" name="form_nonworkingday" novalidate class="form-horizontal">
-            <div class="form-group"><label class="col-sm-3 control-label">{{'WORKING_CALENDAR.DATE' | translate}}</label>
+            <div class="form-group"><label class="col-sm-3 control-label">{{'WORKING_CALENDAR.DATE' | translate}}<span class="text-danger">*</span></label>
                 <div class="col-sm-5">
                     <input date-range-picker class="form-control date-picker" type="text" ng-model="nonWorkingDay.date_local" options="dtOptions"
                            placeholder="{{'SETTING.SELECT_DATE' | translate}}" name="datelocal" readonly="" />
