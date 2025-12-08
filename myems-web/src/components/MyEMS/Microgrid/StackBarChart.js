@@ -8,8 +8,11 @@ import AppContext from '../../../context/Context';
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Tooltip, Legend, LogarithmicScale);
 
-const StackBarChart = ({ labels, chargeData, dischargeData, periodTypes, t }) => {
-  const colors = ['#2c7be5', '#00d27a', '#27bcfd', '#f5803e', '#e63757'];
+const StackBarChart = ({ labels, chargeData, dischargeData, periodTypes, chargeLabelPrefix, dischargeLabelPrefix, t }) => {
+  // 冷色调：用于充电数据（蓝色、青色、绿色系）
+  const chargeColors = ['#2c7be5', '#00d27a', '#27bcfd', '#0ea5e9', '#14b8a6'];
+  // 暖色调：用于放电数据（红色、橙色、黄色、粉色系）
+  const dischargeColors = ['#ef4444', '#f97316', '#fbbf24', '#ec4899', '#dc2626'];
   const [option, setOption] = useState('a0');
   const { isDark } = useContext(AppContext);
   const chartRef = useRef(null);
@@ -30,24 +33,28 @@ const StackBarChart = ({ labels, chargeData, dischargeData, periodTypes, t }) =>
       gradientFill.addColorStop(1, isDark ? 'transparent' : 'rgba(255, 255, 255, 0)');
       if (chargeData['subtotals_array'] !== undefined && chargeData['subtotals_array'].length > 0) {
         chargeData['subtotals_array'][index].forEach((item, itemIndex) => {
+          const labelPrefix = chargeLabelPrefix || t('Charge UNIT', { UNIT: chargeData['unit'] });
+          const stackLabel = chargeLabelPrefix || t('Charge UNIT', { UNIT: chargeData['unit'] });
           dataArray.push({
-            label: chargeData['station_names_array'][itemIndex] + ' ' + t('Charge UNIT', { UNIT: chargeData['unit'] }),
-            stack: t('Charge UNIT', { UNIT: chargeData['unit'] }),
+            label: chargeData['station_names_array'][itemIndex] + ' ' + labelPrefix,
+            stack: stackLabel,
             data: item,
-            backgroundColor: colors[itemIndex % 5]
+            backgroundColor: chargeColors[itemIndex % 5]
           });
         });
       }
       if (dischargeData['subtotals_array'] !== undefined && dischargeData['subtotals_array'].length > 0) {
         dischargeData['subtotals_array'][index].forEach((item, itemIndex) => {
+          const labelPrefix = dischargeLabelPrefix || t('Discharge UNIT', { UNIT: dischargeData['unit'] });
+          const stackLabel = dischargeLabelPrefix || t('Discharge UNIT', { UNIT: dischargeData['unit'] });
           dataArray.push({
             label:
               dischargeData['station_names_array'][itemIndex] +
               ' ' +
-              t('Discharge UNIT', { UNIT: dischargeData['unit'] }),
-            stack: t('Discharge UNIT', { UNIT: dischargeData['unit'] }),
+              labelPrefix,
+            stack: stackLabel,
             data: item,
-            backgroundColor: colors[itemIndex % 5]
+            backgroundColor: dischargeColors[itemIndex % 5]
           });
         });
       }
@@ -56,7 +63,7 @@ const StackBarChart = ({ labels, chargeData, dischargeData, periodTypes, t }) =>
         datasets: dataArray
       });
     }
-  }, [labels, chargeData, dischargeData, option]);
+  }, [labels, chargeData, dischargeData, option, chargeLabelPrefix, dischargeLabelPrefix, t, isDark]);
 
   const options = {
     scales: {
