@@ -128,6 +128,14 @@ app.controller('WorkingCalendarNonWorkingDayController', function (
             return;
         }
 
+        const startDay = startDate.day();
+        const endDay = endDate.day();
+        const daysDiff = endDate.diff(startDate, 'days');
+        if (startDay >= 1 && startDay <= 5 && endDay >= 1 && endDay <= 5 && daysDiff < 6) {
+            toaster.pop({type: "error", title: $translate.instant("TOASTER.ERROR_ADD_BODY"), body: $translate.instant("SETTING.NO_WEEKEND_IN_RANGE"), showCloseButton: true});
+            return;
+        }
+
         const weekendDates = [];
         let currentDate = startDate.clone();
         while (currentDate.isSameOrBefore(endDate)) {
@@ -147,21 +155,11 @@ app.controller('WorkingCalendarNonWorkingDayController', function (
         let failCount = 0;
         const total = weekendDates.length;
 
-        weekendDates.forEach(date => {
-            const nonWorkingDay = {
-                working_calendar_id: workingCalendarId,
-                date_local: date,
-                description: description
-            };
-
-            WorkingCalendarNonWorkingDayService.addNonWorkingDay(workingCalendarId, nonWorkingDay, headers, function (response) {
-                if (response.status === 201) {
-                    successCount++;
-                } else {
-                    failCount++;
-                }
-
-                if (successCount + failCount === total) {
+        const processBatch = (dates, batchSize = 10) => {
+            let processed = 0;
+            const handleBatch = () => {
+                const batch = dates.slice(processed, processed + batchSize);
+                if (batch.length === 0) {
                     const isSuccess = successCount > 0;
                     toaster.pop({
                         type: isSuccess ? "success" : "error",
@@ -170,9 +168,34 @@ app.controller('WorkingCalendarNonWorkingDayController', function (
                         showCloseButton: true,
                     });
                     $scope.getNonWorkingDaysByWorkingCalendarID(workingCalendarId);
+                    return;
                 }
-            });
-        });
+                const requests = batch.map(date => {
+                    const nonWorkingDay = {
+                        working_calendar_id: workingCalendarId,
+                        date_local: date,
+                        description: description
+                    };
+                    return new Promise((resolve) => {
+                        WorkingCalendarNonWorkingDayService.addNonWorkingDay(workingCalendarId, nonWorkingDay, headers, (response) => {
+                            if (response.status === 201) {
+                                successCount++;
+                            } else {
+                                failCount++;
+                            }
+                            resolve();
+                        });
+                    });
+                });
+                Promise.all(requests).then(() => {
+                    processed += batchSize;
+                    handleBatch();
+                });
+            };
+            handleBatch();
+        };
+
+        processBatch(weekendDates);
     };
 
     $scope.editNonWorkingDay = function(nonWorkingDay) {
