@@ -94,8 +94,18 @@ class UserCollection:
         try:
             raw_json = req.stream.read().decode('utf-8')
             new_values = json.loads(raw_json)
+        except UnicodeDecodeError as ex:
+            print(f"Failed to decode request: {str(ex)}")
+            raise falcon.HTTPError(status=falcon.HTTP_400,
+                                   title='API.BAD_REQUEST',
+                                   description='API.INVALID_ENCODING')
+        except json.JSONDecodeError as ex:
+            print(f"Failed to parse JSON: {str(ex)}")
+            raise falcon.HTTPError(status=falcon.HTTP_400,
+                                   title='API.BAD_REQUEST',
+                                   description='API.INVALID_JSON_FORMAT')
         except Exception as ex:
-            print(str(ex))
+            print(f"Unexcept error reading request stream: {str(ex)}")
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.FAILED_TO_READ_REQUEST_STREAM')
@@ -354,8 +364,18 @@ class UserItem:
         try:
             raw_json = req.stream.read().decode('utf-8')
             new_values = json.loads(raw_json)
+        except UnicodeDecodeError as ex:
+            print(f"Failed to decode request: {str(ex)}")
+            raise falcon.HTTPError(status=falcon.HTTP_400,
+                                   title='API.BAD_REQUEST',
+                                   description='API.INVALID_ENCODING')
+        except json.JSONDecodeError as ex:
+            print(f"Failed to parse JSON: {str(ex)}")
+            raise falcon.HTTPError(status=falcon.HTTP_400,
+                                   title='API.BAD_REQUEST',
+                                   description='API.INVALID_JSON_FORMAT')
         except Exception as ex:
-            print(str(ex))
+            print(f"Unexcept error reading request stream: {str(ex)}")
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.FAILED_TO_READ_REQUEST_STREAM')
@@ -507,8 +527,18 @@ class UserLogin:
         try:
             raw_json = req.stream.read().decode('utf-8')
             new_values = json.loads(raw_json)
+        except UnicodeDecodeError as ex:
+            print(f"Failed to decode request: {str(ex)}")
+            raise falcon.HTTPError(status=falcon.HTTP_400,
+                                   title='API.BAD_REQUEST',
+                                   description='API.INVALID_ENCODING')
+        except json.JSONDecodeError as ex:
+            print(f"Failed to parse JSON: {str(ex)}")
+            raise falcon.HTTPError(status=falcon.HTTP_400,
+                                   title='API.BAD_REQUEST',
+                                   description='API.INVALID_JSON_FORMAT')
         except Exception as ex:
-            print(str(ex))
+            print(f"Unexcept error reading request stream: {str(ex)}")
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.FAILED_TO_READ_REQUEST_STREAM')
@@ -746,8 +776,18 @@ class ChangePassword:
         try:
             raw_json = req.stream.read().decode('utf-8')
             new_values = json.loads(raw_json)
+        except UnicodeDecodeError as ex:
+            print(f"Failed to decode request: {str(ex)}")
+            raise falcon.HTTPError(status=falcon.HTTP_400,
+                                   title='API.BAD_REQUEST',
+                                   description='API.INVALID_ENCODING')
+        except json.JSONDecodeError as ex:
+            print(f"Failed to parse JSON: {str(ex)}")
+            raise falcon.HTTPError(status=falcon.HTTP_400,
+                                   title='API.BAD_REQUEST',
+                                   description='API.INVALID_JSON_FORMAT')
         except Exception as ex:
-            print(str(ex))
+            print(f"Unexcept error reading request stream: {str(ex)}")
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.FAILED_TO_READ_REQUEST_STREAM')
@@ -875,8 +915,18 @@ class ResetPassword:
         try:
             raw_json = req.stream.read().decode('utf-8')
             new_values = json.loads(raw_json)
+        except UnicodeDecodeError as ex:
+            print(f"Failed to decode request: {str(ex)}")
+            raise falcon.HTTPError(status=falcon.HTTP_400,
+                                   title='API.BAD_REQUEST',
+                                   description='API.INVALID_ENCODING')
+        except json.JSONDecodeError as ex:
+            print(f"Failed to parse JSON: {str(ex)}")
+            raise falcon.HTTPError(status=falcon.HTTP_400,
+                                   title='API.BAD_REQUEST',
+                                   description='API.INVALID_JSON_FORMAT')
         except Exception as ex:
-            print(str(ex))
+            print(f"Unexcept error reading request stream: {str(ex)}")
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.FAILED_TO_READ_REQUEST_STREAM')
@@ -1055,8 +1105,18 @@ class ForgotPassword:
         try:
             raw_json = req.stream.read().decode('utf-8')
             new_values = json.loads(raw_json)
+        except UnicodeDecodeError as ex:
+            print(f"Failed to decode request: {str(ex)}")
+            raise falcon.HTTPError(status=falcon.HTTP_400,
+                                   title='API.BAD_REQUEST',
+                                   description='API.INVALID_ENCODING')
+        except json.JSONDecodeError as ex:
+            print(f"Failed to parse JSON: {str(ex)}")
+            raise falcon.HTTPError(status=falcon.HTTP_400,
+                                   title='API.BAD_REQUEST',
+                                   description='API.INVALID_JSON_FORMAT')
         except Exception as ex:
-            print(str(ex))
+            print(f"Unexcept error reading request stream: {str(ex)}")
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.FAILED_TO_READ_REQUEST_STREAM')
@@ -1240,8 +1300,18 @@ class EmailMessageCollection:
         try:
             raw_json = req.stream.read().decode('utf-8')
             new_values = json.loads(raw_json)
+        except UnicodeDecodeError as ex:
+            print(f"Failed to decode request: {str(ex)}")
+            raise falcon.HTTPError(status=falcon.HTTP_400,
+                                   title='API.BAD_REQUEST',
+                                   description='API.INVALID_ENCODING')
+        except json.JSONDecodeError as ex:
+            print(f"Failed to parse JSON: {str(ex)}")
+            raise falcon.HTTPError(status=falcon.HTTP_400,
+                                   title='API.BAD_REQUEST',
+                                   description='API.INVALID_JSON_FORMAT')
         except Exception as ex:
-            print(str(ex))
+            print(f"Unexcept error reading request stream: {str(ex)}")
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.FAILED_TO_READ_REQUEST_STREAM')
@@ -1426,8 +1496,18 @@ class EmailMessageItem:
         try:
             raw_json = req.stream.read().decode('utf-8')
             new_values = json.loads(raw_json)
+        except UnicodeDecodeError as ex:
+            print(f"Failed to decode request: {str(ex)}")
+            raise falcon.HTTPError(status=falcon.HTTP_400,
+                                   title='API.BAD_REQUEST',
+                                   description='API.INVALID_ENCODING')
+        except json.JSONDecodeError as ex:
+            print(f"Failed to parse JSON: {str(ex)}")
+            raise falcon.HTTPError(status=falcon.HTTP_400,
+                                   title='API.BAD_REQUEST',
+                                   description='API.INVALID_JSON_FORMAT')
         except Exception as ex:
-            print(str(ex))
+            print(f"Unexcept error reading request stream: {str(ex)}")
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.FAILED_TO_READ_REQUEST_STREAM')
@@ -1623,8 +1703,18 @@ class NewUserCollection:
         try:
             raw_json = req.stream.read().decode('utf-8')
             new_values = json.loads(raw_json)
+        except UnicodeDecodeError as ex:
+            print(f"Failed to decode request: {str(ex)}")
+            raise falcon.HTTPError(status=falcon.HTTP_400,
+                                   title='API.BAD_REQUEST',
+                                   description='API.INVALID_ENCODING')
+        except json.JSONDecodeError as ex:
+            print(f"Failed to parse JSON: {str(ex)}")
+            raise falcon.HTTPError(status=falcon.HTTP_400,
+                                   title='API.BAD_REQUEST',
+                                   description='API.INVALID_JSON_FORMAT')
         except Exception as ex:
-            print(str(ex))
+            print(f"Unexcept error reading request stream: {str(ex)}")
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.FAILED_TO_READ_REQUEST_STREAM')
@@ -1841,8 +1931,18 @@ class NewUserItem:
         try:
             raw_json = req.stream.read().decode('utf-8')
             new_values = json.loads(raw_json)
+        except UnicodeDecodeError as ex:
+            print(f"Failed to decode request: {str(ex)}")
+            raise falcon.HTTPError(status=falcon.HTTP_400,
+                                   title='API.BAD_REQUEST',
+                                   description='API.INVALID_ENCODING')
+        except json.JSONDecodeError as ex:
+            print(f"Failed to parse JSON: {str(ex)}")
+            raise falcon.HTTPError(status=falcon.HTTP_400,
+                                   title='API.BAD_REQUEST',
+                                   description='API.INVALID_JSON_FORMAT')
         except Exception as ex:
-            print(str(ex))
+            print(f"Unexcept error reading request stream: {str(ex)}")
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.FAILED_TO_READ_REQUEST_STREAM')
@@ -1959,8 +2059,18 @@ class NewUserApprove:
         try:
             raw_json = req.stream.read().decode('utf-8')
             new_values = json.loads(raw_json)
+        except UnicodeDecodeError as ex:
+            print(f"Failed to decode request: {str(ex)}")
+            raise falcon.HTTPError(status=falcon.HTTP_400,
+                                   title='API.BAD_REQUEST',
+                                   description='API.INVALID_ENCODING')
+        except json.JSONDecodeError as ex:
+            print(f"Failed to parse JSON: {str(ex)}")
+            raise falcon.HTTPError(status=falcon.HTTP_400,
+                                   title='API.BAD_REQUEST',
+                                   description='API.INVALID_JSON_FORMAT')
         except Exception as ex:
-            print(str(ex))
+            print(f"Unexcept error reading request stream: {str(ex)}")
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.FAILED_TO_READ_REQUEST_STREAM')

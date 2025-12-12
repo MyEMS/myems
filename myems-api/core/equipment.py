@@ -103,8 +103,13 @@ class EquipmentCollection:
         admin_control(req)
         try:
             raw_json = req.stream.read().decode('utf-8')
+        except UnicodeDecodeError as ex:
+            print(f"Failed to decode request: {str(ex)}")
+            raise falcon.HTTPError(status=falcon.HTTP_400,
+                                   title='API.BAD_REQUEST',
+                                   description='API.INVALID_ENCODING')
         except Exception as ex:
-            print(str(ex))
+            print(f"Unexcept error reading request stream: {str(ex)}")
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.FAILED_TO_READ_REQUEST_STREAM')
@@ -375,8 +380,13 @@ class EquipmentItem:
                                    description='API.INVALID_EQUIPMENT_ID')
         try:
             raw_json = req.stream.read().decode('utf-8')
+        except UnicodeDecodeError as ex:
+            print(f"Failed to decode request: {str(ex)}")
+            raise falcon.HTTPError(status=falcon.HTTP_400,
+                                   title='API.BAD_REQUEST',
+                                   description='API.INVALID_ENCODING')
         except Exception as ex:
-            print(str(ex))
+            print(f"Unexcept error reading request stream: {str(ex)}")
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.FAILED_TO_READ_REQUEST_STREAM')
@@ -795,8 +805,13 @@ class EquipmentParameterCollection:
                                    description='API.INVALID_EQUIPMENT_ID')
         try:
             raw_json = req.stream.read().decode('utf-8')
+        except UnicodeDecodeError as ex:
+            print(f"Failed to decode request: {str(ex)}")
+            raise falcon.HTTPError(status=falcon.HTTP_400,
+                                   title='API.BAD_REQUEST',
+                                   description='API.INVALID_ENCODING')
         except Exception as ex:
-            print(str(ex))
+            print(f"Unexcept error reading request stream: {str(ex)}")
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.FAILED_TO_READ_REQUEST_STREAM')
@@ -1166,8 +1181,13 @@ class EquipmentParameterItem:
 
         try:
             raw_json = req.stream.read().decode('utf-8')
+        except UnicodeDecodeError as ex:
+            print(f"Failed to decode request: {str(ex)}")
+            raise falcon.HTTPError(status=falcon.HTTP_400,
+                                   title='API.BAD_REQUEST',
+                                   description='API.INVALID_ENCODING')
         except Exception as ex:
-            print(str(ex))
+            print(f"Unexcept error reading request stream: {str(ex)}")
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.FAILED_TO_READ_REQUEST_STREAM')
@@ -1428,8 +1448,13 @@ class EquipmentMeterCollection:
         admin_control(req)
         try:
             raw_json = req.stream.read().decode('utf-8')
+        except UnicodeDecodeError as ex:
+            print(f"Failed to decode request: {str(ex)}")
+            raise falcon.HTTPError(status=falcon.HTTP_400,
+                                   title='API.BAD_REQUEST',
+                                   description='API.INVALID_ENCODING')
         except Exception as ex:
-            print(str(ex))
+            print(f"Unexcept error reading request stream: {str(ex)}")
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.FAILED_TO_READ_REQUEST_STREAM')
@@ -1629,8 +1654,13 @@ class EquipmentOfflineMeterCollection:
         admin_control(req)
         try:
             raw_json = req.stream.read().decode('utf-8')
+        except UnicodeDecodeError as ex:
+            print(f"Failed to decode request: {str(ex)}")
+            raise falcon.HTTPError(status=falcon.HTTP_400,
+                                   title='API.BAD_REQUEST',
+                                   description='API.INVALID_ENCODING')
         except Exception as ex:
-            print(str(ex))
+            print(f"Unexcept error reading request stream: {str(ex)}")
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.FAILED_TO_READ_REQUEST_STREAM')
@@ -1831,8 +1861,13 @@ class EquipmentVirtualMeterCollection:
         admin_control(req)
         try:
             raw_json = req.stream.read().decode('utf-8')
+        except UnicodeDecodeError as ex:
+            print(f"Failed to decode request: {str(ex)}")
+            raise falcon.HTTPError(status=falcon.HTTP_400,
+                                   title='API.BAD_REQUEST',
+                                   description='API.INVALID_ENCODING')
         except Exception as ex:
-            print(str(ex))
+            print(f"Unexcept error reading request stream: {str(ex)}")
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.FAILED_TO_READ_REQUEST_STREAM')
@@ -2019,8 +2054,13 @@ class EquipmentCommandCollection:
         admin_control(req)
         try:
             raw_json = req.stream.read().decode('utf-8')
+        except UnicodeDecodeError as ex:
+            print(f"Failed to decode request: {str(ex)}")
+            raise falcon.HTTPError(status=falcon.HTTP_400,
+                                   title='API.BAD_REQUEST',
+                                   description='API.INVALID_ENCODING')
         except Exception as ex:
-            print(str(ex))
+            print(f"Unexcept error reading request stream: {str(ex)}")
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.FAILED_TO_READ_REQUEST_STREAM')
@@ -2418,8 +2458,13 @@ class EquipmentImport:
         admin_control(req)
         try:
             raw_json = req.stream.read().decode('utf-8')
+        except UnicodeDecodeError as ex:
+            print(f"Failed to decode request: {str(ex)}")
+            raise falcon.HTTPError(status=falcon.HTTP_400,
+                                   title='API.BAD_REQUEST',
+                                   description='API.INVALID_ENCODING')
         except Exception as ex:
-            print(str(ex))
+            print(f"Unexcept error reading request stream: {str(ex)}")
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.FAILED_TO_READ_REQUEST_STREAM')
@@ -3302,11 +3347,16 @@ class EquipmentDataSourceCollection:
         admin_control(req)
         try:
             raw_json = req.stream.read().decode('utf-8')
+        except UnicodeDecodeError as ex:
+            print(f"Failed to decode request: {str(ex)}")
+            raise falcon.HTTPError(status=falcon.HTTP_400,
+                                   title='API.BAD_REQUEST',
+                                   description='API.INVALID_ENCODING')
         except Exception as ex:
+            print(f"Unexcept error reading request stream: {str(ex)}")
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.FAILED_TO_READ_REQUEST_STREAM')
-
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_EQUIPMENT_ID')

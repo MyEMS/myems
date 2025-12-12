@@ -94,8 +94,18 @@ class ApiKeyCollection:
         try:
             raw_json = req.stream.read().decode('utf-8')
             new_values = json.loads(raw_json)
+        except UnicodeDecodeError as ex:
+            print(f"Failed to decode request: {str(ex)}")
+            raise falcon.HTTPError(status=falcon.HTTP_400,
+                                   title='API.BAD_REQUEST',
+                                   description='API.INVALID_ENCODING')
+        except json.JSONDecodeError as ex:
+            print(f"Failed to parse JSON: {str(ex)}")
+            raise falcon.HTTPError(status=falcon.HTTP_400,
+                                   title='API.BAD_REQUEST',
+                                   description='API.INVALID_JSON_FORMAT')
         except Exception as ex:
-            print(str(ex))
+            print(f"Unexcept error reading request stream: {str(ex)}")
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.FAILED_TO_READ_REQUEST_STREAM')
@@ -243,8 +253,13 @@ class ApiKeyItem:
         admin_control(req)
         try:
             raw_json = req.stream.read().decode('utf-8')
+        except UnicodeDecodeError as ex:
+            print(f"Failed to decode request: {str(ex)}")
+            raise falcon.HTTPError(status=falcon.HTTP_400,
+                                   title='API.BAD_REQUEST',
+                                   description='API.INVALID_ENCODING')
         except Exception as ex:
-            print(str(ex))
+            print(f"Unexcept error reading request stream: {str(ex)}")
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.FAILED_TO_READ_REQUEST_STREAM')

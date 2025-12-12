@@ -84,8 +84,16 @@ class EnergyPlanFileCollection:
 
             # Now that we know the file has been fully saved to disk move it into place.
             os.rename(file_path + '~', file_path)
+        except OSError as ex:
+            print(f"Failed to stream request: {str(ex)}")
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR',
+                                   description='API.FAILED_TO_UPLOAD_ENERGY_PLAN_FILE')
+        except IOError as ex:
+            print(f"Failed to IO request: {str(ex)}")
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR',
+                                   description='API.FAILED_TO_UPLOAD_ENERGY_PLAN_FILE')
         except Exception as ex:
-            print(str(ex))
+            print(f"Unexcept error reading request stream: {str(ex)}")
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR',
                                    description='API.FAILED_TO_UPLOAD_ENERGY_PLAN_FILE')
 
@@ -154,6 +162,18 @@ class EnergyPlanFileCollection:
             cnx.commit()
             cursor.close()
             cnx.close()
+        except InterfaceError as e:
+            print(f"Failed to connect request: {str(e)}")
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR',
+                                   description='API.FAILED_TO_SAVE_ENERGY_PLAN_FILE')
+        except ProgrammingError as e:
+            print(f"Failed to SQL request: {str(e)}")
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR',
+                                   description='API.FAILED_TO_SAVE_ENERGY_PLAN_FILE')
+        except DataError as e:
+            print(f"Failed to SQL Data request: {str(e)}")
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR',
+                                   description='API.FAILED_TO_SAVE_ENERGY_PLAN_FILE')
         except Exception as e:
             print("API.FAILED_TO_SAVE_ENERGY_PLAN_FILE " + str(e))
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR',
@@ -235,8 +255,12 @@ class EnergyPlanFileItem:
 
             # remove the file from disk
             os.remove(file_path)
+        except OSError as ex:
+            print(f"Failed to stream request: {str(ex)}")
+        except IOError as ex:
+            print(f"Failed to IO request: {str(ex)}")
         except Exception as ex:
-            print(str(ex))
+            print(f"Unexcept error reading request stream: {str(ex)}")
             # ignore exception and don't return API.ENERGY_PLAN_FILE_NOT_FOUND error
             pass
 
@@ -300,8 +324,16 @@ class EnergyPlanFileRestore:
             # Now that we know the file has been fully saved to disk
             # move it into place.
             os.replace(temp_file_path, file_path)
+        except OSError as ex:
+            print(f"Failed to stream request: {str(ex)}")
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR',
+                                   description='API.FAILED_TO_RESTORE_ENERGY_PLAN_FILE')
+        except IOError as ex:
+            print(f"Failed to IO request: {str(ex)}")
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR',
+                                   description='API.FAILED_TO_RESTORE_ENERGY_PLAN_FILE')
         except Exception as ex:
-            print(str(ex))
+            print(f"Unexcept error reading request stream: {str(ex)}")
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR',
                                    description='API.FAILED_TO_RESTORE_ENERGY_PLAN_FILE')
         resp.text = json.dumps('success')

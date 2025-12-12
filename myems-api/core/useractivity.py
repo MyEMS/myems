@@ -189,6 +189,12 @@ def write_log(user_uuid, request_method, resource_type, resource_id, request_bod
                                  request_body if request_body else None,
                                  ))
         cnx.commit()
+    except InterfaceError as e:
+        print(f"Failed to connect request: {str(e)}")
+    except ProgrammingError as e:
+        print(f"Failed to SQL request: {str(e)}")
+    except DataError as e:
+        print(f"Failed to SQL Data request: {str(e)}")
     except Exception as e:
         print('write_log:' + str(e))
     finally:
@@ -238,6 +244,12 @@ def user_logger(func):
                     write_log(user_uuid=user_uuid, request_method='POST', resource_type=class_name,
                               resource_id=kwargs.get('id_'), request_body=raw_json)
                 os.remove(file_name)
+            except OSError as e:
+                print(f"Failed to stream request: {str(e)}")
+            except UnicodeDecodeError as e:
+                print(f"Failed to decode request: {str(e)}")
+            except IOError as e:
+                print(f"Failed to IO request: {str(e)}")
             except Exception as e:
                 if isinstance(e, falcon.HTTPError):
                     raise e
@@ -258,6 +270,12 @@ def user_logger(func):
                     write_log(user_uuid=user_uuid, request_method='PUT', resource_type=class_name,
                               resource_id=kwargs.get('id_'), request_body=raw_json)
                 os.remove(file_name)
+            except OSError as e:
+                print(f"Failed to stream request: {str(e)}")
+            except UnicodeDecodeError as e:
+                print(f"Failed to decode request: {str(e)}")
+            except IOError as e:
+                print(f"Failed to IO request: {str(e)}")
             except Exception as e:
                 if isinstance(e, falcon.HTTPError):
                     raise e
@@ -270,6 +288,8 @@ def user_logger(func):
                 func(*args, **kwargs)
                 write_log(user_uuid=user_uuid, request_method="DELETE", resource_type=class_name,
                           resource_id=kwargs.get('id_'), request_body=json.dumps(kwargs))
+            except (TypeError, ValueError) as e:
+                print(f"Failed to decode JSON: {str(e)}")
             except Exception as e:
                 if isinstance(e, falcon.HTTPError):
                     raise e

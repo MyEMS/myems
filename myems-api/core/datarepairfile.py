@@ -71,6 +71,14 @@ class DataRepairFileCollection:
 
             # Now that we know the file has been fully saved to disk move it into place.
             os.rename(file_path + '~', file_path)
+        except OSError as ex:
+            print(f"Failed to stream request: {str(ex)}")
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR',
+                                   description='API.FAILED_TO_UPLOAD_DATA_REPAIR_FILE')
+        except IOError as ex:
+            print(f"Failed to IO request: {str(ex)}")
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR',
+                                   description='API.FAILED_TO_UPLOAD_DATA_REPAIR_FILE')
         except Exception as ex:
             print(str(ex))
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR',
@@ -217,6 +225,10 @@ class DataRepairFileItem:
 
             # remove the file from disk
             os.remove(file_path)
+        except OSError as ex:
+            print(f"Failed to stream request: {str(ex)}")
+        except IOError as ex:
+            print(f"Failed to IO request: {str(ex)}")
         except Exception as ex:
             print(str(ex))
             # ignore exception and don't return API.DATA_REPAIR_FILE_NOT_FOUND error
@@ -283,6 +295,14 @@ class DataRepairFileRestore:
             # Now that we know the file has been fully saved to disk
             # move it into place.
             os.replace(temp_file_path, file_path)
+        except OSError as ex:
+            print(f"Failed to stream request: {str(ex)}")
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR',
+                                   description='API.FAILED_TO_RESTORE_DATA_REPAIR_FILE')
+        except IOError as ex:
+            print(f"Failed to IO request: {str(ex)}")
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR',
+                                   description='API.FAILED_TO_RESTORE_DATA_REPAIR_FILE')
         except Exception as ex:
             print(str(ex))
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR',
