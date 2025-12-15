@@ -1,5 +1,10 @@
 'use strict';
 
+const WEEKEND_DAYS = {
+  SUNDAY: 0,
+  SATURDAY: 6
+};
+
 app.controller('WorkingCalendarNonWorkingDayController', function (
     $scope,
     $rootScope,
@@ -23,8 +28,7 @@ app.controller('WorkingCalendarNonWorkingDayController', function (
             $scope.nonworkingdays = [];
             return;
         }
-        let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
-        WorkingCalendarNonWorkingDayService.getNonWorkingDaysByWorkingCalendarID(id, headers, function (response) {
+        WorkingCalendarNonWorkingDayService.getNonWorkingDaysByWorkingCalendarID(id, {}, function (response) {
             if (angular.isDefined(response.status) && response.status === 200) {
                 $scope.nonworkingdays = response.data;
                 $scope.handleDays();
@@ -41,8 +45,7 @@ app.controller('WorkingCalendarNonWorkingDayController', function (
     };
 
     $scope.getAllWorkingCalendars = function () {
-        let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
-        WorkingCalendarService.getAllWorkingCalendars(headers, function (response) {
+        WorkingCalendarService.getAllWorkingCalendars({}, function (response) {
             if (angular.isDefined(response.status) && response.status === 200) {
                 $scope.workingcalendars = response.data;
                 if ($scope.workingcalendars.length > 0 && !$scope.currentWorkingCalendar.id) {
@@ -72,9 +75,7 @@ app.controller('WorkingCalendarNonWorkingDayController', function (
 		});
 
 		modalInstance.result.then(function(nonWorkingDay) {
-			let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
-			WorkingCalendarNonWorkingDayService.addNonWorkingDay(nonWorkingDay.working_calendar_id, nonWorkingDay,
-                 headers, function (response) {
+			WorkingCalendarNonWorkingDayService.addNonWorkingDay(nonWorkingDay.working_calendar_id, nonWorkingDay, {}, function (response) {
 				if (angular.isDefined(response.status) && response.status === 201) {
 					toaster.pop({
 						type: "success",
@@ -121,7 +122,6 @@ app.controller('WorkingCalendarNonWorkingDayController', function (
         const endDate = moment(params.endDate);
         const workingCalendarId = params.workingCalendarId;
         const description = params.description;
-        const headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 
         if (startDate.isAfter(endDate)) {
             toaster.pop({type: "error", title: $translate.instant("TOASTER.ERROR_ADD_BODY"), body: $translate.instant("SETTING.START_DATE_AFTER_END_DATE"), showCloseButton: true});
@@ -132,7 +132,7 @@ app.controller('WorkingCalendarNonWorkingDayController', function (
         let currentDate = startDate.clone();
         while (currentDate.isSameOrBefore(endDate)) {
             const day = currentDate.day();
-            if (day === 0 || day === 6) {
+            if (day === WEEKEND_DAYS.SUNDAY || day === WEEKEND_DAYS.SATURDAY) {
                 weekendDates.push(currentDate.format('YYYY-MM-DD'));
             }
             currentDate.add(1, 'day');
@@ -146,26 +146,31 @@ app.controller('WorkingCalendarNonWorkingDayController', function (
         let successCount = 0;
         let failCount = 0;
         const total = weekendDates.length;
+        const batchSize = 10;
 
-        const requests = weekendDates.map(date => {
-            const nonWorkingDay = {
-                working_calendar_id: workingCalendarId,
-                date_local: date,
-                description: description
-            };
-            return new Promise((resolve) => {
-                WorkingCalendarNonWorkingDayService.addNonWorkingDay(workingCalendarId, nonWorkingDay, headers, (response) => {
-                    if (response.status === 201) {
-                        successCount++;
-                    } else {
-                        failCount++;
-                    }
-                    resolve();
+        const processBatch = async () => {
+            for (let i = 0; i < weekendDates.length; i += batchSize) {
+                const batch = weekendDates.slice(i, i + batchSize);
+                const requests = batch.map(date => {
+                    const nonWorkingDay = {
+                        working_calendar_id: workingCalendarId,
+                        date_local: date,
+                        description: description
+                    };
+                    return new Promise((resolve) => {
+                        WorkingCalendarNonWorkingDayService.addNonWorkingDay(workingCalendarId, nonWorkingDay, {}, (response) => {
+                            if (response.status === 201) {
+                                successCount++;
+                            } else {
+                                failCount++;
+                            }
+                            resolve();
+                        });
+                    });
                 });
-            });
-        });
+                await Promise.all(requests);
+            }
 
-        Promise.all(requests).then(() => {
             const isSuccess = successCount > 0;
             toaster.pop({
                 type: isSuccess ? "success" : "error",
@@ -174,7 +179,9 @@ app.controller('WorkingCalendarNonWorkingDayController', function (
                 showCloseButton: true,
             });
             $scope.getNonWorkingDaysByWorkingCalendarID(workingCalendarId);
-        });
+        };
+
+        processBatch();
     };
 
     $scope.editNonWorkingDay = function(nonWorkingDay) {
@@ -193,8 +200,7 @@ app.controller('WorkingCalendarNonWorkingDayController', function (
 		});
 
 		modalInstance.result.then(function(nonWorkingDay) {
-			let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
-			WorkingCalendarNonWorkingDayService.editNonWorkingDay(nonWorkingDay.id, nonWorkingDay, headers, function (response) {
+			WorkingCalendarNonWorkingDayService.editNonWorkingDay(nonWorkingDay.id, nonWorkingDay, {}, function (response) {
 				if (angular.isDefined(response.status) && response.status === 200) {
 					toaster.pop({
 						type: "success",
@@ -230,8 +236,7 @@ app.controller('WorkingCalendarNonWorkingDayController', function (
 			},
 			function(isConfirm) {
 				if (isConfirm) {
-					let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
-					WorkingCalendarNonWorkingDayService.deleteNonWorkingDay(nonworkingday.id, headers, function (response) {
+					WorkingCalendarNonWorkingDayService.deleteNonWorkingDay(nonworkingday.id, {}, function (response) {
 						if (angular.isDefined(response.status) && response.status === 204) {
                             toaster.pop({
                                 type: "success",
@@ -364,4 +369,28 @@ app.controller('ModalBatchAddWeekendNonWorkingDayCtrl', function ($scope, $uibMo
     $scope.cancel = function() {
         $uibModalInstance.dismiss('cancel');
     };
+});
+
+app.factory('authInterceptor', function($q, $rootScope) {
+    return {
+        request: function(config) {
+            const currentUser = JSON.parse(localStorage.getItem('myems_admin_ui_current_user'));
+            if (currentUser) {
+                config.headers['User-UUID'] = currentUser.uuid;
+                config.headers['Token'] = currentUser.token;
+            }
+            return config;
+        },
+        responseError: function(rejection) {
+            if (rejection.status === 401 || rejection.status === 403) {
+                $rootScope.$broadcast('auth:logout');
+                localStorage.removeItem('myems_admin_ui_current_user');
+            }
+            return $q.reject(rejection);
+        }
+    };
+});
+
+app.config(function($httpProvider) {
+    $httpProvider.interceptors.push('authInterceptor');
 });
