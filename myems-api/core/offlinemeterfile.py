@@ -117,10 +117,6 @@ class OfflineMeterFileCollection:
             print(f"Failed to stream request: {str(ex)}")
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR',
                                    description='API.FAILED_TO_UPLOAD_OFFLINE_METER_FILE')
-        except IOError as ex:
-            print(f"Failed to IO request: {str(ex)}")
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR',
-                                   description='API.FAILED_TO_UPLOAD_OFFLINE_METER_FILE')
         except Exception as ex:
             print(f"Unexcept error reading request stream: {str(ex)}")
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR',
@@ -196,6 +192,10 @@ class OfflineMeterFileCollection:
             cnx.close()
         except InterfaceError as e:
             print(f"Failed to connect request: {str(e)}")
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR',
+                                   description='API.FAILED_TO_SAVE_OFFLINE_METER_FILE')
+        except OperationalError as e:      
+            print(f"Failed to SQL operate request: {str(e)}")
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR',
                                    description='API.FAILED_TO_SAVE_OFFLINE_METER_FILE')
         except ProgrammingError as e:
@@ -333,8 +333,6 @@ class OfflineMeterFileItem:
             os.remove(file_path)
         except OSError as ex:
             print(f"Failed to stream request: {str(ex)}")
-        except IOError as ex:
-            print(f"Failed to IO request: {str(ex)}")
         except Exception as ex:
             print(f"Unexcept error reading request stream: {str(ex)}")
             # ignore exception and don't return API.OFFLINE_METER_FILE_NOT_FOUND error
@@ -427,10 +425,6 @@ class OfflineMeterFileRestore:
             os.replace(temp_file_path, file_path)
         except OSError as ex:
             print(f"Failed to stream request: {str(ex)}")
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR',
-                                   description='API.FAILED_TO_RESTORE_OFFLINE_METER_FILE')
-        except IOError as ex:
-            print(f"Failed to IO request: {str(ex)}")
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR',
                                    description='API.FAILED_TO_RESTORE_OFFLINE_METER_FILE')
         except Exception as ex:

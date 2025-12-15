@@ -191,6 +191,8 @@ def write_log(user_uuid, request_method, resource_type, resource_id, request_bod
         cnx.commit()
     except InterfaceError as e:
         print(f"Failed to connect request: {str(e)}")
+    except OperationalError as e:      
+        print(f"Failed to SQL operate request: {str(e)}")
     except ProgrammingError as e:
         print(f"Failed to SQL request: {str(e)}")
     except DataError as e:
@@ -248,8 +250,6 @@ def user_logger(func):
                 print(f"Failed to stream request: {str(e)}")
             except UnicodeDecodeError as e:
                 print(f"Failed to decode request: {str(e)}")
-            except IOError as e:
-                print(f"Failed to IO request: {str(e)}")
             except Exception as e:
                 if isinstance(e, falcon.HTTPError):
                     raise e
@@ -274,8 +274,6 @@ def user_logger(func):
                 print(f"Failed to stream request: {str(e)}")
             except UnicodeDecodeError as e:
                 print(f"Failed to decode request: {str(e)}")
-            except IOError as e:
-                print(f"Failed to IO request: {str(e)}")
             except Exception as e:
                 if isinstance(e, falcon.HTTPError):
                     raise e

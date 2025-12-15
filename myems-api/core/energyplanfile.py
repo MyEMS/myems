@@ -88,10 +88,6 @@ class EnergyPlanFileCollection:
             print(f"Failed to stream request: {str(ex)}")
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR',
                                    description='API.FAILED_TO_UPLOAD_ENERGY_PLAN_FILE')
-        except IOError as ex:
-            print(f"Failed to IO request: {str(ex)}")
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR',
-                                   description='API.FAILED_TO_UPLOAD_ENERGY_PLAN_FILE')
         except Exception as ex:
             print(f"Unexcept error reading request stream: {str(ex)}")
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR',
@@ -164,6 +160,10 @@ class EnergyPlanFileCollection:
             cnx.close()
         except InterfaceError as e:
             print(f"Failed to connect request: {str(e)}")
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR',
+                                   description='API.FAILED_TO_SAVE_ENERGY_PLAN_FILE')
+        except OperationalError as e:
+            print(f"Failed to SQL operate request: {str(e)}")
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR',
                                    description='API.FAILED_TO_SAVE_ENERGY_PLAN_FILE')
         except ProgrammingError as e:
@@ -257,8 +257,6 @@ class EnergyPlanFileItem:
             os.remove(file_path)
         except OSError as ex:
             print(f"Failed to stream request: {str(ex)}")
-        except IOError as ex:
-            print(f"Failed to IO request: {str(ex)}")
         except Exception as ex:
             print(f"Unexcept error reading request stream: {str(ex)}")
             # ignore exception and don't return API.ENERGY_PLAN_FILE_NOT_FOUND error
@@ -326,10 +324,6 @@ class EnergyPlanFileRestore:
             os.replace(temp_file_path, file_path)
         except OSError as ex:
             print(f"Failed to stream request: {str(ex)}")
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR',
-                                   description='API.FAILED_TO_RESTORE_ENERGY_PLAN_FILE')
-        except IOError as ex:
-            print(f"Failed to IO request: {str(ex)}")
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR',
                                    description='API.FAILED_TO_RESTORE_ENERGY_PLAN_FILE')
         except Exception as ex:

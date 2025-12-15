@@ -109,10 +109,6 @@ class KnowledgeFileCollection:
             print(f"Failed to stream request: {str(ex)}")
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR',
                                    description='API.FAILED_TO_UPLOAD_KNOWLEDGE_FILE')
-        except IOError as ex:
-            print(f"Failed to IO request: {str(ex)}")
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR',
-                                   description='API.FAILED_TO_UPLOAD_KNOWLEDGE_FILE')
         except Exception as ex:
             print(f"Unexcept error reading request stream: {str(ex)}")
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR',
@@ -352,10 +348,6 @@ class KnowledgeFileRestore:
             os.replace(temp_file_path, file_path)
         except OSError as ex:
             print(f"Failed to stream request: {str(ex)}")
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR',
-                                   description='API.FAILED_TO_RESTORE_KNOWLEDGE_FILE')
-        except IOError as ex:
-            print(f"Failed to IO request: {str(ex)}")
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR',
                                    description='API.FAILED_TO_RESTORE_KNOWLEDGE_FILE')
         except Exception as ex:

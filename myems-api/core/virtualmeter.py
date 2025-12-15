@@ -871,6 +871,9 @@ class VirtualMeterItem:
                                         description,
                                         id_,))
             cnx.commit()
+        except OperationalError as ex:
+            print(f"Failed to SQL operate request: {str(ex)}")
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR', description=str(ex))
         except ProgrammingError as ex:
             print(f"Failed to SQL request: {str(ex)}")
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR', description=str(ex))
@@ -889,6 +892,9 @@ class VirtualMeterItem:
                 # delete variables
                 cursor.execute(" DELETE FROM tbl_variables WHERE virtual_meter_id = %s ", (id_,))
                 cnx.commit()
+        except OperationalError as ex:
+            print(f"Failed to SQL operate request: {str(ex)}")
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR', description=str(ex))
         except ProgrammingError as ex:
             print(f"Failed to SQL request: {str(ex)}")
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR', description=str(ex))
@@ -908,6 +914,9 @@ class VirtualMeterItem:
                                             variable['meter_type'],
                                             variable['meter_id'],))
                 cnx.commit()
+            except OperationalError as ex:
+                print(f"Failed to SQL operate request: {str(ex)}")
+                raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR', description=str(ex))
             except ProgrammingError as ex:
                 print(f"Failed to SQL request: {str(ex)}")
                 raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR', description=str(ex))

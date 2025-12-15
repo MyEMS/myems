@@ -217,6 +217,13 @@ def get_energy_category_tariffs(cost_center_id, energy_category_id, start_dateti
         if cursor:
             cursor.close()
         return dict()
+    except OperationalError as ex:
+        print(f"Failed to operate request: {str(e)}")
+        if cnx:
+            cnx.close()
+        if cursor:
+            cursor.close()
+        return dict()
     except ProgrammingError as e:
         print(f"Failed to SQL request: {str(e)}")
         if cnx:
@@ -260,6 +267,13 @@ def get_energy_category_tariffs(cost_center_id, energy_category_id, start_dateti
         rows_timeofuse_tariffs = cursor.fetchall()
     except InterfaceError as e:
         print(f"Failed to connect request: {str(e)}")
+        if cnx:
+            cnx.close()
+        if cursor:
+            cursor.close()
+        return dict()
+    except OperationalError as ex:
+        print(f"Failed to operate request: {str(e)}")
         if cnx:
             cnx.close()
         if cursor:
@@ -363,6 +377,13 @@ def get_energy_category_peak_types(cost_center_id, energy_category_id, start_dat
         if cursor:
             cursor.close()
         return dict()
+    except OperationalError as ex:
+        print(f"Failed to operate request: {str(e)}")
+        if cnx:
+            cnx.close()
+        if cursor:
+            cursor.close()
+        return dict()
     except ProgrammingError as e:
         print(f"Failed to SQL request: {str(e)}")
         if cnx:
@@ -406,6 +427,13 @@ def get_energy_category_peak_types(cost_center_id, energy_category_id, start_dat
         rows_timeofuse_tariffs = cursor.fetchall()
     except InterfaceError as e:
         print(f"Failed to connect request: {str(e)}")
+        if cnx:
+            cnx.close()
+        if cursor:
+            cursor.close()
+        return dict()
+    except OperationalError as ex:
+        print(f"Failed to operate request: {str(e)}")
         if cnx:
             cnx.close()
         if cursor:
