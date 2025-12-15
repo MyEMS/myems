@@ -114,12 +114,12 @@ class TariffCollection:
         try:
             raw_json = req.stream.read().decode('utf-8')
         except UnicodeDecodeError as ex:
-            print(f"Failed to decode request: {str(ex)}")
+            print("Failed to decode request")
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.INVALID_ENCODING')
         except Exception as ex:
-            print(f"Unexcept error reading request stream: {str(ex)}")
+            print("Unexpected error reading request stream")
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.FAILED_TO_READ_REQUEST_STREAM')
@@ -355,12 +355,12 @@ class TariffItem:
         try:
             raw_json = req.stream.read().decode('utf-8')
         except UnicodeDecodeError as ex:
-            print(f"Failed to decode request: {str(ex)}")
+            print("Failed to decode request")
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.INVALID_ENCODING')
         except Exception as ex:
-            print(f"Unexcept error reading request stream: {str(ex)}")
+            print("Unexpected error reading request stream")
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.FAILED_TO_READ_REQUEST_STREAM')
@@ -582,12 +582,12 @@ class TariffImport:
         try:
             raw_json = req.stream.read().decode('utf-8')
         except UnicodeDecodeError as ex:
-            print(f"Failed to decode request: {str(ex)}")
+            print("Failed to decode request")
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.INVALID_ENCODING')
         except Exception as ex:
-            print(f"Unexcept error reading request stream: {str(ex)}")
+            print("Unexpected error reading request stream")
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.FAILED_TO_READ_REQUEST_STREAM')

@@ -118,12 +118,12 @@ class AdvancedReportCollection:
         try:
             raw_json = req.stream.read().decode('utf-8')
         except UnicodeDecodeError as ex:
-            print(f"Failed to decode request: {str(ex)}")
+            print("Failed to decode request")
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.INVALID_ENCODING')
         except Exception as ex:
-            print(f"Unexcept error reading request stream: {str(ex)}")
+            print("Unexpected error reading request stream")
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.FAILED_TO_READ_REQUEST_STREAM')
@@ -151,7 +151,7 @@ class AdvancedReportCollection:
         try:
             json.loads(expression)
         except json.JSONDecodeError as ex:
-            print(f"Failed to parse JSON: {str(ex)}")
+            print("Failed to parse JSON")
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.INVALID_JSON_FORMAT')
@@ -175,10 +175,10 @@ class AdvancedReportCollection:
                 next_run_datetime_local = datetime.strptime(new_values['data']['next_run_datetime'],
                                                             '%Y-%m-%dT%H:%M:%S')
             except KeyError as ex:         
-                print(f"Failed to Key request: {str(ex)}") 
+                print("Failed to Key request") 
                 raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR', description=str(ex))
             except TypeError as ex:
-                print(f"Failed to Type request: {str(ex)}")
+                print("Failed to Type request")
                 raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR', description=str(ex))
             except Exception:
                 raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
@@ -391,12 +391,12 @@ class AdvancedReportItem:
         try:
             raw_json = req.stream.read().decode('utf-8')
         except UnicodeDecodeError as ex:
-            print(f"Failed to decode request: {str(ex)}")
+            print("Failed to decode request")
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.INVALID_ENCODING')
         except Exception as ex:
-            print(f"Unexcept error reading request stream: {str(ex)}")
+            print("Unexpected error reading request stream")
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.FAILED_TO_READ_REQUEST_STREAM')
@@ -428,7 +428,7 @@ class AdvancedReportItem:
         try:
             json.loads(expression)
         except json.JSONDecodeError as ex:
-            print(f"Failed to parse JSON: {str(ex)}")
+            print("Failed to parse JSON")
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.INVALID_JSON_FORMAT')
@@ -460,10 +460,10 @@ class AdvancedReportItem:
         try:
             next_run_datetime_local = datetime.strptime(new_values['data']['next_run_datetime'], '%Y-%m-%dT%H:%M:%S')
         except KeyError as ex:         
-            print(f"Failed to Key request: {str(ex)}") 
+            print("Failed to Key request") 
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR', description=str(ex))
         except TypeError as ex:
-            print(f"Failed to Type request: {str(ex)}")
+            print("Failed to Type request")
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR', description=str(ex))
         except Exception:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
@@ -735,12 +735,12 @@ class AdvancedReportImport:
         try:
             raw_json = req.stream.read().decode('utf-8')
         except UnicodeDecodeError as ex:
-            print(f"Failed to decode request: {str(ex)}")
+            print("Failed to decode request")
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.INVALID_ENCODING')
         except Exception as ex:
-            print(f"Unexcept error reading request stream: {str(ex)}")
+            print("Unexpected error reading request stream")
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.FAILED_TO_READ_REQUEST_STREAM')
@@ -768,7 +768,7 @@ class AdvancedReportImport:
         try:
             json.loads(expression)
         except json.JSONDecodeError as ex:
-            print(f"Failed to parse JSON: {str(ex)}")
+            print("Failed to parse JSON")
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.INVALID_JSON_FORMAT')
@@ -792,10 +792,10 @@ class AdvancedReportImport:
                 next_run_datetime_local = datetime.strptime(new_values['next_run_datetime'],
                                                             '%Y-%m-%dT%H:%M:%S')
             except KeyError as ex:         
-                print(f"Failed to Key request: {str(ex)}") 
+                print("Failed to Key request") 
                 raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR', description=str(ex))
             except TypeError as ex:
-                print(f"Failed to Type request: {str(ex)}")
+                print("Failed to Type request")
                 raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR', description=str(ex))
             except Exception as ex:
                 print(str(ex))

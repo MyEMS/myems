@@ -113,23 +113,23 @@ class EmailMessageCollection:
             # Retrieve filename
             attachment_file_name = upload.filename
         except OSError as ex:
-            print(f"Failed to stream request: {str(ex)}")
+            print("Failed to stream request")
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR',
                                    description='API.FAILED_TO_UPLOAD_ATTACHMENT_FILE')
         except Exception as ex:
-            print(f"Unexcept error reading request stream: {str(ex)}")
+            print("Unexpected error reading request stream")
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR',
                                    description='API.FAILED_TO_UPLOAD_ATTACHMENT_FILE')
         try:
             raw_json = req.get_param('req')
         except KeyError as ex:
-            print(f"Failed to Key request: {str(ex)}")
+            print("Failed to Key request")
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR', description=str(ex))
         except TypeError as ex:
-            print(f"Failed to Type request: {str(ex)}")
+            print("Failed to Type request")
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR', description=str(ex))
         except Exception as ex:
-            print(f"Unexcept error reading request stream: {str(ex)}")
+            print("Unexpected error reading request stream")
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR', description=str(ex))
 
         new_values = json.loads(raw_json)
@@ -325,24 +325,24 @@ class EmailMessageItem:
             # Retrieve filename
             attachment_file_name = upload.filename
         except OSError as ex:
-            print(f"Failed to stream request: {str(ex)}")
+            print("Failed to stream request")
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR',
                                    description='API.FAILED_TO_UPLOAD_ATTACHMENT_FILE')
         except Exception as ex:
-            print(f"Unexcept error reading request stream: {str(ex)}")
+            print("Unexpected error reading request stream")
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR',
                                    description='API.FAILED_TO_UPLOAD_ATTACHMENT_FILE')
 
         try:
             raw_json = req.get_param('req')
         except KeyError as ex:
-            print(f"Failed to Key request: {str(ex)}")
+            print("Failed to Key request")
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR', description=str(ex))
         except TypeError as ex:
-            print(f"Failed to Type request: {str(ex)}")
+            print("Failed to Type request")
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR', description=str(ex))
         except Exception as ex:
-            print(f"Unexcept error reading request stream: {str(ex)}")
+            print("Unexpected error reading request stream")
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR', description=str(ex))
 
         new_values = json.loads(raw_json)

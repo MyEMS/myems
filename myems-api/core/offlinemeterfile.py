@@ -114,11 +114,11 @@ class OfflineMeterFileCollection:
             # Now that we know the file has been fully saved to disk move it into place.
             os.rename(file_path + '~', file_path)
         except OSError as ex:
-            print(f"Failed to stream request: {str(ex)}")
+            print("Failed to stream request")
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR',
                                    description='API.FAILED_TO_UPLOAD_OFFLINE_METER_FILE')
         except Exception as ex:
-            print(f"Unexcept error reading request stream: {str(ex)}")
+            print("Unexpected error reading request stream")
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR',
                                    description='API.FAILED_TO_UPLOAD_OFFLINE_METER_FILE')
 
@@ -191,19 +191,19 @@ class OfflineMeterFileCollection:
             cursor.close()
             cnx.close()
         except InterfaceError as e:
-            print(f"Failed to connect request: {str(e)}")
+            print("Failed to connect request")
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR',
                                    description='API.FAILED_TO_SAVE_OFFLINE_METER_FILE')
         except OperationalError as e:      
-            print(f"Failed to SQL operate request: {str(e)}")
+            print("Failed to SQL operate request")
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR',
                                    description='API.FAILED_TO_SAVE_OFFLINE_METER_FILE')
         except ProgrammingError as e:
-            print(f"Failed to SQL request: {str(e)}")
+            print("Failed to SQL request")
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR',
                                    description='API.FAILED_TO_SAVE_OFFLINE_METER_FILE')
         except DataError as e:
-            print(f"Failed to SQL Data request: {str(e)}")
+            print("Failed to SQL Data request")
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR',
                                    description='API.FAILED_TO_SAVE_OFFLINE_METER_FILE')
         except Exception as e:
@@ -332,9 +332,9 @@ class OfflineMeterFileItem:
             # remove the file from disk
             os.remove(file_path)
         except OSError as ex:
-            print(f"Failed to stream request: {str(ex)}")
+            print("Failed to stream request")
         except Exception as ex:
-            print(f"Unexcept error reading request stream: {str(ex)}")
+            print("Unexpected error reading request stream")
             # ignore exception and don't return API.OFFLINE_METER_FILE_NOT_FOUND error
             pass
 
@@ -424,11 +424,11 @@ class OfflineMeterFileRestore:
             # Now that we know the file has been fully saved to disk move it into place.
             os.replace(temp_file_path, file_path)
         except OSError as ex:
-            print(f"Failed to stream request: {str(ex)}")
+            print("Failed to stream request")
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR',
                                    description='API.FAILED_TO_RESTORE_OFFLINE_METER_FILE')
         except Exception as ex:
-            print(f"Unexcept error reading request stream: {str(ex)}")
+            print("Unexpected error reading request stream")
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR',
                                    description='API.FAILED_TO_RESTORE_OFFLINE_METER_FILE')
         resp.text = json.dumps('success')

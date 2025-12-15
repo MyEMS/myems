@@ -128,12 +128,12 @@ class EnergyStorageContainerCollection:
         try:
             raw_json = req.stream.read().decode('utf-8')
         except UnicodeDecodeError as ex:
-            print(f"Failed to decode request: {str(ex)}")
+            print("Failed to decode request")
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.INVALID_ENCODING')
         except Exception as ex:
-            print(f"Unexcept error reading request stream: {str(ex)}")
+            print("Unexpected error reading request stream")
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.FAILED_TO_READ_REQUEST_STREAM')
@@ -428,12 +428,12 @@ class EnergyStorageContainerItem:
         try:
             raw_json = req.stream.read().decode('utf-8')
         except UnicodeDecodeError as ex:
-            print(f"Failed to decode request: {str(ex)}")
+            print("Failed to decode request")
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.INVALID_ENCODING')
         except Exception as ex:
-            print(f"Unexcept error reading request stream: {str(ex)}")
+            print("Unexpected error reading request stream")
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.FAILED_TO_READ_REQUEST_STREAM')
@@ -639,12 +639,12 @@ class EnergyStorageContainerBatteryCollection:
         try:
             raw_json = req.stream.read().decode('utf-8')
         except UnicodeDecodeError as ex:
-            print(f"Failed to decode request: {str(ex)}")
+            print("Failed to decode request")
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.INVALID_ENCODING')
         except Exception as ex:
-            print(f"Unexcept error reading request stream: {str(ex)}")
+            print("Unexpected error reading request stream")
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.FAILED_TO_READ_REQUEST_STREAM')
@@ -968,12 +968,12 @@ class EnergyStorageContainerBatteryItem:
         try:
             raw_json = req.stream.read().decode('utf-8')
         except UnicodeDecodeError as ex:
-            print(f"Failed to decode request: {str(ex)}")
+            print("Failed to decode request")
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.INVALID_ENCODING')
         except Exception as ex:
-            print(f"Unexcept error reading request stream: {str(ex)}")
+            print("Unexpected error reading request stream")
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.FAILED_TO_READ_REQUEST_STREAM')
@@ -1222,12 +1222,12 @@ class EnergyStorageContainerBatteryPointCollection:
         try:
             raw_json = req.stream.read().decode('utf-8')
         except UnicodeDecodeError as ex:
-            print(f"Failed to decode request: {str(ex)}")
+            print("Failed to decode request")
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.INVALID_ENCODING')
         except Exception as ex:
-            print(f"Unexcept error reading request stream: {str(ex)}")
+            print("Unexpected error reading request stream")
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.FAILED_TO_READ_REQUEST_STREAM')
@@ -1406,12 +1406,12 @@ class EnergyStorageContainerCommandCollection:
         try:
             raw_json = req.stream.read().decode('utf-8')
         except UnicodeDecodeError as ex:
-            print(f"Failed to decode request: {str(ex)}")
+            print("Failed to decode request")
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.INVALID_ENCODING')
         except Exception as ex:
-            print(f"Unexcept error reading request stream: {str(ex)}")
+            print("Unexpected error reading request stream")
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.FAILED_TO_READ_REQUEST_STREAM')
@@ -1591,12 +1591,12 @@ class EnergyStorageContainerDataSourceCollection:
         try:
             raw_json = req.stream.read().decode('utf-8')
         except UnicodeDecodeError as ex:
-            print(f"Failed to decode request: {str(ex)}")
+            print("Failed to decode request")
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.INVALID_ENCODING')
         except Exception as ex:
-            print(f"Unexcept error reading request stream: {str(ex)}")
+            print("Unexpected error reading request stream")
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.FAILED_TO_READ_REQUEST_STREAM')
@@ -1817,12 +1817,12 @@ class EnergyStorageContainerDCDCCollection:
         try:
             raw_json = req.stream.read().decode('utf-8')
         except UnicodeDecodeError as ex:
-            print(f"Failed to decode request: {str(ex)}")
+            print("Failed to decode request")
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.INVALID_ENCODING')
         except Exception as ex:
-            print(f"Unexcept error reading request stream: {str(ex)}")
+            print("Unexpected error reading request stream")
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.FAILED_TO_READ_REQUEST_STREAM')
@@ -2002,12 +2002,12 @@ class EnergyStorageContainerDCDCItem:
         try:
             raw_json = req.stream.read().decode('utf-8')
         except UnicodeDecodeError as ex:
-            print(f"Failed to decode request: {str(ex)}")
+            print("Failed to decode request")
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.INVALID_ENCODING')
         except Exception as ex:
-            print(f"Unexcept error reading request stream: {str(ex)}")
+            print("Unexpected error reading request stream")
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.FAILED_TO_READ_REQUEST_STREAM')
@@ -2136,12 +2136,12 @@ class EnergyStorageContainerDCDCPointCollection:
         try:
             raw_json = req.stream.read().decode('utf-8')
         except UnicodeDecodeError as ex:
-            print(f"Failed to decode request: {str(ex)}")
+            print("Failed to decode request")
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.INVALID_ENCODING')
         except Exception as ex:
-            print(f"Unexcept error reading request stream: {str(ex)}")
+            print("Unexpected error reading request stream")
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.FAILED_TO_READ_REQUEST_STREAM')
@@ -2318,12 +2318,12 @@ class EnergyStorageContainerFirecontrolCollection:
         try:
             raw_json = req.stream.read().decode('utf-8')
         except UnicodeDecodeError as ex:
-            print(f"Failed to decode request: {str(ex)}")
+            print("Failed to decode request")
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.INVALID_ENCODING')
         except Exception as ex:
-            print(f"Unexcept error reading request stream: {str(ex)}")
+            print("Unexpected error reading request stream")
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.FAILED_TO_READ_REQUEST_STREAM')
@@ -2503,12 +2503,12 @@ class EnergyStorageContainerFirecontrolItem:
         try:
             raw_json = req.stream.read().decode('utf-8')
         except UnicodeDecodeError as ex:
-            print(f"Failed to decode request: {str(ex)}")
+            print("Failed to decode request")
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.INVALID_ENCODING')
         except Exception as ex:
-            print(f"Unexcept error reading request stream: {str(ex)}")
+            print("Unexpected error reading request stream")
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.FAILED_TO_READ_REQUEST_STREAM')
@@ -2637,12 +2637,12 @@ class EnergyStorageContainerFirecontrolPointCollection:
         try:
             raw_json = req.stream.read().decode('utf-8')
         except UnicodeDecodeError as ex:
-            print(f"Failed to decode request: {str(ex)}")
+            print("Failed to decode request")
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.INVALID_ENCODING')
         except Exception as ex:
-            print(f"Unexcept error reading request stream: {str(ex)}")
+            print("Unexpected error reading request stream")
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.FAILED_TO_READ_REQUEST_STREAM')
@@ -2848,12 +2848,12 @@ class EnergyStorageContainerGridCollection:
         try:
             raw_json = req.stream.read().decode('utf-8')
         except UnicodeDecodeError as ex:
-            print(f"Failed to decode request: {str(ex)}")
+            print("Failed to decode request")
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.INVALID_ENCODING')
         except Exception as ex:
-            print(f"Unexcept error reading request stream: {str(ex)}")
+            print("Unexpected error reading request stream")
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.FAILED_TO_READ_REQUEST_STREAM')
@@ -3125,12 +3125,12 @@ class EnergyStorageContainerGridItem:
         try:
             raw_json = req.stream.read().decode('utf-8')
         except UnicodeDecodeError as ex:
-            print(f"Failed to decode request: {str(ex)}")
+            print("Failed to decode request")
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.INVALID_ENCODING')
         except Exception as ex:
-            print(f"Unexcept error reading request stream: {str(ex)}")
+            print("Unexpected error reading request stream")
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.FAILED_TO_READ_REQUEST_STREAM')
@@ -3323,12 +3323,12 @@ class EnergyStorageContainerGridPointCollection:
         try:
             raw_json = req.stream.read().decode('utf-8')
         except UnicodeDecodeError as ex:
-            print(f"Failed to decode request: {str(ex)}")
+            print("Failed to decode request")
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.INVALID_ENCODING')
         except Exception as ex:
-            print(f"Unexcept error reading request stream: {str(ex)}")
+            print("Unexpected error reading request stream")
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.FAILED_TO_READ_REQUEST_STREAM')
@@ -3505,12 +3505,12 @@ class EnergyStorageContainerHVACCollection:
         try:
             raw_json = req.stream.read().decode('utf-8')
         except UnicodeDecodeError as ex:
-            print(f"Failed to decode request: {str(ex)}")
+            print("Failed to decode request")
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.INVALID_ENCODING')
         except Exception as ex:
-            print(f"Unexcept error reading request stream: {str(ex)}")
+            print("Unexpected error reading request stream")
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.FAILED_TO_READ_REQUEST_STREAM')
@@ -3690,12 +3690,12 @@ class EnergyStorageContainerHVACItem:
         try:
             raw_json = req.stream.read().decode('utf-8')
         except UnicodeDecodeError as ex:
-            print(f"Failed to decode request: {str(ex)}")
+            print("Failed to decode request")
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.INVALID_ENCODING')
         except Exception as ex:
-            print(f"Unexcept error reading request stream: {str(ex)}")
+            print("Unexpected error reading request stream")
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.FAILED_TO_READ_REQUEST_STREAM')
@@ -3824,12 +3824,12 @@ class EnergyStorageContainerHVACPointCollection:
         try:
             raw_json = req.stream.read().decode('utf-8')
         except UnicodeDecodeError as ex:
-            print(f"Failed to decode request: {str(ex)}")
+            print("Failed to decode request")
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.INVALID_ENCODING')
         except Exception as ex:
-            print(f"Unexcept error reading request stream: {str(ex)}")
+            print("Unexpected error reading request stream")
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.FAILED_TO_READ_REQUEST_STREAM')
@@ -4034,12 +4034,12 @@ class EnergyStorageContainerLoadCollection:
         try:
             raw_json = req.stream.read().decode('utf-8')
         except UnicodeDecodeError as ex:
-            print(f"Failed to decode request: {str(ex)}")
+            print("Failed to decode request")
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.INVALID_ENCODING')
         except Exception as ex:
-            print(f"Unexcept error reading request stream: {str(ex)}")
+            print("Unexpected error reading request stream")
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.FAILED_TO_READ_REQUEST_STREAM')
@@ -4291,12 +4291,12 @@ class EnergyStorageContainerLoadItem:
         try:
             raw_json = req.stream.read().decode('utf-8')
         except UnicodeDecodeError as ex:
-            print(f"Failed to decode request: {str(ex)}")
+            print("Failed to decode request")
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.INVALID_ENCODING')
         except Exception as ex:
-            print(f"Unexcept error reading request stream: {str(ex)}")
+            print("Unexpected error reading request stream")
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.FAILED_TO_READ_REQUEST_STREAM')
@@ -4470,12 +4470,12 @@ class EnergyStorageContainerLoadPointCollection:
         try:
             raw_json = req.stream.read().decode('utf-8')
         except UnicodeDecodeError as ex:
-            print(f"Failed to decode request: {str(ex)}")
+            print("Failed to decode request")
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.INVALID_ENCODING')
         except Exception as ex:
-            print(f"Unexcept error reading request stream: {str(ex)}")
+            print("Unexpected error reading request stream")
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.FAILED_TO_READ_REQUEST_STREAM')
@@ -4677,12 +4677,12 @@ class EnergyStorageContainerPCSCollection:
         try:
             raw_json = req.stream.read().decode('utf-8')
         except UnicodeDecodeError as ex:
-            print(f"Failed to decode request: {str(ex)}")
+            print("Failed to decode request")
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.INVALID_ENCODING')
         except Exception as ex:
-            print(f"Unexcept error reading request stream: {str(ex)}")
+            print("Unexpected error reading request stream")
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.FAILED_TO_READ_REQUEST_STREAM')
@@ -4915,12 +4915,12 @@ class EnergyStorageContainerPCSItem:
         try:
             raw_json = req.stream.read().decode('utf-8')
         except UnicodeDecodeError as ex:
-            print(f"Failed to decode request: {str(ex)}")
+            print("Failed to decode request")
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.INVALID_ENCODING')
         except Exception as ex:
-            print(f"Unexcept error reading request stream: {str(ex)}")
+            print("Unexpected error reading request stream")
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.FAILED_TO_READ_REQUEST_STREAM')
@@ -5066,12 +5066,12 @@ class EnergyStorageContainerPCSPointCollection:
         try:
             raw_json = req.stream.read().decode('utf-8')
         except UnicodeDecodeError as ex:
-            print(f"Failed to decode request: {str(ex)}")
+            print("Failed to decode request")
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.INVALID_ENCODING')
         except Exception as ex:
-            print(f"Unexcept error reading request stream: {str(ex)}")
+            print("Unexpected error reading request stream")
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.FAILED_TO_READ_REQUEST_STREAM')
@@ -5250,12 +5250,12 @@ class EnergyStorageContainerScheduleCollection:
         try:
             raw_json = req.stream.read().decode('utf-8')
         except UnicodeDecodeError as ex:
-            print(f"Failed to decode request: {str(ex)}")
+            print("Failed to decode request")
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.INVALID_ENCODING')
         except Exception as ex:
-            print(f"Unexcept error reading request stream: {str(ex)}")
+            print("Unexpected error reading request stream")
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.FAILED_TO_READ_REQUEST_STREAM')
@@ -5419,12 +5419,12 @@ class EnergyStorageContainerScheduleItem:
         try:
             raw_json = req.stream.read().decode('utf-8')
         except UnicodeDecodeError as ex:
-            print(f"Failed to decode request: {str(ex)}")
+            print("Failed to decode request")
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.INVALID_ENCODING')
         except Exception as ex:
-            print(f"Unexcept error reading request stream: {str(ex)}")
+            print("Unexpected error reading request stream")
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.FAILED_TO_READ_REQUEST_STREAM')
@@ -5557,12 +5557,12 @@ class EnergyStorageContainerSTSCollection:
         try:
             raw_json = req.stream.read().decode('utf-8')
         except UnicodeDecodeError as ex:
-            print(f"Failed to decode request: {str(ex)}")
+            print("Failed to decode request")
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.INVALID_ENCODING')
         except Exception as ex:
-            print(f"Unexcept error reading request stream: {str(ex)}")
+            print("Unexpected error reading request stream")
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.FAILED_TO_READ_REQUEST_STREAM')
@@ -5742,12 +5742,12 @@ class EnergyStorageContainerSTSItem:
         try:
             raw_json = req.stream.read().decode('utf-8')
         except UnicodeDecodeError as ex:
-            print(f"Failed to decode request: {str(ex)}")
+            print("Failed to decode request")
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.INVALID_ENCODING')
         except Exception as ex:
-            print(f"Unexcept error reading request stream: {str(ex)}")
+            print("Unexpected error reading request stream")
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.FAILED_TO_READ_REQUEST_STREAM')
@@ -5876,12 +5876,12 @@ class EnergyStorageContainerSTSPointCollection:
         try:
             raw_json = req.stream.read().decode('utf-8')
         except UnicodeDecodeError as ex:
-            print(f"Failed to decode request: {str(ex)}")
+            print("Failed to decode request")
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.INVALID_ENCODING')
         except Exception as ex:
-            print(f"Unexcept error reading request stream: {str(ex)}")
+            print("Unexpected error reading request stream")
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.FAILED_TO_READ_REQUEST_STREAM')
@@ -6155,12 +6155,12 @@ class EnergyStorageContainerImport:
         try:
             raw_json = req.stream.read().decode('utf-8')
         except UnicodeDecodeError as ex:
-            print(f"Failed to decode request: {str(ex)}")
+            print("Failed to decode request")
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.INVALID_ENCODING')
         except Exception as ex:
-            print(f"Unexcept error reading request stream: {str(ex)}")
+            print("Unexpected error reading request stream")
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.FAILED_TO_READ_REQUEST_STREAM')

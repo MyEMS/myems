@@ -81,11 +81,11 @@ class CostFileCollection:
             # Now that we know the file has been fully saved to disk move it into place.
             os.rename(file_path + '~', file_path)
         except OSError as ex: 
-            print(f"Failed to stream request: {str(ex)}")
+            print("Failed to stream request")
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR',
                                    description='API.FAILED_TO_UPLOAD_COST_FILE')
         except Exception as ex:
-            print(f"Unexcept error reading request stream: {str(ex)}")
+            print("Unexpected error reading request stream")
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR',
                                    description='API.FAILED_TO_UPLOAD_COST_FILE')
 
@@ -233,7 +233,7 @@ class CostFileItem:
             # remove the file from disk
             os.remove(file_path)
         except OSError as ex: 
-            print(f"Failed to stream request: {str(ex)}")
+            print("Failed to stream request")
         except Exception as ex:
             print(str(ex))
             # ignore exception and don't return API.COST_FILE_NOT_FOUND error
@@ -302,11 +302,11 @@ class CostFileRestore:
             # move it into place.
             os.replace(temp_file_path, file_path)
         except OSError as ex: 
-            print(f"Failed to stream request: {str(ex)}")
+            print("Failed to stream request")
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR',
                                    description='API.FAILED_TO_RESTORE_COST_FILE')
         except Exception as ex:
-            print(f"Unexcept error reading request stream: {str(ex)}")
+            print("Unexpected error reading request stream")
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR',
                                    description='API.FAILED_TO_RESTORE_COST_FILE')
         resp.text = json.dumps('success')

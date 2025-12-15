@@ -106,11 +106,11 @@ class KnowledgeFileCollection:
             # Now that we know the file has been fully saved to disk move it into place.
             os.rename(file_path + '~', file_path)
         except OSError as ex:
-            print(f"Failed to stream request: {str(ex)}")
+            print("Failed to stream request")
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR',
                                    description='API.FAILED_TO_UPLOAD_KNOWLEDGE_FILE')
         except Exception as ex:
-            print(f"Unexcept error reading request stream: {str(ex)}")
+            print("Unexpected error reading request stream")
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR',
                                    description='API.FAILED_TO_UPLOAD_KNOWLEDGE_FILE')
 
@@ -278,11 +278,11 @@ class KnowledgeFileItem:
             # remove the file from disk
             os.remove(file_path)
         except OSError as ex:
-            print(f"Failed to stream request: {str(ex)}")
+            print("Failed to stream request")
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR',
                                    description='API.KNOWLEDGE_FILE_CANNOT_BE_REMOVED_FROM_DISK')
         except Exception as ex:
-            print(f"Unexcept error reading request stream: {str(ex)}")
+            print("Unexpected error reading request stream")
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR',
                                    description='API.KNOWLEDGE_FILE_CANNOT_BE_REMOVED_FROM_DISK')
 
@@ -347,11 +347,11 @@ class KnowledgeFileRestore:
             # move it into place.
             os.replace(temp_file_path, file_path)
         except OSError as ex:
-            print(f"Failed to stream request: {str(ex)}")
+            print("Failed to stream request")
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR',
                                    description='API.FAILED_TO_RESTORE_KNOWLEDGE_FILE')
         except Exception as ex:
-            print(f"Unexcept error reading request stream: {str(ex)}")
+            print("Unexpected error reading request stream")
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR',
                                    description='API.FAILED_TO_RESTORE_KNOWLEDGE_FILE')
         resp.text = json.dumps('success')

@@ -147,6 +147,11 @@ class MicrogridCollection:
         admin_control(req)
         try:
             raw_json = req.stream.read().decode('utf-8')
+        except UnicodeDecodeError as ex:
+            print("Failed to decode request")
+            raise falcon.HTTPError(status=falcon.HTTP_400,
+                                   title='API.BAD_REQUEST',
+                                   description='API.INVALID_ENCODING')
         except Exception as ex:
             print(str(ex))
             raise falcon.HTTPError(status=falcon.HTTP_400,
@@ -504,6 +509,11 @@ class MicrogridItem:
         admin_control(req)
         try:
             raw_json = req.stream.read().decode('utf-8')
+        except UnicodeDecodeError as ex:
+            print("Failed to decode request")
+            raise falcon.HTTPError(status=falcon.HTTP_400,
+                                   title='API.BAD_REQUEST',
+                                   description='API.INVALID_ENCODING')
         except Exception as ex:
             print(str(ex))
             raise falcon.HTTPError(status=falcon.HTTP_400,
@@ -790,6 +800,11 @@ class MicrogridBatteryCollection:
         admin_control(req)
         try:
             raw_json = req.stream.read().decode('utf-8')
+        except UnicodeDecodeError as ex:
+            print("Failed to decode request")
+            raise falcon.HTTPError(status=falcon.HTTP_400,
+                                   title='API.BAD_REQUEST',
+                                   description='API.INVALID_ENCODING')
         except Exception as ex:
             print(str(ex))
             raise falcon.HTTPError(status=falcon.HTTP_400,
@@ -1110,6 +1125,11 @@ class MicrogridBatteryItem:
         admin_control(req)
         try:
             raw_json = req.stream.read().decode('utf-8')
+        except UnicodeDecodeError as ex:
+            print("Failed to decode request")
+            raise falcon.HTTPError(status=falcon.HTTP_400,
+                                   title='API.BAD_REQUEST',
+                                   description='API.INVALID_ENCODING')
         except Exception as ex:
             print(str(ex))
             raise falcon.HTTPError(status=falcon.HTTP_400,
@@ -1420,6 +1440,11 @@ class MicrogridEVChargerCollection:
         admin_control(req)
         try:
             raw_json = req.stream.read().decode('utf-8')
+        except UnicodeDecodeError as ex:
+            print("Failed to decode request")
+            raise falcon.HTTPError(status=falcon.HTTP_400,
+                                   title='API.BAD_REQUEST',
+                                   description='API.INVALID_ENCODING')
         except Exception as ex:
             print(str(ex))
             raise falcon.HTTPError(status=falcon.HTTP_400,
@@ -1670,6 +1695,11 @@ class MicrogridEVChargerItem:
         admin_control(req)
         try:
             raw_json = req.stream.read().decode('utf-8')
+        except UnicodeDecodeError as ex:
+            print("Failed to decode request")
+            raise falcon.HTTPError(status=falcon.HTTP_400,
+                                   title='API.BAD_REQUEST',
+                                   description='API.INVALID_ENCODING')
         except Exception as ex:
             print(str(ex))
             raise falcon.HTTPError(status=falcon.HTTP_400,
@@ -1861,6 +1891,11 @@ class MicrogridGeneratorCollection:
         admin_control(req)
         try:
             raw_json = req.stream.read().decode('utf-8')
+        except UnicodeDecodeError as ex:
+            print("Failed to decode request")
+            raise falcon.HTTPError(status=falcon.HTTP_400,
+                                   title='API.BAD_REQUEST',
+                                   description='API.INVALID_ENCODING')
         except Exception as ex:
             print(str(ex))
             raise falcon.HTTPError(status=falcon.HTTP_400,
@@ -2111,6 +2146,11 @@ class MicrogridGeneratorItem:
         admin_control(req)
         try:
             raw_json = req.stream.read().decode('utf-8')
+        except UnicodeDecodeError as ex:
+            print("Failed to decode request")
+            raise falcon.HTTPError(status=falcon.HTTP_400,
+                                   title='API.BAD_REQUEST',
+                                   description='API.INVALID_ENCODING')
         except Exception as ex:
             print(str(ex))
             raise falcon.HTTPError(status=falcon.HTTP_400,
@@ -2303,6 +2343,11 @@ class MicrogridGridCollection:
         admin_control(req)
         try:
             raw_json = req.stream.read().decode('utf-8')
+        except UnicodeDecodeError as ex:
+            print("Failed to decode request")
+            raise falcon.HTTPError(status=falcon.HTTP_400,
+                                   title='API.BAD_REQUEST',
+                                   description='API.INVALID_ENCODING')
         except Exception as ex:
             print(str(ex))
             raise falcon.HTTPError(status=falcon.HTTP_400,
@@ -2572,6 +2617,11 @@ class MicrogridGridItem:
         admin_control(req)
         try:
             raw_json = req.stream.read().decode('utf-8')
+        except UnicodeDecodeError as ex:
+            print("Failed to decode request")
+            raise falcon.HTTPError(status=falcon.HTTP_400,
+                                   title='API.BAD_REQUEST',
+                                   description='API.INVALID_ENCODING')
         except Exception as ex:
             print(str(ex))
             raise falcon.HTTPError(status=falcon.HTTP_400,
@@ -2785,6 +2835,11 @@ class MicrogridHeatpumpCollection:
         admin_control(req)
         try:
             raw_json = req.stream.read().decode('utf-8')
+        except UnicodeDecodeError as ex:
+            print("Failed to decode request")
+            raise falcon.HTTPError(status=falcon.HTTP_400,
+                                   title='API.BAD_REQUEST',
+                                   description='API.INVALID_ENCODING')
         except Exception as ex:
             print(str(ex))
             raise falcon.HTTPError(status=falcon.HTTP_400,
@@ -3075,6 +3130,11 @@ class MicrogridHeatpumpItem:
         admin_control(req)
         try:
             raw_json = req.stream.read().decode('utf-8')
+        except UnicodeDecodeError as ex:
+            print("Failed to decode request")
+            raise falcon.HTTPError(status=falcon.HTTP_400,
+                                   title='API.BAD_REQUEST',
+                                   description='API.INVALID_ENCODING')
         except Exception as ex:
             print(str(ex))
             raise falcon.HTTPError(status=falcon.HTTP_400,
@@ -3304,6 +3364,11 @@ class MicrogridLoadCollection:
         admin_control(req)
         try:
             raw_json = req.stream.read().decode('utf-8')
+        except UnicodeDecodeError as ex:
+            print("Failed to decode request")
+            raise falcon.HTTPError(status=falcon.HTTP_400,
+                                   title='API.BAD_REQUEST',
+                                   description='API.INVALID_ENCODING')
         except Exception as ex:
             print(str(ex))
             raise falcon.HTTPError(status=falcon.HTTP_400,
@@ -3554,6 +3619,11 @@ class MicrogridLoadItem:
         admin_control(req)
         try:
             raw_json = req.stream.read().decode('utf-8')
+        except UnicodeDecodeError as ex:
+            print("Failed to decode request")
+            raise falcon.HTTPError(status=falcon.HTTP_400,
+                                   title='API.BAD_REQUEST',
+                                   description='API.INVALID_ENCODING')
         except Exception as ex:
             print(str(ex))
             raise falcon.HTTPError(status=falcon.HTTP_400,
@@ -3746,6 +3816,11 @@ class MicrogridPhotovoltaicCollection:
         admin_control(req)
         try:
             raw_json = req.stream.read().decode('utf-8')
+        except UnicodeDecodeError as ex:
+            print("Failed to decode request")
+            raise falcon.HTTPError(status=falcon.HTTP_400,
+                                   title='API.BAD_REQUEST',
+                                   description='API.INVALID_ENCODING')
         except Exception as ex:
             print(str(ex))
             raise falcon.HTTPError(status=falcon.HTTP_400,
@@ -3996,6 +4071,11 @@ class MicrogridPhotovoltaicItem:
         admin_control(req)
         try:
             raw_json = req.stream.read().decode('utf-8')
+        except UnicodeDecodeError as ex:
+            print("Failed to decode request")
+            raise falcon.HTTPError(status=falcon.HTTP_400,
+                                   title='API.BAD_REQUEST',
+                                   description='API.INVALID_ENCODING')
         except Exception as ex:
             print(str(ex))
             raise falcon.HTTPError(status=falcon.HTTP_400,
@@ -4190,6 +4270,11 @@ class MicrogridPowerconversionsystemCollection:
         admin_control(req)
         try:
             raw_json = req.stream.read().decode('utf-8')
+        except UnicodeDecodeError as ex:
+            print("Failed to decode request")
+            raise falcon.HTTPError(status=falcon.HTTP_400,
+                                   title='API.BAD_REQUEST',
+                                   description='API.INVALID_ENCODING')
         except Exception as ex:
             print(str(ex))
             raise falcon.HTTPError(status=falcon.HTTP_400,
@@ -4464,6 +4549,11 @@ class MicrogridPowerconversionsystemItem:
         admin_control(req)
         try:
             raw_json = req.stream.read().decode('utf-8')
+        except UnicodeDecodeError as ex:
+            print("Failed to decode request")
+            raise falcon.HTTPError(status=falcon.HTTP_400,
+                                   title='API.BAD_REQUEST',
+                                   description='API.INVALID_ENCODING')
         except Exception as ex:
             print(str(ex))
             raise falcon.HTTPError(status=falcon.HTTP_400,
@@ -4636,6 +4726,11 @@ class MicrogridScheduleCollection:
         admin_control(req)
         try:
             raw_json = req.stream.read().decode('utf-8')
+        except UnicodeDecodeError as ex:
+            print("Failed to decode request")
+            raise falcon.HTTPError(status=falcon.HTTP_400,
+                                   title='API.BAD_REQUEST',
+                                   description='API.INVALID_ENCODING')
         except Exception as ex:
             print(str(ex))
             raise falcon.HTTPError(status=falcon.HTTP_400,
@@ -4800,6 +4895,11 @@ class MicrogridScheduleItem:
         admin_control(req)
         try:
             raw_json = req.stream.read().decode('utf-8')
+        except UnicodeDecodeError as ex:
+            print("Failed to decode request")
+            raise falcon.HTTPError(status=falcon.HTTP_400,
+                                   title='API.BAD_REQUEST',
+                                   description='API.INVALID_ENCODING')
         except Exception as ex:
             print(str(ex))
             raise falcon.HTTPError(status=falcon.HTTP_400,
@@ -4930,6 +5030,11 @@ class MicrogridSensorCollection:
         admin_control(req)
         try:
             raw_json = req.stream.read().decode('utf-8')
+        except UnicodeDecodeError as ex:
+            print("Failed to decode request")
+            raise falcon.HTTPError(status=falcon.HTTP_400,
+                                   title='API.BAD_REQUEST',
+                                   description='API.INVALID_ENCODING')
         except Exception as ex:
             print(str(ex))
             raise falcon.HTTPError(status=falcon.HTTP_400,
@@ -5105,6 +5210,11 @@ class MicrogridUserCollection:
         admin_control(req)
         try:
             raw_json = req.stream.read().decode('utf-8')
+        except UnicodeDecodeError as ex:
+            print("Failed to decode request")
+            raise falcon.HTTPError(status=falcon.HTTP_400,
+                                   title='API.BAD_REQUEST',
+                                   description='API.INVALID_ENCODING')
         except Exception as ex:
             print(str(ex))
             raise falcon.HTTPError(status=falcon.HTTP_400,
@@ -5322,6 +5432,11 @@ class MicrogridImport:
         admin_control(req)
         try:
             raw_json = req.stream.read().decode('utf-8')
+        except UnicodeDecodeError as ex:
+            print("Failed to decode request")
+            raise falcon.HTTPError(status=falcon.HTTP_400,
+                                   title='API.BAD_REQUEST',
+                                   description='API.INVALID_ENCODING')
         except Exception as ex:
             print(str(ex))
             raise falcon.HTTPError(status=falcon.HTTP_400,
@@ -5672,6 +5787,11 @@ class MicrogridDataSourceCollection:
         admin_control(req)
         try:
             raw_json = req.stream.read().decode('utf-8')
+        except UnicodeDecodeError as ex:
+            print("Failed to decode request")
+            raise falcon.HTTPError(status=falcon.HTTP_400,
+                                   title='API.BAD_REQUEST',
+                                   description='API.INVALID_ENCODING')
         except Exception as ex:
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
@@ -5892,6 +6012,11 @@ class MicrogridBatteryPointCollection:
         admin_control(req)
         try:
             raw_json = req.stream.read().decode('utf-8')
+        except UnicodeDecodeError as ex:
+            print("Failed to decode request")
+            raise falcon.HTTPError(status=falcon.HTTP_400,
+                                   title='API.BAD_REQUEST',
+                                   description='API.INVALID_ENCODING')
         except Exception as ex:
             print(str(ex))
             raise falcon.HTTPError(status=falcon.HTTP_400,
@@ -6078,6 +6203,11 @@ class MicrogridEVChargerPointCollection:
         admin_control(req)
         try:
             raw_json = req.stream.read().decode('utf-8')
+        except UnicodeDecodeError as ex:
+            print("Failed to decode request")
+            raise falcon.HTTPError(status=falcon.HTTP_400,
+                                   title='API.BAD_REQUEST',
+                                   description='API.INVALID_ENCODING')
         except Exception as ex:
             print(str(ex))
             raise falcon.HTTPError(status=falcon.HTTP_400,
@@ -6264,6 +6394,11 @@ class MicrogridGeneratorPointCollection:
         admin_control(req)
         try:
             raw_json = req.stream.read().decode('utf-8')
+        except UnicodeDecodeError as ex:
+            print("Failed to decode request")
+            raise falcon.HTTPError(status=falcon.HTTP_400,
+                                   title='API.BAD_REQUEST',
+                                   description='API.INVALID_ENCODING')
         except Exception as ex:
             print(str(ex))
             raise falcon.HTTPError(status=falcon.HTTP_400,
@@ -6450,6 +6585,11 @@ class MicrogridGridPointCollection:
         admin_control(req)
         try:
             raw_json = req.stream.read().decode('utf-8')
+        except UnicodeDecodeError as ex:
+            print("Failed to decode request")
+            raise falcon.HTTPError(status=falcon.HTTP_400,
+                                   title='API.BAD_REQUEST',
+                                   description='API.INVALID_ENCODING')
         except Exception as ex:
             print(str(ex))
             raise falcon.HTTPError(status=falcon.HTTP_400,
@@ -6636,6 +6776,11 @@ class MicrogridHeatPumpPointCollection:
         admin_control(req)
         try:
             raw_json = req.stream.read().decode('utf-8')
+        except UnicodeDecodeError as ex:
+            print("Failed to decode request")
+            raise falcon.HTTPError(status=falcon.HTTP_400,
+                                   title='API.BAD_REQUEST',
+                                   description='API.INVALID_ENCODING')
         except Exception as ex:
             print(str(ex))
             raise falcon.HTTPError(status=falcon.HTTP_400,
@@ -6822,6 +6967,11 @@ class MicrogridLoadPointCollection:
         admin_control(req)
         try:
             raw_json = req.stream.read().decode('utf-8')
+        except UnicodeDecodeError as ex:
+            print("Failed to decode request")
+            raise falcon.HTTPError(status=falcon.HTTP_400,
+                                   title='API.BAD_REQUEST',
+                                   description='API.INVALID_ENCODING')
         except Exception as ex:
             print(str(ex))
             raise falcon.HTTPError(status=falcon.HTTP_400,
@@ -7008,6 +7158,11 @@ class MicrogridPhotovoltaicPointCollection:
         admin_control(req)
         try:
             raw_json = req.stream.read().decode('utf-8')
+        except UnicodeDecodeError as ex:
+            print("Failed to decode request")
+            raise falcon.HTTPError(status=falcon.HTTP_400,
+                                   title='API.BAD_REQUEST',
+                                   description='API.INVALID_ENCODING')
         except Exception as ex:
             print(str(ex))
             raise falcon.HTTPError(status=falcon.HTTP_400,
@@ -7194,6 +7349,11 @@ class MicrogridPowerConversionSystemPointCollection:
         admin_control(req)
         try:
             raw_json = req.stream.read().decode('utf-8')
+        except UnicodeDecodeError as ex:
+            print("Failed to decode request")
+            raise falcon.HTTPError(status=falcon.HTTP_400,
+                                   title='API.BAD_REQUEST',
+                                   description='API.INVALID_ENCODING')
         except Exception as ex:
             print(str(ex))
             raise falcon.HTTPError(status=falcon.HTTP_400,
