@@ -30,11 +30,11 @@ chmod +x run.sh
 
 ### Option 1: Install myems-modbus-tcp on Docker
 
-Refer to [myems.io](https://myems.io/docs/installation/docker-linux#step-4-myems-modbus-tcp)
+Refer to [myems.cn](https://myems.cn/docs/installation/docker-linux#step-4-myems-modbus-tcp)
 
 ### Installation Option 2: Online install on Ubuntu server with internet access
 
-Refer to [myems.io](https://myems.io/docs/installation/debian-ubuntu#step-4-myems-modbus-tcp)
+Refer to [myems.cn](https://myems.cn/docs/installation/debian-ubuntu#step-4-myems-modbus-tcp)
 
 ### Installation Option 3: Offline install on Ubuntu server without internet access
 
@@ -185,7 +185,7 @@ else it will be ignored.
 
 ### References
 
-[1]. http://myems.io
+[1]. http://myems.cn
   
 [2]. http://www.modbus.org/tech.php
   

@@ -45,6 +45,6 @@ class VersionItem:
         result = {"version": 'MyEMS v5.11.0',
                   "release-date": '2025-11-30',
                   "licensed-to": 'COMMUNITY',
-                  "website": "https://myems.io"}
+                  "website": "https://myems.cn"}
         resp.text = json.dumps(result)
 

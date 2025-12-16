@@ -1,5 +1,5 @@
 <p align="center">
-   <img alt="logo" src="https://myems.io/img/myems.png" width="150" height="150">
+   <img alt="logo" src="https://myems.cn/img/myems.png" width="150" height="150">
 </p>
 <h1 align="center" style="margin: 30px 0 30px; font-weight: bold;">MyEMS v5.11.0</h1>
 <h3 align="center">Industry Leading Open Source Energy Management System</h3>
@@ -95,12 +95,12 @@ The MyEMS open source energy management system refers to the ISO 50001 energy ma
 
 ## Features of MyEMS Community Edition
 
-See [https://myems.io/en/docs/intro#myems-features](https://myems.io/en/docs/intro#myems-features)
+See [https://myems.cn/en/docs/intro#myems-features](https://myems.cn/en/docs/intro#myems-features)
 
 
 ## Features of MyEMS Enterprise Edition
 
-See [https://myems.io/en/docs/enterprise](https://myems.io/en/docs/enterprise)
+See [https://myems.cn/en/docs/enterprise](https://myems.cn/en/docs/enterprise)
 
 
 ## MyEMS Downloads (Community Edition)
@@ -127,7 +127,7 @@ See [https://myems.io/en/docs/enterprise](https://myems.io/en/docs/enterprise)
 
 ## MyEMS Installation (Community Edition)
 
-See [https://myems.io/en/docs/category/installation](https://myems.io/en/docs/category/installation)
+See [https://myems.cn/en/docs/category/installation](https://myems.cn/en/docs/category/installation)
 
 ## MyEMS Compose of Components:
 

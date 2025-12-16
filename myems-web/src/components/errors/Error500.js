@@ -10,7 +10,7 @@ const Error500 = ({ t }) => (
       <hr />
       <p>
         {t('Try refreshing the page, or going back and attempting the action again. ')} {t('If this problem persists,')}
-        <a href="https://myems.io" className="ml-1">
+        <a href="https://myems.cn" className="ml-1">
           {t('contact us')}
         </a>
         .

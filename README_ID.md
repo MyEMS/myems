@@ -1,5 +1,5 @@
 <p align="center">
-   <img alt="logo" src="https://myems.io/img/myems.png" width="150" height="150">
+   <img alt="logo" src="https://myems.cn/img/myems.png" width="150" height="150">
 </p>
 <h1 align="center" style="margin: 30px 0 30px; font-weight: bold;">MyEMS v5.11.0</h1>
 <h3 align="center">Sistem manajemen energi open source terdepan di industri</h3>
@@ -90,11 +90,11 @@ Sistem manajemen energi open source MyEMS mengacu pada standar ISO 50001 manajem
 
 ## Fitur versi komunitas MyEMS
 
-Lihat [https://myems.io/docs/intro#myems-features](https://myems.io/docs/intro#myems-features) untuk detail
+Lihat [https://myems.cn/docs/intro#myems-features](https://myems.cn/docs/intro#myems-features) untuk detail
 
 ## Fitur versi enterprise MyEMS
 
-Lihat [https://myems.io/docs/enterprise](https://myems.io/docs/enterprise) untuk detail
+Lihat [https://myems.cn/docs/enterprise](https://myems.cn/docs/enterprise) untuk detail
 
 
 ## Unduh MyEMS (versi komunitas)
@@ -121,7 +121,7 @@ Lihat [https://myems.io/docs/enterprise](https://myems.io/docs/enterprise) untuk
 
 ## Instalasi MyEMS (versi komunitas)
 
-Lihat [https://myems.io/docs/category/installation](https://myems.io/docs/category/installation) untuk detail
+Lihat [https://myems.cn/docs/category/installation](https://myems.cn/docs/category/installation) untuk detail
 
 ## Komposisi komponen MyEMS
 

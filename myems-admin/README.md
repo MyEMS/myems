@@ -15,11 +15,11 @@ nginx-1.18.0 or later
 
 ### Option 1: Install myems-admin on Docker
 
-Refer to [myems.io](https://myems.io/docs/installation/docker-linux#step-3-myems-admin)
+Refer to [myems.cn](https://myems.cn/docs/installation/docker-linux#step-3-myems-admin)
 
 ## Option 2: Install on NGINX Server
 
-Refer to [myems.io](https://myems.io/docs/installation/debian-ubuntu#step-3-myems-admin)
+Refer to [myems.cn](https://myems.cn/docs/installation/debian-ubuntu#step-3-myems-admin)
 
 ## Option 3: Install on Apache2 Server
 * Install Apache2 Server
@@ -77,7 +77,7 @@ sudo nano /var/www/myems-admin/app/api.js
 
 ## References
 
-[1]. https://myems.io
+[1]. https://myems.cn
 
 [2]. https://dev.mysql.com/doc/connector-python/en/ 
 

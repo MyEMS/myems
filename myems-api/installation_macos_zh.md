@@ -158,6 +158,6 @@ $ gunicorn -b 0.0.0.0:8000 app:api
 {
 "version": "MyEMS 4.12.0",
 "release-date": "2024-12-21",
-"website": "https://myems.io"
+"website": "https://myems.cn"
 }
 ```

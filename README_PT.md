@@ -1,5 +1,5 @@
 <p align="center">
-   <img alt="logo" src="https://myems.io/img/myems.png" width="150" height="150">
+   <img alt="logo" src="https://myems.cn/img/myems.png" width="150" height="150">
 </p>
 <h1 align="center" style="margin: 30px 0 30px; font-weight: bold;">MyEMS v5.11.0</h1>
 <h3 align="center">Sistema de gestão de energia de código aberto líder da indústria</h3>
@@ -90,11 +90,11 @@ O sistema de gestão de energia de código aberto MyEMS faz referência ao padr�
 
 ## Funcionalidades da versão comunitária MyEMS
 
-Ver [https://myems.io/docs/intro#myems-features](https://myems.io/docs/intro#myems-features) para mais detalhes
+Ver [https://myems.cn/docs/intro#myems-features](https://myems.cn/docs/intro#myems-features) para mais detalhes
 
 ## Funcionalidades da versão empresarial MyEMS
 
-Ver [https://myems.io/docs/enterprise](https://myems.io/docs/enterprise) para mais detalhes
+Ver [https://myems.cn/docs/enterprise](https://myems.cn/docs/enterprise) para mais detalhes
 
 
 ## Download MyEMS (versão comunitária)
@@ -121,7 +121,7 @@ Ver [https://myems.io/docs/enterprise](https://myems.io/docs/enterprise) para ma
 
 ## Instalação MyEMS (versão comunitária)
 
-Ver [https://myems.io/docs/category/installation](https://myems.io/docs/category/installation) para mais detalhes
+Ver [https://myems.cn/docs/category/installation](https://myems.cn/docs/category/installation) para mais detalhes
 
 ## Composição dos componentes MyEMS
 

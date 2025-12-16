@@ -1,5 +1,5 @@
 <p align="center">
-   <img alt="logo" src="https://myems.io/img/myems.png" width="150" height="150">
+   <img alt="logo" src="https://myems.cn/img/myems.png" width="150" height="150">
 </p>
 <h1 align="center" style="margin: 30px 0 30px; font-weight: bold;">MyEMS v5.11.0</h1>
 <h3 align="center">Hệ thống quản lý năng lượng mã nguồn mở hàng đầu ngành</h3>
@@ -90,11 +90,11 @@ Hệ thống quản lý năng lượng mã nguồn mở MyEMS tham chiếu tiêu
 
 ## Tính năng phiên bản cộng đồng MyEMS
 
-Xem [https://myems.io/docs/intro#myems-features](https://myems.io/docs/intro#myems-features) để biết chi tiết
+Xem [https://myems.cn/docs/intro#myems-features](https://myems.cn/docs/intro#myems-features) để biết chi tiết
 
 ## Tính năng phiên bản doanh nghiệp MyEMS
 
-Xem [https://myems.io/docs/enterprise](https://myems.io/docs/enterprise) để biết chi tiết
+Xem [https://myems.cn/docs/enterprise](https://myems.cn/docs/enterprise) để biết chi tiết
 
 
 ## Tải xuống MyEMS (phiên bản cộng đồng)
@@ -121,7 +121,7 @@ Xem [https://myems.io/docs/enterprise](https://myems.io/docs/enterprise) để b
 
 ## Cài đặt MyEMS (phiên bản cộng đồng)
 
-Xem [https://myems.io/docs/category/installation](https://myems.io/docs/category/installation) để biết chi tiết
+Xem [https://myems.cn/docs/category/installation](https://myems.cn/docs/category/installation) để biết chi tiết
 
 ## Thành phần cấu tạo MyEMS
 

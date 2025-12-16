@@ -92,7 +92,7 @@ const FooterStandard = () => {
               <p className="mb-0 text-600">
                 Thank you for saving energy with MyEMS <span className="d-none d-sm-inline-block">| </span>
                 <br className="d-sm-none" /> {new Date().getFullYear()} &copy;{' '}
-                <a className="text-white opacity-85" href="https://myems.io" target="_blank" rel="noopener noreferrer">
+                <a className="text-white opacity-85" href="https://myems.cn" target="_blank" rel="noopener noreferrer">
                   ThemeWagon
                 </a>
               </p>

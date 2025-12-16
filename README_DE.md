@@ -1,5 +1,5 @@
 <p align="center">
-   <img alt="logo" src="https://myems.io/img/myems.png" width="150" height="150">
+   <img alt="logo" src="https://myems.cn/img/myems.png" width="150" height="150">
 </p>
 <h1 align="center" style="margin: 30px 0 30px; font-weight: bold;">MyEMS v5.11.0</h1>
 <h6 align="center">Fast tausend Projektfälle</h6>
@@ -90,11 +90,11 @@ Das Open Source Energy Management System (EMS) von MyEMS basiert auf der ISO 500
 
 ## Funktionen der MyEMS Community Edition
 
-Sehen [https://myems.io/de/docs/intro#myems-features](https://myems.io/de/docs/intro#myems-features)
+Sehen [https://myems.cn/de/docs/intro#myems-features](https://myems.cn/de/docs/intro#myems-features)
 
 ## Funktionen der MyEMS Enterprise Edition
 
-Sehen [https://myems.io/de/docs/enterprise](https://myems.io/de/docs/enterprise)
+Sehen [https://myems.cn/de/docs/enterprise](https://myems.cn/de/docs/enterprise)
 
 
 ## MyEMS Downloads (Community Edition)
@@ -122,7 +122,7 @@ Sehen [https://myems.io/de/docs/enterprise](https://myems.io/de/docs/enterprise)
 
 ## MyEMS Installation (Community Edition)
 
-Sehen [https://myems.io/docs/category/installation](https://myems.io/docs/category/installation)
+Sehen [https://myems.cn/docs/category/installation](https://myems.cn/docs/category/installation)
 
 ## Dieses Projekt besteht Komponenten:
 

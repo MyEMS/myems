@@ -14,7 +14,7 @@ const Error404 = ({ t }) => (
       <hr />
       <p>
         {t("Make sure the address is correct and that the page hasn't moved. ")} {t('If you think this is a mistake,')}
-        <a href="https://myems.io" className="ml-1">
+        <a href="https://myems.cn" className="ml-1">
           {t('contact us')}
         </a>
         .
