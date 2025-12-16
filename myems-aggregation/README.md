@@ -29,11 +29,11 @@ chmod +x run.sh
 
 ### Option 1: Install myems-aggregation on Docker
 
-Refer to [myems.io](https://myems.io/docs/installation/docker-linux#step-7-myems-aggregation)
+Refer to [myems.cn](https://myems.cn/docs/installation/docker-linux#step-7-myems-aggregation)
 
 ### Option 2: Online install myems-aggregation on Ubuntu Server with internet access
 
-Refer to [myems.io](https://myems.io/docs/installation/debian-ubuntu#step-7-myems-aggregation)
+Refer to [myems.cn](https://myems.cn/docs/installation/debian-ubuntu#step-7-myems-aggregation)
 
 ### Option 3: Offline install myems-aggregation on Ubuntu Server without internet access
 
@@ -91,7 +91,7 @@ cat /myems-aggregation.log
 
 ### References
 
-[1]. https://myems.io
+[1]. https://myems.cn
 
 [2]. https://dev.mysql.com/doc/connector-python/en/
 

@@ -20,7 +20,7 @@ const Changelog = () => (
               <h4 className="alert-heading">Before you update!</h4>
               Backup your files and read the changelog before updating MyEMS on your project. If you come across with
               any problems during the update, feel free to contact us at{' '}
-              <a href="https://myems.io">https://myems.io</a>.
+              <a href="https://myems.cn">https://myems.cn</a>.
             </Media>
           </Media>
         </Alert>

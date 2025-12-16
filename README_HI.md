@@ -1,5 +1,5 @@
 <p align="center">
-   <img alt="logo" src="https://myems.io/img/myems.png" width="150" height="150">
+   <img alt="logo" src="https://myems.cn/img/myems.png" width="150" height="150">
 </p>
 <h1 align="center" style="margin: 30px 0 30px; font-weight: bold;">MyEMS v5.11.0</h1>
 <h3 align="center">उद्योग में अग्रणी ओपन सोर्स ऊर्जा प्रबंधन प्रणाली</h3>
@@ -90,11 +90,11 @@
 
 ## MyEMS कम्युनिटी संस्करण सुविधाएं
 
-विवरण के लिए [https://myems.io/docs/intro#myems-features](https://myems.io/docs/intro#myems-features) देखें
+विवरण के लिए [https://myems.cn/docs/intro#myems-features](https://myems.cn/docs/intro#myems-features) देखें
 
 ## MyEMS एंटरप्राइज़ संस्करण सुविधाएं
 
-विवरण के लिए [https://myems.io/docs/enterprise](https://myems.io/docs/enterprise) देखें
+विवरण के लिए [https://myems.cn/docs/enterprise](https://myems.cn/docs/enterprise) देखें
 
 
 ## MyEMS डाउनलोड (कम्युनिटी संस्करण)
@@ -121,7 +121,7 @@
 
 ## MyEMS स्थापना (कम्युनिटी संस्करण)
 
-विवरण के लिए [https://myems.io/docs/category/installation](https://myems.io/docs/category/installation) देखें
+विवरण के लिए [https://myems.cn/docs/category/installation](https://myems.cn/docs/category/installation) देखें
 
 ## MyEMS घटक संरचना
 

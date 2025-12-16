@@ -67,11 +67,11 @@ waitress-serve --listen=0.0.0.0:8000 app:api
 
 ### Installation Option 1: Install myems-api on Docker
 
-Refer to [myems.io](https://myems.io/docs/installation/docker-linux#step-2-myems-api)
+Refer to [myems.cn](https://myems.cn/docs/installation/docker-linux#step-2-myems-api)
 
 ### Option 2: Online install myems-api on Ubuntu Server with internet access
 
-Refer to [myems.io](https://myems.io/docs/installation/debian-ubuntu#step-2-myems-api)
+Refer to [myems.cn](https://myems.cn/docs/installation/debian-ubuntu#step-2-myems-api)
 
 ### Option 3: Offline install myems-api on Ubuntu Server without internet access
 
@@ -178,11 +178,11 @@ Refer to [Installation on macOS (Chinese)](/myems-api/installation_macos_zh.md)
 
 ## API List
 
-Please refer to [API List](https://myems.io/docs/api)
+Please refer to [API List](https://myems.cn/docs/api)
 
 ## References
 
-[1]. http://myems.io
+[1]. http://myems.cn
 
 [2]. https://falconframework.org/
 

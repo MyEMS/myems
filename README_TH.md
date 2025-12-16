@@ -1,5 +1,5 @@
 <p align="center">
-   <img alt="logo" src="https://myems.io/img/myems.png" width="150" height="150">
+   <img alt="logo" src="https://myems.cn/img/myems.png" width="150" height="150">
 </p>
 <h1 align="center" style="margin: 30px 0 30px; font-weight: bold;">MyEMS v5.11.0</h1>
 <h3 align="center">ระบบจัดการพลังงานโอเพ่นซอร์สชั้นนำของอุตสาหกรรม</h3>
@@ -90,11 +90,11 @@
 
 ## ฟีเจอร์เวอร์ชันชุมชน MyEMS
 
-ดู [https://myems.io/docs/intro#myems-features](https://myems.io/docs/intro#myems-features) สำหรับรายละเอียด
+ดู [https://myems.cn/docs/intro#myems-features](https://myems.cn/docs/intro#myems-features) สำหรับรายละเอียด
 
 ## ฟีเจอร์เวอร์ชันองค์กร MyEMS
 
-ดู [https://myems.io/docs/enterprise](https://myems.io/docs/enterprise) สำหรับรายละเอียด
+ดู [https://myems.cn/docs/enterprise](https://myems.cn/docs/enterprise) สำหรับรายละเอียด
 
 
 ## ดาวน์โหลด MyEMS (เวอร์ชันชุมชน)
@@ -121,7 +121,7 @@
 
 ## การติดตั้ง MyEMS (เวอร์ชันชุมชน)
 
-ดู [https://myems.io/docs/category/installation](https://myems.io/docs/category/installation) สำหรับรายละเอียด
+ดู [https://myems.cn/docs/category/installation](https://myems.cn/docs/category/installation) สำหรับรายละเอียด
 
 ## องค์ประกอบของคอมโพเนนต์ MyEMS
 

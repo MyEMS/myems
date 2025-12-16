@@ -1,5 +1,5 @@
 <p align="center">
-   <img alt="logo" src="https://myems.io/img/myems.png" width="150" height="150">
+   <img alt="logo" src="https://myems.cn/img/myems.png" width="150" height="150">
 </p>
 <h1 align="center" style="margin: 30px 0 30px; font-weight: bold;">MyEMS v5.11.0</h1>
 <h3 align="center">Ведущая в отрасли система управления энергопотреблением с открытым исходным кодом</h3>
@@ -90,11 +90,11 @@
 
 ## Функции общественной версии MyEMS
 
-См. [https://myems.io/docs/intro#myems-features](https://myems.io/docs/intro#myems-features) для подробностей
+См. [https://myems.cn/docs/intro#myems-features](https://myems.cn/docs/intro#myems-features) для подробностей
 
 ## Функции корпоративной версии MyEMS
 
-См. [https://myems.io/docs/enterprise](https://myems.io/docs/enterprise) для подробностей
+См. [https://myems.cn/docs/enterprise](https://myems.cn/docs/enterprise) для подробностей
 
 
 ## Загрузка MyEMS (общественная версия)
@@ -121,7 +121,7 @@
 
 ## Установка MyEMS (общественная версия)
 
-См. [https://myems.io/docs/category/installation](https://myems.io/docs/category/installation) для подробностей
+См. [https://myems.cn/docs/category/installation](https://myems.cn/docs/category/installation) для подробностей
 
 ## Состав компонентов MyEMS
 

@@ -10,7 +10,7 @@ const GettingStarted = () => (
       <p className="mt-2 mb-0">
         Welcome to the ReactJS version of the{' '}
         <a
-          href="https://myems.io"
+          href="https://myems.cn"
           target="_blank"
           rel="noopener noreferrer"
         >

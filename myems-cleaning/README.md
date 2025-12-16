@@ -29,11 +29,11 @@ chmod +x run.sh
 
 ### Option 1: Install myems-cleaning on Docker
 
-Refer to [myems.io](https://myems.io/docs/installation/docker-linux#step-5-myems-cleaning)
+Refer to [myems.cn](https://myems.cn/docs/installation/docker-linux#step-5-myems-cleaning)
 
 ### Installation Option 2: Online install on Ubuntu server with internet access
 
-Refer to [myems.io](https://myems.io/docs/installation/debian-ubuntu#step-5-myems-cleaning)
+Refer to [myems.cn](https://myems.cn/docs/installation/debian-ubuntu#step-5-myems-cleaning)
 
 ### Installation Option 3: Offline install on Ubuntu server without internet access
 
@@ -97,6 +97,6 @@ cat /myems-cleaning.log
 
 ### References
 
-[1]. https://myems.io
+[1]. https://myems.cn
 
 [2]. https://dev.mysql.com/doc/connector-python/en/

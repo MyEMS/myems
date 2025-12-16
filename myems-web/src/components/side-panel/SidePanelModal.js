@@ -249,7 +249,7 @@ const SidePanelModal = ({ autoShow, showOnce, autoShowDelay, cookieExpireTime, p
           <img src={QRcode} alt="settings" width={120} className="mb-4" />
           <h5>{t('Like What You See?')}</h5>
           <p className="fs--1">{t('Get MyEMS now')}</p>
-          <Button color="primary" href="https://myems.io/docs/enterprise">
+          <Button color="primary" href="https://myems.cn/docs/enterprise">
             {t('Purchase')}
           </Button>
         </div>

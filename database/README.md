@@ -801,7 +801,7 @@ mysql -u root -p < myems_production_db.sql
 
 ## 相关文档
 
-- [MyEMS 官方文档](https://myems.io/docs/installation/database)
+- [MyEMS 官方文档](https://myems.cn/docs/installation/database)
 - [MyEMS API 文档](./../myems-api/README.md)
 - [MyEMS 数据采集文档](./../myems-modbus-tcp/README.md)
 - [MyEMS 数据汇总文档](./../myems-aggregation/README.md)

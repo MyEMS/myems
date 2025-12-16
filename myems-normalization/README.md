@@ -35,11 +35,11 @@ chmod +x run.sh
 
 ### Option 1: Install myems-normalization on Docker
 
-Refer to [myems.io](https://myems.io/docs/installation/docker-linux#step-6-myems-normalization)
+Refer to [myems.cn](https://myems.cn/docs/installation/docker-linux#step-6-myems-normalization)
 
 ### Installation Option 2: Online install on Ubuntu server with internet access
 
-Refer to [myems.io](https://myems.io/docs/installation/debian-ubuntu#step-6-myems-normalization)
+Refer to [myems.cn](https://myems.cn/docs/installation/debian-ubuntu#step-6-myems-normalization)
 
 ### Installation Option 3: Offline install on Ubuntu server without internet access
 
@@ -139,7 +139,7 @@ cat /myems-normalization.log
 
 ### References
 
-[1]. https://myems.io
+[1]. https://myems.cn
 
 [2]. https://dev.mysql.com/doc/connector-python/en/
 

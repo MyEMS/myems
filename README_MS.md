@@ -1,5 +1,5 @@
 <p align="center">
-   <img alt="logo" src="https://myems.io/img/myems.png" width="150" height="150">
+   <img alt="logo" src="https://myems.cn/img/myems.png" width="150" height="150">
 </p>
 <h1 align="center" style="margin: 30px 0 30px; font-weight: bold;">MyEMS v5.11.0</h1>
 <h3 align="center">Sistem pengurusan tenaga sumber terbuka terkemuka industri</h3>
@@ -90,11 +90,11 @@ Sistem pengurusan tenaga sumber terbuka MyEMS merujuk kepada piawaian ISO 50001 
 
 ## Ciri-ciri versi komuniti MyEMS
 
-Lihat [https://myems.io/docs/intro#myems-features](https://myems.io/docs/intro#myems-features) untuk butiran
+Lihat [https://myems.cn/docs/intro#myems-features](https://myems.cn/docs/intro#myems-features) untuk butiran
 
 ## Ciri-ciri versi enterprise MyEMS
 
-Lihat [https://myems.io/docs/enterprise](https://myems.io/docs/enterprise) untuk butiran
+Lihat [https://myems.cn/docs/enterprise](https://myems.cn/docs/enterprise) untuk butiran
 
 
 ## Muat turun MyEMS (versi komuniti)
@@ -121,7 +121,7 @@ Lihat [https://myems.io/docs/enterprise](https://myems.io/docs/enterprise) untuk
 
 ## Pemasangan MyEMS (versi komuniti)
 
-Lihat [https://myems.io/docs/category/installation](https://myems.io/docs/category/installation) untuk butiran
+Lihat [https://myems.cn/docs/category/installation](https://myems.cn/docs/category/installation) untuk butiran
 
 ## Komposisi komponen MyEMS
 

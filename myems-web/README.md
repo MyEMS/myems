@@ -61,11 +61,11 @@ npm start
 
 ### Option 1: Install myems-web on Docker
 
-Refer to [myems.io](https://myems.io/docs/installation/docker-linux#step-8-myems-web)
+Refer to [myems.cn](https://myems.cn/docs/installation/docker-linux#step-8-myems-web)
 
 ### Option 2: Install myems-web on Server with NGINX
 
-Refer to [myems.io](https://myems.io/docs/installation/debian-ubuntu#step-8-myems-web)
+Refer to [myems.cn](https://myems.cn/docs/installation/debian-ubuntu#step-8-myems-web)
 
 ### Option 3: Install on Apache2 Server
 * Install Apache2 Server
@@ -175,4 +175,4 @@ sudo node server.js
 
 ### References
 
-[1]. http://myems.io
+[1]. http://myems.cn

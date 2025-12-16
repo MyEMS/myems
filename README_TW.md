@@ -1,5 +1,5 @@
 <p align="center">
-   <img alt="logo" src="https://myems.io/img/myems.png" width="150" height="150">
+   <img alt="logo" src="https://myems.cn/img/myems.png" width="150" height="150">
 </p>
 <h1 align="center" style="margin: 30px 0 30px; font-weight: bold;">MyEMS v5.11.0</h1>
 <h3 align="center">業界領先的開源能源管理系統</h3>
@@ -90,11 +90,11 @@ MyEMS開源能源管理系統參考ISO 50001能源管理體系標準(GB/T 23331-
 
 ## MyEMS社區版功能
 
-詳見 [https://myems.io/docs/intro#myems-features](https://myems.io/docs/intro#myems-features)
+詳見 [https://myems.cn/docs/intro#myems-features](https://myems.cn/docs/intro#myems-features)
 
 ## MyEMS企業版功能
 
-詳見 [https://myems.io/docs/enterprise](https://myems.io/docs/enterprise)
+詳見 [https://myems.cn/docs/enterprise](https://myems.cn/docs/enterprise)
 
 
 ## MyEMS下載(社區版)
@@ -121,7 +121,7 @@ MyEMS開源能源管理系統參考ISO 50001能源管理體系標準(GB/T 23331-
 
 ## MyEMS安裝(社區版)
 
-詳見 [https://myems.io/docs/category/installation](https://myems.io/docs/category/installation)
+詳見 [https://myems.cn/docs/category/installation](https://myems.cn/docs/category/installation)
 
 ## MyEMS組件構成
 
