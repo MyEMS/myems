@@ -168,8 +168,13 @@ class VirtualMeterCollection:
         admin_control(req)
         try:
             raw_json = req.stream.read().decode('utf-8')
+        except UnicodeDecodeError as ex:
+            print("Failed to decode request")
+            raise falcon.HTTPError(status=falcon.HTTP_400,
+                                   title='API.BAD_REQUEST',
+                                   description='API.INVALID_ENCODING')
         except Exception as ex:
-            print(str(ex))
+            print("Unexpected error reading request stream")
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.FAILED_TO_READ_REQUEST_STREAM')
@@ -672,8 +677,13 @@ class VirtualMeterItem:
         admin_control(req)
         try:
             raw_json = req.stream.read().decode('utf-8')
+        except UnicodeDecodeError as ex:
+            print("Failed to decode request")
+            raise falcon.HTTPError(status=falcon.HTTP_400,
+                                   title='API.BAD_REQUEST',
+                                   description='API.INVALID_ENCODING')
         except Exception as ex:
-            print(str(ex))
+            print("Unexpected error reading request stream")
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.FAILED_TO_READ_REQUEST_STREAM')
@@ -861,6 +871,15 @@ class VirtualMeterItem:
                                         description,
                                         id_,))
             cnx.commit()
+        except OperationalError as ex:
+            print("Failed to SQL operate request")
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR', description=str(ex))
+        except ProgrammingError as ex:
+            print("Failed to SQL request")
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR', description=str(ex))
+        except DataError as ex:
+            print("Failed to SQL Data request")
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR', description=str(ex))
         except Exception as ex:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR', description=str(ex))
 
@@ -873,6 +892,15 @@ class VirtualMeterItem:
                 # delete variables
                 cursor.execute(" DELETE FROM tbl_variables WHERE virtual_meter_id = %s ", (id_,))
                 cnx.commit()
+        except OperationalError as ex:
+            print("Failed to SQL operate request")
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR', description=str(ex))
+        except ProgrammingError as ex:
+            print("Failed to SQL request")
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR', description=str(ex))
+        except DataError as ex:
+            print("Failed to SQL Data request")
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR', description=str(ex))
         except Exception as ex:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR', description=str(ex))
 
@@ -886,6 +914,15 @@ class VirtualMeterItem:
                                             variable['meter_type'],
                                             variable['meter_id'],))
                 cnx.commit()
+            except OperationalError as ex:
+                print("Failed to SQL operate request")
+                raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR', description=str(ex))
+            except ProgrammingError as ex:
+                print("Failed to SQL request")
+                raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR', description=str(ex))
+            except DataError as ex:
+                print("Failed to SQL Data request")
+                raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR', description=str(ex))
             except Exception as ex:
                 raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR', description=str(ex))
 
@@ -1050,8 +1087,13 @@ class VirtualMeterImport:
         admin_control(req)
         try:
             raw_json = req.stream.read().decode('utf-8')
+        except UnicodeDecodeError as ex:
+            print("Failed to decode request")
+            raise falcon.HTTPError(status=falcon.HTTP_400,
+                                   title='API.BAD_REQUEST',
+                                   description='API.INVALID_ENCODING')
         except Exception as ex:
-            print(str(ex))
+            print("Unexpected error reading request stream")
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.FAILED_TO_READ_REQUEST_STREAM')
