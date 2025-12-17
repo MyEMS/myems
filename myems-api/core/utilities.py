@@ -210,8 +210,36 @@ def get_energy_category_tariffs(cost_center_id, energy_category_id, start_dateti
                          " ORDER BY t.valid_from_datetime_utc ")
         cursor.execute(query_tariffs, (energy_category_id, cost_center_id, start_datetime_utc, end_datetime_utc,))
         rows_tariffs = cursor.fetchall()
-    except Exception as e:
-        print(str(e))
+    except InterfaceError as ex:
+        print("Failed to connect request")
+        if cnx:
+            cnx.close()
+        if cursor:
+            cursor.close()
+        return dict()
+    except OperationalError as ex:
+        print("Failed to operate request")
+        if cnx:
+            cnx.close()
+        if cursor:
+            cursor.close()
+        return dict()
+    except ProgrammingError as ex:
+        print("Failed to SQL request")
+        if cnx:
+            cnx.close()
+        if cursor:
+            cursor.close()
+        return dict()
+    except DataError as ex:
+        print("Failed to SQL Data request")
+        if cnx:
+            cnx.close()
+        if cursor:
+            cursor.close()
+        return dict()
+    except Exception as ex:
+        print('write_log:' + str(ex))
         if cnx:
             cnx.close()
         if cursor:
@@ -237,8 +265,36 @@ def get_energy_category_tariffs(cost_center_id, energy_category_id, start_dateti
                                    " ORDER BY tariff_id, start_time_of_day ")
         cursor.execute(query_timeofuse_tariffs, )
         rows_timeofuse_tariffs = cursor.fetchall()
-    except Exception as e:
-        print(str(e))
+    except InterfaceError as ex:
+        print("Failed to connect request")
+        if cnx:
+            cnx.close()
+        if cursor:
+            cursor.close()
+        return dict()
+    except OperationalError as ex:
+        print("Failed to operate request")
+        if cnx:
+            cnx.close()
+        if cursor:
+            cursor.close()
+        return dict()
+    except ProgrammingError as ex:
+        print("Failed to SQL request")
+        if cnx:
+            cnx.close()
+        if cursor:
+            cursor.close()
+        return dict()
+    except DataError as ex:
+        print("Failed to SQL Data request")
+        if cnx:
+            cnx.close()
+        if cursor:
+            cursor.close()
+        return dict()
+    except Exception as ex:
+        print('write_log:' + str(ex))
         if cnx:
             cnx.close()
         if cursor:
@@ -314,8 +370,36 @@ def get_energy_category_peak_types(cost_center_id, energy_category_id, start_dat
                          " ORDER BY t.valid_from_datetime_utc ")
         cursor.execute(query_tariffs, (energy_category_id, cost_center_id, start_datetime_utc, end_datetime_utc,))
         rows_tariffs = cursor.fetchall()
-    except Exception as e:
-        print(str(e))
+    except InterfaceError as ex:
+        print("Failed to connect request")
+        if cnx:
+            cnx.close()
+        if cursor:
+            cursor.close()
+        return dict()
+    except OperationalError as ex:
+        print("Failed to operate request")
+        if cnx:
+            cnx.close()
+        if cursor:
+            cursor.close()
+        return dict()
+    except ProgrammingError as ex:
+        print("Failed to SQL request")
+        if cnx:
+            cnx.close()
+        if cursor:
+            cursor.close()
+        return dict()
+    except DataError as ex:
+        print("Failed to SQL Data request")
+        if cnx:
+            cnx.close()
+        if cursor:
+            cursor.close()
+        return dict()
+    except Exception as ex:
+        print('write_log:' + str(ex))
         if cnx:
             cnx.close()
         if cursor:
@@ -341,8 +425,36 @@ def get_energy_category_peak_types(cost_center_id, energy_category_id, start_dat
                                    " ORDER BY tariff_id, start_time_of_day ")
         cursor.execute(query_timeofuse_tariffs, )
         rows_timeofuse_tariffs = cursor.fetchall()
-    except Exception as e:
-        print(str(e))
+    except InterfaceError as ex:
+        print("Failed to connect request")
+        if cnx:
+            cnx.close()
+        if cursor:
+            cursor.close()
+        return dict()
+    except OperationalError as ex:
+        print("Failed to operate request")
+        if cnx:
+            cnx.close()
+        if cursor:
+            cursor.close()
+        return dict()
+    except ProgrammingError as ex:
+        print("Failed to SQL request")
+        if cnx:
+            cnx.close()
+        if cursor:
+            cursor.close()
+        return dict()
+    except DataError as ex:
+        print("Failed to SQL Data request")
+        if cnx:
+            cnx.close()
+        if cursor:
+            cursor.close()
+        return dict()
+    except Exception as ex:
+        print('write_log:' + str(ex))
         if cnx:
             cnx.close()
         if cursor:
@@ -1029,6 +1141,8 @@ def round2(actual_value, precision):
         try:
             result = round(actual_value, precision)
         except (TypeError, NameError, SyntaxError):
+            return "-"
+        except Exception:
             return "-"
         return result
     else:

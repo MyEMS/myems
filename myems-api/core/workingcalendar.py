@@ -59,8 +59,18 @@ class WorkingCalendarCollection:
         try:
             raw_json = req.stream.read().decode('utf-8')
             new_values = json.loads(raw_json)
+        except UnicodeDecodeError as ex:
+            print("Failed to decode request")
+            raise falcon.HTTPError(status=falcon.HTTP_400,
+                                   title='API.BAD_REQUEST',
+                                   description='API.INVALID_ENCODING')
+        except json.JSONDecodeError as ex:
+            print("Failed to parse JSON")
+            raise falcon.HTTPError(status=falcon.HTTP_400,
+                                   title='API.BAD_REQUEST',
+                                   description='API.INVALID_JSON_FORMAT')
         except Exception as ex:
-            print(str(ex))
+            print("Unexpected error reading request stream")
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.FAILED_TO_READ_REQUEST_STREAM')
@@ -231,8 +241,13 @@ class WorkingCalendarItem:
         admin_control(req)
         try:
             raw_json = req.stream.read().decode('utf-8')
+        except UnicodeDecodeError as ex:
+            print("Failed to decode request")
+            raise falcon.HTTPError(status=falcon.HTTP_400,
+                                   title='API.BAD_REQUEST',
+                                   description='API.INVALID_ENCODING')
         except Exception as ex:
-            print(str(ex))
+            print("Unexpected error reading request stream")
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.FAILED_TO_READ_REQUEST_STREAM')
@@ -342,8 +357,18 @@ class NonWorkingDayCollection:
         try:
             raw_json = req.stream.read().decode('utf-8')
             new_values = json.loads(raw_json)
+        except UnicodeDecodeError as ex:
+            print("Failed to decode request")
+            raise falcon.HTTPError(status=falcon.HTTP_400,
+                                   title='API.BAD_REQUEST',
+                                   description='API.INVALID_ENCODING')
+        except json.JSONDecodeError as ex:
+            print("Failed to parse JSON")
+            raise falcon.HTTPError(status=falcon.HTTP_400,
+                                   title='API.BAD_REQUEST',
+                                   description='API.INVALID_JSON_FORMAT')
         except Exception as ex:
-            print(str(ex))
+            print("Unexpected error reading request stream")
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.FAILED_TO_READ_REQUEST_STREAM')
@@ -468,8 +493,13 @@ class NonWorkingDayItem:
         admin_control(req)
         try:
             raw_json = req.stream.read().decode('utf-8')
+        except UnicodeDecodeError as ex:
+            print("Failed to decode request")
+            raise falcon.HTTPError(status=falcon.HTTP_400,
+                                   title='API.BAD_REQUEST',
+                                   description='API.INVALID_ENCODING')
         except Exception as ex:
-            print(str(ex))
+            print("Unexpected error reading request stream")
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.FAILED_TO_READ_REQUEST_STREAM')
@@ -600,8 +630,18 @@ class WorkingCalendarImport:
         try:
             raw_json = req.stream.read().decode('utf-8')
             new_values = json.loads(raw_json)
+        except UnicodeDecodeError as ex:
+            print("Failed to decode request")
+            raise falcon.HTTPError(status=falcon.HTTP_400,
+                                   title='API.BAD_REQUEST',
+                                   description='API.INVALID_ENCODING')
+        except json.JSONDecodeError as ex:
+            print("Failed to parse JSON")
+            raise falcon.HTTPError(status=falcon.HTTP_400,
+                                   title='API.BAD_REQUEST',
+                                   description='API.INVALID_JSON_FORMAT')
         except Exception as ex:
-            print(str(ex))
+            print("Unexpected error reading request stream")
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.FAILED_TO_READ_REQUEST_STREAM')
