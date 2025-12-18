@@ -1,5 +1,6 @@
 'use strict';
 
+// Define constant for weekend days (improve readability)
 const WEEKEND_DAYS = {
   SUNDAY: 0,
   SATURDAY: 6
@@ -16,7 +17,7 @@ app.controller('WorkingCalendarNonWorkingDayController', function (
     WorkingCalendarNonWorkingDayService,
     toaster,
     SweetAlert) {
-    $scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
+    $scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user")) || {};
     $scope.currentWorkingCalendar = {};
     $scope.date_local = moment().format('YYYY-MM-DD'),
     $scope.month = moment().format('YYYY-MM'),
@@ -28,7 +29,11 @@ app.controller('WorkingCalendarNonWorkingDayController', function (
             $scope.nonworkingdays = [];
             return;
         }
-        WorkingCalendarNonWorkingDayService.getNonWorkingDaysByWorkingCalendarID(id, {}, function (response) {
+        let headers = {
+            "User-UUID": $scope.cur_user.uuid || '',
+            "Token": $scope.cur_user.token || ''
+        };
+        WorkingCalendarNonWorkingDayService.getNonWorkingDaysByWorkingCalendarID(id, headers, function (response) {
             if (angular.isDefined(response.status) && response.status === 200) {
                 $scope.nonworkingdays = response.data;
                 $scope.handleDays();
@@ -45,7 +50,11 @@ app.controller('WorkingCalendarNonWorkingDayController', function (
     };
 
     $scope.getAllWorkingCalendars = function () {
-        WorkingCalendarService.getAllWorkingCalendars({}, function (response) {
+        let headers = {
+            "User-UUID": $scope.cur_user.uuid || '',
+            "Token": $scope.cur_user.token || ''
+        };
+        WorkingCalendarService.getAllWorkingCalendars(headers, function (response) {
             if (angular.isDefined(response.status) && response.status === 200) {
                 $scope.workingcalendars = response.data;
                 if ($scope.workingcalendars.length > 0 && !$scope.currentWorkingCalendar.id) {
@@ -75,7 +84,12 @@ app.controller('WorkingCalendarNonWorkingDayController', function (
 		});
 
 		modalInstance.result.then(function(nonWorkingDay) {
-			WorkingCalendarNonWorkingDayService.addNonWorkingDay(nonWorkingDay.working_calendar_id, nonWorkingDay, {}, function (response) {
+			let headers = {
+                "User-UUID": $scope.cur_user.uuid || '',
+                "Token": $scope.cur_user.token || ''
+            };
+			WorkingCalendarNonWorkingDayService.addNonWorkingDay(nonWorkingDay.working_calendar_id, nonWorkingDay,
+                 headers, function (response) {
 				if (angular.isDefined(response.status) && response.status === 201) {
 					toaster.pop({
 						type: "success",
@@ -121,7 +135,11 @@ app.controller('WorkingCalendarNonWorkingDayController', function (
         const startDate = moment(params.startDate);
         const endDate = moment(params.endDate);
         const workingCalendarId = params.workingCalendarId;
-        const description = params.description;
+        const description = params.description || '';
+        const headers = {
+            "User-UUID": $scope.cur_user.uuid || '',
+            "Token": $scope.cur_user.token || ''
+        };
 
         if (startDate.isAfter(endDate)) {
             toaster.pop({type: "error", title: $translate.instant("TOASTER.ERROR_ADD_BODY"), body: $translate.instant("SETTING.START_DATE_AFTER_END_DATE"), showCloseButton: true});
@@ -146,7 +164,7 @@ app.controller('WorkingCalendarNonWorkingDayController', function (
         let successCount = 0;
         let failCount = 0;
         const total = weekendDates.length;
-        const batchSize = 10;
+        const batchSize = 10; 
 
         const processBatch = async () => {
             for (let i = 0; i < weekendDates.length; i += batchSize) {
@@ -158,7 +176,7 @@ app.controller('WorkingCalendarNonWorkingDayController', function (
                         description: description
                     };
                     return new Promise((resolve) => {
-                        WorkingCalendarNonWorkingDayService.addNonWorkingDay(workingCalendarId, nonWorkingDay, {}, (response) => {
+                        WorkingCalendarNonWorkingDayService.addNonWorkingDay(workingCalendarId, nonWorkingDay, headers, (response) => {
                             if (response.status === 201) {
                                 successCount++;
                             } else {
@@ -200,7 +218,11 @@ app.controller('WorkingCalendarNonWorkingDayController', function (
 		});
 
 		modalInstance.result.then(function(nonWorkingDay) {
-			WorkingCalendarNonWorkingDayService.editNonWorkingDay(nonWorkingDay.id, nonWorkingDay, {}, function (response) {
+			let headers = {
+                "User-UUID": $scope.cur_user.uuid || '',
+                "Token": $scope.cur_user.token || ''
+            };
+			WorkingCalendarNonWorkingDayService.editNonWorkingDay(nonWorkingDay.id, nonWorkingDay, headers, function (response) {
 				if (angular.isDefined(response.status) && response.status === 200) {
 					toaster.pop({
 						type: "success",
@@ -236,7 +258,11 @@ app.controller('WorkingCalendarNonWorkingDayController', function (
 			},
 			function(isConfirm) {
 				if (isConfirm) {
-					WorkingCalendarNonWorkingDayService.deleteNonWorkingDay(nonworkingday.id, {}, function (response) {
+					let headers = {
+                        "User-UUID": $scope.cur_user.uuid || '',
+                        "Token": $scope.cur_user.token || ''
+                    };
+					WorkingCalendarNonWorkingDayService.deleteNonWorkingDay(nonworkingday.id, headers, function (response) {
 						if (angular.isDefined(response.status) && response.status === 204) {
                             toaster.pop({
                                 type: "success",
@@ -369,28 +395,4 @@ app.controller('ModalBatchAddWeekendNonWorkingDayCtrl', function ($scope, $uibMo
     $scope.cancel = function() {
         $uibModalInstance.dismiss('cancel');
     };
-});
-
-app.factory('authInterceptor', function($q, $rootScope) {
-    return {
-        request: function(config) {
-            const currentUser = JSON.parse(localStorage.getItem('myems_admin_ui_current_user'));
-            if (currentUser) {
-                config.headers['User-UUID'] = currentUser.uuid;
-                config.headers['Token'] = currentUser.token;
-            }
-            return config;
-        },
-        responseError: function(rejection) {
-            if (rejection.status === 401 || rejection.status === 403) {
-                $rootScope.$broadcast('auth:logout');
-                localStorage.removeItem('myems_admin_ui_current_user');
-            }
-            return $q.reject(rejection);
-        }
-    };
-});
-
-app.config(function($httpProvider) {
-    $httpProvider.interceptors.push('authInterceptor');
 });
