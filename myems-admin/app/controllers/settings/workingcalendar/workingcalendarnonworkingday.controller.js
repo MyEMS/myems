@@ -177,7 +177,7 @@ app.controller('WorkingCalendarNonWorkingDayController', function (
                     };
                     return new Promise((resolve) => {
                         WorkingCalendarNonWorkingDayService.addNonWorkingDay(workingCalendarId, nonWorkingDay, headers, (response) => {
-                            if (response.status === 201) {
+                            if (response && response.status === 201) {
                                 successCount++;
                             } else {
                                 failCount++;
