@@ -171,7 +171,7 @@ app.controller('WorkingCalendarNonWorkingDayController', function (
                 const batch = weekendDates.slice(i, i + batchSize);
                 const requests = batch.map(date => {
                     const nonWorkingDay = {
-                        working_calendar_id: workingCalendarId,
+                        workingCalendarID: workingCalendarId,
                         date_local: date,
                         description: description
                     };
