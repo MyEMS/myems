@@ -7,6 +7,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Added
 - added indexes to myems_system_db.tbl_menus in database
 - added more specific exception code in myems-api
+- added function to add weekends as non-working day in myems-admin
 ### Changed
 - udpated get space tree action in myems-api
 - changed offical website to https://myems.cn
