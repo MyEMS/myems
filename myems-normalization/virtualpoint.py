@@ -32,7 +32,6 @@ import mysql.connector
 from sympy import sympify, Piecewise, symbols, parse_expr
 import config
 
-# Security configuration: Maximum number of datetime points to process in one batch
 MAX_DATETIME_POINTS = 100000
 
 # Maximum expression length to prevent DoS attacks
@@ -43,7 +42,7 @@ MAX_SUBSTITUTIONS = 100
 
 
 ########################################################################################################################
-# Security Validation Functions
+# Validation Functions
 ########################################################################################################################
 
 def validate_variable_name(name):
@@ -59,7 +58,8 @@ def validate_variable_name(name):
     if not isinstance(name, str):
         raise ValueError(f"Variable name must be a string, got {type(name)}")
     if not re.match(r'^[a-zA-Z_][a-zA-Z0-9_]*$', name):
-        raise ValueError(f"Invalid variable name: {name}. Must start with letter or underscore and contain only alphanumeric characters and underscores.")
+        raise ValueError(f"Invalid variable name: {name}. Must start with letter or underscore and contain only "
+                         f"alphanumeric characters and underscores.")
 
 
 def validate_point_id(point_id):
@@ -342,7 +342,8 @@ def worker(virtual_point):
         if cnx_historical_db:
             cnx_historical_db.close()
         # Return generic error message to avoid information disclosure
-        return f"Error connecting to historical database for virtual point '{virtual_point['name']}': {type(e).__name__}"
+        return f"Error connecting to historical database for virtual point '{virtual_point['name']}': " \
+               f"{type(e).__name__}"
 
     print("Start to process virtual point: " + "'" + virtual_point['name'] + "'")
 
@@ -417,8 +418,7 @@ def worker(virtual_point):
         
         expression = address['expression']
         substitutions = address['substitutions']
-        
-        # Security: Validate expression and substitutions
+
         try:
             validate_expression_safe(expression)
         except ValueError as e:
@@ -427,8 +427,7 @@ def worker(virtual_point):
             if cnx_historical_db:
                 cnx_historical_db.close()
             return f"Error in step 2.1.1: Invalid expression for '{virtual_point['name']}': {str(e)}"
-        
-        # Security: Validate substitutions count
+
         if len(substitutions) > MAX_SUBSTITUTIONS:
             if cursor_historical_db:
                 cursor_historical_db.close()
@@ -436,7 +435,7 @@ def worker(virtual_point):
                 cnx_historical_db.close()
             return f"Error in step 2.1.2: Too many substitutions ({len(substitutions)}) for '{virtual_point['name']}'"
         
-        # Security: Validate variable names and point IDs
+        # validate variable names and point IDs
         for variable_name, point_id in substitutions.items():
             try:
                 validate_variable_name(variable_name)
@@ -476,7 +475,6 @@ def worker(virtual_point):
         if cnx_system_db:
             cnx_system_db.close()
         print("Error in step 3 of virtual point worker " + str(e))
-        # Return generic error message to avoid information disclosure
         return f"Error connecting to system database for virtual point '{virtual_point['name']}': {type(e).__name__}"
 
     print("Connected to MyEMS System Database")
@@ -493,8 +491,8 @@ def worker(virtual_point):
         for row in rows_points:
             all_point_dict[row[0]] = row[1]
     except Exception as e:
-        # Return generic error message to avoid information disclosure
-        return f"Error querying points from system database for virtual point '{virtual_point['name']}': {type(e).__name__}"
+        return f"Error querying points from system database for virtual point '{virtual_point['name']}': " \
+               f"{type(e).__name__}"
     finally:
         if cursor_system_db:
             cursor_system_db.close()
@@ -544,8 +542,8 @@ def worker(virtual_point):
                 cursor_historical_db.close()
             if cnx_historical_db:
                 cnx_historical_db.close()
-            # Return generic error message to avoid information disclosure
-            return f"Error querying point values from historical database for virtual point '{virtual_point['name']}': {type(e).__name__}"
+            return f"Error querying point values from historical database for virtual point " \
+                   f"'{virtual_point['name']}': {type(e).__name__}"
 
     ############################################################################################################
     # Step 5: evaluate the equation with points values
@@ -558,13 +556,13 @@ def worker(virtual_point):
             if point_values is not None and len(point_values) > 0:
                 utc_date_time_set = utc_date_time_set.union(point_values.keys())
 
-    # Security: Resource limit check to prevent DoS attacks
     if len(utc_date_time_set) > MAX_DATETIME_POINTS:
         if cursor_historical_db:
             cursor_historical_db.close()
         if cnx_historical_db:
             cnx_historical_db.close()
-        return f"Error: Too many datetime points to process ({len(utc_date_time_set)}) for '{virtual_point['name']}'. Maximum allowed: {MAX_DATETIME_POINTS}"
+        return f"Error: Too many datetime points to process ({len(utc_date_time_set)}) for '{virtual_point['name']}'." \
+               f" Maximum allowed: {MAX_DATETIME_POINTS}"
 
     print("evaluating the equation with SymPy")
     normalized_values = list()
@@ -573,17 +571,13 @@ def worker(virtual_point):
     # Converting Strings to SymPy Expressions
     # The sympify function(that's sympify, not to be confused with simplify) can be used to
     # convert strings into SymPy expressions.
-    # SECURITY FIX: Removed eval() and replaced with safe SymPy parsing
     ############################################################################################################
     try:
-        # Security: Use safe parsing instead of eval()
         if re.search(',', expression):
-            # Piecewise function: parse safely without eval()
             piecewise_parts = parse_piecewise_safe(expression, substitutions)
             expr = Piecewise(*piecewise_parts)
             print("the expression will be evaluated as piecewise function: " + str(expr))
         else:
-            # Algebraic expression: use sympify (safe)
             expr = sympify(expression)
             print("the expression will be evaluated as algebraic expression: " + str(expr))
 
@@ -631,17 +625,12 @@ def worker(virtual_point):
             cursor_historical_db.close()
         if cnx_historical_db:
             cnx_historical_db.close()
-        # Return generic error message to avoid information disclosure
-        # Detailed error information should be logged separately if logger is available
         return f"Error evaluating expression for virtual point '{virtual_point['name']}': {type(e).__name__}"
 
     print("saving virtual points values to historical database")
 
     if len(normalized_values) > 0:
         latest_meta_data = normalized_values[0]
-
-        # Security: Use parameterized queries to prevent SQL injection
-        # Validate table_name is from whitelist (already validated via object_type)
         if table_name not in ['tbl_analog_value', 'tbl_energy_value']:
             if cursor_historical_db:
                 cursor_historical_db.close()
@@ -650,14 +639,13 @@ def worker(virtual_point):
             return f"Error: Invalid table name '{table_name}' for '{virtual_point['name']}'"
 
         insert_query = ("INSERT INTO " + table_name +
-                       " (point_id, utc_date_time, actual_value) VALUES (%s, %s, %s)")
+                        " (point_id, utc_date_time, actual_value) VALUES (%s, %s, %s)")
 
         while len(normalized_values) > 0:
             insert_100 = normalized_values[:100]
             normalized_values = normalized_values[100:]
 
             try:
-                # Security: Use executemany with parameterized query
                 values = []
                 for meta_data in insert_100:
                     values.append((
@@ -675,18 +663,16 @@ def worker(virtual_point):
                     cursor_historical_db.close()
                 if cnx_historical_db:
                     cnx_historical_db.close()
-                # Return generic error message to avoid information disclosure
-                return f"Error saving calculated values to database for virtual point '{virtual_point['name']}': {type(e).__name__}"
+                return f"Error saving calculated values to database for virtual point '{virtual_point['name']}': " \
+                       f"{type(e).__name__}"
 
         try:
-            # Security: Use parameterized query for delete operation
             delete_query = "DELETE FROM " + table_name + "_latest WHERE point_id = %s"
             cursor_historical_db.execute(delete_query, (virtual_point['id'],))
             cnx_historical_db.commit()
 
-            # Security: Use parameterized query for insert operation
             insert_latest_query = ("INSERT INTO " + table_name + "_latest " +
-                                  "(point_id, utc_date_time, actual_value) VALUES (%s, %s, %s)")
+                                   " (point_id, utc_date_time, actual_value) VALUES (%s, %s, %s)")
             cursor_historical_db.execute(insert_latest_query, (
                 virtual_point['id'],
                 latest_meta_data['utc_date_time'],
@@ -698,7 +684,6 @@ def worker(virtual_point):
                 cursor_historical_db.close()
             if cnx_historical_db:
                 cnx_historical_db.close()
-            # Return generic error message to avoid information disclosure
             return f"Error updating latest value in database for virtual point '{virtual_point['name']}': {type(e).__name__}"
 
     if cursor_historical_db:

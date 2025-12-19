@@ -1,0 +1,36 @@
+<div class="inmodal">
+    <div class="modal-header">
+        <h4 class="modal-title">{{operation | translate}}</h4>
+    </div>
+    <div class="modal-body">
+        <form role="form" name="form_batch_weekend" novalidate class="form-horizontal">
+            <div class="form-group">
+                <label class="col-sm-3 control-label">{{'SETTING.START_DATE' | translate}} <span class="text-danger">*</span></label>
+                <div class="col-sm-5">
+                    <input date-range-picker class="form-control date-picker" type="text"
+                           ng-model="batchParams.startDate" options="dtOptions"
+                           placeholder="{{'SETTING.SELECT_DATE' | translate}}" name="startDate" readonly="" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">{{'SETTING.END_DATE' | translate}} <span class="text-danger">*</span></label>
+                <div class="col-sm-5">
+                    <input date-range-picker class="form-control date-picker" type="text"
+                           ng-model="batchParams.endDate" options="dtOptions"
+                           placeholder="{{'SETTING.SELECT_DATE' | translate}}" name="endDate" readonly="" />
+                </div>
+            </div>
+            <div class="hr-line-dashed"></div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">{{'SETTING.DESCRIPTION' | translate}} ({{'SETTING.OPTIONAL' | translate}})</label>
+                <div class="col-sm-8">
+                    <input ng-model="batchParams.description" type="text" name="description" class="form-control" >
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-white" ng-click="cancel()">{{'SETTING.CANCEL' | translate}}</button>
+        <button type="button" class="btn btn-primary" ng-click="ok()">{{'SETTING.SAVE' | translate}}</button>
+    </div>
+</div>
