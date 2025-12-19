@@ -172,8 +172,11 @@ class Reporting:
             for row in rows_point_definitions:
                 try:
                     definition = json.loads(row[1])
-                except Exception as e:
-                    print("Invalid point definitions in JSON " + str(e))
+                except json.JSONDecodeError as ex:
+                    print("Failed to parse JSON")
+                    continue
+                except Exception as ex:
+                    print("Invalid point definitions in JSON " + str(ex))
                     continue
                 point_definition_dict[row[0]] = definition
         # Get energy storage power station

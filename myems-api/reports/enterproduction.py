@@ -277,6 +277,28 @@ class Reporting:
                     raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                            description='API.INVALID_PRODUCTION_VALUE')
                 production_data['data'][start_datetime_utc] = Decimal(item[1])
+        except UnicodeDecodeError as ex:
+            print("Failed to decode request")
+            raise falcon.HTTPError(status=falcon.HTTP_400,
+                                   title='API.BAD_REQUEST',
+                                   description='API.INVALID_ENCODING')
+        except json.JSONDecodeError as ex:
+            print("Failed to parse JSON") 
+            raise falcon.HTTPError(status=falcon.HTTP_400,
+                                   title='API.BAD_REQUEST',
+                                   description='API.INVALID_JSON_FORMAT')
+        except KeyError as ex:
+            raise falcon.HTTPError(
+                    status=falcon.HTTP_400,
+                    title='API.BAD_REQUEST',
+                    description='API.INVALID_PRODUCTION_VALUE'
+            )
+        except (TypeError, ValueError) as ex:
+            raise falcon.HTTPError(
+                    status=falcon.HTTP_400,
+                    title='API.BAD_REQUEST',
+                    description='API.INVALID_PRODUCTION_VALUE'
+            )
         except Exception as ex:
             print(str(ex))
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',

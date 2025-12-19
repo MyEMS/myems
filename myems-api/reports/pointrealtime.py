@@ -75,6 +75,18 @@ class Reporting:
         if 'data_source_ids' in req.params and len(str.strip(req.params['data_source_ids'])) > 0:
             try:
                 data_source_ids = [int(x) for x in req.params['data_source_ids'].split(',') if x.strip().isdigit()]
+            except KeyError as ex:
+                raise falcon.HTTPError(
+                    status=falcon.HTTP_400,
+                    title='API.BAD_REQUEST',
+                    description='API.MISSING_DATA_SOURCE_ID'
+                )
+            except (TypeError, ValueError) as ex:
+                raise falcon.HTTPError(
+                    status=falcon.HTTP_400,
+                    title='API.BAD_REQUEST',
+                    description='API.INVALID_DATA_SOURCE_ID'
+                )
             except Exception:
                 raise falcon.HTTPError(
                     status=falcon.HTTP_400,
