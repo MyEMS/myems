@@ -62,6 +62,8 @@
 							<div class="hr-line-dashed"></div>
 							<a ng-click="currentWorkingCalendar.id?addNonWorkingDay():''" ng-disabled="!currentWorkingCalendar.id" class="btn btn-primary btn-rounded  btn-outline" href=""><i
 									class="fa fa-plus-circle"></i> {{'SETTING.ADD_NON_WORKING_DAY' | translate}}</a>
+							<a ng-click="currentWorkingCalendar.id?batchAddWeekendNonWorkingDay():''" ng-disabled="!currentWorkingCalendar.id" class="btn btn-success btn-rounded  btn-outline ml-2" href="javascript:void(0);"><i
+									class="fa fa-calendar-plus-o"></i> {{'SETTING.BATCH_ADD_WEEKEND' | translate}}</a>
 							<table class="footable table table-bordered table-hover" data-sort="true" data-page-size="15">
 								<thead>
 									<tr>
