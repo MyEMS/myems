@@ -14,6 +14,7 @@ app.controller('SpaceEnergyStoragePowerStationController', function(
     $scope.spaceenergystoragepowerstations = [];
     $scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
     $scope.isLoadingEnergystoragepowerstations = false;
+    $scope.tabInitialized = false;
 
     $scope.getAllSpaces = function() {
     let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
@@ -127,8 +128,19 @@ app.controller('SpaceEnergyStoragePowerStationController', function(
 		});
 	};
 
-  $scope.getAllSpaces();
-	$scope.getAllEnergyStoragePowerStations();
+    $scope.initTab = function() {
+        if (!$scope.tabInitialized) {
+            $scope.tabInitialized = true;
+            $scope.getAllSpaces();
+            $scope.getAllEnergyStoragePowerStations();
+        }
+    };
+
+    $scope.$on('tabSelected', function(event, tabIndex) {
+        if (tabIndex === 11) {
+            $scope.initTab();
+        }
+    });
 
   $scope.refreshSpaceTree = function() {
     let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };

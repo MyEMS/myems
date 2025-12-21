@@ -15,6 +15,7 @@ app.controller('SpaceMicrogridController', function(
     $scope.spacemicrogrids = [];
     $scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
     $scope.isLoadingMicrogrids = false;
+    $scope.tabInitialized = false;
 
     $scope.getAllSpaces = function() {
         let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
@@ -152,7 +153,18 @@ app.controller('SpaceMicrogridController', function(
         $scope.refreshSpaceTree();
     });
 
-    // 初始化数据
-    $scope.getAllSpaces();
-    $scope.getAllMicrogrids();
+    $scope.initTab = function() {
+        if (!$scope.tabInitialized) {
+            $scope.tabInitialized = true;
+            $scope.getAllSpaces();
+            $scope.getAllMicrogrids();
+        }
+    };
+
+    // Listen for tab selection event
+    $scope.$on('tabSelected', function(event, tabIndex) {
+        if (tabIndex === 15) { // This is the microgrid tab (index 15)
+            $scope.initTab();
+        }
+    });
 });

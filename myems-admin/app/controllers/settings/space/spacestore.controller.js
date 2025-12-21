@@ -12,6 +12,7 @@ app.controller('SpaceStoreController', function(
     $scope.spacestores = [];
     $scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
     $scope.isLoadingStores = false;
+    $scope.tabInitialized = false;
 
     $scope.getAllSpaces = function() {
     let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
@@ -126,8 +127,19 @@ app.controller('SpaceStoreController', function(
 		});
 	};
 
-  $scope.getAllSpaces();
-	$scope.getAllStores();
+    $scope.initTab = function() {
+        if (!$scope.tabInitialized) {
+            $scope.tabInitialized = true;
+            $scope.getAllSpaces();
+            $scope.getAllStores();
+        }
+    };
+
+    $scope.$on('tabSelected', function(event, tabIndex) {
+        if (tabIndex === 7) {
+            $scope.initTab();
+        }
+    });
 
   $scope.refreshSpaceTree = function() {
     let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };

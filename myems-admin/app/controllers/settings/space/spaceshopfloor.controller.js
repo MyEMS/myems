@@ -13,6 +13,7 @@ app.controller('SpaceShopfloorController', function(
     $scope.spaceshopfloors = [];
     $scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
     $scope.isLoadingShopfloors = false;
+    $scope.tabInitialized = false;
 
     $scope.getAllSpaces = function() {
     let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
@@ -126,8 +127,19 @@ app.controller('SpaceShopfloorController', function(
 		});
 	};
 
-    $scope.getAllSpaces();
-	$scope.getAllShopfloors();
+    $scope.initTab = function() {
+        if (!$scope.tabInitialized) {
+            $scope.tabInitialized = true;
+            $scope.getAllSpaces();
+            $scope.getAllShopfloors();
+        }
+    };
+
+    $scope.$on('tabSelected', function(event, tabIndex) {
+        if (tabIndex === 8) {
+            $scope.initTab();
+        }
+    });
 
   $scope.refreshSpaceTree = function() {
     let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };

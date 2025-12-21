@@ -17,6 +17,7 @@ app.controller('SpacePointController', function (
     $scope.datasources = [];
     $scope.points = [];
     $scope.isLoadingPoints = false;
+    $scope.tabInitialized = false;
 
     $scope.getAllSpaces = function() {
       let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
@@ -150,8 +151,19 @@ app.controller('SpacePointController', function (
         });
     };
 
-    $scope.getAllDataSources();
-    $scope.getAllSpaces();
+    $scope.initTab = function() {
+        if (!$scope.tabInitialized) {
+            $scope.tabInitialized = true;
+            $scope.getAllDataSources();
+            $scope.getAllSpaces();
+        }
+    };
+
+    $scope.$on('tabSelected', function(event, tabIndex) {
+        if (tabIndex === 4) {
+            $scope.initTab();
+        }
+    });
 
     $scope.refreshSpaceTree = function() {
       let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };

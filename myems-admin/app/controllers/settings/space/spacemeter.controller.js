@@ -14,6 +14,7 @@ app.controller('SpaceMeterController', function(
     $scope.spacemeters = [];
     $scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
     $scope.isLoadingMeters = false;
+    $scope.tabInitialized = false;
 
     $scope.getAllSpaces = function() {
     let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
@@ -190,10 +191,21 @@ app.controller('SpaceMeterController', function(
 		});
 	};
 
-    $scope.getAllSpaces();
-    $scope.getAllMeters();
-    $scope.getAllVirtualMeters();
-    $scope.getAllOfflineMeters();
+    $scope.initTab = function() {
+        if (!$scope.tabInitialized) {
+            $scope.tabInitialized = true;
+            $scope.getAllSpaces();
+            $scope.getAllMeters();
+            $scope.getAllVirtualMeters();
+            $scope.getAllOfflineMeters();
+        }
+    };
+
+    $scope.$on('tabSelected', function(event, tabIndex) {
+        if (tabIndex === 1) {
+            $scope.initTab();
+        }
+    });
 
     $scope.refreshSpaceTree = function() {
     let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };

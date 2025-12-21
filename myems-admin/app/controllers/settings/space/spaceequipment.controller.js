@@ -14,6 +14,7 @@ app.controller('SpaceEquipmentController', function(
     $scope.spaceequipments = [];
     $scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
     $scope.isLoadingEquipments = false;
+    $scope.tabInitialized = false;
 
     $scope.getAllSpaces = function() {
     let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
@@ -127,8 +128,19 @@ app.controller('SpaceEquipmentController', function(
 		});
 	};
 
-  $scope.getAllSpaces();
-	$scope.getAllEquipments();
+    $scope.initTab = function() {
+        if (!$scope.tabInitialized) {
+            $scope.tabInitialized = true;
+            $scope.getAllSpaces();
+            $scope.getAllEquipments();
+        }
+    };
+
+    $scope.$on('tabSelected', function(event, tabIndex) {
+        if (tabIndex === 2) {
+            $scope.initTab();
+        }
+    });
 
   $scope.refreshSpaceTree = function() {
     let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };

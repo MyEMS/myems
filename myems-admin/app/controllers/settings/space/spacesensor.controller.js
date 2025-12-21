@@ -13,6 +13,7 @@ app.controller('SpaceSensorController', function (
     $scope.spacesensors = [];
     $scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
     $scope.isLoadingSensors = false;
+    $scope.tabInitialized = false;
 
     $scope.getAllSensors = function () {
         let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
@@ -125,8 +126,19 @@ app.controller('SpaceSensorController', function (
         });
     };
 
-    $scope.getAllSensors();
-    $scope.getAllSpaces();
+    $scope.initTab = function() {
+        if (!$scope.tabInitialized) {
+            $scope.tabInitialized = true;
+            $scope.getAllSensors();
+            $scope.getAllSpaces();
+        }
+    };
+
+    $scope.$on('tabSelected', function(event, tabIndex) {
+        if (tabIndex === 5) {
+            $scope.initTab();
+        }
+    });
 
     $scope.refreshSpaceTree = function() {
       let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
