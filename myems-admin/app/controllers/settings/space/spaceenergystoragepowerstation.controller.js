@@ -136,8 +136,9 @@ app.controller('SpaceEnergyStoragePowerStationController', function(
         }
     };
 
-    $scope.$on('tabSelected', function(event, tabIndex) {
-        if (tabIndex === 11) {
+    $scope.$on('space.tabSelected', function(event, tabIndex) {
+        var TAB_INDEXES = ($scope.$parent && $scope.$parent.TAB_INDEXES) || { ENERGY_STORAGE_POWER_STATION: 11 };
+        if (tabIndex === TAB_INDEXES.ENERGY_STORAGE_POWER_STATION) {
             $scope.initTab();
         }
     });

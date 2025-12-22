@@ -135,8 +135,9 @@ app.controller('SpaceCommandController', function(
         }
     };
 
-    $scope.$on('tabSelected', function(event, tabIndex) {
-        if (tabIndex === 10) {
+    $scope.$on('space.tabSelected', function(event, tabIndex) {
+        var TAB_INDEXES = ($scope.$parent && $scope.$parent.TAB_INDEXES) || { COMMAND: 10 };
+        if (tabIndex === TAB_INDEXES.COMMAND) {
             $scope.initTab();
         }
     });

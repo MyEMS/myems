@@ -159,8 +159,9 @@ app.controller('SpacePointController', function (
         }
     };
 
-    $scope.$on('tabSelected', function(event, tabIndex) {
-        if (tabIndex === 4) {
+    $scope.$on('space.tabSelected', function(event, tabIndex) {
+        var TAB_INDEXES = ($scope.$parent && $scope.$parent.TAB_INDEXES) || { POINT: 4 };
+        if (tabIndex === TAB_INDEXES.POINT) {
             $scope.initTab();
         }
     });

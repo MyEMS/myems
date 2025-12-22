@@ -135,8 +135,9 @@ app.controller('SpaceStoreController', function(
         }
     };
 
-    $scope.$on('tabSelected', function(event, tabIndex) {
-        if (tabIndex === 7) {
+    $scope.$on('space.tabSelected', function(event, tabIndex) {
+        var TAB_INDEXES = ($scope.$parent && $scope.$parent.TAB_INDEXES) || { STORE: 7 };
+        if (tabIndex === TAB_INDEXES.STORE) {
             $scope.initTab();
         }
     });

@@ -201,8 +201,9 @@ app.controller('SpaceMeterController', function(
         }
     };
 
-    $scope.$on('tabSelected', function(event, tabIndex) {
-        if (tabIndex === 1) {
+    $scope.$on('space.tabSelected', function(event, tabIndex) {
+        var TAB_INDEXES = ($scope.$parent && $scope.$parent.TAB_INDEXES) || { METER: 1 };
+        if (tabIndex === TAB_INDEXES.METER) {
             $scope.initTab();
         }
     });

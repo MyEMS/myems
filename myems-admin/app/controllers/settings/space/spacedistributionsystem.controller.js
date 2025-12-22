@@ -136,8 +136,9 @@ app.controller('SpaceDistributionSystemController', function(
         }
     };
 
-    $scope.$on('tabSelected', function(event, tabIndex) {
-        if (tabIndex === 13) {
+    $scope.$on('space.tabSelected', function(event, tabIndex) {
+        var TAB_INDEXES = ($scope.$parent && $scope.$parent.TAB_INDEXES) || { DISTRIBUTION_SYSTEM: 13 };
+        if (tabIndex === TAB_INDEXES.DISTRIBUTION_SYSTEM) {
             $scope.initTab();
         }
     });

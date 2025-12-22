@@ -136,8 +136,9 @@ app.controller('SpaceEnergyFlowDiagramController', function(
         }
     };
 
-    $scope.$on('tabSelected', function(event, tabIndex) {
-        if (tabIndex === 12) {
+    $scope.$on('space.tabSelected', function(event, tabIndex) {
+        var TAB_INDEXES = ($scope.$parent && $scope.$parent.TAB_INDEXES) || { ENERGY_FLOW_DIAGRAM: 12 };
+        if (tabIndex === TAB_INDEXES.ENERGY_FLOW_DIAGRAM) {
             $scope.initTab();
         }
     });

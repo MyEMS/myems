@@ -135,8 +135,9 @@ app.controller('SpaceShopfloorController', function(
         }
     };
 
-    $scope.$on('tabSelected', function(event, tabIndex) {
-        if (tabIndex === 8) {
+    $scope.$on('space.tabSelected', function(event, tabIndex) {
+        var TAB_INDEXES = ($scope.$parent && $scope.$parent.TAB_INDEXES) || { SHOPFLOOR: 8 };
+        if (tabIndex === TAB_INDEXES.SHOPFLOOR) {
             $scope.initTab();
         }
     });

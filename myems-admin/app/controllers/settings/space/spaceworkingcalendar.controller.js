@@ -134,8 +134,9 @@ app.controller('SpaceWorkingCalendarController', function(
         }
     };
 
-    $scope.$on('tabSelected', function(event, tabIndex) {
-        if (tabIndex === 9) {
+    $scope.$on('space.tabSelected', function(event, tabIndex) {
+        var TAB_INDEXES = ($scope.$parent && $scope.$parent.TAB_INDEXES) || { WORKING_CALENDAR: 9 };
+        if (tabIndex === TAB_INDEXES.WORKING_CALENDAR) {
             $scope.initTab();
         }
     });

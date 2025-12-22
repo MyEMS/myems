@@ -135,8 +135,9 @@ app.controller('SpaceCombinedEquipmentController', function($scope,
         }
     };
 
-    $scope.$on('tabSelected', function(event, tabIndex) {
-        if (tabIndex === 3) {
+    $scope.$on('space.tabSelected', function(event, tabIndex) {
+        var TAB_INDEXES = ($scope.$parent && $scope.$parent.TAB_INDEXES) || { COMBINED_EQUIPMENT: 3 };
+        if (tabIndex === TAB_INDEXES.COMBINED_EQUIPMENT) {
             $scope.initTab();
         }
     });
