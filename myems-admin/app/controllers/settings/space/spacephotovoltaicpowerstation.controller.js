@@ -3,6 +3,7 @@
 app.controller('SpacePhotovoltaicPowerStationController', function(
     $scope,
     $window,
+    $timeout,
     $translate,
     SpaceService,
     PhotovoltaicPowerStationService,
@@ -59,7 +60,7 @@ app.controller('SpacePhotovoltaicPowerStationController', function(
     SpacePhotovoltaicPowerStationService.getPhotovoltaicPowerStationsBySpaceID(id, headers, function (response) {
             $scope.isLoadingPhotovoltaicpowerstations = false;
             if (angular.isDefined(response.status) && response.status === 200) {
-              $scope.spacephotovoltaicpowerstations = $scope.spacephotovoltaicpowerstations.concat(response.data);
+              $scope.spacephotovoltaicpowerstations = response.data;
             } else {
               $scope.spacephotovoltaicpowerstations=[];
             }
@@ -138,10 +139,17 @@ app.controller('SpacePhotovoltaicPowerStationController', function(
 
     $scope.$on('space.tabSelected', function(event, tabIndex) {
         var TAB_INDEXES = ($scope.$parent && $scope.$parent.TAB_INDEXES) || { PHOTOVOLTAIC_POWER_STATION: 14 };
-        if (tabIndex === TAB_INDEXES.PHOTOVOLTAIC_POWER_STATION) {
+        if (tabIndex === TAB_INDEXES.PHOTOVOLTAIC_POWER_STATION && !$scope.tabInitialized) {
             $scope.initTab();
         }
     });
+
+    $timeout(function() {
+        var TAB_INDEXES = ($scope.$parent && $scope.$parent.TAB_INDEXES) || { PHOTOVOLTAIC_POWER_STATION: 14 };
+        if ($scope.$parent && $scope.$parent.activeTabIndex === TAB_INDEXES.PHOTOVOLTAIC_POWER_STATION && !$scope.tabInitialized) {
+            $scope.initTab();
+        }
+    }, 0);
 
   $scope.refreshSpaceTree = function() {
     let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };

@@ -3,6 +3,7 @@
 app.controller('SpaceDistributionSystemController', function(
     $scope,
     $window,
+    $timeout,
     $translate,
     SpaceService,
     DistributionSystemService,
@@ -59,7 +60,7 @@ app.controller('SpaceDistributionSystemController', function(
     SpaceDistributionSystemService.getDistributionSystemsBySpaceID(id, headers, function (response) {
             $scope.isLoadingIstributionsystems = false;
             if (angular.isDefined(response.status) && response.status === 200) {
-              $scope.spacedistributionsystems = $scope.spacedistributionsystems.concat(response.data);
+              $scope.spacedistributionsystems = response.data;
             } else {
               $scope.spacedistributionsystems=[];
             }
@@ -138,10 +139,17 @@ app.controller('SpaceDistributionSystemController', function(
 
     $scope.$on('space.tabSelected', function(event, tabIndex) {
         var TAB_INDEXES = ($scope.$parent && $scope.$parent.TAB_INDEXES) || { DISTRIBUTION_SYSTEM: 13 };
-        if (tabIndex === TAB_INDEXES.DISTRIBUTION_SYSTEM) {
+        if (tabIndex === TAB_INDEXES.DISTRIBUTION_SYSTEM && !$scope.tabInitialized) {
             $scope.initTab();
         }
     });
+
+    $timeout(function() {
+        var TAB_INDEXES = ($scope.$parent && $scope.$parent.TAB_INDEXES) || { DISTRIBUTION_SYSTEM: 13 };
+        if ($scope.$parent && $scope.$parent.activeTabIndex === TAB_INDEXES.DISTRIBUTION_SYSTEM && !$scope.tabInitialized) {
+            $scope.initTab();
+        }
+    }, 0);
 
   $scope.refreshSpaceTree = function() {
     let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };

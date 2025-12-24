@@ -3,6 +3,7 @@
 app.controller('SpacePointController', function (
     $scope, 
     $window,
+    $timeout,
     $translate, 
     SpaceService,
     DataSourceService, 
@@ -161,10 +162,17 @@ app.controller('SpacePointController', function (
 
     $scope.$on('space.tabSelected', function(event, tabIndex) {
         var TAB_INDEXES = ($scope.$parent && $scope.$parent.TAB_INDEXES) || { POINT: 4 };
-        if (tabIndex === TAB_INDEXES.POINT) {
+        if (tabIndex === TAB_INDEXES.POINT && !$scope.tabInitialized) {
             $scope.initTab();
         }
     });
+
+    $timeout(function() {
+        var TAB_INDEXES = ($scope.$parent && $scope.$parent.TAB_INDEXES) || { POINT: 4 };
+        if ($scope.$parent && $scope.$parent.activeTabIndex === TAB_INDEXES.POINT && !$scope.tabInitialized) {
+            $scope.initTab();
+        }
+    }, 0);
 
     $scope.refreshSpaceTree = function() {
       let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };

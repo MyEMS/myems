@@ -136,10 +136,17 @@ app.controller('SpaceWorkingCalendarController', function(
 
     $scope.$on('space.tabSelected', function(event, tabIndex) {
         var TAB_INDEXES = ($scope.$parent && $scope.$parent.TAB_INDEXES) || { WORKING_CALENDAR: 9 };
-        if (tabIndex === TAB_INDEXES.WORKING_CALENDAR) {
+        if (tabIndex === TAB_INDEXES.WORKING_CALENDAR && !$scope.tabInitialized) {
             $scope.initTab();
         }
     });
+
+    $timeout(function() {
+        var TAB_INDEXES = ($scope.$parent && $scope.$parent.TAB_INDEXES) || { WORKING_CALENDAR: 9 };
+        if ($scope.$parent && $scope.$parent.activeTabIndex === TAB_INDEXES.WORKING_CALENDAR && !$scope.tabInitialized) {
+            $scope.initTab();
+        }
+    }, 0);
 
     $scope.refreshSpaceTree = function() {
     let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };

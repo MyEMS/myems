@@ -3,6 +3,7 @@
 app.controller('SpaceCommandController', function(
     $scope,
     $window,
+    $timeout,
     $translate,
     SpaceService,
     CommandService,
@@ -58,7 +59,7 @@ app.controller('SpaceCommandController', function(
     SpaceCommandService.getCommandsBySpaceID(id, headers, function (response) {
                     $scope.isLoadingCommands = false;
       				if (angular.isDefined(response.status) && response.status === 200) {
-      					$scope.spacecommands = $scope.spacecommands.concat(response.data);
+      					$scope.spacecommands = response.data;
       				} else {
                 $scope.spacecommands=[];
               }
@@ -137,10 +138,17 @@ app.controller('SpaceCommandController', function(
 
     $scope.$on('space.tabSelected', function(event, tabIndex) {
         var TAB_INDEXES = ($scope.$parent && $scope.$parent.TAB_INDEXES) || { COMMAND: 10 };
-        if (tabIndex === TAB_INDEXES.COMMAND) {
+        if (tabIndex === TAB_INDEXES.COMMAND && !$scope.tabInitialized) {
             $scope.initTab();
         }
     });
+
+    $timeout(function() {
+        var TAB_INDEXES = ($scope.$parent && $scope.$parent.TAB_INDEXES) || { COMMAND: 10 };
+        if ($scope.$parent && $scope.$parent.activeTabIndex === TAB_INDEXES.COMMAND && !$scope.tabInitialized) {
+            $scope.initTab();
+        }
+    }, 0);
 
   $scope.refreshSpaceTree = function() {
     let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };

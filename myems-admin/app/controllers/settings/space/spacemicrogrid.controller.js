@@ -3,6 +3,7 @@
 app.controller('SpaceMicrogridController', function(
     $scope,
     $window,
+    $timeout,
     $translate,
     SpaceService,
     MicrogridService,
@@ -54,7 +55,7 @@ app.controller('SpaceMicrogridController', function(
         SpaceMicrogridService.getMicrogridsBySpaceID(id, headers, function (response) {
             $scope.isLoadingMicrogrids = false;
             if (angular.isDefined(response.status) && response.status === 200) {
-                $scope.spacemicrogrids = $scope.spacemicrogrids.concat(response.data);
+                $scope.spacemicrogrids = response.data;
             } else {
                 $scope.spacemicrogrids = [];
             }
@@ -161,11 +162,17 @@ app.controller('SpaceMicrogridController', function(
         }
     };
 
-    // Listen for tab selection event
     $scope.$on('space.tabSelected', function(event, tabIndex) {
         var TAB_INDEXES = ($scope.$parent && $scope.$parent.TAB_INDEXES) || { MICROGRID: 15 };
-        if (tabIndex === TAB_INDEXES.MICROGRID) {
+        if (tabIndex === TAB_INDEXES.MICROGRID && !$scope.tabInitialized) {
             $scope.initTab();
         }
     });
+
+    $timeout(function() {
+        var TAB_INDEXES = ($scope.$parent && $scope.$parent.TAB_INDEXES) || { MICROGRID: 15 };
+        if ($scope.$parent && $scope.$parent.activeTabIndex === TAB_INDEXES.MICROGRID && !$scope.tabInitialized) {
+            $scope.initTab();
+        }
+    }, 0);
 });

@@ -3,8 +3,8 @@
 		<div class="col-lg-12">
 			<div class="tabs-container">
 
-				<uib-tabset active="activeTabIndex" ng-init="activeTabIndex = 0">
-					<uib-tab heading="{{'COMMON.SPACE' | translate}}" index="0">
+				<uib-tabset active="activeTabIndex">
+					<uib-tab heading="{{'COMMON.SPACE' | translate}}" index="0" select="handleTabSelect(0)">
 						<div class="panel-body" ng-controller="SpaceController">
 							<div class="row">
 								<div class="col-lg-3">
@@ -126,7 +126,7 @@
 						</div>
 					</uib-tab>
 
-					<uib-tab heading="{{'SETTING.BIND_METER' | translate}}" index="1">
+					<uib-tab heading="{{'SETTING.BIND_METER' | translate}}" index="1" select="handleTabSelect(1)">
 						<div class="panel-body" ng-controller="SpaceMeterController">
 							<div class="row">
 								<div class="col-lg-3">
@@ -198,7 +198,7 @@
 						</div>
 					</uib-tab>
 
-					<uib-tab heading="{{'SPACE.BIND_EQUIPMENT' | translate}}" index="2">
+					<uib-tab heading="{{'SPACE.BIND_EQUIPMENT' | translate}}" index="2" select="handleTabSelect(2)">
 						<div class="panel-body" ng-controller="SpaceEquipmentController">
 							<div class="row">
 								<div class="col-lg-3">
@@ -255,7 +255,7 @@
 						</div>
 					</uib-tab>
 
-					<uib-tab heading="{{'SPACE.BIND_COMBINED_EQUIPMENT' | translate}}" index="3">
+					<uib-tab heading="{{'SPACE.BIND_COMBINED_EQUIPMENT' | translate}}" index="3" select="handleTabSelect(3)">
 						<div class="panel-body" ng-controller="SpaceCombinedEquipmentController">
 							<div class="row">
 								<div class="col-lg-3">
@@ -312,7 +312,7 @@
 						</div>
 					</uib-tab>
 
-					<uib-tab heading="{{'SETTING.BIND_POINT' | translate}}" index="4">
+					<uib-tab heading="{{'SETTING.BIND_POINT' | translate}}" index="4" select="handleTabSelect(4)">
 						<div class="panel-body" ng-controller="SpacePointController">
 							<div class="row">
 								<div class="col-lg-3">
@@ -385,7 +385,7 @@
 						</div>
 					</uib-tab>
 
-					<uib-tab heading="{{'SETTING.BIND_SENSOR' | translate}}" index="5">
+					<uib-tab heading="{{'SETTING.BIND_SENSOR' | translate}}" index="5" select="handleTabSelect(5)">
 						<div class="panel-body" ng-controller="SpaceSensorController">
 							<div class="row">
 								<div class="col-lg-3">
@@ -442,7 +442,7 @@
 						</div>
 					</uib-tab>
 
-					<uib-tab heading="{{'SPACE.BIND_TENANT' | translate}}" index="6">
+					<uib-tab heading="{{'SPACE.BIND_TENANT' | translate}}" index="6" select="handleTabSelect(6)">
 						<div class="panel-body" ng-controller="SpaceTenantController">
 							<div class="row">
 								<div class="col-lg-3">
@@ -498,7 +498,7 @@
 						</div>
 					</uib-tab>
 
-					<uib-tab heading="{{'SPACE.BIND_STORE' | translate}}" index="7">
+					<uib-tab heading="{{'SPACE.BIND_STORE' | translate}}" index="7" select="handleTabSelect(7)">
 						<div class="panel-body" ng-controller="SpaceStoreController">
 							<div class="row">
 								<div class="col-lg-3">
@@ -554,7 +554,7 @@
 						</div>
 					</uib-tab>
 
-					<uib-tab heading="{{'SPACE.BIND_SHOPFLOOR' | translate}}" index="8">
+					<uib-tab heading="{{'SPACE.BIND_SHOPFLOOR' | translate}}" index="8" select="handleTabSelect(8)">
 						<div class="panel-body" ng-controller="SpaceShopfloorController">
 							<div class="row">
 								<div class="col-lg-3">
@@ -610,7 +610,7 @@
 						</div>
 					</uib-tab>
 
-					<uib-tab heading="{{'WORKING_CALENDAR.BIND_WORKING_CALENDAR' | translate}}" index="9">
+					<uib-tab heading="{{'WORKING_CALENDAR.BIND_WORKING_CALENDAR' | translate}}" index="9" select="handleTabSelect(9)">
 						<div class="panel-body" ng-controller="SpaceWorkingCalendarController">
 							<div class="row">
 								<div class="col-lg-3">
@@ -669,7 +669,7 @@
 						</div>
 					</uib-tab>
 
-					<uib-tab heading="{{'SETTING.BIND_COMMAND' | translate}}" index="10">
+					<uib-tab heading="{{'SETTING.BIND_COMMAND' | translate}}" index="10" select="handleTabSelect(10)">
 						<div class="panel-body" ng-controller="SpaceCommandController">
 							<div class="row">
 								<div class="col-lg-3">
@@ -728,7 +728,7 @@
 						</div>
 					</uib-tab>
 
-					<uib-tab heading="{{'SPACE.BIND_ENERGY_STORAGE_POWER_STATION' | translate}}" index="11">
+					<uib-tab heading="{{'SPACE.BIND_ENERGY_STORAGE_POWER_STATION' | translate}}" index="11" select="handleTabSelect(11)">
 						<div class="panel-body" ng-controller="SpaceEnergyStoragePowerStationController">
 							<div class="row">
 								<div class="col-lg-3">
@@ -785,7 +785,7 @@
 						</div>
 					</uib-tab>
 
-					<uib-tab heading="{{'SPACE.BIND_ENERGY_FLOW_DIAGRAM' | translate}}" index="12">
+					<uib-tab heading="{{'SPACE.BIND_ENERGY_FLOW_DIAGRAM' | translate}}" index="12" select="handleTabSelect(12)">
 						<div class="panel-body" ng-controller="SpaceEnergyFlowDiagramController">
 							<div class="row">
 								<div class="col-lg-3">
@@ -842,7 +842,7 @@
 						</div>
 					</uib-tab>
 
-					<uib-tab heading="{{'SPACE.BIND_DISTRIBUTION_SYSTEM' | translate}}" index="13">
+					<uib-tab heading="{{'SPACE.BIND_DISTRIBUTION_SYSTEM' | translate}}" index="13" select="handleTabSelect(13)">
 						<div class="panel-body" ng-controller="SpaceDistributionSystemController">
 							<div class="row">
 								<div class="col-lg-3">
@@ -899,7 +899,7 @@
 						</div>
 					</uib-tab>
 
-					<uib-tab heading="{{'SPACE.BIND_PHOTOVOLTAIC_POWER_STATION' | translate}}" index="14">
+					<uib-tab heading="{{'SPACE.BIND_PHOTOVOLTAIC_POWER_STATION' | translate}}" index="14" select="handleTabSelect(14)">
 							<div class="panel-body" ng-controller="SpacePhotovoltaicPowerStationController">
 								<div class="row">
 								<div class="col-lg-3">
@@ -958,7 +958,7 @@
 							</div>
 					</uib-tab>
 
-					<uib-tab heading="{{'SPACE.BIND_MICROGRID' | translate}}" index="15">
+					<uib-tab heading="{{'SPACE.BIND_MICROGRID' | translate}}" index="15" select="handleTabSelect(15)">
 							<div class="panel-body" ng-controller="SpaceMicrogridController">
 								<div class="row">
 								<div class="col-lg-3">

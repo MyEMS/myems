@@ -2,6 +2,7 @@
 
 app.controller('SpaceCombinedEquipmentController', function($scope,
     $window,
+    $timeout,
     $translate,
     SpaceService,
     CombinedEquipmentService,
@@ -58,7 +59,7 @@ app.controller('SpaceCombinedEquipmentController', function($scope,
     SpaceCombinedEquipmentService.getCombinedEquipmentsBySpaceID(id, headers, function (response) {
             $scope.isLoadingCombineEquipments = false;
             if (angular.isDefined(response.status) && response.status === 200) {
-              $scope.spacecombinedequipments = $scope.spacecombinedequipments.concat(response.data);
+              $scope.spacecombinedequipments = response.data;
             } else {
               $scope.spacecombinedequipments=[];
             }
@@ -137,10 +138,17 @@ app.controller('SpaceCombinedEquipmentController', function($scope,
 
     $scope.$on('space.tabSelected', function(event, tabIndex) {
         var TAB_INDEXES = ($scope.$parent && $scope.$parent.TAB_INDEXES) || { COMBINED_EQUIPMENT: 3 };
-        if (tabIndex === TAB_INDEXES.COMBINED_EQUIPMENT) {
+        if (tabIndex === TAB_INDEXES.COMBINED_EQUIPMENT && !$scope.tabInitialized) {
             $scope.initTab();
         }
     });
+
+    $timeout(function() {
+        var TAB_INDEXES = ($scope.$parent && $scope.$parent.TAB_INDEXES) || { COMBINED_EQUIPMENT: 3 };
+        if ($scope.$parent && $scope.$parent.activeTabIndex === TAB_INDEXES.COMBINED_EQUIPMENT && !$scope.tabInitialized) {
+            $scope.initTab();
+        }
+    }, 0);
 
   $scope.refreshSpaceTree = function() {
     let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };

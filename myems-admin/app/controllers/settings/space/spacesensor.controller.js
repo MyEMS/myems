@@ -3,6 +3,7 @@
 app.controller('SpaceSensorController', function (
     $scope,
     $window,
+    $timeout,
     $translate,
     SpaceService,
     SensorService,
@@ -136,10 +137,17 @@ app.controller('SpaceSensorController', function (
 
     $scope.$on('space.tabSelected', function(event, tabIndex) {
         var TAB_INDEXES = ($scope.$parent && $scope.$parent.TAB_INDEXES) || { SENSOR: 5 };
-        if (tabIndex === TAB_INDEXES.SENSOR) {
+        if (tabIndex === TAB_INDEXES.SENSOR && !$scope.tabInitialized) {
             $scope.initTab();
         }
     });
+
+    $timeout(function() {
+        var TAB_INDEXES = ($scope.$parent && $scope.$parent.TAB_INDEXES) || { SENSOR: 5 };
+        if ($scope.$parent && $scope.$parent.activeTabIndex === TAB_INDEXES.SENSOR && !$scope.tabInitialized) {
+            $scope.initTab();
+        }
+    }, 0);
 
     $scope.refreshSpaceTree = function() {
       let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
