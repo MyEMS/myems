@@ -3,6 +3,7 @@
 app.controller('SpaceMicrogridController', function(
     $scope,
     $window,
+    $timeout,
     $translate,
     SpaceService,
     MicrogridService,
@@ -15,6 +16,7 @@ app.controller('SpaceMicrogridController', function(
     $scope.spacemicrogrids = [];
     $scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
     $scope.isLoadingMicrogrids = false;
+    $scope.tabInitialized = false;
 
     $scope.getAllSpaces = function() {
         let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
@@ -53,7 +55,7 @@ app.controller('SpaceMicrogridController', function(
         SpaceMicrogridService.getMicrogridsBySpaceID(id, headers, function (response) {
             $scope.isLoadingMicrogrids = false;
             if (angular.isDefined(response.status) && response.status === 200) {
-                $scope.spacemicrogrids = $scope.spacemicrogrids.concat(response.data);
+                $scope.spacemicrogrids = response.data;
             } else {
                 $scope.spacemicrogrids = [];
             }
@@ -152,7 +154,25 @@ app.controller('SpaceMicrogridController', function(
         $scope.refreshSpaceTree();
     });
 
-    // 初始化数据
-    $scope.getAllSpaces();
-    $scope.getAllMicrogrids();
+    $scope.initTab = function() {
+        if (!$scope.tabInitialized) {
+            $scope.tabInitialized = true;
+            $scope.getAllSpaces();
+            $scope.getAllMicrogrids();
+        }
+    };
+
+    $scope.$on('space.tabSelected', function(event, tabIndex) {
+        var TAB_INDEXES = ($scope.$parent && $scope.$parent.TAB_INDEXES) || { MICROGRID: 15 };
+        if (tabIndex === TAB_INDEXES.MICROGRID && !$scope.tabInitialized) {
+            $scope.initTab();
+        }
+    });
+
+    $timeout(function() {
+        var TAB_INDEXES = ($scope.$parent && $scope.$parent.TAB_INDEXES) || { MICROGRID: 15 };
+        if ($scope.$parent && $scope.$parent.activeTabIndex === TAB_INDEXES.MICROGRID && !$scope.tabInitialized) {
+            $scope.initTab();
+        }
+    }, 0);
 });

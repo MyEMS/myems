@@ -3,6 +3,7 @@
 app.controller('SpaceEquipmentController', function(
     $scope,
     $window,
+    $timeout,
     $translate,
     SpaceService,
     EquipmentService,
@@ -14,6 +15,7 @@ app.controller('SpaceEquipmentController', function(
     $scope.spaceequipments = [];
     $scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
     $scope.isLoadingEquipments = false;
+    $scope.tabInitialized = false;
 
     $scope.getAllSpaces = function() {
     let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
@@ -58,7 +60,7 @@ app.controller('SpaceEquipmentController', function(
     SpaceEquipmentService.getEquipmentsBySpaceID(id, headers, function (response) {
             $scope.isLoadingEquipments = false;
             if (angular.isDefined(response.status) && response.status === 200) {
-              $scope.spaceequipments = $scope.spaceequipments.concat(response.data);
+              $scope.spaceequipments = response.data;
             } else {
               $scope.spaceequipments=[];
             }
@@ -127,8 +129,27 @@ app.controller('SpaceEquipmentController', function(
 		});
 	};
 
-  $scope.getAllSpaces();
-	$scope.getAllEquipments();
+    $scope.initTab = function() {
+        if (!$scope.tabInitialized) {
+            $scope.tabInitialized = true;
+            $scope.getAllSpaces();
+            $scope.getAllEquipments();
+        }
+    };
+
+    $scope.$on('space.tabSelected', function(event, tabIndex) {
+        var TAB_INDEXES = ($scope.$parent && $scope.$parent.TAB_INDEXES) || { EQUIPMENT: 2 };
+        if (tabIndex === TAB_INDEXES.EQUIPMENT && !$scope.tabInitialized) {
+            $scope.initTab();
+        }
+    });
+
+    $timeout(function() {
+        var TAB_INDEXES = ($scope.$parent && $scope.$parent.TAB_INDEXES) || { EQUIPMENT: 2 };
+        if ($scope.$parent && $scope.$parent.activeTabIndex === TAB_INDEXES.EQUIPMENT && !$scope.tabInitialized) {
+            $scope.initTab();
+        }
+    }, 0);
 
   $scope.refreshSpaceTree = function() {
     let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
