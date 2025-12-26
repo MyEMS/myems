@@ -14,6 +14,6 @@ CREATE INDEX idx_menus_is_hidden ON myems_system_db.tbl_menus (is_hidden);
 CREATE INDEX idx_menus_parent_id ON myems_system_db.tbl_menus (parent_menu_id);
 
 -- UPDATE VERSION NUMBER
-UPDATE `myems_system_db`.`tbl_versions` SET version='5.12.0RC', release_date='2025-12-20' WHERE id=1;
+UPDATE `myems_system_db`.`tbl_versions` SET version='5.12.0', release_date='2025-12-26' WHERE id=1;
 
 COMMIT;

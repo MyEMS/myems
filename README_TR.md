@@ -1,7 +1,7 @@
 <p align="center">
    <img alt="logo" src="https://myems.cn/img/myems.png" width="150" height="150">
 </p>
-<h1 align="center" style="margin: 30px 0 30px; font-weight: bold;">MyEMS v5.11.0</h1>
+<h1 align="center" style="margin: 30px 0 30px; font-weight: bold;">MyEMS v5.12.0</h1>
 <h3 align="center">Endüstrinin önde gelen açık kaynak enerji yönetim sistemi</h3>
 <h6 align="center">Neredeyse bin proje vakası</h6>
 <h6 align="center">Sonsuza kadar açık kaynak kalma taahhüdü</h6>

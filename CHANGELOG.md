@@ -5,6 +5,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 ### Added
+### Changed
+### Fixed
+### Removed
+
+## [v5.12.0] - 2025-12-26
+### Added
 - added indexes to myems_system_db.tbl_menus in database
 - added more specific exception code in myems-api
 - added function to add weekends as non-working day in myems-admin
@@ -17,6 +23,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - fixed the issue of setting tariff data to 6 decimal places
 - optimized space settings in myems-admin
 ### Removed
+- None
 
 
 ## [v5.11.0] - 2025-11-30
@@ -2123,7 +2130,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Removed
 -   None.
 
-[Unreleased]: https://gitee.com/MyEMS/myems/compare/v5.11.0...HEAD
+[Unreleased]: https://gitee.com/MyEMS/myems/compare/v5.12.0...HEAD
+[5.12.0]: https://gitee.com/MyEMS/myems/compare/v5.11.0...v5.12.0
 [5.11.0]: https://gitee.com/MyEMS/myems/compare/v5.10.0...v5.11.0
 [5.10.0]: https://gitee.com/MyEMS/myems/compare/v5.9.0...v5.10.0
 [5.9.0]: https://gitee.com/MyEMS/myems/compare/v5.8.0...v5.9.0
