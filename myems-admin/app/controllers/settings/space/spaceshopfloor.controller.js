@@ -3,6 +3,7 @@
 app.controller('SpaceShopfloorController', function(
     $scope,
     $window,
+    $timeout,
     $translate,
     SpaceService,
     ShopfloorService,
@@ -13,6 +14,7 @@ app.controller('SpaceShopfloorController', function(
     $scope.spaceshopfloors = [];
     $scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
     $scope.isLoadingShopfloors = false;
+    $scope.tabInitialized = false;
 
     $scope.getAllSpaces = function() {
     let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
@@ -57,7 +59,7 @@ app.controller('SpaceShopfloorController', function(
     SpaceShopfloorService.getShopfloorsBySpaceID(id, headers, function (response) {
                     $scope.isLoadingShopfloors = false;
       				if (angular.isDefined(response.status) && response.status === 200) {
-      					$scope.spaceshopfloors = $scope.spaceshopfloors.concat(response.data);
+      					$scope.spaceshopfloors = response.data;
       				} else {
                 $scope.spaceshopfloors=[];
               }
@@ -126,8 +128,27 @@ app.controller('SpaceShopfloorController', function(
 		});
 	};
 
-    $scope.getAllSpaces();
-	$scope.getAllShopfloors();
+    $scope.initTab = function() {
+        if (!$scope.tabInitialized) {
+            $scope.tabInitialized = true;
+            $scope.getAllSpaces();
+            $scope.getAllShopfloors();
+        }
+    };
+
+    $scope.$on('space.tabSelected', function(event, tabIndex) {
+        var TAB_INDEXES = ($scope.$parent && $scope.$parent.TAB_INDEXES) || { SHOPFLOOR: 8 };
+        if (tabIndex === TAB_INDEXES.SHOPFLOOR && !$scope.tabInitialized) {
+            $scope.initTab();
+        }
+    });
+
+    $timeout(function() {
+        var TAB_INDEXES = ($scope.$parent && $scope.$parent.TAB_INDEXES) || { SHOPFLOOR: 8 };
+        if ($scope.$parent && $scope.$parent.activeTabIndex === TAB_INDEXES.SHOPFLOOR && !$scope.tabInitialized) {
+            $scope.initTab();
+        }
+    }, 0);
 
   $scope.refreshSpaceTree = function() {
     let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };

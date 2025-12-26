@@ -8,12 +8,16 @@ app.controller('SpaceMeterController', function(
     SpaceService,
     MeterService,
     VirtualMeterService,
-    OfflineMeterService, SpaceMeterService, toaster,SweetAlert) {
+    OfflineMeterService, 
+    SpaceMeterService, 
+    toaster,
+    SweetAlert) {
     $scope.spaces = [];
     $scope.currentSpaceID = 1;
     $scope.spacemeters = [];
     $scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
     $scope.isLoadingMeters = false;
+    $scope.tabInitialized = false;
 
     $scope.getAllSpaces = function() {
     let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
@@ -190,10 +194,29 @@ app.controller('SpaceMeterController', function(
 		});
 	};
 
-    $scope.getAllSpaces();
-    $scope.getAllMeters();
-    $scope.getAllVirtualMeters();
-    $scope.getAllOfflineMeters();
+    $scope.initTab = function() {
+        if (!$scope.tabInitialized) {
+            $scope.tabInitialized = true;
+            $scope.getAllSpaces();
+            $scope.getAllMeters();
+            $scope.getAllVirtualMeters();
+            $scope.getAllOfflineMeters();
+        }
+    };
+
+    $scope.$on('space.tabSelected', function(event, tabIndex) {
+        var TAB_INDEXES = ($scope.$parent && $scope.$parent.TAB_INDEXES) || { METER: 1 };
+        if (tabIndex === TAB_INDEXES.METER && !$scope.tabInitialized) {
+            $scope.initTab();
+        }
+    });
+
+    $timeout(function() {
+        var TAB_INDEXES = ($scope.$parent && $scope.$parent.TAB_INDEXES) || { METER: 1 };
+        if ($scope.$parent && $scope.$parent.activeTabIndex === TAB_INDEXES.METER && !$scope.tabInitialized) {
+            $scope.initTab();
+        }
+    }, 0);
 
     $scope.refreshSpaceTree = function() {
     let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };

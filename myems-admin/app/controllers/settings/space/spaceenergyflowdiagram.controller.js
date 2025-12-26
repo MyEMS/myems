@@ -3,6 +3,7 @@
 app.controller('SpaceEnergyFlowDiagramController', function(
     $scope,
     $window,
+    $timeout,
     $translate,
     SpaceService,
     EnergyFlowDiagramService,
@@ -14,6 +15,7 @@ app.controller('SpaceEnergyFlowDiagramController', function(
     $scope.spaceenergyflowdiagrams = [];
     $scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
     $scope.isLoadingEnergyflowdiagrams = false;
+    $scope.tabInitialized = false;
 
     $scope.getAllSpaces = function() {
     let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
@@ -51,14 +53,14 @@ app.controller('SpaceEnergyFlowDiagramController', function(
     };
 
 	$scope.getEnergyFlowDiagramsBySpaceID = function(id) {
-	if ($scope.isLoadingEnergyflowdiagrams) return
+	if ($scope.isLoadingEnergyflowdiagrams) return;
 	$scope.isLoadingEnergyflowdiagrams = true;
     $scope.spaceenergyflowdiagrams=[];
     let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
     SpaceEnergyFlowDiagramService.getEnergyFlowDiagramsBySpaceID(id, headers, function (response) {
             $scope.isLoadingEnergyflowdiagrams = false;
             if (angular.isDefined(response.status) && response.status === 200) {
-              $scope.spaceenergyflowdiagrams = $scope.spaceenergyflowdiagrams.concat(response.data);
+              $scope.spaceenergyflowdiagrams = response.data;
             } else {
               $scope.spaceenergyflowdiagrams=[];
             }
@@ -127,8 +129,27 @@ app.controller('SpaceEnergyFlowDiagramController', function(
 		});
 	};
 
-  $scope.getAllSpaces();
-	$scope.getAllEnergyFlowDiagrams();
+    $scope.initTab = function() {
+        if (!$scope.tabInitialized) {
+            $scope.tabInitialized = true;
+            $scope.getAllSpaces();
+            $scope.getAllEnergyFlowDiagrams();
+        }
+    };
+
+    $scope.$on('space.tabSelected', function(event, tabIndex) {
+        var TAB_INDEXES = ($scope.$parent && $scope.$parent.TAB_INDEXES) || { ENERGY_FLOW_DIAGRAM: 12 };
+        if (tabIndex === TAB_INDEXES.ENERGY_FLOW_DIAGRAM && !$scope.tabInitialized) {
+            $scope.initTab();
+        }
+    });
+
+    $timeout(function() {
+        var TAB_INDEXES = ($scope.$parent && $scope.$parent.TAB_INDEXES) || { ENERGY_FLOW_DIAGRAM: 12 };
+        if ($scope.$parent && $scope.$parent.activeTabIndex === TAB_INDEXES.ENERGY_FLOW_DIAGRAM && !$scope.tabInitialized) {
+            $scope.initTab();
+        }
+    }, 0);
 
   $scope.refreshSpaceTree = function() {
     let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };

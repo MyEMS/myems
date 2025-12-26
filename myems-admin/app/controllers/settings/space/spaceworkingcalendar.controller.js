@@ -12,8 +12,8 @@ app.controller('SpaceWorkingCalendarController', function(
     $scope.currentSpaceID = 1;
     $scope.spaceworkingcalendars = [];
     $scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
-
     $scope.isLoadingWorkingcalendars = false;
+    $scope.tabInitialized = false;
     $scope.getAllSpaces = function() {
     let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
     SpaceService.getAllSpaces(headers, function (response) {
@@ -126,8 +126,27 @@ app.controller('SpaceWorkingCalendarController', function(
 		});
 	};
 
-    $scope.getAllSpaces();
-    $scope.getAllWorkingCalendars();
+    $scope.initTab = function() {
+        if (!$scope.tabInitialized) {
+            $scope.tabInitialized = true;
+            $scope.getAllSpaces();
+            $scope.getAllWorkingCalendars();
+        }
+    };
+
+    $scope.$on('space.tabSelected', function(event, tabIndex) {
+        var TAB_INDEXES = ($scope.$parent && $scope.$parent.TAB_INDEXES) || { WORKING_CALENDAR: 9 };
+        if (tabIndex === TAB_INDEXES.WORKING_CALENDAR && !$scope.tabInitialized) {
+            $scope.initTab();
+        }
+    });
+
+    $timeout(function() {
+        var TAB_INDEXES = ($scope.$parent && $scope.$parent.TAB_INDEXES) || { WORKING_CALENDAR: 9 };
+        if ($scope.$parent && $scope.$parent.activeTabIndex === TAB_INDEXES.WORKING_CALENDAR && !$scope.tabInitialized) {
+            $scope.initTab();
+        }
+    }, 0);
 
     $scope.refreshSpaceTree = function() {
     let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };

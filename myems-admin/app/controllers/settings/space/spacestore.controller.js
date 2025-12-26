@@ -3,6 +3,7 @@
 app.controller('SpaceStoreController', function(
     $scope,
     $window,
+    $timeout,
     $translate,
     SpaceService,
     StoreService, SpaceStoreService, toaster,SweetAlert) {
@@ -12,6 +13,7 @@ app.controller('SpaceStoreController', function(
     $scope.spacestores = [];
     $scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
     $scope.isLoadingStores = false;
+    $scope.tabInitialized = false;
 
     $scope.getAllSpaces = function() {
     let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
@@ -56,7 +58,7 @@ app.controller('SpaceStoreController', function(
     SpaceStoreService.getStoresBySpaceID(id, headers, function (response) {
                     $scope.isLoadingStores = false;
       				if (angular.isDefined(response.status) && response.status === 200) {
-      					$scope.spacestores = $scope.spacestores.concat(response.data);
+      					$scope.spacestores = response.data;
       				} else {
                 $scope.spacestores=[];
               }
@@ -126,8 +128,27 @@ app.controller('SpaceStoreController', function(
 		});
 	};
 
-  $scope.getAllSpaces();
-	$scope.getAllStores();
+    $scope.initTab = function() {
+        if (!$scope.tabInitialized) {
+            $scope.tabInitialized = true;
+            $scope.getAllSpaces();
+            $scope.getAllStores();
+        }
+    };
+
+    $scope.$on('space.tabSelected', function(event, tabIndex) {
+        var TAB_INDEXES = ($scope.$parent && $scope.$parent.TAB_INDEXES) || { STORE: 7 };
+        if (tabIndex === TAB_INDEXES.STORE && !$scope.tabInitialized) {
+            $scope.initTab();
+        }
+    });
+
+    $timeout(function() {
+        var TAB_INDEXES = ($scope.$parent && $scope.$parent.TAB_INDEXES) || { STORE: 7 };
+        if ($scope.$parent && $scope.$parent.activeTabIndex === TAB_INDEXES.STORE && !$scope.tabInitialized) {
+            $scope.initTab();
+        }
+    }, 0);
 
   $scope.refreshSpaceTree = function() {
     let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
