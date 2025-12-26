@@ -15,8 +15,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - added more specific exception code in myems-api
 - added function to add weekends as non-working day in myems-admin
 ### Changed
-- udpated get space tree action in myems-api
-- changed offical website to https://myems.cn
+- updated get space tree action in myems-api
+- changed official website to https://myems.cn
 ### Fixed
 - fixed issues of dashboard in myems-api
 - optimized get web menu action in myems-api
