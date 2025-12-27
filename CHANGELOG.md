@@ -2130,6 +2130,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Removed
 -   None.
 
+---
+
 [Unreleased]: https://gitee.com/MyEMS/myems/compare/v5.12.0...HEAD
 [5.12.0]: https://gitee.com/MyEMS/myems/compare/v5.11.0...v5.12.0
 [5.11.0]: https://gitee.com/MyEMS/myems/compare/v5.10.0...v5.11.0
