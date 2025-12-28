@@ -431,6 +431,7 @@ const resources = {
       //Authentication
       'Log in': 'Log in',
       'Email address': 'Email address',
+      'Phone Number': 'Phone Number',
       Password: 'Password',
       CaptchaCode: 'Captcha',
       Refresh: 'Refresh',
@@ -1733,6 +1734,7 @@ const resources = {
       //Authentication
       'Log in': '登录',
       'Email address': '电子邮件地址',
+      'Phone Number': '电话号码',
       Password: '密码',
       CaptchaCode: '验证码',
       Refresh: '刷新',
@@ -3048,6 +3050,7 @@ const resources = {
       //Authentication
       'Log in': 'Anmeldung',
       'Email address': 'E-Mail-Addresse',
+      'Phone Number': 'Telefonnummer',
       Password: 'Passwort',
       CaptchaCode: 'Captcha',
       Refresh: 'Auffrischen',
@@ -4386,6 +4389,7 @@ const resources = {
       //Authentication
       'Log in': "S'identifier",
       'Email address': 'Messagerie électronique adresse',
+      'Phone Number': 'Numéro de téléphone',
       Password: 'Mot de passe',
       CaptchaCode: 'Captcha',
       Refresh: 'Rafraîchir',
@@ -5693,6 +5697,7 @@ const resources = {
       //Authentication
       'Log in': 'Inicia sesión',
       'Email address': 'Dirección de correo electrónico',
+      'Phone Number': 'Número de teléfono',
       Password: 'Contraseña',
       CaptchaCode: 'Captcha',
       Refresh: 'Actualizar',
@@ -6999,6 +7004,7 @@ const resources = {
       //Authentication
       'Log in': 'Войти',
       'Email address': 'Адрес электронной почты',
+      'Phone Number': 'Номер телефона',
       Password: 'Пароль',
       CaptchaCode: 'Капча',
       Refresh: 'Освежать',
@@ -8298,6 +8304,7 @@ const resources = {
       //Authentication
       'Log in': 'تسجيل الدخول',
       'Email address': 'عنوان البريد الإلكتروني',
+      'Phone Number': 'رقم الهاتف',
       Password: 'شعار',
       CaptchaCode: 'كلمة التحقق',
       Refresh: 'تحديث',
@@ -9608,6 +9615,7 @@ const resources = {
       //Authentication
       'Log in': 'Đăng nhập',
       'Email address': 'Địa chỉ email',
+      'Phone Number': 'Số điện thoại',
       Password: 'Mật khẩu',
       CaptchaCode: 'Captcha',
       Refresh: 'Làm tươi',
@@ -10925,6 +10933,7 @@ const resources = {
       //Authentication
       'Log in': 'เข้าสู่ระบบ',
       'Email address': 'ที่อยู่อีเมล',
+      'Phone Number': 'หมายเลขโทรศัพท์',
       Password: 'รหัสผ่าน',
       CaptchaCode: 'แคปต์ชา',
       Refresh: 'ฟื้นฟู',
@@ -12234,6 +12243,7 @@ const resources = {
       //Authentication
       'Log in': 'Oturum aç',
       'Email address': 'E-posta adresi',
+      'Phone Number': 'Telefon numarası',
       Password: 'Parola',
       CaptchaCode: 'Arjantin',
       Refresh: 'Yenilemek',
@@ -13553,6 +13563,7 @@ const resources = {
       //Authentication
       'Log in': 'Log masuk',
       'Email address': 'Alamat e-mel',
+      'Phone Number': 'Nombor telefon',
       Password: 'Kata laluan',
       CaptchaCode: 'Captcha',
       Refresh: 'Refresh',
@@ -14854,6 +14865,7 @@ const resources = {
       //Authentication
       'Log in': 'Login',
       'Email address': 'Alamat Surel',
+      'Phone Number': 'Nomor telepon',
       Password: 'Sandi',
       CaptchaCode: 'Kode Verifikasi',
       Refresh: 'Segar',
@@ -16167,6 +16179,7 @@ const resources = {
       //Authentication
       'Log in': '登錄',
       'Email address': '電⼦郵件地址',
+      'Phone Number': '電話號碼',
       Password: '密碼',
       CaptchaCode: '驗證碼',
       Refresh: '刷新',
@@ -17505,6 +17518,7 @@ const resources = {
       //Authentication
       'Log in': 'Entrar',
       'Email address': 'Endereço de e-mail',
+      'Phone Number': 'Número de telefone',
       Password: 'Senha',
       CaptchaCode: 'Captcha',
       Refresh: 'Refreshar',

@@ -10,7 +10,6 @@ import moment from 'moment';
 import { APIBaseURL } from '../../../config';
 
 const SentRegisterEmailMessageForm = ({ setRedirect, setRedirectUrl, hasLabel, layout, t }) => {
-  // State
   const [email, setEmail] = useState('');
   const [code, setCode] = useState('');
   const [isdisabled, setIsDisabled] = useState(false);
@@ -20,15 +19,22 @@ const SentRegisterEmailMessageForm = ({ setRedirect, setRedirectUrl, hasLabel, l
   const [displayName, setDisplayName] = useState('');
   const [inputType, setInputType] = useState('password');
   const [number, setNumber] = useState(60);
+  const [phone, setPhone] = useState('');
 
-  // Handler
   const handleSubmit = e => {
     e.preventDefault();
     let isResponseOK = false;
     fetch(APIBaseURL + '/users/newusers', {
       method: 'POST',
       body: JSON.stringify({
-        data: { name: name, display_name: displayName, email: email, password: password, verification_code: code }
+        data: {
+          name: name,
+          display_name: displayName,
+          email: email,
+          password: password,
+          verification_code: code,
+          phone: phone
+        }
       }),
       headers: { 'Content-Type': 'application/json' }
     })
@@ -63,13 +69,18 @@ const SentRegisterEmailMessageForm = ({ setRedirect, setRedirectUrl, hasLabel, l
       });
   };
 
-  // Handler
   const handleCodeSubmit = e => {
     setIsDisabled(true);
-    const timeId = setTimeout(() => {
-      setIsDisabled(false);
-      clearTimeout(timeId);
-    }, 1000 * 60);
+    const interval = setInterval(() => {
+      setNumber(prevNumber => {
+        if (prevNumber <= 1) {
+          clearInterval(interval);
+          setIsDisabled(false);
+          return 60;
+        }
+        return prevNumber - 1;
+      });
+    }, 1000);
     e.preventDefault();
     let isResponseOK = false;
     let subject = 'Create an account';
@@ -112,6 +123,7 @@ const SentRegisterEmailMessageForm = ({ setRedirect, setRedirectUrl, hasLabel, l
         data: {
           subject: subject,
           recipient_email: email,
+          phone: phone,
           created_datetime: created_datetime,
           scheduled_datetime: scheduled_datetime,
           message: message
@@ -154,12 +166,12 @@ const SentRegisterEmailMessageForm = ({ setRedirect, setRedirectUrl, hasLabel, l
 
   useEffect(() => {
     setItemToStore('email', email);
-    // eslint-disable-next-line
   }, []);
 
   useEffect(() => {
-    setIsSubmitDisabled(!email || !password || !displayName || !name || !code);
-  }, [email, password, displayName, name, code]);
+    const isPhoneValid = validatePhone(phone);
+    setIsSubmitDisabled(!email || !password || !displayName || !name || !code || !phone || !isPhoneValid);
+  }, [email, password, displayName, name, code, phone]);
 
   const toggleVisibility = () => {
     setInputType(inputType === 'password' ? 'text' : 'password');
@@ -167,11 +179,14 @@ const SentRegisterEmailMessageForm = ({ setRedirect, setRedirectUrl, hasLabel, l
 
   const validateEmail = email => {
     const regExp = /^[a-zA-Z0-9]+([._-][a-zA-Z0-9]+)*@[a-zA-Z0-9-]+(\.[a-zA-Z]{2,})+$/;
-    if (regExp.test(email)) {
-      setIsSubmitDisabled(true);
-    } else {
-      setIsSubmitDisabled(false);
-    }
+    const isEmailValid = regExp.test(email);
+    const isPhoneValid = validatePhone(phone);
+    setIsSubmitDisabled(!isEmailValid || !password || !displayName || !name || !code || !phone || !isPhoneValid);
+  };
+
+  const validatePhone = (phoneNum) => {
+    const phoneReg = /^1[3-9]\d{9}$/;
+    return phoneReg.test(phoneNum.trim());
   };
 
   return (
@@ -186,6 +201,7 @@ const SentRegisterEmailMessageForm = ({ setRedirect, setRedirectUrl, hasLabel, l
             setEmail(target.value);
           }}
           type="email"
+          required
         />
       </FormGroup>
       <FormGroup>
@@ -198,6 +214,7 @@ const SentRegisterEmailMessageForm = ({ setRedirect, setRedirectUrl, hasLabel, l
             className="password-input"
             onChange={({ target }) => setPassword(target.value)}
             type={inputType}
+            required
           />
           <InputGroupAddon addonType="append">
             <Button color="secondary" onClick={toggleVisibility}>
@@ -214,6 +231,7 @@ const SentRegisterEmailMessageForm = ({ setRedirect, setRedirectUrl, hasLabel, l
           maxLength={30}
           onChange={({ target }) => setName(target.value)}
           type="text"
+          required
         />
       </FormGroup>
       <FormGroup>
@@ -224,6 +242,22 @@ const SentRegisterEmailMessageForm = ({ setRedirect, setRedirectUrl, hasLabel, l
           maxLength={30}
           onChange={({ target }) => setDisplayName(target.value)}
           type="text"
+          required
+        />
+      </FormGroup>
+      <FormGroup>
+        <Input
+          id="phone"
+          placeholder={t('Phone Number')}
+          value={phone}
+          maxLength={11}
+          minLength={11}
+          onChange={({ target }) => {
+            validatePhone(target.value);
+            setPhone(target.value);
+          }}
+          type="tel"
+          required
         />
       </FormGroup>
       <FormGroup>
@@ -236,6 +270,7 @@ const SentRegisterEmailMessageForm = ({ setRedirect, setRedirectUrl, hasLabel, l
               onChange={({ target }) => setCode(target.value)}
               type="text"
               maxLength={6}
+              required
             />
           </Col>
           <Col xs="6" className="align-items-center d-flex">
@@ -250,10 +285,6 @@ const SentRegisterEmailMessageForm = ({ setRedirect, setRedirectUrl, hasLabel, l
           {t('Submit')}
         </Button>
       </FormGroup>
-      {/* <Link className="fs--1 text-600" to="#!">
-        I can't recover my account using this page
-        <span className="d-inline-block ml-1">&rarr;</span>
-      </Link> */}
     </Form>
   );
 };
