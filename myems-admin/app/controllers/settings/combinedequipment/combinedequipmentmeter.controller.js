@@ -184,13 +184,36 @@ app.controller('CombinedEquipmentMeterController', function (
         });
     };
 
-    $scope.getAllCombinedEquipments();
-    $scope.getAllMeters();
-    $scope.getAllVirtualMeters();
-    $scope.getAllOfflineMeters();
+    $scope.tabInitialized = false;
+
+    $scope.initTab = function() {
+        if (!$scope.tabInitialized) {
+            $scope.tabInitialized = true;
+            $scope.getAllCombinedEquipments();
+            $scope.getAllMeters();
+            $scope.getAllVirtualMeters();
+            $scope.getAllOfflineMeters();
+        }
+    };
+
+    $scope.$on('combinedequipment.tabSelected', function(event, tabIndex) {
+        var TAB_INDEXES = ($scope.$parent && $scope.$parent.TAB_INDEXES) || { BIND_METER: 2 };
+        if (tabIndex === TAB_INDEXES.BIND_METER && !$scope.tabInitialized) {
+            $scope.initTab();
+        }
+    });
+
+    $timeout(function() {
+        var TAB_INDEXES = ($scope.$parent && $scope.$parent.TAB_INDEXES) || { BIND_METER: 2 };
+        if ($scope.$parent && $scope.$parent.activeTabIndex === TAB_INDEXES.BIND_METER && !$scope.tabInitialized) {
+            $scope.initTab();
+        }
+    }, 0);
 
     $scope.$on('handleBroadcastCombinedEquipmentChanged', function (event) {
-        $scope.getAllCombinedEquipments();
+        if ($scope.tabInitialized) {
+            $scope.getAllCombinedEquipments();
+        }
     });
 });
 

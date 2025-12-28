@@ -113,16 +113,38 @@ app.controller('OfflineMeterFileController', function(
 			});
 	};
 
-	$scope.getAllOfflineMeterFiles();
-	$interval.cancel();
+	$scope.tabInitialized = false;
+	$scope.refeshfiles = undefined;
+
+	$scope.initTab = function() {
+		if (!$scope.tabInitialized) {
+			$scope.tabInitialized = true;
+			$scope.getAllOfflineMeterFiles();
+			$interval.cancel();
+			$scope.refeshfiles = $interval($scope.getAllOfflineMeterFiles, 1000 * 8);
+		}
+	};
+
+	$scope.$on('meter.tabSelected', function(event, tabIndex) {
+		var TAB_INDEXES = ($scope.$parent && $scope.$parent.TAB_INDEXES) || { OFFLINE_METER_FILE: 5 };
+		if (tabIndex === TAB_INDEXES.OFFLINE_METER_FILE && !$scope.tabInitialized) {
+			$scope.initTab();
+		}
+	});
+
+	$timeout(function() {
+		var TAB_INDEXES = ($scope.$parent && $scope.$parent.TAB_INDEXES) || { OFFLINE_METER_FILE: 5 };
+		if ($scope.$parent && $scope.$parent.activeTabIndex === TAB_INDEXES.OFFLINE_METER_FILE && !$scope.tabInitialized) {
+			$scope.initTab();
+		}
+	}, 0);
 
 	$scope.$on('$destroy', function() {
-	     // Make sure that the interval is destroyed too
-	     if (angular.isDefined($scope.refeshfiles)) {
-	         $interval.cancel($scope.refeshfiles);
-	         $scope.refeshfiles = undefined;
-	     }
+		// Make sure that the interval is destroyed too
+		if (angular.isDefined($scope.refeshfiles)) {
+			$interval.cancel($scope.refeshfiles);
+			$scope.refeshfiles = undefined;
+		}
 	});
-	$scope.refeshfiles=$interval($scope.getAllOfflineMeterFiles,1000*8);
 
 });

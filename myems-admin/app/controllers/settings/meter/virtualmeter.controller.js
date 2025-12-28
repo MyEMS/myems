@@ -347,23 +347,50 @@ app.controller('VirtualMeterController', function($scope, $rootScope, $window, $
 		}, 300);
 	};
 
-	$scope.getAllMeters();
-	$scope.getAllVirtualMeters();
-	$scope.getAllOfflineMeters();
-	$scope.getAllCategories();
-	$scope.getAllEnergyItems();
-	$scope.getAllCostCenters();
+	$scope.tabInitialized = false;
+
+	$scope.initTab = function() {
+		if (!$scope.tabInitialized) {
+			$scope.tabInitialized = true;
+			$scope.getAllMeters();
+			$scope.getAllVirtualMeters();
+			$scope.getAllOfflineMeters();
+			$scope.getAllCategories();
+			$scope.getAllEnergyItems();
+			$scope.getAllCostCenters();
+		}
+	};
+
+	$scope.$on('meter.tabSelected', function(event, tabIndex) {
+		var TAB_INDEXES = ($scope.$parent && $scope.$parent.TAB_INDEXES) || { VIRTUAL_METER: 3 };
+		if (tabIndex === TAB_INDEXES.VIRTUAL_METER && !$scope.tabInitialized) {
+			$scope.initTab();
+		}
+	});
+
+	$timeout(function() {
+		var TAB_INDEXES = ($scope.$parent && $scope.$parent.TAB_INDEXES) || { VIRTUAL_METER: 3 };
+		if ($scope.$parent && $scope.$parent.activeTabIndex === TAB_INDEXES.VIRTUAL_METER && !$scope.tabInitialized) {
+			$scope.initTab();
+		}
+	}, 0);
 
 	$scope.$on('handleBroadcastMeterChanged', function(event) {
-		$scope.getAllMeters();
+		if ($scope.tabInitialized) {
+			$scope.getAllMeters();
+		}
 	});
 
 	$scope.$on('handleBroadcastOfflineMeterChanged', function(event) {
-		$scope.getAllOfflineMeters();
+		if ($scope.tabInitialized) {
+			$scope.getAllOfflineMeters();
+		}
 	});
 
 	$scope.$on('handleBroadcastVirtualMeterChanged', function(event) {
-		$scope.getAllVirtualMeters();
+		if ($scope.tabInitialized) {
+			$scope.getAllVirtualMeters();
+		}
 	});
 
 });

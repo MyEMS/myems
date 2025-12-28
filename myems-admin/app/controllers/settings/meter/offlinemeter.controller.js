@@ -325,10 +325,31 @@ app.controller('OfflineMeterController', function(
 	};
 
 
-	$scope.getAllOfflineMeters();
-	$scope.getAllCategories();
-	$scope.getAllEnergyItems();
-	$scope.getAllCostCenters();
+	$scope.tabInitialized = false;
+
+	$scope.initTab = function() {
+		if (!$scope.tabInitialized) {
+			$scope.tabInitialized = true;
+			$scope.getAllOfflineMeters();
+			$scope.getAllCategories();
+			$scope.getAllEnergyItems();
+			$scope.getAllCostCenters();
+		}
+	};
+
+	$scope.$on('meter.tabSelected', function(event, tabIndex) {
+		var TAB_INDEXES = ($scope.$parent && $scope.$parent.TAB_INDEXES) || { OFFLINE_METER: 4 };
+		if (tabIndex === TAB_INDEXES.OFFLINE_METER && !$scope.tabInitialized) {
+			$scope.initTab();
+		}
+	});
+
+	$timeout(function() {
+		var TAB_INDEXES = ($scope.$parent && $scope.$parent.TAB_INDEXES) || { OFFLINE_METER: 4 };
+		if ($scope.$parent && $scope.$parent.activeTabIndex === TAB_INDEXES.OFFLINE_METER && !$scope.tabInitialized) {
+			$scope.initTab();
+		}
+	}, 0);
 });
 
 app.controller('ModalAddOfflineMeterCtrl', function($scope, $uibModalInstance, params) {

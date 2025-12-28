@@ -3,6 +3,7 @@
 app.controller('MeterController', function($scope,
 	$rootScope,
 	$window,
+	$timeout,
 	$translate,
 	$uibModal,
 	MeterService,
@@ -454,13 +455,48 @@ app.controller('MeterController', function($scope,
 		$rootScope.modalInstance = modalInstance;
 	};
 
-	$scope.getAllMeters();
-	$scope.getAllCategories();
-	$scope.getAllCostCenters();
-    $scope.getAllEnergyItems();
+	var metertreeElement = document.getElementById("metertree");
+	var isTreeView = (metertreeElement !== null);
+	
+	if (isTreeView) {
+		$scope.tabInitialized = false;
+		
+		$scope.initTab = function() {
+			if (!$scope.tabInitialized) {
+				$scope.tabInitialized = true;
+				$scope.getAllMeters();
+				$scope.getAllCategories();
+				$scope.getAllCostCenters();
+				$scope.getAllEnergyItems();
+			}
+		};
+		
+		$scope.$on('meter.tabSelected', function(event, tabIndex) {
+			var TAB_INDEXES = ($scope.$parent && $scope.$parent.TAB_INDEXES) || { TREE_VIEW: 2 };
+			if (tabIndex === TAB_INDEXES.TREE_VIEW && !$scope.tabInitialized) {
+				$scope.initTab();
+			}
+		});
+		
+		$timeout(function() {
+			var TAB_INDEXES = ($scope.$parent && $scope.$parent.TAB_INDEXES) || { TREE_VIEW: 2 };
+			if ($scope.$parent && $scope.$parent.activeTabIndex === TAB_INDEXES.TREE_VIEW && !$scope.tabInitialized) {
+				$scope.initTab();
+			}
+		}, 0);
+	} else {
+		$scope.getAllMeters();
+		$scope.getAllCategories();
+		$scope.getAllCostCenters();
+		$scope.getAllEnergyItems();
+	}
 
 	$scope.$on('handleBroadcastMeterChanged', function(event) {
-		$scope.refreshMeterTree();
+		if (isTreeView && $scope.tabInitialized) {
+			$scope.refreshMeterTree();
+		} else if (!isTreeView) {
+			$scope.refreshMeterTree();
+		}
 	});
 
 });

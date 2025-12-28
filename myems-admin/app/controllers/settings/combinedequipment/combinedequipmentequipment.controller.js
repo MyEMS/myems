@@ -112,10 +112,33 @@ app.controller('CombinedEquipmentEquipmentController', function (
         });
     };
 
-    $scope.getAllEquipments();
-    $scope.getAllCombinedEquipments();
+    $scope.tabInitialized = false;
+
+    $scope.initTab = function() {
+        if (!$scope.tabInitialized) {
+            $scope.tabInitialized = true;
+            $scope.getAllEquipments();
+            $scope.getAllCombinedEquipments();
+        }
+    };
+
+    $scope.$on('combinedequipment.tabSelected', function(event, tabIndex) {
+        var TAB_INDEXES = ($scope.$parent && $scope.$parent.TAB_INDEXES) || { BIND_EQUIPMENT: 1 };
+        if (tabIndex === TAB_INDEXES.BIND_EQUIPMENT && !$scope.tabInitialized) {
+            $scope.initTab();
+        }
+    });
+
+    $timeout(function() {
+        var TAB_INDEXES = ($scope.$parent && $scope.$parent.TAB_INDEXES) || { BIND_EQUIPMENT: 1 };
+        if ($scope.$parent && $scope.$parent.activeTabIndex === TAB_INDEXES.BIND_EQUIPMENT && !$scope.tabInitialized) {
+            $scope.initTab();
+        }
+    }, 0);
 
   	$scope.$on('handleBroadcastCombinedEquipmentChanged', function(event) {
-      $scope.getAllCombinedEquipments();
+      if ($scope.tabInitialized) {
+          $scope.getAllCombinedEquipments();
+      }
   	});
 });
