@@ -4,7 +4,8 @@ app.controller('OfflineMeterFileController', function(
 	$scope, 
 	$window,
 	$translate,
-	$interval, 
+	$interval,
+	$timeout,
 	OfflineMeterFileService, 
 	toaster, 
 	SweetAlert) {

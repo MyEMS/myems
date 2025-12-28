@@ -1,6 +1,6 @@
 'use strict';
 
-app.controller('VirtualMeterController', function($scope, $rootScope, $window, $uibModal, $translate,
+app.controller('VirtualMeterController', function($scope, $rootScope, $window, $uibModal, $translate, $timeout,
 	MeterService,
 	VirtualMeterService,
 	OfflineMeterService,

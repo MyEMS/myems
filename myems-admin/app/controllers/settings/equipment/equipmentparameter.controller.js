@@ -6,6 +6,7 @@ app.controller('EquipmentParameterController', function(
     $window,
     $uibModal,
     $translate,
+    $timeout,
     MeterService,
     VirtualMeterService,
     OfflineMeterService,

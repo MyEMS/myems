@@ -6,6 +6,7 @@ app.controller('OfflineMeterController', function(
 	$window,
 	$translate,
 	$uibModal,
+	$timeout,
 	OfflineMeterService,
 	CategoryService,
 	EnergyItemService,

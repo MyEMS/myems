@@ -4,6 +4,7 @@ app.controller('CombinedEquipmentEquipmentController', function (
     $scope,
     $window,
     $translate,
+    $timeout,
     CombinedEquipmentService,
     EquipmentService,
     CombinedEquipmentEquipmentService,
