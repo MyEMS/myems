@@ -36,6 +36,9 @@ import blankPage from '../../../assets/img/generic/blank-page.png';
 
 const DetailedDataTable = loadable(() => import('../common/DetailedDataTable'));
 
+let is_data1_valid = 0;
+let is_data2_valid = 0;
+
 const EquipmentComparison = ({ setRedirect, setRedirectUrl, t }) => {
   let current_moment = moment();
   useEffect(() => {
@@ -306,10 +309,17 @@ const EquipmentComparison = ({ setRedirect, setRedirectUrl, t }) => {
           setFilteredEquipmentList1(json[0]);
           if (json[0].length > 0) {
             setSelectedEquipment1(json[0][0].value);
-            // enable submit button
-            setSubmitButtonDisabled(false);
+            is_data1_valid = 1
+            if (is_data2_valid == 1) {
+              // enable submit button
+              setSubmitButtonDisabled(false);
+            }
+            else {
+              setSubmitButtonDisabled(true);
+            }
           } else {
             setSelectedEquipment1(undefined);
+            is_data1_valid = 0
             // disable submit button
             setSubmitButtonDisabled(true);
           }
@@ -355,10 +365,17 @@ const EquipmentComparison = ({ setRedirect, setRedirectUrl, t }) => {
           setFilteredEquipmentList2(json[0]);
           if (json[0].length > 0) {
             setSelectedEquipment2(json[0][0].value);
-            // enable submit button
-            setSubmitButtonDisabled(false);
+            is_data2_valid = 1
+            if (is_data1_valid == 1) {
+              // enable submit button
+              setSubmitButtonDisabled(false);
+            }
+            else {
+              setSubmitButtonDisabled(true);
+            }
           } else {
             setSelectedEquipment2(undefined);
+            is_data2_valid = 0
             // disable submit button
             setSubmitButtonDisabled(true);
           }
@@ -377,10 +394,17 @@ const EquipmentComparison = ({ setRedirect, setRedirectUrl, t }) => {
     setFilteredEquipmentList1(keyword.length ? filteredResult : equipmentList1);
     if (filteredResult.length > 0) {
       setSelectedEquipment1(filteredResult[0].value);
-      // enable submit button
-      setSubmitButtonDisabled(false);
+      is_data1_valid = 1
+      if (is_data2_valid == 1) {
+        // enable submit button
+        setSubmitButtonDisabled(false);
+      }
+      else {
+        setSubmitButtonDisabled(true);
+      }
     } else {
       setSelectedEquipment1(undefined);
+      is_data1_valid = 0
       // disable submit button
       setSubmitButtonDisabled(true);
     }
@@ -394,10 +418,17 @@ const EquipmentComparison = ({ setRedirect, setRedirectUrl, t }) => {
     setFilteredEquipmentList2(keyword.length ? filteredResult : equipmentList2);
     if (filteredResult.length > 0) {
       setSelectedEquipment2(filteredResult[0].value);
-      // enable submit button
-      setSubmitButtonDisabled(false);
+      is_data2_valid = 1
+      if (is_data1_valid == 1) {
+        // enable submit button
+        setSubmitButtonDisabled(false);
+      }
+      else {
+        setSubmitButtonDisabled(true);
+      }
     } else {
       setSelectedEquipment2(undefined);
+      is_data2_valid = 0
       // disable submit button
       setSubmitButtonDisabled(true);
     }
