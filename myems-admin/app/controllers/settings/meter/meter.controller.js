@@ -472,15 +472,13 @@ app.controller('MeterController', function($scope,
 		};
 		
 		$scope.$on('meter.tabSelected', function(event, tabIndex) {
-			var TAB_INDEXES = ($scope.$parent && $scope.$parent.TAB_INDEXES) || { TREE_VIEW: 2 };
-			if (tabIndex === TAB_INDEXES.TREE_VIEW && !$scope.tabInitialized) {
+			if ($scope.$parent && $scope.$parent.TAB_INDEXES && tabIndex === $scope.$parent.TAB_INDEXES.TREE_VIEW && !$scope.tabInitialized) {
 				$scope.initTab();
 			}
 		});
 		
 		$timeout(function() {
-			var TAB_INDEXES = ($scope.$parent && $scope.$parent.TAB_INDEXES) || { TREE_VIEW: 2 };
-			if ($scope.$parent && $scope.$parent.activeTabIndex === TAB_INDEXES.TREE_VIEW && !$scope.tabInitialized) {
+			if ($scope.$parent && $scope.$parent.TAB_INDEXES && $scope.$parent.activeTabIndex === $scope.$parent.TAB_INDEXES.TREE_VIEW && !$scope.tabInitialized) {
 				$scope.initTab();
 			}
 		}, 0);
@@ -492,9 +490,7 @@ app.controller('MeterController', function($scope,
 	}
 
 	$scope.$on('handleBroadcastMeterChanged', function(event) {
-		if (isTreeView && $scope.tabInitialized) {
-			$scope.refreshMeterTree();
-		} else if (!isTreeView) {
+		if (!isTreeView || $scope.tabInitialized) {
 			$scope.refreshMeterTree();
 		}
 	});

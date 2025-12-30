@@ -222,15 +222,13 @@ app.controller(
     };
 
     $scope.$on('combinedequipment.tabSelected', function(event, tabIndex) {
-        var TAB_INDEXES = ($scope.$parent && $scope.$parent.TAB_INDEXES) || { BIND_DATA_SOURCE: 3 };
-        if (tabIndex === TAB_INDEXES.BIND_DATA_SOURCE && !$scope.tabInitialized) {
+        if ($scope.$parent && $scope.$parent.TAB_INDEXES && tabIndex === $scope.$parent.TAB_INDEXES.BIND_DATA_SOURCE && !$scope.tabInitialized) {
             $scope.initTab();
         }
     });
 
     $timeout(function() {
-        var TAB_INDEXES = ($scope.$parent && $scope.$parent.TAB_INDEXES) || { BIND_DATA_SOURCE: 3 };
-        if ($scope.$parent && $scope.$parent.activeTabIndex === TAB_INDEXES.BIND_DATA_SOURCE && !$scope.tabInitialized) {
+        if ($scope.$parent && $scope.$parent.TAB_INDEXES && $scope.$parent.activeTabIndex === $scope.$parent.TAB_INDEXES.BIND_DATA_SOURCE && !$scope.tabInitialized) {
             $scope.initTab();
         }
     }, 0);

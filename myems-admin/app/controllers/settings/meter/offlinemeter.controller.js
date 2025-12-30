@@ -339,15 +339,13 @@ app.controller('OfflineMeterController', function(
 	};
 
 	$scope.$on('meter.tabSelected', function(event, tabIndex) {
-		var TAB_INDEXES = ($scope.$parent && $scope.$parent.TAB_INDEXES) || { OFFLINE_METER: 4 };
-		if (tabIndex === TAB_INDEXES.OFFLINE_METER && !$scope.tabInitialized) {
+		if ($scope.$parent && $scope.$parent.TAB_INDEXES && tabIndex === $scope.$parent.TAB_INDEXES.OFFLINE_METER && !$scope.tabInitialized) {
 			$scope.initTab();
 		}
 	});
 
 	$timeout(function() {
-		var TAB_INDEXES = ($scope.$parent && $scope.$parent.TAB_INDEXES) || { OFFLINE_METER: 4 };
-		if ($scope.$parent && $scope.$parent.activeTabIndex === TAB_INDEXES.OFFLINE_METER && !$scope.tabInitialized) {
+		if ($scope.$parent && $scope.$parent.TAB_INDEXES && $scope.$parent.activeTabIndex === $scope.$parent.TAB_INDEXES.OFFLINE_METER && !$scope.tabInitialized) {
 			$scope.initTab();
 		}
 	}, 0);

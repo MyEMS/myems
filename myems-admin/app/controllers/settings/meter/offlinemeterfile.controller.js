@@ -127,15 +127,13 @@ app.controller('OfflineMeterFileController', function(
 	};
 
 	$scope.$on('meter.tabSelected', function(event, tabIndex) {
-		var TAB_INDEXES = ($scope.$parent && $scope.$parent.TAB_INDEXES) || { OFFLINE_METER_FILE: 5 };
-		if (tabIndex === TAB_INDEXES.OFFLINE_METER_FILE && !$scope.tabInitialized) {
+		if ($scope.$parent && $scope.$parent.TAB_INDEXES && tabIndex === $scope.$parent.TAB_INDEXES.OFFLINE_METER_FILE && !$scope.tabInitialized) {
 			$scope.initTab();
 		}
 	});
 
 	$timeout(function() {
-		var TAB_INDEXES = ($scope.$parent && $scope.$parent.TAB_INDEXES) || { OFFLINE_METER_FILE: 5 };
-		if ($scope.$parent && $scope.$parent.activeTabIndex === TAB_INDEXES.OFFLINE_METER_FILE && !$scope.tabInitialized) {
+		if ($scope.$parent && $scope.$parent.TAB_INDEXES && $scope.$parent.activeTabIndex === $scope.$parent.TAB_INDEXES.OFFLINE_METER_FILE && !$scope.tabInitialized) {
 			$scope.initTab();
 		}
 	}, 0);

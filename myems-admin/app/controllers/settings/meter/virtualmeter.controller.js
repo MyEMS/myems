@@ -362,15 +362,13 @@ app.controller('VirtualMeterController', function($scope, $rootScope, $window, $
 	};
 
 	$scope.$on('meter.tabSelected', function(event, tabIndex) {
-		var TAB_INDEXES = ($scope.$parent && $scope.$parent.TAB_INDEXES) || { VIRTUAL_METER: 3 };
-		if (tabIndex === TAB_INDEXES.VIRTUAL_METER && !$scope.tabInitialized) {
+		if ($scope.$parent && $scope.$parent.TAB_INDEXES && tabIndex === $scope.$parent.TAB_INDEXES.VIRTUAL_METER && !$scope.tabInitialized) {
 			$scope.initTab();
 		}
 	});
 
 	$timeout(function() {
-		var TAB_INDEXES = ($scope.$parent && $scope.$parent.TAB_INDEXES) || { VIRTUAL_METER: 3 };
-		if ($scope.$parent && $scope.$parent.activeTabIndex === TAB_INDEXES.VIRTUAL_METER && !$scope.tabInitialized) {
+		if ($scope.$parent && $scope.$parent.TAB_INDEXES && $scope.$parent.activeTabIndex === $scope.$parent.TAB_INDEXES.VIRTUAL_METER && !$scope.tabInitialized) {
 			$scope.initTab();
 		}
 	}, 0);

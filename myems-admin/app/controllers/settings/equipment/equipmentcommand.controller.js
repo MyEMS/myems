@@ -116,15 +116,13 @@ app.controller('EquipmentCommandController', function (
     };
 
     $scope.$on('equipment.tabSelected', function(event, tabIndex) {
-        var TAB_INDEXES = ($scope.$parent && $scope.$parent.TAB_INDEXES) || { BIND_COMMAND: 4 };
-        if (tabIndex === TAB_INDEXES.BIND_COMMAND && !$scope.tabInitialized) {
+        if ($scope.$parent && $scope.$parent.TAB_INDEXES && tabIndex === $scope.$parent.TAB_INDEXES.BIND_COMMAND && !$scope.tabInitialized) {
             $scope.initTab();
         }
     });
 
     $timeout(function() {
-        var TAB_INDEXES = ($scope.$parent && $scope.$parent.TAB_INDEXES) || { BIND_COMMAND: 4 };
-        if ($scope.$parent && $scope.$parent.activeTabIndex === TAB_INDEXES.BIND_COMMAND && !$scope.tabInitialized) {
+        if ($scope.$parent && $scope.$parent.TAB_INDEXES && $scope.$parent.activeTabIndex === $scope.$parent.TAB_INDEXES.BIND_COMMAND && !$scope.tabInitialized) {
             $scope.initTab();
         }
     }, 0);
