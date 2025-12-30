@@ -563,8 +563,8 @@ class UserLogin:
                                        description='API.INVALID_ACCOUNT')
 
             email_reg = r'^[a-zA-Z0-9]+([._-][a-zA-Z0-9]+)*@[a-zA-Z0-9-]+(\.[a-zA-Z]{2,})+$'
+            # Only supports the mobile phone number format of Chinese mainland (11 digits, starting with 13-19)
             phone_reg = r'^1[3-9]\d{9}$'
-            import re
 
             if re.match(email_reg, account):
                 query = (" SELECT id, name, uuid, display_name, email, salt, password, is_admin, is_read_only, "

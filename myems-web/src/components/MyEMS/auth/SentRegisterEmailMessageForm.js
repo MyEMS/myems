@@ -18,7 +18,7 @@ const SentRegisterEmailMessageForm = ({ setRedirect, setRedirectUrl, hasLabel, l
   const [name, setName] = useState('');
   const [displayName, setDisplayName] = useState('');
   const [inputType, setInputType] = useState('password');
-  const [number, setNumber] = useState(60);
+  const [countdown, setCountdown] = useState(60);
   const [phone, setPhone] = useState('');
 
   const handleSubmit = e => {
@@ -40,11 +40,11 @@ const SentRegisterEmailMessageForm = ({ setRedirect, setRedirectUrl, hasLabel, l
     })
       .then(response => {
         const interval = setInterval(() => {
-          setNumber(prevNumber => prevNumber - 1);
+          setCountdown(prevNumber => prevNumber - 1);
         }, 1000);
         const timerId = setTimeout(() => {
           setIsDisabled(false);
-          setNumber(60);
+          setCountdown(60);
           clearTimeout(timerId);
           clearInterval(interval);
         }, 1000 * 60);
@@ -72,7 +72,7 @@ const SentRegisterEmailMessageForm = ({ setRedirect, setRedirectUrl, hasLabel, l
   const handleCodeSubmit = e => {
     setIsDisabled(true);
     const interval = setInterval(() => {
-      setNumber(prevNumber => {
+      setCountdown(prevNumber => {
         if (prevNumber <= 1) {
           clearInterval(interval);
           setIsDisabled(false);
@@ -148,11 +148,11 @@ const SentRegisterEmailMessageForm = ({ setRedirect, setRedirectUrl, hasLabel, l
       })
       .catch(err => {
         const interval = setInterval(() => {
-          setNumber(prevNumber => prevNumber - 1);
+          setCountdown(prevNumber => prevNumber - 1);
         }, 1000);
         const timerId = setTimeout(() => {
           setIsDisabled(false);
-          setNumber(60);
+          setCountdown(60);
           clearTimeout(timerId);
           clearInterval(interval);
         }, 1000 * 60);
@@ -275,7 +275,7 @@ const SentRegisterEmailMessageForm = ({ setRedirect, setRedirectUrl, hasLabel, l
           </Col>
           <Col xs="6" className="align-items-center d-flex">
             <Button color="primary" onClick={handleCodeSubmit} disabled={isdisabled}>
-              {isdisabled ? t('Please wait for NUMBER seconds', { NUMBER: number }) : t('Send verification code')}
+              {isdisabled ? t('Please wait for NUMBER seconds', { NUMBER: countdown }) : t('Send verification code')}
             </Button>
           </Col>
         </Row>
