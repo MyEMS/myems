@@ -18,6 +18,17 @@ app.controller('SpaceMeterController', function(
     $scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
     $scope.isLoadingMeters = false;
     $scope.tabInitialized = false;
+    $scope.isSpaceSelected = false;
+    $scope.currentmeters = [];
+    $scope.meters = [];
+    $scope.virtualmeters = [];
+    $scope.offlinemeters = [];
+
+    function safeApply(scope) {
+        if (!scope.$$phase && !scope.$root.$$phase) {
+            scope.$apply();
+        }
+    }
 
     $scope.getAllSpaces = function() {
     let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
@@ -48,9 +59,16 @@ app.controller('SpaceMeterController', function(
       angular.element(spacetreewithmeter).jstree(treedata);
       //space tree selected changed event handler
       angular.element(spacetreewithmeter).on("changed.jstree", function (e, data) {
-          $scope.currentSpaceID = parseInt(data.selected[0]);
-          $scope.spacemeters=[];
-          $scope.getMetersBySpaceID($scope.currentSpaceID);
+          if (data.selected && data.selected.length > 0) {
+              $scope.currentSpaceID = parseInt(data.selected[0]);
+              $scope.isSpaceSelected = true;
+              $scope.spacemeters=[];
+              $scope.getMetersBySpaceID($scope.currentSpaceID);
+          } else {
+              $scope.isSpaceSelected = false;
+              $scope.spacemeters = [];
+          }
+          safeApply($scope);
       });
     });
     };
@@ -91,14 +109,16 @@ app.controller('SpaceMeterController', function(
 	$scope.changeMeterType=function(){
 		switch($scope.currentMeterType){
 			case 'meters':
-				$scope.currentmeters=$scope.meters;
+				$scope.currentmeters=$scope.meters || [];
 				break;
 			case 'virtualmeters':
-				$scope.currentmeters=$scope.virtualmeters;
+				$scope.currentmeters=$scope.virtualmeters || [];
 				break;
 			case  'offlinemeters':
-				$scope.currentmeters=$scope.offlinemeters;
+				$scope.currentmeters=$scope.offlinemeters || [];
 				break;
+			default:
+				$scope.currentmeters = [];
 		}
 	};
 
@@ -108,9 +128,7 @@ app.controller('SpaceMeterController', function(
 			if (angular.isDefined(response.status) && response.status === 200) {
 				$scope.meters = response.data;
 				$scope.currentMeterType="meters";
-				$timeout(function(){
-					$scope.changeMeterType();
-				},1000);
+				$scope.changeMeterType();
 			} else {
 				$scope.meters = [];
 			}
@@ -143,6 +161,14 @@ app.controller('SpaceMeterController', function(
 	};
 
 	$scope.pairMeter=function(dragEl,dropEl){
+		if (!$scope.isSpaceSelected) {
+			toaster.pop({
+				type: "warning",
+				body: "请先选择空间",
+				showCloseButton: true,
+			});
+			return;
+		}
 		var meterid=angular.element('#'+dragEl).scope().meter.id;
 		var spaceid=angular.element(spacetreewithmeter).jstree(true).get_top_selected();
         let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
@@ -170,6 +196,14 @@ app.controller('SpaceMeterController', function(
 		if(angular.element('#'+dragEl).hasClass('source')){
 			return;
         }
+		if (!$scope.isSpaceSelected) {
+			toaster.pop({
+				type: "warning",
+				body: "请先选择空间",
+				showCloseButton: true,
+			});
+			return;
+		}
         var spacemeterid = angular.element('#' + dragEl).scope().spacemeter.id;
         var spaceid = angular.element(spacetreewithmeter).jstree(true).get_top_selected();
         var metertype = angular.element('#' + dragEl).scope().spacemeter.metertype;
@@ -246,6 +280,10 @@ app.controller('SpaceMeterController', function(
 
       angular.element(spacetreewithmeter).jstree(true).settings.core.data = treedata['core']['data'];
       angular.element(spacetreewithmeter).jstree(true).refresh();
+      // Reset selection state after tree refresh
+      $scope.isSpaceSelected = false;
+      $scope.spacemeters = [];
+      safeApply($scope);
     });
     };
 

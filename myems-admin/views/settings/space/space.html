@@ -145,13 +145,13 @@
 											{{'SETTING.N_S_METER' | translate}}
 										</div>
 										<div class="panel-body maxheight"
-										    x-hjc-drop-target="true"
-											x-on-drop="pairMeter(dragEl,dropEl)"
+										    x-hjc-drop-target="{{isSpaceSelected ? 'true' : 'false'}}"
+										    x-on-drop="pairMeter(dragEl,dropEl)"
 											uib-tooltip="{{'SETTING.DRAG_TO_UNBIND' | translate}}">
 
 											<div class="btn btn-rounded btn-block"
 												ng-class="colorMeterType(spacemeter.metertype)"
-												ng-repeat="spacemeter in spacemeters" x-hjc-draggable="true"
+												ng-repeat="spacemeter in spacemeters" x-hjc-draggable="{{isSpaceSelected ? 'true' : 'false'}}"
 												title="{{spacemeter.metertype}}">
 												({{spacemeter.energy_category.name}}){{spacemeter.name}}</div>
 										</div>
@@ -161,7 +161,7 @@
 											{{'SETTING.TRASH' | translate}}
 										</div>
 										<div class="panel-body trash">
-											<img class="trashcan" src="img/trashcan.png" x-hjc-drop-target="true"
+											<img class="trashcan" src="img/trashcan.png" x-hjc-drop-target="{{isSpaceSelected ? 'true' : 'false'}}"
 												x-on-drop="deleteMeterPair(dragEl,dropEl)">
 										</div>
 
@@ -188,7 +188,7 @@
 												</select>
 											</div>
 											<div class="source btn btn-primary btn-rounded btn-block"
-												ng-repeat="meter in currentmeters" x-hjc-draggable="true"
+												ng-repeat="meter in currentmeters" x-hjc-draggable="{{isSpaceSelected ? 'true' : 'false'}}"
 												ng-class="colorMeterType(currentMeterType)">
 												({{meter.energy_category.name}}){{meter.name}}</div>
 										</div>
