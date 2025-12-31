@@ -36,6 +36,9 @@ import blankPage from '../../../assets/img/generic/blank-page.png';
 
 const DetailedDataTable = loadable(() => import('../common/DetailedDataTable'));
 
+let is_data1_valid = false;
+let is_data2_valid = false;
+
 const CombinedEquipmentComparison = ({ setRedirect, setRedirectUrl, t }) => {
   let current_moment = moment();
   useEffect(() => {
@@ -308,10 +311,17 @@ const CombinedEquipmentComparison = ({ setRedirect, setRedirectUrl, t }) => {
           setFilteredCombinedEquipmentList1(json[0]);
           if (json[0].length > 0) {
             setSelectedCombinedEquipment1(json[0][0].value);
-            // enable submit button
-            setSubmitButtonDisabled(false);
+            is_data1_valid = true
+            if (is_data2_valid === true) {
+              // enable submit button
+              setSubmitButtonDisabled(false);
+            }
+            else {
+              setSubmitButtonDisabled(true);
+            }
           } else {
             setSelectedCombinedEquipment1(undefined);
+            is_data1_valid = false
             // disable submit button
             setSubmitButtonDisabled(true);
           }
@@ -357,10 +367,17 @@ const CombinedEquipmentComparison = ({ setRedirect, setRedirectUrl, t }) => {
           setFilteredCombinedEquipmentList2(json[0]);
           if (json[0].length > 0) {
             setSelectedCombinedEquipment2(json[0][0].value);
-            // enable submit button
-            setSubmitButtonDisabled(false);
+            is_data2_valid = true
+            if (is_data1_valid === true) {
+              // enable submit button
+              setSubmitButtonDisabled(false);
+            } 
+            else {
+              setSubmitButtonDisabled(true);
+            }
           } else {
             setSelectedCombinedEquipment2(undefined);
+            is_data2_valid = false
             // disable submit button
             setSubmitButtonDisabled(true);
           }
@@ -379,10 +396,17 @@ const CombinedEquipmentComparison = ({ setRedirect, setRedirectUrl, t }) => {
     setFilteredCombinedEquipmentList1(keyword.length ? filteredResult : combinedEquipmentList1);
     if (filteredResult.length > 0) {
       setSelectedCombinedEquipment1(filteredResult[0].value);
-      // enable submit button
-      setSubmitButtonDisabled(false);
+      is_data1_valid = true
+      if (is_data2_valid === true) {
+        // enable submit button
+        setSubmitButtonDisabled(false);
+      }
+      else {
+        setSubmitButtonDisabled(true);
+      }
     } else {
       setSelectedCombinedEquipment1(undefined);
+      is_data1_valid = false
       // disable submit button
       setSubmitButtonDisabled(true);
     }
@@ -396,10 +420,17 @@ const CombinedEquipmentComparison = ({ setRedirect, setRedirectUrl, t }) => {
     setFilteredCombinedEquipmentList2(keyword.length ? filteredResult : combinedEquipmentList2);
     if (filteredResult.length > 0) {
       setSelectedCombinedEquipment2(filteredResult[0].value);
-      // enable submit button
-      setSubmitButtonDisabled(false);
+      is_data2_valid = true
+      if (is_data1_valid === true) {
+        // enable submit button
+        setSubmitButtonDisabled(false);
+      }
+      else {
+        setSubmitButtonDisabled(true);
+      }
     } else {
       setSelectedCombinedEquipment2(undefined);
+      is_data2_valid = false
       // disable submit button
       setSubmitButtonDisabled(true);
     }

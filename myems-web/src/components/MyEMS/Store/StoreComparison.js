@@ -36,6 +36,9 @@ import blankPage from '../../../assets/img/generic/blank-page.png';
 
 const DetailedDataTable = loadable(() => import('../common/DetailedDataTable'));
 
+let is_data1_valid = false;
+let is_data2_valid = false;
+
 const StoreComparison = ({ setRedirect, setRedirectUrl, t }) => {
   let current_moment = moment();
   useEffect(() => {
@@ -305,10 +308,17 @@ const StoreComparison = ({ setRedirect, setRedirectUrl, t }) => {
           setFilteredStoreList1(json[0]);
           if (json[0].length > 0) {
             setSelectedStore1(json[0][0].value);
-            // enable submit button
-            setSubmitButtonDisabled(false);
+            is_data1_valid = true
+            if (is_data2_valid === true) {
+              // enable submit button
+              setSubmitButtonDisabled(false);
+            }
+            else {
+              setSubmitButtonDisabled(true);
+            }
           } else {
             setSelectedStore1(undefined);
+            is_data1_valid = false
             // disable submit button
             setSubmitButtonDisabled(true);
           }
@@ -354,10 +364,17 @@ const StoreComparison = ({ setRedirect, setRedirectUrl, t }) => {
           setFilteredStoreList2(json[0]);
           if (json[0].length > 0) {
             setSelectedStore2(json[0][0].value);
-            // enable submit button
-            setSubmitButtonDisabled(false);
+            is_data2_valid = true
+            if (is_data1_valid === true) {
+              // enable submit button
+              setSubmitButtonDisabled(false);
+            } 
+            else {
+              setSubmitButtonDisabled(true);
+            }
           } else {
             setSelectedStore2(undefined);
+            is_data2_valid = false
             // disable submit button
             setSubmitButtonDisabled(true);
           }
@@ -376,10 +393,17 @@ const StoreComparison = ({ setRedirect, setRedirectUrl, t }) => {
     setFilteredStoreList1(keyword.length ? filteredResult : storeList1);
     if (filteredResult.length > 0) {
       setSelectedStore1(filteredResult[0].value);
-      // enable submit button
-      setSubmitButtonDisabled(false);
+      is_data1_valid = true
+      if (is_data2_valid === true) {
+        // enable submit button
+        setSubmitButtonDisabled(false);
+      }
+      else {
+        setSubmitButtonDisabled(true);
+      }
     } else {
       setSelectedStore1(undefined);
+      is_data1_valid = false
       // disable submit button
       setSubmitButtonDisabled(true);
     }
@@ -393,10 +417,17 @@ const StoreComparison = ({ setRedirect, setRedirectUrl, t }) => {
     setFilteredStoreList2(keyword.length ? filteredResult : storetList2);
     if (filteredResult.length > 0) {
       setSelectedStore2(filteredResult[0].value);
-      // enable submit button
-      setSubmitButtonDisabled(false);
+      is_data2_valid = true
+      if (is_data1_valid === true) {
+        // enable submit button
+        setSubmitButtonDisabled(false);
+      }
+      else {
+        setSubmitButtonDisabled(true);
+      }
     } else {
       setSelectedStore2(undefined);
+      is_data2_valid = false
       // disable submit button
       setSubmitButtonDisabled(true);
     }
