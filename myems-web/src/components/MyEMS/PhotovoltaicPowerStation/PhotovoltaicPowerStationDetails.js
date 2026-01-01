@@ -20,7 +20,7 @@ import {
 } from 'reactstrap';
 import Cascader from 'rc-cascader';
 import MultipleLineChart from '../common/MultipleLineChart';
-import { getCookieValue, createCookie, checkEmpty } from '../../../helpers/utils';
+import { getCookieValue, createCookie, checkEmpty,handleApiError } from '../../../helpers/utils';
 import withRedirect from '../../../hoc/withRedirect';
 import { withTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
@@ -199,7 +199,7 @@ const PhotovoltaicPowerStationDetails = ({ setRedirect, setRedirectUrl, t }) => 
                     setSubmitButtonHidden(true);
                   }
                 } else {
-                  toast.error(t(json.description));
+                  if (handleApiError(json, setRedirect, setRedirectUrl, t, toast)) {return;}
                 }
               })
               .catch(err => {
@@ -207,7 +207,7 @@ const PhotovoltaicPowerStationDetails = ({ setRedirect, setRedirectUrl, t }) => 
               });
             // end of get Photovoltaic  Power Stations by root Space ID
           } else {
-            toast.error(t(json.description));
+            if (handleApiError(json, setRedirect, setRedirectUrl, t, toast)) {return;}
           }
         })
         .catch(err => {
@@ -302,7 +302,7 @@ const PhotovoltaicPowerStationDetails = ({ setRedirect, setRedirectUrl, t }) => 
           // show result data
           setResultDataHidden(false);
         } else {
-          toast.error(t(json.description));
+          if (handleApiError(json, setRedirect, setRedirectUrl, t, toast)) {return;}
           // enable submit button
           setSubmitButtonDisabled(false);
           // hide spinner
@@ -359,7 +359,7 @@ const PhotovoltaicPowerStationDetails = ({ setRedirect, setRedirectUrl, t }) => 
             setSubmitButtonHidden(true);
           }
         } else {
-          toast.error(t(json.description));
+          if (handleApiError(json, setRedirect, setRedirectUrl, t, toast)) {return;}
         }
       })
       .catch(err => {
@@ -492,7 +492,7 @@ const PhotovoltaicPowerStationDetails = ({ setRedirect, setRedirectUrl, t }) => 
             setFaultDetailsList(faultList);
           }
         } else {
-          toast.error(t(json.description));
+          if (handleApiError(json, setRedirect, setRedirectUrl, t, toast)) {return;}
         }
       })
       .catch(err => {
@@ -523,7 +523,7 @@ const PhotovoltaicPowerStationDetails = ({ setRedirect, setRedirectUrl, t }) => 
         if (isResponseOK) {
           setInvertorDetailsList(json);
         } else {
-          toast.error(t(json.description));
+          if (handleApiError(json, setRedirect, setRedirectUrl, t, toast)) {return;}
         }
       })
       .catch(err => {
@@ -554,7 +554,7 @@ const PhotovoltaicPowerStationDetails = ({ setRedirect, setRedirectUrl, t }) => 
         if (isResponseOK) {
           setMeterDetailsList(json);
         } else {
-          toast.error(t(json.description));
+          if (handleApiError(json, setRedirect, setRedirectUrl, t, toast)) {return;}
         }
       })
       .catch(err => {

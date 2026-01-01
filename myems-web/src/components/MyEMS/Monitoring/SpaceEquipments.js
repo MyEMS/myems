@@ -25,7 +25,7 @@ import EquipmentList from './EquipmentList';
 import EquipmentFooter from './EquipmentFooter';
 import usePagination from '../../../hooks/usePagination';
 import equipments from './equipments';
-import { getCookieValue, createCookie, checkEmpty } from '../../../helpers/utils';
+import { getCookieValue, createCookie, checkEmpty,handleApiError } from '../../../helpers/utils';
 import withRedirect from '../../../hoc/withRedirect';
 import { withTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
@@ -103,7 +103,7 @@ const SpaceEquipments = ({ setRedirect, setRedirectUrl, t }) => {
           setSelectedSpaceName([json[0]].map(o => o.label));
           setSelectedSpaceID([json[0]].map(o => o.value));
         } else {
-          toast.error(t(json.description));
+          if (handleApiError(json, setRedirect, setRedirectUrl, t, toast)) {return;}
         }
       })
       .catch(err => {

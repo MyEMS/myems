@@ -17,7 +17,7 @@ import moment from 'moment';
 import loadable from '@loadable/component';
 import Cascader from 'rc-cascader';
 import MultipleLineChart from '../common/MultipleLineChart';
-import { getCookieValue, createCookie, checkEmpty } from '../../../helpers/utils';
+import { getCookieValue, createCookie, checkEmpty,handleApiError } from '../../../helpers/utils';
 import withRedirect from '../../../hoc/withRedirect';
 import { withTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
@@ -215,7 +215,7 @@ const MicrogridReportingParameters = ({ setRedirect, setRedirectUrl, t }) => {
                   setSubmitButtonDisabled(true);
                 }
               } else {
-                toast.error(t(json.description));
+                if (handleApiError(json, setRedirect, setRedirectUrl, t, toast)) {return;}
               }
             })
             .catch(err => {
@@ -223,7 +223,7 @@ const MicrogridReportingParameters = ({ setRedirect, setRedirectUrl, t }) => {
             });
           // end of get Microgrids by root Space ID
         } else {
-          toast.error(t(json.description));
+          if (handleApiError(json, setRedirect, setRedirectUrl, t, toast)) {return;}
         }
       })
       .catch(err => {
@@ -499,7 +499,7 @@ const MicrogridReportingParameters = ({ setRedirect, setRedirectUrl, t }) => {
           // show result data
           setResultDataHidden(false);
         } else {
-          toast.error(t(json.description));
+          if (handleApiError(json, setRedirect, setRedirectUrl, t, toast)) {return;}
           setSpinnerHidden(true);
           setSubmitButtonDisabled(false);
         }
@@ -551,7 +551,7 @@ const MicrogridReportingParameters = ({ setRedirect, setRedirectUrl, t }) => {
             setSubmitButtonDisabled(true);
           }
         } else {
-          toast.error(t(json.description));
+          if (handleApiError(json, setRedirect, setRedirectUrl, t, toast)) {return;}
         }
       })
       .catch(err => {

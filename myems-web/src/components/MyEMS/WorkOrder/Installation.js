@@ -363,7 +363,7 @@ const WorkOrderInstallation = ({ setRedirect, setRedirectUrl, t }) => {
           setExcelBytesBase64(json['excel_bytes_base64']);
           setSpinnerHidden(true);
         } else {
-          toast.error(t(json.description));
+          if (handleApiError(json, setRedirect, setRedirectUrl, t, toast)) {return;}
         }
       })
       .catch(err => {
@@ -456,7 +456,7 @@ const WorkOrderInstallation = ({ setRedirect, setRedirectUrl, t }) => {
               }
             });
         } else {
-          toast.error(t(json.description));
+          if (handleApiError(json, setRedirect, setRedirectUrl, t, toast)) {return;}
         }
       })
       .catch(err => {
@@ -549,7 +549,7 @@ const WorkOrderInstallation = ({ setRedirect, setRedirectUrl, t }) => {
               }
             });
         } else {
-          toast.error(t(json.description));
+          if (handleApiError(json, setRedirect, setRedirectUrl, t, toast)) {return;}
         }
       })
       .catch(err => {
@@ -638,7 +638,7 @@ const WorkOrderInstallation = ({ setRedirect, setRedirectUrl, t }) => {
               }
             });
         } else {
-          toast.error(t(json.description));
+          if (handleApiError(json, setRedirect, setRedirectUrl, t, toast)) {return;}
         }
       })
       .catch(err => {

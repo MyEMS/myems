@@ -15,7 +15,7 @@ import {
 } from 'reactstrap';
 import Cascader from 'rc-cascader';
 import moment from 'moment';
-import { getCookieValue, createCookie, checkEmpty } from '../../../helpers/utils';
+import { getCookieValue, createCookie, checkEmpty,handleApiError } from '../../../helpers/utils';
 import withRedirect from '../../../hoc/withRedirect';
 import { withTranslation } from 'react-i18next';
 import BootstrapTable from 'react-bootstrap-table-next';
@@ -116,7 +116,7 @@ const EnterProduction = ({ setRedirect, setRedirectUrl, t }) => {
           setSelectedSpaceName([json[0]].map(o => o.label));
           setSelectedSpaceID([json[0]].map(o => o.value)[0]);
         } else {
-          toast.error(t(json.description));
+          if (handleApiError(json, setRedirect, setRedirectUrl, t, toast)) {return;}
         }
       })
       .catch(err => {
@@ -295,7 +295,7 @@ const EnterProduction = ({ setRedirect, setRedirectUrl, t }) => {
           toast.success(t('Successfully Saved'));
           getProductionListData();
         } else {
-          toast.error(t(json.description));
+          if (handleApiError(json, setRedirect, setRedirectUrl, t, toast)) {return;}
         }
       })
       .catch(err => {

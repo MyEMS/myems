@@ -149,7 +149,7 @@ const EquipmentTracking = ({ setRedirect, setRedirectUrl, t }) => {
                 // show export button
                 setExportButtonHidden(false);
               } else {
-                toast.error(t(json.description));
+                if (handleApiError(json, setRedirect, setRedirectUrl, t, toast)) {return;}
               }
             })
             .catch(err => {
@@ -157,7 +157,7 @@ const EquipmentTracking = ({ setRedirect, setRedirectUrl, t }) => {
             });
           // end of getting equipment list
         } else {
-          toast.error(t(json.description));
+          if (handleApiError(json, setRedirect, setRedirectUrl, t, toast)) {return;}
         }
       })
       .catch(err => {
@@ -289,7 +289,7 @@ const EquipmentTracking = ({ setRedirect, setRedirectUrl, t }) => {
           // show export button
           setExportButtonHidden(false);
         } else {
-          toast.error(t(json.description));
+          if (handleApiError(json, setRedirect, setRedirectUrl, t, toast)) {return;}
         }
       })
       .catch(err => {

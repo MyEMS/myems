@@ -24,7 +24,7 @@ import Badge from 'reactstrap/es/Badge';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import FalconCardHeader from '../../common/FalconCardHeader';
 import { getPaginationArray } from '../../../helpers/utils';
-import { getCookieValue, createCookie, checkEmpty } from '../../../helpers/utils';
+import { getCookieValue, createCookie, checkEmpty,handleApiError } from '../../../helpers/utils';
 import Datetime from 'react-datetime';
 import withRedirect from '../../../hoc/withRedirect';
 import { withTranslation } from 'react-i18next';
@@ -213,7 +213,7 @@ const Notification = ({ setRedirect, setRedirectUrl, t }) => {
           setNotifications(notificationList);
           setSpinnerHidden(true);
         } else {
-          toast.error(t(json.description));
+          if (handleApiError(json, setRedirect, setRedirectUrl, t, toast)) {return;}
         }
       })
       .catch(err => {
@@ -483,7 +483,7 @@ const Notification = ({ setRedirect, setRedirectUrl, t }) => {
               }
             });
         } else {
-          toast.error(t(json.description));
+          if (handleApiError(json, setRedirect, setRedirectUrl, t, toast)) {return;}
         }
       })
       .catch(err => {
@@ -580,7 +580,7 @@ const Notification = ({ setRedirect, setRedirectUrl, t }) => {
               }
             });
         } else {
-          toast.error(t(json.description));
+          if (handleApiError(json, setRedirect, setRedirectUrl, t, toast)) {return;}
         }
       })
       .catch(err => {
@@ -672,7 +672,7 @@ const Notification = ({ setRedirect, setRedirectUrl, t }) => {
               }
             });
         } else {
-          toast.error(t(json.description));
+          if (handleApiError(json, setRedirect, setRedirectUrl, t, toast)) {return;}
         }
       })
       .catch(err => {
@@ -703,7 +703,7 @@ const Notification = ({ setRedirect, setRedirectUrl, t }) => {
           return null;
         } else {
           let json = response.json();
-          toast.error(t(json.description));
+          if (handleApiError(json, setRedirect, setRedirectUrl, t, toast)) {return;}
         }
       })
       .catch(err => {
@@ -734,7 +734,7 @@ const Notification = ({ setRedirect, setRedirectUrl, t }) => {
           return null;
         } else {
           let json = response.json();
-          toast.error(t(json.description));
+          if (handleApiError(json, setRedirect, setRedirectUrl, t, toast)) {return;}
         }
       })
       .catch(err => {
@@ -804,7 +804,7 @@ const Notification = ({ setRedirect, setRedirectUrl, t }) => {
           setNotifications(notificationList);
           setSpinnerHidden(true);
         } else {
-          toast.error(t(json.description));
+          if (handleApiError(json, setRedirect, setRedirectUrl, t, toast)) {return;}
         }
       });
   };

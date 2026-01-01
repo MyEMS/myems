@@ -15,7 +15,7 @@ import {
   CustomInput
 } from 'reactstrap';
 import moment from 'moment';
-import { getCookieValue, createCookie, checkEmpty } from '../../../helpers/utils';
+import { getCookieValue, createCookie, checkEmpty,handleApiError } from '../../../helpers/utils';
 import withRedirect from '../../../hoc/withRedirect';
 import { withTranslation } from 'react-i18next';
 import BootstrapTable from 'react-bootstrap-table-next';
@@ -290,7 +290,7 @@ const OfflineMeterInput = ({ setRedirect, setRedirectUrl, t }) => {
           toast.success(t('Successfully Saved'));
           getmeterslistdata();
         } else {
-          toast.error(t(json.description));
+          if (handleApiError(json, setRedirect, setRedirectUrl, t, toast)) {return;}
         }
       })
       .catch(err => {

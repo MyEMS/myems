@@ -37,7 +37,16 @@ export const createCookie = (name, value, cookieExpireTime) => {
   const expires = '; expires=' + date.toUTCString();
   document.cookie = name + '=' + value + expires + '; path=/';
 };
-
+export const handleApiError = (json, setRedirect, setRedirectUrl, t,toast) => {
+  if (json.description === "API.USER_SESSION_TIMEOUT") {
+    toast.error(t(json.description));
+    setRedirectUrl(`/authentication/basic/login`);
+    setRedirect(true);
+    return true; // 表示发生了会话超时
+  }
+  toast.error(t(json.description));
+  return false; // 表示没有会话超时
+};
 //===============================
 // Moment
 //===============================

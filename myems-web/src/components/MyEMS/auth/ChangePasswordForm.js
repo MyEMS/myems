@@ -4,7 +4,7 @@ import { toast } from 'react-toastify';
 import { Button, Card, CardBody, Form } from 'reactstrap';
 import FalconCardHeader from '../../common/FalconCardHeader';
 import FormGroupInput from '../../common/FormGroupInput';
-import { getCookieValue, createCookie, checkEmpty } from '../../../helpers/utils';
+import { getCookieValue, createCookie, checkEmpty,handleApiError } from '../../../helpers/utils';
 import withRedirect from '../../../hoc/withRedirect';
 import { withTranslation } from 'react-i18next';
 import { APIBaseURL, settings } from '../../../config';
@@ -80,7 +80,7 @@ const ChangePasswordForm = ({ setRedirect, setRedirectUrl, layout, t }) => {
           toast.success(t('Password has been changed!'));
           setRedirect(true);
         } else {
-          toast.error(t(json.description));
+          if (handleApiError(json, setRedirect, setRedirectUrl, t, toast)) {return;}
         }
       })
       .catch(err => {

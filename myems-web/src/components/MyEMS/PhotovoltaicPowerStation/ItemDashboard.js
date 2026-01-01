@@ -19,7 +19,7 @@ import {
 import Cascader from 'rc-cascader';
 import CardSummary from '../common/CardSummary';
 import { toast } from 'react-toastify';
-import { getCookieValue, createCookie, checkEmpty } from '../../../helpers/utils';
+import { getCookieValue, createCookie, checkEmpty,handleApiError } from '../../../helpers/utils';
 import withRedirect from '../../../hoc/withRedirect';
 import { withTranslation } from 'react-i18next';
 import { APIBaseURL, settings } from '../../../config';
@@ -153,7 +153,7 @@ const ItemDashboard = ({ setRedirect, setRedirectUrl, t }) => {
                   setSubmitButtonDisabled(true);
                 }
               } else {
-                toast.error(t(json.description));
+                if (handleApiError(json, setRedirect, setRedirectUrl, t, toast)) {return;}
               }
             })
             .catch(err => {
@@ -161,7 +161,7 @@ const ItemDashboard = ({ setRedirect, setRedirectUrl, t }) => {
             });
           // end of get Photovoltaic  Power Stations by root Space ID
         } else {
-          toast.error(t(json.description));
+          if (handleApiError(json, setRedirect, setRedirectUrl, t, toast)) {return;}
         }
       })
       .catch(err => {
@@ -469,7 +469,7 @@ const ItemDashboard = ({ setRedirect, setRedirectUrl, t }) => {
             setSubmitButtonDisabled(true);
           }
         } else {
-          toast.error(t(json.description));
+          if (handleApiError(json, setRedirect, setRedirectUrl, t, toast)) {return;}
         }
       })
       .catch(err => {

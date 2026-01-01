@@ -4,7 +4,7 @@ import { Col, Row, Spinner, Nav, NavItem, NavLink, TabContent, TabPane } from 'r
 import MicrogridTableCard from './MicrogridTableCard';
 import CardSummary from '../common/CardSummary';
 import { toast } from 'react-toastify';
-import { getCookieValue, createCookie, checkEmpty } from '../../../helpers/utils';
+import { getCookieValue, createCookie, checkEmpty,handleApiError } from '../../../helpers/utils';
 import withRedirect from '../../../hoc/withRedirect';
 import { withTranslation } from 'react-i18next';
 import moment from 'moment';

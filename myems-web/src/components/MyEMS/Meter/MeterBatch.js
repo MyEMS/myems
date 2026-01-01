@@ -20,7 +20,7 @@ import moment from 'moment';
 import loadable from '@loadable/component';
 import { Link } from 'react-router-dom';
 import Flex from '../../common/Flex';
-import { getCookieValue, createCookie, checkEmpty } from '../../../helpers/utils';
+import { getCookieValue, createCookie, checkEmpty,handleApiError } from '../../../helpers/utils';
 import withRedirect from '../../../hoc/withRedirect';
 import { withTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
@@ -155,7 +155,7 @@ const MeterBatch = ({ setRedirect, setRedirectUrl, t }) => {
           setSubmitButtonDisabled(false);
           setSpinnerHidden(true);
         } else {
-          toast.error(t(json.description));
+          if (handleApiError(json, setRedirect, setRedirectUrl, t, toast)) {return;}
         }
       })
       .catch(err => {
@@ -299,7 +299,7 @@ const MeterBatch = ({ setRedirect, setRedirectUrl, t }) => {
           // show result data
           setResultDataHidden(false);
         } else {
-          toast.error(t(json.description));
+          if (handleApiError(json, setRedirect, setRedirectUrl, t, toast)) {return;}
         }
       })
       .catch(err => {

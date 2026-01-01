@@ -3,7 +3,7 @@ import { Card, CardBody, Col, Row, Table, Nav, NavItem, NavLink, TabContent, Tab
 import Cascader from 'rc-cascader';
 import MultipleLineChart from '../common/MultipleLineChart';
 import SectionLineChart from '../common/SectionLineChart';
-import { getCookieValue, createCookie, checkEmpty } from '../../../helpers/utils';
+import { getCookieValue, createCookie, checkEmpty,handleApiError } from '../../../helpers/utils';
 import withRedirect from '../../../hoc/withRedirect';
 import { withTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
@@ -240,7 +240,7 @@ const MicrogridDetails = ({ setRedirect, setRedirectUrl, t }) => {
                     setResultDataHidden(true);
                   }
                 } else {
-                  toast.error(t(json.description));
+                  if (handleApiError(json, setRedirect, setRedirectUrl, t, toast)) {return;}
                 }
               })
               .catch(err => {
@@ -248,7 +248,7 @@ const MicrogridDetails = ({ setRedirect, setRedirectUrl, t }) => {
               });
             // end of get Microgrids by root Space ID
           } else {
-            toast.error(t(json.description));
+            if (handleApiError(json, setRedirect, setRedirectUrl, t, toast)) {return;}
           }
         })
         .catch(err => {
@@ -412,7 +412,7 @@ const MicrogridDetails = ({ setRedirect, setRedirectUrl, t }) => {
           // show result data
           setResultDataHidden(false);
         } else {
-          toast.error(t(json.description));
+          if (handleApiError(json, setRedirect, setRedirectUrl, t, toast)) {return;}
           // hide spinner
           setSpinnerHidden(true);
         }
@@ -465,7 +465,7 @@ const MicrogridDetails = ({ setRedirect, setRedirectUrl, t }) => {
             setResultDataHidden(true);
           }
         } else {
-          toast.error(t(json.description));
+          if (handleApiError(json, setRedirect, setRedirectUrl, t, toast)) {return;}
         }
       })
       .catch(err => {
@@ -551,7 +551,7 @@ const MicrogridDetails = ({ setRedirect, setRedirectUrl, t }) => {
         if (isResponseOK) {
           setBMSDetailsList(json);
         } else {
-          toast.error(t(json.description));
+          if (handleApiError(json, setRedirect, setRedirectUrl, t, toast)) {return;}
         }
       })
       .catch(err => {
@@ -581,7 +581,7 @@ const MicrogridDetails = ({ setRedirect, setRedirectUrl, t }) => {
         if (isResponseOK) {
           setEVChargerDetailsList(json);
         } else {
-          toast.error(t(json.description));
+          if (handleApiError(json, setRedirect, setRedirectUrl, t, toast)) {return;}
         }
       })
       .catch(err => {
@@ -612,7 +612,7 @@ const MicrogridDetails = ({ setRedirect, setRedirectUrl, t }) => {
         if (isResponseOK) {
           setPCSDetailsList(json);
         } else {
-          toast.error(t(json.description));
+          if (handleApiError(json, setRedirect, setRedirectUrl, t, toast)) {return;}
         }
       })
       .catch(err => {
@@ -643,7 +643,7 @@ const MicrogridDetails = ({ setRedirect, setRedirectUrl, t }) => {
         if (isResponseOK) {
           setPVDetailsList(json);
         } else {
-          toast.error(t(json.description));
+          if (handleApiError(json, setRedirect, setRedirectUrl, t, toast)) {return;}
         }
       })
       .catch(err => {
@@ -673,7 +673,7 @@ const MicrogridDetails = ({ setRedirect, setRedirectUrl, t }) => {
         if (isResponseOK) {
           setGeneratorDetailsList(json);
         } else {
-          toast.error(t(json.description));
+          if (handleApiError(json, setRedirect, setRedirectUrl, t, toast)) {return;}
         }
       })
       .catch(err => {
@@ -703,7 +703,7 @@ const MicrogridDetails = ({ setRedirect, setRedirectUrl, t }) => {
         if (isResponseOK) {
           setGridDetailsList(json);
         } else {
-          toast.error(t(json.description));
+          if (handleApiError(json, setRedirect, setRedirectUrl, t, toast)) {return;}
         }
       })
       .catch(err => {
@@ -733,7 +733,7 @@ const MicrogridDetails = ({ setRedirect, setRedirectUrl, t }) => {
         if (isResponseOK) {
           setLoadDetailsList(json);
         } else {
-          toast.error(t(json.description));
+          if (handleApiError(json, setRedirect, setRedirectUrl, t, toast)) {return;}
         }
       })
       .catch(err => {
@@ -763,7 +763,7 @@ const MicrogridDetails = ({ setRedirect, setRedirectUrl, t }) => {
         if (isResponseOK) {
           setHeatpumpDetailsList(json);
         } else {
-          toast.error(t(json.description));
+          if (handleApiError(json, setRedirect, setRedirectUrl, t, toast)) {return;}
         }
       })
       .catch(err => {

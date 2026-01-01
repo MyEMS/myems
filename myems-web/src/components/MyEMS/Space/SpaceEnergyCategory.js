@@ -23,7 +23,7 @@ import CardSummary from '../common/CardSummary';
 import MultiTrendChart from '../common/MultiTrendChart';
 import MultipleLineChart from '../common/MultipleLineChart';
 import SharePie from '../common/SharePie';
-import { getCookieValue, createCookie, checkEmpty } from '../../../helpers/utils';
+import { getCookieValue, createCookie, checkEmpty,handleApiError } from '../../../helpers/utils';
 import withRedirect from '../../../hoc/withRedirect';
 import { withTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
@@ -821,7 +821,7 @@ const SpaceEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => {
             // show result data
             setResultDataHidden(false);
           } else {
-            toast.error(t(json.description));
+            if (handleApiError(json, setRedirect, setRedirectUrl, t, toast)) {return;}
           }
         })
         .catch(err => {
@@ -956,7 +956,7 @@ const SpaceEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => {
           // select root space id
           setSelectedSpaceID([json[0]].map(o => o.value));
         } else {
-          toast.error(t(json.description));
+          if (handleApiError(json, setRedirect, setRedirectUrl, t, toast)) {return;}
         }
       })
       .catch(err => {

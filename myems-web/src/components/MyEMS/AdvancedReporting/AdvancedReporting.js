@@ -5,7 +5,7 @@ import FalconCardHeader from '../../common/FalconCardHeader';
 import moment from 'moment';
 import createMarkup from '../../../helpers/createMarkup';
 import { isIterableArray } from '../../../helpers/utils';
-import { getCookieValue, createCookie, checkEmpty } from '../../../helpers/utils';
+import { getCookieValue, createCookie, checkEmpty,handleApiError } from '../../../helpers/utils';
 import withRedirect from '../../../hoc/withRedirect';
 import { withTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
@@ -169,7 +169,7 @@ const AdvacnedReporting = ({ setRedirect, setRedirectUrl, t }) => {
           // hide spinner
           setSpinnerHidden(true);
         } else {
-          toast.error(t(json.description));
+          if (handleApiError(json, setRedirect, setRedirectUrl, t, toast)) {return;}
         }
       })
       .catch(err => {

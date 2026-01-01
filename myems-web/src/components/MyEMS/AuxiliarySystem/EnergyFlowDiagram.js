@@ -21,7 +21,7 @@ import ReactEchartsCore from 'echarts-for-react/lib/core';
 import * as echarts from 'echarts/lib/echarts';
 import { SankeyChart } from 'echarts/charts';
 import AppContext from '../../../context/Context';
-import { getCookieValue, createCookie, checkEmpty } from '../../../helpers/utils';
+import { getCookieValue, createCookie, checkEmpty,handleApiError } from '../../../helpers/utils';
 import withRedirect from '../../../hoc/withRedirect';
 import { withTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
@@ -175,7 +175,7 @@ const EnergyFlowDiagram = ({ setRedirect, setRedirectUrl, t }) => {
                   setExportButtonHidden(true);
                 }
               } else {
-                toast.error(t(json.description));
+                if (handleApiError(json, setRedirect, setRedirectUrl, t, toast)) {return;}
               }
             })
             .catch(err => {
@@ -183,7 +183,7 @@ const EnergyFlowDiagram = ({ setRedirect, setRedirectUrl, t }) => {
             });
           // end of get EnergyFlowDiagrams by root Space ID
         } else {
-          toast.error(t(json.description));
+          if (handleApiError(json, setRedirect, setRedirectUrl, t, toast)) {return;}
         }
       })
       .catch(err => {
@@ -234,7 +234,7 @@ const EnergyFlowDiagram = ({ setRedirect, setRedirectUrl, t }) => {
             setExportButtonHidden(true);
           }
         } else {
-          toast.error(t(json.description));
+          if (handleApiError(json, setRedirect, setRedirectUrl, t, toast)) {return;}
         }
       })
       .catch(err => {
@@ -438,7 +438,7 @@ const EnergyFlowDiagram = ({ setRedirect, setRedirectUrl, t }) => {
           // show result data
           setResultDataHidden(false);
         } else {
-          toast.error(t(json.description));
+          if (handleApiError(json, setRedirect, setRedirectUrl, t, toast)) {return;}
         }
       })
       .catch(err => {

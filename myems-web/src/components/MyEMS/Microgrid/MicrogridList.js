@@ -7,7 +7,7 @@ import classNames from 'classnames';
 import MicrogridListItem from './MicrogridListItem';
 import MicrogridFooter from './MicrogridFooter';
 import usePagination from '../../../hooks/usePagination';
-import { getCookieValue, createCookie, checkEmpty } from '../../../helpers/utils';
+import { getCookieValue, createCookie, checkEmpty,handleApiError } from '../../../helpers/utils';
 import withRedirect from '../../../hoc/withRedirect';
 import { withTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
@@ -130,7 +130,7 @@ const MicrogridList = ({ setRedirect, setRedirectUrl, t }) => {
           setIsLoading(false);
           setGeojson(geojsonData);
         } else {
-          toast.error(t(json.description));
+          if (handleApiError(json, setRedirect, setRedirectUrl, t, toast)) {return;}
         }
       })
       .catch(err => {
