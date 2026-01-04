@@ -2,8 +2,9 @@ import hashlib
 import os
 import re
 import uuid
-from datetime import datetime, timedelta, timezone
 import random
+from datetime import datetime, timedelta, timezone
+
 import falcon
 import mysql.connector
 import simplejson as json
@@ -19,6 +20,7 @@ class UserCollection:
     It provides endpoints for listing all users and creating new users.
     Users represent individuals who can access the energy management system.
     """
+
     def __init__(self):
         pass
 
@@ -42,18 +44,19 @@ class UserCollection:
         cursor = cnx.cursor()
         query = (" SELECT u.id, u.name, u.display_name, u.uuid, "
                  "        u.email, u.is_admin, u.is_read_only, p.id, p.name, "
-                 "        u.account_expiration_datetime_utc, u.password_expiration_datetime_utc, u.failed_login_count "
+                 "        u.account_expiration_datetime_utc, "
+                 "        u.password_expiration_datetime_utc, "
+                 "        u.failed_login_count "
                  " FROM tbl_users u "
                  " LEFT JOIN tbl_privileges p ON u.privilege_id = p.id "
-                )
-        params=[]
+                 )
+        params = []
         if search_query:
             query += " WHERE u.name LIKE %s OR u.email LIKE %s "
             params = [f'%{search_query}%', f'%{search_query}%']
-        query +=  " ORDER BY u.name "
+        query += " ORDER BY u.name "
 
-
-        cursor.execute(query,params)
+        cursor.execute(query, params)
         rows = cursor.fetchall()
         cursor.close()
         cnx.close()
@@ -71,17 +74,22 @@ class UserCollection:
                                "uuid": row[3],
                                "email": row[4],
                                "is_admin": True if row[5] else False,
-                               "is_read_only": (True if row[6] else False) if row[5] else None,
+                               "is_read_only": (True if row[6] else False)
+                               if row[5] else None,
                                "privilege": {
                                    "id": row[7],
-                                   "name": row[8]} if row[7] is not None else None,
+                                   "name": row[8]
+                               } if row[7] is not None else None,
                                "account_expiration_datetime":
                                    (row[9].replace(tzinfo=timezone.utc) +
-                                    timedelta(minutes=timezone_offset)).isoformat()[0:19],
+                                    timedelta(minutes=timezone_offset))
+                                   .isoformat()[0:19],
                                "password_expiration_datetime":
                                    (row[10].replace(tzinfo=timezone.utc) +
-                                    timedelta(minutes=timezone_offset)).isoformat()[0:19],
-                               "is_locked": True if row[11] >= config.maximum_failed_login_count else False}
+                                    timedelta(minutes=timezone_offset))
+                                   .isoformat()[0:19],
+                               "is_locked": True if row[11] >=
+                               config.maximum_failed_login_count else False}
                 result.append(meta_result)
 
         resp.text = json.dumps(result)
@@ -90,7 +98,6 @@ class UserCollection:
     def on_post(req, resp):
         """Handles POST requests"""
         admin_control(req)
-        # todo: add user log
         try:
             raw_json = req.stream.read().decode('utf-8')
             new_values = json.loads(raw_json)
@@ -156,7 +163,7 @@ class UserCollection:
 
         if is_admin:
             if 'is_read_only' not in new_values['data'].keys() or \
-                   not isinstance(new_values['data']['is_read_only'], bool):
+                    not isinstance(new_values['data']['is_read_only'], bool):
                 raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                        description='API.INVALID_IS_READ_ONLY_VALUE')
             is_read_only = new_values['data']['is_read_only']
@@ -174,13 +181,15 @@ class UserCollection:
         if config.utc_offset[0] == '-':
             timezone_offset = -timezone_offset
 
-        account_expiration_datetime = datetime.strptime(new_values['data']['account_expiration_datetime'],
-                                                        '%Y-%m-%dT%H:%M:%S')
+        account_expiration_datetime = datetime.strptime(
+            new_values['data']['account_expiration_datetime'],
+            '%Y-%m-%dT%H:%M:%S')
         account_expiration_datetime = account_expiration_datetime.replace(tzinfo=timezone.utc)
         account_expiration_datetime -= timedelta(minutes=timezone_offset)
 
-        password_expiration_datetime = datetime.strptime(new_values['data']['password_expiration_datetime'],
-                                                         '%Y-%m-%dT%H:%M:%S')
+        password_expiration_datetime = datetime.strptime(
+            new_values['data']['password_expiration_datetime'],
+            '%Y-%m-%dT%H:%M:%S')
         password_expiration_datetime = password_expiration_datetime.replace(tzinfo=timezone.utc)
         password_expiration_datetime -= timedelta(minutes=timezone_offset)
 
@@ -217,8 +226,10 @@ class UserCollection:
                                        description='API.PRIVILEGE_NOT_FOUND')
 
         add_row = (" INSERT INTO tbl_users "
-                   "     (name, uuid, display_name, email, salt, password, is_admin, is_read_only, privilege_id, "
-                   "      account_expiration_datetime_utc, password_expiration_datetime_utc, failed_login_count) "
+                   "     (name, uuid, display_name, email, salt, password, "
+                   "      is_admin, is_read_only, privilege_id, "
+                   "      account_expiration_datetime_utc, "
+                   "      password_expiration_datetime_utc, failed_login_count) "
                    " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) ")
 
         salt = uuid.uuid4().hex
@@ -268,7 +279,8 @@ class UserItem:
 
         query = (" SELECT u.id, u.name, u.display_name, u.uuid, "
                  "        u.email, u.is_admin, u.is_read_only, p.id, p.name, "
-                 "        u.account_expiration_datetime_utc, u.password_expiration_datetime_utc,"
+                 "        u.account_expiration_datetime_utc, "
+                 "        u.password_expiration_datetime_utc,"
                  "        u.failed_login_count "
                  " FROM tbl_users u "
                  " LEFT JOIN tbl_privileges p ON u.privilege_id = p.id "
@@ -294,7 +306,8 @@ class UserItem:
                   "is_read_only": (True if row[6] else False) if row[5] else None,
                   "privilege": {
                       "id": row[7],
-                      "name": row[8]} if row[7] is not None else None,
+                      "name": row[8]
+                  } if row[7] is not None else None,
                   "account_expiration_datetime":
                       (row[9].replace(tzinfo=timezone.utc) +
                        timedelta(minutes=timezone_offset)).isoformat()[0:19],
@@ -330,11 +343,9 @@ class UserItem:
         cnx_system_db = mysql.connector.connect(**config.myems_system_db)
         cursor_system_db = cnx_system_db.cursor()
 
-        # check if this user is being used by energy storage power stations
         cursor_system_db.execute(" DELETE FROM tbl_energy_storage_power_stations_users WHERE user_id = %s ", (id_,))
         cnx_system_db.commit()
 
-        # check if this user is being used by microgrids
         cursor_system_db.execute(" DELETE FROM tbl_microgrids_users WHERE user_id = %s ", (id_,))
         cnx_system_db.commit()
 
@@ -420,7 +431,7 @@ class UserItem:
 
         if is_admin:
             if 'is_read_only' not in new_values['data'].keys() or \
-                   not isinstance(new_values['data']['is_read_only'], bool):
+                    not isinstance(new_values['data']['is_read_only'], bool):
                 raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                        description='API.INVALID_IS_READ_ONLY_VALUE')
             is_read_only = new_values['data']['is_read_only']
@@ -438,13 +449,15 @@ class UserItem:
         if config.utc_offset[0] == '-':
             timezone_offset = -timezone_offset
 
-        account_expiration_datetime = datetime.strptime(new_values['data']['account_expiration_datetime'],
-                                                        '%Y-%m-%dT%H:%M:%S')
+        account_expiration_datetime = datetime.strptime(
+            new_values['data']['account_expiration_datetime'],
+            '%Y-%m-%dT%H:%M:%S')
         account_expiration_datetime = account_expiration_datetime.replace(tzinfo=timezone.utc)
         account_expiration_datetime -= timedelta(minutes=timezone_offset)
 
-        password_expiration_datetime = datetime.strptime(new_values['data']['password_expiration_datetime'],
-                                                         '%Y-%m-%dT%H:%M:%S')
+        password_expiration_datetime = datetime.strptime(
+            new_values['data']['password_expiration_datetime'],
+            '%Y-%m-%dT%H:%M:%S')
         password_expiration_datetime = password_expiration_datetime.replace(tzinfo=timezone.utc)
         password_expiration_datetime -= timedelta(minutes=timezone_offset)
 
@@ -511,6 +524,7 @@ class UserItem:
 
         resp.status = falcon.HTTP_200
 
+
 class UserLogin:
     def __init__(self):
         pass
@@ -563,24 +577,26 @@ class UserLogin:
                                        description='API.INVALID_ACCOUNT')
 
             email_reg = r'^[a-zA-Z0-9]+([._-][a-zA-Z0-9]+)*@[a-zA-Z0-9-]+(\.[a-zA-Z]{2,})+$'
-            # Only supports the mobile phone number format of Chinese mainland (11 digits, starting with 13-19)
             phone_reg = r'^1[3-9]\d{9}$'
 
             if re.match(email_reg, account):
                 query = (" SELECT id, name, uuid, display_name, email, salt, password, is_admin, is_read_only, "
-                         "        account_expiration_datetime_utc, password_expiration_datetime_utc, failed_login_count "
+                         "        account_expiration_datetime_utc, password_expiration_datetime_utc, "
+                         "        failed_login_count "
                          " FROM tbl_users "
                          " WHERE email = %s ")
                 cursor.execute(query, (account,))
             elif re.match(phone_reg, account):
                 query = (" SELECT id, name, uuid, display_name, email, salt, password, is_admin, is_read_only, "
-                         "        account_expiration_datetime_utc, password_expiration_datetime_utc, failed_login_count "
+                         "        account_expiration_datetime_utc, password_expiration_datetime_utc, "
+                         "        failed_login_count "
                          " FROM tbl_users "
                          " WHERE phone = %s ")
                 cursor.execute(query, (account,))
             else:
                 query = (" SELECT id, name, uuid, display_name, email, salt, password, is_admin, is_read_only, "
-                         "        account_expiration_datetime_utc, password_expiration_datetime_utc, failed_login_count "
+                         "        account_expiration_datetime_utc, password_expiration_datetime_utc, "
+                         "        failed_login_count "
                          " FROM tbl_users "
                          " WHERE name = %s ")
                 cursor.execute(query, (account,))
@@ -696,7 +712,7 @@ class UserLogin:
                                          " SET failed_login_count = 0 "
                                          " WHERE uuid = %s ")
             user_uuid = result['uuid']
-            cursor.execute(update_failed_login_count, (user_uuid, ))
+            cursor.execute(update_failed_login_count, (user_uuid,))
             cnx.commit()
 
         if result['account_expiration_datetime_utc'] <= datetime.utcnow():
@@ -859,8 +875,6 @@ class ChangePassword:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.NEW_PASSWORD_LENGTH_CANNOT_EXCEED_100_CHARACTERS')
 
-        # Verify User Session
-
         cnx = mysql.connector.connect(**config.myems_user_db)
         cursor = cnx.cursor()
         query = (" SELECT utc_expires "
@@ -894,7 +908,6 @@ class ChangePassword:
 
         result = {'salt': row[0], 'password': row[1]}
 
-        # verify old password
         salt = result['salt']
         hashed_password = hashlib.sha512(salt.encode() + old_password.encode()).hexdigest()
 
@@ -905,7 +918,6 @@ class ChangePassword:
                                    title='API.BAD_REQUEST',
                                    description='API.INVALID_OLD_PASSWORD')
 
-        # Update User password
         salt = uuid.uuid4().hex
         hashed_password = hashlib.sha512(salt.encode() + new_password.encode()).hexdigest()
 
@@ -915,12 +927,11 @@ class ChangePassword:
         cursor.execute(update_user, (salt, hashed_password, user_uuid,))
         cnx.commit()
 
-        # Refresh User session
         update_session = (" UPDATE tbl_sessions "
                           " SET utc_expires = %s "
                           " WHERE user_uuid = %s AND token = %s ")
         utc_expires = datetime.utcnow() + timedelta(seconds=1000 * 60 * 60 * 8)
-        cursor.execute(update_session, (utc_expires, user_uuid, token, ))
+        cursor.execute(update_session, (utc_expires, user_uuid, token,))
         cnx.commit()
 
         cursor.close()
@@ -995,7 +1006,6 @@ class ResetPassword:
 
         new_password = str.strip(new_values['data']['password'])
 
-        # Verify Administrator
         cnx = mysql.connector.connect(**config.myems_user_db)
         cursor = cnx.cursor()
         query = (" SELECT utc_expires "
@@ -1048,12 +1058,11 @@ class ResetPassword:
 
         user_id = row[0]
 
-        # Refresh administrator session
         update_session = (" UPDATE tbl_sessions "
                           " SET utc_expires = %s "
                           " WHERE user_uuid = %s and token = %s ")
         utc_expires = datetime.utcnow() + timedelta(seconds=1000 * 60 * 60 * 8)
-        cursor.execute(update_session, (utc_expires, admin_user_uuid, admin_token, ))
+        cursor.execute(update_session, (utc_expires, admin_user_uuid, admin_token,))
         cnx.commit()
 
         cursor.close()
@@ -1112,7 +1121,7 @@ class Unlock:
         update_user = (" UPDATE tbl_users "
                        " SET failed_login_count = 0"
                        " WHERE id = %s ")
-        cursor.execute(update_user, (id_, ))
+        cursor.execute(update_user, (id_,))
         cnx.commit()
 
         query = (" SELECT failed_login_count "
@@ -1984,7 +1993,6 @@ class NewUserItem:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.USER_NOT_FOUND')
 
-        # TODO: delete associated objects
         cursor.execute(" DELETE FROM tbl_new_users WHERE id = %s ", (id_,))
         cnx.commit()
 
@@ -2080,7 +2088,7 @@ class NewUserItem:
 
         cursor.execute(" SELECT name "
                        " FROM tbl_users "
-                       " WHERE email = %s ", (email, ))
+                       " WHERE email = %s ", (email,))
         if cursor.fetchone() is not None:
             cursor.close()
             cnx.close()
@@ -2178,13 +2186,15 @@ class NewUserApprove:
         if config.utc_offset[0] == '-':
             timezone_offset = -timezone_offset
 
-        account_expiration_datetime = datetime.strptime(new_values['data']['account_expiration_datetime'],
-                                                        '%Y-%m-%dT%H:%M:%S')
+        account_expiration_datetime = datetime.strptime(
+            new_values['data']['account_expiration_datetime'],
+            '%Y-%m-%dT%H:%M:%S')
         account_expiration_datetime = account_expiration_datetime.replace(tzinfo=timezone.utc)
         account_expiration_datetime -= timedelta(minutes=timezone_offset)
 
-        password_expiration_datetime = datetime.strptime(new_values['data']['password_expiration_datetime'],
-                                                         '%Y-%m-%dT%H:%M:%S')
+        password_expiration_datetime = datetime.strptime(
+            new_values['data']['password_expiration_datetime'],
+            '%Y-%m-%dT%H:%M:%S')
         password_expiration_datetime = password_expiration_datetime.replace(tzinfo=timezone.utc)
         password_expiration_datetime -= timedelta(minutes=timezone_offset)
 
@@ -2257,4 +2267,3 @@ class NewUserApprove:
 
         resp.status = falcon.HTTP_201
         resp.location = '/users/' + str(new_id)
-
