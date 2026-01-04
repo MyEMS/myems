@@ -6,6 +6,7 @@ app.controller('EquipmentParameterController', function(
     $window,
     $uibModal,
     $translate,
+    $timeout,
     MeterService,
     VirtualMeterService,
     OfflineMeterService,
@@ -322,12 +323,33 @@ app.controller('EquipmentParameterController', function(
             });
 	};
 
-	$scope.getAllEquipments();
-	$scope.getMergedMeters();
-	$scope.getAllPoints();
+	$scope.tabInitialized = false;
+
+	$scope.initTab = function() {
+		if (!$scope.tabInitialized) {
+			$scope.tabInitialized = true;
+			$scope.getAllEquipments();
+			$scope.getMergedMeters();
+			$scope.getAllPoints();
+		}
+	};
+
+	$scope.$on('equipment.tabSelected', function(event, tabIndex) {
+		if ($scope.$parent && $scope.$parent.TAB_INDEXES && tabIndex === $scope.$parent.TAB_INDEXES.BIND_PARAMETER && !$scope.tabInitialized) {
+			$scope.initTab();
+		}
+	});
+
+	$timeout(function() {
+		if ($scope.$parent && $scope.$parent.TAB_INDEXES && $scope.$parent.activeTabIndex === $scope.$parent.TAB_INDEXES.BIND_PARAMETER && !$scope.tabInitialized) {
+			$scope.initTab();
+		}
+	}, 0);
 
 	$scope.$on('handleBroadcastEquipmentChanged', function(event) {
-    	$scope.getAllEquipments();
+		if ($scope.tabInitialized) {
+			$scope.getAllEquipments();
+		}
   	});
 });
 

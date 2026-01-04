@@ -134,10 +134,31 @@ app.controller('MeterPointController', function (
         });
     };
 
-    $scope.getAllDataSources();
-    $scope.getAllMeters();
+    $scope.tabInitialized = false;
+
+    $scope.initTab = function() {
+        if (!$scope.tabInitialized) {
+            $scope.tabInitialized = true;
+            $scope.getAllDataSources();
+            $scope.getAllMeters();
+        }
+    };
+
+    $scope.$on('meter.tabSelected', function(event, tabIndex) {
+        if ($scope.$parent && $scope.$parent.TAB_INDEXES && tabIndex === $scope.$parent.TAB_INDEXES.BIND_POINT && !$scope.tabInitialized) {
+            $scope.initTab();
+        }
+    });
+
+    $timeout(function() {
+        if ($scope.$parent && $scope.$parent.TAB_INDEXES && $scope.$parent.activeTabIndex === $scope.$parent.TAB_INDEXES.BIND_POINT && !$scope.tabInitialized) {
+            $scope.initTab();
+        }
+    }, 0);
 
   	$scope.$on('handleBroadcastMeterChanged', function(event) {
-      $scope.getAllMeters();
+      if ($scope.tabInitialized) {
+          $scope.getAllMeters();
+      }
   	});
 });

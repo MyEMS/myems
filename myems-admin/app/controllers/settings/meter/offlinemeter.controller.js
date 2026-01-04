@@ -6,6 +6,7 @@ app.controller('OfflineMeterController', function(
 	$window,
 	$translate,
 	$uibModal,
+	$timeout,
 	OfflineMeterService,
 	CategoryService,
 	EnergyItemService,
@@ -325,10 +326,29 @@ app.controller('OfflineMeterController', function(
 	};
 
 
-	$scope.getAllOfflineMeters();
-	$scope.getAllCategories();
-	$scope.getAllEnergyItems();
-	$scope.getAllCostCenters();
+	$scope.tabInitialized = false;
+
+	$scope.initTab = function() {
+		if (!$scope.tabInitialized) {
+			$scope.tabInitialized = true;
+			$scope.getAllOfflineMeters();
+			$scope.getAllCategories();
+			$scope.getAllEnergyItems();
+			$scope.getAllCostCenters();
+		}
+	};
+
+	$scope.$on('meter.tabSelected', function(event, tabIndex) {
+		if ($scope.$parent && $scope.$parent.TAB_INDEXES && tabIndex === $scope.$parent.TAB_INDEXES.OFFLINE_METER && !$scope.tabInitialized) {
+			$scope.initTab();
+		}
+	});
+
+	$timeout(function() {
+		if ($scope.$parent && $scope.$parent.TAB_INDEXES && $scope.$parent.activeTabIndex === $scope.$parent.TAB_INDEXES.OFFLINE_METER && !$scope.tabInitialized) {
+			$scope.initTab();
+		}
+	}, 0);
 });
 
 app.controller('ModalAddOfflineMeterCtrl', function($scope, $uibModalInstance, params) {

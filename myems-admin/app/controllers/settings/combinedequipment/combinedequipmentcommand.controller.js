@@ -105,10 +105,31 @@ app.controller('CombinedEquipmentCommandController', function (
         });
     };
 
-    $scope.getAllCommands();
-    $scope.getAllCombinedEquipments();
+    $scope.tabInitialized = false;
+
+    $scope.initTab = function() {
+        if (!$scope.tabInitialized) {
+            $scope.tabInitialized = true;
+            $scope.getAllCommands();
+            $scope.getAllCombinedEquipments();
+        }
+    };
+
+    $scope.$on('combinedequipment.tabSelected', function(event, tabIndex) {
+        if ($scope.$parent && $scope.$parent.TAB_INDEXES && tabIndex === $scope.$parent.TAB_INDEXES.BIND_COMMAND && !$scope.tabInitialized) {
+            $scope.initTab();
+        }
+    });
+
+    $timeout(function() {
+        if ($scope.$parent && $scope.$parent.TAB_INDEXES && $scope.$parent.activeTabIndex === $scope.$parent.TAB_INDEXES.BIND_COMMAND && !$scope.tabInitialized) {
+            $scope.initTab();
+        }
+    }, 0);
 
   	$scope.$on('handleBroadcastCombinedEquipmentChanged', function(event) {
-      $scope.getAllCombinedEquipments();
+      if ($scope.tabInitialized) {
+          $scope.getAllCombinedEquipments();
+      }
   	});
 });
