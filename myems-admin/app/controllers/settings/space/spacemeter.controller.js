@@ -60,10 +60,10 @@ app.controller('SpaceMeterController', function(
       //space tree selected changed event handler
       angular.element(spacetreewithmeter).on("changed.jstree", function (e, data) {
           if (data.selected && data.selected.length > 0) {
-              $scope.currentSpaceID = parseInt(data.selected[0]);
+          $scope.currentSpaceID = parseInt(data.selected[0]);
               $scope.isSpaceSelected = true;
-              $scope.spacemeters=[];
-              $scope.getMetersBySpaceID($scope.currentSpaceID);
+          $scope.spacemeters=[];
+          $scope.getMetersBySpaceID($scope.currentSpaceID);
           } else {
               $scope.isSpaceSelected = false;
               $scope.spacemeters = [];
@@ -128,7 +128,7 @@ app.controller('SpaceMeterController', function(
 			if (angular.isDefined(response.status) && response.status === 200) {
 				$scope.meters = response.data;
 				$scope.currentMeterType="meters";
-				$scope.changeMeterType();
+					$scope.changeMeterType();
 			} else {
 				$scope.meters = [];
 			}
@@ -164,7 +164,7 @@ app.controller('SpaceMeterController', function(
 		if (!$scope.isSpaceSelected) {
 			toaster.pop({
 				type: "warning",
-				body: "请先选择空间",
+				body: $translate.instant("SETTING.PLEASE_SELECT_SPACE_FIRST"),
 				showCloseButton: true,
 			});
 			return;
@@ -199,11 +199,11 @@ app.controller('SpaceMeterController', function(
 		if (!$scope.isSpaceSelected) {
 			toaster.pop({
 				type: "warning",
-				body: "请先选择空间",
+				body: $translate.instant("SETTING.PLEASE_SELECT_SPACE_FIRST"),
 				showCloseButton: true,
 			});
 			return;
-		}
+        }
         var spacemeterid = angular.element('#' + dragEl).scope().spacemeter.id;
         var spaceid = angular.element(spacetreewithmeter).jstree(true).get_top_selected();
         var metertype = angular.element('#' + dragEl).scope().spacemeter.metertype;
@@ -237,6 +237,45 @@ app.controller('SpaceMeterController', function(
             $scope.getAllOfflineMeters();
         }
     };
+
+    // Listen for disabled drop events to show warning
+    // The directive will only broadcast this event when drop target is disabled
+    // So we can directly show the warning without checking isSpaceSelected again
+    $scope.$on('HJC-DROP-DISABLED', function(event) {
+        // Use $timeout to ensure we're in the right digest cycle
+        $timeout(function() {
+            try {
+                toaster.pop({
+                    type: "warning",
+                    body: $translate.instant("SETTING.PLEASE_SELECT_SPACE_FIRST"),
+                    showCloseButton: true,
+                });
+            } catch(err) {
+                // Fallback if toaster fails
+                console.error('Error showing toaster:', err);
+                alert($translate.instant("SETTING.PLEASE_SELECT_SPACE_FIRST"));
+            }
+        }, 0);
+    });
+
+    // Listen for disabled drag events to show warning
+    // The directive will broadcast this event when drag is attempted but disabled
+    $scope.$on('HJC-DRAG-DISABLED', function(event) {
+        // Use $timeout to ensure we're in the right digest cycle
+        $timeout(function() {
+            try {
+                toaster.pop({
+                    type: "warning",
+                    body: $translate.instant("SETTING.PLEASE_SELECT_SPACE_FIRST"),
+                    showCloseButton: true,
+                });
+            } catch(err) {
+                // Fallback if toaster fails
+                console.error('Error showing toaster:', err);
+                alert($translate.instant("SETTING.PLEASE_SELECT_SPACE_FIRST"));
+            }
+        }, 0);
+    });
 
     $scope.$on('space.tabSelected', function(event, tabIndex) {
         var TAB_INDEXES = ($scope.$parent && $scope.$parent.TAB_INDEXES) || { METER: 1 };
