@@ -208,9 +208,13 @@ const TenantComparison = ({ setRedirect, setRedirectUrl, t }) => {
                 if (json[0].length > 0) {
                   setSelectedTenant1(json[0][0].value);
                   setSelectedTenant2(json[0][0].value);
+                  setSubmitButtonDisabled(false);
+                  is_data1_valid = true;
+                  is_data2_valid = true;
                 } else {
                   setSelectedTenant1(undefined);
                   setSelectedTenant2(undefined);
+                  setSubmitButtonDisabled(true);
                 }
               } else {
                 toast.error(t(json.description));
@@ -307,7 +311,7 @@ const TenantComparison = ({ setRedirect, setRedirectUrl, t }) => {
           setFilteredTenantList1(json[0]);
           if (json[0].length > 0) {
             setSelectedTenant1(json[0][0].value);
-            is_data1_valid = true
+            is_data1_valid = true;
             if (is_data2_valid === true) {
               // enable submit button
               setSubmitButtonDisabled(false);
@@ -317,7 +321,7 @@ const TenantComparison = ({ setRedirect, setRedirectUrl, t }) => {
             }
           } else {
             setSelectedTenant1(undefined);
-            is_data1_valid = false
+            is_data1_valid = false;
             // disable submit button
             setSubmitButtonDisabled(true);
           }
@@ -363,7 +367,7 @@ const TenantComparison = ({ setRedirect, setRedirectUrl, t }) => {
           setFilteredTenantList2(json[0]);
           if (json[0].length > 0) {
             setSelectedTenant2(json[0][0].value);
-            is_data2_valid = true
+            is_data2_valid = true;
             if (is_data1_valid === true) {
               // enable submit button
               setSubmitButtonDisabled(false);
@@ -373,7 +377,7 @@ const TenantComparison = ({ setRedirect, setRedirectUrl, t }) => {
             }
           } else {
             setSelectedTenant2(undefined);
-            is_data2_valid = false
+            is_data2_valid = false;
             // disable submit button
             setSubmitButtonDisabled(true);
           }
@@ -392,7 +396,7 @@ const TenantComparison = ({ setRedirect, setRedirectUrl, t }) => {
     setFilteredTenantList1(keyword.length ? filteredResult : tenantList1);
     if (filteredResult.length > 0) {
       setSelectedTenant1(filteredResult[0].value);
-      is_data1_valid = true
+      is_data1_valid = true;
       if (is_data2_valid === true) {
         // enable submit button
         setSubmitButtonDisabled(false);
@@ -402,7 +406,7 @@ const TenantComparison = ({ setRedirect, setRedirectUrl, t }) => {
       }
     } else {
       setSelectedTenant1(undefined);
-      is_data1_valid = false
+      is_data1_valid = false;
       // disable submit button
       setSubmitButtonDisabled(true);
     }
@@ -416,7 +420,7 @@ const TenantComparison = ({ setRedirect, setRedirectUrl, t }) => {
     setFilteredTenantList2(keyword.length ? filteredResult : tenantList2);
     if (filteredResult.length > 0) {
       setSelectedTenant2(filteredResult[0].value);
-      is_data2_valid = true
+      is_data2_valid = true;
       if (is_data1_valid === true) {
         // enable submit button
         setSubmitButtonDisabled(false);
@@ -426,7 +430,7 @@ const TenantComparison = ({ setRedirect, setRedirectUrl, t }) => {
       }
     } else {
       setSelectedTenant2(undefined);
-      is_data2_valid = false
+      is_data2_valid = false;
       // disable submit button
       setSubmitButtonDisabled(true);
     }

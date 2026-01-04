@@ -209,9 +209,13 @@ const StoreComparison = ({ setRedirect, setRedirectUrl, t }) => {
                 if (json[0].length > 0) {
                   setSelectedStore1(json[0][0].value);
                   setSelectedStore2(json[0][0].value);
+                  setSubmitButtonDisabled(false);
+                  is_data1_valid = true;
+                  is_data2_valid = true;
                 } else {
                   setSelectedStore1(undefined);
                   setSelectedStore2(undefined);
+                  setSubmitButtonDisabled(true);
                 }
               } else {
                 toast.error(t(json.description));
@@ -308,7 +312,7 @@ const StoreComparison = ({ setRedirect, setRedirectUrl, t }) => {
           setFilteredStoreList1(json[0]);
           if (json[0].length > 0) {
             setSelectedStore1(json[0][0].value);
-            is_data1_valid = true
+            is_data1_valid = true;
             if (is_data2_valid === true) {
               // enable submit button
               setSubmitButtonDisabled(false);
@@ -318,7 +322,7 @@ const StoreComparison = ({ setRedirect, setRedirectUrl, t }) => {
             }
           } else {
             setSelectedStore1(undefined);
-            is_data1_valid = false
+            is_data1_valid = false;
             // disable submit button
             setSubmitButtonDisabled(true);
           }
@@ -364,7 +368,7 @@ const StoreComparison = ({ setRedirect, setRedirectUrl, t }) => {
           setFilteredStoreList2(json[0]);
           if (json[0].length > 0) {
             setSelectedStore2(json[0][0].value);
-            is_data2_valid = true
+            is_data2_valid = true;
             if (is_data1_valid === true) {
               // enable submit button
               setSubmitButtonDisabled(false);
@@ -374,7 +378,7 @@ const StoreComparison = ({ setRedirect, setRedirectUrl, t }) => {
             }
           } else {
             setSelectedStore2(undefined);
-            is_data2_valid = false
+            is_data2_valid = false;
             // disable submit button
             setSubmitButtonDisabled(true);
           }
@@ -393,7 +397,7 @@ const StoreComparison = ({ setRedirect, setRedirectUrl, t }) => {
     setFilteredStoreList1(keyword.length ? filteredResult : storeList1);
     if (filteredResult.length > 0) {
       setSelectedStore1(filteredResult[0].value);
-      is_data1_valid = true
+      is_data1_valid = true;
       if (is_data2_valid === true) {
         // enable submit button
         setSubmitButtonDisabled(false);
@@ -403,7 +407,7 @@ const StoreComparison = ({ setRedirect, setRedirectUrl, t }) => {
       }
     } else {
       setSelectedStore1(undefined);
-      is_data1_valid = false
+      is_data1_valid = false;
       // disable submit button
       setSubmitButtonDisabled(true);
     }
@@ -417,7 +421,7 @@ const StoreComparison = ({ setRedirect, setRedirectUrl, t }) => {
     setFilteredStoreList2(keyword.length ? filteredResult : storetList2);
     if (filteredResult.length > 0) {
       setSelectedStore2(filteredResult[0].value);
-      is_data2_valid = true
+      is_data2_valid = true;
       if (is_data1_valid === true) {
         // enable submit button
         setSubmitButtonDisabled(false);
@@ -427,7 +431,7 @@ const StoreComparison = ({ setRedirect, setRedirectUrl, t }) => {
       }
     } else {
       setSelectedStore2(undefined);
-      is_data2_valid = false
+      is_data2_valid = false;
       // disable submit button
       setSubmitButtonDisabled(true);
     }

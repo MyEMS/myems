@@ -36,8 +36,8 @@ import blankPage from '../../../assets/img/generic/blank-page.png';
 
 const DetailedDataTable = loadable(() => import('../common/DetailedDataTable'));
 
-let is_data1_valid = true;
-let is_data2_valid = true;
+let is_data1_valid = false;
+let is_data2_valid = false;
 
 const MeterComparison = ({ setRedirect, setRedirectUrl, t }) => {
   let current_moment = moment();
@@ -208,6 +208,8 @@ const MeterComparison = ({ setRedirect, setRedirectUrl, t }) => {
                   setSelectedMeter2(json[0][0].value);
                   // enable submit button
                   setSubmitButtonDisabled(false);
+                  is_data1_valid = true;
+                  is_data2_valid = true;
                 } else {
                   setSelectedMeter1(undefined);
                   setSelectedMeter2(undefined);
@@ -266,7 +268,7 @@ const MeterComparison = ({ setRedirect, setRedirectUrl, t }) => {
           setFilteredMeterList1(json[0]);
           if (json[0].length > 0) {
             setSelectedMeter1(json[0][0].value);
-            is_data1_valid = true
+            is_data1_valid = true;
             if (is_data2_valid === true) {
               // enable submit button
               setSubmitButtonDisabled(false);
@@ -276,7 +278,7 @@ const MeterComparison = ({ setRedirect, setRedirectUrl, t }) => {
             }
           } else {
             setSelectedMeter1(undefined);
-            is_data1_valid = false
+            is_data1_valid = false;
             // disable submit button
             setSubmitButtonDisabled(true);
           }
@@ -322,7 +324,7 @@ const MeterComparison = ({ setRedirect, setRedirectUrl, t }) => {
           setFilteredMeterList2(json[0]);
           if (json[0].length > 0) {
             setSelectedMeter2(json[0][0].value);
-            is_data2_valid = true
+            is_data2_valid = true;
             if (is_data1_valid === true) {
               // enable submit button
               setSubmitButtonDisabled(false);
@@ -332,7 +334,7 @@ const MeterComparison = ({ setRedirect, setRedirectUrl, t }) => {
             }
           } else {
             setSelectedMeter2(undefined);
-            is_data2_valid = false
+            is_data2_valid = false;
             // disable submit button
             setSubmitButtonDisabled(true);
           }
@@ -351,7 +353,7 @@ const MeterComparison = ({ setRedirect, setRedirectUrl, t }) => {
     setFilteredMeterList1(keyword.length ? filteredResult : meterList1);
     if (filteredResult.length > 0) {
       setSelectedMeter1(filteredResult[0].value);
-      is_data1_valid = true
+      is_data1_valid = true;
       if (is_data2_valid === true) {
         // enable submit button
         setSubmitButtonDisabled(false);
@@ -361,7 +363,7 @@ const MeterComparison = ({ setRedirect, setRedirectUrl, t }) => {
       }
     } else {
       setSelectedMeter1(undefined);
-      is_data1_valid = false
+      is_data1_valid = false;
       // disable submit button
       setSubmitButtonDisabled(true);
     }
@@ -377,7 +379,7 @@ const MeterComparison = ({ setRedirect, setRedirectUrl, t }) => {
     if (filteredResult.length > 0) {
       //setSelectedMeter1(filteredResult[0].value);
       setSelectedMeter2(filteredResult[0].value);
-      is_data2_valid = true
+      is_data2_valid = true;
       if (is_data1_valid === true) {
         // enable submit button
         setSubmitButtonDisabled(false);
@@ -388,7 +390,7 @@ const MeterComparison = ({ setRedirect, setRedirectUrl, t }) => {
     } else {
       //setSelectedMeter1(undefined);
       setSelectedMeter2(undefined);
-      is_data2_valid = false
+      is_data2_valid = false;
       // disable submit button
       setSubmitButtonDisabled(true);
     }
