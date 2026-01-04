@@ -2,8 +2,8 @@
 	<div class="row">
 		<div class="col-lg-12">
 			<div class="tabs-container">
-				<uib-tabset>
-					<uib-tab heading="{{'COMMON.COMBINED_EQUIPMENT' | translate}}">
+				<uib-tabset active="activeTabIndex">
+					<uib-tab heading="{{'COMMON.COMBINED_EQUIPMENT' | translate}}" index="0" select="handleTabSelect(0)">
 						<div class="panel-body" ng-controller="CombinedEquipmentController">
 							<div class="col-md-3">
 							   <a ng-click="addCombinedEquipment()" class="btn btn-primary btn-rounded  btn-outline"
@@ -59,7 +59,7 @@
 							</table>
 						</div>
 					</uib-tab>
-					<uib-tab heading="{{'COMBINED_EQUIPMENT.BIND_EQUIPMENT' | translate}}">
+					<uib-tab heading="{{'COMBINED_EQUIPMENT.BIND_EQUIPMENT' | translate}}" index="1" select="handleTabSelect(1)">
 						<div class="panel-body" ng-controller="CombinedEquipmentEquipmentController">
 							<div class="row">
 								<div class="col-lg-3">
@@ -130,7 +130,7 @@
 							</div>
 						</div>
 					</uib-tab>
-					<uib-tab heading="{{'SETTING.BIND_METER' | translate}}">
+					<uib-tab heading="{{'SETTING.BIND_METER' | translate}}" index="2" select="handleTabSelect(2)">
 						<div class="panel-body" ng-controller="CombinedEquipmentMeterController">
 							<div class="row">
 								<div class="col-lg-3">
@@ -217,7 +217,7 @@
 							</div>
 						</div>
 					</uib-tab>
-					<uib-tab heading="{{'SETTING.BIND_DATA_SOURCE' | translate}}">
+					<uib-tab heading="{{'SETTING.BIND_DATA_SOURCE' | translate}}" index="3" select="handleTabSelect(3)">
 						<div class="panel-body" ng-controller="CombinedEquipmentDataSourceController">
 							<div class="row">
 								<div class="col-lg-3">
@@ -292,7 +292,7 @@
 							</div>
 						</div>
 					</uib-tab>
-					<uib-tab heading="{{'COMBINED_EQUIPMENT.BIND_PARAMETER' | translate}}">
+					<uib-tab heading="{{'COMBINED_EQUIPMENT.BIND_PARAMETER' | translate}}" index="4" select="handleTabSelect(4)">
 						<div class="panel-body" ng-controller="CombinedEquipmentParameterController">
 							<div class="row">
 								<div class="col-lg-3">
@@ -398,7 +398,7 @@
 							</div>
 						</div>
 					</uib-tab>
-					<uib-tab heading="{{'SETTING.BIND_COMMAND' | translate}}">
+					<uib-tab heading="{{'SETTING.BIND_COMMAND' | translate}}" index="5" select="handleTabSelect(5)">
 						<div class="panel-body" ng-controller="CombinedEquipmentCommandController">
 							<div class="row">
 								<div class="col-lg-3">

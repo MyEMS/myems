@@ -896,6 +896,7 @@ app
                                                     'app/services/settings/combinedequipment/combinedequipmentmeter.service.js',
                                                     'app/services/settings/combinedequipment/combinedequipmentparameter.service.js',
                                                     'app/services/settings/combinedequipment/combinedequipmentdatasource.service.js',
+                                                    'app/services/settings/datasource/datasource.service.js',
                                                     'app/services/settings/combinedequipment/combinedequipmentcommand.service.js',
                                                     'app/controllers/settings/combinedequipment/combinedequipment.master.controller.js',
                                                     'app/controllers/settings/combinedequipment/combinedequipment.controller.js',

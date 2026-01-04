@@ -3,8 +3,8 @@
 		<div class="col-lg-12">
 			<div class="tabs-container">
 
-				<uib-tabset>
-					<uib-tab heading="{{'SETTING.METER' | translate}}">
+				<uib-tabset active="activeTabIndex">
+					<uib-tab heading="{{'SETTING.METER' | translate}}" index="0" select="handleTabSelect(0)">
 						<div class="panel-body" ng-controller="MeterController">
 							<div class="row mb-3">
 								<div class="col-md-3">
@@ -63,7 +63,7 @@
 						</div>
 					</uib-tab>
 
-					<uib-tab heading="{{'SETTING.BIND_POINT' | translate}}">
+					<uib-tab heading="{{'SETTING.BIND_POINT' | translate}}" index="1" select="handleTabSelect(1)">
 						<div class="panel-body" ng-controller="MeterPointController">
 							<div class="row">
 								<div class="col-lg-3">
@@ -153,7 +153,7 @@
 						</div>
 					</uib-tab>
 
-					<uib-tab heading="{{'METER.TREE_VIEW' | translate}}">
+					<uib-tab heading="{{'METER.TREE_VIEW' | translate}}" index="2" select="handleTabSelect(2)">
 						<div class="panel-body" ng-controller="MeterController">
 							<div class="row">
 								<div class="col-lg-3">
@@ -218,7 +218,7 @@
 						</div>
 					</uib-tab>
 
-					<uib-tab heading="{{'SETTING.VIRTUAL_METER' | translate}}">
+					<uib-tab heading="{{'SETTING.VIRTUAL_METER' | translate}}" index="3" select="handleTabSelect(3)">
 						<div class="panel-body" ng-controller="VirtualMeterController">
 							<div class="row mb-3">
 								<div class="col-md-3">
@@ -281,7 +281,7 @@
 						</div>
 					</uib-tab>
 
-					<uib-tab heading="{{'SETTING.OFFLINE_METER' | translate}}">
+					<uib-tab heading="{{'SETTING.OFFLINE_METER' | translate}}" index="4" select="handleTabSelect(4)">
 						<div class="panel-body" ng-controller="OfflineMeterController">
 							<div class="row mb-3">
 								<div class="col-md-3">
@@ -347,7 +347,7 @@
 						</div>
 					</uib-tab>
 
-					<uib-tab heading="{{'SETTING.OFFLINE_METER_FILE' | translate}}">
+					<uib-tab heading="{{'SETTING.OFFLINE_METER_FILE' | translate}}" index="5" select="handleTabSelect(5)">
 						<div class="panel-body" ng-controller="OfflineMeterFileController">
 							<div id="dropzone1" class="dropzone" options="dzOptions" callbacks="dzCallbacks" ng-dropzone></div>
 							<table class="footable table table-bordered table-hover" data-sort="true" data-page-size="15">
@@ -389,7 +389,7 @@
 						</div>
 					</uib-tab>
 
-					<uib-tab heading="{{'SETTING.BIND_COMMAND' | translate}}">
+					<uib-tab heading="{{'SETTING.BIND_COMMAND' | translate}}" index="6" select="handleTabSelect(6)">
 						<div class="panel-body" ng-controller="MeterCommandController">
 							<div class="row">
 								<div class="col-lg-3">
