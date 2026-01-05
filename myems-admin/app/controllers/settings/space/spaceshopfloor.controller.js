@@ -15,6 +15,7 @@ app.controller('SpaceShopfloorController', function(
     $scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
     $scope.isLoadingShopfloors = false;
     $scope.tabInitialized = false;
+    $scope.isSpaceSelected = false;
 
     $scope.getAllSpaces = function() {
     let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
@@ -45,8 +46,17 @@ app.controller('SpaceShopfloorController', function(
       angular.element(spacetreewithshopfloor).jstree(treedata);
       //space tree selected changed event handler
       angular.element(spacetreewithshopfloor).on("changed.jstree", function (e, data) {
-          $scope.currentSpaceID = parseInt(data.selected[0]);
-          $scope.getShopfloorsBySpaceID($scope.currentSpaceID);
+          if (data.selected && data.selected.length > 0) {
+              $scope.currentSpaceID = parseInt(data.selected[0]);
+              $scope.isSpaceSelected = true;
+              $scope.getShopfloorsBySpaceID($scope.currentSpaceID);
+          } else {
+              $scope.isSpaceSelected = false;
+              $scope.spaceshopfloors = [];
+          }
+          if (!$scope.$$phase && !$scope.$root.$$phase) {
+              $scope.$apply();
+          }
       });
     });
     };
@@ -178,6 +188,12 @@ app.controller('SpaceShopfloorController', function(
 
       angular.element(spacetreewithshopfloor).jstree(true).settings.core.data = treedata['core']['data'];
       angular.element(spacetreewithshopfloor).jstree(true).refresh();
+      // Reset selection state after tree refresh
+      $scope.isSpaceSelected = false;
+      $scope.spaceshopfloors = [];
+      if (!$scope.$$phase && !$scope.$root.$$phase) {
+          $scope.$apply();
+      }
     });
   };
 
@@ -185,5 +201,45 @@ app.controller('SpaceShopfloorController', function(
     $scope.spaceshopfloors = [];
     $scope.refreshSpaceTree();
 	});
+
+    // Listen for disabled drop events to show warning
+    // Only show warning if this tab is currently active
+    $scope.$on('HJC-DROP-DISABLED', function(event) {
+        var TAB_INDEXES = ($scope.$parent && $scope.$parent.TAB_INDEXES) || { SHOPFLOOR: 8 };
+        if ($scope.$parent && $scope.$parent.activeTabIndex === TAB_INDEXES.SHOPFLOOR) {
+            $timeout(function() {
+                try {
+                    toaster.pop({
+                        type: "warning",
+                        body: $translate.instant("SETTING.PLEASE_SELECT_SPACE_FIRST"),
+                        showCloseButton: true,
+                    });
+                } catch(err) {
+                    console.error('Error showing toaster:', err);
+                    alert($translate.instant("SETTING.PLEASE_SELECT_SPACE_FIRST"));
+                }
+            }, 0);
+        }
+    });
+
+    // Listen for disabled drag events to show warning
+    // Only show warning if this tab is currently active
+    $scope.$on('HJC-DRAG-DISABLED', function(event) {
+        var TAB_INDEXES = ($scope.$parent && $scope.$parent.TAB_INDEXES) || { SHOPFLOOR: 8 };
+        if ($scope.$parent && $scope.$parent.activeTabIndex === TAB_INDEXES.SHOPFLOOR) {
+            $timeout(function() {
+                try {
+                    toaster.pop({
+                        type: "warning",
+                        body: $translate.instant("SETTING.PLEASE_SELECT_SPACE_FIRST"),
+                        showCloseButton: true,
+                    });
+                } catch(err) {
+                    console.error('Error showing toaster:', err);
+                    alert($translate.instant("SETTING.PLEASE_SELECT_SPACE_FIRST"));
+                }
+            }, 0);
+        }
+    });
 
 });

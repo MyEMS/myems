@@ -239,42 +239,43 @@ app.controller('SpaceMeterController', function(
     };
 
     // Listen for disabled drop events to show warning
-    // The directive will only broadcast this event when drop target is disabled
-    // So we can directly show the warning without checking isSpaceSelected again
+    // Only show warning if this tab is currently active
     $scope.$on('HJC-DROP-DISABLED', function(event) {
-        // Use $timeout to ensure we're in the right digest cycle
-        $timeout(function() {
-            try {
-                toaster.pop({
-                    type: "warning",
-                    body: $translate.instant("SETTING.PLEASE_SELECT_SPACE_FIRST"),
-                    showCloseButton: true,
-                });
-            } catch(err) {
-                // Fallback if toaster fails
-                console.error('Error showing toaster:', err);
-                alert($translate.instant("SETTING.PLEASE_SELECT_SPACE_FIRST"));
-            }
-        }, 0);
+        var TAB_INDEXES = ($scope.$parent && $scope.$parent.TAB_INDEXES) || { METER: 1 };
+        if ($scope.$parent && $scope.$parent.activeTabIndex === TAB_INDEXES.METER) {
+            $timeout(function() {
+                try {
+                    toaster.pop({
+                        type: "warning",
+                        body: $translate.instant("SETTING.PLEASE_SELECT_SPACE_FIRST"),
+                        showCloseButton: true,
+                    });
+                } catch(err) {
+                    console.error('Error showing toaster:', err);
+                    alert($translate.instant("SETTING.PLEASE_SELECT_SPACE_FIRST"));
+                }
+            }, 0);
+        }
     });
 
     // Listen for disabled drag events to show warning
-    // The directive will broadcast this event when drag is attempted but disabled
+    // Only show warning if this tab is currently active
     $scope.$on('HJC-DRAG-DISABLED', function(event) {
-        // Use $timeout to ensure we're in the right digest cycle
-        $timeout(function() {
-            try {
-                toaster.pop({
-                    type: "warning",
-                    body: $translate.instant("SETTING.PLEASE_SELECT_SPACE_FIRST"),
-                    showCloseButton: true,
-                });
-            } catch(err) {
-                // Fallback if toaster fails
-                console.error('Error showing toaster:', err);
-                alert($translate.instant("SETTING.PLEASE_SELECT_SPACE_FIRST"));
-            }
-        }, 0);
+        var TAB_INDEXES = ($scope.$parent && $scope.$parent.TAB_INDEXES) || { METER: 1 };
+        if ($scope.$parent && $scope.$parent.activeTabIndex === TAB_INDEXES.METER) {
+            $timeout(function() {
+                try {
+                    toaster.pop({
+                        type: "warning",
+                        body: $translate.instant("SETTING.PLEASE_SELECT_SPACE_FIRST"),
+                        showCloseButton: true,
+                    });
+                } catch(err) {
+                    console.error('Error showing toaster:', err);
+                    alert($translate.instant("SETTING.PLEASE_SELECT_SPACE_FIRST"));
+                }
+            }, 0);
+        }
     });
 
     $scope.$on('space.tabSelected', function(event, tabIndex) {
