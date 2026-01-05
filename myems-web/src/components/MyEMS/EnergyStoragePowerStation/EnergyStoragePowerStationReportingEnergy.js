@@ -125,7 +125,16 @@ const EnergyStoragePowerStationReportingEnergy = ({ setRedirect, setRedirectUrl,
     { dataField: 'startdatetime', text: t('Datetime'), sort: true }
   ]);
   const [excelBytesBase64, setExcelBytesBase64] = useState(undefined);
-
+  useEffect(() => {
+    let timer = setInterval(() => {
+      let is_logged_in = getCookieValue('is_logged_in');
+      if (is_logged_in === null || !is_logged_in) {
+        setRedirectUrl(`/authentication/basic/login`);
+        setRedirect(true);
+      }
+    }, 1000);
+    return () => clearInterval(timer);
+  }, [setRedirect, setRedirectUrl]);
   useEffect(() => {
     let isResponseOK = false;
     setSpaceCascaderHidden(false);

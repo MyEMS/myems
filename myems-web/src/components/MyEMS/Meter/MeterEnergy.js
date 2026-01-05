@@ -43,6 +43,16 @@ const MeterEnergy = ({ setRedirect, setRedirectUrl, t }) => {
   const location = useLocation();
   const uuid = location.search.split('=')[1];
   useEffect(() => {
+    let timer = setInterval(() => {
+      let is_logged_in = getCookieValue('is_logged_in');
+      if (is_logged_in === null || !is_logged_in) {
+        setRedirectUrl(`/authentication/basic/login`);
+        setRedirect(true);
+      }
+    }, 1000);
+    return () => clearInterval(timer);
+  }, [setRedirect, setRedirectUrl]);
+  useEffect(() => {
     let is_logged_in = getCookieValue('is_logged_in');
     let user_name = getCookieValue('user_name');
     let user_display_name = getCookieValue('user_display_name');
