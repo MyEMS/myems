@@ -36,6 +36,9 @@ import blankPage from '../../../assets/img/generic/blank-page.png';
 
 const DetailedDataTable = loadable(() => import('../common/DetailedDataTable'));
 
+let is_data1_valid = false;
+let is_data2_valid = false;
+
 const ShopfloorComparison = ({ setRedirect, setRedirectUrl, t }) => {
   let current_moment = moment();
   useEffect(() => {
@@ -206,9 +209,13 @@ const ShopfloorComparison = ({ setRedirect, setRedirectUrl, t }) => {
                 if (json[0].length > 0) {
                   setSelectedShopfloor1(json[0][0].value);
                   setSelectedShopfloor2(json[0][0].value);
+                  setSubmitButtonDisabled(false);
+                  is_data1_valid = true;
+                  is_data2_valid = true;
                 } else {
                   setSelectedShopfloor1(undefined);
                   setSelectedShopfloor2(undefined);
+                  setSubmitButtonDisabled(true);
                 }
               } else {
                 toast.error(t(json.description));
@@ -305,10 +312,17 @@ const ShopfloorComparison = ({ setRedirect, setRedirectUrl, t }) => {
           setFilteredShopfloorList1(json[0]);
           if (json[0].length > 0) {
             setSelectedShopfloor1(json[0][0].value);
-            // enable submit button
-            setSubmitButtonDisabled(false);
+            is_data1_valid = true;
+            if (is_data2_valid === true) {
+              // enable submit button
+              setSubmitButtonDisabled(false);
+            }
+            else {
+              setSubmitButtonDisabled(true);
+            }
           } else {
             setSelectedShopfloor1(undefined);
+            is_data1_valid = false;
             // disable submit button
             setSubmitButtonDisabled(true);
           }
@@ -354,10 +368,17 @@ const ShopfloorComparison = ({ setRedirect, setRedirectUrl, t }) => {
           setFilteredShopfloorList2(json[0]);
           if (json[0].length > 0) {
             setSelectedShopfloor2(json[0][0].value);
-            // enable submit button
-            setSubmitButtonDisabled(false);
+            is_data2_valid = true;
+            if (is_data1_valid === true) {
+              // enable submit button
+              setSubmitButtonDisabled(false);
+            } 
+            else {
+              setSubmitButtonDisabled(true);
+            }
           } else {
             setSelectedShopfloor2(undefined);
+            is_data2_valid = false;
             // disable submit button
             setSubmitButtonDisabled(true);
           }
@@ -376,10 +397,17 @@ const ShopfloorComparison = ({ setRedirect, setRedirectUrl, t }) => {
     setFilteredShopfloorList1(keyword.length ? filteredResult : shopfloorList1);
     if (filteredResult.length > 0) {
       setSelectedShopfloor1(filteredResult[0].value);
-      // enable submit button
-      setSubmitButtonDisabled(false);
+      is_data1_valid = true;
+      if (is_data2_valid === true) {
+        // enable submit button
+        setSubmitButtonDisabled(false);
+      }
+      else {
+        setSubmitButtonDisabled(true);
+      }
     } else {
       setSelectedShopfloor1(undefined);
+      is_data1_valid = false;
       // disable submit button
       setSubmitButtonDisabled(true);
     }
@@ -393,10 +421,17 @@ const ShopfloorComparison = ({ setRedirect, setRedirectUrl, t }) => {
     setFilteredShopfloorList2(keyword.length ? filteredResult : shopfloorList2);
     if (filteredResult.length > 0) {
       setSelectedShopfloor2(filteredResult[0].value);
-      // enable submit button
-      setSubmitButtonDisabled(false);
+      is_data2_valid = true;
+      if (is_data1_valid === true) {
+        // enable submit button
+        setSubmitButtonDisabled(false);
+      }
+      else {
+        setSubmitButtonDisabled(true);
+      }
     } else {
       setSelectedShopfloor2(undefined);
+      is_data2_valid = false;
       // disable submit button
       setSubmitButtonDisabled(true);
     }
