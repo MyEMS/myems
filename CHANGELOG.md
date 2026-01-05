@@ -10,6 +10,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - optimized combined equipment settings in myems-admin
 - optimized equipment settings in myems-admin
 - optimized meter settings in myems-admin
+- fixed translations in myems-admin
 ### Removed
 
 ## [v5.12.0] - 2025-12-26
