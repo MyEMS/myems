@@ -2,8 +2,8 @@
 	<div class="row">
 		<div class="col-lg-12">
 			<div class="tabs-container">
-				<uib-tabset>
-					<uib-tab heading="{{'COMMON.STORE' | translate}}">
+				<uib-tabset active="activeTabIndex">
+					<uib-tab heading="{{'COMMON.STORE' | translate}}" index="0" select="handleTabSelect(0)">
 						<div class="panel-body" ng-controller="StoreController">
                                                         <div class="col-md-3">
 							<a ng-click="addStore()" class="btn btn-primary btn-rounded  btn-outline" href=""><i class="fa fa-plus-circle"></i> {{'SETTING.ADD_STORE' | translate}}</a>
@@ -59,7 +59,7 @@
 							</table>
 						</div>
 					</uib-tab>
-					<uib-tab heading="{{'SETTING.BIND_METER' | translate}}">
+					<uib-tab heading="{{'SETTING.BIND_METER' | translate}}" index="1" select="handleTabSelect(1)">
 						<div class="panel-body" ng-controller="StoreMeterController">
 							<div class="row">
 								<div class="col-lg-3">
@@ -87,14 +87,14 @@
 											{{currentStore.name}}{{'SETTING.N_S_METER' | translate}}
 										</div>
 										<div class="panel-body maxheight"
-										    x-hjc-drop-target="true"
+										    x-hjc-drop-target="{{isStoreSelected ? 'true' : 'false'}}"
 										    x-on-drop="pairMeter(dragEl,dropEl)"
 										    uib-tooltip="{{'SETTING.DRAG_TO_UNBIND' | translate}}" >
 
 											<div class="btn btn-rounded btn-block"
 											    ng-class="colorMeterType(storemeter.metertype)"
 											    ng-repeat="storemeter in storemeters"
-											    x-hjc-draggable="true"
+											    x-hjc-draggable="{{isStoreSelected ? 'true' : 'false'}}"
 											    title="{{storemeter.metertype}}">({{storemeter.energy_category.name}}){{storemeter.name}}</div>
 									</div>
 								</div>
@@ -105,7 +105,7 @@
 									<div class="panel-body trash" >
 										<img class="trashcan"
 										src="img/trashcan.png"
-										x-hjc-drop-target="true"
+										x-hjc-drop-target="{{isStoreSelected ? 'true' : 'false'}}"
 										x-on-drop="deleteMeterPair(dragEl,dropEl)">
 									</div>
 								</div>
@@ -128,7 +128,7 @@
 										</div>
 										<div class="source btn btn-primary btn-rounded btn-block"
 										ng-repeat="meter in currentmeters"
-										x-hjc-draggable="true"
+										x-hjc-draggable="{{isStoreSelected ? 'true' : 'false'}}"
 										ng-class="colorMeterType(currentMeterType)"
 										> ({{meter.energy_category.name}}){{meter.name}}</div>
 									</div>
@@ -137,7 +137,7 @@
 						</div>
 					</div>
 				  </uib-tab>
-					<uib-tab heading="{{'SETTING.BIND_POINT' | translate}}">
+					<uib-tab heading="{{'SETTING.BIND_POINT' | translate}}" index="2" select="handleTabSelect(2)">
 							<div class="panel-body" ng-controller="StorePointController">
 								<div class="row">
 									<div class="col-lg-3">
@@ -165,14 +165,14 @@
 												{{currentStore.name}}{{'SETTING.N_S_POINT' | translate}}
 											</div>
 											<div class="panel-body maxheight"
-											    x-hjc-drop-target="true"
+											    x-hjc-drop-target="{{isStoreSelected ? 'true' : 'false'}}"
 											    x-on-drop="pairPoint(dragEl,dropEl)"
 											    uib-tooltip="{{'SETTING.DRAG_TO_UNBIND' | translate}}" >
 
 												<div class="btn btn-primary btn-rounded btn-block"
 												    title="{{'COMMON.STORE' | translate}}:{{storepoint.data_source.name}}"
 												    ng-repeat="storepoint in storepoints"
-												    x-hjc-draggable="true"> {{storepoint.name}}</div>
+												    x-hjc-draggable="{{isStoreSelected ? 'true' : 'false'}}"> {{storepoint.name}}</div>
 										</div>
 									</div>
 									<div class="panel panel-danger">
@@ -182,7 +182,7 @@
 										<div class="panel-body trash" >
 											<img class="trashcan"
 											src="img/trashcan.png"
-											x-hjc-drop-target="true"
+											x-hjc-drop-target="{{isStoreSelected ? 'true' : 'false'}}"
 											x-on-drop="deletePointPair(dragEl,dropEl)">
 										</div>
 									</div>
@@ -207,14 +207,14 @@
 											<h5>{{'SETTING.POINT_LIST' | translate}}</h5>
 											<div class="source btn btn-info btn-rounded btn-block"
 											ng-repeat="point in points"
-											x-hjc-draggable="true"> {{point.name}}</div>
+											x-hjc-draggable="{{isStoreSelected ? 'true' : 'false'}}"> {{point.name}}</div>
 										</div>
 									</div>
 								</div>
 							</div>
 						</div>
 					</uib-tab>
-					<uib-tab heading="{{'SETTING.BIND_SENSOR' | translate}}">
+					<uib-tab heading="{{'SETTING.BIND_SENSOR' | translate}}" index="3" select="handleTabSelect(3)">
 							<div class="panel-body" ng-controller="StoreSensorController">
 								<div class="row">
 									<div class="col-lg-3">
@@ -242,14 +242,14 @@
 												{{currentStore.name}}{{'SETTING.N_S_SENSOR' | translate}}
 											</div>
 											<div class="panel-body"
-											    x-hjc-drop-target="true"
+											    x-hjc-drop-target="{{isStoreSelected ? 'true' : 'false'}}"
 											    x-on-drop="pairSensor(dragEl,dropEl)"
 											    uib-tooltip="{{'SETTING.DRAG_TO_UNBIND' | translate}}" >
 
 												<div class="btn btn-primary btn-rounded btn-block"
 												    title="{{'COMMON.STORE' | translate}}:{{storesensor.data_source.name}}"
 												    ng-repeat="storesensor in storesensors"
-												    x-hjc-draggable="true"> {{storesensor.name}}
+												    x-hjc-draggable="{{isStoreSelected ? 'true' : 'false'}}"> {{storesensor.name}}
 											</div>
 										</div>
 									</div>
@@ -260,7 +260,7 @@
 										<div class="panel-body trash" >
 											<img class="trashcan"
 											src="img/trashcan.png"
-											x-hjc-drop-target="true"
+											x-hjc-drop-target="{{isStoreSelected ? 'true' : 'false'}}"
 											x-on-drop="deleteSensorPair(dragEl,dropEl)">
 										</div>
 									</div>
@@ -275,7 +275,7 @@
 											<h5>{{'SETTING.SENSOR_LIST' | translate}}</h5>
 											<div class="source btn btn-info btn-rounded btn-block"
 											ng-repeat="sensor in sensors"
-											x-hjc-draggable="true"> {{sensor.name}}</div>
+											x-hjc-draggable="{{isStoreSelected ? 'true' : 'false'}}"> {{sensor.name}}</div>
 										</div>
 									</div>
 								</div>
@@ -283,7 +283,7 @@
 						</div>
 					</uib-tab>
 
-					<uib-tab heading="{{'WORKING_CALENDAR.BIND_WORKING_CALENDAR' | translate}}">
+					<uib-tab heading="{{'WORKING_CALENDAR.BIND_WORKING_CALENDAR' | translate}}" index="4" select="handleTabSelect(4)">
 						<div class="panel-body" ng-controller="StoreWorkingCalendarController">
 							<div class="row">
 								<div class="col-lg-3">
@@ -318,11 +318,11 @@
 											{{'WORKING_CALENDAR.N_S_WORKING_CALENDAR' | translate}}
 										</div>
 										<div class="panel-body maxheight"
-										    x-hjc-drop-target="true"
+										    x-hjc-drop-target="{{isStoreSelected ? 'true' : 'false'}}"
 											x-on-drop="pairWorkingCalendar(dragEl,dropEl)"
 											uib-tooltip="{{'SETTING.DRAG_TO_UNBIND' | translate}}">
 											<div class="btn btn-primary btn-rounded btn-block"
-												ng-repeat="storeworkingcalendar in storeworkingcalendars" x-hjc-draggable="true"
+												ng-repeat="storeworkingcalendar in storeworkingcalendars" x-hjc-draggable="{{isStoreSelected ? 'true' : 'false'}}"
 												title="{{storeworkingcalendar.name}}">
 												{{storeworkingcalendar.name}}</div>
 										</div>
@@ -332,7 +332,7 @@
 											{{'SETTING.TRASH' | translate}}
 										</div>
 										<div class="panel-body trash">
-											<img class="trashcan" src="img/trashcan.png" x-hjc-drop-target="true"
+											<img class="trashcan" src="img/trashcan.png" x-hjc-drop-target="{{isStoreSelected ? 'true' : 'false'}}"
 												x-on-drop="deleteWorkingCalendarPair(dragEl,dropEl)">
 										</div>
 
@@ -348,7 +348,7 @@
 										<div class="panel-body" uib-tooltip="{{'SETTING.DRAG_TO_BIND' | translate}}"
 											slim-scroll box-height="765px">
 											<div class="source btn btn-primary btn-rounded btn-block"
-												ng-repeat="workingcalendar in workingcalendars" x-hjc-draggable="true">
+												ng-repeat="workingcalendar in workingcalendars" x-hjc-draggable="{{isStoreSelected ? 'true' : 'false'}}">
 												{{workingcalendar.name}}</div>
 										</div>
 									</div>
@@ -356,7 +356,7 @@
 							</div>
 						</div>
 					</uib-tab>
-					<uib-tab heading="{{'SETTING.BIND_COMMAND' | translate}}">
+					<uib-tab heading="{{'SETTING.BIND_COMMAND' | translate}}" index="5" select="handleTabSelect(5)">
 						<div class="panel-body" ng-controller="StoreCommandController">
 							<div class="row">
 								<div class="col-lg-3">
@@ -392,11 +392,11 @@
 											{{'SETTING.N_S_COMMAND' | translate}}
 										</div>
 										<div class="panel-body maxheight"
-											x-hjc-drop-target="true"
+											x-hjc-drop-target="{{isStoreSelected ? 'true' : 'false'}}"
 											x-on-drop="pairCommand(dragEl,dropEl)"
 											uib-tooltip="{{'SETTING.DRAG_TO_UNBIND' | translate}}">
 											<div class="btn btn-primary btn-rounded btn-block"
-												ng-repeat="storecommand in storecommands" x-hjc-draggable="true"
+												ng-repeat="storecommand in storecommands" x-hjc-draggable="{{isStoreSelected ? 'true' : 'false'}}"
 												title="{{storecommand.name}}">
 												{{storecommand.name}}</div>
 										</div>
@@ -406,7 +406,7 @@
 											{{'SETTING.TRASH' | translate}}
 										</div>
 										<div class="panel-body trash">
-											<img class="trashcan" src="img/trashcan.png" x-hjc-drop-target="true"
+											<img class="trashcan" src="img/trashcan.png" x-hjc-drop-target="{{isStoreSelected ? 'true' : 'false'}}"
 												x-on-drop="deleteCommandPair(dragEl,dropEl)">
 										</div>
 
@@ -422,7 +422,7 @@
 										<div class="panel-body" uib-tooltip="{{'SETTING.DRAG_TO_BIND' | translate}}"
 											slim-scroll box-height="765px">
 											<div class="source btn btn-primary btn-rounded btn-block"
-												ng-repeat="command in commands" x-hjc-draggable="true">
+												ng-repeat="command in commands" x-hjc-draggable="{{isStoreSelected ? 'true' : 'false'}}">
 												{{command.name}}</div>
 										</div>
 									</div>

@@ -16,6 +16,7 @@ app.controller('StoreMeterController', function(
     $scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
     $scope.currentStore = { selected: undefined };
     $scope.currentMeterType = "meters";
+    $scope.isStoreSelected = false;
 
     $scope.getAllStores = function() {
         let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
@@ -32,8 +33,10 @@ app.controller('StoreMeterController', function(
         $scope.currentStore = item;
         $scope.currentStore.selected = model;
         if ($scope.currentStore && $scope.currentStore.id) {
+            $scope.isStoreSelected = true;
             $scope.getMetersByStoreID($scope.currentStore.id);
         } else {
+            $scope.isStoreSelected = false;
             $scope.storemeters = [];
             $scope.filterAvailableMeters();
         }
@@ -147,6 +150,14 @@ app.controller('StoreMeterController', function(
     };
 
     $scope.pairMeter = function(dragEl, dropEl) {
+        if (!$scope.isStoreSelected || !$scope.currentStore || !$scope.currentStore.id) {
+            toaster.pop({
+                type: "warning",
+                body: $translate.instant("SETTING.PLEASE_SELECT_STORE_FIRST"),
+                showCloseButton: true,
+            });
+            return;
+        }
         var meterid = angular.element('#' + dragEl).scope().meter.id;
         var storeid = $scope.currentStore.id;
         let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
@@ -172,6 +183,14 @@ app.controller('StoreMeterController', function(
 
     $scope.deleteMeterPair = function(dragEl, dropEl) {
         if (angular.element('#' + dragEl).hasClass('source')) {
+            return;
+        }
+        if (!$scope.isStoreSelected || !$scope.currentStore || !$scope.currentStore.id) {
+            toaster.pop({
+                type: "warning",
+                body: $translate.instant("SETTING.PLEASE_SELECT_STORE_FIRST"),
+                showCloseButton: true,
+            });
             return;
         }
         var storemeterid = angular.element('#' + dragEl).scope().storemeter.id;
@@ -205,5 +224,43 @@ app.controller('StoreMeterController', function(
 
     $scope.$on('handleBroadcastStoreChanged', function(event) {
         $scope.getAllStores();
+    });
+
+    // Listen for disabled drag/drop events to show warning
+    // Only show warning if this tab is currently active
+    $scope.$on('HJC-DRAG-DISABLED', function(event) {
+        var TAB_INDEXES = ($scope.$parent && $scope.$parent.TAB_INDEXES) || { BIND_METER: 1 };
+        if ($scope.$parent && $scope.$parent.activeTabIndex === TAB_INDEXES.BIND_METER) {
+            $timeout(function() {
+                try {
+                    toaster.pop({
+                        type: "warning",
+                        body: $translate.instant("SETTING.PLEASE_SELECT_STORE_FIRST"),
+                        showCloseButton: true,
+                    });
+                } catch(err) {
+                    console.error('Error showing toaster:', err);
+                    alert($translate.instant("SETTING.PLEASE_SELECT_STORE_FIRST"));
+                }
+            }, 0);
+        }
+    });
+
+    $scope.$on('HJC-DROP-DISABLED', function(event) {
+        var TAB_INDEXES = ($scope.$parent && $scope.$parent.TAB_INDEXES) || { BIND_METER: 1 };
+        if ($scope.$parent && $scope.$parent.activeTabIndex === TAB_INDEXES.BIND_METER) {
+            $timeout(function() {
+                try {
+                    toaster.pop({
+                        type: "warning",
+                        body: $translate.instant("SETTING.PLEASE_SELECT_STORE_FIRST"),
+                        showCloseButton: true,
+                    });
+                } catch(err) {
+                    console.error('Error showing toaster:', err);
+                    alert($translate.instant("SETTING.PLEASE_SELECT_STORE_FIRST"));
+                }
+            }, 0);
+        }
     });
 });
