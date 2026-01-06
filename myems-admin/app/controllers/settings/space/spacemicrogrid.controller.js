@@ -17,6 +17,7 @@ app.controller('SpaceMicrogridController', function(
     $scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
     $scope.isLoadingMicrogrids = false;
     $scope.tabInitialized = false;
+    $scope.isSpaceSelected = false;
 
     $scope.getAllSpaces = function() {
         let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
@@ -41,8 +42,17 @@ app.controller('SpaceMicrogridController', function(
             angular.element(spacetreewithmicrogrid).jstree(treedata);
 
             angular.element(spacetreewithmicrogrid).on("changed.jstree", function (e, data) {
-                $scope.currentSpaceID = parseInt(data.selected[0]);
-                $scope.getMicrogridsBySpaceID($scope.currentSpaceID);
+                if (data.selected && data.selected.length > 0) {
+                    $scope.currentSpaceID = parseInt(data.selected[0]);
+                    $scope.isSpaceSelected = true;
+                    $scope.getMicrogridsBySpaceID($scope.currentSpaceID);
+                } else {
+                    $scope.isSpaceSelected = false;
+                    $scope.spacemicrogrids = [];
+                }
+                if (!$scope.$$phase && !$scope.$root.$$phase) {
+                    $scope.$apply();
+                }
             });
         });
     };
@@ -146,12 +156,58 @@ app.controller('SpaceMicrogridController', function(
 
             angular.element(spacetreewithmicrogrid).jstree(true).settings.core.data = treedata['core']['data'];
             angular.element(spacetreewithmicrogrid).jstree(true).refresh();
+            // Reset selection state after tree refresh
+            $scope.isSpaceSelected = false;
+            $scope.spacemicrogrids = [];
+            if (!$scope.$$phase && !$scope.$root.$$phase) {
+                $scope.$apply();
+            }
         });
     };
 
     $scope.$on('handleBroadcastSpaceChanged', function(event) {
         $scope.spacemicrogrids = [];
         $scope.refreshSpaceTree();
+    });
+
+    // Listen for disabled drop events to show warning
+    // Only show warning if this tab is currently active
+    $scope.$on('HJC-DROP-DISABLED', function(event) {
+        var TAB_INDEXES = ($scope.$parent && $scope.$parent.TAB_INDEXES) || { MICROGRID: 15 };
+        if ($scope.$parent && $scope.$parent.activeTabIndex === TAB_INDEXES.MICROGRID) {
+            $timeout(function() {
+                try {
+                    toaster.pop({
+                        type: "warning",
+                        body: $translate.instant("SETTING.PLEASE_SELECT_SPACE_FIRST"),
+                        showCloseButton: true,
+                    });
+                } catch(err) {
+                    console.error('Error showing toaster:', err);
+                    alert($translate.instant("SETTING.PLEASE_SELECT_SPACE_FIRST"));
+                }
+            }, 0);
+        }
+    });
+
+    // Listen for disabled drag events to show warning
+    // Only show warning if this tab is currently active
+    $scope.$on('HJC-DRAG-DISABLED', function(event) {
+        var TAB_INDEXES = ($scope.$parent && $scope.$parent.TAB_INDEXES) || { MICROGRID: 15 };
+        if ($scope.$parent && $scope.$parent.activeTabIndex === TAB_INDEXES.MICROGRID) {
+            $timeout(function() {
+                try {
+                    toaster.pop({
+                        type: "warning",
+                        body: $translate.instant("SETTING.PLEASE_SELECT_SPACE_FIRST"),
+                        showCloseButton: true,
+                    });
+                } catch(err) {
+                    console.error('Error showing toaster:', err);
+                    alert($translate.instant("SETTING.PLEASE_SELECT_SPACE_FIRST"));
+                }
+            }, 0);
+        }
     });
 
     $scope.initTab = function() {
