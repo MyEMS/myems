@@ -217,12 +217,12 @@
 											{{'SPACE.N_S_EQUIPMENT' | translate}}
 										</div>
 										<div class="panel-body maxheight"
-										    x-hjc-drop-target="true"
+										    x-hjc-drop-target="{{isSpaceSelected ? 'true' : 'false'}}"
 											x-on-drop="pairEquipment(dragEl,dropEl)"
 											uib-tooltip="{{'SETTING.DRAG_TO_UNBIND' | translate}}">
 											<div class="btn btn-primary btn-rounded btn-block"
 												title="{{spaceequipment.name}}"
-												ng-repeat="spaceequipment in spaceequipments" x-hjc-draggable="true">
+												ng-repeat="spaceequipment in spaceequipments" x-hjc-draggable="{{isSpaceSelected ? 'true' : 'false'}}">
 												{{spaceequipment.name}}</div>
 										</div>
 									</div>
@@ -231,7 +231,7 @@
 											{{'SETTING.TRASH' | translate}}
 										</div>
 										<div class="panel-body trash">
-											<img class="trashcan" src="img/trashcan.png" x-hjc-drop-target="true"
+											<img class="trashcan" src="img/trashcan.png" x-hjc-drop-target="{{isSpaceSelected ? 'true' : 'false'}}"
 												x-on-drop="deleteEquipmentPair(dragEl,dropEl)">
 										</div>
 
@@ -245,7 +245,7 @@
 										<div class="panel-body" uib-tooltip="{{'SETTING.DRAG_TO_BIND' | translate}}"
 											slim-scroll box-height="760">
 											<div class="source btn btn-info btn-rounded btn-block"
-												ng-repeat="equipment in equipments" x-hjc-draggable="true">
+												ng-repeat="equipment in equipments" x-hjc-draggable="{{isSpaceSelected ? 'true' : 'false'}}">
 												{{equipment.name}}
 											</div>
 										</div>
@@ -274,12 +274,12 @@
 											{{'SPACE.N_S_COMBINED_EQUIPMENT' | translate}}
 										</div>
 										<div class="panel-body maxheight"
-										    x-hjc-drop-target="true"
+										    x-hjc-drop-target="{{isSpaceSelected ? 'true' : 'false'}}"
 											x-on-drop="pairCombinedEquipment(dragEl,dropEl)"
 											uib-tooltip="{{'SETTING.DRAG_TO_UNBIND' | translate}}">
 											<div class="btn btn-primary btn-rounded btn-block"
 												title="{{spacecombinedequipment.name}}"
-												ng-repeat="spacecombinedequipment in spacecombinedequipments" x-hjc-draggable="true">
+												ng-repeat="spacecombinedequipment in spacecombinedequipments" x-hjc-draggable="{{isSpaceSelected ? 'true' : 'false'}}">
 												{{spacecombinedequipment.name}}</div>
 										</div>
 									</div>
@@ -288,7 +288,7 @@
 											{{'SETTING.TRASH' | translate}}
 										</div>
 										<div class="panel-body trash">
-											<img class="trashcan" src="img/trashcan.png" x-hjc-drop-target="true"
+											<img class="trashcan" src="img/trashcan.png" x-hjc-drop-target="{{isSpaceSelected ? 'true' : 'false'}}"
 												x-on-drop="deleteCombinedEquipmentPair(dragEl,dropEl)">
 										</div>
 
@@ -302,7 +302,7 @@
 										<div class="panel-body" uib-tooltip="{{'SETTING.DRAG_TO_BIND' | translate}}"
 											slim-scroll box-height="765px">
 											<div class="source btn btn-info btn-rounded btn-block"
-												ng-repeat="combinedequipment in combinedequipments" x-hjc-draggable="true">
+												ng-repeat="combinedequipment in combinedequipments" x-hjc-draggable="{{isSpaceSelected ? 'true' : 'false'}}">
 												{{combinedequipment.name}}
 											</div>
 										</div>
@@ -331,12 +331,12 @@
 											{{'SETTING.N_S_POINT' | translate}}
 										</div>
 										<div class="panel-body maxheight"
-										    x-hjc-drop-target="true"
+										    x-hjc-drop-target="{{isSpaceSelected ? 'true' : 'false'}}"
 											x-on-drop="pairPoint(dragEl,dropEl)"
 											uib-tooltip="{{'SETTING.DRAG_TO_UNBIND' | translate}}">
 											<div class="btn btn-primary btn-rounded btn-block"
 												title="{{'COMMON.SPACE' | translate}}:{{spacepoint.data_source.name}}"
-												ng-repeat="spacepoint in spacepoints" x-hjc-draggable="true">
+												ng-repeat="spacepoint in spacepoints" x-hjc-draggable="{{isSpaceSelected ? 'true' : 'false'}}">
 												{{spacepoint.name}}
 											</div>
 										</div>
@@ -346,7 +346,7 @@
 											{{'SETTING.TRASH' | translate}}
 										</div>
 										<div class="panel-body trash">
-											<img class="trashcan" src="img/trashcan.png" x-hjc-drop-target="true"
+											<img class="trashcan" src="img/trashcan.png" x-hjc-drop-target="{{isSpaceSelected ? 'true' : 'false'}}"
 												x-on-drop="deletePointPair(dragEl,dropEl)">
 										</div>
 									</div>
@@ -377,7 +377,7 @@
 											</form>
 											<h5>{{'SETTING.POINT_LIST' | translate}}</h5>
 											<div class="source btn btn-info btn-rounded btn-block"
-												ng-repeat="point in points" x-hjc-draggable="true"> {{point.name}}</div>
+												ng-repeat="point in points" x-hjc-draggable="{{isSpaceSelected ? 'true' : 'false'}}"> {{point.name}}</div>
 										</div>
 									</div>
 								</div>
@@ -404,12 +404,12 @@
 											{{'SETTING.N_S_SENSOR' | translate}}
 										</div>
 										<div class="panel-body maxheight"
-										    x-hjc-drop-target="true"
+										    x-hjc-drop-target="{{isSpaceSelected ? 'true' : 'false'}}"
 											x-on-drop="pairSensor(dragEl,dropEl)"
 											uib-tooltip="{{'SETTING.DRAG_TO_UNBIND' | translate}}">
 											<div class="btn btn-primary btn-rounded btn-block"
 												title="{{'COMMON.' | translate}}:{{spacesensor.data_source.name}}"
-												ng-repeat="spacesensor in spacesensors" x-hjc-draggable="true">
+												ng-repeat="spacesensor in spacesensors" x-hjc-draggable="{{isSpaceSelected ? 'true' : 'false'}}">
 												{{spacesensor.name}}
 											</div>
 										</div>
@@ -419,7 +419,7 @@
 											{{'SETTING.TRASH' | translate}}
 										</div>
 										<div class="panel-body trash">
-											<img class="trashcan" src="img/trashcan.png" x-hjc-drop-target="true"
+											<img class="trashcan" src="img/trashcan.png" x-hjc-drop-target="{{isSpaceSelected ? 'true' : 'false'}}"
 												x-on-drop="deleteSensorPair(dragEl,dropEl)">
 										</div>
 									</div>
@@ -433,7 +433,7 @@
 											uib-tooltip="{{'SETTING.DRAG_TO_BIND' | translate}}">
 											<h5>{{'SETTING.SENSOR_LIST' | translate}}</h5>
 											<div class="source btn btn-info btn-rounded btn-block"
-												ng-repeat="sensor in sensors" x-hjc-draggable="true"> {{sensor.name}}
+												ng-repeat="sensor in sensors" x-hjc-draggable="{{isSpaceSelected ? 'true' : 'false'}}"> {{sensor.name}}
 											</div>
 										</div>
 									</div>
@@ -461,12 +461,12 @@
 											{{'SPACE.N_S_TENANT' | translate}}
 										</div>
 										<div class="panel-body maxheight"
-										    x-hjc-drop-target="true"
+										    x-hjc-drop-target="{{isSpaceSelected ? 'true' : 'false'}}"
 											x-on-drop="pairTenant(dragEl,dropEl)"
 											uib-tooltip="{{'SETTING.DRAG_TO_UNBIND' | translate}}">
 											<div class="btn btn-primary btn-rounded btn-block"
 												title="{{spacetenant.name}}" ng-repeat="spacetenant in spacetenants"
-												x-hjc-draggable="true"> {{spacetenant.name}}</div>
+												x-hjc-draggable="{{isSpaceSelected ? 'true' : 'false'}}"> {{spacetenant.name}}</div>
 										</div>
 									</div>
 									<div class="panel panel-danger">
@@ -474,7 +474,7 @@
 											{{'SETTING.TRASH' | translate}}
 										</div>
 										<div class="panel-body trash">
-											<img class="trashcan" src="img/trashcan.png" x-hjc-drop-target="true"
+											<img class="trashcan" src="img/trashcan.png" x-hjc-drop-target="{{isSpaceSelected ? 'true' : 'false'}}"
 												x-on-drop="deleteTenantPair(dragEl,dropEl)">
 										</div>
 
@@ -488,7 +488,7 @@
 										<div class="panel-body" uib-tooltip="{{'SETTING.DRAG_TO_BIND' | translate}}"
 											slim-scroll box-height="765px">
 											<div class="source btn btn-info btn-rounded btn-block"
-												ng-repeat="tenant in tenants" x-hjc-draggable="true">
+												ng-repeat="tenant in tenants" x-hjc-draggable="{{isSpaceSelected ? 'true' : 'false'}}">
 												{{tenant.name}}
 											</div>
 										</div>
@@ -517,12 +517,12 @@
 											{{'SPACE.N_S_STORE' | translate}}
 										</div>
 										<div class="panel-body maxheight"
-										    x-hjc-drop-target="true"
+										    x-hjc-drop-target="{{isSpaceSelected ? 'true' : 'false'}}"
 											x-on-drop="pairStore(dragEl,dropEl)"
 											uib-tooltip="{{'SETTING.DRAG_TO_UNBIND' | translate}}">
 											<div class="btn btn-primary btn-rounded btn-block"
 												title="{{spacestore.name}}" ng-repeat="spacestore in spacestores"
-												x-hjc-draggable="true"> {{spacestore.name}}</div>
+												x-hjc-draggable="{{isSpaceSelected ? 'true' : 'false'}}"> {{spacestore.name}}</div>
 										</div>
 									</div>
 									<div class="panel panel-danger">
@@ -530,7 +530,7 @@
 											{{'SETTING.TRASH' | translate}}
 										</div>
 										<div class="panel-body trash">
-											<img class="trashcan" src="img/trashcan.png" x-hjc-drop-target="true"
+											<img class="trashcan" src="img/trashcan.png" x-hjc-drop-target="{{isSpaceSelected ? 'true' : 'false'}}"
 												x-on-drop="deleteStorePair(dragEl,dropEl)">
 										</div>
 
@@ -544,7 +544,7 @@
 										<div class="panel-body" uib-tooltip="{{'SETTING.DRAG_TO_BIND' | translate}}"
 											slim-scroll box-height="765px">
 											<div class="source btn btn-info btn-rounded btn-block"
-												ng-repeat="store in stores" x-hjc-draggable="true">
+												ng-repeat="store in stores" x-hjc-draggable="{{isSpaceSelected ? 'true' : 'false'}}">
 												{{store.name}}
 											</div>
 										</div>
@@ -573,12 +573,12 @@
 											{{'SPACE.N_S_SHOPFLOOR' | translate}}
 										</div>
 										<div class="panel-body maxheight"
-										    x-hjc-drop-target="true"
+										    x-hjc-drop-target="{{isSpaceSelected ? 'true' : 'false'}}"
 											x-on-drop="pairShopfloor(dragEl,dropEl)"
 											uib-tooltip="{{'SETTING.DRAG_TO_UNBIND' | translate}}">
 											<div class="btn btn-primary btn-rounded btn-block"
 												title="{{spaceshopfloor.name}}" ng-repeat="spaceshopfloor in spaceshopfloors"
-												x-hjc-draggable="true"> {{spaceshopfloor.name}}</div>
+												x-hjc-draggable="{{isSpaceSelected ? 'true' : 'false'}}"> {{spaceshopfloor.name}}</div>
 										</div>
 									</div>
 									<div class="panel panel-danger">
@@ -586,7 +586,7 @@
 											{{'SETTING.TRASH' | translate}}
 										</div>
 										<div class="panel-body trash">
-											<img class="trashcan" src="img/trashcan.png" x-hjc-drop-target="true"
+											<img class="trashcan" src="img/trashcan.png" x-hjc-drop-target="{{isSpaceSelected ? 'true' : 'false'}}"
 												x-on-drop="deleteShopfloorPair(dragEl,dropEl)">
 										</div>
 
@@ -600,7 +600,7 @@
 										<div class="panel-body" uib-tooltip="{{'SETTING.DRAG_TO_BIND' | translate}}"
 											slim-scroll box-height="765px">
 											<div class="source btn btn-info btn-rounded btn-block"
-												ng-repeat="shopfloor in shopfloors" x-hjc-draggable="true">
+												ng-repeat="shopfloor in shopfloors" x-hjc-draggable="{{isSpaceSelected ? 'true' : 'false'}}">
 												{{shopfloor.name}}
 											</div>
 										</div>
@@ -630,11 +630,11 @@
 											{{'WORKING_CALENDAR.N_S_WORKING_CALENDAR' | translate}}
 										</div>
 										<div class="panel-body maxheight"
-										    x-hjc-drop-target="true"
+										    x-hjc-drop-target="{{isSpaceSelected ? 'true' : 'false'}}"
 											x-on-drop="pairWorkingCalendar(dragEl,dropEl)"
 											uib-tooltip="{{'SETTING.DRAG_TO_UNBIND' | translate}}">
 											<div class="btn btn-primary btn-rounded btn-block"
-												ng-repeat="spaceworkingcalendar in spaceworkingcalendars" x-hjc-draggable="true"
+												ng-repeat="spaceworkingcalendar in spaceworkingcalendars" x-hjc-draggable="{{isSpaceSelected ? 'true' : 'false'}}"
 												title="{{spaceworkingcalendar.name}}">
 												{{spaceworkingcalendar.name}}</div>
 										</div>
@@ -644,7 +644,7 @@
 											{{'SETTING.TRASH' | translate}}
 										</div>
 										<div class="panel-body trash">
-											<img class="trashcan" src="img/trashcan.png" x-hjc-drop-target="true"
+											<img class="trashcan" src="img/trashcan.png" x-hjc-drop-target="{{isSpaceSelected ? 'true' : 'false'}}"
 												x-on-drop="deleteWorkingCalendarPair(dragEl,dropEl)">
 										</div>
 
@@ -660,7 +660,7 @@
 										<div class="panel-body" uib-tooltip="{{'SETTING.DRAG_TO_BIND' | translate}}"
 											slim-scroll box-height="765px">
 											<div class="source btn btn-primary btn-rounded btn-block"
-												ng-repeat="workingcalendar in workingcalendars" x-hjc-draggable="true">
+												ng-repeat="workingcalendar in workingcalendars" x-hjc-draggable="{{isSpaceSelected ? 'true' : 'false'}}">
 												{{workingcalendar.name}}</div>
 										</div>
 									</div>
@@ -689,11 +689,11 @@
 											{{'SETTING.N_S_COMMAND' | translate}}
 										</div>
 										<div class="panel-body maxheight"
-										    x-hjc-drop-target="true"
+										    x-hjc-drop-target="{{isSpaceSelected ? 'true' : 'false'}}"
 											x-on-drop="pairCommand(dragEl,dropEl)"
 											uib-tooltip="{{'SETTING.DRAG_TO_UNBIND' | translate}}">
 											<div class="btn btn-primary btn-rounded btn-block"
-												ng-repeat="spacecommand in spacecommands" x-hjc-draggable="true"
+												ng-repeat="spacecommand in spacecommands" x-hjc-draggable="{{isSpaceSelected ? 'true' : 'false'}}"
 												title="{{spacecommand.name}}">
 												{{spacecommand.name}}</div>
 										</div>
@@ -703,7 +703,7 @@
 											{{'SETTING.TRASH' | translate}}
 										</div>
 										<div class="panel-body trash">
-											<img class="trashcan" src="img/trashcan.png" x-hjc-drop-target="true"
+											<img class="trashcan" src="img/trashcan.png" x-hjc-drop-target="{{isSpaceSelected ? 'true' : 'false'}}"
 												x-on-drop="deleteCommandPair(dragEl,dropEl)">
 										</div>
 
@@ -719,7 +719,7 @@
 										<div class="panel-body" uib-tooltip="{{'SETTING.DRAG_TO_BIND' | translate}}"
 											slim-scroll box-height="765px">
 											<div class="source btn btn-primary btn-rounded btn-block"
-												ng-repeat="command in commands" x-hjc-draggable="true">
+												ng-repeat="command in commands" x-hjc-draggable="{{isSpaceSelected ? 'true' : 'false'}}">
 												{{command.name}}</div>
 										</div>
 									</div>
@@ -747,12 +747,12 @@
 											{{'SPACE.N_S_ENERGY_STORAGE_POWER_STATION' | translate}}
 										</div>
 										<div class="panel-body maxheight"
-										    x-hjc-drop-target="true"
+										    x-hjc-drop-target="{{isSpaceSelected ? 'true' : 'false'}}"
 											x-on-drop="pairEnergyStoragePowerStation(dragEl,dropEl)"
 											uib-tooltip="{{'SETTING.DRAG_TO_UNBIND' | translate}}">
 											<div class="btn btn-primary btn-rounded btn-block"
 												title="{{spaceenergystoragepowerstation.name}}"
-												ng-repeat="spaceenergystoragepowerstation in spaceenergystoragepowerstations" x-hjc-draggable="true">
+												ng-repeat="spaceenergystoragepowerstation in spaceenergystoragepowerstations" x-hjc-draggable="{{isSpaceSelected ? 'true' : 'false'}}">
 												{{spaceenergystoragepowerstation.name}}</div>
 										</div>
 									</div>
@@ -761,7 +761,7 @@
 											{{'SETTING.TRASH' | translate}}
 										</div>
 										<div class="panel-body trash">
-											<img class="trashcan" src="img/trashcan.png" x-hjc-drop-target="true"
+											<img class="trashcan" src="img/trashcan.png" x-hjc-drop-target="{{isSpaceSelected ? 'true' : 'false'}}"
 												x-on-drop="deleteEnergyStoragePowerStationPair(dragEl,dropEl)">
 										</div>
 
@@ -775,7 +775,7 @@
 										<div class="panel-body" uib-tooltip="{{'SETTING.DRAG_TO_BIND' | translate}}"
 											slim-scroll box-height="760">
 											<div class="source btn btn-info btn-rounded btn-block"
-												ng-repeat="energystoragepowerstation in energystoragepowerstations" x-hjc-draggable="true">
+												ng-repeat="energystoragepowerstation in energystoragepowerstations" x-hjc-draggable="{{isSpaceSelected ? 'true' : 'false'}}">
 												{{energystoragepowerstation.name}}
 											</div>
 										</div>
@@ -804,12 +804,12 @@
 											{{'SPACE.N_S_ENERGY_FLOW_DIAGRAM' | translate}}
 										</div>
 										<div class="panel-body maxheight"
-										    x-hjc-drop-target="true"
+										    x-hjc-drop-target="{{isSpaceSelected ? 'true' : 'false'}}"
 											x-on-drop="pairEnergyFlowDiagram(dragEl,dropEl)"
 											uib-tooltip="{{'SETTING.DRAG_TO_UNBIND' | translate}}">
 											<div class="btn btn-primary btn-rounded btn-block"
 												title="{{spaceenergyflowdiagram.name}}"
-												ng-repeat="spaceenergyflowdiagram in spaceenergyflowdiagrams" x-hjc-draggable="true">
+												ng-repeat="spaceenergyflowdiagram in spaceenergyflowdiagrams" x-hjc-draggable="{{isSpaceSelected ? 'true' : 'false'}}">
 												{{spaceenergyflowdiagram.name}}</div>
 										</div>
 									</div>
@@ -818,7 +818,7 @@
 											{{'SETTING.TRASH' | translate}}
 										</div>
 										<div class="panel-body trash">
-											<img class="trashcan" src="img/trashcan.png" x-hjc-drop-target="true"
+											<img class="trashcan" src="img/trashcan.png" x-hjc-drop-target="{{isSpaceSelected ? 'true' : 'false'}}"
 												x-on-drop="deleteEnergyFlowDiagramPair(dragEl,dropEl)">
 										</div>
 
@@ -832,7 +832,7 @@
 										<div class="panel-body" uib-tooltip="{{'SETTING.DRAG_TO_BIND' | translate}}"
 											slim-scroll box-height="760">
 											<div class="source btn btn-info btn-rounded btn-block"
-												ng-repeat="energyflowdiagram in energyflowdiagrams" x-hjc-draggable="true">
+												ng-repeat="energyflowdiagram in energyflowdiagrams" x-hjc-draggable="{{isSpaceSelected ? 'true' : 'false'}}">
 												{{energyflowdiagram.name}}
 											</div>
 										</div>
@@ -861,12 +861,12 @@
 											{{'SPACE.N_S_DISTRIBUTION_SYSTEM' | translate}}
 										</div>
 										<div class="panel-body maxheight"
-										    x-hjc-drop-target="true"
+										    x-hjc-drop-target="{{isSpaceSelected ? 'true' : 'false'}}"
 											x-on-drop="pairDistributionSystem(dragEl,dropEl)"
 											uib-tooltip="{{'SETTING.DRAG_TO_UNBIND' | translate}}">
 											<div class="btn btn-primary btn-rounded btn-block"
 												title="{{spacedistributionsystem.name}}"
-												ng-repeat="spacedistributionsystem in spacedistributionsystems" x-hjc-draggable="true">
+												ng-repeat="spacedistributionsystem in spacedistributionsystems" x-hjc-draggable="{{isSpaceSelected ? 'true' : 'false'}}">
 												{{spacedistributionsystem.name}}</div>
 										</div>
 									</div>
@@ -875,7 +875,7 @@
 											{{'SETTING.TRASH' | translate}}
 										</div>
 										<div class="panel-body trash">
-											<img class="trashcan" src="img/trashcan.png" x-hjc-drop-target="true"
+											<img class="trashcan" src="img/trashcan.png" x-hjc-drop-target="{{isSpaceSelected ? 'true' : 'false'}}"
 												x-on-drop="deleteDistributionSystemPair(dragEl,dropEl)">
 										</div>
 
@@ -889,7 +889,7 @@
 										<div class="panel-body" uib-tooltip="{{'SETTING.DRAG_TO_BIND' | translate}}"
 											slim-scroll box-height="760">
 											<div class="source btn btn-info btn-rounded btn-block"
-												ng-repeat="distributionsystem in distributionsystems" x-hjc-draggable="true">
+												ng-repeat="distributionsystem in distributionsystems" x-hjc-draggable="{{isSpaceSelected ? 'true' : 'false'}}">
 												{{distributionsystem.name}}
 											</div>
 										</div>
@@ -919,12 +919,12 @@
 										{{'SPACE.N_S_PHOTOVOLTAIC_POWER_STATION' | translate}}
 									</div>
 									<div class="panel-body maxheight"
-										x-hjc-drop-target="true"
+										x-hjc-drop-target="{{isSpaceSelected ? 'true' : 'false'}}"
 										x-on-drop="pairPhotovoltaicPowerStation(dragEl,dropEl)"
 										uib-tooltip="{{'SETTING.DRAG_TO_UNBIND' | translate}}">
 										<div class="btn btn-primary btn-rounded btn-block"
 										title="{{spacephotovoltaicpowerstation.name}}"
-										ng-repeat="spacephotovoltaicpowerstation in spacephotovoltaicpowerstations" x-hjc-draggable="true">
+										ng-repeat="spacephotovoltaicpowerstation in spacephotovoltaicpowerstations" x-hjc-draggable="{{isSpaceSelected ? 'true' : 'false'}}">
 										{{spacephotovoltaicpowerstation.name}}
 										</div>
 									</div>
@@ -935,7 +935,7 @@
 										{{'SETTING.TRASH' | translate}}
 									</div>
 									<div class="panel-body trash">
-										<img class="trashcan" src="img/trashcan.png" x-hjc-drop-target="true"
+										<img class="trashcan" src="img/trashcan.png" x-hjc-drop-target="{{isSpaceSelected ? 'true' : 'false'}}"
 										x-on-drop="deletePhotovoltaicPowerStationPair(dragEl,dropEl)">
 									</div>
 									</div>
@@ -947,7 +947,7 @@
 									<div class="panel-body" uib-tooltip="{{'SETTING.DRAG_TO_BIND' | translate}}"
 										slim-scroll box-height="760">
 										<div class="source btn btn-info btn-rounded btn-block"
-										ng-repeat="photovoltaicpowerstation in photovoltaicpowerstations" x-hjc-draggable="true">
+										ng-repeat="photovoltaicpowerstation in photovoltaicpowerstations" x-hjc-draggable="{{isSpaceSelected ? 'true' : 'false'}}">
 										{{photovoltaicpowerstation.name}}
 										</div>
 									</div>
@@ -977,13 +977,13 @@
 										{{'SPACE.N_S_MICROGRID' | translate}}
 									</div>
 									<div class="panel-body maxheight"
-										x-hjc-drop-target="true"
+										x-hjc-drop-target="{{isSpaceSelected ? 'true' : 'false'}}"
 										x-on-drop="pairMicrogrid(dragEl,dropEl)"
 										uib-tooltip="{{'SETTING.DRAG_TO_UNBIND' | translate}}">
 										<div class="btn btn-primary btn-rounded btn-block"
 											title="{{spacemicrogrid.name}}"
 											ng-repeat="spacemicrogrid in spacemicrogrids"
-											x-hjc-draggable="true">
+											x-hjc-draggable="{{isSpaceSelected ? 'true' : 'false'}}">
 										{{spacemicrogrid.name}}
 										</div>
 									</div>
@@ -994,7 +994,7 @@
 									</div>
 									<div class="panel-body trash">
 										<img class="trashcan" src="img/trashcan.png"
-											x-hjc-drop-target="true"
+											x-hjc-drop-target="{{isSpaceSelected ? 'true' : 'false'}}"
 											x-on-drop="deleteMicrogridPair(dragEl,dropEl)">
 									</div>
 									</div>
@@ -1009,7 +1009,7 @@
 									<div class="panel-body" uib-tooltip="{{'SETTING.DRAG_TO_BIND' | translate}}" slim-scroll box-height="760">
 										<div class="source btn btn-info btn-rounded btn-block"
 											ng-repeat="microgrid in microgrids"
-											x-hjc-draggable="true">
+											x-hjc-draggable="{{isSpaceSelected ? 'true' : 'false'}}">
 										{{microgrid.name}}
 										</div>
 									</div>
