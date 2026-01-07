@@ -204,25 +204,12 @@ app.controller('SpaceDistributionSystemController', function(
     $scope.refreshSpaceTree();
 	});
 
-    // Listen for disabled drop events to show warning
-    // Only show warning if this tab is currently active
-    $scope.$on('HJC-DROP-DISABLED', function(event) {
-        DragDropWarningService.showWarningIfActive(
-            $scope,
-            'DISTRIBUTION_SYSTEM',
-            'SETTING.PLEASE_SELECT_SPACE_FIRST',
-            { DISTRIBUTION_SYSTEM: 13 }
-        );
-    });
-
-    // Listen for disabled drag events to show warning
-    // Only show warning if this tab is currently active
-    $scope.$on('HJC-DRAG-DISABLED', function(event) {
-        DragDropWarningService.showWarningIfActive(
-            $scope,
-            'DISTRIBUTION_SYSTEM',
-            'SETTING.PLEASE_SELECT_SPACE_FIRST',
-            { DISTRIBUTION_SYSTEM: 13 }
-        );
-    });
+    // Register drag and drop warning event listeners
+    // Use registerTabWarnings to avoid code duplication
+    DragDropWarningService.registerTabWarnings(
+        $scope,
+        'DISTRIBUTION_SYSTEM',
+        'SETTING.PLEASE_SELECT_SPACE_FIRST',
+        { DISTRIBUTION_SYSTEM: 13 }
+    );
 });

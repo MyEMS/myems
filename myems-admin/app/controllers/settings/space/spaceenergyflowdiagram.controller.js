@@ -204,25 +204,12 @@ app.controller('SpaceEnergyFlowDiagramController', function(
     $scope.refreshSpaceTree();
 	});
 
-    // Listen for disabled drop events to show warning
-    // Only show warning if this tab is currently active
-    $scope.$on('HJC-DROP-DISABLED', function(event) {
-        DragDropWarningService.showWarningIfActive(
-            $scope,
-            'ENERGY_FLOW_DIAGRAM',
-            'SETTING.PLEASE_SELECT_SPACE_FIRST',
-            { ENERGY_FLOW_DIAGRAM: 12 }
-        );
-    });
-
-    // Listen for disabled drag events to show warning
-    // Only show warning if this tab is currently active
-    $scope.$on('HJC-DRAG-DISABLED', function(event) {
-        DragDropWarningService.showWarningIfActive(
-            $scope,
-            'ENERGY_FLOW_DIAGRAM',
-            'SETTING.PLEASE_SELECT_SPACE_FIRST',
-            { ENERGY_FLOW_DIAGRAM: 12 }
-        );
-    });
+    // Register drag and drop warning event listeners
+    // Use registerTabWarnings to avoid code duplication
+    DragDropWarningService.registerTabWarnings(
+        $scope,
+        'ENERGY_FLOW_DIAGRAM',
+        'SETTING.PLEASE_SELECT_SPACE_FIRST',
+        { ENERGY_FLOW_DIAGRAM: 12 }
+    );
 });

@@ -124,23 +124,12 @@ app.controller('TenantSensorController', function (
       $scope.getAllTenants();
   	});
 
-    // Listen for disabled drag/drop events to show warning
-    // Only show warning if this tab is currently active
-    $scope.$on('HJC-DRAG-DISABLED', function(event) {
-        DragDropWarningService.showWarningIfActive(
-            $scope,
-            'BIND_SENSOR',
-            'SETTING.PLEASE_SELECT_TENANT_FIRST',
-            { BIND_SENSOR: 4 }
-        );
-    });
-
-    $scope.$on('HJC-DROP-DISABLED', function(event) {
-        DragDropWarningService.showWarningIfActive(
-            $scope,
-            'BIND_SENSOR',
-            'SETTING.PLEASE_SELECT_TENANT_FIRST',
-            { BIND_SENSOR: 4 }
-        );
-    });
+    // Register drag and drop warning event listeners
+    // Use registerTabWarnings to avoid code duplication
+    DragDropWarningService.registerTabWarnings(
+        $scope,
+        'BIND_SENSOR',
+        'SETTING.PLEASE_SELECT_TENANT_FIRST',
+        { BIND_SENSOR: 4 }
+    );
 });

@@ -204,25 +204,12 @@ app.controller('SpaceEnergyStoragePowerStationController', function(
     $scope.refreshSpaceTree();
 	});
 
-    // Listen for disabled drop events to show warning
-    // Only show warning if this tab is currently active
-    $scope.$on('HJC-DROP-DISABLED', function(event) {
-        DragDropWarningService.showWarningIfActive(
-            $scope,
-            'ENERGY_STORAGE_POWER_STATION',
-            'SETTING.PLEASE_SELECT_SPACE_FIRST',
-            { ENERGY_STORAGE_POWER_STATION: 11 }
-        );
-    });
-
-    // Listen for disabled drag events to show warning
-    // Only show warning if this tab is currently active
-    $scope.$on('HJC-DRAG-DISABLED', function(event) {
-        DragDropWarningService.showWarningIfActive(
-            $scope,
-            'ENERGY_STORAGE_POWER_STATION',
-            'SETTING.PLEASE_SELECT_SPACE_FIRST',
-            { ENERGY_STORAGE_POWER_STATION: 11 }
-        );
-    });
+    // Register drag and drop warning event listeners
+    // Use registerTabWarnings to avoid code duplication
+    DragDropWarningService.registerTabWarnings(
+        $scope,
+        'ENERGY_STORAGE_POWER_STATION',
+        'SETTING.PLEASE_SELECT_SPACE_FIRST',
+        { ENERGY_STORAGE_POWER_STATION: 11 }
+    );
 });

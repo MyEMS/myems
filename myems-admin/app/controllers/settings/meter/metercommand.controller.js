@@ -148,23 +148,12 @@ app.controller('MeterCommandController', function (
       }
   	});
 
-    // Listen for disabled drag/drop events to show warning
-    // Only show warning if this tab is currently active
-    $scope.$on('HJC-DRAG-DISABLED', function(event) {
-        DragDropWarningService.showWarningIfActive(
-            $scope,
-            'BIND_COMMAND',
-            'SETTING.PLEASE_SELECT_METER_FIRST',
-            { BIND_COMMAND: 6 }
-        );
-    });
-
-    $scope.$on('HJC-DROP-DISABLED', function(event) {
-        DragDropWarningService.showWarningIfActive(
-            $scope,
-            'BIND_COMMAND',
-            'SETTING.PLEASE_SELECT_METER_FIRST',
-            { BIND_COMMAND: 6 }
-        );
-    });
+    // Register drag and drop warning event listeners
+    // Use registerTabWarnings to avoid code duplication
+    DragDropWarningService.registerTabWarnings(
+        $scope,
+        'BIND_COMMAND',
+        'SETTING.PLEASE_SELECT_METER_FIRST',
+        { BIND_COMMAND: 6 }
+    );
 });

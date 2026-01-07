@@ -131,24 +131,13 @@ app.controller('ShopfloorEquipmentController', function (
         $scope.getAllShopfloors();
     });
 
-    // Listen for disabled drag/drop events to show warning
-    // Only show warning if this tab is currently active
-    $scope.$on('HJC-DRAG-DISABLED', function(event) {
-        DragDropWarningService.showWarningIfActive(
-            $scope,
-            'BIND_EQUIPMENT',
-            'SETTING.PLEASE_SELECT_SHOPFLOOR_FIRST',
-            { BIND_EQUIPMENT: 2 }
-        );
-    });
-
-    $scope.$on('HJC-DROP-DISABLED', function(event) {
-        DragDropWarningService.showWarningIfActive(
-            $scope,
-            'BIND_EQUIPMENT',
-            'SETTING.PLEASE_SELECT_SHOPFLOOR_FIRST',
-            { BIND_EQUIPMENT: 2 }
-        );
-    });
+    // Register drag and drop warning event listeners
+    // Use registerTabWarnings to avoid code duplication
+    DragDropWarningService.registerTabWarnings(
+        $scope,
+        'BIND_EQUIPMENT',
+        'SETTING.PLEASE_SELECT_SHOPFLOOR_FIRST',
+        { BIND_EQUIPMENT: 2 }
+    );
 
 });

@@ -231,27 +231,14 @@ app.controller('SpaceMeterController', function(
         }
     };
 
-    // Listen for disabled drop events to show warning
-    // Only show warning if this tab is currently active
-    $scope.$on('HJC-DROP-DISABLED', function(event) {
-        DragDropWarningService.showWarningIfActive(
-            $scope,
-            'METER',
-            'SETTING.PLEASE_SELECT_SPACE_FIRST',
-            { METER: 1 }
-        );
-    });
-
-    // Listen for disabled drag events to show warning
-    // Only show warning if this tab is currently active
-    $scope.$on('HJC-DRAG-DISABLED', function(event) {
-        DragDropWarningService.showWarningIfActive(
-            $scope,
-            'METER',
-            'SETTING.PLEASE_SELECT_SPACE_FIRST',
-            { METER: 1 }
-        );
-    });
+    // Register drag and drop warning event listeners
+    // Use registerTabWarnings to avoid code duplication
+    DragDropWarningService.registerTabWarnings(
+        $scope,
+        'METER',
+        'SETTING.PLEASE_SELECT_SPACE_FIRST',
+        { METER: 1 }
+    );
 
     $scope.$on('space.tabSelected', function(event, tabIndex) {
         var TAB_INDEXES = ($scope.$parent && $scope.$parent.TAB_INDEXES) || { METER: 1 };

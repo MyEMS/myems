@@ -87,5 +87,29 @@ app.service('DragDropWarningService', function($timeout, $translate, toaster) {
             }
         }, 0);
     };
+    
+    /**
+     * Register drag and drop warning event listeners for a tab
+     * This method encapsulates the common pattern of listening to HJC-DRAG-DISABLED 
+     * and HJC-DROP-DISABLED events, reducing code duplication across controllers.
+     * 
+     * @param {Object} scope - The controller scope
+     * @param {String} tabIndexKey - The tab index key from TAB_INDEXES (e.g., 'BIND_METER')
+     * @param {String} messageKey - Translation key for the warning message (e.g., 'SETTING.PLEASE_SELECT_TENANT_FIRST')
+     * @param {Object} fallbackTabIndexes - Fallback TAB_INDEXES object if $scope.$parent.TAB_INDEXES is not available
+     */
+    this.registerTabWarnings = function(scope, tabIndexKey, messageKey, fallbackTabIndexes) {
+        var self = this;
+        
+        // Register HJC-DRAG-DISABLED event listener
+        scope.$on('HJC-DRAG-DISABLED', function(event) {
+            self.showWarningIfActive(scope, tabIndexKey, messageKey, fallbackTabIndexes);
+        });
+        
+        // Register HJC-DROP-DISABLED event listener
+        scope.$on('HJC-DROP-DISABLED', function(event) {
+            self.showWarningIfActive(scope, tabIndexKey, messageKey, fallbackTabIndexes);
+        });
+    };
 });
 
