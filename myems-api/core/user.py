@@ -7,8 +7,49 @@ import random
 import falcon
 import mysql.connector
 import simplejson as json
+import redis
 from core.useractivity import user_logger, write_log, admin_control
 import config
+
+
+def clear_user_cache(user_id=None):
+    """
+    Clear user-related cache after data modification
+
+    Args:
+        user_id: User ID (optional, for specific user cache)
+    """
+    # Check if Redis is enabled
+    if not config.redis.get('is_enabled', False):
+        return
+
+    redis_client = None
+    try:
+        redis_client = redis.Redis(
+            host=config.redis['host'],
+            port=config.redis['port'],
+            password=config.redis['password'] if config.redis['password'] else None,
+            db=config.redis['db'],
+            decode_responses=True,
+            socket_connect_timeout=2,
+            socket_timeout=2
+        )
+        redis_client.ping()
+
+        # Clear all user list cache (including all search queries)
+        list_cache_key_pattern = 'user:list:*'
+        matching_keys = redis_client.keys(list_cache_key_pattern)
+        if matching_keys:
+            redis_client.delete(*matching_keys)
+
+        # Clear specific user item cache if user_id is provided
+        if user_id:
+            item_cache_key = f'user:item:{user_id}'
+            redis_client.delete(item_cache_key)
+
+    except Exception:
+        # If cache clear fails, ignore and continue
+        pass
 
 
 class UserCollection:
@@ -38,6 +79,33 @@ class UserCollection:
         else:
             search_query = ''
 
+        # Redis cache key (include search_query in key)
+        cache_key = f'user:list:{search_query}'
+        cache_expire = 28800  # 8 hours in seconds (long-term cache)
+
+        # Try to get from Redis cache (only if Redis is enabled)
+        redis_client = None
+        if config.redis.get('is_enabled', False):
+            try:
+                redis_client = redis.Redis(
+                    host=config.redis['host'],
+                    port=config.redis['port'],
+                    password=config.redis['password'] if config.redis['password'] else None,
+                    db=config.redis['db'],
+                    decode_responses=True,
+                    socket_connect_timeout=2,
+                    socket_timeout=2
+                )
+                redis_client.ping()
+                cached_result = redis_client.get(cache_key)
+                if cached_result:
+                    resp.text = cached_result
+                    return
+            except Exception:
+                # If Redis connection fails, continue to database query
+                pass
+
+        # Cache miss or Redis error - query database
         cnx = mysql.connector.connect(**config.myems_user_db)
         cursor = cnx.cursor()
         query = (" SELECT u.id, u.name, u.display_name, u.uuid, "
@@ -84,7 +152,16 @@ class UserCollection:
                                "is_locked": True if row[11] >= config.maximum_failed_login_count else False}
                 result.append(meta_result)
 
-        resp.text = json.dumps(result)
+        # Store result in Redis cache
+        result_json = json.dumps(result)
+        if redis_client:
+            try:
+                redis_client.setex(cache_key, cache_expire, result_json)
+            except Exception:
+                # If cache set fails, ignore and continue
+                pass
+
+        resp.text = result_json
 
     @staticmethod
     def on_post(req, resp):
@@ -242,6 +319,9 @@ class UserCollection:
         cursor.close()
         cnx.close()
 
+        # Clear cache after creating new user
+        clear_user_cache()
+
         resp.status = falcon.HTTP_201
         resp.location = '/users/' + str(new_id)
 
@@ -263,6 +343,33 @@ class UserItem:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_USER_ID')
 
+        # Redis cache key
+        cache_key = f'user:item:{id_}'
+        cache_expire = 28800  # 8 hours in seconds (long-term cache)
+
+        # Try to get from Redis cache (only if Redis is enabled)
+        redis_client = None
+        if config.redis.get('is_enabled', False):
+            try:
+                redis_client = redis.Redis(
+                    host=config.redis['host'],
+                    port=config.redis['port'],
+                    password=config.redis['password'] if config.redis['password'] else None,
+                    db=config.redis['db'],
+                    decode_responses=True,
+                    socket_connect_timeout=2,
+                    socket_timeout=2
+                )
+                redis_client.ping()
+                cached_result = redis_client.get(cache_key)
+                if cached_result:
+                    resp.text = cached_result
+                    return
+            except Exception:
+                # If Redis connection fails, continue to database query
+                pass
+
+        # Cache miss or Redis error - query database
         cnx = mysql.connector.connect(**config.myems_user_db)
         cursor = cnx.cursor()
 
@@ -302,7 +409,17 @@ class UserItem:
                       (row[10].replace(tzinfo=timezone.utc) +
                        timedelta(minutes=timezone_offset)).isoformat()[0:19],
                   "is_locked": True if row[11] >= config.maximum_failed_login_count else False}
-        resp.text = json.dumps(result)
+
+        # Store result in Redis cache
+        result_json = json.dumps(result)
+        if redis_client:
+            try:
+                redis_client.setex(cache_key, cache_expire, result_json)
+            except Exception:
+                # If cache set fails, ignore and continue
+                pass
+
+        resp.text = result_json
 
     @staticmethod
     @user_logger
@@ -354,6 +471,10 @@ class UserItem:
         cnx_user_db.close()
         cursor_system_db.close()
         cnx_system_db.close()
+
+        # Clear cache after deleting user
+        clear_user_cache(user_id=int(id_))
+
         resp.status = falcon.HTTP_204
 
     @staticmethod
@@ -508,6 +629,9 @@ class UserItem:
 
         cursor.close()
         cnx.close()
+
+        # Clear cache after updating user
+        clear_user_cache(user_id=int(id_))
 
         resp.status = falcon.HTTP_200
 
@@ -1084,6 +1208,10 @@ class Unlock:
 
         cursor.close()
         cnx.close()
+
+        # Clear cache after unlocking user (failed_login_count affects is_locked)
+        clear_user_cache(user_id=int(id_))
+
         resp.text = json.dumps("OK")
         resp.status = falcon.HTTP_200
         write_log(user_uuid=admin_user_uuid, request_method='PUT', resource_type='UnlockUser',

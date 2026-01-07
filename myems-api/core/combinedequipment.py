@@ -3,8 +3,68 @@ from datetime import datetime, timedelta
 import falcon
 import mysql.connector
 import simplejson as json
+import redis
 from core.useractivity import user_logger, admin_control, access_control, api_key_control
 import config
+
+
+def clear_combined_equipment_cache(combined_equipment_id=None):
+    """
+    Clear combined equipment-related cache after data modification
+
+    Args:
+        combined_equipment_id: Combined equipment ID (optional, for specific equipment cache)
+    """
+    # Check if Redis is enabled
+    if not config.redis.get('is_enabled', False):
+        return
+
+    redis_client = None
+    try:
+        redis_client = redis.Redis(
+            host=config.redis['host'],
+            port=config.redis['port'],
+            password=config.redis['password'] if config.redis['password'] else None,
+            db=config.redis['db'],
+            decode_responses=True,
+            socket_connect_timeout=2,
+            socket_timeout=2
+        )
+        redis_client.ping()
+
+        # Clear combined equipment list cache (all search query variations)
+        list_cache_key_pattern = 'combinedequipment:list:*'
+        matching_keys = redis_client.keys(list_cache_key_pattern)
+        if matching_keys:
+            redis_client.delete(*matching_keys)
+
+        # Clear specific combined equipment item cache if combined_equipment_id is provided
+        if combined_equipment_id:
+            item_cache_key = f'combinedequipment:item:{combined_equipment_id}'
+            redis_client.delete(item_cache_key)
+
+            # Clear all related caches for this combined equipment
+            patterns = [
+                f'combinedequipment:equipments:{combined_equipment_id}',
+                f'combinedequipment:parameters:{combined_equipment_id}',
+                f'combinedequipment:parameter:*:{combined_equipment_id}',
+                f'combinedequipment:datasources:{combined_equipment_id}',
+                f'combinedequipment:datasourcepoints:{combined_equipment_id}',
+                f'combinedequipment:meters:{combined_equipment_id}',
+                f'combinedequipment:offlinemeters:{combined_equipment_id}',
+                f'combinedequipment:virtualmeters:{combined_equipment_id}',
+                f'combinedequipment:commands:{combined_equipment_id}',
+                f'combinedequipment:export:{combined_equipment_id}',
+            ]
+            for pattern in patterns:
+                # Use keys() to find matching keys, then delete them
+                matching_keys = redis_client.keys(pattern)
+                if matching_keys:
+                    redis_client.delete(*matching_keys)
+
+    except Exception:
+        # If cache clear fails, ignore and continue
+        pass
 
 
 class CombinedEquipmentCollection:
@@ -63,6 +123,33 @@ class CombinedEquipmentCollection:
         else:
             search_query = ''
 
+        # Redis cache key
+        cache_key = f'combinedequipment:list:{search_query}'
+        cache_expire = 28800  # 8 hours in seconds (long-term cache)
+
+        # Try to get from Redis cache (only if Redis is enabled)
+        redis_client = None
+        if config.redis.get('is_enabled', False):
+            try:
+                redis_client = redis.Redis(
+                    host=config.redis['host'],
+                    port=config.redis['port'],
+                    password=config.redis['password'] if config.redis['password'] else None,
+                    db=config.redis['db'],
+                    decode_responses=True,
+                    socket_connect_timeout=2,
+                    socket_timeout=2
+                )
+                redis_client.ping()
+                cached_result = redis_client.get(cache_key)
+                if cached_result:
+                    resp.text = cached_result
+                    return
+            except Exception:
+                # If Redis connection fails, continue to database query
+                pass
+
+        # Cache miss or Redis error - query database
         # Connect to database and retrieve cost centers
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()
@@ -126,7 +213,17 @@ class CombinedEquipmentCollection:
 
         cursor.close()
         cnx.close()
-        resp.text = json.dumps(result)
+
+        # Store result in Redis cache
+        result_json = json.dumps(result)
+        if redis_client:
+            try:
+                redis_client.setex(cache_key, cache_expire, result_json)
+            except Exception:
+                # If cache set fails, ignore and continue
+                pass
+
+        resp.text = result_json
 
     @staticmethod
     @user_logger
@@ -248,6 +345,9 @@ class CombinedEquipmentCollection:
         cursor.close()
         cnx.close()
 
+        # Clear cache after creating new combined equipment
+        clear_combined_equipment_cache()
+
         resp.status = falcon.HTTP_201
         resp.location = '/combinedequipments/' + str(new_id)
 
@@ -274,6 +374,33 @@ class CombinedEquipmentItem:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_COMBINED_EQUIPMENT_ID')
 
+        # Redis cache key
+        cache_key = f'combinedequipment:item:{id_}'
+        cache_expire = 28800  # 8 hours in seconds (long-term cache)
+
+        # Try to get from Redis cache (only if Redis is enabled)
+        redis_client = None
+        if config.redis.get('is_enabled', False):
+            try:
+                redis_client = redis.Redis(
+                    host=config.redis['host'],
+                    port=config.redis['port'],
+                    password=config.redis['password'] if config.redis['password'] else None,
+                    db=config.redis['db'],
+                    decode_responses=True,
+                    socket_connect_timeout=2,
+                    socket_timeout=2
+                )
+                redis_client.ping()
+                cached_result = redis_client.get(cache_key)
+                if cached_result:
+                    resp.text = cached_result
+                    return
+            except Exception:
+                # If Redis connection fails, continue to database query
+                pass
+
+        # Cache miss or Redis error - query database
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()
 
@@ -313,19 +440,28 @@ class CombinedEquipmentItem:
         if row is None:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.COMBINED_EQUIPMENT_NOT_FOUND')
-        else:
-            meta_result = {"id": row[0],
-                           "name": row[1],
-                           "uuid": row[2],
-                           "is_input_counted": bool(row[3]),
-                           "is_output_counted": bool(row[4]),
-                           "cost_center": cost_center_dict.get(row[5], None),
-                           "svg": svg_dict.get(row[6], None),
-                           "camera_url": row[7],
-                           "description": row[8],
-                           "qrcode": 'combinedequipment:' + row[2]}
 
-        resp.text = json.dumps(meta_result)
+        meta_result = {"id": row[0],
+                       "name": row[1],
+                       "uuid": row[2],
+                       "is_input_counted": bool(row[3]),
+                       "is_output_counted": bool(row[4]),
+                       "cost_center": cost_center_dict.get(row[5], None),
+                       "svg": svg_dict.get(row[6], None),
+                       "camera_url": row[7],
+                       "description": row[8],
+                       "qrcode": 'combinedequipment:' + row[2]}
+
+        # Store result in Redis cache
+        result_json = json.dumps(meta_result)
+        if redis_client:
+            try:
+                redis_client.setex(cache_key, cache_expire, result_json)
+            except Exception:
+                # If cache set fails, ignore and continue
+                pass
+
+        resp.text = result_json
 
     @staticmethod
     @user_logger
@@ -375,6 +511,9 @@ class CombinedEquipmentItem:
 
         cursor.close()
         cnx.close()
+
+        # Clear cache after deleting combined equipment
+        clear_combined_equipment_cache(combined_equipment_id=id_)
 
         resp.status = falcon.HTTP_204
 
@@ -508,6 +647,9 @@ class CombinedEquipmentItem:
 
         cursor.close()
         cnx.close()
+
+        # Clear cache after updating combined equipment
+        clear_combined_equipment_cache(combined_equipment_id=id_)
 
         resp.status = falcon.HTTP_200
 
@@ -653,6 +795,10 @@ class CombinedEquipmentItem:
 
         cursor.close()
         cnx.close()
+
+        # Clear cache after cloning combined equipment
+        clear_combined_equipment_cache()
+
         resp.status = falcon.HTTP_201
         resp.location = '/combinedequipments/' + str(new_id)
 
@@ -679,6 +825,33 @@ class CombinedEquipmentEquipmentCollection:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_COMBINED_EQUIPMENT_ID')
 
+        # Redis cache key
+        cache_key = f'combinedequipment:equipments:{id_}'
+        cache_expire = 28800  # 8 hours in seconds (long-term cache)
+
+        # Try to get from Redis cache (only if Redis is enabled)
+        redis_client = None
+        if config.redis.get('is_enabled', False):
+            try:
+                redis_client = redis.Redis(
+                    host=config.redis['host'],
+                    port=config.redis['port'],
+                    password=config.redis['password'] if config.redis['password'] else None,
+                    db=config.redis['db'],
+                    decode_responses=True,
+                    socket_connect_timeout=2,
+                    socket_timeout=2
+                )
+                redis_client.ping()
+                cached_result = redis_client.get(cache_key)
+                if cached_result:
+                    resp.text = cached_result
+                    return
+            except Exception:
+                # If Redis connection fails, continue to database query
+                pass
+
+        # Cache miss or Redis error - query database
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()
 
@@ -706,7 +879,16 @@ class CombinedEquipmentEquipmentCollection:
                 meta_result = {"id": row[0], "name": row[1], "uuid": row[2]}
                 result.append(meta_result)
 
-        resp.text = json.dumps(result)
+        # Store result in Redis cache
+        result_json = json.dumps(result)
+        if redis_client:
+            try:
+                redis_client.setex(cache_key, cache_expire, result_json)
+            except Exception:
+                # If cache set fails, ignore and continue
+                pass
+
+        resp.text = result_json
 
     @staticmethod
     @user_logger
@@ -777,6 +959,9 @@ class CombinedEquipmentEquipmentCollection:
         cursor.close()
         cnx.close()
 
+        # Clear cache after adding equipment
+        clear_combined_equipment_cache(combined_equipment_id=id_)
+
         resp.status = falcon.HTTP_201
         resp.location = '/combinedequipments/' + str(id_) + '/equipments/' + str(equipment_id)
 
@@ -840,6 +1025,9 @@ class CombinedEquipmentEquipmentItem:
         cursor.close()
         cnx.close()
 
+        # Clear cache after deleting equipment
+        clear_combined_equipment_cache(combined_equipment_id=id_)
+
         resp.status = falcon.HTTP_204
 
 
@@ -865,6 +1053,33 @@ class CombinedEquipmentParameterCollection:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_COMBINED_EQUIPMENT_ID')
 
+        # Redis cache key
+        cache_key = f'combinedequipment:parameters:{id_}'
+        cache_expire = 28800  # 8 hours in seconds (long-term cache)
+
+        # Try to get from Redis cache (only if Redis is enabled)
+        redis_client = None
+        if config.redis.get('is_enabled', False):
+            try:
+                redis_client = redis.Redis(
+                    host=config.redis['host'],
+                    port=config.redis['port'],
+                    password=config.redis['password'] if config.redis['password'] else None,
+                    db=config.redis['db'],
+                    decode_responses=True,
+                    socket_connect_timeout=2,
+                    socket_timeout=2
+                )
+                redis_client.ping()
+                cached_result = redis_client.get(cache_key)
+                if cached_result:
+                    resp.text = cached_result
+                    return
+            except Exception:
+                # If Redis connection fails, continue to database query
+                pass
+
+        # Cache miss or Redis error - query database
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()
 
@@ -999,7 +1214,17 @@ class CombinedEquipmentParameterCollection:
 
         cursor.close()
         cnx.close()
-        resp.text = json.dumps(result)
+
+        # Store result in Redis cache
+        result_json = json.dumps(result)
+        if redis_client:
+            try:
+                redis_client.setex(cache_key, cache_expire, result_json)
+            except Exception:
+                # If cache set fails, ignore and continue
+                pass
+
+        resp.text = result_json
 
     @staticmethod
     @user_logger
@@ -1218,6 +1443,9 @@ class CombinedEquipmentParameterCollection:
         cursor.close()
         cnx.close()
 
+        # Clear cache after adding parameter
+        clear_combined_equipment_cache(combined_equipment_id=id_)
+
         resp.status = falcon.HTTP_201
         resp.location = '/combinedequipments/' + str(id_) + 'parameters/' + str(new_id)
 
@@ -1422,6 +1650,9 @@ class CombinedEquipmentParameterItem:
         cursor.close()
         cnx.close()
 
+        # Clear cache after deleting parameter
+        clear_combined_equipment_cache(combined_equipment_id=id_)
+
         resp.status = falcon.HTTP_204
 
     @staticmethod
@@ -1533,6 +1764,12 @@ class CombinedEquipmentParameterItem:
             cnx.close()
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.COMBINED_EQUIPMENT_PARAMETER_NAME_IS_ALREADY_IN_USE')
+
+        cursor.execute(" SELECT data_source_id "
+                       " FROM tbl_combined_equipments_data_sources "
+                       " WHERE combined_equipment_id = %s ", (id_,))
+        rows_data_sources = cursor.fetchall()
+        data_source_ids = tuple({row[0] for row in rows_data_sources if row[0] is not None})
 
         # validate by parameter type
         if parameter_type == 'point':
@@ -1648,6 +1885,9 @@ class CombinedEquipmentParameterItem:
         cursor.close()
         cnx.close()
 
+        # Clear cache after updating parameter
+        clear_combined_equipment_cache(combined_equipment_id=id_)
+
         resp.status = falcon.HTTP_200
 
 
@@ -1674,6 +1914,33 @@ class CombinedEquipmentDataSourceCollection:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_COMBINED_EQUIPMENT_ID')
 
+        # Redis cache key
+        cache_key = f'combinedequipment:datasources:{id_}'
+        cache_expire = 28800  # 8 hours in seconds (long-term cache)
+
+        # Try to get from Redis cache (only if Redis is enabled)
+        redis_client = None
+        if config.redis.get('is_enabled', False):
+            try:
+                redis_client = redis.Redis(
+                    host=config.redis['host'],
+                    port=config.redis['port'],
+                    password=config.redis['password'] if config.redis['password'] else None,
+                    db=config.redis['db'],
+                    decode_responses=True,
+                    socket_connect_timeout=2,
+                    socket_timeout=2
+                )
+                redis_client.ping()
+                cached_result = redis_client.get(cache_key)
+                if cached_result:
+                    resp.text = cached_result
+                    return
+            except Exception:
+                # If Redis connection fails, continue to database query
+                pass
+
+        # Cache miss or Redis error - query database
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()
 
@@ -1700,7 +1967,16 @@ class CombinedEquipmentDataSourceCollection:
         cursor.close()
         cnx.close()
 
-        resp.text = json.dumps(result)
+        # Store result in Redis cache
+        result_json = json.dumps(result)
+        if redis_client:
+            try:
+                redis_client.setex(cache_key, cache_expire, result_json)
+            except Exception:
+                # If cache set fails, ignore and continue
+                pass
+
+        resp.text = result_json
 
     @staticmethod
     @user_logger
@@ -1764,6 +2040,9 @@ class CombinedEquipmentDataSourceCollection:
         cursor.close()
         cnx.close()
 
+        # Clear cache after adding data source
+        clear_combined_equipment_cache(combined_equipment_id=id_)
+
         resp.status = falcon.HTTP_201
         resp.location = '/combinedequipments/' + str(id_) + '/datasources/' + str(data_source_id)
 
@@ -1824,6 +2103,9 @@ class CombinedEquipmentDataSourceItem:
         cursor.close()
         cnx.close()
 
+        # Clear cache after deleting data source
+        clear_combined_equipment_cache(combined_equipment_id=id_)
+
         resp.status = falcon.HTTP_204
 
 
@@ -1849,6 +2131,33 @@ class CombinedEquipmentDataSourcePointCollection:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_COMBINED_EQUIPMENT_ID')
 
+        # Redis cache key
+        cache_key = f'combinedequipment:datasourcepoints:{id_}'
+        cache_expire = 28800  # 8 hours in seconds (long-term cache)
+
+        # Try to get from Redis cache (only if Redis is enabled)
+        redis_client = None
+        if config.redis.get('is_enabled', False):
+            try:
+                redis_client = redis.Redis(
+                    host=config.redis['host'],
+                    port=config.redis['port'],
+                    password=config.redis['password'] if config.redis['password'] else None,
+                    db=config.redis['db'],
+                    decode_responses=True,
+                    socket_connect_timeout=2,
+                    socket_timeout=2
+                )
+                redis_client.ping()
+                cached_result = redis_client.get(cache_key)
+                if cached_result:
+                    resp.text = cached_result
+                    return
+            except Exception:
+                # If Redis connection fails, continue to database query
+                pass
+
+        # Cache miss or Redis error - query database
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()
 
@@ -1877,7 +2186,16 @@ class CombinedEquipmentDataSourcePointCollection:
         cursor.close()
         cnx.close()
 
-        resp.text = json.dumps(result)
+        # Store result in Redis cache
+        result_json = json.dumps(result)
+        if redis_client:
+            try:
+                redis_client.setex(cache_key, cache_expire, result_json)
+            except Exception:
+                # If cache set fails, ignore and continue
+                pass
+
+        resp.text = result_json
 
 
 class CombinedEquipmentMeterCollection:
@@ -1902,6 +2220,33 @@ class CombinedEquipmentMeterCollection:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_COMBINED_EQUIPMENT_ID')
 
+        # Redis cache key
+        cache_key = f'combinedequipment:meters:{id_}'
+        cache_expire = 28800  # 8 hours in seconds (long-term cache)
+
+        # Try to get from Redis cache (only if Redis is enabled)
+        redis_client = None
+        if config.redis.get('is_enabled', False):
+            try:
+                redis_client = redis.Redis(
+                    host=config.redis['host'],
+                    port=config.redis['port'],
+                    password=config.redis['password'] if config.redis['password'] else None,
+                    db=config.redis['db'],
+                    decode_responses=True,
+                    socket_connect_timeout=2,
+                    socket_timeout=2
+                )
+                redis_client.ping()
+                cached_result = redis_client.get(cache_key)
+                if cached_result:
+                    resp.text = cached_result
+                    return
+            except Exception:
+                # If Redis connection fails, continue to database query
+                pass
+
+        # Cache miss or Redis error - query database
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()
 
@@ -1944,7 +2289,16 @@ class CombinedEquipmentMeterCollection:
         cursor.close()
         cnx.close()
 
-        resp.text = json.dumps(result)
+        # Store result in Redis cache
+        result_json = json.dumps(result)
+        if redis_client:
+            try:
+                redis_client.setex(cache_key, cache_expire, result_json)
+            except Exception:
+                # If cache set fails, ignore and continue
+                pass
+
+        resp.text = result_json
 
     @staticmethod
     @user_logger
@@ -2021,6 +2375,9 @@ class CombinedEquipmentMeterCollection:
         cursor.close()
         cnx.close()
 
+        # Clear cache after adding meter
+        clear_combined_equipment_cache(combined_equipment_id=id_)
+
         resp.status = falcon.HTTP_201
         resp.location = '/combinedequipments/' + str(id_) + '/meters/' + str(meter_id)
 
@@ -2084,6 +2441,9 @@ class CombinedEquipmentMeterItem:
         cursor.close()
         cnx.close()
 
+        # Clear cache after deleting meter
+        clear_combined_equipment_cache(combined_equipment_id=id_)
+
         resp.status = falcon.HTTP_204
 
 
@@ -2109,6 +2469,33 @@ class CombinedEquipmentOfflineMeterCollection:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_COMBINED_EQUIPMENT_ID')
 
+        # Redis cache key
+        cache_key = f'combinedequipment:offlinemeters:{id_}'
+        cache_expire = 28800  # 8 hours in seconds (long-term cache)
+
+        # Try to get from Redis cache (only if Redis is enabled)
+        redis_client = None
+        if config.redis.get('is_enabled', False):
+            try:
+                redis_client = redis.Redis(
+                    host=config.redis['host'],
+                    port=config.redis['port'],
+                    password=config.redis['password'] if config.redis['password'] else None,
+                    db=config.redis['db'],
+                    decode_responses=True,
+                    socket_connect_timeout=2,
+                    socket_timeout=2
+                )
+                redis_client.ping()
+                cached_result = redis_client.get(cache_key)
+                if cached_result:
+                    resp.text = cached_result
+                    return
+            except Exception:
+                # If Redis connection fails, continue to database query
+                pass
+
+        # Cache miss or Redis error - query database
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()
 
@@ -2151,7 +2538,16 @@ class CombinedEquipmentOfflineMeterCollection:
         cursor.close()
         cnx.close()
 
-        resp.text = json.dumps(result)
+        # Store result in Redis cache
+        result_json = json.dumps(result)
+        if redis_client:
+            try:
+                redis_client.setex(cache_key, cache_expire, result_json)
+            except Exception:
+                # If cache set fails, ignore and continue
+                pass
+
+        resp.text = result_json
 
     @staticmethod
     @user_logger
@@ -2229,6 +2625,9 @@ class CombinedEquipmentOfflineMeterCollection:
         cursor.close()
         cnx.close()
 
+        # Clear cache after adding offline meter
+        clear_combined_equipment_cache(combined_equipment_id=id_)
+
         resp.status = falcon.HTTP_201
         resp.location = '/combinedequipments/' + str(id_) + '/offlinemeters/' + str(offline_meter_id)
 
@@ -2292,6 +2691,9 @@ class CombinedEquipmentOfflineMeterItem:
         cursor.close()
         cnx.close()
 
+        # Clear cache after deleting offline meter
+        clear_combined_equipment_cache(combined_equipment_id=id_)
+
         resp.status = falcon.HTTP_204
 
 
@@ -2317,6 +2719,33 @@ class CombinedEquipmentVirtualMeterCollection:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_COMBINED_EQUIPMENT_ID')
 
+        # Redis cache key
+        cache_key = f'combinedequipment:virtualmeters:{id_}'
+        cache_expire = 28800  # 8 hours in seconds (long-term cache)
+
+        # Try to get from Redis cache (only if Redis is enabled)
+        redis_client = None
+        if config.redis.get('is_enabled', False):
+            try:
+                redis_client = redis.Redis(
+                    host=config.redis['host'],
+                    port=config.redis['port'],
+                    password=config.redis['password'] if config.redis['password'] else None,
+                    db=config.redis['db'],
+                    decode_responses=True,
+                    socket_connect_timeout=2,
+                    socket_timeout=2
+                )
+                redis_client.ping()
+                cached_result = redis_client.get(cache_key)
+                if cached_result:
+                    resp.text = cached_result
+                    return
+            except Exception:
+                # If Redis connection fails, continue to database query
+                pass
+
+        # Cache miss or Redis error - query database
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()
 
@@ -2358,7 +2787,17 @@ class CombinedEquipmentVirtualMeterCollection:
 
         cursor.close()
         cnx.close()
-        resp.text = json.dumps(result)
+
+        # Store result in Redis cache
+        result_json = json.dumps(result)
+        if redis_client:
+            try:
+                redis_client.setex(cache_key, cache_expire, result_json)
+            except Exception:
+                # If cache set fails, ignore and continue
+                pass
+
+        resp.text = result_json
 
     @staticmethod
     @user_logger
@@ -2436,6 +2875,9 @@ class CombinedEquipmentVirtualMeterCollection:
         cursor.close()
         cnx.close()
 
+        # Clear cache after adding virtual meter
+        clear_combined_equipment_cache(combined_equipment_id=id_)
+
         resp.status = falcon.HTTP_201
         resp.location = '/combinedequipments/' + str(id_) + '/virtualmeters/' + str(virtual_meter_id)
 
@@ -2499,6 +2941,9 @@ class CombinedEquipmentVirtualMeterItem:
         cursor.close()
         cnx.close()
 
+        # Clear cache after deleting virtual meter
+        clear_combined_equipment_cache(combined_equipment_id=id_)
+
         resp.status = falcon.HTTP_204
 
 
@@ -2524,6 +2969,33 @@ class CombinedEquipmentCommandCollection:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_COMBINED_EQUIPMENT_ID')
 
+        # Redis cache key
+        cache_key = f'combinedequipment:commands:{id_}'
+        cache_expire = 28800  # 8 hours in seconds (long-term cache)
+
+        # Try to get from Redis cache (only if Redis is enabled)
+        redis_client = None
+        if config.redis.get('is_enabled', False):
+            try:
+                redis_client = redis.Redis(
+                    host=config.redis['host'],
+                    port=config.redis['port'],
+                    password=config.redis['password'] if config.redis['password'] else None,
+                    db=config.redis['db'],
+                    decode_responses=True,
+                    socket_connect_timeout=2,
+                    socket_timeout=2
+                )
+                redis_client.ping()
+                cached_result = redis_client.get(cache_key)
+                if cached_result:
+                    resp.text = cached_result
+                    return
+            except Exception:
+                # If Redis connection fails, continue to database query
+                pass
+
+        # Cache miss or Redis error - query database
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()
 
@@ -2549,7 +3021,19 @@ class CombinedEquipmentCommandCollection:
                 meta_result = {"id": row[0], "name": row[1], "uuid": row[2]}
                 result.append(meta_result)
 
-        resp.text = json.dumps(result)
+        cursor.close()
+        cnx.close()
+
+        # Store result in Redis cache
+        result_json = json.dumps(result)
+        if redis_client:
+            try:
+                redis_client.setex(cache_key, cache_expire, result_json)
+            except Exception:
+                # If cache set fails, ignore and continue
+                pass
+
+        resp.text = result_json
 
     @staticmethod
     @user_logger
@@ -2620,6 +3104,9 @@ class CombinedEquipmentCommandCollection:
         cursor.close()
         cnx.close()
 
+        # Clear cache after adding command
+        clear_combined_equipment_cache(combined_equipment_id=id_)
+
         resp.status = falcon.HTTP_201
         resp.location = '/combinedequipments/' + str(id_) + '/commands/' + str(command_id)
 
@@ -2683,6 +3170,9 @@ class CombinedEquipmentCommandItem:
         cursor.close()
         cnx.close()
 
+        # Clear cache after deleting command
+        clear_combined_equipment_cache(combined_equipment_id=id_)
+
         resp.status = falcon.HTTP_204
 
 
@@ -2708,6 +3198,33 @@ class CombinedEquipmentExport:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_COMBINED_EQUIPMENT_ID')
 
+        # Redis cache key
+        cache_key = f'combinedequipment:export:{id_}'
+        cache_expire = 28800  # 8 hours in seconds (long-term cache)
+
+        # Try to get from Redis cache (only if Redis is enabled)
+        redis_client = None
+        if config.redis.get('is_enabled', False):
+            try:
+                redis_client = redis.Redis(
+                    host=config.redis['host'],
+                    port=config.redis['port'],
+                    password=config.redis['password'] if config.redis['password'] else None,
+                    db=config.redis['db'],
+                    decode_responses=True,
+                    socket_connect_timeout=2,
+                    socket_timeout=2
+                )
+                redis_client.ping()
+                cached_result = redis_client.get(cache_key)
+                if cached_result:
+                    resp.text = cached_result
+                    return
+            except Exception:
+                # If Redis connection fails, continue to database query
+                pass
+
+        # Cache miss or Redis error - query database
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()
 
@@ -2977,7 +3494,17 @@ class CombinedEquipmentExport:
 
         cursor.close()
         cnx.close()
-        resp.text = json.dumps(meta_result)
+
+        # Store result in Redis cache
+        result_json = json.dumps(meta_result)
+        if redis_client:
+            try:
+                redis_client.setex(cache_key, cache_expire, result_json)
+            except Exception:
+                # If cache set fails, ignore and continue
+                pass
+
+        resp.text = result_json
 
 
 class CombinedEquipmentImport:
@@ -3371,6 +3898,9 @@ class CombinedEquipmentImport:
         cnx.commit()
         cursor.close()
         cnx.close()
+
+        # Clear cache after importing combined equipment
+        clear_combined_equipment_cache()
 
         resp.status = falcon.HTTP_201
         resp.location = '/combinedequipments/' + str(new_id)
@@ -3934,6 +4464,9 @@ class CombinedEquipmentClone:
             cnx.commit()
             cursor.close()
             cnx.close()
+
+            # Clear cache after cloning combined equipment
+            clear_combined_equipment_cache()
 
             resp.status = falcon.HTTP_201
             resp.location = '/combinedequipments/' + str(new_id)

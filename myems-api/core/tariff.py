@@ -3,8 +3,51 @@ from datetime import datetime, timedelta, timezone
 import falcon
 import mysql.connector
 import simplejson as json
+import redis
 from core.useractivity import user_logger, admin_control, access_control, api_key_control
 import config
+
+
+def clear_tariff_cache(tariff_id=None):
+    """
+    Clear tariff-related cache after data modification
+
+    Args:
+        tariff_id: Tariff ID (optional, for specific tariff cache)
+    """
+    # Check if Redis is enabled
+    if not config.redis.get('is_enabled', False):
+        return
+
+    redis_client = None
+    try:
+        redis_client = redis.Redis(
+            host=config.redis['host'],
+            port=config.redis['port'],
+            password=config.redis['password'] if config.redis['password'] else None,
+            db=config.redis['db'],
+            decode_responses=True,
+            socket_connect_timeout=2,
+            socket_timeout=2
+        )
+        redis_client.ping()
+
+        # Clear tariff list cache (all search query variations)
+        list_cache_key_pattern = 'tariff:list:*'
+        matching_keys = redis_client.keys(list_cache_key_pattern)
+        if matching_keys:
+            redis_client.delete(*matching_keys)
+
+        # Clear specific tariff item cache if tariff_id is provided
+        if tariff_id:
+            item_cache_key = f'tariff:item:{tariff_id}'
+            redis_client.delete(item_cache_key)
+            export_cache_key = f'tariff:export:{tariff_id}'
+            redis_client.delete(export_cache_key)
+
+    except Exception:
+        # If cache clear fails, ignore and continue
+        pass
 
 
 class TariffCollection:
@@ -40,6 +83,34 @@ class TariffCollection:
             search_query = search_query.strip()
         else:
             search_query = ''
+
+        # Redis cache key
+        cache_key = f'tariff:list:{search_query}'
+        cache_expire = 28800  # 8 hours in seconds (long-term cache)
+
+        # Try to get from Redis cache (only if Redis is enabled)
+        redis_client = None
+        if config.redis.get('is_enabled', False):
+            try:
+                redis_client = redis.Redis(
+                    host=config.redis['host'],
+                    port=config.redis['port'],
+                    password=config.redis['password'] if config.redis['password'] else None,
+                    db=config.redis['db'],
+                    decode_responses=True,
+                    socket_connect_timeout=2,
+                    socket_timeout=2
+                )
+                redis_client.ping()
+                cached_result = redis_client.get(cache_key)
+                if cached_result:
+                    resp.text = cached_result
+                    return
+            except Exception:
+                # If Redis connection fails, continue to database query
+                pass
+
+        # Cache miss or Redis error - query database
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()
 
@@ -104,7 +175,16 @@ class TariffCollection:
         cursor.close()
         cnx.close()
 
-        resp.text = json.dumps(result)
+        # Store result in Redis cache
+        result_json = json.dumps(result)
+        if redis_client:
+            try:
+                redis_client.setex(cache_key, cache_expire, result_json)
+            except Exception:
+                # If cache set fails, ignore and continue
+                pass
+
+        resp.text = result_json
 
     @staticmethod
     @user_logger
@@ -223,6 +303,9 @@ class TariffCollection:
         cursor.close()
         cnx.close()
 
+        # Clear cache after creating new tariff
+        clear_tariff_cache()
+
         resp.status = falcon.HTTP_201
         resp.location = '/tariffs/' + str(new_id)
 
@@ -250,6 +333,33 @@ class TariffItem:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_TARIFF_ID')
 
+        # Redis cache key
+        cache_key = f'tariff:item:{id_}'
+        cache_expire = 28800  # 8 hours in seconds (long-term cache)
+
+        # Try to get from Redis cache (only if Redis is enabled)
+        redis_client = None
+        if config.redis.get('is_enabled', False):
+            try:
+                redis_client = redis.Redis(
+                    host=config.redis['host'],
+                    port=config.redis['port'],
+                    password=config.redis['password'] if config.redis['password'] else None,
+                    db=config.redis['db'],
+                    decode_responses=True,
+                    socket_connect_timeout=2,
+                    socket_timeout=2
+                )
+                redis_client.ping()
+                cached_result = redis_client.get(cache_key)
+                if cached_result:
+                    resp.text = cached_result
+                    return
+            except Exception:
+                # If Redis connection fails, continue to database query
+                pass
+
+        # Cache miss or Redis error - query database
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()
 
@@ -302,7 +412,16 @@ class TariffItem:
         cursor.close()
         cnx.close()
 
-        resp.text = json.dumps(result)
+        # Store result in Redis cache
+        result_json = json.dumps(result)
+        if redis_client:
+            try:
+                redis_client.setex(cache_key, cache_expire, result_json)
+            except Exception:
+                # If cache set fails, ignore and continue
+                pass
+
+        resp.text = result_json
 
     @staticmethod
     @user_logger
@@ -344,6 +463,9 @@ class TariffItem:
 
         cursor.close()
         cnx.close()
+
+        # Clear cache after deleting tariff
+        clear_tariff_cache(tariff_id=int(id_))
 
         resp.status = falcon.HTTP_204
 
@@ -484,6 +606,10 @@ class TariffItem:
 
         cursor.close()
         cnx.close()
+
+        # Clear cache after updating tariff
+        clear_tariff_cache(tariff_id=int(id_))
+
         resp.status = falcon.HTTP_200
 
 
@@ -510,6 +636,33 @@ class TariffExport:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_TARIFF_ID')
 
+        # Redis cache key
+        cache_key = f'tariff:export:{id_}'
+        cache_expire = 28800  # 8 hours in seconds (long-term cache)
+
+        # Try to get from Redis cache (only if Redis is enabled)
+        redis_client = None
+        if config.redis.get('is_enabled', False):
+            try:
+                redis_client = redis.Redis(
+                    host=config.redis['host'],
+                    port=config.redis['port'],
+                    password=config.redis['password'] if config.redis['password'] else None,
+                    db=config.redis['db'],
+                    decode_responses=True,
+                    socket_connect_timeout=2,
+                    socket_timeout=2
+                )
+                redis_client.ping()
+                cached_result = redis_client.get(cache_key)
+                if cached_result:
+                    resp.text = cached_result
+                    return
+            except Exception:
+                # If Redis connection fails, continue to database query
+                pass
+
+        # Cache miss or Redis error - query database
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()
 
@@ -562,7 +715,16 @@ class TariffExport:
         cursor.close()
         cnx.close()
 
-        resp.text = json.dumps(result)
+        # Store result in Redis cache
+        result_json = json.dumps(result)
+        if redis_client:
+            try:
+                redis_client.setex(cache_key, cache_expire, result_json)
+            except Exception:
+                # If cache set fails, ignore and continue
+                pass
+
+        resp.text = result_json
 
 
 class TariffImport:
@@ -690,6 +852,9 @@ class TariffImport:
         cursor.close()
         cnx.close()
 
+        # Clear cache after importing tariff
+        clear_tariff_cache()
+
         resp.status = falcon.HTTP_201
         resp.location = '/tariffs/' + str(new_id)
 
@@ -787,6 +952,9 @@ class TariffClone:
 
         cursor.close()
         cnx.close()
+
+        # Clear cache after cloning tariff
+        clear_tariff_cache()
 
         resp.status = falcon.HTTP_201
         resp.location = '/tariffs/' + str(new_id)

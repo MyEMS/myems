@@ -3,8 +3,65 @@ from datetime import datetime, timedelta
 import falcon
 import mysql.connector
 import simplejson as json
+import redis
 from core.useractivity import user_logger, admin_control, access_control, api_key_control
 import config
+
+
+def clear_energy_flow_diagram_cache(diagram_id=None):
+    """
+    Clear energy flow diagram-related cache after data modification
+
+    Args:
+        diagram_id: Energy flow diagram ID (optional, for specific diagram cache)
+    """
+    # Check if Redis is enabled
+    if not config.redis.get('is_enabled', False):
+        return
+
+    redis_client = None
+    try:
+        redis_client = redis.Redis(
+            host=config.redis['host'],
+            port=config.redis['port'],
+            password=config.redis['password'] if config.redis['password'] else None,
+            db=config.redis['db'],
+            decode_responses=True,
+            socket_connect_timeout=2,
+            socket_timeout=2
+        )
+        redis_client.ping()
+
+        # Clear energy flow diagram list cache (all search query variations)
+        list_cache_key_pattern = 'energyflowdiagram:list:*'
+        matching_keys = redis_client.keys(list_cache_key_pattern)
+        if matching_keys:
+            redis_client.delete(*matching_keys)
+
+        # Clear specific diagram cache if diagram_id is provided
+        if diagram_id:
+            item_cache_key = f'energyflowdiagram:item:{diagram_id}'
+            redis_client.delete(item_cache_key)
+            link_list_cache_key = f'energyflowdiagram:links:{diagram_id}'
+            redis_client.delete(link_list_cache_key)
+            node_list_cache_key = f'energyflowdiagram:nodes:{diagram_id}'
+            redis_client.delete(node_list_cache_key)
+            export_cache_key = f'energyflowdiagram:export:{diagram_id}'
+            redis_client.delete(export_cache_key)
+            # Clear link item cache
+            link_item_cache_key_pattern = f'energyflowdiagram:link:{diagram_id}:*'
+            matching_link_keys = redis_client.keys(link_item_cache_key_pattern)
+            if matching_link_keys:
+                redis_client.delete(*matching_link_keys)
+            # Clear node item cache
+            node_item_cache_key_pattern = f'energyflowdiagram:node:{diagram_id}:*'
+            matching_node_keys = redis_client.keys(node_item_cache_key_pattern)
+            if matching_node_keys:
+                redis_client.delete(*matching_node_keys)
+
+    except Exception:
+        # If cache clear fails, ignore and continue
+        pass
 
 
 class EnergyFlowDiagramCollection:
@@ -61,6 +118,33 @@ class EnergyFlowDiagramCollection:
         else:
             search_query = ''
 
+        # Redis cache key
+        cache_key = f'energyflowdiagram:list:{search_query}'
+        cache_expire = 28800  # 8 hours in seconds (long-term cache)
+
+        # Try to get from Redis cache (only if Redis is enabled)
+        redis_client = None
+        if config.redis.get('is_enabled', False):
+            try:
+                redis_client = redis.Redis(
+                    host=config.redis['host'],
+                    port=config.redis['port'],
+                    password=config.redis['password'] if config.redis['password'] else None,
+                    db=config.redis['db'],
+                    decode_responses=True,
+                    socket_connect_timeout=2,
+                    socket_timeout=2
+                )
+                redis_client.ping()
+                cached_result = redis_client.get(cache_key)
+                if cached_result:
+                    resp.text = cached_result
+                    return
+            except Exception:
+                # If Redis connection fails, continue to database query
+                pass
+
+        # Cache miss or Redis error - query database
         # Connect to database
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()
@@ -174,7 +258,17 @@ class EnergyFlowDiagramCollection:
 
         cursor.close()
         cnx.close()
-        resp.text = json.dumps(result)
+
+        # Store result in Redis cache
+        result_json = json.dumps(result)
+        if redis_client:
+            try:
+                redis_client.setex(cache_key, cache_expire, result_json)
+            except Exception:
+                # If cache store fails, ignore and continue
+                pass
+
+        resp.text = result_json
 
     @staticmethod
     @user_logger
@@ -234,6 +328,9 @@ class EnergyFlowDiagramCollection:
         cursor.close()
         cnx.close()
 
+        # Clear cache after creating new diagram
+        clear_energy_flow_diagram_cache()
+
         resp.status = falcon.HTTP_201
         resp.location = '/energyflowdiagrams/' + str(new_id)
 
@@ -267,6 +364,33 @@ class EnergyFlowDiagramItem:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_ENERGY_FLOW_DIAGRAM_ID')
 
+        # Redis cache key
+        cache_key = f'energyflowdiagram:item:{id_}'
+        cache_expire = 28800  # 8 hours in seconds (long-term cache)
+
+        # Try to get from Redis cache (only if Redis is enabled)
+        redis_client = None
+        if config.redis.get('is_enabled', False):
+            try:
+                redis_client = redis.Redis(
+                    host=config.redis['host'],
+                    port=config.redis['port'],
+                    password=config.redis['password'] if config.redis['password'] else None,
+                    db=config.redis['db'],
+                    decode_responses=True,
+                    socket_connect_timeout=2,
+                    socket_timeout=2
+                )
+                redis_client.ping()
+                cached_result = redis_client.get(cache_key)
+                if cached_result:
+                    resp.text = cached_result
+                    return
+            except Exception:
+                # If Redis connection fails, continue to database query
+                pass
+
+        # Cache miss or Redis error - query database
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()
 
@@ -368,7 +492,16 @@ class EnergyFlowDiagramItem:
                            "links": link_list_dict.get(row[0], None),
                            }
 
-        resp.text = json.dumps(meta_result)
+        # Store result in Redis cache
+        result_json = json.dumps(meta_result)
+        if redis_client:
+            try:
+                redis_client.setex(cache_key, cache_expire, result_json)
+            except Exception:
+                # If cache store fails, ignore and continue
+                pass
+
+        resp.text = result_json
 
     @staticmethod
     @user_logger
@@ -409,6 +542,9 @@ class EnergyFlowDiagramItem:
 
         cursor.close()
         cnx.close()
+
+        # Clear cache after deleting diagram
+        clear_energy_flow_diagram_cache(diagram_id=id_)
 
         resp.status = falcon.HTTP_204
 
@@ -473,6 +609,9 @@ class EnergyFlowDiagramItem:
         cursor.close()
         cnx.close()
 
+        # Clear cache after updating diagram
+        clear_energy_flow_diagram_cache(diagram_id=id_)
+
         resp.status = falcon.HTTP_200
 
 
@@ -498,6 +637,33 @@ class EnergyFlowDiagramLinkCollection:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_ENERGY_FLOW_DIAGRAM_ID')
 
+        # Redis cache key
+        cache_key = f'energyflowdiagram:links:{id_}'
+        cache_expire = 28800  # 8 hours in seconds (long-term cache)
+
+        # Try to get from Redis cache (only if Redis is enabled)
+        redis_client = None
+        if config.redis.get('is_enabled', False):
+            try:
+                redis_client = redis.Redis(
+                    host=config.redis['host'],
+                    port=config.redis['port'],
+                    password=config.redis['password'] if config.redis['password'] else None,
+                    db=config.redis['db'],
+                    decode_responses=True,
+                    socket_connect_timeout=2,
+                    socket_timeout=2
+                )
+                redis_client.ping()
+                cached_result = redis_client.get(cache_key)
+                if cached_result:
+                    resp.text = cached_result
+                    return
+            except Exception:
+                # If Redis connection fails, continue to database query
+                pass
+
+        # Cache miss or Redis error - query database
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()
 
@@ -587,7 +753,17 @@ class EnergyFlowDiagramLinkCollection:
 
         cursor.close()
         cnx.close()
-        resp.text = json.dumps(result)
+
+        # Store result in Redis cache
+        result_json = json.dumps(result)
+        if redis_client:
+            try:
+                redis_client.setex(cache_key, cache_expire, result_json)
+            except Exception:
+                # If cache store fails, ignore and continue
+                pass
+
+        resp.text = result_json
 
     @staticmethod
     @user_logger
@@ -738,6 +914,9 @@ class EnergyFlowDiagramLinkCollection:
         cursor.close()
         cnx.close()
 
+        # Clear cache after creating new link
+        clear_energy_flow_diagram_cache(diagram_id=id_)
+
         resp.status = falcon.HTTP_201
         resp.location = '/energyflowdiagrams/' + str(id_) + 'links/' + str(new_id)
 
@@ -763,6 +942,33 @@ class EnergyFlowDiagramLinkItem:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_ENERGY_FLOW_DIAGRAM_LINK_ID')
 
+        # Redis cache key
+        cache_key = f'energyflowdiagram:link:{id_}:{lid}'
+        cache_expire = 28800  # 8 hours in seconds (long-term cache)
+
+        # Try to get from Redis cache (only if Redis is enabled)
+        redis_client = None
+        if config.redis.get('is_enabled', False):
+            try:
+                redis_client = redis.Redis(
+                    host=config.redis['host'],
+                    port=config.redis['port'],
+                    password=config.redis['password'] if config.redis['password'] else None,
+                    db=config.redis['db'],
+                    decode_responses=True,
+                    socket_connect_timeout=2,
+                    socket_timeout=2
+                )
+                redis_client.ping()
+                cached_result = redis_client.get(cache_key)
+                if cached_result:
+                    resp.text = cached_result
+                    return
+            except Exception:
+                # If Redis connection fails, continue to database query
+                pass
+
+        # Cache miss or Redis error - query database
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()
 
@@ -841,7 +1047,17 @@ class EnergyFlowDiagramLinkItem:
                            "source_node": source_node,
                            "target_node": target_node,
                            "meter": meter}
-            resp.text = json.dumps(meta_result)
+
+        # Store result in Redis cache
+        result_json = json.dumps(meta_result)
+        if redis_client:
+            try:
+                redis_client.setex(cache_key, cache_expire, result_json)
+            except Exception:
+                # If cache store fails, ignore and continue
+                pass
+
+        resp.text = result_json
 
     @staticmethod
     @user_logger
@@ -888,6 +1104,9 @@ class EnergyFlowDiagramLinkItem:
 
         cursor.close()
         cnx.close()
+
+        # Clear cache after deleting link
+        clear_energy_flow_diagram_cache(diagram_id=id_)
 
         resp.status = falcon.HTTP_204
 
@@ -1057,6 +1276,9 @@ class EnergyFlowDiagramLinkItem:
         cursor.close()
         cnx.close()
 
+        # Clear cache after updating link
+        clear_energy_flow_diagram_cache(diagram_id=id_)
+
         resp.status = falcon.HTTP_200
 
 
@@ -1082,6 +1304,33 @@ class EnergyFlowDiagramNodeCollection:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_ENERGY_FLOW_DIAGRAM_ID')
 
+        # Redis cache key
+        cache_key = f'energyflowdiagram:nodes:{id_}'
+        cache_expire = 28800  # 8 hours in seconds (long-term cache)
+
+        # Try to get from Redis cache (only if Redis is enabled)
+        redis_client = None
+        if config.redis.get('is_enabled', False):
+            try:
+                redis_client = redis.Redis(
+                    host=config.redis['host'],
+                    port=config.redis['port'],
+                    password=config.redis['password'] if config.redis['password'] else None,
+                    db=config.redis['db'],
+                    decode_responses=True,
+                    socket_connect_timeout=2,
+                    socket_timeout=2
+                )
+                redis_client.ping()
+                cached_result = redis_client.get(cache_key)
+                if cached_result:
+                    resp.text = cached_result
+                    return
+            except Exception:
+                # If Redis connection fails, continue to database query
+                pass
+
+        # Cache miss or Redis error - query database
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()
 
@@ -1110,7 +1359,17 @@ class EnergyFlowDiagramNodeCollection:
 
         cursor.close()
         cnx.close()
-        resp.text = json.dumps(result)
+
+        # Store result in Redis cache
+        result_json = json.dumps(result)
+        if redis_client:
+            try:
+                redis_client.setex(cache_key, cache_expire, result_json)
+            except Exception:
+                # If cache store fails, ignore and continue
+                pass
+
+        resp.text = result_json
 
     @staticmethod
     @user_logger
@@ -1173,6 +1432,9 @@ class EnergyFlowDiagramNodeCollection:
         cursor.close()
         cnx.close()
 
+        # Clear cache after creating new node
+        clear_energy_flow_diagram_cache(diagram_id=id_)
+
         resp.status = falcon.HTTP_201
         resp.location = '/energyflowdiagrams/' + str(id_) + 'nodes/' + str(new_id)
 
@@ -1198,6 +1460,33 @@ class EnergyFlowDiagramNodeItem:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_ENERGY_FLOW_DIAGRAM_NODE_ID')
 
+        # Redis cache key
+        cache_key = f'energyflowdiagram:node:{id_}:{nid}'
+        cache_expire = 28800  # 8 hours in seconds (long-term cache)
+
+        # Try to get from Redis cache (only if Redis is enabled)
+        redis_client = None
+        if config.redis.get('is_enabled', False):
+            try:
+                redis_client = redis.Redis(
+                    host=config.redis['host'],
+                    port=config.redis['port'],
+                    password=config.redis['password'] if config.redis['password'] else None,
+                    db=config.redis['db'],
+                    decode_responses=True,
+                    socket_connect_timeout=2,
+                    socket_timeout=2
+                )
+                redis_client.ping()
+                cached_result = redis_client.get(cache_key)
+                if cached_result:
+                    resp.text = cached_result
+                    return
+            except Exception:
+                # If Redis connection fails, continue to database query
+                pass
+
+        # Cache miss or Redis error - query database
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()
 
@@ -1216,7 +1505,16 @@ class EnergyFlowDiagramNodeItem:
             meta_result = {"id": row[0],
                            "name": row[1]}
 
-        resp.text = json.dumps(meta_result)
+        # Store result in Redis cache
+        result_json = json.dumps(meta_result)
+        if redis_client:
+            try:
+                redis_client.setex(cache_key, cache_expire, result_json)
+            except Exception:
+                # If cache store fails, ignore and continue
+                pass
+
+        resp.text = result_json
 
     @staticmethod
     @user_logger
@@ -1276,6 +1574,9 @@ class EnergyFlowDiagramNodeItem:
 
         cursor.close()
         cnx.close()
+
+        # Clear cache after deleting node
+        clear_energy_flow_diagram_cache(diagram_id=id_)
 
         resp.status = falcon.HTTP_204
 
@@ -1358,6 +1659,9 @@ class EnergyFlowDiagramNodeItem:
         cursor.close()
         cnx.close()
 
+        # Clear cache after updating node
+        clear_energy_flow_diagram_cache(diagram_id=id_)
+
         resp.status = falcon.HTTP_200
 
 
@@ -1383,6 +1687,33 @@ class EnergyFlowDiagramExport:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_ENERGY_FLOW_DIAGRAM_ID')
 
+        # Redis cache key
+        cache_key = f'energyflowdiagram:export:{id_}'
+        cache_expire = 28800  # 8 hours in seconds (long-term cache)
+
+        # Try to get from Redis cache (only if Redis is enabled)
+        redis_client = None
+        if config.redis.get('is_enabled', False):
+            try:
+                redis_client = redis.Redis(
+                    host=config.redis['host'],
+                    port=config.redis['port'],
+                    password=config.redis['password'] if config.redis['password'] else None,
+                    db=config.redis['db'],
+                    decode_responses=True,
+                    socket_connect_timeout=2,
+                    socket_timeout=2
+                )
+                redis_client.ping()
+                cached_result = redis_client.get(cache_key)
+                if cached_result:
+                    resp.text = cached_result
+                    return
+            except Exception:
+                # If Redis connection fails, continue to database query
+                pass
+
+        # Cache miss or Redis error - query database
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()
 
@@ -1484,7 +1815,16 @@ class EnergyFlowDiagramExport:
                            "links": link_list_dict.get(row[0], None),
                            }
 
-        resp.text = json.dumps(meta_result)
+        # Store result in Redis cache
+        result_json = json.dumps(meta_result)
+        if redis_client:
+            try:
+                redis_client.setex(cache_key, cache_expire, result_json)
+            except Exception:
+                # If cache store fails, ignore and continue
+                pass
+
+        resp.text = result_json
 
 
 class EnergyFlowDiagramImport:
@@ -1695,6 +2035,9 @@ class EnergyFlowDiagramImport:
         cursor.close()
         cnx.close()
 
+        # Clear cache after importing diagram
+        clear_energy_flow_diagram_cache()
+
         resp.status = falcon.HTTP_201
         resp.location = '/energyflowdiagrams/' + str(new_id)
 
@@ -1847,6 +2190,9 @@ class EnergyFlowDiagramClone:
             cnx.commit()
             cursor.close()
             cnx.close()
+
+            # Clear cache after cloning diagram
+            clear_energy_flow_diagram_cache()
 
             resp.status = falcon.HTTP_201
             resp.location = '/energyflowdiagrams/' + str(new_id)

@@ -3,9 +3,67 @@ from datetime import datetime, timedelta
 import falcon
 import mysql.connector
 import simplejson as json
+import redis
 from core.useractivity import user_logger, admin_control, access_control, api_key_control
 import config
 from decimal import Decimal
+
+
+def clear_equipment_cache(equipment_id=None):
+    """
+    Clear equipment-related cache after data modification
+
+    Args:
+        equipment_id: Equipment ID (optional, for specific equipment cache)
+    """
+    # Check if Redis is enabled
+    if not config.redis.get('is_enabled', False):
+        return
+
+    redis_client = None
+    try:
+        redis_client = redis.Redis(
+            host=config.redis['host'],
+            port=config.redis['port'],
+            password=config.redis['password'] if config.redis['password'] else None,
+            db=config.redis['db'],
+            decode_responses=True,
+            socket_connect_timeout=2,
+            socket_timeout=2
+        )
+        redis_client.ping()
+
+        # Clear equipment list cache
+        list_cache_key_pattern = 'equipment:list*'
+        matching_keys = redis_client.keys(list_cache_key_pattern)
+        if matching_keys:
+            redis_client.delete(*matching_keys)
+
+        # Clear specific equipment cache if equipment_id is provided
+        if equipment_id:
+            item_cache_key = f'equipment:item:{equipment_id}'
+            redis_client.delete(item_cache_key)
+
+            # Clear related caches
+            related_cache_patterns = [
+                f'equipment:parameters:{equipment_id}*',
+                f'equipment:meters:{equipment_id}*',
+                f'equipment:offlinemeters:{equipment_id}*',
+                f'equipment:virtualmeters:{equipment_id}*',
+                f'equipment:commands:{equipment_id}*',
+                f'equipment:export:{equipment_id}*',
+                f'equipment:datasources:{equipment_id}*',
+                f'equipment:addpoints:{equipment_id}*',
+                f'equipment:editpoints:{equipment_id}:*'
+            ]
+            for pattern in related_cache_patterns:
+                matching_keys = redis_client.keys(pattern)
+                if matching_keys:
+                    redis_client.delete(*matching_keys)
+
+    except Exception:
+        # If cache clear fails, ignore and continue
+        pass
 
 
 class EquipmentCollection:
@@ -34,6 +92,37 @@ class EquipmentCollection:
             access_control(req)
         else:
             api_key_control(req)
+
+        # Build cache key with search query if present
+        search_query = req.get_param('q')
+        if search_query and isinstance(search_query, str) and len(str.strip(search_query)) > 0:
+            cache_key = f'equipment:list:q:{str.strip(search_query)}'
+        else:
+            cache_key = 'equipment:list'
+        cache_expire = 28800  # 8 hours in seconds (long-term cache)
+
+        # Try to get from Redis cache (only if Redis is enabled)
+        redis_client = None
+        if config.redis.get('is_enabled', False):
+            try:
+                redis_client = redis.Redis(
+                    host=config.redis['host'],
+                    port=config.redis['port'],
+                    password=config.redis['password'] if config.redis['password'] else None,
+                    db=config.redis['db'],
+                    decode_responses=True,
+                    socket_connect_timeout=2,
+                    socket_timeout=2
+                )
+                redis_client.ping()
+                cached_result = redis_client.get(cache_key)
+                if cached_result:
+                    resp.text = cached_result
+                    return
+            except Exception:
+                # If Redis connection fails, continue to database query
+                pass
+
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()
 
@@ -94,7 +183,17 @@ class EquipmentCollection:
 
         cursor.close()
         cnx.close()
-        resp.text = json.dumps(result)
+
+        # Store result in Redis cache
+        result_json = json.dumps(result)
+        if redis_client:
+            try:
+                redis_client.setex(cache_key, cache_expire, result_json)
+            except Exception:
+                # If cache set fails, ignore and continue
+                pass
+
+        resp.text = result_json
 
     @staticmethod
     @user_logger
@@ -216,6 +315,9 @@ class EquipmentCollection:
         cursor.close()
         cnx.close()
 
+        # Clear cache after creating new equipment
+        clear_equipment_cache()
+
         resp.status = falcon.HTTP_201
         resp.location = '/equipments/' + str(new_id)
 
@@ -241,6 +343,32 @@ class EquipmentItem:
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_EQUIPMENT_ID')
+
+        # Redis cache key
+        cache_key = f'equipment:item:{id_}'
+        cache_expire = 28800  # 8 hours in seconds (long-term cache)
+
+        # Try to get from Redis cache (only if Redis is enabled)
+        redis_client = None
+        if config.redis.get('is_enabled', False):
+            try:
+                redis_client = redis.Redis(
+                    host=config.redis['host'],
+                    port=config.redis['port'],
+                    password=config.redis['password'] if config.redis['password'] else None,
+                    db=config.redis['db'],
+                    decode_responses=True,
+                    socket_connect_timeout=2,
+                    socket_timeout=2
+                )
+                redis_client.ping()
+                cached_result = redis_client.get(cache_key)
+                if cached_result:
+                    resp.text = cached_result
+                    return
+            except Exception:
+                # If Redis connection fails, continue to database query
+                pass
 
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()
@@ -293,7 +421,16 @@ class EquipmentItem:
                            "description": row[8],
                            "qrcode": 'equipment:' + row[2]}
 
-        resp.text = json.dumps(meta_result)
+        # Store result in Redis cache
+        result_json = json.dumps(meta_result)
+        if redis_client:
+            try:
+                redis_client.setex(cache_key, cache_expire, result_json)
+            except Exception:
+                # If cache set fails, ignore and continue
+                pass
+
+        resp.text = result_json
 
     @staticmethod
     @user_logger
@@ -367,6 +504,9 @@ class EquipmentItem:
 
         cursor.close()
         cnx.close()
+
+        # Clear cache after deleting equipment
+        clear_equipment_cache(equipment_id=id_)
 
         resp.status = falcon.HTTP_204
 
@@ -500,6 +640,9 @@ class EquipmentItem:
 
         cursor.close()
         cnx.close()
+
+        # Clear cache after updating equipment
+        clear_equipment_cache(equipment_id=id_)
 
         resp.status = falcon.HTTP_200
 
@@ -641,6 +784,10 @@ class EquipmentItem:
 
         cursor.close()
         cnx.close()
+
+        # Clear cache after cloning equipment
+        clear_equipment_cache()
+
         resp.status = falcon.HTTP_201
         resp.location = '/equipments/' + str(new_id)
 
@@ -667,6 +814,32 @@ class EquipmentParameterCollection:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_EQUIPMENT_ID')
 
+        # Redis cache key
+        cache_key = f'equipment:parameters:{id_}'
+        cache_expire = 28800  # 8 hours in seconds (long-term cache)
+
+        # Try to get from Redis cache (only if Redis is enabled)
+        redis_client = None
+        if config.redis.get('is_enabled', False):
+            try:
+                redis_client = redis.Redis(
+                    host=config.redis['host'],
+                    port=config.redis['port'],
+                    password=config.redis['password'] if config.redis['password'] else None,
+                    db=config.redis['db'],
+                    decode_responses=True,
+                    socket_connect_timeout=2,
+                    socket_timeout=2
+                )
+                redis_client.ping()
+                cached_result = redis_client.get(cache_key)
+                if cached_result:
+                    resp.text = cached_result
+                    return
+            except Exception:
+                # If Redis connection fails, continue to database query
+                pass
+
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()
 
@@ -678,7 +851,7 @@ class EquipmentParameterCollection:
             is_bind_data_source = True
         else:
             is_bind_data_source = False
-        
+
         cursor.execute(" SELECT name "
                        " FROM tbl_equipments "
                        " WHERE id = %s ", (id_,))
@@ -793,7 +966,17 @@ class EquipmentParameterCollection:
 
         cursor.close()
         cnx.close()
-        resp.text = json.dumps(result)
+
+        # Store result in Redis cache
+        result_json = json.dumps(result)
+        if redis_client:
+            try:
+                redis_client.setex(cache_key, cache_expire, result_json)
+            except Exception:
+                # If cache set fails, ignore and continue
+                pass
+
+        resp.text = result_json
 
     @staticmethod
     @user_logger
@@ -979,6 +1162,9 @@ class EquipmentParameterCollection:
         cursor.close()
         cnx.close()
 
+        # Clear cache after creating parameter
+        clear_equipment_cache(equipment_id=id_)
+
         resp.status = falcon.HTTP_201
         resp.location = '/equipments/' + str(id_) + 'parameters/' + str(new_id)
 
@@ -1163,6 +1349,9 @@ class EquipmentParameterItem:
 
         cursor.close()
         cnx.close()
+
+        # Clear cache after deleting parameter
+        clear_equipment_cache(equipment_id=id_)
 
         resp.status = falcon.HTTP_204
 
@@ -1373,6 +1562,9 @@ class EquipmentParameterItem:
         cursor.close()
         cnx.close()
 
+        # Clear cache after updating parameter
+        clear_equipment_cache(equipment_id=id_)
+
         resp.status = falcon.HTTP_200
 
 
@@ -1516,6 +1708,9 @@ class EquipmentMeterCollection:
         cursor.close()
         cnx.close()
 
+        # Clear cache after adding meter
+        clear_equipment_cache(equipment_id=id_)
+
         resp.status = falcon.HTTP_201
         resp.location = '/equipments/' + str(id_) + '/meters/' + str(meter_id)
 
@@ -1578,6 +1773,9 @@ class EquipmentMeterItem:
 
         cursor.close()
         cnx.close()
+
+        # Clear cache after deleting meter
+        clear_equipment_cache(equipment_id=id_)
 
         resp.status = falcon.HTTP_204
 
@@ -1722,6 +1920,9 @@ class EquipmentOfflineMeterCollection:
         cursor.close()
         cnx.close()
 
+        # Clear cache after adding offline meter
+        clear_equipment_cache(equipment_id=id_)
+
         resp.status = falcon.HTTP_201
         resp.location = '/equipments/' + str(id_) + '/offlinemeters/' + str(offline_meter_id)
 
@@ -1785,6 +1986,9 @@ class EquipmentOfflineMeterItem:
 
         cursor.close()
         cnx.close()
+
+        # Clear cache after deleting offline meter
+        clear_equipment_cache(equipment_id=id_)
 
         resp.status = falcon.HTTP_204
 
@@ -1929,6 +2133,9 @@ class EquipmentVirtualMeterCollection:
         cursor.close()
         cnx.close()
 
+        # Clear cache after adding virtual meter
+        clear_equipment_cache(equipment_id=id_)
+
         resp.status = falcon.HTTP_201
         resp.location = '/equipments/' + str(id_) + '/virtualmeters/' + str(virtual_meter_id)
 
@@ -1992,6 +2199,9 @@ class EquipmentVirtualMeterItem:
 
         cursor.close()
         cnx.close()
+
+        # Clear cache after deleting virtual meter
+        clear_equipment_cache(equipment_id=id_)
 
         resp.status = falcon.HTTP_204
 
@@ -2116,6 +2326,9 @@ class EquipmentCommandCollection:
         cursor.close()
         cnx.close()
 
+        # Clear cache after adding command
+        clear_equipment_cache(equipment_id=id_)
+
         resp.status = falcon.HTTP_201
         resp.location = '/equipments/' + str(id_) + '/commands/' + str(command_id)
 
@@ -2178,6 +2391,9 @@ class EquipmentCommandItem:
 
         cursor.close()
         cnx.close()
+
+        # Clear cache after deleting command
+        clear_equipment_cache(equipment_id=id_)
 
         resp.status = falcon.HTTP_204
 
@@ -2797,6 +3013,9 @@ class EquipmentImport:
         cursor.close()
         cnx.close()
 
+        # Clear cache after importing equipment
+        clear_equipment_cache()
+
         resp.status = falcon.HTTP_201
         resp.location = '/equipments/' + str(new_id)
 
@@ -3403,6 +3622,9 @@ class EquipmentDataSourceCollection:
         cursor.close()
         cnx.close()
 
+        # Clear cache after adding data source
+        clear_equipment_cache(equipment_id=id_)
+
         resp.status = falcon.HTTP_201
         resp.location = '/equipments/' + str(id_) + '/datasources/' + str(data_source_id)
 
@@ -3462,6 +3684,9 @@ class EquipmentDataSourceItem:
         cursor.close()
         cnx.close()
 
+        # Clear cache after deleting data source
+        clear_equipment_cache(equipment_id=id_)
+
         resp.status = falcon.HTTP_204
 
 class EquipmentAddPointsCollection:
@@ -3497,7 +3722,7 @@ class EquipmentAddPointsCollection:
         if rows is not None and len(rows) > 0:
             for row in rows:
                 pids.append(row[0])
-                
+
         query = (" SELECT id, name, uuid "
                  " FROM tbl_data_sources ")
         cursor.execute(query)
@@ -3578,7 +3803,7 @@ class EquipmentEditPointsCollection:
         if rows is not None and len(rows) > 0:
             for row in rows:
                 equipment_pids.append(row[0])
-                
+
         pids = list()
         cursor.execute(" SELECT id "
                        " FROM tbl_points "
@@ -3587,7 +3812,7 @@ class EquipmentEditPointsCollection:
         if rows is not None and len(rows) > 0:
             for row in rows:
                 pids.append(row[0])
-                
+
         pids = pids + equipment_pids
         query = (" SELECT id, name, uuid "
                  " FROM tbl_data_sources ")

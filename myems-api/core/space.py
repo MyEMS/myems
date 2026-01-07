@@ -3,10 +3,88 @@ from datetime import datetime, timedelta
 import falcon
 import mysql.connector
 import simplejson as json
+import redis
 from anytree import AnyNode, LevelOrderIter
 from anytree.exporter import JsonExporter
 from core.useractivity import user_logger, admin_control, access_control, api_key_control
 import config
+
+
+def clear_space_cache(space_id=None, parent_space_id=None):
+    """
+    Clear space-related cache after data modification
+
+    Args:
+        space_id: Space ID (optional, for specific space cache)
+        parent_space_id: Parent space ID (optional, for parent space cache)
+    """
+    # Check if Redis is enabled
+    if not config.redis.get('is_enabled', False):
+        return
+
+    redis_client = None
+    try:
+        redis_client = redis.Redis(
+            host=config.redis['host'],
+            port=config.redis['port'],
+            password=config.redis['password'] if config.redis['password'] else None,
+            db=config.redis['db'],
+            decode_responses=True,
+            socket_connect_timeout=2,
+            socket_timeout=2
+        )
+        redis_client.ping()
+
+        # Clear space list cache
+        list_cache_key = 'space:list'
+        redis_client.delete(list_cache_key)
+
+        # Clear specific space item cache if space_id is provided
+        if space_id:
+            item_cache_key = f'space:item:{space_id}'
+            redis_client.delete(item_cache_key)
+            children_cache_key = f'space:children:{space_id}'
+            redis_client.delete(children_cache_key)
+
+        # Clear parent space children cache if parent_space_id is provided
+        if parent_space_id:
+            parent_children_cache_key = f'space:children:{parent_space_id}'
+            redis_client.delete(parent_children_cache_key)
+
+        # Clear all space tree caches
+        pattern = 'space:tree:*'
+        keys = redis_client.keys(pattern)
+        if keys:
+            redis_client.delete(*keys)
+
+        # Clear space-related collection caches (meters, equipments, etc.)
+        if space_id:
+            patterns = [
+                f'space:combinedequipments:{space_id}',
+                f'space:equipments:{space_id}',
+                f'space:meters:{space_id}',
+                f'space:offlinemeters:{space_id}',
+                f'space:points:{space_id}',
+                f'space:sensors:{space_id}',
+                f'space:shopfloors:{space_id}',
+                f'space:stores:{space_id}',
+                f'space:tenants:{space_id}',
+                f'space:virtualmeters:{space_id}',
+                f'space:workingcalendars:{space_id}',
+                f'space:commands:{space_id}',
+                f'space:microgrids:{space_id}',
+                f'space:photovoltaicpowerstations:{space_id}',
+                f'space:energystoragepowerstations:{space_id}',
+                f'space:energyflowdiagrams:{space_id}',
+                f'space:distributionsystems:{space_id}',
+                f'space:export:{space_id}',
+            ]
+            for pattern_key in patterns:
+                redis_client.delete(pattern_key)
+
+    except Exception:
+        # If cache clear fails, ignore and continue
+        pass
 
 
 class SpaceCollection:
@@ -33,6 +111,34 @@ class SpaceCollection:
             access_control(req)
         else:
             api_key_control(req)
+
+        # Redis cache key
+        cache_key = 'space:list'
+        cache_expire = 28800  # 8 hours in seconds (long-term cache)
+
+        # Try to get from Redis cache (only if Redis is enabled)
+        redis_client = None
+        if config.redis.get('is_enabled', False):
+            try:
+                redis_client = redis.Redis(
+                    host=config.redis['host'],
+                    port=config.redis['port'],
+                    password=config.redis['password'] if config.redis['password'] else None,
+                    db=config.redis['db'],
+                    decode_responses=True,
+                    socket_connect_timeout=2,
+                    socket_timeout=2
+                )
+                redis_client.ping()
+                cached_result = redis_client.get(cache_key)
+                if cached_result:
+                    resp.text = cached_result
+                    return
+            except Exception:
+                # If Redis connection fails, continue to database query
+                pass
+
+        # Cache miss or Redis error - query database
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()
 
@@ -114,7 +220,16 @@ class SpaceCollection:
 
         cursor.close()
         cnx.close()
-        resp.text = json.dumps(result)
+
+        # Store result in Redis cache
+        result_json = json.dumps(result)
+        if redis_client:
+            try:
+                redis_client.setex(cache_key, cache_expire, result_json)
+            except Exception:
+                pass
+
+        resp.text = result_json
 
     @staticmethod
     @user_logger
@@ -314,6 +429,9 @@ class SpaceCollection:
         cursor.close()
         cnx.close()
 
+        # Clear cache after POST
+        clear_space_cache(space_id=new_id, parent_space_id=parent_space_id)
+
         resp.status = falcon.HTTP_201
         resp.location = '/spaces/' + str(new_id)
 
@@ -340,6 +458,33 @@ class SpaceItem:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_METER_ID')
 
+        # Redis cache key
+        cache_key = f'space:item:{id_}'
+        cache_expire = 28800  # 8 hours in seconds (long-term cache)
+
+        # Try to get from Redis cache (only if Redis is enabled)
+        redis_client = None
+        if config.redis.get('is_enabled', False):
+            try:
+                redis_client = redis.Redis(
+                    host=config.redis['host'],
+                    port=config.redis['port'],
+                    password=config.redis['password'] if config.redis['password'] else None,
+                    db=config.redis['db'],
+                    decode_responses=True,
+                    socket_connect_timeout=2,
+                    socket_timeout=2
+                )
+                redis_client.ping()
+                cached_result = redis_client.get(cache_key)
+                if cached_result:
+                    resp.text = cached_result
+                    return
+            except Exception:
+                # If Redis connection fails, continue to database query
+                pass
+
+        # Cache miss or Redis error - query database
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()
 
@@ -421,7 +566,15 @@ class SpaceItem:
                            "description": row[13],
                            "qrcode": "space:" + row[2]}
 
-        resp.text = json.dumps(meta_result)
+        # Store result in Redis cache
+        result_json = json.dumps(meta_result)
+        if redis_client:
+            try:
+                redis_client.setex(cache_key, cache_expire, result_json)
+            except Exception:
+                pass
+
+        resp.text = result_json
 
     @staticmethod
     @user_logger
@@ -437,14 +590,16 @@ class SpaceItem:
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()
 
-        cursor.execute(" SELECT name "
+        cursor.execute(" SELECT name, parent_space_id "
                        " FROM tbl_spaces "
                        " WHERE id = %s ", (id_,))
-        if cursor.fetchone() is None:
+        row = cursor.fetchone()
+        if row is None:
             cursor.close()
             cnx.close()
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.SPACE_NOT_FOUND')
+        parent_space_id = row[1]
 
         # checkout relation with children spaces
         cursor.execute(" SELECT id "
@@ -500,6 +655,9 @@ class SpaceItem:
 
         cursor.close()
         cnx.close()
+
+        # Clear cache after DELETE
+        clear_space_cache(space_id=int(id_), parent_space_id=parent_space_id)
 
         resp.status = falcon.HTTP_204
 
@@ -634,14 +792,16 @@ class SpaceItem:
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()
 
-        cursor.execute(" SELECT name "
+        cursor.execute(" SELECT name, parent_space_id "
                        " FROM tbl_spaces "
                        " WHERE id = %s ", (id_,))
-        if cursor.fetchone() is None:
+        row = cursor.fetchone()
+        if row is None:
             cursor.close()
             cnx.close()
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.SPACE_NOT_FOUND')
+        old_parent_space_id = row[1]
 
         cursor.execute(" SELECT name "
                        " FROM tbl_spaces "
@@ -720,6 +880,12 @@ class SpaceItem:
         cursor.close()
         cnx.close()
 
+        # Clear cache after PUT
+        clear_space_cache(space_id=int(id_), parent_space_id=parent_space_id)
+        # Also clear old parent space cache if parent_space_id changed
+        if old_parent_space_id != parent_space_id:
+            clear_space_cache(parent_space_id=old_parent_space_id)
+
         resp.status = falcon.HTTP_200
 
 
@@ -745,6 +911,33 @@ class SpaceChildrenCollection:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_SPACE_ID')
 
+        # Redis cache key
+        cache_key = f'space:children:{id_}'
+        cache_expire = 28800  # 8 hours in seconds (long-term cache)
+
+        # Try to get from Redis cache (only if Redis is enabled)
+        redis_client = None
+        if config.redis.get('is_enabled', False):
+            try:
+                redis_client = redis.Redis(
+                    host=config.redis['host'],
+                    port=config.redis['port'],
+                    password=config.redis['password'] if config.redis['password'] else None,
+                    db=config.redis['db'],
+                    decode_responses=True,
+                    socket_connect_timeout=2,
+                    socket_timeout=2
+                )
+                redis_client.ping()
+                cached_result = redis_client.get(cache_key)
+                if cached_result:
+                    resp.text = cached_result
+                    return
+            except Exception:
+                # If Redis connection fails, continue to database query
+                pass
+
+        # Cache miss or Redis error - query database
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()
 
@@ -859,7 +1052,16 @@ class SpaceChildrenCollection:
 
         cursor.close()
         cnx.close()
-        resp.text = json.dumps(result)
+
+        # Store result in Redis cache
+        result_json = json.dumps(result)
+        if redis_client:
+            try:
+                redis_client.setex(cache_key, cache_expire, result_json)
+            except Exception:
+                pass
+
+        resp.text = result_json
 
 
 class SpaceCombinedEquipmentCollection:

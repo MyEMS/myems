@@ -2,8 +2,49 @@ import uuid
 import falcon
 import mysql.connector
 import simplejson as json
+import redis
 from core.useractivity import user_logger, admin_control, access_control, api_key_control
 import config
+
+
+def clear_energycategory_cache(energy_category_id=None):
+    """
+    Clear energy category-related cache after data modification
+
+    Args:
+        energy_category_id: Energy category ID (optional, for specific category cache)
+    """
+    # Check if Redis is enabled
+    if not config.redis.get('is_enabled', False):
+        return
+
+    redis_client = None
+    try:
+        redis_client = redis.Redis(
+            host=config.redis['host'],
+            port=config.redis['port'],
+            password=config.redis['password'] if config.redis['password'] else None,
+            db=config.redis['db'],
+            decode_responses=True,
+            socket_connect_timeout=2,
+            socket_timeout=2
+        )
+        redis_client.ping()
+
+        # Clear energy category list cache
+        list_cache_key_pattern = 'energycategory:list*'
+        matching_keys = redis_client.keys(list_cache_key_pattern)
+        if matching_keys:
+            redis_client.delete(*matching_keys)
+
+        # Clear specific energy category item cache if energy_category_id is provided
+        if energy_category_id:
+            item_cache_key = f'energycategory:item:{energy_category_id}'
+            redis_client.delete(item_cache_key)
+
+    except Exception:
+        # If cache clear fails, ignore and continue
+        pass
 
 
 class EnergyCategoryCollection:
@@ -32,6 +73,34 @@ class EnergyCategoryCollection:
             access_control(req)
         else:
             api_key_control(req)
+
+        # Redis cache key
+        cache_key = 'energycategory:list'
+        cache_expire = 28800  # 8 hours in seconds (long-term cache)
+
+        # Try to get from Redis cache (only if Redis is enabled)
+        redis_client = None
+        if config.redis.get('is_enabled', False):
+            try:
+                redis_client = redis.Redis(
+                    host=config.redis['host'],
+                    port=config.redis['port'],
+                    password=config.redis['password'] if config.redis['password'] else None,
+                    db=config.redis['db'],
+                    decode_responses=True,
+                    socket_connect_timeout=2,
+                    socket_timeout=2
+                )
+                redis_client.ping()
+                cached_result = redis_client.get(cache_key)
+                if cached_result:
+                    resp.text = cached_result
+                    return
+            except Exception:
+                # If Redis connection fails, continue to database query
+                pass
+
+        # Cache miss or Redis error - query database
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()
 
@@ -50,7 +119,16 @@ class EnergyCategoryCollection:
                                "kgce": row[4], "kgco2e": row[5]}
                 result.append(meta_result)
 
-        resp.text = json.dumps(result)
+        # Store result in Redis cache
+        result_json = json.dumps(result)
+        if redis_client:
+            try:
+                redis_client.setex(cache_key, cache_expire, result_json)
+            except Exception:
+                # If cache set fails, ignore and continue
+                pass
+
+        resp.text = result_json
 
     @staticmethod
     @user_logger
@@ -127,6 +205,9 @@ class EnergyCategoryCollection:
         cursor.close()
         cnx.close()
 
+        # Clear cache after creating new energy category
+        clear_energycategory_cache()
+
         resp.status = falcon.HTTP_201
         resp.location = '/energycategories/' + str(new_id)
 
@@ -153,6 +234,33 @@ class EnergyCategoryItem:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_ENERGY_CATEGORY_ID')
 
+        # Redis cache key
+        cache_key = f'energycategory:item:{id_}'
+        cache_expire = 28800  # 8 hours in seconds (long-term cache)
+
+        # Try to get from Redis cache (only if Redis is enabled)
+        redis_client = None
+        if config.redis.get('is_enabled', False):
+            try:
+                redis_client = redis.Redis(
+                    host=config.redis['host'],
+                    port=config.redis['port'],
+                    password=config.redis['password'] if config.redis['password'] else None,
+                    db=config.redis['db'],
+                    decode_responses=True,
+                    socket_connect_timeout=2,
+                    socket_timeout=2
+                )
+                redis_client.ping()
+                cached_result = redis_client.get(cache_key)
+                if cached_result:
+                    resp.text = cached_result
+                    return
+            except Exception:
+                # If Redis connection fails, continue to database query
+                pass
+
+        # Cache miss or Redis error - query database
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()
 
@@ -173,7 +281,17 @@ class EnergyCategoryItem:
                   "unit_of_measure": row[3],
                   "kgce": row[4],
                   "kgco2e": row[5]}
-        resp.text = json.dumps(result)
+
+        # Store result in Redis cache
+        result_json = json.dumps(result)
+        if redis_client:
+            try:
+                redis_client.setex(cache_key, cache_expire, result_json)
+            except Exception:
+                # If cache set fails, ignore and continue
+                pass
+
+        resp.text = result_json
 
     @staticmethod
     @user_logger
@@ -255,6 +373,10 @@ class EnergyCategoryItem:
 
         cursor.close()
         cnx.close()
+
+        # Clear cache after deleting energy category
+        clear_energycategory_cache(energy_category_id=id_)
+
         resp.status = falcon.HTTP_204
 
     @staticmethod
@@ -342,4 +464,8 @@ class EnergyCategoryItem:
         cnx.commit()
         cursor.close()
         cnx.close()
+
+        # Clear cache after updating energy category
+        clear_energycategory_cache(energy_category_id=id_)
+
         resp.status = falcon.HTTP_200

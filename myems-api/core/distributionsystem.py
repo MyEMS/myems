@@ -3,8 +3,54 @@ from datetime import datetime, timedelta
 import falcon
 import mysql.connector
 import simplejson as json
+import redis
 from core.useractivity import user_logger, admin_control, access_control, api_key_control
+from reports.distributionsystem import clear_distribution_system_report_cache
 import config
+
+
+def clear_distribution_system_cache(distribution_system_id=None):
+    """
+    Clear distribution system-related cache after data modification
+
+    Args:
+        distribution_system_id: Distribution System ID (optional, for specific system cache)
+    """
+    # Check if Redis is enabled
+    if not config.redis.get('is_enabled', False):
+        return
+
+    redis_client = None
+    try:
+        redis_client = redis.Redis(
+            host=config.redis['host'],
+            port=config.redis['port'],
+            password=config.redis['password'] if config.redis['password'] else None,
+            db=config.redis['db'],
+            decode_responses=True,
+            socket_connect_timeout=2,
+            socket_timeout=2
+        )
+        redis_client.ping()
+
+        # Clear distribution system list cache (all search query variations)
+        list_cache_key_pattern = 'distributionsystem:list:*'
+        matching_keys = redis_client.keys(list_cache_key_pattern)
+        if matching_keys:
+            redis_client.delete(*matching_keys)
+
+        # Clear specific distribution system item cache if distribution_system_id is provided
+        if distribution_system_id:
+            item_cache_key = f'distributionsystem:item:{distribution_system_id}'
+            redis_client.delete(item_cache_key)
+            circuit_cache_key = f'distributionsystem:circuit:{distribution_system_id}'
+            redis_client.delete(circuit_cache_key)
+            export_cache_key = f'distributionsystem:export:{distribution_system_id}'
+            redis_client.delete(export_cache_key)
+
+    except Exception:
+        # If cache clear fails, ignore and continue
+        pass
 
 
 class DistributionSystemCollection:
@@ -40,6 +86,33 @@ class DistributionSystemCollection:
         else:
             search_query = ''
 
+        # Redis cache key (include search query in key for proper caching)
+        cache_key = f'distributionsystem:list:{search_query}'
+        cache_expire = 28800  # 8 hours in seconds (long-term cache)
+
+        # Try to get from Redis cache (only if Redis is enabled)
+        redis_client = None
+        if config.redis.get('is_enabled', False):
+            try:
+                redis_client = redis.Redis(
+                    host=config.redis['host'],
+                    port=config.redis['port'],
+                    password=config.redis['password'] if config.redis['password'] else None,
+                    db=config.redis['db'],
+                    decode_responses=True,
+                    socket_connect_timeout=2,
+                    socket_timeout=2
+                )
+                redis_client.ping()
+                cached_result = redis_client.get(cache_key)
+                if cached_result:
+                    resp.text = cached_result
+                    return
+            except Exception:
+                # If Redis connection fails, continue to database query
+                pass
+
+        # Cache miss or Redis error - query database
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()
 
@@ -80,7 +153,17 @@ class DistributionSystemCollection:
 
         cursor.close()
         cnx.close()
-        resp.text = json.dumps(result)
+
+        # Store result in Redis cache
+        result_json = json.dumps(result)
+        if redis_client:
+            try:
+                redis_client.setex(cache_key, cache_expire, result_json)
+            except Exception:
+                # If cache set fails, ignore and continue
+                pass
+
+        resp.text = result_json
 
     @staticmethod
     @user_logger
@@ -158,6 +241,11 @@ class DistributionSystemCollection:
         cursor.close()
         cnx.close()
 
+        # Clear distribution system report cache after creating new system
+        clear_distribution_system_report_cache()
+        # Clear distribution system API cache
+        clear_distribution_system_cache()
+
         resp.status = falcon.HTTP_201
         resp.location = '/distributionsystems/' + str(new_id)
 
@@ -184,6 +272,33 @@ class DistributionSystemItem:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_DISTRIBUTION_SYSTEM_ID')
 
+        # Redis cache key
+        cache_key = f'distributionsystem:item:{id_}'
+        cache_expire = 28800  # 8 hours in seconds (long-term cache)
+
+        # Try to get from Redis cache (only if Redis is enabled)
+        redis_client = None
+        if config.redis.get('is_enabled', False):
+            try:
+                redis_client = redis.Redis(
+                    host=config.redis['host'],
+                    port=config.redis['port'],
+                    password=config.redis['password'] if config.redis['password'] else None,
+                    db=config.redis['db'],
+                    decode_responses=True,
+                    socket_connect_timeout=2,
+                    socket_timeout=2
+                )
+                redis_client.ping()
+                cached_result = redis_client.get(cache_key)
+                if cached_result:
+                    resp.text = cached_result
+                    return
+            except Exception:
+                # If Redis connection fails, continue to database query
+                pass
+
+        # Cache miss or Redis error - query database
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()
 
@@ -218,7 +333,16 @@ class DistributionSystemItem:
                            "svg": svg_dict.get(row[3], None),
                            "description": row[4]}
 
-        resp.text = json.dumps(meta_result)
+        # Store result in Redis cache
+        result_json = json.dumps(meta_result)
+        if redis_client:
+            try:
+                redis_client.setex(cache_key, cache_expire, result_json)
+            except Exception:
+                # If cache set fails, ignore and continue
+                pass
+
+        resp.text = result_json
 
     @staticmethod
     @user_logger
@@ -259,6 +383,11 @@ class DistributionSystemItem:
 
         cursor.close()
         cnx.close()
+
+        # Clear distribution system report cache after deleting system
+        clear_distribution_system_report_cache(distribution_system_id=id_)
+        # Clear distribution system API cache
+        clear_distribution_system_cache(distribution_system_id=id_)
 
         resp.status = falcon.HTTP_204
 
@@ -342,6 +471,11 @@ class DistributionSystemItem:
         cursor.close()
         cnx.close()
 
+        # Clear distribution system report cache after updating system
+        clear_distribution_system_report_cache(distribution_system_id=id_)
+        # Clear distribution system API cache
+        clear_distribution_system_cache(distribution_system_id=id_)
+
         resp.status = falcon.HTTP_200
 
 
@@ -367,6 +501,33 @@ class DistributionSystemDistributionCircuitCollection:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_DISTRIBUTION_SYSTEM_ID')
 
+        # Redis cache key
+        cache_key = f'distributionsystem:circuit:{id_}'
+        cache_expire = 28800  # 8 hours in seconds (long-term cache)
+
+        # Try to get from Redis cache (only if Redis is enabled)
+        redis_client = None
+        if config.redis.get('is_enabled', False):
+            try:
+                redis_client = redis.Redis(
+                    host=config.redis['host'],
+                    port=config.redis['port'],
+                    password=config.redis['password'] if config.redis['password'] else None,
+                    db=config.redis['db'],
+                    decode_responses=True,
+                    socket_connect_timeout=2,
+                    socket_timeout=2
+                )
+                redis_client.ping()
+                cached_result = redis_client.get(cache_key)
+                if cached_result:
+                    resp.text = cached_result
+                    return
+            except Exception:
+                # If Redis connection fails, continue to database query
+                pass
+
+        # Cache miss or Redis error - query database
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()
 
@@ -396,7 +557,19 @@ class DistributionSystemDistributionCircuitCollection:
                                "customers": row[7], "meters": row[8]}
                 result.append(meta_result)
 
-        resp.text = json.dumps(result)
+        cursor.close()
+        cnx.close()
+
+        # Store result in Redis cache
+        result_json = json.dumps(result)
+        if redis_client:
+            try:
+                redis_client.setex(cache_key, cache_expire, result_json)
+            except Exception:
+                # If cache set fails, ignore and continue
+                pass
+
+        resp.text = result_json
 
 
 class DistributionSystemExport:
@@ -421,6 +594,33 @@ class DistributionSystemExport:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_DISTRIBUTION_SYSTEM_ID')
 
+        # Redis cache key
+        cache_key = f'distributionsystem:export:{id_}'
+        cache_expire = 28800  # 8 hours in seconds (long-term cache)
+
+        # Try to get from Redis cache (only if Redis is enabled)
+        redis_client = None
+        if config.redis.get('is_enabled', False):
+            try:
+                redis_client = redis.Redis(
+                    host=config.redis['host'],
+                    port=config.redis['port'],
+                    password=config.redis['password'] if config.redis['password'] else None,
+                    db=config.redis['db'],
+                    decode_responses=True,
+                    socket_connect_timeout=2,
+                    socket_timeout=2
+                )
+                redis_client.ping()
+                cached_result = redis_client.get(cache_key)
+                if cached_result:
+                    resp.text = cached_result
+                    return
+            except Exception:
+                # If Redis connection fails, continue to database query
+                pass
+
+        # Cache miss or Redis error - query database
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()
 
@@ -444,6 +644,8 @@ class DistributionSystemExport:
         row = cursor.fetchone()
 
         if row is None:
+            cursor.close()
+            cnx.close()
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.DISTRIBUTION_SYSTEM_NOT_FOUND')
         else:
@@ -491,7 +693,17 @@ class DistributionSystemExport:
 
         cursor.close()
         cnx.close()
-        resp.text = json.dumps(meta_result)
+
+        # Store result in Redis cache
+        result_json = json.dumps(meta_result)
+        if redis_client:
+            try:
+                redis_client.setex(cache_key, cache_expire, result_json)
+            except Exception:
+                # If cache set fails, ignore and continue
+                pass
+
+        resp.text = result_json
 
 
 class DistributionSystemImport:
@@ -576,6 +788,10 @@ class DistributionSystemImport:
                                     svg_id,
                                     description))
         new_id = cursor.lastrowid
+        # Clear distribution system report cache after importing new system
+        clear_distribution_system_report_cache()
+        # Clear distribution system API cache
+        clear_distribution_system_cache()
         if new_values['circuits'] is not None and len(new_values['circuits']) > 0:
             for circuit in new_values['circuits']:
                 add_values = (" INSERT INTO tbl_distribution_circuits "
@@ -711,6 +927,10 @@ class DistributionSystemClone:
                                         meta_result['svg_id'],
                                         meta_result['description']))
             new_id = cursor.lastrowid
+            # Clear distribution system report cache after cloning system
+            clear_distribution_system_report_cache()
+            # Clear distribution system API cache
+            clear_distribution_system_cache()
             if meta_result['circuits'] is not None and len(meta_result['circuits']) > 0:
                 for circuit in meta_result['circuits']:
                     add_values = (" INSERT INTO tbl_distribution_circuits "

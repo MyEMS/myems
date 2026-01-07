@@ -2,8 +2,58 @@ import falcon
 from datetime import datetime, timedelta
 import mysql.connector
 import simplejson as json
+import redis
 from core.useractivity import admin_control, access_control, api_key_control
 import config
+
+
+def clear_working_calendar_cache(working_calendar_id=None):
+    """
+    Clear working calendar-related cache after data modification
+
+    Args:
+        working_calendar_id: Working calendar ID (optional, for specific calendar cache)
+    """
+    # Check if Redis is enabled
+    if not config.redis.get('is_enabled', False):
+        return
+
+    redis_client = None
+    try:
+        redis_client = redis.Redis(
+            host=config.redis['host'],
+            port=config.redis['port'],
+            password=config.redis['password'] if config.redis['password'] else None,
+            db=config.redis['db'],
+            decode_responses=True,
+            socket_connect_timeout=2,
+            socket_timeout=2
+        )
+        redis_client.ping()
+
+        # Clear working calendar list cache
+        list_cache_key_pattern = 'workingcalendar:list:*'
+        matching_keys = redis_client.keys(list_cache_key_pattern)
+        if matching_keys:
+            redis_client.delete(*matching_keys)
+
+        # Clear specific working calendar item cache if working_calendar_id is provided
+        if working_calendar_id:
+            item_cache_key = f'workingcalendar:item:{working_calendar_id}'
+            redis_client.delete(item_cache_key)
+            non_working_days_cache_key = f'workingcalendar:nonworkingdays:{working_calendar_id}'
+            redis_client.delete(non_working_days_cache_key)
+            export_cache_key = f'workingcalendar:export:{working_calendar_id}'
+            redis_client.delete(export_cache_key)
+            # Clear all non-working day item cache (since we don't know specific IDs)
+            non_working_day_item_pattern = 'nonworkingday:item:*'
+            matching_keys = redis_client.keys(non_working_day_item_pattern)
+            if matching_keys:
+                redis_client.delete(*matching_keys)
+
+    except Exception:
+        # If cache clear fails, ignore and continue
+        pass
 
 
 class WorkingCalendarCollection:
@@ -32,6 +82,34 @@ class WorkingCalendarCollection:
             access_control(req)
         else:
             api_key_control(req)
+
+        # Redis cache key
+        cache_key = 'workingcalendar:list:'
+        cache_expire = 28800  # 8 hours in seconds (long-term cache)
+
+        # Try to get from Redis cache (only if Redis is enabled)
+        redis_client = None
+        if config.redis.get('is_enabled', False):
+            try:
+                redis_client = redis.Redis(
+                    host=config.redis['host'],
+                    port=config.redis['port'],
+                    password=config.redis['password'] if config.redis['password'] else None,
+                    db=config.redis['db'],
+                    decode_responses=True,
+                    socket_connect_timeout=2,
+                    socket_timeout=2
+                )
+                redis_client.ping()
+                cached_result = redis_client.get(cache_key)
+                if cached_result:
+                    resp.text = cached_result
+                    return
+            except Exception:
+                # If Redis connection fails, continue to database query
+                pass
+
+        # Cache miss or Redis error - query database
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()
 
@@ -50,7 +128,17 @@ class WorkingCalendarCollection:
 
         cursor.close()
         cnx.close()
-        resp.text = json.dumps(result)
+
+        # Store result in Redis cache
+        result_json = json.dumps(result)
+        if redis_client:
+            try:
+                redis_client.setex(cache_key, cache_expire, result_json)
+            except Exception:
+                # If cache set fails, ignore and continue
+                pass
+
+        resp.text = result_json
 
     @staticmethod
     def on_post(req, resp):
@@ -111,6 +199,9 @@ class WorkingCalendarCollection:
         cursor.close()
         cnx.close()
 
+        # Clear cache after creating new working calendar
+        clear_working_calendar_cache()
+
         resp.status = falcon.HTTP_201
         resp.location = '/workingcalendar/' + str(new_id)
 
@@ -137,6 +228,33 @@ class WorkingCalendarItem:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_WORKING_CALENDAR_ID')
 
+        # Redis cache key
+        cache_key = f'workingcalendar:item:{id_}'
+        cache_expire = 28800  # 8 hours in seconds (long-term cache)
+
+        # Try to get from Redis cache (only if Redis is enabled)
+        redis_client = None
+        if config.redis.get('is_enabled', False):
+            try:
+                redis_client = redis.Redis(
+                    host=config.redis['host'],
+                    port=config.redis['port'],
+                    password=config.redis['password'] if config.redis['password'] else None,
+                    db=config.redis['db'],
+                    decode_responses=True,
+                    socket_connect_timeout=2,
+                    socket_timeout=2
+                )
+                redis_client.ping()
+                cached_result = redis_client.get(cache_key)
+                if cached_result:
+                    resp.text = cached_result
+                    return
+            except Exception:
+                # If Redis connection fails, continue to database query
+                pass
+
+        # Cache miss or Redis error - query database
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()
 
@@ -154,7 +272,17 @@ class WorkingCalendarItem:
         meta_result = {"id": row[0],
                        "name": row[1],
                        "description": row[2]}
-        resp.text = json.dumps(meta_result)
+
+        # Store result in Redis cache
+        result_json = json.dumps(meta_result)
+        if redis_client:
+            try:
+                redis_client.setex(cache_key, cache_expire, result_json)
+            except Exception:
+                # If cache set fails, ignore and continue
+                pass
+
+        resp.text = result_json
 
     @staticmethod
     def on_delete(req, resp, id_):
@@ -233,6 +361,9 @@ class WorkingCalendarItem:
         cursor.close()
         cnx.close()
 
+        # Clear cache after deleting working calendar
+        clear_working_calendar_cache(working_calendar_id=int(id_))
+
         resp.status = falcon.HTTP_204
 
     @staticmethod
@@ -302,6 +433,9 @@ class WorkingCalendarItem:
         cursor.close()
         cnx.close()
 
+        # Clear cache after updating working calendar
+        clear_working_calendar_cache(working_calendar_id=int(id_))
+
         resp.status = falcon.HTTP_200
 
 
@@ -327,6 +461,33 @@ class NonWorkingDayCollection:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_NON_WORKING_DAY_ID')
 
+        # Redis cache key
+        cache_key = f'workingcalendar:nonworkingdays:{id_}'
+        cache_expire = 28800  # 8 hours in seconds (long-term cache)
+
+        # Try to get from Redis cache (only if Redis is enabled)
+        redis_client = None
+        if config.redis.get('is_enabled', False):
+            try:
+                redis_client = redis.Redis(
+                    host=config.redis['host'],
+                    port=config.redis['port'],
+                    password=config.redis['password'] if config.redis['password'] else None,
+                    db=config.redis['db'],
+                    decode_responses=True,
+                    socket_connect_timeout=2,
+                    socket_timeout=2
+                )
+                redis_client.ping()
+                cached_result = redis_client.get(cache_key)
+                if cached_result:
+                    resp.text = cached_result
+                    return
+            except Exception:
+                # If Redis connection fails, continue to database query
+                pass
+
+        # Cache miss or Redis error - query database
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()
 
@@ -348,7 +509,16 @@ class NonWorkingDayCollection:
         cursor.close()
         cnx.close()
 
-        resp.text = json.dumps(meta_result)
+        # Store result in Redis cache
+        result_json = json.dumps(meta_result)
+        if redis_client:
+            try:
+                redis_client.setex(cache_key, cache_expire, result_json)
+            except Exception:
+                # If cache set fails, ignore and continue
+                pass
+
+        resp.text = result_json
 
     @staticmethod
     def on_post(req, resp, id_):
@@ -414,6 +584,9 @@ class NonWorkingDayCollection:
         cursor.close()
         cnx.close()
 
+        # Clear cache after creating new non-working day
+        clear_working_calendar_cache(working_calendar_id=int(working_calendar_id))
+
         resp.status = falcon.HTTP_201
         resp.location = '/nonworkingday/' + str(new_id)
 
@@ -440,6 +613,33 @@ class NonWorkingDayItem:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_NON_WORKING_DAY_ID')
 
+        # Redis cache key
+        cache_key = f'nonworkingday:item:{id_}'
+        cache_expire = 28800  # 8 hours in seconds (long-term cache)
+
+        # Try to get from Redis cache (only if Redis is enabled)
+        redis_client = None
+        if config.redis.get('is_enabled', False):
+            try:
+                redis_client = redis.Redis(
+                    host=config.redis['host'],
+                    port=config.redis['port'],
+                    password=config.redis['password'] if config.redis['password'] else None,
+                    db=config.redis['db'],
+                    decode_responses=True,
+                    socket_connect_timeout=2,
+                    socket_timeout=2
+                )
+                redis_client.ping()
+                cached_result = redis_client.get(cache_key)
+                if cached_result:
+                    resp.text = cached_result
+                    return
+            except Exception:
+                # If Redis connection fails, continue to database query
+                pass
+
+        # Cache miss or Redis error - query database
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()
 
@@ -458,7 +658,17 @@ class NonWorkingDayItem:
                            "working_calendar_id": row[1],
                            "date_local": row[2].isoformat()[0:10],
                            "description": row[3]}
-        resp.text = json.dumps(meta_result)
+
+        # Store result in Redis cache
+        result_json = json.dumps(meta_result)
+        if redis_client:
+            try:
+                redis_client.setex(cache_key, cache_expire, result_json)
+            except Exception:
+                # If cache set fails, ignore and continue
+                pass
+
+        resp.text = result_json
 
     @staticmethod
     def on_delete(req, resp, id_):
@@ -470,20 +680,26 @@ class NonWorkingDayItem:
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()
 
-        cursor.execute(" SELECT id "
+        cursor.execute(" SELECT id, working_calendar_id "
                        " FROM tbl_working_calendars_non_working_days "
                        " WHERE id = %s ", (id_,))
-        if cursor.fetchone() is None:
+        row = cursor.fetchone()
+        if row is None:
             cursor.close()
             cnx.close()
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.NON_WORKING_DAY_NOT_FOUND')
+
+        working_calendar_id = row[1]
 
         cursor.execute(" DELETE FROM tbl_working_calendars_non_working_days WHERE id = %s ", (id_,))
         cnx.commit()
 
         cursor.close()
         cnx.close()
+
+        # Clear cache after deleting non-working day
+        clear_working_calendar_cache(working_calendar_id=working_calendar_id)
 
         resp.status = falcon.HTTP_204
 
@@ -525,14 +741,17 @@ class NonWorkingDayItem:
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()
 
-        cursor.execute(" SELECT date_local "
+        cursor.execute(" SELECT working_calendar_id, date_local "
                        " FROM tbl_working_calendars_non_working_days "
                        " WHERE id = %s ", (id_,))
-        if cursor.fetchone() is None:
+        row = cursor.fetchone()
+        if row is None:
             cursor.close()
             cnx.close()
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.DATE_LOCAL_NOT_FOUND')
+
+        working_calendar_id = row[0]
 
         cursor.execute(" SELECT id "
                        " FROM tbl_working_calendars_non_working_days "
@@ -552,6 +771,9 @@ class NonWorkingDayItem:
 
         cursor.close()
         cnx.close()
+
+        # Clear cache after updating non-working day
+        clear_working_calendar_cache(working_calendar_id=working_calendar_id)
 
         resp.status = falcon.HTTP_200
 
@@ -578,6 +800,33 @@ class WorkingCalendarExport:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_WORKING_CALENDAR_ID')
 
+        # Redis cache key
+        cache_key = f'workingcalendar:export:{id_}'
+        cache_expire = 28800  # 8 hours in seconds (long-term cache)
+
+        # Try to get from Redis cache (only if Redis is enabled)
+        redis_client = None
+        if config.redis.get('is_enabled', False):
+            try:
+                redis_client = redis.Redis(
+                    host=config.redis['host'],
+                    port=config.redis['port'],
+                    password=config.redis['password'] if config.redis['password'] else None,
+                    db=config.redis['db'],
+                    decode_responses=True,
+                    socket_connect_timeout=2,
+                    socket_timeout=2
+                )
+                redis_client.ping()
+                cached_result = redis_client.get(cache_key)
+                if cached_result:
+                    resp.text = cached_result
+                    return
+            except Exception:
+                # If Redis connection fails, continue to database query
+                pass
+
+        # Cache miss or Redis error - query database
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()
 
@@ -587,6 +836,8 @@ class WorkingCalendarExport:
         row = cursor.fetchone()
 
         if row is None:
+            cursor.close()
+            cnx.close()
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.WORKING_CALENDAR_NOT_FOUND')
 
@@ -611,7 +862,17 @@ class WorkingCalendarExport:
         meta_result['non_working_days'] = result
         cursor.close()
         cnx.close()
-        resp.text = json.dumps(meta_result)
+
+        # Store result in Redis cache
+        result_json = json.dumps(meta_result)
+        if redis_client:
+            try:
+                redis_client.setex(cache_key, cache_expire, result_json)
+            except Exception:
+                # If cache set fails, ignore and continue
+                pass
+
+        resp.text = result_json
 
 
 class WorkingCalendarImport:
@@ -712,6 +973,9 @@ class WorkingCalendarImport:
         cursor.close()
         cnx.close()
 
+        # Clear cache after importing working calendar
+        clear_working_calendar_cache()
+
         resp.status = falcon.HTTP_201
         resp.location = '/workingcalendar/' + str(new_id)
 
@@ -782,6 +1046,9 @@ class WorkingCalendarClone:
         cnx.commit()
         cursor.close()
         cnx.close()
+
+        # Clear cache after cloning working calendar
+        clear_working_calendar_cache()
 
         resp.status = falcon.HTTP_201
         resp.location = '/workingcalendar/' + str(new_id)

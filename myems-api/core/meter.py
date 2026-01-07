@@ -3,8 +3,57 @@ from datetime import datetime, timedelta
 import falcon
 import mysql.connector
 import simplejson as json
+import redis
 from core.useractivity import user_logger, admin_control, access_control, api_key_control
 import config
+
+
+def clear_meter_cache(meter_id=None):
+    """
+    Clear meter-related cache after data modification
+
+    Args:
+        meter_id: Meter ID (optional, for specific meter cache)
+    """
+    # Check if Redis is enabled
+    if not config.redis.get('is_enabled', False):
+        return
+
+    redis_client = None
+    try:
+        redis_client = redis.Redis(
+            host=config.redis['host'],
+            port=config.redis['port'],
+            password=config.redis['password'] if config.redis['password'] else None,
+            db=config.redis['db'],
+            decode_responses=True,
+            socket_connect_timeout=2,
+            socket_timeout=2
+        )
+        redis_client.ping()
+
+        # Clear meter list cache (all search query variations)
+        list_cache_key_pattern = 'meter:list:*'
+        matching_keys = redis_client.keys(list_cache_key_pattern)
+        if matching_keys:
+            redis_client.delete(*matching_keys)
+
+        # Clear specific meter item cache if meter_id is provided
+        if meter_id:
+            item_cache_key = f'meter:item:{meter_id}'
+            redis_client.delete(item_cache_key)
+            submeter_cache_key = f'meter:submeter:{meter_id}'
+            redis_client.delete(submeter_cache_key)
+            point_cache_key = f'meter:point:{meter_id}'
+            redis_client.delete(point_cache_key)
+            command_cache_key = f'meter:command:{meter_id}'
+            redis_client.delete(command_cache_key)
+            export_cache_key = f'meter:export:{meter_id}'
+            redis_client.delete(export_cache_key)
+
+    except Exception:
+        # If cache clear fails, ignore and continue
+        pass
 
 
 class MeterCollection:
@@ -40,6 +89,33 @@ class MeterCollection:
         else:
             search_query = ''
 
+        # Redis cache key
+        cache_key = f'meter:list:{search_query}'
+        cache_expire = 28800  # 8 hours in seconds (long-term cache)
+
+        # Try to get from Redis cache (only if Redis is enabled)
+        redis_client = None
+        if config.redis.get('is_enabled', False):
+            try:
+                redis_client = redis.Redis(
+                    host=config.redis['host'],
+                    port=config.redis['port'],
+                    password=config.redis['password'] if config.redis['password'] else None,
+                    db=config.redis['db'],
+                    decode_responses=True,
+                    socket_connect_timeout=2,
+                    socket_timeout=2
+                )
+                redis_client.ping()
+                cached_result = redis_client.get(cache_key)
+                if cached_result:
+                    resp.text = cached_result
+                    return
+            except Exception:
+                # If Redis connection fails, continue to database query
+                pass
+
+        # Cache miss or Redis error - query database
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()
 
@@ -123,7 +199,17 @@ class MeterCollection:
 
         cursor.close()
         cnx.close()
-        resp.text = json.dumps(result)
+
+        # Store result in Redis cache
+        result_json = json.dumps(result)
+        if redis_client:
+            try:
+                redis_client.setex(cache_key, cache_expire, result_json)
+            except Exception:
+                # If cache set fails, ignore and continue
+                pass
+
+        resp.text = result_json
 
     @staticmethod
     @user_logger
@@ -300,6 +386,9 @@ class MeterCollection:
         cursor.close()
         cnx.close()
 
+        # Clear cache after creating new meter
+        clear_meter_cache()
+
         resp.status = falcon.HTTP_201
         resp.location = '/meters/' + str(new_id)
 
@@ -326,6 +415,33 @@ class MeterItem:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_METER_ID')
 
+        # Redis cache key
+        cache_key = f'meter:item:{id_}'
+        cache_expire = 28800  # 8 hours in seconds (long-term cache)
+
+        # Try to get from Redis cache (only if Redis is enabled)
+        redis_client = None
+        if config.redis.get('is_enabled', False):
+            try:
+                redis_client = redis.Redis(
+                    host=config.redis['host'],
+                    port=config.redis['port'],
+                    password=config.redis['password'] if config.redis['password'] else None,
+                    db=config.redis['db'],
+                    decode_responses=True,
+                    socket_connect_timeout=2,
+                    socket_timeout=2
+                )
+                redis_client.ping()
+                cached_result = redis_client.get(cache_key)
+                if cached_result:
+                    resp.text = cached_result
+                    return
+            except Exception:
+                # If Redis connection fails, continue to database query
+                pass
+
+        # Cache miss or Redis error - query database
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()
 
@@ -404,7 +520,16 @@ class MeterItem:
                            "description": row[10],
                            "qrcode": "meter:"+row[2]}
 
-        resp.text = json.dumps(meta_result)
+        # Store result in Redis cache
+        result_json = json.dumps(meta_result)
+        if redis_client:
+            try:
+                redis_client.setex(cache_key, cache_expire, result_json)
+            except Exception:
+                # If cache set fails, ignore and continue
+                pass
+
+        resp.text = result_json
 
     @staticmethod
     @user_logger
@@ -764,6 +889,9 @@ class MeterItem:
         cursor.close()
         cnx.close()
 
+        # Clear cache after deleting meter
+        clear_meter_cache(meter_id=id_)
+
         resp.status = falcon.HTTP_204
 
     @staticmethod
@@ -970,6 +1098,9 @@ class MeterItem:
         cursor.close()
         cnx.close()
 
+        # Clear cache after updating meter
+        clear_meter_cache(meter_id=id_)
+
         resp.status = falcon.HTTP_200
 
 
@@ -995,6 +1126,33 @@ class MeterSubmeterCollection:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_METER_ID')
 
+        # Redis cache key
+        cache_key = f'meter:submeter:{id_}'
+        cache_expire = 28800  # 8 hours in seconds (long-term cache)
+
+        # Try to get from Redis cache (only if Redis is enabled)
+        redis_client = None
+        if config.redis.get('is_enabled', False):
+            try:
+                redis_client = redis.Redis(
+                    host=config.redis['host'],
+                    port=config.redis['port'],
+                    password=config.redis['password'] if config.redis['password'] else None,
+                    db=config.redis['db'],
+                    decode_responses=True,
+                    socket_connect_timeout=2,
+                    socket_timeout=2
+                )
+                redis_client.ping()
+                cached_result = redis_client.get(cache_key)
+                if cached_result:
+                    resp.text = cached_result
+                    return
+            except Exception:
+                # If Redis connection fails, continue to database query
+                pass
+
+        # Cache miss or Redis error - query database
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()
 
@@ -1075,7 +1233,17 @@ class MeterSubmeterCollection:
 
         cursor.close()
         cnx.close()
-        resp.text = json.dumps(result)
+
+        # Store result in Redis cache
+        result_json = json.dumps(result)
+        if redis_client:
+            try:
+                redis_client.setex(cache_key, cache_expire, result_json)
+            except Exception:
+                # If cache set fails, ignore and continue
+                pass
+
+        resp.text = result_json
 
 
 class MeterPointCollection:
@@ -1100,6 +1268,33 @@ class MeterPointCollection:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_METER_ID')
 
+        # Redis cache key
+        cache_key = f'meter:point:{id_}'
+        cache_expire = 28800  # 8 hours in seconds (long-term cache)
+
+        # Try to get from Redis cache (only if Redis is enabled)
+        redis_client = None
+        if config.redis.get('is_enabled', False):
+            try:
+                redis_client = redis.Redis(
+                    host=config.redis['host'],
+                    port=config.redis['port'],
+                    password=config.redis['password'] if config.redis['password'] else None,
+                    db=config.redis['db'],
+                    decode_responses=True,
+                    socket_connect_timeout=2,
+                    socket_timeout=2
+                )
+                redis_client.ping()
+                cached_result = redis_client.get(cache_key)
+                if cached_result:
+                    resp.text = cached_result
+                    return
+            except Exception:
+                # If Redis connection fails, continue to database query
+                pass
+
+        # Cache miss or Redis error - query database
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()
 
@@ -1129,7 +1324,16 @@ class MeterPointCollection:
                                "address": row[5]}
                 result.append(meta_result)
 
-        resp.text = json.dumps(result)
+        # Store result in Redis cache
+        result_json = json.dumps(result)
+        if redis_client:
+            try:
+                redis_client.setex(cache_key, cache_expire, result_json)
+            except Exception:
+                # If cache set fails, ignore and continue
+                pass
+
+        resp.text = result_json
 
     @staticmethod
     @user_logger
@@ -1203,6 +1407,9 @@ class MeterPointCollection:
         cursor.close()
         cnx.close()
 
+        # Clear cache after adding point to meter
+        clear_meter_cache(meter_id=id_)
+
         resp.status = falcon.HTTP_201
         resp.location = '/meters/' + str(id_) + '/points/' + str(new_values['data']['point_id'])
 
@@ -1267,6 +1474,9 @@ class MeterPointItem:
         cursor.close()
         cnx.close()
 
+        # Clear cache after removing point from meter
+        clear_meter_cache(meter_id=id_)
+
         resp.status = falcon.HTTP_204
 
 
@@ -1292,6 +1502,33 @@ class MeterCommandCollection:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_METER_ID')
 
+        # Redis cache key
+        cache_key = f'meter:command:{id_}'
+        cache_expire = 28800  # 8 hours in seconds (long-term cache)
+
+        # Try to get from Redis cache (only if Redis is enabled)
+        redis_client = None
+        if config.redis.get('is_enabled', False):
+            try:
+                redis_client = redis.Redis(
+                    host=config.redis['host'],
+                    port=config.redis['port'],
+                    password=config.redis['password'] if config.redis['password'] else None,
+                    db=config.redis['db'],
+                    decode_responses=True,
+                    socket_connect_timeout=2,
+                    socket_timeout=2
+                )
+                redis_client.ping()
+                cached_result = redis_client.get(cache_key)
+                if cached_result:
+                    resp.text = cached_result
+                    return
+            except Exception:
+                # If Redis connection fails, continue to database query
+                pass
+
+        # Cache miss or Redis error - query database
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()
 
@@ -1317,7 +1554,16 @@ class MeterCommandCollection:
                 meta_result = {"id": row[0], "name": row[1], "uuid": row[2]}
                 result.append(meta_result)
 
-        resp.text = json.dumps(result)
+        # Store result in Redis cache
+        result_json = json.dumps(result)
+        if redis_client:
+            try:
+                redis_client.setex(cache_key, cache_expire, result_json)
+            except Exception:
+                # If cache set fails, ignore and continue
+                pass
+
+        resp.text = result_json
 
     @staticmethod
     @user_logger
@@ -1388,6 +1634,9 @@ class MeterCommandCollection:
         cursor.close()
         cnx.close()
 
+        # Clear cache after adding command to meter
+        clear_meter_cache(meter_id=id_)
+
         resp.status = falcon.HTTP_201
         resp.location = '/meters/' + str(id_) + '/commands/' + str(command_id)
 
@@ -1451,6 +1700,9 @@ class MeterCommandItem:
         cursor.close()
         cnx.close()
 
+        # Clear cache after removing command from meter
+        clear_meter_cache(meter_id=id_)
+
         resp.status = falcon.HTTP_204
 
 
@@ -1476,6 +1728,33 @@ class MeterExport:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_METER_ID')
 
+        # Redis cache key
+        cache_key = f'meter:export:{id_}'
+        cache_expire = 28800  # 8 hours in seconds (long-term cache)
+
+        # Try to get from Redis cache (only if Redis is enabled)
+        redis_client = None
+        if config.redis.get('is_enabled', False):
+            try:
+                redis_client = redis.Redis(
+                    host=config.redis['host'],
+                    port=config.redis['port'],
+                    password=config.redis['password'] if config.redis['password'] else None,
+                    db=config.redis['db'],
+                    decode_responses=True,
+                    socket_connect_timeout=2,
+                    socket_timeout=2
+                )
+                redis_client.ping()
+                cached_result = redis_client.get(cache_key)
+                if cached_result:
+                    resp.text = cached_result
+                    return
+            except Exception:
+                # If Redis connection fails, continue to database query
+                pass
+
+        # Cache miss or Redis error - query database
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()
 
@@ -1568,7 +1847,16 @@ class MeterExport:
             cursor.close()
             cnx.close()
 
-        resp.text = json.dumps(meta_result)
+        # Store result in Redis cache
+        result_json = json.dumps(meta_result)
+        if redis_client:
+            try:
+                redis_client.setex(cache_key, cache_expire, result_json)
+            except Exception:
+                # If cache set fails, ignore and continue
+                pass
+
+        resp.text = result_json
 
 
 class MeterImport:
@@ -1805,6 +2093,9 @@ class MeterImport:
         cursor.close()
         cnx.close()
 
+        # Clear cache after importing meter
+        clear_meter_cache()
+
         resp.status = falcon.HTTP_201
         resp.location = '/meters/' + str(new_id)
 
@@ -1948,6 +2239,9 @@ class MeterClone:
         cnx.commit()
         cursor.close()
         cnx.close()
+
+        # Clear cache after cloning meter
+        clear_meter_cache()
 
         resp.status = falcon.HTTP_201
         resp.location = '/meters/' + str(new_id)
