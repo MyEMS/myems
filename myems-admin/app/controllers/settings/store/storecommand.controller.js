@@ -8,11 +8,13 @@ app.controller('StoreCommandController', function (
     StoreService,
     CommandService,
     StoreCommandService,
-    toaster) {
+    toaster,
+    DragDropWarningService) {
 
     $scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
     $scope.currentStore = {selected: undefined};
     $scope.storecommands = [];
+    $scope.isStoreSelected = false;
 
     $scope.getAllCommands = function() {
         let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
@@ -46,7 +48,12 @@ app.controller('StoreCommandController', function (
     $scope.changeStore = function(item, model) {
         $scope.currentStore = item;
         $scope.currentStore.selected = model;
-        $scope.getCommandsByStoreID($scope.currentStore.id);
+        if (item && item.id) {
+            $scope.isStoreSelected = true;
+            $scope.getCommandsByStoreID($scope.currentStore.id);
+        } else {
+            $scope.isStoreSelected = false;
+        }
     };
 
     $scope.getAllStores = function() {
@@ -61,6 +68,10 @@ app.controller('StoreCommandController', function (
     };
 
     $scope.pairCommand = function(dragEl, dropEl) {
+        if (!$scope.isStoreSelected || !$scope.currentStore || !$scope.currentStore.id) {
+            DragDropWarningService.showWarning("SETTING.PLEASE_SELECT_STORE_FIRST");
+            return;
+        }
         var commandid = angular.element('#' + dragEl).scope().command.id;
         var storeid = $scope.currentStore.id;
         let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
@@ -86,6 +97,10 @@ app.controller('StoreCommandController', function (
 
     $scope.deleteCommandPair = function(dragEl, dropEl) {
         if (angular.element('#' + dragEl).hasClass('source')) return;
+        if (!$scope.isStoreSelected || !$scope.currentStore || !$scope.currentStore.id) {
+            DragDropWarningService.showWarning("SETTING.PLEASE_SELECT_STORE_FIRST");
+            return;
+        }
         var storecommandid = angular.element('#' + dragEl).scope().storecommand.id;
         var storeid = $scope.currentStore.id;
         let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
@@ -115,6 +130,26 @@ app.controller('StoreCommandController', function (
 
     $scope.$on('handleBroadcastStoreChanged', function(event) {
         $scope.getAllStores();
+    });
+
+    // Listen for disabled drag/drop events to show warning
+    // Only show warning if this tab is currently active
+    $scope.$on('HJC-DRAG-DISABLED', function(event) {
+        DragDropWarningService.showWarningIfActive(
+            $scope,
+            'BIND_COMMAND',
+            'SETTING.PLEASE_SELECT_STORE_FIRST',
+            { BIND_COMMAND: 5 }
+        );
+    });
+
+    $scope.$on('HJC-DROP-DISABLED', function(event) {
+        DragDropWarningService.showWarningIfActive(
+            $scope,
+            'BIND_COMMAND',
+            'SETTING.PLEASE_SELECT_STORE_FIRST',
+            { BIND_COMMAND: 5 }
+        );
     });
 
 });

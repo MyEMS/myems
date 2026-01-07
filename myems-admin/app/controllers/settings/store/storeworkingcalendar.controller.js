@@ -9,12 +9,14 @@ app.controller('StoreWorkingCalendarController', function(
     WorkingCalendarService,
     StoreWorkingCalendarService,
     toaster,
-    SweetAlert) {
+    SweetAlert,
+    DragDropWarningService) {
 
     $scope.stores = [];
     $scope.storeworkingcalendars = [];
     $scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
     $scope.currentStore = {selected: undefined};
+    $scope.isStoreSelected = false;
 
     $scope.getAllStores = function() {
         let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
@@ -62,10 +64,19 @@ app.controller('StoreWorkingCalendarController', function(
     $scope.changeStore = function(item, model) {
         $scope.currentStore = item;
         $scope.currentStore.selected = model;
-        $scope.getWorkingCalendarsByStoreID($scope.currentStore.id);
+        if (item && item.id) {
+            $scope.isStoreSelected = true;
+            $scope.getWorkingCalendarsByStoreID($scope.currentStore.id);
+        } else {
+            $scope.isStoreSelected = false;
+        }
     };
 
     $scope.pairWorkingCalendar = function(dragEl, dropEl) {
+        if (!$scope.isStoreSelected || !$scope.currentStore || !$scope.currentStore.id) {
+            DragDropWarningService.showWarning("SETTING.PLEASE_SELECT_STORE_FIRST");
+            return;
+        }
         var workingcalendarid = angular.element('#' + dragEl).scope().workingcalendar.id;
         var storeid = $scope.currentStore.id;
         let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
@@ -92,7 +103,10 @@ app.controller('StoreWorkingCalendarController', function(
  
     $scope.deleteWorkingCalendarPair = function(dragEl, dropEl) {
         if (angular.element('#' + dragEl).hasClass('source')) return;
-
+        if (!$scope.isStoreSelected || !$scope.currentStore || !$scope.currentStore.id) {
+            DragDropWarningService.showWarning("SETTING.PLEASE_SELECT_STORE_FIRST");
+            return;
+        }
         var storeworkingcalendarid = angular.element('#' + dragEl).scope().storeworkingcalendar.id;
         var storeid = $scope.currentStore.id;
         let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
@@ -125,6 +139,26 @@ app.controller('StoreWorkingCalendarController', function(
     $scope.$on('handleBroadcastStoreChanged', function(event) {
         $scope.storeworkingcalendars = [];
         $scope.getAllStores();
+    });
+
+    // Listen for disabled drag/drop events to show warning
+    // Only show warning if this tab is currently active
+    $scope.$on('HJC-DRAG-DISABLED', function(event) {
+        DragDropWarningService.showWarningIfActive(
+            $scope,
+            'BIND_WORKING_CALENDAR',
+            'SETTING.PLEASE_SELECT_STORE_FIRST',
+            { BIND_WORKING_CALENDAR: 4 }
+        );
+    });
+
+    $scope.$on('HJC-DROP-DISABLED', function(event) {
+        DragDropWarningService.showWarningIfActive(
+            $scope,
+            'BIND_WORKING_CALENDAR',
+            'SETTING.PLEASE_SELECT_STORE_FIRST',
+            { BIND_WORKING_CALENDAR: 4 }
+        );
     });
 
 });

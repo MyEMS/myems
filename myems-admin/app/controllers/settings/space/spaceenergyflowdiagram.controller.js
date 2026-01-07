@@ -8,7 +8,8 @@ app.controller('SpaceEnergyFlowDiagramController', function(
     SpaceService,
     EnergyFlowDiagramService,
     SpaceEnergyFlowDiagramService,
-    toaster,SweetAlert) {
+    toaster,SweetAlert,
+    DragDropWarningService) {
     $scope.spaces = [];
     $scope.currentSpaceID = 1;
     $scope.energyflowdiagrams = [];
@@ -206,40 +207,22 @@ app.controller('SpaceEnergyFlowDiagramController', function(
     // Listen for disabled drop events to show warning
     // Only show warning if this tab is currently active
     $scope.$on('HJC-DROP-DISABLED', function(event) {
-        var TAB_INDEXES = ($scope.$parent && $scope.$parent.TAB_INDEXES) || { ENERGY_FLOW_DIAGRAM: 12 };
-        if ($scope.$parent && $scope.$parent.activeTabIndex === TAB_INDEXES.ENERGY_FLOW_DIAGRAM) {
-            $timeout(function() {
-                try {
-                    toaster.pop({
-                        type: "warning",
-                        body: $translate.instant("SETTING.PLEASE_SELECT_SPACE_FIRST"),
-                        showCloseButton: true,
-                    });
-                } catch(err) {
-                    console.error('Error showing toaster:', err);
-                    alert($translate.instant("SETTING.PLEASE_SELECT_SPACE_FIRST"));
-                }
-            }, 0);
-        }
+        DragDropWarningService.showWarningIfActive(
+            $scope,
+            'ENERGY_FLOW_DIAGRAM',
+            'SETTING.PLEASE_SELECT_SPACE_FIRST',
+            { ENERGY_FLOW_DIAGRAM: 12 }
+        );
     });
 
     // Listen for disabled drag events to show warning
     // Only show warning if this tab is currently active
     $scope.$on('HJC-DRAG-DISABLED', function(event) {
-        var TAB_INDEXES = ($scope.$parent && $scope.$parent.TAB_INDEXES) || { ENERGY_FLOW_DIAGRAM: 12 };
-        if ($scope.$parent && $scope.$parent.activeTabIndex === TAB_INDEXES.ENERGY_FLOW_DIAGRAM) {
-            $timeout(function() {
-                try {
-                    toaster.pop({
-                        type: "warning",
-                        body: $translate.instant("SETTING.PLEASE_SELECT_SPACE_FIRST"),
-                        showCloseButton: true,
-                    });
-                } catch(err) {
-                    console.error('Error showing toaster:', err);
-                    alert($translate.instant("SETTING.PLEASE_SELECT_SPACE_FIRST"));
-                }
-            }, 0);
-        }
+        DragDropWarningService.showWarningIfActive(
+            $scope,
+            'ENERGY_FLOW_DIAGRAM',
+            'SETTING.PLEASE_SELECT_SPACE_FIRST',
+            { ENERGY_FLOW_DIAGRAM: 12 }
+        );
     });
 });

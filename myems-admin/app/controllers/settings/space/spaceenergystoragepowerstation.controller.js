@@ -8,7 +8,8 @@ app.controller('SpaceEnergyStoragePowerStationController', function(
     SpaceService,
     EnergyStoragePowerStationService,
     SpaceEnergyStoragePowerStationService,
-    toaster,SweetAlert) {
+    toaster,SweetAlert,
+    DragDropWarningService) {
     $scope.spaces = [];
     $scope.currentSpaceID = 1;
     $scope.energystoragepowerstations = [];
@@ -206,40 +207,22 @@ app.controller('SpaceEnergyStoragePowerStationController', function(
     // Listen for disabled drop events to show warning
     // Only show warning if this tab is currently active
     $scope.$on('HJC-DROP-DISABLED', function(event) {
-        var TAB_INDEXES = ($scope.$parent && $scope.$parent.TAB_INDEXES) || { ENERGY_STORAGE_POWER_STATION: 11 };
-        if ($scope.$parent && $scope.$parent.activeTabIndex === TAB_INDEXES.ENERGY_STORAGE_POWER_STATION) {
-            $timeout(function() {
-                try {
-                    toaster.pop({
-                        type: "warning",
-                        body: $translate.instant("SETTING.PLEASE_SELECT_SPACE_FIRST"),
-                        showCloseButton: true,
-                    });
-                } catch(err) {
-                    console.error('Error showing toaster:', err);
-                    alert($translate.instant("SETTING.PLEASE_SELECT_SPACE_FIRST"));
-                }
-            }, 0);
-        }
+        DragDropWarningService.showWarningIfActive(
+            $scope,
+            'ENERGY_STORAGE_POWER_STATION',
+            'SETTING.PLEASE_SELECT_SPACE_FIRST',
+            { ENERGY_STORAGE_POWER_STATION: 11 }
+        );
     });
 
     // Listen for disabled drag events to show warning
     // Only show warning if this tab is currently active
     $scope.$on('HJC-DRAG-DISABLED', function(event) {
-        var TAB_INDEXES = ($scope.$parent && $scope.$parent.TAB_INDEXES) || { ENERGY_STORAGE_POWER_STATION: 11 };
-        if ($scope.$parent && $scope.$parent.activeTabIndex === TAB_INDEXES.ENERGY_STORAGE_POWER_STATION) {
-            $timeout(function() {
-                try {
-                    toaster.pop({
-                        type: "warning",
-                        body: $translate.instant("SETTING.PLEASE_SELECT_SPACE_FIRST"),
-                        showCloseButton: true,
-                    });
-                } catch(err) {
-                    console.error('Error showing toaster:', err);
-                    alert($translate.instant("SETTING.PLEASE_SELECT_SPACE_FIRST"));
-                }
-            }, 0);
-        }
+        DragDropWarningService.showWarningIfActive(
+            $scope,
+            'ENERGY_STORAGE_POWER_STATION',
+            'SETTING.PLEASE_SELECT_SPACE_FIRST',
+            { ENERGY_STORAGE_POWER_STATION: 11 }
+        );
     });
 });

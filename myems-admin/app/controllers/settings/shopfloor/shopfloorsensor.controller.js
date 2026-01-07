@@ -1,15 +1,18 @@
 app.controller('ShopfloorSensorController', function (
     $scope,
     $window,
+    $timeout,
     $translate,
     ShopfloorService,
     SensorService,
     ShopfloorSensorService,
     toaster,
-    SweetAlert) {
+    SweetAlert,
+    DragDropWarningService) {
 
     $scope.currentShopfloor = {selected: undefined};
     $scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
+    $scope.isShopfloorSelected = false;
     $scope.shopfloorsensors = [];
 
     $scope.getAllSensors = function() {
@@ -44,7 +47,12 @@ app.controller('ShopfloorSensorController', function (
     $scope.changeShopfloor = function(item, model) {
         $scope.currentShopfloor = item;
         $scope.currentShopfloor.selected = model;
-        $scope.getSensorsByShopfloorID($scope.currentShopfloor.id);
+        if (item && item.id) {
+            $scope.isShopfloorSelected = true;
+            $scope.getSensorsByShopfloorID($scope.currentShopfloor.id);
+        } else {
+            $scope.isShopfloorSelected = false;
+        }
     };
 
     $scope.getAllShopfloors = function() {
@@ -59,6 +67,10 @@ app.controller('ShopfloorSensorController', function (
     };
 
     $scope.pairSensor = function(dragEl, dropEl) {
+        if (!$scope.isShopfloorSelected || !$scope.currentShopfloor || !$scope.currentShopfloor.id) {
+            DragDropWarningService.showWarning("SETTING.PLEASE_SELECT_SHOPFLOOR_FIRST");
+            return;
+        }
         var sensorid = angular.element('#' + dragEl).scope().sensor.id;
         var shopfloorid = $scope.currentShopfloor.id;
         let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
@@ -84,6 +96,10 @@ app.controller('ShopfloorSensorController', function (
 
     $scope.deleteSensorPair = function(dragEl, dropEl) {
         if (angular.element('#' + dragEl).hasClass('source')) return;
+        if (!$scope.isShopfloorSelected || !$scope.currentShopfloor || !$scope.currentShopfloor.id) {
+            DragDropWarningService.showWarning("SETTING.PLEASE_SELECT_SHOPFLOOR_FIRST");
+            return;
+        }
         var shopfloorsensorid = angular.element('#' + dragEl).scope().shopfloorsensor.id;
         var shopfloorid = $scope.currentShopfloor.id;
         let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
@@ -113,6 +129,26 @@ app.controller('ShopfloorSensorController', function (
 
     $scope.$on('handleBroadcastShopfloorChanged', function(event) {
         $scope.getAllShopfloors();
+    });
+
+    // Listen for disabled drag/drop events to show warning
+    // Only show warning if this tab is currently active
+    $scope.$on('HJC-DRAG-DISABLED', function(event) {
+        DragDropWarningService.showWarningIfActive(
+            $scope,
+            'BIND_SENSOR',
+            'SETTING.PLEASE_SELECT_SHOPFLOOR_FIRST',
+            { BIND_SENSOR: 4 }
+        );
+    });
+
+    $scope.$on('HJC-DROP-DISABLED', function(event) {
+        DragDropWarningService.showWarningIfActive(
+            $scope,
+            'BIND_SENSOR',
+            'SETTING.PLEASE_SELECT_SHOPFLOOR_FIRST',
+            { BIND_SENSOR: 4 }
+        );
     });
 
 });

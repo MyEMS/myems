@@ -13,10 +13,12 @@ app.controller('EquipmentMeterController', function(
 	EquipmentMeterService,
 	EquipmentService,
 	toaster,
+	DragDropWarningService,
 	SweetAlert) {
 	$scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
     $scope.currentEquipment = {selected:undefined};
     $scope.currentMeterType = "meters";
+    $scope.isEquipmentSelected = false;
 	$scope.getAllEquipments = function(id) {
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 		EquipmentService.getAllEquipments(headers, function (response) {
@@ -32,9 +34,11 @@ app.controller('EquipmentMeterController', function(
 		$scope.currentEquipment=item;
 		$scope.currentEquipment.selected=model;
 		if ($scope.currentEquipment && $scope.currentEquipment.id) {
+			$scope.isEquipmentSelected = true;
 			$scope.getMetersByEquipmentID($scope.currentEquipment.id);
 		} else {
 			// If no device is selected, clear the bound list and refresh the available list
+			$scope.isEquipmentSelected = false;
 			$scope.equipmentmeters = [];
 			$scope.filterAvailableMeters();
 		}
@@ -150,6 +154,10 @@ app.controller('EquipmentMeterController', function(
 	};
 
 	$scope.pairMeter=function(dragEl,dropEl){
+        if (!$scope.isEquipmentSelected || !$scope.currentEquipment || !$scope.currentEquipment.id) {
+            DragDropWarningService.showWarning("SETTING.PLEASE_SELECT_EQUIPMENT_FIRST");
+            return;
+        }
         var tem_uuid = angular.element('#' + dragEl);
         if (angular.isDefined(tem_uuid.scope().equipmentmeter)) {
             return;
@@ -190,6 +198,10 @@ app.controller('EquipmentMeterController', function(
 
     $scope.deleteMeterPair = function (dragEl, dropEl) {
         if (angular.element('#' + dragEl).hasClass('source')) {
+            return;
+        }
+        if (!$scope.isEquipmentSelected || !$scope.currentEquipment || !$scope.currentEquipment.id) {
+            DragDropWarningService.showWarning("SETTING.PLEASE_SELECT_EQUIPMENT_FIRST");
             return;
         }
         var equipmentmeterid = angular.element('#' + dragEl).scope().equipmentmeter.id;
@@ -246,6 +258,26 @@ app.controller('EquipmentMeterController', function(
 			$scope.getAllEquipments();
 		}
   	});
+
+    // Listen for disabled drag/drop events to show warning
+    // Only show warning if this tab is currently active
+    $scope.$on('HJC-DRAG-DISABLED', function(event) {
+        DragDropWarningService.showWarningIfActive(
+            $scope,
+            'BIND_METER',
+            'SETTING.PLEASE_SELECT_EQUIPMENT_FIRST',
+            { BIND_METER: 1 }
+        );
+    });
+
+    $scope.$on('HJC-DROP-DISABLED', function(event) {
+        DragDropWarningService.showWarningIfActive(
+            $scope,
+            'BIND_METER',
+            'SETTING.PLEASE_SELECT_EQUIPMENT_FIRST',
+            { BIND_METER: 1 }
+        );
+    });
 });
 
 app.controller('ModalEditEquipmentMeterCtrl', function ($scope, $uibModalInstance) {

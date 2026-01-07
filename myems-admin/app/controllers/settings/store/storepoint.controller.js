@@ -9,10 +9,12 @@ app.controller('StorePointController', function (
     PointService,
     StorePointService,
     toaster,
-    SweetAlert
+    SweetAlert,
+    DragDropWarningService
 ) {
     $scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
     $scope.currentStore = { selected: undefined };
+    $scope.isStoreSelected = false;
 
     $scope.getAllDataSources = function () {
         let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
@@ -63,7 +65,12 @@ app.controller('StorePointController', function (
     $scope.changeStore = function (item, model) {
         $scope.currentStore = item;
         $scope.currentStore.selected = model;
-        $scope.getPointsByStoreID($scope.currentStore.id);
+        if (item && item.id) {
+            $scope.isStoreSelected = true;
+            $scope.getPointsByStoreID($scope.currentStore.id);
+        } else {
+            $scope.isStoreSelected = false;
+        }
     };
 
     $scope.changeDataSource = function (item, model) {
@@ -88,6 +95,10 @@ app.controller('StorePointController', function (
     };
 
     $scope.pairPoint = function (dragEl, dropEl) {
+        if (!$scope.isStoreSelected || !$scope.currentStore || !$scope.currentStore.id) {
+            DragDropWarningService.showWarning("SETTING.PLEASE_SELECT_STORE_FIRST");
+            return;
+        }
         var pointid = angular.element('#' + dragEl).scope().point.id;
         var storeid = $scope.currentStore.id;
         let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
@@ -113,6 +124,10 @@ app.controller('StorePointController', function (
 
     $scope.deletePointPair = function (dragEl, dropEl) {
         if (angular.element('#' + dragEl).hasClass('source')) {
+            return;
+        }
+        if (!$scope.isStoreSelected || !$scope.currentStore || !$scope.currentStore.id) {
+            DragDropWarningService.showWarning("SETTING.PLEASE_SELECT_STORE_FIRST");
             return;
         }
         var storepointid = angular.element('#' + dragEl).scope().storepoint.id;
@@ -143,5 +158,25 @@ app.controller('StorePointController', function (
 
     $scope.$on('handleBroadcastStoreChanged', function (event) {
         $scope.getAllStores();
+    });
+
+    // Listen for disabled drag/drop events to show warning
+    // Only show warning if this tab is currently active
+    $scope.$on('HJC-DRAG-DISABLED', function(event) {
+        DragDropWarningService.showWarningIfActive(
+            $scope,
+            'BIND_POINT',
+            'SETTING.PLEASE_SELECT_STORE_FIRST',
+            { BIND_POINT: 2 }
+        );
+    });
+
+    $scope.$on('HJC-DROP-DISABLED', function(event) {
+        DragDropWarningService.showWarningIfActive(
+            $scope,
+            'BIND_POINT',
+            'SETTING.PLEASE_SELECT_STORE_FIRST',
+            { BIND_POINT: 2 }
+        );
     });
 });

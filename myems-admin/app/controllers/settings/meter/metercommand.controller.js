@@ -8,9 +8,11 @@ app.controller('MeterCommandController', function (
     MeterService,
     CommandService,
     MeterCommandService,
-    toaster) {
+    toaster,
+    DragDropWarningService) {
     $scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
     $scope.currentMeter = {selected:undefined};
+    $scope.isMeterSelected = false;
     $scope.getAllCommands = function() {
         let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 		CommandService.getAllCommands(headers, function (response) {
@@ -36,7 +38,12 @@ app.controller('MeterCommandController', function (
     $scope.changeMeter=function(item,model){
   	  $scope.currentMeter=item;
   	  $scope.currentMeter.selected=model;
-  	  $scope.getCommandsByMeterID($scope.currentMeter.id);
+  	  if (item && item.id) {
+  	      $scope.isMeterSelected = true;
+  	      $scope.getCommandsByMeterID($scope.currentMeter.id);
+  	  } else {
+  	      $scope.isMeterSelected = false;
+  	  }
     };
 
     $scope.getAllMeters = function () {
@@ -55,6 +62,10 @@ app.controller('MeterCommandController', function (
     };
 
     $scope.pairCommand = function (dragEl, dropEl) {
+        if (!$scope.isMeterSelected || !$scope.currentMeter || !$scope.currentMeter.id) {
+            DragDropWarningService.showWarning("SETTING.PLEASE_SELECT_METER_FIRST");
+            return;
+        }
         var commandid = angular.element('#' + dragEl).scope().command.id;
         var meterid = $scope.currentMeter.id;
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
@@ -80,6 +91,10 @@ app.controller('MeterCommandController', function (
 
     $scope.deleteCommandPair = function (dragEl, dropEl) {
         if (angular.element('#' + dragEl).hasClass('source')) {
+            return;
+        }
+        if (!$scope.isMeterSelected || !$scope.currentMeter || !$scope.currentMeter.id) {
+            DragDropWarningService.showWarning("SETTING.PLEASE_SELECT_METER_FIRST");
             return;
         }
         var metercommandid = angular.element('#' + dragEl).scope().metercommand.id;
@@ -132,4 +147,24 @@ app.controller('MeterCommandController', function (
           $scope.getAllMeters();
       }
   	});
+
+    // Listen for disabled drag/drop events to show warning
+    // Only show warning if this tab is currently active
+    $scope.$on('HJC-DRAG-DISABLED', function(event) {
+        DragDropWarningService.showWarningIfActive(
+            $scope,
+            'BIND_COMMAND',
+            'SETTING.PLEASE_SELECT_METER_FIRST',
+            { BIND_COMMAND: 6 }
+        );
+    });
+
+    $scope.$on('HJC-DROP-DISABLED', function(event) {
+        DragDropWarningService.showWarningIfActive(
+            $scope,
+            'BIND_COMMAND',
+            'SETTING.PLEASE_SELECT_METER_FIRST',
+            { BIND_COMMAND: 6 }
+        );
+    });
 });

@@ -3,14 +3,17 @@
 app.controller('TenantSensorController', function (
     $scope,
     $window,
+    $timeout,
     $translate,
     TenantService,
     SensorService,
     TenantSensorService,
     toaster,
-    SweetAlert) {
+    SweetAlert,
+    DragDropWarningService) {
     $scope.currentTenant = {selected:undefined};
     $scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
+    $scope.isTenantSelected = false;
     $scope.getAllSensors = function () {
         let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
         SensorService.getAllSensors(headers, function (response) {
@@ -36,7 +39,12 @@ app.controller('TenantSensorController', function (
     $scope.changeTenant=function(item,model){
   	    $scope.currentTenant=item;
   	    $scope.currentTenant.selected=model;
-  	    $scope.getSensorsByTenantID($scope.currentTenant.id);
+  	    if (item && item.id) {
+  	        $scope.isTenantSelected = true;
+  	        $scope.getSensorsByTenantID($scope.currentTenant.id);
+  	    } else {
+  	        $scope.isTenantSelected = false;
+  	    }
     };
 
     $scope.getAllTenants = function () {
@@ -51,6 +59,10 @@ app.controller('TenantSensorController', function (
     };
 
     $scope.pairSensor = function (dragEl, dropEl) {
+        if (!$scope.isTenantSelected || !$scope.currentTenant || !$scope.currentTenant.id) {
+            DragDropWarningService.showWarning("SETTING.PLEASE_SELECT_TENANT_FIRST");
+            return;
+        }
         var sensorid = angular.element('#' + dragEl).scope().sensor.id;
         var tenantid = $scope.currentTenant.id;
         let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
@@ -76,6 +88,10 @@ app.controller('TenantSensorController', function (
 
     $scope.deleteSensorPair = function (dragEl, dropEl) {
         if (angular.element('#' + dragEl).hasClass('source')) {
+            return;
+        }
+        if (!$scope.isTenantSelected || !$scope.currentTenant || !$scope.currentTenant.id) {
+            DragDropWarningService.showWarning("SETTING.PLEASE_SELECT_TENANT_FIRST");
             return;
         }
         var tenantsensorid = angular.element('#' + dragEl).scope().tenantsensor.id;
@@ -107,4 +123,24 @@ app.controller('TenantSensorController', function (
   	$scope.$on('handleBroadcastTenantChanged', function(event) {
       $scope.getAllTenants();
   	});
+
+    // Listen for disabled drag/drop events to show warning
+    // Only show warning if this tab is currently active
+    $scope.$on('HJC-DRAG-DISABLED', function(event) {
+        DragDropWarningService.showWarningIfActive(
+            $scope,
+            'BIND_SENSOR',
+            'SETTING.PLEASE_SELECT_TENANT_FIRST',
+            { BIND_SENSOR: 4 }
+        );
+    });
+
+    $scope.$on('HJC-DROP-DISABLED', function(event) {
+        DragDropWarningService.showWarningIfActive(
+            $scope,
+            'BIND_SENSOR',
+            'SETTING.PLEASE_SELECT_TENANT_FIRST',
+            { BIND_SENSOR: 4 }
+        );
+    });
 });

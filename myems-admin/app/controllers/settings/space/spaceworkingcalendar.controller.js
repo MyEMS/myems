@@ -7,7 +7,8 @@ app.controller('SpaceWorkingCalendarController', function(
     $translate,
     SpaceService,
     WorkingCalendarService,
-    SpaceWorkingCalendarService, toaster,SweetAlert) {
+    SpaceWorkingCalendarService, toaster,SweetAlert,
+    DragDropWarningService) {
     $scope.spaces = [];
     $scope.currentSpaceID = 1;
     $scope.spaceworkingcalendars = [];
@@ -203,41 +204,23 @@ app.controller('SpaceWorkingCalendarController', function(
     // Listen for disabled drop events to show warning
     // Only show warning if this tab is currently active
     $scope.$on('HJC-DROP-DISABLED', function(event) {
-        var TAB_INDEXES = ($scope.$parent && $scope.$parent.TAB_INDEXES) || { WORKING_CALENDAR: 9 };
-        if ($scope.$parent && $scope.$parent.activeTabIndex === TAB_INDEXES.WORKING_CALENDAR) {
-            $timeout(function() {
-                try {
-                    toaster.pop({
-                        type: "warning",
-                        body: $translate.instant("SETTING.PLEASE_SELECT_SPACE_FIRST"),
-                        showCloseButton: true,
-                    });
-                } catch(err) {
-                    console.error('Error showing toaster:', err);
-                    alert($translate.instant("SETTING.PLEASE_SELECT_SPACE_FIRST"));
-                }
-            }, 0);
-        }
+        DragDropWarningService.showWarningIfActive(
+            $scope,
+            'WORKING_CALENDAR',
+            'SETTING.PLEASE_SELECT_SPACE_FIRST',
+            { WORKING_CALENDAR: 9 }
+        );
     });
 
     // Listen for disabled drag events to show warning
     // Only show warning if this tab is currently active
     $scope.$on('HJC-DRAG-DISABLED', function(event) {
-        var TAB_INDEXES = ($scope.$parent && $scope.$parent.TAB_INDEXES) || { WORKING_CALENDAR: 9 };
-        if ($scope.$parent && $scope.$parent.activeTabIndex === TAB_INDEXES.WORKING_CALENDAR) {
-            $timeout(function() {
-                try {
-                    toaster.pop({
-                        type: "warning",
-                        body: $translate.instant("SETTING.PLEASE_SELECT_SPACE_FIRST"),
-                        showCloseButton: true,
-                    });
-                } catch(err) {
-                    console.error('Error showing toaster:', err);
-                    alert($translate.instant("SETTING.PLEASE_SELECT_SPACE_FIRST"));
-                }
-            }, 0);
-        }
+        DragDropWarningService.showWarningIfActive(
+            $scope,
+            'WORKING_CALENDAR',
+            'SETTING.PLEASE_SELECT_SPACE_FIRST',
+            { WORKING_CALENDAR: 9 }
+        );
     });
 
 });

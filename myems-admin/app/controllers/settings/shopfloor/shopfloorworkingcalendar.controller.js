@@ -9,12 +9,14 @@ app.controller('ShopfloorWorkingCalendarController', function(
     WorkingCalendarService,
     ShopfloorWorkingCalendarService,
     toaster,
-    SweetAlert) {
+    SweetAlert,
+    DragDropWarningService) {
 
     $scope.shopfloors = [];
     $scope.shopfloorworkingcalendars = [];
     $scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
     $scope.currentShopfloor = {selected: undefined};
+    $scope.isShopfloorSelected = false;
 
     $scope.getAllShopfloors = function() {
         let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
@@ -58,10 +60,19 @@ app.controller('ShopfloorWorkingCalendarController', function(
     $scope.changeShopfloor = function(item, model) {
         $scope.currentShopfloor = item;
         $scope.currentShopfloor.selected = model;
-        $scope.getWorkingCalendarsByShopfloorID($scope.currentShopfloor.id);
+        if (item && item.id) {
+            $scope.isShopfloorSelected = true;
+            $scope.getWorkingCalendarsByShopfloorID($scope.currentShopfloor.id);
+        } else {
+            $scope.isShopfloorSelected = false;
+        }
     };
 
     $scope.pairWorkingCalendar = function(dragEl, dropEl) {
+        if (!$scope.isShopfloorSelected || !$scope.currentShopfloor || !$scope.currentShopfloor.id) {
+            DragDropWarningService.showWarning("SETTING.PLEASE_SELECT_SHOPFLOOR_FIRST");
+            return;
+        }
         var workingcalendarid = angular.element('#' + dragEl).scope().workingcalendar.id;
         var shopfloorid = $scope.currentShopfloor.id;
         let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
@@ -87,6 +98,10 @@ app.controller('ShopfloorWorkingCalendarController', function(
 
     $scope.deleteWorkingCalendarPair = function(dragEl, dropEl) {
         if (angular.element('#' + dragEl).hasClass('source')) return;
+        if (!$scope.isShopfloorSelected || !$scope.currentShopfloor || !$scope.currentShopfloor.id) {
+            DragDropWarningService.showWarning("SETTING.PLEASE_SELECT_SHOPFLOOR_FIRST");
+            return;
+        }
         var shopfloorworkingcalendarid = angular.element('#' + dragEl).scope().shopfloorworkingcalendar.id;
         var shopfloorid = $scope.currentShopfloor.id;
         let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
@@ -117,6 +132,26 @@ app.controller('ShopfloorWorkingCalendarController', function(
     $scope.$on('handleBroadcastShopfloorChanged', function(event) {
         $scope.shopfloorworkingcalendars = [];
         $scope.getAllShopfloors();
+    });
+
+    // Listen for disabled drag/drop events to show warning
+    // Only show warning if this tab is currently active
+    $scope.$on('HJC-DRAG-DISABLED', function(event) {
+        DragDropWarningService.showWarningIfActive(
+            $scope,
+            'BIND_WORKING_CALENDAR',
+            'SETTING.PLEASE_SELECT_SHOPFLOOR_FIRST',
+            { BIND_WORKING_CALENDAR: 5 }
+        );
+    });
+
+    $scope.$on('HJC-DROP-DISABLED', function(event) {
+        DragDropWarningService.showWarningIfActive(
+            $scope,
+            'BIND_WORKING_CALENDAR',
+            'SETTING.PLEASE_SELECT_SHOPFLOOR_FIRST',
+            { BIND_WORKING_CALENDAR: 5 }
+        );
     });
 
 });

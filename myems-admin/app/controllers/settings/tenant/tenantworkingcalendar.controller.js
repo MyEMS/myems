@@ -7,16 +7,23 @@ app.controller('TenantWorkingCalendarController', function(
     $translate,
     TenantService,
     WorkingCalendarService,
-    TenantWorkingCalendarService, toaster,SweetAlert) {
+    TenantWorkingCalendarService, toaster,SweetAlert,
+    DragDropWarningService) {
     $scope.tenants = [];
     $scope.currentTenantID = 1;
     $scope.tenantworkingcalendars = [];
     $scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
     $scope.currentTenant = {selected:undefined};
+    $scope.isTenantSelected = false;
     $scope.changeTenant=function(item,model){
       $scope.currentTenant=item;
       $scope.currentTenant.selected=model;
-      $scope.getWorkingCalendarsByTenantID($scope.currentTenant.id);
+      if (item && item.id) {
+          $scope.isTenantSelected = true;
+          $scope.getWorkingCalendarsByTenantID($scope.currentTenant.id);
+      } else {
+          $scope.isTenantSelected = false;
+      }
     };
 
   $scope.getAllTenants = function() {
@@ -53,6 +60,10 @@ app.controller('TenantWorkingCalendarController', function(
 	};
 
 	$scope.pairWorkingCalendar=function(dragEl,dropEl){
+		if (!$scope.isTenantSelected || !$scope.currentTenant || !$scope.currentTenant.id) {
+		    DragDropWarningService.showWarning("SETTING.PLEASE_SELECT_TENANT_FIRST");
+		    return;
+		}
 		var workingcalendarid=angular.element('#'+dragEl).scope().workingcalendar.id;
     var tenantid = $scope.currentTenant.id;
     let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
@@ -79,6 +90,10 @@ app.controller('TenantWorkingCalendarController', function(
 	$scope.deleteWorkingCalendarPair=function(dragEl,dropEl){
 		if(angular.element('#'+dragEl).hasClass('source')){
 			return;
+        }
+        if (!$scope.isTenantSelected || !$scope.currentTenant || !$scope.currentTenant.id) {
+            DragDropWarningService.showWarning("SETTING.PLEASE_SELECT_TENANT_FIRST");
+            return;
         }
         var tenantworkingcalendarid = angular.element('#' + dragEl).scope().tenantworkingcalendar.id;
         var tenantid = $scope.currentTenant.id;
@@ -110,5 +125,25 @@ app.controller('TenantWorkingCalendarController', function(
     $scope.tenantworkingcalendars = [];
     $scope.getAllTenants();
 	});
+
+    // Listen for disabled drag/drop events to show warning
+    // Only show warning if this tab is currently active
+    $scope.$on('HJC-DRAG-DISABLED', function(event) {
+        DragDropWarningService.showWarningIfActive(
+            $scope,
+            'BIND_WORKING_CALENDAR',
+            'SETTING.PLEASE_SELECT_TENANT_FIRST',
+            { BIND_WORKING_CALENDAR: 5 }
+        );
+    });
+
+    $scope.$on('HJC-DROP-DISABLED', function(event) {
+        DragDropWarningService.showWarningIfActive(
+            $scope,
+            'BIND_WORKING_CALENDAR',
+            'SETTING.PLEASE_SELECT_TENANT_FIRST',
+            { BIND_WORKING_CALENDAR: 5 }
+        );
+    });
 
 });

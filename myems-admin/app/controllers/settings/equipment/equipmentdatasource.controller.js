@@ -11,12 +11,14 @@ app.controller(
     DataSourceService,
     EquipmentDataSourceService,
     PointService,
-    toaster
+    toaster,
+    DragDropWarningService
   ) {
     $scope.cur_user = JSON.parse(
       $window.localStorage.getItem("myems_admin_ui_current_user")
     );
     $scope.currentEquipment = { selected: undefined };
+    $scope.isEquipmentSelected = false;
 
     $scope.getAllDataSources = function () {
       let headers = {
@@ -55,9 +57,14 @@ app.controller(
     $scope.changeEquipment = function (item, model) {
       $scope.currentEquipment = item;
       $scope.currentEquipment.selected = model;
-      $scope.getDataSourcesByEquipmentID(
-        $scope.currentEquipment.id
-      );
+      if (item && item.id) {
+        $scope.isEquipmentSelected = true;
+        $scope.getDataSourcesByEquipmentID(
+          $scope.currentEquipment.id
+        );
+      } else {
+        $scope.isEquipmentSelected = false;
+      }
     };
 
     $scope.getAllEquipments = function () {
@@ -84,6 +91,10 @@ app.controller(
     };
 
     $scope.pairDataSource = function (dragEl, dropEl) {
+      if (!$scope.isEquipmentSelected || !$scope.currentEquipment || !$scope.currentEquipment.id) {
+        DragDropWarningService.showWarning("SETTING.PLEASE_SELECT_EQUIPMENT_FIRST");
+        return;
+      }
       var datasourceid = angular.element("#" + dragEl).scope().datasource.id;
       var equipmentid = $scope.currentEquipment.id;
       let headers = {
@@ -120,6 +131,10 @@ app.controller(
 
     $scope.deleteDataSourcePair = function (dragEl, dropEl) {
       if (angular.element("#" + dragEl).hasClass("source")) {
+        return;
+      }
+      if (!$scope.isEquipmentSelected || !$scope.currentEquipment || !$scope.currentEquipment.id) {
+        DragDropWarningService.showWarning("SETTING.PLEASE_SELECT_EQUIPMENT_FIRST");
         return;
       }
       var datasourceid = angular
@@ -188,5 +203,25 @@ app.controller(
         }
       }
     );
+
+    // Listen for disabled drag/drop events to show warning
+    // Only show warning if this tab is currently active
+    $scope.$on('HJC-DRAG-DISABLED', function(event) {
+        DragDropWarningService.showWarningIfActive(
+            $scope,
+            'BIND_DATA_SOURCE',
+            'SETTING.PLEASE_SELECT_EQUIPMENT_FIRST',
+            { BIND_DATA_SOURCE: 2 }
+        );
+    });
+
+    $scope.$on('HJC-DROP-DISABLED', function(event) {
+        DragDropWarningService.showWarningIfActive(
+            $scope,
+            'BIND_DATA_SOURCE',
+            'SETTING.PLEASE_SELECT_EQUIPMENT_FIRST',
+            { BIND_DATA_SOURCE: 2 }
+        );
+    });
   }
 );

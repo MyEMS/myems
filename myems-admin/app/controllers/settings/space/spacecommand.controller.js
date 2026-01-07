@@ -7,7 +7,8 @@ app.controller('SpaceCommandController', function(
     $translate,
     SpaceService,
     CommandService,
-    SpaceCommandService, toaster,SweetAlert) {
+    SpaceCommandService, toaster,SweetAlert,
+    DragDropWarningService) {
     $scope.spaces = [];
     $scope.currentSpaceID = 1;
     $scope.commands = [];
@@ -205,41 +206,23 @@ app.controller('SpaceCommandController', function(
     // Listen for disabled drop events to show warning
     // Only show warning if this tab is currently active
     $scope.$on('HJC-DROP-DISABLED', function(event) {
-        var TAB_INDEXES = ($scope.$parent && $scope.$parent.TAB_INDEXES) || { COMMAND: 10 };
-        if ($scope.$parent && $scope.$parent.activeTabIndex === TAB_INDEXES.COMMAND) {
-            $timeout(function() {
-                try {
-                    toaster.pop({
-                        type: "warning",
-                        body: $translate.instant("SETTING.PLEASE_SELECT_SPACE_FIRST"),
-                        showCloseButton: true,
-                    });
-                } catch(err) {
-                    console.error('Error showing toaster:', err);
-                    alert($translate.instant("SETTING.PLEASE_SELECT_SPACE_FIRST"));
-                }
-            }, 0);
-        }
+        DragDropWarningService.showWarningIfActive(
+            $scope,
+            'COMMAND',
+            'SETTING.PLEASE_SELECT_SPACE_FIRST',
+            { COMMAND: 10 }
+        );
     });
 
     // Listen for disabled drag events to show warning
     // Only show warning if this tab is currently active
     $scope.$on('HJC-DRAG-DISABLED', function(event) {
-        var TAB_INDEXES = ($scope.$parent && $scope.$parent.TAB_INDEXES) || { COMMAND: 10 };
-        if ($scope.$parent && $scope.$parent.activeTabIndex === TAB_INDEXES.COMMAND) {
-            $timeout(function() {
-                try {
-                    toaster.pop({
-                        type: "warning",
-                        body: $translate.instant("SETTING.PLEASE_SELECT_SPACE_FIRST"),
-                        showCloseButton: true,
-                    });
-                } catch(err) {
-                    console.error('Error showing toaster:', err);
-                    alert($translate.instant("SETTING.PLEASE_SELECT_SPACE_FIRST"));
-                }
-            }, 0);
-        }
+        DragDropWarningService.showWarningIfActive(
+            $scope,
+            'COMMAND',
+            'SETTING.PLEASE_SELECT_SPACE_FIRST',
+            { COMMAND: 10 }
+        );
     });
 
 });
