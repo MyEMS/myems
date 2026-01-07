@@ -1121,6 +1121,7 @@ app
                                                     'app/services/settings/sensor/sensor.service.js',
                                                     'app/controllers/settings/store/store.master.controller.js',
                                                     'app/controllers/settings/store/store.controller.js',
+                                                    'app/controllers/settings/store/storetype.controller.js',
                                                     'app/controllers/settings/store/storemeter.controller.js',
                                                     'app/controllers/settings/store/storepoint.controller.js',
                                                     'app/controllers/settings/store/storesensor.controller.js',

@@ -18,7 +18,7 @@ app.factory('StoreTypeService', function($http) {
             });
         },
         addStoreType: function(store_type, headers, callback) {
-            $http.post(getAPI()+'storetypes',{data:store}, {headers})
+            $http.post(getAPI()+'storetypes',{data:store_type}, {headers})
             .then(function (response) {
                 callback(response);
             }, function (response) {
