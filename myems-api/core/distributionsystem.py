@@ -5,7 +5,6 @@ import mysql.connector
 import simplejson as json
 import redis
 from core.useractivity import user_logger, admin_control, access_control, api_key_control
-from reports.distributionsystem import clear_distribution_system_report_cache
 import config
 
 
@@ -241,8 +240,6 @@ class DistributionSystemCollection:
         cursor.close()
         cnx.close()
 
-        # Clear distribution system report cache after creating new system
-        clear_distribution_system_report_cache()
         # Clear distribution system API cache
         clear_distribution_system_cache()
 
@@ -384,8 +381,6 @@ class DistributionSystemItem:
         cursor.close()
         cnx.close()
 
-        # Clear distribution system report cache after deleting system
-        clear_distribution_system_report_cache(distribution_system_id=id_)
         # Clear distribution system API cache
         clear_distribution_system_cache(distribution_system_id=id_)
 
@@ -471,8 +466,6 @@ class DistributionSystemItem:
         cursor.close()
         cnx.close()
 
-        # Clear distribution system report cache after updating system
-        clear_distribution_system_report_cache(distribution_system_id=id_)
         # Clear distribution system API cache
         clear_distribution_system_cache(distribution_system_id=id_)
 
@@ -788,8 +781,6 @@ class DistributionSystemImport:
                                     svg_id,
                                     description))
         new_id = cursor.lastrowid
-        # Clear distribution system report cache after importing new system
-        clear_distribution_system_report_cache()
         # Clear distribution system API cache
         clear_distribution_system_cache()
         if new_values['circuits'] is not None and len(new_values['circuits']) > 0:
@@ -927,8 +918,6 @@ class DistributionSystemClone:
                                         meta_result['svg_id'],
                                         meta_result['description']))
             new_id = cursor.lastrowid
-            # Clear distribution system report cache after cloning system
-            clear_distribution_system_report_cache()
             # Clear distribution system API cache
             clear_distribution_system_cache()
             if meta_result['circuits'] is not None and len(meta_result['circuits']) > 0:

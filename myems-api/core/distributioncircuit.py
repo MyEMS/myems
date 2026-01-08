@@ -3,7 +3,6 @@ import falcon
 import mysql.connector
 import simplejson as json
 from core.useractivity import user_logger, admin_control, access_control, api_key_control
-from reports.distributionsystem import clear_distribution_system_report_cache
 import config
 
 
@@ -190,9 +189,6 @@ class DistributionCircuitCollection:
         cursor.close()
         cnx.close()
 
-        # Clear distribution system report cache after creating new circuit
-        clear_distribution_system_report_cache(distribution_system_id=distribution_system_id)
-
         resp.status = falcon.HTTP_201
         resp.location = '/distributioncircuits/' + str(new_id)
 
@@ -296,10 +292,6 @@ class DistributionCircuitItem:
 
         cursor.close()
         cnx.close()
-
-        # Clear distribution system report cache after deleting circuit
-        if distribution_system_id:
-            clear_distribution_system_report_cache(distribution_system_id=distribution_system_id)
 
         resp.status = falcon.HTTP_204
 
@@ -439,12 +431,6 @@ class DistributionCircuitItem:
         cursor.close()
         cnx.close()
 
-        # Clear distribution system report cache after updating circuit
-        # Clear both old and new distribution system caches in case distribution_system_id changed
-        if old_distribution_system_id:
-            clear_distribution_system_report_cache(distribution_system_id=old_distribution_system_id)
-        clear_distribution_system_report_cache(distribution_system_id=distribution_system_id)
-
         resp.status = falcon.HTTP_200
 
 
@@ -579,9 +565,6 @@ class DistributionCircuitPointCollection:
         cursor.close()
         cnx.close()
 
-        # Clear distribution system report cache after adding point to circuit
-        clear_distribution_system_report_cache(distribution_system_id=distribution_system_id)
-
         resp.status = falcon.HTTP_201
         resp.location = '/distributioncircuits/' + str(id_) + '/points/' + str(new_values['data']['point_id'])
 
@@ -646,9 +629,6 @@ class DistributionCircuitPointItem:
 
         cursor.close()
         cnx.close()
-
-        # Clear distribution system report cache after removing point from circuit
-        clear_distribution_system_report_cache(distribution_system_id=distribution_system_id)
 
         resp.status = falcon.HTTP_204
 
