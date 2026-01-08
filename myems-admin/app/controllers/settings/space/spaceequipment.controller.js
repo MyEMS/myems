@@ -207,9 +207,9 @@ app.controller('SpaceEquipmentController', function(
     // Register drag and drop warning event listeners
     // Use registerTabWarnings to avoid code duplication
     DragDropWarningService.registerTabWarnings(
-        $scope,
-        'EQUIPMENT',
-        'SETTING.PLEASE_SELECT_SPACE_FIRST',
-        { EQUIPMENT: 2 }
-    );
+            $scope,
+            'EQUIPMENT',
+            'SETTING.PLEASE_SELECT_SPACE_FIRST',
+            { EQUIPMENT: 2 }
+        );
 });

@@ -151,9 +151,9 @@ app.controller('CombinedEquipmentCommandController', function (
     // Register drag and drop warning event listeners
     // Use registerTabWarnings to avoid code duplication
     DragDropWarningService.registerTabWarnings(
-        $scope,
-        'BIND_COMMAND',
-        'SETTING.PLEASE_SELECT_COMBINED_EQUIPMENT_FIRST',
-        { BIND_COMMAND: 5 }
-    );
+            $scope,
+            'BIND_COMMAND',
+            'SETTING.PLEASE_SELECT_COMBINED_EQUIPMENT_FIRST',
+            { BIND_COMMAND: 5 }
+        );
 });

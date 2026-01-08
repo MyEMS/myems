@@ -207,9 +207,9 @@ app.controller('SpaceDistributionSystemController', function(
     // Register drag and drop warning event listeners
     // Use registerTabWarnings to avoid code duplication
     DragDropWarningService.registerTabWarnings(
-        $scope,
-        'DISTRIBUTION_SYSTEM',
-        'SETTING.PLEASE_SELECT_SPACE_FIRST',
-        { DISTRIBUTION_SYSTEM: 13 }
-    );
+            $scope,
+            'DISTRIBUTION_SYSTEM',
+            'SETTING.PLEASE_SELECT_SPACE_FIRST',
+            { DISTRIBUTION_SYSTEM: 13 }
+        );
 });

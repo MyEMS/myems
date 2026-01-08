@@ -137,10 +137,10 @@ app.controller('StoreSensorController', function (
     // Register drag and drop warning event listeners
     // Use registerTabWarnings to avoid code duplication
     DragDropWarningService.registerTabWarnings(
-        $scope,
-        'BIND_SENSOR',
-        'SETTING.PLEASE_SELECT_STORE_FIRST',
-        { BIND_SENSOR: 3 }
-    );
+            $scope,
+            'BIND_SENSOR',
+            'SETTING.PLEASE_SELECT_STORE_FIRST',
+            { BIND_SENSOR: 3 }
+        );
 
 });

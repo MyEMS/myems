@@ -206,10 +206,10 @@ app.controller('SpaceCommandController', function(
     // Register drag and drop warning event listeners
     // Use registerTabWarnings to avoid code duplication
     DragDropWarningService.registerTabWarnings(
-        $scope,
-        'COMMAND',
-        'SETTING.PLEASE_SELECT_SPACE_FIRST',
-        { COMMAND: 10 }
-    );
+            $scope,
+            'COMMAND',
+            'SETTING.PLEASE_SELECT_SPACE_FIRST',
+            { COMMAND: 10 }
+        );
 
 });

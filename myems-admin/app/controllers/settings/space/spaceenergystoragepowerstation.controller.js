@@ -207,9 +207,9 @@ app.controller('SpaceEnergyStoragePowerStationController', function(
     // Register drag and drop warning event listeners
     // Use registerTabWarnings to avoid code duplication
     DragDropWarningService.registerTabWarnings(
-        $scope,
-        'ENERGY_STORAGE_POWER_STATION',
-        'SETTING.PLEASE_SELECT_SPACE_FIRST',
-        { ENERGY_STORAGE_POWER_STATION: 11 }
-    );
+            $scope,
+            'ENERGY_STORAGE_POWER_STATION',
+            'SETTING.PLEASE_SELECT_SPACE_FIRST',
+            { ENERGY_STORAGE_POWER_STATION: 11 }
+        );
 });

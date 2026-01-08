@@ -262,11 +262,11 @@ app.controller('EquipmentMeterController', function(
     // Register drag and drop warning event listeners
     // Use registerTabWarnings to avoid code duplication
     DragDropWarningService.registerTabWarnings(
-        $scope,
-        'BIND_METER',
-        'SETTING.PLEASE_SELECT_EQUIPMENT_FIRST',
-        { BIND_METER: 1 }
-    );
+            $scope,
+            'BIND_METER',
+            'SETTING.PLEASE_SELECT_EQUIPMENT_FIRST',
+            { BIND_METER: 1 }
+        );
 });
 
 app.controller('ModalEditEquipmentMeterCtrl', function ($scope, $uibModalInstance) {

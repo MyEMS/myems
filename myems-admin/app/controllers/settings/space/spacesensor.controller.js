@@ -205,9 +205,9 @@ app.controller('SpaceSensorController', function (
     // Register drag and drop warning event listeners
     // Use registerTabWarnings to avoid code duplication
     DragDropWarningService.registerTabWarnings(
-        $scope,
-        'SENSOR',
-        'SETTING.PLEASE_SELECT_SPACE_FIRST',
-        { SENSOR: 5 }
-    );
+            $scope,
+            'SENSOR',
+            'SETTING.PLEASE_SELECT_SPACE_FIRST',
+            { SENSOR: 5 }
+        );
 });

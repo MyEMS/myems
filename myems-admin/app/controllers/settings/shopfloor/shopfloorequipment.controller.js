@@ -134,10 +134,10 @@ app.controller('ShopfloorEquipmentController', function (
     // Register drag and drop warning event listeners
     // Use registerTabWarnings to avoid code duplication
     DragDropWarningService.registerTabWarnings(
-        $scope,
-        'BIND_EQUIPMENT',
-        'SETTING.PLEASE_SELECT_SHOPFLOOR_FIRST',
-        { BIND_EQUIPMENT: 2 }
-    );
+            $scope,
+            'BIND_EQUIPMENT',
+            'SETTING.PLEASE_SELECT_SHOPFLOOR_FIRST',
+            { BIND_EQUIPMENT: 2 }
+        );
 
 });

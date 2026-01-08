@@ -234,11 +234,11 @@ app.controller('SpaceMeterController', function(
     // Register drag and drop warning event listeners
     // Use registerTabWarnings to avoid code duplication
     DragDropWarningService.registerTabWarnings(
-        $scope,
-        'METER',
-        'SETTING.PLEASE_SELECT_SPACE_FIRST',
-        { METER: 1 }
-    );
+            $scope,
+            'METER',
+            'SETTING.PLEASE_SELECT_SPACE_FIRST',
+            { METER: 1 }
+        );
 
     $scope.$on('space.tabSelected', function(event, tabIndex) {
         var TAB_INDEXES = ($scope.$parent && $scope.$parent.TAB_INDEXES) || { METER: 1 };

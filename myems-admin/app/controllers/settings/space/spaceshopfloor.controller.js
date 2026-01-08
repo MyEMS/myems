@@ -206,10 +206,10 @@ app.controller('SpaceShopfloorController', function(
     // Register drag and drop warning event listeners
     // Use registerTabWarnings to avoid code duplication
     DragDropWarningService.registerTabWarnings(
-        $scope,
-        'SHOPFLOOR',
-        'SETTING.PLEASE_SELECT_SPACE_FIRST',
-        { SHOPFLOOR: 8 }
-    );
+            $scope,
+            'SHOPFLOOR',
+            'SETTING.PLEASE_SELECT_SPACE_FIRST',
+            { SHOPFLOOR: 8 }
+        );
 
 });

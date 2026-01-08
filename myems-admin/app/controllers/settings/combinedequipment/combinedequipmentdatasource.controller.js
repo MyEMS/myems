@@ -256,10 +256,10 @@ app.controller(
     // Register drag and drop warning event listeners
     // Use registerTabWarnings to avoid code duplication
     DragDropWarningService.registerTabWarnings(
-        $scope,
-        'BIND_DATA_SOURCE',
-        'SETTING.PLEASE_SELECT_COMBINED_EQUIPMENT_FIRST',
-        { BIND_DATA_SOURCE: 3 }
-    );
+            $scope,
+            'BIND_DATA_SOURCE',
+            'SETTING.PLEASE_SELECT_COMBINED_EQUIPMENT_FIRST',
+            { BIND_DATA_SOURCE: 3 }
+        );
   }
 );

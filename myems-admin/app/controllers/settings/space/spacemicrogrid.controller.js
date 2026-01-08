@@ -174,11 +174,11 @@ app.controller('SpaceMicrogridController', function(
     // Register drag and drop warning event listeners
     // Use registerTabWarnings to avoid code duplication
     DragDropWarningService.registerTabWarnings(
-        $scope,
-        'MICROGRID',
-        'SETTING.PLEASE_SELECT_SPACE_FIRST',
-        { MICROGRID: 15 }
-    );
+            $scope,
+            'MICROGRID',
+            'SETTING.PLEASE_SELECT_SPACE_FIRST',
+            { MICROGRID: 15 }
+        );
 
     $scope.initTab = function() {
         if (!$scope.tabInitialized) {

@@ -144,10 +144,10 @@ app.controller('StoreWorkingCalendarController', function(
     // Register drag and drop warning event listeners
     // Use registerTabWarnings to avoid code duplication
     DragDropWarningService.registerTabWarnings(
-        $scope,
-        'BIND_WORKING_CALENDAR',
-        'SETTING.PLEASE_SELECT_STORE_FIRST',
-        { BIND_WORKING_CALENDAR: 4 }
-    );
+            $scope,
+            'BIND_WORKING_CALENDAR',
+            'SETTING.PLEASE_SELECT_STORE_FIRST',
+            { BIND_WORKING_CALENDAR: 4 }
+        );
 
 });

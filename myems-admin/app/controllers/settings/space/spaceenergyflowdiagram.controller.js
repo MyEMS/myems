@@ -207,9 +207,9 @@ app.controller('SpaceEnergyFlowDiagramController', function(
     // Register drag and drop warning event listeners
     // Use registerTabWarnings to avoid code duplication
     DragDropWarningService.registerTabWarnings(
-        $scope,
-        'ENERGY_FLOW_DIAGRAM',
-        'SETTING.PLEASE_SELECT_SPACE_FIRST',
-        { ENERGY_FLOW_DIAGRAM: 12 }
-    );
+            $scope,
+            'ENERGY_FLOW_DIAGRAM',
+            'SETTING.PLEASE_SELECT_SPACE_FIRST',
+            { ENERGY_FLOW_DIAGRAM: 12 }
+        );
 });

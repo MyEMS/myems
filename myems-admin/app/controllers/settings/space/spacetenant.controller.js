@@ -206,10 +206,10 @@ app.controller('SpaceTenantController', function(
     // Register drag and drop warning event listeners
     // Use registerTabWarnings to avoid code duplication
     DragDropWarningService.registerTabWarnings(
-        $scope,
-        'TENANT',
-        'SETTING.PLEASE_SELECT_SPACE_FIRST',
-        { TENANT: 6 }
-    );
+            $scope,
+            'TENANT',
+            'SETTING.PLEASE_SELECT_SPACE_FIRST',
+            { TENANT: 6 }
+        );
 
 });

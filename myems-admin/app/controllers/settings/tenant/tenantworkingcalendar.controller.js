@@ -129,10 +129,10 @@ app.controller('TenantWorkingCalendarController', function(
     // Register drag and drop warning event listeners
     // Use registerTabWarnings to avoid code duplication
     DragDropWarningService.registerTabWarnings(
-        $scope,
-        'BIND_WORKING_CALENDAR',
-        'SETTING.PLEASE_SELECT_TENANT_FIRST',
-        { BIND_WORKING_CALENDAR: 5 }
-    );
+            $scope,
+            'BIND_WORKING_CALENDAR',
+            'SETTING.PLEASE_SELECT_TENANT_FIRST',
+            { BIND_WORKING_CALENDAR: 5 }
+        );
 
 });

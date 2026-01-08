@@ -181,9 +181,9 @@ app.controller('MeterPointController', function (
     // Register drag and drop warning event listeners
     // Use registerTabWarnings to avoid code duplication
     DragDropWarningService.registerTabWarnings(
-        $scope,
-        'BIND_POINT',
-        'SETTING.PLEASE_SELECT_METER_FIRST',
-        { BIND_POINT: 1 }
-    );
+            $scope,
+            'BIND_POINT',
+            'SETTING.PLEASE_SELECT_METER_FIRST',
+            { BIND_POINT: 1 }
+        );
 });

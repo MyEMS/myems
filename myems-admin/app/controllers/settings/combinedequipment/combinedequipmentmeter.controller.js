@@ -241,11 +241,11 @@ app.controller('CombinedEquipmentMeterController', function (
     // Register drag and drop warning event listeners
     // Use registerTabWarnings to avoid code duplication
     DragDropWarningService.registerTabWarnings(
-        $scope,
-        'BIND_METER',
-        'SETTING.PLEASE_SELECT_COMBINED_EQUIPMENT_FIRST',
-        { BIND_METER: 2 }
-    );
+            $scope,
+            'BIND_METER',
+            'SETTING.PLEASE_SELECT_COMBINED_EQUIPMENT_FIRST',
+            { BIND_METER: 2 }
+        );
 });
 
 app.controller('ModalEditCombinedEquipmentMeterCtrl', function ($scope, $uibModalInstance) {

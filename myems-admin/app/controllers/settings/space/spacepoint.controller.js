@@ -230,9 +230,9 @@ app.controller('SpacePointController', function (
     // Register drag and drop warning event listeners
     // Use registerTabWarnings to avoid code duplication
     DragDropWarningService.registerTabWarnings(
-        $scope,
-        'POINT',
-        'SETTING.PLEASE_SELECT_SPACE_FIRST',
-        { POINT: 4 }
-    );
+            $scope,
+            'POINT',
+            'SETTING.PLEASE_SELECT_SPACE_FIRST',
+            { POINT: 4 }
+        );
 });

@@ -151,9 +151,9 @@ app.controller('MeterCommandController', function (
     // Register drag and drop warning event listeners
     // Use registerTabWarnings to avoid code duplication
     DragDropWarningService.registerTabWarnings(
-        $scope,
-        'BIND_COMMAND',
-        'SETTING.PLEASE_SELECT_METER_FIRST',
-        { BIND_COMMAND: 6 }
-    );
+            $scope,
+            'BIND_COMMAND',
+            'SETTING.PLEASE_SELECT_METER_FIRST',
+            { BIND_COMMAND: 6 }
+        );
 });

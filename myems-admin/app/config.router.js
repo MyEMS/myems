@@ -790,6 +790,7 @@ app
                                                     'app/services/settings/sensor/sensorpoint.service.js',
                                                     'app/services/settings/datasource/datasource.service.js',
                                                     'app/services/settings/datasource/point.service.js',
+                                                    'app/services/dragdropwarning.service.js',
                                                     'app/controllers/settings/sensor/sensor.master.controller.js',
                                                     'app/controllers/settings/sensor/sensor.controller.js',
                                                     'app/controllers/settings/sensor/sensorpoint.controller.js',

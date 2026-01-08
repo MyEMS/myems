@@ -222,9 +222,9 @@ app.controller('StoreMeterController', function(
     // Register drag and drop warning event listeners
     // Use registerTabWarnings to avoid code duplication
     DragDropWarningService.registerTabWarnings(
-        $scope,
-        'BIND_METER',
-        'SETTING.PLEASE_SELECT_STORE_FIRST',
-        { BIND_METER: 1 }
-    );
+            $scope,
+            'BIND_METER',
+            'SETTING.PLEASE_SELECT_STORE_FIRST',
+            { BIND_METER: 1 }
+        );
 });

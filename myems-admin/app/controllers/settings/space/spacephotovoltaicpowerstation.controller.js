@@ -207,9 +207,9 @@ app.controller('SpacePhotovoltaicPowerStationController', function(
     // Register drag and drop warning event listeners
     // Use registerTabWarnings to avoid code duplication
     DragDropWarningService.registerTabWarnings(
-        $scope,
-        'PHOTOVOLTAIC_POWER_STATION',
-        'SETTING.PLEASE_SELECT_SPACE_FIRST',
-        { PHOTOVOLTAIC_POWER_STATION: 14 }
-    );
+            $scope,
+            'PHOTOVOLTAIC_POWER_STATION',
+            'SETTING.PLEASE_SELECT_SPACE_FIRST',
+            { PHOTOVOLTAIC_POWER_STATION: 14 }
+        );
 });

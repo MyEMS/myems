@@ -204,10 +204,10 @@ app.controller('SpaceWorkingCalendarController', function(
     // Register drag and drop warning event listeners
     // Use registerTabWarnings to avoid code duplication
     DragDropWarningService.registerTabWarnings(
-        $scope,
-        'WORKING_CALENDAR',
-        'SETTING.PLEASE_SELECT_SPACE_FIRST',
-        { WORKING_CALENDAR: 9 }
-    );
+            $scope,
+            'WORKING_CALENDAR',
+            'SETTING.PLEASE_SELECT_SPACE_FIRST',
+            { WORKING_CALENDAR: 9 }
+        );
 
 });
