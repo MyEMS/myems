@@ -315,6 +315,10 @@ app.controller('StoreController', function(
 	$scope.$on('handleBroadcastStoreChanged', function(event) {
   		$scope.getAllStores();
 	});
+	
+	$scope.$on('handleBroadcastStoreTypeChanged', function() {
+		$scope.getAllStoreTypes();
+	});
 });
 
 app.controller('ModalAddStoreCtrl', function($scope, $uibModalInstance,params) {
