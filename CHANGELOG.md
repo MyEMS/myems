@@ -5,6 +5,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 ### Added
+- added store type setting to myems-admin
 ### Changed
 ### Fixed
 - optimized combined equipment settings in myems-admin
