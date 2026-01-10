@@ -5650,6 +5650,9 @@ class SpaceClone:
             cursor.close()
             cnx.close()
 
+            # Clear cache after clone
+            clear_space_cache(space_id=new_id, parent_space_id=meta_result['parent_space_id'])
+
             resp.status = falcon.HTTP_201
             resp.location = '/spaces/' + str(new_id)
 

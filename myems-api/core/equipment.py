@@ -3506,6 +3506,9 @@ class EquipmentClone:
             cursor.close()
             cnx.close()
 
+            # Clear cache after cloning equipment
+            clear_equipment_cache()
+
             resp.status = falcon.HTTP_201
             resp.location = '/equipments/' + str(new_id)
 

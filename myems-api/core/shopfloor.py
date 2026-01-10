@@ -2829,6 +2829,9 @@ class ShopfloorImport:
         cursor.close()
         cnx.close()
 
+        # Clear cache after importing shopfloor
+        clear_shopfloor_cache()
+
         resp.status = falcon.HTTP_201
         resp.location = '/shopfloors/' + str(new_id)
 
@@ -3281,6 +3284,9 @@ class ShopfloorClone:
             cnx.commit()
             cursor.close()
             cnx.close()
+
+            # Clear cache after cloning shopfloor
+            clear_shopfloor_cache()
 
             resp.status = falcon.HTTP_201
             resp.location = '/shopfloors/' + str(new_id)
