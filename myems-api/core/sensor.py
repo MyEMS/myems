@@ -3,8 +3,53 @@ from datetime import datetime, timedelta
 import falcon
 import mysql.connector
 import simplejson as json
+import redis
 from core.useractivity import user_logger, admin_control, access_control, api_key_control
 import config
+
+
+def clear_sensor_cache(sensor_id=None):
+    """
+    Clear sensor-related cache after data modification
+
+    Args:
+        sensor_id: Sensor ID (optional, for specific sensor cache)
+    """
+    # Check if Redis is enabled
+    if not config.redis.get('is_enabled', False):
+        return
+
+    redis_client = None
+    try:
+        redis_client = redis.Redis(
+            host=config.redis['host'],
+            port=config.redis['port'],
+            password=config.redis['password'] if config.redis['password'] else None,
+            db=config.redis['db'],
+            decode_responses=True,
+            socket_connect_timeout=2,
+            socket_timeout=2
+        )
+        redis_client.ping()
+
+        # Clear sensor list cache (all search query variations)
+        list_cache_key_pattern = 'sensor:list:*'
+        matching_keys = redis_client.keys(list_cache_key_pattern)
+        if matching_keys:
+            redis_client.delete(*matching_keys)
+
+        # Clear specific sensor item cache if sensor_id is provided
+        if sensor_id:
+            item_cache_key = f'sensor:item:{sensor_id}'
+            redis_client.delete(item_cache_key)
+            point_cache_key = f'sensor:point:{sensor_id}'
+            redis_client.delete(point_cache_key)
+            export_cache_key = f'sensor:export:{sensor_id}'
+            redis_client.delete(export_cache_key)
+
+    except Exception:
+        # If cache clear fails, ignore and continue
+        pass
 
 
 class SensorCollection:
@@ -41,6 +86,33 @@ class SensorCollection:
         else:
             search_query = ''
 
+        # Redis cache key
+        cache_key = f'sensor:list:{search_query}'
+        cache_expire = 28800  # 8 hours in seconds (long-term cache)
+
+        # Try to get from Redis cache (only if Redis is enabled)
+        redis_client = None
+        if config.redis.get('is_enabled', False):
+            try:
+                redis_client = redis.Redis(
+                    host=config.redis['host'],
+                    port=config.redis['port'],
+                    password=config.redis['password'] if config.redis['password'] else None,
+                    db=config.redis['db'],
+                    decode_responses=True,
+                    socket_connect_timeout=2,
+                    socket_timeout=2
+                )
+                redis_client.ping()
+                cached_result = redis_client.get(cache_key)
+                if cached_result:
+                    resp.text = cached_result
+                    return
+            except Exception:
+                # If Redis connection fails, continue to database query
+                pass
+
+        # Cache miss or Redis error - query database
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()
 
@@ -67,7 +139,17 @@ class SensorCollection:
 
         cursor.close()
         cnx.close()
-        resp.text = json.dumps(result)
+
+        # Store result in Redis cache
+        result_json = json.dumps(result)
+        if redis_client:
+            try:
+                redis_client.setex(cache_key, cache_expire, result_json)
+            except Exception:
+                # If cache set fails, ignore and continue
+                pass
+
+        resp.text = result_json
 
     @staticmethod
     @user_logger
@@ -126,6 +208,9 @@ class SensorCollection:
         cursor.close()
         cnx.close()
 
+        # Clear cache after creating new sensor
+        clear_sensor_cache()
+
         resp.status = falcon.HTTP_201
         resp.location = '/sensors/' + str(new_id)
 
@@ -152,6 +237,33 @@ class SensorItem:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_SENSOR_ID')
 
+        # Redis cache key
+        cache_key = f'sensor:item:{id_}'
+        cache_expire = 28800  # 8 hours in seconds (long-term cache)
+
+        # Try to get from Redis cache (only if Redis is enabled)
+        redis_client = None
+        if config.redis.get('is_enabled', False):
+            try:
+                redis_client = redis.Redis(
+                    host=config.redis['host'],
+                    port=config.redis['port'],
+                    password=config.redis['password'] if config.redis['password'] else None,
+                    db=config.redis['db'],
+                    decode_responses=True,
+                    socket_connect_timeout=2,
+                    socket_timeout=2
+                )
+                redis_client.ping()
+                cached_result = redis_client.get(cache_key)
+                if cached_result:
+                    resp.text = cached_result
+                    return
+            except Exception:
+                # If Redis connection fails, continue to database query
+                pass
+
+        # Cache miss or Redis error - query database
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()
 
@@ -172,7 +284,16 @@ class SensorItem:
                            "uuid": row[2],
                            "description": row[3]}
 
-        resp.text = json.dumps(meta_result)
+        # Store result in Redis cache
+        result_json = json.dumps(meta_result)
+        if redis_client:
+            try:
+                redis_client.setex(cache_key, cache_expire, result_json)
+            except Exception:
+                # If cache set fails, ignore and continue
+                pass
+
+        resp.text = result_json
 
     @staticmethod
     @user_logger
@@ -263,6 +384,9 @@ class SensorItem:
         cursor.close()
         cnx.close()
 
+        # Clear cache after deleting sensor
+        clear_sensor_cache(sensor_id=id_)
+
         resp.status = falcon.HTTP_204
 
     @staticmethod
@@ -335,6 +459,9 @@ class SensorItem:
         cursor.close()
         cnx.close()
 
+        # Clear cache after updating sensor
+        clear_sensor_cache(sensor_id=id_)
+
         resp.status = falcon.HTTP_200
 
 
@@ -360,6 +487,33 @@ class SensorPointCollection:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_SENSOR_ID')
 
+        # Redis cache key
+        cache_key = f'sensor:point:{id_}'
+        cache_expire = 28800  # 8 hours in seconds (long-term cache)
+
+        # Try to get from Redis cache (only if Redis is enabled)
+        redis_client = None
+        if config.redis.get('is_enabled', False):
+            try:
+                redis_client = redis.Redis(
+                    host=config.redis['host'],
+                    port=config.redis['port'],
+                    password=config.redis['password'] if config.redis['password'] else None,
+                    db=config.redis['db'],
+                    decode_responses=True,
+                    socket_connect_timeout=2,
+                    socket_timeout=2
+                )
+                redis_client.ping()
+                cached_result = redis_client.get(cache_key)
+                if cached_result:
+                    resp.text = cached_result
+                    return
+            except Exception:
+                # If Redis connection fails, continue to database query
+                pass
+
+        # Cache miss or Redis error - query database
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()
 
@@ -389,7 +543,19 @@ class SensorPointCollection:
                                "address": row[5]}
                 result.append(meta_result)
 
-        resp.text = json.dumps(result)
+        cursor.close()
+        cnx.close()
+
+        # Store result in Redis cache
+        result_json = json.dumps(result)
+        if redis_client:
+            try:
+                redis_client.setex(cache_key, cache_expire, result_json)
+            except Exception:
+                # If cache set fails, ignore and continue
+                pass
+
+        resp.text = result_json
 
     @staticmethod
     @user_logger
@@ -453,6 +619,9 @@ class SensorPointCollection:
         cursor.close()
         cnx.close()
 
+        # Clear cache after adding sensor point
+        clear_sensor_cache(sensor_id=id_)
+
         resp.status = falcon.HTTP_201
         resp.location = '/sensors/' + str(id_) + '/points/' + str(new_values['data']['point_id'])
 
@@ -515,6 +684,9 @@ class SensorPointItem:
         cursor.close()
         cnx.close()
 
+        # Clear cache after deleting sensor point
+        clear_sensor_cache(sensor_id=id_)
+
         resp.status = falcon.HTTP_204
 
 
@@ -540,6 +712,33 @@ class SensorExport:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_SENSOR_ID')
 
+        # Redis cache key
+        cache_key = f'sensor:export:{id_}'
+        cache_expire = 28800  # 8 hours in seconds (long-term cache)
+
+        # Try to get from Redis cache (only if Redis is enabled)
+        redis_client = None
+        if config.redis.get('is_enabled', False):
+            try:
+                redis_client = redis.Redis(
+                    host=config.redis['host'],
+                    port=config.redis['port'],
+                    password=config.redis['password'] if config.redis['password'] else None,
+                    db=config.redis['db'],
+                    decode_responses=True,
+                    socket_connect_timeout=2,
+                    socket_timeout=2
+                )
+                redis_client.ping()
+                cached_result = redis_client.get(cache_key)
+                if cached_result:
+                    resp.text = cached_result
+                    return
+            except Exception:
+                # If Redis connection fails, continue to database query
+                pass
+
+        # Cache miss or Redis error - query database
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()
 
@@ -550,6 +749,8 @@ class SensorExport:
         row = cursor.fetchone()
 
         if row is None:
+            cursor.close()
+            cnx.close()
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.SENSOR_NOT_FOUND')
         else:
@@ -572,7 +773,17 @@ class SensorExport:
                 meta_result['points'] = result
             cursor.close()
             cnx.close()
-        resp.text = json.dumps(meta_result)
+
+        # Store result in Redis cache
+        result_json = json.dumps(meta_result)
+        if redis_client:
+            try:
+                redis_client.setex(cache_key, cache_expire, result_json)
+            except Exception:
+                # If cache set fails, ignore and continue
+                pass
+
+        resp.text = result_json
 
 
 class SensorImport:
@@ -661,6 +872,9 @@ class SensorImport:
         cursor.close()
         cnx.close()
 
+        # Clear cache after importing sensor
+        clear_sensor_cache()
+
         resp.status = falcon.HTTP_201
         resp.location = '/sensors/' + str(new_id)
 
@@ -747,6 +961,9 @@ class SensorClone:
         cnx.commit()
         cursor.close()
         cnx.close()
+
+        # Clear cache after cloning sensor
+        clear_sensor_cache()
 
         resp.status = falcon.HTTP_201
         resp.location = '/sensors/' + str(new_id)

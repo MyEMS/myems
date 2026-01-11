@@ -23,5 +23,9 @@ app.controller('StoreMasterController', function($scope, $timeout) {
 	$scope.$on('handleEmitStoreChanged', function(event) {
 		$scope.$broadcast('handleBroadcastStoreChanged');
 	});
+	
+	$scope.$on('handleEmitStoreTypeChanged', function(event) {
+		$scope.$broadcast('handleBroadcastStoreTypeChanged');
+	});
 
 });

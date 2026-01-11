@@ -97,6 +97,14 @@ myems_production_db = {
     'password': config('MYEMS_PRODUCTION_DB_PASSWORD', default='!MyEMS1'),
 }
 
+redis = {
+    'is_enabled': config('IS_REDIS_ENABLED', default=False, cast=bool),
+    'host': config('REDIS_HOST', default='127.0.0.1'),
+    'port': config('REDIS_PORT', default=6379, cast=int),
+    'password': config('REDIS_PASSWORD', default=''),
+    'db': config('REDIS_DB', default=0, cast=int),
+}
+
 myems_mqtt_broker = {
     'host': config('MYEMS_MQTT_BROKER_HOST', default='127.0.0.1'),
     'port': config('MYEMS_MQTT_BROKER_PORT', default=1883, cast=int),

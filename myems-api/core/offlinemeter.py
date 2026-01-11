@@ -3,8 +3,51 @@ from datetime import datetime, timedelta
 import falcon
 import mysql.connector
 import simplejson as json
+import redis
 from core.useractivity import user_logger, admin_control, access_control, api_key_control
 import config
+
+
+def clear_offline_meter_cache(offline_meter_id=None):
+    """
+    Clear offline meter-related cache after data modification
+
+    Args:
+        offline_meter_id: Offline meter ID (optional, for specific offline meter cache)
+    """
+    # Check if Redis is enabled
+    if not config.redis.get('is_enabled', False):
+        return
+
+    redis_client = None
+    try:
+        redis_client = redis.Redis(
+            host=config.redis['host'],
+            port=config.redis['port'],
+            password=config.redis['password'] if config.redis['password'] else None,
+            db=config.redis['db'],
+            decode_responses=True,
+            socket_connect_timeout=2,
+            socket_timeout=2
+        )
+        redis_client.ping()
+
+        # Clear offline meter list cache (all search query variations)
+        list_cache_key_pattern = 'offlinemeter:list:*'
+        matching_keys = redis_client.keys(list_cache_key_pattern)
+        if matching_keys:
+            redis_client.delete(*matching_keys)
+
+        # Clear specific offline meter item cache if offline_meter_id is provided
+        if offline_meter_id:
+            item_cache_key = f'offlinemeter:item:{offline_meter_id}'
+            redis_client.delete(item_cache_key)
+            export_cache_key = f'offlinemeter:export:{offline_meter_id}'
+            redis_client.delete(export_cache_key)
+
+    except Exception:
+        # If cache clear fails, ignore and continue
+        pass
 
 
 class OfflineMeterCollection:
@@ -58,6 +101,33 @@ class OfflineMeterCollection:
         else:
             search_query = ''
 
+        # Redis cache key
+        cache_key = f'offlinemeter:list:{search_query}'
+        cache_expire = 28800  # 8 hours in seconds (long-term cache)
+
+        # Try to get from Redis cache (only if Redis is enabled)
+        redis_client = None
+        if config.redis.get('is_enabled', False):
+            try:
+                redis_client = redis.Redis(
+                    host=config.redis['host'],
+                    port=config.redis['port'],
+                    password=config.redis['password'] if config.redis['password'] else None,
+                    db=config.redis['db'],
+                    decode_responses=True,
+                    socket_connect_timeout=2,
+                    socket_timeout=2
+                )
+                redis_client.ping()
+                cached_result = redis_client.get(cache_key)
+                if cached_result:
+                    resp.text = cached_result
+                    return
+            except Exception:
+                # If Redis connection fails, continue to database query
+                pass
+
+        # Cache miss or Redis error - query database
         # Connect to database
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()
@@ -128,7 +198,17 @@ class OfflineMeterCollection:
 
         cursor.close()
         cnx.close()
-        resp.text = json.dumps(result)
+
+        # Store result in Redis cache
+        result_json = json.dumps(result)
+        if redis_client:
+            try:
+                redis_client.setex(cache_key, cache_expire, result_json)
+            except Exception:
+                # If cache set fails, ignore and continue
+                pass
+
+        resp.text = result_json
 
     @staticmethod
     @user_logger
@@ -278,6 +358,9 @@ class OfflineMeterCollection:
         cursor.close()
         cnx.close()
 
+        # Clear cache after creating new offline meter
+        clear_offline_meter_cache()
+
         resp.status = falcon.HTTP_201
         resp.location = '/offlinemeters/' + str(new_id)
 
@@ -304,6 +387,33 @@ class OfflineMeterItem:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_OFFLINE_METER_ID')
 
+        # Redis cache key
+        cache_key = f'offlinemeter:item:{id_}'
+        cache_expire = 28800  # 8 hours in seconds (long-term cache)
+
+        # Try to get from Redis cache (only if Redis is enabled)
+        redis_client = None
+        if config.redis.get('is_enabled', False):
+            try:
+                redis_client = redis.Redis(
+                    host=config.redis['host'],
+                    port=config.redis['port'],
+                    password=config.redis['password'] if config.redis['password'] else None,
+                    db=config.redis['db'],
+                    decode_responses=True,
+                    socket_connect_timeout=2,
+                    socket_timeout=2
+                )
+                redis_client.ping()
+                cached_result = redis_client.get(cache_key)
+                if cached_result:
+                    resp.text = cached_result
+                    return
+            except Exception:
+                # If Redis connection fails, continue to database query
+                pass
+
+        # Cache miss or Redis error - query database
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()
 
@@ -368,7 +478,16 @@ class OfflineMeterItem:
                            "cost_center": cost_center_dict.get(row[8], None),
                            "description": row[9]}
 
-        resp.text = json.dumps(meta_result)
+        # Store result in Redis cache
+        result_json = json.dumps(meta_result)
+        if redis_client:
+            try:
+                redis_client.setex(cache_key, cache_expire, result_json)
+            except Exception:
+                # If cache set fails, ignore and continue
+                pass
+
+        resp.text = result_json
 
     @staticmethod
     @user_logger
@@ -522,6 +641,9 @@ class OfflineMeterItem:
 
         cursor.close()
         cnx.close()
+
+        # Clear cache after deleting offline meter
+        clear_offline_meter_cache(offline_meter_id=int(id_))
 
         resp.status = falcon.HTTP_204
 
@@ -687,6 +809,9 @@ class OfflineMeterItem:
         cursor.close()
         cnx.close()
 
+        # Clear cache after updating offline meter
+        clear_offline_meter_cache(offline_meter_id=int(id_))
+
         resp.status = falcon.HTTP_200
 
 
@@ -712,6 +837,33 @@ class OfflineMeterExport:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_OFFLINE_METER_ID')
 
+        # Redis cache key
+        cache_key = f'offlinemeter:export:{id_}'
+        cache_expire = 28800  # 8 hours in seconds (long-term cache)
+
+        # Try to get from Redis cache (only if Redis is enabled)
+        redis_client = None
+        if config.redis.get('is_enabled', False):
+            try:
+                redis_client = redis.Redis(
+                    host=config.redis['host'],
+                    port=config.redis['port'],
+                    password=config.redis['password'] if config.redis['password'] else None,
+                    db=config.redis['db'],
+                    decode_responses=True,
+                    socket_connect_timeout=2,
+                    socket_timeout=2
+                )
+                redis_client.ping()
+                cached_result = redis_client.get(cache_key)
+                if cached_result:
+                    resp.text = cached_result
+                    return
+            except Exception:
+                # If Redis connection fails, continue to database query
+                pass
+
+        # Cache miss or Redis error - query database
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()
 
@@ -776,7 +928,16 @@ class OfflineMeterExport:
                            "cost_center": cost_center_dict.get(row[8], None),
                            "description": row[9]}
 
-        resp.text = json.dumps(meta_result)
+        # Store result in Redis cache
+        result_json = json.dumps(meta_result)
+        if redis_client:
+            try:
+                redis_client.setex(cache_key, cache_expire, result_json)
+            except Exception:
+                # If cache set fails, ignore and continue
+                pass
+
+        resp.text = result_json
 
 
 class OfflineMeterImport:
@@ -941,6 +1102,9 @@ class OfflineMeterImport:
         cursor.close()
         cnx.close()
 
+        # Clear cache after importing offline meter
+        clear_offline_meter_cache()
+
         resp.status = falcon.HTTP_201
         resp.location = '/offlinemeters/' + str(new_id)
 
@@ -1049,6 +1213,9 @@ class OfflineMeterClone:
             cnx.commit()
             cursor.close()
             cnx.close()
+
+            # Clear cache after cloning offline meter
+            clear_offline_meter_cache()
 
             resp.status = falcon.HTTP_201
             resp.location = '/offlinemeters/' + str(new_id)

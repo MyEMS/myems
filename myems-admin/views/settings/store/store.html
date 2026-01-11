@@ -59,7 +59,55 @@
 							</table>
 						</div>
 					</uib-tab>
+
 					<uib-tab heading="{{'SETTING.BIND_METER' | translate}}" index="1" select="handleTabSelect(1)">
+					<uib-tab heading="{{'SETTING.STORE_TYPE' | translate}}">
+						<div class="panel-body" ng-controller="StoreTypeController">
+							<a ng-click="addStoreType()" class="btn btn-primary btn-rounded btn-outline" href="">
+								<i class="fa fa-plus-circle"></i> {{'SETTING.ADD_STORE_TYPE' | translate}}
+							</a>
+							<br>
+							<table class="footable table table-bordered table-hover" data-sort="true"
+								data-page-size="15">
+								<thead>
+									<tr>
+										<th class="text-center" data-type="numeric">{{'SETTING.ID' | translate}}</th>
+										<th class="text-center">{{'SETTING.STORE_TYPE_NAME' | translate}}</th>
+										<th class="text-center">{{'SETTING.DESCRIPTION' | translate}}</th>
+										<th class="text-center">{{'SETTING.STORE_TYPE_SIMPLIFIED_CODE' | translate}}</th>
+										<th class="text-center">{{'SETTING.ACTION' | translate}}</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr ng-repeat="storeType in storeTypes track by storeType.id">
+										<td class="text-center">{{storeType.id}}</td>
+										<td class="text-center">{{storeType.name}}</td>
+										<td class="text-center">{{storeType.description}}</td>
+										<td class="text-center">{{storeType.simplified_code}}</td>
+										<td class="text-center">
+											<a ng-click="editStoreType(storeType)"
+												class="btn btn-primary btn-rounded btn-xs">
+												{{'SETTING.EDIT' | translate}}
+											</a>
+											<a ng-click="deleteStoreType(storeType)"
+												class="btn btn-danger btn-rounded btn-xs">
+												{{'SETTING.DELETE' | translate}}
+											</a>
+										</td>
+									</tr>
+								</tbody>
+								<tfoot class="hide-if-no-paging">
+									<tr>
+										<td colspan="5">
+											<ul class="pagination pull-right"></ul>
+										</td>
+									</tr>
+								</tfoot>
+							</table>
+							<div uib-modal="addEditModal" class="modal fade" role="dialog"></div>
+						</div>
+					</uib-tab>
+					<uib-tab heading="{{'SETTING.BIND_METER' | translate}}">
 						<div class="panel-body" ng-controller="StoreMeterController">
 							<div class="row">
 								<div class="col-lg-3">

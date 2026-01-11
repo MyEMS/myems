@@ -3,8 +3,65 @@ from datetime import datetime, timedelta, timezone
 import falcon
 import mysql.connector
 import simplejson as json
+import redis
 from core.useractivity import user_logger, admin_control, access_control, api_key_control
 import config
+
+
+def clear_tenant_cache(tenant_id=None):
+    """
+    Clear tenant-related cache after data modification
+
+    Args:
+        tenant_id: Tenant ID (optional, for specific tenant cache)
+    """
+    # Check if Redis is enabled
+    if not config.redis.get('is_enabled', False):
+        return
+
+    redis_client = None
+    try:
+        redis_client = redis.Redis(
+            host=config.redis['host'],
+            port=config.redis['port'],
+            password=config.redis['password'] if config.redis['password'] else None,
+            db=config.redis['db'],
+            decode_responses=True,
+            socket_connect_timeout=2,
+            socket_timeout=2
+        )
+        redis_client.ping()
+
+        # Clear tenant list cache (all search query variations)
+        list_cache_key_pattern = 'tenant:list:*'
+        matching_keys = redis_client.keys(list_cache_key_pattern)
+        if matching_keys:
+            redis_client.delete(*matching_keys)
+
+        # Clear specific tenant item cache if tenant_id is provided
+        if tenant_id:
+            item_cache_key = f'tenant:item:{tenant_id}'
+            redis_client.delete(item_cache_key)
+            meter_cache_key = f'tenant:meter:{tenant_id}'
+            redis_client.delete(meter_cache_key)
+            offlinemeter_cache_key = f'tenant:offlinemeter:{tenant_id}'
+            redis_client.delete(offlinemeter_cache_key)
+            point_cache_key = f'tenant:point:{tenant_id}'
+            redis_client.delete(point_cache_key)
+            sensor_cache_key = f'tenant:sensor:{tenant_id}'
+            redis_client.delete(sensor_cache_key)
+            virtualmeter_cache_key = f'tenant:virtualmeter:{tenant_id}'
+            redis_client.delete(virtualmeter_cache_key)
+            workingcalendar_cache_key = f'tenant:workingcalendar:{tenant_id}'
+            redis_client.delete(workingcalendar_cache_key)
+            command_cache_key = f'tenant:command:{tenant_id}'
+            redis_client.delete(command_cache_key)
+            export_cache_key = f'tenant:export:{tenant_id}'
+            redis_client.delete(export_cache_key)
+
+    except Exception:
+        # If cache clear fails, ignore and continue
+        pass
 
 
 class TenantCollection:
@@ -60,6 +117,34 @@ class TenantCollection:
             search_query = search_query.strip()
         else:
             search_query = ''
+
+        # Redis cache key
+        cache_key = f'tenant:list:{search_query}'
+        cache_expire = 28800  # 8 hours in seconds (long-term cache)
+
+        # Try to get from Redis cache (only if Redis is enabled)
+        redis_client = None
+        if config.redis.get('is_enabled', False):
+            try:
+                redis_client = redis.Redis(
+                    host=config.redis['host'],
+                    port=config.redis['port'],
+                    password=config.redis['password'] if config.redis['password'] else None,
+                    db=config.redis['db'],
+                    decode_responses=True,
+                    socket_connect_timeout=2,
+                    socket_timeout=2
+                )
+                redis_client.ping()
+                cached_result = redis_client.get(cache_key)
+                if cached_result:
+                    resp.text = cached_result
+                    return
+            except Exception:
+                # If Redis connection fails, continue to database query
+                pass
+
+        # Cache miss or Redis error - query database
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()
 
@@ -147,7 +232,16 @@ class TenantCollection:
                                "qrcode": 'tenant:' + row[2]}
                 result.append(meta_result)
 
-        resp.text = json.dumps(result)
+        result_json = json.dumps(result)
+        resp.text = result_json
+
+        # Store result in Redis cache
+        if redis_client:
+            try:
+                redis_client.setex(cache_key, cache_expire, result_json)
+            except Exception:
+                # If cache store fails, ignore and continue
+                pass
 
     @staticmethod
     @user_logger
@@ -344,6 +438,9 @@ class TenantCollection:
         cursor.close()
         cnx.close()
 
+        # Clear cache after creating new tenant
+        clear_tenant_cache()
+
         resp.status = falcon.HTTP_201
         resp.location = '/tenants/' + str(new_id)
 
@@ -370,6 +467,33 @@ class TenantItem:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_TENANT_ID')
 
+        # Redis cache key
+        cache_key = f'tenant:item:{id_}'
+        cache_expire = 28800  # 8 hours in seconds (long-term cache)
+
+        # Try to get from Redis cache (only if Redis is enabled)
+        redis_client = None
+        if config.redis.get('is_enabled', False):
+            try:
+                redis_client = redis.Redis(
+                    host=config.redis['host'],
+                    port=config.redis['port'],
+                    password=config.redis['password'] if config.redis['password'] else None,
+                    db=config.redis['db'],
+                    decode_responses=True,
+                    socket_connect_timeout=2,
+                    socket_timeout=2
+                )
+                redis_client.ping()
+                cached_result = redis_client.get(cache_key)
+                if cached_result:
+                    resp.text = cached_result
+                    return
+            except Exception:
+                # If Redis connection fails, continue to database query
+                pass
+
+        # Cache miss or Redis error - query database
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()
 
@@ -450,7 +574,16 @@ class TenantItem:
                            "description": row[16],
                            "qrcode": 'tenant:' + row[2]}
 
-        resp.text = json.dumps(meta_result)
+        result_json = json.dumps(meta_result)
+        resp.text = result_json
+
+        # Store result in Redis cache
+        if redis_client:
+            try:
+                redis_client.setex(cache_key, cache_expire, result_json)
+            except Exception:
+                # If cache store fails, ignore and continue
+                pass
 
     @staticmethod
     @user_logger
@@ -511,6 +644,9 @@ class TenantItem:
 
         cursor.close()
         cnx.close()
+
+        # Clear cache after deleting tenant
+        clear_tenant_cache(tenant_id=id_)
 
         resp.status = falcon.HTTP_204
 
@@ -723,6 +859,9 @@ class TenantItem:
         cursor.close()
         cnx.close()
 
+        # Clear cache after updating tenant
+        clear_tenant_cache(tenant_id=id_)
+
         resp.status = falcon.HTTP_200
 
 
@@ -748,6 +887,33 @@ class TenantMeterCollection:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_TENANT_ID')
 
+        # Redis cache key
+        cache_key = f'tenant:meter:{id_}'
+        cache_expire = 28800  # 8 hours in seconds (long-term cache)
+
+        # Try to get from Redis cache (only if Redis is enabled)
+        redis_client = None
+        if config.redis.get('is_enabled', False):
+            try:
+                redis_client = redis.Redis(
+                    host=config.redis['host'],
+                    port=config.redis['port'],
+                    password=config.redis['password'] if config.redis['password'] else None,
+                    db=config.redis['db'],
+                    decode_responses=True,
+                    socket_connect_timeout=2,
+                    socket_timeout=2
+                )
+                redis_client.ping()
+                cached_result = redis_client.get(cache_key)
+                if cached_result:
+                    resp.text = cached_result
+                    return
+            except Exception:
+                # If Redis connection fails, continue to database query
+                pass
+
+        # Cache miss or Redis error - query database
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()
 
@@ -788,7 +954,16 @@ class TenantMeterCollection:
                                "energy_category": energy_category_dict.get(row[3], None)}
                 result.append(meta_result)
 
-        resp.text = json.dumps(result)
+        result_json = json.dumps(result)
+        resp.text = result_json
+
+        # Store result in Redis cache
+        if redis_client:
+            try:
+                redis_client.setex(cache_key, cache_expire, result_json)
+            except Exception:
+                # If cache store fails, ignore and continue
+                pass
 
     @staticmethod
     @user_logger
@@ -859,6 +1034,9 @@ class TenantMeterCollection:
         cursor.close()
         cnx.close()
 
+        # Clear cache after adding meter to tenant
+        clear_tenant_cache(tenant_id=id_)
+
         resp.status = falcon.HTTP_201
         resp.location = '/tenants/' + str(id_) + '/meters/' + str(meter_id)
 
@@ -920,6 +1098,9 @@ class TenantMeterItem:
 
         cursor.close()
         cnx.close()
+
+        # Clear cache after removing meter from tenant
+        clear_tenant_cache(tenant_id=id_)
 
         resp.status = falcon.HTTP_204
 
@@ -1057,6 +1238,9 @@ class TenantOfflineMeterCollection:
         cursor.close()
         cnx.close()
 
+        # Clear cache after adding offline meter to tenant
+        clear_tenant_cache(tenant_id=id_)
+
         resp.status = falcon.HTTP_201
         resp.location = '/tenants/' + str(id_) + '/offlinemeters/' + str(offline_meter_id)
 
@@ -1119,6 +1303,9 @@ class TenantOfflineMeterItem:
 
         cursor.close()
         cnx.close()
+
+        # Clear cache after removing offline meter from tenant
+        clear_tenant_cache(tenant_id=id_)
 
         resp.status = falcon.HTTP_204
 
@@ -1255,6 +1442,9 @@ class TenantPointCollection:
         cursor.close()
         cnx.close()
 
+        # Clear cache after adding point to tenant
+        clear_tenant_cache(tenant_id=id_)
+
         resp.status = falcon.HTTP_201
         resp.location = '/tenants/' + str(id_) + '/points/' + str(point_id)
 
@@ -1317,6 +1507,9 @@ class TenantPointItem:
 
         cursor.close()
         cnx.close()
+
+        # Clear cache after removing point from tenant
+        clear_tenant_cache(tenant_id=id_)
 
         resp.status = falcon.HTTP_204
 
@@ -1441,6 +1634,9 @@ class TenantSensorCollection:
         cursor.close()
         cnx.close()
 
+        # Clear cache after adding sensor to tenant
+        clear_tenant_cache(tenant_id=id_)
+
         resp.status = falcon.HTTP_201
         resp.location = '/tenants/' + str(id_) + '/sensors/' + str(sensor_id)
 
@@ -1502,6 +1698,9 @@ class TenantSensorItem:
 
         cursor.close()
         cnx.close()
+
+        # Clear cache after removing sensor from tenant
+        clear_tenant_cache(tenant_id=id_)
 
         resp.status = falcon.HTTP_204
 
@@ -1639,6 +1838,9 @@ class TenantVirtualMeterCollection:
         cursor.close()
         cnx.close()
 
+        # Clear cache after adding virtual meter to tenant
+        clear_tenant_cache(tenant_id=id_)
+
         resp.status = falcon.HTTP_201
         resp.location = '/tenants/' + str(id_) + '/virtualmeters/' + str(virtual_meter_id)
 
@@ -1701,6 +1903,9 @@ class TenantVirtualMeterItem:
 
         cursor.close()
         cnx.close()
+
+        # Clear cache after removing virtual meter from tenant
+        clear_tenant_cache(tenant_id=id_)
 
         resp.status = falcon.HTTP_204
 
@@ -1825,6 +2030,9 @@ class TenantWorkingCalendarCollection:
         cursor.close()
         cnx.close()
 
+        # Clear cache after adding working calendar to tenant
+        clear_tenant_cache(tenant_id=id_)
+
         resp.status = falcon.HTTP_201
         resp.location = '/tenants/' + str(id_) + '/workingcalendars/' + str(working_calendar_id)
 
@@ -1887,6 +2095,9 @@ class TenantWorkingCalendarItem:
 
         cursor.close()
         cnx.close()
+
+        # Clear cache after removing working calendar from tenant
+        clear_tenant_cache(tenant_id=id_)
 
         resp.status = falcon.HTTP_204
 
@@ -2011,6 +2222,9 @@ class TenantCommandCollection:
         cursor.close()
         cnx.close()
 
+        # Clear cache after adding command to tenant
+        clear_tenant_cache(tenant_id=id_)
+
         resp.status = falcon.HTTP_201
         resp.location = '/tenants/' + str(id_) + '/commands/' + str(command_id)
 
@@ -2073,6 +2287,9 @@ class TenantCommandItem:
         cursor.close()
         cnx.close()
 
+        # Clear cache after removing command from tenant
+        clear_tenant_cache(tenant_id=id_)
+
         resp.status = falcon.HTTP_204
 
 
@@ -2098,6 +2315,33 @@ class TenantExport:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_TENANT_ID')
 
+        # Redis cache key
+        cache_key = f'tenant:export:{id_}'
+        cache_expire = 28800  # 8 hours in seconds (long-term cache)
+
+        # Try to get from Redis cache (only if Redis is enabled)
+        redis_client = None
+        if config.redis.get('is_enabled', False):
+            try:
+                redis_client = redis.Redis(
+                    host=config.redis['host'],
+                    port=config.redis['port'],
+                    password=config.redis['password'] if config.redis['password'] else None,
+                    db=config.redis['db'],
+                    decode_responses=True,
+                    socket_connect_timeout=2,
+                    socket_timeout=2
+                )
+                redis_client.ping()
+                cached_result = redis_client.get(cache_key)
+                if cached_result:
+                    resp.text = cached_result
+                    return
+            except Exception:
+                # If Redis connection fails, continue to database query
+                pass
+
+        # Cache miss or Redis error - query database
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()
 
@@ -2331,7 +2575,16 @@ class TenantExport:
 
         cursor.close()
         cnx.close()
-        resp.text = json.dumps(meta_result)
+        result_json = json.dumps(meta_result)
+        resp.text = result_json
+
+        # Store result in Redis cache
+        if redis_client:
+            try:
+                redis_client.setex(cache_key, cache_expire, result_json)
+            except Exception:
+                # If cache store fails, ignore and continue
+                pass
 
 
 class TenantImport:
@@ -2705,6 +2958,9 @@ class TenantImport:
         cnx.commit()
         cursor.close()
         cnx.close()
+
+        # Clear cache after importing tenant
+        clear_tenant_cache()
 
         resp.status = falcon.HTTP_201
         resp.location = '/tenants/' + str(new_id)
@@ -3157,6 +3413,9 @@ class TenantClone:
             cnx.commit()
             cursor.close()
             cnx.close()
+
+            # Clear cache after cloning tenant
+            clear_tenant_cache()
 
             resp.status = falcon.HTTP_201
             resp.location = '/tenants/' + str(new_id)

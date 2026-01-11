@@ -2,8 +2,47 @@ import uuid
 import falcon
 import mysql.connector
 import simplejson as json
+import redis
 from core.useractivity import user_logger, admin_control, access_control, api_key_control
 import config
+
+
+def clear_tenanttype_cache(tenanttype_id=None):
+    """
+    Clear tenanttype-related cache after data modification
+
+    Args:
+        tenanttype_id: Tenant Type ID (optional, for specific tenanttype cache)
+    """
+    # Check if Redis is enabled
+    if not config.redis.get('is_enabled', False):
+        return
+
+    redis_client = None
+    try:
+        redis_client = redis.Redis(
+            host=config.redis['host'],
+            port=config.redis['port'],
+            password=config.redis['password'] if config.redis['password'] else None,
+            db=config.redis['db'],
+            decode_responses=True,
+            socket_connect_timeout=2,
+            socket_timeout=2
+        )
+        redis_client.ping()
+
+        # Clear tenanttype list cache
+        list_cache_key = 'tenanttype:list'
+        redis_client.delete(list_cache_key)
+
+        # Clear specific tenanttype item cache if tenanttype_id is provided
+        if tenanttype_id:
+            item_cache_key = f'tenanttype:item:{tenanttype_id}'
+            redis_client.delete(item_cache_key)
+
+    except Exception:
+        # If cache clear fails, ignore and continue
+        pass
 
 
 class TenantTypeCollection:
@@ -32,6 +71,34 @@ class TenantTypeCollection:
             access_control(req)
         else:
             api_key_control(req)
+
+        # Redis cache key
+        cache_key = 'tenanttype:list'
+        cache_expire = 28800  # 8 hours in seconds (long-term cache)
+
+        # Try to get from Redis cache (only if Redis is enabled)
+        redis_client = None
+        if config.redis.get('is_enabled', False):
+            try:
+                redis_client = redis.Redis(
+                    host=config.redis['host'],
+                    port=config.redis['port'],
+                    password=config.redis['password'] if config.redis['password'] else None,
+                    db=config.redis['db'],
+                    decode_responses=True,
+                    socket_connect_timeout=2,
+                    socket_timeout=2
+                )
+                redis_client.ping()
+                cached_result = redis_client.get(cache_key)
+                if cached_result:
+                    resp.text = cached_result
+                    return
+            except Exception:
+                # If Redis connection fails, continue to database query
+                pass
+
+        # Cache miss or Redis error - query database
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()
 
@@ -53,8 +120,16 @@ class TenantTypeCollection:
                                "simplified_code": row[4]}
                 result.append(meta_result)
 
+        # Store result in Redis cache
+        result_json = json.dumps(result)
+        if redis_client:
+            try:
+                redis_client.setex(cache_key, cache_expire, result_json)
+            except Exception:
+                # If cache set fails, ignore and continue
+                pass
 
-        resp.text = json.dumps(result)
+        resp.text = result_json
 
     @staticmethod
     @user_logger
@@ -138,6 +213,9 @@ class TenantTypeCollection:
         cursor.close()
         cnx.close()
 
+        # Clear cache after creating new tenant type
+        clear_tenanttype_cache()
+
         resp.status = falcon.HTTP_201
         resp.location = '/tenanttypes/' + str(new_id)
 
@@ -166,6 +244,33 @@ class TenantTypeItem:
                                    title='API.BAD_REQUEST',
                                    description='API.INVALID_TENANT_TYPE_ID')
 
+        # Redis cache key
+        cache_key = f'tenanttype:item:{id_}'
+        cache_expire = 28800  # 8 hours in seconds (long-term cache)
+
+        # Try to get from Redis cache (only if Redis is enabled)
+        redis_client = None
+        if config.redis.get('is_enabled', False):
+            try:
+                redis_client = redis.Redis(
+                    host=config.redis['host'],
+                    port=config.redis['port'],
+                    password=config.redis['password'] if config.redis['password'] else None,
+                    db=config.redis['db'],
+                    decode_responses=True,
+                    socket_connect_timeout=2,
+                    socket_timeout=2
+                )
+                redis_client.ping()
+                cached_result = redis_client.get(cache_key)
+                if cached_result:
+                    resp.text = cached_result
+                    return
+            except Exception:
+                # If Redis connection fails, continue to database query
+                pass
+
+        # Cache miss or Redis error - query database
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()
 
@@ -185,7 +290,17 @@ class TenantTypeItem:
                   "uuid": row[2],
                   "description": row[3],
                   "simplified_code": row[4]}
-        resp.text = json.dumps(result)
+
+        # Store result in Redis cache
+        result_json = json.dumps(result)
+        if redis_client:
+            try:
+                redis_client.setex(cache_key, cache_expire, result_json)
+            except Exception:
+                # If cache set fails, ignore and continue
+                pass
+
+        resp.text = result_json
 
     @staticmethod
     @user_logger
@@ -226,6 +341,10 @@ class TenantTypeItem:
 
         cursor.close()
         cnx.close()
+
+        # Clear cache after deleting tenant type
+        clear_tenanttype_cache(tenanttype_id=int(id_))
+
         resp.status = falcon.HTTP_204
 
     @staticmethod
@@ -322,5 +441,9 @@ class TenantTypeItem:
         cnx.commit()
         cursor.close()
         cnx.close()
+
+        # Clear cache after updating tenant type
+        clear_tenanttype_cache(tenanttype_id=int(id_))
+
         resp.status = falcon.HTTP_200
 

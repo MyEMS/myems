@@ -2,8 +2,49 @@ from datetime import datetime, timedelta
 import falcon
 import mysql.connector
 import simplejson as json
+import redis
 from core.useractivity import user_logger, admin_control, access_control, api_key_control
 import config
+
+
+def clear_protocol_cache(protocol_id=None):
+    """
+    Clear protocol-related cache after data modification
+
+    Args:
+        protocol_id: Protocol ID (optional, for specific protocol cache)
+    """
+    # Check if Redis is enabled
+    if not config.redis.get('is_enabled', False):
+        return
+
+    redis_client = None
+    try:
+        redis_client = redis.Redis(
+            host=config.redis['host'],
+            port=config.redis['port'],
+            password=config.redis['password'] if config.redis['password'] else None,
+            db=config.redis['db'],
+            decode_responses=True,
+            socket_connect_timeout=2,
+            socket_timeout=2
+        )
+        redis_client.ping()
+
+        # Clear protocol list cache
+        list_cache_key_pattern = 'protocol:list:*'
+        matching_keys = redis_client.keys(list_cache_key_pattern)
+        if matching_keys:
+            redis_client.delete(*matching_keys)
+
+        # Clear specific protocol item cache if protocol_id is provided
+        if protocol_id:
+            item_cache_key = f'protocol:item:{protocol_id}'
+            redis_client.delete(item_cache_key)
+
+    except Exception:
+        # If cache clear fails, ignore and continue
+        pass
 
 
 class ProtocolCollection:
@@ -46,7 +87,33 @@ class ProtocolCollection:
         else:
             api_key_control(req)
 
-        # Connect to database and execute query
+        # Redis cache key
+        cache_key = 'protocol:list:all'
+        cache_expire = 28800  # 8 hours in seconds (long-term cache)
+
+        # Try to get from Redis cache (only if Redis is enabled)
+        redis_client = None
+        if config.redis.get('is_enabled', False):
+            try:
+                redis_client = redis.Redis(
+                    host=config.redis['host'],
+                    port=config.redis['port'],
+                    password=config.redis['password'] if config.redis['password'] else None,
+                    db=config.redis['db'],
+                    decode_responses=True,
+                    socket_connect_timeout=2,
+                    socket_timeout=2
+                )
+                redis_client.ping()
+                cached_result = redis_client.get(cache_key)
+                if cached_result:
+                    resp.text = cached_result
+                    return
+            except Exception:
+                # If Redis connection fails, continue to database query
+                pass
+
+        # Cache miss or Redis error - query database
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()
 
@@ -67,7 +134,16 @@ class ProtocolCollection:
                                "code": row[2]}
                 result.append(meta_result)
 
-        resp.text = json.dumps(result)
+        # Store result in Redis cache
+        result_json = json.dumps(result)
+        if redis_client:
+            try:
+                redis_client.setex(cache_key, cache_expire, result_json)
+            except Exception:
+                # If cache set fails, ignore and continue
+                pass
+
+        resp.text = result_json
 
     @staticmethod
     @user_logger
@@ -154,6 +230,9 @@ class ProtocolCollection:
         cursor.close()
         cnx.close()
 
+        # Clear cache after creating new protocol
+        clear_protocol_cache()
+
         resp.status = falcon.HTTP_201
         resp.location = '/protocols/' + str(new_id)
 
@@ -202,7 +281,33 @@ class ProtocolItem:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_PROTOCOL_ID')
 
-        # Connect to database and execute query
+        # Redis cache key
+        cache_key = f'protocol:item:{id_}'
+        cache_expire = 28800  # 8 hours in seconds (long-term cache)
+
+        # Try to get from Redis cache (only if Redis is enabled)
+        redis_client = None
+        if config.redis.get('is_enabled', False):
+            try:
+                redis_client = redis.Redis(
+                    host=config.redis['host'],
+                    port=config.redis['port'],
+                    password=config.redis['password'] if config.redis['password'] else None,
+                    db=config.redis['db'],
+                    decode_responses=True,
+                    socket_connect_timeout=2,
+                    socket_timeout=2
+                )
+                redis_client.ping()
+                cached_result = redis_client.get(cache_key)
+                if cached_result:
+                    resp.text = cached_result
+                    return
+            except Exception:
+                # If Redis connection fails, continue to database query
+                pass
+
+        # Cache miss or Redis error - query database
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()
 
@@ -223,7 +328,17 @@ class ProtocolItem:
         result = {"id": row[0],
                   "name": row[1],
                   "code": row[2]}
-        resp.text = json.dumps(result)
+
+        # Store result in Redis cache
+        result_json = json.dumps(result)
+        if redis_client:
+            try:
+                redis_client.setex(cache_key, cache_expire, result_json)
+            except Exception:
+                # If cache set fails, ignore and continue
+                pass
+
+        resp.text = result_json
 
     @staticmethod
     @user_logger
@@ -285,6 +400,10 @@ class ProtocolItem:
 
         cursor.close()
         cnx.close()
+
+        # Clear cache after deleting protocol
+        clear_protocol_cache(protocol_id=id_)
+
         resp.status = falcon.HTTP_204
 
 
@@ -389,6 +508,9 @@ class ProtocolItem:
 
         cursor.close()
         cnx.close()
+
+        # Clear cache after updating protocol
+        clear_protocol_cache(protocol_id=id_)
 
         resp.status = falcon.HTTP_200
 

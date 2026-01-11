@@ -275,6 +275,13 @@ class DistributionCircuitItem:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.DISTRIBUTION_CIRCUIT_NOT_FOUND')
 
+        # Get distribution_system_id before deleting
+        cursor.execute(" SELECT distribution_system_id "
+                       " FROM tbl_distribution_circuits "
+                       " WHERE id = %s ", (id_,))
+        row = cursor.fetchone()
+        distribution_system_id = row[0] if row else None
+
         # delete relation with points
         cursor.execute(" DELETE FROM tbl_distribution_circuits_points "
                        " WHERE distribution_circuit_id = %s ", (id_,))
@@ -399,6 +406,13 @@ class DistributionCircuitItem:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.DISTRIBUTION_CIRCUIT_NAME_IS_ALREADY_IN_USE')
 
+        # Get old distribution_system_id before updating (in case it changes)
+        cursor.execute(" SELECT distribution_system_id "
+                       " FROM tbl_distribution_circuits "
+                       " WHERE id = %s ", (id_,))
+        row = cursor.fetchone()
+        old_distribution_system_id = row[0] if row else None
+
         update_row = (" UPDATE tbl_distribution_circuits "
                       " SET name = %s, distribution_system_id = %s, distribution_room = %s, switchgear = %s, "
                       "     peak_load = %s, peak_current = %s, customers = %s, meters = %s "
@@ -514,14 +528,16 @@ class DistributionCircuitPointCollection:
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()
 
-        cursor.execute(" SELECT name "
+        cursor.execute(" SELECT name, distribution_system_id "
                        " from tbl_distribution_circuits "
                        " WHERE id = %s ", (id_,))
-        if cursor.fetchone() is None:
+        row = cursor.fetchone()
+        if row is None:
             cursor.close()
             cnx.close()
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.DISTRIBUTION_CIRCUIT_NOT_FOUND')
+        distribution_system_id = row[1]
 
         cursor.execute(" SELECT name "
                        " FROM tbl_points "
@@ -578,14 +594,16 @@ class DistributionCircuitPointItem:
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()
 
-        cursor.execute(" SELECT name "
+        cursor.execute(" SELECT name, distribution_system_id "
                        " FROM tbl_distribution_circuits "
                        " WHERE id = %s ", (id_,))
-        if cursor.fetchone() is None:
+        row = cursor.fetchone()
+        if row is None:
             cursor.close()
             cnx.close()
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.DISTRIBUTION_CIRCUIT_NOT_FOUND')
+        distribution_system_id = row[1]
 
         cursor.execute(" SELECT name "
                        " FROM tbl_points "

@@ -2,8 +2,52 @@ import uuid
 import falcon
 import mysql.connector
 import simplejson as json
+import redis
 from core.useractivity import user_logger, admin_control, access_control, api_key_control
 import config
+
+
+def clear_costcenter_cache(cost_center_id=None):
+    """
+    Clear cost center-related cache after data modification
+
+    Args:
+        cost_center_id: Cost center ID (optional, for specific cost center cache)
+    """
+    # Check if Redis is enabled
+    if not config.redis.get('is_enabled', False):
+        return
+
+    redis_client = None
+    try:
+        redis_client = redis.Redis(
+            host=config.redis['host'],
+            port=config.redis['port'],
+            password=config.redis['password'] if config.redis['password'] else None,
+            db=config.redis['db'],
+            decode_responses=True,
+            socket_connect_timeout=2,
+            socket_timeout=2
+        )
+        redis_client.ping()
+
+        # Clear cost center list cache
+        list_cache_key_pattern = 'costcenter:list*'
+        matching_keys = redis_client.keys(list_cache_key_pattern)
+        if matching_keys:
+            redis_client.delete(*matching_keys)
+
+        # Clear specific cost center item cache if cost_center_id is provided
+        if cost_center_id:
+            item_cache_key = f'costcenter:item:{cost_center_id}'
+            redis_client.delete(item_cache_key)
+            # Also clear tariff list cache for this cost center
+            tariff_list_cache_key = f'costcenter:tariff:list:{cost_center_id}'
+            redis_client.delete(tariff_list_cache_key)
+
+    except Exception:
+        # If cache clear fails, ignore and continue
+        pass
 
 
 class CostCenterCollection:
@@ -33,6 +77,34 @@ class CostCenterCollection:
             access_control(req)
         else:
             api_key_control(req)
+
+        # Redis cache key
+        cache_key = 'costcenter:list'
+        cache_expire = 28800  # 8 hours in seconds (long-term cache)
+
+        # Try to get from Redis cache (only if Redis is enabled)
+        redis_client = None
+        if config.redis.get('is_enabled', False):
+            try:
+                redis_client = redis.Redis(
+                    host=config.redis['host'],
+                    port=config.redis['port'],
+                    password=config.redis['password'] if config.redis['password'] else None,
+                    db=config.redis['db'],
+                    decode_responses=True,
+                    socket_connect_timeout=2,
+                    socket_timeout=2
+                )
+                redis_client.ping()
+                cached_result = redis_client.get(cache_key)
+                if cached_result:
+                    resp.text = cached_result
+                    return
+            except Exception:
+                # If Redis connection fails, continue to database query
+                pass
+
+        # Cache miss or Redis error - query database
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()
 
@@ -53,7 +125,16 @@ class CostCenterCollection:
                                "external_id": row[3]}
                 result.append(meta_result)
 
-        resp.text = json.dumps(result)
+        # Store result in Redis cache
+        result_json = json.dumps(result)
+        if redis_client:
+            try:
+                redis_client.setex(cache_key, cache_expire, result_json)
+            except Exception:
+                # If cache set fails, ignore and continue
+                pass
+
+        resp.text = result_json
 
     @staticmethod
     @user_logger
@@ -121,6 +202,9 @@ class CostCenterCollection:
         cursor.close()
         cnx.close()
 
+        # Clear cache after creating new cost center
+        clear_costcenter_cache()
+
         resp.status = falcon.HTTP_201
         resp.location = '/costcenters/' + str(new_id)
 
@@ -148,6 +232,33 @@ class CostCenterItem:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_COST_CENTER_ID')
 
+        # Redis cache key
+        cache_key = f'costcenter:item:{id_}'
+        cache_expire = 28800  # 8 hours in seconds (long-term cache)
+
+        # Try to get from Redis cache (only if Redis is enabled)
+        redis_client = None
+        if config.redis.get('is_enabled', False):
+            try:
+                redis_client = redis.Redis(
+                    host=config.redis['host'],
+                    port=config.redis['port'],
+                    password=config.redis['password'] if config.redis['password'] else None,
+                    db=config.redis['db'],
+                    decode_responses=True,
+                    socket_connect_timeout=2,
+                    socket_timeout=2
+                )
+                redis_client.ping()
+                cached_result = redis_client.get(cache_key)
+                if cached_result:
+                    resp.text = cached_result
+                    return
+            except Exception:
+                # If Redis connection fails, continue to database query
+                pass
+
+        # Cache miss or Redis error - query database
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()
 
@@ -167,7 +278,17 @@ class CostCenterItem:
                   "name": row[1],
                   "uuid": row[2],
                   "external_id": row[3]}
-        resp.text = json.dumps(result)
+
+        # Store result in Redis cache
+        result_json = json.dumps(result)
+        if redis_client:
+            try:
+                redis_client.setex(cache_key, cache_expire, result_json)
+            except Exception:
+                # If cache set fails, ignore and continue
+                pass
+
+        resp.text = result_json
 
     @staticmethod
     @user_logger
@@ -390,6 +511,10 @@ class CostCenterItem:
 
         cursor.close()
         cnx.close()
+
+        # Clear cache after deleting cost center
+        clear_costcenter_cache(cost_center_id=id_)
+
         resp.status = falcon.HTTP_204
 
     @staticmethod
@@ -484,6 +609,9 @@ class CostCenterItem:
         cursor.close()
         cnx.close()
 
+        # Clear cache after updating cost center
+        clear_costcenter_cache(cost_center_id=id_)
+
         resp.status = falcon.HTTP_200
 
 
@@ -510,6 +638,33 @@ class CostCenterTariffCollection:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_COST_CENTER_ID')
 
+        # Redis cache key
+        cache_key = f'costcenter:tariff:list:{id_}'
+        cache_expire = 28800  # 8 hours in seconds (long-term cache)
+
+        # Try to get from Redis cache (only if Redis is enabled)
+        redis_client = None
+        if config.redis.get('is_enabled', False):
+            try:
+                redis_client = redis.Redis(
+                    host=config.redis['host'],
+                    port=config.redis['port'],
+                    password=config.redis['password'] if config.redis['password'] else None,
+                    db=config.redis['db'],
+                    decode_responses=True,
+                    socket_connect_timeout=2,
+                    socket_timeout=2
+                )
+                redis_client.ping()
+                cached_result = redis_client.get(cache_key)
+                if cached_result:
+                    resp.text = cached_result
+                    return
+            except Exception:
+                # If Redis connection fails, continue to database query
+                pass
+
+        # Cache miss or Redis error - query database
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()
 
@@ -534,7 +689,16 @@ class CostCenterTariffCollection:
                                "unit_of_price": row[4]}
                 result.append(meta_result)
 
-        resp.text = json.dumps(result)
+        # Store result in Redis cache
+        result_json = json.dumps(result)
+        if redis_client:
+            try:
+                redis_client.setex(cache_key, cache_expire, result_json)
+            except Exception:
+                # If cache set fails, ignore and continue
+                pass
+
+        resp.text = result_json
 
     @staticmethod
     @user_logger
@@ -600,6 +764,9 @@ class CostCenterTariffCollection:
         cursor.close()
         cnx.close()
 
+        # Clear cache after adding tariff to cost center
+        clear_costcenter_cache(cost_center_id=id_)
+
         resp.status = falcon.HTTP_201
         resp.location = '/costcenters/' + str(id_) + '/tariffs/' + str(new_values['data']['tariff_id'])
 
@@ -663,5 +830,8 @@ class CostCenterTariffItem:
 
         cursor.close()
         cnx.close()
+
+        # Clear cache after removing tariff from cost center
+        clear_costcenter_cache(cost_center_id=id_)
 
         resp.status = falcon.HTTP_204
