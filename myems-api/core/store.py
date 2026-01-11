@@ -3,8 +3,65 @@ from datetime import datetime, timedelta
 import falcon
 import mysql.connector
 import simplejson as json
+import redis
 from core.useractivity import user_logger, admin_control, access_control, api_key_control
 import config
+
+
+def clear_store_cache(store_id=None):
+    """
+    Clear store-related cache after data modification
+
+    Args:
+        store_id: Store ID (optional, for specific store cache)
+    """
+    # Check if Redis is enabled
+    if not config.redis.get('is_enabled', False):
+        return
+
+    redis_client = None
+    try:
+        redis_client = redis.Redis(
+            host=config.redis['host'],
+            port=config.redis['port'],
+            password=config.redis['password'] if config.redis['password'] else None,
+            db=config.redis['db'],
+            decode_responses=True,
+            socket_connect_timeout=2,
+            socket_timeout=2
+        )
+        redis_client.ping()
+
+        # Clear store list cache (all search query variations)
+        list_cache_key_pattern = 'store:list:*'
+        matching_keys = redis_client.keys(list_cache_key_pattern)
+        if matching_keys:
+            redis_client.delete(*matching_keys)
+
+        # Clear specific store item cache if store_id is provided
+        if store_id:
+            item_cache_key = f'store:item:{store_id}'
+            redis_client.delete(item_cache_key)
+            meter_cache_key = f'store:meter:{store_id}'
+            redis_client.delete(meter_cache_key)
+            offlinemeter_cache_key = f'store:offlinemeter:{store_id}'
+            redis_client.delete(offlinemeter_cache_key)
+            point_cache_key = f'store:point:{store_id}'
+            redis_client.delete(point_cache_key)
+            sensor_cache_key = f'store:sensor:{store_id}'
+            redis_client.delete(sensor_cache_key)
+            virtualmeter_cache_key = f'store:virtualmeter:{store_id}'
+            redis_client.delete(virtualmeter_cache_key)
+            workingcalendar_cache_key = f'store:workingcalendar:{store_id}'
+            redis_client.delete(workingcalendar_cache_key)
+            command_cache_key = f'store:command:{store_id}'
+            redis_client.delete(command_cache_key)
+            export_cache_key = f'store:export:{store_id}'
+            redis_client.delete(export_cache_key)
+
+    except Exception:
+        # If cache clear fails, ignore and continue
+        pass
 
 
 class StoreCollection:
@@ -62,6 +119,33 @@ class StoreCollection:
         else:
             search_query = ''
 
+        # Redis cache key
+        cache_key = f'store:list:{search_query}'
+        cache_expire = 28800  # 8 hours in seconds (long-term cache)
+
+        # Try to get from Redis cache (only if Redis is enabled)
+        redis_client = None
+        if config.redis.get('is_enabled', False):
+            try:
+                redis_client = redis.Redis(
+                    host=config.redis['host'],
+                    port=config.redis['port'],
+                    password=config.redis['password'] if config.redis['password'] else None,
+                    db=config.redis['db'],
+                    decode_responses=True,
+                    socket_connect_timeout=2,
+                    socket_timeout=2
+                )
+                redis_client.ping()
+                cached_result = redis_client.get(cache_key)
+                if cached_result:
+                    resp.text = cached_result
+                    return
+            except Exception:
+                # If Redis connection fails, continue to database query
+                pass
+
+        # Cache miss or Redis error - query database
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()
 
@@ -134,7 +218,17 @@ class StoreCollection:
 
         cursor.close()
         cnx.close()
-        resp.text = json.dumps(result)
+
+        # Store result in Redis cache
+        result_json = json.dumps(result)
+        if redis_client:
+            try:
+                redis_client.setex(cache_key, cache_expire, result_json)
+            except Exception:
+                # If cache set fails, ignore and continue
+                pass
+
+        resp.text = result_json
 
     @staticmethod
     @user_logger
@@ -295,6 +389,9 @@ class StoreCollection:
         cursor.close()
         cnx.close()
 
+        # Clear cache after creating new store
+        clear_store_cache()
+
         resp.status = falcon.HTTP_201
         resp.location = '/stores/' + str(new_id)
 
@@ -321,6 +418,33 @@ class StoreItem:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_STORE_ID')
 
+        # Redis cache key
+        cache_key = f'store:item:{id_}'
+        cache_expire = 28800  # 8 hours in seconds (long-term cache)
+
+        # Try to get from Redis cache (only if Redis is enabled)
+        redis_client = None
+        if config.redis.get('is_enabled', False):
+            try:
+                redis_client = redis.Redis(
+                    host=config.redis['host'],
+                    port=config.redis['port'],
+                    password=config.redis['password'] if config.redis['password'] else None,
+                    db=config.redis['db'],
+                    decode_responses=True,
+                    socket_connect_timeout=2,
+                    socket_timeout=2
+                )
+                redis_client.ping()
+                cached_result = redis_client.get(cache_key)
+                if cached_result:
+                    resp.text = cached_result
+                    return
+            except Exception:
+                # If Redis connection fails, continue to database query
+                pass
+
+        # Cache miss or Redis error - query database
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()
 
@@ -389,7 +513,16 @@ class StoreItem:
                            "description": row[11],
                            "qrcode": 'store:' + row[2]}
 
-        resp.text = json.dumps(meta_result)
+        # Store result in Redis cache
+        result_json = json.dumps(meta_result)
+        if redis_client:
+            try:
+                redis_client.setex(cache_key, cache_expire, result_json)
+            except Exception:
+                # If cache set fails, ignore and continue
+                pass
+
+        resp.text = result_json
 
     @staticmethod
     @user_logger
@@ -450,6 +583,9 @@ class StoreItem:
 
         cursor.close()
         cnx.close()
+
+        # Clear cache after deleting store
+        clear_store_cache(store_id=int(id_))
 
         resp.status = falcon.HTTP_204
 
@@ -626,6 +762,9 @@ class StoreItem:
         cursor.close()
         cnx.close()
 
+        # Clear cache after updating store
+        clear_store_cache(store_id=int(id_))
+
         resp.status = falcon.HTTP_200
 
 
@@ -651,6 +790,33 @@ class StoreMeterCollection:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_STORE_ID')
 
+        # Redis cache key
+        cache_key = f'store:meter:{id_}'
+        cache_expire = 28800  # 8 hours in seconds (long-term cache)
+
+        # Try to get from Redis cache (only if Redis is enabled)
+        redis_client = None
+        if config.redis.get('is_enabled', False):
+            try:
+                redis_client = redis.Redis(
+                    host=config.redis['host'],
+                    port=config.redis['port'],
+                    password=config.redis['password'] if config.redis['password'] else None,
+                    db=config.redis['db'],
+                    decode_responses=True,
+                    socket_connect_timeout=2,
+                    socket_timeout=2
+                )
+                redis_client.ping()
+                cached_result = redis_client.get(cache_key)
+                if cached_result:
+                    resp.text = cached_result
+                    return
+            except Exception:
+                # If Redis connection fails, continue to database query
+                pass
+
+        # Cache miss or Redis error - query database
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()
 
@@ -689,7 +855,19 @@ class StoreMeterCollection:
                                "energy_category": energy_category_dict.get(row[3], None)}
                 result.append(meta_result)
 
-        resp.text = json.dumps(result)
+        cursor.close()
+        cnx.close()
+
+        # Store result in Redis cache
+        result_json = json.dumps(result)
+        if redis_client:
+            try:
+                redis_client.setex(cache_key, cache_expire, result_json)
+            except Exception:
+                # If cache set fails, ignore and continue
+                pass
+
+        resp.text = result_json
 
     @staticmethod
     @user_logger
@@ -760,6 +938,9 @@ class StoreMeterCollection:
         cursor.close()
         cnx.close()
 
+        # Clear cache after adding meter to store
+        clear_store_cache(store_id=int(id_))
+
         resp.status = falcon.HTTP_201
         resp.location = '/stores/' + str(id_) + '/meters/' + str(meter_id)
 
@@ -821,6 +1002,9 @@ class StoreMeterItem:
 
         cursor.close()
         cnx.close()
+
+        # Clear cache after removing meter from store
+        clear_store_cache(store_id=int(id_))
 
         resp.status = falcon.HTTP_204
 
@@ -956,6 +1140,9 @@ class StoreOfflineMeterCollection:
         cursor.close()
         cnx.close()
 
+        # Clear cache after adding offline meter to store
+        clear_store_cache(store_id=int(id_))
+
         resp.status = falcon.HTTP_201
         resp.location = '/stores/' + str(id_) + '/offlinemeters/' + str(offline_meter_id)
 
@@ -1018,6 +1205,9 @@ class StoreOfflineMeterItem:
 
         cursor.close()
         cnx.close()
+
+        # Clear cache after removing offline meter from store
+        clear_store_cache(store_id=int(id_))
 
         resp.status = falcon.HTTP_204
 
@@ -1152,6 +1342,9 @@ class StorePointCollection:
         cursor.close()
         cnx.close()
 
+        # Clear cache after adding point to store
+        clear_store_cache(store_id=int(id_))
+
         resp.status = falcon.HTTP_201
         resp.location = '/stores/' + str(id_) + '/points/' + str(point_id)
 
@@ -1214,6 +1407,9 @@ class StorePointItem:
 
         cursor.close()
         cnx.close()
+
+        # Clear cache after removing point from store
+        clear_store_cache(store_id=int(id_))
 
         resp.status = falcon.HTTP_204
 
@@ -1336,6 +1532,9 @@ class StoreSensorCollection:
         cursor.close()
         cnx.close()
 
+        # Clear cache after adding sensor to store
+        clear_store_cache(store_id=int(id_))
+
         resp.status = falcon.HTTP_201
         resp.location = '/stores/' + str(id_) + '/sensors/' + str(sensor_id)
 
@@ -1397,6 +1596,9 @@ class StoreSensorItem:
 
         cursor.close()
         cnx.close()
+
+        # Clear cache after removing sensor from store
+        clear_store_cache(store_id=int(id_))
 
         resp.status = falcon.HTTP_204
 
@@ -1532,6 +1734,9 @@ class StoreVirtualMeterCollection:
         cursor.close()
         cnx.close()
 
+        # Clear cache after adding virtual meter to store
+        clear_store_cache(store_id=int(id_))
+
         resp.status = falcon.HTTP_201
         resp.location = '/stores/' + str(id_) + '/virtualmeters/' + str(virtual_meter_id)
 
@@ -1594,6 +1799,9 @@ class StoreVirtualMeterItem:
 
         cursor.close()
         cnx.close()
+
+        # Clear cache after removing virtual meter from store
+        clear_store_cache(store_id=int(id_))
 
         resp.status = falcon.HTTP_204
 
@@ -1716,6 +1924,9 @@ class StoreWorkingCalendarCollection:
         cursor.close()
         cnx.close()
 
+        # Clear cache after adding working calendar to store
+        clear_store_cache(store_id=int(id_))
+
         resp.status = falcon.HTTP_201
         resp.location = '/stores/' + str(id_) + '/workingcalendars/' + str(working_calendar_id)
 
@@ -1778,6 +1989,9 @@ class StoreWorkingCalendarItem:
 
         cursor.close()
         cnx.close()
+
+        # Clear cache after removing working calendar from store
+        clear_store_cache(store_id=int(id_))
 
         resp.status = falcon.HTTP_204
 
@@ -1900,6 +2114,9 @@ class StoreCommandCollection:
         cursor.close()
         cnx.close()
 
+        # Clear cache after adding command to store
+        clear_store_cache(store_id=int(id_))
+
         resp.status = falcon.HTTP_201
         resp.location = '/stores/' + str(id_) + '/commands/' + str(command_id)
 
@@ -1962,6 +2179,9 @@ class StoreCommandItem:
         cursor.close()
         cnx.close()
 
+        # Clear cache after removing command from store
+        clear_store_cache(store_id=int(id_))
+
         resp.status = falcon.HTTP_204
 
 
@@ -1987,6 +2207,33 @@ class StoreExport:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_STORE_ID')
 
+        # Redis cache key
+        cache_key = f'store:export:{id_}'
+        cache_expire = 28800  # 8 hours in seconds (long-term cache)
+
+        # Try to get from Redis cache (only if Redis is enabled)
+        redis_client = None
+        if config.redis.get('is_enabled', False):
+            try:
+                redis_client = redis.Redis(
+                    host=config.redis['host'],
+                    port=config.redis['port'],
+                    password=config.redis['password'] if config.redis['password'] else None,
+                    db=config.redis['db'],
+                    decode_responses=True,
+                    socket_connect_timeout=2,
+                    socket_timeout=2
+                )
+                redis_client.ping()
+                cached_result = redis_client.get(cache_key)
+                if cached_result:
+                    resp.text = cached_result
+                    return
+            except Exception:
+                # If Redis connection fails, continue to database query
+                pass
+
+        # Cache miss or Redis error - query database
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()
 
@@ -2204,7 +2451,17 @@ class StoreExport:
 
         cursor.close()
         cnx.close()
-        resp.text = json.dumps(meta_result)
+
+        # Store result in Redis cache
+        result_json = json.dumps(meta_result)
+        if redis_client:
+            try:
+                redis_client.setex(cache_key, cache_expire, result_json)
+            except Exception:
+                # If cache set fails, ignore and continue
+                pass
+
+        resp.text = result_json
 
 
 class StoreImport:
@@ -2542,6 +2799,9 @@ class StoreImport:
         cnx.commit()
         cursor.close()
         cnx.close()
+
+        # Clear cache after importing store
+        clear_store_cache()
 
         resp.status = falcon.HTTP_201
         resp.location = '/stores/' + str(new_id)
@@ -2934,6 +3194,9 @@ class StoreClone:
             cnx.commit()
             cursor.close()
             cnx.close()
+
+            # Clear cache after cloning store
+            clear_store_cache()
 
             resp.status = falcon.HTTP_201
             resp.location = '/stores/' + str(new_id)

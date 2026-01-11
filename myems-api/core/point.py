@@ -2,6 +2,7 @@ import falcon
 from datetime import datetime, timedelta
 import mysql.connector
 import simplejson as json
+import redis
 from core.useractivity import user_logger, admin_control
 import config
 from decimal import Decimal
@@ -122,6 +123,46 @@ POINT_RELATION_CHECKS = [
 ]
 
 
+def clear_point_cache(point_id=None):
+    """
+    Clear point-related cache after data modification
+
+    Args:
+        point_id: Point ID (optional, for specific point cache)
+    """
+    # Check if Redis is enabled
+    if not config.redis.get('is_enabled', False):
+        return
+
+    redis_client = None
+    try:
+        redis_client = redis.Redis(
+            host=config.redis['host'],
+            port=config.redis['port'],
+            password=config.redis['password'] if config.redis['password'] else None,
+            db=config.redis['db'],
+            decode_responses=True,
+            socket_connect_timeout=2,
+            socket_timeout=2
+        )
+        redis_client.ping()
+
+        # Clear point list cache
+        list_cache_key = 'point:list'
+        redis_client.delete(list_cache_key)
+
+        # Clear specific point item cache if point_id is provided
+        if point_id:
+            item_cache_key = f'point:item:{point_id}'
+            redis_client.delete(item_cache_key)
+            export_cache_key = f'point:export:{point_id}'
+            redis_client.delete(export_cache_key)
+
+    except Exception:
+        # If cache clear fails, ignore and continue
+        pass
+
+
 class PointCollection:
     """
     Point Collection Resource
@@ -156,6 +197,34 @@ class PointCollection:
             resp: Falcon response object
         """
         admin_control(req)
+
+        # Redis cache key
+        cache_key = 'point:list'
+        cache_expire = 28800  # 8 hours in seconds (long-term cache)
+
+        # Try to get from Redis cache (only if Redis is enabled)
+        redis_client = None
+        if config.redis.get('is_enabled', False):
+            try:
+                redis_client = redis.Redis(
+                    host=config.redis['host'],
+                    port=config.redis['port'],
+                    password=config.redis['password'] if config.redis['password'] else None,
+                    db=config.redis['db'],
+                    decode_responses=True,
+                    socket_connect_timeout=2,
+                    socket_timeout=2
+                )
+                redis_client.ping()
+                cached_result = redis_client.get(cache_key)
+                if cached_result:
+                    resp.text = cached_result
+                    return
+            except Exception:
+                # If Redis connection fails, continue to database query
+                pass
+
+        # Cache miss or Redis error - query database
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()
 
@@ -202,7 +271,16 @@ class PointCollection:
                                "definitions": row[16]}
                 result.append(meta_result)
 
-        resp.text = json.dumps(result)
+        # Store result in Redis cache
+        result_json = json.dumps(result)
+        if redis_client:
+            try:
+                redis_client.setex(cache_key, cache_expire, result_json)
+            except Exception:
+                # If cache set fails, ignore and continue
+                pass
+
+        resp.text = result_json
 
     @staticmethod
     @user_logger
@@ -396,6 +474,9 @@ class PointCollection:
         cursor.close()
         cnx.close()
 
+        # Clear cache after creating new point
+        clear_point_cache()
+
         resp.status = falcon.HTTP_201
         resp.location = '/points/' + str(new_id)
 
@@ -418,6 +499,33 @@ class PointItem:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_POINT_ID')
 
+        # Redis cache key
+        cache_key = f'point:item:{id_}'
+        cache_expire = 28800  # 8 hours in seconds (long-term cache)
+
+        # Try to get from Redis cache (only if Redis is enabled)
+        redis_client = None
+        if config.redis.get('is_enabled', False):
+            try:
+                redis_client = redis.Redis(
+                    host=config.redis['host'],
+                    port=config.redis['port'],
+                    password=config.redis['password'] if config.redis['password'] else None,
+                    db=config.redis['db'],
+                    decode_responses=True,
+                    socket_connect_timeout=2,
+                    socket_timeout=2
+                )
+                redis_client.ping()
+                cached_result = redis_client.get(cache_key)
+                if cached_result:
+                    resp.text = cached_result
+                    return
+            except Exception:
+                # If Redis connection fails, continue to database query
+                pass
+
+        # Cache miss or Redis error - query database
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()
 
@@ -463,7 +571,17 @@ class PointItem:
                   "description": row[14],
                   "faults": row[15],
                   "definitions": row[16]}
-        resp.text = json.dumps(result)
+
+        # Store result in Redis cache
+        result_json = json.dumps(result)
+        if redis_client:
+            try:
+                redis_client.setex(cache_key, cache_expire, result_json)
+            except Exception:
+                # If cache set fails, ignore and continue
+                pass
+
+        resp.text = result_json
 
     @staticmethod
     @user_logger
@@ -510,6 +628,9 @@ class PointItem:
 
         cursor.close()
         cnx.close()
+
+        # Clear cache after deleting point
+        clear_point_cache(point_id)
 
         resp.status = falcon.HTTP_204
 
@@ -720,6 +841,9 @@ class PointItem:
         cursor.close()
         cnx.close()
 
+        # Clear cache after updating point
+        clear_point_cache(int(id_))
+
         resp.status = falcon.HTTP_200
 
 
@@ -808,6 +932,9 @@ class PointLimit:
         cursor.close()
         cnx.close()
 
+        # Clear cache after updating point limits
+        clear_point_cache(int(id_))
+
         resp.status = falcon.HTTP_200
 
 
@@ -890,6 +1017,33 @@ class PointExport:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_POINT_ID')
 
+        # Redis cache key
+        cache_key = f'point:export:{id_}'
+        cache_expire = 28800  # 8 hours in seconds (long-term cache)
+
+        # Try to get from Redis cache (only if Redis is enabled)
+        redis_client = None
+        if config.redis.get('is_enabled', False):
+            try:
+                redis_client = redis.Redis(
+                    host=config.redis['host'],
+                    port=config.redis['port'],
+                    password=config.redis['password'] if config.redis['password'] else None,
+                    db=config.redis['db'],
+                    decode_responses=True,
+                    socket_connect_timeout=2,
+                    socket_timeout=2
+                )
+                redis_client.ping()
+                cached_result = redis_client.get(cache_key)
+                if cached_result:
+                    resp.text = cached_result
+                    return
+            except Exception:
+                # If Redis connection fails, continue to database query
+                pass
+
+        # Cache miss or Redis error - query database
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()
 
@@ -935,7 +1089,17 @@ class PointExport:
                   "description": row[14],
                   "faults": row[15],
                   "definitions": row[16]}
-        resp.text = json.dumps(result)
+
+        # Store result in Redis cache
+        result_json = json.dumps(result)
+        if redis_client:
+            try:
+                redis_client.setex(cache_key, cache_expire, result_json)
+            except Exception:
+                # If cache set fails, ignore and continue
+                pass
+
+        resp.text = result_json
 
 
 class PointImport:
@@ -1139,6 +1303,9 @@ class PointImport:
         cursor.close()
         cnx.close()
 
+        # Clear cache after importing new point
+        clear_point_cache()
+
         resp.status = falcon.HTTP_201
         resp.location = '/points/' + str(new_id)
 
@@ -1222,6 +1389,9 @@ class PointClone:
         cnx.commit()
         cursor.close()
         cnx.close()
+
+        # Clear cache after cloning point
+        clear_point_cache()
 
         resp.status = falcon.HTTP_201
         resp.location = '/points/' + str(new_id)

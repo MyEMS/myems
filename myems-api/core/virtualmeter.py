@@ -3,8 +3,51 @@ from datetime import datetime, timedelta
 import falcon
 import mysql.connector
 import simplejson as json
+import redis
 from core.useractivity import user_logger, admin_control, access_control, api_key_control
 import config
+
+
+def clear_virtualmeter_cache(virtual_meter_id=None):
+    """
+    Clear virtual meter-related cache after data modification
+
+    Args:
+        virtual_meter_id: Virtual meter ID (optional, for specific virtual meter cache)
+    """
+    # Check if Redis is enabled
+    if not config.redis.get('is_enabled', False):
+        return
+
+    redis_client = None
+    try:
+        redis_client = redis.Redis(
+            host=config.redis['host'],
+            port=config.redis['port'],
+            password=config.redis['password'] if config.redis['password'] else None,
+            db=config.redis['db'],
+            decode_responses=True,
+            socket_connect_timeout=2,
+            socket_timeout=2
+        )
+        redis_client.ping()
+
+        # Clear virtual meter list cache (all search query variations)
+        list_cache_key_pattern = 'virtualmeter:list:*'
+        matching_keys = redis_client.keys(list_cache_key_pattern)
+        if matching_keys:
+            redis_client.delete(*matching_keys)
+
+        # Clear specific virtual meter item cache if virtual_meter_id is provided
+        if virtual_meter_id:
+            item_cache_key = f'virtualmeter:item:{virtual_meter_id}'
+            redis_client.delete(item_cache_key)
+            export_cache_key = f'virtualmeter:export:{virtual_meter_id}'
+            redis_client.delete(export_cache_key)
+
+    except Exception:
+        # If cache clear fails, ignore and continue
+        pass
 
 
 class VirtualMeterCollection:
@@ -39,6 +82,33 @@ class VirtualMeterCollection:
         else:
             search_query = ''
 
+        # Redis cache key
+        cache_key = f'virtualmeter:list:{search_query}'
+        cache_expire = 28800  # 8 hours in seconds (long-term cache)
+
+        # Try to get from Redis cache (only if Redis is enabled)
+        redis_client = None
+        if config.redis.get('is_enabled', False):
+            try:
+                redis_client = redis.Redis(
+                    host=config.redis['host'],
+                    port=config.redis['port'],
+                    password=config.redis['password'] if config.redis['password'] else None,
+                    db=config.redis['db'],
+                    decode_responses=True,
+                    socket_connect_timeout=2,
+                    socket_timeout=2
+                )
+                redis_client.ping()
+                cached_result = redis_client.get(cache_key)
+                if cached_result:
+                    resp.text = cached_result
+                    return
+            except Exception:
+                # If Redis connection fails, continue to database query
+                pass
+
+        # Cache miss or Redis error - query database
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()
 
@@ -159,7 +229,17 @@ class VirtualMeterCollection:
 
         cursor.close()
         cnx.close()
-        resp.text = json.dumps(result)
+
+        # Store result in Redis cache
+        result_json = json.dumps(result)
+        if redis_client:
+            try:
+                redis_client.setex(cache_key, cache_expire, result_json)
+            except Exception:
+                # If cache set fails, ignore and continue
+                pass
+
+        resp.text = result_json
 
     @staticmethod
     @user_logger
@@ -364,6 +444,9 @@ class VirtualMeterCollection:
         cursor.close()
         cnx.close()
 
+        # Clear cache after creating new virtual meter
+        clear_virtualmeter_cache()
+
         resp.status = falcon.HTTP_201
         resp.location = '/virtualmeters/' + str(new_id)
 
@@ -390,6 +473,33 @@ class VirtualMeterItem:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_VIRTUAL_METER_ID')
 
+        # Redis cache key
+        cache_key = f'virtualmeter:item:{id_}'
+        cache_expire = 28800  # 8 hours in seconds (long-term cache)
+
+        # Try to get from Redis cache (only if Redis is enabled)
+        redis_client = None
+        if config.redis.get('is_enabled', False):
+            try:
+                redis_client = redis.Redis(
+                    host=config.redis['host'],
+                    port=config.redis['port'],
+                    password=config.redis['password'] if config.redis['password'] else None,
+                    db=config.redis['db'],
+                    decode_responses=True,
+                    socket_connect_timeout=2,
+                    socket_timeout=2
+                )
+                redis_client.ping()
+                cached_result = redis_client.get(cache_key)
+                if cached_result:
+                    resp.text = cached_result
+                    return
+            except Exception:
+                # If Redis connection fails, continue to database query
+                pass
+
+        # Cache miss or Redis error - query database
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()
 
@@ -504,7 +614,17 @@ class VirtualMeterItem:
 
         cursor.close()
         cnx.close()
-        resp.text = json.dumps(meta_result)
+
+        # Store result in Redis cache
+        result_json = json.dumps(meta_result)
+        if redis_client:
+            try:
+                redis_client.setex(cache_key, cache_expire, result_json)
+            except Exception:
+                # If cache set fails, ignore and continue
+                pass
+
+        resp.text = result_json
 
     @staticmethod
     @user_logger
@@ -667,6 +787,9 @@ class VirtualMeterItem:
 
         cursor.close()
         cnx.close()
+
+        # Clear cache after deleting virtual meter
+        clear_virtualmeter_cache(virtual_meter_id=int(id_))
 
         resp.status = falcon.HTTP_204
 
@@ -928,6 +1051,9 @@ class VirtualMeterItem:
 
         cursor.close()
         cnx.close()
+
+        # Clear cache after updating virtual meter
+        clear_virtualmeter_cache(virtual_meter_id=int(id_))
 
         resp.status = falcon.HTTP_200
 
@@ -1291,6 +1417,9 @@ class VirtualMeterImport:
         cursor.close()
         cnx.close()
 
+        # Clear cache after importing virtual meter
+        clear_virtualmeter_cache()
+
         resp.status = falcon.HTTP_201
         resp.location = '/virtualmeters/' + str(new_id)
 
@@ -1456,6 +1585,9 @@ class VirtualMeterClone:
 
         cursor.close()
         cnx.close()
+
+        # Clear cache after cloning virtual meter
+        clear_virtualmeter_cache()
 
         resp.status = falcon.HTTP_201
         resp.location = '/virtualmeters/' + str(new_id)
