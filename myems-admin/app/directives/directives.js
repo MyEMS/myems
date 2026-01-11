@@ -563,7 +563,7 @@ function markdownEditor() {
     }
 };
 
-// 创建一个名为 captcha 的指令
+// Create a directive named captcha
 function captcha() {
     return {
         restrict: 'AE',
@@ -575,7 +575,7 @@ function captcha() {
         },
         template: '<canvas height="34" ng-click="refreshCaptcha()" width="86" class="cell-captcha-canvas" ng-model="text"></canvas>',
         link: function(scope, elem, attrs) {
-            // 生成随机字符串作为验证码
+            // Generate random string as captcha code
             function generateCode() {
             var chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXTZabcdefghiklmnopqrstuvwxyz';
             var codeLength = 5;
@@ -588,7 +588,7 @@ function captcha() {
             return code;
             }
     
-            // 绘制验证码
+            // Draw captcha code
             function draw(canvas, code) {
             var context = canvas.getContext('2d');
             context.fillStyle = '#EEE';
@@ -599,12 +599,12 @@ function captcha() {
             context.fillText(code, canvas.width / 2, canvas.height / 2 + 10);
             }
             
-            // 初始化生成验证码
+            // Initialize and generate captcha
             var canvas = elem[0];
             var code = generateCode();
             draw(canvas, code);
     
-            // 刷新验证码
+            // Refresh captcha
             scope.refreshCaptcha = function() {
             code = generateCode();
             draw(canvas, code);
