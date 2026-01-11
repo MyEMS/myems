@@ -3,8 +3,51 @@ from datetime import datetime, timedelta
 import falcon
 import mysql.connector
 import simplejson as json
+import redis
 from core.useractivity import user_logger, admin_control, access_control, api_key_control
 import config
+
+
+def clear_svg_cache(svg_id=None):
+    """
+    Clear SVG-related cache after data modification
+
+    Args:
+        svg_id: SVG ID (optional, for specific SVG cache)
+    """
+    # Check if Redis is enabled
+    if not config.redis.get('is_enabled', False):
+        return
+
+    redis_client = None
+    try:
+        redis_client = redis.Redis(
+            host=config.redis['host'],
+            port=config.redis['port'],
+            password=config.redis['password'] if config.redis['password'] else None,
+            db=config.redis['db'],
+            decode_responses=True,
+            socket_connect_timeout=2,
+            socket_timeout=2
+        )
+        redis_client.ping()
+
+        # Clear SVG list cache (all search query variations)
+        list_cache_key_pattern = 'svg:list:*'
+        matching_keys = redis_client.keys(list_cache_key_pattern)
+        if matching_keys:
+            redis_client.delete(*matching_keys)
+
+        # Clear specific SVG item cache if svg_id is provided
+        if svg_id:
+            item_cache_key = f'svg:item:{svg_id}'
+            redis_client.delete(item_cache_key)
+            export_cache_key = f'svg:export:{svg_id}'
+            redis_client.delete(export_cache_key)
+
+    except Exception:
+        # If cache clear fails, ignore and continue
+        pass
 
 
 class SVGCollection:
@@ -49,6 +92,33 @@ class SVGCollection:
                 str.lower(req.headers['QUICKMODE']) in ('true', 't', 'on', 'yes', 'y'):
             is_quick_mode = True
 
+        # Redis cache key (include search_query and is_quick_mode in key)
+        cache_key = f'svg:list:{search_query}:{is_quick_mode}'
+        cache_expire = 28800  # 8 hours in seconds (long-term cache)
+
+        # Try to get from Redis cache (only if Redis is enabled)
+        redis_client = None
+        if config.redis.get('is_enabled', False):
+            try:
+                redis_client = redis.Redis(
+                    host=config.redis['host'],
+                    port=config.redis['port'],
+                    password=config.redis['password'] if config.redis['password'] else None,
+                    db=config.redis['db'],
+                    decode_responses=True,
+                    socket_connect_timeout=2,
+                    socket_timeout=2
+                )
+                redis_client.ping()
+                cached_result = redis_client.get(cache_key)
+                if cached_result:
+                    resp.text = cached_result
+                    return
+            except Exception:
+                # If Redis connection fails, continue to database query
+                pass
+
+        # Cache miss or Redis error - query database
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()
         if is_quick_mode:
@@ -93,7 +163,17 @@ class SVGCollection:
 
         cursor.close()
         cnx.close()
-        resp.text = json.dumps(result)
+
+        # Store result in Redis cache
+        result_json = json.dumps(result)
+        if redis_client:
+            try:
+                redis_client.setex(cache_key, cache_expire, result_json)
+            except Exception:
+                # If cache set fails, ignore and continue
+                pass
+
+        resp.text = result_json
 
     @staticmethod
     @user_logger
@@ -160,6 +240,9 @@ class SVGCollection:
         cursor.close()
         cnx.close()
 
+        # Clear cache after creating new SVG
+        clear_svg_cache()
+
         resp.status = falcon.HTTP_201
         resp.location = '/svgs/' + str(new_id)
 
@@ -186,6 +269,33 @@ class SVGItem:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_SVG_ID')
 
+        # Redis cache key
+        cache_key = f'svg:item:{id_}'
+        cache_expire = 28800  # 8 hours in seconds (long-term cache)
+
+        # Try to get from Redis cache (only if Redis is enabled)
+        redis_client = None
+        if config.redis.get('is_enabled', False):
+            try:
+                redis_client = redis.Redis(
+                    host=config.redis['host'],
+                    port=config.redis['port'],
+                    password=config.redis['password'] if config.redis['password'] else None,
+                    db=config.redis['db'],
+                    decode_responses=True,
+                    socket_connect_timeout=2,
+                    socket_timeout=2
+                )
+                redis_client.ping()
+                cached_result = redis_client.get(cache_key)
+                if cached_result:
+                    resp.text = cached_result
+                    return
+            except Exception:
+                # If Redis connection fails, continue to database query
+                pass
+
+        # Cache miss or Redis error - query database
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()
 
@@ -207,7 +317,16 @@ class SVGItem:
                            "source_code": row[3],
                            "description": row[4]}
 
-        resp.text = json.dumps(meta_result)
+        # Store result in Redis cache
+        result_json = json.dumps(meta_result)
+        if redis_client:
+            try:
+                redis_client.setex(cache_key, cache_expire, result_json)
+            except Exception:
+                # If cache set fails, ignore and continue
+                pass
+
+        resp.text = result_json
 
     @staticmethod
     @user_logger
@@ -320,6 +439,9 @@ class SVGItem:
         cursor.close()
         cnx.close()
 
+        # Clear cache after deleting SVG
+        clear_svg_cache(svg_id=int(id_))
+
         resp.status = falcon.HTTP_204
 
     @staticmethod
@@ -391,6 +513,9 @@ class SVGItem:
         cursor.close()
         cnx.close()
 
+        # Clear cache after updating SVG
+        clear_svg_cache(svg_id=int(id_))
+
         resp.status = falcon.HTTP_200
 
 
@@ -416,6 +541,33 @@ class SVGExport:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_SVG_ID')
 
+        # Redis cache key
+        cache_key = f'svg:export:{id_}'
+        cache_expire = 28800  # 8 hours in seconds (long-term cache)
+
+        # Try to get from Redis cache (only if Redis is enabled)
+        redis_client = None
+        if config.redis.get('is_enabled', False):
+            try:
+                redis_client = redis.Redis(
+                    host=config.redis['host'],
+                    port=config.redis['port'],
+                    password=config.redis['password'] if config.redis['password'] else None,
+                    db=config.redis['db'],
+                    decode_responses=True,
+                    socket_connect_timeout=2,
+                    socket_timeout=2
+                )
+                redis_client.ping()
+                cached_result = redis_client.get(cache_key)
+                if cached_result:
+                    resp.text = cached_result
+                    return
+            except Exception:
+                # If Redis connection fails, continue to database query
+                pass
+
+        # Cache miss or Redis error - query database
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()
 
@@ -436,7 +588,17 @@ class SVGExport:
                            "description": row[4]}
         cursor.close()
         cnx.close()
-        resp.text = json.dumps(meta_result)
+
+        # Store result in Redis cache
+        result_json = json.dumps(meta_result)
+        if redis_client:
+            try:
+                redis_client.setex(cache_key, cache_expire, result_json)
+            except Exception:
+                # If cache set fails, ignore and continue
+                pass
+
+        resp.text = result_json
 
 
 class SVGImport:
@@ -513,6 +675,9 @@ class SVGImport:
         cursor.close()
         cnx.close()
 
+        # Clear cache after importing new SVG
+        clear_svg_cache()
+
         resp.status = falcon.HTTP_201
         resp.location = '/svgs/' + str(new_id)
 
@@ -570,6 +735,9 @@ class SVGClone:
             cnx.commit()
             cursor.close()
             cnx.close()
+
+            # Clear cache after cloning SVG
+            clear_svg_cache()
 
             resp.status = falcon.HTTP_201
             resp.location = '/svgs/' + str(new_id)

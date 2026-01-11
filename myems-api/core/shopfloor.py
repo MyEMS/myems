@@ -3,8 +3,67 @@ from datetime import datetime, timedelta
 import falcon
 import mysql.connector
 import simplejson as json
+import redis
 from core.useractivity import user_logger, admin_control, access_control, api_key_control
 import config
+
+
+def clear_shopfloor_cache(shopfloor_id=None):
+    """
+    Clear shopfloor-related cache after data modification
+
+    Args:
+        shopfloor_id: Shopfloor ID (optional, for specific shopfloor cache)
+    """
+    # Check if Redis is enabled
+    if not config.redis.get('is_enabled', False):
+        return
+
+    redis_client = None
+    try:
+        redis_client = redis.Redis(
+            host=config.redis['host'],
+            port=config.redis['port'],
+            password=config.redis['password'] if config.redis['password'] else None,
+            db=config.redis['db'],
+            decode_responses=True,
+            socket_connect_timeout=2,
+            socket_timeout=2
+        )
+        redis_client.ping()
+
+        # Clear shopfloor list cache (all search query variations)
+        list_cache_key_pattern = 'shopfloor:list:*'
+        matching_keys = redis_client.keys(list_cache_key_pattern)
+        if matching_keys:
+            redis_client.delete(*matching_keys)
+
+        # Clear specific shopfloor item cache if shopfloor_id is provided
+        if shopfloor_id:
+            item_cache_key = f'shopfloor:item:{shopfloor_id}'
+            redis_client.delete(item_cache_key)
+            equipment_cache_key = f'shopfloor:equipment:{shopfloor_id}'
+            redis_client.delete(equipment_cache_key)
+            meter_cache_key = f'shopfloor:meter:{shopfloor_id}'
+            redis_client.delete(meter_cache_key)
+            offlinemeter_cache_key = f'shopfloor:offlinemeter:{shopfloor_id}'
+            redis_client.delete(offlinemeter_cache_key)
+            point_cache_key = f'shopfloor:point:{shopfloor_id}'
+            redis_client.delete(point_cache_key)
+            sensor_cache_key = f'shopfloor:sensor:{shopfloor_id}'
+            redis_client.delete(sensor_cache_key)
+            virtualmeter_cache_key = f'shopfloor:virtualmeter:{shopfloor_id}'
+            redis_client.delete(virtualmeter_cache_key)
+            workingcalendar_cache_key = f'shopfloor:workingcalendar:{shopfloor_id}'
+            redis_client.delete(workingcalendar_cache_key)
+            command_cache_key = f'shopfloor:command:{shopfloor_id}'
+            redis_client.delete(command_cache_key)
+            export_cache_key = f'shopfloor:export:{shopfloor_id}'
+            redis_client.delete(export_cache_key)
+
+    except Exception:
+        # If cache clear fails, ignore and continue
+        pass
 
 
 class ShopfloorCollection:
@@ -62,6 +121,32 @@ class ShopfloorCollection:
         else:
             search_query = ''
 
+        # Redis cache key
+        cache_key = f'shopfloor:list:{search_query}'
+        cache_expire = 28800  # 8 hours in seconds (long-term cache)
+
+        # Try to get from Redis cache (only if Redis is enabled)
+        redis_client = None
+        if config.redis.get('is_enabled', False):
+            try:
+                redis_client = redis.Redis(
+                    host=config.redis['host'],
+                    port=config.redis['port'],
+                    password=config.redis['password'] if config.redis['password'] else None,
+                    db=config.redis['db'],
+                    decode_responses=True,
+                    socket_connect_timeout=2,
+                    socket_timeout=2
+                )
+                redis_client.ping()
+                cached_result = redis_client.get(cache_key)
+                if cached_result:
+                    resp.text = cached_result
+                    return
+            except Exception:
+                # If Redis connection fails, continue to database query
+                pass
+
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()
 
@@ -117,7 +202,17 @@ class ShopfloorCollection:
 
         cursor.close()
         cnx.close()
-        resp.text = json.dumps(result)
+
+        # Store result in Redis cache
+        result_json = json.dumps(result)
+        if redis_client:
+            try:
+                redis_client.setex(cache_key, cache_expire, result_json)
+            except Exception:
+                # If cache set fails, ignore and continue
+                pass
+
+        resp.text = result_json
 
     @staticmethod
     @user_logger
@@ -235,6 +330,9 @@ class ShopfloorCollection:
         cursor.close()
         cnx.close()
 
+        # Clear cache after creating new shopfloor
+        clear_shopfloor_cache()
+
         resp.status = falcon.HTTP_201
         resp.location = '/shopfloors/' + str(new_id)
 
@@ -260,6 +358,32 @@ class ShopfloorItem:
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_SHOPFLOOR_ID')
+
+        # Redis cache key
+        cache_key = f'shopfloor:item:{id_}'
+        cache_expire = 28800  # 8 hours in seconds (long-term cache)
+
+        # Try to get from Redis cache (only if Redis is enabled)
+        redis_client = None
+        if config.redis.get('is_enabled', False):
+            try:
+                redis_client = redis.Redis(
+                    host=config.redis['host'],
+                    port=config.redis['port'],
+                    password=config.redis['password'] if config.redis['password'] else None,
+                    db=config.redis['db'],
+                    decode_responses=True,
+                    socket_connect_timeout=2,
+                    socket_timeout=2
+                )
+                redis_client.ping()
+                cached_result = redis_client.get(cache_key)
+                if cached_result:
+                    resp.text = cached_result
+                    return
+            except Exception:
+                # If Redis connection fails, continue to database query
+                pass
 
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()
@@ -311,7 +435,16 @@ class ShopfloorItem:
                            "description": row[7],
                            "qrcode": "shopfloor:" + row[2]}
 
-        resp.text = json.dumps(meta_result)
+        # Store result in Redis cache
+        result_json = json.dumps(meta_result)
+        if redis_client:
+            try:
+                redis_client.setex(cache_key, cache_expire, result_json)
+            except Exception:
+                # If cache set fails, ignore and continue
+                pass
+
+        resp.text = result_json
 
     @staticmethod
     @user_logger
@@ -375,6 +508,9 @@ class ShopfloorItem:
 
         cursor.close()
         cnx.close()
+
+        # Clear cache after deleting shopfloor
+        clear_shopfloor_cache(id_)
 
         resp.status = falcon.HTTP_204
 
@@ -507,6 +643,9 @@ class ShopfloorItem:
         cursor.close()
         cnx.close()
 
+        # Clear cache after updating shopfloor
+        clear_shopfloor_cache(id_)
+
         resp.status = falcon.HTTP_200
 
 
@@ -531,6 +670,32 @@ class ShopfloorEquipmentCollection:
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_SHOPFLOOR_ID')
+
+        # Redis cache key
+        cache_key = f'shopfloor:equipment:{id_}'
+        cache_expire = 28800  # 8 hours in seconds (long-term cache)
+
+        # Try to get from Redis cache (only if Redis is enabled)
+        redis_client = None
+        if config.redis.get('is_enabled', False):
+            try:
+                redis_client = redis.Redis(
+                    host=config.redis['host'],
+                    port=config.redis['port'],
+                    password=config.redis['password'] if config.redis['password'] else None,
+                    db=config.redis['db'],
+                    decode_responses=True,
+                    socket_connect_timeout=2,
+                    socket_timeout=2
+                )
+                redis_client.ping()
+                cached_result = redis_client.get(cache_key)
+                if cached_result:
+                    resp.text = cached_result
+                    return
+            except Exception:
+                # If Redis connection fails, continue to database query
+                pass
 
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()
@@ -557,7 +722,19 @@ class ShopfloorEquipmentCollection:
                 meta_result = {"id": row[0], "name": row[1], "uuid": row[2]}
                 result.append(meta_result)
 
-        resp.text = json.dumps(result)
+        cursor.close()
+        cnx.close()
+
+        # Store result in Redis cache
+        result_json = json.dumps(result)
+        if redis_client:
+            try:
+                redis_client.setex(cache_key, cache_expire, result_json)
+            except Exception:
+                # If cache set fails, ignore and continue
+                pass
+
+        resp.text = result_json
 
     @staticmethod
     @user_logger
@@ -628,6 +805,9 @@ class ShopfloorEquipmentCollection:
         cursor.close()
         cnx.close()
 
+        # Clear cache after adding equipment
+        clear_shopfloor_cache(id_)
+
         resp.status = falcon.HTTP_201
         resp.location = '/shopfloors/' + str(id_) + '/equipments/' + str(equipment_id)
 
@@ -692,6 +872,9 @@ class ShopfloorEquipmentItem:
         cursor.close()
         cnx.close()
 
+        # Clear cache after deleting equipment
+        clear_shopfloor_cache(id_)
+
         resp.status = falcon.HTTP_204
 
 
@@ -716,6 +899,32 @@ class ShopfloorMeterCollection:
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_SHOPFLOOR_ID')
+
+        # Redis cache key
+        cache_key = f'shopfloor:meter:{id_}'
+        cache_expire = 28800  # 8 hours in seconds (long-term cache)
+
+        # Try to get from Redis cache (only if Redis is enabled)
+        redis_client = None
+        if config.redis.get('is_enabled', False):
+            try:
+                redis_client = redis.Redis(
+                    host=config.redis['host'],
+                    port=config.redis['port'],
+                    password=config.redis['password'] if config.redis['password'] else None,
+                    db=config.redis['db'],
+                    decode_responses=True,
+                    socket_connect_timeout=2,
+                    socket_timeout=2
+                )
+                redis_client.ping()
+                cached_result = redis_client.get(cache_key)
+                if cached_result:
+                    resp.text = cached_result
+                    return
+            except Exception:
+                # If Redis connection fails, continue to database query
+                pass
 
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()
@@ -755,7 +964,19 @@ class ShopfloorMeterCollection:
                                "energy_category": energy_category_dict.get(row[3], None)}
                 result.append(meta_result)
 
-        resp.text = json.dumps(result)
+        cursor.close()
+        cnx.close()
+
+        # Store result in Redis cache
+        result_json = json.dumps(result)
+        if redis_client:
+            try:
+                redis_client.setex(cache_key, cache_expire, result_json)
+            except Exception:
+                # If cache set fails, ignore and continue
+                pass
+
+        resp.text = result_json
 
     @staticmethod
     @user_logger
@@ -826,6 +1047,9 @@ class ShopfloorMeterCollection:
         cursor.close()
         cnx.close()
 
+        # Clear cache after adding meter
+        clear_shopfloor_cache(id_)
+
         resp.status = falcon.HTTP_201
         resp.location = '/shopfloors/' + str(id_) + '/meters/' + str(meter_id)
 
@@ -888,6 +1112,9 @@ class ShopfloorMeterItem:
 
         cursor.close()
         cnx.close()
+
+        # Clear cache after deleting meter
+        clear_shopfloor_cache(id_)
 
         resp.status = falcon.HTTP_204
 
@@ -2602,6 +2829,9 @@ class ShopfloorImport:
         cursor.close()
         cnx.close()
 
+        # Clear cache after importing shopfloor
+        clear_shopfloor_cache()
+
         resp.status = falcon.HTTP_201
         resp.location = '/shopfloors/' + str(new_id)
 
@@ -3054,6 +3284,9 @@ class ShopfloorClone:
             cnx.commit()
             cursor.close()
             cnx.close()
+
+            # Clear cache after cloning shopfloor
+            clear_shopfloor_cache()
 
             resp.status = falcon.HTTP_201
             resp.location = '/shopfloors/' + str(new_id)

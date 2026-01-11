@@ -1,8 +1,47 @@
 import falcon
 import mysql.connector
 import simplejson as json
+import redis
 from core.useractivity import user_logger, admin_control, access_control, api_key_control
 import config
+
+
+def clear_timezone_cache(timezone_id=None):
+    """
+    Clear timezone-related cache after data modification
+
+    Args:
+        timezone_id: Timezone ID (optional, for specific timezone cache)
+    """
+    # Check if Redis is enabled
+    if not config.redis.get('is_enabled', False):
+        return
+
+    redis_client = None
+    try:
+        redis_client = redis.Redis(
+            host=config.redis['host'],
+            port=config.redis['port'],
+            password=config.redis['password'] if config.redis['password'] else None,
+            db=config.redis['db'],
+            decode_responses=True,
+            socket_connect_timeout=2,
+            socket_timeout=2
+        )
+        redis_client.ping()
+
+        # Clear timezone list cache
+        list_cache_key = 'timezone:list'
+        redis_client.delete(list_cache_key)
+
+        # Clear specific timezone item cache if timezone_id is provided
+        if timezone_id:
+            item_cache_key = f'timezone:item:{timezone_id}'
+            redis_client.delete(item_cache_key)
+
+    except Exception:
+        # If cache clear fails, ignore and continue
+        pass
 
 
 class TimezoneCollection:
@@ -52,6 +91,33 @@ class TimezoneCollection:
         else:
             api_key_control(req)
 
+        # Redis cache key
+        cache_key = 'timezone:list'
+        cache_expire = 28800  # 8 hours in seconds (long-term cache)
+
+        # Try to get from Redis cache (only if Redis is enabled)
+        redis_client = None
+        if config.redis.get('is_enabled', False):
+            try:
+                redis_client = redis.Redis(
+                    host=config.redis['host'],
+                    port=config.redis['port'],
+                    password=config.redis['password'] if config.redis['password'] else None,
+                    db=config.redis['db'],
+                    decode_responses=True,
+                    socket_connect_timeout=2,
+                    socket_timeout=2
+                )
+                redis_client.ping()
+                cached_result = redis_client.get(cache_key)
+                if cached_result:
+                    resp.text = cached_result
+                    return
+            except Exception:
+                # If Redis connection fails, continue to database query
+                pass
+
+        # Cache miss or Redis error - query database
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()
 
@@ -73,7 +139,16 @@ class TimezoneCollection:
                                "utc_offset": row[3]}
                 result.append(meta_result)
 
-        resp.text = json.dumps(result)
+        # Store result in Redis cache
+        result_json = json.dumps(result)
+        if redis_client:
+            try:
+                redis_client.setex(cache_key, cache_expire, result_json)
+            except Exception:
+                # If cache set fails, ignore and continue
+                pass
+
+        resp.text = result_json
 
 
 class TimezoneItem:
@@ -130,6 +205,33 @@ class TimezoneItem:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_TIMEZONE_ID')
 
+        # Redis cache key
+        cache_key = f'timezone:item:{id_}'
+        cache_expire = 28800  # 8 hours in seconds (long-term cache)
+
+        # Try to get from Redis cache (only if Redis is enabled)
+        redis_client = None
+        if config.redis.get('is_enabled', False):
+            try:
+                redis_client = redis.Redis(
+                    host=config.redis['host'],
+                    port=config.redis['port'],
+                    password=config.redis['password'] if config.redis['password'] else None,
+                    db=config.redis['db'],
+                    decode_responses=True,
+                    socket_connect_timeout=2,
+                    socket_timeout=2
+                )
+                redis_client.ping()
+                cached_result = redis_client.get(cache_key)
+                if cached_result:
+                    resp.text = cached_result
+                    return
+            except Exception:
+                # If Redis connection fails, continue to database query
+                pass
+
+        # Cache miss or Redis error - query database
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()
 
@@ -154,7 +256,16 @@ class TimezoneItem:
         cursor.close()
         cnx.close()
 
-        resp.text = json.dumps(result)
+        # Store result in Redis cache
+        result_json = json.dumps(result)
+        if redis_client:
+            try:
+                redis_client.setex(cache_key, cache_expire, result_json)
+            except Exception:
+                # If cache set fails, ignore and continue
+                pass
+
+        resp.text = result_json
 
     @staticmethod
     @user_logger
@@ -215,5 +326,8 @@ class TimezoneItem:
 
         cursor.close()
         cnx.close()
+
+        # Clear cache after updating timezone
+        clear_timezone_cache(timezone_id=id_)
 
         resp.status = falcon.HTTP_200
