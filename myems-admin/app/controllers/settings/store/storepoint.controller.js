@@ -2,6 +2,7 @@
 app.controller('StorePointController', function (
     $window,
     $scope,
+    $rootScope,
     $timeout,
     $translate,
     StoreService,
@@ -161,11 +162,17 @@ app.controller('StorePointController', function (
     });
 
     // Register drag and drop warning event listeners
-    // Use registerTabWarnings to avoid code duplication
-    DragDropWarningService.registerTabWarnings(
-            $scope,
-            'BIND_POINT',
-            'SETTING.PLEASE_SELECT_STORE_FIRST',
-            { BIND_POINT: 2 }
-        );
+    // Listen directly to HJC-DRAG-DISABLED event and show warning
+    $scope.$on('HJC-DRAG-DISABLED', function(event) {
+        if (!$scope.isStoreSelected) {
+            // Use rootScope flag to prevent multiple warnings from different controllers
+            if (!$rootScope._storeDragWarningShown) {
+                $rootScope._storeDragWarningShown = true;
+                DragDropWarningService.showWarning('SETTING.PLEASE_SELECT_STORE_FIRST');
+                $timeout(function() {
+                    $rootScope._storeDragWarningShown = false;
+                }, 500);
+            }
+        }
+    });
 });

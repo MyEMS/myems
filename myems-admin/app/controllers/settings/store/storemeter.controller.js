@@ -220,11 +220,17 @@ app.controller('StoreMeterController', function(
     });
 
     // Register drag and drop warning event listeners
-    // Use registerTabWarnings to avoid code duplication
-    DragDropWarningService.registerTabWarnings(
-            $scope,
-            'BIND_METER',
-            'SETTING.PLEASE_SELECT_STORE_FIRST',
-            { BIND_METER: 1 }
-        );
+    // Listen directly to HJC-DRAG-DISABLED event and show warning
+    $scope.$on('HJC-DRAG-DISABLED', function(event) {
+        if (!$scope.isStoreSelected) {
+            // Use rootScope flag to prevent multiple warnings from different controllers
+            if (!$rootScope._storeDragWarningShown) {
+                $rootScope._storeDragWarningShown = true;
+                DragDropWarningService.showWarning('SETTING.PLEASE_SELECT_STORE_FIRST');
+                $timeout(function() {
+                    $rootScope._storeDragWarningShown = false;
+                }, 500);
+            }
+        }
+    });
 });
