@@ -3,8 +3,8 @@
 		<div class="col-lg-12">
 			<div class="tabs-container">
 
-				<uib-tabset>
-					<uib-tab heading="{{'COMMON.SENSOR' | translate}}" >
+				<uib-tabset active="activeTabIndex">
+					<uib-tab heading="{{'COMMON.SENSOR' | translate}}" index="0" select="handleTabSelect(0)">
 						<div class="panel-body" ng-controller="SensorController">
 							<div class="col-md-3">
 								<a ng-click="addSensor()" class="btn btn-primary btn-rounded btn-outline" href=""><i class="fa fa-plus-circle"></i> {{'SENSOR.ADD_SENSOR' | translate}}</a>
@@ -48,7 +48,7 @@
 							</table>
 						</div>
 					</uib-tab>
-					<uib-tab heading="{{'SETTING.BIND_POINT' | translate}}">
+					<uib-tab heading="{{'SETTING.BIND_POINT' | translate}}" index="1" select="handleTabSelect(1)">
 							<div class="panel-body" ng-controller="SensorPointController">
 								<div class="row">
 									<div class="col-lg-3">
@@ -77,13 +77,13 @@
 												{{currentSensor.name}}{{'SETTING.N_S_POINT' | translate}}
 											</div>
 											<div class="panel-body"
-											x-hjc-drop-target="true"
+											x-hjc-drop-target="{{isSensorSelected ? 'true' : 'false'}}"
 											x-on-drop="pairPoint(dragEl,dropEl)"
 											uib-tooltip="{{'SETTING.DRAG_TO_UNBIND' | translate}}" >
 											<div class="btn btn-primary btn-rounded btn-block"
 											title="DataSource:{{sensorpoint.data_source.name}}"
 											ng-repeat="sensorpoint in sensorpoints"
-											x-hjc-draggable="true"> {{sensorpoint.name}}</div>
+											x-hjc-draggable="{{isSensorSelected ? 'true' : 'false'}}"> {{sensorpoint.name}}</div>
 
 										</div>
 									</div>
@@ -94,7 +94,7 @@
 										<div class="panel-body trash" >
 											<img class="trashcan"
 											src="img/trashcan.png"
-											x-hjc-drop-target="true"
+											x-hjc-drop-target="{{isSensorSelected ? 'true' : 'false'}}"
 											x-on-drop="deletePointPair(dragEl,dropEl)">
 										</div>
 
@@ -121,7 +121,7 @@
 											<h5>{{'SETTING.POINT_LIST' | translate}}</h5>
 											<div class="source btn btn-info btn-rounded btn-block"
 											ng-repeat="point in points"
-											x-hjc-draggable="true"> {{point.name}}</div>
+											x-hjc-draggable="{{isSensorSelected ? 'true' : 'false'}}"> {{point.name}}</div>
 										</div>
 									</div>
 								</div>

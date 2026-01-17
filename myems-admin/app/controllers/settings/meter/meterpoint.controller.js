@@ -9,9 +9,12 @@ app.controller('MeterPointController', function (
     DataSourceService,
     PointService,
     MeterPointService,
-    toaster) {
+    toaster,
+    DragDropWarningService) {
     $scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
     $scope.currentMeter = {selected:undefined};
+    $scope.isMeterSelected = false;
+    $scope.meterpoints = [];
     $scope.getAllDataSources = function () {
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
         DataSourceService.getAllDataSources(headers, function (response) {
@@ -57,8 +60,13 @@ app.controller('MeterPointController', function (
     $scope.changeMeter=function(item,model){
         $scope.currentMeter=item;
         $scope.currentMeter.selected=model;
-        $scope.getPointsByMeterID($scope.currentMeter.id);
-        $scope.getPointsByDataSourceID($scope.currentDataSource);
+        if (item && item.id) {
+            $scope.isMeterSelected = true;
+            $scope.getPointsByMeterID($scope.currentMeter.id);
+            $scope.getPointsByDataSourceID($scope.currentDataSource);
+        } else {
+            $scope.isMeterSelected = false;
+        }
     };
 
     $scope.changeDataSource = function (item, model) {
@@ -82,6 +90,10 @@ app.controller('MeterPointController', function (
     };
 
     $scope.pairPoint = function (dragEl, dropEl) {
+        if (!$scope.isMeterSelected || !$scope.currentMeter || !$scope.currentMeter.id) {
+            DragDropWarningService.showWarning("SETTING.PLEASE_SELECT_METER_FIRST");
+            return;
+        }
         var pointid = angular.element('#' + dragEl).scope().point.id;
         var meterid = $scope.currentMeter.id;
         let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
@@ -108,6 +120,10 @@ app.controller('MeterPointController', function (
 
     $scope.deletePointPair = function (dragEl, dropEl) {
         if (angular.element('#' + dragEl).hasClass('source')) {
+            return;
+        }
+        if (!$scope.isMeterSelected || !$scope.currentMeter || !$scope.currentMeter.id) {
+            DragDropWarningService.showWarning("SETTING.PLEASE_SELECT_METER_FIRST");
             return;
         }
         var meterpointid = angular.element('#' + dragEl).scope().meterpoint.id;
@@ -161,4 +177,13 @@ app.controller('MeterPointController', function (
           $scope.getAllMeters();
       }
   	});
+
+    // Register drag and drop warning event listeners
+    // Use registerTabWarnings to avoid code duplication
+    DragDropWarningService.registerTabWarnings(
+            $scope,
+            'BIND_POINT',
+            'SETTING.PLEASE_SELECT_METER_FIRST',
+            { BIND_POINT: 1 }
+        );
 });

@@ -4,14 +4,17 @@ app.controller('TenantCommandController', function (
     $scope,
     $window,
     $translate,
+    $timeout,
     TenantService,
     CommandService,
     TenantCommandService,
-    toaster
+    toaster,
+    DragDropWarningService
 ) {
 
     $scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user")) || {};
-    $scope.currentTenant = null; 
+    $scope.currentTenant = null;
+    $scope.isTenantSelected = false; 
     $scope.tenants = [];
     $scope.tenantcommands = [];
     $scope.commands = [];
@@ -41,10 +44,12 @@ app.controller('TenantCommandController', function (
 
     $scope.changeTenant = function (item) {
         if (!item || !item.id) {
+            $scope.isTenantSelected = false;
             toaster.pop('warning', $translate.instant("TOASTER.WARNING_TITLE"), $translate.instant("TOASTER.PLEASE_SELECT_TENANT"));
             return;
         }
-        $scope.currentTenant = item; 
+        $scope.currentTenant = item;
+        $scope.isTenantSelected = true;
         $scope.getCommandsByTenantID($scope.currentTenant.id);
     };
 
@@ -71,8 +76,12 @@ app.controller('TenantCommandController', function (
     };
 
     $scope.pairCommand = function (dragEl, dropEl) {
+        if (!$scope.isTenantSelected || !$scope.currentTenant || !$scope.currentTenant.id) {
+            DragDropWarningService.showWarning("SETTING.PLEASE_SELECT_TENANT_FIRST");
+            return;
+        }
         const commandId = angular.element('#' + dragEl).scope().command.id;
-        const tenantId = $scope.currentTenant?.id; 
+        const tenantId = $scope.currentTenant.id; 
         if (!commandId || !tenantId) {
             toaster.pop('error', $translate.instant("TOASTER.ERROR_TITLE"), $translate.instant("TOASTER.MISSING_PARAMS"));
             return;
@@ -91,9 +100,13 @@ app.controller('TenantCommandController', function (
         });
     };
     $scope.deleteCommandPair = function (dragEl, dropEl) {
-        if (angular.element('#' + dragEl).hasClass('source')) return; 
+        if (angular.element('#' + dragEl).hasClass('source')) return;
+        if (!$scope.isTenantSelected || !$scope.currentTenant || !$scope.currentTenant.id) {
+            DragDropWarningService.showWarning("SETTING.PLEASE_SELECT_TENANT_FIRST");
+            return;
+        }
         const tenantCommandId = angular.element('#' + dragEl).scope().tenantcommand.id;
-        const tenantId = $scope.currentTenant?.id;
+        const tenantId = $scope.currentTenant.id;
         if (!tenantCommandId || !tenantId) {
             toaster.pop('error', $translate.instant("TOASTER.ERROR_TITLE"), $translate.instant("TOASTER.MISSING_PARAMS"));
             return;
@@ -116,4 +129,13 @@ app.controller('TenantCommandController', function (
     $scope.$on('handleBroadcastTenantChanged', function (event) {
         $scope.getAllTenants();
     });
+
+    // Register drag and drop warning event listeners
+    // Use registerTabWarnings to avoid code duplication
+    DragDropWarningService.registerTabWarnings(
+        $scope,
+        'BIND_COMMAND',
+        'SETTING.PLEASE_SELECT_TENANT_FIRST',
+        { BIND_COMMAND: 6 }
+    );
 });

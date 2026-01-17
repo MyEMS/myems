@@ -3,15 +3,18 @@
 app.controller('TenantPointController', function (
     $scope, 
     $window,
+    $timeout,
     $translate, 
     TenantService, 
     DataSourceService, 
     PointService, 
     TenantPointService,  
     toaster, 
-    SweetAlert) {
+    SweetAlert,
+    DragDropWarningService) {
     $scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
     $scope.currentTenant = {selected:undefined};
+    $scope.isTenantSelected = false;
     $scope.getAllDataSources = function () {
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
         DataSourceService.getAllDataSources(headers, function (response) {
@@ -53,7 +56,12 @@ app.controller('TenantPointController', function (
   $scope.changeTenant=function(item,model){
     	$scope.currentTenant=item;
     	$scope.currentTenant.selected=model;
-    	$scope.getPointsByTenantID($scope.currentTenant.id);
+    	if (item && item.id) {
+    	    $scope.isTenantSelected = true;
+    	    $scope.getPointsByTenantID($scope.currentTenant.id);
+    	} else {
+    	    $scope.isTenantSelected = false;
+    	}
   };
 
     $scope.changeDataSource = function (item, model) {
@@ -74,6 +82,10 @@ app.controller('TenantPointController', function (
     };
 
     $scope.pairPoint = function (dragEl, dropEl) {
+        if (!$scope.isTenantSelected || !$scope.currentTenant || !$scope.currentTenant.id) {
+            DragDropWarningService.showWarning("SETTING.PLEASE_SELECT_TENANT_FIRST");
+            return;
+        }
         var pointid = angular.element('#' + dragEl).scope().point.id;
         var tenantid = $scope.currentTenant.id;
         let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
@@ -99,6 +111,10 @@ app.controller('TenantPointController', function (
 
     $scope.deletePointPair = function (dragEl, dropEl) {
         if (angular.element('#' + dragEl).hasClass('source')) {
+            return;
+        }
+        if (!$scope.isTenantSelected || !$scope.currentTenant || !$scope.currentTenant.id) {
+            DragDropWarningService.showWarning("SETTING.PLEASE_SELECT_TENANT_FIRST");
             return;
         }
         var tenantpointid = angular.element('#' + dragEl).scope().tenantpoint.id;
@@ -130,4 +146,13 @@ app.controller('TenantPointController', function (
   	$scope.$on('handleBroadcastTenantChanged', function(event) {
       $scope.getAllTenants();
   	});
+
+    // Register drag and drop warning event listeners
+    // Use registerTabWarnings to avoid code duplication
+    DragDropWarningService.registerTabWarnings(
+        $scope,
+        'BIND_POINT',
+        'SETTING.PLEASE_SELECT_TENANT_FIRST',
+        { BIND_POINT: 3 }
+    );
 });

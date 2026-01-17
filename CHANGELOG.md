@@ -13,7 +13,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - optimized equipment settings in myems-admin
 - optimized meter settings in myems-admin
 - fixed translations in myems-admin
-- fixed issue of binding objects to space in myems-admin
+- fixed issues of binding objects in myems-admin
 - fixed issues of comparison reports in myems-web
 - fixed issue of energyflowdiagram in myems-admin
 ### Removed

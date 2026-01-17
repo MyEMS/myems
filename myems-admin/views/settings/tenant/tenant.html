@@ -2,8 +2,8 @@
 	<div class="row">
 		<div class="col-lg-12">
 			<div class="tabs-container">
-				<uib-tabset>
-					<uib-tab heading="{{'COMMON.TENANT' | translate}}">
+				<uib-tabset active="activeTabIndex">
+					<uib-tab heading="{{'COMMON.TENANT' | translate}}" index="0" select="handleTabSelect(0)">
 						<div class="panel-body" ng-controller="TenantController">
 							<div class="row mb-3">
 								<div class="col-md-3">
@@ -94,7 +94,7 @@
 							</table>
 						</div>
 					</uib-tab>
-					<uib-tab heading="{{'SETTING.TENANT_TYPE' | translate}}">
+					<uib-tab heading="{{'SETTING.TENANT_TYPE' | translate}}" index="1" select="handleTabSelect(1)">
 						<div class="panel-body" ng-controller="TenantTypeController">
 							<a ng-click="addTenantType()" class="btn btn-primary btn-rounded btn-outline" href="">
 								<i class="fa fa-plus-circle"></i> {{'SETTING.ADD_TENANT_TYPE' | translate}}
@@ -138,7 +138,7 @@
 							<div uib-modal="addEditModal" class="modal fade" role="dialog"></div>
 						</div>
 					</uib-tab>
-					<uib-tab heading="{{'SETTING.BIND_METER' | translate}}">
+					<uib-tab heading="{{'SETTING.BIND_METER' | translate}}" index="2" select="handleTabSelect(2)">
 						<div class="panel-body" ng-controller="TenantMeterController">
 							<div class="row">
 								<div class="col-lg-3">
@@ -171,13 +171,13 @@
 										<div class="panel-heading">
 											{{currentTenant.name}}{{'SETTING.N_S_METER' | translate}}
 										</div>
-										<div class="panel-body maxheight" x-hjc-drop-target="true"
+										<div class="panel-body maxheight" x-hjc-drop-target="{{isTenantSelected ? 'true' : 'false'}}"
 											x-on-drop="pairMeter(dragEl,dropEl)"
 											uib-tooltip="{{'SETTING.DRAG_TO_UNBIND' | translate}}">
 
 											<div class="btn btn-rounded btn-block"
 												ng-class="colorMeterType(tenantmeter.metertype)"
-												ng-repeat="tenantmeter in tenantmeters" x-hjc-draggable="true"
+												ng-repeat="tenantmeter in tenantmeters" x-hjc-draggable="{{isTenantSelected ? 'true' : 'false'}}"
 												title="{{tenantmeter.metertype}}">
 												({{tenantmeter.energy_category.name}}){{tenantmeter.name}}</div>
 										</div>
@@ -187,7 +187,7 @@
 											{{'SETTING.TRASH' | translate}}
 										</div>
 										<div class="panel-body trash">
-											<img class="trashcan" src="img/trashcan.png" x-hjc-drop-target="true"
+											<img class="trashcan" src="img/trashcan.png" x-hjc-drop-target="{{isTenantSelected ? 'true' : 'false'}}"
 												x-on-drop="deleteMeterPair(dragEl,dropEl)">
 										</div>
 									</div>
@@ -213,7 +213,7 @@
 												</select>
 											</div>
 											<div class="source btn btn-primary btn-rounded btn-block"
-												ng-repeat="meter in currentmeters" x-hjc-draggable="true"
+												ng-repeat="meter in currentmeters" x-hjc-draggable="{{isTenantSelected ? 'true' : 'false'}}"
 												ng-class="colorMeterType(currentMeterType)">
 												({{meter.energy_category.name}}){{meter.name}}</div>
 										</div>
@@ -222,7 +222,7 @@
 							</div>
 						</div>
 					</uib-tab>
-					<uib-tab heading="{{'SETTING.BIND_POINT' | translate}}">
+					<uib-tab heading="{{'SETTING.BIND_POINT' | translate}}" index="3" select="handleTabSelect(3)">
 						<div class="panel-body" ng-controller="TenantPointController">
 							<div class="row">
 								<div class="col-lg-3">
@@ -255,13 +255,13 @@
 										<div class="panel-heading">
 											{{currentTenant.name}}{{'SETTING.N_S_POINT' | translate}}
 										</div>
-										<div class="panel-body maxheight" x-hjc-drop-target="true"
+										<div class="panel-body maxheight" x-hjc-drop-target="{{isTenantSelected ? 'true' : 'false'}}"
 											x-on-drop="pairPoint(dragEl,dropEl)"
 											uib-tooltip="{{'SETTING.DRAG_TO_UNBIND' | translate}}">
 
 											<div class="btn btn-primary btn-rounded btn-block"
 												title="{{'COMMON.TENANT' | translate}}:{{tenantpoint.data_source.name}}"
-												ng-repeat="tenantpoint in tenantpoints" x-hjc-draggable="true">
+												ng-repeat="tenantpoint in tenantpoints" x-hjc-draggable="{{isTenantSelected ? 'true' : 'false'}}">
 												{{tenantpoint.name}}
 											</div>
 										</div>
@@ -271,7 +271,7 @@
 											{{'SETTING.TRASH' | translate}}
 										</div>
 										<div class="panel-body trash">
-											<img class="trashcan" src="img/trashcan.png" x-hjc-drop-target="true"
+											<img class="trashcan" src="img/trashcan.png" x-hjc-drop-target="{{isTenantSelected ? 'true' : 'false'}}"
 												x-on-drop="deletePointPair(dragEl,dropEl)">
 										</div>
 									</div>
@@ -302,14 +302,14 @@
 											</form>
 											<h5>{{'SETTING.POINT_LIST' | translate}}</h5>
 											<div class="source btn btn-info btn-rounded btn-block"
-												ng-repeat="point in points" x-hjc-draggable="true"> {{point.name}}</div>
+												ng-repeat="point in points" x-hjc-draggable="{{isTenantSelected ? 'true' : 'false'}}"> {{point.name}}</div>
 										</div>
 									</div>
 								</div>
 							</div>
 						</div>
 					</uib-tab>
-					<uib-tab heading="{{'SETTING.BIND_SENSOR' | translate}}">
+					<uib-tab heading="{{'SETTING.BIND_SENSOR' | translate}}" index="4" select="handleTabSelect(4)">
 						<div class="panel-body" ng-controller="TenantSensorController">
 							<div class="row">
 								<div class="col-lg-3">
@@ -342,12 +342,12 @@
 										<div class="panel-heading">
 											{{currentTenant.name}}{{'SETTING.N_S_SENSOR' | translate}}
 										</div>
-										<div class="panel-body maxheight" x-hjc-drop-target="true"
+										<div class="panel-body maxheight" x-hjc-drop-target="{{isTenantSelected ? 'true' : 'false'}}"
 											x-on-drop="pairSensor(dragEl,dropEl)"
 											uib-tooltip="{{'SETTING.DRAG_TO_UNBIND' | translate}}">
 											<div class="btn btn-primary btn-rounded btn-block"
 												title="{{'COMMON.TENANT' | translate}}:{{tenantsensor.data_source.name}}"
-												ng-repeat="tenantsensor in tenantsensors" x-hjc-draggable="true">
+												ng-repeat="tenantsensor in tenantsensors" x-hjc-draggable="{{isTenantSelected ? 'true' : 'false'}}">
 												{{tenantsensor.name}}
 											</div>
 										</div>
@@ -357,7 +357,7 @@
 											{{'SETTING.TRASH' | translate}}
 										</div>
 										<div class="panel-body trash">
-											<img class="trashcan" src="img/trashcan.png" x-hjc-drop-target="true"
+											<img class="trashcan" src="img/trashcan.png" x-hjc-drop-target="{{isTenantSelected ? 'true' : 'false'}}"
 												x-on-drop="deleteSensorPair(dragEl,dropEl)">
 										</div>
 									</div>
@@ -371,7 +371,7 @@
 											slim-scroll box-height="765px">
 											<h5>{{'SETTING.SENSOR_LIST' | translate}}</h5>
 											<div class="source btn btn-info btn-rounded btn-block"
-												ng-repeat="sensor in sensors" x-hjc-draggable="true"> {{sensor.name}}
+												ng-repeat="sensor in sensors" x-hjc-draggable="{{isTenantSelected ? 'true' : 'false'}}"> {{sensor.name}}
 											</div>
 										</div>
 									</div>
@@ -380,7 +380,7 @@
 						</div>
 					</uib-tab>
 
-					<uib-tab heading="{{'WORKING_CALENDAR.BIND_WORKING_CALENDAR' | translate}}">
+					<uib-tab heading="{{'WORKING_CALENDAR.BIND_WORKING_CALENDAR' | translate}}" index="5" select="handleTabSelect(5)">
 						<div class="panel-body" ng-controller="TenantWorkingCalendarController">
 							<div class="row">
 								<div class="col-lg-3">
@@ -414,12 +414,12 @@
 										<div class="panel-heading">
 											{{'WORKING_CALENDAR.N_S_WORKING_CALENDAR' | translate}}
 										</div>
-										<div class="panel-body maxheight" x-hjc-drop-target="true"
+										<div class="panel-body maxheight" x-hjc-drop-target="{{isTenantSelected ? 'true' : 'false'}}"
 											x-on-drop="pairWorkingCalendar(dragEl,dropEl)"
 											uib-tooltip="{{'SETTING.DRAG_TO_UNBIND' | translate}}">
 											<div class="btn btn-primary btn-rounded btn-block"
 												ng-repeat="tenantworkingcalendar in tenantworkingcalendars"
-												x-hjc-draggable="true" title="{{tenantworkingcalendar.name}}">
+												x-hjc-draggable="{{isTenantSelected ? 'true' : 'false'}}" title="{{tenantworkingcalendar.name}}">
 												{{tenantworkingcalendar.name}}</div>
 										</div>
 									</div>
@@ -428,7 +428,7 @@
 											{{'SETTING.TRASH' | translate}}
 										</div>
 										<div class="panel-body trash">
-											<img class="trashcan" src="img/trashcan.png" x-hjc-drop-target="true"
+											<img class="trashcan" src="img/trashcan.png" x-hjc-drop-target="{{isTenantSelected ? 'true' : 'false'}}"
 												x-on-drop="deleteWorkingCalendarPair(dragEl,dropEl)">
 										</div>
 
@@ -444,7 +444,7 @@
 										<div class="panel-body" uib-tooltip="{{'SETTING.DRAG_TO_BIND' | translate}}"
 											slim-scroll box-height="765px">
 											<div class="source btn btn-primary btn-rounded btn-block"
-												ng-repeat="workingcalendar in workingcalendars" x-hjc-draggable="true">
+												ng-repeat="workingcalendar in workingcalendars" x-hjc-draggable="{{isTenantSelected ? 'true' : 'false'}}">
 												{{workingcalendar.name}}</div>
 										</div>
 									</div>
@@ -452,7 +452,7 @@
 							</div>
 						</div>
 					</uib-tab>
-					<uib-tab heading="{{'SETTING.BIND_COMMAND' | translate}}">
+					<uib-tab heading="{{'SETTING.BIND_COMMAND' | translate}}" index="6" select="handleTabSelect(6)">
 						<div class="panel-body" ng-controller="TenantCommandController">
 							<div class="row">
 								<div class="col-lg-3">
@@ -487,11 +487,11 @@
 										<div class="panel-heading">
 											{{'SETTING.N_S_COMMAND' | translate}}
 										</div>
-										<div class="panel-body maxheight" x-hjc-drop-target="true"
+										<div class="panel-body maxheight" x-hjc-drop-target="{{isTenantSelected ? 'true' : 'false'}}"
 											x-on-drop="pairCommand(dragEl,dropEl)"
 											uib-tooltip="{{'SETTING.DRAG_TO_UNBIND' | translate}}">
 											<div class="btn btn-primary btn-rounded btn-block"
-												ng-repeat="tenantcommand in tenantcommands" x-hjc-draggable="true"
+												ng-repeat="tenantcommand in tenantcommands" x-hjc-draggable="{{isTenantSelected ? 'true' : 'false'}}"
 												title="{{tenantcommand.name}}">
 												{{tenantcommand.name}}</div>
 										</div>
@@ -501,7 +501,7 @@
 											{{'SETTING.TRASH' | translate}}
 										</div>
 										<div class="panel-body trash">
-											<img class="trashcan" src="img/trashcan.png" x-hjc-drop-target="true"
+											<img class="trashcan" src="img/trashcan.png" x-hjc-drop-target="{{isTenantSelected ? 'true' : 'false'}}"
 												x-on-drop="deleteCommandPair(dragEl,dropEl)">
 										</div>
 
@@ -517,7 +517,7 @@
 										<div class="panel-body" uib-tooltip="{{'SETTING.DRAG_TO_BIND' | translate}}"
 											slim-scroll box-height="765px">
 											<div class="source btn btn-primary btn-rounded btn-block"
-												ng-repeat="command in commands" x-hjc-draggable="true">
+												ng-repeat="command in commands" x-hjc-draggable="{{isTenantSelected ? 'true' : 'false'}}">
 												{{command.name}}</div>
 										</div>
 									</div>

@@ -158,7 +158,7 @@ app.controller("EnergyStorageContainerScheduleController", function ($scope, $ro
         });
 
         modalInstance.result.then(function (modifiedSchedule) {
-            // 将时间部分拆分为小时、分钟、秒
+            // Split time part into hours, minutes, and seconds
             var startTimeParts = modifiedSchedule.start_time_of_day.split(':');
             var endTimeParts = modifiedSchedule.end_time_of_day.split(':');
 

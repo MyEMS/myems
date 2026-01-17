@@ -10,7 +10,8 @@ app.controller('SpacePointController', function (
     PointService, 
     SpacePointService,  
     toaster, 
-    SweetAlert) {
+    SweetAlert,
+    DragDropWarningService) {
     $scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
     $scope.spaces = [];
     $scope.currentSpaceID = 1;
@@ -226,43 +227,12 @@ app.controller('SpacePointController', function (
       $scope.refreshSpaceTree();
   	});
 
-    // Listen for disabled drop events to show warning
-    // Only show warning if this tab is currently active
-    $scope.$on('HJC-DROP-DISABLED', function(event) {
-        var TAB_INDEXES = ($scope.$parent && $scope.$parent.TAB_INDEXES) || { POINT: 4 };
-        if ($scope.$parent && $scope.$parent.activeTabIndex === TAB_INDEXES.POINT) {
-            $timeout(function() {
-                try {
-                    toaster.pop({
-                        type: "warning",
-                        body: $translate.instant("SETTING.PLEASE_SELECT_SPACE_FIRST"),
-                        showCloseButton: true,
-                    });
-                } catch(err) {
-                    console.error('Error showing toaster:', err);
-                    alert($translate.instant("SETTING.PLEASE_SELECT_SPACE_FIRST"));
-                }
-            }, 0);
-        }
-    });
-
-    // Listen for disabled drag events to show warning
-    // Only show warning if this tab is currently active
-    $scope.$on('HJC-DRAG-DISABLED', function(event) {
-        var TAB_INDEXES = ($scope.$parent && $scope.$parent.TAB_INDEXES) || { POINT: 4 };
-        if ($scope.$parent && $scope.$parent.activeTabIndex === TAB_INDEXES.POINT) {
-            $timeout(function() {
-                try {
-                    toaster.pop({
-                        type: "warning",
-                        body: $translate.instant("SETTING.PLEASE_SELECT_SPACE_FIRST"),
-                        showCloseButton: true,
-                    });
-                } catch(err) {
-                    console.error('Error showing toaster:', err);
-                    alert($translate.instant("SETTING.PLEASE_SELECT_SPACE_FIRST"));
-                }
-            }, 0);
-        }
-    });
+    // Register drag and drop warning event listeners
+    // Use registerTabWarnings to avoid code duplication
+    DragDropWarningService.registerTabWarnings(
+            $scope,
+            'POINT',
+            'SETTING.PLEASE_SELECT_SPACE_FIRST',
+            { POINT: 4 }
+        );
 });

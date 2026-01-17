@@ -2,16 +2,20 @@
 
 app.controller('StoreSensorController', function (
     $scope,
+    $rootScope,
     $window,
+    $timeout,
     $translate,
     StoreService,
     SensorService,
     StoreSensorService,
     toaster,
-    SweetAlert) {
+    SweetAlert,
+    DragDropWarningService) {
 
     $scope.currentStore = {selected: undefined};
     $scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
+    $scope.isStoreSelected = false;
     $scope.storesensors = [];
 
     $scope.getAllSensors = function () {
@@ -46,7 +50,12 @@ app.controller('StoreSensorController', function (
     $scope.changeStore = function(item, model) {
         $scope.currentStore = item;
         $scope.currentStore.selected = model;
-        $scope.getSensorsByStoreID($scope.currentStore.id);
+        if (item && item.id) {
+            $scope.isStoreSelected = true;
+            $scope.getSensorsByStoreID($scope.currentStore.id);
+        } else {
+            $scope.isStoreSelected = false;
+        }
     };
 
     $scope.getAllStores = function () {
@@ -61,6 +70,10 @@ app.controller('StoreSensorController', function (
     };
 
     $scope.pairSensor = function (dragEl, dropEl) {
+        if (!$scope.isStoreSelected || !$scope.currentStore || !$scope.currentStore.id) {
+            DragDropWarningService.showWarning("SETTING.PLEASE_SELECT_STORE_FIRST");
+            return;
+        }
         var sensorid = angular.element('#' + dragEl).scope().sensor.id;
         var storeid = $scope.currentStore.id;
         let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
@@ -86,6 +99,10 @@ app.controller('StoreSensorController', function (
 
     $scope.deleteSensorPair = function (dragEl, dropEl) {
         if (angular.element('#' + dragEl).hasClass('source')) {
+            return;
+        }
+        if (!$scope.isStoreSelected || !$scope.currentStore || !$scope.currentStore.id) {
+            DragDropWarningService.showWarning("SETTING.PLEASE_SELECT_STORE_FIRST");
             return;
         }
         var storesensorid = angular.element('#' + dragEl).scope().storesensor.id;
@@ -116,6 +133,21 @@ app.controller('StoreSensorController', function (
     $scope.getAllSensors();
     $scope.$on('handleBroadcastStoreChanged', function(event) {
         $scope.getAllStores();
+    });
+
+    // Register drag and drop warning event listeners
+    // Listen directly to HJC-DRAG-DISABLED event and show warning
+    $scope.$on('HJC-DRAG-DISABLED', function(event) {
+        if (!$scope.isStoreSelected) {
+            // Use rootScope flag to prevent multiple warnings from different controllers
+            if (!$rootScope._storeDragWarningShown) {
+                $rootScope._storeDragWarningShown = true;
+                DragDropWarningService.showWarning('SETTING.PLEASE_SELECT_STORE_FIRST');
+                $timeout(function() {
+                    $rootScope._storeDragWarningShown = false;
+                }, 500);
+            }
+        }
     });
 
 });

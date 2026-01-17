@@ -9,9 +9,11 @@ app.controller('CombinedEquipmentEquipmentController', function (
     EquipmentService,
     CombinedEquipmentEquipmentService,
     toaster,
-    SweetAlert) {
+    SweetAlert,
+    DragDropWarningService) {
     $scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
     $scope.currentCombinedEquipment = {selected:undefined};
+    $scope.isCombinedEquipmentSelected = false;
 
     $scope.getAllEquipments = function () {
         let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
@@ -45,7 +47,12 @@ app.controller('CombinedEquipmentEquipmentController', function (
   $scope.changeCombinedEquipment=function(item,model){
   	$scope.currentCombinedEquipment=item;
   	$scope.currentCombinedEquipment.selected=model;
-  	$scope.getEquipmentsByCombinedEquipmentID($scope.currentCombinedEquipment.id);
+  	if (item && item.id) {
+  	    $scope.isCombinedEquipmentSelected = true;
+  	    $scope.getEquipmentsByCombinedEquipmentID($scope.currentCombinedEquipment.id);
+  	} else {
+  	    $scope.isCombinedEquipmentSelected = false;
+  	}
   };
 
   $scope.getAllCombinedEquipments = function () {
@@ -60,6 +67,10 @@ app.controller('CombinedEquipmentEquipmentController', function (
   };
 
     $scope.pairEquipment = function (dragEl, dropEl) {
+        if (!$scope.isCombinedEquipmentSelected || !$scope.currentCombinedEquipment || !$scope.currentCombinedEquipment.id) {
+            DragDropWarningService.showWarning("SETTING.PLEASE_SELECT_COMBINED_EQUIPMENT_FIRST");
+            return;
+        }
         var equipmentid = angular.element('#' + dragEl).scope().equipment.id;
         var combinedequipmentid = $scope.currentCombinedEquipment.id;
         let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
@@ -86,6 +97,10 @@ app.controller('CombinedEquipmentEquipmentController', function (
 
     $scope.deleteEquipmentPair = function (dragEl, dropEl) {
         if (angular.element('#' + dragEl).hasClass('source')) {
+            return;
+        }
+        if (!$scope.isCombinedEquipmentSelected || !$scope.currentCombinedEquipment || !$scope.currentCombinedEquipment.id) {
+            DragDropWarningService.showWarning("SETTING.PLEASE_SELECT_COMBINED_EQUIPMENT_FIRST");
             return;
         }
         var combinedequipmentequipmentid = angular.element('#' + dragEl).scope().combinedequipmentequipment.id;
@@ -140,4 +155,13 @@ app.controller('CombinedEquipmentEquipmentController', function (
           $scope.getAllCombinedEquipments();
       }
   	});
+
+    // Register drag and drop warning event listeners
+    // Use registerTabWarnings to avoid code duplication
+    DragDropWarningService.registerTabWarnings(
+            $scope,
+            'BIND_EQUIPMENT',
+            'SETTING.PLEASE_SELECT_COMBINED_EQUIPMENT_FIRST',
+            { BIND_EQUIPMENT: 1 }
+        );
 });

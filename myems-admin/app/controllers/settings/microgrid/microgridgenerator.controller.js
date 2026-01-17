@@ -67,7 +67,7 @@ app.controller('MicrogridGeneratorController', function(
   		MicrogridGeneratorService.getMicrogridGeneratorsByMicrogridID(id, headers, function (response) {
 			if (angular.isDefined(response.status) && response.status === 200) {
 				$scope.microgridgenerators = response.data;
-				 console.log("微电网发电机模块对应内容：", $scope.microgridgenerators);
+				 console.log("Microgrid generator module content:", $scope.microgridgenerators);
 			} else {
           	$scope.microgridgenerators=[];
         	}

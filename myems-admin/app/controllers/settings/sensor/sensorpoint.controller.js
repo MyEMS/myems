@@ -10,10 +10,12 @@ app.controller('SensorPointController', function (
     PointService,
     SensorPointService,
     toaster,
-    SweetAlert) {
+    SweetAlert,
+    DragDropWarningService) {
 
     $scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
     $scope.currentSensor = { selected: undefined };
+    $scope.isSensorSelected = false;
 
     $scope.getAllDataSources = function () {
         let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
@@ -65,7 +67,12 @@ app.controller('SensorPointController', function (
     $scope.changeSensor = function (item, model) {
         $scope.currentSensor = item;
         $scope.currentSensor.selected = model;
-        $scope.getPointsBySensorID($scope.currentSensor.id);
+        if (item && item.id) {
+            $scope.isSensorSelected = true;
+            $scope.getPointsBySensorID($scope.currentSensor.id);
+        } else {
+            $scope.isSensorSelected = false;
+        }
     };
 
     $scope.changeDataSource = function (item, model) {
@@ -79,7 +86,8 @@ app.controller('SensorPointController', function (
             if (angular.isDefined(response.status) && response.status === 200) {
                 $scope.sensors = response.data;
                 $timeout(function () {
-                    if ($scope.currentSensor.id) {
+                    if ($scope.currentSensor && $scope.currentSensor.id) {
+                        $scope.isSensorSelected = true;
                         $scope.getPointsBySensorID($scope.currentSensor.id);
                     }
                 }, 1000);
@@ -90,6 +98,10 @@ app.controller('SensorPointController', function (
     };
 
     $scope.pairPoint = function (dragEl, dropEl) {
+        if (!$scope.isSensorSelected || !$scope.currentSensor || !$scope.currentSensor.id) {
+            DragDropWarningService.showWarning("SETTING.PLEASE_SELECT_SENSOR_FIRST");
+            return;
+        }
         var pointid = angular.element('#' + dragEl).scope().point.id;
         var sensorid = $scope.currentSensor.id;
         let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
@@ -115,6 +127,10 @@ app.controller('SensorPointController', function (
 
     $scope.deletePointPair = function (dragEl, dropEl) {
         if (angular.element('#' + dragEl).hasClass('source')) {
+            return;
+        }
+        if (!$scope.isSensorSelected || !$scope.currentSensor || !$scope.currentSensor.id) {
+            DragDropWarningService.showWarning("SETTING.PLEASE_SELECT_SENSOR_FIRST");
             return;
         }
         var sensorpointid = angular.element('#' + dragEl).scope().sensorpoint.id;
@@ -146,4 +162,13 @@ app.controller('SensorPointController', function (
     $scope.$on('handleBroadcastSensorChanged', function (event) {
         $scope.getAllSensors();
     });
+
+    // Register drag and drop warning event listeners
+    // Use registerTabWarnings to avoid code duplication
+    DragDropWarningService.registerTabWarnings(
+        $scope,
+        'BIND_POINT',
+        'SETTING.PLEASE_SELECT_SENSOR_FIRST',
+        { BIND_POINT: 1 }
+    );
 });
