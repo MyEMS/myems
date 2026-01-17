@@ -82,14 +82,14 @@
 											{{currentEquipment.name}}{{'SETTING.N_S_METER' | translate}}
 										</div>
 										<div class="panel-body maxheight"
-									        x-hjc-drop-target="true"
+									        x-hjc-drop-target="{{isEquipmentSelected ? 'true' : 'false'}}"
 										    x-on-drop="pairMeter(dragEl,dropEl)"
 										    uib-tooltip="{{'SETTING.DRAG_TO_UNBIND' | translate}}" >
 
 										<div class="btn btn-rounded btn-block"
 										ng-class="colorMeterType(equipmentmeter.metertype)"
 										ng-repeat="equipmentmeter in equipmentmeters"
-										x-hjc-draggable="true"
+										x-hjc-draggable="{{isEquipmentSelected ? 'true' : 'false'}}"
 										title="{{equipmentmeter.metertype}}|output:{{equipmentmeter.is_output}}">({{equipmentmeter.energy_category.name}}){{equipmentmeter.name}}</div>
 									</div>
 								</div>
@@ -100,7 +100,7 @@
 									<div class="panel-body trash" >
 										<img class="trashcan"
 										src="img/trashcan.png"
-										x-hjc-drop-target="true"
+										x-hjc-drop-target="{{isEquipmentSelected ? 'true' : 'false'}}"
 										x-on-drop="deleteMeterPair(dragEl,dropEl)">
 									</div>
 								</div>
@@ -123,7 +123,7 @@
 										</div>
 										<div class="source btn btn-primary btn-rounded btn-block"
 										ng-repeat="meter in currentmeters"
-										x-hjc-draggable="true"
+										x-hjc-draggable="{{isEquipmentSelected ? 'true' : 'false'}}"
 										ng-class="colorMeterType(currentMeterType)"
 										> ({{meter.energy_category.name}}){{meter.name}}</div>
 									</div>
@@ -163,14 +163,14 @@
                                                                                         {{currentEquipment.name}}{{'SETTING.N_S_DATA_SOURCE' | translate}}
                                                                                 </div>
                                                                                 <div class="panel-body"
-                                                                                         x-hjc-drop-target="true"
+                                                                                         x-hjc-drop-target="{{isEquipmentSelected ? 'true' : 'false'}}"
                                                                                          x-on-drop="pairDataSource(dragEl,dropEl)"
                                                                                          uib-tooltip="{{'SETTING.DRAG_TO_UNBIND' | translate}}">
 
                                                                                         <div class="btn btn-primary btn-rounded btn-block"
                                                                                                  title="{{'COMMON.EQUIPMENT' | translate}}:{{equipmentdatasources.name}}"
                                                                                                  ng-repeat="equipmentdatasource in equipmentdatasources"
-                                                                                                 x-hjc-draggable="true">
+                                                                                                 x-hjc-draggable="{{isEquipmentSelected ? 'true' : 'false'}}">
                                                                                                 {{equipmentdatasource.name}}
                                                                                         </div>
                                                                                 </div>
@@ -182,7 +182,7 @@
                                                                                 <div class="panel-body trash">
                                                                                         <img class="trashcan"
                                                                                                  src="img/trashcan.png"
-                                                                                                 x-hjc-drop-target="true"
+                                                                                                 x-hjc-drop-target="{{isEquipmentSelected ? 'true' : 'false'}}"
                                                                                                  x-on-drop="deleteDataSourcePair(dragEl,dropEl)">
                                                                                 </div>
                                                                         </div>
@@ -197,7 +197,7 @@
                                                                                         <h5>{{'SETTING.DATA_SOURCE_LIST' | translate}}</h5>
                                                                                         <div class="source btn btn-info btn-rounded btn-block"
                                                                                                  ng-repeat="datasource in datasources"
-                                                                                                 x-hjc-draggable="true">
+                                                                                                 x-hjc-draggable="{{isEquipmentSelected ? 'true' : 'false'}}">
                                                                                                 {{datasource.name}}
                                                                                         </div>
                                                                                 </div>
@@ -314,11 +314,11 @@
 											{{'SETTING.N_S_COMMAND' | translate}}
 										</div>
 										<div class="panel-body maxheight"
-											x-hjc-drop-target="true"
+											x-hjc-drop-target="{{isEquipmentSelected ? 'true' : 'false'}}"
 											x-on-drop="pairCommand(dragEl,dropEl)"
 											uib-tooltip="{{'SETTING.DRAG_TO_UNBIND' | translate}}">
 											<div class="btn btn-primary btn-rounded btn-block"
-												ng-repeat="equipmentcommand in equipmentcommands" x-hjc-draggable="true"
+												ng-repeat="equipmentcommand in equipmentcommands" x-hjc-draggable="{{isEquipmentSelected ? 'true' : 'false'}}"
 												title="{{equipmentcommand.name}}">
 												{{equipmentcommand.name}}</div>
 										</div>
@@ -328,7 +328,7 @@
 											{{'SETTING.TRASH' | translate}}
 										</div>
 										<div class="panel-body trash">
-											<img class="trashcan" src="img/trashcan.png" x-hjc-drop-target="true"
+											<img class="trashcan" src="img/trashcan.png" x-hjc-drop-target="{{isEquipmentSelected ? 'true' : 'false'}}"
 												x-on-drop="deleteCommandPair(dragEl,dropEl)">
 										</div>
 
@@ -344,7 +344,7 @@
 										<div class="panel-body" uib-tooltip="{{'SETTING.DRAG_TO_BIND' | translate}}"
 											slim-scroll box-height="765px">
 											<div class="source btn btn-primary btn-rounded btn-block"
-												ng-repeat="command in commands" x-hjc-draggable="true">
+												ng-repeat="command in commands" x-hjc-draggable="{{isEquipmentSelected ? 'true' : 'false'}}">
 												{{command.name}}</div>
 										</div>
 									</div>

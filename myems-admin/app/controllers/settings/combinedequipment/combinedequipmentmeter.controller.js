@@ -13,9 +13,13 @@ app.controller('CombinedEquipmentMeterController', function (
     CombinedEquipmentMeterService,
     CombinedEquipmentService,
     toaster,
+    DragDropWarningService,
     SweetAlert) {
     $scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
     $scope.currentCombinedEquipment = { selected: undefined };
+    $scope.isCombinedEquipmentSelected = false;
+    $scope.currentMeterType = "meters";
+    $scope.currentmeters = [];
 
     $scope.getAllCombinedEquipments = function (id) {
         let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
@@ -31,7 +35,12 @@ app.controller('CombinedEquipmentMeterController', function (
     $scope.changeCombinedEquipment = function (item, model) {
         $scope.currentCombinedEquipment = item;
         $scope.currentCombinedEquipment.selected = model;
-        $scope.getMetersByCombinedEquipmentID($scope.currentCombinedEquipment.id);
+        if (item && item.id) {
+            $scope.isCombinedEquipmentSelected = true;
+            $scope.getMetersByCombinedEquipmentID($scope.currentCombinedEquipment.id);
+        } else {
+            $scope.isCombinedEquipmentSelected = false;
+        }
     };
 
     $scope.getMetersByCombinedEquipmentID = function (id) {
@@ -63,14 +72,16 @@ app.controller('CombinedEquipmentMeterController', function (
     $scope.changeMeterType = function () {
         switch ($scope.currentMeterType) {
             case 'meters':
-                $scope.currentmeters = $scope.meters;
+                $scope.currentmeters = $scope.meters || [];
                 break;
             case 'virtualmeters':
-                $scope.currentmeters = $scope.virtualmeters;
+                $scope.currentmeters = $scope.virtualmeters || [];
                 break;
             case 'offlinemeters':
-                $scope.currentmeters = $scope.offlinemeters;
+                $scope.currentmeters = $scope.offlinemeters || [];
                 break;
+            default:
+                $scope.currentmeters = [];
         }
     };
 
@@ -81,11 +92,10 @@ app.controller('CombinedEquipmentMeterController', function (
             if (angular.isDefined(response.status) && response.status === 200) {
                 $scope.meters = response.data;
                 $scope.currentMeterType = "meters";
-                $timeout(function () {
-                    $scope.changeMeterType();
-                }, 1000);
+                $scope.changeMeterType();
             } else {
                 $scope.meters = [];
+                $scope.currentmeters = [];
             }
         });
 
@@ -97,6 +107,9 @@ app.controller('CombinedEquipmentMeterController', function (
         OfflineMeterService.getAllOfflineMeters(headers, function (response) {
             if (angular.isDefined(response.status) && response.status === 200) {
                 $scope.offlinemeters = response.data;
+                if ($scope.currentMeterType === 'offlinemeters') {
+                    $scope.changeMeterType();
+                }
             } else {
                 $scope.offlinemeters = [];
             }
@@ -109,6 +122,9 @@ app.controller('CombinedEquipmentMeterController', function (
         VirtualMeterService.getAllVirtualMeters(headers, function (response) {
             if (angular.isDefined(response.status) && response.status === 200) {
                 $scope.virtualmeters = response.data;
+                if ($scope.currentMeterType === 'virtualmeters') {
+                    $scope.changeMeterType();
+                }
             } else {
                 $scope.virtualmeters = [];
             }
@@ -117,6 +133,10 @@ app.controller('CombinedEquipmentMeterController', function (
     };
 
     $scope.pairMeter = function (dragEl, dropEl) {
+        if (!$scope.isCombinedEquipmentSelected || !$scope.currentCombinedEquipment || !$scope.currentCombinedEquipment.id) {
+            DragDropWarningService.showWarning("SETTING.PLEASE_SELECT_COMBINED_EQUIPMENT_FIRST");
+            return;
+        }
         var tem_uuid = angular.element('#' + dragEl);
         if (angular.isDefined(tem_uuid.scope().combinedequipmentmeter)) {
             return;
@@ -157,6 +177,10 @@ app.controller('CombinedEquipmentMeterController', function (
 
     $scope.deleteMeterPair = function (dragEl, dropEl) {
         if (angular.element('#' + dragEl).hasClass('source')) {
+            return;
+        }
+        if (!$scope.isCombinedEquipmentSelected || !$scope.currentCombinedEquipment || !$scope.currentCombinedEquipment.id) {
+            DragDropWarningService.showWarning("SETTING.PLEASE_SELECT_COMBINED_EQUIPMENT_FIRST");
             return;
         }
         var combinedequipmentmeterid = angular.element('#' + dragEl).scope().combinedequipmentmeter.id;
@@ -213,6 +237,15 @@ app.controller('CombinedEquipmentMeterController', function (
             $scope.getAllCombinedEquipments();
         }
     });
+
+    // Register drag and drop warning event listeners
+    // Use registerTabWarnings to avoid code duplication
+    DragDropWarningService.registerTabWarnings(
+            $scope,
+            'BIND_METER',
+            'SETTING.PLEASE_SELECT_COMBINED_EQUIPMENT_FIRST',
+            { BIND_METER: 2 }
+        );
 });
 
 app.controller('ModalEditCombinedEquipmentMeterCtrl', function ($scope, $uibModalInstance) {

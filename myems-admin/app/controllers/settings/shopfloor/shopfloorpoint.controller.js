@@ -9,10 +9,12 @@ app.controller('ShopfloorPointController', function (
     PointService,
     ShopfloorPointService,
     toaster,
-    SweetAlert
+    SweetAlert,
+    DragDropWarningService
 ) {
     $scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
     $scope.currentShopfloor = { selected: undefined };
+    $scope.isShopfloorSelected = false;
 
     $scope.getAllDataSources = function () {
         let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
@@ -63,7 +65,12 @@ app.controller('ShopfloorPointController', function (
     $scope.changeShopfloor = function (item, model) {
         $scope.currentShopfloor = item;
         $scope.currentShopfloor.selected = model;
-        $scope.getPointsByShopfloorID($scope.currentShopfloor.id);
+        if (item && item.id) {
+            $scope.isShopfloorSelected = true;
+            $scope.getPointsByShopfloorID($scope.currentShopfloor.id);
+        } else {
+            $scope.isShopfloorSelected = false;
+        }
     };
 
     $scope.changeDataSource = function (item, model) {
@@ -88,6 +95,10 @@ app.controller('ShopfloorPointController', function (
     };
 
     $scope.pairPoint = function (dragEl, dropEl) {
+        if (!$scope.isShopfloorSelected || !$scope.currentShopfloor || !$scope.currentShopfloor.id) {
+            DragDropWarningService.showWarning("SETTING.PLEASE_SELECT_SHOPFLOOR_FIRST");
+            return;
+        }
         var pointid = angular.element('#' + dragEl).scope().point.id;
         var shopfloorid = $scope.currentShopfloor.id;
         let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
@@ -113,6 +124,10 @@ app.controller('ShopfloorPointController', function (
 
     $scope.deletePointPair = function (dragEl, dropEl) {
         if (angular.element('#' + dragEl).hasClass('source')) {
+            return;
+        }
+        if (!$scope.isShopfloorSelected || !$scope.currentShopfloor || !$scope.currentShopfloor.id) {
+            DragDropWarningService.showWarning("SETTING.PLEASE_SELECT_SHOPFLOOR_FIRST");
             return;
         }
         var shopfloorpointid = angular.element('#' + dragEl).scope().shopfloorpoint.id;
@@ -144,4 +159,13 @@ app.controller('ShopfloorPointController', function (
     $scope.$on('handleBroadcastShopfloorChanged', function (event) {
         $scope.getAllShopfloors();
     });
+
+    // Register drag and drop warning event listeners
+    // Use registerTabWarnings to avoid code duplication
+    DragDropWarningService.registerTabWarnings(
+            $scope,
+            'BIND_POINT',
+            'SETTING.PLEASE_SELECT_SHOPFLOOR_FIRST',
+            { BIND_POINT: 3 }
+        );
 });

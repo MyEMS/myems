@@ -174,7 +174,7 @@
 										</div>
 										<div class="source btn btn-primary btn-rounded btn-block"
 										ng-repeat="meter in currentmeters"
-										x-hjc-draggable="true"
+										x-hjc-draggable="{{isStoreSelected ? 'true' : 'false'}}"
 										ng-class="colorMeterType(currentMeterType)"
 										> ({{meter.energy_category.name}}){{meter.name}}</div>
 									</div>
@@ -253,7 +253,7 @@
 											<h5>{{'SETTING.POINT_LIST' | translate}}</h5>
 											<div class="source btn btn-info btn-rounded btn-block"
 											ng-repeat="point in points"
-											x-hjc-draggable="true"> {{point.name}}</div>
+											x-hjc-draggable="{{isStoreSelected ? 'true' : 'false'}}"> {{point.name}}</div>
 										</div>
 									</div>
 								</div>
@@ -321,7 +321,7 @@
 											<h5>{{'SETTING.SENSOR_LIST' | translate}}</h5>
 											<div class="source btn btn-info btn-rounded btn-block"
 											ng-repeat="sensor in sensors"
-											x-hjc-draggable="true"> {{sensor.name}}</div>
+											x-hjc-draggable="{{isStoreSelected ? 'true' : 'false'}}"> {{sensor.name}}</div>
 										</div>
 									</div>
 								</div>
@@ -394,7 +394,7 @@
 										<div class="panel-body" uib-tooltip="{{'SETTING.DRAG_TO_BIND' | translate}}"
 											slim-scroll box-height="765px">
 											<div class="source btn btn-primary btn-rounded btn-block"
-												ng-repeat="workingcalendar in workingcalendars" x-hjc-draggable="true">
+												ng-repeat="workingcalendar in workingcalendars" x-hjc-draggable="{{isStoreSelected ? 'true' : 'false'}}">
 												{{workingcalendar.name}}</div>
 										</div>
 									</div>
@@ -468,7 +468,7 @@
 										<div class="panel-body" uib-tooltip="{{'SETTING.DRAG_TO_BIND' | translate}}"
 											slim-scroll box-height="765px">
 											<div class="source btn btn-primary btn-rounded btn-block"
-												ng-repeat="command in commands" x-hjc-draggable="true">
+												ng-repeat="command in commands" x-hjc-draggable="{{isStoreSelected ? 'true' : 'false'}}">
 												{{command.name}}</div>
 										</div>
 									</div>

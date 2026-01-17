@@ -10,9 +10,13 @@ app.controller('TenantMeterController', function(
     OfflineMeterService,
     TenantMeterService,
     TenantService,
-    toaster) {
+    toaster,
+    DragDropWarningService) {
     $scope.currentTenant = {selected:undefined};
 	$scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
+	$scope.isTenantSelected = false;
+	$scope.currentMeterType = "meters";
+	$scope.currentmeters = [];
 	  $scope.getAllTenants = function(id) {
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 		TenantService.getAllTenants(headers, function (response) {
@@ -27,7 +31,12 @@ app.controller('TenantMeterController', function(
 	$scope.changeTenant=function(item,model){
 		$scope.currentTenant=item;
 		$scope.currentTenant.selected=model;
-		$scope.getMetersByTenantID($scope.currentTenant.id);
+		if (item && item.id) {
+		    $scope.isTenantSelected = true;
+		    $scope.getMetersByTenantID($scope.currentTenant.id);
+		} else {
+		    $scope.isTenantSelected = false;
+		}
 	};
 
 	$scope.getMetersByTenantID = function(id) {
@@ -59,14 +68,16 @@ app.controller('TenantMeterController', function(
 	$scope.changeMeterType=function(){
 		switch($scope.currentMeterType){
 			case 'meters':
-				$scope.currentmeters=$scope.meters;
+				$scope.currentmeters=$scope.meters || [];
 				break;
 			case 'virtualmeters':
-				$scope.currentmeters=$scope.virtualmeters;
+				$scope.currentmeters=$scope.virtualmeters || [];
 				break;
 			case  'offlinemeters':
-				$scope.currentmeters=$scope.offlinemeters;
+				$scope.currentmeters=$scope.offlinemeters || [];
 				break;
+			default:
+				$scope.currentmeters = [];
 		}
 	};
 
@@ -77,11 +88,10 @@ app.controller('TenantMeterController', function(
 			if (angular.isDefined(response.status) && response.status === 200) {
 				$scope.meters = response.data;
 				$scope.currentMeterType="meters";
-				$timeout(function(){
-					$scope.changeMeterType();
-				},1000);
+				$scope.changeMeterType();
 			} else {
 				$scope.meters = [];
+				$scope.currentmeters = [];
 			}
 		});
 
@@ -93,6 +103,9 @@ app.controller('TenantMeterController', function(
 		OfflineMeterService.getAllOfflineMeters(headers, function (response) {
 			if (angular.isDefined(response.status) && response.status === 200) {
 				$scope.offlinemeters = response.data;
+				if ($scope.currentMeterType === 'offlinemeters') {
+					$scope.changeMeterType();
+				}
 			} else {
 				$scope.offlinemeters = [];
 			}
@@ -105,6 +118,9 @@ app.controller('TenantMeterController', function(
 		VirtualMeterService.getAllVirtualMeters(headers, function (response) {
 			if (angular.isDefined(response.status) && response.status === 200) {
 				$scope.virtualmeters = response.data;
+				if ($scope.currentMeterType === 'virtualmeters') {
+					$scope.changeMeterType();
+				}
 			} else {
 				$scope.virtualmeters = [];
 			}
@@ -113,6 +129,10 @@ app.controller('TenantMeterController', function(
 	};
 
 	$scope.pairMeter=function(dragEl,dropEl){
+		if (!$scope.isTenantSelected || !$scope.currentTenant || !$scope.currentTenant.id) {
+		    DragDropWarningService.showWarning("SETTING.PLEASE_SELECT_TENANT_FIRST");
+		    return;
+		}
 		var meterid=angular.element('#'+dragEl).scope().meter.id;
 		var tenantid=$scope.currentTenant.id;
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
@@ -140,6 +160,10 @@ app.controller('TenantMeterController', function(
         if (angular.element('#' + dragEl).hasClass('source')) {
             return;
         }
+        if (!$scope.isTenantSelected || !$scope.currentTenant || !$scope.currentTenant.id) {
+            DragDropWarningService.showWarning("SETTING.PLEASE_SELECT_TENANT_FIRST");
+            return;
+        }
         var tenantmeterid = angular.element('#' + dragEl).scope().tenantmeter.id;
         var tenantid = $scope.currentTenant.id;
         var metertype = angular.element('#' + dragEl).scope().tenantmeter.metertype;
@@ -156,7 +180,7 @@ app.controller('TenantMeterController', function(
             } else {
                 toaster.pop({
                     type: "error",
-                    title: $translate.instant(erresponse.dataror.title),
+                    title: $translate.instant(response.data.title),
                     body: $translate.instant(response.data.description),
                     showCloseButton: true,
                 });
@@ -172,5 +196,14 @@ app.controller('TenantMeterController', function(
 	$scope.$on('handleBroadcastTenantChanged', function(event) {
     $scope.getAllTenants();
 	});
+
+    // Register drag and drop warning event listeners
+    // Use registerTabWarnings to avoid code duplication
+    DragDropWarningService.registerTabWarnings(
+        $scope,
+        'BIND_METER',
+        'SETTING.PLEASE_SELECT_TENANT_FIRST',
+        { BIND_METER: 2 }
+    );
 
 });

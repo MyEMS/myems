@@ -10,10 +10,12 @@ app.controller('ShopfloorMeterController', function(
     OfflineMeterService,
     ShopfloorMeterService,
     ShopfloorService,
-    toaster) {
+    toaster,
+    DragDropWarningService) {
     $scope.currentShopfloor = { selected: undefined };
     $scope.currentMeterType = "meters";
     $scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
+    $scope.isShopfloorSelected = false;
       
     $scope.getAllShopfloors = function() {
         let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
@@ -30,8 +32,10 @@ app.controller('ShopfloorMeterController', function(
         $scope.currentShopfloor = item;
         $scope.currentShopfloor.selected = model;
         if ($scope.currentShopfloor && $scope.currentShopfloor.id) {
+            $scope.isShopfloorSelected = true;
             $scope.getMetersByShopfloorID($scope.currentShopfloor.id);
         } else {
+            $scope.isShopfloorSelected = false;
             $scope.shopfloormeters = [];
             $scope.filterAvailableMeters();
         }
@@ -145,6 +149,10 @@ app.controller('ShopfloorMeterController', function(
     };
 
     $scope.pairMeter = function(dragEl, dropEl){
+        if (!$scope.isShopfloorSelected || !$scope.currentShopfloor || !$scope.currentShopfloor.id) {
+            DragDropWarningService.showWarning("SETTING.PLEASE_SELECT_SHOPFLOOR_FIRST");
+            return;
+        }
         var meterid = angular.element('#' + dragEl).scope().meter.id;
         var shopfloorid = $scope.currentShopfloor.id;
         let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
@@ -170,6 +178,10 @@ app.controller('ShopfloorMeterController', function(
 
     $scope.deleteMeterPair = function (dragEl, dropEl) {
         if (angular.element('#' + dragEl).hasClass('source')) return;
+        if (!$scope.isShopfloorSelected || !$scope.currentShopfloor || !$scope.currentShopfloor.id) {
+            DragDropWarningService.showWarning("SETTING.PLEASE_SELECT_SHOPFLOOR_FIRST");
+            return;
+        }
         var shopfloormeterid = angular.element('#' + dragEl).scope().shopfloormeter.id;
         var shopfloorid = $scope.currentShopfloor.id;
         var metertype = angular.element('#' + dragEl).scope().shopfloormeter.metertype;
@@ -202,4 +214,13 @@ app.controller('ShopfloorMeterController', function(
     $scope.$on('handleBroadcastShopfloorChanged', function() {
         $scope.getAllShopfloors();
     });
+
+    // Register drag and drop warning event listeners
+    // Use registerTabWarnings to avoid code duplication
+    DragDropWarningService.registerTabWarnings(
+            $scope,
+            'BIND_METER',
+            'SETTING.PLEASE_SELECT_SHOPFLOOR_FIRST',
+            { BIND_METER: 1 }
+        );
 });

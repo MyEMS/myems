@@ -2,8 +2,8 @@
 	<div class="row">
 		<div class="col-lg-12">
 			<div class="tabs-container">
-				<uib-tabset>
-					<uib-tab heading="{{'COMMON.SHOPFLOOR' | translate}}">
+				<uib-tabset active="activeTabIndex">
+					<uib-tab heading="{{'COMMON.SHOPFLOOR' | translate}}" index="0" select="handleTabSelect(0)">
 						<div class="panel-body" ng-controller="ShopfloorController">
                                                         <div class="col-md-3">
 							    <a ng-click="addShopfloor()" class="btn btn-primary btn-rounded  btn-outline" href="">
@@ -63,7 +63,7 @@
 							</table>
 						</div>
 					</uib-tab>
-					<uib-tab heading="{{'SETTING.BIND_METER' | translate}}">
+					<uib-tab heading="{{'SETTING.BIND_METER' | translate}}" index="1" select="handleTabSelect(1)">
 						<div class="panel-body" ng-controller="ShopfloorMeterController">
 							<div class="row">
 								<div class="col-lg-3">
@@ -98,13 +98,13 @@
 											{{currentShopfloor.name}}{{'SETTING.N_S_METER' | translate}}
 										</div>
 										<div class="panel-body maxheight"
-										    x-hjc-drop-target="true"
+										    x-hjc-drop-target="{{isShopfloorSelected ? 'true' : 'false'}}"
 											x-on-drop="pairMeter(dragEl,dropEl)"
 											uib-tooltip="{{'SETTING.DRAG_TO_UNBIND' | translate}}">
 
 											<div class="btn btn-rounded btn-block"
 												ng-class="colorMeterType(shopfloormeter.metertype)"
-												ng-repeat="shopfloormeter in shopfloormeters" x-hjc-draggable="true"
+												ng-repeat="shopfloormeter in shopfloormeters" x-hjc-draggable="{{isShopfloorSelected ? 'true' : 'false'}}"
 												title="{{shopfloormeter.metertype}}">
 												({{shopfloormeter.energy_category.name}}){{shopfloormeter.name}}</div>
 										</div>
@@ -114,7 +114,7 @@
 											{{'SETTING.TRASH' | translate}}
 										</div>
 										<div class="panel-body trash">
-											<img class="trashcan" src="img/trashcan.png" x-hjc-drop-target="true"
+											<img class="trashcan" src="img/trashcan.png" x-hjc-drop-target="{{isShopfloorSelected ? 'true' : 'false'}}"
 												x-on-drop="deleteMeterPair(dragEl,dropEl)">
 										</div>
 									</div>
@@ -140,7 +140,7 @@
 												</select>
 											</div>
 											<div class="source btn btn-primary btn-rounded btn-block"
-												ng-repeat="meter in currentmeters" x-hjc-draggable="true"
+												ng-repeat="meter in currentmeters" x-hjc-draggable="{{isShopfloorSelected ? 'true' : 'false'}}"
 												ng-class="colorMeterType(currentMeterType)">
 												({{meter.energy_category.name}}){{meter.name}}</div>
 										</div>
@@ -149,7 +149,7 @@
 							</div>
 						</div>
 					</uib-tab>
-					<uib-tab heading="{{'SHOPFLOOR.BIND_EQUIPMENT' | translate}}">
+					<uib-tab heading="{{'SHOPFLOOR.BIND_EQUIPMENT' | translate}}" index="2" select="handleTabSelect(2)">
 						<div class="panel-body" ng-controller="ShopfloorEquipmentController">
 							<div class="row">
 								<div class="col-lg-3">
@@ -184,13 +184,13 @@
 											{{currentShopfloor.name}}{{'SHOPFLOOR.N_S_EQUIPMENT' | translate}}
 										</div>
 										<div class="panel-body maxheight"
-										    x-hjc-drop-target="true"
+										    x-hjc-drop-target="{{isShopfloorSelected ? 'true' : 'false'}}"
 											x-on-drop="pairEquipment(dragEl,dropEl)"
 											uib-tooltip="{{'SETTING.DRAG_TO_UNBIND' | translate}}">
 											<div class="btn btn-primary btn-rounded btn-block"
 												title="{{shopfloorequipment.name}}"
 												ng-repeat="shopfloorequipment in shopfloorequipments"
-												x-hjc-draggable="true"> {{shopfloorequipment.name}}</div>
+												x-hjc-draggable="{{isShopfloorSelected ? 'true' : 'false'}}"> {{shopfloorequipment.name}}</div>
 										</div>
 									</div>
 									<div class="panel panel-danger">
@@ -198,7 +198,7 @@
 											{{'SETTING.TRASH' | translate}}
 										</div>
 										<div class="panel-body trash">
-											<img class="trashcan" src="img/trashcan.png" x-hjc-drop-target="true"
+											<img class="trashcan" src="img/trashcan.png" x-hjc-drop-target="{{isShopfloorSelected ? 'true' : 'false'}}"
 												x-on-drop="deleteEquipmentPair(dragEl,dropEl)">
 										</div>
 
@@ -213,7 +213,7 @@
 										<div class="panel-body" uib-tooltip="{{'SETTING.DRAG_TO_BIND' | translate}}"
 											slim-scroll box-height="765px">
 											<div class="source btn btn-info btn-rounded btn-block"
-												ng-repeat="equipment in equipments" x-hjc-draggable="true">
+												ng-repeat="equipment in equipments" x-hjc-draggable="{{isShopfloorSelected ? 'true' : 'false'}}">
 												{{equipment.name}}
 											</div>
 										</div>
@@ -222,7 +222,7 @@
 							</div>
 						</div>
 					</uib-tab>
-					<uib-tab heading="{{'SETTING.BIND_POINT' | translate}}">
+					<uib-tab heading="{{'SETTING.BIND_POINT' | translate}}" index="3" select="handleTabSelect(3)">
 						<div class="panel-body" ng-controller="ShopfloorPointController">
 							<div class="row">
 								<div class="col-lg-3">
@@ -257,12 +257,12 @@
 											{{currentShopfloor.name}}{{'SETTING.N_S_POINT' | translate}}
 										</div>
 										<div class="panel-body maxheight"
-										    x-hjc-drop-target="true"
+										    x-hjc-drop-target="{{isShopfloorSelected ? 'true' : 'false'}}"
 											x-on-drop="pairPoint(dragEl,dropEl)"
 											uib-tooltip="{{'SETTING.DRAG_TO_UNBIND' | translate}}">
 											<div class="btn btn-primary btn-rounded btn-block"
 												title="{{'COMMON.SHOPFLOOR' | translate}}:{{shopfloorpoint.data_source.name}}"
-												ng-repeat="shopfloorpoint in shopfloorpoints" x-hjc-draggable="true">
+												ng-repeat="shopfloorpoint in shopfloorpoints" x-hjc-draggable="{{isShopfloorSelected ? 'true' : 'false'}}">
 												{{shopfloorpoint.name}}
 											</div>
 										</div>
@@ -272,7 +272,7 @@
 											{{'SETTING.TRASH' | translate}}
 										</div>
 										<div class="panel-body trash">
-											<img class="trashcan" src="img/trashcan.png" x-hjc-drop-target="true"
+											<img class="trashcan" src="img/trashcan.png" x-hjc-drop-target="{{isShopfloorSelected ? 'true' : 'false'}}"
 												x-on-drop="deletePointPair(dragEl,dropEl)">
 										</div>
 									</div>
@@ -303,14 +303,14 @@
 											</form>
 											<h5>{{'SETTING.POINT_LIST' | translate}}</h5>
 											<div class="source btn btn-info btn-rounded btn-block"
-												ng-repeat="point in points" x-hjc-draggable="true"> {{point.name}}</div>
+												ng-repeat="point in points" x-hjc-draggable="{{isShopfloorSelected ? 'true' : 'false'}}"> {{point.name}}</div>
 										</div>
 									</div>
 								</div>
 							</div>
 						</div>
 					</uib-tab>
-					<uib-tab heading="{{'SETTING.BIND_SENSOR' | translate}}">
+					<uib-tab heading="{{'SETTING.BIND_SENSOR' | translate}}" index="4" select="handleTabSelect(4)">
 						<div class="panel-body" ng-controller="ShopfloorSensorController">
 							<div class="row">
 								<div class="col-lg-3">
@@ -345,12 +345,12 @@
 											{{currentShopfloor.name}}{{'SETTING.N_S_SENSOR' | translate}}
 										</div>
 										<div class="panel-body maxheight"
-										    x-hjc-drop-target="true"
+										    x-hjc-drop-target="{{isShopfloorSelected ? 'true' : 'false'}}"
 											x-on-drop="pairSensor(dragEl,dropEl)"
 											uib-tooltip="{{'SETTING.DRAG_TO_UNBIND' | translate}}">
 											<div class="btn btn-primary btn-rounded btn-block"
 												title="{{'COMMON.SHOPFLOOR' | translate}}:{{shopfloorsensor.data_source.name}}"
-												ng-repeat="shopfloorsensor in shopfloorsensors" x-hjc-draggable="true">
+												ng-repeat="shopfloorsensor in shopfloorsensors" x-hjc-draggable="{{isShopfloorSelected ? 'true' : 'false'}}">
 												{{shopfloorsensor.name}}
 											</div>
 										</div>
@@ -360,7 +360,7 @@
 											{{'SETTING.TRASH' | translate}}
 										</div>
 										<div class="panel-body trash">
-											<img class="trashcan" src="img/trashcan.png" x-hjc-drop-target="true"
+											<img class="trashcan" src="img/trashcan.png" x-hjc-drop-target="{{isShopfloorSelected ? 'true' : 'false'}}"
 												x-on-drop="deleteSensorPair(dragEl,dropEl)">
 										</div>
 									</div>
@@ -374,7 +374,7 @@
 											uib-tooltip="{{'SETTING.DRAG_TO_BIND' | translate}}">
 											<h5>{{'SETTING.SENSOR_LIST' | translate}}</h5>
 											<div class="source btn btn-info btn-rounded btn-block"
-												ng-repeat="sensor in sensors" x-hjc-draggable="true"> {{sensor.name}}
+												ng-repeat="sensor in sensors" x-hjc-draggable="{{isShopfloorSelected ? 'true' : 'false'}}"> {{sensor.name}}
 											</div>
 										</div>
 									</div>
@@ -383,7 +383,7 @@
 						</div>
 					</uib-tab>
 
-					<uib-tab heading="{{'WORKING_CALENDAR.BIND_WORKING_CALENDAR' | translate}}">
+					<uib-tab heading="{{'WORKING_CALENDAR.BIND_WORKING_CALENDAR' | translate}}" index="5" select="handleTabSelect(5)">
 						<div class="panel-body" ng-controller="ShopfloorWorkingCalendarController">
 							<div class="row">
 								<div class="col-lg-3">
@@ -418,11 +418,11 @@
 											{{'WORKING_CALENDAR.N_S_WORKING_CALENDAR' | translate}}
 										</div>
 										<div class="panel-body maxheight"
-										    x-hjc-drop-target="true"
+										    x-hjc-drop-target="{{isShopfloorSelected ? 'true' : 'false'}}"
 											x-on-drop="pairWorkingCalendar(dragEl,dropEl)"
 											uib-tooltip="{{'SETTING.DRAG_TO_UNBIND' | translate}}">
 											<div class="btn btn-primary btn-rounded btn-block"
-												ng-repeat="shopfloorworkingcalendar in shopfloorworkingcalendars" x-hjc-draggable="true"
+												ng-repeat="shopfloorworkingcalendar in shopfloorworkingcalendars" x-hjc-draggable="{{isShopfloorSelected ? 'true' : 'false'}}"
 												title="{{shopfloorworkingcalendar.name}}">
 												{{shopfloorworkingcalendar.name}}</div>
 										</div>
@@ -432,7 +432,7 @@
 											{{'SETTING.TRASH' | translate}}
 										</div>
 										<div class="panel-body trash">
-											<img class="trashcan" src="img/trashcan.png" x-hjc-drop-target="true"
+											<img class="trashcan" src="img/trashcan.png" x-hjc-drop-target="{{isShopfloorSelected ? 'true' : 'false'}}"
 												x-on-drop="deleteWorkingCalendarPair(dragEl,dropEl)">
 										</div>
 
@@ -448,7 +448,7 @@
 										<div class="panel-body" uib-tooltip="{{'SETTING.DRAG_TO_BIND' | translate}}"
 											slim-scroll box-height="765px">
 											<div class="source btn btn-primary btn-rounded btn-block"
-												ng-repeat="workingcalendar in workingcalendars" x-hjc-draggable="true">
+												ng-repeat="workingcalendar in workingcalendars" x-hjc-draggable="{{isShopfloorSelected ? 'true' : 'false'}}">
 												{{workingcalendar.name}}</div>
 										</div>
 									</div>
@@ -456,7 +456,7 @@
 							</div>
 						</div>
 					</uib-tab>
-					<uib-tab heading="{{'SETTING.BIND_COMMAND' | translate}}">
+					<uib-tab heading="{{'SETTING.BIND_COMMAND' | translate}}" index="6" select="handleTabSelect(6)">
 						<div class="panel-body" ng-controller="ShopfloorCommandController">
 							<div class="row">
 								<div class="col-lg-3">
@@ -492,11 +492,11 @@
 											{{'SETTING.N_S_COMMAND' | translate}}
 										</div>
 										<div class="panel-body maxheight"
-											x-hjc-drop-target="true"
+											x-hjc-drop-target="{{isShopfloorSelected ? 'true' : 'false'}}"
 											x-on-drop="pairCommand(dragEl,dropEl)"
 											uib-tooltip="{{'SETTING.DRAG_TO_UNBIND' | translate}}">
 											<div class="btn btn-primary btn-rounded btn-block"
-												ng-repeat="shopfloorcommand in shopfloorcommands" x-hjc-draggable="true"
+												ng-repeat="shopfloorcommand in shopfloorcommands" x-hjc-draggable="{{isShopfloorSelected ? 'true' : 'false'}}"
 												title="{{shopfloorcommand.name}}">
 												{{shopfloorcommand.name}}</div>
 										</div>
@@ -506,7 +506,7 @@
 											{{'SETTING.TRASH' | translate}}
 										</div>
 										<div class="panel-body trash">
-											<img class="trashcan" src="img/trashcan.png" x-hjc-drop-target="true"
+											<img class="trashcan" src="img/trashcan.png" x-hjc-drop-target="{{isShopfloorSelected ? 'true' : 'false'}}"
 												x-on-drop="deleteCommandPair(dragEl,dropEl)">
 										</div>
 
@@ -522,7 +522,7 @@
 										<div class="panel-body" uib-tooltip="{{'SETTING.DRAG_TO_BIND' | translate}}"
 											slim-scroll box-height="765px">
 											<div class="source btn btn-primary btn-rounded btn-block"
-												ng-repeat="command in commands" x-hjc-draggable="true">
+												ng-repeat="command in commands" x-hjc-draggable="{{isShopfloorSelected ? 'true' : 'false'}}">
 												{{command.name}}</div>
 										</div>
 									</div>

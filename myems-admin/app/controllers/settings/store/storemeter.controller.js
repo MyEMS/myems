@@ -11,11 +11,13 @@ app.controller('StoreMeterController', function(
     OfflineMeterService,
     StoreMeterService,
     StoreService,
-    toaster
+    toaster,
+    DragDropWarningService
 ) {
     $scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
     $scope.currentStore = { selected: undefined };
     $scope.currentMeterType = "meters";
+    $scope.isStoreSelected = false;
 
     $scope.getAllStores = function() {
         let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
@@ -32,8 +34,10 @@ app.controller('StoreMeterController', function(
         $scope.currentStore = item;
         $scope.currentStore.selected = model;
         if ($scope.currentStore && $scope.currentStore.id) {
+            $scope.isStoreSelected = true;
             $scope.getMetersByStoreID($scope.currentStore.id);
         } else {
+            $scope.isStoreSelected = false;
             $scope.storemeters = [];
             $scope.filterAvailableMeters();
         }
@@ -147,6 +151,10 @@ app.controller('StoreMeterController', function(
     };
 
     $scope.pairMeter = function(dragEl, dropEl) {
+        if (!$scope.isStoreSelected || !$scope.currentStore || !$scope.currentStore.id) {
+            DragDropWarningService.showWarning("SETTING.PLEASE_SELECT_STORE_FIRST");
+            return;
+        }
         var meterid = angular.element('#' + dragEl).scope().meter.id;
         var storeid = $scope.currentStore.id;
         let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
@@ -172,6 +180,10 @@ app.controller('StoreMeterController', function(
 
     $scope.deleteMeterPair = function(dragEl, dropEl) {
         if (angular.element('#' + dragEl).hasClass('source')) {
+            return;
+        }
+        if (!$scope.isStoreSelected || !$scope.currentStore || !$scope.currentStore.id) {
+            DragDropWarningService.showWarning("SETTING.PLEASE_SELECT_STORE_FIRST");
             return;
         }
         var storemeterid = angular.element('#' + dragEl).scope().storemeter.id;
@@ -205,5 +217,20 @@ app.controller('StoreMeterController', function(
 
     $scope.$on('handleBroadcastStoreChanged', function(event) {
         $scope.getAllStores();
+    });
+
+    // Register drag and drop warning event listeners
+    // Listen directly to HJC-DRAG-DISABLED event and show warning
+    $scope.$on('HJC-DRAG-DISABLED', function(event) {
+        if (!$scope.isStoreSelected) {
+            // Use rootScope flag to prevent multiple warnings from different controllers
+            if (!$rootScope._storeDragWarningShown) {
+                $rootScope._storeDragWarningShown = true;
+                DragDropWarningService.showWarning('SETTING.PLEASE_SELECT_STORE_FIRST');
+                $timeout(function() {
+                    $rootScope._storeDragWarningShown = false;
+                }, 500);
+            }
+        }
     });
 });

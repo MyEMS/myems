@@ -3,15 +3,18 @@
 app.controller('ShopfloorEquipmentController', function (
     $scope,
     $window,
+    $timeout,
     $translate,
     ShopfloorService,
     EquipmentService,
     ShopfloorEquipmentService,
     toaster,
-    SweetAlert) {
+    SweetAlert,
+    DragDropWarningService) {
 
     $scope.currentShopfloor = {selected: undefined};
     $scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
+    $scope.isShopfloorSelected = false;
 
     $scope.getAllEquipments = function() {
         let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
@@ -44,7 +47,12 @@ app.controller('ShopfloorEquipmentController', function (
     $scope.changeShopfloor = function(item, model) {
         $scope.currentShopfloor = item;
         $scope.currentShopfloor.selected = model;
-        $scope.getEquipmentsByShopfloorID($scope.currentShopfloor.id);
+        if (item && item.id) {
+            $scope.isShopfloorSelected = true;
+            $scope.getEquipmentsByShopfloorID($scope.currentShopfloor.id);
+        } else {
+            $scope.isShopfloorSelected = false;
+        }
     };
 
     $scope.getAllShopfloors = function() {
@@ -59,6 +67,10 @@ app.controller('ShopfloorEquipmentController', function (
     };
 
     $scope.pairEquipment = function(dragEl, dropEl) {
+        if (!$scope.isShopfloorSelected || !$scope.currentShopfloor || !$scope.currentShopfloor.id) {
+            DragDropWarningService.showWarning("SETTING.PLEASE_SELECT_SHOPFLOOR_FIRST");
+            return;
+        }
         var equipmentid = angular.element('#' + dragEl).scope().equipment.id;
         var shopfloorid = $scope.currentShopfloor.id;
         let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
@@ -84,6 +96,10 @@ app.controller('ShopfloorEquipmentController', function (
 
     $scope.deleteEquipmentPair = function(dragEl, dropEl) {
         if (angular.element('#' + dragEl).hasClass('source')) return;
+        if (!$scope.isShopfloorSelected || !$scope.currentShopfloor || !$scope.currentShopfloor.id) {
+            DragDropWarningService.showWarning("SETTING.PLEASE_SELECT_SHOPFLOOR_FIRST");
+            return;
+        }
         var shopfloorequipmentid = angular.element('#' + dragEl).scope().shopfloorequipment.id;
         var shopfloorid = $scope.currentShopfloor.id;
         let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
@@ -114,5 +130,14 @@ app.controller('ShopfloorEquipmentController', function (
     $scope.$on('handleBroadcastShopfloorChanged', function(event) {
         $scope.getAllShopfloors();
     });
+
+    // Register drag and drop warning event listeners
+    // Use registerTabWarnings to avoid code duplication
+    DragDropWarningService.registerTabWarnings(
+            $scope,
+            'BIND_EQUIPMENT',
+            'SETTING.PLEASE_SELECT_SHOPFLOOR_FIRST',
+            { BIND_EQUIPMENT: 2 }
+        );
 
 });

@@ -97,12 +97,12 @@
 										<div class="panel-heading">
 											{{currentMeter.name}}{{'SETTING.N_S_POINT' | translate}}
 										</div>
-										<div class="panel-body" x-hjc-drop-target="true"
+										<div class="panel-body" x-hjc-drop-target="{{isMeterSelected ? 'true' : 'false'}}"
 											x-on-drop="pairPoint(dragEl,dropEl)"
 											uib-tooltip="{{'SETTING.DRAG_TO_UNBIND' | translate}}">
 											<div class="btn btn-primary btn-rounded btn-block"
 												title="DataSource:{{meterpoint.data_source.name}}"
-												ng-repeat="meterpoint in meterpoints" x-hjc-draggable="true">
+												ng-repeat="meterpoint in meterpoints" x-hjc-draggable="{{isMeterSelected ? 'true' : 'false'}}">
 												{{meterpoint.name}}</div>
 
 										</div>
@@ -112,7 +112,7 @@
 											{{'SETTING.TRASH' | translate}}
 										</div>
 										<div class="panel-body trash">
-											<img class="trashcan" src="img/trashcan.png" x-hjc-drop-target="true"
+											<img class="trashcan" src="img/trashcan.png" x-hjc-drop-target="{{isMeterSelected ? 'true' : 'false'}}"
 												x-on-drop="deletePointPair(dragEl,dropEl)">
 										</div>
 
@@ -145,7 +145,7 @@
 											</form>
 											<h5>{{'SETTING.POINT_LIST' | translate}}</h5>
 											<div class="source btn btn-info btn-rounded btn-block"
-												ng-repeat="point in points" x-hjc-draggable="true"> {{point.name}}</div>
+												ng-repeat="point in points" x-hjc-draggable="{{isMeterSelected ? 'true' : 'false'}}"> {{point.name}}</div>
 										</div>
 									</div>
 								</div>
@@ -425,11 +425,11 @@
 											{{'SETTING.N_S_COMMAND' | translate}}
 										</div>
 										<div class="panel-body maxheight"
-										    x-hjc-drop-target="true"
+										    x-hjc-drop-target="{{isMeterSelected ? 'true' : 'false'}}"
 											x-on-drop="pairCommand(dragEl,dropEl)"
 											uib-tooltip="{{'SETTING.DRAG_TO_UNBIND' | translate}}">
 											<div class="btn btn-primary btn-rounded btn-block"
-												ng-repeat="metercommand in metercommands" x-hjc-draggable="true"
+												ng-repeat="metercommand in metercommands" x-hjc-draggable="{{isMeterSelected ? 'true' : 'false'}}"
 												title="{{metercommand.name}}">
 												{{metercommand.name}}</div>
 										</div>
@@ -439,7 +439,7 @@
 											{{'SETTING.TRASH' | translate}}
 										</div>
 										<div class="panel-body trash">
-											<img class="trashcan" src="img/trashcan.png" x-hjc-drop-target="true"
+											<img class="trashcan" src="img/trashcan.png" x-hjc-drop-target="{{isMeterSelected ? 'true' : 'false'}}"
 												x-on-drop="deleteCommandPair(dragEl,dropEl)">
 										</div>
 
@@ -455,7 +455,7 @@
 										<div class="panel-body" uib-tooltip="{{'SETTING.DRAG_TO_BIND' | translate}}"
 											slim-scroll box-height="765px">
 											<div class="source btn btn-primary btn-rounded btn-block"
-												ng-repeat="command in commands" x-hjc-draggable="true">
+												ng-repeat="command in commands" x-hjc-draggable="{{isMeterSelected ? 'true' : 'false'}}">
 												{{command.name}}</div>
 										</div>
 									</div>
