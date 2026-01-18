@@ -16,6 +16,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - fixed issues of binding objects in myems-admin
 - fixed issues of comparison reports in myems-web
 - fixed issue of energyflowdiagram in myems-admin
+- fixed issues of user session timeout handler in myems-web
 ### Removed
 
 ## [v5.12.0] - 2025-12-26

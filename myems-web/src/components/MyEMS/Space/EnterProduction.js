@@ -15,7 +15,7 @@ import {
 } from 'reactstrap';
 import Cascader from 'rc-cascader';
 import moment from 'moment';
-import { getCookieValue, createCookie, checkEmpty } from '../../../helpers/utils';
+import { getCookieValue, createCookie, checkEmpty,handleAPIError } from '../../../helpers/utils';
 import withRedirect from '../../../hoc/withRedirect';
 import { withTranslation } from 'react-i18next';
 import BootstrapTable from 'react-bootstrap-table-next';
@@ -28,6 +28,16 @@ import cellEditFactory from 'react-bootstrap-table2-editor';
 
 const EnterProduction = ({ setRedirect, setRedirectUrl, t }) => {
   let current_moment = moment();
+  useEffect(() => {
+    let timer = setInterval(() => {
+      let is_logged_in = getCookieValue('is_logged_in');
+      if (is_logged_in === null || !is_logged_in) {
+        setRedirectUrl(`/authentication/basic/login`);
+        setRedirect(true);
+      }
+    }, 1000);
+    return () => clearInterval(timer);
+  }, [setRedirect, setRedirectUrl]);
   useEffect(() => {
     let is_logged_in = getCookieValue('is_logged_in');
     let user_name = getCookieValue('user_name');
@@ -116,7 +126,7 @@ const EnterProduction = ({ setRedirect, setRedirectUrl, t }) => {
           setSelectedSpaceName([json[0]].map(o => o.label));
           setSelectedSpaceID([json[0]].map(o => o.value)[0]);
         } else {
-          toast.error(t(json.description));
+          handleAPIError(json, setRedirect, setRedirectUrl, t, toast)
         }
       })
       .catch(err => {
@@ -295,7 +305,7 @@ const EnterProduction = ({ setRedirect, setRedirectUrl, t }) => {
           toast.success(t('Successfully Saved'));
           getProductionListData();
         } else {
-          toast.error(t(json.description));
+          handleAPIError(json, setRedirect, setRedirectUrl, t, toast)
         }
       })
       .catch(err => {

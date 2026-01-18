@@ -22,7 +22,7 @@ import moment from 'moment';
 import Cascader from 'rc-cascader';
 import { isIterableArray } from '../../../helpers/utils';
 import logoInvoice from '../../../assets/img/logos/myems.png';
-import { getCookieValue, createCookie, checkEmpty } from '../../../helpers/utils';
+import { getCookieValue, createCookie, checkEmpty,handleAPIError } from '../../../helpers/utils';
 import withRedirect from '../../../hoc/withRedirect';
 import { withTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
@@ -234,7 +234,7 @@ const Invoice = ({ setRedirect, setRedirectUrl, t }) => {
                   setSubmitButtonDisabled(true);
                 }
               } else {
-                toast.error(t(json.description));
+                handleAPIError(json, setRedirect, setRedirectUrl, t, toast)
               }
             })
             .catch(err => {
@@ -242,7 +242,7 @@ const Invoice = ({ setRedirect, setRedirectUrl, t }) => {
             });
           // end of get Tenants by root Space ID
         } else {
-          toast.error(t(json.description));
+          handleAPIError(json, setRedirect, setRedirectUrl, t, toast)
         }
       })
       .catch(err => {
@@ -292,7 +292,7 @@ const Invoice = ({ setRedirect, setRedirectUrl, t }) => {
             setSubmitButtonDisabled(true);
           }
         } else {
-          toast.error(t(json.description));
+          handleAPIError(json, setRedirect, setRedirectUrl, t, toast)
         }
       })
       .catch(err => {
@@ -415,7 +415,7 @@ const Invoice = ({ setRedirect, setRedirectUrl, t }) => {
           // show result data
           setResultDataHidden(false);
         } else {
-          toast.error(t(json.description));
+          handleAPIError(json, setRedirect, setRedirectUrl, t, toast)
         }
       })
       .catch(err => {

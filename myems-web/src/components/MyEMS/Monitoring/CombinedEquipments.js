@@ -25,7 +25,7 @@ import EquipmentList from './EquipmentList';
 import EquipmentFooter from './EquipmentFooter';
 import usePagination from '../../../hooks/usePagination';
 import equipments from './equipments';
-import { getCookieValue, createCookie, checkEmpty } from '../../../helpers/utils';
+import { getCookieValue, createCookie, checkEmpty,handleAPIError } from '../../../helpers/utils';
 import withRedirect from '../../../hoc/withRedirect';
 import { withTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
@@ -141,7 +141,7 @@ const CombinedEquipments = ({ setRedirect, setRedirectUrl, t }) => {
                   setSubmitButtonDisabled(true);
                 }
               } else {
-                toast.error(t(json.description));
+                handleAPIError(json, setRedirect, setRedirectUrl, t, toast)
               }
             })
             .catch(err => {
@@ -149,7 +149,7 @@ const CombinedEquipments = ({ setRedirect, setRedirectUrl, t }) => {
             });
           // end of get Combined Equipments by root Space ID
         } else {
-          toast.error(t(json.description));
+          handleAPIError(json, setRedirect, setRedirectUrl, t, toast)
         }
       })
       .catch(err => {
@@ -206,7 +206,7 @@ const CombinedEquipments = ({ setRedirect, setRedirectUrl, t }) => {
             setSubmitButtonDisabled(true);
           }
         } else {
-          toast.error(t(json.description));
+          handleAPIError(json, setRedirect, setRedirectUrl, t, toast)
         }
       })
       .catch(err => {

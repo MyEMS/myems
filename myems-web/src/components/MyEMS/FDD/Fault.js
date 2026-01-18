@@ -1,4 +1,5 @@
 import React, { createRef, Fragment, useEffect, useState } from 'react';
+import { handleAPIError } from '../../../helpers/utils';
 import paginationFactory, { PaginationProvider } from 'react-bootstrap-table2-paginator';
 import BootstrapTable from 'react-bootstrap-table-next';
 import { toast } from 'react-toastify';
@@ -353,7 +354,7 @@ const Fault = ({ setRedirect, setRedirectUrl, t }) => {
           setExcelBytesBase64(json['excel_bytes_base64']);
           setSpinnerHidden(true);
         } else {
-          toast.error(t(json.description));
+          handleAPIError(json, setRedirect, setRedirectUrl, t, toast)
         }
       })
       .catch(err => {
@@ -445,7 +446,7 @@ const Fault = ({ setRedirect, setRedirectUrl, t }) => {
               }
             });
         } else {
-          toast.error(t(json.description));
+          handleAPIError(json, setRedirect, setRedirectUrl, t, toast)
         }
       })
       .catch(err => {
@@ -537,7 +538,7 @@ const Fault = ({ setRedirect, setRedirectUrl, t }) => {
               }
             });
         } else {
-          toast.error(t(json.description));
+          handleAPIError(json, setRedirect, setRedirectUrl, t, toast)
         }
       })
       .catch(err => {
@@ -625,7 +626,7 @@ const Fault = ({ setRedirect, setRedirectUrl, t }) => {
               }
             });
         } else {
-          toast.error(t(json.description));
+          handleAPIError(json, setRedirect, setRedirectUrl, t, toast)
         }
       })
       .catch(err => {

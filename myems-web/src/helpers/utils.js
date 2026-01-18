@@ -37,7 +37,15 @@ export const createCookie = (name, value, cookieExpireTime) => {
   const expires = '; expires=' + date.toUTCString();
   document.cookie = name + '=' + value + expires + '; path=/';
 };
-
+export const handleAPIError = (json, setRedirect, setRedirectUrl, t,toast) => {
+  if (json.description === "API.USER_SESSION_TIMEOUT") {
+    toast.error(t(json.description));
+    setRedirectUrl(`/authentication/basic/login`);
+    setRedirect(true);
+  }else{
+     toast.error(t(json.description));
+  }
+};
 //===============================
 // Moment
 //===============================

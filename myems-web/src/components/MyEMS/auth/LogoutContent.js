@@ -36,7 +36,7 @@ const LogoutContent = ({ layout, titleTag: TitleTag, t }) => {
           createCookie('token', '', 0);
           createCookie('is_logged_in', false, 0);
         } else {
-          toast.error(t(json.description));
+          handleAPIError(json, setRedirect, setRedirectUrl, t, toast)
         }
       })
       .catch(err => {
