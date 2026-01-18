@@ -20,7 +20,7 @@ import {
 } from 'reactstrap';
 import Cascader from 'rc-cascader';
 import MultipleLineChart from '../common/MultipleLineChart';
-import { getCookieValue, createCookie, checkEmpty,handleApiError } from '../../../helpers/utils';
+import { getCookieValue, createCookie, checkEmpty,handleAPIError } from '../../../helpers/utils';
 import withRedirect from '../../../hoc/withRedirect';
 import { withTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
@@ -208,7 +208,7 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
                     setSelectedStation(undefined);
                   }
                 } else {
-                  if (handleApiError(json, setRedirect, setRedirectUrl, t, toast)) {return;}
+                  handleAPIError(json, setRedirect, setRedirectUrl, t, toast)
                 }
               })
               .catch(err => {
@@ -216,7 +216,7 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
               });
             // end of get Energy Storage Power Stations by root Space ID
           } else {
-            if (handleApiError(json, setRedirect, setRedirectUrl, t, toast)) {return;}
+            handleAPIError(json, setRedirect, setRedirectUrl, t, toast)
           }
         })
         .catch(err => {
@@ -311,7 +311,7 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
           // show result data
           setResultDataHidden(false);
         } else {
-          if (handleApiError(json, setRedirect, setRedirectUrl, t, toast)) {return;}
+          handleAPIError(json, setRedirect, setRedirectUrl, t, toast)
           // hide spinner
           setSpinnerHidden(true);
         }
@@ -359,7 +359,7 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
             setSelectedStation(undefined);
           }
         } else {
-          if (handleApiError(json, setRedirect, setRedirectUrl, t, toast)) {return;}
+          handleAPIError(json, setRedirect, setRedirectUrl, t, toast)
         }
       })
       .catch(err => {
@@ -538,7 +538,7 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
           });
           setScheduleMarkAreaData(schedule_mark_area_data);
         } else {
-          if (handleApiError(json, setRedirect, setRedirectUrl, t, toast)) {return;}
+          handleAPIError(json, setRedirect, setRedirectUrl, t, toast)
         }
       })
       .catch(err => {
@@ -569,7 +569,7 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
         if (isResponseOK) {
           setDCDCDetailsList(json);
         } else {
-          if (handleApiError(json, setRedirect, setRedirectUrl, t, toast)) {return;}
+          handleAPIError(json, setRedirect, setRedirectUrl, t, toast)
         }
       })
       .catch(err => {
@@ -599,7 +599,7 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
         if (isResponseOK) {
           setPCSDetailsList(json);
         } else {
-          if (handleApiError(json, setRedirect, setRedirectUrl, t, toast)) {return;}
+          handleAPIError(json, setRedirect, setRedirectUrl, t, toast)
         }
       })
       .catch(err => {
@@ -629,7 +629,7 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
         if (isResponseOK) {
           setBMSDetailsList(json);
         } else {
-          if (handleApiError(json, setRedirect, setRedirectUrl, t, toast)) {return;}
+          handleAPIError(json, setRedirect, setRedirectUrl, t, toast)
         }
       })
       .catch(err => {
@@ -659,7 +659,7 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
         if (isResponseOK) {
           setGridDetailsList(json);
         } else {
-          if (handleApiError(json, setRedirect, setRedirectUrl, t, toast)) {return;}
+          handleAPIError(json, setRedirect, setRedirectUrl, t, toast)
         }
       })
       .catch(err => {
@@ -689,7 +689,7 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
         if (isResponseOK) {
           setLoadDetailsList(json);
         } else {
-          if (handleApiError(json, setRedirect, setRedirectUrl, t, toast)) {return;}
+          handleAPIError(json, setRedirect, setRedirectUrl, t, toast)
         }
       })
       .catch(err => {
@@ -720,7 +720,7 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
         if (isResponseOK) {
           setESSMeterDetailsList(json);
         } else {
-          if (handleApiError(json, setRedirect, setRedirectUrl, t, toast)) {return;}
+          handleAPIError(json, setRedirect, setRedirectUrl, t, toast)
         }
       })
       .catch(err => {
@@ -750,7 +750,7 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
         if (isResponseOK) {
           setHVACDetailsList(json);
         } else {
-          if (handleApiError(json, setRedirect, setRedirectUrl, t, toast)) {return;}
+          handleAPIError(json, setRedirect, setRedirectUrl, t, toast)
         }
       })
       .catch(err => {
@@ -780,7 +780,7 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
         if (isResponseOK) {
           setFirecontrolDetailsList(json);
         } else {
-          if (handleApiError(json, setRedirect, setRedirectUrl, t, toast)) {return;}
+          handleAPIError(json, setRedirect, setRedirectUrl, t, toast)
         }
       })
       .catch(err => {
@@ -811,7 +811,7 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
         if (isResponseOK) {
           setSTSDetailsList(json);
         } else {
-          if (handleApiError(json, setRedirect, setRedirectUrl, t, toast)) {return;}
+          handleAPIError(json, setRedirect, setRedirectUrl, t, toast)
         }
       })
       .catch(err => {
@@ -841,7 +841,7 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
         if (isResponseOK) {
           setCommandDetailsList(json);
         } else {
-          if (handleApiError(json, setRedirect, setRedirectUrl, t, toast)) {return;}
+          handleAPIError(json, setRedirect, setRedirectUrl, t, toast)
         }
       })
       .catch(err => {

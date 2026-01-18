@@ -5,7 +5,7 @@ import Cascader from 'rc-cascader';
 import MicrogridTableCard from './MicrogridTableCard';
 import CardSummary from '../common/CardSummary';
 import { toast } from 'react-toastify';
-import { getCookieValue, createCookie, checkEmpty,handleApiError } from '../../../helpers/utils';
+import { getCookieValue, createCookie, checkEmpty,handleAPIError } from '../../../helpers/utils';
 import withRedirect from '../../../hoc/withRedirect';
 import { withTranslation } from 'react-i18next';
 import moment from 'moment';
@@ -220,7 +220,7 @@ const ItemDashboard = ({ setRedirect, setRedirectUrl, t }) => {
                   }
                 } else {
                   if (json && json.description) {
-                    if (handleApiError(json, setRedirect, setRedirectUrl, t, toast)) {return;}
+                    handleAPIError(json, setRedirect, setRedirectUrl, t, toast)
                   } else {
                     toast.error(t('Failed to load microgrids'));
                   }
@@ -233,7 +233,7 @@ const ItemDashboard = ({ setRedirect, setRedirectUrl, t }) => {
             } else {
               console.log('No valid space data after conversion');
               if (json && json.description) {
-                if (handleApiError(json, setRedirect, setRedirectUrl, t, toast)) {return;}
+                handleAPIError(json, setRedirect, setRedirectUrl, t, toast)
               } else {
                 toast.error(t('No spaces found'));
               }
@@ -241,7 +241,7 @@ const ItemDashboard = ({ setRedirect, setRedirectUrl, t }) => {
           } else {
             console.log('Response not OK or invalid format:', json);
             if (json && json.description) {
-              if (handleApiError(json, setRedirect, setRedirectUrl, t, toast)) {return;}
+              handleAPIError(json, setRedirect, setRedirectUrl, t, toast)
             } else {
               toast.error(t('No spaces found'));
             }
@@ -410,7 +410,7 @@ const ItemDashboard = ({ setRedirect, setRedirectUrl, t }) => {
           }
         } else {
           if (json && json.description) {
-            if (handleApiError(json, setRedirect, setRedirectUrl, t, toast)) {return;}
+            handleAPIError(json, setRedirect, setRedirectUrl, t, toast)
           } else {
             toast.error(t('Failed to load microgrids'));
           }

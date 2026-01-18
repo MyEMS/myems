@@ -16,7 +16,7 @@ import {
 import moment from 'moment';
 import loadable from '@loadable/component';
 import Cascader from 'rc-cascader';
-import { getCookieValue, createCookie, checkEmpty,handleApiError } from '../../../helpers/utils';
+import { getCookieValue, createCookie, checkEmpty,handleAPIError } from '../../../helpers/utils';
 import withRedirect from '../../../hoc/withRedirect';
 import { withTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
@@ -222,7 +222,7 @@ const EnergyStoragePowerStationReportingEnergy = ({ setRedirect, setRedirectUrl,
                   setSubmitButtonDisabled(true);
                 }
               } else {
-                if (handleApiError(json, setRedirect, setRedirectUrl, t, toast)) {return;}
+                handleAPIError(json, setRedirect, setRedirectUrl, t, toast)
               }
             })
             .catch(err => {
@@ -230,7 +230,7 @@ const EnergyStoragePowerStationReportingEnergy = ({ setRedirect, setRedirectUrl,
             });
           // end of get EnergyStoragePowerStations by root Space ID
         } else {
-          if (handleApiError(json, setRedirect, setRedirectUrl, t, toast)) {return;}
+          handleAPIError(json, setRedirect, setRedirectUrl, t, toast)
         }
       })
       .catch(err => {
@@ -487,7 +487,7 @@ const EnergyStoragePowerStationReportingEnergy = ({ setRedirect, setRedirectUrl,
           // show result data
           setResultDataHidden(false);
         } else {
-          if (handleApiError(json, setRedirect, setRedirectUrl, t, toast)) {return;}
+          handleAPIError(json, setRedirect, setRedirectUrl, t, toast)
           setSpinnerHidden(true);
           setSubmitButtonDisabled(false);
         }
@@ -538,7 +538,7 @@ const EnergyStoragePowerStationReportingEnergy = ({ setRedirect, setRedirectUrl,
             setSubmitButtonDisabled(true);
           }
         } else {
-          if (handleApiError(json, setRedirect, setRedirectUrl, t, toast)) {return;}
+          handleAPIError(json, setRedirect, setRedirectUrl, t, toast)
         }
       })
       .catch(err => {

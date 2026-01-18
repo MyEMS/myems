@@ -17,7 +17,7 @@ import {
 } from 'reactstrap';
 import Cascader from 'rc-cascader';
 import RealtimeData from './RealtimeData';
-import { getCookieValue, createCookie, checkEmpty,handleApiError } from '../../../helpers/utils';
+import { getCookieValue, createCookie, checkEmpty,handleAPIError } from '../../../helpers/utils';
 import withRedirect from '../../../hoc/withRedirect';
 import { withTranslation } from 'react-i18next';
 import { v4 as uuid } from 'uuid';
@@ -125,14 +125,14 @@ const SpaceEnvironmentMonitor = ({ setRedirect, setRedirectUrl, t }) => {
                   updatePaginationData(json[0], currentPage);
                 }
               } else {
-                if (handleApiError(json, setRedirect, setRedirectUrl, t, toast)) {return;}
+                handleAPIError(json, setRedirect, setRedirectUrl, t, toast)
               }
             })
             .catch(err => {
               console.log(err);
             });
         } else {
-          if (handleApiError(json, setRedirect, setRedirectUrl, t, toast)) {return;}
+          handleAPIError(json, setRedirect, setRedirectUrl, t, toast)
         }
       })
       .catch(err => {
@@ -177,7 +177,7 @@ const SpaceEnvironmentMonitor = ({ setRedirect, setRedirectUrl, t }) => {
             setSelectSensorList([]);
           }
         } else {
-          if (handleApiError(json, setRedirect, setRedirectUrl, t, toast)) {return;}
+          handleAPIError(json, setRedirect, setRedirectUrl, t, toast)
         }
       })
       .catch(err => {

@@ -372,7 +372,7 @@ const WorkOrderRepair = ({ setRedirect, setRedirectUrl, t }) => {
           setExcelBytesBase64(json['excel_bytes_base64']);
           setSpinnerHidden(true);
         } else {
-          if (handleApiError(json, setRedirect, setRedirectUrl, t, toast)) {return;}
+          handleAPIError(json, setRedirect, setRedirectUrl, t, toast)
         }
       })
       .catch(err => {
@@ -465,7 +465,7 @@ const WorkOrderRepair = ({ setRedirect, setRedirectUrl, t }) => {
               }
             });
         } else {
-          if (handleApiError(json, setRedirect, setRedirectUrl, t, toast)) {return;}
+          handleAPIError(json, setRedirect, setRedirectUrl, t, toast)
         }
       })
       .catch(err => {
@@ -558,7 +558,7 @@ const WorkOrderRepair = ({ setRedirect, setRedirectUrl, t }) => {
               }
             });
         } else {
-          if (handleApiError(json, setRedirect, setRedirectUrl, t, toast)) {return;}
+          handleAPIError(json, setRedirect, setRedirectUrl, t, toast)
         }
       })
       .catch(err => {
@@ -647,7 +647,7 @@ const WorkOrderRepair = ({ setRedirect, setRedirectUrl, t }) => {
               }
             });
         } else {
-          if (handleApiError(json, setRedirect, setRedirectUrl, t, toast)) {return;}
+          handleAPIError(json, setRedirect, setRedirectUrl, t, toast)
         }
       })
       .catch(err => {

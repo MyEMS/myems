@@ -17,7 +17,7 @@ import moment from 'moment';
 import loadable from '@loadable/component';
 import Cascader from 'rc-cascader';
 import MultipleLineChart from '../common/MultipleLineChart';
-import { getCookieValue, createCookie, checkEmpty,handleApiError } from '../../../helpers/utils';
+import { getCookieValue, createCookie, checkEmpty,handleAPIError } from '../../../helpers/utils';
 import withRedirect from '../../../hoc/withRedirect';
 import { withTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
@@ -201,7 +201,7 @@ const EnergyStoragePowerStationReportingParameters = ({ setRedirect, setRedirect
                           setPointList([]);
                         }
                       } else {
-                        if (handleApiError(json, setRedirect, setRedirectUrl, t, toast)) {return;}
+                        handleAPIError(json, setRedirect, setRedirectUrl, t, toast)
                       }
                     })
                     .catch(err => {
@@ -212,7 +212,7 @@ const EnergyStoragePowerStationReportingParameters = ({ setRedirect, setRedirect
                   setSelectedEnergyStoragePowerStation(undefined);
                 }
               } else {
-                if (handleApiError(json, setRedirect, setRedirectUrl, t, toast)) {return;}
+                handleAPIError(json, setRedirect, setRedirectUrl, t, toast)
               }
             })
             .catch(err => {
@@ -220,7 +220,7 @@ const EnergyStoragePowerStationReportingParameters = ({ setRedirect, setRedirect
             });
           // end of get EnergyStoragePowerStations by root Space ID
         } else {
-          if (handleApiError(json, setRedirect, setRedirectUrl, t, toast)) {return;}
+          handleAPIError(json, setRedirect, setRedirectUrl, t, toast)
         }
       })
       .catch(err => {
@@ -285,7 +285,7 @@ const EnergyStoragePowerStationReportingParameters = ({ setRedirect, setRedirect
           // show export button
           setExportButtonHidden(false);
         } else {
-          if (handleApiError(json, setRedirect, setRedirectUrl, t, toast)) {return;}
+          handleAPIError(json, setRedirect, setRedirectUrl, t, toast)
           setSpinnerHidden(true);
           setSubmitButtonDisabled(false);
         }
@@ -352,7 +352,7 @@ const EnergyStoragePowerStationReportingParameters = ({ setRedirect, setRedirect
                     setPointList([]);
                   }
                 } else {
-                  if (handleApiError(json, setRedirect, setRedirectUrl, t, toast)) {return;}
+                  handleAPIError(json, setRedirect, setRedirectUrl, t, toast)
                 }
               })
               .catch(err => {
@@ -363,7 +363,7 @@ const EnergyStoragePowerStationReportingParameters = ({ setRedirect, setRedirect
             setPointList([]);
           }
         } else {
-          if (handleApiError(json, setRedirect, setRedirectUrl, t, toast)) {return;}
+          handleAPIError(json, setRedirect, setRedirectUrl, t, toast)
         }
       })
       .catch(err => {
@@ -398,7 +398,7 @@ const EnergyStoragePowerStationReportingParameters = ({ setRedirect, setRedirect
             setPointList([]);
           }
         } else {
-          if (handleApiError(json, setRedirect, setRedirectUrl, t, toast)) {return;}
+          handleAPIError(json, setRedirect, setRedirectUrl, t, toast)
         }
       })
       .catch(err => {

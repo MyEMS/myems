@@ -4,7 +4,7 @@ import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Form, FormGroup, La
 import Flex from '../../common/Flex';
 import { withTranslation } from 'react-i18next';
 import { APIBaseURL, settings } from '../../../config';
-import { getCookieValue, createCookie, checkEmpty,handleApiError } from '../../../helpers/utils';
+import { getCookieValue, createCookie, checkEmpty,handleAPIError } from '../../../helpers/utils';
 import { toast } from 'react-toastify';
 
 const CommandModal = ({ setIsOpenCommandModal, isOpenCommandModal, id, name, description, payload, t }) => {
@@ -52,7 +52,7 @@ const CommandModal = ({ setIsOpenCommandModal, isOpenCommandModal, id, name, des
           toast.success(t('命令已下发'));
           // toast.success(t('Command has been submitted'));
         } else {
-          if (handleApiError(json, setRedirect, setRedirectUrl, t, toast)) {return;}
+          handleAPIError(json, setRedirect, setRedirectUrl, t, toast)
         }
       })
       .catch(err => {

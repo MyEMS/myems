@@ -17,7 +17,7 @@ import {
 } from 'reactstrap';
 import Cascader from 'rc-cascader';
 import RealtimeChart from './RealtimeChart';
-import { getCookieValue, createCookie, checkEmpty,handleApiError } from '../../../helpers/utils';
+import { getCookieValue, createCookie, checkEmpty,handleAPIError } from '../../../helpers/utils';
 import withRedirect from '../../../hoc/withRedirect';
 import { withTranslation } from 'react-i18next';
 import { v4 as uuid } from 'uuid';
@@ -122,7 +122,7 @@ const MeterRealtime = ({ setRedirect, setRedirectUrl, t }) => {
                 setMeterList(json[0]);
                 setSpinnerHidden(true);
               } else {
-                if (handleApiError(json, setRedirect, setRedirectUrl, t, toast)) {return;}
+                handleAPIError(json, setRedirect, setRedirectUrl, t, toast)
               }
             })
             .catch(err => {
@@ -130,7 +130,7 @@ const MeterRealtime = ({ setRedirect, setRedirectUrl, t }) => {
             });
           //end of getting meters of the default space
         } else {
-          if (handleApiError(json, setRedirect, setRedirectUrl, t, toast)) {return;}
+          handleAPIError(json, setRedirect, setRedirectUrl, t, toast)
         }
       })
       .catch(err => {
@@ -170,7 +170,7 @@ const MeterRealtime = ({ setRedirect, setRedirectUrl, t }) => {
 
           setSpinnerHidden(true);
         } else {
-          if (handleApiError(json, setRedirect, setRedirectUrl, t, toast)) {return;}
+          handleAPIError(json, setRedirect, setRedirectUrl, t, toast)
         }
       })
       .catch(err => {

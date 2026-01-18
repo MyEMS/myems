@@ -130,7 +130,7 @@ class RealtimeChart extends Component {
             });
           }
         } else {
-          if (handleApiError(json, setRedirect, setRedirectUrl, t, toast)) {return;}
+          handleAPIError(json, setRedirect, setRedirectUrl, t, toast)
         }
       })
       .catch(err => {
@@ -186,7 +186,7 @@ class RealtimeChart extends Component {
               });
             }
           } else {
-            if (handleApiError(json, setRedirect, setRedirectUrl, t, toast)) {return;}
+            handleAPIError(json, setRedirect, setRedirectUrl, t, toast)
           }
         })
         .catch(err => {

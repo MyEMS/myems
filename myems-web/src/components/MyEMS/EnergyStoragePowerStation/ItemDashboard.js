@@ -19,7 +19,7 @@ import {
 import Cascader from 'rc-cascader';
 import CardSummary from '../common/CardSummary';
 import { toast } from 'react-toastify';
-import { getCookieValue, createCookie, checkEmpty,handleApiError } from '../../../helpers/utils';
+import { getCookieValue, createCookie, checkEmpty,handleAPIError } from '../../../helpers/utils';
 import withRedirect from '../../../hoc/withRedirect';
 import { withTranslation } from 'react-i18next';
 import { APIBaseURL, settings } from '../../../config';
@@ -151,7 +151,7 @@ const ItemDashboard = ({ setRedirect, setRedirectUrl, t }) => {
                   setSelectedStation(undefined);
                 }
               } else {
-                if (handleApiError(json, setRedirect, setRedirectUrl, t, toast)) {return;}
+                handleAPIError(json, setRedirect, setRedirectUrl, t, toast)
               }
             })
             .catch(err => {
@@ -159,7 +159,7 @@ const ItemDashboard = ({ setRedirect, setRedirectUrl, t }) => {
             });
           // end of get Energy Storage Power Stations by root Space ID
         } else {
-          if (handleApiError(json, setRedirect, setRedirectUrl, t, toast)) {return;}
+          handleAPIError(json, setRedirect, setRedirectUrl, t, toast)
         }
       })
       .catch(err => {
@@ -498,7 +498,7 @@ const ItemDashboard = ({ setRedirect, setRedirectUrl, t }) => {
             setSelectedStation(undefined);
           }
         } else {
-          if (handleApiError(json, setRedirect, setRedirectUrl, t, toast)) {return;}
+          handleAPIError(json, setRedirect, setRedirectUrl, t, toast)
         }
       })
       .catch(err => {
