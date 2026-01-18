@@ -16,7 +16,7 @@ import {
 import moment from 'moment';
 import loadable from '@loadable/component';
 import Cascader from 'rc-cascader';
-import { getCookieValue, createCookie, checkEmpty } from '../../../helpers/utils';
+import { getCookieValue, createCookie, checkEmpty,handleAPIError } from '../../../helpers/utils';
 import withRedirect from '../../../hoc/withRedirect';
 import { withTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
@@ -125,7 +125,16 @@ const EnergyStoragePowerStationReportingEnergy = ({ setRedirect, setRedirectUrl,
     { dataField: 'startdatetime', text: t('Datetime'), sort: true }
   ]);
   const [excelBytesBase64, setExcelBytesBase64] = useState(undefined);
-
+  useEffect(() => {
+    let timer = setInterval(() => {
+      let is_logged_in = getCookieValue('is_logged_in');
+      if (is_logged_in === null || !is_logged_in) {
+        setRedirectUrl(`/authentication/basic/login`);
+        setRedirect(true);
+      }
+    }, 1000);
+    return () => clearInterval(timer);
+  }, [setRedirect, setRedirectUrl]);
   useEffect(() => {
     let isResponseOK = false;
     setSpaceCascaderHidden(false);
@@ -213,7 +222,7 @@ const EnergyStoragePowerStationReportingEnergy = ({ setRedirect, setRedirectUrl,
                   setSubmitButtonDisabled(true);
                 }
               } else {
-                toast.error(t(json.description));
+                handleAPIError(json, setRedirect, setRedirectUrl, t, toast)
               }
             })
             .catch(err => {
@@ -221,7 +230,7 @@ const EnergyStoragePowerStationReportingEnergy = ({ setRedirect, setRedirectUrl,
             });
           // end of get EnergyStoragePowerStations by root Space ID
         } else {
-          toast.error(t(json.description));
+          handleAPIError(json, setRedirect, setRedirectUrl, t, toast)
         }
       })
       .catch(err => {
@@ -478,7 +487,7 @@ const EnergyStoragePowerStationReportingEnergy = ({ setRedirect, setRedirectUrl,
           // show result data
           setResultDataHidden(false);
         } else {
-          toast.error(t(json.description));
+          handleAPIError(json, setRedirect, setRedirectUrl, t, toast)
           setSpinnerHidden(true);
           setSubmitButtonDisabled(false);
         }
@@ -529,7 +538,7 @@ const EnergyStoragePowerStationReportingEnergy = ({ setRedirect, setRedirectUrl,
             setSubmitButtonDisabled(true);
           }
         } else {
-          toast.error(t(json.description));
+          handleAPIError(json, setRedirect, setRedirectUrl, t, toast)
         }
       })
       .catch(err => {

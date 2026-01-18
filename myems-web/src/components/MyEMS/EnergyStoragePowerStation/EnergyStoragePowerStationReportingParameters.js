@@ -17,7 +17,7 @@ import moment from 'moment';
 import loadable from '@loadable/component';
 import Cascader from 'rc-cascader';
 import MultipleLineChart from '../common/MultipleLineChart';
-import { getCookieValue, createCookie, checkEmpty } from '../../../helpers/utils';
+import { getCookieValue, createCookie, checkEmpty,handleAPIError } from '../../../helpers/utils';
 import withRedirect from '../../../hoc/withRedirect';
 import { withTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
@@ -35,7 +35,16 @@ const EnergyStoragePowerStationReportingParameters = ({ setRedirect, setRedirect
   let current_moment = moment();
   const location = useLocation();
   const uuid = location.search.split('=')[1];
-
+  useEffect(() => {
+    let timer = setInterval(() => {
+      let is_logged_in = getCookieValue('is_logged_in');
+      if (is_logged_in === null || !is_logged_in) {
+        setRedirectUrl(`/authentication/basic/login`);
+        setRedirect(true);
+      }
+    }, 1000);
+    return () => clearInterval(timer);
+  }, [setRedirect, setRedirectUrl]);
   useEffect(() => {
     let is_logged_in = getCookieValue('is_logged_in');
     let user_name = getCookieValue('user_name');
@@ -192,7 +201,7 @@ const EnergyStoragePowerStationReportingParameters = ({ setRedirect, setRedirect
                           setPointList([]);
                         }
                       } else {
-                        toast.error(t(json.description));
+                        handleAPIError(json, setRedirect, setRedirectUrl, t, toast)
                       }
                     })
                     .catch(err => {
@@ -203,7 +212,7 @@ const EnergyStoragePowerStationReportingParameters = ({ setRedirect, setRedirect
                   setSelectedEnergyStoragePowerStation(undefined);
                 }
               } else {
-                toast.error(t(json.description));
+                handleAPIError(json, setRedirect, setRedirectUrl, t, toast)
               }
             })
             .catch(err => {
@@ -211,7 +220,7 @@ const EnergyStoragePowerStationReportingParameters = ({ setRedirect, setRedirect
             });
           // end of get EnergyStoragePowerStations by root Space ID
         } else {
-          toast.error(t(json.description));
+          handleAPIError(json, setRedirect, setRedirectUrl, t, toast)
         }
       })
       .catch(err => {
@@ -276,7 +285,7 @@ const EnergyStoragePowerStationReportingParameters = ({ setRedirect, setRedirect
           // show export button
           setExportButtonHidden(false);
         } else {
-          toast.error(t(json.description));
+          handleAPIError(json, setRedirect, setRedirectUrl, t, toast)
           setSpinnerHidden(true);
           setSubmitButtonDisabled(false);
         }
@@ -343,7 +352,7 @@ const EnergyStoragePowerStationReportingParameters = ({ setRedirect, setRedirect
                     setPointList([]);
                   }
                 } else {
-                  toast.error(t(json.description));
+                  handleAPIError(json, setRedirect, setRedirectUrl, t, toast)
                 }
               })
               .catch(err => {
@@ -354,7 +363,7 @@ const EnergyStoragePowerStationReportingParameters = ({ setRedirect, setRedirect
             setPointList([]);
           }
         } else {
-          toast.error(t(json.description));
+          handleAPIError(json, setRedirect, setRedirectUrl, t, toast)
         }
       })
       .catch(err => {
@@ -389,7 +398,7 @@ const EnergyStoragePowerStationReportingParameters = ({ setRedirect, setRedirect
             setPointList([]);
           }
         } else {
-          toast.error(t(json.description));
+          handleAPIError(json, setRedirect, setRedirectUrl, t, toast)
         }
       })
       .catch(err => {

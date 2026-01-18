@@ -22,7 +22,7 @@ import loadable from '@loadable/component';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Link } from 'react-router-dom';
 import Flex from '../../common/Flex';
-import { getCookieValue, createCookie } from '../../../helpers/utils';
+import { getCookieValue, createCookie,handleAPIError } from '../../../helpers/utils';
 import withRedirect from '../../../hoc/withRedirect';
 import { withTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
@@ -149,7 +149,7 @@ const EquipmentTracking = ({ setRedirect, setRedirectUrl, t }) => {
                 // show export button
                 setExportButtonHidden(false);
               } else {
-                toast.error(t(json.description));
+                handleAPIError(json, setRedirect, setRedirectUrl, t, toast)
               }
             })
             .catch(err => {
@@ -157,7 +157,7 @@ const EquipmentTracking = ({ setRedirect, setRedirectUrl, t }) => {
             });
           // end of getting equipment list
         } else {
-          toast.error(t(json.description));
+          handleAPIError(json, setRedirect, setRedirectUrl, t, toast)
         }
       })
       .catch(err => {
@@ -289,7 +289,7 @@ const EquipmentTracking = ({ setRedirect, setRedirectUrl, t }) => {
           // show export button
           setExportButtonHidden(false);
         } else {
-          toast.error(t(json.description));
+          handleAPIError(json, setRedirect, setRedirectUrl, t, toast)
         }
       })
       .catch(err => {

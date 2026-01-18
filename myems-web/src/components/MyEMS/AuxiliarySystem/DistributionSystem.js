@@ -15,7 +15,7 @@ import {
 } from 'reactstrap';
 import RealtimeChart from './RealtimeChart';
 import blankPage from '../../../assets/img/generic/blank-page.png';  // Placeholder background image
-import { getCookieValue, createCookie, checkEmpty } from '../../../helpers/utils';
+import { getCookieValue, createCookie, checkEmpty,handleAPIError } from '../../../helpers/utils';
 import withRedirect from '../../../hoc/withRedirect';
 import { withTranslation } from 'react-i18next';
 import { v4 as uuid } from 'uuid';
@@ -101,7 +101,7 @@ const DistributionSystem = ({ setRedirect, setRedirectUrl, t }) => {
             if (rootSpaceId) loadDistributionSystemsBySpace(rootSpaceId);
           }
         } else {
-          toast.error(t(json.description));
+          handleAPIError(json, setRedirect, setRedirectUrl, t, toast)
         }
       } catch (err) {
         console.log(err);
@@ -146,7 +146,7 @@ const DistributionSystem = ({ setRedirect, setRedirectUrl, t }) => {
         }
         setSpinnerHidden(true);
       } else {
-        toast.error(t(json.description));
+        handleAPIError(json, setRedirect, setRedirectUrl, t, toast)
       }
     } catch (err) {
       console.log(err);

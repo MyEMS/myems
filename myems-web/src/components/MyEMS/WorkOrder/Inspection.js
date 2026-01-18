@@ -80,7 +80,16 @@ const WorkOrderInspection = ({ setRedirect, setRedirectUrl, t }) => {
   const [spinnerHidden, setSpinnerHidden] = useState(true);
   const [exportButtonHidden, setExportButtonHidden] = useState(true);
   const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);
-
+  useEffect(() => {
+    let timer = setInterval(() => {
+      let is_logged_in = getCookieValue('is_logged_in');
+      if (is_logged_in === null || !is_logged_in) {
+        setRedirectUrl(`/authentication/basic/login`);
+        setRedirect(true);
+      }
+    }, 1000);
+    return () => clearInterval(timer);
+  }, [setRedirect, setRedirectUrl]);
   useEffect(() => {
     let is_logged_in = getCookieValue('is_logged_in');
     let user_name = getCookieValue('user_name');
@@ -363,7 +372,7 @@ const WorkOrderInspection = ({ setRedirect, setRedirectUrl, t }) => {
           setExcelBytesBase64(json['excel_bytes_base64']);
           setSpinnerHidden(true);
         } else {
-          toast.error(t(json.description));
+          handleAPIError(json, setRedirect, setRedirectUrl, t, toast)
         }
       })
       .catch(err => {
@@ -456,7 +465,7 @@ const WorkOrderInspection = ({ setRedirect, setRedirectUrl, t }) => {
               }
             });
         } else {
-          toast.error(t(json.description));
+          handleAPIError(json, setRedirect, setRedirectUrl, t, toast)
         }
       })
       .catch(err => {
@@ -549,7 +558,7 @@ const WorkOrderInspection = ({ setRedirect, setRedirectUrl, t }) => {
               }
             });
         } else {
-          toast.error(t(json.description));
+          handleAPIError(json, setRedirect, setRedirectUrl, t, toast)
         }
       })
       .catch(err => {
@@ -638,7 +647,7 @@ const WorkOrderInspection = ({ setRedirect, setRedirectUrl, t }) => {
               }
             });
         } else {
-          toast.error(t(json.description));
+          handleAPIError(json, setRedirect, setRedirectUrl, t, toast)
         }
       })
       .catch(err => {

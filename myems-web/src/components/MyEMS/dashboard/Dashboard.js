@@ -6,7 +6,7 @@ import LineChart from '../common/LineChart';
 import { toast } from 'react-toastify';
 import SharePie from '../common/SharePie';
 import loadable from '@loadable/component';
-import { getCookieValue, createCookie, checkEmpty } from '../../../helpers/utils';
+import { getCookieValue, createCookie, checkEmpty,handleAPIError } from '../../../helpers/utils';
 import withRedirect from '../../../hoc/withRedirect';
 import { withTranslation } from 'react-i18next';
 import moment from 'moment';
@@ -647,7 +647,7 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
                   geojson['features'] = geojsonData;
                   setGeojson(geojson);
                 } else {
-                  toast.error(t(json.description));
+                  handleAPIError(json, setRedirect, setRedirectUrl, t, toast)
                 }
               })
               .catch(err => {
@@ -655,7 +655,7 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
               });
             // end of get children of root Space
           } else {
-            toast.error(t(json.description));
+            handleAPIError(json, setRedirect, setRedirectUrl, t, toast)
           }
         })
         .catch(err => {

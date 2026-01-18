@@ -20,7 +20,7 @@ import moment from 'moment';
 import loadable from '@loadable/component';
 import Cascader from 'rc-cascader';
 import CardSummary from '../common/CardSummary';
-import { getCookieValue, createCookie, checkEmpty } from '../../../helpers/utils';
+import { getCookieValue, createCookie, checkEmpty,handleAPIError } from '../../../helpers/utils';
 import withRedirect from '../../../hoc/withRedirect';
 import { withTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
@@ -208,14 +208,14 @@ const VirtualMeterComparison = ({ setRedirect, setRedirectUrl, t }) => {
                   setSubmitButtonDisabled(true);
                 }
               } else {
-                toast.error(t(json.description));
+                handleAPIError(json, setRedirect, setRedirectUrl, t, toast)
               }
             })
             .catch(err => {
               console.log(err);
             });
         } else {
-          toast.error(t(json.description));
+          handleAPIError(json, setRedirect, setRedirectUrl, t, toast)
         }
       })
       .catch(err => {
@@ -264,7 +264,7 @@ const VirtualMeterComparison = ({ setRedirect, setRedirectUrl, t }) => {
             setSubmitButtonDisabled(true);
           }
         } else {
-          toast.error(t(json.description));
+          handleAPIError(json, setRedirect, setRedirectUrl, t, toast)
         }
       })
       .catch(err => {
@@ -311,7 +311,7 @@ const VirtualMeterComparison = ({ setRedirect, setRedirectUrl, t }) => {
             setSubmitButtonDisabled(true);
           }
         } else {
-          toast.error(t(json.description));
+          handleAPIError(json, setRedirect, setRedirectUrl, t, toast)
         }
       })
       .catch(err => {
@@ -533,7 +533,7 @@ const VirtualMeterComparison = ({ setRedirect, setRedirectUrl, t }) => {
           setExportButtonHidden(false);
           setResultDataHidden(false);
         } else {
-          toast.error(t(json.description));
+          handleAPIError(json, setRedirect, setRedirectUrl, t, toast)
           setSpinnerHidden(true);
           setSubmitButtonDisabled(false);
         }

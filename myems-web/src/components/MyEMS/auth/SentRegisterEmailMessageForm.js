@@ -55,7 +55,7 @@ const SentRegisterEmailMessageForm = ({ setRedirect, setRedirectUrl, hasLabel, l
           toast.success(t('Please wait for approval'));
           setRedirect(true);
         } else {
-          toast.error(t(json.description));
+          handleAPIError(json, setRedirect, setRedirectUrl, t, toast)
         }
       })
       .catch(err => {
@@ -131,7 +131,7 @@ const SentRegisterEmailMessageForm = ({ setRedirect, setRedirectUrl, hasLabel, l
         if (isResponseOK) {
           toast.success(t('An email has been sent to ') + email);
         } else {
-          toast.error(t(json.description));
+          handleAPIError(json, setRedirect, setRedirectUrl, t, toast)
         }
       })
       .catch(err => {

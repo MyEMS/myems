@@ -7,7 +7,7 @@ import classNames from 'classnames';
 import EnergyStoragePowerStationListItem from './EnergyStoragePowerStationListItem';
 import EnergyStoragePowerStationFooter from './EnergyStoragePowerStationFooter';
 import usePagination from '../../../hooks/usePagination';
-import { getCookieValue, createCookie, checkEmpty } from '../../../helpers/utils';
+import { getCookieValue, createCookie, checkEmpty,handleAPIError } from '../../../helpers/utils';
 import withRedirect from '../../../hoc/withRedirect';
 import { withTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
@@ -128,7 +128,7 @@ const EnergyStoragePowerStationList = ({ setRedirect, setRedirectUrl, t }) => {
           setIsLoading(false);
           setGeojson(geojsonData);
         } else {
-          toast.error(t(json.description));
+          handleAPIError(json, setRedirect, setRedirectUrl, t, toast)
         }
       })
       .catch(err => {

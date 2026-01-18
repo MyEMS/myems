@@ -17,7 +17,7 @@ import {
 import Cascader from 'rc-cascader';
 import moment from 'moment';
 import loadable from '@loadable/component';
-import { getCookieValue, createCookie, checkEmpty } from '../../../helpers/utils';
+import { getCookieValue, createCookie, checkEmpty,handleAPIError } from '../../../helpers/utils';
 import withRedirect from '../../../hoc/withRedirect';
 import { withTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
@@ -143,7 +143,7 @@ const OfflineMeterBatch = ({ setRedirect, setRedirectUrl, t }) => {
           setSubmitButtonDisabled(false);
           setSpinnerHidden(true);
         } else {
-          toast.error(t(json.description));
+          handleAPIError(json, setRedirect, setRedirectUrl, t, toast)
         }
       })
       .catch(err => {
@@ -285,7 +285,7 @@ const OfflineMeterBatch = ({ setRedirect, setRedirectUrl, t }) => {
           // show result data
           setResultDataHidden(false);
         } else {
-          toast.error(t(json.description));
+          handleAPIError(json, setRedirect, setRedirectUrl, t, toast)
         }
       })
       .catch(err => {

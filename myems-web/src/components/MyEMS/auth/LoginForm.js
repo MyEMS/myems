@@ -62,7 +62,7 @@ const LoginForm = ({ setRedirect, hasLabel, layout, t }) => {
           setRedirect(true);
         } else {
           handleRefreshCaptcha();
-          toast.error(t(json.description));
+          handleAPIError(json, setRedirect, setRedirectUrl, t, toast)
         }
       })
       .catch(err => {
