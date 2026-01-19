@@ -133,7 +133,7 @@
 											<h5>{{'SETTING.DATA_SOURCE_LIST' | translate}}</h5>
 											<div class="source btn btn-info btn-rounded btn-block"
 												 ng-repeat="datasource in datasources"
-												 x-hjc-draggable="true">
+												 x-hjc-draggable="{{isMicrogridSelected ? 'true' : 'false'}}">
 												{{datasource.name}}
 											</div>
 										</div>
@@ -701,7 +701,7 @@
 											<h5>{{'SETTING.SENSOR_LIST' | translate}}</h5>
 											<div class="source btn btn-info btn-rounded btn-block"
 											ng-repeat="sensor in sensors"
-											x-hjc-draggable="true"> {{sensor.name}}</div>
+											x-hjc-draggable="{{isMicrogridSelected ? 'true' : 'false'}}"> {{sensor.name}}</div>
 										</div>
 									</div>
 								</div>
@@ -838,7 +838,7 @@
 											<h5>{{'USER.USER_LIST' | translate}}</h5>
 											<div class="source btn btn-info btn-rounded btn-block"
 											ng-repeat="user in users"
-											x-hjc-draggable="true"> {{user.name}}</div>
+											x-hjc-draggable="{{isMicrogridSelected ? 'true' : 'false'}}"> {{user.name}}</div>
 										</div>
 									</div>
 								</div>

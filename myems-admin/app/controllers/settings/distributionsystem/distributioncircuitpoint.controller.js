@@ -1,6 +1,7 @@
 'use strict';
 app.controller('DistributionCircuitPointController', function (
     $scope,
+    $rootScope,
     $window,
     $timeout,
     $translate,
@@ -9,10 +10,12 @@ app.controller('DistributionCircuitPointController', function (
     PointService,
     DistributionCircuitPointService,
     toaster,
-    SweetAlert
+    SweetAlert,
+    DragDropWarningService
 ) {
     $scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
     $scope.currentDistributionCircuit = { selected: undefined };
+    $scope.isDistributionCircuitSelected = false;
 
     $scope.getAllDataSources = function () {
         let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
@@ -63,7 +66,12 @@ app.controller('DistributionCircuitPointController', function (
     $scope.changeDistributionCircuit = function (item, model) {
         $scope.currentDistributionCircuit = item;
         $scope.currentDistributionCircuit.selected = model;
-        $scope.getPointsByDistributionCircuitID($scope.currentDistributionCircuit.id);
+        if ($scope.currentDistributionCircuit && $scope.currentDistributionCircuit.id) {
+            $scope.isDistributionCircuitSelected = true;
+            $scope.getPointsByDistributionCircuitID($scope.currentDistributionCircuit.id);
+        } else {
+            $scope.isDistributionCircuitSelected = false;
+        }
     };
 
     $scope.changeDataSource = function (item, model) {
@@ -80,7 +88,8 @@ app.controller('DistributionCircuitPointController', function (
                     $scope.distributioncircuits[i].name = $scope.distributioncircuits[i].distribution_system.name + '/' + $scope.distributioncircuits[i].name;
                 }
                 $timeout(function () {
-                    if ($scope.currentDistributionCircuit.id) {
+                    if ($scope.currentDistributionCircuit && $scope.currentDistributionCircuit.id) {
+                        $scope.isDistributionCircuitSelected = true;
                         $scope.getPointsByDistributionCircuitID($scope.currentDistributionCircuit.id);
                     }
                 }, 1000);
@@ -146,5 +155,19 @@ app.controller('DistributionCircuitPointController', function (
 
     $scope.$on('handleBroadcastDistributionCircuitChanged', function (event) {
         $scope.getAllDistributionCircuits();
+    });
+
+    // Listen directly to HJC-DRAG-DISABLED event and show warning
+    $scope.$on('HJC-DRAG-DISABLED', function(event) {
+        if (!$scope.isDistributionCircuitSelected) {
+            // Use rootScope flag to prevent multiple warnings from different controllers
+            if (!$rootScope._distributionCircuitDragWarningShown) {
+                $rootScope._distributionCircuitDragWarningShown = true;
+                DragDropWarningService.showWarning('SETTING.PLEASE_SELECT_DISTRIBUTION_CIRCUIT_FIRST');
+                $timeout(function() {
+                    $rootScope._distributionCircuitDragWarningShown = false;
+                }, 500); // Reset flag after 500ms
+            }
+        }
     });
 });
