@@ -4,6 +4,7 @@ app.controller(
   "EnergyStorageContainerCommandController",
   function (
     $scope,
+    $rootScope,
     $window,
     $timeout,
     $translate,
@@ -11,12 +12,14 @@ app.controller(
     CommandService,
     EnergyStorageContainerCommandService,
     PointService,
-    toaster
+    toaster,
+    DragDropWarningService
   ) {
     $scope.cur_user = JSON.parse(
       $window.localStorage.getItem("myems_admin_ui_current_user")
     );
     $scope.currentEnergyStorageContainer = { selected: undefined };
+    $scope.isEnergyStorageContainerSelected = false;
     $scope.getAllCommands = function () {
       let headers = {
         "User-UUID": $scope.cur_user.uuid,
@@ -52,9 +55,14 @@ app.controller(
     $scope.changeEnergyStorageContainer = function (item, model) {
       $scope.currentEnergyStorageContainer = item;
       $scope.currentEnergyStorageContainer.selected = model;
-      $scope.getCommandsByEnergyStorageContainerID(
-        $scope.currentEnergyStorageContainer.id
-      );
+      if ($scope.currentEnergyStorageContainer && $scope.currentEnergyStorageContainer.id) {
+        $scope.isEnergyStorageContainerSelected = true;
+        $scope.getCommandsByEnergyStorageContainerID(
+          $scope.currentEnergyStorageContainer.id
+        );
+      } else {
+        $scope.isEnergyStorageContainerSelected = false;
+      }
     };
 
     $scope.getAllEnergyStorageContainers = function () {
@@ -68,9 +76,12 @@ app.controller(
           if (angular.isDefined(response.status) && response.status === 200) {
             $scope.energystoragecontainers = response.data;
             $timeout(function () {
-              $scope.getCommandsByEnergyStorageContainerID(
-                $scope.currentEnergyStorageContainer.id
-              );
+              if ($scope.currentEnergyStorageContainer && $scope.currentEnergyStorageContainer.id) {
+                $scope.isEnergyStorageContainerSelected = true;
+                $scope.getCommandsByEnergyStorageContainerID(
+                  $scope.currentEnergyStorageContainer.id
+                );
+              }
             }, 1000);
           } else {
             $scope.energystoragecontainers = [];
@@ -161,5 +172,19 @@ app.controller(
         $scope.getAllEnergyStorageContainers();
       }
     );
+
+    // Listen directly to HJC-DRAG-DISABLED event and show warning
+    $scope.$on('HJC-DRAG-DISABLED', function(event) {
+      if (!$scope.isEnergyStorageContainerSelected) {
+        // Use rootScope flag to prevent multiple warnings from different controllers
+        if (!$rootScope._energyStorageContainerDragWarningShown) {
+          $rootScope._energyStorageContainerDragWarningShown = true;
+          DragDropWarningService.showWarning('SETTING.PLEASE_SELECT_ENERGY_STORAGE_CONTAINER_FIRST');
+          $timeout(function() {
+            $rootScope._energyStorageContainerDragWarningShown = false;
+          }, 500); // Reset flag after 500ms
+        }
+      }
+    });
   }
 );

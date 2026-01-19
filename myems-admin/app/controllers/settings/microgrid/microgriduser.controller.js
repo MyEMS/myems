@@ -2,15 +2,19 @@
 
 app.controller('MicrogridUserController', function (
     $scope,
+    $rootScope,
     $window,
+    $timeout,
     $translate,
     MicrogridService,
     UserService,
     MicrogridUserService,
     toaster,
-    SweetAlert) {
+    SweetAlert,
+    DragDropWarningService) {
     $scope.currentMicrogrid = {selected:undefined};
     $scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
+    $scope.isMicrogridSelected = false;
     $scope.getAllUsers = function () {
         let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
         UserService.getAllUsers(headers, function (response) {
@@ -36,7 +40,12 @@ app.controller('MicrogridUserController', function (
     $scope.changeMicrogrid=function(item,model){
         $scope.currentMicrogrid=item;
         $scope.currentMicrogrid.selected=model;
-        $scope.getUsersByMicrogridID($scope.currentMicrogrid.id);
+        if ($scope.currentMicrogrid && $scope.currentMicrogrid.id) {
+            $scope.isMicrogridSelected = true;
+            $scope.getUsersByMicrogridID($scope.currentMicrogrid.id);
+        } else {
+            $scope.isMicrogridSelected = false;
+        }
     };
 
     $scope.getAllMicrogrids = function () {
@@ -107,4 +116,18 @@ app.controller('MicrogridUserController', function (
   	$scope.$on('handleBroadcastMicrogridChanged', function(event) {
       $scope.getAllMicrogrids();
   	});
+
+    // Listen directly to HJC-DRAG-DISABLED event and show warning
+    $scope.$on('HJC-DRAG-DISABLED', function(event) {
+        if (!$scope.isMicrogridSelected) {
+            // Use rootScope flag to prevent multiple warnings from different controllers
+            if (!$rootScope._microgridDragWarningShown) {
+                $rootScope._microgridDragWarningShown = true;
+                DragDropWarningService.showWarning('SETTING.PLEASE_SELECT_MICROGRID_FIRST');
+                $timeout(function() {
+                    $rootScope._microgridDragWarningShown = false;
+                }, 500); // Reset flag after 500ms
+            }
+        }
+    });
 });

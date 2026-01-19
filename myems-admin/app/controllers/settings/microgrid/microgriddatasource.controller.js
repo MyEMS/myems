@@ -4,6 +4,7 @@ app.controller(
   "MicrogridDataSourceController",
   function (
     $scope,
+    $rootScope,
     $window,
     $timeout,
     $translate,
@@ -11,12 +12,14 @@ app.controller(
     DataSourceService,
     MicrogridDataSourceService,
     PointService,
-    toaster
+    toaster,
+    DragDropWarningService
   ) {
     $scope.cur_user = JSON.parse(
       $window.localStorage.getItem("myems_admin_ui_current_user")
     );
     $scope.currentMicrogrid = { selected: undefined };
+    $scope.isMicrogridSelected = false;
 
     $scope.getAllDataSources = function () {
       let headers = {
@@ -55,9 +58,14 @@ app.controller(
     $scope.changeMicrogrid = function (item, model) {
       $scope.currentMicrogrid = item;
       $scope.currentMicrogrid.selected = model;
-      $scope.getDataSourcesByMicrogridID(
-        $scope.currentMicrogrid.id
-      );
+      if ($scope.currentMicrogrid && $scope.currentMicrogrid.id) {
+        $scope.isMicrogridSelected = true;
+        $scope.getDataSourcesByMicrogridID(
+          $scope.currentMicrogrid.id
+        );
+      } else {
+        $scope.isMicrogridSelected = false;
+      }
     };
 
     $scope.getAllMicrogrids = function () {
@@ -72,9 +80,12 @@ app.controller(
           if (angular.isDefined(response.status) && response.status === 200) {
             $scope.microgrids = response.data;
             $timeout(function () {
-              $scope.getDataSourcesByMicrogridID(
-                $scope.currentMicrogrid.id
-              );
+              if ($scope.currentMicrogrid && $scope.currentMicrogrid.id) {
+                $scope.isMicrogridSelected = true;
+                $scope.getDataSourcesByMicrogridID(
+                  $scope.currentMicrogrid.id
+                );
+              }
             }, 1000);
           } else {
             $scope.microgrids = [];
@@ -167,5 +178,19 @@ app.controller(
         $scope.getAllMicrogrids();
       }
     );
+
+    // Listen directly to HJC-DRAG-DISABLED event and show warning
+    $scope.$on('HJC-DRAG-DISABLED', function(event) {
+      if (!$scope.isMicrogridSelected) {
+        // Use rootScope flag to prevent multiple warnings from different controllers
+        if (!$rootScope._microgridDragWarningShown) {
+          $rootScope._microgridDragWarningShown = true;
+          DragDropWarningService.showWarning('SETTING.PLEASE_SELECT_MICROGRID_FIRST');
+          $timeout(function() {
+            $rootScope._microgridDragWarningShown = false;
+          }, 500); // Reset flag after 500ms
+        }
+      }
+    });
   }
 );
