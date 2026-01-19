@@ -876,6 +876,7 @@ class ChangePassword:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.NEW_PASSWORD_LENGTH_CANNOT_EXCEED_100_CHARACTERS')
 
+        # Verify User Session
         cnx = mysql.connector.connect(**config.myems_user_db)
         cursor = cnx.cursor()
         query = (" SELECT utc_expires "
@@ -909,6 +910,7 @@ class ChangePassword:
 
         result = {'salt': row[0], 'password': row[1]}
 
+        # verify old password
         salt = result['salt']
         hashed_password = hashlib.sha512(salt.encode() + old_password.encode()).hexdigest()
 
@@ -919,6 +921,7 @@ class ChangePassword:
                                    title='API.BAD_REQUEST',
                                    description='API.INVALID_OLD_PASSWORD')
 
+        # Update User password
         salt = uuid.uuid4().hex
         hashed_password = hashlib.sha512(salt.encode() + new_password.encode()).hexdigest()
 
@@ -928,6 +931,7 @@ class ChangePassword:
         cursor.execute(update_user, (salt, hashed_password, user_uuid,))
         cnx.commit()
 
+        # Refresh User session
         update_session = (" UPDATE tbl_sessions "
                           " SET utc_expires = %s "
                           " WHERE user_uuid = %s AND token = %s ")
@@ -1007,6 +1011,7 @@ class ResetPassword:
 
         new_password = str.strip(new_values['data']['password'])
 
+        # Verify Administrator
         cnx = mysql.connector.connect(**config.myems_user_db)
         cursor = cnx.cursor()
         query = (" SELECT utc_expires "
@@ -1059,6 +1064,7 @@ class ResetPassword:
 
         user_id = row[0]
 
+        # Refresh administrator session
         update_session = (" UPDATE tbl_sessions "
                           " SET utc_expires = %s "
                           " WHERE user_uuid = %s and token = %s ")
