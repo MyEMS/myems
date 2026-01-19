@@ -12,6 +12,7 @@ import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import Captcha from 'react-captcha-code-custom';
 
 const LoginForm = ({ setRedirect, hasLabel, layout, t }) => {
+  // State
   const [loginAccount, setLoginAccount] = useState(getItemFromStore('loginAccount', ''));
   const [password, setPassword] = useState('');
   const [code, setCode] = useState('');

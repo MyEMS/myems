@@ -536,6 +536,7 @@ class UserLogin:
 
     @staticmethod
     def on_put(req, resp):
+        """Handles PUT requests"""
         try:
             raw_json = req.stream.read().decode('utf-8')
             new_values = json.loads(raw_json)

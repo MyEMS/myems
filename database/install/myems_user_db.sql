@@ -30,7 +30,6 @@ CREATE TABLE IF NOT EXISTS `myems_user_db`.`tbl_email_messages`  (
   `id` BIGINT NOT NULL AUTO_INCREMENT,
   `recipient_name` VARCHAR(128) NOT NULL,
   `recipient_email` VARCHAR(128) NOT NULL,
-  `phone` VARCHAR(20) NULL,  
   `subject` VARCHAR(128) NOT NULL,
   `message` LONGTEXT NOT NULL,
   `attachment_file_name` VARCHAR(128) NULL DEFAULT NULL,
@@ -40,7 +39,6 @@ CREATE TABLE IF NOT EXISTS `myems_user_db`.`tbl_email_messages`  (
   `status` VARCHAR(32) NOT NULL COMMENT 'new, sent, timeout',
   PRIMARY KEY (`id`));
 CREATE INDEX `tbl_email_messages_index_1` ON `myems_user_db`.`tbl_email_messages` (`status`, `scheduled_datetime_utc`);
-CREATE INDEX `tbl_email_messages_index_2` ON `myems_user_db`.`tbl_email_messages` (`phone`);  -- 新增的手机号索引
 
 -- ---------------------------------------------------------------------------------------------------------------------
 -- Table `myems_user_db`.`tbl_email_message_sessions`

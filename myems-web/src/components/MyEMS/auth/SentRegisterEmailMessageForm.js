@@ -10,6 +10,7 @@ import moment from 'moment';
 import { APIBaseURL } from '../../../config';
 
 const SentRegisterEmailMessageForm = ({ setRedirect, setRedirectUrl, hasLabel, layout, t }) => {
+  // State
   const [email, setEmail] = useState('');
   const [code, setCode] = useState('');
   const [isdisabled, setIsDisabled] = useState(false);
@@ -21,6 +22,7 @@ const SentRegisterEmailMessageForm = ({ setRedirect, setRedirectUrl, hasLabel, l
   const [countdown, setCountdown] = useState(60);
   const [phone, setPhone] = useState('');
 
+  // Handler
   const handleSubmit = e => {
     e.preventDefault();
     let isResponseOK = false;
@@ -69,6 +71,7 @@ const SentRegisterEmailMessageForm = ({ setRedirect, setRedirectUrl, hasLabel, l
       });
   };
 
+  // Handler
   const handleCodeSubmit = e => {
     setIsDisabled(true);
     const interval = setInterval(() => {
@@ -166,6 +169,7 @@ const SentRegisterEmailMessageForm = ({ setRedirect, setRedirectUrl, hasLabel, l
 
   useEffect(() => {
     setItemToStore('email', email);
+    // eslint-disable-next-line
   }, []);
 
   useEffect(() => {
