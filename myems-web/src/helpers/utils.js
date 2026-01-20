@@ -39,7 +39,7 @@ export const createCookie = (name, value, cookieExpireTime) => {
 };
 export const handleAPIError = (json, setRedirect, setRedirectUrl, t,toast) => {
   if (json.description === "API.USER_SESSION_TIMEOUT") {
-    toast.error(t(json.description));
+    //toast.error(t(json.description));
     setRedirectUrl(`/authentication/basic/login`);
     setRedirect(true);
   }else{
