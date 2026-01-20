@@ -92,6 +92,12 @@ const CustomizeMapBox = ({ Latitude, Longitude, Zoom, Geojson, t }) => {
   }, [Latitude, Longitude, Zoom, isDark, language]);
 
   useEffect(() => {
+    var lang = language;
+    if (lang === 'zh_CN') {
+      lang = 'zh-Hans';
+    } else if (lang === 'zh_TW') {
+      lang = 'zh-Hant';
+    }
     if (!map.current) return;
     if (Geojson === null || Geojson === undefined) return;
 
