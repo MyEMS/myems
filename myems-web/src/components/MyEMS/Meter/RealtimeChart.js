@@ -14,8 +14,8 @@ const listItemBorderColor = 'rgba(255, 255, 255, 0.05)';
 
 const chartOptions = {
   plugins: {
-    legend: { 
-      display: false 
+    legend: {
+      display: false
     }
   },
   scales: {
@@ -25,7 +25,7 @@ const chartOptions = {
     },
     x: {
       stacked: false,
-      ticks: { 
+      ticks: {
         display: true,
         maxTicksLimit: 10,
         callback: function(value, index, values) {
@@ -99,7 +99,7 @@ class RealtimeChart extends Component {
           let length = json['energy_value']['values'].length;
           let trendLog =
             length > 60 ? json['energy_value']['values'].slice(length - 60, length) : json['energy_value']['values'];
-          let timestamps = 
+          let timestamps =
             length > 60 ? json['energy_value']['timestamps'].slice(length - 60, length) : json['energy_value']['timestamps'];
           let currentEnergyValue = undefined;
           let energyValuePointName = json['energy_value']['name'];
@@ -130,7 +130,7 @@ class RealtimeChart extends Component {
             });
           }
         } else {
-          handleAPIError(json, setRedirect, setRedirectUrl, t, toast)
+          toast.error(t(json.description));
         }
       })
       .catch(err => {
@@ -186,7 +186,7 @@ class RealtimeChart extends Component {
               });
             }
           } else {
-            handleAPIError(json, setRedirect, setRedirectUrl, t, toast)
+            toast.error(t(json.description));
           }
         })
         .catch(err => {
