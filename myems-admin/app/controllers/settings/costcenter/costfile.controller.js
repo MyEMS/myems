@@ -26,7 +26,8 @@ app.controller('CostFileController', function (
         url: getAPI() + 'costfiles',
         acceptedFiles: '.xlsx',
         dictDefaultMessage: 'Click(or Drop) to add files',
-        maxFilesize: '100'
+        maxFilesize: '100',
+        headers: { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token }
     };
 
     $scope.dzCallbacks = {
