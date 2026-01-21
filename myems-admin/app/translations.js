@@ -283,7 +283,6 @@ function config($translateProvider) {
                 IS_INPUT_COUNTED: 'Is Energy Input Counted In',
                 IS_OUTPUT_COUNTED: 'Is Energy Output Counted',
                 BIND_COMMAND: 'Bind Command Ⓔ',
-                BIND_DATASOURCE: 'Bind Data source',
                 BIND_DATA_SOURCE: 'Bind Data Source',
                 BIND_METER: 'Bind Meter',
                 BIND_POINT: 'Bind Point',
