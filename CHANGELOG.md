@@ -8,6 +8,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - added store type setting to myems-admin
 - added optional redis database to myems-api
 ### Changed
+- udpated space settings in myems-admin
 ### Fixed
 - optimized combined equipment settings in myems-admin
 - optimized equipment settings in myems-admin
