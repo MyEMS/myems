@@ -1390,17 +1390,6 @@ class EmailMessageCollection:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_EMAIL')
 
-        if 'phone' not in new_values['data'].keys() or \
-                not isinstance(new_values['data']['phone'], str) or \
-                len(str.strip(new_values['data']['phone'])) == 0:
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.INVALID_PHONE_NUMBER')
-        phone = str.strip(new_values['data']['phone'])
-        phone_match = re.match(r'^1[3-9]\d{9}$', phone)
-        if phone_match is None:
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.INVALID_PHONE_FORMAT')
-
         if 'subject' not in new_values['data'].keys() or \
                 not isinstance(new_values['data']['subject'], str) or \
                 len(str.strip(new_values['data']['subject'])) == 0:
@@ -1482,19 +1471,18 @@ class EmailMessageCollection:
             recipient_name = recipient_email.split('@')[0]
 
         add_verification_code = (" INSERT INTO tbl_verification_codes "
-                                 " (recipient_email, phone, verification_code, created_datetime_utc, expires_datetime_utc) "
+                                 " (recipient_email, verification_code, created_datetime_utc, expires_datetime_utc) "
                                  " VALUES (%s, %s, %s, %s, %s) ")
         cursor.execute(add_verification_code,
-                       (recipient_email, phone, verification_code, created_datetime_utc, expires_datetime_utc))
+                       (recipient_email, verification_code, created_datetime_utc, expires_datetime_utc))
 
         add_row = (" INSERT INTO tbl_email_messages "
-                   "             (recipient_name, recipient_email, phone, subject, message, "
+                   "             (recipient_name, recipient_email, subject, message, "
                    "             created_datetime_utc, scheduled_datetime_utc, status) "
                    " VALUES (%s, %s, %s, %s, %s, %s, %s, %s) ")
 
         cursor.execute(add_row, (recipient_name,
                                  recipient_email,
-                                 phone,
                                  subject,
                                  message,
                                  created_datetime_utc,
@@ -1751,7 +1739,7 @@ class NewUserCollection:
         admin_control(req)
         cnx = mysql.connector.connect(**config.myems_user_db)
         cursor = cnx.cursor()
-        query = (" SELECT id, name, display_name, uuid, email, phone "
+        query = (" SELECT id, name, display_name, uuid, email "
                  " FROM tbl_new_users "
                  " ORDER BY name ")
         cursor.execute(query)
@@ -1766,8 +1754,7 @@ class NewUserCollection:
                                "name": row[1],
                                "display_name": row[2],
                                "uuid": row[3],
-                               "email": row[4],
-                               "phone": row[5]}
+                               "email": row[4]}
                 result.append(meta_result)
 
         resp.text = json.dumps(result)
@@ -1818,18 +1805,6 @@ class NewUserCollection:
         if match is None:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_EMAIL')
-
-        if 'phone' not in new_values['data'].keys() or \
-                not isinstance(new_values['data']['phone'], str) or \
-                len(str.strip(new_values['data']['phone'])) == 0:
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.INVALID_PHONE_NUMBER')
-        phone = str.strip(new_values['data']['phone'])
-
-        phone_match = re.match(r'^1[3-9]\d{9}$', phone)
-        if phone_match is None:
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.INVALID_PHONE_FORMAT')
 
         if 'password' not in new_values['data'].keys() or \
                 not isinstance(new_values['data']['password'], str) or \
@@ -1911,8 +1886,8 @@ class NewUserCollection:
                                    description='API.EMAIL_IS_ALREADY_IN_USE')
 
         add_row = (" INSERT INTO tbl_new_users "
-                   "     (name, uuid, display_name, email, phone, salt, password) "
-                   " VALUES (%s, %s, %s, %s, %s, %s, %s) ")
+                   "     (name, uuid, display_name, email, salt, password) "
+                   " VALUES (%s, %s, %s, %s, %s, %s) ")
 
         salt = uuid.uuid4().hex
         password = new_values['data']['password']
@@ -1922,7 +1897,6 @@ class NewUserCollection:
                                  str(uuid.uuid4()),
                                  display_name,
                                  email,
-                                 phone,
                                  salt,
                                  hashed_password))
         new_id = cursor.lastrowid
@@ -2228,7 +2202,7 @@ class NewUserApprove:
                 raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                        description='API.PRIVILEGE_NOT_FOUND')
 
-        cursor.execute(" SELECT name, uuid, display_name, email, phone, salt, password"
+        cursor.execute(" SELECT name, uuid, display_name, email, salt, password"
                        " FROM tbl_new_users "
                        " WHERE id = %s ", (id_,))
         row = cursor.fetchone()
@@ -2242,20 +2216,19 @@ class NewUserApprove:
             user_uuid = row[1]
             display_name = row[2]
             email = row[3]
-            phone = row[4]
-            salt = row[5]
-            passowrd = row[6]
+            salt = row[4]
+            passowrd = row[5]
 
         add_row = (" INSERT INTO tbl_users "
-                   "     (name, uuid, display_name, email, phone, salt, password, is_admin, is_read_only, privilege_id, "
-                   "      account_expiration_datetime_utc, password_expiration_datetime_utc, failed_login_count) "
-                   " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) ")
+                   "     (name, uuid, display_name, email, salt, password, is_admin, is_read_only, "
+                   "      privilege_id, account_expiration_datetime_utc, password_expiration_datetime_utc, "
+                   "      failed_login_count) "
+                   " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) ")
 
         cursor.execute(add_row, (name,
                                  user_uuid,
                                  display_name,
                                  email,
-                                 phone,
                                  salt,
                                  passowrd,
                                  is_admin,

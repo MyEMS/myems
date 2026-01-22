@@ -64,7 +64,7 @@ CREATE TABLE IF NOT EXISTS `myems_user_db`.`tbl_users` (
   `uuid` CHAR(36) NOT NULL,
   `display_name` VARCHAR(128) NOT NULL,
   `email` VARCHAR(128) NOT NULL,
-  `phone` VARCHAR(20) NULL,
+  `phone` VARCHAR(20) NULL UNIQUE,
   `salt` VARCHAR(128) NOT NULL,
   `password` VARCHAR(256) NOT NULL,
   `is_admin` BOOL NOT NULL ,
@@ -73,8 +73,7 @@ CREATE TABLE IF NOT EXISTS `myems_user_db`.`tbl_users` (
   `account_expiration_datetime_utc` DATETIME NOT NULL,
   `password_expiration_datetime_utc` DATETIME NOT NULL,
   `failed_login_count` INT NOT NULL DEFAULT 0,
-  PRIMARY KEY (`id`),
-  UNIQUE INDEX `ui_tbl_users_phone` (`phone` ASC));
+  PRIMARY KEY (`id`));
 
 -- --------------------------------------------------------------------------------------------------------------------
 -- Example Data for table `myems_user_db`.`tbl_users`
@@ -140,11 +139,9 @@ CREATE TABLE IF NOT EXISTS `myems_user_db`.`tbl_new_users` (
   `uuid` CHAR(36) NOT NULL,
   `display_name` VARCHAR(128) NOT NULL,
   `email` VARCHAR(128) NOT NULL,
-  `phone` VARCHAR(20) NULL,
   `salt` VARCHAR(128) NOT NULL,
   `password` VARCHAR(256) NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE INDEX `ui_tbl_new_users_phone` (`phone` ASC));
+  PRIMARY KEY (`id`));
 
 -- ---------------------------------------------------------------------------------------------------------------------
 -- Table `myems_user_db`.`tbl_notifications`
@@ -171,12 +168,10 @@ DROP TABLE IF EXISTS `myems_user_db`.`tbl_verification_codes`;
 CREATE TABLE IF NOT EXISTS `myems_user_db`.`tbl_verification_codes`  (
   `id` int NOT NULL AUTO_INCREMENT,
   `recipient_email` VARCHAR(128) NOT NULL,
-  `phone` VARCHAR(20) NULL,
   `verification_code` VARCHAR(128) NOT NULL,
   `created_datetime_utc` DATETIME NOT NULL,
   `expires_datetime_utc` DATETIME NOT NULL,
   PRIMARY KEY (`id`));
 CREATE INDEX `tbl_verirication_codes_index_1`
 ON `myems_user_db`.`tbl_verification_codes` (`recipient_email`, `created_datetime_utc`);
-CREATE INDEX `tbl_verirication_codes_index_2`
-ON `myems_user_db`.`tbl_verification_codes` (`phone`); 
+
