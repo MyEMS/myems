@@ -120,7 +120,7 @@
 											</form>
 											<h5>{{'SETTING.POINT_LIST' | translate}}</h5>
 											<div class="source btn btn-info btn-rounded btn-block"
-											ng-repeat="point in points"
+											ng-repeat="point in filteredPoints"
 											x-hjc-draggable="{{isSensorSelected ? 'true' : 'false'}}"> {{point.name}}</div>
 										</div>
 									</div>

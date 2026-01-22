@@ -145,7 +145,7 @@
 											</form>
 											<h5>{{'SETTING.POINT_LIST' | translate}}</h5>
 											<div class="source btn btn-info btn-rounded btn-block"
-												ng-repeat="point in points" x-hjc-draggable="{{isMeterSelected ? 'true' : 'false'}}"> {{point.name}}</div>
+												ng-repeat="point in filteredPoints" x-hjc-draggable="{{isMeterSelected ? 'true' : 'false'}}"> {{point.name}}</div>
 										</div>
 									</div>
 								</div>
@@ -455,7 +455,7 @@
 										<div class="panel-body" uib-tooltip="{{'SETTING.DRAG_TO_BIND' | translate}}"
 											slim-scroll box-height="765px">
 											<div class="source btn btn-primary btn-rounded btn-block"
-												ng-repeat="command in commands" x-hjc-draggable="{{isMeterSelected ? 'true' : 'false'}}">
+												ng-repeat="command in filteredCommands" x-hjc-draggable="{{isMeterSelected ? 'true' : 'false'}}">
 												{{command.name}}</div>
 										</div>
 									</div>

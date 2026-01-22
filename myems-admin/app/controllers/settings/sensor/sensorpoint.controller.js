@@ -36,16 +36,25 @@ app.controller('SensorPointController', function (
         let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
         PointService.getPointsByDataSourceID(id, headers, function (response) {
             if (angular.isDefined(response.status) && response.status === 200) {
-                let allPoints = response.data;
-                if ($scope.sensorpoints && $scope.sensorpoints.length > 0) {
-                    const boundIds = $scope.sensorpoints.map(p => p.id);
-                    $scope.points = allPoints.filter(p => !boundIds.includes(p.id));
-                } else {
-                    $scope.points = allPoints;
-                }
+                $scope.allPoints = response.data;
+                $scope.filterAvailablePoints();
             } else {
-                $scope.points = [];
+                $scope.allPoints = [];
+                $scope.filteredPoints = [];
             }
+        });
+    };
+
+    $scope.filterAvailablePoints = function() {
+        var boundSet = {};
+        ($scope.sensorpoints || []).forEach(function(sp) {
+            if (angular.isDefined(sp.id)) {
+                boundSet[sp.id] = true;
+            }
+        });
+
+        $scope.filteredPoints = ($scope.allPoints || []).filter(function(p){
+            return !boundSet[p.id];
         });
     };
 
@@ -54,12 +63,13 @@ app.controller('SensorPointController', function (
         SensorPointService.getPointsBySensorID(id, headers, function (response) {
             if (angular.isDefined(response.status) && response.status === 200) {
                 $scope.sensorpoints = response.data;
-
+                $scope.filterAvailablePoints();
                 if ($scope.currentDataSource) {
                     $scope.getPointsByDataSourceID($scope.currentDataSource);
                 }
             } else {
                 $scope.sensorpoints = [];
+                $scope.filterAvailablePoints();
             }
         });
     };
@@ -72,6 +82,8 @@ app.controller('SensorPointController', function (
             $scope.getPointsBySensorID($scope.currentSensor.id);
         } else {
             $scope.isSensorSelected = false;
+            $scope.sensorpoints = [];
+            $scope.filterAvailablePoints();
         }
     };
 
@@ -156,11 +168,54 @@ app.controller('SensorPointController', function (
         });
     };
 
-    $scope.getAllDataSources();
-    $scope.getAllSensors();
+    $scope.tabInitialized = false;
+
+    $scope.initTab = function() {
+        if (!$scope.tabInitialized) {
+            $scope.tabInitialized = true;
+            $scope.getAllDataSources();
+            $scope.getAllSensors();
+        }
+    };
+
+    $scope.$on('sensor.tabSelected', function(event, tabIndex) {
+        var TAB_INDEXES = ($scope.$parent && $scope.$parent.TAB_INDEXES) || {};
+        if (tabIndex === TAB_INDEXES.BIND_POINT) {
+            if (!$scope.tabInitialized) {
+                $scope.initTab();
+            } else if ($scope.currentSensor && $scope.currentSensor.id) {
+                $scope.getPointsBySensorID($scope.currentSensor.id);
+                if ($scope.currentDataSource) {
+                    $scope.getPointsByDataSourceID($scope.currentDataSource);
+                }
+            }
+        }
+    });
+
+    $timeout(function() {
+        var TAB_INDEXES = ($scope.$parent && $scope.$parent.TAB_INDEXES) || {};
+        if ($scope.$parent && $scope.$parent.activeTabIndex === TAB_INDEXES.BIND_POINT) {
+            if (!$scope.tabInitialized) {
+                $scope.initTab();
+            } else if ($scope.currentSensor && $scope.currentSensor.id) {
+                $scope.getPointsBySensorID($scope.currentSensor.id);
+                if ($scope.currentDataSource) {
+                    $scope.getPointsByDataSourceID($scope.currentDataSource);
+                }
+            }
+        }
+    }, 0);
 
     $scope.$on('handleBroadcastSensorChanged', function (event) {
-        $scope.getAllSensors();
+        if ($scope.tabInitialized) {
+            $scope.getAllSensors();
+            if ($scope.currentSensor && $scope.currentSensor.id) {
+                $scope.getPointsBySensorID($scope.currentSensor.id);
+                if ($scope.currentDataSource) {
+                    $scope.getPointsByDataSourceID($scope.currentDataSource);
+                }
+            }
+        }
     });
 
     // Register drag and drop warning event listeners

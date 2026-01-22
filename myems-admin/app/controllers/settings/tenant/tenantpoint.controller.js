@@ -164,7 +164,6 @@ app.controller('TenantPointController', function (
 
   	$scope.$on('handleBroadcastTenantChanged', function(event) {
         $scope.getAllTenants();
-        // 如果已选择租户，刷新已绑定列表
         if ($scope.currentTenant && $scope.currentTenant.id) {
             $scope.getPointsByTenantID($scope.currentTenant.id);
         }
@@ -174,7 +173,6 @@ app.controller('TenantPointController', function (
     $scope.$on('tenant.tabSelected', function(event, tabIndex) {
         var TAB_INDEXES = ($scope.$parent && $scope.$parent.TAB_INDEXES) || {};
         if (tabIndex === TAB_INDEXES.BIND_POINT && $scope.currentTenant && $scope.currentTenant.id) {
-            // 刷新已绑定列表
             $scope.getPointsByTenantID($scope.currentTenant.id);
         }
     });

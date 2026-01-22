@@ -242,20 +242,33 @@ app.controller('EquipmentMeterController', function(
 	};
 
 	$scope.$on('equipment.tabSelected', function(event, tabIndex) {
-		if ($scope.$parent && $scope.$parent.TAB_INDEXES && tabIndex === $scope.$parent.TAB_INDEXES.BIND_METER && !$scope.tabInitialized) {
-			$scope.initTab();
+		var TAB_INDEXES = ($scope.$parent && $scope.$parent.TAB_INDEXES) || {};
+		if (tabIndex === TAB_INDEXES.BIND_METER) {
+			if (!$scope.tabInitialized) {
+				$scope.initTab();
+			} else if ($scope.currentEquipment && $scope.currentEquipment.id) {
+				$scope.getMetersByEquipmentID($scope.currentEquipment.id);
+			}
 		}
 	});
 
 	$timeout(function() {
-		if ($scope.$parent && $scope.$parent.TAB_INDEXES && $scope.$parent.activeTabIndex === $scope.$parent.TAB_INDEXES.BIND_METER && !$scope.tabInitialized) {
-			$scope.initTab();
+		var TAB_INDEXES = ($scope.$parent && $scope.$parent.TAB_INDEXES) || {};
+		if ($scope.$parent && $scope.$parent.activeTabIndex === TAB_INDEXES.BIND_METER) {
+			if (!$scope.tabInitialized) {
+				$scope.initTab();
+			} else if ($scope.currentEquipment && $scope.currentEquipment.id) {
+				$scope.getMetersByEquipmentID($scope.currentEquipment.id);
+			}
 		}
 	}, 0);
 
   	$scope.$on('handleBroadcastEquipmentChanged', function(event) {
 		if ($scope.tabInitialized) {
 			$scope.getAllEquipments();
+			if ($scope.currentEquipment && $scope.currentEquipment.id) {
+				$scope.getMetersByEquipmentID($scope.currentEquipment.id);
+			}
 		}
   	});
 

@@ -29,8 +29,10 @@ app.controller(
       DataSourceService.getAllDataSources(headers, function (response) {
         if (angular.isDefined(response.status) && response.status === 200) {
           $scope.datasources = response.data;
+          $scope.filterAvailableDataSources();
         } else {
           $scope.datasources = [];
+          $scope.filteredDataSources = [];
         }
       });
     };
@@ -38,6 +40,7 @@ app.controller(
     $scope.getDataSourcesByCombinedEquipmentID = function (id) {
       if (!id) {
         $scope.combinedequipmentdatasources = [];
+        $scope.filterAvailableDataSources();
         return;
       }
       let headers = {
@@ -51,8 +54,10 @@ app.controller(
         function (response) {
           if (angular.isDefined(response.status) && response.status === 200) {
             $scope.combinedequipmentdatasources = response.data;
+            $scope.filterAvailableDataSources();
           } else {
             $scope.combinedequipmentdatasources = [];
+            $scope.filterAvailableDataSources();
           }
         }
       );
@@ -68,6 +73,8 @@ app.controller(
         );
       } else {
         $scope.isCombinedEquipmentSelected = false;
+        $scope.combinedequipmentdatasources = [];
+        $scope.filterAvailableDataSources();
       }
     };
 
@@ -232,15 +239,38 @@ app.controller(
         }
     };
 
+    $scope.filterAvailableDataSources = function() {
+      var boundSet = {};
+      ($scope.combinedequipmentdatasources || []).forEach(function(ceds) {
+        if (angular.isDefined(ceds.id)) {
+          boundSet[ceds.id] = true;
+        }
+      });
+
+      $scope.filteredDataSources = ($scope.datasources || []).filter(function(ds){
+        return !boundSet[ds.id];
+      });
+    };
+
     $scope.$on('combinedequipment.tabSelected', function(event, tabIndex) {
-        if ($scope.$parent && $scope.$parent.TAB_INDEXES && tabIndex === $scope.$parent.TAB_INDEXES.BIND_DATA_SOURCE && !$scope.tabInitialized) {
-            $scope.initTab();
+        var TAB_INDEXES = ($scope.$parent && $scope.$parent.TAB_INDEXES) || {};
+        if (tabIndex === TAB_INDEXES.BIND_DATA_SOURCE) {
+            if (!$scope.tabInitialized) {
+                $scope.initTab();
+            } else if ($scope.currentCombinedEquipment && $scope.currentCombinedEquipment.id) {
+                $scope.getDataSourcesByCombinedEquipmentID($scope.currentCombinedEquipment.id);
+            }
         }
     });
 
     $timeout(function() {
-        if ($scope.$parent && $scope.$parent.TAB_INDEXES && $scope.$parent.activeTabIndex === $scope.$parent.TAB_INDEXES.BIND_DATA_SOURCE && !$scope.tabInitialized) {
-            $scope.initTab();
+        var TAB_INDEXES = ($scope.$parent && $scope.$parent.TAB_INDEXES) || {};
+        if ($scope.$parent && $scope.$parent.activeTabIndex === TAB_INDEXES.BIND_DATA_SOURCE) {
+            if (!$scope.tabInitialized) {
+                $scope.initTab();
+            } else if ($scope.currentCombinedEquipment && $scope.currentCombinedEquipment.id) {
+                $scope.getDataSourcesByCombinedEquipmentID($scope.currentCombinedEquipment.id);
+            }
         }
     }, 0);
 
@@ -249,6 +279,9 @@ app.controller(
       function (event) {
         if ($scope.tabInitialized) {
             $scope.getAllCombinedEquipments();
+            if ($scope.currentCombinedEquipment && $scope.currentCombinedEquipment.id) {
+                $scope.getDataSourcesByCombinedEquipmentID($scope.currentCombinedEquipment.id);
+            }
         }
       }
     );

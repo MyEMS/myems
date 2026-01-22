@@ -18,8 +18,10 @@ app.controller('MeterCommandController', function (
 		CommandService.getAllCommands(headers, function (response) {
 			if (angular.isDefined(response.status) && response.status === 200) {
 				$scope.commands = response.data;
+				$scope.filterAvailableCommands();
 			} else {
 				$scope.commands = [];
+				$scope.filteredCommands = [];
 			}
 		});
 	};
@@ -29,8 +31,10 @@ app.controller('MeterCommandController', function (
         MeterCommandService.getCommandsByMeterID(id, headers, function (response) {
             if (angular.isDefined(response.status) && response.status === 200) {
                 $scope.metercommands = response.data;
+                $scope.filterAvailableCommands();
             } else {
                 $scope.metercommands = [];
+                $scope.filterAvailableCommands();
             }
         });
     };
@@ -43,6 +47,8 @@ app.controller('MeterCommandController', function (
   	      $scope.getCommandsByMeterID($scope.currentMeter.id);
   	  } else {
   	      $scope.isMeterSelected = false;
+  	      $scope.metercommands = [];
+  	      $scope.filterAvailableCommands();
   	  }
     };
 
@@ -130,21 +136,47 @@ app.controller('MeterCommandController', function (
         }
     };
 
+    $scope.filterAvailableCommands = function() {
+        var boundSet = {};
+        ($scope.metercommands || []).forEach(function(mc) {
+            if (angular.isDefined(mc.id)) {
+                boundSet[mc.id] = true;
+            }
+        });
+
+        $scope.filteredCommands = ($scope.commands || []).filter(function(c){
+            return !boundSet[c.id];
+        });
+    };
+
     $scope.$on('meter.tabSelected', function(event, tabIndex) {
-        if ($scope.$parent && $scope.$parent.TAB_INDEXES && tabIndex === $scope.$parent.TAB_INDEXES.BIND_COMMAND && !$scope.tabInitialized) {
-            $scope.initTab();
+        var TAB_INDEXES = ($scope.$parent && $scope.$parent.TAB_INDEXES) || {};
+        if (tabIndex === TAB_INDEXES.BIND_COMMAND) {
+            if (!$scope.tabInitialized) {
+                $scope.initTab();
+            } else if ($scope.currentMeter && $scope.currentMeter.id) {
+                $scope.getCommandsByMeterID($scope.currentMeter.id);
+            }
         }
     });
 
     $timeout(function() {
-        if ($scope.$parent && $scope.$parent.TAB_INDEXES && $scope.$parent.activeTabIndex === $scope.$parent.TAB_INDEXES.BIND_COMMAND && !$scope.tabInitialized) {
-            $scope.initTab();
+        var TAB_INDEXES = ($scope.$parent && $scope.$parent.TAB_INDEXES) || {};
+        if ($scope.$parent && $scope.$parent.activeTabIndex === TAB_INDEXES.BIND_COMMAND) {
+            if (!$scope.tabInitialized) {
+                $scope.initTab();
+            } else if ($scope.currentMeter && $scope.currentMeter.id) {
+                $scope.getCommandsByMeterID($scope.currentMeter.id);
+            }
         }
     }, 0);
 
   	$scope.$on('handleBroadcastMeterChanged', function(event) {
       if ($scope.tabInitialized) {
           $scope.getAllMeters();
+          if ($scope.currentMeter && $scope.currentMeter.id) {
+              $scope.getCommandsByMeterID($scope.currentMeter.id);
+          }
       }
   	});
 
