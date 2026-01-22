@@ -609,183 +609,7 @@
 							</div>
 						</div>
 					</uib-tab>
-
-					<uib-tab heading="{{'WORKING_CALENDAR.BIND_WORKING_CALENDAR' | translate}}" index="9" select="handleTabSelect(9)">
-						<div class="panel-body" ng-controller="SpaceWorkingCalendarController">
-							<div class="row">
-								<div class="col-lg-3">
-									<div class="panel panel-info">
-										<div class="panel-heading">
-											{{'SETTING.SELECT_SPACE' | translate}}
-										</div>
-										<div class="panel-body" style="overflow: auto; max-height: 700px;">
-											<div id="spacetreewithworkingcalendar"></div>
-										</div>
-									</div>
-								</div>
-
-								<div class="col-lg-4">
-									<div class="panel panel-primary">
-										<div class="panel-heading">
-											{{'WORKING_CALENDAR.N_S_WORKING_CALENDAR' | translate}}
-										</div>
-										<div class="panel-body maxheight"
-										    x-hjc-drop-target="{{isSpaceSelected ? 'true' : 'false'}}"
-											x-on-drop="pairWorkingCalendar(dragEl,dropEl)"
-											uib-tooltip="{{'SETTING.DRAG_TO_UNBIND' | translate}}">
-											<div class="btn btn-primary btn-rounded btn-block"
-												ng-repeat="spaceworkingcalendar in spaceworkingcalendars" x-hjc-draggable="{{isSpaceSelected ? 'true' : 'false'}}"
-												title="{{spaceworkingcalendar.name}}">
-												{{spaceworkingcalendar.name}}</div>
-										</div>
-									</div>
-									<div class="panel panel-danger">
-										<div class="panel-heading">
-											{{'SETTING.TRASH' | translate}}
-										</div>
-										<div class="panel-body trash">
-											<img class="trashcan" src="img/trashcan.png" x-hjc-drop-target="{{isSpaceSelected ? 'true' : 'false'}}"
-												x-on-drop="deleteWorkingCalendarPair(dragEl,dropEl)">
-										</div>
-
-									</div>
-								</div>
-
-								<div class="col-lg-4">
-									<!-- according panel-->
-									<div class="panel panel-primary">
-										<div class="panel-heading">
-											{{'SETTING.WORKING_CALENDAR' | translate}}
-										</div>
-										<div class="panel-body" uib-tooltip="{{'SETTING.DRAG_TO_BIND' | translate}}"
-											slim-scroll box-height="765px">
-											<div class="source btn btn-primary btn-rounded btn-block"
-												ng-repeat="workingcalendar in workingcalendars" x-hjc-draggable="{{isSpaceSelected ? 'true' : 'false'}}">
-												{{workingcalendar.name}}</div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</uib-tab>
-
-					<uib-tab heading="{{'SETTING.BIND_COMMAND' | translate}}" index="10" select="handleTabSelect(10)">
-						<div class="panel-body" ng-controller="SpaceCommandController">
-							<div class="row">
-								<div class="col-lg-3">
-									<div class="panel panel-info">
-										<div class="panel-heading">
-											{{'SETTING.SELECT_SPACE' | translate}}
-										</div>
-										<div class="panel-body" style="overflow: auto; max-height: 700px;">
-											<div id="spacetreewithcommand"></div>
-										</div>
-									</div>
-								</div>
-
-								<div class="col-lg-4">
-									<div class="panel panel-primary">
-										<div class="panel-heading">
-											{{'SETTING.N_S_COMMAND' | translate}}
-										</div>
-										<div class="panel-body maxheight"
-										    x-hjc-drop-target="{{isSpaceSelected ? 'true' : 'false'}}"
-											x-on-drop="pairCommand(dragEl,dropEl)"
-											uib-tooltip="{{'SETTING.DRAG_TO_UNBIND' | translate}}">
-											<div class="btn btn-primary btn-rounded btn-block"
-												ng-repeat="spacecommand in spacecommands" x-hjc-draggable="{{isSpaceSelected ? 'true' : 'false'}}"
-												title="{{spacecommand.name}}">
-												{{spacecommand.name}}</div>
-										</div>
-									</div>
-									<div class="panel panel-danger">
-										<div class="panel-heading">
-											{{'SETTING.TRASH' | translate}}
-										</div>
-										<div class="panel-body trash">
-											<img class="trashcan" src="img/trashcan.png" x-hjc-drop-target="{{isSpaceSelected ? 'true' : 'false'}}"
-												x-on-drop="deleteCommandPair(dragEl,dropEl)">
-										</div>
-
-									</div>
-								</div>
-
-								<div class="col-lg-4">
-									<!-- according panel-->
-									<div class="panel panel-primary">
-										<div class="panel-heading">
-											{{'SETTING.COMMAND_LIST' | translate}}
-										</div>
-										<div class="panel-body" uib-tooltip="{{'SETTING.DRAG_TO_BIND' | translate}}"
-											slim-scroll box-height="765px">
-											<div class="source btn btn-primary btn-rounded btn-block"
-												ng-repeat="command in commands" x-hjc-draggable="{{isSpaceSelected ? 'true' : 'false'}}">
-												{{command.name}}</div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</uib-tab>
-
-					<uib-tab heading="{{'SPACE.BIND_ENERGY_STORAGE_POWER_STATION' | translate}}" index="11" select="handleTabSelect(11)">
-						<div class="panel-body" ng-controller="SpaceEnergyStoragePowerStationController">
-							<div class="row">
-								<div class="col-lg-3">
-									<div class="panel panel-info">
-										<div class="panel-heading">
-											{{'SETTING.SELECT_SPACE' | translate}}
-										</div>
-										<div class="panel-body" style="overflow: auto; max-height: 700px;">
-											<div id="spacetreewithenergystoragepowerstation"></div>
-										</div>
-									</div>
-								</div>
-								<div class="col-lg-4">
-									<div class="panel panel-primary">
-										<div class="panel-heading">
-											{{'SPACE.N_S_ENERGY_STORAGE_POWER_STATION' | translate}}
-										</div>
-										<div class="panel-body maxheight"
-										    x-hjc-drop-target="{{isSpaceSelected ? 'true' : 'false'}}"
-											x-on-drop="pairEnergyStoragePowerStation(dragEl,dropEl)"
-											uib-tooltip="{{'SETTING.DRAG_TO_UNBIND' | translate}}">
-											<div class="btn btn-primary btn-rounded btn-block"
-												title="{{spaceenergystoragepowerstation.name}}"
-												ng-repeat="spaceenergystoragepowerstation in spaceenergystoragepowerstations" x-hjc-draggable="{{isSpaceSelected ? 'true' : 'false'}}">
-												{{spaceenergystoragepowerstation.name}}</div>
-										</div>
-									</div>
-									<div class="panel panel-danger">
-										<div class="panel-heading">
-											{{'SETTING.TRASH' | translate}}
-										</div>
-										<div class="panel-body trash">
-											<img class="trashcan" src="img/trashcan.png" x-hjc-drop-target="{{isSpaceSelected ? 'true' : 'false'}}"
-												x-on-drop="deleteEnergyStoragePowerStationPair(dragEl,dropEl)">
-										</div>
-
-									</div>
-								</div>
-
-								<div class="col-lg-4">
-									<!-- according panel-->
-									<div class="panel panel-primary">
-										<div class="panel-heading"> {{'SPACE.ENERGY_STORAGE_POWER_STATION_LIST' | translate}} </div>
-										<div class="panel-body" uib-tooltip="{{'SETTING.DRAG_TO_BIND' | translate}}"
-											slim-scroll box-height="760">
-											<div class="source btn btn-info btn-rounded btn-block"
-												ng-repeat="energystoragepowerstation in energystoragepowerstations" x-hjc-draggable="{{isSpaceSelected ? 'true' : 'false'}}">
-												{{energystoragepowerstation.name}}
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</uib-tab>
-
-					<uib-tab heading="{{'SPACE.BIND_ENERGY_FLOW_DIAGRAM' | translate}}" index="12" select="handleTabSelect(12)">
+					<uib-tab heading="{{'SPACE.BIND_ENERGY_FLOW_DIAGRAM' | translate}}" index="9" select="handleTabSelect(9)">
 						<div class="panel-body" ng-controller="SpaceEnergyFlowDiagramController">
 							<div class="row">
 								<div class="col-lg-3">
@@ -842,7 +666,7 @@
 						</div>
 					</uib-tab>
 
-					<uib-tab heading="{{'SPACE.BIND_DISTRIBUTION_SYSTEM' | translate}}" index="13" select="handleTabSelect(13)">
+					<uib-tab heading="{{'SPACE.BIND_DISTRIBUTION_SYSTEM' | translate}}" index="10" select="handleTabSelect(10)">
 						<div class="panel-body" ng-controller="SpaceDistributionSystemController">
 							<div class="row">
 								<div class="col-lg-3">
@@ -899,6 +723,180 @@
 						</div>
 					</uib-tab>
 
+					<uib-tab heading="{{'WORKING_CALENDAR.BIND_WORKING_CALENDAR' | translate}}" index="11" select="handleTabSelect(11)">
+						<div class="panel-body" ng-controller="SpaceWorkingCalendarController">
+							<div class="row">
+								<div class="col-lg-3">
+									<div class="panel panel-info">
+										<div class="panel-heading">
+											{{'SETTING.SELECT_SPACE' | translate}}
+										</div>
+										<div class="panel-body" style="overflow: auto; max-height: 700px;">
+											<div id="spacetreewithworkingcalendar"></div>
+										</div>
+									</div>
+								</div>
+								<div class="col-lg-4">
+									<div class="panel panel-primary">
+										<div class="panel-heading">
+											{{'WORKING_CALENDAR.N_S_WORKING_CALENDAR' | translate}}
+										</div>
+										<div class="panel-body maxheight"
+										    x-hjc-drop-target="{{isSpaceSelected ? 'true' : 'false'}}"
+											x-on-drop="pairWorkingCalendar(dragEl,dropEl)"
+											uib-tooltip="{{'SETTING.DRAG_TO_UNBIND' | translate}}">
+											<div class="btn btn-primary btn-rounded btn-block"
+												ng-repeat="spaceworkingcalendar in spaceworkingcalendars" x-hjc-draggable="{{isSpaceSelected ? 'true' : 'false'}}"
+												title="{{spaceworkingcalendar.name}}">
+												{{spaceworkingcalendar.name}}</div>
+										</div>
+									</div>
+									<div class="panel panel-danger">
+										<div class="panel-heading">
+											{{'SETTING.TRASH' | translate}}
+										</div>
+										<div class="panel-body trash">
+											<img class="trashcan" src="img/trashcan.png" x-hjc-drop-target="{{isSpaceSelected ? 'true' : 'false'}}"
+												x-on-drop="deleteWorkingCalendarPair(dragEl,dropEl)">
+										</div>
+
+									</div>
+								</div>
+
+								<div class="col-lg-4">
+									<!-- according panel-->
+									<div class="panel panel-primary">
+										<div class="panel-heading">
+											{{'SETTING.WORKING_CALENDAR' | translate}}
+										</div>
+										<div class="panel-body" uib-tooltip="{{'SETTING.DRAG_TO_BIND' | translate}}"
+											slim-scroll box-height="765px">
+											<div class="source btn btn-primary btn-rounded btn-block"
+												ng-repeat="workingcalendar in workingcalendars" x-hjc-draggable="{{isSpaceSelected ? 'true' : 'false'}}">
+												{{workingcalendar.name}}</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</uib-tab>
+
+					<uib-tab heading="{{'SETTING.BIND_COMMAND' | translate}}" index="12" select="handleTabSelect(12)">
+						<div class="panel-body" ng-controller="SpaceCommandController">
+							<div class="row">
+								<div class="col-lg-3">
+									<div class="panel panel-info">
+										<div class="panel-heading">
+											{{'SETTING.SELECT_SPACE' | translate}}
+										</div>
+										<div class="panel-body" style="overflow: auto; max-height: 700px;">
+											<div id="spacetreewithcommand"></div>
+										</div>
+									</div>
+								</div>
+								<div class="col-lg-4">
+									<div class="panel panel-primary">
+										<div class="panel-heading">
+											{{'SETTING.N_S_COMMAND' | translate}}
+										</div>
+										<div class="panel-body maxheight"
+										    x-hjc-drop-target="{{isSpaceSelected ? 'true' : 'false'}}"
+											x-on-drop="pairCommand(dragEl,dropEl)"
+											uib-tooltip="{{'SETTING.DRAG_TO_UNBIND' | translate}}">
+											<div class="btn btn-primary btn-rounded btn-block"
+												ng-repeat="spacecommand in spacecommands" x-hjc-draggable="{{isSpaceSelected ? 'true' : 'false'}}"
+												title="{{spacecommand.name}}">
+												{{spacecommand.name}}</div>
+										</div>
+									</div>
+									<div class="panel panel-danger">
+										<div class="panel-heading">
+											{{'SETTING.TRASH' | translate}}
+										</div>
+										<div class="panel-body trash">
+											<img class="trashcan" src="img/trashcan.png" x-hjc-drop-target="{{isSpaceSelected ? 'true' : 'false'}}"
+												x-on-drop="deleteCommandPair(dragEl,dropEl)">
+										</div>
+
+									</div>
+								</div>
+
+								<div class="col-lg-4">
+									<!-- according panel-->
+									<div class="panel panel-primary">
+										<div class="panel-heading">
+											{{'SETTING.COMMAND_LIST' | translate}}
+										</div>
+										<div class="panel-body" uib-tooltip="{{'SETTING.DRAG_TO_BIND' | translate}}"
+											slim-scroll box-height="765px">
+											<div class="source btn btn-primary btn-rounded btn-block"
+												ng-repeat="command in commands" x-hjc-draggable="{{isSpaceSelected ? 'true' : 'false'}}">
+												{{command.name}}</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</uib-tab>
+
+					<uib-tab heading="{{'SPACE.BIND_ENERGY_STORAGE_POWER_STATION' | translate}}" index="13" select="handleTabSelect(13)">
+						<div class="panel-body" ng-controller="SpaceEnergyStoragePowerStationController">
+							<div class="row">
+								<div class="col-lg-3">
+									<div class="panel panel-info">
+										<div class="panel-heading">
+											{{'SETTING.SELECT_SPACE' | translate}}
+										</div>
+										<div class="panel-body" style="overflow: auto; max-height: 700px;">
+											<div id="spacetreewithenergystoragepowerstation"></div>
+										</div>
+									</div>
+								</div>
+								<div class="col-lg-4">
+									<div class="panel panel-primary">
+										<div class="panel-heading">
+											{{'SPACE.N_S_ENERGY_STORAGE_POWER_STATION' | translate}}
+										</div>
+										<div class="panel-body maxheight"
+										    x-hjc-drop-target="{{isSpaceSelected ? 'true' : 'false'}}"
+											x-on-drop="pairEnergyStoragePowerStation(dragEl,dropEl)"
+											uib-tooltip="{{'SETTING.DRAG_TO_UNBIND' | translate}}">
+											<div class="btn btn-primary btn-rounded btn-block"
+												title="{{spaceenergystoragepowerstation.name}}"
+												ng-repeat="spaceenergystoragepowerstation in spaceenergystoragepowerstations" x-hjc-draggable="{{isSpaceSelected ? 'true' : 'false'}}">
+												{{spaceenergystoragepowerstation.name}}</div>
+										</div>
+									</div>
+									<div class="panel panel-danger">
+										<div class="panel-heading">
+											{{'SETTING.TRASH' | translate}}
+										</div>
+										<div class="panel-body trash">
+											<img class="trashcan" src="img/trashcan.png" x-hjc-drop-target="{{isSpaceSelected ? 'true' : 'false'}}"
+												x-on-drop="deleteEnergyStoragePowerStationPair(dragEl,dropEl)">
+										</div>
+
+									</div>
+								</div>
+
+								<div class="col-lg-4">
+									<!-- according panel-->
+									<div class="panel panel-primary">
+										<div class="panel-heading"> {{'SPACE.ENERGY_STORAGE_POWER_STATION_LIST' | translate}} </div>
+										<div class="panel-body" uib-tooltip="{{'SETTING.DRAG_TO_BIND' | translate}}"
+											slim-scroll box-height="760">
+											<div class="source btn btn-info btn-rounded btn-block"
+												ng-repeat="energystoragepowerstation in energystoragepowerstations" x-hjc-draggable="{{isSpaceSelected ? 'true' : 'false'}}">
+												{{energystoragepowerstation.name}}
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</uib-tab>
+
+				
 					<uib-tab heading="{{'SPACE.BIND_PHOTOVOLTAIC_POWER_STATION' | translate}}" index="14" select="handleTabSelect(14)">
 							<div class="panel-body" ng-controller="SpacePhotovoltaicPowerStationController">
 								<div class="row">
