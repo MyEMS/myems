@@ -2,13 +2,13 @@ import React, { Component } from 'react';
 import { Line } from 'react-chartjs-2';
 import range from 'lodash/range';
 import { Card, CardHeader, CardBody, ListGroup, ListGroupItem } from 'reactstrap';
-import { rgbaColor } from '../../../helpers/utils';
+import { rgbaColor,handleAPIError  } from '../../../helpers/utils';
 import { withTranslation } from 'react-i18next';
 import { v4 as uuid } from 'uuid';
 import { APIBaseURL } from '../../../config';
 import { getCookieValue, floatFormatter } from '../../../helpers/utils';
 import { toast } from 'react-toastify';
-
+import withRedirect from '../../../hoc/withRedirect';
 const dividerBorder = '1px solid rgba(255, 255, 255, 0.15)';
 const listItemBorderColor = 'rgba(255, 255, 255, 0.05)';
 
@@ -75,7 +75,7 @@ class RealtimeChart extends Component {
 
   componentDidMount() {
     this._isMounted = true;
-    const { t } = this.props;
+    const { t, setRedirect, setRedirectUrl  } = this.props;
     // fetch meter realtime data at the first time
     let isResponseOK = false;
     fetch(APIBaseURL + '/reports/meterrealtime?meterid=' + this.props.meterId, {
@@ -130,7 +130,7 @@ class RealtimeChart extends Component {
             });
           }
         } else {
-          toast.error(t(json.description));
+          handleAPIError(json, setRedirect, setRedirectUrl, t, toast)
         }
       })
       .catch(err => {
@@ -186,7 +186,7 @@ class RealtimeChart extends Component {
               });
             }
           } else {
-            toast.error(t(json.description));
+            handleAPIError(json, setRedirect, setRedirectUrl, t, toast)
           }
         })
         .catch(err => {
@@ -244,4 +244,4 @@ class RealtimeChart extends Component {
   }
 }
 
-export default withTranslation()(RealtimeChart);
+export default withTranslation()(withRedirect(RealtimeChart));
