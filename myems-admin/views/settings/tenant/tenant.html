@@ -302,7 +302,7 @@
 											</form>
 											<h5>{{'SETTING.POINT_LIST' | translate}}</h5>
 											<div class="source btn btn-info btn-rounded btn-block"
-												ng-repeat="point in points" x-hjc-draggable="{{isTenantSelected ? 'true' : 'false'}}"> {{point.name}}</div>
+												ng-repeat="point in filteredPoints" x-hjc-draggable="{{isTenantSelected ? 'true' : 'false'}}"> {{point.name}}</div>
 										</div>
 									</div>
 								</div>
@@ -371,7 +371,7 @@
 											slim-scroll box-height="765px">
 											<h5>{{'SETTING.SENSOR_LIST' | translate}}</h5>
 											<div class="source btn btn-info btn-rounded btn-block"
-												ng-repeat="sensor in sensors" x-hjc-draggable="{{isTenantSelected ? 'true' : 'false'}}"> {{sensor.name}}
+												ng-repeat="sensor in filteredSensors" x-hjc-draggable="{{isTenantSelected ? 'true' : 'false'}}"> {{sensor.name}}
 											</div>
 										</div>
 									</div>
@@ -444,7 +444,7 @@
 										<div class="panel-body" uib-tooltip="{{'SETTING.DRAG_TO_BIND' | translate}}"
 											slim-scroll box-height="765px">
 											<div class="source btn btn-primary btn-rounded btn-block"
-												ng-repeat="workingcalendar in workingcalendars" x-hjc-draggable="{{isTenantSelected ? 'true' : 'false'}}">
+												ng-repeat="workingcalendar in filteredWorkingCalendars" x-hjc-draggable="{{isTenantSelected ? 'true' : 'false'}}">
 												{{workingcalendar.name}}</div>
 										</div>
 									</div>
@@ -517,7 +517,7 @@
 										<div class="panel-body" uib-tooltip="{{'SETTING.DRAG_TO_BIND' | translate}}"
 											slim-scroll box-height="765px">
 											<div class="source btn btn-primary btn-rounded btn-block"
-												ng-repeat="command in commands" x-hjc-draggable="{{isTenantSelected ? 'true' : 'false'}}">
+												ng-repeat="command in filteredCommands" x-hjc-draggable="{{isTenantSelected ? 'true' : 'false'}}">
 												{{command.name}}</div>
 										</div>
 									</div>

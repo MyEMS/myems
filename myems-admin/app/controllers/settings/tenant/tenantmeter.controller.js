@@ -36,6 +36,8 @@ app.controller('TenantMeterController', function(
 		    $scope.getMetersByTenantID($scope.currentTenant.id);
 		} else {
 		    $scope.isTenantSelected = false;
+		    $scope.tenantmeters = [];
+		    $scope.filterAvailableMeters();
 		}
 	};
 
@@ -43,6 +45,7 @@ app.controller('TenantMeterController', function(
 		var metertypes=['meters','virtualmeters','offlinemeters'];
 		$scope.tenantmeters=[];
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+		var pending = metertypes.length;
 		angular.forEach(metertypes,function(value,index){
 			TenantMeterService.getMetersByTenantID(id, value, headers, function (response) {
 				if (angular.isDefined(response.status) && response.status === 200) {
@@ -50,6 +53,10 @@ app.controller('TenantMeterController', function(
 						response.data[indx].metertype = value;
 					});
 					$scope.tenantmeters=$scope.tenantmeters.concat(response.data);
+				}
+				pending--;
+				if (pending === 0) {
+					$scope.filterAvailableMeters();
 				}
 			});
 		});
@@ -65,16 +72,38 @@ app.controller('TenantMeterController', function(
 		}
 	};
 
+	$scope.filterAvailableMeters = function() {
+		var boundSet = {};
+		($scope.tenantmeters || []).forEach(function(tm) {
+			var keyType = tm.metertype || 'meters';
+			if (angular.isDefined(tm.id)) {
+				boundSet[keyType + '_' + tm.id] = true;
+			}
+		});
+
+		$scope.filteredMeters = ($scope.meters || []).filter(function(m){
+			return !boundSet['meters_' + m.id];
+		});
+		$scope.filteredVirtualMeters = ($scope.virtualmeters || []).filter(function(vm){
+			return !boundSet['virtualmeters_' + vm.id];
+		});
+		$scope.filteredOfflineMeters = ($scope.offlinemeters || []).filter(function(om){
+			return !boundSet['offlinemeters_' + om.id];
+		});
+
+		$scope.changeMeterType();
+	};
+
 	$scope.changeMeterType=function(){
 		switch($scope.currentMeterType){
 			case 'meters':
-				$scope.currentmeters=$scope.meters || [];
+				$scope.currentmeters=$scope.filteredMeters || [];
 				break;
 			case 'virtualmeters':
-				$scope.currentmeters=$scope.virtualmeters || [];
+				$scope.currentmeters=$scope.filteredVirtualMeters || [];
 				break;
 			case  'offlinemeters':
-				$scope.currentmeters=$scope.offlinemeters || [];
+				$scope.currentmeters=$scope.filteredOfflineMeters || [];
 				break;
 			default:
 				$scope.currentmeters = [];
@@ -88,7 +117,7 @@ app.controller('TenantMeterController', function(
 			if (angular.isDefined(response.status) && response.status === 200) {
 				$scope.meters = response.data;
 				$scope.currentMeterType="meters";
-				$scope.changeMeterType();
+				$scope.filterAvailableMeters();
 			} else {
 				$scope.meters = [];
 				$scope.currentmeters = [];
@@ -103,9 +132,7 @@ app.controller('TenantMeterController', function(
 		OfflineMeterService.getAllOfflineMeters(headers, function (response) {
 			if (angular.isDefined(response.status) && response.status === 200) {
 				$scope.offlinemeters = response.data;
-				if ($scope.currentMeterType === 'offlinemeters') {
-					$scope.changeMeterType();
-				}
+				$scope.filterAvailableMeters();
 			} else {
 				$scope.offlinemeters = [];
 			}
@@ -118,9 +145,7 @@ app.controller('TenantMeterController', function(
 		VirtualMeterService.getAllVirtualMeters(headers, function (response) {
 			if (angular.isDefined(response.status) && response.status === 200) {
 				$scope.virtualmeters = response.data;
-				if ($scope.currentMeterType === 'virtualmeters') {
-					$scope.changeMeterType();
-				}
+				$scope.filterAvailableMeters();
 			} else {
 				$scope.virtualmeters = [];
 			}
@@ -194,8 +219,30 @@ app.controller('TenantMeterController', function(
 	$scope.getAllOfflineMeters();
 
 	$scope.$on('handleBroadcastTenantChanged', function(event) {
-    $scope.getAllTenants();
+        $scope.getAllTenants();
+        // 如果已选择租户，刷新已绑定列表
+        if ($scope.currentTenant && $scope.currentTenant.id) {
+            $scope.getMetersByTenantID($scope.currentTenant.id);
+        }
 	});
+
+    // Listen for tab selection event
+    $scope.$on('tenant.tabSelected', function(event, tabIndex) {
+        var TAB_INDEXES = ($scope.$parent && $scope.$parent.TAB_INDEXES) || {};
+        if (tabIndex === TAB_INDEXES.BIND_METER && $scope.currentTenant && $scope.currentTenant.id) {
+            // 刷新已绑定列表
+            $scope.getMetersByTenantID($scope.currentTenant.id);
+        }
+    });
+
+    // Check on initialization if tab is already active
+    $timeout(function() {
+        var TAB_INDEXES = ($scope.$parent && $scope.$parent.TAB_INDEXES) || {};
+        if ($scope.$parent && $scope.$parent.activeTabIndex === TAB_INDEXES.BIND_METER && 
+            $scope.currentTenant && $scope.currentTenant.id) {
+            $scope.getMetersByTenantID($scope.currentTenant.id);
+        }
+    }, 0);
 
     // Register drag and drop warning event listeners
     // Use registerTabWarnings to avoid code duplication

@@ -23,6 +23,8 @@ app.controller('TenantWorkingCalendarController', function(
           $scope.getWorkingCalendarsByTenantID($scope.currentTenant.id);
       } else {
           $scope.isTenantSelected = false;
+          $scope.tenantworkingcalendars = [];
+          $scope.filterAvailableWorkingCalendars();
       }
     };
 
@@ -43,6 +45,9 @@ app.controller('TenantWorkingCalendarController', function(
       TenantWorkingCalendarService.getWorkingCalendarsByTenantID(id, headers, function (response) {
             if (angular.isDefined(response.status) && response.status === 200) {
               $scope.tenantworkingcalendars = response.data;
+              $scope.filterAvailableWorkingCalendars();
+            } else {
+              $scope.filterAvailableWorkingCalendars();
             }
       });
 	};
@@ -52,12 +57,27 @@ app.controller('TenantWorkingCalendarController', function(
 		WorkingCalendarService.getAllWorkingCalendars(headers, function (response) {
 			if (angular.isDefined(response.status) && response.status === 200) {
 				$scope.workingcalendars = response.data;
+				$scope.filterAvailableWorkingCalendars();
 			} else {
 				$scope.workingcalendars = [];
+				$scope.filteredWorkingCalendars = [];
 			}
 		});
 
 	};
+
+	$scope.filterAvailableWorkingCalendars = function() {
+        var boundSet = {};
+        ($scope.tenantworkingcalendars || []).forEach(function(twc) {
+            if (angular.isDefined(twc.id)) {
+                boundSet[twc.id] = true;
+            }
+        });
+
+        $scope.filteredWorkingCalendars = ($scope.workingcalendars || []).filter(function(wc){
+            return !boundSet[wc.id];
+        });
+    };
 
 	$scope.pairWorkingCalendar=function(dragEl,dropEl){
 		if (!$scope.isTenantSelected || !$scope.currentTenant || !$scope.currentTenant.id) {
@@ -122,9 +142,31 @@ app.controller('TenantWorkingCalendarController', function(
     $scope.getAllWorkingCalendars();
 
 	$scope.$on('handleBroadcastTenantChanged', function(event) {
-    $scope.tenantworkingcalendars = [];
-    $scope.getAllTenants();
+        $scope.tenantworkingcalendars = [];
+        $scope.getAllTenants();
+        // 如果已选择租户，刷新已绑定列表
+        if ($scope.currentTenant && $scope.currentTenant.id) {
+            $scope.getWorkingCalendarsByTenantID($scope.currentTenant.id);
+        }
 	});
+
+    // Listen for tab selection event
+    $scope.$on('tenant.tabSelected', function(event, tabIndex) {
+        var TAB_INDEXES = ($scope.$parent && $scope.$parent.TAB_INDEXES) || {};
+        if (tabIndex === TAB_INDEXES.BIND_WORKING_CALENDAR && $scope.currentTenant && $scope.currentTenant.id) {
+            // 刷新已绑定列表
+            $scope.getWorkingCalendarsByTenantID($scope.currentTenant.id);
+        }
+    });
+
+    // Check on initialization if tab is already active
+    $timeout(function() {
+        var TAB_INDEXES = ($scope.$parent && $scope.$parent.TAB_INDEXES) || {};
+        if ($scope.$parent && $scope.$parent.activeTabIndex === TAB_INDEXES.BIND_WORKING_CALENDAR && 
+            $scope.currentTenant && $scope.currentTenant.id) {
+            $scope.getWorkingCalendarsByTenantID($scope.currentTenant.id);
+        }
+    }, 0);
 
     // Register drag and drop warning event listeners
     // Use registerTabWarnings to avoid code duplication
