@@ -195,7 +195,7 @@
                       <h5>{{'SETTING.POINT_LIST' | translate}}</h5>
                       <div class="source btn btn-info btn-rounded btn-block"
                       ng-repeat="point in points"
-                      x-hjc-draggable="true"> {{point.name}}</div>
+                      x-hjc-draggable="{{isDistributionCircuitSelected ? 'true' : 'false'}}"> {{point.name}}</div>
                     </div>
                   </div>
                 </div>

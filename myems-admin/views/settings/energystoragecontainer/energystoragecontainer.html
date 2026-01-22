@@ -140,7 +140,7 @@
 										<div class="panel-body" uib-tooltip="{{'SETTING.DRAG_TO_BIND' | translate}}"
 											slim-scroll box-height="765px">
 											<div class="source btn btn-primary btn-rounded btn-block"
-												ng-repeat="datasource in datasources" x-hjc-draggable="true">
+												ng-repeat="datasource in datasources" x-hjc-draggable="{{isEnergyStorageContainerSelected ? 'true' : 'false'}}">
 												{{datasource.name}}</div>
 										</div>
 									</div>
@@ -1164,7 +1164,7 @@
 										<div class="panel-body" uib-tooltip="{{'SETTING.DRAG_TO_BIND' | translate}}"
 											slim-scroll box-height="765px">
 											<div class="source btn btn-primary btn-rounded btn-block"
-												ng-repeat="command in commands" x-hjc-draggable="true">
+												ng-repeat="command in commands" x-hjc-draggable="{{isEnergyStorageContainerSelected ? 'true' : 'false'}}">
 												{{command.name}}</div>
 										</div>
 									</div>

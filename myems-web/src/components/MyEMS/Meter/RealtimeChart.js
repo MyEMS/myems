@@ -2,20 +2,20 @@ import React, { Component } from 'react';
 import { Line } from 'react-chartjs-2';
 import range from 'lodash/range';
 import { Card, CardHeader, CardBody, ListGroup, ListGroupItem } from 'reactstrap';
-import { rgbaColor } from '../../../helpers/utils';
+import { rgbaColor,handleAPIError  } from '../../../helpers/utils';
 import { withTranslation } from 'react-i18next';
 import { v4 as uuid } from 'uuid';
 import { APIBaseURL } from '../../../config';
 import { getCookieValue, floatFormatter } from '../../../helpers/utils';
 import { toast } from 'react-toastify';
-
+import withRedirect from '../../../hoc/withRedirect';
 const dividerBorder = '1px solid rgba(255, 255, 255, 0.15)';
 const listItemBorderColor = 'rgba(255, 255, 255, 0.05)';
 
 const chartOptions = {
   plugins: {
-    legend: { 
-      display: false 
+    legend: {
+      display: false
     }
   },
   scales: {
@@ -25,7 +25,7 @@ const chartOptions = {
     },
     x: {
       stacked: false,
-      ticks: { 
+      ticks: {
         display: true,
         maxTicksLimit: 10,
         callback: function(value, index, values) {
@@ -75,7 +75,7 @@ class RealtimeChart extends Component {
 
   componentDidMount() {
     this._isMounted = true;
-    const { t } = this.props;
+    const { t, setRedirect, setRedirectUrl  } = this.props;
     // fetch meter realtime data at the first time
     let isResponseOK = false;
     fetch(APIBaseURL + '/reports/meterrealtime?meterid=' + this.props.meterId, {
@@ -99,7 +99,7 @@ class RealtimeChart extends Component {
           let length = json['energy_value']['values'].length;
           let trendLog =
             length > 60 ? json['energy_value']['values'].slice(length - 60, length) : json['energy_value']['values'];
-          let timestamps = 
+          let timestamps =
             length > 60 ? json['energy_value']['timestamps'].slice(length - 60, length) : json['energy_value']['timestamps'];
           let currentEnergyValue = undefined;
           let energyValuePointName = json['energy_value']['name'];
@@ -244,4 +244,4 @@ class RealtimeChart extends Component {
   }
 }
 
-export default withTranslation()(RealtimeChart);
+export default withTranslation()(withRedirect(RealtimeChart));

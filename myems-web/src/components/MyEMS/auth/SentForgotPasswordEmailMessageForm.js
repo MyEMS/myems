@@ -47,7 +47,7 @@ const SentForgotPasswordEmailMessageForm = ({ setRedirect, setRedirectUrl, hasLa
           toast.success(t('Password has been changed!'));
           setRedirect(true);
         } else {
-          handleAPIError(json, setRedirect, setRedirectUrl, t, toast)
+          toast.error(t(json.description));
         }
       })
       .catch(err => {
@@ -128,7 +128,7 @@ const SentForgotPasswordEmailMessageForm = ({ setRedirect, setRedirectUrl, hasLa
         if (isResponseOK) {
           toast.success(t('An email has been sent to ') + email);
         } else {
-          handleAPIError(json, setRedirect, setRedirectUrl, t, toast)
+          toast.error(t(json.description));
         }
       })
       .catch(err => {
