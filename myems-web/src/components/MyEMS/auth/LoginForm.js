@@ -13,7 +13,7 @@ import Captcha from 'react-captcha-code-custom';
 
 const LoginForm = ({ setRedirect, hasLabel, layout, t }) => {
   // State
-  const [email, setEmail] = useState(getItemFromStore('email', ''));
+  const [loginAccount, setLoginAccount] = useState(getItemFromStore('loginAccount', ''));
   const [password, setPassword] = useState('');
   const [code, setCode] = useState('');
   const [captchaCode, setCaptchaCode] = useState('');
@@ -35,11 +35,10 @@ const LoginForm = ({ setRedirect, hasLabel, layout, t }) => {
     }
     fetch(APIBaseURL + '/users/login', {
       method: 'PUT',
-      body: JSON.stringify({ data: { email: email, password: password } }),
+      body: JSON.stringify({ data: { account: loginAccount, password: password } }),
       headers: { 'Content-Type': 'application/json' }
     })
       .then(response => {
-        //
         if (response.ok) {
           isResponseOK = true;
           handleRefreshCaptcha();
@@ -55,9 +54,9 @@ const LoginForm = ({ setRedirect, hasLabel, layout, t }) => {
           createCookie('is_logged_in', true, settings.cookieExpireTime);
           toast.success(t('Logged in as ') + json.display_name);
           if (remember) {
-            setItemToStore('email', email);
+            setItemToStore('loginAccount', loginAccount);
           } else {
-            setItemToStore('email', '');
+            setItemToStore('loginAccount', '');
           }
           setRedirect(true);
         } else {
@@ -71,8 +70,8 @@ const LoginForm = ({ setRedirect, hasLabel, layout, t }) => {
   };
 
   useEffect(() => {
-    setIsDisabled(!email || !password || !code);
-  }, [email, password, code]);
+    setIsDisabled(!loginAccount || !password || !code);
+  }, [loginAccount, password, code]);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -93,12 +92,11 @@ const LoginForm = ({ setRedirect, hasLabel, layout, t }) => {
   return (
     <Form onSubmit={handleSubmit}>
       <FormGroup>
-        {hasLabel && <Label>{t('Email address')}</Label>}
+        {hasLabel && <Label>{`${t('UserName')} / ${t('Email address')} / ${t('Phone Number')}`}</Label>}
         <Input
-          placeholder={!hasLabel ? t('Email address') : ''}
-          value={email}
-          onChange={({ target }) => setEmail(target.value)}
-          type="email"
+          placeholder={!hasLabel ? `${t('UserName')} / ${t('Email address')} / ${t('Phone Number')}` : ''}
+          value={loginAccount}
+          onChange={({ target }) => setLoginAccount(target.value.trim())}
           autoFocus
         />
       </FormGroup>
@@ -127,7 +125,7 @@ const LoginForm = ({ setRedirect, hasLabel, layout, t }) => {
             <Input
               placeholder={!hasLabel ? t('CaptchaCode') : ''}
               value={code}
-              onChange={({ target }) => setCode(target.value)}
+              onChange={({ target }) => setCode(target.value.trim())}
               type="text"
             />
           </Col>
