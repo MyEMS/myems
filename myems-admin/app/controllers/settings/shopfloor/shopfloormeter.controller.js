@@ -81,15 +81,20 @@ app.controller('ShopfloorMeterController', function(
     };
 
     $scope.changeMeterType = function(){
+        // Defensive assignment to prevent race conditions
+        $scope.filteredMeters = $scope.filteredMeters || [];
+        $scope.filteredVirtualMeters = $scope.filteredVirtualMeters || [];
+        $scope.filteredOfflineMeters = $scope.filteredOfflineMeters || [];
+        
         switch($scope.currentMeterType){
             case 'meters':
-                $scope.currentmeters = $scope.filteredMeters || [];
+                $scope.currentmeters = $scope.filteredMeters;
                 break;
             case 'virtualmeters':
-                $scope.currentmeters = $scope.filteredVirtualMeters || [];
+                $scope.currentmeters = $scope.filteredVirtualMeters;
                 break;
             case 'offlinemeters':
-                $scope.currentmeters = $scope.filteredOfflineMeters || [];
+                $scope.currentmeters = $scope.filteredOfflineMeters;
                 break;
         }
     };
