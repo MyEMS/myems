@@ -43,8 +43,7 @@ app.controller('MeterPointController', function (
         });
     };
 
-    // Filter out points that are already bound to the current meter,
-    // keeping only available points for selection
+    // Filter out points already bound to the current meter, keeping only available ones for selection
     $scope.filterAvailablePoints = function() {
         var boundSet = {};
         ($scope.meterpoints || []).forEach(function(mp) {

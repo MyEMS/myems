@@ -159,10 +159,7 @@ app.controller('CombinedEquipmentMeterController', function (
 
     };
 
-    /**
-     * 过滤出未绑定到当前组合设备的可用计量设备，用于拖拽选择列表。
-     * 移除已绑定项，仅保留可选的候选设备。
-     */
+    // Filter out meters already bound to the current combined equipment, keeping only available ones for selection
     $scope.filterAvailableMeters = function() {
         var boundSet = {};
         ($scope.combinedequipmentmeters || []).forEach(function(cem) {

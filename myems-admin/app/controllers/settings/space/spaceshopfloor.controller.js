@@ -79,8 +79,7 @@ app.controller('SpaceShopfloorController', function(
     			});
 		};
 
-	// Filter out shopfloors that are already bound to the current space,
-	// keeping only available shopfloors for selection
+	// Filter out shopfloors already bound to the current space, keeping only available ones for selection
 	$scope.filterAvailableShopfloors = function() {
         var boundSet = {};
         ($scope.spaceshopfloors || []).forEach(function(ssf) {

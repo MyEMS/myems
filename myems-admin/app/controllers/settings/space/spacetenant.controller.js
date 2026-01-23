@@ -79,8 +79,7 @@ app.controller('SpaceTenantController', function(
     			});
 		};
 
-	// Filter out tenants that are already bound to the current space,
-	// keeping only available tenants for selection
+	// Filter out tenants already bound to the current space, keeping only available ones for selection
 	$scope.filterAvailableTenants = function() {
         var boundSet = {};
         ($scope.spacetenants || []).forEach(function(st) {

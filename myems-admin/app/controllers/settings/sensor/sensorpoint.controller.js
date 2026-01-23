@@ -45,8 +45,7 @@ app.controller('SensorPointController', function (
         });
     };
 
-    // Filter out points that are already bound to the current sensor,
-    // keeping only available points for selection
+    // Filter out points already bound to the current sensor, keeping only available ones for selection
     $scope.filterAvailablePoints = function() {
         var boundSet = {};
         ($scope.sensorpoints || []).forEach(function(sp) {

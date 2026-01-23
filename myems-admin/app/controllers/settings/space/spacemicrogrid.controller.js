@@ -75,8 +75,7 @@ app.controller('SpaceMicrogridController', function(
         });
     };
 
-    // Filter out microgrids that are already bound to the current space,
-    // keeping only available microgrids for selection
+    // Filter out microgrids already bound to the current space, keeping only available ones for selection
     $scope.filterAvailableMicrogrids = function() {
         var boundSet = {};
         ($scope.spacemicrogrids || []).forEach(function(sm) {

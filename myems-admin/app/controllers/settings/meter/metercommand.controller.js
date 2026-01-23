@@ -136,8 +136,7 @@ app.controller('MeterCommandController', function (
         }
     };
 
-    // Filter out commands that are already bound to the current meter,
-    // keeping only available commands for selection
+    // Filter out commands already bound to the current meter, keeping only available ones for selection
     $scope.filterAvailableCommands = function() {
         var boundSet = {};
         ($scope.metercommands || []).forEach(function(mc) {

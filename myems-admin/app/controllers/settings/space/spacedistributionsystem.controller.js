@@ -80,8 +80,7 @@ app.controller('SpaceDistributionSystemController', function(
         });
 		};
 
-	// Filter out distribution systems that are already bound to the current space,
-	// keeping only available distribution systems for selection
+	// Filter out distribution systems already bound to the current space, keeping only available ones for selection
 	$scope.filterAvailableDistributionSystems = function() {
         var boundSet = {};
         ($scope.spacedistributionsystems || []).forEach(function(sds) {

@@ -79,8 +79,7 @@ app.controller('SpaceWorkingCalendarController', function(
       });
 	};
 
-	// Filter out working calendars that are already bound to the current space,
-	// keeping only available working calendars for selection
+	// Filter out working calendars already bound to the current space, keeping only available ones for selection
 	$scope.filterAvailableWorkingCalendars = function() {
         var boundSet = {};
         ($scope.spaceworkingcalendars || []).forEach(function(swc) {

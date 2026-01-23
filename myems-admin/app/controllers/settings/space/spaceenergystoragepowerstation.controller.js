@@ -80,8 +80,7 @@ app.controller('SpaceEnergyStoragePowerStationController', function(
         });
 		};
 
-	// Filter out energy storage power stations that are already bound to the current space,
-	// keeping only available energy storage power stations for selection
+	// Filter out energy storage power stations already bound to the current space, keeping only available ones for selection
 	$scope.filterAvailableEnergyStoragePowerStations = function() {
         var boundSet = {};
         ($scope.spaceenergystoragepowerstations || []).forEach(function(seps) {

@@ -142,8 +142,7 @@ app.controller('EquipmentMeterController', function(
 		});
 	};
 
-	// Filter out meters that are already bound to the current equipment,
-	// keeping only available meters for selection
+	// Filter out meters already bound to the current equipment, keeping only available ones for selection
 	$scope.filterAvailableMeters = function() {
 		
 		var boundSet = {};

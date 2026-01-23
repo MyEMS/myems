@@ -78,8 +78,7 @@ app.controller('SpaceStoreController', function(
     			});
 		};
 
-	// Filter out stores that are already bound to the current space,
-	// keeping only available stores for selection
+	// Filter out stores already bound to the current space, keeping only available ones for selection
 	$scope.filterAvailableStores = function() {
         var boundSet = {};
         ($scope.spacestores || []).forEach(function(ss) {

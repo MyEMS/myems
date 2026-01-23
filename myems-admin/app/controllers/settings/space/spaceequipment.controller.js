@@ -80,8 +80,7 @@ app.controller('SpaceEquipmentController', function(
         });
 		};
 
-	// Filter out equipments that are already bound to the current space,
-	// keeping only available equipments for selection
+	// Filter out equipments already bound to the current space, keeping only available ones for selection
 	$scope.filterAvailableEquipments = function() {
         var boundSet = {};
         ($scope.spaceequipments || []).forEach(function(se) {

@@ -80,8 +80,7 @@ app.controller('TenantMeterController', function(
 		}
 	};
 
-	// Filter out meters that are already bound to the current tenant,
-	// keeping only available meters for selection
+	// Filter out meters already bound to the current tenant, keeping only available ones for selection
 	$scope.filterAvailableMeters = function() {
 		var boundSet = {};
 		($scope.tenantmeters || []).forEach(function(tm) {

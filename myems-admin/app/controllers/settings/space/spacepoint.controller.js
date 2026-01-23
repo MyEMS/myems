@@ -82,8 +82,7 @@ app.controller('SpacePointController', function (
         });
     };
 
-    // Filter out points that are already bound to the current space,
-    // keeping only available points for selection
+    // Filter out points already bound to the current space, keeping only available ones for selection
     $scope.filterAvailablePoints = function() {
         var boundSet = {};
         ($scope.spacepoints || []).forEach(function(sp) {

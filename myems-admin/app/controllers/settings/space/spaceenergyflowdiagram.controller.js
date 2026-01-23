@@ -80,8 +80,7 @@ app.controller('SpaceEnergyFlowDiagramController', function(
         });
 		};
 
-	// Filter out energy flow diagrams that are already bound to the current space,
-	// keeping only available energy flow diagrams for selection
+	// Filter out energy flow diagrams already bound to the current space, keeping only available ones for selection
 	$scope.filterAvailableEnergyFlowDiagrams = function() {
         var boundSet = {};
         ($scope.spaceenergyflowdiagrams || []).forEach(function(sefd) {

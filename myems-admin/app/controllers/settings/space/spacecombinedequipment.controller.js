@@ -79,8 +79,7 @@ app.controller('SpaceCombinedEquipmentController', function($scope,
         });
 		};
 
-	// Filter out combined equipments that are already bound to the current space,
-	// keeping only available combined equipments for selection
+	// Filter out combined equipments already bound to the current space, keeping only available ones for selection
 	$scope.filterAvailableCombinedEquipments = function() {
         var boundSet = {};
         ($scope.spacecombinedequipments || []).forEach(function(sce) {

@@ -239,8 +239,7 @@ app.controller(
         }
     };
 
-    // Filter out data sources that are already bound to the current combined equipment,
-    // keeping only available data sources for selection
+    // Filter out data sources already bound to the current combined equipment, keeping only available ones for selection
     $scope.filterAvailableDataSources = function() {
       var boundSet = {};
       ($scope.combinedequipmentdatasources || []).forEach(function(ceds) {

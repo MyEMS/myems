@@ -79,8 +79,7 @@ app.controller('SpaceCommandController', function(
     			});
 		};
 
-	// Filter out commands that are already bound to the current space,
-	// keeping only available commands for selection
+	// Filter out commands already bound to the current space, keeping only available ones for selection
 	$scope.filterAvailableCommands = function() {
         var boundSet = {};
         ($scope.spacecommands || []).forEach(function(sc) {

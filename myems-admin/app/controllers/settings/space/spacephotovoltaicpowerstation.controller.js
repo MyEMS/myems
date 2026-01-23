@@ -80,8 +80,7 @@ app.controller('SpacePhotovoltaicPowerStationController', function(
         });
 		};
 
-	// Filter out photovoltaic power stations that are already bound to the current space,
-	// keeping only available photovoltaic power stations for selection
+	// Filter out photovoltaic power stations already bound to the current space, keeping only available ones for selection
 	$scope.filterAvailablePhotovoltaicPowerStations = function() {
         var boundSet = {};
         ($scope.spacephotovoltaicpowerstations || []).forEach(function(spps) {

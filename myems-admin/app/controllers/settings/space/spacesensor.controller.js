@@ -19,8 +19,7 @@ app.controller('SpaceSensorController', function (
     $scope.tabInitialized = false;
     $scope.isSpaceSelected = false;
 
-    // Filter out sensors that are already bound to the current space,
-    // keeping only available sensors for selection
+    // Filter out sensors already bound to the current space, keeping only available ones for selection
     $scope.filterAvailableSensors = function() {
         var boundSet = {};
         ($scope.spacesensors || []).forEach(function(ss) {
