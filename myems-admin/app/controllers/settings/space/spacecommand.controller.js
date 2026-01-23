@@ -79,6 +79,8 @@ app.controller('SpaceCommandController', function(
     			});
 		};
 
+	// Filter out commands that are already bound to the current space,
+	// keeping only available commands for selection
 	$scope.filterAvailableCommands = function() {
         var boundSet = {};
         ($scope.spacecommands || []).forEach(function(sc) {
@@ -164,7 +166,7 @@ app.controller('SpaceCommandController', function(
     };
 
     $scope.$on('space.tabSelected', function(event, tabIndex) {
-        var TAB_INDEXES = ($scope.$parent && $scope.$parent.TAB_INDEXES) || { COMMAND: 12 };
+        var TAB_INDEXES = ($scope.$parent && $scope.$parent.TAB_INDEXES) || {};
         if (tabIndex === TAB_INDEXES.COMMAND) {
             if (!$scope.tabInitialized) {
                 $scope.initTab();
@@ -175,7 +177,7 @@ app.controller('SpaceCommandController', function(
     });
 
     $timeout(function() {
-        var TAB_INDEXES = ($scope.$parent && $scope.$parent.TAB_INDEXES) || { COMMAND: 12 };
+        var TAB_INDEXES = ($scope.$parent && $scope.$parent.TAB_INDEXES) || {};
         if ($scope.$parent && $scope.$parent.activeTabIndex === TAB_INDEXES.COMMAND && !$scope.tabInitialized) {
             $scope.initTab();
         }
@@ -232,7 +234,7 @@ app.controller('SpaceCommandController', function(
             $scope,
             'COMMAND',
             'SETTING.PLEASE_SELECT_SPACE_FIRST',
-            { COMMAND: 12 }
+            {}
         );
 
 });

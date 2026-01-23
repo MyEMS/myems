@@ -80,6 +80,8 @@ app.controller('SpaceEquipmentController', function(
         });
 		};
 
+	// Filter out equipments that are already bound to the current space,
+	// keeping only available equipments for selection
 	$scope.filterAvailableEquipments = function() {
         var boundSet = {};
         ($scope.spaceequipments || []).forEach(function(se) {
@@ -165,7 +167,7 @@ app.controller('SpaceEquipmentController', function(
     };
 
     $scope.$on('space.tabSelected', function(event, tabIndex) {
-        var TAB_INDEXES = ($scope.$parent && $scope.$parent.TAB_INDEXES) || { EQUIPMENT: 2 };
+        var TAB_INDEXES = ($scope.$parent && $scope.$parent.TAB_INDEXES) || {};
         if (tabIndex === TAB_INDEXES.EQUIPMENT) {
             if (!$scope.tabInitialized) {
                 $scope.initTab();
@@ -176,7 +178,7 @@ app.controller('SpaceEquipmentController', function(
     });
 
     $timeout(function() {
-        var TAB_INDEXES = ($scope.$parent && $scope.$parent.TAB_INDEXES) || { EQUIPMENT: 2 };
+        var TAB_INDEXES = ($scope.$parent && $scope.$parent.TAB_INDEXES) || {};
         if ($scope.$parent && $scope.$parent.activeTabIndex === TAB_INDEXES.EQUIPMENT && !$scope.tabInitialized) {
             $scope.initTab();
         }

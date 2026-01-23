@@ -58,6 +58,8 @@ app.controller(
       );
     };
 
+    // Filter out data sources that are already bound to the current equipment,
+    // keeping only available data sources for selection
     $scope.filterAvailableDataSources = function() {
       var boundSet = {};
       ($scope.equipmentdatasources || []).forEach(function(eds) {

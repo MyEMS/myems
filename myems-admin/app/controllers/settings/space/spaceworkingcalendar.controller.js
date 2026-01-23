@@ -79,6 +79,8 @@ app.controller('SpaceWorkingCalendarController', function(
       });
 	};
 
+	// Filter out working calendars that are already bound to the current space,
+	// keeping only available working calendars for selection
 	$scope.filterAvailableWorkingCalendars = function() {
         var boundSet = {};
         ($scope.spaceworkingcalendars || []).forEach(function(swc) {
@@ -165,7 +167,7 @@ app.controller('SpaceWorkingCalendarController', function(
     };
 
     $scope.$on('space.tabSelected', function(event, tabIndex) {
-        var TAB_INDEXES = ($scope.$parent && $scope.$parent.TAB_INDEXES) || { WORKING_CALENDAR: 11 };
+        var TAB_INDEXES = ($scope.$parent && $scope.$parent.TAB_INDEXES) || {};
         if (tabIndex === TAB_INDEXES.WORKING_CALENDAR) {
             if (!$scope.tabInitialized) {
                 $scope.initTab();
@@ -176,7 +178,7 @@ app.controller('SpaceWorkingCalendarController', function(
     });
 
     $timeout(function() {
-        var TAB_INDEXES = ($scope.$parent && $scope.$parent.TAB_INDEXES) || { WORKING_CALENDAR: 11 };
+        var TAB_INDEXES = ($scope.$parent && $scope.$parent.TAB_INDEXES) || {};
         if ($scope.$parent && $scope.$parent.activeTabIndex === TAB_INDEXES.WORKING_CALENDAR && !$scope.tabInitialized) {
             $scope.initTab();
         }

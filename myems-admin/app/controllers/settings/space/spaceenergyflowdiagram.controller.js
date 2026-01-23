@@ -80,6 +80,8 @@ app.controller('SpaceEnergyFlowDiagramController', function(
         });
 		};
 
+	// Filter out energy flow diagrams that are already bound to the current space,
+	// keeping only available energy flow diagrams for selection
 	$scope.filterAvailableEnergyFlowDiagrams = function() {
         var boundSet = {};
         ($scope.spaceenergyflowdiagrams || []).forEach(function(sefd) {
@@ -165,7 +167,7 @@ app.controller('SpaceEnergyFlowDiagramController', function(
     };
 
     $scope.$on('space.tabSelected', function(event, tabIndex) {
-        var TAB_INDEXES = ($scope.$parent && $scope.$parent.TAB_INDEXES) || { ENERGY_FLOW_DIAGRAM: 9 };
+        var TAB_INDEXES = ($scope.$parent && $scope.$parent.TAB_INDEXES) || {};
         if (tabIndex === TAB_INDEXES.ENERGY_FLOW_DIAGRAM) {
             if (!$scope.tabInitialized) {
                 $scope.initTab();
@@ -176,7 +178,7 @@ app.controller('SpaceEnergyFlowDiagramController', function(
     });
 
     $timeout(function() {
-        var TAB_INDEXES = ($scope.$parent && $scope.$parent.TAB_INDEXES) || { ENERGY_FLOW_DIAGRAM: 9 };
+        var TAB_INDEXES = ($scope.$parent && $scope.$parent.TAB_INDEXES) || {};
         if ($scope.$parent && $scope.$parent.activeTabIndex === TAB_INDEXES.ENERGY_FLOW_DIAGRAM && !$scope.tabInitialized) {
             $scope.initTab();
         }

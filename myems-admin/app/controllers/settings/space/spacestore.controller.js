@@ -78,6 +78,8 @@ app.controller('SpaceStoreController', function(
     			});
 		};
 
+	// Filter out stores that are already bound to the current space,
+	// keeping only available stores for selection
 	$scope.filterAvailableStores = function() {
         var boundSet = {};
         ($scope.spacestores || []).forEach(function(ss) {
@@ -164,7 +166,7 @@ app.controller('SpaceStoreController', function(
     };
 
     $scope.$on('space.tabSelected', function(event, tabIndex) {
-        var TAB_INDEXES = ($scope.$parent && $scope.$parent.TAB_INDEXES) || { STORE: 7 };
+        var TAB_INDEXES = ($scope.$parent && $scope.$parent.TAB_INDEXES) || {};
         if (tabIndex === TAB_INDEXES.STORE) {
             if (!$scope.tabInitialized) {
                 $scope.initTab();
@@ -175,7 +177,7 @@ app.controller('SpaceStoreController', function(
     });
 
     $timeout(function() {
-        var TAB_INDEXES = ($scope.$parent && $scope.$parent.TAB_INDEXES) || { STORE: 7 };
+        var TAB_INDEXES = ($scope.$parent && $scope.$parent.TAB_INDEXES) || {};
         if ($scope.$parent && $scope.$parent.activeTabIndex === TAB_INDEXES.STORE && !$scope.tabInitialized) {
             $scope.initTab();
         }

@@ -79,6 +79,8 @@ app.controller('SpaceTenantController', function(
     			});
 		};
 
+	// Filter out tenants that are already bound to the current space,
+	// keeping only available tenants for selection
 	$scope.filterAvailableTenants = function() {
         var boundSet = {};
         ($scope.spacetenants || []).forEach(function(st) {
@@ -164,7 +166,7 @@ app.controller('SpaceTenantController', function(
     };
 
     $scope.$on('space.tabSelected', function(event, tabIndex) {
-        var TAB_INDEXES = ($scope.$parent && $scope.$parent.TAB_INDEXES) || { TENANT: 6 };
+        var TAB_INDEXES = ($scope.$parent && $scope.$parent.TAB_INDEXES) || {};
         if (tabIndex === TAB_INDEXES.TENANT) {
             if (!$scope.tabInitialized) {
                 $scope.initTab();
@@ -175,7 +177,7 @@ app.controller('SpaceTenantController', function(
     });
 
     $timeout(function() {
-        var TAB_INDEXES = ($scope.$parent && $scope.$parent.TAB_INDEXES) || { TENANT: 6 };
+        var TAB_INDEXES = ($scope.$parent && $scope.$parent.TAB_INDEXES) || {};
         if ($scope.$parent && $scope.$parent.activeTabIndex === TAB_INDEXES.TENANT && !$scope.tabInitialized) {
             $scope.initTab();
         }

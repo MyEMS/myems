@@ -19,6 +19,8 @@ app.controller('SpaceSensorController', function (
     $scope.tabInitialized = false;
     $scope.isSpaceSelected = false;
 
+    // Filter out sensors that are already bound to the current space,
+    // keeping only available sensors for selection
     $scope.filterAvailableSensors = function() {
         var boundSet = {};
         ($scope.spacesensors || []).forEach(function(ss) {
@@ -163,7 +165,7 @@ app.controller('SpaceSensorController', function (
     };
 
     $scope.$on('space.tabSelected', function(event, tabIndex) {
-        var TAB_INDEXES = ($scope.$parent && $scope.$parent.TAB_INDEXES) || { SENSOR: 5 };
+        var TAB_INDEXES = ($scope.$parent && $scope.$parent.TAB_INDEXES) || {};
         if (tabIndex === TAB_INDEXES.SENSOR) {
             if (!$scope.tabInitialized) {
                 $scope.initTab();
@@ -174,7 +176,7 @@ app.controller('SpaceSensorController', function (
     });
 
     $timeout(function() {
-        var TAB_INDEXES = ($scope.$parent && $scope.$parent.TAB_INDEXES) || { SENSOR: 5 };
+        var TAB_INDEXES = ($scope.$parent && $scope.$parent.TAB_INDEXES) || {};
         if ($scope.$parent && $scope.$parent.activeTabIndex === TAB_INDEXES.SENSOR && !$scope.tabInitialized) {
             $scope.initTab();
         }

@@ -80,6 +80,8 @@ app.controller('SpaceDistributionSystemController', function(
         });
 		};
 
+	// Filter out distribution systems that are already bound to the current space,
+	// keeping only available distribution systems for selection
 	$scope.filterAvailableDistributionSystems = function() {
         var boundSet = {};
         ($scope.spacedistributionsystems || []).forEach(function(sds) {
@@ -165,7 +167,7 @@ app.controller('SpaceDistributionSystemController', function(
     };
 
     $scope.$on('space.tabSelected', function(event, tabIndex) {
-        var TAB_INDEXES = ($scope.$parent && $scope.$parent.TAB_INDEXES) || { DISTRIBUTION_SYSTEM: 10 };
+        var TAB_INDEXES = ($scope.$parent && $scope.$parent.TAB_INDEXES) || {};
         if (tabIndex === TAB_INDEXES.DISTRIBUTION_SYSTEM) {
             if (!$scope.tabInitialized) {
                 $scope.initTab();
@@ -176,7 +178,7 @@ app.controller('SpaceDistributionSystemController', function(
     });
 
     $timeout(function() {
-        var TAB_INDEXES = ($scope.$parent && $scope.$parent.TAB_INDEXES) || { DISTRIBUTION_SYSTEM: 10 };
+        var TAB_INDEXES = ($scope.$parent && $scope.$parent.TAB_INDEXES) || {};
         if ($scope.$parent && $scope.$parent.activeTabIndex === TAB_INDEXES.DISTRIBUTION_SYSTEM && !$scope.tabInitialized) {
             $scope.initTab();
         }

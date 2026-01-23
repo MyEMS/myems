@@ -40,6 +40,8 @@ app.controller('TenantSensorController', function (
         });
     };
 
+    // Filter out sensors that are already bound to the current tenant,
+    // keeping only available sensors for selection
     $scope.filterAvailableSensors = function() {
         var boundSet = {};
         ($scope.tenantsensors || []).forEach(function(ts) {

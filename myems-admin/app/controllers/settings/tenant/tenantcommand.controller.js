@@ -48,6 +48,8 @@ app.controller('TenantCommandController', function (
         });
     };
 
+    // Filter out commands that are already bound to the current tenant,
+    // keeping only available commands for selection
     $scope.filterAvailableCommands = function() {
         var boundSet = {};
         ($scope.tenantcommands || []).forEach(function(tc) {

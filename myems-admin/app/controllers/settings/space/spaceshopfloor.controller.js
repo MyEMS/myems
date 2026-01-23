@@ -79,6 +79,8 @@ app.controller('SpaceShopfloorController', function(
     			});
 		};
 
+	// Filter out shopfloors that are already bound to the current space,
+	// keeping only available shopfloors for selection
 	$scope.filterAvailableShopfloors = function() {
         var boundSet = {};
         ($scope.spaceshopfloors || []).forEach(function(ssf) {
@@ -164,7 +166,7 @@ app.controller('SpaceShopfloorController', function(
     };
 
     $scope.$on('space.tabSelected', function(event, tabIndex) {
-        var TAB_INDEXES = ($scope.$parent && $scope.$parent.TAB_INDEXES) || { SHOPFLOOR: 8 };
+        var TAB_INDEXES = ($scope.$parent && $scope.$parent.TAB_INDEXES) || {};
         if (tabIndex === TAB_INDEXES.SHOPFLOOR) {
             if (!$scope.tabInitialized) {
                 $scope.initTab();
@@ -175,7 +177,7 @@ app.controller('SpaceShopfloorController', function(
     });
 
     $timeout(function() {
-        var TAB_INDEXES = ($scope.$parent && $scope.$parent.TAB_INDEXES) || { SHOPFLOOR: 8 };
+        var TAB_INDEXES = ($scope.$parent && $scope.$parent.TAB_INDEXES) || {};
         if ($scope.$parent && $scope.$parent.activeTabIndex === TAB_INDEXES.SHOPFLOOR && !$scope.tabInitialized) {
             $scope.initTab();
         }

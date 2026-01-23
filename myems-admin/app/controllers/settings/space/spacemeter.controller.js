@@ -92,7 +92,7 @@ app.controller('SpaceMeterController', function(
                     });
                     deferred.resolve(response.data);
                 } else {
-                    deferred.resolve([]);
+                    deferred.reject(new Error('Failed to load meters for space: ' + value));
                 }
             });
             return deferred.promise;
@@ -120,6 +120,8 @@ app.controller('SpaceMeterController', function(
 		}
 	};
 
+	// Filter out meters that are already bound to the current space,
+	// keeping only available meters for selection
 	$scope.filterAvailableMeters = function() {
 		var boundSet = {};
 		($scope.spacemeters || []).forEach(function(sm) {
@@ -279,7 +281,7 @@ app.controller('SpaceMeterController', function(
         );
 
     $scope.$on('space.tabSelected', function(event, tabIndex) {
-        var TAB_INDEXES = ($scope.$parent && $scope.$parent.TAB_INDEXES) || { METER: 1 };
+        var TAB_INDEXES = ($scope.$parent && $scope.$parent.TAB_INDEXES) || {};
         if (tabIndex === TAB_INDEXES.METER) {
             if (!$scope.tabInitialized) {
                 $scope.initTab();
@@ -290,7 +292,7 @@ app.controller('SpaceMeterController', function(
     });
 
     $timeout(function() {
-        var TAB_INDEXES = ($scope.$parent && $scope.$parent.TAB_INDEXES) || { METER: 1 };
+        var TAB_INDEXES = ($scope.$parent && $scope.$parent.TAB_INDEXES) || {};
         if ($scope.$parent && $scope.$parent.activeTabIndex === TAB_INDEXES.METER && !$scope.tabInitialized) {
             $scope.initTab();
         }

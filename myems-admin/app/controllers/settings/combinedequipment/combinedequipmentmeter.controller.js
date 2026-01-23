@@ -58,7 +58,7 @@ app.controller('CombinedEquipmentMeterController', function (
                     });
                     deferred.resolve(response.data);
                 } else {
-                    deferred.resolve([]);
+                    deferred.reject(new Error('Failed to load meters for combined equipment: ' + value));
                 }
             });
             return deferred.promise;
@@ -154,6 +154,8 @@ app.controller('CombinedEquipmentMeterController', function (
 
     };
 
+    // Filter out meters that are already bound to the current combined equipment,
+    // keeping only available meters for selection
     $scope.filterAvailableMeters = function() {
         var boundSet = {};
         ($scope.combinedequipmentmeters || []).forEach(function(cem) {

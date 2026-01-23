@@ -57,6 +57,8 @@ app.controller('TenantPointController', function (
 
     };
 
+    // Filter out points that are already bound to the current tenant,
+    // keeping only available points for selection
     $scope.filterAvailablePoints = function() {
         var boundSet = {};
         ($scope.tenantpoints || []).forEach(function(tp) {

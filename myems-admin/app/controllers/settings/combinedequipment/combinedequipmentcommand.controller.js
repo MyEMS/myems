@@ -136,6 +136,8 @@ app.controller('CombinedEquipmentCommandController', function (
         }
     };
 
+    // Filter out commands that are already bound to the current combined equipment,
+    // keeping only available commands for selection
     $scope.filterAvailableCommands = function() {
         var boundSet = {};
         ($scope.combinedequipmentcommands || []).forEach(function(cec) {

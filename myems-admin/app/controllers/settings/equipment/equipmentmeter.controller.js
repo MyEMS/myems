@@ -57,7 +57,7 @@ app.controller('EquipmentMeterController', function(
 					});
 					deferred.resolve(response.data);
 				} else {
-					deferred.resolve([]);
+					deferred.reject(new Error('Failed to load meters for equipment: ' + value));
 				}
 			});
 			return deferred.promise;
@@ -137,6 +137,8 @@ app.controller('EquipmentMeterController', function(
 		});
 	};
 
+	// Filter out meters that are already bound to the current equipment,
+	// keeping only available meters for selection
 	$scope.filterAvailableMeters = function() {
 		
 		var boundSet = {};

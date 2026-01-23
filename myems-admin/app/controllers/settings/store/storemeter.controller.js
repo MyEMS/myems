@@ -56,7 +56,7 @@ app.controller('StoreMeterController', function(
                     });
                     deferred.resolve(response.data);
                 } else {
-                    deferred.resolve([]);
+                    deferred.reject(new Error('Failed to load meters for store: ' + value));
                 }
             });
             return deferred.promise;
@@ -136,6 +136,8 @@ app.controller('StoreMeterController', function(
         });
     };
 
+    // Filter out meters that are already bound to the current store,
+    // keeping only available meters for selection
     $scope.filterAvailableMeters = function() {
         var boundSet = {};
         ($scope.storemeters || []).forEach(function(sm) {

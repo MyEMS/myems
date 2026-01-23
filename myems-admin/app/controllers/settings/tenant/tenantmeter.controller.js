@@ -54,7 +54,7 @@ app.controller('TenantMeterController', function(
 					});
 					deferred.resolve(response.data);
 				} else {
-					deferred.resolve([]);
+					deferred.reject(new Error('Failed to load meters for tenant: ' + value));
 				}
 			});
 			return deferred.promise;
@@ -80,6 +80,8 @@ app.controller('TenantMeterController', function(
 		}
 	};
 
+	// Filter out meters that are already bound to the current tenant,
+	// keeping only available meters for selection
 	$scope.filterAvailableMeters = function() {
 		var boundSet = {};
 		($scope.tenantmeters || []).forEach(function(tm) {

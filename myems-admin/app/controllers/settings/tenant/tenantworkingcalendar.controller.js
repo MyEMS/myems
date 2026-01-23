@@ -66,6 +66,8 @@ app.controller('TenantWorkingCalendarController', function(
 
 	};
 
+	// Filter out working calendars that are already bound to the current tenant,
+	// keeping only available working calendars for selection
 	$scope.filterAvailableWorkingCalendars = function() {
         var boundSet = {};
         ($scope.tenantworkingcalendars || []).forEach(function(twc) {

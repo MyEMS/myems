@@ -39,6 +39,8 @@ app.controller('EquipmentCommandController', function (
         });
     };
 
+    // Filter out commands that are already bound to the current equipment,
+    // keeping only available commands for selection
     $scope.filterAvailableCommands = function() {
         var boundSet = {};
         ($scope.equipmentcommands || []).forEach(function(ec) {

@@ -79,6 +79,8 @@ app.controller('SpaceCombinedEquipmentController', function($scope,
         });
 		};
 
+	// Filter out combined equipments that are already bound to the current space,
+	// keeping only available combined equipments for selection
 	$scope.filterAvailableCombinedEquipments = function() {
         var boundSet = {};
         ($scope.spacecombinedequipments || []).forEach(function(sce) {
@@ -164,7 +166,7 @@ app.controller('SpaceCombinedEquipmentController', function($scope,
     };
 
     $scope.$on('space.tabSelected', function(event, tabIndex) {
-        var TAB_INDEXES = ($scope.$parent && $scope.$parent.TAB_INDEXES) || { COMBINED_EQUIPMENT: 3 };
+        var TAB_INDEXES = ($scope.$parent && $scope.$parent.TAB_INDEXES) || {};
         if (tabIndex === TAB_INDEXES.COMBINED_EQUIPMENT) {
             if (!$scope.tabInitialized) {
                 $scope.initTab();
@@ -175,7 +177,7 @@ app.controller('SpaceCombinedEquipmentController', function($scope,
     });
 
     $timeout(function() {
-        var TAB_INDEXES = ($scope.$parent && $scope.$parent.TAB_INDEXES) || { COMBINED_EQUIPMENT: 3 };
+        var TAB_INDEXES = ($scope.$parent && $scope.$parent.TAB_INDEXES) || {};
         if ($scope.$parent && $scope.$parent.activeTabIndex === TAB_INDEXES.COMBINED_EQUIPMENT && !$scope.tabInitialized) {
             $scope.initTab();
         }

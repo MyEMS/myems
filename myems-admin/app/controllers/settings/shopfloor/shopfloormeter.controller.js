@@ -54,7 +54,7 @@ app.controller('ShopfloorMeterController', function(
                     });
                     deferred.resolve(response.data);
                 } else {
-                    deferred.resolve([]);
+                    deferred.reject(new Error('Failed to load meters for shopfloor: ' + value));
                 }
             });
             return deferred.promise;
@@ -94,6 +94,8 @@ app.controller('ShopfloorMeterController', function(
         }
     };
 
+    // Filter out meters that are already bound to the current shopfloor,
+    // keeping only available meters for selection
     $scope.filterAvailableMeters = function() {
         var boundSet = {};
         ($scope.shopfloormeters || []).forEach(function(sm) {

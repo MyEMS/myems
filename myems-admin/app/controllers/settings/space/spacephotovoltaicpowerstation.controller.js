@@ -80,6 +80,8 @@ app.controller('SpacePhotovoltaicPowerStationController', function(
         });
 		};
 
+	// Filter out photovoltaic power stations that are already bound to the current space,
+	// keeping only available photovoltaic power stations for selection
 	$scope.filterAvailablePhotovoltaicPowerStations = function() {
         var boundSet = {};
         ($scope.spacephotovoltaicpowerstations || []).forEach(function(spps) {
@@ -165,7 +167,7 @@ app.controller('SpacePhotovoltaicPowerStationController', function(
     };
 
     $scope.$on('space.tabSelected', function(event, tabIndex) {
-        var TAB_INDEXES = ($scope.$parent && $scope.$parent.TAB_INDEXES) || { PHOTOVOLTAIC_POWER_STATION: 14 };
+        var TAB_INDEXES = ($scope.$parent && $scope.$parent.TAB_INDEXES) || {};
         if (tabIndex === TAB_INDEXES.PHOTOVOLTAIC_POWER_STATION) {
             if (!$scope.tabInitialized) {
                 $scope.initTab();
@@ -176,7 +178,7 @@ app.controller('SpacePhotovoltaicPowerStationController', function(
     });
 
     $timeout(function() {
-        var TAB_INDEXES = ($scope.$parent && $scope.$parent.TAB_INDEXES) || { PHOTOVOLTAIC_POWER_STATION: 14 };
+        var TAB_INDEXES = ($scope.$parent && $scope.$parent.TAB_INDEXES) || {};
         if ($scope.$parent && $scope.$parent.activeTabIndex === TAB_INDEXES.PHOTOVOLTAIC_POWER_STATION && !$scope.tabInitialized) {
             $scope.initTab();
         }

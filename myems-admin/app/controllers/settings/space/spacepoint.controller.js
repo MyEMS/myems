@@ -82,6 +82,8 @@ app.controller('SpacePointController', function (
         });
     };
 
+    // Filter out points that are already bound to the current space,
+    // keeping only available points for selection
     $scope.filterAvailablePoints = function() {
         var boundSet = {};
         ($scope.spacepoints || []).forEach(function(sp) {
@@ -188,7 +190,7 @@ app.controller('SpacePointController', function (
     };
 
     $scope.$on('space.tabSelected', function(event, tabIndex) {
-        var TAB_INDEXES = ($scope.$parent && $scope.$parent.TAB_INDEXES) || { POINT: 4 };
+        var TAB_INDEXES = ($scope.$parent && $scope.$parent.TAB_INDEXES) || {};
         if (tabIndex === TAB_INDEXES.POINT) {
             if (!$scope.tabInitialized) {
                 $scope.initTab();
@@ -199,7 +201,7 @@ app.controller('SpacePointController', function (
     });
 
     $timeout(function() {
-        var TAB_INDEXES = ($scope.$parent && $scope.$parent.TAB_INDEXES) || { POINT: 4 };
+        var TAB_INDEXES = ($scope.$parent && $scope.$parent.TAB_INDEXES) || {};
         if ($scope.$parent && $scope.$parent.activeTabIndex === TAB_INDEXES.POINT && !$scope.tabInitialized) {
             $scope.initTab();
         }

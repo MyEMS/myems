@@ -75,6 +75,8 @@ app.controller('SpaceMicrogridController', function(
         });
     };
 
+    // Filter out microgrids that are already bound to the current space,
+    // keeping only available microgrids for selection
     $scope.filterAvailableMicrogrids = function() {
         var boundSet = {};
         ($scope.spacemicrogrids || []).forEach(function(sm) {
@@ -208,7 +210,7 @@ app.controller('SpaceMicrogridController', function(
     };
 
     $scope.$on('space.tabSelected', function(event, tabIndex) {
-        var TAB_INDEXES = ($scope.$parent && $scope.$parent.TAB_INDEXES) || { MICROGRID: 15 };
+        var TAB_INDEXES = ($scope.$parent && $scope.$parent.TAB_INDEXES) || {};
         if (tabIndex === TAB_INDEXES.MICROGRID) {
             if (!$scope.tabInitialized) {
                 $scope.initTab();
@@ -219,7 +221,7 @@ app.controller('SpaceMicrogridController', function(
     });
 
     $timeout(function() {
-        var TAB_INDEXES = ($scope.$parent && $scope.$parent.TAB_INDEXES) || { MICROGRID: 15 };
+        var TAB_INDEXES = ($scope.$parent && $scope.$parent.TAB_INDEXES) || {};
         if ($scope.$parent && $scope.$parent.activeTabIndex === TAB_INDEXES.MICROGRID && !$scope.tabInitialized) {
             $scope.initTab();
         }
