@@ -14,6 +14,7 @@ app.controller('SpaceEnergyFlowDiagramController', function(
     $scope.currentSpaceID = 1;
     $scope.energyflowdiagrams = [];
     $scope.spaceenergyflowdiagrams = [];
+    $scope.filteredEnergyFlowDiagrams = [];
     $scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
     $scope.isLoadingEnergyflowdiagrams = false;
     $scope.tabInitialized = false;
@@ -75,8 +76,22 @@ app.controller('SpaceEnergyFlowDiagramController', function(
             } else {
               $scope.spaceenergyflowdiagrams=[];
             }
+            $scope.filterAvailableEnergyFlowDiagrams();
         });
 		};
+
+	$scope.filterAvailableEnergyFlowDiagrams = function() {
+        var boundSet = {};
+        ($scope.spaceenergyflowdiagrams || []).forEach(function(sefd) {
+            if (angular.isDefined(sefd.id)) {
+                boundSet[String(sefd.id)] = true;
+            }
+        });
+
+        $scope.filteredEnergyFlowDiagrams = ($scope.energyflowdiagrams || []).filter(function(efd){
+            return !boundSet[String(efd.id)];
+        });
+    };
 
 	$scope.getAllEnergyFlowDiagrams = function() {
         let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
@@ -86,6 +101,7 @@ app.controller('SpaceEnergyFlowDiagramController', function(
 			} else {
 				$scope.energyflowdiagrams = [];
 			}
+			$scope.filterAvailableEnergyFlowDiagrams();
 		});
 	};
 
@@ -149,14 +165,18 @@ app.controller('SpaceEnergyFlowDiagramController', function(
     };
 
     $scope.$on('space.tabSelected', function(event, tabIndex) {
-        var TAB_INDEXES = ($scope.$parent && $scope.$parent.TAB_INDEXES) || { ENERGY_FLOW_DIAGRAM: 12 };
-        if (tabIndex === TAB_INDEXES.ENERGY_FLOW_DIAGRAM && !$scope.tabInitialized) {
-            $scope.initTab();
+        var TAB_INDEXES = ($scope.$parent && $scope.$parent.TAB_INDEXES) || { ENERGY_FLOW_DIAGRAM: 9 };
+        if (tabIndex === TAB_INDEXES.ENERGY_FLOW_DIAGRAM) {
+            if (!$scope.tabInitialized) {
+                $scope.initTab();
+            } else if ($scope.isSpaceSelected && $scope.currentSpaceID) {
+                $scope.getEnergyFlowDiagramsBySpaceID($scope.currentSpaceID);
+            }
         }
     });
 
     $timeout(function() {
-        var TAB_INDEXES = ($scope.$parent && $scope.$parent.TAB_INDEXES) || { ENERGY_FLOW_DIAGRAM: 12 };
+        var TAB_INDEXES = ($scope.$parent && $scope.$parent.TAB_INDEXES) || { ENERGY_FLOW_DIAGRAM: 9 };
         if ($scope.$parent && $scope.$parent.activeTabIndex === TAB_INDEXES.ENERGY_FLOW_DIAGRAM && !$scope.tabInitialized) {
             $scope.initTab();
         }
@@ -200,8 +220,11 @@ app.controller('SpaceEnergyFlowDiagramController', function(
   };
 
 	$scope.$on('handleBroadcastSpaceChanged', function(event) {
-    $scope.spaceenergyflowdiagrams = [];
-    $scope.refreshSpaceTree();
+        $scope.spaceenergyflowdiagrams = [];
+        $scope.isSpaceSelected = false;
+        $scope.currentSpaceID = 1;
+        $scope.filterAvailableEnergyFlowDiagrams();
+        $scope.refreshSpaceTree();
 	});
 
     // Register drag and drop warning event listeners
@@ -210,6 +233,6 @@ app.controller('SpaceEnergyFlowDiagramController', function(
             $scope,
             'ENERGY_FLOW_DIAGRAM',
             'SETTING.PLEASE_SELECT_SPACE_FIRST',
-            { ENERGY_FLOW_DIAGRAM: 12 }
+            { ENERGY_FLOW_DIAGRAM: 9 }
         );
 });

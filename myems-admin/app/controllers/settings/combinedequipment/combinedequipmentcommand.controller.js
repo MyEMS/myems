@@ -140,12 +140,12 @@ app.controller('CombinedEquipmentCommandController', function (
         var boundSet = {};
         ($scope.combinedequipmentcommands || []).forEach(function(cec) {
             if (angular.isDefined(cec.id)) {
-                boundSet[cec.id] = true;
+                boundSet[String(cec.id)] = true;
             }
         });
 
         $scope.filteredCommands = ($scope.commands || []).filter(function(c){
-            return !boundSet[c.id];
+            return !boundSet[String(c.id)];
         });
     };
 

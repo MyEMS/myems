@@ -7,6 +7,7 @@ app.controller('EquipmentMeterController', function(
 	$timeout,
 	$uibModal,
 	$translate,
+	$q,
 	MeterService,
 	VirtualMeterService,
 	OfflineMeterService,
@@ -46,22 +47,29 @@ app.controller('EquipmentMeterController', function(
 
 	$scope.getMetersByEquipmentID = function(id) {
 		var metertypes=['meters','virtualmeters','offlinemeters'];
-		$scope.equipmentmeters=[];
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
-		var pending = metertypes.length;
-		angular.forEach(metertypes,function(value,index){
+		var promises = metertypes.map(function(value) {
+			var deferred = $q.defer();
 			EquipmentMeterService.getMetersByEquipmentID(id, value, headers, function (response) {
 				if (angular.isDefined(response.status) && response.status === 200) {
 					angular.forEach(response.data,function(item, indx){
 						response.data[indx].metertype = value;
 					});
-					$scope.equipmentmeters = $scope.equipmentmeters.concat(response.data);
-				}
-				pending--;
-				if (pending === 0) {
-					$scope.filterAvailableMeters();
+					deferred.resolve(response.data);
+				} else {
+					deferred.resolve([]);
 				}
 			});
+			return deferred.promise;
+		});
+
+		$q.all(promises).then(function(results) {
+			$scope.equipmentmeters = [].concat.apply([], results);
+			$scope.filterAvailableMeters();
+		}).catch(function(error) {
+			console.error('Error loading meters:', error);
+			$scope.equipmentmeters = [];
+			$scope.filterAvailableMeters();
 		});
 	};
 
@@ -136,18 +144,18 @@ app.controller('EquipmentMeterController', function(
 			var keyType = em.metertype || 'meters';
 			// em.id should be the id of a specific table
 			if (angular.isDefined(em.id)) {
-				boundSet[keyType + '_' + em.id] = true;
+				boundSet[keyType + '_' + String(em.id)] = true;
 			}
 		});
 
 		$scope.filteredMeters = ($scope.meters || []).filter(function(m){
-			return !boundSet['meters_' + m.id];
+			return !boundSet['meters_' + String(m.id)];
 		});
 		$scope.filteredVirtualMeters = ($scope.virtualmeters || []).filter(function(vm){
-			return !boundSet['virtualmeters_' + vm.id];
+			return !boundSet['virtualmeters_' + String(vm.id)];
 		});
 		$scope.filteredOfflineMeters = ($scope.offlinemeters || []).filter(function(om){
-			return !boundSet['offlinemeters_' + om.id];
+			return !boundSet['offlinemeters_' + String(om.id)];
 		});
 
 		$scope.changeMeterType();

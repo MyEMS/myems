@@ -70,12 +70,12 @@ app.controller('TenantWorkingCalendarController', function(
         var boundSet = {};
         ($scope.tenantworkingcalendars || []).forEach(function(twc) {
             if (angular.isDefined(twc.id)) {
-                boundSet[twc.id] = true;
+                boundSet[String(twc.id)] = true;
             }
         });
 
         $scope.filteredWorkingCalendars = ($scope.workingcalendars || []).filter(function(wc){
-            return !boundSet[wc.id];
+            return !boundSet[String(wc.id)];
         });
     };
 

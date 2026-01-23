@@ -13,6 +13,7 @@ app.controller('SpaceTenantController', function(
     $scope.currentSpaceID = 1;
     $scope.tenants = [];
     $scope.spacetenants = [];
+    $scope.filteredTenants = [];
     $scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
     $scope.isLoadingTenants = false;
     $scope.tabInitialized = false;
@@ -74,8 +75,22 @@ app.controller('SpaceTenantController', function(
       				} else {
                 $scope.spacetenants=[];
               }
+              $scope.filterAvailableTenants();
     			});
 		};
+
+	$scope.filterAvailableTenants = function() {
+        var boundSet = {};
+        ($scope.spacetenants || []).forEach(function(st) {
+            if (angular.isDefined(st.id)) {
+                boundSet[String(st.id)] = true;
+            }
+        });
+
+        $scope.filteredTenants = ($scope.tenants || []).filter(function(t){
+            return !boundSet[String(t.id)];
+        });
+    };
 
 	$scope.getAllTenants = function() {
         let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
@@ -85,6 +100,7 @@ app.controller('SpaceTenantController', function(
 			} else {
 				$scope.tenants = [];
 			}
+			$scope.filterAvailableTenants();
 		});
 	};
 
@@ -149,8 +165,12 @@ app.controller('SpaceTenantController', function(
 
     $scope.$on('space.tabSelected', function(event, tabIndex) {
         var TAB_INDEXES = ($scope.$parent && $scope.$parent.TAB_INDEXES) || { TENANT: 6 };
-        if (tabIndex === TAB_INDEXES.TENANT && !$scope.tabInitialized) {
-            $scope.initTab();
+        if (tabIndex === TAB_INDEXES.TENANT) {
+            if (!$scope.tabInitialized) {
+                $scope.initTab();
+            } else if ($scope.isSpaceSelected && $scope.currentSpaceID) {
+                $scope.getTenantsBySpaceID($scope.currentSpaceID);
+            }
         }
     });
 
@@ -199,8 +219,11 @@ app.controller('SpaceTenantController', function(
     };
 
 	$scope.$on('handleBroadcastSpaceChanged', function(event) {
-    $scope.spacetenants = [];
-    $scope.refreshSpaceTree();
+        $scope.spacetenants = [];
+        $scope.isSpaceSelected = false;
+        $scope.currentSpaceID = 1;
+        $scope.filterAvailableTenants();
+        $scope.refreshSpaceTree();
 	});
 
     // Register drag and drop warning event listeners

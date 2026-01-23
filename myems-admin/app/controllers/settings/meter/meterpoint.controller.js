@@ -47,12 +47,12 @@ app.controller('MeterPointController', function (
         var boundSet = {};
         ($scope.meterpoints || []).forEach(function(mp) {
             if (angular.isDefined(mp.id)) {
-                boundSet[mp.id] = true;
+                boundSet[String(mp.id)] = true;
             }
         });
 
         $scope.filteredPoints = ($scope.allPoints || []).filter(function(p){
-            return !boundSet[p.id];
+            return !boundSet[String(p.id)];
         });
     };
 

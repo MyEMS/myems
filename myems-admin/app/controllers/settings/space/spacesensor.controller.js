@@ -13,10 +13,24 @@ app.controller('SpaceSensorController', function (
     $scope.currentSpaceID = 1;
     $scope.sensors = [];
     $scope.spacesensors = [];
+    $scope.filteredSensors = [];
     $scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
     $scope.isLoadingSensors = false;
     $scope.tabInitialized = false;
     $scope.isSpaceSelected = false;
+
+    $scope.filterAvailableSensors = function() {
+        var boundSet = {};
+        ($scope.spacesensors || []).forEach(function(ss) {
+            if (angular.isDefined(ss.id)) {
+                boundSet[String(ss.id)] = true;
+            }
+        });
+
+        $scope.filteredSensors = ($scope.sensors || []).filter(function(s){
+            return !boundSet[String(s.id)];
+        });
+    };
 
     $scope.getAllSensors = function () {
         let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
@@ -26,6 +40,7 @@ app.controller('SpaceSensorController', function (
             } else {
                 $scope.sensors = [];
             }
+            $scope.filterAvailableSensors();
         });
     };
 
@@ -84,6 +99,7 @@ app.controller('SpaceSensorController', function (
             } else {
                 $scope.spacesensors = [];
             }
+            $scope.filterAvailableSensors();
         });
     };
 
@@ -148,8 +164,12 @@ app.controller('SpaceSensorController', function (
 
     $scope.$on('space.tabSelected', function(event, tabIndex) {
         var TAB_INDEXES = ($scope.$parent && $scope.$parent.TAB_INDEXES) || { SENSOR: 5 };
-        if (tabIndex === TAB_INDEXES.SENSOR && !$scope.tabInitialized) {
-            $scope.initTab();
+        if (tabIndex === TAB_INDEXES.SENSOR) {
+            if (!$scope.tabInitialized) {
+                $scope.initTab();
+            } else if ($scope.isSpaceSelected && $scope.currentSpaceID) {
+                $scope.getSensorsBySpaceID($scope.currentSpaceID);
+            }
         }
     });
 
@@ -198,8 +218,11 @@ app.controller('SpaceSensorController', function (
     };
 
   	$scope.$on('handleBroadcastSpaceChanged', function(event) {
-      $scope.spacesensors = [];
-      $scope.refreshSpaceTree();
+        $scope.spacesensors = [];
+        $scope.isSpaceSelected = false;
+        $scope.currentSpaceID = 1;
+        $scope.filterAvailableSensors();
+        $scope.refreshSpaceTree();
   	});
 
     // Register drag and drop warning event listeners

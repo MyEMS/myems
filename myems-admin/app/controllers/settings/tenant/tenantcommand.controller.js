@@ -52,12 +52,12 @@ app.controller('TenantCommandController', function (
         var boundSet = {};
         ($scope.tenantcommands || []).forEach(function(tc) {
             if (angular.isDefined(tc.id)) {
-                boundSet[tc.id] = true;
+                boundSet[String(tc.id)] = true;
             }
         });
 
         $scope.filteredCommands = ($scope.commands || []).filter(function(c){
-            return !boundSet[c.id];
+            return !boundSet[String(c.id)];
         });
     };
 

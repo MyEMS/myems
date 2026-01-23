@@ -140,12 +140,12 @@ app.controller('MeterCommandController', function (
         var boundSet = {};
         ($scope.metercommands || []).forEach(function(mc) {
             if (angular.isDefined(mc.id)) {
-                boundSet[mc.id] = true;
+                boundSet[String(mc.id)] = true;
             }
         });
 
         $scope.filteredCommands = ($scope.commands || []).filter(function(c){
-            return !boundSet[c.id];
+            return !boundSet[String(c.id)];
         });
     };
 

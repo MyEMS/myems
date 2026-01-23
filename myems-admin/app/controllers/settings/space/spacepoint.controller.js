@@ -18,6 +18,7 @@ app.controller('SpacePointController', function (
     $scope.spacepoints = [];
     $scope.datasources = [];
     $scope.points = [];
+    $scope.filteredPoints = [];
     $scope.isLoadingPoints = false;
     $scope.tabInitialized = false;
     $scope.isSpaceSelected = false;
@@ -81,6 +82,19 @@ app.controller('SpacePointController', function (
         });
     };
 
+    $scope.filterAvailablePoints = function() {
+        var boundSet = {};
+        ($scope.spacepoints || []).forEach(function(sp) {
+            if (angular.isDefined(sp.id)) {
+                boundSet[String(sp.id)] = true;
+            }
+        });
+
+        $scope.filteredPoints = ($scope.points || []).filter(function(p){
+            return !boundSet[String(p.id)];
+        });
+    };
+
     $scope.getPointsByDataSourceID = function (id) {
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
         PointService.getPointsByDataSourceID(id, headers, function (response) {
@@ -89,6 +103,7 @@ app.controller('SpacePointController', function (
             } else {
                 $scope.points = [];
             }
+            $scope.filterAvailablePoints();
         });
     };
 
@@ -103,6 +118,7 @@ app.controller('SpacePointController', function (
             } else {
                 $scope.spacepoints = [];
             }
+            $scope.filterAvailablePoints();
         });
 
     };
@@ -173,8 +189,12 @@ app.controller('SpacePointController', function (
 
     $scope.$on('space.tabSelected', function(event, tabIndex) {
         var TAB_INDEXES = ($scope.$parent && $scope.$parent.TAB_INDEXES) || { POINT: 4 };
-        if (tabIndex === TAB_INDEXES.POINT && !$scope.tabInitialized) {
-            $scope.initTab();
+        if (tabIndex === TAB_INDEXES.POINT) {
+            if (!$scope.tabInitialized) {
+                $scope.initTab();
+            } else if ($scope.isSpaceSelected && $scope.currentSpaceID) {
+                $scope.getPointsBySpaceID($scope.currentSpaceID);
+            }
         }
     });
 
@@ -223,8 +243,11 @@ app.controller('SpacePointController', function (
     };
 
   	$scope.$on('handleBroadcastSpaceChanged', function(event) {
-      $scope.spacepoints = [];
-      $scope.refreshSpaceTree();
+        $scope.spacepoints = [];
+        $scope.isSpaceSelected = false;
+        $scope.currentSpaceID = 1;
+        $scope.filterAvailablePoints();
+        $scope.refreshSpaceTree();
   	});
 
     // Register drag and drop warning event listeners

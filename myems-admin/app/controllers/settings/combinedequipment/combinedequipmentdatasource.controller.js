@@ -243,12 +243,12 @@ app.controller(
       var boundSet = {};
       ($scope.combinedequipmentdatasources || []).forEach(function(ceds) {
         if (angular.isDefined(ceds.id)) {
-          boundSet[ceds.id] = true;
+          boundSet[String(ceds.id)] = true;
         }
       });
 
       $scope.filteredDataSources = ($scope.datasources || []).filter(function(ds){
-        return !boundSet[ds.id];
+        return !boundSet[String(ds.id)];
       });
     };
 

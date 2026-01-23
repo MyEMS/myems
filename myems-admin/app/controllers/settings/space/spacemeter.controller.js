@@ -5,6 +5,7 @@ app.controller('SpaceMeterController', function(
     $window,
     $timeout,
     $translate,
+    $q,
     SpaceService,
     MeterService,
     VirtualMeterService,
@@ -24,6 +25,9 @@ app.controller('SpaceMeterController', function(
     $scope.meters = [];
     $scope.virtualmeters = [];
     $scope.offlinemeters = [];
+    $scope.filteredMeters = [];
+    $scope.filteredVirtualMeters = [];
+    $scope.filteredOfflineMeters = [];
 
     function safeApply(scope) {
         if (!scope.$$phase && !scope.$root.$$phase) {
@@ -78,22 +82,31 @@ app.controller('SpaceMeterController', function(
 	    if ($scope.isLoadingMeters) return;
 	    $scope.isLoadingMeters = true;
 	    var metertypes = ['meters', 'virtualmeters', 'offlinemeters'];
-	    var completedRequests = 0;
-	    $scope.spacemeters = [];
 	    let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
-        angular.forEach(metertypes, function(value, index) {
+        var promises = metertypes.map(function(value) {
+            var deferred = $q.defer();
             SpaceMeterService.getMetersBySpaceID(id, value, headers, function(response) {
-                completedRequests++;
                 if (angular.isDefined(response.status) && response.status === 200) {
                     angular.forEach(response.data, function(item, indx) {
                         response.data[indx].metertype = value;
                     });
-                    $scope.spacemeters = $scope.spacemeters.concat(response.data);
-                }
-                if (completedRequests === metertypes.length) {
-                    $scope.isLoadingMeters = false;
+                    deferred.resolve(response.data);
+                } else {
+                    deferred.resolve([]);
                 }
             });
+            return deferred.promise;
+        });
+
+        $q.all(promises).then(function(results) {
+            $scope.spacemeters = [].concat.apply([], results);
+            $scope.isLoadingMeters = false;
+            $scope.filterAvailableMeters();
+        }).catch(function(error) {
+            console.error('Error loading meters:', error);
+            $scope.spacemeters = [];
+            $scope.isLoadingMeters = false;
+            $scope.filterAvailableMeters();
         });
     };
 
@@ -107,16 +120,38 @@ app.controller('SpaceMeterController', function(
 		}
 	};
 
+	$scope.filterAvailableMeters = function() {
+		var boundSet = {};
+		($scope.spacemeters || []).forEach(function(sm) {
+			var keyType = sm.metertype || 'meters';
+			if (angular.isDefined(sm.id)) {
+				boundSet[keyType + '_' + String(sm.id)] = true;
+			}
+		});
+
+		$scope.filteredMeters = ($scope.meters || []).filter(function(m){
+			return !boundSet['meters_' + String(m.id)];
+		});
+		$scope.filteredVirtualMeters = ($scope.virtualmeters || []).filter(function(vm){
+			return !boundSet['virtualmeters_' + String(vm.id)];
+		});
+		$scope.filteredOfflineMeters = ($scope.offlinemeters || []).filter(function(om){
+			return !boundSet['offlinemeters_' + String(om.id)];
+		});
+
+		$scope.changeMeterType();
+	};
+
 	$scope.changeMeterType=function(){
 		switch($scope.currentMeterType){
 			case 'meters':
-				$scope.currentmeters=$scope.meters || [];
+				$scope.currentmeters=$scope.filteredMeters || [];
 				break;
 			case 'virtualmeters':
-				$scope.currentmeters=$scope.virtualmeters || [];
+				$scope.currentmeters=$scope.filteredVirtualMeters || [];
 				break;
 			case  'offlinemeters':
-				$scope.currentmeters=$scope.offlinemeters || [];
+				$scope.currentmeters=$scope.filteredOfflineMeters || [];
 				break;
 			default:
 				$scope.currentmeters = [];
@@ -129,9 +164,10 @@ app.controller('SpaceMeterController', function(
 			if (angular.isDefined(response.status) && response.status === 200) {
 				$scope.meters = response.data;
 				$scope.currentMeterType="meters";
-					$scope.changeMeterType();
+				$scope.filterAvailableMeters();
 			} else {
 				$scope.meters = [];
+				$scope.filterAvailableMeters();
 			}
 		});
 
@@ -145,6 +181,7 @@ app.controller('SpaceMeterController', function(
 			} else {
 				$scope.offlinemeters = [];
 			}
+			$scope.filterAvailableMeters();
 		});
 
 	};
@@ -157,6 +194,7 @@ app.controller('SpaceMeterController', function(
 			} else {
 				$scope.virtualmeters = [];
 			}
+			$scope.filterAvailableMeters();
 		});
 
 	};
@@ -242,8 +280,12 @@ app.controller('SpaceMeterController', function(
 
     $scope.$on('space.tabSelected', function(event, tabIndex) {
         var TAB_INDEXES = ($scope.$parent && $scope.$parent.TAB_INDEXES) || { METER: 1 };
-        if (tabIndex === TAB_INDEXES.METER && !$scope.tabInitialized) {
-            $scope.initTab();
+        if (tabIndex === TAB_INDEXES.METER) {
+            if (!$scope.tabInitialized) {
+                $scope.initTab();
+            } else if ($scope.isSpaceSelected && $scope.currentSpaceID) {
+                $scope.getMetersBySpaceID($scope.currentSpaceID);
+            }
         }
     });
 
@@ -290,8 +332,11 @@ app.controller('SpaceMeterController', function(
     };
 
 	$scope.$on('handleBroadcastSpaceChanged', function(event) {
-    $scope.spacemeters = [];
-    $scope.refreshSpaceTree();
+        $scope.spacemeters = [];
+        $scope.isSpaceSelected = false;
+        $scope.currentSpaceID = 1;
+        $scope.filterAvailableMeters();
+        $scope.refreshSpaceTree();
 	});
 
 });

@@ -62,12 +62,12 @@ app.controller(
       var boundSet = {};
       ($scope.equipmentdatasources || []).forEach(function(eds) {
         if (angular.isDefined(eds.id)) {
-          boundSet[eds.id] = true;
+          boundSet[String(eds.id)] = true;
         }
       });
 
       $scope.filteredDataSources = ($scope.datasources || []).filter(function(ds){
-        return !boundSet[ds.id];
+        return !boundSet[String(ds.id)];
       });
     };
 

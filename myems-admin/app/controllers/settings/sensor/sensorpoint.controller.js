@@ -49,12 +49,12 @@ app.controller('SensorPointController', function (
         var boundSet = {};
         ($scope.sensorpoints || []).forEach(function(sp) {
             if (angular.isDefined(sp.id)) {
-                boundSet[sp.id] = true;
+                boundSet[String(sp.id)] = true;
             }
         });
 
         $scope.filteredPoints = ($scope.allPoints || []).filter(function(p){
-            return !boundSet[p.id];
+            return !boundSet[String(p.id)];
         });
     };
 

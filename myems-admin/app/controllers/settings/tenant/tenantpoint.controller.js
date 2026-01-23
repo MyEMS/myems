@@ -61,12 +61,12 @@ app.controller('TenantPointController', function (
         var boundSet = {};
         ($scope.tenantpoints || []).forEach(function(tp) {
             if (angular.isDefined(tp.id)) {
-                boundSet[tp.id] = true;
+                boundSet[String(tp.id)] = true;
             }
         });
 
         $scope.filteredPoints = ($scope.points || []).filter(function(p){
-            return !boundSet[p.id];
+            return !boundSet[String(p.id)];
         });
     };
 

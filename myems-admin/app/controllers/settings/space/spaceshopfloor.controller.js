@@ -13,6 +13,7 @@ app.controller('SpaceShopfloorController', function(
     $scope.currentSpaceID = 1;
     $scope.shopfloors = [];
     $scope.spaceshopfloors = [];
+    $scope.filteredShopfloors = [];
     $scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
     $scope.isLoadingShopfloors = false;
     $scope.tabInitialized = false;
@@ -74,8 +75,22 @@ app.controller('SpaceShopfloorController', function(
       				} else {
                 $scope.spaceshopfloors=[];
               }
+              $scope.filterAvailableShopfloors();
     			});
 		};
+
+	$scope.filterAvailableShopfloors = function() {
+        var boundSet = {};
+        ($scope.spaceshopfloors || []).forEach(function(ssf) {
+            if (angular.isDefined(ssf.id)) {
+                boundSet[String(ssf.id)] = true;
+            }
+        });
+
+        $scope.filteredShopfloors = ($scope.shopfloors || []).filter(function(sf){
+            return !boundSet[String(sf.id)];
+        });
+    };
 
 	$scope.getAllShopfloors = function() {
         let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
@@ -85,6 +100,7 @@ app.controller('SpaceShopfloorController', function(
 			} else {
 				$scope.shopfloors = [];
 			}
+			$scope.filterAvailableShopfloors();
 		});
 	};
 
@@ -149,8 +165,12 @@ app.controller('SpaceShopfloorController', function(
 
     $scope.$on('space.tabSelected', function(event, tabIndex) {
         var TAB_INDEXES = ($scope.$parent && $scope.$parent.TAB_INDEXES) || { SHOPFLOOR: 8 };
-        if (tabIndex === TAB_INDEXES.SHOPFLOOR && !$scope.tabInitialized) {
-            $scope.initTab();
+        if (tabIndex === TAB_INDEXES.SHOPFLOOR) {
+            if (!$scope.tabInitialized) {
+                $scope.initTab();
+            } else if ($scope.isSpaceSelected && $scope.currentSpaceID) {
+                $scope.getShopfloorsBySpaceID($scope.currentSpaceID);
+            }
         }
     });
 
@@ -199,8 +219,11 @@ app.controller('SpaceShopfloorController', function(
   };
 
 	$scope.$on('handleBroadcastSpaceChanged', function(event) {
-    $scope.spaceshopfloors = [];
-    $scope.refreshSpaceTree();
+        $scope.spaceshopfloors = [];
+        $scope.isSpaceSelected = false;
+        $scope.currentSpaceID = 1;
+        $scope.filterAvailableShopfloors();
+        $scope.refreshSpaceTree();
 	});
 
     // Register drag and drop warning event listeners

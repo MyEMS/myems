@@ -43,12 +43,12 @@ app.controller('EquipmentCommandController', function (
         var boundSet = {};
         ($scope.equipmentcommands || []).forEach(function(ec) {
             if (angular.isDefined(ec.id)) {
-                boundSet[ec.id] = true;
+                boundSet[String(ec.id)] = true;
             }
         });
 
         $scope.filteredCommands = ($scope.commands || []).filter(function(c){
-            return !boundSet[c.id];
+            return !boundSet[String(c.id)];
         });
     };
 

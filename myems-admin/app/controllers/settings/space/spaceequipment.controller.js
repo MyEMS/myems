@@ -14,6 +14,7 @@ app.controller('SpaceEquipmentController', function(
     $scope.currentSpaceID = 1;
     $scope.equipments = [];
     $scope.spaceequipments = [];
+    $scope.filteredEquipments = [];
     $scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
     $scope.isLoadingEquipments = false;
     $scope.tabInitialized = false;
@@ -75,8 +76,22 @@ app.controller('SpaceEquipmentController', function(
             } else {
               $scope.spaceequipments=[];
             }
+            $scope.filterAvailableEquipments();
         });
 		};
+
+	$scope.filterAvailableEquipments = function() {
+        var boundSet = {};
+        ($scope.spaceequipments || []).forEach(function(se) {
+            if (angular.isDefined(se.id)) {
+                boundSet[String(se.id)] = true;
+            }
+        });
+
+        $scope.filteredEquipments = ($scope.equipments || []).filter(function(e){
+            return !boundSet[String(e.id)];
+        });
+    };
 
 	$scope.getAllEquipments = function() {
         let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
@@ -86,6 +101,7 @@ app.controller('SpaceEquipmentController', function(
 			} else {
 				$scope.equipments = [];
 			}
+			$scope.filterAvailableEquipments();
 		});
 	};
 
@@ -150,8 +166,12 @@ app.controller('SpaceEquipmentController', function(
 
     $scope.$on('space.tabSelected', function(event, tabIndex) {
         var TAB_INDEXES = ($scope.$parent && $scope.$parent.TAB_INDEXES) || { EQUIPMENT: 2 };
-        if (tabIndex === TAB_INDEXES.EQUIPMENT && !$scope.tabInitialized) {
-            $scope.initTab();
+        if (tabIndex === TAB_INDEXES.EQUIPMENT) {
+            if (!$scope.tabInitialized) {
+                $scope.initTab();
+            } else if ($scope.isSpaceSelected && $scope.currentSpaceID) {
+                $scope.getEquipmentsBySpaceID($scope.currentSpaceID);
+            }
         }
     });
 
@@ -200,8 +220,11 @@ app.controller('SpaceEquipmentController', function(
   };
 
 	$scope.$on('handleBroadcastSpaceChanged', function(event) {
-    $scope.spaceequipments = [];
-    $scope.refreshSpaceTree();
+        $scope.spaceequipments = [];
+        $scope.isSpaceSelected = false;
+        $scope.currentSpaceID = 1;
+        $scope.filterAvailableEquipments();
+        $scope.refreshSpaceTree();
 	});
 
     // Register drag and drop warning event listeners

@@ -44,12 +44,12 @@ app.controller('TenantSensorController', function (
         var boundSet = {};
         ($scope.tenantsensors || []).forEach(function(ts) {
             if (angular.isDefined(ts.id)) {
-                boundSet[ts.id] = true;
+                boundSet[String(ts.id)] = true;
             }
         });
 
         $scope.filteredSensors = ($scope.sensors || []).filter(function(s){
-            return !boundSet[s.id];
+            return !boundSet[String(s.id)];
         });
     };
 
