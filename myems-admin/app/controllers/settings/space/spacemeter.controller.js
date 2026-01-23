@@ -282,7 +282,7 @@ app.controller('SpaceMeterController', function(
             $scope,
             'METER',
             'SETTING.PLEASE_SELECT_SPACE_FIRST',
-            { METER: 1 }
+            ($scope.$parent && $scope.$parent.TAB_INDEXES) || {}
         );
 
     $scope.$on('space.tabSelected', function(event, tabIndex) {
