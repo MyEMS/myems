@@ -111,7 +111,7 @@ class UserCollection:
         cnx = mysql.connector.connect(**config.myems_user_db)
         cursor = cnx.cursor()
         query = (" SELECT u.id, u.name, u.display_name, u.uuid, "
-                 "        u.email, u.is_admin, u.is_read_only, p.id, p.name, "
+                 "        u.email, u.phone, u.is_admin, u.is_read_only, p.id, p.name, "
                  "        u.account_expiration_datetime_utc, "
                  "        u.password_expiration_datetime_utc, "
                  "        u.failed_login_count "
@@ -120,8 +120,8 @@ class UserCollection:
                  )
         params = []
         if search_query:
-            query += " WHERE u.name LIKE %s OR u.email LIKE %s "
-            params = [f'%{search_query}%', f'%{search_query}%']
+            query += " WHERE u.name LIKE %s OR u.email LIKE %s OR u.phone LIKE %s "
+            params = [f'%{search_query}%', f'%{search_query}%', f'%{search_query}%']
         query += " ORDER BY u.name "
 
         cursor.execute(query, params)
@@ -141,22 +141,23 @@ class UserCollection:
                                "display_name": row[2],
                                "uuid": row[3],
                                "email": row[4],
-                               "is_admin": True if row[5] else False,
-                               "is_read_only": (True if row[6] else False)
-                               if row[5] else None,
+                               "phone": row[5] if row[5] is not None else '',
+                               "is_admin": True if row[6] else False,
+                               "is_read_only": (True if row[7] else False)
+                               if row[6] else None,
                                "privilege": {
-                                   "id": row[7],
-                                   "name": row[8]
-                               } if row[7] is not None else None,
+                                   "id": row[8],
+                                   "name": row[9]
+                               } if row[8] is not None else None,
                                "account_expiration_datetime":
-                                   (row[9].replace(tzinfo=timezone.utc) +
-                                    timedelta(minutes=timezone_offset))
-                                   .isoformat()[0:19],
-                               "password_expiration_datetime":
                                    (row[10].replace(tzinfo=timezone.utc) +
                                     timedelta(minutes=timezone_offset))
                                    .isoformat()[0:19],
-                               "is_locked": True if row[11] >=
+                               "password_expiration_datetime":
+                                   (row[11].replace(tzinfo=timezone.utc) +
+                                    timedelta(minutes=timezone_offset))
+                                   .isoformat()[0:19],
+                               "is_locked": True if row[12] >=
                                config.maximum_failed_login_count else False}
                 result.append(meta_result)
 
@@ -253,6 +254,10 @@ class UserCollection:
             privilege_id = new_values['data']['privilege_id']
         else:
             privilege_id = None
+			
+        phone = ''
+        if 'phone' in new_values['data'].keys() and isinstance(new_values['data']['phone'], str):
+            phone = str.strip(new_values['data']['phone'])
 
         timezone_offset = int(config.utc_offset[1:3]) * 60 + int(config.utc_offset[4:6])
         if config.utc_offset[0] == '-':
@@ -303,11 +308,11 @@ class UserCollection:
                                        description='API.PRIVILEGE_NOT_FOUND')
 
         add_row = (" INSERT INTO tbl_users "
-                   "     (name, uuid, display_name, email, salt, password, "
+                   "     (name, uuid, display_name, email, phone, salt, password, "
                    "      is_admin, is_read_only, privilege_id, "
                    "      account_expiration_datetime_utc, "
                    "      password_expiration_datetime_utc, failed_login_count) "
-                   " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) ")
+                   " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) ")
 
         salt = uuid.uuid4().hex
         password = new_values['data']['password']
@@ -317,6 +322,7 @@ class UserCollection:
                                  str(uuid.uuid4()),
                                  display_name,
                                  email,
+                                 phone,
                                  salt,
                                  hashed_password,
                                  is_admin,
@@ -385,7 +391,7 @@ class UserItem:
         cursor = cnx.cursor()
 
         query = (" SELECT u.id, u.name, u.display_name, u.uuid, "
-                 "        u.email, u.is_admin, u.is_read_only, p.id, p.name, "
+                 "        u.email, u.phone, u.is_admin, u.is_read_only, p.id, p.name, "
                  "        u.account_expiration_datetime_utc, "
                  "        u.password_expiration_datetime_utc,"
                  "        u.failed_login_count "
@@ -409,19 +415,20 @@ class UserItem:
                   "display_name": row[2],
                   "uuid": row[3],
                   "email": row[4],
-                  "is_admin": True if row[5] else False,
-                  "is_read_only": (True if row[6] else False) if row[5] else None,
+                  "phone": row[5] if row[5] is not None else '',
+                  "is_admin": True if row[6] else False,
+                  "is_read_only": (True if row[7] else False) if row[6] else None,
                   "privilege": {
-                      "id": row[7],
-                      "name": row[8]
-                  } if row[7] is not None else None,
+                      "id": row[8],
+                      "name": row[9]
+                  } if row[8] is not None else None,
                   "account_expiration_datetime":
-                      (row[9].replace(tzinfo=timezone.utc) +
-                       timedelta(minutes=timezone_offset)).isoformat()[0:19],
-                  "password_expiration_datetime":
                       (row[10].replace(tzinfo=timezone.utc) +
                        timedelta(minutes=timezone_offset)).isoformat()[0:19],
-                  "is_locked": True if row[11] >= config.maximum_failed_login_count else False}
+                  "password_expiration_datetime":
+                      (row[11].replace(tzinfo=timezone.utc) +
+                       timedelta(minutes=timezone_offset)).isoformat()[0:19],
+                  "is_locked": True if row[12] >= config.maximum_failed_login_count else False}
 
         # Store result in Redis cache
         result_json = json.dumps(result)
@@ -566,6 +573,10 @@ class UserItem:
         else:
             privilege_id = None
 
+        phone = ''
+        if 'phone' in new_values['data'].keys() and isinstance(new_values['data']['phone'], str):
+            phone = str.strip(new_values['data']['phone'])
+
         timezone_offset = int(config.utc_offset[1:3]) * 60 + int(config.utc_offset[4:6])
         if config.utc_offset[0] == '-':
             timezone_offset = -timezone_offset
@@ -624,7 +635,7 @@ class UserItem:
                                        description='API.PRIVILEGE_NOT_FOUND')
 
         update_row = (" UPDATE tbl_users "
-                      " SET name = %s, display_name = %s, email = %s, "
+                      " SET name = %s, display_name = %s, email = %s, phone = %s, "
                       "     is_admin = %s, is_read_only = %s, privilege_id = %s,"
                       "     account_expiration_datetime_utc = %s, "
                       "     password_expiration_datetime_utc = %s "
@@ -632,6 +643,7 @@ class UserItem:
         cursor.execute(update_row, (name,
                                     display_name,
                                     email,
+                                    phone,
                                     is_admin,
                                     is_read_only,
                                     privilege_id,

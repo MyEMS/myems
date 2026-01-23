@@ -37,7 +37,13 @@
                         </div>
                 </div>
             </div>
-            
+
+            <div class="form-group"><label class="col-sm-3 control-label">{{'USER.PHONE' | translate}}</label>
+                <div class="col-sm-9">
+                    <input ng-model="user.phone" type="tel" name="userphone" class="form-control" placeholder="{{'USER.INPUT_PHONE' | translate}}">
+                </div>
+            </div>
+
             <div class="form-group"><label class="col-sm-3 control-label">{{'USER.IS_ADMIN' | translate}}</label>
                 <div class="col-sm-9">
                     <div class="checkbox checkbox-success">

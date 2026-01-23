@@ -189,8 +189,7 @@ const SentRegisterEmailMessageForm = ({ setRedirect, setRedirectUrl, hasLabel, l
   };
 
   const validatePhone = (phoneNum) => {
-    const phoneReg = /^1[3-9]\d{9}$/;
-    return phoneReg.test(phoneNum.trim());
+    return true;
   };
 
   return (
@@ -254,8 +253,6 @@ const SentRegisterEmailMessageForm = ({ setRedirect, setRedirectUrl, hasLabel, l
           id="phone"
           placeholder={t('Phone Number')}
           value={phone}
-          maxLength={11}
-          minLength={11}
           onChange={({ target }) => {
             validatePhone(target.value);
             setPhone(target.value);
