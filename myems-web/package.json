@@ -90,7 +90,8 @@
     "slick-carousel": "^1.8.1",
     "styled-components": "^6.0.5",
     "uuid": "^9.0.0",
-    "react-code-input":"^3.10.1"
+    "react-code-input":"^3.10.1",
+    "nth-check": "^2.0.1"
   },
   "scripts": {
     "start": "react-scripts start",

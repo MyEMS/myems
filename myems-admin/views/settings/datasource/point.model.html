@@ -16,10 +16,10 @@
             <div class="form-group"><label class="col-sm-4 control-label">{{'POINT.OBJECT_TYPE' | translate}}<span class="text-danger">*</span></label>
                 <div class="col-sm-8">
                     <select name="pointobject_type"  ng-model="point.object_type" ng-disabled="is_edit" class="form-control m-b">
-                                <option value="ENERGY_VALUE">ENERGY VALUE</option>
-                                <option value="ANALOG_VALUE">ANALOG VALUE</option>
-                                <option value="DIGITAL_VALUE">DIGITAL VALUE</option>
-                                <option value="TEXT_VALUE">TEXT VALUE</option>
+                                <option value="ENERGY_VALUE">{{'POINT.ENERGY_VALUE' | translate}}</option>
+                                <option value="ANALOG_VALUE">{{'POINT.ANALOG_VALUE' | translate}}</option>
+                                <option value="DIGITAL_VALUE">{{'POINT.DIGITAL_VALUE' | translate}}</option>
+                                <option value="TEXT_VALUE">{{'POINT.TEXT_VALUE' | translate}}</option>
                             </select>
                     <div class="m-t-xs" ng-show="form_point.pointobject_type.$invalid && form_point.pointobject_type.$dirty">
                         <small class="text-danger" ng-show="form_point.pointobject_type.$error.required">--</small>
