@@ -120,8 +120,8 @@ class UserCollection:
                  )
         params = []
         if search_query:
-            query += " WHERE u.name LIKE %s OR u.email LIKE %s OR u.phone LIKE %s "
-            params = [f'%{search_query}%', f'%{search_query}%', f'%{search_query}%']
+            query += " WHERE u.name LIKE CONCAT('%', %s, '%') OR u.email LIKE CONCAT('%', %s, '%') OR u.phone LIKE CONCAT('%', %s, '%') "
+            params = [search_query, search_query, search_query]
         query += " ORDER BY u.name "
 
         cursor.execute(query, params)
@@ -254,10 +254,11 @@ class UserCollection:
             privilege_id = new_values['data']['privilege_id']
         else:
             privilege_id = None
-			
-        phone = ''
+
+        phone = None
         if 'phone' in new_values['data'].keys() and isinstance(new_values['data']['phone'], str):
-            phone = str.strip(new_values['data']['phone'])
+            phone_str = str.strip(new_values['data']['phone'])
+            phone = phone_str if phone_str else None
 
         timezone_offset = int(config.utc_offset[1:3]) * 60 + int(config.utc_offset[4:6])
         if config.utc_offset[0] == '-':
@@ -573,9 +574,10 @@ class UserItem:
         else:
             privilege_id = None
 
-        phone = ''
+        phone = None
         if 'phone' in new_values['data'].keys() and isinstance(new_values['data']['phone'], str):
-            phone = str.strip(new_values['data']['phone'])
+            phone_str = str.strip(new_values['data']['phone'])
+            phone = phone_str if phone_str else None
 
         timezone_offset = int(config.utc_offset[1:3]) * 60 + int(config.utc_offset[4:6])
         if config.utc_offset[0] == '-':
