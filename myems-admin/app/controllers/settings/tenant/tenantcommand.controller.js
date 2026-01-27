@@ -186,8 +186,7 @@ app.controller('TenantCommandController', function (
         }
     }, 0);
 
-    // Register drag and drop warning event listeners
-    // Use registerTabWarnings to avoid code duplication
+    // Register drag and drop warning event listeners, Use registerTabWarnings to avoid code duplication
     DragDropWarningService.registerTabWarnings(
         $scope,
         'BIND_COMMAND',
