@@ -118,13 +118,14 @@ class UserCollection:
                  " FROM tbl_users u "
                  " LEFT JOIN tbl_privileges p ON u.privilege_id = p.id "
                  )
-        params = []
+
+        search_param = None
         if search_query:
-            query += " WHERE u.name LIKE CONCAT('%', %s, '%') OR u.email LIKE CONCAT('%', %s, '%') OR u.phone LIKE CONCAT('%', %s, '%') "
-            params = [search_query, search_query, search_query]
+            query += " WHERE u.name LIKE %(search)s OR u.email LIKE %(search)s OR u.phone LIKE %(search)s "
+            search_param = f"%{search_query}%"
         query += " ORDER BY u.name "
 
-        cursor.execute(query, params)
+        cursor.execute(query, {"search": search_param} if search_param else None)
         rows = cursor.fetchall()
         cursor.close()
         cnx.close()
