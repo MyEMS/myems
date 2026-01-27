@@ -70,6 +70,9 @@ app.controller('CombinedEquipmentMeterController', function (
         }).catch(function(error) {
             console.error('Error loading meters:', error);
             $scope.combinedequipmentmeters = [];
+            $scope.filteredMeters = [];
+            $scope.filteredVirtualMeters = [];
+            $scope.filteredOfflineMeters = [];
             $scope.filterAvailableMeters();
         });
     };
