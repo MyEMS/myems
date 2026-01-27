@@ -121,11 +121,10 @@ class UserCollection:
 
         search_param = None
         if search_query:
-            query += (" WHERE u.name LIKE CONCAT('%', %(search)s, '%') "
-                      "OR u.email LIKE CONCAT('%', %(search)s, '%') "
-                      "OR u.phone LIKE CONCAT('%', %(search)s, '%') "
-                      )
-            search_param = search_query
+            query += (" WHERE u.name LIKE %(search)s "
+                      "OR u.email LIKE %(search)s "
+                      "OR u.phone LIKE %(search)s ")
+            search_param = f"%{search_query}%"
         query += " ORDER BY u.name "
 
         cursor.execute(query, {"search": search_param} if search_param else None)
@@ -420,7 +419,7 @@ class UserItem:
                   "display_name": row[2],
                   "uuid": row[3],
                   "email": row[4],
-                  "phone": row[5] if row[5] is not None else '',
+                  "phone": row[5],
                   "is_admin": True if row[6] else False,
                   "is_read_only": (True if row[7] else False) if row[6] else None,
                   "privilege": {
