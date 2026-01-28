@@ -55,6 +55,7 @@ app.controller('SpaceCommandController', function(
           } else {
               $scope.isSpaceSelected = false;
               $scope.spacecommands = [];
+              $scope.filterAvailableCommands();
           }
           if (!$scope.$$phase && !$scope.$root.$$phase) {
               $scope.$apply();
@@ -213,6 +214,7 @@ app.controller('SpaceCommandController', function(
       // Reset selection state after tree refresh
       $scope.isSpaceSelected = false;
       $scope.spacecommands = [];
+      $scope.filterAvailableCommands();
       if (!$scope.$$phase && !$scope.$root.$$phase) {
           $scope.$apply();
       }

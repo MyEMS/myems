@@ -100,12 +100,14 @@ app.controller('TenantCommandController', function (
                     $scope.tenantcommands = [];
                     $scope.currentTenant = {selected:undefined};
                     $scope.isTenantSelected = false;
+                    $scope.filterAvailableCommands();
                 }
             } else {
                 $scope.tenants = [];
                 $scope.tenantcommands = [];
                 $scope.currentTenant = {selected:undefined};
                 $scope.isTenantSelected = false;
+                $scope.filterAvailableCommands();
             }
         });
 

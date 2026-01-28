@@ -59,6 +59,7 @@ app.controller('SpacePointController', function (
             } else {
                 $scope.isSpaceSelected = false;
                 $scope.spacepoints = [];
+                $scope.filterAvailablePoints();
             }
             if (!$scope.$$phase && !$scope.$root.$$phase) {
                 $scope.$apply();
@@ -237,6 +238,7 @@ app.controller('SpacePointController', function (
         // Reset selection state after tree refresh
         $scope.isSpaceSelected = false;
         $scope.spacepoints = [];
+        $scope.filterAvailablePoints();
         if (!$scope.$$phase && !$scope.$root.$$phase) {
             $scope.$apply();
         }
