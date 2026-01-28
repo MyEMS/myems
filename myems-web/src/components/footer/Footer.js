@@ -11,7 +11,7 @@ const Footer = ({ t }) => (
           {t('An Industry Leading Open Source Energy Management System')}{' '}
           <span className="d-none d-sm-inline-block">| </span>
           <br className="d-sm-none" /> {new Date().getFullYear()} &copy;{' '}
-          <a href={atob('aHR0cHM6Ly9teWVtcy5pbw==')}>{atob('TXlFTVM=')}</a>
+          <a href={atob('aHR0cHM6Ly9teWVtcy5jbg==')}>{atob('TXlFTVM=')}</a>
         </p>
       </Col>
       <Col sm="auto">

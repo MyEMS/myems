@@ -93,7 +93,8 @@ const MeterPlan = ({ setRedirect, setRedirectUrl, t }) => {
   const [reportingPeriodDateRange, setReportingPeriodDateRange] = useState([
     current_moment
       .clone()
-      .startOf('month')
+      .subtract(1, 'days')
+      .startOf('day')
       .toDate(),
     current_moment.toDate()
   ]);
