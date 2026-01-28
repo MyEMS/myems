@@ -12,6 +12,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ### Changed
 - udpated space settings in myems-admin
+- translated object type of point in myems-admin
+
 ### Fixed
 - optimized combined equipment settings in myems-admin
 - optimized equipment settings in myems-admin
@@ -23,6 +25,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - fixed issues of user session timeout handler in myems-web
 - fixed issue of zoom mapbox in myems-web
 ### Removed
+- None
 
 ## [v5.12.0] - 2025-12-26
 ### Added
