@@ -391,7 +391,8 @@ app.controller('ModalAddUserCtrl', function ($scope, $uibModalInstance, params) 
 		is_admin: false,
 		is_read_only: false,
 		account_expiration_datetime:moment().add(1,'years'),
-        password_expiration_datetime:moment().add(1,'years')
+        password_expiration_datetime:moment().add(1,'years'),
+		phone: '' 
 	};
 	$scope.dtOptions = {
         locale:{
@@ -430,6 +431,9 @@ app.controller('ModalEditUserCtrl', function ($scope, $uibModalInstance, params)
 		$scope.user.privilege_id = $scope.user.privilege.id;
 	} else {
 		$scope.user.privilege_id = undefined;
+	}
+	if (!$scope.user.hasOwnProperty('phone')) {
+		$scope.user.phone = '';
 	}
 	$scope.dtOptions = {
         locale: {
@@ -495,7 +499,8 @@ app.controller('ModalApproveUserCtrl', function ($scope, $uibModalInstance, para
 		is_admin: false,
 		is_read_only: false,
 		account_expiration_datetime:moment().add(1,'years'),
-        password_expiration_datetime:moment().add(1,'years')
+        password_expiration_datetime:moment().add(1,'years'),
+		phone: params.user.phone || '' 
 	};
 	$scope.dtOptions = {
         locale:{
