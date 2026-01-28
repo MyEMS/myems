@@ -1,7 +1,7 @@
 <p align="center">
    <img alt="logo" src="https://myems.cn/img/myems.png" width="150" height="150">
 </p>
-<h1 align="center" style="margin: 30px 0 30px; font-weight: bold;">MyEMS v5.12.0</h1>
+<h1 align="center" style="margin: 30px 0 30px; font-weight: bold;">MyEMS v6.1.0</h1>
 <h3 align="center">Sistem pengurusan tenaga sumber terbuka terkemuka industri</h3>
 <h6 align="center">Hampir seribu kes projek</h6>
 <h6 align="center">Berkomitmen untuk kekal sumber terbuka selama-lamanya</h6>

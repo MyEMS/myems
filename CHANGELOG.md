@@ -5,6 +5,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 ### Added
+### Changed
+### Fixed
+### Removed
+
+## [v6.1.0] - 2026-01-28
+### Added
 - added store type setting to myems-admin
 - added optional redis database to myems-api
 - added phone to tbl_users in database
@@ -2151,46 +2157,47 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Removed
 -   None.
 
-## [Unreleased]: https://gitee.com/MyEMS/myems/compare/v5.12.0...HEAD
-## [5.12.0]: https://gitee.com/MyEMS/myems/compare/v5.11.0...v5.12.0
-## [5.11.0]: https://gitee.com/MyEMS/myems/compare/v5.10.0...v5.11.0
-## [5.10.0]: https://gitee.com/MyEMS/myems/compare/v5.9.0...v5.10.0
-## [5.9.0]: https://gitee.com/MyEMS/myems/compare/v5.8.0...v5.9.0
-## [5.8.0]: https://gitee.com/MyEMS/myems/compare/v5.7.1...v5.8.0
-## [5.7.1]: https://gitee.com/MyEMS/myems/compare/v5.7.0...v5.7.1
-## [5.7.0]: https://gitee.com/MyEMS/myems/compare/v5.6.0...v5.7.0
-## [5.6.0]: https://gitee.com/MyEMS/myems/compare/v5.5.0...v5.6.0
-## [5.5.0]: https://gitee.com/MyEMS/myems/compare/v5.4.0...v5.5.0
-## [5.4.0]: https://gitee.com/MyEMS/myems/compare/v5.3.0...v5.4.0
-## [5.3.0]: https://gitee.com/MyEMS/myems/compare/v5.2.0...v5.3.0
-## [5.2.0]: https://gitee.com/MyEMS/myems/compare/v5.1.0...v5.2.0
-## [5.1.0]: https://gitee.com/MyEMS/myems/compare/v4.12.0...v5.1.0
-## [4.12.0]: https://gitee.com/MyEMS/myems/compare/v4.11.0...v4.12.0
-## [4.11.0]: https://gitee.com/MyEMS/myems/compare/v4.10.0...v4.11.0
-## [4.10.0]: https://gitee.com/MyEMS/myems/compare/v4.9.1...v4.10.0
-## [4.9.1]: https://gitee.com/MyEMS/myems/compare/v4.9.0...v4.9.1
-## [4.9.0]: https://gitee.com/MyEMS/myems/compare/v4.8.0...v4.9.0
-## [4.8.0]: https://gitee.com/MyEMS/myems/compare/v4.7.0...v4.8.0
-## [4.7.0]: https://gitee.com/MyEMS/myems/compare/v4.6.0...v4.7.0
-## [4.6.0]: https://gitee.com/MyEMS/myems/compare/v4.5.0...v4.6.0
-## [4.5.0]: https://gitee.com/MyEMS/myems/compare/v4.4.0...v4.5.0
-## [4.4.0]: https://gitee.com/MyEMS/myems/compare/v4.3.0...v4.4.0
-## [4.3.0]: https://gitee.com/MyEMS/myems/compare/v4.2.0...v4.3.0
-## [4.2.0]: https://gitee.com/MyEMS/myems/compare/v4.1.0...v4.2.0
-## [4.1.0]: https://gitee.com/MyEMS/myems/compare/v4.0.0...v4.1.0
-## [4.0.0]: https://gitee.com/MyEMS/myems/compare/v3.12.0...v4.0.0
-## [3.12.0]: https://gitee.com/MyEMS/myems/compare/v3.11.0...v3.12.0
-## [3.11.0]: https://gitee.com/MyEMS/myems/compare/v3.10.0...v3.11.0
-## [3.10.0]: https://gitee.com/MyEMS/myems/compare/v3.9.0...v3.10.0
-## [3.9.0]: https://gitee.com/MyEMS/myems/compare/v3.8.0...v3.9.0
-## [3.8.0]: https://gitee.com/MyEMS/myems/compare/v3.7.0...v3.8.0
-## [3.7.0]: https://gitee.com/MyEMS/myems/compare/v3.6.0...v3.7.0
-## [3.6.0]: https://gitee.com/MyEMS/myems/compare/v3.5.0...v3.6.0
-## [3.5.0]: https://gitee.com/MyEMS/myems/compare/v3.4.0...v3.5.0
-## [3.4.0]: https://gitee.com/MyEMS/myems/compare/v3.3.0...v3.4.0
-## [3.3.0]: https://gitee.com/MyEMS/myems/compare/v3.2.0...v3.3.0
-## [3.2.0]: https://gitee.com/MyEMS/myems/compare/v3.1.0...v3.2.0
-## [3.1.0]: https://gitee.com/MyEMS/myems/compare/v3.0.0...v3.1.0
-## [3.0.0]: https://gitee.com/MyEMS/myems/releases/tag/v3.0.0
+[Unreleased]: https://gitee.com/MyEMS/myems/compare/v6.1.0...HEAD
+[6.1.0]: https://gitee.com/MyEMS/myems/compare/v5.12.0...v6.1.0
+[5.12.0]: https://gitee.com/MyEMS/myems/compare/v5.11.0...v5.12.0
+[5.11.0]: https://gitee.com/MyEMS/myems/compare/v5.10.0...v5.11.0
+[5.10.0]: https://gitee.com/MyEMS/myems/compare/v5.9.0...v5.10.0
+[5.9.0]: https://gitee.com/MyEMS/myems/compare/v5.8.0...v5.9.0
+[5.8.0]: https://gitee.com/MyEMS/myems/compare/v5.7.1...v5.8.0
+[5.7.1]: https://gitee.com/MyEMS/myems/compare/v5.7.0...v5.7.1
+[5.7.0]: https://gitee.com/MyEMS/myems/compare/v5.6.0...v5.7.0
+[5.6.0]: https://gitee.com/MyEMS/myems/compare/v5.5.0...v5.6.0
+[5.5.0]: https://gitee.com/MyEMS/myems/compare/v5.4.0...v5.5.0
+[5.4.0]: https://gitee.com/MyEMS/myems/compare/v5.3.0...v5.4.0
+[5.3.0]: https://gitee.com/MyEMS/myems/compare/v5.2.0...v5.3.0
+[5.2.0]: https://gitee.com/MyEMS/myems/compare/v5.1.0...v5.2.0
+[5.1.0]: https://gitee.com/MyEMS/myems/compare/v4.12.0...v5.1.0
+[4.12.0]: https://gitee.com/MyEMS/myems/compare/v4.11.0...v4.12.0
+[4.11.0]: https://gitee.com/MyEMS/myems/compare/v4.10.0...v4.11.0
+[4.10.0]: https://gitee.com/MyEMS/myems/compare/v4.9.1...v4.10.0
+[4.9.1]: https://gitee.com/MyEMS/myems/compare/v4.9.0...v4.9.1
+[4.9.0]: https://gitee.com/MyEMS/myems/compare/v4.8.0...v4.9.0
+[4.8.0]: https://gitee.com/MyEMS/myems/compare/v4.7.0...v4.8.0
+[4.7.0]: https://gitee.com/MyEMS/myems/compare/v4.6.0...v4.7.0
+[4.6.0]: https://gitee.com/MyEMS/myems/compare/v4.5.0...v4.6.0
+[4.5.0]: https://gitee.com/MyEMS/myems/compare/v4.4.0...v4.5.0
+[4.4.0]: https://gitee.com/MyEMS/myems/compare/v4.3.0...v4.4.0
+[4.3.0]: https://gitee.com/MyEMS/myems/compare/v4.2.0...v4.3.0
+[4.2.0]: https://gitee.com/MyEMS/myems/compare/v4.1.0...v4.2.0
+[4.1.0]: https://gitee.com/MyEMS/myems/compare/v4.0.0...v4.1.0
+[4.0.0]: https://gitee.com/MyEMS/myems/compare/v3.12.0...v4.0.0
+[3.12.0]: https://gitee.com/MyEMS/myems/compare/v3.11.0...v3.12.0
+[3.11.0]: https://gitee.com/MyEMS/myems/compare/v3.10.0...v3.11.0
+[3.10.0]: https://gitee.com/MyEMS/myems/compare/v3.9.0...v3.10.0
+[3.9.0]: https://gitee.com/MyEMS/myems/compare/v3.8.0...v3.9.0
+[3.8.0]: https://gitee.com/MyEMS/myems/compare/v3.7.0...v3.8.0
+[3.7.0]: https://gitee.com/MyEMS/myems/compare/v3.6.0...v3.7.0
+[3.6.0]: https://gitee.com/MyEMS/myems/compare/v3.5.0...v3.6.0
+[3.5.0]: https://gitee.com/MyEMS/myems/compare/v3.4.0...v3.5.0
+[3.4.0]: https://gitee.com/MyEMS/myems/compare/v3.3.0...v3.4.0
+[3.3.0]: https://gitee.com/MyEMS/myems/compare/v3.2.0...v3.3.0
+[3.2.0]: https://gitee.com/MyEMS/myems/compare/v3.1.0...v3.2.0
+[3.1.0]: https://gitee.com/MyEMS/myems/compare/v3.0.0...v3.1.0
+[3.0.0]: https://gitee.com/MyEMS/myems/releases/tag/v3.0.0
 
 

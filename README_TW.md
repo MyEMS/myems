@@ -1,7 +1,7 @@
 <p align="center">
    <img alt="logo" src="https://myems.cn/img/myems.png" width="150" height="150">
 </p>
-<h1 align="center" style="margin: 30px 0 30px; font-weight: bold;">MyEMS v5.12.0</h1>
+<h1 align="center" style="margin: 30px 0 30px; font-weight: bold;">MyEMS v6.1.0</h1>
 <h3 align="center">業界領先的開源能源管理系統</h3>
 <h6 align="center">近千個專案案例</h6>
 <h6 align="center">承諾永久開源</h6>
