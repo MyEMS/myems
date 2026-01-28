@@ -9,6 +9,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - added optional redis database to myems-api
 - added phone to tbl_users in database
 - added login by phone to myems-api and myems-web
+- added login by mobile phone number (china only) to myems-api and myems-web
+- added mobile phone number to user setting in myems-admin
 
 ### Changed
 - udpated space settings in myems-admin
