@@ -10,11 +10,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - added phone to tbl_users in database
 - added login by phone to myems-api and myems-web
 - added login by mobile phone number (china only) to myems-api and myems-web
-- added mobile phone number to user setting in myems-admin
+- added mobile phone number to user settings in myems-admin
 
 ### Changed
-- udpated space settings in myems-admin
+- updated space settings in myems-admin
 - translated object type of point in myems-admin
+- updated default reporting start date time of meter reports in myems-web
 
 ### Fixed
 - optimized combined equipment settings in myems-admin

@@ -83,7 +83,8 @@ const MeterCarbon = ({ setRedirect, setRedirectUrl, t }) => {
   const [reportingPeriodDateRange, setReportingPeriodDateRange] = useState([
     current_moment
       .clone()
-      .subtract(24, 'hours')
+      .subtract(1, 'days')
+      .startOf('day')
       .toDate(),
     current_moment.toDate()
   ]);
