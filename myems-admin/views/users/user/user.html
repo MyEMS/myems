@@ -24,6 +24,7 @@
 										<th class="text-center">{{'USER.USERNAME' | translate}}</th>
 										<th class="text-center">{{'USER.DISPLAY_NAME' | translate}}</th>
 										<th class="text-center">{{'USER.EMAIL' | translate}}</th>
+										<th class="text-center">{{'USER.PHONE' | translate}}</th>
 										<th class="text-center">{{'USER.IS_ADMIN' | translate}}</th>
 										<th class="text-center">{{'USER.IS_READ_ONLY' | translate}}</th>
 										<th class="text-center">{{'USER.PRIVILEGE' | translate}}</th>
@@ -38,6 +39,7 @@
 										<td class="text-center">{{ user.name }}</td>
 										<td class="text-center">{{ user.display_name }}</td>
 										<td class="text-center">{{ user.email }}</td>
+										<td class="text-center">{{ user.phone || '-' }}</td>
 										<td class="text-center">{{ user.is_admin==1?'Y':'N' }}</td>
 										<td class="text-center">{{ user.is_read_only==null? null:(user.is_read_only==1?
 											'Y': 'N') }}</td>
@@ -61,7 +63,7 @@
 								</tbody>
 								<tfoot class="hide-if-no-paging">
 									<tr>
-										<td colspan="6">
+										<td colspan="11">
 											<ul class="pagination pull-right"></ul>
 										</td>
 									</tr>
@@ -79,6 +81,7 @@
 										<th class="text-center">{{'USER.USERNAME' | translate}}</th>
 										<th class="text-center">{{'USER.DISPLAY_NAME' | translate}}</th>
 										<th class="text-center">{{'USER.EMAIL' | translate}}</th>
+										<th class="text-center">{{'USER.PHONE' | translate}}</th>
 										<th class="text-center">{{'SETTING.ACTION' | translate}}</th>
 									</tr>
 								</thead>
@@ -88,6 +91,7 @@
 										<td class="text-center">{{ user.name }}</td>
 										<td class="text-center">{{ user.display_name }}</td>
 										<td class="text-center">{{ user.email }}</td>
+										<td class="text-center">{{ user.phone || '-' }}</td>
 										<td class="text-center">
 											<a ng-hide="user.name=='administrator'"
 												class="btn btn-info btn-rounded btn-xs"
