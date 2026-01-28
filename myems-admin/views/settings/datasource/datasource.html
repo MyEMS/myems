@@ -101,7 +101,7 @@
 									<tr ng-repeat="point in points">
 										<td class="text-center">{{ point.id }}</td>
 										<td class="text-center">{{ point.name }}</td>
-										<td class="text-center">{{ point.object_type }}</td>
+										<td class="text-center">{{ ('POINT.' + point.object_type) | translate }}</td>
 										<td class="text-center">{{ point.latest_value }}</td>
 										<td class="text-center">{{ point.units }}</td>
 										<td class="text-center">{{ point.ratio }}</td>
