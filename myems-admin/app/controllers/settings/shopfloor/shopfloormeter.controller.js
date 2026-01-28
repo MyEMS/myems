@@ -66,6 +66,9 @@ app.controller('ShopfloorMeterController', function(
         }).catch(function(error) {
             console.error('Error loading meters:', error);
             $scope.shopfloormeters = [];
+            $scope.filteredMeters = [];
+            $scope.filteredVirtualMeters = [];
+            $scope.filteredOfflineMeters = [];
             $scope.filterAvailableMeters();
         });
     };

@@ -66,6 +66,9 @@ app.controller('TenantMeterController', function(
 		}).catch(function(error) {
 			console.error('Error loading meters:', error);
 			$scope.tenantmeters = [];
+			$scope.filteredMeters = [];
+			$scope.filteredVirtualMeters = [];
+			$scope.filteredOfflineMeters = [];
 			$scope.filterAvailableMeters();
 		});
 	};

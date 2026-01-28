@@ -105,6 +105,9 @@ app.controller('SpaceMeterController', function(
         }).catch(function(error) {
             console.error('Error loading meters:', error);
             $scope.spacemeters = [];
+            $scope.filteredMeters = [];
+            $scope.filteredVirtualMeters = [];
+            $scope.filteredOfflineMeters = [];
             $scope.isLoadingMeters = false;
             $scope.filterAvailableMeters();
         });
