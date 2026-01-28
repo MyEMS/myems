@@ -1,7 +1,7 @@
 <p align="center">
    <img alt="logo" src="https://myems.cn/img/myems.png" width="150" height="150">
 </p>
-<h1 align="center" style="margin: 30px 0 30px; font-weight: bold;">MyEMS v5.12.0</h1>
+<h1 align="center" style="margin: 30px 0 30px; font-weight: bold;">MyEMS v6.1.0</h1>
 <h3 align="center">उद्योग में अग्रणी ओपन सोर्स ऊर्जा प्रबंधन प्रणाली</h3>
 <h6 align="center">लगभग एक हजार परियोजना मामले</h6>
 <h6 align="center">हमेशा के लिए ओपन सोर्स रहने की प्रतिबद्धता</h6>
