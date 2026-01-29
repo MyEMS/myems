@@ -99,10 +99,11 @@ app.controller('SpaceCommandController', function(
 		CommandService.getAllCommands(headers, function (response) {
 			if (angular.isDefined(response.status) && response.status === 200) {
 				$scope.commands = response.data;
+				$scope.filterAvailableCommands();
 			} else {
 				$scope.commands = [];
+				$scope.filteredCommands = [];
 			}
-			$scope.filterAvailableCommands();
 		});
 	};
 
