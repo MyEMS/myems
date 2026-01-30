@@ -382,9 +382,7 @@ app.controller('NewUserController', function ($scope,
 	$scope.getAllPrivileges();
 });
 
-
-app.controller('ModalAddUserCtrl', function ($scope, $uibModalInstance, params) {
-
+app.controller('ModalAddUserCtrl', function ($scope, $uibModalInstance, params, toaster, $translate) {
 	$scope.operation = "USER.ADD_USER";
 	$scope.privileges = params.privileges;
 	$scope.user = {
@@ -407,6 +405,15 @@ app.controller('ModalAddUserCtrl', function ($scope, $uibModalInstance, params) 
         singleDatePicker: true,
     };
 	$scope.ok = function () {
+		if ($scope.user.phone && $scope.user.phone.trim() && !/^\+?\d{8,}$/.test($scope.user.phone.trim())) {
+			toaster.pop({
+				type: "error",
+				title: $translate.instant("TOASTER.ERROR_ADD_BODY", { template: $translate.instant("SETTING.USER") }),
+				body: $translate.instant("TOASTER.ERROR_PHONE"),
+				showCloseButton: true,
+			});
+			return;
+		}
 		if ($scope.user.is_admin) {
 			$scope.user.privilege_id = undefined;
 		}else {
@@ -422,8 +429,7 @@ app.controller('ModalAddUserCtrl', function ($scope, $uibModalInstance, params) 
 	};
 });
 
-app.controller('ModalEditUserCtrl', function ($scope, $uibModalInstance, params) {
-
+app.controller('ModalEditUserCtrl', function ($scope, $uibModalInstance, params, toaster, $translate) {
 	$scope.operation = "USER.EDIT_USER";
 	$scope.user = params.user;
 	$scope.privileges = params.privileges;
@@ -448,6 +454,15 @@ app.controller('ModalEditUserCtrl', function ($scope, $uibModalInstance, params)
         singleDatePicker: true,
     };
 	$scope.ok = function () {
+		if ($scope.user.phone && $scope.user.phone.trim() && !/^\+?\d{8,}$/.test($scope.user.phone.trim())) {
+			toaster.pop({
+				type: "error",
+				title: $translate.instant("TOASTER.ERROR_UPDATE_BODY", { template: $translate.instant("SETTING.USER") }),
+				body: $translate.instant("TOASTER.ERROR_PHONE"),
+				showCloseButton: true,
+			});
+			return;
+		}
 		if ($scope.user.is_admin) {
 			$scope.user.privilege_id = undefined;
 			if ($scope.user.is_read_only == null) {

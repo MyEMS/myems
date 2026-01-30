@@ -34,7 +34,16 @@ app.controller('LoginController', function (
 			return false;
 		}
 		$scope.dataLoading = true;
-		LoginService.login(user, function (response) {
+        let loginParam = angular.copy(user);
+        const phoneReg = /^\+?\d{8,}$/;
+        if (loginParam.name && phoneReg.test(loginParam.name.trim())) {
+            loginParam.account = loginParam.name.trim();
+            delete loginParam.name; 
+        } else if(loginParam.name) {
+            loginParam.account = loginParam.name.trim();
+            delete loginParam.name;
+        }
+		LoginService.login(loginParam, function (response) {
 			if (angular.isDefined(response.status) && response.status === 200) {
 				if (!response.data.is_admin) {
 					toaster.pop({
