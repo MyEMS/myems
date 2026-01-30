@@ -36,11 +36,8 @@ app.controller('LoginController', function (
 		$scope.dataLoading = true;
         let loginParam = angular.copy(user);
         const phoneReg = /^\+?\d{8,}$/;
-        if (loginParam.name && phoneReg.test(loginParam.name.trim())) {
-            loginParam.account = loginParam.name.trim();
-            delete loginParam.name; 
-        } else if(loginParam.name) {
-            loginParam.account = loginParam.name.trim();
+        if (loginParam.name) {
+            loginParam.account = loginParam.name.trim(); 
             delete loginParam.name;
         }
 		LoginService.login(loginParam, function (response) {
