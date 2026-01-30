@@ -58,6 +58,9 @@ app.controller('CombinedEquipmentMeterController', function (
                     });
                     deferred.resolve(response.data);
                 } else {
+                    $scope.filteredMeters = [];
+                    $scope.filteredVirtualMeters = [];
+                    $scope.filteredOfflineMeters = [];
                     deferred.reject(new Error('Failed to load meters for combined equipment: ' + value));
                 }
             });
