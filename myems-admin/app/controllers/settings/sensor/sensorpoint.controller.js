@@ -50,12 +50,12 @@ app.controller('SensorPointController', function (
         var boundSet = {};
         ($scope.sensorpoints || []).forEach(function(sp) {
             if (angular.isDefined(sp.id)) {
-                boundSet[(sp.metertype || 'sensorpoint') + '_' + String(sp.id)] = true;
+                boundSet['sensorpoint_' + String(sp.id)] = true;
             }
         });
 
         $scope.filteredPoints = ($scope.allPoints || []).filter(function(p){
-            return !boundSet[(p.metertype || 'sensorpoint') + '_' + String(p.id)];
+            return !boundSet['sensorpoint_' + String(p.id)];
         });
     };
 
