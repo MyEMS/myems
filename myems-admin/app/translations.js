@@ -1392,6 +1392,7 @@ function config($translateProvider) {
                 BIND_DISTRIBUTIONSYSTEM_SUCCESS: 'Bind Distribution System Success',
                 UNBIND_DISTRIBUTIONSYSTEM_SUCCESS: 'Unbind Distribution System Success',
 
+                ERROR_PHONE: 'Invalid phone number format',
                 CAPTCHA_ERROR: 'Captcha Error'
             },
             SWEET: {
@@ -3522,6 +3523,7 @@ function config($translateProvider) {
                 BIND_DISTRIBUTIONSYSTEM_SUCCESS: '绑定配电系统成功',
                 UNBIND_DISTRIBUTIONSYSTEM_SUCCESS: '解绑配电系统成功',
 
+                ERROR_PHONE: '手机号格式错误',
                 CAPTCHA_ERROR: '验证码错误',
             },
             SWEET: {
@@ -5662,6 +5664,7 @@ function config($translateProvider) {
                 BIND_DISTRIBUTIONSYSTEM_SUCCESS: 'Erfolg des Verteilungssystems binden',
                 UNBIND_DISTRIBUTIONSYSTEM_SUCCESS: 'Erfolg des Verteilungssystems aufheben',
 
+                ERROR_PHONE: 'Ungültiges Telefonnummer-Format',
                 CAPTCHA_ERROR: 'Captcha-Fehler',
             },
             SWEET: {
@@ -7789,6 +7792,7 @@ function config($translateProvider) {
                 BIND_DISTRIBUTIONSYSTEM_SUCCESS: 'Succès du système de distribution Bind',
                 UNBIND_DISTRIBUTIONSYSTEM_SUCCESS: 'Dissocier le succès du système de distribution',
 
+                ERROR_PHONE: 'Format de numéro de téléphone invalide',
                 CAPTCHA_ERROR: 'Erreur Captcha'
             },
             SWEET: {
@@ -9918,6 +9922,7 @@ function config($translateProvider) {
                 BIND_DISTRIBUTIONSYSTEM_SUCCESS: 'Vincular el éxito del sistema de distribución',
                 UNBIND_DISTRIBUTIONSYSTEM_SUCCESS: 'Desvincular el éxito del sistema de distribución',
 
+                ERROR_PHONE: 'Formato de número de teléfono no válido',
                 CAPTCHA_ERROR: 'Captcha Error'
             },
             SWEET: {
@@ -12041,6 +12046,7 @@ function config($translateProvider) {
                 BIND_DISTRIBUTIONSYSTEM_SUCCESS: 'Успех системы распределения Bind',
                 UNBIND_DISTRIBUTIONSYSTEM_SUCCESS: 'Успех системы развязки дистрибуции',
 
+                ERROR_PHONE: 'Неверный формат номера телефона',
                 CAPTCHA_ERROR: 'Ошибка капчи'
             },
             SWEET: {
@@ -14162,6 +14168,8 @@ function config($translateProvider) {
                 BIND_DISTRIBUTIONSYSTEM_SUCCESS: 'ربط نجاح نظام التوزيع',
                 UNBIND_DISTRIBUTIONSYSTEM_SUCCESS: 'إلغاء ربط نظام التوزيع',
 
+
+                ERROR_PHONE: 'تنسيق رقم الهاتف غير صالح',
                 CAPTCHA_ERROR: 'خطأ كلمة التحقق'
             },
             SWEET: {
@@ -16290,6 +16298,7 @@ function config($translateProvider) {
                 BIND_DISTRIBUTIONSYSTEM_SUCCESS: 'Ràng buộc thành công của hệ thống phân phối',
                 UNBIND_DISTRIBUTIONSYSTEM_SUCCESS: 'Giải phóng thành công hệ thống phân phối',
 
+                ERROR_PHONE: 'Định dạng số điện thoại không hợp lệ',
                 CAPTCHA_ERROR: 'Mã xác minh không chính xác'
             },
             SWEET: {
@@ -18408,6 +18417,7 @@ function config($translateProvider) {
                 BIND_DISTRIBUTIONSYSTEM_SUCCESS: 'ผูกมัดความสําเร็จของระบบการกระจาย',
                 UNBIND_DISTRIBUTIONSYSTEM_SUCCESS: 'ยกเลิกการผูกระบบการกระจายความสําเร็จ',
 
+                ERROR_PHONE: 'รูปแบบหมายเลขโทรศัพท์ไม่ถูกต้อง',
                 CAPTCHA_ERROR: 'ข้อผิดพลาด Captcha'
             },
             SWEET: {
@@ -20535,6 +20545,7 @@ function config($translateProvider) {
                 BIND_DISTRIBUTIONSYSTEM_SUCCESS: 'Dağıtım Sistemi Başarısını Bağla',
                 UNBIND_DISTRIBUTIONSYSTEM_SUCCESS: 'Dağıtım Sisteminin Başarısını Çöz',
 
+                ERROR_PHONE: 'Geçersiz telefon numarası formatı',
                 CAPTCHA_ERROR: 'Captcha Hatası'
             },
             SWEET: {
@@ -22654,6 +22665,7 @@ function config($translateProvider) {
                 BIND_DISTRIBUTIONSYSTEM_SUCCESS: 'Kejayaan Sistem Pengedaran Mengikat',
                 UNBIND_DISTRIBUTIONSYSTEM_SUCCESS: 'Menanggalkan Kejayaan Sistem Pengedaran',
 
+                ERROR_PHONE: 'Format nombor telefon tidak sah',
                 CAPTCHA_ERROR: 'Ralat Captcha'
             },
             SWEET: {
@@ -24774,6 +24786,7 @@ function config($translateProvider) {
                 BIND_DISTRIBUTIONSYSTEM_SUCCESS: 'Keberhasilan Sistem Distribusi Pengikat',
                 UNBIND_DISTRIBUTIONSYSTEM_SUCCESS: 'Keberhasilan Sistem Distribusi Lepas Identitasi',
 
+                ERROR_PHONE: 'Format nomor telepon tidak valid',
                 CAPTCHA_ERROR: 'Kesalahan Captcha'
             },
             SWEET: {
@@ -26909,6 +26922,7 @@ function config($translateProvider) {
                 BIND_DISTRIBUTIONSYSTEM_SUCCESS: '綁定配電系統成功',
                 UNBIND_DISTRIBUTIONSYSTEM_SUCCESS: '解綁配電系統成功',
 
+                ERROR_PHONE: '手機號格式錯誤',
                 CAPTCHA_ERROR: '驗證碼錯誤',
             },
             SWEET: {
@@ -29034,6 +29048,7 @@ function config($translateProvider) {
                 BIND_DISTRIBUTIONSYSTEM_SUCCESS: 'Sistema de Distribuição Vinculado com Sucesso',
                 UNBIND_DISTRIBUTIONSYSTEM_SUCCESS: 'Sistema de Distribuição Desvinculado com Sucesso',
 
+                ERROR_PHONE: 'Formato de número de telefone inválido',
                 CAPTCHA_ERROR: 'Erro de Captcha',
             },
             SWEET: {
