@@ -649,20 +649,20 @@ START TRANSACTION;
 INSERT INTO `myems_system_db`.`tbl_tariffs`
 (`id`, `name`, `uuid`, `energy_category_id`, `tariff_type`, `unit_of_price`, `valid_from_datetime_utc`, `valid_through_datetime_utc`)
 VALUES
-(1, '2025TimeOfUse1-6',    '590efb36-8587-42a9-ae6f-c715d21496d6', 1, 'timeofuse', 'USD/kWh', '2024-12-31 16:00:00', '2025-06-30 15:59:59'),
-(2, '2025TimeOfUse7-9',    'f5966640-18fc-437a-9efd-cbc0c58b6373', 1, 'timeofuse', 'USD/kWh', '2025-06-30 16:00:00', '2025-09-30 15:59:59'),
-(3, '2025TimeOfUse10-12',  '21727a1b-4b27-4186-b72e-db46e6e2d980', 1, 'timeofuse', 'USD/kWh', '2025-09-30 16:00:00', '2025-12-31 15:59:59'),
-(4, '2022TimeOfUse1-6',    'fe65e443-0ec2-4a16-823e-2365885e2598', 1, 'timeofuse', 'USD/kWh', '2021-12-31 16:00:00', '2022-06-30 15:59:59'),
-(5, '2022TimeOfUse7-9',    'd1285c81-4612-4d7c-9436-ed11b4e7abe4', 1, 'timeofuse', 'USD/kWh', '2022-06-30 16:00:00', '2022-09-30 15:59:59'),
-(6, '2022TimeOfUse10-12',  'e6c275b4-47eb-4f5d-bc59-edbe45c2a407', 1, 'timeofuse', 'USD/kWh', '2022-09-30 16:00:00', '2022-12-31 15:59:59'),
-(7, '2023TimeOfUse1-6',    'ca359f72-48ad-46a7-82af-cecbe98450e8', 1, 'timeofuse', 'USD/kWh', '2022-12-31 16:00:00', '2023-06-30 15:59:59'),
-(8, '2023TimeOfUse7-9',    '9fdda603-0f8f-4452-ad59-c5df54bc35f4', 1, 'timeofuse', 'USD/kWh', '2023-06-30 16:00:00', '2023-09-30 15:59:59'),
-(9, '2023TimeOfUse10-12',  'fb0442e7-4d44-4bfd-8b20-cad3f77a2480', 1, 'timeofuse', 'USD/kWh', '2023-09-30 16:00:00', '2023-12-31 15:59:59'),
-(10, '2024TimeOfUse1-6',   '3fa6e1f2-7d08-4f5a-bcbf-beb041d569c0', 1, 'timeofuse', 'USD/kWh', '2023-12-31 16:00:00', '2024-06-30 15:59:59'),
-(11, '2024TimeOfUse7-9',   '787240fb-1694-403e-a0a7-83d7be1cc0b8', 1, 'timeofuse', 'USD/kWh', '2024-06-30 16:00:00', '2024-09-30 15:59:59'),
-(12, '2024TimeOfUse10-12', 'a07fdf76-edcf-4124-96e7-ab733a5a4b70', 1, 'timeofuse', 'USD/kWh', '2024-09-30 16:00:00', '2024-12-31 15:59:59'),
-(13, 'Water',  '6fcbc77e-effb-4d43-9b30-77b062435d34', 2, 'timeofuse', 'USD/m³',    '2021-12-31 16:00:00', '2025-12-31 15:59:59'),
-(14, 'Natural Gas', '6a4c56ff-b3e1-4555-9b1c-87d05bcfa4d9', 3, 'timeofuse', 'USD/m³',    '2021-12-31 16:00:00', '2025-12-31 15:59:59');
+(1, '2026TimeOfUse1-6',    '590efb36-8587-42a9-ae6f-c715d21496d6', 1, 'timeofuse', 'USD/kWh', '2025-12-31 16:00:00', '2026-06-30 15:59:59'),
+(2, '2026TimeOfUse7-9',    'f5966640-18fc-437a-9efd-cbc0c58b6373', 1, 'timeofuse', 'USD/kWh', '2026-06-30 16:00:00', '2026-09-30 15:59:59'),
+(3, '2026TimeOfUse10-12',  '21727a1b-4b27-4186-b72e-db46e6e2d980', 1, 'timeofuse', 'USD/kWh', '2026-09-30 16:00:00', '2026-12-31 15:59:59'),
+(4, '2023TimeOfUse1-6',    'fe65e443-0ec2-4a16-823e-2365885e2598', 1, 'timeofuse', 'USD/kWh', '2022-12-31 16:00:00', '2023-06-30 15:59:59'),
+(5, '2023TimeOfUse7-9',    'd1285c81-4612-4d7c-9436-ed11b4e7abe4', 1, 'timeofuse', 'USD/kWh', '2023-06-30 16:00:00', '2023-09-30 15:59:59'),
+(6, '2023TimeOfUse10-12',  'e6c275b4-47eb-4f5d-bc59-edbe45c2a407', 1, 'timeofuse', 'USD/kWh', '2023-09-30 16:00:00', '2023-12-31 15:59:59'),
+(7, '2024TimeOfUse1-6',    'ca359f72-48ad-46a7-82af-cecbe98450e8', 1, 'timeofuse', 'USD/kWh', '2023-12-31 16:00:00', '2024-06-30 15:59:59'),
+(8, '2024TimeOfUse7-9',    '9fdda603-0f8f-4452-ad59-c5df54bc35f4', 1, 'timeofuse', 'USD/kWh', '2024-06-30 16:00:00', '2024-09-30 15:59:59'),
+(9, '2024TimeOfUse10-12',  'fb0442e7-4d44-4bfd-8b20-cad3f77a2480', 1, 'timeofuse', 'USD/kWh', '2024-09-30 16:00:00', '2024-12-31 15:59:59'),
+(10, '2025TimeOfUse1-6',   '3fa6e1f2-7d08-4f5a-bcbf-beb041d569c0', 1, 'timeofuse', 'USD/kWh', '2024-12-31 16:00:00', '2025-06-30 15:59:59'),
+(11, '2025TimeOfUse7-9',   '787240fb-1694-403e-a0a7-83d7be1cc0b8', 1, 'timeofuse', 'USD/kWh', '2025-06-30 16:00:00', '2025-09-30 15:59:59'),
+(12, '2025TimeOfUse10-12', 'a07fdf76-edcf-4124-96e7-ab733a5a4b70', 1, 'timeofuse', 'USD/kWh', '2025-09-30 16:00:00', '2025-12-31 15:59:59'),
+(13, 'Water',  '6fcbc77e-effb-4d43-9b30-77b062435d34', 2, 'timeofuse', 'USD/m³',    '2022-12-31 16:00:00', '2026-12-31 15:59:59'),
+(14, 'Natural Gas', '6a4c56ff-b3e1-4555-9b1c-87d05bcfa4d9', 3, 'timeofuse', 'USD/m³',    '2022-12-31 16:00:00', '2026-12-31 15:59:59');
 
 COMMIT;
 
