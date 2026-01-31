@@ -719,7 +719,7 @@ class UserLogin:
                                        description='API.INVALID_ACCOUNT')
 
             email_reg = r'^[a-zA-Z0-9]+([._-][a-zA-Z0-9]+)*@[a-zA-Z0-9-]+(\.[a-zA-Z]{2,})+$'
-            phone_reg = r'^1[3-9]\d{9}$'
+            phone_reg = r'^\+?\d{8,}$'
 
             if re.match(email_reg, account):
                 query = (" SELECT id, name, uuid, display_name, email, salt, password, is_admin, is_read_only, "
