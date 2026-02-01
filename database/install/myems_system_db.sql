@@ -739,6 +739,7 @@ CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_equipments` (
   `is_input_counted` BOOL NOT NULL,
   `is_output_counted` BOOL NOT NULL,
   `cost_center_id` BIGINT NOT NULL,
+  `efficiency_indicator` DECIMAL(21, 6) DEFAULT 0.000000 NOT NULL,
   `svg_id` BIGINT,
   `camera_url` VARCHAR(1000),
   `description` VARCHAR(255),
@@ -2741,7 +2742,7 @@ CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_versions` (
 INSERT INTO `myems_system_db`.`tbl_versions`
 (`id`, `version`, `release_date`)
 VALUES
-(1, '6.1.0', '2026-01-28');
+(1, '6.2.0RC', '2026-02-28');
 
 -- ---------------------------------------------------------------------------------------------------------------------
 -- Table `myems_system_db`.`tbl_wind_farms`
