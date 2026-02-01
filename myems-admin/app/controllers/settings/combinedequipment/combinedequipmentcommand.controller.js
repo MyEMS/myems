@@ -18,8 +18,10 @@ app.controller('CombinedEquipmentCommandController', function (
 		CommandService.getAllCommands(headers, function (response) {
 			if (angular.isDefined(response.status) && response.status === 200) {
 				$scope.commands = response.data;
+				$scope.filterAvailableCommands();
 			} else {
 				$scope.commands = [];
+				$scope.filteredCommands = [];
 			}
 		});
 	};
@@ -29,8 +31,10 @@ app.controller('CombinedEquipmentCommandController', function (
         CombinedEquipmentCommandService.getCommandsByCombinedEquipmentID(id, headers, function (response) {
             if (angular.isDefined(response.status) && response.status === 200) {
                 $scope.combinedequipmentcommands = response.data;
+                $scope.filterAvailableCommands();
             } else {
                 $scope.combinedequipmentcommands = [];
+                $scope.filterAvailableCommands();
             }
         });
     };
@@ -43,6 +47,8 @@ app.controller('CombinedEquipmentCommandController', function (
   	      $scope.getCommandsByCombinedEquipmentID($scope.currentCombinedEquipment.id);
   	  } else {
   	      $scope.isCombinedEquipmentSelected = false;
+  	      $scope.combinedequipmentcommands = [];
+  	      $scope.filterAvailableCommands();
   	  }
     };
 
@@ -130,21 +136,48 @@ app.controller('CombinedEquipmentCommandController', function (
         }
     };
 
+    // Filter out commands already bound to the current combined equipment, keeping only available ones for selection
+    $scope.filterAvailableCommands = function() {
+        var boundSet = {};
+        ($scope.combinedequipmentcommands || []).forEach(function(cec) {
+            if (angular.isDefined(cec.id)) {
+                boundSet[String(cec.id)] = true;
+            }
+        });
+
+        $scope.filteredCommands = ($scope.commands || []).filter(function(c){
+            return !boundSet[String(c.id)];
+        });
+    };
+
     $scope.$on('combinedequipment.tabSelected', function(event, tabIndex) {
-        if ($scope.$parent && $scope.$parent.TAB_INDEXES && tabIndex === $scope.$parent.TAB_INDEXES.BIND_COMMAND && !$scope.tabInitialized) {
-            $scope.initTab();
+        var TAB_INDEXES = ($scope.$parent && $scope.$parent.TAB_INDEXES) || {};
+        if (tabIndex === TAB_INDEXES.BIND_COMMAND) {
+            if (!$scope.tabInitialized) {
+                $scope.initTab();
+            } else if ($scope.currentCombinedEquipment && $scope.currentCombinedEquipment.id) {
+                $scope.getCommandsByCombinedEquipmentID($scope.currentCombinedEquipment.id);
+            }
         }
     });
 
     $timeout(function() {
-        if ($scope.$parent && $scope.$parent.TAB_INDEXES && $scope.$parent.activeTabIndex === $scope.$parent.TAB_INDEXES.BIND_COMMAND && !$scope.tabInitialized) {
-            $scope.initTab();
+        var TAB_INDEXES = ($scope.$parent && $scope.$parent.TAB_INDEXES) || {};
+        if ($scope.$parent && $scope.$parent.activeTabIndex === TAB_INDEXES.BIND_COMMAND) {
+            if (!$scope.tabInitialized) {
+                $scope.initTab();
+            } else if ($scope.currentCombinedEquipment && $scope.currentCombinedEquipment.id) {
+                $scope.getCommandsByCombinedEquipmentID($scope.currentCombinedEquipment.id);
+            }
         }
     }, 0);
 
   	$scope.$on('handleBroadcastCombinedEquipmentChanged', function(event) {
       if ($scope.tabInitialized) {
           $scope.getAllCombinedEquipments();
+          if ($scope.currentCombinedEquipment && $scope.currentCombinedEquipment.id) {
+              $scope.getCommandsByCombinedEquipmentID($scope.currentCombinedEquipment.id);
+          }
       }
   	});
 

@@ -13,6 +13,7 @@ app.controller('SpaceCombinedEquipmentController', function($scope,
     $scope.currentSpaceID = 1;
     $scope.combinedequipments = [];
     $scope.spacecombinedequipments = [];
+    $scope.filteredCombinedEquipments = [];
     $scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
     $scope.isLoadingCombineEquipments = false;
     $scope.tabInitialized = false;
@@ -74,8 +75,23 @@ app.controller('SpaceCombinedEquipmentController', function($scope,
             } else {
               $scope.spacecombinedequipments=[];
             }
+            $scope.filterAvailableCombinedEquipments();
         });
 		};
+
+	// Filter out combined equipments already bound to the current space, keeping only available ones for selection
+	$scope.filterAvailableCombinedEquipments = function() {
+        var boundSet = {};
+        ($scope.spacecombinedequipments || []).forEach(function(sce) {
+            if (angular.isDefined(sce.id)) {
+                boundSet[String(sce.id)] = true;
+            }
+        });
+
+        $scope.filteredCombinedEquipments = ($scope.combinedequipments || []).filter(function(ce){
+            return !boundSet[String(ce.id)];
+        });
+    };
 
 	$scope.getAllCombinedEquipments = function() {
         let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
@@ -85,6 +101,7 @@ app.controller('SpaceCombinedEquipmentController', function($scope,
           } else {
             $scope.combinedequipments = [];
           }
+          $scope.filterAvailableCombinedEquipments();
       });
 	};
 
@@ -148,14 +165,18 @@ app.controller('SpaceCombinedEquipmentController', function($scope,
     };
 
     $scope.$on('space.tabSelected', function(event, tabIndex) {
-        var TAB_INDEXES = ($scope.$parent && $scope.$parent.TAB_INDEXES) || { COMBINED_EQUIPMENT: 3 };
-        if (tabIndex === TAB_INDEXES.COMBINED_EQUIPMENT && !$scope.tabInitialized) {
-            $scope.initTab();
+        var TAB_INDEXES = ($scope.$parent && $scope.$parent.TAB_INDEXES) || {};
+        if (tabIndex === TAB_INDEXES.COMBINED_EQUIPMENT) {
+            if (!$scope.tabInitialized) {
+                $scope.initTab();
+            } else if ($scope.isSpaceSelected && $scope.currentSpaceID) {
+                $scope.getCombinedEquipmentsBySpaceID($scope.currentSpaceID);
+            }
         }
     });
 
     $timeout(function() {
-        var TAB_INDEXES = ($scope.$parent && $scope.$parent.TAB_INDEXES) || { COMBINED_EQUIPMENT: 3 };
+        var TAB_INDEXES = ($scope.$parent && $scope.$parent.TAB_INDEXES) || {};
         if ($scope.$parent && $scope.$parent.activeTabIndex === TAB_INDEXES.COMBINED_EQUIPMENT && !$scope.tabInitialized) {
             $scope.initTab();
         }
@@ -199,8 +220,11 @@ app.controller('SpaceCombinedEquipmentController', function($scope,
   };
 
 	$scope.$on('handleBroadcastSpaceChanged', function(event) {
-    $scope.spacecombinedequipments = [];
-    $scope.refreshSpaceTree();
+        $scope.spacecombinedequipments = [];
+        $scope.isSpaceSelected = false;
+        $scope.currentSpaceID = 1;
+        $scope.filterAvailableCombinedEquipments();
+        $scope.refreshSpaceTree();
 	});
 
     // Register drag and drop warning event listeners

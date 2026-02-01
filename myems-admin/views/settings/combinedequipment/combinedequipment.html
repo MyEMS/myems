@@ -282,7 +282,7 @@
 											 uib-tooltip="{{'SETTING.DRAG_TO_BIND' | translate}}">
 											<h5>{{'SETTING.DATA_SOURCE_LIST' | translate}}</h5>
 											<div class="source btn btn-info btn-rounded btn-block"
-												 ng-repeat="datasource in datasources"
+												 ng-repeat="datasource in filteredDataSources"
 												 x-hjc-draggable="{{isCombinedEquipmentSelected ? 'true' : 'false'}}">
 												{{datasource.name}}
 											</div>
@@ -464,7 +464,7 @@
 										<div class="panel-body" uib-tooltip="{{'SETTING.DRAG_TO_BIND' | translate}}"
 											slim-scroll box-height="765px">
 											<div class="source btn btn-primary btn-rounded btn-block"
-												ng-repeat="command in commands" x-hjc-draggable="{{isCombinedEquipmentSelected ? 'true' : 'false'}}">
+												ng-repeat="command in filteredCommands" x-hjc-draggable="{{isCombinedEquipmentSelected ? 'true' : 'false'}}">
 												{{command.name}}</div>
 										</div>
 									</div>

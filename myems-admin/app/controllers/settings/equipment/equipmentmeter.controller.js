@@ -7,6 +7,7 @@ app.controller('EquipmentMeterController', function(
 	$timeout,
 	$uibModal,
 	$translate,
+	$q,
 	MeterService,
 	VirtualMeterService,
 	OfflineMeterService,
@@ -46,22 +47,32 @@ app.controller('EquipmentMeterController', function(
 
 	$scope.getMetersByEquipmentID = function(id) {
 		var metertypes=['meters','virtualmeters','offlinemeters'];
-		$scope.equipmentmeters=[];
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
-		var pending = metertypes.length;
-		angular.forEach(metertypes,function(value,index){
+		var promises = metertypes.map(function(value) {
+			var deferred = $q.defer();
 			EquipmentMeterService.getMetersByEquipmentID(id, value, headers, function (response) {
 				if (angular.isDefined(response.status) && response.status === 200) {
 					angular.forEach(response.data,function(item, indx){
 						response.data[indx].metertype = value;
 					});
-					$scope.equipmentmeters = $scope.equipmentmeters.concat(response.data);
-				}
-				pending--;
-				if (pending === 0) {
-					$scope.filterAvailableMeters();
+					deferred.resolve(response.data);
+				} else {
+					deferred.reject(new Error('Failed to load meters for equipment: ' + value));
 				}
 			});
+			return deferred.promise;
+		});
+
+		$q.all(promises).then(function(results) {
+			$scope.equipmentmeters = [].concat.apply([], results);
+			$scope.filterAvailableMeters();
+		}).catch(function(error) {
+			console.error('Error loading meters:', error);
+			$scope.equipmentmeters = [];
+			$scope.filteredMeters = [];
+			$scope.filteredVirtualMeters = [];
+			$scope.filteredOfflineMeters = [];
+			$scope.filterAvailableMeters();
 		});
 	};
 
@@ -76,15 +87,20 @@ app.controller('EquipmentMeterController', function(
 	};
 
 	$scope.changeMeterType=function(){
+		// Defensive assignment to prevent race conditions
+		$scope.filteredMeters = $scope.filteredMeters || [];
+		$scope.filteredVirtualMeters = $scope.filteredVirtualMeters || [];
+		$scope.filteredOfflineMeters = $scope.filteredOfflineMeters || [];
+		
 		switch($scope.currentMeterType){
 			case 'meters':
-				$scope.currentmeters=$scope.filteredMeters || [];
+				$scope.currentmeters=$scope.filteredMeters;
 				break;
 			case 'virtualmeters':
-				$scope.currentmeters=$scope.filteredVirtualMeters || [];
+				$scope.currentmeters=$scope.filteredVirtualMeters;
 				break;
 			case 'offlinemeters':
-				$scope.currentmeters=$scope.filteredOfflineMeters || [];
+				$scope.currentmeters=$scope.filteredOfflineMeters;
 				break;
 		}
 	};
@@ -129,6 +145,7 @@ app.controller('EquipmentMeterController', function(
 		});
 	};
 
+	// Filter out meters already bound to the current equipment, keeping only available ones for selection
 	$scope.filterAvailableMeters = function() {
 		
 		var boundSet = {};
@@ -136,18 +153,18 @@ app.controller('EquipmentMeterController', function(
 			var keyType = em.metertype || 'meters';
 			// em.id should be the id of a specific table
 			if (angular.isDefined(em.id)) {
-				boundSet[keyType + '_' + em.id] = true;
+				boundSet[keyType + '_' + String(em.id)] = true;
 			}
 		});
 
 		$scope.filteredMeters = ($scope.meters || []).filter(function(m){
-			return !boundSet['meters_' + m.id];
+			return !boundSet['meters_' + String(m.id)];
 		});
 		$scope.filteredVirtualMeters = ($scope.virtualmeters || []).filter(function(vm){
-			return !boundSet['virtualmeters_' + vm.id];
+			return !boundSet['virtualmeters_' + String(vm.id)];
 		});
 		$scope.filteredOfflineMeters = ($scope.offlinemeters || []).filter(function(om){
-			return !boundSet['offlinemeters_' + om.id];
+			return !boundSet['offlinemeters_' + String(om.id)];
 		});
 
 		$scope.changeMeterType();
@@ -242,20 +259,33 @@ app.controller('EquipmentMeterController', function(
 	};
 
 	$scope.$on('equipment.tabSelected', function(event, tabIndex) {
-		if ($scope.$parent && $scope.$parent.TAB_INDEXES && tabIndex === $scope.$parent.TAB_INDEXES.BIND_METER && !$scope.tabInitialized) {
-			$scope.initTab();
+		var TAB_INDEXES = ($scope.$parent && $scope.$parent.TAB_INDEXES) || {};
+		if (tabIndex === TAB_INDEXES.BIND_METER) {
+			if (!$scope.tabInitialized) {
+				$scope.initTab();
+			} else if ($scope.currentEquipment && $scope.currentEquipment.id) {
+				$scope.getMetersByEquipmentID($scope.currentEquipment.id);
+			}
 		}
 	});
 
 	$timeout(function() {
-		if ($scope.$parent && $scope.$parent.TAB_INDEXES && $scope.$parent.activeTabIndex === $scope.$parent.TAB_INDEXES.BIND_METER && !$scope.tabInitialized) {
-			$scope.initTab();
+		var TAB_INDEXES = ($scope.$parent && $scope.$parent.TAB_INDEXES) || {};
+		if ($scope.$parent && $scope.$parent.activeTabIndex === TAB_INDEXES.BIND_METER) {
+			if (!$scope.tabInitialized) {
+				$scope.initTab();
+			} else if ($scope.currentEquipment && $scope.currentEquipment.id) {
+				$scope.getMetersByEquipmentID($scope.currentEquipment.id);
+			}
 		}
 	}, 0);
 
   	$scope.$on('handleBroadcastEquipmentChanged', function(event) {
 		if ($scope.tabInitialized) {
 			$scope.getAllEquipments();
+			if ($scope.currentEquipment && $scope.currentEquipment.id) {
+				$scope.getMetersByEquipmentID($scope.currentEquipment.id);
+			}
 		}
   	});
 

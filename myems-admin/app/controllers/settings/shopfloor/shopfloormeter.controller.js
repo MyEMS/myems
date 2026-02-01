@@ -5,6 +5,7 @@ app.controller('ShopfloorMeterController', function(
     $window,
     $timeout,
     $translate,
+    $q,
     MeterService,
     VirtualMeterService,
     OfflineMeterService,
@@ -43,23 +44,32 @@ app.controller('ShopfloorMeterController', function(
 
     $scope.getMetersByShopfloorID = function(id) {
         var metertypes = ['meters','virtualmeters','offlinemeters'];
-        $scope.shopfloormeters = [];
         let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
-        var pending = metertypes.length; 
-        
-        angular.forEach(metertypes,function(value){
+        var promises = metertypes.map(function(value) {
+            var deferred = $q.defer();
             ShopfloorMeterService.getMetersByShopfloorID(id, headers, value, function (response) {
                 if (angular.isDefined(response.status) && response.status === 200) {
                     angular.forEach(response.data, function (item, indx){
                         response.data[indx].metertype = value;
                     });
-                    $scope.shopfloormeters = $scope.shopfloormeters.concat(response.data);
-                }
-                pending--;
-                if (pending === 0) {
-                    $scope.filterAvailableMeters();
+                    deferred.resolve(response.data);
+                } else {
+                    deferred.reject(new Error('Failed to load meters for shopfloor: ' + value));
                 }
             });
+            return deferred.promise;
+        });
+
+        $q.all(promises).then(function(results) {
+            $scope.shopfloormeters = [].concat.apply([], results);
+            $scope.filterAvailableMeters();
+        }).catch(function(error) {
+            console.error('Error loading meters:', error);
+            $scope.shopfloormeters = [];
+            $scope.filteredMeters = [];
+            $scope.filteredVirtualMeters = [];
+            $scope.filteredOfflineMeters = [];
+            $scope.filterAvailableMeters();
         });
     };
 
@@ -74,36 +84,42 @@ app.controller('ShopfloorMeterController', function(
     };
 
     $scope.changeMeterType = function(){
+        // Defensive assignment to prevent race conditions
+        $scope.filteredMeters = $scope.filteredMeters || [];
+        $scope.filteredVirtualMeters = $scope.filteredVirtualMeters || [];
+        $scope.filteredOfflineMeters = $scope.filteredOfflineMeters || [];
+        
         switch($scope.currentMeterType){
             case 'meters':
-                $scope.currentmeters = $scope.filteredMeters || [];
+                $scope.currentmeters = $scope.filteredMeters;
                 break;
             case 'virtualmeters':
-                $scope.currentmeters = $scope.filteredVirtualMeters || [];
+                $scope.currentmeters = $scope.filteredVirtualMeters;
                 break;
             case 'offlinemeters':
-                $scope.currentmeters = $scope.filteredOfflineMeters || [];
+                $scope.currentmeters = $scope.filteredOfflineMeters;
                 break;
         }
     };
 
+    // Filter out meters already bound to the current shopfloor, keeping only available ones for selection
     $scope.filterAvailableMeters = function() {
         var boundSet = {};
         ($scope.shopfloormeters || []).forEach(function(sm) {
             var keyType = sm.metertype || 'meters';
             if (angular.isDefined(sm.id)) {
-                boundSet[keyType + '_' + sm.id] = true;
+                boundSet[keyType + '_' + String(sm.id)] = true;
             }
         });
 
         $scope.filteredMeters = ($scope.meters || []).filter(function(m) {
-            return !boundSet['meters_' + m.id];
+            return !boundSet['meters_' + String(m.id)];
         });
         $scope.filteredVirtualMeters = ($scope.virtualmeters || []).filter(function(vm) {
-            return !boundSet['virtualmeters_' + vm.id];
+            return !boundSet['virtualmeters_' + String(vm.id)];
         });
         $scope.filteredOfflineMeters = ($scope.offlinemeters || []).filter(function(om) {
-            return !boundSet['offlinemeters_' + om.id];
+            return !boundSet['offlinemeters_' + String(om.id)];
         });
 
         $scope.changeMeterType();

@@ -15,6 +15,7 @@ app.controller('SpaceMicrogridController', function(
     $scope.currentSpaceID = 1;
     $scope.microgrids = [];
     $scope.spacemicrogrids = [];
+    $scope.filteredMicrogrids = [];
     $scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
     $scope.isLoadingMicrogrids = false;
     $scope.tabInitialized = false;
@@ -70,6 +71,21 @@ app.controller('SpaceMicrogridController', function(
             } else {
                 $scope.spacemicrogrids = [];
             }
+            $scope.filterAvailableMicrogrids();
+        });
+    };
+
+    // Filter out microgrids already bound to the current space, keeping only available ones for selection
+    $scope.filterAvailableMicrogrids = function() {
+        var boundSet = {};
+        ($scope.spacemicrogrids || []).forEach(function(sm) {
+            if (angular.isDefined(sm.id)) {
+                boundSet[String(sm.id)] = true;
+            }
+        });
+
+        $scope.filteredMicrogrids = ($scope.microgrids || []).filter(function(m){
+            return !boundSet[String(m.id)];
         });
     };
 
@@ -81,6 +97,7 @@ app.controller('SpaceMicrogridController', function(
             } else {
                 $scope.microgrids = [];
             }
+            $scope.filterAvailableMicrogrids();
         });
     };
 
@@ -168,6 +185,9 @@ app.controller('SpaceMicrogridController', function(
 
     $scope.$on('handleBroadcastSpaceChanged', function(event) {
         $scope.spacemicrogrids = [];
+        $scope.isSpaceSelected = false;
+        $scope.currentSpaceID = 1;
+        $scope.filterAvailableMicrogrids();
         $scope.refreshSpaceTree();
     });
 
@@ -189,14 +209,18 @@ app.controller('SpaceMicrogridController', function(
     };
 
     $scope.$on('space.tabSelected', function(event, tabIndex) {
-        var TAB_INDEXES = ($scope.$parent && $scope.$parent.TAB_INDEXES) || { MICROGRID: 15 };
-        if (tabIndex === TAB_INDEXES.MICROGRID && !$scope.tabInitialized) {
-            $scope.initTab();
+        var TAB_INDEXES = ($scope.$parent && $scope.$parent.TAB_INDEXES) || {};
+        if (tabIndex === TAB_INDEXES.MICROGRID) {
+            if (!$scope.tabInitialized) {
+                $scope.initTab();
+            } else if ($scope.isSpaceSelected && $scope.currentSpaceID) {
+                $scope.getMicrogridsBySpaceID($scope.currentSpaceID);
+            }
         }
     });
 
     $timeout(function() {
-        var TAB_INDEXES = ($scope.$parent && $scope.$parent.TAB_INDEXES) || { MICROGRID: 15 };
+        var TAB_INDEXES = ($scope.$parent && $scope.$parent.TAB_INDEXES) || {};
         if ($scope.$parent && $scope.$parent.activeTabIndex === TAB_INDEXES.MICROGRID && !$scope.tabInitialized) {
             $scope.initTab();
         }

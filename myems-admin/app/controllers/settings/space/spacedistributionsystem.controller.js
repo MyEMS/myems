@@ -14,6 +14,7 @@ app.controller('SpaceDistributionSystemController', function(
     $scope.currentSpaceID = 1;
     $scope.distributionsystems = [];
     $scope.spacedistributionsystems = [];
+    $scope.filteredDistributionSystems = [];
     $scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
     $scope.isLoadingIstributionsystems = false;
     $scope.tabInitialized = false;
@@ -75,8 +76,23 @@ app.controller('SpaceDistributionSystemController', function(
             } else {
               $scope.spacedistributionsystems=[];
             }
+            $scope.filterAvailableDistributionSystems();
         });
 		};
+
+	// Filter out distribution systems already bound to the current space, keeping only available ones for selection
+	$scope.filterAvailableDistributionSystems = function() {
+        var boundSet = {};
+        ($scope.spacedistributionsystems || []).forEach(function(sds) {
+            if (angular.isDefined(sds.id)) {
+                boundSet[String(sds.id)] = true;
+            }
+        });
+
+        $scope.filteredDistributionSystems = ($scope.distributionsystems || []).filter(function(ds){
+            return !boundSet[String(ds.id)];
+        });
+    };
 
 	$scope.getAllDistributionSystems = function() {
         let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
@@ -86,6 +102,7 @@ app.controller('SpaceDistributionSystemController', function(
 			} else {
 				$scope.distributionsystems = [];
 			}
+			$scope.filterAvailableDistributionSystems();
 		});
 	};
 
@@ -149,14 +166,18 @@ app.controller('SpaceDistributionSystemController', function(
     };
 
     $scope.$on('space.tabSelected', function(event, tabIndex) {
-        var TAB_INDEXES = ($scope.$parent && $scope.$parent.TAB_INDEXES) || { DISTRIBUTION_SYSTEM: 13 };
-        if (tabIndex === TAB_INDEXES.DISTRIBUTION_SYSTEM && !$scope.tabInitialized) {
-            $scope.initTab();
+        var TAB_INDEXES = ($scope.$parent && $scope.$parent.TAB_INDEXES) || {};
+        if (tabIndex === TAB_INDEXES.DISTRIBUTION_SYSTEM) {
+            if (!$scope.tabInitialized) {
+                $scope.initTab();
+            } else if ($scope.isSpaceSelected && $scope.currentSpaceID) {
+                $scope.getDistributionSystemsBySpaceID($scope.currentSpaceID);
+            }
         }
     });
 
     $timeout(function() {
-        var TAB_INDEXES = ($scope.$parent && $scope.$parent.TAB_INDEXES) || { DISTRIBUTION_SYSTEM: 13 };
+        var TAB_INDEXES = ($scope.$parent && $scope.$parent.TAB_INDEXES) || {};
         if ($scope.$parent && $scope.$parent.activeTabIndex === TAB_INDEXES.DISTRIBUTION_SYSTEM && !$scope.tabInitialized) {
             $scope.initTab();
         }
@@ -200,8 +221,11 @@ app.controller('SpaceDistributionSystemController', function(
   };
 
 	$scope.$on('handleBroadcastSpaceChanged', function(event) {
-    $scope.spacedistributionsystems = [];
-    $scope.refreshSpaceTree();
+        $scope.spacedistributionsystems = [];
+        $scope.isSpaceSelected = false;
+        $scope.currentSpaceID = 1;
+        $scope.filterAvailableDistributionSystems();
+        $scope.refreshSpaceTree();
 	});
 
     // Register drag and drop warning event listeners
@@ -210,6 +234,6 @@ app.controller('SpaceDistributionSystemController', function(
             $scope,
             'DISTRIBUTION_SYSTEM',
             'SETTING.PLEASE_SELECT_SPACE_FIRST',
-            { DISTRIBUTION_SYSTEM: 13 }
+            { DISTRIBUTION_SYSTEM: 10 }
         );
 });

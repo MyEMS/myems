@@ -2,7 +2,7 @@
 app.factory('EquipmentDataSourceService', function($http) {
     return {
         addPair: function(equipmentID, dataSourceID, headers, callback) {
-            $http.post(getAPI()+'equipments/'+equipmentID+'/datasources',{data:{'data_source_id':dataSourceID}}, {headers})
+            $http.post(getAPI()+'equipments/'+equipmentID+'/datasources',{data:{'data_source_id':dataSourceID}}, {headers: headers})
             .then(function (response) {
                 callback(response);
             }, function (response) {
@@ -11,7 +11,7 @@ app.factory('EquipmentDataSourceService', function($http) {
         },
 
         deletePair: function(equipmentID, dataSourceID, headers, callback) {
-            $http.delete(getAPI()+'equipments/'+equipmentID+'/datasources/'+dataSourceID, {headers})
+            $http.delete(getAPI()+'equipments/'+equipmentID+'/datasources/'+dataSourceID, {headers: headers})
             .then(function (response) {
                 callback(response);
             }, function (response) {
@@ -19,7 +19,7 @@ app.factory('EquipmentDataSourceService', function($http) {
             });
         },
         getDataSourcesByEquipmentID: function(id, headers, callback) {
-            $http.get(getAPI()+'equipments/'+id+'/datasources', {headers})
+            $http.get(getAPI()+'equipments/'+id+'/datasources', {headers: headers})
             .then(function (response) {
                 callback(response);
             }, function (response) {
@@ -27,7 +27,7 @@ app.factory('EquipmentDataSourceService', function($http) {
             });
         },
         getDataSourcePointsByEquipmentID: function(id, headers, callback) {
-            $http.get(getAPI()+'equipments/'+id+'/datasourcepoints', {headers})
+            $http.get(getAPI()+'equipments/'+id+'/datasourcepoints', {headers: headers})
             .then(function (response) {
                 callback(response);
             }, function (response) {
@@ -35,7 +35,7 @@ app.factory('EquipmentDataSourceService', function($http) {
             });
         },
         getAddPoints:function(id, headers, callback){
-            $http.get(getAPI() + 'equipments/'+id+'/addpoints', {headers})
+            $http.get(getAPI() + 'equipments/'+id+'/addpoints', {headers: headers})
             .then(function (response) {
                 callback(response);
             }, function (response) {
@@ -43,7 +43,7 @@ app.factory('EquipmentDataSourceService', function($http) {
             });
         },
         getEditPoints:function(id, pid, headers, callback){
-            $http.get(getAPI() + 'equipments/'+id+'/editpoints/'+pid, {headers})
+            $http.get(getAPI() + 'equipments/'+id+'/editpoints/'+pid, {headers: headers})
             .then(function (response) {
                 callback(response);
             }, function (response) {

@@ -31,28 +31,41 @@ app.controller('MeterPointController', function (
     };
 
     $scope.getPointsByDataSourceID = function (id) {
-    let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
-    PointService.getPointsByDataSourceID(id, headers, function (response) {
-        if (angular.isDefined(response.status) && response.status === 200) {
-            let allPoints = response.data;
-            $scope.points = allPoints.filter(function (point) {
-                return !$scope.meterpoints.some(function (meterpoint) {
-                    return meterpoint.id === point.id;
-                });
-            });
-        } else {
-            $scope.points = [];
-        }
-    });
-};
+        let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
+        PointService.getPointsByDataSourceID(id, headers, function (response) {
+            if (angular.isDefined(response.status) && response.status === 200) {
+                $scope.allPoints = response.data;
+                $scope.filterAvailablePoints();
+            } else {
+                $scope.allPoints = [];
+                $scope.filteredPoints = [];
+            }
+        });
+    };
+
+    // Filter out points already bound to the current meter, keeping only available ones for selection
+    $scope.filterAvailablePoints = function() {
+        var boundSet = {};
+        ($scope.meterpoints || []).forEach(function(mp) {
+            if (angular.isDefined(mp.id)) {
+                boundSet[String(mp.id)] = true;
+            }
+        });
+
+        $scope.filteredPoints = ($scope.allPoints || []).filter(function(p){
+            return !boundSet[String(p.id)];
+        });
+    };
 
     $scope.getPointsByMeterID = function (id) {
         let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
         MeterPointService.getPointsByMeterID(id, headers, function (response) {
             if (angular.isDefined(response.status) && response.status === 200) {
                 $scope.meterpoints = response.data;
+                $scope.filterAvailablePoints();
             } else {
                 $scope.meterpoints = [];
+                $scope.filterAvailablePoints();
             }
         });
     };
@@ -63,9 +76,13 @@ app.controller('MeterPointController', function (
         if (item && item.id) {
             $scope.isMeterSelected = true;
             $scope.getPointsByMeterID($scope.currentMeter.id);
-            $scope.getPointsByDataSourceID($scope.currentDataSource);
+            if ($scope.currentDataSource) {
+                $scope.getPointsByDataSourceID($scope.currentDataSource);
+            }
         } else {
             $scope.isMeterSelected = false;
+            $scope.meterpoints = [];
+            $scope.filterAvailablePoints();
         }
     };
 
@@ -161,20 +178,42 @@ app.controller('MeterPointController', function (
     };
 
     $scope.$on('meter.tabSelected', function(event, tabIndex) {
-        if ($scope.$parent && $scope.$parent.TAB_INDEXES && tabIndex === $scope.$parent.TAB_INDEXES.BIND_POINT && !$scope.tabInitialized) {
-            $scope.initTab();
+        var TAB_INDEXES = ($scope.$parent && $scope.$parent.TAB_INDEXES) || {};
+        if (tabIndex === TAB_INDEXES.BIND_POINT) {
+            if (!$scope.tabInitialized) {
+                $scope.initTab();
+            } else if ($scope.currentMeter && $scope.currentMeter.id) {
+                $scope.getPointsByMeterID($scope.currentMeter.id);
+                if ($scope.currentDataSource) {
+                    $scope.getPointsByDataSourceID($scope.currentDataSource);
+                }
+            }
         }
     });
 
     $timeout(function() {
-        if ($scope.$parent && $scope.$parent.TAB_INDEXES && $scope.$parent.activeTabIndex === $scope.$parent.TAB_INDEXES.BIND_POINT && !$scope.tabInitialized) {
-            $scope.initTab();
+        var TAB_INDEXES = ($scope.$parent && $scope.$parent.TAB_INDEXES) || {};
+        if ($scope.$parent && $scope.$parent.activeTabIndex === TAB_INDEXES.BIND_POINT) {
+            if (!$scope.tabInitialized) {
+                $scope.initTab();
+            } else if ($scope.currentMeter && $scope.currentMeter.id) {
+                $scope.getPointsByMeterID($scope.currentMeter.id);
+                if ($scope.currentDataSource) {
+                    $scope.getPointsByDataSourceID($scope.currentDataSource);
+                }
+            }
         }
     }, 0);
 
   	$scope.$on('handleBroadcastMeterChanged', function(event) {
       if ($scope.tabInitialized) {
           $scope.getAllMeters();
+          if ($scope.currentMeter && $scope.currentMeter.id) {
+              $scope.getPointsByMeterID($scope.currentMeter.id);
+              if ($scope.currentDataSource) {
+                  $scope.getPointsByDataSourceID($scope.currentDataSource);
+              }
+          }
       }
   	});
 
