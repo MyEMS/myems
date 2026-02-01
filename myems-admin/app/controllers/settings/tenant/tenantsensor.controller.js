@@ -19,8 +19,10 @@ app.controller('TenantSensorController', function (
         SensorService.getAllSensors(headers, function (response) {
             if (angular.isDefined(response.status) && response.status === 200) {
                 $scope.sensors = response.data;
+                $scope.filterAvailableSensors();
             } else {
                 $scope.sensors = [];
+                $scope.filteredSensors = [];
             }
         });
     };
@@ -30,9 +32,25 @@ app.controller('TenantSensorController', function (
         TenantSensorService.getSensorsByTenantID(id, headers, function (response) {
             if (angular.isDefined(response.status) && response.status === 200) {
                 $scope.tenantsensors = response.data;
+                $scope.filterAvailableSensors();
             } else {
                 $scope.tenantsensors = [];
+                $scope.filterAvailableSensors();
             }
+        });
+    };
+
+    // Filter out sensors already bound to the current tenant, keeping only available ones for selection
+    $scope.filterAvailableSensors = function() {
+        var boundSet = {};
+        ($scope.tenantsensors || []).forEach(function(ts) {
+            if (angular.isDefined(ts.id)) {
+                boundSet[String(ts.id)] = true;
+            }
+        });
+
+        $scope.filteredSensors = ($scope.sensors || []).filter(function(s){
+            return !boundSet[String(s.id)];
         });
     };
 
@@ -44,6 +62,8 @@ app.controller('TenantSensorController', function (
   	        $scope.getSensorsByTenantID($scope.currentTenant.id);
   	    } else {
   	        $scope.isTenantSelected = false;
+  	        $scope.tenantsensors = [];
+  	        $scope.filterAvailableSensors();
   	    }
     };
 
@@ -121,8 +141,28 @@ app.controller('TenantSensorController', function (
     $scope.getAllTenants();
 
   	$scope.$on('handleBroadcastTenantChanged', function(event) {
-      $scope.getAllTenants();
+        $scope.getAllTenants();
+        if ($scope.currentTenant && $scope.currentTenant.id) {
+            $scope.getSensorsByTenantID($scope.currentTenant.id);
+        }
   	});
+
+    // Listen for tab selection event
+    $scope.$on('tenant.tabSelected', function(event, tabIndex) {
+        var TAB_INDEXES = ($scope.$parent && $scope.$parent.TAB_INDEXES) || {};
+        if (tabIndex === TAB_INDEXES.BIND_SENSOR && $scope.currentTenant && $scope.currentTenant.id) {
+            $scope.getSensorsByTenantID($scope.currentTenant.id);
+        }
+    });
+
+    // Check on initialization if tab is already active
+    $timeout(function() {
+        var TAB_INDEXES = ($scope.$parent && $scope.$parent.TAB_INDEXES) || {};
+        if ($scope.$parent && $scope.$parent.activeTabIndex === TAB_INDEXES.BIND_SENSOR && 
+            $scope.currentTenant && $scope.currentTenant.id) {
+            $scope.getSensorsByTenantID($scope.currentTenant.id);
+        }
+    }, 0);
 
     // Register drag and drop warning event listeners
     // Use registerTabWarnings to avoid code duplication

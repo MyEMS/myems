@@ -14,6 +14,7 @@ app.controller('SpacePhotovoltaicPowerStationController', function(
     $scope.currentSpaceID = 1;
     $scope.photovoltaicpowerstations = [];
     $scope.spacephotovoltaicpowerstations = [];
+    $scope.filteredPhotovoltaicPowerStations = [];
     $scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
     $scope.isLoadingPhotovoltaicpowerstations = false;
     $scope.tabInitialized = false;
@@ -75,8 +76,23 @@ app.controller('SpacePhotovoltaicPowerStationController', function(
             } else {
               $scope.spacephotovoltaicpowerstations=[];
             }
+            $scope.filterAvailablePhotovoltaicPowerStations();
         });
 		};
+
+	// Filter out photovoltaic power stations already bound to the current space, keeping only available ones for selection
+	$scope.filterAvailablePhotovoltaicPowerStations = function() {
+        var boundSet = {};
+        ($scope.spacephotovoltaicpowerstations || []).forEach(function(spps) {
+            if (angular.isDefined(spps.id)) {
+                boundSet[String(spps.id)] = true;
+            }
+        });
+
+        $scope.filteredPhotovoltaicPowerStations = ($scope.photovoltaicpowerstations || []).filter(function(pps){
+            return !boundSet[String(pps.id)];
+        });
+    };
 
 	$scope.getAllPhotovoltaicPowerStations = function() {
         let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
@@ -86,6 +102,7 @@ app.controller('SpacePhotovoltaicPowerStationController', function(
 			} else {
 				$scope.photovoltaicpowerstations = [];
 			}
+			$scope.filterAvailablePhotovoltaicPowerStations();
 		});
 	};
 
@@ -149,14 +166,18 @@ app.controller('SpacePhotovoltaicPowerStationController', function(
     };
 
     $scope.$on('space.tabSelected', function(event, tabIndex) {
-        var TAB_INDEXES = ($scope.$parent && $scope.$parent.TAB_INDEXES) || { PHOTOVOLTAIC_POWER_STATION: 14 };
-        if (tabIndex === TAB_INDEXES.PHOTOVOLTAIC_POWER_STATION && !$scope.tabInitialized) {
-            $scope.initTab();
+        var TAB_INDEXES = ($scope.$parent && $scope.$parent.TAB_INDEXES) || {};
+        if (tabIndex === TAB_INDEXES.PHOTOVOLTAIC_POWER_STATION) {
+            if (!$scope.tabInitialized) {
+                $scope.initTab();
+            } else if ($scope.isSpaceSelected && $scope.currentSpaceID) {
+                $scope.getPhotovoltaicPowerStationsBySpaceID($scope.currentSpaceID);
+            }
         }
     });
 
     $timeout(function() {
-        var TAB_INDEXES = ($scope.$parent && $scope.$parent.TAB_INDEXES) || { PHOTOVOLTAIC_POWER_STATION: 14 };
+        var TAB_INDEXES = ($scope.$parent && $scope.$parent.TAB_INDEXES) || {};
         if ($scope.$parent && $scope.$parent.activeTabIndex === TAB_INDEXES.PHOTOVOLTAIC_POWER_STATION && !$scope.tabInitialized) {
             $scope.initTab();
         }
@@ -200,8 +221,11 @@ app.controller('SpacePhotovoltaicPowerStationController', function(
   };
 
 	$scope.$on('handleBroadcastSpaceChanged', function(event) {
-    $scope.spacephotovoltaicpowerstations = [];
-    $scope.refreshSpaceTree();
+        $scope.spacephotovoltaicpowerstations = [];
+        $scope.isSpaceSelected = false;
+        $scope.currentSpaceID = 1;
+        $scope.filterAvailablePhotovoltaicPowerStations();
+        $scope.refreshSpaceTree();
 	});
 
     // Register drag and drop warning event listeners

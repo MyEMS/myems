@@ -299,7 +299,7 @@ app.controller('EquipmentParameterController', function(
                         resolve($scope.add_points);
                     } else {
                         $scope.add_points = [];
-                        resolve($scope.add_points);
+                        reject(new Error('Failed to load add points for equipment: ' + $scope.currentEquipment.id));
                     }
                 }, function(error) {
                     $scope.add_points = [];
@@ -317,8 +317,11 @@ app.controller('EquipmentParameterController', function(
                                 resolve($scope.edit_points);
 			} else {
 				$scope.edit_points = [];
-                                resolve($scope.edit_points);
+                                reject(new Error('Failed to load edit points for equipment parameter: ' + equipmentparameter.id));
 			}
+		}, function(error) {
+			$scope.edit_points = [];
+			reject(error);
 		});
             });
 	};

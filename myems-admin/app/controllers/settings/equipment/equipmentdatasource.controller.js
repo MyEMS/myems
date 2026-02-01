@@ -29,8 +29,10 @@ app.controller(
       DataSourceService.getAllDataSources(headers, function (response) {
         if (angular.isDefined(response.status) && response.status === 200) {
           $scope.datasources = response.data;
+          $scope.filterAvailableDataSources();
         } else {
           $scope.datasources = [];
+          $scope.filteredDataSources = [];
         }
       });
     };
@@ -47,11 +49,27 @@ app.controller(
         function (response) {
           if (angular.isDefined(response.status) && response.status === 200) {
             $scope.equipmentdatasources = response.data;
+            $scope.filterAvailableDataSources();
           } else {
             $scope.equipmentdatasources = [];
+            $scope.filterAvailableDataSources();
           }
         }
       );
+    };
+
+    // Filter out data sources already bound to the current equipment, keeping only available ones for selection
+    $scope.filterAvailableDataSources = function() {
+      var boundSet = {};
+      ($scope.equipmentdatasources || []).forEach(function(eds) {
+        if (angular.isDefined(eds.id)) {
+          boundSet[String(eds.id)] = true;
+        }
+      });
+
+      $scope.filteredDataSources = ($scope.datasources || []).filter(function(ds){
+        return !boundSet[String(ds.id)];
+      });
     };
 
     $scope.changeEquipment = function (item, model) {
@@ -64,6 +82,8 @@ app.controller(
         );
       } else {
         $scope.isEquipmentSelected = false;
+        $scope.equipmentdatasources = [];
+        $scope.filterAvailableDataSources();
       }
     };
 
@@ -184,14 +204,24 @@ app.controller(
     };
 
     $scope.$on('equipment.tabSelected', function(event, tabIndex) {
-        if ($scope.$parent && $scope.$parent.TAB_INDEXES && tabIndex === $scope.$parent.TAB_INDEXES.BIND_DATA_SOURCE && !$scope.tabInitialized) {
-            $scope.initTab();
+        var TAB_INDEXES = ($scope.$parent && $scope.$parent.TAB_INDEXES) || {};
+        if (tabIndex === TAB_INDEXES.BIND_DATA_SOURCE) {
+            if (!$scope.tabInitialized) {
+                $scope.initTab();
+            } else if ($scope.currentEquipment && $scope.currentEquipment.id) {
+                $scope.getDataSourcesByEquipmentID($scope.currentEquipment.id);
+            }
         }
     });
 
     $timeout(function() {
-        if ($scope.$parent && $scope.$parent.TAB_INDEXES && $scope.$parent.activeTabIndex === $scope.$parent.TAB_INDEXES.BIND_DATA_SOURCE && !$scope.tabInitialized) {
-            $scope.initTab();
+        var TAB_INDEXES = ($scope.$parent && $scope.$parent.TAB_INDEXES) || {};
+        if ($scope.$parent && $scope.$parent.activeTabIndex === TAB_INDEXES.BIND_DATA_SOURCE) {
+            if (!$scope.tabInitialized) {
+                $scope.initTab();
+            } else if ($scope.currentEquipment && $scope.currentEquipment.id) {
+                $scope.getDataSourcesByEquipmentID($scope.currentEquipment.id);
+            }
         }
     }, 0);
 
@@ -200,6 +230,9 @@ app.controller(
       function (event) {
         if ($scope.tabInitialized) {
             $scope.getAllEquipments();
+            if ($scope.currentEquipment && $scope.currentEquipment.id) {
+                $scope.getDataSourcesByEquipmentID($scope.currentEquipment.id);
+            }
         }
       }
     );

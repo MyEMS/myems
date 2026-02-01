@@ -245,7 +245,7 @@
 										<div class="panel-body" uib-tooltip="{{'SETTING.DRAG_TO_BIND' | translate}}"
 											slim-scroll box-height="760">
 											<div class="source btn btn-info btn-rounded btn-block"
-												ng-repeat="equipment in equipments" x-hjc-draggable="{{isSpaceSelected ? 'true' : 'false'}}">
+												ng-repeat="equipment in filteredEquipments" x-hjc-draggable="{{isSpaceSelected ? 'true' : 'false'}}">
 												{{equipment.name}}
 											</div>
 										</div>
@@ -302,7 +302,7 @@
 										<div class="panel-body" uib-tooltip="{{'SETTING.DRAG_TO_BIND' | translate}}"
 											slim-scroll box-height="765px">
 											<div class="source btn btn-info btn-rounded btn-block"
-												ng-repeat="combinedequipment in combinedequipments" x-hjc-draggable="{{isSpaceSelected ? 'true' : 'false'}}">
+												ng-repeat="combinedequipment in filteredCombinedEquipments" x-hjc-draggable="{{isSpaceSelected ? 'true' : 'false'}}">
 												{{combinedequipment.name}}
 											</div>
 										</div>
@@ -377,7 +377,7 @@
 											</form>
 											<h5>{{'SETTING.POINT_LIST' | translate}}</h5>
 											<div class="source btn btn-info btn-rounded btn-block"
-												ng-repeat="point in points" x-hjc-draggable="{{isSpaceSelected ? 'true' : 'false'}}"> {{point.name}}</div>
+												ng-repeat="point in filteredPoints" x-hjc-draggable="{{isSpaceSelected ? 'true' : 'false'}}"> {{point.name}}</div>
 										</div>
 									</div>
 								</div>
@@ -433,7 +433,7 @@
 											uib-tooltip="{{'SETTING.DRAG_TO_BIND' | translate}}">
 											<h5>{{'SETTING.SENSOR_LIST' | translate}}</h5>
 											<div class="source btn btn-info btn-rounded btn-block"
-												ng-repeat="sensor in sensors" x-hjc-draggable="{{isSpaceSelected ? 'true' : 'false'}}"> {{sensor.name}}
+												ng-repeat="sensor in filteredSensors" x-hjc-draggable="{{isSpaceSelected ? 'true' : 'false'}}"> {{sensor.name}}
 											</div>
 										</div>
 									</div>
@@ -488,7 +488,7 @@
 										<div class="panel-body" uib-tooltip="{{'SETTING.DRAG_TO_BIND' | translate}}"
 											slim-scroll box-height="765px">
 											<div class="source btn btn-info btn-rounded btn-block"
-												ng-repeat="tenant in tenants" x-hjc-draggable="{{isSpaceSelected ? 'true' : 'false'}}">
+												ng-repeat="tenant in filteredTenants" x-hjc-draggable="{{isSpaceSelected ? 'true' : 'false'}}">
 												{{tenant.name}}
 											</div>
 										</div>
@@ -544,7 +544,7 @@
 										<div class="panel-body" uib-tooltip="{{'SETTING.DRAG_TO_BIND' | translate}}"
 											slim-scroll box-height="765px">
 											<div class="source btn btn-info btn-rounded btn-block"
-												ng-repeat="store in stores" x-hjc-draggable="{{isSpaceSelected ? 'true' : 'false'}}">
+												ng-repeat="store in filteredStores" x-hjc-draggable="{{isSpaceSelected ? 'true' : 'false'}}">
 												{{store.name}}
 											</div>
 										</div>
@@ -600,7 +600,7 @@
 										<div class="panel-body" uib-tooltip="{{'SETTING.DRAG_TO_BIND' | translate}}"
 											slim-scroll box-height="765px">
 											<div class="source btn btn-info btn-rounded btn-block"
-												ng-repeat="shopfloor in shopfloors" x-hjc-draggable="{{isSpaceSelected ? 'true' : 'false'}}">
+												ng-repeat="shopfloor in filteredShopfloors" x-hjc-draggable="{{isSpaceSelected ? 'true' : 'false'}}">
 												{{shopfloor.name}}
 											</div>
 										</div>
@@ -656,7 +656,7 @@
 										<div class="panel-body" uib-tooltip="{{'SETTING.DRAG_TO_BIND' | translate}}"
 											slim-scroll box-height="760">
 											<div class="source btn btn-info btn-rounded btn-block"
-												ng-repeat="energyflowdiagram in energyflowdiagrams" x-hjc-draggable="{{isSpaceSelected ? 'true' : 'false'}}">
+												ng-repeat="energyflowdiagram in filteredEnergyFlowDiagrams" x-hjc-draggable="{{isSpaceSelected ? 'true' : 'false'}}">
 												{{energyflowdiagram.name}}
 											</div>
 										</div>
@@ -713,7 +713,7 @@
 										<div class="panel-body" uib-tooltip="{{'SETTING.DRAG_TO_BIND' | translate}}"
 											slim-scroll box-height="760">
 											<div class="source btn btn-info btn-rounded btn-block"
-												ng-repeat="distributionsystem in distributionsystems" x-hjc-draggable="{{isSpaceSelected ? 'true' : 'false'}}">
+												ng-repeat="distributionsystem in filteredDistributionSystems" x-hjc-draggable="{{isSpaceSelected ? 'true' : 'false'}}">
 												{{distributionsystem.name}}
 											</div>
 										</div>
@@ -772,7 +772,7 @@
 										<div class="panel-body" uib-tooltip="{{'SETTING.DRAG_TO_BIND' | translate}}"
 											slim-scroll box-height="765px">
 											<div class="source btn btn-primary btn-rounded btn-block"
-												ng-repeat="workingcalendar in workingcalendars" x-hjc-draggable="{{isSpaceSelected ? 'true' : 'false'}}">
+												ng-repeat="workingcalendar in filteredWorkingCalendars" x-hjc-draggable="{{isSpaceSelected ? 'true' : 'false'}}">
 												{{workingcalendar.name}}</div>
 										</div>
 									</div>
@@ -830,7 +830,7 @@
 										<div class="panel-body" uib-tooltip="{{'SETTING.DRAG_TO_BIND' | translate}}"
 											slim-scroll box-height="765px">
 											<div class="source btn btn-primary btn-rounded btn-block"
-												ng-repeat="command in commands" x-hjc-draggable="{{isSpaceSelected ? 'true' : 'false'}}">
+												ng-repeat="command in filteredCommands" x-hjc-draggable="{{isSpaceSelected ? 'true' : 'false'}}">
 												{{command.name}}</div>
 										</div>
 									</div>
@@ -885,10 +885,10 @@
 										<div class="panel-heading"> {{'SPACE.ENERGY_STORAGE_POWER_STATION_LIST' | translate}} </div>
 										<div class="panel-body" uib-tooltip="{{'SETTING.DRAG_TO_BIND' | translate}}"
 											slim-scroll box-height="760">
-											<div class="source btn btn-info btn-rounded btn-block"
-												ng-repeat="energystoragepowerstation in energystoragepowerstations" x-hjc-draggable="{{isSpaceSelected ? 'true' : 'false'}}">
-												{{energystoragepowerstation.name}}
-											</div>
+										<div class="source btn btn-info btn-rounded btn-block"
+										ng-repeat="energystoragepowerstation in filteredEnergyStoragePowerStations" x-hjc-draggable="{{isSpaceSelected ? 'true' : 'false'}}">
+										{{energystoragepowerstation.name}}
+										</div>
 										</div>
 									</div>
 								</div>
@@ -945,7 +945,7 @@
 									<div class="panel-body" uib-tooltip="{{'SETTING.DRAG_TO_BIND' | translate}}"
 										slim-scroll box-height="760">
 										<div class="source btn btn-info btn-rounded btn-block"
-										ng-repeat="photovoltaicpowerstation in photovoltaicpowerstations" x-hjc-draggable="{{isSpaceSelected ? 'true' : 'false'}}">
+										ng-repeat="photovoltaicpowerstation in filteredPhotovoltaicPowerStations" x-hjc-draggable="{{isSpaceSelected ? 'true' : 'false'}}">
 										{{photovoltaicpowerstation.name}}
 										</div>
 									</div>
@@ -1006,7 +1006,7 @@
 									</div>
 									<div class="panel-body" uib-tooltip="{{'SETTING.DRAG_TO_BIND' | translate}}" slim-scroll box-height="760">
 										<div class="source btn btn-info btn-rounded btn-block"
-											ng-repeat="microgrid in microgrids"
+											ng-repeat="microgrid in filteredMicrogrids"
 											x-hjc-draggable="{{isSpaceSelected ? 'true' : 'false'}}">
 										{{microgrid.name}}
 										</div>

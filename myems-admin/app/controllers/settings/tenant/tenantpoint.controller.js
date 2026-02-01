@@ -35,8 +35,10 @@ app.controller('TenantPointController', function (
         PointService.getPointsByDataSourceID(id, headers, function (response) {
             if (angular.isDefined(response.status) && response.status === 200) {
                 $scope.points = response.data;
+                $scope.filterAvailablePoints();
             } else {
                 $scope.points = [];
+                $scope.filteredPoints = [];
             }
         });
     };
@@ -46,11 +48,27 @@ app.controller('TenantPointController', function (
         TenantPointService.getPointsByTenantID(id, headers, function (response) {
             if (angular.isDefined(response.status) && response.status === 200) {
                 $scope.tenantpoints = response.data;
+                $scope.filterAvailablePoints();
             } else {
                 $scope.tenantpoints = [];
+                $scope.filterAvailablePoints();
             }
         });
 
+    };
+
+    // Filter out points already bound to the current tenant, keeping only available ones for selection
+    $scope.filterAvailablePoints = function() {
+        var boundSet = {};
+        ($scope.tenantpoints || []).forEach(function(tp) {
+            if (angular.isDefined(tp.id)) {
+                boundSet[String(tp.id)] = true;
+            }
+        });
+
+        $scope.filteredPoints = ($scope.points || []).filter(function(p){
+            return !boundSet[String(p.id)];
+        });
     };
 
   $scope.changeTenant=function(item,model){
@@ -61,6 +79,8 @@ app.controller('TenantPointController', function (
     	    $scope.getPointsByTenantID($scope.currentTenant.id);
     	} else {
     	    $scope.isTenantSelected = false;
+    	    $scope.tenantpoints = [];
+    	    $scope.filterAvailablePoints();
     	}
   };
 
@@ -144,8 +164,28 @@ app.controller('TenantPointController', function (
     $scope.getAllTenants();
 
   	$scope.$on('handleBroadcastTenantChanged', function(event) {
-      $scope.getAllTenants();
+        $scope.getAllTenants();
+        if ($scope.currentTenant && $scope.currentTenant.id) {
+            $scope.getPointsByTenantID($scope.currentTenant.id);
+        }
   	});
+
+    // Listen for tab selection event
+    $scope.$on('tenant.tabSelected', function(event, tabIndex) {
+        var TAB_INDEXES = ($scope.$parent && $scope.$parent.TAB_INDEXES) || {};
+        if (tabIndex === TAB_INDEXES.BIND_POINT && $scope.currentTenant && $scope.currentTenant.id) {
+            $scope.getPointsByTenantID($scope.currentTenant.id);
+        }
+    });
+
+    // Check on initialization if tab is already active
+    $timeout(function() {
+        var TAB_INDEXES = ($scope.$parent && $scope.$parent.TAB_INDEXES) || {};
+        if ($scope.$parent && $scope.$parent.activeTabIndex === TAB_INDEXES.BIND_POINT && 
+            $scope.currentTenant && $scope.currentTenant.id) {
+            $scope.getPointsByTenantID($scope.currentTenant.id);
+        }
+    }, 0);
 
     // Register drag and drop warning event listeners
     // Use registerTabWarnings to avoid code duplication

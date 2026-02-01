@@ -8,6 +8,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - added login by mobile phone number to myems-admin
 ### Changed
 ### Fixed
+- fixed issues of binding objects in myems-admin
 ### Removed
 
 ## [v6.1.0] - 2026-01-28

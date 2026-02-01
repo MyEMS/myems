@@ -14,6 +14,7 @@ app.controller('SpaceEnergyStoragePowerStationController', function(
     $scope.currentSpaceID = 1;
     $scope.energystoragepowerstations = [];
     $scope.spaceenergystoragepowerstations = [];
+    $scope.filteredEnergyStoragePowerStations = [];
     $scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
     $scope.isLoadingEnergystoragepowerstations = false;
     $scope.tabInitialized = false;
@@ -75,8 +76,23 @@ app.controller('SpaceEnergyStoragePowerStationController', function(
             } else {
               $scope.spaceenergystoragepowerstations=[];
             }
+            $scope.filterAvailableEnergyStoragePowerStations();
         });
 		};
+
+	// Filter out energy storage power stations already bound to the current space, keeping only available ones for selection
+	$scope.filterAvailableEnergyStoragePowerStations = function() {
+        var boundSet = {};
+        ($scope.spaceenergystoragepowerstations || []).forEach(function(seps) {
+            if (angular.isDefined(seps.id)) {
+                boundSet[String(seps.id)] = true;
+            }
+        });
+
+        $scope.filteredEnergyStoragePowerStations = ($scope.energystoragepowerstations || []).filter(function(eps){
+            return !boundSet[String(eps.id)];
+        });
+    };
 
 	$scope.getAllEnergyStoragePowerStations = function() {
         let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
@@ -86,6 +102,7 @@ app.controller('SpaceEnergyStoragePowerStationController', function(
 			} else {
 				$scope.energystoragepowerstations = [];
 			}
+			$scope.filterAvailableEnergyStoragePowerStations();
 		});
 	};
 
@@ -149,14 +166,18 @@ app.controller('SpaceEnergyStoragePowerStationController', function(
     };
 
     $scope.$on('space.tabSelected', function(event, tabIndex) {
-        var TAB_INDEXES = ($scope.$parent && $scope.$parent.TAB_INDEXES) || { ENERGY_STORAGE_POWER_STATION: 11 };
-        if (tabIndex === TAB_INDEXES.ENERGY_STORAGE_POWER_STATION && !$scope.tabInitialized) {
-            $scope.initTab();
+        var TAB_INDEXES = ($scope.$parent && $scope.$parent.TAB_INDEXES) || {};
+        if (tabIndex === TAB_INDEXES.ENERGY_STORAGE_POWER_STATION) {
+            if (!$scope.tabInitialized) {
+                $scope.initTab();
+            } else if ($scope.isSpaceSelected && $scope.currentSpaceID) {
+                $scope.getEnergyStoragePowerStationsBySpaceID($scope.currentSpaceID);
+            }
         }
     });
 
     $timeout(function() {
-        var TAB_INDEXES = ($scope.$parent && $scope.$parent.TAB_INDEXES) || { ENERGY_STORAGE_POWER_STATION: 11 };
+        var TAB_INDEXES = ($scope.$parent && $scope.$parent.TAB_INDEXES) || {};
         if ($scope.$parent && $scope.$parent.activeTabIndex === TAB_INDEXES.ENERGY_STORAGE_POWER_STATION && !$scope.tabInitialized) {
             $scope.initTab();
         }
@@ -200,8 +221,11 @@ app.controller('SpaceEnergyStoragePowerStationController', function(
   };
 
 	$scope.$on('handleBroadcastSpaceChanged', function(event) {
-    $scope.spaceenergystoragepowerstations = [];
-    $scope.refreshSpaceTree();
+        $scope.spaceenergystoragepowerstations = [];
+        $scope.isSpaceSelected = false;
+        $scope.currentSpaceID = 1;
+        $scope.filterAvailableEnergyStoragePowerStations();
+        $scope.refreshSpaceTree();
 	});
 
     // Register drag and drop warning event listeners
@@ -210,6 +234,6 @@ app.controller('SpaceEnergyStoragePowerStationController', function(
             $scope,
             'ENERGY_STORAGE_POWER_STATION',
             'SETTING.PLEASE_SELECT_SPACE_FIRST',
-            { ENERGY_STORAGE_POWER_STATION: 11 }
+            { ENERGY_STORAGE_POWER_STATION: 13 }
         );
 });

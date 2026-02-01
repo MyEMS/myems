@@ -18,8 +18,10 @@ app.controller('EquipmentCommandController', function (
 		CommandService.getAllCommands(headers, function (response) {
 			if (angular.isDefined(response.status) && response.status === 200) {
 				$scope.commands = response.data;
+				$scope.filterAvailableCommands();
 			} else {
 				$scope.commands = [];
+				$scope.filteredCommands = [];
 			}
 		});
 	};
@@ -29,9 +31,25 @@ app.controller('EquipmentCommandController', function (
         EquipmentCommandService.getCommandsByEquipmentID(id, headers, function (response) {
             if (angular.isDefined(response.status) && response.status === 200) {
                 $scope.equipmentcommands = response.data;
+                $scope.filterAvailableCommands();
             } else {
                 $scope.equipmentcommands = [];
+                $scope.filterAvailableCommands();
             }
+        });
+    };
+
+    // Filter out commands already bound to the current equipment, keeping only available ones for selection
+    $scope.filterAvailableCommands = function() {
+        var boundSet = {};
+        ($scope.equipmentcommands || []).forEach(function(ec) {
+            if (angular.isDefined(ec.id)) {
+                boundSet[String(ec.id)] = true;
+            }
+        });
+
+        $scope.filteredCommands = ($scope.commands || []).filter(function(c){
+            return !boundSet[String(c.id)];
         });
     };
 
@@ -43,6 +61,8 @@ app.controller('EquipmentCommandController', function (
   	      $scope.getCommandsByEquipmentID($scope.currentEquipment.id);
   	  } else {
   	      $scope.isEquipmentSelected = false;
+  	      $scope.equipmentcommands = [];
+  	      $scope.filterAvailableCommands();
   	  }
     };
 
@@ -131,20 +151,33 @@ app.controller('EquipmentCommandController', function (
     };
 
     $scope.$on('equipment.tabSelected', function(event, tabIndex) {
-        if ($scope.$parent && $scope.$parent.TAB_INDEXES && tabIndex === $scope.$parent.TAB_INDEXES.BIND_COMMAND && !$scope.tabInitialized) {
-            $scope.initTab();
+        var TAB_INDEXES = ($scope.$parent && $scope.$parent.TAB_INDEXES) || {};
+        if (tabIndex === TAB_INDEXES.BIND_COMMAND) {
+            if (!$scope.tabInitialized) {
+                $scope.initTab();
+            } else if ($scope.currentEquipment && $scope.currentEquipment.id) {
+                $scope.getCommandsByEquipmentID($scope.currentEquipment.id);
+            }
         }
     });
 
     $timeout(function() {
-        if ($scope.$parent && $scope.$parent.TAB_INDEXES && $scope.$parent.activeTabIndex === $scope.$parent.TAB_INDEXES.BIND_COMMAND && !$scope.tabInitialized) {
-            $scope.initTab();
+        var TAB_INDEXES = ($scope.$parent && $scope.$parent.TAB_INDEXES) || {};
+        if ($scope.$parent && $scope.$parent.activeTabIndex === TAB_INDEXES.BIND_COMMAND) {
+            if (!$scope.tabInitialized) {
+                $scope.initTab();
+            } else if ($scope.currentEquipment && $scope.currentEquipment.id) {
+                $scope.getCommandsByEquipmentID($scope.currentEquipment.id);
+            }
         }
     }, 0);
 
   	$scope.$on('handleBroadcastEquipmentChanged', function(event) {
       if ($scope.tabInitialized) {
           $scope.getAllEquipments();
+          if ($scope.currentEquipment && $scope.currentEquipment.id) {
+              $scope.getCommandsByEquipmentID($scope.currentEquipment.id);
+          }
       }
   	});
 

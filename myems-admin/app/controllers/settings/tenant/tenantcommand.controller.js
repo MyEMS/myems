@@ -13,7 +13,7 @@ app.controller('TenantCommandController', function (
 ) {
 
     $scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user")) || {};
-    $scope.currentTenant = null;
+    $scope.currentTenant = {selected:undefined};
     $scope.isTenantSelected = false; 
     $scope.tenants = [];
     $scope.tenantcommands = [];
@@ -25,6 +25,11 @@ app.controller('TenantCommandController', function (
         };
         CommandService.getAllCommands(headers, function (response) {
             $scope.commands = response.status === 200 ? response.data : [];
+            if ($scope.commands.length === 0) {
+                $scope.filteredCommands = [];
+            } else {
+                $scope.filterAvailableCommands();
+            }
         });
     };
 
@@ -39,16 +44,35 @@ app.controller('TenantCommandController', function (
         };
         TenantCommandService.getCommandsByTenantID(tenantId, headers, function (response) {
             $scope.tenantcommands = response.status === 200 ? response.data : [];
+            $scope.filterAvailableCommands();
         });
     };
 
-    $scope.changeTenant = function (item) {
+    // Filter out commands already bound to the current tenant, keeping only available ones for selection
+    $scope.filterAvailableCommands = function() {
+        var boundSet = {};
+        ($scope.tenantcommands || []).forEach(function(tc) {
+            if (angular.isDefined(tc.id)) {
+                boundSet[String(tc.id)] = true;
+            }
+        });
+
+        $scope.filteredCommands = ($scope.commands || []).filter(function(c){
+            return !boundSet[String(c.id)];
+        });
+    };
+
+    $scope.changeTenant = function (item, model) {
         if (!item || !item.id) {
             $scope.isTenantSelected = false;
+            $scope.currentTenant = {selected:undefined};
+            $scope.tenantcommands = [];
+            $scope.filterAvailableCommands();
             toaster.pop('warning', $translate.instant("TOASTER.WARNING_TITLE"), $translate.instant("TOASTER.PLEASE_SELECT_TENANT"));
             return;
         }
         $scope.currentTenant = item;
+        $scope.currentTenant.selected = model;
         $scope.isTenantSelected = true;
         $scope.getCommandsByTenantID($scope.currentTenant.id);
     };
@@ -63,13 +87,27 @@ app.controller('TenantCommandController', function (
                 $scope.tenants = response.data;
                 if ($scope.tenants.length > 0) {
                     $scope.currentTenant = $scope.tenants[0];
-                    $scope.getCommandsByTenantID($scope.currentTenant.id); 
+                    $scope.currentTenant.selected = $scope.tenants[0].id;
+                    $scope.isTenantSelected = true;
+                    $scope.getCommandsByTenantID($scope.currentTenant.id);
+                    $timeout(function() {
+                        var TAB_INDEXES = ($scope.$parent && $scope.$parent.TAB_INDEXES) || {};
+                        if ($scope.$parent && $scope.$parent.activeTabIndex === TAB_INDEXES.BIND_COMMAND) {
+                            $scope.getCommandsByTenantID($scope.currentTenant.id);
+                        }
+                    }, 0);
                 } else {
-                    $scope.tenantcommands = []; 
+                    $scope.tenantcommands = [];
+                    $scope.currentTenant = {selected:undefined};
+                    $scope.isTenantSelected = false;
+                    $scope.filterAvailableCommands();
                 }
             } else {
                 $scope.tenants = [];
                 $scope.tenantcommands = [];
+                $scope.currentTenant = {selected:undefined};
+                $scope.isTenantSelected = false;
+                $scope.filterAvailableCommands();
             }
         });
 
@@ -128,10 +166,29 @@ app.controller('TenantCommandController', function (
     $scope.getAllCommands(); 
     $scope.$on('handleBroadcastTenantChanged', function (event) {
         $scope.getAllTenants();
+        if ($scope.currentTenant && $scope.currentTenant.id) {
+            $scope.getCommandsByTenantID($scope.currentTenant.id);
+        }
     });
 
-    // Register drag and drop warning event listeners
-    // Use registerTabWarnings to avoid code duplication
+    // Listen for tab selection event
+    $scope.$on('tenant.tabSelected', function(event, tabIndex) {
+        var TAB_INDEXES = ($scope.$parent && $scope.$parent.TAB_INDEXES) || {};
+        if (tabIndex === TAB_INDEXES.BIND_COMMAND && $scope.currentTenant && $scope.currentTenant.id) {
+            $scope.getCommandsByTenantID($scope.currentTenant.id);
+        }
+    });
+
+    // Check on initialization if tab is already active
+    $timeout(function() {
+        var TAB_INDEXES = ($scope.$parent && $scope.$parent.TAB_INDEXES) || {};
+        if ($scope.$parent && $scope.$parent.activeTabIndex === TAB_INDEXES.BIND_COMMAND && 
+            $scope.currentTenant && $scope.currentTenant.id) {
+            $scope.getCommandsByTenantID($scope.currentTenant.id);
+        }
+    }, 0);
+
+    // Register drag and drop warning event listeners, Use registerTabWarnings to avoid code duplication
     DragDropWarningService.registerTabWarnings(
         $scope,
         'BIND_COMMAND',

@@ -12,6 +12,7 @@ app.controller('SpaceStoreController', function(
     $scope.currentSpaceID = 1;
     $scope.stores = [];
     $scope.spacestores = [];
+    $scope.filteredStores = [];
     $scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
     $scope.isLoadingStores = false;
     $scope.tabInitialized = false;
@@ -73,8 +74,23 @@ app.controller('SpaceStoreController', function(
       				} else {
                 $scope.spacestores=[];
               }
+              $scope.filterAvailableStores();
     			});
 		};
+
+	// Filter out stores already bound to the current space, keeping only available ones for selection
+	$scope.filterAvailableStores = function() {
+        var boundSet = {};
+        ($scope.spacestores || []).forEach(function(ss) {
+            if (angular.isDefined(ss.id)) {
+                boundSet[String(ss.id)] = true;
+            }
+        });
+
+        $scope.filteredStores = ($scope.stores || []).filter(function(s){
+            return !boundSet[String(s.id)];
+        });
+    };
 
 	$scope.getAllStores = function() {
         let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
@@ -84,6 +100,7 @@ app.controller('SpaceStoreController', function(
 			} else {
 				$scope.stores = [];
 			}
+			$scope.filterAvailableStores();
 		});
 	};
 
@@ -148,14 +165,18 @@ app.controller('SpaceStoreController', function(
     };
 
     $scope.$on('space.tabSelected', function(event, tabIndex) {
-        var TAB_INDEXES = ($scope.$parent && $scope.$parent.TAB_INDEXES) || { STORE: 7 };
-        if (tabIndex === TAB_INDEXES.STORE && !$scope.tabInitialized) {
-            $scope.initTab();
+        var TAB_INDEXES = ($scope.$parent && $scope.$parent.TAB_INDEXES) || {};
+        if (tabIndex === TAB_INDEXES.STORE) {
+            if (!$scope.tabInitialized) {
+                $scope.initTab();
+            } else if ($scope.isSpaceSelected && $scope.currentSpaceID) {
+                $scope.getStoresBySpaceID($scope.currentSpaceID);
+            }
         }
     });
 
     $timeout(function() {
-        var TAB_INDEXES = ($scope.$parent && $scope.$parent.TAB_INDEXES) || { STORE: 7 };
+        var TAB_INDEXES = ($scope.$parent && $scope.$parent.TAB_INDEXES) || {};
         if ($scope.$parent && $scope.$parent.activeTabIndex === TAB_INDEXES.STORE && !$scope.tabInitialized) {
             $scope.initTab();
         }
@@ -199,8 +220,11 @@ app.controller('SpaceStoreController', function(
   };
 
 	$scope.$on('handleBroadcastSpaceChanged', function(event) {
-    $scope.spacestores = [];
-    $scope.refreshSpaceTree();
+        $scope.spacestores = [];
+        $scope.isSpaceSelected = false;
+        $scope.currentSpaceID = 1;
+        $scope.filterAvailableStores();
+        $scope.refreshSpaceTree();
 	});
 
     // Register drag and drop warning event listeners

@@ -7,6 +7,7 @@ app.controller('CombinedEquipmentMeterController', function (
     $timeout,
     $uibModal,
     $translate,
+    $q,
     MeterService,
     VirtualMeterService,
     OfflineMeterService,
@@ -40,22 +41,42 @@ app.controller('CombinedEquipmentMeterController', function (
             $scope.getMetersByCombinedEquipmentID($scope.currentCombinedEquipment.id);
         } else {
             $scope.isCombinedEquipmentSelected = false;
+            $scope.combinedequipmentmeters = [];
+            $scope.filterAvailableMeters();
         }
     };
 
     $scope.getMetersByCombinedEquipmentID = function (id) {
         var metertypes = ['meters', 'virtualmeters', 'offlinemeters'];
-        $scope.combinedequipmentmeters = [];
         let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
-        angular.forEach(metertypes, function (value, index) {
+        var promises = metertypes.map(function(value) {
+            var deferred = $q.defer();
             CombinedEquipmentMeterService.getMetersByCombinedEquipmentID(id, value, headers, function (response) {
                 if (angular.isDefined(response.status) && response.status === 200) {
                     angular.forEach(response.data, function (item, indx) {
                         response.data[indx].metertype = value;
                     });
-                    $scope.combinedequipmentmeters = $scope.combinedequipmentmeters.concat(response.data);
+                    deferred.resolve(response.data);
+                } else {
+                    $scope.filteredMeters = [];
+                    $scope.filteredVirtualMeters = [];
+                    $scope.filteredOfflineMeters = [];
+                    deferred.reject(new Error('Failed to load meters for combined equipment: ' + value));
                 }
             });
+            return deferred.promise;
+        });
+
+        $q.all(promises).then(function(results) {
+            $scope.combinedequipmentmeters = [].concat.apply([], results);
+            $scope.filterAvailableMeters();
+        }).catch(function(error) {
+            console.error('Error loading meters:', error);
+            $scope.combinedequipmentmeters = [];
+            $scope.filteredMeters = [];
+            $scope.filteredVirtualMeters = [];
+            $scope.filteredOfflineMeters = [];
+            $scope.filterAvailableMeters();
         });
     };
 
@@ -70,15 +91,20 @@ app.controller('CombinedEquipmentMeterController', function (
     };
 
     $scope.changeMeterType = function () {
+        // Defensive assignment to prevent race conditions
+        $scope.filteredMeters = $scope.filteredMeters || [];
+        $scope.filteredVirtualMeters = $scope.filteredVirtualMeters || [];
+        $scope.filteredOfflineMeters = $scope.filteredOfflineMeters || [];
+        
         switch ($scope.currentMeterType) {
             case 'meters':
-                $scope.currentmeters = $scope.meters || [];
+                $scope.currentmeters = $scope.filteredMeters;
                 break;
             case 'virtualmeters':
-                $scope.currentmeters = $scope.virtualmeters || [];
+                $scope.currentmeters = $scope.filteredVirtualMeters;
                 break;
             case 'offlinemeters':
-                $scope.currentmeters = $scope.offlinemeters || [];
+                $scope.currentmeters = $scope.filteredOfflineMeters;
                 break;
             default:
                 $scope.currentmeters = [];
@@ -92,10 +118,13 @@ app.controller('CombinedEquipmentMeterController', function (
             if (angular.isDefined(response.status) && response.status === 200) {
                 $scope.meters = response.data;
                 $scope.currentMeterType = "meters";
-                $scope.changeMeterType();
+                $scope.filterAvailableMeters();
+                $timeout(function(){
+                    $scope.changeMeterType();
+                }, 100);
             } else {
                 $scope.meters = [];
-                $scope.currentmeters = [];
+                $scope.filteredMeters = [];
             }
         });
 
@@ -107,11 +136,13 @@ app.controller('CombinedEquipmentMeterController', function (
         OfflineMeterService.getAllOfflineMeters(headers, function (response) {
             if (angular.isDefined(response.status) && response.status === 200) {
                 $scope.offlinemeters = response.data;
+                $scope.filterAvailableMeters();
                 if ($scope.currentMeterType === 'offlinemeters') {
                     $scope.changeMeterType();
                 }
             } else {
                 $scope.offlinemeters = [];
+                $scope.filteredOfflineMeters = [];
             }
         });
 
@@ -122,14 +153,39 @@ app.controller('CombinedEquipmentMeterController', function (
         VirtualMeterService.getAllVirtualMeters(headers, function (response) {
             if (angular.isDefined(response.status) && response.status === 200) {
                 $scope.virtualmeters = response.data;
+                $scope.filterAvailableMeters();
                 if ($scope.currentMeterType === 'virtualmeters') {
                     $scope.changeMeterType();
                 }
             } else {
                 $scope.virtualmeters = [];
+                $scope.filteredVirtualMeters = [];
             }
         });
 
+    };
+
+    // Filter out meters already bound to the current combined equipment, keeping only available ones for selection
+    $scope.filterAvailableMeters = function() {
+        var boundSet = {};
+        ($scope.combinedequipmentmeters || []).forEach(function(cem) {
+            var keyType = cem.metertype || 'meters';
+            if (angular.isDefined(cem.id)) {
+                boundSet[keyType + '_' + String(cem.id)] = true;
+            }
+        });
+
+        $scope.filteredMeters = ($scope.meters || []).filter(function(m){
+            return !boundSet['meters_' + String(m.id)];
+        });
+        $scope.filteredVirtualMeters = ($scope.virtualmeters || []).filter(function(vm){
+            return !boundSet['virtualmeters_' + String(vm.id)];
+        });
+        $scope.filteredOfflineMeters = ($scope.offlinemeters || []).filter(function(om){
+            return !boundSet['offlinemeters_' + String(om.id)];
+        });
+
+        $scope.changeMeterType();
     };
 
     $scope.pairMeter = function (dragEl, dropEl) {
@@ -221,20 +277,33 @@ app.controller('CombinedEquipmentMeterController', function (
     };
 
     $scope.$on('combinedequipment.tabSelected', function(event, tabIndex) {
-        if ($scope.$parent && $scope.$parent.TAB_INDEXES && tabIndex === $scope.$parent.TAB_INDEXES.BIND_METER && !$scope.tabInitialized) {
-            $scope.initTab();
+        var TAB_INDEXES = ($scope.$parent && $scope.$parent.TAB_INDEXES) || {};
+        if (tabIndex === TAB_INDEXES.BIND_METER) {
+            if (!$scope.tabInitialized) {
+                $scope.initTab();
+            } else if ($scope.currentCombinedEquipment && $scope.currentCombinedEquipment.id) {
+                $scope.getMetersByCombinedEquipmentID($scope.currentCombinedEquipment.id);
+            }
         }
     });
 
     $timeout(function() {
-        if ($scope.$parent && $scope.$parent.TAB_INDEXES && $scope.$parent.activeTabIndex === $scope.$parent.TAB_INDEXES.BIND_METER && !$scope.tabInitialized) {
-            $scope.initTab();
+        var TAB_INDEXES = ($scope.$parent && $scope.$parent.TAB_INDEXES) || {};
+        if ($scope.$parent && $scope.$parent.activeTabIndex === TAB_INDEXES.BIND_METER) {
+            if (!$scope.tabInitialized) {
+                $scope.initTab();
+            } else if ($scope.currentCombinedEquipment && $scope.currentCombinedEquipment.id) {
+                $scope.getMetersByCombinedEquipmentID($scope.currentCombinedEquipment.id);
+            }
         }
     }, 0);
 
     $scope.$on('handleBroadcastCombinedEquipmentChanged', function (event) {
         if ($scope.tabInitialized) {
             $scope.getAllCombinedEquipments();
+            if ($scope.currentCombinedEquipment && $scope.currentCombinedEquipment.id) {
+                $scope.getMetersByCombinedEquipmentID($scope.currentCombinedEquipment.id);
+            }
         }
     });
 

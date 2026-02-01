@@ -13,6 +13,7 @@ app.controller('SpaceCommandController', function(
     $scope.currentSpaceID = 1;
     $scope.commands = [];
     $scope.spacecommands = [];
+    $scope.filteredCommands = [];
     $scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
     $scope.isLoadingCommands = false;
     $scope.tabInitialized = false;
@@ -54,6 +55,7 @@ app.controller('SpaceCommandController', function(
           } else {
               $scope.isSpaceSelected = false;
               $scope.spacecommands = [];
+              $scope.filterAvailableCommands();
           }
           if (!$scope.$$phase && !$scope.$root.$$phase) {
               $scope.$apply();
@@ -74,16 +76,33 @@ app.controller('SpaceCommandController', function(
       				} else {
                 $scope.spacecommands=[];
               }
+              $scope.filterAvailableCommands();
     			});
 		};
+
+	// Filter out commands already bound to the current space, keeping only available ones for selection
+	$scope.filterAvailableCommands = function() {
+        var boundSet = {};
+        ($scope.spacecommands || []).forEach(function(sc) {
+            if (angular.isDefined(sc.id)) {
+                boundSet[String(sc.id)] = true;
+            }
+        });
+
+        $scope.filteredCommands = ($scope.commands || []).filter(function(c){
+            return !boundSet[String(c.id)];
+        });
+    };
 
 	$scope.getAllCommands = function() {
     let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 		CommandService.getAllCommands(headers, function (response) {
 			if (angular.isDefined(response.status) && response.status === 200) {
 				$scope.commands = response.data;
+				$scope.filterAvailableCommands();
 			} else {
 				$scope.commands = [];
+				$scope.filteredCommands = [];
 			}
 		});
 	};
@@ -148,14 +167,18 @@ app.controller('SpaceCommandController', function(
     };
 
     $scope.$on('space.tabSelected', function(event, tabIndex) {
-        var TAB_INDEXES = ($scope.$parent && $scope.$parent.TAB_INDEXES) || { COMMAND: 10 };
-        if (tabIndex === TAB_INDEXES.COMMAND && !$scope.tabInitialized) {
-            $scope.initTab();
+        var TAB_INDEXES = ($scope.$parent && $scope.$parent.TAB_INDEXES) || {};
+        if (tabIndex === TAB_INDEXES.COMMAND) {
+            if (!$scope.tabInitialized) {
+                $scope.initTab();
+            } else if ($scope.isSpaceSelected && $scope.currentSpaceID) {
+                $scope.getCommandsBySpaceID($scope.currentSpaceID);
+            }
         }
     });
 
     $timeout(function() {
-        var TAB_INDEXES = ($scope.$parent && $scope.$parent.TAB_INDEXES) || { COMMAND: 10 };
+        var TAB_INDEXES = ($scope.$parent && $scope.$parent.TAB_INDEXES) || {};
         if ($scope.$parent && $scope.$parent.activeTabIndex === TAB_INDEXES.COMMAND && !$scope.tabInitialized) {
             $scope.initTab();
         }
@@ -192,6 +215,7 @@ app.controller('SpaceCommandController', function(
       // Reset selection state after tree refresh
       $scope.isSpaceSelected = false;
       $scope.spacecommands = [];
+      $scope.filterAvailableCommands();
       if (!$scope.$$phase && !$scope.$root.$$phase) {
           $scope.$apply();
       }
@@ -199,8 +223,11 @@ app.controller('SpaceCommandController', function(
   };
 
 	$scope.$on('handleBroadcastSpaceChanged', function(event) {
-    $scope.spacecommands = [];
-    $scope.refreshSpaceTree();
+        $scope.spacecommands = [];
+        $scope.isSpaceSelected = false;
+        $scope.currentSpaceID = 1;
+        $scope.filterAvailableCommands();
+        $scope.refreshSpaceTree();
 	});
 
     // Register drag and drop warning event listeners
@@ -209,7 +236,7 @@ app.controller('SpaceCommandController', function(
             $scope,
             'COMMAND',
             'SETTING.PLEASE_SELECT_SPACE_FIRST',
-            { COMMAND: 10 }
+            {}
         );
 
 });
