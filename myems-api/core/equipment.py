@@ -153,7 +153,7 @@ class EquipmentCollection:
         search_query = req.get_param('q')
         query_base = (" SELECT id, name, uuid, "
                       "        is_input_counted, is_output_counted, "
-                      "        cost_center_id, svg_id, camera_url, description "
+                      "        cost_center_id, efficiency_indicator, svg_id, camera_url, description "
                       " FROM tbl_equipments ")
         params = []
 
@@ -175,9 +175,10 @@ class EquipmentCollection:
                                "is_input_counted": bool(row[3]),
                                "is_output_counted": bool(row[4]),
                                "cost_center": cost_center_dict.get(row[5], None),
-                               "svg": svg_dict.get(row[6], None),
-                               "camera_url": row[7],
-                               "description": row[8],
+                               "efficiency_indicator": float(row[6]) if row[6] is not None else 0.0,
+                               "svg": svg_dict.get(row[7], None),
+                               "camera_url": row[8],
+                               "description": row[9],
                                "qrcode": 'equipment:' + row[2]}
                 result.append(meta_result)
 
@@ -262,6 +263,15 @@ class EquipmentCollection:
         else:
             description = None
 
+        if 'efficiency_indicator' in new_values['data'].keys() and \
+                new_values['data']['efficiency_indicator'] is not None:
+            try:
+                efficiency_indicator = float(new_values['data']['efficiency_indicator'])
+            except (ValueError, TypeError):
+                efficiency_indicator = 0.0
+        else:
+            efficiency_indicator = 0.0
+
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()
 
@@ -300,13 +310,14 @@ class EquipmentCollection:
 
         add_values = (" INSERT INTO tbl_equipments "
                       "    (name, uuid, is_input_counted, is_output_counted, "
-                      "     cost_center_id, svg_id, camera_url, description) "
-                      " VALUES (%s, %s, %s, %s, %s, %s, %s, %s) ")
+                      "     cost_center_id, efficiency_indicator, svg_id, camera_url, description) "
+                      " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s) ")
         cursor.execute(add_values, (name,
                                     str(uuid.uuid4()),
                                     is_input_counted,
                                     is_output_counted,
                                     cost_center_id,
+                                    efficiency_indicator,
                                     svg_id,
                                     camera_url,
                                     description))
@@ -398,7 +409,7 @@ class EquipmentItem:
 
         query = (" SELECT id, name, uuid, "
                  "        is_input_counted, is_output_counted, "
-                 "        cost_center_id, svg_id, camera_url, description "
+                 "        cost_center_id, efficiency_indicator, svg_id, camera_url, description "
                  " FROM tbl_equipments "
                  " WHERE id = %s ")
         cursor.execute(query, (id_,))
@@ -416,9 +427,10 @@ class EquipmentItem:
                            "is_input_counted": bool(row[3]),
                            "is_output_counted": bool(row[4]),
                            "cost_center": cost_center_dict.get(row[5], None),
-                           "svg": svg_dict.get(row[6], None),
-                           "camera_url": row[7],
-                           "description": row[8],
+                           "efficiency_indicator": float(row[6]) if row[6] is not None else 0.0,
+                           "svg": svg_dict.get(row[7], None),
+                           "camera_url": row[8],
+                           "description": row[9],
                            "qrcode": 'equipment:' + row[2]}
 
         # Store result in Redis cache
@@ -580,6 +592,15 @@ class EquipmentItem:
         else:
             camera_url = None
 
+        if 'efficiency_indicator' in new_values['data'].keys() and \
+                new_values['data']['efficiency_indicator'] is not None:
+            try:
+                efficiency_indicator = float(new_values['data']['efficiency_indicator'])
+            except (ValueError, TypeError):
+                efficiency_indicator = 0.0
+        else:
+            efficiency_indicator = 0.0
+
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()
 
@@ -626,12 +647,13 @@ class EquipmentItem:
 
         update_row = (" UPDATE tbl_equipments "
                       " SET name = %s, is_input_counted = %s, is_output_counted = %s, "
-                      "     cost_center_id = %s, svg_id = %s, camera_url = %s, description = %s "
+                      "     cost_center_id = %s, efficiency_indicator = %s, svg_id = %s, camera_url = %s, description = %s "
                       " WHERE id = %s ")
         cursor.execute(update_row, (name,
                                     is_input_counted,
                                     is_output_counted,
                                     cost_center_id,
+                                    efficiency_indicator,
                                     svg_id,
                                     camera_url,
                                     description,
@@ -668,7 +690,7 @@ class EquipmentItem:
                                    description='API.EQUIPMENT_NOT_FOUND')
 
         query = (" SELECT name, is_input_counted, is_output_counted, "
-                 "        cost_center_id, svg_id, camera_url, description "
+                 "        cost_center_id, efficiency_indicator, svg_id, camera_url, description "
                  " FROM tbl_equipments "
                  " WHERE id = %s ")
         cursor.execute(query, (id_,))
@@ -680,8 +702,8 @@ class EquipmentItem:
         else:
             add_values = (" INSERT INTO tbl_equipments "
                           "    (name, uuid, is_input_counted, is_output_counted, "
-                          "     cost_center_id, svg_id, camera_url, description) "
-                          " VALUES (%s, %s, %s, %s, %s, %s, %s, %s) ")
+                          "     cost_center_id, efficiency_indicator, svg_id, camera_url, description) "
+                          " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s) ")
             cursor.execute(add_values, (row[0] + ' Copy',
                                         str(uuid.uuid4()),
                                         row[1],
@@ -689,7 +711,8 @@ class EquipmentItem:
                                         row[3],
                                         row[4],
                                         row[5],
-                                        row[6]))
+                                        row[6],
+                                        row[7]))
             new_id = cursor.lastrowid
             cnx.commit()
 
@@ -2449,7 +2472,7 @@ class EquipmentExport:
 
         query = (" SELECT id, name, uuid, "
                  "        is_input_counted, is_output_counted, "
-                 "        cost_center_id, svg_id, camera_url, description "
+                 "        cost_center_id, efficiency_indicator, svg_id, camera_url, description "
                  " FROM tbl_equipments "
                  " WHERE id = %s ")
         cursor.execute(query, (id_,))
@@ -2465,9 +2488,10 @@ class EquipmentExport:
                            "is_input_counted": bool(row[3]),
                            "is_output_counted": bool(row[4]),
                            "cost_center": cost_center_dict.get(row[5], None),
-                           "svg": svg_dict.get(row[6], None),
-                           "camera_url": row[7],
-                           "description": row[8],
+                           "efficiency_indicator": float(row[6]) if row[6] is not None else 0.0,
+                           "svg": svg_dict.get(row[7], None),
+                           "camera_url": row[8],
+                           "description": row[9],
                            "commands": None,
                            "meters": None,
                            "offline_meters": None,
@@ -2734,6 +2758,15 @@ class EquipmentImport:
         else:
             description = None
 
+        if 'efficiency_indicator' in new_values.keys() and \
+                new_values['efficiency_indicator'] is not None:
+            try:
+                efficiency_indicator = float(new_values['efficiency_indicator'])
+            except (ValueError, TypeError):
+                efficiency_indicator = 0.0
+        else:
+            efficiency_indicator = 0.0
+
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()
 
@@ -2771,13 +2804,14 @@ class EquipmentImport:
 
         add_values = (" INSERT INTO tbl_equipments "
                       "    (name, uuid, is_input_counted, is_output_counted, "
-                      "     cost_center_id, svg_id, camera_url, description) "
-                      " VALUES (%s, %s, %s, %s, %s, %s, %s, %s) ")
+                      "     cost_center_id, efficiency_indicator, svg_id, camera_url, description) "
+                      " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s) ")
         cursor.execute(add_values, (name,
                                     str(uuid.uuid4()),
                                     is_input_counted,
                                     is_output_counted,
                                     cost_center_id,
+                                    efficiency_indicator,
                                     svg_id,
                                     camera_url,
                                     description))
@@ -3055,7 +3089,7 @@ class EquipmentClone:
 
         query = (" SELECT id, name, uuid, "
                  "        is_input_counted, is_output_counted, "
-                 "        cost_center_id, svg_id, camera_url, description "
+                 "        cost_center_id, efficiency_indicator, svg_id, camera_url, description "
                  " FROM tbl_equipments "
                  " WHERE id = %s ")
         cursor.execute(query, (id_,))
@@ -3071,9 +3105,10 @@ class EquipmentClone:
                            "is_input_counted": bool(row[3]),
                            "is_output_counted": bool(row[4]),
                            "cost_center": cost_center_dict.get(row[5], None),
-                           "svg_id": row[6],
-                           "camera_url": row[7],
-                           "description": row[8],
+                           "efficiency_indicator": float(row[6]) if row[6] is not None else 0.0,
+                           "svg_id": row[7],
+                           "camera_url": row[8],
+                           "description": row[9],
                            "commands": None,
                            "meters": None,
                            "offline_meters": None,
@@ -3266,13 +3301,14 @@ class EquipmentClone:
                         (datetime.utcnow() + timedelta(minutes=timezone_offset)).isoformat(sep='-', timespec='seconds'))
             add_values = (" INSERT INTO tbl_equipments "
                           "    (name, uuid, is_input_counted, is_output_counted, "
-                          "     cost_center_id, svg_id, camera_url, description) "
-                          " VALUES (%s, %s, %s, %s, %s, %s, %s, %s) ")
+                          "     cost_center_id, efficiency_indicator, svg_id, camera_url, description) "
+                          " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s) ")
             cursor.execute(add_values, (new_name,
                                         str(uuid.uuid4()),
                                         meta_result['is_input_counted'],
                                         meta_result['is_output_counted'],
                                         meta_result['cost_center']['id'],
+                                        meta_result.get('efficiency_indicator', 0.0),
                                         meta_result['svg_id'],
                                         meta_result['camera_url'],
                                         meta_result['description']))
