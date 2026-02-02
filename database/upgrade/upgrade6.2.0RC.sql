@@ -9,6 +9,9 @@
 
 START TRANSACTION;
 
+ALTER TABLE `myems_system_db`.`tbl_combined_equipments`
+ADD `efficiency_indicator` DECIMAL(21, 6) DEFAULT 0.000000 NOT NULL AFTER cost_center_id;
+
 ALTER TABLE `myems_system_db`.`tbl_equipments`
 ADD `efficiency_indicator` DECIMAL(21, 6) DEFAULT 0.000000 NOT NULL AFTER cost_center_id;
 
