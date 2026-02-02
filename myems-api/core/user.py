@@ -12,6 +12,7 @@ import redis
 from core.useractivity import user_logger, write_log, admin_control
 import config
 
+PASSWORD_RENEWAL_DELTA = timedelta(days=365)
 
 def clear_user_cache(user_id=None):
     """
@@ -1033,7 +1034,7 @@ class ChangePassword:
                                    description='API.USER_SESSION_NOT_FOUND')
         else:
             utc_expires = row[0]
-            if datetime.utcnow() > utc_expires:
+            if datetime.now(timezone.utc) > utc_expires:  
                 cursor.close()
                 cnx.close()
                 raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
@@ -1050,9 +1051,18 @@ class ChangePassword:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND', description='API.USER_NOT_FOUND')
 
         result = {'salt': row[0], 'password': row[1]}
-        original_pwd_expire_utc = row[2]
-
-        # verify old password
+        original_pwd_expire_utc = None
+        try:
+            original_pwd_expire_utc = row[2]
+            if original_pwd_expire_utc is None:
+                original_pwd_expire_utc = datetime.min.replace(tzinfo=timezone.utc)
+        except IndexError:
+            cursor.close()
+            cnx.close()
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.USER_DATA_INCOMPLETE: missing password_expiration_datetime_utc')
+ 		
+		# verify old password
         salt = result['salt']
         hashed_password = hashlib.sha512(salt.encode() + old_password.encode()).hexdigest()
 
@@ -1072,8 +1082,8 @@ class ChangePassword:
                        " WHERE uuid = %s ")
         cursor.execute(update_user, (salt, hashed_password, user_uuid,))
 
-        now_utc = datetime.utcnow()
-        one_year_delta = timedelta(days=365)
+        now_utc = datetime.now(timezone.utc)
+        one_year_delta = PASSWORD_RENEWAL_DELTA
         if (original_pwd_expire_utc - now_utc) < one_year_delta:
             cursor.execute("UPDATE tbl_users SET password_expiration_datetime_utc = %s WHERE uuid = %s",
                            (now_utc + one_year_delta, user_uuid,))
@@ -1084,7 +1094,7 @@ class ChangePassword:
         update_session = (" UPDATE tbl_sessions "
                           " SET utc_expires = %s "
                           " WHERE user_uuid = %s AND token = %s ")
-        utc_expires = datetime.utcnow() + timedelta(seconds=1000 * 60 * 60 * 8)
+        utc_expires = datetime.now(timezone.utc) + timedelta(seconds=1000 * 60 * 60 * 8)
         cursor.execute(update_session, (utc_expires, user_uuid, token,))
         cnx.commit()
 
@@ -1176,7 +1186,7 @@ class ResetPassword:
                                    description='API.ADMINISTRATOR_SESSION_NOT_FOUND')
         else:
             utc_expires = row[0]
-            if datetime.utcnow() > utc_expires:
+            if datetime.now(timezone.utc) > utc_expires:
                 cursor.close()
                 cnx.close()
                 raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
@@ -1192,16 +1202,7 @@ class ResetPassword:
             cnx.close()
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST', description='API.INVALID_PRIVILEGE')
 
-        salt = uuid.uuid4().hex
-        hashed_password = hashlib.sha512(salt.encode() + new_password.encode()).hexdigest()
-
-        update_user = (" UPDATE tbl_users "
-                       " SET salt = %s, password = %s "
-                       " WHERE name = %s ")
-        cursor.execute(update_user, (salt, hashed_password, user_name,))
-        cnx.commit()
-
-        query = (" SELECT id, password_expiration_datetime_utc "  
+        query = (" SELECT id, password_expiration_datetime_utc "
                  " FROM tbl_users "
                  " WHERE name = %s ")
         cursor.execute(query, (user_name,))
@@ -1211,19 +1212,36 @@ class ResetPassword:
             cnx.close()
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST', description='API.INVALID_USERNAME')
         user_id = row[0]
-        original_pwd_expire_utc = row[1]  
+        original_pwd_expire_utc = None
+        try:
+            original_pwd_expire_utc = row[1]
+            if original_pwd_expire_utc is None:
+                original_pwd_expire_utc = datetime.min.replace(tzinfo=timezone.utc)
+        except IndexError:
+            cursor.close()
+            cnx.close()
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.USER_DATA_INCOMPLETE: missing password_expiration_datetime_utc')
 
-        now_utc = datetime.utcnow()
-        one_year_delta = timedelta(days=365)
-        if (original_pwd_expire_utc - now_utc) < one_year_delta:  
-            update_expire = "UPDATE tbl_users SET password_expiration_datetime_utc = %s WHERE name = %s"
-            cursor.execute(update_expire, (now_utc + one_year_delta, user_name,))
+        salt = uuid.uuid4().hex
+        hashed_password = hashlib.sha512(salt.encode() + new_password.encode()).hexdigest()
+
+        update_user = (" UPDATE tbl_users "
+                       " SET salt = %s, password = %s "
+                       " WHERE name = %s ")
+        cursor.execute(update_user, (salt, hashed_password, user_name,))
+
+        now_utc = datetime.now(timezone.utc)
+        one_year_delta = PASSWORD_RENEWAL_DELTA
+        if (original_pwd_expire_utc - now_utc) < one_year_delta:
+            cursor.execute("UPDATE tbl_users SET password_expiration_datetime_utc = %s WHERE name = %s",
+                           (now_utc + one_year_delta, user_name,))
 
 		# Refresh administrator session
         update_session = (" UPDATE tbl_sessions "
                           " SET utc_expires = %s "
                           " WHERE user_uuid = %s and token = %s ")
-        utc_expires = datetime.utcnow() + timedelta(seconds=1000 * 60 * 60 * 8)
+        utc_expires = datetime.now(timezone.utc) + timedelta(seconds=1000 * 60 * 60 * 8)
         cursor.execute(update_session, (utc_expires, admin_user_uuid, admin_token,))
         cnx.commit()
 
