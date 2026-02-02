@@ -49,6 +49,7 @@ CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_combined_equipments` (
   `is_input_counted` BOOL NOT NULL,
   `is_output_counted` BOOL NOT NULL,
   `cost_center_id` BIGINT NOT NULL,
+  `efficiency_indicator` DECIMAL(21, 6) DEFAULT 0.000000 NOT NULL,
   `svg_id` BIGINT,
   `camera_url` VARCHAR(1000),
   `description` VARCHAR(255),
