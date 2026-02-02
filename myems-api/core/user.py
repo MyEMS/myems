@@ -1039,7 +1039,7 @@ class ChangePassword:
                 raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                        description='API.USER_SESSION_TIMEOUT')
 
-        query = (" SELECT salt, password "
+        query = (" SELECT salt, password, password_expiration_datetime_utc "
                  " FROM tbl_users "
                  " WHERE uuid = %s ")
         cursor.execute(query, (user_uuid,))
@@ -1050,6 +1050,7 @@ class ChangePassword:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND', description='API.USER_NOT_FOUND')
 
         result = {'salt': row[0], 'password': row[1]}
+        original_pwd_expire_utc = row[2]
 
         # verify old password
         salt = result['salt']
@@ -1070,6 +1071,13 @@ class ChangePassword:
                        " SET salt = %s, password = %s "
                        " WHERE uuid = %s ")
         cursor.execute(update_user, (salt, hashed_password, user_uuid,))
+
+        now_utc = datetime.utcnow()
+        one_year_delta = timedelta(days=365)
+        if (original_pwd_expire_utc - now_utc) < one_year_delta:
+            cursor.execute("UPDATE tbl_users SET password_expiration_datetime_utc = %s WHERE uuid = %s",
+                           (now_utc + one_year_delta, user_uuid,))
+
         cnx.commit()
 
         # Refresh User session
@@ -1193,7 +1201,7 @@ class ResetPassword:
         cursor.execute(update_user, (salt, hashed_password, user_name,))
         cnx.commit()
 
-        query = (" SELECT id "
+        query = (" SELECT id, password_expiration_datetime_utc "  
                  " FROM tbl_users "
                  " WHERE name = %s ")
         cursor.execute(query, (user_name,))
@@ -1202,10 +1210,16 @@ class ResetPassword:
             cursor.close()
             cnx.close()
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST', description='API.INVALID_USERNAME')
-
         user_id = row[0]
+        original_pwd_expire_utc = row[1]  
 
-        # Refresh administrator session
+        now_utc = datetime.utcnow()
+        one_year_delta = timedelta(days=365)
+        if (original_pwd_expire_utc - now_utc) < one_year_delta:  
+            update_expire = "UPDATE tbl_users SET password_expiration_datetime_utc = %s WHERE name = %s"
+            cursor.execute(update_expire, (now_utc + one_year_delta, user_name,))
+
+		# Refresh administrator session
         update_session = (" UPDATE tbl_sessions "
                           " SET utc_expires = %s "
                           " WHERE user_uuid = %s and token = %s ")
