@@ -242,6 +242,7 @@ const SidePanelModal = ({ autoShow, showOnce, autoShowDelay, cookieExpireTime, p
           <ButtonGroup className="btn-block">
             <LanguageRadioBtn btnName={'zh_TW'} />
             <LanguageRadioBtn btnName={'pt'} />
+            <LanguageRadioBtn btnName={'ko_KR'} />
           </ButtonGroup>
         </div>
         <hr />
