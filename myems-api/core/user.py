@@ -14,14 +14,22 @@ import config
 
 PASSWORD_RENEWAL_DELTA = timedelta(days=365)
 
+
 def update_password_expiration(cursor, user_uuid=None, user_name=None, now_utc=None):
     one_year_delta = PASSWORD_RENEWAL_DELTA
     target_expire_utc = now_utc + one_year_delta
     target_expire_utc = target_expire_utc.replace(tzinfo=None)
     if user_uuid:
-        cursor.execute("UPDATE tbl_users SET password_expiration_datetime_utc = %s WHERE uuid = %s", (target_expire_utc, user_uuid))
+        cursor.execute(
+            "UPDATE tbl_users SET password_expiration_datetime_utc = %s WHERE uuid = %s",
+            (target_expire_utc, user_uuid)
+        )
     elif user_name:
-        cursor.execute("UPDATE tbl_users SET password_expiration_datetime_utc = %s WHERE name = %s", (target_expire_utc, user_name))
+        cursor.execute(
+            "UPDATE tbl_users SET password_expiration_datetime_utc = %s WHERE name = %s",
+            (target_expire_utc, user_name)
+        )
+
 
 def clear_user_cache(user_id=None):
     """
@@ -126,8 +134,7 @@ class UserCollection:
                  "        u.password_expiration_datetime_utc, "
                  "        u.failed_login_count "
                  " FROM tbl_users u "
-                 " LEFT JOIN tbl_privileges p ON u.privilege_id = p.id "
-                 )
+                 " LEFT JOIN tbl_privileges p ON u.privilege_id = p.id ")
 
         search_param = None
         if search_query:
@@ -149,29 +156,28 @@ class UserCollection:
         result = list()
         if rows is not None and len(rows) > 0:
             for row in rows:
-                meta_result = {"id": row[0],
-                               "name": row[1],
-                               "display_name": row[2],
-                               "uuid": row[3],
-                               "email": row[4],
-                               "phone": row[5],
-                               "is_admin": True if row[6] else False,
-                               "is_read_only": (True if row[7] else False)
-                               if row[6] else None,
-                               "privilege": {
-                                   "id": row[8],
-                                   "name": row[9]
-                               } if row[8] is not None else None,
-                               "account_expiration_datetime":
-                                   (row[10].replace(tzinfo=timezone.utc) +
-                                    timedelta(minutes=timezone_offset))
-                                   .isoformat()[0:19],
-                               "password_expiration_datetime":
-                                   (row[11].replace(tzinfo=timezone.utc) +
-                                    timedelta(minutes=timezone_offset))
-                                   .isoformat()[0:19],
-                               "is_locked": True if row[12] >=
-                               config.maximum_failed_login_count else False}
+                meta_result = {
+                    "id": row[0],
+                    "name": row[1],
+                    "display_name": row[2],
+                    "uuid": row[3],
+                    "email": row[4],
+                    "phone": row[5],
+                    "is_admin": True if row[6] else False,
+                    "is_read_only": (True if row[7] else False) if row[6] else None,
+                    "privilege": {
+                        "id": row[8],
+                        "name": row[9]
+                    } if row[8] is not None else None,
+                    "account_expiration_datetime":
+                        (row[10].replace(tzinfo=timezone.utc) +
+                         timedelta(minutes=timezone_offset)).isoformat()[0:19],
+                    "password_expiration_datetime":
+                        (row[11].replace(tzinfo=timezone.utc) +
+                         timedelta(minutes=timezone_offset)).isoformat()[0:19],
+                    "is_locked": True if row[12] >=
+                    config.maximum_failed_login_count else False
+                }
                 result.append(meta_result)
 
         # Store result in Redis cache
@@ -424,25 +430,27 @@ class UserItem:
         if config.utc_offset[0] == '-':
             timezone_offset = -timezone_offset
 
-        result = {"id": row[0],
-                  "name": row[1],
-                  "display_name": row[2],
-                  "uuid": row[3],
-                  "email": row[4],
-                  "phone": row[5],
-                  "is_admin": True if row[6] else False,
-                  "is_read_only": (True if row[7] else False) if row[6] else None,
-                  "privilege": {
-                      "id": row[8],
-                      "name": row[9]
-                  } if row[8] is not None else None,
-                  "account_expiration_datetime":
-                      (row[10].replace(tzinfo=timezone.utc) +
-                       timedelta(minutes=timezone_offset)).isoformat()[0:19],
-                  "password_expiration_datetime":
-                      (row[11].replace(tzinfo=timezone.utc) +
-                       timedelta(minutes=timezone_offset)).isoformat()[0:19],
-                  "is_locked": True if row[12] >= config.maximum_failed_login_count else False}
+        result = {
+            "id": row[0],
+            "name": row[1],
+            "display_name": row[2],
+            "uuid": row[3],
+            "email": row[4],
+            "phone": row[5],
+            "is_admin": True if row[6] else False,
+            "is_read_only": (True if row[7] else False) if row[6] else None,
+            "privilege": {
+                "id": row[8],
+                "name": row[9]
+            } if row[8] is not None else None,
+            "account_expiration_datetime":
+                (row[10].replace(tzinfo=timezone.utc) +
+                 timedelta(minutes=timezone_offset)).isoformat()[0:19],
+            "password_expiration_datetime":
+                (row[11].replace(tzinfo=timezone.utc) +
+                 timedelta(minutes=timezone_offset)).isoformat()[0:19],
+            "is_locked": True if row[12] >= config.maximum_failed_login_count else False
+        }
 
         # Store result in Redis cache
         result_json = json.dumps(result)
@@ -759,18 +767,20 @@ class UserLogin:
                 cnx.close()
                 raise falcon.HTTPError(status=falcon.HTTP_404, title='API.ERROR', description='API.USER_NOT_FOUND')
 
-            result = {"id": row[0],
-                      "name": row[1],
-                      "uuid": row[2],
-                      "display_name": row[3],
-                      "email": row[4],
-                      "salt": row[5],
-                      "password": row[6],
-                      "is_admin": True if row[7] else False,
-                      "is_read_only": (True if row[8] else False) if row[7] else None,
-                      "account_expiration_datetime_utc": row[9],
-                      "password_expiration_datetime_utc": row[10],
-                      "failed_login_count": row[11]}
+            result = {
+                "id": row[0],
+                "name": row[1],
+                "uuid": row[2],
+                "display_name": row[3],
+                "email": row[4],
+                "salt": row[5],
+                "password": row[6],
+                "is_admin": True if row[7] else False,
+                "is_read_only": (True if row[8] else False) if row[7] else None,
+                "account_expiration_datetime_utc": row[9],
+                "password_expiration_datetime_utc": row[10],
+                "failed_login_count": row[11]
+            }
         elif 'name' in new_values['data']:
             if not isinstance(new_values['data']['name'], str) or \
                     len(str.strip(new_values['data']['name'])) == 0:
@@ -788,18 +798,20 @@ class UserLogin:
                 cnx.close()
                 raise falcon.HTTPError(status=falcon.HTTP_404, title='API.ERROR', description='API.USER_NOT_FOUND')
 
-            result = {"id": row[0],
-                      "name": row[1],
-                      "uuid": row[2],
-                      "display_name": row[3],
-                      "email": row[4],
-                      "salt": row[5],
-                      "password": row[6],
-                      "is_admin": True if row[7] else False,
-                      "is_read_only": (True if row[8] else False) if row[7] else None,
-                      "account_expiration_datetime_utc": row[9],
-                      "password_expiration_datetime_utc": row[10],
-                      "failed_login_count": row[11]}
+            result = {
+                "id": row[0],
+                "name": row[1],
+                "uuid": row[2],
+                "display_name": row[3],
+                "email": row[4],
+                "salt": row[5],
+                "password": row[6],
+                "is_admin": True if row[7] else False,
+                "is_read_only": (True if row[8] else False) if row[7] else None,
+                "account_expiration_datetime_utc": row[9],
+                "password_expiration_datetime_utc": row[10],
+                "failed_login_count": row[11]
+            }
         elif 'email' in new_values['data']:
             if not isinstance(new_values['data']['email'], str) or \
                     len(str.strip(new_values['data']['email'])) == 0:
@@ -817,18 +829,20 @@ class UserLogin:
                 cnx.close()
                 raise falcon.HTTPError(status=falcon.HTTP_404, title='API.ERROR', description='API.USER_NOT_FOUND')
 
-            result = {"id": row[0],
-                      "name": row[1],
-                      "uuid": row[2],
-                      "display_name": row[3],
-                      "email": row[4],
-                      "salt": row[5],
-                      "password": row[6],
-                      "is_admin": True if row[7] else False,
-                      "is_read_only": (True if row[8] else False) if row[7] else None,
-                      "account_expiration_datetime_utc": row[9],
-                      "password_expiration_datetime_utc": row[10],
-                      "failed_login_count": row[11]}
+            result = {
+                "id": row[0],
+                "name": row[1],
+                "uuid": row[2],
+                "display_name": row[3],
+                "email": row[4],
+                "salt": row[5],
+                "password": row[6],
+                "is_admin": True if row[7] else False,
+                "is_read_only": (True if row[8] else False) if row[7] else None,
+                "account_expiration_datetime_utc": row[9],
+                "password_expiration_datetime_utc": row[10],
+                "failed_login_count": row[11]
+            }
         else:
             cursor.close()
             cnx.close()
@@ -857,7 +871,8 @@ class UserLogin:
             cnx.commit()
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST', description='API.INVALID_PASSWORD')
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_PASSWORD')
 
         if failed_login_count != 0:
             update_failed_login_count = (" UPDATE tbl_users "
@@ -1059,7 +1074,8 @@ class ChangePassword:
         if row is None:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND', description='API.USER_NOT_FOUND')
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                   description='API.USER_NOT_FOUND')
 
         result = {'salt': row[0], 'password': row[1]}
         original_pwd_expire_utc = None
@@ -1074,8 +1090,8 @@ class ChangePassword:
             cnx.close()
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.USER_DATA_INCOMPLETE: missing password_expiration_datetime_utc')
- 		
-		# verify old password
+
+        # verify old password
         salt = result['salt']
         hashed_password = hashlib.sha512(salt.encode() + old_password.encode()).hexdigest()
 
@@ -1096,9 +1112,7 @@ class ChangePassword:
         cursor.execute(update_user, (salt, hashed_password, user_uuid,))
 
         now_utc = datetime.now(timezone.utc)
-        one_year_delta = PASSWORD_RENEWAL_DELTA
-        time_diff_days = (original_pwd_expire_utc - now_utc).days
-        if (original_pwd_expire_utc - now_utc) < one_year_delta:
+        if (original_pwd_expire_utc - now_utc) < PASSWORD_RENEWAL_DELTA:
             update_password_expiration(cursor, user_uuid=user_uuid, now_utc=now_utc)
 
         cnx.commit()
@@ -1216,7 +1230,8 @@ class ResetPassword:
         if row is None:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST', description='API.INVALID_PRIVILEGE')
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_PRIVILEGE')
 
         query = (" SELECT id, password_expiration_datetime_utc "
                  " FROM tbl_users "
@@ -1226,7 +1241,8 @@ class ResetPassword:
         if row is None:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST', description='API.INVALID_USERNAME')
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_USERNAME')
 
         user_id = row[0]
         original_pwd_expire_utc = None
@@ -1307,7 +1323,8 @@ class Unlock:
         if row is None:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST', description='API.INVALID_Id')
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_Id')
 
         failed_login_count = row[0]
         if failed_login_count < config.maximum_failed_login_count:
@@ -1436,7 +1453,8 @@ class ForgotPassword:
         if row is None:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.ERROR', description='API.USER_NOT_FOUND')
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.ERROR',
+                                   description='API.USER_NOT_FOUND')
         else:
             result = {"salt": row[0], "uuid": row[1], "id": row[2]}
 
@@ -1449,7 +1467,8 @@ class ForgotPassword:
         if row is not None:
             cursor.close()
             cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.ERROR', description='API.PASSWORDS_MATCH')
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.ERROR',
+                                   description='API.PASSWORDS_MATCH')
 
         cursor.execute(" UPDATE tbl_users "
                        " SET password = %s "
@@ -1539,15 +1558,17 @@ class EmailMessageCollection:
         result = list()
         if rows is not None and len(rows) > 0:
             for row in rows:
-                meta_result = {"id": row[0],
-                               "recipient_name": row[1],
-                               "recipient_email": row[2],
-                               "subject": row[3],
-                               "message": row[4].replace("<br>", ""),
-                               "created_datetime": row[5].timestamp() * 1000 if isinstance(row[5], datetime) else None,
-                               "scheduled_datetime":
-                                   row[6].timestamp() * 1000 if isinstance(row[6], datetime) else None,
-                               "status": row[7]}
+                meta_result = {
+                    "id": row[0],
+                    "recipient_name": row[1],
+                    "recipient_email": row[2],
+                    "subject": row[3],
+                    "message": row[4].replace("<br>", ""),
+                    "created_datetime": row[5].timestamp() * 1000 if isinstance(row[5], datetime) else None,
+                    "scheduled_datetime":
+                        row[6].timestamp() * 1000 if isinstance(row[6], datetime) else None,
+                    "status": row[7]
+                }
                 result.append(meta_result)
 
         resp.text = json.dumps(result)
@@ -1729,14 +1750,16 @@ class EmailMessageItem:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.EMAIL_MESSAGE_NOT_FOUND')
 
-        result = {"id": row[0],
-                  "recipient_name": row[1],
-                  "recipient_email": row[2],
-                  "subject": row[3],
-                  "message": row[4].replace("<br>", ""),
-                  "created_datetime": row[5].timestamp() * 1000 if isinstance(row[5], datetime) else None,
-                  "scheduled_datetime": row[6].timestamp() * 1000 if isinstance(row[6], datetime) else None,
-                  "status": row[7]}
+        result = {
+            "id": row[0],
+            "recipient_name": row[1],
+            "recipient_email": row[2],
+            "subject": row[3],
+            "message": row[4].replace("<br>", ""),
+            "created_datetime": row[5].timestamp() * 1000 if isinstance(row[5], datetime) else None,
+            "scheduled_datetime": row[6].timestamp() * 1000 if isinstance(row[6], datetime) else None,
+            "status": row[7]
+        }
 
         resp.text = json.dumps(result)
 
@@ -1946,11 +1969,13 @@ class NewUserCollection:
         result = list()
         if rows is not None and len(rows) > 0:
             for row in rows:
-                meta_result = {"id": row[0],
-                               "name": row[1],
-                               "display_name": row[2],
-                               "uuid": row[3],
-                               "email": row[4]}
+                meta_result = {
+                    "id": row[0],
+                    "name": row[1],
+                    "display_name": row[2],
+                    "uuid": row[3],
+                    "email": row[4]
+                }
                 result.append(meta_result)
 
         resp.text = json.dumps(result)
@@ -2143,11 +2168,13 @@ class NewUserItem:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.USER_NOT_FOUND')
 
-        result = {"id": row[0],
-                  "name": row[1],
-                  "display_name": row[2],
-                  "uuid": row[3],
-                  "email": row[4]}
+        result = {
+            "id": row[0],
+            "name": row[1],
+            "display_name": row[2],
+            "uuid": row[3],
+            "email": row[4]
+        }
         resp.text = json.dumps(result)
 
     @staticmethod
