@@ -58,7 +58,9 @@ app.controller('CombinedEquipmentCommandController', function (
             if (angular.isDefined(response.status) && response.status === 200) {
                 $scope.combinedequipments = response.data;
                 $timeout(function () {
-                    $scope.getCommandsByCombinedEquipmentID($scope.currentCombinedEquipment.id);
+                    if ($scope.currentCombinedEquipment && $scope.currentCombinedEquipment.id) {
+                        $scope.getCommandsByCombinedEquipmentID($scope.currentCombinedEquipment.id);
+                    }
                 }, 1000);
             } else {
                 $scope.combinedequipments = [];

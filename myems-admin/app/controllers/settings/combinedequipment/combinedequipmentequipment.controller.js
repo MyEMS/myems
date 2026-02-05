@@ -21,6 +21,9 @@ app.controller('CombinedEquipmentEquipmentController', function (
             if (angular.isDefined(response.status) && response.status === 200) {
                 let allEquipments = response.data;
                 $scope.equipments = allEquipments.filter(function (equipment) {
+                    if (!$scope.combinedequipmentequipments || !angular.isArray($scope.combinedequipmentequipments)) {
+                        return true;
+                    }
                     return !$scope.combinedequipmentequipments.some(function (combinedEquipmentEquipment) {
                         return combinedEquipmentEquipment.id === equipment.id;
                     });
