@@ -12,6 +12,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - added korean translations in myems-admin and myems-web
 - added italian translations in myems-admin and myems-web
 ### Changed
+- automatically extend password expiration time when changing user password 
 ### Fixed
 - fixed issues of binding objects in myems-admin
 ### Removed
