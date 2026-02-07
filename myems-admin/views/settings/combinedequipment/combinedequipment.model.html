@@ -41,9 +41,12 @@
                 </div>
             </div>
             <div class="hr-line-dashed"></div>
-            <div class="form-group"><label class="col-sm-3 control-label">{{'COMBINED_EQUIPMENT.EFFICIENCY_INDICATOR' | translate}} ({{'SETTING.OPTIONAL' | translate}})</label>
+            <div class="form-group"><label class="col-sm-3 control-label">{{'COMBINED_EQUIPMENT.EFFICIENCY_INDICATOR' | translate}}<span class="text-danger">*</span></label>
                 <div class="col-sm-9">
-                    <input ng-model="combinedequipment.efficiency_indicator" type="number" step="0.000001" name="combinedequipmentefficiencyindicator" class="form-control">
+                    <input ng-model="combinedequipment.efficiency_indicator" type="number" step="0.000001" name="combinedequipmentefficiencyindicator" class="form-control" required>
+                    <div class="m-t-xs" ng-show="form_combinedequipment.combinedequipmentefficiencyindicator.$invalid && form_combinedequipment.combinedequipmentefficiencyindicator.$dirty">
+                        <small class="text-danger" ng-show="form_combinedequipment.combinedequipmentefficiencyindicator.$error.required">{{'SETTING.INPUT_EFFICIENCY_INDICATOR' | translate}}</small>
+                    </div>
                 </div>
             </div>
             <div class="form-group">

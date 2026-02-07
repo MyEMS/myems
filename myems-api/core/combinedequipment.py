@@ -293,14 +293,15 @@ class CombinedEquipmentCollection:
         else:
             description = None
 
-        if 'efficiency_indicator' in new_values['data'].keys() and \
-                new_values['data']['efficiency_indicator'] is not None:
-            try:
-                efficiency_indicator = float(new_values['data']['efficiency_indicator'])
-            except (ValueError, TypeError):
-                efficiency_indicator = 0.0
-        else:
-            efficiency_indicator = 0.0
+        if 'efficiency_indicator' not in new_values['data'].keys() or \
+                new_values['data']['efficiency_indicator'] is None:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_EFFICIENCY_INDICATOR_VALUE')
+        try:
+            efficiency_indicator = float(new_values['data']['efficiency_indicator'])
+        except (ValueError, TypeError):
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_EFFICIENCY_INDICATOR_VALUE')
 
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()
@@ -599,14 +600,15 @@ class CombinedEquipmentItem:
         else:
             description = None
 
-        if 'efficiency_indicator' in new_values['data'].keys() and \
-                new_values['data']['efficiency_indicator'] is not None:
-            try:
-                efficiency_indicator = float(new_values['data']['efficiency_indicator'])
-            except (ValueError, TypeError):
-                efficiency_indicator = 0.0
-        else:
-            efficiency_indicator = 0.0
+        if 'efficiency_indicator' not in new_values['data'].keys() or \
+                new_values['data']['efficiency_indicator'] is None:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_EFFICIENCY_INDICATOR_VALUE')
+        try:
+            efficiency_indicator = float(new_values['data']['efficiency_indicator'])
+        except (ValueError, TypeError):
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_EFFICIENCY_INDICATOR_VALUE')
 
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()
@@ -3610,14 +3612,15 @@ class CombinedEquipmentImport:
         else:
             description = None
 
-        if 'efficiency_indicator' in new_values.keys() and \
-                new_values['efficiency_indicator'] is not None:
-            try:
-                efficiency_indicator = float(new_values['efficiency_indicator'])
-            except (ValueError, TypeError):
-                efficiency_indicator = 0.0
-        else:
-            efficiency_indicator = 0.0
+        if 'efficiency_indicator' not in new_values.keys() or \
+                new_values['efficiency_indicator'] is None:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_EFFICIENCY_INDICATOR_VALUE')
+        try:
+            efficiency_indicator = float(new_values['efficiency_indicator'])
+        except (ValueError, TypeError):
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_EFFICIENCY_INDICATOR_VALUE')
 
         cnx = mysql.connector.connect(**config.myems_system_db)
         cursor = cnx.cursor()

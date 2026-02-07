@@ -298,6 +298,7 @@ function config($translateProvider) {
                 INPUT_EXPRESSION: 'Please Input Expression',
                 INPUT_KGCE: 'Please Input KGCE',
                 INPUT_KGCO2E: 'Please Input KGCO2E',
+                INPUT_EFFICIENCY_INDICATOR: 'Please Input Efficiency Indicator',
 
                 EMAIL_SERVER: 'Email Server',
                 INPUT_HOST: 'Please Input Host',
@@ -2435,6 +2436,7 @@ function config($translateProvider) {
                 INPUT_EXPRESSION: '请输入表达式',
                 INPUT_KGCE: '请输入千克标准煤',
                 INPUT_KGCO2E: '请输入千克二氧化碳排放',
+                INPUT_EFFICIENCY_INDICATOR: '请输入能效指标',
 
                 EMAIL_SERVER: '邮件服务器',
                 INPUT_HOST: '请输入服务器',
@@ -4578,7 +4580,8 @@ function config($translateProvider) {
                 INPUT_EXPRESSION: 'Bitte geben Sie einen Ausdruck ein',
                 INPUT_KGCE: 'Bitte geben Sie den Kilogramm Standardkohle ein',
                 INPUT_KGCO2E: 'Bitte geben Sie Kilogramm Kohlendioxid-Emissionen ein',
-
+                INPUT_EFFICIENCY_INDICATOR: 'Bitte geben Sie den Effizienzindikator ein',
+                
                 EMAIL_SERVER: 'Mail-Server',
                 INPUT_HOST: 'Bitte geben Sie den Server ein',
                 INPUT_PORT: 'Bitte geben Sie die Portnummer ein',
@@ -6708,6 +6711,7 @@ function config($translateProvider) {
                 INPUT_EXPRESSION: 'Veuillez saisir l’expression',
                 INPUT_KGCE: 'S’il vous plaît entrer KGCE',
                 INPUT_KGCO2E: 'Veuillez saisir KGCO2E',
+                INPUT_EFFICIENCY_INDICATOR: 'Veuillez saisir l’indicateur d’efficacité',
 
                 EMAIL_SERVER: 'Serveur de messagerie',
                 INPUT_HOST: 'Veuillez saisir l’hôte',
@@ -8840,6 +8844,7 @@ function config($translateProvider) {
                 INPUT_EXPRESSION: 'Por favor, ingrese la expresión',
                 INPUT_KGCE: 'Por favor, introduzca KGCE',
                 INPUT_KGCO2E: 'Por favor, introduzca KGCO2E',
+                INPUT_EFFICIENCY_INDICATOR: 'Por favor, introduzca el indicador de eficiencia',
 
                 EMAIL_SERVER: 'Servidor de correo electrónico',
                 INPUT_HOST: 'Por favor, introduzca el host',
@@ -10964,6 +10969,7 @@ function config($translateProvider) {
                 INPUT_EXPRESSION: 'Пожалуйста, введите выражение',
                 INPUT_KGCE: 'Пожалуйста, введите KGCE',
                 INPUT_KGCO2E: 'Пожалуйста, введите KGCO2E',
+                INPUT_EFFICIENCY_INDICATOR: 'Пожалуйста, введите показатель эффективности',
 
                 EMAIL_SERVER: 'Почтовый сервер',
                 INPUT_HOST: 'Пожалуйста, введите хост',
@@ -13089,6 +13095,7 @@ function config($translateProvider) {
                 INPUT_EXPRESSION: 'يرجى إدخال التعبير',
                 INPUT_KGCE: 'يرجى إدخال KGCE',
                 INPUT_KGCO2E: 'الرجاء إدخال KGCO2E',
+                INPUT_EFFICIENCY_INDICATOR: 'يرجى إدخال مؤشر الكفاءة',
 
                 EMAIL_SERVER: 'خادم البريد الإلكتروني',
                 INPUT_HOST: 'يرجى إدخال المضيف',
@@ -15222,6 +15229,7 @@ function config($translateProvider) {
                 INPUT_EXPRESSION: 'Vui lòng nhập biểu thức',
                 INPUT_KGCE: 'Vui lòng nhập KGCE',
                 INPUT_KGCO2E: 'Vui lòng nhập KGCO2E',
+                INPUT_EFFICIENCY_INDICATOR: 'Vui lòng nhập chỉ số hiệu suất',
 
                 EMAIL_SERVER: 'Máy chủ Email',
                 INPUT_HOST: 'Vui lòng nhập máy chủ',
@@ -17344,6 +17352,7 @@ function config($translateProvider) {
                 INPUT_EXPRESSION: 'กรุณาใส่นิพจน์',
                 INPUT_KGCE: 'กรุณาใส่ KGCE',
                 INPUT_KGCO2E: 'กรุณาใส่ KGCO2E',
+                INPUT_EFFICIENCY_INDICATOR: 'กรุณาใส่ตัวชี้วัดประสิทธิภาพ',
 
                 EMAIL_SERVER: 'เซิร์ฟเวอร์อีเมล',
                 INPUT_HOST: 'กรุณาใส่โฮสต์',
@@ -19474,6 +19483,7 @@ function config($translateProvider) {
                 INPUT_EXPRESSION: 'Lütfen İfadeyi Girin',
                 INPUT_KGCE: 'Lütfen KGCE girin',
                 INPUT_KGCO2E: 'Lütfen KGCO2E girin',
+                INPUT_EFFICIENCY_INDICATOR: 'Lütfen Verimlilik Göstergesini Girin',
 
                 EMAIL_SERVER: 'E-posta Sunucusu',
                 INPUT_HOST: 'Lütfen Ana Bilgisayarı Girin',
@@ -21596,6 +21606,7 @@ function config($translateProvider) {
                 INPUT_EXPRESSION: 'Sila masukkan ungkapan',
                 INPUT_KGCE: 'Sila masukkan KGCE',
                 INPUT_KGCO2E: 'Sila masukkan KGCO2E',
+                INPUT_EFFICIENCY_INDICATOR: 'Sila masukkan Penunjuk Kecekapan',
 
                 EMAIL_SERVER: 'Pelayan E-mel',
                 INPUT_HOST: 'Sila Input Host',
@@ -23718,6 +23729,7 @@ function config($translateProvider) {
                 INPUT_EXPRESSION: 'Silakan masukkan ekspresi',
                 INPUT_KGCE: 'Silakan masukan KGCE',
                 INPUT_KGCO2E: 'Silakan masukan KGCO2E',
+                INPUT_EFFICIENCY_INDICATOR: 'Silakan masukkan Indikator Efisiensi',
 
                 EMAIL_SERVER: 'Email Server',
                 INPUT_HOST: 'Silakan masukan tuan rumah',
@@ -25852,6 +25864,7 @@ function config($translateProvider) {
                 INPUT_EXPRESSION: '請輸入表達式',
                 INPUT_KGCE: '請輸入千克標準煤',
                 INPUT_KGCO2E: '請輸入千克⼆氧化碳排放',
+                INPUT_EFFICIENCY_INDICATOR: '請輸入能效指標',
 
                 EMAIL_SERVER: '郵件服務器',
                 INPUT_HOST: '請輸入服務器',
@@ -27979,6 +27992,7 @@ function config($translateProvider) {
                 INPUT_EXPRESSION: 'Por Favor, Insira a Expressão',
                 INPUT_KGCE: 'Por Favor, Insira o KGCE',
                 INPUT_KGCO2E: 'Por Favor, Insira o KGCO2E',
+                INPUT_EFFICIENCY_INDICATOR: 'Por Favor, Insira o Indicador de Eficiência',
 
                 EMAIL_SERVER: 'Servidor de Email',
                 INPUT_HOST: 'Por Favor, Insira o Host',
@@ -30119,6 +30133,7 @@ function config($translateProvider) {
 				INPUT_EXPRESSION: '표현식을 입력하세요',
 				INPUT_KGCE: '킬로그램 표준 석탄을 입력하세요',
 				INPUT_KGCO2E: '킬로그램 이산화탄소 배출량을 입력하세요',
+				INPUT_EFFICIENCY_INDICATOR: '효율성 지표를 입력하세요',
 
 				EMAIL_SERVER: '이메일 서버',
 				INPUT_HOST: '서버를 입력하세요',
@@ -32249,6 +32264,7 @@ function config($translateProvider) {
                 INPUT_EXPRESSION: 'Inserisci espressione',
                 INPUT_KGCE: 'Inserisci kg carbone standard',
                 INPUT_KGCO2E: 'Inserisci kg emissioni CO2',
+                INPUT_EFFICIENCY_INDICATOR: 'Inserisci indicatore di efficienza',
                 EMAIL_SERVER: 'Server Email',
                 INPUT_HOST: 'Inserisci server',
                 INPUT_PORT: 'Inserisci numero porta',
