@@ -175,7 +175,7 @@ class EquipmentCollection:
                                "is_input_counted": bool(row[3]),
                                "is_output_counted": bool(row[4]),
                                "cost_center": cost_center_dict.get(row[5], None),
-                               "efficiency_indicator": float(row[6]) if row[6] is not None else 0.0,
+                               "efficiency_indicator": Decimal(row[6]),
                                "svg": svg_dict.get(row[7], None),
                                "camera_url": row[8],
                                "description": row[9],
@@ -268,7 +268,7 @@ class EquipmentCollection:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_EFFICIENCY_INDICATOR_VALUE')
         try:
-            efficiency_indicator = float(new_values['data']['efficiency_indicator'])
+            efficiency_indicator = Decimal(str(new_values['data']['efficiency_indicator']))
         except (ValueError, TypeError):
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_EFFICIENCY_INDICATOR_VALUE')
@@ -428,7 +428,7 @@ class EquipmentItem:
                            "is_input_counted": bool(row[3]),
                            "is_output_counted": bool(row[4]),
                            "cost_center": cost_center_dict.get(row[5], None),
-                           "efficiency_indicator": float(row[6]) if row[6] is not None else 0.0,
+                           "efficiency_indicator": Decimal(row[6]),
                            "svg": svg_dict.get(row[7], None),
                            "camera_url": row[8],
                            "description": row[9],
@@ -598,7 +598,7 @@ class EquipmentItem:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_EFFICIENCY_INDICATOR_VALUE')
         try:
-            efficiency_indicator = float(new_values['data']['efficiency_indicator'])
+            efficiency_indicator = Decimal(str(new_values['data']['efficiency_indicator']))
         except (ValueError, TypeError):
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_EFFICIENCY_INDICATOR_VALUE')
@@ -2490,7 +2490,7 @@ class EquipmentExport:
                            "is_input_counted": bool(row[3]),
                            "is_output_counted": bool(row[4]),
                            "cost_center": cost_center_dict.get(row[5], None),
-                           "efficiency_indicator": float(row[6]) if row[6] is not None else 0.0,
+                           "efficiency_indicator": Decimal(row[6]),
                            "svg": svg_dict.get(row[7], None),
                            "camera_url": row[8],
                            "description": row[9],
@@ -2765,7 +2765,7 @@ class EquipmentImport:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_EFFICIENCY_INDICATOR_VALUE')
         try:
-            efficiency_indicator = float(new_values['efficiency_indicator'])
+            efficiency_indicator = Decimal(str(new_values['efficiency_indicator']))
         except (ValueError, TypeError):
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_EFFICIENCY_INDICATOR_VALUE')
@@ -3108,7 +3108,7 @@ class EquipmentClone:
                            "is_input_counted": bool(row[3]),
                            "is_output_counted": bool(row[4]),
                            "cost_center": cost_center_dict.get(row[5], None),
-                           "efficiency_indicator": float(row[6]) if row[6] is not None else 0.0,
+                           "efficiency_indicator": Decimal(row[6]),
                            "svg_id": row[7],
                            "camera_url": row[8],
                            "description": row[9],
@@ -3311,7 +3311,7 @@ class EquipmentClone:
                                         meta_result['is_input_counted'],
                                         meta_result['is_output_counted'],
                                         meta_result['cost_center']['id'],
-                                        meta_result.get('efficiency_indicator', 0.0),
+                                        meta_result.get('efficiency_indicator', Decimal('0.0')),
                                         meta_result['svg_id'],
                                         meta_result['camera_url'],
                                         meta_result['description']))
