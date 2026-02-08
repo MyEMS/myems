@@ -1,7 +1,7 @@
 <p align="center">
    <img alt="logo" src="https://myems.cn/img/myems.png" width="150" height="150">
 </p>
-<h1 align="center" style="margin: 30px 0 30px; font-weight: bold;">MyEMS v6.1.0</h1>
+<h1 align="center" style="margin: 30px 0 30px; font-weight: bold;">MyEMS v6.2.0</h1>
 <h3 align="center">Toonaangevend Open Source Energiebeheersysteem</h3>
 <h6 align="center">Bijna duizend projectvoorbeelden</h6>
 <h6 align="center">Toegezegd permanent open source</h6>

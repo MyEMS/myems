@@ -5,6 +5,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 ### Added
+### Changed
+### Fixed
+### Removed
+
+## [v6.2.0] - 2026-02-08
+### Added
 - added login by mobile phone number to myems-admin
 - added efficiency_indicator to myems_system_db.tbl_equipments in database
 - added efficiency_indicator to equipment in myems-api and myems-admin
@@ -19,6 +25,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Fixed
 - fixed issues of binding objects in myems-admin
 ### Removed
+- None
 
 ## [v6.1.0] - 2026-01-28
 ### Added
@@ -2168,7 +2175,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Removed
 -   None.
 
-[Unreleased]: https://gitee.com/MyEMS/myems/compare/v6.1.0...HEAD
+[Unreleased]: https://gitee.com/MyEMS/myems/compare/v6.2.0...HEAD
+[6.2.0]: https://gitee.com/MyEMS/myems/compare/v6.1.0...v6.2.0
 [6.1.0]: https://gitee.com/MyEMS/myems/compare/v5.12.0...v6.1.0
 [5.12.0]: https://gitee.com/MyEMS/myems/compare/v5.11.0...v5.12.0
 [5.11.0]: https://gitee.com/MyEMS/myems/compare/v5.10.0...v5.11.0

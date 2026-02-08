@@ -1,7 +1,7 @@
 <p align="center">
    <img alt="logo" src="https://myems.cn/img/myems.png" width="150" height="150">
 </p>
-<h1 align="center" style="margin: 30px 0 30px; font-weight: bold;">MyEMS v6.1.0</h1>
+<h1 align="center" style="margin: 30px 0 30px; font-weight: bold;">MyEMS v6.2.0</h1>
 <h3 align="center">Sistema de gestión de energía de código abierto líder en la industria</h3>
 <h6 align="center">Cerca de mil casos de proyectos</h6>
 <h6 align="center">Comprometido a permanecer de código abierto para siempre</h6>
