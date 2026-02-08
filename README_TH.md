@@ -1,7 +1,7 @@
 <p align="center">
    <img alt="logo" src="https://myems.cn/img/myems.png" width="150" height="150">
 </p>
-<h1 align="center" style="margin: 30px 0 30px; font-weight: bold;">MyEMS v6.1.0</h1>
+<h1 align="center" style="margin: 30px 0 30px; font-weight: bold;">MyEMS v6.2.0</h1>
 <h3 align="center">ระบบจัดการพลังงานโอเพ่นซอร์สชั้นนำของอุตสาหกรรม</h3>
 <h6 align="center">เกือบพันกรณีโครงการ</h6>
 <h6 align="center">มุ่งมั่นที่จะเป็นโอเพ่นซอร์สตลอดไป</h6>
