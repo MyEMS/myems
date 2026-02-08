@@ -314,6 +314,7 @@ app.controller("ModalAddCombinedEquipmentCtrl", function ($scope, $uibModalInsta
 	$scope.combinedequipment = {
 		is_input_counted: false,
 		is_output_counted: false,
+		efficiency_indicator: 0.0,
 	};
 	$scope.ok = function () {
 		$uibModalInstance.close($scope.combinedequipment);
