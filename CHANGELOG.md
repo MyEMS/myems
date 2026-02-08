@@ -9,6 +9,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - added efficiency_indicator to myems_system_db.tbl_equipments in database
 - added efficiency_indicator to equipment in myems-api and myems-admin
 - added efficiency_indicator to myems_system_db.tbl_combined_equipments in database
+- added efficiency_indicator to combined equipment in myems-api and myems-admin
 - added korean translations in myems-admin and myems-web
 - added italian translations in myems-admin and myems-web
 - added Polish translations in myems-admin and myems-web
