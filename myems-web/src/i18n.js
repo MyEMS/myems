@@ -24394,7 +24394,7 @@ const resources = {
             'API.BUY_METER_NOT_FOUND': 'Buy meter not found',
             'API.CANNOT_SET_EXISTING_SUBMETER_AS_MASTER_METER': '既にサブメータとして設定されている計量メータを総メータに設定できません',
             'API.CHARGE_METER_NOT_FOUND': 'Charge meter not found',
-            'API.COMBINED_EQUIPMENT_COMMAND_RELATION_EXISTS': 'Combined equipment command relation exists',
+            'API.COMBINED_EQUIPMENT_COMMAND_RELATION_EXISTS': '複合設備コマンド関係が存在します',
             'API.COMBINED_EQUIPMENT_COMMAND_RELATION_NOT_FOUND': 'Combined equipment command relation not found',
             'API.COMBINED_EQUIPMENT_EQUIPMENT_RELATION_EXISTS': '複合設備と設備の関係が既に存在します',
             'API.COMBINED_EQUIPMENT_EQUIPMENT_RELATION_NOT_FOUND': '複合設備と設備の関係が存在しません',
