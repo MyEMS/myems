@@ -56,10 +56,9 @@
                 <div class="col-sm-8">
                     <ui-select ng-model="space.timezone.id" name="spacetimezone" theme="bootstrap" required>
                         <ui-select-match allow-clear="false" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">
-                            {{$select.selected.name}}</ui-select-match>
-                        <ui-select-choices repeat="timezone.id as timezone in timezones | filter: $select.search">
-                            <div ng-bind-html="timezone.name | highlight: $select.search"></div>
-                            <small>{{timezone.description}}</small>
+                            {{ ('TIMEZONE.' + $select.selected.key) | translate }}</ui-select-match>
+                        <ui-select-choices repeat="timezone.id as timezone in processedTimezones | filter: $select.search">
+                            <div ng-bind-html="('TIMEZONE.' + timezone.key) | translate | highlight: $select.search"></div>
                         </ui-select-choices>
                     </ui-select>
                     <div class="m-t-xs" ng-show="form_space.spacetimezone.$invalid && form_space.spacetimezone.$dirty">
