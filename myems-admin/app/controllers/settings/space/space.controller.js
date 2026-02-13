@@ -137,6 +137,24 @@ app.controller('SpaceController', function (
 		});
 	};
 
+        $scope.processTimezoneData = function(timezones) {
+            if (!angular.isArray(timezones) || timezones.length === 0) {
+                return [];
+            }
+            const topTimezoneName = 'China Standard Time';
+            let topTz = [], otherTzs = [];
+            timezones.forEach(tz => {
+                const key = tz.name ? tz.name : tz.id.toString();
+                const tzItem = { ...tz, key: key };
+                if (tz.name === topTimezoneName) {
+                    topTz.push(tzItem);
+                } else {
+                    otherTzs.push(tzItem);
+                }
+            });
+            return [...topTz, ...otherTzs];
+        };
+
 	$scope.addSpace = function () {
 		var modalInstance = $uibModal.open({
 			templateUrl: 'views/settings/space/space.model.html',
@@ -146,7 +164,7 @@ app.controller('SpaceController', function (
 				params: function () {
 					return {
 						parent_space_id: angular.copy($scope.currentSpaceID),
-						timezones: angular.copy($scope.timezones),
+						timezones: $scope.processTimezoneData(angular.copy($scope.timezones)),
 						costcenters: angular.copy($scope.costcenters),
 						contacts: angular.copy($scope.contacts)
 					};
@@ -195,7 +213,7 @@ app.controller('SpaceController', function (
 					return {
 						space: angular.copy(space),
 						spaces: angular.copy($scope.spaces),
-						timezones: angular.copy($scope.timezones),
+						timezones: $scope.processTimezoneData(angular.copy($scope.timezones)),
 						costcenters: angular.copy($scope.costcenters),
 						contacts: angular.copy($scope.contacts),
 					};
@@ -235,7 +253,6 @@ app.controller('SpaceController', function (
 				}
 			});
 		}, function () {
-			//do nothing;
 		});
 		$rootScope.modalInstance = modalInstance;
 	};
@@ -295,9 +312,7 @@ app.controller('SpaceController', function (
 					}
 				});
 				modalInstance.result.then(function() {
-					//do nothing;
 				}, function() {
-					//do nothing;
 				});
 				$rootScope.modalInstance = modalInstance;
 			} else {
@@ -378,11 +393,11 @@ app.controller('SpaceController', function (
 });
 
 app.controller('ModalAddSpaceCtrl', function ($scope, $uibModalInstance, params) {
-
 	$scope.operation = "SETTING.ADD_SPACE";
-	$scope.timezones = params.timezones;
+	$scope.timezones = params.timezones; 
 	$scope.costcenters = params.costcenters;
 	$scope.contacts = params.contacts;
+	$scope.processedTimezones = $scope.timezones;
 	$scope.space = {
 		parent_space_id: params.parent_space_id,
 		is_input_counted: false,
@@ -400,9 +415,10 @@ app.controller('ModalAddSpaceCtrl', function ($scope, $uibModalInstance, params)
 app.controller('ModalEditSpaceCtrl', function ($scope, $uibModalInstance, params) {
 	$scope.operation = "SETTING.EDIT_SPACE";
 	$scope.space = params.space;
-	$scope.timezones = params.timezones;
+	$scope.timezones = params.timezones; 
 	$scope.costcenters = params.costcenters;
 	$scope.contacts = params.contacts;
+	$scope.processedTimezones = $scope.timezones;
 
 	$scope.ok = function () {
 		$uibModalInstance.close($scope.space);
