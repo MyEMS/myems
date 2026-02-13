@@ -6,6 +6,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ## [Unreleased]
 ### Added
 - added Japanese translations in myems-admin and myems-web
+- added timezones translations in myems-admin
 ### Changed
 ### Fixed
 ### Removed
