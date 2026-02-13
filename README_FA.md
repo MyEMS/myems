@@ -7,8 +7,7 @@
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/b2cd6049727240e2aaeb8fc7b4086166)](https://app.codacy.com/gh/MyEMS/myems/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade)
 
 
-简体中文 | [English](./README.md) | [German](./README_DE.md) | [Français](./README_FR.md) | [Español](./README_ES.md) | [Русский](./README_RU.md) | [Português](./README_PT.md) | [繁體中文](./README_TW.md) | [العربية](./README_AR.md) | [ไทย](./README_TH.md) | [हिन्दी](./README_HI.md) | [Bahasa Indonesia](./README_ID.md) | [Bahasa Melayu](./README_MS.md) | [Tiếng Việt](./README_VI.md) | [Türkçe](./README_TR.md)
-
+[简体中文](./README_CN.md) | [English](./README_EN.md) | [Deutsch](./README_DE.md) | [Español](./README_ES.md) | [Français](./README_FR.md) | [Italiano](./README_IT.md) | [Nederlands](./README_NL.md) | [Polski](./README_PO.md) | [Português](./README_PT.md) | [Русский](./README_RU.md) | [日本語](./README_JP.md) | [한국어](./README_KR.md) | [繁體中文](./README_TW.md) | [العربية](./README_AR.md) | [فارسی](./README_FA.md) | [ไทย](./README_TH.md) | [हिन्दी](./README_HI.md) | [Bahasa Indonesia](./README_ID.md) | [Bahasa Melayu](./README_MS.md) | [Türkçe](./README_TR.md)
 ## معرفی MyEMS
 
 سیستم مدیریت انرژی متن‌باز MyEMS، با ارجاع به استاندارد سیستم مدیریت انرژی ISO 50001 (GB/T 23331-2020)، برای ساختمان‌ها، کارخانه‌ها، مراکز خرید، بیمارستان‌ها، پارک‌های صنعتی و مراکز مدیریت انرژی و کربن جهت جمع‌آوری، تحلیل و گزارش‌دهی مصرف انرژی و انتشار کربن برای حامل‌هایی نظیر برق، آب، گاز، سرمایش و گرمایش کاربرد دارد. همچنین قابلیت‌های اختیاری نسخه سازمانی شامل انرژی خورشیدی، ذخیره‌سازهای انرژی، ایستگاه‌های شارژ خودرو برقی، ریزشبکه‌ها، نیروگاه مجازی، کنترل تجهیزات، تشخیص عیب، مدیریت سفارش کار و بهینه‌سازی با هوش مصنوعی می‌باشد. این محصول توسط یک شرکت حرفه‌ای با سابقه توسعه و نگهداری می‌شود و پشتیبانی بلندمدت تضمین شده است. با متن‌باز، به توسعه کم‌کربن شرکت‌های بزرگ، پارک‌های صنعتی و اپراتورهای انرژی کمک کنید!

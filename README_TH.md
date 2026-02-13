@@ -14,8 +14,7 @@
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/b2cd6049727240e2aaeb8fc7b4086166)](https://app.codacy.com/gh/MyEMS/myems/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade)
 
 
-简体中文 | [English](./README.md) | [German](./README_DE.md) | Français | Español | Русский | Português | 繁體中文 | العربية | ไทย
-
+[简体中文](./README_CN.md) | [English](./README_EN.md) | [Deutsch](./README_DE.md) | [Español](./README_ES.md) | [Français](./README_FR.md) | [Italiano](./README_IT.md) | [Nederlands](./README_NL.md) | [Polski](./README_PO.md) | [Português](./README_PT.md) | [Русский](./README_RU.md) | [日本語](./README_JP.md) | [한국어](./README_KR.md) | [繁體中文](./README_TW.md) | [العربية](./README_AR.md) | [فارسی](./README_FA.md) | [ไทย](./README_TH.md) | [हिन्दी](./README_HI.md) | [Bahasa Indonesia](./README_ID.md) | [Bahasa Melayu](./README_MS.md) | [Türkçe](./README_TR.md)
 ## แนะนำ MyEMS
 
 ระบบจัดการพลังงานโอเพ่นซอร์ส MyEMS อ้างอิงมาตรฐาน ISO 50001 การจัดการพลังงาน (GB/T 23331-2020) ใช้ได้กับอาคาร โรงงาน ศูนย์การค้า โรงพยาบาล สวนอุตสาหกรรม และศูนย์จัดการพลังงานและคาร์บอน สำหรับการรวบรวม วิเคราะห์ และรายงานพลังงานและการปล่อยคาร์บอนสำหรับไฟฟ้า น้ำ ก๊าซ ความเย็น ความร้อน ฯลฯ รวมถึงฟังก์ชันเสริมของเวอร์ชันองค์กร เช่น พลังงานแสงอาทิตย์ การจัดเก็บพลังงาน สถานีชาร์จ ไมโครกริด โรงไฟฟ้าเสมือน การควบคุมอุปกรณ์ การวินิจฉัยข้อผิดพลาด การจัดการใบสั่งงาน และการปรับปรุงปัญญาประดิษฐ์ พัฒนาและบำรุงรักษาโดยบริษัทมืออาชีพที่มีประสบการณ์ รับประกันการสนับสนุนระยะยาว ใช้โอเพ่นซอร์สเพื่อช่วยกลุ่มองค์กร สวนอุตสาหกรรม และผู้ประกอบการพลังงานในการพัฒนาคาร์บอนต่ำ!
