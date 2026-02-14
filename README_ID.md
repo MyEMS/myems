@@ -13,9 +13,7 @@
 [![Build Status](https://scrutinizer-ci.com/g/MyEMS/myems/badges/build.png?b=master)](https://scrutinizer-ci.com/g/MyEMS/myems/build-status/master)
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/b2cd6049727240e2aaeb8fc7b4086166)](https://app.codacy.com/gh/MyEMS/myems/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade)
 
-
-简体中文 | [English](./README.md) | [German](./README_DE.md) | Français | Español | Русский | Português | 繁體中文 | العربية | ไทย | हिन्दी | Bahasa Indonesia
-
+[简体中文](./README_CN.md) | [English](./README_EN.md) | [Deutsch](./README_DE.md) | [Español](./README_ES.md) | [Français](./README_FR.md) | [Italiano](./README_IT.md) | [Nederlands](./README_NL.md) | [Polski](./README_PO.md) | [Português](./README_PT.md) | [Русский](./README_RU.md) | [日本語](./README_JP.md) | [한국어](./README_KR.md) | [繁體中文](./README_TW.md) | [العربية](./README_AR.md) | [فارسی](./README_FA.md) | [ไทย](./README_TH.md) | [हिन्दी](./README_HI.md) | [Bahasa Indonesia](./README_ID.md) | [Bahasa Melayu](./README_MS.md) | [Türkçe](./README_TR.md)
 ## Pengenalan MyEMS
 
 Sistem manajemen energi open source MyEMS mengacu pada standar ISO 50001 manajemen energi (GB/T 23331-2020), berlaku untuk bangunan, pabrik, pusat perbelanjaan, rumah sakit, taman industri, dan pusat manajemen energi dan karbon untuk pengumpulan, analisis, dan pelaporan energi dan emisi karbon untuk listrik, air, gas, dingin, panas, dll. Juga mencakup fungsi opsional versi enterprise seperti fotovoltaik, penyimpanan energi, stasiun pengisian, mikrogrid, pembangkit listrik virtual, kontrol peralatan, diagnostik kesalahan, manajemen pesanan kerja, dan optimasi kecerdasan buatan. Dikembangkan dan dipelihara oleh perusahaan profesional berpengalaman, menjamin dukungan jangka panjang. Gunakan open source untuk membantu grup perusahaan, taman industri, dan operator energi dalam pengembangan rendah karbon!

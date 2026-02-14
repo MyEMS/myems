@@ -14,8 +14,7 @@
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/b2cd6049727240e2aaeb8fc7b4086166)](https://app.codacy.com/gh/MyEMS/myems/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade)
 
 
-简体中文 | [English](./README.md) | [German](./README_DE.md) | [Français](./README_FR.md) | [Español](./README_ES.md) | [Русский](./README_RU.md) | [Português](./README_PT.md) | [繁體中文](./README_TW.md) | [العربية](./README_AR.md) | [ไทย](./README_TH.md) | [हिन्दी](./README_HI.md) | [Bahasa Indonesia](./README_ID.md) | [Bahasa Melayu](./README_MS.md) | [Tiếng Việt](./README_VI.md) | [Türkçe](./README_TR.md)
-
+[简体中文](./README_CN.md) | [English](./README_EN.md) | [Deutsch](./README_DE.md) | [Español](./README_ES.md) | [Français](./README_FR.md) | [Italiano](./README_IT.md) | [Nederlands](./README_NL.md) | [Polski](./README_PO.md) | [Português](./README_PT.md) | [Русский](./README_RU.md) | [日本語](./README_JP.md) | [한국어](./README_KR.md) | [繁體中文](./README_TW.md) | [العربية](./README_AR.md) | [فارسی](./README_FA.md) | [ไทย](./README_TH.md) | [हिन्दी](./README_HI.md) | [Bahasa Indonesia](./README_ID.md) | [Bahasa Melayu](./README_MS.md) | [Türkçe](./README_TR.md)
 ## MyEMS 紹介
 
 MyEMSオープンソースエネルギー管理システムは、ISO 50001エネルギー管理システム規格（GB/T 23331-2020）を参考にしており、建築物、工場、商業施設、病院、団地、エネルギー・カーボンマネジメントセンターにおける電力、水、ガス、冷熱、熱などのエネルギーと炭素排出量の収集、分析、レポート作成に適しています。また、太陽光発電、蓄電池、充電スタンド、マイクログリッド、バーチャルパワープラント、設備制御、故障診断、作業指示書管理、人工知能による最適化などのエンタープライズ版オプション機能もあります。ベテランの専門会社が開発・保守を行い、長期的なサポートを保証します。オープンソースで、企業グループ、産業団地、エネルギー事業者の低炭素発展を支援します！
