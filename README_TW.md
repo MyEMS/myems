@@ -14,8 +14,7 @@
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/b2cd6049727240e2aaeb8fc7b4086166)](https://app.codacy.com/gh/MyEMS/myems/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade)
 
 
-简体中文 | [English](./README.md) | [German](./README_DE.md) | Français | Español | Русский | Português | 繁體中文
-
+[简体中文](./README_CN.md) | [English](./README_EN.md) | [Deutsch](./README_DE.md) | [Español](./README_ES.md) | [Français](./README_FR.md) | [Italiano](./README_IT.md) | [Nederlands](./README_NL.md) | [Polski](./README_PO.md) | [Português](./README_PT.md) | [Русский](./README_RU.md) | [日本語](./README_JP.md) | [한국어](./README_KR.md) | [繁體中文](./README_TW.md) | [العربية](./README_AR.md) | [فارسی](./README_FA.md) | [ไทย](./README_TH.md) | [हिन्दी](./README_HI.md) | [Bahasa Indonesia](./README_ID.md) | [Bahasa Melayu](./README_MS.md) | [Türkçe](./README_TR.md)
 ## MyEMS 介紹
 
 MyEMS開源能源管理系統參考ISO 50001能源管理體系標準(GB/T 23331-2020），適用於建築、工廠、商場、醫院、園區、能碳管理中心的電、水、氣、冷、熱等能源和碳排放採集、分析、報表，還有光伏、儲能、充電樁、微電網、虛擬電廠、設備控制、故障診斷、工單管理、人工智慧優化等企業版可選功能。資深專業公司開發維護，保障長期支援。用開源助力企業集團、產業園區、能源運營商低碳發展!

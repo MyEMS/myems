@@ -14,8 +14,7 @@
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/b2cd6049727240e2aaeb8fc7b4086166)](https://app.codacy.com/gh/MyEMS/myems/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade)
 
 
-[简体中文](./README_CN.md) | [English](./README.md) | German
-
+[简体中文](./README_CN.md) | [English](./README_EN.md) | [Deutsch](./README_DE.md) | [Español](./README_ES.md) | [Français](./README_FR.md) | [Italiano](./README_IT.md) | [Nederlands](./README_NL.md) | [Polski](./README_PO.md) | [Português](./README_PT.md) | [Русский](./README_RU.md) | [日本語](./README_JP.md) | [한국어](./README_KR.md) | [繁體中文](./README_TW.md) | [العربية](./README_AR.md) | [فارسی](./README_FA.md) | [ไทย](./README_TH.md) | [हिन्दी](./README_HI.md) | [Bahasa Indonesia](./README_ID.md) | [Bahasa Melayu](./README_MS.md) | [Türkçe](./README_TR.md)
 ## MyEMS-Einführung
 
 Das Open Source Energy Management System (EMS) von MyEMS basiert auf der ISO 50001 Energy Management System Standard (GB/T 23331-2020) und eignet sich für die Erfassung, Analyse und Berichterstattung von Energie- und Kohlenstoffemissionen in Gebäuden, Fabriken, Einkaufszentren, Krankenhäusern, Parks und Energie- und Kohlenstoffmanagementzentren sowie für optionale Funktionen wie Photovoltaik, Energiespeicher, Ladestallen, Mikronetze, virtuelle Kraftwerke, Gerätesteuerung, Fehlerbehebung, Auftragsmanagement und Optimierung von künstlicher Intelligenz. Senior professionelle Unternehmen entwickeln und warten, um langfristige Unterstützung zu gewährleisten. Mit Open Source unterstützen Sie die kohlenstoffarme Entwicklung von Unternehmensgruppen, Industrieparks und Energiebetreibern!
