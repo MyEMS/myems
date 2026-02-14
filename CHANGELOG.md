@@ -7,6 +7,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Added
 - added Japanese translations in myems-admin and myems-web
 - added timezones translations in myems-admin
+- added Persian translations in myems-admin and myems-web
 ### Changed
 ### Fixed
 ### Removed
