@@ -10,6 +10,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - added Persian translations in myems-admin and myems-web
 ### Changed
 ### Fixed
+- fixed overwritten property in myems-web
 ### Removed
 
 ## [v6.2.0] - 2026-02-08
