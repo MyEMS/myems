@@ -1942,7 +1942,6 @@ function config($translateProvider) {
         INVALID_WIND_FARM_NAME: "Invalid Wind Farm Name",
         INVALID_WORKING_CALENDAR_ID: "Invalid Working Calendar ID",
         INVALID_WORKING_CALENDAR_NAME: "Invalid Working Calendar Name",
-        INVALID_DATA_SOURCE_ID: "Invalid data source ID",
         KNOWLEDGE_FILE_CANNOT_BE_REMOVED_FROM_DISK:
           "Knowledge File Cannot be Removed from Disk",
         KNOWLEDGE_FILE_NOT_FOUND: "Knowledge File Not Found",
@@ -4291,7 +4290,6 @@ function config($translateProvider) {
         INVALID_WIND_FARM_NAME: "Invalid Wind Farm Name",
         INVALID_WORKING_CALENDAR_ID: "Invalid Working Calendar ID",
         INVALID_WORKING_CALENDAR_NAME: "Invalid Working Calendar Name",
-        INVALID_DATA_SOURCE_ID: "Invalid data source ID",
         KNOWLEDGE_FILE_CANNOT_BE_REMOVED_FROM_DISK:
           "Knowledge File Cannot be Removed from Disk",
         KNOWLEDGE_FILE_NOT_FOUND: "Knowledge File Not Found",
@@ -6684,7 +6682,6 @@ function config($translateProvider) {
         INVALID_WIND_FARM_NAME: "Invalid Wind Farm Name",
         INVALID_WORKING_CALENDAR_ID: "Invalid Working Calendar ID",
         INVALID_WORKING_CALENDAR_NAME: "Invalid Working Calendar Name",
-        INVALID_DATA_SOURCE_ID: "Invalid data source ID",
         KNOWLEDGE_FILE_CANNOT_BE_REMOVED_FROM_DISK:
           "Knowledge File Cannot be Removed from Disk",
         KNOWLEDGE_FILE_NOT_FOUND: "Knowledge File Not Found",
@@ -9144,7 +9141,6 @@ function config($translateProvider) {
         INVALID_WIND_FARM_NAME: "Invalid Wind Farm Name",
         INVALID_WORKING_CALENDAR_ID: "Invalid Working Calendar ID",
         INVALID_WORKING_CALENDAR_NAME: "Invalid Working Calendar Name",
-        INVALID_DATA_SOURCE_ID: "Invalid data source ID",
         KNOWLEDGE_FILE_CANNOT_BE_REMOVED_FROM_DISK:
           "Knowledge File Cannot be Removed from Disk",
         KNOWLEDGE_FILE_NOT_FOUND: "Knowledge File Not Found",
@@ -11612,7 +11608,6 @@ function config($translateProvider) {
         INVALID_WIND_FARM_NAME: "Invalid Wind Farm Name",
         INVALID_WORKING_CALENDAR_ID: "Invalid Working Calendar ID",
         INVALID_WORKING_CALENDAR_NAME: "Invalid Working Calendar Name",
-        INVALID_DATA_SOURCE_ID: "Invalid data source ID",
         KNOWLEDGE_FILE_CANNOT_BE_REMOVED_FROM_DISK:
           "Knowledge File Cannot be Removed from Disk",
         KNOWLEDGE_FILE_NOT_FOUND: "Knowledge File Not Found",
@@ -14060,7 +14055,6 @@ function config($translateProvider) {
         INVALID_WIND_FARM_NAME: "Invalid Wind Farm Name",
         INVALID_WORKING_CALENDAR_ID: "Invalid Working Calendar ID",
         INVALID_WORKING_CALENDAR_NAME: "Invalid Working Calendar Name",
-        INVALID_DATA_SOURCE_ID: "Invalid data source ID",
         KNOWLEDGE_FILE_CANNOT_BE_REMOVED_FROM_DISK:
           "Knowledge File Cannot be Removed from Disk",
         KNOWLEDGE_FILE_NOT_FOUND: "Knowledge File Not Found",
@@ -16461,7 +16455,6 @@ function config($translateProvider) {
         INVALID_WIND_FARM_NAME: "Invalid Wind Farm Name",
         INVALID_WORKING_CALENDAR_ID: "Invalid Working Calendar ID",
         INVALID_WORKING_CALENDAR_NAME: "Invalid Working Calendar Name",
-        INVALID_DATA_SOURCE_ID: "Invalid data source ID",
         KNOWLEDGE_FILE_CANNOT_BE_REMOVED_FROM_DISK:
           "Knowledge File Cannot be Removed from Disk",
         KNOWLEDGE_FILE_NOT_FOUND: "Knowledge File Not Found",
@@ -18871,7 +18864,6 @@ function config($translateProvider) {
         INVALID_WIND_FARM_NAME: "Invalid Wind Farm Name",
         INVALID_WORKING_CALENDAR_ID: "Invalid Working Calendar ID",
         INVALID_WORKING_CALENDAR_NAME: "Invalid Working Calendar Name",
-        INVALID_DATA_SOURCE_ID: "Invalid data source ID",
         KNOWLEDGE_FILE_CANNOT_BE_REMOVED_FROM_DISK:
           "Knowledge File Cannot be Removed from Disk",
         KNOWLEDGE_FILE_NOT_FOUND: "Knowledge File Not Found",
@@ -21256,7 +21248,6 @@ function config($translateProvider) {
         INVALID_WIND_FARM_NAME: "Invalid Wind Farm Name",
         INVALID_WORKING_CALENDAR_ID: "Invalid Working Calendar ID",
         INVALID_WORKING_CALENDAR_NAME: "Invalid Working Calendar Name",
-        INVALID_DATA_SOURCE_ID: "Invalid data source ID",
         KNOWLEDGE_FILE_CANNOT_BE_REMOVED_FROM_DISK:
           "Knowledge File Cannot be Removed from Disk",
         KNOWLEDGE_FILE_NOT_FOUND: "Knowledge File Not Found",
@@ -23647,7 +23638,6 @@ function config($translateProvider) {
         INVALID_WIND_FARM_NAME: "Invalid Wind Farm Name",
         INVALID_WORKING_CALENDAR_ID: "Invalid Working Calendar ID",
         INVALID_WORKING_CALENDAR_NAME: "Invalid Working Calendar Name",
-        INVALID_DATA_SOURCE_ID: "Invalid data source ID",
         KNOWLEDGE_FILE_CANNOT_BE_REMOVED_FROM_DISK:
           "Knowledge File Cannot be Removed from Disk",
         KNOWLEDGE_FILE_NOT_FOUND: "Knowledge File Not Found",
@@ -26053,7 +26043,6 @@ function config($translateProvider) {
         INVALID_WIND_FARM_NAME: "Invalid Wind Farm Name",
         INVALID_WORKING_CALENDAR_ID: "Invalid Working Calendar ID",
         INVALID_WORKING_CALENDAR_NAME: "Invalid Working Calendar Name",
-        INVALID_DATA_SOURCE_ID: "Invalid data source ID",
         KNOWLEDGE_FILE_CANNOT_BE_REMOVED_FROM_DISK:
           "Knowledge File Cannot be Removed from Disk",
         KNOWLEDGE_FILE_NOT_FOUND: "Knowledge File Not Found",
@@ -28472,7 +28461,6 @@ function config($translateProvider) {
         INVALID_WIND_FARM_NAME: "Invalid Wind Farm Name",
         INVALID_WORKING_CALENDAR_ID: "Invalid Working Calendar ID",
         INVALID_WORKING_CALENDAR_NAME: "Invalid Working Calendar Name",
-        INVALID_DATA_SOURCE_ID: "Invalid data source ID",
         KNOWLEDGE_FILE_CANNOT_BE_REMOVED_FROM_DISK:
           "Knowledge File Cannot be Removed from Disk",
         KNOWLEDGE_FILE_NOT_FOUND: "Knowledge File Not Found",
@@ -30842,7 +30830,6 @@ function config($translateProvider) {
         INVALID_WIND_FARM_NAME: "Invalid Wind Farm Name",
         INVALID_WORKING_CALENDAR_ID: "Invalid Working Calendar ID",
         INVALID_WORKING_CALENDAR_NAME: "Invalid Working Calendar Name",
-        INVALID_DATA_SOURCE_ID: "Invalid data source ID",
         KNOWLEDGE_FILE_CANNOT_BE_REMOVED_FROM_DISK:
           "Knowledge File Cannot be Removed from Disk",
         KNOWLEDGE_FILE_NOT_FOUND: "Knowledge File Not Found",
@@ -33311,7 +33298,6 @@ function config($translateProvider) {
         INVALID_WORKING_CALENDAR_ID: "ID de Calendário de Trabalho Inválido",
         INVALID_WORKING_CALENDAR_NAME:
           "Nome de Calendário de Trabalho Inválido",
-        INVALID_DATA_SOURCE_ID: "Invalid data source ID",
         KNOWLEDGE_FILE_CANNOT_BE_REMOVED_FROM_DISK:
           "Arquivo de Conhecimento Não Pode Ser Removido do Disco",
         KNOWLEDGE_FILE_NOT_FOUND: "Arquivo de Conhecimento Não Encontrado",
@@ -35737,7 +35723,6 @@ function config($translateProvider) {
         INVALID_WIND_FARM_NAME: "Invalid Wind Farm Name",
         INVALID_WORKING_CALENDAR_ID: "Invalid Working Calendar ID",
         INVALID_WORKING_CALENDAR_NAME: "Invalid Working Calendar Name",
-        INVALID_DATA_SOURCE_ID: "Invalid data source ID",
         KNOWLEDGE_FILE_CANNOT_BE_REMOVED_FROM_DISK:
           "Knowledge File Cannot be Removed from Disk",
         KNOWLEDGE_FILE_NOT_FOUND: "Knowledge File Not Found",
@@ -38147,7 +38132,6 @@ function config($translateProvider) {
         INVALID_WIND_FARM_NAME: "Invalid Wind Farm Name",
         INVALID_WORKING_CALENDAR_ID: "Invalid Working Calendar ID",
         INVALID_WORKING_CALENDAR_NAME: "Invalid Working Calendar Name",
-        INVALID_DATA_SOURCE_ID: "Invalid data source ID",
         KNOWLEDGE_FILE_CANNOT_BE_REMOVED_FROM_DISK:
           "Knowledge File Cannot be Removed from Disk",
         KNOWLEDGE_FILE_NOT_FOUND: "Knowledge File Not Found",
@@ -40563,7 +40547,6 @@ function config($translateProvider) {
         INVALID_WIND_FARM_NAME: "Invalid Wind Farm Name",
         INVALID_WORKING_CALENDAR_ID: "Invalid Working Calendar ID",
         INVALID_WORKING_CALENDAR_NAME: "Invalid Working Calendar Name",
-        INVALID_DATA_SOURCE_ID: "Invalid data source ID",
         KNOWLEDGE_FILE_CANNOT_BE_REMOVED_FROM_DISK:
           "Knowledge File Cannot be Removed from Disk",
         KNOWLEDGE_FILE_NOT_FOUND: "Knowledge File Not Found",
@@ -42959,7 +42942,6 @@ function config($translateProvider) {
         INVALID_WIND_FARM_NAME: "Invalid Wind Farm Name",
         INVALID_WORKING_CALENDAR_ID: "Invalid Working Calendar ID",
         INVALID_WORKING_CALENDAR_NAME: "Invalid Working Calendar Name",
-        INVALID_DATA_SOURCE_ID: "Invalid data source ID",
         KNOWLEDGE_FILE_CANNOT_BE_REMOVED_FROM_DISK:
           "Knowledge File Cannot be Removed from Disk",
         KNOWLEDGE_FILE_NOT_FOUND: "Knowledge File Not Found",
@@ -45323,7 +45305,6 @@ function config($translateProvider) {
         INVALID_WIND_FARM_NAME: "Invalid Wind Farm Name",
         INVALID_WORKING_CALENDAR_ID: "Invalid Working Calendar ID",
         INVALID_WORKING_CALENDAR_NAME: "Invalid Working Calendar Name",
-        INVALID_DATA_SOURCE_ID: "Invalid data source ID",
         KNOWLEDGE_FILE_CANNOT_BE_REMOVED_FROM_DISK:
           "Knowledge File Cannot be Removed from Disk",
         KNOWLEDGE_FILE_NOT_FOUND: "Knowledge File Not Found",
