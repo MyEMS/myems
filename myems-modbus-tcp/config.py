@@ -21,7 +21,7 @@ myems_system_db = {
     'port': config('MYEMS_SYSTEM_DB_PORT', default=3306, cast=int),
     'database': config('MYEMS_SYSTEM_DB_DATABASE', default='myems_system_db'),
     'user': config('MYEMS_SYSTEM_DB_USER', default='root'),
-    'password': config('MYEMS_SYSTEM_DB_PASSWORD', default='!MyEMS1'),
+    'password': config('MYEMS_SYSTEM_DB_PASSWORD', default=''),
 }
 
 # Database connection configuration for MyEMS Historical Database
@@ -31,7 +31,7 @@ myems_historical_db = {
     'port': config('MYEMS_HISTORICAL_DB_PORT', default=3306, cast=int),
     'database': config('MYEMS_HISTORICAL_DB_DATABASE', default='myems_historical_db'),
     'user': config('MYEMS_HISTORICAL_DB_USER', default='root'),
-    'password': config('MYEMS_HISTORICAL_DB_PASSWORD', default='!MyEMS1'),
+    'password': config('MYEMS_HISTORICAL_DB_PASSWORD', default=''),
 }
 
 

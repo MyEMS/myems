@@ -13,6 +13,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - fixed overwritten property in myems-web
 - fixed overwritten property in myems-admin
 ### Removed
+- removed default password from config.py
 
 ## [v6.2.0] - 2026-02-08
 ### Added

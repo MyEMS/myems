@@ -6,7 +6,7 @@ myems_system_db = {
     'port': config('MYEMS_SYSTEM_DB_PORT', default=3306, cast=int),
     'database': config('MYEMS_SYSTEM_DB_DATABASE', default='myems_system_db'),
     'user': config('MYEMS_SYSTEM_DB_USER', default='root'),
-    'password': config('MYEMS_SYSTEM_DB_PASSWORD', default='!MyEMS1'),
+    'password': config('MYEMS_SYSTEM_DB_PASSWORD', default=''),
 }
 
 myems_energy_db = {
@@ -14,7 +14,7 @@ myems_energy_db = {
     'port': config('MYEMS_ENERGY_DB_PORT', default=3306, cast=int),
     'database': config('MYEMS_ENERGY_DB_DATABASE', default='myems_energy_db'),
     'user': config('MYEMS_ENERGY_DB_USER', default='root'),
-    'password': config('MYEMS_ENERGY_DB_PASSWORD', default='!MyEMS1'),
+    'password': config('MYEMS_ENERGY_DB_PASSWORD', default=''),
 }
 
 myems_energy_baseline_db = {
@@ -22,7 +22,7 @@ myems_energy_baseline_db = {
     'port': config('MYEMS_ENERGY_BASELINE_DB_PORT', default=3306, cast=int),
     'database': config('MYEMS_ENERGY_BASELINE_DB_DATABASE', default='myems_energy_baseline_db'),
     'user': config('MYEMS_ENERGY_BASELINE_DB_USER', default='root'),
-    'password': config('MYEMS_ENERGY_BASELINE_DB_PASSWORD', default='!MyEMS1'),
+    'password': config('MYEMS_ENERGY_BASELINE_DB_PASSWORD', default=''),
 }
 
 myems_energy_plan_db = {
@@ -30,7 +30,7 @@ myems_energy_plan_db = {
     'port': config('MYEMS_ENERGY_PLAN_DB_PORT', default=3306, cast=int),
     'database': config('MYEMS_ENERGY_PLAN_DB_DATABASE', default='myems_energy_plan_db'),
     'user': config('MYEMS_ENERGY_PLAN_DB_USER', default='root'),
-    'password': config('MYEMS_ENERGY_PLAN_DB_PASSWORD', default='!MyEMS1'),
+    'password': config('MYEMS_ENERGY_PLAN_DB_PASSWORD', default=''),
 }
 
 myems_energy_prediction_db = {
@@ -38,7 +38,7 @@ myems_energy_prediction_db = {
     'port': config('MYEMS_ENERGY_PREDICTION_DB_PORT', default=3306, cast=int),
     'database': config('MYEMS_ENERGY_PREDICTION_DB_DATABASE', default='myems_energy_prediction_db'),
     'user': config('MYEMS_ENERGY_PREDICTION_DB_USER', default='root'),
-    'password': config('MYEMS_ENERGY_PREDICTION_DB_PASSWORD', default='!MyEMS1'),
+    'password': config('MYEMS_ENERGY_PREDICTION_DB_PASSWORD', default=''),
 }
 
 myems_billing_db = {
@@ -46,7 +46,7 @@ myems_billing_db = {
     'port': config('MYEMS_BILLING_DB_PORT', default=3306, cast=int),
     'database': config('MYEMS_BILLING_DB_DATABASE', default='myems_billing_db'),
     'user': config('MYEMS_BILLING_DB_USER', default='root'),
-    'password': config('MYEMS_BILLING_DB_PASSWORD', default='!MyEMS1'),
+    'password': config('MYEMS_BILLING_DB_PASSWORD', default=''),
 }
 
 myems_historical_db = {
@@ -54,7 +54,7 @@ myems_historical_db = {
     'port': config('MYEMS_HISTORICAL_DB_PORT', default=3306, cast=int),
     'database': config('MYEMS_HISTORICAL_DB_DATABASE', default='myems_historical_db'),
     'user': config('MYEMS_HISTORICAL_DB_USER', default='root'),
-    'password': config('MYEMS_HISTORICAL_DB_PASSWORD', default='!MyEMS1'),
+    'password': config('MYEMS_HISTORICAL_DB_PASSWORD', default=''),
 }
 
 myems_user_db = {
@@ -62,7 +62,7 @@ myems_user_db = {
     'port': config('MYEMS_USER_DB_PORT', default=3306, cast=int),
     'database': config('MYEMS_USER_DB_DATABASE', default='myems_user_db'),
     'user': config('MYEMS_USER_DB_USER', default='root'),
-    'password': config('MYEMS_USER_DB_PASSWORD', default='!MyEMS1'),
+    'password': config('MYEMS_USER_DB_PASSWORD', default=''),
 }
 
 myems_fdd_db = {
@@ -70,7 +70,7 @@ myems_fdd_db = {
     'port': config('MYEMS_FDD_DB_PORT', default=3306, cast=int),
     'database': config('MYEMS_FDD_DB_DATABASE', default='myems_fdd_db'),
     'user': config('MYEMS_FDD_DB_USER', default='root'),
-    'password': config('MYEMS_FDD_DB_PASSWORD', default='!MyEMS1'),
+    'password': config('MYEMS_FDD_DB_PASSWORD', default=''),
 }
 
 myems_reporting_db = {
@@ -78,7 +78,7 @@ myems_reporting_db = {
     'port': config('MYEMS_REPORTING_DB_PORT', default=3306, cast=int),
     'database': config('MYEMS_REPORTING_DB_DATABASE', default='myems_reporting_db'),
     'user': config('MYEMS_REPORTING_DB_USER', default='root'),
-    'password': config('MYEMS_REPORTING_DB_PASSWORD', default='!MyEMS1'),
+    'password': config('MYEMS_REPORTING_DB_PASSWORD', default=''),
 }
 
 myems_carbon_db = {
@@ -86,7 +86,7 @@ myems_carbon_db = {
     'port': config('MYEMS_CARBON_DB_PORT', default=3306, cast=int),
     'database': config('MYEMS_CARBON_DB_DATABASE', default='myems_carbon_db'),
     'user': config('MYEMS_CARBON_DB_USER', default='root'),
-    'password': config('MYEMS_CARBON_DB_PASSWORD', default='!MyEMS1'),
+    'password': config('MYEMS_CARBON_DB_PASSWORD', default=''),
 }
 
 myems_production_db = {
@@ -94,7 +94,7 @@ myems_production_db = {
     'port': config('MYEMS_PRODUCTION_DB_PORT', default=3306, cast=int),
     'database': config('MYEMS_PRODUCTION_DB_DATABASE', default='myems_production_db'),
     'user': config('MYEMS_PRODUCTION_DB_USER', default='root'),
-    'password': config('MYEMS_PRODUCTION_DB_PASSWORD', default='!MyEMS1'),
+    'password': config('MYEMS_PRODUCTION_DB_PASSWORD', default=''),
 }
 
 redis = {
@@ -109,7 +109,7 @@ myems_mqtt_broker = {
     'host': config('MYEMS_MQTT_BROKER_HOST', default='127.0.0.1'),
     'port': config('MYEMS_MQTT_BROKER_PORT', default=1883, cast=int),
     'username': config('MYEMS_MQTT_BROKER_USERNAME', default='admin'),
-    'password': config('MYEMS_MQTT_BROKER_PASSWORD', default='!MyEMS123'),
+    'password': config('MYEMS_MQTT_BROKER_PASSWORD', default=''),
 }
 
 myems_workflow = {
