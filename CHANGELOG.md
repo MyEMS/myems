@@ -9,6 +9,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - added timezones translations in myems-admin
 - added Persian translations in myems-admin and myems-web
 ### Changed
+- added fixed dependency version numbers to myems-api/requirements.txt
 ### Fixed
 - fixed overwritten property in myems-web
 - fixed overwritten property in myems-admin
