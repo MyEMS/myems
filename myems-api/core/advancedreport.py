@@ -47,22 +47,29 @@ class AdvancedReportCollection:
             resp: Falcon response object
         """
         admin_control(req)
-        cnx = mysql.connector.connect(**config.myems_reporting_db)
-        cursor = cnx.cursor()
-
-        # Query to retrieve all reports ordered by ID
-        query = (" SELECT id, name, uuid, "
-                 "        expression, "
-                 "        is_enabled, "
-                 "        last_run_datetime_utc, "
-                 "        next_run_datetime_utc, "
-                 "        is_run_immediately "
-                 " FROM tbl_reports "
-                 " ORDER BY id ")
-        cursor.execute(query)
-        rows = cursor.fetchall()
-        cursor.close()
-        cnx.close()
+        cnx = None
+        cursor = None
+        try:
+            cnx = mysql.connector.connect(**config.myems_reporting_db)
+            cursor = cnx.cursor()
+            try:
+                # Query to retrieve all reports ordered by ID
+                query = (" SELECT id, name, uuid, "
+                         "        expression, "
+                         "        is_enabled, "
+                         "        last_run_datetime_utc, "
+                         "        next_run_datetime_utc, "
+                         "        is_run_immediately "
+                         " FROM tbl_reports "
+                         " ORDER BY id ")
+                cursor.execute(query)
+                rows = cursor.fetchall()
+            finally:
+                if cursor is not None:
+                    cursor.close()
+        finally:
+            if cnx is not None:
+                cnx.close()
 
         # Calculate timezone offset for datetime conversion
         timezone_offset = int(config.utc_offset[1:3]) * 60 + int(config.utc_offset[4:6])
@@ -198,33 +205,39 @@ class AdvancedReportCollection:
                                    description='API.INVALID_IS_RUN_IMMEDIATELY')
         is_run_immediately = new_values['data']['is_run_immediately']
 
-        cnx = mysql.connector.connect(**config.myems_reporting_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
+        new_id = None
+        try:
+            cnx = mysql.connector.connect(**config.myems_reporting_db)
+            cursor = cnx.cursor()
+            try:
+                # Check if report name already exists
+                cursor.execute(" SELECT name "
+                               " FROM tbl_reports "
+                               " WHERE name = %s ", (name,))
+                if cursor.fetchone() is not None:
+                    raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                           description='API.ADVANCED_REPORT_NAME_IS_ALREADY_IN_USE')
 
-        # Check if report name already exists
-        cursor.execute(" SELECT name "
-                       " FROM tbl_reports "
-                       " WHERE name = %s ", (name,))
-        if cursor.fetchone() is not None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.ADVANCED_REPORT_NAME_IS_ALREADY_IN_USE')
-
-        # Insert new report into database
-        add_row = (" INSERT INTO tbl_reports "
-                   "             (name, uuid, expression, is_enabled, next_run_datetime_utc, is_run_immediately) "
-                   " VALUES (%s, %s, %s, %s, %s, %s) ")
-        cursor.execute(add_row, (name,
-                                 str(uuid.uuid4()),
-                                 expression,
-                                 is_enabled,
-                                 next_run_datetime_utc,
-                                 is_run_immediately))
-        new_id = cursor.lastrowid
-        cnx.commit()
-        cursor.close()
-        cnx.close()
+                # Insert new report into database
+                add_row = (" INSERT INTO tbl_reports "
+                           "         (name, uuid, expression, is_enabled, next_run_datetime_utc, is_run_immediately) "
+                           " VALUES (%s, %s, %s, %s, %s, %s) ")
+                cursor.execute(add_row, (name,
+                                         str(uuid.uuid4()),
+                                         expression,
+                                         is_enabled,
+                                         next_run_datetime_utc,
+                                         is_run_immediately))
+                new_id = cursor.lastrowid
+                cnx.commit()
+            finally:
+                if cursor is not None:
+                    cursor.close()
+        finally:
+            if cnx is not None:
+                cnx.close()
 
         resp.status = falcon.HTTP_201
         resp.location = '/advancedreports/' + str(new_id)
@@ -279,22 +292,30 @@ class AdvancedReportItem:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_ADVANCED_REPORT_ID')
 
-        cnx = mysql.connector.connect(**config.myems_reporting_db)
-        cursor = cnx.cursor()
-
-        # Query to retrieve specific report by ID
-        query = (" SELECT id, name, uuid, "
-                 "        expression, "
-                 "        is_enabled, "
-                 "        last_run_datetime_utc, "
-                 "        next_run_datetime_utc, "
-                 "        is_run_immediately "
-                 " FROM tbl_reports "
-                 " WHERE id = %s ")
-        cursor.execute(query, (id_,))
-        row = cursor.fetchone()
-        cursor.close()
-        cnx.close()
+        cnx = None
+        cursor = None
+        row = None
+        try:
+            cnx = mysql.connector.connect(**config.myems_reporting_db)
+            cursor = cnx.cursor()
+            try:
+                # Query to retrieve specific report by ID
+                query = (" SELECT id, name, uuid, "
+                         "        expression, "
+                         "        is_enabled, "
+                         "        last_run_datetime_utc, "
+                         "        next_run_datetime_utc, "
+                         "        is_run_immediately "
+                         " FROM tbl_reports "
+                         " WHERE id = %s ")
+                cursor.execute(query, (id_,))
+                row = cursor.fetchone()
+            finally:
+                if cursor is not None:
+                    cursor.close()
+        finally:
+            if cnx is not None:
+                cnx.close()
         if row is None:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.ADVANCED_REPORT_NOT_FOUND')
@@ -349,26 +370,30 @@ class AdvancedReportItem:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_ADVANCED_REPORT_ID')
 
-        cnx = mysql.connector.connect(**config.myems_reporting_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
+        try:
+            cnx = mysql.connector.connect(**config.myems_reporting_db)
+            cursor = cnx.cursor()
+            try:
+                # Check if report exists before deletion
+                cursor.execute(" SELECT id "
+                               " FROM tbl_reports "
+                               " WHERE id = %s ",
+                               (id_,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.ADVANCED_REPORT_NOT_FOUND')
 
-        # Check if report exists before deletion
-        cursor.execute(" SELECT id "
-                       " FROM tbl_reports "
-                       " WHERE id = %s ",
-                       (id_,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.ADVANCED_REPORT_NOT_FOUND')
-
-        # Delete the report
-        cursor.execute(" DELETE FROM tbl_reports WHERE id = %s ", (id_,))
-        cnx.commit()
-
-        cursor.close()
-        cnx.close()
+                # Delete the report
+                cursor.execute(" DELETE FROM tbl_reports WHERE id = %s ", (id_,))
+                cnx.commit()
+            finally:
+                if cursor is not None:
+                    cursor.close()
+        finally:
+            if cnx is not None:
+                cnx.close()
 
         resp.status = falcon.HTTP_204
 
@@ -479,47 +504,49 @@ class AdvancedReportItem:
                                    description='API.INVALID_IS_RUN_IMMEDIATELY')
         is_run_immediately = new_values['data']['is_run_immediately']
 
-        cnx = mysql.connector.connect(**config.myems_reporting_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
+        try:
+            cnx = mysql.connector.connect(**config.myems_reporting_db)
+            cursor = cnx.cursor()
+            try:
+                # Check if report exists
+                cursor.execute(" SELECT id "
+                               " FROM tbl_reports "
+                               " WHERE id = %s ", (id_,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.ADVANCED_REPORT_NOT_FOUND')
 
-        # Check if report exists
-        cursor.execute(" SELECT id "
-                       " FROM tbl_reports "
-                       " WHERE id = %s ", (id_,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.ADVANCED_REPORT_NOT_FOUND')
+                # Check if new name conflicts with existing reports (excluding current report)
+                cursor.execute(" SELECT name "
+                               " FROM tbl_reports "
+                               " WHERE name = %s AND id != %s ", (name, id_))
+                if cursor.fetchone() is not None:
+                    raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                           description='API.ADVANCED_REPORT_NAME_IS_ALREADY_IN_USE')
 
-        # Check if new name conflicts with existing reports (excluding current report)
-        cursor.execute(" SELECT name "
-                       " FROM tbl_reports "
-                       " WHERE name = %s AND id != %s ", (name, id_))
-        if cursor.fetchone() is not None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.ADVANCED_REPORT_NAME_IS_ALREADY_IN_USE')
-
-        # Update the report in database
-        update_row = (" UPDATE tbl_reports "
-                      " SET name = %s, "
-                      "     expression = %s, "
-                      "     is_enabled = %s, "
-                      "     next_run_datetime_utc = %s, "
-                      "     is_run_immediately = %s "
-                      " WHERE id = %s ")
-        cursor.execute(update_row, (name,
-                                    expression,
-                                    is_enabled,
-                                    next_run_datetime_utc,
-                                    is_run_immediately,
-                                    id_,))
-        cnx.commit()
-
-        cursor.close()
-        cnx.close()
+                # Update the report in database
+                update_row = (" UPDATE tbl_reports "
+                              " SET name = %s, "
+                              "     expression = %s, "
+                              "     is_enabled = %s, "
+                              "     next_run_datetime_utc = %s, "
+                              "     is_run_immediately = %s "
+                              " WHERE id = %s ")
+                cursor.execute(update_row, (name,
+                                            expression,
+                                            is_enabled,
+                                            next_run_datetime_utc,
+                                            is_run_immediately,
+                                            id_,))
+                cnx.commit()
+            finally:
+                if cursor is not None:
+                    cursor.close()
+        finally:
+            if cnx is not None:
+                cnx.close()
 
         resp.status = falcon.HTTP_200
 
@@ -570,28 +597,32 @@ class AdvancedReportRun:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_ADVANCED_REPORT_ID')
 
-        cnx = mysql.connector.connect(**config.myems_reporting_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
+        try:
+            cnx = mysql.connector.connect(**config.myems_reporting_db)
+            cursor = cnx.cursor()
+            try:
+                # Check if report exists
+                cursor.execute(" SELECT id "
+                               " FROM tbl_reports "
+                               " WHERE id = %s ", (id_,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.ADVANCED_REPORT_NOT_FOUND')
 
-        # Check if report exists
-        cursor.execute(" SELECT id "
-                       " FROM tbl_reports "
-                       " WHERE id = %s ", (id_,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.ADVANCED_REPORT_NOT_FOUND')
-
-        # Set immediate run flag to true
-        update_row = (" UPDATE tbl_reports "
-                      " SET is_run_immediately = 1 "
-                      " WHERE id = %s ")
-        cursor.execute(update_row, (id_,))
-        cnx.commit()
-
-        cursor.close()
-        cnx.close()
+                # Set immediate run flag to true
+                update_row = (" UPDATE tbl_reports "
+                              " SET is_run_immediately = 1 "
+                              " WHERE id = %s ")
+                cursor.execute(update_row, (id_,))
+                cnx.commit()
+            finally:
+                if cursor is not None:
+                    cursor.close()
+        finally:
+            if cnx is not None:
+                cnx.close()
 
         resp.status = falcon.HTTP_200
 
@@ -641,22 +672,30 @@ class AdvancedReportExport:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_ADVANCED_REPORT_ID')
 
-        cnx = mysql.connector.connect(**config.myems_reporting_db)
-        cursor = cnx.cursor()
-
-        # Query to retrieve specific report by ID for export
-        query = (" SELECT id, name, uuid, "
-                 "        expression, "
-                 "        is_enabled, "
-                 "        last_run_datetime_utc, "
-                 "        next_run_datetime_utc, "
-                 "        is_run_immediately "
-                 " FROM tbl_reports "
-                 " WHERE id = %s ")
-        cursor.execute(query, (id_,))
-        row = cursor.fetchone()
-        cursor.close()
-        cnx.close()
+        cnx = None
+        cursor = None
+        row = None
+        try:
+            cnx = mysql.connector.connect(**config.myems_reporting_db)
+            cursor = cnx.cursor()
+            try:
+                # Query to retrieve specific report by ID for export
+                query = (" SELECT id, name, uuid, "
+                         "        expression, "
+                         "        is_enabled, "
+                         "        last_run_datetime_utc, "
+                         "        next_run_datetime_utc, "
+                         "        is_run_immediately "
+                         " FROM tbl_reports "
+                         " WHERE id = %s ")
+                cursor.execute(query, (id_,))
+                row = cursor.fetchone()
+            finally:
+                if cursor is not None:
+                    cursor.close()
+        finally:
+            if cnx is not None:
+                cnx.close()
         if row is None:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.ADVANCED_REPORT_NOT_FOUND')
@@ -816,33 +855,39 @@ class AdvancedReportImport:
                                    description='API.INVALID_IS_RUN_IMMEDIATELY')
         is_run_immediately = new_values['is_run_immediately']
 
-        cnx = mysql.connector.connect(**config.myems_reporting_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
+        new_id = None
+        try:
+            cnx = mysql.connector.connect(**config.myems_reporting_db)
+            cursor = cnx.cursor()
+            try:
+                # Check if report name already exists
+                cursor.execute(" SELECT name "
+                               " FROM tbl_reports "
+                               " WHERE name = %s ", (name,))
+                if cursor.fetchone() is not None:
+                    raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                           description='API.ADVANCED_REPORT_NAME_IS_ALREADY_IN_USE')
 
-        # Check if report name already exists
-        cursor.execute(" SELECT name "
-                       " FROM tbl_reports "
-                       " WHERE name = %s ", (name,))
-        if cursor.fetchone() is not None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.ADVANCED_REPORT_NAME_IS_ALREADY_IN_USE')
-
-        # Insert imported report into database
-        add_row = (" INSERT INTO tbl_reports "
-                   "             (name, uuid, expression, is_enabled, next_run_datetime_utc, is_run_immediately) "
-                   " VALUES (%s, %s, %s, %s, %s, %s) ")
-        cursor.execute(add_row, (name,
-                                 str(uuid.uuid4()),
-                                 expression,
-                                 is_enabled,
-                                 next_run_datetime_utc,
-                                 is_run_immediately))
-        new_id = cursor.lastrowid
-        cnx.commit()
-        cursor.close()
-        cnx.close()
+                # Insert imported report into database
+                add_row = (" INSERT INTO tbl_reports "
+                           "         (name, uuid, expression, is_enabled, next_run_datetime_utc, is_run_immediately) "
+                           " VALUES (%s, %s, %s, %s, %s, %s) ")
+                cursor.execute(add_row, (name,
+                                         str(uuid.uuid4()),
+                                         expression,
+                                         is_enabled,
+                                         next_run_datetime_utc,
+                                         is_run_immediately))
+                new_id = cursor.lastrowid
+                cnx.commit()
+            finally:
+                if cursor is not None:
+                    cursor.close()
+        finally:
+            if cnx is not None:
+                cnx.close()
 
         resp.status = falcon.HTTP_201
         resp.location = '/advancedreports/' + str(new_id)
@@ -895,77 +940,88 @@ class AdvancedReportClone:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_ADVANCED_REPORT_ID')
 
-        cnx = mysql.connector.connect(**config.myems_reporting_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
+        row = None
+        result = None
+        new_id = None
+        try:
+            cnx = mysql.connector.connect(**config.myems_reporting_db)
+            cursor = cnx.cursor()
+            try:
+                # Query to retrieve the report to clone
+                query = (" SELECT id, name, uuid, "
+                         "        expression, "
+                         "        is_enabled, "
+                         "        last_run_datetime_utc, "
+                         "        next_run_datetime_utc, "
+                         "        is_run_immediately "
+                         " FROM tbl_reports "
+                         " WHERE id = %s ")
+                cursor.execute(query, (id_,))
+                row = cursor.fetchone()
+                if row is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.ADVANCED_REPORT_NOT_FOUND')
 
-        # Query to retrieve the report to clone
-        query = (" SELECT id, name, uuid, "
-                 "        expression, "
-                 "        is_enabled, "
-                 "        last_run_datetime_utc, "
-                 "        next_run_datetime_utc, "
-                 "        is_run_immediately "
-                 " FROM tbl_reports "
-                 " WHERE id = %s ")
-        cursor.execute(query, (id_,))
-        row = cursor.fetchone()
-        if row is None:
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.ADVANCED_REPORT_NOT_FOUND')
+                # Calculate timezone offset for datetime conversion
+                timezone_offset = int(config.utc_offset[1:3]) * 60 + int(config.utc_offset[4:6])
+                if config.utc_offset[0] == '-':
+                    timezone_offset = -timezone_offset
 
-        # Calculate timezone offset for datetime conversion
-        timezone_offset = int(config.utc_offset[1:3]) * 60 + int(config.utc_offset[4:6])
-        if config.utc_offset[0] == '-':
-            timezone_offset = -timezone_offset
+                # Convert last run datetime from UTC to local timezone
+                if isinstance(row[5], datetime):
+                    last_run_datetime_local = row[5].replace(tzinfo=timezone.utc) + \
+                                              timedelta(minutes=timezone_offset)
+                    last_run_datetime = last_run_datetime_local.isoformat()[0:19]
+                else:
+                    last_run_datetime = None
 
-        # Convert last run datetime from UTC to local timezone
-        if isinstance(row[5], datetime):
-            last_run_datetime_local = row[5].replace(tzinfo=timezone.utc) + \
-                                      timedelta(minutes=timezone_offset)
-            last_run_datetime = last_run_datetime_local.isoformat()[0:19]
-        else:
-            last_run_datetime = None
+                # Convert next run datetime from UTC to local timezone
+                if isinstance(row[6], datetime):
+                    next_run_datetime_local = row[6].replace(tzinfo=timezone.utc) + \
+                                              timedelta(minutes=timezone_offset)
+                    next_run_datetime = next_run_datetime_local.isoformat()[0:19]
+                else:
+                    next_run_datetime = None
 
-        # Convert next run datetime from UTC to local timezone
-        if isinstance(row[6], datetime):
-            next_run_datetime_local = row[6].replace(tzinfo=timezone.utc) + \
-                                      timedelta(minutes=timezone_offset)
-            next_run_datetime = next_run_datetime_local.isoformat()[0:19]
-        else:
-            next_run_datetime = None
+                # Build result object for cloning
+                result = {"id": row[0], "name": row[1], "uuid": row[2],
+                          "expression": row[3],
+                          "is_enabled": bool(row[4]),
+                          "last_run_datetime": last_run_datetime,
+                          "next_run_datetime": next_run_datetime,
+                          "is_run_immediately": bool(row[7]),
+                          }
 
-        # Build result object for cloning
-        result = {"id": row[0], "name": row[1], "uuid": row[2],
-                  "expression": row[3],
-                  "is_enabled": bool(row[4]),
-                  "last_run_datetime": last_run_datetime,
-                  "next_run_datetime": next_run_datetime,
-                  "is_run_immediately": bool(row[7]),
-                  }
+                # Calculate timezone offset for new name generation
+                timezone_offset = int(config.utc_offset[1:3]) * 60 + int(config.utc_offset[4:6])
+                if config.utc_offset[0] == '-':
+                    timezone_offset = -timezone_offset
 
-        # Calculate timezone offset for new name generation
-        timezone_offset = int(config.utc_offset[1:3]) * 60 + int(config.utc_offset[4:6])
-        if config.utc_offset[0] == '-':
-            timezone_offset = -timezone_offset
+                # Generate new name with timestamp suffix
+                new_name = (str.strip(result['name']) +
+                            (datetime.utcnow() + timedelta(minutes=timezone_offset)).isoformat(sep='-',
+                                                                                               timespec='seconds'))
 
-        # Generate new name with timestamp suffix
-        new_name = (str.strip(result['name']) +
-                    (datetime.utcnow() + timedelta(minutes=timezone_offset)).isoformat(sep='-', timespec='seconds'))
-
-        # Insert cloned report into database
-        add_row = (" INSERT INTO tbl_reports "
-                   "             (name, uuid, expression, is_enabled, next_run_datetime_utc, is_run_immediately) "
-                   " VALUES (%s, %s, %s, %s, %s, %s) ")
-        cursor.execute(add_row, (new_name,
-                                 str(uuid.uuid4()),
-                                 result['expression'],
-                                 result['is_enabled'],
-                                 result['next_run_datetime'],
-                                 result['is_run_immediately']))
-        new_id = cursor.lastrowid
-        cnx.commit()
-        cursor.close()
-        cnx.close()
+                # Insert cloned report into database
+                add_row = (" INSERT INTO tbl_reports "
+                           "     (name, uuid, expression, is_enabled, next_run_datetime_utc, is_run_immediately) "
+                           " VALUES (%s, %s, %s, %s, %s, %s) ")
+                cursor.execute(add_row, (new_name,
+                                         str(uuid.uuid4()),
+                                         result['expression'],
+                                         result['is_enabled'],
+                                         result['next_run_datetime'],
+                                         result['is_run_immediately']))
+                new_id = cursor.lastrowid
+                cnx.commit()
+            finally:
+                if cursor is not None:
+                    cursor.close()
+        finally:
+            if cnx is not None:
+                cnx.close()
 
         resp.status = falcon.HTTP_201
         resp.location = '/advancedreports/' + str(new_id)
