@@ -48,33 +48,40 @@ class ApiKeyCollection:
             resp: Falcon response object
         """
         admin_control(req)
-        cnx = mysql.connector.connect(**config.myems_user_db)
-        cursor = cnx.cursor()
+        cnx = None
+        try:
+            cnx = mysql.connector.connect(**config.myems_user_db)
+            cursor = None
+            try:
+                cursor = cnx.cursor()
+                # Query to retrieve all API keys
+                query = (" SELECT id, name, token, created_datetime_utc, expires_datetime_utc "
+                         " FROM tbl_api_keys ")
+                cursor.execute(query)
+                rows = cursor.fetchall()
 
-        # Query to retrieve all API keys
-        query = (" SELECT id, name, token, created_datetime_utc, expires_datetime_utc "
-                 " FROM tbl_api_keys ")
-        cursor.execute(query)
-        rows = cursor.fetchall()
+                # Build result list with timezone conversion
+                token_list = list()
+                if rows is not None and len(rows) > 0:
+                    timezone_offset = int(config.utc_offset[1:3]) * 60 + int(config.utc_offset[4:6])
+                    if config.utc_offset[0] == '-':
+                        timezone_offset = -timezone_offset
+                    for row in rows:
+                        token_list.append({"id": row[0],
+                                           "name": row[1],
+                                           "token": row[2],
+                                           "created_datetime": (row[3].replace(tzinfo=timezone.utc)
+                                                                + timedelta(minutes=timezone_offset)).isoformat()[0:19],
+                                           "expires_datetime": (row[4].replace(tzinfo=timezone.utc)
+                                                                + timedelta(minutes=timezone_offset)).isoformat()[0:19]})
 
-        # Build result list with timezone conversion
-        token_list = list()
-        if rows is not None and len(rows) > 0:
-            timezone_offset = int(config.utc_offset[1:3]) * 60 + int(config.utc_offset[4:6])
-            if config.utc_offset[0] == '-':
-                timezone_offset = -timezone_offset
-            for row in rows:
-                token_list.append({"id": row[0],
-                                   "name": row[1],
-                                   "token": row[2],
-                                   "created_datetime": (row[3].replace(tzinfo=timezone.utc)
-                                                        + timedelta(minutes=timezone_offset)).isoformat()[0:19],
-                                   "expires_datetime": (row[4].replace(tzinfo=timezone.utc)
-                                                        + timedelta(minutes=timezone_offset)).isoformat()[0:19]})
-
-        cursor.close()
-        cnx.close()
-        resp.text = json.dumps(token_list)
+                resp.text = json.dumps(token_list)
+            finally:
+                if cursor is not None:
+                    cursor.close()
+        finally:
+            if cnx is not None:
+                cnx.close()
 
     @staticmethod
     def on_post(req, resp):
@@ -129,32 +136,36 @@ class ApiKeyCollection:
 
         # Generate secure random token
         token = hashlib.sha512(os.urandom(16)).hexdigest()
-        cnx = mysql.connector.connect(**config.myems_user_db)
-        cursor = cnx.cursor()
+        cnx = None
+        try:
+            cnx = mysql.connector.connect(**config.myems_user_db)
+            cursor = None
+            try:
+                cursor = cnx.cursor()
+                # Check if API key name already exists
+                cursor.execute(" SELECT name FROM tbl_api_keys"
+                               " WHERE name = %s ", (name,))
+                rows = cursor.fetchall()
 
-        # Check if API key name already exists
-        cursor.execute(" SELECT name FROM tbl_api_keys"
-                       " WHERE name = %s ", (name,))
-        rows = cursor.fetchall()
+                if rows is not None and len(rows) > 0:
+                    raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR',
+                                           description='API.API_KEY_NAME_IS_ALREADY_IN_USE')
 
-        if rows is not None and len(rows) > 0:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR',
-                                   description='API.API_KEY_NAME_IS_ALREADY_IN_USE')
+                # Insert new API key into database
+                cursor.execute(" INSERT INTO tbl_api_keys "
+                               " (name, token, created_datetime_utc, expires_datetime_utc) "
+                               " VALUES(%s, %s, %s, %s) ", (name, token, datetime.utcnow(), expires_datetime_utc))
 
-        # Insert new API key into database
-        cursor.execute(" INSERT INTO tbl_api_keys "
-                       " (name, token, created_datetime_utc, expires_datetime_utc) "
-                       " VALUES(%s, %s, %s, %s) ", (name, token, datetime.utcnow(), expires_datetime_utc))
-
-        new_id = cursor.lastrowid
-        cnx.commit()
-        cursor.close()
-        cnx.close()
-
-        resp.status = falcon.HTTP_201
-        resp.location = '/apikeys/' + str(new_id)
+                new_id = cursor.lastrowid
+                cnx.commit()
+                resp.status = falcon.HTTP_201
+                resp.location = '/apikeys/' + str(new_id)
+            finally:
+                if cursor is not None:
+                    cursor.close()
+        finally:
+            if cnx is not None:
+                cnx.close()
 
 
 class ApiKeyItem:
@@ -205,35 +216,40 @@ class ApiKeyItem:
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title="API.INVALID_API_KEY_ID")
 
-        cnx = mysql.connector.connect(**config.myems_user_db)
-        cursor = cnx.cursor()
+        cnx = None
+        try:
+            cnx = mysql.connector.connect(**config.myems_user_db)
+            cursor = None
+            try:
+                cursor = cnx.cursor()
+                # Query to retrieve specific API key by ID
+                query = (" SELECT id, name, token, created_datetime_utc, expires_datetime_utc "
+                         " FROM tbl_api_keys "
+                         " WHERE id = %s ")
+                cursor.execute(query, (id_,))
+                row = cursor.fetchone()
 
-        # Query to retrieve specific API key by ID
-        query = (" SELECT id, name, token, created_datetime_utc, expires_datetime_utc "
-                 " FROM tbl_api_keys "
-                 " WHERE id = %s ")
-        cursor.execute(query, (id_,))
-        row = cursor.fetchone()
-        cursor.close()
-        cnx.close()
-
-        if row is None:
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.API_KEY_NOT_FOUND')
-        else:
-            # Convert UTC datetime to local timezone
-            timezone_offset = int(config.utc_offset[1:3]) * 60 + int(config.utc_offset[4:6])
-            if config.utc_offset[0] == '-':
-                timezone_offset = -timezone_offset
-            meta_result = {"id": row[0],
-                           "name": row[1],
-                           "token": row[2],
-                           "created_datetime": (row[3].replace(tzinfo=timezone.utc) +
-                                                timedelta(minutes=timezone_offset)).isoformat()[0:19],
-                           "expires_datetime": (row[4].replace(tzinfo=timezone.utc) +
-                                                timedelta(minutes=timezone_offset)).isoformat()[0:19]}
-
-        resp.text = json.dumps(meta_result)
+                if row is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.API_KEY_NOT_FOUND')
+                # Convert UTC datetime to local timezone
+                timezone_offset = int(config.utc_offset[1:3]) * 60 + int(config.utc_offset[4:6])
+                if config.utc_offset[0] == '-':
+                    timezone_offset = -timezone_offset
+                meta_result = {"id": row[0],
+                               "name": row[1],
+                               "token": row[2],
+                               "created_datetime": (row[3].replace(tzinfo=timezone.utc) +
+                                                    timedelta(minutes=timezone_offset)).isoformat()[0:19],
+                               "expires_datetime": (row[4].replace(tzinfo=timezone.utc) +
+                                                    timedelta(minutes=timezone_offset)).isoformat()[0:19]}
+                resp.text = json.dumps(meta_result)
+            finally:
+                if cursor is not None:
+                    cursor.close()
+        finally:
+            if cnx is not None:
+                cnx.close()
 
     @staticmethod
     def on_put(req, resp, id_):
@@ -300,40 +316,41 @@ class ApiKeyItem:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description="API.INVALID_EXPIRES_DATETIME")
 
-        cnx = mysql.connector.connect(**config.myems_user_db)
-        cursor = cnx.cursor()
+        cnx = None
+        try:
+            cnx = mysql.connector.connect(**config.myems_user_db)
+            cursor = None
+            try:
+                cursor = cnx.cursor()
+                # Check if new name conflicts with existing API keys
+                cursor.execute(" SELECT name "
+                               " FROM tbl_api_keys "
+                               " WHERE name = %s ", (name,))
+                name_rows = cursor.fetchall()
+                if name_rows is not None and len(name_rows) > 0:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.API_KEY_NAME_IS_ALREADY_IN_USE')
 
-        # Check if new name conflicts with existing API keys
-        cursor.execute(" SELECT name "
-                       " FROM tbl_api_keys "
-                       " WHERE name = %s ", (name,))
-        if cursor.fetchall() is not None and \
-                len(cursor.fetchall()) > 0:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.API_KEY_NAME_IS_ALREADY_IN_USE')
+                # Check if API key exists
+                cursor.execute(" SELECT token "
+                               " FROM tbl_api_keys "
+                               " WHERE id = %s ", (id_,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.API_KEY_NOT_FOUND')
 
-        # Check if API key exists
-        cursor.execute(" SELECT token "
-                       " FROM tbl_api_keys "
-                       " WHERE id = %s ", (id_,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.API_KEY_NOT_FOUND')
-
-        # Update API key information
-        cursor.execute(" UPDATE tbl_api_keys "
-                       " SET name = %s, expires_datetime_utc = %s "
-                       " WHERE id = %s ", (name, expires_datetime_utc, id_))
-        cnx.commit()
-
-        cursor.close()
-        cnx.close()
-
-        resp.status = falcon.HTTP_200
+                # Update API key information
+                cursor.execute(" UPDATE tbl_api_keys "
+                               " SET name = %s, expires_datetime_utc = %s "
+                               " WHERE id = %s ", (name, expires_datetime_utc, id_))
+                cnx.commit()
+                resp.status = falcon.HTTP_200
+            finally:
+                if cursor is not None:
+                    cursor.close()
+        finally:
+            if cnx is not None:
+                cnx.close()
 
     @staticmethod
     def on_delete(req, resp, id_):
@@ -353,24 +370,27 @@ class ApiKeyItem:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_API_KEY_ID')
 
-        cnx = mysql.connector.connect(**config.myems_user_db)
-        cursor = cnx.cursor()
+        cnx = None
+        try:
+            cnx = mysql.connector.connect(**config.myems_user_db)
+            cursor = None
+            try:
+                cursor = cnx.cursor()
+                # Check if API key exists before deletion
+                cursor.execute(" SELECT token "
+                               " FROM tbl_api_keys "
+                               " WHERE id = %s ", (id_,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.API_KEY_NOT_FOUND')
 
-        # Check if API key exists before deletion
-        cursor.execute(" SELECT token "
-                       " FROM tbl_api_keys "
-                       " WHERE id = %s ", (id_,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.API_KEY_NOT_FOUND')
-
-        # Delete the API key
-        cursor.execute(" DELETE FROM tbl_api_keys WHERE id = %s ", (id_,))
-        cnx.commit()
-
-        cursor.close()
-        cnx.close()
-
-        resp.status = falcon.HTTP_204
+                # Delete the API key
+                cursor.execute(" DELETE FROM tbl_api_keys WHERE id = %s ", (id_,))
+                cnx.commit()
+                resp.status = falcon.HTTP_204
+            finally:
+                if cursor is not None:
+                    cursor.close()
+        finally:
+            if cnx is not None:
+                cnx.close()
