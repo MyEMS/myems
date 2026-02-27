@@ -524,22 +524,34 @@ class CombinedEquipmentItem:
                                            description='API.THERE_IS_RELATION_WITH_SPACES')
 
                 # delete relation with commands
-                cursor.execute(" DELETE FROM tbl_combined_equipments_commands WHERE combined_equipment_id = %s ", (id_,))
+                cursor.execute(
+                    " DELETE FROM tbl_combined_equipments_commands WHERE combined_equipment_id = %s ", (id_,)
+                )
 
                 # delete relation with equipments
-                cursor.execute(" DELETE FROM tbl_combined_equipments_equipments WHERE combined_equipment_id = %s ", (id_,))
+                cursor.execute(
+                    " DELETE FROM tbl_combined_equipments_equipments WHERE combined_equipment_id = %s ", (id_,)
+                )
 
                 # delete relation with meters
-                cursor.execute(" DELETE FROM tbl_combined_equipments_meters WHERE combined_equipment_id = %s ", (id_,))
+                cursor.execute(
+                    " DELETE FROM tbl_combined_equipments_meters WHERE combined_equipment_id = %s ", (id_,)
+                )
 
                 # delete relation with offline meters
-                cursor.execute(" DELETE FROM tbl_combined_equipments_offline_meters WHERE combined_equipment_id = %s ", (id_,))
+                cursor.execute(
+                    " DELETE FROM tbl_combined_equipments_offline_meters WHERE combined_equipment_id = %s ", (id_,)
+                )
 
                 # delete all associated parameters
-                cursor.execute(" DELETE FROM tbl_combined_equipments_parameters WHERE combined_equipment_id = %s ", (id_,))
+                cursor.execute(
+                    " DELETE FROM tbl_combined_equipments_parameters WHERE combined_equipment_id = %s ", (id_,)
+                )
 
                 # delete relation with virtual meter
-                cursor.execute(" DELETE FROM tbl_combined_equipments_virtual_meters WHERE combined_equipment_id = %s ", (id_,))
+                cursor.execute(
+                    " DELETE FROM tbl_combined_equipments_virtual_meters WHERE combined_equipment_id = %s ", (id_,)
+                )
                 cnx.commit()
 
                 cursor.execute(" DELETE FROM tbl_combined_equipments WHERE id = %s ", (id_,))
@@ -762,7 +774,8 @@ class CombinedEquipmentItem:
                                (id_,))
                 rows_meters = cursor.fetchall()
                 if rows_meters is not None and len(rows_meters) > 0:
-                    add_values = (" INSERT INTO tbl_combined_equipments_meters (combined_equipment_id, meter_id, is_output) "
+                    add_values = (" INSERT INTO tbl_combined_equipments_meters "
+                                  "(combined_equipment_id, meter_id, is_output) "
                                   " VALUES  ")
                     for row in rows_meters:
                         add_values += " (" + str(new_id) + ","
@@ -809,7 +822,8 @@ class CombinedEquipmentItem:
                     cnx.commit()
 
                 # clone parameters
-                cursor.execute(" SELECT name, parameter_type, constant, point_id, numerator_meter_uuid, denominator_meter_uuid "
+                cursor.execute(" SELECT name, parameter_type, constant, point_id, "
+                               " numerator_meter_uuid, denominator_meter_uuid "
                                " FROM tbl_combined_equipments_parameters "
                                " WHERE combined_equipment_id = %s ",
                                (id_,))
@@ -1515,6 +1529,7 @@ class CombinedEquipmentParameterCollection:
         resp.status = falcon.HTTP_201
         resp.location = '/combinedequipments/' + str(id_) + 'parameters/' + str(new_id)
 
+
 class CombinedEquipmentParameterItem:
     def __init__(self):
         pass
@@ -2018,7 +2033,9 @@ class CombinedEquipmentDataSourceCollection:
                                            description='API.COMBINED_EQUIPMENT_NOT_FOUND')
 
                 query = (" SELECT ds.id, ds.name, ds.uuid "
-                         " FROM tbl_combined_equipments ce, tbl_combined_equipments_data_sources ceds, tbl_data_sources ds "
+                         " FROM tbl_combined_equipments ce, "
+                         "tbl_combined_equipments_data_sources ceds, "
+                         "tbl_data_sources ds "
                          " WHERE ceds.combined_equipment_id = ce.id AND ds.id = ceds.data_source_id AND ce.id = %s "
                          " ORDER BY ds.id ")
                 cursor.execute(query, (id_,))
@@ -2102,7 +2119,8 @@ class CombinedEquipmentDataSourceCollection:
                     raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR',
                                            description='API.COMBINED_EQUIPMENT_DATA_SOURCE_RELATION_EXISTS')
 
-                cursor.execute(" INSERT INTO tbl_combined_equipments_data_sources (combined_equipment_id, data_source_id) "
+                cursor.execute(" INSERT INTO tbl_combined_equipments_data_sources "
+                               " (combined_equipment_id, data_source_id) "
                                " VALUES (%s, %s) ", (id_, data_source_id))
                 cnx.commit()
 
@@ -2118,6 +2136,7 @@ class CombinedEquipmentDataSourceCollection:
 
         resp.status = falcon.HTTP_201
         resp.location = '/combinedequipments/' + str(id_) + '/datasources/' + str(data_source_id)
+
 
 class CombinedEquipmentDataSourceItem:
     def __init__(self):
@@ -2153,19 +2172,19 @@ class CombinedEquipmentDataSourceItem:
                 cursor.execute(" SELECT name FROM tbl_combined_equipments WHERE id = %s ", (id_,))
                 if cursor.fetchone() is None:
                     raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.COMBINED_EQUIPMENT_NOT_FOUND')
+                                           description='API.COMBINED_EQUIPMENT_NOT_FOUND')
 
                 cursor.execute(" SELECT name FROM tbl_data_sources WHERE id = %s ", (dsid,))
                 if cursor.fetchone() is None:
                     raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.DATA_SOURCE_NOT_FOUND')
+                                           description='API.DATA_SOURCE_NOT_FOUND')
 
                 cursor.execute(" SELECT id "
                                " FROM tbl_combined_equipments_data_sources "
                                " WHERE combined_equipment_id = %s AND data_source_id = %s ", (id_, dsid))
                 if cursor.fetchone() is None:
                     raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.COMBINED_EQUIPMENT_DATA_SOURCE_RELATION_NOT_FOUND')
+                                           description='API.COMBINED_EQUIPMENT_DATA_SOURCE_RELATION_NOT_FOUND')
 
                 cursor.execute(" DELETE FROM tbl_combined_equipments_data_sources "
                                " WHERE combined_equipment_id = %s AND data_source_id = %s ", (id_, dsid))
@@ -2243,7 +2262,7 @@ class CombinedEquipmentDataSourcePointCollection:
                 cursor.execute(" SELECT name FROM tbl_combined_equipments WHERE id = %s ", (id_,))
                 if cursor.fetchone() is None:
                     raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.COMBINED_EQUIPMENT_NOT_FOUND')
+                                           description='API.COMBINED_EQUIPMENT_NOT_FOUND')
 
                 query = (" SELECT p.id, p.name "
                          " FROM tbl_points p, tbl_combined_equipments_data_sources ceds, tbl_data_sources ds "
@@ -2336,11 +2355,11 @@ class CombinedEquipmentMeterCollection:
                 cursor = cnx.cursor()
 
                 cursor.execute(" SELECT name "
-                       " FROM tbl_combined_equipments "
-                       " WHERE id = %s ", (id_,))
+                               " FROM tbl_combined_equipments "
+                               " WHERE id = %s ", (id_,))
                 if cursor.fetchone() is None:
                     raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.COMBINED_EQUIPMENT_NOT_FOUND')
+                                           description='API.COMBINED_EQUIPMENT_NOT_FOUND')
 
                 query = (" SELECT id, name, uuid "
                          " FROM tbl_energy_categories ")
@@ -2432,18 +2451,18 @@ class CombinedEquipmentMeterCollection:
                 cursor = cnx.cursor()
 
                 cursor.execute(" SELECT name "
-                       " from tbl_combined_equipments "
-                       " WHERE id = %s ", (id_,))
+                               " from tbl_combined_equipments "
+                               " WHERE id = %s ", (id_,))
                 if cursor.fetchone() is None:
                     raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.COMBINED_EQUIPMENT_NOT_FOUND')
+                                           description='API.COMBINED_EQUIPMENT_NOT_FOUND')
 
                 cursor.execute(" SELECT name "
-                       " FROM tbl_meters "
-                       " WHERE id = %s ", (meter_id,))
+                               " FROM tbl_meters "
+                               " WHERE id = %s ", (meter_id,))
                 if cursor.fetchone() is None:
                     raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.METER_NOT_FOUND')
+                                           description='API.METER_NOT_FOUND')
 
                 query = (" SELECT id "
                          " FROM tbl_combined_equipments_meters "
@@ -2451,7 +2470,7 @@ class CombinedEquipmentMeterCollection:
                 cursor.execute(query, (id_, meter_id,))
                 if cursor.fetchone() is not None:
                     raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR',
-                                   description='API.COMBINED_EQUIPMENT_METER_RELATION_EXISTS')
+                                           description='API.COMBINED_EQUIPMENT_METER_RELATION_EXISTS')
 
                 add_row = (" INSERT INTO tbl_combined_equipments_meters (combined_equipment_id, meter_id, is_output ) "
                            " VALUES (%s, %s, %s) ")
@@ -2502,28 +2521,28 @@ class CombinedEquipmentMeterItem:
                 cursor = cnx.cursor()
 
                 cursor.execute(" SELECT name "
-                       " FROM tbl_combined_equipments "
-                       " WHERE id = %s ", (id_,))
+                               " FROM tbl_combined_equipments "
+                               " WHERE id = %s ", (id_,))
                 if cursor.fetchone() is None:
                     raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.COMBINED_EQUIPMENT_NOT_FOUND')
+                                           description='API.COMBINED_EQUIPMENT_NOT_FOUND')
 
                 cursor.execute(" SELECT name "
-                       " FROM tbl_meters "
-                       " WHERE id = %s ", (mid,))
+                               " FROM tbl_meters "
+                               " WHERE id = %s ", (mid,))
                 if cursor.fetchone() is None:
                     raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.METER_NOT_FOUND')
+                                           description='API.METER_NOT_FOUND')
 
                 cursor.execute(" SELECT id "
-                       " FROM tbl_combined_equipments_meters "
-                       " WHERE combined_equipment_id = %s AND meter_id = %s ", (id_, mid))
+                               " FROM tbl_combined_equipments_meters "
+                               " WHERE combined_equipment_id = %s AND meter_id = %s ", (id_, mid))
                 if cursor.fetchone() is None:
                     raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.COMBINED_EQUIPMENT_METER_RELATION_NOT_FOUND')
+                                           description='API.COMBINED_EQUIPMENT_METER_RELATION_NOT_FOUND')
 
                 cursor.execute(" DELETE FROM tbl_combined_equipments_meters "
-                       " WHERE combined_equipment_id = %s AND meter_id = %s ", (id_, mid))
+                               " WHERE combined_equipment_id = %s AND meter_id = %s ", (id_, mid))
                 cnx.commit()
 
             finally:
@@ -2596,11 +2615,11 @@ class CombinedEquipmentOfflineMeterCollection:
                 cursor = cnx.cursor()
 
                 cursor.execute(" SELECT name "
-                       " FROM tbl_combined_equipments "
-                       " WHERE id = %s ", (id_,))
+                               " FROM tbl_combined_equipments "
+                               " WHERE id = %s ", (id_,))
                 if cursor.fetchone() is None:
                     raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.COMBINED_EQUIPMENT_NOT_FOUND')
+                                           description='API.COMBINED_EQUIPMENT_NOT_FOUND')
 
                 query = (" SELECT id, name, uuid "
                          " FROM tbl_energy_categories ")
@@ -2615,7 +2634,9 @@ class CombinedEquipmentOfflineMeterCollection:
                                                         "uuid": row[2]}
 
                 query = (" SELECT m.id, m.name, m.uuid, m.energy_category_id, em.is_output "
-                         " FROM tbl_combined_equipments e, tbl_combined_equipments_offline_meters em, tbl_offline_meters m "
+                         " FROM tbl_combined_equipments e, "
+                         " tbl_combined_equipments_offline_meters em, "
+                         " tbl_offline_meters m "
                          " WHERE em.combined_equipment_id = e.id AND m.id = em.offline_meter_id AND e.id = %s "
                          " ORDER BY m.id ")
                 cursor.execute(query, (id_,))
@@ -2692,18 +2713,18 @@ class CombinedEquipmentOfflineMeterCollection:
                 cursor = cnx.cursor()
 
                 cursor.execute(" SELECT name "
-                       " from tbl_combined_equipments "
-                       " WHERE id = %s ", (id_,))
+                               " from tbl_combined_equipments "
+                               " WHERE id = %s ", (id_,))
                 if cursor.fetchone() is None:
                     raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.COMBINED_EQUIPMENT_NOT_FOUND')
+                                           description='API.COMBINED_EQUIPMENT_NOT_FOUND')
 
                 cursor.execute(" SELECT name "
-                       " FROM tbl_offline_meters "
-                       " WHERE id = %s ", (offline_meter_id,))
+                               " FROM tbl_offline_meters "
+                               " WHERE id = %s ", (offline_meter_id,))
                 if cursor.fetchone() is None:
                     raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.OFFLINE_METER_NOT_FOUND')
+                                           description='API.OFFLINE_METER_NOT_FOUND')
 
                 query = (" SELECT id "
                          " FROM tbl_combined_equipments_offline_meters "
@@ -2711,7 +2732,7 @@ class CombinedEquipmentOfflineMeterCollection:
                 cursor.execute(query, (id_, offline_meter_id,))
                 if cursor.fetchone() is not None:
                     raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR',
-                                   description='API.COMBINED_EQUIPMENT_OFFLINE_METER_RELATION_EXISTS')
+                                           description='API.COMBINED_EQUIPMENT_OFFLINE_METER_RELATION_EXISTS')
 
                 add_row = (" INSERT INTO tbl_combined_equipments_offline_meters "
                            " (combined_equipment_id, offline_meter_id, is_output ) "
@@ -2763,28 +2784,28 @@ class CombinedEquipmentOfflineMeterItem:
                 cursor = cnx.cursor()
 
                 cursor.execute(" SELECT name "
-                       " FROM tbl_combined_equipments "
-                       " WHERE id = %s ", (id_,))
+                               " FROM tbl_combined_equipments "
+                               " WHERE id = %s ", (id_,))
                 if cursor.fetchone() is None:
                     raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.COMBINED_EQUIPMENT_NOT_FOUND')
+                                           description='API.COMBINED_EQUIPMENT_NOT_FOUND')
 
                 cursor.execute(" SELECT name "
-                       " FROM tbl_offline_meters "
-                       " WHERE id = %s ", (mid,))
+                               " FROM tbl_offline_meters "
+                               " WHERE id = %s ", (mid,))
                 if cursor.fetchone() is None:
                     raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.OFFLINE_METER_NOT_FOUND')
+                                           description='API.OFFLINE_METER_NOT_FOUND')
 
                 cursor.execute(" SELECT id "
-                       " FROM tbl_combined_equipments_offline_meters "
-                       " WHERE combined_equipment_id = %s AND offline_meter_id = %s ", (id_, mid))
+                               " FROM tbl_combined_equipments_offline_meters "
+                               " WHERE combined_equipment_id = %s AND offline_meter_id = %s ", (id_, mid))
                 if cursor.fetchone() is None:
                     raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.COMBINED_EQUIPMENT_OFFLINE_METER_RELATION_NOT_FOUND')
+                                           description='API.COMBINED_EQUIPMENT_OFFLINE_METER_RELATION_NOT_FOUND')
 
                 cursor.execute(" DELETE FROM tbl_combined_equipments_offline_meters "
-                       " WHERE combined_equipment_id = %s AND offline_meter_id = %s ", (id_, mid))
+                               " WHERE combined_equipment_id = %s AND offline_meter_id = %s ", (id_, mid))
                 cnx.commit()
 
             finally:
@@ -2857,11 +2878,11 @@ class CombinedEquipmentVirtualMeterCollection:
                 cursor = cnx.cursor()
 
                 cursor.execute(" SELECT name "
-                       " FROM tbl_combined_equipments "
-                       " WHERE id = %s ", (id_,))
+                               " FROM tbl_combined_equipments "
+                               " WHERE id = %s ", (id_,))
                 if cursor.fetchone() is None:
                     raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.COMBINED_EQUIPMENT_NOT_FOUND')
+                                           description='API.COMBINED_EQUIPMENT_NOT_FOUND')
 
                 query = (" SELECT id, name, uuid "
                          " FROM tbl_energy_categories ")
@@ -2876,7 +2897,9 @@ class CombinedEquipmentVirtualMeterCollection:
                                                         "uuid": row[2]}
 
                 query = (" SELECT m.id, m.name, m.uuid, m.energy_category_id, em.is_output "
-                         " FROM tbl_combined_equipments e, tbl_combined_equipments_virtual_meters em, tbl_virtual_meters m "
+                         " FROM tbl_combined_equipments e, "
+                         " tbl_combined_equipments_virtual_meters em, "
+                         " tbl_virtual_meters m "
                          " WHERE em.combined_equipment_id = e.id AND m.id = em.virtual_meter_id AND e.id = %s "
                          " ORDER BY m.id ")
                 cursor.execute(query, (id_,))
@@ -2953,18 +2976,18 @@ class CombinedEquipmentVirtualMeterCollection:
                 cursor = cnx.cursor()
 
                 cursor.execute(" SELECT name "
-                       " from tbl_combined_equipments "
-                       " WHERE id = %s ", (id_,))
+                               " from tbl_combined_equipments "
+                               " WHERE id = %s ", (id_,))
                 if cursor.fetchone() is None:
                     raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.COMBINED_EQUIPMENT_NOT_FOUND')
+                                           description='API.COMBINED_EQUIPMENT_NOT_FOUND')
 
                 cursor.execute(" SELECT name "
-                       " FROM tbl_virtual_meters "
-                       " WHERE id = %s ", (virtual_meter_id,))
+                               " FROM tbl_virtual_meters "
+                               " WHERE id = %s ", (virtual_meter_id,))
                 if cursor.fetchone() is None:
                     raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.VIRTUAL_METER_NOT_FOUND')
+                                           description='API.VIRTUAL_METER_NOT_FOUND')
 
                 query = (" SELECT id "
                          " FROM tbl_combined_equipments_virtual_meters "
@@ -2972,7 +2995,7 @@ class CombinedEquipmentVirtualMeterCollection:
                 cursor.execute(query, (id_, virtual_meter_id,))
                 if cursor.fetchone() is not None:
                     raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR',
-                                   description='API.COMBINED_EQUIPMENT_VIRTUAL_METER_RELATION_EXISTS')
+                                           description='API.COMBINED_EQUIPMENT_VIRTUAL_METER_RELATION_EXISTS')
 
                 add_row = (" INSERT INTO tbl_combined_equipments_virtual_meters "
                            " (combined_equipment_id, virtual_meter_id, is_output ) "
@@ -2992,6 +3015,7 @@ class CombinedEquipmentVirtualMeterCollection:
 
         resp.status = falcon.HTTP_201
         resp.location = '/combinedequipments/' + str(id_) + '/virtualmeters/' + str(virtual_meter_id)
+
 
 class CombinedEquipmentVirtualMeterItem:
     def __init__(self):
@@ -3477,7 +3501,9 @@ class CombinedEquipmentExport:
                                                             "uuid": row[2]}
 
                     query = (" SELECT m.id, m.name, m.uuid, m.energy_category_id, em.is_output "
-                             " FROM tbl_combined_equipments e, tbl_combined_equipments_offline_meters em, tbl_offline_meters m "
+                             " FROM tbl_combined_equipments e, "
+                             " tbl_combined_equipments_offline_meters em, "
+                             " tbl_offline_meters m "
                              " WHERE em.combined_equipment_id = e.id AND m.id = em.offline_meter_id AND e.id = %s "
                              " ORDER BY m.id ")
                     cursor.execute(query, (id_,))
@@ -3505,7 +3531,9 @@ class CombinedEquipmentExport:
                                                             "uuid": row[2]}
 
                     query = (" SELECT m.id, m.name, m.uuid, m.energy_category_id, em.is_output "
-                             " FROM tbl_combined_equipments e, tbl_combined_equipments_virtual_meters em, tbl_virtual_meters m "
+                             " FROM tbl_combined_equipments e, "
+                             " tbl_combined_equipments_virtual_meters em, "
+                             " tbl_virtual_meters m "
                              " WHERE em.combined_equipment_id = e.id AND m.id = em.virtual_meter_id AND e.id = %s "
                              " ORDER BY m.id ")
                     cursor.execute(query, (id_,))
@@ -3792,7 +3820,8 @@ class CombinedEquipmentImport:
                             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR',
                                                    description='API.COMBINED_EQUIPMENT_EQUIPMENT_RELATION_EXISTS')
 
-                        add_row = (" INSERT INTO tbl_combined_equipments_equipments (combined_equipment_id, equipment_id) "
+                        add_row = (" INSERT INTO tbl_combined_equipments_equipments "
+                                   " (combined_equipment_id, equipment_id) "
                                    " VALUES (%s, %s) ")
                         cursor.execute(add_row, (new_id, equipment['id'],))
                 if new_values['commands'] is not None and len(new_values['commands']) > 0:
@@ -3832,7 +3861,8 @@ class CombinedEquipmentImport:
                             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR',
                                                    description='API.COMBINED_EQUIPMENT_METER_RELATION_EXISTS')
 
-                        add_row = (" INSERT INTO tbl_combined_equipments_meters (combined_equipment_id, meter_id, is_output ) "
+                        add_row = (" INSERT INTO tbl_combined_equipments_meters "
+                                   " (combined_equipment_id, meter_id, is_output ) "
                                    " VALUES (%s, %s, %s) ")
                         cursor.execute(add_row, (new_id, meter['id'], meter['is_output']))
                 if new_values['offline_meters'] is not None and len(new_values['offline_meters']) > 0:
@@ -3883,8 +3913,10 @@ class CombinedEquipmentImport:
                                        " FROM tbl_combined_equipments_parameters "
                                        " WHERE name = %s AND combined_equipment_id = %s ", (parameters['name'], new_id))
                         if cursor.fetchone() is not None:
-                            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                                   description='API.COMBINED_EQUIPMENT_PARAMETER_NAME_IS_ALREADY_IN_USE')
+                            raise falcon.HTTPError(
+                                status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                description='API.COMBINED_EQUIPMENT_PARAMETER_NAME_IS_ALREADY_IN_USE'
+                            )
                         if 'point' in parameters:
                             if parameters['point'] is None:
                                 point_id = None
@@ -4017,6 +4049,7 @@ class CombinedEquipmentImport:
 
         resp.status = falcon.HTTP_201
         resp.location = '/combinedequipments/' + str(new_id)
+
 
 class CombinedEquipmentClone:
     def __init__(self):
@@ -4154,7 +4187,9 @@ class CombinedEquipmentClone:
                                                             "uuid": row[2]}
 
                     query = (" SELECT m.id, m.name, m.uuid, m.energy_category_id, em.is_output "
-                             " FROM tbl_combined_equipments e, tbl_combined_equipments_offline_meters em, tbl_offline_meters m "
+                             " FROM tbl_combined_equipments e, "
+                             " tbl_combined_equipments_offline_meters em, "
+                             " tbl_offline_meters m "
                              " WHERE em.combined_equipment_id = e.id AND m.id = em.offline_meter_id AND e.id = %s "
                              " ORDER BY m.id ")
                     cursor.execute(query, (id_,))
@@ -4182,7 +4217,9 @@ class CombinedEquipmentClone:
                                                             "uuid": row[2]}
 
                     query = (" SELECT m.id, m.name, m.uuid, m.energy_category_id, em.is_output "
-                             " FROM tbl_combined_equipments e, tbl_combined_equipments_virtual_meters em, tbl_virtual_meters m "
+                             " FROM tbl_combined_equipments e, "
+                             " tbl_combined_equipments_virtual_meters em, "
+                             " tbl_virtual_meters m "
                              " WHERE em.combined_equipment_id = e.id AND m.id = em.virtual_meter_id AND e.id = %s "
                              " ORDER BY m.id ")
                     cursor.execute(query, (id_,))
@@ -4302,7 +4339,8 @@ class CombinedEquipmentClone:
                     if config.utc_offset[0] == '-':
                         timezone_offset = -timezone_offset
                     new_name = (str.strip(meta_result['name']) +
-                                (datetime.utcnow() + timedelta(minutes=timezone_offset)).isoformat(sep='-', timespec='seconds'))
+                                (datetime.utcnow() +
+                                timedelta(minutes=timezone_offset)).isoformat(sep='-', timespec='seconds'))
                     add_values = (" INSERT INTO tbl_combined_equipments "
                                   "    (name, uuid, is_input_counted, is_output_counted, "
                                   "     cost_center_id, efficiency_indicator, svg_id, camera_url, description) "
@@ -4334,7 +4372,8 @@ class CombinedEquipmentClone:
                                 raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR',
                                                        description='API.COMBINED_EQUIPMENT_EQUIPMENT_RELATION_EXISTS')
 
-                            add_row = (" INSERT INTO tbl_combined_equipments_equipments (combined_equipment_id, equipment_id) "
+                            add_row = (" INSERT INTO tbl_combined_equipments_equipments "
+                                       " (combined_equipment_id, equipment_id) "
                                        " VALUES (%s, %s) ")
                             cursor.execute(add_row, (new_id, equipment['id'],))
                     if meta_result['commands'] is not None and len(meta_result['commands']) > 0:
@@ -4354,7 +4393,8 @@ class CombinedEquipmentClone:
                                 raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR',
                                                        description='API.COMBINED_EQUIPMENT_COMMAND_RELATION_EXISTS')
 
-                            add_row = (" INSERT INTO tbl_combined_equipments_commands (combined_equipment_id, command_id) "
+                            add_row = (" INSERT INTO tbl_combined_equipments_commands "
+                                       " (combined_equipment_id, command_id) "
                                        " VALUES (%s, %s) ")
                             cursor.execute(add_row, (new_id, command['id'],))
                     if meta_result['meters'] is not None and len(meta_result['meters']) > 0:
@@ -4375,7 +4415,8 @@ class CombinedEquipmentClone:
                                                        description='API.COMBINED_EQUIPMENT_METER_RELATION_EXISTS')
 
                             add_row = (
-                                " INSERT INTO tbl_combined_equipments_meters (combined_equipment_id, meter_id, is_output ) "
+                                " INSERT INTO tbl_combined_equipments_meters "
+                                " (combined_equipment_id, meter_id, is_output ) "
                                 " VALUES (%s, %s, %s) ")
                             cursor.execute(add_row, (new_id, meter['id'], meter['is_output']))
                     if meta_result['offline_meters'] is not None and len(meta_result['offline_meters']) > 0:
@@ -4392,8 +4433,10 @@ class CombinedEquipmentClone:
                                      " WHERE combined_equipment_id = %s AND offline_meter_id = %s")
                             cursor.execute(query, (new_id, offline_meter['id'],))
                             if cursor.fetchone() is not None:
-                                raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR',
-                                                       description='API.COMBINED_EQUIPMENT_OFFLINE_METER_RELATION_EXISTS')
+                                raise falcon.HTTPError(
+                                    status=falcon.HTTP_400, title='API.ERROR',
+                                    description='API.COMBINED_EQUIPMENT_OFFLINE_METER_RELATION_EXISTS'
+                                )
 
                             add_row = (" INSERT INTO tbl_combined_equipments_offline_meters "
                                        " (combined_equipment_id, offline_meter_id, is_output ) "
@@ -4413,8 +4456,10 @@ class CombinedEquipmentClone:
                                      " WHERE combined_equipment_id = %s AND virtual_meter_id = %s")
                             cursor.execute(query, (new_id, virtual_meter['id'],))
                             if cursor.fetchone() is not None:
-                                raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR',
-                                                       description='API.COMBINED_EQUIPMENT_VIRTUAL_METER_RELATION_EXISTS')
+                                raise falcon.HTTPError(
+                                    status=falcon.HTTP_400, title='API.ERROR',
+                                    description='API.COMBINED_EQUIPMENT_VIRTUAL_METER_RELATION_EXISTS'
+                                )
 
                             add_row = (" INSERT INTO tbl_combined_equipments_virtual_meters "
                                        " (combined_equipment_id, virtual_meter_id, is_output ) "
@@ -4424,10 +4469,13 @@ class CombinedEquipmentClone:
                         for parameters in meta_result['parameters']:
                             cursor.execute(" SELECT name "
                                            " FROM tbl_combined_equipments_parameters "
-                                           " WHERE name = %s AND combined_equipment_id = %s ", (parameters['name'], new_id))
+                                           " WHERE name = %s "
+                                           " AND combined_equipment_id = %s ", (parameters['name'], new_id))
                             if cursor.fetchone() is not None:
-                                raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                                       description='API.COMBINED_EQUIPMENT_PARAMETER_NAME_IS_ALREADY_IN_USE')
+                                raise falcon.HTTPError(
+                                    status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                    description='API.COMBINED_EQUIPMENT_PARAMETER_NAME_IS_ALREADY_IN_USE'
+                                )
                             if 'point' in parameters:
                                 if parameters['point'] is None:
                                     point_id = None
@@ -4482,10 +4530,12 @@ class CombinedEquipmentClone:
                                 meter_dict_clone = dict()
                                 if rows_meters is not None and len(rows_meters) > 0:
                                     for row in rows_meters:
-                                        meter_dict_clone[row[2]] = {"type": 'meter',
-                                                                  "id": row[0],
-                                                                  "name": row[1],
-                                                                  "uuid": row[2]}
+                                        meter_dict_clone[row[2]] = {
+                                            "type": 'meter',
+                                            "id": row[0],
+                                            "name": row[1],
+                                            "uuid": row[2]
+                                        }
 
                                 query = (" SELECT id, name, uuid "
                                          " FROM tbl_offline_meters ")
@@ -4495,10 +4545,12 @@ class CombinedEquipmentClone:
                                 offline_meter_dict_clone = dict()
                                 if rows_offline_meters is not None and len(rows_offline_meters) > 0:
                                     for row in rows_offline_meters:
-                                        offline_meter_dict_clone[row[2]] = {"type": 'offline_meter',
-                                                                      "id": row[0],
-                                                                      "name": row[1],
-                                                                      "uuid": row[2]}
+                                        offline_meter_dict_clone[row[2]] = {
+                                            "type": 'offline_meter',
+                                            "id": row[0],
+                                            "name": row[1],
+                                            "uuid": row[2]
+                                        }
 
                                 query = (" SELECT id, name, uuid "
                                          " FROM tbl_virtual_meters ")
@@ -4508,10 +4560,12 @@ class CombinedEquipmentClone:
                                 virtual_meter_dict_clone = dict()
                                 if rows_virtual_meters is not None and len(rows_virtual_meters) > 0:
                                     for row in rows_virtual_meters:
-                                        virtual_meter_dict_clone[row[2]] = {"type": 'virtual_meter',
-                                                                      "id": row[0],
-                                                                      "name": row[1],
-                                                                      "uuid": row[2]}
+                                        virtual_meter_dict_clone[row[2]] = {
+                                            "type": 'virtual_meter',
+                                            "id": row[0],
+                                            "name": row[1],
+                                            "uuid": row[2]
+                                        }
 
                                 # validate numerator meter uuid
                                 if meter_dict_clone.get(numerator_meter_uuid) is None and \
