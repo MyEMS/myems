@@ -276,10 +276,10 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
               totalInTCE['increment_rate'] =
                 parseFloat(json['reporting_period_input']['this_month_increment_rate_in_kgce'] * 100).toFixed(2) + '%';
               totalInTCE['value_per_unit_area'] =
-                json['space']['area'] > 0 ? parseFloat(totalInTCE['value'] / json['space']['area']).toFixed(3) : 0.0;
+                json['space']['area'] > 0 ? parseFloat(1000.0 * totalInTCE['value'] / json['space']['area']).toFixed(3) : 0.0;
               totalInTCE['value_per_capita'] =
                 json['space']['number_of_occupants'] > 0
-                  ? parseFloat(totalInTCE['value'] / json['space']['number_of_occupants']).toFixed(3)
+                  ? parseFloat(1000.0 *totalInTCE['value'] / json['space']['number_of_occupants']).toFixed(3)
                   : 0.0;
               setTotalInTCE(totalInTCE);
 
@@ -299,10 +299,10 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
               totalInTCO2E['increment_rate'] =
                 parseFloat(json['reporting_period_input']['this_month_increment_rate_in_kgco2e'] * 100).toFixed(2) + '%';
               totalInTCO2E['value_per_unit_area'] =
-                json['space']['area'] > 0 ? parseFloat(totalInTCO2E['value'] / json['space']['area']).toFixed(3) : 0.0;
+                json['space']['area'] > 0 ? parseFloat(1000.0 * totalInTCO2E['value'] / json['space']['area']).toFixed(3) : 0.0;
               totalInTCO2E['value_per_capita'] =
                 json['space']['number_of_occupants'] > 0
-                  ? parseFloat(totalInTCO2E['value'] / json['space']['number_of_occupants']).toFixed(3)
+                  ? parseFloat(1000.0 * totalInTCO2E['value'] / json['space']['number_of_occupants']).toFixed(3)
                   : 0.0;
               setTotalInTCO2E(totalInTCO2E);
 
@@ -767,10 +767,10 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
             color="warning"
             footnote={t('Per Unit Area')}
             footvalue={totalInTCE['value_per_unit_area']}
-            footunit="(TCE/m²)"
+            footunit="(kgCE/m²)"
             secondfootnote={t('Per Capita')}
             secondfootvalue={totalInTCE['value_per_capita']}
-            secondfootunit="(TCE)"
+            secondfootunit="(kgCE)"
           >
             {totalInTCE['value'] && (
               <CountUp end={totalInTCE['value']} duration={2} prefix="" separator="," decimal="." decimals={2} />
@@ -788,10 +788,10 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
           color="warning"
           footnote={t('Per Unit Area')}
           footvalue={totalInTCO2E['value_per_unit_area']}
-          footunit="(TCO2E/m²)"
+          footunit="(kgCO2E/m²)"
           secondfootnote={t('Per Capita')}
           secondfootvalue={totalInTCO2E['value_per_capita']}
-          secondfootunit="(TCO2E)"
+          secondfootunit="(kgCO2E)"
         >
           {totalInTCO2E['value'] && (
             <CountUp end={totalInTCO2E['value']} duration={2} prefix="" separator="," decimal="." decimals={2} />
@@ -820,14 +820,14 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
               ? (totalInTCO2E['value_per_unit_area'] / totalInTCE['value_per_unit_area']).toFixed(3)
               : '--'
           }
-          footunit={t('(TCO2E/TCE/m²)')}
+          footunit={t('(kgCO2E/kgCE/m²)')}
           secondfootnote={t('Per Capita')}
           secondfootvalue={
             totalInTCE['value_per_capita'] && totalInTCE['value_per_capita'] !== 0 && totalInTCO2E['value_per_capita']
               ? (totalInTCO2E['value_per_capita'] / totalInTCE['value_per_capita']).toFixed(3)
               : '--'
           }
-          secondfootunit={t('(TCO2E/TCE)')}
+          secondfootunit={t('(kgCO2E/kgCE)')}
         >
           {totalInTCE['value'] && totalInTCE['value'] !== 0 && totalInTCO2E['value'] ? (
             <CountUp
