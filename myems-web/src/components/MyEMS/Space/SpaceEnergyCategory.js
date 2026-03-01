@@ -303,16 +303,16 @@ const SpaceEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => {
             totalInTCE['value'] = json['reporting_period']['total_in_kgce'] / 1000; // convert from kg to t
             totalInTCE['increment_rate'] =
               parseFloat(json['reporting_period']['increment_rate_in_kgce'] * 100).toFixed(2) + '%';
-            totalInTCE['value_per_unit_area'] = json['reporting_period']['total_in_kgce_per_unit_area'] / 1000; // convert from kg to t
-            totalInTCE['value_per_capita'] = json['reporting_period']['total_in_kgce_per_capita'] / 1000;
+            totalInTCE['value_per_unit_area'] = json['reporting_period']['total_in_kgce_per_unit_area'];
+            totalInTCE['value_per_capita'] = json['reporting_period']['total_in_kgce_per_capita'];
             setTotalInTCE(totalInTCE);
 
             let totalInTCO2E = {};
             totalInTCO2E['value'] = json['reporting_period']['total_in_kgco2e'] / 1000; // convert from kg to t
             totalInTCO2E['increment_rate'] =
               parseFloat(json['reporting_period']['increment_rate_in_kgco2e'] * 100).toFixed(2) + '%';
-            totalInTCO2E['value_per_unit_area'] = json['reporting_period']['total_in_kgco2e_per_unit_area'] / 1000; // convert from kg to t
-            totalInTCO2E['value_per_capita'] = json['reporting_period']['total_in_kgce_per_capita'] / 1000;
+            totalInTCO2E['value_per_unit_area'] = json['reporting_period']['total_in_kgco2e_per_unit_area'];
+            totalInTCO2E['value_per_capita'] = json['reporting_period']['total_in_kgce_per_capita'];
             setTotalInTCO2E(totalInTCO2E);
 
             let TCEDataArray = [];
@@ -1344,10 +1344,10 @@ const SpaceEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => {
               color="warning"
               footnote={t('Per Unit Area')}
               footvalue={totalInTCE['value_per_unit_area']}
-              footunit="(TCE/M²)"
+              footunit="(kgCE/M²)"
               secondfootnote={t('Per Capita')}
               secondfootvalue={totalInTCE['value_per_capita']}
-              secondfootunit="(TCE/M²)"
+              secondfootunit="(kgCE)"
             >
               {totalInTCE['value'] && (
                 <CountUp end={totalInTCE['value']} duration={2} prefix="" separator="," decimal="." decimals={2} />
@@ -1365,10 +1365,10 @@ const SpaceEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => {
             color="warning"
             footnote={t('Per Unit Area')}
             footvalue={totalInTCO2E['value_per_unit_area']}
-            footunit="(TCO2E/M²)"
+            footunit="(kgCO2E/M²)"
             secondfootnote={t('Per Capita')}
             secondfootvalue={totalInTCO2E['value_per_capita']}
-            secondfootunit="(TCO2E)"
+            secondfootunit="(kgCO2E)"
           >
             {totalInTCO2E['value'] && (
               <CountUp end={totalInTCO2E['value']} duration={2} prefix="" separator="," decimal="." decimals={2} />
@@ -1391,14 +1391,14 @@ const SpaceEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => {
                 ? (totalInTCO2E['value_per_unit_area'] / totalInTCE['value_per_unit_area']).toFixed(3)
                 : '--'
             }
-            footunit="(TCO2E/TCE/M²)"
+            footunit="(kgCO2E/kgCE/M²)"
             secondfootnote={t('Per Capita')}
             secondfootvalue={
               totalInTCE['value_per_capita'] && totalInTCE['value_per_capita'] !== 0 && totalInTCO2E['value_per_capita']
                 ? (totalInTCO2E['value_per_capita'] / totalInTCE['value_per_capita']).toFixed(3)
                 : '--'
             }
-            secondfootunit="(TCO2E/TCE)"
+            secondfootunit="(kgCO2E/kgCE)"
           >
             {totalInTCE['value'] && totalInTCE['value'] !== 0 && totalInTCO2E['value'] ? (
               <CountUp
