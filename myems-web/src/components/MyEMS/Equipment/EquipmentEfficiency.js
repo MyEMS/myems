@@ -148,6 +148,7 @@ const EquipmentEfficiency = ({ setRedirect, setRedirectUrl, t }) => {
     { dataField: 'startdatetime', text: t('Datetime'), sort: true }
   ]);
   const [excelBytesBase64, setExcelBytesBase64] = useState(undefined);
+  const [equipmentEfficiencyIndicator, setEquipmentEfficiencyIndicator] = useState(null);
 
   useEffect(() => {
     let isResponseOK = false;
@@ -494,6 +495,13 @@ const EquipmentEfficiency = ({ setRedirect, setRedirectUrl, t }) => {
       })
       .then(json => {
         if (isResponseOK) {
+          // Set equipment efficiency indicator
+          if (json['equipment'] && json['equipment']['efficiency_indicator'] !== undefined) {
+            setEquipmentEfficiencyIndicator(json['equipment']['efficiency_indicator']);
+          } else {
+            setEquipmentEfficiencyIndicator(null);
+          }
+
           let cardSummaryArray = [];
           json['reporting_period_efficiency']['names'].forEach((currentValue, index) => {
             let cardSummaryItem = {};
@@ -1272,6 +1280,24 @@ const EquipmentEfficiency = ({ setRedirect, setRedirectUrl, t }) => {
               )}
             </CardSummary>
           ])}
+          {equipmentEfficiencyIndicator !== null && cardSummaryList.length > 0 && (
+            <CardSummary
+              key="efficiency-indicator"
+              title={t('Equipment Efficiency Indicator')}
+              color="warning"
+            >
+              {equipmentEfficiencyIndicator && (
+                <CountUp
+                  end={equipmentEfficiencyIndicator}
+                  duration={2}
+                  prefix=""
+                  separator=","
+                  decimal="."
+                  decimals={2}
+                />
+              )}
+            </CardSummary>
+          )}
         </div>
 
         <MultiTrendChart
@@ -1309,6 +1335,7 @@ const EquipmentEfficiency = ({ setRedirect, setRedirectUrl, t }) => {
           baseData={equipmentBaseData}
           rates={equipmentReportingRates}
           options={equipmentReportingOptions}
+          referenceLine={equipmentEfficiencyIndicator}
         />
 
         <MultipleLineChart

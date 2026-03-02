@@ -207,12 +207,12 @@ class Reporting:
         cursor_historical = cnx_historical.cursor()
 
         if equipment_id is not None:
-            cursor_system.execute(" SELECT id, name, cost_center_id "
+            cursor_system.execute(" SELECT id, name, cost_center_id, efficiency_indicator "
                                   " FROM tbl_equipments "
                                   " WHERE id = %s ", (equipment_id,))
             row_equipment = cursor_system.fetchone()
         elif equipment_uuid is not None:
-            cursor_system.execute(" SELECT id, name, cost_center_id "
+            cursor_system.execute(" SELECT id, name, cost_center_id, efficiency_indicator "
                                   " FROM tbl_equipments "
                                   " WHERE uuid = %s ", (equipment_uuid,))
             row_equipment = cursor_system.fetchone()
@@ -238,6 +238,7 @@ class Reporting:
         equipment['id'] = row_equipment[0]
         equipment['name'] = row_equipment[1]
         equipment['cost_center_id'] = row_equipment[2]
+        equipment['efficiency_indicator'] = row_equipment[3] if row_equipment[3] is not None else Decimal(0.0)
 
         ################################################################################################################
         # Step 3: query associated points
@@ -738,6 +739,7 @@ class Reporting:
 
         result['equipment'] = dict()
         result['equipment']['name'] = equipment['name']
+        result['equipment']['efficiency_indicator'] = equipment['efficiency_indicator']
 
         result['base_period_efficiency'] = dict()
         result['base_period_efficiency']['timestamps'] = list()
