@@ -41,23 +41,31 @@ class CommandCollection:
         else:
             search_query = ''
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        query = (" SELECT id, name, uuid, "
-                 "        topic, payload, set_value, description "
-                 " FROM tbl_commands " )
+                query = (" SELECT id, name, uuid, "
+                         "        topic, payload, set_value, description "
+                         " FROM tbl_commands ")
 
-        params=[]
-        if search_query:
-            query += " WHERE name LIKE %s  OR topic LIKE %s  OR  description LIKE %s "
-            params = [f'%{search_query}%', f'%{search_query}%', f'%{search_query}%']
-        query +=  " ORDER BY id "
-        cursor.execute(query, params)
+                params = []
+                if search_query:
+                    query += " WHERE name LIKE %s  OR topic LIKE %s  OR  description LIKE %s "
+                    params = [f'%{search_query}%', f'%{search_query}%', f'%{search_query}%']
+                query += " ORDER BY id "
+                cursor.execute(query, params)
 
-        rows = cursor.fetchall()
-        cursor.close()
-        cnx.close()
+                rows = cursor.fetchall()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         result = list()
         if rows is not None and len(rows) > 0:
@@ -130,32 +138,38 @@ class CommandCollection:
         else:
             description = None
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_commands "
-                       " WHERE name = %s ", (name,))
-        if cursor.fetchone() is not None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.COMMAND_NAME_IS_ALREADY_IN_USE')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_commands "
+                               " WHERE name = %s ", (name,))
+                if cursor.fetchone() is not None:
+                    raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                           description='API.COMMAND_NAME_IS_ALREADY_IN_USE')
 
-        add_row = (" INSERT INTO tbl_commands "
-                   "     (name, uuid, topic, payload, set_value, description) "
-                   " VALUES (%s, %s, %s, %s, %s, %s) ")
+                add_row = (" INSERT INTO tbl_commands "
+                           "     (name, uuid, topic, payload, set_value, description) "
+                           " VALUES (%s, %s, %s, %s, %s, %s) ")
 
-        cursor.execute(add_row, (name,
-                                 str(uuid.uuid4()),
-                                 topic,
-                                 payload,
-                                 set_value,
-                                 description))
-        new_id = cursor.lastrowid
-        cnx.commit()
-        cursor.close()
-        cnx.close()
+                cursor.execute(add_row, (name,
+                                         str(uuid.uuid4()),
+                                         topic,
+                                         payload,
+                                         set_value,
+                                         description))
+                new_id = cursor.lastrowid
+                cnx.commit()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         resp.status = falcon.HTTP_201
         resp.location = '/commands/' + str(new_id)
@@ -183,16 +197,24 @@ class CommandItem:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_COMMAND_ID')
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        query = (" SELECT id, name, uuid, topic, payload, set_value, description "
-                 " FROM tbl_commands "
-                 " WHERE id = %s ")
-        cursor.execute(query, (id_,))
-        row = cursor.fetchone()
-        cursor.close()
-        cnx.close()
+                query = (" SELECT id, name, uuid, topic, payload, set_value, description "
+                         " FROM tbl_commands "
+                         " WHERE id = %s ")
+                cursor.execute(query, (id_,))
+                row = cursor.fetchone()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         if row is None:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
@@ -215,142 +237,129 @@ class CommandItem:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_COMMAND_ID')
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_commands "
-                       " WHERE id = %s ", (id_,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.COMMAND_NOT_FOUND')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_commands "
+                               " WHERE id = %s ", (id_,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.COMMAND_NOT_FOUND')
 
-        # check relation with meter
-        cursor.execute(" SELECT meter_id "
-                       " FROM tbl_meters_commands "
-                       " WHERE command_id = %s ",
-                       (id_,))
-        rows = cursor.fetchall()
-        if rows is not None and len(rows) > 0:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_400,
-                                   title='API.BAD_REQUEST',
-                                   description='API.THERE_IS_RELATION_WITH_METERS')
+                # check relation with meter
+                cursor.execute(" SELECT meter_id "
+                               " FROM tbl_meters_commands "
+                               " WHERE command_id = %s ",
+                               (id_,))
+                rows = cursor.fetchall()
+                if rows is not None and len(rows) > 0:
+                    raise falcon.HTTPError(status=falcon.HTTP_400,
+                                           title='API.BAD_REQUEST',
+                                           description='API.THERE_IS_RELATION_WITH_METERS')
 
-        # check relation with space
-        cursor.execute(" SELECT space_id "
-                       " FROM tbl_spaces_commands "
-                       " WHERE command_id = %s ",
-                       (id_,))
-        rows_spaces = cursor.fetchall()
-        if rows_spaces is not None and len(rows_spaces) > 0:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_400,
-                                   title='API.BAD_REQUEST',
-                                   description='API.THERE_IS_RELATION_WITH_SPACES')
+                # check relation with space
+                cursor.execute(" SELECT space_id "
+                               " FROM tbl_spaces_commands "
+                               " WHERE command_id = %s ",
+                               (id_,))
+                rows_spaces = cursor.fetchall()
+                if rows_spaces is not None and len(rows_spaces) > 0:
+                    raise falcon.HTTPError(status=falcon.HTTP_400,
+                                           title='API.BAD_REQUEST',
+                                           description='API.THERE_IS_RELATION_WITH_SPACES')
 
-        # check relation with equipment
-        cursor.execute(" SELECT equipment_id "
-                       " FROM tbl_equipments_commands "
-                       " WHERE command_id = %s ",
-                       (id_,))
-        rows = cursor.fetchall()
-        if rows is not None and len(rows) > 0:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_400,
-                                   title='API.BAD_REQUEST',
-                                   description='API.THERE_IS_RELATION_WITH_EQUIPMENTS')
+                # check relation with equipment
+                cursor.execute(" SELECT equipment_id "
+                               " FROM tbl_equipments_commands "
+                               " WHERE command_id = %s ",
+                               (id_,))
+                rows = cursor.fetchall()
+                if rows is not None and len(rows) > 0:
+                    raise falcon.HTTPError(status=falcon.HTTP_400,
+                                           title='API.BAD_REQUEST',
+                                           description='API.THERE_IS_RELATION_WITH_EQUIPMENTS')
 
-        # check relation with combined equipment
-        cursor.execute(" SELECT combined_equipment_id "
-                       " FROM tbl_combined_equipments_commands "
-                       " WHERE command_id = %s ",
-                       (id_,))
-        rows = cursor.fetchall()
-        if rows is not None and len(rows) > 0:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_400,
-                                   title='API.BAD_REQUEST',
-                                   description='API.THERE_IS_RELATION_WITH_COMBINED_EQUIPMENTS')
+                # check relation with combined equipment
+                cursor.execute(" SELECT combined_equipment_id "
+                               " FROM tbl_combined_equipments_commands "
+                               " WHERE command_id = %s ",
+                               (id_,))
+                rows = cursor.fetchall()
+                if rows is not None and len(rows) > 0:
+                    raise falcon.HTTPError(status=falcon.HTTP_400,
+                                           title='API.BAD_REQUEST',
+                                           description='API.THERE_IS_RELATION_WITH_COMBINED_EQUIPMENTS')
 
-        # check relation with tenant
-        cursor.execute(" SELECT tenant_id "
-                       " FROM tbl_tenants_commands "
-                       " WHERE command_id = %s ",
-                       (id_,))
-        rows = cursor.fetchall()
-        if rows is not None and len(rows) > 0:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_400,
-                                   title='API.BAD_REQUEST',
-                                   description='API.THERE_IS_RELATION_WITH_TENANTS')
+                # check relation with tenant
+                cursor.execute(" SELECT tenant_id "
+                               " FROM tbl_tenants_commands "
+                               " WHERE command_id = %s ",
+                               (id_,))
+                rows = cursor.fetchall()
+                if rows is not None and len(rows) > 0:
+                    raise falcon.HTTPError(status=falcon.HTTP_400,
+                                           title='API.BAD_REQUEST',
+                                           description='API.THERE_IS_RELATION_WITH_TENANTS')
 
-        # check relation with store
-        cursor.execute(" SELECT store_id "
-                       " FROM tbl_stores_commands "
-                       " WHERE command_id = %s ",
-                       (id_,))
-        rows = cursor.fetchall()
-        if rows is not None and len(rows) > 0:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_400,
-                                   title='API.BAD_REQUEST',
-                                   description='API.THERE_IS_RELATION_WITH_STORES')
+                # check relation with store
+                cursor.execute(" SELECT store_id "
+                               " FROM tbl_stores_commands "
+                               " WHERE command_id = %s ",
+                               (id_,))
+                rows = cursor.fetchall()
+                if rows is not None and len(rows) > 0:
+                    raise falcon.HTTPError(status=falcon.HTTP_400,
+                                           title='API.BAD_REQUEST',
+                                           description='API.THERE_IS_RELATION_WITH_STORES')
 
-        # check relation with shopfloor
-        cursor.execute(" SELECT shopfloor_id "
-                       " FROM tbl_shopfloors_commands "
-                       " WHERE command_id = %s ",
-                       (id_,))
-        rows = cursor.fetchall()
-        if rows is not None and len(rows) > 0:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_400,
-                                   title='API.BAD_REQUEST',
-                                   description='API.THERE_IS_RELATION_WITH_SHOPFLOORS')
+                # check relation with shopfloor
+                cursor.execute(" SELECT shopfloor_id "
+                               " FROM tbl_shopfloors_commands "
+                               " WHERE command_id = %s ",
+                               (id_,))
+                rows = cursor.fetchall()
+                if rows is not None and len(rows) > 0:
+                    raise falcon.HTTPError(status=falcon.HTTP_400,
+                                           title='API.BAD_REQUEST',
+                                           description='API.THERE_IS_RELATION_WITH_SHOPFLOORS')
 
-        # check relation with energy storage container
-        cursor.execute(" SELECT energy_storage_container_id "
-                       " FROM tbl_energy_storage_containers_commands "
-                       " WHERE command_id = %s ",
-                       (id_,))
-        rows = cursor.fetchall()
-        if rows is not None and len(rows) > 0:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_400,
-                                   title='API.BAD_REQUEST',
-                                   description='API.THERE_IS_RELATION_WITH_ENERGY_STORAGE_CONTAINERS')
+                # check relation with energy storage container
+                cursor.execute(" SELECT energy_storage_container_id "
+                               " FROM tbl_energy_storage_containers_commands "
+                               " WHERE command_id = %s ",
+                               (id_,))
+                rows = cursor.fetchall()
+                if rows is not None and len(rows) > 0:
+                    raise falcon.HTTPError(status=falcon.HTTP_400,
+                                           title='API.BAD_REQUEST',
+                                           description='API.THERE_IS_RELATION_WITH_ENERGY_STORAGE_CONTAINERS')
 
-        # check relation with microgrid
-        cursor.execute(" SELECT microgrid_id "
-                       " FROM tbl_microgrids_commands "
-                       " WHERE command_id = %s ",
-                       (id_,))
-        rows = cursor.fetchall()
-        if rows is not None and len(rows) > 0:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_400,
-                                   title='API.BAD_REQUEST',
-                                   description='API.THERE_IS_RELATION_WITH_MICROGRIDS')
+                # check relation with microgrid
+                cursor.execute(" SELECT microgrid_id "
+                               " FROM tbl_microgrids_commands "
+                               " WHERE command_id = %s ",
+                               (id_,))
+                rows = cursor.fetchall()
+                if rows is not None and len(rows) > 0:
+                    raise falcon.HTTPError(status=falcon.HTTP_400,
+                                           title='API.BAD_REQUEST',
+                                           description='API.THERE_IS_RELATION_WITH_MICROGRIDS')
 
-        # todo: check relation with points
+                # todo: check relation with points
 
-        cursor.execute(" DELETE FROM tbl_commands WHERE id = %s ", (id_,))
-        cnx.commit()
-
-        cursor.close()
-        cnx.close()
+                cursor.execute(" DELETE FROM tbl_commands WHERE id = %s ", (id_,))
+                cnx.commit()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         resp.status = falcon.HTTP_204
 
@@ -415,40 +424,43 @@ class CommandItem:
         else:
             description = None
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_commands "
-                       " WHERE id = %s ", (id_,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.COMMAND_NOT_FOUND')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_commands "
+                               " WHERE id = %s ", (id_,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.COMMAND_NOT_FOUND')
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_commands "
-                       " WHERE name = %s AND id != %s ", (name, id_))
-        if cursor.fetchone() is not None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.COMMAND_NAME_IS_ALREADY_IN_USE')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_commands "
+                               " WHERE name = %s AND id != %s ", (name, id_))
+                if cursor.fetchone() is not None:
+                    raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                           description='API.COMMAND_NAME_IS_ALREADY_IN_USE')
 
-        update_row = (" UPDATE tbl_commands "
-                      " SET name = %s, topic = %s, payload = %s, set_value = %s, description = %s "
-                      " WHERE id = %s ")
-        cursor.execute(update_row, (name,
-                                    topic,
-                                    payload,
-                                    set_value,
-                                    description,
-                                    id_,))
-        cnx.commit()
-
-        cursor.close()
-        cnx.close()
+                update_row = (" UPDATE tbl_commands "
+                              " SET name = %s, topic = %s, payload = %s, set_value = %s, description = %s "
+                              " WHERE id = %s ")
+                cursor.execute(update_row, (name,
+                                            topic,
+                                            payload,
+                                            set_value,
+                                            description,
+                                            id_,))
+                cnx.commit()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         resp.status = falcon.HTTP_200
 
@@ -497,35 +509,42 @@ class CommandSend:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_SET_VALUE')
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        query = (" SELECT id, name, uuid, topic, payload, set_value "
-                 " FROM tbl_commands "
-                 " WHERE id = %s ")
-        cursor.execute(query, (id_,))
-        row = cursor.fetchone()
+                query = (" SELECT id, name, uuid, topic, payload, set_value "
+                         " FROM tbl_commands "
+                         " WHERE id = %s ")
+                cursor.execute(query, (id_,))
+                row = cursor.fetchone()
 
-        if row is None:
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.COMMAND_NOT_FOUND')
+                if row is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.COMMAND_NOT_FOUND')
 
-        command = {"id": row[0],
-                   "name": row[1],
-                   "uuid": row[2],
-                   "topic": row[3],
-                   "payload": row[4],
-                   "set_value": set_value if set_value is not None else row[5]}
+                command = {"id": row[0],
+                           "name": row[1],
+                           "uuid": row[2],
+                           "topic": row[3],
+                           "payload": row[4],
+                           "set_value": set_value if set_value is not None else row[5]}
 
-        update_row = (" UPDATE tbl_commands "
-                      " SET set_value = %s "
-                      " WHERE id = %s ")
-        cursor.execute(update_row, (set_value,
-                                    id_,))
-        cnx.commit()
-
-        cursor.close()
-        cnx.close()
+                update_row = (" UPDATE tbl_commands "
+                              " SET set_value = %s "
+                              " WHERE id = %s ")
+                cursor.execute(update_row, (set_value,
+                                            id_,))
+                cnx.commit()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         mqc = None
         try:
@@ -593,16 +612,24 @@ class CommandExport:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_COMMAND_ID')
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        query = (" SELECT id, name, uuid, topic, payload, set_value, description "
-                 " FROM tbl_commands "
-                 " WHERE id = %s ")
-        cursor.execute(query, (id_,))
-        row = cursor.fetchone()
-        cursor.close()
-        cnx.close()
+                query = (" SELECT id, name, uuid, topic, payload, set_value, description "
+                         " FROM tbl_commands "
+                         " WHERE id = %s ")
+                cursor.execute(query, (id_,))
+                row = cursor.fetchone()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         if row is None:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
@@ -684,32 +711,38 @@ class CommandImport:
         else:
             description = None
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_commands "
-                       " WHERE name = %s ", (name,))
-        if cursor.fetchone() is not None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.COMMAND_NAME_IS_ALREADY_IN_USE')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_commands "
+                               " WHERE name = %s ", (name,))
+                if cursor.fetchone() is not None:
+                    raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                           description='API.COMMAND_NAME_IS_ALREADY_IN_USE')
 
-        add_row = (" INSERT INTO tbl_commands "
-                   "     (name, uuid, topic, payload, set_value, description) "
-                   " VALUES (%s, %s, %s, %s, %s, %s) ")
+                add_row = (" INSERT INTO tbl_commands "
+                           "     (name, uuid, topic, payload, set_value, description) "
+                           " VALUES (%s, %s, %s, %s, %s, %s) ")
 
-        cursor.execute(add_row, (name,
-                                 str(uuid.uuid4()),
-                                 topic,
-                                 payload,
-                                 set_value,
-                                 description))
-        new_id = cursor.lastrowid
-        cnx.commit()
-        cursor.close()
-        cnx.close()
+                cursor.execute(add_row, (name,
+                                         str(uuid.uuid4()),
+                                         topic,
+                                         payload,
+                                         set_value,
+                                         description))
+                new_id = cursor.lastrowid
+                cnx.commit()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         resp.status = falcon.HTTP_201
         resp.location = '/commands/' + str(new_id)
@@ -733,46 +766,54 @@ class CommandClone:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_COMMAND_ID')
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        query = (" SELECT id, name, uuid, topic, payload, set_value, description "
-                 " FROM tbl_commands "
-                 " WHERE id = %s ")
-        cursor.execute(query, (id_,))
-        row = cursor.fetchone()
+                query = (" SELECT id, name, uuid, topic, payload, set_value, description "
+                         " FROM tbl_commands "
+                         " WHERE id = %s ")
+                cursor.execute(query, (id_,))
+                row = cursor.fetchone()
 
-        if row is None:
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.COMMAND_NOT_FOUND')
+                if row is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.COMMAND_NOT_FOUND')
 
-        result = {"id": row[0],
-                  "name": row[1],
-                  "uuid": row[2],
-                  "topic": row[3],
-                  "payload": row[4],
-                  "set_value": row[5],
-                  "description": row[6]}
-        add_row = (" INSERT INTO tbl_commands "
-                   "     (name, uuid, topic, payload, set_value, description) "
-                   " VALUES (%s, %s, %s, %s, %s, %s) ")
+                result = {"id": row[0],
+                          "name": row[1],
+                          "uuid": row[2],
+                          "topic": row[3],
+                          "payload": row[4],
+                          "set_value": row[5],
+                          "description": row[6]}
+                add_row = (" INSERT INTO tbl_commands "
+                           "     (name, uuid, topic, payload, set_value, description) "
+                           " VALUES (%s, %s, %s, %s, %s, %s) ")
 
-        timezone_offset = int(config.utc_offset[1:3]) * 60 + int(config.utc_offset[4:6])
-        if config.utc_offset[0] == '-':
-            timezone_offset = -timezone_offset
-        new_name = (str.strip(result['name']) +
-                    (datetime.utcnow() + timedelta(minutes=timezone_offset)).isoformat(sep='-', timespec='seconds'))
-        cursor.execute(add_row, (new_name,
-                                 str(uuid.uuid4()),
-                                 result['topic'],
-                                 result['payload'],
-                                 result['set_value'],
-                                 result['description']))
-        new_id = cursor.lastrowid
-        cnx.commit()
-        cursor.close()
-        cnx.close()
+                timezone_offset = int(config.utc_offset[1:3]) * 60 + int(config.utc_offset[4:6])
+                if config.utc_offset[0] == '-':
+                    timezone_offset = -timezone_offset
+                new_name = (str.strip(result['name']) +
+                            (datetime.utcnow() +
+                            timedelta(minutes=timezone_offset)).isoformat(sep='-', timespec='seconds'))
+                cursor.execute(add_row, (new_name,
+                                         str(uuid.uuid4()),
+                                         result['topic'],
+                                         result['payload'],
+                                         result['set_value'],
+                                         result['description']))
+                new_id = cursor.lastrowid
+                cnx.commit()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         resp.status = falcon.HTTP_201
         resp.location = '/commands/' + str(new_id)
-
