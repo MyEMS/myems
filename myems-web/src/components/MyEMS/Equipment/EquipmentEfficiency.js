@@ -1285,7 +1285,7 @@ const EquipmentEfficiency = ({ setRedirect, setRedirectUrl, t }) => {
               title={t('Equipment Efficiency Indicator')}
               color="warning"
             >
-              {equipmentEfficiencyIndicator && (
+              {equipmentEfficiencyIndicator !== null && (
                 <CountUp
                   end={equipmentEfficiencyIndicator}
                   duration={2}

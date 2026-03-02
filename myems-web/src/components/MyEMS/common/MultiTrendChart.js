@@ -112,7 +112,7 @@ const MultiTrendChart = ({
     }
   }, [baseData, reportingData, option, baseLabels, reportingLabels, rates, isDark, referenceLine]);
 
-  const shouldShowReferenceLine = referenceLine !== null && referenceLine !== undefined && option && option.startsWith('a');
+  const shouldShowReferenceLine = referenceLine != null && option?.startsWith('a');
 
   const config = {
     plugins: [ChartDataLabels],
