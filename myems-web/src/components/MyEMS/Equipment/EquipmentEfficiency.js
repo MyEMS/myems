@@ -495,7 +495,6 @@ const EquipmentEfficiency = ({ setRedirect, setRedirectUrl, t }) => {
       })
       .then(json => {
         if (isResponseOK) {
-          // Set equipment efficiency indicator
           if (json['equipment'] && json['equipment']['efficiency_indicator'] !== undefined) {
             setEquipmentEfficiencyIndicator(json['equipment']['efficiency_indicator']);
           } else {

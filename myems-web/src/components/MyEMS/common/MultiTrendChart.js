@@ -112,7 +112,6 @@ const MultiTrendChart = ({
     }
   }, [baseData, reportingData, option, baseLabels, reportingLabels, rates, isDark, referenceLine]);
 
-  // Only show reference line for efficiency data (options starting with 'a')
   const shouldShowReferenceLine = referenceLine !== null && referenceLine !== undefined && option && option.startsWith('a');
 
   const config = {
