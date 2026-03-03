@@ -256,7 +256,7 @@ app.controller('CombinedEquipmentController', function (
 				} else {
 					toaster.pop({
 						type: "error",
-						title: $translate.instant("TOASTER.ERROR_ADD_BODY", { template: $translate.instant("COMMAND.COMBINED_EQUIPMENT") }),
+						title: $translate.instant("TOASTER.ERROR_ADD_BODY", { template: $translate.instant("COMMON.COMBINED_EQUIPMENT") }),
 						body: $translate.instant(response.data.description),
 						showCloseButton: true,
 					});
