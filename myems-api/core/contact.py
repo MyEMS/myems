@@ -107,23 +107,32 @@ class ContactCollection:
                 pass
 
         # Cache miss or Redis error - query database
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
+        rows = []
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        query = (" SELECT id, name, uuid, "
-                 "        email, phone, description "
-                 " FROM tbl_contacts " )
+                query = (" SELECT id, name, uuid, "
+                         "        email, phone, description "
+                         " FROM tbl_contacts ")
 
-        params=[]
-        if search_query:
-            query += " WHERE name LIKE %s OR  description LIKE %s "
-            params = [f'%{search_query}%', f'%{search_query}%']
-        query +=  " ORDER BY name "
+                params = []
+                if search_query:
+                    query += " WHERE name LIKE %s OR  description LIKE %s "
+                    params = [f'%{search_query}%', f'%{search_query}%']
+                query += " ORDER BY name "
 
-        cursor.execute(query,params)
-        rows = cursor.fetchall()
-        cursor.close()
-        cnx.close()
+                cursor.execute(query, params)
+                rows = cursor.fetchall()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         result = list()
         if rows is not None and len(rows) > 0:
@@ -200,31 +209,37 @@ class ContactCollection:
         else:
             description = None
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_contacts "
-                       " WHERE name = %s ", (name,))
-        if cursor.fetchone() is not None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.CONTACT_NAME_IS_ALREADY_IN_USE')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_contacts "
+                               " WHERE name = %s ", (name,))
+                if cursor.fetchone() is not None:
+                    raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                           description='API.CONTACT_NAME_IS_ALREADY_IN_USE')
 
-        add_row = (" INSERT INTO tbl_contacts "
-                   "     (name, uuid, email, phone, description) "
-                   " VALUES (%s, %s, %s, %s, %s) ")
+                add_row = (" INSERT INTO tbl_contacts "
+                           "     (name, uuid, email, phone, description) "
+                           " VALUES (%s, %s, %s, %s, %s) ")
 
-        cursor.execute(add_row, (name,
-                                 str(uuid.uuid4()),
-                                 email,
-                                 phone,
-                                 description))
-        new_id = cursor.lastrowid
-        cnx.commit()
-        cursor.close()
-        cnx.close()
+                cursor.execute(add_row, (name,
+                                         str(uuid.uuid4()),
+                                         email,
+                                         phone,
+                                         description))
+                new_id = cursor.lastrowid
+                cnx.commit()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         # Clear cache after creating new contact
         clear_contact_cache()
@@ -282,16 +297,25 @@ class ContactItem:
                 pass
 
         # Cache miss or Redis error - query database
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
+        row = None
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        query = (" SELECT id, name, uuid, email, phone, description "
-                 " FROM tbl_contacts "
-                 " WHERE id = %s ")
-        cursor.execute(query, (id_,))
-        row = cursor.fetchone()
-        cursor.close()
-        cnx.close()
+                query = (" SELECT id, name, uuid, email, phone, description "
+                         " FROM tbl_contacts "
+                         " WHERE id = %s ")
+                cursor.execute(query, (id_,))
+                row = cursor.fetchone()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         if row is None:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
@@ -323,145 +347,128 @@ class ContactItem:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_CONTACT_ID')
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_contacts "
-                       " WHERE id = %s ", (id_,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.CONTACT_NOT_FOUND')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_contacts "
+                               " WHERE id = %s ", (id_,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.CONTACT_NOT_FOUND')
 
-        # check relation with shopfloors
-        cursor.execute(" SELECT id "
-                       " FROM tbl_shopfloors "
-                       " WHERE contact_id = %s ", (id_,))
-        rows_shopfloors = cursor.fetchall()
-        if rows_shopfloors is not None and len(rows_shopfloors) > 0:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_400,
-                                   title='API.BAD_REQUEST',
-                                   description='API.THERE_IS_RELATION_WITH_SHOPFLOORS')
+                # check relation with shopfloors
+                cursor.execute(" SELECT id "
+                               " FROM tbl_shopfloors "
+                               " WHERE contact_id = %s ", (id_,))
+                rows_shopfloors = cursor.fetchall()
+                if rows_shopfloors is not None and len(rows_shopfloors) > 0:
+                    raise falcon.HTTPError(status=falcon.HTTP_400,
+                                           title='API.BAD_REQUEST',
+                                           description='API.THERE_IS_RELATION_WITH_SHOPFLOORS')
 
-        # check relation with spaces
-        cursor.execute(" SELECT id "
-                       " FROM tbl_spaces "
-                       " WHERE contact_id = %s ", (id_,))
-        rows_spaces = cursor.fetchall()
-        if rows_spaces is not None and len(rows_spaces) > 0:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_400,
-                                   title='API.BAD_REQUEST',
-                                   description='API.THERE_IS_RELATION_WITH_SPACES')
+                # check relation with spaces
+                cursor.execute(" SELECT id "
+                               " FROM tbl_spaces "
+                               " WHERE contact_id = %s ", (id_,))
+                rows_spaces = cursor.fetchall()
+                if rows_spaces is not None and len(rows_spaces) > 0:
+                    raise falcon.HTTPError(status=falcon.HTTP_400,
+                                           title='API.BAD_REQUEST',
+                                           description='API.THERE_IS_RELATION_WITH_SPACES')
 
-        # check relation with stores
-        cursor.execute(" SELECT id "
-                       " FROM tbl_stores "
-                       " WHERE contact_id = %s ", (id_,))
-        rows_stores = cursor.fetchall()
-        if rows_stores is not None and len(rows_stores) > 0:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_400,
-                                   title='API.BAD_REQUEST',
-                                   description='API.THERE_IS_RELATION_WITH_STORES')
+                # check relation with stores
+                cursor.execute(" SELECT id "
+                               " FROM tbl_stores "
+                               " WHERE contact_id = %s ", (id_,))
+                rows_stores = cursor.fetchall()
+                if rows_stores is not None and len(rows_stores) > 0:
+                    raise falcon.HTTPError(status=falcon.HTTP_400,
+                                           title='API.BAD_REQUEST',
+                                           description='API.THERE_IS_RELATION_WITH_STORES')
 
-        # check relation with tenants
-        cursor.execute(" SELECT id "
-                       " FROM tbl_tenants "
-                       " WHERE contact_id = %s ", (id_,))
-        rows_tenants = cursor.fetchall()
-        if rows_tenants is not None and len(rows_tenants) > 0:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_400,
-                                   title='API.BAD_REQUEST',
-                                   description='API.THERE_IS_RELATION_WITH_TENANTS')
+                # check relation with tenants
+                cursor.execute(" SELECT id "
+                               " FROM tbl_tenants "
+                               " WHERE contact_id = %s ", (id_,))
+                rows_tenants = cursor.fetchall()
+                if rows_tenants is not None and len(rows_tenants) > 0:
+                    raise falcon.HTTPError(status=falcon.HTTP_400,
+                                           title='API.BAD_REQUEST',
+                                           description='API.THERE_IS_RELATION_WITH_TENANTS')
 
-        # check relation with charging_stations
-        cursor.execute(" SELECT id "
-                       " FROM tbl_charging_stations "
-                       " WHERE contact_id = %s ", (id_,))
-        rows_charging_stations = cursor.fetchall()
-        if rows_charging_stations is not None and len(rows_charging_stations) > 0:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_400,
-                                   title='API.BAD_REQUEST',
-                                   description='API.THERE_IS_RELATION_WITH_CHARGING_STATIONS')
+                # check relation with charging_stations
+                cursor.execute(" SELECT id "
+                               " FROM tbl_charging_stations "
+                               " WHERE contact_id = %s ", (id_,))
+                rows_charging_stations = cursor.fetchall()
+                if rows_charging_stations is not None and len(rows_charging_stations) > 0:
+                    raise falcon.HTTPError(status=falcon.HTTP_400,
+                                           title='API.BAD_REQUEST',
+                                           description='API.THERE_IS_RELATION_WITH_CHARGING_STATIONS')
 
-        # check relation with energy_storage_containers
-        cursor.execute(" SELECT id "
-                       " FROM tbl_energy_storage_containers "
-                       " WHERE contact_id = %s ", (id_,))
-        rows_energy_storage_containers = cursor.fetchall()
-        if rows_energy_storage_containers is not None and len(rows_energy_storage_containers) > 0:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_400,
-                                   title='API.BAD_REQUEST',
-                                   description='API.THERE_IS_RELATION_WITH_ENERGY_STORAGE_CONTAINERS')
+                # check relation with energy_storage_containers
+                cursor.execute(" SELECT id "
+                               " FROM tbl_energy_storage_containers "
+                               " WHERE contact_id = %s ", (id_,))
+                rows_energy_storage_containers = cursor.fetchall()
+                if rows_energy_storage_containers is not None and len(rows_energy_storage_containers) > 0:
+                    raise falcon.HTTPError(status=falcon.HTTP_400,
+                                           title='API.BAD_REQUEST',
+                                           description='API.THERE_IS_RELATION_WITH_ENERGY_STORAGE_CONTAINERS')
 
+                # check relation with energy_storage_power_stations
+                cursor.execute(" SELECT id "
+                               " FROM tbl_energy_storage_power_stations "
+                               " WHERE contact_id = %s ", (id_,))
+                rows_energy_storage_power_stations = cursor.fetchall()
+                if rows_energy_storage_power_stations is not None and len(rows_energy_storage_power_stations) > 0:
+                    raise falcon.HTTPError(status=falcon.HTTP_400,
+                                           title='API.BAD_REQUEST',
+                                           description='API.THERE_IS_RELATION_WITH_ENERGY_STORAGE_POWER_STATIONS')
 
-        # check relation with energy_storage_power_stations
-        cursor.execute(" SELECT id "
-                       " FROM tbl_energy_storage_power_stations "
-                       " WHERE contact_id = %s ", (id_,))
-        rows_energy_storage_power_stations = cursor.fetchall()
-        if rows_energy_storage_power_stations is not None and len(rows_energy_storage_power_stations) > 0:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_400,
-                                   title='API.BAD_REQUEST',
-                                   description='API.THERE_IS_RELATION_WITH_ENERGY_STORAGE_POWER_STATIONS')
+                # check relation with microgrids
+                cursor.execute(" SELECT id "
+                               " FROM tbl_microgrids "
+                               " WHERE contact_id = %s ", (id_,))
+                rows_microgrids = cursor.fetchall()
+                if rows_microgrids is not None and len(rows_microgrids) > 0:
+                    raise falcon.HTTPError(status=falcon.HTTP_400,
+                                           title='API.BAD_REQUEST',
+                                           description='API.THERE_IS_RELATION_WITH_MICROGRIDS')
 
-        # check relation with microgrids
-        cursor.execute(" SELECT id "
-                       " FROM tbl_microgrids "
-                       " WHERE contact_id = %s ", (id_,))
-        rows_microgrids = cursor.fetchall()
-        if rows_microgrids is not None and len(rows_microgrids) > 0:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_400,
-                                   title='API.BAD_REQUEST',
-                                   description='API.THERE_IS_RELATION_WITH_MICROGRIDS')
+                # check relation with photovoltaic_power_stations
+                cursor.execute(" SELECT id "
+                               " FROM tbl_photovoltaic_power_stations "
+                               " WHERE contact_id = %s ", (id_,))
+                rows_photovoltaic_power_stations = cursor.fetchall()
+                if rows_photovoltaic_power_stations is not None and len(rows_photovoltaic_power_stations) > 0:
+                    raise falcon.HTTPError(status=falcon.HTTP_400,
+                                           title='API.BAD_REQUEST',
+                                           description='API.THERE_IS_RELATION_WITH_PHOTOVOLTAIC_POWER_STATIONS')
 
-        # check relation with photovoltaic_power_stations
-        cursor.execute(" SELECT id "
-                       " FROM tbl_photovoltaic_power_stations "
-                       " WHERE contact_id = %s ", (id_,))
-        rows_photovoltaic_power_stations = cursor.fetchall()
-        if rows_photovoltaic_power_stations  is not None and len(rows_photovoltaic_power_stations) > 0:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_400,
-                                   title='API.BAD_REQUEST',
-                                   description='API.THERE_IS_RELATION_WITH_PHOTOVOLTAIC_POWER_STATIONS')
+                # check relation with wind_farms
+                cursor.execute(" SELECT id "
+                               " FROM tbl_wind_farms "
+                               " WHERE contact_id = %s ", (id_,))
+                rows_wind_farms = cursor.fetchall()
+                if rows_wind_farms is not None and len(rows_wind_farms) > 0:
+                    raise falcon.HTTPError(status=falcon.HTTP_400,
+                                           title='API.BAD_REQUEST',
+                                           description='API.THERE_IS_RELATION_WITH_WIND_FARMS')
 
-        #check relation with wind_farms
-        cursor.execute(" SELECT id "
-                       " FROM tbl_wind_farms "
-                       " WHERE contact_id = %s ", (id_,))
-        rows_wind_farms = cursor.fetchall()
-        if rows_wind_farms is not None and len(rows_wind_farms) > 0:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_400,
-                                   title='API.BAD_REQUEST',
-                                   description='API.THERE_IS_RELATION_WITH_WIND_FARMS')
-
-
-        cursor.execute(" DELETE FROM tbl_contacts WHERE id = %s ", (id_,))
-        cnx.commit()
-
-        cursor.close()
-        cnx.close()
+                cursor.execute(" DELETE FROM tbl_contacts WHERE id = %s ", (id_,))
+                cnx.commit()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         # Clear cache after deleting contact
         clear_contact_cache(contact_id=id_)
@@ -525,43 +532,45 @@ class ContactItem:
         else:
             description = None
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_contacts "
-                       " WHERE id = %s ", (id_,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.CONTACT_NOT_FOUND')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_contacts "
+                               " WHERE id = %s ", (id_,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.CONTACT_NOT_FOUND')
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_contacts "
-                       " WHERE name = %s AND id != %s ", (name, id_))
-        if cursor.fetchone() is not None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.CONTACT_NAME_IS_ALREADY_IN_USE')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_contacts "
+                               " WHERE name = %s AND id != %s ", (name, id_))
+                if cursor.fetchone() is not None:
+                    raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                           description='API.CONTACT_NAME_IS_ALREADY_IN_USE')
 
-        update_row = (" UPDATE tbl_contacts "
-                      " SET name = %s, email = %s, "
-                      "     phone = %s, description = %s "
-                      " WHERE id = %s ")
-        cursor.execute(update_row, (name,
-                                    email,
-                                    phone,
-                                    description,
-                                    id_,))
-        cnx.commit()
-
-        cursor.close()
-        cnx.close()
+                update_row = (" UPDATE tbl_contacts "
+                              " SET name = %s, email = %s, "
+                              "     phone = %s, description = %s "
+                              " WHERE id = %s ")
+                cursor.execute(update_row, (name,
+                                            email,
+                                            phone,
+                                            description,
+                                            id_,))
+                cnx.commit()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         # Clear cache after updating contact
         clear_contact_cache(contact_id=id_)
 
         resp.status = falcon.HTTP_200
-
