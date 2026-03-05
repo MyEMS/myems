@@ -34,31 +34,45 @@ class DataSourceCollection:
             search_query = search_query.strip()
         else:
             search_query = ''
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        
+        cnx = None
+        cursor = None
+        rows_gateways = []
+        rows = []
+        
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        query = (" SELECT id, name, uuid "
-                 " FROM tbl_gateways ")
-        cursor.execute(query)
-        rows_gateways = cursor.fetchall()
-        gateway_dict = dict()
-        if rows_gateways is not None and len(rows_gateways) > 0:
-            for row in rows_gateways:
-                gateway_dict[row[0]] = {"id": row[0],
-                                        "name": row[1],
-                                        "uuid": row[2]}
+                query = (" SELECT id, name, uuid "
+                         " FROM tbl_gateways ")
+                cursor.execute(query)
+                rows_gateways = cursor.fetchall()
+                
+                gateway_dict = dict()
+                if rows_gateways is not None and len(rows_gateways) > 0:
+                    for row in rows_gateways:
+                        gateway_dict[row[0]] = {"id": row[0],
+                                                "name": row[1],
+                                                "uuid": row[2]}
 
-        query = (" SELECT id, name, uuid, gateway_id, protocol, connection, last_seen_datetime_utc, description "
-                 " FROM tbl_data_sources " )
-        params = []
-        if search_query:
-            query += " WHERE name LIKE %s OR description LIKE %s "
-            params = [f'%{search_query}%', f'%{search_query}%']
-        query += " ORDER BY id "
-        cursor.execute(query,params)
-        rows = cursor.fetchall()
-        cursor.close()
-        cnx.close()
+                query = (" SELECT id, name, uuid, gateway_id, protocol, "
+                         " connection, last_seen_datetime_utc, description "
+                         " FROM tbl_data_sources ")
+                params = []
+                if search_query:
+                    query += " WHERE name LIKE %s OR description LIKE %s "
+                    params = [f'%{search_query}%', f'%{search_query}%']
+                query += " ORDER BY id "
+                cursor.execute(query, params)
+                rows = cursor.fetchall()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         timezone_offset = int(config.utc_offset[1:3]) * 60 + int(config.utc_offset[4:6])
         if config.utc_offset[0] == '-':
@@ -127,71 +141,74 @@ class DataSourceCollection:
                                    description='API.INVALID_DATA_SOURCE_PROTOCOL')
         protocol = new_values['data']['protocol']
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        query = (" SELECT id, name, code "
-                 " FROM tbl_protocols ")
-        cursor.execute(query)
-        rows_protocols = cursor.fetchall()
+                query = (" SELECT id, name, code "
+                         " FROM tbl_protocols ")
+                cursor.execute(query)
+                rows_protocols = cursor.fetchall()
 
-        procotol_dict = dict()
-        if rows_protocols is not None and len(rows_protocols) > 0:
-            for row in rows_protocols:
-                procotol_dict[row[2]] = {"id": row[0],
-                                         "name": row[1],
-                                         "code": row[2]}
+                procotol_dict = dict()
+                if rows_protocols is not None and len(rows_protocols) > 0:
+                    for row in rows_protocols:
+                        procotol_dict[row[2]] = {"id": row[0],
+                                                 "name": row[1],
+                                                 "code": row[2]}
 
-        if protocol not in procotol_dict.keys():
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.INVALID_DATA_SOURCE_PROTOCOL')
+                if protocol not in procotol_dict.keys():
+                    raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                           description='API.INVALID_DATA_SOURCE_PROTOCOL')
 
-        if 'connection' not in new_values['data'].keys() or \
-                not isinstance(new_values['data']['connection'], str) or \
-                len(str.strip(new_values['data']['connection'])) == 0:
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.INVALID_CONNECTION')
-        connection = str.strip(new_values['data']['connection'])
+                if 'connection' not in new_values['data'].keys() or \
+                        not isinstance(new_values['data']['connection'], str) or \
+                        len(str.strip(new_values['data']['connection'])) == 0:
+                    raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                           description='API.INVALID_CONNECTION')
+                connection = str.strip(new_values['data']['connection'])
 
-        if 'description' in new_values['data'].keys() and \
-                new_values['data']['description'] is not None and \
-                len(str(new_values['data']['description'])) > 0:
-            description = str.strip(new_values['data']['description'])
-        else:
-            description = None
+                if 'description' in new_values['data'].keys() and \
+                        new_values['data']['description'] is not None and \
+                        len(str(new_values['data']['description'])) > 0:
+                    description = str.strip(new_values['data']['description'])
+                else:
+                    description = None
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_data_sources "
-                       " WHERE name = %s ", (name,))
-        if cursor.fetchone() is not None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.DATA_SOURCE_NAME_IS_ALREADY_IN_USE')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_data_sources "
+                               " WHERE name = %s ", (name,))
+                if cursor.fetchone() is not None:
+                    raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                           description='API.DATA_SOURCE_NAME_IS_ALREADY_IN_USE')
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_gateways "
-                       " WHERE id = %s ", (gateway_id,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.INVALID_GATEWAY_ID')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_gateways "
+                               " WHERE id = %s ", (gateway_id,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                           description='API.INVALID_GATEWAY_ID')
 
-        add_values = (" INSERT INTO tbl_data_sources (name, uuid, gateway_id, protocol, connection, description) "
-                      " VALUES (%s, %s, %s, %s, %s, %s) ")
-        cursor.execute(add_values, (name,
-                                    str(uuid.uuid4()),
-                                    gateway_id,
-                                    protocol,
-                                    connection,
-                                    description))
-        new_id = cursor.lastrowid
-        cnx.commit()
-        cursor.close()
-        cnx.close()
+                add_values = (" INSERT INTO tbl_data_sources "
+                              " (name, uuid, gateway_id, protocol, connection, description) "
+                              " VALUES (%s, %s, %s, %s, %s, %s) ")
+                cursor.execute(add_values, (name,
+                                            str(uuid.uuid4()),
+                                            gateway_id,
+                                            protocol,
+                                            connection,
+                                            description))
+                new_id = cursor.lastrowid
+                cnx.commit()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         resp.status = falcon.HTTP_201
         resp.location = '/datasources/' + str(new_id)
@@ -214,30 +231,43 @@ class DataSourceItem:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_DATA_SOURCE_ID')
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
+        rows_gateways = []
+        row = None
+        
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        query = (" SELECT id, name, uuid "
-                 " FROM tbl_gateways ")
-        cursor.execute(query)
-        rows_gateways = cursor.fetchall()
-        gateway_dict = dict()
-        if rows_gateways is not None and len(rows_gateways) > 0:
-            for row in rows_gateways:
-                gateway_dict[row[0]] = {"id": row[0],
-                                        "name": row[1],
-                                        "uuid": row[2]}
+                query = (" SELECT id, name, uuid "
+                         " FROM tbl_gateways ")
+                cursor.execute(query)
+                rows_gateways = cursor.fetchall()
+                gateway_dict = dict()
+                if rows_gateways is not None and len(rows_gateways) > 0:
+                    for row_gw in rows_gateways:
+                        gateway_dict[row_gw[0]] = {"id": row_gw[0],
+                                                   "name": row_gw[1],
+                                                   "uuid": row_gw[2]}
 
-        query = (" SELECT id, name, uuid, gateway_id, protocol, connection, last_seen_datetime_utc, description "
-                 " FROM tbl_data_sources "
-                 " WHERE id = %s ")
-        cursor.execute(query, (id_,))
-        row = cursor.fetchone()
-        cursor.close()
-        cnx.close()
-        if row is None:
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.DATA_SOURCE_NOT_FOUND')
+                query = (" SELECT id, name, uuid, gateway_id, protocol, "
+                         " connection, last_seen_datetime_utc, description "
+                         " FROM tbl_data_sources "
+                         " WHERE id = %s ")
+                cursor.execute(query, (id_,))
+                row = cursor.fetchone()
+                
+                if row is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.DATA_SOURCE_NOT_FOUND')
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         timezone_offset = int(config.utc_offset[1:3]) * 60 + int(config.utc_offset[4:6])
         if config.utc_offset[0] == '-':
@@ -270,39 +300,43 @@ class DataSourceItem:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_DATA_SOURCE_ID')
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_data_sources "
-                       " WHERE id = %s ", (id_,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.DATA_SOURCE_NOT_FOUND')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_data_sources "
+                               " WHERE id = %s ", (id_,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.DATA_SOURCE_NOT_FOUND')
 
-        # check if this data source is being used by any meters
-        cursor.execute(" SELECT DISTINCT(m.name) "
-                       " FROM tbl_meters m, tbl_meters_points mp, tbl_points p, tbl_data_sources ds "
-                       " WHERE m.id = mp.meter_id AND mp.point_id = p.id AND p.data_source_id = ds.id "
-                       "       AND ds.id = %s "
-                       " LIMIT 1 ",
-                       (id_,))
-        row_meter = cursor.fetchone()
-        if row_meter is not None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_400,
-                                   title='API.BAD_REQUEST',
-                                   description='API.THIS_DATA_SOURCE_IS_BEING_USED_BY_A_METER')
-        # todo : check if this data source is being used by any other objects
-        cursor.execute(" DELETE FROM tbl_points WHERE data_source_id = %s ", (id_,))
-        cursor.execute(" DELETE FROM tbl_data_sources WHERE id = %s ", (id_,))
-        cnx.commit()
-
-        cursor.close()
-        cnx.close()
+                # check if this data source is being used by any meters
+                cursor.execute(" SELECT DISTINCT(m.name) "
+                               " FROM tbl_meters m, tbl_meters_points mp, tbl_points p, tbl_data_sources ds "
+                               " WHERE m.id = mp.meter_id AND mp.point_id = p.id AND p.data_source_id = ds.id "
+                               "       AND ds.id = %s "
+                               " LIMIT 1 ",
+                               (id_,))
+                row_meter = cursor.fetchone()
+                if row_meter is not None:
+                    raise falcon.HTTPError(status=falcon.HTTP_400,
+                                           title='API.BAD_REQUEST',
+                                           description='API.THIS_DATA_SOURCE_IS_BEING_USED_BY_A_METER')
+                # todo : check if this data source is being used by any other objects
+                cursor.execute(" DELETE FROM tbl_points WHERE data_source_id = %s ", (id_,))
+                cursor.execute(" DELETE FROM tbl_data_sources WHERE id = %s ", (id_,))
+                cnx.commit()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
+        
         resp.status = falcon.HTTP_204
 
     @staticmethod
@@ -350,72 +384,73 @@ class DataSourceItem:
                                    description='API.INVALID_DATA_SOURCE_PROTOCOL')
         protocol = new_values['data']['protocol']
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        query = (" SELECT id, name, code "
-                 " FROM tbl_protocols ")
-        cursor.execute(query)
-        rows_protocols = cursor.fetchall()
+                query = (" SELECT id, name, code "
+                         " FROM tbl_protocols ")
+                cursor.execute(query)
+                rows_protocols = cursor.fetchall()
 
-        procotol_dict = dict()
-        if rows_protocols is not None and len(rows_protocols) > 0:
-            for row in rows_protocols:
-                procotol_dict[row[2]] = {"id": row[0],
-                                         "name": row[1],
-                                         "code": row[2]}
+                procotol_dict = dict()
+                if rows_protocols is not None and len(rows_protocols) > 0:
+                    for row in rows_protocols:
+                        procotol_dict[row[2]] = {"id": row[0],
+                                                 "name": row[1],
+                                                 "code": row[2]}
 
-        if protocol not in procotol_dict.keys():
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.INVALID_DATA_SOURCE_PROTOCOL')
+                if protocol not in procotol_dict.keys():
+                    raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                           description='API.INVALID_DATA_SOURCE_PROTOCOL')
 
-        if 'connection' not in new_values['data'].keys() or \
-                not isinstance(new_values['data']['connection'], str) or \
-                len(str.strip(new_values['data']['connection'])) == 0:
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.INVALID_CONNECTION')
-        connection = str.strip(new_values['data']['connection'])
+                if 'connection' not in new_values['data'].keys() or \
+                        not isinstance(new_values['data']['connection'], str) or \
+                        len(str.strip(new_values['data']['connection'])) == 0:
+                    raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                           description='API.INVALID_CONNECTION')
+                connection = str.strip(new_values['data']['connection'])
 
-        if 'description' in new_values['data'].keys() and \
-                new_values['data']['description'] is not None and \
-                len(str(new_values['data']['description'])) > 0:
-            description = str.strip(new_values['data']['description'])
-        else:
-            description = None
+                if 'description' in new_values['data'].keys() and \
+                        new_values['data']['description'] is not None and \
+                        len(str(new_values['data']['description'])) > 0:
+                    description = str.strip(new_values['data']['description'])
+                else:
+                    description = None
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_data_sources "
-                       " WHERE id = %s ", (id_,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.DATA_SOURCE_NOT_FOUND')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_data_sources "
+                               " WHERE id = %s ", (id_,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.DATA_SOURCE_NOT_FOUND')
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_gateways "
-                       " WHERE id = %s ", (gateway_id,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.INVALID_GATEWAY_ID')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_gateways "
+                               " WHERE id = %s ", (gateway_id,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                           description='API.INVALID_GATEWAY_ID')
 
-        update_row = (" UPDATE tbl_data_sources "
-                      " SET name = %s, gateway_id = %s, protocol = %s, connection = %s, description = %s "
-                      " WHERE id = %s ")
-        cursor.execute(update_row, (name,
-                                    gateway_id,
-                                    protocol,
-                                    connection,
-                                    description,
-                                    id_,))
-        cnx.commit()
-
-        cursor.close()
-        cnx.close()
+                update_row = (" UPDATE tbl_data_sources "
+                              " SET name = %s, gateway_id = %s, protocol = %s, connection = %s, description = %s "
+                              " WHERE id = %s ")
+                cursor.execute(update_row, (name,
+                                            gateway_id,
+                                            protocol,
+                                            connection,
+                                            description,
+                                            id_,))
+                cnx.commit()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         resp.status = falcon.HTTP_200
 
@@ -437,64 +472,98 @@ class DataSourcePointCollection:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_DATA_SOURCE_ID')
 
-        cnx_system_db = mysql.connector.connect(**config.myems_system_db)
-        cursor_system_db = cnx_system_db.cursor()
+        cnx_system_db = None
+        cursor_system_db = None
+        cnx_historical_db = None
+        cursor_historical_db = None
+        
+        rows_point = []
+        analog_values = []
+        digital_values = []
+        energy_values = []
+        text_values = []
 
-        cursor_system_db.execute(" SELECT name "
-                                 " FROM tbl_data_sources "
-                                 " WHERE id = %s ", (id_,))
-        if cursor_system_db.fetchone() is None:
-            cursor_system_db.close()
-            cnx_system_db.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.DATA_SOURCE_NOT_FOUND')
+        try:
+            # System DB Connection
+            cnx_system_db = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor_system_db = cnx_system_db.cursor()
 
-        result = list()
-        # Get points of the data source
-        # NOTE: there is no uuid in tbl_points
-        query_point = (" SELECT id, name, object_type, "
-                       "        units, high_limit, low_limit, higher_limit, lower_limit, ratio, offset_constant, "
-                       "        is_trend, is_virtual, address, description, faults, definitions "
-                       " FROM tbl_points "
-                       " WHERE data_source_id = %s "
-                       " ORDER BY id ")
-        cursor_system_db.execute(query_point, (id_,))
-        rows_point = cursor_system_db.fetchall()
+                cursor_system_db.execute(" SELECT name "
+                                         " FROM tbl_data_sources "
+                                         " WHERE id = %s ", (id_,))
+                if cursor_system_db.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.DATA_SOURCE_NOT_FOUND')
 
-        cnx_historical_db = mysql.connector.connect(**config.myems_historical_db)
-        cursor_historical_db = cnx_historical_db.cursor()
-        cursor_historical_db.execute(" SELECT point_id, actual_value "
-                                     " FROM tbl_analog_value_latest "
-                                     " WHERE utc_date_time >= DATE_SUB(UTC_TIMESTAMP(), INTERVAL 30 MINUTE)")
-        analog_values = cursor_historical_db.fetchall()
+                result = list()
+                # Get points of the data source
+                # NOTE: there is no uuid in tbl_points
+                query_point = (" SELECT id, name, object_type, "
+                               "        units, high_limit, low_limit, higher_limit, lower_limit, "
+                               "        ratio, offset_constant, "
+                               "        is_trend, is_virtual, address, description, faults, definitions "
+                               " FROM tbl_points "
+                               " WHERE data_source_id = %s "
+                               " ORDER BY id ")
+                cursor_system_db.execute(query_point, (id_,))
+                rows_point = cursor_system_db.fetchall()
+            finally:
+                if cursor_system_db:
+                    cursor_system_db.close()
+        finally:
+            if cnx_system_db:
+                cnx_system_db.close()
+
+        # Historical DB Connection (Only if system DB check passed)
+        try:
+            cnx_historical_db = mysql.connector.connect(**config.myems_historical_db)
+            try:
+                cursor_historical_db = cnx_historical_db.cursor()
+                
+                cursor_historical_db.execute(" SELECT point_id, actual_value "
+                                             " FROM tbl_analog_value_latest "
+                                             " WHERE utc_date_time >= DATE_SUB(UTC_TIMESTAMP(), INTERVAL 30 MINUTE)")
+                analog_values = cursor_historical_db.fetchall()
+                
+                cursor_historical_db.execute(" SELECT point_id, actual_value "
+                                             " FROM tbl_digital_value_latest "
+                                             " WHERE utc_date_time >= DATE_SUB(UTC_TIMESTAMP(), INTERVAL 30 MINUTE)")
+                digital_values = cursor_historical_db.fetchall()
+
+                cursor_historical_db.execute(" SELECT point_id, actual_value "
+                                             " FROM tbl_energy_value_latest "
+                                             " WHERE utc_date_time >= DATE_SUB(UTC_TIMESTAMP(), INTERVAL 30 MINUTE)")
+                energy_values = cursor_historical_db.fetchall()
+
+                cursor_historical_db.execute(" SELECT point_id, actual_value "
+                                             " FROM tbl_text_value_latest "
+                                             " WHERE utc_date_time >= DATE_SUB(UTC_TIMESTAMP(), INTERVAL 30 MINUTE)")
+                text_values = cursor_historical_db.fetchall()
+            finally:
+                if cursor_historical_db:
+                    cursor_historical_db.close()
+        finally:
+            if cnx_historical_db:
+                cnx_historical_db.close()
+
         analog_value_dict = dict()
         for v in analog_values:
             analog_value_dict[v[0]] = v[1]
 
-        cursor_historical_db.execute(" SELECT point_id, actual_value "
-                                     " FROM tbl_digital_value_latest "
-                                     " WHERE utc_date_time >= DATE_SUB(UTC_TIMESTAMP(), INTERVAL 30 MINUTE)")
-        digital_values = cursor_historical_db.fetchall()
         digital_value_dict = dict()
         for v in digital_values:
             digital_value_dict[v[0]] = v[1]
 
-        cursor_historical_db.execute(" SELECT point_id, actual_value "
-                                     " FROM tbl_energy_value_latest "
-                                     " WHERE utc_date_time >= DATE_SUB(UTC_TIMESTAMP(), INTERVAL 30 MINUTE)")
-        energy_values = cursor_historical_db.fetchall()
         energy_value_dict = dict()
         for v in energy_values:
             energy_value_dict[v[0]] = v[1]
 
-        cursor_historical_db.execute(" SELECT point_id, actual_value "
-                                     " FROM tbl_text_value_latest "
-                                     " WHERE utc_date_time >= DATE_SUB(UTC_TIMESTAMP(), INTERVAL 30 MINUTE)")
-        text_values = cursor_historical_db.fetchall()
         text_value_dict = dict()
         for v in text_values:
             text_value_dict[v[0]] = v[1]
 
+        result = list()
         if rows_point is not None and len(rows_point) > 0:
             for row in rows_point:
                 if row[2] == 'ANALOG_VALUE':
@@ -531,10 +600,6 @@ class DataSourcePointCollection:
 
                 result.append(meta_result)
 
-        cursor_system_db.close()
-        cnx_system_db.close()
-        cursor_historical_db.close()
-        cnx_historical_db.close()
         resp.text = json.dumps(result)
 
 
@@ -555,82 +620,96 @@ class DataSourceExport:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_DATA_SOURCE_ID')
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
+        rows_gateways = []
+        row = None
+        rows_point = []
+        
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        query = (" SELECT id, name, uuid "
-                 " FROM tbl_gateways ")
-        cursor.execute(query)
-        rows_gateways = cursor.fetchall()
-        gateway_dict = dict()
-        if rows_gateways is not None and len(rows_gateways) > 0:
-            for row in rows_gateways:
-                gateway_dict[row[0]] = {"id": row[0],
-                                        "name": row[1],
-                                        "uuid": row[2]}
+                query = (" SELECT id, name, uuid "
+                         " FROM tbl_gateways ")
+                cursor.execute(query)
+                rows_gateways = cursor.fetchall()
+                gateway_dict = dict()
+                if rows_gateways is not None and len(rows_gateways) > 0:
+                    for row_gw in rows_gateways:
+                        gateway_dict[row_gw[0]] = {"id": row_gw[0],
+                                                   "name": row_gw[1],
+                                                   "uuid": row_gw[2]}
 
-        query = (" SELECT id, name, uuid, gateway_id, protocol, connection, last_seen_datetime_utc, description "
-                 " FROM tbl_data_sources "
-                 " WHERE id = %s ")
-        cursor.execute(query, (id_,))
-        row = cursor.fetchone()
-        if row is None:
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.DATA_SOURCE_NOT_FOUND')
+                query = (" SELECT id, name, uuid, gateway_id, protocol, "
+                         " connection, last_seen_datetime_utc, description "
+                         " FROM tbl_data_sources "
+                         " WHERE id = %s ")
+                cursor.execute(query, (id_,))
+                row = cursor.fetchone()
+                
+                if row is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.DATA_SOURCE_NOT_FOUND')
 
-        timezone_offset = int(config.utc_offset[1:3]) * 60 + int(config.utc_offset[4:6])
-        if config.utc_offset[0] == '-':
-            timezone_offset = -timezone_offset
+                timezone_offset = int(config.utc_offset[1:3]) * 60 + int(config.utc_offset[4:6])
+                if config.utc_offset[0] == '-':
+                    timezone_offset = -timezone_offset
 
-        if isinstance(row[6], datetime):
-            last_seen_datetime_local = row[6].replace(tzinfo=timezone.utc) + \
-                                       timedelta(minutes=timezone_offset)
-            last_seen_datetime = last_seen_datetime_local.isoformat()[0:19]
-        else:
-            last_seen_datetime = None
+                if isinstance(row[6], datetime):
+                    last_seen_datetime_local = row[6].replace(tzinfo=timezone.utc) + \
+                                               timedelta(minutes=timezone_offset)
+                    last_seen_datetime = last_seen_datetime_local.isoformat()[0:19]
+                else:
+                    last_seen_datetime = None
 
-        result = {"name": row[1],
-                  "uuid": row[2],
-                  "gateway": gateway_dict.get(row[3]),
-                  "protocol": row[4],
-                  "connection": row[5],
-                  "last_seen_datetime": last_seen_datetime,
-                  "description": row[7],
-                  "points": None
-                  }
-        point_result = list()
-        # Get points of the data source
-        # NOTE: there is no uuid in tbl_points
-        query_point = (" SELECT id, name, object_type, "
-                       "        units, high_limit, low_limit, higher_limit, lower_limit, ratio, "
-                       "        is_trend, is_virtual, address, description, faults, definitions "
-                       " FROM tbl_points "
-                       " WHERE data_source_id = %s "
-                       " ORDER BY id ")
-        cursor.execute(query_point, (id_,))
-        rows_point = cursor.fetchall()
+                result = {"name": row[1],
+                          "uuid": row[2],
+                          "gateway": gateway_dict.get(row[3]),
+                          "protocol": row[4],
+                          "connection": row[5],
+                          "last_seen_datetime": last_seen_datetime,
+                          "description": row[7],
+                          "points": None
+                          }
+                point_result = list()
+                # Get points of the data source
+                # NOTE: there is no uuid in tbl_points
+                query_point = (" SELECT id, name, object_type, "
+                               "        units, high_limit, low_limit, higher_limit, lower_limit, ratio, "
+                               "        is_trend, is_virtual, address, description, faults, definitions "
+                               " FROM tbl_points "
+                               " WHERE data_source_id = %s "
+                               " ORDER BY id ")
+                cursor.execute(query_point, (id_,))
+                rows_point = cursor.fetchall()
 
-        if rows_point is not None and len(rows_point) > 0:
-            for row in rows_point:
-                meta_result = {"id": row[0],
-                               "name": row[1],
-                               "object_type": row[2],
-                               "units": row[3],
-                               "high_limit": row[4],
-                               "low_limit": row[5],
-                               "higher_limit": row[6],
-                               "lower_limit": row[7],
-                               "ratio": Decimal(row[8]),
-                               "is_trend": bool(row[9]),
-                               "is_virtual": bool(row[10]),
-                               "address": row[11],
-                               "description": row[12],
-                               "faults": row[13],
-                               "definitions": row[14]}
-                point_result.append(meta_result)
-            result['points'] = point_result
-        cursor.close()
-        cnx.close()
+                if rows_point is not None and len(rows_point) > 0:
+                    for row_pt in rows_point:
+                        meta_result = {"id": row_pt[0],
+                                       "name": row_pt[1],
+                                       "object_type": row_pt[2],
+                                       "units": row_pt[3],
+                                       "high_limit": row_pt[4],
+                                       "low_limit": row_pt[5],
+                                       "higher_limit": row_pt[6],
+                                       "lower_limit": row_pt[7],
+                                       "ratio": Decimal(row_pt[8]),
+                                       "is_trend": bool(row_pt[9]),
+                                       "is_virtual": bool(row_pt[10]),
+                                       "address": row_pt[11],
+                                       "description": row_pt[12],
+                                       "faults": row_pt[13],
+                                       "definitions": row_pt[14]}
+                        point_result.append(meta_result)
+                    result['points'] = point_result
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         resp.text = json.dumps(result)
 
@@ -679,97 +758,99 @@ class DataSourceImport:
                                    description='API.INVALID_GATEWAY_ID')
         gateway_id = new_values['gateway']['id']
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        query = (" SELECT id, name, code "
-                 " FROM tbl_protocols ")
-        cursor.execute(query)
-        rows_protocols = cursor.fetchall()
-        procotol_dict = dict()
-        if rows_protocols is not None and len(rows_protocols) > 0:
-            for row in rows_protocols:
-                procotol_dict[row[2]] = {"id": row[0],
-                                         "name": row[1],
-                                         "code": row[2]}
+                query = (" SELECT id, name, code "
+                         " FROM tbl_protocols ")
+                cursor.execute(query)
+                rows_protocols = cursor.fetchall()
+                procotol_dict = dict()
+                if rows_protocols is not None and len(rows_protocols) > 0:
+                    for row in rows_protocols:
+                        procotol_dict[row[2]] = {"id": row[0],
+                                                 "name": row[1],
+                                                 "code": row[2]}
 
-        if 'protocol' not in new_values.keys() \
-                or new_values['protocol'] not in procotol_dict.keys():
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.INVALID_DATA_SOURCE_PROTOCOL')
-        protocol = new_values['protocol']
+                if 'protocol' not in new_values.keys() \
+                        or new_values['protocol'] not in procotol_dict.keys():
+                    raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                           description='API.INVALID_DATA_SOURCE_PROTOCOL')
+                protocol = new_values['protocol']
 
-        if 'connection' not in new_values.keys() or \
-                not isinstance(new_values['connection'], str) or \
-                len(str.strip(new_values['connection'])) == 0:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.INVALID_CONNECTION')
-        connection = str.strip(new_values['connection'])
+                if 'connection' not in new_values.keys() or \
+                        not isinstance(new_values['connection'], str) or \
+                        len(str.strip(new_values['connection'])) == 0:
+                    raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                           description='API.INVALID_CONNECTION')
+                connection = str.strip(new_values['connection'])
 
-        if 'description' in new_values.keys() and \
-                new_values['description'] is not None and \
-                len(str(new_values['description'])) > 0:
-            description = str.strip(new_values['description'])
-        else:
-            description = None
+                if 'description' in new_values.keys() and \
+                        new_values['description'] is not None and \
+                        len(str(new_values['description'])) > 0:
+                    description = str.strip(new_values['description'])
+                else:
+                    description = None
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_data_sources "
-                       " WHERE name = %s ", (name,))
-        if cursor.fetchone() is not None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.DATA_SOURCE_NAME_IS_ALREADY_IN_USE')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_data_sources "
+                               " WHERE name = %s ", (name,))
+                if cursor.fetchone() is not None:
+                    raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                           description='API.DATA_SOURCE_NAME_IS_ALREADY_IN_USE')
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_gateways "
-                       " WHERE id = %s ", (gateway_id,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.INVALID_GATEWAY_ID')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_gateways "
+                               " WHERE id = %s ", (gateway_id,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                           description='API.INVALID_GATEWAY_ID')
 
-        add_values = (" INSERT INTO tbl_data_sources (name, uuid, gateway_id, protocol, connection, description) "
-                      " VALUES (%s, %s, %s, %s, %s, %s) ")
-        cursor.execute(add_values, (name,
-                                    str(uuid.uuid4()),
-                                    gateway_id,
-                                    protocol,
-                                    connection,
-                                    description))
-        new_id = cursor.lastrowid
-        if new_values['points'] is not None and len(new_values['points']) > 0:
-            for point in new_values['points']:
-                # todo: validate point properties
-                add_value = (" INSERT INTO tbl_points (name, data_source_id, object_type, units, "
-                             "                         high_limit, low_limit, higher_limit, lower_limit, ratio, "
-                             "                         is_trend, is_virtual, address, description, faults, "
-                             "                         definitions) "
-                             " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) ")
-                cursor.execute(add_value, (point['name'],
-                                           new_id,
-                                           point['object_type'],
-                                           point['units'],
-                                           point['high_limit'],
-                                           point['low_limit'],
-                                           point['higher_limit'],
-                                           point['lower_limit'],
-                                           point['ratio'],
-                                           point['is_trend'],
-                                           point['is_virtual'],
-                                           point['address'],
-                                           point['description'],
-                                           point['faults'],
-                                           point['definitions']))
-        cnx.commit()
-        cursor.close()
-        cnx.close()
+                add_values = (" INSERT INTO tbl_data_sources (name, uuid, gateway_id, "
+                              " protocol, connection, description) "
+                              " VALUES (%s, %s, %s, %s, %s, %s) ")
+                cursor.execute(add_values, (name,
+                                            str(uuid.uuid4()),
+                                            gateway_id,
+                                            protocol,
+                                            connection,
+                                            description))
+                new_id = cursor.lastrowid
+                if new_values['points'] is not None and len(new_values['points']) > 0:
+                    for point in new_values['points']:
+                        # todo: validate point properties
+                        add_value = (" INSERT INTO tbl_points (name, data_source_id, object_type, units, "
+                                     "                         high_limit, low_limit, "
+                                     "                         higher_limit, lower_limit, ratio, "
+                                     "                         is_trend, is_virtual, address, description, faults, "
+                                     "                         definitions) "
+                                     " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) ")
+                        cursor.execute(add_value, (point['name'],
+                                                   new_id,
+                                                   point['object_type'],
+                                                   point['units'],
+                                                   point['high_limit'],
+                                                   point['low_limit'],
+                                                   point['higher_limit'],
+                                                   point['lower_limit'],
+                                                   point['ratio'],
+                                                   point['is_trend'],
+                                                   point['is_virtual'],
+                                                   point['address'],
+                                                   point['description'],
+                                                   point['faults'],
+                                                   point['definitions']))
+                cnx.commit()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         resp.status = falcon.HTTP_201
         resp.location = '/datasources/' + str(new_id)
@@ -794,101 +875,113 @@ class DataSourceClone:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_DATA_SOURCE_ID')
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
+        row = None
+        rows_point = []
+        
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        query = (" SELECT id, name, uuid, gateway_id, protocol, connection, description "
-                 " FROM tbl_data_sources "
-                 " WHERE id = %s ")
-        cursor.execute(query, (id_,))
-        row = cursor.fetchone()
-        if row is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.DATA_SOURCE_NOT_FOUND')
+                query = (" SELECT id, name, uuid, gateway_id, protocol, connection, description "
+                         " FROM tbl_data_sources "
+                         " WHERE id = %s ")
+                cursor.execute(query, (id_,))
+                row = cursor.fetchone()
+                
+                if row is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.DATA_SOURCE_NOT_FOUND')
 
-        meta_result = {"id": row[0],
-                       "name": row[1],
-                       "uuid": row[2],
-                       "gateway_id": row[3],
-                       "protocol": row[4],
-                       "connection": row[5],
-                       "description": row[6],
-                       "points": None
-                       }
-        point_result = list()
-        # Get points of the data source
-        # NOTE: there is no uuid in tbl_points
-        query_point = (" SELECT id, name, object_type, "
-                       "        units, high_limit, low_limit, higher_limit, lower_limit, ratio, "
-                       "        is_trend, is_virtual, address, description, faults, definitions "
-                       " FROM tbl_points "
-                       " WHERE data_source_id = %s "
-                       " ORDER BY id ")
-        cursor.execute(query_point, (id_,))
-        rows_point = cursor.fetchall()
+                meta_result = {"id": row[0],
+                               "name": row[1],
+                               "uuid": row[2],
+                               "gateway_id": row[3],
+                               "protocol": row[4],
+                               "connection": row[5],
+                               "description": row[6],
+                               "points": None
+                               }
+                point_result = list()
+                # Get points of the data source
+                # NOTE: there is no uuid in tbl_points
+                query_point = (" SELECT id, name, object_type, "
+                               "        units, high_limit, low_limit, higher_limit, lower_limit, ratio, "
+                               "        is_trend, is_virtual, address, description, faults, definitions "
+                               " FROM tbl_points "
+                               " WHERE data_source_id = %s "
+                               " ORDER BY id ")
+                cursor.execute(query_point, (id_,))
+                rows_point = cursor.fetchall()
 
-        if rows_point is not None and len(rows_point) > 0:
-            for row in rows_point:
-                result = {"id": row[0],
-                          "name": row[1],
-                          "object_type": row[2],
-                          "units": row[3],
-                          "high_limit": row[4],
-                          "low_limit": row[5],
-                          "higher_limit": row[6],
-                          "lower_limit": row[7],
-                          "ratio": Decimal(row[8]),
-                          "is_trend": bool(row[9]),
-                          "is_virtual": bool(row[10]),
-                          "address": row[11],
-                          "description": row[12],
-                          "faults": row[13],
-                          "definitions": row[14]}
-                point_result.append(result)
-            meta_result['points'] = point_result
+                if rows_point is not None and len(rows_point) > 0:
+                    for row_pt in rows_point:
+                        result_pt = {"id": row_pt[0],
+                                     "name": row_pt[1],
+                                     "object_type": row_pt[2],
+                                     "units": row_pt[3],
+                                     "high_limit": row_pt[4],
+                                     "low_limit": row_pt[5],
+                                     "higher_limit": row_pt[6],
+                                     "lower_limit": row_pt[7],
+                                     "ratio": Decimal(row_pt[8]),
+                                     "is_trend": bool(row_pt[9]),
+                                     "is_virtual": bool(row_pt[10]),
+                                     "address": row_pt[11],
+                                     "description": row_pt[12],
+                                     "faults": row_pt[13],
+                                     "definitions": row_pt[14]}
+                        point_result.append(result_pt)
+                    meta_result['points'] = point_result
 
-        timezone_offset = int(config.utc_offset[1:3]) * 60 + int(config.utc_offset[4:6])
-        if config.utc_offset[0] == '-':
-            timezone_offset = -timezone_offset
-        new_name = str.strip(meta_result['name']) + \
-            (datetime.utcnow() + timedelta(minutes=timezone_offset)).isoformat(sep='-', timespec='seconds')
+                timezone_offset = int(config.utc_offset[1:3]) * 60 + int(config.utc_offset[4:6])
+                if config.utc_offset[0] == '-':
+                    timezone_offset = -timezone_offset
+                new_name = str.strip(meta_result['name']) + \
+                    (datetime.utcnow() + timedelta(minutes=timezone_offset)).isoformat(sep='-', timespec='seconds')
 
-        add_values = (" INSERT INTO tbl_data_sources (name, uuid, gateway_id, protocol, connection, description) "
-                      " VALUES (%s, %s, %s, %s, %s, %s) ")
-        cursor.execute(add_values, (new_name,
-                                    str(uuid.uuid4()),
-                                    meta_result['gateway_id'],
-                                    meta_result['protocol'],
-                                    meta_result['connection'],
-                                    meta_result['description']))
-        new_id = cursor.lastrowid
-        if meta_result['points'] is not None:
-            for point in meta_result['points']:
-                add_value = (" INSERT INTO tbl_points (name, data_source_id, object_type, units, "
-                             "                         high_limit, low_limit, higher_limit, lower_limit, ratio, "
-                             "                         is_trend, is_virtual, address, description, faults, "
-                             "                         definitions) "
-                             " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) ")
-                cursor.execute(add_value, (point['name'],
-                                           new_id,
-                                           point['object_type'],
-                                           point['units'],
-                                           point['high_limit'],
-                                           point['low_limit'],
-                                           point['higher_limit'],
-                                           point['lower_limit'],
-                                           point['ratio'],
-                                           point['is_trend'],
-                                           point['is_virtual'],
-                                           point['address'],
-                                           point['description'],
-                                           point['faults'],
-                                           point['definitions']))
-        cnx.commit()
-        cursor.close()
-        cnx.close()
+                add_values = (" INSERT INTO tbl_data_sources (name, uuid, gateway_id, "
+                              " protocol, connection, description) "
+                              " VALUES (%s, %s, %s, %s, %s, %s) ")
+                cursor.execute(add_values, (new_name,
+                                            str(uuid.uuid4()),
+                                            meta_result['gateway_id'],
+                                            meta_result['protocol'],
+                                            meta_result['connection'],
+                                            meta_result['description']))
+                new_id = cursor.lastrowid
+                if meta_result['points'] is not None:
+                    for point in meta_result['points']:
+                        add_value = (" INSERT INTO tbl_points (name, data_source_id, object_type, units, "
+                                     "                         high_limit, low_limit, "
+                                     "                         higher_limit, lower_limit, ratio, "
+                                     "                         is_trend, is_virtual, address, description, faults, "
+                                     "                         definitions) "
+                                     " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) ")
+                        cursor.execute(add_value, (point['name'],
+                                                   new_id,
+                                                   point['object_type'],
+                                                   point['units'],
+                                                   point['high_limit'],
+                                                   point['low_limit'],
+                                                   point['higher_limit'],
+                                                   point['lower_limit'],
+                                                   point['ratio'],
+                                                   point['is_trend'],
+                                                   point['is_virtual'],
+                                                   point['address'],
+                                                   point['description'],
+                                                   point['faults'],
+                                                   point['definitions']))
+                cnx.commit()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         resp.status = falcon.HTTP_201
         resp.location = '/datasources/' + str(new_id)

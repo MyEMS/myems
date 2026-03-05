@@ -32,26 +32,40 @@ class DistributionCircuitCollection:
             access_control(req)
         else:
             api_key_control(req)
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        
+        cnx = None
+        cursor = None
+        rows_distribution_systems = []
+        rows_distribution_circuits = []
+        
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        query = (" SELECT id, name, uuid "
-                 " FROM tbl_distribution_systems ")
-        cursor.execute(query)
-        rows_distribution_systems = cursor.fetchall()
+                query = (" SELECT id, name, uuid "
+                         " FROM tbl_distribution_systems ")
+                cursor.execute(query)
+                rows_distribution_systems = cursor.fetchall()
 
-        distribution_system_dict = dict()
-        if rows_distribution_systems is not None and len(rows_distribution_systems) > 0:
-            for row in rows_distribution_systems:
-                distribution_system_dict[row[0]] = {"id": row[0],
-                                                    "name": row[1],
-                                                    "uuid": row[2]}
-        query = (" SELECT id, name, uuid, distribution_system_id, "
-                 "        distribution_room, switchgear, peak_load, peak_current, customers, meters "
-                 " FROM tbl_distribution_circuits "
-                 " ORDER BY id ")
-        cursor.execute(query)
-        rows_distribution_circuits = cursor.fetchall()
+                distribution_system_dict = dict()
+                if rows_distribution_systems is not None and len(rows_distribution_systems) > 0:
+                    for row in rows_distribution_systems:
+                        distribution_system_dict[row[0]] = {"id": row[0],
+                                                            "name": row[1],
+                                                            "uuid": row[2]}
+                query = (" SELECT id, name, uuid, distribution_system_id, "
+                         "        distribution_room, switchgear, peak_load, peak_current, customers, meters "
+                         " FROM tbl_distribution_circuits "
+                         " ORDER BY id ")
+                cursor.execute(query)
+                rows_distribution_circuits = cursor.fetchall()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         result = list()
         if rows_distribution_circuits is not None and len(rows_distribution_circuits) > 0:
@@ -68,8 +82,6 @@ class DistributionCircuitCollection:
                                "meters": row[9]}
                 result.append(meta_result)
 
-        cursor.close()
-        cnx.close()
         resp.text = json.dumps(result)
 
     @staticmethod
@@ -148,46 +160,52 @@ class DistributionCircuitCollection:
         else:
             meters = None
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
+        new_id = None
+        
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_distribution_systems "
-                       " WHERE id = %s ",
-                       (distribution_system_id,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.DISTRIBUTION_SYSTEM_NOT_FOUND')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_distribution_systems "
+                               " WHERE id = %s ",
+                               (distribution_system_id,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.DISTRIBUTION_SYSTEM_NOT_FOUND')
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_distribution_circuits "
-                       " WHERE distribution_system_id = %s AND name = %s ",
-                       (distribution_system_id, name,))
-        if cursor.fetchone() is not None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.DISTRIBUTION_CIRCUIT_NAME_IS_ALREADY_IN_USE')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_distribution_circuits "
+                               " WHERE distribution_system_id = %s AND name = %s ",
+                               (distribution_system_id, name,))
+                if cursor.fetchone() is not None:
+                    raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                           description='API.DISTRIBUTION_CIRCUIT_NAME_IS_ALREADY_IN_USE')
 
-        add_values = (" INSERT INTO tbl_distribution_circuits "
-                      "    (name, uuid, distribution_system_id,"
-                      "     distribution_room, switchgear, peak_load, peak_current, customers, meters) "
-                      " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s) ")
-        cursor.execute(add_values, (name,
-                                    str(uuid.uuid4()),
-                                    distribution_system_id,
-                                    distribution_room,
-                                    switchgear,
-                                    peak_load,
-                                    peak_current,
-                                    customers,
-                                    meters))
-        new_id = cursor.lastrowid
-        cnx.commit()
-        cursor.close()
-        cnx.close()
+                add_values = (" INSERT INTO tbl_distribution_circuits "
+                              "    (name, uuid, distribution_system_id,"
+                              "     distribution_room, switchgear, peak_load, peak_current, customers, meters) "
+                              " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s) ")
+                cursor.execute(add_values, (name,
+                                            str(uuid.uuid4()),
+                                            distribution_system_id,
+                                            distribution_room,
+                                            switchgear,
+                                            peak_load,
+                                            peak_current,
+                                            customers,
+                                            meters))
+                new_id = cursor.lastrowid
+                cnx.commit()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         resp.status = falcon.HTTP_201
         resp.location = '/distributioncircuits/' + str(new_id)
@@ -215,44 +233,55 @@ class DistributionCircuitItem:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_DISTRIBUTION_CIRCUIT_ID')
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
+        rows_distribution_systems = []
+        row = None
+        
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        query = (" SELECT id, name, uuid "
-                 " FROM tbl_distribution_systems ")
-        cursor.execute(query)
-        rows_distribution_systems = cursor.fetchall()
+                query = (" SELECT id, name, uuid "
+                         " FROM tbl_distribution_systems ")
+                cursor.execute(query)
+                rows_distribution_systems = cursor.fetchall()
 
-        distribution_system_dict = dict()
-        if rows_distribution_systems is not None and len(rows_distribution_systems) > 0:
-            for row in rows_distribution_systems:
-                distribution_system_dict[row[0]] = {"id": row[0],
-                                                    "name": row[1],
-                                                    "uuid": row[2]}
+                distribution_system_dict = dict()
+                if rows_distribution_systems is not None and len(rows_distribution_systems) > 0:
+                    for row_ds in rows_distribution_systems:
+                        distribution_system_dict[row_ds[0]] = {"id": row_ds[0],
+                                                               "name": row_ds[1],
+                                                               "uuid": row_ds[2]}
 
-        query = (" SELECT id, name, uuid, distribution_system_id, "
-                 "        distribution_room, switchgear, peak_load, peak_current, customers, meters "
-                 " FROM tbl_distribution_circuits "
-                 " WHERE id = %s ")
-        cursor.execute(query, (id_,))
-        row = cursor.fetchone()
-        cursor.close()
-        cnx.close()
+                query = (" SELECT id, name, uuid, distribution_system_id, "
+                         "        distribution_room, switchgear, peak_load, peak_current, customers, meters "
+                         " FROM tbl_distribution_circuits "
+                         " WHERE id = %s ")
+                cursor.execute(query, (id_,))
+                row = cursor.fetchone()
+                
+                if row is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.DISTRIBUTION_CIRCUIT_NOT_FOUND')
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
-        if row is None:
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.DISTRIBUTION_CIRCUIT_NOT_FOUND')
-        else:
-            meta_result = {"id": row[0],
-                           "name": row[1],
-                           "uuid": row[2],
-                           "distribution_system": distribution_system_dict.get(row[3]),
-                           "distribution_room": row[4],
-                           "switchgear": row[5],
-                           "peak_load": row[6],
-                           "peak_current": row[7],
-                           "customers": row[8],
-                           "meters": row[9]}
+        meta_result = {"id": row[0],
+                       "name": row[1],
+                       "uuid": row[2],
+                       "distribution_system": distribution_system_dict.get(row[3]),
+                       "distribution_room": row[4],
+                       "switchgear": row[5],
+                       "peak_load": row[6],
+                       "peak_current": row[7],
+                       "customers": row[8],
+                       "meters": row[9]}
 
         resp.text = json.dumps(meta_result)
 
@@ -263,35 +292,42 @@ class DistributionCircuitItem:
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_DISTRIBUTION_CIRCUIT_ID')
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        
+        cnx = None
+        cursor = None
+        
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_distribution_circuits "
-                       " WHERE id = %s ", (id_,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.DISTRIBUTION_CIRCUIT_NOT_FOUND')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_distribution_circuits "
+                               " WHERE id = %s ", (id_,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.DISTRIBUTION_CIRCUIT_NOT_FOUND')
 
-        # Get distribution_system_id before deleting
-        cursor.execute(" SELECT distribution_system_id "
-                       " FROM tbl_distribution_circuits "
-                       " WHERE id = %s ", (id_,))
-        row = cursor.fetchone()
-        distribution_system_id = row[0] if row else None
+                # Get distribution_system_id before deleting
+                cursor.execute(" SELECT distribution_system_id "
+                               " FROM tbl_distribution_circuits "
+                               " WHERE id = %s ", (id_,))
+                row = cursor.fetchone()
+                # distribution_system_id = row[0] if row else None
 
-        # delete relation with points
-        cursor.execute(" DELETE FROM tbl_distribution_circuits_points "
-                       " WHERE distribution_circuit_id = %s ", (id_,))
-        # delete distribution circuit itself
-        cursor.execute(" DELETE FROM tbl_distribution_circuits "
-                       " WHERE id = %s ", (id_,))
-        cnx.commit()
-
-        cursor.close()
-        cnx.close()
+                # delete relation with points
+                cursor.execute(" DELETE FROM tbl_distribution_circuits_points "
+                               " WHERE distribution_circuit_id = %s ", (id_,))
+                # delete distribution circuit itself
+                cursor.execute(" DELETE FROM tbl_distribution_circuits "
+                               " WHERE id = %s ", (id_,))
+                cnx.commit()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         resp.status = falcon.HTTP_204
 
@@ -375,61 +411,63 @@ class DistributionCircuitItem:
         else:
             meters = None
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
+        
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_distribution_systems "
-                       " WHERE id = %s ",
-                       (distribution_system_id,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.DISTRIBUTION_SYSTEM_NOT_FOUND')
-        cursor.execute(" SELECT name "
-                       " FROM tbl_distribution_circuits "
-                       " WHERE id = %s ", (id_,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.DISTRIBUTION_CIRCUIT_NOT_FOUND')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_distribution_systems "
+                               " WHERE id = %s ",
+                               (distribution_system_id,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.DISTRIBUTION_SYSTEM_NOT_FOUND')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_distribution_circuits "
+                               " WHERE id = %s ", (id_,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.DISTRIBUTION_CIRCUIT_NOT_FOUND')
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_distribution_circuits "
-                       " WHERE distribution_system_id = %s AND name = %s AND id != %s ",
-                       (distribution_system_id, name, id_))
-        if cursor.fetchone() is not None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.DISTRIBUTION_CIRCUIT_NAME_IS_ALREADY_IN_USE')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_distribution_circuits "
+                               " WHERE distribution_system_id = %s AND name = %s AND id != %s ",
+                               (distribution_system_id, name, id_))
+                if cursor.fetchone() is not None:
+                    raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                           description='API.DISTRIBUTION_CIRCUIT_NAME_IS_ALREADY_IN_USE')
 
-        # Get old distribution_system_id before updating (in case it changes)
-        cursor.execute(" SELECT distribution_system_id "
-                       " FROM tbl_distribution_circuits "
-                       " WHERE id = %s ", (id_,))
-        row = cursor.fetchone()
-        old_distribution_system_id = row[0] if row else None
+                # Get old distribution_system_id before updating (in case it changes)
+                cursor.execute(" SELECT distribution_system_id "
+                               " FROM tbl_distribution_circuits "
+                               " WHERE id = %s ", (id_,))
+                row = cursor.fetchone()
+                # old_distribution_system_id = row[0] if row else None # Variable unused in original logic
 
-        update_row = (" UPDATE tbl_distribution_circuits "
-                      " SET name = %s, distribution_system_id = %s, distribution_room = %s, switchgear = %s, "
-                      "     peak_load = %s, peak_current = %s, customers = %s, meters = %s "
-                      " WHERE id = %s ")
-        cursor.execute(update_row, (name,
-                                    distribution_system_id,
-                                    distribution_room,
-                                    switchgear,
-                                    peak_load,
-                                    peak_current,
-                                    customers,
-                                    meters,
-                                    id_))
-        cnx.commit()
-
-        cursor.close()
-        cnx.close()
+                update_row = (" UPDATE tbl_distribution_circuits "
+                              " SET name = %s, distribution_system_id = %s, distribution_room = %s, switchgear = %s, "
+                              "     peak_load = %s, peak_current = %s, customers = %s, meters = %s "
+                              " WHERE id = %s ")
+                cursor.execute(update_row, (name,
+                                            distribution_system_id,
+                                            distribution_room,
+                                            switchgear,
+                                            peak_load,
+                                            peak_current,
+                                            customers,
+                                            meters,
+                                            id_))
+                cnx.commit()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         resp.status = falcon.HTTP_200
 
@@ -456,39 +494,50 @@ class DistributionCircuitPointCollection:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_DISTRIBUTION_CIRCUIT_ID')
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
+        rows_distribution_systems = []
+        rows = []
+        
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        query = (" SELECT id, name, uuid "
-                 " FROM tbl_distribution_systems ")
-        cursor.execute(query)
-        rows_distribution_systems = cursor.fetchall()
+                query = (" SELECT id, name, uuid "
+                         " FROM tbl_distribution_systems ")
+                cursor.execute(query)
+                rows_distribution_systems = cursor.fetchall()
 
-        distribution_system_dict = dict()
-        if rows_distribution_systems is not None and len(rows_distribution_systems) > 0:
-            for row in rows_distribution_systems:
-                distribution_system_dict[row[2]] = {"id": row[0],
-                                                    "name": row[1],
-                                                    "uuid": row[2]}
+                distribution_system_dict = dict()
+                if rows_distribution_systems is not None and len(rows_distribution_systems) > 0:
+                    for row in rows_distribution_systems:
+                        distribution_system_dict[row[2]] = {"id": row[0],
+                                                            "name": row[1],
+                                                            "uuid": row[2]}
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_distribution_circuits "
-                       " WHERE id = %s ", (id_,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.DISTRIBUTION_CIRCUIT_NOT_FOUND')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_distribution_circuits "
+                               " WHERE id = %s ", (id_,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.DISTRIBUTION_CIRCUIT_NOT_FOUND')
 
-        query = (" SELECT p.id AS point_id, p.name AS point_name, p.address AS point_address, "
-                 "        dc.id AS distribution_circuit_id, dc.name AS distribution_circuit_name, "
-                 "        dc.uuid AS distribution_circuit_uuid "
-                 " FROM tbl_points p, tbl_distribution_circuits_points dcp, tbl_distribution_circuits dc "
-                 " WHERE dcp.distribution_circuit_id = %s AND p.id = dcp.point_id "
-                 "       AND dcp.distribution_circuit_id = dc.id "
-                 " ORDER BY p.name ")
-        cursor.execute(query, (id_,))
-        rows = cursor.fetchall()
+                query = (" SELECT p.id AS point_id, p.name AS point_name, p.address AS point_address, "
+                         "        dc.id AS distribution_circuit_id, dc.name AS distribution_circuit_name, "
+                         "        dc.uuid AS distribution_circuit_uuid "
+                         " FROM tbl_points p, tbl_distribution_circuits_points dcp, tbl_distribution_circuits dc "
+                         " WHERE dcp.distribution_circuit_id = %s AND p.id = dcp.point_id "
+                         "       AND dcp.distribution_circuit_id = dc.id "
+                         " ORDER BY p.name ")
+                cursor.execute(query, (id_,))
+                rows = cursor.fetchall()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         result = list()
         if rows is not None and len(rows) > 0:
@@ -525,45 +574,48 @@ class DistributionCircuitPointCollection:
 
         new_values = json.loads(raw_json)
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
+        
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        cursor.execute(" SELECT name, distribution_system_id "
-                       " from tbl_distribution_circuits "
-                       " WHERE id = %s ", (id_,))
-        row = cursor.fetchone()
-        if row is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.DISTRIBUTION_CIRCUIT_NOT_FOUND')
-        distribution_system_id = row[1]
+                cursor.execute(" SELECT name, distribution_system_id "
+                               " from tbl_distribution_circuits "
+                               " WHERE id = %s ", (id_,))
+                row = cursor.fetchone()
+                if row is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.DISTRIBUTION_CIRCUIT_NOT_FOUND')
+                # distribution_system_id = row[1] # Variable unused in original logic
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_points "
-                       " WHERE id = %s ", (new_values['data']['point_id'],))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.POINT_NOT_FOUND')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_points "
+                               " WHERE id = %s ", (new_values['data']['point_id'],))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.POINT_NOT_FOUND')
 
-        query = (" SELECT id "
-                 " FROM tbl_distribution_circuits_points "
-                 " WHERE distribution_circuit_id = %s AND point_id = %s")
-        cursor.execute(query, (id_, new_values['data']['point_id'],))
-        if cursor.fetchone() is not None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR',
-                                   description='API.DISTRIBUTION_CIRCUIT_POINT_RELATION_EXISTS')
+                query = (" SELECT id "
+                         " FROM tbl_distribution_circuits_points "
+                         " WHERE distribution_circuit_id = %s AND point_id = %s")
+                cursor.execute(query, (id_, new_values['data']['point_id'],))
+                if cursor.fetchone() is not None:
+                    raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR',
+                                           description='API.DISTRIBUTION_CIRCUIT_POINT_RELATION_EXISTS')
 
-        add_row = (" INSERT INTO tbl_distribution_circuits_points (distribution_circuit_id, point_id) "
-                   " VALUES (%s, %s) ")
-        cursor.execute(add_row, (id_, new_values['data']['point_id'],))
-        cnx.commit()
-        cursor.close()
-        cnx.close()
+                add_row = (" INSERT INTO tbl_distribution_circuits_points (distribution_circuit_id, point_id) "
+                           " VALUES (%s, %s) ")
+                cursor.execute(add_row, (id_, new_values['data']['point_id'],))
+                cnx.commit()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         resp.status = falcon.HTTP_201
         resp.location = '/distributioncircuits/' + str(id_) + '/points/' + str(new_values['data']['point_id'])
@@ -591,44 +643,45 @@ class DistributionCircuitPointItem:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_POINT_ID')
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
+        
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        cursor.execute(" SELECT name, distribution_system_id "
-                       " FROM tbl_distribution_circuits "
-                       " WHERE id = %s ", (id_,))
-        row = cursor.fetchone()
-        if row is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.DISTRIBUTION_CIRCUIT_NOT_FOUND')
-        distribution_system_id = row[1]
+                cursor.execute(" SELECT name, distribution_system_id "
+                               " FROM tbl_distribution_circuits "
+                               " WHERE id = %s ", (id_,))
+                row = cursor.fetchone()
+                if row is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.DISTRIBUTION_CIRCUIT_NOT_FOUND')
+                # distribution_system_id = row[1] # Variable unused in original logic
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_points "
-                       " WHERE id = %s ", (pid,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.POINT_NOT_FOUND')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_points "
+                               " WHERE id = %s ", (pid,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.POINT_NOT_FOUND')
 
-        cursor.execute(" SELECT id "
-                       " FROM tbl_distribution_circuits_points "
-                       " WHERE distribution_circuit_id = %s AND point_id = %s ", (id_, pid))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.DISTRIBUTION_CIRCUIT_POINT_RELATION_NOT_FOUND')
+                cursor.execute(" SELECT id "
+                               " FROM tbl_distribution_circuits_points "
+                               " WHERE distribution_circuit_id = %s AND point_id = %s ", (id_, pid))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.DISTRIBUTION_CIRCUIT_POINT_RELATION_NOT_FOUND')
 
-        cursor.execute(" DELETE FROM tbl_distribution_circuits_points "
-                       " WHERE distribution_circuit_id = %s AND point_id = %s ", (id_, pid))
-        cnx.commit()
-
-        cursor.close()
-        cnx.close()
+                cursor.execute(" DELETE FROM tbl_distribution_circuits_points "
+                               " WHERE distribution_circuit_id = %s AND point_id = %s ", (id_, pid))
+                cnx.commit()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         resp.status = falcon.HTTP_204
-

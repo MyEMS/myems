@@ -20,16 +20,26 @@ class DataRepairFileCollection:
     @staticmethod
     def on_get(req, resp):
         admin_control(req)
-        cnx = mysql.connector.connect(**config.myems_historical_db)
-        cursor = cnx.cursor()
+        
+        cnx = None
+        cursor = None
+        rows = []
+        try:
+            cnx = mysql.connector.connect(**config.myems_historical_db)
+            try:
+                cursor = cnx.cursor()
 
-        query = (" SELECT id, file_name, uuid, upload_datetime_utc, status "
-                 " FROM tbl_data_repair_files "
-                 " ORDER BY upload_datetime_utc desc ")
-        cursor.execute(query)
-        rows = cursor.fetchall()
-        cursor.close()
-        cnx.close()
+                query = (" SELECT id, file_name, uuid, upload_datetime_utc, status "
+                         " FROM tbl_data_repair_files "
+                         " ORDER BY upload_datetime_utc desc ")
+                cursor.execute(query)
+                rows = cursor.fetchall()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         timezone_offset = int(config.utc_offset[1:3]) * 60 + int(config.utc_offset[4:6])
         if config.utc_offset[0] == '-':
@@ -90,60 +100,69 @@ class DataRepairFileCollection:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.USER_UUID_NOT_FOUND_IN_HEADERS_PLEASE_LOGIN')
 
-        cnx = mysql.connector.connect(**config.myems_user_db)
-        cursor = cnx.cursor()
+        # Database connection for User DB (Session Validation)
+        cnx_user = None
+        cursor_user = None
+        try:
+            cnx_user = mysql.connector.connect(**config.myems_user_db)
+            try:
+                cursor_user = cnx_user.cursor()
 
-        query = (" SELECT utc_expires "
-                 " FROM tbl_sessions "
-                 " WHERE user_uuid = %s AND token = %s")
-        cursor.execute(query, (user_uuid, token,))
-        row = cursor.fetchone()
+                query = (" SELECT utc_expires "
+                         " FROM tbl_sessions "
+                         " WHERE user_uuid = %s AND token = %s")
+                cursor_user.execute(query, (user_uuid, token,))
+                row = cursor_user.fetchone()
 
-        if row is None:
-            if cursor:
-                cursor.close()
-            if cnx:
-                cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.INVALID_SESSION_PLEASE_RE_LOGIN')
-        else:
-            utc_expires = row[0]
-            if datetime.utcnow() > utc_expires:
-                if cursor:
-                    cursor.close()
-                if cnx:
-                    cnx.close()
-                raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                       description='API.USER_SESSION_TIMEOUT')
+                if row is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                           description='API.INVALID_SESSION_PLEASE_RE_LOGIN')
+                
+                utc_expires = row[0]
+                if datetime.utcnow() > utc_expires:
+                    raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                           description='API.USER_SESSION_TIMEOUT')
 
-        cursor.execute(" SELECT id "
-                       " FROM tbl_users "
-                       " WHERE uuid = %s ",
-                       (user_uuid,))
-        row = cursor.fetchone()
-        if row is None:
-            if cursor:
-                cursor.close()
-            if cnx:
-                cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.INVALID_USER_PLEASE_RE_LOGIN')
+                cursor_user.execute(" SELECT id "
+                                    " FROM tbl_users "
+                                    " WHERE uuid = %s ",
+                                    (user_uuid,))
+                row = cursor_user.fetchone()
+                if row is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                           description='API.INVALID_USER_PLEASE_RE_LOGIN')
+            finally:
+                if cursor_user:
+                    cursor_user.close()
+        finally:
+            if cnx_user:
+                cnx_user.close()
 
-        cnx = mysql.connector.connect(**config.myems_historical_db)
-        cursor = cnx.cursor()
+        # Database connection for Historical DB (File Storage)
+        cnx_hist = None
+        cursor_hist = None
+        new_id = None
+        try:
+            cnx_hist = mysql.connector.connect(**config.myems_historical_db)
+            try:
+                cursor_hist = cnx_hist.cursor()
 
-        add_values = (" INSERT INTO tbl_data_repair_files "
-                      " (file_name, uuid, upload_datetime_utc, status, file_object ) "
-                      " VALUES (%s, %s, %s, %s, %s) ")
-        cursor.execute(add_values, (filename,
-                                    file_uuid,
-                                    datetime.utcnow(),
-                                    'new',
-                                    raw_blob))
-        new_id = cursor.lastrowid
-        cnx.commit()
-        cursor.close()
-        cnx.close()
+                add_values = (" INSERT INTO tbl_data_repair_files "
+                              " (file_name, uuid, upload_datetime_utc, status, file_object ) "
+                              " VALUES (%s, %s, %s, %s, %s) ")
+                cursor_hist.execute(add_values, (filename,
+                                                 file_uuid,
+                                                 datetime.utcnow(),
+                                                 'new',
+                                                 raw_blob))
+                new_id = cursor_hist.lastrowid
+                cnx_hist.commit()
+            finally:
+                if cursor_hist:
+                    cursor_hist.close()
+        finally:
+            if cnx_hist:
+                cnx_hist.close()
 
         resp.status = falcon.HTTP_201
         resp.location = '/datarepairfiles/' + str(new_id)
@@ -167,19 +186,29 @@ class DataRepairFileItem:
                                    title='API.BAD_REQUEST',
                                    description='API.INVALID_DATA_REPAIR_FILE_ID')
 
-        cnx = mysql.connector.connect(**config.myems_historical_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
+        row = None
+        try:
+            cnx = mysql.connector.connect(**config.myems_historical_db)
+            try:
+                cursor = cnx.cursor()
 
-        query = (" SELECT id, file_name, uuid, upload_datetime_utc, status "
-                 " FROM tbl_data_repair_files "
-                 " WHERE id = %s ")
-        cursor.execute(query, (id_,))
-        row = cursor.fetchone()
-        cursor.close()
-        cnx.close()
-        if row is None:
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.DATA_REPAIR_FILE_NOT_FOUND')
+                query = (" SELECT id, file_name, uuid, upload_datetime_utc, status "
+                         " FROM tbl_data_repair_files "
+                         " WHERE id = %s ")
+                cursor.execute(query, (id_,))
+                row = cursor.fetchone()
+                
+                if row is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.DATA_REPAIR_FILE_NOT_FOUND')
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         timezone_offset = int(config.utc_offset[1:3]) * 60 + int(config.utc_offset[4:6])
         if config.utc_offset[0] == '-':
@@ -201,21 +230,33 @@ class DataRepairFileItem:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_DATA_REPAIR_FILE_ID')
 
-        cnx = mysql.connector.connect(**config.myems_historical_db)
-        cursor = cnx.cursor()
-
-        cursor.execute(" SELECT uuid "
-                       " FROM tbl_data_repair_files "
-                       " WHERE id = %s ", (id_,))
-        row = cursor.fetchone()
-        if row is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.DATA_REPAIR_FILE_NOT_FOUND')
-
+        cnx = None
+        cursor = None
+        file_uuid = None
+        
         try:
-            file_uuid = row[0]
+            cnx = mysql.connector.connect(**config.myems_historical_db)
+            try:
+                cursor = cnx.cursor()
+
+                cursor.execute(" SELECT uuid "
+                               " FROM tbl_data_repair_files "
+                               " WHERE id = %s ", (id_,))
+                row = cursor.fetchone()
+                if row is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.DATA_REPAIR_FILE_NOT_FOUND')
+                
+                file_uuid = row[0]
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
+
+        # File deletion logic (outside DB transaction)
+        try:
             # Define file_path
             file_path = os.path.join(config.upload_path, file_uuid)
 
@@ -228,12 +269,23 @@ class DataRepairFileItem:
             # ignore exception and don't return API.DATA_REPAIR_FILE_NOT_FOUND error
             pass
 
-        # Note: the energy data imported from the deleted file will not be deleted
-        cursor.execute(" DELETE FROM tbl_data_repair_files WHERE id = %s ", (id_,))
-        cnx.commit()
-
-        cursor.close()
-        cnx.close()
+        # Re-connect to delete DB record
+        cnx_del = None
+        cursor_del = None
+        try:
+            cnx_del = mysql.connector.connect(**config.myems_historical_db)
+            try:
+                cursor_del = cnx_del.cursor()
+                
+                # Note: the energy data imported from the deleted file will not be deleted
+                cursor_del.execute(" DELETE FROM tbl_data_repair_files WHERE id = %s ", (id_,))
+                cnx_del.commit()
+            finally:
+                if cursor_del:
+                    cursor_del.close()
+        finally:
+            if cnx_del:
+                cnx_del.close()
 
         resp.status = falcon.HTTP_204
 
@@ -255,20 +307,29 @@ class DataRepairFileRestore:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_DATA_REPAIR_FILE_ID')
 
-        cnx = mysql.connector.connect(**config.myems_historical_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
+        row = None
+        try:
+            cnx = mysql.connector.connect(**config.myems_historical_db)
+            try:
+                cursor = cnx.cursor()
 
-        query = (" SELECT uuid, file_object "
-                 " FROM tbl_data_repair_files "
-                 " WHERE id = %s ")
-        cursor.execute(query, (id_,))
-        row = cursor.fetchone()
-        cursor.close()
-        cnx.close()
+                query = (" SELECT uuid, file_object "
+                         " FROM tbl_data_repair_files "
+                         " WHERE id = %s ")
+                cursor.execute(query, (id_,))
+                row = cursor.fetchone()
 
-        if row is None:
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.DATA_REPAIR_FILE_NOT_FOUND')
+                if row is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.DATA_REPAIR_FILE_NOT_FOUND')
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         result = {"uuid": row[0],
                   "file_object": row[1]}

@@ -112,46 +112,55 @@ class DistributionSystemCollection:
                 pass
 
         # Cache miss or Redis error - query database
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
+        rows_svgs = []
+        rows_distribution_systems = []
+        
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        svg_dict = dict()
-        query = (" SELECT id, name, uuid, source_code "
-                 " FROM tbl_svgs ")
-        cursor.execute(query)
-        rows_svgs = cursor.fetchall()
-        if rows_svgs is not None and len(rows_svgs) > 0:
-            for row in rows_svgs:
-                svg_dict[row[0]] = {"id": row[0],
-                                    "name": row[1],
-                                    "uuid": row[2],
-                                    "source_code": row[3]}
+                svg_dict = dict()
+                query = (" SELECT id, name, uuid, source_code "
+                         " FROM tbl_svgs ")
+                cursor.execute(query)
+                rows_svgs = cursor.fetchall()
+                if rows_svgs is not None and len(rows_svgs) > 0:
+                    for row in rows_svgs:
+                        svg_dict[row[0]] = {"id": row[0],
+                                            "name": row[1],
+                                            "uuid": row[2],
+                                            "source_code": row[3]}
 
-        query = (" SELECT id, name, uuid, "
-                 "        svg_id, description "
-                 " FROM tbl_distribution_systems ")
+                query = (" SELECT id, name, uuid, "
+                         "        svg_id, description "
+                         " FROM tbl_distribution_systems ")
 
-        params=[]
-        if search_query:
-            query += " WHERE name LIKE %s   OR  description LIKE %s "
-            params = [f'%{search_query}%',  f'%{search_query}%']
-        query +=  " ORDER BY id "
-        cursor.execute(query, params)
-        rows_distribution_systems = cursor.fetchall()
+                params = []
+                if search_query:
+                    query += " WHERE name LIKE %s   OR  description LIKE %s "
+                    params = [f'%{search_query}%', f'%{search_query}%']
+                query += " ORDER BY id "
+                cursor.execute(query, params)
+                rows_distribution_systems = cursor.fetchall()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         result = list()
         if rows_distribution_systems is not None and len(rows_distribution_systems) > 0:
             for row in rows_distribution_systems:
-
                 meta_result = {"id": row[0],
                                "name": row[1],
                                "uuid": row[2],
                                "svg": svg_dict.get(row[3], None),
                                "description": row[4]}
                 result.append(meta_result)
-
-        cursor.close()
-        cnx.close()
 
         # Store result in Redis cache
         result_json = json.dumps(result)
@@ -205,40 +214,46 @@ class DistributionSystemCollection:
         else:
             description = None
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
+        new_id = None
+        
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_distribution_systems "
-                       " WHERE name = %s ", (name,))
-        if cursor.fetchone() is not None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.DISTRIBUTION_SYSTEM_NAME_IS_ALREADY_IN_USE')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_distribution_systems "
+                               " WHERE name = %s ", (name,))
+                if cursor.fetchone() is not None:
+                    raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                           description='API.DISTRIBUTION_SYSTEM_NAME_IS_ALREADY_IN_USE')
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_svgs "
-                       " WHERE id = %s ",
-                       (svg_id,))
-        row = cursor.fetchone()
-        if row is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.SVG_NOT_FOUND')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_svgs "
+                               " WHERE id = %s ",
+                               (svg_id,))
+                row = cursor.fetchone()
+                if row is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.SVG_NOT_FOUND')
 
-        add_values = (" INSERT INTO tbl_distribution_systems "
-                      "    (name, uuid, svg_id, description) "
-                      " VALUES (%s, %s, %s, %s) ")
-        cursor.execute(add_values, (name,
-                                    str(uuid.uuid4()),
-                                    svg_id,
-                                    description))
-        new_id = cursor.lastrowid
-        cnx.commit()
-        cursor.close()
-        cnx.close()
+                add_values = (" INSERT INTO tbl_distribution_systems "
+                              "    (name, uuid, svg_id, description) "
+                              " VALUES (%s, %s, %s, %s) ")
+                cursor.execute(add_values, (name,
+                                            str(uuid.uuid4()),
+                                            svg_id,
+                                            description))
+                new_id = cursor.lastrowid
+                cnx.commit()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         # Clear distribution system API cache
         clear_distribution_system_cache()
@@ -296,39 +311,50 @@ class DistributionSystemItem:
                 pass
 
         # Cache miss or Redis error - query database
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
+        rows_svgs = []
+        row = None
+        
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        svg_dict = dict()
-        query = (" SELECT id, name, uuid, source_code "
-                 " FROM tbl_svgs ")
-        cursor.execute(query)
-        rows_svgs = cursor.fetchall()
-        if rows_svgs is not None and len(rows_svgs) > 0:
-            for row in rows_svgs:
-                svg_dict[row[0]] = {"id": row[0],
-                                    "name": row[1],
-                                    "uuid": row[2],
-                                    "source_code": row[3]}
+                svg_dict = dict()
+                query = (" SELECT id, name, uuid, source_code "
+                         " FROM tbl_svgs ")
+                cursor.execute(query)
+                rows_svgs = cursor.fetchall()
+                if rows_svgs is not None and len(rows_svgs) > 0:
+                    for row_svg in rows_svgs:
+                        svg_dict[row_svg[0]] = {"id": row_svg[0],
+                                                "name": row_svg[1],
+                                                "uuid": row_svg[2],
+                                                "source_code": row_svg[3]}
 
-        query = (" SELECT id, name, uuid, "
-                 "        svg_id, description "
-                 " FROM tbl_distribution_systems "
-                 " WHERE id = %s ")
-        cursor.execute(query, (id_,))
-        row = cursor.fetchone()
-        cursor.close()
-        cnx.close()
+                query = (" SELECT id, name, uuid, "
+                         "        svg_id, description "
+                         " FROM tbl_distribution_systems "
+                         " WHERE id = %s ")
+                cursor.execute(query, (id_,))
+                row = cursor.fetchone()
+                
+                if row is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.DISTRIBUTION_SYSTEM_NOT_FOUND')
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
-        if row is None:
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.DISTRIBUTION_SYSTEM_NOT_FOUND')
-        else:
-            meta_result = {"id": row[0],
-                           "name": row[1],
-                           "uuid": row[2],
-                           "svg": svg_dict.get(row[3], None),
-                           "description": row[4]}
+        meta_result = {"id": row[0],
+                       "name": row[1],
+                       "uuid": row[2],
+                       "svg": svg_dict.get(row[3], None),
+                       "description": row[4]}
 
         # Store result in Redis cache
         result_json = json.dumps(meta_result)
@@ -348,38 +374,45 @@ class DistributionSystemItem:
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_DISTRIBUTION_SYSTEM_ID')
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        
+        cnx = None
+        cursor = None
+        rows_spaces = []
+        
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_distribution_systems "
-                       " WHERE id = %s ", (id_,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.DISTRIBUTION_SYSTEM_NOT_FOUND')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_distribution_systems "
+                               " WHERE id = %s ", (id_,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.DISTRIBUTION_SYSTEM_NOT_FOUND')
 
-        # check relation with spaces
-        cursor.execute(" SELECT id "
-                       " FROM tbl_spaces_distribution_systems "
-                       " WHERE distribution_system_id = %s ", (id_,))
-        rows_spaces = cursor.fetchall()
-        if rows_spaces is not None and len(rows_spaces) > 0:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_400,
-                                   title='API.BAD_REQUEST',
-                                   description='API.THERE_IS_RELATION_WITH_SPACES')
+                # check relation with spaces
+                cursor.execute(" SELECT id "
+                               " FROM tbl_spaces_distribution_systems "
+                               " WHERE distribution_system_id = %s ", (id_,))
+                rows_spaces = cursor.fetchall()
+                if rows_spaces is not None and len(rows_spaces) > 0:
+                    raise falcon.HTTPError(status=falcon.HTTP_400,
+                                           title='API.BAD_REQUEST',
+                                           description='API.THERE_IS_RELATION_WITH_SPACES')
 
-        cursor.execute(" DELETE FROM tbl_distribution_circuits_points WHERE distribution_circuit_id "
-                       "IN (SELECT id FROM tbl_distribution_circuits WHERE distribution_system_id = %s) ", (id_,))
-        cursor.execute(" DELETE FROM tbl_distribution_circuits WHERE distribution_system_id = %s ", (id_,))
-        cursor.execute(" DELETE FROM tbl_distribution_systems WHERE id = %s ", (id_,))
-        cnx.commit()
-
-        cursor.close()
-        cnx.close()
+                cursor.execute(" DELETE FROM tbl_distribution_circuits_points WHERE distribution_circuit_id "
+                               "IN (SELECT id FROM tbl_distribution_circuits WHERE distribution_system_id = %s) ",
+                               (id_,))
+                cursor.execute(" DELETE FROM tbl_distribution_circuits WHERE distribution_system_id = %s ", (id_,))
+                cursor.execute(" DELETE FROM tbl_distribution_systems WHERE id = %s ", (id_,))
+                cnx.commit()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         # Clear distribution system API cache
         clear_distribution_system_cache(distribution_system_id=id_)
@@ -431,40 +464,44 @@ class DistributionSystemItem:
         else:
             description = None
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
+        
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_distribution_systems "
-                       " WHERE name = %s AND id != %s ", (name, id_))
-        if cursor.fetchone() is not None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.DISTRIBUTION_SYSTEM_NAME_IS_ALREADY_IN_USE')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_distribution_systems "
+                               " WHERE name = %s AND id != %s ", (name, id_))
+                if cursor.fetchone() is not None:
+                    raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                           description='API.DISTRIBUTION_SYSTEM_NAME_IS_ALREADY_IN_USE')
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_svgs "
-                       " WHERE id = %s ",
-                       (new_values['data']['svg_id'],))
-        row = cursor.fetchone()
-        if row is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.SVG_NOT_FOUND')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_svgs "
+                               " WHERE id = %s ",
+                               (new_values['data']['svg_id'],))
+                row = cursor.fetchone()
+                if row is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.SVG_NOT_FOUND')
 
-        update_row = (" UPDATE tbl_distribution_systems "
-                      " SET name = %s, svg_id = %s, description = %s "
-                      " WHERE id = %s ")
-        cursor.execute(update_row, (name,
-                                    svg_id,
-                                    description,
-                                    id_))
-        cnx.commit()
-
-        cursor.close()
-        cnx.close()
+                update_row = (" UPDATE tbl_distribution_systems "
+                              " SET name = %s, svg_id = %s, description = %s "
+                              " WHERE id = %s ")
+                cursor.execute(update_row, (name,
+                                            svg_id,
+                                            description,
+                                            id_))
+                cnx.commit()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         # Clear distribution system API cache
         clear_distribution_system_cache(distribution_system_id=id_)
@@ -521,25 +558,35 @@ class DistributionSystemDistributionCircuitCollection:
                 pass
 
         # Cache miss or Redis error - query database
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
+        rows = []
+        
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_distribution_systems "
-                       " WHERE id = %s ", (id_,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.DISTRIBUTION_SYSTEM_NOT_FOUND')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_distribution_systems "
+                               " WHERE id = %s ", (id_,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.DISTRIBUTION_SYSTEM_NOT_FOUND')
 
-        query = (" SELECT id, name, uuid, "
-                 "        distribution_room, switchgear, peak_load, peak_current, customers, meters "
-                 " FROM tbl_distribution_circuits "
-                 " WHERE distribution_system_id = %s "
-                 " ORDER BY name ")
-        cursor.execute(query, (id_,))
-        rows = cursor.fetchall()
+                query = (" SELECT id, name, uuid, "
+                         "        distribution_room, switchgear, peak_load, peak_current, customers, meters "
+                         " FROM tbl_distribution_circuits "
+                         " WHERE distribution_system_id = %s "
+                         " ORDER BY name ")
+                cursor.execute(query, (id_,))
+                rows = cursor.fetchall()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         result = list()
         if rows is not None and len(rows) > 0:
@@ -549,9 +596,6 @@ class DistributionSystemDistributionCircuitCollection:
                                "peak_load": row[5], "peak_current": row[6],
                                "customers": row[7], "meters": row[8]}
                 result.append(meta_result)
-
-        cursor.close()
-        cnx.close()
 
         # Store result in Redis cache
         result_json = json.dumps(result)
@@ -614,78 +658,92 @@ class DistributionSystemExport:
                 pass
 
         # Cache miss or Redis error - query database
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
+        rows_svgs = []
+        row = None
+        rows_circuits = []
+        
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        query = (" SELECT id, name, uuid "
-                 " FROM tbl_svgs ")
-        cursor.execute(query)
-        rows_svgs = cursor.fetchall()
+                query = (" SELECT id, name, uuid "
+                         " FROM tbl_svgs ")
+                cursor.execute(query)
+                rows_svgs = cursor.fetchall()
 
-        svg_dict = dict()
-        if rows_svgs is not None and len(rows_svgs) > 0:
-            for row in rows_svgs:
-                svg_dict[row[0]] = {"id": row[0],
-                                    "name": row[1],
-                                    "uuid": row[2]}
+                svg_dict = dict()
+                if rows_svgs is not None and len(rows_svgs) > 0:
+                    for row_svg in rows_svgs:
+                        svg_dict[row_svg[0]] = {"id": row_svg[0],
+                                                "name": row_svg[1],
+                                                "uuid": row_svg[2]}
 
-        query = (" SELECT id, name, uuid, "
-                 "        svg_id, description "
-                 " FROM tbl_distribution_systems "
-                 " WHERE id = %s ")
-        cursor.execute(query, (id_,))
-        row = cursor.fetchone()
+                query = (" SELECT id, name, uuid, "
+                         "        svg_id, description "
+                         " FROM tbl_distribution_systems "
+                         " WHERE id = %s ")
+                cursor.execute(query, (id_,))
+                row = cursor.fetchone()
 
-        if row is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.DISTRIBUTION_SYSTEM_NOT_FOUND')
-        else:
-            meta_result = {"id": row[0],
-                           "name": row[1],
-                           "uuid": row[2],
-                           "svg": svg_dict.get(row[3], None),
-                           "description": row[4],
-                           "circuits": None}
-            query = (" SELECT id, name, uuid, "
-                     "        distribution_room, switchgear, peak_load, peak_current, customers, meters "
-                     " FROM tbl_distribution_circuits "
-                     " WHERE distribution_system_id = %s "
-                     " ORDER BY name ")
-            cursor.execute(query, (id_,))
-            rows = cursor.fetchall()
+                if row is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.DISTRIBUTION_SYSTEM_NOT_FOUND')
+                
+                meta_result = {"id": row[0],
+                               "name": row[1],
+                               "uuid": row[2],
+                               "svg": svg_dict.get(row[3], None),
+                               "description": row[4],
+                               "circuits": None}
+                
+                query = (" SELECT id, name, uuid, "
+                         "        distribution_room, switchgear, peak_load, peak_current, customers, meters "
+                         " FROM tbl_distribution_circuits "
+                         " WHERE distribution_system_id = %s "
+                         " ORDER BY name ")
+                cursor.execute(query, (id_,))
+                rows_circuits = cursor.fetchall()
 
-            result = list()
-            if rows is not None and len(rows) > 0:
-                for row in rows:
-                    circuit_result = {"id": row[0], "name": row[1], "uuid": row[2],
-                                      "distribution_room": row[3], "switchgear": row[4],
-                                      "peak_load": row[5], "peak_current": row[6],
-                                      "customers": row[7], "meters": row[8],
-                                      "points": None}
-                    query = (" SELECT p.id AS point_id, p.name AS point_name, "
-                             "        dc.id AS distribution_circuit_id, dc.name AS distribution_circuit_name, "
-                             "        dc.uuid AS distribution_circuit_uuid "
-                             " FROM tbl_points p, tbl_distribution_circuits_points dcp, tbl_distribution_circuits dc "
-                             " WHERE dcp.distribution_circuit_id = %s AND p.id = dcp.point_id "
-                             "       AND dcp.distribution_circuit_id = dc.id "
-                             " ORDER BY p.name ")
-                    cursor.execute(query, (circuit_result['id'],))
-                    rows = cursor.fetchall()
+                result = list()
+                if rows_circuits is not None and len(rows_circuits) > 0:
+                    for row_circuit in rows_circuits:
+                        circuit_result = {"id": row_circuit[0], "name": row_circuit[1], "uuid": row_circuit[2],
+                                          "distribution_room": row_circuit[3], "switchgear": row_circuit[4],
+                                          "peak_load": row_circuit[5], "peak_current": row_circuit[6],
+                                          "customers": row_circuit[7], "meters": row_circuit[8],
+                                          "points": None}
+                        
+                        query_points = (" SELECT p.id AS point_id, p.name AS point_name, "
+                                        "        dc.id AS distribution_circuit_id, "
+                                        "        dc.name AS distribution_circuit_name, "
+                                        "        dc.uuid AS distribution_circuit_uuid "
+                                        " FROM tbl_points p, "
+                                        "      tbl_distribution_circuits_points dcp, "
+                                        "      tbl_distribution_circuits dc "
+                                        " WHERE dcp.distribution_circuit_id = %s AND p.id = dcp.point_id "
+                                        "       AND dcp.distribution_circuit_id = dc.id "
+                                        " ORDER BY p.name ")
+                        cursor.execute(query_points, (circuit_result['id'],))
+                        rows_points = cursor.fetchall()
 
-                    points = list()
-                    if rows is not None and len(rows) > 0:
-                        for point_row in rows:
-                            point_result = {"id": point_row[0], "name": point_row[1]}
-                            points.append(point_result)
-                        circuit_result['points'] = points
+                        points = list()
+                        if rows_points is not None and len(rows_points) > 0:
+                            for point_row in rows_points:
+                                point_result = {"id": point_row[0], "name": point_row[1]}
+                                points.append(point_result)
+                            circuit_result['points'] = points
 
-                    result.append(circuit_result)
-                meta_result['circuits'] = result
-
-        cursor.close()
-        cnx.close()
+                        result.append(circuit_result)
+                    meta_result['circuits'] = result
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         # Store result in Redis cache
         result_json = json.dumps(meta_result)
@@ -750,83 +808,90 @@ class DistributionSystemImport:
         else:
             description = None
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
+        new_id = None
+        
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_distribution_systems "
-                       " WHERE name = %s ", (name,))
-        if cursor.fetchone() is not None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.DISTRIBUTION_SYSTEM_NAME_IS_ALREADY_IN_USE')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_distribution_systems "
+                               " WHERE name = %s ", (name,))
+                if cursor.fetchone() is not None:
+                    raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                           description='API.DISTRIBUTION_SYSTEM_NAME_IS_ALREADY_IN_USE')
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_svgs "
-                       " WHERE id = %s ",
-                       (svg_id,))
-        row = cursor.fetchone()
-        if row is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.SVG_NOT_FOUND')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_svgs "
+                               " WHERE id = %s ",
+                               (svg_id,))
+                row = cursor.fetchone()
+                if row is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.SVG_NOT_FOUND')
 
-        add_values = (" INSERT INTO tbl_distribution_systems "
-                      "    (name, uuid, svg_id, description) "
-                      " VALUES (%s, %s, %s, %s) ")
-        cursor.execute(add_values, (name,
-                                    str(uuid.uuid4()),
-                                    svg_id,
-                                    description))
-        new_id = cursor.lastrowid
-        # Clear distribution system API cache
-        clear_distribution_system_cache()
-        if new_values['circuits'] is not None and len(new_values['circuits']) > 0:
-            for circuit in new_values['circuits']:
-                add_values = (" INSERT INTO tbl_distribution_circuits "
-                              "    (name, uuid, distribution_system_id,"
-                              "     distribution_room, switchgear, peak_load, peak_current, customers, meters) "
-                              " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s) ")
-                cursor.execute(add_values, (circuit['name'],
+                add_values = (" INSERT INTO tbl_distribution_systems "
+                              "    (name, uuid, svg_id, description) "
+                              " VALUES (%s, %s, %s, %s) ")
+                cursor.execute(add_values, (name,
                                             str(uuid.uuid4()),
-                                            new_id,
-                                            circuit['distribution_room'],
-                                            circuit['switchgear'],
-                                            circuit['peak_load'],
-                                            circuit['peak_current'],
-                                            circuit['customers'],
-                                            circuit['meters']))
-                circuit_id = cursor.lastrowid
-                if circuit['points'] is not None and len(circuit['points']) > 0:
-                    for point in circuit['points']:
-                        cursor.execute(" SELECT name "
-                                       " FROM tbl_points "
-                                       " WHERE id = %s ", (point['id'],))
-                        if cursor.fetchone() is None:
-                            cursor.close()
-                            cnx.close()
-                            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                                   description='API.POINT_NOT_FOUND')
+                                            svg_id,
+                                            description))
+                new_id = cursor.lastrowid
+                # Clear distribution system API cache
+                clear_distribution_system_cache()
+                
+                if new_values['circuits'] is not None and len(new_values['circuits']) > 0:
+                    for circuit in new_values['circuits']:
+                        add_values_circuit = (" INSERT INTO tbl_distribution_circuits "
+                                              "    (name, "
+                                              "     uuid, "
+                                              "     distribution_system_id,"
+                                              "     distribution_room, switchgear, peak_load, "
+                                              "     peak_current, customers, meters) "
+                                              " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s) ")
+                        cursor.execute(add_values_circuit, (circuit['name'],
+                                                            str(uuid.uuid4()),
+                                                            new_id,
+                                                            circuit['distribution_room'],
+                                                            circuit['switchgear'],
+                                                            circuit['peak_load'],
+                                                            circuit['peak_current'],
+                                                            circuit['customers'],
+                                                            circuit['meters']))
+                        circuit_id = cursor.lastrowid
+                        if circuit['points'] is not None and len(circuit['points']) > 0:
+                            for point in circuit['points']:
+                                cursor.execute(" SELECT name "
+                                               " FROM tbl_points "
+                                               " WHERE id = %s ", (point['id'],))
+                                if cursor.fetchone() is None:
+                                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                                           description='API.POINT_NOT_FOUND')
 
-                        query = (" SELECT id "
-                                 " FROM tbl_distribution_circuits_points "
-                                 " WHERE distribution_circuit_id = %s AND point_id = %s")
-                        cursor.execute(query, (circuit_id, point['id'],))
-                        if cursor.fetchone() is not None:
-                            cursor.close()
-                            cnx.close()
-                            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR',
-                                                   description='API.DISTRIBUTION_CIRCUIT_POINT_RELATION_EXISTS')
+                                query_rel = (" SELECT id "
+                                             " FROM tbl_distribution_circuits_points "
+                                             " WHERE distribution_circuit_id = %s AND point_id = %s")
+                                cursor.execute(query_rel, (circuit_id, point['id'],))
+                                if cursor.fetchone() is not None:
+                                    raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR',
+                                                           description='API.DISTRIBUTION_CIRCUIT_POINT_RELATION_EXISTS')
 
-                        add_row = (" INSERT INTO tbl_distribution_circuits_points (distribution_circuit_id, point_id) "
-                                   " VALUES (%s, %s) ")
-                        cursor.execute(add_row, (circuit_id, point['id'],))
+                                add_row = (" INSERT INTO tbl_distribution_circuits_points "
+                                           " (distribution_circuit_id, point_id) "
+                                           " VALUES (%s, %s) ")
+                                cursor.execute(add_row, (circuit_id, point['id'],))
 
-        cnx.commit()
-        cursor.close()
-        cnx.close()
+                cnx.commit()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         resp.status = falcon.HTTP_201
         resp.location = '/distributionsystems/' + str(new_id)
@@ -850,120 +915,139 @@ class DistributionSystemClone:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_DISTRIBUTION_SYSTEM_ID')
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
+        row = None
+        rows_circuits = []
+        new_id = None
+        
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        query = (" SELECT id, name, uuid, "
-                 "        svg_id, description "
-                 " FROM tbl_distribution_systems "
-                 " WHERE id = %s ")
-        cursor.execute(query, (id_,))
-        row = cursor.fetchone()
+                query = (" SELECT id, name, uuid, "
+                         "        svg_id, description "
+                         " FROM tbl_distribution_systems "
+                         " WHERE id = %s ")
+                cursor.execute(query, (id_,))
+                row = cursor.fetchone()
 
-        if row is None:
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.DISTRIBUTION_SYSTEM_NOT_FOUND')
-        else:
-            meta_result = {"id": row[0],
-                           "name": row[1],
-                           "uuid": row[2],
-                           "svg_id": row[3],
-                           "description": row[4],
-                           "circuits": None}
-            query = (" SELECT id, name, uuid, "
-                     "        distribution_room, switchgear, peak_load, peak_current, customers, meters "
-                     " FROM tbl_distribution_circuits "
-                     " WHERE distribution_system_id = %s "
-                     " ORDER BY name ")
-            cursor.execute(query, (id_,))
-            rows = cursor.fetchall()
+                if row is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.DISTRIBUTION_SYSTEM_NOT_FOUND')
+                
+                meta_result = {"id": row[0],
+                               "name": row[1],
+                               "uuid": row[2],
+                               "svg_id": row[3],
+                               "description": row[4],
+                               "circuits": None}
+                
+                query_circuits = (" SELECT id, name, uuid, "
+                                  "        distribution_room, switchgear, peak_load, peak_current, customers, meters "
+                                  " FROM tbl_distribution_circuits "
+                                  " WHERE distribution_system_id = %s "
+                                  " ORDER BY name ")
+                cursor.execute(query_circuits, (id_,))
+                rows_circuits = cursor.fetchall()
 
-            result = list()
-            if rows is not None and len(rows) > 0:
-                for row in rows:
-                    circuit_result = {"id": row[0], "name": row[1], "uuid": row[2],
-                                      "distribution_room": row[3], "switchgear": row[4],
-                                      "peak_load": row[5], "peak_current": row[6],
-                                      "customers": row[7], "meters": row[8],
-                                      "points": None}
-                    query = (" SELECT p.id AS point_id, p.name AS point_name, p.address AS point_address, "
-                             "        dc.id AS distribution_circuit_id, dc.name AS distribution_circuit_name, "
-                             "        dc.uuid AS distribution_circuit_uuid "
-                             " FROM tbl_points p, tbl_distribution_circuits_points dcp, tbl_distribution_circuits dc "
-                             " WHERE dcp.distribution_circuit_id = %s AND p.id = dcp.point_id "
-                             "       AND dcp.distribution_circuit_id = dc.id "
-                             " ORDER BY p.name ")
-                    cursor.execute(query, (circuit_result['id'],))
-                    rows = cursor.fetchall()
+                result = list()
+                if rows_circuits is not None and len(rows_circuits) > 0:
+                    for row_circuit in rows_circuits:
+                        circuit_result = {"id": row_circuit[0], "name": row_circuit[1], "uuid": row_circuit[2],
+                                          "distribution_room": row_circuit[3], "switchgear": row_circuit[4],
+                                          "peak_load": row_circuit[5], "peak_current": row_circuit[6],
+                                          "customers": row_circuit[7], "meters": row_circuit[8],
+                                          "points": None}
+                        
+                        query_points = (" SELECT p.id AS point_id, p.name AS point_name, p.address AS point_address, "
+                                        "        dc.id AS distribution_circuit_id, "
+                                        "        dc.name AS distribution_circuit_name, "
+                                        "        dc.uuid AS distribution_circuit_uuid "
+                                        " FROM tbl_points p, "
+                                        "      tbl_distribution_circuits_points dcp, "
+                                        "      tbl_distribution_circuits dc "
+                                        " WHERE dcp.distribution_circuit_id = %s AND p.id = dcp.point_id "
+                                        "       AND dcp.distribution_circuit_id = dc.id "
+                                        " ORDER BY p.name ")
+                        cursor.execute(query_points, (circuit_result['id'],))
+                        rows_points = cursor.fetchall()
 
-                    points = list()
-                    if rows is not None and len(rows) > 0:
-                        for point_row in rows:
-                            point_result = {"id": point_row[0], "name": point_row[1], "address": point_row[2]}
-                            points.append(point_result)
-                        circuit_result['points'] = points
+                        points = list()
+                        if rows_points is not None and len(rows_points) > 0:
+                            for point_row in rows_points:
+                                point_result = {"id": point_row[0], "name": point_row[1], "address": point_row[2]}
+                                points.append(point_result)
+                            circuit_result['points'] = points
 
-                    result.append(circuit_result)
-                meta_result['circuits'] = result
-            timezone_offset = int(config.utc_offset[1:3]) * 60 + int(config.utc_offset[4:6])
-            if config.utc_offset[0] == '-':
-                timezone_offset = -timezone_offset
-            new_name = (str.strip(meta_result['name']) +
-                        (datetime.utcnow() + timedelta(minutes=timezone_offset)).isoformat(sep='-', timespec='seconds'))
-            add_values = (" INSERT INTO tbl_distribution_systems "
-                          "    (name, uuid, svg_id, description) "
-                          " VALUES (%s, %s, %s, %s) ")
-            cursor.execute(add_values, (new_name,
-                                        str(uuid.uuid4()),
-                                        meta_result['svg_id'],
-                                        meta_result['description']))
-            new_id = cursor.lastrowid
-            # Clear distribution system API cache
-            clear_distribution_system_cache()
-            if meta_result['circuits'] is not None and len(meta_result['circuits']) > 0:
-                for circuit in meta_result['circuits']:
-                    add_values = (" INSERT INTO tbl_distribution_circuits "
-                                  "    (name, uuid, distribution_system_id,"
-                                  "     distribution_room, switchgear, peak_load, peak_current, customers, meters) "
-                                  " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s) ")
-                    cursor.execute(add_values, (circuit['name'],
-                                                str(uuid.uuid4()),
-                                                new_id,
-                                                circuit['distribution_room'],
-                                                circuit['switchgear'],
-                                                circuit['peak_load'],
-                                                circuit['peak_current'],
-                                                circuit['customers'],
-                                                circuit['meters']))
-                    circuit_id = cursor.lastrowid
-                    if circuit['points'] is not None and len(circuit['points']) > 0:
-                        for point in circuit['points']:
-                            cursor.execute(" SELECT name "
-                                           " FROM tbl_points "
-                                           " WHERE id = %s ", (point['id'],))
-                            if cursor.fetchone() is None:
-                                cursor.close()
-                                cnx.close()
-                                raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                                       description='API.POINT_NOT_FOUND')
+                        result.append(circuit_result)
+                    meta_result['circuits'] = result
+                
+                timezone_offset = int(config.utc_offset[1:3]) * 60 + int(config.utc_offset[4:6])
+                if config.utc_offset[0] == '-':
+                    timezone_offset = -timezone_offset
+                new_name = (str.strip(meta_result['name']) +
+                            (datetime.utcnow() +
+                            timedelta(minutes=timezone_offset)).isoformat(sep='-', timespec='seconds'))
+                
+                add_values = (" INSERT INTO tbl_distribution_systems "
+                              "    (name, uuid, svg_id, description) "
+                              " VALUES (%s, %s, %s, %s) ")
+                cursor.execute(add_values, (new_name,
+                                            str(uuid.uuid4()),
+                                            meta_result['svg_id'],
+                                            meta_result['description']))
+                new_id = cursor.lastrowid
+                # Clear distribution system API cache
+                clear_distribution_system_cache()
+                
+                if meta_result['circuits'] is not None and len(meta_result['circuits']) > 0:
+                    for circuit in meta_result['circuits']:
+                        add_values_circuit = (" INSERT INTO tbl_distribution_circuits "
+                                              "    (name, uuid, distribution_system_id,"
+                                              "     distribution_room, switchgear, peak_load, "
+                                              "     peak_current, customers, meters) "
+                                              " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s) ")
+                        cursor.execute(add_values_circuit, (circuit['name'],
+                                                            str(uuid.uuid4()),
+                                                            new_id,
+                                                            circuit['distribution_room'],
+                                                            circuit['switchgear'],
+                                                            circuit['peak_load'],
+                                                            circuit['peak_current'],
+                                                            circuit['customers'],
+                                                            circuit['meters']))
+                        circuit_id = cursor.lastrowid
+                        if circuit['points'] is not None and len(circuit['points']) > 0:
+                            for point in circuit['points']:
+                                cursor.execute(" SELECT name "
+                                               " FROM tbl_points "
+                                               " WHERE id = %s ", (point['id'],))
+                                if cursor.fetchone() is None:
+                                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                                           description='API.POINT_NOT_FOUND')
 
-                            query = (" SELECT id "
-                                     " FROM tbl_distribution_circuits_points "
-                                     " WHERE distribution_circuit_id = %s AND point_id = %s")
-                            cursor.execute(query, (circuit_id, point['id'],))
-                            if cursor.fetchone() is not None:
-                                cursor.close()
-                                cnx.close()
-                                raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR',
-                                                       description='API.DISTRIBUTION_CIRCUIT_POINT_RELATION_EXISTS')
+                                query_rel = (" SELECT id "
+                                             " FROM tbl_distribution_circuits_points "
+                                             " WHERE distribution_circuit_id = %s AND point_id = %s")
+                                cursor.execute(query_rel, (circuit_id, point['id'],))
+                                if cursor.fetchone() is not None:
+                                    raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR',
+                                                           description='API.DISTRIBUTION_CIRCUIT_POINT_RELATION_EXISTS')
 
-                            add_row = (
-                                " INSERT INTO tbl_distribution_circuits_points (distribution_circuit_id, point_id) "
-                                " VALUES (%s, %s) ")
-                            cursor.execute(add_row, (circuit_id, point['id'],))
-            cnx.commit()
-            cursor.close()
-            cnx.close()
+                                add_row = (
+                                    " INSERT INTO tbl_distribution_circuits_points (distribution_circuit_id, point_id) "
+                                    " VALUES (%s, %s) ")
+                                cursor.execute(add_row, (circuit_id, point['id'],))
+                
+                cnx.commit()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
-            resp.status = falcon.HTTP_201
-            resp.location = '/distributionsystems/' + str(new_id)
+        resp.status = falcon.HTTP_201
+        resp.location = '/distributionsystems/' + str(new_id)
