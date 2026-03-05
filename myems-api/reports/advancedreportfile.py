@@ -111,19 +111,29 @@ class AdvancedReportFileCollection:
         # Step 2: query advanced reports
         ################################################################################################################
 
-        cnx_reporting = mysql.connector.connect(**config.myems_reporting_db)
-        cursor_reporting = cnx_reporting.cursor()
-
-        query = (" SELECT id, file_name, uuid, create_datetime_utc, file_type, file_object "
-                 " FROM tbl_reports_files "
-                 " WHERE create_datetime_utc >= %s AND create_datetime_utc < %s "
-                 " ORDER BY create_datetime_utc desc ")
-        cursor_reporting.execute(query, (reporting_start_datetime_utc, reporting_end_datetime_utc))
-        rows = cursor_reporting.fetchall()
-        if cursor_reporting:
-            cursor_reporting.close()
-        if cnx_reporting:
-            cnx_reporting.close()
+        cnx_reporting = None
+        cursor_reporting = None
+        rows = None
+        try:
+            cnx_reporting = mysql.connector.connect(**config.myems_reporting_db)
+            cursor_reporting = cnx_reporting.cursor()
+            query = (" SELECT id, file_name, uuid, create_datetime_utc, file_type, file_object "
+                     " FROM tbl_reports_files "
+                     " WHERE create_datetime_utc >= %s AND create_datetime_utc < %s "
+                     " ORDER BY create_datetime_utc desc ")
+            cursor_reporting.execute(query, (reporting_start_datetime_utc, reporting_end_datetime_utc))
+            rows = cursor_reporting.fetchall()
+        finally:
+            if cursor_reporting is not None:
+                try:
+                    cursor_reporting.close()
+                except Exception:
+                    pass
+            if cnx_reporting is not None:
+                try:
+                    cnx_reporting.close()
+                except Exception:
+                    pass
 
         ################################################################################################################
         # Step 3: construct the result
@@ -170,18 +180,28 @@ class AdvancedReportFileItem:
                                    title='API.BAD_REQUEST',
                                    description='API.INVALID_ADVANCED_REPORT_ID')
 
-        cnx_reporting = mysql.connector.connect(**config.myems_reporting_db)
-        cursor_reporting = cnx_reporting.cursor()
-
-        query = (" SELECT id, file_name, uuid, create_datetime_utc, file_type, file_object "
-                 " FROM tbl_reports_files "
-                 " WHERE id = %s ")
-        cursor_reporting.execute(query, (id_,))
-        row = cursor_reporting.fetchone()
-        if cursor_reporting:
-            cursor_reporting.close()
-        if cnx_reporting:
-            cnx_reporting.close()
+        cnx_reporting = None
+        cursor_reporting = None
+        row = None
+        try:
+            cnx_reporting = mysql.connector.connect(**config.myems_reporting_db)
+            cursor_reporting = cnx_reporting.cursor()
+            query = (" SELECT id, file_name, uuid, create_datetime_utc, file_type, file_object "
+                     " FROM tbl_reports_files "
+                     " WHERE id = %s ")
+            cursor_reporting.execute(query, (id_,))
+            row = cursor_reporting.fetchone()
+        finally:
+            if cursor_reporting is not None:
+                try:
+                    cursor_reporting.close()
+                except Exception:
+                    pass
+            if cnx_reporting is not None:
+                try:
+                    cnx_reporting.close()
+                except Exception:
+                    pass
 
         if row is None:
             raise falcon.HTTPError(status=falcon.HTTP_404,
@@ -207,26 +227,32 @@ class AdvancedReportFileItem:
                                    title='API.BAD_REQUEST',
                                    description='API.INVALID_ADVANCED_REPORT_ID')
 
-        cnx_reporting = mysql.connector.connect(**config.myems_reporting_db)
-        cursor_reporting = cnx_reporting.cursor()
+        cnx_reporting = None
+        cursor_reporting = None
+        try:
+            cnx_reporting = mysql.connector.connect(**config.myems_reporting_db)
+            cursor_reporting = cnx_reporting.cursor()
+            cursor_reporting.execute(" SELECT id "
+                                     " FROM tbl_reports_files "
+                                     " WHERE id = %s ", (id_,))
+            if cursor_reporting.fetchone() is None:
+                raise falcon.HTTPError(status=falcon.HTTP_404,
+                                       title='API.NOT_FOUND',
+                                       description='API.ADVANCED_REPORT_NOT_FOUND')
 
-        cursor_reporting.execute(" SELECT id "
-                                 " FROM tbl_reports_files "
-                                 " WHERE id = %s ", (id_,))
-        if cursor_reporting.fetchone() is None:
-            cursor_reporting.close()
-            cnx_reporting.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404,
-                                   title='API.NOT_FOUND',
-                                   description='API.ADVANCED_REPORT_NOT_FOUND')
-
-        cursor_reporting.execute(" DELETE FROM tbl_reports_files "
-                                 " WHERE id = %s ", (id_,))
-        cnx_reporting.commit()
-
-        if cursor_reporting:
-            cursor_reporting.close()
-        if cnx_reporting:
-            cnx_reporting.close()
+            cursor_reporting.execute(" DELETE FROM tbl_reports_files "
+                                     " WHERE id = %s ", (id_,))
+            cnx_reporting.commit()
+        finally:
+            if cursor_reporting is not None:
+                try:
+                    cursor_reporting.close()
+                except Exception:
+                    pass
+            if cnx_reporting is not None:
+                try:
+                    cnx_reporting.close()
+                except Exception:
+                    pass
 
         resp.status = falcon.HTTP_204

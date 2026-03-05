@@ -229,290 +229,270 @@ class Reporting:
         ################################################################################################################
         # Step 2: query the combined equipment and energy category
         ################################################################################################################
-        cnx_system = mysql.connector.connect(**config.myems_system_db)
-        cursor_system = cnx_system.cursor()
+        cnx_system = None
+        cnx_energy = None
+        cnx_historical = None
+        cursor_system = None
+        cursor_energy = None
+        cursor_historical = None
+        try:
+            cnx_system = mysql.connector.connect(**config.myems_system_db)
+            cnx_energy = mysql.connector.connect(**config.myems_energy_db)
+            cnx_historical = mysql.connector.connect(**config.myems_historical_db)
+            cursor_system = cnx_system.cursor()
+            cursor_energy = cnx_energy.cursor()
+            cursor_historical = cnx_historical.cursor()
 
-        cnx_energy = mysql.connector.connect(**config.myems_energy_db)
-        cursor_energy = cnx_energy.cursor()
+            # Query combined equipment 1
+            if combined_equipment_id1 is not None:
+                cursor_system.execute(
+                    " SELECT id, name FROM tbl_combined_equipments WHERE id = %s ", (combined_equipment_id1,)
+                )
+                row_combined_equipment1 = cursor_system.fetchone()
+            elif combined_equipment_uuid1 is not None:
+                cursor_system.execute(
+                    " SELECT id, name FROM tbl_combined_equipments WHERE uuid = %s ",
+                    (combined_equipment_uuid1,),
+                )
+                row_combined_equipment1 = cursor_system.fetchone()
 
-        cnx_historical = mysql.connector.connect(**config.myems_historical_db)
-        cursor_historical = cnx_historical.cursor()
+            if row_combined_equipment1 is None:
+                raise falcon.HTTPError(
+                    status=falcon.HTTP_404,
+                    title="API.NOT_FOUND",
+                    description="API.COMBINED_EQUIPMENT_NOT_FOUND",
+                )
 
-        # Query combined equipment 1
-        if combined_equipment_id1 is not None:
+            combined_equipment1 = dict()
+            combined_equipment1["id"] = row_combined_equipment1[0]
+            combined_equipment1["name"] = row_combined_equipment1[1]
+
+            # Query combined equipment 2
+            if combined_equipment_id2 is not None:
+                cursor_system.execute(
+                    " SELECT id, name FROM tbl_combined_equipments WHERE id = %s ", (combined_equipment_id2,)
+                )
+                row_combined_equipment2 = cursor_system.fetchone()
+            elif combined_equipment_uuid2 is not None:
+                cursor_system.execute(
+                    " SELECT id, name FROM tbl_combined_equipments WHERE uuid = %s ",
+                    (combined_equipment_uuid2,),
+                )
+                row_combined_equipment2 = cursor_system.fetchone()
+
+            if row_combined_equipment2 is None:
+                raise falcon.HTTPError(
+                    status=falcon.HTTP_404,
+                    title="API.NOT_FOUND",
+                    description="API.COMBINED_EQUIPMENT_NOT_FOUND",
+                )
+
+            combined_equipment2 = dict()
+            combined_equipment2["id"] = row_combined_equipment2[0]
+            combined_equipment2["name"] = row_combined_equipment2[1]
+
+            # Query energy category
             cursor_system.execute(
-                " SELECT id, name FROM tbl_combined_equipments WHERE id = %s ", (combined_equipment_id1,)
+                " SELECT id, name, unit_of_measure FROM tbl_energy_categories WHERE id = %s ",
+                (energy_category_id,),
             )
-            row_combined_equipment1 = cursor_system.fetchone()
-        elif combined_equipment_uuid1 is not None:
-            cursor_system.execute(
-                " SELECT id, name FROM tbl_combined_equipments WHERE uuid = %s ",
-                (combined_equipment_uuid1,),
+            row_energy_category = cursor_system.fetchone()
+
+            if row_energy_category is None:
+                raise falcon.HTTPError(
+                    status=falcon.HTTP_404,
+                    title="API.NOT_FOUND",
+                    description="API.ENERGY_CATEGORY_NOT_FOUND",
+                )
+
+            energy_category = dict()
+            energy_category["id"] = row_energy_category[0]
+            energy_category["name"] = row_energy_category[1]
+            energy_category["unit_of_measure"] = row_energy_category[2]
+
+            ############################################################################################################
+            # Step 3: query combined equipment input category hourly data (pre-aggregated by background service)
+            ############################################################################################################
+            # Query combined equipment 1 input category hourly data
+            cursor_energy.execute(
+                " SELECT start_datetime_utc, actual_value "
+                " FROM tbl_combined_equipment_input_category_hourly "
+                " WHERE combined_equipment_id = %s "
+                "     AND energy_category_id = %s "
+                "     AND start_datetime_utc >= %s "
+                "     AND start_datetime_utc < %s "
+                " ORDER BY start_datetime_utc ",
+                (
+                    combined_equipment1["id"],
+                    energy_category_id,
+                    reporting_start_datetime_utc,
+                    reporting_end_datetime_utc,
+                ),
             )
-            row_combined_equipment1 = cursor_system.fetchone()
+            rows_combined_equipment1_hourly = cursor_energy.fetchall()
 
-        if row_combined_equipment1 is None:
-            if cursor_system:
-                cursor_system.close()
-            if cnx_system:
-                cnx_system.close()
-
-            if cursor_energy:
-                cursor_energy.close()
-            if cnx_energy:
-                cnx_energy.close()
-
-            if cursor_historical:
-                cursor_historical.close()
-            if cnx_historical:
-                cnx_historical.close()
-            raise falcon.HTTPError(
-                status=falcon.HTTP_404,
-                title="API.NOT_FOUND",
-                description="API.COMBINED_EQUIPMENT_NOT_FOUND",
+            # Query combined equipment 2 input category hourly data
+            cursor_energy.execute(
+                " SELECT start_datetime_utc, actual_value "
+                " FROM tbl_combined_equipment_input_category_hourly "
+                " WHERE combined_equipment_id = %s "
+                "     AND energy_category_id = %s "
+                "     AND start_datetime_utc >= %s "
+                "     AND start_datetime_utc < %s "
+                " ORDER BY start_datetime_utc ",
+                (
+                    combined_equipment2["id"],
+                    energy_category_id,
+                    reporting_start_datetime_utc,
+                    reporting_end_datetime_utc,
+                ),
             )
+            rows_combined_equipment2_hourly = cursor_energy.fetchall()
 
-        combined_equipment1 = dict()
-        combined_equipment1["id"] = row_combined_equipment1[0]
-        combined_equipment1["name"] = row_combined_equipment1[1]
+            ############################################################################################################
+            # Step 4: aggregate combined equipment energy consumption data by period
+            ############################################################################################################
+            # Aggregate energy consumption for combined equipment 1
+            combined_equipment1_energy_data = dict()
+            combined_equipment1_energy_data["timestamps"] = list()
+            combined_equipment1_energy_data["values"] = list()
+            combined_equipment1_energy_data["total_in_category"] = Decimal(0.0)
 
-        # Query combined equipment 2
-        if combined_equipment_id2 is not None:
-            cursor_system.execute(
-                " SELECT id, name FROM tbl_combined_equipments WHERE id = %s ", (combined_equipment_id2,)
-            )
-            row_combined_equipment2 = cursor_system.fetchone()
-        elif combined_equipment_uuid2 is not None:
-            cursor_system.execute(
-                " SELECT id, name FROM tbl_combined_equipments WHERE uuid = %s ",
-                (combined_equipment_uuid2,),
-            )
-            row_combined_equipment2 = cursor_system.fetchone()
-
-        if row_combined_equipment2 is None:
-            if cursor_system:
-                cursor_system.close()
-            if cnx_system:
-                cnx_system.close()
-
-            if cursor_energy:
-                cursor_energy.close()
-            if cnx_energy:
-                cnx_energy.close()
-
-            if cursor_historical:
-                cursor_historical.close()
-            if cnx_historical:
-                cnx_historical.close()
-            raise falcon.HTTPError(
-                status=falcon.HTTP_404,
-                title="API.NOT_FOUND",
-                description="API.COMBINED_EQUIPMENT_NOT_FOUND",
-            )
-
-        combined_equipment2 = dict()
-        combined_equipment2["id"] = row_combined_equipment2[0]
-        combined_equipment2["name"] = row_combined_equipment2[1]
-
-        # Query energy category
-        cursor_system.execute(
-            " SELECT id, name, unit_of_measure FROM tbl_energy_categories WHERE id = %s ",
-            (energy_category_id,),
-        )
-        row_energy_category = cursor_system.fetchone()
-
-        if row_energy_category is None:
-            if cursor_system:
-                cursor_system.close()
-            if cnx_system:
-                cnx_system.close()
-
-            if cursor_energy:
-                cursor_energy.close()
-            if cnx_energy:
-                cnx_energy.close()
-
-            if cursor_historical:
-                cursor_historical.close()
-            if cnx_historical:
-                cnx_historical.close()
-            raise falcon.HTTPError(
-                status=falcon.HTTP_404,
-                title="API.NOT_FOUND",
-                description="API.ENERGY_CATEGORY_NOT_FOUND",
-            )
-
-        energy_category = dict()
-        energy_category["id"] = row_energy_category[0]
-        energy_category["name"] = row_energy_category[1]
-        energy_category["unit_of_measure"] = row_energy_category[2]
-
-        ################################################################################################################
-        # Step 3: query combined equipment input category hourly data (pre-aggregated by background service)
-        ################################################################################################################
-        # Query combined equipment 1 input category hourly data
-        cursor_energy.execute(
-            " SELECT start_datetime_utc, actual_value "
-            " FROM tbl_combined_equipment_input_category_hourly "
-            " WHERE combined_equipment_id = %s "
-            "     AND energy_category_id = %s "
-            "     AND start_datetime_utc >= %s "
-            "     AND start_datetime_utc < %s "
-            " ORDER BY start_datetime_utc ",
-            (
-                combined_equipment1["id"],
-                energy_category_id,
+            # Aggregate combined equipment 1 hourly data by period
+            rows_combined_equipment1_periodically = utilities.aggregate_hourly_data_by_period(
+                rows_combined_equipment1_hourly,
                 reporting_start_datetime_utc,
                 reporting_end_datetime_utc,
-            ),
-        )
-        rows_combined_equipment1_hourly = cursor_energy.fetchall()
+                period_type,
+            )
 
-        # Query combined equipment 2 input category hourly data
-        cursor_energy.execute(
-            " SELECT start_datetime_utc, actual_value "
-            " FROM tbl_combined_equipment_input_category_hourly "
-            " WHERE combined_equipment_id = %s "
-            "     AND energy_category_id = %s "
-            "     AND start_datetime_utc >= %s "
-            "     AND start_datetime_utc < %s "
-            " ORDER BY start_datetime_utc ",
-            (
-                combined_equipment2["id"],
-                energy_category_id,
+            for row_combined_equipment1_periodically in rows_combined_equipment1_periodically:
+                current_datetime_local = row_combined_equipment1_periodically[0].replace(
+                    tzinfo=timezone.utc
+                ) + timedelta(minutes=timezone_offset)
+                if period_type == "hourly":
+                    current_datetime = current_datetime_local.isoformat()[0:19]
+                elif period_type == "daily":
+                    current_datetime = current_datetime_local.isoformat()[0:10]
+                elif period_type == "weekly":
+                    current_datetime = current_datetime_local.isoformat()[0:10]
+                elif period_type == "monthly":
+                    current_datetime = current_datetime_local.isoformat()[0:7]
+                elif period_type == "yearly":
+                    current_datetime = current_datetime_local.isoformat()[0:4]
+
+                actual_value = row_combined_equipment1_periodically[1]
+
+                combined_equipment1_energy_data["timestamps"].append(current_datetime)
+                combined_equipment1_energy_data["values"].append(actual_value)
+                if actual_value is not None:
+                    combined_equipment1_energy_data["total_in_category"] += actual_value
+
+            # Aggregate energy consumption for combined equipment 2
+            combined_equipment2_energy_data = dict()
+            combined_equipment2_energy_data["timestamps"] = list()
+            combined_equipment2_energy_data["values"] = list()
+            combined_equipment2_energy_data["total_in_category"] = Decimal(0.0)
+
+            # Aggregate combined equipment 2 hourly data by period
+            rows_combined_equipment2_periodically = utilities.aggregate_hourly_data_by_period(
+                rows_combined_equipment2_hourly,
                 reporting_start_datetime_utc,
                 reporting_end_datetime_utc,
-            ),
-        )
-        rows_combined_equipment2_hourly = cursor_energy.fetchall()
-
-        ################################################################################################################
-        # Step 4: aggregate combined equipment energy consumption data by period
-        ################################################################################################################
-        # Aggregate energy consumption for combined equipment 1
-        combined_equipment1_energy_data = dict()
-        combined_equipment1_energy_data["timestamps"] = list()
-        combined_equipment1_energy_data["values"] = list()
-        combined_equipment1_energy_data["total_in_category"] = Decimal(0.0)
-
-        # Aggregate combined equipment 1 hourly data by period
-        rows_combined_equipment1_periodically = utilities.aggregate_hourly_data_by_period(
-            rows_combined_equipment1_hourly,
-            reporting_start_datetime_utc,
-            reporting_end_datetime_utc,
-            period_type,
-        )
-
-        for row_combined_equipment1_periodically in rows_combined_equipment1_periodically:
-            current_datetime_local = row_combined_equipment1_periodically[0].replace(
-                tzinfo=timezone.utc
-            ) + timedelta(minutes=timezone_offset)
-            if period_type == "hourly":
-                current_datetime = current_datetime_local.isoformat()[0:19]
-            elif period_type == "daily":
-                current_datetime = current_datetime_local.isoformat()[0:10]
-            elif period_type == "weekly":
-                current_datetime = current_datetime_local.isoformat()[0:10]
-            elif period_type == "monthly":
-                current_datetime = current_datetime_local.isoformat()[0:7]
-            elif period_type == "yearly":
-                current_datetime = current_datetime_local.isoformat()[0:4]
-
-            actual_value = row_combined_equipment1_periodically[1]
-
-            combined_equipment1_energy_data["timestamps"].append(current_datetime)
-            combined_equipment1_energy_data["values"].append(actual_value)
-            if actual_value is not None:
-                combined_equipment1_energy_data["total_in_category"] += actual_value
-
-        # Aggregate energy consumption for combined equipment 2
-        combined_equipment2_energy_data = dict()
-        combined_equipment2_energy_data["timestamps"] = list()
-        combined_equipment2_energy_data["values"] = list()
-        combined_equipment2_energy_data["total_in_category"] = Decimal(0.0)
-
-        # Aggregate combined equipment 2 hourly data by period
-        rows_combined_equipment2_periodically = utilities.aggregate_hourly_data_by_period(
-            rows_combined_equipment2_hourly,
-            reporting_start_datetime_utc,
-            reporting_end_datetime_utc,
-            period_type,
-        )
-
-        for row_combined_equipment2_periodically in rows_combined_equipment2_periodically:
-            current_datetime_local = row_combined_equipment2_periodically[0].replace(
-                tzinfo=timezone.utc
-            ) + timedelta(minutes=timezone_offset)
-            if period_type == "hourly":
-                current_datetime = current_datetime_local.isoformat()[0:19]
-            elif period_type == "daily":
-                current_datetime = current_datetime_local.isoformat()[0:10]
-            elif period_type == "weekly":
-                current_datetime = current_datetime_local.isoformat()[0:10]
-            elif period_type == "monthly":
-                current_datetime = current_datetime_local.isoformat()[0:7]
-            elif period_type == "yearly":
-                current_datetime = current_datetime_local.isoformat()[0:4]
-
-            actual_value = row_combined_equipment2_periodically[1]
-
-            combined_equipment2_energy_data["timestamps"].append(current_datetime)
-            combined_equipment2_energy_data["values"].append(actual_value)
-            if actual_value is not None:
-                combined_equipment2_energy_data["total_in_category"] += actual_value
-
-        # Calculate difference
-        diff = dict()
-        diff["values"] = list()
-        diff["total_in_category"] = Decimal(0.0)
-
-        # Ensure both combined equipments have the same number of data points
-        min_length = min(
-            len(combined_equipment1_energy_data["values"]), len(combined_equipment2_energy_data["values"])
-        )
-        for i in range(min_length):
-            combined_equipment1_value = (
-                combined_equipment1_energy_data["values"][i]
-                if i < len(combined_equipment1_energy_data["values"])
-                else None
-            )
-            combined_equipment2_value = (
-                combined_equipment2_energy_data["values"][i]
-                if i < len(combined_equipment2_energy_data["values"])
-                else None
+                period_type,
             )
 
-            # Calculate difference, handling None values
-            if combined_equipment1_value is None and combined_equipment2_value is None:
-                diff_value = None
-            elif combined_equipment1_value is None:
-                diff_value = None  # Cannot calculate difference when one value is missing
-            elif combined_equipment2_value is None:
-                diff_value = None  # Cannot calculate difference when one value is missing
-            else:
-                diff_value = combined_equipment1_value - combined_equipment2_value
-                diff["total_in_category"] += diff_value
+            for row_combined_equipment2_periodically in rows_combined_equipment2_periodically:
+                current_datetime_local = row_combined_equipment2_periodically[0].replace(
+                    tzinfo=timezone.utc
+                ) + timedelta(minutes=timezone_offset)
+                if period_type == "hourly":
+                    current_datetime = current_datetime_local.isoformat()[0:19]
+                elif period_type == "daily":
+                    current_datetime = current_datetime_local.isoformat()[0:10]
+                elif period_type == "weekly":
+                    current_datetime = current_datetime_local.isoformat()[0:10]
+                elif period_type == "monthly":
+                    current_datetime = current_datetime_local.isoformat()[0:7]
+                elif period_type == "yearly":
+                    current_datetime = current_datetime_local.isoformat()[0:4]
 
-            diff["values"].append(diff_value)
+                actual_value = row_combined_equipment2_periodically[1]
+
+                combined_equipment2_energy_data["timestamps"].append(current_datetime)
+                combined_equipment2_energy_data["values"].append(actual_value)
+                if actual_value is not None:
+                    combined_equipment2_energy_data["total_in_category"] += actual_value
+
+            # Calculate difference
+            diff = dict()
+            diff["values"] = list()
+            diff["total_in_category"] = Decimal(0.0)
+
+            # Ensure both combined equipments have the same number of data points
+            min_length = min(
+                len(combined_equipment1_energy_data["values"]), len(combined_equipment2_energy_data["values"])
+            )
+            for i in range(min_length):
+                combined_equipment1_value = (
+                    combined_equipment1_energy_data["values"][i]
+                    if i < len(combined_equipment1_energy_data["values"])
+                    else None
+                )
+                combined_equipment2_value = (
+                    combined_equipment2_energy_data["values"][i]
+                    if i < len(combined_equipment2_energy_data["values"])
+                    else None
+                )
+
+                # Calculate difference, handling None values
+                if combined_equipment1_value is None and combined_equipment2_value is None:
+                    diff_value = None
+                elif combined_equipment1_value is None:
+                    diff_value = None  # Cannot calculate difference when one value is missing
+                elif combined_equipment2_value is None:
+                    diff_value = None  # Cannot calculate difference when one value is missing
+                else:
+                    diff_value = combined_equipment1_value - combined_equipment2_value
+                    diff["total_in_category"] += diff_value
+
+                diff["values"].append(diff_value)
+
+        finally:
+            if cursor_system is not None:
+                try:
+                    cursor_system.close()
+                except Exception:
+                    pass
+            if cursor_energy is not None:
+                try:
+                    cursor_energy.close()
+                except Exception:
+                    pass
+            if cursor_historical is not None:
+                try:
+                    cursor_historical.close()
+                except Exception:
+                    pass
+            if cnx_system is not None:
+                try:
+                    cnx_system.close()
+                except Exception:
+                    pass
+            if cnx_energy is not None:
+                try:
+                    cnx_energy.close()
+                except Exception:
+                    pass
+            if cnx_historical is not None:
+                try:
+                    cnx_historical.close()
+                except Exception:
+                    pass
 
         ################################################################################################################
         # Step 5: construct the report
         ################################################################################################################
-        if cursor_system:
-            cursor_system.close()
-        if cnx_system:
-            cnx_system.close()
-
-        if cursor_energy:
-            cursor_energy.close()
-        if cnx_energy:
-            cnx_energy.close()
-
-        if cursor_historical:
-            cursor_historical.close()
-        if cnx_historical:
-            cnx_historical.close()
-
         result = {
             "combined_equipment1": {
                 "id": combined_equipment1["id"],
