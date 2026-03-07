@@ -77,75 +77,63 @@ class Reporting:
         ################################################################################################################
         cnx_system = mysql.connector.connect(**config.myems_system_db)
         cursor_system = cnx_system.cursor()
+        try:
+            if energy_storage_power_station_id is not None:
+                query = (" SELECT id, name, uuid "
+                         " FROM tbl_energy_storage_power_stations "
+                         " WHERE id = %s ")
+                cursor_system.execute(query, (energy_storage_power_station_id,))
+                row = cursor_system.fetchone()
+                if row is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.ENERGY_STORAGE_POWER_STATION_NOT_FOUND')
 
-        cnx_historical = mysql.connector.connect(**config.myems_historical_db)
-        cursor_historical = cnx_historical.cursor()
+            ################################################################################################
+            # Step 3: query associated containers
+            ################################################################################################
+            container_list = list()
+            cursor_system.execute(" SELECT c.id, c.name, c.uuid "
+                                  " FROM tbl_energy_storage_power_stations_containers espsc, "
+                                  "      tbl_energy_storage_containers c "
+                                  " WHERE espsc.energy_storage_power_station_id = %s "
+                                  "      AND espsc.energy_storage_container_id = c.id ",
+                                  (energy_storage_power_station_id,))
+            rows_containers = cursor_system.fetchall()
+            if rows_containers is not None and len(rows_containers) > 0:
+                for row_container in rows_containers:
+                    container_list.append({"id": row_container[0],
+                                           "name": row_container[1],
+                                           "uuid": row_container[2]})
+            print('container_list:' + str(container_list))
 
-        if energy_storage_power_station_id is not None:
-            query = (" SELECT id, name, uuid "
-                     " FROM tbl_energy_storage_power_stations "
-                     " WHERE id = %s ")
-            cursor_system.execute(query, (energy_storage_power_station_id,))
-            row = cursor_system.fetchone()
-            if row is None:
-                cursor_system.close()
-                cnx_system.close()
-                raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                       description='API.ENERGY_STORAGE_POWER_STATION_NOT_FOUND')
-
-        ################################################################################################################
-        # Step 3: query associated containers
-        ################################################################################################################
-        container_list = list()
-        cursor_system.execute(" SELECT c.id, c.name, c.uuid "
-                              " FROM tbl_energy_storage_power_stations_containers espsc, "
-                              "      tbl_energy_storage_containers c "
-                              " WHERE espsc.energy_storage_power_station_id = %s "
-                              "      AND espsc.energy_storage_container_id = c.id ",
-                              (energy_storage_power_station_id,))
-        rows_containers = cursor_system.fetchall()
-        if rows_containers is not None and len(rows_containers) > 0:
-            for row_container in rows_containers:
-                container_list.append({"id": row_container[0],
-                                       "name": row_container[1],
-                                       "uuid": row_container[2]})
-        print('container_list:' + str(container_list))
-
-        ################################################################################################################
-        # Step 7: query the commands
-        ################################################################################################################
-
-        command_list = list()
-        for container in container_list:
-            cursor_system.execute(" SELECT c.id, c.name, c.uuid, "
-                                  "        c.topic, c.payload, c.set_value, c.description "
-                                  " FROM tbl_energy_storage_containers_commands cc, tbl_commands c "
-                                  " WHERE cc.energy_storage_container_id = %s AND cc.command_id = c.id "
-                                  " ORDER BY c.id ",
-                                  (container['id'],))
-            rows_commands = cursor_system.fetchall()
-            if rows_commands is not None and len(rows_commands) > 0:
-                for row in rows_commands:
-                    current_command = dict()
-                    current_command['id'] = row[0]
-                    current_command['name'] = container['name'] + '-' + row[1]
-                    current_command['uuid'] = row[2]
-                    current_command['topic'] = row[3]
-                    current_command['payload'] = row[4]
-                    current_command['set_value'] = row[5]
-                    current_command['description'] = row[6]
-                    command_list.append(current_command)
-
-        if cursor_system:
+            ################################################################################################
+            # Step 7: query the commands
+            ################################################################################################
+            command_list = list()
+            for container in container_list:
+                cursor_system.execute(" SELECT c.id, c.name, c.uuid, "
+                                      "        c.topic, c.payload, c.set_value, c.description "
+                                      " FROM tbl_energy_storage_containers_commands cc, tbl_commands c "
+                                      " WHERE cc.energy_storage_container_id = %s AND cc.command_id = c.id "
+                                      " ORDER BY c.id ",
+                                      (container['id'],))
+                rows_commands = cursor_system.fetchall()
+                if rows_commands is not None and len(rows_commands) > 0:
+                    for row in rows_commands:
+                        current_command = dict()
+                        current_command['id'] = row[0]
+                        current_command['name'] = container['name'] + '-' + row[1]
+                        current_command['uuid'] = row[2]
+                        current_command['topic'] = row[3]
+                        current_command['payload'] = row[4]
+                        current_command['set_value'] = row[5]
+                        current_command['description'] = row[6]
+                        command_list.append(current_command)
+        finally:
             cursor_system.close()
-        if cnx_system:
             cnx_system.close()
 
-        if cursor_historical:
-            cursor_historical.close()
-        if cnx_historical:
-            cnx_historical.close()
-        ################################################################################################################
+        ################################################################################################
         # Step 8: construct the report
-        ################################################################################################################
+        ################################################################################################
         resp.text = json.dumps(command_list)

@@ -140,168 +140,170 @@ class Reporting:
         ################################################################################################################
 
         cnx_system = mysql.connector.connect(**config.myems_system_db)
-        cursor_system = cnx_system.cursor()
+        try:
+            cursor_system = cnx_system.cursor()
+            try:
+                query = (" SELECT name, uuid "
+                         " FROM tbl_energy_flow_diagrams "
+                         " WHERE id = %s ")
+                cursor_system.execute(query, (energy_flow_diagram_id,))
+                row = cursor_system.fetchone()
 
-        query = (" SELECT name, uuid "
-                 " FROM tbl_energy_flow_diagrams "
-                 " WHERE id = %s ")
-        cursor_system.execute(query, (energy_flow_diagram_id,))
-        row = cursor_system.fetchone()
+                if row is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.ENERGY_FLOW_DIAGRAM_NOT_FOUND')
+                energy_flow_diagram_name = row[0]
+                energy_flow_diagram_uuid = row[1]
 
-        if row is None:
-            if cursor_system:
+                ########################################################################################################
+                # Step 3: query nodes
+                ########################################################################################################
+
+                query = (" SELECT id, energy_flow_diagram_id, name "
+                         " FROM tbl_energy_flow_diagrams_nodes")
+                cursor_system.execute(query)
+                rows_nodes = cursor_system.fetchall()
+
+                node_dict = dict()
+                node_list_dict = dict()
+                if rows_nodes is not None and len(rows_nodes) > 0:
+                    for row in rows_nodes:
+                        node_dict[row[0]] = row[2]
+                        if node_list_dict.get(row[1]) is None:
+                            node_list_dict[row[1]] = list()
+                        node_list_dict[row[1]].append({"id": row[0], "name": row[2]})
+
+                ########################################################################################################
+                # Step 4: query links
+                ########################################################################################################
+                query = (" SELECT id, name, uuid "
+                         " FROM tbl_meters ")
+                cursor_system.execute(query)
+                rows_meters = cursor_system.fetchall()
+
+                meter_dict = dict()
+                if rows_meters is not None and len(rows_meters) > 0:
+                    for row in rows_meters:
+                        meter_dict[row[2]] = {"type": 'meter',
+                                              "id": row[0],
+                                              "name": row[1],
+                                              "uuid": row[2]}
+
+                query = (" SELECT id, name, uuid "
+                         " FROM tbl_offline_meters ")
+                cursor_system.execute(query)
+                rows_offline_meters = cursor_system.fetchall()
+
+                offline_meter_dict = dict()
+                if rows_offline_meters is not None and len(rows_offline_meters) > 0:
+                    for row in rows_offline_meters:
+                        offline_meter_dict[row[2]] = {"type": 'offline_meter',
+                                                      "id": row[0],
+                                                      "name": row[1],
+                                                      "uuid": row[2]}
+
+                query = (" SELECT id, name, uuid "
+                         " FROM tbl_virtual_meters ")
+                cursor_system.execute(query)
+                rows_virtual_meters = cursor_system.fetchall()
+
+                virtual_meter_dict = dict()
+                if rows_virtual_meters is not None and len(rows_virtual_meters) > 0:
+                    for row in rows_virtual_meters:
+                        virtual_meter_dict[row[2]] = {"type": 'virtual_meter',
+                                                      "id": row[0],
+                                                      "name": row[1],
+                                                      "uuid": row[2]}
+
+                query = (" SELECT id, energy_flow_diagram_id, source_node_id, target_node_id, meter_uuid "
+                         " FROM tbl_energy_flow_diagrams_links")
+                cursor_system.execute(query)
+                rows_links = cursor_system.fetchall()
+
+                link_list_dict = dict()
+                if rows_links is not None and len(rows_links) > 0:
+                    for row in rows_links:
+                        # find meter by uuid
+                        meter = meter_dict.get(row[4], None)
+                        if meter is None:
+                            meter = virtual_meter_dict.get(row[4], None)
+                        if meter is None:
+                            meter = offline_meter_dict.get(row[4], None)
+
+                        if link_list_dict.get(row[1]) is None:
+                            link_list_dict[row[1]] = list()
+                        link_list_dict[row[1]].append({"id": row[0],
+                                                       "source_node": {
+                                                           "id": row[2],
+                                                           "name": node_dict.get(row[2])},
+                                                       "target_node": {
+                                                           "id": row[3],
+                                                           "name": node_dict.get(row[3])},
+                                                       "meter": meter,
+                                                       "value": None})
+
+                meta_result = {"id": energy_flow_diagram_id,
+                               "name": energy_flow_diagram_name,
+                               "uuid": energy_flow_diagram_uuid,
+                               "nodes": node_list_dict.get(int(energy_flow_diagram_id), None),
+                               "links": link_list_dict.get(int(energy_flow_diagram_id), None),
+                               }
+            finally:
                 cursor_system.close()
-            if cnx_system:
-                cnx_system.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.ENERGY_FLOW_DIAGRAM_NOT_FOUND')
-        else:
-            energy_flow_diagram_name = row[0]
-            energy_flow_diagram_uuid = row[1]
-
-        ################################################################################################################
-        # Step 3: query nodes
-        ################################################################################################################
-
-        query = (" SELECT id, energy_flow_diagram_id, name "
-                 " FROM tbl_energy_flow_diagrams_nodes")
-        cursor_system.execute(query)
-        rows_nodes = cursor_system.fetchall()
-
-        node_dict = dict()
-        node_list_dict = dict()
-        if rows_nodes is not None and len(rows_nodes) > 0:
-            for row in rows_nodes:
-                node_dict[row[0]] = row[2]
-                if node_list_dict.get(row[1]) is None:
-                    node_list_dict[row[1]] = list()
-                node_list_dict[row[1]].append({"id": row[0], "name": row[2]})
-
-        ################################################################################################################
-        # Step 4: query links
-        ################################################################################################################
-        query = (" SELECT id, name, uuid "
-                 " FROM tbl_meters ")
-        cursor_system.execute(query)
-        rows_meters = cursor_system.fetchall()
-
-        meter_dict = dict()
-        if rows_meters is not None and len(rows_meters) > 0:
-            for row in rows_meters:
-                meter_dict[row[2]] = {"type": 'meter',
-                                      "id": row[0],
-                                      "name": row[1],
-                                      "uuid": row[2]}
-
-        query = (" SELECT id, name, uuid "
-                 " FROM tbl_offline_meters ")
-        cursor_system.execute(query)
-        rows_offline_meters = cursor_system.fetchall()
-
-        offline_meter_dict = dict()
-        if rows_offline_meters is not None and len(rows_offline_meters) > 0:
-            for row in rows_offline_meters:
-                offline_meter_dict[row[2]] = {"type": 'offline_meter',
-                                              "id": row[0],
-                                              "name": row[1],
-                                              "uuid": row[2]}
-
-        query = (" SELECT id, name, uuid "
-                 " FROM tbl_virtual_meters ")
-        cursor_system.execute(query)
-        rows_virtual_meters = cursor_system.fetchall()
-
-        virtual_meter_dict = dict()
-        if rows_virtual_meters is not None and len(rows_virtual_meters) > 0:
-            for row in rows_virtual_meters:
-                virtual_meter_dict[row[2]] = {"type": 'virtual_meter',
-                                              "id": row[0],
-                                              "name": row[1],
-                                              "uuid": row[2]}
-
-        query = (" SELECT id, energy_flow_diagram_id, source_node_id, target_node_id, meter_uuid "
-                 " FROM tbl_energy_flow_diagrams_links")
-        cursor_system.execute(query)
-        rows_links = cursor_system.fetchall()
-
-        link_list_dict = dict()
-        if rows_links is not None and len(rows_links) > 0:
-            for row in rows_links:
-                # find meter by uuid
-                meter = meter_dict.get(row[4], None)
-                if meter is None:
-                    meter = virtual_meter_dict.get(row[4], None)
-                if meter is None:
-                    meter = offline_meter_dict.get(row[4], None)
-
-                if link_list_dict.get(row[1]) is None:
-                    link_list_dict[row[1]] = list()
-                link_list_dict[row[1]].append({"id": row[0],
-                                               "source_node": {
-                                                   "id": row[2],
-                                                   "name": node_dict.get(row[2])},
-                                               "target_node": {
-                                                   "id": row[3],
-                                                   "name": node_dict.get(row[3])},
-                                               "meter": meter,
-                                               "value": None})
-
-        meta_result = {"id": energy_flow_diagram_id,
-                       "name": energy_flow_diagram_name,
-                       "uuid": energy_flow_diagram_uuid,
-                       "nodes": node_list_dict.get(int(energy_flow_diagram_id), None),
-                       "links": link_list_dict.get(int(energy_flow_diagram_id), None),
-                       }
-        if cursor_system:
-            cursor_system.close()
-        if cnx_system:
+        finally:
             cnx_system.close()
 
         ################################################################################################################
         # Step 5: query reporting period meter energy input
         ################################################################################################################
         cnx_energy = mysql.connector.connect(**config.myems_energy_db)
-        cursor_energy = cnx_energy.cursor()
-        if meta_result['links'] is not None and len(meta_result['links']) > 0:
-            for x in range(len(meta_result['links'])):
-                if meta_result['links'][x] is None or meta_result['links'][x]['meter'] is None:
-                    continue
-                if meta_result['links'][x]['meter']['type'] == 'meter':
-                    query = (" SELECT SUM(actual_value) "
-                             " FROM tbl_meter_hourly "
-                             " WHERE meter_id = %s "
-                             " AND start_datetime_utc >= %s "
-                             " AND start_datetime_utc < %s ")
-                    cursor_energy.execute(query, (meta_result['links'][x]['meter']['id'],
-                                                  reporting_start_datetime_utc,
-                                                  reporting_end_datetime_utc))
-                    row = cursor_energy.fetchone()
-                    if row is not None:
-                        meta_result['links'][x]['value'] = row[0]
-                elif meta_result['links'][x]['meter']['type'] == 'offline_meter':
-                    query = (" SELECT SUM(actual_value) "
-                             " FROM tbl_offline_meter_hourly "
-                             " WHERE offline_meter_id = %s "
-                             " AND start_datetime_utc >= %s "
-                             " AND start_datetime_utc < %s ")
-                    cursor_energy.execute(query, (meta_result['links'][x]['meter']['id'],
-                                                  reporting_start_datetime_utc,
-                                                  reporting_end_datetime_utc))
-                    row = cursor_energy.fetchone()
-                    if row is not None:
-                        meta_result['links'][x]['value'] = row[0]
-                elif meta_result['links'][x]['meter']['type'] == 'virtual_meter':
-                    query = (" SELECT SUM(actual_value) "
-                             " FROM tbl_virtual_meter_hourly "
-                             " WHERE virtual_meter_id = %s "
-                             " AND start_datetime_utc >= %s "
-                             " AND start_datetime_utc < %s ")
-                    cursor_energy.execute(query, (meta_result['links'][x]['meter']['id'],
-                                                  reporting_start_datetime_utc,
-                                                  reporting_end_datetime_utc))
-                    row = cursor_energy.fetchone()
-                    if row is not None:
-                        meta_result['links'][x]['value'] = row[0]
+        try:
+            cursor_energy = cnx_energy.cursor()
+            try:
+                if meta_result['links'] is not None and len(meta_result['links']) > 0:
+                    for x in range(len(meta_result['links'])):
+                        if meta_result['links'][x] is None or meta_result['links'][x]['meter'] is None:
+                            continue
+                        if meta_result['links'][x]['meter']['type'] == 'meter':
+                            query = (" SELECT SUM(actual_value) "
+                                     " FROM tbl_meter_hourly "
+                                     " WHERE meter_id = %s "
+                                     " AND start_datetime_utc >= %s "
+                                     " AND start_datetime_utc < %s ")
+                            cursor_energy.execute(query, (meta_result['links'][x]['meter']['id'],
+                                                          reporting_start_datetime_utc,
+                                                          reporting_end_datetime_utc))
+                            row = cursor_energy.fetchone()
+                            if row is not None:
+                                meta_result['links'][x]['value'] = row[0]
+                        elif meta_result['links'][x]['meter']['type'] == 'offline_meter':
+                            query = (" SELECT SUM(actual_value) "
+                                     " FROM tbl_offline_meter_hourly "
+                                     " WHERE offline_meter_id = %s "
+                                     " AND start_datetime_utc >= %s "
+                                     " AND start_datetime_utc < %s ")
+                            cursor_energy.execute(query, (meta_result['links'][x]['meter']['id'],
+                                                          reporting_start_datetime_utc,
+                                                          reporting_end_datetime_utc))
+                            row = cursor_energy.fetchone()
+                            if row is not None:
+                                meta_result['links'][x]['value'] = row[0]
+                        elif meta_result['links'][x]['meter']['type'] == 'virtual_meter':
+                            query = (" SELECT SUM(actual_value) "
+                                     " FROM tbl_virtual_meter_hourly "
+                                     " WHERE virtual_meter_id = %s "
+                                     " AND start_datetime_utc >= %s "
+                                     " AND start_datetime_utc < %s ")
+                            cursor_energy.execute(query, (meta_result['links'][x]['meter']['id'],
+                                                          reporting_start_datetime_utc,
+                                                          reporting_end_datetime_utc))
+                            row = cursor_energy.fetchone()
+                            if row is not None:
+                                meta_result['links'][x]['value'] = row[0]
+            finally:
+                cursor_energy.close()
+        finally:
+            cnx_energy.close()
 
         ################################################################################################################
         # Step 8: construct the report

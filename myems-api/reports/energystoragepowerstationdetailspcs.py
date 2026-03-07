@@ -1,7 +1,7 @@
 """
 Energy Storage Power Station Details PCS Report API
 
-This module provides REST API endpoints for generating energy storage power station power conversion system (PCS) reports.
+This module provides REST API endpoints for generating energy storage power station power conversion system reports.
 It analyzes PCS data and performance metrics to provide insights into power conversion
 system performance, efficiency, and optimization opportunities.
 
@@ -78,154 +78,158 @@ class Reporting:
         ################################################################################################################
         # Step 2: query the energy storage power station
         ################################################################################################################
-        cnx_system = mysql.connector.connect(**config.myems_system_db)
-        cursor_system = cnx_system.cursor()
+        cnx_system = None
+        cnx_historical = None
+        cursor_system = None
+        cursor_historical = None
+        try:
+            cnx_system = mysql.connector.connect(**config.myems_system_db)
+            cnx_historical = mysql.connector.connect(**config.myems_historical_db)
+            try:
+                cursor_system = cnx_system.cursor()
+                cursor_historical = cnx_historical.cursor()
 
-        cnx_historical = mysql.connector.connect(**config.myems_historical_db)
-        cursor_historical = cnx_historical.cursor()
+                if energy_storage_power_station_id is not None:
+                    query = (" SELECT id, name, uuid "
+                             " FROM tbl_energy_storage_power_stations "
+                             " WHERE id = %s ")
+                    cursor_system.execute(query, (energy_storage_power_station_id,))
+                    row = cursor_system.fetchone()
+                    if row is None:
+                        raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                               description='API.ENERGY_STORAGE_POWER_STATION_NOT_FOUND')
 
-        if energy_storage_power_station_id is not None:
-            query = (" SELECT id, name, uuid "
-                     " FROM tbl_energy_storage_power_stations "
-                     " WHERE id = %s ")
-            cursor_system.execute(query, (energy_storage_power_station_id,))
-            row = cursor_system.fetchone()
-            if row is None:
-                cursor_system.close()
+                # query all points
+                query = (" SELECT id, name, units, description "
+                         " FROM tbl_points ")
+                cursor_system.execute(query)
+                rows = cursor_system.fetchall()
+
+                points_dict = dict()
+                if rows is not None and len(rows) > 0:
+                    for row in rows:
+                        points_dict[row[0]] = [row[1], row[2], row[3]]
+                ########################################################################################################
+                # Step 3: query associated containers
+                ########################################################################################################
+                container_list = list()
+                cursor_system.execute(" SELECT c.id, c.name, c.uuid "
+                                      " FROM tbl_energy_storage_power_stations_containers espsc, "
+                                      "      tbl_energy_storage_containers c "
+                                      " WHERE espsc.energy_storage_power_station_id = %s "
+                                      "      AND espsc.energy_storage_container_id = c.id ",
+                                      (energy_storage_power_station_id,))
+                rows_containers = cursor_system.fetchall()
+                if rows_containers is not None and len(rows_containers) > 0:
+                    for row_container in rows_containers:
+                        container_list.append({"id": row_container[0],
+                                               "name": row_container[1],
+                                               "uuid": row_container[2]})
+                print('container_list:' + str(container_list))
+
+                ########################################################################################################
+                # Step 4: query analog points latest values
+                ########################################################################################################
+                latest_value_dict = dict()
+                query = (" SELECT point_id, actual_value "
+                         " FROM tbl_analog_value_latest "
+                         " WHERE utc_date_time > %s ")
+                cursor_historical.execute(query, (datetime.utcnow() - timedelta(minutes=60),))
+                rows = cursor_historical.fetchall()
+                if rows is not None and len(rows) > 0:
+                    for row in rows:
+                        latest_value_dict[row[0]] = [points_dict[row[0]][0],
+                                                     points_dict[row[0]][1],
+                                                     points_dict[row[0]][2],
+                                                     row[1]]
+
+                ################################################################################################################
+                # Step 5: query energy points latest values
+                ################################################################################################################
+                query = (" SELECT point_id, actual_value "
+                         " FROM tbl_energy_value_latest "
+                         " WHERE utc_date_time > %s ")
+                cursor_historical.execute(query, (datetime.utcnow() - timedelta(minutes=60),))
+                rows = cursor_historical.fetchall()
+                if rows is not None and len(rows) > 0:
+                    for row in rows:
+                        latest_value_dict[row[0]] = [points_dict[row[0]][0],
+                                                     points_dict[row[0]][1],
+                                                     points_dict[row[0]][2],
+                                                     row[1]]
+
+                ########################################################################################################
+                # Step 6: query digital points latest values
+                ########################################################################################################
+                query = (" SELECT point_id, actual_value "
+                         " FROM tbl_digital_value_latest "
+                         " WHERE utc_date_time > %s ")
+                cursor_historical.execute(query, (datetime.utcnow() - timedelta(minutes=60),))
+                rows = cursor_historical.fetchall()
+                if rows is not None and len(rows) > 0:
+                    for row in rows:
+                        latest_value_dict[row[0]] = [points_dict[row[0]][0],
+                                                     points_dict[row[0]][1],
+                                                     points_dict[row[0]][2],
+                                                     row[1]]
+
+                ########################################################################################################
+                # Step 7: query the points of power conversion systems
+                ########################################################################################################
+                # query all points with units
+                query = (" SELECT id, units "
+                         " FROM tbl_points ")
+                cursor_system.execute(query)
+                rows = cursor_system.fetchall()
+
+                units_dict = dict()
+                if rows is not None and len(rows) > 0:
+                    for row in rows:
+                        units_dict[row[0]] = row[1]
+
+                # query pcs parameters
+                pcs_list = list()
+                for container in container_list:
+                    cursor_system.execute(" SELECT id, name, uuid "
+                                          " FROM tbl_energy_storage_containers_power_conversion_systems "
+                                          " WHERE energy_storage_container_id = %s "
+                                          " ORDER BY id ",
+                                          (container['id'],))
+                    rows_pcses = cursor_system.fetchall()
+                    if rows_pcses is not None and len(rows_pcses) > 0:
+                        for row in rows_pcses:
+                            current_pcs = dict()
+                            current_pcs['id'] = row[0]
+                            current_pcs['name'] = row[1]
+                            current_pcs['uuid'] = row[2]
+                            current_pcs['points'] = list()
+                            pcs_list.append(current_pcs)
+
+                for index, pcs in enumerate(pcs_list):
+                    cursor_system.execute(" SELECT p.id "
+                                          " FROM tbl_energy_storage_containers_pcses_points bp, tbl_points p "
+                                          " WHERE bp.pcs_id = %s AND bp.point_id = p.id "
+                                          " ORDER BY bp.id ",
+                                          (pcs['id'],))
+                    rows_points = cursor_system.fetchall()
+                    if rows_points is not None and len(rows_points) > 0:
+                        point_list = list()
+                        for row in rows_points:
+                            point = latest_value_dict.get(row[0], None)
+                            if point is not None:
+                                point_list.append(point)
+                        pcs_list[index]['points'] = point_list
+
+            finally:
+                if cursor_system is not None:
+                    cursor_system.close()
+                if cursor_historical is not None:
+                    cursor_historical.close()
+        finally:
+            if cnx_system is not None:
                 cnx_system.close()
-                raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                       description='API.ENERGY_STORAGE_POWER_STATION_NOT_FOUND')
-
-        # query all points
-        query = (" SELECT id, name, units, description "
-                 " FROM tbl_points ")
-        cursor_system.execute(query)
-        rows = cursor_system.fetchall()
-
-        points_dict = dict()
-        if rows is not None and len(rows) > 0:
-            for row in rows:
-                points_dict[row[0]] = [row[1], row[2], row[3]]
-        ################################################################################################################
-        # Step 3: query associated containers
-        ################################################################################################################
-        container_list = list()
-        cursor_system.execute(" SELECT c.id, c.name, c.uuid "
-                              " FROM tbl_energy_storage_power_stations_containers espsc, "
-                              "      tbl_energy_storage_containers c "
-                              " WHERE espsc.energy_storage_power_station_id = %s "
-                              "      AND espsc.energy_storage_container_id = c.id ",
-                              (energy_storage_power_station_id,))
-        rows_containers = cursor_system.fetchall()
-        if rows_containers is not None and len(rows_containers) > 0:
-            for row_container in rows_containers:
-                container_list.append({"id": row_container[0],
-                                       "name": row_container[1],
-                                       "uuid": row_container[2]})
-        print('container_list:' + str(container_list))
-
-        ################################################################################################################
-        # Step 4: query analog points latest values
-        ################################################################################################################
-        latest_value_dict = dict()
-        query = (" SELECT point_id, actual_value "
-                 " FROM tbl_analog_value_latest "
-                 " WHERE utc_date_time > %s ")
-        cursor_historical.execute(query, (datetime.utcnow() - timedelta(minutes=60),))
-        rows = cursor_historical.fetchall()
-        if rows is not None and len(rows) > 0:
-            for row in rows:
-                latest_value_dict[row[0]] = [points_dict[row[0]][0],
-                                             points_dict[row[0]][1],
-                                             points_dict[row[0]][2],
-                                             row[1]]
-
-        ################################################################################################################
-        # Step 5: query energy points latest values
-        ################################################################################################################
-        query = (" SELECT point_id, actual_value "
-                 " FROM tbl_energy_value_latest "
-                 " WHERE utc_date_time > %s ")
-        cursor_historical.execute(query, (datetime.utcnow() - timedelta(minutes=60),))
-        rows = cursor_historical.fetchall()
-        if rows is not None and len(rows) > 0:
-            for row in rows:
-                latest_value_dict[row[0]] = [points_dict[row[0]][0],
-                                             points_dict[row[0]][1],
-                                             points_dict[row[0]][2],
-                                             row[1]]
-
-        ################################################################################################################
-        # Step 6: query digital points latest values
-        ################################################################################################################
-        query = (" SELECT point_id, actual_value "
-                 " FROM tbl_digital_value_latest "
-                 " WHERE utc_date_time > %s ")
-        cursor_historical.execute(query, (datetime.utcnow() - timedelta(minutes=60),))
-        rows = cursor_historical.fetchall()
-        if rows is not None and len(rows) > 0:
-            for row in rows:
-                latest_value_dict[row[0]] = [points_dict[row[0]][0],
-                                             points_dict[row[0]][1],
-                                             points_dict[row[0]][2],
-                                             row[1]]
-
-        ################################################################################################################
-        # Step 7: query the points of power conversion systems
-        ################################################################################################################
-        # query all points with units
-        query = (" SELECT id, units "
-                 " FROM tbl_points ")
-        cursor_system.execute(query)
-        rows = cursor_system.fetchall()
-
-        units_dict = dict()
-        if rows is not None and len(rows) > 0:
-            for row in rows:
-                units_dict[row[0]] = row[1]
-
-        # query pcs parameters
-        pcs_list = list()
-        for container in container_list:
-            cursor_system.execute(" SELECT id, name, uuid "
-                                  " FROM tbl_energy_storage_containers_power_conversion_systems "
-                                  " WHERE energy_storage_container_id = %s "
-                                  " ORDER BY id ",
-                                  (container['id'],))
-            rows_pcses = cursor_system.fetchall()
-            if rows_pcses is not None and len(rows_pcses) > 0:
-                for row in rows_pcses:
-                    current_pcs = dict()
-                    current_pcs['id'] = row[0]
-                    current_pcs['name'] = row[1]
-                    current_pcs['uuid'] = row[2]
-                    current_pcs['points'] = list()
-                    pcs_list.append(current_pcs)
-
-            for index, pcs in enumerate(pcs_list):
-                cursor_system.execute(" SELECT p.id "
-                                      " FROM tbl_energy_storage_containers_pcses_points bp, tbl_points p "
-                                      " WHERE bp.pcs_id = %s AND bp.point_id = p.id "
-                                      " ORDER BY bp.id ",
-                                      (pcs['id'],))
-                rows_points = cursor_system.fetchall()
-                if rows_points is not None and len(rows_points) > 0:
-                    point_list = list()
-                    for row in rows_points:
-                        point = latest_value_dict.get(row[0], None)
-                        if point is not None:
-                            point_list.append(point)
-                    pcs_list[index]['points'] = point_list
-
-        if cursor_system:
-            cursor_system.close()
-        if cnx_system:
-            cnx_system.close()
-
-        if cursor_historical:
-            cursor_historical.close()
-        if cnx_historical:
-            cnx_historical.close()
+            if cnx_historical is not None:
+                cnx_historical.close()
         ################################################################################################################
         # Step 8: construct the report
         ################################################################################################################
