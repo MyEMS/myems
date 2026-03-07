@@ -95,160 +95,150 @@ class Reporting:
         # Step 2: query the energy storage power station
         ################################################################################################################
         cnx_system_db = mysql.connector.connect(**config.myems_system_db)
-        cursor_system_db = cnx_system_db.cursor()
-        # Get Spaces associated with energy storage power stations
-        query = (" SELECT se.energy_storage_power_station_id, s.name "
-                 " FROM tbl_spaces s, tbl_spaces_energy_storage_power_stations se "
-                 " WHERE se.space_id = s.id ")
-        cursor_system_db.execute(query)
-        rows_spaces = cursor_system_db.fetchall()
+        try:
+            cursor_system_db = cnx_system_db.cursor()
+            try:
+                # Get Spaces associated with energy storage power stations
+                query = (" SELECT se.energy_storage_power_station_id, s.name "
+                         " FROM tbl_spaces s, tbl_spaces_energy_storage_power_stations se "
+                         " WHERE se.space_id = s.id ")
+                cursor_system_db.execute(query)
+                rows_spaces = cursor_system_db.fetchall()
 
-        space_dict = dict()
-        if rows_spaces is not None and len(rows_spaces) > 0:
-            for row in rows_spaces:
-                space_dict[row[0]] = row[1]
-        print(space_dict)
-        # Get energy storage power station
-        row = None
-        if energy_storage_power_station_id is not None:
-            query = (" SELECT id, name, uuid, "
-                     "        address, latitude, longitude, rated_capacity, rated_power, "
-                     "        contact_id, cost_center_id "
-                     " FROM tbl_energy_storage_power_stations "
-                     " WHERE id = %s ")
-            cursor_system_db.execute(query, (energy_storage_power_station_id,))
-            row = cursor_system_db.fetchone()
-        elif energy_storage_power_station_uuid is not None:
-            query = (" SELECT id, name, uuid, "
-                     "        address, latitude, longitude, rated_capacity, rated_power, "
-                     "        contact_id, cost_center_id "
-                     " FROM tbl_energy_storage_power_stations "
-                     " WHERE uuid = %s ")
-            cursor_system_db.execute(query, (energy_storage_power_station_uuid,))
-            row = cursor_system_db.fetchone()
+                space_dict = dict()
+                if rows_spaces is not None and len(rows_spaces) > 0:
+                    for row in rows_spaces:
+                        space_dict[row[0]] = row[1]
+                print(space_dict)
+                # Get energy storage power station
+                row = None
+                if energy_storage_power_station_id is not None:
+                    query = (" SELECT id, name, uuid, "
+                             "        address, latitude, longitude, rated_capacity, rated_power, "
+                             "        contact_id, cost_center_id "
+                             " FROM tbl_energy_storage_power_stations "
+                             " WHERE id = %s ")
+                    cursor_system_db.execute(query, (energy_storage_power_station_id,))
+                    row = cursor_system_db.fetchone()
+                elif energy_storage_power_station_uuid is not None:
+                    query = (" SELECT id, name, uuid, "
+                             "        address, latitude, longitude, rated_capacity, rated_power, "
+                             "        contact_id, cost_center_id "
+                             " FROM tbl_energy_storage_power_stations "
+                             " WHERE uuid = %s ")
+                    cursor_system_db.execute(query, (energy_storage_power_station_uuid,))
+                    row = cursor_system_db.fetchone()
 
-        if row is None:
-            cursor_system_db.close()
+                if row is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                          description='API.ENERGY_STORAGE_POWER_STATION_NOT_FOUND')
+                energy_storage_power_station_id = row[0]
+                energy_storage_power_station = {
+                    "id": row[0],
+                    "name": row[1],
+                    "uuid": row[2],
+                    "address": row[3],
+                    "space_name": space_dict.get(row[0]),
+                    "latitude": row[4],
+                    "longitude": row[5],
+                    "rated_capacity": row[6],
+                    "rated_power": row[7]
+                }
+            finally:
+                cursor_system_db.close()
+        finally:
             cnx_system_db.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.ENERGY_STORAGE_POWER_STATION_NOT_FOUND')
-        else:
-            energy_storage_power_station_id = row[0]
-            energy_storage_power_station = {
-                "id": row[0],
-                "name": row[1],
-                "uuid": row[2],
-                "address": row[3],
-                "space_name": space_dict.get(row[0]),
-                "latitude": row[4],
-                "longitude": row[5],
-                "rated_capacity": row[6],
-                "rated_power": row[7]
-            }
 
         ################################################################################################################
         # Step 3: query charge energy data
-        ################################################################################################################
-        cnx_energy_db = mysql.connector.connect(**config.myems_energy_db)
-        cursor_energy_db = cnx_energy_db.cursor()
-
-        cnx_billing_db = mysql.connector.connect(**config.myems_billing_db)
-        cursor_billing_db = cnx_billing_db.cursor()
-
-        cnx_carbon_db = mysql.connector.connect(**config.myems_billing_db)
-        cursor_carbon_db = cnx_carbon_db.cursor()
-
-        query = (" SELECT SUM(actual_value) "
-                 " FROM tbl_energy_storage_power_station_charge_hourly "
-                 " WHERE energy_storage_power_station_id = %s ")
-        cursor_energy_db.execute(query, (energy_storage_power_station_id, ))
-        row = cursor_energy_db.fetchone()
-        total_charge_energy = Decimal(0.0)
-        if row is not None:
-            total_charge_energy = row[0]
-
-        ################################################################################################################
         # Step 4: query discharge energy data
         ################################################################################################################
-        query = (" SELECT SUM(actual_value) "
-                 " FROM tbl_energy_storage_power_station_discharge_hourly "
-                 " WHERE energy_storage_power_station_id = %s ")
-        cursor_energy_db.execute(query, (energy_storage_power_station_id, ))
-        row = cursor_energy_db.fetchone()
+        total_charge_energy = Decimal(0.0)
         total_discharge_energy = Decimal(0.0)
-        if row is not None:
-            total_discharge_energy = row[0]
-        ################################################################################################################
-        # Step 5:  query charge billing data
-        ################################################################################################################
-        query = (" SELECT SUM(actual_value) "
-                 " FROM tbl_energy_storage_power_station_charge_hourly "
-                 " WHERE energy_storage_power_station_id = %s ")
-        cursor_billing_db.execute(query, (energy_storage_power_station_id, ))
-        row = cursor_billing_db.fetchone()
-        total_charge_billing = Decimal(0.0)
-        if row is not None:
-            total_charge_billing = row[0]
-
-        ################################################################################################################
-        # Step 6: query discharge billing data
-        ################################################################################################################
-        query = (" SELECT SUM(actual_value) "
-                 " FROM tbl_energy_storage_power_station_discharge_hourly "
-                 " WHERE energy_storage_power_station_id = %s ")
-        cursor_billing_db.execute(query, (energy_storage_power_station_id, ))
-        row = cursor_billing_db.fetchone()
-        total_discharge_billing = Decimal(0.0)
-        if row is not None:
-            total_discharge_billing = row[0]
-
-        ################################################################################################################
-        # Step 7:  query charge carbon data
-        ################################################################################################################
-        query = (" SELECT SUM(actual_value) "
-                 " FROM tbl_energy_storage_power_station_charge_hourly "
-                 " WHERE energy_storage_power_station_id = %s ")
-        cursor_carbon_db.execute(query, (energy_storage_power_station_id, ))
-        row = cursor_carbon_db.fetchone()
-        total_charge_carbon = Decimal(0.0)
-        if row is not None:
-            total_charge_carbon = row[0]
-
-        ################################################################################################################
-        # Step 8: query discharge carbon data
-        ################################################################################################################
-        query = (" SELECT SUM(actual_value) "
-                 " FROM tbl_energy_storage_power_station_discharge_hourly "
-                 " WHERE energy_storage_power_station_id = %s ")
-        cursor_carbon_db.execute(query, (energy_storage_power_station_id, ))
-        row = cursor_carbon_db.fetchone()
-        total_discharge_carbon = Decimal(0.0)
-        if row is not None:
-            total_discharge_carbon = row[0]
-
-        ################################################################################################################
-        # Step 7: construct the report
-        ################################################################################################################
-        if cursor_system_db:
-            cursor_system_db.close()
-        if cnx_system_db:
-            cnx_system_db.close()
-
-        if cursor_energy_db:
-            cursor_energy_db.close()
-        if cnx_energy_db:
+        cnx_energy_db = mysql.connector.connect(**config.myems_energy_db)
+        try:
+            cursor_energy_db = cnx_energy_db.cursor()
+            try:
+                query = (" SELECT SUM(actual_value) "
+                         " FROM tbl_energy_storage_power_station_charge_hourly "
+                         " WHERE energy_storage_power_station_id = %s ")
+                cursor_energy_db.execute(query, (energy_storage_power_station_id, ))
+                row = cursor_energy_db.fetchone()
+                if row is not None:
+                    total_charge_energy = row[0]
+                query = (" SELECT SUM(actual_value) "
+                         " FROM tbl_energy_storage_power_station_discharge_hourly "
+                         " WHERE energy_storage_power_station_id = %s ")
+                cursor_energy_db.execute(query, (energy_storage_power_station_id, ))
+                row = cursor_energy_db.fetchone()
+                if row is not None:
+                    total_discharge_energy = row[0]
+            finally:
+                cursor_energy_db.close()
+        finally:
             cnx_energy_db.close()
 
-        if cursor_billing_db:
-            cursor_billing_db.close()
-        if cnx_billing_db:
+        ################################################################################################################
+        # Step 5: query charge billing data
+        # Step 6: query discharge billing data
+        ################################################################################################################
+        total_charge_billing = Decimal(0.0)
+        total_discharge_billing = Decimal(0.0)
+        cnx_billing_db = mysql.connector.connect(**config.myems_billing_db)
+        try:
+            cursor_billing_db = cnx_billing_db.cursor()
+            try:
+                query = (" SELECT SUM(actual_value) "
+                         " FROM tbl_energy_storage_power_station_charge_hourly "
+                         " WHERE energy_storage_power_station_id = %s ")
+                cursor_billing_db.execute(query, (energy_storage_power_station_id, ))
+                row = cursor_billing_db.fetchone()
+                if row is not None:
+                    total_charge_billing = row[0]
+                query = (" SELECT SUM(actual_value) "
+                         " FROM tbl_energy_storage_power_station_discharge_hourly "
+                         " WHERE energy_storage_power_station_id = %s ")
+                cursor_billing_db.execute(query, (energy_storage_power_station_id, ))
+                row = cursor_billing_db.fetchone()
+                if row is not None:
+                    total_discharge_billing = row[0]
+            finally:
+                cursor_billing_db.close()
+        finally:
             cnx_billing_db.close()
 
-        if cursor_carbon_db:
-            cursor_carbon_db.close()
-        if cnx_carbon_db:
+        ################################################################################################################
+        # Step 7: query charge carbon data
+        # Step 8: query discharge carbon data
+        ################################################################################################################
+        total_charge_carbon = Decimal(0.0)
+        total_discharge_carbon = Decimal(0.0)
+        cnx_carbon_db = mysql.connector.connect(**config.myems_billing_db)
+        try:
+            cursor_carbon_db = cnx_carbon_db.cursor()
+            try:
+                query = (" SELECT SUM(actual_value) "
+                         " FROM tbl_energy_storage_power_station_charge_hourly "
+                         " WHERE energy_storage_power_station_id = %s ")
+                cursor_carbon_db.execute(query, (energy_storage_power_station_id, ))
+                row = cursor_carbon_db.fetchone()
+                if row is not None:
+                    total_charge_carbon = row[0]
+                query = (" SELECT SUM(actual_value) "
+                         " FROM tbl_energy_storage_power_station_discharge_hourly "
+                         " WHERE energy_storage_power_station_id = %s ")
+                cursor_carbon_db.execute(query, (energy_storage_power_station_id, ))
+                row = cursor_carbon_db.fetchone()
+                if row is not None:
+                    total_discharge_carbon = row[0]
+            finally:
+                cursor_carbon_db.close()
+        finally:
             cnx_carbon_db.close()
 
+        ################################################################################################################
+        # Step 9: construct the report
+        ################################################################################################################
         result = dict()
         result['energy_storage_power_station'] = energy_storage_power_station
         result['total_charge_energy'] = total_charge_energy
