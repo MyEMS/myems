@@ -16,9 +16,8 @@ import { withTranslation } from 'react-i18next';
 import { Chart } from 'react-chartjs-2';
 import AppContext from '../../../context/Context';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
-import annotationPlugin from 'chartjs-plugin-annotation';
 
-ChartJS.register(CategoryScale, LinearScale, PointElement, BarElement, Tooltip, Legend, LineController, BarController, annotationPlugin);
+ChartJS.register(CategoryScale, LinearScale, PointElement, BarElement, Tooltip, Legend, LineController, BarController);
 
 const MultiTrendChart = ({
   reportingTitle,
@@ -31,7 +30,6 @@ const MultiTrendChart = ({
   baseData,
   rates,
   options,
-  referenceLine,
   t
 }) => {
   const [option, setOption] = useState('a0');
@@ -110,9 +108,7 @@ const MultiTrendChart = ({
       };
       setLineData(chartData);
     }
-  }, [baseData, reportingData, option, baseLabels, reportingLabels, rates, isDark, referenceLine]);
-
-  const shouldShowReferenceLine = referenceLine != null && option?.startsWith('a');
+  }, [baseData, reportingData, option, baseLabels, reportingLabels, rates, isDark]);
 
   const config = {
     plugins: [ChartDataLabels],
@@ -121,29 +117,6 @@ const MultiTrendChart = ({
         legend: {
           display: false
         },
-        annotation: shouldShowReferenceLine ? {
-          annotations: {
-            referenceLine: {
-              type: 'line',
-              yMin: referenceLine,
-              yMax: referenceLine,
-              yScaleID: 'y',
-              borderColor: 'rgb(255, 0, 0)',
-              borderWidth: 2,
-              borderDash: [5, 5],
-              label: {
-                enabled: true,
-                content: t('Efficiency Indicator'),
-                position: 'end',
-                backgroundColor: 'rgba(255, 0, 0, 0.8)',
-                color: 'white',
-                font: {
-                  size: 12
-                }
-              }
-            }
-          }
-        } : {},
         tooltip: {
           xPadding: 20,
           yPadding: 10,
