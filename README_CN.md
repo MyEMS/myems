@@ -175,7 +175,7 @@ Admin UI:
 
 Web UI:
 
-用户名：administrator@myems.io
+用户名：administrator
 
 密码：!MyEMS1
 

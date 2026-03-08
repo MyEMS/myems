@@ -175,7 +175,7 @@ Hasło: !MyEMS1
 
 Interfejs web:
 
-Nazwa użytkownika: administrator@myems.io
+Nazwa użytkownika: administrator
 
 Hasło: !MyEMS1
 

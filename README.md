@@ -180,7 +180,7 @@ Password: !MyEMS1
 
 Web UI:
 
-User Name: administrator@myems.io
+User Name: administrator
 
 Password: !MyEMS1
 

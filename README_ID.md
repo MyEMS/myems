@@ -174,7 +174,7 @@ Kata sandi: !MyEMS1
 
 Web UI:
 
-Nama pengguna: administrator@myems.io
+Nama pengguna: administrator
 
 Kata sandi: !MyEMS1
 

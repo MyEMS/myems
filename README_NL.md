@@ -175,7 +175,7 @@ Wachtwoord: !MyEMS1
 
 Web UI:
 
-Gebruikersnaam: administrator@myems.io
+Gebruikersnaam: administrator
 
 Wachtwoord: !MyEMS1
 

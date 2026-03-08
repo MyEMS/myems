@@ -175,7 +175,7 @@ Mot de passe : !MyEMS1
 
 Web UI:
 
-Nom d'utilisateur : administrator@myems.io
+Nom d'utilisateur : administrator
 
 Mot de passe : !MyEMS1
 

@@ -175,7 +175,7 @@ Admin UI:
 
 Web UI:
 
-Имя пользователя: administrator@myems.io
+Имя пользователя: administrator
 
 Пароль: !MyEMS1
 
