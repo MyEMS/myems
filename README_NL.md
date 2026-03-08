@@ -189,32 +189,16 @@ Wachtwoord: !MyEMS1
 - LINE ID: myems
 - WhatsApp: https://wa.me/message/6HB55A46RVAJP1
 
-![WeChat: 13011132526](./docs/images/qr_code_wechat.png)
-
-![Line: MyEMS](./docs/images/qr_code_line.png)
-
-![WhatsAPP: MyEMS](./docs/images/qr_code_whatsapp.png)
-
-![Feishu: 13011132526](./docs/images/qr_code_feishu.png)
-
-## WeChat Openbare Account
-
-![Open Source Energiebeheersysteem](./docs/images/qr_code_mp_weixin.png)
-
-
-## WeChat Groep
-
-![WeChat Groep](./docs/images/qr_code_wechat_group.png)
-
-## QQ Groep
-
-Groep nummer: 792528967
-
-![QQ Groep](./docs/images/qr_code_qq_group.png)
-
-## Xiaohongshu
-
-![Xiaohongshu](./docs/images/qr_code_xiaohongshu.png)
+| Platform | Description | QR Code |
+|----------|--------------|---------|
+| WeChat | 13011132526 | ![WeChat: 13011132526](./docs/images/qr_code_wechat.png) |
+| Line | MyEMS | ![Line: MyEMS](./docs/images/qr_code_line.png) |
+| WhatsApp | MyEMS | ![WhatsAPP: MyEMS](./docs/images/qr_code_whatsapp.png) |
+| Feishu | 13011132526 | ![Feishu: 13011132526](./docs/images/qr_code_feishu.png) |
+| WeChat Openbare Account | Open Source Energiebeheersysteem | ![Open Source Energiebeheersysteem](./docs/images/qr_code_mp_weixin.png) |
+| WeChat Groep | WeChat Groep | ![WeChat Groep](./docs/images/qr_code_wechat_group.png) |
+| QQ Groep | 792528967 | ![QQ Groep](./docs/images/qr_code_qq_group.png) |
+| Xiaohongshu | Xiaohongshu | ![Xiaohongshu](./docs/images/qr_code_xiaohongshu.png) |
 
 ## Video
 

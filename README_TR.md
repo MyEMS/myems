@@ -189,32 +189,16 @@ Kullanıcı adı: administrator
 - LINE ID: myems
 - WhatsApp: https://wa.me/message/6HB55A46RVAJP1
 
-![WeChat: 13011132526](./docs/images/qr_code_wechat.png)
-
-![Line: MyEMS](./docs/images/qr_code_line.png)
-
-![WhatsAPP: MyEMS](./docs/images/qr_code_whatsapp.png)
-
-![Feishu: 13011132526](./docs/images/qr_code_feishu.png)
-
-## Resmi WeChat Hesabı
-
-![Açık kaynak enerji yönetim sistemi](./docs/images/qr_code_mp_weixin.png)
-
-
-## WeChat Grubu
-
-![WeChat Grubu](./docs/images/qr_code_wechat_group.png)
-
-## QQ Grubu
-
-Grup numarası: 792528967
-
-![QQ Grubu](./docs/images/qr_code_qq_group.png)
-
-## Xiaohongshu
-
-![Xiaohongshju](./docs/images/qr_code_xiaohongshu.png)
+| Platform | Description | QR Code |
+|----------|--------------|---------|
+| WeChat | 13011132526 | ![WeChat: 13011132526](./docs/images/qr_code_wechat.png) |
+| Line | MyEMS | ![Line: MyEMS](./docs/images/qr_code_line.png) |
+| WhatsApp | MyEMS | ![WhatsAPP: MyEMS](./docs/images/qr_code_whatsapp.png) |
+| Feishu | 13011132526 | ![Feishu: 13011132526](./docs/images/qr_code_feishu.png) |
+| Resmi WeChat Hesabı | Açık kaynak enerji yönetim sistemi | ![Açık kaynak enerji yönetim sistemi](./docs/images/qr_code_mp_weixin.png) |
+| WeChat Grubu | WeChat Grubu | ![WeChat Grubu](./docs/images/qr_code_wechat_group.png) |
+| QQ Grubu | 792528967 | ![QQ Grubu](./docs/images/qr_code_qq_group.png) |
+| Xiaohongshu | Xiaohongshu | ![Xiaohongshju](./docs/images/qr_code_xiaohongshu.png) |
 
 ## Videolar
 

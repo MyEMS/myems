@@ -189,32 +189,16 @@ Senha: !MyEMS1
 - LINE ID: myems
 - WhatsApp: https://wa.me/message/6HB55A46RVAJP1
 
-![WeChat: 13011132526](./docs/images/qr_code_wechat.png)
-
-![Line: MyEMS](./docs/images/qr_code_line.png)
-
-![WhatsAPP: MyEMS](./docs/images/qr_code_whatsapp.png)
-
-![Feishu: 13011132526](./docs/images/qr_code_feishu.png)
-
-## Conta oficial do WeChat
-
-![Sistema de gestão de energia de código aberto](./docs/images/qr_code_mp_weixin.png)
-
-
-## Grupo WeChat
-
-![Grupo WeChat](./docs/images/qr_code_wechat_group.png)
-
-## Grupo QQ
-
-Número do grupo: 792528967
-
-![Grupo QQ](./docs/images/qr_code_qq_group.png)
-
-## Xiaohongshu
-
-![Xiaohongshju](./docs/images/qr_code_xiaohongshu.png)
+| Platform | Description | QR Code |
+|----------|--------------|---------|
+| WeChat | 13011132526 | ![WeChat: 13011132526](./docs/images/qr_code_wechat.png) |
+| Line | MyEMS | ![Line: MyEMS](./docs/images/qr_code_line.png) |
+| WhatsApp | MyEMS | ![WhatsAPP: MyEMS](./docs/images/qr_code_whatsapp.png) |
+| Feishu | 13011132526 | ![Feishu: 13011132526](./docs/images/qr_code_feishu.png) |
+| Conta oficial do WeChat | Sistema de gestão de energia de código aberto | ![Sistema de gestão de energia de código aberto](./docs/images/qr_code_mp_weixin.png) |
+| Grupo WeChat | Grupo WeChat | ![Grupo WeChat](./docs/images/qr_code_wechat_group.png) |
+| Grupo QQ | 792528967 | ![Grupo QQ](./docs/images/qr_code_qq_group.png) |
+| Xiaohongshu | Xiaohongshu | ![Xiaohongshju](./docs/images/qr_code_xiaohongshu.png) |
 
 ## Vídeos
 

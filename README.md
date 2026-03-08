@@ -194,31 +194,16 @@ Password: !MyEMS1
 - LINE ID: myems
 - WhatsApp: https://wa.me/message/6HB55A46RVAJP1
 
-![WeChat: 13011132526](./docs/images/qr_code_wechat.png)
-
-![Line: MyEMS](./docs/images/qr_code_line.png)
-
-![WhatsAPP: MyEMS](./docs/images/qr_code_whatsapp.png)
-
-![Feishu: 13011132526](./docs/images/qr_code_feishu.png)
-
-## Weixin Official Subscription Account
-
-![Open Source Energy Management System](./docs/images/qr_code_mp_weixin.png)
-
-## WeChat Group
-
-![WeChat Group](./docs/images/qr_code_wechat_group.png)
-
-## QQ Group
-
-Group Number: 792528967
-
-![QQ Group 1](./docs/images/qr_code_qq_group.png)
-
-## Xiaohongshu
-
-![Xiaohongshju](./docs/images/qr_code_xiaohongshu.png)
+| Platform | Description | QR Code |
+|----------|--------------|---------|
+| WeChat | 13011132526 | ![WeChat: 13011132526](./docs/images/qr_code_wechat.png) |
+| Line | MyEMS | ![Line: MyEMS](./docs/images/qr_code_line.png) |
+| WhatsApp | MyEMS | ![WhatsAPP: MyEMS](./docs/images/qr_code_whatsapp.png) |
+| Feishu | 13011132526 | ![Feishu: 13011132526](./docs/images/qr_code_feishu.png) |
+| Weixin Official Subscription Account | Open Source Energy Management System | ![Open Source Energy Management System](./docs/images/qr_code_mp_weixin.png) |
+| WeChat Group | WeChat Group | ![WeChat Group](./docs/images/qr_code_wechat_group.png) |
+| QQ Group | 792528967 | ![QQ Group 1](./docs/images/qr_code_qq_group.png) |
+| Xiaohongshu | Xiaohongshu | ![Xiaohongshju](./docs/images/qr_code_xiaohongshu.png) |
 
 ## Videos
 
