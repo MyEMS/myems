@@ -175,7 +175,7 @@ Senha: !MyEMS1
 
 Web UI:
 
-Nome de usuário: administrator@myems.io
+Nome de usuário: administrator
 
 Senha: !MyEMS1
 

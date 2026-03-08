@@ -175,7 +175,7 @@ Password：!MyEMS1
 
 Interfaccia utente web:
 
-Nome utente：administrator@myems.io
+Nome utente：administrator
 
 Password：!MyEMS1
 

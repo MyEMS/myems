@@ -175,7 +175,7 @@ Admin UI:
 
 Web UI:
 
-اسم المستخدم: administrator@myems.io
+اسم المستخدم: administrator
 
 كلمة المرور: !MyEMS1
 

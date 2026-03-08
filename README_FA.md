@@ -168,7 +168,7 @@
 
 رابط کاربری وب:
 
-نام کاربری: administrator@myems.io
+نام کاربری: administrator
 
 رمز عبور: !MyEMS1
 

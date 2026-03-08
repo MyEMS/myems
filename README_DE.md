@@ -177,7 +177,7 @@ Passwort: !MyEMS1
 
 Web UI:
 
-Benutzername: administrator@myems.io
+Benutzername: administrator
 
 Passwort: !MyEMS1
 

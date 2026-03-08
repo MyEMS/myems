@@ -175,7 +175,7 @@ Kullanıcı adı: administrator
 
 Web UI:
 
-Kullanıcı adı: administrator@myems.io
+Kullanıcı adı: administrator
 
 Şifre: !MyEMS1
 

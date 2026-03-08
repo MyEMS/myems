@@ -175,7 +175,7 @@ Mật khẩu: !MyEMS1
 
 Web UI:
 
-Tên người dùng: administrator@myems.io
+Tên người dùng: administrator
 
 Mật khẩu: !MyEMS1
 

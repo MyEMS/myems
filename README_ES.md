@@ -175,7 +175,7 @@ Contraseña: !MyEMS1
 
 Web UI:
 
-Nombre de usuario: administrator@myems.io
+Nombre de usuario: administrator
 
 Contraseña: !MyEMS1
 

@@ -175,7 +175,7 @@ Admin UI:
 
 Web UI:
 
-ชื่อผู้ใช้: administrator@myems.io
+ชื่อผู้ใช้: administrator
 
 รหัสผ่าน: !MyEMS1
 
