@@ -189,32 +189,16 @@ Web UI:
 - LINE ID: myems
 - WhatsApp: https://wa.me/message/6HB55A46RVAJP1
 
-![WeChat: 13011132526](./docs/images/qr_code_wechat.png)
-
-![Line: MyEMS](./docs/images/qr_code_line.png)
-
-![WhatsAPP: MyEMS](./docs/images/qr_code_whatsapp.png)
-
-![Feishu: 13011132526](./docs/images/qr_code_feishu.png)
-
-## 公式WeChatアカウント
-
-![オープンソースエネルギー管理システム](./docs/images/qr_code_mp_weixin.png)
-
-
-## WeChatグループ
-
-![WeChatグループ](./docs/images/qr_code_wechat_group.png)
-
-## QQグループ
-
-グループ番号: 792528967
-
-![QQグループ](./docs/images/qr_code_qq_group.png)
-
-## 小紅書
-
-![Xiaohongshju](./docs/images/qr_code_xiaohongshu.png)
+| Platform | Description | QR Code |
+|----------|--------------|---------|
+| WeChat | 13011132526 | ![WeChat: 13011132526](./docs/images/qr_code_wechat.png) |
+| Line | MyEMS | ![Line: MyEMS](./docs/images/qr_code_line.png) |
+| WhatsApp | MyEMS | ![WhatsAPP: MyEMS](./docs/images/qr_code_whatsapp.png) |
+| Feishu | 13011132526 | ![Feishu: 13011132526](./docs/images/qr_code_feishu.png) |
+| 公式WeChatアカウント | オープンソースエネルギー管理システム | ![オープンソースエネルギー管理システム](./docs/images/qr_code_mp_weixin.png) |
+| WeChatグループ | WeChatグループ | ![WeChatグループ](./docs/images/qr_code_wechat_group.png) |
+| QQグループ | 792528967 | ![QQグループ](./docs/images/qr_code_qq_group.png) |
+| 小紅書 | 小紅書 | ![Xiaohongshju](./docs/images/qr_code_xiaohongshu.png) |
 
 ## 動画
 
