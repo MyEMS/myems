@@ -196,6 +196,7 @@ Kullanıcı adı: administrator
 | WhatsApp | MyEMS | ![WhatsAPP: MyEMS](./docs/images/qr_code_whatsapp.png) |
 | Feishu | 13011132526 | ![Feishu: 13011132526](./docs/images/qr_code_feishu.png) |
 | Resmi WeChat Hesabı | Açık kaynak enerji yönetim sistemi | ![Açık kaynak enerji yönetim sistemi](./docs/images/qr_code_mp_weixin.png) |
+| WeChat Channels | Açık Kaynak Enerji Yönetim Sistemi | ![Açık Kaynak Enerji Yönetim Sistemi](./docs/images/qr_code_wechat_channels.png) |
 | WeChat Grubu | WeChat Grubu | ![WeChat Grubu](./docs/images/qr_code_wechat_group.png) |
 | QQ Grubu | 792528967 | ![QQ Grubu](./docs/images/qr_code_qq_group.png) |
 | Xiaohongshu | Xiaohongshu | ![Xiaohongshju](./docs/images/qr_code_xiaohongshu.png) |

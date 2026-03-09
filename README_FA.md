@@ -189,6 +189,7 @@
 | WhatsApp | MyEMS | ![WhatsAPP: MyEMS](./docs/images/qr_code_whatsapp.png) |
 | Feishu | 13011132526 | ![Feishu: 13011132526](./docs/images/qr_code_feishu.png) |
 | حساب رسمی وی‌چت | سیستم مدیریت انرژی متن‌باز | ![سیستم مدیریت انرژی متن‌باز](./docs/images/qr_code_mp_weixin.png) |
+| کانال‌های ویت‌چت | سیستم مدیریت انرژی متن‌باز | ![سیستم مدیریت انرژی متن‌باز](./docs/images/qr_code_wechat_channels.png) |
 | گروه وی‌چت | گروه وی‌چت | ![گروه وی‌چت](./docs/images/qr_code_wechat_group.png) |
 | گروه QQ | 792528967 | ![گروه QQ](./docs/images/qr_code_qq_group.png) |
 | Xiaohongshu | Xiaohongshu | ![Xiaohongshju](./docs/images/qr_code_xiaohongshu.png) |

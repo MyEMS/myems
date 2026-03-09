@@ -191,6 +191,7 @@ Web UI:
 | WhatsApp | MyEMS | ![WhatsAPP: MyEMS](./docs/images/qr_code_whatsapp.png) |
 | Feishu | 13011132526 | ![Feishu: 13011132526](./docs/images/qr_code_feishu.png) |
 | 공식 WeChat 계정 | 오픈소스 에너지 관리 시스템 | ![오픈소스 에너지 관리 시스템](./docs/images/qr_code_mp_weixin.png) |
+| 위챗 채널 | 오픈 소스 에너지 관리 시스템 | ![오픈 소스 에너지 관리 시스템](./docs/images/qr_code_wechat_channels.png) |
 | WeChat 그룹 | WeChat 그룹 | ![WeChat 그룹](./docs/images/qr_code_wechat_group.png) |
 | QQ 그룹 | 792528967 | ![QQ 그룹](./docs/images/qr_code_qq_group.png) |
 | Xiaohongshu | Xiaohongshu (소셜 미디어) | ![Xiaohongshu](./docs/images/qr_code_xiaohongshu.png) |

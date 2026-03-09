@@ -196,6 +196,7 @@ Mật khẩu: !MyEMS1
 | WhatsApp | MyEMS | ![WhatsAPP: MyEMS](./docs/images/qr_code_whatsapp.png) |
 | Feishu | 13011132526 | ![Feishu: 13011132526](./docs/images/qr_code_feishu.png) |
 | Tài khoản WeChat chính thức | Hệ thống quản lý năng lượng mã nguồn mở | ![Hệ thống quản lý năng lượng mã nguồn mở](./docs/images/qr_code_mp_weixin.png) |
+| Kênh WeChat | Hệ thống Quản lý Năng lượng Mã nguồn Mở | ![Hệ thống Quản lý Năng lượng Mã nguồn Mở](./docs/images/qr_code_wechat_channels.png) |
 | Nhóm WeChat | Nhóm WeChat | ![Nhóm WeChat](./docs/images/qr_code_wechat_group.png) |
 | Nhóm QQ | 792528967 | ![Nhóm QQ](./docs/images/qr_code_qq_group.png) |
 | Xiaohongshu | Xiaohongshu | ![Xiaohongshju](./docs/images/qr_code_xiaohongshu.png) |
