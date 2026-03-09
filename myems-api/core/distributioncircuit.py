@@ -446,7 +446,6 @@ class DistributionCircuitItem:
                                " FROM tbl_distribution_circuits "
                                " WHERE id = %s ", (id_,))
                 row = cursor.fetchone()
-                # old_distribution_system_id = row[0] if row else None # Variable unused in original logic
 
                 update_row = (" UPDATE tbl_distribution_circuits "
                               " SET name = %s, distribution_system_id = %s, distribution_room = %s, switchgear = %s, "
@@ -589,7 +588,6 @@ class DistributionCircuitPointCollection:
                 if row is None:
                     raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                            description='API.DISTRIBUTION_CIRCUIT_NOT_FOUND')
-                # distribution_system_id = row[1] # Variable unused in original logic
 
                 cursor.execute(" SELECT name "
                                " FROM tbl_points "
@@ -658,7 +656,6 @@ class DistributionCircuitPointItem:
                 if row is None:
                     raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                            description='API.DISTRIBUTION_CIRCUIT_NOT_FOUND')
-                # distribution_system_id = row[1] # Variable unused in original logic
 
                 cursor.execute(" SELECT name "
                                " FROM tbl_points "
