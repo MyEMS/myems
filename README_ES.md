@@ -196,6 +196,7 @@ Contraseña: !MyEMS1
 | WhatsApp | MyEMS | ![WhatsAPP: MyEMS](./docs/images/qr_code_whatsapp.png) |
 | Feishu | 13011132526 | ![Feishu: 13011132526](./docs/images/qr_code_feishu.png) |
 | Cuenta oficial de WeChat | Sistema de gestión de energía de código abierto | ![Sistema de gestión de energía de código abierto](./docs/images/qr_code_mp_weixin.png) |
+| WeChat Channels | Sistema de Gestión de Energía de Código Abierto | ![Sistema de Gestión de Energía de Código Abierto](./docs/images/qr_code_wechat_channels.png) |
 | Grupo WeChat | Grupo WeChat | ![Grupo WeChat](./docs/images/qr_code_wechat_group.png) |
 | Grupo QQ | 792528967 | ![Grupo QQ](./docs/images/qr_code_qq_group.png) |
 | Xiaohongshu | Xiaohongshu | ![Xiaohongshju](./docs/images/qr_code_xiaohongshu.png) |

@@ -196,6 +196,7 @@ Wachtwoord: !MyEMS1
 | WhatsApp | MyEMS | ![WhatsAPP: MyEMS](./docs/images/qr_code_whatsapp.png) |
 | Feishu | 13011132526 | ![Feishu: 13011132526](./docs/images/qr_code_feishu.png) |
 | WeChat Openbare Account | Open Source Energiebeheersysteem | ![Open Source Energiebeheersysteem](./docs/images/qr_code_mp_weixin.png) |
+| WeChat Channels | Open Source Energiemanagementsysteem | ![Open Source Energiemanagementsysteem](./docs/images/qr_code_wechat_channels.png) |
 | WeChat Groep | WeChat Groep | ![WeChat Groep](./docs/images/qr_code_wechat_group.png) |
 | QQ Groep | 792528967 | ![QQ Groep](./docs/images/qr_code_qq_group.png) |
 | Xiaohongshu | Xiaohongshu | ![Xiaohongshu](./docs/images/qr_code_xiaohongshu.png) |

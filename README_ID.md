@@ -195,6 +195,7 @@ Kata sandi: !MyEMS1
 | WhatsApp | MyEMS | ![WhatsAPP: MyEMS](./docs/images/qr_code_whatsapp.png) |
 | Feishu | 13011132526 | ![Feishu: 13011132526](./docs/images/qr_code_feishu.png) |
 | Akun resmi WeChat | Sistem manajemen energi open source | ![Sistem manajemen energi open source](./docs/images/qr_code_mp_weixin.png) |
+| WeChat Channels | Sistem Manajemen Energi Sumber Terbuka | ![Sistem Manajemen Energi Sumber Terbuka](./docs/images/qr_code_wechat_channels.png) |
 | Grup WeChat | Grup WeChat | ![Grup WeChat](./docs/images/qr_code_wechat_group.png) |
 | Grup QQ | 792528967 | ![Grup QQ](./docs/images/qr_code_qq_group.png) |
 | Xiaohongshu | Xiaohongshu | ![Xiaohongshju](./docs/images/qr_code_xiaohongshu.png) |

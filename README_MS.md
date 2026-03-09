@@ -196,6 +196,7 @@ Kata laluan: !MyEMS1
 | WhatsApp | MyEMS | ![WhatsAPP: MyEMS](./docs/images/qr_code_whatsapp.png) |
 | Feishu | 13011132526 | ![Feishu: 13011132526](./docs/images/qr_code_feishu.png) |
 | Akaun rasmi WeChat | Sistem pengurusan tenaga sumber terbuka | ![Sistem pengurusan tenaga sumber terbuka](./docs/images/qr_code_mp_weixin.png) |
+| WeChat Channels | Sistem Pengurusan Tenaga Sumber Terbuka | ![Sistem Pengurusan Tenaga Sumber Terbuka](./docs/images/qr_code_wechat_channels.png) |
 | Kumpulan WeChat | Kumpulan WeChat | ![Kumpulan WeChat](./docs/images/qr_code_wechat_group.png) |
 | Kumpulan QQ | 792528967 | ![Kumpulan QQ](./docs/images/qr_code_qq_group.png) |
 | Xiaohongshu | Xiaohongshu | ![Xiaohongshju](./docs/images/qr_code_xiaohongshu.png) |
