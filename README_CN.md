@@ -191,8 +191,8 @@ Web UI:
 
 | Platform | Description | QR Code |
 |----------|--------------|---------|
-| WeChat | 13011132526 | ![WeChat: 13011132526](./docs/images/qr_code_wechat.png) |
-| Line | MyEMS | ![Line: MyEMS](./docs/images/qr_code_line.png) |
+| 微信 | 13011132526 | ![WeChat: 13011132526](./docs/images/qr_code_wechat.png) |
+| Line | myems | ![Line: MyEMS](./docs/images/qr_code_line.png) |
 | WhatsApp | MyEMS | ![WhatsAPP: MyEMS](./docs/images/qr_code_whatsapp.png) |
 | 飞书 | 13011132526 | ![Feishu: 13011132526](./docs/images/qr_code_feishu.png) |
 | 微信公众号 | 开源能源管理系统 | ![开源能源管理系统](./docs/images/qr_code_mp_weixin.png) |
