@@ -239,6 +239,7 @@ const EquipmentEfficiency = ({ setRedirect, setRedirectUrl, t }) => {
             borderWidth: 2,
             borderDash: [5, 5],
             pointRadius: 3,
+            pointHitRadius: 6,
             pointHoverRadius: 5,
             pointHoverBorderWidth: 2,
             pointBorderColor: '#e63757',
@@ -249,6 +250,7 @@ const EquipmentEfficiency = ({ setRedirect, setRedirectUrl, t }) => {
             fill: false,
             order: 0,
             _efficiencyIndicator: true,
+            _efficiencyIndicatorLabels: equipmentReportingLabelsRef.current?.[currentOption] || [],
             datalabels: {
               display: false
             }
@@ -302,26 +304,64 @@ const EquipmentEfficiency = ({ setRedirect, setRedirectUrl, t }) => {
         }
       }
 
-      if (!chart._efficiencyIndicatorTooltipWrapped) {
-        const originalTooltipLabel = chart.options.plugins.tooltip.callbacks.label;
-        const originalTooltipTitle = chart.options.plugins.tooltip.callbacks.title;
-        const originalTooltipFilter = chart.options.plugins.tooltip.filter;
-        
-        chart.options.plugins.tooltip.filter = function(context) {
-          if (originalTooltipFilter) {
-            return originalTooltipFilter.call(this, context);
+      const tooltip = chart.options?.plugins?.tooltip;
+      if (tooltip && tooltip.callbacks) {
+        const currentLabelCb = tooltip.callbacks.label;
+        const currentTitleCb = tooltip.callbacks.title;
+        const currentFilter = tooltip.filter;
+        const currentItemSort = tooltip.itemSort;
+
+        if (typeof currentLabelCb === 'function' && currentLabelCb._efficiencyIndicatorWrapped !== true) {
+          chart._efficiencyIndicatorOriginalTooltipLabel = currentLabelCb;
+        }
+        if (typeof currentTitleCb === 'function' && currentTitleCb._efficiencyIndicatorWrapped !== true) {
+          chart._efficiencyIndicatorOriginalTooltipTitle = currentTitleCb;
+        }
+        if (typeof currentFilter === 'function' && currentFilter._efficiencyIndicatorWrapped !== true) {
+          chart._efficiencyIndicatorOriginalTooltipFilter = currentFilter;
+        }
+        if (typeof currentItemSort === 'function' && currentItemSort._efficiencyIndicatorWrapped !== true) {
+          chart._efficiencyIndicatorOriginalTooltipItemSort = currentItemSort;
+        }
+
+        const baseLabel = chart._efficiencyIndicatorOriginalTooltipLabel;
+        const baseTitle = chart._efficiencyIndicatorOriginalTooltipTitle;
+        const baseFilter = chart._efficiencyIndicatorOriginalTooltipFilter;
+        const baseItemSort = chart._efficiencyIndicatorOriginalTooltipItemSort;
+
+        const wrappedFilter = function(context) {
+          if (baseFilter) {
+            return baseFilter.call(this, context);
           }
           return true;
         };
-        
-        chart.options.plugins.tooltip.callbacks.label = function(context) {
+        wrappedFilter._efficiencyIndicatorWrapped = true;
+        tooltip.filter = wrappedFilter;
+
+        const wrappedItemSort = function(a, b) {
+          const aIsIndicator = a && a.dataset && a.dataset._efficiencyIndicator;
+          const bIsIndicator = b && b.dataset && b.dataset._efficiencyIndicator;
+          if (aIsIndicator && !bIsIndicator) {
+            return 1;
+          }
+          if (!aIsIndicator && bIsIndicator) {
+            return -1;
+          }
+          if (baseItemSort) {
+            return baseItemSort.call(this, a, b);
+          }
+          return 0;
+        };
+        wrappedItemSort._efficiencyIndicatorWrapped = true;
+        tooltip.itemSort = wrappedItemSort;
+
+        const wrappedLabel = function(context) {
           if (!context || !context.dataset) {
-            if (originalTooltipLabel) {
-              return originalTooltipLabel.call(this, context);
+            if (baseLabel) {
+              return baseLabel.call(this, context);
             }
             return '';
           }
-          
           if (context.dataset._efficiencyIndicator) {
             let rawIndicator = Number(context.raw);
             if (context.raw != null && !isNaN(rawIndicator)) {
@@ -331,38 +371,26 @@ const EquipmentEfficiency = ({ setRedirect, setRedirectUrl, t }) => {
             }
             return t('Equipment Efficiency Indicator') + ' - ' + rawIndicator;
           }
-          
-          if (originalTooltipLabel) {
-            return originalTooltipLabel.call(this, context);
+          if (baseLabel) {
+            return baseLabel.call(this, context);
           }
           return '';
         };
+        wrappedLabel._efficiencyIndicatorWrapped = true;
+        tooltip.callbacks.label = wrappedLabel;
 
-        chart.options.plugins.tooltip.callbacks.title = function(context) {
+        const wrappedTitle = function(context) {
           if (!context || !Array.isArray(context) || context.length === 0) {
-            if (originalTooltipTitle) {
-              const result = originalTooltipTitle.call(this, context);
-              return Array.isArray(result) ? result : (result ? [result] : []);
-            }
             return [];
           }
-          
-          const efficiencyIndicatorContext = context.find(ctx => ctx && ctx.dataset && ctx.dataset._efficiencyIndicator);
-          if (efficiencyIndicatorContext) {
-            const dataIndex = efficiencyIndicatorContext.dataIndex;
-            if (chart.data && chart.data.labels && dataIndex >= 0 && chart.data.labels[dataIndex] != null) {
-              return [chart.data.labels[dataIndex]];
-            }
-          }
-          
-          if (originalTooltipTitle) {
-            const result = originalTooltipTitle.call(this, context);
+          if (baseTitle) {
+            const result = baseTitle.call(this, context);
             return Array.isArray(result) ? result : (result ? [result] : []);
           }
           return [];
         };
-
-        chart._efficiencyIndicatorTooltipWrapped = true;
+        wrappedTitle._efficiencyIndicatorWrapped = true;
+        tooltip.callbacks.title = wrappedTitle;
       }
       
       chart.update('none');
