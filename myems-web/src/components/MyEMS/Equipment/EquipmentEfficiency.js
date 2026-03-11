@@ -1,4 +1,5 @@
-import React, { Fragment, useEffect, useState, useContext, useRef, useCallback } from 'react';
+import React, { Fragment, useEffect, useState, useContext, useRef } from 'react';
+import { Chart as ChartJS } from 'chart.js';
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -34,19 +35,6 @@ import { endOfDay } from 'date-fns';
 import AppContext from '../../../context/Context';
 import MultipleLineChart from '../common/MultipleLineChart';
 import blankPage from '../../../assets/img/generic/blank-page.png';
-import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  Tooltip,
-  Legend
-} from 'chart.js';
-import { Chart } from 'react-chartjs-2';
-
-ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Tooltip, Legend);
-
 const DetailedDataTable = loadable(() => import('../common/DetailedDataTable'));
 
 const EquipmentEfficiency = ({ setRedirect, setRedirectUrl, t }) => {
@@ -161,68 +149,241 @@ const EquipmentEfficiency = ({ setRedirect, setRedirectUrl, t }) => {
   ]);
   const [excelBytesBase64, setExcelBytesBase64] = useState(undefined);
   const [equipmentEfficiencyIndicator, setEquipmentEfficiencyIndicator] = useState(null);
-  const [efficiencyIndicatorData, setEfficiencyIndicatorData] = useState({ labels: [], data: [] });
-  const efficiencyIndicatorChartRef = useRef(null);
-  const multiTrendChartContainerRef = useRef(null);
-  const [yAxisRange, setYAxisRange] = useState({ min: 0, max: 15 });
-
-  const syncOverlayChartAxes = useCallback((overlayChart) => {
-    try {
-      const baseChartCanvas = multiTrendChartContainerRef.current?.querySelector('canvas');
-      if (baseChartCanvas && baseChartCanvas.chart && baseChartCanvas.chart.scales && overlayChart && overlayChart.scales) {
-        const baseChart = baseChartCanvas.chart;
-        if (overlayChart.scales.y && baseChart.scales.y) {
-          const overlayYScale = overlayChart.scales.y;
-          const baseYScale = baseChart.scales.y;
-          overlayYScale.min = baseYScale.min;
-          overlayYScale.max = baseYScale.max;
-          overlayYScale.top = baseYScale.top;
-          overlayYScale.bottom = baseYScale.bottom;
-          overlayYScale.left = baseYScale.left;
-          overlayYScale.right = baseYScale.right;
-          overlayYScale.width = baseYScale.width;
-          overlayYScale.height = baseYScale.height;
-        }
-        if (overlayChart.scales.x && baseChart.scales.x) {
-          const overlayXScale = overlayChart.scales.x;
-          const baseXScale = baseChart.scales.x;
-          overlayXScale.min = baseXScale.min;
-          overlayXScale.max = baseXScale.max;
-          overlayXScale.top = baseXScale.top;
-          overlayXScale.bottom = baseXScale.bottom;
-          overlayXScale.left = baseXScale.left;
-          overlayXScale.right = baseXScale.right;
-          overlayXScale.width = baseXScale.width;
-          overlayXScale.height = baseXScale.height;
-        }
-        overlayChart.update('none');
-      }
-    } catch (e) {
-      console.error('Error syncing axes:', e);
-    }
-  }, []);
+  const [efficiencyIndicatorSeries, setEfficiencyIndicatorSeries] = useState({});
+  const chartContainerRef = useRef(null);
+  const efficiencyIndicatorSeriesRef = useRef({});
+  const equipmentReportingLabelsRef = useRef({});
+  const targetCanvasRef = useRef(null);
+  const isUpdatingRef = useRef(false);
 
   useEffect(() => {
-    const syncAxes = () => {
-      if (
-        multiTrendChartContainerRef.current &&
-        efficiencyIndicatorChartRef.current &&
-        equipmentEfficiencyIndicator !== null
-      ) {
-        const overlayChart = efficiencyIndicatorChartRef.current;
-        if (overlayChart && overlayChart.chartInstance) {
-          syncOverlayChartAxes(overlayChart.chartInstance);
+    if (!equipmentEfficiencyIndicator || Object.keys(efficiencyIndicatorSeriesRef.current).length === 0) {
+      return;
+    }
+
+    const efficiencyIndicatorPluginId = 'equipmentEfficiencyIndicatorPlugin';
+
+    const efficiencyIndicatorPlugin = {
+      id: efficiencyIndicatorPluginId,
+      beforeUpdate: (chart) => {
+        if (isUpdatingRef.current) {
+          return;
+        }
+
+        if (targetCanvasRef.current && chart.canvas !== targetCanvasRef.current) {
+          return;
+        }
+
+        if (!chart.data || !chart.data.labels || chart.data.labels.length === 0) {
+          return;
+        }
+
+        if (chart.data.datasets.length < 3) {
+          return;
+        }
+
+        const currentSeries = efficiencyIndicatorSeriesRef.current;
+        const currentLabels = equipmentReportingLabelsRef.current;
+        
+        if (!currentSeries || Object.keys(currentSeries).length === 0) {
+          return;
+        }
+
+        const chartLabels = chart.data.labels;
+        let currentOption = null;
+        
+        for (const key of Object.keys(currentSeries)) {
+          const seriesData = currentSeries[key];
+          if (!seriesData || seriesData.length !== chartLabels.length) {
+            continue;
+          }
+          const reportingLabels = currentLabels[key];
+          if (!reportingLabels || reportingLabels.length !== chartLabels.length) {
+            continue;
+          }
+          if (reportingLabels.length > 0 && chartLabels.length > 0) {
+            if (reportingLabels[0] === chartLabels[0] && 
+                reportingLabels[reportingLabels.length - 1] === chartLabels[chartLabels.length - 1]) {
+              currentOption = key;
+              break;
+            }
+          }
+        }
+
+        const existingIndicatorIndex = chart.data.datasets.findIndex(
+          ds => ds._efficiencyIndicator === true
+        );
+
+        if (!currentOption || !currentSeries[currentOption]) {
+          if (existingIndicatorIndex >= 0) {
+            isUpdatingRef.current = true;
+            chart.data.datasets.splice(existingIndicatorIndex, 1);
+            isUpdatingRef.current = false;
+          }
+          return;
+        }
+
+        const indicatorData = currentSeries[currentOption];
+        const needsUpdate = existingIndicatorIndex < 0 || 
+          JSON.stringify(chart.data.datasets[existingIndicatorIndex].data) !== JSON.stringify(indicatorData);
+
+        if (needsUpdate) {
+          isUpdatingRef.current = true;
+          const indicatorDataset = {
+            label: '',
+            data: [...indicatorData],
+            borderColor: '#e63757',
+            backgroundColor: 'transparent',
+            type: 'line',
+            yAxisID: 'y',
+            borderWidth: 2,
+            borderDash: [5, 5],
+            pointRadius: 3,
+            pointHoverRadius: 5,
+            pointHoverBorderWidth: 2,
+            pointBorderColor: '#e63757',
+            pointBackgroundColor: '#fff',
+            pointHoverBorderColor: '#e63757',
+            pointHoverBackgroundColor: '#fff',
+            tension: 0.4,
+            fill: false,
+            order: 0,
+            _efficiencyIndicator: true,
+            datalabels: {
+              display: false
+            }
+          };
+
+          if (existingIndicatorIndex >= 0) {
+            Object.assign(chart.data.datasets[existingIndicatorIndex], indicatorDataset);
+          } else {
+            chart.data.datasets.splice(1, 0, indicatorDataset);
+          }
+          isUpdatingRef.current = false;
         }
       }
     };
-    
-    const timer = setTimeout(syncAxes, 200);
-    const interval = setInterval(syncAxes, 500);
-    return () => {
-      clearTimeout(timer);
-      clearInterval(interval);
+
+    const setupChart = () => {
+      const cardElement = chartContainerRef.current?.querySelector('.card');
+      if (!cardElement) {
+        return;
+      }
+
+      const canvas = cardElement.querySelector('canvas');
+      if (!canvas) {
+        return;
+      }
+
+      let chart = null;
+      try {
+        chart = ChartJS.getChart(canvas);
+      } catch (e) {
+        if (canvas.chart) {
+          chart = canvas.chart;
+        }
+      }
+
+      if (!chart) {
+        return;
+      }
+
+      if (Object.keys(efficiencyIndicatorSeriesRef.current).length === 0) {
+        return;
+      }
+
+      targetCanvasRef.current = canvas;
+
+      if (!chart._efficiencyIndicatorPluginRegistered) {
+        try {
+          ChartJS.register(efficiencyIndicatorPlugin);
+          chart._efficiencyIndicatorPluginRegistered = true;
+        } catch (e) {
+        }
+      }
+
+      if (!chart._efficiencyIndicatorTooltipWrapped) {
+        const originalTooltipLabel = chart.options.plugins.tooltip.callbacks.label;
+        const originalTooltipTitle = chart.options.plugins.tooltip.callbacks.title;
+        const originalTooltipFilter = chart.options.plugins.tooltip.filter;
+        
+        chart.options.plugins.tooltip.filter = function(context) {
+          if (originalTooltipFilter) {
+            return originalTooltipFilter.call(this, context);
+          }
+          return true;
+        };
+        
+        chart.options.plugins.tooltip.callbacks.label = function(context) {
+          if (!context || !context.dataset) {
+            if (originalTooltipLabel) {
+              return originalTooltipLabel.call(this, context);
+            }
+            return '';
+          }
+          
+          if (context.dataset._efficiencyIndicator) {
+            let rawIndicator = Number(context.raw);
+            if (context.raw != null && !isNaN(rawIndicator)) {
+              rawIndicator = rawIndicator.toFixed(4);
+            } else {
+              rawIndicator = '0.0000';
+            }
+            return t('Equipment Efficiency Indicator') + ' - ' + rawIndicator;
+          }
+          
+          if (originalTooltipLabel) {
+            return originalTooltipLabel.call(this, context);
+          }
+          return '';
+        };
+
+        chart.options.plugins.tooltip.callbacks.title = function(context) {
+          if (!context || !Array.isArray(context) || context.length === 0) {
+            if (originalTooltipTitle) {
+              const result = originalTooltipTitle.call(this, context);
+              return Array.isArray(result) ? result : (result ? [result] : []);
+            }
+            return [];
+          }
+          
+          const efficiencyIndicatorContext = context.find(ctx => ctx && ctx.dataset && ctx.dataset._efficiencyIndicator);
+          if (efficiencyIndicatorContext) {
+            const dataIndex = efficiencyIndicatorContext.dataIndex;
+            if (chart.data && chart.data.labels && dataIndex >= 0 && chart.data.labels[dataIndex] != null) {
+              return [chart.data.labels[dataIndex]];
+            }
+          }
+          
+          if (originalTooltipTitle) {
+            const result = originalTooltipTitle.call(this, context);
+            return Array.isArray(result) ? result : (result ? [result] : []);
+          }
+          return [];
+        };
+
+        chart._efficiencyIndicatorTooltipWrapped = true;
+      }
+      
+      chart.update('none');
     };
-  }, [equipmentReportingLabels, equipmentEfficiencyIndicator, equipmentReportingData, equipmentBaseData, syncOverlayChartAxes]);
+
+    const timer1 = setTimeout(setupChart, 500);
+    const timer2 = setTimeout(setupChart, 1000);
+    const timer3 = setTimeout(setupChart, 2000);
+    const interval = setInterval(setupChart, 3000);
+
+    return () => {
+      clearTimeout(timer1);
+      clearTimeout(timer2);
+      clearTimeout(timer3);
+      clearInterval(interval);
+      try {
+        ChartJS.unregister(efficiencyIndicatorPlugin);
+      } catch (e) {
+      }
+    };
+  }, [equipmentEfficiencyIndicator, efficiencyIndicatorSeries, equipmentReportingLabels, t]);
 
   useEffect(() => {
     let isResponseOK = false;
@@ -704,46 +865,24 @@ const EquipmentEfficiency = ({ setRedirect, setRedirectUrl, t }) => {
           });
           setEquipmentReportingSubtotals(reporting_subtotals);
 
-          let allValues = [];
-          Object.values(reporting_values).forEach(arr => {
-            if (Array.isArray(arr)) {
-              arr.forEach(val => {
-                if (val != null && !isNaN(val)) {
-                  allValues.push(val);
-                }
-              });
-            }
-          });
-          Object.values(base_values).forEach(arr => {
-            if (Array.isArray(arr)) {
-              arr.forEach(val => {
-                if (val != null && !isNaN(val)) {
-                  allValues.push(val);
-                }
-              });
-            }
-          });
-          
+          let indicatorSeries = {};
           if (
             json['equipment'] &&
             json['equipment']['efficiency_indicator'] !== undefined
           ) {
             const indicatorValue = json['equipment']['efficiency_indicator'];
-            if (indicatorValue != null && !isNaN(indicatorValue)) {
-              allValues.push(parseFloat(indicatorValue));
-            }
+            Object.keys(reporting_timestamps).forEach(key => {
+              const ts = reporting_timestamps[key] || [];
+              indicatorSeries[key] = ts.map(() =>
+                indicatorValue != null && !isNaN(indicatorValue)
+                  ? parseFloat(indicatorValue)
+                  : null
+              );
+            });
           }
-          
-          let yMin = 0;
-          let yMax = 15;
-          if (allValues.length > 0) {
-            yMin = Math.min(...allValues);
-            yMax = Math.max(...allValues);
-            const padding = (yMax - yMin) * 0.1;
-            yMin = Math.max(0, yMin - padding);
-            yMax = yMax + padding;
-          }
-          setYAxisRange({ min: yMin, max: yMax });
+          setEfficiencyIndicatorSeries(indicatorSeries);
+          efficiencyIndicatorSeriesRef.current = indicatorSeries;
+          equipmentReportingLabelsRef.current = reporting_timestamps;
 
           let rates = {};
           json['reporting_period_efficiency']['rates'].forEach((currentValue, index) => {
@@ -768,26 +907,6 @@ const EquipmentEfficiency = ({ setRedirect, setRedirectUrl, t }) => {
             rates['c' + index] = currentRate;
           });
           setEquipmentReportingRates(rates);
-
-          if (
-            json['equipment'] &&
-            json['equipment']['efficiency_indicator'] !== undefined &&
-            json['reporting_period_efficiency']['timestamps'] &&
-            json['reporting_period_efficiency']['timestamps'].length > 0 &&
-            json['reporting_period_efficiency']['timestamps'][0]
-          ) {
-            const indicatorValue = json['equipment']['efficiency_indicator'];
-            const timestamps = json['reporting_period_efficiency']['timestamps'][0];
-            const indicatorData = timestamps.map(() => {
-              return indicatorValue != null ? parseFloat(indicatorValue) : 0;
-            });
-            setEfficiencyIndicatorData({
-              labels: timestamps,
-              data: indicatorData
-            });
-          } else {
-            setEfficiencyIndicatorData({ labels: [], data: [] });
-          }
 
           let options = [];
           json['reporting_period_efficiency']['names'].forEach((currentValue, index) => {
@@ -1434,222 +1553,43 @@ const EquipmentEfficiency = ({ setRedirect, setRedirectUrl, t }) => {
           )}
         </div>
 
-        <div 
-          style={{ position: 'relative' }}
-          onMouseMove={(e) => {
-            const overlayDiv = e.currentTarget.querySelector('[data-efficiency-indicator-overlay]');
-            const canvas = overlayDiv?.querySelector('canvas');
-            if (canvas && efficiencyIndicatorChartRef.current && equipmentEfficiencyIndicator !== null) {
-              const chart = efficiencyIndicatorChartRef.current;
-              const rect = canvas.getBoundingClientRect();
-              const y = e.clientY - rect.top;
-              
-              const chartInstance = chart.chartInstance || chart;
-              if (chartInstance && chartInstance.scales && chartInstance.scales.y) {
-                const yScale = chartInstance.scales.y;
-                const indicatorY = yScale.getPixelForValue(equipmentEfficiencyIndicator);
-                const tolerance = 15;
-                
-                if (Math.abs(y - indicatorY) < tolerance) {
-                  canvas.style.pointerEvents = 'auto';
-                } else {
-                  canvas.style.pointerEvents = 'none';
-                }
-              }
-            }
-          }}
-          onMouseLeave={(e) => {
-            const overlayDiv = e.currentTarget.querySelector('[data-efficiency-indicator-overlay]');
-            const canvas = overlayDiv?.querySelector('canvas');
-            if (canvas) {
-              canvas.style.pointerEvents = 'none';
-            }
-          }}
-        >
+        <div ref={chartContainerRef}>
           <MultiTrendChart
-            reportingTitle={{
-              name: 'Reporting Period Cumulative Efficiency NAME VALUE UNIT',
-              substitute: ['NAME', 'VALUE', 'UNIT'],
-              NAME: equipmentBaseAndReportingNames,
-              VALUE: equipmentReportingSubtotals,
-              UNIT: equipmentBaseAndReportingUnits
-            }}
-            baseTitle={{
-              name: 'Base Period Cumulative Efficiency NAME VALUE UNIT',
-              substitute: ['NAME', 'VALUE', 'UNIT'],
-              NAME: equipmentBaseAndReportingNames,
-              VALUE: equipmentBaseSubtotals,
-              UNIT: equipmentBaseAndReportingUnits
-            }}
-            reportingTooltipTitle={{
-              name: 'Reporting Period Cumulative Efficiency NAME VALUE UNIT',
-              substitute: ['NAME', 'VALUE', 'UNIT'],
-              NAME: equipmentBaseAndReportingNames,
-              VALUE: null,
-              UNIT: equipmentBaseAndReportingUnits
-            }}
-            baseTooltipTitle={{
-              name: 'Base Period Cumulative Efficiency NAME VALUE UNIT',
-              substitute: ['NAME', 'VALUE', 'UNIT'],
-              NAME: equipmentBaseAndReportingNames,
-              VALUE: null,
-              UNIT: equipmentBaseAndReportingUnits
-            }}
-            reportingLabels={equipmentReportingLabels}
-            reportingData={equipmentReportingData}
-            baseLabels={equipmentBaseLabels}
-            baseData={equipmentBaseData}
-            rates={equipmentReportingRates}
-            options={equipmentReportingOptions}
-            referenceLine={equipmentEfficiencyIndicator}
-          />
-          {efficiencyIndicatorData.labels.length > 0 && equipmentEfficiencyIndicator !== null && (
-            <div
-              data-efficiency-indicator-overlay
-              style={{
-                position: 'absolute',
-                top: 0,
-                left: 0,
-                right: 0,
-                bottom: 0,
-                pointerEvents: 'none',
-                zIndex: 10,
-                overflow: 'hidden'
-              }}
-            >
-              <Chart
-                ref={efficiencyIndicatorChartRef}
-                type="line"
-                data={{
-                  labels: equipmentReportingLabels['a0'] && equipmentReportingLabels['a0'].length > 0
-                    ? equipmentReportingLabels['a0']
-                    : efficiencyIndicatorData.labels,
-                    datasets: [
-                    {
-                      label: t('Equipment Efficiency Indicator'),
-                      data: efficiencyIndicatorData.data,
-                      borderColor: '#e63757',
-                      backgroundColor: 'transparent',
-                      borderWidth: 2,
-                      borderDash: [5, 5],
-                      type: 'line',
-                      yAxisID: 'y',
-                      pointRadius: 3,
-                      pointHoverRadius: 5,
-                      pointHoverBorderWidth: 2,
-                      pointBorderColor: '#e63757',
-                      pointBackgroundColor: '#fff',
-                      pointHoverBorderColor: '#e63757',
-                      pointHoverBackgroundColor: '#fff',
-                      tension: 0.4,
-                      fill: false,
-                      clip: false,
-                      tooltip: {
-                        callbacks: {
-                          label: function(context) {
-                            const value = parseFloat(context.raw);
-                            return t('Equipment Efficiency Indicator') + ' - ' + value.toFixed(4);
-                          }
-                        }
-                      }
-                    }
-                  ]
-                }}
-                options={{
-                  responsive: true,
-                  maintainAspectRatio: false,
-                  layout: {
-                    padding: {
-                      left: 0,
-                      right: 0,
-                      top: 0,
-                      bottom: 0
-                    }
-                  },
-                  animation: false,
-                  interaction: {
-                    intersect: false,
-                    mode: 'index'
-                  },
-                  onResize: function(chart) {
-                    syncOverlayChartAxes(chart);
-                  },
-                  plugins: {
-                    legend: {
-                      display: false
-                    },
-                    tooltip: {
-                      enabled: true,
-                      displayColors: false,
-                      backgroundColor: isDark ? 'rgba(0, 0, 0, 0.8)' : 'rgba(255, 255, 255, 0.9)',
-                      titleColor: isDark ? '#fff' : '#000',
-                      bodyColor: isDark ? '#fff' : '#000',
-                      borderColor: '#e63757',
-                      borderWidth: 1,
-                      padding: 12,
-                      callbacks: {
-                        title: function(context) {
-                          if (context && context.length > 0 && context[0].label) {
-                            return context[0].label;
-                          }
-                          return '';
-                        },
-                        label: function(context) {
-                          const value = parseFloat(context.parsed.y);
-                          return t('Equipment Efficiency Indicator') + ' - ' + value.toFixed(4);
-                        },
-                        labelTextColor: function() {
-                          return isDark ? '#fff' : '#000';
-                        }
-                      }
-                    }
-                  },
-                  scales: {
-                    x: {
-                      type: 'category',
-                      display: false,
-                      grid: {
-                        display: false,
-                        drawBorder: false
-                      },
-                      ticks: {
-                        display: false
-                      },
-                      offset: false,
-                      bounds: 'ticks'
-                    },
-                    y: {
-                      display: false,
-                      grid: {
-                        display: false,
-                        drawBorder: false
-                      },
-                      ticks: {
-                        display: false
-                      },
-                      position: 'left',
-                      beginAtZero: false,
-                      min: yAxisRange.min,
-                      max: yAxisRange.max,
-                      alignToPixels: true,
-                      bounds: 'ticks'
-                    }
-                  },
-                  elements: {
-                    point: {
-                      hoverRadius: 5,
-                      hoverBorderWidth: 2
-                    },
-                    line: {
-                      borderCapStyle: 'round'
-                    }
-                  }
-                }}
-                width={1618}
-                height={218}
-              />
-            </div>
-          )}
+          reportingTitle={{
+            name: 'Reporting Period Cumulative Efficiency NAME VALUE UNIT',
+            substitute: ['NAME', 'VALUE', 'UNIT'],
+            NAME: equipmentBaseAndReportingNames,
+            VALUE: equipmentReportingSubtotals,
+            UNIT: equipmentBaseAndReportingUnits
+          }}
+          baseTitle={{
+            name: 'Base Period Cumulative Efficiency NAME VALUE UNIT',
+            substitute: ['NAME', 'VALUE', 'UNIT'],
+            NAME: equipmentBaseAndReportingNames,
+            VALUE: equipmentBaseSubtotals,
+            UNIT: equipmentBaseAndReportingUnits
+          }}
+          reportingTooltipTitle={{
+            name: 'Reporting Period Cumulative Efficiency NAME VALUE UNIT',
+            substitute: ['NAME', 'VALUE', 'UNIT'],
+            NAME: equipmentBaseAndReportingNames,
+            VALUE: null,
+            UNIT: equipmentBaseAndReportingUnits
+          }}
+          baseTooltipTitle={{
+            name: 'Base Period Cumulative Efficiency NAME VALUE UNIT',
+            substitute: ['NAME', 'VALUE', 'UNIT'],
+            NAME: equipmentBaseAndReportingNames,
+            VALUE: null,
+            UNIT: equipmentBaseAndReportingUnits
+          }}
+          reportingLabels={equipmentReportingLabels}
+          reportingData={equipmentReportingData}
+          baseLabels={equipmentBaseLabels}
+          baseData={equipmentBaseData}
+          rates={equipmentReportingRates}
+          options={equipmentReportingOptions}
+        />
         </div>
 
         <MultipleLineChart
