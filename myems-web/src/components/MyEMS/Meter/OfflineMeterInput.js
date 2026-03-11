@@ -210,20 +210,35 @@ const OfflineMeterInput = ({ setRedirect, setRedirectUrl, t }) => {
       dataField: 'daily_value',
       headerClasses: 'border-0',
       text: t('Daily Value'),
-      classes: 'border-0 py-2 align-middle ',
+      classes: 'border-0 py-2 align-middle',
       sort: false,
       editable: true,
-      formatter: (cell, row, rowIndex) => {
-        if (cell == null) {
-          return <Input type="text" disabled={false} style={{ width: '20%' }} />;
-        } else {
-          return <Input type="text" disabled={true} defaultValue={cell} style={{ width: '20%' }} />;
-        }
+      editor: {
+        type: 'number',
+        step: 0.000001,
+        min: 0,
+        max: 999999.999999,
+        style: { width: '20%' },
+
+        precision: 6
       },
-      editorStyle: { width: '20%' }
+      formatter: (cell) => {
+        if (cell == null || cell === '') return '';
+        return Number(cell).toFixed(6);
+      },
+      validator: (newValue) => {
+        if (newValue === '' || newValue == null) return true;
+        const num = Number(newValue);
+        if (isNaN(num)) {
+          return {
+            valid: false,
+            message: '请输入有效数字'
+          };
+        }
+        return true;
+      }
     }
   ];
-
   const labelClasses = 'ls text-uppercase text-600 font-weight-semi-bold mb-0';
 
   let onReportingPeriodChange = DateRange => {
@@ -262,9 +277,16 @@ const OfflineMeterInput = ({ setRedirect, setRedirectUrl, t }) => {
       row.daily_value = oldValue;
       return;
     }
-    let isNumericInput = /^[0-9]+$/.test(newValue);
+    //let isNumericInput = /^[0-9]+$/.test(newValue);
+    let isNumericInput = /^\d+(\.\d{0,6})?$/.test(newValue);
     if (!isNumericInput) {
       row.daily_value = oldValue;
+      return;
+    }
+    const decimalPlaces = (newValue.toString().split('.')[1] || '').length;
+    if (decimalPlaces > 6) {
+      row.daily_value = oldValue;
+      toast.error(t('Maximum 6 decimal places allowed'));
       return;
     }
     let values = meterList.map(Element => Element['daily_value']);
