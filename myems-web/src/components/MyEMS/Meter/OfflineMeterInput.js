@@ -277,7 +277,6 @@ const OfflineMeterInput = ({ setRedirect, setRedirectUrl, t }) => {
       row.daily_value = oldValue;
       return;
     }
-    //let isNumericInput = /^[0-9]+$/.test(newValue);
     let isNumericInput = /^\d+(\.\d{0,6})?$/.test(newValue);
     if (!isNumericInput) {
       row.daily_value = oldValue;
@@ -286,7 +285,6 @@ const OfflineMeterInput = ({ setRedirect, setRedirectUrl, t }) => {
     const decimalPlaces = (newValue.toString().split('.')[1] || '').length;
     if (decimalPlaces > 6) {
       row.daily_value = oldValue;
-      toast.error(t('Maximum 6 decimal places allowed'));
       return;
     }
     let values = meterList.map(Element => Element['daily_value']);
