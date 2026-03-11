@@ -2420,6 +2420,7 @@ const resources = {
             'API.OFFLINE_METER_FILE_NOT_FOUND': '离线表文件不存在',
             'API.OFFLINE_METER_NAME_IS_ALREADY_IN_USE': '离线表名称已使用',
             'API.OFFLINE_METER_NOT_FOUND': '离线表不存在',
+            'API.INVALID_OFFLINE_METER_VALUE': '无效的离线数据',
             'API.OFFLINE_METER_OF_VARIABLE_NOT_FOUND': '离线表变量不存在',
             'API.OLD_PASSWORD_LENGTH_CANNOT_EXCEED_100_CHARACTERS': '旧密码长度不能超过100个字符',
             'API.PARENT_SPACE_NOT_FOUND': '父空间不存在',
