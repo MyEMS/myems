@@ -1,767 +1,767 @@
-# MyEMS 数据库设计文档
+# MyEMS Database Design Document
 
-> 本文档面向程序员，详细说明 MyEMS 能源管理系统的数据库架构、表结构和设计理念。
+> This document is intended for developers. It describes the database architecture, table structures, and design principles of the MyEMS Energy Management System.
 
-## 目录
+## Table of Contents
 
-- [系统概述](#系统概述)
-- [数据库架构设计](#数据库架构设计)
-- [数据库详细说明](#数据库详细说明)
-- [数据流转关系](#数据流转关系)
-- [表结构设计规范](#表结构设计规范)
-- [开发注意事项](#开发注意事项)
-- [安装与升级](#安装与升级)
-
----
-
-## 系统概述
-
-MyEMS 是一个行业领先的开源能源管理系统，参考 ISO 50001 能源管理体系标准 (GB/T 23331-2020)，适用于建筑、工厂、商场、医院、园区等场景的能源和碳排放采集、分析、报表。
-
-### 系统模块
-
-MyEMS 采用微服务架构，主要包含以下模块：
-
-- **myems-api**: RESTful API 服务 (Python + Falcon)
-- **myems-admin**: 管理后台 UI (AngularJS)
-- **myems-web**: 用户 Web 界面 (ReactJS)
-- **myems-modbus-tcp**: Modbus TCP 数据采集服务
-- **myems-normalization**: 数据规范化服务
-- **myems-cleaning**: 数据清洗服务
-- **myems-aggregation**: 数据汇总服务（能耗、计费、碳排放计算）
-
-### 数据库概览
-
-MyEMS 采用**多数据库分离架构**，将不同类型的数据存储在不同的数据库中，以提高性能、便于维护和扩展。系统共包含 **13 个数据库**：
-
-| 数据库名称 | 用途 | 主要功能 | 数据量级 |
-|-----------|------|----------|---------|
-| `myems_system_db` | 系统配置数据库 | 存储系统配置、设备信息、用户权限等基础数据 | 中小型 |
-| `myems_historical_db` | 历史数据数据库 | 存储实时监测数据、历史数据、成本文件等 | **大型** |
-| `myems_energy_db` | 能耗数据库 | 存储各种设备的能耗统计数据（按小时、日、月、年） | **大型** |
-| `myems_billing_db` | 计费数据库 | 存储计费相关的能耗数据 | **大型** |
-| `myems_carbon_db` | 碳排放数据库 | 存储碳排放相关的能耗数据 | **大型** |
-| `myems_energy_baseline_db` | 能耗基线数据库 | 存储能耗基线数据，用于节能分析 | 中型 |
-| `myems_energy_model_db` | 能耗模型数据库 | 存储8760小时年度能耗模型数据 | 中型 |
-| `myems_energy_plan_db` | 能耗计划数据库 | 存储能耗计划和目标数据 | 中型 |
-| `myems_energy_prediction_db` | 能耗预测数据库 | 存储能耗预测数据 | 中型 |
-| `myems_fdd_db` | 故障诊断数据库 | 存储故障检测和诊断相关数据 | 中型 |
-| `myems_user_db` | 用户数据库 | 存储用户认证、API密钥、邮件消息等 | 小型 |
-| `myems_reporting_db` | 报告数据库 | 存储报告相关的邮件消息和附件 | 小型 |
-| `myems_production_db` | 生产数据库 | 存储生产相关的产品数据 | 小型 |
+- [System Overview](#system-overview)
+- [Database Architecture](#database-architecture)
+- [Database Details](#database-details)
+- [Data Flow](#data-flow)
+- [Table Design Conventions](#table-design-conventions)
+- [Development Notes](#development-notes)
+- [Installation and Upgrade](#installation-and-upgrade)
 
 ---
 
-## 数据库架构设计
+## System Overview
 
-### 设计理念
+MyEMS is an industry-leading open-source energy management system. It references the ISO 50001 Energy Management System standard (GB/T 23331-2020) and is suitable for scenarios such as buildings, factories, shopping malls, hospitals, and campuses to collect, analyze, and report energy and carbon emission data.
 
-1. **数据分离**: 按数据类型和用途分离到不同数据库，避免单库过大
-2. **读写分离**: 历史数据采用时间序列存储，支持高效查询
-3. **水平扩展**: 大型数据库（myems_historical_db, myems_energy_db）可独立扩展
-4. **统一规范**: 所有数据库使用相同的字符集和排序规则
+### System Modules
 
-### 数据库配置
+MyEMS adopts a microservice architecture and mainly includes the following modules:
 
-所有数据库统一使用以下配置：
+- **myems-api**: RESTful API service (Python + Falcon)
+- **myems-admin**: Admin UI (AngularJS)
+- **myems-web**: User-facing web UI (ReactJS)
+- **myems-modbus-tcp**: Modbus TCP data acquisition service
+- **myems-normalization**: Data normalization service
+- **myems-cleaning**: Data cleaning service
+- **myems-aggregation**: Data aggregation service (energy consumption, billing, and carbon emission calculations)
 
-- **字符集**: `utf8mb4` (支持完整的 UTF-8 字符，包括 emoji)
-- **排序规则**: `utf8mb4_unicode_ci` (Unicode 排序规则)
-- **存储引擎**: InnoDB (默认，支持事务和外键)
+### Database Overview
 
-### 命名规范
+MyEMS uses a **multi-database separation architecture**, storing different types of data in different databases to improve performance and make maintenance and scaling easier. The system contains **13 databases**:
 
-- **数据库命名**: `myems_{功能}_db` (小写，下划线分隔)
-- **表命名**: `tbl_{实体名}` (小写，下划线分隔)
-- **字段命名**: 小写，下划线分隔，如 `start_datetime_utc`
-- **索引命名**: `tbl_{表名}_index_{序号}`
-
----
-
-## 数据库详细说明
-
-### 1. myems_system_db (系统配置数据库)
-
-**用途**: 存储系统的基础配置和元数据，是整个系统的核心配置库。
-
-**特点**:
-- 包含最多的表（约 150+ 张表）
-- 数据量相对较小，但结构复杂
-- 包含大量的关联关系表
-
-**主要表分类**:
-
-#### 1.1 基础配置表
-
-| 表名 | 说明 | 关键字段 |
-|------|------|----------|
-| `tbl_energy_categories` | 能源分类（电、水、气、冷、热等） | `id`, `name`, `unit_of_measure`, `kgce`, `kgco2e` |
-| `tbl_energy_items` | 能耗分项（照明、空调、动力等） | `id`, `name`, `energy_category_id` |
-| `tbl_cost_centers` | 成本中心 | `id`, `name`, `external_id` |
-| `tbl_data_sources` | 数据源配置 | `id`, `name`, `gateway_id`, `protocol`, `connection` |
-| `tbl_protocols` | 协议配置 | `id`, `name`, `protocol_type` |
-
-#### 1.2 设备管理表
-
-| 表名 | 说明 | 关键字段 |
-|------|------|----------|
-| `tbl_equipments` | 设备信息 | `id`, `name`, `uuid`, `equipment_type_id`, `cost_center_id` |
-| `tbl_combined_equipments` | 组合设备（多个设备的组合） | `id`, `name`, `is_input_counted`, `is_output_counted` |
-| `tbl_meters` | 计量表信息 | `id`, `name`, `uuid`, `energy_category_id`, `is_counted` |
-| `tbl_offline_meters` | 离线计量表（手动录入） | `id`, `name`, `energy_category_id` |
-| `tbl_virtual_meters` | 虚拟计量表（计算得出） | `id`, `name`, `expression` (JSON格式) |
-| `tbl_points` | 数据点信息 | `id`, `name`, `data_source_id`, `object_type`, `object_id` |
-
-#### 1.3 空间组织表
-
-| 表名 | 说明 | 关键字段 |
-|------|------|----------|
-| `tbl_spaces` | 空间信息（房间、楼层等） | `id`, `name`, `uuid`, `parent_space_id`, `area` |
-| `tbl_stores` | 门店信息 | `id`, `name`, `uuid`, `space_id` |
-| `tbl_tenants` | 租户信息 | `id`, `name`, `uuid`, `space_id` |
-| `tbl_shopfloors` | 车间信息 | `id`, `name`, `uuid`, `space_id` |
-
-#### 1.4 关联关系表
-
-系统使用大量的关联表来建立多对多关系：
-
-- `tbl_equipments_meters`: 设备与计量表的关联
-- `tbl_equipments_offline_meters`: 设备与离线计量表的关联
-- `tbl_equipments_virtual_meters`: 设备与虚拟计量表的关联
-- `tbl_spaces_equipments`: 空间与设备的关联
-- `tbl_spaces_meters`: 空间与计量表的关联
-- `tbl_combined_equipments_equipments`: 组合设备与设备的关联
-- 等等...
-
-#### 1.5 新能源设备表
-
-| 表名 | 说明 | 关键字段 |
-|------|------|----------|
-| `tbl_photovoltaic_power_stations` | 光伏电站 | `id`, `name`, `capacity`, `contact_id` |
-| `tbl_energy_storage_containers` | 储能集装箱 | `id`, `name`, `rated_capacity`, `rated_power` |
-| `tbl_energy_storage_power_stations` | 储能电站 | `id`, `name`, `rated_capacity` |
-| `tbl_microgrids` | 微电网 | `id`, `name`, `address` |
-| `tbl_charging_stations` | 充电站 | `id`, `name`, `rated_capacity`, `rated_power` |
-
-#### 1.6 控制与调度表
-
-| 表名 | 说明 | 关键字段 |
-|------|------|----------|
-| `tbl_commands` | 控制命令 | `id`, `name`, `topic`, `payload` (JSON格式) |
-| `tbl_control_modes` | 控制模式 | `id`, `name`, `is_active` |
-| `tbl_control_modes_times` | 控制模式时间段 | `id`, `control_mode_id`, `start_time_of_day`, `end_time_of_day` |
-
-#### 1.7 其他配置表
-
-- `tbl_contacts`: 联系人信息
-- `tbl_distribution_systems`: 配电系统
-- `tbl_distribution_circuits`: 配电回路
-- `tbl_energy_flow_diagrams`: 能流图
-- `tbl_tariffs`: 费率配置
-- `tbl_working_calendars`: 工作日历
-- `tbl_web_messages`: Web 消息
-
-**开发注意事项**:
-- 所有表都有 `id` (BIGINT AUTO_INCREMENT) 作为主键
-- 大部分表都有 `uuid` (CHAR(36)) 字段，用于外部系统集成
-- 关联表通常只有 `id` 和两个外键字段
-- JSON 字段使用 `LONGTEXT` 类型，存储格式化的 JSON 字符串
+| Database Name | Purpose | Primary Functions | Data Scale |
+|--------------|---------|-------------------|------------|
+| `myems_system_db` | System configuration database | Stores foundational data such as system configuration, device information, and user privileges | Small/Medium |
+| `myems_historical_db` | Historical data database | Stores real-time monitoring data, historical data, cost files, etc. | **Large** |
+| `myems_energy_db` | Energy database | Stores energy consumption statistics for various objects (hour/day/month/year) | **Large** |
+| `myems_billing_db` | Billing database | Stores billing-related energy data | **Large** |
+| `myems_carbon_db` | Carbon database | Stores carbon-emission-related energy data | **Large** |
+| `myems_energy_baseline_db` | Energy baseline database | Stores baseline data for energy-saving analysis | Medium |
+| `myems_energy_model_db` | Energy model database | Stores annual energy models with 8760 hourly points | Medium |
+| `myems_energy_plan_db` | Energy plan database | Stores energy plans and targets | Medium |
+| `myems_energy_prediction_db` | Energy prediction database | Stores energy prediction data | Medium |
+| `myems_fdd_db` | Fault detection and diagnosis database | Stores FDD-related data | Medium |
+| `myems_user_db` | User database | Stores user authentication, API keys, email messages, etc. | Small |
+| `myems_reporting_db` | Reporting database | Stores reporting-related email messages and attachments | Small |
+| `myems_production_db` | Production database | Stores production-related product data | Small |
 
 ---
 
-### 2. myems_historical_db (历史数据数据库)
+## Database Architecture
 
-**用途**: 存储实时监测数据和历史数据，是系统数据量最大的数据库之一。
+### Design Principles
 
-**特点**:
-- 数据量巨大，采用时间序列存储
-- 包含原始数据和最新值缓存表
-- 支持数据质量标记（`is_bad`, `is_published`）
+1. **Data separation**: Separate data into different databases by type and purpose to avoid an oversized single database
+2. **Read/write separation**: Historical data uses time-series-oriented storage for efficient queries
+3. **Horizontal scalability**: Large databases (`myems_historical_db`, `myems_energy_db`) can be scaled independently
+4. **Unified conventions**: All databases use the same character set and collation
 
-**主要表结构**:
+### Database Settings
 
-| 表名 | 说明 | 关键字段 | 索引策略 |
-|------|------|----------|----------|
-| `tbl_analog_value` | 模拟量历史数据 | `point_id`, `utc_date_time`, `actual_value`, `is_bad`, `is_published` | `(point_id, utc_date_time)`, `(utc_date_time)` |
-| `tbl_analog_value_latest` | 模拟量最新值（缓存） | `point_id`, `utc_date_time`, `actual_value` | `(point_id, utc_date_time)` |
-| `tbl_digital_value` | 数字量历史数据 | `point_id`, `utc_date_time`, `actual_value` (INT) | `(point_id, utc_date_time)`, `(utc_date_time)` |
-| `tbl_digital_value_latest` | 数字量最新值（缓存） | `point_id`, `utc_date_time`, `actual_value` | `(point_id, utc_date_time)` |
-| `tbl_energy_value` | 能量数据 | `point_id`, `utc_date_time`, `actual_value`, `is_bad`, `is_published` | `(point_id, utc_date_time)`, `(utc_date_time)` |
-| `tbl_energy_value_latest` | 能量最新值（缓存） | `point_id`, `utc_date_time`, `actual_value` | `(point_id, utc_date_time)` |
-| `tbl_text_value` | 文本量历史数据 | `point_id`, `utc_date_time`, `actual_value` (LONGTEXT) | `(point_id, utc_date_time)`, `(utc_date_time)` |
-| `tbl_text_value_latest` | 文本量最新值（缓存） | `point_id`, `utc_date_time`, `actual_value` | `(point_id, utc_date_time)` |
+All databases use the following unified settings:
 
-**文件存储表**:
+- **Character set**: `utf8mb4` (supports full UTF-8, including emoji)
+- **Collation**: `utf8mb4_unicode_ci` (Unicode collation)
+- **Storage engine**: InnoDB (default; supports transactions and foreign keys)
 
-| 表名 | 说明 | 关键字段 |
-|------|------|----------|
-| `tbl_cost_files` | 成本文件（Excel/CSV） | `file_name`, `uuid`, `upload_datetime_utc`, `status`, `file_object` (LONGBLOB) |
-| `tbl_offline_meter_files` | 离线计量表数据文件 | `file_name`, `uuid`, `upload_datetime_utc`, `status`, `file_object` |
-| `tbl_data_repair_files` | 数据修复文件 | `file_name`, `uuid`, `upload_datetime_utc`, `status`, `file_object` |
-| `tbl_energy_plan_files` | 能耗计划文件 | `file_name`, `uuid`, `upload_datetime_utc`, `status`, `file_object` |
+### Naming Conventions
 
-**数据类型说明**:
-- `actual_value`: DECIMAL(21, 6) - 支持高精度数值，6位小数
-- `utc_date_time`: DATETIME - UTC 时间，所有时间统一使用 UTC
-- `is_bad`: BOOL - 数据质量标记，True 表示坏数据
-- `is_published`: BOOL - 发布标记，True 表示已发布
-
-**开发注意事项**:
-- 所有时间字段使用 UTC 时间，前端显示时转换为本地时间
-- `_latest` 表用于快速查询最新值，避免扫描历史表
-- 文件表使用 `LONGBLOB` 存储二进制文件，注意大小限制
-- 定期清理历史数据，避免表过大影响性能
+- **Database naming**: `myems_{function}_db` (lowercase, underscore-separated)
+- **Table naming**: `tbl_{entity_name}` (lowercase, underscore-separated)
+- **Column naming**: lowercase with underscores, e.g. `start_datetime_utc`
+- **Index naming**: `tbl_{table_name}_index_{number}`
 
 ---
 
-### 3. myems_energy_db (能耗数据库)
+## Database Details
 
-**用途**: 存储各种设备的能耗统计数据，按小时、日、月、年进行聚合。
+### 1. myems_system_db (System Configuration Database)
 
-**特点**:
-- 数据由`myems-normalization` 和 `myems-aggregation` 服务计算生成
-- 按时间粒度分为 hourly表，其它粒度 daily, monthly, yearly 可由 hourly表计算
-- 支持按能源分类（category）和能耗分项（item）统计
+**Purpose**: Stores the system’s basic configuration and metadata; it is the core configuration database of the whole system.
 
-**表命名规则**:
-- `tbl_{对象类型}_{方向}_{分类}_{时间粒度}`
-- 对象类型: `meter`, `equipment`, `combined_equipment`, `space`, `store`, `tenant`, `shopfloor`
-- 方向: `input` (输入), `output` (输出)
-- 分类: `category` (能源分类), `item` (能耗分项)
-- 时间粒度: `hourly`
+**Characteristics**:
+- Contains the most tables (about 150+ tables)
+- Relatively small data volume but complex structure
+- Contains many relationship (junction) tables
 
-**主要表结构**:
+**Main table categories**:
 
-#### 3.1 计量表能耗表
+#### 1.1 Basic configuration tables
 
-| 表名 | 说明 | 关键字段 |
-|------|------|----------|
-| `tbl_meter_hourly` | 计量表小时能耗 | `meter_id`, `start_datetime_utc`, `actual_value` |
-| `tbl_offline_meter_hourly` | 离线计量表小时能耗 | `offline_meter_id`, `start_datetime_utc`, `actual_value` |
-| `tbl_virtual_meter_hourly` | 虚拟计量表小时能耗 | `virtual_meter_id`, `start_datetime_utc`, `actual_value` |
+| Table | Description | Key columns |
+|------|-------------|-------------|
+| `tbl_energy_categories` | Energy categories (electricity, water, gas, cooling, heating, etc.) | `id`, `name`, `unit_of_measure`, `kgce`, `kgco2e` |
+| `tbl_energy_items` | Energy items (lighting, HVAC, power, etc.) | `id`, `name`, `energy_category_id` |
+| `tbl_cost_centers` | Cost centers | `id`, `name`, `external_id` |
+| `tbl_data_sources` | Data source configuration | `id`, `name`, `gateway_id`, `protocol`, `connection` |
+| `tbl_protocols` | Protocol configuration | `id`, `name`, `protocol_type` |
 
-#### 3.2 设备能耗表
+#### 1.2 Equipment management tables
 
-| 表名 | 说明 | 关键字段 |
-|------|------|----------|
-| `tbl_equipment_input_category_hourly` | 设备输入能耗（按分类） | `equipment_id`, `energy_category_id`, `start_datetime_utc`, `actual_value` |
-| `tbl_equipment_input_item_hourly` | 设备输入能耗（按分项） | `equipment_id`, `energy_item_id`, `start_datetime_utc`, `actual_value` |
-| `tbl_equipment_output_category_hourly` | 设备输出能耗（按分类） | `equipment_id`, `energy_category_id`, `start_datetime_utc`, `actual_value` |
-| `tbl_combined_equipment_input_category_hourly` | 组合设备输入能耗（按分类） | `combined_equipment_id`, `energy_category_id`, `start_datetime_utc`, `actual_value` |
-| `tbl_combined_equipment_output_category_hourly` | 组合设备输出能耗（按分类） | `combined_equipment_id`, `energy_category_id`, `start_datetime_utc`, `actual_value` |
+| Table | Description | Key columns |
+|------|-------------|-------------|
+| `tbl_equipments` | Equipment information | `id`, `name`, `uuid`, `equipment_type_id`, `cost_center_id` |
+| `tbl_combined_equipments` | Combined equipment (a combination of multiple equipments) | `id`, `name`, `is_input_counted`, `is_output_counted` |
+| `tbl_meters` | Meter information | `id`, `name`, `uuid`, `energy_category_id`, `is_counted` |
+| `tbl_offline_meters` | Offline meters (manual input) | `id`, `name`, `energy_category_id` |
+| `tbl_virtual_meters` | Virtual meters (calculated) | `id`, `name`, `expression` (JSON format) |
+| `tbl_points` | Point information | `id`, `name`, `data_source_id`, `object_type`, `object_id` |
 
-#### 3.3 空间能耗表
+#### 1.3 Space organization tables
 
-| 表名 | 说明 | 关键字段 |
-|------|------|----------|
-| `tbl_space_input_category_hourly` | 空间输入能耗（按分类） | `space_id`, `energy_category_id`, `start_datetime_utc`, `actual_value` |
-| `tbl_space_input_item_hourly` | 空间输入能耗（按分项） | `space_id`, `energy_item_id`, `start_datetime_utc`, `actual_value` |
-| `tbl_space_output_category_hourly` | 空间输出能耗（按分类） | `space_id`, `energy_category_id`, `start_datetime_utc`, `actual_value` |
-| `tbl_store_input_category_hourly` | 门店输入能耗 | `store_id`, `energy_category_id`, `start_datetime_utc`, `actual_value` |
-| `tbl_tenant_input_category_hourly` | 租户输入能耗 | `tenant_id`, `energy_category_id`, `start_datetime_utc`, `actual_value` |
-| `tbl_shopfloor_input_category_hourly` | 车间输入能耗 | `shopfloor_id`, `energy_category_id`, `start_datetime_utc`, `actual_value` |
+| Table | Description | Key columns |
+|------|-------------|-------------|
+| `tbl_spaces` | Space information (rooms, floors, etc.) | `id`, `name`, `uuid`, `parent_space_id`, `area` |
+| `tbl_stores` | Store information | `id`, `name`, `uuid`, `space_id` |
+| `tbl_tenants` | Tenant information | `id`, `name`, `uuid`, `space_id` |
+| `tbl_shopfloors` | Shopfloor information | `id`, `name`, `uuid`, `space_id` |
 
-#### 3.4 新能源设备能耗表
+#### 1.4 Relationship tables
 
-| 表名 | 说明 | 关键字段 |
-|------|------|----------|
-| `tbl_photovoltaic_power_station_hourly` | 光伏电站小时发电量 | `photovoltaic_power_station_id`, `start_datetime_utc`, `actual_value` |
-| `tbl_energy_storage_container_charge_hourly` | 储能集装箱充电量 | `energy_storage_container_id`, `start_datetime_utc`, `actual_value` |
-| `tbl_energy_storage_container_discharge_hourly` | 储能集装箱放电量 | `energy_storage_container_id`, `start_datetime_utc`, `actual_value` |
-| `tbl_energy_storage_container_grid_buy_hourly` | 储能集装箱购电量 | `energy_storage_container_id`, `start_datetime_utc`, `actual_value` |
-| `tbl_energy_storage_container_grid_sell_hourly` | 储能集装箱售电量 | `energy_storage_container_id`, `start_datetime_utc`, `actual_value` |
-| `tbl_microgrid_charge_hourly` | 微电网充电量 | `microgrid_id`, `start_datetime_utc`, `actual_value` |
-| `tbl_microgrid_discharge_hourly` | 微电网放电量 | `microgrid_id`, `start_datetime_utc`, `actual_value` |
+The system uses many junction tables to build many-to-many relationships:
 
-**索引设计**:
-- 所有表都有复合索引: `(对象_id, 分类_id, start_datetime_utc)` 或 `(对象_id, start_datetime_utc)`
-- 支持按对象和时间范围快速查询
+- `tbl_equipments_meters`: Equipment-to-meter mapping
+- `tbl_equipments_offline_meters`: Equipment-to-offline-meter mapping
+- `tbl_equipments_virtual_meters`: Equipment-to-virtual-meter mapping
+- `tbl_spaces_equipments`: Space-to-equipment mapping
+- `tbl_spaces_meters`: Space-to-meter mapping
+- `tbl_combined_equipments_equipments`: Combined-equipment-to-equipment mapping
+- etc.
 
-**开发注意事项**:
-- `start_datetime_utc` 表示时间段的开始时间（如 2024-01-01 00:00:00 表示 1 月 1 日 0 点到 1 点）
-- `actual_value` 是聚合后的值，不是原始值
-- 数据由 normalization 和 aggregation 服务定期计算，不是实时写入
-- 查询时注意时区转换
+#### 1.5 New energy equipment tables
 
----
+| Table | Description | Key columns |
+|------|-------------|-------------|
+| `tbl_photovoltaic_power_stations` | Photovoltaic power stations | `id`, `name`, `capacity`, `contact_id` |
+| `tbl_energy_storage_containers` | Energy storage containers | `id`, `name`, `rated_capacity`, `rated_power` |
+| `tbl_energy_storage_power_stations` | Energy storage power stations | `id`, `name`, `rated_capacity` |
+| `tbl_microgrids` | Microgrids | `id`, `name`, `address` |
+| `tbl_charging_stations` | Charging stations | `id`, `name`, `rated_capacity`, `rated_power` |
 
-### 4. myems_billing_db (计费数据库)
+#### 1.6 Control and dispatch tables
 
-**用途**: 存储计费相关的能耗数据，结构与 `myems_energy_db` 类似，但数据经过费率计算。
+| Table | Description | Key columns |
+|------|-------------|-------------|
+| `tbl_commands` | Control commands | `id`, `name`, `topic`, `payload` (JSON format) |
+| `tbl_control_modes` | Control modes | `id`, `name`, `is_active` |
+| `tbl_control_modes_times` | Control mode time windows | `id`, `control_mode_id`, `start_time_of_day`, `end_time_of_day` |
 
-**特点**:
-- 表结构与 `myems_energy_db` 完全一致
-- 数据由 `myems-aggregation` 服务根据费率配置计算
-- 支持分时费率、阶梯费率等复杂计费规则
+#### 1.7 Other configuration tables
 
-**主要表**:
-- 与 `myems_energy_db` 相同的表结构
-- 数据值已乘以对应费率，单位通常是货币单位（如元、美元）
+- `tbl_contacts`: Contact information
+- `tbl_distribution_systems`: Distribution systems
+- `tbl_distribution_circuits`: Distribution circuits
+- `tbl_energy_flow_diagrams`: Energy flow diagrams
+- `tbl_tariffs`: Tariff configuration
+- `tbl_working_calendars`: Working calendars
+- `tbl_web_messages`: Web messages
 
-**开发注意事项**:
-- 计费数据依赖于 `myems_system_db.tbl_tariffs` 费率配置
-- 需要与成本中心（`cost_center`）关联
-- 支持多费率策略（分时、阶梯、容量等）
-
----
-
-### 5. myems_carbon_db (碳排放数据库)
-
-**用途**: 存储碳排放相关的能耗数据，用于碳足迹计算。
-
-**特点**:
-- 表结构与 `myems_energy_db` 完全一致
-- 数据由 `myems-aggregation` 服务根据碳排放因子计算
-- 碳排放因子存储在 `myems_system_db.tbl_energy_categories.kgco2e`
-
-**主要表**:
-- 与 `myems_energy_db` 相同的表结构
-- 数据值已乘以碳排放因子，单位通常是 kgCO2e（千克二氧化碳当量）
-
-**开发注意事项**:
-- 碳排放因子可能随时间变化，需要支持历史因子
-- 不同能源类型的碳排放因子不同（电、气、油等）
-- 支持范围 1、范围 2、范围 3 的碳排放计算
+**Development notes**:
+- All tables have `id` (BIGINT AUTO_INCREMENT) as the primary key
+- Most tables have a `uuid` (CHAR(36)) column for external system integration
+- Junction tables usually contain only `id` plus two foreign key columns
+- JSON fields use `LONGTEXT` to store formatted JSON strings
 
 ---
 
-### 6. myems_energy_baseline_db (能耗基线数据库)
+### 2. myems_historical_db (Historical Data Database)
 
-**用途**: 存储能耗基线数据，用于节能分析和能效评估。
+**Purpose**: Stores real-time monitoring and historical data. It is one of the largest databases in the system.
 
-**特点**:
-- 表结构与 `myems_energy_db` 类似
-- 基线数据通常基于历史数据或标准值计算
-- 用于对比实际能耗与基线能耗，计算节能效果
+**Characteristics**:
+- Massive data volume; stored in a time-series-oriented way
+- Includes raw history tables and latest-value cache tables
+- Supports data quality flags (`is_bad`, `is_published`)
 
-**主要表**:
-- 与 `myems_energy_db` 相同的表结构
-- 存储基线值而非实际值
+**Main table structures**:
 
-**开发注意事项**:
-- 基线数据需要定期更新
-- 支持多种基线计算方法（历史平均、回归分析、标准值等）
+| Table | Description | Key columns | Index strategy |
+|------|-------------|------------|----------------|
+| `tbl_analog_value` | Analog history data | `point_id`, `utc_date_time`, `actual_value`, `is_bad`, `is_published` | `(point_id, utc_date_time)`, `(utc_date_time)` |
+| `tbl_analog_value_latest` | Latest analog value (cache) | `point_id`, `utc_date_time`, `actual_value` | `(point_id, utc_date_time)` |
+| `tbl_digital_value` | Digital history data | `point_id`, `utc_date_time`, `actual_value` (INT) | `(point_id, utc_date_time)`, `(utc_date_time)` |
+| `tbl_digital_value_latest` | Latest digital value (cache) | `point_id`, `utc_date_time`, `actual_value` | `(point_id, utc_date_time)` |
+| `tbl_energy_value` | Energy value history data | `point_id`, `utc_date_time`, `actual_value`, `is_bad`, `is_published` | `(point_id, utc_date_time)`, `(utc_date_time)` |
+| `tbl_energy_value_latest` | Latest energy value (cache) | `point_id`, `utc_date_time`, `actual_value` | `(point_id, utc_date_time)` |
+| `tbl_text_value` | Text history data | `point_id`, `utc_date_time`, `actual_value` (LONGTEXT) | `(point_id, utc_date_time)`, `(utc_date_time)` |
+| `tbl_text_value_latest` | Latest text value (cache) | `point_id`, `utc_date_time`, `actual_value` | `(point_id, utc_date_time)` |
 
----
+**File storage tables**:
 
-### 7. myems_energy_model_db (能耗模型数据库)
+| Table | Description | Key columns |
+|------|-------------|------------|
+| `tbl_cost_files` | Cost files (Excel/CSV) | `file_name`, `uuid`, `upload_datetime_utc`, `status`, `file_object` (LONGBLOB) |
+| `tbl_offline_meter_files` | Offline meter data files | `file_name`, `uuid`, `upload_datetime_utc`, `status`, `file_object` |
+| `tbl_data_repair_files` | Data repair files | `file_name`, `uuid`, `upload_datetime_utc`, `status`, `file_object` |
+| `tbl_energy_plan_files` | Energy plan files | `file_name`, `uuid`, `upload_datetime_utc`, `status`, `file_object` |
 
-**用途**: 存储 8760 小时年度能耗模型数据（一年 8760 小时）。
+**Data type notes**:
+- `actual_value`: DECIMAL(21, 6) - high precision numeric values with 6 decimal places
+- `utc_date_time`: DATETIME - UTC time; the entire system standardizes on UTC
+- `is_bad`: BOOL - data quality flag; True indicates bad data
+- `is_published`: BOOL - publish flag; True indicates published
 
-**特点**:
-- 每个对象存储 8760 条记录（一年的小时数据）
-- 用于能耗预测和规划
-- 表名包含 `_8760` 后缀
-
-**主要表**:
-
-| 表名 | 说明 | 关键字段 |
-|------|------|----------|
-| `tbl_meter_8760` | 计量表 8760 小时模型 | `meter_id`, `start_datetime_utc`, `actual_value` |
-| `tbl_equipment_input_category_8760` | 设备输入能耗模型 | `equipment_id`, `energy_category_id`, `start_datetime_utc`, `actual_value` |
-| `tbl_combined_equipment_input_category_8760` | 组合设备输入能耗模型 | `combined_equipment_id`, `energy_category_id`, `start_datetime_utc`, `actual_value` |
-| `tbl_space_input_category_8760` | 空间输入能耗模型 | `space_id`, `energy_category_id`, `start_datetime_utc`, `actual_value` |
-| `tbl_shopfloor_input_category_8760` | 车间输入能耗模型 | `shopfloor_id`, `energy_category_id`, `start_datetime_utc`, `actual_value` |
-| `tbl_store_input_category_8760` | 门店输入能耗模型 | `store_id`, `energy_category_id`, `start_datetime_utc`, `actual_value` |
-| `tbl_tenant_input_category_8760` | 租户输入能耗模型 | `tenant_id`, `energy_category_id`, `start_datetime_utc`, `actual_value` |
-
-**开发注意事项**:
-- 8760 小时模型通常基于历史数据或标准模型生成
-- 用于年度能耗预测和预算编制
-- 支持按周、月、季度等维度查看
+**Development notes**:
+- All time columns use UTC; the frontend converts to local time for display
+- `_latest` tables are for fast latest-value queries to avoid scanning history tables
+- File tables use `LONGBLOB` for binary file storage; be mindful of size limits
+- Clean up historical data periodically to prevent oversized tables from impacting performance
 
 ---
 
-### 8. myems_energy_plan_db (能耗计划数据库)
+### 3. myems_energy_db (Energy Database)
 
-**用途**: 存储能耗计划和目标数据。
+**Purpose**: Stores energy consumption statistics for various objects aggregated by hour, day, month, and year.
 
-**特点**:
-- 表结构与 `myems_energy_db` 类似
-- 存储计划值而非实际值
-- 用于能耗预算和目标管理
+**Characteristics**:
+- Data is generated by the `myems-normalization` and `myems-aggregation` services
+- By granularity, the hourly tables are primary; other granularities (daily, monthly, yearly) can be computed from hourly tables
+- Supports statistics by energy category (category) and energy item (item)
 
-**主要表**:
-- 与 `myems_energy_db` 相同的表结构
-- 数据来自计划文件或手动录入
+**Table naming rules**:
+- `tbl_{object_type}_{direction}_{classification}_{time_granularity}`
+- Object types: `meter`, `equipment`, `combined_equipment`, `space`, `store`, `tenant`, `shopfloor`
+- Directions: `input` (input), `output` (output)
+- Classifications: `category` (energy category), `item` (energy item)
+- Time granularity: `hourly`
 
-**开发注意事项**:
-- 计划数据需要与实际数据对比分析
-- 支持多级计划（年度、月度、周度等）
+**Main table structures**:
 
----
+#### 3.1 Meter energy tables
 
-### 9. myems_energy_prediction_db (能耗预测数据库)
+| Table | Description | Key columns |
+|------|-------------|-------------|
+| `tbl_meter_hourly` | Meter hourly energy | `meter_id`, `start_datetime_utc`, `actual_value` |
+| `tbl_offline_meter_hourly` | Offline meter hourly energy | `offline_meter_id`, `start_datetime_utc`, `actual_value` |
+| `tbl_virtual_meter_hourly` | Virtual meter hourly energy | `virtual_meter_id`, `start_datetime_utc`, `actual_value` |
 
-**用途**: 存储能耗预测数据。
+#### 3.2 Equipment energy tables
 
-**特点**:
-- 表结构与 `myems_energy_db` 类似
-- 存储预测值而非实际值
-- 用于能耗预测和预警
+| Table | Description | Key columns |
+|------|-------------|-------------|
+| `tbl_equipment_input_category_hourly` | Equipment input energy (by category) | `equipment_id`, `energy_category_id`, `start_datetime_utc`, `actual_value` |
+| `tbl_equipment_input_item_hourly` | Equipment input energy (by item) | `equipment_id`, `energy_item_id`, `start_datetime_utc`, `actual_value` |
+| `tbl_equipment_output_category_hourly` | Equipment output energy (by category) | `equipment_id`, `energy_category_id`, `start_datetime_utc`, `actual_value` |
+| `tbl_combined_equipment_input_category_hourly` | Combined equipment input energy (by category) | `combined_equipment_id`, `energy_category_id`, `start_datetime_utc`, `actual_value` |
+| `tbl_combined_equipment_output_category_hourly` | Combined equipment output energy (by category) | `combined_equipment_id`, `energy_category_id`, `start_datetime_utc`, `actual_value` |
 
-**主要表**:
-- 与 `myems_energy_db` 相同的表结构
-- 数据由预测算法生成
+#### 3.3 Space energy tables
 
-**开发注意事项**:
-- 预测数据需要定期更新
-- 支持多种预测算法（时间序列、机器学习等）
-- 预测精度需要持续优化
+| Table | Description | Key columns |
+|------|-------------|-------------|
+| `tbl_space_input_category_hourly` | Space input energy (by category) | `space_id`, `energy_category_id`, `start_datetime_utc`, `actual_value` |
+| `tbl_space_input_item_hourly` | Space input energy (by item) | `space_id`, `energy_item_id`, `start_datetime_utc`, `actual_value` |
+| `tbl_space_output_category_hourly` | Space output energy (by category) | `space_id`, `energy_category_id`, `start_datetime_utc`, `actual_value` |
+| `tbl_store_input_category_hourly` | Store input energy | `store_id`, `energy_category_id`, `start_datetime_utc`, `actual_value` |
+| `tbl_tenant_input_category_hourly` | Tenant input energy | `tenant_id`, `energy_category_id`, `start_datetime_utc`, `actual_value` |
+| `tbl_shopfloor_input_category_hourly` | Shopfloor input energy | `shopfloor_id`, `energy_category_id`, `start_datetime_utc`, `actual_value` |
 
----
+#### 3.4 New energy equipment tables
 
-### 10. myems_fdd_db (故障诊断数据库)
+| Table | Description | Key columns |
+|------|-------------|-------------|
+| `tbl_photovoltaic_power_station_hourly` | PV power station hourly generation | `photovoltaic_power_station_id`, `start_datetime_utc`, `actual_value` |
+| `tbl_energy_storage_container_charge_hourly` | Energy storage container hourly charge | `energy_storage_container_id`, `start_datetime_utc`, `actual_value` |
+| `tbl_energy_storage_container_discharge_hourly` | Energy storage container hourly discharge | `energy_storage_container_id`, `start_datetime_utc`, `actual_value` |
+| `tbl_energy_storage_container_grid_buy_hourly` | Energy storage container hourly grid buy | `energy_storage_container_id`, `start_datetime_utc`, `actual_value` |
+| `tbl_energy_storage_container_grid_sell_hourly` | Energy storage container hourly grid sell | `energy_storage_container_id`, `start_datetime_utc`, `actual_value` |
+| `tbl_microgrid_charge_hourly` | Microgrid hourly charge | `microgrid_id`, `start_datetime_utc`, `actual_value` |
+| `tbl_microgrid_discharge_hourly` | Microgrid hourly discharge | `microgrid_id`, `start_datetime_utc`, `actual_value` |
 
-**用途**: 存储故障检测和诊断相关数据。
+**Index design**:
+- All tables have composite indexes: `(object_id, classification_id, start_datetime_utc)` or `(object_id, start_datetime_utc)`
+- Supports fast queries by object and time range
 
-**特点**:
-- 支持多种告警渠道（Web、Email、SMS、微信、电话）
-- 规则引擎支持复杂的故障检测逻辑
-- 支持故障消息的确认和处理
-
-**主要表结构**:
-
-| 表名 | 说明 | 关键字段 |
-|------|------|----------|
-| `tbl_rules` | 诊断规则 | `id`, `name`, `category`, `fdd_code`, `priority`, `channel`, `expression` (JSON), `message_template`, `is_enabled` |
-| `tbl_web_messages` | Web 消息 | `id`, `rule_id`, `user_id`, `subject`, `category`, `priority`, `message`, `status`, `belong_to_object_type`, `belong_to_object_id` |
-| `tbl_email_messages` | 邮件消息 | `id`, `rule_id`, `recipient_name`, `recipient_email`, `subject`, `message`, `attachment_file_name`, `status` |
-| `tbl_text_messages_outbox` | 短信发件箱 | `id`, `rule_id`, `recipient_mobile`, `message`, `status`, `acknowledge_code` |
-| `tbl_text_messages_inbox` | 短信收件箱 | `id`, `sender_mobile`, `message`, `status` |
-| `tbl_wechat_messages_outbox` | 微信消息发件箱 | `id`, `rule_id`, `recipient_openid`, `message_template_id`, `message_data` (JSON) |
-| `tbl_wechat_messages_inbox` | 微信消息收件箱 | `id`, `sender_openid`, `message`, `status` |
-| `tbl_email_servers` | 邮件服务器配置 | `id`, `host`, `port`, `requires_authentication`, `user_name`, `password`, `from_addr` |
-| `tbl_wechat_configs` | 微信配置 | `id`, `api_server`, `app_id`, `app_secret`, `access_token`, `expires_datetime_utc` |
-
-**规则分类 (category)**:
-- `REALTIME`: 实时告警
-- `SYSTEM`: 系统告警
-- `SPACE`: 空间告警
-- `METER`: 计量表告警
-- `TENANT`: 租户告警
-- `STORE`: 门店告警
-- `SHOPFLOOR`: 车间告警
-- `EQUIPMENT`: 设备告警
-- `COMBINEDEQUIPMENT`: 组合设备告警
-
-**优先级 (priority)**:
-- `CRITICAL`: 严重
-- `HIGH`: 高
-- `MEDIUM`: 中
-- `LOW`: 低
-
-**开发注意事项**:
-- `expression` 字段存储 JSON 格式的规则表达式
-- `message_template` 支持变量替换（如 `$name`, `$value`）
-- 规则支持定时执行和立即执行
-- 消息状态: `new` → `sent` → `acknowledged` / `timeout`
+**Development notes**:
+- `start_datetime_utc` is the start time of the time window (e.g., `2024-01-01 00:00:00` represents 00:00–01:00 on Jan 1)
+- `actual_value` is an aggregated value, not a raw value
+- Data is computed periodically by the normalization and aggregation services; it is not written in real time
+- Be careful with timezone conversion during queries and presentation
 
 ---
 
-### 11. myems_user_db (用户数据库)
+### 4. myems_billing_db (Billing Database)
 
-**用途**: 存储用户认证、API 密钥、邮件消息等。
+**Purpose**: Stores billing-related energy data. Its schema is similar to `myems_energy_db`, but values are calculated using tariffs.
 
-**特点**:
-- 数据量小，但安全性要求高
-- 支持用户权限管理
-- 支持 API 密钥认证
+**Characteristics**:
+- Table structures are identical to `myems_energy_db`
+- Data is computed by `myems-aggregation` according to tariff settings
+- Supports complex billing rules such as time-of-use and tiered pricing
 
-**主要表结构**:
+**Main tables**:
+- Same table structure as `myems_energy_db`
+- Values are multiplied by the corresponding tariff; the unit is usually a currency unit (e.g., CNY, USD)
 
-| 表名 | 说明 | 关键字段 |
-|------|------|----------|
-| `tbl_users` | 用户信息 | `id`, `name`, `uuid`, `display_name`, `email`, `salt`, `password`, `is_admin`, `is_read_only`, `privilege_id`, `account_expiration_datetime_utc`, `password_expiration_datetime_utc`, `failed_login_count` |
-| `tbl_privileges` | 权限配置 | `id`, `name`, `data` (JSON格式) |
-| `tbl_sessions` | 用户会话 | `id`, `user_uuid`, `token`, `utc_expires` |
-| `tbl_api_keys` | API 密钥 | `id`, `name`, `token`, `created_datetime_utc`, `expires_datetime_utc` |
-| `tbl_email_messages` | 邮件消息 | `id`, `recipient_name`, `recipient_email`, `subject`, `message`, `attachment_file_name`, `status`, `scheduled_datetime_utc` |
-| `tbl_email_message_sessions` | 邮件会话 | `id`, `recipient_email`, `token`, `expires_datetime_utc` |
-| `tbl_logs` | 操作日志 | `id`, `user_uuid`, `request_datetime_utc`, `request_method`, `resource_type`, `resource_id`, `request_body` (JSON) |
-| `tbl_notifications` | 通知消息 | `id`, `user_id`, `created_datetime_utc`, `status`, `subject`, `message`, `url` |
-| `tbl_new_users` | 新用户（待激活） | `id`, `name`, `uuid`, `display_name`, `email`, `salt`, `password` |
-| `tbl_verification_codes` | 验证码 | `id`, `recipient_email`, `verification_code`, `created_datetime_utc`, `expires_datetime_utc` |
-
-**安全设计**:
-- 密码使用 salt + hash 存储，不存储明文
-- 支持账户和密码过期时间
-- 支持登录失败次数限制
-- API 密钥支持过期时间
-
-**开发注意事项**:
-- 密码字段使用加密存储，不要直接查询
-- 会话 token 需要定期清理过期记录
-- 操作日志记录所有关键操作，便于审计
-- 通知状态: `unread` → `read` → `archived`
+**Development notes**:
+- Billing data depends on `myems_system_db.tbl_tariffs` tariff configuration
+- Must be associated with the cost center (`cost_center`)
+- Supports multiple tariff strategies (time-of-use, tiered, demand/capacity, etc.)
 
 ---
 
-### 12. myems_reporting_db (高级报表数据库)
+### 5. myems_carbon_db (Carbon Database)
 
-**用途**: 存储高级报表相关的邮件消息和附件。
+**Purpose**: Stores carbon-emission-related energy data for carbon footprint calculation.
 
-**特点**:
-- 数据量小
-- 支持高级报表模板和生成的文件存储
+**Characteristics**:
+- Table structures are identical to `myems_energy_db`
+- Data is computed by `myems-aggregation` according to carbon emission factors
+- Carbon emission factors are stored in `myems_system_db.tbl_energy_categories.kgco2e`
 
-**主要表结构**:
+**Main tables**:
+- Same table structure as `myems_energy_db`
+- Values are multiplied by the carbon emission factor; the unit is usually kgCO2e (kilograms of CO2 equivalent)
 
-| 表名 | 说明 | 关键字段 |
-|------|------|----------|
-| `tbl_reports` | 高级报表配置 | `id`, `name`, `uuid`, `expression` (JSON), `is_enabled`, `last_run_datetime_utc`, `next_run_datetime_utc`, `is_run_immediately` |
-| `tbl_reports_files` | 高级报表文件 | `id`, `uuid`, `create_datetime_utc`, `file_name`, `file_type` (xlsx/pdf/docx), `file_object` (LONGBLOB) |
-| `tbl_template_files` | 高级报表模板文件 | `id`, `uuid`, `report_id`, `file_name`, `file_type`, `file_object` |
-| `tbl_email_messages` | 邮件消息 | `id`, `recipient_name`, `recipient_email`, `subject`, `message`, `attachment_file_name`, `attachment_file_object`, `status` |
-
-**开发注意事项**:
-- 高级报表文件支持 Excel、PDF、Word 格式
-- 模板文件用于生成高级报表
-- 高级报表支持定时生成和立即生成
-- 文件使用 `LONGBLOB` 存储，注意大小限制
+**Development notes**:
+- Emission factors may change over time; historical factors may be needed
+- Emission factors differ by energy type (electricity, gas, oil, etc.)
+- Supports Scope 1, Scope 2, and Scope 3 carbon calculations
 
 ---
 
-### 13. myems_production_db (产品数据库)
+### 6. myems_energy_baseline_db (Energy Baseline Database)
 
-**用途**: 存储生产相关的产品数据。
+**Purpose**: Stores baseline data used for energy-saving analysis and efficiency evaluation.
 
-**特点**:
-- 数据量小
-- 用于生产能耗关联分析
+**Characteristics**:
+- Schema similar to `myems_energy_db`
+- Baseline values are typically derived from historical data or standard values
+- Used to compare actual consumption vs baseline consumption to calculate savings
 
-**主要表结构**:
+**Main tables**:
+- Same table structure as `myems_energy_db`
+- Stores baseline values rather than actual values
 
-| 表名 | 说明 | 关键字段 |
-|------|------|----------|
-| `tbl_products` | 产品信息 | `id`, `name`, `uuid`, `unit_of_measure`, `tag`, `standard_product_coefficient` |
-| `tbl_teams` | 班组信息 | `id`, `name`, `uuid`, `description` |
-| `tbl_shifts` | 班次信息 | `id`, `shopfloor_id`, `team_id`, `product_id`, `product_count`, `start_datetime_utc`, `end_datetime_utc`, `reference_timestamp` |
-| `tbl_shopfloor_hourly` | 车间小时产量 | `id`, `shopfloor_id`, `start_datetime_utc`, `product_id`, `product_count` |
-| `tbl_space_hourly` | 空间小时产量 | `id`, `space_id`, `start_datetime_utc`, `product_id`, `product_count` |
-| `tbl_shopfloors_products` | 车间与产品关联 | `id`, `shopfloor_id`, `product_id` |
-| `tbl_shopfloors_teams` | 车间与班组关联 | `id`, `shopfloor_id`, `team_id` |
-
-**开发注意事项**:
-- 生产数据用于计算单位产品能耗
-- 支持按产品、班组、车间等维度统计
-- 与能耗数据关联，计算能效指标
+**Development notes**:
+- Baseline data should be updated periodically
+- Supports multiple baseline calculation methods (historical average, regression, standard values, etc.)
 
 ---
 
-## 数据流转关系
+### 7. myems_energy_model_db (Energy Model Database)
 
-### 数据采集流程
+**Purpose**: Stores 8760-hour annual energy model data (8760 hours per year).
+
+**Characteristics**:
+- Each object stores 8760 records (one year of hourly data)
+- Used for energy prediction and planning
+- Table names include the `_8760` suffix
+
+**Main tables**:
+
+| Table | Description | Key columns |
+|------|-------------|-------------|
+| `tbl_meter_8760` | Meter 8760-hour model | `meter_id`, `start_datetime_utc`, `actual_value` |
+| `tbl_equipment_input_category_8760` | Equipment input energy model | `equipment_id`, `energy_category_id`, `start_datetime_utc`, `actual_value` |
+| `tbl_combined_equipment_input_category_8760` | Combined equipment input energy model | `combined_equipment_id`, `energy_category_id`, `start_datetime_utc`, `actual_value` |
+| `tbl_space_input_category_8760` | Space input energy model | `space_id`, `energy_category_id`, `start_datetime_utc`, `actual_value` |
+| `tbl_shopfloor_input_category_8760` | Shopfloor input energy model | `shopfloor_id`, `energy_category_id`, `start_datetime_utc`, `actual_value` |
+| `tbl_store_input_category_8760` | Store input energy model | `store_id`, `energy_category_id`, `start_datetime_utc`, `actual_value` |
+| `tbl_tenant_input_category_8760` | Tenant input energy model | `tenant_id`, `energy_category_id`, `start_datetime_utc`, `actual_value` |
+
+**Development notes**:
+- The 8760-hour model is usually generated from historical data or standard models
+- Used for annual energy forecasting and budgeting
+- Supports views by week, month, quarter, etc.
+
+---
+
+### 8. myems_energy_plan_db (Energy Plan Database)
+
+**Purpose**: Stores energy plans and target data.
+
+**Characteristics**:
+- Schema similar to `myems_energy_db`
+- Stores planned values rather than actual values
+- Used for energy budgeting and target management
+
+**Main tables**:
+- Same table structure as `myems_energy_db`
+- Data comes from plan files or manual input
+
+**Development notes**:
+- Planned data should be compared with actual data for analysis
+- Supports multi-level plans (annual, monthly, weekly, etc.)
+
+---
+
+### 9. myems_energy_prediction_db (Energy Prediction Database)
+
+**Purpose**: Stores energy prediction data.
+
+**Characteristics**:
+- Schema similar to `myems_energy_db`
+- Stores predicted values rather than actual values
+- Used for energy prediction and early warning
+
+**Main tables**:
+- Same table structure as `myems_energy_db`
+- Data is produced by prediction algorithms
+
+**Development notes**:
+- Prediction data should be updated periodically
+- Supports multiple prediction approaches (time series, machine learning, etc.)
+- Prediction accuracy should be continuously improved
+
+---
+
+### 10. myems_fdd_db (Fault Detection and Diagnosis Database)
+
+**Purpose**: Stores fault detection and diagnosis (FDD) related data.
+
+**Characteristics**:
+- Supports multiple alert channels (Web, Email, SMS, WeChat, phone call)
+- A rule engine supports complex fault detection logic
+- Supports acknowledgment and handling of fault messages
+
+**Main table structures**:
+
+| Table | Description | Key columns |
+|------|-------------|-------------|
+| `tbl_rules` | Diagnosis rules | `id`, `name`, `category`, `fdd_code`, `priority`, `channel`, `expression` (JSON), `message_template`, `is_enabled` |
+| `tbl_web_messages` | Web messages | `id`, `rule_id`, `user_id`, `subject`, `category`, `priority`, `message`, `status`, `belong_to_object_type`, `belong_to_object_id` |
+| `tbl_email_messages` | Email messages | `id`, `rule_id`, `recipient_name`, `recipient_email`, `subject`, `message`, `attachment_file_name`, `status` |
+| `tbl_text_messages_outbox` | SMS outbox | `id`, `rule_id`, `recipient_mobile`, `message`, `status`, `acknowledge_code` |
+| `tbl_text_messages_inbox` | SMS inbox | `id`, `sender_mobile`, `message`, `status` |
+| `tbl_wechat_messages_outbox` | WeChat outbox | `id`, `rule_id`, `recipient_openid`, `message_template_id`, `message_data` (JSON) |
+| `tbl_wechat_messages_inbox` | WeChat inbox | `id`, `sender_openid`, `message`, `status` |
+| `tbl_email_servers` | Email server configuration | `id`, `host`, `port`, `requires_authentication`, `user_name`, `password`, `from_addr` |
+| `tbl_wechat_configs` | WeChat configuration | `id`, `api_server`, `app_id`, `app_secret`, `access_token`, `expires_datetime_utc` |
+
+**Rule categories (category)**:
+- `REALTIME`: Realtime alerts
+- `SYSTEM`: System alerts
+- `SPACE`: Space alerts
+- `METER`: Meter alerts
+- `TENANT`: Tenant alerts
+- `STORE`: Store alerts
+- `SHOPFLOOR`: Shopfloor alerts
+- `EQUIPMENT`: Equipment alerts
+- `COMBINEDEQUIPMENT`: Combined equipment alerts
+
+**Priorities (priority)**:
+- `CRITICAL`: Critical
+- `HIGH`: High
+- `MEDIUM`: Medium
+- `LOW`: Low
+
+**Development notes**:
+- The `expression` column stores JSON-formatted rule expressions
+- `message_template` supports variable replacement (e.g., `$name`, `$value`)
+- Rules support scheduled execution and immediate execution
+- Message lifecycle: `new` → `sent` → `acknowledged` / `timeout`
+
+---
+
+### 11. myems_user_db (User Database)
+
+**Purpose**: Stores user authentication, API keys, email messages, etc.
+
+**Characteristics**:
+- Small data volume but high security requirements
+- Supports user privilege management
+- Supports API key authentication
+
+**Main table structures**:
+
+| Table | Description | Key columns |
+|------|-------------|-------------|
+| `tbl_users` | Users | `id`, `name`, `uuid`, `display_name`, `email`, `salt`, `password`, `is_admin`, `is_read_only`, `privilege_id`, `account_expiration_datetime_utc`, `password_expiration_datetime_utc`, `failed_login_count` |
+| `tbl_privileges` | Privileges | `id`, `name`, `data` (JSON format) |
+| `tbl_sessions` | Sessions | `id`, `user_uuid`, `token`, `utc_expires` |
+| `tbl_api_keys` | API keys | `id`, `name`, `token`, `created_datetime_utc`, `expires_datetime_utc` |
+| `tbl_email_messages` | Email messages | `id`, `recipient_name`, `recipient_email`, `subject`, `message`, `attachment_file_name`, `status`, `scheduled_datetime_utc` |
+| `tbl_email_message_sessions` | Email sessions | `id`, `recipient_email`, `token`, `expires_datetime_utc` |
+| `tbl_logs` | Audit logs | `id`, `user_uuid`, `request_datetime_utc`, `request_method`, `resource_type`, `resource_id`, `request_body` (JSON) |
+| `tbl_notifications` | Notifications | `id`, `user_id`, `created_datetime_utc`, `status`, `subject`, `message`, `url` |
+| `tbl_new_users` | New users (pending activation) | `id`, `name`, `uuid`, `display_name`, `email`, `salt`, `password` |
+| `tbl_verification_codes` | Verification codes | `id`, `recipient_email`, `verification_code`, `created_datetime_utc`, `expires_datetime_utc` |
+
+**Security design**:
+- Passwords are stored as salt + hash; plaintext passwords are never stored
+- Supports account expiration and password expiration
+- Supports limiting failed login attempts
+- API keys support expiration times
+
+**Development notes**:
+- Password columns are stored in encrypted form; do not query them directly
+- Session tokens should be cleaned up periodically to remove expired records
+- Audit logs record all critical operations for security review
+- Notification lifecycle: `unread` → `read` → `archived`
+
+---
+
+### 12. myems_reporting_db (Advanced Reporting Database)
+
+**Purpose**: Stores email messages and attachments related to advanced reports.
+
+**Characteristics**:
+- Small data volume
+- Supports advanced report templates and generated file storage
+
+**Main table structures**:
+
+| Table | Description | Key columns |
+|------|-------------|-------------|
+| `tbl_reports` | Advanced report configuration | `id`, `name`, `uuid`, `expression` (JSON), `is_enabled`, `last_run_datetime_utc`, `next_run_datetime_utc`, `is_run_immediately` |
+| `tbl_reports_files` | Advanced report files | `id`, `uuid`, `create_datetime_utc`, `file_name`, `file_type` (xlsx/pdf/docx), `file_object` (LONGBLOB) |
+| `tbl_template_files` | Advanced report template files | `id`, `uuid`, `report_id`, `file_name`, `file_type`, `file_object` |
+| `tbl_email_messages` | Email messages | `id`, `recipient_name`, `recipient_email`, `subject`, `message`, `attachment_file_name`, `attachment_file_object`, `status` |
+
+**Development notes**:
+- Advanced report files support Excel, PDF, and Word formats
+- Template files are used to generate advanced reports
+- Advanced reports can be generated on a schedule or immediately
+- Files are stored using `LONGBLOB`; be mindful of size limits
+
+---
+
+### 13. myems_production_db (Production Database)
+
+**Purpose**: Stores production-related product data.
+
+**Characteristics**:
+- Small data volume
+- Used for production-to-energy correlation analysis
+
+**Main table structures**:
+
+| Table | Description | Key columns |
+|------|-------------|-------------|
+| `tbl_products` | Products | `id`, `name`, `uuid`, `unit_of_measure`, `tag`, `standard_product_coefficient` |
+| `tbl_teams` | Teams | `id`, `name`, `uuid`, `description` |
+| `tbl_shifts` | Shifts | `id`, `shopfloor_id`, `team_id`, `product_id`, `product_count`, `start_datetime_utc`, `end_datetime_utc`, `reference_timestamp` |
+| `tbl_shopfloor_hourly` | Shopfloor hourly production | `id`, `shopfloor_id`, `start_datetime_utc`, `product_id`, `product_count` |
+| `tbl_space_hourly` | Space hourly production | `id`, `space_id`, `start_datetime_utc`, `product_id`, `product_count` |
+| `tbl_shopfloors_products` | Shopfloor-to-product mapping | `id`, `shopfloor_id`, `product_id` |
+| `tbl_shopfloors_teams` | Shopfloor-to-team mapping | `id`, `shopfloor_id`, `team_id` |
+
+**Development notes**:
+- Production data is used to compute energy consumption per unit product
+- Supports statistics by product, team, shopfloor, etc.
+- Correlates with energy data to compute efficiency indicators
+
+---
+
+## Data Flow
+
+### Data acquisition flow
 
 ```
-设备/传感器
+Devices/Sensors
     ↓ (Modbus TCP/MQTT/HTTP)
-myems-modbus-tcp (数据采集服务)
-    ↓ (写入)
+myems-modbus-tcp (Data acquisition service)
+    ↓ (write)
 myems_historical_db.tbl_analog_value / tbl_digital_value / tbl_energy_value
-    ↓ (数据规范化)
-myems-normalization (数据规范化服务)
-    ↓ (数据清洗)
-myems-cleaning (数据清洗服务)
-    ↓ (数据聚合)
-myems-aggregation (数据汇总服务)
-    ↓ (写入)
-myems_energy_db (能耗数据)
-myems_billing_db (计费数据)
-myems_carbon_db (碳排放数据)
+    ↓ (Normalization)
+myems-normalization (Data normalization service)
+    ↓ (Cleaning)
+myems-cleaning (Data cleaning service)
+    ↓ (Aggregation)
+myems-aggregation (Data aggregation service)
+    ↓ (write)
+myems_energy_db (Energy data)
+myems_billing_db (Billing data)
+myems_carbon_db (Carbon data)
 ```
 
-### 数据查询流程
+### Data query flow
 
 ```
-用户请求
+User request
     ↓
-myems-api (API 服务)
-    ↓ (查询)
-myems_system_db (配置数据)
-myems_historical_db (历史数据)
-myems_energy_db (能耗数据)
-    ↓ (返回)
-myems-web / myems-admin (前端展示)
+myems-api (API service)
+    ↓ (query)
+myems_system_db (Configuration data)
+myems_historical_db (Historical data)
+myems_energy_db (Energy data)
+    ↓ (return)
+myems-web / myems-admin (Frontend)
 ```
 
-### 数据关联关系
+### Data relationships
 
 ```
 myems_system_db.tbl_points
     ↓ (point_id)
 myems_historical_db.tbl_analog_value
-    ↓ (聚合计算)
+    ↓ (aggregation)
 myems_energy_db.tbl_meter_hourly
-    ↓ (关联)
+    ↓ (relation)
 myems_system_db.tbl_meters
-    ↓ (关联)
+    ↓ (relation)
 myems_system_db.tbl_equipments
-    ↓ (关联)
+    ↓ (relation)
 myems_system_db.tbl_spaces
 ```
 
 ---
 
-## 表结构设计规范
+## Table Design Conventions
 
-### 通用字段
+### Common columns
 
-所有表都包含以下通用字段：
+All tables contain the following common columns:
 
-| 字段名 | 类型 | 说明 |
-|--------|------|------|
-| `id` | BIGINT NOT NULL AUTO_INCREMENT | 主键，自增 |
-| `name` | VARCHAR(255) | 名称 |
-| `uuid` | CHAR(36) | UUID，用于外部系统集成 |
-| `description` | VARCHAR(255) | 描述（可选） |
+| Column | Type | Description |
+|--------|------|-------------|
+| `id` | BIGINT NOT NULL AUTO_INCREMENT | Primary key, auto-increment |
+| `name` | VARCHAR(255) | Name |
+| `uuid` | CHAR(36) | UUID for external system integration |
+| `description` | VARCHAR(255) | Description (optional) |
 
-### 时间字段
+### Time columns
 
-| 字段名 | 类型 | 说明 |
-|--------|------|------|
-| `utc_date_time` | DATETIME | UTC 时间（历史数据表） |
-| `start_datetime_utc` | DATETIME | 时间段开始时间（聚合数据表） |
-| `created_datetime_utc` | DATETIME | 创建时间 |
-| `updated_datetime_utc` | DATETIME | 更新时间 |
-| `last_run_datetime_utc` | DATETIME | 最后运行时间 |
-| `next_run_datetime_utc` | DATETIME | 下次运行时间 |
+| Column | Type | Description |
+|--------|------|-------------|
+| `utc_date_time` | DATETIME | UTC time (historical tables) |
+| `start_datetime_utc` | DATETIME | Start time of the time window (aggregation tables) |
+| `created_datetime_utc` | DATETIME | Created time |
+| `updated_datetime_utc` | DATETIME | Updated time |
+| `last_run_datetime_utc` | DATETIME | Last run time |
+| `next_run_datetime_utc` | DATETIME | Next run time |
 
-**注意**: 所有时间字段统一使用 UTC 时间，前端显示时转换为本地时间。
+**Note**: All time columns are standardized on UTC; the frontend converts them to local time for display.
 
-### 数值字段
+### Numeric columns
 
-| 字段名 | 类型 | 说明 |
-|--------|------|------|
-| `actual_value` | DECIMAL(21, 6) | 实际值，支持高精度（6位小数） |
-| `set_value` | DECIMAL(21, 6) | 设定值 |
-| `rated_capacity` | DECIMAL(21, 6) | 额定容量 |
-| `rated_power` | DECIMAL(21, 6) | 额定功率 |
+| Column | Type | Description |
+|--------|------|-------------|
+| `actual_value` | DECIMAL(21, 6) | Actual value, high precision (6 decimals) |
+| `set_value` | DECIMAL(21, 6) | Setpoint |
+| `rated_capacity` | DECIMAL(21, 6) | Rated capacity |
+| `rated_power` | DECIMAL(21, 6) | Rated power |
 
-### JSON 字段
+### JSON columns
 
-| 字段名 | 类型 | 说明 |
-|--------|------|------|
-| `connection` | LONGTEXT | 连接配置（JSON 格式） |
-| `expression` | LONGTEXT | 表达式（JSON 格式） |
-| `payload` | LONGTEXT | 负载（JSON 格式） |
-| `data` | LONGTEXT | 数据（JSON 格式） |
+| Column | Type | Description |
+|--------|------|-------------|
+| `connection` | LONGTEXT | Connection settings (JSON format) |
+| `expression` | LONGTEXT | Expression (JSON format) |
+| `payload` | LONGTEXT | Payload (JSON format) |
+| `data` | LONGTEXT | Data (JSON format) |
 
-**注意**: JSON 字段存储格式化的 JSON 字符串，需要解析后使用。
+**Note**: JSON columns store formatted JSON strings and must be parsed before use.
 
-### 状态字段
+### Status columns
 
-| 字段名 | 类型 | 说明 |
-|--------|------|------|
-| `is_enabled` | BOOL | 是否启用 |
-| `is_active` | BOOL | 是否激活 |
-| `is_bad` | BOOL | 是否坏数据 |
-| `is_published` | BOOL | 是否已发布 |
-| `is_counted` | BOOL | 是否计入统计 |
-| `status` | VARCHAR(32) | 状态（如: new, sent, done, error） |
+| Column | Type | Description |
+|--------|------|-------------|
+| `is_enabled` | BOOL | Enabled flag |
+| `is_active` | BOOL | Active flag |
+| `is_bad` | BOOL | Bad data flag |
+| `is_published` | BOOL | Published flag |
+| `is_counted` | BOOL | Counted-in-statistics flag |
+| `status` | VARCHAR(32) | Status (e.g., new, sent, done, error) |
 
-### 索引设计
+### Index design
 
-**主键索引**:
-- 所有表都有 `PRIMARY KEY (id)`
+**Primary key index**:
+- All tables have `PRIMARY KEY (id)`
 
-**唯一索引**:
-- 关键字段（如 `name`, `uuid`）通常有唯一索引
+**Unique indexes**:
+- Key columns (such as `name`, `uuid`) typically have unique indexes
 
-**复合索引**:
-- 查询频繁的字段组合建立复合索引
-- 如: `(point_id, utc_date_time)`, `(meter_id, start_datetime_utc)`
+**Composite indexes**:
+- Build composite indexes for frequently queried column combinations
+- Example: `(point_id, utc_date_time)`, `(meter_id, start_datetime_utc)`
 
-**时间索引**:
-- 时间字段通常单独建立索引，支持时间范围查询
-
----
-
-## 开发注意事项
-
-### 1. 时间处理
-
-- **所有时间使用 UTC**: 数据库存储和 API 返回都使用 UTC 时间
-- **前端转换**: 前端负责转换为本地时间显示
-- **时间格式**: 使用 `DATETIME` 类型，格式: `YYYY-MM-DD HH:MM:SS`
-- **时区问题**: 注意夏令时和时区转换
-
-### 2. 数据类型选择
-
-- **数值**: 使用 `DECIMAL(21, 6)` 保证精度，避免浮点数误差
-- **文本**: 短文本用 `VARCHAR`，长文本用 `TEXT` 或 `LONGTEXT`
-- **JSON**: 使用 `LONGTEXT` 存储 JSON 字符串
-- **二进制**: 使用 `LONGBLOB` 存储文件
-
-### 3. 查询优化
-
-- **使用索引**: 查询条件尽量使用索引字段
-- **避免全表扫描**: 大数据量表避免 `SELECT *`
-- **分页查询**: 列表查询必须分页，避免一次返回大量数据
-- **时间范围**: 历史数据查询必须限制时间范围
-
-### 4. 事务处理
-
-- **配置数据**: 系统配置表使用事务保证一致性
-- **历史数据**: 历史数据表通常不使用事务，提高写入性能
-- **批量操作**: 批量插入使用事务，失败时回滚
-
-### 5. 数据一致性
-
-- **外键约束**: 系统配置表使用外键保证数据一致性
-- **关联查询**: 使用 JOIN 查询关联数据，避免多次查询
-- **数据校验**: 写入前校验数据格式和范围
-
-### 6. 性能优化
-
-- **读写分离**: 历史数据表支持读写分离
-- **分区表**: 大数据量表可以考虑按时间分区
-- **缓存策略**: 配置数据和最新值使用缓存
-- **批量操作**: 批量插入使用 `INSERT ... VALUES (...), (...), (...)`
-
-### 7. 安全考虑
-
-- **SQL 注入**: 使用参数化查询，避免 SQL 注入
-- **密码加密**: 用户密码使用 salt + hash，不存储明文
-- **权限控制**: API 接口需要权限验证
-- **数据脱敏**: 敏感数据（如密码、密钥）不记录日志
-
-### 8. 错误处理
-
-- **异常捕获**: 数据库操作需要捕获异常
-- **错误日志**: 记录详细的错误信息，便于排查
-- **重试机制**: 网络错误支持重试
-- **降级策略**: 服务不可用时提供降级方案
+**Time indexes**:
+- Time columns typically have standalone indexes to support time-range queries
 
 ---
 
-## 安装与升级
+## Development Notes
 
-### 安装顺序
+### 1. Time handling
 
-建议按以下顺序安装数据库：
+- **All times are UTC**: Database storage and API responses use UTC time
+- **Frontend conversion**: The frontend converts UTC to local time for display
+- **Datetime format**: Use `DATETIME` with format `YYYY-MM-DD HH:MM:SS`
+- **Timezone concerns**: Consider DST and timezone conversions
 
-1. **myems_system_db** - 系统配置数据库
-2. **myems_user_db** - 用户数据库
-3. **myems_historical_db** - 历史数据数据库
-4. **myems_energy_db** - 能耗数据库
-5. **myems_billing_db** - 计费数据库
-6. **myems_carbon_db** - 碳排放数据库
-7. **myems_energy_baseline_db** - 能耗基线数据库
-8. **myems_energy_model_db** - 能耗模型数据库
-9. **myems_energy_plan_db** - 能耗计划数据库
-10. **myems_energy_prediction_db** - 能耗预测数据库
-11. **myems_fdd_db** - 故障诊断数据库
-12. **myems_reporting_db** - 高级报表数据库
-13. **myems_production_db** - 产品数据库
+### 2. Data type selection
 
-### 安装命令
+- **Numbers**: Use `DECIMAL(21, 6)` to ensure precision and avoid floating-point errors
+- **Text**: Use `VARCHAR` for short text and `TEXT` / `LONGTEXT` for long text
+- **JSON**: Use `LONGTEXT` to store JSON strings
+- **Binary**: Use `LONGBLOB` to store files
+
+### 3. Query optimization
+
+- **Use indexes**: Prefer indexed columns in query predicates
+- **Avoid full scans**: Avoid `SELECT *` on large tables
+- **Pagination**: List endpoints must paginate to avoid returning huge payloads
+- **Time ranges**: Historical queries must constrain time ranges
+
+### 4. Transaction handling
+
+- **Configuration data**: Use transactions on system configuration tables to ensure consistency
+- **Historical data**: Typically avoids transactions to improve write throughput
+- **Batch operations**: Use transactions for batch inserts; rollback on failure
+
+### 5. Data consistency
+
+- **Foreign keys**: System configuration tables use foreign keys to ensure consistency
+- **Relational queries**: Use JOINs for related data rather than multiple round trips
+- **Validation**: Validate data formats and ranges before writing
+
+### 6. Performance considerations
+
+- **Read/write separation**: Historical tables can support read/write separation
+- **Partitioning**: Consider time-based partitioning for very large tables
+- **Caching**: Cache configuration data and latest values when appropriate
+- **Batch inserts**: Use `INSERT ... VALUES (...), (...), (...)` for batch inserts
+
+### 7. Security considerations
+
+- **SQL injection**: Use parameterized queries to prevent SQL injection
+- **Password hashing**: Use salt + hash; never store plaintext passwords
+- **Authorization**: API endpoints must enforce privilege checks
+- **Data masking**: Do not log sensitive data (passwords, keys, etc.)
+
+### 8. Error handling
+
+- **Exception handling**: Catch exceptions around database operations
+- **Error logging**: Record detailed error information for troubleshooting
+- **Retry strategy**: Support retries for transient network errors
+- **Degradation strategy**: Provide fallbacks when services are unavailable
+
+---
+
+## Installation and Upgrade
+
+### Installation order
+
+It is recommended to install databases in the following order:
+
+1. **myems_system_db** - System configuration database
+2. **myems_user_db** - User database
+3. **myems_historical_db** - Historical data database
+4. **myems_energy_db** - Energy database
+5. **myems_billing_db** - Billing database
+6. **myems_carbon_db** - Carbon database
+7. **myems_energy_baseline_db** - Energy baseline database
+8. **myems_energy_model_db** - Energy model database
+9. **myems_energy_plan_db** - Energy plan database
+10. **myems_energy_prediction_db** - Energy prediction database
+11. **myems_fdd_db** - Fault detection and diagnosis database
+12. **myems_reporting_db** - Advanced reporting database
+13. **myems_production_db** - Production database
+
+### Installation commands
 
 ```bash
-# 进入数据库安装目录
+# Enter the database installation directory
 cd database/install
 
-# 按顺序执行 SQL 脚本
+# Execute SQL scripts in order
 mysql -u root -p < myems_system_db.sql
 mysql -u root -p < myems_user_db.sql
 mysql -u root -p < myems_historical_db.sql
@@ -777,28 +777,28 @@ mysql -u root -p < myems_reporting_db.sql
 mysql -u root -p < myems_production_db.sql
 ```
 
-### 数据库升级
+### Database upgrade
 
-数据库升级脚本位于 `database/upgrade/` 目录，按版本号命名（如 `upgrade5.10.0.sql`）。
+Database upgrade scripts are located in the `database/upgrade/` directory and are named by version (e.g., `upgrade5.10.0.sql`).
 
-升级前请：
-1. **备份数据库**: 升级前必须备份所有数据库
-2. **查看升级说明**: 阅读升级脚本中的注释
-3. **测试环境验证**: 先在测试环境验证升级脚本
-4. **按版本顺序升级**: 按版本号顺序执行升级脚本
+Before upgrading:
+1. **Back up databases**: You must back up all databases before upgrading
+2. **Review upgrade notes**: Read the comments in the upgrade script
+3. **Validate in staging**: Verify the script in a test environment first
+4. **Upgrade in order**: Execute upgrade scripts in version order
 
-### 数据库维护
+### Database maintenance
 
-- **定期备份**: 建议每天备份一次，保留至少 30 天
-- **清理历史数据**: 定期清理过期的历史数据，避免表过大
-- **优化表**: 定期执行 `OPTIMIZE TABLE` 优化表结构
-- **监控性能**: 监控数据库性能，及时发现问题
+- **Regular backups**: Recommended daily; keep at least 30 days of backups
+- **Historical cleanup**: Periodically delete expired historical data to prevent oversized tables
+- **Optimize tables**: Periodically run `OPTIMIZE TABLE` to optimize table structures
+- **Monitor performance**: Monitor database performance to detect issues early
 
 ---
 
-## 相关文档
+## Related Documents
 
-- [MyEMS 官方文档](https://myems.cn/docs/installation/database)
-- [MyEMS API 文档](./../myems-api/README.md)
-- [MyEMS 数据采集文档](./../myems-modbus-tcp/README.md)
-- [MyEMS 数据汇总文档](./../myems-aggregation/README.md)
+- [MyEMS Official Documentation](https://myems.cn/docs/installation/database)
+- [MyEMS API Documentation](./../myems-api/README.md)
+- [MyEMS Data Acquisition Documentation](./../myems-modbus-tcp/README.md)
+- [MyEMS Data Aggregation Documentation](./../myems-aggregation/README.md)
