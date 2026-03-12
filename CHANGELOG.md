@@ -12,6 +12,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - added fixed dependency version numbers to myems-api/requirements.txt
 - changed units of value_per_unit_area and value_per_capita in myems-web
 - changed default username for myems-web from administrator@myems.io to administrator in readme
+- changed the offline meter data entry interface to support 6 decimal places in myems-web
 ### Fixed
 - fixed overwritten property in myems-web
 - fixed overwritten property in myems-admin
