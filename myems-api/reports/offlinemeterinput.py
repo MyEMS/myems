@@ -76,12 +76,14 @@ class Reporting:
                                                 month=int(onepieces[0][5:7]),
                                                 day=int(onepieces[0][8:10]))
                 start_datetime_utc = start_datetime_local - timedelta(minutes=timezone_offset)
-                if onepieces[1] is None or \
-                        onepieces[1] == '' or \
-                        float(onepieces[1]) < 0:
+                if onepieces[1] is None or  onepieces[1] == '' :
                     raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                            description='API.INVALID_OFFLINE_METER_VALUE')
-                offline_meter_data['data'][start_datetime_utc] = Decimal(onepieces[1])
+                decimal_value = Decimal(onepieces[1])
+                if decimal_value < 0:
+                    raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                           description='API.INVALID_OFFLINE_METER_VALUE')
+                offline_meter_data['data'][start_datetime_utc] = decimal_value
             if len(offline_meter_data['data']) > 0:
                 energy_data_list.append(offline_meter_data)
         except UnicodeDecodeError as ex:
