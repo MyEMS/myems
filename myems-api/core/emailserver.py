@@ -221,7 +221,7 @@ class EmailServerItem:
                   "user_name": row[4],
                   "password": str(base64.b64decode(bytearray(row[5], 'utf-8')), 'utf-8')
                   if row[5] is not None else None,
-                  "from_addr": row[6]}  # Fixed index from row[5] to row[6]
+                  "from_addr": row[6]}
         resp.text = json.dumps(result)
 
     @staticmethod

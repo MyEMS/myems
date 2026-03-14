@@ -1652,7 +1652,7 @@ class EnergyStorageContainerDataSourceCollection:
                          " FROM tbl_energy_storage_containers ce, tbl_energy_storage_containers_data_sources ceds, "
                          "      tbl_data_sources ds "
                          " WHERE ceds.energy_storage_container_id = ce.id "
-                         " AND ds.id = ceds.data_source_id AND ce.id = %s "
+                         "       AND ds.id = ceds.data_source_id AND ce.id = %s "
                          " ORDER BY ds.id ")
                 cursor.execute(query, (id_,))
                 rows = cursor.fetchall()
@@ -2040,8 +2040,6 @@ class EnergyStorageContainerDCDCItem:
                 cursor.execute(query)
                 rows_energystoragecontainers = cursor.fetchall()
 
-                # Note: In the original code, this dict was built but never used in the result.
-                # Keeping logic consistent with original, though it seems redundant here.
                 energy_storage_container_dict = dict()
                 if rows_energystoragecontainers is not None and len(rows_energystoragecontainers) > 0:
                     for row in rows_energystoragecontainers:
@@ -2580,8 +2578,6 @@ class EnergyStorageContainerFirecontrolItem:
                 cursor.execute(query)
                 rows_energystoragecontainers = cursor.fetchall()
 
-                # Note: In the original code, this dict was built but never used in the result.
-                # Keeping logic consistent with original, though it seems redundant here.
                 energy_storage_container_dict = dict()
                 if rows_energystoragecontainers is not None and len(rows_energystoragecontainers) > 0:
                     for row in rows_energystoragecontainers:

@@ -1186,7 +1186,6 @@ class EnergyStoragePowerStationUserCollection:
         cursor_user = None
         
         try:
-            # Connect to System DB
             cnx = mysql.connector.connect(**config.myems_system_db)
             try:
                 cursor = cnx.cursor()
@@ -1197,7 +1196,6 @@ class EnergyStoragePowerStationUserCollection:
                     raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                            description='API.ENERGY_STORAGE_POWER_STATION_NOT_FOUND')
 
-                # Connect to User DB
                 cnx_user = mysql.connector.connect(**config.myems_user_db)
                 try:
                     cursor_user = cnx_user.cursor()
@@ -1266,7 +1264,6 @@ class EnergyStoragePowerStationUserItem:
         cursor_user = None
 
         try:
-            # Connect to System DB
             cnx = mysql.connector.connect(**config.myems_system_db)
             try:
                 cursor = cnx.cursor()
@@ -1277,7 +1274,6 @@ class EnergyStoragePowerStationUserItem:
                     raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                            description='API.ENERGY_STORAGE_POWER_STATION_NOT_FOUND')
 
-                # Connect to User DB
                 cnx_user = mysql.connector.connect(**config.myems_user_db)
                 try:
                     cursor_user = cnx_user.cursor()
