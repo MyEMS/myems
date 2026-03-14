@@ -3,6 +3,7 @@ import uuid
 from datetime import datetime, timezone, timedelta
 import falcon
 import mysql.connector
+from mysql.connector.errors import InterfaceError, OperationalError, ProgrammingError, DataError
 import simplejson as json
 from core.useractivity import user_logger, admin_control, access_control, api_key_control
 import config
@@ -34,16 +35,27 @@ class EnergyPlanFileCollection:
             access_control(req)
         else:
             api_key_control(req)
-        cnx = mysql.connector.connect(**config.myems_historical_db)
-        cursor = cnx.cursor()
+        
+        cnx = None
+        cursor = None
+        rows = []
 
-        query = (" SELECT id, file_name, uuid, upload_datetime_utc, status "
-                 " FROM tbl_energy_plan_files "
-                 " ORDER BY upload_datetime_utc desc ")
-        cursor.execute(query)
-        rows = cursor.fetchall()
-        cursor.close()
-        cnx.close()
+        try:
+            cnx = mysql.connector.connect(**config.myems_historical_db)
+            try:
+                cursor = cnx.cursor()
+
+                query = (" SELECT id, file_name, uuid, upload_datetime_utc, status "
+                         " FROM tbl_energy_plan_files "
+                         " ORDER BY upload_datetime_utc desc ")
+                cursor.execute(query)
+                rows = cursor.fetchall()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         timezone_offset = int(config.utc_offset[1:3]) * 60 + int(config.utc_offset[4:6])
         if config.utc_offset[0] == '-':
@@ -103,81 +115,81 @@ class EnergyPlanFileCollection:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.USER_UUID_NOT_FOUND_IN_HEADERS_PLEASE_LOGIN')
 
-        cnx = mysql.connector.connect(**config.myems_user_db)
-        cursor = cnx.cursor()
-
-        query = (" SELECT utc_expires "
-                 " FROM tbl_sessions "
-                 " WHERE user_uuid = %s AND token = %s")
-        cursor.execute(query, (user_uuid, token,))
-        row = cursor.fetchone()
-
-        if row is None:
-            if cursor:
-                cursor.close()
-            if cnx:
-                cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.INVALID_SESSION_PLEASE_RE_LOGIN')
-        else:
-            utc_expires = row[0]
-            if datetime.utcnow() > utc_expires:
-                if cursor:
-                    cursor.close()
-                if cnx:
-                    cnx.close()
-                raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                       description='API.USER_SESSION_TIMEOUT')
-
-        cursor.execute(" SELECT id "
-                       " FROM tbl_users "
-                       " WHERE uuid = %s ",
-                       (user_uuid,))
-        row = cursor.fetchone()
-        if row is None:
-            if cursor:
-                cursor.close()
-            if cnx:
-                cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.INVALID_USER_PLEASE_RE_LOGIN')
+        cnx_user = None
+        cursor_user = None
+        user_valid = False
+        utc_expires = None
 
         try:
-            cnx = mysql.connector.connect(**config.myems_historical_db)
-            cursor = cnx.cursor()
+            cnx_user = mysql.connector.connect(**config.myems_user_db)
+            try:
+                cursor_user = cnx_user.cursor()
 
-            add_values = (" INSERT INTO tbl_energy_plan_files "
-                          " (file_name, uuid, upload_datetime_utc, status, file_object ) "
-                          " VALUES (%s, %s, %s, %s, %s) ")
-            cursor.execute(add_values, (filename,
-                                        file_uuid,
-                                        datetime.utcnow(),
-                                        'new',
-                                        raw_blob))
-            new_id = cursor.lastrowid
-            cnx.commit()
-            cursor.close()
-            cnx.close()
-        except InterfaceError as e:
-            print("Failed to connect request")
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR',
-                                   description='API.FAILED_TO_SAVE_ENERGY_PLAN_FILE')
-        except OperationalError as e:
-            print("Failed to SQL operate request")
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR',
-                                   description='API.FAILED_TO_SAVE_ENERGY_PLAN_FILE')
-        except ProgrammingError as e:
-            print("Failed to SQL request")
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR',
-                                   description='API.FAILED_TO_SAVE_ENERGY_PLAN_FILE')
-        except DataError as e:
-            print("Failed to SQL Data request")
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR',
-                                   description='API.FAILED_TO_SAVE_ENERGY_PLAN_FILE')
-        except Exception as e:
-            print("API.FAILED_TO_SAVE_ENERGY_PLAN_FILE " + str(e))
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR',
-                                   description='API.FAILED_TO_SAVE_ENERGY_PLAN_FILE')
+                query = (" SELECT utc_expires "
+                         " FROM tbl_sessions "
+                         " WHERE user_uuid = %s AND token = %s")
+                cursor_user.execute(query, (user_uuid, token,))
+                row = cursor_user.fetchone()
+
+                if row is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                           description='API.INVALID_SESSION_PLEASE_RE_LOGIN')
+                
+                utc_expires = row[0]
+                if datetime.utcnow() > utc_expires:
+                    raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                           description='API.USER_SESSION_TIMEOUT')
+
+                cursor_user.execute(" SELECT id "
+                                    " FROM tbl_users "
+                                    " WHERE uuid = %s ",
+                                    (user_uuid,))
+                row = cursor_user.fetchone()
+                if row is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                           description='API.INVALID_USER_PLEASE_RE_LOGIN')
+                
+                user_valid = True
+            finally:
+                if cursor_user:
+                    cursor_user.close()
+        finally:
+            if cnx_user:
+                cnx_user.close()
+
+        if not user_valid:
+            # Should not reach here due to raises above, but for safety
+            return
+
+        cnx_hist = None
+        cursor_hist = None
+        new_id = None
+
+        try:
+            cnx_hist = mysql.connector.connect(**config.myems_historical_db)
+            try:
+                cursor_hist = cnx_hist.cursor()
+
+                add_values = (" INSERT INTO tbl_energy_plan_files "
+                              " (file_name, uuid, upload_datetime_utc, status, file_object ) "
+                              " VALUES (%s, %s, %s, %s, %s) ")
+                cursor_hist.execute(add_values, (filename,
+                                                 file_uuid,
+                                                 datetime.utcnow(),
+                                                 'new',
+                                                 raw_blob))
+                new_id = cursor_hist.lastrowid
+                cnx_hist.commit()
+            except (InterfaceError, OperationalError, ProgrammingError, DataError, Exception) as e:
+                print(f"API.FAILED_TO_SAVE_ENERGY_PLAN_FILE: {str(e)}")
+                raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR',
+                                       description='API.FAILED_TO_SAVE_ENERGY_PLAN_FILE')
+            finally:
+                if cursor_hist:
+                    cursor_hist.close()
+        finally:
+            if cnx_hist:
+                cnx_hist.close()
 
         resp.status = falcon.HTTP_201
         resp.location = '/energyplanfiles/' + str(new_id)
@@ -201,19 +213,30 @@ class EnergyPlanFileItem:
                                    title='API.BAD_REQUEST',
                                    description='API.INVALID_ENERGY_PLAN_FILE_ID')
 
-        cnx = mysql.connector.connect(**config.myems_historical_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
+        row = None
 
-        query = (" SELECT id, file_name, uuid, upload_datetime_utc, status "
-                 " FROM tbl_energy_plan_files "
-                 " WHERE id = %s ")
-        cursor.execute(query, (id_,))
-        row = cursor.fetchone()
-        cursor.close()
-        cnx.close()
-        if row is None:
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.ENERGY_PLAN_FILE_NOT_FOUND')
+        try:
+            cnx = mysql.connector.connect(**config.myems_historical_db)
+            try:
+                cursor = cnx.cursor()
+
+                query = (" SELECT id, file_name, uuid, upload_datetime_utc, status "
+                         " FROM tbl_energy_plan_files "
+                         " WHERE id = %s ")
+                cursor.execute(query, (id_,))
+                row = cursor.fetchone()
+
+                if row is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.ENERGY_PLAN_FILE_NOT_FOUND')
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         timezone_offset = int(config.utc_offset[1:3]) * 60 + int(config.utc_offset[4:6])
         if config.utc_offset[0] == '-':
@@ -235,39 +258,46 @@ class EnergyPlanFileItem:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_ENERGY_PLAN_FILE_ID')
 
-        cnx = mysql.connector.connect(**config.myems_historical_db)
-        cursor = cnx.cursor()
-
-        cursor.execute(" SELECT uuid "
-                       " FROM tbl_energy_plan_files "
-                       " WHERE id = %s ", (id_,))
-        row = cursor.fetchone()
-        if row is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.ENERGY_PLAN_FILE_NOT_FOUND')
+        cnx = None
+        cursor = None
+        row = None
 
         try:
-            file_uuid = row[0]
-            # Define file_path
-            file_path = os.path.join(config.upload_path, file_uuid)
+            cnx = mysql.connector.connect(**config.myems_historical_db)
+            try:
+                cursor = cnx.cursor()
 
-            # remove the file from disk
-            os.remove(file_path)
-        except OSError as ex:
-            print("Failed to stream request")
-        except Exception as ex:
-            print("Unexpected error reading request stream")
-            # ignore exception and don't return API.ENERGY_PLAN_FILE_NOT_FOUND error
-            pass
+                cursor.execute(" SELECT uuid "
+                               " FROM tbl_energy_plan_files "
+                               " WHERE id = %s ", (id_,))
+                row = cursor.fetchone()
+                
+                if row is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.ENERGY_PLAN_FILE_NOT_FOUND')
 
-        # Note: the energy data imported from the deleted file will not be deleted
-        cursor.execute(" DELETE FROM tbl_energy_plan_files WHERE id = %s ", (id_,))
-        cnx.commit()
+                file_uuid = row[0]
+                # Define file_path
+                file_path = os.path.join(config.upload_path, file_uuid)
 
-        cursor.close()
-        cnx.close()
+                # remove the file from disk
+                try:
+                    os.remove(file_path)
+                except OSError as ex:
+                    print("Failed to remove file from disk: " + str(ex))
+                except Exception as ex:
+                    print("Unexpected error removing file: " + str(ex))
+                    # ignore exception and don't return API.ENERGY_PLAN_FILE_NOT_FOUND error
+
+                # Note: the energy data imported from the deleted file will not be deleted
+                cursor.execute(" DELETE FROM tbl_energy_plan_files WHERE id = %s ", (id_,))
+                cnx.commit()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         resp.status = falcon.HTTP_204
 
@@ -289,23 +319,34 @@ class EnergyPlanFileRestore:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_ENERGY_PLAN_FILE_ID')
 
-        cnx = mysql.connector.connect(**config.myems_historical_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
+        row = None
 
-        query = (" SELECT uuid, file_object "
-                 " FROM tbl_energy_plan_files "
-                 " WHERE id = %s ")
-        cursor.execute(query, (id_,))
-        row = cursor.fetchone()
-        cursor.close()
-        cnx.close()
+        try:
+            cnx = mysql.connector.connect(**config.myems_historical_db)
+            try:
+                cursor = cnx.cursor()
 
-        if row is None:
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.ENERGY_PLAN_FILE_NOT_FOUND')
+                query = (" SELECT uuid, file_object "
+                         " FROM tbl_energy_plan_files "
+                         " WHERE id = %s ")
+                cursor.execute(query, (id_,))
+                row = cursor.fetchone()
+
+                if row is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.ENERGY_PLAN_FILE_NOT_FOUND')
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         result = {"uuid": row[0],
                   "file_object": row[1]}
+        
         try:
             raw_blob = result["file_object"]
             file_uuid = result["uuid"]
@@ -330,4 +371,5 @@ class EnergyPlanFileRestore:
             print("Unexpected error reading request stream")
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR',
                                    description='API.FAILED_TO_RESTORE_ENERGY_PLAN_FILE')
+        
         resp.text = json.dumps('success')

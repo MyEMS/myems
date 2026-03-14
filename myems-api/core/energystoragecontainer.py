@@ -2,10 +2,9 @@ import uuid
 import falcon
 import mysql.connector
 import simplejson as json
+from decimal import Decimal
 from core.useractivity import user_logger, admin_control, access_control, api_key_control
 import config
-from datetime import datetime, timedelta
-from decimal import Decimal
 
 
 class EnergyStorageContainerCollection:
@@ -54,61 +53,73 @@ class EnergyStorageContainerCollection:
         else:
             search_query = ''
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
+        rows_contacts = []
+        rows_cost_centers = []
+        rows_spaces = []
 
-        query = (" SELECT id, name, uuid "
-                 " FROM tbl_contacts ")
-        cursor.execute(query)
-        rows_contacts = cursor.fetchall()
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        contact_dict = dict()
-        if rows_contacts is not None and len(rows_contacts) > 0:
-            for row in rows_contacts:
-                contact_dict[row[0]] = {"id": row[0],
-                                        "name": row[1],
-                                        "uuid": row[2]}
+                query = (" SELECT id, name, uuid "
+                         " FROM tbl_contacts ")
+                cursor.execute(query)
+                rows_contacts = cursor.fetchall()
 
-        query = (" SELECT id, name, uuid "
-                 " FROM tbl_cost_centers ")
-        cursor.execute(query)
-        rows_cost_centers = cursor.fetchall()
+                contact_dict = dict()
+                if rows_contacts is not None and len(rows_contacts) > 0:
+                    for row in rows_contacts:
+                        contact_dict[row[0]] = {"id": row[0],
+                                                "name": row[1],
+                                                "uuid": row[2]}
 
-        cost_center_dict = dict()
-        if rows_cost_centers is not None and len(rows_cost_centers) > 0:
-            for row in rows_cost_centers:
-                cost_center_dict[row[0]] = {"id": row[0],
-                                            "name": row[1],
-                                            "uuid": row[2]}
+                query = (" SELECT id, name, uuid "
+                         " FROM tbl_cost_centers ")
+                cursor.execute(query)
+                rows_cost_centers = cursor.fetchall()
 
-        query = (" SELECT id, name, uuid, "
-                 "        rated_capacity, rated_power, contact_id, cost_center_id, description "
-                 " FROM tbl_energy_storage_containers ")
-        params = []
-        if search_query:
-            query += " WHERE name LIKE %s OR description LIKE %s "
-            params = [f'%{search_query}%', f'%{search_query}%']
-        query += " ORDER BY id "
+                cost_center_dict = dict()
+                if rows_cost_centers is not None and len(rows_cost_centers) > 0:
+                    for row in rows_cost_centers:
+                        cost_center_dict[row[0]] = {"id": row[0],
+                                                    "name": row[1],
+                                                    "uuid": row[2]}
 
-        cursor.execute(query, params)
-        rows_spaces = cursor.fetchall()
+                query = (" SELECT id, name, uuid, "
+                         "        rated_capacity, rated_power, contact_id, cost_center_id, description "
+                         " FROM tbl_energy_storage_containers ")
+                params = []
+                if search_query:
+                    query += " WHERE name LIKE %s OR description LIKE %s "
+                    params = [f'%{search_query}%', f'%{search_query}%']
+                query += " ORDER BY id "
 
-        result = list()
-        if rows_spaces is not None and len(rows_spaces) > 0:
-            for row in rows_spaces:
-                meta_result = {"id": row[0],
-                               "name": row[1],
-                               "uuid": row[2],
-                               "rated_capacity": row[3],
-                               "rated_power": row[4],
-                               "contact": contact_dict.get(row[5], None),
-                               "cost_center": cost_center_dict.get(row[6], None),
-                               "description": row[7],
-                               "qrcode": 'energystoragecontainer:' + row[2]}
-                result.append(meta_result)
+                cursor.execute(query, params)
+                rows_spaces = cursor.fetchall()
 
-        cursor.close()
-        cnx.close()
+                result = list()
+                if rows_spaces is not None and len(rows_spaces) > 0:
+                    for row in rows_spaces:
+                        meta_result = {"id": row[0],
+                                       "name": row[1],
+                                       "uuid": row[2],
+                                       "rated_capacity": row[3],
+                                       "rated_power": row[4],
+                                       "contact": contact_dict.get(row[5], None),
+                                       "cost_center": cost_center_dict.get(row[6], None),
+                                       "description": row[7],
+                                       "qrcode": 'energystoragecontainer:' + row[2]}
+                        result.append(meta_result)
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
+                
         resp.text = json.dumps(result)
 
     @staticmethod
@@ -184,54 +195,57 @@ class EnergyStorageContainerCollection:
         else:
             description = None
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_energy_storage_containers "
-                       " WHERE name = %s ", (name,))
-        if cursor.fetchone() is not None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.ENERGY_STORAGE_CONTAINER_NAME_IS_ALREADY_IN_USE')
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_contacts "
-                       " WHERE id = %s ",
-                       (new_values['data']['contact_id'],))
-        row = cursor.fetchone()
-        if row is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.CONTACT_NOT_FOUND')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_energy_storage_containers "
+                               " WHERE name = %s ", (name,))
+                if cursor.fetchone() is not None:
+                    raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                           description='API.ENERGY_STORAGE_CONTAINER_NAME_IS_ALREADY_IN_USE')
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_cost_centers "
-                       " WHERE id = %s ",
-                       (new_values['data']['cost_center_id'],))
-        row = cursor.fetchone()
-        if row is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.COST_CENTER_NOT_FOUND')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_contacts "
+                               " WHERE id = %s ",
+                               (new_values['data']['contact_id'],))
+                row = cursor.fetchone()
+                if row is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.CONTACT_NOT_FOUND')
 
-        add_values = (" INSERT INTO tbl_energy_storage_containers "
-                      "    (name, uuid, rated_capacity, rated_power, contact_id, cost_center_id, description) "
-                      " VALUES (%s, %s, %s, %s, %s, %s, %s) ")
-        cursor.execute(add_values, (name,
-                                    str(uuid.uuid4()),
-                                    rated_capacity,
-                                    rated_power,
-                                    contact_id,
-                                    cost_center_id,
-                                    description))
-        new_id = cursor.lastrowid
-        cnx.commit()
-        cursor.close()
-        cnx.close()
+                cursor.execute(" SELECT name "
+                               " FROM tbl_cost_centers "
+                               " WHERE id = %s ",
+                               (new_values['data']['cost_center_id'],))
+                row = cursor.fetchone()
+                if row is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.COST_CENTER_NOT_FOUND')
+
+                add_values = (" INSERT INTO tbl_energy_storage_containers "
+                              "    (name, uuid, rated_capacity, rated_power, contact_id, cost_center_id, description) "
+                              " VALUES (%s, %s, %s, %s, %s, %s, %s) ")
+                cursor.execute(add_values, (name,
+                                            str(uuid.uuid4()),
+                                            rated_capacity,
+                                            rated_power,
+                                            contact_id,
+                                            cost_center_id,
+                                            description))
+                new_id = cursor.lastrowid
+                cnx.commit()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         resp.status = falcon.HTTP_201
         resp.location = '/energystoragecontainers/' + str(new_id)
@@ -261,41 +275,53 @@ class EnergyStorageContainerItem:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_ENERGY_STORAGE_CONTAINER_ID')
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
+        rows_contacts = []
+        rows_cost_centers = []
+        row = None
 
-        query = (" SELECT id, name, uuid "
-                 " FROM tbl_contacts ")
-        cursor.execute(query)
-        rows_contacts = cursor.fetchall()
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        contact_dict = dict()
-        if rows_contacts is not None and len(rows_contacts) > 0:
-            for row in rows_contacts:
-                contact_dict[row[0]] = {"id": row[0],
-                                        "name": row[1],
-                                        "uuid": row[2]}
+                query = (" SELECT id, name, uuid "
+                         " FROM tbl_contacts ")
+                cursor.execute(query)
+                rows_contacts = cursor.fetchall()
 
-        query = (" SELECT id, name, uuid "
-                 " FROM tbl_cost_centers ")
-        cursor.execute(query)
-        rows_cost_centers = cursor.fetchall()
+                contact_dict = dict()
+                if rows_contacts is not None and len(rows_contacts) > 0:
+                    for row in rows_contacts:
+                        contact_dict[row[0]] = {"id": row[0],
+                                                "name": row[1],
+                                                "uuid": row[2]}
 
-        cost_center_dict = dict()
-        if rows_cost_centers is not None and len(rows_cost_centers) > 0:
-            for row in rows_cost_centers:
-                cost_center_dict[row[0]] = {"id": row[0],
-                                            "name": row[1],
-                                            "uuid": row[2]}
+                query = (" SELECT id, name, uuid "
+                         " FROM tbl_cost_centers ")
+                cursor.execute(query)
+                rows_cost_centers = cursor.fetchall()
 
-        query = (" SELECT id, name, uuid, "
-                 "        rated_capacity, rated_power, contact_id, cost_center_id, description "
-                 " FROM tbl_energy_storage_containers "
-                 " WHERE id = %s ")
-        cursor.execute(query, (id_,))
-        row = cursor.fetchone()
-        cursor.close()
-        cnx.close()
+                cost_center_dict = dict()
+                if rows_cost_centers is not None and len(rows_cost_centers) > 0:
+                    for row in rows_cost_centers:
+                        cost_center_dict[row[0]] = {"id": row[0],
+                                                    "name": row[1],
+                                                    "uuid": row[2]}
+
+                query = (" SELECT id, name, uuid, "
+                         "        rated_capacity, rated_power, contact_id, cost_center_id, description "
+                         " FROM tbl_energy_storage_containers "
+                         " WHERE id = %s ")
+                cursor.execute(query, (id_,))
+                row = cursor.fetchone()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         if row is None:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
@@ -321,102 +347,107 @@ class EnergyStorageContainerItem:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_ENERGY_STORAGE_CONTAINER_ID')
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
+        rows_energy_storage_power_stations = []
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_energy_storage_containers "
-                       " WHERE id = %s ", (id_,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.ENERGY_STORAGE_CONTAINER_NOT_FOUND')
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        cursor.execute(
-            " SELECT id "
-            " FROM tbl_energy_storage_power_stations_containers "
-            " WHERE energy_storage_container_id = %s ",
-            (id_,)
-        )
-        rows_energy_storage_power_stations = cursor.fetchall()
-        if rows_energy_storage_power_stations is not None and len(rows_energy_storage_power_stations) > 0:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.THERE_IS_RELATION_WITH_ENERGY_STORAGE_POWER_STATIONS')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_energy_storage_containers "
+                               " WHERE id = %s ", (id_,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.ENERGY_STORAGE_CONTAINER_NOT_FOUND')
 
-        cursor.execute(" DELETE FROM tbl_energy_storage_containers_bmses_points "
-                       " WHERE bms_id IN "
-                       "      (SELECT id FROM tbl_energy_storage_containers_batteries "
-                       "       WHERE energy_storage_container_id = %s) ", (id_, ))
-        cursor.execute(" DELETE FROM tbl_energy_storage_containers_batteries "
-                       " WHERE energy_storage_container_id = %s ", (id_, ))
+                cursor.execute(
+                    " SELECT id "
+                    " FROM tbl_energy_storage_power_stations_containers "
+                    " WHERE energy_storage_container_id = %s ",
+                    (id_,)
+                )
+                rows_energy_storage_power_stations = cursor.fetchall()
+                if rows_energy_storage_power_stations is not None and len(rows_energy_storage_power_stations) > 0:
+                    raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                           description='API.THERE_IS_RELATION_WITH_ENERGY_STORAGE_POWER_STATIONS')
 
-        cursor.execute(" DELETE FROM tbl_energy_storage_containers_commands "
-                       " WHERE energy_storage_container_id = %s ", (id_,))
+                cursor.execute(" DELETE FROM tbl_energy_storage_containers_bmses_points "
+                               " WHERE bms_id IN "
+                               "      (SELECT id FROM tbl_energy_storage_containers_batteries "
+                               "       WHERE energy_storage_container_id = %s) ", (id_, ))
+                cursor.execute(" DELETE FROM tbl_energy_storage_containers_batteries "
+                               " WHERE energy_storage_container_id = %s ", (id_, ))
 
-        cursor.execute(" DELETE FROM tbl_energy_storage_containers_dcdcs_points "
-                       " WHERE dcdc_id IN "
-                       "      (SELECT id FROM tbl_energy_storage_containers_dcdcs "
-                       "       WHERE energy_storage_container_id = %s) ", (id_,))
-        cursor.execute(" DELETE FROM tbl_energy_storage_containers_dcdcs "
-                       " WHERE energy_storage_container_id = %s ", (id_,))
+                cursor.execute(" DELETE FROM tbl_energy_storage_containers_commands "
+                               " WHERE energy_storage_container_id = %s ", (id_,))
 
-        cursor.execute(" DELETE FROM tbl_energy_storage_containers_firecontrols_points "
-                       " WHERE firecontrol_id IN "
-                       "      (SELECT id FROM tbl_energy_storage_containers_firecontrols "
-                       "       WHERE energy_storage_container_id = %s) ", (id_,))
-        cursor.execute(" DELETE FROM tbl_energy_storage_containers_firecontrols "
-                       " WHERE energy_storage_container_id = %s ", (id_,))
+                cursor.execute(" DELETE FROM tbl_energy_storage_containers_dcdcs_points "
+                               " WHERE dcdc_id IN "
+                               "      (SELECT id FROM tbl_energy_storage_containers_dcdcs "
+                               "       WHERE energy_storage_container_id = %s) ", (id_,))
+                cursor.execute(" DELETE FROM tbl_energy_storage_containers_dcdcs "
+                               " WHERE energy_storage_container_id = %s ", (id_,))
 
-        cursor.execute(" DELETE FROM tbl_energy_storage_containers_grids_points "
-                       " WHERE grid_id IN "
-                       "      (SELECT id FROM tbl_energy_storage_containers_grids "
-                       "       WHERE energy_storage_container_id = %s) ", (id_,))
-        cursor.execute(" DELETE FROM tbl_energy_storage_containers_grids "
-                       " WHERE energy_storage_container_id = %s ", (id_, ))
+                cursor.execute(" DELETE FROM tbl_energy_storage_containers_firecontrols_points "
+                               " WHERE firecontrol_id IN "
+                               "      (SELECT id FROM tbl_energy_storage_containers_firecontrols "
+                               "       WHERE energy_storage_container_id = %s) ", (id_,))
+                cursor.execute(" DELETE FROM tbl_energy_storage_containers_firecontrols "
+                               " WHERE energy_storage_container_id = %s ", (id_,))
 
-        cursor.execute(" DELETE FROM tbl_energy_storage_containers_hvacs_points "
-                       " WHERE hvac_id IN "
-                       "      (SELECT id FROM tbl_energy_storage_containers_hvacs "
-                       "       WHERE energy_storage_container_id = %s) ", (id_,))
-        cursor.execute(" DELETE FROM tbl_energy_storage_containers_hvacs "
-                       " WHERE energy_storage_container_id = %s ", (id_, ))
+                cursor.execute(" DELETE FROM tbl_energy_storage_containers_grids_points "
+                               " WHERE grid_id IN "
+                               "      (SELECT id FROM tbl_energy_storage_containers_grids "
+                               "       WHERE energy_storage_container_id = %s) ", (id_,))
+                cursor.execute(" DELETE FROM tbl_energy_storage_containers_grids "
+                               " WHERE energy_storage_container_id = %s ", (id_, ))
 
-        cursor.execute(" DELETE FROM tbl_energy_storage_containers_loads_points "
-                       " WHERE load_id IN "
-                       "      (SELECT id FROM tbl_energy_storage_containers_loads "
-                       "       WHERE energy_storage_container_id = %s) ", (id_,))
-        cursor.execute(" DELETE FROM tbl_energy_storage_containers_loads "
-                       " WHERE energy_storage_container_id = %s ", (id_, ))
+                cursor.execute(" DELETE FROM tbl_energy_storage_containers_hvacs_points "
+                               " WHERE hvac_id IN "
+                               "      (SELECT id FROM tbl_energy_storage_containers_hvacs "
+                               "       WHERE energy_storage_container_id = %s) ", (id_,))
+                cursor.execute(" DELETE FROM tbl_energy_storage_containers_hvacs "
+                               " WHERE energy_storage_container_id = %s ", (id_, ))
 
-        cursor.execute(" DELETE FROM tbl_energy_storage_containers_pcses_points "
-                       " WHERE pcs_id IN "
-                       "      (SELECT id FROM tbl_energy_storage_containers_power_conversion_systems "
-                       "       WHERE energy_storage_container_id = %s) ", (id_,))
-        cursor.execute(" DELETE FROM tbl_energy_storage_containers_power_conversion_systems "
-                       " WHERE energy_storage_container_id = %s ", (id_, ))
+                cursor.execute(" DELETE FROM tbl_energy_storage_containers_loads_points "
+                               " WHERE load_id IN "
+                               "      (SELECT id FROM tbl_energy_storage_containers_loads "
+                               "       WHERE energy_storage_container_id = %s) ", (id_,))
+                cursor.execute(" DELETE FROM tbl_energy_storage_containers_loads "
+                               " WHERE energy_storage_container_id = %s ", (id_, ))
 
-        cursor.execute(" DELETE FROM tbl_energy_storage_containers_schedules "
-                       " WHERE energy_storage_container_id = %s ", (id_, ))
+                cursor.execute(" DELETE FROM tbl_energy_storage_containers_pcses_points "
+                               " WHERE pcs_id IN "
+                               "      (SELECT id FROM tbl_energy_storage_containers_power_conversion_systems "
+                               "       WHERE energy_storage_container_id = %s) ", (id_,))
+                cursor.execute(" DELETE FROM tbl_energy_storage_containers_power_conversion_systems "
+                               " WHERE energy_storage_container_id = %s ", (id_, ))
 
-        cursor.execute(" DELETE FROM tbl_energy_storage_containers_stses_points "
-                       " WHERE sts_id IN "
-                       "      (SELECT id FROM tbl_energy_storage_containers_stses "
-                       "       WHERE energy_storage_container_id = %s) ", (id_,))
-        cursor.execute(" DELETE FROM tbl_energy_storage_containers_stses "
-                       " WHERE energy_storage_container_id = %s ", (id_,))
+                cursor.execute(" DELETE FROM tbl_energy_storage_containers_schedules "
+                               " WHERE energy_storage_container_id = %s ", (id_, ))
 
-        cursor.execute(" DELETE FROM tbl_energy_storage_power_stations_containers "
-                       " WHERE energy_storage_container_id = %s ", (id_, ))
+                cursor.execute(" DELETE FROM tbl_energy_storage_containers_stses_points "
+                               " WHERE sts_id IN "
+                               "      (SELECT id FROM tbl_energy_storage_containers_stses "
+                               "       WHERE energy_storage_container_id = %s) ", (id_,))
+                cursor.execute(" DELETE FROM tbl_energy_storage_containers_stses "
+                               " WHERE energy_storage_container_id = %s ", (id_,))
 
-        cursor.execute(" DELETE FROM tbl_energy_storage_containers "
-                       " WHERE id = %s ", (id_,))
-        cnx.commit()
+                cursor.execute(" DELETE FROM tbl_energy_storage_power_stations_containers "
+                               " WHERE energy_storage_container_id = %s ", (id_, ))
 
-        cursor.close()
-        cnx.close()
+                cursor.execute(" DELETE FROM tbl_energy_storage_containers "
+                               " WHERE id = %s ", (id_,))
+                cnx.commit()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         resp.status = falcon.HTTP_204
 
@@ -488,64 +519,65 @@ class EnergyStorageContainerItem:
         else:
             description = None
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_energy_storage_containers "
-                       " WHERE id = %s ", (id_,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.ENERGY_STORAGE_CONTAINER_NOT_FOUND')
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_energy_storage_containers "
-                       " WHERE name = %s AND id != %s ", (name, id_))
-        if cursor.fetchone() is not None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.ENERGY_STORAGE_CONTAINER_NAME_IS_ALREADY_IN_USE')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_energy_storage_containers "
+                               " WHERE id = %s ", (id_,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.ENERGY_STORAGE_CONTAINER_NOT_FOUND')
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_contacts "
-                       " WHERE id = %s ",
-                       (new_values['data']['contact_id'],))
-        row = cursor.fetchone()
-        if row is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.CONTACT_NOT_FOUND')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_energy_storage_containers "
+                               " WHERE name = %s AND id != %s ", (name, id_))
+                if cursor.fetchone() is not None:
+                    raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                           description='API.ENERGY_STORAGE_CONTAINER_NAME_IS_ALREADY_IN_USE')
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_cost_centers "
-                       " WHERE id = %s ",
-                       (new_values['data']['cost_center_id'],))
-        row = cursor.fetchone()
-        if row is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.COST_CENTER_NOT_FOUND')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_contacts "
+                               " WHERE id = %s ",
+                               (new_values['data']['contact_id'],))
+                row = cursor.fetchone()
+                if row is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.CONTACT_NOT_FOUND')
 
-        update_row = (" UPDATE tbl_energy_storage_containers "
-                      " SET name = %s, rated_capacity = %s, rated_power = %s, contact_id = %s, cost_center_id = %s, "
-                      "     description = %s "
-                      " WHERE id = %s ")
-        cursor.execute(update_row, (name,
-                                    rated_capacity,
-                                    rated_power,
-                                    contact_id,
-                                    cost_center_id,
-                                    description,
-                                    id_))
-        cnx.commit()
+                cursor.execute(" SELECT name "
+                               " FROM tbl_cost_centers "
+                               " WHERE id = %s ",
+                               (new_values['data']['cost_center_id'],))
+                row = cursor.fetchone()
+                if row is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.COST_CENTER_NOT_FOUND')
 
-        cursor.close()
-        cnx.close()
+                update_row = (" UPDATE tbl_energy_storage_containers "
+                              " SET name = %s, rated_capacity = %s, rated_power = %s, "
+                              "     contact_id = %s, cost_center_id = %s, "
+                              "     description = %s "
+                              " WHERE id = %s ")
+                cursor.execute(update_row, (name,
+                                            rated_capacity,
+                                            rated_power,
+                                            contact_id,
+                                            cost_center_id,
+                                            description,
+                                            id_))
+                cnx.commit()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         resp.status = falcon.HTTP_200
 
@@ -567,67 +599,79 @@ class EnergyStorageContainerBatteryCollection:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_ENERGY_STORAGE_CONTAINER_ID')
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
+        rows_meters = []
+        rows_points = []
+        rows = []
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_energy_storage_containers "
-                       " WHERE id = %s ", (id_,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.ENERGY_STORAGE_CONTAINER_NOT_FOUND')
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        # query meter dict
-        query = (" SELECT id, name, uuid "
-                 " FROM tbl_meters ")
-        cursor.execute(query)
-        rows_meters = cursor.fetchall()
+                cursor.execute(" SELECT name "
+                               " FROM tbl_energy_storage_containers "
+                               " WHERE id = %s ", (id_,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.ENERGY_STORAGE_CONTAINER_NOT_FOUND')
 
-        meter_dict = dict()
-        if rows_meters is not None and len(rows_meters) > 0:
-            for row in rows_meters:
-                meter_dict[row[0]] = {"id": row[0],
-                                      "name": row[1],
-                                      "uuid": row[2]}
-        # query point dict
-        query = (" SELECT id, name "
-                 " FROM tbl_points ")
-        cursor.execute(query)
-        rows_points = cursor.fetchall()
+                # query meter dict
+                query = (" SELECT id, name, uuid "
+                         " FROM tbl_meters ")
+                cursor.execute(query)
+                rows_meters = cursor.fetchall()
 
-        point_dict = dict()
-        if rows_points is not None and len(rows_points) > 0:
-            for row in rows_points:
-                point_dict[row[0]] = {"id": row[0],
-                                      "name": row[1]}
+                meter_dict = dict()
+                if rows_meters is not None and len(rows_meters) > 0:
+                    for row in rows_meters:
+                        meter_dict[row[0]] = {"id": row[0],
+                                              "name": row[1],
+                                              "uuid": row[2]}
+                # query point dict
+                query = (" SELECT id, name "
+                         " FROM tbl_points ")
+                cursor.execute(query)
+                rows_points = cursor.fetchall()
 
-        query = (" SELECT id, name, uuid, "
-                 "        battery_state_point_id, soc_point_id, power_point_id, "
-                 "        charge_meter_id, discharge_meter_id, rated_capacity, rated_power, nominal_voltage "
-                 " FROM tbl_energy_storage_containers_batteries "
-                 " WHERE energy_storage_container_id = %s "
-                 " ORDER BY name ")
-        cursor.execute(query, (id_,))
-        rows = cursor.fetchall()
+                point_dict = dict()
+                if rows_points is not None and len(rows_points) > 0:
+                    for row in rows_points:
+                        point_dict[row[0]] = {"id": row[0],
+                                              "name": row[1]}
 
-        result = list()
-        if rows is not None and len(rows) > 0:
-            for row in rows:
-                meta_result = {"id": row[0],
-                               "name": row[1],
-                               "uuid": row[2],
-                               "battery_state_point": point_dict.get(row[3]),
-                               "soc_point": point_dict.get(row[4]),
-                               "power_point": point_dict.get(row[5]),
-                               "charge_meter": meter_dict.get(row[6]),
-                               "discharge_meter": meter_dict.get(row[7]),
-                               "rated_capacity": row[8],
-                               "rated_power": row[9],
-                               "nominal_voltage": row[10]
-                               }
-                result.append(meta_result)
+                query = (" SELECT id, name, uuid, "
+                         "        battery_state_point_id, soc_point_id, power_point_id, "
+                         "        charge_meter_id, discharge_meter_id, rated_capacity, rated_power, nominal_voltage "
+                         " FROM tbl_energy_storage_containers_batteries "
+                         " WHERE energy_storage_container_id = %s "
+                         " ORDER BY name ")
+                cursor.execute(query, (id_,))
+                rows = cursor.fetchall()
+
+                result = list()
+                if rows is not None and len(rows) > 0:
+                    for row in rows:
+                        meta_result = {"id": row[0],
+                                       "name": row[1],
+                                       "uuid": row[2],
+                                       "battery_state_point": point_dict.get(row[3]),
+                                       "soc_point": point_dict.get(row[4]),
+                                       "power_point": point_dict.get(row[5]),
+                                       "charge_meter": meter_dict.get(row[6]),
+                                       "discharge_meter": meter_dict.get(row[7]),
+                                       "rated_capacity": row[8],
+                                       "rated_power": row[9],
+                                       "nominal_voltage": row[10]
+                                       }
+                        result.append(meta_result)
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         resp.text = json.dumps(result)
 
@@ -652,18 +696,6 @@ class EnergyStorageContainerBatteryCollection:
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_ENERGY_STORAGE_CONTAINER_ID')
-
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
-
-        cursor.execute(" SELECT name "
-                       " FROM tbl_energy_storage_containers "
-                       " WHERE id = %s ", (id_,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.ENERGY_STORAGE_CONTAINER_NOT_FOUND')
 
         new_values = json.loads(raw_json)
 
@@ -732,90 +764,94 @@ class EnergyStorageContainerBatteryCollection:
                                    description='API.INVALID_NOMINAL_VOLTAGE')
         nominal_voltage = Decimal(new_values['data']['nominal_voltage'])
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_energy_storage_containers_batteries "
-                       " WHERE energy_storage_container_id = %s AND name = %s ",
-                       (id_, name,))
-        if cursor.fetchone() is not None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.ENERGY_STORAGE_CONTAINER_BATTERY_NAME_IS_ALREADY_IN_USE')
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_points "
-                       " WHERE id = %s ",
-                       (battery_state_point_id,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.BATTERY_STATE_POINT_NOT_FOUND')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_energy_storage_containers "
+                               " WHERE id = %s ", (id_,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.ENERGY_STORAGE_CONTAINER_NOT_FOUND')
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_points "
-                       " WHERE id = %s ",
-                       (soc_point_id,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.SOC_POINT_NOT_FOUND')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_energy_storage_containers_batteries "
+                               " WHERE energy_storage_container_id = %s AND name = %s ",
+                               (id_, name,))
+                if cursor.fetchone() is not None:
+                    raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                           description='API.ENERGY_STORAGE_CONTAINER_BATTERY_NAME_IS_ALREADY_IN_USE')
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_points "
-                       " WHERE id = %s ",
-                       (power_point_id,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.POWER_POINT_NOT_FOUND')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_points "
+                               " WHERE id = %s ",
+                               (battery_state_point_id,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.BATTERY_STATE_POINT_NOT_FOUND')
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_meters "
-                       " WHERE id = %s ",
-                       (charge_meter_id,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.CHARGE_METER_NOT_FOUND')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_points "
+                               " WHERE id = %s ",
+                               (soc_point_id,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.SOC_POINT_NOT_FOUND')
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_meters "
-                       " WHERE id = %s ",
-                       (discharge_meter_id,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.DISCHARGE_METER_NOT_FOUND')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_points "
+                               " WHERE id = %s ",
+                               (power_point_id,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.POWER_POINT_NOT_FOUND')
 
-        add_values = (" INSERT INTO tbl_energy_storage_containers_batteries "
-                      "    (name, uuid, energy_storage_container_id, "
-                      "     battery_state_point_id, soc_point_id, power_point_id, "
-                      "     charge_meter_id, discharge_meter_id, rated_capacity, rated_power, nominal_voltage) "
-                      " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) ")
-        cursor.execute(add_values, (name,
-                                    str(uuid.uuid4()),
-                                    id_,
-                                    battery_state_point_id,
-                                    soc_point_id,
-                                    power_point_id,
-                                    charge_meter_id,
-                                    discharge_meter_id,
-                                    rated_capacity,
-                                    rated_power,
-                                    nominal_voltage
-                                    ))
-        new_id = cursor.lastrowid
-        cnx.commit()
-        cursor.close()
-        cnx.close()
+                cursor.execute(" SELECT name "
+                               " FROM tbl_meters "
+                               " WHERE id = %s ",
+                               (charge_meter_id,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.CHARGE_METER_NOT_FOUND')
+
+                cursor.execute(" SELECT name "
+                               " FROM tbl_meters "
+                               " WHERE id = %s ",
+                               (discharge_meter_id,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.DISCHARGE_METER_NOT_FOUND')
+
+                add_values = (" INSERT INTO tbl_energy_storage_containers_batteries "
+                              "    (name, uuid, energy_storage_container_id, "
+                              "     battery_state_point_id, soc_point_id, power_point_id, "
+                              "     charge_meter_id, discharge_meter_id, rated_capacity, rated_power, nominal_voltage) "
+                              " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) ")
+                cursor.execute(add_values, (name,
+                                            str(uuid.uuid4()),
+                                            id_,
+                                            battery_state_point_id,
+                                            soc_point_id,
+                                            power_point_id,
+                                            charge_meter_id,
+                                            discharge_meter_id,
+                                            rated_capacity,
+                                            rated_power,
+                                            nominal_voltage
+                                            ))
+                new_id = cursor.lastrowid
+                cnx.commit()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         resp.status = falcon.HTTP_201
         resp.location = '/energystoragecontainers/' + str(id_) + '/batteries/' + str(new_id)
@@ -841,63 +877,74 @@ class EnergyStorageContainerBatteryItem:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_ENERGY_STORAGE_CONTAINER_BATTERY_ID')
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
+        rows_energystoragecontainers = []
+        rows_meters = []
+        rows_points = []
+        row = None
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_energy_storage_containers "
-                       " WHERE id = %s ", (id_,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.ENERGY_STORAGE_CONTAINER_NOT_FOUND')
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        # query energy storage power station dict
-        query = (" SELECT id, name, uuid "
-                 " FROM tbl_energy_storage_containers ")
-        cursor.execute(query)
-        rows_energystoragecontainers = cursor.fetchall()
+                cursor.execute(" SELECT name "
+                               " FROM tbl_energy_storage_containers "
+                               " WHERE id = %s ", (id_,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.ENERGY_STORAGE_CONTAINER_NOT_FOUND')
 
-        energy_storage_container_dict = dict()
-        if rows_energystoragecontainers is not None and len(rows_energystoragecontainers) > 0:
-            for row in rows_energystoragecontainers:
-                energy_storage_container_dict[row[0]] = {"id": row[0],
-                                                         "name": row[1],
-                                                         "uuid": row[2]}
-        # query meter dict
-        query = (" SELECT id, name, uuid "
-                 " FROM tbl_meters ")
-        cursor.execute(query)
-        rows_meters = cursor.fetchall()
+                # query energy storage power station dict
+                query = (" SELECT id, name, uuid "
+                         " FROM tbl_energy_storage_containers ")
+                cursor.execute(query)
+                rows_energystoragecontainers = cursor.fetchall()
 
-        meter_dict = dict()
-        if rows_meters is not None and len(rows_meters) > 0:
-            for row in rows_meters:
-                meter_dict[row[0]] = {"id": row[0],
-                                      "name": row[1],
-                                      "uuid": row[2]}
-        # query point dict
-        query = (" SELECT id, name "
-                 " FROM tbl_points ")
-        cursor.execute(query)
-        rows_points = cursor.fetchall()
+                energy_storage_container_dict = dict()
+                if rows_energystoragecontainers is not None and len(rows_energystoragecontainers) > 0:
+                    for row in rows_energystoragecontainers:
+                        energy_storage_container_dict[row[0]] = {"id": row[0],
+                                                                 "name": row[1],
+                                                                 "uuid": row[2]}
+                # query meter dict
+                query = (" SELECT id, name, uuid "
+                         " FROM tbl_meters ")
+                cursor.execute(query)
+                rows_meters = cursor.fetchall()
 
-        point_dict = dict()
-        if rows_points is not None and len(rows_points) > 0:
-            for row in rows_points:
-                point_dict[row[0]] = {"id": row[0],
-                                      "name": row[1]}
+                meter_dict = dict()
+                if rows_meters is not None and len(rows_meters) > 0:
+                    for row in rows_meters:
+                        meter_dict[row[0]] = {"id": row[0],
+                                              "name": row[1],
+                                              "uuid": row[2]}
+                # query point dict
+                query = (" SELECT id, name "
+                         " FROM tbl_points ")
+                cursor.execute(query)
+                rows_points = cursor.fetchall()
 
-        query = (" SELECT id, name, uuid, energy_storage_container_id, "
-                 "       battery_state_point_id, soc_point_id, power_point_id, "
-                 "       charge_meter_id, discharge_meter_id, rated_capacity, rated_power, nominal_voltage "
-                 " FROM tbl_energy_storage_containers_batteries "
-                 " WHERE id = %s ")
-        cursor.execute(query, (bid,))
-        row = cursor.fetchone()
-        cursor.close()
-        cnx.close()
+                point_dict = dict()
+                if rows_points is not None and len(rows_points) > 0:
+                    for row in rows_points:
+                        point_dict[row[0]] = {"id": row[0],
+                                              "name": row[1]}
+
+                query = (" SELECT id, name, uuid, energy_storage_container_id, "
+                         "       battery_state_point_id, soc_point_id, power_point_id, "
+                         "       charge_meter_id, discharge_meter_id, rated_capacity, rated_power, nominal_voltage "
+                         " FROM tbl_energy_storage_containers_batteries "
+                         " WHERE id = %s ")
+                cursor.execute(query, (bid,))
+                row = cursor.fetchone()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         if row is None:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
@@ -930,33 +977,37 @@ class EnergyStorageContainerBatteryItem:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_ENERGY_STORAGE_CONTAINER_BATTERY_ID')
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_energy_storage_containers "
-                       " WHERE id = %s ", (id_,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.ENERGY_STORAGE_CONTAINER_NOT_FOUND')
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_energy_storage_containers_batteries "
-                       " WHERE id = %s ", (bid,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.ENERGY_STORAGE_CONTAINER_BATTERY_NOT_FOUND')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_energy_storage_containers "
+                               " WHERE id = %s ", (id_,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.ENERGY_STORAGE_CONTAINER_NOT_FOUND')
 
-        cursor.execute(" DELETE FROM tbl_energy_storage_containers_batteries "
-                       " WHERE id = %s ", (bid,))
-        cnx.commit()
+                cursor.execute(" SELECT name "
+                               " FROM tbl_energy_storage_containers_batteries "
+                               " WHERE id = %s ", (bid,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.ENERGY_STORAGE_CONTAINER_BATTERY_NOT_FOUND')
 
-        cursor.close()
-        cnx.close()
+                cursor.execute(" DELETE FROM tbl_energy_storage_containers_batteries "
+                               " WHERE id = %s ", (bid,))
+                cnx.commit()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         resp.status = falcon.HTTP_204
 
@@ -1051,109 +1102,101 @@ class EnergyStorageContainerBatteryItem:
                                    description='API.INVALID_NOMINAL_VOLTAGE')
         nominal_voltage = Decimal(new_values['data']['nominal_voltage'])
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_energy_storage_containers "
-                       " WHERE id = %s ",
-                       (id_,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.ENERGY_STORAGE_CONTAINER_NOT_FOUND')
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_energy_storage_containers_batteries "
-                       " WHERE id = %s ", (bid,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.ENERGY_STORAGE_CONTAINER_BATTERY_NOT_FOUND')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_energy_storage_containers "
+                               " WHERE id = %s ",
+                               (id_,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.ENERGY_STORAGE_CONTAINER_NOT_FOUND')
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_energy_storage_containers_batteries "
-                       " WHERE energy_storage_container_id = %s AND name = %s AND id != %s ",
-                       (id_, name, bid))
-        if cursor.fetchone() is not None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.ENERGY_STORAGE_CONTAINER_BATTERY_NAME_IS_ALREADY_IN_USE')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_energy_storage_containers_batteries "
+                               " WHERE id = %s ", (bid,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.ENERGY_STORAGE_CONTAINER_BATTERY_NOT_FOUND')
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_points "
-                       " WHERE id = %s ",
-                       (battery_state_point_id,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.BATTERY_STATE_POINT_NOT_FOUND')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_energy_storage_containers_batteries "
+                               " WHERE energy_storage_container_id = %s AND name = %s AND id != %s ",
+                               (id_, name, bid))
+                if cursor.fetchone() is not None:
+                    raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                           description='API.ENERGY_STORAGE_CONTAINER_BATTERY_NAME_IS_ALREADY_IN_USE')
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_points "
-                       " WHERE id = %s ",
-                       (soc_point_id,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.SOC_POINT_NOT_FOUND')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_points "
+                               " WHERE id = %s ",
+                               (battery_state_point_id,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.BATTERY_STATE_POINT_NOT_FOUND')
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_points "
-                       " WHERE id = %s ",
-                       (power_point_id,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.POWER_POINT_NOT_FOUND')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_points "
+                               " WHERE id = %s ",
+                               (soc_point_id,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.SOC_POINT_NOT_FOUND')
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_meters "
-                       " WHERE id = %s ",
-                       (charge_meter_id,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.CHARGE_METER_NOT_FOUND')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_points "
+                               " WHERE id = %s ",
+                               (power_point_id,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.POWER_POINT_NOT_FOUND')
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_meters "
-                       " WHERE id = %s ",
-                       (discharge_meter_id,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.DISCHARGE_METER_NOT_FOUND')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_meters "
+                               " WHERE id = %s ",
+                               (charge_meter_id,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.CHARGE_METER_NOT_FOUND')
 
-        update_row = (" UPDATE tbl_energy_storage_containers_batteries "
-                      " SET name = %s, energy_storage_container_id = %s, "
-                      "     battery_state_point_id = %s, soc_point_id = %s, power_point_id = %s, "
-                      "     charge_meter_id = %s, discharge_meter_id = %s, "
-                      "     rated_capacity = %s,  rated_power = %s, nominal_voltage = %s "
-                      " WHERE id = %s ")
-        cursor.execute(update_row, (name,
-                                    id_,
-                                    battery_state_point_id,
-                                    soc_point_id,
-                                    power_point_id,
-                                    charge_meter_id,
-                                    discharge_meter_id,
-                                    rated_capacity,
-                                    rated_power,
-                                    nominal_voltage,
-                                    bid))
-        cnx.commit()
+                cursor.execute(" SELECT name "
+                               " FROM tbl_meters "
+                               " WHERE id = %s ",
+                               (discharge_meter_id,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.DISCHARGE_METER_NOT_FOUND')
 
-        cursor.close()
-        cnx.close()
+                update_row = (" UPDATE tbl_energy_storage_containers_batteries "
+                              " SET name = %s, energy_storage_container_id = %s, "
+                              "     battery_state_point_id = %s, soc_point_id = %s, power_point_id = %s, "
+                              "     charge_meter_id = %s, discharge_meter_id = %s, "
+                              "     rated_capacity = %s,  rated_power = %s, nominal_voltage = %s "
+                              " WHERE id = %s ")
+                cursor.execute(update_row, (name,
+                                            id_,
+                                            battery_state_point_id,
+                                            soc_point_id,
+                                            power_point_id,
+                                            charge_meter_id,
+                                            discharge_meter_id,
+                                            rated_capacity,
+                                            rated_power,
+                                            nominal_voltage,
+                                            bid))
+                cnx.commit()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         resp.status = falcon.HTTP_200
 
@@ -1183,34 +1226,44 @@ class EnergyStorageContainerBatteryPointCollection:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_BMS_ID')
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
+        rows = []
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_energy_storage_containers_batteries "
-                       " WHERE energy_storage_container_id = %s AND id = %s ", (id_, bid, ))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.ENERGY_STORAGE_CONTAINER_BMS_NOT_FOUND')
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        query = (" SELECT p.id, p.name, "
-                 "        ds.id, ds.name, ds.uuid, "
-                 "        p.address "
-                 " FROM tbl_points p, tbl_energy_storage_containers_bmses_points mp, tbl_data_sources ds "
-                 " WHERE mp.bms_id = %s AND p.id = mp.point_id AND p.data_source_id = ds.id "
-                 " ORDER BY p.name ")
-        cursor.execute(query, (bid,))
-        rows = cursor.fetchall()
+                cursor.execute(" SELECT name "
+                               " FROM tbl_energy_storage_containers_batteries "
+                               " WHERE energy_storage_container_id = %s AND id = %s ", (id_, bid, ))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.ENERGY_STORAGE_CONTAINER_BMS_NOT_FOUND')
 
-        result = list()
-        if rows is not None and len(rows) > 0:
-            for row in rows:
-                meta_result = {"id": row[0], "name": row[1],
-                               "data_source": {"id": row[2], "name": row[3], "uuid": row[4]},
-                               "address": row[5]}
-                result.append(meta_result)
+                query = (" SELECT p.id, p.name, "
+                         "        ds.id, ds.name, ds.uuid, "
+                         "        p.address "
+                         " FROM tbl_points p, tbl_energy_storage_containers_bmses_points mp, tbl_data_sources ds "
+                         " WHERE mp.bms_id = %s AND p.id = mp.point_id AND p.data_source_id = ds.id "
+                         " ORDER BY p.name ")
+                cursor.execute(query, (bid,))
+                rows = cursor.fetchall()
+
+                result = list()
+                if rows is not None and len(rows) > 0:
+                    for row in rows:
+                        meta_result = {"id": row[0], "name": row[1],
+                                       "data_source": {"id": row[2], "name": row[3], "uuid": row[4]},
+                                       "address": row[5]}
+                        result.append(meta_result)
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         resp.text = json.dumps(result)
 
@@ -1240,44 +1293,48 @@ class EnergyStorageContainerBatteryPointCollection:
                                    description='API.INVALID_BMS_ID')
 
         new_values = json.loads(raw_json)
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        
+        cnx = None
+        cursor = None
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_energy_storage_containers_batteries "
-                       " WHERE energy_storage_container_id = %s AND id = %s ", (id_, bid,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.ENERGY_STORAGE_CONTAINER_BMS_NOT_FOUND')
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        cursor.execute(" SELECT name, object_type "
-                       " FROM tbl_points "
-                       " WHERE id = %s ", (new_values['data']['point_id'],))
-        row = cursor.fetchone()
-        if row is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.POINT_NOT_FOUND')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_energy_storage_containers_batteries "
+                               " WHERE energy_storage_container_id = %s AND id = %s ", (id_, bid,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.ENERGY_STORAGE_CONTAINER_BMS_NOT_FOUND')
 
-        query = (" SELECT id "
-                 " FROM tbl_energy_storage_containers_bmses_points "
-                 " WHERE bms_id = %s AND point_id = %s")
-        cursor.execute(query, (bid, new_values['data']['point_id'],))
-        if cursor.fetchone() is not None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR',
-                                   description='API.BMS_POINT_RELATION_EXISTS')
+                cursor.execute(" SELECT name, object_type "
+                               " FROM tbl_points "
+                               " WHERE id = %s ", (new_values['data']['point_id'],))
+                row = cursor.fetchone()
+                if row is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.POINT_NOT_FOUND')
 
-        add_row = (" INSERT INTO tbl_energy_storage_containers_bmses_points (bms_id, point_id) "
-                   " VALUES (%s, %s) ")
-        cursor.execute(add_row, (bid, new_values['data']['point_id'],))
-        cnx.commit()
-        cursor.close()
-        cnx.close()
+                query = (" SELECT id "
+                         " FROM tbl_energy_storage_containers_bmses_points "
+                         " WHERE bms_id = %s AND point_id = %s")
+                cursor.execute(query, (bid, new_values['data']['point_id'],))
+                if cursor.fetchone() is not None:
+                    raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR',
+                                           description='API.BMS_POINT_RELATION_EXISTS')
+
+                add_row = (" INSERT INTO tbl_energy_storage_containers_bmses_points (bms_id, point_id) "
+                           " VALUES (%s, %s) ")
+                cursor.execute(add_row, (bid, new_values['data']['point_id'],))
+                cnx.commit()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         resp.status = falcon.HTTP_201
         resp.location = '/energystoragecontainers/' + str(id_) + '/batteries/' + str(bid) + '/points/' + \
@@ -1309,42 +1366,44 @@ class EnergyStorageContainerBatteryPointItem:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_POINT_ID')
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_energy_storage_containers_batteries "
-                       " WHERE energy_storage_container_id = %s AND id = %s ", (id_, bid,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.ENERGY_STORAGE_CONTAINER_BMS_NOT_FOUND')
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_points "
-                       " WHERE id = %s ", (pid,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.POINT_NOT_FOUND')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_energy_storage_containers_batteries "
+                               " WHERE energy_storage_container_id = %s AND id = %s ", (id_, bid,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.ENERGY_STORAGE_CONTAINER_BMS_NOT_FOUND')
 
-        cursor.execute(" SELECT id "
-                       " FROM tbl_energy_storage_containers_bmses_points "
-                       " WHERE bms_id = %s AND point_id = %s ", (bid, pid))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.BMS_POINT_RELATION_NOT_FOUND')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_points "
+                               " WHERE id = %s ", (pid,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.POINT_NOT_FOUND')
 
-        cursor.execute(" DELETE FROM tbl_energy_storage_containers_bmses_points "
-                       " WHERE bms_id = %s AND point_id = %s ", (bid, pid))
-        cnx.commit()
+                cursor.execute(" SELECT id "
+                               " FROM tbl_energy_storage_containers_bmses_points "
+                               " WHERE bms_id = %s AND point_id = %s ", (bid, pid))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.BMS_POINT_RELATION_NOT_FOUND')
 
-        cursor.close()
-        cnx.close()
+                cursor.execute(" DELETE FROM tbl_energy_storage_containers_bmses_points "
+                               " WHERE bms_id = %s AND point_id = %s ", (bid, pid))
+                cnx.commit()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         resp.status = falcon.HTTP_204
 
@@ -1371,30 +1430,42 @@ class EnergyStorageContainerCommandCollection:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_ENERGY_STORAGE_CONTAINER_ID')
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
+        rows = []
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_energy_storage_containers "
-                       " WHERE id = %s ", (id_,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.ENERGY_STORAGE_CONTAINER_NOT_FOUND')
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        query = (" SELECT c.id, c.name, c.uuid "
-                 " FROM tbl_energy_storage_containers ce, tbl_energy_storage_containers_commands cec, tbl_commands c "
-                 " WHERE cec.energy_storage_container_id = ce.id AND c.id = cec.command_id AND ce.id = %s "
-                 " ORDER BY c.id ")
-        cursor.execute(query, (id_,))
-        rows = cursor.fetchall()
+                cursor.execute(" SELECT name "
+                               " FROM tbl_energy_storage_containers "
+                               " WHERE id = %s ", (id_,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.ENERGY_STORAGE_CONTAINER_NOT_FOUND')
 
-        result = list()
-        if rows is not None and len(rows) > 0:
-            for row in rows:
-                meta_result = {"id": row[0], "name": row[1], "uuid": row[2]}
-                result.append(meta_result)
+                query = (" SELECT c.id, c.name, c.uuid "
+                         " FROM tbl_energy_storage_containers ce, "
+                         "      tbl_energy_storage_containers_commands cec, "
+                         "      tbl_commands c "
+                         " WHERE cec.energy_storage_container_id = ce.id AND c.id = cec.command_id AND ce.id = %s "
+                         " ORDER BY c.id ")
+                cursor.execute(query, (id_,))
+                rows = cursor.fetchall()
+
+                result = list()
+                if rows is not None and len(rows) > 0:
+                    for row in rows:
+                        meta_result = {"id": row[0], "name": row[1], "uuid": row[2]}
+                        result.append(meta_result)
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         resp.text = json.dumps(result)
 
@@ -1429,43 +1500,47 @@ class EnergyStorageContainerCommandCollection:
                                    description='API.INVALID_COMMAND_ID')
         command_id = new_values['data']['command_id']
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
 
-        cursor.execute(" SELECT name "
-                       " from tbl_energy_storage_containers "
-                       " WHERE id = %s ", (id_,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.ENERGY_STORAGE_CONTAINER_NOT_FOUND')
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_commands "
-                       " WHERE id = %s ", (command_id,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.COMMAND_NOT_FOUND')
+                cursor.execute(" SELECT name "
+                               " from tbl_energy_storage_containers "
+                               " WHERE id = %s ", (id_,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.ENERGY_STORAGE_CONTAINER_NOT_FOUND')
 
-        query = (" SELECT id "
-                 " FROM tbl_energy_storage_containers_commands "
-                 " WHERE energy_storage_container_id = %s AND command_id = %s")
-        cursor.execute(query, (id_, command_id,))
-        if cursor.fetchone() is not None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR',
-                                   description='API.ENERGY_STORAGE_CONTAINER_COMMAND_RELATION_EXISTS')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_commands "
+                               " WHERE id = %s ", (command_id,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.COMMAND_NOT_FOUND')
 
-        add_row = (" INSERT INTO tbl_energy_storage_containers_commands (energy_storage_container_id, command_id) "
-                   " VALUES (%s, %s) ")
-        cursor.execute(add_row, (id_, command_id,))
-        cnx.commit()
-        cursor.close()
-        cnx.close()
+                query = (" SELECT id "
+                         " FROM tbl_energy_storage_containers_commands "
+                         " WHERE energy_storage_container_id = %s AND command_id = %s")
+                cursor.execute(query, (id_, command_id,))
+                if cursor.fetchone() is not None:
+                    raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR',
+                                           description='API.ENERGY_STORAGE_CONTAINER_COMMAND_RELATION_EXISTS')
+
+                add_row = (" INSERT INTO tbl_energy_storage_containers_commands "
+                           " (energy_storage_container_id, command_id) "
+                           " VALUES (%s, %s) ")
+                cursor.execute(add_row, (id_, command_id,))
+                cnx.commit()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         resp.status = falcon.HTTP_201
         resp.location = '/energystoragecontainers/' + str(id_) + '/commands/' + str(command_id)
@@ -1493,42 +1568,44 @@ class EnergyStorageContainerCommandItem:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_COMMAND_ID')
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_energy_storage_containers "
-                       " WHERE id = %s ", (id_,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.ENERGY_STORAGE_CONTAINER_NOT_FOUND')
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_commands "
-                       " WHERE id = %s ", (cid,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.COMMAND_NOT_FOUND')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_energy_storage_containers "
+                               " WHERE id = %s ", (id_,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.ENERGY_STORAGE_CONTAINER_NOT_FOUND')
 
-        cursor.execute(" SELECT id "
-                       " FROM tbl_energy_storage_containers_commands "
-                       " WHERE energy_storage_container_id = %s AND command_id = %s ", (id_, cid))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.ENERGY_STORAGE_CONTAINER_COMMAND_RELATION_NOT_FOUND')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_commands "
+                               " WHERE id = %s ", (cid,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.COMMAND_NOT_FOUND')
 
-        cursor.execute(" DELETE FROM tbl_energy_storage_containers_commands "
-                       " WHERE energy_storage_container_id = %s AND command_id = %s ", (id_, cid))
-        cnx.commit()
+                cursor.execute(" SELECT id "
+                               " FROM tbl_energy_storage_containers_commands "
+                               " WHERE energy_storage_container_id = %s AND command_id = %s ", (id_, cid))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.ENERGY_STORAGE_CONTAINER_COMMAND_RELATION_NOT_FOUND')
 
-        cursor.close()
-        cnx.close()
+                cursor.execute(" DELETE FROM tbl_energy_storage_containers_commands "
+                               " WHERE energy_storage_container_id = %s AND command_id = %s ", (id_, cid))
+                cnx.commit()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         resp.status = falcon.HTTP_204
 
@@ -1555,31 +1632,42 @@ class EnergyStorageContainerDataSourceCollection:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_ENERGY_STORAGE_CONTAINER_ID')
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
+        rows = []
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_energy_storage_containers "
-                       " WHERE id = %s ", (id_,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.ENERGY_STORAGE_CONTAINER_NOT_FOUND')
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        query = (" SELECT ds.id, ds.name, ds.uuid "
-                 " FROM tbl_energy_storage_containers ce, tbl_energy_storage_containers_data_sources ceds, "
-                 "      tbl_data_sources ds "
-                 " WHERE ceds.energy_storage_container_id = ce.id AND ds.id = ceds.data_source_id AND ce.id = %s "
-                 " ORDER BY ds.id ")
-        cursor.execute(query, (id_,))
-        rows = cursor.fetchall()
+                cursor.execute(" SELECT name "
+                               " FROM tbl_energy_storage_containers "
+                               " WHERE id = %s ", (id_,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.ENERGY_STORAGE_CONTAINER_NOT_FOUND')
 
-        result = list()
-        if rows is not None and len(rows) > 0:
-            for row in rows:
-                meta_result = {"id": row[0], "name": row[1], "uuid": row[2]}
-                result.append(meta_result)
+                query = (" SELECT ds.id, ds.name, ds.uuid "
+                         " FROM tbl_energy_storage_containers ce, tbl_energy_storage_containers_data_sources ceds, "
+                         "      tbl_data_sources ds "
+                         " WHERE ceds.energy_storage_container_id = ce.id "
+                         "       AND ds.id = ceds.data_source_id AND ce.id = %s "
+                         " ORDER BY ds.id ")
+                cursor.execute(query, (id_,))
+                rows = cursor.fetchall()
+
+                result = list()
+                if rows is not None and len(rows) > 0:
+                    for row in rows:
+                        meta_result = {"id": row[0], "name": row[1], "uuid": row[2]}
+                        result.append(meta_result)
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         resp.text = json.dumps(result)
 
@@ -1614,44 +1702,47 @@ class EnergyStorageContainerDataSourceCollection:
                                    description='API.INVALID_DATA_SOURCE_ID')
         data_source_id = new_values['data']['data_source_id']
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
 
-        cursor.execute(" SELECT name "
-                       " from tbl_energy_storage_containers "
-                       " WHERE id = %s ", (id_,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.ENERGY_STORAGE_CONTAINER_NOT_FOUND')
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_data_sources "
-                       " WHERE id = %s ", (data_source_id,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.DATA_SOURCE_NOT_FOUND')
+                cursor.execute(" SELECT name "
+                               " from tbl_energy_storage_containers "
+                               " WHERE id = %s ", (id_,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.ENERGY_STORAGE_CONTAINER_NOT_FOUND')
 
-        query = (" SELECT id "
-                 " FROM tbl_energy_storage_containers_data_sources "
-                 " WHERE energy_storage_container_id = %s AND data_source_id = %s")
-        cursor.execute(query, (id_, data_source_id,))
-        if cursor.fetchone() is not None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR',
-                                   description='API.ENERGY_STORAGE_CONTAINER_DATA_SOURCE_RELATION_EXISTS')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_data_sources "
+                               " WHERE id = %s ", (data_source_id,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.DATA_SOURCE_NOT_FOUND')
 
-        add_row = (" INSERT INTO "
-                   "     tbl_energy_storage_containers_data_sources (energy_storage_container_id, data_source_id) "
-                   " VALUES (%s, %s) ")
-        cursor.execute(add_row, (id_, data_source_id,))
-        cnx.commit()
-        cursor.close()
-        cnx.close()
+                query = (" SELECT id "
+                         " FROM tbl_energy_storage_containers_data_sources "
+                         " WHERE energy_storage_container_id = %s AND data_source_id = %s")
+                cursor.execute(query, (id_, data_source_id,))
+                if cursor.fetchone() is not None:
+                    raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR',
+                                           description='API.ENERGY_STORAGE_CONTAINER_DATA_SOURCE_RELATION_EXISTS')
+
+                add_row = (" INSERT INTO "
+                           " tbl_energy_storage_containers_data_sources (energy_storage_container_id, data_source_id) "
+                           " VALUES (%s, %s) ")
+                cursor.execute(add_row, (id_, data_source_id,))
+                cnx.commit()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         resp.status = falcon.HTTP_201
         resp.location = '/energystoragecontainers/' + str(id_) + '/datasources/' + str(data_source_id)
@@ -1679,42 +1770,44 @@ class EnergyStorageContainerDataSourceItem:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_DATA_SOURCE_ID')
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_energy_storage_containers "
-                       " WHERE id = %s ", (id_,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.ENERGY_STORAGE_CONTAINER_NOT_FOUND')
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_data_sources "
-                       " WHERE id = %s ", (dsid,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.DATA_SOURCE_NOT_FOUND')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_energy_storage_containers "
+                               " WHERE id = %s ", (id_,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.ENERGY_STORAGE_CONTAINER_NOT_FOUND')
 
-        cursor.execute(" SELECT id "
-                       " FROM tbl_energy_storage_containers_data_sources "
-                       " WHERE energy_storage_container_id = %s AND data_source_id = %s ", (id_, dsid))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.ENERGY_STORAGE_CONTAINER_DATA_SOURCE_RELATION_NOT_FOUND')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_data_sources "
+                               " WHERE id = %s ", (dsid,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.DATA_SOURCE_NOT_FOUND')
 
-        cursor.execute(" DELETE FROM tbl_energy_storage_containers_data_sources "
-                       " WHERE energy_storage_container_id = %s AND data_source_id = %s ", (id_, dsid))
-        cnx.commit()
+                cursor.execute(" SELECT id "
+                               " FROM tbl_energy_storage_containers_data_sources "
+                               " WHERE energy_storage_container_id = %s AND data_source_id = %s ", (id_, dsid))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.ENERGY_STORAGE_CONTAINER_DATA_SOURCE_RELATION_NOT_FOUND')
 
-        cursor.close()
-        cnx.close()
+                cursor.execute(" DELETE FROM tbl_energy_storage_containers_data_sources "
+                               " WHERE energy_storage_container_id = %s AND data_source_id = %s ", (id_, dsid))
+                cnx.commit()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         resp.status = falcon.HTTP_204
 
@@ -1724,13 +1817,13 @@ class EnergyStorageContainerDataSourcePointCollection:
         pass
 
     @staticmethod
-    def on_options(req, resp, id_,):
+    def on_options(req, resp, id_):
         _ = req
         resp.status = falcon.HTTP_200
         _ = id_
 
     @staticmethod
-    def on_get(req, resp, id_,):
+    def on_get(req, resp, id_):
         if 'API-KEY' not in req.headers or \
                 not isinstance(req.headers['API-KEY'], str) or \
                 len(str.strip(req.headers['API-KEY'])) == 0:
@@ -1741,23 +1834,35 @@ class EnergyStorageContainerDataSourcePointCollection:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_ENERGY_STORAGE_CONTAINER_ID')
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
+        rows = []
 
-        query = (" SELECT p.id, p.name "
-                 " FROM tbl_points p, tbl_energy_storage_containers_data_sources ecds, tbl_data_sources ds "
-                 " WHERE ecds.energy_storage_container_id = %s "
-                 "       AND ecds.data_source_id = ds.id "
-                 "       AND p.data_source_id = ds.id "
-                 " ORDER BY p.id ")
-        cursor.execute(query, (id_,))
-        rows = cursor.fetchall()
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        result = list()
-        if rows is not None and len(rows) > 0:
-            for row in rows:
-                meta_result = {"id": row[0], "name": row[1]}
-                result.append(meta_result)
+                query = (" SELECT p.id, p.name "
+                         " FROM tbl_points p, tbl_energy_storage_containers_data_sources ecds, tbl_data_sources ds "
+                         " WHERE ecds.energy_storage_container_id = %s "
+                         "       AND ecds.data_source_id = ds.id "
+                         "       AND p.data_source_id = ds.id "
+                         " ORDER BY p.id ")
+                cursor.execute(query, (id_,))
+                rows = cursor.fetchall()
+
+                result = list()
+                if rows is not None and len(rows) > 0:
+                    for row in rows:
+                        meta_result = {"id": row[0], "name": row[1]}
+                        result.append(meta_result)
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         resp.text = json.dumps(result)
 
@@ -1779,33 +1884,43 @@ class EnergyStorageContainerDCDCCollection:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_ENERGY_STORAGE_CONTAINER_ID')
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
+        rows = []
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_energy_storage_containers "
-                       " WHERE id = %s ", (id_,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.ENERGY_STORAGE_CONTAINER_NOT_FOUND')
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        query = (" SELECT id, name, uuid "
-                 " FROM tbl_energy_storage_containers_dcdcs "
-                 " WHERE energy_storage_container_id = %s "
-                 " ORDER BY name ")
-        cursor.execute(query, (id_,))
-        rows = cursor.fetchall()
+                cursor.execute(" SELECT name "
+                               " FROM tbl_energy_storage_containers "
+                               " WHERE id = %s ", (id_,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.ENERGY_STORAGE_CONTAINER_NOT_FOUND')
 
-        result = list()
-        if rows is not None and len(rows) > 0:
-            for row in rows:
-                meta_result = {"id": row[0],
-                               "name": row[1],
-                               "uuid": row[2]
-                               }
-                result.append(meta_result)
+                query = (" SELECT id, name, uuid "
+                         " FROM tbl_energy_storage_containers_dcdcs "
+                         " WHERE energy_storage_container_id = %s "
+                         " ORDER BY name ")
+                cursor.execute(query, (id_,))
+                rows = cursor.fetchall()
+
+                result = list()
+                if rows is not None and len(rows) > 0:
+                    for row in rows:
+                        meta_result = {"id": row[0],
+                                       "name": row[1],
+                                       "uuid": row[2]
+                                       }
+                        result.append(meta_result)
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         resp.text = json.dumps(result)
 
@@ -1830,18 +1945,6 @@ class EnergyStorageContainerDCDCCollection:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_ENERGY_STORAGE_CONTAINER_ID')
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
-
-        cursor.execute(" SELECT name "
-                       " FROM tbl_energy_storage_containers "
-                       " WHERE id = %s ", (id_,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.ENERGY_STORAGE_CONTAINER_NOT_FOUND')
-
         new_values = json.loads(raw_json)
 
         if 'name' not in new_values['data'].keys() or \
@@ -1851,40 +1954,45 @@ class EnergyStorageContainerDCDCCollection:
                                    description='API.INVALID_ENERGY_STORAGE_CONTAINER_DCDC_NAME')
         name = str.strip(new_values['data']['name'])
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_energy_storage_containers "
-                       " WHERE id = %s ",
-                       (id_,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.ENERGY_STORAGE_CONTAINER_NOT_FOUND')
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_energy_storage_containers_dcdcs "
-                       " WHERE energy_storage_container_id = %s AND name = %s ",
-                       (id_, name,))
-        if cursor.fetchone() is not None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.ENERGY_STORAGE_CONTAINER_DCDC_NAME_IS_ALREADY_IN_USE')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_energy_storage_containers "
+                               " WHERE id = %s ",
+                               (id_,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.ENERGY_STORAGE_CONTAINER_NOT_FOUND')
 
-        add_values = (" INSERT INTO tbl_energy_storage_containers_dcdcs "
-                      "    (name, uuid, energy_storage_container_id) "
-                      " VALUES (%s, %s, %s) ")
-        cursor.execute(add_values, (name,
-                                    str(uuid.uuid4()),
-                                    id_
-                                    ))
-        new_id = cursor.lastrowid
-        cnx.commit()
-        cursor.close()
-        cnx.close()
+                cursor.execute(" SELECT name "
+                               " FROM tbl_energy_storage_containers_dcdcs "
+                               " WHERE energy_storage_container_id = %s AND name = %s ",
+                               (id_, name,))
+                if cursor.fetchone() is not None:
+                    raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                           description='API.ENERGY_STORAGE_CONTAINER_DCDC_NAME_IS_ALREADY_IN_USE')
+
+                add_values = (" INSERT INTO tbl_energy_storage_containers_dcdcs "
+                              "    (name, uuid, energy_storage_container_id) "
+                              " VALUES (%s, %s, %s) ")
+                cursor.execute(add_values, (name,
+                                            str(uuid.uuid4()),
+                                            id_
+                                            ))
+                new_id = cursor.lastrowid
+                cnx.commit()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         resp.status = falcon.HTTP_201
         resp.location = '/energystoragecontainers/' + str(id_) + '/dcdcs/' + str(new_id)
@@ -1910,37 +2018,46 @@ class EnergyStorageContainerDCDCItem:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_ENERGY_STORAGE_CONTAINER_DCDC_ID')
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
+        rows_energystoragecontainers = []
+        row = None
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_energy_storage_containers "
-                       " WHERE id = %s ", (id_,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.ENERGY_STORAGE_CONTAINER_NOT_FOUND')
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        query = (" SELECT id, name, uuid "
-                 " FROM tbl_energy_storage_containers ")
-        cursor.execute(query)
-        rows_energystoragecontainers = cursor.fetchall()
+                cursor.execute(" SELECT name "
+                               " FROM tbl_energy_storage_containers "
+                               " WHERE id = %s ", (id_,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.ENERGY_STORAGE_CONTAINER_NOT_FOUND')
 
-        energy_storage_container_dict = dict()
-        if rows_energystoragecontainers is not None and len(rows_energystoragecontainers) > 0:
-            for row in rows_energystoragecontainers:
-                energy_storage_container_dict[row[0]] = {"id": row[0],
-                                                         "name": row[1],
-                                                         "uuid": row[2]}
+                query = (" SELECT id, name, uuid "
+                         " FROM tbl_energy_storage_containers ")
+                cursor.execute(query)
+                rows_energystoragecontainers = cursor.fetchall()
 
-        query = (" SELECT id, name, uuid "
-                 " FROM tbl_energy_storage_containers_dcdcs "
-                 " WHERE id = %s ")
-        cursor.execute(query, (did,))
-        row = cursor.fetchone()
-        cursor.close()
-        cnx.close()
+                energy_storage_container_dict = dict()
+                if rows_energystoragecontainers is not None and len(rows_energystoragecontainers) > 0:
+                    for row in rows_energystoragecontainers:
+                        energy_storage_container_dict[row[0]] = {"id": row[0],
+                                                                 "name": row[1],
+                                                                 "uuid": row[2]}
+
+                query = (" SELECT id, name, uuid "
+                         " FROM tbl_energy_storage_containers_dcdcs "
+                         " WHERE id = %s ")
+                cursor.execute(query, (did,))
+                row = cursor.fetchone()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         if row is None:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
@@ -1964,33 +2081,37 @@ class EnergyStorageContainerDCDCItem:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_ENERGY_STORAGE_CONTAINER_DCDC_ID')
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_energy_storage_containers "
-                       " WHERE id = %s ", (id_,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.ENERGY_STORAGE_CONTAINER_NOT_FOUND')
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_energy_storage_containers_dcdcs "
-                       " WHERE id = %s ", (did,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.ENERGY_STORAGE_CONTAINER_DCDC_NOT_FOUND')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_energy_storage_containers "
+                               " WHERE id = %s ", (id_,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.ENERGY_STORAGE_CONTAINER_NOT_FOUND')
 
-        cursor.execute(" DELETE FROM tbl_energy_storage_containers_dcdcs "
-                       " WHERE id = %s ", (did,))
-        cnx.commit()
+                cursor.execute(" SELECT name "
+                               " FROM tbl_energy_storage_containers_dcdcs "
+                               " WHERE id = %s ", (did,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.ENERGY_STORAGE_CONTAINER_DCDC_NOT_FOUND')
 
-        cursor.close()
-        cnx.close()
+                cursor.execute(" DELETE FROM tbl_energy_storage_containers_dcdcs "
+                               " WHERE id = %s ", (did,))
+                cnx.commit()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         resp.status = falcon.HTTP_204
 
@@ -2028,46 +2149,48 @@ class EnergyStorageContainerDCDCItem:
                                    description='API.INVALID_ENERGY_STORAGE_CONTAINER_DCDC_NAME')
         name = str.strip(new_values['data']['name'])
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_energy_storage_containers "
-                       " WHERE id = %s ", (id_,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.ENERGY_STORAGE_CONTAINER_NOT_FOUND')
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_energy_storage_containers_dcdcs "
-                       " WHERE id = %s ", (did,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.ENERGY_STORAGE_CONTAINER_DCDC_NOT_FOUND')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_energy_storage_containers "
+                               " WHERE id = %s ", (id_,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.ENERGY_STORAGE_CONTAINER_NOT_FOUND')
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_energy_storage_containers_dcdcs "
-                       " WHERE energy_storage_container_id = %s AND name = %s AND id != %s ",
-                       (id_, name, did))
-        if cursor.fetchone() is not None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.ENERGY_STORAGE_CONTAINER_DCDC_NAME_IS_ALREADY_IN_USE')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_energy_storage_containers_dcdcs "
+                               " WHERE id = %s ", (did,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.ENERGY_STORAGE_CONTAINER_DCDC_NOT_FOUND')
 
-        update_row = (" UPDATE tbl_energy_storage_containers_dcdcs "
-                      " SET name = %s "
-                      "     WHERE id = %s ")
-        cursor.execute(update_row, (name,
-                                    did))
-        cnx.commit()
+                cursor.execute(" SELECT name "
+                               " FROM tbl_energy_storage_containers_dcdcs "
+                               " WHERE energy_storage_container_id = %s AND name = %s AND id != %s ",
+                               (id_, name, did))
+                if cursor.fetchone() is not None:
+                    raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                           description='API.ENERGY_STORAGE_CONTAINER_DCDC_NAME_IS_ALREADY_IN_USE')
 
-        cursor.close()
-        cnx.close()
+                update_row = (" UPDATE tbl_energy_storage_containers_dcdcs "
+                              " SET name = %s "
+                              "     WHERE id = %s ")
+                cursor.execute(update_row, (name,
+                                            did))
+                cnx.commit()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         resp.status = falcon.HTTP_200
 
@@ -2097,34 +2220,44 @@ class EnergyStorageContainerDCDCPointCollection:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_DCDC_ID')
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
+        rows = []
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_energy_storage_containers_dcdcs "
-                       " WHERE energy_storage_container_id = %s AND id = %s ", (id_, did, ))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.ENERGY_STORAGE_CONTAINER_DCDC_NOT_FOUND')
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        query = (" SELECT p.id, p.name, "
-                 "        ds.id, ds.name, ds.uuid, "
-                 "        p.address "
-                 " FROM tbl_points p, tbl_energy_storage_containers_dcdcs_points mp, tbl_data_sources ds "
-                 " WHERE mp.dcdc_id = %s AND p.id = mp.point_id AND p.data_source_id = ds.id "
-                 " ORDER BY p.name ")
-        cursor.execute(query, (did,))
-        rows = cursor.fetchall()
+                cursor.execute(" SELECT name "
+                               " FROM tbl_energy_storage_containers_dcdcs "
+                               " WHERE energy_storage_container_id = %s AND id = %s ", (id_, did, ))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.ENERGY_STORAGE_CONTAINER_DCDC_NOT_FOUND')
 
-        result = list()
-        if rows is not None and len(rows) > 0:
-            for row in rows:
-                meta_result = {"id": row[0], "name": row[1],
-                               "data_source": {"id": row[2], "name": row[3], "uuid": row[4]},
-                               "address": row[5]}
-                result.append(meta_result)
+                query = (" SELECT p.id, p.name, "
+                         "        ds.id, ds.name, ds.uuid, "
+                         "        p.address "
+                         " FROM tbl_points p, tbl_energy_storage_containers_dcdcs_points mp, tbl_data_sources ds "
+                         " WHERE mp.dcdc_id = %s AND p.id = mp.point_id AND p.data_source_id = ds.id "
+                         " ORDER BY p.name ")
+                cursor.execute(query, (did,))
+                rows = cursor.fetchall()
+
+                result = list()
+                if rows is not None and len(rows) > 0:
+                    for row in rows:
+                        meta_result = {"id": row[0], "name": row[1],
+                                       "data_source": {"id": row[2], "name": row[3], "uuid": row[4]},
+                                       "address": row[5]}
+                        result.append(meta_result)
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         resp.text = json.dumps(result)
 
@@ -2154,44 +2287,48 @@ class EnergyStorageContainerDCDCPointCollection:
                                    description='API.INVALID_DCDC_ID')
 
         new_values = json.loads(raw_json)
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        
+        cnx = None
+        cursor = None
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_energy_storage_containers_dcdcs "
-                       " WHERE energy_storage_container_id = %s AND id = %s ", (id_, did,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.ENERGY_STORAGE_CONTAINER_DCDC_NOT_FOUND')
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        cursor.execute(" SELECT name, object_type "
-                       " FROM tbl_points "
-                       " WHERE id = %s ", (new_values['data']['point_id'],))
-        row = cursor.fetchone()
-        if row is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.POINT_NOT_FOUND')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_energy_storage_containers_dcdcs "
+                               " WHERE energy_storage_container_id = %s AND id = %s ", (id_, did,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.ENERGY_STORAGE_CONTAINER_DCDC_NOT_FOUND')
 
-        query = (" SELECT id "
-                 " FROM tbl_energy_storage_containers_dcdcs_points "
-                 " WHERE dcdc_id = %s AND point_id = %s")
-        cursor.execute(query, (did, new_values['data']['point_id'],))
-        if cursor.fetchone() is not None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR',
-                                   description='API.DCDC_POINT_RELATION_EXISTS')
+                cursor.execute(" SELECT name, object_type "
+                               " FROM tbl_points "
+                               " WHERE id = %s ", (new_values['data']['point_id'],))
+                row = cursor.fetchone()
+                if row is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.POINT_NOT_FOUND')
 
-        add_row = (" INSERT INTO tbl_energy_storage_containers_dcdcs_points (dcdc_id, point_id) "
-                   " VALUES (%s, %s) ")
-        cursor.execute(add_row, (did, new_values['data']['point_id'],))
-        cnx.commit()
-        cursor.close()
-        cnx.close()
+                query = (" SELECT id "
+                         " FROM tbl_energy_storage_containers_dcdcs_points "
+                         " WHERE dcdc_id = %s AND point_id = %s")
+                cursor.execute(query, (did, new_values['data']['point_id'],))
+                if cursor.fetchone() is not None:
+                    raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR',
+                                           description='API.DCDC_POINT_RELATION_EXISTS')
+
+                add_row = (" INSERT INTO tbl_energy_storage_containers_dcdcs_points (dcdc_id, point_id) "
+                           " VALUES (%s, %s) ")
+                cursor.execute(add_row, (did, new_values['data']['point_id'],))
+                cnx.commit()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         resp.status = falcon.HTTP_201
         resp.location = '/energystoragecontainers/' + str(id_) + '/dcdcs/' + str(did) + '/points/' + \
@@ -2223,42 +2360,44 @@ class EnergyStorageContainerDCDCPointItem:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_POINT_ID')
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_energy_storage_containers_dcdcs "
-                       " WHERE energy_storage_container_id = %s AND id = %s ", (id_, did,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.ENERGY_STORAGE_CONTAINER_DCDC_NOT_FOUND')
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_points "
-                       " WHERE id = %s ", (pid,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.POINT_NOT_FOUND')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_energy_storage_containers_dcdcs "
+                               " WHERE energy_storage_container_id = %s AND id = %s ", (id_, did,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.ENERGY_STORAGE_CONTAINER_DCDC_NOT_FOUND')
 
-        cursor.execute(" SELECT id "
-                       " FROM tbl_energy_storage_containers_dcdcs_points "
-                       " WHERE dcdc_id = %s AND point_id = %s ", (did, pid))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.DCDC_POINT_RELATION_NOT_FOUND')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_points "
+                               " WHERE id = %s ", (pid,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.POINT_NOT_FOUND')
 
-        cursor.execute(" DELETE FROM tbl_energy_storage_containers_dcdcs_points "
-                       " WHERE dcdc_id = %s AND point_id = %s ", (did, pid))
-        cnx.commit()
+                cursor.execute(" SELECT id "
+                               " FROM tbl_energy_storage_containers_dcdcs_points "
+                               " WHERE dcdc_id = %s AND point_id = %s ", (did, pid))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.DCDC_POINT_RELATION_NOT_FOUND')
 
-        cursor.close()
-        cnx.close()
+                cursor.execute(" DELETE FROM tbl_energy_storage_containers_dcdcs_points "
+                               " WHERE dcdc_id = %s AND point_id = %s ", (did, pid))
+                cnx.commit()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         resp.status = falcon.HTTP_204
 
@@ -2280,33 +2419,43 @@ class EnergyStorageContainerFirecontrolCollection:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_ENERGY_STORAGE_CONTAINER_ID')
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
+        rows = []
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_energy_storage_containers "
-                       " WHERE id = %s ", (id_,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.ENERGY_STORAGE_CONTAINER_NOT_FOUND')
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        query = (" SELECT id, name, uuid "
-                 " FROM tbl_energy_storage_containers_firecontrols "
-                 " WHERE energy_storage_container_id = %s "
-                 " ORDER BY name ")
-        cursor.execute(query, (id_,))
-        rows = cursor.fetchall()
+                cursor.execute(" SELECT name "
+                               " FROM tbl_energy_storage_containers "
+                               " WHERE id = %s ", (id_,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.ENERGY_STORAGE_CONTAINER_NOT_FOUND')
 
-        result = list()
-        if rows is not None and len(rows) > 0:
-            for row in rows:
-                meta_result = {"id": row[0],
-                               "name": row[1],
-                               "uuid": row[2]
-                               }
-                result.append(meta_result)
+                query = (" SELECT id, name, uuid "
+                         " FROM tbl_energy_storage_containers_firecontrols "
+                         " WHERE energy_storage_container_id = %s "
+                         " ORDER BY name ")
+                cursor.execute(query, (id_,))
+                rows = cursor.fetchall()
+
+                result = list()
+                if rows is not None and len(rows) > 0:
+                    for row in rows:
+                        meta_result = {"id": row[0],
+                                       "name": row[1],
+                                       "uuid": row[2]
+                                       }
+                        result.append(meta_result)
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         resp.text = json.dumps(result)
 
@@ -2331,18 +2480,6 @@ class EnergyStorageContainerFirecontrolCollection:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_ENERGY_STORAGE_CONTAINER_ID')
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
-
-        cursor.execute(" SELECT name "
-                       " FROM tbl_energy_storage_containers "
-                       " WHERE id = %s ", (id_,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.ENERGY_STORAGE_CONTAINER_NOT_FOUND')
-
         new_values = json.loads(raw_json)
 
         if 'name' not in new_values['data'].keys() or \
@@ -2352,40 +2489,48 @@ class EnergyStorageContainerFirecontrolCollection:
                                    description='API.INVALID_ENERGY_STORAGE_CONTAINER_FIRECONTROL_NAME')
         name = str.strip(new_values['data']['name'])
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_energy_storage_containers "
-                       " WHERE id = %s ",
-                       (id_,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.ENERGY_STORAGE_CONTAINER_NOT_FOUND')
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_energy_storage_containers_firecontrols "
-                       " WHERE energy_storage_container_id = %s AND name = %s ",
-                       (id_, name,))
-        if cursor.fetchone() is not None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.ENERGY_STORAGE_CONTAINER_FIRECONTROL_NAME_IS_ALREADY_IN_USE')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_energy_storage_containers "
+                               " WHERE id = %s ",
+                               (id_,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.ENERGY_STORAGE_CONTAINER_NOT_FOUND')
 
-        add_values = (" INSERT INTO tbl_energy_storage_containers_firecontrols "
-                      "    (name, uuid, energy_storage_container_id) "
-                      " VALUES (%s, %s, %s) ")
-        cursor.execute(add_values, (name,
-                                    str(uuid.uuid4()),
-                                    id_
-                                    ))
-        new_id = cursor.lastrowid
-        cnx.commit()
-        cursor.close()
-        cnx.close()
+                cursor.execute(" SELECT name "
+                               " FROM tbl_energy_storage_containers_firecontrols "
+                               " WHERE energy_storage_container_id = %s AND name = %s ",
+                               (id_, name,))
+                if cursor.fetchone() is not None:
+                    raise falcon.HTTPError(
+                        status=falcon.HTTP_400,
+                        title='API.BAD_REQUEST',
+                        description='API.ENERGY_STORAGE_CONTAINER_FIRECONTROL_NAME_IS_ALREADY_IN_USE'
+                    )
+
+                add_values = (" INSERT INTO tbl_energy_storage_containers_firecontrols "
+                              "    (name, uuid, energy_storage_container_id) "
+                              " VALUES (%s, %s, %s) ")
+                cursor.execute(add_values, (name,
+                                            str(uuid.uuid4()),
+                                            id_
+                                            ))
+                new_id = cursor.lastrowid
+                cnx.commit()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         resp.status = falcon.HTTP_201
         resp.location = '/energystoragecontainers/' + str(id_) + '/firecontrols/' + str(new_id)
@@ -2411,37 +2556,46 @@ class EnergyStorageContainerFirecontrolItem:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_ENERGY_STORAGE_CONTAINER_FIRECONTROL_ID')
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
+        rows_energystoragecontainers = []
+        row = None
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_energy_storage_containers "
-                       " WHERE id = %s ", (id_,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.ENERGY_STORAGE_CONTAINER_NOT_FOUND')
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        query = (" SELECT id, name, uuid "
-                 " FROM tbl_energy_storage_containers ")
-        cursor.execute(query)
-        rows_energystoragecontainers = cursor.fetchall()
+                cursor.execute(" SELECT name "
+                               " FROM tbl_energy_storage_containers "
+                               " WHERE id = %s ", (id_,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.ENERGY_STORAGE_CONTAINER_NOT_FOUND')
 
-        energy_storage_container_dict = dict()
-        if rows_energystoragecontainers is not None and len(rows_energystoragecontainers) > 0:
-            for row in rows_energystoragecontainers:
-                energy_storage_container_dict[row[0]] = {"id": row[0],
-                                                         "name": row[1],
-                                                         "uuid": row[2]}
+                query = (" SELECT id, name, uuid "
+                         " FROM tbl_energy_storage_containers ")
+                cursor.execute(query)
+                rows_energystoragecontainers = cursor.fetchall()
 
-        query = (" SELECT id, name, uuid "
-                 " FROM tbl_energy_storage_containers_firecontrols "
-                 " WHERE id = %s ")
-        cursor.execute(query, (fid,))
-        row = cursor.fetchone()
-        cursor.close()
-        cnx.close()
+                energy_storage_container_dict = dict()
+                if rows_energystoragecontainers is not None and len(rows_energystoragecontainers) > 0:
+                    for row in rows_energystoragecontainers:
+                        energy_storage_container_dict[row[0]] = {"id": row[0],
+                                                                 "name": row[1],
+                                                                 "uuid": row[2]}
+
+                query = (" SELECT id, name, uuid "
+                         " FROM tbl_energy_storage_containers_firecontrols "
+                         " WHERE id = %s ")
+                cursor.execute(query, (fid,))
+                row = cursor.fetchone()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         if row is None:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
@@ -2465,33 +2619,37 @@ class EnergyStorageContainerFirecontrolItem:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_ENERGY_STORAGE_CONTAINER_FIRECONTROL_ID')
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_energy_storage_containers "
-                       " WHERE id = %s ", (id_,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.ENERGY_STORAGE_CONTAINER_NOT_FOUND')
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_energy_storage_containers_firecontrols "
-                       " WHERE id = %s ", (fid,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.ENERGY_STORAGE_CONTAINER_FIRECONTROL_NOT_FOUND')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_energy_storage_containers "
+                               " WHERE id = %s ", (id_,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.ENERGY_STORAGE_CONTAINER_NOT_FOUND')
 
-        cursor.execute(" DELETE FROM tbl_energy_storage_containers_firecontrols "
-                       " WHERE id = %s ", (fid,))
-        cnx.commit()
+                cursor.execute(" SELECT name "
+                               " FROM tbl_energy_storage_containers_firecontrols "
+                               " WHERE id = %s ", (fid,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.ENERGY_STORAGE_CONTAINER_FIRECONTROL_NOT_FOUND')
 
-        cursor.close()
-        cnx.close()
+                cursor.execute(" DELETE FROM tbl_energy_storage_containers_firecontrols "
+                               " WHERE id = %s ", (fid,))
+                cnx.commit()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         resp.status = falcon.HTTP_204
 
@@ -2529,46 +2687,51 @@ class EnergyStorageContainerFirecontrolItem:
                                    description='API.INVALID_ENERGY_STORAGE_CONTAINER_FIRECONTROL_NAME')
         name = str.strip(new_values['data']['name'])
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_energy_storage_containers "
-                       " WHERE id = %s ", (id_,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.ENERGY_STORAGE_CONTAINER_NOT_FOUND')
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_energy_storage_containers_firecontrols "
-                       " WHERE id = %s ", (fid,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.ENERGY_STORAGE_CONTAINER_FIRECONTROL_NOT_FOUND')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_energy_storage_containers "
+                               " WHERE id = %s ", (id_,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.ENERGY_STORAGE_CONTAINER_NOT_FOUND')
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_energy_storage_containers_firecontrols "
-                       " WHERE energy_storage_container_id = %s AND name = %s AND id != %s ",
-                       (id_, name, fid))
-        if cursor.fetchone() is not None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.ENERGY_STORAGE_CONTAINER_FIRECONTROL_NAME_IS_ALREADY_IN_USE')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_energy_storage_containers_firecontrols "
+                               " WHERE id = %s ", (fid,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.ENERGY_STORAGE_CONTAINER_FIRECONTROL_NOT_FOUND')
 
-        update_row = (" UPDATE tbl_energy_storage_containers_firecontrols "
-                      " SET name = %s "
-                      "     WHERE id = %s ")
-        cursor.execute(update_row, (name,
-                                    fid))
-        cnx.commit()
+                cursor.execute(" SELECT name "
+                               " FROM tbl_energy_storage_containers_firecontrols "
+                               " WHERE energy_storage_container_id = %s AND name = %s AND id != %s ",
+                               (id_, name, fid))
+                if cursor.fetchone() is not None:
+                    raise falcon.HTTPError(
+                        status=falcon.HTTP_400,
+                        title='API.BAD_REQUEST',
+                        description='API.ENERGY_STORAGE_CONTAINER_FIRECONTROL_NAME_IS_ALREADY_IN_USE'
+                    )
 
-        cursor.close()
-        cnx.close()
+                update_row = (" UPDATE tbl_energy_storage_containers_firecontrols "
+                              " SET name = %s "
+                              "     WHERE id = %s ")
+                cursor.execute(update_row, (name,
+                                            fid))
+                cnx.commit()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         resp.status = falcon.HTTP_200
 
@@ -2598,34 +2761,46 @@ class EnergyStorageContainerFirecontrolPointCollection:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_FIRECONTROL_ID')
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
+        rows = []
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_energy_storage_containers_firecontrols "
-                       " WHERE energy_storage_container_id = %s AND id = %s ", (id_, fid, ))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.ENERGY_STORAGE_CONTAINER_FIRECONTROL_NOT_FOUND')
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        query = (" SELECT p.id, p.name, "
-                 "        ds.id, ds.name, ds.uuid, "
-                 "        p.address "
-                 " FROM tbl_points p, tbl_energy_storage_containers_firecontrols_points mp, tbl_data_sources ds "
-                 " WHERE mp.firecontrol_id = %s AND p.id = mp.point_id AND p.data_source_id = ds.id "
-                 " ORDER BY p.name ")
-        cursor.execute(query, (fid,))
-        rows = cursor.fetchall()
+                cursor.execute(" SELECT name "
+                               " FROM tbl_energy_storage_containers_firecontrols "
+                               " WHERE energy_storage_container_id = %s AND id = %s ", (id_, fid, ))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.ENERGY_STORAGE_CONTAINER_FIRECONTROL_NOT_FOUND')
 
-        result = list()
-        if rows is not None and len(rows) > 0:
-            for row in rows:
-                meta_result = {"id": row[0], "name": row[1],
-                               "data_source": {"id": row[2], "name": row[3], "uuid": row[4]},
-                               "address": row[5]}
-                result.append(meta_result)
+                query = (" SELECT p.id, p.name, "
+                         "        ds.id, ds.name, ds.uuid, "
+                         "        p.address "
+                         " FROM tbl_points p, "
+                         "      tbl_energy_storage_containers_firecontrols_points mp, "
+                         "      tbl_data_sources ds "
+                         " WHERE mp.firecontrol_id = %s AND p.id = mp.point_id AND p.data_source_id = ds.id "
+                         " ORDER BY p.name ")
+                cursor.execute(query, (fid,))
+                rows = cursor.fetchall()
+
+                result = list()
+                if rows is not None and len(rows) > 0:
+                    for row in rows:
+                        meta_result = {"id": row[0], "name": row[1],
+                                       "data_source": {"id": row[2], "name": row[3], "uuid": row[4]},
+                                       "address": row[5]}
+                        result.append(meta_result)
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         resp.text = json.dumps(result)
 
@@ -2655,44 +2830,48 @@ class EnergyStorageContainerFirecontrolPointCollection:
                                    description='API.INVALID_FIRECONTROL_ID')
 
         new_values = json.loads(raw_json)
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        
+        cnx = None
+        cursor = None
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_energy_storage_containers_firecontrols "
-                       " WHERE energy_storage_container_id = %s AND id = %s ", (id_, fid,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.ENERGY_STORAGE_CONTAINER_FIRECONTROL_NOT_FOUND')
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        cursor.execute(" SELECT name, object_type "
-                       " FROM tbl_points "
-                       " WHERE id = %s ", (new_values['data']['point_id'],))
-        row = cursor.fetchone()
-        if row is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.POINT_NOT_FOUND')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_energy_storage_containers_firecontrols "
+                               " WHERE energy_storage_container_id = %s AND id = %s ", (id_, fid,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.ENERGY_STORAGE_CONTAINER_FIRECONTROL_NOT_FOUND')
 
-        query = (" SELECT id "
-                 " FROM tbl_energy_storage_containers_firecontrols_points "
-                 " WHERE firecontrol_id = %s AND point_id = %s")
-        cursor.execute(query, (fid, new_values['data']['point_id'],))
-        if cursor.fetchone() is not None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR',
-                                   description='API.FIRECONTROL_POINT_RELATION_EXISTS')
+                cursor.execute(" SELECT name, object_type "
+                               " FROM tbl_points "
+                               " WHERE id = %s ", (new_values['data']['point_id'],))
+                row = cursor.fetchone()
+                if row is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.POINT_NOT_FOUND')
 
-        add_row = (" INSERT INTO tbl_energy_storage_containers_firecontrols_points (firecontrol_id, point_id) "
-                   " VALUES (%s, %s) ")
-        cursor.execute(add_row, (fid, new_values['data']['point_id'],))
-        cnx.commit()
-        cursor.close()
-        cnx.close()
+                query = (" SELECT id "
+                         " FROM tbl_energy_storage_containers_firecontrols_points "
+                         " WHERE firecontrol_id = %s AND point_id = %s")
+                cursor.execute(query, (fid, new_values['data']['point_id'],))
+                if cursor.fetchone() is not None:
+                    raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR',
+                                           description='API.FIRECONTROL_POINT_RELATION_EXISTS')
+
+                add_row = (" INSERT INTO tbl_energy_storage_containers_firecontrols_points (firecontrol_id, point_id) "
+                           " VALUES (%s, %s) ")
+                cursor.execute(add_row, (fid, new_values['data']['point_id'],))
+                cnx.commit()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         resp.status = falcon.HTTP_201
         resp.location = '/energystoragecontainers/' + str(id_) + '/firecontrols/' + str(fid) + '/points/' + \
@@ -2724,42 +2903,44 @@ class EnergyStorageContainerFirecontrolPointItem:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_POINT_ID')
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_energy_storage_containers_firecontrols "
-                       " WHERE energy_storage_container_id = %s AND id = %s ", (id_, fid,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.ENERGY_STORAGE_CONTAINER_FIRECONTROL_NOT_FOUND')
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_points "
-                       " WHERE id = %s ", (pid,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.POINT_NOT_FOUND')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_energy_storage_containers_firecontrols "
+                               " WHERE energy_storage_container_id = %s AND id = %s ", (id_, fid,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.ENERGY_STORAGE_CONTAINER_FIRECONTROL_NOT_FOUND')
 
-        cursor.execute(" SELECT id "
-                       " FROM tbl_energy_storage_containers_firecontrols_points "
-                       " WHERE firecontrol_id = %s AND point_id = %s ", (fid, pid))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.FIRECONTROL_POINT_RELATION_NOT_FOUND')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_points "
+                               " WHERE id = %s ", (pid,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.POINT_NOT_FOUND')
 
-        cursor.execute(" DELETE FROM tbl_energy_storage_containers_firecontrols_points "
-                       " WHERE firecontrol_id = %s AND point_id = %s ", (fid, pid))
-        cnx.commit()
+                cursor.execute(" SELECT id "
+                               " FROM tbl_energy_storage_containers_firecontrols_points "
+                               " WHERE firecontrol_id = %s AND point_id = %s ", (fid, pid))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.FIRECONTROL_POINT_RELATION_NOT_FOUND')
 
-        cursor.close()
-        cnx.close()
+                cursor.execute(" DELETE FROM tbl_energy_storage_containers_firecontrols_points "
+                               " WHERE firecontrol_id = %s AND point_id = %s ", (fid, pid))
+                cnx.commit()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         resp.status = falcon.HTTP_204
 
@@ -2781,62 +2962,74 @@ class EnergyStorageContainerGridCollection:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_ENERGY_STORAGE_CONTAINER_ID')
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
+        rows_meters = []
+        rows_points = []
+        rows = []
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_energy_storage_containers "
-                       " WHERE id = %s ", (id_,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.ENERGY_STORAGE_CONTAINER_NOT_FOUND')
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        # query meter dict
-        query = (" SELECT id, name, uuid "
-                 " FROM tbl_meters ")
-        cursor.execute(query)
-        rows_meters = cursor.fetchall()
+                cursor.execute(" SELECT name "
+                               " FROM tbl_energy_storage_containers "
+                               " WHERE id = %s ", (id_,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.ENERGY_STORAGE_CONTAINER_NOT_FOUND')
 
-        meter_dict = dict()
-        if rows_meters is not None and len(rows_meters) > 0:
-            for row in rows_meters:
-                meter_dict[row[0]] = {"id": row[0],
-                                      "name": row[1],
-                                      "uuid": row[2]}
-        # query point dict
-        query = (" SELECT id, name "
-                 " FROM tbl_points ")
-        cursor.execute(query)
-        rows_points = cursor.fetchall()
+                # query meter dict
+                query = (" SELECT id, name, uuid "
+                         " FROM tbl_meters ")
+                cursor.execute(query)
+                rows_meters = cursor.fetchall()
 
-        point_dict = dict()
-        if rows_points is not None and len(rows_points) > 0:
-            for row in rows_points:
-                point_dict[row[0]] = {"id": row[0],
-                                      "name": row[1]}
+                meter_dict = dict()
+                if rows_meters is not None and len(rows_meters) > 0:
+                    for row in rows_meters:
+                        meter_dict[row[0]] = {"id": row[0],
+                                              "name": row[1],
+                                              "uuid": row[2]}
+                # query point dict
+                query = (" SELECT id, name "
+                         " FROM tbl_points ")
+                cursor.execute(query)
+                rows_points = cursor.fetchall()
 
-        query = (" SELECT id, name, uuid, "
-                 "        power_point_id, buy_meter_id, sell_meter_id, capacity "
-                 " FROM tbl_energy_storage_containers_grids "
-                 " WHERE energy_storage_container_id = %s "
-                 " ORDER BY name ")
-        cursor.execute(query, (id_,))
-        rows = cursor.fetchall()
+                point_dict = dict()
+                if rows_points is not None and len(rows_points) > 0:
+                    for row in rows_points:
+                        point_dict[row[0]] = {"id": row[0],
+                                              "name": row[1]}
 
-        result = list()
-        if rows is not None and len(rows) > 0:
-            for row in rows:
-                meta_result = {"id": row[0],
-                               "name": row[1],
-                               "uuid": row[2],
-                               "power_point": point_dict.get(row[3]),
-                               "buy_meter": meter_dict.get(row[4]),
-                               "sell_meter": meter_dict.get(row[5]),
-                               "capacity": row[6]
-                               }
-                result.append(meta_result)
+                query = (" SELECT id, name, uuid, "
+                         "        power_point_id, buy_meter_id, sell_meter_id, capacity "
+                         " FROM tbl_energy_storage_containers_grids "
+                         " WHERE energy_storage_container_id = %s "
+                         " ORDER BY name ")
+                cursor.execute(query, (id_,))
+                rows = cursor.fetchall()
+
+                result = list()
+                if rows is not None and len(rows) > 0:
+                    for row in rows:
+                        meta_result = {"id": row[0],
+                                       "name": row[1],
+                                       "uuid": row[2],
+                                       "power_point": point_dict.get(row[3]),
+                                       "buy_meter": meter_dict.get(row[4]),
+                                       "sell_meter": meter_dict.get(row[5]),
+                                       "capacity": row[6]
+                                       }
+                        result.append(meta_result)
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         resp.text = json.dumps(result)
 
@@ -2860,18 +3053,6 @@ class EnergyStorageContainerGridCollection:
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_ENERGY_STORAGE_CONTAINER_ID')
-
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
-
-        cursor.execute(" SELECT name "
-                       " FROM tbl_energy_storage_containers "
-                       " WHERE id = %s ", (id_,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.ENERGY_STORAGE_CONTAINER_NOT_FOUND')
 
         new_values = json.loads(raw_json)
 
@@ -2910,75 +3091,74 @@ class EnergyStorageContainerGridCollection:
                                    description='API.INVALID_CAPACITY')
         capacity = Decimal(new_values['data']['capacity'])
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_energy_storage_containers "
-                       " WHERE id = %s ",
-                       (id_,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.ENERGY_STORAGE_CONTAINER_NOT_FOUND')
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_energy_storage_containers_grids "
-                       " WHERE energy_storage_container_id = %s AND name = %s ",
-                       (id_, name,))
-        if cursor.fetchone() is not None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.ENERGY_STORAGE_CONTAINER_GRID_NAME_IS_ALREADY_IN_USE')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_energy_storage_containers "
+                               " WHERE id = %s ",
+                               (id_,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.ENERGY_STORAGE_CONTAINER_NOT_FOUND')
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_points "
-                       " WHERE id = %s ",
-                       (power_point_id,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.POWER_POINT_NOT_FOUND')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_energy_storage_containers_grids "
+                               " WHERE energy_storage_container_id = %s AND name = %s ",
+                               (id_, name,))
+                if cursor.fetchone() is not None:
+                    raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                           description='API.ENERGY_STORAGE_CONTAINER_GRID_NAME_IS_ALREADY_IN_USE')
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_meters "
-                       " WHERE id = %s ",
-                       (buy_meter_id,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.BUY_METER_NOT_FOUND')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_points "
+                               " WHERE id = %s ",
+                               (power_point_id,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.POWER_POINT_NOT_FOUND')
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_meters "
-                       " WHERE id = %s ",
-                       (sell_meter_id,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.SELL_METER_NOT_FOUND')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_meters "
+                               " WHERE id = %s ",
+                               (buy_meter_id,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.BUY_METER_NOT_FOUND')
 
-        add_values = (" INSERT INTO tbl_energy_storage_containers_grids "
-                      "    (name, uuid, energy_storage_container_id, power_point_id, "
-                      "     buy_meter_id, sell_meter_id, capacity) "
-                      " VALUES (%s, %s, %s, %s, %s, %s, %s) ")
-        cursor.execute(add_values, (name,
-                                    str(uuid.uuid4()),
-                                    id_,
-                                    power_point_id,
-                                    buy_meter_id,
-                                    sell_meter_id,
-                                    capacity
-                                    ))
-        new_id = cursor.lastrowid
-        cnx.commit()
-        cursor.close()
-        cnx.close()
+                cursor.execute(" SELECT name "
+                               " FROM tbl_meters "
+                               " WHERE id = %s ",
+                               (sell_meter_id,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.SELL_METER_NOT_FOUND')
+
+                add_values = (" INSERT INTO tbl_energy_storage_containers_grids "
+                              "    (name, uuid, energy_storage_container_id, power_point_id, "
+                              "     buy_meter_id, sell_meter_id, capacity) "
+                              " VALUES (%s, %s, %s, %s, %s, %s, %s) ")
+                cursor.execute(add_values, (name,
+                                            str(uuid.uuid4()),
+                                            id_,
+                                            power_point_id,
+                                            buy_meter_id,
+                                            sell_meter_id,
+                                            capacity
+                                            ))
+                new_id = cursor.lastrowid
+                cnx.commit()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         resp.status = falcon.HTTP_201
         resp.location = '/energystoragecontainers/' + str(id_) + '/grids/' + str(new_id)
@@ -3004,61 +3184,72 @@ class EnergyStorageContainerGridItem:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_ENERGY_STORAGE_CONTAINER_GRID_ID')
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
+        rows_energystoragecontainers = []
+        rows_meters = []
+        rows_points = []
+        row = None
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_energy_storage_containers "
-                       " WHERE id = %s ", (id_,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.ENERGY_STORAGE_CONTAINER_NOT_FOUND')
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        query = (" SELECT id, name, uuid "
-                 " FROM tbl_energy_storage_containers ")
-        cursor.execute(query)
-        rows_energystoragecontainers = cursor.fetchall()
+                cursor.execute(" SELECT name "
+                               " FROM tbl_energy_storage_containers "
+                               " WHERE id = %s ", (id_,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.ENERGY_STORAGE_CONTAINER_NOT_FOUND')
 
-        energy_storage_container_dict = dict()
-        if rows_energystoragecontainers is not None and len(rows_energystoragecontainers) > 0:
-            for row in rows_energystoragecontainers:
-                energy_storage_container_dict[row[0]] = {"id": row[0],
-                                                         "name": row[1],
-                                                         "uuid": row[2]}
-        # query meter dict
-        query = (" SELECT id, name, uuid "
-                 " FROM tbl_meters ")
-        cursor.execute(query)
-        rows_meters = cursor.fetchall()
+                query = (" SELECT id, name, uuid "
+                         " FROM tbl_energy_storage_containers ")
+                cursor.execute(query)
+                rows_energystoragecontainers = cursor.fetchall()
 
-        meter_dict = dict()
-        if rows_meters is not None and len(rows_meters) > 0:
-            for row in rows_meters:
-                meter_dict[row[0]] = {"id": row[0],
-                                      "name": row[1],
-                                      "uuid": row[2]}
-        # query point dict
-        query = (" SELECT id, name "
-                 " FROM tbl_points ")
-        cursor.execute(query)
-        rows_points = cursor.fetchall()
+                energy_storage_container_dict = dict()
+                if rows_energystoragecontainers is not None and len(rows_energystoragecontainers) > 0:
+                    for row in rows_energystoragecontainers:
+                        energy_storage_container_dict[row[0]] = {"id": row[0],
+                                                                 "name": row[1],
+                                                                 "uuid": row[2]}
+                # query meter dict
+                query = (" SELECT id, name, uuid "
+                         " FROM tbl_meters ")
+                cursor.execute(query)
+                rows_meters = cursor.fetchall()
 
-        point_dict = dict()
-        if rows_points is not None and len(rows_points) > 0:
-            for row in rows_points:
-                point_dict[row[0]] = {"id": row[0],
-                                      "name": row[1]}
+                meter_dict = dict()
+                if rows_meters is not None and len(rows_meters) > 0:
+                    for row in rows_meters:
+                        meter_dict[row[0]] = {"id": row[0],
+                                              "name": row[1],
+                                              "uuid": row[2]}
+                # query point dict
+                query = (" SELECT id, name "
+                         " FROM tbl_points ")
+                cursor.execute(query)
+                rows_points = cursor.fetchall()
 
-        query = (" SELECT id, name, uuid, energy_storage_container_id, power_point_id, "
-                 "        buy_meter_id, sell_meter_id, capacity "
-                 " FROM tbl_energy_storage_containers_grids "
-                 " WHERE id = %s ")
-        cursor.execute(query, (gid,))
-        row = cursor.fetchone()
-        cursor.close()
-        cnx.close()
+                point_dict = dict()
+                if rows_points is not None and len(rows_points) > 0:
+                    for row in rows_points:
+                        point_dict[row[0]] = {"id": row[0],
+                                              "name": row[1]}
+
+                query = (" SELECT id, name, uuid, energy_storage_container_id, power_point_id, "
+                         "        buy_meter_id, sell_meter_id, capacity "
+                         " FROM tbl_energy_storage_containers_grids "
+                         " WHERE id = %s ")
+                cursor.execute(query, (gid,))
+                row = cursor.fetchone()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         if row is None:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
@@ -3087,33 +3278,37 @@ class EnergyStorageContainerGridItem:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_ENERGY_STORAGE_CONTAINER_GRID_ID')
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_energy_storage_containers "
-                       " WHERE id = %s ", (id_,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.ENERGY_STORAGE_CONTAINER_NOT_FOUND')
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_energy_storage_containers_grids "
-                       " WHERE id = %s ", (gid,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.ENERGY_STORAGE_CONTAINER_GRID_NOT_FOUND')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_energy_storage_containers "
+                               " WHERE id = %s ", (id_,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.ENERGY_STORAGE_CONTAINER_NOT_FOUND')
 
-        cursor.execute(" DELETE FROM tbl_energy_storage_containers_grids "
-                       " WHERE id = %s ", (gid,))
-        cnx.commit()
+                cursor.execute(" SELECT name "
+                               " FROM tbl_energy_storage_containers_grids "
+                               " WHERE id = %s ", (gid,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.ENERGY_STORAGE_CONTAINER_GRID_NOT_FOUND')
 
-        cursor.close()
-        cnx.close()
+                cursor.execute(" DELETE FROM tbl_energy_storage_containers_grids "
+                               " WHERE id = %s ", (gid,))
+                cnx.commit()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         resp.status = falcon.HTTP_204
 
@@ -3179,82 +3374,78 @@ class EnergyStorageContainerGridItem:
                                    description='API.INVALID_CAPACITY')
         capacity = Decimal(new_values['data']['capacity'])
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_energy_storage_containers "
-                       " WHERE id = %s ", (id_,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.ENERGY_STORAGE_CONTAINER_NOT_FOUND')
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_energy_storage_containers_grids "
-                       " WHERE id = %s ", (gid,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.ENERGY_STORAGE_CONTAINER_GRID_NOT_FOUND')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_energy_storage_containers "
+                               " WHERE id = %s ", (id_,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.ENERGY_STORAGE_CONTAINER_NOT_FOUND')
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_energy_storage_containers_grids "
-                       " WHERE energy_storage_container_id = %s AND name = %s AND id != %s ",
-                       (id_, name, gid))
-        if cursor.fetchone() is not None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.ENERGY_STORAGE_CONTAINER_GRID_NAME_IS_ALREADY_IN_USE')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_energy_storage_containers_grids "
+                               " WHERE id = %s ", (gid,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.ENERGY_STORAGE_CONTAINER_GRID_NOT_FOUND')
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_points "
-                       " WHERE id = %s ",
-                       (power_point_id,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.POWER_POINT_NOT_FOUND')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_energy_storage_containers_grids "
+                               " WHERE energy_storage_container_id = %s AND name = %s AND id != %s ",
+                               (id_, name, gid))
+                if cursor.fetchone() is not None:
+                    raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                           description='API.ENERGY_STORAGE_CONTAINER_GRID_NAME_IS_ALREADY_IN_USE')
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_meters "
-                       " WHERE id = %s ",
-                       (buy_meter_id,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.BUY_METER_NOT_FOUND')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_points "
+                               " WHERE id = %s ",
+                               (power_point_id,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.POWER_POINT_NOT_FOUND')
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_meters "
-                       " WHERE id = %s ",
-                       (sell_meter_id,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.SELL_METER_NOT_FOUND')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_meters "
+                               " WHERE id = %s ",
+                               (buy_meter_id,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.BUY_METER_NOT_FOUND')
 
-        update_row = (" UPDATE tbl_energy_storage_containers_grids "
-                      " SET name = %s, energy_storage_container_id = %s, "
-                      "     power_point_id = %s, buy_meter_id = %s, sell_meter_id = %s, capacity = %s "
-                      "     WHERE id = %s ")
-        cursor.execute(update_row, (name,
-                                    id_,
-                                    power_point_id,
-                                    buy_meter_id,
-                                    sell_meter_id,
-                                    capacity,
-                                    gid))
-        cnx.commit()
+                cursor.execute(" SELECT name "
+                               " FROM tbl_meters "
+                               " WHERE id = %s ",
+                               (sell_meter_id,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.SELL_METER_NOT_FOUND')
 
-        cursor.close()
-        cnx.close()
+                update_row = (" UPDATE tbl_energy_storage_containers_grids "
+                              " SET name = %s, energy_storage_container_id = %s, "
+                              "     power_point_id = %s, buy_meter_id = %s, sell_meter_id = %s, capacity = %s "
+                              "     WHERE id = %s ")
+                cursor.execute(update_row, (name,
+                                            id_,
+                                            power_point_id,
+                                            buy_meter_id,
+                                            sell_meter_id,
+                                            capacity,
+                                            gid))
+                cnx.commit()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         resp.status = falcon.HTTP_200
 
@@ -3284,34 +3475,44 @@ class EnergyStorageContainerGridPointCollection:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_GRID_ID')
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
+        rows = []
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_energy_storage_containers_grids "
-                       " WHERE energy_storage_container_id = %s AND id = %s ", (id_, gid, ))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.ENERGY_STORAGE_CONTAINER_GRID_NOT_FOUND')
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        query = (" SELECT p.id, p.name, "
-                 "        ds.id, ds.name, ds.uuid, "
-                 "        p.address "
-                 " FROM tbl_points p, tbl_energy_storage_containers_grids_points mp, tbl_data_sources ds "
-                 " WHERE mp.grid_id = %s AND p.id = mp.point_id AND p.data_source_id = ds.id "
-                 " ORDER BY p.name ")
-        cursor.execute(query, (gid,))
-        rows = cursor.fetchall()
+                cursor.execute(" SELECT name "
+                               " FROM tbl_energy_storage_containers_grids "
+                               " WHERE energy_storage_container_id = %s AND id = %s ", (id_, gid, ))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.ENERGY_STORAGE_CONTAINER_GRID_NOT_FOUND')
 
-        result = list()
-        if rows is not None and len(rows) > 0:
-            for row in rows:
-                meta_result = {"id": row[0], "name": row[1],
-                               "data_source": {"id": row[2], "name": row[3], "uuid": row[4]},
-                               "address": row[5]}
-                result.append(meta_result)
+                query = (" SELECT p.id, p.name, "
+                         "        ds.id, ds.name, ds.uuid, "
+                         "        p.address "
+                         " FROM tbl_points p, tbl_energy_storage_containers_grids_points mp, tbl_data_sources ds "
+                         " WHERE mp.grid_id = %s AND p.id = mp.point_id AND p.data_source_id = ds.id "
+                         " ORDER BY p.name ")
+                cursor.execute(query, (gid,))
+                rows = cursor.fetchall()
+
+                result = list()
+                if rows is not None and len(rows) > 0:
+                    for row in rows:
+                        meta_result = {"id": row[0], "name": row[1],
+                                       "data_source": {"id": row[2], "name": row[3], "uuid": row[4]},
+                                       "address": row[5]}
+                        result.append(meta_result)
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         resp.text = json.dumps(result)
 
@@ -3341,44 +3542,48 @@ class EnergyStorageContainerGridPointCollection:
                                    description='API.INVALID_GRID_ID')
 
         new_values = json.loads(raw_json)
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        
+        cnx = None
+        cursor = None
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_energy_storage_containers_grids "
-                       " WHERE energy_storage_container_id = %s AND id = %s ", (id_, gid,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.ENERGY_STORAGE_CONTAINER_GRID_NOT_FOUND')
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        cursor.execute(" SELECT name, object_type "
-                       " FROM tbl_points "
-                       " WHERE id = %s ", (new_values['data']['point_id'],))
-        row = cursor.fetchone()
-        if row is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.POINT_NOT_FOUND')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_energy_storage_containers_grids "
+                               " WHERE energy_storage_container_id = %s AND id = %s ", (id_, gid,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.ENERGY_STORAGE_CONTAINER_GRID_NOT_FOUND')
 
-        query = (" SELECT id "
-                 " FROM tbl_energy_storage_containers_grids_points "
-                 " WHERE grid_id = %s AND point_id = %s")
-        cursor.execute(query, (gid, new_values['data']['point_id'],))
-        if cursor.fetchone() is not None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR',
-                                   description='API.GRID_POINT_RELATION_EXISTS')
+                cursor.execute(" SELECT name, object_type "
+                               " FROM tbl_points "
+                               " WHERE id = %s ", (new_values['data']['point_id'],))
+                row = cursor.fetchone()
+                if row is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.POINT_NOT_FOUND')
 
-        add_row = (" INSERT INTO tbl_energy_storage_containers_grids_points (grid_id, point_id) "
-                   " VALUES (%s, %s) ")
-        cursor.execute(add_row, (gid, new_values['data']['point_id'],))
-        cnx.commit()
-        cursor.close()
-        cnx.close()
+                query = (" SELECT id "
+                         " FROM tbl_energy_storage_containers_grids_points "
+                         " WHERE grid_id = %s AND point_id = %s")
+                cursor.execute(query, (gid, new_values['data']['point_id'],))
+                if cursor.fetchone() is not None:
+                    raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR',
+                                           description='API.GRID_POINT_RELATION_EXISTS')
+
+                add_row = (" INSERT INTO tbl_energy_storage_containers_grids_points (grid_id, point_id) "
+                           " VALUES (%s, %s) ")
+                cursor.execute(add_row, (gid, new_values['data']['point_id'],))
+                cnx.commit()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         resp.status = falcon.HTTP_201
         resp.location = '/energystoragecontainers/' + str(id_) + '/grids/' + str(gid) + '/points/' + \
@@ -3410,42 +3615,44 @@ class EnergyStorageContainerGridPointItem:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_POINT_ID')
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_energy_storage_containers_grids "
-                       " WHERE energy_storage_container_id = %s AND id = %s ", (id_, gid,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.ENERGY_STORAGE_CONTAINER_GRID_NOT_FOUND')
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_points "
-                       " WHERE id = %s ", (pid,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.POINT_NOT_FOUND')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_energy_storage_containers_grids "
+                               " WHERE energy_storage_container_id = %s AND id = %s ", (id_, gid,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.ENERGY_STORAGE_CONTAINER_GRID_NOT_FOUND')
 
-        cursor.execute(" SELECT id "
-                       " FROM tbl_energy_storage_containers_grids_points "
-                       " WHERE grid_id = %s AND point_id = %s ", (gid, pid))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.GRID_POINT_RELATION_NOT_FOUND')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_points "
+                               " WHERE id = %s ", (pid,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.POINT_NOT_FOUND')
 
-        cursor.execute(" DELETE FROM tbl_energy_storage_containers_grids_points "
-                       " WHERE grid_id = %s AND point_id = %s ", (gid, pid))
-        cnx.commit()
+                cursor.execute(" SELECT id "
+                               " FROM tbl_energy_storage_containers_grids_points "
+                               " WHERE grid_id = %s AND point_id = %s ", (gid, pid))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.GRID_POINT_RELATION_NOT_FOUND')
 
-        cursor.close()
-        cnx.close()
+                cursor.execute(" DELETE FROM tbl_energy_storage_containers_grids_points "
+                               " WHERE grid_id = %s AND point_id = %s ", (gid, pid))
+                cnx.commit()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         resp.status = falcon.HTTP_204
 
@@ -3467,33 +3674,43 @@ class EnergyStorageContainerHVACCollection:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_ENERGY_STORAGE_CONTAINER_ID')
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
+        rows = []
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_energy_storage_containers "
-                       " WHERE id = %s ", (id_,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.ENERGY_STORAGE_CONTAINER_NOT_FOUND')
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        query = (" SELECT id, name, uuid "
-                 " FROM tbl_energy_storage_containers_hvacs "
-                 " WHERE energy_storage_container_id = %s "
-                 " ORDER BY name ")
-        cursor.execute(query, (id_,))
-        rows = cursor.fetchall()
+                cursor.execute(" SELECT name "
+                               " FROM tbl_energy_storage_containers "
+                               " WHERE id = %s ", (id_,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.ENERGY_STORAGE_CONTAINER_NOT_FOUND')
 
-        result = list()
-        if rows is not None and len(rows) > 0:
-            for row in rows:
-                meta_result = {"id": row[0],
-                               "name": row[1],
-                               "uuid": row[2]
-                               }
-                result.append(meta_result)
+                query = (" SELECT id, name, uuid "
+                         " FROM tbl_energy_storage_containers_hvacs "
+                         " WHERE energy_storage_container_id = %s "
+                         " ORDER BY name ")
+                cursor.execute(query, (id_,))
+                rows = cursor.fetchall()
+
+                result = list()
+                if rows is not None and len(rows) > 0:
+                    for row in rows:
+                        meta_result = {"id": row[0],
+                                       "name": row[1],
+                                       "uuid": row[2]
+                                       }
+                        result.append(meta_result)
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         resp.text = json.dumps(result)
 
@@ -3518,18 +3735,6 @@ class EnergyStorageContainerHVACCollection:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_ENERGY_STORAGE_CONTAINER_ID')
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
-
-        cursor.execute(" SELECT name "
-                       " FROM tbl_energy_storage_containers "
-                       " WHERE id = %s ", (id_,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.ENERGY_STORAGE_CONTAINER_NOT_FOUND')
-
         new_values = json.loads(raw_json)
 
         if 'name' not in new_values['data'].keys() or \
@@ -3539,40 +3744,45 @@ class EnergyStorageContainerHVACCollection:
                                    description='API.INVALID_ENERGY_STORAGE_CONTAINER_HVAC_NAME')
         name = str.strip(new_values['data']['name'])
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_energy_storage_containers "
-                       " WHERE id = %s ",
-                       (id_,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.ENERGY_STORAGE_CONTAINER_NOT_FOUND')
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_energy_storage_containers_hvacs "
-                       " WHERE energy_storage_container_id = %s AND name = %s ",
-                       (id_, name,))
-        if cursor.fetchone() is not None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.ENERGY_STORAGE_CONTAINER_HVAC_NAME_IS_ALREADY_IN_USE')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_energy_storage_containers "
+                               " WHERE id = %s ",
+                               (id_,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.ENERGY_STORAGE_CONTAINER_NOT_FOUND')
 
-        add_values = (" INSERT INTO tbl_energy_storage_containers_hvacs "
-                      "    (name, uuid, energy_storage_container_id) "
-                      " VALUES (%s, %s, %s) ")
-        cursor.execute(add_values, (name,
-                                    str(uuid.uuid4()),
-                                    id_
-                                    ))
-        new_id = cursor.lastrowid
-        cnx.commit()
-        cursor.close()
-        cnx.close()
+                cursor.execute(" SELECT name "
+                               " FROM tbl_energy_storage_containers_hvacs "
+                               " WHERE energy_storage_container_id = %s AND name = %s ",
+                               (id_, name,))
+                if cursor.fetchone() is not None:
+                    raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                           description='API.ENERGY_STORAGE_CONTAINER_HVAC_NAME_IS_ALREADY_IN_USE')
+
+                add_values = (" INSERT INTO tbl_energy_storage_containers_hvacs "
+                              "    (name, uuid, energy_storage_container_id) "
+                              " VALUES (%s, %s, %s) ")
+                cursor.execute(add_values, (name,
+                                            str(uuid.uuid4()),
+                                            id_
+                                            ))
+                new_id = cursor.lastrowid
+                cnx.commit()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         resp.status = falcon.HTTP_201
         resp.location = '/energystoragecontainers/' + str(id_) + '/hvacs/' + str(new_id)
@@ -3598,37 +3808,46 @@ class EnergyStorageContainerHVACItem:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_ENERGY_STORAGE_CONTAINER_HVAC_ID')
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
+        rows_energystoragecontainers = []
+        row = None
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_energy_storage_containers "
-                       " WHERE id = %s ", (id_,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.ENERGY_STORAGE_CONTAINER_NOT_FOUND')
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        query = (" SELECT id, name, uuid "
-                 " FROM tbl_energy_storage_containers ")
-        cursor.execute(query)
-        rows_energystoragecontainers = cursor.fetchall()
+                cursor.execute(" SELECT name "
+                               " FROM tbl_energy_storage_containers "
+                               " WHERE id = %s ", (id_,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.ENERGY_STORAGE_CONTAINER_NOT_FOUND')
 
-        energy_storage_container_dict = dict()
-        if rows_energystoragecontainers is not None and len(rows_energystoragecontainers) > 0:
-            for row in rows_energystoragecontainers:
-                energy_storage_container_dict[row[0]] = {"id": row[0],
-                                                         "name": row[1],
-                                                         "uuid": row[2]}
+                query = (" SELECT id, name, uuid "
+                         " FROM tbl_energy_storage_containers ")
+                cursor.execute(query)
+                rows_energystoragecontainers = cursor.fetchall()
 
-        query = (" SELECT id, name, uuid "
-                 " FROM tbl_energy_storage_containers_hvacs "
-                 " WHERE id = %s ")
-        cursor.execute(query, (hid,))
-        row = cursor.fetchone()
-        cursor.close()
-        cnx.close()
+                energy_storage_container_dict = dict()
+                if rows_energystoragecontainers is not None and len(rows_energystoragecontainers) > 0:
+                    for row in rows_energystoragecontainers:
+                        energy_storage_container_dict[row[0]] = {"id": row[0],
+                                                                 "name": row[1],
+                                                                 "uuid": row[2]}
+
+                query = (" SELECT id, name, uuid "
+                         " FROM tbl_energy_storage_containers_hvacs "
+                         " WHERE id = %s ")
+                cursor.execute(query, (hid,))
+                row = cursor.fetchone()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         if row is None:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
@@ -3652,33 +3871,37 @@ class EnergyStorageContainerHVACItem:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_ENERGY_STORAGE_CONTAINER_HVAC_ID')
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_energy_storage_containers "
-                       " WHERE id = %s ", (id_,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.ENERGY_STORAGE_CONTAINER_NOT_FOUND')
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_energy_storage_containers_hvacs "
-                       " WHERE id = %s ", (hid,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.ENERGY_STORAGE_CONTAINER_HVAC_NOT_FOUND')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_energy_storage_containers "
+                               " WHERE id = %s ", (id_,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.ENERGY_STORAGE_CONTAINER_NOT_FOUND')
 
-        cursor.execute(" DELETE FROM tbl_energy_storage_containers_hvacs "
-                       " WHERE id = %s ", (hid,))
-        cnx.commit()
+                cursor.execute(" SELECT name "
+                               " FROM tbl_energy_storage_containers_hvacs "
+                               " WHERE id = %s ", (hid,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.ENERGY_STORAGE_CONTAINER_HVAC_NOT_FOUND')
 
-        cursor.close()
-        cnx.close()
+                cursor.execute(" DELETE FROM tbl_energy_storage_containers_hvacs "
+                               " WHERE id = %s ", (hid,))
+                cnx.commit()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         resp.status = falcon.HTTP_204
 
@@ -3716,46 +3939,48 @@ class EnergyStorageContainerHVACItem:
                                    description='API.INVALID_ENERGY_STORAGE_CONTAINER_HVAC_NAME')
         name = str.strip(new_values['data']['name'])
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_energy_storage_containers "
-                       " WHERE id = %s ", (id_,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.ENERGY_STORAGE_CONTAINER_NOT_FOUND')
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_energy_storage_containers_hvacs "
-                       " WHERE id = %s ", (hid,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.ENERGY_STORAGE_CONTAINER_HVAC_NOT_FOUND')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_energy_storage_containers "
+                               " WHERE id = %s ", (id_,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.ENERGY_STORAGE_CONTAINER_NOT_FOUND')
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_energy_storage_containers_hvacs "
-                       " WHERE energy_storage_container_id = %s AND name = %s AND id != %s ",
-                       (id_, name, hid))
-        if cursor.fetchone() is not None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.ENERGY_STORAGE_CONTAINER_HVAC_NAME_IS_ALREADY_IN_USE')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_energy_storage_containers_hvacs "
+                               " WHERE id = %s ", (hid,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.ENERGY_STORAGE_CONTAINER_HVAC_NOT_FOUND')
 
-        update_row = (" UPDATE tbl_energy_storage_containers_hvacs "
-                      " SET name = %s "
-                      "     WHERE id = %s ")
-        cursor.execute(update_row, (name,
-                                    hid))
-        cnx.commit()
+                cursor.execute(" SELECT name "
+                               " FROM tbl_energy_storage_containers_hvacs "
+                               " WHERE energy_storage_container_id = %s AND name = %s AND id != %s ",
+                               (id_, name, hid))
+                if cursor.fetchone() is not None:
+                    raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                           description='API.ENERGY_STORAGE_CONTAINER_HVAC_NAME_IS_ALREADY_IN_USE')
 
-        cursor.close()
-        cnx.close()
+                update_row = (" UPDATE tbl_energy_storage_containers_hvacs "
+                              " SET name = %s "
+                              "     WHERE id = %s ")
+                cursor.execute(update_row, (name,
+                                            hid))
+                cnx.commit()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         resp.status = falcon.HTTP_200
 
@@ -3785,34 +4010,44 @@ class EnergyStorageContainerHVACPointCollection:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_HVAC_ID')
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
+        rows = []
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_energy_storage_containers_hvacs "
-                       " WHERE energy_storage_container_id = %s AND id = %s ", (id_, hid, ))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.ENERGY_STORAGE_CONTAINER_HVAC_NOT_FOUND')
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        query = (" SELECT p.id, p.name, "
-                 "        ds.id, ds.name, ds.uuid, "
-                 "        p.address "
-                 " FROM tbl_points p, tbl_energy_storage_containers_hvacs_points mp, tbl_data_sources ds "
-                 " WHERE mp.hvac_id = %s AND p.id = mp.point_id AND p.data_source_id = ds.id "
-                 " ORDER BY p.name ")
-        cursor.execute(query, (hid,))
-        rows = cursor.fetchall()
+                cursor.execute(" SELECT name "
+                               " FROM tbl_energy_storage_containers_hvacs "
+                               " WHERE energy_storage_container_id = %s AND id = %s ", (id_, hid, ))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.ENERGY_STORAGE_CONTAINER_HVAC_NOT_FOUND')
 
-        result = list()
-        if rows is not None and len(rows) > 0:
-            for row in rows:
-                meta_result = {"id": row[0], "name": row[1],
-                               "data_source": {"id": row[2], "name": row[3], "uuid": row[4]},
-                               "address": row[5]}
-                result.append(meta_result)
+                query = (" SELECT p.id, p.name, "
+                         "        ds.id, ds.name, ds.uuid, "
+                         "        p.address "
+                         " FROM tbl_points p, tbl_energy_storage_containers_hvacs_points mp, tbl_data_sources ds "
+                         " WHERE mp.hvac_id = %s AND p.id = mp.point_id AND p.data_source_id = ds.id "
+                         " ORDER BY p.name ")
+                cursor.execute(query, (hid,))
+                rows = cursor.fetchall()
+
+                result = list()
+                if rows is not None and len(rows) > 0:
+                    for row in rows:
+                        meta_result = {"id": row[0], "name": row[1],
+                                       "data_source": {"id": row[2], "name": row[3], "uuid": row[4]},
+                                       "address": row[5]}
+                        result.append(meta_result)
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         resp.text = json.dumps(result)
 
@@ -3842,44 +4077,48 @@ class EnergyStorageContainerHVACPointCollection:
                                    description='API.INVALID_HVAC_ID')
 
         new_values = json.loads(raw_json)
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        
+        cnx = None
+        cursor = None
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_energy_storage_containers_hvacs "
-                       " WHERE energy_storage_container_id = %s AND id = %s ", (id_, hid,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.ENERGY_STORAGE_CONTAINER_HVAC_NOT_FOUND')
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        cursor.execute(" SELECT name, object_type "
-                       " FROM tbl_points "
-                       " WHERE id = %s ", (new_values['data']['point_id'],))
-        row = cursor.fetchone()
-        if row is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.POINT_NOT_FOUND')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_energy_storage_containers_hvacs "
+                               " WHERE energy_storage_container_id = %s AND id = %s ", (id_, hid,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.ENERGY_STORAGE_CONTAINER_HVAC_NOT_FOUND')
 
-        query = (" SELECT id "
-                 " FROM tbl_energy_storage_containers_hvacs_points "
-                 " WHERE hvac_id = %s AND point_id = %s")
-        cursor.execute(query, (hid, new_values['data']['point_id'],))
-        if cursor.fetchone() is not None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR',
-                                   description='API.HVAC_POINT_RELATION_EXISTS')
+                cursor.execute(" SELECT name, object_type "
+                               " FROM tbl_points "
+                               " WHERE id = %s ", (new_values['data']['point_id'],))
+                row = cursor.fetchone()
+                if row is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.POINT_NOT_FOUND')
 
-        add_row = (" INSERT INTO tbl_energy_storage_containers_hvacs_points (hvac_id, point_id) "
-                   " VALUES (%s, %s) ")
-        cursor.execute(add_row, (hid, new_values['data']['point_id'],))
-        cnx.commit()
-        cursor.close()
-        cnx.close()
+                query = (" SELECT id "
+                         " FROM tbl_energy_storage_containers_hvacs_points "
+                         " WHERE hvac_id = %s AND point_id = %s")
+                cursor.execute(query, (hid, new_values['data']['point_id'],))
+                if cursor.fetchone() is not None:
+                    raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR',
+                                           description='API.HVAC_POINT_RELATION_EXISTS')
+
+                add_row = (" INSERT INTO tbl_energy_storage_containers_hvacs_points (hvac_id, point_id) "
+                           " VALUES (%s, %s) ")
+                cursor.execute(add_row, (hid, new_values['data']['point_id'],))
+                cnx.commit()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         resp.status = falcon.HTTP_201
         resp.location = '/energystoragecontainers/' + str(id_) + '/hvacs/' + str(hid) + '/points/' + \
@@ -3911,42 +4150,44 @@ class EnergyStorageContainerHVACPointItem:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_POINT_ID')
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_energy_storage_containers_hvacs "
-                       " WHERE energy_storage_container_id = %s AND id = %s ", (id_, hid,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.ENERGY_STORAGE_CONTAINER_HVAC_NOT_FOUND')
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_points "
-                       " WHERE id = %s ", (pid,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.POINT_NOT_FOUND')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_energy_storage_containers_hvacs "
+                               " WHERE energy_storage_container_id = %s AND id = %s ", (id_, hid,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.ENERGY_STORAGE_CONTAINER_HVAC_NOT_FOUND')
 
-        cursor.execute(" SELECT id "
-                       " FROM tbl_energy_storage_containers_hvacs_points "
-                       " WHERE hvac_id = %s AND point_id = %s ", (hid, pid))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.HVAC_POINT_RELATION_NOT_FOUND')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_points "
+                               " WHERE id = %s ", (pid,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.POINT_NOT_FOUND')
 
-        cursor.execute(" DELETE FROM tbl_energy_storage_containers_hvacs_points "
-                       " WHERE hvac_id = %s AND point_id = %s ", (hid, pid))
-        cnx.commit()
+                cursor.execute(" SELECT id "
+                               " FROM tbl_energy_storage_containers_hvacs_points "
+                               " WHERE hvac_id = %s AND point_id = %s ", (hid, pid))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.HVAC_POINT_RELATION_NOT_FOUND')
 
-        cursor.close()
-        cnx.close()
+                cursor.execute(" DELETE FROM tbl_energy_storage_containers_hvacs_points "
+                               " WHERE hvac_id = %s AND point_id = %s ", (hid, pid))
+                cnx.commit()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         resp.status = falcon.HTTP_204
 
@@ -3968,61 +4209,73 @@ class EnergyStorageContainerLoadCollection:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_ENERGY_STORAGE_CONTAINER_ID')
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
+        rows_meters = []
+        rows_points = []
+        rows = []
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_energy_storage_containers "
-                       " WHERE id = %s ", (id_,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.ENERGY_STORAGE_CONTAINER_NOT_FOUND')
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        # query meter dict
-        query = (" SELECT id, name, uuid "
-                 " FROM tbl_meters ")
-        cursor.execute(query)
-        rows_meters = cursor.fetchall()
+                cursor.execute(" SELECT name "
+                               " FROM tbl_energy_storage_containers "
+                               " WHERE id = %s ", (id_,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.ENERGY_STORAGE_CONTAINER_NOT_FOUND')
 
-        meter_dict = dict()
-        if rows_meters is not None and len(rows_meters) > 0:
-            for row in rows_meters:
-                meter_dict[row[0]] = {"id": row[0],
-                                      "name": row[1],
-                                      "uuid": row[2]}
-        # query point dict
-        query = (" SELECT id, name "
-                 " FROM tbl_points ")
-        cursor.execute(query)
-        rows_points = cursor.fetchall()
+                # query meter dict
+                query = (" SELECT id, name, uuid "
+                         " FROM tbl_meters ")
+                cursor.execute(query)
+                rows_meters = cursor.fetchall()
 
-        point_dict = dict()
-        if rows_points is not None and len(rows_points) > 0:
-            for row in rows_points:
-                point_dict[row[0]] = {"id": row[0],
-                                      "name": row[1]}
+                meter_dict = dict()
+                if rows_meters is not None and len(rows_meters) > 0:
+                    for row in rows_meters:
+                        meter_dict[row[0]] = {"id": row[0],
+                                              "name": row[1],
+                                              "uuid": row[2]}
+                # query point dict
+                query = (" SELECT id, name "
+                         " FROM tbl_points ")
+                cursor.execute(query)
+                rows_points = cursor.fetchall()
 
-        query = (" SELECT id, name, uuid, "
-                 "        power_point_id, meter_id, rated_input_power "
-                 " FROM tbl_energy_storage_containers_loads "
-                 " WHERE energy_storage_container_id = %s "
-                 " ORDER BY name ")
-        cursor.execute(query, (id_,))
-        rows = cursor.fetchall()
+                point_dict = dict()
+                if rows_points is not None and len(rows_points) > 0:
+                    for row in rows_points:
+                        point_dict[row[0]] = {"id": row[0],
+                                              "name": row[1]}
 
-        result = list()
-        if rows is not None and len(rows) > 0:
-            for row in rows:
-                meta_result = {"id": row[0],
-                               "name": row[1],
-                               "uuid": row[2],
-                               "power_point": point_dict.get(row[3]),
-                               "meter": meter_dict.get(row[4]),
-                               "rated_input_power": row[5]
-                               }
-                result.append(meta_result)
+                query = (" SELECT id, name, uuid, "
+                         "        power_point_id, meter_id, rated_input_power "
+                         " FROM tbl_energy_storage_containers_loads "
+                         " WHERE energy_storage_container_id = %s "
+                         " ORDER BY name ")
+                cursor.execute(query, (id_,))
+                rows = cursor.fetchall()
+
+                result = list()
+                if rows is not None and len(rows) > 0:
+                    for row in rows:
+                        meta_result = {"id": row[0],
+                                       "name": row[1],
+                                       "uuid": row[2],
+                                       "power_point": point_dict.get(row[3]),
+                                       "meter": meter_dict.get(row[4]),
+                                       "rated_input_power": row[5]
+                                       }
+                        result.append(meta_result)
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         resp.text = json.dumps(result)
 
@@ -4046,18 +4299,6 @@ class EnergyStorageContainerLoadCollection:
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_ENERGY_STORAGE_CONTAINER_ID')
-
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
-
-        cursor.execute(" SELECT name "
-                       " FROM tbl_energy_storage_containers "
-                       " WHERE id = %s ", (id_,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.ENERGY_STORAGE_CONTAINER_NOT_FOUND')
 
         new_values = json.loads(raw_json)
 
@@ -4089,63 +4330,65 @@ class EnergyStorageContainerLoadCollection:
                                    description='API.INVALID_RATED_INPUT_POWER')
         rated_input_power = Decimal(new_values['data']['rated_input_power'])
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_energy_storage_containers "
-                       " WHERE id = %s ",
-                       (id_,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.ENERGY_STORAGE_CONTAINER_NOT_FOUND')
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_energy_storage_containers_loads "
-                       " WHERE energy_storage_container_id = %s AND name = %s ",
-                       (id_, name,))
-        if cursor.fetchone() is not None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.ENERGY_STORAGE_CONTAINER_LOAD_NAME_IS_ALREADY_IN_USE')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_energy_storage_containers "
+                               " WHERE id = %s ",
+                               (id_,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.ENERGY_STORAGE_CONTAINER_NOT_FOUND')
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_points "
-                       " WHERE id = %s ",
-                       (power_point_id,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.POWER_POINT_NOT_FOUND')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_energy_storage_containers_loads "
+                               " WHERE energy_storage_container_id = %s AND name = %s ",
+                               (id_, name,))
+                if cursor.fetchone() is not None:
+                    raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                           description='API.ENERGY_STORAGE_CONTAINER_LOAD_NAME_IS_ALREADY_IN_USE')
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_meters "
-                       " WHERE id = %s ",
-                       (meter_id,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.METER_NOT_FOUND')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_points "
+                               " WHERE id = %s ",
+                               (power_point_id,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.POWER_POINT_NOT_FOUND')
 
-        add_values = (" INSERT INTO tbl_energy_storage_containers_loads "
-                      "    (name, uuid, energy_storage_container_id, power_point_id, meter_id, rated_input_power) "
-                      " VALUES (%s, %s, %s, %s, %s, %s) ")
-        cursor.execute(add_values, (name,
-                                    str(uuid.uuid4()),
-                                    id_,
-                                    power_point_id,
-                                    meter_id,
-                                    rated_input_power
-                                    ))
-        new_id = cursor.lastrowid
-        cnx.commit()
-        cursor.close()
-        cnx.close()
+                cursor.execute(" SELECT name "
+                               " FROM tbl_meters "
+                               " WHERE id = %s ",
+                               (meter_id,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.METER_NOT_FOUND')
+
+                add_values = (" INSERT INTO tbl_energy_storage_containers_loads "
+                              "    (name, uuid, energy_storage_container_id, "
+                              "    power_point_id, meter_id, rated_input_power) "
+                              " VALUES (%s, %s, %s, %s, %s, %s) ")
+                cursor.execute(add_values, (name,
+                                            str(uuid.uuid4()),
+                                            id_,
+                                            power_point_id,
+                                            meter_id,
+                                            rated_input_power
+                                            ))
+                new_id = cursor.lastrowid
+                cnx.commit()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         resp.status = falcon.HTTP_201
         resp.location = '/energystoragecontainers/' + str(id_) + '/loads/' + str(new_id)
@@ -4171,61 +4414,72 @@ class EnergyStorageContainerLoadItem:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_ENERGY_STORAGE_CONTAINER_LOAD_ID')
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
+        rows_energystoragecontainers = []
+        rows_meters = []
+        rows_points = []
+        row = None
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_energy_storage_containers "
-                       " WHERE id = %s ", (id_,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.ENERGY_STORAGE_CONTAINER_NOT_FOUND')
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        query = (" SELECT id, name, uuid "
-                 " FROM tbl_energy_storage_containers ")
-        cursor.execute(query)
-        rows_energystoragecontainers = cursor.fetchall()
+                cursor.execute(" SELECT name "
+                               " FROM tbl_energy_storage_containers "
+                               " WHERE id = %s ", (id_,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.ENERGY_STORAGE_CONTAINER_NOT_FOUND')
 
-        energy_storage_container_dict = dict()
-        if rows_energystoragecontainers is not None and len(rows_energystoragecontainers) > 0:
-            for row in rows_energystoragecontainers:
-                energy_storage_container_dict[row[0]] = {"id": row[0],
-                                                         "name": row[1],
-                                                         "uuid": row[2]}
-        # query meter dict
-        query = (" SELECT id, name, uuid "
-                 " FROM tbl_meters ")
-        cursor.execute(query)
-        rows_meters = cursor.fetchall()
+                query = (" SELECT id, name, uuid "
+                         " FROM tbl_energy_storage_containers ")
+                cursor.execute(query)
+                rows_energystoragecontainers = cursor.fetchall()
 
-        meter_dict = dict()
-        if rows_meters is not None and len(rows_meters) > 0:
-            for row in rows_meters:
-                meter_dict[row[0]] = {"id": row[0],
-                                      "name": row[1],
-                                      "uuid": row[2]}
-        # query point dict
-        query = (" SELECT id, name "
-                 " FROM tbl_points ")
-        cursor.execute(query)
-        rows_points = cursor.fetchall()
+                energy_storage_container_dict = dict()
+                if rows_energystoragecontainers is not None and len(rows_energystoragecontainers) > 0:
+                    for row in rows_energystoragecontainers:
+                        energy_storage_container_dict[row[0]] = {"id": row[0],
+                                                                 "name": row[1],
+                                                                 "uuid": row[2]}
+                # query meter dict
+                query = (" SELECT id, name, uuid "
+                         " FROM tbl_meters ")
+                cursor.execute(query)
+                rows_meters = cursor.fetchall()
 
-        point_dict = dict()
-        if rows_points is not None and len(rows_points) > 0:
-            for row in rows_points:
-                point_dict[row[0]] = {"id": row[0],
-                                      "name": row[1]}
+                meter_dict = dict()
+                if rows_meters is not None and len(rows_meters) > 0:
+                    for row in rows_meters:
+                        meter_dict[row[0]] = {"id": row[0],
+                                              "name": row[1],
+                                              "uuid": row[2]}
+                # query point dict
+                query = (" SELECT id, name "
+                         " FROM tbl_points ")
+                cursor.execute(query)
+                rows_points = cursor.fetchall()
 
-        query = (" SELECT id, name, uuid, "
-                 "        energy_storage_container_id, power_point_id, meter_id, rated_input_power "
-                 " FROM tbl_energy_storage_containers_loads "
-                 " WHERE id = %s ")
-        cursor.execute(query, (lid,))
-        row = cursor.fetchone()
-        cursor.close()
-        cnx.close()
+                point_dict = dict()
+                if rows_points is not None and len(rows_points) > 0:
+                    for row in rows_points:
+                        point_dict[row[0]] = {"id": row[0],
+                                              "name": row[1]}
+
+                query = (" SELECT id, name, uuid, "
+                         "        energy_storage_container_id, power_point_id, meter_id, rated_input_power "
+                         " FROM tbl_energy_storage_containers_loads "
+                         " WHERE id = %s ")
+                cursor.execute(query, (lid,))
+                row = cursor.fetchone()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         if row is None:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
@@ -4253,33 +4507,37 @@ class EnergyStorageContainerLoadItem:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_ENERGY_STORAGE_CONTAINER_LOAD_ID')
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_energy_storage_containers "
-                       " WHERE id = %s ", (id_,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.ENERGY_STORAGE_CONTAINER_NOT_FOUND')
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_energy_storage_containers_loads "
-                       " WHERE id = %s ", (lid,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.ENERGY_STORAGE_CONTAINER_LOAD_NOT_FOUND')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_energy_storage_containers "
+                               " WHERE id = %s ", (id_,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.ENERGY_STORAGE_CONTAINER_NOT_FOUND')
 
-        cursor.execute(" DELETE FROM tbl_energy_storage_containers_loads "
-                       " WHERE id = %s ", (lid,))
-        cnx.commit()
+                cursor.execute(" SELECT name "
+                               " FROM tbl_energy_storage_containers_loads "
+                               " WHERE id = %s ", (lid,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.ENERGY_STORAGE_CONTAINER_LOAD_NOT_FOUND')
 
-        cursor.close()
-        cnx.close()
+                cursor.execute(" DELETE FROM tbl_energy_storage_containers_loads "
+                               " WHERE id = %s ", (lid,))
+                cnx.commit()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         resp.status = falcon.HTTP_204
 
@@ -4337,71 +4595,69 @@ class EnergyStorageContainerLoadItem:
                                    description='API.INVALID_RATED_INPUT_POWER')
         rated_input_power = Decimal(new_values['data']['rated_input_power'])
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_energy_storage_containers "
-                       " WHERE id = %s ", (id_,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.ENERGY_STORAGE_CONTAINER_NOT_FOUND')
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_energy_storage_containers_loads "
-                       " WHERE id = %s ", (lid,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.ENERGY_STORAGE_CONTAINER_LOAD_NOT_FOUND')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_energy_storage_containers "
+                               " WHERE id = %s ", (id_,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.ENERGY_STORAGE_CONTAINER_NOT_FOUND')
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_energy_storage_containers_loads "
-                       " WHERE energy_storage_container_id = %s AND name = %s AND id != %s ",
-                       (id_, name, lid))
-        if cursor.fetchone() is not None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.ENERGY_STORAGE_CONTAINER_LOAD_NAME_IS_ALREADY_IN_USE')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_energy_storage_containers_loads "
+                               " WHERE id = %s ", (lid,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.ENERGY_STORAGE_CONTAINER_LOAD_NOT_FOUND')
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_points "
-                       " WHERE id = %s ",
-                       (power_point_id,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.POWER_POINT_NOT_FOUND')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_energy_storage_containers_loads "
+                               " WHERE energy_storage_container_id = %s AND name = %s AND id != %s ",
+                               (id_, name, lid))
+                if cursor.fetchone() is not None:
+                    raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                           description='API.ENERGY_STORAGE_CONTAINER_LOAD_NAME_IS_ALREADY_IN_USE')
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_meters "
-                       " WHERE id = %s ",
-                       (meter_id,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.METER_NOT_FOUND')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_points "
+                               " WHERE id = %s ",
+                               (power_point_id,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.POWER_POINT_NOT_FOUND')
 
-        update_row = (" UPDATE tbl_energy_storage_containers_loads "
-                      " SET name = %s, energy_storage_container_id = %s, power_point_id = %s, "
-                      "     meter_id = %s, rated_input_power = %s "
-                      " WHERE id = %s ")
-        cursor.execute(update_row, (name,
-                                    id_,
-                                    power_point_id,
-                                    meter_id,
-                                    rated_input_power,
-                                    lid))
-        cnx.commit()
+                cursor.execute(" SELECT name "
+                               " FROM tbl_meters "
+                               " WHERE id = %s ",
+                               (meter_id,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.METER_NOT_FOUND')
 
-        cursor.close()
-        cnx.close()
+                update_row = (" UPDATE tbl_energy_storage_containers_loads "
+                              " SET name = %s, energy_storage_container_id = %s, power_point_id = %s, "
+                              "     meter_id = %s, rated_input_power = %s "
+                              " WHERE id = %s ")
+                cursor.execute(update_row, (name,
+                                            id_,
+                                            power_point_id,
+                                            meter_id,
+                                            rated_input_power,
+                                            lid))
+                cnx.commit()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         resp.status = falcon.HTTP_200
 
@@ -4431,34 +4687,44 @@ class EnergyStorageContainerLoadPointCollection:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_LOAD_ID')
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
+        rows = []
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_energy_storage_containers_loads "
-                       " WHERE energy_storage_container_id = %s AND id = %s ", (id_, lid, ))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.ENERGY_STORAGE_CONTAINER_LOAD_NOT_FOUND')
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        query = (" SELECT p.id, p.name, "
-                 "        ds.id, ds.name, ds.uuid, "
-                 "        p.address "
-                 " FROM tbl_points p, tbl_energy_storage_containers_loads_points mp, tbl_data_sources ds "
-                 " WHERE mp.load_id = %s AND p.id = mp.point_id AND p.data_source_id = ds.id "
-                 " ORDER BY p.name ")
-        cursor.execute(query, (lid,))
-        rows = cursor.fetchall()
+                cursor.execute(" SELECT name "
+                               " FROM tbl_energy_storage_containers_loads "
+                               " WHERE energy_storage_container_id = %s AND id = %s ", (id_, lid, ))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.ENERGY_STORAGE_CONTAINER_LOAD_NOT_FOUND')
 
-        result = list()
-        if rows is not None and len(rows) > 0:
-            for row in rows:
-                meta_result = {"id": row[0], "name": row[1],
-                               "data_source": {"id": row[2], "name": row[3], "uuid": row[4]},
-                               "address": row[5]}
-                result.append(meta_result)
+                query = (" SELECT p.id, p.name, "
+                         "        ds.id, ds.name, ds.uuid, "
+                         "        p.address "
+                         " FROM tbl_points p, tbl_energy_storage_containers_loads_points mp, tbl_data_sources ds "
+                         " WHERE mp.load_id = %s AND p.id = mp.point_id AND p.data_source_id = ds.id "
+                         " ORDER BY p.name ")
+                cursor.execute(query, (lid,))
+                rows = cursor.fetchall()
+
+                result = list()
+                if rows is not None and len(rows) > 0:
+                    for row in rows:
+                        meta_result = {"id": row[0], "name": row[1],
+                                       "data_source": {"id": row[2], "name": row[3], "uuid": row[4]},
+                                       "address": row[5]}
+                        result.append(meta_result)
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         resp.text = json.dumps(result)
 
@@ -4488,44 +4754,48 @@ class EnergyStorageContainerLoadPointCollection:
                                    description='API.INVALID_LOAD_ID')
 
         new_values = json.loads(raw_json)
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        
+        cnx = None
+        cursor = None
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_energy_storage_containers_loads "
-                       " WHERE energy_storage_container_id = %s AND id = %s ", (id_, lid,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.ENERGY_STORAGE_CONTAINER_LOAD_NOT_FOUND')
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        cursor.execute(" SELECT name, object_type "
-                       " FROM tbl_points "
-                       " WHERE id = %s ", (new_values['data']['point_id'],))
-        row = cursor.fetchone()
-        if row is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.POINT_NOT_FOUND')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_energy_storage_containers_loads "
+                               " WHERE energy_storage_container_id = %s AND id = %s ", (id_, lid,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.ENERGY_STORAGE_CONTAINER_LOAD_NOT_FOUND')
 
-        query = (" SELECT id "
-                 " FROM tbl_energy_storage_containers_loads_points "
-                 " WHERE load_id = %s AND point_id = %s")
-        cursor.execute(query, (lid, new_values['data']['point_id'],))
-        if cursor.fetchone() is not None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR',
-                                   description='API.LOAD_POINT_RELATION_EXISTS')
+                cursor.execute(" SELECT name, object_type "
+                               " FROM tbl_points "
+                               " WHERE id = %s ", (new_values['data']['point_id'],))
+                row = cursor.fetchone()
+                if row is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.POINT_NOT_FOUND')
 
-        add_row = (" INSERT INTO tbl_energy_storage_containers_loads_points (load_id, point_id) "
-                   " VALUES (%s, %s) ")
-        cursor.execute(add_row, (lid, new_values['data']['point_id'],))
-        cnx.commit()
-        cursor.close()
-        cnx.close()
+                query = (" SELECT id "
+                         " FROM tbl_energy_storage_containers_loads_points "
+                         " WHERE load_id = %s AND point_id = %s")
+                cursor.execute(query, (lid, new_values['data']['point_id'],))
+                if cursor.fetchone() is not None:
+                    raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR',
+                                           description='API.LOAD_POINT_RELATION_EXISTS')
+
+                add_row = (" INSERT INTO tbl_energy_storage_containers_loads_points (load_id, point_id) "
+                           " VALUES (%s, %s) ")
+                cursor.execute(add_row, (lid, new_values['data']['point_id'],))
+                cnx.commit()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         resp.status = falcon.HTTP_201
         resp.location = '/energystoragecontainers/' + str(id_) + '/loads/' + str(lid) + '/points/' + \
@@ -4557,42 +4827,44 @@ class EnergyStorageContainerLoadPointItem:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_POINT_ID')
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_energy_storage_containers_loads "
-                       " WHERE energy_storage_container_id = %s AND id = %s ", (id_, lid,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.ENERGY_STORAGE_CONTAINER_LOAD_NOT_FOUND')
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_points "
-                       " WHERE id = %s ", (pid,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.POINT_NOT_FOUND')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_energy_storage_containers_loads "
+                               " WHERE energy_storage_container_id = %s AND id = %s ", (id_, lid,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.ENERGY_STORAGE_CONTAINER_LOAD_NOT_FOUND')
 
-        cursor.execute(" SELECT id "
-                       " FROM tbl_energy_storage_containers_loads_points "
-                       " WHERE load_id = %s AND point_id = %s ", (lid, pid))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.LOAD_POINT_RELATION_NOT_FOUND')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_points "
+                               " WHERE id = %s ", (pid,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.POINT_NOT_FOUND')
 
-        cursor.execute(" DELETE FROM tbl_energy_storage_containers_loads_points "
-                       " WHERE load_id = %s AND point_id = %s ", (lid, pid))
-        cnx.commit()
+                cursor.execute(" SELECT id "
+                               " FROM tbl_energy_storage_containers_loads_points "
+                               " WHERE load_id = %s AND point_id = %s ", (lid, pid))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.LOAD_POINT_RELATION_NOT_FOUND')
 
-        cursor.close()
-        cnx.close()
+                cursor.execute(" DELETE FROM tbl_energy_storage_containers_loads_points "
+                               " WHERE load_id = %s AND point_id = %s ", (lid, pid))
+                cnx.commit()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         resp.status = falcon.HTTP_204
 
@@ -4614,58 +4886,70 @@ class EnergyStorageContainerPCSCollection:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_ENERGY_STORAGE_CONTAINER_ID')
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
+        rows_points = []
+        rows_commands = []
+        rows = []
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_energy_storage_containers "
-                       " WHERE id = %s ", (id_,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.ENERGY_STORAGE_CONTAINER_NOT_FOUND')
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        # query point dict
-        query = (" SELECT id, name "
-                 " FROM tbl_points ")
-        cursor.execute(query)
-        rows_points = cursor.fetchall()
+                cursor.execute(" SELECT name "
+                               " FROM tbl_energy_storage_containers "
+                               " WHERE id = %s ", (id_,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.ENERGY_STORAGE_CONTAINER_NOT_FOUND')
 
-        point_dict = dict()
-        if rows_points is not None and len(rows_points) > 0:
-            for row in rows_points:
-                point_dict[row[0]] = {"id": row[0],
-                                      "name": row[1]}
-        # query command dict
-        query = (" SELECT id, name "
-                 " FROM tbl_commands ")
-        cursor.execute(query)
-        rows_commands = cursor.fetchall()
+                # query point dict
+                query = (" SELECT id, name "
+                         " FROM tbl_points ")
+                cursor.execute(query)
+                rows_points = cursor.fetchall()
 
-        command_dict = dict()
-        if rows_commands is not None and len(rows_commands) > 0:
-            for row in rows_commands:
-                command_dict[row[0]] = {"id": row[0],
-                                        "name": row[1]}
+                point_dict = dict()
+                if rows_points is not None and len(rows_points) > 0:
+                    for row in rows_points:
+                        point_dict[row[0]] = {"id": row[0],
+                                              "name": row[1]}
+                # query command dict
+                query = (" SELECT id, name "
+                         " FROM tbl_commands ")
+                cursor.execute(query)
+                rows_commands = cursor.fetchall()
 
-        query = (" SELECT id, name, uuid, run_state_point_id, rated_output_power "
-                 "        FROM tbl_energy_storage_containers_power_conversion_systems "
-                 " WHERE energy_storage_container_id = %s "
-                 " ORDER BY name ")
-        cursor.execute(query, (id_,))
-        rows = cursor.fetchall()
+                command_dict = dict()
+                if rows_commands is not None and len(rows_commands) > 0:
+                    for row in rows_commands:
+                        command_dict[row[0]] = {"id": row[0],
+                                                "name": row[1]}
 
-        result = list()
-        if rows is not None and len(rows) > 0:
-            for row in rows:
-                meta_result = {"id": row[0],
-                               "name": row[1],
-                               "uuid": row[2],
-                               "run_state_point": point_dict.get(row[3]),
-                               "rated_output_power": row[4]
-                               }
-                result.append(meta_result)
+                query = (" SELECT id, name, uuid, run_state_point_id, rated_output_power "
+                         "        FROM tbl_energy_storage_containers_power_conversion_systems "
+                         " WHERE energy_storage_container_id = %s "
+                         " ORDER BY name ")
+                cursor.execute(query, (id_,))
+                rows = cursor.fetchall()
+
+                result = list()
+                if rows is not None and len(rows) > 0:
+                    for row in rows:
+                        meta_result = {"id": row[0],
+                                       "name": row[1],
+                                       "uuid": row[2],
+                                       "run_state_point": point_dict.get(row[3]),
+                                       "rated_output_power": row[4]
+                                       }
+                        result.append(meta_result)
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         resp.text = json.dumps(result)
 
@@ -4690,18 +4974,6 @@ class EnergyStorageContainerPCSCollection:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_ENERGY_STORAGE_CONTAINER_ID')
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
-
-        cursor.execute(" SELECT name "
-                       " FROM tbl_energy_storage_containers "
-                       " WHERE id = %s ", (id_,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.ENERGY_STORAGE_CONTAINER_NOT_FOUND')
-
         new_values = json.loads(raw_json)
 
         if 'name' not in new_values['data'].keys() or \
@@ -4725,42 +4997,47 @@ class EnergyStorageContainerPCSCollection:
                                    description='API.INVALID_RATED_OUTPUT_POWER')
         rated_output_power = Decimal(new_values['data']['rated_output_power'])
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_energy_storage_containers "
-                       " WHERE id = %s ",
-                       (id_,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.ENERGY_STORAGE_CONTAINER_NOT_FOUND')
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_energy_storage_containers_power_conversion_systems "
-                       " WHERE energy_storage_container_id = %s AND name = %s ",
-                       (id_, name,))
-        if cursor.fetchone() is not None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.ENERGY_STORAGE_CONTAINER_PCS_NAME_IS_ALREADY_IN_USE')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_energy_storage_containers "
+                               " WHERE id = %s ",
+                               (id_,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.ENERGY_STORAGE_CONTAINER_NOT_FOUND')
 
-        add_values = (" INSERT INTO tbl_energy_storage_containers_power_conversion_systems "
-                      "     (name, uuid, energy_storage_container_id, run_state_point_id, rated_output_power) "
-                      " VALUES (%s, %s, %s, %s, %s) ")
-        cursor.execute(add_values, (name,
-                                    str(uuid.uuid4()),
-                                    id_,
-                                    run_state_point_id,
-                                    rated_output_power
-                                    ))
-        new_id = cursor.lastrowid
-        cnx.commit()
-        cursor.close()
-        cnx.close()
+                cursor.execute(" SELECT name "
+                               " FROM tbl_energy_storage_containers_power_conversion_systems "
+                               " WHERE energy_storage_container_id = %s AND name = %s ",
+                               (id_, name,))
+                if cursor.fetchone() is not None:
+                    raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                           description='API.ENERGY_STORAGE_CONTAINER_PCS_NAME_IS_ALREADY_IN_USE')
+
+                add_values = (" INSERT INTO tbl_energy_storage_containers_power_conversion_systems "
+                              "     (name, uuid, energy_storage_container_id, run_state_point_id, rated_output_power) "
+                              " VALUES (%s, %s, %s, %s, %s) ")
+                cursor.execute(add_values, (name,
+                                            str(uuid.uuid4()),
+                                            id_,
+                                            run_state_point_id,
+                                            rated_output_power
+                                            ))
+                new_id = cursor.lastrowid
+                cnx.commit()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         resp.status = falcon.HTTP_201
         resp.location = '/energystoragecontainerpowerconversionsystems/' + str(new_id)
@@ -4786,71 +5063,83 @@ class EnergyStorageContainerPCSItem:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_ENERGY_STORAGE_CONTAINER_POWER_CONVERSION_SYSTEM_ID')
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
+        rows_energystoragecontainers = []
+        rows_meters = []
+        rows_points = []
+        rows_commands = []
+        row = None
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_energy_storage_containers "
-                       " WHERE id = %s ", (id_,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.ENERGY_STORAGE_CONTAINER_NOT_FOUND')
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        query = (" SELECT id, name, uuid "
-                 " FROM tbl_energy_storage_containers ")
-        cursor.execute(query)
-        rows_energystoragecontainers = cursor.fetchall()
+                cursor.execute(" SELECT name "
+                               " FROM tbl_energy_storage_containers "
+                               " WHERE id = %s ", (id_,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.ENERGY_STORAGE_CONTAINER_NOT_FOUND')
 
-        energy_storage_container_dict = dict()
-        if rows_energystoragecontainers is not None and len(rows_energystoragecontainers) > 0:
-            for row in rows_energystoragecontainers:
-                energy_storage_container_dict[row[0]] = {"id": row[0],
-                                                         "name": row[1],
-                                                         "uuid": row[2]}
-        query = (" SELECT id, name, uuid "
-                 " FROM tbl_meters ")
-        cursor.execute(query)
-        rows_meters = cursor.fetchall()
+                query = (" SELECT id, name, uuid "
+                         " FROM tbl_energy_storage_containers ")
+                cursor.execute(query)
+                rows_energystoragecontainers = cursor.fetchall()
 
-        meter_dict = dict()
-        if rows_meters is not None and len(rows_meters) > 0:
-            for row in rows_meters:
-                meter_dict[row[0]] = {"id": row[0],
-                                      "name": row[1],
-                                      "uuid": row[2]}
-        # query point dict
-        query = (" SELECT id, name "
-                 " FROM tbl_points ")
-        cursor.execute(query)
-        rows_points = cursor.fetchall()
+                energy_storage_container_dict = dict()
+                if rows_energystoragecontainers is not None and len(rows_energystoragecontainers) > 0:
+                    for row in rows_energystoragecontainers:
+                        energy_storage_container_dict[row[0]] = {"id": row[0],
+                                                                 "name": row[1],
+                                                                 "uuid": row[2]}
+                query = (" SELECT id, name, uuid "
+                         " FROM tbl_meters ")
+                cursor.execute(query)
+                rows_meters = cursor.fetchall()
 
-        point_dict = dict()
-        if rows_points is not None and len(rows_points) > 0:
-            for row in rows_points:
-                point_dict[row[0]] = {"id": row[0],
-                                      "name": row[1]}
+                meter_dict = dict()
+                if rows_meters is not None and len(rows_meters) > 0:
+                    for row in rows_meters:
+                        meter_dict[row[0]] = {"id": row[0],
+                                              "name": row[1],
+                                              "uuid": row[2]}
+                # query point dict
+                query = (" SELECT id, name "
+                         " FROM tbl_points ")
+                cursor.execute(query)
+                rows_points = cursor.fetchall()
 
-        # query command dict
-        query = (" SELECT id, name "
-                 " FROM tbl_commands ")
-        cursor.execute(query)
-        rows_commands = cursor.fetchall()
+                point_dict = dict()
+                if rows_points is not None and len(rows_points) > 0:
+                    for row in rows_points:
+                        point_dict[row[0]] = {"id": row[0],
+                                              "name": row[1]}
 
-        command_dict = dict()
-        if rows_commands is not None and len(rows_commands) > 0:
-            for row in rows_commands:
-                command_dict[row[0]] = {"id": row[0],
-                                        "name": row[1]}
+                # query command dict
+                query = (" SELECT id, name "
+                         " FROM tbl_commands ")
+                cursor.execute(query)
+                rows_commands = cursor.fetchall()
 
-        query = (" SELECT id, name, uuid, energy_storage_container_id, run_state_point_id, rated_output_power "
-                 " FROM tbl_energy_storage_containers_power_conversion_systems "
-                 " WHERE id = %s ")
-        cursor.execute(query, (pcsid,))
-        row = cursor.fetchone()
-        cursor.close()
-        cnx.close()
+                command_dict = dict()
+                if rows_commands is not None and len(rows_commands) > 0:
+                    for row in rows_commands:
+                        command_dict[row[0]] = {"id": row[0],
+                                                "name": row[1]}
+
+                query = (" SELECT id, name, uuid, energy_storage_container_id, run_state_point_id, rated_output_power "
+                         " FROM tbl_energy_storage_containers_power_conversion_systems "
+                         " WHERE id = %s ")
+                cursor.execute(query, (pcsid,))
+                row = cursor.fetchone()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         if row is None:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
@@ -4877,33 +5166,37 @@ class EnergyStorageContainerPCSItem:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_ENERGY_STORAGE_CONTAINER_POWER_CONVERSION_SYSTEM_ID')
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_energy_storage_containers "
-                       " WHERE id = %s ", (id_,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.ENERGY_STORAGE_CONTAINER_NOT_FOUND')
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_energy_storage_containers_power_conversion_systems "
-                       " WHERE id = %s ", (pcsid,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.ENERGY_STORAGE_CONTAINER_POWER_CONVERSION_SYSTEM_NOT_FOUND')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_energy_storage_containers "
+                               " WHERE id = %s ", (id_,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.ENERGY_STORAGE_CONTAINER_NOT_FOUND')
 
-        cursor.execute(" DELETE FROM tbl_energy_storage_containers_power_conversion_systems "
-                       " WHERE id = %s ", (pcsid,))
-        cnx.commit()
+                cursor.execute(" SELECT name "
+                               " FROM tbl_energy_storage_containers_power_conversion_systems "
+                               " WHERE id = %s ", (pcsid,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.ENERGY_STORAGE_CONTAINER_POWER_CONVERSION_SYSTEM_NOT_FOUND')
 
-        cursor.close()
-        cnx.close()
+                cursor.execute(" DELETE FROM tbl_energy_storage_containers_power_conversion_systems "
+                               " WHERE id = %s ", (pcsid,))
+                cnx.commit()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         resp.status = falcon.HTTP_204
 
@@ -4954,50 +5247,52 @@ class EnergyStorageContainerPCSItem:
                                    description='API.INVALID_RATED_OUTPUT_POWER')
         rated_output_power = Decimal(new_values['data']['rated_output_power'])
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_energy_storage_containers "
-                       " WHERE id = %s ", (id_,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.ENERGY_STORAGE_CONTAINER_NOT_FOUND')
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_energy_storage_containers_power_conversion_systems "
-                       " WHERE id = %s ", (pcsid,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.ENERGY_STORAGE_CONTAINER_POWER_CONVERSION_SYSTEM_NOT_FOUND')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_energy_storage_containers "
+                               " WHERE id = %s ", (id_,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.ENERGY_STORAGE_CONTAINER_NOT_FOUND')
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_energy_storage_containers_power_conversion_systems "
-                       " WHERE energy_storage_container_id = %s AND name = %s AND id != %s ",
-                       (id_, name, pcsid))
-        if cursor.fetchone() is not None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.ENERGY_STORAGE_CONTAINER_PCS_NAME_IS_ALREADY_IN_USE')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_energy_storage_containers_power_conversion_systems "
+                               " WHERE id = %s ", (pcsid,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.ENERGY_STORAGE_CONTAINER_POWER_CONVERSION_SYSTEM_NOT_FOUND')
 
-        update_row = (" UPDATE tbl_energy_storage_containers_power_conversion_systems "
-                      " SET name = %s, energy_storage_container_id = %s, run_state_point_id = %s, "
-                      "     rated_output_power = %s "
-                      "     WHERE id = %s ")
-        cursor.execute(update_row, (name,
-                                    id_,
-                                    run_state_point_id,
-                                    rated_output_power,
-                                    pcsid))
-        cnx.commit()
+                cursor.execute(" SELECT name "
+                               " FROM tbl_energy_storage_containers_power_conversion_systems "
+                               " WHERE energy_storage_container_id = %s AND name = %s AND id != %s ",
+                               (id_, name, pcsid))
+                if cursor.fetchone() is not None:
+                    raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                           description='API.ENERGY_STORAGE_CONTAINER_PCS_NAME_IS_ALREADY_IN_USE')
 
-        cursor.close()
-        cnx.close()
+                update_row = (" UPDATE tbl_energy_storage_containers_power_conversion_systems "
+                              " SET name = %s, energy_storage_container_id = %s, run_state_point_id = %s, "
+                              "     rated_output_power = %s "
+                              "     WHERE id = %s ")
+                cursor.execute(update_row, (name,
+                                            id_,
+                                            run_state_point_id,
+                                            rated_output_power,
+                                            pcsid))
+                cnx.commit()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         resp.status = falcon.HTTP_200
 
@@ -5027,34 +5322,44 @@ class EnergyStorageContainerPCSPointCollection:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_PCS_ID')
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
+        rows = []
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_energy_storage_containers_power_conversion_systems "
-                       " WHERE energy_storage_container_id = %s AND id = %s ", (id_, pcsid, ))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.ENERGY_STORAGE_CONTAINER_PCS_NOT_FOUND')
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        query = (" SELECT p.id, p.name, "
-                 "        ds.id, ds.name, ds.uuid, "
-                 "        p.address "
-                 " FROM tbl_points p, tbl_energy_storage_containers_pcses_points mp, tbl_data_sources ds "
-                 " WHERE mp.pcs_id = %s AND p.id = mp.point_id AND p.data_source_id = ds.id "
-                 " ORDER BY p.name ")
-        cursor.execute(query, (pcsid,))
-        rows = cursor.fetchall()
+                cursor.execute(" SELECT name "
+                               " FROM tbl_energy_storage_containers_power_conversion_systems "
+                               " WHERE energy_storage_container_id = %s AND id = %s ", (id_, pcsid, ))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.ENERGY_STORAGE_CONTAINER_PCS_NOT_FOUND')
 
-        result = list()
-        if rows is not None and len(rows) > 0:
-            for row in rows:
-                meta_result = {"id": row[0], "name": row[1],
-                               "data_source": {"id": row[2], "name": row[3], "uuid": row[4]},
-                               "address": row[5]}
-                result.append(meta_result)
+                query = (" SELECT p.id, p.name, "
+                         "        ds.id, ds.name, ds.uuid, "
+                         "        p.address "
+                         " FROM tbl_points p, tbl_energy_storage_containers_pcses_points mp, tbl_data_sources ds "
+                         " WHERE mp.pcs_id = %s AND p.id = mp.point_id AND p.data_source_id = ds.id "
+                         " ORDER BY p.name ")
+                cursor.execute(query, (pcsid,))
+                rows = cursor.fetchall()
+
+                result = list()
+                if rows is not None and len(rows) > 0:
+                    for row in rows:
+                        meta_result = {"id": row[0], "name": row[1],
+                                       "data_source": {"id": row[2], "name": row[3], "uuid": row[4]},
+                                       "address": row[5]}
+                        result.append(meta_result)
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         resp.text = json.dumps(result)
 
@@ -5084,44 +5389,48 @@ class EnergyStorageContainerPCSPointCollection:
                                    description='API.INVALID_PCS_ID')
 
         new_values = json.loads(raw_json)
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        
+        cnx = None
+        cursor = None
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_energy_storage_containers_power_conversion_systems "
-                       " WHERE energy_storage_container_id = %s AND id = %s ", (id_, pcsid,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.ENERGY_STORAGE_CONTAINER_PCS_NOT_FOUND')
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        cursor.execute(" SELECT name, object_type "
-                       " FROM tbl_points "
-                       " WHERE id = %s ", (new_values['data']['point_id'],))
-        row = cursor.fetchone()
-        if row is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.POINT_NOT_FOUND')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_energy_storage_containers_power_conversion_systems "
+                               " WHERE energy_storage_container_id = %s AND id = %s ", (id_, pcsid,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.ENERGY_STORAGE_CONTAINER_PCS_NOT_FOUND')
 
-        query = (" SELECT id "
-                 " FROM tbl_energy_storage_containers_pcses_points "
-                 " WHERE pcs_id = %s AND point_id = %s")
-        cursor.execute(query, (pcsid, new_values['data']['point_id'],))
-        if cursor.fetchone() is not None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR',
-                                   description='API.PCS_POINT_RELATION_EXISTS')
+                cursor.execute(" SELECT name, object_type "
+                               " FROM tbl_points "
+                               " WHERE id = %s ", (new_values['data']['point_id'],))
+                row = cursor.fetchone()
+                if row is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.POINT_NOT_FOUND')
 
-        add_row = (" INSERT INTO tbl_energy_storage_containers_pcses_points (pcs_id, point_id) "
-                   " VALUES (%s, %s) ")
-        cursor.execute(add_row, (pcsid, new_values['data']['point_id'],))
-        cnx.commit()
-        cursor.close()
-        cnx.close()
+                query = (" SELECT id "
+                         " FROM tbl_energy_storage_containers_pcses_points "
+                         " WHERE pcs_id = %s AND point_id = %s")
+                cursor.execute(query, (pcsid, new_values['data']['point_id'],))
+                if cursor.fetchone() is not None:
+                    raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR',
+                                           description='API.PCS_POINT_RELATION_EXISTS')
+
+                add_row = (" INSERT INTO tbl_energy_storage_containers_pcses_points (pcs_id, point_id) "
+                           " VALUES (%s, %s) ")
+                cursor.execute(add_row, (pcsid, new_values['data']['point_id'],))
+                cnx.commit()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         resp.status = falcon.HTTP_201
         resp.location = '/energystoragecontainers/' + str(id_) + '/pcses/' + str(pcsid) + '/points/' + \
@@ -5153,42 +5462,44 @@ class EnergyStorageContainerPCSPointItem:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_POINT_ID')
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_energy_storage_containers_power_conversion_systems "
-                       " WHERE energy_storage_container_id = %s AND id = %s ", (id_, pcsid,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.ENERGY_STORAGE_CONTAINER_PCS_NOT_FOUND')
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_points "
-                       " WHERE id = %s ", (pid,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.POINT_NOT_FOUND')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_energy_storage_containers_power_conversion_systems "
+                               " WHERE energy_storage_container_id = %s AND id = %s ", (id_, pcsid,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.ENERGY_STORAGE_CONTAINER_PCS_NOT_FOUND')
 
-        cursor.execute(" SELECT id "
-                       " FROM tbl_energy_storage_containers_pcses_points "
-                       " WHERE pcs_id = %s AND point_id = %s ", (pcsid, pid))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.PCS_POINT_RELATION_NOT_FOUND')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_points "
+                               " WHERE id = %s ", (pid,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.POINT_NOT_FOUND')
 
-        cursor.execute(" DELETE FROM tbl_energy_storage_containers_pcses_points "
-                       " WHERE pcs_id = %s AND point_id = %s ", (pcsid, pid))
-        cnx.commit()
+                cursor.execute(" SELECT id "
+                               " FROM tbl_energy_storage_containers_pcses_points "
+                               " WHERE pcs_id = %s AND point_id = %s ", (pcsid, pid))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.PCS_POINT_RELATION_NOT_FOUND')
 
-        cursor.close()
-        cnx.close()
+                cursor.execute(" DELETE FROM tbl_energy_storage_containers_pcses_points "
+                               " WHERE pcs_id = %s AND point_id = %s ", (pcsid, pid))
+                cnx.commit()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         resp.status = falcon.HTTP_204
 
@@ -5210,35 +5521,45 @@ class EnergyStorageContainerScheduleCollection:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_ENERGY_STORAGE_CONTAINER_ID')
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
+        rows = []
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_energy_storage_containers "
-                       " WHERE id = %s ", (id_,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.ENERGY_STORAGE_CONTAINER_NOT_FOUND')
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        query = (" SELECT id, start_time_of_day, end_time_of_day, peak_type, power "
-                 " FROM tbl_energy_storage_containers_schedules "
-                 " WHERE energy_storage_container_id = %s "
-                 " ORDER BY start_time_of_day ")
-        cursor.execute(query, (id_,))
-        rows = cursor.fetchall()
+                cursor.execute(" SELECT name "
+                               " FROM tbl_energy_storage_containers "
+                               " WHERE id = %s ", (id_,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.ENERGY_STORAGE_CONTAINER_NOT_FOUND')
 
-        result = list()
-        if rows is not None and len(rows) > 0:
-            for row in rows:
-                meta_result = {"id": row[0],
-                               "start_time_of_day": str(row[1]),
-                               "end_time_of_day": str(row[2]),
-                               "peak_type": row[3],
-                               "power": row[4],
-                               }
-                result.append(meta_result)
+                query = (" SELECT id, start_time_of_day, end_time_of_day, peak_type, power "
+                         " FROM tbl_energy_storage_containers_schedules "
+                         " WHERE energy_storage_container_id = %s "
+                         " ORDER BY start_time_of_day ")
+                cursor.execute(query, (id_,))
+                rows = cursor.fetchall()
+
+                result = list()
+                if rows is not None and len(rows) > 0:
+                    for row in rows:
+                        meta_result = {"id": row[0],
+                                       "start_time_of_day": str(row[1]),
+                                       "end_time_of_day": str(row[2]),
+                                       "peak_type": row[3],
+                                       "power": row[4],
+                                       }
+                        result.append(meta_result)
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         resp.text = json.dumps(result)
 
@@ -5263,45 +5584,43 @@ class EnergyStorageContainerScheduleCollection:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_ENERGY_STORAGE_CONTAINER_ID')
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
-
-        cursor.execute(" SELECT name "
-                       " FROM tbl_energy_storage_containers "
-                       " WHERE id = %s ", (id_,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.ENERGY_STORAGE_CONTAINER_NOT_FOUND')
-
         new_values = json.loads(raw_json)
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_energy_storage_containers "
-                       " WHERE id = %s ",
-                       (id_,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.ENERGY_STORAGE_CONTAINER_NOT_FOUND')
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        add_schedule = (" INSERT INTO tbl_energy_storage_containers_schedules "
-                        "     (energy_storage_container_id, start_time_of_day, end_time_of_day, peak_type, power) "
-                        " VALUES (%s, %s, %s, %s, %s) ")
-        cursor.execute(add_schedule, (id_,
-                                      new_values['data']['start_time_of_day'],
-                                      new_values['data']['end_time_of_day'],
-                                      new_values['data']['peak_type'],
-                                      new_values['data']['power']))
-        new_id = cursor.lastrowid
-        cnx.commit()
-        cursor.close()
-        cnx.close()
+                cursor.execute(" SELECT name "
+                               " FROM tbl_energy_storage_containers "
+                               " WHERE id = %s ",
+                               (id_,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.ENERGY_STORAGE_CONTAINER_NOT_FOUND')
+
+                add_schedule = (" INSERT INTO tbl_energy_storage_containers_schedules "
+                                "     (energy_storage_container_id, "
+                                "     start_time_of_day, end_time_of_day, "
+                                "     peak_type, power) "
+                                " VALUES (%s, %s, %s, %s, %s) ")
+                cursor.execute(add_schedule, (id_,
+                                              new_values['data']['start_time_of_day'],
+                                              new_values['data']['end_time_of_day'],
+                                              new_values['data']['peak_type'],
+                                              new_values['data']['power']))
+                new_id = cursor.lastrowid
+                cnx.commit()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
+        
         resp.status = falcon.HTTP_201
         resp.location = '/energystoragecontainerschedules/' + str(new_id)
 
@@ -5326,37 +5645,46 @@ class EnergyStorageContainerScheduleItem:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_ENERGY_STORAGE_CONTAINER_SCHEDULE_ID')
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
+        rows_energystoragecontainers = []
+        row = None
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_energy_storage_containers "
-                       " WHERE id = %s ", (id_,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.ENERGY_STORAGE_CONTAINER_NOT_FOUND')
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        query = (" SELECT id, name, uuid "
-                 " FROM tbl_energy_storage_containers ")
-        cursor.execute(query)
-        rows_energystoragecontainers = cursor.fetchall()
+                cursor.execute(" SELECT name "
+                               " FROM tbl_energy_storage_containers "
+                               " WHERE id = %s ", (id_,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.ENERGY_STORAGE_CONTAINER_NOT_FOUND')
 
-        energy_storage_container_dict = dict()
-        if rows_energystoragecontainers is not None and len(rows_energystoragecontainers) > 0:
-            for row in rows_energystoragecontainers:
-                energy_storage_container_dict[row[0]] = {"id": row[0],
-                                                         "name": row[1],
-                                                         "uuid": row[2]}
+                query = (" SELECT id, name, uuid "
+                         " FROM tbl_energy_storage_containers ")
+                cursor.execute(query)
+                rows_energystoragecontainers = cursor.fetchall()
 
-        query = (" SELECT id, start_time_of_day, end_time_of_day, peak_type, power "
-                 " FROM tbl_energy_storage_containers_schedules "
-                 " WHERE id = %s ")
-        cursor.execute(query, (sid,))
-        row = cursor.fetchone()
-        cursor.close()
-        cnx.close()
+                energy_storage_container_dict = dict()
+                if rows_energystoragecontainers is not None and len(rows_energystoragecontainers) > 0:
+                    for row in rows_energystoragecontainers:
+                        energy_storage_container_dict[row[0]] = {"id": row[0],
+                                                                 "name": row[1],
+                                                                 "uuid": row[2]}
+
+                query = (" SELECT id, start_time_of_day, end_time_of_day, peak_type, power "
+                         " FROM tbl_energy_storage_containers_schedules "
+                         " WHERE id = %s ")
+                cursor.execute(query, (sid,))
+                row = cursor.fetchone()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         if row is None:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
@@ -5381,33 +5709,37 @@ class EnergyStorageContainerScheduleItem:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_ENERGY_STORAGE_CONTAINER_SCHEDULE_ID')
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_energy_storage_containers "
-                       " WHERE id = %s ", (id_,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.ENERGY_STORAGE_CONTAINER_NOT_FOUND')
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        cursor.execute(" SELECT id "
-                       " FROM tbl_energy_storage_containers_schedules "
-                       " WHERE id = %s ", (sid,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.ENERGY_STORAGE_CONTAINER_SCHEDULE_NOT_FOUND')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_energy_storage_containers "
+                               " WHERE id = %s ", (id_,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.ENERGY_STORAGE_CONTAINER_NOT_FOUND')
 
-        cursor.execute(" DELETE FROM tbl_energy_storage_containers_schedules "
-                       " WHERE id = %s ", (sid,))
-        cnx.commit()
+                cursor.execute(" SELECT id "
+                               " FROM tbl_energy_storage_containers_schedules "
+                               " WHERE id = %s ", (sid,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.ENERGY_STORAGE_CONTAINER_SCHEDULE_NOT_FOUND')
 
-        cursor.close()
-        cnx.close()
+                cursor.execute(" DELETE FROM tbl_energy_storage_containers_schedules "
+                               " WHERE id = %s ", (sid,))
+                cnx.commit()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         resp.status = falcon.HTTP_204
 
@@ -5465,39 +5797,43 @@ class EnergyStorageContainerScheduleItem:
                                    description='API.INVALID_POWER')
         power = Decimal(new_values['data']['power'])
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_energy_storage_containers "
-                       " WHERE id = %s ", (id_,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.ENERGY_STORAGE_CONTAINER_NOT_FOUND')
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        cursor.execute(" SELECT id "
-                       " FROM tbl_energy_storage_containers_schedules "
-                       " WHERE id = %s ", (sid,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.ENERGY_STORAGE_CONTAINER_SCHEDULE_NOT_FOUND')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_energy_storage_containers "
+                               " WHERE id = %s ", (id_,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.ENERGY_STORAGE_CONTAINER_NOT_FOUND')
 
-        update_row = (" UPDATE tbl_energy_storage_containers_schedules "
-                      " SET start_time_of_day = %s, end_time_of_day = %s, peak_type = %s, power = %s "
-                      " WHERE id = %s ")
-        cursor.execute(update_row, (start_time_of_day,
-                                    end_time_of_day,
-                                    peak_type,
-                                    power,
-                                    sid))
-        cnx.commit()
+                cursor.execute(" SELECT id "
+                               " FROM tbl_energy_storage_containers_schedules "
+                               " WHERE id = %s ", (sid,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.ENERGY_STORAGE_CONTAINER_SCHEDULE_NOT_FOUND')
 
-        cursor.close()
-        cnx.close()
+                update_row = (" UPDATE tbl_energy_storage_containers_schedules "
+                              " SET start_time_of_day = %s, end_time_of_day = %s, peak_type = %s, power = %s "
+                              " WHERE id = %s ")
+                cursor.execute(update_row, (start_time_of_day,
+                                            end_time_of_day,
+                                            peak_type,
+                                            power,
+                                            sid))
+                cnx.commit()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         resp.status = falcon.HTTP_200
 
@@ -5519,33 +5855,43 @@ class EnergyStorageContainerSTSCollection:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_ENERGY_STORAGE_CONTAINER_ID')
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
+        rows = []
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_energy_storage_containers "
-                       " WHERE id = %s ", (id_,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.ENERGY_STORAGE_CONTAINER_NOT_FOUND')
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        query = (" SELECT id, name, uuid "
-                 " FROM tbl_energy_storage_containers_stses "
-                 " WHERE energy_storage_container_id = %s "
-                 " ORDER BY name ")
-        cursor.execute(query, (id_,))
-        rows = cursor.fetchall()
+                cursor.execute(" SELECT name "
+                               " FROM tbl_energy_storage_containers "
+                               " WHERE id = %s ", (id_,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.ENERGY_STORAGE_CONTAINER_NOT_FOUND')
 
-        result = list()
-        if rows is not None and len(rows) > 0:
-            for row in rows:
-                meta_result = {"id": row[0],
-                               "name": row[1],
-                               "uuid": row[2]
-                               }
-                result.append(meta_result)
+                query = (" SELECT id, name, uuid "
+                         " FROM tbl_energy_storage_containers_stses "
+                         " WHERE energy_storage_container_id = %s "
+                         " ORDER BY name ")
+                cursor.execute(query, (id_,))
+                rows = cursor.fetchall()
+
+                result = list()
+                if rows is not None and len(rows) > 0:
+                    for row in rows:
+                        meta_result = {"id": row[0],
+                                       "name": row[1],
+                                       "uuid": row[2]
+                                       }
+                        result.append(meta_result)
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         resp.text = json.dumps(result)
 
@@ -5570,18 +5916,6 @@ class EnergyStorageContainerSTSCollection:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_ENERGY_STORAGE_CONTAINER_ID')
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
-
-        cursor.execute(" SELECT name "
-                       " FROM tbl_energy_storage_containers "
-                       " WHERE id = %s ", (id_,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.ENERGY_STORAGE_CONTAINER_NOT_FOUND')
-
         new_values = json.loads(raw_json)
 
         if 'name' not in new_values['data'].keys() or \
@@ -5591,40 +5925,45 @@ class EnergyStorageContainerSTSCollection:
                                    description='API.INVALID_ENERGY_STORAGE_CONTAINER_STS_NAME')
         name = str.strip(new_values['data']['name'])
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_energy_storage_containers "
-                       " WHERE id = %s ",
-                       (id_,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.ENERGY_STORAGE_CONTAINER_NOT_FOUND')
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_energy_storage_containers_stses "
-                       " WHERE energy_storage_container_id = %s AND name = %s ",
-                       (id_, name,))
-        if cursor.fetchone() is not None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.ENERGY_STORAGE_CONTAINER_STS_NAME_IS_ALREADY_IN_USE')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_energy_storage_containers "
+                               " WHERE id = %s ",
+                               (id_,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.ENERGY_STORAGE_CONTAINER_NOT_FOUND')
 
-        add_values = (" INSERT INTO tbl_energy_storage_containers_stses "
-                      "    (name, uuid, energy_storage_container_id) "
-                      " VALUES (%s, %s, %s) ")
-        cursor.execute(add_values, (name,
-                                    str(uuid.uuid4()),
-                                    id_
-                                    ))
-        new_id = cursor.lastrowid
-        cnx.commit()
-        cursor.close()
-        cnx.close()
+                cursor.execute(" SELECT name "
+                               " FROM tbl_energy_storage_containers_stses "
+                               " WHERE energy_storage_container_id = %s AND name = %s ",
+                               (id_, name,))
+                if cursor.fetchone() is not None:
+                    raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                           description='API.ENERGY_STORAGE_CONTAINER_STS_NAME_IS_ALREADY_IN_USE')
+
+                add_values = (" INSERT INTO tbl_energy_storage_containers_stses "
+                              "    (name, uuid, energy_storage_container_id) "
+                              " VALUES (%s, %s, %s) ")
+                cursor.execute(add_values, (name,
+                                            str(uuid.uuid4()),
+                                            id_
+                                            ))
+                new_id = cursor.lastrowid
+                cnx.commit()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         resp.status = falcon.HTTP_201
         resp.location = '/energystoragecontainers/' + str(id_) + '/stses/' + str(new_id)
@@ -5650,37 +5989,46 @@ class EnergyStorageContainerSTSItem:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_ENERGY_STORAGE_CONTAINER_STS_ID')
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
+        rows_energystoragecontainers = []
+        row = None
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_energy_storage_containers "
-                       " WHERE id = %s ", (id_,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.ENERGY_STORAGE_CONTAINER_NOT_FOUND')
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        query = (" SELECT id, name, uuid "
-                 " FROM tbl_energy_storage_containers ")
-        cursor.execute(query)
-        rows_energystoragecontainers = cursor.fetchall()
+                cursor.execute(" SELECT name "
+                               " FROM tbl_energy_storage_containers "
+                               " WHERE id = %s ", (id_,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.ENERGY_STORAGE_CONTAINER_NOT_FOUND')
 
-        energy_storage_container_dict = dict()
-        if rows_energystoragecontainers is not None and len(rows_energystoragecontainers) > 0:
-            for row in rows_energystoragecontainers:
-                energy_storage_container_dict[row[0]] = {"id": row[0],
-                                                         "name": row[1],
-                                                         "uuid": row[2]}
+                query = (" SELECT id, name, uuid "
+                         " FROM tbl_energy_storage_containers ")
+                cursor.execute(query)
+                rows_energystoragecontainers = cursor.fetchall()
 
-        query = (" SELECT id, name, uuid "
-                 " FROM tbl_energy_storage_containers_stses "
-                 " WHERE id = %s ")
-        cursor.execute(query, (fid,))
-        row = cursor.fetchone()
-        cursor.close()
-        cnx.close()
+                energy_storage_container_dict = dict()
+                if rows_energystoragecontainers is not None and len(rows_energystoragecontainers) > 0:
+                    for row in rows_energystoragecontainers:
+                        energy_storage_container_dict[row[0]] = {"id": row[0],
+                                                                 "name": row[1],
+                                                                 "uuid": row[2]}
+
+                query = (" SELECT id, name, uuid "
+                         " FROM tbl_energy_storage_containers_stses "
+                         " WHERE id = %s ")
+                cursor.execute(query, (fid,))
+                row = cursor.fetchone()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         if row is None:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
@@ -5704,33 +6052,37 @@ class EnergyStorageContainerSTSItem:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_ENERGY_STORAGE_CONTAINER_STS_ID')
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_energy_storage_containers "
-                       " WHERE id = %s ", (id_,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.ENERGY_STORAGE_CONTAINER_NOT_FOUND')
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_energy_storage_containers_stses "
-                       " WHERE id = %s ", (fid,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.ENERGY_STORAGE_CONTAINER_STS_NOT_FOUND')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_energy_storage_containers "
+                               " WHERE id = %s ", (id_,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.ENERGY_STORAGE_CONTAINER_NOT_FOUND')
 
-        cursor.execute(" DELETE FROM tbl_energy_storage_containers_stses "
-                       " WHERE id = %s ", (fid,))
-        cnx.commit()
+                cursor.execute(" SELECT name "
+                               " FROM tbl_energy_storage_containers_stses "
+                               " WHERE id = %s ", (fid,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.ENERGY_STORAGE_CONTAINER_STS_NOT_FOUND')
 
-        cursor.close()
-        cnx.close()
+                cursor.execute(" DELETE FROM tbl_energy_storage_containers_stses "
+                               " WHERE id = %s ", (fid,))
+                cnx.commit()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         resp.status = falcon.HTTP_204
 
@@ -5768,46 +6120,48 @@ class EnergyStorageContainerSTSItem:
                                    description='API.INVALID_ENERGY_STORAGE_CONTAINER_STS_NAME')
         name = str.strip(new_values['data']['name'])
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_energy_storage_containers "
-                       " WHERE id = %s ", (id_,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.ENERGY_STORAGE_CONTAINER_NOT_FOUND')
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_energy_storage_containers_stses "
-                       " WHERE id = %s ", (fid,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.ENERGY_STORAGE_CONTAINER_STS_NOT_FOUND')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_energy_storage_containers "
+                               " WHERE id = %s ", (id_,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.ENERGY_STORAGE_CONTAINER_NOT_FOUND')
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_energy_storage_containers_stses "
-                       " WHERE energy_storage_container_id = %s AND name = %s AND id != %s ",
-                       (id_, name, fid))
-        if cursor.fetchone() is not None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.ENERGY_STORAGE_CONTAINER_STS_NAME_IS_ALREADY_IN_USE')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_energy_storage_containers_stses "
+                               " WHERE id = %s ", (fid,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.ENERGY_STORAGE_CONTAINER_STS_NOT_FOUND')
 
-        update_row = (" UPDATE tbl_energy_storage_containers_stses "
-                      " SET name = %s "
-                      "     WHERE id = %s ")
-        cursor.execute(update_row, (name,
-                                    fid))
-        cnx.commit()
+                cursor.execute(" SELECT name "
+                               " FROM tbl_energy_storage_containers_stses "
+                               " WHERE energy_storage_container_id = %s AND name = %s AND id != %s ",
+                               (id_, name, fid))
+                if cursor.fetchone() is not None:
+                    raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                           description='API.ENERGY_STORAGE_CONTAINER_STS_NAME_IS_ALREADY_IN_USE')
 
-        cursor.close()
-        cnx.close()
+                update_row = (" UPDATE tbl_energy_storage_containers_stses "
+                              " SET name = %s "
+                              "     WHERE id = %s ")
+                cursor.execute(update_row, (name,
+                                            fid))
+                cnx.commit()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         resp.status = falcon.HTTP_200
 
@@ -5837,34 +6191,44 @@ class EnergyStorageContainerSTSPointCollection:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_STS_ID')
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
+        rows = []
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_energy_storage_containers_stses "
-                       " WHERE energy_storage_container_id = %s AND id = %s ", (id_, fid, ))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.ENERGY_STORAGE_CONTAINER_STS_NOT_FOUND')
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        query = (" SELECT p.id, p.name, "
-                 "        ds.id, ds.name, ds.uuid, "
-                 "        p.address "
-                 " FROM tbl_points p, tbl_energy_storage_containers_stses_points mp, tbl_data_sources ds "
-                 " WHERE mp.sts_id = %s AND p.id = mp.point_id AND p.data_source_id = ds.id "
-                 " ORDER BY p.name ")
-        cursor.execute(query, (fid,))
-        rows = cursor.fetchall()
+                cursor.execute(" SELECT name "
+                               " FROM tbl_energy_storage_containers_stses "
+                               " WHERE energy_storage_container_id = %s AND id = %s ", (id_, fid, ))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.ENERGY_STORAGE_CONTAINER_STS_NOT_FOUND')
 
-        result = list()
-        if rows is not None and len(rows) > 0:
-            for row in rows:
-                meta_result = {"id": row[0], "name": row[1],
-                               "data_source": {"id": row[2], "name": row[3], "uuid": row[4]},
-                               "address": row[5]}
-                result.append(meta_result)
+                query = (" SELECT p.id, p.name, "
+                         "        ds.id, ds.name, ds.uuid, "
+                         "        p.address "
+                         " FROM tbl_points p, tbl_energy_storage_containers_stses_points mp, tbl_data_sources ds "
+                         " WHERE mp.sts_id = %s AND p.id = mp.point_id AND p.data_source_id = ds.id "
+                         " ORDER BY p.name ")
+                cursor.execute(query, (fid,))
+                rows = cursor.fetchall()
+
+                result = list()
+                if rows is not None and len(rows) > 0:
+                    for row in rows:
+                        meta_result = {"id": row[0], "name": row[1],
+                                       "data_source": {"id": row[2], "name": row[3], "uuid": row[4]},
+                                       "address": row[5]}
+                        result.append(meta_result)
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         resp.text = json.dumps(result)
 
@@ -5894,44 +6258,48 @@ class EnergyStorageContainerSTSPointCollection:
                                    description='API.INVALID_STS_ID')
 
         new_values = json.loads(raw_json)
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        
+        cnx = None
+        cursor = None
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_energy_storage_containers_stses "
-                       " WHERE energy_storage_container_id = %s AND id = %s ", (id_, fid,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.ENERGY_STORAGE_CONTAINER_STS_NOT_FOUND')
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        cursor.execute(" SELECT name, object_type "
-                       " FROM tbl_points "
-                       " WHERE id = %s ", (new_values['data']['point_id'],))
-        row = cursor.fetchone()
-        if row is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.POINT_NOT_FOUND')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_energy_storage_containers_stses "
+                               " WHERE energy_storage_container_id = %s AND id = %s ", (id_, fid,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.ENERGY_STORAGE_CONTAINER_STS_NOT_FOUND')
 
-        query = (" SELECT id "
-                 " FROM tbl_energy_storage_containers_stses_points "
-                 " WHERE sts_id = %s AND point_id = %s")
-        cursor.execute(query, (fid, new_values['data']['point_id'],))
-        if cursor.fetchone() is not None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR',
-                                   description='API.STS_POINT_RELATION_EXISTS')
+                cursor.execute(" SELECT name, object_type "
+                               " FROM tbl_points "
+                               " WHERE id = %s ", (new_values['data']['point_id'],))
+                row = cursor.fetchone()
+                if row is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.POINT_NOT_FOUND')
 
-        add_row = (" INSERT INTO tbl_energy_storage_containers_stses_points (sts_id, point_id) "
-                   " VALUES (%s, %s) ")
-        cursor.execute(add_row, (fid, new_values['data']['point_id'],))
-        cnx.commit()
-        cursor.close()
-        cnx.close()
+                query = (" SELECT id "
+                         " FROM tbl_energy_storage_containers_stses_points "
+                         " WHERE sts_id = %s AND point_id = %s")
+                cursor.execute(query, (fid, new_values['data']['point_id'],))
+                if cursor.fetchone() is not None:
+                    raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR',
+                                           description='API.STS_POINT_RELATION_EXISTS')
+
+                add_row = (" INSERT INTO tbl_energy_storage_containers_stses_points (sts_id, point_id) "
+                           " VALUES (%s, %s) ")
+                cursor.execute(add_row, (fid, new_values['data']['point_id'],))
+                cnx.commit()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         resp.status = falcon.HTTP_201
         resp.location = '/energystoragecontainers/' + str(id_) + '/stses/' + str(fid) + '/points/' + \
@@ -5963,42 +6331,44 @@ class EnergyStorageContainerSTSPointItem:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_POINT_ID')
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_energy_storage_containers_stses "
-                       " WHERE energy_storage_container_id = %s AND id = %s ", (id_, fid,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.ENERGY_STORAGE_CONTAINER_STS_NOT_FOUND')
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_points "
-                       " WHERE id = %s ", (pid,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.POINT_NOT_FOUND')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_energy_storage_containers_stses "
+                               " WHERE energy_storage_container_id = %s AND id = %s ", (id_, fid,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.ENERGY_STORAGE_CONTAINER_STS_NOT_FOUND')
 
-        cursor.execute(" SELECT id "
-                       " FROM tbl_energy_storage_containers_stses_points "
-                       " WHERE sts_id = %s AND point_id = %s ", (fid, pid))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.STS_POINT_RELATION_NOT_FOUND')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_points "
+                               " WHERE id = %s ", (pid,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.POINT_NOT_FOUND')
 
-        cursor.execute(" DELETE FROM tbl_energy_storage_containers_stses_points "
-                       " WHERE sts_id = %s AND point_id = %s ", (fid, pid))
-        cnx.commit()
+                cursor.execute(" SELECT id "
+                               " FROM tbl_energy_storage_containers_stses_points "
+                               " WHERE sts_id = %s AND point_id = %s ", (fid, pid))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.STS_POINT_RELATION_NOT_FOUND')
 
-        cursor.close()
-        cnx.close()
+                cursor.execute(" DELETE FROM tbl_energy_storage_containers_stses_points "
+                               " WHERE sts_id = %s AND point_id = %s ", (fid, pid))
+                cnx.commit()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         resp.status = falcon.HTTP_204
 
@@ -6022,51 +6392,61 @@ class EnergyStorageContainerClone:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_ENERGY_STORAGE_CONTAINER_ID')
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
+        row = None
 
-        query = (" SELECT id, name, uuid, "
-                 "        rated_capacity, rated_power, contact_id, cost_center_id, description "
-                 " FROM tbl_energy_storage_containers "
-                 " WHERE id = %s ")
-        cursor.execute(query, (id_,))
-        row = cursor.fetchone()
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        if row is None:
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.ENERGY_STORAGE_CONTAINER_NOT_FOUND')
-        else:
-            meta_result = {"id": row[0],
-                           "name": row[1],
-                           "uuid": row[2],
-                           "rated_capacity": row[3],
-                           "rated_power": row[4],
-                           "contact_id": row[5],
-                           "cost_center_id": row[6],
-                           "description": row[7]}
-            timezone_offset = int(config.utc_offset[1:3]) * 60 + int(config.utc_offset[4:6])
-            if config.utc_offset[0] == '-':
-                timezone_offset = -timezone_offset
-            new_name = str.strip(meta_result['name']) + \
-                (datetime.utcnow() + timedelta(minutes=timezone_offset)).isoformat(sep='-', timespec='seconds')
-            add_values = (" INSERT INTO tbl_energy_storage_containers "
-                          "    (name, uuid, rated_capacity, rated_power, contact_id, "
-                          "     cost_center_id, description) "
-                          " VALUES (%s, %s, %s, %s, %s, %s, %s) ")
-            cursor.execute(add_values, (new_name,
-                                        str(uuid.uuid4()),
-                                        meta_result['rated_capacity'],
-                                        meta_result['rated_power'],
-                                        meta_result['contact_id'],
-                                        meta_result['cost_center_id'],
-                                        meta_result['description']))
-            new_id = cursor.lastrowid
-            cnx.commit()
-            cursor.close()
-            cnx.close()
+                query = (" SELECT id, name, uuid, "
+                         "        rated_capacity, rated_power, contact_id, cost_center_id, description "
+                         " FROM tbl_energy_storage_containers "
+                         " WHERE id = %s ")
+                cursor.execute(query, (id_,))
+                row = cursor.fetchone()
 
-            resp.status = falcon.HTTP_201
-            resp.location = '/energystoragecontainers/' + str(new_id)
+                if row is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.ENERGY_STORAGE_CONTAINER_NOT_FOUND')
+                else:
+                    meta_result = {"id": row[0],
+                                   "name": row[1],
+                                   "uuid": row[2],
+                                   "rated_capacity": row[3],
+                                   "rated_power": row[4],
+                                   "contact_id": row[5],
+                                   "cost_center_id": row[6],
+                                   "description": row[7]}
+                    timezone_offset = int(config.utc_offset[1:3]) * 60 + int(config.utc_offset[4:6])
+                    if config.utc_offset[0] == '-':
+                        timezone_offset = -timezone_offset
+                    new_name = str.strip(meta_result['name']) + \
+                        (datetime.utcnow() + timedelta(minutes=timezone_offset)).isoformat(sep='-', timespec='seconds')
+                    add_values = (" INSERT INTO tbl_energy_storage_containers "
+                                  "    (name, uuid, rated_capacity, rated_power, contact_id, "
+                                  "     cost_center_id, description) "
+                                  " VALUES (%s, %s, %s, %s, %s, %s, %s) ")
+                    cursor.execute(add_values, (new_name,
+                                                str(uuid.uuid4()),
+                                                meta_result['rated_capacity'],
+                                                meta_result['rated_power'],
+                                                meta_result['contact_id'],
+                                                meta_result['cost_center_id'],
+                                                meta_result['description']))
+                    new_id = cursor.lastrowid
+                    cnx.commit()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
+
+        resp.status = falcon.HTTP_201
+        resp.location = '/energystoragecontainers/' + str(new_id)
 
 
 class EnergyStorageContainerExport:
@@ -6086,41 +6466,53 @@ class EnergyStorageContainerExport:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_ENERGY_STORAGE_CONTAINER_ID')
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
+        rows_contacts = []
+        rows_cost_centers = []
+        row = None
 
-        query = (" SELECT id, name, uuid "
-                 " FROM tbl_contacts ")
-        cursor.execute(query)
-        rows_contacts = cursor.fetchall()
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        contact_dict = dict()
-        if rows_contacts is not None and len(rows_contacts) > 0:
-            for row in rows_contacts:
-                contact_dict[row[0]] = {"id": row[0],
-                                        "name": row[1],
-                                        "uuid": row[2]}
+                query = (" SELECT id, name, uuid "
+                         " FROM tbl_contacts ")
+                cursor.execute(query)
+                rows_contacts = cursor.fetchall()
 
-        query = (" SELECT id, name, uuid "
-                 " FROM tbl_cost_centers ")
-        cursor.execute(query)
-        rows_cost_centers = cursor.fetchall()
+                contact_dict = dict()
+                if rows_contacts is not None and len(rows_contacts) > 0:
+                    for row in rows_contacts:
+                        contact_dict[row[0]] = {"id": row[0],
+                                                "name": row[1],
+                                                "uuid": row[2]}
 
-        cost_center_dict = dict()
-        if rows_cost_centers is not None and len(rows_cost_centers) > 0:
-            for row in rows_cost_centers:
-                cost_center_dict[row[0]] = {"id": row[0],
-                                            "name": row[1],
-                                            "uuid": row[2]}
+                query = (" SELECT id, name, uuid "
+                         " FROM tbl_cost_centers ")
+                cursor.execute(query)
+                rows_cost_centers = cursor.fetchall()
 
-        query = (" SELECT id, name, uuid, "
-                 "        rated_capacity, rated_power, contact_id, cost_center_id, description "
-                 " FROM tbl_energy_storage_containers "
-                 " WHERE id = %s ")
-        cursor.execute(query, (id_,))
-        row = cursor.fetchone()
-        cursor.close()
-        cnx.close()
+                cost_center_dict = dict()
+                if rows_cost_centers is not None and len(rows_cost_centers) > 0:
+                    for row in rows_cost_centers:
+                        cost_center_dict[row[0]] = {"id": row[0],
+                                                    "name": row[1],
+                                                    "uuid": row[2]}
+
+                query = (" SELECT id, name, uuid, "
+                         "        rated_capacity, rated_power, contact_id, cost_center_id, description "
+                         " FROM tbl_energy_storage_containers "
+                         " WHERE id = %s ")
+                cursor.execute(query, (id_,))
+                row = cursor.fetchone()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         if row is None:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
@@ -6216,54 +6608,57 @@ class EnergyStorageContainerImport:
         else:
             description = None
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_energy_storage_containers "
-                       " WHERE name = %s ", (name,))
-        if cursor.fetchone() is not None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.ENERGY_STORAGE_CONTAINER_NAME_IS_ALREADY_IN_USE')
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_contacts "
-                       " WHERE id = %s ",
-                       (new_values['contact']['id'],))
-        row = cursor.fetchone()
-        if row is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.CONTACT_NOT_FOUND')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_energy_storage_containers "
+                               " WHERE name = %s ", (name,))
+                if cursor.fetchone() is not None:
+                    raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                           description='API.ENERGY_STORAGE_CONTAINER_NAME_IS_ALREADY_IN_USE')
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_cost_centers "
-                       " WHERE id = %s ",
-                       (new_values['cost_center']['id'],))
-        row = cursor.fetchone()
-        if row is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.COST_CENTER_NOT_FOUND')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_contacts "
+                               " WHERE id = %s ",
+                               (new_values['contact']['id'],))
+                row = cursor.fetchone()
+                if row is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.CONTACT_NOT_FOUND')
 
-        add_values = (" INSERT INTO tbl_energy_storage_containers "
-                      "    (name, uuid, rated_capacity, rated_power, contact_id, cost_center_id, description) "
-                      " VALUES (%s, %s, %s, %s, %s, %s, %s) ")
-        cursor.execute(add_values, (name,
-                                    str(uuid.uuid4()),
-                                    rated_capacity,
-                                    rated_power,
-                                    contact_id,
-                                    cost_center_id,
-                                    description))
-        new_id = cursor.lastrowid
-        cnx.commit()
-        cursor.close()
-        cnx.close()
+                cursor.execute(" SELECT name "
+                               " FROM tbl_cost_centers "
+                               " WHERE id = %s ",
+                               (new_values['cost_center']['id'],))
+                row = cursor.fetchone()
+                if row is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.COST_CENTER_NOT_FOUND')
+
+                add_values = (" INSERT INTO tbl_energy_storage_containers "
+                              "    (name, uuid, rated_capacity, rated_power, contact_id, cost_center_id, description) "
+                              " VALUES (%s, %s, %s, %s, %s, %s, %s) ")
+                cursor.execute(add_values, (name,
+                                            str(uuid.uuid4()),
+                                            rated_capacity,
+                                            rated_power,
+                                            contact_id,
+                                            cost_center_id,
+                                            description))
+                new_id = cursor.lastrowid
+                cnx.commit()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         resp.status = falcon.HTTP_201
         resp.location = '/energystoragecontainers/' + str(new_id)
