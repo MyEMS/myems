@@ -67,22 +67,29 @@ class EmailMessageCollection:
                                    title='API.BAD_REQUEST',
                                    description='API.START_DATETIME_MUST_BE_EARLIER_THAN_END_DATETIME')
 
-        cnx = mysql.connector.connect(**config.myems_fdd_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
+        rows = []
 
-        query = (" SELECT id, recipient_name, recipient_email, "
-                 "        subject, message, attachment_file_name, "
-                 "        created_datetime_utc, scheduled_datetime_utc, status "
-                 " FROM tbl_email_messages "
-                 " WHERE created_datetime_utc >= %s AND created_datetime_utc < %s "
-                 " ORDER BY created_datetime_utc ")
-        cursor.execute(query, (start_datetime_utc, end_datetime_utc))
-        rows = cursor.fetchall()
+        try:
+            cnx = mysql.connector.connect(**config.myems_fdd_db)
+            try:
+                cursor = cnx.cursor()
 
-        if cursor:
-            cursor.close()
-        if cnx:
-            cnx.close()
+                query = (" SELECT id, recipient_name, recipient_email, "
+                         "        subject, message, attachment_file_name, "
+                         "        created_datetime_utc, scheduled_datetime_utc, status "
+                         " FROM tbl_email_messages "
+                         " WHERE created_datetime_utc >= %s AND created_datetime_utc < %s "
+                         " ORDER BY created_datetime_utc ")
+                cursor.execute(query, (start_datetime_utc, end_datetime_utc))
+                rows = cursor.fetchall()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         result = list()
         if rows is not None and len(rows) > 0:
@@ -220,41 +227,48 @@ class EmailMessageCollection:
 
         status = 'new'
 
-        cnx = mysql.connector.connect(**config.myems_fdd_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
 
-        if rule_id is not None:
-            cursor.execute(" SELECT name "
-                           " FROM tbl_rules "
-                           " WHERE id = %s ",
-                           (new_values['data']['rule_id'],))
-            row = cursor.fetchone()
-            if row is None:
-                cursor.close()
+        try:
+            cnx = mysql.connector.connect(**config.myems_fdd_db)
+            try:
+                cursor = cnx.cursor()
+
+                if rule_id is not None:
+                    cursor.execute(" SELECT name "
+                                   " FROM tbl_rules "
+                                   " WHERE id = %s ",
+                                   (new_values['data']['rule_id'],))
+                    row = cursor.fetchone()
+                    if row is None:
+                        raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                               description='API.RULE_NOT_FOUND')
+
+                add_row = (" INSERT INTO tbl_email_messages "
+                           "             (rule_id, recipient_name, recipient_email, subject, message, "
+                           "              attachment_file_name, attachment_file_object, created_datetime_utc,"
+                           "              scheduled_datetime_utc, status) "
+                           " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s) ")
+
+                cursor.execute(add_row, (rule_id,
+                                         recipient_name,
+                                         recipient_email,
+                                         subject,
+                                         message,
+                                         attachment_file_name,
+                                         attachment_file_object,
+                                         created_datetime_utc,
+                                         scheduled_datetime_utc,
+                                         status))
+                new_id = cursor.lastrowid
+                cnx.commit()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
                 cnx.close()
-                raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                       description='API.RULE_NOT_FOUND')
-
-        add_row = (" INSERT INTO tbl_email_messages "
-                   "             (rule_id, recipient_name, recipient_email, subject, message, "
-                   "              attachment_file_name, attachment_file_object, created_datetime_utc,"
-                   "              scheduled_datetime_utc, status) "
-                   " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s) ")
-
-        cursor.execute(add_row, (rule_id,
-                                 recipient_name,
-                                 recipient_email,
-                                 subject,
-                                 message,
-                                 attachment_file_name,
-                                 attachment_file_object,
-                                 created_datetime_utc,
-                                 scheduled_datetime_utc,
-                                 status))
-        new_id = cursor.lastrowid
-        cnx.commit()
-        cursor.close()
-        cnx.close()
 
         resp.status = falcon.HTTP_201
         resp.location = '/emailmessages/' + str(new_id)
@@ -277,25 +291,32 @@ class EmailMessageItem:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_EMAIL_MESSAGE_ID')
 
-        cnx = mysql.connector.connect(**config.myems_fdd_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
+        row = None
 
-        query = (" SELECT id, recipient_name, recipient_email, "
-                 "        subject, message, attachment_file_name, "
-                 "        created_datetime_utc, scheduled_datetime_utc, status "
-                 " FROM tbl_email_messages "
-                 " WHERE id = %s ")
-        cursor.execute(query, (id_,))
-        row = cursor.fetchone()
+        try:
+            cnx = mysql.connector.connect(**config.myems_fdd_db)
+            try:
+                cursor = cnx.cursor()
 
-        if cursor:
-            cursor.close()
-        if cnx:
-            cnx.close()
+                query = (" SELECT id, recipient_name, recipient_email, "
+                         "        subject, message, attachment_file_name, "
+                         "        created_datetime_utc, scheduled_datetime_utc, status "
+                         " FROM tbl_email_messages "
+                         " WHERE id = %s ")
+                cursor.execute(query, (id_,))
+                row = cursor.fetchone()
 
-        if row is None:
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.EMAIL_MESSAGE_NOT_FOUND')
+                if row is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.EMAIL_MESSAGE_NOT_FOUND')
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         result = {"id": row[0],
                   "recipient_name": row[1],
@@ -439,52 +460,58 @@ class EmailMessageItem:
                 raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                        description="API.INVALID_SCHEDULED_DATETIME")
 
-        cnx = mysql.connector.connect(**config.myems_fdd_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
 
-        cursor.execute(" SELECT recipient_name "
-                       " FROM tbl_email_messages "
-                       " WHERE id = %s ", (id_,))
+        try:
+            cnx = mysql.connector.connect(**config.myems_fdd_db)
+            try:
+                cursor = cnx.cursor()
 
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.EMAIL_MESSAGE_NOT_FOUND')
+                cursor.execute(" SELECT recipient_name "
+                               " FROM tbl_email_messages "
+                               " WHERE id = %s ", (id_,))
 
-        if rule_id is not None:
-            cursor.execute(" SELECT name "
-                           " FROM tbl_rules "
-                           " WHERE id = %s ",
-                           (new_values['data']['rule_id'],))
-            row = cursor.fetchone()
-            if row is None:
-                cursor.close()
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.EMAIL_MESSAGE_NOT_FOUND')
+
+                if rule_id is not None:
+                    cursor.execute(" SELECT name "
+                                   " FROM tbl_rules "
+                                   " WHERE id = %s ",
+                                   (new_values['data']['rule_id'],))
+                    row = cursor.fetchone()
+                    if row is None:
+                        raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                               description='API.RULE_NOT_FOUND')
+
+                update_row = (" UPDATE tbl_email_messages "
+                              " SET rule_id = %s, recipient_name = %s, recipient_email = %s,"
+                              "     subject = %s, message = %s,"
+                              "     attachment_file_name = %s, attachment_file_object = %s, created_datetime_utc = %s,"
+                              "     scheduled_datetime_utc = %s, status = %s"
+                              " WHERE id = %s ")
+
+                cursor.execute(update_row, (rule_id,
+                                            recipient_name,
+                                            recipient_email,
+                                            subject,
+                                            message,
+                                            attachment_file_name,
+                                            attachment_file_object,
+                                            created_datetime_utc,
+                                            scheduled_datetime_utc,
+                                            status,
+                                            id_))
+
+                cnx.commit()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
                 cnx.close()
-                raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                       description='API.RULE_NOT_FOUND')
-
-        update_row = (" UPDATE tbl_email_messages "
-                      " SET rule_id = %s, recipient_name = %s, recipient_email = %s, subject = %s, message = %s,"
-                      "     attachment_file_name = %s, attachment_file_object = %s, created_datetime_utc = %s,"
-                      "     scheduled_datetime_utc = %s, status = %s"
-                      " WHERE id = %s ")
-
-        cursor.execute(update_row, (rule_id,
-                                    recipient_name,
-                                    recipient_email,
-                                    subject,
-                                    message,
-                                    attachment_file_name,
-                                    attachment_file_object,
-                                    created_datetime_utc,
-                                    scheduled_datetime_utc,
-                                    status,
-                                    id_))
-
-        cnx.commit()
-        cursor.close()
-        cnx.close()
 
         resp.status = falcon.HTTP_200
 
@@ -496,28 +523,30 @@ class EmailMessageItem:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_EMAIL_MESSAGE_ID')
 
-        cnx = mysql.connector.connect(**config.myems_fdd_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
 
-        cursor.execute(" SELECT id "
-                       " FROM tbl_email_messages "
-                       " WHERE id = %s ", (id_,))
-        row = cursor.fetchone()
+        try:
+            cnx = mysql.connector.connect(**config.myems_fdd_db)
+            try:
+                cursor = cnx.cursor()
 
-        if row is None:
-            if cursor:
-                cursor.close()
+                cursor.execute(" SELECT id "
+                               " FROM tbl_email_messages "
+                               " WHERE id = %s ", (id_,))
+                row = cursor.fetchone()
+
+                if row is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.EMAIL_MESSAGE_NOT_FOUND')
+
+                cursor.execute(" DELETE FROM tbl_email_messages WHERE id = %s ", (id_,))
+                cnx.commit()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
             if cnx:
                 cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.EMAIL_MESSAGE_NOT_FOUND')
-
-        cursor.execute(" DELETE FROM tbl_email_messages WHERE id = %s ", (id_,))
-        cnx.commit()
-
-        if cursor:
-            cursor.close()
-        if cnx:
-            cnx.close()
 
         resp.status = falcon.HTTP_204

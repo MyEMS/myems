@@ -64,6 +64,12 @@ def clear_equipment_cache(equipment_id=None):
     except Exception:
         # If cache clear fails, ignore and continue
         pass
+    finally:
+        if redis_client:
+            try:
+                redis_client.close()
+            except Exception:
+                pass
 
 
 class EquipmentCollection:
@@ -123,10 +129,17 @@ class EquipmentCollection:
                 # If Redis connection fails, continue to database query
                 pass
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
+        cnx = None
+        cursor = None
+        rows_cost_centers = []
+        rows_svgs = []
+        rows_equipments = []
+
         try:
-            cursor = cnx.cursor()
+            cnx = mysql.connector.connect(**config.myems_system_db)
             try:
+                cursor = cnx.cursor()
+                
                 query = (" SELECT id, name, uuid "
                          " FROM tbl_cost_centers ")
                 cursor.execute(query)
@@ -183,9 +196,11 @@ class EquipmentCollection:
                                        "qrcode": 'equipment:' + row[2]}
                         result.append(meta_result)
             finally:
-                cursor.close()
+                if cursor:
+                    cursor.close()
         finally:
-            cnx.close()
+            if cnx:
+                cnx.close()
 
         # Store result in Redis cache
         result_json = json.dumps(result)
@@ -195,6 +210,11 @@ class EquipmentCollection:
             except Exception:
                 # If cache set fails, ignore and continue
                 pass
+            finally:
+                try:
+                    redis_client.close()
+                except Exception:
+                    pass
 
         resp.text = result_json
 
@@ -275,10 +295,15 @@ class EquipmentCollection:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_EFFICIENCY_INDICATOR_VALUE')
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
+        cnx = None
+        cursor = None
+        new_id = None
+
         try:
-            cursor = cnx.cursor()
+            cnx = mysql.connector.connect(**config.myems_system_db)
             try:
+                cursor = cnx.cursor()
+                
                 cursor.execute(" SELECT name "
                                " FROM tbl_equipments "
                                " WHERE name = %s ", (name,))
@@ -322,9 +347,11 @@ class EquipmentCollection:
                 new_id = cursor.lastrowid
                 cnx.commit()
             finally:
-                cursor.close()
+                if cursor:
+                    cursor.close()
         finally:
-            cnx.close()
+            if cnx:
+                cnx.close()
 
         # Clear cache after creating new equipment
         clear_equipment_cache()
@@ -381,10 +408,17 @@ class EquipmentItem:
                 # If Redis connection fails, continue to database query
                 pass
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
+        cnx = None
+        cursor = None
+        rows_cost_centers = []
+        rows_svgs = []
+        row = None
+
         try:
-            cursor = cnx.cursor()
+            cnx = mysql.connector.connect(**config.myems_system_db)
             try:
+                cursor = cnx.cursor()
+                
                 query = (" SELECT id, name, uuid "
                          " FROM tbl_cost_centers ")
                 cursor.execute(query)
@@ -415,26 +449,28 @@ class EquipmentItem:
                          " WHERE id = %s ")
                 cursor.execute(query, (id_,))
                 row = cursor.fetchone()
+                
+                if row is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.EQUIPMENT_NOT_FOUND')
             finally:
-                cursor.close()
+                if cursor:
+                    cursor.close()
         finally:
-            cnx.close()
+            if cnx:
+                cnx.close()
 
-        if row is None:
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.EQUIPMENT_NOT_FOUND')
-        else:
-            meta_result = {"id": row[0],
-                           "name": row[1],
-                           "uuid": row[2],
-                           "is_input_counted": bool(row[3]),
-                           "is_output_counted": bool(row[4]),
-                           "cost_center": cost_center_dict.get(row[5], None),
-                           "efficiency_indicator": Decimal(row[6]),
-                           "svg": svg_dict.get(row[7], None),
-                           "camera_url": row[8],
-                           "description": row[9],
-                           "qrcode": 'equipment:' + row[2]}
+        meta_result = {"id": row[0],
+                       "name": row[1],
+                       "uuid": row[2],
+                       "is_input_counted": bool(row[3]),
+                       "is_output_counted": bool(row[4]),
+                       "cost_center": cost_center_dict.get(row[5], None),
+                       "efficiency_indicator": Decimal(row[6]),
+                       "svg": svg_dict.get(row[7], None),
+                       "camera_url": row[8],
+                       "description": row[9],
+                       "qrcode": 'equipment:' + row[2]}
 
         # Store result in Redis cache
         result_json = json.dumps(meta_result)
@@ -444,11 +480,15 @@ class EquipmentItem:
             except Exception:
                 # If cache set fails, ignore and continue
                 pass
+            finally:
+                try:
+                    redis_client.close()
+                except Exception:
+                    pass
 
         resp.text = result_json
 
     @staticmethod
-    @user_logger
     @user_logger
     def on_delete(req, resp, id_):
         admin_control(req)
@@ -456,10 +496,17 @@ class EquipmentItem:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_EQUIPMENT_ID')
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
+        cnx = None
+        cursor = None
+        rows_equipments = []
+        rows_combined_equipments = []
+        rows_combined_shopfloor = []
+
         try:
-            cursor = cnx.cursor()
+            cnx = mysql.connector.connect(**config.myems_system_db)
             try:
+                cursor = cnx.cursor()
+                
                 # check relation with space
                 cursor.execute(" SELECT space_id "
                                " FROM tbl_spaces_equipments "
@@ -512,9 +559,11 @@ class EquipmentItem:
                 cursor.execute(" DELETE FROM tbl_equipments WHERE id = %s ", (id_,))
                 cnx.commit()
             finally:
-                cursor.close()
+                if cursor:
+                    cursor.close()
         finally:
-            cnx.close()
+            if cnx:
+                cnx.close()
 
         # Clear cache after deleting equipment
         clear_equipment_cache(equipment_id=id_)
@@ -601,10 +650,14 @@ class EquipmentItem:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_EFFICIENCY_INDICATOR_VALUE')
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
+        cnx = None
+        cursor = None
+
         try:
-            cursor = cnx.cursor()
+            cnx = mysql.connector.connect(**config.myems_system_db)
             try:
+                cursor = cnx.cursor()
+                
                 cursor.execute(" SELECT name "
                                " FROM tbl_equipments "
                                " WHERE id = %s ", (id_,))
@@ -654,9 +707,11 @@ class EquipmentItem:
                                             id_))
                 cnx.commit()
             finally:
-                cursor.close()
+                if cursor:
+                    cursor.close()
         finally:
-            cnx.close()
+            if cnx:
+                cnx.close()
 
         # Clear cache after updating equipment
         clear_equipment_cache(equipment_id=id_)
@@ -673,10 +728,19 @@ class EquipmentItem:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_EQUIPMENT_ID')
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
+        cnx = None
+        cursor = None
+        new_id = None
+        rows_meters = []
+        rows_offline_meters = []
+        rows_virtual_meters = []
+        rows_parameters = []
+
         try:
-            cursor = cnx.cursor()
+            cnx = mysql.connector.connect(**config.myems_system_db)
             try:
+                cursor = cnx.cursor()
+                
                 cursor.execute(" SELECT name "
                                " FROM tbl_equipments "
                                " WHERE id = %s ", (id_,))
@@ -803,9 +867,11 @@ class EquipmentItem:
                     cursor.execute(add_values[:-2])
                     cnx.commit()
             finally:
-                cursor.close()
+                if cursor:
+                    cursor.close()
         finally:
-            cnx.close()
+            if cnx:
+                cnx.close()
 
         # Clear cache after cloning equipment
         clear_equipment_cache()
@@ -862,10 +928,20 @@ class EquipmentParameterCollection:
                 # If Redis connection fails, continue to database query
                 pass
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
+        cnx = None
+        cursor = None
+        rows = []
+        rows_points = []
+        rows_meters = []
+        rows_offline_meters = []
+        rows_virtual_meters = []
+        rows_parameters = []
+
         try:
-            cursor = cnx.cursor()
+            cnx = mysql.connector.connect(**config.myems_system_db)
             try:
+                cursor = cnx.cursor()
+                
                 cursor.execute(" SELECT id "
                                " FROM tbl_equipments_data_sources "
                                " WHERE equipment_id = %s ", (id_,))
@@ -985,9 +1061,11 @@ class EquipmentParameterCollection:
                         result.append(meta_result)
                         last_index = meta_result['id']
             finally:
-                cursor.close()
+                if cursor:
+                    cursor.close()
         finally:
-            cnx.close()
+            if cnx:
+                cnx.close()
 
         # Store result in Redis cache
         result_json = json.dumps(result)
@@ -997,6 +1075,11 @@ class EquipmentParameterCollection:
             except Exception:
                 # If cache set fails, ignore and continue
                 pass
+            finally:
+                try:
+                    redis_client.close()
+                except Exception:
+                    pass
 
         resp.text = result_json
 
@@ -1071,10 +1154,18 @@ class EquipmentParameterCollection:
                     len(str.strip(new_values['data']['denominator_meter_uuid'])) > 0:
                 denominator_meter_uuid = str.strip(new_values['data']['denominator_meter_uuid'])
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
+        cnx = None
+        cursor = None
+        new_id = None
+        rows_meters = []
+        rows_offline_meters = []
+        rows_virtual_meters = []
+
         try:
-            cursor = cnx.cursor()
+            cnx = mysql.connector.connect(**config.myems_system_db)
             try:
+                cursor = cnx.cursor()
+                
                 cursor.execute(" SELECT name "
                                " FROM tbl_equipments "
                                " WHERE id = %s ", (id_,))
@@ -1178,9 +1269,11 @@ class EquipmentParameterCollection:
                 new_id = cursor.lastrowid
                 cnx.commit()
             finally:
-                cursor.close()
+                if cursor:
+                    cursor.close()
         finally:
-            cnx.close()
+            if cnx:
+                cnx.close()
 
         # Clear cache after creating parameter
         clear_equipment_cache(equipment_id=id_)
@@ -1190,9 +1283,7 @@ class EquipmentParameterCollection:
 
 
 class EquipmentParameterItem:
-    @staticmethod
-    @user_logger
-    def __init__():
+    def __init__(self):
         pass
 
     @staticmethod
@@ -1218,10 +1309,19 @@ class EquipmentParameterItem:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_EQUIPMENT_PARAMETER_ID')
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
+        cnx = None
+        cursor = None
+        rows_points = []
+        rows_meters = []
+        rows_offline_meters = []
+        rows_virtual_meters = []
+        row = None
+
         try:
-            cursor = cnx.cursor()
+            cnx = mysql.connector.connect(**config.myems_system_db)
             try:
+                cursor = cnx.cursor()
+                
                 query = (" SELECT id, name "
                          " FROM tbl_points ")
                 cursor.execute(query)
@@ -1278,52 +1378,55 @@ class EquipmentParameterItem:
                          " WHERE equipment_id = %s AND id = %s ")
                 cursor.execute(query, (id_, pid))
                 row = cursor.fetchone()
+                
+                if row is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.EQUIPMENT_PARAMETER_NOT_FOUND_OR_NOT_MATCH')
             finally:
-                cursor.close()
+                if cursor:
+                    cursor.close()
         finally:
-            cnx.close()
+            if cnx:
+                cnx.close()
 
-        if row is None:
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.EQUIPMENT_PARAMETER_NOT_FOUND_OR_NOT_MATCH')
-        else:
+        constant = None
+        point = None
+        numerator_meter = None
+        denominator_meter = None
+        
+        if row[2] == 'point':
+            point = point_dict.get(row[4], None)
             constant = None
+            numerator_meter = None
+            denominator_meter = None
+        elif row[2] == 'constant':
+            constant = row[3]
             point = None
             numerator_meter = None
             denominator_meter = None
-            if row[2] == 'point':
-                point = point_dict.get(row[4], None)
-                constant = None
-                numerator_meter = None
-                denominator_meter = None
-            elif row[2] == 'constant':
-                constant = row[3]
-                point = None
-                numerator_meter = None
-                denominator_meter = None
-            elif row[2] == 'fraction':
-                constant = None
-                point = None
-                # find numerator meter by uuid
-                numerator_meter = meter_dict.get(row[5], None)
-                if numerator_meter is None:
-                    numerator_meter = virtual_meter_dict.get(row[5], None)
-                if numerator_meter is None:
-                    numerator_meter = offline_meter_dict.get(row[5], None)
-                # find denominator meter by uuid
-                denominator_meter = meter_dict.get(row[6], None)
-                if denominator_meter is None:
-                    denominator_meter = virtual_meter_dict.get(row[6], None)
-                if denominator_meter is None:
-                    denominator_meter = offline_meter_dict.get(row[6], None)
+        elif row[2] == 'fraction':
+            constant = None
+            point = None
+            # find numerator meter by uuid
+            numerator_meter = meter_dict.get(row[5], None)
+            if numerator_meter is None:
+                numerator_meter = virtual_meter_dict.get(row[5], None)
+            if numerator_meter is None:
+                numerator_meter = offline_meter_dict.get(row[5], None)
+            # find denominator meter by uuid
+            denominator_meter = meter_dict.get(row[6], None)
+            if denominator_meter is None:
+                denominator_meter = virtual_meter_dict.get(row[6], None)
+            if denominator_meter is None:
+                denominator_meter = offline_meter_dict.get(row[6], None)
 
-            meta_result = {"id": row[0],
-                           "name": row[1],
-                           "parameter_type": row[2],
-                           "constant": constant,
-                           "point": point,
-                           "numerator_meter": numerator_meter,
-                           "denominator_meter": denominator_meter}
+        meta_result = {"id": row[0],
+                       "name": row[1],
+                       "parameter_type": row[2],
+                       "constant": constant,
+                       "point": point,
+                       "numerator_meter": numerator_meter,
+                       "denominator_meter": denominator_meter}
 
         resp.text = json.dumps(meta_result)
 
@@ -1339,10 +1442,15 @@ class EquipmentParameterItem:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_EQUIPMENT_PARAMETER_ID')
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
+        cnx = None
+        cursor = None
+        row = None
+
         try:
-            cursor = cnx.cursor()
+            cnx = mysql.connector.connect(**config.myems_system_db)
             try:
+                cursor = cnx.cursor()
+                
                 cursor.execute(" SELECT name "
                                " FROM tbl_equipments "
                                " WHERE id = %s ",
@@ -1367,9 +1475,11 @@ class EquipmentParameterItem:
                                " WHERE id = %s ", (pid, ))
                 cnx.commit()
             finally:
-                cursor.close()
+                if cursor:
+                    cursor.close()
         finally:
-            cnx.close()
+            if cnx:
+                cnx.close()
 
         # Clear cache after deleting parameter
         clear_equipment_cache(equipment_id=id_)
@@ -1452,10 +1562,17 @@ class EquipmentParameterItem:
                     len(str.strip(new_values['data']['denominator_meter_uuid'])) > 0:
                 denominator_meter_uuid = str.strip(new_values['data']['denominator_meter_uuid'])
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
+        cnx = None
+        cursor = None
+        rows_meters = []
+        rows_offline_meters = []
+        rows_virtual_meters = []
+
         try:
-            cursor = cnx.cursor()
+            cnx = mysql.connector.connect(**config.myems_system_db)
             try:
+                cursor = cnx.cursor()
+                
                 cursor.execute(" SELECT name "
                                " FROM tbl_equipments "
                                " WHERE id = %s ", (id_,))
@@ -1573,9 +1690,11 @@ class EquipmentParameterItem:
                                             pid))
                 cnx.commit()
             finally:
-                cursor.close()
+                if cursor:
+                    cursor.close()
         finally:
-            cnx.close()
+            if cnx:
+                cnx.close()
 
         # Clear cache after updating parameter
         clear_equipment_cache(equipment_id=id_)
@@ -1605,10 +1724,16 @@ class EquipmentMeterCollection:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_EQUIPMENT_ID')
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
+        cnx = None
+        cursor = None
+        rows_energy_categories = []
+        rows = []
+
         try:
-            cursor = cnx.cursor()
+            cnx = mysql.connector.connect(**config.myems_system_db)
             try:
+                cursor = cnx.cursor()
+                
                 cursor.execute(" SELECT name "
                                " FROM tbl_equipments "
                                " WHERE id = %s ", (id_,))
@@ -1645,9 +1770,11 @@ class EquipmentMeterCollection:
                                        "is_output": bool(row[4])}
                         result.append(meta_result)
             finally:
-                cursor.close()
+                if cursor:
+                    cursor.close()
         finally:
-            cnx.close()
+            if cnx:
+                cnx.close()
 
         resp.text = json.dumps(result)
 
@@ -1688,10 +1815,14 @@ class EquipmentMeterCollection:
                                    description='API.INVALID_IS_OUTPUT_VALUE')
         is_output = new_values['data']['is_output']
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
+        cnx = None
+        cursor = None
+
         try:
-            cursor = cnx.cursor()
+            cnx = mysql.connector.connect(**config.myems_system_db)
             try:
+                cursor = cnx.cursor()
+                
                 cursor.execute(" SELECT name "
                                " from tbl_equipments "
                                " WHERE id = %s ", (id_,))
@@ -1719,9 +1850,11 @@ class EquipmentMeterCollection:
                 cursor.execute(add_row, (id_, meter_id, is_output))
                 cnx.commit()
             finally:
-                cursor.close()
+                if cursor:
+                    cursor.close()
         finally:
-            cnx.close()
+            if cnx:
+                cnx.close()
 
         # Clear cache after adding meter
         clear_equipment_cache(equipment_id=id_)
@@ -1753,10 +1886,14 @@ class EquipmentMeterItem:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_METER_ID')
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
+        cnx = None
+        cursor = None
+
         try:
-            cursor = cnx.cursor()
+            cnx = mysql.connector.connect(**config.myems_system_db)
             try:
+                cursor = cnx.cursor()
+                
                 cursor.execute(" SELECT name "
                                " FROM tbl_equipments "
                                " WHERE id = %s ", (id_,))
@@ -1782,9 +1919,11 @@ class EquipmentMeterItem:
                                (id_, mid))
                 cnx.commit()
             finally:
-                cursor.close()
+                if cursor:
+                    cursor.close()
         finally:
-            cnx.close()
+            if cnx:
+                cnx.close()
 
         # Clear cache after deleting meter
         clear_equipment_cache(equipment_id=id_)
@@ -1814,10 +1953,16 @@ class EquipmentOfflineMeterCollection:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_EQUIPMENT_ID')
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
+        cnx = None
+        cursor = None
+        rows_energy_categories = []
+        rows = []
+
         try:
-            cursor = cnx.cursor()
+            cnx = mysql.connector.connect(**config.myems_system_db)
             try:
+                cursor = cnx.cursor()
+                
                 cursor.execute(" SELECT name "
                                " FROM tbl_equipments "
                                " WHERE id = %s ", (id_,))
@@ -1854,9 +1999,11 @@ class EquipmentOfflineMeterCollection:
                                        "is_output": bool(row[4])}
                         result.append(meta_result)
             finally:
-                cursor.close()
+                if cursor:
+                    cursor.close()
         finally:
-            cnx.close()
+            if cnx:
+                cnx.close()
 
         resp.text = json.dumps(result)
 
@@ -1897,10 +2044,14 @@ class EquipmentOfflineMeterCollection:
                                    description='API.INVALID_IS_OUTPUT_VALUE')
         is_output = new_values['data']['is_output']
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
+        cnx = None
+        cursor = None
+
         try:
-            cursor = cnx.cursor()
+            cnx = mysql.connector.connect(**config.myems_system_db)
             try:
+                cursor = cnx.cursor()
+                
                 cursor.execute(" SELECT name "
                                " from tbl_equipments "
                                " WHERE id = %s ", (id_,))
@@ -1928,9 +2079,11 @@ class EquipmentOfflineMeterCollection:
                 cursor.execute(add_row, (id_, offline_meter_id, is_output))
                 cnx.commit()
             finally:
-                cursor.close()
+                if cursor:
+                    cursor.close()
         finally:
-            cnx.close()
+            if cnx:
+                cnx.close()
 
         # Clear cache after adding offline meter
         clear_equipment_cache(equipment_id=id_)
@@ -1962,10 +2115,14 @@ class EquipmentOfflineMeterItem:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_OFFLINE_METER_ID')
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
+        cnx = None
+        cursor = None
+
         try:
-            cursor = cnx.cursor()
+            cnx = mysql.connector.connect(**config.myems_system_db)
             try:
+                cursor = cnx.cursor()
+                
                 cursor.execute(" SELECT name "
                                " FROM tbl_equipments "
                                " WHERE id = %s ", (id_,))
@@ -1991,9 +2148,11 @@ class EquipmentOfflineMeterItem:
                                " WHERE equipment_id = %s AND offline_meter_id = %s ", (id_, mid))
                 cnx.commit()
             finally:
-                cursor.close()
+                if cursor:
+                    cursor.close()
         finally:
-            cnx.close()
+            if cnx:
+                cnx.close()
 
         # Clear cache after deleting offline meter
         clear_equipment_cache(equipment_id=id_)
@@ -2023,10 +2182,16 @@ class EquipmentVirtualMeterCollection:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_EQUIPMENT_ID')
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
+        cnx = None
+        cursor = None
+        rows_energy_categories = []
+        rows = []
+
         try:
-            cursor = cnx.cursor()
+            cnx = mysql.connector.connect(**config.myems_system_db)
             try:
+                cursor = cnx.cursor()
+                
                 cursor.execute(" SELECT name "
                                " FROM tbl_equipments "
                                " WHERE id = %s ", (id_,))
@@ -2063,9 +2228,11 @@ class EquipmentVirtualMeterCollection:
                                        "is_output": bool(row[4])}
                         result.append(meta_result)
             finally:
-                cursor.close()
+                if cursor:
+                    cursor.close()
         finally:
-            cnx.close()
+            if cnx:
+                cnx.close()
 
         resp.text = json.dumps(result)
 
@@ -2106,10 +2273,14 @@ class EquipmentVirtualMeterCollection:
                                    description='API.INVALID_IS_OUTPUT_VALUE')
         is_output = new_values['data']['is_output']
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
+        cnx = None
+        cursor = None
+
         try:
-            cursor = cnx.cursor()
+            cnx = mysql.connector.connect(**config.myems_system_db)
             try:
+                cursor = cnx.cursor()
+                
                 cursor.execute(" SELECT name "
                                " from tbl_equipments "
                                " WHERE id = %s ", (id_,))
@@ -2137,9 +2308,11 @@ class EquipmentVirtualMeterCollection:
                 cursor.execute(add_row, (id_, virtual_meter_id, is_output))
                 cnx.commit()
             finally:
-                cursor.close()
+                if cursor:
+                    cursor.close()
         finally:
-            cnx.close()
+            if cnx:
+                cnx.close()
 
         # Clear cache after adding virtual meter
         clear_equipment_cache(equipment_id=id_)
@@ -2171,10 +2344,14 @@ class EquipmentVirtualMeterItem:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_VIRTUAL_METER_ID')
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
+        cnx = None
+        cursor = None
+
         try:
-            cursor = cnx.cursor()
+            cnx = mysql.connector.connect(**config.myems_system_db)
             try:
+                cursor = cnx.cursor()
+                
                 cursor.execute(" SELECT name "
                                " FROM tbl_equipments "
                                " WHERE id = %s ", (id_,))
@@ -2200,9 +2377,11 @@ class EquipmentVirtualMeterItem:
                                " WHERE equipment_id = %s AND virtual_meter_id = %s ", (id_, mid))
                 cnx.commit()
             finally:
-                cursor.close()
+                if cursor:
+                    cursor.close()
         finally:
-            cnx.close()
+            if cnx:
+                cnx.close()
 
         # Clear cache after deleting virtual meter
         clear_equipment_cache(equipment_id=id_)
@@ -2232,10 +2411,15 @@ class EquipmentCommandCollection:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_EQUIPMENT_ID')
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
+        cnx = None
+        cursor = None
+        rows = []
+
         try:
-            cursor = cnx.cursor()
+            cnx = mysql.connector.connect(**config.myems_system_db)
             try:
+                cursor = cnx.cursor()
+                
                 cursor.execute(" SELECT name "
                                " FROM tbl_equipments "
                                " WHERE id = %s ", (id_,))
@@ -2258,9 +2442,11 @@ class EquipmentCommandCollection:
                                        "uuid": row[2]}
                         result.append(meta_result)
             finally:
-                cursor.close()
+                if cursor:
+                    cursor.close()
         finally:
-            cnx.close()
+            if cnx:
+                cnx.close()
 
         resp.text = json.dumps(result)
 
@@ -2295,10 +2481,14 @@ class EquipmentCommandCollection:
                                    description='API.INVALID_COMMAND_ID')
         command_id = new_values['data']['command_id']
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
+        cnx = None
+        cursor = None
+
         try:
-            cursor = cnx.cursor()
+            cnx = mysql.connector.connect(**config.myems_system_db)
             try:
+                cursor = cnx.cursor()
+                
                 cursor.execute(" SELECT name "
                                " from tbl_equipments "
                                " WHERE id = %s ", (id_,))
@@ -2326,9 +2516,11 @@ class EquipmentCommandCollection:
                 cursor.execute(add_row, (id_, command_id,))
                 cnx.commit()
             finally:
-                cursor.close()
+                if cursor:
+                    cursor.close()
         finally:
-            cnx.close()
+            if cnx:
+                cnx.close()
 
         # Clear cache after adding command
         clear_equipment_cache(equipment_id=id_)
@@ -2360,10 +2552,14 @@ class EquipmentCommandItem:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_COMMAND_ID')
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
+        cnx = None
+        cursor = None
+
         try:
-            cursor = cnx.cursor()
+            cnx = mysql.connector.connect(**config.myems_system_db)
             try:
+                cursor = cnx.cursor()
+                
                 cursor.execute(" SELECT name "
                                " FROM tbl_equipments "
                                " WHERE id = %s ", (id_,))
@@ -2389,9 +2585,11 @@ class EquipmentCommandItem:
                                (id_, cid))
                 cnx.commit()
             finally:
-                cursor.close()
+                if cursor:
+                    cursor.close()
         finally:
-            cnx.close()
+            if cnx:
+                cnx.close()
 
         # Clear cache after deleting command
         clear_equipment_cache(equipment_id=id_)
@@ -2421,10 +2619,24 @@ class EquipmentExport:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_EQUIPMENT_ID')
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
+        cnx = None
+        cursor = None
+        rows_cost_centers = []
+        rows_svgs = []
+        row = None
+        rows = []
+        rows_energy_categories = []
+        rows_points = []
+        rows_meters = []
+        rows_offline_meters = []
+        rows_virtual_meters = []
+        rows_parameters = []
+
         try:
-            cursor = cnx.cursor()
+            cnx = mysql.connector.connect(**config.myems_system_db)
             try:
+                cursor = cnx.cursor()
+                
                 query = (" SELECT id, name, uuid "
                          " FROM tbl_cost_centers ")
                 cursor.execute(query)
@@ -2467,7 +2679,7 @@ class EquipmentExport:
                                    "is_input_counted": bool(row[3]),
                                    "is_output_counted": bool(row[4]),
                                    "cost_center": cost_center_dict.get(row[5], None),
-                                   "efficiency_indicator": Decimal(row[6]),
+                                   "efficiency_indicator": Decimal(row[6]) if row[6] is not None else None,
                                    "svg": svg_dict.get(row[7], None),
                                    "camera_url": row[8],
                                    "description": row[9],
@@ -2522,6 +2734,7 @@ class EquipmentExport:
                                       "is_output": bool(row[4])}
                             meter_result.append(result)
                         meta_result['meters'] = meter_result
+                        
                     query = (" SELECT m.id, m.name, m.uuid, m.energy_category_id, em.is_output "
                              " FROM tbl_equipments e, tbl_equipments_offline_meters em, tbl_offline_meters m "
                              " WHERE em.equipment_id = e.id AND m.id = em.offline_meter_id AND e.id = %s "
@@ -2539,6 +2752,7 @@ class EquipmentExport:
                                       "is_output": bool(row[4])}
                             offlinemeter_result.append(result)
                         meta_result['offline_meters'] = offlinemeter_result
+                        
                     query = (" SELECT m.id, m.name, m.uuid, m.energy_category_id, em.is_output "
                              " FROM tbl_equipments e, tbl_equipments_virtual_meters em, tbl_virtual_meters m "
                              " WHERE em.equipment_id = e.id AND m.id = em.virtual_meter_id AND e.id = %s "
@@ -2556,6 +2770,7 @@ class EquipmentExport:
                                       "is_output": bool(row[4])}
                             virtualmeter_result.append(result)
                         meta_result['virtual_meters'] = virtualmeter_result
+                        
                     query = (" SELECT id, name "
                              " FROM tbl_points ")
                     cursor.execute(query)
@@ -2658,9 +2873,12 @@ class EquipmentExport:
                         meta_result['parameters'] = parameters_result
     
             finally:
-                cursor.close()
+                if cursor:
+                    cursor.close()
         finally:
-            cnx.close()
+            if cnx:
+                cnx.close()
+                
         resp.text = json.dumps(meta_result)
 
 
@@ -2749,10 +2967,18 @@ class EquipmentImport:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_EFFICIENCY_INDICATOR_VALUE')
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
+        cnx = None
+        cursor = None
+        new_id = None
+        rows_meters = []
+        rows_offline_meters = []
+        rows_virtual_meters = []
+
         try:
-            cursor = cnx.cursor()
+            cnx = mysql.connector.connect(**config.myems_system_db)
             try:
+                cursor = cnx.cursor()
+                
                 cursor.execute(" SELECT name "
                                " FROM tbl_equipments "
                                " WHERE name = %s ", (name,))
@@ -2793,6 +3019,7 @@ class EquipmentImport:
                                             camera_url,
                                             description))
                 new_id = cursor.lastrowid
+                
                 if new_values['commands'] is not None and len(new_values['commands']) > 0:
                     for command in new_values['commands']:
                         cursor.execute(" SELECT name "
@@ -2813,6 +3040,7 @@ class EquipmentImport:
                         add_row = (" INSERT INTO tbl_equipments_commands (equipment_id, command_id) "
                                    " VALUES (%s, %s) ")
                         cursor.execute(add_row, (new_id, command['id'],))
+                        
                 if new_values['meters'] is not None and len(new_values['meters']) > 0:
                     for meter in new_values['meters']:
                         cursor.execute(" SELECT name "
@@ -2833,6 +3061,7 @@ class EquipmentImport:
                         add_row = (" INSERT INTO tbl_equipments_meters (equipment_id, meter_id, is_output ) "
                                    " VALUES (%s, %s, %s) ")
                         cursor.execute(add_row, (new_id, meter['id'], meter['is_output']))
+                        
                 if new_values['offline_meters'] is not None and len(new_values['offline_meters']) > 0:
                     for offline_meter in new_values['offline_meters']:
                         cursor.execute(" SELECT name "
@@ -2854,6 +3083,7 @@ class EquipmentImport:
                                    " (equipment_id, offline_meter_id, is_output ) "
                                    " VALUES (%s, %s, %s) ")
                         cursor.execute(add_row, (new_id, offline_meter['id'], offline_meter['is_output']))
+                        
                 if new_values['virtual_meters'] is not None and len(new_values['virtual_meters']) > 0:
                     for virtual_meter in new_values['virtual_meters']:
                         cursor.execute(" SELECT name "
@@ -2875,6 +3105,7 @@ class EquipmentImport:
                                    " (equipment_id, virtual_meter_id, is_output ) "
                                    " VALUES (%s, %s, %s) ")
                         cursor.execute(add_row, (new_id, virtual_meter['id'], virtual_meter['is_output']))
+                        
                 if new_values['parameters'] is not None and len(new_values['parameters']) > 0:
                     for parameters in new_values['parameters']:
                         cursor.execute(" SELECT name "
@@ -3004,9 +3235,11 @@ class EquipmentImport:
                                                     denominator_meter_uuid))
                 cnx.commit()
             finally:
-                cursor.close()
+                if cursor:
+                    cursor.close()
         finally:
-            cnx.close()
+            if cnx:
+                cnx.close()
 
         # Clear cache after importing equipment
         clear_equipment_cache()
@@ -3033,10 +3266,24 @@ class EquipmentClone:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_EQUIPMENT_ID')
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
+        cnx = None
+        cursor = None
+        rows_cost_centers = []
+        row = None
+        rows = []
+        rows_energy_categories = []
+        rows_points = []
+        rows_meters = []
+        rows_offline_meters = []
+        rows_virtual_meters = []
+        rows_parameters = []
+        new_id = None
+
         try:
-            cursor = cnx.cursor()
+            cnx = mysql.connector.connect(**config.myems_system_db)
             try:
+                cursor = cnx.cursor()
+                
                 query = (" SELECT id, name, uuid "
                          " FROM tbl_cost_centers ")
                 cursor.execute(query)
@@ -3067,7 +3314,7 @@ class EquipmentClone:
                                    "is_input_counted": bool(row[3]),
                                    "is_output_counted": bool(row[4]),
                                    "cost_center": cost_center_dict.get(row[5], None),
-                                   "efficiency_indicator": Decimal(row[6]),
+                                   "efficiency_indicator": Decimal(row[6]) if row[6] is not None else None,
                                    "svg_id": row[7],
                                    "camera_url": row[8],
                                    "description": row[9],
@@ -3122,6 +3369,7 @@ class EquipmentClone:
                                       "is_output": bool(row[4])}
                             meter_result.append(result)
                         meta_result['meters'] = meter_result
+                        
                     query = (" SELECT m.id, m.name, m.uuid, m.energy_category_id, em.is_output "
                              " FROM tbl_equipments e, tbl_equipments_offline_meters em, tbl_offline_meters m "
                              " WHERE em.equipment_id = e.id AND m.id = em.offline_meter_id AND e.id = %s "
@@ -3139,6 +3387,7 @@ class EquipmentClone:
                                       "is_output": bool(row[4])}
                             offlinemeter_result.append(result)
                         meta_result['offline_meters'] = offlinemeter_result
+                        
                     query = (" SELECT m.id, m.name, m.uuid, m.energy_category_id, em.is_output "
                              " FROM tbl_equipments e, tbl_equipments_virtual_meters em, tbl_virtual_meters m "
                              " WHERE em.equipment_id = e.id AND m.id = em.virtual_meter_id AND e.id = %s "
@@ -3156,6 +3405,7 @@ class EquipmentClone:
                                       "is_output": bool(row[4])}
                             virtualmeter_result.append(result)
                         meta_result['virtual_meters'] = virtualmeter_result
+                        
                     query = (" SELECT id, name "
                              " FROM tbl_points ")
                     cursor.execute(query)
@@ -3256,6 +3506,7 @@ class EquipmentClone:
                                       "denominator_meter": denominator_meter}
                             parameters_result.append(result)
                         meta_result['parameters'] = parameters_result
+                        
                     timezone_offset = int(config.utc_offset[1:3]) * 60 + int(config.utc_offset[4:6])
                     if config.utc_offset[0] == '-':
                         timezone_offset = -timezone_offset
@@ -3276,6 +3527,7 @@ class EquipmentClone:
                                                 meta_result['camera_url'],
                                                 meta_result['description']))
                     new_id = cursor.lastrowid
+                    
                     if meta_result['commands'] is not None and len(meta_result['commands']) > 0:
                         for command in meta_result['commands']:
                             cursor.execute(" SELECT name "
@@ -3296,6 +3548,7 @@ class EquipmentClone:
                             add_row = (" INSERT INTO tbl_equipments_commands (equipment_id, command_id) "
                                        " VALUES (%s, %s) ")
                             cursor.execute(add_row, (new_id, command['id'],))
+                            
                     if meta_result['meters'] is not None and len(meta_result['meters']) > 0:
                         for meter in meta_result['meters']:
                             cursor.execute(" SELECT name "
@@ -3316,6 +3569,7 @@ class EquipmentClone:
                             add_row = (" INSERT INTO tbl_equipments_meters (equipment_id, meter_id, is_output ) "
                                        " VALUES (%s, %s, %s) ")
                             cursor.execute(add_row, (new_id, meter['id'], meter['is_output']))
+                            
                     if meta_result['offline_meters'] is not None and len(meta_result['offline_meters']) > 0:
                         for offline_meter in meta_result['offline_meters']:
                             cursor.execute(" SELECT name "
@@ -3338,6 +3592,7 @@ class EquipmentClone:
                                 " (equipment_id, offline_meter_id, is_output ) "
                                 " VALUES (%s, %s, %s) ")
                             cursor.execute(add_row, (new_id, offline_meter['id'], offline_meter['is_output']))
+                            
                     if meta_result['virtual_meters'] is not None and len(meta_result['virtual_meters']) > 0:
                         for virtual_meter in meta_result['virtual_meters']:
                             cursor.execute(" SELECT name "
@@ -3360,6 +3615,7 @@ class EquipmentClone:
                                 " (equipment_id, virtual_meter_id, is_output ) "
                                 " VALUES (%s, %s, %s) ")
                             cursor.execute(add_row, (new_id, virtual_meter['id'], virtual_meter['is_output']))
+                            
                     if meta_result['parameters'] is not None and len(meta_result['parameters']) > 0:
                         for parameters in meta_result['parameters']:
                             cursor.execute(" SELECT name "
@@ -3485,9 +3741,11 @@ class EquipmentClone:
                                                         denominator_meter_uuid))
                     cnx.commit()
             finally:
-                cursor.close()
+                if cursor:
+                    cursor.close()
         finally:
-            cnx.close()
+            if cnx:
+                cnx.close()
 
             # Clear cache after cloning equipment
             clear_equipment_cache()
@@ -3519,10 +3777,15 @@ class EquipmentDataSourceCollection:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_EQUIPMENT_ID')
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
+        cnx = None
+        cursor = None
+        rows = []
+
         try:
-            cursor = cnx.cursor()
+            cnx = mysql.connector.connect(**config.myems_system_db)
             try:
+                cursor = cnx.cursor()
+                
                 cursor.execute(" SELECT name FROM tbl_equipments WHERE id = %s ", (id_,))
                 if cursor.fetchone() is None:
                     raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
@@ -3541,9 +3804,11 @@ class EquipmentDataSourceCollection:
                         meta_result = {"id": row[0], "name": row[1], "uuid": row[2]}
                         result.append(meta_result)
             finally:
-                cursor.close()
+                if cursor:
+                    cursor.close()
         finally:
-            cnx.close()
+            if cnx:
+                cnx.close()
 
         resp.text = json.dumps(result)
 
@@ -3577,10 +3842,14 @@ class EquipmentDataSourceCollection:
 
         data_source_id = new_values['data']['data_source_id']
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
+        cnx = None
+        cursor = None
+
         try:
-            cursor = cnx.cursor()
+            cnx = mysql.connector.connect(**config.myems_system_db)
             try:
+                cursor = cnx.cursor()
+                
                 cursor.execute(" SELECT name FROM tbl_equipments WHERE id = %s ", (id_,))
                 if cursor.fetchone() is None:
                     raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
@@ -3602,9 +3871,11 @@ class EquipmentDataSourceCollection:
                                " VALUES (%s, %s) ", (id_, data_source_id))
                 cnx.commit()
             finally:
-                cursor.close()
+                if cursor:
+                    cursor.close()
         finally:
-            cnx.close()
+            if cnx:
+                cnx.close()
 
         # Clear cache after adding data source
         clear_equipment_cache(equipment_id=id_)
@@ -3637,10 +3908,14 @@ class EquipmentDataSourceItem:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_DATA_SOURCE_ID')
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
+        cnx = None
+        cursor = None
+
         try:
-            cursor = cnx.cursor()
+            cnx = mysql.connector.connect(**config.myems_system_db)
             try:
+                cursor = cnx.cursor()
+                
                 cursor.execute(" SELECT name FROM tbl_equipments WHERE id = %s ", (id_,))
                 if cursor.fetchone() is None:
                     raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
@@ -3662,9 +3937,11 @@ class EquipmentDataSourceItem:
                                " WHERE equipment_id = %s AND data_source_id = %s ", (id_, dsid))
                 cnx.commit()
             finally:
-                cursor.close()
+                if cursor:
+                    cursor.close()
         finally:
-            cnx.close()
+            if cnx:
+                cnx.close()
 
         # Clear cache after deleting data source
         clear_equipment_cache(equipment_id=id_)
@@ -3694,10 +3971,17 @@ class EquipmentAddPointsCollection:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_EQUIPMENT_ID')
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
+        cnx = None
+        cursor = None
+        rows = []
+        rows_data_sources = []
+        pids = []
+
         try:
-            cursor = cnx.cursor()
+            cnx = mysql.connector.connect(**config.myems_system_db)
             try:
+                cursor = cnx.cursor()
+                
                 pids = list()
                 cursor.execute(" SELECT id "
                                " FROM tbl_points "
@@ -3728,9 +4012,11 @@ class EquipmentAddPointsCollection:
                 cursor.execute(query)
                 rows = cursor.fetchall()
             finally:
-                cursor.close()
+                if cursor:
+                    cursor.close()
         finally:
-            cnx.close()
+            if cnx:
+                cnx.close()
 
         result = list()
         if rows is not None and len(rows) > 0:
@@ -3746,8 +4032,8 @@ class EquipmentAddPointsCollection:
                                "low_limit": row[6],
                                "higher_limit": row[7],
                                "lower_limit": row[8],
-                               "ratio": Decimal(row[9]),
-                               "offset_constant": Decimal(row[10]),
+                               "ratio": Decimal(row[9]) if row[9] is not None else None,
+                               "offset_constant": Decimal(row[10]) if row[10] is not None else None,
                                "is_trend": bool(row[11]),
                                "is_virtual": bool(row[12]),
                                "address": row[13],
@@ -3781,10 +4067,18 @@ class EquipmentEditPointsCollection:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_EQUIPMENT_ID')
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
+        cnx = None
+        cursor = None
+        rows = []
+        rows_data_sources = []
+        equipment_pids = []
+        pids = []
+
         try:
-            cursor = cnx.cursor()
+            cnx = mysql.connector.connect(**config.myems_system_db)
             try:
+                cursor = cnx.cursor()
+                
                 equipment_pids = list()
                 cursor.execute(" SELECT point_id "
                                " FROM tbl_equipments_parameters "
@@ -3825,9 +4119,11 @@ class EquipmentEditPointsCollection:
                 cursor.execute(query)
                 rows = cursor.fetchall()
             finally:
-                cursor.close()
+                if cursor:
+                    cursor.close()
         finally:
-            cnx.close()
+            if cnx:
+                cnx.close()
 
         result_first = list()
         result = list()
@@ -3844,8 +4140,8 @@ class EquipmentEditPointsCollection:
                                "low_limit": row[6],
                                "higher_limit": row[7],
                                "lower_limit": row[8],
-                               "ratio": Decimal(row[9]),
-                               "offset_constant": Decimal(row[10]),
+                               "ratio": Decimal(row[9]) if row[9] is not None else None,
+                               "offset_constant": Decimal(row[10]) if row[10] is not None else None,
                                "is_trend": bool(row[11]),
                                "is_virtual": bool(row[12]),
                                "address": row[13],
@@ -3853,10 +4149,10 @@ class EquipmentEditPointsCollection:
                                "faults": row[15],
                                "definitions": row[16]}
                 result_first.append(meta_result)
+                
         for item in result_first:
             if item['id'] in equipment_pids:
                 result.insert(0, item)
             else:
                 result.append(item)
         resp.text = json.dumps(result)
-

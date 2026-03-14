@@ -101,28 +101,39 @@ class EnergyItemCollection:
                 pass
 
         # Cache miss or Redis error - query database
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
+        rows_energy_categories = []
+        rows = []
+        
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        query = (" SELECT id, name, uuid "
-                 " FROM tbl_energy_categories ")
-        cursor.execute(query)
-        rows_energy_categories = cursor.fetchall()
+                query = (" SELECT id, name, uuid "
+                         " FROM tbl_energy_categories ")
+                cursor.execute(query)
+                rows_energy_categories = cursor.fetchall()
 
-        energy_category_dict = dict()
-        if rows_energy_categories is not None and len(rows_energy_categories) > 0:
-            for row in rows_energy_categories:
-                energy_category_dict[row[0]] = {"id": row[0],
-                                                "name": row[1],
-                                                "uuid": row[2]}
+                energy_category_dict = dict()
+                if rows_energy_categories is not None and len(rows_energy_categories) > 0:
+                    for row in rows_energy_categories:
+                        energy_category_dict[row[0]] = {"id": row[0],
+                                                        "name": row[1],
+                                                        "uuid": row[2]}
 
-        query = (" SELECT id, name, uuid, energy_category_id "
-                 " FROM tbl_energy_items "
-                 " ORDER BY id ")
-        cursor.execute(query)
-        rows = cursor.fetchall()
-        cursor.close()
-        cnx.close()
+                query = (" SELECT id, name, uuid, energy_category_id "
+                         " FROM tbl_energy_items "
+                         " ORDER BY id ")
+                cursor.execute(query)
+                rows = cursor.fetchall()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         result = list()
         if rows is not None and len(rows) > 0:
@@ -178,38 +189,44 @@ class EnergyItemCollection:
                                    description='API.INVALID_ENERGY_CATEGORY_ID')
         energy_category_id = new_values['data']['energy_category_id']
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
+        new_id = None
+        
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_energy_items "
-                       " WHERE name = %s ", (name,))
-        if cursor.fetchone() is not None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.ENERGY_ITEM_NAME_IS_ALREADY_IN_USE')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_energy_items "
+                               " WHERE name = %s ", (name,))
+                if cursor.fetchone() is not None:
+                    raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                           description='API.ENERGY_ITEM_NAME_IS_ALREADY_IN_USE')
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_energy_categories "
-                       " WHERE id = %s ",
-                       (energy_category_id,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.ENERGY_CATEGORY_NOT_FOUND')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_energy_categories "
+                               " WHERE id = %s ",
+                               (energy_category_id,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.ENERGY_CATEGORY_NOT_FOUND')
 
-        add_value = (" INSERT INTO tbl_energy_items "
-                     "    (name, uuid, energy_category_id) "
-                     " VALUES (%s, %s, %s) ")
-        cursor.execute(add_value, (name,
-                                   str(uuid.uuid4()),
-                                   energy_category_id))
-        new_id = cursor.lastrowid
-        cnx.commit()
-        cursor.close()
-        cnx.close()
+                add_value = (" INSERT INTO tbl_energy_items "
+                             "    (name, uuid, energy_category_id) "
+                             " VALUES (%s, %s, %s) ")
+                cursor.execute(add_value, (name,
+                                           str(uuid.uuid4()),
+                                           energy_category_id))
+                new_id = cursor.lastrowid
+                cnx.commit()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         # Clear cache after creating new energy item
         clear_energyitem_cache()
@@ -267,31 +284,44 @@ class EnergyItemItem:
                 pass
 
         # Cache miss or Redis error - query database
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
+        rows_energy_categories = []
+        row = None
+        
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        query = (" SELECT id, name, uuid "
-                 " FROM tbl_energy_categories ")
-        cursor.execute(query)
-        rows_energy_categories = cursor.fetchall()
+                query = (" SELECT id, name, uuid "
+                         " FROM tbl_energy_categories ")
+                cursor.execute(query)
+                rows_energy_categories = cursor.fetchall()
 
-        energy_category_dict = dict()
-        if rows_energy_categories is not None and len(rows_energy_categories) > 0:
-            for row in rows_energy_categories:
-                energy_category_dict[row[0]] = {"id": row[0],
-                                                "name": row[1],
-                                                "uuid": row[2]}
+                energy_category_dict = dict()
+                if rows_energy_categories is not None and len(rows_energy_categories) > 0:
+                    for row_cat in rows_energy_categories:
+                        energy_category_dict[row_cat[0]] = {"id": row_cat[0],
+                                                            "name": row_cat[1],
+                                                            "uuid": row_cat[2]}
 
-        query = (" SELECT id, name, uuid, energy_category_id "
-                 " FROM tbl_energy_items "
-                 " WHERE id = %s ")
-        cursor.execute(query, (id_,))
-        row = cursor.fetchone()
-        cursor.close()
-        cnx.close()
-        if row is None:
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.ENERGY_ITEM_NOT_FOUND')
+                query = (" SELECT id, name, uuid, energy_category_id "
+                         " FROM tbl_energy_items "
+                         " WHERE id = %s ")
+                cursor.execute(query, (id_,))
+                row = cursor.fetchone()
+                
+                if row is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.ENERGY_ITEM_NOT_FOUND')
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
+
         result = {"id": row[0],
                   "name": row[1],
                   "uuid": row[2],
@@ -316,56 +346,59 @@ class EnergyItemItem:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_ENERGY_ITEM_ID')
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
+        rows_meters = []
+        rows_virtual_meters = []
+        rows_offline_meters = []
+        
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_energy_items "
-                       " WHERE id = %s ", (id_,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.ENERGY_ITEM_NOT_FOUND')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_energy_items "
+                               " WHERE id = %s ", (id_,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.ENERGY_ITEM_NOT_FOUND')
 
-        cursor.execute(" SELECT id "
-                       " FROM tbl_meters "
-                       " WHERE energy_item_id = %s ", (id_,))
-        rows_meters = cursor.fetchall()
-        if rows_meters is not None and len(rows_meters) > 0:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_400,
-                                   title='API.BAD_REQUEST',
-                                   description='API.ENERGY_ITEM_USED_IN_METER')
+                cursor.execute(" SELECT id "
+                               " FROM tbl_meters "
+                               " WHERE energy_item_id = %s ", (id_,))
+                rows_meters = cursor.fetchall()
+                if rows_meters is not None and len(rows_meters) > 0:
+                    raise falcon.HTTPError(status=falcon.HTTP_400,
+                                           title='API.BAD_REQUEST',
+                                           description='API.ENERGY_ITEM_USED_IN_METER')
 
-        cursor.execute(" SELECT id "
-                       " FROM tbl_virtual_meters "
-                       " WHERE energy_item_id = %s ", (id_,))
-        rows_virtual_meters = cursor.fetchall()
-        if rows_virtual_meters is not None and len(rows_virtual_meters) > 0:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_400,
-                                   title='API.BAD_REQUEST',
-                                   description='API.ENERGY_ITEM_USED_IN_VIRTUAL_METER')
+                cursor.execute(" SELECT id "
+                               " FROM tbl_virtual_meters "
+                               " WHERE energy_item_id = %s ", (id_,))
+                rows_virtual_meters = cursor.fetchall()
+                if rows_virtual_meters is not None and len(rows_virtual_meters) > 0:
+                    raise falcon.HTTPError(status=falcon.HTTP_400,
+                                           title='API.BAD_REQUEST',
+                                           description='API.ENERGY_ITEM_USED_IN_VIRTUAL_METER')
 
-        cursor.execute(" SELECT id "
-                       " FROM tbl_offline_meters "
-                       " WHERE energy_item_id = %s ", (id_,))
-        rows_offline_meters = cursor.fetchall()
-        if rows_offline_meters is not None and len(rows_offline_meters) > 0:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_400,
-                                   title='API.BAD_REQUEST',
-                                   description='API.ENERGY_ITEM_USED_IN_OFFLINE_METER')
+                cursor.execute(" SELECT id "
+                               " FROM tbl_offline_meters "
+                               " WHERE energy_item_id = %s ", (id_,))
+                rows_offline_meters = cursor.fetchall()
+                if rows_offline_meters is not None and len(rows_offline_meters) > 0:
+                    raise falcon.HTTPError(status=falcon.HTTP_400,
+                                           title='API.BAD_REQUEST',
+                                           description='API.ENERGY_ITEM_USED_IN_OFFLINE_METER')
 
-        cursor.execute(" DELETE FROM tbl_energy_items WHERE id = %s ", (id_,))
-        cnx.commit()
-
-        cursor.close()
-        cnx.close()
+                cursor.execute(" DELETE FROM tbl_energy_items WHERE id = %s ", (id_,))
+                cnx.commit()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         # Clear cache after deleting energy item
         clear_energyitem_cache(energy_item_id=id_)
@@ -408,49 +441,51 @@ class EnergyItemItem:
                                    description='API.INVALID_ENERGY_CATEGORY_ID')
         energy_category_id = new_values['data']['energy_category_id']
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
+        
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_energy_items "
-                       " WHERE id = %s ", (id_,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.ENERGY_ITEM_NOT_FOUND')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_energy_items "
+                               " WHERE id = %s ", (id_,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.ENERGY_ITEM_NOT_FOUND')
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_energy_items "
-                       " WHERE name = %s AND id != %s ", (name, id_))
-        if cursor.fetchone() is not None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.ENERGY_ITEM_NAME_IS_ALREADY_IN_USE')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_energy_items "
+                               " WHERE name = %s AND id != %s ", (name, id_))
+                if cursor.fetchone() is not None:
+                    raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                           description='API.ENERGY_ITEM_NAME_IS_ALREADY_IN_USE')
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_energy_categories "
-                       " WHERE id = %s ",
-                       (energy_category_id,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.ENERGY_CATEGORY_NOT_FOUND')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_energy_categories "
+                               " WHERE id = %s ",
+                               (energy_category_id,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.ENERGY_CATEGORY_NOT_FOUND')
 
-        update_row = (" UPDATE tbl_energy_items "
-                      " SET name = %s, energy_category_id = %s "
-                      " WHERE id = %s ")
-        cursor.execute(update_row, (name,
-                                    energy_category_id,
-                                    id_,))
-        cnx.commit()
-        cursor.close()
-        cnx.close()
+                update_row = (" UPDATE tbl_energy_items "
+                              " SET name = %s, energy_category_id = %s "
+                              " WHERE id = %s ")
+                cursor.execute(update_row, (name,
+                                            energy_category_id,
+                                            id_,))
+                cnx.commit()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         # Clear cache after updating energy item
         clear_energyitem_cache(energy_item_id=id_)
 
         resp.status = falcon.HTTP_200
-
