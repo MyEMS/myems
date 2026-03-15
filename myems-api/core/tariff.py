@@ -685,9 +685,7 @@ class TariffExport:
         if config.utc_offset[0] == '-':
             timezone_offset = -timezone_offset
 
-        result = {"id": row[0],
-                  "name": row[1],
-                  "uuid": row[2],
+        result = {"name": row[1],
                   "energy_category": {"id": row[3],
                                       "name": row[4]},
                   "tariff_type": row[5],
