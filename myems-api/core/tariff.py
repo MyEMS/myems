@@ -700,7 +700,7 @@ class TariffExport:
             query = (" SELECT start_time_of_day, end_time_of_day, peak_type, price "
                      " FROM tbl_tariffs_timeofuses"
                      " WHERE tariff_id = %s ")
-            cursor.execute(query, (result['id'],))
+            cursor.execute(query, (row[0],))
             rows_timeofuses = cursor.fetchall()
             if rows_timeofuses is not None and len(rows_timeofuses) > 0:
                 for row_timeofuse in rows_timeofuses:
