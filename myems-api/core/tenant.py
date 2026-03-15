@@ -2399,9 +2399,8 @@ class TenantExport:
             if config.utc_offset[0] == '-':
                 timezone_offset = -timezone_offset
 
-            meta_result = {"id": row[0],
+            meta_result = {
                            "name": row[1],
-                           "uuid": row[2],
                            "buildings": row[3],
                            "floors": row[4],
                            "rooms": row[5],

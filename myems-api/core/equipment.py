@@ -2862,7 +2862,7 @@ class EquipmentExport:
                                 if denominator_meter is None:
                                     denominator_meter = offline_meter_dict.get(row[6], None)
     
-                            result = {"id": row[0],
+                            result = {
                                       "name": row[1],
                                       "parameter_type": row[2],
                                       "constant": constant,

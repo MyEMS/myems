@@ -710,7 +710,7 @@ class DistributionSystemExport:
                 result = list()
                 if rows_circuits is not None and len(rows_circuits) > 0:
                     for row_circuit in rows_circuits:
-                        circuit_result = {"id": row_circuit[0], "name": row_circuit[1], "uuid": row_circuit[2],
+                        circuit_result = { "name": row_circuit[1],
                                           "distribution_room": row_circuit[3], "switchgear": row_circuit[4],
                                           "peak_load": row_circuit[5], "peak_current": row_circuit[6],
                                           "customers": row_circuit[7], "meters": row_circuit[8],
@@ -726,7 +726,7 @@ class DistributionSystemExport:
                                         " WHERE dcp.distribution_circuit_id = %s AND p.id = dcp.point_id "
                                         "       AND dcp.distribution_circuit_id = dc.id "
                                         " ORDER BY p.name ")
-                        cursor.execute(query_points, (circuit_result['id'],))
+                        cursor.execute(query_points, (circuit_result[row[0]],))
                         rows_points = cursor.fetchall()
 
                         points = list()

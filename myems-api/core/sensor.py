@@ -754,9 +754,8 @@ class SensorExport:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.SENSOR_NOT_FOUND')
         else:
-            meta_result = {"id": row[0],
+            meta_result = {
                            "name": row[1],
-                           "uuid": row[2],
                            "description": row[3],
                            "points": None}
             query = (" SELECT p.id, p.name "

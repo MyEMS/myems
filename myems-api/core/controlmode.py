@@ -423,7 +423,7 @@ class ControlModeExport:
                     raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                            description='API.CONTROL_MODE_NOT_FOUND')
 
-                result = {"id": row[0], "name": row[1], "uuid": row[2], "is_active": bool(row[3]), 'times': list()}
+                result = {"name": row[1], "is_active": bool(row[3]), 'times': list()}
 
                 query = (" SELECT start_time_of_day, end_time_of_day, power_value "
                          " FROM tbl_control_modes_times "
