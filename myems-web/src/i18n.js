@@ -334,6 +334,7 @@ const resources = {
                 '{{COMBINED_EQUIPMENT}} Base Period Cumulative Comprehensive Efficiency {{VALUE}} {{UNIT}}',
             'Instantaneous Efficiency UNIT': 'Instantaneous Efficiency {{UNIT}}',
             'EQUIPMENT Instantaneous Efficiency UNIT': '{{EQUIPMENT}} Instantaneous Efficiency {{UNIT}}',
+            'Equipment Efficiency Indicator': 'Equipment Efficiency Indicator',
             'COMBINED_EQUIPMENT Instantaneous Comprehensive Efficiency UNIT':
                 '{{COMBINED_EQUIPMENT}} Instantaneous Comprehensive Efficiency {{UNIT}}',
             'Reporting Period Cumulative Efficiency VALUE UNIT': 'Reporting Period Cumulative Efficiency {{VALUE}} {{UNIT}}',
@@ -1653,6 +1654,7 @@ const resources = {
                 '{{COMBINED_EQUIPMENT}} 基准期累积综合效率 {{VALUE}} {{UNIT}}',
             'Instantaneous Efficiency UNIT': '瞬时效率 {{UNIT}}',
             'EQUIPMENT Instantaneous Efficiency UNIT': '{{EQUIPMENT}} 瞬时效率 {{UNIT}}',
+            'Equipment Efficiency Indicator': '设备能效指标',
             'COMBINED_EQUIPMENT Instantaneous Comprehensive Efficiency UNIT': '{{COMBINED_EQUIPMENT}} 瞬时综合效率 {{UNIT}}',
             'Reporting Period Cumulative Efficiency VALUE UNIT': '报告期累积效率 {{VALUE}} {{UNIT}}',
             'Reporting Period Cumulative Efficiency NAME VALUE UNIT': '报告期累积效率 {{NAME}} {{VALUE}} {{UNIT}}',
@@ -2964,6 +2966,7 @@ const resources = {
                 '{{COMBINED_EQUIPMENT}} Basisperiode Kumulative Gesamteffizienz {{VALUE}} {{UNIT}}',
             'Instantaneous Efficiency UNIT': 'Sofortige Effizienz {{UNIT}}',
             'EQUIPMENT Instantaneous Efficiency UNIT': '{{EQUIPMENT}} Sofortige Effizienz {{UNIT}}',
+            'Equipment Efficiency Indicator': 'Geräteenergieeffizienzindikator',
             'COMBINED_EQUIPMENT Instantaneous Comprehensive Efficiency UNIT':
                 '{{COMBINED_EQUIPMENT}} Sofortige umfassende Effizienz {{UNIT}}',
             'Reporting Period Cumulative Efficiency VALUE UNIT': 'Berichtszeitraum Kumulative Effizienz {{VALUE}} {{UNIT}}',
@@ -4312,6 +4315,7 @@ const resources = {
                 '{{COMBINED_EQUIPMENT}} Base Période Efficacité Globale Cumulée {{VALUE}} {{UNIT}}',
             'Instantaneous Efficiency UNIT': 'Instantané Efficacité {{UNIT}}',
             'EQUIPMENT Instantaneous Efficiency UNIT': '{{EQUIPMENT}} Instantané Efficacité {{UNIT}}',
+            'Equipment Efficiency Indicator': 'Indicateur d’efficacité énergétique de l’équipement',
             'COMBINED_EQUIPMENT Instantaneous Comprehensive Efficiency UNIT':
                 '{{COMBINED_EQUIPMENT}} Instantané Complet Efficacité {{UNIT}}',
             'Reporting Period Cumulative Efficiency VALUE UNIT': 'Rapports Période Cumulatif Efficacité {{VALUE}} {{UNIT}}',
@@ -5643,6 +5647,7 @@ const resources = {
                 '{{COMBINED_EQUIPMENT}} Período base Eficiencia integral acumulada {{VALUE}} {{UNIT}}',
             'Instantaneous Efficiency UNIT': 'Eficiencia instantánea {{UNIT}}',
             'EQUIPMENT Instantaneous Efficiency UNIT': '{{EQUIPMENT}} Eficiencia instantánea {{UNIT}}',
+            'Equipment Efficiency Indicator': 'Indicador de eficiencia energética del equipo',
             'COMBINED_EQUIPMENT Instantaneous Comprehensive Efficiency UNIT':
                 '{{COMBINED_EQUIPMENT}} Eficiencia integral instantánea {{UNIT}}',
             'Reporting Period Cumulative Efficiency VALUE UNIT':
@@ -6976,6 +6981,7 @@ const resources = {
                 '{{COMBINED_EQUIPMENT}} Базисный период Кумулятивная комплексная эффективность {{VALUE}} {{UNIT}}',
             'Instantaneous Efficiency UNIT': 'Мгновенная эффективность {{UNIT}}',
             'EQUIPMENT Instantaneous Efficiency UNIT': '{{EQUIPMENT}} Мгновенная эффективность {{UNIT}}',
+            'Equipment Efficiency Indicator': 'Показатель энергоэффективности оборудования',
             'COMBINED_EQUIPMENT Instantaneous Comprehensive Efficiency UNIT':
                 '{{COMBINED_EQUIPMENT}} Мгновенная комплексная эффективность {{UNIT}}',
             'Reporting Period Cumulative Efficiency VALUE UNIT':
@@ -8303,6 +8309,7 @@ const resources = {
                 '{{COMBINED_EQUIPMENT}} فترة الأساس الكفاءة الشاملة التراكمية {{VALUE}} {{UNIT}}',
             'Instantaneous Efficiency UNIT': 'كفاءة فورية {{UNIT}}',
             'EQUIPMENT Instantaneous Efficiency UNIT': '{{EQUIPMENT}} كفاءة فورية {{UNIT}}',
+            'Equipment Efficiency Indicator': 'مؤشر كفاءة الطاقة للمعدات',
             'COMBINED_EQUIPMENT Instantaneous Comprehensive Efficiency UNIT':
                 '{{COMBINED_EQUIPMENT}} كفاءة شاملة فورية {{UNIT}}',
             'Reporting Period Cumulative Efficiency VALUE UNIT':
@@ -9623,6 +9630,7 @@ const resources = {
                 '{{COMBINED_EQUIPMENT}} Thời gian cơ sở Tích lũy Hiệu quả toàn diện {{VALUE}} {{UNIT}}',
             'Instantaneous Efficiency UNIT': 'Hiệu quả tức thời {{UNIT}}',
             'EQUIPMENT Instantaneous Efficiency UNIT': '{{EQUIPMENT}} Hiệu quả tức thời {{UNIT}}',
+            'Equipment Efficiency Indicator': 'Chỉ số hiệu suất năng lượng của thiết bị',
             'COMBINED_EQUIPMENT Instantaneous Comprehensive Efficiency UNIT':
                 '{{COMBINED_EQUIPMENT}} Hiệu quả toàn diện tức thời {{UNIT}}',
             'Reporting Period Cumulative Efficiency VALUE UNIT': 'Kỳ báo cáo Hiệu quả tích lũy {{VALUE}} {{UNIT}}',
@@ -10946,6 +10954,7 @@ const resources = {
                 '{{COMBINED_EQUIPMENT}} ระยะเวลาฐานประสิทธิภาพที่ครอบคลุมสะสม {{VALUE}} {{UNIT}}',
             'Instantaneous Efficiency UNIT': 'ประสิทธิภาพทันที {{UNIT}}',
             'EQUIPMENT Instantaneous Efficiency UNIT': '{{EQUIPMENT}} ประสิทธิภาพทันที {{UNIT}}',
+            'Equipment Efficiency Indicator': 'ตัวชี้วัดประสิทธิภาพพลังงานของอุปกรณ์',
             'COMBINED_EQUIPMENT Instantaneous Comprehensive Efficiency UNIT':
                 '{{COMBINED_EQUIPMENT}} ประสิทธิภาพที่ครอบคลุมทันที {{UNIT}}',
             'Reporting Period Cumulative Efficiency VALUE UNIT': 'รอบระยะเวลารายงาน ประสิทธิภาพสะสม {{VALUE}} {{UNIT}}',
@@ -12265,6 +12274,7 @@ const resources = {
                 '{{COMBINED_EQUIPMENT}} Baz Dönem Kümülatif Kapsamlı Verimlilik {{VALUE}} {{UNIT}}',
             'Instantaneous Efficiency UNIT': 'Anlık Verimlilik {{UNIT}}',
             'EQUIPMENT Instantaneous Efficiency UNIT': '{{EQUIPMENT}} Anlık Verimlilik {{UNIT}}',
+            'Equipment Efficiency Indicator': 'Ekipman Enerji Verimliliği Göstergesi',
             'COMBINED_EQUIPMENT Instantaneous Comprehensive Efficiency UNIT':
                 '{{COMBINED_EQUIPMENT}} Anlık Kapsamlı Verimlilik {{UNIT}}',
             'Reporting Period Cumulative Efficiency VALUE UNIT': 'Raporlama Dönemi Kümülatif Verimliliği {{VALUE}} {{UNIT}}',
@@ -13589,6 +13599,7 @@ const resources = {
                 '{{COMBINED_EQUIPMENT}} Tempoh Asas Kecekapan Komprehensif Kumulatif {{VALUE}} {{UNIT}}',
             'Instantaneous Efficiency UNIT': 'Kecekapan Seketika {{UNIT}}',
             'EQUIPMENT Instantaneous Efficiency UNIT': '{{EQUIPMENT}} Kecekapan Seketika {{UNIT}}',
+            'Equipment Efficiency Indicator': 'Penunjuk Kecekapan Tenaga Peralatan',
             'COMBINED_EQUIPMENT Instantaneous Comprehensive Efficiency UNIT':
                 '{{COMBINED_EQUIPMENT}} Kecekapan Komprehensif Seketika {{UNIT}}',
             'Reporting Period Cumulative Efficiency VALUE UNIT': 'Tempoh Pelaporan Kecekapan Kumulatif {{VALUE}} {{UNIT}}',
@@ -14916,6 +14927,7 @@ const resources = {
                 '{{COMBINED_EQUIPMENT}} Efisiensi Komprensif Berkumpul Selama Periode Benchmark {{VALUE}} {{UNIT}}',
             'Instantaneous Efficiency UNIT': 'Efisiensi Segera {{UNIT}}',
             'EQUIPMENT Instantaneous Efficiency UNIT': '{{EQUIPMENT}} Efisiensi Segera {{UNIT}}',
+            'Equipment Efficiency Indicator': 'Indikator Efisiensi Energi Peralatan',
             'COMBINED_EQUIPMENT Instantaneous Comprehensive Efficiency UNIT':
                 '{{COMBINED_EQUIPMENT}} Efisiensi Komprensif Instan {{UNIT}}',
             'Reporting Period Cumulative Efficiency VALUE UNIT':
@@ -16247,6 +16259,7 @@ const resources = {
                 '{{COMBINED_EQUIPMENT}} 基準期累積綜合效率 {{VALUE}} {{UNIT}}',
             'Instantaneous Efficiency UNIT': '瞬時效率 {{UNIT}}',
             'EQUIPMENT Instantaneous Efficiency UNIT': '{{EQUIPMENT}} 瞬時效率 {{UNIT}}',
+            'Equipment Efficiency Indicator': '設備能效指標',
             'COMBINED_EQUIPMENT Instantaneous Comprehensive Efficiency UNIT': '{{COMBINED_EQUIPMENT}} 瞬時綜合效率 {{UNIT}}',
             'Reporting Period Cumulative Efficiency VALUE UNIT': '報告期累積效率 {{VALUE}} {{UNIT}}',
             'Reporting Period Cumulative Efficiency NAME VALUE UNIT': '報告期累積效率 {{NAME}} {{VALUE}} {{UNIT}}',
@@ -17566,6 +17579,7 @@ const resources = {
                 '{{COMBINED_EQUIPMENT}} 기준 기간 누적 종합 효율 {{VALUE}} {{UNIT}}',
             'Instantaneous Efficiency UNIT': '순간 효율 {{UNIT}}',
             'EQUIPMENT Instantaneous Efficiency UNIT': '{{EQUIPMENT}} 순간 효율 {{UNIT}}',
+            'Equipment Efficiency Indicator': '장비 에너지 효율 지표',
             'COMBINED_EQUIPMENT Instantaneous Comprehensive Efficiency UNIT': '{{COMBINED_EQUIPMENT}} 순간 종합 효율 {{UNIT}}',
             'Reporting Period Cumulative Efficiency VALUE UNIT': '보고 기간 누적 효율 {{VALUE}} {{UNIT}}',
             'Reporting Period Cumulative Efficiency NAME VALUE UNIT': '보고 기간 누적 효율 {{NAME}} {{VALUE}} {{UNIT}}',
@@ -18874,6 +18888,7 @@ const resources = {
                 '{{COMBINED_EQUIPMENT}} Eficiência completa cumulativa do período de base {{VALUE}} {{UNIT}}',
             'Instantaneous Efficiency UNIT': 'Eficiência Instantânea {{UNIT}}',
             'EQUIPMENT Instantaneous Efficiency UNIT': '{{EQUIPMENT}} Eficiência Instantânea {{UNIT}}',
+            'Equipment Efficiency Indicator': 'Indicador de Eficiência Energética do Equipamento',
             'COMBINED_EQUIPMENT Instantaneous Comprehensive Efficiency UNIT':
                 '{{COMBINED_EQUIPMENT}} Eficiência abrangente instantânea {{UNIT}}',
             'Reporting Period Cumulative Efficiency VALUE UNIT': 'Eficiência Cumulativa do Período de Relatório {{VALUE}} {{UNIT}}',
@@ -20187,6 +20202,7 @@ const resources = {
                 'Efficienza Cumulativa Complessiva {{COMBINED_EQUIPMENT}} Periodo Base {{VALUE}} {{UNIT}}',
             'Instantaneous Efficiency UNIT': 'Efficienza Istantanea {{UNIT}}',
             'EQUIPMENT Instantaneous Efficiency UNIT': 'Efficienza Istantanea {{EQUIPMENT}} {{UNIT}}',
+            'Equipment Efficiency Indicator': "Indicatore di Efficienza Energetica dell'Apparecchiatura",
             'COMBINED_EQUIPMENT Instantaneous Comprehensive Efficiency UNIT': 'Efficienza Istantanea Complessiva {{COMBINED_EQUIPMENT}} {{UNIT}}',
             'Reporting Period Cumulative Efficiency VALUE UNIT': 'Efficienza Cumulativa Periodo Report {{VALUE}} {{UNIT}}',
             'Reporting Period Cumulative Efficiency NAME VALUE UNIT': 'Efficienza Cumulativa Periodo Report {{NAME}} {{VALUE}} {{UNIT}}',
@@ -21496,6 +21512,7 @@ const resources = {
                 '{{COMBINED_EQUIPMENT}} skumulowana efektywność kompleksowa w okresie bazowym {{VALUE}} {{UNIT}}',
             'Instantaneous Efficiency UNIT': 'Efektywność chwilowa {{UNIT}}',
             'EQUIPMENT Instantaneous Efficiency UNIT': '{{EQUIPMENT}} efektywność chwilowa {{UNIT}}',
+            'Equipment Efficiency Indicator': 'Wskaźnik efektywności energetycznej urządzenia',
             'COMBINED_EQUIPMENT Instantaneous Comprehensive Efficiency UNIT': '{{COMBINED_EQUIPMENT}} efektywność kompleksowa chwilowa {{UNIT}}',
             'Reporting Period Cumulative Efficiency VALUE UNIT': 'Skumulowana efektywność w okresie raportowania {{VALUE}} {{UNIT}}',
             'Reporting Period Cumulative Efficiency NAME VALUE UNIT': 'Skumulowana efektywność w okresie raportowania {{NAME}} {{VALUE}} {{UNIT}}',
@@ -22807,6 +22824,7 @@ const resources = {
                 '{{COMBINED_EQUIPMENT}} basisperiode cumulatieve algehele efficiëntie {{VALUE}} {{UNIT}}',
             'Instantaneous Efficiency UNIT': 'Momentane efficiëntie {{UNIT}}',
             'EQUIPMENT Instantaneous Efficiency UNIT': '{{EQUIPMENT}} momentane efficiëntie {{UNIT}}',
+            'Equipment Efficiency Indicator': 'Indicator voor energie-efficiëntie van apparatuur',
             'COMBINED_EQUIPMENT Instantaneous Comprehensive Efficiency UNIT': '{{COMBINED_EQUIPMENT}} momentane algehele efficiëntie {{UNIT}}',
             'Reporting Period Cumulative Efficiency VALUE UNIT': 'Rapportageperiode cumulatieve efficiëntie {{VALUE}} {{UNIT}}',
             'Reporting Period Cumulative Efficiency NAME VALUE UNIT': 'Rapportageperiode cumulatieve efficiëntie {{NAME}} {{VALUE}} {{UNIT}}',
@@ -24118,6 +24136,7 @@ const resources = {
                 '{{COMBINED_EQUIPMENT}} 基準期間累積総合効率 {{VALUE}} {{UNIT}}',
             'Instantaneous Efficiency UNIT': '瞬時効率 {{UNIT}}',
             'EQUIPMENT Instantaneous Efficiency UNIT': '{{EQUIPMENT}} 瞬時効率 {{UNIT}}',
+            'Equipment Efficiency Indicator': '設備エネルギー効率指標',
             'COMBINED_EQUIPMENT Instantaneous Comprehensive Efficiency UNIT': '{{COMBINED_EQUIPMENT}} 瞬時総合効率 {{UNIT}}',
             'Reporting Period Cumulative Efficiency VALUE UNIT': '報告期間累積効率 {{VALUE}} {{UNIT}}',
             'Reporting Period Cumulative Efficiency NAME VALUE UNIT': '報告期間累積効率 {{NAME}} {{VALUE}} {{UNIT}}',
@@ -25427,6 +25446,7 @@ const resources = {
                 '{{COMBINED_EQUIPMENT}} کارایی جامع تجمعی دوره پایه {{VALUE}} {{UNIT}}',
             'Instantaneous Efficiency UNIT': 'کارایی لحظه‌ای {{UNIT}}',
             'EQUIPMENT Instantaneous Efficiency UNIT': '{{EQUIPMENT}} کارایی لحظه‌ای {{UNIT}}',
+            'Equipment Efficiency Indicator': 'شاخص بهره‌وری انرژی تجهیزات',
             'COMBINED_EQUIPMENT Instantaneous Comprehensive Efficiency UNIT': '{{COMBINED_EQUIPMENT}} کارایی جامع لحظه‌ای {{UNIT}}',
             'Reporting Period Cumulative Efficiency VALUE UNIT': 'کارایی تجمعی دوره گزارش {{VALUE}} {{UNIT}}',
             'Reporting Period Cumulative Efficiency NAME VALUE UNIT': 'کارایی تجمعی دوره گزارش {{NAME}} {{VALUE}} {{UNIT}}',

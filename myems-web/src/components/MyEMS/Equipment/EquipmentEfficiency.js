@@ -1,4 +1,5 @@
-import React, { Fragment, useEffect, useState, useContext } from 'react';
+import React, { Fragment, useEffect, useState, useContext, useRef } from 'react';
+import { Chart as ChartJS } from 'chart.js';
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -34,7 +35,6 @@ import { endOfDay } from 'date-fns';
 import AppContext from '../../../context/Context';
 import MultipleLineChart from '../common/MultipleLineChart';
 import blankPage from '../../../assets/img/generic/blank-page.png';
-
 const DetailedDataTable = loadable(() => import('../common/DetailedDataTable'));
 
 const EquipmentEfficiency = ({ setRedirect, setRedirectUrl, t }) => {
@@ -114,7 +114,7 @@ const EquipmentEfficiency = ({ setRedirect, setRedirectUrl, t }) => {
     formattedMonthPattern: 'yyyy-MM-dd'
   };
   const dateRangePickerStyle = { display: 'block', zIndex: 10 };
-  const { language } = useContext(AppContext);
+  const { language, isDark } = useContext(AppContext);
 
   // buttons
   const [submitButtonDisabled, setSubmitButtonDisabled] = useState(true);
@@ -148,6 +148,270 @@ const EquipmentEfficiency = ({ setRedirect, setRedirectUrl, t }) => {
     { dataField: 'startdatetime', text: t('Datetime'), sort: true }
   ]);
   const [excelBytesBase64, setExcelBytesBase64] = useState(undefined);
+  const [equipmentEfficiencyIndicator, setEquipmentEfficiencyIndicator] = useState(null);
+  const [efficiencyIndicatorSeries, setEfficiencyIndicatorSeries] = useState({});
+  const chartContainerRef = useRef(null);
+  const efficiencyIndicatorSeriesRef = useRef({});
+  const equipmentReportingLabelsRef = useRef({});
+  const targetCanvasRef = useRef(null);
+  const isUpdatingRef = useRef(false);
+
+  useEffect(() => {
+    if (!equipmentEfficiencyIndicator || Object.keys(efficiencyIndicatorSeriesRef.current).length === 0) {
+      return;
+    }
+
+    const efficiencyIndicatorPluginId = 'equipmentEfficiencyIndicatorPlugin';
+
+    const efficiencyIndicatorPlugin = {
+      id: efficiencyIndicatorPluginId,
+      beforeUpdate: (chart) => {
+        if (isUpdatingRef.current) {
+          return;
+        }
+
+        if (targetCanvasRef.current && chart.canvas !== targetCanvasRef.current) {
+          return;
+        }
+
+        if (!chart.data || !chart.data.labels || chart.data.labels.length === 0) {
+          return;
+        }
+
+        if (chart.data.datasets.length < 3) {
+          return;
+        }
+
+        const currentSeries = efficiencyIndicatorSeriesRef.current;
+        const currentLabels = equipmentReportingLabelsRef.current;
+        
+        if (!currentSeries || Object.keys(currentSeries).length === 0) {
+          return;
+        }
+
+        const chartLabels = chart.data.labels;
+        let currentOption = null;
+        
+        for (const key of Object.keys(currentSeries)) {
+          const seriesData = currentSeries[key];
+          if (!seriesData || seriesData.length !== chartLabels.length) {
+            continue;
+          }
+          const reportingLabels = currentLabels[key];
+          if (!reportingLabels || reportingLabels.length !== chartLabels.length) {
+            continue;
+          }
+          if (reportingLabels.length > 0 && chartLabels.length > 0) {
+            if (reportingLabels[0] === chartLabels[0] && 
+                reportingLabels[reportingLabels.length - 1] === chartLabels[chartLabels.length - 1]) {
+              currentOption = key;
+              break;
+            }
+          }
+        }
+
+        const existingIndicatorIndex = chart.data.datasets.findIndex(
+          ds => ds._efficiencyIndicator === true
+        );
+
+        if (!currentOption || !currentSeries[currentOption]) {
+          if (existingIndicatorIndex >= 0) {
+            isUpdatingRef.current = true;
+            chart.data.datasets.splice(existingIndicatorIndex, 1);
+            isUpdatingRef.current = false;
+          }
+          return;
+        }
+
+        const indicatorData = currentSeries[currentOption];
+        const needsUpdate = existingIndicatorIndex < 0 || 
+          JSON.stringify(chart.data.datasets[existingIndicatorIndex].data) !== JSON.stringify(indicatorData);
+
+        if (needsUpdate) {
+          isUpdatingRef.current = true;
+          const indicatorDataset = {
+            label: '',
+            data: [...indicatorData],
+            borderColor: '#e63757',
+            backgroundColor: 'transparent',
+            type: 'line',
+            yAxisID: 'y',
+            borderWidth: 2,
+            borderDash: [5, 5],
+            pointRadius: 3,
+            pointHitRadius: 6,
+            pointHoverRadius: 5,
+            pointHoverBorderWidth: 2,
+            pointBorderColor: '#e63757',
+            pointBackgroundColor: '#fff',
+            pointHoverBorderColor: '#e63757',
+            pointHoverBackgroundColor: '#fff',
+            tension: 0.4,
+            fill: false,
+            order: 0,
+            _efficiencyIndicator: true,
+            _efficiencyIndicatorLabels: equipmentReportingLabelsRef.current?.[currentOption] || [],
+            datalabels: {
+              display: false
+            }
+          };
+
+          if (existingIndicatorIndex >= 0) {
+            Object.assign(chart.data.datasets[existingIndicatorIndex], indicatorDataset);
+          } else {
+            chart.data.datasets.splice(1, 0, indicatorDataset);
+          }
+          isUpdatingRef.current = false;
+        }
+      }
+    };
+
+    const setupChart = () => {
+      const cardElement = chartContainerRef.current?.querySelector('.card');
+      if (!cardElement) {
+        return;
+      }
+
+      const canvas = cardElement.querySelector('canvas');
+      if (!canvas) {
+        return;
+      }
+
+      let chart = null;
+      try {
+        chart = ChartJS.getChart(canvas);
+      } catch (e) {
+        if (canvas.chart) {
+          chart = canvas.chart;
+        }
+      }
+
+      if (!chart) {
+        return;
+      }
+
+      if (Object.keys(efficiencyIndicatorSeriesRef.current).length === 0) {
+        return;
+      }
+
+      targetCanvasRef.current = canvas;
+
+      if (!chart._efficiencyIndicatorPluginRegistered) {
+        try {
+          ChartJS.register(efficiencyIndicatorPlugin);
+          chart._efficiencyIndicatorPluginRegistered = true;
+        } catch (e) {
+        }
+      }
+
+      const tooltip = chart.options?.plugins?.tooltip;
+      if (tooltip && tooltip.callbacks) {
+        const currentLabelCb = tooltip.callbacks.label;
+        const currentTitleCb = tooltip.callbacks.title;
+        const currentFilter = tooltip.filter;
+        const currentItemSort = tooltip.itemSort;
+
+        if (typeof currentLabelCb === 'function' && currentLabelCb._efficiencyIndicatorWrapped !== true) {
+          chart._efficiencyIndicatorOriginalTooltipLabel = currentLabelCb;
+        }
+        if (typeof currentTitleCb === 'function' && currentTitleCb._efficiencyIndicatorWrapped !== true) {
+          chart._efficiencyIndicatorOriginalTooltipTitle = currentTitleCb;
+        }
+        if (typeof currentFilter === 'function' && currentFilter._efficiencyIndicatorWrapped !== true) {
+          chart._efficiencyIndicatorOriginalTooltipFilter = currentFilter;
+        }
+        if (typeof currentItemSort === 'function' && currentItemSort._efficiencyIndicatorWrapped !== true) {
+          chart._efficiencyIndicatorOriginalTooltipItemSort = currentItemSort;
+        }
+
+        const baseLabel = chart._efficiencyIndicatorOriginalTooltipLabel;
+        const baseTitle = chart._efficiencyIndicatorOriginalTooltipTitle;
+        const baseFilter = chart._efficiencyIndicatorOriginalTooltipFilter;
+        const baseItemSort = chart._efficiencyIndicatorOriginalTooltipItemSort;
+
+        const wrappedFilter = function(context) {
+          if (baseFilter) {
+            return baseFilter.call(this, context);
+          }
+          return true;
+        };
+        wrappedFilter._efficiencyIndicatorWrapped = true;
+        tooltip.filter = wrappedFilter;
+
+        const wrappedItemSort = function(a, b) {
+          const aIsIndicator = a && a.dataset && a.dataset._efficiencyIndicator;
+          const bIsIndicator = b && b.dataset && b.dataset._efficiencyIndicator;
+          if (aIsIndicator && !bIsIndicator) {
+            return 1;
+          }
+          if (!aIsIndicator && bIsIndicator) {
+            return -1;
+          }
+          if (baseItemSort) {
+            return baseItemSort.call(this, a, b);
+          }
+          return 0;
+        };
+        wrappedItemSort._efficiencyIndicatorWrapped = true;
+        tooltip.itemSort = wrappedItemSort;
+
+        const wrappedLabel = function(context) {
+          if (!context || !context.dataset) {
+            if (baseLabel) {
+              return baseLabel.call(this, context);
+            }
+            return '';
+          }
+          if (context.dataset._efficiencyIndicator) {
+            let rawIndicator = Number(context.raw);
+            if (context.raw != null && !isNaN(rawIndicator)) {
+              rawIndicator = rawIndicator.toFixed(4);
+            } else {
+              rawIndicator = '0.0000';
+            }
+            return t('Equipment Efficiency Indicator') + ' - ' + rawIndicator;
+          }
+          if (baseLabel) {
+            return baseLabel.call(this, context);
+          }
+          return '';
+        };
+        wrappedLabel._efficiencyIndicatorWrapped = true;
+        tooltip.callbacks.label = wrappedLabel;
+
+        const wrappedTitle = function(context) {
+          if (!context || !Array.isArray(context) || context.length === 0) {
+            return [];
+          }
+          if (baseTitle) {
+            const result = baseTitle.call(this, context);
+            return Array.isArray(result) ? result : (result ? [result] : []);
+          }
+          return [];
+        };
+        wrappedTitle._efficiencyIndicatorWrapped = true;
+        tooltip.callbacks.title = wrappedTitle;
+      }
+      
+      chart.update('none');
+    };
+
+    const timer1 = setTimeout(setupChart, 500);
+    const timer2 = setTimeout(setupChart, 1000);
+    const timer3 = setTimeout(setupChart, 2000);
+    const interval = setInterval(setupChart, 3000);
+
+    return () => {
+      clearTimeout(timer1);
+      clearTimeout(timer2);
+      clearTimeout(timer3);
+      clearInterval(interval);
+      try {
+        ChartJS.unregister(efficiencyIndicatorPlugin);
+      } catch (e) {
+      }
+    };
+  }, [equipmentEfficiencyIndicator, efficiencyIndicatorSeries, equipmentReportingLabels, t]);
 
   useEffect(() => {
     let isResponseOK = false;
@@ -494,6 +758,12 @@ const EquipmentEfficiency = ({ setRedirect, setRedirectUrl, t }) => {
       })
       .then(json => {
         if (isResponseOK) {
+          if (json['equipment'] && json['equipment']['efficiency_indicator'] !== undefined) {
+            setEquipmentEfficiencyIndicator(json['equipment']['efficiency_indicator']);
+          } else {
+            setEquipmentEfficiencyIndicator(null);
+          }
+
           let cardSummaryArray = [];
           json['reporting_period_efficiency']['names'].forEach((currentValue, index) => {
             let cardSummaryItem = {};
@@ -622,6 +892,25 @@ const EquipmentEfficiency = ({ setRedirect, setRedirectUrl, t }) => {
             reporting_subtotals['c' + index] = currentValue.toFixed(2);
           });
           setEquipmentReportingSubtotals(reporting_subtotals);
+
+          let indicatorSeries = {};
+          if (
+            json['equipment'] &&
+            json['equipment']['efficiency_indicator'] !== undefined
+          ) {
+            const indicatorValue = json['equipment']['efficiency_indicator'];
+            Object.keys(reporting_timestamps).forEach(key => {
+              const ts = reporting_timestamps[key] || [];
+              indicatorSeries[key] = ts.map(() =>
+                indicatorValue != null && !isNaN(indicatorValue)
+                  ? parseFloat(indicatorValue)
+                  : null
+              );
+            });
+          }
+          setEfficiencyIndicatorSeries(indicatorSeries);
+          efficiencyIndicatorSeriesRef.current = indicatorSeries;
+          equipmentReportingLabelsRef.current = reporting_timestamps;
 
           let rates = {};
           json['reporting_period_efficiency']['rates'].forEach((currentValue, index) => {
@@ -1272,9 +1561,28 @@ const EquipmentEfficiency = ({ setRedirect, setRedirectUrl, t }) => {
               )}
             </CardSummary>
           ])}
+          {equipmentEfficiencyIndicator !== null && cardSummaryList.length > 0 && (
+            <CardSummary
+              key="efficiency-indicator"
+              title={t('Equipment Efficiency Indicator')}
+              color="warning"
+            >
+              {equipmentEfficiencyIndicator !== null && (
+                <CountUp
+                  end={equipmentEfficiencyIndicator}
+                  duration={2}
+                  prefix=""
+                  separator=","
+                  decimal="."
+                  decimals={2}
+                />
+              )}
+            </CardSummary>
+          )}
         </div>
 
-        <MultiTrendChart
+        <div ref={chartContainerRef}>
+          <MultiTrendChart
           reportingTitle={{
             name: 'Reporting Period Cumulative Efficiency NAME VALUE UNIT',
             substitute: ['NAME', 'VALUE', 'UNIT'],
@@ -1310,6 +1618,7 @@ const EquipmentEfficiency = ({ setRedirect, setRedirectUrl, t }) => {
           rates={equipmentReportingRates}
           options={equipmentReportingOptions}
         />
+        </div>
 
         <MultipleLineChart
           reportingTitle={t('Operating Characteristic Curve')}
