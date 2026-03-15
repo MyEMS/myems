@@ -8,6 +8,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - added Japanese translations in myems-admin and myems-web
 - added timezones translations in myems-admin
 - added Persian translations in myems-admin and myems-web
+- added efficiency indicator to equipment efficiency report in myems-web
 ### Changed
 - added fixed dependency version numbers to myems-api/requirements.txt
 - changed units of value_per_unit_area and value_per_capita in myems-web
