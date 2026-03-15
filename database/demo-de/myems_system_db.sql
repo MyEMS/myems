@@ -40,6 +40,17 @@ VALUES
 COMMIT;
 
 -- ---------------------------------------------------------------------------------------------------------------------
+-- Demo Data for table `myems_system_db`.`tbl_combined_equipments_data_sources`
+-- ---------------------------------------------------------------------------------------------------------------------
+START TRANSACTION;
+
+INSERT INTO `myems_system_db`.`tbl_combined_equipments_data_sources` (`combined_equipment_id`, `data_source_id`)
+VALUES
+(1, 1);
+
+COMMIT;
+
+-- ---------------------------------------------------------------------------------------------------------------------
 -- Demo Data for table `myems_system_db`.`tbl_combined_equipments_parameters`
 -- ---------------------------------------------------------------------------------------------------------------------
 START TRANSACTION;
@@ -281,6 +292,16 @@ VALUES
 
 COMMIT;
 
+-- ---------------------------------------------------------------------------------------------------------------------
+-- Demo Data for table `myems_system_db`.`tbl_equipments_data_sources`
+-- ---------------------------------------------------------------------------------------------------------------------
+START TRANSACTION;
+
+INSERT INTO `myems_system_db`.`tbl_equipments_data_sources` (`equipment_id`, `data_source_id`)
+VALUES
+(1, 1);
+
+COMMIT;
 -- ---------------------------------------------------------------------------------------------------------------------
 -- Demo Data for table `myems_system_db`.`tbl_equipments_parameters`
 -- ---------------------------------------------------------------------------------------------------------------------
