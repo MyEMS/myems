@@ -429,7 +429,7 @@ class ControlModeExport:
                          " FROM tbl_control_modes_times "
                          " WHERE control_mode_id = %s  "
                          " ORDER BY id")
-                cursor.execute(query, (result['id'],))
+                cursor.execute(query, (row[0],))
                 rows_times = cursor.fetchall()
                 if rows_times is not None and len(rows_times) > 0:
                     for row_time in rows_times:

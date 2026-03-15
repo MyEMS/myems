@@ -726,7 +726,7 @@ class DistributionSystemExport:
                                         " WHERE dcp.distribution_circuit_id = %s AND p.id = dcp.point_id "
                                         "       AND dcp.distribution_circuit_id = dc.id "
                                         " ORDER BY p.name ")
-                        cursor.execute(query_points, (circuit_result[row[0]],))
+                        cursor.execute(query_points, (row_circuit[0],))
                         rows_points = cursor.fetchall()
 
                         points = list()
