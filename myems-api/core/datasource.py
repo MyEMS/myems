@@ -638,7 +638,10 @@ class DataSourceExport:
                 gateway_dict = dict()
                 if rows_gateways is not None and len(rows_gateways) > 0:
                     for row_gw in rows_gateways:
-                        gateway_dict[row_gw[0]] = {"name": row_gw[1]}
+                        gateway_dict[row_gw[0]] = {"id": row_gw[0],
+                                                   "name": row_gw[1],
+                                                   "uuid": row_gw[2]}
+
                 query = (" SELECT id, name, uuid, gateway_id, protocol, "
                          " connection, last_seen_datetime_utc, description "
                          " FROM tbl_data_sources "
@@ -662,6 +665,7 @@ class DataSourceExport:
                     last_seen_datetime = None
 
                 result = {"name": row[1],
+                          "uuid": row[2],
                           "gateway": gateway_dict.get(row[3]),
                           "protocol": row[4],
                           "connection": row[5],
@@ -683,7 +687,7 @@ class DataSourceExport:
 
                 if rows_point is not None and len(rows_point) > 0:
                     for row_pt in rows_point:
-                        meta_result = {
+                        meta_result = {"id": row_pt[0],
                                        "name": row_pt[1],
                                        "object_type": row_pt[2],
                                        "units": row_pt[3],
