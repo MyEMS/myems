@@ -21,6 +21,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - added try...finally to cnx.close() and cursor.close() in myems-api
 ### Removed
 - removed default password from config.py. Please ensure to set environment variables like MYEMS_SYSTEM_DB_PASSWORD explicitly before deployment.
+- removed id and uuid from export data in myems-admin
 
 ## [v6.2.0] - 2026-02-08
 ### Added

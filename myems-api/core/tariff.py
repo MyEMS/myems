@@ -685,9 +685,7 @@ class TariffExport:
         if config.utc_offset[0] == '-':
             timezone_offset = -timezone_offset
 
-        result = {"id": row[0],
-                  "name": row[1],
-                  "uuid": row[2],
+        result = {"name": row[1],
                   "energy_category": {"id": row[3],
                                       "name": row[4]},
                   "tariff_type": row[5],
@@ -702,7 +700,7 @@ class TariffExport:
             query = (" SELECT start_time_of_day, end_time_of_day, peak_type, price "
                      " FROM tbl_tariffs_timeofuses"
                      " WHERE tariff_id = %s ")
-            cursor.execute(query, (result['id'],))
+            cursor.execute(query, (row[0],))
             rows_timeofuses = cursor.fetchall()
             if rows_timeofuses is not None and len(rows_timeofuses) > 0:
                 for row_timeofuse in rows_timeofuses:
