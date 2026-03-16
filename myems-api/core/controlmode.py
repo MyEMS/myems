@@ -423,13 +423,13 @@ class ControlModeExport:
                     raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                            description='API.CONTROL_MODE_NOT_FOUND')
 
-                result = {"id": row[0], "name": row[1], "uuid": row[2], "is_active": bool(row[3]), 'times': list()}
+                result = {"name": row[1], "is_active": bool(row[3]), 'times': list()}
 
                 query = (" SELECT start_time_of_day, end_time_of_day, power_value "
                          " FROM tbl_control_modes_times "
                          " WHERE control_mode_id = %s  "
                          " ORDER BY id")
-                cursor.execute(query, (result['id'],))
+                cursor.execute(query, (row[0],))
                 rows_times = cursor.fetchall()
                 if rows_times is not None and len(rows_times) > 0:
                     for row_time in rows_times:

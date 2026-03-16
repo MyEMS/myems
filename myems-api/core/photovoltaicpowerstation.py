@@ -768,7 +768,6 @@ class PhotovoltaicPowerStationExport:
                                    description='API.PHOTOVOLTAIC_POWER_STATION_NOT_FOUND')
         else:
             meta_result = {"name": row[1],
-                           "uuid": row[2],
                            "station_code": row[3],
                            "address": row[4],
                            "latitude": row[5],

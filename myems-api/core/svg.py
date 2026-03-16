@@ -581,9 +581,8 @@ class SVGExport:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.SVG_NOT_FOUND')
         else:
-            meta_result = {"id": row[0],
+            meta_result = {
                            "name": row[1],
-                           "uuid": row[2],
                            "source_code": row[3],
                            "description": row[4]}
         cursor.close()

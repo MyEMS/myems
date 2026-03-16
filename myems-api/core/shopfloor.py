@@ -2325,9 +2325,8 @@ class ShopfloorExport:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.SHOPFLOOR_NOT_FOUND')
         else:
-            meta_result = {"id": row[0],
+            meta_result = {
                            "name": row[1],
-                           "uuid": row[2],
                            "area": row[3],
                            "is_input_counted": bool(row[4]),
                            "contact": contact_dict.get(row[5], None),
