@@ -692,9 +692,8 @@ class DistributionSystemExport:
                     raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                            description='API.DISTRIBUTION_SYSTEM_NOT_FOUND')
                 
-                meta_result = {"id": row[0],
+                meta_result = {
                                "name": row[1],
-                               "uuid": row[2],
                                "svg": svg_dict.get(row[3], None),
                                "description": row[4],
                                "circuits": None}
@@ -710,7 +709,7 @@ class DistributionSystemExport:
                 result = list()
                 if rows_circuits is not None and len(rows_circuits) > 0:
                     for row_circuit in rows_circuits:
-                        circuit_result = { "name": row_circuit[1],
+                        circuit_result = { "id": row_circuit[0], "name": row_circuit[1], "uuid": row_circuit[2],
                                           "distribution_room": row_circuit[3], "switchgear": row_circuit[4],
                                           "peak_load": row_circuit[5], "peak_current": row_circuit[6],
                                           "customers": row_circuit[7], "meters": row_circuit[8],
@@ -726,7 +725,7 @@ class DistributionSystemExport:
                                         " WHERE dcp.distribution_circuit_id = %s AND p.id = dcp.point_id "
                                         "       AND dcp.distribution_circuit_id = dc.id "
                                         " ORDER BY p.name ")
-                        cursor.execute(query_points, (row_circuit[0],))
+                        cursor.execute(query_points, (circuit_result['id'],))
                         rows_points = cursor.fetchall()
 
                         points = list()

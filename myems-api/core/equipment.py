@@ -2673,9 +2673,8 @@ class EquipmentExport:
                     raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                            description='API.EQUIPMENT_NOT_FOUND')
                 else:
-                    meta_result = {"id": row[0],
+                    meta_result = {
                                    "name": row[1],
-                                   "uuid": row[2],
                                    "is_input_counted": bool(row[3]),
                                    "is_output_counted": bool(row[4]),
                                    "cost_center": cost_center_dict.get(row[5], None),
@@ -2863,6 +2862,7 @@ class EquipmentExport:
                                     denominator_meter = offline_meter_dict.get(row[6], None)
     
                             result = {
+                                      "id": row[0],
                                       "name": row[1],
                                       "parameter_type": row[2],
                                       "constant": constant,
