@@ -214,12 +214,12 @@ class Reporting:
             cursor_historical = cnx_historical.cursor()
 
             if combined_equipment_id is not None:
-                cursor_system.execute(" SELECT id, name, cost_center_id "
+                cursor_system.execute(" SELECT id, name, cost_center_id, efficiency_indicator "
                                       " FROM tbl_combined_equipments "
                                       " WHERE id = %s ", (combined_equipment_id,))
                 row_combined_equipment = cursor_system.fetchone()
             elif combined_equipment_uuid is not None:
-                cursor_system.execute(" SELECT id, name, cost_center_id "
+                cursor_system.execute(" SELECT id, name, cost_center_id, efficiency_indicator "
                                       " FROM tbl_combined_equipments "
                                       " WHERE uuid = %s ", (combined_equipment_uuid,))
                 row_combined_equipment = cursor_system.fetchone()
@@ -232,6 +232,8 @@ class Reporting:
             combined_equipment['id'] = row_combined_equipment[0]
             combined_equipment['name'] = row_combined_equipment[1]
             combined_equipment['cost_center_id'] = row_combined_equipment[2]
+            combined_equipment['efficiency_indicator'] = \
+                row_combined_equipment[3] if row_combined_equipment[3] is not None else Decimal(0.0)
 
             ############################################################################################################
             # Step 3: query energy categories
@@ -844,6 +846,7 @@ class Reporting:
 
         result['combined_equipment'] = dict()
         result['combined_equipment']['name'] = combined_equipment['name']
+        result['combined_equipment']['efficiency_indicator'] = combined_equipment['efficiency_indicator']
 
         result['base_period_efficiency'] = dict()
         result['base_period_efficiency']['timestamps'] = list()

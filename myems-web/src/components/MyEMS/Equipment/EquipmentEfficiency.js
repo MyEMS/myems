@@ -157,7 +157,11 @@ const EquipmentEfficiency = ({ setRedirect, setRedirectUrl, t }) => {
   const isUpdatingRef = useRef(false);
 
   useEffect(() => {
-    if (!equipmentEfficiencyIndicator || Object.keys(efficiencyIndicatorSeriesRef.current).length === 0) {
+    if (
+      equipmentEfficiencyIndicator === null ||
+      equipmentEfficiencyIndicator === undefined ||
+      Object.keys(efficiencyIndicatorSeriesRef.current).length === 0
+    ) {
       return;
     }
 
