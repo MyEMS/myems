@@ -635,9 +635,8 @@ class CommandExport:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.COMMAND_NOT_FOUND')
 
-        result = {"id": row[0],
+        result = {
                   "name": row[1],
-                  "uuid": row[2],
                   "topic": row[3],
                   "payload": row[4],
                   "set_value": row[5],

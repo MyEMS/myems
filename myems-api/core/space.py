@@ -4173,9 +4173,8 @@ class SpaceExport:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.SPACE_NOT_FOUND')
         else:
-            meta_result = {"id": row[0],
+            meta_result = {
                            "name": row[1],
-                           "uuid": row[2],
                            "parent_space_id": space_dict.get(row[3], None),
                            "area": row[4],
                            "timezone": timezone_dict.get(row[5], None),

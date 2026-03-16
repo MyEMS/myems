@@ -610,9 +610,8 @@ class WindFarmExport:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.WIND_FARM_NOT_FOUND')
         else:
-            meta_result = {"id": row[0],
+            meta_result = {
                            "name": row[1],
-                           "uuid": row[2],
                            "address": row[3],
                            "latitude": row[4],
                            "longitude": row[5],

@@ -665,7 +665,6 @@ class DataSourceExport:
                     last_seen_datetime = None
 
                 result = {"name": row[1],
-                          "uuid": row[2],
                           "gateway": gateway_dict.get(row[3]),
                           "protocol": row[4],
                           "connection": row[5],

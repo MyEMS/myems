@@ -722,7 +722,7 @@ class AdvancedReportExport:
             next_run_datetime = None
 
         # Build export result object
-        result = {"id": row[0], "name": row[1], "uuid": row[2],
+        result = { "name": row[1],
                   "expression": row[3],
                   "is_enabled": bool(row[4]),
                   "last_run_datetime": last_run_datetime,

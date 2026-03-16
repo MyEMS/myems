@@ -558,9 +558,8 @@ class RuleExport:
         else:
             next_run_datetime = None
 
-        result = {"id": row[0],
+        result = {
                   "name": row[1],
-                  "uuid": row[2],
                   "category": row[3],
                   "fdd_code": row[4],
                   "priority": row[5],

@@ -841,7 +841,7 @@ class WorkingCalendarExport:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.WORKING_CALENDAR_NOT_FOUND')
 
-        meta_result = {"id": row[0],
+        meta_result = {
                        "name": row[1],
                        "description": row[2],
                        "non_working_days": None}

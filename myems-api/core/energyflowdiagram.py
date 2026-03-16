@@ -1969,9 +1969,8 @@ class EnergyFlowDiagramExport:
             if cnx:
                 cnx.close()
 
-        meta_result = {"id": row[0],
+        meta_result = {
                        "name": row[1],
-                       "uuid": row[2],
                        "nodes": node_list_dict.get(row[0], None),
                        "links": link_list_dict.get(row[0], None),
                        }

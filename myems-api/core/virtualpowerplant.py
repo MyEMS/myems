@@ -711,9 +711,8 @@ class VirtualPowerPlantExport:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.VIRTUAL_POWER_PLANT_NOT_FOUND')
         else:
-            meta_result = {"id": row[0],
+            meta_result = {
                            "name": row[1],
-                           "uuid": row[2],
                            "cost_center": cost_center_dict.get(row[3], None),
                            "balancing_price_point": point_dict.get(row[4], None),
                            "svg": svg_dict.get(row[5], None),

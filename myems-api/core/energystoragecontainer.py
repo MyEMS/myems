@@ -6518,9 +6518,8 @@ class EnergyStorageContainerExport:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.ENERGY_STORAGE_CONTAINER_NOT_FOUND')
         else:
-            meta_result = {"id": row[0],
+            meta_result = {
                            "name": row[1],
-                           "uuid": row[2],
                            "rated_capacity": row[3],
                            "rated_power": row[4],
                            "contact": contact_dict.get(row[5], None),
