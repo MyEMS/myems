@@ -582,6 +582,14 @@ class Reporting:
                         reporting_cost[energy_category_id]['midpeak'] = Decimal(0.0)
                         reporting_cost[energy_category_id]['offpeak'] = Decimal(0.0)
                         reporting_cost[energy_category_id]['deep'] = Decimal(0.0)
+                        monthly_cost_values = reporting_cost[energy_category_id]['values']
+                        if len(monthly_cost_values) >= 2:
+                            current_month_cost_value = monthly_cost_values[-1]
+                            last_month_cost_value = monthly_cost_values[-2]
+                        else:
+                            current_month_cost_value = 0.0
+                            last_month_cost_value = 0.0
+
 
                         cursor_billing.execute(" SELECT start_datetime_utc, actual_value "
                                                " FROM tbl_space_input_category_hourly "
@@ -648,6 +656,13 @@ class Reporting:
                         reporting_output[energy_category_id]['midpeak'] = Decimal(0.0)
                         reporting_output[energy_category_id]['offpeak'] = Decimal(0.0)
                         reporting_output[energy_category_id]['deep'] = Decimal(0.0)
+                        monthly_output_values = reporting_output[energy_category_id]['values']
+                        if len(monthly_output_values) >= 2:
+                            current_month_output_value = monthly_output_values[-1]
+                            last_month_output_value = monthly_output_values[-2]
+                        else:
+                            current_month_output_value = 0.0
+                            last_month_output_value = 0.0
 
                         cursor_energy.execute(" SELECT start_datetime_utc, actual_value "
                                               " FROM tbl_space_output_category_hourly "
@@ -944,6 +959,7 @@ class Reporting:
                 result['reporting_period_input']['this_month_total_in_kgco2e'] += \
                     reporting_input[energy_category_id]['this_month_subtotal_in_kgco2e']
 
+
         result['reporting_period_input']['this_month_increment_rate_in_kgce'] = \
             (result['reporting_period_input']['this_month_total_in_kgce']
              - result['base_period_input']['total_in_kgce']) \
@@ -972,13 +988,7 @@ class Reporting:
         result['reporting_period_cost']['total'] = Decimal(0.0)
         result['reporting_period_cost']['total_increment_rate'] = Decimal(0.0)
         result['reporting_period_cost']['total_unit'] = config.currency_unit
-        monthly_cost_values = reporting_cost[energy_category_id]['values']
-        if len(monthly_cost_values) >= 2:
-            current_month_cost_value = monthly_cost_values[-1]
-            last_month_cost_value = monthly_cost_values[-2]
-        else:
-            current_month_cost_value = 0.0
-            last_month_cost_value = 0.0
+
 
 
         if input_energy_category_set is not None and len(input_energy_category_set) > 0:
@@ -1007,6 +1017,7 @@ class Reporting:
                     if last_month_cost_value > 0.0 else None)
                 result['reporting_period_cost']['total'] += reporting_cost[energy_category_id]['subtotal']
 
+
         result['reporting_period_cost']['total_increment_rate'] = \
             (result['reporting_period_cost']['total']
              - result['base_period_cost']['total']) \
@@ -1032,13 +1043,6 @@ class Reporting:
         result['reporting_period_output']['total_in_kgco2e'] = Decimal(0.0)
         result['reporting_period_output']['increment_rate_in_kgce'] = Decimal(0.0)
         result['reporting_period_output']['increment_rate_in_kgco2e'] = Decimal(0.0)
-        monthly_output_values = reporting_output[energy_category_id]['values']
-        if len(monthly_output_values) >= 2:
-            current_month_output_value = monthly_output_values[-1]
-            last_month_output_value = monthly_output_values[-2]
-        else:
-            current_month_output_value = 0.0
-            last_month_output_value = 0.0
 
         if output_energy_category_set is not None and len(output_energy_category_set) > 0:
             for energy_category_id in output_energy_category_set:
