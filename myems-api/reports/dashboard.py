@@ -509,7 +509,13 @@ class Reporting:
                         reporting_input[energy_category_id]['midpeak'] = Decimal(0.0)
                         reporting_input[energy_category_id]['offpeak'] = Decimal(0.0)
                         reporting_input[energy_category_id]['deep'] = Decimal(0.0)
-
+                        monthly_values = reporting_input[energy_category_id]['values']
+                        if len(monthly_values) >= 2:
+                            current_month_value = monthly_values[-1]
+                            last_month_value = monthly_values[-2]
+                        else:
+                            current_month_value = 0.0
+                            last_month_value = 0.0
                         cursor_energy.execute(" SELECT start_datetime_utc, actual_value "
                                               " FROM tbl_space_input_category_hourly "
                                               " WHERE space_id = %s "
@@ -927,10 +933,8 @@ class Reporting:
                 result['reporting_period_input']['deeps'].append(
                     reporting_input[energy_category_id]['deep'])
                 result['reporting_period_input']['increment_rates'].append(
-                    (reporting_input[energy_category_id]['subtotal']
-                     - base_input[energy_category_id]['subtotal'])
-                    / base_input[energy_category_id]['subtotal']
-                    if base_input[energy_category_id]['subtotal'] > 0.0 else None)
+                    (current_month_value - last_month_value) / last_month_value
+                    if last_month_value > 0.0 else None)
                 result['reporting_period_input']['total_in_kgce'] += \
                     reporting_input[energy_category_id]['subtotal_in_kgce']
                 result['reporting_period_input']['total_in_kgco2e'] += \
