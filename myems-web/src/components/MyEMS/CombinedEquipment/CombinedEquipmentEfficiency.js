@@ -280,7 +280,6 @@ const CombinedEquipmentEfficiency = ({ setRedirect, setRedirectUrl, t }) => {
             order: 0,
             _efficiencyIndicator: true,
             _efficiencyIndicatorLabels: combinedEquipmentReportingLabelsRef.current?.[currentOption] || [],
-            // Override tooltip label for this dataset only (avoid relying on MultiTrendChart's datasetIndex logic)
             tooltip: {
               callbacks: {
                 label: function(context) {
@@ -302,8 +301,6 @@ const CombinedEquipmentEfficiency = ({ setRedirect, setRedirectUrl, t }) => {
           if (existingIndicatorIndex >= 0) {
             Object.assign(chart.data.datasets[existingIndicatorIndex], indicatorDataset);
           } else {
-            // IMPORTANT: append to the end to avoid shifting original datasetIndex values,
-            // since MultiTrendChart tooltip logic depends on them.
             chart.data.datasets.push(indicatorDataset);
           }
           isUpdatingRef.current = false;
