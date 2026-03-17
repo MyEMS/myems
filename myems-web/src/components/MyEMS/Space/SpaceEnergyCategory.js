@@ -1237,6 +1237,7 @@ const SpaceEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => {
                   <DateRangePickerWrapper
                     id="basePeriodDateRangePicker"
                     disabled={basePeriodDateRangePickerDisabled}
+                    hidden={comparisonType === 'none-comparison'}
                     format="yyyy-MM-dd HH:mm:ss"
                     value={basePeriodDateRange}
                     onChange={onBasePeriodChange}
