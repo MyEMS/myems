@@ -509,13 +509,7 @@ class Reporting:
                         reporting_input[energy_category_id]['midpeak'] = Decimal(0.0)
                         reporting_input[energy_category_id]['offpeak'] = Decimal(0.0)
                         reporting_input[energy_category_id]['deep'] = Decimal(0.0)
-                        monthly_consumption_values = reporting_input[energy_category_id]['values']
-                        if len(monthly_consumption_values) >= 2:
-                            current_month_consumption_value = monthly_consumption_values[-1]
-                            last_month_consumption_value = monthly_consumption_values[-2]
-                        else:
-                            current_month_consumption_value = 0.0
-                            last_month_consumption_value = 0.0
+
                         cursor_energy.execute(" SELECT start_datetime_utc, actual_value "
                                               " FROM tbl_space_input_category_hourly "
                                               " WHERE space_id = %s "
@@ -547,6 +541,14 @@ class Reporting:
                             reporting_input[energy_category_id]['subtotal_in_kgco2e'] += actual_value * kgco2e
                             reporting_input[energy_category_id]['this_month_subtotal_in_kgce'] = actual_value * kgce
                             reporting_input[energy_category_id]['this_month_subtotal_in_kgco2e'] = actual_value * kgco2e
+
+                        monthly_consumption_values = reporting_input[energy_category_id]['values']
+                        if len(monthly_consumption_values) >= 2:
+                            current_month_consumption_value = monthly_consumption_values[-1]
+                            last_month_consumption_value = monthly_consumption_values[-2]
+                        else:
+                            current_month_consumption_value = 0.0
+                            last_month_consumption_value = 0.0
 
                         energy_category_tariff_dict = \
                             utilities.get_energy_category_peak_types(space['cost_center_id'],
@@ -582,13 +584,6 @@ class Reporting:
                         reporting_cost[energy_category_id]['midpeak'] = Decimal(0.0)
                         reporting_cost[energy_category_id]['offpeak'] = Decimal(0.0)
                         reporting_cost[energy_category_id]['deep'] = Decimal(0.0)
-                        monthly_cost_values = reporting_cost[energy_category_id]['values']
-                        if len(monthly_cost_values) >= 2:
-                            current_month_cost_value = monthly_cost_values[-1]
-                            last_month_cost_value = monthly_cost_values[-2]
-                        else:
-                            current_month_cost_value = 0.0
-                            last_month_cost_value = 0.0
 
 
                         cursor_billing.execute(" SELECT start_datetime_utc, actual_value "
@@ -618,6 +613,14 @@ class Reporting:
                             reporting_cost[energy_category_id]['timestamps'].append(current_datetime)
                             reporting_cost[energy_category_id]['values'].append(actual_value)
                             reporting_cost[energy_category_id]['subtotal'] += actual_value
+
+                        monthly_cost_values = reporting_cost[energy_category_id]['values']
+                        if len(monthly_cost_values) >= 2:
+                            current_month_cost_value = monthly_cost_values[-1]
+                            last_month_cost_value = monthly_cost_values[-2]
+                        else:
+                            current_month_cost_value = 0.0
+                            last_month_cost_value = 0.0
 
                         energy_category_tariff_dict = \
                             utilities.get_energy_category_peak_types(space['cost_center_id'],
@@ -656,13 +659,6 @@ class Reporting:
                         reporting_output[energy_category_id]['midpeak'] = Decimal(0.0)
                         reporting_output[energy_category_id]['offpeak'] = Decimal(0.0)
                         reporting_output[energy_category_id]['deep'] = Decimal(0.0)
-                        monthly_output_values = reporting_output[energy_category_id]['values']
-                        if len(monthly_output_values) >= 2:
-                            current_month_output_value = monthly_output_values[-1]
-                            last_month_output_value = monthly_output_values[-2]
-                        else:
-                            current_month_output_value = 0.0
-                            last_month_output_value = 0.0
 
                         cursor_energy.execute(" SELECT start_datetime_utc, actual_value "
                                               " FROM tbl_space_output_category_hourly "
@@ -693,6 +689,14 @@ class Reporting:
                             reporting_output[energy_category_id]['subtotal'] += actual_value
                             reporting_output[energy_category_id]['subtotal_in_kgce'] += actual_value * kgce
                             reporting_output[energy_category_id]['subtotal_in_kgco2e'] += actual_value * kgco2e
+
+                        monthly_output_values = reporting_output[energy_category_id]['values']
+                        if len(monthly_output_values) >= 2:
+                            current_month_output_value = monthly_output_values[-1]
+                            last_month_output_value = monthly_output_values[-2]
+                        else:
+                            current_month_output_value = 0.0
+                            last_month_output_value = 0.0
 
                         energy_category_tariff_dict = \
                             utilities.get_energy_category_peak_types(space['cost_center_id'],
