@@ -232,8 +232,7 @@ class Reporting:
             combined_equipment['id'] = row_combined_equipment[0]
             combined_equipment['name'] = row_combined_equipment[1]
             combined_equipment['cost_center_id'] = row_combined_equipment[2]
-            combined_equipment['efficiency_indicator'] = \
-                row_combined_equipment[3] if row_combined_equipment[3] is not None else Decimal(0.0)
+            combined_equipment['efficiency_indicator'] = row_combined_equipment[3]
 
             ############################################################################################################
             # Step 3: query energy categories

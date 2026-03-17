@@ -162,6 +162,7 @@ const CombinedEquipmentEfficiency = ({ setRedirect, setRedirectUrl, t }) => {
   const chartContainerRef = useRef(null);
   const efficiencyIndicatorSeriesRef = useRef({});
   const combinedEquipmentReportingLabelsRef = useRef({});
+  const efficiencyIndicatorVersionRef = useRef(0);
   const targetCanvasRef = useRef(null);
   const isUpdatingRef = useRef(false);
 
@@ -202,7 +203,22 @@ const CombinedEquipmentEfficiency = ({ setRedirect, setRedirectUrl, t }) => {
           return;
         }
 
+        const getLabelRangeKey = (labels) => {
+          if (!Array.isArray(labels) || labels.length === 0) {
+            return null;
+          }
+          let minLabel = labels[0];
+          let maxLabel = labels[0];
+          for (let i = 1; i < labels.length; i++) {
+            const v = labels[i];
+            if (v < minLabel) minLabel = v;
+            if (v > maxLabel) maxLabel = v;
+          }
+          return `${minLabel}__${maxLabel}__${labels.length}`;
+        };
+
         const chartLabels = chart.data.labels;
+        const chartRangeKey = getLabelRangeKey(chartLabels);
         let currentOption = null;
 
         for (const key of Object.keys(currentSeries)) {
@@ -214,12 +230,11 @@ const CombinedEquipmentEfficiency = ({ setRedirect, setRedirectUrl, t }) => {
           if (!reportingLabels || reportingLabels.length !== chartLabels.length) {
             continue;
           }
-          if (reportingLabels.length > 0 && chartLabels.length > 0) {
-            if (reportingLabels[0] === chartLabels[0] &&
-                reportingLabels[reportingLabels.length - 1] === chartLabels[chartLabels.length - 1]) {
-              currentOption = key;
-              break;
-            }
+
+          const reportingRangeKey = getLabelRangeKey(reportingLabels);
+          if (chartRangeKey && reportingRangeKey && reportingRangeKey === chartRangeKey) {
+            currentOption = key;
+            break;
           }
         }
 
@@ -249,6 +264,7 @@ const CombinedEquipmentEfficiency = ({ setRedirect, setRedirectUrl, t }) => {
             backgroundColor: 'transparent',
             type: 'line',
             yAxisID: 'y',
+            _efficiencyLabelType: 'reporting',
             borderWidth: 2,
             borderDash: [5, 5],
             pointRadius: 3,
@@ -264,6 +280,20 @@ const CombinedEquipmentEfficiency = ({ setRedirect, setRedirectUrl, t }) => {
             order: 0,
             _efficiencyIndicator: true,
             _efficiencyIndicatorLabels: combinedEquipmentReportingLabelsRef.current?.[currentOption] || [],
+            // Override tooltip label for this dataset only (avoid relying on MultiTrendChart's datasetIndex logic)
+            tooltip: {
+              callbacks: {
+                label: function(context) {
+                  let rawIndicator = Number(context.raw);
+                  if (context.raw != null && !isNaN(rawIndicator)) {
+                    rawIndicator = rawIndicator.toFixed(4);
+                  } else {
+                    rawIndicator = null;
+                  }
+                  return t('Equipment Efficiency Indicator') + ' - ' + rawIndicator;
+                }
+              }
+            },
             datalabels: {
               display: false
             }
@@ -272,7 +302,9 @@ const CombinedEquipmentEfficiency = ({ setRedirect, setRedirectUrl, t }) => {
           if (existingIndicatorIndex >= 0) {
             Object.assign(chart.data.datasets[existingIndicatorIndex], indicatorDataset);
           } else {
-            chart.data.datasets.splice(1, 0, indicatorDataset);
+            // IMPORTANT: append to the end to avoid shifting original datasetIndex values,
+            // since MultiTrendChart tooltip logic depends on them.
+            chart.data.datasets.push(indicatorDataset);
           }
           isUpdatingRef.current = false;
         }
@@ -314,6 +346,7 @@ const CombinedEquipmentEfficiency = ({ setRedirect, setRedirectUrl, t }) => {
           ChartJS.register(efficiencyIndicatorPlugin);
           chart._efficiencyIndicatorPluginRegistered = true;
         } catch (e) {
+          console.error('Failed to register efficiency indicator plugin:', e);
         }
       }
 
@@ -406,22 +439,26 @@ const CombinedEquipmentEfficiency = ({ setRedirect, setRedirectUrl, t }) => {
         tooltip.callbacks.title = wrappedTitle;
       }
 
-      chart.update('none');
+      const currentVersion = efficiencyIndicatorVersionRef.current;
+      const versionChanged = chart._efficiencyIndicatorLastVersion !== currentVersion;
+      const justRegistered = chart._efficiencyIndicatorPluginRegistered === true &&
+        chart._efficiencyIndicatorLastVersion === undefined;
+
+      if (versionChanged || justRegistered) {
+        chart._efficiencyIndicatorLastVersion = currentVersion;
+        chart.update('none');
+      }
     };
 
-    const timer1 = setTimeout(setupChart, 500);
-    const timer2 = setTimeout(setupChart, 1000);
-    const timer3 = setTimeout(setupChart, 2000);
-    const interval = setInterval(setupChart, 3000);
+    setupChart();
+    const interval = setInterval(setupChart, 2000);
 
     return () => {
-      clearTimeout(timer1);
-      clearTimeout(timer2);
-      clearTimeout(timer3);
       clearInterval(interval);
       try {
         ChartJS.unregister(efficiencyIndicatorPlugin);
       } catch (e) {
+        console.error('Failed to unregister efficiency indicator plugin:', e);
       }
     };
   }, [combinedEquipmentEfficiencyIndicator, efficiencyIndicatorSeries, combinedEquipmentReportingLabels, t]);
@@ -900,6 +937,7 @@ const CombinedEquipmentEfficiency = ({ setRedirect, setRedirectUrl, t }) => {
           setEfficiencyIndicatorSeries(indicatorSeries);
           efficiencyIndicatorSeriesRef.current = indicatorSeries;
           combinedEquipmentReportingLabelsRef.current = reporting_timestamps;
+          efficiencyIndicatorVersionRef.current += 1;
 
           let reporting_values = {};
           json['reporting_period_efficiency']['values'].forEach((currentValue, index) => {
