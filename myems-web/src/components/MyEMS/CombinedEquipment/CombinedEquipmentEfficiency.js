@@ -277,7 +277,7 @@ const CombinedEquipmentEfficiency = ({ setRedirect, setRedirectUrl, t }) => {
             pointHoverBackgroundColor: '#fff',
             tension: 0.4,
             fill: false,
-            order: 0,
+            order: -1,
             _efficiencyIndicator: true,
             _efficiencyIndicatorLabels: combinedEquipmentReportingLabelsRef.current?.[currentOption] || [],
             tooltip: {

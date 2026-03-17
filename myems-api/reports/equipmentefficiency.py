@@ -238,7 +238,7 @@ class Reporting:
         equipment['id'] = row_equipment[0]
         equipment['name'] = row_equipment[1]
         equipment['cost_center_id'] = row_equipment[2]
-        equipment['efficiency_indicator'] = row_equipment[3] if row_equipment[3] is not None else Decimal(0.0)
+        equipment['efficiency_indicator'] = row_equipment[3]
 
         ################################################################################################################
         # Step 3: query associated points
