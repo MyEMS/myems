@@ -36,6 +36,15 @@
                     <li ui-sref-active="active"><a ui-sref="settings.workingcalendar">{{ 'MENU.SETTINGS.WORKING_CALENDAR' | translate }}</a></li>
                 </ul>
             </li>
+            <li ng-class="{active: $state.includes('users')}">
+                <a href=""><i class="fa fa-user"></i> <span class="nav-label">{{ 'MENU.USERSETTING.USERSETTING' | translate }}</span>  <span class="fa arrow"></span></a>
+                <ul class="nav nav-second-level collapse" ng-class="{in: $state.includes('users')}">
+                    <li ui-sref-active="active"><a ui-sref="users.user">{{ 'MENU.USERSETTING.USER' | translate }}</a></li>
+                    <li ui-sref-active="active"><a ui-sref="users.privilege">{{ 'MENU.USERSETTING.PRIVILEGE' | translate }}</a></li>
+                    <li ui-sref-active="active"><a ui-sref="users.apikey">{{ 'MENU.USERSETTING.API_KEY' | translate }}</a></li>
+                    <li ui-sref-active="active"><a ui-sref="users.log">{{ 'MENU.USERSETTING.LOG' | translate }}</a></li>
+                </ul>
+            </li>
             <li ng-class="{active: $state.includes('settings')}">
                 <a href=""><i class="fa fa-gears"></i> <span class="nav-label">{{ 'MENU.SETTINGS.ADVANCED' | translate }}</span>  <span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level collapse" ng-class="{in: $state.includes('settings')}">
@@ -61,15 +70,6 @@
                     <li ui-sref-active="active"><a ui-sref="fdd.emailmessage">{{ 'MENU.FDD.EMAILALARM' | translate }}</a></li>
                     <li ui-sref-active="active"><a ui-sref="fdd.webmessage">{{ 'MENU.FDD.WEBALARM' | translate }}</a></li>
                     <li ui-sref-active="active"><a ui-sref="fdd.wechatmessage">{{ 'MENU.FDD.WECHATALARM' | translate }}</a></li>
-                </ul>
-            </li>
-            <li ng-class="{active: $state.includes('users')}">
-                <a href=""><i class="fa fa-user"></i> <span class="nav-label">{{ 'MENU.USERSETTING.USERSETTING' | translate }}</span>  <span class="fa arrow"></span></a>
-                <ul class="nav nav-second-level collapse" ng-class="{in: $state.includes('users')}">
-                    <li ui-sref-active="active"><a ui-sref="users.user">{{ 'MENU.USERSETTING.USER' | translate }}</a></li>
-                    <li ui-sref-active="active"><a ui-sref="users.privilege">{{ 'MENU.USERSETTING.PRIVILEGE' | translate }}</a></li>
-                    <li ui-sref-active="active"><a ui-sref="users.apikey">{{ 'MENU.USERSETTING.API_KEY' | translate }}</a></li>
-                    <li ui-sref-active="active"><a ui-sref="users.log">{{ 'MENU.USERSETTING.LOG' | translate }}</a></li>
                 </ul>
             </li>
 
