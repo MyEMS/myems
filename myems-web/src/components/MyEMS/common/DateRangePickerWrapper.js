@@ -6,7 +6,6 @@ import PropTypes from 'prop-types';
 const DateRangePickerWrapper = ({
   id,
   disabled,
-  hidden,
   format,
   value,
   onChange,
@@ -36,7 +35,6 @@ const DateRangePickerWrapper = ({
     <DateRangePicker
       id={id}
       disabled={disabled}
-      hidden={hidden}
       format={format}
       value={value}
       onChange={onChange}
@@ -69,7 +67,6 @@ DateRangePickerWrapper.propTypes = {
   onSelect: PropTypes.func,
   showWeekNumbers: PropTypes.bool,
   showMeridian: PropTypes.bool,
-  showOneCalendar: PropTypes.bool,
-  hidden: PropTypes.bool
+  showOneCalendar: PropTypes.bool
 };
 export default DateRangePickerWrapper;
