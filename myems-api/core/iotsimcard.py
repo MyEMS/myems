@@ -31,17 +31,28 @@ class IoTSIMCardCollection:
             access_control(req)
         else:
             api_key_control(req)
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        
+        cnx = None
+        cursor = None
+        rows = []
 
-        query = (" SELECT id, iccid, imsi, operator, status, active_time, open_time, expiration_time, "
-                 "        used_traffic, total_traffic, description "
-                 " FROM tbl_iot_sim_cards "
-                 " ORDER BY id ")
-        cursor.execute(query)
-        rows = cursor.fetchall()
-        cursor.close()
-        cnx.close()
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
+
+                query = (" SELECT id, iccid, imsi, operator, status, active_time, open_time, expiration_time, "
+                         "        used_traffic, total_traffic, description "
+                         " FROM tbl_iot_sim_cards "
+                         " ORDER BY id ")
+                cursor.execute(query)
+                rows = cursor.fetchall()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         result = list()
         if rows is not None and len(rows) > 0:
@@ -95,27 +106,34 @@ class IoTSIMCardCollection:
         else:
             description = None
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
 
-        cursor.execute(" SELECT iccid "
-                       " FROM tbl_iot_sim_cards "
-                       " WHERE iccid = %s ", (iccid,))
-        if cursor.fetchone() is not None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.ICCID_IS_ALREADY_IN_USE')
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        add_row = (" INSERT INTO tbl_iot_sim_cards "
-                   "     (iccid, description) "
-                   " VALUES (%s, %s) ")
+                cursor.execute(" SELECT iccid "
+                               " FROM tbl_iot_sim_cards "
+                               " WHERE iccid = %s ", (iccid,))
+                if cursor.fetchone() is not None:
+                    raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                           description='API.ICCID_IS_ALREADY_IN_USE')
 
-        cursor.execute(add_row, (iccid, description))
-        new_id = cursor.lastrowid
-        cnx.commit()
-        cursor.close()
-        cnx.close()
+                add_row = (" INSERT INTO tbl_iot_sim_cards "
+                           "     (iccid, description) "
+                           " VALUES (%s, %s) ")
+
+                cursor.execute(add_row, (iccid, description))
+                new_id = cursor.lastrowid
+                cnx.commit()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         resp.status = falcon.HTTP_201
         resp.location = '/iotsimcards/' + str(new_id)
@@ -143,17 +161,27 @@ class IoTSIMCardItem:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_CONTACT_ID')
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
+        row = None
 
-        query = (" SELECT id, iccid, imsi, operator, status, active_time, open_time, expiration_time, "
-                 "        used_traffic, total_traffic, description "
-                 " FROM tbl_iot_sim_cards "
-                 " WHERE id = %s ")
-        cursor.execute(query, (id_,))
-        row = cursor.fetchone()
-        cursor.close()
-        cnx.close()
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
+
+                query = (" SELECT id, iccid, imsi, operator, status, active_time, open_time, expiration_time, "
+                         "        used_traffic, total_traffic, description "
+                         " FROM tbl_iot_sim_cards "
+                         " WHERE id = %s ")
+                cursor.execute(query, (id_,))
+                row = cursor.fetchone()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         if row is None:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
@@ -180,23 +208,29 @@ class IoTSIMCardItem:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_IOT_SIM_CARD_ID')
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
 
-        cursor.execute(" SELECT iccid "
-                       " FROM tbl_iot_sim_cards "
-                       " WHERE id = %s ", (id_,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.IOT_SIM_CARD_NOT_FOUND')
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        cursor.execute(" DELETE FROM tbl_iot_sim_cards WHERE id = %s ", (id_,))
-        cnx.commit()
+                cursor.execute(" SELECT iccid "
+                               " FROM tbl_iot_sim_cards "
+                               " WHERE id = %s ", (id_,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.IOT_SIM_CARD_NOT_FOUND')
 
-        cursor.close()
-        cnx.close()
+                cursor.execute(" DELETE FROM tbl_iot_sim_cards WHERE id = %s ", (id_,))
+                cnx.commit()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         resp.status = falcon.HTTP_204
 
@@ -238,37 +272,40 @@ class IoTSIMCardItem:
         else:
             description = None
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
 
-        cursor.execute(" SELECT iccid "
-                       " FROM tbl_iot_sim_cards "
-                       " WHERE id = %s ", (id_,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.IOT_SIM_CARD_NOT_FOUND')
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        cursor.execute(" SELECT iccid "
-                       " FROM tbl_iot_sim_cards "
-                       " WHERE iccid = %s AND id != %s ", (iccid, id_))
-        if cursor.fetchone() is not None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.ICCID_IS_ALREADY_IN_USE')
+                cursor.execute(" SELECT iccid "
+                               " FROM tbl_iot_sim_cards "
+                               " WHERE id = %s ", (id_,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.IOT_SIM_CARD_NOT_FOUND')
 
-        update_row = (" UPDATE tbl_iot_sim_cards "
-                      " SET iccid = %s, description = %s "
-                      " WHERE id = %s ")
-        cursor.execute(update_row, (iccid,
-                                    description,
-                                    id_,))
-        cnx.commit()
+                cursor.execute(" SELECT iccid "
+                               " FROM tbl_iot_sim_cards "
+                               " WHERE iccid = %s AND id != %s ", (iccid, id_))
+                if cursor.fetchone() is not None:
+                    raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                           description='API.ICCID_IS_ALREADY_IN_USE')
 
-        cursor.close()
-        cnx.close()
+                update_row = (" UPDATE tbl_iot_sim_cards "
+                              " SET iccid = %s, description = %s "
+                              " WHERE id = %s ")
+                cursor.execute(update_row, (iccid,
+                                            description,
+                                            id_,))
+                cnx.commit()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         resp.status = falcon.HTTP_200
-

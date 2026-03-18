@@ -56,63 +56,77 @@ class MicrogridCollection:
         else:
             search_query = ''
 
-        # Connect to database
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
+        rows_contacts = []
+        rows_cost_centers = []
+        rows_svgs = []
+        rows_microgrids = []
 
-        # Query to retrieve all contacts for reference
-        query = (" SELECT id, name, uuid "
-                 " FROM tbl_contacts ")
-        cursor.execute(query)
-        rows_contacts = cursor.fetchall()
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        # Build contact dictionary for quick lookup by ID
-        contact_dict = dict()
-        if rows_contacts is not None and len(rows_contacts) > 0:
-            for row in rows_contacts:
-                contact_dict[row[0]] = {"id": row[0],
-                                        "name": row[1],
-                                        "uuid": row[2]}
+                # Query to retrieve all contacts for reference
+                query = (" SELECT id, name, uuid "
+                         " FROM tbl_contacts ")
+                cursor.execute(query)
+                rows_contacts = cursor.fetchall()
 
-        # Query to retrieve all cost centers for reference
-        query = (" SELECT id, name, uuid "
-                 " FROM tbl_cost_centers ")
-        cursor.execute(query)
-        rows_cost_centers = cursor.fetchall()
+                # Build contact dictionary for quick lookup by ID
+                contact_dict = dict()
+                if rows_contacts is not None and len(rows_contacts) > 0:
+                    for row in rows_contacts:
+                        contact_dict[row[0]] = {"id": row[0],
+                                                "name": row[1],
+                                                "uuid": row[2]}
 
-        # Build cost center dictionary for quick lookup by ID
-        cost_center_dict = dict()
-        if rows_cost_centers is not None and len(rows_cost_centers) > 0:
-            for row in rows_cost_centers:
-                cost_center_dict[row[0]] = {"id": row[0],
+                # Query to retrieve all cost centers for reference
+                query = (" SELECT id, name, uuid "
+                         " FROM tbl_cost_centers ")
+                cursor.execute(query)
+                rows_cost_centers = cursor.fetchall()
+
+                # Build cost center dictionary for quick lookup by ID
+                cost_center_dict = dict()
+                if rows_cost_centers is not None and len(rows_cost_centers) > 0:
+                    for row in rows_cost_centers:
+                        cost_center_dict[row[0]] = {"id": row[0],
+                                                    "name": row[1],
+                                                    "uuid": row[2]}
+
+                # Initialize SVG dictionary for diagram references
+                svg_dict = dict()
+
+                query = (" SELECT id, name, uuid "
+                         " FROM tbl_svgs ")
+                cursor.execute(query)
+                rows_svgs = cursor.fetchall()
+                if rows_svgs is not None and len(rows_svgs) > 0:
+                    for row in rows_svgs:
+                        svg_dict[row[0]] = {"id": row[0],
                                             "name": row[1],
                                             "uuid": row[2]}
 
-        # Initialize SVG dictionary for diagram references
-        svg_dict = dict()
-
-        query = (" SELECT id, name, uuid "
-                 " FROM tbl_svgs ")
-        cursor.execute(query)
-        rows_svgs = cursor.fetchall()
-        if rows_svgs is not None and len(rows_svgs) > 0:
-            for row in rows_svgs:
-                svg_dict[row[0]] = {"id": row[0],
-                                    "name": row[1],
-                                    "uuid": row[2]}
-
-        query = (" SELECT id, name, uuid, "
-                 "        address, postal_code, latitude, longitude, rated_capacity, rated_power, "
-                 "        contact_id, cost_center_id, serial_number, svg_id, is_cost_data_displayed, "
-                 "        phase_of_lifecycle, description "
-                 " FROM tbl_microgrids ")
-        params = []
-        if search_query:
-            query += " WHERE name LIKE %s OR address LIKE %s OR description LIKE %s "
-            params = [f'%{search_query}%', f'%{search_query}%', f'%{search_query}%']
-        query += " ORDER BY id "
-        cursor.execute(query, params)
-        rows_microgrids = cursor.fetchall()
+                query = (" SELECT id, name, uuid, "
+                         "        address, postal_code, latitude, longitude, rated_capacity, rated_power, "
+                         "        contact_id, cost_center_id, serial_number, svg_id, is_cost_data_displayed, "
+                         "        phase_of_lifecycle, description "
+                         " FROM tbl_microgrids ")
+                params = []
+                if search_query:
+                    query += " WHERE name LIKE %s OR address LIKE %s OR description LIKE %s "
+                    params = [f'%{search_query}%', f'%{search_query}%', f'%{search_query}%']
+                query += " ORDER BY id "
+                cursor.execute(query, params)
+                rows_microgrids = cursor.fetchall()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         result = list()
         if rows_microgrids is not None and len(rows_microgrids) > 0:
@@ -136,8 +150,6 @@ class MicrogridCollection:
                                "qrcode": 'microgrid:' + row[2]}
                 result.append(meta_result)
 
-        cursor.close()
-        cnx.close()
         resp.text = json.dumps(result)
 
     @staticmethod
@@ -263,75 +275,78 @@ class MicrogridCollection:
         else:
             description = None
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
+        new_id = None
+        row = None
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_microgrids "
-                       " WHERE name = %s ", (name,))
-        if cursor.fetchone() is not None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.MICROGRID_NAME_IS_ALREADY_IN_USE')
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_contacts "
-                       " WHERE id = %s ",
-                       (new_values['data']['contact_id'],))
-        row = cursor.fetchone()
-        if row is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.CONTACT_NOT_FOUND')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_microgrids "
+                               " WHERE name = %s ", (name,))
+                if cursor.fetchone() is not None:
+                    raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                           description='API.MICROGRID_NAME_IS_ALREADY_IN_USE')
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_cost_centers "
-                       " WHERE id = %s ",
-                       (new_values['data']['cost_center_id'],))
-        row = cursor.fetchone()
-        if row is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.COST_CENTER_NOT_FOUND')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_contacts "
+                               " WHERE id = %s ",
+                               (new_values['data']['contact_id'],))
+                row = cursor.fetchone()
+                if row is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.CONTACT_NOT_FOUND')
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_svgs "
-                       " WHERE id = %s ",
-                       (svg_id,))
-        row = cursor.fetchone()
-        if row is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.SVG_NOT_FOUND')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_cost_centers "
+                               " WHERE id = %s ",
+                               (new_values['data']['cost_center_id'],))
+                row = cursor.fetchone()
+                if row is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.COST_CENTER_NOT_FOUND')
 
-        add_values = (" INSERT INTO tbl_microgrids "
-                      "    (name, uuid, address, postal_code, latitude, longitude, rated_capacity, rated_power, "
-                      "     contact_id, cost_center_id, serial_number, svg_id, is_cost_data_displayed, "
-                      "     phase_of_lifecycle, description) "
-                      " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) ")
-        cursor.execute(add_values, (name,
-                                    str(uuid.uuid4()),
-                                    address,
-                                    postal_code,
-                                    latitude,
-                                    longitude,
-                                    rated_capacity,
-                                    rated_power,
-                                    contact_id,
-                                    cost_center_id,
-                                    serial_number,
-                                    svg_id,
-                                    is_cost_data_displayed,
-                                    phase_of_lifecycle,
-                                    description))
-        new_id = cursor.lastrowid
-        cnx.commit()
-        cursor.close()
-        cnx.close()
+                cursor.execute(" SELECT name "
+                               " FROM tbl_svgs "
+                               " WHERE id = %s ",
+                               (svg_id,))
+                row = cursor.fetchone()
+                if row is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.SVG_NOT_FOUND')
+
+                add_values = (" INSERT INTO tbl_microgrids "
+                              "    (name, uuid, address, postal_code, latitude, longitude, rated_capacity, rated_power, "
+                              "     contact_id, cost_center_id, serial_number, svg_id, is_cost_data_displayed, "
+                              "     phase_of_lifecycle, description) "
+                              " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) ")
+                cursor.execute(add_values, (name,
+                                            str(uuid.uuid4()),
+                                            address,
+                                            postal_code,
+                                            latitude,
+                                            longitude,
+                                            rated_capacity,
+                                            rated_power,
+                                            contact_id,
+                                            cost_center_id,
+                                            serial_number,
+                                            svg_id,
+                                            is_cost_data_displayed,
+                                            phase_of_lifecycle,
+                                            description))
+                new_id = cursor.lastrowid
+                cnx.commit()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         resp.status = falcon.HTTP_201
         resp.location = '/microgrids/' + str(new_id)
@@ -354,76 +369,89 @@ class MicrogridItem:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_MICROGRID_ID')
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
+        rows_contacts = []
+        rows_cost_centers = []
+        rows_svgs = []
+        row = None
 
-        query = (" SELECT id, name, uuid "
-                 " FROM tbl_contacts ")
-        cursor.execute(query)
-        rows_contacts = cursor.fetchall()
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        contact_dict = dict()
-        if rows_contacts is not None and len(rows_contacts) > 0:
-            for row in rows_contacts:
-                contact_dict[row[0]] = {"id": row[0],
-                                        "name": row[1],
-                                        "uuid": row[2]}
+                query = (" SELECT id, name, uuid "
+                         " FROM tbl_contacts ")
+                cursor.execute(query)
+                rows_contacts = cursor.fetchall()
 
-        query = (" SELECT id, name, uuid "
-                 " FROM tbl_cost_centers ")
-        cursor.execute(query)
-        rows_cost_centers = cursor.fetchall()
+                contact_dict = dict()
+                if rows_contacts is not None and len(rows_contacts) > 0:
+                    for row in rows_contacts:
+                        contact_dict[row[0]] = {"id": row[0],
+                                                "name": row[1],
+                                                "uuid": row[2]}
 
-        cost_center_dict = dict()
-        if rows_cost_centers is not None and len(rows_cost_centers) > 0:
-            for row in rows_cost_centers:
-                cost_center_dict[row[0]] = {"id": row[0],
+                query = (" SELECT id, name, uuid "
+                         " FROM tbl_cost_centers ")
+                cursor.execute(query)
+                rows_cost_centers = cursor.fetchall()
+
+                cost_center_dict = dict()
+                if rows_cost_centers is not None and len(rows_cost_centers) > 0:
+                    for row in rows_cost_centers:
+                        cost_center_dict[row[0]] = {"id": row[0],
+                                                    "name": row[1],
+                                                    "uuid": row[2]}
+                svg_dict = dict()
+
+                query = (" SELECT id, name, uuid "
+                         " FROM tbl_svgs ")
+                cursor.execute(query)
+                rows_svgs = cursor.fetchall()
+                if rows_svgs is not None and len(rows_svgs) > 0:
+                    for row in rows_svgs:
+                        svg_dict[row[0]] = {"id": row[0],
                                             "name": row[1],
                                             "uuid": row[2]}
-        svg_dict = dict()
 
-        query = (" SELECT id, name, uuid "
-                 " FROM tbl_svgs ")
-        cursor.execute(query)
-        rows_svgs = cursor.fetchall()
-        if rows_svgs is not None and len(rows_svgs) > 0:
-            for row in rows_svgs:
-                svg_dict[row[0]] = {"id": row[0],
-                                    "name": row[1],
-                                    "uuid": row[2]}
-
-        query = (" SELECT id, name, uuid, "
-                 "        address, postal_code, latitude, longitude, rated_capacity, rated_power, "
-                 "        contact_id, cost_center_id, serial_number, svg_id, is_cost_data_displayed, "
-                 "        phase_of_lifecycle, description "
-                 " FROM tbl_microgrids "
-                 " WHERE id = %s ")
-        cursor.execute(query, (id_,))
-        row = cursor.fetchone()
-        cursor.close()
-        cnx.close()
+                query = (" SELECT id, name, uuid, "
+                         "        address, postal_code, latitude, longitude, rated_capacity, rated_power, "
+                         "        contact_id, cost_center_id, serial_number, svg_id, is_cost_data_displayed, "
+                         "        phase_of_lifecycle, description "
+                         " FROM tbl_microgrids "
+                         " WHERE id = %s ")
+                cursor.execute(query, (id_,))
+                row = cursor.fetchone()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         if row is None:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.MICROGRID_NOT_FOUND')
-        else:
-            meta_result = {"id": row[0],
-                           "name": row[1],
-                           "uuid": row[2],
-                           "address": row[3],
-                           "postal_code": row[4],
-                           "latitude": row[5],
-                           "longitude": row[6],
-                           "rated_capacity": row[7],
-                           "rated_power": row[8],
-                           "contact": contact_dict.get(row[9], None),
-                           "cost_center": cost_center_dict.get(row[10], None),
-                           "serial_number": row[11],
-                           "svg": svg_dict.get(row[12], None),
-                           "is_cost_data_displayed": bool(row[13]),
-                           "phase_of_lifecycle": row[14],
-                           "description": row[15],
-                           "qrcode": 'microgrid:' + row[2]}
+        
+        meta_result = {"id": row[0],
+                       "name": row[1],
+                       "uuid": row[2],
+                       "address": row[3],
+                       "postal_code": row[4],
+                       "latitude": row[5],
+                       "longitude": row[6],
+                       "rated_capacity": row[7],
+                       "rated_power": row[8],
+                       "contact": contact_dict.get(row[9], None),
+                       "cost_center": cost_center_dict.get(row[10], None),
+                       "serial_number": row[11],
+                       "svg": svg_dict.get(row[12], None),
+                       "is_cost_data_displayed": bool(row[13]),
+                       "phase_of_lifecycle": row[14],
+                       "description": row[15],
+                       "qrcode": 'microgrid:' + row[2]}
 
         resp.text = json.dumps(meta_result)
 
@@ -435,70 +463,74 @@ class MicrogridItem:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_MICROGRID_ID')
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
+        rows_spaces = []
+        rows_power_plants = []
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_microgrids "
-                       " WHERE id = %s ", (id_,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.MICROGRID_NOT_FOUND')
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        # check relation with spaces
-        cursor.execute(" SELECT id "
-                       " FROM  tbl_spaces_microgrids "
-                       " WHERE microgrid_id = %s ", (id_,))
-        rows_spaces = cursor.fetchall()
-        if rows_spaces is not None and len(rows_spaces) > 0:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_400,
-                                   title='API.BAD_REQUEST',
-                                   description='API.THERE_IS_RELATION_WITH_SPACES')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_microgrids "
+                               " WHERE id = %s ", (id_,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.MICROGRID_NOT_FOUND')
 
-        # check relation with power plants
-        cursor.execute(" SELECT id "
-                       " FROM tbl_virtual_power_plants_microgrids "
-                       " WHERE microgrid_id = %s ",
-                       (id_,))
-        rows_power_plants = cursor.fetchall()
-        if rows_power_plants is not None and len(rows_power_plants) > 0:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_400,
-                                   title='API.BAD_REQUEST',
-                                   description='API.THERE_IS_RELATION_WITH_VIRTUAL_POWER_PLANTS')
+                # check relation with spaces
+                cursor.execute(" SELECT id "
+                               " FROM  tbl_spaces_microgrids "
+                               " WHERE microgrid_id = %s ", (id_,))
+                rows_spaces = cursor.fetchall()
+                if rows_spaces is not None and len(rows_spaces) > 0:
+                    raise falcon.HTTPError(status=falcon.HTTP_400,
+                                           title='API.BAD_REQUEST',
+                                           description='API.THERE_IS_RELATION_WITH_SPACES')
 
-        cursor.execute(" DELETE FROM tbl_microgrids_batteries WHERE microgrid_id = %s ", (id_,))
-        cnx.commit()
-        cursor.execute(" DELETE FROM tbl_microgrids_commands WHERE microgrid_id = %s ", (id_,))
-        cnx.commit()
-        cursor.execute(" DELETE FROM tbl_microgrids_power_conversion_systems WHERE microgrid_id = %s ", (id_,))
-        cnx.commit()
-        cursor.execute(" DELETE FROM tbl_microgrids_evchargers WHERE microgrid_id = %s ", (id_,))
-        cnx.commit()
-        cursor.execute(" DELETE FROM tbl_microgrids_generators WHERE microgrid_id = %s ", (id_,))
-        cnx.commit()
-        cursor.execute(" DELETE FROM tbl_microgrids_grids WHERE microgrid_id = %s ", (id_,))
-        cnx.commit()
-        cursor.execute(" DELETE FROM tbl_microgrids_heatpumps WHERE microgrid_id = %s ", (id_,))
-        cnx.commit()
-        cursor.execute(" DELETE FROM tbl_microgrids_loads WHERE microgrid_id = %s ", (id_,))
-        cnx.commit()
-        cursor.execute(" DELETE FROM tbl_microgrids_photovoltaics WHERE microgrid_id = %s ", (id_,))
-        cnx.commit()
-        cursor.execute(" DELETE FROM tbl_microgrids_sensors WHERE microgrid_id = %s ", (id_,))
-        cnx.commit()
-        cursor.execute(" DELETE FROM tbl_microgrids_users WHERE microgrid_id = %s ", (id_,))
-        cnx.commit()
-        cursor.execute(" DELETE FROM tbl_microgrids WHERE id = %s ", (id_,))
-        cnx.commit()
+                # check relation with power plants
+                cursor.execute(" SELECT id "
+                               " FROM tbl_virtual_power_plants_microgrids "
+                               " WHERE microgrid_id = %s ",
+                               (id_,))
+                rows_power_plants = cursor.fetchall()
+                if rows_power_plants is not None and len(rows_power_plants) > 0:
+                    raise falcon.HTTPError(status=falcon.HTTP_400,
+                                           title='API.BAD_REQUEST',
+                                           description='API.THERE_IS_RELATION_WITH_VIRTUAL_POWER_PLANTS')
 
-        cursor.close()
-        cnx.close()
+                cursor.execute(" DELETE FROM tbl_microgrids_batteries WHERE microgrid_id = %s ", (id_,))
+                cnx.commit()
+                cursor.execute(" DELETE FROM tbl_microgrids_commands WHERE microgrid_id = %s ", (id_,))
+                cnx.commit()
+                cursor.execute(" DELETE FROM tbl_microgrids_power_conversion_systems WHERE microgrid_id = %s ", (id_,))
+                cnx.commit()
+                cursor.execute(" DELETE FROM tbl_microgrids_evchargers WHERE microgrid_id = %s ", (id_,))
+                cnx.commit()
+                cursor.execute(" DELETE FROM tbl_microgrids_generators WHERE microgrid_id = %s ", (id_,))
+                cnx.commit()
+                cursor.execute(" DELETE FROM tbl_microgrids_grids WHERE microgrid_id = %s ", (id_,))
+                cnx.commit()
+                cursor.execute(" DELETE FROM tbl_microgrids_heatpumps WHERE microgrid_id = %s ", (id_,))
+                cnx.commit()
+                cursor.execute(" DELETE FROM tbl_microgrids_loads WHERE microgrid_id = %s ", (id_,))
+                cnx.commit()
+                cursor.execute(" DELETE FROM tbl_microgrids_photovoltaics WHERE microgrid_id = %s ", (id_,))
+                cnx.commit()
+                cursor.execute(" DELETE FROM tbl_microgrids_sensors WHERE microgrid_id = %s ", (id_,))
+                cnx.commit()
+                cursor.execute(" DELETE FROM tbl_microgrids_users WHERE microgrid_id = %s ", (id_,))
+                cnx.commit()
+                cursor.execute(" DELETE FROM tbl_microgrids WHERE id = %s ", (id_,))
+                cnx.commit()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         resp.status = falcon.HTTP_204
 
@@ -629,89 +661,87 @@ class MicrogridItem:
         else:
             description = None
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
+        row = None
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_microgrids "
-                       " WHERE id = %s ", (id_,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.MICROGRID_NOT_FOUND')
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_microgrids "
-                       " WHERE name = %s AND id != %s ", (name, id_))
-        if cursor.fetchone() is not None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.MICROGRID_NAME_IS_ALREADY_IN_USE')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_microgrids "
+                               " WHERE id = %s ", (id_,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.MICROGRID_NOT_FOUND')
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_contacts "
-                       " WHERE id = %s ",
-                       (new_values['data']['contact_id'],))
-        row = cursor.fetchone()
-        if row is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.CONTACT_NOT_FOUND')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_microgrids "
+                               " WHERE name = %s AND id != %s ", (name, id_))
+                if cursor.fetchone() is not None:
+                    raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                           description='API.MICROGRID_NAME_IS_ALREADY_IN_USE')
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_cost_centers "
-                       " WHERE id = %s ",
-                       (new_values['data']['cost_center_id'],))
-        row = cursor.fetchone()
-        if row is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.COST_CENTER_NOT_FOUND')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_contacts "
+                               " WHERE id = %s ",
+                               (new_values['data']['contact_id'],))
+                row = cursor.fetchone()
+                if row is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.CONTACT_NOT_FOUND')
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_svgs "
-                       " WHERE id = %s ",
-                       (new_values['data']['svg_id'],))
-        row = cursor.fetchone()
-        if row is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.SVG_NOT_FOUND')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_cost_centers "
+                               " WHERE id = %s ",
+                               (new_values['data']['cost_center_id'],))
+                row = cursor.fetchone()
+                if row is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.COST_CENTER_NOT_FOUND')
 
-        update_row = (" UPDATE tbl_microgrids "
-                      " SET name = %s, address = %s, postal_code = %s, latitude = %s, longitude = %s, "
-                      "     rated_capacity = %s, rated_power = %s, "
-                      "     contact_id = %s, cost_center_id = %s, "
-                      "     serial_number = %s, svg_id = %s, is_cost_data_displayed = %s, phase_of_lifecycle = %s, "
-                      "     description = %s "
-                      " WHERE id = %s ")
-        cursor.execute(update_row, (name,
-                                    address,
-                                    postal_code,
-                                    latitude,
-                                    longitude,
-                                    rated_capacity,
-                                    rated_power,
-                                    contact_id,
-                                    cost_center_id,
-                                    serial_number,
-                                    svg_id,
-                                    is_cost_data_displayed,
-                                    phase_of_lifecycle,
-                                    description,
-                                    id_))
-        cnx.commit()
+                cursor.execute(" SELECT name "
+                               " FROM tbl_svgs "
+                               " WHERE id = %s ",
+                               (new_values['data']['svg_id'],))
+                row = cursor.fetchone()
+                if row is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.SVG_NOT_FOUND')
 
-        cursor.close()
-        cnx.close()
+                update_row = (" UPDATE tbl_microgrids "
+                              " SET name = %s, address = %s, postal_code = %s, latitude = %s, longitude = %s, "
+                              "     rated_capacity = %s, rated_power = %s, "
+                              "     contact_id = %s, cost_center_id = %s, "
+                              "     serial_number = %s, svg_id = %s, is_cost_data_displayed = %s, phase_of_lifecycle = %s, "
+                              "     description = %s "
+                              " WHERE id = %s ")
+                cursor.execute(update_row, (name,
+                                            address,
+                                            postal_code,
+                                            latitude,
+                                            longitude,
+                                            rated_capacity,
+                                            rated_power,
+                                            contact_id,
+                                            cost_center_id,
+                                            serial_number,
+                                            svg_id,
+                                            is_cost_data_displayed,
+                                            phase_of_lifecycle,
+                                            description,
+                                            id_))
+                cnx.commit()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         resp.status = falcon.HTTP_200
-
 
 class MicrogridBatteryCollection:
     def __init__(self):
@@ -730,50 +760,62 @@ class MicrogridBatteryCollection:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_MICROGRID_ID')
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
+        rows_meters = []
+        rows_points = []
+        rows = []
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_microgrids "
-                       " WHERE id = %s ", (id_,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.MICROGRID_NOT_FOUND')
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        # query meter dict
-        query = (" SELECT id, name, uuid "
-                 " FROM tbl_meters ")
-        cursor.execute(query)
-        rows_meters = cursor.fetchall()
+                cursor.execute(" SELECT name "
+                               " FROM tbl_microgrids "
+                               " WHERE id = %s ", (id_,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.MICROGRID_NOT_FOUND')
 
-        meter_dict = dict()
-        if rows_meters is not None and len(rows_meters) > 0:
-            for row in rows_meters:
-                meter_dict[row[0]] = {"id": row[0],
-                                      "name": row[1],
-                                      "uuid": row[2]}
-        # query point dict
-        query = (" SELECT id, name "
-                 " FROM tbl_points ")
-        cursor.execute(query)
-        rows_points = cursor.fetchall()
+                # query meter dict
+                query = (" SELECT id, name, uuid "
+                         " FROM tbl_meters ")
+                cursor.execute(query)
+                rows_meters = cursor.fetchall()
 
-        point_dict = dict()
-        if rows_points is not None and len(rows_points) > 0:
-            for row in rows_points:
-                point_dict[row[0]] = {"id": row[0],
-                                      "name": row[1]}
+                meter_dict = dict()
+                if rows_meters is not None and len(rows_meters) > 0:
+                    for row in rows_meters:
+                        meter_dict[row[0]] = {"id": row[0],
+                                              "name": row[1],
+                                              "uuid": row[2]}
+                # query point dict
+                query = (" SELECT id, name "
+                         " FROM tbl_points ")
+                cursor.execute(query)
+                rows_points = cursor.fetchall()
 
-        query = (" SELECT id, name, uuid, "
-                 "        battery_state_point_id, soc_point_id, power_point_id, "
-                 "        charge_meter_id, discharge_meter_id, rated_capacity, rated_power, nominal_voltage "
-                 " FROM tbl_microgrids_batteries "
-                 " WHERE microgrid_id = %s "
-                 " ORDER BY name ")
-        cursor.execute(query, (id_,))
-        rows = cursor.fetchall()
+                point_dict = dict()
+                if rows_points is not None and len(rows_points) > 0:
+                    for row in rows_points:
+                        point_dict[row[0]] = {"id": row[0],
+                                              "name": row[1]}
+
+                query = (" SELECT id, name, uuid, "
+                         "        battery_state_point_id, soc_point_id, power_point_id, "
+                         "        charge_meter_id, discharge_meter_id, rated_capacity, rated_power, nominal_voltage "
+                         " FROM tbl_microgrids_batteries "
+                         " WHERE microgrid_id = %s "
+                         " ORDER BY name ")
+                cursor.execute(query, (id_,))
+                rows = cursor.fetchall()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         result = list()
         if rows is not None and len(rows) > 0:
@@ -814,18 +856,6 @@ class MicrogridBatteryCollection:
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_MICROGRID_ID')
-
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
-
-        cursor.execute(" SELECT name "
-                       " FROM tbl_microgrids "
-                       " WHERE id = %s ", (id_,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.MICROGRID_NOT_FOUND')
 
         new_values = json.loads(raw_json)
 
@@ -892,89 +922,94 @@ class MicrogridBatteryCollection:
                                    description='API.INVALID_NOMINAL_VOLTAGE')
         nominal_voltage = float(new_values['data']['nominal_voltage'])
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
+        new_id = None
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_microgrids_batteries "
-                       " WHERE microgrid_id = %s AND name = %s ",
-                       (id_, name,))
-        if cursor.fetchone() is not None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.MICROGRID_BATTERY_NAME_IS_ALREADY_IN_USE')
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_points "
-                       " WHERE id = %s ",
-                       (battery_state_point_id,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.BATTERY_STATE_POINT_NOT_FOUND')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_microgrids "
+                               " WHERE id = %s ", (id_,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.MICROGRID_NOT_FOUND')
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_points "
-                       " WHERE id = %s ",
-                       (soc_point_id,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.SOC_POINT_NOT_FOUND')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_microgrids_batteries "
+                               " WHERE microgrid_id = %s AND name = %s ",
+                               (id_, name,))
+                if cursor.fetchone() is not None:
+                    raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                           description='API.MICROGRID_BATTERY_NAME_IS_ALREADY_IN_USE')
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_points "
-                       " WHERE id = %s ",
-                       (power_point_id,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.POWER_POINT_NOT_FOUND')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_points "
+                               " WHERE id = %s ",
+                               (battery_state_point_id,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.BATTERY_STATE_POINT_NOT_FOUND')
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_meters "
-                       " WHERE id = %s ",
-                       (charge_meter_id,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.CHARGE_METER_NOT_FOUND')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_points "
+                               " WHERE id = %s ",
+                               (soc_point_id,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.SOC_POINT_NOT_FOUND')
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_meters "
-                       " WHERE id = %s ",
-                       (discharge_meter_id,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.DISCHARGE_METER_NOT_FOUND')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_points "
+                               " WHERE id = %s ",
+                               (power_point_id,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.POWER_POINT_NOT_FOUND')
 
-        add_values = (" INSERT INTO tbl_microgrids_batteries "
-                      "    (name, uuid, microgrid_id, "
-                      "     battery_state_point_id, soc_point_id, power_point_id, "
-                      "     charge_meter_id, discharge_meter_id, rated_capacity, rated_power, nominal_voltage) "
-                      " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) ")
-        cursor.execute(add_values, (name,
-                                    str(uuid.uuid4()),
-                                    id_,
-                                    battery_state_point_id,
-                                    soc_point_id,
-                                    power_point_id,
-                                    charge_meter_id,
-                                    discharge_meter_id,
-                                    rated_capacity,
-                                    rated_power,
-                                    nominal_voltage))
-        new_id = cursor.lastrowid
-        cnx.commit()
-        cursor.close()
-        cnx.close()
+                cursor.execute(" SELECT name "
+                               " FROM tbl_meters "
+                               " WHERE id = %s ",
+                               (charge_meter_id,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.CHARGE_METER_NOT_FOUND')
+
+                cursor.execute(" SELECT name "
+                               " FROM tbl_meters "
+                               " WHERE id = %s ",
+                               (discharge_meter_id,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.DISCHARGE_METER_NOT_FOUND')
+
+                add_values = (" INSERT INTO tbl_microgrids_batteries "
+                              "    (name, uuid, microgrid_id, "
+                              "     battery_state_point_id, soc_point_id, power_point_id, "
+                              "     charge_meter_id, discharge_meter_id, rated_capacity, rated_power, nominal_voltage) "
+                              " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) ")
+                cursor.execute(add_values, (name,
+                                            str(uuid.uuid4()),
+                                            id_,
+                                            battery_state_point_id,
+                                            soc_point_id,
+                                            power_point_id,
+                                            charge_meter_id,
+                                            discharge_meter_id,
+                                            rated_capacity,
+                                            rated_power,
+                                            nominal_voltage))
+                new_id = cursor.lastrowid
+                cnx.commit()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         resp.status = falcon.HTTP_201
         resp.location = '/microgrids/' + str(id_) + '/batteries/' + str(new_id)
@@ -989,6 +1024,7 @@ class MicrogridBatteryItem:
         _ = req
         resp.status = falcon.HTTP_200
         _ = id_
+        _ = bid
 
     @staticmethod
     def on_get(req, resp, id_, bid):
@@ -1000,80 +1036,91 @@ class MicrogridBatteryItem:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_MICROGRID_BATTERY_ID')
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
+        rows_microgrids = []
+        rows_meters = []
+        rows_points = []
+        row = None
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_microgrids "
-                       " WHERE id = %s ", (id_,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.MICROGRID_NOT_FOUND')
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        # query microgrid dict
-        query = (" SELECT id, name, uuid "
-                 " FROM tbl_microgrids ")
-        cursor.execute(query)
-        rows_microgrids = cursor.fetchall()
+                cursor.execute(" SELECT name "
+                               " FROM tbl_microgrids "
+                               " WHERE id = %s ", (id_,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.MICROGRID_NOT_FOUND')
 
-        microgrid_dict = dict()
-        if rows_microgrids is not None and len(rows_microgrids) > 0:
-            for row in rows_microgrids:
-                microgrid_dict[row[0]] = {"id": row[0],
-                                          "name": row[1],
-                                          "uuid": row[2]}
-        # query meter dict
-        query = (" SELECT id, name, uuid "
-                 " FROM tbl_meters ")
-        cursor.execute(query)
-        rows_meters = cursor.fetchall()
+                # query microgrid dict
+                query = (" SELECT id, name, uuid "
+                         " FROM tbl_microgrids ")
+                cursor.execute(query)
+                rows_microgrids = cursor.fetchall()
 
-        meter_dict = dict()
-        if rows_meters is not None and len(rows_meters) > 0:
-            for row in rows_meters:
-                meter_dict[row[0]] = {"id": row[0],
-                                      "name": row[1],
-                                      "uuid": row[2]}
-        # query point dict
-        query = (" SELECT id, name "
-                 " FROM tbl_points ")
-        cursor.execute(query)
-        rows_points = cursor.fetchall()
+                microgrid_dict = dict()
+                if rows_microgrids is not None and len(rows_microgrids) > 0:
+                    for row in rows_microgrids:
+                        microgrid_dict[row[0]] = {"id": row[0],
+                                                  "name": row[1],
+                                                  "uuid": row[2]}
+                # query meter dict
+                query = (" SELECT id, name, uuid "
+                         " FROM tbl_meters ")
+                cursor.execute(query)
+                rows_meters = cursor.fetchall()
 
-        point_dict = dict()
-        if rows_points is not None and len(rows_points) > 0:
-            for row in rows_points:
-                point_dict[row[0]] = {"id": row[0],
-                                      "name": row[1]}
+                meter_dict = dict()
+                if rows_meters is not None and len(rows_meters) > 0:
+                    for row in rows_meters:
+                        meter_dict[row[0]] = {"id": row[0],
+                                              "name": row[1],
+                                              "uuid": row[2]}
+                # query point dict
+                query = (" SELECT id, name "
+                         " FROM tbl_points ")
+                cursor.execute(query)
+                rows_points = cursor.fetchall()
 
-        query = (" SELECT id, name, uuid, microgrid_id, "
-                 "       battery_state_point_id, soc_point_id, power_point_id, "
-                 "       charge_meter_id, discharge_meter_id, rated_capacity, rated_power, nominal_voltage "
-                 " FROM tbl_microgrids_batteries "
-                 " WHERE id = %s ")
-        cursor.execute(query, (bid,))
-        row = cursor.fetchone()
-        cursor.close()
-        cnx.close()
+                point_dict = dict()
+                if rows_points is not None and len(rows_points) > 0:
+                    for row in rows_points:
+                        point_dict[row[0]] = {"id": row[0],
+                                              "name": row[1]}
+
+                query = (" SELECT id, name, uuid, microgrid_id, "
+                         "       battery_state_point_id, soc_point_id, power_point_id, "
+                         "       charge_meter_id, discharge_meter_id, rated_capacity, rated_power, nominal_voltage "
+                         " FROM tbl_microgrids_batteries "
+                         " WHERE id = %s ")
+                cursor.execute(query, (bid,))
+                row = cursor.fetchone()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         if row is None:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.MICROGRID_BATTERY_NOT_FOUND')
-        else:
-            meta_result = {"id": row[0],
-                           "name": row[1],
-                           "uuid": row[2],
-                           "microgrid": microgrid_dict.get(row[3]),
-                           "battery_state_point": point_dict.get(row[4]),
-                           "soc_point": point_dict.get(row[5]),
-                           "power_point": point_dict.get(row[6]),
-                           "charge_meter": meter_dict.get(row[7]),
-                           "discharge_meter": meter_dict.get(row[8]),
-                           "rated_capacity": row[9],
-                           "rated_power": row[10],
-                           "nominal_voltage": row[11]}
+        
+        meta_result = {"id": row[0],
+                       "name": row[1],
+                       "uuid": row[2],
+                       "microgrid": microgrid_dict.get(row[3]),
+                       "battery_state_point": point_dict.get(row[4]),
+                       "soc_point": point_dict.get(row[5]),
+                       "power_point": point_dict.get(row[6]),
+                       "charge_meter": meter_dict.get(row[7]),
+                       "discharge_meter": meter_dict.get(row[8]),
+                       "rated_capacity": row[9],
+                       "rated_power": row[10],
+                       "nominal_voltage": row[11]}
 
         resp.text = json.dumps(meta_result)
 
@@ -1088,33 +1135,37 @@ class MicrogridBatteryItem:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_MICROGRID_BATTERY_ID')
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_microgrids "
-                       " WHERE id = %s ", (id_,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.MICROGRID_NOT_FOUND')
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_microgrids_batteries "
-                       " WHERE id = %s ", (bid,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.MICROGRID_BATTERY_NOT_FOUND')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_microgrids "
+                               " WHERE id = %s ", (id_,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.MICROGRID_NOT_FOUND')
 
-        cursor.execute(" DELETE FROM tbl_microgrids_batteries "
-                       " WHERE id = %s ", (bid,))
-        cnx.commit()
+                cursor.execute(" SELECT name "
+                               " FROM tbl_microgrids_batteries "
+                               " WHERE id = %s ", (bid,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.MICROGRID_BATTERY_NOT_FOUND')
 
-        cursor.close()
-        cnx.close()
+                cursor.execute(" DELETE FROM tbl_microgrids_batteries "
+                               " WHERE id = %s ", (bid,))
+                cnx.commit()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         resp.status = falcon.HTTP_204
 
@@ -1207,109 +1258,101 @@ class MicrogridBatteryItem:
                                    description='API.INVALID_NOMINAL_VOLTAGE')
         nominal_voltage = float(new_values['data']['nominal_voltage'])
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_microgrids "
-                       " WHERE id = %s ",
-                       (id_,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.MICROGRID_NOT_FOUND')
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_microgrids_batteries "
-                       " WHERE id = %s ", (bid,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.MICROGRID_BATTERY_NOT_FOUND')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_microgrids "
+                               " WHERE id = %s ",
+                               (id_,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.MICROGRID_NOT_FOUND')
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_microgrids_batteries "
-                       " WHERE microgrid_id = %s AND name = %s AND id != %s ",
-                       (id_, name, bid))
-        if cursor.fetchone() is not None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.MICROGRID_BATTERY_NAME_IS_ALREADY_IN_USE')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_microgrids_batteries "
+                               " WHERE id = %s ", (bid,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.MICROGRID_BATTERY_NOT_FOUND')
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_points "
-                       " WHERE id = %s ",
-                       (battery_state_point_id,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.BATTERY_STATE_POINT_NOT_FOUND')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_microgrids_batteries "
+                               " WHERE microgrid_id = %s AND name = %s AND id != %s ",
+                               (id_, name, bid))
+                if cursor.fetchone() is not None:
+                    raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                           description='API.MICROGRID_BATTERY_NAME_IS_ALREADY_IN_USE')
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_points "
-                       " WHERE id = %s ",
-                       (soc_point_id,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.SOC_POINT_NOT_FOUND')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_points "
+                               " WHERE id = %s ",
+                               (battery_state_point_id,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.BATTERY_STATE_POINT_NOT_FOUND')
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_points "
-                       " WHERE id = %s ",
-                       (power_point_id,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.POWER_POINT_NOT_FOUND')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_points "
+                               " WHERE id = %s ",
+                               (soc_point_id,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.SOC_POINT_NOT_FOUND')
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_meters "
-                       " WHERE id = %s ",
-                       (charge_meter_id,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.CHARGE_METER_NOT_FOUND')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_points "
+                               " WHERE id = %s ",
+                               (power_point_id,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.POWER_POINT_NOT_FOUND')
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_meters "
-                       " WHERE id = %s ",
-                       (discharge_meter_id,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.DISCHARGE_METER_NOT_FOUND')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_meters "
+                               " WHERE id = %s ",
+                               (charge_meter_id,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.CHARGE_METER_NOT_FOUND')
 
-        update_row = (" UPDATE tbl_microgrids_batteries "
-                      " SET name = %s, microgrid_id = %s, "
-                      "     battery_state_point_id = %s, soc_point_id = %s, power_point_id = %s, "
-                      "     charge_meter_id = %s, discharge_meter_id = %s, rated_capacity = %s, rated_power = %s,"
-                      "     nominal_voltage = %s "
-                      " WHERE id = %s ")
-        cursor.execute(update_row, (name,
-                                    id_,
-                                    battery_state_point_id,
-                                    soc_point_id,
-                                    power_point_id,
-                                    charge_meter_id,
-                                    discharge_meter_id,
-                                    rated_capacity,
-                                    rated_power,
-                                    nominal_voltage,
-                                    bid))
-        cnx.commit()
+                cursor.execute(" SELECT name "
+                               " FROM tbl_meters "
+                               " WHERE id = %s ",
+                               (discharge_meter_id,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.DISCHARGE_METER_NOT_FOUND')
 
-        cursor.close()
-        cnx.close()
+                update_row = (" UPDATE tbl_microgrids_batteries "
+                              " SET name = %s, microgrid_id = %s, "
+                              "     battery_state_point_id = %s, soc_point_id = %s, power_point_id = %s, "
+                              "     charge_meter_id = %s, discharge_meter_id = %s, rated_capacity = %s, rated_power = %s,"
+                              "     nominal_voltage = %s "
+                              " WHERE id = %s ")
+                cursor.execute(update_row, (name,
+                                            id_,
+                                            battery_state_point_id,
+                                            soc_point_id,
+                                            power_point_id,
+                                            charge_meter_id,
+                                            discharge_meter_id,
+                                            rated_capacity,
+                                            rated_power,
+                                            nominal_voltage,
+                                            bid))
+                cnx.commit()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         resp.status = falcon.HTTP_200
 
@@ -1331,24 +1374,34 @@ class MicrogridCommandCollection:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_MICROGRID_ID')
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
+        rows = []
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_microgrids "
-                       " WHERE id = %s ", (id_,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.MICROGRID_NOT_FOUND')
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        query = (" SELECT c.id, c.name, c.uuid "
-                 " FROM tbl_microgrids m, tbl_microgrids_commands mc, tbl_commands c "
-                 " WHERE mc.microgrid_id = m.id AND c.id = mc.command_id AND m.id = %s "
-                 " ORDER BY c.id ")
-        cursor.execute(query, (id_,))
-        rows = cursor.fetchall()
+                cursor.execute(" SELECT name "
+                               " FROM tbl_microgrids "
+                               " WHERE id = %s ", (id_,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.MICROGRID_NOT_FOUND')
+
+                query = (" SELECT c.id, c.name, c.uuid "
+                         " FROM tbl_microgrids m, tbl_microgrids_commands mc, tbl_commands c "
+                         " WHERE mc.microgrid_id = m.id AND c.id = mc.command_id AND m.id = %s "
+                         " ORDER BY c.id ")
+                cursor.execute(query, (id_,))
+                rows = cursor.fetchall()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         result = list()
         if rows is not None and len(rows) > 0:
@@ -1357,7 +1410,6 @@ class MicrogridCommandCollection:
                 result.append(meta_result)
 
         resp.text = json.dumps(result)
-
 
 class MicrogridEVChargerCollection:
     def __init__(self):
@@ -1376,49 +1428,61 @@ class MicrogridEVChargerCollection:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_MICROGRID_ID')
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
+        rows_meters = []
+        rows_points = []
+        rows = []
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_microgrids "
-                       " WHERE id = %s ", (id_,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.MICROGRID_NOT_FOUND')
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        # query meter dict
-        query = (" SELECT id, name, uuid "
-                 " FROM tbl_meters ")
-        cursor.execute(query)
-        rows_meters = cursor.fetchall()
+                cursor.execute(" SELECT name "
+                               " FROM tbl_microgrids "
+                               " WHERE id = %s ", (id_,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.MICROGRID_NOT_FOUND')
 
-        meter_dict = dict()
-        if rows_meters is not None and len(rows_meters) > 0:
-            for row in rows_meters:
-                meter_dict[row[0]] = {"id": row[0],
-                                      "name": row[1],
-                                      "uuid": row[2]}
-        # query point dict
-        query = (" SELECT id, name "
-                 " FROM tbl_points ")
-        cursor.execute(query)
-        rows_points = cursor.fetchall()
+                # query meter dict
+                query = (" SELECT id, name, uuid "
+                         " FROM tbl_meters ")
+                cursor.execute(query)
+                rows_meters = cursor.fetchall()
 
-        point_dict = dict()
-        if rows_points is not None and len(rows_points) > 0:
-            for row in rows_points:
-                point_dict[row[0]] = {"id": row[0],
-                                      "name": row[1]}
+                meter_dict = dict()
+                if rows_meters is not None and len(rows_meters) > 0:
+                    for row in rows_meters:
+                        meter_dict[row[0]] = {"id": row[0],
+                                              "name": row[1],
+                                              "uuid": row[2]}
+                # query point dict
+                query = (" SELECT id, name "
+                         " FROM tbl_points ")
+                cursor.execute(query)
+                rows_points = cursor.fetchall()
 
-        query = (" SELECT id, name, uuid, "
-                 "       power_point_id, meter_id, rated_output_power "
-                 " FROM tbl_microgrids_evchargers "
-                 " WHERE microgrid_id = %s "
-                 " ORDER BY name ")
-        cursor.execute(query, (id_,))
-        rows = cursor.fetchall()
+                point_dict = dict()
+                if rows_points is not None and len(rows_points) > 0:
+                    for row in rows_points:
+                        point_dict[row[0]] = {"id": row[0],
+                                              "name": row[1]}
+
+                query = (" SELECT id, name, uuid, "
+                         "       power_point_id, meter_id, rated_output_power "
+                         " FROM tbl_microgrids_evchargers "
+                         " WHERE microgrid_id = %s "
+                         " ORDER BY name ")
+                cursor.execute(query, (id_,))
+                rows = cursor.fetchall()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         result = list()
         if rows is not None and len(rows) > 0:
@@ -1455,18 +1519,6 @@ class MicrogridEVChargerCollection:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_MICROGRID_ID')
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
-
-        cursor.execute(" SELECT name "
-                       " FROM tbl_microgrids "
-                       " WHERE id = %s ", (id_,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.MICROGRID_NOT_FOUND')
-
         new_values = json.loads(raw_json)
 
         if 'name' not in new_values['data'].keys() or \
@@ -1497,62 +1549,64 @@ class MicrogridEVChargerCollection:
                                    description='API.INVALID_RATED_OUTPUT_POWER')
         rated_output_power = float(new_values['data']['rated_output_power'])
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
+        new_id = None
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_microgrids "
-                       " WHERE id = %s ",
-                       (id_,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.MICROGRID_NOT_FOUND')
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_microgrids_evchargers "
-                       " WHERE microgrid_id = %s AND name = %s ",
-                       (id_, name,))
-        if cursor.fetchone() is not None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.MICROGRID_EVCHARGER_NAME_IS_ALREADY_IN_USE')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_microgrids "
+                               " WHERE id = %s ",
+                               (id_,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.MICROGRID_NOT_FOUND')
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_points "
-                       " WHERE id = %s ",
-                       (power_point_id,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.POWER_POINT_NOT_FOUND')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_microgrids_evchargers "
+                               " WHERE microgrid_id = %s AND name = %s ",
+                               (id_, name,))
+                if cursor.fetchone() is not None:
+                    raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                           description='API.MICROGRID_EVCHARGER_NAME_IS_ALREADY_IN_USE')
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_meters "
-                       " WHERE id = %s ",
-                       (meter_id,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.METER_NOT_FOUND')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_points "
+                               " WHERE id = %s ",
+                               (power_point_id,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.POWER_POINT_NOT_FOUND')
 
-        add_values = (" INSERT INTO tbl_microgrids_evchargers "
-                      "    (name, uuid, microgrid_id, power_point_id, meter_id, rated_output_power) "
-                      " VALUES (%s, %s, %s, %s, %s, %s) ")
-        cursor.execute(add_values, (name,
-                                    str(uuid.uuid4()),
-                                    id_,
-                                    power_point_id,
-                                    meter_id,
-                                    rated_output_power))
-        new_id = cursor.lastrowid
-        cnx.commit()
-        cursor.close()
-        cnx.close()
+                cursor.execute(" SELECT name "
+                               " FROM tbl_meters "
+                               " WHERE id = %s ",
+                               (meter_id,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.METER_NOT_FOUND')
+
+                add_values = (" INSERT INTO tbl_microgrids_evchargers "
+                              "    (name, uuid, microgrid_id, power_point_id, meter_id, rated_output_power) "
+                              " VALUES (%s, %s, %s, %s, %s, %s) ")
+                cursor.execute(add_values, (name,
+                                            str(uuid.uuid4()),
+                                            id_,
+                                            power_point_id,
+                                            meter_id,
+                                            rated_output_power))
+                new_id = cursor.lastrowid
+                cnx.commit()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         resp.status = falcon.HTTP_201
         resp.location = '/microgrids/' + id_ + '/evchargers/' + str(new_id)
@@ -1567,6 +1621,7 @@ class MicrogridEVChargerItem:
         _ = req
         resp.status = falcon.HTTP_200
         _ = id_
+        _ = eid
 
     @staticmethod
     def on_get(req, resp, id_, eid):
@@ -1578,73 +1633,84 @@ class MicrogridEVChargerItem:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_MICROGRID_EVCHARGER_ID')
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
+        rows_microgrids = []
+        rows_meters = []
+        rows_points = []
+        row = None
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_microgrids "
-                       " WHERE id = %s ", (id_,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.MICROGRID_NOT_FOUND')
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        # query microgrid dict
-        query = (" SELECT id, name, uuid "
-                 " FROM tbl_microgrids ")
-        cursor.execute(query)
-        rows_microgrids = cursor.fetchall()
+                cursor.execute(" SELECT name "
+                               " FROM tbl_microgrids "
+                               " WHERE id = %s ", (id_,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.MICROGRID_NOT_FOUND')
 
-        microgrid_dict = dict()
-        if rows_microgrids is not None and len(rows_microgrids) > 0:
-            for row in rows_microgrids:
-                microgrid_dict[row[0]] = {"id": row[0],
-                                          "name": row[1],
-                                          "uuid": row[2]}
-        # query meter dict
-        query = (" SELECT id, name, uuid "
-                 " FROM tbl_meters ")
-        cursor.execute(query)
-        rows_meters = cursor.fetchall()
+                # query microgrid dict
+                query = (" SELECT id, name, uuid "
+                         " FROM tbl_microgrids ")
+                cursor.execute(query)
+                rows_microgrids = cursor.fetchall()
 
-        meter_dict = dict()
-        if rows_meters is not None and len(rows_meters) > 0:
-            for row in rows_meters:
-                meter_dict[row[0]] = {"id": row[0],
-                                      "name": row[1],
-                                      "uuid": row[2]}
-        # query point dict
-        query = (" SELECT id, name "
-                 " FROM tbl_points ")
-        cursor.execute(query)
-        rows_points = cursor.fetchall()
+                microgrid_dict = dict()
+                if rows_microgrids is not None and len(rows_microgrids) > 0:
+                    for row in rows_microgrids:
+                        microgrid_dict[row[0]] = {"id": row[0],
+                                                  "name": row[1],
+                                                  "uuid": row[2]}
+                # query meter dict
+                query = (" SELECT id, name, uuid "
+                         " FROM tbl_meters ")
+                cursor.execute(query)
+                rows_meters = cursor.fetchall()
 
-        point_dict = dict()
-        if rows_points is not None and len(rows_points) > 0:
-            for row in rows_points:
-                point_dict[row[0]] = {"id": row[0],
-                                      "name": row[1]}
+                meter_dict = dict()
+                if rows_meters is not None and len(rows_meters) > 0:
+                    for row in rows_meters:
+                        meter_dict[row[0]] = {"id": row[0],
+                                              "name": row[1],
+                                              "uuid": row[2]}
+                # query point dict
+                query = (" SELECT id, name "
+                         " FROM tbl_points ")
+                cursor.execute(query)
+                rows_points = cursor.fetchall()
 
-        query = (" SELECT id, name, uuid, microgrid_id, power_point_id, meter_id, rated_output_power "
-                 " FROM tbl_microgrids_evchargers "
-                 " WHERE id = %s ")
-        cursor.execute(query, (eid,))
-        row = cursor.fetchone()
-        cursor.close()
-        cnx.close()
+                point_dict = dict()
+                if rows_points is not None and len(rows_points) > 0:
+                    for row in rows_points:
+                        point_dict[row[0]] = {"id": row[0],
+                                              "name": row[1]}
+
+                query = (" SELECT id, name, uuid, microgrid_id, power_point_id, meter_id, rated_output_power "
+                         " FROM tbl_microgrids_evchargers "
+                         " WHERE id = %s ")
+                cursor.execute(query, (eid,))
+                row = cursor.fetchone()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         if row is None:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.MICROGRID_EVCHARGER_NOT_FOUND')
-        else:
-            meta_result = {"id": row[0],
-                           "name": row[1],
-                           "uuid": row[2],
-                           "microgrid": microgrid_dict.get(row[3]),
-                           "power_point": point_dict.get(row[4]),
-                           "meter": meter_dict.get(row[5]),
-                           "rated_output_power": row[6]}
+        
+        meta_result = {"id": row[0],
+                       "name": row[1],
+                       "uuid": row[2],
+                       "microgrid": microgrid_dict.get(row[3]),
+                       "power_point": point_dict.get(row[4]),
+                       "meter": meter_dict.get(row[5]),
+                       "rated_output_power": row[6]}
 
         resp.text = json.dumps(meta_result)
 
@@ -1658,33 +1724,38 @@ class MicrogridEVChargerItem:
         if not eid.isdigit() or int(eid) <= 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_MICROGRID_EVCHARGER_ID')
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        
+        cnx = None
+        cursor = None
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_microgrids "
-                       " WHERE id = %s ", (id_,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.MICROGRID_NOT_FOUND')
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_microgrids_evchargers "
-                       " WHERE id = %s ", (eid,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.MICROGRID_EVCHARGER_NOT_FOUND')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_microgrids "
+                               " WHERE id = %s ", (id_,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.MICROGRID_NOT_FOUND')
 
-        cursor.execute(" DELETE FROM tbl_microgrids_evchargers "
-                       " WHERE id = %s ", (eid,))
-        cnx.commit()
+                cursor.execute(" SELECT name "
+                               " FROM tbl_microgrids_evchargers "
+                               " WHERE id = %s ", (eid,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.MICROGRID_EVCHARGER_NOT_FOUND')
 
-        cursor.close()
-        cnx.close()
+                cursor.execute(" DELETE FROM tbl_microgrids_evchargers "
+                               " WHERE id = %s ", (eid,))
+                cnx.commit()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         resp.status = falcon.HTTP_204
 
@@ -1742,70 +1813,68 @@ class MicrogridEVChargerItem:
                                    description='API.INVALID_RATED_OUTPUT_POWER')
         rated_output_power = float(new_values['data']['rated_output_power'])
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_microgrids "
-                       " WHERE id = %s ", (id_,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.MICROGRID_NOT_FOUND')
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_microgrids_evchargers "
-                       " WHERE id = %s ", (eid,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.MICROGRID_EVCHARGER_NOT_FOUND')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_microgrids "
+                               " WHERE id = %s ", (id_,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.MICROGRID_NOT_FOUND')
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_microgrids_evchargers "
-                       " WHERE microgrid_id = %s AND name = %s AND id != %s ",
-                       (id_, name, eid))
-        if cursor.fetchone() is not None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.MICROGRID_EVCHARGER_NAME_IS_ALREADY_IN_USE')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_microgrids_evchargers "
+                               " WHERE id = %s ", (eid,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.MICROGRID_EVCHARGER_NOT_FOUND')
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_points "
-                       " WHERE id = %s ",
-                       (power_point_id,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.POWER_POINT_NOT_FOUND')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_microgrids_evchargers "
+                               " WHERE microgrid_id = %s AND name = %s AND id != %s ",
+                               (id_, name, eid))
+                if cursor.fetchone() is not None:
+                    raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                           description='API.MICROGRID_EVCHARGER_NAME_IS_ALREADY_IN_USE')
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_meters "
-                       " WHERE id = %s ",
-                       (meter_id,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.METER_NOT_FOUND')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_points "
+                               " WHERE id = %s ",
+                               (power_point_id,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.POWER_POINT_NOT_FOUND')
 
-        update_row = (" UPDATE tbl_microgrids_evchargers "
-                      " SET name = %s, microgrid_id = %s, power_point_id = %s, meter_id = %s, rated_output_power = %s "
-                      " WHERE id = %s ")
-        cursor.execute(update_row, (name,
-                                    id_,
-                                    power_point_id,
-                                    meter_id,
-                                    rated_output_power,
-                                    eid))
-        cnx.commit()
+                cursor.execute(" SELECT name "
+                               " FROM tbl_meters "
+                               " WHERE id = %s ",
+                               (meter_id,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.METER_NOT_FOUND')
 
-        cursor.close()
-        cnx.close()
+                update_row = (" UPDATE tbl_microgrids_evchargers "
+                              " SET name = %s, microgrid_id = %s, power_point_id = %s, meter_id = %s, rated_output_power = %s "
+                              " WHERE id = %s ")
+                cursor.execute(update_row, (name,
+                                            id_,
+                                            power_point_id,
+                                            meter_id,
+                                            rated_output_power,
+                                            eid))
+                cnx.commit()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         resp.status = falcon.HTTP_200
 
@@ -1827,49 +1896,61 @@ class MicrogridGeneratorCollection:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_MICROGRID_ID')
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
+        rows_meters = []
+        rows_points = []
+        rows = []
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_microgrids "
-                       " WHERE id = %s ", (id_,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.MICROGRID_NOT_FOUND')
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        # query meter dict
-        query = (" SELECT id, name, uuid "
-                 " FROM tbl_meters ")
-        cursor.execute(query)
-        rows_meters = cursor.fetchall()
+                cursor.execute(" SELECT name "
+                               " FROM tbl_microgrids "
+                               " WHERE id = %s ", (id_,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.MICROGRID_NOT_FOUND')
 
-        meter_dict = dict()
-        if rows_meters is not None and len(rows_meters) > 0:
-            for row in rows_meters:
-                meter_dict[row[0]] = {"id": row[0],
-                                      "name": row[1],
-                                      "uuid": row[2]}
-        # query point dict
-        query = (" SELECT id, name "
-                 " FROM tbl_points ")
-        cursor.execute(query)
-        rows_points = cursor.fetchall()
+                # query meter dict
+                query = (" SELECT id, name, uuid "
+                         " FROM tbl_meters ")
+                cursor.execute(query)
+                rows_meters = cursor.fetchall()
 
-        point_dict = dict()
-        if rows_points is not None and len(rows_points) > 0:
-            for row in rows_points:
-                point_dict[row[0]] = {"id": row[0],
-                                      "name": row[1]}
+                meter_dict = dict()
+                if rows_meters is not None and len(rows_meters) > 0:
+                    for row in rows_meters:
+                        meter_dict[row[0]] = {"id": row[0],
+                                              "name": row[1],
+                                              "uuid": row[2]}
+                # query point dict
+                query = (" SELECT id, name "
+                         " FROM tbl_points ")
+                cursor.execute(query)
+                rows_points = cursor.fetchall()
 
-        query = (" SELECT id, name, uuid, "
-                 "        power_point_id, meter_id, rated_output_power "
-                 " FROM tbl_microgrids_generators "
-                 " WHERE microgrid_id = %s "
-                 " ORDER BY name ")
-        cursor.execute(query, (id_,))
-        rows = cursor.fetchall()
+                point_dict = dict()
+                if rows_points is not None and len(rows_points) > 0:
+                    for row in rows_points:
+                        point_dict[row[0]] = {"id": row[0],
+                                              "name": row[1]}
+
+                query = (" SELECT id, name, uuid, "
+                         "        power_point_id, meter_id, rated_output_power "
+                         " FROM tbl_microgrids_generators "
+                         " WHERE microgrid_id = %s "
+                         " ORDER BY name ")
+                cursor.execute(query, (id_,))
+                rows = cursor.fetchall()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         result = list()
         if rows is not None and len(rows) > 0:
@@ -1905,18 +1986,6 @@ class MicrogridGeneratorCollection:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_MICROGRID_ID')
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
-
-        cursor.execute(" SELECT name "
-                       " FROM tbl_microgrids "
-                       " WHERE id = %s ", (id_,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.MICROGRID_NOT_FOUND')
-
         new_values = json.loads(raw_json)
 
         if 'name' not in new_values['data'].keys() or \
@@ -1947,66 +2016,67 @@ class MicrogridGeneratorCollection:
                                    description='API.INVALID_RATED_OUTPUT_POWER')
         rated_output_power = float(new_values['data']['rated_output_power'])
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
+        new_id = None
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_microgrids "
-                       " WHERE id = %s ",
-                       (id_,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.MICROGRID_NOT_FOUND')
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_microgrids_generators "
-                       " WHERE microgrid_id = %s AND name = %s ",
-                       (id_, name,))
-        if cursor.fetchone() is not None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.MICROGRID_GENERATOR_NAME_IS_ALREADY_IN_USE')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_microgrids "
+                               " WHERE id = %s ",
+                               (id_,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.MICROGRID_NOT_FOUND')
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_points "
-                       " WHERE id = %s ",
-                       (power_point_id,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.POWER_POINT_NOT_FOUND')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_microgrids_generators "
+                               " WHERE microgrid_id = %s AND name = %s ",
+                               (id_, name,))
+                if cursor.fetchone() is not None:
+                    raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                           description='API.MICROGRID_GENERATOR_NAME_IS_ALREADY_IN_USE')
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_meters "
-                       " WHERE id = %s ",
-                       (meter_id,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.METER_NOT_FOUND')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_points "
+                               " WHERE id = %s ",
+                               (power_point_id,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.POWER_POINT_NOT_FOUND')
 
-        add_values = (" INSERT INTO tbl_microgrids_generators "
-                      "    (name, uuid, microgrid_id, power_point_id, meter_id, rated_output_power) "
-                      " VALUES (%s, %s, %s, %s, %s, %s) ")
-        cursor.execute(add_values, (name,
-                                    str(uuid.uuid4()),
-                                    id_,
-                                    power_point_id,
-                                    meter_id,
-                                    rated_output_power))
-        new_id = cursor.lastrowid
-        cnx.commit()
-        cursor.close()
-        cnx.close()
+                cursor.execute(" SELECT name "
+                               " FROM tbl_meters "
+                               " WHERE id = %s ",
+                               (meter_id,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.METER_NOT_FOUND')
+
+                add_values = (" INSERT INTO tbl_microgrids_generators "
+                              "    (name, uuid, microgrid_id, power_point_id, meter_id, rated_output_power) "
+                              " VALUES (%s, %s, %s, %s, %s, %s) ")
+                cursor.execute(add_values, (name,
+                                            str(uuid.uuid4()),
+                                            id_,
+                                            power_point_id,
+                                            meter_id,
+                                            rated_output_power))
+                new_id = cursor.lastrowid
+                cnx.commit()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         resp.status = falcon.HTTP_201
         resp.location = '/microgrids/' + str(id_) + '/generators/' + str(new_id)
-
 
 class MicrogridGeneratorItem:
     def __init__(self):
@@ -2017,6 +2087,7 @@ class MicrogridGeneratorItem:
         _ = req
         resp.status = falcon.HTTP_200
         _ = id_
+        _ = gid
 
     @staticmethod
     def on_get(req, resp, id_, gid):
@@ -2028,73 +2099,84 @@ class MicrogridGeneratorItem:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_MICROGRID_GENERATOR_ID')
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
+        rows_microgrids = []
+        rows_meters = []
+        rows_points = []
+        row = None
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_microgrids "
-                       " WHERE id = %s ", (id_,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.MICROGRID_NOT_FOUND')
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        # query microgrid dict
-        query = (" SELECT id, name, uuid "
-                 " FROM tbl_microgrids ")
-        cursor.execute(query)
-        rows_microgrids = cursor.fetchall()
+                cursor.execute(" SELECT name "
+                               " FROM tbl_microgrids "
+                               " WHERE id = %s ", (id_,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.MICROGRID_NOT_FOUND')
 
-        microgrid_dict = dict()
-        if rows_microgrids is not None and len(rows_microgrids) > 0:
-            for row in rows_microgrids:
-                microgrid_dict[row[0]] = {"id": row[0],
-                                          "name": row[1],
-                                          "uuid": row[2]}
-        # query meter dict
-        query = (" SELECT id, name, uuid "
-                 " FROM tbl_meters ")
-        cursor.execute(query)
-        rows_meters = cursor.fetchall()
+                # query microgrid dict
+                query = (" SELECT id, name, uuid "
+                         " FROM tbl_microgrids ")
+                cursor.execute(query)
+                rows_microgrids = cursor.fetchall()
 
-        meter_dict = dict()
-        if rows_meters is not None and len(rows_meters) > 0:
-            for row in rows_meters:
-                meter_dict[row[0]] = {"id": row[0],
-                                      "name": row[1],
-                                      "uuid": row[2]}
-        # query point dict
-        query = (" SELECT id, name "
-                 " FROM tbl_points ")
-        cursor.execute(query)
-        rows_points = cursor.fetchall()
+                microgrid_dict = dict()
+                if rows_microgrids is not None and len(rows_microgrids) > 0:
+                    for row in rows_microgrids:
+                        microgrid_dict[row[0]] = {"id": row[0],
+                                                  "name": row[1],
+                                                  "uuid": row[2]}
+                # query meter dict
+                query = (" SELECT id, name, uuid "
+                         " FROM tbl_meters ")
+                cursor.execute(query)
+                rows_meters = cursor.fetchall()
 
-        point_dict = dict()
-        if rows_points is not None and len(rows_points) > 0:
-            for row in rows_points:
-                point_dict[row[0]] = {"id": row[0],
-                                      "name": row[1]}
+                meter_dict = dict()
+                if rows_meters is not None and len(rows_meters) > 0:
+                    for row in rows_meters:
+                        meter_dict[row[0]] = {"id": row[0],
+                                              "name": row[1],
+                                              "uuid": row[2]}
+                # query point dict
+                query = (" SELECT id, name "
+                         " FROM tbl_points ")
+                cursor.execute(query)
+                rows_points = cursor.fetchall()
 
-        query = (" SELECT id, name, uuid, microgrid_id, power_point_id, meter_id, rated_output_power "
-                 " FROM tbl_microgrids_generators "
-                 " WHERE id = %s ")
-        cursor.execute(query, (gid,))
-        row = cursor.fetchone()
-        cursor.close()
-        cnx.close()
+                point_dict = dict()
+                if rows_points is not None and len(rows_points) > 0:
+                    for row in rows_points:
+                        point_dict[row[0]] = {"id": row[0],
+                                              "name": row[1]}
+
+                query = (" SELECT id, name, uuid, microgrid_id, power_point_id, meter_id, rated_output_power "
+                         " FROM tbl_microgrids_generators "
+                         " WHERE id = %s ")
+                cursor.execute(query, (gid,))
+                row = cursor.fetchone()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         if row is None:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.MICROGRID_GENERATOR_NOT_FOUND')
-        else:
-            meta_result = {"id": row[0],
-                           "name": row[1],
-                           "uuid": row[2],
-                           "microgrid": microgrid_dict.get(row[3]),
-                           "power_point": point_dict.get(row[4]),
-                           "meter": meter_dict.get(row[5]),
-                           "rated_output_power": row[6]}
+        
+        meta_result = {"id": row[0],
+                       "name": row[1],
+                       "uuid": row[2],
+                       "microgrid": microgrid_dict.get(row[3]),
+                       "power_point": point_dict.get(row[4]),
+                       "meter": meter_dict.get(row[5]),
+                       "rated_output_power": row[6]}
 
         resp.text = json.dumps(meta_result)
 
@@ -2109,33 +2191,37 @@ class MicrogridGeneratorItem:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_MICROGRID_GENERATOR_ID')
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_microgrids "
-                       " WHERE id = %s ", (id_,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.MICROGRID_NOT_FOUND')
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_microgrids_generators "
-                       " WHERE id = %s ", (gid,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.MICROGRID_GENERATOR_NOT_FOUND')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_microgrids "
+                               " WHERE id = %s ", (id_,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.MICROGRID_NOT_FOUND')
 
-        cursor.execute(" DELETE FROM tbl_microgrids_generators "
-                       " WHERE id = %s ", (gid,))
-        cnx.commit()
+                cursor.execute(" SELECT name "
+                               " FROM tbl_microgrids_generators "
+                               " WHERE id = %s ", (gid,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.MICROGRID_GENERATOR_NOT_FOUND')
 
-        cursor.close()
-        cnx.close()
+                cursor.execute(" DELETE FROM tbl_microgrids_generators "
+                               " WHERE id = %s ", (gid,))
+                cnx.commit()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         resp.status = falcon.HTTP_204
 
@@ -2193,70 +2279,68 @@ class MicrogridGeneratorItem:
                                    description='API.INVALID_RATED_OUTPUT_POWER')
         rated_output_power = float(new_values['data']['rated_output_power'])
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_microgrids "
-                       " WHERE id = %s ", (id_,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.MICROGRID_NOT_FOUND')
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_microgrids_generators "
-                       " WHERE id = %s ", (gid,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.MICROGRID_GENERATOR_NOT_FOUND')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_microgrids "
+                               " WHERE id = %s ", (id_,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.MICROGRID_NOT_FOUND')
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_microgrids_generators "
-                       " WHERE microgrid_id = %s AND name = %s AND id != %s ",
-                       (id_, name, gid))
-        if cursor.fetchone() is not None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.MICROGRID_GENERATOR_NAME_IS_ALREADY_IN_USE')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_microgrids_generators "
+                               " WHERE id = %s ", (gid,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.MICROGRID_GENERATOR_NOT_FOUND')
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_points "
-                       " WHERE id = %s ",
-                       (power_point_id,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.POWER_POINT_NOT_FOUND')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_microgrids_generators "
+                               " WHERE microgrid_id = %s AND name = %s AND id != %s ",
+                               (id_, name, gid))
+                if cursor.fetchone() is not None:
+                    raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                           description='API.MICROGRID_GENERATOR_NAME_IS_ALREADY_IN_USE')
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_meters "
-                       " WHERE id = %s ",
-                       (meter_id,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.METER_NOT_FOUND')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_points "
+                               " WHERE id = %s ",
+                               (power_point_id,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.POWER_POINT_NOT_FOUND')
 
-        update_row = (" UPDATE tbl_microgrids_generators "
-                      " SET name = %s, microgrid_id = %s, power_point_id = %s, meter_id = %s, rated_output_power = %s "
-                      " WHERE id = %s ")
-        cursor.execute(update_row, (name,
-                                    id_,
-                                    power_point_id,
-                                    meter_id,
-                                    rated_output_power,
-                                    gid))
-        cnx.commit()
+                cursor.execute(" SELECT name "
+                               " FROM tbl_meters "
+                               " WHERE id = %s ",
+                               (meter_id,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.METER_NOT_FOUND')
 
-        cursor.close()
-        cnx.close()
+                update_row = (" UPDATE tbl_microgrids_generators "
+                              " SET name = %s, microgrid_id = %s, power_point_id = %s, meter_id = %s, rated_output_power = %s "
+                              " WHERE id = %s ")
+                cursor.execute(update_row, (name,
+                                            id_,
+                                            power_point_id,
+                                            meter_id,
+                                            rated_output_power,
+                                            gid))
+                cnx.commit()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         resp.status = falcon.HTTP_200
 
@@ -2278,49 +2362,61 @@ class MicrogridGridCollection:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_MICROGRID_ID')
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
+        rows_meters = []
+        rows_points = []
+        rows = []
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_microgrids "
-                       " WHERE id = %s ", (id_,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.MICROGRID_NOT_FOUND')
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        # query meter dict
-        query = (" SELECT id, name, uuid "
-                 " FROM tbl_meters ")
-        cursor.execute(query)
-        rows_meters = cursor.fetchall()
+                cursor.execute(" SELECT name "
+                               " FROM tbl_microgrids "
+                               " WHERE id = %s ", (id_,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.MICROGRID_NOT_FOUND')
 
-        meter_dict = dict()
-        if rows_meters is not None and len(rows_meters) > 0:
-            for row in rows_meters:
-                meter_dict[row[0]] = {"id": row[0],
-                                      "name": row[1],
-                                      "uuid": row[2]}
-        # query point dict
-        query = (" SELECT id, name "
-                 " FROM tbl_points ")
-        cursor.execute(query)
-        rows_points = cursor.fetchall()
+                # query meter dict
+                query = (" SELECT id, name, uuid "
+                         " FROM tbl_meters ")
+                cursor.execute(query)
+                rows_meters = cursor.fetchall()
 
-        point_dict = dict()
-        if rows_points is not None and len(rows_points) > 0:
-            for row in rows_points:
-                point_dict[row[0]] = {"id": row[0],
-                                      "name": row[1]}
+                meter_dict = dict()
+                if rows_meters is not None and len(rows_meters) > 0:
+                    for row in rows_meters:
+                        meter_dict[row[0]] = {"id": row[0],
+                                              "name": row[1],
+                                              "uuid": row[2]}
+                # query point dict
+                query = (" SELECT id, name "
+                         " FROM tbl_points ")
+                cursor.execute(query)
+                rows_points = cursor.fetchall()
 
-        query = (" SELECT id, name, uuid, "
-                 "        power_point_id, buy_meter_id, sell_meter_id, capacity "
-                 " FROM tbl_microgrids_grids "
-                 " WHERE microgrid_id = %s "
-                 " ORDER BY name ")
-        cursor.execute(query, (id_,))
-        rows = cursor.fetchall()
+                point_dict = dict()
+                if rows_points is not None and len(rows_points) > 0:
+                    for row in rows_points:
+                        point_dict[row[0]] = {"id": row[0],
+                                              "name": row[1]}
+
+                query = (" SELECT id, name, uuid, "
+                         "        power_point_id, buy_meter_id, sell_meter_id, capacity "
+                         " FROM tbl_microgrids_grids "
+                         " WHERE microgrid_id = %s "
+                         " ORDER BY name ")
+                cursor.execute(query, (id_,))
+                rows = cursor.fetchall()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         result = list()
         if rows is not None and len(rows) > 0:
@@ -2356,18 +2452,6 @@ class MicrogridGridCollection:
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_MICROGRID_ID')
-
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
-
-        cursor.execute(" SELECT name "
-                       " FROM tbl_microgrids "
-                       " WHERE id = %s ", (id_,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.MICROGRID_NOT_FOUND')
 
         new_values = json.loads(raw_json)
 
@@ -2406,73 +2490,73 @@ class MicrogridGridCollection:
                                    description='API.INVALID_CAPACITY')
         capacity = float(new_values['data']['capacity'])
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
+        new_id = None
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_microgrids "
-                       " WHERE id = %s ",
-                       (id_,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.MICROGRID_NOT_FOUND')
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_microgrids_grids "
-                       " WHERE microgrid_id = %s AND name = %s ",
-                       (id_, name,))
-        if cursor.fetchone() is not None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.MICROGRID_GRID_NAME_IS_ALREADY_IN_USE')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_microgrids "
+                               " WHERE id = %s ",
+                               (id_,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.MICROGRID_NOT_FOUND')
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_points "
-                       " WHERE id = %s ",
-                       (power_point_id,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.POWER_POINT_NOT_FOUND')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_microgrids_grids "
+                               " WHERE microgrid_id = %s AND name = %s ",
+                               (id_, name,))
+                if cursor.fetchone() is not None:
+                    raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                           description='API.MICROGRID_GRID_NAME_IS_ALREADY_IN_USE')
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_meters "
-                       " WHERE id = %s ",
-                       (buy_meter_id,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.BUY_METER_NOT_FOUND')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_points "
+                               " WHERE id = %s ",
+                               (power_point_id,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.POWER_POINT_NOT_FOUND')
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_meters "
-                       " WHERE id = %s ",
-                       (sell_meter_id,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.SELL_METER_NOT_FOUND')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_meters "
+                               " WHERE id = %s ",
+                               (buy_meter_id,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.BUY_METER_NOT_FOUND')
 
-        add_values = (" INSERT INTO tbl_microgrids_grids "
-                      "    (name, uuid, microgrid_id, power_point_id, buy_meter_id, sell_meter_id, capacity) "
-                      " VALUES (%s, %s, %s, %s, %s, %s, %s) ")
-        cursor.execute(add_values, (name,
-                                    str(uuid.uuid4()),
-                                    id_,
-                                    power_point_id,
-                                    buy_meter_id,
-                                    sell_meter_id,
-                                    capacity))
-        new_id = cursor.lastrowid
-        cnx.commit()
-        cursor.close()
-        cnx.close()
+                cursor.execute(" SELECT name "
+                               " FROM tbl_meters "
+                               " WHERE id = %s ",
+                               (sell_meter_id,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.SELL_METER_NOT_FOUND')
+
+                add_values = (" INSERT INTO tbl_microgrids_grids "
+                              "    (name, uuid, microgrid_id, power_point_id, buy_meter_id, sell_meter_id, capacity) "
+                              " VALUES (%s, %s, %s, %s, %s, %s, %s) ")
+                cursor.execute(add_values, (name,
+                                            str(uuid.uuid4()),
+                                            id_,
+                                            power_point_id,
+                                            buy_meter_id,
+                                            sell_meter_id,
+                                            capacity))
+                new_id = cursor.lastrowid
+                cnx.commit()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         resp.status = falcon.HTTP_201
         resp.location = '/microgrids/' + str(id_) + '/grids/' + str(new_id)
@@ -2487,6 +2571,7 @@ class MicrogridGridItem:
         _ = req
         resp.status = falcon.HTTP_200
         _ = id_
+        _ = gid
 
     @staticmethod
     def on_get(req, resp, id_, gid):
@@ -2498,74 +2583,85 @@ class MicrogridGridItem:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_MICROGRID_GRID_ID')
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
+        rows_microgrids = []
+        rows_meters = []
+        rows_points = []
+        row = None
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_microgrids "
-                       " WHERE id = %s ", (id_,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.MICROGRID_NOT_FOUND')
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        # query microgrid dict
-        query = (" SELECT id, name, uuid "
-                 " FROM tbl_microgrids ")
-        cursor.execute(query)
-        rows_microgrids = cursor.fetchall()
+                cursor.execute(" SELECT name "
+                               " FROM tbl_microgrids "
+                               " WHERE id = %s ", (id_,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.MICROGRID_NOT_FOUND')
 
-        microgrid_dict = dict()
-        if rows_microgrids is not None and len(rows_microgrids) > 0:
-            for row in rows_microgrids:
-                microgrid_dict[row[0]] = {"id": row[0],
-                                          "name": row[1],
-                                          "uuid": row[2]}
-        # query meter dict
-        query = (" SELECT id, name, uuid "
-                 " FROM tbl_meters ")
-        cursor.execute(query)
-        rows_meters = cursor.fetchall()
+                # query microgrid dict
+                query = (" SELECT id, name, uuid "
+                         " FROM tbl_microgrids ")
+                cursor.execute(query)
+                rows_microgrids = cursor.fetchall()
 
-        meter_dict = dict()
-        if rows_meters is not None and len(rows_meters) > 0:
-            for row in rows_meters:
-                meter_dict[row[0]] = {"id": row[0],
-                                      "name": row[1],
-                                      "uuid": row[2]}
-        # query point dict
-        query = (" SELECT id, name "
-                 " FROM tbl_points ")
-        cursor.execute(query)
-        rows_points = cursor.fetchall()
+                microgrid_dict = dict()
+                if rows_microgrids is not None and len(rows_microgrids) > 0:
+                    for row in rows_microgrids:
+                        microgrid_dict[row[0]] = {"id": row[0],
+                                                  "name": row[1],
+                                                  "uuid": row[2]}
+                # query meter dict
+                query = (" SELECT id, name, uuid "
+                         " FROM tbl_meters ")
+                cursor.execute(query)
+                rows_meters = cursor.fetchall()
 
-        point_dict = dict()
-        if rows_points is not None and len(rows_points) > 0:
-            for row in rows_points:
-                point_dict[row[0]] = {"id": row[0],
-                                      "name": row[1]}
+                meter_dict = dict()
+                if rows_meters is not None and len(rows_meters) > 0:
+                    for row in rows_meters:
+                        meter_dict[row[0]] = {"id": row[0],
+                                              "name": row[1],
+                                              "uuid": row[2]}
+                # query point dict
+                query = (" SELECT id, name "
+                         " FROM tbl_points ")
+                cursor.execute(query)
+                rows_points = cursor.fetchall()
 
-        query = (" SELECT id, name, uuid, microgrid_id, power_point_id, buy_meter_id, sell_meter_id, capacity "
-                 " FROM tbl_microgrids_grids "
-                 " WHERE id = %s ")
-        cursor.execute(query, (gid,))
-        row = cursor.fetchone()
-        cursor.close()
-        cnx.close()
+                point_dict = dict()
+                if rows_points is not None and len(rows_points) > 0:
+                    for row in rows_points:
+                        point_dict[row[0]] = {"id": row[0],
+                                              "name": row[1]}
+
+                query = (" SELECT id, name, uuid, microgrid_id, power_point_id, buy_meter_id, sell_meter_id, capacity "
+                         " FROM tbl_microgrids_grids "
+                         " WHERE id = %s ")
+                cursor.execute(query, (gid,))
+                row = cursor.fetchone()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         if row is None:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.MICROGRID_GRID_NOT_FOUND')
-        else:
-            meta_result = {"id": row[0],
-                           "name": row[1],
-                           "uuid": row[2],
-                           "microgrid": microgrid_dict.get(row[3]),
-                           "power_point": point_dict.get(row[4]),
-                           "buy_meter": meter_dict.get(row[5]),
-                           "sell_meter": meter_dict.get(row[6]),
-                           "capacity": row[7]}
+        
+        meta_result = {"id": row[0],
+                       "name": row[1],
+                       "uuid": row[2],
+                       "microgrid": microgrid_dict.get(row[3]),
+                       "power_point": point_dict.get(row[4]),
+                       "buy_meter": meter_dict.get(row[5]),
+                       "sell_meter": meter_dict.get(row[6]),
+                       "capacity": row[7]}
 
         resp.text = json.dumps(meta_result)
 
@@ -2580,33 +2676,37 @@ class MicrogridGridItem:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_MICROGRID_GRID_ID')
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_microgrids "
-                       " WHERE id = %s ", (id_,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.MICROGRID_NOT_FOUND')
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_microgrids_grids "
-                       " WHERE id = %s ", (gid,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.MICROGRID_GRID_NOT_FOUND')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_microgrids "
+                               " WHERE id = %s ", (id_,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.MICROGRID_NOT_FOUND')
 
-        cursor.execute(" DELETE FROM tbl_microgrids_grids "
-                       " WHERE id = %s ", (gid,))
-        cnx.commit()
+                cursor.execute(" SELECT name "
+                               " FROM tbl_microgrids_grids "
+                               " WHERE id = %s ", (gid,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.MICROGRID_GRID_NOT_FOUND')
 
-        cursor.close()
-        cnx.close()
+                cursor.execute(" DELETE FROM tbl_microgrids_grids "
+                               " WHERE id = %s ", (gid,))
+                cnx.commit()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         resp.status = falcon.HTTP_204
 
@@ -2672,85 +2772,80 @@ class MicrogridGridItem:
                                    description='API.INVALID_CAPACITY')
         capacity = float(new_values['data']['capacity'])
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_microgrids "
-                       " WHERE id = %s ", (id_,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.MICROGRID_NOT_FOUND')
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_microgrids_grids "
-                       " WHERE id = %s ", (gid,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.MICROGRID_GRID_NOT_FOUND')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_microgrids "
+                               " WHERE id = %s ", (id_,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.MICROGRID_NOT_FOUND')
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_microgrids_grids "
-                       " WHERE microgrid_id = %s AND name = %s AND id != %s ",
-                       (id_, name, gid))
-        if cursor.fetchone() is not None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.MICROGRID_GRID_NAME_IS_ALREADY_IN_USE')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_microgrids_grids "
+                               " WHERE id = %s ", (gid,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.MICROGRID_GRID_NOT_FOUND')
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_points "
-                       " WHERE id = %s ",
-                       (power_point_id,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.POWER_POINT_NOT_FOUND')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_microgrids_grids "
+                               " WHERE microgrid_id = %s AND name = %s AND id != %s ",
+                               (id_, name, gid))
+                if cursor.fetchone() is not None:
+                    raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                           description='API.MICROGRID_GRID_NAME_IS_ALREADY_IN_USE')
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_meters "
-                       " WHERE id = %s ",
-                       (buy_meter_id,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.BUY_METER_NOT_FOUND')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_points "
+                               " WHERE id = %s ",
+                               (power_point_id,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.POWER_POINT_NOT_FOUND')
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_meters "
-                       " WHERE id = %s ",
-                       (sell_meter_id,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.SELL_METER_NOT_FOUND')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_meters "
+                               " WHERE id = %s ",
+                               (buy_meter_id,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.BUY_METER_NOT_FOUND')
 
-        update_row = (" UPDATE tbl_microgrids_grids "
-                      " SET name = %s, microgrid_id = %s, "
-                      "     power_point_id = %s, buy_meter_id = %s, sell_meter_id = %s, capacity = %s "
-                      " WHERE id = %s ")
-        cursor.execute(update_row, (name,
-                                    id_,
-                                    power_point_id,
-                                    buy_meter_id,
-                                    sell_meter_id,
-                                    capacity,
-                                    gid))
-        cnx.commit()
+                cursor.execute(" SELECT name "
+                               " FROM tbl_meters "
+                               " WHERE id = %s ",
+                               (sell_meter_id,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.SELL_METER_NOT_FOUND')
 
-        cursor.close()
-        cnx.close()
+                update_row = (" UPDATE tbl_microgrids_grids "
+                              " SET name = %s, microgrid_id = %s, "
+                              "     power_point_id = %s, buy_meter_id = %s, sell_meter_id = %s, capacity = %s "
+                              " WHERE id = %s ")
+                cursor.execute(update_row, (name,
+                                            id_,
+                                            power_point_id,
+                                            buy_meter_id,
+                                            sell_meter_id,
+                                            capacity,
+                                            gid))
+                cnx.commit()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         resp.status = falcon.HTTP_200
-
 
 class MicrogridHeatpumpCollection:
     def __init__(self):
@@ -2769,49 +2864,61 @@ class MicrogridHeatpumpCollection:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_MICROGRID_ID')
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
+        rows_meters = []
+        rows_points = []
+        rows = []
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_microgrids "
-                       " WHERE id = %s ", (id_,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.MICROGRID_NOT_FOUND')
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        # query meter dict
-        query = (" SELECT id, name, uuid "
-                 " FROM tbl_meters ")
-        cursor.execute(query)
-        rows_meters = cursor.fetchall()
+                cursor.execute(" SELECT name "
+                               " FROM tbl_microgrids "
+                               " WHERE id = %s ", (id_,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.MICROGRID_NOT_FOUND')
 
-        meter_dict = dict()
-        if rows_meters is not None and len(rows_meters) > 0:
-            for row in rows_meters:
-                meter_dict[row[0]] = {"id": row[0],
-                                      "name": row[1],
-                                      "uuid": row[2]}
-        # query point dict
-        query = (" SELECT id, name "
-                 " FROM tbl_points ")
-        cursor.execute(query)
-        rows_points = cursor.fetchall()
+                # query meter dict
+                query = (" SELECT id, name, uuid "
+                         " FROM tbl_meters ")
+                cursor.execute(query)
+                rows_meters = cursor.fetchall()
 
-        point_dict = dict()
-        if rows_points is not None and len(rows_points) > 0:
-            for row in rows_points:
-                point_dict[row[0]] = {"id": row[0],
-                                      "name": row[1]}
+                meter_dict = dict()
+                if rows_meters is not None and len(rows_meters) > 0:
+                    for row in rows_meters:
+                        meter_dict[row[0]] = {"id": row[0],
+                                              "name": row[1],
+                                              "uuid": row[2]}
+                # query point dict
+                query = (" SELECT id, name "
+                         " FROM tbl_points ")
+                cursor.execute(query)
+                rows_points = cursor.fetchall()
 
-        query = (" SELECT id, name, uuid, "
-                 "        power_point_id, electricity_meter_id, heat_meter_id, cooling_meter_id, rated_input_power "
-                 " FROM tbl_microgrids_heatpumps "
-                 " WHERE microgrid_id = %s "
-                 " ORDER BY name ")
-        cursor.execute(query, (id_,))
-        rows = cursor.fetchall()
+                point_dict = dict()
+                if rows_points is not None and len(rows_points) > 0:
+                    for row in rows_points:
+                        point_dict[row[0]] = {"id": row[0],
+                                              "name": row[1]}
+
+                query = (" SELECT id, name, uuid, "
+                         "        power_point_id, electricity_meter_id, heat_meter_id, cooling_meter_id, rated_input_power "
+                         " FROM tbl_microgrids_heatpumps "
+                         " WHERE microgrid_id = %s "
+                         " ORDER BY name ")
+                cursor.execute(query, (id_,))
+                rows = cursor.fetchall()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         result = list()
         if rows is not None and len(rows) > 0:
@@ -2848,18 +2955,6 @@ class MicrogridHeatpumpCollection:
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_MICROGRID_ID')
-
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
-
-        cursor.execute(" SELECT name "
-                       " FROM tbl_microgrids "
-                       " WHERE id = %s ", (id_,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.MICROGRID_NOT_FOUND')
 
         new_values = json.loads(raw_json)
 
@@ -2905,85 +3000,83 @@ class MicrogridHeatpumpCollection:
                                    description='API.INVALID_RATED_INPUT_POWER')
         rated_input_power = float(new_values['data']['rated_input_power'])
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
+        new_id = None
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_microgrids "
-                       " WHERE id = %s ",
-                       (id_,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.MICROGRID_NOT_FOUND')
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_microgrids_heatpumps "
-                       " WHERE microgrid_id = %s AND name = %s ",
-                       (id_, name,))
-        if cursor.fetchone() is not None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.MICROGRID_HEATPUMP_NAME_IS_ALREADY_IN_USE')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_microgrids "
+                               " WHERE id = %s ",
+                               (id_,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.MICROGRID_NOT_FOUND')
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_points "
-                       " WHERE id = %s ",
-                       (power_point_id,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.POWER_POINT_NOT_FOUND')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_microgrids_heatpumps "
+                               " WHERE microgrid_id = %s AND name = %s ",
+                               (id_, name,))
+                if cursor.fetchone() is not None:
+                    raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                           description='API.MICROGRID_HEATPUMP_NAME_IS_ALREADY_IN_USE')
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_meters "
-                       " WHERE id = %s ",
-                       (electricity_meter_id,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.ELECTRICITY_METER_NOT_FOUND')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_points "
+                               " WHERE id = %s ",
+                               (power_point_id,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.POWER_POINT_NOT_FOUND')
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_meters "
-                       " WHERE id = %s ",
-                       (heat_meter_id,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.HEAT_METER_NOT_FOUND')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_meters "
+                               " WHERE id = %s ",
+                               (electricity_meter_id,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.ELECTRICITY_METER_NOT_FOUND')
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_meters "
-                       " WHERE id = %s ",
-                       (cooling_meter_id,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.COOLING_METER_NOT_FOUND')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_meters "
+                               " WHERE id = %s ",
+                               (heat_meter_id,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.HEAT_METER_NOT_FOUND')
 
-        add_values = (" INSERT INTO tbl_microgrids_heatpumps "
-                      "    (name, uuid, microgrid_id, "
-                      "     power_point_id, electricity_meter_id, heat_meter_id, cooling_meter_id, rated_input_power) "
-                      " VALUES (%s, %s, %s, %s, %s, %s, %s, %s) ")
-        cursor.execute(add_values, (name,
-                                    str(uuid.uuid4()),
-                                    id_,
-                                    power_point_id,
-                                    electricity_meter_id,
-                                    heat_meter_id,
-                                    cooling_meter_id,
-                                    rated_input_power))
-        new_id = cursor.lastrowid
-        cnx.commit()
-        cursor.close()
-        cnx.close()
+                cursor.execute(" SELECT name "
+                               " FROM tbl_meters "
+                               " WHERE id = %s ",
+                               (cooling_meter_id,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.COOLING_METER_NOT_FOUND')
+
+                add_values = (" INSERT INTO tbl_microgrids_heatpumps "
+                              "    (name, uuid, microgrid_id, "
+                              "     power_point_id, electricity_meter_id, heat_meter_id, cooling_meter_id, rated_input_power) "
+                              " VALUES (%s, %s, %s, %s, %s, %s, %s, %s) ")
+                cursor.execute(add_values, (name,
+                                            str(uuid.uuid4()),
+                                            id_,
+                                            power_point_id,
+                                            electricity_meter_id,
+                                            heat_meter_id,
+                                            cooling_meter_id,
+                                            rated_input_power))
+                new_id = cursor.lastrowid
+                cnx.commit()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         resp.status = falcon.HTTP_201
         resp.location = '/microgrids/' + str(id_) + '/heatpumps/' + str(new_id)
@@ -2998,6 +3091,7 @@ class MicrogridHeatpumpItem:
         _ = req
         resp.status = falcon.HTTP_200
         _ = id_
+        _ = hid
 
     @staticmethod
     def on_get(req, resp, id_, hid):
@@ -3009,76 +3103,87 @@ class MicrogridHeatpumpItem:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_MICROGRID_HEATPUMP_ID')
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
+        rows_microgrids = []
+        rows_meters = []
+        rows_points = []
+        row = None
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_microgrids "
-                       " WHERE id = %s ", (id_,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.MICROGRID_NOT_FOUND')
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        # query microgrid dict
-        query = (" SELECT id, name, uuid "
-                 " FROM tbl_microgrids ")
-        cursor.execute(query)
-        rows_microgrids = cursor.fetchall()
+                cursor.execute(" SELECT name "
+                               " FROM tbl_microgrids "
+                               " WHERE id = %s ", (id_,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.MICROGRID_NOT_FOUND')
 
-        microgrid_dict = dict()
-        if rows_microgrids is not None and len(rows_microgrids) > 0:
-            for row in rows_microgrids:
-                microgrid_dict[row[0]] = {"id": row[0],
-                                          "name": row[1],
-                                          "uuid": row[2]}
-        # query meter dict
-        query = (" SELECT id, name, uuid "
-                 " FROM tbl_meters ")
-        cursor.execute(query)
-        rows_meters = cursor.fetchall()
+                # query microgrid dict
+                query = (" SELECT id, name, uuid "
+                         " FROM tbl_microgrids ")
+                cursor.execute(query)
+                rows_microgrids = cursor.fetchall()
 
-        meter_dict = dict()
-        if rows_meters is not None and len(rows_meters) > 0:
-            for row in rows_meters:
-                meter_dict[row[0]] = {"id": row[0],
-                                      "name": row[1],
-                                      "uuid": row[2]}
-        # query point dict
-        query = (" SELECT id, name "
-                 " FROM tbl_points ")
-        cursor.execute(query)
-        rows_points = cursor.fetchall()
+                microgrid_dict = dict()
+                if rows_microgrids is not None and len(rows_microgrids) > 0:
+                    for row in rows_microgrids:
+                        microgrid_dict[row[0]] = {"id": row[0],
+                                                  "name": row[1],
+                                                  "uuid": row[2]}
+                # query meter dict
+                query = (" SELECT id, name, uuid "
+                         " FROM tbl_meters ")
+                cursor.execute(query)
+                rows_meters = cursor.fetchall()
 
-        point_dict = dict()
-        if rows_points is not None and len(rows_points) > 0:
-            for row in rows_points:
-                point_dict[row[0]] = {"id": row[0],
-                                      "name": row[1]}
+                meter_dict = dict()
+                if rows_meters is not None and len(rows_meters) > 0:
+                    for row in rows_meters:
+                        meter_dict[row[0]] = {"id": row[0],
+                                              "name": row[1],
+                                              "uuid": row[2]}
+                # query point dict
+                query = (" SELECT id, name "
+                         " FROM tbl_points ")
+                cursor.execute(query)
+                rows_points = cursor.fetchall()
 
-        query = (" SELECT id, name, uuid, microgrid_id, "
-                 "        power_point_id, electricity_meter_id, heat_meter_id, cooling_meter_id, rated_input_power "
-                 " FROM tbl_microgrids_heatpumps "
-                 " WHERE id = %s ")
-        cursor.execute(query, (hid,))
-        row = cursor.fetchone()
-        cursor.close()
-        cnx.close()
+                point_dict = dict()
+                if rows_points is not None and len(rows_points) > 0:
+                    for row in rows_points:
+                        point_dict[row[0]] = {"id": row[0],
+                                              "name": row[1]}
+
+                query = (" SELECT id, name, uuid, microgrid_id, "
+                         "        power_point_id, electricity_meter_id, heat_meter_id, cooling_meter_id, rated_input_power "
+                         " FROM tbl_microgrids_heatpumps "
+                         " WHERE id = %s ")
+                cursor.execute(query, (hid,))
+                row = cursor.fetchone()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         if row is None:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.MICROGRID_HEATPUMP_NOT_FOUND')
-        else:
-            meta_result = {"id": row[0],
-                           "name": row[1],
-                           "uuid": row[2],
-                           "microgrid": microgrid_dict.get(row[3], None),
-                           "power_point": point_dict.get(row[4], None),
-                           "electricity_meter": meter_dict.get(row[5], None),
-                           "heat_meter": meter_dict.get(row[6], None),
-                           "cooling_meter": meter_dict.get(row[7], None),
-                           "rated_input_power": row[8]}
+        
+        meta_result = {"id": row[0],
+                       "name": row[1],
+                       "uuid": row[2],
+                       "microgrid": microgrid_dict.get(row[3], None),
+                       "power_point": point_dict.get(row[4], None),
+                       "electricity_meter": meter_dict.get(row[5], None),
+                       "heat_meter": meter_dict.get(row[6], None),
+                       "cooling_meter": meter_dict.get(row[7], None),
+                       "rated_input_power": row[8]}
 
         resp.text = json.dumps(meta_result)
 
@@ -3093,33 +3198,37 @@ class MicrogridHeatpumpItem:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_MICROGRID_HEATPUMP_ID')
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_microgrids "
-                       " WHERE id = %s ", (id_,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.MICROGRID_NOT_FOUND')
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_microgrids_heatpumps "
-                       " WHERE id = %s ", (hid,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.MICROGRID_HEATPUMP_NOT_FOUND')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_microgrids "
+                               " WHERE id = %s ", (id_,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.MICROGRID_NOT_FOUND')
 
-        cursor.execute(" DELETE FROM tbl_microgrids_heatpumps "
-                       " WHERE id = %s ", (hid,))
-        cnx.commit()
+                cursor.execute(" SELECT name "
+                               " FROM tbl_microgrids_heatpumps "
+                               " WHERE id = %s ", (hid,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.MICROGRID_HEATPUMP_NOT_FOUND')
 
-        cursor.close()
-        cnx.close()
+                cursor.execute(" DELETE FROM tbl_microgrids_heatpumps "
+                               " WHERE id = %s ", (hid,))
+                cnx.commit()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         resp.status = falcon.HTTP_204
 
@@ -3191,94 +3300,89 @@ class MicrogridHeatpumpItem:
                                    description='API.INVALID_RATED_INPUT_POWER')
         rated_input_power = float(new_values['data']['rated_input_power'])
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_microgrids "
-                       " WHERE id = %s ", (id_,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.MICROGRID_NOT_FOUND')
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_microgrids_heatpumps "
-                       " WHERE id = %s ", (hid,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.MICROGRID_HEATPUMP_NOT_FOUND')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_microgrids "
+                               " WHERE id = %s ", (id_,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.MICROGRID_NOT_FOUND')
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_microgrids_heatpumps "
-                       " WHERE microgrid_id = %s AND name = %s AND id != %s ",
-                       (id_, name, hid))
-        if cursor.fetchone() is not None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.MICROGRID_HEATPUMP_NAME_IS_ALREADY_IN_USE')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_microgrids_heatpumps "
+                               " WHERE id = %s ", (hid,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.MICROGRID_HEATPUMP_NOT_FOUND')
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_points "
-                       " WHERE id = %s ",
-                       (power_point_id,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.POWER_POINT_NOT_FOUND')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_microgrids_heatpumps "
+                               " WHERE microgrid_id = %s AND name = %s AND id != %s ",
+                               (id_, name, hid))
+                if cursor.fetchone() is not None:
+                    raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                           description='API.MICROGRID_HEATPUMP_NAME_IS_ALREADY_IN_USE')
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_meters "
-                       " WHERE id = %s ",
-                       (electricity_meter_id,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.ELECTRICITY_METER_NOT_FOUND')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_points "
+                               " WHERE id = %s ",
+                               (power_point_id,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.POWER_POINT_NOT_FOUND')
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_meters "
-                       " WHERE id = %s ",
-                       (heat_meter_id,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.HEAT_METER_NOT_FOUND')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_meters "
+                               " WHERE id = %s ",
+                               (electricity_meter_id,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.ELECTRICITY_METER_NOT_FOUND')
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_meters "
-                       " WHERE id = %s ",
-                       (cooling_meter_id,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.COOLING_METER_NOT_FOUND')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_meters "
+                               " WHERE id = %s ",
+                               (heat_meter_id,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.HEAT_METER_NOT_FOUND')
 
-        update_row = (" UPDATE tbl_microgrids_heatpumps "
-                      " SET name = %s, microgrid_id = %s, "
-                      "     power_point_id = %s, electricity_meter_id = %s, heat_meter_id = %s, cooling_meter_id = %s, "
-                      "     rated_input_power = %s "
-                      " WHERE id = %s ")
-        cursor.execute(update_row, (name,
-                                    id_,
-                                    power_point_id,
-                                    electricity_meter_id,
-                                    heat_meter_id,
-                                    heat_meter_id,
-                                    rated_input_power,
-                                    hid))
-        cnx.commit()
+                cursor.execute(" SELECT name "
+                               " FROM tbl_meters "
+                               " WHERE id = %s ",
+                               (cooling_meter_id,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.COOLING_METER_NOT_FOUND')
 
-        cursor.close()
-        cnx.close()
+                update_row = (" UPDATE tbl_microgrids_heatpumps "
+                              " SET name = %s, microgrid_id = %s, "
+                              "     power_point_id = %s, electricity_meter_id = %s, heat_meter_id = %s, cooling_meter_id = %s, "
+                              "     rated_input_power = %s "
+                              " WHERE id = %s ")
+                
+                cursor.execute(update_row, (name,
+                                            id_,
+                                            power_point_id,
+                                            electricity_meter_id,
+                                            heat_meter_id,
+                                            heat_meter_id, 
+                                            rated_input_power,
+                                            hid))
+                cnx.commit()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         resp.status = falcon.HTTP_200
 
@@ -3300,49 +3404,61 @@ class MicrogridLoadCollection:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_MICROGRID_ID')
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
+        rows_meters = []
+        rows_points = []
+        rows = []
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_microgrids "
-                       " WHERE id = %s ", (id_,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.MICROGRID_NOT_FOUND')
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        # query meter dict
-        query = (" SELECT id, name, uuid "
-                 " FROM tbl_meters ")
-        cursor.execute(query)
-        rows_meters = cursor.fetchall()
+                cursor.execute(" SELECT name "
+                               " FROM tbl_microgrids "
+                               " WHERE id = %s ", (id_,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.MICROGRID_NOT_FOUND')
 
-        meter_dict = dict()
-        if rows_meters is not None and len(rows_meters) > 0:
-            for row in rows_meters:
-                meter_dict[row[0]] = {"id": row[0],
-                                      "name": row[1],
-                                      "uuid": row[2]}
-        # query point dict
-        query = (" SELECT id, name "
-                 " FROM tbl_points ")
-        cursor.execute(query)
-        rows_points = cursor.fetchall()
+                # query meter dict
+                query = (" SELECT id, name, uuid "
+                         " FROM tbl_meters ")
+                cursor.execute(query)
+                rows_meters = cursor.fetchall()
 
-        point_dict = dict()
-        if rows_points is not None and len(rows_points) > 0:
-            for row in rows_points:
-                point_dict[row[0]] = {"id": row[0],
-                                      "name": row[1]}
+                meter_dict = dict()
+                if rows_meters is not None and len(rows_meters) > 0:
+                    for row in rows_meters:
+                        meter_dict[row[0]] = {"id": row[0],
+                                              "name": row[1],
+                                              "uuid": row[2]}
+                # query point dict
+                query = (" SELECT id, name "
+                         " FROM tbl_points ")
+                cursor.execute(query)
+                rows_points = cursor.fetchall()
 
-        query = (" SELECT id, name, uuid, "
-                 "        power_point_id, meter_id, rated_input_power "
-                 " FROM tbl_microgrids_loads "
-                 " WHERE microgrid_id = %s "
-                 " ORDER BY name ")
-        cursor.execute(query, (id_,))
-        rows = cursor.fetchall()
+                point_dict = dict()
+                if rows_points is not None and len(rows_points) > 0:
+                    for row in rows_points:
+                        point_dict[row[0]] = {"id": row[0],
+                                              "name": row[1]}
+
+                query = (" SELECT id, name, uuid, "
+                         "        power_point_id, meter_id, rated_input_power "
+                         " FROM tbl_microgrids_loads "
+                         " WHERE microgrid_id = %s "
+                         " ORDER BY name ")
+                cursor.execute(query, (id_,))
+                rows = cursor.fetchall()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         result = list()
         if rows is not None and len(rows) > 0:
@@ -3378,18 +3494,6 @@ class MicrogridLoadCollection:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_MICROGRID_ID')
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
-
-        cursor.execute(" SELECT name "
-                       " FROM tbl_microgrids "
-                       " WHERE id = %s ", (id_,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.MICROGRID_NOT_FOUND')
-
         new_values = json.loads(raw_json)
 
         if 'name' not in new_values['data'].keys() or \
@@ -3420,66 +3524,67 @@ class MicrogridLoadCollection:
                                    description='API.INVALID_RATED_INPUT_POWER')
         rated_input_power = float(new_values['data']['rated_input_power'])
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
+        new_id = None
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_microgrids "
-                       " WHERE id = %s ",
-                       (id_,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.MICROGRID_NOT_FOUND')
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_microgrids_loads "
-                       " WHERE microgrid_id = %s AND name = %s ",
-                       (id_, name,))
-        if cursor.fetchone() is not None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.MICROGRID_LOAD_NAME_IS_ALREADY_IN_USE')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_microgrids "
+                               " WHERE id = %s ",
+                               (id_,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.MICROGRID_NOT_FOUND')
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_points "
-                       " WHERE id = %s ",
-                       (power_point_id,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.POWER_POINT_NOT_FOUND')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_microgrids_loads "
+                               " WHERE microgrid_id = %s AND name = %s ",
+                               (id_, name,))
+                if cursor.fetchone() is not None:
+                    raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                           description='API.MICROGRID_LOAD_NAME_IS_ALREADY_IN_USE')
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_meters "
-                       " WHERE id = %s ",
-                       (meter_id,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.METER_NOT_FOUND')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_points "
+                               " WHERE id = %s ",
+                               (power_point_id,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.POWER_POINT_NOT_FOUND')
 
-        add_values = (" INSERT INTO tbl_microgrids_loads "
-                      "    (name, uuid, microgrid_id, power_point_id, meter_id, rated_input_power) "
-                      " VALUES (%s, %s, %s, %s, %s, %s) ")
-        cursor.execute(add_values, (name,
-                                    str(uuid.uuid4()),
-                                    id_,
-                                    power_point_id,
-                                    meter_id,
-                                    rated_input_power))
-        new_id = cursor.lastrowid
-        cnx.commit()
-        cursor.close()
-        cnx.close()
+                cursor.execute(" SELECT name "
+                               " FROM tbl_meters "
+                               " WHERE id = %s ",
+                               (meter_id,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.METER_NOT_FOUND')
+
+                add_values = (" INSERT INTO tbl_microgrids_loads "
+                              "    (name, uuid, microgrid_id, power_point_id, meter_id, rated_input_power) "
+                              " VALUES (%s, %s, %s, %s, %s, %s) ")
+                cursor.execute(add_values, (name,
+                                            str(uuid.uuid4()),
+                                            id_,
+                                            power_point_id,
+                                            meter_id,
+                                            rated_input_power))
+                new_id = cursor.lastrowid
+                cnx.commit()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         resp.status = falcon.HTTP_201
         resp.location = '/microgrids/' + str(id_) + '/loads/' + str(new_id)
-
 
 class MicrogridLoadItem:
     def __init__(self):
@@ -3490,6 +3595,7 @@ class MicrogridLoadItem:
         _ = req
         resp.status = falcon.HTTP_200
         _ = id_
+        _ = lid
 
     @staticmethod
     def on_get(req, resp, id_, lid):
@@ -3501,73 +3607,84 @@ class MicrogridLoadItem:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_MICROGRID_LOAD_ID')
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
+        rows_microgrids = []
+        rows_meters = []
+        rows_points = []
+        row = None
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_microgrids "
-                       " WHERE id = %s ", (id_,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.MICROGRID_NOT_FOUND')
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        # query microgrid dict
-        query = (" SELECT id, name, uuid "
-                 " FROM tbl_microgrids ")
-        cursor.execute(query)
-        rows_microgrids = cursor.fetchall()
+                cursor.execute(" SELECT name "
+                               " FROM tbl_microgrids "
+                               " WHERE id = %s ", (id_,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.MICROGRID_NOT_FOUND')
 
-        microgrid_dict = dict()
-        if rows_microgrids is not None and len(rows_microgrids) > 0:
-            for row in rows_microgrids:
-                microgrid_dict[row[0]] = {"id": row[0],
-                                          "name": row[1],
-                                          "uuid": row[2]}
-        # query meter dict
-        query = (" SELECT id, name, uuid "
-                 " FROM tbl_meters ")
-        cursor.execute(query)
-        rows_meters = cursor.fetchall()
+                # query microgrid dict
+                query = (" SELECT id, name, uuid "
+                         " FROM tbl_microgrids ")
+                cursor.execute(query)
+                rows_microgrids = cursor.fetchall()
 
-        meter_dict = dict()
-        if rows_meters is not None and len(rows_meters) > 0:
-            for row in rows_meters:
-                meter_dict[row[0]] = {"id": row[0],
-                                      "name": row[1],
-                                      "uuid": row[2]}
-        # query point dict
-        query = (" SELECT id, name "
-                 " FROM tbl_points ")
-        cursor.execute(query)
-        rows_points = cursor.fetchall()
+                microgrid_dict = dict()
+                if rows_microgrids is not None and len(rows_microgrids) > 0:
+                    for row in rows_microgrids:
+                        microgrid_dict[row[0]] = {"id": row[0],
+                                                  "name": row[1],
+                                                  "uuid": row[2]}
+                # query meter dict
+                query = (" SELECT id, name, uuid "
+                         " FROM tbl_meters ")
+                cursor.execute(query)
+                rows_meters = cursor.fetchall()
 
-        point_dict = dict()
-        if rows_points is not None and len(rows_points) > 0:
-            for row in rows_points:
-                point_dict[row[0]] = {"id": row[0],
-                                      "name": row[1]}
+                meter_dict = dict()
+                if rows_meters is not None and len(rows_meters) > 0:
+                    for row in rows_meters:
+                        meter_dict[row[0]] = {"id": row[0],
+                                              "name": row[1],
+                                              "uuid": row[2]}
+                # query point dict
+                query = (" SELECT id, name "
+                         " FROM tbl_points ")
+                cursor.execute(query)
+                rows_points = cursor.fetchall()
 
-        query = (" SELECT id, name, uuid, microgrid_id, power_point_id, meter_id, rated_input_power "
-                 " FROM tbl_microgrids_loads "
-                 " WHERE id = %s ")
-        cursor.execute(query, (lid,))
-        row = cursor.fetchone()
-        cursor.close()
-        cnx.close()
+                point_dict = dict()
+                if rows_points is not None and len(rows_points) > 0:
+                    for row in rows_points:
+                        point_dict[row[0]] = {"id": row[0],
+                                              "name": row[1]}
+
+                query = (" SELECT id, name, uuid, microgrid_id, power_point_id, meter_id, rated_input_power "
+                         " FROM tbl_microgrids_loads "
+                         " WHERE id = %s ")
+                cursor.execute(query, (lid,))
+                row = cursor.fetchone()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         if row is None:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.MICROGRID_LOAD_NOT_FOUND')
-        else:
-            meta_result = {"id": row[0],
-                           "name": row[1],
-                           "uuid": row[2],
-                           "microgrid": microgrid_dict.get(row[3], None),
-                           "power_point": point_dict.get(row[4], None),
-                           "meter": meter_dict.get(row[5], None),
-                           "rated_input_power": row[6]}
+        
+        meta_result = {"id": row[0],
+                       "name": row[1],
+                       "uuid": row[2],
+                       "microgrid": microgrid_dict.get(row[3], None),
+                       "power_point": point_dict.get(row[4], None),
+                       "meter": meter_dict.get(row[5], None),
+                       "rated_input_power": row[6]}
 
         resp.text = json.dumps(meta_result)
 
@@ -3582,33 +3699,37 @@ class MicrogridLoadItem:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_MICROGRID_LOAD_ID')
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_microgrids "
-                       " WHERE id = %s ", (id_,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.MICROGRID_NOT_FOUND')
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_microgrids_loads "
-                       " WHERE id = %s ", (lid,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.MICROGRID_LOAD_NOT_FOUND')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_microgrids "
+                               " WHERE id = %s ", (id_,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.MICROGRID_NOT_FOUND')
 
-        cursor.execute(" DELETE FROM tbl_microgrids_loads "
-                       " WHERE id = %s ", (lid,))
-        cnx.commit()
+                cursor.execute(" SELECT name "
+                               " FROM tbl_microgrids_loads "
+                               " WHERE id = %s ", (lid,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.MICROGRID_LOAD_NOT_FOUND')
 
-        cursor.close()
-        cnx.close()
+                cursor.execute(" DELETE FROM tbl_microgrids_loads "
+                               " WHERE id = %s ", (lid,))
+                cnx.commit()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         resp.status = falcon.HTTP_204
 
@@ -3666,70 +3787,68 @@ class MicrogridLoadItem:
                                    description='API.INVALID_RATED_INPUT_POWER')
         rated_input_power = float(new_values['data']['rated_input_power'])
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_microgrids "
-                       " WHERE id = %s ", (id_,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.MICROGRID_NOT_FOUND')
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_microgrids_loads "
-                       " WHERE id = %s ", (lid,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.MICROGRID_LOAD_NOT_FOUND')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_microgrids "
+                               " WHERE id = %s ", (id_,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.MICROGRID_NOT_FOUND')
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_microgrids_loads "
-                       " WHERE microgrid_id = %s AND name = %s AND id != %s ",
-                       (id_, name, lid))
-        if cursor.fetchone() is not None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.MICROGRID_LOAD_NAME_IS_ALREADY_IN_USE')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_microgrids_loads "
+                               " WHERE id = %s ", (lid,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.MICROGRID_LOAD_NOT_FOUND')
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_points "
-                       " WHERE id = %s ",
-                       (power_point_id,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.POWER_POINT_NOT_FOUND')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_microgrids_loads "
+                               " WHERE microgrid_id = %s AND name = %s AND id != %s ",
+                               (id_, name, lid))
+                if cursor.fetchone() is not None:
+                    raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                           description='API.MICROGRID_LOAD_NAME_IS_ALREADY_IN_USE')
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_meters "
-                       " WHERE id = %s ",
-                       (meter_id,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.METER_NOT_FOUND')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_points "
+                               " WHERE id = %s ",
+                               (power_point_id,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.POWER_POINT_NOT_FOUND')
 
-        update_row = (" UPDATE tbl_microgrids_loads "
-                      " SET name = %s, microgrid_id = %s, power_point_id = %s, meter_id = %s, rated_input_power = %s "
-                      " WHERE id = %s ")
-        cursor.execute(update_row, (name,
-                                    id_,
-                                    power_point_id,
-                                    meter_id,
-                                    rated_input_power,
-                                    lid))
-        cnx.commit()
+                cursor.execute(" SELECT name "
+                               " FROM tbl_meters "
+                               " WHERE id = %s ",
+                               (meter_id,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.METER_NOT_FOUND')
 
-        cursor.close()
-        cnx.close()
+                update_row = (" UPDATE tbl_microgrids_loads "
+                              " SET name = %s, microgrid_id = %s, power_point_id = %s, meter_id = %s, rated_input_power = %s "
+                              " WHERE id = %s ")
+                cursor.execute(update_row, (name,
+                                            id_,
+                                            power_point_id,
+                                            meter_id,
+                                            rated_input_power,
+                                            lid))
+                cnx.commit()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         resp.status = falcon.HTTP_200
 
@@ -3751,49 +3870,61 @@ class MicrogridPhotovoltaicCollection:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_MICROGRID_ID')
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
+        rows_meters = []
+        rows_points = []
+        rows = []
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_microgrids "
-                       " WHERE id = %s ", (id_,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.MICROGRID_NOT_FOUND')
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        # query meter dict
-        query = (" SELECT id, name, uuid "
-                 " FROM tbl_meters ")
-        cursor.execute(query)
-        rows_meters = cursor.fetchall()
+                cursor.execute(" SELECT name "
+                               " FROM tbl_microgrids "
+                               " WHERE id = %s ", (id_,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.MICROGRID_NOT_FOUND')
 
-        meter_dict = dict()
-        if rows_meters is not None and len(rows_meters) > 0:
-            for row in rows_meters:
-                meter_dict[row[0]] = {"id": row[0],
-                                      "name": row[1],
-                                      "uuid": row[2]}
-        # query point dict
-        query = (" SELECT id, name "
-                 " FROM tbl_points ")
-        cursor.execute(query)
-        rows_points = cursor.fetchall()
+                # query meter dict
+                query = (" SELECT id, name, uuid "
+                         " FROM tbl_meters ")
+                cursor.execute(query)
+                rows_meters = cursor.fetchall()
 
-        point_dict = dict()
-        if rows_points is not None and len(rows_points) > 0:
-            for row in rows_points:
-                point_dict[row[0]] = {"id": row[0],
-                                      "name": row[1]}
+                meter_dict = dict()
+                if rows_meters is not None and len(rows_meters) > 0:
+                    for row in rows_meters:
+                        meter_dict[row[0]] = {"id": row[0],
+                                              "name": row[1],
+                                              "uuid": row[2]}
+                # query point dict
+                query = (" SELECT id, name "
+                         " FROM tbl_points ")
+                cursor.execute(query)
+                rows_points = cursor.fetchall()
 
-        query = (" SELECT id, name, uuid, "
-                 "        power_point_id, meter_id, rated_power "
-                 " FROM tbl_microgrids_photovoltaics "
-                 " WHERE microgrid_id = %s "
-                 " ORDER BY name ")
-        cursor.execute(query, (id_,))
-        rows = cursor.fetchall()
+                point_dict = dict()
+                if rows_points is not None and len(rows_points) > 0:
+                    for row in rows_points:
+                        point_dict[row[0]] = {"id": row[0],
+                                              "name": row[1]}
+
+                query = (" SELECT id, name, uuid, "
+                         "        power_point_id, meter_id, rated_power "
+                         " FROM tbl_microgrids_photovoltaics "
+                         " WHERE microgrid_id = %s "
+                         " ORDER BY name ")
+                cursor.execute(query, (id_,))
+                rows = cursor.fetchall()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         result = list()
         if rows is not None and len(rows) > 0:
@@ -3830,18 +3961,6 @@ class MicrogridPhotovoltaicCollection:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_MICROGRID_ID')
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
-
-        cursor.execute(" SELECT name "
-                       " FROM tbl_microgrids "
-                       " WHERE id = %s ", (id_,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.MICROGRID_NOT_FOUND')
-
         new_values = json.loads(raw_json)
 
         if 'name' not in new_values['data'].keys() or \
@@ -3872,65 +3991,67 @@ class MicrogridPhotovoltaicCollection:
                                    description='API.INVALID_RATED_POWER')
         rated_power = float(new_values['data']['rated_power'])
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
+        new_id = None
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_microgrids "
-                       " WHERE id = %s ",
-                       (id_,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.MICROGRID_NOT_FOUND')
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_microgrids_photovoltaics "
-                       " WHERE microgrid_id = %s AND name = %s ",
-                       (id_, name,))
-        if cursor.fetchone() is not None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.MICROGRID_PHOTOVOLTAIC_NAME_IS_ALREADY_IN_USE')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_microgrids "
+                               " WHERE id = %s ",
+                               (id_,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.MICROGRID_NOT_FOUND')
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_points "
-                       " WHERE id = %s ",
-                       (power_point_id,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.POWER_POINT_NOT_FOUND')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_microgrids_photovoltaics "
+                               " WHERE microgrid_id = %s AND name = %s ",
+                               (id_, name,))
+                if cursor.fetchone() is not None:
+                    raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                           description='API.MICROGRID_PHOTOVOLTAIC_NAME_IS_ALREADY_IN_USE')
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_meters "
-                       " WHERE id = %s ",
-                       (meter_id,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.METER_NOT_FOUND')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_points "
+                               " WHERE id = %s ",
+                               (power_point_id,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.POWER_POINT_NOT_FOUND')
 
-        add_values = (" INSERT INTO tbl_microgrids_photovoltaics "
-                      "    (name, uuid, microgrid_id, power_point_id, meter_id, rated_power) "
-                      " VALUES (%s, %s, %s, %s, %s, %s) ")
-        cursor.execute(add_values, (name,
-                                    str(uuid.uuid4()),
-                                    id_,
-                                    power_point_id,
-                                    meter_id,
-                                    rated_power))
-        new_id = cursor.lastrowid
-        cnx.commit()
-        cursor.close()
-        cnx.close()
+                cursor.execute(" SELECT name "
+                               " FROM tbl_meters "
+                               " WHERE id = %s ",
+                               (meter_id,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.METER_NOT_FOUND')
+
+                add_values = (" INSERT INTO tbl_microgrids_photovoltaics "
+                              "    (name, uuid, microgrid_id, power_point_id, meter_id, rated_power) "
+                              " VALUES (%s, %s, %s, %s, %s, %s) ")
+                cursor.execute(add_values, (name,
+                                            str(uuid.uuid4()),
+                                            id_,
+                                            power_point_id,
+                                            meter_id,
+                                            rated_power))
+                new_id = cursor.lastrowid
+                cnx.commit()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         resp.status = falcon.HTTP_201
-        resp.location = '/microgrids' + str(id_) + '/photovoltaics/' + str(new_id)
+        resp.location = '/microgrids/' + str(id_) + '/photovoltaics/' + str(new_id)
 
 
 class MicrogridPhotovoltaicItem:
@@ -3942,6 +4063,7 @@ class MicrogridPhotovoltaicItem:
         _ = req
         resp.status = falcon.HTTP_200
         _ = id_
+        _ = pid
 
     @staticmethod
     def on_get(req, resp, id_, pid):
@@ -3953,73 +4075,84 @@ class MicrogridPhotovoltaicItem:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_MICROGRID_PHOTOVOLTAIC_ID')
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
+        rows_microgrids = []
+        rows_meters = []
+        rows_points = []
+        row = None
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_microgrids "
-                       " WHERE id = %s ", (id_,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.MICROGRID_NOT_FOUND')
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        # query microgrid dict
-        query = (" SELECT id, name, uuid "
-                 " FROM tbl_microgrids ")
-        cursor.execute(query)
-        rows_microgrids = cursor.fetchall()
+                cursor.execute(" SELECT name "
+                               " FROM tbl_microgrids "
+                               " WHERE id = %s ", (id_,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.MICROGRID_NOT_FOUND')
 
-        microgrid_dict = dict()
-        if rows_microgrids is not None and len(rows_microgrids) > 0:
-            for row in rows_microgrids:
-                microgrid_dict[row[0]] = {"id": row[0],
-                                          "name": row[1],
-                                          "uuid": row[2]}
-        # query meter dict
-        query = (" SELECT id, name, uuid "
-                 " FROM tbl_meters ")
-        cursor.execute(query)
-        rows_meters = cursor.fetchall()
+                # query microgrid dict
+                query = (" SELECT id, name, uuid "
+                         " FROM tbl_microgrids ")
+                cursor.execute(query)
+                rows_microgrids = cursor.fetchall()
 
-        meter_dict = dict()
-        if rows_meters is not None and len(rows_meters) > 0:
-            for row in rows_meters:
-                meter_dict[row[0]] = {"id": row[0],
-                                      "name": row[1],
-                                      "uuid": row[2]}
-        # query point dict
-        query = (" SELECT id, name "
-                 " FROM tbl_points ")
-        cursor.execute(query)
-        rows_points = cursor.fetchall()
+                microgrid_dict = dict()
+                if rows_microgrids is not None and len(rows_microgrids) > 0:
+                    for row in rows_microgrids:
+                        microgrid_dict[row[0]] = {"id": row[0],
+                                                  "name": row[1],
+                                                  "uuid": row[2]}
+                # query meter dict
+                query = (" SELECT id, name, uuid "
+                         " FROM tbl_meters ")
+                cursor.execute(query)
+                rows_meters = cursor.fetchall()
 
-        point_dict = dict()
-        if rows_points is not None and len(rows_points) > 0:
-            for row in rows_points:
-                point_dict[row[0]] = {"id": row[0],
-                                      "name": row[1]}
+                meter_dict = dict()
+                if rows_meters is not None and len(rows_meters) > 0:
+                    for row in rows_meters:
+                        meter_dict[row[0]] = {"id": row[0],
+                                              "name": row[1],
+                                              "uuid": row[2]}
+                # query point dict
+                query = (" SELECT id, name "
+                         " FROM tbl_points ")
+                cursor.execute(query)
+                rows_points = cursor.fetchall()
 
-        query = (" SELECT id, name, uuid, microgrid_id, power_point_id, meter_id, rated_power "
-                 " FROM tbl_microgrids_photovoltaics "
-                 " WHERE id = %s ")
-        cursor.execute(query, (pid,))
-        row = cursor.fetchone()
-        cursor.close()
-        cnx.close()
+                point_dict = dict()
+                if rows_points is not None and len(rows_points) > 0:
+                    for row in rows_points:
+                        point_dict[row[0]] = {"id": row[0],
+                                              "name": row[1]}
+
+                query = (" SELECT id, name, uuid, microgrid_id, power_point_id, meter_id, rated_power "
+                         " FROM tbl_microgrids_photovoltaics "
+                         " WHERE id = %s ")
+                cursor.execute(query, (pid,))
+                row = cursor.fetchone()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         if row is None:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.MICROGRID_PHOTOVOLTAIC_NOT_FOUND')
-        else:
-            meta_result = {"id": row[0],
-                           "name": row[1],
-                           "uuid": row[2],
-                           "microgrid": microgrid_dict.get(row[3], None),
-                           "power_point": point_dict.get(row[4], None),
-                           "meter": meter_dict.get(row[5], None),
-                           "rated_power": row[6]}
+        
+        meta_result = {"id": row[0],
+                       "name": row[1],
+                       "uuid": row[2],
+                       "microgrid": microgrid_dict.get(row[3], None),
+                       "power_point": point_dict.get(row[4], None),
+                       "meter": meter_dict.get(row[5], None),
+                       "rated_power": row[6]}
 
         resp.text = json.dumps(meta_result)
 
@@ -4034,33 +4167,37 @@ class MicrogridPhotovoltaicItem:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_MICROGRID_PHOTOVOLTAIC_ID')
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_microgrids "
-                       " WHERE id = %s ", (id_,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.MICROGRID_NOT_FOUND')
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_microgrids_photovoltaics "
-                       " WHERE id = %s ", (pid,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.MICROGRID_PHOTOVOLTAIC_NOT_FOUND')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_microgrids "
+                               " WHERE id = %s ", (id_,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.MICROGRID_NOT_FOUND')
 
-        cursor.execute(" DELETE FROM tbl_microgrids_photovoltaics "
-                       " WHERE id = %s ", (pid,))
-        cnx.commit()
+                cursor.execute(" SELECT name "
+                               " FROM tbl_microgrids_photovoltaics "
+                               " WHERE id = %s ", (pid,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.MICROGRID_PHOTOVOLTAIC_NOT_FOUND')
 
-        cursor.close()
-        cnx.close()
+                cursor.execute(" DELETE FROM tbl_microgrids_photovoltaics "
+                               " WHERE id = %s ", (pid,))
+                cnx.commit()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         resp.status = falcon.HTTP_204
 
@@ -4118,73 +4255,70 @@ class MicrogridPhotovoltaicItem:
                                    description='API.INVALID_RATED_POWER')
         rated_power = float(new_values['data']['rated_power'])
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_microgrids "
-                       " WHERE id = %s ", (id_,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.MICROGRID_NOT_FOUND')
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_microgrids_photovoltaics "
-                       " WHERE id = %s ", (pid,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.MICROGRID_PHOTOVOLTAIC_NOT_FOUND')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_microgrids "
+                               " WHERE id = %s ", (id_,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.MICROGRID_NOT_FOUND')
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_microgrids_photovoltaics "
-                       " WHERE microgrid_id = %s AND name = %s AND id != %s ",
-                       (id_, name, pid))
-        if cursor.fetchone() is not None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.MICROGRID_PHOTOVOLTAIC_NAME_IS_ALREADY_IN_USE')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_microgrids_photovoltaics "
+                               " WHERE id = %s ", (pid,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.MICROGRID_PHOTOVOLTAIC_NOT_FOUND')
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_points "
-                       " WHERE id = %s ",
-                       (power_point_id,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.POWER_POINT_NOT_FOUND')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_microgrids_photovoltaics "
+                               " WHERE microgrid_id = %s AND name = %s AND id != %s ",
+                               (id_, name, pid))
+                if cursor.fetchone() is not None:
+                    raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                           description='API.MICROGRID_PHOTOVOLTAIC_NAME_IS_ALREADY_IN_USE')
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_meters "
-                       " WHERE id = %s ",
-                       (meter_id,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.METER_NOT_FOUND')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_points "
+                               " WHERE id = %s ",
+                               (power_point_id,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.POWER_POINT_NOT_FOUND')
 
-        update_row = (" UPDATE tbl_microgrids_photovoltaics "
-                      " SET name = %s, microgrid_id = %s, power_point_id = %s, meter_id = %s, rated_power = %s "
-                      " WHERE id = %s ")
-        cursor.execute(update_row, (name,
-                                    id_,
-                                    power_point_id,
-                                    meter_id,
-                                    rated_power,
-                                    pid))
-        cnx.commit()
+                cursor.execute(" SELECT name "
+                               " FROM tbl_meters "
+                               " WHERE id = %s ",
+                               (meter_id,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.METER_NOT_FOUND')
 
-        cursor.close()
-        cnx.close()
+                update_row = (" UPDATE tbl_microgrids_photovoltaics "
+                              " SET name = %s, microgrid_id = %s, power_point_id = %s, meter_id = %s, rated_power = %s "
+                              " WHERE id = %s ")
+                cursor.execute(update_row, (name,
+                                            id_,
+                                            power_point_id,
+                                            meter_id,
+                                            rated_power,
+                                            pid))
+                cnx.commit()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         resp.status = falcon.HTTP_200
-
 
 class MicrogridPowerconversionsystemCollection:
     def __init__(self):
@@ -4203,49 +4337,61 @@ class MicrogridPowerconversionsystemCollection:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_MICROGRID_ID')
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
+        rows_points = []
+        rows_commands = []
+        rows = []
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_microgrids "
-                       " WHERE id = %s ", (id_,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.MICROGRID_NOT_FOUND')
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        # query point dict
-        query = (" SELECT id, name "
-                 " FROM tbl_points ")
-        cursor.execute(query)
-        rows_points = cursor.fetchall()
+                cursor.execute(" SELECT name "
+                               " FROM tbl_microgrids "
+                               " WHERE id = %s ", (id_,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.MICROGRID_NOT_FOUND')
 
-        point_dict = dict()
-        if rows_points is not None and len(rows_points) > 0:
-            for row in rows_points:
-                point_dict[row[0]] = {"id": row[0],
-                                      "name": row[1]}
-        # query command dict
-        query = (" SELECT id, name "
-                 " FROM tbl_commands ")
-        cursor.execute(query)
-        rows_commands = cursor.fetchall()
+                # query point dict
+                query = (" SELECT id, name "
+                         " FROM tbl_points ")
+                cursor.execute(query)
+                rows_points = cursor.fetchall()
 
-        command_dict = dict()
-        if rows_commands is not None and len(rows_commands) > 0:
-            for row in rows_commands:
-                command_dict[row[0]] = {"id": row[0],
-                                        "name": row[1]}
+                point_dict = dict()
+                if rows_points is not None and len(rows_points) > 0:
+                    for row in rows_points:
+                        point_dict[row[0]] = {"id": row[0],
+                                              "name": row[1]}
+                # query command dict
+                query = (" SELECT id, name "
+                         " FROM tbl_commands ")
+                cursor.execute(query)
+                rows_commands = cursor.fetchall()
 
-        query = (" SELECT id, name, uuid, run_state_point_id, rated_output_power, "
-                 "        today_charge_energy_point_id, today_discharge_energy_point_id, "
-                 "        total_charge_energy_point_id, total_discharge_energy_point_id "
-                 " FROM tbl_microgrids_power_conversion_systems "
-                 " WHERE microgrid_id = %s "
-                 " ORDER BY name ")
-        cursor.execute(query, (id_,))
-        rows = cursor.fetchall()
+                command_dict = dict()
+                if rows_commands is not None and len(rows_commands) > 0:
+                    for row in rows_commands:
+                        command_dict[row[0]] = {"id": row[0],
+                                                "name": row[1]}
+
+                query = (" SELECT id, name, uuid, run_state_point_id, rated_output_power, "
+                         "        today_charge_energy_point_id, today_discharge_energy_point_id, "
+                         "        total_charge_energy_point_id, total_discharge_energy_point_id "
+                         " FROM tbl_microgrids_power_conversion_systems "
+                         " WHERE microgrid_id = %s "
+                         " ORDER BY name ")
+                cursor.execute(query, (id_,))
+                rows = cursor.fetchall()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         result = list()
         if rows is not None and len(rows) > 0:
@@ -4284,18 +4430,6 @@ class MicrogridPowerconversionsystemCollection:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_MICROGRID_ID')
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
-
-        cursor.execute(" SELECT name "
-                       " FROM tbl_microgrids "
-                       " WHERE id = %s ", (id_,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.MICROGRID_NOT_FOUND')
-
         new_values = json.loads(raw_json)
 
         if 'name' not in new_values['data'].keys() or \
@@ -4347,48 +4481,54 @@ class MicrogridPowerconversionsystemCollection:
                                    description='API.INVALID_TOTAL_DISCHARGE_POINT_ID')
         total_discharge_energy_point_id = new_values['data']['total_discharge_energy_point_id']
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
+        new_id = None
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_microgrids "
-                       " WHERE id = %s ",
-                       (id_,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.MICROGRID_NOT_FOUND')
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_microgrids_power_conversion_systems "
-                       " WHERE microgrid_id = %s AND name = %s ",
-                       (id_, name,))
-        if cursor.fetchone() is not None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.MICROGRID_POWER_CONVERSION_SYSTEM_NAME_IS_ALREADY_IN_USE')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_microgrids "
+                               " WHERE id = %s ",
+                               (id_,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.MICROGRID_NOT_FOUND')
 
-        add_values = (" INSERT INTO tbl_microgrids_power_conversion_systems "
-                      "     (name, uuid, microgrid_id, run_state_point_id, rated_output_power, "
-                      "      today_charge_energy_point_id, today_discharge_energy_point_id, "
-                      "      total_charge_energy_point_id, total_discharge_energy_point_id) "
-                      " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s) ")
-        cursor.execute(add_values, (name,
-                                    str(uuid.uuid4()),
-                                    id_,
-                                    run_state_point_id,
-                                    rated_output_power,
-                                    today_charge_energy_point_id,
-                                    today_discharge_energy_point_id,
-                                    total_charge_energy_point_id,
-                                    total_discharge_energy_point_id
-                                    ))
-        new_id = cursor.lastrowid
-        cnx.commit()
-        cursor.close()
-        cnx.close()
+                cursor.execute(" SELECT name "
+                               " FROM tbl_microgrids_power_conversion_systems "
+                               " WHERE microgrid_id = %s AND name = %s ",
+                               (id_, name,))
+                if cursor.fetchone() is not None:
+                    raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                           description='API.MICROGRID_POWER_CONVERSION_SYSTEM_NAME_IS_ALREADY_IN_USE')
+
+                add_values = (" INSERT INTO tbl_microgrids_power_conversion_systems "
+                              "     (name, uuid, microgrid_id, run_state_point_id, rated_output_power, "
+                              "      today_charge_energy_point_id, today_discharge_energy_point_id, "
+                              "      total_charge_energy_point_id, total_discharge_energy_point_id) "
+                              " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s) ")
+                cursor.execute(add_values, (name,
+                                            str(uuid.uuid4()),
+                                            id_,
+                                            run_state_point_id,
+                                            rated_output_power,
+                                            today_charge_energy_point_id,
+                                            today_discharge_energy_point_id,
+                                            total_charge_energy_point_id,
+                                            total_discharge_energy_point_id
+                                            ))
+                new_id = cursor.lastrowid
+                cnx.commit()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         resp.status = falcon.HTTP_201
         resp.location = '/microgridpowerconversionsystems/' + str(new_id)
@@ -4403,6 +4543,7 @@ class MicrogridPowerconversionsystemItem:
         _ = req
         resp.status = falcon.HTTP_200
         _ = id_
+        _ = pid
 
     @staticmethod
     def on_get(req, resp, id_, pid):
@@ -4414,90 +4555,102 @@ class MicrogridPowerconversionsystemItem:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_MICROGRID_POWER_CONVERSION_SYSTEM_ID')
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
+        rows_microgrids = []
+        rows_meters = []
+        rows_points = []
+        rows_commands = []
+        row = None
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_microgrids "
-                       " WHERE id = %s ", (id_,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.MICROGRID_NOT_FOUND')
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        # query microgrid dict
-        query = (" SELECT id, name, uuid "
-                 " FROM tbl_microgrids ")
-        cursor.execute(query)
-        rows_microgrids = cursor.fetchall()
+                cursor.execute(" SELECT name "
+                               " FROM tbl_microgrids "
+                               " WHERE id = %s ", (id_,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.MICROGRID_NOT_FOUND')
 
-        microgrid_dict = dict()
-        if rows_microgrids is not None and len(rows_microgrids) > 0:
-            for row in rows_microgrids:
-                microgrid_dict[row[0]] = {"id": row[0],
-                                          "name": row[1],
-                                          "uuid": row[2]}
-        # query meter dict
-        query = (" SELECT id, name, uuid "
-                 " FROM tbl_meters ")
-        cursor.execute(query)
-        rows_meters = cursor.fetchall()
+                # query microgrid dict
+                query = (" SELECT id, name, uuid "
+                         " FROM tbl_microgrids ")
+                cursor.execute(query)
+                rows_microgrids = cursor.fetchall()
 
-        meter_dict = dict()
-        if rows_meters is not None and len(rows_meters) > 0:
-            for row in rows_meters:
-                meter_dict[row[0]] = {"id": row[0],
-                                      "name": row[1],
-                                      "uuid": row[2]}
-        # query point dict
-        query = (" SELECT id, name "
-                 " FROM tbl_points ")
-        cursor.execute(query)
-        rows_points = cursor.fetchall()
+                microgrid_dict = dict()
+                if rows_microgrids is not None and len(rows_microgrids) > 0:
+                    for row in rows_microgrids:
+                        microgrid_dict[row[0]] = {"id": row[0],
+                                                  "name": row[1],
+                                                  "uuid": row[2]}
+                # query meter dict
+                query = (" SELECT id, name, uuid "
+                         " FROM tbl_meters ")
+                cursor.execute(query)
+                rows_meters = cursor.fetchall()
 
-        point_dict = dict()
-        if rows_points is not None and len(rows_points) > 0:
-            for row in rows_points:
-                point_dict[row[0]] = {"id": row[0],
-                                      "name": row[1]}
+                meter_dict = dict()
+                if rows_meters is not None and len(rows_meters) > 0:
+                    for row in rows_meters:
+                        meter_dict[row[0]] = {"id": row[0],
+                                              "name": row[1],
+                                              "uuid": row[2]}
+                # query point dict
+                query = (" SELECT id, name "
+                         " FROM tbl_points ")
+                cursor.execute(query)
+                rows_points = cursor.fetchall()
 
-        # query command dict
-        query = (" SELECT id, name "
-                 " FROM tbl_commands ")
-        cursor.execute(query)
-        rows_commands = cursor.fetchall()
+                point_dict = dict()
+                if rows_points is not None and len(rows_points) > 0:
+                    for row in rows_points:
+                        point_dict[row[0]] = {"id": row[0],
+                                              "name": row[1]}
 
-        command_dict = dict()
-        if rows_commands is not None and len(rows_commands) > 0:
-            for row in rows_commands:
-                command_dict[row[0]] = {"id": row[0],
-                                        "name": row[1]}
+                # query command dict
+                query = (" SELECT id, name "
+                         " FROM tbl_commands ")
+                cursor.execute(query)
+                rows_commands = cursor.fetchall()
 
-        query = (" SELECT id, name, uuid, microgrid_id, run_state_point_id, rated_output_power, "
-                 "        today_charge_energy_point_id, today_discharge_energy_point_id, "
-                 "        total_charge_energy_point_id, total_discharge_energy_point_id "
-                 " FROM tbl_microgrids_power_conversion_systems "
-                 " WHERE id = %s ")
-        cursor.execute(query, (pid,))
-        row = cursor.fetchone()
-        cursor.close()
-        cnx.close()
+                command_dict = dict()
+                if rows_commands is not None and len(rows_commands) > 0:
+                    for row in rows_commands:
+                        command_dict[row[0]] = {"id": row[0],
+                                                "name": row[1]}
+
+                query = (" SELECT id, name, uuid, microgrid_id, run_state_point_id, rated_output_power, "
+                         "        today_charge_energy_point_id, today_discharge_energy_point_id, "
+                         "        total_charge_energy_point_id, total_discharge_energy_point_id "
+                         " FROM tbl_microgrids_power_conversion_systems "
+                         " WHERE id = %s ")
+                cursor.execute(query, (pid,))
+                row = cursor.fetchone()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         if row is None:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.MICROGRID_POWER_CONVERSION_SYSTEM_NOT_FOUND')
-        else:
-            meta_result = {"id": row[0],
-                           "name": row[1],
-                           "uuid": row[2],
-                           "microgrid": microgrid_dict.get(row[3]),
-                           "run_state_point": point_dict.get(row[4]),
-                           "rated_output_power": row[5],
-                           "today_charge_energy_point": point_dict.get(row[6]),
-                           "today_discharge_energy_point": point_dict.get(row[7]),
-                           "total_charge_energy_point": point_dict.get(row[8]),
-                           "total_discharge_energy_point": point_dict.get(row[9])}
+        
+        meta_result = {"id": row[0],
+                       "name": row[1],
+                       "uuid": row[2],
+                       "microgrid": microgrid_dict.get(row[3]),
+                       "run_state_point": point_dict.get(row[4]),
+                       "rated_output_power": row[5],
+                       "today_charge_energy_point": point_dict.get(row[6]),
+                       "today_discharge_energy_point": point_dict.get(row[7]),
+                       "total_charge_energy_point": point_dict.get(row[8]),
+                       "total_discharge_energy_point": point_dict.get(row[9])}
 
         resp.text = json.dumps(meta_result)
 
@@ -4512,33 +4665,37 @@ class MicrogridPowerconversionsystemItem:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_MICROGRID_POWER_CONVERSION_SYSTEM_ID')
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_microgrids "
-                       " WHERE id = %s ", (id_,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.MICROGRID_NOT_FOUND')
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_microgrids_power_conversion_systems "
-                       " WHERE id = %s ", (pid,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.MICROGRID_POWER_CONVERSION_SYSTEM_NOT_FOUND')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_microgrids "
+                               " WHERE id = %s ", (id_,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.MICROGRID_NOT_FOUND')
 
-        cursor.execute(" DELETE FROM tbl_microgrids_power_conversion_systems "
-                       " WHERE id = %s ", (pid,))
-        cnx.commit()
+                cursor.execute(" SELECT name "
+                               " FROM tbl_microgrids_power_conversion_systems "
+                               " WHERE id = %s ", (pid,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.MICROGRID_POWER_CONVERSION_SYSTEM_NOT_FOUND')
 
-        cursor.close()
-        cnx.close()
+                cursor.execute(" DELETE FROM tbl_microgrids_power_conversion_systems "
+                               " WHERE id = %s ", (pid,))
+                cnx.commit()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         resp.status = falcon.HTTP_204
 
@@ -4617,55 +4774,57 @@ class MicrogridPowerconversionsystemItem:
                                    description='API.INVALID_TOTAL_DISCHARGE_POINT_ID')
         total_discharge_energy_point_id = new_values['data']['total_discharge_energy_point_id']
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_microgrids "
-                       " WHERE id = %s ", (id_,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.MICROGRID_NOT_FOUND')
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_microgrids_power_conversion_systems "
-                       " WHERE id = %s ", (pid,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.MICROGRID_POWER_CONVERSION_SYSTEM_NOT_FOUND')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_microgrids "
+                               " WHERE id = %s ", (id_,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.MICROGRID_NOT_FOUND')
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_microgrids_power_conversion_systems "
-                       " WHERE microgrid_id = %s AND name = %s AND id != %s ",
-                       (id_, name, pid))
-        if cursor.fetchone() is not None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.MICROGRID_POWER_CONVERSION_SYSTEM_NAME_IS_ALREADY_IN_USE')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_microgrids_power_conversion_systems "
+                               " WHERE id = %s ", (pid,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.MICROGRID_POWER_CONVERSION_SYSTEM_NOT_FOUND')
 
-        update_row = (" UPDATE tbl_microgrids_power_conversion_systems "
-                      " SET name = %s, microgrid_id = %s, run_state_point_id = %s, rated_output_power = %s, "
-                      "     today_charge_energy_point_id = %s, today_discharge_energy_point_id = %s, "
-                      "     total_charge_energy_point_id = %s, total_discharge_energy_point_id = %s "
-                      " WHERE id = %s ")
-        cursor.execute(update_row, (name,
-                                    id_,
-                                    run_state_point_id,
-                                    rated_output_power,
-                                    today_charge_energy_point_id,
-                                    today_discharge_energy_point_id,
-                                    total_charge_energy_point_id,
-                                    total_discharge_energy_point_id,
-                                    pid))
-        cnx.commit()
+                cursor.execute(" SELECT name "
+                               " FROM tbl_microgrids_power_conversion_systems "
+                               " WHERE microgrid_id = %s AND name = %s AND id != %s ",
+                               (id_, name, pid))
+                if cursor.fetchone() is not None:
+                    raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                           description='API.MICROGRID_POWER_CONVERSION_SYSTEM_NAME_IS_ALREADY_IN_USE')
 
-        cursor.close()
-        cnx.close()
+                update_row = (" UPDATE tbl_microgrids_power_conversion_systems "
+                              " SET name = %s, microgrid_id = %s, run_state_point_id = %s, rated_output_power = %s, "
+                              "     today_charge_energy_point_id = %s, today_discharge_energy_point_id = %s, "
+                              "     total_charge_energy_point_id = %s, total_discharge_energy_point_id = %s "
+                              " WHERE id = %s ")
+                cursor.execute(update_row, (name,
+                                            id_,
+                                            run_state_point_id,
+                                            rated_output_power,
+                                            today_charge_energy_point_id,
+                                            today_discharge_energy_point_id,
+                                            total_charge_energy_point_id,
+                                            total_discharge_energy_point_id,
+                                            pid))
+                cnx.commit()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         resp.status = falcon.HTTP_200
 
@@ -4687,24 +4846,34 @@ class MicrogridScheduleCollection:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_MICROGRID_ID')
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
+        rows = []
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_microgrids "
-                       " WHERE id = %s ", (id_,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.MICROGRID_NOT_FOUND')
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        query = (" SELECT id, start_time_of_day, end_time_of_day, peak_type, power "
-                 " FROM tbl_microgrids_schedules "
-                 " WHERE microgrid_id = %s "
-                 " ORDER BY start_time_of_day ")
-        cursor.execute(query, (id_,))
-        rows = cursor.fetchall()
+                cursor.execute(" SELECT name "
+                               " FROM tbl_microgrids "
+                               " WHERE id = %s ", (id_,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.MICROGRID_NOT_FOUND')
+
+                query = (" SELECT id, start_time_of_day, end_time_of_day, peak_type, power "
+                         " FROM tbl_microgrids_schedules "
+                         " WHERE microgrid_id = %s "
+                         " ORDER BY start_time_of_day ")
+                cursor.execute(query, (id_,))
+                rows = cursor.fetchall()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         result = list()
         if rows is not None and len(rows) > 0:
@@ -4740,48 +4909,44 @@ class MicrogridScheduleCollection:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_MICROGRID_ID')
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
-
-        cursor.execute(" SELECT name "
-                       " FROM tbl_microgrids "
-                       " WHERE id = %s ", (id_,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.MICROGRID_NOT_FOUND')
-
         new_values = json.loads(raw_json)
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
+        new_id = None
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_microgrids "
-                       " WHERE id = %s ",
-                       (id_,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.MICROGRID_NOT_FOUND')
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        add_schedule = (" INSERT INTO tbl_microgrids_schedules "
-                        "     (microgrid_id, start_time_of_day, end_time_of_day, peak_type, power) "
-                        " VALUES (%s, %s, %s, %s, %s) ")
-        cursor.execute(add_schedule, (id_,
-                                      new_values['data']['start_time_of_day'],
-                                      new_values['data']['end_time_of_day'],
-                                      new_values['data']['peak_type'],
-                                      new_values['data']['power']))
-        new_id = cursor.lastrowid
-        cnx.commit()
-        cursor.close()
-        cnx.close()
+                cursor.execute(" SELECT name "
+                               " FROM tbl_microgrids "
+                               " WHERE id = %s ",
+                               (id_,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.MICROGRID_NOT_FOUND')
+
+                add_schedule = (" INSERT INTO tbl_microgrids_schedules "
+                                "     (microgrid_id, start_time_of_day, end_time_of_day, peak_type, power) "
+                                " VALUES (%s, %s, %s, %s, %s) ")
+                cursor.execute(add_schedule, (id_,
+                                              new_values['data']['start_time_of_day'],
+                                              new_values['data']['end_time_of_day'],
+                                              new_values['data']['peak_type'],
+                                              new_values['data']['power']))
+                new_id = cursor.lastrowid
+                cnx.commit()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
+        
         resp.status = falcon.HTTP_201
         resp.location = '/energystoragecontainerschedules/' + str(new_id)
-
 
 class MicrogridScheduleItem:
     def __init__(self):
@@ -4792,6 +4957,7 @@ class MicrogridScheduleItem:
         _ = req
         resp.status = falcon.HTTP_200
         _ = id_
+        _ = sid
 
     @staticmethod
     def on_get(req, resp, id_, sid):
@@ -4803,47 +4969,56 @@ class MicrogridScheduleItem:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_MICROGRID_SCHEDULE_ID')
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
+        rows_energystoragecontainers = []
+        row = None
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_microgrids "
-                       " WHERE id = %s ", (id_,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.MICROGRID_NOT_FOUND')
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        query = (" SELECT id, name, uuid "
-                 " FROM tbl_microgrids ")
-        cursor.execute(query)
-        rows_energystoragecontainers = cursor.fetchall()
+                cursor.execute(" SELECT name "
+                               " FROM tbl_microgrids "
+                               " WHERE id = %s ", (id_,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.MICROGRID_NOT_FOUND')
 
-        microgrid_dict = dict()
-        if rows_energystoragecontainers is not None and len(rows_energystoragecontainers) > 0:
-            for row in rows_energystoragecontainers:
-                microgrid_dict[row[0]] = {"id": row[0],
-                                          "name": row[1],
-                                          "uuid": row[2]}
+                query = (" SELECT id, name, uuid "
+                         " FROM tbl_microgrids ")
+                cursor.execute(query)
+                rows_energystoragecontainers = cursor.fetchall()
 
-        query = (" SELECT id, start_time_of_day, end_time_of_day, peak_type, power "
-                 " FROM tbl_microgrids_schedules "
-                 " WHERE id = %s ")
-        cursor.execute(query, (sid,))
-        row = cursor.fetchone()
-        cursor.close()
-        cnx.close()
+                microgrid_dict = dict()
+                if rows_energystoragecontainers is not None and len(rows_energystoragecontainers) > 0:
+                    for row in rows_energystoragecontainers:
+                        microgrid_dict[row[0]] = {"id": row[0],
+                                                  "name": row[1],
+                                                  "uuid": row[2]}
+
+                query = (" SELECT id, start_time_of_day, end_time_of_day, peak_type, power "
+                         " FROM tbl_microgrids_schedules "
+                         " WHERE id = %s ")
+                cursor.execute(query, (sid,))
+                row = cursor.fetchone()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         if row is None:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.MICROGRID_SCHEDULE_NOT_FOUND')
-        else:
-            meta_result = {"id": row[0],
-                           "start_time_of_day": str(row[1]),
-                           "end_time_of_day": str(row[2]),
-                           "peak_type": row[3],
-                           "power": row[4]}
+        
+        meta_result = {"id": row[0],
+                       "start_time_of_day": str(row[1]),
+                       "end_time_of_day": str(row[2]),
+                       "peak_type": row[3],
+                       "power": row[4]}
 
         resp.text = json.dumps(meta_result)
 
@@ -4858,33 +5033,37 @@ class MicrogridScheduleItem:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_MICROGRID_SCHEDULE_ID')
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_microgrids "
-                       " WHERE id = %s ", (id_,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.MICROGRID_NOT_FOUND')
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        cursor.execute(" SELECT id "
-                       " FROM tbl_microgrids_schedules "
-                       " WHERE id = %s ", (sid,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.MICROGRID_SCHEDULE_NOT_FOUND')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_microgrids "
+                               " WHERE id = %s ", (id_,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.MICROGRID_NOT_FOUND')
 
-        cursor.execute(" DELETE FROM tbl_microgrids_schedules "
-                       " WHERE id = %s ", (sid,))
-        cnx.commit()
+                cursor.execute(" SELECT id "
+                               " FROM tbl_microgrids_schedules "
+                               " WHERE id = %s ", (sid,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.MICROGRID_SCHEDULE_NOT_FOUND')
 
-        cursor.close()
-        cnx.close()
+                cursor.execute(" DELETE FROM tbl_microgrids_schedules "
+                               " WHERE id = %s ", (sid,))
+                cnx.commit()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         resp.status = falcon.HTTP_204
 
@@ -4942,39 +5121,43 @@ class MicrogridScheduleItem:
                                    description='API.INVALID_POWER')
         power = float(new_values['data']['power'])
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_microgrids "
-                       " WHERE id = %s ", (id_,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.MICROGRID_NOT_FOUND')
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        cursor.execute(" SELECT id "
-                       " FROM tbl_microgrids_schedules "
-                       " WHERE id = %s ", (sid,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.MICROGRID_SCHEDULE_NOT_FOUND')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_microgrids "
+                               " WHERE id = %s ", (id_,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.MICROGRID_NOT_FOUND')
 
-        update_row = (" UPDATE tbl_microgrids_schedules "
-                      " SET start_time_of_day = %s, end_time_of_day = %s, peak_type = %s, power = %s "
-                      " WHERE id = %s ")
-        cursor.execute(update_row, (start_time_of_day,
-                                    end_time_of_day,
-                                    peak_type,
-                                    power,
-                                    sid))
-        cnx.commit()
+                cursor.execute(" SELECT id "
+                               " FROM tbl_microgrids_schedules "
+                               " WHERE id = %s ", (sid,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.MICROGRID_SCHEDULE_NOT_FOUND')
 
-        cursor.close()
-        cnx.close()
+                update_row = (" UPDATE tbl_microgrids_schedules "
+                              " SET start_time_of_day = %s, end_time_of_day = %s, peak_type = %s, power = %s "
+                              " WHERE id = %s ")
+                cursor.execute(update_row, (start_time_of_day,
+                                            end_time_of_day,
+                                            peak_type,
+                                            power,
+                                            sid))
+                cnx.commit()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         resp.status = falcon.HTTP_200
 
@@ -4996,24 +5179,34 @@ class MicrogridSensorCollection:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_MICROGRID_ID')
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
+        rows = []
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_microgrids "
-                       " WHERE id = %s ", (id_,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.MICROGRID_NOT_FOUND')
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        query = (" SELECT s.id, s.name, s.uuid "
-                 " FROM tbl_microgrids m, tbl_microgrids_sensors ms, tbl_sensors s "
-                 " WHERE ms.microgrid_id = m.id AND s.id = ms.sensor_id AND m.id = %s "
-                 " ORDER BY s.id ")
-        cursor.execute(query, (id_,))
-        rows = cursor.fetchall()
+                cursor.execute(" SELECT name "
+                               " FROM tbl_microgrids "
+                               " WHERE id = %s ", (id_,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.MICROGRID_NOT_FOUND')
+
+                query = (" SELECT s.id, s.name, s.uuid "
+                         " FROM tbl_microgrids m, tbl_microgrids_sensors ms, tbl_sensors s "
+                         " WHERE ms.microgrid_id = m.id AND s.id = ms.sensor_id AND m.id = %s "
+                         " ORDER BY s.id ")
+                cursor.execute(query, (id_,))
+                rows = cursor.fetchall()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         result = list()
         if rows is not None and len(rows) > 0:
@@ -5054,43 +5247,46 @@ class MicrogridSensorCollection:
                                    description='API.INVALID_SENSOR_ID')
         sensor_id = new_values['data']['sensor_id']
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
 
-        cursor.execute(" SELECT name "
-                       " from tbl_microgrids "
-                       " WHERE id = %s ", (id_,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.MICROGRID_NOT_FOUND')
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_sensors "
-                       " WHERE id = %s ", (sensor_id,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.SENSOR_NOT_FOUND')
+                cursor.execute(" SELECT name "
+                               " from tbl_microgrids "
+                               " WHERE id = %s ", (id_,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.MICROGRID_NOT_FOUND')
 
-        query = (" SELECT id "
-                 " FROM tbl_microgrids_sensors "
-                 " WHERE microgrid_id = %s AND sensor_id = %s")
-        cursor.execute(query, (id_, sensor_id,))
-        if cursor.fetchone() is not None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR',
-                                   description='API.MICROGRID_SENSOR_RELATION_EXISTS')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_sensors "
+                               " WHERE id = %s ", (sensor_id,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.SENSOR_NOT_FOUND')
 
-        add_row = (" INSERT INTO tbl_microgrids_sensors (microgrid_id, sensor_id) "
-                   " VALUES (%s, %s) ")
-        cursor.execute(add_row, (id_, sensor_id,))
-        cnx.commit()
-        cursor.close()
-        cnx.close()
+                query = (" SELECT id "
+                         " FROM tbl_microgrids_sensors "
+                         " WHERE microgrid_id = %s AND sensor_id = %s")
+                cursor.execute(query, (id_, sensor_id,))
+                if cursor.fetchone() is not None:
+                    raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR',
+                                           description='API.MICROGRID_SENSOR_RELATION_EXISTS')
+
+                add_row = (" INSERT INTO tbl_microgrids_sensors (microgrid_id, sensor_id) "
+                           " VALUES (%s, %s) ")
+                cursor.execute(add_row, (id_, sensor_id,))
+                cnx.commit()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         resp.status = falcon.HTTP_201
         resp.location = '/microgrids/' + str(id_) + '/sensors/' + str(sensor_id)
@@ -5105,6 +5301,7 @@ class MicrogridSensorItem:
         _ = req
         resp.status = falcon.HTTP_200
         _ = id_
+        _ = sid
 
     @staticmethod
     @user_logger
@@ -5118,42 +5315,44 @@ class MicrogridSensorItem:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_SENSOR_ID')
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_microgrids "
-                       " WHERE id = %s ", (id_,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.MICROGRID_NOT_FOUND')
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_sensors "
-                       " WHERE id = %s ", (sid,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.SENSOR_NOT_FOUND')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_microgrids "
+                               " WHERE id = %s ", (id_,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.MICROGRID_NOT_FOUND')
 
-        cursor.execute(" SELECT id "
-                       " FROM tbl_microgrids_sensors "
-                       " WHERE microgrid_id = %s AND sensor_id = %s ", (id_, sid))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.MICROGRID_SENSOR_RELATION_NOT_FOUND')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_sensors "
+                               " WHERE id = %s ", (sid,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.SENSOR_NOT_FOUND')
 
-        cursor.execute(" DELETE FROM tbl_microgrids_sensors "
-                       " WHERE microgrid_id = %s AND sensor_id = %s ", (id_, sid))
-        cnx.commit()
+                cursor.execute(" SELECT id "
+                               " FROM tbl_microgrids_sensors "
+                               " WHERE microgrid_id = %s AND sensor_id = %s ", (id_, sid))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.MICROGRID_SENSOR_RELATION_NOT_FOUND')
 
-        cursor.close()
-        cnx.close()
+                cursor.execute(" DELETE FROM tbl_microgrids_sensors "
+                               " WHERE microgrid_id = %s AND sensor_id = %s ", (id_, sid))
+                cnx.commit()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         resp.status = falcon.HTTP_204
 
@@ -5175,32 +5374,41 @@ class MicrogridUserCollection:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_MICROGRID_ID')
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
-        cursor.execute(" SELECT name "
-                       " FROM tbl_microgrids "
-                       " WHERE id = %s ", (id_,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.MICROGRID_NOT_FOUND')
+        cnx = None
+        cursor = None
+        rows = []
 
-        query = (" SELECT u.id, u.name, u.uuid "
-                 " FROM tbl_microgrids m, tbl_microgrids_users mu, "
-                 + config.myems_user_db['database'] + ".tbl_users u "
-                 " WHERE mu.microgrid_id = m.id AND u.id = mu.user_id AND m.id = %s "
-                 " ORDER BY u.id ")
-        cursor.execute(query, (id_,))
-        rows = cursor.fetchall()
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
+                cursor.execute(" SELECT name "
+                               " FROM tbl_microgrids "
+                               " WHERE id = %s ", (id_,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.MICROGRID_NOT_FOUND')
+
+                query = (" SELECT u.id, u.name, u.uuid "
+                         " FROM tbl_microgrids m, tbl_microgrids_users mu, "
+                         + config.myems_user_db['database'] + ".tbl_users u "
+                         " WHERE mu.microgrid_id = m.id AND u.id = mu.user_id AND m.id = %s "
+                         " ORDER BY u.id ")
+                cursor.execute(query, (id_,))
+                rows = cursor.fetchall()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
+
         result = list()
         if rows is not None and len(rows) > 0:
             for row in rows:
                 meta_result = {"id": row[0], "name": row[1], "uuid": row[2]}
                 result.append(meta_result)
 
-        cursor.close()
-        cnx.close()
         resp.text = json.dumps(result)
 
     @staticmethod
@@ -5232,44 +5440,58 @@ class MicrogridUserCollection:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_USER_ID')
         user_id = new_values['data']['user_id']
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
-        cursor.execute(" SELECT name "
-                       " from tbl_microgrids "
-                       " WHERE id = %s ", (id_,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.MICROGRID_NOT_FOUND')
 
-        cnx_user = mysql.connector.connect(**config.myems_user_db)
-        cursor_user = cnx_user.cursor()
-        cursor_user.execute(" SELECT name"
-                            " FROM tbl_users "
-                            " WHERE id = %s ", (user_id,))
-        if cursor_user.fetchone() is None:
-            cursor_user.close()
-            cnx_user.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.USER_NOT_FOUND')
-        query = (" SELECT id "
-                 " FROM tbl_microgrids_users "
-                 " WHERE microgrid_id = %s AND user_id = %s")
-        cursor.execute(query, (id_, user_id,))
-        if cursor.fetchone() is not None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR',
-                                   description='API.MICROGRID_USER_RELATION_EXISTS')
-        add_row = (" INSERT INTO tbl_microgrids_users (microgrid_id, user_id) "
-                   " VALUES (%s, %s) ")
-        cursor.execute(add_row, (id_, user_id,))
-        cnx.commit()
-        cursor.close()
-        cnx.close()
-        cursor_user.close()
-        cnx_user.close()
+        cnx = None
+        cursor = None
+        cnx_user = None
+        cursor_user = None
+
+        try:
+            # Connect to system DB
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
+                cursor.execute(" SELECT name "
+                               " from tbl_microgrids "
+                               " WHERE id = %s ", (id_,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.MICROGRID_NOT_FOUND')
+
+                # Connect to user DB
+                cnx_user = mysql.connector.connect(**config.myems_user_db)
+                try:
+                    cursor_user = cnx_user.cursor()
+                    cursor_user.execute(" SELECT name"
+                                        " FROM tbl_users "
+                                        " WHERE id = %s ", (user_id,))
+                    if cursor_user.fetchone() is None:
+                        raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                               description='API.USER_NOT_FOUND')
+                finally:
+                    if cursor_user:
+                        cursor_user.close()
+                # Back to system DB cursor
+                query = (" SELECT id "
+                         " FROM tbl_microgrids_users "
+                         " WHERE microgrid_id = %s AND user_id = %s")
+                cursor.execute(query, (id_, user_id,))
+                if cursor.fetchone() is not None:
+                    raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR',
+                                           description='API.MICROGRID_USER_RELATION_EXISTS')
+                add_row = (" INSERT INTO tbl_microgrids_users (microgrid_id, user_id) "
+                           " VALUES (%s, %s) ")
+                cursor.execute(add_row, (id_, user_id,))
+                cnx.commit()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
+            # Ensure user connection is closed even if system connection fails early
+            if cnx_user:
+                cnx_user.close()
 
         resp.status = falcon.HTTP_201
         resp.location = '/microgrids/' + str(id_) + '/users/' + str(user_id)
@@ -5284,6 +5506,7 @@ class MicrogridUserItem:
         _ = req
         resp.status = falcon.HTTP_200
         _ = id_
+        _ = uid
 
     @staticmethod
     @user_logger
@@ -5298,42 +5521,54 @@ class MicrogridUserItem:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_USER_ID')
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
-        cursor.execute(" SELECT name "
-                       " FROM tbl_microgrids "
-                       " WHERE id = %s ", (id_,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.MICROGRID_NOT_FOUND')
+        cnx = None
+        cursor = None
+        cnx_user = None
+        cursor_user = None
 
-        cnx_user = mysql.connector.connect(**config.myems_user_db)
-        cursor_user = cnx_user.cursor()
-        cursor_user.execute(" SELECT name FROM tbl_users WHERE id = %s ", (uid,))
-        if cursor_user.fetchone() is None:
-            cursor_user.close()
-            cnx_user.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.USER_NOT_FOUND')
+        try:
+            # Connect to system DB
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
+                cursor.execute(" SELECT name "
+                               " FROM tbl_microgrids "
+                               " WHERE id = %s ", (id_,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.MICROGRID_NOT_FOUND')
 
-        cursor.execute(" SELECT id "
-                       " FROM tbl_microgrids_users "
-                       " WHERE microgrid_id = %s AND user_id = %s ", (id_, uid))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.MICROGRID_USER_RELATION_NOT_FOUND')
+                # Connect to user DB
+                cnx_user = mysql.connector.connect(**config.myems_user_db)
+                try:
+                    cursor_user = cnx_user.cursor()
+                    cursor_user.execute(" SELECT name FROM tbl_users WHERE id = %s ", (uid,))
+                    if cursor_user.fetchone() is None:
+                        raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                               description='API.USER_NOT_FOUND')
+                finally:
+                    if cursor_user:
+                        cursor_user.close()
 
-        cursor.execute(" DELETE FROM tbl_microgrids_users WHERE microgrid_id = %s AND user_id = %s ", (id_, uid))
-        cnx.commit()
+                # Back to system DB cursor
+                cursor.execute(" SELECT id "
+                               " FROM tbl_microgrids_users "
+                               " WHERE microgrid_id = %s AND user_id = %s ", (id_, uid))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.MICROGRID_USER_RELATION_NOT_FOUND')
 
-        cursor.close()
-        cnx.close()
-        cursor_user.close()
-        cnx_user.close()
+                cursor.execute(" DELETE FROM tbl_microgrids_users WHERE microgrid_id = %s AND user_id = %s ",
+                               (id_, uid))
+                cnx.commit()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
+            if cnx_user:
+                cnx_user.close()
 
         resp.status = falcon.HTTP_204
 
@@ -5355,65 +5590,77 @@ class MicrogridExport:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_MICROGRID_ID')
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
+        rows_contacts = []
+        rows_cost_centers = []
+        row = None
 
-        query = (" SELECT id, name, uuid "
-                 " FROM tbl_contacts ")
-        cursor.execute(query)
-        rows_contacts = cursor.fetchall()
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        contact_dict = dict()
-        if rows_contacts is not None and len(rows_contacts) > 0:
-            for row in rows_contacts:
-                contact_dict[row[0]] = {"id": row[0],
-                                        "name": row[1],
-                                        "uuid": row[2]}
+                query = (" SELECT id, name, uuid "
+                         " FROM tbl_contacts ")
+                cursor.execute(query)
+                rows_contacts = cursor.fetchall()
 
-        query = (" SELECT id, name, uuid "
-                 " FROM tbl_cost_centers ")
-        cursor.execute(query)
-        rows_cost_centers = cursor.fetchall()
+                contact_dict = dict()
+                if rows_contacts is not None and len(rows_contacts) > 0:
+                    for row in rows_contacts:
+                        contact_dict[row[0]] = {"id": row[0],
+                                                "name": row[1],
+                                                "uuid": row[2]}
 
-        cost_center_dict = dict()
-        if rows_cost_centers is not None and len(rows_cost_centers) > 0:
-            for row in rows_cost_centers:
-                cost_center_dict[row[0]] = {"id": row[0],
-                                            "name": row[1],
-                                            "uuid": row[2]}
+                query = (" SELECT id, name, uuid "
+                         " FROM tbl_cost_centers ")
+                cursor.execute(query)
+                rows_cost_centers = cursor.fetchall()
 
-        query = (" SELECT id, name, uuid, "
-                 "        address, postal_code, latitude, longitude, rated_capacity, rated_power, "
-                 "        contact_id, cost_center_id, serial_number, svg_id, is_cost_data_displayed, phase_of_lifecycle, description "
-                 " FROM tbl_microgrids "
-                 " WHERE id = %s ")
-        cursor.execute(query, (id_,))
-        row = cursor.fetchone()
-        cursor.close()
-        cnx.close()
+                cost_center_dict = dict()
+                if rows_cost_centers is not None and len(rows_cost_centers) > 0:
+                    for row in rows_cost_centers:
+                        cost_center_dict[row[0]] = {"id": row[0],
+                                                    "name": row[1],
+                                                    "uuid": row[2]}
+
+                query = (" SELECT id, name, uuid, "
+                         "        address, postal_code, latitude, longitude, rated_capacity, rated_power, "
+                         "        contact_id, cost_center_id, serial_number, svg_id, is_cost_data_displayed, phase_of_lifecycle, description "
+                         " FROM tbl_microgrids "
+                         " WHERE id = %s ")
+                cursor.execute(query, (id_,))
+                row = cursor.fetchone()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         if row is None:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.MICROGRID_NOT_FOUND')
-        else:
-            meta_result = {
-                           "name": row[1],
-                           "address": row[3],
-                           "postal_code": row[4],
-                           "latitude": row[5],
-                           "longitude": row[6],
-                           "rated_capacity": row[7],
-                           "rated_power": row[8],
-                           "contact": contact_dict.get(row[9], None),
-                           "cost_center": cost_center_dict.get(row[10], None),
-                           "serial_number": row[11],
-                           "svg_id": row[12],
-                           "is_cost_data_displayed": bool(row[13]),
-                           "phase_of_lifecycle": row[14],
-                           "description": row[15]}
+        
+        meta_result = {"id": row[0],
+                       "name": row[1],
+                       "uuid": row[2],
+                       "address": row[3],
+                       "postal_code": row[4],
+                       "latitude": row[5],
+                       "longitude": row[6],
+                       "rated_capacity": row[7],
+                       "rated_power": row[8],
+                       "contact": contact_dict.get(row[9], None),
+                       "cost_center": cost_center_dict.get(row[10], None),
+                       "serial_number": row[11],
+                       "svg_id": row[12],
+                       "is_cost_data_displayed": bool(row[13]),
+                       "phase_of_lifecycle": row[14],
+                       "description": row[15]}
 
         resp.text = json.dumps(meta_result)
-
 
 class MicrogridImport:
     def __init__(self):
@@ -5547,78 +5794,82 @@ class MicrogridImport:
         else:
             description = None
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
+        new_id = None
 
-        original_name = name
-        while True:
-            cursor.execute(" SELECT name "
-                           " FROM tbl_microgrids "
-                           " WHERE name = %s ", (name,))
-            if cursor.fetchone() is None:
-                break
-            timezone_offset = int(config.utc_offset[1:3]) * 60 + int(config.utc_offset[4:6])
-            if config.utc_offset[0] == '-':
-                timezone_offset = -timezone_offset
-            name = (str.strip(original_name) +
-                    (datetime.utcnow() + timedelta(minutes=timezone_offset)).isoformat(sep='-', timespec='seconds'))
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_contacts "
-                       " WHERE id = %s ",
-                       (new_values['contact']['id'],))
-        row = cursor.fetchone()
-        if row is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.CONTACT_NOT_FOUND')
+                original_name = name
+                while True:
+                    cursor.execute(" SELECT name "
+                                   " FROM tbl_microgrids "
+                                   " WHERE name = %s ", (name,))
+                    if cursor.fetchone() is None:
+                        break
+                    timezone_offset = int(config.utc_offset[1:3]) * 60 + int(config.utc_offset[4:6])
+                    if config.utc_offset[0] == '-':
+                        timezone_offset = -timezone_offset
+                    name = (str.strip(original_name) +
+                            (datetime.utcnow() + timedelta(minutes=timezone_offset)).isoformat(sep='-', timespec='seconds'))
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_cost_centers "
-                       " WHERE id = %s ",
-                       (new_values['cost_center']['id'],))
-        row = cursor.fetchone()
-        if row is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.COST_CENTER_NOT_FOUND')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_contacts "
+                               " WHERE id = %s ",
+                               (new_values['contact']['id'],))
+                row = cursor.fetchone()
+                if row is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.CONTACT_NOT_FOUND')
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_svgs "
-                       " WHERE id = %s ",
-                       (svg_id,))
-        row = cursor.fetchone()
-        if row is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.SVG_NOT_FOUND')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_cost_centers "
+                               " WHERE id = %s ",
+                               (new_values['cost_center']['id'],))
+                row = cursor.fetchone()
+                if row is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.COST_CENTER_NOT_FOUND')
 
-        add_values = (" INSERT INTO tbl_microgrids "
-                      "    (name, uuid, address, postal_code, latitude, longitude, rated_capacity, rated_power, "
-                      "     contact_id, cost_center_id, serial_number, svg_id, is_cost_data_displayed, phase_of_lifecycle, description) "
-                      " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) ")
-        cursor.execute(add_values, (name,
-                                    str(uuid.uuid4()),
-                                    address,
-                                    postal_code,
-                                    latitude,
-                                    longitude,
-                                    rated_capacity,
-                                    rated_power,
-                                    contact_id,
-                                    cost_center_id,
-                                    serial_number,
-                                    svg_id,
-                                    is_cost_data_displayed,
-                                    phase_of_lifecycle,
-                                    description))
-        new_id = cursor.lastrowid
-        cnx.commit()
-        cursor.close()
-        cnx.close()
+                cursor.execute(" SELECT name "
+                               " FROM tbl_svgs "
+                               " WHERE id = %s ",
+                               (svg_id,))
+                row = cursor.fetchone()
+                if row is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.SVG_NOT_FOUND')
+
+                add_values = (" INSERT INTO tbl_microgrids "
+                              "    (name, uuid, address, postal_code, latitude, longitude, rated_capacity, rated_power, "
+                              "     contact_id, cost_center_id, serial_number, svg_id, is_cost_data_displayed, phase_of_lifecycle, description) "
+                              " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) ")
+                cursor.execute(add_values, (name,
+                                            str(uuid.uuid4()),
+                                            address,
+                                            postal_code,
+                                            latitude,
+                                            longitude,
+                                            rated_capacity,
+                                            rated_power,
+                                            contact_id,
+                                            cost_center_id,
+                                            serial_number,
+                                            svg_id,
+                                            is_cost_data_displayed,
+                                            phase_of_lifecycle,
+                                            description))
+                new_id = cursor.lastrowid
+                cnx.commit()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         resp.status = falcon.HTTP_201
         resp.location = '/microgrids/' + str(new_id)
@@ -5642,92 +5893,108 @@ class MicrogridClone:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_MICROGRID_ID')
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
+        rows_contacts = []
+        rows_cost_centers = []
+        row = None
+        new_id = None
 
-        query = (" SELECT id, name, uuid "
-                 " FROM tbl_contacts ")
-        cursor.execute(query)
-        rows_contacts = cursor.fetchall()
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        contact_dict = dict()
-        if rows_contacts is not None and len(rows_contacts) > 0:
-            for row in rows_contacts:
-                contact_dict[row[0]] = {"id": row[0],
-                                        "name": row[1],
-                                        "uuid": row[2]}
+                query = (" SELECT id, name, uuid "
+                         " FROM tbl_contacts ")
+                cursor.execute(query)
+                rows_contacts = cursor.fetchall()
 
-        query = (" SELECT id, name, uuid "
-                 " FROM tbl_cost_centers ")
-        cursor.execute(query)
-        rows_cost_centers = cursor.fetchall()
+                contact_dict = dict()
+                if rows_contacts is not None and len(rows_contacts) > 0:
+                    for row in rows_contacts:
+                        contact_dict[row[0]] = {"id": row[0],
+                                                "name": row[1],
+                                                "uuid": row[2]}
 
-        cost_center_dict = dict()
-        if rows_cost_centers is not None and len(rows_cost_centers) > 0:
-            for row in rows_cost_centers:
-                cost_center_dict[row[0]] = {"id": row[0],
-                                            "name": row[1],
-                                            "uuid": row[2]}
+                query = (" SELECT id, name, uuid "
+                         " FROM tbl_cost_centers ")
+                cursor.execute(query)
+                rows_cost_centers = cursor.fetchall()
 
-        query = (" SELECT id, name, uuid, "
-                    "        address, postal_code, latitude, longitude, rated_capacity, rated_power, "
-                    "        contact_id, cost_center_id, serial_number, svg_id, is_cost_data_displayed, phase_of_lifecycle, description "
-                    " FROM tbl_microgrids "
-                    " WHERE id = %s ")
-        cursor.execute(query, (id_,))
-        row = cursor.fetchone()
+                cost_center_dict = dict()
+                if rows_cost_centers is not None and len(rows_cost_centers) > 0:
+                    for row in rows_cost_centers:
+                        cost_center_dict[row[0]] = {"id": row[0],
+                                                    "name": row[1],
+                                                    "uuid": row[2]}
 
-        if row is None:
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.MICROGRID_NOT_FOUND')
-        else:
-            meta_result = {"id": row[0],
-                           "name": row[1],
-                           "uuid": row[2],
-                           "address": row[3],
-                           "postal_code": row[4],
-                           "latitude": row[5],
-                           "longitude": row[6],
-                           "rated_capacity": row[7],
-                           "rated_power": row[8],
-                           "contact": contact_dict.get(row[9], None),
-                           "cost_center": cost_center_dict.get(row[10], None),
-                           "serial_number": row[11],
-                           "svg_id": row[12],
-                           "is_cost_data_displayed": row[13],
-                           "phase_of_lifecycle": row[14],
-                           "description": row[15]}
-            timezone_offset = int(config.utc_offset[1:3]) * 60 + int(config.utc_offset[4:6])
-            if config.utc_offset[0] == '-':
-                timezone_offset = -timezone_offset
-            new_name = (str.strip(meta_result['name']) +
-                        (datetime.utcnow() + timedelta(minutes=timezone_offset)).isoformat(sep='-', timespec='seconds'))
-            add_values = (" INSERT INTO tbl_microgrids "
-                          "    (name, uuid, address, postal_code, latitude, longitude, rated_capacity, rated_power, "
-                          "     contact_id, cost_center_id, serial_number, svg_id, is_cost_data_displayed, phase_of_lifecycle, description) "
-                          " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) ")
-            cursor.execute(add_values, (new_name,
-                                        str(uuid.uuid4()),
-                                        meta_result['address'],
-                                        meta_result['postal_code'],
-                                        meta_result['latitude'],
-                                        meta_result['longitude'],
-                                        meta_result['rated_capacity'],
-                                        meta_result['rated_power'],
-                                        meta_result['contact']['id'],
-                                        meta_result['cost_center']['id'],
-                                        meta_result['serial_number'],
-                                        meta_result['svg_id'],
-                                        meta_result['is_cost_data_displayed'],
-                                        meta_result['phase_of_lifecycle'],
-                                        meta_result['description']))
-            new_id = cursor.lastrowid
-            cnx.commit()
-            cursor.close()
-            cnx.close()
+                query = (" SELECT id, name, uuid, "
+                         "        address, postal_code, latitude, longitude, rated_capacity, rated_power, "
+                         "        contact_id, cost_center_id, serial_number, svg_id, is_cost_data_displayed, phase_of_lifecycle, description "
+                         " FROM tbl_microgrids "
+                         " WHERE id = %s ")
+                cursor.execute(query, (id_,))
+                row = cursor.fetchone()
 
-            resp.status = falcon.HTTP_201
-            resp.location = '/microgrids/' + str(new_id)
+                if row is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.MICROGRID_NOT_FOUND')
+                
+                meta_result = {"id": row[0],
+                               "name": row[1],
+                               "uuid": row[2],
+                               "address": row[3],
+                               "postal_code": row[4],
+                               "latitude": row[5],
+                               "longitude": row[6],
+                               "rated_capacity": row[7],
+                               "rated_power": row[8],
+                               "contact": contact_dict.get(row[9], None),
+                               "cost_center": cost_center_dict.get(row[10], None),
+                               "serial_number": row[11],
+                               "svg_id": row[12],
+                               "is_cost_data_displayed": row[13],
+                               "phase_of_lifecycle": row[14],
+                               "description": row[15]}
+                
+                timezone_offset = int(config.utc_offset[1:3]) * 60 + int(config.utc_offset[4:6])
+                if config.utc_offset[0] == '-':
+                    timezone_offset = -timezone_offset
+                new_name = (str.strip(meta_result['name']) +
+                            (datetime.utcnow() + timedelta(minutes=timezone_offset)).isoformat(sep='-', timespec='seconds'))
+                
+                add_values = (" INSERT INTO tbl_microgrids "
+                              "    (name, uuid, address, postal_code, latitude, longitude, rated_capacity, rated_power, "
+                              "     contact_id, cost_center_id, serial_number, svg_id, is_cost_data_displayed, phase_of_lifecycle, description) "
+                              " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) ")
+                cursor.execute(add_values, (new_name,
+                                            str(uuid.uuid4()),
+                                            meta_result['address'],
+                                            meta_result['postal_code'],
+                                            meta_result['latitude'],
+                                            meta_result['longitude'],
+                                            meta_result['rated_capacity'],
+                                            meta_result['rated_power'],
+                                            meta_result['contact']['id'],
+                                            meta_result['cost_center']['id'],
+                                            meta_result['serial_number'],
+                                            meta_result['svg_id'],
+                                            meta_result['is_cost_data_displayed'],
+                                            meta_result['phase_of_lifecycle'],
+                                            meta_result['description']))
+                new_id = cursor.lastrowid
+                cnx.commit()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
+
+        resp.status = falcon.HTTP_201
+        resp.location = '/microgrids/' + str(new_id)
+
 
 class MicrogridDataSourceCollection:
     def __init__(self):
@@ -5752,31 +6019,38 @@ class MicrogridDataSourceCollection:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_MICROGRID_ID')
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
+        rows = []
 
-        cursor.execute(" SELECT name FROM tbl_microgrids WHERE id = %s ", (id_,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.MICROGRID_NOT_FOUND')
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        query = (" SELECT ds.id, ds.name, ds.uuid "
-                 " FROM tbl_microgrids mg, tbl_microgrids_data_sources mgds, tbl_data_sources ds "
-                 " WHERE mgds.microgrid_id = mg.id AND ds.id = mgds.data_source_id AND mg.id = %s "
-                 " ORDER BY ds.id ")
-        cursor.execute(query, (id_,))
-        rows = cursor.fetchall()
+                cursor.execute(" SELECT name FROM tbl_microgrids WHERE id = %s ", (id_,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.MICROGRID_NOT_FOUND')
+
+                query = (" SELECT ds.id, ds.name, ds.uuid "
+                         " FROM tbl_microgrids mg, tbl_microgrids_data_sources mgds, tbl_data_sources ds "
+                         " WHERE mgds.microgrid_id = mg.id AND ds.id = mgds.data_source_id AND mg.id = %s "
+                         " ORDER BY ds.id ")
+                cursor.execute(query, (id_,))
+                rows = cursor.fetchall()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         result = list()
         if rows is not None and len(rows) > 0:
             for row in rows:
                 meta_result = {"id": row[0], "name": row[1], "uuid": row[2]}
                 result.append(meta_result)
-
-        cursor.close()
-        cnx.close()
 
         resp.text = json.dumps(result)
 
@@ -5810,40 +6084,44 @@ class MicrogridDataSourceCollection:
 
         data_source_id = new_values['data']['data_source_id']
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
 
-        cursor.execute(" SELECT name FROM tbl_microgrids WHERE id = %s ", (id_,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.MICROGRID_NOT_FOUND')
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        cursor.execute(" SELECT name FROM tbl_data_sources WHERE id = %s ", (data_source_id,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.DATA_SOURCE_NOT_FOUND')
+                cursor.execute(" SELECT name FROM tbl_microgrids WHERE id = %s ", (id_,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.MICROGRID_NOT_FOUND')
 
-        cursor.execute(" SELECT id "
-                       " FROM tbl_microgrids_data_sources "
-                       " WHERE microgrid_id = %s AND data_source_id = %s", (id_, data_source_id))
-        if cursor.fetchone() is not None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR',
-                                   description='API.MICROGRID_DATA_SOURCE_RELATION_EXISTS')
+                cursor.execute(" SELECT name FROM tbl_data_sources WHERE id = %s ", (data_source_id,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.DATA_SOURCE_NOT_FOUND')
 
-        cursor.execute(" INSERT INTO tbl_microgrids_data_sources (microgrid_id, data_source_id) "
-                       " VALUES (%s, %s) ", (id_, data_source_id))
-        cnx.commit()
-        cursor.close()
-        cnx.close()
+                cursor.execute(" SELECT id "
+                               " FROM tbl_microgrids_data_sources "
+                               " WHERE microgrid_id = %s AND data_source_id = %s", (id_, data_source_id))
+                if cursor.fetchone() is not None:
+                    raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR',
+                                           description='API.MICROGRID_DATA_SOURCE_RELATION_EXISTS')
+
+                cursor.execute(" INSERT INTO tbl_microgrids_data_sources (microgrid_id, data_source_id) "
+                               " VALUES (%s, %s) ", (id_, data_source_id))
+                cnx.commit()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         resp.status = falcon.HTTP_201
         resp.location = '/microgrids/' + str(id_) + '/datasources/' + str(data_source_id)
+
 
 class MicrogridDataSourceItem:
     def __init__(self):
@@ -5869,39 +6147,43 @@ class MicrogridDataSourceItem:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_DATA_SOURCE_ID')
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
 
-        cursor.execute(" SELECT name FROM tbl_microgrids WHERE id = %s ", (id_,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.MICROGRID_NOT_FOUND')
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        cursor.execute(" SELECT name FROM tbl_data_sources WHERE id = %s ", (dsid,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.DATA_SOURCE_NOT_FOUND')
+                cursor.execute(" SELECT name FROM tbl_microgrids WHERE id = %s ", (id_,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.MICROGRID_NOT_FOUND')
 
-        cursor.execute(" SELECT id "
-                       " FROM tbl_microgrids_data_sources "
-                       " WHERE microgrid_id = %s AND data_source_id = %s ", (id_, dsid))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.MICROGRID_DATA_SOURCE_RELATION_NOT_FOUND')
+                cursor.execute(" SELECT name FROM tbl_data_sources WHERE id = %s ", (dsid,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.DATA_SOURCE_NOT_FOUND')
 
-        cursor.execute(" DELETE FROM tbl_microgrids_data_sources "
-                       " WHERE microgrid_id = %s AND data_source_id = %s ", (id_, dsid))
-        cnx.commit()
-        cursor.close()
-        cnx.close()
+                cursor.execute(" SELECT id "
+                               " FROM tbl_microgrids_data_sources "
+                               " WHERE microgrid_id = %s AND data_source_id = %s ", (id_, dsid))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.MICROGRID_DATA_SOURCE_RELATION_NOT_FOUND')
+
+                cursor.execute(" DELETE FROM tbl_microgrids_data_sources "
+                               " WHERE microgrid_id = %s AND data_source_id = %s ", (id_, dsid))
+                cnx.commit()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         resp.status = falcon.HTTP_204
+
 
 class MicrogridDataSourcePointCollection:
     def __init__(self):
@@ -5925,17 +6207,29 @@ class MicrogridDataSourcePointCollection:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_MICROGRID_ID')
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
+        rows = []
 
-        query = (" SELECT p.id, p.name "
-                 " FROM tbl_points p, tbl_microgrids_data_sources mds, tbl_data_sources ds "
-                 " WHERE mds.microgrid_id = %s "
-                 "       AND mds.data_source_id = ds.id "
-                 "       AND p.data_source_id = ds.id "
-                 " ORDER BY p.id ")
-        cursor.execute(query, (id_,))
-        rows = cursor.fetchall()
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
+
+                query = (" SELECT p.id, p.name "
+                         " FROM tbl_points p, tbl_microgrids_data_sources mds, tbl_data_sources ds "
+                         " WHERE mds.microgrid_id = %s "
+                         "       AND mds.data_source_id = ds.id "
+                         "       AND p.data_source_id = ds.id "
+                         " ORDER BY p.id ")
+                cursor.execute(query, (id_,))
+                rows = cursor.fetchall()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         result = list()
         if rows is not None and len(rows) > 0:
@@ -5943,10 +6237,8 @@ class MicrogridDataSourcePointCollection:
                 meta_result = {"id": row[0], "name": row[1]}
                 result.append(meta_result)
 
-        cursor.close()
-        cnx.close()
-
         resp.text = json.dumps(result)
+
 
 class MicrogridBatteryPointCollection:
     def __init__(self):
@@ -5974,26 +6266,36 @@ class MicrogridBatteryPointCollection:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_BATTERY_ID')
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
+        rows = []
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_microgrids_batteries "
-                       " WHERE microgrid_id = %s AND id = %s ", (id_, bid,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.MICROGRID_BATTERY_NOT_FOUND')
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        query = (" SELECT p.id, p.name, "
-                 "        ds.id, ds.name, ds.uuid, "
-                 "        p.address "
-                 " FROM tbl_points p, tbl_microgrids_bmses_points mp, tbl_data_sources ds "
-                 " WHERE mp.bms_id = %s AND p.id = mp.point_id AND p.data_source_id = ds.id "
-                 " ORDER BY p.name ")
-        cursor.execute(query, (bid,))
-        rows = cursor.fetchall()
+                cursor.execute(" SELECT name "
+                               " FROM tbl_microgrids_batteries "
+                               " WHERE microgrid_id = %s AND id = %s ", (id_, bid,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.MICROGRID_BATTERY_NOT_FOUND')
+
+                query = (" SELECT p.id, p.name, "
+                         "        ds.id, ds.name, ds.uuid, "
+                         "        p.address "
+                         " FROM tbl_points p, tbl_microgrids_bmses_points mp, tbl_data_sources ds "
+                         " WHERE mp.bms_id = %s AND p.id = mp.point_id AND p.data_source_id = ds.id "
+                         " ORDER BY p.name ")
+                cursor.execute(query, (bid,))
+                rows = cursor.fetchall()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         result = list()
         if rows is not None and len(rows) > 0:
@@ -6030,49 +6332,52 @@ class MicrogridBatteryPointCollection:
                                    description='API.INVALID_BATTERY_ID')
 
         new_values = json.loads(raw_json)
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        
+        cnx = None
+        cursor = None
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_microgrids_batteries "
-                       " WHERE microgrid_id = %s AND id = %s ", (id_, bid,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.MICROGRID_BATTERY_NOT_FOUND')
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        cursor.execute(" SELECT name, object_type "
-                       " FROM tbl_points "
-                       " WHERE id = %s ", (new_values['data']['point_id'],))
-        row = cursor.fetchone()
-        if row is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.POINT_NOT_FOUND')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_microgrids_batteries "
+                               " WHERE microgrid_id = %s AND id = %s ", (id_, bid,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.MICROGRID_BATTERY_NOT_FOUND')
 
-        query = (" SELECT id "
-                 " FROM tbl_microgrids_bmses_points "
-                 " WHERE bms_id = %s AND point_id = %s")
-        cursor.execute(query, (bid, new_values['data']['point_id'],))
-        if cursor.fetchone() is not None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR',
-                                   description='API.BATTERY_POINT_RELATION_EXISTS')
+                cursor.execute(" SELECT name, object_type "
+                               " FROM tbl_points "
+                               " WHERE id = %s ", (new_values['data']['point_id'],))
+                row = cursor.fetchone()
+                if row is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.POINT_NOT_FOUND')
 
-        add_row = (" INSERT INTO tbl_microgrids_bmses_points (bms_id, point_id) "
-                   " VALUES (%s, %s) ")
-        cursor.execute(add_row, (bid, new_values['data']['point_id'],))
-        cnx.commit()
-        cursor.close()
-        cnx.close()
+                query = (" SELECT id "
+                         " FROM tbl_microgrids_bmses_points "
+                         " WHERE bms_id = %s AND point_id = %s")
+                cursor.execute(query, (bid, new_values['data']['point_id'],))
+                if cursor.fetchone() is not None:
+                    raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR',
+                                           description='API.BATTERY_POINT_RELATION_EXISTS')
+
+                add_row = (" INSERT INTO tbl_microgrids_bmses_points (bms_id, point_id) "
+                           " VALUES (%s, %s) ")
+                cursor.execute(add_row, (bid, new_values['data']['point_id'],))
+                cnx.commit()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         resp.status = falcon.HTTP_201
         resp.location = '/microgrids/' + str(id_) + '/batteries/' + str(bid) + '/points/' + \
                         str(new_values['data']['point_id'])
-
 
 class MicrogridBatteryPointItem:
     def __init__(self):
@@ -6100,44 +6405,47 @@ class MicrogridBatteryPointItem:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_POINT_ID')
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_microgrids_batteries "
-                       " WHERE microgrid_id = %s AND id = %s ", (id_, bid,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.MICROGRID_BATTERY_NOT_FOUND')
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_points "
-                       " WHERE id = %s ", (pid,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.POINT_NOT_FOUND')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_microgrids_batteries "
+                               " WHERE microgrid_id = %s AND id = %s ", (id_, bid,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.MICROGRID_BATTERY_NOT_FOUND')
 
-        cursor.execute(" SELECT id "
-                       " FROM tbl_microgrids_bmses_points "
-                       " WHERE bms_id = %s AND point_id = %s ", (bid, pid))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.BATTERY_POINT_RELATION_NOT_FOUND')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_points "
+                               " WHERE id = %s ", (pid,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.POINT_NOT_FOUND')
 
-        cursor.execute(" DELETE FROM tbl_microgrids_bmses_points "
-                       " WHERE bms_id = %s AND point_id = %s ", (bid, pid))
-        cnx.commit()
+                cursor.execute(" SELECT id "
+                               " FROM tbl_microgrids_bmses_points "
+                               " WHERE bms_id = %s AND point_id = %s ", (bid, pid))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.BATTERY_POINT_RELATION_NOT_FOUND')
 
-        cursor.close()
-        cnx.close()
+                cursor.execute(" DELETE FROM tbl_microgrids_bmses_points "
+                               " WHERE bms_id = %s AND point_id = %s ", (bid, pid))
+                cnx.commit()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         resp.status = falcon.HTTP_204
+
 
 class MicrogridEVChargerPointCollection:
     def __init__(self):
@@ -6165,26 +6473,36 @@ class MicrogridEVChargerPointCollection:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_EVCHARGER_ID')
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
+        rows = []
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_microgrids_evchargers "
-                       " WHERE microgrid_id = %s AND id = %s ", (id_, eid,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.MICROGRID_EV_CHARGER_NOT_FOUND')
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        query = (" SELECT p.id, p.name, "
-                 "        ds.id, ds.name, ds.uuid, "
-                 "        p.address "
-                 " FROM tbl_points p, tbl_microgrids_evchargers_points mp, tbl_data_sources ds "
-                 " WHERE mp.evcharger_id = %s AND p.id = mp.point_id AND p.data_source_id = ds.id "
-                 " ORDER BY p.name ")
-        cursor.execute(query, (eid,))
-        rows = cursor.fetchall()
+                cursor.execute(" SELECT name "
+                               " FROM tbl_microgrids_evchargers "
+                               " WHERE microgrid_id = %s AND id = %s ", (id_, eid,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.MICROGRID_EV_CHARGER_NOT_FOUND')
+
+                query = (" SELECT p.id, p.name, "
+                         "        ds.id, ds.name, ds.uuid, "
+                         "        p.address "
+                         " FROM tbl_points p, tbl_microgrids_evchargers_points mp, tbl_data_sources ds "
+                         " WHERE mp.evcharger_id = %s AND p.id = mp.point_id AND p.data_source_id = ds.id "
+                         " ORDER BY p.name ")
+                cursor.execute(query, (eid,))
+                rows = cursor.fetchall()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         result = list()
         if rows is not None and len(rows) > 0:
@@ -6221,44 +6539,48 @@ class MicrogridEVChargerPointCollection:
                                    description='API.INVALID_EVCHARGER_ID')
 
         new_values = json.loads(raw_json)
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        
+        cnx = None
+        cursor = None
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_microgrids_evchargers "
-                       " WHERE microgrid_id = %s AND id = %s ", (id_, eid,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.MICROGRID_EVCHARGER_NOT_FOUND')
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        cursor.execute(" SELECT name, object_type "
-                       " FROM tbl_points "
-                       " WHERE id = %s ", (new_values['data']['point_id'],))
-        row = cursor.fetchone()
-        if row is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.POINT_NOT_FOUND')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_microgrids_evchargers "
+                               " WHERE microgrid_id = %s AND id = %s ", (id_, eid,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.MICROGRID_EVCHARGER_NOT_FOUND')
 
-        query = (" SELECT id "
-                 " FROM tbl_microgrids_evchargers_points "
-                 " WHERE evcharger_id = %s AND point_id = %s")
-        cursor.execute(query, (eid, new_values['data']['point_id'],))
-        if cursor.fetchone() is not None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR',
-                                   description='API.EVCHARGER_POINT_RELATION_EXISTS')
+                cursor.execute(" SELECT name, object_type "
+                               " FROM tbl_points "
+                               " WHERE id = %s ", (new_values['data']['point_id'],))
+                row = cursor.fetchone()
+                if row is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.POINT_NOT_FOUND')
 
-        add_row = (" INSERT INTO tbl_microgrids_evchargers_points (evcharger_id, point_id) "
-                   " VALUES (%s, %s) ")
-        cursor.execute(add_row, (eid, new_values['data']['point_id'],))
-        cnx.commit()
-        cursor.close()
-        cnx.close()
+                query = (" SELECT id "
+                         " FROM tbl_microgrids_evchargers_points "
+                         " WHERE evcharger_id = %s AND point_id = %s")
+                cursor.execute(query, (eid, new_values['data']['point_id'],))
+                if cursor.fetchone() is not None:
+                    raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR',
+                                           description='API.EVCHARGER_POINT_RELATION_EXISTS')
+
+                add_row = (" INSERT INTO tbl_microgrids_evchargers_points (evcharger_id, point_id) "
+                           " VALUES (%s, %s) ")
+                cursor.execute(add_row, (eid, new_values['data']['point_id'],))
+                cnx.commit()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         resp.status = falcon.HTTP_201
         resp.location = '/microgrids/' + str(id_) + '/evchargers/' + str(eid) + '/points/' + \
@@ -6291,44 +6613,47 @@ class MicrogridEVChargerPointItem:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_POINT_ID')
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_microgrids_evchargers "
-                       " WHERE microgrid_id = %s AND id = %s ", (id_, eid,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.MICROGRID_EVCHARGER_NOT_FOUND')
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_points "
-                       " WHERE id = %s ", (pid,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.POINT_NOT_FOUND')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_microgrids_evchargers "
+                               " WHERE microgrid_id = %s AND id = %s ", (id_, eid,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.MICROGRID_EVCHARGER_NOT_FOUND')
 
-        cursor.execute(" SELECT id "
-                       " FROM tbl_microgrids_evchargers_points "
-                       " WHERE evcharger_id = %s AND point_id = %s ", (eid, pid))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.EVCHARGER_POINT_RELATION_NOT_FOUND')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_points "
+                               " WHERE id = %s ", (pid,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.POINT_NOT_FOUND')
 
-        cursor.execute(" DELETE FROM tbl_microgrids_evchargers_points "
-                       " WHERE evcharger_id = %s AND point_id = %s ", (eid, pid))
-        cnx.commit()
+                cursor.execute(" SELECT id "
+                               " FROM tbl_microgrids_evchargers_points "
+                               " WHERE evcharger_id = %s AND point_id = %s ", (eid, pid))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.EVCHARGER_POINT_RELATION_NOT_FOUND')
 
-        cursor.close()
-        cnx.close()
+                cursor.execute(" DELETE FROM tbl_microgrids_evchargers_points "
+                               " WHERE evcharger_id = %s AND point_id = %s ", (eid, pid))
+                cnx.commit()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         resp.status = falcon.HTTP_204
+
 
 class MicrogridGeneratorPointCollection:
     def __init__(self):
@@ -6356,26 +6681,36 @@ class MicrogridGeneratorPointCollection:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_GENERATOR_ID')
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
+        rows = []
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_microgrids_generators "
-                       " WHERE microgrid_id = %s AND id = %s ", (id_, gid,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.MICROGRID_GENERATOR_NOT_FOUND')
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        query = (" SELECT p.id, p.name, "
-                 "        ds.id, ds.name, ds.uuid, "
-                 "        p.address "
-                 " FROM tbl_points p, tbl_microgrids_generators_points mp, tbl_data_sources ds "
-                 " WHERE mp.generator_id = %s AND p.id = mp.point_id AND p.data_source_id = ds.id "
-                 " ORDER BY p.name ")
-        cursor.execute(query, (gid,))
-        rows = cursor.fetchall()
+                cursor.execute(" SELECT name "
+                               " FROM tbl_microgrids_generators "
+                               " WHERE microgrid_id = %s AND id = %s ", (id_, gid,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.MICROGRID_GENERATOR_NOT_FOUND')
+
+                query = (" SELECT p.id, p.name, "
+                         "        ds.id, ds.name, ds.uuid, "
+                         "        p.address "
+                         " FROM tbl_points p, tbl_microgrids_generators_points mp, tbl_data_sources ds "
+                         " WHERE mp.generator_id = %s AND p.id = mp.point_id AND p.data_source_id = ds.id "
+                         " ORDER BY p.name ")
+                cursor.execute(query, (gid,))
+                rows = cursor.fetchall()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         result = list()
         if rows is not None and len(rows) > 0:
@@ -6412,44 +6747,48 @@ class MicrogridGeneratorPointCollection:
                                    description='API.INVALID_GENERATOR_ID')
 
         new_values = json.loads(raw_json)
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        
+        cnx = None
+        cursor = None
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_microgrids_generators "
-                       " WHERE microgrid_id = %s AND id = %s ", (id_, gid,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.MICROGRID_GENERATOR_NOT_FOUND')
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        cursor.execute(" SELECT name, object_type "
-                       " FROM tbl_points "
-                       " WHERE id = %s ", (new_values['data']['point_id'],))
-        row = cursor.fetchone()
-        if row is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.POINT_NOT_FOUND')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_microgrids_generators "
+                               " WHERE microgrid_id = %s AND id = %s ", (id_, gid,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.MICROGRID_GENERATOR_NOT_FOUND')
 
-        query = (" SELECT id "
-                 " FROM tbl_microgrids_generators_points "
-                 " WHERE generator_id = %s AND point_id = %s")
-        cursor.execute(query, (gid, new_values['data']['point_id'],))
-        if cursor.fetchone() is not None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR',
-                                   description='API.GENERATOR_POINT_RELATION_EXISTS')
+                cursor.execute(" SELECT name, object_type "
+                               " FROM tbl_points "
+                               " WHERE id = %s ", (new_values['data']['point_id'],))
+                row = cursor.fetchone()
+                if row is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.POINT_NOT_FOUND')
 
-        add_row = (" INSERT INTO tbl_microgrids_generators_points (generator_id, point_id) "
-                   " VALUES (%s, %s) ")
-        cursor.execute(add_row, (gid, new_values['data']['point_id'],))
-        cnx.commit()
-        cursor.close()
-        cnx.close()
+                query = (" SELECT id "
+                         " FROM tbl_microgrids_generators_points "
+                         " WHERE generator_id = %s AND point_id = %s")
+                cursor.execute(query, (gid, new_values['data']['point_id'],))
+                if cursor.fetchone() is not None:
+                    raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR',
+                                           description='API.GENERATOR_POINT_RELATION_EXISTS')
+
+                add_row = (" INSERT INTO tbl_microgrids_generators_points (generator_id, point_id) "
+                           " VALUES (%s, %s) ")
+                cursor.execute(add_row, (gid, new_values['data']['point_id'],))
+                cnx.commit()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         resp.status = falcon.HTTP_201
         resp.location = '/microgrids/' + str(id_) + '/generators/' + str(gid) + '/points/' + \
@@ -6482,44 +6821,47 @@ class MicrogridGeneratorPointItem:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_POINT_ID')
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_microgrids_generators "
-                       " WHERE microgrid_id = %s AND id = %s ", (id_, gid,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.MICROGRID_GENERATOR_NOT_FOUND')
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_points "
-                       " WHERE id = %s ", (pid,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.POINT_NOT_FOUND')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_microgrids_generators "
+                               " WHERE microgrid_id = %s AND id = %s ", (id_, gid,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.MICROGRID_GENERATOR_NOT_FOUND')
 
-        cursor.execute(" SELECT id "
-                       " FROM tbl_microgrids_generators_points "
-                       " WHERE generator_id = %s AND point_id = %s ", (gid, pid))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.GENERATOR_POINT_RELATION_NOT_FOUND')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_points "
+                               " WHERE id = %s ", (pid,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.POINT_NOT_FOUND')
 
-        cursor.execute(" DELETE FROM tbl_microgrids_generators_points "
-                       " WHERE generator_id = %s AND point_id = %s ", (gid, pid))
-        cnx.commit()
+                cursor.execute(" SELECT id "
+                               " FROM tbl_microgrids_generators_points "
+                               " WHERE generator_id = %s AND point_id = %s ", (gid, pid))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.GENERATOR_POINT_RELATION_NOT_FOUND')
 
-        cursor.close()
-        cnx.close()
+                cursor.execute(" DELETE FROM tbl_microgrids_generators_points "
+                               " WHERE generator_id = %s AND point_id = %s ", (gid, pid))
+                cnx.commit()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         resp.status = falcon.HTTP_204
+
 
 class MicrogridGridPointCollection:
     def __init__(self):
@@ -6547,26 +6889,36 @@ class MicrogridGridPointCollection:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_GRID_ID')
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
+        rows = []
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_microgrids_grids "
-                       " WHERE microgrid_id = %s AND id = %s ", (id_, gid,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.MICROGRID_GRID_NOT_FOUND')
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        query = (" SELECT p.id, p.name, "
-                 "        ds.id, ds.name, ds.uuid, "
-                 "        p.address "
-                 " FROM tbl_points p, tbl_microgrids_grids_points mp, tbl_data_sources ds "
-                 " WHERE mp.grid_id = %s AND p.id = mp.point_id AND p.data_source_id = ds.id "
-                 " ORDER BY p.name ")
-        cursor.execute(query, (gid,))
-        rows = cursor.fetchall()
+                cursor.execute(" SELECT name "
+                               " FROM tbl_microgrids_grids "
+                               " WHERE microgrid_id = %s AND id = %s ", (id_, gid,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.MICROGRID_GRID_NOT_FOUND')
+
+                query = (" SELECT p.id, p.name, "
+                         "        ds.id, ds.name, ds.uuid, "
+                         "        p.address "
+                         " FROM tbl_points p, tbl_microgrids_grids_points mp, tbl_data_sources ds "
+                         " WHERE mp.grid_id = %s AND p.id = mp.point_id AND p.data_source_id = ds.id "
+                         " ORDER BY p.name ")
+                cursor.execute(query, (gid,))
+                rows = cursor.fetchall()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         result = list()
         if rows is not None and len(rows) > 0:
@@ -6603,44 +6955,48 @@ class MicrogridGridPointCollection:
                                    description='API.INVALID_GRID_ID')
 
         new_values = json.loads(raw_json)
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        
+        cnx = None
+        cursor = None
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_microgrids_grids "
-                       " WHERE microgrid_id = %s AND id = %s ", (id_, gid,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.MICROGRID_GRID_NOT_FOUND')
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        cursor.execute(" SELECT name, object_type "
-                       " FROM tbl_points "
-                       " WHERE id = %s ", (new_values['data']['point_id'],))
-        row = cursor.fetchone()
-        if row is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.POINT_NOT_FOUND')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_microgrids_grids "
+                               " WHERE microgrid_id = %s AND id = %s ", (id_, gid,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.MICROGRID_GRID_NOT_FOUND')
 
-        query = (" SELECT id "
-                 " FROM tbl_microgrids_grids_points "
-                 " WHERE grid_id = %s AND point_id = %s")
-        cursor.execute(query, (gid, new_values['data']['point_id'],))
-        if cursor.fetchone() is not None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR',
-                                   description='API.GRID_POINT_RELATION_EXISTS')
+                cursor.execute(" SELECT name, object_type "
+                               " FROM tbl_points "
+                               " WHERE id = %s ", (new_values['data']['point_id'],))
+                row = cursor.fetchone()
+                if row is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.POINT_NOT_FOUND')
 
-        add_row = (" INSERT INTO tbl_microgrids_grids_points (grid_id, point_id) "
-                   " VALUES (%s, %s) ")
-        cursor.execute(add_row, (gid, new_values['data']['point_id'],))
-        cnx.commit()
-        cursor.close()
-        cnx.close()
+                query = (" SELECT id "
+                         " FROM tbl_microgrids_grids_points "
+                         " WHERE grid_id = %s AND point_id = %s")
+                cursor.execute(query, (gid, new_values['data']['point_id'],))
+                if cursor.fetchone() is not None:
+                    raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR',
+                                           description='API.GRID_POINT_RELATION_EXISTS')
+
+                add_row = (" INSERT INTO tbl_microgrids_grids_points (grid_id, point_id) "
+                           " VALUES (%s, %s) ")
+                cursor.execute(add_row, (gid, new_values['data']['point_id'],))
+                cnx.commit()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         resp.status = falcon.HTTP_201
         resp.location = '/microgrids/' + str(id_) + '/grids/' + str(gid) + '/points/' + \
@@ -6673,44 +7029,47 @@ class MicrogridGridPointItem:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_POINT_ID')
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_microgrids_grids "
-                       " WHERE microgrid_id = %s AND id = %s ", (id_, gid,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.MICROGRID_GRID_NOT_FOUND')
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_points "
-                       " WHERE id = %s ", (pid,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.POINT_NOT_FOUND')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_microgrids_grids "
+                               " WHERE microgrid_id = %s AND id = %s ", (id_, gid,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.MICROGRID_GRID_NOT_FOUND')
 
-        cursor.execute(" SELECT id "
-                       " FROM tbl_microgrids_grids_points "
-                       " WHERE grid_id = %s AND point_id = %s ", (gid, pid))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.GRID_POINT_RELATION_NOT_FOUND')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_points "
+                               " WHERE id = %s ", (pid,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.POINT_NOT_FOUND')
 
-        cursor.execute(" DELETE FROM tbl_microgrids_grids_points "
-                       " WHERE grid_id = %s AND point_id = %s ", (gid, pid))
-        cnx.commit()
+                cursor.execute(" SELECT id "
+                               " FROM tbl_microgrids_grids_points "
+                               " WHERE grid_id = %s AND point_id = %s ", (gid, pid))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.GRID_POINT_RELATION_NOT_FOUND')
 
-        cursor.close()
-        cnx.close()
+                cursor.execute(" DELETE FROM tbl_microgrids_grids_points "
+                               " WHERE grid_id = %s AND point_id = %s ", (gid, pid))
+                cnx.commit()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         resp.status = falcon.HTTP_204
+
 
 class MicrogridHeatPumpPointCollection:
     def __init__(self):
@@ -6738,26 +7097,36 @@ class MicrogridHeatPumpPointCollection:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_HEATPUMP_ID')
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
+        rows = []
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_microgrids_heatpumps "
-                       " WHERE microgrid_id = %s AND id = %s ", (id_, hid,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.MICROGRID_HEATPUMP_NOT_FOUND')
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        query = (" SELECT p.id, p.name, "
-                 "        ds.id, ds.name, ds.uuid, "
-                 "        p.address "
-                 " FROM tbl_points p, tbl_microgrids_heatpumps_points mp, tbl_data_sources ds "
-                 " WHERE mp.heatpump_id = %s AND p.id = mp.point_id AND p.data_source_id = ds.id "
-                 " ORDER BY p.name ")
-        cursor.execute(query, (hid,))
-        rows = cursor.fetchall()
+                cursor.execute(" SELECT name "
+                               " FROM tbl_microgrids_heatpumps "
+                               " WHERE microgrid_id = %s AND id = %s ", (id_, hid,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.MICROGRID_HEATPUMP_NOT_FOUND')
+
+                query = (" SELECT p.id, p.name, "
+                         "        ds.id, ds.name, ds.uuid, "
+                         "        p.address "
+                         " FROM tbl_points p, tbl_microgrids_heatpumps_points mp, tbl_data_sources ds "
+                         " WHERE mp.heatpump_id = %s AND p.id = mp.point_id AND p.data_source_id = ds.id "
+                         " ORDER BY p.name ")
+                cursor.execute(query, (hid,))
+                rows = cursor.fetchall()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         result = list()
         if rows is not None and len(rows) > 0:
@@ -6794,49 +7163,52 @@ class MicrogridHeatPumpPointCollection:
                                    description='API.INVALID_HEATPUMP_ID')
 
         new_values = json.loads(raw_json)
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        
+        cnx = None
+        cursor = None
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_microgrids_heatpumps "
-                       " WHERE microgrid_id = %s AND id = %s ", (id_, hid,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.MICROGRID_HEATPUMP_NOT_FOUND')
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        cursor.execute(" SELECT name, object_type "
-                       " FROM tbl_points "
-                       " WHERE id = %s ", (new_values['data']['point_id'],))
-        row = cursor.fetchone()
-        if row is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.POINT_NOT_FOUND')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_microgrids_heatpumps "
+                               " WHERE microgrid_id = %s AND id = %s ", (id_, hid,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.MICROGRID_HEATPUMP_NOT_FOUND')
 
-        query = (" SELECT id "
-                 " FROM tbl_microgrids_heatpumps_points "
-                 " WHERE heatpump_id = %s AND point_id = %s")
-        cursor.execute(query, (hid, new_values['data']['point_id'],))
-        if cursor.fetchone() is not None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR',
-                                   description='API.HEATPUMP_POINT_RELATION_EXISTS')
+                cursor.execute(" SELECT name, object_type "
+                               " FROM tbl_points "
+                               " WHERE id = %s ", (new_values['data']['point_id'],))
+                row = cursor.fetchone()
+                if row is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.POINT_NOT_FOUND')
 
-        add_row = (" INSERT INTO tbl_microgrids_heatpumps_points (heatpump_id, point_id) "
-                   " VALUES (%s, %s) ")
-        cursor.execute(add_row, (hid, new_values['data']['point_id'],))
-        cnx.commit()
-        cursor.close()
-        cnx.close()
+                query = (" SELECT id "
+                         " FROM tbl_microgrids_heatpumps_points "
+                         " WHERE heatpump_id = %s AND point_id = %s")
+                cursor.execute(query, (hid, new_values['data']['point_id'],))
+                if cursor.fetchone() is not None:
+                    raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR',
+                                           description='API.HEATPUMP_POINT_RELATION_EXISTS')
+
+                add_row = (" INSERT INTO tbl_microgrids_heatpumps_points (heatpump_id, point_id) "
+                           " VALUES (%s, %s) ")
+                cursor.execute(add_row, (hid, new_values['data']['point_id'],))
+                cnx.commit()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         resp.status = falcon.HTTP_201
         resp.location = '/microgrids/' + str(id_) + '/heatpumps/' + str(hid) + '/points/' + \
                         str(new_values['data']['point_id'])
-
 
 class MicrogridHeatPumpPointItem:
     def __init__(self):
@@ -6864,44 +7236,47 @@ class MicrogridHeatPumpPointItem:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_POINT_ID')
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_microgrids_heatpumps "
-                       " WHERE microgrid_id = %s AND id = %s ", (id_, hid,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.MICROGRID_HEATPUMP_NOT_FOUND')
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_points "
-                       " WHERE id = %s ", (pid,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.POINT_NOT_FOUND')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_microgrids_heatpumps "
+                               " WHERE microgrid_id = %s AND id = %s ", (id_, hid,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.MICROGRID_HEATPUMP_NOT_FOUND')
 
-        cursor.execute(" SELECT id "
-                       " FROM tbl_microgrids_heatpumps_points "
-                       " WHERE heatpump_id = %s AND point_id = %s ", (hid, pid))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.HEATPUMP_POINT_RELATION_NOT_FOUND')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_points "
+                               " WHERE id = %s ", (pid,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.POINT_NOT_FOUND')
 
-        cursor.execute(" DELETE FROM tbl_microgrids_heatpumps_points "
-                       " WHERE heatpump_id = %s AND point_id = %s ", (hid, pid))
-        cnx.commit()
+                cursor.execute(" SELECT id "
+                               " FROM tbl_microgrids_heatpumps_points "
+                               " WHERE heatpump_id = %s AND point_id = %s ", (hid, pid))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.HEATPUMP_POINT_RELATION_NOT_FOUND')
 
-        cursor.close()
-        cnx.close()
+                cursor.execute(" DELETE FROM tbl_microgrids_heatpumps_points "
+                               " WHERE heatpump_id = %s AND point_id = %s ", (hid, pid))
+                cnx.commit()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         resp.status = falcon.HTTP_204
+
 
 class MicrogridLoadPointCollection:
     def __init__(self):
@@ -6929,26 +7304,36 @@ class MicrogridLoadPointCollection:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_LOAD_ID')
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
+        rows = []
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_microgrids_loads "
-                       " WHERE microgrid_id = %s AND id = %s ", (id_, lid,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.MICROGRID_LOAD_NOT_FOUND')
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        query = (" SELECT p.id, p.name, "
-                 "        ds.id, ds.name, ds.uuid, "
-                 "        p.address "
-                 " FROM tbl_points p, tbl_microgrids_loads_points mp, tbl_data_sources ds "
-                 " WHERE mp.load_id = %s AND p.id = mp.point_id AND p.data_source_id = ds.id "
-                 " ORDER BY p.name ")
-        cursor.execute(query, (lid,))
-        rows = cursor.fetchall()
+                cursor.execute(" SELECT name "
+                               " FROM tbl_microgrids_loads "
+                               " WHERE microgrid_id = %s AND id = %s ", (id_, lid,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.MICROGRID_LOAD_NOT_FOUND')
+
+                query = (" SELECT p.id, p.name, "
+                         "        ds.id, ds.name, ds.uuid, "
+                         "        p.address "
+                         " FROM tbl_points p, tbl_microgrids_loads_points mp, tbl_data_sources ds "
+                         " WHERE mp.load_id = %s AND p.id = mp.point_id AND p.data_source_id = ds.id "
+                         " ORDER BY p.name ")
+                cursor.execute(query, (lid,))
+                rows = cursor.fetchall()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         result = list()
         if rows is not None and len(rows) > 0:
@@ -6985,44 +7370,48 @@ class MicrogridLoadPointCollection:
                                    description='API.INVALID_LOAD_ID')
 
         new_values = json.loads(raw_json)
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        
+        cnx = None
+        cursor = None
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_microgrids_loads "
-                       " WHERE microgrid_id = %s AND id = %s ", (id_, lid,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.MICROGRID_LOAD_NOT_FOUND')
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        cursor.execute(" SELECT name, object_type "
-                       " FROM tbl_points "
-                       " WHERE id = %s ", (new_values['data']['point_id'],))
-        row = cursor.fetchone()
-        if row is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.POINT_NOT_FOUND')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_microgrids_loads "
+                               " WHERE microgrid_id = %s AND id = %s ", (id_, lid,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.MICROGRID_LOAD_NOT_FOUND')
 
-        query = (" SELECT id "
-                 " FROM tbl_microgrids_loads_points "
-                 " WHERE load_id = %s AND point_id = %s")
-        cursor.execute(query, (lid, new_values['data']['point_id'],))
-        if cursor.fetchone() is not None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR',
-                                   description='API.LOAD_POINT_RELATION_EXISTS')
+                cursor.execute(" SELECT name, object_type "
+                               " FROM tbl_points "
+                               " WHERE id = %s ", (new_values['data']['point_id'],))
+                row = cursor.fetchone()
+                if row is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.POINT_NOT_FOUND')
 
-        add_row = (" INSERT INTO tbl_microgrids_loads_points (load_id, point_id) "
-                   " VALUES (%s, %s) ")
-        cursor.execute(add_row, (lid, new_values['data']['point_id'],))
-        cnx.commit()
-        cursor.close()
-        cnx.close()
+                query = (" SELECT id "
+                         " FROM tbl_microgrids_loads_points "
+                         " WHERE load_id = %s AND point_id = %s")
+                cursor.execute(query, (lid, new_values['data']['point_id'],))
+                if cursor.fetchone() is not None:
+                    raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR',
+                                           description='API.LOAD_POINT_RELATION_EXISTS')
+
+                add_row = (" INSERT INTO tbl_microgrids_loads_points (load_id, point_id) "
+                           " VALUES (%s, %s) ")
+                cursor.execute(add_row, (lid, new_values['data']['point_id'],))
+                cnx.commit()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         resp.status = falcon.HTTP_201
         resp.location = '/microgrids/' + str(id_) + '/loads/' + str(lid) + '/points/' + \
@@ -7055,44 +7444,47 @@ class MicrogridLoadPointItem:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_POINT_ID')
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_microgrids_loads "
-                       " WHERE microgrid_id = %s AND id = %s ", (id_, lid,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.MICROGRID_LOAD_NOT_FOUND')
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_points "
-                       " WHERE id = %s ", (pid,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.POINT_NOT_FOUND')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_microgrids_loads "
+                               " WHERE microgrid_id = %s AND id = %s ", (id_, lid,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.MICROGRID_LOAD_NOT_FOUND')
 
-        cursor.execute(" SELECT id "
-                       " FROM tbl_microgrids_loads_points "
-                       " WHERE load_id = %s AND point_id = %s ", (lid, pid))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.LOAD_POINT_RELATION_NOT_FOUND')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_points "
+                               " WHERE id = %s ", (pid,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.POINT_NOT_FOUND')
 
-        cursor.execute(" DELETE FROM tbl_microgrids_loads_points "
-                       " WHERE load_id = %s AND point_id = %s ", (lid, pid))
-        cnx.commit()
+                cursor.execute(" SELECT id "
+                               " FROM tbl_microgrids_loads_points "
+                               " WHERE load_id = %s AND point_id = %s ", (lid, pid))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.LOAD_POINT_RELATION_NOT_FOUND')
 
-        cursor.close()
-        cnx.close()
+                cursor.execute(" DELETE FROM tbl_microgrids_loads_points "
+                               " WHERE load_id = %s AND point_id = %s ", (lid, pid))
+                cnx.commit()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         resp.status = falcon.HTTP_204
+
 
 class MicrogridPhotovoltaicPointCollection:
     def __init__(self):
@@ -7120,26 +7512,36 @@ class MicrogridPhotovoltaicPointCollection:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_PHOTOVOLTAIC_ID')
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
+        rows = []
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_microgrids_photovoltaics "
-                       " WHERE microgrid_id = %s AND id = %s ", (id_, pvid,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.MICROGRID_PHOTOVOLTAIC_NOT_FOUND')
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        query = (" SELECT p.id, p.name, "
-                 "        ds.id, ds.name, ds.uuid, "
-                 "        p.address "
-                 " FROM tbl_points p, tbl_microgrids_pvs_points mp, tbl_data_sources ds "
-                 " WHERE mp.pv_id = %s AND p.id = mp.point_id AND p.data_source_id = ds.id "
-                 " ORDER BY p.name ")
-        cursor.execute(query, (pvid,))
-        rows = cursor.fetchall()
+                cursor.execute(" SELECT name "
+                               " FROM tbl_microgrids_photovoltaics "
+                               " WHERE microgrid_id = %s AND id = %s ", (id_, pvid,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.MICROGRID_PHOTOVOLTAIC_NOT_FOUND')
+
+                query = (" SELECT p.id, p.name, "
+                         "        ds.id, ds.name, ds.uuid, "
+                         "        p.address "
+                         " FROM tbl_points p, tbl_microgrids_pvs_points mp, tbl_data_sources ds "
+                         " WHERE mp.pv_id = %s AND p.id = mp.point_id AND p.data_source_id = ds.id "
+                         " ORDER BY p.name ")
+                cursor.execute(query, (pvid,))
+                rows = cursor.fetchall()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         result = list()
         if rows is not None and len(rows) > 0:
@@ -7176,44 +7578,48 @@ class MicrogridPhotovoltaicPointCollection:
                                    description='API.INVALID_PHOTOVOLTAIC_ID')
 
         new_values = json.loads(raw_json)
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        
+        cnx = None
+        cursor = None
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_microgrids_photovoltaics "
-                       " WHERE microgrid_id = %s AND id = %s ", (id_, pvid,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.MICROGRID_PHOTOVOLTAIC_NOT_FOUND')
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        cursor.execute(" SELECT name, object_type "
-                       " FROM tbl_points "
-                       " WHERE id = %s ", (new_values['data']['point_id'],))
-        row = cursor.fetchone()
-        if row is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.POINT_NOT_FOUND')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_microgrids_photovoltaics "
+                               " WHERE microgrid_id = %s AND id = %s ", (id_, pvid,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.MICROGRID_PHOTOVOLTAIC_NOT_FOUND')
 
-        query = (" SELECT id "
-                 " FROM tbl_microgrids_pvs_points "
-                 " WHERE pv_id = %s AND point_id = %s")
-        cursor.execute(query, (pvid, new_values['data']['point_id'],))
-        if cursor.fetchone() is not None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR',
-                                   description='API.PHOTOVOLTAIC_POINT_RELATION_EXISTS')
+                cursor.execute(" SELECT name, object_type "
+                               " FROM tbl_points "
+                               " WHERE id = %s ", (new_values['data']['point_id'],))
+                row = cursor.fetchone()
+                if row is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.POINT_NOT_FOUND')
 
-        add_row = (" INSERT INTO tbl_microgrids_pvs_points (pv_id, point_id) "
-                   " VALUES (%s, %s) ")
-        cursor.execute(add_row, (pvid, new_values['data']['point_id'],))
-        cnx.commit()
-        cursor.close()
-        cnx.close()
+                query = (" SELECT id "
+                         " FROM tbl_microgrids_pvs_points "
+                         " WHERE pv_id = %s AND point_id = %s")
+                cursor.execute(query, (pvid, new_values['data']['point_id'],))
+                if cursor.fetchone() is not None:
+                    raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR',
+                                           description='API.PHOTOVOLTAIC_POINT_RELATION_EXISTS')
+
+                add_row = (" INSERT INTO tbl_microgrids_pvs_points (pv_id, point_id) "
+                           " VALUES (%s, %s) ")
+                cursor.execute(add_row, (pvid, new_values['data']['point_id'],))
+                cnx.commit()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         resp.status = falcon.HTTP_201
         resp.location = '/microgrids/' + str(id_) + '/photovoltaics/' + str(pvid) + '/points/' + \
@@ -7246,44 +7652,47 @@ class MicrogridPhotovoltaicPointItem:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_POINT_ID')
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_microgrids_photovoltaics "
-                       " WHERE microgrid_id = %s AND id = %s ", (id_, pvid,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.MICROGRID_PHOTOVOLTAIC_NOT_FOUND')
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_points "
-                       " WHERE id = %s ", (pid,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.POINT_NOT_FOUND')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_microgrids_photovoltaics "
+                               " WHERE microgrid_id = %s AND id = %s ", (id_, pvid,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.MICROGRID_PHOTOVOLTAIC_NOT_FOUND')
 
-        cursor.execute(" SELECT id "
-                       " FROM tbl_microgrids_pvs_points "
-                       " WHERE pv_id = %s AND point_id = %s ", (pvid, pid))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.PHOTOVOLTAIC_POINT_RELATION_NOT_FOUND')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_points "
+                               " WHERE id = %s ", (pid,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.POINT_NOT_FOUND')
 
-        cursor.execute(" DELETE FROM tbl_microgrids_pvs_points "
-                       " WHERE pv_id = %s AND point_id = %s ", (pvid, pid))
-        cnx.commit()
+                cursor.execute(" SELECT id "
+                               " FROM tbl_microgrids_pvs_points "
+                               " WHERE pv_id = %s AND point_id = %s ", (pvid, pid))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.PHOTOVOLTAIC_POINT_RELATION_NOT_FOUND')
 
-        cursor.close()
-        cnx.close()
+                cursor.execute(" DELETE FROM tbl_microgrids_pvs_points "
+                               " WHERE pv_id = %s AND point_id = %s ", (pvid, pid))
+                cnx.commit()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         resp.status = falcon.HTTP_204
+
 
 class MicrogridPowerConversionSystemPointCollection:
     def __init__(self):
@@ -7311,26 +7720,36 @@ class MicrogridPowerConversionSystemPointCollection:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_POWER_CONVERSION_SYSTEM_ID')
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
+        rows = []
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_microgrids_power_conversion_systems "
-                       " WHERE microgrid_id = %s AND id = %s ", (id_, pcsid,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.MICROGRID_POWER_CONVERSION_SYSTEM_NOT_FOUND')
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        query = (" SELECT p.id, p.name, "
-                 "        ds.id, ds.name, ds.uuid, "
-                 "        p.address "
-                 " FROM tbl_points p, tbl_microgrids_pcses_points mp, tbl_data_sources ds "
-                 " WHERE mp.pcs_id = %s AND p.id = mp.point_id AND p.data_source_id = ds.id "
-                 " ORDER BY p.name ")
-        cursor.execute(query, (pcsid,))
-        rows = cursor.fetchall()
+                cursor.execute(" SELECT name "
+                               " FROM tbl_microgrids_power_conversion_systems "
+                               " WHERE microgrid_id = %s AND id = %s ", (id_, pcsid,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.MICROGRID_POWER_CONVERSION_SYSTEM_NOT_FOUND')
+
+                query = (" SELECT p.id, p.name, "
+                         "        ds.id, ds.name, ds.uuid, "
+                         "        p.address "
+                         " FROM tbl_points p, tbl_microgrids_pcses_points mp, tbl_data_sources ds "
+                         " WHERE mp.pcs_id = %s AND p.id = mp.point_id AND p.data_source_id = ds.id "
+                         " ORDER BY p.name ")
+                cursor.execute(query, (pcsid,))
+                rows = cursor.fetchall()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         result = list()
         if rows is not None and len(rows) > 0:
@@ -7367,44 +7786,48 @@ class MicrogridPowerConversionSystemPointCollection:
                                    description='API.INVALID_POWER_CONVERSION_SYSTEM_ID')
 
         new_values = json.loads(raw_json)
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        
+        cnx = None
+        cursor = None
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_microgrids_power_conversion_systems "
-                       " WHERE microgrid_id = %s AND id = %s ", (id_, pcsid,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.MICROGRID_POWER_CONVERSION_SYSTEM_NOT_FOUND')
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        cursor.execute(" SELECT name, object_type "
-                       " FROM tbl_points "
-                       " WHERE id = %s ", (new_values['data']['point_id'],))
-        row = cursor.fetchone()
-        if row is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.POINT_NOT_FOUND')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_microgrids_power_conversion_systems "
+                               " WHERE microgrid_id = %s AND id = %s ", (id_, pcsid,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.MICROGRID_POWER_CONVERSION_SYSTEM_NOT_FOUND')
 
-        query = (" SELECT id "
-                 " FROM tbl_microgrids_pcses_points "
-                 " WHERE pcs_id = %s AND point_id = %s")
-        cursor.execute(query, (pcsid, new_values['data']['point_id'],))
-        if cursor.fetchone() is not None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR',
-                                   description='API.POWER_CONVERSION_SYSTEM_POINT_RELATION_EXISTS')
+                cursor.execute(" SELECT name, object_type "
+                               " FROM tbl_points "
+                               " WHERE id = %s ", (new_values['data']['point_id'],))
+                row = cursor.fetchone()
+                if row is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.POINT_NOT_FOUND')
 
-        add_row = (" INSERT INTO tbl_microgrids_pcses_points (pcs_id, point_id) "
-                   " VALUES (%s, %s) ")
-        cursor.execute(add_row, (pcsid, new_values['data']['point_id'],))
-        cnx.commit()
-        cursor.close()
-        cnx.close()
+                query = (" SELECT id "
+                         " FROM tbl_microgrids_pcses_points "
+                         " WHERE pcs_id = %s AND point_id = %s")
+                cursor.execute(query, (pcsid, new_values['data']['point_id'],))
+                if cursor.fetchone() is not None:
+                    raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR',
+                                           description='API.POWER_CONVERSION_SYSTEM_POINT_RELATION_EXISTS')
+
+                add_row = (" INSERT INTO tbl_microgrids_pcses_points (pcs_id, point_id) "
+                           " VALUES (%s, %s) ")
+                cursor.execute(add_row, (pcsid, new_values['data']['point_id'],))
+                cnx.commit()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         resp.status = falcon.HTTP_201
         resp.location = '/microgrids/' + str(id_) + '/powerconversionsystems/' + str(pcsid) + '/points/' + \
@@ -7437,41 +7860,43 @@ class MicrogridPowerConversionSystemPointItem:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_POINT_ID')
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_microgrids_power_conversion_systems "
-                       " WHERE microgrid_id = %s AND id = %s ", (id_, pcsid,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.MICROGRID_POWER_CONVERSION_SYSTEM_NOT_FOUND')
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_points "
-                       " WHERE id = %s ", (pid,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.POINT_NOT_FOUND')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_microgrids_power_conversion_systems "
+                               " WHERE microgrid_id = %s AND id = %s ", (id_, pcsid,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.MICROGRID_POWER_CONVERSION_SYSTEM_NOT_FOUND')
 
-        cursor.execute(" SELECT id "
-                       " FROM tbl_microgrids_pcses_points "
-                       " WHERE pcs_id = %s AND point_id = %s ", (pcsid, pid))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.POWER_CONVERSION_SYSTEM_POINT_RELATION_NOT_FOUND')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_points "
+                               " WHERE id = %s ", (pid,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.POINT_NOT_FOUND')
 
-        cursor.execute(" DELETE FROM tbl_microgrids_pcses_points "
-                       " WHERE pcs_id = %s AND point_id = %s ", (pcsid, pid))
-        cnx.commit()
+                cursor.execute(" SELECT id "
+                               " FROM tbl_microgrids_pcses_points "
+                               " WHERE pcs_id = %s AND point_id = %s ", (pcsid, pid))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.POWER_CONVERSION_SYSTEM_POINT_RELATION_NOT_FOUND')
 
-        cursor.close()
-        cnx.close()
+                cursor.execute(" DELETE FROM tbl_microgrids_pcses_points "
+                               " WHERE pcs_id = %s AND point_id = %s ", (pcsid, pid))
+                cnx.commit()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         resp.status = falcon.HTTP_204

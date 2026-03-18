@@ -115,18 +115,28 @@ class OfflineMeterFileCollection:
                 pass
 
         # Cache miss or Redis error - query database
-        # Connect to historical database
-        cnx = mysql.connector.connect(**config.myems_historical_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
+        rows = []
 
-        # Get all offline meter files ordered by upload time
-        query = (" SELECT id, file_name, uuid, upload_datetime_utc, status "
-                 " FROM tbl_offline_meter_files "
-                 " ORDER BY upload_datetime_utc desc ")
-        cursor.execute(query)
-        rows = cursor.fetchall()
-        cursor.close()
-        cnx.close()
+        try:
+            # Connect to historical database
+            cnx = mysql.connector.connect(**config.myems_historical_db)
+            try:
+                cursor = cnx.cursor()
+
+                # Get all offline meter files ordered by upload time
+                query = (" SELECT id, file_name, uuid, upload_datetime_utc, status "
+                         " FROM tbl_offline_meter_files "
+                         " ORDER BY upload_datetime_utc desc ")
+                cursor.execute(query)
+                rows = cursor.fetchall()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         # Calculate timezone offset for datetime conversion
         timezone_offset = int(config.utc_offset[1:3]) * 60 + int(config.utc_offset[4:6])
@@ -208,84 +218,100 @@ class OfflineMeterFileCollection:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.USER_UUID_NOT_FOUND_IN_HEADERS_PLEASE_LOGIN')
 
-        # Validate user session
-        cnx = mysql.connector.connect(**config.myems_user_db)
-        cursor = cnx.cursor()
+        cnx_user = None
+        cursor_user = None
+        cnx_hist = None
+        cursor_hist = None
+        new_id = None
 
-        query = (" SELECT utc_expires "
-                 " FROM tbl_sessions "
-                 " WHERE user_uuid = %s AND token = %s")
-        cursor.execute(query, (user_uuid, token,))
-        row = cursor.fetchone()
-
-        if row is None:
-            if cursor:
-                cursor.close()
-            if cnx:
-                cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.INVALID_SESSION_PLEASE_RE_LOGIN')
-        else:
-            utc_expires = row[0]
-            if datetime.utcnow() > utc_expires:
-                if cursor:
-                    cursor.close()
-                if cnx:
-                    cnx.close()
-                raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                       description='API.USER_SESSION_TIMEOUT')
-
-        # Verify user exists
-        cursor.execute(" SELECT id "
-                       " FROM tbl_users "
-                       " WHERE uuid = %s ",
-                       (user_uuid,))
-        row = cursor.fetchone()
-        if row is None:
-            if cursor:
-                cursor.close()
-            if cnx:
-                cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.INVALID_USER_PLEASE_RE_LOGIN')
-
-        # Save file metadata to database
         try:
-            cnx = mysql.connector.connect(**config.myems_historical_db)
-            cursor = cnx.cursor()
+            # Validate user session
+            try:
+                cnx_user = mysql.connector.connect(**config.myems_user_db)
+                try:
+                    cursor_user = cnx_user.cursor()
 
-            add_values = (" INSERT INTO tbl_offline_meter_files "
-                          " (file_name, uuid, upload_datetime_utc, status, file_object ) "
-                          " VALUES (%s, %s, %s, %s, %s) ")
-            cursor.execute(add_values, (filename,
-                                        file_uuid,
-                                        datetime.utcnow(),
-                                        'new',
-                                        raw_blob))
-            new_id = cursor.lastrowid
-            cnx.commit()
-            cursor.close()
-            cnx.close()
-        except InterfaceError as e:
-            print("Failed to connect request")
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR',
-                                   description='API.FAILED_TO_SAVE_OFFLINE_METER_FILE')
-        except OperationalError as e:
-            print("Failed to SQL operate request")
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR',
-                                   description='API.FAILED_TO_SAVE_OFFLINE_METER_FILE')
-        except ProgrammingError as e:
-            print("Failed to SQL request")
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR',
-                                   description='API.FAILED_TO_SAVE_OFFLINE_METER_FILE')
-        except DataError as e:
-            print("Failed to SQL Data request")
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR',
-                                   description='API.FAILED_TO_SAVE_OFFLINE_METER_FILE')
-        except Exception as e:
-            print("API.FAILED_TO_SAVE_OFFLINE_METER_FILE " + str(e))
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR',
-                                   description='API.FAILED_TO_SAVE_OFFLINE_METER_FILE')
+                    query = (" SELECT utc_expires "
+                             " FROM tbl_sessions "
+                             " WHERE user_uuid = %s AND token = %s")
+                    cursor_user.execute(query, (user_uuid, token,))
+                    row = cursor_user.fetchone()
+
+                    if row is None:
+                        raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                               description='API.INVALID_SESSION_PLEASE_RE_LOGIN')
+                    
+                    utc_expires = row[0]
+                    if datetime.utcnow() > utc_expires:
+                        raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                               description='API.USER_SESSION_TIMEOUT')
+
+                    # Verify user exists
+                    cursor_user.execute(" SELECT id "
+                                       " FROM tbl_users "
+                                       " WHERE uuid = %s ",
+                                       (user_uuid,))
+                    row = cursor_user.fetchone()
+                    if row is None:
+                        raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                               description='API.INVALID_USER_PLEASE_RE_LOGIN')
+                finally:
+                    if cursor_user:
+                        cursor_user.close()
+            finally:
+                if cnx_user:
+                    cnx_user.close()
+
+            # Save file metadata to database
+            try:
+                cnx_hist = mysql.connector.connect(**config.myems_historical_db)
+                try:
+                    cursor_hist = cnx_hist.cursor()
+
+                    add_values = (" INSERT INTO tbl_offline_meter_files "
+                                  " (file_name, uuid, upload_datetime_utc, status, file_object ) "
+                                  " VALUES (%s, %s, %s, %s, %s) ")
+                    cursor_hist.execute(add_values, (filename,
+                                                file_uuid,
+                                                datetime.utcnow(),
+                                                'new',
+                                                raw_blob))
+                    new_id = cursor_hist.lastrowid
+                    cnx_hist.commit()
+                finally:
+                    if cursor_hist:
+                        cursor_hist.close()
+            except InterfaceError as e:
+                print("Failed to connect request")
+                raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR',
+                                       description='API.FAILED_TO_SAVE_OFFLINE_METER_FILE')
+            except OperationalError as e:
+                print("Failed to SQL operate request")
+                raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR',
+                                       description='API.FAILED_TO_SAVE_OFFLINE_METER_FILE')
+            except ProgrammingError as e:
+                print("Failed to SQL request")
+                raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR',
+                                       description='API.FAILED_TO_SAVE_OFFLINE_METER_FILE')
+            except DataError as e:
+                print("Failed to SQL Data request")
+                raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR',
+                                       description='API.FAILED_TO_SAVE_OFFLINE_METER_FILE')
+            except Exception as e:
+                print("API.FAILED_TO_SAVE_OFFLINE_METER_FILE " + str(e))
+                raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR',
+                                       description='API.FAILED_TO_SAVE_OFFLINE_METER_FILE')
+            finally:
+                if cnx_hist:
+                    cnx_hist.close()
+
+        except falcon.HTTPError:
+            # Re-raise HTTP errors immediately
+            raise
+        except Exception:
+            # Catch any other unexpected errors during DB operations
+            raise falcon.HTTPError(status=falcon.HTTP_500, title='API.ERROR',
+                                   description='API.INTERNAL_SERVER_ERROR')
 
         # Clear cache after creating new offline meter file
         clear_offline_meter_file_cache()
@@ -360,18 +386,28 @@ class OfflineMeterFileItem:
                 pass
 
         # Cache miss or Redis error - query database
-        # Connect to historical database
-        cnx = mysql.connector.connect(**config.myems_historical_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
+        row = None
 
-        # Get file details
-        query = (" SELECT id, file_name, uuid, upload_datetime_utc, status "
-                 " FROM tbl_offline_meter_files "
-                 " WHERE id = %s ")
-        cursor.execute(query, (id_,))
-        row = cursor.fetchone()
-        cursor.close()
-        cnx.close()
+        try:
+            # Connect to historical database
+            cnx = mysql.connector.connect(**config.myems_historical_db)
+            try:
+                cursor = cnx.cursor()
+
+                # Get file details
+                query = (" SELECT id, file_name, uuid, upload_datetime_utc, status "
+                         " FROM tbl_offline_meter_files "
+                         " WHERE id = %s ")
+                cursor.execute(query, (id_,))
+                row = cursor.fetchone()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         # Check if file exists
         if row is None:
@@ -424,42 +460,51 @@ class OfflineMeterFileItem:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_OFFLINE_METER_FILE_ID')
 
-        # Connect to historical database
-        cnx = mysql.connector.connect(**config.myems_historical_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
+        row = None
+        file_uuid = None
 
-        # Get file UUID for file deletion
-        cursor.execute(" SELECT uuid "
-                       " FROM tbl_offline_meter_files "
-                       " WHERE id = %s ", (id_,))
-        row = cursor.fetchone()
-        if row is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.OFFLINE_METER_FILE_NOT_FOUND')
-
-        # Remove file from disk
         try:
-            file_uuid = row[0]
-            # Define file_path
-            file_path = os.path.join(config.upload_path, file_uuid)
+            # Connect to historical database
+            cnx = mysql.connector.connect(**config.myems_historical_db)
+            try:
+                cursor = cnx.cursor()
 
-            # remove the file from disk
-            os.remove(file_path)
-        except OSError as ex:
-            print("Failed to stream request")
-        except Exception as ex:
-            print("Unexpected error reading request stream")
-            # ignore exception and don't return API.OFFLINE_METER_FILE_NOT_FOUND error
-            pass
+                # Get file UUID for file deletion
+                cursor.execute(" SELECT uuid "
+                               " FROM tbl_offline_meter_files "
+                               " WHERE id = %s ", (id_,))
+                row = cursor.fetchone()
+                
+                if row is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.OFFLINE_METER_FILE_NOT_FOUND')
 
-        # Note: the energy data imported from the deleted file will not be deleted
-        cursor.execute(" DELETE FROM tbl_offline_meter_files WHERE id = %s ", (id_,))
-        cnx.commit()
+                file_uuid = row[0]
+                
+                # Remove file from disk
+                try:
+                    # Define file_path
+                    file_path = os.path.join(config.upload_path, file_uuid)
+                    # remove the file from disk
+                    os.remove(file_path)
+                except OSError as ex:
+                    print("Failed to stream request")
+                except Exception as ex:
+                    print("Unexpected error reading request stream")
+                    # ignore exception and don't return API.OFFLINE_METER_FILE_NOT_FOUND error
+                    pass
 
-        cursor.close()
-        cnx.close()
+                # Note: the energy data imported from the deleted file will not be deleted
+                cursor.execute(" DELETE FROM tbl_offline_meter_files WHERE id = %s ", (id_,))
+                cnx.commit()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         # Clear cache after deleting offline meter file
         clear_offline_meter_file_cache(offline_meter_file_id=int(id_))
@@ -506,18 +551,28 @@ class OfflineMeterFileRestore:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_OFFLINE_METER_FILE_ID')
 
-        # Connect to historical database
-        cnx = mysql.connector.connect(**config.myems_historical_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
+        row = None
 
-        # Get file data from database
-        query = (" SELECT uuid, file_object "
-                 " FROM tbl_offline_meter_files "
-                 " WHERE id = %s ")
-        cursor.execute(query, (id_,))
-        row = cursor.fetchone()
-        cursor.close()
-        cnx.close()
+        try:
+            # Connect to historical database
+            cnx = mysql.connector.connect(**config.myems_historical_db)
+            try:
+                cursor = cnx.cursor()
+
+                # Get file data from database
+                query = (" SELECT uuid, file_object "
+                         " FROM tbl_offline_meter_files "
+                         " WHERE id = %s ")
+                cursor.execute(query, (id_,))
+                row = cursor.fetchone()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         # Check if file exists in database
         if row is None:
@@ -550,4 +605,5 @@ class OfflineMeterFileRestore:
             print("Unexpected error reading request stream")
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR',
                                    description='API.FAILED_TO_RESTORE_OFFLINE_METER_FILE')
+        
         resp.text = json.dumps('success')

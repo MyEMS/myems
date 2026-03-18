@@ -44,18 +44,30 @@ class LogCollection:
         if limit > 1000:
             limit = 1000
 
-        cnx = mysql.connector.connect(**config.myems_user_db)
-        cursor = cnx.cursor(dictionary=True)
+        cnx = None
+        cursor = None
+        rows = []
 
-        query = (" SELECT l.id, l.user_uuid, u.name, u.display_name, "
-                 "        l.request_datetime_utc, l.request_method, l.resource_type, "
-                 "        l.resource_id, l.request_body "
-                 " FROM tbl_logs l "
-                 " LEFT JOIN tbl_users u ON l.user_uuid = u.uuid "
-                 " ORDER BY l.request_datetime_utc DESC "
-                 " LIMIT %s ")
-        cursor.execute(query, (limit,))
-        rows = cursor.fetchall()
+        try:
+            cnx = mysql.connector.connect(**config.myems_user_db)
+            try:
+                cursor = cnx.cursor(dictionary=True)
+
+                query = (" SELECT l.id, l.user_uuid, u.name, u.display_name, "
+                         "        l.request_datetime_utc, l.request_method, l.resource_type, "
+                         "        l.resource_id, l.request_body "
+                         " FROM tbl_logs l "
+                         " LEFT JOIN tbl_users u ON l.user_uuid = u.uuid "
+                         " ORDER BY l.request_datetime_utc DESC "
+                         " LIMIT %s ")
+                cursor.execute(query, (limit,))
+                rows = cursor.fetchall()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         result = []
         
@@ -97,8 +109,5 @@ class LogCollection:
                 "resource_id": row['resource_id'],
                 "request_body": row['request_body'],
             })
-
-        cursor.close()
-        cnx.close()
 
         resp.text = json.dumps(result)
