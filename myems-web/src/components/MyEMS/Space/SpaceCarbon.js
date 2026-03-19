@@ -1012,7 +1012,7 @@ const SpaceCarbon = ({ setRedirect, setRedirectUrl, t }) => {
                   </CustomInput>
                 </FormGroup>
               </Col>
-              <Col xs={6} sm={3}>
+              <Col xs={6} sm={3} style={{ display: comparisonType === 'none-comparison' ? 'none' : '' }}>
                 <FormGroup className="form-group">
                   <Label className={labelClasses} for="basePeriodDateRangePicker">
                     {t('Base Period')}
