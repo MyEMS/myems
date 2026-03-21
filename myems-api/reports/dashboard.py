@@ -542,7 +542,7 @@ class Reporting:
                             reporting_input[energy_category_id]['this_month_subtotal_in_kgce'] = actual_value * kgce
                             reporting_input[energy_category_id]['this_month_subtotal_in_kgco2e'] = actual_value * kgco2e
 
-                        current_month_consumption_value = reporting_input['energy_category_id']['subtotal']
+                        current_month_consumption_value = reporting_input[energy_category_id]['subtotal']
                         cursor_energy.execute(" SELECT SUM(actual_value) "
                                               " FROM tbl_space_input_category_hourly "
                                               " WHERE space_id = %s "
@@ -624,7 +624,7 @@ class Reporting:
                             reporting_cost[energy_category_id]['values'].append(actual_value)
                             reporting_cost[energy_category_id]['subtotal'] += actual_value
 
-                        current_month_cost_value = reporting_cost['energy_category_id']['subtotal']
+                        current_month_cost_value = reporting_cost[energy_category_id]['subtotal']
                         cursor_billing.execute(" SELECT SUM(actual_value) "
                                               " FROM tbl_space_input_category_hourly "
                                               " WHERE space_id = %s "
@@ -635,7 +635,7 @@ class Reporting:
                                                energy_category_id,
                                                base_start_datetime_utc,
                                                base_end_datetime_utc))
-                        last_month_cost_values = cursor_energy.fetchone()
+                        last_month_cost_values = cursor_billing.fetchone()
                         if (last_month_cost_values and
                                 len(last_month_cost_values) > 0):
                             last_month_const_value = last_month_cost_values[0]
@@ -711,7 +711,7 @@ class Reporting:
                             reporting_output[energy_category_id]['subtotal_in_kgco2e'] += actual_value * kgco2e
 
                         current_month_output_value = reporting_output[energy_category_id]['subtotal']
-                        cursor_energy.excute(" SELECT SUM(actual_value) "
+                        cursor_energy.execute(" SELECT SUM(actual_value) "
                                              "FROM tbl_space_output_category_hourly "
                                              "WHERE space_id = %s "
                                              "     AND energy_category_id = %s "
