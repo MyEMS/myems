@@ -559,6 +559,8 @@ class Reporting:
                             last_month_consumption_value = last_month_consumption_values[0]
                         else:
                             last_month_consumption_value = Decimal(0.0)
+                        reporting_input[energy_category_id]['last_month_value'] = last_month_consumption_value
+                        reporting_input[energy_category_id]['current_month_value'] = current_month_consumption_value
 
                         energy_category_tariff_dict = \
                             utilities.get_energy_category_peak_types(space['cost_center_id'],
@@ -641,6 +643,8 @@ class Reporting:
                             last_month_cost_value = last_month_cost_values[0]
                         else:
                             last_month_cost_value = Decimal(0.0)
+                        reporting_cost[energy_category_id]['last_month_value'] = last_month_cost_value
+                        reporting_cost[energy_category_id]['current_month_value'] = current_month_cost_value
 
                         energy_category_tariff_dict = \
                             utilities.get_energy_category_peak_types(space['cost_center_id'],
@@ -726,6 +730,8 @@ class Reporting:
                             last_month_output_value = last_month_output_values[0]
                         else:
                             last_month_output_value = Decimal(0.0)
+                        reporting_output[energy_category_id]['last_month_value'] = last_month_output_value
+                        reporting_output[energy_category_id]['current_month_value'] = current_month_output_value
 
                         energy_category_tariff_dict = \
                             utilities.get_energy_category_peak_types(space['cost_center_id'],
@@ -981,8 +987,10 @@ class Reporting:
                 result['reporting_period_input']['deeps'].append(
                     reporting_input[energy_category_id]['deep'])
                 result['reporting_period_input']['increment_rates'].append(
-                    (current_month_consumption_value - last_month_consumption_value) / last_month_consumption_value
-                    if last_month_consumption_value > 0.0 else None)
+                    (reporting_input[energy_category_id]['current_month_value'] -
+                     reporting_input[energy_category_id]['last_month_value']) /
+                    reporting_input[energy_category_id]['last_month_value']
+                    if reporting_input[energy_category_id]['last_month_value'] > 0.0 else None)
                 result['reporting_period_input']['total_in_kgce'] += \
                     reporting_input[energy_category_id]['subtotal_in_kgce']
                 result['reporting_period_input']['total_in_kgco2e'] += \
@@ -1046,8 +1054,10 @@ class Reporting:
                 result['reporting_period_cost']['deeps'].append(
                     reporting_cost[energy_category_id]['deep'])
                 result['reporting_period_cost']['increment_rates'].append(
-                    (current_month_cost_value - last_month_cost_value) / last_month_cost_value
-                    if last_month_cost_value > 0.0 else None)
+                    (reporting_cost[energy_category_id]['current_month_value'] -
+                     reporting_cost[energy_category_id]['last_month_value']) /
+                    reporting_cost[energy_category_id]['last_month_value']
+                    if reporting_cost[energy_category_id]['last_month_value'] > 0.0 else None)
                 result['reporting_period_cost']['total'] += reporting_cost[energy_category_id]['subtotal']
 
 
@@ -1104,8 +1114,10 @@ class Reporting:
                 result['reporting_period_output']['deeps'].append(
                     reporting_output[energy_category_id]['deep'])
                 result['reporting_period_output']['increment_rates'].append(
-                    (current_month_output_value - last_month_output_value) / last_month_output_value
-                    if last_month_output_value > 0.0 else None)
+                    (reporting_output[energy_category_id]['current_month_value'] -
+                     reporting_output[energy_category_id]['last_month_value']) /
+                    reporting_output[energy_category_id]['last_month_value']
+                    if reporting_output[energy_category_id]['last_month_value'] > 0.0 else None)
                 result['reporting_period_output']['total_in_kgce'] += \
                     reporting_output[energy_category_id]['subtotal_in_kgce']
                 result['reporting_period_output']['total_in_kgco2e'] += \
