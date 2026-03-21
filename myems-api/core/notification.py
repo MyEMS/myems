@@ -32,9 +32,11 @@ class NotificationCollection:
             access_control(req)
         else:
             api_key_control(req)
+        
         status = req.params.get('status')
         start_datetime_local = req.params.get('startdatetime')
         end_datetime_local = req.params.get('enddatetime')
+        
         if status is not None:
             status = str.strip(status)
             if status not in ['unread', 'read', 'archived']:
@@ -44,6 +46,7 @@ class NotificationCollection:
         timezone_offset = int(config.utc_offset[1:3]) * 60 + int(config.utc_offset[4:6])
         if config.utc_offset[0] == '-':
             timezone_offset = -timezone_offset
+            
         start_datetime_utc = None
         if start_datetime_local is not None and len(str.strip(start_datetime_local)) > 0:
             start_datetime_local = str.strip(start_datetime_local)
@@ -81,70 +84,67 @@ class NotificationCollection:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.USER_UUID_NOT_FOUND_IN_HEADERS_PLEASE_LOGIN')
 
-        cnx = mysql.connector.connect(**config.myems_user_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
+        user_id = None
+        rows = []
 
-        query = (" SELECT utc_expires "
-                 " FROM tbl_sessions "
-                 " WHERE user_uuid = %s AND token = %s")
-        cursor.execute(query, (user_uuid, token,))
-        row = cursor.fetchone()
+        try:
+            cnx = mysql.connector.connect(**config.myems_user_db)
+            try:
+                cursor = cnx.cursor()
 
-        if row is None:
-            if cursor:
-                cursor.close()
-            if cnx:
-                cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.INVALID_SESSION_PLEASE_RE_LOGIN')
-        else:
-            utc_expires = row[0]
-            if datetime.utcnow() > utc_expires:
+                query = (" SELECT utc_expires "
+                         " FROM tbl_sessions "
+                         " WHERE user_uuid = %s AND token = %s")
+                cursor.execute(query, (user_uuid, token,))
+                row = cursor.fetchone()
+
+                if row is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                           description='API.INVALID_SESSION_PLEASE_RE_LOGIN')
+                
+                utc_expires = row[0]
+                if datetime.utcnow() > utc_expires:
+                    raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                           description='API.USER_SESSION_TIMEOUT')
+
+                cursor.execute(" SELECT id "
+                               " FROM tbl_users "
+                               " WHERE uuid = %s ",
+                               (user_uuid,))
+                row = cursor.fetchone()
+                if row is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                           description='API.INVALID_USER_PLEASE_RE_LOGIN')
+                else:
+                    user_id = row[0]
+
+                # get notifications
+                if status is None:
+                    query = (" SELECT id, created_datetime_utc, status, subject, message, url "
+                             " FROM tbl_notifications "
+                             " WHERE user_id = %s AND "
+                             "       created_datetime_utc >= %s AND created_datetime_utc < %s AND"
+                             "       status != 'archived' "
+                             " ORDER BY created_datetime_utc DESC ")
+                    cursor.execute(query, (user_id, start_datetime_utc, end_datetime_utc))
+                else:
+                    query = (" SELECT id, created_datetime_utc, status, subject, message, url "
+                             " FROM tbl_notifications "
+                             " WHERE user_id = %s AND "
+                             "       created_datetime_utc >= %s AND created_datetime_utc < %s AND "
+                             "       status = %s "
+                             " ORDER BY created_datetime_utc DESC ")
+                    cursor.execute(query, (user_id, start_datetime_utc, end_datetime_utc, status))
+                
+                rows = cursor.fetchall()
+            finally:
                 if cursor:
                     cursor.close()
-                if cnx:
-                    cnx.close()
-                raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                       description='API.USER_SESSION_TIMEOUT')
-
-        cursor.execute(" SELECT id "
-                       " FROM tbl_users "
-                       " WHERE uuid = %s ",
-                       (user_uuid,))
-        row = cursor.fetchone()
-        if row is None:
-            if cursor:
-                cursor.close()
+        finally:
             if cnx:
                 cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.INVALID_USER_PLEASE_RE_LOGIN')
-        else:
-            user_id = row[0]
-
-        # get notifications
-        if status is None:
-            query = (" SELECT id, created_datetime_utc, status, subject, message, url "
-                     " FROM tbl_notifications "
-                     " WHERE user_id = %s AND "
-                     "       created_datetime_utc >= %s AND created_datetime_utc < %s AND"
-                     "       status != 'archived' "
-                     " ORDER BY created_datetime_utc DESC ")
-            cursor.execute(query, (user_id, start_datetime_utc, end_datetime_utc))
-        else:
-            query = (" SELECT id, created_datetime_utc, status, subject, message, url "
-                     " FROM tbl_notifications "
-                     " WHERE user_id = %s AND "
-                     "       created_datetime_utc >= %s AND created_datetime_utc < %s AND "
-                     "       status = %s "
-                     " ORDER BY created_datetime_utc DESC ")
-            cursor.execute(query, (user_id, start_datetime_utc, end_datetime_utc, status))
-        rows = cursor.fetchall()
-
-        if cursor:
-            cursor.close()
-        if cnx:
-            cnx.close()
 
         result = list()
         if rows is not None and len(rows) > 0:
@@ -195,58 +195,54 @@ class NotificationItem:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.USER_UUID_NOT_FOUND_IN_HEADERS_PLEASE_LOGIN')
 
-        cnx = mysql.connector.connect(**config.myems_user_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
+        user_id = None
+        row = None
 
-        query = (" SELECT utc_expires "
-                 " FROM tbl_sessions "
-                 " WHERE user_uuid = %s AND token = %s")
-        cursor.execute(query, (user_uuid, token,))
-        row = cursor.fetchone()
+        try:
+            cnx = mysql.connector.connect(**config.myems_user_db)
+            try:
+                cursor = cnx.cursor()
 
-        if row is None:
-            if cursor:
-                cursor.close()
-            if cnx:
-                cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.INVALID_SESSION_PLEASE_RE_LOGIN')
-        else:
-            utc_expires = row[0]
-            if datetime.utcnow() > utc_expires:
+                query = (" SELECT utc_expires "
+                         " FROM tbl_sessions "
+                         " WHERE user_uuid = %s AND token = %s")
+                cursor.execute(query, (user_uuid, token,))
+                row_session = cursor.fetchone()
+
+                if row_session is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                           description='API.INVALID_SESSION_PLEASE_RE_LOGIN')
+                
+                utc_expires = row_session[0]
+                if datetime.utcnow() > utc_expires:
+                    raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                           description='API.USER_SESSION_TIMEOUT')
+
+                cursor.execute(" SELECT id "
+                               " FROM tbl_users "
+                               " WHERE uuid = %s ",
+                               (user_uuid,))
+                row_user = cursor.fetchone()
+                if row_user is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                           description='API.INVALID_USER_PLEASE_RE_LOGIN')
+                else:
+                    user_id = row_user[0]
+
+                # get notification
+                query = (" SELECT id, created_datetime_utc, status, subject, message, url "
+                         " FROM tbl_notifications "
+                         " WHERE id = %s AND user_id = %s ")
+                cursor.execute(query, (id_, user_id))
+                row = cursor.fetchone()
+            finally:
                 if cursor:
                     cursor.close()
-                if cnx:
-                    cnx.close()
-                raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                       description='API.USER_SESSION_TIMEOUT')
-
-        cursor.execute(" SELECT id "
-                       " FROM tbl_users "
-                       " WHERE uuid = %s ",
-                       (user_uuid,))
-        row = cursor.fetchone()
-        if row is None:
-            if cursor:
-                cursor.close()
+        finally:
             if cnx:
                 cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.INVALID_USER_PLEASE_RE_LOGIN')
-        else:
-            user_id = row[0]
-
-        # get notification
-        query = (" SELECT id, created_datetime_utc, status, subject, message, url "
-                 " FROM tbl_notifications "
-                 " WHERE id = %s AND user_id = %s ")
-        cursor.execute(query, (id_, user_id))
-        row = cursor.fetchone()
-
-        if cursor:
-            cursor.close()
-        if cnx:
-            cnx.close()
 
         if row is None:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
@@ -305,68 +301,59 @@ class NotificationItem:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.USER_UUID_NOT_FOUND_IN_HEADERS_PLEASE_LOGIN')
 
-        cnx = mysql.connector.connect(**config.myems_user_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
+        user_id = None
 
-        query = (" SELECT utc_expires "
-                 " FROM tbl_sessions "
-                 " WHERE user_uuid = %s AND token = %s")
-        cursor.execute(query, (user_uuid, token,))
-        row = cursor.fetchone()
+        try:
+            cnx = mysql.connector.connect(**config.myems_user_db)
+            try:
+                cursor = cnx.cursor()
 
-        if row is None:
-            if cursor:
-                cursor.close()
-            if cnx:
-                cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.INVALID_SESSION_PLEASE_RE_LOGIN')
-        else:
-            utc_expires = row[0]
-            if datetime.utcnow() > utc_expires:
+                query = (" SELECT utc_expires "
+                         " FROM tbl_sessions "
+                         " WHERE user_uuid = %s AND token = %s")
+                cursor.execute(query, (user_uuid, token,))
+                row_session = cursor.fetchone()
+
+                if row_session is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                           description='API.INVALID_SESSION_PLEASE_RE_LOGIN')
+                
+                utc_expires = row_session[0]
+                if datetime.utcnow() > utc_expires:
+                    raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                           description='API.USER_SESSION_TIMEOUT')
+
+                cursor.execute(" SELECT id "
+                               " FROM tbl_users "
+                               " WHERE uuid = %s ",
+                               (user_uuid,))
+                row_user = cursor.fetchone()
+                if row_user is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                           description='API.INVALID_USER_PLEASE_RE_LOGIN')
+                else:
+                    user_id = row_user[0]
+
+                cursor.execute(" SELECT id "
+                               " FROM tbl_notifications "
+                               " WHERE id = %s AND user_id = %s ", (id_, user_id))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.NOTIFICATION_NOT_FOUND')
+
+                update_row = (" UPDATE tbl_notifications "
+                              " SET status = %s "
+                              " WHERE id = %s ")
+                cursor.execute(update_row, (status, id_))
+                cnx.commit()
+            finally:
                 if cursor:
                     cursor.close()
-                if cnx:
-                    cnx.close()
-                raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                       description='API.USER_SESSION_TIMEOUT')
-
-        cursor.execute(" SELECT id "
-                       " FROM tbl_users "
-                       " WHERE uuid = %s ",
-                       (user_uuid,))
-        row = cursor.fetchone()
-        if row is None:
-            if cursor:
-                cursor.close()
+        finally:
             if cnx:
                 cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.INVALID_USER_PLEASE_RE_LOGIN')
-        else:
-            user_id = row[0]
-
-        cursor.execute(" SELECT id "
-                       " FROM tbl_notifications "
-                       " WHERE id = %s AND user_id = %s ", (id_, user_id))
-        if cursor.fetchone() is None:
-            if cursor:
-                cursor.close()
-            if cnx:
-                cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.NOTIFICATION_NOT_FOUND')
-
-        update_row = (" UPDATE tbl_notifications "
-                      " SET status = %s "
-                      " WHERE id = %s ")
-        cursor.execute(update_row, (status,
-                                    id_,))
-        cnx.commit()
-        if cursor:
-            cursor.close()
-        if cnx:
-            cnx.close()
 
         resp.status = falcon.HTTP_200
 
@@ -388,65 +375,58 @@ class NotificationItem:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.USER_UUID_NOT_FOUND_IN_HEADERS_PLEASE_LOGIN')
 
-        cnx = mysql.connector.connect(**config.myems_user_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
+        user_id = None
+        row_check = None
 
-        query = (" SELECT utc_expires "
-                 " FROM tbl_sessions "
-                 " WHERE user_uuid = %s AND token = %s")
-        cursor.execute(query, (user_uuid, token,))
-        row = cursor.fetchone()
+        try:
+            cnx = mysql.connector.connect(**config.myems_user_db)
+            try:
+                cursor = cnx.cursor()
 
-        if row is None:
-            if cursor:
-                cursor.close()
-            if cnx:
-                cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.INVALID_SESSION_PLEASE_RE_LOGIN')
-        else:
-            utc_expires = row[0]
-            if datetime.utcnow() > utc_expires:
+                query = (" SELECT utc_expires "
+                         " FROM tbl_sessions "
+                         " WHERE user_uuid = %s AND token = %s")
+                cursor.execute(query, (user_uuid, token,))
+                row_session = cursor.fetchone()
+
+                if row_session is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                           description='API.INVALID_SESSION_PLEASE_RE_LOGIN')
+                
+                utc_expires = row_session[0]
+                if datetime.utcnow() > utc_expires:
+                    raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                           description='API.USER_SESSION_TIMEOUT')
+
+                cursor.execute(" SELECT id "
+                               " FROM tbl_users "
+                               " WHERE uuid = %s ",
+                               (user_uuid,))
+                row_user = cursor.fetchone()
+                if row_user is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                           description='API.INVALID_USER_PLEASE_RE_LOGIN')
+                else:
+                    user_id = row_user[0]
+
+                cursor.execute(" SELECT id "
+                               " FROM tbl_notifications "
+                               " WHERE id = %s AND user_id = %s ", (id_, user_id))
+                row_check = cursor.fetchone()
+
+                if row_check is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.NOTIFICATION_NOT_FOUND')
+
+                cursor.execute(" DELETE FROM tbl_notifications WHERE id = %s ", (id_,))
+                cnx.commit()
+            finally:
                 if cursor:
                     cursor.close()
-                if cnx:
-                    cnx.close()
-                raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                       description='API.USER_SESSION_TIMEOUT')
-
-        cursor.execute(" SELECT id "
-                       " FROM tbl_users "
-                       " WHERE uuid = %s ",
-                       (user_uuid,))
-        row = cursor.fetchone()
-        if row is None:
-            if cursor:
-                cursor.close()
+        finally:
             if cnx:
                 cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.INVALID_USER_PLEASE_RE_LOGIN')
-        else:
-            user_id = row[0]
-
-        cursor.execute(" SELECT id "
-                       " FROM tbl_notifications "
-                       " WHERE id = %s AND user_id = %s ", (id_, user_id))
-        row = cursor.fetchone()
-
-        if row is None:
-            if cursor:
-                cursor.close()
-            if cnx:
-                cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.NOTIFICATION_NOT_FOUND')
-
-        cursor.execute(" DELETE FROM tbl_notifications WHERE id = %s ", (id_,))
-        cnx.commit()
-        if cursor:
-            cursor.close()
-        if cnx:
-            cnx.close()
 
         resp.status = falcon.HTTP_204
