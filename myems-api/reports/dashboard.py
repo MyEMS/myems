@@ -554,8 +554,8 @@ class Reporting:
                                                base_start_datetime_utc,
                                                base_end_datetime_utc))
                         last_month_consumption_values = cursor_energy.fetchone()
-                        if (last_month_consumption_values and
-                                len(last_month_consumption_values) > 0):
+                        if last_month_consumption_values and len(last_month_consumption_values) > 0 \
+                                and last_month_consumption_values[0] is not None:
                             last_month_consumption_value = last_month_consumption_values[0]
                         else:
                             last_month_consumption_value = Decimal(0.0)
@@ -638,8 +638,8 @@ class Reporting:
                                                base_start_datetime_utc,
                                                base_end_datetime_utc))
                         last_month_cost_values = cursor_billing.fetchone()
-                        if (last_month_cost_values and
-                                len(last_month_cost_values) > 0):
+                        if last_month_cost_values and len(last_month_cost_values) > 0 \
+                                and last_month_cost_values[0] is not None:
                             last_month_cost_value = last_month_cost_values[0]
                         else:
                             last_month_cost_value = Decimal(0.0)
@@ -726,7 +726,8 @@ class Reporting:
                                               base_start_datetime_utc,
                                               base_end_datetime_utc))
                         last_month_output_values = cursor_energy.fetchone()
-                        if last_month_output_values is not None and len(last_month_output_values) > 0:
+                        if last_month_output_values is not None and len(last_month_output_values) > 0 \
+                                and last_month_output_values[0] is not None:
                             last_month_output_value = last_month_output_values[0]
                         else:
                             last_month_output_value = Decimal(0.0)
@@ -990,7 +991,8 @@ class Reporting:
                     (reporting_input[energy_category_id]['current_month_value'] -
                      reporting_input[energy_category_id]['last_month_value']) /
                     reporting_input[energy_category_id]['last_month_value']
-                    if reporting_input[energy_category_id]['last_month_value'] > 0.0 else None)
+                    if reporting_input[energy_category_id]['last_month_value'] is not None
+                       and reporting_input[energy_category_id]['last_month_value'] > 0.0 else None)
                 result['reporting_period_input']['total_in_kgce'] += \
                     reporting_input[energy_category_id]['subtotal_in_kgce']
                 result['reporting_period_input']['total_in_kgco2e'] += \
@@ -1057,7 +1059,8 @@ class Reporting:
                     (reporting_cost[energy_category_id]['current_month_value'] -
                      reporting_cost[energy_category_id]['last_month_value']) /
                     reporting_cost[energy_category_id]['last_month_value']
-                    if reporting_cost[energy_category_id]['last_month_value'] > 0.0 else None)
+                    if reporting_cost[energy_category_id]['last_month_value'] is not None
+                        and reporting_cost[energy_category_id]['last_month_value'] > 0.0 else None)
                 result['reporting_period_cost']['total'] += reporting_cost[energy_category_id]['subtotal']
 
 
@@ -1117,7 +1120,8 @@ class Reporting:
                     (reporting_output[energy_category_id]['current_month_value'] -
                      reporting_output[energy_category_id]['last_month_value']) /
                     reporting_output[energy_category_id]['last_month_value']
-                    if reporting_output[energy_category_id]['last_month_value'] > 0.0 else None)
+                    if reporting_output[energy_category_id]['last_month_value'] is not None
+                        and reporting_output[energy_category_id]['last_month_value'] > 0.0 else None)
                 result['reporting_period_output']['total_in_kgce'] += \
                     reporting_output[energy_category_id]['subtotal_in_kgce']
                 result['reporting_period_output']['total_in_kgco2e'] += \
