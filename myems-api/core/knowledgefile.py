@@ -183,7 +183,6 @@ class KnowledgeFileCollection:
         except Exception:
             raise
 
-
     @staticmethod
     @user_logger
     def on_post(req, resp):
@@ -419,7 +418,6 @@ class KnowledgeFileItem:
 
         except Exception:
             raise
-
 
     @staticmethod
     @user_logger

@@ -369,8 +369,9 @@ class MeterCollection:
                                                description='API.MASTER_METER_NOT_FOUND')
                     else:
                         if row[1] != energy_category_id:
-                            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.BAD_REQUEST',
-                                                   description='API.MASTER_METER_DOES_NOT_BELONG_TO_SAME_ENERGY_CATEGORY')
+                            raise falcon.HTTPError(
+                                status=falcon.HTTP_404, title='API.BAD_REQUEST',
+                                description='API.MASTER_METER_DOES_NOT_BELONG_TO_SAME_ENERGY_CATEGORY')
 
                 add_values = (" INSERT INTO tbl_meters "
                               "    (name, uuid, energy_category_id, is_counted, hourly_low_limit, hourly_high_limit,"
@@ -400,6 +401,7 @@ class MeterCollection:
 
         resp.status = falcon.HTTP_201
         resp.location = '/meters/' + str(new_id)
+
 
 class MeterItem:
     def __init__(self):
@@ -646,9 +648,10 @@ class MeterItem:
                                "LIMIT 1",
                                (id_,))
                 if cursor.fetchone() is not None:
-                    raise falcon.HTTPError(status=falcon.HTTP_400,
-                                           title='API.BAD_REQUEST',
-                                           description='API.THERE_IS_RELATION_WITH_PHOTOVOLTAIC_POWER_STATIONS_INVERTORS')
+                    raise falcon.HTTPError(
+                        status=falcon.HTTP_400,
+                        title='API.BAD_REQUEST',
+                        description='API.THERE_IS_RELATION_WITH_PHOTOVOLTAIC_POWER_STATIONS_INVERTORS')
 
                 # check relation with tbl_photovoltaic_power_stations_loads
                 cursor.execute("SELECT name "
@@ -667,7 +670,7 @@ class MeterItem:
                                " WHERE va.meter_id = %s AND va.meter_type = 'meter' AND va.virtual_meter_id = vm.id ",
                                (id_,))
                 rows_virtual_meters = cursor.fetchall()
-                if rows_virtual_meters is not None and len(rows_virtual_meters)>0:
+                if rows_virtual_meters is not None and len(rows_virtual_meters) > 0:
                     raise falcon.HTTPError(status=falcon.HTTP_400,
                                            title='API.BAD_REQUEST',
                                            description='API.THIS_METER_IS_BEING_USED_BY_A_VIRTUAL_METER')
@@ -736,7 +739,8 @@ class MeterItem:
                 # check relation with combined equipment parameters
                 cursor.execute(" SELECT combined_equipment_id "
                                " FROM tbl_combined_equipments_parameters "
-                               " WHERE numerator_meter_uuid = %s OR denominator_meter_uuid = %s", (meter_uuid, meter_uuid,))
+                               " WHERE numerator_meter_uuid = %s OR denominator_meter_uuid = %s",
+                               (meter_uuid, meter_uuid,))
                 rows_combined_equipments = cursor.fetchall()
                 if rows_combined_equipments is not None and len(rows_combined_equipments) > 0:
                     raise falcon.HTTPError(status=falcon.HTTP_400,
@@ -756,7 +760,8 @@ class MeterItem:
                 # check relation with equipment parameters
                 cursor.execute(" SELECT equipment_id "
                                " FROM tbl_equipments_parameters "
-                               " WHERE numerator_meter_uuid = %s OR denominator_meter_uuid = %s", (meter_uuid, meter_uuid, ))
+                               " WHERE numerator_meter_uuid = %s OR denominator_meter_uuid = %s",
+                               (meter_uuid, meter_uuid, ))
                 rows_equipments = cursor.fetchall()
                 if rows_equipments is not None and len(rows_equipments) > 0:
                     raise falcon.HTTPError(status=falcon.HTTP_400,
@@ -1031,8 +1036,9 @@ class MeterItem:
                                                description='API.MASTER_METER_NOT_FOUND')
                     else:
                         if row[1] != energy_category_id:
-                            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.BAD_REQUEST',
-                                                   description='API.MASTER_METER_DOES_NOT_BELONG_TO_SAME_ENERGY_CATEGORY')
+                            raise falcon.HTTPError(
+                                status=falcon.HTTP_404, title='API.BAD_REQUEST',
+                                description='API.MASTER_METER_DOES_NOT_BELONG_TO_SAME_ENERGY_CATEGORY')
 
                 # todo: check all descendants against new_values['data']['master_meter_id']
                 if master_meter_id is not None:
@@ -1072,6 +1078,7 @@ class MeterItem:
         clear_meter_cache(meter_id=id_)
 
         resp.status = falcon.HTTP_200
+
 
 class MeterSubmeterCollection:
     def __init__(self):
@@ -1407,6 +1414,7 @@ class MeterPointCollection:
 
         resp.status = falcon.HTTP_201
         resp.location = '/meters/' + str(id_) + '/points/' + str(new_values['data']['point_id'])
+
 
 class MeterPointItem:
     def __init__(self):
@@ -2049,8 +2057,9 @@ class MeterImport:
                                                description='API.MASTER_METER_NOT_FOUND')
                     else:
                         if row[1] != energy_category_id:
-                            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.BAD_REQUEST',
-                                                   description='API.MASTER_METER_DOES_NOT_BELONG_TO_SAME_ENERGY_CATEGORY')
+                            raise falcon.HTTPError(
+                                status=falcon.HTTP_404, title='API.BAD_REQUEST',
+                                description='API.MASTER_METER_DOES_NOT_BELONG_TO_SAME_ENERGY_CATEGORY')
 
                 add_values = (" INSERT INTO tbl_meters "
                               "    (name, uuid, energy_category_id, is_counted, hourly_low_limit, hourly_high_limit,"
@@ -2083,13 +2092,15 @@ class MeterImport:
                             elif row[1] == 'ENERGY_VALUE':
                                 query = (" SELECT p.id "
                                          " FROM tbl_meters_points mp, tbl_points p "
-                                         " WHERE mp.meter_id = %s AND mp.point_id = p.id AND p.object_type = 'ENERGY_VALUE' ")
+                                         " WHERE mp.meter_id = %s "
+                                         " AND mp.point_id = p.id "
+                                         " AND p.object_type = 'ENERGY_VALUE' ")
                                 cursor.execute(query, (new_id,))
                                 rows_points = cursor.fetchall()
                                 if rows_points is not None and len(rows_points) > 0:
-                                    raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR',
-                                                           description=
-                                                           'API.METER_CANNOT_HAVE_MORE_THAN_ONE_ENERGY_VALUE_POINTS')
+                                    raise falcon.HTTPError(
+                                        status=falcon.HTTP_400, title='API.ERROR',
+                                        description='API.METER_CANNOT_HAVE_MORE_THAN_ONE_ENERGY_VALUE_POINTS')
 
                             query = (" SELECT id "
                                      " FROM tbl_meters_points "
@@ -2242,13 +2253,14 @@ class MeterClone:
                             elif row[1] == 'ENERGY_VALUE':
                                 query = (" SELECT p.id "
                                          " FROM tbl_meters_points mp, tbl_points p "
-                                         " WHERE mp.meter_id = %s AND mp.point_id = p.id AND p.object_type = 'ENERGY_VALUE' ")
+                                         " WHERE mp.meter_id = %s AND mp.point_id = p.id "
+                                         " AND p.object_type = 'ENERGY_VALUE' ")
                                 cursor.execute(query, (new_id,))
                                 rows_points = cursor.fetchall()
                                 if rows_points is not None and len(rows_points) > 0:
-                                    raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR',
-                                                           description=
-                                                           'API.METER_CANNOT_HAVE_MORE_THAN_ONE_ENERGY_VALUE_POINTS')
+                                    raise falcon.HTTPError(
+                                        status=falcon.HTTP_400, title='API.ERROR',
+                                        description='API.METER_CANNOT_HAVE_MORE_THAN_ONE_ENERGY_VALUE_POINTS')
 
                             query = (" SELECT id "
                                      " FROM tbl_meters_points "

@@ -248,9 +248,9 @@ class OfflineMeterFileCollection:
 
                     # Verify user exists
                     cursor_user.execute(" SELECT id "
-                                       " FROM tbl_users "
-                                       " WHERE uuid = %s ",
-                                       (user_uuid,))
+                                        " FROM tbl_users "
+                                        " WHERE uuid = %s ",
+                                        (user_uuid,))
                     row = cursor_user.fetchone()
                     if row is None:
                         raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
@@ -272,10 +272,10 @@ class OfflineMeterFileCollection:
                                   " (file_name, uuid, upload_datetime_utc, status, file_object ) "
                                   " VALUES (%s, %s, %s, %s, %s) ")
                     cursor_hist.execute(add_values, (filename,
-                                                file_uuid,
-                                                datetime.utcnow(),
-                                                'new',
-                                                raw_blob))
+                                                     file_uuid,
+                                                     datetime.utcnow(),
+                                                     'new',
+                                                     raw_blob))
                     new_id = cursor_hist.lastrowid
                     cnx_hist.commit()
                 finally:

@@ -320,7 +320,8 @@ class MicrogridCollection:
                                            description='API.SVG_NOT_FOUND')
 
                 add_values = (" INSERT INTO tbl_microgrids "
-                              "    (name, uuid, address, postal_code, latitude, longitude, rated_capacity, rated_power, "
+                              "    (name, uuid, address, postal_code, latitude, longitude, "
+                              "     rated_capacity, rated_power, "
                               "     contact_id, cost_center_id, serial_number, svg_id, is_cost_data_displayed, "
                               "     phase_of_lifecycle, description) "
                               " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) ")
@@ -715,7 +716,8 @@ class MicrogridItem:
                               " SET name = %s, address = %s, postal_code = %s, latitude = %s, longitude = %s, "
                               "     rated_capacity = %s, rated_power = %s, "
                               "     contact_id = %s, cost_center_id = %s, "
-                              "     serial_number = %s, svg_id = %s, is_cost_data_displayed = %s, phase_of_lifecycle = %s, "
+                              "     serial_number = %s, svg_id = %s, "
+                              "     is_cost_data_displayed = %s, phase_of_lifecycle = %s, "
                               "     description = %s "
                               " WHERE id = %s ")
                 cursor.execute(update_row, (name,
@@ -742,6 +744,7 @@ class MicrogridItem:
                 cnx.close()
 
         resp.status = falcon.HTTP_200
+
 
 class MicrogridBatteryCollection:
     def __init__(self):
@@ -1332,7 +1335,8 @@ class MicrogridBatteryItem:
                 update_row = (" UPDATE tbl_microgrids_batteries "
                               " SET name = %s, microgrid_id = %s, "
                               "     battery_state_point_id = %s, soc_point_id = %s, power_point_id = %s, "
-                              "     charge_meter_id = %s, discharge_meter_id = %s, rated_capacity = %s, rated_power = %s,"
+                              "     charge_meter_id = %s, discharge_meter_id = %s, "
+                              "     rated_capacity = %s, rated_power = %s,"
                               "     nominal_voltage = %s "
                               " WHERE id = %s ")
                 cursor.execute(update_row, (name,
@@ -1410,6 +1414,7 @@ class MicrogridCommandCollection:
                 result.append(meta_result)
 
         resp.text = json.dumps(result)
+
 
 class MicrogridEVChargerCollection:
     def __init__(self):
@@ -1860,7 +1865,8 @@ class MicrogridEVChargerItem:
                                            description='API.METER_NOT_FOUND')
 
                 update_row = (" UPDATE tbl_microgrids_evchargers "
-                              " SET name = %s, microgrid_id = %s, power_point_id = %s, meter_id = %s, rated_output_power = %s "
+                              " SET name = %s, microgrid_id = %s, power_point_id = %s, "
+                              " meter_id = %s, rated_output_power = %s "
                               " WHERE id = %s ")
                 cursor.execute(update_row, (name,
                                             id_,
@@ -2077,6 +2083,7 @@ class MicrogridGeneratorCollection:
 
         resp.status = falcon.HTTP_201
         resp.location = '/microgrids/' + str(id_) + '/generators/' + str(new_id)
+
 
 class MicrogridGeneratorItem:
     def __init__(self):
@@ -2326,7 +2333,8 @@ class MicrogridGeneratorItem:
                                            description='API.METER_NOT_FOUND')
 
                 update_row = (" UPDATE tbl_microgrids_generators "
-                              " SET name = %s, microgrid_id = %s, power_point_id = %s, meter_id = %s, rated_output_power = %s "
+                              " SET name = %s, microgrid_id = %s, power_point_id = %s, "
+                              " meter_id = %s, rated_output_power = %s "
                               " WHERE id = %s ")
                 cursor.execute(update_row, (name,
                                             id_,
@@ -2847,6 +2855,7 @@ class MicrogridGridItem:
 
         resp.status = falcon.HTTP_200
 
+
 class MicrogridHeatpumpCollection:
     def __init__(self):
         pass
@@ -2907,7 +2916,8 @@ class MicrogridHeatpumpCollection:
                                               "name": row[1]}
 
                 query = (" SELECT id, name, uuid, "
-                         "        power_point_id, electricity_meter_id, heat_meter_id, cooling_meter_id, rated_input_power "
+                         "        power_point_id, electricity_meter_id, "
+                         "        heat_meter_id, cooling_meter_id, rated_input_power "
                          " FROM tbl_microgrids_heatpumps "
                          " WHERE microgrid_id = %s "
                          " ORDER BY name ")
@@ -3059,7 +3069,8 @@ class MicrogridHeatpumpCollection:
 
                 add_values = (" INSERT INTO tbl_microgrids_heatpumps "
                               "    (name, uuid, microgrid_id, "
-                              "     power_point_id, electricity_meter_id, heat_meter_id, cooling_meter_id, rated_input_power) "
+                              "     power_point_id, electricity_meter_id, "
+                              "     heat_meter_id, cooling_meter_id, rated_input_power) "
                               " VALUES (%s, %s, %s, %s, %s, %s, %s, %s) ")
                 cursor.execute(add_values, (name,
                                             str(uuid.uuid4()),
@@ -3159,7 +3170,8 @@ class MicrogridHeatpumpItem:
                                               "name": row[1]}
 
                 query = (" SELECT id, name, uuid, microgrid_id, "
-                         "        power_point_id, electricity_meter_id, heat_meter_id, cooling_meter_id, rated_input_power "
+                         "        power_point_id, electricity_meter_id, "
+                         "        heat_meter_id, cooling_meter_id, rated_input_power "
                          " FROM tbl_microgrids_heatpumps "
                          " WHERE id = %s ")
                 cursor.execute(query, (hid,))
@@ -3364,7 +3376,8 @@ class MicrogridHeatpumpItem:
 
                 update_row = (" UPDATE tbl_microgrids_heatpumps "
                               " SET name = %s, microgrid_id = %s, "
-                              "     power_point_id = %s, electricity_meter_id = %s, heat_meter_id = %s, cooling_meter_id = %s, "
+                              "     power_point_id = %s, electricity_meter_id = %s, "
+                              "     heat_meter_id = %s, cooling_meter_id = %s, "
                               "     rated_input_power = %s "
                               " WHERE id = %s ")
                 
@@ -3585,6 +3598,7 @@ class MicrogridLoadCollection:
 
         resp.status = falcon.HTTP_201
         resp.location = '/microgrids/' + str(id_) + '/loads/' + str(new_id)
+
 
 class MicrogridLoadItem:
     def __init__(self):
@@ -3834,7 +3848,8 @@ class MicrogridLoadItem:
                                            description='API.METER_NOT_FOUND')
 
                 update_row = (" UPDATE tbl_microgrids_loads "
-                              " SET name = %s, microgrid_id = %s, power_point_id = %s, meter_id = %s, rated_input_power = %s "
+                              " SET name = %s, microgrid_id = %s, power_point_id = %s, "
+                              " meter_id = %s, rated_input_power = %s "
                               " WHERE id = %s ")
                 cursor.execute(update_row, (name,
                                             id_,
@@ -4319,6 +4334,7 @@ class MicrogridPhotovoltaicItem:
                 cnx.close()
 
         resp.status = falcon.HTTP_200
+
 
 class MicrogridPowerconversionsystemCollection:
     def __init__(self):
@@ -4947,6 +4963,7 @@ class MicrogridScheduleCollection:
         
         resp.status = falcon.HTTP_201
         resp.location = '/energystoragecontainerschedules/' + str(new_id)
+
 
 class MicrogridScheduleItem:
     def __init__(self):
@@ -5627,7 +5644,8 @@ class MicrogridExport:
 
                 query = (" SELECT id, name, uuid, "
                          "        address, postal_code, latitude, longitude, rated_capacity, rated_power, "
-                         "        contact_id, cost_center_id, serial_number, svg_id, is_cost_data_displayed, phase_of_lifecycle, description "
+                         "        contact_id, cost_center_id, serial_number, svg_id, "
+                         "        is_cost_data_displayed, phase_of_lifecycle, description "
                          " FROM tbl_microgrids "
                          " WHERE id = %s ")
                 cursor.execute(query, (id_,))
@@ -5661,6 +5679,7 @@ class MicrogridExport:
                        "description": row[15]}
 
         resp.text = json.dumps(meta_result)
+
 
 class MicrogridImport:
     def __init__(self):
@@ -5814,7 +5833,8 @@ class MicrogridImport:
                     if config.utc_offset[0] == '-':
                         timezone_offset = -timezone_offset
                     name = (str.strip(original_name) +
-                            (datetime.utcnow() + timedelta(minutes=timezone_offset)).isoformat(sep='-', timespec='seconds'))
+                            (datetime.utcnow() +
+                            timedelta(minutes=timezone_offset)).isoformat(sep='-', timespec='seconds'))
 
                 cursor.execute(" SELECT name "
                                " FROM tbl_contacts "
@@ -5844,8 +5864,10 @@ class MicrogridImport:
                                            description='API.SVG_NOT_FOUND')
 
                 add_values = (" INSERT INTO tbl_microgrids "
-                              "    (name, uuid, address, postal_code, latitude, longitude, rated_capacity, rated_power, "
-                              "     contact_id, cost_center_id, serial_number, svg_id, is_cost_data_displayed, phase_of_lifecycle, description) "
+                              "    (name, uuid, address, postal_code, latitude, longitude, "
+                              "     rated_capacity, rated_power, "
+                              "     contact_id, cost_center_id, serial_number, svg_id, "
+                              "     is_cost_data_displayed, phase_of_lifecycle, description) "
                               " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) ")
                 cursor.execute(add_values, (name,
                                             str(uuid.uuid4()),
@@ -5931,7 +5953,8 @@ class MicrogridClone:
 
                 query = (" SELECT id, name, uuid, "
                          "        address, postal_code, latitude, longitude, rated_capacity, rated_power, "
-                         "        contact_id, cost_center_id, serial_number, svg_id, is_cost_data_displayed, phase_of_lifecycle, description "
+                         "        contact_id, cost_center_id, serial_number, svg_id, "
+                         "        is_cost_data_displayed, phase_of_lifecycle, description "
                          " FROM tbl_microgrids "
                          " WHERE id = %s ")
                 cursor.execute(query, (id_,))
@@ -5962,11 +5985,14 @@ class MicrogridClone:
                 if config.utc_offset[0] == '-':
                     timezone_offset = -timezone_offset
                 new_name = (str.strip(meta_result['name']) +
-                            (datetime.utcnow() + timedelta(minutes=timezone_offset)).isoformat(sep='-', timespec='seconds'))
+                            (datetime.utcnow() +
+                            timedelta(minutes=timezone_offset)).isoformat(sep='-', timespec='seconds'))
                 
                 add_values = (" INSERT INTO tbl_microgrids "
-                              "    (name, uuid, address, postal_code, latitude, longitude, rated_capacity, rated_power, "
-                              "     contact_id, cost_center_id, serial_number, svg_id, is_cost_data_displayed, phase_of_lifecycle, description) "
+                              "    (name, uuid, address, postal_code, latitude, longitude, "
+                              "     rated_capacity, rated_power, "
+                              "     contact_id, cost_center_id, serial_number, svg_id, "
+                              "     is_cost_data_displayed, phase_of_lifecycle, description) "
                               " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) ")
                 cursor.execute(add_values, (new_name,
                                             str(uuid.uuid4()),
@@ -6378,6 +6404,7 @@ class MicrogridBatteryPointCollection:
         resp.status = falcon.HTTP_201
         resp.location = '/microgrids/' + str(id_) + '/batteries/' + str(bid) + '/points/' + \
                         str(new_values['data']['point_id'])
+
 
 class MicrogridBatteryPointItem:
     def __init__(self):
@@ -7209,6 +7236,7 @@ class MicrogridHeatPumpPointCollection:
         resp.status = falcon.HTTP_201
         resp.location = '/microgrids/' + str(id_) + '/heatpumps/' + str(hid) + '/points/' + \
                         str(new_values['data']['point_id'])
+
 
 class MicrogridHeatPumpPointItem:
     def __init__(self):

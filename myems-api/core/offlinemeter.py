@@ -546,7 +546,8 @@ class OfflineMeterItem:
                 # check if this offline meter is being used by virtual meters
                 cursor.execute(" SELECT vm.name "
                                " FROM tbl_variables va, tbl_virtual_meters vm "
-                               " WHERE va.meter_id = %s AND va.meter_type = 'offline_meter' AND va.virtual_meter_id = vm.id ",
+                               " WHERE va.meter_id = %s AND va.meter_type = 'offline_meter' "
+                               " AND va.virtual_meter_id = vm.id ",
                                (id_,))
                 row_virtual_meter = cursor.fetchone()
                 if row_virtual_meter is not None:
@@ -823,6 +824,7 @@ class OfflineMeterItem:
         clear_offline_meter_cache(offline_meter_id=int(id_))
 
         resp.status = falcon.HTTP_200
+
 
 class OfflineMeterExport:
     def __init__(self):
@@ -1227,7 +1229,8 @@ class OfflineMeterClone:
                     timezone_offset = -timezone_offset
                 
                 new_name = (str.strip(meta_result['name']) +
-                            (datetime.utcnow() + timedelta(minutes=timezone_offset)).isoformat(sep='-', timespec='seconds'))
+                            (datetime.utcnow() +
+                            timedelta(minutes=timezone_offset)).isoformat(sep='-', timespec='seconds'))
                 
                 energy_item_id = meta_result['energy_item']['id'] if meta_result['energy_item'] is not None else None
                 
