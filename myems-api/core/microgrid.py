@@ -4074,19 +4074,19 @@ class MicrogridPhotovoltaicItem:
         pass
 
     @staticmethod
-    def on_options(req, resp, id_, pid):
+    def on_options(req, resp, id_, pvid):
         _ = req
         resp.status = falcon.HTTP_200
         _ = id_
-        _ = pid
+        _ = pvid
 
     @staticmethod
-    def on_get(req, resp, id_, pid):
+    def on_get(req, resp, id_, pvid):
         access_control(req)
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_MICROGRID_ID')
-        if not pid.isdigit() or int(pid) <= 0:
+        if not pvid.isdigit() or int(pvid) <= 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_MICROGRID_PHOTOVOLTAIC_ID')
 
@@ -4148,7 +4148,7 @@ class MicrogridPhotovoltaicItem:
                 query = (" SELECT id, name, uuid, microgrid_id, power_point_id, meter_id, rated_power "
                          " FROM tbl_microgrids_photovoltaics "
                          " WHERE id = %s ")
-                cursor.execute(query, (pid,))
+                cursor.execute(query, (pvid,))
                 row = cursor.fetchone()
             finally:
                 if cursor:
@@ -4173,12 +4173,12 @@ class MicrogridPhotovoltaicItem:
 
     @staticmethod
     @user_logger
-    def on_delete(req, resp, id_, pid):
+    def on_delete(req, resp, id_, pvid):
         admin_control(req)
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_MICROGRID_ID')
-        if not pid.isdigit() or int(pid) <= 0:
+        if not pvid.isdigit() or int(pvid) <= 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_MICROGRID_PHOTOVOLTAIC_ID')
 
@@ -4199,13 +4199,13 @@ class MicrogridPhotovoltaicItem:
 
                 cursor.execute(" SELECT name "
                                " FROM tbl_microgrids_photovoltaics "
-                               " WHERE id = %s ", (pid,))
+                               " WHERE id = %s ", (pvid,))
                 if cursor.fetchone() is None:
                     raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                            description='API.MICROGRID_PHOTOVOLTAIC_NOT_FOUND')
 
                 cursor.execute(" DELETE FROM tbl_microgrids_photovoltaics "
-                               " WHERE id = %s ", (pid,))
+                               " WHERE id = %s ", (pvid,))
                 cnx.commit()
             finally:
                 if cursor:
@@ -4218,7 +4218,7 @@ class MicrogridPhotovoltaicItem:
 
     @staticmethod
     @user_logger
-    def on_put(req, resp, id_, pid):
+    def on_put(req, resp, id_, pvid):
         """Handles PUT requests"""
         admin_control(req)
         try:
@@ -4236,7 +4236,7 @@ class MicrogridPhotovoltaicItem:
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_MICROGRID_ID')
-        if not pid.isdigit() or int(pid) <= 0:
+        if not pvid.isdigit() or int(pvid) <= 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_MICROGRID_PHOTOVOLTAIC_ID')
 
@@ -4287,7 +4287,7 @@ class MicrogridPhotovoltaicItem:
 
                 cursor.execute(" SELECT name "
                                " FROM tbl_microgrids_photovoltaics "
-                               " WHERE id = %s ", (pid,))
+                               " WHERE id = %s ", (pvid,))
                 if cursor.fetchone() is None:
                     raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                            description='API.MICROGRID_PHOTOVOLTAIC_NOT_FOUND')
@@ -4295,7 +4295,7 @@ class MicrogridPhotovoltaicItem:
                 cursor.execute(" SELECT name "
                                " FROM tbl_microgrids_photovoltaics "
                                " WHERE microgrid_id = %s AND name = %s AND id != %s ",
-                               (id_, name, pid))
+                               (id_, name, pvid))
                 if cursor.fetchone() is not None:
                     raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                            description='API.MICROGRID_PHOTOVOLTAIC_NAME_IS_ALREADY_IN_USE')
@@ -4324,7 +4324,7 @@ class MicrogridPhotovoltaicItem:
                                             power_point_id,
                                             meter_id,
                                             rated_power,
-                                            pid))
+                                            pvid))
                 cnx.commit()
             finally:
                 if cursor:
@@ -4555,19 +4555,19 @@ class MicrogridPowerconversionsystemItem:
         pass
 
     @staticmethod
-    def on_options(req, resp, id_, pid):
+    def on_options(req, resp, id_, pcsid):
         _ = req
         resp.status = falcon.HTTP_200
         _ = id_
-        _ = pid
+        _ = pcsid
 
     @staticmethod
-    def on_get(req, resp, id_, pid):
+    def on_get(req, resp, id_, pcsid):
         access_control(req)
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_MICROGRID_ID')
-        if not pid.isdigit() or int(pid) <= 0:
+        if not pcsid.isdigit() or int(pcsid) <= 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_MICROGRID_POWER_CONVERSION_SYSTEM_ID')
 
@@ -4644,7 +4644,7 @@ class MicrogridPowerconversionsystemItem:
                          "        total_charge_energy_point_id, total_discharge_energy_point_id "
                          " FROM tbl_microgrids_power_conversion_systems "
                          " WHERE id = %s ")
-                cursor.execute(query, (pid,))
+                cursor.execute(query, (pcsid,))
                 row = cursor.fetchone()
             finally:
                 if cursor:
@@ -4672,12 +4672,12 @@ class MicrogridPowerconversionsystemItem:
 
     @staticmethod
     @user_logger
-    def on_delete(req, resp, id_, pid):
+    def on_delete(req, resp, id_, pcsid):
         admin_control(req)
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_MICROGRID_ID')
-        if not pid.isdigit() or int(pid) <= 0:
+        if not pcsid.isdigit() or int(pcsid) <= 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_MICROGRID_POWER_CONVERSION_SYSTEM_ID')
 
@@ -4698,13 +4698,13 @@ class MicrogridPowerconversionsystemItem:
 
                 cursor.execute(" SELECT name "
                                " FROM tbl_microgrids_power_conversion_systems "
-                               " WHERE id = %s ", (pid,))
+                               " WHERE id = %s ", (pcsid,))
                 if cursor.fetchone() is None:
                     raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                            description='API.MICROGRID_POWER_CONVERSION_SYSTEM_NOT_FOUND')
 
                 cursor.execute(" DELETE FROM tbl_microgrids_power_conversion_systems "
-                               " WHERE id = %s ", (pid,))
+                               " WHERE id = %s ", (pcsid,))
                 cnx.commit()
             finally:
                 if cursor:
@@ -4717,7 +4717,7 @@ class MicrogridPowerconversionsystemItem:
 
     @staticmethod
     @user_logger
-    def on_put(req, resp, id_, pid):
+    def on_put(req, resp, id_, pcsid):
         """Handles PUT requests"""
         admin_control(req)
         try:
@@ -4735,7 +4735,7 @@ class MicrogridPowerconversionsystemItem:
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_MICROGRID_ID')
-        if not pid.isdigit() or int(pid) <= 0:
+        if not pcsid.isdigit() or int(pcsid) <= 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_MICROGRID_POWER_CONVERSION_SYSTEM_ID')
 
@@ -4807,7 +4807,7 @@ class MicrogridPowerconversionsystemItem:
 
                 cursor.execute(" SELECT name "
                                " FROM tbl_microgrids_power_conversion_systems "
-                               " WHERE id = %s ", (pid,))
+                               " WHERE id = %s ", (pcsid,))
                 if cursor.fetchone() is None:
                     raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                            description='API.MICROGRID_POWER_CONVERSION_SYSTEM_NOT_FOUND')
@@ -4815,7 +4815,7 @@ class MicrogridPowerconversionsystemItem:
                 cursor.execute(" SELECT name "
                                " FROM tbl_microgrids_power_conversion_systems "
                                " WHERE microgrid_id = %s AND name = %s AND id != %s ",
-                               (id_, name, pid))
+                               (id_, name, pcsid))
                 if cursor.fetchone() is not None:
                     raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                            description='API.MICROGRID_POWER_CONVERSION_SYSTEM_NAME_IS_ALREADY_IN_USE')
@@ -4833,7 +4833,7 @@ class MicrogridPowerconversionsystemItem:
                                             today_discharge_energy_point_id,
                                             total_charge_energy_point_id,
                                             total_discharge_energy_point_id,
-                                            pid))
+                                            pcsid))
                 cnx.commit()
             finally:
                 if cursor:

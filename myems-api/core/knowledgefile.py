@@ -113,75 +113,73 @@ class KnowledgeFileCollection:
         cursor_system = None
         rows_system = []
 
+        # Fetch Users
         try:
-            # Fetch Users
+            cnx_user = mysql.connector.connect(**config.myems_user_db)
             try:
-                cnx_user = mysql.connector.connect(**config.myems_user_db)
-                try:
-                    cursor_user = cnx_user.cursor()
-                    query = (" SELECT uuid, display_name "
-                             " FROM tbl_users ")
-                    cursor_user.execute(query)
-                    rows_user = cursor_user.fetchall()
-                finally:
-                    if cursor_user:
-                        cursor_user.close()
+                cursor_user = cnx_user.cursor()
+                query = (" SELECT uuid, display_name "
+                         " FROM tbl_users ")
+                cursor_user.execute(query)
+                rows_user = cursor_user.fetchall()
             finally:
-                if cnx_user:
-                    cnx_user.close()
+                if cursor_user:
+                    cursor_user.close()
+        finally:
+            if cnx_user:
+                cnx_user.close()
 
-            user_dict = dict()
-            if rows_user is not None and len(rows_user) > 0:
-                for row in rows_user:
-                    user_dict[row[0]] = row[1]
+        user_dict = dict()
+        if rows_user is not None and len(rows_user) > 0:
+            for row in rows_user:
+                user_dict[row[0]] = row[1]
 
-            # Fetch Knowledge Files
+        # Fetch Knowledge Files
+        try:
+            cnx_system = mysql.connector.connect(**config.myems_system_db)
             try:
-                cnx_system = mysql.connector.connect(**config.myems_system_db)
-                try:
-                    cursor_system = cnx_system.cursor()
-                    query = (" SELECT id, file_name, uuid, upload_datetime_utc, upload_user_uuid, file_object"
-                             " FROM tbl_knowledge_files "
-                             " ORDER BY upload_datetime_utc desc ")
-                    cursor_system.execute(query)
-                    rows_system = cursor_system.fetchall()
-                finally:
-                    if cursor_system:
-                        cursor_system.close()
+                cursor_system = cnx_system.cursor()
+                query = (" SELECT id, file_name, uuid, upload_datetime_utc, upload_user_uuid, file_object"
+                         " FROM tbl_knowledge_files "
+                         " ORDER BY upload_datetime_utc desc ")
+                cursor_system.execute(query)
+                rows_system = cursor_system.fetchall()
             finally:
-                if cnx_system:
-                    cnx_system.close()
+                if cursor_system:
+                    cursor_system.close()
+        finally:
+            if cnx_system:
+                cnx_system.close()
 
-            result = list()
-            if rows_system is not None and len(rows_system) > 0:
-                timezone_offset = int(config.utc_offset[1:3]) * 60 + int(config.utc_offset[4:6])
-                if config.utc_offset[0] == '-':
-                    timezone_offset = -timezone_offset
-                for row in rows_system:
-                    meta_result = {"id": row[0],
-                                   "file_name": row[1],
-                                   "uuid": row[2],
-                                   "upload_datetime": (row[3].replace(tzinfo=None)
-                                                       + timedelta(minutes=timezone_offset)).isoformat()[0:19],
-                                   "user_display_name": user_dict.get(row[4], None),
-                                   "file_size_bytes": sys.getsizeof(row[5]),
-                                   "file_bytes_base64": (base64.b64encode(row[5])).decode('utf-8')
-                                   }
-                    result.append(meta_result)
+        result = list()
+        if rows_system is not None and len(rows_system) > 0:
+            timezone_offset = int(config.utc_offset[1:3]) * 60 + int(config.utc_offset[4:6])
+            if config.utc_offset[0] == '-':
+                timezone_offset = -timezone_offset
+            for row in rows_system:
+                # Base64 encode the bytes
+                # get the Base64 encoded data using human-readable characters.
+                meta_result = {"id": row[0],
+                               "file_name": row[1],
+                               "uuid": row[2],
+                               "upload_datetime": (row[3].replace(tzinfo=None)
+                                                   + timedelta(minutes=timezone_offset)).isoformat()[0:19],
+                               "user_display_name": user_dict.get(row[4], None),
+                               "file_size_bytes": sys.getsizeof(row[5]),
+                               "file_bytes_base64": (base64.b64encode(row[5])).decode('utf-8')
+                               }
+                result.append(meta_result)
 
-            # Store result in Redis cache
-            result_json = json.dumps(result)
-            if redis_client:
-                try:
-                    redis_client.setex(cache_key, cache_expire, result_json)
-                except Exception:
-                    # If cache set fails, ignore and continue
-                    pass
+        # Store result in Redis cache
+        result_json = json.dumps(result)
+        if redis_client:
+            try:
+                redis_client.setex(cache_key, cache_expire, result_json)
+            except Exception:
+                # If cache set fails, ignore and continue
+                pass
 
-            resp.text = result_json
-
-        except Exception:
-            raise
+        resp.text = result_json
 
     @staticmethod
     @user_logger
@@ -351,73 +349,69 @@ class KnowledgeFileItem:
         cursor_system = None
         row_system = None
 
+        # Fetch Users
         try:
-            # Fetch Users
+            cnx_user = mysql.connector.connect(**config.myems_user_db)
             try:
-                cnx_user = mysql.connector.connect(**config.myems_user_db)
-                try:
-                    cursor_user = cnx_user.cursor()
-                    query = (" SELECT uuid, display_name "
-                             " FROM tbl_users ")
-                    cursor_user.execute(query)
-                    rows_user = cursor_user.fetchall()
-                finally:
-                    if cursor_user:
-                        cursor_user.close()
+                cursor_user = cnx_user.cursor()
+                query = (" SELECT uuid, display_name "
+                         " FROM tbl_users ")
+                cursor_user.execute(query)
+                rows_user = cursor_user.fetchall()
             finally:
-                if cnx_user:
-                    cnx_user.close()
+                if cursor_user:
+                    cursor_user.close()
+        finally:
+            if cnx_user:
+                cnx_user.close()
 
-            user_dict = dict()
-            if rows_user is not None and len(rows_user) > 0:
-                for row in rows_user:
-                    user_dict[row[0]] = row[1]
+        user_dict = dict()
+        if rows_user is not None and len(rows_user) > 0:
+            for row in rows_user:
+                user_dict[row[0]] = row[1]
 
-            # Fetch Knowledge File
+        # Fetch Knowledge File
+        try:
+            cnx_system = mysql.connector.connect(**config.myems_system_db)
             try:
-                cnx_system = mysql.connector.connect(**config.myems_system_db)
-                try:
-                    cursor_system = cnx_system.cursor()
-                    query = (" SELECT id, file_name, uuid, upload_datetime_utc, upload_user_uuid "
-                             " FROM tbl_knowledge_files "
-                             " WHERE id = %s ")
-                    cursor_system.execute(query, (id_,))
-                    row_system = cursor_system.fetchone()
-                finally:
-                    if cursor_system:
-                        cursor_system.close()
+                cursor_system = cnx_system.cursor()
+                query = (" SELECT id, file_name, uuid, upload_datetime_utc, upload_user_uuid "
+                         " FROM tbl_knowledge_files "
+                         " WHERE id = %s ")
+                cursor_system.execute(query, (id_,))
+                row_system = cursor_system.fetchone()
             finally:
-                if cnx_system:
-                    cnx_system.close()
+                if cursor_system:
+                    cursor_system.close()
+        finally:
+            if cnx_system:
+                cnx_system.close()
 
-            if row_system is None:
-                raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                       description='API.KNOWLEDGE_FILE_NOT_FOUND')
+        if row_system is None:
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                   description='API.KNOWLEDGE_FILE_NOT_FOUND')
 
-            timezone_offset = int(config.utc_offset[1:3]) * 60 + int(config.utc_offset[4:6])
-            if config.utc_offset[0] == '-':
-                timezone_offset = -timezone_offset
+        timezone_offset = int(config.utc_offset[1:3]) * 60 + int(config.utc_offset[4:6])
+        if config.utc_offset[0] == '-':
+            timezone_offset = -timezone_offset
 
-            result = {"id": row_system[0],
-                      "file_name": row_system[1],
-                      "uuid": row_system[2],
-                      "upload_datetime": (row_system[3].replace(tzinfo=timezone.utc)
-                                          + timedelta(minutes=timezone_offset)).isoformat()[0:19],
-                      "user_display_name": user_dict.get(row_system[4], None)}
+        result = {"id": row_system[0],
+                  "file_name": row_system[1],
+                  "uuid": row_system[2],
+                  "upload_datetime": (row_system[3].replace(tzinfo=timezone.utc)
+                                      + timedelta(minutes=timezone_offset)).isoformat()[0:19],
+                  "user_display_name": user_dict.get(row_system[4], None)}
 
-            # Store result in Redis cache
-            result_json = json.dumps(result)
-            if redis_client:
-                try:
-                    redis_client.setex(cache_key, cache_expire, result_json)
-                except Exception:
-                    # If cache set fails, ignore and continue
-                    pass
+        # Store result in Redis cache
+        result_json = json.dumps(result)
+        if redis_client:
+            try:
+                redis_client.setex(cache_key, cache_expire, result_json)
+            except Exception:
+                # If cache set fails, ignore and continue
+                pass
 
-            resp.text = result_json
-
-        except Exception:
-            raise
+        resp.text = result_json
 
     @staticmethod
     @user_logger
