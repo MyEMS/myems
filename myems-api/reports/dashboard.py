@@ -542,7 +542,7 @@ class Reporting:
                             reporting_input[energy_category_id]['this_month_subtotal_in_kgce'] = actual_value * kgce
                             reporting_input[energy_category_id]['this_month_subtotal_in_kgco2e'] = actual_value * kgco2e
 
-                        current_month_consumption_value = reporting_input[energy_category_id]['subtotal']
+                        current_month_consumption_value =  reporting_input[energy_category_id]['values'][-1]
                         cursor_energy.execute(" SELECT SUM(actual_value) "
                                               " FROM tbl_space_input_category_hourly "
                                               " WHERE space_id = %s "
@@ -626,7 +626,7 @@ class Reporting:
                             reporting_cost[energy_category_id]['values'].append(actual_value)
                             reporting_cost[energy_category_id]['subtotal'] += actual_value
 
-                        current_month_cost_value = reporting_cost[energy_category_id]['subtotal']
+                        current_month_cost_value = reporting_cost[energy_category_id]['values'][-1]
                         cursor_billing.execute(" SELECT SUM(actual_value) "
                                               " FROM tbl_space_input_category_hourly "
                                               " WHERE space_id = %s "
@@ -714,7 +714,7 @@ class Reporting:
                             reporting_output[energy_category_id]['subtotal_in_kgce'] += actual_value * kgce
                             reporting_output[energy_category_id]['subtotal_in_kgco2e'] += actual_value * kgco2e
 
-                        current_month_output_value = reporting_output[energy_category_id]['subtotal']
+                        current_month_output_value = reporting_output[energy_category_id]['values'][-1]
                         cursor_energy.execute(" SELECT SUM(actual_value) "
                                              "FROM tbl_space_output_category_hourly "
                                              "WHERE space_id = %s "
