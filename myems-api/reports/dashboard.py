@@ -638,7 +638,7 @@ class Reporting:
                         last_month_cost_values = cursor_billing.fetchone()
                         if (last_month_cost_values and
                                 len(last_month_cost_values) > 0):
-                            last_month_const_value = last_month_cost_values[0]
+                            last_month_cost_value = last_month_cost_values[0]
                         else:
                             last_month_cost_value = Decimal(0.0)
 
