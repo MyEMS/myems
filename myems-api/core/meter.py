@@ -1849,7 +1849,6 @@ class MeterExport:
                                            description='API.METER_NOT_FOUND')
                 
                 meta_result = {"name": row[1],
-                               "uuid": row[2],
                                "energy_category": energy_category_dict.get(row[3], None),
                                "is_counted": True if row[4] else False,
                                "hourly_low_limit": row[5],

@@ -466,9 +466,8 @@ class GatewayExport:
         else:
             last_seen_datetime = None
 
-        result = {"id": row[0],
+        result = {
                   "name": row[1],
-                  "uuid": row[2],
                   "token": row[3],
                   "last_seen_datetime": last_seen_datetime,
                   "description": row[5]}
