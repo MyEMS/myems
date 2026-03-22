@@ -543,7 +543,8 @@ class Reporting:
                             reporting_input[energy_category_id]['this_month_subtotal_in_kgco2e'] = actual_value * kgco2e
 
                         reporting_input[energy_category_id]['last_month_value'] = base_input[energy_category_id]['subtotal']
-                        reporting_input[energy_category_id]['current_month_value'] = reporting_input[energy_category_id]['values'][-1]
+                        values = reporting_input[energy_category_id]['values']
+                        reporting_input[energy_category_id]['current_month_value'] = values[-1] if values else Decimal(0.0)
 
                         energy_category_tariff_dict = \
                             utilities.get_energy_category_peak_types(space['cost_center_id'],
@@ -610,7 +611,8 @@ class Reporting:
                             reporting_cost[energy_category_id]['subtotal'] += actual_value
 
                         reporting_cost[energy_category_id]['last_month_value'] =  base_cost[energy_category_id]['subtotal']
-                        reporting_cost[energy_category_id]['current_month_value'] = reporting_cost[energy_category_id]['values'][-1]
+                        values = reporting_cost[energy_category_id]['values']
+                        reporting_cost[energy_category_id]['current_month_value'] = values[-1] if values else Decimal(0.0)
 
                         energy_category_tariff_dict = \
                             utilities.get_energy_category_peak_types(space['cost_center_id'],
@@ -681,7 +683,8 @@ class Reporting:
                             reporting_output[energy_category_id]['subtotal_in_kgco2e'] += actual_value * kgco2e
 
                         reporting_output[energy_category_id]['last_month_value'] = base_output[energy_category_id]['subtotal']
-                        reporting_output[energy_category_id]['current_month_value'] = reporting_output[energy_category_id]['values'][-1]
+                        values = reporting_output[energy_category_id]['values']
+                        reporting_output[energy_category_id]['current_month_value'] = values[-1] if values else Decimal(0.0)
 
                         energy_category_tariff_dict = \
                             utilities.get_energy_category_peak_types(space['cost_center_id'],
