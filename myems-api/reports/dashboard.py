@@ -544,7 +544,10 @@ class Reporting:
 
                         reporting_input[energy_category_id]['last_month_value'] = base_input[energy_category_id]['subtotal']
                         values = reporting_input[energy_category_id]['values']
-                        reporting_input[energy_category_id]['current_month_value'] = values[-1] if isinstance(values,list) and values else Decimal(0.0)
+                        if isinstance(values, list) and values:
+                            reporting_input[energy_category_id]['current_month_value'] = values[-1]
+                        else:
+                            reporting_input[energy_category_id]['current_month_value'] = Decimal(0.0)
 
                         energy_category_tariff_dict = \
                             utilities.get_energy_category_peak_types(space['cost_center_id'],
@@ -612,7 +615,10 @@ class Reporting:
 
                         reporting_cost[energy_category_id]['last_month_value'] =  base_cost[energy_category_id]['subtotal']
                         values = reporting_cost[energy_category_id]['values']
-                        reporting_cost[energy_category_id]['current_month_value'] = values[-1] if isinstance(values,list) and values else Decimal(0.0)
+                        if isinstance(values, list) and values:
+                            reporting_cost[energy_category_id]['current_month_value'] = values[-1]
+                        else:
+                            reporting_cost[energy_category_id]['current_month_value'] = Decimal(0.0)
 
                         energy_category_tariff_dict = \
                             utilities.get_energy_category_peak_types(space['cost_center_id'],
@@ -684,7 +690,10 @@ class Reporting:
 
                         reporting_output[energy_category_id]['last_month_value'] = base_output[energy_category_id]['subtotal']
                         values = reporting_output[energy_category_id]['values']
-                        reporting_output[energy_category_id]['current_month_value'] = values[-1] if isinstance(values,list) and values else Decimal(0.0)
+                        if isinstance(values, list) and values:
+                            reporting_output[energy_category_id]['current_month_value'] = values[-1]
+                        else:
+                            reporting_output[energy_category_id]['current_month_value'] = Decimal(0.0)
 
                         energy_category_tariff_dict = \
                             utilities.get_energy_category_peak_types(space['cost_center_id'],
