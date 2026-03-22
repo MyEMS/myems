@@ -542,25 +542,8 @@ class Reporting:
                             reporting_input[energy_category_id]['this_month_subtotal_in_kgce'] = actual_value * kgce
                             reporting_input[energy_category_id]['this_month_subtotal_in_kgco2e'] = actual_value * kgco2e
 
-                        current_month_consumption_value =  reporting_input[energy_category_id]['values'][-1]
-                        cursor_energy.execute(" SELECT SUM(actual_value) "
-                                              " FROM tbl_space_input_category_hourly "
-                                              " WHERE space_id = %s "
-                                              "     AND energy_category_id = %s "
-                                              "     AND start_datetime_utc >= %s "
-                                              "     AND start_datetime_utc < %s ",
-                                              (space['id'],
-                                               energy_category_id,
-                                               base_start_datetime_utc,
-                                               base_end_datetime_utc))
-                        last_month_consumption_values = cursor_energy.fetchone()
-                        if last_month_consumption_values and len(last_month_consumption_values) > 0 \
-                                and last_month_consumption_values[0] is not None:
-                            last_month_consumption_value = last_month_consumption_values[0]
-                        else:
-                            last_month_consumption_value = Decimal(0.0)
-                        reporting_input[energy_category_id]['last_month_value'] = last_month_consumption_value
-                        reporting_input[energy_category_id]['current_month_value'] = current_month_consumption_value
+                        reporting_input[energy_category_id]['last_month_value'] = base_input[energy_category_id]['subtotal']
+                        reporting_input[energy_category_id]['current_month_value'] = reporting_input[energy_category_id]['values'][-1]
 
                         energy_category_tariff_dict = \
                             utilities.get_energy_category_peak_types(space['cost_center_id'],
@@ -626,25 +609,8 @@ class Reporting:
                             reporting_cost[energy_category_id]['values'].append(actual_value)
                             reporting_cost[energy_category_id]['subtotal'] += actual_value
 
-                        current_month_cost_value = reporting_cost[energy_category_id]['values'][-1]
-                        cursor_billing.execute(" SELECT SUM(actual_value) "
-                                              " FROM tbl_space_input_category_hourly "
-                                              " WHERE space_id = %s "
-                                              "     AND energy_category_id = %s "
-                                              "     AND start_datetime_utc >= %s "
-                                              "     AND start_datetime_utc < %s ",
-                                              (space['id'],
-                                               energy_category_id,
-                                               base_start_datetime_utc,
-                                               base_end_datetime_utc))
-                        last_month_cost_values = cursor_billing.fetchone()
-                        if last_month_cost_values and len(last_month_cost_values) > 0 \
-                                and last_month_cost_values[0] is not None:
-                            last_month_cost_value = last_month_cost_values[0]
-                        else:
-                            last_month_cost_value = Decimal(0.0)
-                        reporting_cost[energy_category_id]['last_month_value'] = last_month_cost_value
-                        reporting_cost[energy_category_id]['current_month_value'] = current_month_cost_value
+                        reporting_cost[energy_category_id]['last_month_value'] =  base_cost[energy_category_id]['subtotal']
+                        reporting_cost[energy_category_id]['current_month_value'] = reporting_cost[energy_category_id]['values'][-1]
 
                         energy_category_tariff_dict = \
                             utilities.get_energy_category_peak_types(space['cost_center_id'],
@@ -714,25 +680,8 @@ class Reporting:
                             reporting_output[energy_category_id]['subtotal_in_kgce'] += actual_value * kgce
                             reporting_output[energy_category_id]['subtotal_in_kgco2e'] += actual_value * kgco2e
 
-                        current_month_output_value = reporting_output[energy_category_id]['values'][-1]
-                        cursor_energy.execute(" SELECT SUM(actual_value) "
-                                             "FROM tbl_space_output_category_hourly "
-                                             "WHERE space_id = %s "
-                                             "     AND energy_category_id = %s "
-                                             "     AND start_datetime_utc >= %s "
-                                             "     AND start_datetime_utc < %s ",
-                                             (space['id'],
-                                              energy_category_id,
-                                              base_start_datetime_utc,
-                                              base_end_datetime_utc))
-                        last_month_output_values = cursor_energy.fetchone()
-                        if last_month_output_values is not None and len(last_month_output_values) > 0 \
-                                and last_month_output_values[0] is not None:
-                            last_month_output_value = last_month_output_values[0]
-                        else:
-                            last_month_output_value = Decimal(0.0)
-                        reporting_output[energy_category_id]['last_month_value'] = last_month_output_value
-                        reporting_output[energy_category_id]['current_month_value'] = current_month_output_value
+                        reporting_output[energy_category_id]['last_month_value'] = base_output[energy_category_id]['subtotal']
+                        reporting_output[energy_category_id]['current_month_value'] = reporting_output[energy_category_id]['values'][-1]
 
                         energy_category_tariff_dict = \
                             utilities.get_energy_category_peak_types(space['cost_center_id'],
