@@ -74,7 +74,7 @@ const StoreLoad = ({ setRedirect, setRedirectUrl, t }) => {
   const [selectedSpaceName, setSelectedSpaceName] = useState(undefined);
   const [storeList, setStoreList] = useState([]);
   const [selectedStore, setSelectedStore] = useState(undefined);
-  const [comparisonType, setComparisonType] = useState('month-on-month');
+  const [comparisonType, setComparisonType] = useState('none-comparison');
   const [periodType, setPeriodType] = useState('daily');
   const [cascaderOptions, setCascaderOptions] = useState(undefined);
   const [basePeriodDateRange, setBasePeriodDateRange] = useState([
@@ -855,7 +855,7 @@ const StoreLoad = ({ setRedirect, setRedirectUrl, t }) => {
                     id="comparisonType"
                     name="comparisonType"
                     bsSize="sm"
-                    defaultValue="month-on-month"
+                    defaultValue="none-comparison"
                     onChange={onComparisonTypeChange}
                   >
                     {comparisonTypeOptions.map((comparisonType, index) => (
