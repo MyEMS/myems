@@ -155,7 +155,7 @@ class Reporting:
             try:
                 reporting_end_datetime_utc = datetime.strptime(reporting_period_end_datetime_local,
                                                                '%Y-%m-%dT%H:%M:%S').replace(tzinfo=timezone.utc) - \
-                    timedelta(minutes=timezone_offset)
+                                             timedelta(minutes=timezone_offset)
             except ValueError:
                 raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                        description="API.INVALID_REPORTING_PERIOD_END_DATETIME")
@@ -391,7 +391,7 @@ class Reporting:
                 cursor_system.execute(" SELECT id, name  "
                                       " FROM tbl_spaces "
                                       " WHERE parent_space_id = %s "
-                                      " ORDER BY id ", (space['id'], ))
+                                      " ORDER BY id ", (space['id'],))
                 rows_child_spaces = cursor_system.fetchall()
                 if rows_child_spaces is not None and len(rows_child_spaces) > 0:
                     for row in rows_child_spaces:
@@ -530,7 +530,7 @@ class Reporting:
                                                                       'monthly')
                         for row_space_periodically in rows_space_periodically:
                             current_datetime_local = row_space_periodically[0].replace(tzinfo=timezone.utc) + \
-                                timedelta(minutes=timezone_offset)
+                                                     timedelta(minutes=timezone_offset)
                             current_datetime = current_datetime_local.isoformat()[0:7]
                             actual_value = Decimal(0.0) if row_space_periodically[1] is None else \
                                 row_space_periodically[1]
@@ -542,7 +542,8 @@ class Reporting:
                             reporting_input[energy_category_id]['this_month_subtotal_in_kgce'] = actual_value * kgce
                             reporting_input[energy_category_id]['this_month_subtotal_in_kgco2e'] = actual_value * kgco2e
 
-                        reporting_input[energy_category_id]['last_month_value'] = base_input[energy_category_id]['subtotal']
+                        reporting_input[energy_category_id]['same_month_last_year_value'] = \
+                            base_input[energy_category_id]['subtotal']
                         values = reporting_input[energy_category_id]['values']
                         if isinstance(values, list) and values:
                             reporting_input[energy_category_id]['current_month_value'] = values[-1]
@@ -584,7 +585,6 @@ class Reporting:
                         reporting_cost[energy_category_id]['offpeak'] = Decimal(0.0)
                         reporting_cost[energy_category_id]['deep'] = Decimal(0.0)
 
-
                         cursor_billing.execute(" SELECT start_datetime_utc, actual_value "
                                                " FROM tbl_space_input_category_hourly "
                                                " WHERE space_id = %s "
@@ -605,7 +605,7 @@ class Reporting:
                                                                       'monthly')
                         for row_space_periodically in rows_space_periodically:
                             current_datetime_local = row_space_periodically[0].replace(tzinfo=timezone.utc) + \
-                                timedelta(minutes=timezone_offset)
+                                                     timedelta(minutes=timezone_offset)
                             current_datetime = current_datetime_local.isoformat()[0:7]
                             actual_value = Decimal(0.0) if row_space_periodically[1] is None else \
                                 row_space_periodically[1]
@@ -613,7 +613,8 @@ class Reporting:
                             reporting_cost[energy_category_id]['values'].append(actual_value)
                             reporting_cost[energy_category_id]['subtotal'] += actual_value
 
-                        reporting_cost[energy_category_id]['last_month_value'] =  base_cost[energy_category_id]['subtotal']
+                        reporting_cost[energy_category_id]['same_month_last_year_value'] = \
+                            base_cost[energy_category_id]['subtotal']
                         values = reporting_cost[energy_category_id]['values']
                         if isinstance(values, list) and values:
                             reporting_cost[energy_category_id]['current_month_value'] = values[-1]
@@ -678,7 +679,7 @@ class Reporting:
                                                                       'monthly')
                         for row_space_periodically in rows_space_periodically:
                             current_datetime_local = row_space_periodically[0].replace(tzinfo=timezone.utc) + \
-                                timedelta(minutes=timezone_offset)
+                                                     timedelta(minutes=timezone_offset)
                             current_datetime = current_datetime_local.isoformat()[0:7]
                             actual_value = Decimal(0.0) if row_space_periodically[1] is None else \
                                 row_space_periodically[1]
@@ -688,7 +689,8 @@ class Reporting:
                             reporting_output[energy_category_id]['subtotal_in_kgce'] += actual_value * kgce
                             reporting_output[energy_category_id]['subtotal_in_kgco2e'] += actual_value * kgco2e
 
-                        reporting_output[energy_category_id]['last_month_value'] = base_output[energy_category_id]['subtotal']
+                        reporting_output[energy_category_id]['same_month_last_year_value'] = \
+                            base_output[energy_category_id]['subtotal']
                         values = reporting_output[energy_category_id]['values']
                         if isinstance(values, list) and values:
                             reporting_output[energy_category_id]['current_month_value'] = values[-1]
@@ -950,10 +952,10 @@ class Reporting:
                     reporting_input[energy_category_id]['deep'])
                 result['reporting_period_input']['increment_rates'].append(
                     (reporting_input[energy_category_id]['current_month_value'] -
-                     reporting_input[energy_category_id]['last_month_value']) /
-                    reporting_input[energy_category_id]['last_month_value']
-                    if reporting_input[energy_category_id]['last_month_value'] is not None
-                       and reporting_input[energy_category_id]['last_month_value'] > 0.0 else None)
+                     reporting_input[energy_category_id]['same_month_last_year_value']) /
+                    reporting_input[energy_category_id]['same_month_last_year_value']
+                    if reporting_input[energy_category_id]['same_month_last_year_value'] is not None
+                    and reporting_input[energy_category_id]['same_month_last_year_value'] > 0.0 else None)
                 result['reporting_period_input']['total_in_kgce'] += \
                     reporting_input[energy_category_id]['subtotal_in_kgce']
                 result['reporting_period_input']['total_in_kgco2e'] += \
@@ -962,7 +964,6 @@ class Reporting:
                     reporting_input[energy_category_id]['this_month_subtotal_in_kgce']
                 result['reporting_period_input']['this_month_total_in_kgco2e'] += \
                     reporting_input[energy_category_id]['this_month_subtotal_in_kgco2e']
-
 
         result['reporting_period_input']['this_month_increment_rate_in_kgce'] = \
             (result['reporting_period_input']['this_month_total_in_kgce']
@@ -993,8 +994,6 @@ class Reporting:
         result['reporting_period_cost']['total_increment_rate'] = Decimal(0.0)
         result['reporting_period_cost']['total_unit'] = config.currency_unit
 
-
-
         if input_energy_category_set is not None and len(input_energy_category_set) > 0:
             for energy_category_id in input_energy_category_set:
                 result['reporting_period_cost']['names'].append(energy_category_dict[energy_category_id]['name'])
@@ -1018,12 +1017,11 @@ class Reporting:
                     reporting_cost[energy_category_id]['deep'])
                 result['reporting_period_cost']['increment_rates'].append(
                     (reporting_cost[energy_category_id]['current_month_value'] -
-                     reporting_cost[energy_category_id]['last_month_value']) /
-                    reporting_cost[energy_category_id]['last_month_value']
-                    if reporting_cost[energy_category_id]['last_month_value'] is not None
-                        and reporting_cost[energy_category_id]['last_month_value'] > 0.0 else None)
+                     reporting_cost[energy_category_id]['same_month_last_year_value']) /
+                    reporting_cost[energy_category_id]['same_month_last_year_value']
+                    if reporting_cost[energy_category_id]['same_month_last_year_value'] is not None
+                    and reporting_cost[energy_category_id]['same_month_last_year_value'] > 0.0 else None)
                 result['reporting_period_cost']['total'] += reporting_cost[energy_category_id]['subtotal']
-
 
         result['reporting_period_cost']['total_increment_rate'] = \
             (result['reporting_period_cost']['total']
@@ -1079,10 +1077,11 @@ class Reporting:
                     reporting_output[energy_category_id]['deep'])
                 result['reporting_period_output']['increment_rates'].append(
                     (reporting_output[energy_category_id]['current_month_value'] -
-                     reporting_output[energy_category_id]['last_month_value']) /
-                    reporting_output[energy_category_id]['last_month_value']
-                    if reporting_output[energy_category_id]['last_month_value'] is not None
-                        and reporting_output[energy_category_id]['last_month_value'] > 0.0 else None)
+                     reporting_output[energy_category_id]['same_month_last_year_value']) /
+                    reporting_output[energy_category_id]['same_month_last_year_value']
+                    if reporting_output[energy_category_id]['same_month_last_year_value'] is not None
+                    and reporting_output[energy_category_id]['same_month_last_year_value'] > 0.0
+                    else None)
                 result['reporting_period_output']['total_in_kgce'] += \
                     reporting_output[energy_category_id]['subtotal_in_kgce']
                 result['reporting_period_output']['total_in_kgco2e'] += \
