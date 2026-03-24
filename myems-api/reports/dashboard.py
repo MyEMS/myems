@@ -935,7 +935,7 @@ class Reporting:
                 result['reporting_period_input']['values'].append(
                     reporting_input[energy_category_id]['values'])
                 result['reporting_period_input']['subtotals'].append(
-                    reporting_input[energy_category_id]['subtotal'])
+                    reporting_input[energy_category_id]['current_month_value'])
                 result['reporting_period_input']['subtotals_in_kgce'].append(
                     reporting_input[energy_category_id]['subtotal_in_kgce'])
                 result['reporting_period_input']['subtotals_in_kgco2e'].append(
@@ -1004,7 +1004,7 @@ class Reporting:
                 result['reporting_period_cost']['values'].append(
                     reporting_cost[energy_category_id]['values'])
                 result['reporting_period_cost']['subtotals'].append(
-                    reporting_cost[energy_category_id]['subtotal'])
+                    reporting_cost[energy_category_id]['current_month_value'])
                 result['reporting_period_cost']['toppeaks'].append(
                     reporting_cost[energy_category_id]['toppeak'])
                 result['reporting_period_cost']['onpeaks'].append(
@@ -1060,7 +1060,7 @@ class Reporting:
                 result['reporting_period_output']['values'].append(
                     reporting_output[energy_category_id]['values'])
                 result['reporting_period_output']['subtotals'].append(
-                    reporting_output[energy_category_id]['subtotal'])
+                    reporting_output[energy_category_id]['current_month_value'])
                 result['reporting_period_output']['subtotals_in_kgce'].append(
                     reporting_output[energy_category_id]['subtotal_in_kgce'])
                 result['reporting_period_output']['subtotals_in_kgco2e'].append(
