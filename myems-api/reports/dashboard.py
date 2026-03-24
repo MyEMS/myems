@@ -846,9 +846,7 @@ class Reporting:
                 result['base_period_input']['units'].append(
                     energy_category_dict[energy_category_id]['unit_of_measure'])
                 result['base_period_input']['subtotals'].append(
-                    base_input[energy_category_id]['subtotal'][-1] if base_input[energy_category_id][
-                                                                          'subtotal'] is not None and len(
-                        base_input[energy_category_id]['subtotal']) > 0 else None)
+                    base_input[energy_category_id]['current_month_value'])
                 result['base_period_input']['subtotals_in_kgce'].append(
                     base_input[energy_category_id]['subtotal_in_kgce'])
                 result['base_period_input']['subtotals_in_kgco2e'].append(
@@ -874,9 +872,7 @@ class Reporting:
                     energy_category_dict[energy_category_id]['name'])
                 result['base_period_cost']['units'].append(config.currency_unit)
                 result['base_period_cost']['subtotals'].append(
-                    base_cost[energy_category_id]['subtotal'][-1] if base_cost[energy_category_id][
-                                                                         'subtotal'] is not None and len(
-                        base_cost[energy_category_id]['subtotal']) > 0 else None)
+                    base_cost[energy_category_id]['current_month_value'])
                 result['base_period_cost']['total'] += base_cost[energy_category_id]['subtotal']
 
         result['base_period_output'] = dict()
@@ -894,9 +890,7 @@ class Reporting:
                 result['base_period_output']['units'].append(
                     energy_category_dict[energy_category_id]['unit_of_measure'])
                 result['base_period_output']['subtotals'].append(
-                    base_output[energy_category_id]['subtotal'][-1] if base_output[energy_category_id][
-                                                                           'subtotal'] is not None and len(
-                        base_output[energy_category_id]['subtotal']) > 0 else None)
+                    base_output[energy_category_id]['current_month_value'])
                 result['base_period_output']['subtotals_in_kgce'].append(
                     base_output[energy_category_id]['subtotal_in_kgce'])
                 result['base_period_output']['subtotals_in_kgco2e'].append(
@@ -941,9 +935,7 @@ class Reporting:
                 result['reporting_period_input']['values'].append(
                     reporting_input[energy_category_id]['values'])
                 result['reporting_period_input']['subtotals'].append(
-                    reporting_input[energy_category_id]['subtotal'][-1] if reporting_input[energy_category_id][
-                                                                               'subtotal'] is not None and len(
-                        reporting_input[energy_category_id]['subtotal']) > 0 else None)
+                    reporting_input[energy_category_id]['current_month_value'])
                 result['reporting_period_input']['subtotals_in_kgce'].append(
                     reporting_input[energy_category_id]['subtotal_in_kgce'])
                 result['reporting_period_input']['subtotals_in_kgco2e'].append(
@@ -1012,9 +1004,7 @@ class Reporting:
                 result['reporting_period_cost']['values'].append(
                     reporting_cost[energy_category_id]['values'])
                 result['reporting_period_cost']['subtotals'].append(
-                    reporting_cost[energy_category_id]['subtotal'][-1] if reporting_cost[energy_category_id][
-                                                                              'subtotal'] is not None and len(
-                        reporting_cost[energy_category_id]['subtotal']) > 0 else None)
+                    reporting_cost[energy_category_id]['current_month_value'])
                 result['reporting_period_cost']['toppeaks'].append(
                     reporting_cost[energy_category_id]['toppeak'])
                 result['reporting_period_cost']['onpeaks'].append(
@@ -1070,9 +1060,7 @@ class Reporting:
                 result['reporting_period_output']['values'].append(
                     reporting_output[energy_category_id]['values'])
                 result['reporting_period_output']['subtotals'].append(
-                    reporting_output[energy_category_id]['subtotal'][-1] if reporting_output[energy_category_id][
-                                                                                'subtotal'] is not None and len(
-                        reporting_output[energy_category_id]['subtotal']) > 0 else None)
+                    reporting_output[energy_category_id]['current_month_value'])
                 result['reporting_period_output']['subtotals_in_kgce'].append(
                     reporting_output[energy_category_id]['subtotal_in_kgce'])
                 result['reporting_period_output']['subtotals_in_kgco2e'].append(
