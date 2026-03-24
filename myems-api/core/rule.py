@@ -21,58 +21,67 @@ class RuleCollection:
     def on_get(req, resp):
         """Handles GET requests"""
         admin_control(req)
-        cnx = mysql.connector.connect(**config.myems_fdd_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
 
-        query = (" SELECT id, name, uuid, "
-                 "        category, fdd_code, priority, "
-                 "        channel, expression, message_template, "
-                 "        is_enabled, last_run_datetime_utc, next_run_datetime_utc, is_run_immediately "
-                 " FROM tbl_rules "
-                 " ORDER BY id ")
-        cursor.execute(query)
-        rows = cursor.fetchall()
-        cursor.close()
-        cnx.close()
+        try:
+            cnx = mysql.connector.connect(**config.myems_fdd_db)
+            try:
+                cursor = cnx.cursor()
 
-        timezone_offset = int(config.utc_offset[1:3]) * 60 + int(config.utc_offset[4:6])
-        if config.utc_offset[0] == '-':
-            timezone_offset = -timezone_offset
+                query = (" SELECT id, name, uuid, "
+                         "        category, fdd_code, priority, "
+                         "        channel, expression, message_template, "
+                         "        is_enabled, last_run_datetime_utc, next_run_datetime_utc, is_run_immediately "
+                         " FROM tbl_rules "
+                         " ORDER BY id ")
+                cursor.execute(query)
+                rows = cursor.fetchall()
 
-        result = list()
-        if rows is not None and len(rows) > 0:
-            for row in rows:
-                if isinstance(row[10], datetime):
-                    last_run_datetime_local = row[10].replace(tzinfo=timezone.utc) + \
-                                              timedelta(minutes=timezone_offset)
-                    last_run_datetime = last_run_datetime_local.isoformat()[0:19]
-                else:
-                    last_run_datetime = None
+                timezone_offset = int(config.utc_offset[1:3]) * 60 + int(config.utc_offset[4:6])
+                if config.utc_offset[0] == '-':
+                    timezone_offset = -timezone_offset
 
-                if isinstance(row[11], datetime):
-                    next_run_datetime_local = row[11].replace(tzinfo=timezone.utc) + \
-                                              timedelta(minutes=timezone_offset)
-                    next_run_datetime = next_run_datetime_local.isoformat()[0:19]
-                else:
-                    next_run_datetime = None
+                result = list()
+                if rows is not None and len(rows) > 0:
+                    for row in rows:
+                        if isinstance(row[10], datetime):
+                            last_run_datetime_local = row[10].replace(tzinfo=timezone.utc) + \
+                                                      timedelta(minutes=timezone_offset)
+                            last_run_datetime = last_run_datetime_local.isoformat()[0:19]
+                        else:
+                            last_run_datetime = None
 
-                meta_result = {"id": row[0],
-                               "name": row[1],
-                               "uuid": row[2],
-                               "category": row[3],
-                               "fdd_code": row[4],
-                               "priority": row[5],
-                               "channel": row[6],
-                               "expression": row[7],
-                               "message_template": row[8].replace("<br>", ""),
-                               "is_enabled": bool(row[9]),
-                               "last_run_datetime": last_run_datetime,
-                               "next_run_datetime": next_run_datetime,
-                               "is_run_immediately": bool(row[12])
-                               }
-                result.append(meta_result)
+                        if isinstance(row[11], datetime):
+                            next_run_datetime_local = row[11].replace(tzinfo=timezone.utc) + \
+                                                      timedelta(minutes=timezone_offset)
+                            next_run_datetime = next_run_datetime_local.isoformat()[0:19]
+                        else:
+                            next_run_datetime = None
 
-        resp.text = json.dumps(result)
+                        meta_result = {"id": row[0],
+                                       "name": row[1],
+                                       "uuid": row[2],
+                                       "category": row[3],
+                                       "fdd_code": row[4],
+                                       "priority": row[5],
+                                       "channel": row[6],
+                                       "expression": row[7],
+                                       "message_template": row[8].replace("<br>", ""),
+                                       "is_enabled": bool(row[9]),
+                                       "last_run_datetime": last_run_datetime,
+                                       "next_run_datetime": next_run_datetime,
+                                       "is_run_immediately": bool(row[12])
+                                       }
+                        result.append(meta_result)
+
+                resp.text = json.dumps(result)
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
     @staticmethod
     @user_logger
@@ -176,37 +185,44 @@ class RuleCollection:
                                    description='API.INVALID_IS_RUN_IMMEDIATELY')
         is_run_immediately = new_values['data']['is_run_immediately']
 
-        cnx = mysql.connector.connect(**config.myems_fdd_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_rules "
-                       " WHERE name = %s ", (name,))
-        if cursor.fetchone() is not None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.RULE_NAME_IS_ALREADY_IN_USE')
+        try:
+            cnx = mysql.connector.connect(**config.myems_fdd_db)
+            try:
+                cursor = cnx.cursor()
 
-        add_row = (" INSERT INTO tbl_rules "
-                   "             (name, uuid, category, fdd_code, priority, "
-                   "              channel, expression, message_template, is_enabled, "
-                   "              is_run_immediately) "
-                   " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s) ")
-        cursor.execute(add_row, (name,
-                                 str(uuid.uuid4()),
-                                 category,
-                                 fdd_code,
-                                 priority,
-                                 channel,
-                                 expression,
-                                 message_template,
-                                 is_enabled,
-                                 is_run_immediately))
-        new_id = cursor.lastrowid
-        cnx.commit()
-        cursor.close()
-        cnx.close()
+                cursor.execute(" SELECT name "
+                               " FROM tbl_rules "
+                               " WHERE name = %s ", (name,))
+                if cursor.fetchone() is not None:
+                    raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                           description='API.RULE_NAME_IS_ALREADY_IN_USE')
+
+                add_row = (" INSERT INTO tbl_rules "
+                           "             (name, uuid, category, fdd_code, priority, "
+                           "              channel, expression, message_template, is_enabled, "
+                           "              is_run_immediately) "
+                           " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s) ")
+                cursor.execute(add_row, (name,
+                                         str(uuid.uuid4()),
+                                         category,
+                                         fdd_code,
+                                         priority,
+                                         channel,
+                                         expression,
+                                         message_template,
+                                         is_enabled,
+                                         is_run_immediately))
+                new_id = cursor.lastrowid
+                cnx.commit()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         resp.status = falcon.HTTP_201
         resp.location = '/rules/' + str(new_id)
@@ -231,55 +247,66 @@ class RuleItem:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_RULE_ID')
 
-        cnx = mysql.connector.connect(**config.myems_fdd_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
 
-        query = (" SELECT id, name, uuid, "
-                 "        category, fdd_code, priority, "
-                 "        channel, expression, message_template, "
-                 "        is_enabled, last_run_datetime_utc, next_run_datetime_utc, is_run_immediately "
-                 " FROM tbl_rules "
-                 " WHERE id = %s ")
-        cursor.execute(query, (id_,))
-        row = cursor.fetchone()
-        cursor.close()
-        cnx.close()
-        if row is None:
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.RULE_NOT_FOUND')
-        timezone_offset = int(config.utc_offset[1:3]) * 60 + int(config.utc_offset[4:6])
-        if config.utc_offset[0] == '-':
-            timezone_offset = -timezone_offset
+        try:
+            cnx = mysql.connector.connect(**config.myems_fdd_db)
+            try:
+                cursor = cnx.cursor()
 
-        if isinstance(row[10], datetime):
-            last_run_datetime_local = row[10].replace(tzinfo=timezone.utc) + \
-                                      timedelta(minutes=timezone_offset)
-            last_run_datetime = last_run_datetime_local.isoformat()[0:19]
-        else:
-            last_run_datetime = None
+                query = (" SELECT id, name, uuid, "
+                         "        category, fdd_code, priority, "
+                         "        channel, expression, message_template, "
+                         "        is_enabled, last_run_datetime_utc, next_run_datetime_utc, is_run_immediately "
+                         " FROM tbl_rules "
+                         " WHERE id = %s ")
+                cursor.execute(query, (id_,))
+                row = cursor.fetchone()
+                
+                if row is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.RULE_NOT_FOUND')
+                
+                timezone_offset = int(config.utc_offset[1:3]) * 60 + int(config.utc_offset[4:6])
+                if config.utc_offset[0] == '-':
+                    timezone_offset = -timezone_offset
 
-        if isinstance(row[11], datetime):
-            next_run_datetime_local = row[11].replace(tzinfo=timezone.utc) + \
-                                      timedelta(minutes=timezone_offset)
-            next_run_datetime = next_run_datetime_local.isoformat()[0:19]
-        else:
-            next_run_datetime = None
+                if isinstance(row[10], datetime):
+                    last_run_datetime_local = row[10].replace(tzinfo=timezone.utc) + \
+                                              timedelta(minutes=timezone_offset)
+                    last_run_datetime = last_run_datetime_local.isoformat()[0:19]
+                else:
+                    last_run_datetime = None
 
-        result = {"id": row[0],
-                  "name": row[1],
-                  "uuid": row[2],
-                  "category": row[3],
-                  "fdd_code": row[4],
-                  "priority": row[5],
-                  "channel": row[6],
-                  "expression": row[7],
-                  "message_template": row[8].replace("<br>", ""),
-                  "is_enabled": bool(row[9]),
-                  "last_run_datetime": last_run_datetime,
-                  "next_run_datetime": next_run_datetime,
-                  "is_run_immediately": bool(row[12])
-                  }
-        resp.text = json.dumps(result)
+                if isinstance(row[11], datetime):
+                    next_run_datetime_local = row[11].replace(tzinfo=timezone.utc) + \
+                                              timedelta(minutes=timezone_offset)
+                    next_run_datetime = next_run_datetime_local.isoformat()[0:19]
+                else:
+                    next_run_datetime = None
+
+                result = {"id": row[0],
+                          "name": row[1],
+                          "uuid": row[2],
+                          "category": row[3],
+                          "fdd_code": row[4],
+                          "priority": row[5],
+                          "channel": row[6],
+                          "expression": row[7],
+                          "message_template": row[8].replace("<br>", ""),
+                          "is_enabled": bool(row[9]),
+                          "last_run_datetime": last_run_datetime,
+                          "next_run_datetime": next_run_datetime,
+                          "is_run_immediately": bool(row[12])
+                          }
+                resp.text = json.dumps(result)
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
     @staticmethod
     @user_logger
@@ -290,24 +317,30 @@ class RuleItem:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_RULE_ID')
 
-        cnx = mysql.connector.connect(**config.myems_fdd_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
 
-        cursor.execute(" SELECT id "
-                       " FROM tbl_rules "
-                       " WHERE id = %s ",
-                       (id_,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.RULE_NOT_FOUND')
+        try:
+            cnx = mysql.connector.connect(**config.myems_fdd_db)
+            try:
+                cursor = cnx.cursor()
 
-        cursor.execute(" DELETE FROM tbl_rules WHERE id = %s ", (id_,))
-        cnx.commit()
+                cursor.execute(" SELECT id "
+                               " FROM tbl_rules "
+                               " WHERE id = %s ",
+                               (id_,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.RULE_NOT_FOUND')
 
-        cursor.close()
-        cnx.close()
+                cursor.execute(" DELETE FROM tbl_rules WHERE id = %s ", (id_,))
+                cnx.commit()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         resp.status = falcon.HTTP_204
 
@@ -417,46 +450,50 @@ class RuleItem:
                                    description='API.INVALID_IS_RUN_IMMEDIATELY')
         is_run_immediately = new_values['data']['is_run_immediately']
 
-        cnx = mysql.connector.connect(**config.myems_fdd_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
 
-        cursor.execute(" SELECT id "
-                       " FROM tbl_rules "
-                       " WHERE id = %s ", (id_,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.RULE_NOT_FOUND')
+        try:
+            cnx = mysql.connector.connect(**config.myems_fdd_db)
+            try:
+                cursor = cnx.cursor()
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_rules "
-                       " WHERE name = %s AND id != %s ", (name, id_))
-        if cursor.fetchone() is not None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.RULE_NAME_IS_ALREADY_IN_USE')
+                cursor.execute(" SELECT id "
+                               " FROM tbl_rules "
+                               " WHERE id = %s ", (id_,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.RULE_NOT_FOUND')
 
-        update_row = (" UPDATE tbl_rules "
-                      " SET name = %s, category = %s, fdd_code = %s, priority = %s, "
-                      "     channel = %s, expression = %s, message_template = %s, "
-                      "     is_enabled = %s, is_run_immediately = %s "
-                      " WHERE id = %s ")
-        cursor.execute(update_row, (name,
-                                    category,
-                                    fdd_code,
-                                    priority,
-                                    channel,
-                                    expression,
-                                    message_template,
-                                    is_enabled,
-                                    is_run_immediately,
-                                    id_,))
-        cnx.commit()
+                cursor.execute(" SELECT name "
+                               " FROM tbl_rules "
+                               " WHERE name = %s AND id != %s ", (name, id_))
+                if cursor.fetchone() is not None:
+                    raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                           description='API.RULE_NAME_IS_ALREADY_IN_USE')
 
-        cursor.close()
-        cnx.close()
+                update_row = (" UPDATE tbl_rules "
+                              " SET name = %s, category = %s, fdd_code = %s, priority = %s, "
+                              "     channel = %s, expression = %s, message_template = %s, "
+                              "     is_enabled = %s, is_run_immediately = %s "
+                              " WHERE id = %s ")
+                cursor.execute(update_row, (name,
+                                            category,
+                                            fdd_code,
+                                            priority,
+                                            channel,
+                                            expression,
+                                            message_template,
+                                            is_enabled,
+                                            is_run_immediately,
+                                            id_,))
+                cnx.commit()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         resp.status = falcon.HTTP_200
 
@@ -482,25 +519,32 @@ class RuleRun:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_RULE_ID')
 
-        cnx = mysql.connector.connect(**config.myems_fdd_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
 
-        cursor.execute(" SELECT id "
-                       " FROM tbl_rules "
-                       " WHERE id = %s ", (id_,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.RULE_NOT_FOUND')
-        update_row = (" UPDATE tbl_rules "
-                      " SET is_run_immediately = 1 "
-                      " WHERE id = %s ")
-        cursor.execute(update_row, (id_,))
-        cnx.commit()
+        try:
+            cnx = mysql.connector.connect(**config.myems_fdd_db)
+            try:
+                cursor = cnx.cursor()
 
-        cursor.close()
-        cnx.close()
+                cursor.execute(" SELECT id "
+                               " FROM tbl_rules "
+                               " WHERE id = %s ", (id_,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.RULE_NOT_FOUND')
+                
+                update_row = (" UPDATE tbl_rules "
+                              " SET is_run_immediately = 1 "
+                              " WHERE id = %s ")
+                cursor.execute(update_row, (id_,))
+                cnx.commit()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         resp.status = falcon.HTTP_200
 
@@ -524,54 +568,65 @@ class RuleExport:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_RULE_ID')
 
-        cnx = mysql.connector.connect(**config.myems_fdd_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
 
-        query = (" SELECT id, name, uuid, "
-                 "        category, fdd_code, priority, "
-                 "        channel, expression, message_template, "
-                 "        is_enabled, last_run_datetime_utc, next_run_datetime_utc, is_run_immediately "
-                 " FROM tbl_rules "
-                 " WHERE id = %s ")
-        cursor.execute(query, (id_,))
-        row = cursor.fetchone()
-        cursor.close()
-        cnx.close()
-        if row is None:
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.RULE_NOT_FOUND')
-        timezone_offset = int(config.utc_offset[1:3]) * 60 + int(config.utc_offset[4:6])
-        if config.utc_offset[0] == '-':
-            timezone_offset = -timezone_offset
+        try:
+            cnx = mysql.connector.connect(**config.myems_fdd_db)
+            try:
+                cursor = cnx.cursor()
 
-        if isinstance(row[10], datetime):
-            last_run_datetime_local = row[10].replace(tzinfo=timezone.utc) + \
-                                      timedelta(minutes=timezone_offset)
-            last_run_datetime = last_run_datetime_local.isoformat()[0:19]
-        else:
-            last_run_datetime = None
+                query = (" SELECT id, name, uuid, "
+                         "        category, fdd_code, priority, "
+                         "        channel, expression, message_template, "
+                         "        is_enabled, last_run_datetime_utc, next_run_datetime_utc, is_run_immediately "
+                         " FROM tbl_rules "
+                         " WHERE id = %s ")
+                cursor.execute(query, (id_,))
+                row = cursor.fetchone()
+                
+                if row is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.RULE_NOT_FOUND')
+                
+                timezone_offset = int(config.utc_offset[1:3]) * 60 + int(config.utc_offset[4:6])
+                if config.utc_offset[0] == '-':
+                    timezone_offset = -timezone_offset
 
-        if isinstance(row[11], datetime):
-            next_run_datetime_local = row[11].replace(tzinfo=timezone.utc) + \
-                                      timedelta(minutes=timezone_offset)
-            next_run_datetime = next_run_datetime_local.isoformat()[0:19]
-        else:
-            next_run_datetime = None
+                if isinstance(row[10], datetime):
+                    last_run_datetime_local = row[10].replace(tzinfo=timezone.utc) + \
+                                              timedelta(minutes=timezone_offset)
+                    last_run_datetime = last_run_datetime_local.isoformat()[0:19]
+                else:
+                    last_run_datetime = None
 
-        result = {
-                  "name": row[1],
-                  "category": row[3],
-                  "fdd_code": row[4],
-                  "priority": row[5],
-                  "channel": row[6],
-                  "expression": row[7],
-                  "message_template": row[8].replace("<br>", ""),
-                  "is_enabled": bool(row[9]),
-                  "last_run_datetime": last_run_datetime,
-                  "next_run_datetime": next_run_datetime,
-                  "is_run_immediately": bool(row[12])
-                  }
-        resp.text = json.dumps(result)
+                if isinstance(row[11], datetime):
+                    next_run_datetime_local = row[11].replace(tzinfo=timezone.utc) + \
+                                              timedelta(minutes=timezone_offset)
+                    next_run_datetime = next_run_datetime_local.isoformat()[0:19]
+                else:
+                    next_run_datetime = None
+
+                result = {
+                          "name": row[1],
+                          "category": row[3],
+                          "fdd_code": row[4],
+                          "priority": row[5],
+                          "channel": row[6],
+                          "expression": row[7],
+                          "message_template": row[8].replace("<br>", ""),
+                          "is_enabled": bool(row[9]),
+                          "last_run_datetime": last_run_datetime,
+                          "next_run_datetime": next_run_datetime,
+                          "is_run_immediately": bool(row[12])
+                          }
+                resp.text = json.dumps(result)
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
 
 class RuleImport:
@@ -686,37 +741,44 @@ class RuleImport:
                                    description='API.INVALID_IS_RUN_IMMEDIATELY')
         is_run_immediately = new_values['is_run_immediately']
 
-        cnx = mysql.connector.connect(**config.myems_fdd_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_rules "
-                       " WHERE name = %s ", (name,))
-        if cursor.fetchone() is not None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.RULE_NAME_IS_ALREADY_IN_USE')
+        try:
+            cnx = mysql.connector.connect(**config.myems_fdd_db)
+            try:
+                cursor = cnx.cursor()
 
-        add_row = (" INSERT INTO tbl_rules "
-                   "             (name, uuid, category, fdd_code, priority, "
-                   "              channel, expression, message_template, is_enabled, "
-                   "              is_run_immediately) "
-                   " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s) ")
-        cursor.execute(add_row, (name,
-                                 str(uuid.uuid4()),
-                                 category,
-                                 fdd_code,
-                                 priority,
-                                 channel,
-                                 expression,
-                                 message_template,
-                                 is_enabled,
-                                 is_run_immediately))
-        new_id = cursor.lastrowid
-        cnx.commit()
-        cursor.close()
-        cnx.close()
+                cursor.execute(" SELECT name "
+                               " FROM tbl_rules "
+                               " WHERE name = %s ", (name,))
+                if cursor.fetchone() is not None:
+                    raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                           description='API.RULE_NAME_IS_ALREADY_IN_USE')
+
+                add_row = (" INSERT INTO tbl_rules "
+                           "             (name, uuid, category, fdd_code, priority, "
+                           "              channel, expression, message_template, is_enabled, "
+                           "              is_run_immediately) "
+                           " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s) ")
+                cursor.execute(add_row, (name,
+                                         str(uuid.uuid4()),
+                                         category,
+                                         fdd_code,
+                                         priority,
+                                         channel,
+                                         expression,
+                                         message_template,
+                                         is_enabled,
+                                         is_run_immediately))
+                new_id = cursor.lastrowid
+                cnx.commit()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         resp.status = falcon.HTTP_201
         resp.location = '/rules/' + str(new_id)
@@ -741,77 +803,88 @@ class RuleClone:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_RULE_ID')
 
-        cnx = mysql.connector.connect(**config.myems_fdd_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
 
-        query = (" SELECT id, name, uuid, "
-                 "        category, fdd_code, priority, "
-                 "        channel, expression, message_template, "
-                 "        is_enabled, last_run_datetime_utc, next_run_datetime_utc, is_run_immediately "
-                 " FROM tbl_rules "
-                 " WHERE id = %s ")
-        cursor.execute(query, (id_,))
-        row = cursor.fetchone()
-        if row is None:
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.RULE_NOT_FOUND')
-        timezone_offset = int(config.utc_offset[1:3]) * 60 + int(config.utc_offset[4:6])
-        if config.utc_offset[0] == '-':
-            timezone_offset = -timezone_offset
+        try:
+            cnx = mysql.connector.connect(**config.myems_fdd_db)
+            try:
+                cursor = cnx.cursor()
 
-        if isinstance(row[10], datetime):
-            last_run_datetime_local = row[10].replace(tzinfo=timezone.utc) + \
-                                      timedelta(minutes=timezone_offset)
-            last_run_datetime = last_run_datetime_local.isoformat()[0:19]
-        else:
-            last_run_datetime = None
+                query = (" SELECT id, name, uuid, "
+                         "        category, fdd_code, priority, "
+                         "        channel, expression, message_template, "
+                         "        is_enabled, last_run_datetime_utc, next_run_datetime_utc, is_run_immediately "
+                         " FROM tbl_rules "
+                         " WHERE id = %s ")
+                cursor.execute(query, (id_,))
+                row = cursor.fetchone()
+                
+                if row is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.RULE_NOT_FOUND')
+                
+                timezone_offset = int(config.utc_offset[1:3]) * 60 + int(config.utc_offset[4:6])
+                if config.utc_offset[0] == '-':
+                    timezone_offset = -timezone_offset
 
-        if isinstance(row[11], datetime):
-            next_run_datetime_local = row[11].replace(tzinfo=timezone.utc) + \
-                                      timedelta(minutes=timezone_offset)
-            next_run_datetime = next_run_datetime_local.isoformat()[0:19]
-        else:
-            next_run_datetime = None
+                if isinstance(row[10], datetime):
+                    last_run_datetime_local = row[10].replace(tzinfo=timezone.utc) + \
+                                              timedelta(minutes=timezone_offset)
+                    last_run_datetime = last_run_datetime_local.isoformat()[0:19]
+                else:
+                    last_run_datetime = None
 
-        result = {"id": row[0],
-                  "name": row[1],
-                  "uuid": row[2],
-                  "category": row[3],
-                  "fdd_code": row[4],
-                  "priority": row[5],
-                  "channel": row[6],
-                  "expression": row[7],
-                  "message_template": row[8].replace("<br>", ""),
-                  "is_enabled": bool(row[9]),
-                  "last_run_datetime": last_run_datetime,
-                  "next_run_datetime": next_run_datetime,
-                  "is_run_immediately": bool(row[12])
-                  }
-        timezone_offset = int(config.utc_offset[1:3]) * 60 + int(config.utc_offset[4:6])
-        if config.utc_offset[0] == '-':
-            timezone_offset = -timezone_offset
-        new_name = (str.strip(result['name']) +
-                    (datetime.utcnow() + timedelta(minutes=timezone_offset)).isoformat(sep='-', timespec='seconds'))
-        add_row = (" INSERT INTO tbl_rules "
-                   "             (name, uuid, category, fdd_code, priority, "
-                   "              channel, expression, message_template, is_enabled, "
-                   "              is_run_immediately) "
-                   " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s) ")
-        cursor.execute(add_row, (new_name,
-                                 str(uuid.uuid4()),
-                                 result['category'],
-                                 result['fdd_code'],
-                                 result['priority'],
-                                 result['channel'],
-                                 result['expression'],
-                                 result['message_template'],
-                                 result['is_enabled'],
-                                 result['is_run_immediately']))
-        new_id = cursor.lastrowid
-        cnx.commit()
-        cursor.close()
-        cnx.close()
+                if isinstance(row[11], datetime):
+                    next_run_datetime_local = row[11].replace(tzinfo=timezone.utc) + \
+                                              timedelta(minutes=timezone_offset)
+                    next_run_datetime = next_run_datetime_local.isoformat()[0:19]
+                else:
+                    next_run_datetime = None
+
+                result = {"id": row[0],
+                          "name": row[1],
+                          "uuid": row[2],
+                          "category": row[3],
+                          "fdd_code": row[4],
+                          "priority": row[5],
+                          "channel": row[6],
+                          "expression": row[7],
+                          "message_template": row[8].replace("<br>", ""),
+                          "is_enabled": bool(row[9]),
+                          "last_run_datetime": last_run_datetime,
+                          "next_run_datetime": next_run_datetime,
+                          "is_run_immediately": bool(row[12])
+                          }
+                timezone_offset = int(config.utc_offset[1:3]) * 60 + int(config.utc_offset[4:6])
+                if config.utc_offset[0] == '-':
+                    timezone_offset = -timezone_offset
+                new_name = (str.strip(result['name']) +
+                            (datetime.utcnow() +
+                             timedelta(minutes=timezone_offset)).isoformat(sep='-', timespec='seconds'))
+                add_row = (" INSERT INTO tbl_rules "
+                           "             (name, uuid, category, fdd_code, priority, "
+                           "              channel, expression, message_template, is_enabled, "
+                           "              is_run_immediately) "
+                           " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s) ")
+                cursor.execute(add_row, (new_name,
+                                         str(uuid.uuid4()),
+                                         result['category'],
+                                         result['fdd_code'],
+                                         result['priority'],
+                                         result['channel'],
+                                         result['expression'],
+                                         result['message_template'],
+                                         result['is_enabled'],
+                                         result['is_run_immediately']))
+                new_id = cursor.lastrowid
+                cnx.commit()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         resp.status = falcon.HTTP_201
         resp.location = '/rules/' + str(new_id)
-        
