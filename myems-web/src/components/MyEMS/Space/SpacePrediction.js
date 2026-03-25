@@ -83,18 +83,7 @@ const SpacePrediction = ({ setRedirect, setRedirectUrl, t }) => {
   const [periodType, setPeriodType] = useState('daily');
   const [cascaderOptions, setCascaderOptions] = useState(undefined);
   const [cascaderValue, setCascaderValue] = useState([]);
-  const [basePeriodDateRange, setBasePeriodDateRange] = useState([
-    current_moment
-      .clone()
-      .subtract(7, 'days')
-      .subtract(1, 'months')
-      .startOf('day')
-      .toDate(),
-    current_moment
-      .clone()
-      .subtract(1, 'months')
-      .toDate()
-  ]);
+  const [basePeriodDateRange, setBasePeriodDateRange] = useState([null, null]);
   const [basePeriodDateRangePickerDisabled, setBasePeriodDateRangePickerDisabled] = useState(true);
   const [reportingPeriodDateRange, setReportingPeriodDateRange] = useState([
     current_moment
