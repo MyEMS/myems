@@ -52,7 +52,8 @@ _PV_INVERTOR_BASE_COLUMNS = [
     "ic_point_id",
 ]
 _PV_INVERTOR_PV_COLUMNS = [f"pv{i}_{suffix}_point_id" for i in range(1, 29) for suffix in ("u", "i")]
-_PV_INVERTOR_MPPT_COLUMNS = ["mppt_total_energy_point_id", "mppt_power_point_id"] + [f"mppt_{i}_energy_point_id" for i in range(1, 11)]
+_PV_INVERTOR_MPPT_COLUMNS = (["mppt_total_energy_point_id", "mppt_power_point_id"] +
+                             [f"mppt_{i}_energy_point_id" for i in range(1, 11)])
 PV_INVERTOR_POINT_COLUMNS = (
     _PV_INVERTOR_BASE_COLUMNS
     + _PV_INVERTOR_PV_COLUMNS
@@ -65,16 +66,24 @@ POINT_RELATION_CHECKS = [
     ("tbl_microgrids_heatpumps_points", ("point_id",), "API.THERE_IS_RELATION_WITH_MICROGRIDS_HEATPUMPS_POINTS"),
     ("tbl_microgrids_loads_points", ("point_id",), "API.THERE_IS_RELATION_WITH_MICROGRIDS_LOADS_POINTS"),
     ("tbl_microgrids_pvs_points", ("point_id",), "API.THERE_IS_RELATION_WITH_MICROGRIDS_PVS_POINTS"),
-    ("tbl_photovoltaic_power_stations", ("latitude_point_id", "longitude_point_id"), "API.THERE_IS_RELATION_WITH_PHOTOVOLTAIC_POWER_STATIONS"),
-    ("tbl_photovoltaic_power_stations_grids", tuple(PV_GRID_POINT_COLUMNS), "API.THERE_IS_RELATION_WITH_PHOTOVOLTAIC_POWER_STATIONS_GRIDS"),
-    ("tbl_photovoltaic_power_stations_grids_points", ("point_id",), "API.THERE_IS_RELATION_WITH_PHOTOVOLTAIC_POWER_STATIONS_GRIDS"),
-    ("tbl_photovoltaic_power_stations_invertors", tuple(PV_INVERTOR_POINT_COLUMNS), "API.THERE_IS_RELATION_WITH_PHOTOVOLTAIC_POWER_STATIONS_INVERTORS"),
-    ("tbl_photovoltaic_power_stations_invertors_points", ("point_id",), "API.THERE_IS_RELATION_WITH_PHOTOVOLTAIC_POWER_STATIONS_INVERTORS"),
-    ("tbl_photovoltaic_power_stations_loads", tuple(PV_LOAD_POINT_COLUMNS), "API.THERE_IS_RELATION_WITH_PHOTOVOLTAIC_POWER_STATIONS_LOADS"),
-    ("tbl_photovoltaic_power_stations_loads_points", ("point_id",), "API.THERE_IS_RELATION_WITH_PHOTOVOLTAIC_POWER_STATIONS_LOADS"),
+    ("tbl_photovoltaic_power_stations", ("latitude_point_id", "longitude_point_id"),
+     "API.THERE_IS_RELATION_WITH_PHOTOVOLTAIC_POWER_STATIONS"),
+    ("tbl_photovoltaic_power_stations_grids", tuple(PV_GRID_POINT_COLUMNS),
+     "API.THERE_IS_RELATION_WITH_PHOTOVOLTAIC_POWER_STATIONS_GRIDS"),
+    ("tbl_photovoltaic_power_stations_grids_points", ("point_id",),
+     "API.THERE_IS_RELATION_WITH_PHOTOVOLTAIC_POWER_STATIONS_GRIDS"),
+    ("tbl_photovoltaic_power_stations_invertors", tuple(PV_INVERTOR_POINT_COLUMNS),
+     "API.THERE_IS_RELATION_WITH_PHOTOVOLTAIC_POWER_STATIONS_INVERTORS"),
+    ("tbl_photovoltaic_power_stations_invertors_points", ("point_id",),
+     "API.THERE_IS_RELATION_WITH_PHOTOVOLTAIC_POWER_STATIONS_INVERTORS"),
+    ("tbl_photovoltaic_power_stations_loads", tuple(PV_LOAD_POINT_COLUMNS),
+     "API.THERE_IS_RELATION_WITH_PHOTOVOLTAIC_POWER_STATIONS_LOADS"),
+    ("tbl_photovoltaic_power_stations_loads_points", ("point_id",),
+     "API.THERE_IS_RELATION_WITH_PHOTOVOLTAIC_POWER_STATIONS_LOADS"),
     ("tbl_points_set_values", ("point_id",), "API.THERE_IS_RELATION_WITH_POINTS_SET_VALUES"),
     ("tbl_power_integrators", ("power_point_id", "result_point_id"), "API.THERE_IS_RELATION_WITH_POWER_INTEGRATORS"),
-    ("tbl_virtual_power_plants_microgrids", ("point_id", "virtual_power_plant_id", "microgrid_id"), "API.THERE_IS_RELATION_WITH_VIRTUAL_POWER_PLANTS_MICROGRIDS"),
+    ("tbl_virtual_power_plants_microgrids", ("point_id", "virtual_power_plant_id", "microgrid_id"),
+     "API.THERE_IS_RELATION_WITH_VIRTUAL_POWER_PLANTS_MICROGRIDS"),
     ("tbl_wind_farms", ("latitude_point_id", "longitude_point_id"), "API.THERE_IS_RELATION_WITH_WIND_FARMS"),
     ("tbl_meters_points", ("point_id",), "API.THERE_IS_RELATION_WITH_METERS"),
     ("tbl_sensors_points", ("point_id",), "API.THERE_IS_RELATION_WITH_SENSORS"),
@@ -85,9 +94,14 @@ POINT_RELATION_CHECKS = [
     ("tbl_equipments_parameters", ("point_id",), "API.THERE_IS_RELATION_WITH_EQUIPMENT_PARAMETERS"),
     ("tbl_combined_equipments_parameters", ("point_id",), "API.THERE_IS_RELATION_WITH_COMBINED_EQUIPMENT_PARAMETERS"),
     ("tbl_distribution_circuits_points", ("point_id",), "API.THERE_IS_RELATION_WITH_DISTRIBUTION_CIRCUITS_POINTS"),
-    ("tbl_heat_integrators", ("high_temperature_point_id", "low_temperature_point_id", "flow_point_id", "result_point_id"), "API.THERE_IS_RELATION_WITH_HEAT_INTEGRATORS"),
-    ("tbl_microgrids_batteries", ("battery_state_point_id", "soc_point_id", "power_point_id"), "API.THERE_IS_RELATION_WITH_MICROGRIDS_BATTERIES"),
-    ("tbl_microgrids_power_conversion_systems", ("run_state_point_id", "today_charge_energy_point_id", "today_discharge_energy_point_id", "total_charge_energy_point_id", "total_discharge_energy_point_id"), "API.THERE_IS_RELATION_WITH_MICROGRIDS_POWER_CONVERSION_SYSTEMS"),
+    ("tbl_heat_integrators", ("high_temperature_point_id", "low_temperature_point_id", "flow_point_id",
+                              "result_point_id"), "API.THERE_IS_RELATION_WITH_HEAT_INTEGRATORS"),
+    ("tbl_microgrids_batteries", ("battery_state_point_id", "soc_point_id", "power_point_id"),
+     "API.THERE_IS_RELATION_WITH_MICROGRIDS_BATTERIES"),
+    ("tbl_microgrids_power_conversion_systems", ("run_state_point_id", "today_charge_energy_point_id",
+                                                 "today_discharge_energy_point_id", "total_charge_energy_point_id",
+                                                 "total_discharge_energy_point_id"),
+     "API.THERE_IS_RELATION_WITH_MICROGRIDS_POWER_CONVERSION_SYSTEMS"),
     ("tbl_microgrids_evchargers", ("power_point_id",), "API.THERE_IS_RELATION_WITH_MICROGRIDS_EVCHARGERS"),
     ("tbl_microgrids_evchargers_points", ("point_id",), "API.THERE_IS_RELATION_WITH_MICROGRIDS_EVCHARGERS_POINTS"),
     ("tbl_microgrids_generators", ("power_point_id",), "API.THERE_IS_RELATION_WITH_MICROGRIDS_GENERATORS"),
@@ -100,19 +114,32 @@ POINT_RELATION_CHECKS = [
     ("tbl_microgrids_bmses_points", ("point_id",), "API.THERE_IS_RELATION_WITH_MICROGRIDS_BMSES_POINTS"),
     ("tbl_microgrids_pcses_points", ("point_id",), "API.THERE_IS_RELATION_WITH_MICROGRIDS_PCSES_POINTS"),
     ("tbl_virtual_power_plants", ("balancing_price_point_id",), "API.THERE_IS_RELATION_WITH_VIRTUAL_POWER_PLANTS"),
-    ("tbl_energy_storage_containers_batteries", ("battery_state_point_id", "soc_point_id", "power_point_id"), "API.THERE_IS_RELATION_WITH_ENERGY_STORAGE_CONTAINERS_BATTERIES"),
-    ("tbl_energy_storage_containers_grids", ("power_point_id",), "API.THERE_IS_RELATION_WITH_ENERGY_STORAGE_CONTAINERS_GRIDS"),
-    ("tbl_energy_storage_containers_grids_points", ("point_id",), "API.THERE_IS_RELATION_WITH_ENERGY_STORAGE_CONTAINERS_GRIDS_POINTS"),
-    ("tbl_energy_storage_containers_bmses_points", ("point_id",), "API.THERE_IS_RELATION_WITH_ENERGY_STORAGE_CONTAINERS_BMSES_POINTS"),
-    ("tbl_energy_storage_containers_dcdcs_points", ("point_id",), "API.THERE_IS_RELATION_WITH_ENERGY_STORAGE_CONTAINERS_DCDCS"),
-    ("tbl_energy_storage_containers_firecontrols_points", ("point_id",), "API.THERE_IS_RELATION_WITH_ENERGY_STORAGE_CONTAINERS_FIRECONTROLS"),
-    ("tbl_energy_storage_containers_hvacs_points", ("point_id",), "API.THERE_IS_RELATION_WITH_ENERGY_STORAGE_CONTAINERS_HVACS"),
-    ("tbl_energy_storage_containers_loads", ("power_point_id",), "API.THERE_IS_RELATION_WITH_ENERGY_STORAGE_CONTAINERS_LOADS"),
-    ("tbl_energy_storage_containers_loads_points", ("point_id",), "API.THERE_IS_RELATION_WITH_ENERGY_STORAGE_CONTAINERS_LOADS"),
-    ("tbl_energy_storage_containers_power_conversion_systems", ("run_state_point_id",), "API.THERE_IS_RELATION_WITH_ENERGY_STORAGE_CONTAINERS_POWER_CONVERSION_SYSTEMS"),
-    ("tbl_energy_storage_containers_pcses_points", ("point_id",), "API.THERE_IS_RELATION_WITH_ENERGY_STORAGE_CONTAINERS_POWER_CONVERSION_SYSTEMS"),
-    ("tbl_energy_storage_containers_stses_points", ("point_id",), "API.THERE_IS_RELATION_WITH_ENERGY_STORAGE_CONTAINERS_STSES"),
-    ("tbl_energy_storage_power_stations", ("latitude_point_id", "longitude_point_id"), "API.THERE_IS_RELATION_WITH_ENERGY_STORAGE_POWER_STATIONS"),
+    ("tbl_energy_storage_containers_batteries", ("battery_state_point_id", "soc_point_id", "power_point_id"),
+     "API.THERE_IS_RELATION_WITH_ENERGY_STORAGE_CONTAINERS_BATTERIES"),
+    ("tbl_energy_storage_containers_grids", ("power_point_id",),
+     "API.THERE_IS_RELATION_WITH_ENERGY_STORAGE_CONTAINERS_GRIDS"),
+    ("tbl_energy_storage_containers_grids_points", ("point_id",),
+     "API.THERE_IS_RELATION_WITH_ENERGY_STORAGE_CONTAINERS_GRIDS_POINTS"),
+    ("tbl_energy_storage_containers_bmses_points", ("point_id",),
+     "API.THERE_IS_RELATION_WITH_ENERGY_STORAGE_CONTAINERS_BMSES_POINTS"),
+    ("tbl_energy_storage_containers_dcdcs_points", ("point_id",),
+     "API.THERE_IS_RELATION_WITH_ENERGY_STORAGE_CONTAINERS_DCDCS"),
+    ("tbl_energy_storage_containers_firecontrols_points", ("point_id",),
+     "API.THERE_IS_RELATION_WITH_ENERGY_STORAGE_CONTAINERS_FIRECONTROLS"),
+    ("tbl_energy_storage_containers_hvacs_points", ("point_id",),
+     "API.THERE_IS_RELATION_WITH_ENERGY_STORAGE_CONTAINERS_HVACS"),
+    ("tbl_energy_storage_containers_loads", ("power_point_id",),
+     "API.THERE_IS_RELATION_WITH_ENERGY_STORAGE_CONTAINERS_LOADS"),
+    ("tbl_energy_storage_containers_loads_points", ("point_id",),
+     "API.THERE_IS_RELATION_WITH_ENERGY_STORAGE_CONTAINERS_LOADS"),
+    ("tbl_energy_storage_containers_power_conversion_systems", ("run_state_point_id",),
+     "API.THERE_IS_RELATION_WITH_ENERGY_STORAGE_CONTAINERS_POWER_CONVERSION_SYSTEMS"),
+    ("tbl_energy_storage_containers_pcses_points", ("point_id",),
+     "API.THERE_IS_RELATION_WITH_ENERGY_STORAGE_CONTAINERS_POWER_CONVERSION_SYSTEMS"),
+    ("tbl_energy_storage_containers_stses_points", ("point_id",),
+     "API.THERE_IS_RELATION_WITH_ENERGY_STORAGE_CONTAINERS_STSES"),
+    ("tbl_energy_storage_power_stations", ("latitude_point_id", "longitude_point_id"),
+     "API.THERE_IS_RELATION_WITH_ENERGY_STORAGE_POWER_STATIONS"),
     ("tbl_fuel_integrators", ("power_point_id", "result_point_id"), "API.THERE_IS_RELATION_WITH_FUEL_INTEGRATORS"),
     ("tbl_meters_points", ("point_id",), "API.THERE_IS_RELATION_WITH_METERS_POINTS"),
     ("tbl_sensors_points", ("point_id",), "API.THERE_IS_RELATION_WITH_SENSORS_POINTS"),
@@ -225,62 +252,71 @@ class PointCollection:
                 pass
 
         # Cache miss or Redis error - query database
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
 
-        query = (" SELECT id, name, uuid "
-                 " FROM tbl_data_sources ")
-        cursor.execute(query)
-        rows_data_sources = cursor.fetchall()
-
-        data_source_dict = dict()
-        if rows_data_sources is not None and len(rows_data_sources) > 0:
-            for row in rows_data_sources:
-                data_source_dict[row[0]] = {"id": row[0],
-                                            "name": row[1],
-                                            "uuid": row[2]}
-
-        query = (" SELECT id, name, data_source_id, object_type, units, "
-                 "        high_limit, low_limit, higher_limit, lower_limit, ratio, offset_constant, "
-                 "        is_trend, is_virtual, address, description, faults, definitions "
-                 " FROM tbl_points ")
-        cursor.execute(query)
-        rows = cursor.fetchall()
-        cursor.close()
-        cnx.close()
-
-        result = list()
-        if rows is not None and len(rows) > 0:
-            for row in rows:
-                meta_result = {"id": row[0],
-                               "name": row[1],
-                               "data_source": data_source_dict.get(row[2], None),
-                               "object_type": row[3],
-                               "units": row[4],
-                               "high_limit": row[5],
-                               "low_limit": row[6],
-                               "higher_limit": row[7],
-                               "lower_limit": row[8],
-                               "ratio": Decimal(row[9]),
-                               "offset_constant": Decimal(row[10]),
-                               "is_trend": bool(row[11]),
-                               "is_virtual": bool(row[12]),
-                               "address": row[13],
-                               "description": row[14],
-                               "faults": row[15],
-                               "definitions": row[16]}
-                result.append(meta_result)
-
-        # Store result in Redis cache
-        result_json = json.dumps(result)
-        if redis_client:
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
             try:
-                redis_client.setex(cache_key, cache_expire, result_json)
-            except Exception:
-                # If cache set fails, ignore and continue
-                pass
+                cursor = cnx.cursor()
 
-        resp.text = result_json
+                query = (" SELECT id, name, uuid "
+                         " FROM tbl_data_sources ")
+                cursor.execute(query)
+                rows_data_sources = cursor.fetchall()
+
+                data_source_dict = dict()
+                if rows_data_sources is not None and len(rows_data_sources) > 0:
+                    for row in rows_data_sources:
+                        data_source_dict[row[0]] = {"id": row[0],
+                                                    "name": row[1],
+                                                    "uuid": row[2]}
+
+                query = (" SELECT id, name, data_source_id, object_type, units, "
+                         "        high_limit, low_limit, higher_limit, lower_limit, ratio, offset_constant, "
+                         "        is_trend, is_virtual, address, description, faults, definitions "
+                         " FROM tbl_points ")
+                cursor.execute(query)
+                rows = cursor.fetchall()
+
+                result = list()
+                if rows is not None and len(rows) > 0:
+                    for row in rows:
+                        meta_result = {"id": row[0],
+                                       "name": row[1],
+                                       "data_source": data_source_dict.get(row[2], None),
+                                       "object_type": row[3],
+                                       "units": row[4],
+                                       "high_limit": row[5],
+                                       "low_limit": row[6],
+                                       "higher_limit": row[7],
+                                       "lower_limit": row[8],
+                                       "ratio": Decimal(row[9]),
+                                       "offset_constant": Decimal(row[10]),
+                                       "is_trend": bool(row[11]),
+                                       "is_virtual": bool(row[12]),
+                                       "address": row[13],
+                                       "description": row[14],
+                                       "faults": row[15],
+                                       "definitions": row[16]}
+                        result.append(meta_result)
+
+                # Store result in Redis cache
+                result_json = json.dumps(result)
+                if redis_client:
+                    try:
+                        redis_client.setex(cache_key, cache_expire, result_json)
+                    except Exception:
+                        # If cache set fails, ignore and continue
+                        pass
+
+                resp.text = result_json
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
     @staticmethod
     @user_logger
@@ -427,52 +463,58 @@ class PointCollection:
         else:
             definitions = None
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_points "
-                       " WHERE name = %s AND data_source_id = %s ", (name, data_source_id))
-        if cursor.fetchone() is not None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.POINT_NAME_IS_ALREADY_IN_USE')
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_data_sources "
-                       " WHERE id = %s ", (data_source_id,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.INVALID_DATA_SOURCE_ID')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_points "
+                               " WHERE name = %s AND data_source_id = %s ", (name, data_source_id))
+                if cursor.fetchone() is not None:
+                    raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                           description='API.POINT_NAME_IS_ALREADY_IN_USE')
 
-        add_value = (" INSERT INTO tbl_points (name, data_source_id, object_type, units, "
-                     "                         high_limit, low_limit, higher_limit, lower_limit, ratio, "
-                     "                         offset_constant, is_trend, is_virtual, address, description, faults, "
-                     "                         definitions) "
-                     " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) ")
-        cursor.execute(add_value, (name,
-                                   data_source_id,
-                                   object_type,
-                                   units,
-                                   high_limit,
-                                   low_limit,
-                                   higher_limit,
-                                   lower_limit,
-                                   ratio,
-                                   offset_constant,
-                                   is_trend,
-                                   is_virtual,
-                                   address,
-                                   description,
-                                   faults,
-                                   definitions))
-        new_id = cursor.lastrowid
-        cnx.commit()
-        cursor.close()
-        cnx.close()
+                cursor.execute(" SELECT name "
+                               " FROM tbl_data_sources "
+                               " WHERE id = %s ", (data_source_id,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                           description='API.INVALID_DATA_SOURCE_ID')
+
+                add_value = (" INSERT INTO tbl_points (name, data_source_id, object_type, units, "
+                             "                         high_limit, low_limit, higher_limit, lower_limit, ratio, "
+                             "                         offset_constant, is_trend, is_virtual, "
+                             "                         address, description, faults, "
+                             "                         definitions) "
+                             " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) ")
+                cursor.execute(add_value, (name,
+                                           data_source_id,
+                                           object_type,
+                                           units,
+                                           high_limit,
+                                           low_limit,
+                                           higher_limit,
+                                           lower_limit,
+                                           ratio,
+                                           offset_constant,
+                                           is_trend,
+                                           is_virtual,
+                                           address,
+                                           description,
+                                           faults,
+                                           definitions))
+                new_id = cursor.lastrowid
+                cnx.commit()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         # Clear cache after creating new point
         clear_point_cache()
@@ -526,62 +568,72 @@ class PointItem:
                 pass
 
         # Cache miss or Redis error - query database
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
 
-        query = (" SELECT id, name, uuid "
-                 " FROM tbl_data_sources ")
-        cursor.execute(query)
-        rows_data_sources = cursor.fetchall()
-
-        data_source_dict = dict()
-        if rows_data_sources is not None and len(rows_data_sources) > 0:
-            for row in rows_data_sources:
-                data_source_dict[row[0]] = {"id": row[0],
-                                            "name": row[1],
-                                            "uuid": row[2]}
-
-        query = (" SELECT id, name, data_source_id, object_type, units, "
-                 "        high_limit, low_limit, higher_limit, lower_limit, ratio, offset_constant, "
-                 "        is_trend, is_virtual, address, description, faults, definitions "
-                 " FROM tbl_points "
-                 " WHERE id = %s ")
-        cursor.execute(query, (id_,))
-        row = cursor.fetchone()
-        cursor.close()
-        cnx.close()
-        if row is None:
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.POINT_NOT_FOUND')
-
-        result = {"id": row[0],
-                  "name": row[1],
-                  "data_source": data_source_dict.get(row[2], None),
-                  "object_type": row[3],
-                  "units": row[4],
-                  "high_limit": row[5],
-                  "low_limit": row[6],
-                  "higher_limit": row[7],
-                  "lower_limit": row[8],
-                  "ratio": Decimal(row[9]),
-                  "offset_constant": Decimal(row[10]),
-                  "is_trend": bool(row[11]),
-                  "is_virtual": bool(row[12]),
-                  "address": row[13],
-                  "description": row[14],
-                  "faults": row[15],
-                  "definitions": row[16]}
-
-        # Store result in Redis cache
-        result_json = json.dumps(result)
-        if redis_client:
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
             try:
-                redis_client.setex(cache_key, cache_expire, result_json)
-            except Exception:
-                # If cache set fails, ignore and continue
-                pass
+                cursor = cnx.cursor()
 
-        resp.text = result_json
+                query = (" SELECT id, name, uuid "
+                         " FROM tbl_data_sources ")
+                cursor.execute(query)
+                rows_data_sources = cursor.fetchall()
+
+                data_source_dict = dict()
+                if rows_data_sources is not None and len(rows_data_sources) > 0:
+                    for row in rows_data_sources:
+                        data_source_dict[row[0]] = {"id": row[0],
+                                                    "name": row[1],
+                                                    "uuid": row[2]}
+
+                query = (" SELECT id, name, data_source_id, object_type, units, "
+                         "        high_limit, low_limit, higher_limit, lower_limit, ratio, offset_constant, "
+                         "        is_trend, is_virtual, address, description, faults, definitions "
+                         " FROM tbl_points "
+                         " WHERE id = %s ")
+                cursor.execute(query, (id_,))
+                row = cursor.fetchone()
+                
+                if row is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.POINT_NOT_FOUND')
+
+                result = {"id": row[0],
+                          "name": row[1],
+                          "data_source": data_source_dict.get(row[2], None),
+                          "object_type": row[3],
+                          "units": row[4],
+                          "high_limit": row[5],
+                          "low_limit": row[6],
+                          "higher_limit": row[7],
+                          "lower_limit": row[8],
+                          "ratio": Decimal(row[9]),
+                          "offset_constant": Decimal(row[10]),
+                          "is_trend": bool(row[11]),
+                          "is_virtual": bool(row[12]),
+                          "address": row[13],
+                          "description": row[14],
+                          "faults": row[15],
+                          "definitions": row[16]}
+
+                # Store result in Redis cache
+                result_json = json.dumps(result)
+                if redis_client:
+                    try:
+                        redis_client.setex(cache_key, cache_expire, result_json)
+                    except Exception:
+                        # If cache set fails, ignore and continue
+                        pass
+
+                resp.text = result_json
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
     @staticmethod
     @user_logger
@@ -591,43 +643,44 @@ class PointItem:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_POINT_ID')
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_points "
-                       " WHERE id = %s ", (id_,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.POINT_NOT_FOUND')
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        point_id = int(id_)
+                cursor.execute(" SELECT name "
+                               " FROM tbl_points "
+                               " WHERE id = %s ", (id_,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.POINT_NOT_FOUND')
 
-        def _raise_relation_error(description):
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_400,
-                                   title='API.BAD_REQUEST',
-                                   description=description)
+                point_id = int(id_)
 
-        for table_name, columns, error_description in POINT_RELATION_CHECKS:
-            for column in columns:
-                try:
-                    cursor.execute(
-                        f" SELECT 1 FROM {table_name} WHERE {column} = %s LIMIT 1 ",
-                        (point_id,))
-                except mysql.connector.Error:
-                    continue
-                if cursor.fetchone() is not None:
-                    _raise_relation_error(error_description)
+                for table_name, columns, error_description in POINT_RELATION_CHECKS:
+                    for column in columns:
+                        try:
+                            cursor.execute(
+                                f" SELECT 1 FROM {table_name} WHERE {column} = %s LIMIT 1 ",
+                                (point_id,))
+                        except mysql.connector.Error:
+                            continue
+                        if cursor.fetchone() is not None:
+                            raise falcon.HTTPError(status=falcon.HTTP_400,
+                                                   title='API.BAD_REQUEST',
+                                                   description=error_description)
 
-        cursor.execute(" DELETE FROM tbl_points WHERE id = %s ", (id_,))
-        cnx.commit()
-
-        cursor.close()
-        cnx.close()
+                cursor.execute(" DELETE FROM tbl_points WHERE id = %s ", (id_,))
+                cnx.commit()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         # Clear cache after deleting point
         clear_point_cache(point_id)
@@ -782,64 +835,68 @@ class PointItem:
             definitions = str.strip(new_values['data']['definitions'])
         else:
             definitions = None
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        
+        cnx = None
+        cursor = None
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_points "
-                       " WHERE id = %s ", (id_,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.POINT_NOT_FOUND')
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_data_sources "
-                       " WHERE id = %s ", (data_source_id,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.INVALID_DATA_SOURCE_ID')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_points "
+                               " WHERE id = %s ", (id_,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.POINT_NOT_FOUND')
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_points "
-                       " WHERE name = %s AND data_source_id = %s AND id != %s ", (name, data_source_id, id_))
-        if cursor.fetchone() is not None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.POINT_NAME_IS_ALREADY_IN_USE')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_data_sources "
+                               " WHERE id = %s ", (data_source_id,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                           description='API.INVALID_DATA_SOURCE_ID')
 
-        update_row = (" UPDATE tbl_points "
-                      " SET name = %s, data_source_id = %s, "
-                      "     object_type = %s, units = %s, "
-                      "     high_limit = %s, low_limit = %s, higher_limit = %s, lower_limit = %s, ratio = %s, "
-                      "     offset_constant = %s, is_trend = %s, is_virtual = %s, address = %s, description = %s, "
-                      "     faults = %s, definitions = %s "
-                      " WHERE id = %s ")
-        cursor.execute(update_row, (name,
-                                    data_source_id,
-                                    object_type,
-                                    units,
-                                    high_limit,
-                                    low_limit,
-                                    higher_limit,
-                                    lower_limit,
-                                    ratio,
-                                    offset_constant,
-                                    is_trend,
-                                    is_virtual,
-                                    address,
-                                    description,
-                                    faults,
-                                    definitions,
-                                    id_,))
-        cnx.commit()
+                cursor.execute(" SELECT name "
+                               " FROM tbl_points "
+                               " WHERE name = %s AND data_source_id = %s AND id != %s ", (name, data_source_id, id_))
+                if cursor.fetchone() is not None:
+                    raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                           description='API.POINT_NAME_IS_ALREADY_IN_USE')
 
-        cursor.close()
-        cnx.close()
+                update_row = (" UPDATE tbl_points "
+                              " SET name = %s, data_source_id = %s, "
+                              "     object_type = %s, units = %s, "
+                              "     high_limit = %s, low_limit = %s, higher_limit = %s, lower_limit = %s, ratio = %s, "
+                              "     offset_constant = %s, is_trend = %s, is_virtual = %s, "
+                              "     address = %s, description = %s, "
+                              "     faults = %s, definitions = %s "
+                              " WHERE id = %s ")
+                cursor.execute(update_row, (name,
+                                            data_source_id,
+                                            object_type,
+                                            units,
+                                            high_limit,
+                                            low_limit,
+                                            higher_limit,
+                                            lower_limit,
+                                            ratio,
+                                            offset_constant,
+                                            is_trend,
+                                            is_virtual,
+                                            address,
+                                            description,
+                                            faults,
+                                            definitions,
+                                            id_,))
+                cnx.commit()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         # Clear cache after updating point
         clear_point_cache(int(id_))
@@ -907,30 +964,36 @@ class PointLimit:
                                    description='API.INVALID_LOWER_LIMIT_VALUE')
         lower_limit = new_values['data']['lower_limit']
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_points "
-                       " WHERE id = %s ", (id_,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.POINT_NOT_FOUND')
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        update_row = (" UPDATE tbl_points "
-                      " SET  high_limit = %s, low_limit = %s, higher_limit = %s, lower_limit = %s "
-                      " WHERE id = %s ")
-        cursor.execute(update_row, (high_limit,
-                                    low_limit,
-                                    higher_limit,
-                                    lower_limit,
-                                    id_,))
-        cnx.commit()
+                cursor.execute(" SELECT name "
+                               " FROM tbl_points "
+                               " WHERE id = %s ", (id_,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.POINT_NOT_FOUND')
 
-        cursor.close()
-        cnx.close()
+                update_row = (" UPDATE tbl_points "
+                              " SET  high_limit = %s, low_limit = %s, higher_limit = %s, lower_limit = %s "
+                              " WHERE id = %s ")
+                cursor.execute(update_row, (high_limit,
+                                            low_limit,
+                                            higher_limit,
+                                            lower_limit,
+                                            id_,))
+                cnx.commit()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         # Clear cache after updating point limits
         clear_point_cache(int(id_))
@@ -977,24 +1040,31 @@ class PointSetValue:
                                    description='API.INVALID_SET_VALUE')
         set_value = new_values['data']['set_value']
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_points "
-                       " WHERE id = %s ", (id_,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.POINT_NOT_FOUND')
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        add_value = (" INSERT INTO tbl_points_set_values (point_id, set_value, utc_date_time) "
-                     " VALUES (%s, %s, %s) ")
-        cursor.execute(add_value, (id_, set_value, datetime.utcnow()))
-        cnx.commit()
-        cursor.close()
-        cnx.close()
+                cursor.execute(" SELECT name "
+                               " FROM tbl_points "
+                               " WHERE id = %s ", (id_,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.POINT_NOT_FOUND')
+
+                add_value = (" INSERT INTO tbl_points_set_values (point_id, set_value, utc_date_time) "
+                             " VALUES (%s, %s, %s) ")
+                cursor.execute(add_value, (id_, set_value, datetime.utcnow()))
+                cnx.commit()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         resp.status = falcon.HTTP_200
 
@@ -1044,62 +1114,72 @@ class PointExport:
                 pass
 
         # Cache miss or Redis error - query database
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
 
-        query = (" SELECT id, name, uuid "
-                 " FROM tbl_data_sources ")
-        cursor.execute(query)
-        rows_data_sources = cursor.fetchall()
-
-        data_source_dict = dict()
-        if rows_data_sources is not None and len(rows_data_sources) > 0:
-            for row in rows_data_sources:
-                data_source_dict[row[0]] = {"id": row[0],
-                                            "name": row[1],
-                                            "uuid": row[2]}
-
-        query = (" SELECT id, name, data_source_id, object_type, units, "
-                 "        high_limit, low_limit, higher_limit, lower_limit, ratio, offset_constant, "
-                 "        is_trend, is_virtual, address, description, faults, definitions "
-                 " FROM tbl_points "
-                 " WHERE id = %s ")
-        cursor.execute(query, (id_,))
-        row = cursor.fetchone()
-        cursor.close()
-        cnx.close()
-        if row is None:
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.POINT_NOT_FOUND')
-
-        result = {"id": row[0],
-                  "name": row[1],
-                  "data_source": data_source_dict.get(row[2], None),
-                  "object_type": row[3],
-                  "units": row[4],
-                  "high_limit": row[5],
-                  "low_limit": row[6],
-                  "higher_limit": row[7],
-                  "lower_limit": row[8],
-                  "ratio": Decimal(row[9]),
-                  "offset_constant": Decimal(row[10]),
-                  "is_trend": bool(row[11]),
-                  "is_virtual": bool(row[12]),
-                  "address": row[13],
-                  "description": row[14],
-                  "faults": row[15],
-                  "definitions": row[16]}
-
-        # Store result in Redis cache
-        result_json = json.dumps(result)
-        if redis_client:
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
             try:
-                redis_client.setex(cache_key, cache_expire, result_json)
-            except Exception:
-                # If cache set fails, ignore and continue
-                pass
+                cursor = cnx.cursor()
 
-        resp.text = result_json
+                query = (" SELECT id, name, uuid "
+                         " FROM tbl_data_sources ")
+                cursor.execute(query)
+                rows_data_sources = cursor.fetchall()
+
+                data_source_dict = dict()
+                if rows_data_sources is not None and len(rows_data_sources) > 0:
+                    for row in rows_data_sources:
+                        data_source_dict[row[0]] = {"id": row[0],
+                                                    "name": row[1],
+                                                    "uuid": row[2]}
+
+                query = (" SELECT id, name, data_source_id, object_type, units, "
+                         "        high_limit, low_limit, higher_limit, lower_limit, ratio, offset_constant, "
+                         "        is_trend, is_virtual, address, description, faults, definitions "
+                         " FROM tbl_points "
+                         " WHERE id = %s ")
+                cursor.execute(query, (id_,))
+                row = cursor.fetchone()
+                
+                if row is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.POINT_NOT_FOUND')
+
+                result = {"id": row[0],
+                          "name": row[1],
+                          "data_source": data_source_dict.get(row[2], None),
+                          "object_type": row[3],
+                          "units": row[4],
+                          "high_limit": row[5],
+                          "low_limit": row[6],
+                          "higher_limit": row[7],
+                          "lower_limit": row[8],
+                          "ratio": Decimal(row[9]),
+                          "offset_constant": Decimal(row[10]),
+                          "is_trend": bool(row[11]),
+                          "is_virtual": bool(row[12]),
+                          "address": row[13],
+                          "description": row[14],
+                          "faults": row[15],
+                          "definitions": row[16]}
+
+                # Store result in Redis cache
+                result_json = json.dumps(result)
+                if redis_client:
+                    try:
+                        redis_client.setex(cache_key, cache_expire, result_json)
+                    except Exception:
+                        # If cache set fails, ignore and continue
+                        pass
+
+                resp.text = result_json
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
 
 class PointImport:
@@ -1256,52 +1336,58 @@ class PointImport:
         else:
             definitions = None
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_points "
-                       " WHERE name = %s AND data_source_id = %s ", (name, data_source_id))
-        if cursor.fetchone() is not None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.POINT_NAME_IS_ALREADY_IN_USE')
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_data_sources "
-                       " WHERE id = %s ", (data_source_id,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.INVALID_DATA_SOURCE_ID')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_points "
+                               " WHERE name = %s AND data_source_id = %s ", (name, data_source_id))
+                if cursor.fetchone() is not None:
+                    raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                           description='API.POINT_NAME_IS_ALREADY_IN_USE')
 
-        add_value = (" INSERT INTO tbl_points (name, data_source_id, object_type, units, "
-                     "                         high_limit, low_limit, higher_limit, lower_limit, ratio, "
-                     "                         offset_constant, is_trend, is_virtual, address, description, faults, "
-                     "                         definitions) "
-                     " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) ")
-        cursor.execute(add_value, (name,
-                                   data_source_id,
-                                   object_type,
-                                   units,
-                                   high_limit,
-                                   low_limit,
-                                   higher_limit,
-                                   lower_limit,
-                                   ratio,
-                                   offset_constant,
-                                   is_trend,
-                                   is_virtual,
-                                   address,
-                                   description,
-                                   faults,
-                                   definitions))
-        new_id = cursor.lastrowid
-        cnx.commit()
-        cursor.close()
-        cnx.close()
+                cursor.execute(" SELECT name "
+                               " FROM tbl_data_sources "
+                               " WHERE id = %s ", (data_source_id,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                           description='API.INVALID_DATA_SOURCE_ID')
+
+                add_value = (" INSERT INTO tbl_points (name, data_source_id, object_type, units, "
+                             "                         high_limit, low_limit, higher_limit, lower_limit, ratio, "
+                             "                         offset_constant, is_trend, is_virtual, "
+                             "                         address, description, faults, "
+                             "                         definitions) "
+                             " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) ")
+                cursor.execute(add_value, (name,
+                                           data_source_id,
+                                           object_type,
+                                           units,
+                                           high_limit,
+                                           low_limit,
+                                           higher_limit,
+                                           lower_limit,
+                                           ratio,
+                                           offset_constant,
+                                           is_trend,
+                                           is_virtual,
+                                           address,
+                                           description,
+                                           faults,
+                                           definitions))
+                new_id = cursor.lastrowid
+                cnx.commit()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         # Clear cache after importing new point
         clear_point_cache()
@@ -1328,71 +1414,81 @@ class PointClone:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_POINT_ID')
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
 
-        query = (" SELECT id, name, data_source_id, object_type, units, "
-                 "        high_limit, low_limit, higher_limit, lower_limit, ratio, offset_constant, "
-                 "        is_trend, is_virtual, address, description, faults, definitions "
-                 " FROM tbl_points "
-                 " WHERE id = %s ")
-        cursor.execute(query, (id_,))
-        row = cursor.fetchone()
-        if row is None:
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.POINT_NOT_FOUND')
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        result = {"id": row[0],
-                  "name": row[1],
-                  "data_source_id": row[2],
-                  "object_type": row[3],
-                  "units": row[4],
-                  "high_limit": row[5],
-                  "low_limit": row[6],
-                  "higher_limit": row[7],
-                  "lower_limit": row[8],
-                  "ratio": Decimal(row[9]),
-                  "offset_constant": Decimal(row[10]),
-                  "is_trend": bool(row[11]),
-                  "is_virtual": bool(row[12]),
-                  "address": row[13],
-                  "description": row[14],
-                  "faults": row[15],
-                  "definitions": row[16]}
-        timezone_offset = int(config.utc_offset[1:3]) * 60 + int(config.utc_offset[4:6])
-        if config.utc_offset[0] == '-':
-            timezone_offset = -timezone_offset
-        new_name = (str.strip(result['name']) +
-                    (datetime.utcnow() + timedelta(minutes=timezone_offset)).isoformat(sep='-', timespec='seconds'))
-        add_value = (" INSERT INTO tbl_points (name, data_source_id, object_type, units, "
-                     "                         high_limit, low_limit, higher_limit, lower_limit, ratio, "
-                     "                         offset_constant, is_trend, is_virtual, address, description, faults, "
-                     "                         definitions) "
-                     " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) ")
-        cursor.execute(add_value, (new_name,
-                                   result['data_source_id'],
-                                   result['object_type'],
-                                   result['units'],
-                                   result['high_limit'],
-                                   result['low_limit'],
-                                   result['higher_limit'],
-                                   result['lower_limit'],
-                                   result['ratio'],
-                                   result['offset_constant'],
-                                   result['is_trend'],
-                                   result['is_virtual'],
-                                   result['address'],
-                                   result['description'],
-                                   result['faults'],
-                                   result['definitions']))
-        new_id = cursor.lastrowid
-        cnx.commit()
-        cursor.close()
-        cnx.close()
+                query = (" SELECT id, name, data_source_id, object_type, units, "
+                         "        high_limit, low_limit, higher_limit, lower_limit, ratio, offset_constant, "
+                         "        is_trend, is_virtual, address, description, faults, definitions "
+                         " FROM tbl_points "
+                         " WHERE id = %s ")
+                cursor.execute(query, (id_,))
+                row = cursor.fetchone()
+                if row is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.POINT_NOT_FOUND')
+
+                result = {"id": row[0],
+                          "name": row[1],
+                          "data_source_id": row[2],
+                          "object_type": row[3],
+                          "units": row[4],
+                          "high_limit": row[5],
+                          "low_limit": row[6],
+                          "higher_limit": row[7],
+                          "lower_limit": row[8],
+                          "ratio": Decimal(row[9]),
+                          "offset_constant": Decimal(row[10]),
+                          "is_trend": bool(row[11]),
+                          "is_virtual": bool(row[12]),
+                          "address": row[13],
+                          "description": row[14],
+                          "faults": row[15],
+                          "definitions": row[16]}
+                timezone_offset = int(config.utc_offset[1:3]) * 60 + int(config.utc_offset[4:6])
+                if config.utc_offset[0] == '-':
+                    timezone_offset = -timezone_offset
+                new_name = (str.strip(result['name']) +
+                            (datetime.utcnow() +
+                             timedelta(minutes=timezone_offset)).isoformat(sep='-', timespec='seconds'))
+                add_value = (" INSERT INTO tbl_points (name, data_source_id, object_type, units, "
+                             "                         high_limit, low_limit, higher_limit, lower_limit, ratio, "
+                             "                         offset_constant, is_trend, is_virtual, "
+                             "                         address, description, faults, "
+                             "                         definitions) "
+                             " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) ")
+                cursor.execute(add_value, (new_name,
+                                           result['data_source_id'],
+                                           result['object_type'],
+                                           result['units'],
+                                           result['high_limit'],
+                                           result['low_limit'],
+                                           result['higher_limit'],
+                                           result['lower_limit'],
+                                           result['ratio'],
+                                           result['offset_constant'],
+                                           result['is_trend'],
+                                           result['is_virtual'],
+                                           result['address'],
+                                           result['description'],
+                                           result['faults'],
+                                           result['definitions']))
+                new_id = cursor.lastrowid
+                cnx.commit()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         # Clear cache after cloning point
         clear_point_cache()
 
         resp.status = falcon.HTTP_201
         resp.location = '/points/' + str(new_id)
-

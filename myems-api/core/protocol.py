@@ -114,36 +114,45 @@ class ProtocolCollection:
                 pass
 
         # Cache miss or Redis error - query database
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
 
-        query = (" SELECT id, name, code "
-                 " FROM tbl_protocols "
-                 " ORDER BY id ")
-        cursor.execute(query)
-        rows = cursor.fetchall()
-        cursor.close()
-        cnx.close()
-
-        # Build result list
-        result = list()
-        if rows is not None and len(rows) > 0:
-            for row in rows:
-                meta_result = {"id": row[0],
-                               "name": row[1],
-                               "code": row[2]}
-                result.append(meta_result)
-
-        # Store result in Redis cache
-        result_json = json.dumps(result)
-        if redis_client:
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
             try:
-                redis_client.setex(cache_key, cache_expire, result_json)
-            except Exception:
-                # If cache set fails, ignore and continue
-                pass
+                cursor = cnx.cursor()
 
-        resp.text = result_json
+                query = (" SELECT id, name, code "
+                         " FROM tbl_protocols "
+                         " ORDER BY id ")
+                cursor.execute(query)
+                rows = cursor.fetchall()
+
+                # Build result list
+                result = list()
+                if rows is not None and len(rows) > 0:
+                    for row in rows:
+                        meta_result = {"id": row[0],
+                                       "name": row[1],
+                                       "code": row[2]}
+                        result.append(meta_result)
+
+                # Store result in Redis cache
+                result_json = json.dumps(result)
+                if redis_client:
+                    try:
+                        redis_client.setex(cache_key, cache_expire, result_json)
+                    except Exception:
+                        # If cache set fails, ignore and continue
+                        pass
+
+                resp.text = result_json
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
     @staticmethod
     @user_logger
@@ -194,41 +203,45 @@ class ProtocolCollection:
                                    description='API.INVALID_PROTOCOL_CODE')
         code = str.strip(new_values['data']['code'])
 
-        # Connect to database
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
 
-        # Check if protocol name already exists
-        cursor.execute(" SELECT name "
-                       " FROM tbl_protocols "
-                       " WHERE name = %s ", (name,))
-        if cursor.fetchone() is not None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.PROTOCOL_NAME_IS_ALREADY_IN_USE')
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        # Check if protocol code already exists
-        cursor.execute(" SELECT code "
-                       " FROM tbl_protocols "
-                       " WHERE code = %s ", (code,))
-        if cursor.fetchone() is not None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.PROTOCOL_CODE_IS_ALREADY_IN_USE')
+                # Check if protocol name already exists
+                cursor.execute(" SELECT name "
+                               " FROM tbl_protocols "
+                               " WHERE name = %s ", (name,))
+                if cursor.fetchone() is not None:
+                    raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                           description='API.PROTOCOL_NAME_IS_ALREADY_IN_USE')
 
-        # Insert new protocol
-        add_row = (" INSERT INTO tbl_protocols "
-                   "     (name, code) "
-                   " VALUES (%s, %s) ")
+                # Check if protocol code already exists
+                cursor.execute(" SELECT code "
+                               " FROM tbl_protocols "
+                               " WHERE code = %s ", (code,))
+                if cursor.fetchone() is not None:
+                    raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                           description='API.PROTOCOL_CODE_IS_ALREADY_IN_USE')
 
-        cursor.execute(add_row, (name,
-                                 code))
-        new_id = cursor.lastrowid
-        cnx.commit()
-        cursor.close()
-        cnx.close()
+                # Insert new protocol
+                add_row = (" INSERT INTO tbl_protocols "
+                           "     (name, code) "
+                           " VALUES (%s, %s) ")
+
+                cursor.execute(add_row, (name,
+                                         code))
+                new_id = cursor.lastrowid
+                cnx.commit()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         # Clear cache after creating new protocol
         clear_protocol_cache()
@@ -308,37 +321,46 @@ class ProtocolItem:
                 pass
 
         # Cache miss or Redis error - query database
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
 
-        query = (" SELECT id, name, code "
-                 " FROM tbl_protocols "
-                 " WHERE id = %s ")
-        cursor.execute(query, (id_,))
-        row = cursor.fetchone()
-        cursor.close()
-        cnx.close()
-
-        # Check if protocol exists
-        if row is None:
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.PROTOCOL_NOT_FOUND')
-
-        # Build result
-        result = {"id": row[0],
-                  "name": row[1],
-                  "code": row[2]}
-
-        # Store result in Redis cache
-        result_json = json.dumps(result)
-        if redis_client:
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
             try:
-                redis_client.setex(cache_key, cache_expire, result_json)
-            except Exception:
-                # If cache set fails, ignore and continue
-                pass
+                cursor = cnx.cursor()
 
-        resp.text = result_json
+                query = (" SELECT id, name, code "
+                         " FROM tbl_protocols "
+                         " WHERE id = %s ")
+                cursor.execute(query, (id_,))
+                row = cursor.fetchone()
+
+                # Check if protocol exists
+                if row is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.PROTOCOL_NOT_FOUND')
+
+                # Build result
+                result = {"id": row[0],
+                          "name": row[1],
+                          "code": row[2]}
+
+                # Store result in Redis cache
+                result_json = json.dumps(result)
+                if redis_client:
+                    try:
+                        redis_client.setex(cache_key, cache_expire, result_json)
+                    except Exception:
+                        # If cache set fails, ignore and continue
+                        pass
+
+                resp.text = result_json
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
     @staticmethod
     @user_logger
@@ -364,49 +386,50 @@ class ProtocolItem:
                 description='API.INVALID_PROTOCOL_ID'
             )
 
-        # Connect to database
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
 
-        # Check if protocol exists
-        cursor.execute("SELECT name,code FROM tbl_protocols WHERE id = %s", (id_,))
-        row = cursor.fetchone()
-        if row is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(
-                status=falcon.HTTP_404,
-                title='API.NOT_FOUND',
-                description='API.PROTOCOL_NOT_FOUND'
-            )
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        # Check if this protocol is being used by any data sources
-        code = row[1]
-        cursor.execute(" SELECT name "
-                       " FROM tbl_data_sources "
-                       " WHERE protocol = %s "
-                       " LIMIT 1 ",
-                       (code,))
-        if cursor.fetchone() is not None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_400,
-                                   title='API.BAD_REQUEST',
-                                   description='API.THERE_IS_RELATION_WITH_DATA_SOURCES')
+                # Check if protocol exists
+                cursor.execute("SELECT name,code FROM tbl_protocols WHERE id = %s", (id_,))
+                row = cursor.fetchone()
+                if row is None:
+                    raise falcon.HTTPError(
+                        status=falcon.HTTP_404,
+                        title='API.NOT_FOUND',
+                        description='API.PROTOCOL_NOT_FOUND'
+                    )
 
-        # Delete the protocol
-        cursor.execute(" DELETE FROM tbl_protocols WHERE id = %s ", (id_,))
-        cnx.commit()
+                # Check if this protocol is being used by any data sources
+                code = row[1]
+                cursor.execute(" SELECT name "
+                               " FROM tbl_data_sources "
+                               " WHERE protocol = %s "
+                               " LIMIT 1 ",
+                               (code,))
+                if cursor.fetchone() is not None:
+                    raise falcon.HTTPError(status=falcon.HTTP_400,
+                                           title='API.BAD_REQUEST',
+                                           description='API.THERE_IS_RELATION_WITH_DATA_SOURCES')
 
-        cursor.close()
-        cnx.close()
+                # Delete the protocol
+                cursor.execute(" DELETE FROM tbl_protocols WHERE id = %s ", (id_,))
+                cnx.commit()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         # Clear cache after deleting protocol
         clear_protocol_cache(protocol_id=id_)
 
         resp.status = falcon.HTTP_204
-
-
 
     @staticmethod
     @user_logger
@@ -463,56 +486,54 @@ class ProtocolItem:
                                    description='API.INVALID_PROTOCOL_CODE')
         code = str.strip(new_values['data']['code'])
 
-        # Connect to database
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
 
-        # Check if protocol exists
-        cursor.execute(" SELECT name "
-                       " FROM tbl_protocols "
-                       " WHERE id = %s ", (id_,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.PROTOCOL_NOT_FOUND')
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        # Check if new name already exists (excluding current protocol)
-        cursor.execute(" SELECT name "
-                       " FROM tbl_protocols "
-                       " WHERE name = %s AND id != %s ", (name, id_))
-        if cursor.fetchone() is not None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.PROTOCOL_NAME_IS_ALREADY_IN_USE')
+                # Check if protocol exists
+                cursor.execute(" SELECT name "
+                               " FROM tbl_protocols "
+                               " WHERE id = %s ", (id_,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.PROTOCOL_NOT_FOUND')
 
-        # Check if new code already exists (excluding current protocol)
-        cursor.execute(" SELECT code "
-                       " FROM tbl_protocols "
-                       " WHERE code = %s AND id != %s ", (code, id_))
-        if cursor.fetchone() is not None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.PROTOCOL_CODE_IS_ALREADY_IN_USE')
+                # Check if new name already exists (excluding current protocol)
+                cursor.execute(" SELECT name "
+                               " FROM tbl_protocols "
+                               " WHERE name = %s AND id != %s ", (name, id_))
+                if cursor.fetchone() is not None:
+                    raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                           description='API.PROTOCOL_NAME_IS_ALREADY_IN_USE')
 
-        # Update the protocol
-        update_row = (" UPDATE tbl_protocols "
-                      " SET name = %s, code = %s "
-                      " WHERE id = %s ")
-        cursor.execute(update_row, (name,
-                                    code,
-                                    id_,))
-        cnx.commit()
+                # Check if new code already exists (excluding current protocol)
+                cursor.execute(" SELECT code "
+                               " FROM tbl_protocols "
+                               " WHERE code = %s AND id != %s ", (code, id_))
+                if cursor.fetchone() is not None:
+                    raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                           description='API.PROTOCOL_CODE_IS_ALREADY_IN_USE')
 
-        cursor.close()
-        cnx.close()
+                # Update the protocol
+                update_row = (" UPDATE tbl_protocols "
+                              " SET name = %s, code = %s "
+                              " WHERE id = %s ")
+                cursor.execute(update_row, (name,
+                                            code,
+                                            id_,))
+                cnx.commit()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         # Clear cache after updating protocol
         clear_protocol_cache(protocol_id=id_)
 
         resp.status = falcon.HTTP_200
-
-
-

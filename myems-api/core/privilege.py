@@ -102,37 +102,46 @@ class PrivilegeCollection:
                 pass
 
         # Cache miss or Redis error - query database
-        cnx = mysql.connector.connect(**config.myems_user_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
 
-        # Query to retrieve all privileges ordered by ID descending
-        query = (" SELECT id, name, data "
-                 " FROM tbl_privileges "
-                 " ORDER BY id DESC ")
-        cursor.execute(query)
-        rows = cursor.fetchall()
-        cursor.close()
-        cnx.close()
-
-        # Build result list
-        result = list()
-        if rows is not None and len(rows) > 0:
-            for row in rows:
-                meta_result = {"id": row[0],
-                               "name": row[1],
-                               "data": row[2]}
-                result.append(meta_result)
-
-        # Store result in Redis cache
-        result_json = json.dumps(result)
-        if redis_client:
+        try:
+            cnx = mysql.connector.connect(**config.myems_user_db)
             try:
-                redis_client.setex(cache_key, cache_expire, result_json)
-            except Exception:
-                # If cache set fails, ignore and continue
-                pass
+                cursor = cnx.cursor()
 
-        resp.text = result_json
+                # Query to retrieve all privileges ordered by ID descending
+                query = (" SELECT id, name, data "
+                         " FROM tbl_privileges "
+                         " ORDER BY id DESC ")
+                cursor.execute(query)
+                rows = cursor.fetchall()
+
+                # Build result list
+                result = list()
+                if rows is not None and len(rows) > 0:
+                    for row in rows:
+                        meta_result = {"id": row[0],
+                                       "name": row[1],
+                                       "data": row[2]}
+                        result.append(meta_result)
+
+                # Store result in Redis cache
+                result_json = json.dumps(result)
+                if redis_client:
+                    try:
+                        redis_client.setex(cache_key, cache_expire, result_json)
+                    except Exception:
+                        # If cache set fails, ignore and continue
+                        pass
+
+                resp.text = result_json
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
     @staticmethod
     @user_logger
@@ -185,29 +194,36 @@ class PrivilegeCollection:
                                    description='API.INVALID_PRIVILEGE_DATA')
         data = str.strip(new_values['data']['data'])
 
-        cnx = mysql.connector.connect(**config.myems_user_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
 
-        # Check if privilege name already exists
-        cursor.execute(" SELECT name "
-                       " FROM tbl_privileges "
-                       " WHERE name = %s ", (name,))
-        if cursor.fetchone() is not None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.PRIVILEGE_NAME_IS_ALREADY_IN_USE')
+        try:
+            cnx = mysql.connector.connect(**config.myems_user_db)
+            try:
+                cursor = cnx.cursor()
 
-        # Insert new privilege into database
-        add_row = (" INSERT INTO tbl_privileges "
-                   "             (name, data) "
-                   " VALUES (%s, %s) ")
+                # Check if privilege name already exists
+                cursor.execute(" SELECT name "
+                               " FROM tbl_privileges "
+                               " WHERE name = %s ", (name,))
+                if cursor.fetchone() is not None:
+                    raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                           description='API.PRIVILEGE_NAME_IS_ALREADY_IN_USE')
 
-        cursor.execute(add_row, (name, data, ))
-        new_id = cursor.lastrowid
-        cnx.commit()
-        cursor.close()
-        cnx.close()
+                # Insert new privilege into database
+                add_row = (" INSERT INTO tbl_privileges "
+                           "             (name, data) "
+                           " VALUES (%s, %s) ")
+
+                cursor.execute(add_row, (name, data, ))
+                new_id = cursor.lastrowid
+                cnx.commit()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         # Clear cache after creating new privilege
         clear_privilege_cache()
@@ -262,37 +278,41 @@ class PrivilegeItem:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_PRIVILEGE_ID')
 
-        cnx = mysql.connector.connect(**config.myems_user_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
 
-        # Check for relationships with users
-        cursor.execute(" SELECT id "
-                       " FROM tbl_users "
-                       " WHERE privilege_id = %s ", (id_,))
-        rows_users = cursor.fetchall()
-        if rows_users is not None and len(rows_users) > 0:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_400,
-                                   title='API.BAD_REQUEST',
-                                   description='API.THERE_IS_RELATION_WITH_USERS')
+        try:
+            cnx = mysql.connector.connect(**config.myems_user_db)
+            try:
+                cursor = cnx.cursor()
 
-        # Check if privilege exists
-        cursor.execute(" SELECT name "
-                       " FROM tbl_privileges "
-                       " WHERE id = %s ", (id_,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.PRIVILEGE_NOT_FOUND')
+                # Check for relationships with users
+                cursor.execute(" SELECT id "
+                               " FROM tbl_users "
+                               " WHERE privilege_id = %s ", (id_,))
+                rows_users = cursor.fetchall()
+                if rows_users is not None and len(rows_users) > 0:
+                    raise falcon.HTTPError(status=falcon.HTTP_400,
+                                           title='API.BAD_REQUEST',
+                                           description='API.THERE_IS_RELATION_WITH_USERS')
 
-        # TODO: Delete associated objects before deleting privilege
-        cursor.execute(" DELETE FROM tbl_privileges WHERE id = %s ", (id_,))
-        cnx.commit()
+                # Check if privilege exists
+                cursor.execute(" SELECT name "
+                               " FROM tbl_privileges "
+                               " WHERE id = %s ", (id_,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.PRIVILEGE_NOT_FOUND')
 
-        cursor.close()
-        cnx.close()
+                # TODO: Delete associated objects before deleting privilege
+                cursor.execute(" DELETE FROM tbl_privileges WHERE id = %s ", (id_,))
+                cnx.commit()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         # Clear cache after deleting privilege
         clear_privilege_cache()
@@ -355,41 +375,44 @@ class PrivilegeItem:
                                    description='API.INVALID_PRIVILEGE_DATA')
         data = str.strip(new_values['data']['data'])
 
-        cnx = mysql.connector.connect(**config.myems_user_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
 
-        # Check if privilege exists
-        cursor.execute(" SELECT name "
-                       " FROM tbl_privileges "
-                       " WHERE id = %s ", (id_,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.PRIVILEGE_NOT_FOUND')
+        try:
+            cnx = mysql.connector.connect(**config.myems_user_db)
+            try:
+                cursor = cnx.cursor()
 
-        # Check if new name conflicts with existing privileges (excluding current)
-        cursor.execute(" SELECT name "
-                       " FROM tbl_privileges "
-                       " WHERE name = %s AND id != %s ", (name, id_))
-        if cursor.fetchone() is not None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.PRIVILEGE_NAME_IS_ALREADY_IN_USE')
+                # Check if privilege exists
+                cursor.execute(" SELECT name "
+                               " FROM tbl_privileges "
+                               " WHERE id = %s ", (id_,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.PRIVILEGE_NOT_FOUND')
 
-        # Update privilege information
-        update_row = (" UPDATE tbl_privileges "
-                      " SET name = %s, data = %s "
-                      " WHERE id = %s ")
-        cursor.execute(update_row, (name, data, id_,))
-        cnx.commit()
+                # Check if new name conflicts with existing privileges (excluding current)
+                cursor.execute(" SELECT name "
+                               " FROM tbl_privileges "
+                               " WHERE name = %s AND id != %s ", (name, id_))
+                if cursor.fetchone() is not None:
+                    raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                           description='API.PRIVILEGE_NAME_IS_ALREADY_IN_USE')
 
-        cursor.close()
-        cnx.close()
+                # Update privilege information
+                update_row = (" UPDATE tbl_privileges "
+                              " SET name = %s, data = %s "
+                              " WHERE id = %s ")
+                cursor.execute(update_row, (name, data, id_,))
+                cnx.commit()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         # Clear cache after updating privilege
         clear_privilege_cache()
 
         resp.status = falcon.HTTP_200
-
