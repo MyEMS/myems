@@ -88,7 +88,10 @@ class RealtimeData extends Component {
       });
 
       if (this._isMounted) {
-        this.setState({ pointList, trendData });
+        this.setState({
+          pointList: pointList.filter(item => item.name && item.name.trim()!== ''),
+          trendData
+        });
       }
     } catch (err) {
       console.error('Realtime data fetch error:', err);
@@ -178,7 +181,7 @@ class RealtimeData extends Component {
             >
               <div className="d-flex justify-content-between">
                 <span className="text-muted">{t('Point')}</span>
-                <span className="text-muted">{t('Value')}</span>
+                <span className="text-muted">{t('Realtime Value')}</span>
               </div>
             </ListGroupItem>
             {this.state.pointList.map((item, index) => (
