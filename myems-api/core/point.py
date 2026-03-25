@@ -1146,8 +1146,7 @@ class PointExport:
                     raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                            description='API.POINT_NOT_FOUND')
 
-                result = {"id": row[0],
-                          "name": row[1],
+                result = {"name": row[1],
                           "data_source": data_source_dict.get(row[2], None),
                           "object_type": row[3],
                           "units": row[4],
