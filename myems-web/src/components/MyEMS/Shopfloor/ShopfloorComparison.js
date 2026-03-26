@@ -767,7 +767,7 @@ const ShopfloorComparison = ({ setRedirect, setRedirectUrl, t }) => {
                     changeOnSelect
                     expandTrigger="hover"
                   >
-                    <Input value={selectedSpaceName2 || ''} readOnly />
+                    <Input bsSize="sm" value={selectedSpaceName2 || ''} readOnly />
                   </Cascader>
                 </FormGroup>
               </Col>
