@@ -1,4 +1,4 @@
-mysql-connector-python
+mysql-connector-python==9.6.0
 openpyxl
 sympy
-python-decouple
+python-decouple==3.8
