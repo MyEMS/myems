@@ -1,6 +1,6 @@
 anytree==2.13.0
 simplejson==3.19.2
-mysql-connector-python==9.0.0
+mysql-connector-python==9.6.0
 falcon==4.2.0
 falcon_cors==1.1.7
 falcon-multipart==0.2.0
@@ -13,5 +13,5 @@ python-decouple==3.8
 paho-mqtt==2.1.0
 plotly==5.24.0
 kaleido==0.2.1
-requests==2.32.3
+requests==2.33.0
 redis==5.2.1

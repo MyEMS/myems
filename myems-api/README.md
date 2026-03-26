@@ -30,6 +30,17 @@ pillow
 
 python-decouple
 
+paho-mqtt
+
+plotly
+
+kaleido
+
+requests
+
+redis
+
+
 ## Quick Run for Development
 
 Quick run on Linux (NOT for production use):
