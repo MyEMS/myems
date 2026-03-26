@@ -1,5 +1,5 @@
-mysql-connector-python
+mysql-connector-python==9.6.0
 modbus_tk
 schedule
-python-decouple
+python-decouple==3.8
 telnetlib3
