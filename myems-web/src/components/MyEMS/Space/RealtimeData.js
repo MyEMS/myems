@@ -89,7 +89,7 @@ class RealtimeData extends Component {
 
       if (this._isMounted) {
         this.setState({
-          pointList: pointList.filter(item => item.name && item.name.trim()!== ''),
+          pointList: (pointList || []).filter(item => item?.name?.trim()),
           trendData
         });
       }
