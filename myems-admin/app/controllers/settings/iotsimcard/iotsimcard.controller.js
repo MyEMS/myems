@@ -43,14 +43,14 @@ app.controller('IoTSIMCardController', function(
 					toaster.pop({
 						type: "success",
 						title: $translate.instant("TOASTER.SUCCESS_TITLE"),
-						body: $translate.instant("TOASTER.SUCCESS_ADD_BODY", {template: $translate.instant("SETTING.iotsimcard")}),
+						body: $translate.instant("TOASTER.SUCCESS_ADD_BODY", {template: $translate.instant("SETTING.IOTSIMCARD")}),
 						showCloseButton: true,
 					});
 					$scope.getAllIoTSIMCards();
 				} else {
 					toaster.pop({
 						type: "error",
-						title: $translate.instant("TOASTER.ERROR_ADD_BODY", {template: $translate.instant("SETTING.iotsimcard")}),
+						title: $translate.instant("TOASTER.ERROR_ADD_BODY", {template: $translate.instant("SETTING.IOTSIMCARD")}),
 						body: $translate.instant(response.data.description),
 						showCloseButton: true,
 					});
@@ -84,14 +84,14 @@ app.controller('IoTSIMCardController', function(
 					toaster.pop({
 						type: "success",
 						title: $translate.instant("TOASTER.SUCCESS_TITLE"),
-						body: $translate.instant("TOASTER.SUCCESS_UPDATE_BODY", {template: $translate.instant("SETTING.iotsimcard")}),
+						body: $translate.instant("TOASTER.SUCCESS_UPDATE_BODY", {template: $translate.instant("SETTING.IOTSIMCARD")}),
 						showCloseButton: true,
 					});
 	            $scope.getAllIoTSIMCards();
 	            }else{
 					toaster.pop({
 						type: "error",
-						title: $translate.instant("TOASTER.ERROR_UPDATE_BODY", {template: $translate.instant("SETTING.iotsimcard")}),
+						title: $translate.instant("TOASTER.ERROR_UPDATE_BODY", {template: $translate.instant("SETTING.IOTSIMCARD")}),
 						body: $translate.instant(response.data.description),
 						showCloseButton: true,
 					});
