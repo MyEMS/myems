@@ -62,7 +62,6 @@ class TariffCollection:
         """Initialize TariffCollection"""
         pass
 
-
     @staticmethod
     def on_options(req, resp):
         """Handle OPTIONS requests for CORS preflight"""
@@ -111,69 +110,74 @@ class TariffCollection:
                 pass
 
         # Cache miss or Redis error - query database
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        query = (" SELECT t.id, t.name, t.uuid, "
-                 "        ec.id AS energy_category_id, ec.name AS energy_category_name, "
-                 "        t.tariff_type, t.unit_of_price, "
-                 "        t.valid_from_datetime_utc, t.valid_through_datetime_utc "
-                 " FROM tbl_tariffs t, tbl_energy_categories ec "
-                 " WHERE t.energy_category_id = ec.id ")
-        params = []
-        if search_query:
-            query += " AND t.name LIKE %s "
-            params = [f'%{search_query}%']
-        query += " ORDER BY id "
-        cursor.execute(query, params)
+                query = (" SELECT t.id, t.name, t.uuid, "
+                         "        ec.id AS energy_category_id, ec.name AS energy_category_name, "
+                         "        t.tariff_type, t.unit_of_price, "
+                         "        t.valid_from_datetime_utc, t.valid_through_datetime_utc "
+                         " FROM tbl_tariffs t, tbl_energy_categories ec "
+                         " WHERE t.energy_category_id = ec.id ")
+                params = []
+                if search_query:
+                    query += " AND t.name LIKE %s "
+                    params = [f'%{search_query}%']
+                query += " ORDER BY id "
+                cursor.execute(query, params)
 
-        rows = cursor.fetchall()
+                rows = cursor.fetchall()
 
-        timezone_offset = int(config.utc_offset[1:3]) * 60 + int(config.utc_offset[4:6])
-        if config.utc_offset[0] == '-':
-            timezone_offset = -timezone_offset
+                timezone_offset = int(config.utc_offset[1:3]) * 60 + int(config.utc_offset[4:6])
+                if config.utc_offset[0] == '-':
+                    timezone_offset = -timezone_offset
 
-        result = list()
-        if rows is not None and len(rows) > 0:
-            for row in rows:
-                meta_result = {"id": row[0],
-                               "name": row[1],
-                               "uuid": row[2],
-                               "energy_category": {"id": row[3],
-                                                   "name": row[4]},
-                               "tariff_type": row[5],
-                               "unit_of_price": row[6],
-                               "valid_from": (row[7].replace(tzinfo=timezone.utc)
-                                              + timedelta(minutes=timezone_offset)).isoformat()[0:19],
-                               "valid_through": (row[8].replace(tzinfo=timezone.utc)
-                                                 + timedelta(minutes=timezone_offset)).isoformat()[0:19]}
+                result = list()
+                if rows is not None and len(rows) > 0:
+                    for row in rows:
+                        meta_result = {"id": row[0],
+                                       "name": row[1],
+                                       "uuid": row[2],
+                                       "energy_category": {"id": row[3],
+                                                           "name": row[4]},
+                                       "tariff_type": row[5],
+                                       "unit_of_price": row[6],
+                                       "valid_from": (row[7].replace(tzinfo=timezone.utc)
+                                                      + timedelta(minutes=timezone_offset)).isoformat()[0:19],
+                                       "valid_through": (row[8].replace(tzinfo=timezone.utc)
+                                                         + timedelta(minutes=timezone_offset)).isoformat()[0:19]}
 
-                if meta_result['tariff_type'] == 'timeofuse':
-                    meta_result['timeofuse'] = list()
-                    query = (" SELECT start_time_of_day, end_time_of_day, peak_type, price "
-                             " FROM tbl_tariffs_timeofuses "
-                             " WHERE tariff_id = %s  "
-                             " ORDER BY id")
-                    cursor.execute(query, (meta_result['id'],))
-                    rows_timeofuses = cursor.fetchall()
-                    if rows_timeofuses is not None and len(rows_timeofuses) > 0:
-                        for row_timeofuse in rows_timeofuses:
-                            meta_data = {"start_time_of_day": str(row_timeofuse[0]),
-                                         "end_time_of_day": str(row_timeofuse[1]),
-                                         "peak_type": row_timeofuse[2],
-                                         "price": row_timeofuse[3]}
-                            meta_result['timeofuse'].append(meta_data)
-                else:
+                        if meta_result['tariff_type'] == 'timeofuse':
+                            meta_result['timeofuse'] = list()
+                            query = (" SELECT start_time_of_day, end_time_of_day, peak_type, price "
+                                     " FROM tbl_tariffs_timeofuses "
+                                     " WHERE tariff_id = %s  "
+                                     " ORDER BY id")
+                            cursor.execute(query, (meta_result['id'],))
+                            rows_timeofuses = cursor.fetchall()
+                            if rows_timeofuses is not None and len(rows_timeofuses) > 0:
+                                for row_timeofuse in rows_timeofuses:
+                                    meta_data = {"start_time_of_day": str(row_timeofuse[0]),
+                                                 "end_time_of_day": str(row_timeofuse[1]),
+                                                 "peak_type": row_timeofuse[2],
+                                                 "price": row_timeofuse[3]}
+                                    meta_result['timeofuse'].append(meta_data)
+                        else:
+                            raise falcon.HTTPError(status=falcon.HTTP_400,
+                                                   title='API.ERROR',
+                                                   description='API.INVALID_TARIFF_TYPE')
+
+                        result.append(meta_result)
+            finally:
+                if cursor:
                     cursor.close()
-                    cnx.close()
-                    raise falcon.HTTPError(status=falcon.HTTP_400,
-                                           title='API.ERROR',
-                                           description='API.INVALID_TARIFF_TYPE')
-
-                result.append(meta_result)
-
-        cursor.close()
-        cnx.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         # Store result in Redis cache
         result_json = json.dumps(result)
@@ -245,63 +249,66 @@ class TariffCollection:
         if config.utc_offset[0] == '-':
             timezone_offset = -timezone_offset
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_tariffs "
-                       " WHERE name = %s ", (name,))
-        if cursor.fetchone() is not None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.TARIFF_NAME_IS_ALREADY_IN_USE')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_tariffs "
+                               " WHERE name = %s ", (name,))
+                if cursor.fetchone() is not None:
+                    raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                           description='API.TARIFF_NAME_IS_ALREADY_IN_USE')
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_energy_categories "
-                       " WHERE id = %s ", (energy_category_id,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.ENERGY_CATEGORY_NOT_FOUND')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_energy_categories "
+                               " WHERE id = %s ", (energy_category_id,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.ENERGY_CATEGORY_NOT_FOUND')
 
-        # todo: validate datetime values
-        valid_from = datetime.strptime(new_values['data']['valid_from'], '%Y-%m-%dT%H:%M:%S')
-        valid_from = valid_from.replace(tzinfo=timezone.utc)
-        valid_from -= timedelta(minutes=timezone_offset)
-        valid_through = datetime.strptime(new_values['data']['valid_through'], '%Y-%m-%dT%H:%M:%S')
-        valid_through = valid_through.replace(tzinfo=timezone.utc)
-        valid_through -= timedelta(minutes=timezone_offset)
+                # todo: validate datetime values
+                valid_from = datetime.strptime(new_values['data']['valid_from'], '%Y-%m-%dT%H:%M:%S')
+                valid_from = valid_from.replace(tzinfo=timezone.utc)
+                valid_from -= timedelta(minutes=timezone_offset)
+                valid_through = datetime.strptime(new_values['data']['valid_through'], '%Y-%m-%dT%H:%M:%S')
+                valid_through = valid_through.replace(tzinfo=timezone.utc)
+                valid_through -= timedelta(minutes=timezone_offset)
 
-        add_row = (" INSERT INTO tbl_tariffs "
-                   "             (name, uuid, energy_category_id, tariff_type, unit_of_price, "
-                   "              valid_from_datetime_utc, valid_through_datetime_utc ) "
-                   " VALUES (%s, %s, %s, %s, %s, %s, %s) ")
-        cursor.execute(add_row, (name,
-                                 str(uuid.uuid4()),
-                                 energy_category_id,
-                                 tariff_type,
-                                 unit_of_price,
-                                 valid_from,
-                                 valid_through))
-        new_id = cursor.lastrowid
-        cnx.commit()
-        # insert time of use prices
-        if tariff_type == 'timeofuse':
-            for timeofuse in new_values['data']['timeofuse']:
-                add_timeofuse = (" INSERT INTO tbl_tariffs_timeofuses "
-                                 "             (tariff_id, start_time_of_day, end_time_of_day, peak_type, price) "
-                                 " VALUES (%s, %s, %s, %s, %s) ")
-                cursor.execute(add_timeofuse, (new_id,
-                                               timeofuse['start_time_of_day'],
-                                               timeofuse['end_time_of_day'],
-                                               timeofuse['peak_type'],
-                                               timeofuse['price']))
+                add_row = (" INSERT INTO tbl_tariffs "
+                           "             (name, uuid, energy_category_id, tariff_type, unit_of_price, "
+                           "              valid_from_datetime_utc, valid_through_datetime_utc ) "
+                           " VALUES (%s, %s, %s, %s, %s, %s, %s) ")
+                cursor.execute(add_row, (name,
+                                         str(uuid.uuid4()),
+                                         energy_category_id,
+                                         tariff_type,
+                                         unit_of_price,
+                                         valid_from,
+                                         valid_through))
+                new_id = cursor.lastrowid
                 cnx.commit()
-
-        cursor.close()
-        cnx.close()
+                # insert time of use prices
+                if tariff_type == 'timeofuse':
+                    for timeofuse in new_values['data']['timeofuse']:
+                        add_timeofuse = (" INSERT INTO tbl_tariffs_timeofuses "
+                                         " (tariff_id, start_time_of_day, end_time_of_day, peak_type, price) "
+                                         " VALUES (%s, %s, %s, %s, %s) ")
+                        cursor.execute(add_timeofuse, (new_id,
+                                                       timeofuse['start_time_of_day'],
+                                                       timeofuse['end_time_of_day'],
+                                                       timeofuse['peak_type'],
+                                                       timeofuse['price']))
+                        cnx.commit()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         # Clear cache after creating new tariff
         clear_tariff_cache()
@@ -360,57 +367,62 @@ class TariffItem:
                 pass
 
         # Cache miss or Redis error - query database
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        query = (" SELECT t.id, t.name, t.uuid, "
-                 "        ec.id AS energy_category_id, ec.name AS energy_category_name, "
-                 "        t.tariff_type, "
-                 "        t.unit_of_price, "
-                 "        t.valid_from_datetime_utc, t.valid_through_datetime_utc "
-                 " FROM tbl_tariffs t, tbl_energy_categories ec "
-                 " WHERE t.energy_category_id = ec.id AND t.id = %s ")
-        cursor.execute(query, (id_,))
-        row = cursor.fetchone()
-        if row is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.TARIFF_NOT_FOUND')
+                query = (" SELECT t.id, t.name, t.uuid, "
+                         "        ec.id AS energy_category_id, ec.name AS energy_category_name, "
+                         "        t.tariff_type, "
+                         "        t.unit_of_price, "
+                         "        t.valid_from_datetime_utc, t.valid_through_datetime_utc "
+                         " FROM tbl_tariffs t, tbl_energy_categories ec "
+                         " WHERE t.energy_category_id = ec.id AND t.id = %s ")
+                cursor.execute(query, (id_,))
+                row = cursor.fetchone()
+                if row is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.TARIFF_NOT_FOUND')
 
-        timezone_offset = int(config.utc_offset[1:3]) * 60 + int(config.utc_offset[4:6])
-        if config.utc_offset[0] == '-':
-            timezone_offset = -timezone_offset
+                timezone_offset = int(config.utc_offset[1:3]) * 60 + int(config.utc_offset[4:6])
+                if config.utc_offset[0] == '-':
+                    timezone_offset = -timezone_offset
 
-        result = {"id": row[0],
-                  "name": row[1],
-                  "uuid": row[2],
-                  "energy_category": {"id": row[3],
-                                      "name": row[4]},
-                  "tariff_type": row[5],
-                  "unit_of_price": row[6],
-                  "valid_from": (row[7].replace(tzinfo=timezone.utc)
-                                 + timedelta(minutes=timezone_offset)).isoformat()[0:19],
-                  "valid_through": (row[8].replace(tzinfo=timezone.utc)
-                                    + timedelta(minutes=timezone_offset)).isoformat()[0:19]}
+                result = {"id": row[0],
+                          "name": row[1],
+                          "uuid": row[2],
+                          "energy_category": {"id": row[3],
+                                              "name": row[4]},
+                          "tariff_type": row[5],
+                          "unit_of_price": row[6],
+                          "valid_from": (row[7].replace(tzinfo=timezone.utc)
+                                         + timedelta(minutes=timezone_offset)).isoformat()[0:19],
+                          "valid_through": (row[8].replace(tzinfo=timezone.utc)
+                                            + timedelta(minutes=timezone_offset)).isoformat()[0:19]}
 
-        if result['tariff_type'] == 'timeofuse':
-            result['timeofuse'] = list()
-            query = (" SELECT start_time_of_day, end_time_of_day, peak_type, price "
-                     " FROM tbl_tariffs_timeofuses"
-                     " WHERE tariff_id = %s ")
-            cursor.execute(query, (result['id'],))
-            rows_timeofuses = cursor.fetchall()
-            if rows_timeofuses is not None and len(rows_timeofuses) > 0:
-                for row_timeofuse in rows_timeofuses:
-                    meta_data = {"start_time_of_day": str(row_timeofuse[0]),
-                                 "end_time_of_day": str(row_timeofuse[1]),
-                                 "peak_type": row_timeofuse[2],
-                                 "price": row_timeofuse[3]}
-                    result['timeofuse'].append(meta_data)
-
-        cursor.close()
-        cnx.close()
+                if result['tariff_type'] == 'timeofuse':
+                    result['timeofuse'] = list()
+                    query = (" SELECT start_time_of_day, end_time_of_day, peak_type, price "
+                             " FROM tbl_tariffs_timeofuses"
+                             " WHERE tariff_id = %s ")
+                    cursor.execute(query, (result['id'],))
+                    rows_timeofuses = cursor.fetchall()
+                    if rows_timeofuses is not None and len(rows_timeofuses) > 0:
+                        for row_timeofuse in rows_timeofuses:
+                            meta_data = {"start_time_of_day": str(row_timeofuse[0]),
+                                         "end_time_of_day": str(row_timeofuse[1]),
+                                         "peak_type": row_timeofuse[2],
+                                         "price": row_timeofuse[3]}
+                            result['timeofuse'].append(meta_data)
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         # Store result in Redis cache
         result_json = json.dumps(result)
@@ -433,36 +445,39 @@ class TariffItem:
                                    title='API.BAD_REQUEST',
                                    description='API.INVALID_TARIFF_ID')
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_tariffs "
-                       " WHERE id = %s ", (id_,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.TARIFF_NOT_FOUND')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_tariffs "
+                               " WHERE id = %s ", (id_,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.TARIFF_NOT_FOUND')
 
-        cursor.execute(" SELECT id "
-                       " FROM tbl_cost_centers_tariffs "
-                       " WHERE tariff_id = %s ", (id_,))
-        rows = cursor.fetchall()
-        if rows is not None and len(rows) > 0:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.TARIFF_IN_USE')
+                cursor.execute(" SELECT id "
+                               " FROM tbl_cost_centers_tariffs "
+                               " WHERE tariff_id = %s ", (id_,))
+                rows = cursor.fetchall()
+                if rows is not None and len(rows) > 0:
+                    raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                           description='API.TARIFF_IN_USE')
 
-        cursor.execute(" DELETE FROM tbl_tariffs_timeofuses WHERE tariff_id = %s ", (id_,))
-        cnx.commit()
+                cursor.execute(" DELETE FROM tbl_tariffs_timeofuses WHERE tariff_id = %s ", (id_,))
+                cnx.commit()
 
-        cursor.execute(" DELETE FROM tbl_tariffs WHERE id = %s ", (id_,))
-        cnx.commit()
-
-        cursor.close()
-        cnx.close()
+                cursor.execute(" DELETE FROM tbl_tariffs WHERE id = %s ", (id_,))
+                cnx.commit()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         # Clear cache after deleting tariff
         clear_tariff_cache(tariff_id=int(id_))
@@ -532,80 +547,81 @@ class TariffItem:
         if config.utc_offset[0] == '-':
             timezone_offset = -timezone_offset
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        # check if the tariff exist
-        query = (" SELECT name "
-                 " FROM tbl_tariffs "
-                 " WHERE id = %s ")
-        cursor.execute(query, (id_,))
-        cursor.fetchone()
+                # check if the tariff exist
+                query = (" SELECT name "
+                         " FROM tbl_tariffs "
+                         " WHERE id = %s ")
+                cursor.execute(query, (id_,))
+                cursor.fetchone()
 
-        if cursor.rowcount != 1:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.TARIFF_NOT_FOUND')
+                if cursor.rowcount != 1:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.TARIFF_NOT_FOUND')
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_tariffs "
-                       " WHERE name = %s AND id != %s ", (name, id_))
-        if cursor.fetchone() is not None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.TARIFF_NAME_IS_ALREADY_IN_USE')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_tariffs "
+                               " WHERE name = %s AND id != %s ", (name, id_))
+                if cursor.fetchone() is not None:
+                    raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                           description='API.TARIFF_NAME_IS_ALREADY_IN_USE')
 
-        valid_from = datetime.strptime(new_values['data']['valid_from'], '%Y-%m-%dT%H:%M:%S')
-        valid_from = valid_from.replace(tzinfo=timezone.utc)
-        valid_from -= timedelta(minutes=timezone_offset)
-        valid_through = datetime.strptime(new_values['data']['valid_through'], '%Y-%m-%dT%H:%M:%S')
-        valid_through = valid_through.replace(tzinfo=timezone.utc)
-        valid_through -= timedelta(minutes=timezone_offset)
+                valid_from = datetime.strptime(new_values['data']['valid_from'], '%Y-%m-%dT%H:%M:%S')
+                valid_from = valid_from.replace(tzinfo=timezone.utc)
+                valid_from -= timedelta(minutes=timezone_offset)
+                valid_through = datetime.strptime(new_values['data']['valid_through'], '%Y-%m-%dT%H:%M:%S')
+                valid_through = valid_through.replace(tzinfo=timezone.utc)
+                valid_through -= timedelta(minutes=timezone_offset)
 
-        # update tariff itself
-        update_row = (" UPDATE tbl_tariffs "
-                      " SET name = %s, energy_category_id = %s, tariff_type = %s, unit_of_price = %s, "
-                      "     valid_from_datetime_utc = %s , valid_through_datetime_utc = %s "
-                      " WHERE id = %s ")
-        cursor.execute(update_row, (name,
-                                    energy_category_id,
-                                    tariff_type,
-                                    unit_of_price,
-                                    valid_from,
-                                    valid_through,
-                                    id_,))
-        cnx.commit()
-
-        # update prices of the tariff
-        if tariff_type == 'timeofuse':
-            if 'timeofuse' not in new_values['data'].keys() or new_values['data']['timeofuse'] is None:
-                cursor.close()
-                cnx.close()
-                raise falcon.HTTPError(status=falcon.HTTP_400,
-                                       title='API.BAD_REQUEST',
-                                       description='API.INVALID_TARIFF_TIME_OF_USE_PRICING')
-            else:
-                # remove all (possible) exist prices
-                cursor.execute(" DELETE FROM tbl_tariffs_timeofuses "
-                               " WHERE tariff_id = %s ",
-                               (id_,))
+                # update tariff itself
+                update_row = (" UPDATE tbl_tariffs "
+                              " SET name = %s, energy_category_id = %s, tariff_type = %s, unit_of_price = %s, "
+                              "     valid_from_datetime_utc = %s , valid_through_datetime_utc = %s "
+                              " WHERE id = %s ")
+                cursor.execute(update_row, (name,
+                                            energy_category_id,
+                                            tariff_type,
+                                            unit_of_price,
+                                            valid_from,
+                                            valid_through,
+                                            id_,))
                 cnx.commit()
 
-                for timeofuse in new_values['data']['timeofuse']:
-                    add_timeofuse = (" INSERT INTO tbl_tariffs_timeofuses "
-                                     "             (tariff_id, start_time_of_day, end_time_of_day, peak_type, price) "
-                                     " VALUES (%s, %s, %s, %s, %s) ")
-                    cursor.execute(add_timeofuse, (id_,
-                                                   timeofuse['start_time_of_day'],
-                                                   timeofuse['end_time_of_day'],
-                                                   timeofuse['peak_type'],
-                                                   timeofuse['price']))
-                    cnx.commit()
+                # update prices of the tariff
+                if tariff_type == 'timeofuse':
+                    if 'timeofuse' not in new_values['data'].keys() or new_values['data']['timeofuse'] is None:
+                        raise falcon.HTTPError(status=falcon.HTTP_400,
+                                               title='API.BAD_REQUEST',
+                                               description='API.INVALID_TARIFF_TIME_OF_USE_PRICING')
+                    else:
+                        # remove all (possible) exist prices
+                        cursor.execute(" DELETE FROM tbl_tariffs_timeofuses "
+                                       " WHERE tariff_id = %s ",
+                                       (id_,))
+                        cnx.commit()
 
-        cursor.close()
-        cnx.close()
+                        for timeofuse in new_values['data']['timeofuse']:
+                            add_timeofuse = (" INSERT INTO tbl_tariffs_timeofuses "
+                                             " (tariff_id, start_time_of_day, end_time_of_day, peak_type, price) "
+                                             " VALUES (%s, %s, %s, %s, %s) ")
+                            cursor.execute(add_timeofuse, (id_,
+                                                           timeofuse['start_time_of_day'],
+                                                           timeofuse['end_time_of_day'],
+                                                           timeofuse['peak_type'],
+                                                           timeofuse['price']))
+                            cnx.commit()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         # Clear cache after updating tariff
         clear_tariff_cache(tariff_id=int(id_))
@@ -663,55 +679,60 @@ class TariffExport:
                 pass
 
         # Cache miss or Redis error - query database
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        query = (" SELECT t.id, t.name, t.uuid, "
-                 "        ec.id AS energy_category_id, ec.name AS energy_category_name, "
-                 "        t.tariff_type, "
-                 "        t.unit_of_price, "
-                 "        t.valid_from_datetime_utc, t.valid_through_datetime_utc "
-                 " FROM tbl_tariffs t, tbl_energy_categories ec "
-                 " WHERE t.energy_category_id = ec.id AND t.id = %s ")
-        cursor.execute(query, (id_,))
-        row = cursor.fetchone()
-        if row is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.TARIFF_NOT_FOUND')
+                query = (" SELECT t.id, t.name, t.uuid, "
+                         "        ec.id AS energy_category_id, ec.name AS energy_category_name, "
+                         "        t.tariff_type, "
+                         "        t.unit_of_price, "
+                         "        t.valid_from_datetime_utc, t.valid_through_datetime_utc "
+                         " FROM tbl_tariffs t, tbl_energy_categories ec "
+                         " WHERE t.energy_category_id = ec.id AND t.id = %s ")
+                cursor.execute(query, (id_,))
+                row = cursor.fetchone()
+                if row is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.TARIFF_NOT_FOUND')
 
-        timezone_offset = int(config.utc_offset[1:3]) * 60 + int(config.utc_offset[4:6])
-        if config.utc_offset[0] == '-':
-            timezone_offset = -timezone_offset
+                timezone_offset = int(config.utc_offset[1:3]) * 60 + int(config.utc_offset[4:6])
+                if config.utc_offset[0] == '-':
+                    timezone_offset = -timezone_offset
 
-        result = {"name": row[1],
-                  "energy_category": {"id": row[3],
-                                      "name": row[4]},
-                  "tariff_type": row[5],
-                  "unit_of_price": row[6],
-                  "valid_from": (row[7].replace(tzinfo=timezone.utc)
-                                 + timedelta(minutes=timezone_offset)).isoformat()[0:19],
-                  "valid_through": (row[8].replace(tzinfo=timezone.utc)
-                                    + timedelta(minutes=timezone_offset)).isoformat()[0:19]}
+                result = {"name": row[1],
+                          "energy_category": {"id": row[3],
+                                              "name": row[4]},
+                          "tariff_type": row[5],
+                          "unit_of_price": row[6],
+                          "valid_from": (row[7].replace(tzinfo=timezone.utc)
+                                         + timedelta(minutes=timezone_offset)).isoformat()[0:19],
+                          "valid_through": (row[8].replace(tzinfo=timezone.utc)
+                                            + timedelta(minutes=timezone_offset)).isoformat()[0:19]}
 
-        if result['tariff_type'] == 'timeofuse':
-            result['timeofuse'] = list()
-            query = (" SELECT start_time_of_day, end_time_of_day, peak_type, price "
-                     " FROM tbl_tariffs_timeofuses"
-                     " WHERE tariff_id = %s ")
-            cursor.execute(query, (row[0],))
-            rows_timeofuses = cursor.fetchall()
-            if rows_timeofuses is not None and len(rows_timeofuses) > 0:
-                for row_timeofuse in rows_timeofuses:
-                    meta_data = {"start_time_of_day": str(row_timeofuse[0]),
-                                 "end_time_of_day": str(row_timeofuse[1]),
-                                 "peak_type": row_timeofuse[2],
-                                 "price": row_timeofuse[3]}
-                    result['timeofuse'].append(meta_data)
-
-        cursor.close()
-        cnx.close()
+                if result['tariff_type'] == 'timeofuse':
+                    result['timeofuse'] = list()
+                    query = (" SELECT start_time_of_day, end_time_of_day, peak_type, price "
+                             " FROM tbl_tariffs_timeofuses"
+                             " WHERE tariff_id = %s ")
+                    cursor.execute(query, (row[0],))
+                    rows_timeofuses = cursor.fetchall()
+                    if rows_timeofuses is not None and len(rows_timeofuses) > 0:
+                        for row_timeofuse in rows_timeofuses:
+                            meta_data = {"start_time_of_day": str(row_timeofuse[0]),
+                                         "end_time_of_day": str(row_timeofuse[1]),
+                                         "peak_type": row_timeofuse[2],
+                                         "price": row_timeofuse[3]}
+                            result['timeofuse'].append(meta_data)
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         # Store result in Redis cache
         result_json = json.dumps(result)
@@ -792,63 +813,66 @@ class TariffImport:
         if config.utc_offset[0] == '-':
             timezone_offset = -timezone_offset
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_tariffs "
-                       " WHERE name = %s ", (name,))
-        if cursor.fetchone() is not None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.TARIFF_NAME_IS_ALREADY_IN_USE')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_tariffs "
+                               " WHERE name = %s ", (name,))
+                if cursor.fetchone() is not None:
+                    raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                           description='API.TARIFF_NAME_IS_ALREADY_IN_USE')
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_energy_categories "
-                       " WHERE id = %s ", (energy_category_id,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.ENERGY_CATEGORY_NOT_FOUND')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_energy_categories "
+                               " WHERE id = %s ", (energy_category_id,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.ENERGY_CATEGORY_NOT_FOUND')
 
-        # todo: validate datetime values
-        valid_from = datetime.strptime(new_values['valid_from'], '%Y-%m-%dT%H:%M:%S')
-        valid_from = valid_from.replace(tzinfo=timezone.utc)
-        valid_from -= timedelta(minutes=timezone_offset)
-        valid_through = datetime.strptime(new_values['valid_through'], '%Y-%m-%dT%H:%M:%S')
-        valid_through = valid_through.replace(tzinfo=timezone.utc)
-        valid_through -= timedelta(minutes=timezone_offset)
+                # todo: validate datetime values
+                valid_from = datetime.strptime(new_values['valid_from'], '%Y-%m-%dT%H:%M:%S')
+                valid_from = valid_from.replace(tzinfo=timezone.utc)
+                valid_from -= timedelta(minutes=timezone_offset)
+                valid_through = datetime.strptime(new_values['valid_through'], '%Y-%m-%dT%H:%M:%S')
+                valid_through = valid_through.replace(tzinfo=timezone.utc)
+                valid_through -= timedelta(minutes=timezone_offset)
 
-        add_row = (" INSERT INTO tbl_tariffs "
-                   "             (name, uuid, energy_category_id, tariff_type, unit_of_price, "
-                   "              valid_from_datetime_utc, valid_through_datetime_utc ) "
-                   " VALUES (%s, %s, %s, %s, %s, %s, %s) ")
-        cursor.execute(add_row, (name,
-                                 str(uuid.uuid4()),
-                                 energy_category_id,
-                                 tariff_type,
-                                 unit_of_price,
-                                 valid_from,
-                                 valid_through))
-        new_id = cursor.lastrowid
-        cnx.commit()
-        # insert time of use prices
-        if tariff_type == 'timeofuse':
-            for timeofuse in new_values['timeofuse']:
-                add_timeofuse = (" INSERT INTO tbl_tariffs_timeofuses "
-                                 "             (tariff_id, start_time_of_day, end_time_of_day, peak_type, price) "
-                                 " VALUES (%s, %s, %s, %s, %s) ")
-                cursor.execute(add_timeofuse, (new_id,
-                                               timeofuse['start_time_of_day'],
-                                               timeofuse['end_time_of_day'],
-                                               timeofuse['peak_type'],
-                                               timeofuse['price']))
+                add_row = (" INSERT INTO tbl_tariffs "
+                           "             (name, uuid, energy_category_id, tariff_type, unit_of_price, "
+                           "              valid_from_datetime_utc, valid_through_datetime_utc ) "
+                           " VALUES (%s, %s, %s, %s, %s, %s, %s) ")
+                cursor.execute(add_row, (name,
+                                         str(uuid.uuid4()),
+                                         energy_category_id,
+                                         tariff_type,
+                                         unit_of_price,
+                                         valid_from,
+                                         valid_through))
+                new_id = cursor.lastrowid
                 cnx.commit()
-
-        cursor.close()
-        cnx.close()
+                # insert time of use prices
+                if tariff_type == 'timeofuse':
+                    for timeofuse in new_values['timeofuse']:
+                        add_timeofuse = (" INSERT INTO tbl_tariffs_timeofuses "
+                                         " (tariff_id, start_time_of_day, end_time_of_day, peak_type, price) "
+                                         " VALUES (%s, %s, %s, %s, %s) ")
+                        cursor.execute(add_timeofuse, (new_id,
+                                                       timeofuse['start_time_of_day'],
+                                                       timeofuse['end_time_of_day'],
+                                                       timeofuse['peak_type'],
+                                                       timeofuse['price']))
+                        cnx.commit()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         # Clear cache after importing tariff
         clear_tariff_cache()
@@ -875,81 +899,87 @@ class TariffClone:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_TARIFF_ID')
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        query = (" SELECT t.id, t.name, t.uuid, "
-                 "        ec.id AS energy_category_id, ec.name AS energy_category_name, "
-                 "        t.tariff_type, "
-                 "        t.unit_of_price, "
-                 "        t.valid_from_datetime_utc, t.valid_through_datetime_utc "
-                 " FROM tbl_tariffs t, tbl_energy_categories ec "
-                 " WHERE t.energy_category_id = ec.id AND t.id = %s ")
-        cursor.execute(query, (id_,))
-        row = cursor.fetchone()
-        if row is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.TARIFF_NOT_FOUND')
+                query = (" SELECT t.id, t.name, t.uuid, "
+                         "        ec.id AS energy_category_id, ec.name AS energy_category_name, "
+                         "        t.tariff_type, "
+                         "        t.unit_of_price, "
+                         "        t.valid_from_datetime_utc, t.valid_through_datetime_utc "
+                         " FROM tbl_tariffs t, tbl_energy_categories ec "
+                         " WHERE t.energy_category_id = ec.id AND t.id = %s ")
+                cursor.execute(query, (id_,))
+                row = cursor.fetchone()
+                if row is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.TARIFF_NOT_FOUND')
 
-        result = {"id": row[0],
-                  "name": row[1],
-                  "uuid": row[2],
-                  "energy_category": {"id": row[3],
-                                      "name": row[4]},
-                  "tariff_type": row[5],
-                  "unit_of_price": row[6],
-                  "valid_from": row[7].isoformat()[0:19],
-                  "valid_through": row[8].isoformat()[0:19]}
+                result = {"id": row[0],
+                          "name": row[1],
+                          "uuid": row[2],
+                          "energy_category": {"id": row[3],
+                                              "name": row[4]},
+                          "tariff_type": row[5],
+                          "unit_of_price": row[6],
+                          "valid_from": row[7].isoformat()[0:19],
+                          "valid_through": row[8].isoformat()[0:19]}
 
-        if result['tariff_type'] == 'timeofuse':
-            result['timeofuse'] = list()
-            query = (" SELECT start_time_of_day, end_time_of_day, peak_type, price "
-                     " FROM tbl_tariffs_timeofuses"
-                     " WHERE tariff_id = %s ")
-            cursor.execute(query, (result['id'],))
-            rows_timeofuses = cursor.fetchall()
-            if rows_timeofuses is not None and len(rows_timeofuses) > 0:
-                for row_timeofuse in rows_timeofuses:
-                    meta_data = {"start_time_of_day": str(row_timeofuse[0]),
-                                 "end_time_of_day": str(row_timeofuse[1]),
-                                 "peak_type": row_timeofuse[2],
-                                 "price": row_timeofuse[3]}
-                    result['timeofuse'].append(meta_data)
-        timezone_offset = int(config.utc_offset[1:3]) * 60 + int(config.utc_offset[4:6])
-        if config.utc_offset[0] == '-':
-            timezone_offset = -timezone_offset
-        new_name = (str.strip(result['name']) +
-                    (datetime.utcnow() + timedelta(minutes=timezone_offset)).isoformat(sep='-', timespec='seconds'))
-        add_row = (" INSERT INTO tbl_tariffs "
-                   "             (name, uuid, energy_category_id, tariff_type, unit_of_price, "
-                   "              valid_from_datetime_utc, valid_through_datetime_utc ) "
-                   " VALUES (%s, %s, %s, %s, %s, %s, %s) ")
-        cursor.execute(add_row, (new_name,
-                                 str(uuid.uuid4()),
-                                 result['energy_category']['id'],
-                                 result['tariff_type'],
-                                 result['unit_of_price'],
-                                 result['valid_from'],
-                                 result['valid_through']))
-        new_id = cursor.lastrowid
-        cnx.commit()
-        # insert time of use prices
-        if result['tariff_type'] == 'timeofuse':
-            for timeofuse in result['timeofuse']:
-                add_timeofuse = (" INSERT INTO tbl_tariffs_timeofuses "
-                                 "             (tariff_id, start_time_of_day, end_time_of_day, peak_type, price) "
-                                 " VALUES (%s, %s, %s, %s, %s) ")
-                cursor.execute(add_timeofuse, (new_id,
-                                               timeofuse['start_time_of_day'],
-                                               timeofuse['end_time_of_day'],
-                                               timeofuse['peak_type'],
-                                               timeofuse['price']))
+                if result['tariff_type'] == 'timeofuse':
+                    result['timeofuse'] = list()
+                    query = (" SELECT start_time_of_day, end_time_of_day, peak_type, price "
+                             " FROM tbl_tariffs_timeofuses"
+                             " WHERE tariff_id = %s ")
+                    cursor.execute(query, (result['id'],))
+                    rows_timeofuses = cursor.fetchall()
+                    if rows_timeofuses is not None and len(rows_timeofuses) > 0:
+                        for row_timeofuse in rows_timeofuses:
+                            meta_data = {"start_time_of_day": str(row_timeofuse[0]),
+                                         "end_time_of_day": str(row_timeofuse[1]),
+                                         "peak_type": row_timeofuse[2],
+                                         "price": row_timeofuse[3]}
+                            result['timeofuse'].append(meta_data)
+                timezone_offset = int(config.utc_offset[1:3]) * 60 + int(config.utc_offset[4:6])
+                if config.utc_offset[0] == '-':
+                    timezone_offset = -timezone_offset
+                new_name = (str.strip(result['name']) +
+                            (datetime.utcnow() +
+                             timedelta(minutes=timezone_offset)).isoformat(sep='-', timespec='seconds'))
+                add_row = (" INSERT INTO tbl_tariffs "
+                           "             (name, uuid, energy_category_id, tariff_type, unit_of_price, "
+                           "              valid_from_datetime_utc, valid_through_datetime_utc ) "
+                           " VALUES (%s, %s, %s, %s, %s, %s, %s) ")
+                cursor.execute(add_row, (new_name,
+                                         str(uuid.uuid4()),
+                                         result['energy_category']['id'],
+                                         result['tariff_type'],
+                                         result['unit_of_price'],
+                                         result['valid_from'],
+                                         result['valid_through']))
+                new_id = cursor.lastrowid
                 cnx.commit()
-
-        cursor.close()
-        cnx.close()
+                # insert time of use prices
+                if result['tariff_type'] == 'timeofuse':
+                    for timeofuse in result['timeofuse']:
+                        add_timeofuse = (" INSERT INTO tbl_tariffs_timeofuses "
+                                         " (tariff_id, start_time_of_day, end_time_of_day, peak_type, price) "
+                                         " VALUES (%s, %s, %s, %s, %s) ")
+                        cursor.execute(add_timeofuse, (new_id,
+                                                       timeofuse['start_time_of_day'],
+                                                       timeofuse['end_time_of_day'],
+                                                       timeofuse['peak_type'],
+                                                       timeofuse['price']))
+                        cnx.commit()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         # Clear cache after cloning tariff
         clear_tariff_cache()
