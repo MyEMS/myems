@@ -27,6 +27,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - fixed issues of dashboard in myems-api and myems-web
 - fixed color issue in myems-web
 - fixed environment monitor in myems-web
+- fixed comparison reports in myems-web
 ### Removed
 - removed default password from config.py. Please ensure to set environment variables like MYEMS_SYSTEM_DB_PASSWORD explicitly before deployment.
 - removed id and uuid from export data in myems-admin
