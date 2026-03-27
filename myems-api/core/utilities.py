@@ -199,66 +199,42 @@ def get_energy_category_tariffs(cost_center_id, energy_category_id, start_dateti
     cursor = None
     try:
         cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
-        query_tariffs = (" SELECT t.id, t.valid_from_datetime_utc, t.valid_through_datetime_utc "
-                         " FROM tbl_tariffs t, tbl_cost_centers_tariffs cct "
-                         " WHERE t.energy_category_id = %s AND "
-                         "       t.id = cct.tariff_id AND "
-                         "       cct.cost_center_id = %s AND "
-                         "       t.valid_through_datetime_utc >= %s AND "
-                         "       t.valid_from_datetime_utc <= %s "
-                         " ORDER BY t.valid_from_datetime_utc ")
-        cursor.execute(query_tariffs, (energy_category_id, cost_center_id, start_datetime_utc, end_datetime_utc,))
-        rows_tariffs = cursor.fetchall()
-    except InterfaceError as ex:
-        print("Failed to connect request")
-        if cnx:
-            cnx.close()
-        if cursor:
-            cursor.close()
-        return dict()
-    except OperationalError as ex:
-        print("Failed to operate request")
-        if cnx:
-            cnx.close()
-        if cursor:
-            cursor.close()
-        return dict()
-    except ProgrammingError as ex:
-        print("Failed to SQL request")
-        if cnx:
-            cnx.close()
-        if cursor:
-            cursor.close()
-        return dict()
-    except DataError as ex:
-        print("Failed to SQL Data request")
-        if cnx:
-            cnx.close()
-        if cursor:
-            cursor.close()
-        return dict()
-    except Exception as ex:
-        print('write_log:' + str(ex))
-        if cnx:
-            cnx.close()
-        if cursor:
-            cursor.close()
-        return dict()
+        try:
+            cursor = cnx.cursor()
+            query_tariffs = (" SELECT t.id, t.valid_from_datetime_utc, t.valid_through_datetime_utc "
+                             " FROM tbl_tariffs t, tbl_cost_centers_tariffs cct "
+                             " WHERE t.energy_category_id = %s AND "
+                             "       t.id = cct.tariff_id AND "
+                             "       cct.cost_center_id = %s AND "
+                             "       t.valid_through_datetime_utc >= %s AND "
+                             "       t.valid_from_datetime_utc <= %s "
+                             " ORDER BY t.valid_from_datetime_utc ")
+            cursor.execute(query_tariffs, (energy_category_id, cost_center_id, start_datetime_utc, end_datetime_utc,))
+            rows_tariffs = cursor.fetchall()
+        except InterfaceError as ex:
+            print("Failed to connect request")
+            return dict()
+        except OperationalError as ex:
+            print("Failed to operate request")
+            return dict()
+        except ProgrammingError as ex:
+            print("Failed to SQL request")
+            return dict()
+        except DataError as ex:
+            print("Failed to SQL Data request")
+            return dict()
+        except Exception as ex:
+            print('write_log:' + str(ex))
+            return dict()
 
-    if rows_tariffs is None or len(rows_tariffs) == 0:
-        if cursor:
-            cursor.close()
-        if cnx:
-            cnx.close()
-        return dict()
+        if rows_tariffs is None or len(rows_tariffs) == 0:
+            return dict()
 
-    for row in rows_tariffs:
-        tariff_dict[row[0]] = {'valid_from_datetime_utc': row[1],
-                               'valid_through_datetime_utc': row[2],
-                               'rates': list()}
+        for row in rows_tariffs:
+            tariff_dict[row[0]] = {'valid_from_datetime_utc': row[1],
+                                   'valid_through_datetime_utc': row[2],
+                                   'rates': list()}
 
-    try:
         query_timeofuse_tariffs = (" SELECT tariff_id, start_time_of_day, end_time_of_day, price "
                                    " FROM tbl_tariffs_timeofuses "
                                    " WHERE tariff_id IN ( " + ', '.join(map(str, tariff_dict.keys())) + ")"
@@ -267,44 +243,24 @@ def get_energy_category_tariffs(cost_center_id, energy_category_id, start_dateti
         rows_timeofuse_tariffs = cursor.fetchall()
     except InterfaceError as ex:
         print("Failed to connect request")
-        if cnx:
-            cnx.close()
-        if cursor:
-            cursor.close()
         return dict()
     except OperationalError as ex:
         print("Failed to operate request")
-        if cnx:
-            cnx.close()
-        if cursor:
-            cursor.close()
         return dict()
     except ProgrammingError as ex:
         print("Failed to SQL request")
-        if cnx:
-            cnx.close()
-        if cursor:
-            cursor.close()
         return dict()
     except DataError as ex:
         print("Failed to SQL Data request")
-        if cnx:
-            cnx.close()
-        if cursor:
-            cursor.close()
         return dict()
     except Exception as ex:
         print('write_log:' + str(ex))
-        if cnx:
-            cnx.close()
+        return dict()
+    finally:
         if cursor:
             cursor.close()
-        return dict()
-
-    if cursor:
-        cursor.close()
-    if cnx:
-        cnx.close()
+        if cnx:
+            cnx.close()
 
     if rows_timeofuse_tariffs is None or len(rows_timeofuse_tariffs) == 0:
         return dict()
@@ -359,66 +315,42 @@ def get_energy_category_peak_types(cost_center_id, energy_category_id, start_dat
     cursor = None
     try:
         cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
-        query_tariffs = (" SELECT t.id, t.valid_from_datetime_utc, t.valid_through_datetime_utc "
-                         " FROM tbl_tariffs t, tbl_cost_centers_tariffs cct "
-                         " WHERE t.energy_category_id = %s AND "
-                         "       t.id = cct.tariff_id AND "
-                         "       cct.cost_center_id = %s AND "
-                         "       t.valid_through_datetime_utc >= %s AND "
-                         "       t.valid_from_datetime_utc <= %s "
-                         " ORDER BY t.valid_from_datetime_utc ")
-        cursor.execute(query_tariffs, (energy_category_id, cost_center_id, start_datetime_utc, end_datetime_utc,))
-        rows_tariffs = cursor.fetchall()
-    except InterfaceError as ex:
-        print("Failed to connect request")
-        if cnx:
-            cnx.close()
-        if cursor:
-            cursor.close()
-        return dict()
-    except OperationalError as ex:
-        print("Failed to operate request")
-        if cnx:
-            cnx.close()
-        if cursor:
-            cursor.close()
-        return dict()
-    except ProgrammingError as ex:
-        print("Failed to SQL request")
-        if cnx:
-            cnx.close()
-        if cursor:
-            cursor.close()
-        return dict()
-    except DataError as ex:
-        print("Failed to SQL Data request")
-        if cnx:
-            cnx.close()
-        if cursor:
-            cursor.close()
-        return dict()
-    except Exception as ex:
-        print('write_log:' + str(ex))
-        if cnx:
-            cnx.close()
-        if cursor:
-            cursor.close()
-        return dict()
+        try:
+            cursor = cnx.cursor()
+            query_tariffs = (" SELECT t.id, t.valid_from_datetime_utc, t.valid_through_datetime_utc "
+                             " FROM tbl_tariffs t, tbl_cost_centers_tariffs cct "
+                             " WHERE t.energy_category_id = %s AND "
+                             "       t.id = cct.tariff_id AND "
+                             "       cct.cost_center_id = %s AND "
+                             "       t.valid_through_datetime_utc >= %s AND "
+                             "       t.valid_from_datetime_utc <= %s "
+                             " ORDER BY t.valid_from_datetime_utc ")
+            cursor.execute(query_tariffs, (energy_category_id, cost_center_id, start_datetime_utc, end_datetime_utc,))
+            rows_tariffs = cursor.fetchall()
+        except InterfaceError as ex:
+            print("Failed to connect request")
+            return dict()
+        except OperationalError as ex:
+            print("Failed to operate request")
+            return dict()
+        except ProgrammingError as ex:
+            print("Failed to SQL request")
+            return dict()
+        except DataError as ex:
+            print("Failed to SQL Data request")
+            return dict()
+        except Exception as ex:
+            print('write_log:' + str(ex))
+            return dict()
 
-    if rows_tariffs is None or len(rows_tariffs) == 0:
-        if cursor:
-            cursor.close()
-        if cnx:
-            cnx.close()
-        return dict()
+        if rows_tariffs is None or len(rows_tariffs) == 0:
+            return dict()
 
-    for row in rows_tariffs:
-        tariff_dict[row[0]] = {'valid_from_datetime_utc': row[1],
-                               'valid_through_datetime_utc': row[2],
-                               'rates': list()}
+        for row in rows_tariffs:
+            tariff_dict[row[0]] = {'valid_from_datetime_utc': row[1],
+                                   'valid_through_datetime_utc': row[2],
+                                   'rates': list()}
 
-    try:
         query_timeofuse_tariffs = (" SELECT tariff_id, start_time_of_day, end_time_of_day, peak_type "
                                    " FROM tbl_tariffs_timeofuses "
                                    " WHERE tariff_id IN ( " + ', '.join(map(str, tariff_dict.keys())) + ")"
@@ -427,44 +359,24 @@ def get_energy_category_peak_types(cost_center_id, energy_category_id, start_dat
         rows_timeofuse_tariffs = cursor.fetchall()
     except InterfaceError as ex:
         print("Failed to connect request")
-        if cnx:
-            cnx.close()
-        if cursor:
-            cursor.close()
         return dict()
     except OperationalError as ex:
         print("Failed to operate request")
-        if cnx:
-            cnx.close()
-        if cursor:
-            cursor.close()
         return dict()
     except ProgrammingError as ex:
         print("Failed to SQL request")
-        if cnx:
-            cnx.close()
-        if cursor:
-            cursor.close()
         return dict()
     except DataError as ex:
         print("Failed to SQL Data request")
-        if cnx:
-            cnx.close()
-        if cursor:
-            cursor.close()
         return dict()
     except Exception as ex:
         print('write_log:' + str(ex))
-        if cnx:
-            cnx.close()
+        return dict()
+    finally:
         if cursor:
             cursor.close()
-        return dict()
-
-    if cursor:
-        cursor.close()
-    if cnx:
-        cnx.close()
+        if cnx:
+            cnx.close()
 
     if rows_timeofuse_tariffs is None or len(rows_timeofuse_tariffs) == 0:
         return dict()
