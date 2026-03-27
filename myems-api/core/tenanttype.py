@@ -99,26 +99,34 @@ class TenantTypeCollection:
                 pass
 
         # Cache miss or Redis error - query database
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        query = (" SELECT id, name, uuid, description, simplified_code "
-                 " FROM tbl_tenant_types "
-                 " ORDER BY id ")
-        cursor.execute(query)
-        rows = cursor.fetchall()
-        cursor.close()
-        cnx.close()
+                query = (" SELECT id, name, uuid, description, simplified_code "
+                         " FROM tbl_tenant_types "
+                         " ORDER BY id ")
+                cursor.execute(query)
+                rows = cursor.fetchall()
 
-        result = list()
-        if rows is not None and len(rows) > 0:
-            for row in rows:
-                meta_result = {"id": row[0],
-                               "name": row[1],
-                               "uuid": row[2],
-                               "description": row[3],
-                               "simplified_code": row[4]}
-                result.append(meta_result)
+                result = list()
+                if rows is not None and len(rows) > 0:
+                    for row in rows:
+                        meta_result = {"id": row[0],
+                                       "name": row[1],
+                                       "uuid": row[2],
+                                       "description": row[3],
+                                       "simplified_code": row[4]}
+                        result.append(meta_result)
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         # Store result in Redis cache
         result_json = json.dumps(result)
@@ -178,47 +186,50 @@ class TenantTypeCollection:
 
         simplified_code = str.strip(new_values['data']['simplified_code'])
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_tenant_types "
-                       " WHERE name = %s ", (name,))
-        if cursor.fetchone() is not None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_400,
-                                   title='API.BAD_REQUEST',
-                                   description='API.TENANT_TYPE_NAME_IS_ALREADY_IN_USE')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_tenant_types "
+                               " WHERE name = %s ", (name,))
+                if cursor.fetchone() is not None:
+                    raise falcon.HTTPError(status=falcon.HTTP_400,
+                                           title='API.BAD_REQUEST',
+                                           description='API.TENANT_TYPE_NAME_IS_ALREADY_IN_USE')
 
-        cursor.execute(" SELECT simplified_code "
-                       " FROM tbl_tenant_types "
-                       " WHERE simplified_code = %s ", (simplified_code,))
-        if cursor.fetchone() is not None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_400,
-                                   title='API.BAD_REQUEST',
-                                   description='API.TENANT_TYPE_SIMPLIFIED_CODE_IS_ALREADY_IN_USE')
+                cursor.execute(" SELECT simplified_code "
+                               " FROM tbl_tenant_types "
+                               " WHERE simplified_code = %s ", (simplified_code,))
+                if cursor.fetchone() is not None:
+                    raise falcon.HTTPError(status=falcon.HTTP_400,
+                                           title='API.BAD_REQUEST',
+                                           description='API.TENANT_TYPE_SIMPLIFIED_CODE_IS_ALREADY_IN_USE')
 
-        add_value = (" INSERT INTO tbl_tenant_types "
-                     " (name, uuid, description, simplified_code) "
-                     " VALUES (%s, %s, %s, %s) ")
-        cursor.execute(add_value, (name,
-                                   str(uuid.uuid4()),
-                                   description,
-                                   simplified_code))
-        new_id = cursor.lastrowid
-        cnx.commit()
-        cursor.close()
-        cnx.close()
+                add_value = (" INSERT INTO tbl_tenant_types "
+                             " (name, uuid, description, simplified_code) "
+                             " VALUES (%s, %s, %s, %s) ")
+                cursor.execute(add_value, (name,
+                                           str(uuid.uuid4()),
+                                           description,
+                                           simplified_code))
+                new_id = cursor.lastrowid
+                cnx.commit()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         # Clear cache after creating new tenant type
         clear_tenanttype_cache()
 
         resp.status = falcon.HTTP_201
         resp.location = '/tenanttypes/' + str(new_id)
-
 
 
 class TenantTypeItem:
@@ -271,25 +282,35 @@ class TenantTypeItem:
                 pass
 
         # Cache miss or Redis error - query database
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        query = (" SELECT id, name, uuid, description, simplified_code "
-                 " FROM tbl_tenant_types "
-                 " WHERE id = %s ")
-        cursor.execute(query, (id_,))
-        row = cursor.fetchone()
-        cursor.close()
-        cnx.close()
-        if row is None:
-            raise falcon.HTTPError(status=falcon.HTTP_400,
-                                   title='API.NOT_FOUND',
-                                   description='API.TENANT_TYPE_NOT_FOUND')
-        result = {"id": row[0],
-                  "name": row[1],
-                  "uuid": row[2],
-                  "description": row[3],
-                  "simplified_code": row[4]}
+                query = (" SELECT id, name, uuid, description, simplified_code "
+                         " FROM tbl_tenant_types "
+                         " WHERE id = %s ")
+                cursor.execute(query, (id_,))
+                row = cursor.fetchone()
+                
+                if row is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_400,
+                                           title='API.NOT_FOUND',
+                                           description='API.TENANT_TYPE_NOT_FOUND')
+                
+                result = {"id": row[0],
+                          "name": row[1],
+                          "uuid": row[2],
+                          "description": row[3],
+                          "simplified_code": row[4]}
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         # Store result in Redis cache
         result_json = json.dumps(result)
@@ -312,35 +333,38 @@ class TenantTypeItem:
                                    title='API.BAD_REQUEST',
                                    description='API.INVALID_TENANT_TYPE_ID')
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_tenant_types "
-                       " WHERE id = %s ", (id_,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404,
-                                   title='API.NOT_FOUND',
-                                   description='API.TENANT_TYPE_NOT_FOUND')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_tenant_types "
+                               " WHERE id = %s ", (id_,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404,
+                                           title='API.NOT_FOUND',
+                                           description='API.TENANT_TYPE_NOT_FOUND')
 
-        cursor.execute(" SELECT id "
-                       " FROM tbl_tenants "
-                       " WHERE tenant_type_id = %s ", (id_,))
-        rows_tenants = cursor.fetchall()
-        if rows_tenants is not None and len(rows_tenants) > 0:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_400,
-                                   title='API.BAD_REQUEST',
-                                   description='API.TENANT_TYPE_USED_IN_TENANT')
+                cursor.execute(" SELECT id "
+                               " FROM tbl_tenants "
+                               " WHERE tenant_type_id = %s ", (id_,))
+                rows_tenants = cursor.fetchall()
+                if rows_tenants is not None and len(rows_tenants) > 0:
+                    raise falcon.HTTPError(status=falcon.HTTP_400,
+                                           title='API.BAD_REQUEST',
+                                           description='API.TENANT_TYPE_USED_IN_TENANT')
 
-        cursor.execute(" DELETE FROM tbl_tenant_types WHERE id = %s ", (id_,))
-        cnx.commit()
-
-        cursor.close()
-        cnx.close()
+                cursor.execute(" DELETE FROM tbl_tenant_types WHERE id = %s ", (id_,))
+                cnx.commit()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         # Clear cache after deleting tenant type
         clear_tenanttype_cache(tenanttype_id=int(id_))
@@ -398,52 +422,53 @@ class TenantTypeItem:
 
         simplified_code = str.strip(new_values['data']['simplified_code'])
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_tenant_types "
-                       " WHERE id = %s ", (id_,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404,
-                                   title='API.NOT_FOUND',
-                                   description='API.TENANT_TYPE_NOT_FOUND')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_tenant_types "
+                               " WHERE id = %s ", (id_,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404,
+                                           title='API.NOT_FOUND',
+                                           description='API.TENANT_TYPE_NOT_FOUND')
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_tenant_types "
-                       " WHERE name = %s AND id != %s ", (name, id_))
-        if cursor.fetchone() is not None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_400,
-                                   title='API.BAD_REQUEST',
-                                   description='API.TENANT_TYPE_NAME_IS_ALREADY_IN_USE')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_tenant_types "
+                               " WHERE name = %s AND id != %s ", (name, id_))
+                if cursor.fetchone() is not None:
+                    raise falcon.HTTPError(status=falcon.HTTP_400,
+                                           title='API.BAD_REQUEST',
+                                           description='API.TENANT_TYPE_NAME_IS_ALREADY_IN_USE')
 
-        cursor.execute(" SELECT simplified_code "
-                       " FROM tbl_tenant_types "
-                       " WHERE simplified_code = %s  AND id != %s ", (simplified_code, id_))
-        if cursor.fetchone() is not None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404,
-                                   title='API.BAD_REQUEST',
-                                   description='API.TENANT_TYPE_SIMPLIFIED_CODE_IS_ALREADY_IN_USE')
+                cursor.execute(" SELECT simplified_code "
+                               " FROM tbl_tenant_types "
+                               " WHERE simplified_code = %s  AND id != %s ", (simplified_code, id_))
+                if cursor.fetchone() is not None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404,
+                                           title='API.BAD_REQUEST',
+                                           description='API.TENANT_TYPE_SIMPLIFIED_CODE_IS_ALREADY_IN_USE')
 
-        update_row = (" UPDATE tbl_tenant_types "
-                      " SET name = %s, description = %s, simplified_code = %s "
-                      " WHERE id = %s ")
-        cursor.execute(update_row, (name,
-                                    description,
-                                    simplified_code,
-                                    id_,))
-        cnx.commit()
-        cursor.close()
-        cnx.close()
+                update_row = (" UPDATE tbl_tenant_types "
+                              " SET name = %s, description = %s, simplified_code = %s "
+                              " WHERE id = %s ")
+                cursor.execute(update_row, (name,
+                                            description,
+                                            simplified_code,
+                                            id_,))
+                cnx.commit()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         # Clear cache after updating tenant type
         clear_tenanttype_cache(tenanttype_id=int(id_))
 
         resp.status = falcon.HTTP_200
-

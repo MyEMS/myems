@@ -118,26 +118,34 @@ class TimezoneCollection:
                 pass
 
         # Cache miss or Redis error - query database
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        # Query to retrieve all timezones
-        query = (" SELECT id, name, description, utc_offset "
-                 " FROM tbl_timezones ")
-        cursor.execute(query)
-        rows = cursor.fetchall()
-        cursor.close()
-        cnx.close()
+                # Query to retrieve all timezones
+                query = (" SELECT id, name, description, utc_offset "
+                         " FROM tbl_timezones ")
+                cursor.execute(query)
+                rows = cursor.fetchall()
 
-        # Build result list
-        result = list()
-        if rows is not None and len(rows) > 0:
-            for row in rows:
-                meta_result = {"id": row[0],
-                               "name": row[1],
-                               "description": row[2],
-                               "utc_offset": row[3]}
-                result.append(meta_result)
+                # Build result list
+                result = list()
+                if rows is not None and len(rows) > 0:
+                    for row in rows:
+                        meta_result = {"id": row[0],
+                                       "name": row[1],
+                                       "description": row[2],
+                                       "utc_offset": row[3]}
+                        result.append(meta_result)
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         # Store result in Redis cache
         result_json = json.dumps(result)
@@ -232,29 +240,34 @@ class TimezoneItem:
                 pass
 
         # Cache miss or Redis error - query database
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        # Query to retrieve specific timezone by ID
-        query = (" SELECT id, name, description, utc_offset "
-                 " FROM tbl_timezones "
-                 " WHERE id = %s ")
-        cursor.execute(query, (id_,))
-        row = cursor.fetchone()
-        if row is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.TIMEZONE_NOT_FOUND')
+                # Query to retrieve specific timezone by ID
+                query = (" SELECT id, name, description, utc_offset "
+                         " FROM tbl_timezones "
+                         " WHERE id = %s ")
+                cursor.execute(query, (id_,))
+                row = cursor.fetchone()
+                if row is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.TIMEZONE_NOT_FOUND')
 
-        # Build result object
-        result = {"id": row[0],
-                  "name": row[1],
-                  "description": row[2],
-                  "utc_offset": row[3]}
-
-        cursor.close()
-        cnx.close()
+                # Build result object
+                result = {"id": row[0],
+                          "name": row[1],
+                          "description": row[2],
+                          "utc_offset": row[3]}
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         # Store result in Redis cache
         result_json = json.dumps(result)
@@ -301,31 +314,36 @@ class TimezoneItem:
 
         new_values = json.loads(raw_json)
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        # Check if timezone exists
-        cursor.execute(" SELECT name "
-                       " FROM tbl_timezones "
-                       " WHERE id = %s ", (id_,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.TIMEZONE_NOT_FOUND')
+                # Check if timezone exists
+                cursor.execute(" SELECT name "
+                               " FROM tbl_timezones "
+                               " WHERE id = %s ", (id_,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.TIMEZONE_NOT_FOUND')
 
-        # Update timezone information
-        update_row = (" UPDATE tbl_timezones "
-                      " SET name = %s, description = %s, utc_offset = %s "
-                      " WHERE id = %s ")
-        cursor.execute(update_row, (new_values['data']['name'],
-                                    new_values['data']['description'],
-                                    new_values['data']['utc_offset'],
-                                    id_,))
-        cnx.commit()
-
-        cursor.close()
-        cnx.close()
+                # Update timezone information
+                update_row = (" UPDATE tbl_timezones "
+                              " SET name = %s, description = %s, utc_offset = %s "
+                              " WHERE id = %s ")
+                cursor.execute(update_row, (new_values['data']['name'],
+                                            new_values['data']['description'],
+                                            new_values['data']['utc_offset'],
+                                            id_,))
+                cnx.commit()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         # Clear cache after updating timezone
         clear_timezone_cache(timezone_id=id_)
