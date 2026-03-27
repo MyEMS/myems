@@ -301,7 +301,7 @@ const SpaceEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => {
             totalInTCO2E['increment_rate'] =
               parseFloat(json['reporting_period']['increment_rate_in_kgco2e'] * 100).toFixed(2) + '%';
             totalInTCO2E['value_per_unit_area'] = json['reporting_period']['total_in_kgco2e_per_unit_area'];
-            totalInTCO2E['value_per_capita'] = json['reporting_period']['total_in_kgce_per_capita'];
+            totalInTCO2E['value_per_capita'] = json['reporting_period']['total_in_kgco2e_per_capita'];
             setTotalInTCO2E(totalInTCO2E);
 
             let TCEDataArray = [];
