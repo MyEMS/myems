@@ -2211,10 +2211,9 @@ class NewUserItem:
     @staticmethod
     def on_get(req, resp, id_):
         _ = req
-        if not isinstance(id_, str) or len(str.strip(id_)) == 0:
+        if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.INVALID_EMAIL')
-        email = str.lower(str.strip(id_))
+                                   description='API.INVALID_USER_ID')
 
         cnx = None
         cursor = None
@@ -2226,7 +2225,7 @@ class NewUserItem:
                 query = (" SELECT id, name, display_name, uuid, email "
                          " FROM tbl_new_users "
                          " WHERE id = %s ")
-                cursor.execute(query, (email,))
+                cursor.execute(query, (id_,))
                 row = cursor.fetchone()
                 
                 if row is None:
