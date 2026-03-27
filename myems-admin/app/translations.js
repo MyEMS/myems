@@ -295,6 +295,7 @@ function config($translateProvider) {
         BIND_MICROGRID: "Bind Microgrid",
         BIND_ENERGY_STORAGE_CONTAINER: "Bind Energy Storage Container",
 
+        IOTSIMCARD: "IoT SIM Card",
         INPUT_NAME: "Please Input Name",
         INPUT_AREA: "Please Input Area",
         INPUT_UNIT: "Please Input Unit",
@@ -2698,6 +2699,7 @@ function config($translateProvider) {
         BIND_MICROGRID: "绑定微电网",
         BIND_ENERGY_STORAGE_CONTAINER: "绑定储能集装箱",
 
+        IOTSIMCARD: "物联网卡",
         INPUT_NAME: "请输入名称",
         INPUT_AREA: "请输入面积",
         INPUT_UNIT: "请输入单位",
@@ -5026,6 +5028,7 @@ function config($translateProvider) {
         BIND_MICROGRID: "Mikrogitter binden",
         BIND_ENERGY_STORAGE_CONTAINER: "Bind Energy Storage Container",
 
+        IOTSIMCARD: "IoT-Sim-Karte",
         INPUT_NAME: "Bitte geben Sie einen Namen ein",
         INPUT_AREA: "Bitte betreten Sie den Bereich",
         INPUT_UNIT: "Bitte geben Sie eine Einheit ein",
@@ -7470,6 +7473,7 @@ function config($translateProvider) {
         BIND_ENERGY_STORAGE_CONTAINER:
           "Lier les conteneurs de stockage d’énergie",
 
+        IOTSIMCARD: "Carte SIM IoT",
         INPUT_NAME: "Veuillez saisir le nom",
         INPUT_AREA: "S’il vous plaît zone de saisie",
         INPUT_UNIT: "S’il vous plaît Unité d’entrée",
@@ -9937,6 +9941,7 @@ function config($translateProvider) {
         BIND_ENERGY_STORAGE_CONTAINER:
           "Contenedor de almacenamiento de energía vinculado",
 
+        IOTSIMCARD: "Tarjeta SIM para IoT",
         INPUT_NAME: "Por favor, introduzca el nombre",
         INPUT_AREA: "Por favor, ingrese el área",
         INPUT_UNIT: "Por favor, ingrese la unidad",
@@ -12393,6 +12398,7 @@ function config($translateProvider) {
         BIND_MICROGRID: "Привязка микросети",
         BIND_ENERGY_STORAGE_CONTAINER: "Связанный резервуар",
 
+        IOTSIMCARD: "IoT SIM-карта",
         INPUT_NAME: "Пожалуйста, введите имя",
         INPUT_AREA: "Пожалуйста, введите область",
         INPUT_UNIT: "Пожалуйста, введите единицу",
@@ -14825,6 +14831,7 @@ function config($translateProvider) {
         BIND_MICROGRID: "ربط الشبكة المصغرة",
         BIND_ENERGY_STORAGE_CONTAINER: "ملزمة حاوية تخزين الطاقة",
 
+        IOTSIMCARD: "بطاقة سيم لإنترنت الأشياء",
         INPUT_NAME: "الرجاء إدخال الاسم",
         INPUT_AREA: "يرجى إدخال المنطقة",
         INPUT_UNIT: "يرجى وحدة الإدخال",
@@ -17221,6 +17228,7 @@ function config($translateProvider) {
         BIND_MICROGRID: "Liên kết Microgrid",
         BIND_ENERGY_STORAGE_CONTAINER: "Container lưu trữ năng lượng ràng buộc",
 
+        IOTSIMCARD: "Thẻ sim Iot",
         INPUT_NAME: "Vui lòng nhập tên",
         INPUT_AREA: "Vui lòng nhập khu vực",
         INPUT_UNIT: "Vui lòng nhập đơn vị",
@@ -19630,6 +19638,7 @@ function config($translateProvider) {
         BIND_MICROGRID: "ผูกไมโครกริด",
         BIND_ENERGY_STORAGE_CONTAINER: "ผูกภาชนะเก็บพลังงาน",
 
+        IOTSIMCARD: "การ์ดซิม IoT",
         INPUT_NAME: "กรุณาใส่ชื่อ",
         INPUT_AREA: "กรุณาใส่พื้นที่",
         INPUT_UNIT: "กรุณาใส่หน่วย",
@@ -22016,6 +22025,7 @@ function config($translateProvider) {
         BIND_ENERGY_STORAGE_CONTAINER:
           "Bağlam Enerji depolama KonteinerComment",
 
+        IOTSIMCARD: "IoT sim kartı",
         INPUT_NAME: "Lütfen İsim Giriniz",
         INPUT_AREA: "Lütfen Giriş Alanı",
         INPUT_UNIT: "Lütfen Giriş Ünitesi",
@@ -24409,6 +24419,7 @@ function config($translateProvider) {
         BIND_MICROGRID: "Bind Microgrid",
         BIND_ENERGY_STORAGE_CONTAINER: "Kandungan Storan tenaga Bind",
 
+        IOTSIMCARD: "Kad sim IoT",
         INPUT_NAME: "Sila masukkan Nama",
         INPUT_AREA: "Sila Input Kawasan",
         INPUT_UNIT: "Sila Unit Input",
@@ -26820,6 +26831,7 @@ function config($translateProvider) {
         BIND_MICROGRID: "Ikat Microgrid",
         BIND_ENERGY_STORAGE_CONTAINER: "Bind Energy Storage Container",
 
+        IOTSIMCARD: "Kartu SIM IoT",
         INPUT_NAME: "Silakan masukkan nama",
         INPUT_AREA: "Silakan Input Area",
         INPUT_UNIT: "Silakan Input Unit",
@@ -29244,6 +29256,7 @@ function config($translateProvider) {
         BIND_MICROGRID: "綁定微電網",
         BIND_ENERGY_STORAGE_CONTAINER: "綁定儲能集裝箱",
 
+        IOTSIMCARD: "物聯網卡",
         INPUT_NAME: "請輸入名稱",
         INPUT_AREA: "請輸入⾯積",
         INPUT_UNIT: "請輸入單位",
@@ -31581,6 +31594,7 @@ function config($translateProvider) {
         BIND_ENERGY_STORAGE_CONTAINER:
           "Vincular Contêiner de Armazenamento de Energia",
 
+        IOTSIMCARD: "Iot sim card",
         INPUT_NAME: "Por Favor, Insira o Nome",
         INPUT_AREA: "Por Favor, Insira a Área",
         INPUT_UNIT: "Por Favor, Insira a Unidade",
@@ -34122,6 +34136,7 @@ function config($translateProvider) {
         BIND_MICROGRID: "마이크로그리드 바인딩",
         BIND_ENERGY_STORAGE_CONTAINER: "에너지 저장 컨테이너 바인딩",
 
+        IOTSIMCARD: "IoT SIM 카드",
         INPUT_NAME: "이름을 입력하세요",
         INPUT_AREA: "면적을 입력하세요",
         INPUT_UNIT: "단위를 입력하세요",
@@ -36517,6 +36532,7 @@ function config($translateProvider) {
         BIND_TARIFF: "Associa Tariffa",
         BIND_MICROGRID: "Associa Microgrid",
         BIND_ENERGY_STORAGE_CONTAINER: "Associa Container di Accumulo Energia",
+        IOTSIMCARD: "Carta SIM IoT",
         INPUT_NAME: "Inserisci nome",
         INPUT_AREA: "Inserisci area",
         INPUT_UNIT: "Inserisci unità",
@@ -38931,6 +38947,7 @@ function config($translateProvider) {
         BIND_MICROGRID: "Przypisz mikrosieć",
         BIND_ENERGY_STORAGE_CONTAINER:
           "Przypisz kontener magazynowania energii",
+        IOTSIMCARD: "Karta SIM IoT",
         INPUT_NAME: "Wprowadź nazwę",
         INPUT_AREA: "Wprowadź powierzchnię",
         INPUT_UNIT: "Wprowadź jednostkę",
@@ -41349,6 +41366,7 @@ function config($translateProvider) {
         BIND_TARIFF: "Tarief koppelen",
         BIND_MICROGRID: "Microgrid koppelen",
         BIND_ENERGY_STORAGE_CONTAINER: "Energieopslagcontainer koppelen",
+        IOTSIMCARD: "Iot sim kaart",
         INPUT_NAME: "Voer naam in",
         INPUT_AREA: "Voer oppervlakte in",
         INPUT_UNIT: "Voer eenheid in",
@@ -43728,6 +43746,7 @@ function config($translateProvider) {
         BIND_TARIFF: "料金体系をバインド",
         BIND_MICROGRID: "マイクログリッドをバインド",
         BIND_ENERGY_STORAGE_CONTAINER: "エネルギー貯蔵コンテナをバインド",
+        IOTSIMCARD: "IoT SIMカード",
         INPUT_NAME: "名前を入力してください",
         INPUT_AREA: "面積を入力してください",
         INPUT_UNIT: "単位を入力してください",
@@ -46101,6 +46120,7 @@ function config($translateProvider) {
         BIND_TARIFF: "الزام‌آوری تعرفه",
         BIND_MICROGRID: "الزام‌آوری ریزشبکه",
         BIND_ENERGY_STORAGE_CONTAINER: "الزام‌آوری کانتینر ذخیره انرژی",
+        IOTSIMCARD: "کارت سیم IoT",
         INPUT_NAME: "لطفاً نام را وارد کنید",
         INPUT_AREA: "لطفاً مساحت را وارد کنید",
         INPUT_UNIT: "لطفاً واحد را وارد کنید",

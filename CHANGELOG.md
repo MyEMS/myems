@@ -19,6 +19,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - changed menu order in myems-admin
 - changed base period date range picker to hide when comparison type is none in myems-web
 - changed default comparison type to none comparison in myems-web 
+- changed icon on topnavbar in myems-admin
 ### Fixed
 - fixed overwritten property in myems-web
 - fixed overwritten property in myems-admin
