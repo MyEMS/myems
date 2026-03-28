@@ -35,6 +35,8 @@ from decimal import Decimal
 import falcon
 import mysql.connector
 import simplejson as json
+import redis
+import hashlib
 import config
 from core import utilities
 from core.useractivity import access_control, api_key_control
@@ -163,6 +165,48 @@ class Reporting:
         if reporting_start_datetime_utc >= reporting_end_datetime_utc:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_REPORTING_PERIOD_END_DATETIME')
+
+        # Redis cache: cache whole report response based on request parameters.
+        # Cache key uses a hash of normalized request fields to keep it short & deterministic.
+        cache_expire = 1800  # 30 minutes
+        base_end_datetime_utc_cache = base_end_datetime_utc.replace(minute=0, second=0, microsecond=0) \
+            if base_end_datetime_utc is not None else None
+        reporting_end_datetime_utc_cache = reporting_end_datetime_utc.replace(minute=0, second=0, microsecond=0) \
+            if reporting_end_datetime_utc is not None else None
+        cache_material = {
+            'useruuid': user_uuid,
+            'base_start_utc': base_start_datetime_utc.isoformat() if base_start_datetime_utc is not None else None,
+            'base_end_utc': base_end_datetime_utc_cache.isoformat() if base_end_datetime_utc_cache is not None else None,
+            'reporting_start_utc': reporting_start_datetime_utc.isoformat() if reporting_start_datetime_utc is not None else None,
+            'reporting_end_utc': reporting_end_datetime_utc_cache.isoformat() if reporting_end_datetime_utc_cache is not None else None,
+        }
+        cache_key_hash = hashlib.md5(json.dumps(cache_material, sort_keys=True).encode('utf-8')).hexdigest()
+        cache_key = f'dashboard:report:{cache_key_hash}'
+
+        redis_client = None
+        if config.redis.get('is_enabled'):
+            try:
+                redis_client = redis.Redis(
+                    host=config.redis['host'],
+                    port=config.redis['port'],
+                    password=config.redis['password'] if config.redis['password'] else None,
+                    db=config.redis['db'],
+                    decode_responses=True,
+                    socket_connect_timeout=2,
+                    socket_timeout=2
+                )
+                redis_client.ping()
+                cached_result = redis_client.get(cache_key)
+                if cached_result:
+                    resp.text = cached_result
+                    return
+            except redis.ConnectionError:
+                pass
+            except redis.TimeoutError:
+                pass
+            except Exception:
+                # Never break the API due to cache failures.
+                pass
 
         ################################################################################################################
         # Step 2: query the space
@@ -1135,4 +1179,11 @@ class Reporting:
                 result['child_space_cost']['subtotals_array'].append(
                     child_space_cost[energy_category_id]['subtotals'])
 
-        resp.text = json.dumps(result)
+        result_json = json.dumps(result)
+        resp.text = result_json
+
+        if config.redis.get('is_enabled') and redis_client:
+            try:
+                redis_client.setex(cache_key, cache_expire, result_json)
+            except Exception:
+                pass
