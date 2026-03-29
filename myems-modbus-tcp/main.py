@@ -159,10 +159,10 @@ def main():
                 and not isinstance(server['interval_in_seconds'], float)) \
             or server['interval_in_seconds'] < 0 \
                 or server['interval_in_seconds'] > 3600:
-            # Use default interval from configuration
-            interval_in_seconds = config.interval_in_seconds
+            # set the default interval
+            interval_in_seconds = 300
         else:
-            # Use configured interval from data source
+            # set interval from data source
             interval_in_seconds = server['interval_in_seconds']
 
         # Fork worker process for each data source
