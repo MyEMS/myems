@@ -110,24 +110,32 @@ class WorkingCalendarCollection:
                 pass
 
         # Cache miss or Redis error - query database
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        cursor.execute(" SELECT id, name, description"
-                       " FROM tbl_working_calendars ")
+                cursor.execute(" SELECT id, name, description"
+                               " FROM tbl_working_calendars ")
 
-        rows_calendars = cursor.fetchall()
+                rows_calendars = cursor.fetchall()
 
-        result = list()
-        if rows_calendars is not None and len(rows_calendars) > 0:
-            for row in rows_calendars:
-                meta_result = {"id": row[0],
-                               "name": row[1],
-                               "description": row[2]}
-                result.append(meta_result)
+                result = list()
+                if rows_calendars is not None and len(rows_calendars) > 0:
+                    for row in rows_calendars:
+                        meta_result = {"id": row[0],
+                                       "name": row[1],
+                                       "description": row[2]}
+                        result.append(meta_result)
 
-        cursor.close()
-        cnx.close()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         # Store result in Redis cache
         result_json = json.dumps(result)
@@ -177,27 +185,34 @@ class WorkingCalendarCollection:
         else:
             description = None
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_working_calendars "
-                       " WHERE name = %s ", (name,))
-        if cursor.fetchone() is not None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.WORKING_CALENDAR_NAME_IS_ALREADY_IN_USE')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_working_calendars "
+                               " WHERE name = %s ", (name,))
+                if cursor.fetchone() is not None:
+                    raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                           description='API.WORKING_CALENDAR_NAME_IS_ALREADY_IN_USE')
 
-        add_values = (" INSERT INTO tbl_working_calendars "
-                      " (name, description) "
-                      " VALUES (%s, %s) ")
-        cursor.execute(add_values, (name,
-                                    description))
-        new_id = cursor.lastrowid
-        cnx.commit()
-        cursor.close()
-        cnx.close()
+                add_values = (" INSERT INTO tbl_working_calendars "
+                              " (name, description) "
+                              " VALUES (%s, %s) ")
+                cursor.execute(add_values, (name,
+                               description))
+                new_id = cursor.lastrowid
+                cnx.commit()
+
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         # Clear cache after creating new working calendar
         clear_working_calendar_cache()
@@ -255,15 +270,24 @@ class WorkingCalendarItem:
                 pass
 
         # Cache miss or Redis error - query database
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        cursor.execute(" SELECT id, name, description"
-                       " FROM tbl_working_calendars "
-                       " WHERE id = %s ", (id_,))
-        row = cursor.fetchone()
-        cursor.close()
-        cnx.close()
+                cursor.execute(" SELECT id, name, description"
+                               " FROM tbl_working_calendars "
+                               " WHERE id = %s ", (id_,))
+                row = cursor.fetchone()
+
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         if row is None:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
@@ -291,75 +315,73 @@ class WorkingCalendarItem:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_WORKING_CALENDAR_ID')
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        cursor.execute(" SELECT id "
-                       " FROM tbl_working_calendars "
-                       " WHERE id = %s ", (id_,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.WORKING_CALENDAR_NOT_FOUND')
+                cursor.execute(" SELECT id "
+                               " FROM tbl_working_calendars "
+                               " WHERE id = %s ", (id_,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.WORKING_CALENDAR_NOT_FOUND')
 
-        # check relation with space
-        cursor.execute(" SELECT id FROM tbl_spaces_working_calendars"
-                       " WHERE working_calendar_id = %s ", (id_,))
+                # check relation with space
+                cursor.execute(" SELECT id FROM tbl_spaces_working_calendars"
+                               " WHERE working_calendar_id = %s ", (id_,))
 
-        rows_non_working_days = cursor.fetchall()
-        if rows_non_working_days is not None and len(rows_non_working_days) > 0:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_400,
-                                   title='API.BAD_REQUEST',
-                                   description='API.THERE_IS_RELATION_WITH_SPACES')
+                rows_non_working_days = cursor.fetchall()
+                if rows_non_working_days is not None and len(rows_non_working_days) > 0:
+                    raise falcon.HTTPError(status=falcon.HTTP_400,
+                                           title='API.BAD_REQUEST',
+                                           description='API.THERE_IS_RELATION_WITH_SPACES')
 
-        # check relation with tenants
-        cursor.execute(" SELECT tenant_id "
-                       " FROM tbl_tenants_working_calendars "
-                       " WHERE working_calendar_id = %s ", (id_,))
-        rows_tenants = cursor.fetchall()
-        if rows_tenants is not None and len(rows_tenants) > 0:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_400,
-                                   title='API.BAD_REQUEST',
-                                   description='API.THERE_IS_RELATION_WITH_TENANTS')
+                # check relation with tenants
+                cursor.execute(" SELECT tenant_id "
+                               " FROM tbl_tenants_working_calendars "
+                               " WHERE working_calendar_id = %s ", (id_,))
+                rows_tenants = cursor.fetchall()
+                if rows_tenants is not None and len(rows_tenants) > 0:
+                    raise falcon.HTTPError(status=falcon.HTTP_400,
+                                           title='API.BAD_REQUEST',
+                                           description='API.THERE_IS_RELATION_WITH_TENANTS')
 
-        # check relation with stores
-        cursor.execute(" SELECT store_id "
-                       " FROM tbl_stores_working_calendars "
-                       " WHERE working_calendar_id = %s ", (id_,))
-        rows_stores = cursor.fetchall()
-        if rows_stores is not None and len(rows_stores) > 0:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_400,
-                                   title='API.BAD_REQUEST',
-                                   description='API.THERE_IS_RELATION_WITH_STORES')
+                # check relation with stores
+                cursor.execute(" SELECT store_id "
+                               " FROM tbl_stores_working_calendars "
+                               " WHERE working_calendar_id = %s ", (id_,))
+                rows_stores = cursor.fetchall()
+                if rows_stores is not None and len(rows_stores) > 0:
+                    raise falcon.HTTPError(status=falcon.HTTP_400,
+                                           title='API.BAD_REQUEST',
+                                           description='API.THERE_IS_RELATION_WITH_STORES')
 
-        # check relation with shopfloors
-        cursor.execute(" SELECT shopfloor_id "
-                       " FROM tbl_shopfloors_working_calendars "
-                       " WHERE working_calendar_id = %s ", (id_,))
-        rows_shopfloors = cursor.fetchall()
-        if rows_shopfloors is not None and len(rows_shopfloors) > 0:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_400,
-                                   title='API.BAD_REQUEST',
-                                   description='API.THERE_IS_RELATION_WITH_SHOPFLOORS')
+                # check relation with shopfloors
+                cursor.execute(" SELECT shopfloor_id "
+                               " FROM tbl_shopfloors_working_calendars "
+                               " WHERE working_calendar_id = %s ", (id_,))
+                rows_shopfloors = cursor.fetchall()
+                if rows_shopfloors is not None and len(rows_shopfloors) > 0:
+                    raise falcon.HTTPError(status=falcon.HTTP_400,
+                                           title='API.BAD_REQUEST',
+                                           description='API.THERE_IS_RELATION_WITH_SHOPFLOORS')
 
-        cursor.execute(" DELETE FROM tbl_working_calendars_non_working_days "
-                       " WHERE working_calendar_id = %s ", (id_,))
-        cnx.commit()
+                cursor.execute(" DELETE FROM tbl_working_calendars_non_working_days "
+                               " WHERE working_calendar_id = %s ", (id_,))
+                cnx.commit()
 
-        cursor.execute(" DELETE FROM tbl_working_calendars WHERE id = %s ", (id_,))
-        cnx.commit()
+                cursor.execute(" DELETE FROM tbl_working_calendars WHERE id = %s ", (id_,))
+                cnx.commit()
 
-        cursor.close()
-        cnx.close()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         # Clear cache after deleting working calendar
         clear_working_calendar_cache(working_calendar_id=int(id_))
@@ -403,35 +425,39 @@ class WorkingCalendarItem:
         else:
             description = None
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_working_calendars "
-                       " WHERE id = %s ", (id_,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.WORKING_CALENDAR_NOT_FOUND')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_working_calendars "
+                               " WHERE id = %s ", (id_,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.WORKING_CALENDAR_NOT_FOUND')
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_working_calendars "
-                       " WHERE name = %s AND id != %s ", (name, id_))
-        if cursor.fetchone() is not None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.WORKING_CALENDAR_NAME_IS_ALREADY_IN_USE')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_working_calendars "
+                               " WHERE name = %s AND id != %s ", (name, id_))
+                if cursor.fetchone() is not None:
+                    raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                           description='API.WORKING_CALENDAR_NAME_IS_ALREADY_IN_USE')
 
-        update_row = (" UPDATE tbl_working_calendars "
-                      " SET name = %s, description = %s "
-                      " WHERE id = %s ")
-        cursor.execute(update_row, (name, description, id_))
-        cnx.commit()
+                update_row = (" UPDATE tbl_working_calendars "
+                              " SET name = %s, description = %s "
+                              " WHERE id = %s ")
+                cursor.execute(update_row, (name, description, id_))
+                cnx.commit()
 
-        cursor.close()
-        cnx.close()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         # Clear cache after updating working calendar
         clear_working_calendar_cache(working_calendar_id=int(id_))
@@ -488,26 +514,34 @@ class NonWorkingDayCollection:
                 pass
 
         # Cache miss or Redis error - query database
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        cursor.execute(" SELECT id, working_calendar_id, date_local, description"
-                       " FROM tbl_working_calendars_non_working_days "
-                       " WHERE working_calendar_id = %s "
-                       " ORDER BY date_local DESC ", (id_,))
-        rows_date_local = cursor.fetchall()
+                cursor.execute(" SELECT id, working_calendar_id, date_local, description"
+                               " FROM tbl_working_calendars_non_working_days "
+                               " WHERE working_calendar_id = %s "
+                               " ORDER BY date_local DESC ", (id_,))
+                rows_date_local = cursor.fetchall()
 
-        meta_result = list()
-        if rows_date_local is not None and len(rows_date_local) > 0:
-            for row in rows_date_local:
-                date_local_dict = {'id': row[0],
-                                   'working_calendar_id': row[1],
-                                   'date_local': row[2].isoformat()[0:10],
-                                   'description': row[3]}
-                meta_result.append(date_local_dict)
+                meta_result = list()
+                if rows_date_local is not None and len(rows_date_local) > 0:
+                    for row in rows_date_local:
+                        date_local_dict = {'id': row[0],
+                                           'working_calendar_id': row[1],
+                                           'date_local': row[2].isoformat()[0:10],
+                                           'description': row[3]}
+                        meta_result.append(date_local_dict)
 
-        cursor.close()
-        cnx.close()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         # Store result in Redis cache
         result_json = json.dumps(meta_result)
@@ -562,27 +596,34 @@ class NonWorkingDayCollection:
         else:
             description = None
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        cursor.execute(" SELECT id "
-                       " FROM tbl_working_calendars_non_working_days "
-                       " WHERE working_calendar_id = %s AND date_local = %s ",
-                       (working_calendar_id, date_local))
-        if cursor.fetchone() is not None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.DATE_IS_ALREADY_IN_WORKING_CALENDAR')
+                cursor.execute(" SELECT id "
+                               " FROM tbl_working_calendars_non_working_days "
+                               " WHERE working_calendar_id = %s AND date_local = %s ",
+                               (working_calendar_id, date_local))
+                if cursor.fetchone() is not None:
+                    raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                           description='API.DATE_IS_ALREADY_IN_WORKING_CALENDAR')
 
-        add_values = (" INSERT INTO tbl_working_calendars_non_working_days "
-                      " (working_calendar_id, date_local, description) "
-                      " VALUES (%s, %s, %s) ")
-        cursor.execute(add_values, (working_calendar_id, date_local, description))
-        new_id = cursor.lastrowid
-        cnx.commit()
-        cursor.close()
-        cnx.close()
+                add_values = (" INSERT INTO tbl_working_calendars_non_working_days "
+                              " (working_calendar_id, date_local, description) "
+                              " VALUES (%s, %s, %s) ")
+                cursor.execute(add_values, (working_calendar_id, date_local, description))
+                new_id = cursor.lastrowid
+                cnx.commit()
+
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         # Clear cache after creating new non-working day
         clear_working_calendar_cache(working_calendar_id=int(working_calendar_id))
@@ -640,15 +681,24 @@ class NonWorkingDayItem:
                 pass
 
         # Cache miss or Redis error - query database
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        cursor.execute(" SELECT id, working_calendar_id, date_local, description"
-                       " FROM tbl_working_calendars_non_working_days "
-                       " WHERE id = %s ", (id_,))
-        row = cursor.fetchone()
-        cursor.close()
-        cnx.close()
+                cursor.execute(" SELECT id, working_calendar_id, date_local, description"
+                               " FROM tbl_working_calendars_non_working_days "
+                               " WHERE id = %s ", (id_,))
+                row = cursor.fetchone()
+
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         if row is None:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
@@ -677,26 +727,32 @@ class NonWorkingDayItem:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_NON_WORKING_DAY_ID')
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        cursor.execute(" SELECT id, working_calendar_id "
-                       " FROM tbl_working_calendars_non_working_days "
-                       " WHERE id = %s ", (id_,))
-        row = cursor.fetchone()
-        if row is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.NON_WORKING_DAY_NOT_FOUND')
+                cursor.execute(" SELECT id, working_calendar_id "
+                               " FROM tbl_working_calendars_non_working_days "
+                               " WHERE id = %s ", (id_,))
+                row = cursor.fetchone()
+                if row is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.NON_WORKING_DAY_NOT_FOUND')
 
-        working_calendar_id = row[1]
+                working_calendar_id = row[1]
 
-        cursor.execute(" DELETE FROM tbl_working_calendars_non_working_days WHERE id = %s ", (id_,))
-        cnx.commit()
+                cursor.execute(" DELETE FROM tbl_working_calendars_non_working_days WHERE id = %s ", (id_,))
+                cnx.commit()
 
-        cursor.close()
-        cnx.close()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         # Clear cache after deleting non-working day
         clear_working_calendar_cache(working_calendar_id=working_calendar_id)
@@ -738,39 +794,43 @@ class NonWorkingDayItem:
         else:
             description = None
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        cursor.execute(" SELECT working_calendar_id, date_local "
-                       " FROM tbl_working_calendars_non_working_days "
-                       " WHERE id = %s ", (id_,))
-        row = cursor.fetchone()
-        if row is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.DATE_LOCAL_NOT_FOUND')
+                cursor.execute(" SELECT working_calendar_id, date_local "
+                               " FROM tbl_working_calendars_non_working_days "
+                               " WHERE id = %s ", (id_,))
+                row = cursor.fetchone()
+                if row is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.DATE_LOCAL_NOT_FOUND')
 
-        working_calendar_id = row[0]
+                working_calendar_id = row[0]
 
-        cursor.execute(" SELECT id "
-                       " FROM tbl_working_calendars_non_working_days "
-                       " WHERE id != %s AND date_local = %s ",
-                       (id_, date_local))
-        if cursor.fetchone() is not None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.DATE_IS_ALREADY_IN_WORKING_CALENDAR')
+                cursor.execute(" SELECT id "
+                               " FROM tbl_working_calendars_non_working_days "
+                               " WHERE id != %s AND date_local = %s ",
+                               (id_, date_local))
+                if cursor.fetchone() is not None:
+                    raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                           description='API.DATE_IS_ALREADY_IN_WORKING_CALENDAR')
 
-        update_row = (" UPDATE tbl_working_calendars_non_working_days "
-                      " SET date_local = %s, description = %s "
-                      " WHERE id = %s ")
-        cursor.execute(update_row, (date_local, description, id_))
-        cnx.commit()
+                update_row = (" UPDATE tbl_working_calendars_non_working_days "
+                              " SET date_local = %s, description = %s "
+                              " WHERE id = %s ")
+                cursor.execute(update_row, (date_local, description, id_))
+                cnx.commit()
 
-        cursor.close()
-        cnx.close()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         # Clear cache after updating non-working day
         clear_working_calendar_cache(working_calendar_id=working_calendar_id)
@@ -827,41 +887,48 @@ class WorkingCalendarExport:
                 pass
 
         # Cache miss or Redis error - query database
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        cursor.execute(" SELECT id, name, description"
-                       " FROM tbl_working_calendars "
-                       " WHERE id = %s ", (id_,))
-        row = cursor.fetchone()
+                cursor.execute(" SELECT id, name, description"
+                               " FROM tbl_working_calendars "
+                               " WHERE id = %s ", (id_,))
+                row = cursor.fetchone()
 
-        if row is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.WORKING_CALENDAR_NOT_FOUND')
+                if row is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.WORKING_CALENDAR_NOT_FOUND')
 
-        meta_result = {
-                       "name": row[1],
-                       "description": row[2],
-                       "non_working_days": None}
+                meta_result = {
+                               "name": row[1],
+                               "description": row[2],
+                               "non_working_days": None}
 
-        cursor.execute(" SELECT id, working_calendar_id, date_local, description"
-                       " FROM tbl_working_calendars_non_working_days "
-                       " WHERE working_calendar_id = %s ", (id_,))
-        rows_date_local = cursor.fetchall()
+                cursor.execute(" SELECT id, working_calendar_id, date_local, description"
+                               " FROM tbl_working_calendars_non_working_days "
+                               " WHERE working_calendar_id = %s ", (id_,))
+                rows_date_local = cursor.fetchall()
 
-        result = list()
-        if rows_date_local is not None and len(rows_date_local) > 0:
-            for row in rows_date_local:
-                date_local_dict = {'id': row[0],
-                                   'working_calendar_id': row[1],
-                                   'date_local': row[2].isoformat()[0:10],
-                                   'description': row[3]}
-                result.append(date_local_dict)
-        meta_result['non_working_days'] = result
-        cursor.close()
-        cnx.close()
+                result = list()
+                if rows_date_local is not None and len(rows_date_local) > 0:
+                    for row in rows_date_local:
+                        date_local_dict = {'id': row[0],
+                                           'working_calendar_id': row[1],
+                                           'date_local': row[2].isoformat()[0:10],
+                                           'description': row[3]}
+                        result.append(date_local_dict)
+                meta_result['non_working_days'] = result
+
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         # Store result in Redis cache
         result_json = json.dumps(meta_result)
@@ -921,57 +988,62 @@ class WorkingCalendarImport:
         else:
             description = None
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_working_calendars "
-                       " WHERE name = %s ", (name,))
-        if cursor.fetchone() is not None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.WORKING_CALENDAR_NAME_IS_ALREADY_IN_USE')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_working_calendars "
+                               " WHERE name = %s ", (name,))
+                if cursor.fetchone() is not None:
+                    raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                           description='API.WORKING_CALENDAR_NAME_IS_ALREADY_IN_USE')
 
-        add_values = (" INSERT INTO tbl_working_calendars "
-                      " (name, description) "
-                      " VALUES (%s, %s) ")
-        cursor.execute(add_values, (name,
-                                    description))
-        new_id = cursor.lastrowid
-        working_calendar_id = new_id
-        for values in new_values['non_working_days']:
-            if 'date_local' not in values or \
-                    values['date_local'] is None or \
-                    len(str(values['date_local'])) <= 0:
-                raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                       description='API.INVALID_DATE_LOCAL')
-            date_local = str.strip(values['date_local'])
+                add_values = (" INSERT INTO tbl_working_calendars "
+                              " (name, description) "
+                              " VALUES (%s, %s) ")
+                cursor.execute(add_values, (name,
+                               description))
+                new_id = cursor.lastrowid
+                working_calendar_id = new_id
+                for values in new_values['non_working_days']:
+                    if 'date_local' not in values or \
+                            values['date_local'] is None or \
+                            len(str(values['date_local'])) <= 0:
+                        raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                               description='API.INVALID_DATE_LOCAL')
+                    date_local = str.strip(values['date_local'])
 
-            if 'description' in values and \
-                    values['description'] is not None and \
-                    len(str(values['description'])) > 0:
-                description = str.strip(values['description'])
-            else:
-                description = None
+                    if 'description' in values and \
+                            values['description'] is not None and \
+                            len(str(values['description'])) > 0:
+                        description = str.strip(values['description'])
+                    else:
+                        description = None
 
-            cursor.execute(" SELECT id "
-                           " FROM tbl_working_calendars_non_working_days "
-                           " WHERE working_calendar_id = %s AND date_local = %s ",
-                           (working_calendar_id, date_local))
-            if cursor.fetchone() is not None:
-                cursor.close()
+                    cursor.execute(" SELECT id "
+                                   " FROM tbl_working_calendars_non_working_days "
+                                   " WHERE working_calendar_id = %s AND date_local = %s ",
+                                   (working_calendar_id, date_local))
+                    if cursor.fetchone() is not None:
+                        raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                               description='API.DATE_IS_ALREADY_IN_WORKING_CALENDAR')
+
+                    add_values = (" INSERT INTO tbl_working_calendars_non_working_days "
+                                  " (working_calendar_id, date_local, description) "
+                                  " VALUES (%s, %s, %s) ")
+                    cursor.execute(add_values, (working_calendar_id, date_local, description))
+                cnx.commit()
+
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
                 cnx.close()
-                raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                       description='API.DATE_IS_ALREADY_IN_WORKING_CALENDAR')
-
-            add_values = (" INSERT INTO tbl_working_calendars_non_working_days "
-                          " (working_calendar_id, date_local, description) "
-                          " VALUES (%s, %s, %s) ")
-            cursor.execute(add_values, (working_calendar_id, date_local, description))
-        cnx.commit()
-        cursor.close()
-        cnx.close()
 
         # Clear cache after importing working calendar
         clear_working_calendar_cache()
@@ -997,59 +1069,68 @@ class WorkingCalendarClone:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_WORKING_CALENDAR_ID')
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        cursor.execute(" SELECT id, name, description"
-                       " FROM tbl_working_calendars "
-                       " WHERE id = %s ", (id_,))
-        row = cursor.fetchone()
+                cursor.execute(" SELECT id, name, description"
+                               " FROM tbl_working_calendars "
+                               " WHERE id = %s ", (id_,))
+                row = cursor.fetchone()
 
-        if row is None:
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.WORKING_CALENDAR_NOT_FOUND')
+                if row is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.WORKING_CALENDAR_NOT_FOUND')
 
-        meta_result = {"id": row[0],
-                       "name": row[1],
-                       "description": row[2],
-                       "non_working_days": None}
-        cursor.execute(" SELECT id, working_calendar_id, date_local, description"
-                       " FROM tbl_working_calendars_non_working_days "
-                       " WHERE working_calendar_id = %s ", (id_,))
-        rows_date_local = cursor.fetchall()
+                meta_result = {"id": row[0],
+                               "name": row[1],
+                               "description": row[2],
+                               "non_working_days": None}
+                cursor.execute(" SELECT id, working_calendar_id, date_local, description"
+                               " FROM tbl_working_calendars_non_working_days "
+                               " WHERE working_calendar_id = %s ", (id_,))
+                rows_date_local = cursor.fetchall()
 
-        result = list()
-        if rows_date_local is not None and len(rows_date_local) > 0:
-            for row in rows_date_local:
-                date_local_dict = {'id': row[0],
-                                   'working_calendar_id': row[1],
-                                   'date_local': row[2].isoformat()[0:10],
-                                   'description': row[3]}
-                result.append(date_local_dict)
-        meta_result['non_working_days'] = result
-        timezone_offset = int(config.utc_offset[1:3]) * 60 + int(config.utc_offset[4:6])
-        if config.utc_offset[0] == '-':
-            timezone_offset = -timezone_offset
-        new_name = (str.strip(meta_result['name']) +
-                    (datetime.utcnow() + timedelta(minutes=timezone_offset)).isoformat(sep='-', timespec='seconds'))
-        add_values = (" INSERT INTO tbl_working_calendars "
-                      " (name, description) "
-                      " VALUES (%s, %s) ")
-        cursor.execute(add_values, (new_name,
-                                    meta_result['description']))
-        new_id = cursor.lastrowid
-        for values in meta_result['non_working_days']:
-            add_values = (" INSERT INTO tbl_working_calendars_non_working_days "
-                          " (working_calendar_id, date_local, description) "
-                          " VALUES (%s, %s, %s) ")
-            cursor.execute(add_values, (new_id, values['date_local'], values['description']))
-        cnx.commit()
-        cursor.close()
-        cnx.close()
+                result = list()
+                if rows_date_local is not None and len(rows_date_local) > 0:
+                    for row in rows_date_local:
+                        date_local_dict = {'id': row[0],
+                                           'working_calendar_id': row[1],
+                                           'date_local': row[2].isoformat()[0:10],
+                                           'description': row[3]}
+                        result.append(date_local_dict)
+                meta_result['non_working_days'] = result
+                timezone_offset = int(config.utc_offset[1:3]) * 60 + int(config.utc_offset[4:6])
+                if config.utc_offset[0] == '-':
+                    timezone_offset = -timezone_offset
+                new_name = (str.strip(meta_result['name']) +
+                            (datetime.utcnow() +
+                            timedelta(minutes=timezone_offset)).isoformat(sep='-', timespec='seconds'))
+                add_values = (" INSERT INTO tbl_working_calendars "
+                              " (name, description) "
+                              " VALUES (%s, %s) ")
+                cursor.execute(add_values, (new_name,
+                               meta_result['description']))
+                new_id = cursor.lastrowid
+                for values in meta_result['non_working_days']:
+                    add_values = (" INSERT INTO tbl_working_calendars_non_working_days "
+                                  " (working_calendar_id, date_local, description) "
+                                  " VALUES (%s, %s, %s) ")
+                    cursor.execute(add_values, (new_id, values['date_local'], values['description']))
+                cnx.commit()
+
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         # Clear cache after cloning working calendar
         clear_working_calendar_cache()
 
         resp.status = falcon.HTTP_201
         resp.location = '/workingcalendar/' + str(new_id)
-

@@ -34,12 +34,6 @@ myems_historical_db = {
     'password': config('MYEMS_HISTORICAL_DB_PASSWORD', default=''),
 }
 
-
-# Data acquisition interval: indicates how long the process waits between readings
-# This is the default interval used when data sources don't specify their own interval
-# Default is 600 seconds (10 minutes) between data collection cycles
-interval_in_seconds = config('INTERVAL_IN_SECONDS', default=600, cast=int)
-
 # Gateway identification and authentication settings
 # These are used to identify this gateway instance and authenticate with the MyEMS system
 # The gateway ID and token are obtained from MyEMS Admin and used to:

@@ -8,6 +8,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Changed
 ### Fixed
 ### Removed
+- removed the defalut interval_in_seconds from config in myems-modbus-tcp
 
 ## [v6.3.0] - 2026-03-28
 ### Added
