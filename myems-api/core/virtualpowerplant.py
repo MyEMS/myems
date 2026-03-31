@@ -616,7 +616,7 @@ class VirtualPowerPlantMicrogridItem:
         pass
 
     @staticmethod
-    def on_options(req, resp, id_, sid):
+    def on_options(req, resp, id_, mid):
         _ = req
         resp.status = falcon.HTTP_200
         _ = id_

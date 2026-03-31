@@ -1176,7 +1176,6 @@ class VirtualMeterExport:
                 else:
                     meta_result = {"id": row[0],
                                    "name": row[1],
-                                   "uuid": row[2],
                                    "equation": row[3],
                                    "energy_category": energy_category_dict.get(row[4], None),
                                    "is_counted": True if row[5] else False,
