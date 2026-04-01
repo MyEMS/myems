@@ -44,7 +44,7 @@ live_in_days = config('LIVE_IN_DAYS', default=365, cast=int)
 # Starting point for data cleaning: indicates from when (in UTC timezone) to clean if all is_bad properties are null
 # This is used when the cleaning service runs for the first time or after a reset.
 # Format string: "%Y-%m-%d %H:%M:%S"
-start_datetime_utc = config('START_DATETIME_UTC', default='2023-12-31 16:00:00')
+start_datetime_utc = config('START_DATETIME_UTC', default='2024-12-31 16:00:00')
 
 # Debug mode flag: indicates if the program is in debug mode
 # When True, cleaning processes will run immediately once instead of on schedule
