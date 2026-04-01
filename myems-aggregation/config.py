@@ -75,7 +75,7 @@ minutes_to_count = config('MINUTES_TO_COUNT', default=60, cast=int)
 # Processing start time: indicates from when (in UTC timezone) to recalculate if the energy data is null or were cleared
 # This is used when the aggregation service runs for the first time or after a reset
 # Format string: '%Y-%m-%d %H:%M:%S'
-start_datetime_utc = config('START_DATETIME_UTC', default='2023-12-31 16:00:00')
+start_datetime_utc = config('START_DATETIME_UTC', default='2024-12-31 16:00:00')
 
 # Timezone configuration: indicates the project's time zone offset from UTC
 # Used for converting local time to UTC when processing data
