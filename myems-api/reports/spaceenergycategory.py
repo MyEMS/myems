@@ -802,10 +802,10 @@ class Reporting:
                         rate.append(None)
                 result['reporting_period']['rates'].append(rate)
 
-        result['reporting_period']['total_in_kgco2e_per_unit_area'] = \
+        result['reporting_period']['total_in_kgce_per_unit_area'] = \
             result['reporting_period']['total_in_kgce'] / space['area'] if space['area'] > 0.0 else None
 
-        result['reporting_period']['total_in_kgco2e_per_capita'] = \
+        result['reporting_period']['total_in_kgce_per_capita'] = \
             result['reporting_period']['total_in_kgce'] / space['number_of_occupants'] \
             if space['number_of_occupants'] > 0.0 else None
 
@@ -814,10 +814,10 @@ class Reporting:
             result['base_period']['total_in_kgce'] \
             if result['base_period']['total_in_kgce'] > Decimal(0.0) else None
 
-        result['reporting_period']['total_in_kgce_per_unit_area'] = \
+        result['reporting_period']['total_in_kgco2e_per_unit_area'] = \
             result['reporting_period']['total_in_kgco2e'] / space['area'] if space['area'] > 0.0 else None
 
-        result['reporting_period']['total_in_kgce_per_capita'] = \
+        result['reporting_period']['total_in_kgco2e_per_capita'] = \
             result['reporting_period']['total_in_kgco2e'] / space['number_of_occupants'] \
             if space['number_of_occupants'] > 0.0 else None
 

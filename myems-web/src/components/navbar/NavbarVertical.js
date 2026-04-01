@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import { Button, Collapse, Nav, Navbar } from 'reactstrap';
 import bgNavbarImg from '../../assets/img/generic/bg-navbar.png';
+import wechatQRCode from '../../assets/img/contact/wechat_qr_code.png';
 import { APIBaseURL, settings, navbarBreakPoint, topNavbarBreakpoint } from '../../config';
 import AppContext from '../../context/Context';
 import routes from '../../routes';
@@ -54,6 +55,7 @@ const NavbarVertical = ({ setRedirectUrl, setRedirect, navbarStyle, t }) => {
     showBurgerMenu,
     isNavbarVerticalCollapsed,
     setIsNavbarVerticalCollapsed,
+    isDark,
     isCombo,
     setShowBurgerMenu,
     setNavbarCollapsed
@@ -206,6 +208,76 @@ const NavbarVertical = ({ setRedirectUrl, setRedirect, navbarStyle, t }) => {
           >
             {t('Purchase')}
           </Button>
+          <div
+            className="mt-2 rounded border-0"
+            style={{
+              backgroundColor: isDark ? 'rgba(255, 255, 255, 0.07)' : 'rgba(255, 255, 255, 0.96)',
+              boxShadow: isDark
+                ? '0 2px 8px rgba(0, 0, 0, 0.28), inset 0 1px 0 rgba(255, 255, 255, 0.05)'
+                : '0 2px 8px rgba(17, 24, 39, 0.07), inset 0 1px 0 rgba(255, 255, 255, 0.7)',
+              border: `1px solid ${isDark ? 'rgba(255, 255, 255, 0.12)' : 'rgba(17, 24, 39, 0.08)'}`
+            }}
+          >
+            <div
+              className="px-2 pt-2 pb-1"
+              style={{
+                borderBottom: `1px solid ${isDark ? 'rgba(255, 255, 255, 0.1)' : 'rgba(17, 24, 39, 0.08)'}`
+              }}
+            >
+              <div className="d-flex align-items-center justify-content-center">
+                <span
+                  className={`font-weight-semi-bold small text-uppercase ${isDark ? 'text-white' : 'text-800'}`}
+                  style={{ letterSpacing: '0.06em', fontSize: '0.65rem' }}
+                >
+                  {t('ContactInfo')}
+                </span>
+              </div>
+            </div>
+            <div className="px-2 py-2">
+              <div className={`small mb-1 ${isDark ? 'text-white-50' : 'text-muted'}`} style={{ lineHeight: 1.35, fontSize: '0.72rem' }}>
+                {t('ProductWebsite')}:
+                {' '}
+                <a className={isDark ? 'text-info' : 'text-primary'} href="https://myems.cn" target="_blank" rel="noopener noreferrer">
+                  myems.cn
+                </a>
+              </div>
+              <div className={`small mb-1 ${isDark ? 'text-white-50' : 'text-muted'}`} style={{ lineHeight: 1.35, fontSize: '0.72rem' }}>
+                {t('CompanyWebsite')}:
+                {' '}
+                <a className={isDark ? 'text-info' : 'text-primary'} href="https://hassoft.cn" target="_blank" rel="noopener noreferrer">
+                  hassoft.cn
+                </a>
+              </div>
+              <div className={`small mb-0 ${isDark ? 'text-white-50' : 'text-muted'}`} style={{ lineHeight: 1.35, fontSize: '0.72rem' }}>
+                {t('SalesPhone')}:
+                {' '}
+                <a className={isDark ? 'text-white text-decoration-none' : 'text-dark text-decoration-none'} href="tel:+8613011132526">
+                  +86 130 1113 2526
+                </a>
+              </div>
+              <div
+                className="text-center mt-2 pt-2"
+                style={{
+                  borderTop: `1px dashed ${isDark ? 'rgba(255, 255, 255, 0.12)' : 'rgba(17, 24, 39, 0.1)'}`
+                }}
+              >
+                <div
+                  className="d-inline-block rounded p-1 mx-auto"
+                  style={{
+                    backgroundColor: isDark ? 'rgba(255, 255, 255, 0.98)' : '#fff',
+                    boxShadow: '0 1px 3px rgba(0,0,0,0.08)'
+                  }}
+                >
+                  <img
+                    src={wechatQRCode}
+                    alt="微信二维码"
+                    className="rounded"
+                    style={{ maxWidth: 88, width: '100%', height: 'auto', display: 'block' }}
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </Collapse>
     </Navbar>

@@ -70,10 +70,10 @@ class ApiKeyCollection:
                         token_list.append({"id": row[0],
                                            "name": row[1],
                                            "token": row[2],
-                                           "created_datetime": (row[3].replace(tzinfo=timezone.utc)
-                                                                + timedelta(minutes=timezone_offset)).isoformat()[0:19],
-                                           "expires_datetime": (row[4].replace(tzinfo=timezone.utc)
-                                                                + timedelta(minutes=timezone_offset)).isoformat()[0:19]})
+                                           "created_datetime": (row[3].replace(tzinfo=timezone.utc) +
+                                                                timedelta(minutes=timezone_offset)).isoformat()[0:19],
+                                           "expires_datetime": (row[4].replace(tzinfo=timezone.utc) +
+                                                                timedelta(minutes=timezone_offset)).isoformat()[0:19]})
 
                 resp.text = json.dumps(token_list)
             finally:

@@ -42,40 +42,46 @@ def admin_control(req):
                                description='API.INVALID_TOKEN')
     admin_token = str.strip(req.headers['TOKEN'])
 
-    # Check administrator session in user database
-    cnx = mysql.connector.connect(**config.myems_user_db)
-    cursor = cnx.cursor()
-    query = (" SELECT utc_expires "
-             " FROM tbl_sessions "
-             " WHERE user_uuid = %s AND token = %s")
-    cursor.execute(query, (admin_user_uuid, admin_token,))
-    row = cursor.fetchone()
+    cnx = None
+    cursor = None
+    try:
+        # Check administrator session in user database
+        cnx = mysql.connector.connect(**config.myems_user_db)
+        try:
+            cursor = cnx.cursor()
+            query = (" SELECT utc_expires "
+                     " FROM tbl_sessions "
+                     " WHERE user_uuid = %s AND token = %s")
+            cursor.execute(query, (admin_user_uuid, admin_token,))
+            row = cursor.fetchone()
 
-    if row is None:
-        cursor.close()
-        cnx.close()
-        raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                               description='API.ADMINISTRATOR_SESSION_NOT_FOUND')
-    else:
-        utc_expires = row[0]
-        # Check if session has expired
-        if datetime.utcnow() > utc_expires:
-            cursor.close()
+            if row is None:
+                raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                       description='API.ADMINISTRATOR_SESSION_NOT_FOUND')
+            else:
+                utc_expires = row[0]
+                # Check if session has expired
+                if datetime.utcnow() > utc_expires:
+                    raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                           description='API.ADMINISTRATOR_SESSION_TIMEOUT')
+            
+            # check administrator privilege
+            query = (" SELECT name "
+                     " FROM tbl_users "
+                     " WHERE uuid = %s AND is_admin = 1 AND is_read_only = 0 ")
+            cursor.execute(query, (admin_user_uuid,))
+            row = cursor.fetchone()
+            
+            if row is None:
+                raise falcon.HTTPError(status=falcon.HTTP_400,
+                                       title='API.BAD_REQUEST',
+                                       description='API.INVALID_PRIVILEGE')
+        finally:
+            if cursor:
+                cursor.close()
+    finally:
+        if cnx:
             cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.ADMINISTRATOR_SESSION_TIMEOUT')
-    # check administrator privilege
-    query = (" SELECT name "
-             " FROM tbl_users "
-             " WHERE uuid = %s AND is_admin = 1 AND is_read_only = 0 ")
-    cursor.execute(query, (admin_user_uuid,))
-    row = cursor.fetchone()
-    cursor.close()
-    cnx.close()
-    if row is None:
-        raise falcon.HTTPError(status=falcon.HTTP_400,
-                               title='API.BAD_REQUEST',
-                               description='API.INVALID_PRIVILEGE')
 
 
 def access_control(req):
@@ -100,41 +106,47 @@ def access_control(req):
                                description='API.INVALID_TOKEN')
     ordinary_token = str.strip(req.headers['TOKEN'])
 
-    # Check user session
-    cnx = mysql.connector.connect(**config.myems_user_db)
-    cursor = cnx.cursor()
-    query = (" SELECT utc_expires "
-             " FROM tbl_sessions "
-             " WHERE user_uuid = %s AND token = %s")
-    cursor.execute(query, (user_uuid, ordinary_token,))
-    row = cursor.fetchone()
+    cnx = None
+    cursor = None
+    try:
+        # Check user session
+        cnx = mysql.connector.connect(**config.myems_user_db)
+        try:
+            cursor = cnx.cursor()
+            query = (" SELECT utc_expires "
+                     " FROM tbl_sessions "
+                     " WHERE user_uuid = %s AND token = %s")
+            cursor.execute(query, (user_uuid, ordinary_token,))
+            row = cursor.fetchone()
 
-    if row is None:
-        cursor.close()
-        cnx.close()
-        raise falcon.HTTPError(status=falcon.HTTP_404,
-                               title='API.NOT_FOUND',
-                               description='API.USER_SESSION_NOT_FOUND')
-    else:
-        utc_expires = row[0]
-        if datetime.utcnow() > utc_expires:
-            cursor.close()
+            if row is None:
+                raise falcon.HTTPError(status=falcon.HTTP_404,
+                                       title='API.NOT_FOUND',
+                                       description='API.USER_SESSION_NOT_FOUND')
+            else:
+                utc_expires = row[0]
+                if datetime.utcnow() > utc_expires:
+                    raise falcon.HTTPError(status=falcon.HTTP_400,
+                                           title='API.BAD_REQUEST',
+                                           description='API.USER_SESSION_TIMEOUT')
+            
+            # todo: check user privilege
+            query = (" SELECT name "
+                     " FROM tbl_users "
+                     " WHERE uuid = %s ")
+            cursor.execute(query, (user_uuid,))
+            row = cursor.fetchone()
+            
+            if row is None:
+                raise falcon.HTTPError(status=falcon.HTTP_400,
+                                       title='API.BAD_REQUEST',
+                                       description='API.INVALID_PRIVILEGE')
+        finally:
+            if cursor:
+                cursor.close()
+    finally:
+        if cnx:
             cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_400,
-                                   title='API.BAD_REQUEST',
-                                   description='API.USER_SESSION_TIMEOUT')
-    # todo: check user privilege
-    query = (" SELECT name "
-             " FROM tbl_users "
-             " WHERE uuid = %s ")
-    cursor.execute(query, (user_uuid,))
-    row = cursor.fetchone()
-    cursor.close()
-    cnx.close()
-    if row is None:
-        raise falcon.HTTPError(status=falcon.HTTP_400,
-                               title='API.BAD_REQUEST',
-                               description='API.INVALID_PRIVILEGE')
 
 
 def api_key_control(req):
@@ -144,25 +156,35 @@ def api_key_control(req):
         :return: HTTPError if invalid else None
     """
     api_key = str.strip(req.headers['API-KEY'])
-    cnx = mysql.connector.connect(**config.myems_user_db)
-    cursor = cnx.cursor()
-    query = (" SELECT expires_datetime_utc "
-             " FROM tbl_api_keys "
-             " WHERE token = %s ")
-    cursor.execute(query, (api_key,))
-    row = cursor.fetchone()
-    cursor.close()
-    cnx.close()
-    if row is None:
-        raise falcon.HTTPError(status=falcon.HTTP_404,
-                               title='API.NOT_FOUND',
-                               description='API.API_KEY_NOT_FOUND')
-    else:
-        expires_datetime_utc = row[0]
-        if datetime.utcnow() > expires_datetime_utc:
-            raise falcon.HTTPError(status=falcon.HTTP_400,
-                                   title='API.BAD_REQUEST',
-                                   description='API.API_KEY_HAS_EXPIRED')
+    
+    cnx = None
+    cursor = None
+    try:
+        cnx = mysql.connector.connect(**config.myems_user_db)
+        try:
+            cursor = cnx.cursor()
+            query = (" SELECT expires_datetime_utc "
+                     " FROM tbl_api_keys "
+                     " WHERE token = %s ")
+            cursor.execute(query, (api_key,))
+            row = cursor.fetchone()
+            
+            if row is None:
+                raise falcon.HTTPError(status=falcon.HTTP_404,
+                                       title='API.NOT_FOUND',
+                                       description='API.API_KEY_NOT_FOUND')
+            else:
+                expires_datetime_utc = row[0]
+                if datetime.utcnow() > expires_datetime_utc:
+                    raise falcon.HTTPError(status=falcon.HTTP_400,
+                                           title='API.BAD_REQUEST',
+                                           description='API.API_KEY_HAS_EXPIRED')
+        finally:
+            if cursor:
+                cursor.close()
+    finally:
+        if cnx:
+            cnx.close()
 
 
 def write_log(user_uuid, request_method, resource_type, resource_id, request_body):

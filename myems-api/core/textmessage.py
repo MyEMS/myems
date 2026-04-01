@@ -65,35 +65,41 @@ class TextMessageCollection:
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
                                    description='API.START_DATETIME_MUST_BE_EARLIER_THAN_END_DATETIME')
-        cnx = mysql.connector.connect(**config.myems_fdd_db)
-        cursor = cnx.cursor()
+        
+        cnx = None
+        cursor = None
+        try:
+            cnx = mysql.connector.connect(**config.myems_fdd_db)
+            try:
+                cursor = cnx.cursor()
 
-        query = (" SELECT id, recipient_name, recipient_mobile, "
-                 "        message, created_datetime_utc, scheduled_datetime_utc, acknowledge_code, status "
-                 " FROM tbl_text_messages_outbox "
-                 " WHERE created_datetime_utc >= %s AND created_datetime_utc < %s "
-                 " ORDER BY created_datetime_utc DESC ")
-        cursor.execute(query, (start_datetime_utc, end_datetime_utc))
-        rows = cursor.fetchall()
+                query = (" SELECT id, recipient_name, recipient_mobile, "
+                         "        message, created_datetime_utc, scheduled_datetime_utc, acknowledge_code, status "
+                         " FROM tbl_text_messages_outbox "
+                         " WHERE created_datetime_utc >= %s AND created_datetime_utc < %s "
+                         " ORDER BY created_datetime_utc DESC ")
+                cursor.execute(query, (start_datetime_utc, end_datetime_utc))
+                rows = cursor.fetchall()
 
-        if cursor:
-            cursor.close()
-        if cnx:
-            cnx.close()
-
-        result = list()
-        if rows is not None and len(rows) > 0:
-            for row in rows:
-                meta_result = {"id": row[0],
-                               "recipient_name": row[1],
-                               "recipient_mobile": row[2],
-                               "message": row[3],
-                               "created_datetime": row[4].timestamp() * 1000 if isinstance(row[4], datetime) else None,
-                               "scheduled_datetime":
-                                   row[5].timestamp() * 1000 if isinstance(row[5], datetime) else None,
-                               "acknowledge_code": row[6],
-                               "status": row[7]}
-                result.append(meta_result)
+                result = list()
+                if rows is not None and len(rows) > 0:
+                    for row in rows:
+                        meta_result = {
+                            "id": row[0],
+                            "recipient_name": row[1],
+                            "recipient_mobile": row[2],
+                            "message": row[3],
+                            "created_datetime": row[4].timestamp() * 1000 if isinstance(row[4], datetime) else None,
+                            "scheduled_datetime": row[5].timestamp() * 1000 if isinstance(row[5], datetime) else None,
+                            "acknowledge_code": row[6],
+                            "status": row[7]}
+                        result.append(meta_result)
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         resp.text = json.dumps(result)
 
@@ -200,39 +206,45 @@ class TextMessageCollection:
 
         status = 'new'
 
-        cnx = mysql.connector.connect(**config.myems_fdd_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
+        try:
+            cnx = mysql.connector.connect(**config.myems_fdd_db)
+            try:
+                cursor = cnx.cursor()
 
-        if rule_id is not None:
-            cursor.execute(" SELECT name "
-                           " FROM tbl_rules "
-                           " WHERE id = %s ",
-                           (new_values['data']['rule_id'],))
-            row = cursor.fetchone()
-            if row is None:
-                cursor.close()
+                if rule_id is not None:
+                    cursor.execute(" SELECT name "
+                                   " FROM tbl_rules "
+                                   " WHERE id = %s ",
+                                   (new_values['data']['rule_id'],))
+                    row = cursor.fetchone()
+                    if row is None:
+                        raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                               description='API.RULE_NOT_FOUND')
+
+                add_row = (" INSERT INTO tbl_text_messages_outbox"
+                           "             (rule_id, recipient_name, recipient_mobile, message, "
+                           "              acknowledge_code, created_datetime_utc,"
+                           "              scheduled_datetime_utc, status) "
+                           " VALUES (%s, %s, %s, %s, %s, %s, %s, %s) ")
+
+                cursor.execute(add_row, (rule_id,
+                                         recipient_name,
+                                         recipient_mobile,
+                                         message,
+                                         acknowledge_code,
+                                         created_datetime_utc,
+                                         scheduled_datetime_utc,
+                                         status))
+                new_id = cursor.lastrowid
+                cnx.commit()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
                 cnx.close()
-                raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                       description='API.RULE_NOT_FOUND')
-
-        add_row = (" INSERT INTO tbl_text_messages_outbox"
-                   "             (rule_id, recipient_name, recipient_mobile, message, "
-                   "              acknowledge_code, created_datetime_utc,"
-                   "              scheduled_datetime_utc, status) "
-                   " VALUES (%s, %s, %s, %s, %s, %s, %s, %s) ")
-
-        cursor.execute(add_row, (rule_id,
-                                 recipient_name,
-                                 recipient_mobile,
-                                 message,
-                                 acknowledge_code,
-                                 created_datetime_utc,
-                                 scheduled_datetime_utc,
-                                 status))
-        new_id = cursor.lastrowid
-        cnx.commit()
-        cursor.close()
-        cnx.close()
 
         resp.status = falcon.HTTP_201
         resp.location = '/textmessages/' + str(new_id)
@@ -255,33 +267,38 @@ class TextMessageItem:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_TEXT_MESSAGE_ID')
 
-        cnx = mysql.connector.connect(**config.myems_fdd_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
+        try:
+            cnx = mysql.connector.connect(**config.myems_fdd_db)
+            try:
+                cursor = cnx.cursor()
 
-        query = (" SELECT id, recipient_name, recipient_mobile, "
-                 "        message, created_datetime_utc, scheduled_datetime_utc, acknowledge_code, status "
-                 " FROM tbl_text_messages_outbox "
-                 " WHERE id = %s ")
-        cursor.execute(query, (id_,))
-        row = cursor.fetchone()
+                query = (" SELECT id, recipient_name, recipient_mobile, "
+                         "        message, created_datetime_utc, scheduled_datetime_utc, acknowledge_code, status "
+                         " FROM tbl_text_messages_outbox "
+                         " WHERE id = %s ")
+                cursor.execute(query, (id_,))
+                row = cursor.fetchone()
 
-        if cursor:
-            cursor.close()
-        if cnx:
-            cnx.close()
+                if row is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.TEXT_MESSAGE_NOT_FOUND')
 
-        if row is None:
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.TEXT_MESSAGE_NOT_FOUND')
-
-        result = {"id": row[0],
-                  "recipient_name": row[1],
-                  "recipient_mobile": row[2],
-                  "message": row[3],
-                  "created_datetime": row[4].timestamp() * 1000 if isinstance(row[4], datetime) else None,
-                  "scheduled_datetime": row[5].timestamp() * 1000 if isinstance(row[5], datetime) else None,
-                  "acknowledge_code": row[6],
-                  "status": row[7]}
+                result = {"id": row[0],
+                          "recipient_name": row[1],
+                          "recipient_mobile": row[2],
+                          "message": row[3],
+                          "created_datetime": row[4].timestamp() * 1000 if isinstance(row[4], datetime) else None,
+                          "scheduled_datetime": row[5].timestamp() * 1000 if isinstance(row[5], datetime) else None,
+                          "acknowledge_code": row[6],
+                          "status": row[7]}
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         resp.text = json.dumps(result)
 
@@ -398,50 +415,54 @@ class TextMessageItem:
                 raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                        description="API.INVALID_SCHEDULED_DATETIME")
 
-        cnx = mysql.connector.connect(**config.myems_fdd_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
+        try:
+            cnx = mysql.connector.connect(**config.myems_fdd_db)
+            try:
+                cursor = cnx.cursor()
 
-        cursor.execute(" SELECT recipient_name "
-                       " FROM tbl_text_messages_outbox "
-                       " WHERE id = %s ", (id_,))
+                cursor.execute(" SELECT recipient_name "
+                               " FROM tbl_text_messages_outbox "
+                               " WHERE id = %s ", (id_,))
 
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.TEXT_MESSAGE_NOT_FOUND')
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.TEXT_MESSAGE_NOT_FOUND')
 
-        if rule_id is not None:
-            cursor.execute(" SELECT name "
-                           " FROM tbl_rules "
-                           " WHERE id = %s ",
-                           (new_values['data']['rule_id'],))
-            row = cursor.fetchone()
-            if row is None:
-                cursor.close()
+                if rule_id is not None:
+                    cursor.execute(" SELECT name "
+                                   " FROM tbl_rules "
+                                   " WHERE id = %s ",
+                                   (new_values['data']['rule_id'],))
+                    row = cursor.fetchone()
+                    if row is None:
+                        raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                               description='API.RULE_NOT_FOUND')
+
+                update_row = (" UPDATE tbl_text_messages_outbox "
+                              " SET rule_id = %s, recipient_name = %s, recipient_mobile = %s, message = %s,"
+                              "     acknowledge_code = %s, created_datetime_utc = %s,"
+                              "     scheduled_datetime_utc = %s, status = %s"
+                              " WHERE id = %s ")
+
+                cursor.execute(update_row, (rule_id,
+                                            recipient_name,
+                                            recipient_mobile,
+                                            message,
+                                            acknowledge_code,
+                                            created_datetime_utc,
+                                            scheduled_datetime_utc,
+                                            status,
+                                            id_))
+
+                cnx.commit()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
                 cnx.close()
-                raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                       description='API.RULE_NOT_FOUND')
-
-        update_row = (" UPDATE tbl_text_messages_outbox "
-                      " SET rule_id = %s, recipient_name = %s, recipient_mobile = %s, message = %s,"
-                      "     acknowledge_code = %s, created_datetime_utc = %s,"
-                      "     scheduled_datetime_utc = %s, status = %s"
-                      " WHERE id = %s ")
-
-        cursor.execute(update_row, (rule_id,
-                                    recipient_name,
-                                    recipient_mobile,
-                                    message,
-                                    acknowledge_code,
-                                    created_datetime_utc,
-                                    scheduled_datetime_utc,
-                                    status,
-                                    id_))
-
-        cnx.commit()
-        cursor.close()
-        cnx.close()
 
         resp.status = falcon.HTTP_200
 
@@ -453,26 +474,27 @@ class TextMessageItem:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_TEXT_MESSAGE_ID')
 
-        cnx = mysql.connector.connect(**config.myems_fdd_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
+        try:
+            cnx = mysql.connector.connect(**config.myems_fdd_db)
+            try:
+                cursor = cnx.cursor()
 
-        cursor.execute(" SELECT id FROM tbl_text_messages_outbox WHERE id = %s ", (id_,))
-        row = cursor.fetchone()
+                cursor.execute(" SELECT id FROM tbl_text_messages_outbox WHERE id = %s ", (id_,))
+                row = cursor.fetchone()
 
-        if row is None:
-            if cursor:
-                cursor.close()
+                if row is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.TEXT_MESSAGE_NOT_FOUND')
+
+                cursor.execute(" DELETE FROM tbl_text_messages_outbox WHERE id = %s ", (id_,))
+                cnx.commit()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
             if cnx:
                 cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.TEXT_MESSAGE_NOT_FOUND')
-
-        cursor.execute(" DELETE FROM tbl_text_messages_outbox WHERE id = %s ", (id_,))
-        cnx.commit()
-
-        if cursor:
-            cursor.close()
-        if cnx:
-            cnx.close()
 
         resp.status = falcon.HTTP_204

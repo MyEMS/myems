@@ -15,10 +15,8 @@ This allows the MyEMS system to track which gateways are online and operational.
 
 import time
 from datetime import datetime
-
 import mysql.connector
 import schedule
-
 import config
 
 
@@ -125,8 +123,8 @@ def process(logger):
     Args:
         logger: Logger instance for recording process activities and errors
     """
-    # Schedule the gateway monitoring job to run at the configured interval
-    schedule.every(config.interval_in_seconds).seconds.do(job, logger)
+    # Schedule the gateway monitoring job to run
+    schedule.every(3).minutes.do(job, logger)
 
     # Main loop to check and execute scheduled jobs
     while True:

@@ -80,20 +80,10 @@ const CombinedEquipmentEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => 
   const [selectedSpaceName, setSelectedSpaceName] = useState(undefined);
   const [combinedEquipmentList, setCombinedEquipmentList] = useState([]);
   const [selectedCombinedEquipment, setSelectedCombinedEquipment] = useState(undefined);
-  const [comparisonType, setComparisonType] = useState('month-on-month');
+  const [comparisonType, setComparisonType] = useState('none-comparison');
   const [periodType, setPeriodType] = useState('daily');
   const [cascaderOptions, setCascaderOptions] = useState(undefined);
-  const [basePeriodDateRange, setBasePeriodDateRange] = useState([
-    current_moment
-      .clone()
-      .subtract(1, 'months')
-      .startOf('month')
-      .toDate(),
-    current_moment
-      .clone()
-      .subtract(1, 'months')
-      .toDate()
-  ]);
+  const [basePeriodDateRange, setBasePeriodDateRange] = useState([null, null]);
   const [basePeriodDateRangePickerDisabled, setBasePeriodDateRangePickerDisabled] = useState(true);
   const [reportingPeriodDateRange, setReportingPeriodDateRange] = useState([
     current_moment
@@ -1122,7 +1112,7 @@ const CombinedEquipmentEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => 
                     id="comparisonType"
                     name="comparisonType"
                     bsSize="sm"
-                    defaultValue="month-on-month"
+                    defaultValue="none-comparison"
                     onChange={onComparisonTypeChange}
                   >
                     {comparisonTypeOptions.map((comparisonType, index) => (
@@ -1154,7 +1144,7 @@ const CombinedEquipmentEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => 
                   </CustomInput>
                 </FormGroup>
               </Col>
-              <Col xs={6} sm={3}>
+              <Col xs={6} sm={3} style={{ display: comparisonType === 'none-comparison' ? 'none' : '' }}>
                 <FormGroup className="form-group">
                   <Label className={labelClasses} for="basePeriodDateRangePicker">
                     {t('Base Period')}

@@ -42,7 +42,7 @@ class VersionItem:
             req: Falcon request object
             resp: Falcon response object
         """
-        result = {"version": 'MyEMS v6.2.0',
+        result = {"version": 'MyEMS v6.3.0',
                   "release-date": '2026-02-08',
                   "licensed-to": 'COMMUNITY',
                   "website": "https://myems.cn"}

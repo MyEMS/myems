@@ -104,7 +104,7 @@ function config($translateProvider) {
       MENU: {
         SETTINGS: {
           SETTINGS: "System Settings",
-          ADVANCED: "Advanced Settings",
+          ADVANCED: "Advanced Settings Ⓔ",
           CATEGORY: "Energy Categories",
           TARIFF: "Tariffs",
           COSTCENTER: "Cost Centers",
@@ -981,6 +981,8 @@ function config($translateProvider) {
         INPUT_CAPACITY: "Input Capacity",
         INPUT_LATITUDE: "Input Latitude",
         INPUT_LONGITUDE: "Input Longitude",
+        INPUT_STATION_CODE: "Enter Station Code",
+        INPUT_RATED_POWER: "Enter Rated Power",
         INPUT_SVG: "Input SVG",
         BIND_USER: "Bind User",
         PHASE_OF_LIFECYCLE: "Phase of Lifecycle",
@@ -2508,7 +2510,7 @@ function config($translateProvider) {
       MENU: {
         SETTINGS: {
           SETTINGS: "系统管理",
-          ADVANCED: "高级设置",
+          ADVANCED: "高级设置 ㊭",
           CATEGORY: "能源分类",
           TARIFF: "能源费率",
           COSTCENTER: "成本中心",
@@ -3331,6 +3333,8 @@ function config($translateProvider) {
         INPUT_CAPACITY: "输入容量",
         INPUT_LATITUDE: "输入经度",
         INPUT_LONGITUDE: "输入维度",
+        INPUT_STATION_CODE: "输入电站代码",
+        INPUT_RATED_POWER : "输入额定功率",
         INPUT_SVG: "输入SVG",
         BIND_USER: "绑定用户",
         PHASE_OF_LIFECYCLE: "阶段",
@@ -4827,7 +4831,7 @@ function config($translateProvider) {
       MENU: {
         SETTINGS: {
           SETTINGS: "Systemmanagement",
-          ADVANCED: "Erweiterte Einstellungen",
+          ADVANCED: "Erweiterte Einstellungen Ⓔ",
           CATEGORY: "Energiekategorien",
           TARIFF: "Energietarife",
           COSTCENTER: "Kostenstellen",
@@ -5695,6 +5699,8 @@ function config($translateProvider) {
         INPUT_CAPACITY: "Eingabekapazität",
         INPUT_LATITUDE: "Breitengrad eingeben",
         INPUT_LONGITUDE: "Längengrad eingeben",
+        INPUT_STATION_CODE: "Gib den Standortcode ein",
+        INPUT_RATED_POWER: "Gib die Nennleistung ein",
         INPUT_SVG: "SVG eingeben",
         BIND_USER: "BIND-BENUTZER",
         PHASE_OF_LIFECYCLE: "Phase des Lebenszyklus",
@@ -7265,7 +7271,7 @@ function config($translateProvider) {
       MENU: {
         SETTINGS: {
           SETTINGS: "Paramètres système",
-          ADVANCED: "Réglages avancés",
+          ADVANCED: "Réglages avancés Ⓔ",
           CATEGORY: "Catégories d’énergie",
           TARIFF: "Tarifs",
           COSTCENTER: "Centres de coûts",
@@ -8168,6 +8174,8 @@ function config($translateProvider) {
         INPUT_CAPACITY: "saisir la capacité",
         INPUT_LATITUDE: "saisir la latitude",
         INPUT_LONGITUDE: "saisir la longitude",
+        INPUT_STATION_CODE: "Saisir le code de la station",
+        INPUT_RATED_POWER: "Saisir la puissance nominale",
         INPUT_SVG: "saisir SVG",
         BIND_USER: "Utilisateurs liés",
         PHASE_OF_LIFECYCLE: "Phases du cycle de vie",
@@ -9730,7 +9738,7 @@ function config($translateProvider) {
       MENU: {
         SETTINGS: {
           SETTINGS: "Configuración del sistema",
-          ADVANCED: "Ajustes avanzados",
+          ADVANCED: "Ajustes avanzados Ⓔ",
           CATEGORY: "Categorías de energía",
           TARIFF: "Aranceles",
           COSTCENTER: "Centros de Costo",
@@ -10635,6 +10643,8 @@ function config($translateProvider) {
         INPUT_CAPACITY: "Ingrese la capacidad",
         INPUT_LATITUDE: "Introduzca Latitude",
         INPUT_LONGITUDE: "Introduzca la longitud",
+        INPUT_STATION_CODE: "Ingrese el código de la estación",
+        INPUT_RATED_POWER: "Ingrese la potencia nominal",
         INPUT_SVG: "Introduzca SVG",
         BIND_USER: "Usuarios vinculados",
         PHASE_OF_LIFECYCLE: "Fase del ciclo de vida",
@@ -12200,7 +12210,7 @@ function config($translateProvider) {
       MENU: {
         SETTINGS: {
           SETTINGS: "Системные настройки",
-          ADVANCED: "Расширенные настройки",
+          ADVANCED: "Расширенные настройки Ⓔ",
           CATEGORY: "Энергетические категории",
           TARIFF: "Тарифы",
           COSTCENTER: "Центры затрат",
@@ -13087,6 +13097,8 @@ function config($translateProvider) {
         INPUT_CAPACITY: "введите емкость",
         INPUT_LATITUDE: "введите широту",
         INPUT_LONGITUDE: "введите долготу",
+        INPUT_STATION_CODE: "Введите код станции",
+        INPUT_RATED_POWER: "Введите номинальную мощность",
         INPUT_SVG: "введите SVG",
         BIND_USER: "Связанные пользователи",
         PHASE_OF_LIFECYCLE: "Этапы жизненного цикла",
@@ -14641,7 +14653,7 @@ function config($translateProvider) {
       MENU: {
         SETTINGS: {
           SETTINGS: "إعدادات النظام",
-          ADVANCED: "إعدادات متقدمة",
+          ADVANCED: "إعدادات متقدمة Ⓔ",
           CATEGORY: "فئات الطاقة",
           TARIFF: "تعرفات",
           COSTCENTER: "مراكز التكلفة",
@@ -15503,6 +15515,8 @@ function config($translateProvider) {
         INPUT_CAPACITY: "يرجى إدخال السعة",
         INPUT_LATITUDE: "يرجى إدخال خط العرض",
         INPUT_LONGITUDE: "يرجى إدخال خط الطول",
+        INPUT_STATION_CODE: "أدخل رمز المحطة",
+        INPUT_RATED_POWER: "أدخل القدرة النسبية",
         INPUT_SVG: "الرجاء إدخال SVG",
         BIND_USER: "ربط المستخدم",
         PHASE_OF_LIFECYCLE: "مراحل دورة الحياة",
@@ -17030,7 +17044,7 @@ function config($translateProvider) {
       MENU: {
         SETTINGS: {
           SETTINGS: "Cài đặt hệ thống",
-          ADVANCED: "Cài đặt nâng cao",
+          ADVANCED: "Cài đặt nâng cao Ⓔ",
           CATEGORY: "Danh mục năng lượng",
           TARIFF: "Thuế",
           COSTCENTER: "Trung tâm chi phí",
@@ -17905,6 +17919,8 @@ function config($translateProvider) {
         INPUT_CAPACITY: "Vui lòng nhập dung lượng",
         INPUT_LATITUDE: "Vui lòng nhập Latitude",
         INPUT_LONGITUDE: "Vui lòng nhập kinh độ",
+        INPUT_STATION_CODE: "Nhập mã trạm",
+        INPUT_RATED_POWER: "Nhập công suất định mức",
         INPUT_SVG: "Vui lòng nhập SVG",
         BIND_USER: "NGƯỜI DÙNG RÀNG BUỘC",
         PHASE_OF_LIFECYCLE: "Giai đoạn vòng đời",
@@ -19450,7 +19466,7 @@ function config($translateProvider) {
       MENU: {
         SETTINGS: {
           SETTINGS: "การตั้งค่าระบบ",
-          ADVANCED: "ตั้งค่าขั้นสูง",
+          ADVANCED: "ตั้งค่าขั้นสูง Ⓔ",
           CATEGORY: "หมวดพลังงาน",
           TARIFF: "ภาษีศุลกากร",
           COSTCENTER: "ศูนย์ต้นทุน",
@@ -20304,6 +20320,8 @@ function config($translateProvider) {
         INPUT_CAPACITY: "กรุณาใส่ความจุ",
         INPUT_LATITUDE: "กรุณาใส่ละติจูด",
         INPUT_LONGITUDE: "กรุณาใส่ลองจิจูด",
+        INPUT_STATION_CODE: "ป้อนรหัสสถานี",
+        INPUT_RATED_POWER: "ป้อนกำลังนามบุตร",
         INPUT_SVG: "กรุณาใส่ SVG",
         BIND_USER: "ผูกผู้ใช้",
         PHASE_OF_LIFECYCLE: "ระยะวงจรชีวิต",
@@ -21823,7 +21841,7 @@ function config($translateProvider) {
       MENU: {
         SETTINGS: {
           SETTINGS: "Sistem Ayarları",
-          ADVANCED: "Gelişmiş Ayarlar",
+          ADVANCED: "Gelişmiş Ayarlar Ⓔ",
           CATEGORY: "Enerji Kategorileri",
           TARIFF: "Tarife",
           COSTCENTER: "Maliyet Merkezleri",
@@ -22693,6 +22711,8 @@ function config($translateProvider) {
         INPUT_CAPACITY: "Lütfen Giriş Kapasitesi",
         INPUT_LATITUDE: "Lütfen Enlemi Girin",
         INPUT_LONGITUDE: "Lütfen Boylamı Girin",
+        INPUT_STATION_CODE: "İstasyon kodunu girin",
+        INPUT_RATED_POWER: "Anma gücünü girin",
         INPUT_SVG: "Lütfen SVG girin",
         BIND_USER: "KULLANICIYI BAĞLA",
         PHASE_OF_LIFECYCLE: "Lifecycle Fazi",
@@ -24224,7 +24244,7 @@ function config($translateProvider) {
       MENU: {
         SETTINGS: {
           SETTINGS: "Seting Sistem",
-          ADVANCED: "Tetapan lanjutan",
+          ADVANCED: "Tetapan lanjutan Ⓔ",
           CATEGORY: "Kategori Tenaga",
           TARIFF: "Tarif",
           COSTCENTER: "Pusat Kos",
@@ -25092,6 +25112,8 @@ function config($translateProvider) {
         INPUT_CAPACITY: "Sila Kapasiti Input",
         INPUT_LATITUDE: "Sila masukkan latitud",
         INPUT_LONGITUDE: "Sila masukkan longitud",
+        INPUT_STATION_CODE: "Masukkan kod stesen",
+        INPUT_RATED_POWER: "Masukkan kuasa terkadar",
         INPUT_SVG: "Sila masukkan SVG",
         BIND_USER: "Pengguna Mengikat",
         PHASE_OF_LIFECYCLE: "Fasa Siklo Hidup",
@@ -26633,7 +26655,7 @@ function config($translateProvider) {
       MENU: {
         SETTINGS: {
           SETTINGS: "Pengaturan Sistem",
-          ADVANCED: "Pengaturan lanjutan",
+          ADVANCED: "Pengaturan lanjutan Ⓔ",
           CATEGORY: "Kategori Energi",
           TARIFF: "Tarif",
           COSTCENTER: "Pusat Biaya",
@@ -27506,6 +27528,8 @@ function config($translateProvider) {
         INPUT_CAPACITY: "Silakan Input Kapasitas",
         INPUT_LATITUDE: "Silakan masukkan Latitude",
         INPUT_LONGITUDE: "Silakan masukkan Garis Bujur",
+        INPUT_STATION_CODE: "Masukkan kod stesen",
+        INPUT_RATED_POWER: "Masukkan kuasa terkadar",
         INPUT_SVG: "Silakan masukan SVG",
         BIND_USER: "Mengikat Pengguna",
         PHASE_OF_LIFECYCLE: "Tahap Sepeda Hidup",
@@ -29054,7 +29078,7 @@ function config($translateProvider) {
       MENU: {
         SETTINGS: {
           SETTINGS: "系統管理",
-          ADVANCED: "⾼級設置",
+          ADVANCED: "⾼級設置 ㊭",
           CATEGORY: "能源分類",
           TARIFF: "能源費率",
           COSTCENTER: "成本中⼼",
@@ -29889,6 +29913,8 @@ function config($translateProvider) {
         INPUT_CAPACITY: "輸入容量",
         INPUT_LATITUDE: "輸入經度",
         INPUT_LONGITUDE: "輸入維度",
+        INPUT_STATION_CODE: "輸入電站代碼",
+        INPUT_RATED_POWER: "輸入額定功率",
         INPUT_SVG: "輸入SVG",
         BIND_USER: "綁定⽤⼾",
         PHASE_OF_LIFECYCLE: "生命週期階段",
@@ -31382,7 +31408,7 @@ function config($translateProvider) {
       MENU: {
         SETTINGS: {
           SETTINGS: "Configurações do sistema",
-          ADVANCED: "Configuração Avançada",
+          ADVANCED: "Configuração Avançada Ⓔ",
           CATEGORY: "Categorias de energia",
           TARIFF: "Tarifas",
           COSTCENTER: "Centros Custos",
@@ -32296,6 +32322,8 @@ function config($translateProvider) {
         INPUT_CAPACITY: "Inserir Capacidade",
         INPUT_LATITUDE: "Inserir Latitude",
         INPUT_LONGITUDE: "Inserir Longitude",
+        INPUT_STATION_CODE: "Insira o código da estação",
+        INPUT_RATED_POWER: "Insira a potência nominal",
         INPUT_SVG: "Inserir SVG",
         BIND_USER: "Vincular Usuário",
         PHASE_OF_LIFECYCLE: "Fase do Ciclo de Vida",
@@ -33931,7 +33959,7 @@ function config($translateProvider) {
       MENU: {
         SETTINGS: {
           SETTINGS: "시스템 관리",
-          ADVANCED: "고급 설정",
+          ADVANCED: "고급 설정 Ⓔ",
           CATEGORY: "에너지 분류",
           TARIFF: "에너지 요금",
           COSTCENTER: "비용 센터",
@@ -34768,6 +34796,8 @@ function config($translateProvider) {
         INPUT_CAPACITY: "용량 입력",
         INPUT_LATITUDE: "경도 입력",
         INPUT_LONGITUDE: "위도 입력",
+        INPUT_STATION_CODE: "발전소 코드를 입력하세요",
+        INPUT_RATED_POWER: "정격 출력을 입력하세요",
         INPUT_SVG: "SVG 입력",
         BIND_USER: "사용자 바인딩",
         PHASE_OF_LIFECYCLE: "단계",
@@ -36322,7 +36352,7 @@ function config($translateProvider) {
       MENU: {
         SETTINGS: {
           SETTINGS: "Amministrazione Sistema",
-          ADVANCED: "Impostazioni Avanzate",
+          ADVANCED: "Impostazioni Avanzate Ⓔ",
           CATEGORY: "Categoria Energia",
           TARIFF: "Tariffa Energia",
           COSTCENTER: "Centro di Costo",
@@ -37162,6 +37192,8 @@ function config($translateProvider) {
         INPUT_CAPACITY: "Inserisci capacità",
         INPUT_LATITUDE: "Inserisci longitudine",
         INPUT_LONGITUDE: "Inserisci latitudine",
+        INPUT_STATION_CODE: "Inserisci il codice della stazione",
+        INPUT_RATED_POWER: "Inserisci la potenza nominale",
         INPUT_SVG: "Inserisci SVG",
         BIND_USER: "Associa Utente",
         PHASE_OF_LIFECYCLE: "Fase",
@@ -38736,7 +38768,7 @@ function config($translateProvider) {
       MENU: {
         SETTINGS: {
           SETTINGS: "Administracja systemem",
-          ADVANCED: "Ustawienia zaawansowane",
+          ADVANCED: "Ustawienia zaawansowane Ⓔ",
           CATEGORY: "Kategorie energii",
           TARIFF: "Taryfy energii",
           COSTCENTER: "Centrum kosztów",
@@ -39580,6 +39612,8 @@ function config($translateProvider) {
         INPUT_CAPACITY: "Wprowadź pojemność",
         INPUT_LATITUDE: "Wprowadź długość geograficzną",
         INPUT_LONGITUDE: "Wprowadź szerokość geograficzną",
+        INPUT_STATION_CODE: "Wprowadź kod stacji",
+        INPUT_RATED_POWER: "Wprowadź moc nominalną",
         INPUT_SVG: "Wprowadź SVG",
         BIND_USER: "Przypisz użytkownika",
         PHASE_OF_LIFECYCLE: "Faza",
@@ -41155,7 +41189,7 @@ function config($translateProvider) {
       MENU: {
         SETTINGS: {
           SETTINGS: "Systeembeheer",
-          ADVANCED: "Geavanceerde instellingen",
+          ADVANCED: "Geavanceerde instellingen Ⓔ",
           CATEGORY: "Energiecategorie",
           TARIFF: "Energietarief",
           COSTCENTER: "Kostenplaats",
@@ -41986,6 +42020,8 @@ function config($translateProvider) {
         INPUT_CAPACITY: "Voer capaciteit in",
         INPUT_LATITUDE: "Voer lengtegraad in",
         INPUT_LONGITUDE: "Voer breedtegraad in",
+        INPUT_STATION_CODE: "Voer de stationscode in",
+        INPUT_RATED_POWER: "Voer het nominale vermogen in",
         INPUT_SVG: "Voer SVG in",
         BIND_USER: "Gebruiker koppelen",
         PHASE_OF_LIFECYCLE: "Fase",
@@ -43539,7 +43575,7 @@ function config($translateProvider) {
       MENU: {
         SETTINGS: {
           SETTINGS: "システム管理",
-          ADVANCED: "高度な設定",
+          ADVANCED: "高度な設定 Ⓔ",
           CATEGORY: "エネルギー分類",
           TARIFF: "エネルギー料金体系",
           COSTCENTER: "コストセンター",
@@ -44351,6 +44387,8 @@ function config($translateProvider) {
         INPUT_CAPACITY: "容量を入力",
         INPUT_LATITUDE: "経度を入力",
         INPUT_LONGITUDE: "緯度を入力",
+        INPUT_STATION_CODE: "発電所コードを入力してください",
+        INPUT_RATED_POWER: "定格出力を入力してください",
         INPUT_SVG: "SVGを入力",
         BIND_USER: "ユーザーをバインド",
         PHASE_OF_LIFECYCLE: "段階",
@@ -45910,7 +45948,7 @@ function config($translateProvider) {
       MENU: {
         SETTINGS: {
           SETTINGS: "مدیریت سیستم",
-          ADVANCED: "تنظیمات پیشرفته",
+          ADVANCED: "تنظیمات پیشرفته Ⓔ",
           CATEGORY: "دسته‌بندی انرژی",
           TARIFF: "تعرفه انرژی",
           COSTCENTER: "مرکز هزینه",
@@ -46724,6 +46762,8 @@ function config($translateProvider) {
         INPUT_CAPACITY: "وارد کردن ظرفیت",
         INPUT_LATITUDE: "وارد کردن طول جغرافیایی",
         INPUT_LONGITUDE: "وارد کردن عرض جغرافیایی",
+        INPUT_STATION_CODE: "کد ایستگاه را وارد کنید",
+        INPUT_RATED_POWER: "توان نمره را وارد کنید",
         INPUT_SVG: "وارد کردن SVG",
         BIND_USER: "الزام‌آوری کاربر",
         PHASE_OF_LIFECYCLE: "مرحله",

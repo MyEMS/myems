@@ -131,15 +131,27 @@ class MenuCollection:
                 pass
 
         # Cache miss or Redis error - query database
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
+        rows_menus = []
 
-        # Query to retrieve all menus ordered by ID
-        query = (" SELECT id, name, route, parent_menu_id, is_hidden "
-                 " FROM tbl_menus "
-                 " ORDER BY id ")
-        cursor.execute(query)
-        rows_menus = cursor.fetchall()
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
+
+                # Query to retrieve all menus ordered by ID
+                query = (" SELECT id, name, route, parent_menu_id, is_hidden "
+                         " FROM tbl_menus "
+                         " ORDER BY id ")
+                cursor.execute(query)
+                rows_menus = cursor.fetchall()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         # Build result list
         result = list()
@@ -152,9 +164,6 @@ class MenuCollection:
                         "is_hidden": bool(row[4])}
 
                 result.append(temp)
-
-        cursor.close()
-        cnx.close()
 
         # Store result in Redis cache
         result_json = json.dumps(result)
@@ -249,15 +258,27 @@ class MenuItem:
                 pass
 
         # Cache miss or Redis error - query database
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
+        rows_menu = None
 
-        # Query to retrieve specific menu by ID
-        query = (" SELECT id, name, route, parent_menu_id, is_hidden "
-                 " FROM tbl_menus "
-                 " WHERE id= %s ")
-        cursor.execute(query, (id_,))
-        rows_menu = cursor.fetchone()
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
+
+                # Query to retrieve specific menu by ID
+                query = (" SELECT id, name, route, parent_menu_id, is_hidden "
+                         " FROM tbl_menus "
+                         " WHERE id= %s ")
+                cursor.execute(query, (id_,))
+                rows_menu = cursor.fetchone()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         # Build result object
         result = None
@@ -267,9 +288,6 @@ class MenuItem:
                       "route": rows_menu[2],
                       "parent_menu_id": rows_menu[3],
                       "is_hidden": bool(rows_menu[4])}
-
-        cursor.close()
-        cnx.close()
 
         # Store result in Redis cache
         result_json = json.dumps(result)
@@ -324,19 +342,27 @@ class MenuItem:
                                    description='API.INVALID_IS_HIDDEN')
         is_hidden = new_values['data']['is_hidden']
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
 
-        # Update menu visibility status
-        update_row = (" UPDATE tbl_menus "
-                      " SET is_hidden = %s "
-                      " WHERE id = %s ")
-        cursor.execute(update_row, (is_hidden,
-                                    id_))
-        cnx.commit()
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        cursor.close()
-        cnx.close()
+                # Update menu visibility status
+                update_row = (" UPDATE tbl_menus "
+                              " SET is_hidden = %s "
+                              " WHERE id = %s ")
+                cursor.execute(update_row, (is_hidden,
+                                            id_))
+                cnx.commit()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         # Clear cache after updating menu
         clear_menu_cache(menu_id=id_)
@@ -425,67 +451,80 @@ class MenuChildrenCollection:
                 pass
 
         # Cache miss or Redis error - query database
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
+        row_current_menu = None
+        rows_menus = []
+        rows_children = []
 
-        # Query to retrieve current menu
-        query = (" SELECT id, name, route, parent_menu_id, is_hidden "
-                 " FROM tbl_menus "
-                 " WHERE id = %s ")
-        cursor.execute(query, (id_,))
-        row_current_menu = cursor.fetchone()
-        if row_current_menu is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.MENU_NOT_FOUND')
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        # Query to retrieve all menus for parent lookup
-        query = (" SELECT id, name "
-                 " FROM tbl_menus "
-                 " ORDER BY id ")
-        cursor.execute(query)
-        rows_menus = cursor.fetchall()
+                # Query to retrieve current menu
+                query = (" SELECT id, name, route, parent_menu_id, is_hidden "
+                         " FROM tbl_menus "
+                         " WHERE id = %s ")
+                cursor.execute(query, (id_,))
+                row_current_menu = cursor.fetchone()
+                
+                if row_current_menu is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.MENU_NOT_FOUND')
 
-        # Build menu dictionary for parent lookup
-        menu_dict = dict()
-        if rows_menus is not None and len(rows_menus) > 0:
-            for row in rows_menus:
-                menu_dict[row[0]] = {"id": row[0],
-                                     "name": row[1]}
+                # Query to retrieve all menus for parent lookup
+                query = (" SELECT id, name "
+                         " FROM tbl_menus "
+                         " ORDER BY id ")
+                cursor.execute(query)
+                rows_menus = cursor.fetchall()
 
-        # Build result structure
-        result = dict()
-        result['current'] = dict()
-        result['current']['id'] = row_current_menu[0]
-        result['current']['name'] = row_current_menu[1]
-        result['current']['parent_menu'] = menu_dict.get(row_current_menu[3], None)
-        result['current']['is_hidden'] = bool(row_current_menu[4])
+                # Build menu dictionary for parent lookup
+                menu_dict = dict()
+                if rows_menus is not None and len(rows_menus) > 0:
+                    for row in rows_menus:
+                        menu_dict[row[0]] = {"id": row[0],
+                                             "name": row[1]}
 
-        result['children'] = list()
+                # Build result structure
+                result = dict()
+                result['current'] = dict()
+                result['current']['id'] = row_current_menu[0]
+                result['current']['name'] = row_current_menu[1]
+                result['current']['parent_menu'] = menu_dict.get(row_current_menu[3], None)
+                result['current']['is_hidden'] = bool(row_current_menu[4])
 
-        # Query to retrieve child menus
-        query = (" SELECT id, name, route, parent_menu_id, is_hidden "
-                 " FROM tbl_menus "
-                 " WHERE parent_menu_id = %s "
-                 " ORDER BY id ")
-        cursor.execute(query, (id_, ))
-        rows_menus = cursor.fetchall()
+                result['children'] = list()
 
-        # Build children list
-        if rows_menus is not None and len(rows_menus) > 0:
-            for row in rows_menus:
-                meta_result = {"id": row[0],
-                               "name": row[1],
-                               "parent_menu": menu_dict.get(row[3], None),
-                               "is_hidden": bool(row[4])}
-                result['children'].append(meta_result)
+                # Query to retrieve child menus
+                query = (" SELECT id, name, route, parent_menu_id, is_hidden "
+                         " FROM tbl_menus "
+                         " WHERE parent_menu_id = %s "
+                         " ORDER BY id ")
+                cursor.execute(query, (id_, ))
+                rows_children = cursor.fetchall()
 
-        cursor.close()
-        cnx.close()
+                # Build children list
+                if rows_children is not None and len(rows_children) > 0:
+                    for row in rows_children:
+                        meta_result = {"id": row[0],
+                                       "name": row[1],
+                                       "parent_menu": menu_dict.get(row[3], None),
+                                       "is_hidden": bool(row[4])}
+                        result['children'].append(meta_result)
+                
+                # Serialize here so we can use it outside the DB block
+                result_json = json.dumps(result)
+
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         # Store result in Redis cache
-        result_json = json.dumps(result)
         if redis_client:
             try:
                 redis_client.setex(cache_key, cache_expire, result_json)
@@ -568,18 +607,30 @@ class MenuWebCollection:
                 pass
 
         # Cache miss or Redis error - query database
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
+        rows_menus = []
 
-        # Optimized: Single query to retrieve all non-hidden menus
-        # This reduces database round trips from 2 to 1
-        # MySQL compatible: parent_menu_id IS NULL comes first in ORDER BY
-        query = (" SELECT id, route, parent_menu_id "
-                 " FROM tbl_menus "
-                 " WHERE is_hidden = 0 "
-                 " ORDER BY (parent_menu_id IS NULL) DESC, id ")
-        cursor.execute(query)
-        rows_menus = cursor.fetchall()
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
+
+                # Optimized: Single query to retrieve all non-hidden menus
+                # This reduces database round trips from 2 to 1
+                # MySQL compatible: parent_menu_id IS NULL comes first in ORDER BY
+                query = (" SELECT id, route, parent_menu_id "
+                         " FROM tbl_menus "
+                         " WHERE is_hidden = 0 "
+                         " ORDER BY (parent_menu_id IS NULL) DESC, id ")
+                cursor.execute(query)
+                rows_menus = cursor.fetchall()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         # Build first level routes dictionary and result structure in one pass
         first_level_routes = {}
@@ -603,9 +654,6 @@ class MenuWebCollection:
                         # Update result directly
                         parent_route = first_level_routes[parent_menu_id]['route']
                         result[parent_route].append(route)
-
-        cursor.close()
-        cnx.close()
 
         # Store result in Redis cache
         result_json = json.dumps(result)

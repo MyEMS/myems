@@ -113,43 +113,51 @@ class SensorCollection:
                 pass
 
         # Cache miss or Redis error - query database
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
 
-        query = (" SELECT id, name, uuid, description "
-                 " FROM tbl_sensors ")
-
-        params = []
-        if search_query:
-            query += " WHERE name LIKE %s   OR  description LIKE %s "
-            params = [f'%{search_query}%', f'%{search_query}%']
-        query += " ORDER BY id "
-        cursor.execute(query, params)
-
-        rows_sensors = cursor.fetchall()
-
-        result = list()
-        if rows_sensors is not None and len(rows_sensors) > 0:
-            for row in rows_sensors:
-                meta_result = {"id": row[0],
-                               "name": row[1],
-                               "uuid": row[2],
-                               "description": row[3]}
-                result.append(meta_result)
-
-        cursor.close()
-        cnx.close()
-
-        # Store result in Redis cache
-        result_json = json.dumps(result)
-        if redis_client:
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
             try:
-                redis_client.setex(cache_key, cache_expire, result_json)
-            except Exception:
-                # If cache set fails, ignore and continue
-                pass
+                cursor = cnx.cursor()
 
-        resp.text = result_json
+                query = (" SELECT id, name, uuid, description "
+                         " FROM tbl_sensors ")
+
+                params = []
+                if search_query:
+                    query += " WHERE name LIKE %s   OR  description LIKE %s "
+                    params = [f'%{search_query}%', f'%{search_query}%']
+                query += " ORDER BY id "
+                cursor.execute(query, params)
+
+                rows_sensors = cursor.fetchall()
+
+                result = list()
+                if rows_sensors is not None and len(rows_sensors) > 0:
+                    for row in rows_sensors:
+                        meta_result = {"id": row[0],
+                                       "name": row[1],
+                                       "uuid": row[2],
+                                       "description": row[3]}
+                        result.append(meta_result)
+
+                # Store result in Redis cache
+                result_json = json.dumps(result)
+                if redis_client:
+                    try:
+                        redis_client.setex(cache_key, cache_expire, result_json)
+                    except Exception:
+                        # If cache set fails, ignore and continue
+                        pass
+
+                resp.text = result_json
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
     @staticmethod
     @user_logger
@@ -185,28 +193,35 @@ class SensorCollection:
         else:
             description = None
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_sensors "
-                       " WHERE name = %s ", (name,))
-        if cursor.fetchone() is not None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.SENSOR_NAME_IS_ALREADY_IN_USE')
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        add_values = (" INSERT INTO tbl_sensors "
-                      "    (name, uuid, description) "
-                      " VALUES (%s, %s, %s) ")
-        cursor.execute(add_values, (name,
-                                    str(uuid.uuid4()),
-                                    description))
-        new_id = cursor.lastrowid
-        cnx.commit()
-        cursor.close()
-        cnx.close()
+                cursor.execute(" SELECT name "
+                               " FROM tbl_sensors "
+                               " WHERE name = %s ", (name,))
+                if cursor.fetchone() is not None:
+                    raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                           description='API.SENSOR_NAME_IS_ALREADY_IN_USE')
+
+                add_values = (" INSERT INTO tbl_sensors "
+                              "    (name, uuid, description) "
+                              " VALUES (%s, %s, %s) ")
+                cursor.execute(add_values, (name,
+                                            str(uuid.uuid4()),
+                                            description))
+                new_id = cursor.lastrowid
+                cnx.commit()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         # Clear cache after creating new sensor
         clear_sensor_cache()
@@ -264,36 +279,45 @@ class SensorItem:
                 pass
 
         # Cache miss or Redis error - query database
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
 
-        query = (" SELECT id, name, uuid, description "
-                 " FROM tbl_sensors "
-                 " WHERE id = %s ")
-        cursor.execute(query, (id_,))
-        row = cursor.fetchone()
-        cursor.close()
-        cnx.close()
-
-        if row is None:
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.SENSOR_NOT_FOUND')
-        else:
-            meta_result = {"id": row[0],
-                           "name": row[1],
-                           "uuid": row[2],
-                           "description": row[3]}
-
-        # Store result in Redis cache
-        result_json = json.dumps(meta_result)
-        if redis_client:
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
             try:
-                redis_client.setex(cache_key, cache_expire, result_json)
-            except Exception:
-                # If cache set fails, ignore and continue
-                pass
+                cursor = cnx.cursor()
 
-        resp.text = result_json
+                query = (" SELECT id, name, uuid, description "
+                         " FROM tbl_sensors "
+                         " WHERE id = %s ")
+                cursor.execute(query, (id_,))
+                row = cursor.fetchone()
+
+                if row is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.SENSOR_NOT_FOUND')
+                
+                meta_result = {"id": row[0],
+                               "name": row[1],
+                               "uuid": row[2],
+                               "description": row[3]}
+
+                # Store result in Redis cache
+                result_json = json.dumps(meta_result)
+                if redis_client:
+                    try:
+                        redis_client.setex(cache_key, cache_expire, result_json)
+                    except Exception:
+                        # If cache set fails, ignore and continue
+                        pass
+
+                resp.text = result_json
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
     @staticmethod
     @user_logger
@@ -303,86 +327,82 @@ class SensorItem:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_SENSOR_ID')
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_sensors "
-                       " WHERE id = %s ", (id_,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.SENSOR_NOT_FOUND')
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        # check relation with spaces
-        cursor.execute(" SELECT id "
-                       " FROM tbl_spaces_sensors "
-                       " WHERE sensor_id = %s ", (id_,))
-        rows_spaces = cursor.fetchall()
-        if rows_spaces is not None and len(rows_spaces) > 0:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_400,
-                                   title='API.BAD_REQUEST',
-                                   description='API.THERE_IS_RELATION_WITH_SPACES')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_sensors "
+                               " WHERE id = %s ", (id_,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.SENSOR_NOT_FOUND')
 
-        # check relation with tenants
-        cursor.execute(" SELECT id "
-                       " FROM tbl_tenants_sensors "
-                       " WHERE sensor_id = %s ", (id_,))
-        rows_tenants = cursor.fetchall()
-        if rows_tenants is not None and len(rows_tenants) > 0:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_400,
-                                   title='API.BAD_REQUEST',
-                                   description='API.THERE_IS_RELATION_WITH_TENANTS')
+                # check relation with spaces
+                cursor.execute(" SELECT id "
+                               " FROM tbl_spaces_sensors "
+                               " WHERE sensor_id = %s ", (id_,))
+                rows_spaces = cursor.fetchall()
+                if rows_spaces is not None and len(rows_spaces) > 0:
+                    raise falcon.HTTPError(status=falcon.HTTP_400,
+                                           title='API.BAD_REQUEST',
+                                           description='API.THERE_IS_RELATION_WITH_SPACES')
 
-        # check relation with stores
-        cursor.execute(" SELECT store_id "
-                       " FROM tbl_stores_sensors "
-                       " WHERE sensor_id = %s ", (id_,))
-        rows_stores = cursor.fetchall()
-        if rows_stores is not None and len(rows_stores) > 0:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_400,
-                                   title='API.BAD_REQUEST',
-                                   description='API.THERE_IS_RELATION_WITH_STORES')
+                # check relation with tenants
+                cursor.execute(" SELECT id "
+                               " FROM tbl_tenants_sensors "
+                               " WHERE sensor_id = %s ", (id_,))
+                rows_tenants = cursor.fetchall()
+                if rows_tenants is not None and len(rows_tenants) > 0:
+                    raise falcon.HTTPError(status=falcon.HTTP_400,
+                                           title='API.BAD_REQUEST',
+                                           description='API.THERE_IS_RELATION_WITH_TENANTS')
 
-        # check relation with microgrid
-        cursor.execute(" SELECT id "
-                       " FROM tbl_microgrids_sensors "
-                       " WHERE sensor_id = %s ", (id_,))
-        rows_microgrid = cursor.fetchall()
-        if rows_microgrid is not None and len(rows_microgrid) > 0:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_400,
-                                   title='API.BAD_REQUEST',
-                                   description='API.THERE_IS_RELATION_WITH_MICROGRIDS')
+                # check relation with stores
+                cursor.execute(" SELECT store_id "
+                               " FROM tbl_stores_sensors "
+                               " WHERE sensor_id = %s ", (id_,))
+                rows_stores = cursor.fetchall()
+                if rows_stores is not None and len(rows_stores) > 0:
+                    raise falcon.HTTPError(status=falcon.HTTP_400,
+                                           title='API.BAD_REQUEST',
+                                           description='API.THERE_IS_RELATION_WITH_STORES')
 
-        # check relation with shopfloors
-        cursor.execute(" SELECT id "
-                       " FROM tbl_shopfloors_sensors "
-                       " WHERE sensor_id = %s ", (id_,))
-        rows_shopfloor = cursor.fetchall()
-        if rows_shopfloor is not None and len(rows_shopfloor) > 0:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_400,
-                                   title='API.BAD_REQUEST',
-                                   description='API.THERE_IS_RELATION_WITH_SHOPFLOORS')
+                # check relation with microgrid
+                cursor.execute(" SELECT id "
+                               " FROM tbl_microgrids_sensors "
+                               " WHERE sensor_id = %s ", (id_,))
+                rows_microgrid = cursor.fetchall()
+                if rows_microgrid is not None and len(rows_microgrid) > 0:
+                    raise falcon.HTTPError(status=falcon.HTTP_400,
+                                           title='API.BAD_REQUEST',
+                                           description='API.THERE_IS_RELATION_WITH_MICROGRIDS')
 
-        # delete relation with points
-        cursor.execute(" DELETE FROM tbl_sensors_points WHERE sensor_id = %s ", (id_,))
+                # check relation with shopfloors
+                cursor.execute(" SELECT id "
+                               " FROM tbl_shopfloors_sensors "
+                               " WHERE sensor_id = %s ", (id_,))
+                rows_shopfloor = cursor.fetchall()
+                if rows_shopfloor is not None and len(rows_shopfloor) > 0:
+                    raise falcon.HTTPError(status=falcon.HTTP_400,
+                                           title='API.BAD_REQUEST',
+                                           description='API.THERE_IS_RELATION_WITH_SHOPFLOORS')
 
-        cursor.execute(" DELETE FROM tbl_sensors WHERE id = %s ", (id_,))
-        cnx.commit()
+                # delete relation with points
+                cursor.execute(" DELETE FROM tbl_sensors_points WHERE sensor_id = %s ", (id_,))
 
-        cursor.close()
-        cnx.close()
+                cursor.execute(" DELETE FROM tbl_sensors WHERE id = %s ", (id_,))
+                cnx.commit()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         # Clear cache after deleting sensor
         clear_sensor_cache(sensor_id=id_)
@@ -427,37 +447,41 @@ class SensorItem:
         else:
             description = None
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_sensors "
-                       " WHERE id = %s ", (id_,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.SENSOR_NOT_FOUND')
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_sensors "
-                       " WHERE name = %s AND id != %s ", (name, id_))
-        if cursor.fetchone() is not None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.SENSOR_NAME_IS_ALREADY_IN_USE')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_sensors "
+                               " WHERE id = %s ", (id_,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.SENSOR_NOT_FOUND')
 
-        update_row = (" UPDATE tbl_sensors "
-                      " SET name = %s, description = %s "
-                      " WHERE id = %s ")
-        cursor.execute(update_row, (name,
-                                    description,
-                                    id_,))
-        cnx.commit()
+                cursor.execute(" SELECT name "
+                               " FROM tbl_sensors "
+                               " WHERE name = %s AND id != %s ", (name, id_))
+                if cursor.fetchone() is not None:
+                    raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                           description='API.SENSOR_NAME_IS_ALREADY_IN_USE')
 
-        cursor.close()
-        cnx.close()
+                update_row = (" UPDATE tbl_sensors "
+                              " SET name = %s, description = %s "
+                              " WHERE id = %s ")
+                cursor.execute(update_row, (name,
+                                            description,
+                                            id_,))
+                cnx.commit()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         # Clear cache after updating sensor
         clear_sensor_cache(sensor_id=id_)
@@ -514,48 +538,54 @@ class SensorPointCollection:
                 pass
 
         # Cache miss or Redis error - query database
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_sensors "
-                       " WHERE id = %s ", (id_,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.SENSOR_NOT_FOUND')
-
-        query = (" SELECT p.id, p.name, "
-                 "        ds.id, ds.name, ds.uuid, "
-                 "        p.address "
-                 " FROM tbl_points p, tbl_sensors_points sp, tbl_data_sources ds "
-                 " WHERE sp.sensor_id = %s AND p.id = sp.point_id AND p.data_source_id = ds.id "
-                 " ORDER BY p.name ")
-        cursor.execute(query, (id_,))
-        rows = cursor.fetchall()
-
-        result = list()
-        if rows is not None and len(rows) > 0:
-            for row in rows:
-                meta_result = {"id": row[0], "name": row[1],
-                               "data_source": {"id": row[2], "name": row[3], "uuid": row[4]},
-                               "address": row[5]}
-                result.append(meta_result)
-
-        cursor.close()
-        cnx.close()
-
-        # Store result in Redis cache
-        result_json = json.dumps(result)
-        if redis_client:
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
             try:
-                redis_client.setex(cache_key, cache_expire, result_json)
-            except Exception:
-                # If cache set fails, ignore and continue
-                pass
+                cursor = cnx.cursor()
 
-        resp.text = result_json
+                cursor.execute(" SELECT name "
+                               " FROM tbl_sensors "
+                               " WHERE id = %s ", (id_,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.SENSOR_NOT_FOUND')
+
+                query = (" SELECT p.id, p.name, "
+                         "        ds.id, ds.name, ds.uuid, "
+                         "        p.address "
+                         " FROM tbl_points p, tbl_sensors_points sp, tbl_data_sources ds "
+                         " WHERE sp.sensor_id = %s AND p.id = sp.point_id AND p.data_source_id = ds.id "
+                         " ORDER BY p.name ")
+                cursor.execute(query, (id_,))
+                rows = cursor.fetchall()
+
+                result = list()
+                if rows is not None and len(rows) > 0:
+                    for row in rows:
+                        meta_result = {"id": row[0], "name": row[1],
+                                       "data_source": {"id": row[2], "name": row[3], "uuid": row[4]},
+                                       "address": row[5]}
+                        result.append(meta_result)
+
+                # Store result in Redis cache
+                result_json = json.dumps(result)
+                if redis_client:
+                    try:
+                        redis_client.setex(cache_key, cache_expire, result_json)
+                    except Exception:
+                        # If cache set fails, ignore and continue
+                        pass
+
+                resp.text = result_json
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
     @staticmethod
     @user_logger
@@ -581,43 +611,46 @@ class SensorPointCollection:
 
         new_values = json.loads(raw_json)
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
 
-        cursor.execute(" SELECT name "
-                       " from tbl_sensors "
-                       " WHERE id = %s ", (id_,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.SENSOR_NOT_FOUND')
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_points "
-                       " WHERE id = %s ", (new_values['data']['point_id'],))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.POINT_NOT_FOUND')
+                cursor.execute(" SELECT name "
+                               " from tbl_sensors "
+                               " WHERE id = %s ", (id_,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.SENSOR_NOT_FOUND')
 
-        query = (" SELECT id "
-                 " FROM tbl_sensors_points "
-                 " WHERE sensor_id = %s AND point_id = %s")
-        cursor.execute(query, (id_, new_values['data']['point_id'],))
-        if cursor.fetchone() is not None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR',
-                                   description='API.SENSOR_POINT_RELATION_EXISTS')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_points "
+                               " WHERE id = %s ", (new_values['data']['point_id'],))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.POINT_NOT_FOUND')
 
-        add_row = (" INSERT INTO tbl_sensors_points (sensor_id, point_id) "
-                   " VALUES (%s, %s) ")
-        cursor.execute(add_row, (id_, new_values['data']['point_id'],))
-        cnx.commit()
-        cursor.close()
-        cnx.close()
+                query = (" SELECT id "
+                         " FROM tbl_sensors_points "
+                         " WHERE sensor_id = %s AND point_id = %s")
+                cursor.execute(query, (id_, new_values['data']['point_id'],))
+                if cursor.fetchone() is not None:
+                    raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR',
+                                           description='API.SENSOR_POINT_RELATION_EXISTS')
+
+                add_row = (" INSERT INTO tbl_sensors_points (sensor_id, point_id) "
+                           " VALUES (%s, %s) ")
+                cursor.execute(add_row, (id_, new_values['data']['point_id'],))
+                cnx.commit()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         # Clear cache after adding sensor point
         clear_sensor_cache(sensor_id=id_)
@@ -648,41 +681,43 @@ class SensorPointItem:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_POINT_ID')
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_sensors "
-                       " WHERE id = %s ", (id_,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.SENSOR_NOT_FOUND')
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_points "
-                       " WHERE id = %s ", (pid,))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.POINT_NOT_FOUND')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_sensors "
+                               " WHERE id = %s ", (id_,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.SENSOR_NOT_FOUND')
 
-        cursor.execute(" SELECT id "
-                       " FROM tbl_sensors_points "
-                       " WHERE sensor_id = %s AND point_id = %s ", (id_, pid))
-        if cursor.fetchone() is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.SENSOR_POINT_RELATION_NOT_FOUND')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_points "
+                               " WHERE id = %s ", (pid,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.POINT_NOT_FOUND')
 
-        cursor.execute(" DELETE FROM tbl_sensors_points WHERE sensor_id = %s AND point_id = %s ", (id_, pid))
-        cnx.commit()
+                cursor.execute(" SELECT id "
+                               " FROM tbl_sensors_points "
+                               " WHERE sensor_id = %s AND point_id = %s ", (id_, pid))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.SENSOR_POINT_RELATION_NOT_FOUND')
 
-        cursor.close()
-        cnx.close()
+                cursor.execute(" DELETE FROM tbl_sensors_points WHERE sensor_id = %s AND point_id = %s ", (id_, pid))
+                cnx.commit()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         # Clear cache after deleting sensor point
         clear_sensor_cache(sensor_id=id_)
@@ -739,50 +774,57 @@ class SensorExport:
                 pass
 
         # Cache miss or Redis error - query database
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
 
-        query = (" SELECT id, name, uuid, description "
-                 " FROM tbl_sensors "
-                 " WHERE id = %s ")
-        cursor.execute(query, (id_,))
-        row = cursor.fetchone()
-
-        if row is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.SENSOR_NOT_FOUND')
-        else:
-            meta_result = {
-                           "name": row[1],
-                           "description": row[3],
-                           "points": None}
-            query = (" SELECT p.id, p.name "
-                     " FROM tbl_points p, tbl_sensors_points sp "
-                     " WHERE sp.sensor_id = %s AND p.id = sp.point_id "
-                     " ORDER BY p.id ")
-            cursor.execute(query, (id_,))
-            rows = cursor.fetchall()
-            result = list()
-            if rows is not None and len(rows) > 0:
-                for row in rows:
-                    point_result = {"id": row[0], "name": row[1]}
-                    result.append(point_result)
-                meta_result['points'] = result
-            cursor.close()
-            cnx.close()
-
-        # Store result in Redis cache
-        result_json = json.dumps(meta_result)
-        if redis_client:
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
             try:
-                redis_client.setex(cache_key, cache_expire, result_json)
-            except Exception:
-                # If cache set fails, ignore and continue
-                pass
+                cursor = cnx.cursor()
 
-        resp.text = result_json
+                query = (" SELECT id, name, uuid, description "
+                         " FROM tbl_sensors "
+                         " WHERE id = %s ")
+                cursor.execute(query, (id_,))
+                row = cursor.fetchone()
+
+                if row is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.SENSOR_NOT_FOUND')
+                
+                meta_result = {
+                               "name": row[1],
+                               "description": row[3],
+                               "points": None}
+                query = (" SELECT p.id, p.name "
+                         " FROM tbl_points p, tbl_sensors_points sp "
+                         " WHERE sp.sensor_id = %s AND p.id = sp.point_id "
+                         " ORDER BY p.id ")
+                cursor.execute(query, (id_,))
+                rows = cursor.fetchall()
+                result = list()
+                if rows is not None and len(rows) > 0:
+                    for row in rows:
+                        point_result = {"id": row[0], "name": row[1]}
+                        result.append(point_result)
+                    meta_result['points'] = result
+
+                # Store result in Redis cache
+                result_json = json.dumps(meta_result)
+                if redis_client:
+                    try:
+                        redis_client.setex(cache_key, cache_expire, result_json)
+                    except Exception:
+                        # If cache set fails, ignore and continue
+                        pass
+
+                resp.text = result_json
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
 
 class SensorImport:
@@ -828,48 +870,53 @@ class SensorImport:
         else:
             description = None
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
 
-        cursor.execute(" SELECT name "
-                       " FROM tbl_sensors "
-                       " WHERE name = %s ", (name,))
-        if cursor.fetchone() is not None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.SENSOR_NAME_IS_ALREADY_IN_USE')
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-        add_values = (" INSERT INTO tbl_sensors "
-                      "    (name, uuid, description) "
-                      " VALUES (%s, %s, %s) ")
-        cursor.execute(add_values, (name,
-                                    str(uuid.uuid4()),
-                                    description))
-        new_id = cursor.lastrowid
-        if 'points' in new_values.keys() and \
-                new_values['points'] is not None and \
-                len(new_values['points']) > 0:
-            for point in new_values['points']:
-                if 'id' in point and isinstance(point['id'], int):
-                    cursor.execute(" SELECT name "
-                                   " FROM tbl_points "
-                                   " WHERE id = %s ", (point['id'],))
-                    if cursor.fetchone() is None:
-                        cursor.close()
-                        cnx.close()
-                        raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                               description='API.POINT_NOT_FOUND')
+                cursor.execute(" SELECT name "
+                               " FROM tbl_sensors "
+                               " WHERE name = %s ", (name,))
+                if cursor.fetchone() is not None:
+                    raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                           description='API.SENSOR_NAME_IS_ALREADY_IN_USE')
 
-                    add_row = (" INSERT INTO tbl_sensors_points (sensor_id, point_id) "
-                               " VALUES (%s, %s) ")
-                    cursor.execute(add_row, (new_id, point['id'],))
-                else:
-                    raise falcon.HTTPError(status=falcon.HTTP_400, title='API.NOT_FOUND',
-                                           description='API.INVALID_POINT_ID')
-        cnx.commit()
-        cursor.close()
-        cnx.close()
+                add_values = (" INSERT INTO tbl_sensors "
+                              "    (name, uuid, description) "
+                              " VALUES (%s, %s, %s) ")
+                cursor.execute(add_values, (name,
+                                            str(uuid.uuid4()),
+                                            description))
+                new_id = cursor.lastrowid
+                if 'points' in new_values.keys() and \
+                        new_values['points'] is not None and \
+                        len(new_values['points']) > 0:
+                    for point in new_values['points']:
+                        if 'id' in point and isinstance(point['id'], int):
+                            cursor.execute(" SELECT name "
+                                           " FROM tbl_points "
+                                           " WHERE id = %s ", (point['id'],))
+                            if cursor.fetchone() is None:
+                                raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                                       description='API.POINT_NOT_FOUND')
+
+                            add_row = (" INSERT INTO tbl_sensors_points (sensor_id, point_id) "
+                                       " VALUES (%s, %s) ")
+                            cursor.execute(add_row, (new_id, point['id'],))
+                        else:
+                            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.NOT_FOUND',
+                                                   description='API.INVALID_POINT_ID')
+                cnx.commit()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         # Clear cache after importing sensor
         clear_sensor_cache()
@@ -897,69 +944,76 @@ class SensorClone:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_SENSOR_ID')
 
-        cnx = mysql.connector.connect(**config.myems_system_db)
-        cursor = cnx.cursor()
+        cnx = None
+        cursor = None
 
-        query = (" SELECT id, name, uuid, description "
-                 " FROM tbl_sensors "
-                 " WHERE id = %s ")
-        cursor.execute(query, (id_,))
-        row = cursor.fetchone()
-        if row is None:
-            cursor.close()
-            cnx.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.SENSOR_NOT_FOUND')
-        else:
-            meta_result = {"id": row[0],
-                           "name": row[1],
-                           "uuid": row[2],
-                           "description": row[3],
-                           "points": None}
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
 
-            query = (" SELECT p.id, p.name "
-                     " FROM tbl_points p, tbl_sensors_points sp "
-                     " WHERE sp.sensor_id = %s AND p.id = sp.point_id "
-                     " ORDER BY p.id ")
-            cursor.execute(query, (id_,))
-            rows = cursor.fetchall()
-            result = list()
-            if rows is not None and len(rows) > 0:
-                for row in rows:
-                    point_result = {"id": row[0], "name": row[1]}
-                    result.append(point_result)
-                meta_result['points'] = result
-        timezone_offset = int(config.utc_offset[1:3]) * 60 + int(config.utc_offset[4:6])
-        if config.utc_offset[0] == '-':
-            timezone_offset = -timezone_offset
-        new_name = (str.strip(meta_result['name']) +
-                    (datetime.utcnow() + timedelta(minutes=timezone_offset)).isoformat(sep='-', timespec='seconds'))
-
-        add_values = (" INSERT INTO tbl_sensors "
-                      "    (name, uuid, description) "
-                      " VALUES (%s, %s, %s) ")
-        cursor.execute(add_values, (new_name,
-                                    str(uuid.uuid4()),
-                                    meta_result['description']))
-        new_id = cursor.lastrowid
-        if meta_result['points'] is not None and len(meta_result['points']) > 0:
-            for point in meta_result['points']:
-                cursor.execute(" SELECT name "
-                               " FROM tbl_points "
-                               " WHERE id = %s ", (point['id'],))
-                if cursor.fetchone() is None:
-                    cursor.close()
-                    cnx.close()
+                query = (" SELECT id, name, uuid, description "
+                         " FROM tbl_sensors "
+                         " WHERE id = %s ")
+                cursor.execute(query, (id_,))
+                row = cursor.fetchone()
+                if row is None:
                     raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                           description='API.POINT_NOT_FOUND')
+                                           description='API.SENSOR_NOT_FOUND')
+                
+                meta_result = {"id": row[0],
+                               "name": row[1],
+                               "uuid": row[2],
+                               "description": row[3],
+                               "points": None}
 
-                add_row = (" INSERT INTO tbl_sensors_points (sensor_id, point_id) "
-                           " VALUES (%s, %s) ")
-                cursor.execute(add_row, (new_id, point['id'],))
+                query = (" SELECT p.id, p.name "
+                         " FROM tbl_points p, tbl_sensors_points sp "
+                         " WHERE sp.sensor_id = %s AND p.id = sp.point_id "
+                         " ORDER BY p.id ")
+                cursor.execute(query, (id_,))
+                rows = cursor.fetchall()
+                result = list()
+                if rows is not None and len(rows) > 0:
+                    for row in rows:
+                        point_result = {"id": row[0], "name": row[1]}
+                        result.append(point_result)
+                    meta_result['points'] = result
+                
+                timezone_offset = int(config.utc_offset[1:3]) * 60 + int(config.utc_offset[4:6])
+                if config.utc_offset[0] == '-':
+                    timezone_offset = -timezone_offset
+                new_name = (str.strip(meta_result['name']) +
+                            (datetime.utcnow() +
+                             timedelta(minutes=timezone_offset)).isoformat(sep='-', timespec='seconds'))
 
-        cnx.commit()
-        cursor.close()
-        cnx.close()
+                add_values = (" INSERT INTO tbl_sensors "
+                              "    (name, uuid, description) "
+                              " VALUES (%s, %s, %s) ")
+                cursor.execute(add_values, (new_name,
+                                            str(uuid.uuid4()),
+                                            meta_result['description']))
+                new_id = cursor.lastrowid
+                if meta_result['points'] is not None and len(meta_result['points']) > 0:
+                    for point in meta_result['points']:
+                        cursor.execute(" SELECT name "
+                                       " FROM tbl_points "
+                                       " WHERE id = %s ", (point['id'],))
+                        if cursor.fetchone() is None:
+                            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                                   description='API.POINT_NOT_FOUND')
+
+                        add_row = (" INSERT INTO tbl_sensors_points (sensor_id, point_id) "
+                                   " VALUES (%s, %s) ")
+                        cursor.execute(add_row, (new_id, point['id'],))
+
+                cnx.commit()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
 
         # Clear cache after cloning sensor
         clear_sensor_cache()

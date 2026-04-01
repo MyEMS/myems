@@ -212,7 +212,12 @@ const MultiTrendChart = ({
         <Row className="text-white align-items-center no-gutters">
           <Col>
             <h5 className="text-lightSlateGray mb-0">{parseTitleOrTooltipTitle(reportingTitle, option)}</h5>
-            <p className="fs--1 font-weight-semi-bold">{parseTitleOrTooltipTitle(baseTitle, option)}</p>
+            <p
+              className="fs--1 font-weight-semi-bold"
+              style={{ color: isDark ? themeColors.light : themeColors.dark }}
+            >
+              {parseTitleOrTooltipTitle(baseTitle, option)}
+            </p>
           </Col>
           {isIterableArray(options) && (
             <Col xs="auto" className="d-none d-sm-block">

@@ -5,22 +5,44 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 ### Added
+- added redis cache to space energy item report in myems-api
+### Changed
+- changed default start_datetime_utc to 2024-12-31 16:00:00 in myems-aggregation, myems-cleaning and myems-normalization
+### Fixed
+### Removed
+- removed the defalut interval_in_seconds from config in myems-modbus-tcp
+
+## [v6.3.0] - 2026-03-28
+### Added
 - added Japanese translations in myems-admin and myems-web
 - added timezones translations in myems-admin
 - added Persian translations in myems-admin and myems-web
 - added efficiency indicator to equipment efficiency report in myems-web
+- added efficiency indicator to combined equipment efficiency report in myems-web
+- added redis cache to dashboard in myems-api
 ### Changed
 - added fixed dependency version numbers to myems-api/requirements.txt
 - changed units of value_per_unit_area and value_per_capita in myems-web
 - changed default username for myems-web from administrator@myems.io to administrator in readme
 - changed the offline meter data entry interface to support 6 decimal places in myems-web
 - updated database demo data
+- changed menu order in myems-admin
+- changed base period date range picker to hide when comparison type is none in myems-web
+- changed default comparison type to none comparison in myems-web 
+- changed icon on topnavbar in myems-admin
 ### Fixed
 - fixed overwritten property in myems-web
 - fixed overwritten property in myems-admin
 - added try...finally to cnx.close() and cursor.close() in myems-api
+- fixed translations in myems-admin
+- fixed issues of dashboard in myems-api and myems-web
+- fixed color issue in myems-web
+- fixed environment monitor in myems-web
+- fixed comparison reports in myems-web
+- fixed space energy category report in myems-api and myems-web
 ### Removed
 - removed default password from config.py. Please ensure to set environment variables like MYEMS_SYSTEM_DB_PASSWORD explicitly before deployment.
+- removed id and uuid from export data in myems-admin
 
 ## [v6.2.0] - 2026-02-08
 ### Added
