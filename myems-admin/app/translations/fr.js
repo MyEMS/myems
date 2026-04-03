@@ -1940,7 +1940,7 @@
         INVALID_MICROGRID_LOAD_ID: "Invalid Microgrid Load ID",
         INVALID_MICROGRID_LOAD_NAME: "Invalid Microgrid Load Name",
         INVALID_MICROGRID_NAME: "Invalid Microgrid Name",
-        INVALID_MICROGRID_PHOTOVOLTAIC_ID: "Invalid Microgrid Photovoltaic ID",
+        INVALID_MICROGRID_PHOTOVOLTAIC_ID: "Invalid microgrid photovoltaic id",
         INVALID_MICROGRID_PHOTOVOLTAIC_NAME:
           "Invalid Microgrid Photovoltaic Name",
         INVALID_MICROGRID_POWER_CONVERSION_SYSTEM_ID:
