@@ -1590,7 +1590,7 @@
           "Datum staat al in werkagenda",
         DATE_LOCAL_NOT_FOUND: "Lokale datum niet gevonden",
         DATE_LOCAL_USED_IN_WORKING_CALENDAR:
-          "Date local used in working calendar",
+          "Datum lokaal gebruikt in werkkalender",
         DISCHARGE_METER_NOT_FOUND: "Ontlaadmeter niet gevonden",
         DISTRIBUTION_CIRCUIT_NAME_IS_ALREADY_IN_USE:
           "Distributiecirkel naam is al in gebruik",
@@ -1647,31 +1647,31 @@
         ENERGY_STORAGE_CONTAINER_NAME_IS_ALREADY_IN_USE:
           "Energieopslagcontainer naam is al in gebruik",
         ENERGY_STORAGE_CONTAINER_NOT_FOUND:
-          "Energy Storage Container Not Found",
+          "Energieopslagcontainer niet gevonden",
         ENERGY_STORAGE_CONTAINER_SENSOR_RELATION_EXISTS:
-          "Energy Storage Container Sensor Relation Exists",
+          "Energieopslagcontainer sensorrelatie bestaat",
         ENERGY_STORAGE_CONTAINER_SENSOR_RELATION_NOT_FOUND:
-          "Energy Storage Container Sensor Relation Not Found",
+          "Energieopslagcontainer sensorrelatie bestaat niet",
         ENERGY_STORAGE_CONTAINER_BATTERY_NAME_IS_ALREADY_IN_USE:
           "Energieopslagcontainer batterij naam is al in gebruik",
         ENERGY_STORAGE_CONTAINER_BATTERY_NOT_FOUND:
-          "Energy Storage Container Battery Not Found",
+          "Batterij van energieopslagcontainer niet gevonden",
         ENERGY_STORAGE_CONTAINER_GRID_NAME_IS_ALREADY_IN_USE:
           "Energieopslagcontainer elektriciteitsnet naam is al in gebruik",
         ENERGY_STORAGE_CONTAINER_GRID_NOT_FOUND:
-          "Energy Storage Container Grid Not Found",
+          "Net van energieopslagcontainer niet gevonden",
         ENERGY_STORAGE_CONTAINER_LOAD_NAME_IS_ALREADY_IN_USE:
           "Energieopslagcontainer belasting naam is al in gebruik",
         ENERGY_STORAGE_CONTAINER_LOAD_NOT_FOUND:
-          "Energy Storage Container Load Not Found",
+          "Last van energieopslagcontainer niet gevonden",
         ENERGY_STORAGE_CONTAINER_PCS_NAME_IS_ALREADY_IN_USE:
           "Energieopslagcontainer vermogensomzettingssysteem naam is al in gebruik",
         ENERGY_STORAGE_CONTAINER_POWER_CONVERSION_SYSTEM_NOT_FOUND:
-          "Energy Storage Container Power Conversion System Not Found",
+          "Vermogensomzettingssysteem van energieopslagcontainer niet gevonden",
         ENERGY_STORAGE_CONTAINER_USER_RELATION_EXISTS:
-          "Energy Storage Container User Relation Exists",
+          "Energieopslagcontainer gebruikersrelatie bestaat",
         ENERGY_STORAGE_CONTAINER_USER_RELATION_NOT_FOUND:
-          "Energy Storage Container User Relation Not Found",
+          "Energieopslagcontainer gebruikersrelatie bestaat niet",
         ENERGY_STORAGE_POWER_STATION_NOT_FOUND:
           "Energieopslagcentrale niet gevonden",
         EQUIPMENT_COMMAND_RELATION_EXISTS: "Apparatuur opdrachtsrelatie bestaat",
@@ -1717,7 +1717,7 @@
         INVALID_ADDRESS: "Ongeldig adres",
         INVALID_ADDRESS_VALUE: "Ongeldige adreswaarde",
         INVALID_ADVANCED_REPORT_ID: "Ongeldig geavanceerd rapport ID",
-        INVALID_ADVANCED_REPORT_NAME: "Invalid Advanced Report Name",
+        INVALID_ADVANCED_REPORT_NAME: "Ongeldige naam van geavanceerd rapport",
         INVALID_API_KEY_ID: "Ongeldige API-sleutel ID",
         INVALID_API_KEY_NAME: "Ongeldige API-sleutel naam",
         INVALID_AREA_VALUE: "Ongeldige oppervlaktewaarde",
@@ -1730,7 +1730,7 @@
         INVALID_BUILDINGS_VALUE: "Ongeldige gebouwwaarde",
         INVALID_BUY_METER_ID: "Ongeldig koopmeter ID",
         INVALID_CAPACITY: "Ongeldige capaciteit",
-        INVALID_CAPACITY_VALUE: "Invalid Capacity Value",
+        INVALID_CAPACITY_VALUE: "Ongeldige capaciteitwaarde",
         INVALID_CATEGORY: "Ongeldige categorie",
         INVALID_CHANNEL: "Ongeldig kanaal",
         INVALID_CHARGE_METER_ID: "Ongeldig oplaadmeter ID",
@@ -1786,25 +1786,25 @@
         INVALID_ENERGY_ITEM_ID: "Ongeldig energieonderdeel ID",
         INVALID_ENERGY_ITEM_NAME: "Ongeldige energieonderdeel naam",
         INVALID_ENERGY_STORAGE_CONTAINER_ID:
-          "Invalid Energy Storage Container ID",
+          "Ongeldig ID van energieopslagcontainer",
         INVALID_ENERGY_STORAGE_CONTAINER_NAME:
-          "Invalid Energy Storage Container Name",
+          "Ongeldige naam van energieopslagcontainer",
         INVALID_ENERGY_STORAGE_CONTAINER_BATTERY_NAME:
-          "Invalid Energy Storage Container Battery Name",
+          "Ongeldige naam van batterij van energieopslagcontainer",
         INVALID_ENERGY_STORAGE_CONTAINER_BATTERY_ID:
-          "Invalid Energy Storage Container Battery ID",
+          "Ongeldig batterij-ID van energieopslagcontainer",
         INVALID_ENERGY_STORAGE_CONTAINER_GRID_NAME:
-          "Invalid Energy Storage Container Grid Name",
+          "Ongeldige netnaam van energieopslagcontainer",
         INVALID_ENERGY_STORAGE_CONTAINER_GRID_ID:
-          "Invalid Energy Storage Container Grid ID",
+          "Ongeldig net-ID van energieopslagcontainer",
         INVALID_ENERGY_STORAGE_CONTAINER_LOAD_NAME:
-          "Invalid Energy Storage Container Load Name",
+          "Ongeldige lastnaam van energieopslagcontainer",
         INVALID_ENERGY_STORAGE_CONTAINER_LOAD_ID:
-          "Invalid Energy Storage Container Load ID",
+          "Ongeldig last-ID van energieopslagcontainer",
         INVALID_ENERGY_STORAGE_CONTAINER_POWER_CONVERSION_SYSTEM_NAME:
-          "Invalid Energy Storage Container Power Conversion System Name",
+          "Ongeldige naam van vermogensomzettingssysteem van energieopslagcontainer",
         INVALID_ENERGY_STORAGE_CONTAINER_POWER_CONVERSION_SYSTEM_ID:
-          "Invalid Energy Storage Container Power Conversion System ID",
+          "Ongeldig ID van vermogensomzettingssysteem van energieopslagcontainer",
         INVALID_ENERGY_STORAGE_POWER_STATION_ID:
           "Ongeldig energieopslagcentrale ID",
         INVALID_PHASE_OF_LIFECYCLE: "Invalid Phase of Lifecycle",
@@ -1825,7 +1825,7 @@
         INVALID_GATEWAY_NAME: "Ongeldige gateway naam",
         INVALID_HEAT_METER_ID: "Ongeldig warmtemeter ID",
         INVALID_HIGH_LIMIT_VALUE: "Ongeldige bovengrens waarde",
-        INVALID_HIGHER_LIMIT_VALUE: "Invalid Higher Limit Value",
+        INVALID_HIGHER_LIMIT_VALUE: "Ongeldige hogere begrenzingswaarde",
         INVALID_HOURLY_HIGH_LIMIT_VALUE: "Ongeldige uurlijkse bovengrens waarde",
         INVALID_HOURLY_LOW_LIMIT_VALUE: "Ongeldige uurlijkse ondergrens waarde",
         INVALID_Id: "Invalid ID",
@@ -1840,18 +1840,18 @@
         INVALID_IS_OUTPUT_COUNTED_VALUE: "Ongeldige uitvoer telwaarde",
         INVALID_IS_OUTPUT_VALUE: "Ongeldige uitvoerwaarde",
         INVALID_IS_READ_ONLY_VALUE: "Ongeldige alleen-lezen waarde",
-        INVALID_IS_RUN_IMMEDIATELY: "Invalid Is Run Immediately",
+        INVALID_IS_RUN_IMMEDIATELY: "Ongeldige waarde van direct uitvoeren",
         INVALID_IS_TREND_VALUE: "Ongeldige trendwaarde",
         INVALID_IS_VIRTUAL_VALUE: "Ongeldige virtuele puntwaarde",
         INVALID_KGCE: "Ongeldige kilogram standaardkool coëfficiënt",
         INVALID_KGCO2E: "Ongeldige kilogram CO2-uitstoot coëfficiënt",
-        INVALID_KGCOE: "Invalid KGCOE",
+        INVALID_KGCOE: "Ongeldig KGCOE",
         INVALID_KNOWLEDGE_FILE_ID: "Ongeldig kennisbestand ID",
         INVALID_LATITUDE_VALUE: "Ongeldige breedtegraadwaarde",
         INVALID_LEASE_NUMBER_VALUE: "Ongeldig huurcontractnummer",
         INVALID_LONGITUDE_VALUE: "Ongeldige lengtegraadwaarde",
         INVALID_LOW_LIMIT_VALUE: "Ongeldige ondergrens waarde",
-        INVALID_LOWER_LIMIT_VALUE: "Invalid Lower Limit Value",
+        INVALID_LOWER_LIMIT_VALUE: "Ongeldige lagere begrenzingswaarde",
         INVALID_MASTER_METER_ID: "Ongeldig hoofdmeter ID",
         INVALID_MENU_ID: "Ongeldig menu ID",
         INVALID_MESSAGE_DATA: "Ongeldige berichtgegevens",
@@ -1885,11 +1885,11 @@
         INVALID_MICROGRID_UUID: "Ongeldige microgrid UUID",
         INVALID_NAME_VALUE: "Ongeldige naamwaarde",
         INVALID_NEW_PASSWORD: "Ongeldig nieuw wachtwoord",
-        INVALID_NEXT_RUN_DATETIME: "Invalid Next Run Datetime",
-        INVALID_NOMINAL_VOLTAGE: "Invalid Nominal Voltage",
+        INVALID_NEXT_RUN_DATETIME: "Ongeldige volgende uitvoering datumtijd",
+        INVALID_NOMINAL_VOLTAGE: "Ongeldige nominale spanning",
         INVALID_NON_WORKING_DAY_ID: "Ongeldig niet-werkdag ID",
         INVALID_NOTIFICATION_ID: "Ongeldig notificatie ID",
-        INVALID_NUMBER_OF_OCCUPANTS: "Invalid Number of Occupants",
+        INVALID_NUMBER_OF_OCCUPANTS: "Ongeldig aantal bewoners",
         INVALID_NUMERATOR_METER_UUID: "Ongeldige teller meter UUID",
         INVALID_OBJECT_TYPE: "Ongeldig objecttype",
         INVALID_OFFLINE_METER_FILE_ID: "Ongeldig offline meterbestand ID",
@@ -1919,16 +1919,16 @@
         INVALID_PRIVILEGE_DATA: "Ongeldige privilegengegevens",
         INVALID_PRIVILEGE_ID: "Ongeldig privilege ID",
         INVALID_PRIVILEGE_NAME: "Ongeldige privilegenaam",
-        INVALID_PROTOCOL_CODE: "Invalid Protocol Code",
-        INVALID_PROTOCOL_ID: "Invalid Protocol ID",
-        INVALID_PROTOCOL_NAME: "Invalid Protocol Name",
+        INVALID_PROTOCOL_CODE: "Ongeldige protocolcode",
+        INVALID_PROTOCOL_ID: "Ongeldig protocol-ID",
+        INVALID_PROTOCOL_NAME: "Ongeldige protocolnaam",
         INVALID_RATIO_VALUE: "Ongeldige verhoudingswaarde",
         INVALID_RECIPIENT_EMAIL: "Ongeldig ontvanger e-mailadres",
         INVALID_RECIPIENT_MOBILE: "Ongeldig ontvanger mobiel nummer",
         INVALID_RECIPIENT_NAME: "Ongeldige ontvangernaam",
         INVALID_RECIPIENT_OPENID: "Ongeldige ontvanger OpenID",
         INVALID_REPLY: "Ongeldig antwoord",
-        INVALID_REPORT_NAME: "Invalid Report Name",
+        INVALID_REPORT_NAME: "Ongeldige rapportnaam",
         INVALID_REPORTING_PERIOD_END_DATETIME:
           "Ongeldige rapportageperiode eindtijd",
         INVALID_REPORTING_PERIOD_START_DATETIME:
@@ -1950,7 +1950,7 @@
         INVALID_SHOPFLOOR_ID: "Ongeldig werkvloer ID",
         INVALID_SHOPFLOOR_NAME: "Ongeldige werkvloernaam",
         INVALID_SHOPFLOOR_UUID: "Ongeldige werkvloer UUID",
-        INVALID_SOC_POINT_ID: "Invalid SOC Point ID",
+        INVALID_SOC_POINT_ID: "Ongeldig SOC-punt-ID",
         INVALID_SOURCE_NODE_ID: "Ongeldig bronknooppunt ID",
         INVALID_SPACE_ID: "Ongeldige ruimte ID",
         INVALID_SPACE_NAME: "Ongeldige ruimtenaam",
@@ -1968,11 +1968,11 @@
         INVALID_STORE_UUID: "Ongeldige winkel UUID",
         INVALID_SUBJECT_VALUE: "Ongeldige onderwerpwaarde",
         INVALID_SVG: "Ongeldige SVG",
-        INVALID_SVG_ID: "Invalid SVG ID",
-        INVALID_SVG_NAME: "Invalid SVG Name",
-        INVALID_SVG_SOURCE_CODE: "Invalid SVG Source Code",
-        INVALID_SVG_SYSTEM_ID: "Invalid SCADA Visualization System ID",
-        INVALID_SVG_SYSTEM_NAME: "Invalid SCADA Visualization System Name",
+        INVALID_SVG_ID: "Ongeldig SVG-ID",
+        INVALID_SVG_NAME: "Ongeldige SVG-naam",
+        INVALID_SVG_SOURCE_CODE: "Ongeldige SVG-broncode",
+        INVALID_SVG_SYSTEM_ID: "Ongeldig SCADA-visualisatiesysteem-ID",
+        INVALID_SVG_SYSTEM_NAME: "Ongeldige SCADA-visualisatiesysteemnaam",
         INVALID_SWITCHGEAR: "Ongeldige schakelapparatuur",
         INVALID_TARGET_NODE_ID: "Ongeldig doelknooppunt ID",
         INVALID_TARIFF_ID: "Ongeldig tarief ID",
@@ -2008,8 +2008,8 @@
         INVALID_VIRTUAL_METER_ID: "Ongeldig virtuele meter ID",
         INVALID_VIRTUAL_METER_NAME: "Ongeldige virtuele meternaam",
         INVALID_VIRTUAL_METER_UUID: "Ongeldige virtuele meter UUID",
-        INVALID_VIRTUAL_POWER_PLANT_ID: "Invalid Virtual Power Plant ID",
-        INVALID_VIRTUAL_POWER_PLANT_NAME: "Invalid Virtual Power Plant Name",
+        INVALID_VIRTUAL_POWER_PLANT_ID: "Ongeldig virtuele energiecentrale-ID",
+        INVALID_VIRTUAL_POWER_PLANT_NAME: "Ongeldige virtuele energiecentrale-naam",
         INVALID_WEB_MESSAGE_ID: "Ongeldig webbericht ID",
         INVALID_WECHAT_MESSAGE_ID: "Ongeldig WeChat bericht ID",
         INVALID_WIND_FARM_ID: "Ongeldig windpark ID",
@@ -2064,8 +2064,8 @@
           "Microgrid sensor niet gevonden",
         MICROGRID_DATA_SOURCE_RELATION_EXISTS:
           "Microgrid gegevensbron relatie bestaat al",
-        MICROGRID_USER_RELATION_EXISTS: "Microgrid User Relation Exists",
-        MICROGRID_USER_RELATION_NOT_FOUND: "Microgrid User Relation Not Found",
+        MICROGRID_USER_RELATION_EXISTS: "Microgrid gebruikersrelatie bestaat",
+        MICROGRID_USER_RELATION_NOT_FOUND: "Microgrid gebruikersrelatie bestaat niet",
         MQTT_CONNECTION_ERROR: "MQTT verbindingsfout",
         MQTT_PUBLISH_ERROR: "MQTT publicatiefout",
         NEW_PASSWORD_LENGTH_CANNOT_EXCEED_100_CHARACTERS:
@@ -2098,7 +2098,7 @@
         PRIVILEGE_NOT_FOUND: "Privilege bestaat niet",
         PROTOCOL_CODE_IS_ALREADY_IN_USE: "Protocolcode is al in gebruik",
         PROTOCOL_NAME_IS_ALREADY_IN_USE: "Protocolnaam is al in gebruik",
-        PROTOCOL_NOT_FOUND: "Protocol Not Found",
+        PROTOCOL_NOT_FOUND: "Protocol niet gevonden",
         RULE_NAME_IS_ALREADY_IN_USE: "Regel naam is al in gebruik",
         RULE_NOT_FOUND: "Regel bestaat niet",
         SELL_METER_NOT_FOUND: "Verkoopmeter niet gevonden",
@@ -2145,13 +2145,13 @@
         SPACE_COMMAND_RELATION_EXISTS: "Ruimte opdrachtsrelatie bestaat",
         SPACE_COMMAND_RELATION_NOT_FOUND: "Ruimte opdrachtsrelatie niet gevonden",
         SPACE_DISTRIBUTION_SYSTEM_RELATION_EXISTS:
-          "Space Distribution System Relation Exists",
+          "Ruimte distributiesysteemrelatie bestaat",
         SPACE_DISTRIBUTION_SYSTEM_RELATION_NOT_FOUND:
-          "Space Distribution System Relation Not Found",
+          "Ruimte distributiesysteemrelatie bestaat niet",
         SPACE_ENERGY_FLOW_DIAGRAM_RELATION_EXISTS:
-          "Space Energy Flow Diagram Relation Exists",
+          "Ruimte energiestroomdiagramrelatie bestaat",
         SPACE_ENERGY_FLOW_DIAGRAM_RELATION_NOT_FOUND:
-          "Space Energy Flow Diagram Relation Not Found",
+          "Ruimte energiestroomdiagramrelatie bestaat niet",
         SPACE_ENERGY_STORAGE_POWER_STATION_RELATION_EXISTS:
           "Ruimte Energieopslagcentrale Relatie Bestaat",
         SPACE_ENERGY_STORAGE_POWER_STATION_RELATION_NOT_FOUND:
@@ -2169,9 +2169,9 @@
         SPACE_OFFLINE_METER_RELATION_NOT_FOUND:
           "Relatie ruimte en offline meter bestaat niet",
         SPACE_PHOTOVOLTAIC_POWER_STATION_RELATION_EXISTS:
-          "Space Photovoltaic Power Station Relation Exists",
+          "Ruimte fotovoltaïsche energiecentrale relatie bestaat",
         SPACE_PHOTOVOLTAIC_POWER_STATION_RELATION_NOT_FOUND:
-          "Space Photovoltaic Power Station Relation Not Found",
+          "Ruimte fotovoltaïsche energiecentrale relatie bestaat niet",
         SPACE_POINT_RELATION_EXISTS: "Relatie ruimte en datapunt bestaat al",
         SPACE_POINT_RELATION_NOT_FOUND: "Relatie ruimte en datapunt bestaat niet",
         SPACE_SENSOR_RELATION_EXISTS: "Relatie ruimte en sensor bestaat al",
@@ -2221,10 +2221,10 @@
         STORE_WORKING_CALENDAR_RELATION_NOT_FOUND:
           "Winkel en werkagenda relatie bestaat niet",
         SVG_NAME_IS_ALREADY_IN_USE: "SVG naam is al in gebruik",
-        SVG_NOT_FOUND: "SVG Not Found",
+        SVG_NOT_FOUND: "SVG niet gevonden",
         SVG_SYSTEM_NAME_IS_ALREADY_IN_USE:
           "SCADA Visualisatiesysteem naam is al in gebruik",
-        SVG_SYSTEM_NOT_FOUND: "SCADA Visualization System Not Found",
+        SVG_SYSTEM_NOT_FOUND: "SCADA-visualisatiesysteem niet gevonden",
         TARGET_NODE_NOT_FOUND: "Doelknooppunt bestaat niet",
         TARIFF_IN_USE: "Tarief in gebruik",
         TARIFF_IS_ALREADY_ASSOCIATED_WITH_COST_CENTER:
@@ -2400,16 +2400,16 @@
         VIRTUAL_METER_OF_VARIABLE_NOT_FOUND:
           "Variabele virtuele meter bestaat niet",
         VIRTUAL_POINT_CAN_NOT_BE_DIGITAL_VALUE:
-          "Virtual Point Can Not Be Digital Value",
+          "Virtueel punt kan geen digitale waarde zijn",
         VIRTUAL_POINT_CAN_NOT_BE_TEXT_VALUE:
-          "Virtual Point Can Not Be Text Value",
+          "Virtueel punt kan geen tekstwaarde zijn",
         VIRTUAL_POWER_PLANT_MICROGRID_RELATION_EXISTS:
-          "Virtual Power Plant Microgrid Relation Exists",
+          "Virtuele energiecentrale-microgridrelatie bestaat",
         VIRTUAL_POWER_PLANT_MICROGRID_RELATION_NOT_FOUND:
-          "Virtual Power Plant Microgrid Relation Not Found",
+          "Virtuele energiecentrale-microgridrelatie bestaat niet",
         VIRTUAL_POWER_PLANT_NAME_IS_ALREADY_IN_USE:
           "Virtuele energiecentrale naam is al in gebruik",
-        VIRTUAL_POWER_PLANT_NOT_FOUND: "Virtual Power Plant Not Found",
+        VIRTUAL_POWER_PLANT_NOT_FOUND: "Virtuele energiecentrale niet gevonden",
         WEB_MESSAGE_NOT_FOUND: "Webbericht bestaat niet",
         WECHAT_MESSAGE_NOT_FOUND: "WeChat bericht bestaat niet",
         WIND_FARM_NAME_IS_ALREADY_IN_USE: "Windpark naam is al in gebruik",

@@ -2565,7 +2565,7 @@
         VIRTUAL_POINT_CAN_NOT_BE_DIGITAL_VALUE:
           "Ponto Virtual Não Pode Ser um Valor Digital",
         VIRTUAL_POINT_CAN_NOT_BE_TEXT_VALUE:
-          "Virtual Point Can Not Be Text Value",
+          "Ponto Virtual Não Pode Ser um Valor de Texto",
         VIRTUAL_POWER_PLANT_MICROGRID_RELATION_EXISTS:
           "Relação de Usina de Energia Virtual com Microgrid Já Existe",
         VIRTUAL_POWER_PLANT_MICROGRID_RELATION_NOT_FOUND:

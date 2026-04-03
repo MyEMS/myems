@@ -1946,7 +1946,7 @@
         INVALID_MICROGRID_LOAD_ID: "Invalid Microgrid Load ID",
         INVALID_MICROGRID_LOAD_NAME: "Invalid Microgrid Load Name",
         INVALID_MICROGRID_NAME: "Invalid Microgrid Name",
-        INVALID_MICROGRID_PHOTOVOLTAIC_ID: "Invalid microgrid photovoltaic id",
+        INVALID_MICROGRID_PHOTOVOLTAIC_ID: "Invalid Microgrid Photovoltaic ID",
         INVALID_MICROGRID_PHOTOVOLTAIC_NAME:
           "Invalid Microgrid Photovoltaic Name",
         INVALID_MICROGRID_POWER_CONVERSION_SYSTEM_ID:
@@ -2486,9 +2486,9 @@
         VIRTUAL_METER_OF_VARIABLE_NOT_FOUND:
           "Virtual Meter Of Variable Not Found",
         VIRTUAL_POINT_CAN_NOT_BE_DIGITAL_VALUE:
-          "El punto virtual no puede ser un valor digital",
+          "El Punto Virtual no puede ser un Valor Digital",
         VIRTUAL_POINT_CAN_NOT_BE_TEXT_VALUE:
-          "El punto virtual no puede ser un valor de texto",
+          "El Punto Virtual no puede ser un Valor de Texto",
         VIRTUAL_POWER_PLANT_MICROGRID_RELATION_EXISTS:
           "Virtual Power Plant Microgrid Relation Exists",
         VIRTUAL_POWER_PLANT_MICROGRID_RELATION_NOT_FOUND:

@@ -1505,26 +1505,26 @@
         UNLOCK_CONFIRM_BUTTON_TEXT: "ロック解除を確認",
       },
       API: {
-        ACCOUNT_UNLOCK_FAILED: "Account Unlock Failed",
+        ACCOUNT_UNLOCK_FAILED: "アカウントのロック解除に失敗しました",
         ADMINISTRATOR_SESSION_NOT_FOUND: "管理者セッションが存在しません",
         ADMINISTRATOR_SESSION_TIMEOUT: "管理者セッションがタイムアウトしました",
         ADVANCED_REPORT_NAME_IS_ALREADY_IN_USE:
           "高度なレポート名はすでに使用されています",
         ADVANCED_REPORT_NOT_FOUND: "高度レポートが存在しません",
-        API_KEY_HAS_EXPIRED: "API Key Has Expired",
+        API_KEY_HAS_EXPIRED: "APIキーの有効期限が切れています",
         API_KEY_NAME_IS_ALREADY_IN_USE: "APIキー名はすでに使用されています",
         API_KEY_NOT_FOUND: "APIキーが見つかりません",
         BAD_REQUEST: "不正なリクエスト",
-        BALANCING_PRICE_POINT_NOT_FOUND: "Balancing Price Point Not Found",
-        BATTERY_STATE_POINT_NOT_FOUND: "Battery State Point Not Found",
-        BUY_METER_NOT_FOUND: "Buy Meter Not Found",
+        BALANCING_PRICE_POINT_NOT_FOUND: "バランス価格ポイントが見つかりません",
+        BATTERY_STATE_POINT_NOT_FOUND: "バッテリー状態ポイントが見つかりません",
+        BUY_METER_NOT_FOUND: "購入メーターが見つかりません",
         CANNOT_SET_EXISTING_SUBMETER_AS_MASTER_METER:
           "既にサブメータとして設定されている計量メータを総メータに設定できません",
-        CHARGE_METER_NOT_FOUND: "Charge Meter Not Found",
+        CHARGE_METER_NOT_FOUND: "充電メーターが見つかりません",
         COMBINED_EQUIPMENT_COMMAND_RELATION_EXISTS:
           "複合設備コマンド関係が存在します",
         COMBINED_EQUIPMENT_COMMAND_RELATION_NOT_FOUND:
-          "Combined Equipment Command Relation Not Found",
+          "組み合わされた装備コマンドの関係が見つかりません",
         COMBINED_EQUIPMENT_EQUIPMENT_RELATION_EXISTS:
           "複合設備と設備の関係が既に存在します",
         COMBINED_EQUIPMENT_EQUIPMENT_RELATION_NOT_FOUND:
@@ -1553,15 +1553,15 @@
         COMBINED_EQUIPMENT_VIRTUAL_METER_RELATION_NOT_FOUND:
           "複合設備と仮想メータの関係が存在しません",
         COMMAND_NAME_IS_ALREADY_IN_USE: "コマンド名はすでに使用されています",
-        COMMAND_NOT_FOUND: "Command Not Found",
+        COMMAND_NOT_FOUND: "コマンドが見つかりません",
         CONTACT_NAME_IS_ALREADY_IN_USE: "連絡先名はすでに使用されています",
         CONTACT_NOT_FOUND: "連絡先が存在しません",
-        COOLING_METER_NOT_FOUND: "Cooling Meter Not Found",
+        COOLING_METER_NOT_FOUND: "冷却メーターが見つかりません",
         COST_CENTER_EXTERNAL_ID_EXISTS: "コストセンター外部IDが既に存在します",
         COST_CENTER_NAME_EXISTS: "コストセンター名称が既に存在します",
         COST_CENTER_NOT_FOUND: "コストセンターが存在しません",
         COST_FILE_NOT_FOUND: "コストファイルが存在しません",
-        DATA_REPAIR_FILE_NOT_FOUND: "Data Repair File Not Found",
+        DATA_REPAIR_FILE_NOT_FOUND: "データ修復ファイルが見つかりません",
         DATA_SOURCE_NAME_IS_ALREADY_IN_USE:
           "データソース名はすでに使用されています",
         DATA_SOURCE_NOT_FOUND: "データソースが存在しません",
@@ -1570,8 +1570,8 @@
           "日付が既に営業日カレンダーに存在します",
         DATE_LOCAL_NOT_FOUND: "ローカル日付が見つかりません",
         DATE_LOCAL_USED_IN_WORKING_CALENDAR:
-          "Date local used in working calendar",
-        DISCHARGE_METER_NOT_FOUND: "Discharge Meter Not Found",
+          "作業カレンダーで使用されるローカルの日付",
+        DISCHARGE_METER_NOT_FOUND: "放電計が見つかりません",
         DISTRIBUTION_CIRCUIT_NAME_IS_ALREADY_IN_USE:
           "配電回路名はすでに使用されています",
         DISTRIBUTION_CIRCUIT_NOT_FOUND: "配電回路が存在しません",
@@ -1582,7 +1582,7 @@
         DISTRIBUTION_SYSTEM_NAME_IS_ALREADY_IN_USE:
           "配電システム名はすでに使用されています",
         DISTRIBUTION_SYSTEM_NOT_FOUND: "配電システムが存在しません",
-        ELECTRICITY_METER_NOT_FOUND: "Electricity Meter Not Found",
+        ELECTRICITY_METER_NOT_FOUND: "電気メーターが見つかりません",
         EMAIL_IS_ALREADY_IN_USE: "電子メールアドレスが既に使用されています",
         EMAIL_MESSAGE_NOT_FOUND: "電子メールメッセージが存在しません",
         EMAIL_SERVER_HOST_IS_ALREADY_IN_USE:
@@ -1627,27 +1627,27 @@
         ENERGY_STORAGE_CONTAINER_NAME_IS_ALREADY_IN_USE:
           "エネルギー貯蔵コンテナ名はすでに使用されています",
         ENERGY_STORAGE_CONTAINER_NOT_FOUND:
-          "Energy Storage Container Not Found",
+          "エネルギー貯蔵コンテナが見つかりません",
         ENERGY_STORAGE_CONTAINER_SENSOR_RELATION_EXISTS:
-          "Energy Storage Container Sensor Relation Exists",
+          "エネルギー貯蔵コンテナセンサの関係が存在します",
         ENERGY_STORAGE_CONTAINER_SENSOR_RELATION_NOT_FOUND:
-          "Energy Storage Container Sensor Relation Not Found",
+          "エネルギー貯蔵コンテナセンサーの関係が見つかりません",
         ENERGY_STORAGE_CONTAINER_BATTERY_NAME_IS_ALREADY_IN_USE:
           "エネルギー貯蔵コンテナバッテリー名はすでに使用されています",
         ENERGY_STORAGE_CONTAINER_BATTERY_NOT_FOUND:
-          "Energy Storage Container Battery Not Found",
+          "エネルギー貯蔵コンテナバッテリーが見つかりません",
         ENERGY_STORAGE_CONTAINER_GRID_NAME_IS_ALREADY_IN_USE:
           "エネルギー貯蔵コンテナグリッド名はすでに使用されています",
         ENERGY_STORAGE_CONTAINER_GRID_NOT_FOUND:
-          "Energy Storage Container Grid Not Found",
+          "エネルギー貯蔵コンテナグリッドが見つかりません",
         ENERGY_STORAGE_CONTAINER_LOAD_NAME_IS_ALREADY_IN_USE:
           "エネルギー貯蔵コンテナ負荷名はすでに使用されています",
         ENERGY_STORAGE_CONTAINER_LOAD_NOT_FOUND:
-          "Energy Storage Container Load Not Found",
+          "エネルギー貯蔵コンテナの積載が見つかりません",
         ENERGY_STORAGE_CONTAINER_PCS_NAME_IS_ALREADY_IN_USE:
           "エネルギー貯蔵コンテナ電力変換システム名はすでに使用されています",
         ENERGY_STORAGE_CONTAINER_POWER_CONVERSION_SYSTEM_NOT_FOUND:
-          "Energy Storage Container Power Conversion System Not Found",
+          "エネルギー貯蔵コンテナ電力変換システムが見つかりません",
         ENERGY_STORAGE_CONTAINER_USER_RELATION_EXISTS:
           "Energy Storage Container User Relation Exists",
         ENERGY_STORAGE_CONTAINER_USER_RELATION_NOT_FOUND:
@@ -1856,7 +1856,7 @@
         INVALID_MICROGRID_LOAD_ID: "Invalid Microgrid Load ID",
         INVALID_MICROGRID_LOAD_NAME: "Invalid Microgrid Load Name",
         INVALID_MICROGRID_NAME: "Invalid Microgrid Name",
-        INVALID_MICROGRID_PHOTOVOLTAIC_ID: "Invalid microgrid photovoltaic id",
+        INVALID_MICROGRID_PHOTOVOLTAIC_ID: "Invalid Microgrid Photovoltaic ID",
         INVALID_MICROGRID_PHOTOVOLTAIC_NAME:
           "Invalid Microgrid Photovoltaic Name",
         INVALID_MICROGRID_POWER_CONVERSION_SYSTEM_ID:
