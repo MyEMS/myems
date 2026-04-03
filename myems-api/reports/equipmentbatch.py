@@ -137,11 +137,16 @@ class Reporting:
             is_quick_mode = True
 
         cnx_system_db = None
-        cursor_system_db = None
+        cnx_energy_db = None
         try:
             cnx_system_db = mysql.connector.connect(**config.myems_system_db)
+            cnx_energy_db = mysql.connector.connect(**config.myems_energy_db)
+            
+            cursor_system_db = None
+            cursor_energy_db = None
             try:
                 cursor_system_db = cnx_system_db.cursor()
+                cursor_energy_db = cnx_energy_db.cursor()
 
                 cursor_system_db.execute(" SELECT name "
                                          " FROM tbl_spaces "
@@ -199,76 +204,67 @@ class Reporting:
                 #####################################################################################################
                 # Step 4: query energy categories
                 #####################################################################################################
-                cnx_energy_db = None
-                cursor_energy_db = None
-                try:
-                    cnx_energy_db = mysql.connector.connect(**config.myems_energy_db)
-                    try:
-                        cursor_energy_db = cnx_energy_db.cursor()
+                # query energy categories in reporting period
+                energy_category_set = set()
+                cursor_energy_db.execute(" SELECT DISTINCT(energy_category_id) "
+                                         " FROM tbl_equipment_input_category_hourly "
+                                         " WHERE start_datetime_utc >= %s AND start_datetime_utc < %s ",
+                                         (reporting_start_datetime_utc, reporting_end_datetime_utc))
+                rows_energy_categories = cursor_energy_db.fetchall()
+                if rows_energy_categories is not None and len(rows_energy_categories) > 0:
+                    for row_energy_category in rows_energy_categories:
+                        energy_category_set.add(row_energy_category[0])
 
-                        # query energy categories in reporting period
-                        energy_category_set = set()
-                        cursor_energy_db.execute(" SELECT DISTINCT(energy_category_id) "
-                                                 " FROM tbl_equipment_input_category_hourly "
-                                                 " WHERE start_datetime_utc >= %s AND start_datetime_utc < %s ",
-                                                 (reporting_start_datetime_utc, reporting_end_datetime_utc))
-                        rows_energy_categories = cursor_energy_db.fetchall()
-                        if rows_energy_categories is not None and len(rows_energy_categories) > 0:
-                            for row_energy_category in rows_energy_categories:
-                                energy_category_set.add(row_energy_category[0])
+                # query all energy categories
+                cursor_system_db.execute(" SELECT id, name, unit_of_measure "
+                                         " FROM tbl_energy_categories "
+                                         " ORDER BY id ", )
+                rows_energy_categories = cursor_system_db.fetchall()
+                if rows_energy_categories is None or len(rows_energy_categories) == 0:
+                    raise falcon.HTTPError(status=falcon.HTTP_404,
+                                           title='API.NOT_FOUND',
+                                           description='API.ENERGY_CATEGORY_NOT_FOUND')
+                energy_category_list = list()
+                for row_energy_category in rows_energy_categories:
+                    if row_energy_category[0] in energy_category_set:
+                        energy_category_list.append({"id": row_energy_category[0],
+                                                     "name": row_energy_category[1],
+                                                     "unit_of_measure": row_energy_category[2]})
 
-                        # query all energy categories
-                        cursor_system_db.execute(" SELECT id, name, unit_of_measure "
-                                                 " FROM tbl_energy_categories "
-                                                 " ORDER BY id ", )
-                        rows_energy_categories = cursor_system_db.fetchall()
-                        if rows_energy_categories is None or len(rows_energy_categories) == 0:
-                            raise falcon.HTTPError(status=falcon.HTTP_404,
-                                                   title='API.NOT_FOUND',
-                                                   description='API.ENERGY_CATEGORY_NOT_FOUND')
-                        energy_category_list = list()
-                        for row_energy_category in rows_energy_categories:
-                            if row_energy_category[0] in energy_category_set:
-                                energy_category_list.append({"id": row_energy_category[0],
-                                                             "name": row_energy_category[1],
-                                                             "unit_of_measure": row_energy_category[2]})
+                ########################################################################################
+                # Step 5: query reporting period energy input
+                ########################################################################################
+                for equipment_id in equipment_dict:
 
-                        ########################################################################################
-                        # Step 5: query reporting period energy input
-                        ########################################################################################
-                        for equipment_id in equipment_dict:
-
-                            cursor_energy_db.execute(" SELECT energy_category_id, SUM(actual_value) "
-                                                     " FROM tbl_equipment_input_category_hourly "
-                                                     " WHERE equipment_id = %s "
-                                                     "     AND start_datetime_utc >= %s "
-                                                     "     AND start_datetime_utc < %s "
-                                                     " GROUP BY energy_category_id ",
-                                                     (equipment_id,
-                                                      reporting_start_datetime_utc,
-                                                      reporting_end_datetime_utc))
-                            rows_equipment_energy = cursor_energy_db.fetchall()
-                            for energy_category in energy_category_list:
-                                subtotal = Decimal(0.0)
-                                for row_equipment_energy in rows_equipment_energy:
-                                    if energy_category['id'] == row_equipment_energy[0]:
-                                        subtotal = row_equipment_energy[1]
-                                        break
-                                equipment_dict[equipment_id]['values'].append(subtotal)
-
-                    finally:
-                        if cursor_energy_db:
-                            cursor_energy_db.close()
-                finally:
-                    if cnx_energy_db:
-                        cnx_energy_db.close()
+                    cursor_energy_db.execute(" SELECT energy_category_id, SUM(actual_value) "
+                                             " FROM tbl_equipment_input_category_hourly "
+                                             " WHERE equipment_id = %s "
+                                             "     AND start_datetime_utc >= %s "
+                                             "     AND start_datetime_utc < %s "
+                                             " GROUP BY energy_category_id ",
+                                             (equipment_id,
+                                              reporting_start_datetime_utc,
+                                              reporting_end_datetime_utc))
+                    rows_equipment_energy = cursor_energy_db.fetchall()
+                    for energy_category in energy_category_list:
+                        subtotal = Decimal(0.0)
+                        for row_equipment_energy in rows_equipment_energy:
+                            if energy_category['id'] == row_equipment_energy[0]:
+                                subtotal = row_equipment_energy[1]
+                                break
+                        equipment_dict[equipment_id]['values'].append(subtotal)
 
             finally:
                 if cursor_system_db:
                     cursor_system_db.close()
+                if cursor_energy_db:
+                    cursor_energy_db.close()
+
         finally:
             if cnx_system_db:
                 cnx_system_db.close()
+            if cnx_energy_db:
+                cnx_energy_db.close()
 
         ################################################################################################################
         # Step 6: construct the report
