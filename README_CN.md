@@ -207,7 +207,7 @@ Web UI:
 
 [YouTube](https://www.youtube.com/@myems)
 
-## 🔖 友情链接
+## 🔖 推荐
 
 - 👉 驰骋BPM低代码工作流表单： [https://ccflow.org/index.html?frm=myems](https://ccflow.org/index.html?frm=myems)
 - 👉 IoTGateway:基于.NET6的跨平台物联网网关 [https://gitee.com/iioter/iotgateway](https://gitee.com/iioter/iotgateway)
