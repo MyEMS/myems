@@ -195,7 +195,7 @@ Web UI:
 | 微信视频号 | 开源能源管理系统 | ![开源能源管理系统](./docs/images/qr_code_wechat_channels.png) |
 | 微信群 | 微信群 | ![微信群](./docs/images/qr_code_wechat_group.png) |
 | QQ群 | 792528967 | ![QQ群](./docs/images/qr_code_qq_group.png) |
-| 小红书 | 小红书 | ![Xiaohongshju](./docs/images/qr_code_xiaohongshu.png) |
+ 
 
 ## 视频
 
