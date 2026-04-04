@@ -6,6 +6,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ## [Unreleased]
 ### Added
 - added redis cache to space reports in myems-api
+- added demo data translations in database
 ### Changed
 - changed default start_datetime_utc to 2024-12-31 16:00:00 in myems-aggregation, myems-cleaning and myems-normalization
 - split myems-admin/app/translations.js into small files
@@ -30,7 +31,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - updated database demo data
 - changed menu order in myems-admin
 - changed base period date range picker to hide when comparison type is none in myems-web
-- changed default comparison type to none comparison in myems-web 
+- changed default comparison type to none comparison in myems-web
 - changed icon on topnavbar in myems-admin
 ### Fixed
 - fixed overwritten property in myems-web
@@ -58,7 +59,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - added Polish translations in myems-admin and myems-web
 - added Dutch translations in myems-admin and myems-web
 ### Changed
-- automatically extend password expiration time when changing user password 
+- automatically extend password expiration time when changing user password
 ### Fixed
 - fixed issues of binding objects in myems-admin
 ### Removed
