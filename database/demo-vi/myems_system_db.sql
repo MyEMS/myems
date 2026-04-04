@@ -1,0 +1,951 @@
+-- MyEMS System Database Demo Data (demo tiếng Việt)
+
+-- ---------------------------------------------------------------------------------------------------------------------
+-- Demo Data for table `myems_system_db`.`tbl_combined_equipments`
+-- ---------------------------------------------------------------------------------------------------------------------
+START TRANSACTION;
+
+INSERT INTO `myems_system_db`.`tbl_combined_equipments`
+(`id`, `name`, `uuid`,  `is_input_counted`, `is_output_counted`, `cost_center_id`, `svg_id`, `camera_url`, `description` )
+VALUES
+(1, 'Thiết bị kết hợp 1', '48aab70f-2e32-4518-9986-a6b7395acf58', 1, 0, 1, 1, '', 'description'),
+(2, 'Thiết bị kết hợp 2', 'c235e68c-e1be-4d7a-84e7-976c83ff6e44', 1, 0, 1, 1, '', 'description');
+
+COMMIT;
+
+
+-- ---------------------------------------------------------------------------------------------------------------------
+-- Demo Data for table `myems_system_db`.`tbl_combined_equipments_equipments`
+-- ---------------------------------------------------------------------------------------------------------------------
+START TRANSACTION;
+
+INSERT INTO `myems_system_db`.`tbl_combined_equipments_equipments`
+(`id`, `combined_equipment_id`, `equipment_id`)
+VALUES
+(1, 1, 1);
+
+COMMIT;
+
+-- ---------------------------------------------------------------------------------------------------------------------
+-- Demo Data for table `myems_system_db`.`tbl_combined_equipments_meters`
+-- ---------------------------------------------------------------------------------------------------------------------
+START TRANSACTION;
+
+INSERT INTO `myems_system_db`.`tbl_combined_equipments_meters`
+(`combined_equipment_id`, `meter_id`, `is_output`)
+VALUES
+(1, 1, 0);
+
+COMMIT;
+
+-- ---------------------------------------------------------------------------------------------------------------------
+-- Demo Data for table `myems_system_db`.`tbl_combined_equipments_data_sources`
+-- ---------------------------------------------------------------------------------------------------------------------
+START TRANSACTION;
+
+INSERT INTO `myems_system_db`.`tbl_combined_equipments_data_sources` (`combined_equipment_id`, `data_source_id`)
+VALUES
+(1, 1);
+
+COMMIT;
+
+-- ---------------------------------------------------------------------------------------------------------------------
+-- Demo Data for table `myems_system_db`.`tbl_combined_equipments_parameters`
+-- ---------------------------------------------------------------------------------------------------------------------
+START TRANSACTION;
+
+INSERT INTO `myems_system_db`.`tbl_combined_equipments_parameters`
+(`combined_equipment_id`, `name`, `parameter_type`, `constant`, `point_id`, `numerator_meter_uuid`, `denominator_meter_uuid`)
+VALUES
+(1, 'serial number', 'constant', 'bfa8b106', NULL, NULL, NULL),
+(1, 'manufacturer', 'constant', 'York', NULL, NULL, NULL),
+(1, 'maintainer', 'constant', 'Johnson Controls', NULL, NULL, NULL),
+(1, 'use life start', 'constant', '2016-01-01', NULL, NULL, NULL),
+(1, 'use life end', 'constant', '2025-12-31', NULL, NULL, NULL),
+(1, 'model number', 'constant', 'CH01', NULL, NULL, NULL),
+(1, 'nominal cooling capacity', 'constant', '90.000 kW', NULL, NULL, NULL),
+(1, 'nominal cooling input power', 'constant', '100.000 kW', NULL, NULL, NULL),
+(1, 'nominal cooling cop', 'constant', '5', NULL, NULL, NULL),
+(1, 'nominal cooling operating current', 'constant', '120.000 A', NULL, NULL, NULL),
+(1, 'rated input power', 'constant', '100.000 kW', NULL, NULL, NULL),
+(1, 'nominal chilled water flow rate', 'constant', '30 m2/h', NULL, NULL, NULL),
+(1, 'nominal cooling water flow_rate', 'constant', '50 m2/h', NULL, NULL, NULL),
+(1, 'status', 'point', NULL, 1, NULL, NULL),
+(1, 'inlet chilled water temperature', 'point', NULL, 2, NULL, NULL),
+(1, 'chilled_water instantaneous flow rate', 'point', NULL, 3, NULL, NULL),
+(1, 'instantaneous power', 'point', NULL, 4, NULL, NULL),
+(1, 'COP', 'fraction', NULL, NULL, '5ca47bc5-22c2-47fc-b906-33222191ea40', '6db58cd6-33d3-58ed-a095-22333202fb51');
+
+COMMIT;
+
+-- ---------------------------------------------------------------------------------------------------------------------
+-- Demo Data for table `myems_system_db`.`tbl_contacts`
+-- ---------------------------------------------------------------------------------------------------------------------
+START TRANSACTION;
+
+INSERT INTO `myems_system_db`.`tbl_contacts`(`id`, `name`, `uuid`, `email`, `phone`, `description`)
+VALUES
+(1, 'Kỹ sư Jiang', '5c5ce6e8-8d00-46b3-9602-4e1520a8b43f',  'john@myems.io', '+8613888888888', 'Tòa nhà 1'),
+(2, 'Kỹ sư Zhang', '102b654d-e831-4365-bb1e-dbd55e897851',  'sample.tenant@myems.io', '+8613666666666', 'Khách thuê chủ lực');
+COMMIT;
+
+-- ---------------------------------------------------------------------------------------------------------------------
+-- Demo Data for table `myems_system_db`.`tbl_cost_centers`
+-- ---------------------------------------------------------------------------------------------------------------------
+START TRANSACTION;
+
+INSERT INTO `myems_system_db`.`tbl_cost_centers`
+(`id`, `name`, `uuid`, `external_id`)
+VALUES
+(1, 'Trung tâm chi phí', 'd97b9736-c4f9-4005-a534-6af3487303ad', NULL);
+COMMIT;
+
+-- ---------------------------------------------------------------------------------------------------------------------
+-- Demo Data for table `myems_system_db`.`tbl_cost_centers_tariffs`
+-- ---------------------------------------------------------------------------------------------------------------------
+START TRANSACTION;
+
+INSERT INTO `myems_system_db`.`tbl_cost_centers_tariffs`
+(`cost_center_id`, `tariff_id`)
+VALUES
+(1, 1),
+(1, 2),
+(1, 3);
+
+COMMIT;
+
+-- ---------------------------------------------------------------------------------------------------------------------
+-- Demo Data for table `myems_system_db`.`tbl_data_sources`
+-- ---------------------------------------------------------------------------------------------------------------------
+START TRANSACTION;
+
+INSERT INTO `myems_system_db`.`tbl_data_sources`
+(`id`, `name`, `uuid`,`gateway_id`, `protocol`,  `connection`)
+VALUES
+(1, 'Nguồn dữ liệu Modbus TCP (mẫu)', 'b3ace9d4-b63b-419b-818f-0f6d1d0603a4', 1, 'modbus-tcp', '{"host":"192.168.0.1", "port":502, "interval_in_seconds":60}'),
+(2, 'Nguồn dữ liệu Modbus RTU (mẫu) *Phiên bản doanh nghiệp*', 'b903f0af-9115-448c-9d46-8caf5f9995f3', 1, 'modbus-rtu', '{"port": "/dev/ttyUSB0","slaveaddress": 1, "baudrate": 9600,"bytesize": 8,"parity": "N","stopbits": 1,"timeout": 0.05,"mode": "rtu"}'),
+(3, 'Nguồn dữ liệu BACnet/IP (mẫu) *Phiên bản doanh nghiệp*', 'e2d5b30b-b554-4ebe-8ce7-f377ab380d19', 1, 'bacnet-ip', '{"host":"192.168.0.3", "port":47808}'),
+(4, 'Nguồn dữ liệu S7 (mẫu) *Phiên bản doanh nghiệp*', '9eb0d705-d02a-43f8-9c62-7e5ef508b255', 1, 's7', '{"host":"192.168.0.4", "port":102, "rack": 0, "slot": 2}'),
+(5, 'Nguồn dữ liệu ControlLogix (mẫu) *Phiên bản doanh nghiệp*', 'd1dc9792-7861-4dd3-9b01-07511dae16c1', 1, 'controllogix', '{"host":"192.168.0.5","port":44818,"processorslot":3}'),
+(6, 'Nguồn dữ liệu OPC UA (mẫu) *Phiên bản doanh nghiệp*', '56e1c642-8032-495b-af2e-18a77ca75e0f', 1, 'opc-ua', '{"url":"opc.tcp://192.168.0.6:49320/OPCUA/SimulationServer/"}'),
+(7, 'Nguồn dữ liệu thời tiết (mẫu) *Phiên bản doanh nghiệp*', '9bff8e95-c7c9-4002-b040-08a96ae196b5', 1, 'weather', '{"base_url":"WEATHER_API_URL", "location":"beijing", "key":"APPKEY"}'),
+(8, 'Nguồn dữ liệu MySQL (mẫu) *Phiên bản doanh nghiệp*', '409439d0-3e0a-4ab3-865a-a5c0329925f8', 1, 'mysql', '{"host":"192.168.0.8", "port":3306, "user":"myems", "password":"!MyEMS1", "database":"myems_ingestion_db" }'),
+(9, 'Nguồn dữ liệu SQL Server (mẫu) *Phiên bản doanh nghiệp*', '025f0429-5088-4f2a-85a3-dff9b4523692', 1, 'sqlserver', '{"host":"192.168.0.9", "port":1433, "user":"myems", "password":"!MyEMS1", "database":"myems_ingestion_db" }'),
+(10, 'Nguồn dữ liệu PostgreSQL (mẫu) *Phiên bản doanh nghiệp*', 'd89b81e6-4917-4a84-b0e9-c2e939599d3a', 1, 'postgresql', '{"host":"192.168.0.10", "port":5432, "user":"myems", "password":"!MyEMS1", "database":"myems_ingestion_db" }'),
+(11, 'Nguồn dữ liệu Oracle (mẫu) *Phiên bản doanh nghiệp*', '1bdf4db8-ea71-433e-ad16-b637275073d7', 1, 'oracle', '{"dsn":"192.168.0.11:1521/myems", "user":"myems", "password":"!MyEMS1"}'),
+(13, 'Nguồn dữ liệu InfluxDB (mẫu) *Phiên bản doanh nghiệp*', '79cb60ff-c683-4289-ac69-bd13e1f970d1', 1, 'influxdb', '{"url":"http://192.168.0.13:8086", "token":"MYEMSINFLUXDBTOKEN", "org":"myems", "bucket":"myems"}'),
+(14, 'Nguồn dữ liệu MQTT (mẫu) *Phiên bản doanh nghiệp*', 'e3d56e11-00da-4957-ab0b-1d761dc8b89f', 1, 'mqtt', '{"host":"192.168.1.101", "port":1883, "user":"myems", "password":"!MyEMS1", "topic":"myems", "qos":2 }');
+COMMIT;
+
+-- ---------------------------------------------------------------------------------------------------------------------
+-- Demo Data for table `myems_system_db`.`tbl_distribution_circuits`
+-- ---------------------------------------------------------------------------------------------------------------------
+START TRANSACTION;
+
+INSERT INTO `myems_system_db`.`tbl_distribution_circuits`
+(`id`, `name`, `uuid`, `distribution_system_id`, `distribution_room`, `switchgear`, `peak_load`, `peak_current`, `customers`, `meters`)
+VALUES
+(1, 'AHa01', '52f7abe1-ba0e-47a6-a327-4faac42a1d11', 1, '1ES', 'AHa01', 5100, 1250, 'Nguồn điện vào 11# 1WHj2', 'AHa01');
+
+COMMIT;
+
+-- ---------------------------------------------------------------------------------------------------------------------
+-- Demo Data for table `myems_system_db`.`tbl_distribution_circuits_points`
+-- ---------------------------------------------------------------------------------------------------------------------
+START TRANSACTION;
+
+INSERT INTO `myems_system_db`.`tbl_distribution_circuits_points`
+(`distribution_circuit_id`, `point_id`)
+VALUES
+(1, 1);
+COMMIT;
+
+-- ---------------------------------------------------------------------------------------------------------------------
+-- Demo Data for table `myems_system_db`.`tbl_distribution_systems`
+-- ---------------------------------------------------------------------------------------------------------------------
+START TRANSACTION;
+
+INSERT INTO `myems_system_db`.`tbl_distribution_systems`
+(`id`, `name`, `uuid`, `svg_id`,  `description`)
+VALUES
+(1, 'Hệ thống phân phối điện (mẫu)', '95652719-56fa-44cc-9bef-7aa47664d4ff', 1, 'demo distribution system');
+
+COMMIT;
+
+-- ---------------------------------------------------------------------------------------------------------------------
+-- Demo Data for table `myems_system_db`.`tbl_energy_categories`
+-- ---------------------------------------------------------------------------------------------------------------------
+START TRANSACTION;
+
+INSERT INTO `myems_system_db`.`tbl_energy_categories`
+(`id`, `name`, `uuid`, `unit_of_measure`, `kgce`, `kgco2e`)
+VALUES
+(1, 'Điện', '6d0753ed-8b43-4332-b6fd-d2f5813831d3', 'kWh', 0.122, 0.928),
+(2, 'Nước máy', '3dbfa598-fccc-4d60-bf11-14bd55540c66', 'm³', 0.085, 0.910),
+(3, 'Khí tự nhiên', '6d0753ed-8b43-4332-b6fd-d2f5813831d3', 'm³', 1.330, 2.162),
+(4,'Nước làm lạnh 4 °C','d2a3021a-4911-4611-856e-80133000f1d5','m³',1.000,1.000),
+(5,'Nước làm lạnh 7 °C','c1ad0696-e1ab-4e0c-a342-b194c0bc27e0','m³',1.000,1.000),
+(6,'Hơi nước','ac91a5c4-4ae5-4a73-8e3f-044591f42eef','T',1.000,1.000),
+(7,'Khí nén','ff238e98-cd35-47c5-88a3-00617587775d','m³',1.000,1.000),
+(8,'Nước tuần hoàn','7e159a34-b2e6-4fd3-ba76-897d134abe06','m³',1.000,1.000),
+(9, 'Nhiệt','549f9cad-8db7-49d2-9473-95e37a3fc46a','KJ',1.000,1.000),
+(10, 'Lạnh','05aa257b-3cf6-4f19-808d-92e7dbf52b16','KJ',1.000,1.000),
+(11, 'Nước tái sử dụng','df6161b6-4a1b-46e7-b7c8-337b5b52d717','m³',1.000,1.000);
+COMMIT;
+
+-- ---------------------------------------------------------------------------------------------------------------------
+-- Demo Data for table `myems_system_db`.`tbl_energy_items`
+-- ---------------------------------------------------------------------------------------------------------------------
+START TRANSACTION;
+
+INSERT INTO myems_system_db.tbl_energy_items
+(id, name, uuid, energy_category_id)
+VALUES
+(1, 'Chiếu sáng và ổ cắm', 'cade4e78-2b85-4bea-ab6e-0d6accc88d03', 1),
+(2, 'Hành lang và chiếu sáng khẩn cấp', '7a6dc086-ce08-4d66-ba75-f69af92b32f4', 1),
+(3, 'Chiếu sáng cảnh quan ngoài trời', 'abcebbd1-b770-4e7c-ae54-8434d724522c', 1),
+(4, 'Trạm nhiệt lạnh', '97cdea54-04c7-4a6a-b4c2-df15874b2f49', 1),
+(5, 'Thiết bị đầu cuối HVAC', '84ab7262-33fb-43a1-9880-9287cc268cc0', 1),
+(6, 'Thang máy', '26a5fc62-3da1-41b0-bcb1-0056e25ee121', 1),
+(7, 'Máy bơm', 'fc6079f5-01a4-434f-9004-9382e8c3dd47', 1),
+(8, 'Thông gió', 'a4bf68cd-6ae1-48dd-b281-07c95312921d', 1),
+(9, 'Điện đặc biệt', '1990d151-02ff-4fd6-b298-2b2edee4e0ea', 1);
+COMMIT;
+
+-- ---------------------------------------------------------------------------------------------------------------------
+-- Demo Data for table `myems_system_db`.`tbl_energy_flow_diagrams`
+-- ---------------------------------------------------------------------------------------------------------------------
+START TRANSACTION;
+
+INSERT INTO `myems_system_db`.`tbl_energy_flow_diagrams`
+(`id`, `name`, `uuid`)
+VALUES
+(1, 'Sơ đồ dòng năng lượng (mẫu)', '3ccbc9c6-9575-4212-a63a-a688d1154302');
+
+COMMIT;
+
+-- ---------------------------------------------------------------------------------------------------------------------
+-- Demo Data for table `myems_system_db`.`tbl_energy_flow_diagrams_links`
+-- ---------------------------------------------------------------------------------------------------------------------
+START TRANSACTION;
+
+INSERT INTO `myems_system_db`.`tbl_energy_flow_diagrams_links`
+(`id`, `energy_flow_diagram_id`, `source_node_id`, `target_node_id`, `meter_uuid`)
+VALUES
+(1, 1, 1, 3, '5ca47bc5-22c2-47fc-b906-33222191ea40'),
+(2, 1, 2, 4, 'd6f3f56b-10ee-4d22-ad47-5acc1353a6f4'),
+(3, 1, 2, 5, '6db58cd6-33d3-58ed-a095-22333202fb51'),
+(4, 1, 2, 6, '3fff2cfb-f755-44c8-a919-6135205a8573'),
+(5, 1, 3, 7, '62f473e0-1a35-41f3-9c30-8110d75d65bb'),
+(6, 1, 3, 8, '5ca47bc5-22c2-47fc-b906-33222191ea40'),
+(7, 1, 4, 9, 'd6f3f56b-10ee-4d22-ad47-5acc1353a6f4'),
+(8, 1, 4, 10, '6db58cd6-33d3-58ed-a095-22333202fb51');
+
+COMMIT;
+
+-- ---------------------------------------------------------------------------------------------------------------------
+-- Demo Data for table `myems_system_db`.`tbl_energy_flow_diagrams_nodes`
+-- ---------------------------------------------------------------------------------------------------------------------
+START TRANSACTION;
+
+INSERT INTO `myems_system_db`.`tbl_energy_flow_diagrams_nodes`
+(`id`, `energy_flow_diagram_id`, `name`)
+VALUES
+(1, 1, 'Đầu vào 10 kV #1'),
+(2, 1, 'Đầu vào 10 kV #2'),
+(3, 1, 'Khu thuê'),
+(4, 1, 'Khu chung'),
+(5, 1, 'Khách sạn'),
+(6, 1, 'Bãi đỗ xe'),
+(7, 1, 'Nhà hàng'),
+(8, 1, 'Bán lẻ'),
+(9, 1, 'Chiếu sáng'),
+(10, 1, 'Thang máy');
+
+COMMIT;
+
+-- ---------------------------------------------------------------------------------------------------------------------
+-- Demo Data for table `myems_system_db`.`tbl_equipments`
+-- ---------------------------------------------------------------------------------------------------------------------
+START TRANSACTION;
+
+INSERT INTO `myems_system_db`.`tbl_equipments`
+(`id`, `name`, `uuid`,  `is_input_counted`, `is_output_counted`, `cost_center_id`, `svg_id`, `camera_url`, `description` )
+VALUES
+(1, 'Thiết bị 1', 'bfa8b106-89a1-49ca-9b2b-a481ac41a873', 1, 0, 1, 1, '', 'description'),
+(2, 'Thiết bị 2', 'ad5798ec-d827-43d9-bf08-fc7516f9c4c8', 1, 0, 1, 1, '', 'description');
+
+COMMIT;
+
+-- ---------------------------------------------------------------------------------------------------------------------
+-- Demo Data for table `myems_system_db`.`tbl_equipments_meters`
+-- ---------------------------------------------------------------------------------------------------------------------
+START TRANSACTION;
+
+INSERT INTO `myems_system_db`.`tbl_equipments_meters`
+(`equipment_id`, `meter_id`, `is_output`)
+VALUES
+(1, 1, 0);
+
+COMMIT;
+
+-- ---------------------------------------------------------------------------------------------------------------------
+-- Demo Data for table `myems_system_db`.`tbl_equipments_data_sources`
+-- ---------------------------------------------------------------------------------------------------------------------
+START TRANSACTION;
+
+INSERT INTO `myems_system_db`.`tbl_equipments_data_sources` (`equipment_id`, `data_source_id`)
+VALUES
+(1, 1);
+
+COMMIT;
+-- ---------------------------------------------------------------------------------------------------------------------
+-- Demo Data for table `myems_system_db`.`tbl_equipments_parameters`
+-- ---------------------------------------------------------------------------------------------------------------------
+START TRANSACTION;
+
+INSERT INTO `myems_system_db`.`tbl_equipments_parameters`
+(`equipment_id`, `name`, `parameter_type`, `constant`, `point_id`, `numerator_meter_uuid`, `denominator_meter_uuid`)
+VALUES
+(1, 'serial number', 'constant', 'bfa8b106', NULL, NULL, NULL),
+(1, 'manufacturer', 'constant', 'York', NULL, NULL, NULL),
+(1, 'maintainer', 'constant', 'Johnson Controls', NULL, NULL, NULL),
+(1, 'use life start', 'constant', '2016-01-01', NULL, NULL, NULL),
+(1, 'use life end', 'constant', '2025-12-31', NULL, NULL, NULL),
+(1, 'model number', 'constant', 'CH01', NULL, NULL, NULL),
+(1, 'nominal cooling capacity', 'constant', '90.000 kW', NULL, NULL, NULL),
+(1, 'nominal cooling input power', 'constant', '100.000 kW', NULL, NULL, NULL),
+(1, 'nominal cooling cop', 'constant', '5', NULL, NULL, NULL),
+(1, 'nominal cooling operating current', 'constant', '120.000 A', NULL, NULL, NULL),
+(1, 'rated input power', 'constant', '100.000 kW', NULL, NULL, NULL),
+(1, 'nominal chilled water flow rate', 'constant', '30 m2/h', NULL, NULL, NULL),
+(1, 'nominal cooling water flow_rate', 'constant', '50 m2/h', NULL, NULL, NULL),
+(1, 'status', 'point', NULL, 1, NULL, NULL),
+(1, 'inlet chilled water temperature', 'point', NULL, 2, NULL, NULL),
+(1, 'chilled_water instantaneous flow rate', 'point', NULL, 3, NULL, NULL),
+(1, 'instantaneous power', 'point', NULL, 4, NULL, NULL),
+(1, 'COP', 'fraction', NULL, NULL, '5ca47bc5-22c2-47fc-b906-33222191ea40', '6db58cd6-33d3-58ed-a095-22333202fb51');
+
+COMMIT;
+
+-- ---------------------------------------------------------------------------------------------------------------------
+-- Demo Data for table `myems_system_db`.`tbl_gateways`
+-- ---------------------------------------------------------------------------------------------------------------------
+START TRANSACTION;
+
+INSERT INTO `myems_system_db`.`tbl_gateways`
+(`id`, `name`, `uuid`, `token`,  `last_seen_datetime_utc`)
+VALUES
+(2, 'Gateway 2', '8f75c0ab-9296-49c7-9058-8139febd0c31', 'd3860971-e6e0-4c98-9eba-5492869c5b19', null);
+
+COMMIT;
+
+-- ---------------------------------------------------------------------------------------------------------------------
+-- Demo Data for table `myems_system_db`.`tbl_knowledge_files`
+-- ---------------------------------------------------------------------------------------------------------------------
+
+-- ---------------------------------------------------------------------------------------------------------------------
+-- Demo Data for table `myems_system_db`.`tbl_meters`
+-- ---------------------------------------------------------------------------------------------------------------------
+START TRANSACTION;
+
+INSERT INTO `myems_system_db`.`tbl_meters`
+(`id`, `name`, `uuid`, `energy_category_id`, `is_counted`, `hourly_low_limit`, `hourly_high_limit`, `cost_center_id`, `energy_item_id`, `master_meter_id`, `description`)
+VALUES
+(1, 'Đồng hồ đo 1', '5ca47bc5-22c2-47fc-b906-33222191ea40', 1, 1, 0.000, 999.999, 1, 1, null, 'meter1'),
+(2, 'Đồng hồ đo 2', 'd6f3f56b-10ee-4d22-ad47-5acc1353a6f4', 1, 1, 0.000, 999.999, 1, 1, 1,  'meter2'),
+(3, 'Đồng hồ đo 3', '6db58cd6-33d3-58ed-a095-22333202fb51', 1, 1, 0.000, 999.999, 1, 1, 1,  'meter3');
+
+COMMIT;
+
+-- ---------------------------------------------------------------------------------------------------------------------
+-- Demo Data for table `myems_system_db`.`tbl_meters_points`
+-- ---------------------------------------------------------------------------------------------------------------------
+START TRANSACTION;
+
+INSERT INTO `myems_system_db`.`tbl_meters_points`
+(`meter_id`, `point_id`)
+VALUES
+(1, 1);
+
+COMMIT;
+
+-- ---------------------------------------------------------------------------------------------------------------------
+-- Demo Data for table `myems_system_db`.`tbl_offline_meters`
+-- ---------------------------------------------------------------------------------------------------------------------
+START TRANSACTION;
+
+INSERT INTO `myems_system_db`.`tbl_offline_meters`
+(`id`, `name`, `uuid`, `energy_category_id`, `is_counted`, `hourly_low_limit`, `hourly_high_limit`, `cost_center_id`, `energy_item_id`, `description`)
+VALUES
+(1, 'Đồng hồ ngoại tuyến 1', '62f473e0-1a35-41f3-9c30-8110d75d65bb', 1, 1, 0.0, 999.999, 1, 1, 'offlinemeter1');
+
+COMMIT;
+
+-- ---------------------------------------------------------------------------------------------------------------------
+-- Demo Data for table `myems_system_db`.`tbl_points`
+-- ---------------------------------------------------------------------------------------------------------------------
+-- List of Object Type
+-- ENERGY_VALUE
+-- ANALOG_VALUE
+-- DIGITAL_VALUE
+
+START TRANSACTION;
+
+INSERT INTO `myems_system_db`.`tbl_points`
+(`id`, `name`, `data_source_id`, `object_type`, `units`, `high_limit`, `low_limit`, `ratio`, `is_trend`, `is_virtual`, `address`, `description` )
+VALUES
+(1, 'Active Energy Import Tariff 1', 1, 'ENERGY_VALUE', 'kWh', 99999999999, 0, 1.000, 1, 0,
+  '{\"slave_id\":1, \"function_code\":3, \"offset\":801, \"number_of_registers\":4, \"format\":\"=d\", \"byte_swap\":false}', null),
+
+(2, 'Working hours counter', 1, 'ANALOG_VALUE',  'S', 999999999, 0, 1.000, 1, 0,
+  '{\"slave_id\":1, \"function_code\":3, \"offset\":209, \"number_of_registers\":2, \"format\":\"=L\", \"byte_swap\":true}', null),
+
+(3, 'Current a', 1, 'ANALOG_VALUE',  'A', 5, 0, 1.000, 1, 0,
+  '{\"slave_id\":1, \"function_code\":3, \"offset\":13, \"number_of_registers\":2, \"format\":\"=f\", \"byte_swap\":false}', null),
+
+(4, 'Active Power a', 1, 'ANALOG_VALUE',  'W', 3450, 0, 1.000, 1, 0,
+  '{\"slave_id\":1, \"function_code\":3, \"offset\":25, \"number_of_registers\":2, \"format\":\"=f\", \"byte_swap\":false}', null),
+
+(5, 'Power Factor a', 1, 'ANALOG_VALUE',  'W', 1, 0, 1.000, 1, 0,
+  '{\"slave_id\":1, \"function_code\":3, \"offset\":37, \"number_of_registers\":2, \"format\":\"=f\", \"byte_swap\":false}', null),
+
+(6, 'Điểm dữ liệu Modbus TCP (mẫu) 6', 2, 'ENERGY_VALUE',  'Wh', 99999999999, 0, 1.000, 1, 0,
+  '{\"slave_id\":1, \"function_code\":3, \"offset\":40001, \"number_of_registers\":2, \"format\":\"=f\", \"byte_swap\":false}', null),
+
+(7, 'Điểm dữ liệu (mẫu) 7', 2, 'ANALOG_VALUE',  'V', 690, 0, 1.000, 1, 0,
+  '{\"slave_id\":1, \"function_code\":3, \"offset\":40002, \"number_of_registers\":2, \"format\":\"=f\", \"byte_swap\":false}', null),
+
+(8, 'Điểm dữ liệu BACnet (mẫu) 1', 3, 'ANALOG_VALUE',  'V', 690, 0, 1.000, 1, 0,
+  '{\"object_type\":\"analogValue\", \"object_id\":3004860, \"property_name\":\"presentValue\", \"property_array_index\":null}', null),
+-- BACnet Object Type
+-- analogValue, analogInput, analogOutput, binaryValue, binaryInput, binaryOutput
+
+(9, 'Điểm dữ liệu S7 (mẫu) 1', 4, 'ANALOG_VALUE',  'kWh', 99999999999, 0, 1.000, 1, 0,
+  '{\"area\":\"DB\", \"db_number\":700, \"start\":8, \"size\":4}', null);
+-- # S7 Area
+-- 'PE', 'PA', 'MK', 'DB', 'CT', 'TM'
+
+COMMIT;
+
+-- ---------------------------------------------------------------------------------------------------------------------
+-- Demo Data for table `myems_system_db`.`tbl_sensors`
+-- ---------------------------------------------------------------------------------------------------------------------
+START TRANSACTION;
+
+INSERT INTO `myems_system_db`.`tbl_sensors`
+(`id`, `name`, `uuid`, `description`)
+VALUES
+(1, 'Cảm biến 1', 'ba450606-6f39-41e0-8caf-75b528635511', 'sensor description');
+
+COMMIT;
+
+-- ---------------------------------------------------------------------------------------------------------------------
+-- Demo Data for table `myems_system_db`.`tbl_sensors_points`
+-- ---------------------------------------------------------------------------------------------------------------------
+START TRANSACTION;
+
+INSERT INTO `myems_system_db`.`tbl_sensors_points`
+(`id`, `sensor_id`, `point_id`)
+VALUES (1, 1, 1);
+
+COMMIT;
+
+-- ---------------------------------------------------------------------------------------------------------------------
+-- Demo Data for table `myems_system_db`.`tbl_shopfloors`
+-- ---------------------------------------------------------------------------------------------------------------------
+START TRANSACTION;
+
+INSERT INTO `myems_system_db`.`tbl_shopfloors`
+(`id`, `name`, `uuid` , `area`, `contact_id`, `is_input_counted`,  `cost_center_id`, `description`)
+VALUES
+(1, 'Xưởng 1', 'd03837fd-9d30-44fe-9443-154f7c7e15f1',  99999.999, 1, 1, 1,  'MyEMS Project');
+COMMIT;
+
+-- ---------------------------------------------------------------------------------------------------------------------
+-- Demo Data for table `myems_system_db`.`tbl_shopfloors_equipments`
+-- ---------------------------------------------------------------------------------------------------------------------
+START TRANSACTION;
+
+INSERT INTO `myems_system_db`.`tbl_shopfloors_equipments`
+(`shopfloor_id`, `equipment_id`)
+VALUES
+(1, 1);
+
+COMMIT;
+
+-- ---------------------------------------------------------------------------------------------------------------------
+-- Demo Data for table `myems_system_db`.`tbl_shopfloors_meters`
+-- ---------------------------------------------------------------------------------------------------------------------
+START TRANSACTION;
+
+INSERT INTO `myems_system_db`.`tbl_shopfloors_meters`
+(`shopfloor_id`, `meter_id`)
+VALUES
+(1, 1);
+
+COMMIT;
+
+-- ---------------------------------------------------------------------------------------------------------------------
+-- Demo Data for table `myems_system_db`.`tbl_shopfloors_sensors`
+-- ---------------------------------------------------------------------------------------------------------------------
+START TRANSACTION;
+
+INSERT INTO `myems_system_db`.`tbl_shopfloors_sensors`
+(`shopfloor_id`, `sensor_id`)
+VALUES
+(1, 1);
+
+COMMIT;
+
+-- ---------------------------------------------------------------------------------------------------------------------
+-- Demo Data for table `myems_system_db`.`tbl_shopfloors_points`
+-- ---------------------------------------------------------------------------------------------------------------------
+START TRANSACTION;
+
+INSERT INTO `myems_system_db`.`tbl_shopfloors_points`
+(`shopfloor_id`, `point_id`)
+VALUES
+(1, 1),
+(1, 2),
+(1, 3);
+
+COMMIT;
+
+-- ---------------------------------------------------------------------------------------------------------------------
+-- Demo Data for table `myems_system_db`.`tbl_spaces`
+-- ---------------------------------------------------------------------------------------------------------------------
+START TRANSACTION;
+
+INSERT INTO `myems_system_db`.`tbl_spaces`
+(`id`, `name`, `uuid`, `parent_space_id`, `area`, `timezone_id`, `contact_id`, `is_input_counted`, `is_output_counted`, `cost_center_id`, `description`)
+VALUES
+(2, 'Tòa nhà 1', '8f25b33b-db93-49b3-b0f8-b01e0c19df29', 1, 88888.888, 56, 1, 1, 1, 1,  'MyEMS Project'),
+(3, 'Tòa nhà 2', '195d7ea8-17b4-4e9c-bb37-546428155438', 1, 66666.666, 56, 1, 1, 1, 1, 'MyEMS Project'),
+(10000, 'Không gian gỡ lỗi', '2c44a292-eb0c-49a3-a50e-4fc03858dc0c', 1, 88888.888, 56, 1, 1, 1, 1,  'MyEMS Project');
+COMMIT;
+
+-- ---------------------------------------------------------------------------------------------------------------------
+-- Demo Data for table `myems_system_db`.`tbl_spaces_combined_equipments`
+-- ---------------------------------------------------------------------------------------------------------------------
+START TRANSACTION;
+
+INSERT INTO `myems_system_db`.`tbl_spaces_combined_equipments`
+(`space_id`, `combined_equipment_id`)
+VALUES
+(10000, 1),
+(10000, 2);
+
+COMMIT;
+
+-- ---------------------------------------------------------------------------------------------------------------------
+-- Demo Data for table `myems_system_db`.`tbl_spaces_distribution_systems`
+-- ---------------------------------------------------------------------------------------------------------------------
+START TRANSACTION;
+
+INSERT INTO `myems_system_db`.`tbl_spaces_distribution_systems`
+(`space_id`, `distribution_system_id`)
+VALUES
+(1, 1);
+
+COMMIT;
+-- ---------------------------------------------------------------------------------------------------------------------
+-- Demo Data for table `myems_system_db`.`tbl_spaces_energy_flow_diagrams`
+-- ---------------------------------------------------------------------------------------------------------------------
+START TRANSACTION;
+
+INSERT INTO `myems_system_db`.`tbl_spaces_energy_flow_diagrams`
+(`space_id`, `energy_flow_diagram_id`)
+VALUES
+(1, 1);
+
+COMMIT;
+
+-- ---------------------------------------------------------------------------------------------------------------------
+-- Demo Data for table `myems_system_db`.`tbl_spaces_equipments`
+-- ---------------------------------------------------------------------------------------------------------------------
+START TRANSACTION;
+
+INSERT INTO `myems_system_db`.`tbl_spaces_equipments`
+(`space_id`, `equipment_id`)
+VALUES
+(10000, 1),
+(10000, 2);
+
+COMMIT;
+
+-- ---------------------------------------------------------------------------------------------------------------------
+-- Demo Data for table `myems_system_db`.`tbl_spaces_meters`
+-- ---------------------------------------------------------------------------------------------------------------------
+START TRANSACTION;
+
+INSERT INTO `myems_system_db`.`tbl_spaces_meters`
+(`space_id`, `meter_id`)
+VALUES
+(1, 1);
+
+COMMIT;
+
+-- ---------------------------------------------------------------------------------------------------------------------
+-- Demo Data for table `myems_system_db`.`tbl_spaces_sensors`
+-- ---------------------------------------------------------------------------------------------------------------------
+START TRANSACTION;
+
+INSERT INTO `myems_system_db`.`tbl_spaces_sensors`
+(`space_id`, `sensor_id`)
+VALUES
+(1, 1);
+
+COMMIT;
+
+-- ---------------------------------------------------------------------------------------------------------------------
+-- Demo Data for table `myems_system_db`.`tbl_spaces_shopfloors`
+-- ---------------------------------------------------------------------------------------------------------------------
+START TRANSACTION;
+
+INSERT INTO `myems_system_db`.`tbl_spaces_shopfloors`
+(`space_id`, `shopfloor_id`)
+VALUES
+(1, 1);
+
+COMMIT;
+
+-- ---------------------------------------------------------------------------------------------------------------------
+-- Demo Data for table `myems_system_db`.`tbl_spaces_stores`
+-- ---------------------------------------------------------------------------------------------------------------------
+START TRANSACTION;
+
+INSERT INTO `myems_system_db`.`tbl_spaces_stores`
+(`space_id`, `store_id`)
+VALUES
+(1, 1);
+
+COMMIT;
+
+-- ---------------------------------------------------------------------------------------------------------------------
+-- Demo Data for table `myems_system_db`.`tbl_spaces_tenants`
+-- ---------------------------------------------------------------------------------------------------------------------
+START TRANSACTION;
+
+INSERT INTO `myems_system_db`.`tbl_spaces_tenants`
+(`space_id`, `tenant_id`)
+VALUES
+(1, 1);
+
+COMMIT;
+
+-- ---------------------------------------------------------------------------------------------------------------------
+-- Demo Data for table `myems_system_db`.`tbl_spaces_points`
+-- ---------------------------------------------------------------------------------------------------------------------
+START TRANSACTION;
+
+INSERT INTO `myems_system_db`.`tbl_spaces_points`
+(`space_id`, `point_id`)
+VALUES
+(1, 1),
+(1, 2),
+(1, 3);
+
+COMMIT;
+
+-- ---------------------------------------------------------------------------------------------------------------------
+-- Demo Data for table `myems_system_db`.`tbl_svgs`
+-- ---------------------------------------------------------------------------------------------------------------------
+START TRANSACTION;
+
+INSERT INTO `myems_system_db`.`tbl_svgs`
+(`id`, `name`, `uuid`, `source_code`,  `description`)
+VALUES
+(1, 'SVG1', 'a0e79d2e-8756-457e-b1f2-4152e3591bff', '<?xml version="1.0" encoding="UTF-8"?><svg width="5cm" height="4cm" version="1.1" xmlns="http://www.w3.org/2000/svg"><desc>Four separate rectangles</desc><rect x=".5cm" y=".5cm" width="2cm" height="1cm"/></svg>', 'demo svg');
+
+COMMIT;
+-- ---------------------------------------------------------------------------------------------------------------------
+-- Demo Data for table `myems_system_db`.`tbl_tariffs`
+-- ---------------------------------------------------------------------------------------------------------------------
+START TRANSACTION;
+
+INSERT INTO `myems_system_db`.`tbl_tariffs`
+(`id`, `name`, `uuid`, `energy_category_id`, `tariff_type`, `unit_of_price`, `valid_from_datetime_utc`, `valid_through_datetime_utc`)
+VALUES
+(1, 'Giá điện TOU 2026 (T1–T6)',    '590efb36-8587-42a9-ae6f-c715d21496d6', 1, 'timeofuse', 'VND/kWh', '2025-12-31 16:00:00', '2026-06-30 15:59:59'),
+(2, 'Giá điện TOU 2026 (T7–T9)',    'f5966640-18fc-437a-9efd-cbc0c58b6373', 1, 'timeofuse', 'VND/kWh', '2026-06-30 16:00:00', '2026-09-30 15:59:59'),
+(3, 'Giá điện TOU 2026 (T10–T12)',  '21727a1b-4b27-4186-b72e-db46e6e2d980', 1, 'timeofuse', 'VND/kWh', '2026-09-30 16:00:00', '2026-12-31 15:59:59'),
+(4, 'Giá điện TOU 2023 (T1–T6)',    'fe65e443-0ec2-4a16-823e-2365885e2598', 1, 'timeofuse', 'VND/kWh', '2022-12-31 16:00:00', '2023-06-30 15:59:59'),
+(5, 'Giá điện TOU 2023 (T7–T9)',    'd1285c81-4612-4d7c-9436-ed11b4e7abe4', 1, 'timeofuse', 'VND/kWh', '2023-06-30 16:00:00', '2023-09-30 15:59:59'),
+(6, 'Giá điện TOU 2023 (T10–T12)',  'e6c275b4-47eb-4f5d-bc59-edbe45c2a407', 1, 'timeofuse', 'VND/kWh', '2023-09-30 16:00:00', '2023-12-31 15:59:59'),
+(7, 'Giá điện TOU 2024 (T1–T6)',    'ca359f72-48ad-46a7-82af-cecbe98450e8', 1, 'timeofuse', 'VND/kWh', '2023-12-31 16:00:00', '2024-06-30 15:59:59'),
+(8, 'Giá điện TOU 2024 (T7–T9)',    '9fdda603-0f8f-4452-ad59-c5df54bc35f4', 1, 'timeofuse', 'VND/kWh', '2024-06-30 16:00:00', '2024-09-30 15:59:59'),
+(9, 'Giá điện TOU 2024 (T10–T12)',  'fb0442e7-4d44-4bfd-8b20-cad3f77a2480', 1, 'timeofuse', 'VND/kWh', '2024-09-30 16:00:00', '2024-12-31 15:59:59'),
+(10, 'Giá điện TOU 2025 (T1–T6)',   '3fa6e1f2-7d08-4f5a-bcbf-beb041d569c0', 1, 'timeofuse', 'VND/kWh', '2024-12-31 16:00:00', '2025-06-30 15:59:59'),
+(11, 'Giá điện TOU 2025 (T7–T9)',   '787240fb-1694-403e-a0a7-83d7be1cc0b8', 1, 'timeofuse', 'VND/kWh', '2025-06-30 16:00:00', '2025-09-30 15:59:59'),
+(12, 'Giá điện TOU 2025 (T10–T12)', 'a07fdf76-edcf-4124-96e7-ab733a5a4b70', 1, 'timeofuse', 'VND/kWh', '2025-09-30 16:00:00', '2025-12-31 15:59:59'),
+(13, 'Nước máy',  '6fcbc77e-effb-4d43-9b30-77b062435d34', 2, 'timeofuse', 'VND/m³',    '2022-12-31 16:00:00', '2026-12-31 15:59:59'),
+(14, 'Khí tự nhiên', '6a4c56ff-b3e1-4555-9b1c-87d05bcfa4d9', 3, 'timeofuse', 'VND/m³',    '2022-12-31 16:00:00', '2026-12-31 15:59:59');
+
+COMMIT;
+
+-- ---------------------------------------------------------------------------------------------------------------------
+-- Demo Data for table `myems_system_db`.`tbl_tariffs_timeofuses`
+-- ---------------------------------------------------------------------------------------------------------------------
+START TRANSACTION;
+
+INSERT INTO `myems_system_db`.`tbl_tariffs_timeofuses`
+(`tariff_id`, `start_time_of_day`, `end_time_of_day`, `peak_type`, `price`)
+VALUES
+(1, '00:00:00', '05:59:59', 'offpeak', 0.345),
+(1, '06:00:00', '07:59:59', 'midpeak', 0.708),
+(1, '08:00:00', '10:59:59', 'onpeak', 1.159),
+(1, '11:00:00', '17:59:59', 'midpeak', 0.708),
+(1, '18:00:00', '20:59:59', 'onpeak', 1.159),
+(1, '21:00:00', '21:59:59', 'midpeak', 0.708),
+(1, '22:00:00', '23:59:59', 'offpeak', 0.345),
+(2, '00:00:00', '05:59:59', 'offpeak', 0.345),
+(2, '06:00:00', '07:59:59', 'midpeak', 0.708),
+(2, '08:00:00', '10:59:59', 'offpeak', 1.159),
+(2, '11:00:00', '12:59:59', 'midpeak', 0.708),
+(2, '13:00:00', '14:59:59', 'onpeak', 1.159),
+(2, '15:00:00', '17:59:59', 'midpeak', 0.708),
+(2, '18:00:00', '20:59:59', 'onpeak', 1.159),
+(2, '21:00:00', '21:59:59', 'midpeak', 0.708),
+(2, '22:00:00', '23:59:59', 'offpeak', 0.345),
+(3, '00:00:00', '05:59:59', 'offpeak', 0.345),
+(3, '06:00:00', '07:59:59', 'midpeak', 0.708),
+(3, '08:00:00', '10:59:59', 'onpeak', 1.159),
+(3, '11:00:00', '17:59:59', 'midpeak', 0.708),
+(3, '18:00:00', '20:59:59', 'onpeak', 1.159),
+(3, '21:00:00', '21:59:59', 'midpeak', 0.708),
+(3, '22:00:00', '23:59:59', 'offpeak', 0.345),
+(4, '00:00:00', '05:59:59', 'offpeak', 0.345),
+(4, '06:00:00', '07:59:59', 'midpeak', 0.708),
+(4, '08:00:00', '10:59:59', 'onpeak', 1.159),
+(4, '11:00:00', '17:59:59', 'midpeak', 0.708),
+(4, '18:00:00', '20:59:59', 'onpeak', 1.159),
+(4, '21:00:00', '21:59:59', 'midpeak', 0.708),
+(4, '22:00:00', '23:59:59', 'offpeak', 0.345),
+(5, '00:00:00', '05:59:59', 'offpeak', 0.345),
+(5, '06:00:00', '07:59:59', 'midpeak', 0.708),
+(5, '08:00:00', '10:59:59', 'offpeak', 1.159),
+(5, '11:00:00', '12:59:59', 'midpeak', 0.708),
+(5, '13:00:00', '14:59:59', 'onpeak', 1.159),
+(5, '15:00:00', '17:59:59', 'midpeak', 0.708),
+(5, '18:00:00', '20:59:59', 'onpeak', 1.159),
+(5, '21:00:00', '21:59:59', 'midpeak', 0.708),
+(5, '22:00:00', '23:59:59', 'offpeak', 0.345),
+(6, '00:00:00', '05:59:59', 'offpeak', 0.345),
+(6, '06:00:00', '07:59:59', 'midpeak', 0.708),
+(6, '08:00:00', '10:59:59', 'onpeak', 1.159),
+(6, '11:00:00', '17:59:59', 'midpeak', 0.708),
+(6, '18:00:00', '20:59:59', 'onpeak', 1.159),
+(6, '21:00:00', '21:59:59', 'midpeak', 0.708),
+(6, '22:00:00', '23:59:59', 'offpeak', 0.345),
+(7, '00:00:00', '05:59:59', 'offpeak', 0.345),
+(7, '06:00:00', '07:59:59', 'midpeak', 0.708),
+(7, '08:00:00', '10:59:59', 'onpeak', 1.159),
+(7, '11:00:00', '17:59:59', 'midpeak', 0.708),
+(7, '18:00:00', '20:59:59', 'onpeak', 1.159),
+(7, '21:00:00', '21:59:59', 'midpeak', 0.708),
+(7, '22:00:00', '23:59:59', 'offpeak', 0.345),
+(8, '00:00:00', '05:59:59', 'offpeak', 0.345),
+(8, '06:00:00', '07:59:59', 'midpeak', 0.708),
+(8, '08:00:00', '10:59:59', 'offpeak', 1.159),
+(8, '11:00:00', '12:59:59', 'midpeak', 0.708),
+(8, '13:00:00', '14:59:59', 'onpeak', 1.159),
+(8, '15:00:00', '17:59:59', 'midpeak', 0.708),
+(8, '18:00:00', '20:59:59', 'onpeak', 1.159),
+(8, '21:00:00', '21:59:59', 'midpeak', 0.708),
+(8, '22:00:00', '23:59:59', 'offpeak', 0.345),
+(9, '00:00:00', '05:59:59', 'offpeak', 0.345),
+(9, '06:00:00', '07:59:59', 'midpeak', 0.708),
+(9, '08:00:00', '10:59:59', 'onpeak', 1.159),
+(9, '11:00:00', '17:59:59', 'midpeak', 0.708),
+(9, '18:00:00', '20:59:59', 'onpeak', 1.159),
+(9, '21:00:00', '21:59:59', 'midpeak', 0.708),
+(9, '22:00:00', '23:59:59', 'offpeak', 0.345),
+(10, '00:00:00', '05:59:59', 'offpeak', 0.345),
+(10, '06:00:00', '07:59:59', 'midpeak', 0.708),
+(10, '08:00:00', '10:59:59', 'onpeak', 1.159),
+(10, '11:00:00', '17:59:59', 'midpeak', 0.708),
+(10, '18:00:00', '20:59:59', 'onpeak', 1.159),
+(10, '21:00:00', '21:59:59', 'midpeak', 0.708),
+(10, '22:00:00', '23:59:59', 'offpeak', 0.345),
+(11, '00:00:00', '05:59:59', 'offpeak', 0.345),
+(11, '06:00:00', '07:59:59', 'midpeak', 0.708),
+(11, '08:00:00', '10:59:59', 'offpeak', 1.159),
+(11, '11:00:00', '12:59:59', 'midpeak', 0.708),
+(11, '13:00:00', '14:59:59', 'onpeak', 1.159),
+(11, '15:00:00', '17:59:59', 'midpeak', 0.708),
+(11, '18:00:00', '20:59:59', 'onpeak', 1.159),
+(11, '21:00:00', '21:59:59', 'midpeak', 0.708),
+(11, '22:00:00', '23:59:59', 'offpeak', 0.345),
+(12, '00:00:00', '05:59:59', 'offpeak', 0.345),
+(12, '06:00:00', '07:59:59', 'midpeak', 0.708),
+(12, '08:00:00', '10:59:59', 'onpeak', 1.159),
+(12, '11:00:00', '17:59:59', 'midpeak', 0.708),
+(12, '18:00:00', '20:59:59', 'onpeak', 1.159),
+(12, '21:00:00', '21:59:59', 'midpeak', 0.708),
+(12, '22:00:00', '23:59:59', 'offpeak', 0.345),
+(13, '00:00:00', '23:59:59', 'midpeak', 5.95),
+(14, '00:00:00', '23:59:59', 'midpeak', 3.50);
+COMMIT;
+
+-- ---------------------------------------------------------------------------------------------------------------------
+-- Demo Data for table `myems_system_db`.`tbl_stores`
+-- ---------------------------------------------------------------------------------------------------------------------
+START TRANSACTION;
+
+INSERT INTO `myems_system_db`.`tbl_stores`
+(`id`, `name`, `uuid`, `address`, `latitude`, `longitude`, `area`, `store_type_id`, `is_input_counted`, `contact_id`, `cost_center_id`, `description`)
+VALUES
+(1, 'McDonald''s', 'd8a24322-4bab-4ba2-aedc-5d55a84c3db8', 'Số 7 phố Dongdachang, quận Đông Thành, Bắc Kinh', 39.899493, 116.412041, 500.000, 1, 1, 1, 1,  'McDonald''s');
+COMMIT;
+
+-- ---------------------------------------------------------------------------------------------------------------------
+-- Demo Data for table `myems_system_db`.`tbl_store_types`
+-- ---------------------------------------------------------------------------------------------------------------------
+START TRANSACTION;
+
+INSERT INTO `myems_system_db`.`tbl_store_types`
+(`id`, `name`, `uuid`, `description`, `simplified_code`)
+VALUES
+(1, 'Ẩm thực', '494d7d5e-e139-4629-b957-99ea4caf0401', 'Ẩm thực', 'RS'),
+(2, 'Bán lẻ', '1f556579-9d5c-45ce-9bd8-f2dc1d033470', 'Bán lẻ', 'RT'),
+(3, 'Khách sạn', 'cae697aa-ceca-435d-91bf-492b46607eb0', 'Khách sạn', 'HT');
+
+COMMIT;
+
+-- ---------------------------------------------------------------------------------------------------------------------
+-- Demo Data for table `myems_system_db`.`tbl_stores_meters`
+-- ---------------------------------------------------------------------------------------------------------------------
+START TRANSACTION;
+
+INSERT INTO `myems_system_db`.`tbl_stores_meters`
+(`store_id`, `meter_id`)
+VALUES
+(1, 1);
+
+COMMIT;
+
+-- ---------------------------------------------------------------------------------------------------------------------
+-- Demo Data for table `myems_system_db`.`tbl_stores_points`
+-- ---------------------------------------------------------------------------------------------------------------------
+START TRANSACTION;
+
+INSERT INTO `myems_system_db`.`tbl_stores_points`
+(`store_id`, `point_id`)
+VALUES
+(1, 1),
+(1, 2),
+(1, 3);
+
+COMMIT;
+
+-- ---------------------------------------------------------------------------------------------------------------------
+-- Demo Data for table `myems_system_db`.`tbl_stores_sensors`
+-- ---------------------------------------------------------------------------------------------------------------------
+START TRANSACTION;
+
+INSERT INTO `myems_system_db`.`tbl_stores_sensors`
+(`store_id`, `sensor_id`)
+VALUES
+(1, 1);
+
+COMMIT;
+
+-- ---------------------------------------------------------------------------------------------------------------------
+-- Demo Data for table `myems_system_db`.`tbl_tenants`
+-- ---------------------------------------------------------------------------------------------------------------------
+START TRANSACTION;
+
+INSERT INTO `myems_system_db`.`tbl_tenants`
+(`id`, `name`, `uuid`, `buildings`, `floors`, `rooms`, `area`, `tenant_type_id`, `is_input_counted`, `is_key_tenant`,
+   `lease_number`, `lease_start_datetime_utc`, `lease_end_datetime_utc`, `is_in_lease`, `contact_id`, `cost_center_id`, `description`)
+VALUES
+(1, 'Starbucks', '6b0da806-a4cd-431a-8116-2915e90aaf8b', 'Tòa nhà 1', 'L1 L2 L3', '1201b+2247+3F', 418.8, 9, 1, 1,
+ '6b0da806',  '2019-12-31 16:00:00', '2022-12-31 16:00:00', 1, 1, 1,  'mô tả');
+COMMIT;
+
+-- ---------------------------------------------------------------------------------------------------------------------
+-- Demo Data for table `myems_system_db`.`tbl_tenant_types`
+-- ---------------------------------------------------------------------------------------------------------------------
+START TRANSACTION;
+
+INSERT INTO `myems_system_db`.`tbl_tenant_types`
+(`id`, `name`, `uuid`, `description`, `simplified_code`)
+VALUES
+(1, 'Khách thuê F&B', '83fffba1-9e22-4397-a93a-3742772c3753', 'Ẩm thực', 'FNB'),
+(2, 'Khách thuê F&B (khí gas)', 'ad95ed16-1c57-49a9-a85e-71e389393089', 'Ẩm thực (khí gas)', 'FNBGas'),
+(3, 'Khách thuê F&B (điện)', '1dc21e83-4333-40f8-9e25-ea049becba37', 'Ẩm thực (điện)', 'FNBElec'),
+(4, 'Khách thuê chiếu sáng cao', '4208a60d-d8e6-4fe5-8cea-a55109e9b397', 'Chiếu sáng cao', 'HighIllu'),
+(5, 'Khách thuê chủ lực', 'fc4ae534-544a-4a22-b83b-9f4aa99494aa', 'Khách thuê chủ lực', 'ANCH'),
+(6, 'Khách thuê thương mại thông thường', '6d1dca30-1cbe-463d-8a78-cdd5e0f8ac8b', 'Thương mại thông thường', 'Normal'),
+(7, 'Khách thuê thương mại khác', '2078e1c0-3936-4ae7-9253-08e0aa1d84b6', 'Thương mại khác', 'Other'),
+(8, 'Khách thuê văn phòng cả tầng', 'b2a580a3-edc9-4838-ae1d-7b7265860a9a', 'Văn phòng cả tầng', 'WhFlr'),
+(9, 'Khách thuê văn phòng một phần tầng', '55bbcba7-d8a0-44a0-9a9f-2f085e3cb044', 'Văn phòng một phần tầng', 'NonWhFlr');
+
+COMMIT;
+
+-- ---------------------------------------------------------------------------------------------------------------------
+-- Demo Data for table `myems_system_db`.`tbl_tenants_meters`
+-- ---------------------------------------------------------------------------------------------------------------------
+START TRANSACTION;
+
+INSERT INTO `myems_system_db`.`tbl_tenants_meters`
+(`tenant_id`, `meter_id`)
+VALUES
+(1, 1);
+
+COMMIT;
+
+-- ---------------------------------------------------------------------------------------------------------------------
+-- Demo Data for table `myems_system_db`.`tbl_tenants_points`
+-- ---------------------------------------------------------------------------------------------------------------------
+START TRANSACTION;
+
+INSERT INTO `myems_system_db`.`tbl_tenants_points`
+(`tenant_id`, `point_id`)
+VALUES
+(1, 2000001),
+(3, 2000002),
+(3, 2000003),
+(3, 2000006);
+
+COMMIT;
+
+-- ---------------------------------------------------------------------------------------------------------------------
+-- Demo Data for table `myems_system_db`.`tbl_tenants_sensors`
+-- ---------------------------------------------------------------------------------------------------------------------
+START TRANSACTION;
+
+INSERT INTO `myems_system_db`.`tbl_tenants_sensors`
+(`tenant_id`, `sensor_id`)
+VALUES
+(1, 1);
+
+COMMIT;
+
+-- ---------------------------------------------------------------------------------------------------------------------
+-- Demo Data for table `myems_system_db`.`tbl_virtual_meters`
+-- ---------------------------------------------------------------------------------------------------------------------
+START TRANSACTION;
+
+INSERT INTO `myems_system_db`.`tbl_virtual_meters`
+(`id`, `name`, `uuid`, `equation`, `energy_category_id`, `is_counted`, `cost_center_id`, `energy_item_id`, `description`)
+VALUES
+(1, 'Đồng hồ ảo 1', '3fff2cfb-f755-44c8-a919-6135205a8573', 'x1+x2+x3', 1, 1, 1, 1, 'virtual description');
+
+COMMIT;
+
+-- ---------------------------------------------------------------------------------------------------------------------
+-- Demo Data for table `myems_system_db`.`tbl_variables`
+-- ---------------------------------------------------------------------------------------------------------------------
+START TRANSACTION;
+
+-- meter_type = {'meter', 'virtual_meter', 'offline_meter'}
+INSERT INTO `myems_system_db`.`tbl_variables`
+(`name`, `virtual_meter_id`, `meter_type`, `meter_id`)
+VALUES
+('x1', 1, 'meter', 1),
+('x2', 1, 'meter', 2),
+('x3', 1, 'meter', 3);
+
+COMMIT;
