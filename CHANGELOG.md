@@ -5,7 +5,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 ### Added
-- added redis cache to space energy item report in myems-api
+- added redis cache to space reports in myems-api
 ### Changed
 - changed default start_datetime_utc to 2024-12-31 16:00:00 in myems-aggregation, myems-cleaning and myems-normalization
 - split myems-admin/app/translations.js into small files
