@@ -102,7 +102,7 @@
       EXITFULLSCREEN: "Salir de pantalla completa",
       LOGOUT: "Cerrar sesión",
       COMMON: {
-        ADVANCED_REPORT: "Informe Avanzado",
+        ADVANCED_REPORT: "Informe Avanzado Ⓔ",
         EXECUTE: "Ejecutar",
         PLACEHOLDER: "Por favor, seleccione o busque...",
         SPACE: "Espacio",
@@ -129,7 +129,7 @@
         WORKING_CALENDAR: "Calendario de trabajo",
         NON_WORKING_DAY: "Día no laborable",
         COMMAND: "Mandar",
-        CONTROL_MODE: "Control Mode",
+        CONTROL_MODE: "Modo de control",
         VIRTUAL_POWER_PLANT: "Central eléctrica virtual",
         ENERGY_STORAGE_CONTAINER:
           "Central eléctrica de almacenamiento de energía",
@@ -219,7 +219,7 @@
           KNOWLEDGEFILE: "Knowledge base",
           WORKING_CALENDAR: "Calendario de trabajo",
           COMMAND: "Comandos Ⓔ",
-          CONTROL_MODE: "Control ModeⒺ",
+          CONTROL_MODE: "Modo de control Ⓔ",
           IOTSIMCARD: "IoT SIM Card Ⓔ",
           MICROGRID: "Microrredes Ⓔ",
           VIRTUAL_POWER_PLANT: "Central eléctrica virtual Ⓔ",
@@ -1596,51 +1596,51 @@
       API: {
         ACCOUNT_UNLOCK_FAILED: "Account Unlock Failed",
         ADMINISTRATOR_SESSION_NOT_FOUND: "Administrator Session Not Found",
-        ADMINISTRATOR_SESSION_TIMEOUT: "Administrator Session Timeout",
+        ADMINISTRATOR_SESSION_TIMEOUT: "Tiempo de espera de la sesión del administrador",
         ADVANCED_REPORT_NAME_IS_ALREADY_IN_USE:
           "El nombre del informe avanzado ya está en uso",
-        ADVANCED_REPORT_NOT_FOUND: "Advanced Report Not Found",
-        API_KEY_HAS_EXPIRED: "API Key Has Expired",
-        API_KEY_NAME_IS_ALREADY_IN_USE: "API Key name is already in use",
-        API_KEY_NOT_FOUND: "API Key Not Found",
-        BAD_REQUEST: "Bad Request",
-        BALANCING_PRICE_POINT_NOT_FOUND: "Balancing Price Point Not Found",
-        BATTERY_STATE_POINT_NOT_FOUND: "Battery State Point Not Found",
-        BUY_METER_NOT_FOUND: "Buy Meter Not Found",
+        ADVANCED_REPORT_NOT_FOUND: "Informe avanzado no encontrado",
+        API_KEY_HAS_EXPIRED: "La clave ha caducado.",
+        API_KEY_NAME_IS_ALREADY_IN_USE: "Este nombre ya esta en uso",
+        API_KEY_NOT_FOUND: "No se ha encontrado la clave de API.",
+        BAD_REQUEST: "Solicitud Incorrecta",
+        BALANCING_PRICE_POINT_NOT_FOUND: "Punto de precio de equilibrio no encontrado",
+        BATTERY_STATE_POINT_NOT_FOUND: "Punto de estado de la batería no encontrado",
+        BUY_METER_NOT_FOUND: "Comprar contador no encontrado",
         CANNOT_SET_EXISTING_SUBMETER_AS_MASTER_METER:
-          "Cannot Set Existing Submeter As Master Meter",
-        CHARGE_METER_NOT_FOUND: "Charge Meter Not Found",
+          "No se puede establecer el submedidor existente como medidor maestro",
+        CHARGE_METER_NOT_FOUND: "Medidor de carga no encontrado",
         COMBINED_EQUIPMENT_COMMAND_RELATION_EXISTS:
-          "Combined Equipment Command Relation Exists",
+          "Existe una relación de comando de equipo combinado",
         COMBINED_EQUIPMENT_COMMAND_RELATION_NOT_FOUND:
-          "Combined Equipment Command Relation Not Found",
+          "Relación de comando de equipo combinado no encontrada",
         COMBINED_EQUIPMENT_EQUIPMENT_RELATION_EXISTS:
-          "Combined Equipment Equipment Relation Exists",
+          "Existe una relación de equipos combinados",
         COMBINED_EQUIPMENT_EQUIPMENT_RELATION_NOT_FOUND:
-          "Combined Equipment Equipment Relation Not Found",
+          "Relación de equipo de equipo combinado no encontrada",
         COMBINED_EQUIPMENT_METER_RELATION_EXISTS:
-          "Combined Equipment Meter Relation Exists",
+          "Existe una relación de medidor de equipo combinado",
         COMBINED_EQUIPMENT_METER_RELATION_NOT_FOUND:
-          "Combined Equipment Meter Relation Not Found",
+          "Relación de medidor de equipo combinado no encontrada",
         COMBINED_EQUIPMENT_DATA_SOURCE_RELATION_EXISTS:
           "La relación entre el equipo combinado y la fuente de datos ya existe",
         COMBINED_EQUIPMENT_DATA_SOURCE_RELATION_NOT_FOUND:
           "La relación entre el equipo combinado y la fuente de datos no se encontró",
         COMBINED_EQUIPMENT_NAME_IS_ALREADY_IN_USE:
           "El nombre del equipo combinado ya está en uso",
-        COMBINED_EQUIPMENT_NOT_FOUND: "Combined Equipment Not Found",
+        COMBINED_EQUIPMENT_NOT_FOUND: "Equipo combinado no encontrado",
         COMBINED_EQUIPMENT_OFFLINE_METER_RELATION_EXISTS:
-          "Combined Equipment Offline Meter Relation Exists",
+          "Existe una relación de medidor fuera de línea de equipos combinados",
         COMBINED_EQUIPMENT_OFFLINE_METER_RELATION_NOT_FOUND:
-          "Combined Equipment Offline Meter Relation Not Found",
+          "No se ha encontrado la relación del medidor fuera de línea del equipo combinado",
         COMBINED_EQUIPMENT_PARAMETER_NAME_IS_ALREADY_IN_USE:
           "El nombre del parámetro del equipo combinado ya está en uso",
         COMBINED_EQUIPMENT_PARAMETER_NOT_FOUND_OR_NOT_MATCH:
-          "Combined Equipment Parameter Not Found Or Not Match",
+          "Parámetro de equipo combinado no encontrado o no coincide",
         COMBINED_EQUIPMENT_VIRTUAL_METER_RELATION_EXISTS:
-          "Combined Equipment Virtual Meter Relation Exists",
+          "Existe una relación de contador virtual de equipos combinados",
         COMBINED_EQUIPMENT_VIRTUAL_METER_RELATION_NOT_FOUND:
-          "Combined Equipment Virtual Meter Relation Not Found",
+          "Relación de medidor virtual de equipo combinado no encontrada",
         COMMAND_NAME_IS_ALREADY_IN_USE: "El nombre del comando ya está en uso",
         COMMAND_NOT_FOUND: "Command Not Found",
         CONTACT_NAME_IS_ALREADY_IN_USE: "El nombre del contacto ya está en uso",
@@ -2486,9 +2486,9 @@
         VIRTUAL_METER_OF_VARIABLE_NOT_FOUND:
           "Virtual Meter Of Variable Not Found",
         VIRTUAL_POINT_CAN_NOT_BE_DIGITAL_VALUE:
-          "Virtual Point Can Not Be Digital Value",
+          "El Punto Virtual no puede ser un Valor Digital",
         VIRTUAL_POINT_CAN_NOT_BE_TEXT_VALUE:
-          "Virtual Point Can Not Be Text Value",
+          "El Punto Virtual no puede ser un Valor de Texto",
         VIRTUAL_POWER_PLANT_MICROGRID_RELATION_EXISTS:
           "Virtual Power Plant Microgrid Relation Exists",
         VIRTUAL_POWER_PLANT_MICROGRID_RELATION_NOT_FOUND:
