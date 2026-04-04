@@ -31,11 +31,16 @@ The module uses Falcon framework for REST API and includes:
 """
 
 from datetime import datetime, timedelta, timezone
+import logging
+import hashlib
 import falcon
 import mysql.connector
+import redis
 import simplejson as json
 import config
 from core.useractivity import access_control, api_key_control
+
+logger = logging.getLogger(__name__)
 
 
 class Reporting:
@@ -105,6 +110,48 @@ class Reporting:
             reporting_start_datetime_utc = reporting_end_datetime_utc - timedelta(hours=24)
         else:
             reporting_start_datetime_utc = reporting_end_datetime_utc - timedelta(minutes=60)
+
+        ############################################################################################################
+        # Redis cache
+        ############################################################################################################
+        cache_key = None
+        cache_expire = 1800  # 30 minutes
+        redis_client = None
+        if config.redis.get('is_enabled'):
+            try:
+                redis_client = redis.Redis(
+                    host=config.redis['host'],
+                    port=config.redis['port'],
+                    password=config.redis.get('password') or None,
+                    db=config.redis['db'],
+                    decode_responses=True,
+                    socket_connect_timeout=2,
+                    socket_timeout=2
+                )
+                redis_client.ping()
+
+                # Normalize end datetimes for cache key: set minute/second/microsecond to 0
+                reporting_end_datetime_utc_normalized = reporting_end_datetime_utc.replace(
+                    minute=0, second=0, microsecond=0)
+
+                cache_params = {
+                    "sensorid": sensor_id,
+                    "sensoruuid": sensor_uuid,
+                    "timerange": time_range,
+                    "reporting_start_datetime_utc": reporting_start_datetime_utc.isoformat(),
+                    "reporting_end_datetime_utc": reporting_end_datetime_utc_normalized.isoformat(),
+                    "quickmode": is_quick_mode,
+                }
+                cache_params_json = json.dumps(cache_params, sort_keys=True)
+                cache_key = 'report:spaceenvironmentmonitor:' + \
+                            hashlib.sha256(cache_params_json.encode('utf-8')).hexdigest()
+
+                cached_result = redis_client.get(cache_key)
+                if cached_result:
+                    resp.text = cached_result
+                    return
+            except Exception:
+                redis_client = None
 
         ################################################################################################################
         # Step 2: query the sensor
@@ -268,4 +315,11 @@ class Reporting:
             "time_range": time_range
         }
 
-        resp.text = json.dumps(result)
+        resp_text = json.dumps(result)
+        resp.text = resp_text
+
+        if config.redis.get('is_enabled') and redis_client is not None and cache_key is not None:
+            try:
+                redis_client.setex(cache_key, cache_expire, resp_text)
+            except Exception:
+                logger.warning("Failed to write cache key %s", cache_key, exc_info=True)

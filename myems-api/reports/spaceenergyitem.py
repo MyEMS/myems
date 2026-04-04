@@ -31,6 +31,7 @@ The module uses Falcon framework for REST API and includes:
 """
 
 import re
+import logging
 from datetime import datetime, timedelta, timezone
 from decimal import Decimal
 import hashlib
@@ -42,6 +43,8 @@ import config
 import excelexporters.spaceenergyitem
 from core import utilities
 from core.useractivity import access_control, api_key_control
+
+logger = logging.getLogger(__name__)
 
 
 class Reporting:
@@ -209,7 +212,7 @@ class Reporting:
                 redis_client = redis.Redis(
                     host=config.redis['host'],
                     port=config.redis['port'],
-                    password=config.redis['password'] if config.redis['password'] else None,
+                    password=config.redis.get('password') or None,
                     db=config.redis['db'],
                     decode_responses=True,
                     socket_connect_timeout=2,
@@ -778,4 +781,4 @@ class Reporting:
             try:
                 redis_client.setex(cache_key, cache_expire, resp_text)
             except Exception:
-                pass
+                logger.warning("Failed to write cache key %s", cache_key, exc_info=True)
