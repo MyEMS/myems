@@ -187,6 +187,16 @@ Web UI:
 - 电话微信: (+86) 13011132526
 - Email: zny@myems.org
 
+| Platform | Description | QR Code |
+|----------|--------------|---------|
+| 微信 | 13011132526 | ![WeChat: 13011132526](./docs/images/qr_code_wechat.png) |
+ 
+
+## 视频
+
+[BiliBili](https://space.bilibili.com/539108162)
+
+[YouTube](https://www.youtube.com/@myems)
 
 ## 🔖 推荐
 
