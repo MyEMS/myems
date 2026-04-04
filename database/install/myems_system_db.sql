@@ -269,12 +269,12 @@ CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_distribution_circuits` (
   `name` VARCHAR(255) NOT NULL,
   `uuid` CHAR(36) NOT NULL,
   `distribution_system_id` BIGINT NOT NULL,
-  `distribution_room` VARCHAR(255) NOT NULL COMMENT '配电房, 配电间',
-  `switchgear` VARCHAR(255) NOT NULL COMMENT '高/低压配电柜',
-  `peak_load` DECIMAL(21, 6)  COMMENT '最大容量, 设备容量(KW)',
-  `peak_current` DECIMAL(21, 6) COMMENT '最大电流, 计算电流(A)',
-  `customers` VARCHAR(255) COMMENT '用电设备, 用户',
-  `meters` VARCHAR(255) COMMENT '出线电表, 下级电表',
+  `distribution_room` VARCHAR(255) NOT NULL COMMENT '配电房, 配电间 / Distribution room, electrical substation room',
+  `switchgear` VARCHAR(255) NOT NULL COMMENT '高/低压配电柜 / High- and low-voltage switchgear (distribution cabinets)',
+  `peak_load` DECIMAL(21, 6)  COMMENT '最大容量, 设备容量(KW) / Max capacity, equipment rated capacity (kW)',
+  `peak_current` DECIMAL(21, 6) COMMENT '最大电流, 计算电流(A) / Max current, calculated current (A)',
+  `customers` VARCHAR(255) COMMENT '用电设备, 用户 / Electrical loads, consumers',
+  `meters` VARCHAR(255) COMMENT '出线电表, 下级电表 / Outgoing-circuit meters, downstream meters',
   PRIMARY KEY (`id`));
 CREATE INDEX `tbl_distribution_circuits_index_1`
 ON `myems_system_db`.`tbl_distribution_circuits` (`distribution_system_id`);
