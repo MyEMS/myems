@@ -8,6 +8,16 @@ import KanbanColumn from './KanbanColumn';
 import AddAnotherList from './AddAnotherList';
 import KanbanModal from './KanbanModal';
 
+const getUaInfo = () => {
+  const ua = navigator.userAgent;
+  return {
+    isIPad: /iPad|Macintosh/.test(ua) && 'ontouchend' in document,
+    isMobile: /Android|webOS|iPhone|iPod|BlackBerry|IEMobile|Opera Mini/i.test(ua),
+    isSafari: /^((?!Chrome|Edg|\bChromium\b).)*\bSafari\b.*/.test(ua),
+    isChrome: /Chrome/.test(ua) && !/Edg|Edge/.test(ua)
+  };
+};
+
 const reorder = (list, startIndex, endIndex) => {
   const result = Array.from(list);
   const [removed] = result.splice(startIndex, 1);
@@ -29,28 +39,33 @@ const move = (source, destination, droppableSource, droppableDestination) => {
 const KanbanContainer = () => {
   const { kanbanColumns, UpdateColumnData, modalContent, modal, setModal } = useContext(KanbanContext);
   const containerRef = useRef(null);
-
+  
   // Detect device
+  const addClsOnce = useRef(false);
   useEffect(() => {
-    if (containerRef.current) {
-      if (navigator.userAgent.includes('iPad')) {
-        containerRef.current.classList.add('ipad');
+    if (addClsOnce.current || !containerRef.current) return;
+
+    const ua = getUaInfo();
+
+    if (ua.isIPad) {
+      containerRef.current.classList.add('ipad');
+    }
+    if (ua.isMobile) {
+      containerRef.current.classList.add('mobile');
+      if (ua.isSafari) {
+        containerRef.current.classList.add('safari');
       }
-      if (validator.isMobilePhone(navigator.userAgent)) {
-        containerRef.current.classList.add('mobile');
-        if (navigator.userAgent.includes('Safari') && !navigator.userAgent.includes('Chrome')) {
-          containerRef.current.classList.add('safari');
-        }
-        if (navigator.userAgent.includes('Chrome')) {
-          containerRef.current.classList.add('chrome');
-        }
+      if (ua.isChrome) {
+        containerRef.current.classList.add('chrome');
       }
     }
+
+    addClsOnce.current = true;
   }, []);
 
   const getList = id => {
     const targetColumn = kanbanColumns.find(item => item.id === id);
-    return targetColumn.items;
+    return targetColumn?.items || [];
   };
 
   const onDragEnd = result => {
