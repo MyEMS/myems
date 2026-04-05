@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import is from 'is_js';
+import validator from 'validator'; 
 import PropTypes from 'prop-types';
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import { Button, Collapse, Nav, Navbar } from 'reactstrap';
@@ -70,13 +70,13 @@ const NavbarVertical = ({ setRedirectUrl, setRedirect, navbarStyle, t }) => {
   const [showRoutes, setShowRoutes] = useState([routes[0]]);
 
   useEffect(() => {
-    if (is.windows()) {
+    if (navigator.userAgent.includes('Windows')) {
       HTMLClassList.add('windows');
     }
-    if (is.chrome()) {
+    if (navigator.userAgent.includes('Chrome') && !navigator.userAgent.includes('Edg')) {
       HTMLClassList.add('chrome');
     }
-    if (is.firefox()) {
+    if (navigator.userAgent.includes('Firefox')) {
       HTMLClassList.add('firefox');
     }
     return () => {

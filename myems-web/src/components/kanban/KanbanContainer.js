@@ -1,6 +1,6 @@
 import React, { useContext, useRef, useEffect } from 'react';
 import { DragDropContext } from 'react-beautiful-dnd';
-import is from 'is_js';
+import validator from 'validator'; 
 
 import { KanbanContext } from '../../context/Context';
 import { isIterableArray } from '../../helpers/utils';
@@ -12,7 +12,6 @@ const reorder = (list, startIndex, endIndex) => {
   const result = Array.from(list);
   const [removed] = result.splice(startIndex, 1);
   result.splice(endIndex, 0, removed);
-
   return result;
 };
 
@@ -20,13 +19,10 @@ const move = (source, destination, droppableSource, droppableDestination) => {
   const sourceClone = Array.from(source);
   const destClone = Array.from(destination);
   const [removed] = sourceClone.splice(droppableSource.index, 1);
-
   destClone.splice(droppableDestination.index, 0, removed);
-
   const result = {};
   result[droppableSource.droppableId] = sourceClone;
   result[droppableDestination.droppableId] = destClone;
-
   return result;
 };
 
@@ -36,16 +32,18 @@ const KanbanContainer = () => {
 
   // Detect device
   useEffect(() => {
-    if (is.ipad()) {
-      containerRef.current.classList.add('ipad');
-    }
-    if (is.mobile()) {
-      containerRef.current.classList.add('mobile');
-      if (is.safari()) {
-        containerRef.current.classList.add('safari');
+    if (containerRef.current) {
+      if (navigator.userAgent.includes('iPad')) {
+        containerRef.current.classList.add('ipad');
       }
-      if (is.chrome()) {
-        containerRef.current.classList.add('chrome');
+      if (validator.isMobilePhone(navigator.userAgent)) {
+        containerRef.current.classList.add('mobile');
+        if (navigator.userAgent.includes('Safari') && !navigator.userAgent.includes('Chrome')) {
+          containerRef.current.classList.add('safari');
+        }
+        if (navigator.userAgent.includes('Chrome')) {
+          containerRef.current.classList.add('chrome');
+        }
       }
     }
   }, []);
