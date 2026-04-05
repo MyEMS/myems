@@ -58,7 +58,6 @@ Das Open Source Energy Management System (EMS) von MyEMS basiert auf der ISO 500
 ![MyEMS Web 26](./docs/images/myems_web_en_26.png)
 ![MyEMS Web 27](./docs/images/myems_web_en_27.png)
 ![MyEMS Web 28](./docs/images/myems_web_en_28.png)
-![MyEMS Web 29](./docs/images/myems_web_en_29.png)
 
 ## MyEMS Admin UI Präsentation
 
