@@ -243,7 +243,6 @@ class Reporting:
                     if reporting_end_datetime_utc_normalized else None,
                     "language": language,
                     "quickmode": is_quick_mode,
-                    "is_tariff_appended": config.is_tariff_appended,
                 }
                 cache_params_json = json.dumps(cache_params, sort_keys=True)
                 cache_key = 'report:spaceenergyitem:' + hashlib.sha256(cache_params_json.encode('utf-8')).hexdigest()
