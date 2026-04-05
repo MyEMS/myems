@@ -13,7 +13,7 @@ const getUaInfo = () => {
   return {
     isIPad: /iPad|Macintosh/.test(ua) && 'ontouchend' in document,
     isMobile: /Android|webOS|iPhone|iPod|BlackBerry|IEMobile|Opera Mini/i.test(ua),
-    isSafari: /^((?!Chrome|Edg|\bChromium\b).)*\bSafari\b.*/.test(ua),
+    isSafari: /Safari/.test(ua) && /Apple Computer/.test(navigator.vendor) && !/Chrom(e|ium)|Edg|OPR/.test(ua),
     isChrome: /Chrome/.test(ua) && !/Edg|Edge/.test(ua)
   };
 };
