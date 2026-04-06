@@ -199,9 +199,9 @@ Web UI:
 
 ## 视频
 
-[BiliBili](https://gitee.bilibili.com/539108162)
+[BiliBili](https://space.bilibili.com/539108162)
 
-[YouTube](https://gitee.youtube.com/@myems)
+[YouTube](https://www.youtube.com/@myems)
 
 ## 🔖 推荐
 
