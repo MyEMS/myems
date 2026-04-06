@@ -204,6 +204,6 @@ Web UI:
 
 ## 🔖 추천 링크
 
-- 👉 치청 BPM 저코드 워크플로우 폼: [https://ccflow.org/index.html?frm=myems](https://ccflow.org/index.html?frm=myems)
+- 👉 치청 BPM 저코드 워크플로우 폼: [https://gitee.com/opencc/ccflow](https://gitee.com/opencc/ccflow)
 - 👉 IoTGateway: .NET6 기반 크로스 플랫폼 IoT 게이트웨이 [https://gitee.com/iioter/iotgateway](https://gitee.com/iioter/iotgateway)
 - 👉 뮤직 IoT 플랫폼 [https://gitee.com/open-enjoy/enjoy-iot](https://gitee.com/open-enjoy/enjoy-iot)

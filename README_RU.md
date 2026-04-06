@@ -209,6 +209,6 @@ Web UI:
 
 ## 🔖 Дружественные ссылки
 
-- 👉 Форма рабочего процесса BPM Chichang с низким кодом : [https://ccflow.org/index.html?frm=myems](https://ccflow.org/index.html?frm=myems)
+- 👉 Форма рабочего процесса BPM Chichang с низким кодом : [https://gitee.com/opencc/ccflow](https://gitee.com/opencc/ccflow)
 - 👉 IoTGateway : Кроссплатформенный шлюз IoT на основе .NET6 [https://gitee.com/iioter/iotgateway](https://gitee.com/iioter/iotgateway)
 - 👉 Платформа iot Enjoy [https://gitee.com/open-enjoy/enjoy-iot](https://gitee.com/open-enjoy/enjoy-iot)

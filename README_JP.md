@@ -209,6 +209,6 @@ Web UI:
 
 ## 🔖 フレンドリーリンク
 
-- 👉 馳騁BPM低コードワークフローフォーム： [https://ccflow.org/index.html?frm=myems](https://ccflow.org/index.html?frm=myems)
+- 👉 馳騁BPM低コードワークフローフォーム： [https://gitee.com/opencc/ccflow](https://gitee.com/opencc/ccflow)
 - 👉 IoTGateway:.NET6ベースのクロスプラットフォームIoTゲートウェイ [https://gitee.com/iioter/iotgateway](https://gitee.com/iioter/iotgateway)
 - 👉 楽聯iotプラットフォーム [https://gitee.com/open-enjoy/enjoy-iot](https://gitee.com/open-enjoy/enjoy-iot)

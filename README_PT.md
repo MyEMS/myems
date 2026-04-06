@@ -209,6 +209,6 @@ Senha: !MyEMS1
 
 ## 🔖 Links de amizade
 
-- 👉 Formulário de fluxo de trabalho BPM Chichang de código baixo : [https://ccflow.org/index.html?frm=myems](https://ccflow.org/index.html?frm=myems)
+- 👉 Formulário de fluxo de trabalho BPM Chichang de código baixo : [https://gitee.com/opencc/ccflow](https://gitee.com/opencc/ccflow)
 - 👉 IoTGateway : Gateway IoT multiplataforma baseado em .NET6 [https://gitee.com/iioter/iotgateway](https://gitee.com/iioter/iotgateway)
 - 👉 Plataforma iot Enjoy [https://gitee.com/open-enjoy/enjoy-iot](https://gitee.com/open-enjoy/enjoy-iot)

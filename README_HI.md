@@ -210,6 +210,6 @@ Web UI:
 
 ## 🔖 मित्रता लिंक
 
-- 👉 चिचांग BPM लो-कोड वर्कफ़्लो फॉर्म : [https://ccflow.org/index.html?frm=myems](https://ccflow.org/index.html?frm=myems)
+- 👉 चिचांग BPM लो-कोड वर्कफ़्लो फॉर्म : [https://gitee.com/opencc/ccflow](https://gitee.com/opencc/ccflow)
 - 👉 IoTGateway: .NET6 आधारित क्रॉस-प्लेटफ़ॉर्म IoT गेटवे [https://gitee.com/iioter/iotgateway](https://gitee.com/iioter/iotgateway)
 - 👉 एन्जॉय iot प्लेटफ़ॉर्म [https://gitee.com/open-enjoy/enjoy-iot](https://gitee.com/open-enjoy/enjoy-iot)

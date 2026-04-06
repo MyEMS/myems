@@ -209,6 +209,6 @@ Password：!MyEMS1
 
 ## 🔖 Link amichevoli
 
-- 👉 BPM a basso codice Chizheng flusso di lavoro form: [https://ccflow.org/index.html?frm=myems](https://ccflow.org/index.html?frm=myems)
+- 👉 BPM a basso codice Chizheng flusso di lavoro form: [https://gitee.com/opencc/ccflow](https://gitee.com/opencc/ccflow)
 - 👉 IoTGateway: Gateway IoT multipiattaforma basato su .NET6 [https://gitee.com/iioter/iotgateway](https://gitee.com/iioter/iotgateway)
 - 👉 Piattaforma iot EnjoyLink [https://gitee.com/open-enjoy/enjoy-iot](https://gitee.com/open-enjoy/enjoy-iot)

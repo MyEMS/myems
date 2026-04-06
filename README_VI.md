@@ -209,6 +209,6 @@ Mật khẩu: !MyEMS1
 
 ## 🔖 Liên kết hữu nghị
 
-- 👉 Biểu mẫu quy trình làm việc BPM Chichang mã thấp : [https://ccflow.org/index.html?frm=myems](https://ccflow.org/index.html?frm=myems)
+- 👉 Biểu mẫu quy trình làm việc BPM Chichang mã thấp : [https://gitee.com/opencc/ccflow](https://gitee.com/opencc/ccflow)
 - 👉 IoTGateway: Cổng IoT đa nền tảng dựa trên .NET6 [https://gitee.com/iioter/iotgateway](https://gitee.com/iioter/iotgateway)
 - 👉 Nền tảng iot Enjoy [https://gitee.com/open-enjoy/enjoy-iot](https://gitee.com/open-enjoy/enjoy-iot)

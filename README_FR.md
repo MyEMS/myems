@@ -209,7 +209,7 @@ Mot de passe : !MyEMS1
 
 ## 🔖 Liens d'amitié
 
-- 👉 BPM Chichang low-code workflow form : [https://ccflow.org/index.html?frm=myems](https://ccflow.org/index.html?frm=myems)
+- 👉 BPM Chichang low-code workflow form : [https://gitee.com/opencc/ccflow](https://gitee.com/opencc/ccflow)
 - 👉 IoTGateway : Passerelle IoT multiplateforme basée sur .NET6 [https://gitee.com/iioter/iotgateway](https://gitee.com/iioter/iotgateway)
 - 👉 Plateforme iot Enjoy [https://gitee.com/open-enjoy/enjoy-iot](https://gitee.com/open-enjoy/enjoy-iot)
 

@@ -209,6 +209,6 @@ Kata laluan: !MyEMS1
 
 ## 🔖 Pautan persahabatan
 
-- 👉 Borang alur kerja BPM Chichang kod rendah : [https://ccflow.org/index.html?frm=myems](https://ccflow.org/index.html?frm=myems)
+- 👉 Borang alur kerja BPM Chichang kod rendah : [https://gitee.com/opencc/ccflow](https://gitee.com/opencc/ccflow)
 - 👉 IoTGateway: Gerbang IoT merentas platform berdasarkan .NET6 [https://gitee.com/iioter/iotgateway](https://gitee.com/iioter/iotgateway)
 - 👉 Platform iot Enjoy [https://gitee.com/open-enjoy/enjoy-iot](https://gitee.com/open-enjoy/enjoy-iot)
