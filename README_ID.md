@@ -209,6 +209,6 @@ Kata sandi: !MyEMS1
 
 ## 🔖 Tautan persahabatan
 
-- 👉 Formulir alur kerja BPM Chichang kode rendah : [https://ccflow.org/index.html?frm=myems](https://ccflow.org/index.html?frm=myems)
+- 👉 Formulir alur kerja BPM Chichang kode rendah : [https://gitee.com/opencc/ccflow](https://gitee.com/opencc/ccflow)
 - 👉 IoTGateway: Gateway IoT lintas platform berbasis .NET6 [https://gitee.com/iioter/iotgateway](https://gitee.com/iioter/iotgateway)
 - 👉 Platform iot Enjoy [https://gitee.com/open-enjoy/enjoy-iot](https://gitee.com/open-enjoy/enjoy-iot)

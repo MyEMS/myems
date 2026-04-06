@@ -209,6 +209,6 @@ Web UI:
 
 ## 🔖 友情連結
 
-- 👉 馳騁BPM低程式碼工作流程表單： [https://ccflow.org/index.html?frm=myems](https://ccflow.org/index.html?frm=myems)
+- 👉 馳騁BPM低程式碼工作流程表單： [https://gitee.com/opencc/ccflow](https://gitee.com/opencc/ccflow)
 - 👉 IoTGateway:基於.NET6的跨平台物聯網閘道 [https://gitee.com/iioter/iotgateway](https://gitee.com/iioter/iotgateway)
 - 👉 樂聯iot平台 [https://gitee.com/open-enjoy/enjoy-iot](https://gitee.com/open-enjoy/enjoy-iot)

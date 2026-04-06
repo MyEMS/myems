@@ -208,6 +208,6 @@ Hasło: !MyEMS1
 
 ## 🔖 Linki przyjacielskie
 
-- 👉 Chęciny BPM Low-Code Workflow Forms: [https://ccflow.org/index.html?frm=myems](https://ccflow.org/index.html?frm=myems)
+- 👉 Chęciny BPM Low-Code Workflow Forms: [https://gitee.com/opencc/ccflow](https://gitee.com/opencc/ccflow)
 - 👉 IoTGateway: wieloplatformowa brama IoT oparta na .NET6 [https://gitee.com/iioter/iotgateway](https://gitee.com/iioter/iotgateway)
 - 👉 Platforma Lelian IoT [https://gitee.com/open-enjoy/enjoy-iot](https://gitee.com/open-enjoy/enjoy-iot)
