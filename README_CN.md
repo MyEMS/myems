@@ -199,7 +199,10 @@ Web UI:
 
 ## 视频
 
- 
+[BiliBili](https://space.bilibili.com/539108162)
+
+[YouTube](https://www.youtube.com/@myems)
+
 ## 🔖 推荐
 
 - 👉 驰骋BPM低代码工作流表单： [https://gitee.com/opencc/ccflow](https://gitee.com/opencc/ccflow)
