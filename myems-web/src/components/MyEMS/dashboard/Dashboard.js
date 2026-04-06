@@ -807,7 +807,7 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
               ? (parseFloat(totalInTCO2E['increment_rate']) / parseFloat(totalInTCE['increment_rate'])).toFixed(2) + '%'
               : ''
           }
-          title={t("This Year's Consumption CATEGORY VALUE UNIT", {
+          title={t("This Month's Consumption CATEGORY VALUE UNIT", {
             CATEGORY: t('Carbon Emissions Per Unit Of Energy Consumption'),
             UNIT: '(TCO2E/TCE)'
           })}
