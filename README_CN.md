@@ -57,7 +57,7 @@ MyEMS开源能源管理系统参考ISO 50001能源管理体系标准(GB/T 23331-
 ![MyEMS Web 25](./docs/images/myems_web_25.png)
 ![MyEMS Web 26](./docs/images/myems_web_26.png)
 ![MyEMS Web 27](./docs/images/myems_web_27.png)
-
+![MyEMS Web 28](./docs/images/myems_web_28.png)
 
 
 ## MyEMS Admin UI 展示
@@ -188,14 +188,14 @@ Web UI:
 - Email: zny@myems.org
 
 | Platform | Description | QR Code |
-|-------|--------------|---------|
-| 微信    | 13011132526 | ![WeChat: 13011132526](./docs/images/qr_code_wechat.png) |
-| 飞书    | 13011132526 | ![Feishu: 13011132526](./docs/images/qr_code_feishu.png) |
-| 公众号   | 开源能源管理系统 | ![开源能源管理系统](./docs/images/qr_code_mp_weixin.png) |
-| 视频号   | 开源能源管理系统 | ![开源能源管理系统](./docs/images/qr_code_wechat_channels.png) |
-| 微信群   | 微信群 | ![微信群](./docs/images/qr_code_wechat_group.png) |
-| QQ群   | 792528967 | ![QQ群](./docs/images/qr_code_qq_group.png) |
-| 小红书   | 小红书 | ![Xiaohongshju](./docs/images/qr_code_xiaohongshu.png) |
+|---------|--------------|---------|
+| 微信      | 13011132526 | ![WeChat: 13011132526](./docs/images/qr_code_wechat.png) |
+| 飞书      | 13011132526 | ![Feishu: 13011132526](./docs/images/qr_code_feishu.png) |
+| 微信公众号     | 开源能源管理系统 | ![开源能源管理系统](./docs/images/qr_code_mp_weixin.png) |
+| 微信视频号     | 开源能源管理系统 | ![开源能源管理系统](./docs/images/qr_code_wechat_channels.png) |
+| 微信群     | 微信群 | ![微信群](./docs/images/qr_code_wechat_group.png) |
+| QQ群     | 792528967 | ![QQ群](./docs/images/qr_code_qq_group.png) |
+| 小红书     | 小红书 | ![Xiaohongshju](./docs/images/qr_code_xiaohongshu.png) |
 
 ## 视频
 
