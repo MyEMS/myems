@@ -209,6 +209,6 @@ Web UI:
 
 ## 🔖 ลิงก์มิตรภาพ
 
-- 👉 แบบฟอร์มเวิร์กโฟลว์ BPM Chichang โค้ดต่ำ : [https://ccflow.org/index.html?frm=myems](https://ccflow.org/index.html?frm=myems)
+- 👉 แบบฟอร์มเวิร์กโฟลว์ BPM Chichang โค้ดต่ำ : [https://gitee.com/opencc/ccflow](https://gitee.com/opencc/ccflow)
 - 👉 IoTGateway: เกตเวย์ IoT ข้ามแพลตฟอร์มที่ใช้ .NET6 [https://gitee.com/iioter/iotgateway](https://gitee.com/iioter/iotgateway)
 - 👉 แพลตฟอร์ม iot Enjoy [https://gitee.com/open-enjoy/enjoy-iot](https://gitee.com/open-enjoy/enjoy-iot)

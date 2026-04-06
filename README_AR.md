@@ -209,6 +209,6 @@ Web UI:
 
 ## 🔖 روابط الصداقة
 
-- 👉 نموذج سير عمل BPM Chichang منخفض الكود : [https://ccflow.org/index.html?frm=myems](https://ccflow.org/index.html?frm=myems)
+- 👉 نموذج سير عمل BPM Chichang منخفض الكود : [[https://gitee.com/opencc/ccflow](https://gitee.com/opencc/ccflow)
 - 👉 IoTGateway : بوابة إنترنت الأشياء متعددة المنصات المبنية على .NET6 [https://gitee.com/iioter/iotgateway](https://gitee.com/iioter/iotgateway)
 - 👉 منصة إنترنت الأشياء Enjoy [https://gitee.com/open-enjoy/enjoy-iot](https://gitee.com/open-enjoy/enjoy-iot)

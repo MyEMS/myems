@@ -215,6 +215,6 @@ Password: !MyEMS1
 
 ## 🔖 AD Links
 
-- 👉 JFlow&ccflow: [https://ccflow.org/index.html?frm=myems](https://ccflow.org/index.html?frm=myems)
+- 👉 JFlow&ccflow: [https://gitee.com/opencc/ccflow](https://gitee.com/opencc/ccflow)
 - 👉 IoTGateway: A cross-platform IoT gateway based on .NET6 [https://github.com/iioter/iotgateway](https://github.com/iioter/iotgateway)
 - 👉 Enjoy IoT: [https://gitee.com/open-enjoy/enjoy-iot](https://gitee.com/open-enjoy/enjoy-iot)
