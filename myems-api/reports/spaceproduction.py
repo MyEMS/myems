@@ -126,7 +126,7 @@ class Reporting:
                 base_start_datetime_utc = base_start_datetime_utc.replace(minute=0, second=0, microsecond=0)
 
         base_end_datetime_utc = None
-        if base_period_end_datetime_local is not None or len(str.strip(base_period_end_datetime_local)) > 0:
+        if base_period_end_datetime_local is not None and len(str.strip(base_period_end_datetime_local)) > 0:
             base_period_end_datetime_local = str.strip(base_period_end_datetime_local)
             try:
                 base_end_datetime_utc = datetime.strptime(base_period_end_datetime_local, '%Y-%m-%dT%H:%M:%S')
@@ -135,6 +135,11 @@ class Reporting:
                                        description='API.INVALID_BASE_PERIOD_END_DATETIME')
             base_end_datetime_utc = \
                 base_end_datetime_utc.replace(tzinfo=timezone.utc) - timedelta(minutes=timezone_offset)
+
+        if base_start_datetime_utc is not None and base_end_datetime_utc is not None and \
+                base_start_datetime_utc >= base_end_datetime_utc:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_BASE_PERIOD_END_DATETIME')
 
         if reporting_period_start_datetime_local is None:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
@@ -286,43 +291,49 @@ class Reporting:
         base_date_list = list()
         base_daily_values = list()
 
-        cnx_production = mysql.connector.connect(**config.myems_production_db)
-        cursor_production = cnx_production.cursor()
+        if base_start_datetime_utc is not None and base_end_datetime_utc is not None:
+            cnx_production = mysql.connector.connect(**config.myems_production_db)
+            cursor_production = cnx_production.cursor()
 
-        query = (" SELECT start_datetime_utc, product_count "
-                 " FROM tbl_space_hourly "
-                 " WHERE space_id = %s "
-                 " AND product_id = %s "
-                 " AND start_datetime_utc >= %s "
-                 " AND start_datetime_utc < %s "
-                 " ORDER BY start_datetime_utc ")
-        cursor_production.execute(query, (space_id,
-                                          product_id,
-                                          base_start_datetime_utc,
-                                          base_end_datetime_utc))
-        rows_space_production_hourly = cursor_production.fetchall()
+            query = (" SELECT start_datetime_utc, product_count "
+                     " FROM tbl_space_hourly "
+                     " WHERE space_id = %s "
+                     " AND product_id = %s "
+                     " AND start_datetime_utc >= %s "
+                     " AND start_datetime_utc < %s "
+                     " ORDER BY start_datetime_utc ")
+            cursor_production.execute(query, (space_id,
+                                              product_id,
+                                              base_start_datetime_utc,
+                                              base_end_datetime_utc))
+            rows_space_production_hourly = cursor_production.fetchall()
 
-        start_datetime_utc = base_start_datetime_utc.replace(tzinfo=None)
-        end_datetime_utc = reporting_end_datetime_utc.replace(tzinfo=None)
+            start_datetime_utc = base_start_datetime_utc.replace(tzinfo=None)
+            end_datetime_utc = reporting_end_datetime_utc.replace(tzinfo=None)
 
-        start_datetime_local = start_datetime_utc + timedelta(hours=int(config.utc_offset[1:3]))
-        current_datetime_utc = start_datetime_local.replace(hour=0) - timedelta(hours=int(config.utc_offset[1:3]))
+            start_datetime_local = start_datetime_utc + timedelta(hours=int(config.utc_offset[1:3]))
+            current_datetime_utc = start_datetime_local.replace(hour=0) - timedelta(hours=int(config.utc_offset[1:3]))
 
-        while current_datetime_utc <= end_datetime_utc:
-            flag = True
-            subtotal = Decimal(0.0)
-            for row in rows_space_production_hourly:
-                if current_datetime_utc <= row[0] < current_datetime_utc + timedelta(days=1):
-                    flag = False
-                    subtotal += row[1]
-            if flag:
-                subtotal = None
-            current_datetime = start_datetime_local.isoformat()[0:10]
+            while current_datetime_utc <= end_datetime_utc:
+                flag = True
+                subtotal = Decimal(0.0)
+                for row in rows_space_production_hourly:
+                    if current_datetime_utc <= row[0] < current_datetime_utc + timedelta(days=1):
+                        flag = False
+                        subtotal += row[1]
+                if flag:
+                    subtotal = None
+                current_datetime = start_datetime_local.isoformat()[0:10]
 
-            base_date_list.append(current_datetime)
-            base_daily_values.append(subtotal)
-            current_datetime_utc += timedelta(days=1)
-            start_datetime_local += timedelta(days=1)
+                base_date_list.append(current_datetime)
+                base_daily_values.append(subtotal)
+                current_datetime_utc += timedelta(days=1)
+                start_datetime_local += timedelta(days=1)
+
+            if cursor_production:
+                cursor_production.close()
+            if cnx_production:
+                cnx_production.disconnect()
 
         ################################################################################################################
         # Step 3: query energy categories
@@ -453,42 +464,40 @@ class Reporting:
         base_date_list = list()
         base_daily_values = list()
 
-        cnx_production = mysql.connector.connect(**config.myems_production_db)
-        cursor_production = cnx_production.cursor()
+        if base_start_datetime_utc is not None and base_end_datetime_utc is not None:
+            query = (" SELECT start_datetime_utc, product_count "
+                     " FROM tbl_space_hourly "
+                     " WHERE space_id = %s "
+                     " AND product_id = %s "
+                     " AND start_datetime_utc >= %s "
+                     " AND start_datetime_utc < %s "
+                     " ORDER BY start_datetime_utc ")
+            cursor_production.execute(query, (space_id,
+                                              product_id,
+                                              base_start_datetime_utc,
+                                              base_end_datetime_utc))
+            rows_space_production_hourly = cursor_production.fetchall()
+            start_datetime_utc = base_start_datetime_utc.replace(tzinfo=None)
+            end_datetime_utc = base_end_datetime_utc.replace(tzinfo=None)
 
-        query = (" SELECT start_datetime_utc, product_count "
-                 " FROM tbl_space_hourly "
-                 " WHERE space_id = %s "
-                 " AND product_id = %s "
-                 " AND start_datetime_utc >= %s "
-                 " AND start_datetime_utc < %s "
-                 " ORDER BY start_datetime_utc ")
-        cursor_production.execute(query, (space_id,
-                                          product_id,
-                                          base_start_datetime_utc,
-                                          base_end_datetime_utc))
-        rows_space_production_hourly = cursor_production.fetchall()
-        start_datetime_utc = base_start_datetime_utc.replace(tzinfo=None)
-        end_datetime_utc = base_end_datetime_utc.replace(tzinfo=None)
+            start_datetime_local = start_datetime_utc + timedelta(hours=int(config.utc_offset[1:3]))
+            current_datetime_utc = start_datetime_local.replace(hour=0) - timedelta(hours=int(config.utc_offset[1:3]))
 
-        start_datetime_local = start_datetime_utc + timedelta(hours=int(config.utc_offset[1:3]))
-        current_datetime_utc = start_datetime_local.replace(hour=0) - timedelta(hours=int(config.utc_offset[1:3]))
+            while current_datetime_utc <= end_datetime_utc:
+                flag = True
+                subtotal = Decimal(0.0)
+                for row in rows_space_production_hourly:
+                    if current_datetime_utc <= row[0] < current_datetime_utc + timedelta(days=1):
+                        flag = False
+                        subtotal += row[1]
+                if flag:
+                    subtotal = None
+                current_datetime = start_datetime_local.isoformat()[0:10]
 
-        while current_datetime_utc <= end_datetime_utc:
-            flag = True
-            subtotal = Decimal(0.0)
-            for row in rows_space_production_hourly:
-                if current_datetime_utc <= row[0] < current_datetime_utc + timedelta(days=1):
-                    flag = False
-                    subtotal += row[1]
-            if flag:
-                subtotal = None
-            current_datetime = start_datetime_local.isoformat()[0:10]
-
-            base_date_list.append(current_datetime)
-            base_daily_values.append(subtotal)
-            current_datetime_utc += timedelta(days=1)
-            start_datetime_local += timedelta(days=1)
+                base_date_list.append(current_datetime)
+                base_daily_values.append(subtotal)
+                current_datetime_utc += timedelta(days=1)
+                start_datetime_local += timedelta(days=1)
 
         ################################################################################################################
         # Step 6: query base period energy consumption
@@ -729,10 +738,14 @@ class Reporting:
         result['reporting_production'] = dict()
         result['reporting_production']['timestamps'] = reporting_date_list
         result['reporting_production']['values'] = reporting_daily_values
-        for base, reporting in zip(base_daily_values, reporting_daily_values):
-            rate = (reporting - base) / base \
-                if reporting is not None and base is not None and base > 0 and reporting > 0 else 0
-            rates.append(rate)
+        if base_start_datetime_utc is not None and base_end_datetime_utc is not None \
+                and len(base_daily_values) == len(reporting_daily_values):
+            for b_val, reporting in zip(base_daily_values, reporting_daily_values):
+                rate = (reporting - b_val) / b_val \
+                    if reporting is not None and b_val is not None and b_val > 0 and reporting > 0 else 0
+                rates.append(rate)
+        else:
+            rates = [None] * len(reporting_daily_values)
         result['reporting_production']['rates'] = rates
 
         result['reporting_result_values'] = reporting_result_values
