@@ -199,9 +199,7 @@ Web UI:
 
 ## 视频
 
-[BiliBili](https://space.bilibili.com/539108162)
-
-[YouTube](https://www.youtube.com/@myems)
+ 
 
 ## 🔖 推荐
 
