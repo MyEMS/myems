@@ -136,13 +136,13 @@ class Reporting:
         else:
             reporting_period_start_datetime_local = str.strip(reporting_period_start_datetime_local)
             try:
-                reporting_start_datetime_utc = datetime.strptime(reporting_period_start_datetime_local,
+                reporting_start_datetime_local = datetime.strptime(reporting_period_start_datetime_local,
                                                                  '%Y-%m-%dT%H:%M:%S')
             except ValueError:
                 raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                        description="API.INVALID_REPORTING_PERIOD_START_DATETIME")
             reporting_start_datetime_utc = \
-                reporting_start_datetime_utc.replace(tzinfo=timezone.utc) - timedelta(minutes=timezone_offset)
+                reporting_start_datetime_local.replace(tzinfo=timezone.utc) - timedelta(minutes=timezone_offset)
             # nomalize the start datetime
             if config.minutes_to_count == 30 and reporting_start_datetime_utc.minute >= 30:
                 reporting_start_datetime_utc = reporting_start_datetime_utc.replace(minute=30, second=0, microsecond=0)
@@ -587,7 +587,7 @@ class Reporting:
                             reporting_input[energy_category_id]['timestamps'].append(current_datetime)
                             reporting_input[energy_category_id]['values'].append(actual_value)
                             reporting_input[energy_category_id]['subtotal'] += actual_value
-                            reporting_input[energy_category_id]['subtotal_in_kgce'] += actual_value * kgce
+                            reporting_input[energy_category_id]['subtotal_in_kgce'] = actual_value * kgce
                             reporting_input[energy_category_id]['subtotal_in_kgco2e'] = actual_value * kgco2e
                             # use the latest month value
                             reporting_input[energy_category_id]['this_month_subtotal_in_kgce'] = actual_value * kgce
