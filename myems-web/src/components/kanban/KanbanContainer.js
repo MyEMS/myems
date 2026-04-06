@@ -1,6 +1,6 @@
 import React, { useContext, useRef, useEffect } from 'react';
 import { DragDropContext } from 'react-beautiful-dnd';
-import is from 'is_js';
+import validator from 'validator'; 
 
 import { KanbanContext } from '../../context/Context';
 import { isIterableArray } from '../../helpers/utils';
@@ -8,11 +8,20 @@ import KanbanColumn from './KanbanColumn';
 import AddAnotherList from './AddAnotherList';
 import KanbanModal from './KanbanModal';
 
+const getUaInfo = () => {
+  const ua = navigator.userAgent;
+  return {
+    isIPad: /iPad|Macintosh/.test(ua) && 'ontouchend' in document,
+    isMobile: /Android|webOS|iPhone|iPod|BlackBerry|IEMobile|Opera Mini/i.test(ua),
+    isSafari: /Safari/.test(ua) && /Apple Computer/.test(navigator.vendor) && !/Chrom(e|ium)|Edg|OPR/.test(ua),
+    isChrome: /Chrome/.test(ua) && !/Edg|Edge/.test(ua)
+  };
+};
+
 const reorder = (list, startIndex, endIndex) => {
   const result = Array.from(list);
   const [removed] = result.splice(startIndex, 1);
   result.splice(endIndex, 0, removed);
-
   return result;
 };
 
@@ -20,39 +29,43 @@ const move = (source, destination, droppableSource, droppableDestination) => {
   const sourceClone = Array.from(source);
   const destClone = Array.from(destination);
   const [removed] = sourceClone.splice(droppableSource.index, 1);
-
   destClone.splice(droppableDestination.index, 0, removed);
-
   const result = {};
   result[droppableSource.droppableId] = sourceClone;
   result[droppableDestination.droppableId] = destClone;
-
   return result;
 };
 
 const KanbanContainer = () => {
   const { kanbanColumns, UpdateColumnData, modalContent, modal, setModal } = useContext(KanbanContext);
   const containerRef = useRef(null);
-
+  
   // Detect device
+  const addClsOnce = useRef(false);
   useEffect(() => {
-    if (is.ipad()) {
+    if (addClsOnce.current || !containerRef.current) return;
+
+    const ua = getUaInfo();
+
+    if (ua.isIPad) {
       containerRef.current.classList.add('ipad');
     }
-    if (is.mobile()) {
+    if (ua.isMobile) {
       containerRef.current.classList.add('mobile');
-      if (is.safari()) {
+      if (ua.isSafari) {
         containerRef.current.classList.add('safari');
       }
-      if (is.chrome()) {
+      if (ua.isChrome) {
         containerRef.current.classList.add('chrome');
       }
     }
+
+    addClsOnce.current = true;
   }, []);
 
   const getList = id => {
     const targetColumn = kanbanColumns.find(item => item.id === id);
-    return targetColumn.items;
+    return targetColumn?.items || [];
   };
 
   const onDragEnd = result => {
