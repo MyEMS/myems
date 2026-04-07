@@ -53,7 +53,6 @@ def export(report,
     ####################################################################################################################
     if report is None:
         return None
-    print(report)
 
     ####################################################################################################################
     # Step 2: Generate excel file from the report data
@@ -96,6 +95,13 @@ def generate_excel(report,
                    reporting_end_datetime_local,
                    period_type,
                    language):
+    ROW_HEIGHT_TITLE = 102
+    ROW_HEIGHT_DEFAULT = 42
+    ROW_HEIGHT_TABLE_HEADER = 60
+    COL_WIDTH_A = 1.5
+    COL_WIDTH_B = 25.0
+    COL_WIDTH_DEFAULT = 15.0
+
     trans = get_translation(language)
     trans.install()
     _ = trans.gettext
@@ -105,17 +111,16 @@ def generate_excel(report,
     ws.title = "SpaceEnergyCategory"
 
     # Row height
-    ws.row_dimensions[1].height = 102
+    ws.row_dimensions[1].height = ROW_HEIGHT_TITLE
     for i in range(2, 2000 + 1):
-        ws.row_dimensions[i].height = 42
+        ws.row_dimensions[i].height = ROW_HEIGHT_DEFAULT
 
     # Col width
-    ws.column_dimensions['A'].width = 1.5
-
-    ws.column_dimensions['B'].width = 25.0
+    ws.column_dimensions['A'].width = COL_WIDTH_A
+    ws.column_dimensions['B'].width = COL_WIDTH_B
 
     for i in range(ord('C'), ord('Z')):
-        ws.column_dimensions[chr(i)].width = 15.0
+        ws.column_dimensions[chr(i)].width = COL_WIDTH_DEFAULT
 
     # Font
     name_font = Font(name='Arial', size=15, bold=True)
@@ -151,8 +156,11 @@ def generate_excel(report,
                               indent=0)
 
     # Img
-    img = Image("excelexporters/myems.png")
-    ws.add_image(img, 'A1')
+    try:
+        img = Image("excelexporters/myems.png")
+        ws.add_image(img, 'A1')
+    except Exception:
+        pass
 
     # Title
     ws['B3'].alignment = b_r_alignment
