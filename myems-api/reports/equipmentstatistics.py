@@ -520,150 +520,6 @@ class Reporting:
                         parameters_data['timestamps'].append(point_timestamps)
                         parameters_data['values'].append(point_values)
 
-                ##############################################################################################
-                # Step 9: construct the report
-                ##############################################################################################
-                
-                result = dict()
-
-                result['equipment'] = dict()
-                result['equipment']['name'] = equipment['name']
-
-                result['base_period'] = dict()
-                result['base_period']['names'] = list()
-                result['base_period']['units'] = list()
-                result['base_period']['timestamps'] = list()
-                result['base_period']['values'] = list()
-                result['base_period']['subtotals'] = list()
-                result['base_period']['means'] = list()
-                result['base_period']['medians'] = list()
-                result['base_period']['minimums'] = list()
-                result['base_period']['maximums'] = list()
-                result['base_period']['stdevs'] = list()
-                result['base_period']['variances'] = list()
-
-                if energy_category_set is not None and len(energy_category_set) > 0:
-                    for energy_category_id in energy_category_set:
-                        result['base_period']['names'].append(energy_category_dict[energy_category_id]['name'])
-                        result['base_period']['units'].append(
-                            energy_category_dict[energy_category_id]['unit_of_measure'])
-                        result['base_period']['timestamps'].append(base[energy_category_id]['timestamps'])
-                        result['base_period']['values'].append(base[energy_category_id]['values'])
-                        result['base_period']['subtotals'].append(base[energy_category_id]['subtotal'])
-                        result['base_period']['means'].append(base[energy_category_id]['mean'])
-                        result['base_period']['medians'].append(base[energy_category_id]['median'])
-                        result['base_period']['minimums'].append(base[energy_category_id]['minimum'])
-                        result['base_period']['maximums'].append(base[energy_category_id]['maximum'])
-                        result['base_period']['stdevs'].append(base[energy_category_id]['stdev'])
-                        result['base_period']['variances'].append(base[energy_category_id]['variance'])
-
-                result['reporting_period'] = dict()
-                result['reporting_period']['names'] = list()
-                result['reporting_period']['energy_category_ids'] = list()
-                result['reporting_period']['units'] = list()
-                result['reporting_period']['timestamps'] = list()
-                result['reporting_period']['values'] = list()
-                result['reporting_period']['rates'] = list()
-                result['reporting_period']['subtotals'] = list()
-                result['reporting_period']['means'] = list()
-                result['reporting_period']['means_increment_rate'] = list()
-                result['reporting_period']['medians'] = list()
-                result['reporting_period']['medians_increment_rate'] = list()
-                result['reporting_period']['minimums'] = list()
-                result['reporting_period']['minimums_increment_rate'] = list()
-                result['reporting_period']['maximums'] = list()
-                result['reporting_period']['maximums_increment_rate'] = list()
-                result['reporting_period']['stdevs'] = list()
-                result['reporting_period']['stdevs_increment_rate'] = list()
-                result['reporting_period']['variances'] = list()
-                result['reporting_period']['variances_increment_rate'] = list()
-
-                if energy_category_set is not None and len(energy_category_set) > 0:
-                    for energy_category_id in energy_category_set:
-                        result['reporting_period']['names'].append(
-                            energy_category_dict[energy_category_id]['name'])
-                        result['reporting_period']['energy_category_ids'].append(energy_category_id)
-                        result['reporting_period']['units'].append(
-                            energy_category_dict[energy_category_id]['unit_of_measure'])
-                        result['reporting_period']['timestamps'].append(
-                            reporting[energy_category_id]['timestamps'])
-                        result['reporting_period']['values'].append(reporting[energy_category_id]['values'])
-                        result['reporting_period']['subtotals'].append(
-                            reporting[energy_category_id]['subtotal'])
-                        result['reporting_period']['means'].append(reporting[energy_category_id]['mean'])
-                        result['reporting_period']['means_increment_rate'].append(
-                            (reporting[energy_category_id]['mean'] - base[energy_category_id]['mean']) /
-                            base[energy_category_id]['mean'] if (
-                                    base[energy_category_id]['mean'] is not None and
-                                    base[energy_category_id]['mean'] > Decimal(0.0))
-                            else None)
-                        result['reporting_period']['medians'].append(reporting[energy_category_id]['median'])
-                        result['reporting_period']['medians_increment_rate'].append(
-                            (reporting[energy_category_id]['median'] - base[energy_category_id]['median']) /
-                            base[energy_category_id]['median'] if (
-                                    base[energy_category_id]['median'] is not None and
-                                    base[energy_category_id]['median'] > Decimal(0.0))
-                            else None)
-                        result['reporting_period']['minimums'].append(reporting[energy_category_id]['minimum'])
-                        result['reporting_period']['minimums_increment_rate'].append(
-                            (reporting[energy_category_id]['minimum'] - base[energy_category_id]['minimum']) /
-                            base[energy_category_id]['minimum'] if (
-                                    base[energy_category_id]['minimum'] is not None and
-                                    base[energy_category_id]['minimum'] > Decimal(0.0))
-                            else None)
-                        result['reporting_period']['maximums'].append(reporting[energy_category_id]['maximum'])
-                        result['reporting_period']['maximums_increment_rate'].append(
-                            (reporting[energy_category_id]['maximum'] - base[energy_category_id]['maximum']) /
-                            base[energy_category_id]['maximum'] if (
-                                    base[energy_category_id]['maximum'] is not None and
-                                    base[energy_category_id]['maximum'] > Decimal(0.0))
-                            else None)
-                        result['reporting_period']['stdevs'].append(reporting[energy_category_id]['stdev'])
-                        result['reporting_period']['stdevs_increment_rate'].append(
-                            (reporting[energy_category_id]['stdev'] - base[energy_category_id]['stdev']) /
-                            base[energy_category_id]['stdev'] if (
-                                    base[energy_category_id]['stdev'] is not None and
-                                    base[energy_category_id]['stdev'] > Decimal(0.0))
-                            else None)
-                        result['reporting_period']['variances'].append(
-                            reporting[energy_category_id]['variance'])
-                        result['reporting_period']['variances_increment_rate'].append(
-                            (reporting[energy_category_id]['variance'] - base[energy_category_id]['variance']) /
-                            base[energy_category_id]['variance'] if (
-                                    base[energy_category_id]['variance'] is not None and
-                                    base[energy_category_id]['variance'] > Decimal(0.0))
-                            else None)
-
-                        rate = list()
-                        for index, value in enumerate(reporting[energy_category_id]['values']):
-                            if index < len(base[energy_category_id]['values']) \
-                                    and base[energy_category_id]['values'][index] != 0 and value != 0:
-                                rate.append((value - base[energy_category_id]['values'][index])
-                                            / base[energy_category_id]['values'][index])
-                            else:
-                                rate.append(None)
-                        result['reporting_period']['rates'].append(rate)
-
-                result['parameters'] = {
-                    "names": parameters_data['names'],
-                    "timestamps": parameters_data['timestamps'],
-                    "values": parameters_data['values']
-                }
-
-                # export result to Excel file and then encode the file to base64 string
-                result['excel_bytes_base64'] = None
-                if not is_quick_mode:
-                    result['excel_bytes_base64'] = \
-                        excelexporters.equipmentstatistics.export(result,
-                                                                  equipment['name'],
-                                                                  base_period_start_datetime_local,
-                                                                  base_period_end_datetime_local,
-                                                                  reporting_period_start_datetime_local,
-                                                                  reporting_period_end_datetime_local,
-                                                                  period_type,
-                                                                  language)
-                resp.text = json.dumps(result)
-
             finally:
                 if cursor_system:
                     cursor_system.close()
@@ -679,3 +535,147 @@ class Reporting:
                 cnx_energy.close()
             if cnx_historical:
                 cnx_historical.close()
+
+        ##############################################################################################
+        # Step 9: construct the report
+        ##############################################################################################
+
+        result = dict()
+
+        result['equipment'] = dict()
+        result['equipment']['name'] = equipment['name']
+
+        result['base_period'] = dict()
+        result['base_period']['names'] = list()
+        result['base_period']['units'] = list()
+        result['base_period']['timestamps'] = list()
+        result['base_period']['values'] = list()
+        result['base_period']['subtotals'] = list()
+        result['base_period']['means'] = list()
+        result['base_period']['medians'] = list()
+        result['base_period']['minimums'] = list()
+        result['base_period']['maximums'] = list()
+        result['base_period']['stdevs'] = list()
+        result['base_period']['variances'] = list()
+
+        if energy_category_set is not None and len(energy_category_set) > 0:
+            for energy_category_id in energy_category_set:
+                result['base_period']['names'].append(energy_category_dict[energy_category_id]['name'])
+                result['base_period']['units'].append(
+                    energy_category_dict[energy_category_id]['unit_of_measure'])
+                result['base_period']['timestamps'].append(base[energy_category_id]['timestamps'])
+                result['base_period']['values'].append(base[energy_category_id]['values'])
+                result['base_period']['subtotals'].append(base[energy_category_id]['subtotal'])
+                result['base_period']['means'].append(base[energy_category_id]['mean'])
+                result['base_period']['medians'].append(base[energy_category_id]['median'])
+                result['base_period']['minimums'].append(base[energy_category_id]['minimum'])
+                result['base_period']['maximums'].append(base[energy_category_id]['maximum'])
+                result['base_period']['stdevs'].append(base[energy_category_id]['stdev'])
+                result['base_period']['variances'].append(base[energy_category_id]['variance'])
+
+        result['reporting_period'] = dict()
+        result['reporting_period']['names'] = list()
+        result['reporting_period']['energy_category_ids'] = list()
+        result['reporting_period']['units'] = list()
+        result['reporting_period']['timestamps'] = list()
+        result['reporting_period']['values'] = list()
+        result['reporting_period']['rates'] = list()
+        result['reporting_period']['subtotals'] = list()
+        result['reporting_period']['means'] = list()
+        result['reporting_period']['means_increment_rate'] = list()
+        result['reporting_period']['medians'] = list()
+        result['reporting_period']['medians_increment_rate'] = list()
+        result['reporting_period']['minimums'] = list()
+        result['reporting_period']['minimums_increment_rate'] = list()
+        result['reporting_period']['maximums'] = list()
+        result['reporting_period']['maximums_increment_rate'] = list()
+        result['reporting_period']['stdevs'] = list()
+        result['reporting_period']['stdevs_increment_rate'] = list()
+        result['reporting_period']['variances'] = list()
+        result['reporting_period']['variances_increment_rate'] = list()
+
+        if energy_category_set is not None and len(energy_category_set) > 0:
+            for energy_category_id in energy_category_set:
+                result['reporting_period']['names'].append(
+                    energy_category_dict[energy_category_id]['name'])
+                result['reporting_period']['energy_category_ids'].append(energy_category_id)
+                result['reporting_period']['units'].append(
+                    energy_category_dict[energy_category_id]['unit_of_measure'])
+                result['reporting_period']['timestamps'].append(
+                    reporting[energy_category_id]['timestamps'])
+                result['reporting_period']['values'].append(reporting[energy_category_id]['values'])
+                result['reporting_period']['subtotals'].append(
+                    reporting[energy_category_id]['subtotal'])
+                result['reporting_period']['means'].append(reporting[energy_category_id]['mean'])
+                result['reporting_period']['means_increment_rate'].append(
+                    (reporting[energy_category_id]['mean'] - base[energy_category_id]['mean']) /
+                    base[energy_category_id]['mean'] if (
+                            base[energy_category_id]['mean'] is not None and
+                            base[energy_category_id]['mean'] > Decimal(0.0))
+                    else None)
+                result['reporting_period']['medians'].append(reporting[energy_category_id]['median'])
+                result['reporting_period']['medians_increment_rate'].append(
+                    (reporting[energy_category_id]['median'] - base[energy_category_id]['median']) /
+                    base[energy_category_id]['median'] if (
+                            base[energy_category_id]['median'] is not None and
+                            base[energy_category_id]['median'] > Decimal(0.0))
+                    else None)
+                result['reporting_period']['minimums'].append(reporting[energy_category_id]['minimum'])
+                result['reporting_period']['minimums_increment_rate'].append(
+                    (reporting[energy_category_id]['minimum'] - base[energy_category_id]['minimum']) /
+                    base[energy_category_id]['minimum'] if (
+                            base[energy_category_id]['minimum'] is not None and
+                            base[energy_category_id]['minimum'] > Decimal(0.0))
+                    else None)
+                result['reporting_period']['maximums'].append(reporting[energy_category_id]['maximum'])
+                result['reporting_period']['maximums_increment_rate'].append(
+                    (reporting[energy_category_id]['maximum'] - base[energy_category_id]['maximum']) /
+                    base[energy_category_id]['maximum'] if (
+                            base[energy_category_id]['maximum'] is not None and
+                            base[energy_category_id]['maximum'] > Decimal(0.0))
+                    else None)
+                result['reporting_period']['stdevs'].append(reporting[energy_category_id]['stdev'])
+                result['reporting_period']['stdevs_increment_rate'].append(
+                    (reporting[energy_category_id]['stdev'] - base[energy_category_id]['stdev']) /
+                    base[energy_category_id]['stdev'] if (
+                            base[energy_category_id]['stdev'] is not None and
+                            base[energy_category_id]['stdev'] > Decimal(0.0))
+                    else None)
+                result['reporting_period']['variances'].append(
+                    reporting[energy_category_id]['variance'])
+                result['reporting_period']['variances_increment_rate'].append(
+                    (reporting[energy_category_id]['variance'] - base[energy_category_id]['variance']) /
+                    base[energy_category_id]['variance'] if (
+                            base[energy_category_id]['variance'] is not None and
+                            base[energy_category_id]['variance'] > Decimal(0.0))
+                    else None)
+
+                rate = list()
+                for index, value in enumerate(reporting[energy_category_id]['values']):
+                    if index < len(base[energy_category_id]['values']) \
+                            and base[energy_category_id]['values'][index] != 0 and value != 0:
+                        rate.append((value - base[energy_category_id]['values'][index])
+                                    / base[energy_category_id]['values'][index])
+                    else:
+                        rate.append(None)
+                result['reporting_period']['rates'].append(rate)
+
+        result['parameters'] = {
+            "names": parameters_data['names'],
+            "timestamps": parameters_data['timestamps'],
+            "values": parameters_data['values']
+        }
+
+        # export result to Excel file and then encode the file to base64 string
+        result['excel_bytes_base64'] = None
+        if not is_quick_mode:
+            result['excel_bytes_base64'] = \
+                excelexporters.equipmentstatistics.export(result,
+                                                          equipment['name'],
+                                                          base_period_start_datetime_local,
+                                                          base_period_end_datetime_local,
+                                                          reporting_period_start_datetime_local,
+                                                          reporting_period_end_datetime_local,
+                                                          period_type,
+                                                          language)
+        resp.text = json.dumps(result)

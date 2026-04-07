@@ -727,174 +727,6 @@ class Reporting:
                         parameters_data['timestamps'].append(point_timestamps)
                         parameters_data['values'].append(point_values)
 
-                #####################################################################################
-                # Step 8: construct the report
-                #####################################################################################
-                result = dict()
-
-                result['equipment'] = dict()
-                result['equipment']['name'] = equipment['name']
-                result['equipment']['efficiency_indicator'] = equipment['efficiency_indicator']
-
-                result['base_period_efficiency'] = dict()
-                result['base_period_efficiency']['timestamps'] = list()
-                result['base_period_efficiency']['values'] = list()
-                result['base_period_efficiency']['cumulations'] = list()
-                result['base_period_efficiency']['numerator_timestamps'] = list()
-                result['base_period_efficiency']['numerator_values'] = list()
-                result['base_period_efficiency']['numerator_cumulation'] = list()
-                result['base_period_efficiency']['denominator_timestamps'] = list()
-                result['base_period_efficiency']['denominator_values'] = list()
-                result['base_period_efficiency']['denominator_cumulation'] = list()
-
-                result['reporting_period_efficiency'] = dict()
-                result['reporting_period_efficiency']['names'] = list()
-                result['reporting_period_efficiency']['units'] = list()
-                result['reporting_period_efficiency']['numerator_names'] = list()
-                result['reporting_period_efficiency']['numerator_units'] = list()
-                result['reporting_period_efficiency']['denominator_names'] = list()
-                result['reporting_period_efficiency']['denominator_units'] = list()
-                result['reporting_period_efficiency']['timestamps'] = list()
-                result['reporting_period_efficiency']['values'] = list()
-                result['reporting_period_efficiency']['rates'] = list()
-                result['reporting_period_efficiency']['numerator_timestamps'] = list()
-                result['reporting_period_efficiency']['numerator_values'] = list()
-                result['reporting_period_efficiency']['numerator_rates'] = list()
-                result['reporting_period_efficiency']['denominator_timestamps'] = list()
-                result['reporting_period_efficiency']['denominator_values'] = list()
-                result['reporting_period_efficiency']['denominator_rates'] = list()
-                result['reporting_period_efficiency']['cumulations'] = list()
-                result['reporting_period_efficiency']['numerator_cumulation'] = list()
-                result['reporting_period_efficiency']['denominator_cumulation'] = list()
-                result['reporting_period_efficiency']['increment_rates'] = list()
-                result['reporting_period_efficiency']['increment_rates_num'] = list()
-                result['reporting_period_efficiency']['increment_rates_den'] = list()
-
-                if fraction_list is not None and len(fraction_list) > 0:
-                    for fraction in fraction_list:
-                        result['base_period_efficiency']['timestamps'].append(
-                            base[fraction['id']]['timestamps'])
-                        result['base_period_efficiency']['values'].append(
-                            base[fraction['id']]['values'])
-                        result['base_period_efficiency']['cumulations'].append(
-                            base[fraction['id']]['cumulation'])
-                        result['base_period_efficiency']['numerator_timestamps'] \
-                            .append(base[fraction['id']]['numerator_timestamps'])
-                        result['base_period_efficiency']['numerator_values'] \
-                            .append(base[fraction['id']]['numerator_values'])
-                        result['base_period_efficiency']['numerator_cumulation']\
-                            .append(base[fraction['id']]['numerator_cumulation'])
-                        result['base_period_efficiency']['denominator_timestamps'] \
-                            .append(base[fraction['id']]['denominator_timestamps'])
-                        result['base_period_efficiency']['denominator_values'] \
-                            .append(base[fraction['id']]['denominator_values'])
-                        result['base_period_efficiency']['denominator_cumulation'].\
-                            append(base[fraction['id']]['denominator_cumulation'])
-                        result['reporting_period_efficiency']['names'].append(
-                            reporting[fraction['id']]['name'])
-                        result['reporting_period_efficiency']['units'].append(
-                            reporting[fraction['id']]['unit'])
-
-                        result['reporting_period_efficiency']['numerator_names'].append(
-                            reporting[fraction['id']]['numerator_name'])
-                        result['reporting_period_efficiency']['numerator_units'].append(
-                            reporting[fraction['id']]['numerator_unit'])
-                        result['reporting_period_efficiency']['denominator_names'].append(
-                            reporting[fraction['id']]['denominator_name'])
-                        result['reporting_period_efficiency']['denominator_units'].append(
-                            reporting[fraction['id']]['denominator_unit'])
-
-                        result['reporting_period_efficiency']['timestamps'].append(
-                            reporting[fraction['id']]['timestamps'])
-                        result['reporting_period_efficiency']['values'].append(
-                            reporting[fraction['id']]['values'])
-                        result['reporting_period_efficiency']['numerator_timestamps'].append(
-                            reporting[fraction['id']]['numerator_timestamps'])
-                        result['reporting_period_efficiency']['numerator_values'].append(
-                            reporting[fraction['id']]['numerator_values'])
-                        result['reporting_period_efficiency']['denominator_timestamps'].append(
-                            reporting[fraction['id']]['denominator_timestamps'])
-                        result['reporting_period_efficiency']['denominator_values'].append(
-                            reporting[fraction['id']]['denominator_values'])
-                        result['reporting_period_efficiency']['cumulations'].append(
-                            reporting[fraction['id']]['cumulation'])
-                        result['reporting_period_efficiency']['numerator_cumulation'].append(
-                            reporting[fraction['id']]['numerator_cumulation'])
-                        result['reporting_period_efficiency']['denominator_cumulation'].append(
-                            reporting[fraction['id']]['denominator_cumulation'])
-                        result['reporting_period_efficiency']['increment_rates'].append(
-                            (reporting[fraction['id']]['cumulation'] -
-                             base[fraction['id']]['cumulation']) /
-                            base[fraction['id']]['cumulation']
-                            if base[fraction['id']]['cumulation'] > Decimal(0.0) else None)
-                        result['reporting_period_efficiency']['increment_rates_num'].append(
-                            (reporting[fraction['id']]['numerator_cumulation'] -
-                             base[fraction['id']]['numerator_cumulation']) /
-                            base[fraction['id']]['numerator_cumulation']
-                            if base[fraction['id']]['numerator_cumulation'] > Decimal(0.0) else None)
-                        result['reporting_period_efficiency']['increment_rates_den'].append(
-                            (reporting[fraction['id']]['denominator_cumulation'] -
-                             base[fraction['id']]['denominator_cumulation']) /
-                            base[fraction['id']]['denominator_cumulation']
-                            if base[fraction['id']]['denominator_cumulation'] > Decimal(0.0) else None)
-
-                        rate = list()
-                        for index, value in enumerate(reporting[fraction['id']]['values']):
-                            if index < len(base[fraction['id']]['values']) \
-                                    and base[fraction['id']]['values'][index] != 0 and value != 0:
-                                rate.append((value - base[fraction['id']]['values'][index])
-                                            / base[fraction['id']]['values'][index])
-                            else:
-                                rate.append(None)
-                        result['reporting_period_efficiency']['rates'].append(rate)
-
-                        numerator_rate = list()
-                        for index, value in enumerate(reporting[fraction['id']]['numerator_values']):
-                            if (index < len(base[fraction['id']]['numerator_values']) and
-                                    base[fraction['id']]['numerator_values'][index] != 0
-                                    and value != 0):
-                                numerator_rate.append((value -
-                                                       base[fraction['id']]['numerator_values'][index])
-                                                      / base[fraction['id']]['numerator_values'][index])
-                            else:
-                                numerator_rate.append(None)
-                        result['reporting_period_efficiency']['numerator_rates'].append(numerator_rate)
-
-                        denominator_rate = list()
-                        for index, value in enumerate(reporting[fraction['id']]['denominator_values']):
-                            if (index < len(base[fraction['id']]['denominator_values'])
-                                    and base[fraction['id']]['denominator_values'][index] != 0
-                                    and value != 0):
-                                denominator_rate.append(
-                                    (value - base[fraction['id']]['denominator_values'][index])
-                                    / base[fraction['id']]['denominator_values'][index])
-                            else:
-                                denominator_rate.append(None)
-                        result['reporting_period_efficiency']['denominator_rates'].append(
-                            denominator_rate)
-
-                result['parameters'] = {
-                    "names": parameters_data['names'],
-                    "timestamps": parameters_data['timestamps'],
-                    "values": parameters_data['values']
-                }
-
-                # export result to Excel file and then encode the file to base64 string
-                result['excel_bytes_base64'] = None
-                if not is_quick_mode:
-                    result['excel_bytes_base64'] = \
-                        excelexporters.equipmentefficiency.export(
-                            result,
-                            equipment['name'],
-                            base_period_start_datetime_local,
-                            base_period_end_datetime_local,
-                            reporting_period_start_datetime_local,
-                            reporting_period_end_datetime_local,
-                            period_type,
-                            language)
-
-                resp.text = json.dumps(result)
-
             finally:
                 if cursor_system:
                     cursor_system.close()
@@ -910,3 +742,171 @@ class Reporting:
                 cnx_energy.close()
             if cnx_historical:
                 cnx_historical.close()
+
+        #####################################################################################
+        # Step 8: construct the report
+        #####################################################################################
+        result = dict()
+
+        result['equipment'] = dict()
+        result['equipment']['name'] = equipment['name']
+        result['equipment']['efficiency_indicator'] = equipment['efficiency_indicator']
+
+        result['base_period_efficiency'] = dict()
+        result['base_period_efficiency']['timestamps'] = list()
+        result['base_period_efficiency']['values'] = list()
+        result['base_period_efficiency']['cumulations'] = list()
+        result['base_period_efficiency']['numerator_timestamps'] = list()
+        result['base_period_efficiency']['numerator_values'] = list()
+        result['base_period_efficiency']['numerator_cumulation'] = list()
+        result['base_period_efficiency']['denominator_timestamps'] = list()
+        result['base_period_efficiency']['denominator_values'] = list()
+        result['base_period_efficiency']['denominator_cumulation'] = list()
+
+        result['reporting_period_efficiency'] = dict()
+        result['reporting_period_efficiency']['names'] = list()
+        result['reporting_period_efficiency']['units'] = list()
+        result['reporting_period_efficiency']['numerator_names'] = list()
+        result['reporting_period_efficiency']['numerator_units'] = list()
+        result['reporting_period_efficiency']['denominator_names'] = list()
+        result['reporting_period_efficiency']['denominator_units'] = list()
+        result['reporting_period_efficiency']['timestamps'] = list()
+        result['reporting_period_efficiency']['values'] = list()
+        result['reporting_period_efficiency']['rates'] = list()
+        result['reporting_period_efficiency']['numerator_timestamps'] = list()
+        result['reporting_period_efficiency']['numerator_values'] = list()
+        result['reporting_period_efficiency']['numerator_rates'] = list()
+        result['reporting_period_efficiency']['denominator_timestamps'] = list()
+        result['reporting_period_efficiency']['denominator_values'] = list()
+        result['reporting_period_efficiency']['denominator_rates'] = list()
+        result['reporting_period_efficiency']['cumulations'] = list()
+        result['reporting_period_efficiency']['numerator_cumulation'] = list()
+        result['reporting_period_efficiency']['denominator_cumulation'] = list()
+        result['reporting_period_efficiency']['increment_rates'] = list()
+        result['reporting_period_efficiency']['increment_rates_num'] = list()
+        result['reporting_period_efficiency']['increment_rates_den'] = list()
+
+        if fraction_list is not None and len(fraction_list) > 0:
+            for fraction in fraction_list:
+                result['base_period_efficiency']['timestamps'].append(
+                    base[fraction['id']]['timestamps'])
+                result['base_period_efficiency']['values'].append(
+                    base[fraction['id']]['values'])
+                result['base_period_efficiency']['cumulations'].append(
+                    base[fraction['id']]['cumulation'])
+                result['base_period_efficiency']['numerator_timestamps'] \
+                    .append(base[fraction['id']]['numerator_timestamps'])
+                result['base_period_efficiency']['numerator_values'] \
+                    .append(base[fraction['id']]['numerator_values'])
+                result['base_period_efficiency']['numerator_cumulation']\
+                    .append(base[fraction['id']]['numerator_cumulation'])
+                result['base_period_efficiency']['denominator_timestamps'] \
+                    .append(base[fraction['id']]['denominator_timestamps'])
+                result['base_period_efficiency']['denominator_values'] \
+                    .append(base[fraction['id']]['denominator_values'])
+                result['base_period_efficiency']['denominator_cumulation'].\
+                    append(base[fraction['id']]['denominator_cumulation'])
+                result['reporting_period_efficiency']['names'].append(
+                    reporting[fraction['id']]['name'])
+                result['reporting_period_efficiency']['units'].append(
+                    reporting[fraction['id']]['unit'])
+
+                result['reporting_period_efficiency']['numerator_names'].append(
+                    reporting[fraction['id']]['numerator_name'])
+                result['reporting_period_efficiency']['numerator_units'].append(
+                    reporting[fraction['id']]['numerator_unit'])
+                result['reporting_period_efficiency']['denominator_names'].append(
+                    reporting[fraction['id']]['denominator_name'])
+                result['reporting_period_efficiency']['denominator_units'].append(
+                    reporting[fraction['id']]['denominator_unit'])
+
+                result['reporting_period_efficiency']['timestamps'].append(
+                    reporting[fraction['id']]['timestamps'])
+                result['reporting_period_efficiency']['values'].append(
+                    reporting[fraction['id']]['values'])
+                result['reporting_period_efficiency']['numerator_timestamps'].append(
+                    reporting[fraction['id']]['numerator_timestamps'])
+                result['reporting_period_efficiency']['numerator_values'].append(
+                    reporting[fraction['id']]['numerator_values'])
+                result['reporting_period_efficiency']['denominator_timestamps'].append(
+                    reporting[fraction['id']]['denominator_timestamps'])
+                result['reporting_period_efficiency']['denominator_values'].append(
+                    reporting[fraction['id']]['denominator_values'])
+                result['reporting_period_efficiency']['cumulations'].append(
+                    reporting[fraction['id']]['cumulation'])
+                result['reporting_period_efficiency']['numerator_cumulation'].append(
+                    reporting[fraction['id']]['numerator_cumulation'])
+                result['reporting_period_efficiency']['denominator_cumulation'].append(
+                    reporting[fraction['id']]['denominator_cumulation'])
+                result['reporting_period_efficiency']['increment_rates'].append(
+                    (reporting[fraction['id']]['cumulation'] -
+                     base[fraction['id']]['cumulation']) /
+                    base[fraction['id']]['cumulation']
+                    if base[fraction['id']]['cumulation'] > Decimal(0.0) else None)
+                result['reporting_period_efficiency']['increment_rates_num'].append(
+                    (reporting[fraction['id']]['numerator_cumulation'] -
+                     base[fraction['id']]['numerator_cumulation']) /
+                    base[fraction['id']]['numerator_cumulation']
+                    if base[fraction['id']]['numerator_cumulation'] > Decimal(0.0) else None)
+                result['reporting_period_efficiency']['increment_rates_den'].append(
+                    (reporting[fraction['id']]['denominator_cumulation'] -
+                     base[fraction['id']]['denominator_cumulation']) /
+                    base[fraction['id']]['denominator_cumulation']
+                    if base[fraction['id']]['denominator_cumulation'] > Decimal(0.0) else None)
+
+                rate = list()
+                for index, value in enumerate(reporting[fraction['id']]['values']):
+                    if index < len(base[fraction['id']]['values']) \
+                            and base[fraction['id']]['values'][index] != 0 and value != 0:
+                        rate.append((value - base[fraction['id']]['values'][index])
+                                    / base[fraction['id']]['values'][index])
+                    else:
+                        rate.append(None)
+                result['reporting_period_efficiency']['rates'].append(rate)
+
+                numerator_rate = list()
+                for index, value in enumerate(reporting[fraction['id']]['numerator_values']):
+                    if (index < len(base[fraction['id']]['numerator_values']) and
+                            base[fraction['id']]['numerator_values'][index] != 0
+                            and value != 0):
+                        numerator_rate.append((value -
+                                               base[fraction['id']]['numerator_values'][index])
+                                              / base[fraction['id']]['numerator_values'][index])
+                    else:
+                        numerator_rate.append(None)
+                result['reporting_period_efficiency']['numerator_rates'].append(numerator_rate)
+
+                denominator_rate = list()
+                for index, value in enumerate(reporting[fraction['id']]['denominator_values']):
+                    if (index < len(base[fraction['id']]['denominator_values'])
+                            and base[fraction['id']]['denominator_values'][index] != 0
+                            and value != 0):
+                        denominator_rate.append(
+                            (value - base[fraction['id']]['denominator_values'][index])
+                            / base[fraction['id']]['denominator_values'][index])
+                    else:
+                        denominator_rate.append(None)
+                result['reporting_period_efficiency']['denominator_rates'].append(
+                    denominator_rate)
+
+        result['parameters'] = {
+            "names": parameters_data['names'],
+            "timestamps": parameters_data['timestamps'],
+            "values": parameters_data['values']
+        }
+
+        # export result to Excel file and then encode the file to base64 string
+        result['excel_bytes_base64'] = None
+        if not is_quick_mode:
+            result['excel_bytes_base64'] = \
+                excelexporters.equipmentefficiency.export(
+                    result,
+                    equipment['name'],
+                    base_period_start_datetime_local,
+                    base_period_end_datetime_local,
+                    reporting_period_start_datetime_local,
+                    reporting_period_end_datetime_local,
+                    period_type,
+                    language)
+
+        resp.text = json.dumps(result)

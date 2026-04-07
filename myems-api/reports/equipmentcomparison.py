@@ -461,54 +461,6 @@ class Reporting:
 
                     diff["values"].append(diff_value)
 
-                ##################################################################################
-                # Step 5: construct the report
-                ##################################################################################
-                result = {
-                    "equipment1": {
-                        "id": equipment1["id"],
-                        "name": equipment1["name"],
-                    },
-                    "equipment2": {
-                        "id": equipment2["id"],
-                        "name": equipment2["name"],
-                    },
-                    "energy_category": {
-                        "id": energy_category["id"],
-                        "name": energy_category["name"],
-                        "unit_of_measure": energy_category["unit_of_measure"],
-                    },
-                    "reporting_period1": {
-                        "total_in_category": equipment1_energy_data["total_in_category"],
-                        "timestamps": equipment1_energy_data["timestamps"],
-                        "values": equipment1_energy_data["values"],
-                    },
-                    "reporting_period2": {
-                        "total_in_category": equipment2_energy_data["total_in_category"],
-                        "timestamps": equipment2_energy_data["timestamps"],
-                        "values": equipment2_energy_data["values"],
-                    },
-                    "diff": {
-                        "values": diff["values"],
-                        "total_in_category": diff["total_in_category"],
-                    },
-                }
-
-                # export result to Excel file and then encode the file to base64 string
-                if not is_quick_mode:
-                    result["excel_bytes_base64"] = excelexporters.equipmentcomparison.export(
-                        result,
-                        equipment1["name"],
-                        equipment2["name"],
-                        energy_category["name"],
-                        reporting_period_start_datetime_local,
-                        reporting_period_end_datetime_local,
-                        period_type,
-                        language,
-                    )
-
-                resp.text = json.dumps(result)
-
             finally:
                 if cursor_system:
                     cursor_system.close()
@@ -524,3 +476,51 @@ class Reporting:
                 cnx_energy.close()
             if cnx_historical:
                 cnx_historical.close()
+
+        ##################################################################################
+        # Step 5: construct the report
+        ##################################################################################
+        result = {
+            "equipment1": {
+                "id": equipment1["id"],
+                "name": equipment1["name"],
+            },
+            "equipment2": {
+                "id": equipment2["id"],
+                "name": equipment2["name"],
+            },
+            "energy_category": {
+                "id": energy_category["id"],
+                "name": energy_category["name"],
+                "unit_of_measure": energy_category["unit_of_measure"],
+            },
+            "reporting_period1": {
+                "total_in_category": equipment1_energy_data["total_in_category"],
+                "timestamps": equipment1_energy_data["timestamps"],
+                "values": equipment1_energy_data["values"],
+            },
+            "reporting_period2": {
+                "total_in_category": equipment2_energy_data["total_in_category"],
+                "timestamps": equipment2_energy_data["timestamps"],
+                "values": equipment2_energy_data["values"],
+            },
+            "diff": {
+                "values": diff["values"],
+                "total_in_category": diff["total_in_category"],
+            },
+        }
+
+        # export result to Excel file and then encode the file to base64 string
+        if not is_quick_mode:
+            result["excel_bytes_base64"] = excelexporters.equipmentcomparison.export(
+                result,
+                equipment1["name"],
+                equipment2["name"],
+                energy_category["name"],
+                reporting_period_start_datetime_local,
+                reporting_period_end_datetime_local,
+                period_type,
+                language,
+            )
+
+        resp.text = json.dumps(result)

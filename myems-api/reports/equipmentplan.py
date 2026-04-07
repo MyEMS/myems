@@ -650,131 +650,6 @@ class Reporting:
                         parameters_data['timestamps'].append(point_timestamps)
                         parameters_data['values'].append(point_values)
 
-                ###################################################################################
-                # Step 8: construct the report
-                ###################################################################################
-                result = dict()
-
-                result['equipment'] = dict()
-                result['equipment']['name'] = equipment['name']
-
-                result['base_period'] = dict()
-                result['base_period']['names'] = list()
-                result['base_period']['units'] = list()
-                result['base_period']['timestamps'] = list()
-                result['base_period']['values_saving'] = list()
-                result['base_period']['subtotals_saving'] = list()
-                result['base_period']['subtotals_in_kgce_saving'] = list()
-                result['base_period']['subtotals_in_kgco2e_saving'] = list()
-                result['base_period']['total_in_kgce_saving'] = Decimal(0.0)
-                result['base_period']['total_in_kgco2e_saving'] = Decimal(0.0)
-                if energy_category_set is not None and len(energy_category_set) > 0:
-                    for energy_category_id in energy_category_set:
-                        result['base_period']['names'].append(
-                            energy_category_dict[energy_category_id]['name'])
-                        result['base_period']['units'].append(
-                            energy_category_dict[energy_category_id]['unit_of_measure'])
-                        result['base_period']['timestamps'].append(base[energy_category_id]['timestamps'])
-                        result['base_period']['values_saving'].append(
-                            base[energy_category_id]['values_saving'])
-                        result['base_period']['subtotals_saving'].append(
-                            base[energy_category_id]['subtotal_saving'])
-                        result['base_period']['subtotals_in_kgce_saving'].append(
-                            base[energy_category_id]['subtotal_in_kgce_saving'])
-                        result['base_period']['subtotals_in_kgco2e_saving'].append(
-                            base[energy_category_id]['subtotal_in_kgco2e_saving'])
-                        result['base_period']['total_in_kgce_saving'] += (
-                            base)[energy_category_id]['subtotal_in_kgce_saving']
-                        result['base_period']['total_in_kgco2e_saving'] += (
-                            base)[energy_category_id]['subtotal_in_kgco2e_saving']
-
-                result['reporting_period'] = dict()
-                result['reporting_period']['names'] = list()
-                result['reporting_period']['energy_category_ids'] = list()
-                result['reporting_period']['units'] = list()
-                result['reporting_period']['timestamps'] = list()
-                result['reporting_period']['values_saving'] = list()
-                result['reporting_period']['rates_saving'] = list()
-                result['reporting_period']['subtotals_saving'] = list()
-                result['reporting_period']['subtotals_in_kgce_saving'] = list()
-                result['reporting_period']['subtotals_in_kgco2e_saving'] = list()
-                result['reporting_period']['increment_rates_saving'] = list()
-                result['reporting_period']['total_in_kgce_saving'] = Decimal(0.0)
-                result['reporting_period']['total_in_kgco2e_saving'] = Decimal(0.0)
-                result['reporting_period']['increment_rate_in_kgce_saving'] = Decimal(0.0)
-                result['reporting_period']['increment_rate_in_kgco2e_saving'] = Decimal(0.0)
-
-                if energy_category_set is not None and len(energy_category_set) > 0:
-                    for energy_category_id in energy_category_set:
-                        result['reporting_period']['names'].append(
-                            energy_category_dict[energy_category_id]['name'])
-                        result['reporting_period']['energy_category_ids'].append(energy_category_id)
-                        result['reporting_period']['units'].append(
-                            energy_category_dict[energy_category_id]['unit_of_measure'])
-                        result['reporting_period']['timestamps'].append(
-                            reporting[energy_category_id]['timestamps'])
-                        result['reporting_period']['values_saving'].append(
-                            reporting[energy_category_id]['values_saving'])
-                        result['reporting_period']['subtotals_saving'].append(
-                            reporting[energy_category_id]['subtotal_saving'])
-                        result['reporting_period']['subtotals_in_kgce_saving'].append(
-                            reporting[energy_category_id]['subtotal_in_kgce_saving'])
-                        result['reporting_period']['subtotals_in_kgco2e_saving'].append(
-                            reporting[energy_category_id]['subtotal_in_kgco2e_saving'])
-                        result['reporting_period']['increment_rates_saving'].append(
-                            (reporting[energy_category_id]['subtotal_saving'] -
-                             base[energy_category_id]['subtotal_saving']) /
-                            base[energy_category_id]['subtotal_saving']
-                            if base[energy_category_id]['subtotal_saving'] != Decimal(0.0) else None)
-                        result['reporting_period']['total_in_kgce_saving'] += \
-                            reporting[energy_category_id]['subtotal_in_kgce_saving']
-                        result['reporting_period']['total_in_kgco2e_saving'] += \
-                            reporting[energy_category_id]['subtotal_in_kgco2e_saving']
-
-                        rate = list()
-                        for index, value in enumerate(reporting[energy_category_id]['values_saving']):
-                            if (index < len(base[energy_category_id]['values_saving'])
-                                    and base[energy_category_id]['values_saving'][index] != 0
-                                    and value != 0):
-                                rate.append((value - base[energy_category_id]['values_saving'][index])
-                                            / base[energy_category_id]['values_saving'][index])
-                            else:
-                                rate.append(None)
-                        result['reporting_period']['rates_saving'].append(rate)
-
-                result['reporting_period']['increment_rate_in_kgce_saving'] = \
-                    (result['reporting_period']['total_in_kgce_saving'] -
-                     result['base_period']['total_in_kgce_saving']) / \
-                    result['base_period']['total_in_kgce_saving'] \
-                    if result['base_period']['total_in_kgce_saving'] != Decimal(0.0) else None
-
-                result['reporting_period']['increment_rate_in_kgco2e_saving'] = \
-                    (result['reporting_period']['total_in_kgco2e_saving'] -
-                     result['base_period']['total_in_kgco2e_saving']) / \
-                    result['base_period']['total_in_kgco2e_saving'] \
-                    if result['base_period']['total_in_kgco2e_saving'] != Decimal(0.0) else None
-
-                result['parameters'] = {
-                    "names": parameters_data['names'],
-                    "timestamps": parameters_data['timestamps'],
-                    "values": parameters_data['values']
-                }
-
-                # export result to Excel file and then encode the file to base64 string
-                result['excel_bytes_base64'] = None
-                if not is_quick_mode:
-                    result['excel_bytes_base64'] = excelexporters.equipmentplan.export(
-                        result,
-                        equipment['name'],
-                        base_period_start_datetime_local,
-                        base_period_end_datetime_local,
-                        reporting_period_start_datetime_local,
-                        reporting_period_end_datetime_local,
-                        period_type,
-                        language)
-
-                resp.text = json.dumps(result)
-
             finally:
                 if cursor_system:
                     cursor_system.close()
@@ -794,3 +669,128 @@ class Reporting:
                 cnx_energy_plan.close()
             if cnx_historical:
                 cnx_historical.close()
+
+        ###################################################################################
+        # Step 8: construct the report
+        ###################################################################################
+        result = dict()
+
+        result['equipment'] = dict()
+        result['equipment']['name'] = equipment['name']
+
+        result['base_period'] = dict()
+        result['base_period']['names'] = list()
+        result['base_period']['units'] = list()
+        result['base_period']['timestamps'] = list()
+        result['base_period']['values_saving'] = list()
+        result['base_period']['subtotals_saving'] = list()
+        result['base_period']['subtotals_in_kgce_saving'] = list()
+        result['base_period']['subtotals_in_kgco2e_saving'] = list()
+        result['base_period']['total_in_kgce_saving'] = Decimal(0.0)
+        result['base_period']['total_in_kgco2e_saving'] = Decimal(0.0)
+        if energy_category_set is not None and len(energy_category_set) > 0:
+            for energy_category_id in energy_category_set:
+                result['base_period']['names'].append(
+                    energy_category_dict[energy_category_id]['name'])
+                result['base_period']['units'].append(
+                    energy_category_dict[energy_category_id]['unit_of_measure'])
+                result['base_period']['timestamps'].append(base[energy_category_id]['timestamps'])
+                result['base_period']['values_saving'].append(
+                    base[energy_category_id]['values_saving'])
+                result['base_period']['subtotals_saving'].append(
+                    base[energy_category_id]['subtotal_saving'])
+                result['base_period']['subtotals_in_kgce_saving'].append(
+                    base[energy_category_id]['subtotal_in_kgce_saving'])
+                result['base_period']['subtotals_in_kgco2e_saving'].append(
+                    base[energy_category_id]['subtotal_in_kgco2e_saving'])
+                result['base_period']['total_in_kgce_saving'] += (
+                    base)[energy_category_id]['subtotal_in_kgce_saving']
+                result['base_period']['total_in_kgco2e_saving'] += (
+                    base)[energy_category_id]['subtotal_in_kgco2e_saving']
+
+        result['reporting_period'] = dict()
+        result['reporting_period']['names'] = list()
+        result['reporting_period']['energy_category_ids'] = list()
+        result['reporting_period']['units'] = list()
+        result['reporting_period']['timestamps'] = list()
+        result['reporting_period']['values_saving'] = list()
+        result['reporting_period']['rates_saving'] = list()
+        result['reporting_period']['subtotals_saving'] = list()
+        result['reporting_period']['subtotals_in_kgce_saving'] = list()
+        result['reporting_period']['subtotals_in_kgco2e_saving'] = list()
+        result['reporting_period']['increment_rates_saving'] = list()
+        result['reporting_period']['total_in_kgce_saving'] = Decimal(0.0)
+        result['reporting_period']['total_in_kgco2e_saving'] = Decimal(0.0)
+        result['reporting_period']['increment_rate_in_kgce_saving'] = Decimal(0.0)
+        result['reporting_period']['increment_rate_in_kgco2e_saving'] = Decimal(0.0)
+
+        if energy_category_set is not None and len(energy_category_set) > 0:
+            for energy_category_id in energy_category_set:
+                result['reporting_period']['names'].append(
+                    energy_category_dict[energy_category_id]['name'])
+                result['reporting_period']['energy_category_ids'].append(energy_category_id)
+                result['reporting_period']['units'].append(
+                    energy_category_dict[energy_category_id]['unit_of_measure'])
+                result['reporting_period']['timestamps'].append(
+                    reporting[energy_category_id]['timestamps'])
+                result['reporting_period']['values_saving'].append(
+                    reporting[energy_category_id]['values_saving'])
+                result['reporting_period']['subtotals_saving'].append(
+                    reporting[energy_category_id]['subtotal_saving'])
+                result['reporting_period']['subtotals_in_kgce_saving'].append(
+                    reporting[energy_category_id]['subtotal_in_kgce_saving'])
+                result['reporting_period']['subtotals_in_kgco2e_saving'].append(
+                    reporting[energy_category_id]['subtotal_in_kgco2e_saving'])
+                result['reporting_period']['increment_rates_saving'].append(
+                    (reporting[energy_category_id]['subtotal_saving'] -
+                     base[energy_category_id]['subtotal_saving']) /
+                    base[energy_category_id]['subtotal_saving']
+                    if base[energy_category_id]['subtotal_saving'] != Decimal(0.0) else None)
+                result['reporting_period']['total_in_kgce_saving'] += \
+                    reporting[energy_category_id]['subtotal_in_kgce_saving']
+                result['reporting_period']['total_in_kgco2e_saving'] += \
+                    reporting[energy_category_id]['subtotal_in_kgco2e_saving']
+
+                rate = list()
+                for index, value in enumerate(reporting[energy_category_id]['values_saving']):
+                    if (index < len(base[energy_category_id]['values_saving'])
+                            and base[energy_category_id]['values_saving'][index] != 0
+                            and value != 0):
+                        rate.append((value - base[energy_category_id]['values_saving'][index])
+                                    / base[energy_category_id]['values_saving'][index])
+                    else:
+                        rate.append(None)
+                result['reporting_period']['rates_saving'].append(rate)
+
+        result['reporting_period']['increment_rate_in_kgce_saving'] = \
+            (result['reporting_period']['total_in_kgce_saving'] -
+             result['base_period']['total_in_kgce_saving']) / \
+            result['base_period']['total_in_kgce_saving'] \
+            if result['base_period']['total_in_kgce_saving'] != Decimal(0.0) else None
+
+        result['reporting_period']['increment_rate_in_kgco2e_saving'] = \
+            (result['reporting_period']['total_in_kgco2e_saving'] -
+             result['base_period']['total_in_kgco2e_saving']) / \
+            result['base_period']['total_in_kgco2e_saving'] \
+            if result['base_period']['total_in_kgco2e_saving'] != Decimal(0.0) else None
+
+        result['parameters'] = {
+            "names": parameters_data['names'],
+            "timestamps": parameters_data['timestamps'],
+            "values": parameters_data['values']
+        }
+
+        # export result to Excel file and then encode the file to base64 string
+        result['excel_bytes_base64'] = None
+        if not is_quick_mode:
+            result['excel_bytes_base64'] = excelexporters.equipmentplan.export(
+                result,
+                equipment['name'],
+                base_period_start_datetime_local,
+                base_period_end_datetime_local,
+                reporting_period_start_datetime_local,
+                reporting_period_end_datetime_local,
+                period_type,
+                language)
+
+        resp.text = json.dumps(result)

@@ -524,107 +524,6 @@ class Reporting:
                         parameters_data['timestamps'].append(point_timestamps)
                         parameters_data['values'].append(point_values)
 
-                ##############################################################################
-                # Step 9: construct the report
-                ##############################################################################
-                result = dict()
-
-                result['equipment'] = dict()
-                result['equipment']['name'] = equipment['name']
-
-                result['base_period'] = dict()
-                result['base_period']['names'] = list()
-                result['base_period']['units'] = list()
-                result['base_period']['timestamps'] = list()
-                result['base_period']['values'] = list()
-                result['base_period']['subtotals'] = list()
-                if energy_item_set is not None and len(energy_item_set) > 0:
-                    for energy_item_id in energy_item_set:
-                        result['base_period']['names'].append(energy_item_dict[energy_item_id]['name'])
-                        result['base_period']['units'].append(
-                            energy_item_dict[energy_item_id]['unit_of_measure'])
-                        result['base_period']['timestamps'].append(base[energy_item_id]['timestamps'])
-                        result['base_period']['values'].append(base[energy_item_id]['values'])
-                        result['base_period']['subtotals'].append(base[energy_item_id]['subtotal'])
-
-                result['reporting_period'] = dict()
-                result['reporting_period']['names'] = list()
-                result['reporting_period']['energy_item_ids'] = list()
-                result['reporting_period']['energy_category_names'] = list()
-                result['reporting_period']['energy_category_ids'] = list()
-                result['reporting_period']['units'] = list()
-                result['reporting_period']['timestamps'] = list()
-                result['reporting_period']['values'] = list()
-                result['reporting_period']['rates'] = list()
-                result['reporting_period']['subtotals'] = list()
-                result['reporting_period']['toppeaks'] = list()
-                result['reporting_period']['onpeaks'] = list()
-                result['reporting_period']['midpeaks'] = list()
-                result['reporting_period']['offpeaks'] = list()
-                result['reporting_period']['deeps'] = list()
-                result['reporting_period']['increment_rates'] = list()
-
-                if energy_item_set is not None and len(energy_item_set) > 0:
-                    for energy_item_id in energy_item_set:
-                        result['reporting_period']['names'].append(
-                            energy_item_dict[energy_item_id]['name'])
-                        result['reporting_period']['energy_item_ids'].append(energy_item_id)
-                        result['reporting_period']['energy_category_names'].append(
-                            energy_item_dict[energy_item_id]['energy_category_name'])
-                        result['reporting_period']['energy_category_ids'].append(
-                            energy_item_dict[energy_item_id]['energy_category_id'])
-                        result['reporting_period']['units'].append(
-                            energy_item_dict[energy_item_id]['unit_of_measure'])
-                        result['reporting_period']['timestamps'].append(
-                            reporting[energy_item_id]['timestamps'])
-                        result['reporting_period']['values'].append(reporting[energy_item_id]['values'])
-                        result['reporting_period']['subtotals'].append(
-                            reporting[energy_item_id]['subtotal'])
-                        result['reporting_period']['toppeaks'].append(
-                            reporting[energy_item_id]['toppeak'])
-                        result['reporting_period']['onpeaks'].append(
-                            reporting[energy_item_id]['onpeak'])
-                        result['reporting_period']['midpeaks'].append(
-                            reporting[energy_item_id]['midpeak'])
-                        result['reporting_period']['offpeaks'].append(
-                            reporting[energy_item_id]['offpeak'])
-                        result['reporting_period']['deeps'].append(reporting[energy_item_id]['deep'])
-                        result['reporting_period']['increment_rates'].append(
-                            (reporting[energy_item_id]['subtotal'] - base[energy_item_id]['subtotal']) /
-                            base[energy_item_id]['subtotal']
-                            if base[energy_item_id]['subtotal'] > 0.0 else None)
-
-                        rate = list()
-                        for index, value in enumerate(reporting[energy_item_id]['values']):
-                            if index < len(base[energy_item_id]['values']) \
-                                    and base[energy_item_id]['values'][index] != 0 and value != 0:
-                                rate.append((value - base[energy_item_id]['values'][index])
-                                            / base[energy_item_id]['values'][index])
-                            else:
-                                rate.append(None)
-                        result['reporting_period']['rates'].append(rate)
-
-                result['parameters'] = {
-                    "names": parameters_data['names'],
-                    "timestamps": parameters_data['timestamps'],
-                    "values": parameters_data['values']
-                }
-
-                # export result to Excel file and then encode the file to base64 string
-                result['excel_bytes_base64'] = None
-                if not is_quick_mode:
-                    result['excel_bytes_base64'] = \
-                        excelexporters.equipmentenergyitem.export(result,
-                                                                  equipment['name'],
-                                                                  base_period_start_datetime_local,
-                                                                  base_period_end_datetime_local,
-                                                                  reporting_period_start_datetime_local,
-                                                                  reporting_period_end_datetime_local,
-                                                                  period_type,
-                                                                  language)
-
-                resp.text = json.dumps(result)
-
             finally:
                 if cursor_system:
                     cursor_system.close()
@@ -640,3 +539,104 @@ class Reporting:
                 cnx_energy.close()
             if cnx_historical:
                 cnx_historical.close()
+
+        ##############################################################################
+        # Step 9: construct the report
+        ##############################################################################
+        result = dict()
+
+        result['equipment'] = dict()
+        result['equipment']['name'] = equipment['name']
+
+        result['base_period'] = dict()
+        result['base_period']['names'] = list()
+        result['base_period']['units'] = list()
+        result['base_period']['timestamps'] = list()
+        result['base_period']['values'] = list()
+        result['base_period']['subtotals'] = list()
+        if energy_item_set is not None and len(energy_item_set) > 0:
+            for energy_item_id in energy_item_set:
+                result['base_period']['names'].append(energy_item_dict[energy_item_id]['name'])
+                result['base_period']['units'].append(
+                    energy_item_dict[energy_item_id]['unit_of_measure'])
+                result['base_period']['timestamps'].append(base[energy_item_id]['timestamps'])
+                result['base_period']['values'].append(base[energy_item_id]['values'])
+                result['base_period']['subtotals'].append(base[energy_item_id]['subtotal'])
+
+        result['reporting_period'] = dict()
+        result['reporting_period']['names'] = list()
+        result['reporting_period']['energy_item_ids'] = list()
+        result['reporting_period']['energy_category_names'] = list()
+        result['reporting_period']['energy_category_ids'] = list()
+        result['reporting_period']['units'] = list()
+        result['reporting_period']['timestamps'] = list()
+        result['reporting_period']['values'] = list()
+        result['reporting_period']['rates'] = list()
+        result['reporting_period']['subtotals'] = list()
+        result['reporting_period']['toppeaks'] = list()
+        result['reporting_period']['onpeaks'] = list()
+        result['reporting_period']['midpeaks'] = list()
+        result['reporting_period']['offpeaks'] = list()
+        result['reporting_period']['deeps'] = list()
+        result['reporting_period']['increment_rates'] = list()
+
+        if energy_item_set is not None and len(energy_item_set) > 0:
+            for energy_item_id in energy_item_set:
+                result['reporting_period']['names'].append(
+                    energy_item_dict[energy_item_id]['name'])
+                result['reporting_period']['energy_item_ids'].append(energy_item_id)
+                result['reporting_period']['energy_category_names'].append(
+                    energy_item_dict[energy_item_id]['energy_category_name'])
+                result['reporting_period']['energy_category_ids'].append(
+                    energy_item_dict[energy_item_id]['energy_category_id'])
+                result['reporting_period']['units'].append(
+                    energy_item_dict[energy_item_id]['unit_of_measure'])
+                result['reporting_period']['timestamps'].append(
+                    reporting[energy_item_id]['timestamps'])
+                result['reporting_period']['values'].append(reporting[energy_item_id]['values'])
+                result['reporting_period']['subtotals'].append(
+                    reporting[energy_item_id]['subtotal'])
+                result['reporting_period']['toppeaks'].append(
+                    reporting[energy_item_id]['toppeak'])
+                result['reporting_period']['onpeaks'].append(
+                    reporting[energy_item_id]['onpeak'])
+                result['reporting_period']['midpeaks'].append(
+                    reporting[energy_item_id]['midpeak'])
+                result['reporting_period']['offpeaks'].append(
+                    reporting[energy_item_id]['offpeak'])
+                result['reporting_period']['deeps'].append(reporting[energy_item_id]['deep'])
+                result['reporting_period']['increment_rates'].append(
+                    (reporting[energy_item_id]['subtotal'] - base[energy_item_id]['subtotal']) /
+                    base[energy_item_id]['subtotal']
+                    if base[energy_item_id]['subtotal'] > 0.0 else None)
+
+                rate = list()
+                for index, value in enumerate(reporting[energy_item_id]['values']):
+                    if index < len(base[energy_item_id]['values']) \
+                            and base[energy_item_id]['values'][index] != 0 and value != 0:
+                        rate.append((value - base[energy_item_id]['values'][index])
+                                    / base[energy_item_id]['values'][index])
+                    else:
+                        rate.append(None)
+                result['reporting_period']['rates'].append(rate)
+
+        result['parameters'] = {
+            "names": parameters_data['names'],
+            "timestamps": parameters_data['timestamps'],
+            "values": parameters_data['values']
+        }
+
+        # export result to Excel file and then encode the file to base64 string
+        result['excel_bytes_base64'] = None
+        if not is_quick_mode:
+            result['excel_bytes_base64'] = \
+                excelexporters.equipmentenergyitem.export(result,
+                                                          equipment['name'],
+                                                          base_period_start_datetime_local,
+                                                          base_period_end_datetime_local,
+                                                          reporting_period_start_datetime_local,
+                                                          reporting_period_end_datetime_local,
+                                                          period_type,
+                                                          language)
+
+        resp.text = json.dumps(result)
