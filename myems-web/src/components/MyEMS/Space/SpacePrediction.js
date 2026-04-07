@@ -641,7 +641,7 @@ const SpacePrediction = ({ setRedirect, setRedirectUrl, t }) => {
             }
           }
 
-          // setExcelBytesBase64(json['excel_bytes_base64']);
+           setExcelBytesBase64(json['excel_bytes_base64']);
 
           // enable submit button
           setSubmitButtonDisabled(false);
@@ -837,7 +837,7 @@ const SpacePrediction = ({ setRedirect, setRedirectUrl, t }) => {
   const handleExport = e => {
     e.preventDefault();
     const mimeType = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
-    const fileName = 'spaceenergycategory.xlsx';
+    const fileName = 'spaceprediction.xlsx';
     var fileUrl = 'data:' + mimeType + ';base64,' + excelBytesBase64;
     fetch(fileUrl)
       .then(response => response.blob())
@@ -989,7 +989,7 @@ const SpacePrediction = ({ setRedirect, setRedirectUrl, t }) => {
                   hidden={exportButtonHidden}
                   onClick={handleExport}
                 >
-                  {/* {t('Export')} */}
+                  {t('Export')}
                 </ButtonIcon>
               </Col>
             </Row>

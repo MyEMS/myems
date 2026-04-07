@@ -31,6 +31,7 @@ The module uses Falcon framework for REST API and includes:
 
 import re
 import logging
+import excelexporters.spaceprediction
 from datetime import datetime, timedelta, timezone
 from decimal import Decimal
 import hashlib
@@ -660,17 +661,16 @@ class Reporting:
         }
 
         # export result to Excel file and then encode the file to base64 string
-        # TODO
-        # if not is_quick_mode:
-        #     result['excel_bytes_base64'] = \
-        #         excelexporters.spaceenergyprediction.export(result,
-        #                                                     space['name'],
-        #                                                     base_period_start_datetime_local,
-        #                                                     base_period_end_datetime_local,
-        #                                                     reporting_period_start_datetime_local,
-        #                                                     reporting_period_end_datetime_local,
-        #                                                     period_type,
-        #                                                     language)
+        if not is_quick_mode:
+            result['excel_bytes_base64'] = \
+                excelexporters.spaceprediction.export(result,
+                                                      space['name'],
+                                                      base_period_start_datetime_local,
+                                                      base_period_end_datetime_local,
+                                                      reporting_period_start_datetime_local,
+                                                      reporting_period_end_datetime_local,
+                                                      period_type,
+                                                      language)
 
         resp_text = json.dumps(result)
         resp.text = resp_text
