@@ -108,7 +108,7 @@ def generate_excel(report,
 
     wb = Workbook()
     ws = wb.active
-    ws.title = "SpaceEnergyCategory"
+    ws.title = "SpacePrediction"
 
     # Row height
     ws.row_dimensions[1].height = ROW_HEIGHT_TITLE
