@@ -229,290 +229,257 @@ class Reporting:
         ################################################################################################################
         # Step 2: query the shopfloor and energy category
         ################################################################################################################
-        cnx_system = mysql.connector.connect(**config.myems_system_db)
-        cursor_system = cnx_system.cursor()
-
-        cnx_energy = mysql.connector.connect(**config.myems_energy_db)
-        cursor_energy = cnx_energy.cursor()
-
-        cnx_historical = mysql.connector.connect(**config.myems_historical_db)
-        cursor_historical = cnx_historical.cursor()
-
-        # Query shopfloor 1
-        if shopfloor_id1 is not None:
-            cursor_system.execute(
-                " SELECT id, name FROM tbl_shopfloors WHERE id = %s ", (shopfloor_id1,)
-            )
-            row_shopfloor1 = cursor_system.fetchone()
-        elif shopfloor_uuid1 is not None:
-            cursor_system.execute(
-                " SELECT id, name FROM tbl_shopfloors WHERE uuid = %s ",
-                (shopfloor_uuid1,),
-            )
-            row_shopfloor1 = cursor_system.fetchone()
-
-        if row_shopfloor1 is None:
-            if cursor_system:
-                cursor_system.close()
-            if cnx_system:
-                cnx_system.close()
-
-            if cursor_energy:
-                cursor_energy.close()
-            if cnx_energy:
-                cnx_energy.close()
-
-            if cursor_historical:
-                cursor_historical.close()
-            if cnx_historical:
-                cnx_historical.close()
-            raise falcon.HTTPError(
-                status=falcon.HTTP_404,
-                title="API.NOT_FOUND",
-                description="API.EQUIPMENT_NOT_FOUND",
-            )
-
-        shopfloor1 = dict()
-        shopfloor1["id"] = row_shopfloor1[0]
-        shopfloor1["name"] = row_shopfloor1[1]
-
-        # Query shopfloor 2
-        if shopfloor_id2 is not None:
-            cursor_system.execute(
-                " SELECT id, name FROM tbl_shopfloors WHERE id = %s ", (shopfloor_id2,)
-            )
-            row_shopfloor2 = cursor_system.fetchone()
-        elif shopfloor_uuid2 is not None:
-            cursor_system.execute(
-                " SELECT id, name FROM tbl_shopfloors WHERE uuid = %s ",
-                (shopfloor_uuid2,),
-            )
-            row_shopfloor2 = cursor_system.fetchone()
-
-        if row_shopfloor2 is None:
-            if cursor_system:
-                cursor_system.close()
-            if cnx_system:
-                cnx_system.close()
-
-            if cursor_energy:
-                cursor_energy.close()
-            if cnx_energy:
-                cnx_energy.close()
-
-            if cursor_historical:
-                cursor_historical.close()
-            if cnx_historical:
-                cnx_historical.close()
-            raise falcon.HTTPError(
-                status=falcon.HTTP_404,
-                title="API.NOT_FOUND",
-                description="API.EQUIPMENT_NOT_FOUND",
-            )
-
-        shopfloor2 = dict()
-        shopfloor2["id"] = row_shopfloor2[0]
-        shopfloor2["name"] = row_shopfloor2[1]
-
-        # Query energy category
-        cursor_system.execute(
-            " SELECT id, name, unit_of_measure FROM tbl_energy_categories WHERE id = %s ",
-            (energy_category_id,),
-        )
-        row_energy_category = cursor_system.fetchone()
-
-        if row_energy_category is None:
-            if cursor_system:
-                cursor_system.close()
-            if cnx_system:
-                cnx_system.close()
-
-            if cursor_energy:
-                cursor_energy.close()
-            if cnx_energy:
-                cnx_energy.close()
-
-            if cursor_historical:
-                cursor_historical.close()
-            if cnx_historical:
-                cnx_historical.close()
-            raise falcon.HTTPError(
-                status=falcon.HTTP_404,
-                title="API.NOT_FOUND",
-                description="API.ENERGY_CATEGORY_NOT_FOUND",
-            )
-
-        energy_category = dict()
-        energy_category["id"] = row_energy_category[0]
-        energy_category["name"] = row_energy_category[1]
-        energy_category["unit_of_measure"] = row_energy_category[2]
-
-        ################################################################################################################
-        # Step 3: query shopfloor input category hourly data (pre-aggregated by background service)
-        ################################################################################################################
-        # Query shopfloor 1 input category hourly data
-        cursor_energy.execute(
-            " SELECT start_datetime_utc, actual_value "
-            " FROM tbl_shopfloor_input_category_hourly "
-            " WHERE shopfloor_id = %s "
-            "     AND energy_category_id = %s "
-            "     AND start_datetime_utc >= %s "
-            "     AND start_datetime_utc < %s "
-            " ORDER BY start_datetime_utc ",
-            (
-                shopfloor1["id"],
-                energy_category_id,
-                reporting_start_datetime_utc,
-                reporting_end_datetime_utc,
-            ),
-        )
-        rows_shopfloor1_hourly = cursor_energy.fetchall()
-
-        # Query shopfloor 2 input category hourly data
-        cursor_energy.execute(
-            " SELECT start_datetime_utc, actual_value "
-            " FROM tbl_shopfloor_input_category_hourly "
-            " WHERE shopfloor_id = %s "
-            "     AND energy_category_id = %s "
-            "     AND start_datetime_utc >= %s "
-            "     AND start_datetime_utc < %s "
-            " ORDER BY start_datetime_utc ",
-            (
-                shopfloor2["id"],
-                energy_category_id,
-                reporting_start_datetime_utc,
-                reporting_end_datetime_utc,
-            ),
-        )
-        rows_shopfloor2_hourly = cursor_energy.fetchall()
-
-        ################################################################################################################
-        # Step 4: aggregate shopfloor energy consumption data by period
-        ################################################################################################################
-        # Aggregate energy consumption for shopfloor 1
-        shopfloor1_energy_data = dict()
-        shopfloor1_energy_data["timestamps"] = list()
-        shopfloor1_energy_data["values"] = list()
-        shopfloor1_energy_data["total_in_category"] = Decimal(0.0)
-
-        # Aggregate shopfloor 1 hourly data by period
-        rows_shopfloor1_periodically = utilities.aggregate_hourly_data_by_period(
-            rows_shopfloor1_hourly,
-            reporting_start_datetime_utc,
-            reporting_end_datetime_utc,
-            period_type,
-        )
-
-        for row_shopfloor1_periodically in rows_shopfloor1_periodically:
-            current_datetime_local = row_shopfloor1_periodically[0].replace(
-                tzinfo=timezone.utc
-            ) + timedelta(minutes=timezone_offset)
-            if period_type == "hourly":
-                current_datetime = current_datetime_local.isoformat()[0:19]
-            elif period_type == "daily":
-                current_datetime = current_datetime_local.isoformat()[0:10]
-            elif period_type == "weekly":
-                current_datetime = current_datetime_local.isoformat()[0:10]
-            elif period_type == "monthly":
-                current_datetime = current_datetime_local.isoformat()[0:7]
-            elif period_type == "yearly":
-                current_datetime = current_datetime_local.isoformat()[0:4]
-
-            actual_value = row_shopfloor1_periodically[1]
-
-            shopfloor1_energy_data["timestamps"].append(current_datetime)
-            shopfloor1_energy_data["values"].append(actual_value)
-            if actual_value is not None:
-                shopfloor1_energy_data["total_in_category"] += actual_value
-
-        # Aggregate energy consumption for shopfloor 2
-        shopfloor2_energy_data = dict()
-        shopfloor2_energy_data["timestamps"] = list()
-        shopfloor2_energy_data["values"] = list()
-        shopfloor2_energy_data["total_in_category"] = Decimal(0.0)
-
-        # Aggregate shopfloor 2 hourly data by period
-        rows_shopfloor2_periodically = utilities.aggregate_hourly_data_by_period(
-            rows_shopfloor2_hourly,
-            reporting_start_datetime_utc,
-            reporting_end_datetime_utc,
-            period_type,
-        )
-
-        for row_shopfloor2_periodically in rows_shopfloor2_periodically:
-            current_datetime_local = row_shopfloor2_periodically[0].replace(
-                tzinfo=timezone.utc
-            ) + timedelta(minutes=timezone_offset)
-            if period_type == "hourly":
-                current_datetime = current_datetime_local.isoformat()[0:19]
-            elif period_type == "daily":
-                current_datetime = current_datetime_local.isoformat()[0:10]
-            elif period_type == "weekly":
-                current_datetime = current_datetime_local.isoformat()[0:10]
-            elif period_type == "monthly":
-                current_datetime = current_datetime_local.isoformat()[0:7]
-            elif period_type == "yearly":
-                current_datetime = current_datetime_local.isoformat()[0:4]
-
-            actual_value = row_shopfloor2_periodically[1]
-
-            shopfloor2_energy_data["timestamps"].append(current_datetime)
-            shopfloor2_energy_data["values"].append(actual_value)
-            if actual_value is not None:
-                shopfloor2_energy_data["total_in_category"] += actual_value
-
-        # Calculate difference
-        diff = dict()
-        diff["values"] = list()
-        diff["total_in_category"] = Decimal(0.0)
-
-        # Ensure both shopfloors have the same number of data points
-        min_length = min(
-            len(shopfloor1_energy_data["values"]), len(shopfloor2_energy_data["values"])
-        )
-        for i in range(min_length):
-            shopfloor1_value = (
-                shopfloor1_energy_data["values"][i]
-                if i < len(shopfloor1_energy_data["values"])
-                else None
-            )
-            shopfloor2_value = (
-                shopfloor2_energy_data["values"][i]
-                if i < len(shopfloor2_energy_data["values"])
-                else None
-            )
+        cnx_system = None
+        cnx_energy = None
+        cnx_historical = None
+        cursor_system = None
+        cursor_energy = None
+        cursor_historical = None
+        
+        try:
+            cnx_system = mysql.connector.connect(**config.myems_system_db)
+            cnx_energy = mysql.connector.connect(**config.myems_energy_db)
+            cnx_historical = mysql.connector.connect(**config.myems_historical_db)
             
-            # Calculate difference, handling None values
-            if shopfloor1_value is None and shopfloor2_value is None:
-                diff_value = None
-            elif shopfloor1_value is None:
-                diff_value = None  # Cannot calculate difference when one value is missing
-            elif shopfloor2_value is None:
-                diff_value = None  # Cannot calculate difference when one value is missing
-            else:
-                diff_value = shopfloor1_value - shopfloor2_value
-                diff["total_in_category"] += diff_value
+            try:
+                cursor_system = cnx_system.cursor()
+                cursor_energy = cnx_energy.cursor()
+                cursor_historical = cnx_historical.cursor()
+
+                # Query shopfloor 1
+                if shopfloor_id1 is not None:
+                    cursor_system.execute(
+                        " SELECT id, name FROM tbl_shopfloors WHERE id = %s ", (shopfloor_id1,)
+                    )
+                    row_shopfloor1 = cursor_system.fetchone()
+                elif shopfloor_uuid1 is not None:
+                    cursor_system.execute(
+                        " SELECT id, name FROM tbl_shopfloors WHERE uuid = %s ",
+                        (shopfloor_uuid1,),
+                    )
+                    row_shopfloor1 = cursor_system.fetchone()
+
+                if row_shopfloor1 is None:
+                    raise falcon.HTTPError(
+                        status=falcon.HTTP_404,
+                        title="API.NOT_FOUND",
+                        description="API.EQUIPMENT_NOT_FOUND",
+                    )
+
+                shopfloor1 = dict()
+                shopfloor1["id"] = row_shopfloor1[0]
+                shopfloor1["name"] = row_shopfloor1[1]
+
+                # Query shopfloor 2
+                if shopfloor_id2 is not None:
+                    cursor_system.execute(
+                        " SELECT id, name FROM tbl_shopfloors WHERE id = %s ", (shopfloor_id2,)
+                    )
+                    row_shopfloor2 = cursor_system.fetchone()
+                elif shopfloor_uuid2 is not None:
+                    cursor_system.execute(
+                        " SELECT id, name FROM tbl_shopfloors WHERE uuid = %s ",
+                        (shopfloor_uuid2,),
+                    )
+                    row_shopfloor2 = cursor_system.fetchone()
+
+                if row_shopfloor2 is None:
+                    raise falcon.HTTPError(
+                        status=falcon.HTTP_404,
+                        title="API.NOT_FOUND",
+                        description="API.EQUIPMENT_NOT_FOUND",
+                    )
+
+                shopfloor2 = dict()
+                shopfloor2["id"] = row_shopfloor2[0]
+                shopfloor2["name"] = row_shopfloor2[1]
+
+                # Query energy category
+                cursor_system.execute(
+                    " SELECT id, name, unit_of_measure FROM tbl_energy_categories WHERE id = %s ",
+                    (energy_category_id,),
+                )
+                row_energy_category = cursor_system.fetchone()
+
+                if row_energy_category is None:
+                    raise falcon.HTTPError(
+                        status=falcon.HTTP_404,
+                        title="API.NOT_FOUND",
+                        description="API.ENERGY_CATEGORY_NOT_FOUND",
+                    )
+
+                energy_category = dict()
+                energy_category["id"] = row_energy_category[0]
+                energy_category["name"] = row_energy_category[1]
+                energy_category["unit_of_measure"] = row_energy_category[2]
+
+                #####################################################################################################
+                # Step 3: query shopfloor input category hourly data (pre-aggregated by background service)
+                #####################################################################################################
+                # Query shopfloor 1 input category hourly data
+                cursor_energy.execute(
+                    " SELECT start_datetime_utc, actual_value "
+                    " FROM tbl_shopfloor_input_category_hourly "
+                    " WHERE shopfloor_id = %s "
+                    "     AND energy_category_id = %s "
+                    "     AND start_datetime_utc >= %s "
+                    "     AND start_datetime_utc < %s "
+                    " ORDER BY start_datetime_utc ",
+                    (
+                        shopfloor1["id"],
+                        energy_category_id,
+                        reporting_start_datetime_utc,
+                        reporting_end_datetime_utc,
+                    ),
+                )
+                rows_shopfloor1_hourly = cursor_energy.fetchall()
+
+                # Query shopfloor 2 input category hourly data
+                cursor_energy.execute(
+                    " SELECT start_datetime_utc, actual_value "
+                    " FROM tbl_shopfloor_input_category_hourly "
+                    " WHERE shopfloor_id = %s "
+                    "     AND energy_category_id = %s "
+                    "     AND start_datetime_utc >= %s "
+                    "     AND start_datetime_utc < %s "
+                    " ORDER BY start_datetime_utc ",
+                    (
+                        shopfloor2["id"],
+                        energy_category_id,
+                        reporting_start_datetime_utc,
+                        reporting_end_datetime_utc,
+                    ),
+                )
+                rows_shopfloor2_hourly = cursor_energy.fetchall()
+
+                ##############################################################################################
+                # Step 4: aggregate shopfloor energy consumption data by period
+                ##############################################################################################
+                # Aggregate energy consumption for shopfloor 1
+                shopfloor1_energy_data = dict()
+                shopfloor1_energy_data["timestamps"] = list()
+                shopfloor1_energy_data["values"] = list()
+                shopfloor1_energy_data["total_in_category"] = Decimal(0.0)
+
+                # Aggregate shopfloor 1 hourly data by period
+                rows_shopfloor1_periodically = utilities.aggregate_hourly_data_by_period(
+                    rows_shopfloor1_hourly,
+                    reporting_start_datetime_utc,
+                    reporting_end_datetime_utc,
+                    period_type,
+                )
+
+                for row_shopfloor1_periodically in rows_shopfloor1_periodically:
+                    current_datetime_local = row_shopfloor1_periodically[0].replace(
+                        tzinfo=timezone.utc
+                    ) + timedelta(minutes=timezone_offset)
+                    if period_type == "hourly":
+                        current_datetime = current_datetime_local.isoformat()[0:19]
+                    elif period_type == "daily":
+                        current_datetime = current_datetime_local.isoformat()[0:10]
+                    elif period_type == "weekly":
+                        current_datetime = current_datetime_local.isoformat()[0:10]
+                    elif period_type == "monthly":
+                        current_datetime = current_datetime_local.isoformat()[0:7]
+                    elif period_type == "yearly":
+                        current_datetime = current_datetime_local.isoformat()[0:4]
+
+                    actual_value = row_shopfloor1_periodically[1]
+
+                    shopfloor1_energy_data["timestamps"].append(current_datetime)
+                    shopfloor1_energy_data["values"].append(actual_value)
+                    if actual_value is not None:
+                        shopfloor1_energy_data["total_in_category"] += actual_value
+
+                # Aggregate energy consumption for shopfloor 2
+                shopfloor2_energy_data = dict()
+                shopfloor2_energy_data["timestamps"] = list()
+                shopfloor2_energy_data["values"] = list()
+                shopfloor2_energy_data["total_in_category"] = Decimal(0.0)
+
+                # Aggregate shopfloor 2 hourly data by period
+                rows_shopfloor2_periodically = utilities.aggregate_hourly_data_by_period(
+                    rows_shopfloor2_hourly,
+                    reporting_start_datetime_utc,
+                    reporting_end_datetime_utc,
+                    period_type,
+                )
+
+                for row_shopfloor2_periodically in rows_shopfloor2_periodically:
+                    current_datetime_local = row_shopfloor2_periodically[0].replace(
+                        tzinfo=timezone.utc
+                    ) + timedelta(minutes=timezone_offset)
+                    if period_type == "hourly":
+                        current_datetime = current_datetime_local.isoformat()[0:19]
+                    elif period_type == "daily":
+                        current_datetime = current_datetime_local.isoformat()[0:10]
+                    elif period_type == "weekly":
+                        current_datetime = current_datetime_local.isoformat()[0:10]
+                    elif period_type == "monthly":
+                        current_datetime = current_datetime_local.isoformat()[0:7]
+                    elif period_type == "yearly":
+                        current_datetime = current_datetime_local.isoformat()[0:4]
+
+                    actual_value = row_shopfloor2_periodically[1]
+
+                    shopfloor2_energy_data["timestamps"].append(current_datetime)
+                    shopfloor2_energy_data["values"].append(actual_value)
+                    if actual_value is not None:
+                        shopfloor2_energy_data["total_in_category"] += actual_value
+
+                # Calculate difference
+                diff = dict()
+                diff["values"] = list()
+                diff["total_in_category"] = Decimal(0.0)
+
+                # Ensure both shopfloors have the same number of data points
+                min_length = min(
+                    len(shopfloor1_energy_data["values"]), len(shopfloor2_energy_data["values"])
+                )
+                for i in range(min_length):
+                    shopfloor1_value = (
+                        shopfloor1_energy_data["values"][i]
+                        if i < len(shopfloor1_energy_data["values"])
+                        else None
+                    )
+                    shopfloor2_value = (
+                        shopfloor2_energy_data["values"][i]
+                        if i < len(shopfloor2_energy_data["values"])
+                        else None
+                    )
+                    
+                    # Calculate difference, handling None values
+                    if shopfloor1_value is None and shopfloor2_value is None:
+                        diff_value = None
+                    elif shopfloor1_value is None:
+                        diff_value = None  # Cannot calculate difference when one value is missing
+                    elif shopfloor2_value is None:
+                        diff_value = None  # Cannot calculate difference when one value is missing
+                    else:
+                        diff_value = shopfloor1_value - shopfloor2_value
+                        diff["total_in_category"] += diff_value
+                        
+                    diff["values"].append(diff_value)
+
+            finally:
+                if cursor_system:
+                    cursor_system.close()
+                if cursor_energy:
+                    cursor_energy.close()
+                if cursor_historical:
+                    cursor_historical.close()
                 
-            diff["values"].append(diff_value)
+        finally:
+            if cnx_system:
+                cnx_system.close()
+            if cnx_energy:
+                cnx_energy.close()
+            if cnx_historical:
+                cnx_historical.close()
 
         ################################################################################################################
         # Step 5: construct the report
         ################################################################################################################
-        if cursor_system:
-            cursor_system.close()
-        if cnx_system:
-            cnx_system.close()
-
-        if cursor_energy:
-            cursor_energy.close()
-        if cnx_energy:
-            cnx_energy.close()
-
-        if cursor_historical:
-            cursor_historical.close()
-        if cnx_historical:
-            cnx_historical.close()
-
         result = {
             "shopfloor1": {
                 "id": shopfloor1["id"],
