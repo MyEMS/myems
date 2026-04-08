@@ -13,6 +13,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - split myems-admin/app/translations.js into small files
 - split myems-web/src/i18n.js into small files
 ### Fixed
+- fixed issue of package.json in myems-web
 ### Removed
 - removed the defalut interval_in_seconds from config in myems-modbus-tcp
 

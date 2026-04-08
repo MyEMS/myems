@@ -121,5 +121,8 @@
     "prettier": "1.17.1",
     "sass": "^1.43.4",
     "webpack-dev-server": "^5.2.1"
+  },
+  "overrides": {
+    "underscore": "^1.13.1"
   }
 }
