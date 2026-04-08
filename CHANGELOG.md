@@ -10,6 +10,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - changed default start_datetime_utc to 2024-12-31 16:00:00 in myems-aggregation, myems-cleaning and myems-normalization
 - split myems-admin/app/translations.js into small files
 ### Fixed
+- fixed issue of package.json in myems-web
 ### Removed
 - removed the defalut interval_in_seconds from config in myems-modbus-tcp
 
