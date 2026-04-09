@@ -174,569 +174,563 @@ class Reporting:
         ################################################################################################################
         # Step 2: query the space
         ################################################################################################################
+        cnx_user = None
+        cursor_user = None
+        cnx_system = None
+        cursor_system = None
+        cnx_energy = None
+        cursor_energy = None
+        cnx_billing = None
+        cursor_billing = None
+        cnx_historical = None
+        cursor_historical = None
 
-        cnx_user = mysql.connector.connect(**config.myems_user_db)
-        cursor_user = cnx_user.cursor()
+        try:
+            # Outer try: Establish connections
+            cnx_user = mysql.connector.connect(**config.myems_user_db)
+            cnx_system = mysql.connector.connect(**config.myems_system_db)
+            cnx_energy = mysql.connector.connect(**config.myems_energy_db)
+            cnx_billing = mysql.connector.connect(**config.myems_billing_db)
+            cnx_historical = mysql.connector.connect(**config.myems_historical_db)
 
-        cursor_user.execute(" SELECT id, is_admin, privilege_id "
-                            " FROM tbl_users "
-                            " WHERE uuid = %s ", (user_uuid,))
-        row_user = cursor_user.fetchone()
-        if row_user is None:
-            if cursor_user:
-                cursor_user.close()
+            try:
+                # Inner try: Create cursors and execute business logic
+                cursor_user = cnx_user.cursor()
+                cursor_system = cnx_system.cursor()
+                cursor_energy = cnx_energy.cursor()
+                cursor_billing = cnx_billing.cursor()
+                cursor_historical = cnx_historical.cursor()
+
+                cursor_user.execute(" SELECT id, is_admin, privilege_id "
+                                    " FROM tbl_users "
+                                    " WHERE uuid = %s ", (user_uuid,))
+                row_user = cursor_user.fetchone()
+                if row_user is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.USER_NOT_FOUND')
+
+                user = {'id': row_user[0], 'is_admin': row_user[1], 'privilege_id': row_user[2]}
+                if user['is_admin']:
+                    # todo: make sure the space id is always 1 for admin
+                    space_id = 1
+                else:
+                    cursor_user.execute(" SELECT data "
+                                        " FROM tbl_privileges "
+                                        " WHERE id = %s ", (user['privilege_id'],))
+                    row_privilege = cursor_user.fetchone()
+                    if row_privilege is None:
+                        raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                               description='API.USER_PRIVILEGE_NOT_FOUND')
+
+                    privilege_data = json.loads(row_privilege[0])
+                    if 'spaces' not in privilege_data.keys() \
+                            or privilege_data['spaces'] is None \
+                            or len(privilege_data['spaces']) == 0:
+                        raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                               description='API.USER_PRIVILEGE_NOT_FOUND')
+                    # todo: how to deal with multiple spaces in privilege data
+                    space_id = privilege_data['spaces'][0]
+
+                cursor_system.execute(" SELECT id, name, area, cost_center_id "
+                                      " FROM tbl_spaces "
+                                      " WHERE id = %s ", (space_id,))
+                row_space = cursor_system.fetchone()
+                if row_space is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.SPACE_NOT_FOUND')
+
+                space = dict()
+                space['id'] = row_space[0]
+                space['name'] = row_space[1]
+                space['area'] = row_space[2]
+                space['cost_center_id'] = row_space[3]
+
+                ################################################################################################
+                # Step 3: query energy categories
+                ################################################################################################
+                energy_category_set = set()
+                # query energy categories in base period
+                cursor_energy.execute(" SELECT DISTINCT(energy_category_id) "
+                                      " FROM tbl_space_input_category_hourly "
+                                      " WHERE space_id = %s "
+                                      "     AND start_datetime_utc >= %s "
+                                      "     AND start_datetime_utc < %s ",
+                                      (space['id'], base_start_datetime_utc, base_end_datetime_utc))
+                rows_energy_categories = cursor_energy.fetchall()
+                if rows_energy_categories is not None and len(rows_energy_categories) > 0:
+                    for row_energy_category in rows_energy_categories:
+                        energy_category_set.add(row_energy_category[0])
+
+                # query energy categories in reporting period
+                cursor_energy.execute(" SELECT DISTINCT(energy_category_id) "
+                                      " FROM tbl_space_input_category_hourly "
+                                      " WHERE space_id = %s "
+                                      "     AND start_datetime_utc >= %s "
+                                      "     AND start_datetime_utc < %s ",
+                                      (space['id'], reporting_start_datetime_utc, reporting_end_datetime_utc))
+                rows_energy_categories = cursor_energy.fetchall()
+                if rows_energy_categories is not None and len(rows_energy_categories) > 0:
+                    for row_energy_category in rows_energy_categories:
+                        energy_category_set.add(row_energy_category[0])
+
+                # query all energy categories in base period and reporting period
+                cursor_system.execute(" SELECT id, name, unit_of_measure, kgce, kgco2e "
+                                      " FROM tbl_energy_categories "
+                                      " ORDER BY id ", )
+                rows_energy_categories = cursor_system.fetchall()
+                if rows_energy_categories is None or len(rows_energy_categories) == 0:
+                    raise falcon.HTTPError(status=falcon.HTTP_404,
+                                           title='API.NOT_FOUND',
+                                           description='API.ENERGY_CATEGORY_NOT_FOUND')
+                energy_category_dict = dict()
+                for row_energy_category in rows_energy_categories:
+                    if row_energy_category[0] in energy_category_set:
+                        energy_category_dict[row_energy_category[0]] = {"name": row_energy_category[1],
+                                                                        "unit_of_measure": row_energy_category[2],
+                                                                        "kgce": row_energy_category[3],
+                                                                        "kgco2e": row_energy_category[4]}
+
+                ######################################################################################################
+                # Step 4: query sensor data
+                ######################################################################################################
+                sensor_id_list = list()
+                sensor_dict = dict()
+                cursor_system.execute(" SELECT s.id, s.name, s.uuid, s.description "
+                                      " FROM tbl_sensors s, tbl_spaces_sensors ss "
+                                      " WHERE ss.space_id = %s "
+                                      " AND s.id = ss.sensor_id ", (space['id'],))
+                rows_sensors = cursor_system.fetchall()
+                if rows_sensors is not None and len(rows_sensors) > 0:
+                    for row in rows_sensors:
+                        sensor_id_list.append(row[0])
+                        sensor_dict[row[0]] = dict()
+                        sensor_dict[row[0]]['name'] = row[1]
+                        sensor_dict[row[0]]['description'] = row[2]
+                        sensor_dict[row[0]]['uuid'] = row[3]
+                        sensor_dict[row[0]]['point_name_list'] = list()
+                        sensor_dict[row[0]]['point_unit_list'] = list()
+                        sensor_dict[row[0]]['point_id_list'] = list()
+                if sensor_id_list is not None and len(sensor_id_list) > 0:
+                    cursor_system.execute(" SELECT sp.sensor_id, p.id, p.name, p.units "
+                                          " FROM tbl_sensors_points sp, tbl_points p "
+                                          " WHERE sp.sensor_id in ({}) "
+                                          " AND sp.point_id = p.id "
+                                          " ORDER BY p.id ".format(','.join("{0}".format(x) for x in sensor_id_list)))
+                    rows_sensor_points = cursor_system.fetchall()
+                    if rows_sensor_points is not None and len(rows_sensor_points) > 0:
+                        for row in rows_sensor_points:
+                            sensor_dict[row[0]]['point_id_list'].append(row[1])
+                            sensor_dict[row[0]]['point_name_list'].append(row[2])
+                            sensor_dict[row[0]]['point_unit_list'].append(row[3])
+
+                point_data_dict = dict()
+                for key in sensor_dict:
+                    if sensor_dict[key]['point_id_list'] is not None and len(sensor_dict[key]['point_id_list']) > 0:
+                        cursor_historical.execute(" SELECT point_id, actual_value "
+                                                  " FROM tbl_analog_value_latest "
+                                                  " WHERE point_id in ({}) "
+                                                  " ORDER BY point_id ".
+                                                  format(','.join("{0}".format(x) for x in
+                                                                  sensor_dict[key]['point_id_list'])))
+                        rows_analog_values = cursor_historical.fetchall()
+                        if rows_analog_values is not None and len(rows_analog_values) > 0:
+                            for row in rows_analog_values:
+                                point_data_dict[row[0]] = row[1]
+
+                        cursor_historical.execute(" SELECT point_id, actual_value "
+                                                  " FROM tbl_digital_value_latest "
+                                                  " WHERE point_id in ({}) "
+                                                  " ORDER BY point_id ".
+                                                  format(','.join("{0}".format(x) for x in
+                                                                  sensor_dict[key]['point_id_list'])))
+                        rows_digital_values = cursor_historical.fetchall()
+                        if rows_digital_values is not None and len(rows_digital_values) > 0:
+                            for row in rows_digital_values:
+                                point_data_dict[row[0]] = row[1]
+
+                ##########################################################################################
+                # Step 5: query child spaces
+                ##########################################################################################
+                child_space_list = list()
+                cursor_system.execute(" SELECT id, name  "
+                                      " FROM tbl_spaces "
+                                      " WHERE parent_space_id = %s "
+                                      " ORDER BY id ", (space['id'], ))
+                rows_child_spaces = cursor_system.fetchall()
+                if rows_child_spaces is not None and len(rows_child_spaces) > 0:
+                    for row in rows_child_spaces:
+                        child_space_list.append({"id": row[0], "name": row[1]})
+
+                ############################################################################################
+                # Step 6: query base period energy input
+                ############################################################################################
+                base_input = dict()
+                if energy_category_set is not None and len(energy_category_set) > 0:
+                    for energy_category_id in energy_category_set:
+                        kgce = energy_category_dict[energy_category_id]['kgce']
+                        kgco2e = energy_category_dict[energy_category_id]['kgco2e']
+
+                        base_input[energy_category_id] = dict()
+                        base_input[energy_category_id]['timestamps'] = list()
+                        base_input[energy_category_id]['values'] = list()
+                        base_input[energy_category_id]['subtotal'] = Decimal(0.0)
+                        base_input[energy_category_id]['subtotal_in_kgce'] = Decimal(0.0)
+                        base_input[energy_category_id]['subtotal_in_kgco2e'] = Decimal(0.0)
+
+                        cursor_energy.execute(" SELECT start_datetime_utc, actual_value "
+                                              " FROM tbl_space_input_category_hourly "
+                                              " WHERE space_id = %s "
+                                              "     AND energy_category_id = %s "
+                                              "     AND start_datetime_utc >= %s "
+                                              "     AND start_datetime_utc < %s "
+                                              " ORDER BY start_datetime_utc ",
+                                              (space['id'],
+                                               energy_category_id,
+                                               base_start_datetime_utc,
+                                               base_end_datetime_utc))
+                        rows_space_hourly = cursor_energy.fetchall()
+
+                        rows_space_periodically = utilities.aggregate_hourly_data_by_period(rows_space_hourly,
+                                                                                            base_start_datetime_utc,
+                                                                                            base_end_datetime_utc,
+                                                                                            period_type)
+                        for row_space_periodically in rows_space_periodically:
+                            current_datetime_local = row_space_periodically[0].replace(tzinfo=timezone.utc) + \
+                                                     timedelta(minutes=timezone_offset)
+                            if period_type == 'hourly':
+                                current_datetime = current_datetime_local.isoformat()[0:19]
+                            elif period_type == 'daily':
+                                current_datetime = current_datetime_local.isoformat()[0:10]
+                            elif period_type == 'weekly':
+                                current_datetime = current_datetime_local.isoformat()[0:10]
+                            elif period_type == 'monthly':
+                                current_datetime = current_datetime_local.isoformat()[0:7]
+                            elif period_type == 'yearly':
+                                current_datetime = current_datetime_local.isoformat()[0:4]
+
+                            actual_value = Decimal(0.0) if row_space_periodically[1] is None \
+                                else row_space_periodically[1]
+                            base_input[energy_category_id]['timestamps'].append(current_datetime)
+                            base_input[energy_category_id]['values'].append(actual_value)
+                            base_input[energy_category_id]['subtotal'] += actual_value
+                            base_input[energy_category_id]['subtotal_in_kgce'] += actual_value * kgce
+                            base_input[energy_category_id]['subtotal_in_kgco2e'] += actual_value * kgco2e
+
+                ####################################################################################################
+                # Step 7: query base period energy cost
+                ####################################################################################################
+                base_cost = dict()
+                if energy_category_set is not None and len(energy_category_set) > 0:
+                    for energy_category_id in energy_category_set:
+                        base_cost[energy_category_id] = dict()
+                        base_cost[energy_category_id]['timestamps'] = list()
+                        base_cost[energy_category_id]['values'] = list()
+                        base_cost[energy_category_id]['subtotal'] = Decimal(0.0)
+
+                        cursor_billing.execute(" SELECT start_datetime_utc, actual_value "
+                                               " FROM tbl_space_input_category_hourly "
+                                               " WHERE space_id = %s "
+                                               "     AND energy_category_id = %s "
+                                               "     AND start_datetime_utc >= %s "
+                                               "     AND start_datetime_utc < %s "
+                                               " ORDER BY start_datetime_utc ",
+                                               (space['id'],
+                                                energy_category_id,
+                                                base_start_datetime_utc,
+                                                base_end_datetime_utc))
+                        rows_space_hourly = cursor_billing.fetchall()
+
+                        rows_space_periodically = utilities.aggregate_hourly_data_by_period(rows_space_hourly,
+                                                                                            base_start_datetime_utc,
+                                                                                            base_end_datetime_utc,
+                                                                                            period_type)
+                        for row_space_periodically in rows_space_periodically:
+                            current_datetime_local = row_space_periodically[0].replace(tzinfo=timezone.utc) + \
+                                                     timedelta(minutes=timezone_offset)
+                            if period_type == 'hourly':
+                                current_datetime = current_datetime_local.isoformat()[0:19]
+                            elif period_type == 'daily':
+                                current_datetime = current_datetime_local.isoformat()[0:10]
+                            elif period_type == 'weekly':
+                                current_datetime = current_datetime_local.isoformat()[0:10]
+                            elif period_type == 'monthly':
+                                current_datetime = current_datetime_local.isoformat()[0:7]
+                            elif period_type == 'yearly':
+                                current_datetime = current_datetime_local.isoformat()[0:4]
+
+                            actual_value = Decimal(0.0) if row_space_periodically[1] is None \
+                                else row_space_periodically[1]
+                            base_cost[energy_category_id]['timestamps'].append(current_datetime)
+                            base_cost[energy_category_id]['values'].append(actual_value)
+                            base_cost[energy_category_id]['subtotal'] += actual_value
+
+                #################################################################################################
+                # Step 8: query reporting period energy input
+                #################################################################################################
+                reporting_input = dict()
+                if energy_category_set is not None and len(energy_category_set) > 0:
+                    for energy_category_id in energy_category_set:
+                        kgce = energy_category_dict[energy_category_id]['kgce']
+                        kgco2e = energy_category_dict[energy_category_id]['kgco2e']
+
+                        reporting_input[energy_category_id] = dict()
+                        reporting_input[energy_category_id]['timestamps'] = list()
+                        reporting_input[energy_category_id]['values'] = list()
+                        reporting_input[energy_category_id]['subtotal'] = Decimal(0.0)
+                        reporting_input[energy_category_id]['subtotal_in_kgce'] = Decimal(0.0)
+                        reporting_input[energy_category_id]['subtotal_in_kgco2e'] = Decimal(0.0)
+                        reporting_input[energy_category_id]['toppeak'] = Decimal(0.0)
+                        reporting_input[energy_category_id]['onpeak'] = Decimal(0.0)
+                        reporting_input[energy_category_id]['midpeak'] = Decimal(0.0)
+                        reporting_input[energy_category_id]['offpeak'] = Decimal(0.0)
+                        reporting_input[energy_category_id]['deep'] = Decimal(0.0)
+
+                        cursor_energy.execute(" SELECT start_datetime_utc, actual_value "
+                                              " FROM tbl_space_input_category_hourly "
+                                              " WHERE space_id = %s "
+                                              "     AND energy_category_id = %s "
+                                              "     AND start_datetime_utc >= %s "
+                                              "     AND start_datetime_utc < %s "
+                                              " ORDER BY start_datetime_utc ",
+                                              (space['id'],
+                                               energy_category_id,
+                                               reporting_start_datetime_utc,
+                                               reporting_end_datetime_utc))
+                        rows_space_hourly = cursor_energy.fetchall()
+
+                        rows_space_periodically = utilities.aggregate_hourly_data_by_period(
+                            rows_space_hourly,
+                            reporting_start_datetime_utc,
+                            reporting_end_datetime_utc,
+                            period_type)
+                        for row_space_periodically in rows_space_periodically:
+                            current_datetime_local = row_space_periodically[0].replace(tzinfo=timezone.utc) + \
+                                                     timedelta(minutes=timezone_offset)
+                            if period_type == 'hourly':
+                                current_datetime = current_datetime_local.isoformat()[0:19]
+                            elif period_type == 'daily':
+                                current_datetime = current_datetime_local.isoformat()[0:10]
+                            elif period_type == 'weekly':
+                                current_datetime = current_datetime_local.isoformat()[0:10]
+                            elif period_type == 'monthly':
+                                current_datetime = current_datetime_local.isoformat()[0:7]
+                            elif period_type == 'yearly':
+                                current_datetime = current_datetime_local.isoformat()[0:4]
+
+                            actual_value = Decimal(0.0) if row_space_periodically[1] is None \
+                                else row_space_periodically[1]
+                            reporting_input[energy_category_id]['timestamps'].append(current_datetime)
+                            reporting_input[energy_category_id]['values'].append(actual_value)
+                            reporting_input[energy_category_id]['subtotal'] += actual_value
+                            reporting_input[energy_category_id]['subtotal_in_kgce'] += actual_value * kgce
+                            reporting_input[energy_category_id]['subtotal_in_kgco2e'] += actual_value * kgco2e
+
+                        energy_category_tariff_dict = utilities.get_energy_category_peak_types(
+                            space['cost_center_id'],
+                            energy_category_id,
+                            reporting_start_datetime_utc,
+                            reporting_end_datetime_utc)
+                        for row in rows_space_hourly:
+                            peak_type = energy_category_tariff_dict.get(row[0], None)
+                            if peak_type == 'toppeak':
+                                reporting_input[energy_category_id]['toppeak'] += row[1]
+                            elif peak_type == 'onpeak':
+                                reporting_input[energy_category_id]['onpeak'] += row[1]
+                            elif peak_type == 'midpeak':
+                                reporting_input[energy_category_id]['midpeak'] += row[1]
+                            elif peak_type == 'offpeak':
+                                reporting_input[energy_category_id]['offpeak'] += row[1]
+                            elif peak_type == 'deep':
+                                reporting_input[energy_category_id]['deep'] += row[1]
+
+                ##################################################################################################
+                # Step 9: query reporting period energy cost
+                ##################################################################################################
+                reporting_cost = dict()
+                if energy_category_set is not None and len(energy_category_set) > 0:
+                    for energy_category_id in energy_category_set:
+
+                        reporting_cost[energy_category_id] = dict()
+                        reporting_cost[energy_category_id]['timestamps'] = list()
+                        reporting_cost[energy_category_id]['values'] = list()
+                        reporting_cost[energy_category_id]['subtotal'] = Decimal(0.0)
+                        reporting_cost[energy_category_id]['toppeak'] = Decimal(0.0)
+                        reporting_cost[energy_category_id]['onpeak'] = Decimal(0.0)
+                        reporting_cost[energy_category_id]['midpeak'] = Decimal(0.0)
+                        reporting_cost[energy_category_id]['offpeak'] = Decimal(0.0)
+                        reporting_cost[energy_category_id]['deep'] = Decimal(0.0)
+
+                        cursor_billing.execute(" SELECT start_datetime_utc, actual_value "
+                                               " FROM tbl_space_input_category_hourly "
+                                               " WHERE space_id = %s "
+                                               "     AND energy_category_id = %s "
+                                               "     AND start_datetime_utc >= %s "
+                                               "     AND start_datetime_utc < %s "
+                                               " ORDER BY start_datetime_utc ",
+                                               (space['id'],
+                                                energy_category_id,
+                                                reporting_start_datetime_utc,
+                                                reporting_end_datetime_utc))
+                        rows_space_hourly = cursor_billing.fetchall()
+
+                        rows_space_periodically = utilities.aggregate_hourly_data_by_period(
+                            rows_space_hourly,
+                            reporting_start_datetime_utc,
+                            reporting_end_datetime_utc,
+                            period_type)
+                        for row_space_periodically in rows_space_periodically:
+                            current_datetime_local = row_space_periodically[0].replace(tzinfo=timezone.utc) + \
+                                                     timedelta(minutes=timezone_offset)
+                            if period_type == 'hourly':
+                                current_datetime = current_datetime_local.isoformat()[0:19]
+                            elif period_type == 'daily':
+                                current_datetime = current_datetime_local.isoformat()[0:10]
+                            elif period_type == 'weekly':
+                                current_datetime = current_datetime_local.isoformat()[0:10]
+                            elif period_type == 'monthly':
+                                current_datetime = current_datetime_local.isoformat()[0:7]
+                            elif period_type == 'yearly':
+                                current_datetime = current_datetime_local.isoformat()[0:4]
+
+                            actual_value = Decimal(0.0) if row_space_periodically[1] is None \
+                                else row_space_periodically[1]
+                            reporting_cost[energy_category_id]['timestamps'].append(current_datetime)
+                            reporting_cost[energy_category_id]['values'].append(actual_value)
+                            reporting_cost[energy_category_id]['subtotal'] += actual_value
+
+                        energy_category_tariff_dict = utilities.get_energy_category_peak_types(
+                            space['cost_center_id'],
+                            energy_category_id,
+                            reporting_start_datetime_utc,
+                            reporting_end_datetime_utc)
+                        for row in rows_space_hourly:
+                            peak_type = energy_category_tariff_dict.get(row[0], None)
+                            if peak_type == 'toppeak':
+                                reporting_cost[energy_category_id]['toppeak'] += row[1]
+                            elif peak_type == 'onpeak':
+                                reporting_cost[energy_category_id]['onpeak'] += row[1]
+                            elif peak_type == 'midpeak':
+                                reporting_cost[energy_category_id]['midpeak'] += row[1]
+                            elif peak_type == 'offpeak':
+                                reporting_cost[energy_category_id]['offpeak'] += row[1]
+                            elif peak_type == 'deep':
+                                reporting_cost[energy_category_id]['deep'] += row[1]
+
+                #####################################################################################################
+                # Step 10: query child spaces energy input
+                #####################################################################################################
+                child_space_input = dict()
+
+                if energy_category_set is not None and len(energy_category_set) > 0:
+                    for energy_category_id in energy_category_set:
+                        child_space_input[energy_category_id] = dict()
+                        child_space_input[energy_category_id]['child_space_names'] = list()
+                        child_space_input[energy_category_id]['subtotals'] = list()
+                        child_space_input[energy_category_id]['subtotals_in_kgce'] = list()
+                        child_space_input[energy_category_id]['subtotals_in_kgco2e'] = list()
+                        kgce = energy_category_dict[energy_category_id]['kgce']
+                        kgco2e = energy_category_dict[energy_category_id]['kgco2e']
+                        for child_space in child_space_list:
+                            child_space_input[energy_category_id]['child_space_names'].append(child_space['name'])
+                            subtotal = 0
+                            subtotal_list = list()
+
+                            cursor_energy.execute(" SELECT start_datetime_utc, actual_value"
+                                                  " FROM tbl_space_input_category_hourly "
+                                                  " WHERE space_id = %s "
+                                                  "     AND energy_category_id = %s "
+                                                  "     AND start_datetime_utc >= %s "
+                                                  "     AND start_datetime_utc < %s "
+                                                  " ORDER BY start_datetime_utc ",
+                                                  (child_space['id'],
+                                                   energy_category_id,
+                                                   reporting_start_datetime_utc,
+                                                   reporting_end_datetime_utc))
+                            row_subtotal = cursor_energy.fetchall()
+                            rows_space_periodically = utilities.aggregate_hourly_data_by_period(
+                                row_subtotal,
+                                reporting_start_datetime_utc,
+                                reporting_end_datetime_utc,
+                                period_type)
+
+                            for row_space_periodically in rows_space_periodically:
+                                actual_value = Decimal(0.0) if row_space_periodically[1] is None \
+                                    else row_space_periodically[1]
+                                subtotal_list.append(actual_value)
+                                subtotal += actual_value
+
+                            child_space_input[energy_category_id]['subtotals'].append(subtotal_list)
+                            child_space_input[energy_category_id]['subtotals_in_kgce'].append(subtotal * kgce)
+                            child_space_input[energy_category_id]['subtotals_in_kgco2e'].append(subtotal * kgco2e)
+
+                ###################################################################################################
+                # Step 10: query child spaces energy cost
+                ###################################################################################################
+                child_space_cost = dict()
+
+                if energy_category_set is not None and len(energy_category_set) > 0:
+                    for energy_category_id in energy_category_set:
+                        child_space_cost[energy_category_id] = dict()
+                        child_space_cost[energy_category_id]['child_space_names'] = list()
+                        child_space_cost[energy_category_id]['subtotals'] = list()
+                        for child_space in child_space_list:
+                            child_space_cost[energy_category_id]['child_space_names'].append(child_space['name'])
+                            subtotal_list = list()
+
+                            cursor_billing.execute(" SELECT start_datetime_utc, actual_value"
+                                                   " FROM tbl_space_input_category_hourly "
+                                                   " WHERE space_id = %s "
+                                                   "     AND energy_category_id = %s "
+                                                   "     AND start_datetime_utc >= %s "
+                                                   "     AND start_datetime_utc < %s "
+                                                   " ORDER BY start_datetime_utc ",
+                                                   (child_space['id'],
+                                                    energy_category_id,
+                                                    reporting_start_datetime_utc,
+                                                    reporting_end_datetime_utc))
+                            row_subtotal = cursor_billing.fetchall()
+                            rows_space_periodically = utilities.aggregate_hourly_data_by_period(
+                                row_subtotal,
+                                reporting_start_datetime_utc,
+                                reporting_end_datetime_utc,
+                                period_type)
+
+                            for row_space_periodically in rows_space_periodically:
+                                actual_value = Decimal(0.0) if row_space_periodically[1] is None \
+                                    else row_space_periodically[1]
+                                subtotal_list.append(actual_value)
+
+                            child_space_cost[energy_category_id]['subtotals'].append(subtotal_list)
+
+            finally:
+                # Inner finally: Close cursors
+                if cursor_user:
+                    cursor_user.close()
+                if cursor_system:
+                    cursor_system.close()
+                if cursor_energy:
+                    cursor_energy.close()
+                if cursor_billing:
+                    cursor_billing.close()
+                if cursor_historical:
+                    cursor_historical.close()
+
+        finally:
+            # Outer finally: Close connections
             if cnx_user:
                 cnx_user.close()
-
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.USER_NOT_FOUND')
-
-        user = {'id': row_user[0], 'is_admin': row_user[1], 'privilege_id': row_user[2]}
-        if user['is_admin']:
-            # todo: make sure the space id is always 1 for admin
-            space_id = 1
-        else:
-            cursor_user.execute(" SELECT data "
-                                " FROM tbl_privileges "
-                                " WHERE id = %s ", (user['privilege_id'],))
-            row_privilege = cursor_user.fetchone()
-            if row_privilege is None:
-                if cursor_user:
-                    cursor_user.close()
-                if cnx_user:
-                    cnx_user.close()
-
-                raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                       description='API.USER_PRIVILEGE_NOT_FOUND')
-
-            privilege_data = json.loads(row_privilege[0])
-            if 'spaces' not in privilege_data.keys() \
-                    or privilege_data['spaces'] is None \
-                    or len(privilege_data['spaces']) == 0:
-                if cursor_user:
-                    cursor_user.close()
-                if cnx_user:
-                    cnx_user.close()
-
-                raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                       description='API.USER_PRIVILEGE_NOT_FOUND')
-            # todo: how to deal with multiple spaces in privilege data
-            space_id = privilege_data['spaces'][0]
-
-        if cursor_user:
-            cursor_user.close()
-        if cnx_user:
-            cnx_user.close()
-
-        cnx_system = mysql.connector.connect(**config.myems_system_db)
-        cursor_system = cnx_system.cursor()
-
-        cursor_system.execute(" SELECT id, name, area, cost_center_id "
-                              " FROM tbl_spaces "
-                              " WHERE id = %s ", (space_id,))
-        row_space = cursor_system.fetchone()
-        if row_space is None:
-            if cursor_system:
-                cursor_system.close()
             if cnx_system:
                 cnx_system.close()
-
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND', description='API.SPACE_NOT_FOUND')
-
-        space = dict()
-        space['id'] = row_space[0]
-        space['name'] = row_space[1]
-        space['area'] = row_space[2]
-        space['cost_center_id'] = row_space[3]
-
-        ################################################################################################################
-        # Step 3: query energy categories
-        ################################################################################################################
-        cnx_energy = mysql.connector.connect(**config.myems_energy_db)
-        cursor_energy = cnx_energy.cursor()
-
-        cnx_billing = mysql.connector.connect(**config.myems_billing_db)
-        cursor_billing = cnx_billing.cursor()
-
-        energy_category_set = set()
-        # query energy categories in base period
-        cursor_energy.execute(" SELECT DISTINCT(energy_category_id) "
-                              " FROM tbl_space_input_category_hourly "
-                              " WHERE space_id = %s "
-                              "     AND start_datetime_utc >= %s "
-                              "     AND start_datetime_utc < %s ",
-                              (space['id'], base_start_datetime_utc, base_end_datetime_utc))
-        rows_energy_categories = cursor_energy.fetchall()
-        if rows_energy_categories is not None and len(rows_energy_categories) > 0:
-            for row_energy_category in rows_energy_categories:
-                energy_category_set.add(row_energy_category[0])
-
-        # query energy categories in reporting period
-        cursor_energy.execute(" SELECT DISTINCT(energy_category_id) "
-                              " FROM tbl_space_input_category_hourly "
-                              " WHERE space_id = %s "
-                              "     AND start_datetime_utc >= %s "
-                              "     AND start_datetime_utc < %s ",
-                              (space['id'], reporting_start_datetime_utc, reporting_end_datetime_utc))
-        rows_energy_categories = cursor_energy.fetchall()
-        if rows_energy_categories is not None and len(rows_energy_categories) > 0:
-            for row_energy_category in rows_energy_categories:
-                energy_category_set.add(row_energy_category[0])
-
-        # query all energy categories in base period and reporting period
-        cursor_system.execute(" SELECT id, name, unit_of_measure, kgce, kgco2e "
-                              " FROM tbl_energy_categories "
-                              " ORDER BY id ", )
-        rows_energy_categories = cursor_system.fetchall()
-        if rows_energy_categories is None or len(rows_energy_categories) == 0:
-            if cursor_system:
-                cursor_system.close()
-            if cnx_system:
-                cnx_system.close()
-
-            if cursor_energy:
-                cursor_energy.close()
             if cnx_energy:
                 cnx_energy.close()
-
-            if cursor_billing:
-                cursor_billing.close()
             if cnx_billing:
                 cnx_billing.close()
-
-            raise falcon.HTTPError(status=falcon.HTTP_404,
-                                   title='API.NOT_FOUND',
-                                   description='API.ENERGY_CATEGORY_NOT_FOUND')
-        energy_category_dict = dict()
-        for row_energy_category in rows_energy_categories:
-            if row_energy_category[0] in energy_category_set:
-                energy_category_dict[row_energy_category[0]] = {"name": row_energy_category[1],
-                                                                "unit_of_measure": row_energy_category[2],
-                                                                "kgce": row_energy_category[3],
-                                                                "kgco2e": row_energy_category[4]}
-
-        ################################################################################################################
-        # Step 4: query sensor data
-        ################################################################################################################
-        cnx_system = mysql.connector.connect(**config.myems_system_db)
-        cursor_system = cnx_system.cursor()
-
-        cnx_historical = mysql.connector.connect(**config.myems_historical_db)
-        cursor_historical = cnx_historical.cursor()
-
-        sensor_id_list = list()
-        sensor_dict = dict()
-        cursor_system.execute(" SELECT s.id, s.name, s.uuid, s.description "
-                              " FROM tbl_sensors s, tbl_spaces_sensors ss "
-                              " WHERE ss.space_id = %s "
-                              " AND s.id = ss.sensor_id "
-                              , (space['id'],))
-        rows_sensors = cursor_system.fetchall()
-        if rows_sensors is not None and len(rows_sensors) > 0:
-            for row in rows_sensors:
-                sensor_id_list.append(row[0])
-                sensor_dict[row[0]] = dict()
-                sensor_dict[row[0]]['name'] = row[1]
-                sensor_dict[row[0]]['description'] = row[2]
-                sensor_dict[row[0]]['uuid'] = row[3]
-                sensor_dict[row[0]]['point_name_list'] = list()
-                sensor_dict[row[0]]['point_unit_list'] = list()
-                sensor_dict[row[0]]['point_id_list'] = list()
-        if sensor_id_list is not None and len(sensor_id_list) > 0:
-            cursor_system.execute(" SELECT sp.sensor_id, p.id, p.name, p.units "
-                                  " FROM tbl_sensors_points sp, tbl_points p "
-                                  " WHERE sp.sensor_id in ({}) "
-                                  " AND sp.point_id = p.id "
-                                  " ORDER BY p.id ".format(','.join("{0}".format(x) for x in sensor_id_list)))
-            rows_sensor_points = cursor_system.fetchall()
-            if rows_sensor_points is not None and len(rows_sensor_points) > 0:
-                for row in rows_sensor_points:
-                    sensor_dict[row[0]]['point_id_list'].append(row[1])
-                    sensor_dict[row[0]]['point_name_list'].append(row[2])
-                    sensor_dict[row[0]]['point_unit_list'].append(row[3])
-
-        point_data_dict = dict()
-        for key in sensor_dict:
-            if sensor_dict[key]['point_id_list'] is not None and len(sensor_dict[key]['point_id_list']) > 0:
-                cursor_historical.execute(" SELECT point_id, actual_value "
-                                          " FROM tbl_analog_value_latest "
-                                          " WHERE point_id in ({}) "
-                                          " ORDER BY point_id ".
-                                          format(','.join("{0}".format(x) for x in sensor_dict[key]['point_id_list'])))
-                rows_analog_values = cursor_historical.fetchall()
-                if rows_analog_values is not None and len(rows_analog_values) > 0:
-                    for row in rows_analog_values:
-                        point_data_dict[row[0]] = row[1]
-
-                cursor_historical.execute(" SELECT point_id, actual_value "
-                                          " FROM tbl_digital_value_latest "
-                                          " WHERE point_id in ({}) "
-                                          " ORDER BY point_id ".
-                                          format(','.join("{0}".format(x) for x in sensor_dict[key]['point_id_list'])))
-                rows_digital_values = cursor_historical.fetchall()
-                if rows_digital_values is not None and len(rows_digital_values) > 0:
-                    for row in rows_digital_values:
-                        point_data_dict[row[0]] = row[1]
-
-        ################################################################################################################
-        # Step 5: query child spaces
-        ################################################################################################################
-        child_space_list = list()
-        cursor_system.execute(" SELECT id, name  "
-                              " FROM tbl_spaces "
-                              " WHERE parent_space_id = %s "
-                              " ORDER BY id ", (space['id'], ))
-        rows_child_spaces = cursor_system.fetchall()
-        if rows_child_spaces is not None and len(rows_child_spaces) > 0:
-            for row in rows_child_spaces:
-                child_space_list.append({"id": row[0], "name": row[1]})
-
-        ################################################################################################################
-        # Step 6: query base period energy input
-        ################################################################################################################
-        base_input = dict()
-        if energy_category_set is not None and len(energy_category_set) > 0:
-            for energy_category_id in energy_category_set:
-                kgce = energy_category_dict[energy_category_id]['kgce']
-                kgco2e = energy_category_dict[energy_category_id]['kgco2e']
-
-                base_input[energy_category_id] = dict()
-                base_input[energy_category_id]['timestamps'] = list()
-                base_input[energy_category_id]['values'] = list()
-                base_input[energy_category_id]['subtotal'] = Decimal(0.0)
-                base_input[energy_category_id]['subtotal_in_kgce'] = Decimal(0.0)
-                base_input[energy_category_id]['subtotal_in_kgco2e'] = Decimal(0.0)
-
-                cursor_energy.execute(" SELECT start_datetime_utc, actual_value "
-                                      " FROM tbl_space_input_category_hourly "
-                                      " WHERE space_id = %s "
-                                      "     AND energy_category_id = %s "
-                                      "     AND start_datetime_utc >= %s "
-                                      "     AND start_datetime_utc < %s "
-                                      " ORDER BY start_datetime_utc ",
-                                      (space['id'],
-                                       energy_category_id,
-                                       base_start_datetime_utc,
-                                       base_end_datetime_utc))
-                rows_space_hourly = cursor_energy.fetchall()
-
-                rows_space_periodically = utilities.aggregate_hourly_data_by_period(rows_space_hourly,
-                                                                                    base_start_datetime_utc,
-                                                                                    base_end_datetime_utc,
-                                                                                    period_type)
-                for row_space_periodically in rows_space_periodically:
-                    current_datetime_local = row_space_periodically[0].replace(tzinfo=timezone.utc) + \
-                                             timedelta(minutes=timezone_offset)
-                    if period_type == 'hourly':
-                        current_datetime = current_datetime_local.isoformat()[0:19]
-                    elif period_type == 'daily':
-                        current_datetime = current_datetime_local.isoformat()[0:10]
-                    elif period_type == 'weekly':
-                        current_datetime = current_datetime_local.isoformat()[0:10]
-                    elif period_type == 'monthly':
-                        current_datetime = current_datetime_local.isoformat()[0:7]
-                    elif period_type == 'yearly':
-                        current_datetime = current_datetime_local.isoformat()[0:4]
-
-                    actual_value = Decimal(0.0) if row_space_periodically[1] is None else row_space_periodically[1]
-                    base_input[energy_category_id]['timestamps'].append(current_datetime)
-                    base_input[energy_category_id]['values'].append(actual_value)
-                    base_input[energy_category_id]['subtotal'] += actual_value
-                    base_input[energy_category_id]['subtotal_in_kgce'] += actual_value * kgce
-                    base_input[energy_category_id]['subtotal_in_kgco2e'] += actual_value * kgco2e
-
-        ################################################################################################################
-        # Step 7: query base period energy cost
-        ################################################################################################################
-        base_cost = dict()
-        if energy_category_set is not None and len(energy_category_set) > 0:
-            for energy_category_id in energy_category_set:
-                base_cost[energy_category_id] = dict()
-                base_cost[energy_category_id]['timestamps'] = list()
-                base_cost[energy_category_id]['values'] = list()
-                base_cost[energy_category_id]['subtotal'] = Decimal(0.0)
-
-                cursor_billing.execute(" SELECT start_datetime_utc, actual_value "
-                                       " FROM tbl_space_input_category_hourly "
-                                       " WHERE space_id = %s "
-                                       "     AND energy_category_id = %s "
-                                       "     AND start_datetime_utc >= %s "
-                                       "     AND start_datetime_utc < %s "
-                                       " ORDER BY start_datetime_utc ",
-                                       (space['id'],
-                                        energy_category_id,
-                                        base_start_datetime_utc,
-                                        base_end_datetime_utc))
-                rows_space_hourly = cursor_billing.fetchall()
-
-                rows_space_periodically = utilities.aggregate_hourly_data_by_period(rows_space_hourly,
-                                                                                    base_start_datetime_utc,
-                                                                                    base_end_datetime_utc,
-                                                                                    period_type)
-                for row_space_periodically in rows_space_periodically:
-                    current_datetime_local = row_space_periodically[0].replace(tzinfo=timezone.utc) + \
-                                             timedelta(minutes=timezone_offset)
-                    if period_type == 'hourly':
-                        current_datetime = current_datetime_local.isoformat()[0:19]
-                    elif period_type == 'daily':
-                        current_datetime = current_datetime_local.isoformat()[0:10]
-                    elif period_type == 'weekly':
-                        current_datetime = current_datetime_local.isoformat()[0:10]
-                    elif period_type == 'monthly':
-                        current_datetime = current_datetime_local.isoformat()[0:7]
-                    elif period_type == 'yearly':
-                        current_datetime = current_datetime_local.isoformat()[0:4]
-
-                    actual_value = Decimal(0.0) if row_space_periodically[1] is None else row_space_periodically[1]
-                    base_cost[energy_category_id]['timestamps'].append(current_datetime)
-                    base_cost[energy_category_id]['values'].append(actual_value)
-                    base_cost[energy_category_id]['subtotal'] += actual_value
-
-        ################################################################################################################
-        # Step 8: query reporting period energy input
-        ################################################################################################################
-        reporting_input = dict()
-        if energy_category_set is not None and len(energy_category_set) > 0:
-            for energy_category_id in energy_category_set:
-                kgce = energy_category_dict[energy_category_id]['kgce']
-                kgco2e = energy_category_dict[energy_category_id]['kgco2e']
-
-                reporting_input[energy_category_id] = dict()
-                reporting_input[energy_category_id]['timestamps'] = list()
-                reporting_input[energy_category_id]['values'] = list()
-                reporting_input[energy_category_id]['subtotal'] = Decimal(0.0)
-                reporting_input[energy_category_id]['subtotal_in_kgce'] = Decimal(0.0)
-                reporting_input[energy_category_id]['subtotal_in_kgco2e'] = Decimal(0.0)
-                reporting_input[energy_category_id]['toppeak'] = Decimal(0.0)
-                reporting_input[energy_category_id]['onpeak'] = Decimal(0.0)
-                reporting_input[energy_category_id]['midpeak'] = Decimal(0.0)
-                reporting_input[energy_category_id]['offpeak'] = Decimal(0.0)
-                reporting_input[energy_category_id]['deep'] = Decimal(0.0)
-
-                cursor_energy.execute(" SELECT start_datetime_utc, actual_value "
-                                      " FROM tbl_space_input_category_hourly "
-                                      " WHERE space_id = %s "
-                                      "     AND energy_category_id = %s "
-                                      "     AND start_datetime_utc >= %s "
-                                      "     AND start_datetime_utc < %s "
-                                      " ORDER BY start_datetime_utc ",
-                                      (space['id'],
-                                       energy_category_id,
-                                       reporting_start_datetime_utc,
-                                       reporting_end_datetime_utc))
-                rows_space_hourly = cursor_energy.fetchall()
-
-                rows_space_periodically = utilities.aggregate_hourly_data_by_period(rows_space_hourly,
-                                                                                    reporting_start_datetime_utc,
-                                                                                    reporting_end_datetime_utc,
-                                                                                    period_type)
-                for row_space_periodically in rows_space_periodically:
-                    current_datetime_local = row_space_periodically[0].replace(tzinfo=timezone.utc) + \
-                                             timedelta(minutes=timezone_offset)
-                    if period_type == 'hourly':
-                        current_datetime = current_datetime_local.isoformat()[0:19]
-                    elif period_type == 'daily':
-                        current_datetime = current_datetime_local.isoformat()[0:10]
-                    elif period_type == 'weekly':
-                        current_datetime = current_datetime_local.isoformat()[0:10]
-                    elif period_type == 'monthly':
-                        current_datetime = current_datetime_local.isoformat()[0:7]
-                    elif period_type == 'yearly':
-                        current_datetime = current_datetime_local.isoformat()[0:4]
-
-                    actual_value = Decimal(0.0) if row_space_periodically[1] is None else row_space_periodically[1]
-                    reporting_input[energy_category_id]['timestamps'].append(current_datetime)
-                    reporting_input[energy_category_id]['values'].append(actual_value)
-                    reporting_input[energy_category_id]['subtotal'] += actual_value
-                    reporting_input[energy_category_id]['subtotal_in_kgce'] += actual_value * kgce
-                    reporting_input[energy_category_id]['subtotal_in_kgco2e'] += actual_value * kgco2e
-
-                energy_category_tariff_dict = utilities.get_energy_category_peak_types(space['cost_center_id'],
-                                                                                       energy_category_id,
-                                                                                       reporting_start_datetime_utc,
-                                                                                       reporting_end_datetime_utc)
-                for row in rows_space_hourly:
-                    peak_type = energy_category_tariff_dict.get(row[0], None)
-                    if peak_type == 'toppeak':
-                        reporting_input[energy_category_id]['toppeak'] += row[1]
-                    elif peak_type == 'onpeak':
-                        reporting_input[energy_category_id]['onpeak'] += row[1]
-                    elif peak_type == 'midpeak':
-                        reporting_input[energy_category_id]['midpeak'] += row[1]
-                    elif peak_type == 'offpeak':
-                        reporting_input[energy_category_id]['offpeak'] += row[1]
-                    elif peak_type == 'deep':
-                        reporting_input[energy_category_id]['deep'] += row[1]
-
-        ################################################################################################################
-        # Step 9: query reporting period energy cost
-        ################################################################################################################
-        reporting_cost = dict()
-        if energy_category_set is not None and len(energy_category_set) > 0:
-            for energy_category_id in energy_category_set:
-
-                reporting_cost[energy_category_id] = dict()
-                reporting_cost[energy_category_id]['timestamps'] = list()
-                reporting_cost[energy_category_id]['values'] = list()
-                reporting_cost[energy_category_id]['subtotal'] = Decimal(0.0)
-                reporting_cost[energy_category_id]['toppeak'] = Decimal(0.0)
-                reporting_cost[energy_category_id]['onpeak'] = Decimal(0.0)
-                reporting_cost[energy_category_id]['midpeak'] = Decimal(0.0)
-                reporting_cost[energy_category_id]['offpeak'] = Decimal(0.0)
-                reporting_cost[energy_category_id]['deep'] = Decimal(0.0)
-
-                cursor_billing.execute(" SELECT start_datetime_utc, actual_value "
-                                       " FROM tbl_space_input_category_hourly "
-                                       " WHERE space_id = %s "
-                                       "     AND energy_category_id = %s "
-                                       "     AND start_datetime_utc >= %s "
-                                       "     AND start_datetime_utc < %s "
-                                       " ORDER BY start_datetime_utc ",
-                                       (space['id'],
-                                        energy_category_id,
-                                        reporting_start_datetime_utc,
-                                        reporting_end_datetime_utc))
-                rows_space_hourly = cursor_billing.fetchall()
-
-                rows_space_periodically = utilities.aggregate_hourly_data_by_period(rows_space_hourly,
-                                                                                    reporting_start_datetime_utc,
-                                                                                    reporting_end_datetime_utc,
-                                                                                    period_type)
-                for row_space_periodically in rows_space_periodically:
-                    current_datetime_local = row_space_periodically[0].replace(tzinfo=timezone.utc) + \
-                                             timedelta(minutes=timezone_offset)
-                    if period_type == 'hourly':
-                        current_datetime = current_datetime_local.isoformat()[0:19]
-                    elif period_type == 'daily':
-                        current_datetime = current_datetime_local.isoformat()[0:10]
-                    elif period_type == 'weekly':
-                        current_datetime = current_datetime_local.isoformat()[0:10]
-                    elif period_type == 'monthly':
-                        current_datetime = current_datetime_local.isoformat()[0:7]
-                    elif period_type == 'yearly':
-                        current_datetime = current_datetime_local.isoformat()[0:4]
-
-                    actual_value = Decimal(0.0) if row_space_periodically[1] is None else row_space_periodically[1]
-                    reporting_cost[energy_category_id]['timestamps'].append(current_datetime)
-                    reporting_cost[energy_category_id]['values'].append(actual_value)
-                    reporting_cost[energy_category_id]['subtotal'] += actual_value
-
-                energy_category_tariff_dict = utilities.get_energy_category_peak_types(space['cost_center_id'],
-                                                                                       energy_category_id,
-                                                                                       reporting_start_datetime_utc,
-                                                                                       reporting_end_datetime_utc)
-                for row in rows_space_hourly:
-                    peak_type = energy_category_tariff_dict.get(row[0], None)
-                    if peak_type == 'toppeak':
-                        reporting_cost[energy_category_id]['toppeak'] += row[1]
-                    elif peak_type == 'onpeak':
-                        reporting_cost[energy_category_id]['onpeak'] += row[1]
-                    elif peak_type == 'midpeak':
-                        reporting_cost[energy_category_id]['midpeak'] += row[1]
-                    elif peak_type == 'offpeak':
-                        reporting_cost[energy_category_id]['offpeak'] += row[1]
-                    elif peak_type == 'deep':
-                        reporting_cost[energy_category_id]['deep'] += row[1]
-
-        ################################################################################################################
-        # Step 10: query child spaces energy input
-        ################################################################################################################
-        child_space_input = dict()
-
-        if energy_category_set is not None and len(energy_category_set) > 0:
-            for energy_category_id in energy_category_set:
-                child_space_input[energy_category_id] = dict()
-                child_space_input[energy_category_id]['child_space_names'] = list()
-                child_space_input[energy_category_id]['subtotals'] = list()
-                child_space_input[energy_category_id]['subtotals_in_kgce'] = list()
-                child_space_input[energy_category_id]['subtotals_in_kgco2e'] = list()
-                kgce = energy_category_dict[energy_category_id]['kgce']
-                kgco2e = energy_category_dict[energy_category_id]['kgco2e']
-                for child_space in child_space_list:
-                    child_space_input[energy_category_id]['child_space_names'].append(child_space['name'])
-                    subtotal = 0
-                    subtotal_list = list()
-
-                    cursor_energy.execute(" SELECT start_datetime_utc, actual_value"
-                                          " FROM tbl_space_input_category_hourly "
-                                          " WHERE space_id = %s "
-                                          "     AND energy_category_id = %s "
-                                          "     AND start_datetime_utc >= %s "
-                                          "     AND start_datetime_utc < %s "
-                                          " ORDER BY start_datetime_utc ",
-                                          (child_space['id'],
-                                           energy_category_id,
-                                           reporting_start_datetime_utc,
-                                           reporting_end_datetime_utc))
-                    row_subtotal = cursor_energy.fetchall()
-                    rows_space_periodically = utilities.aggregate_hourly_data_by_period(row_subtotal,
-                                                                                        reporting_start_datetime_utc,
-                                                                                        reporting_end_datetime_utc,
-                                                                                        period_type)
-
-                    for row_space_periodically in rows_space_periodically:
-                        actual_value = Decimal(0.0) if row_space_periodically[1] is None else row_space_periodically[1]
-                        subtotal_list.append(actual_value)
-                        subtotal += actual_value
-
-                    child_space_input[energy_category_id]['subtotals'].append(subtotal_list)
-                    child_space_input[energy_category_id]['subtotals_in_kgce'].append(subtotal * kgce)
-                    child_space_input[energy_category_id]['subtotals_in_kgco2e'].append(subtotal * kgco2e)
-
-        ################################################################################################################
-        # Step 10: query child spaces energy cost
-        ################################################################################################################
-        child_space_cost = dict()
-
-        if energy_category_set is not None and len(energy_category_set) > 0:
-            for energy_category_id in energy_category_set:
-                child_space_cost[energy_category_id] = dict()
-                child_space_cost[energy_category_id]['child_space_names'] = list()
-                child_space_cost[energy_category_id]['subtotals'] = list()
-                for child_space in child_space_list:
-                    child_space_cost[energy_category_id]['child_space_names'].append(child_space['name'])
-                    subtotal_list = list()
-
-                    cursor_billing.execute(" SELECT start_datetime_utc, actual_value"
-                                           " FROM tbl_space_input_category_hourly "
-                                           " WHERE space_id = %s "
-                                           "     AND energy_category_id = %s "
-                                           "     AND start_datetime_utc >= %s "
-                                           "     AND start_datetime_utc < %s "
-                                           " ORDER BY start_datetime_utc ",
-                                           (child_space['id'],
-                                            energy_category_id,
-                                            reporting_start_datetime_utc,
-                                            reporting_end_datetime_utc))
-                    row_subtotal = cursor_billing.fetchall()
-                    rows_space_periodically = utilities.aggregate_hourly_data_by_period(row_subtotal,
-                                                                                        reporting_start_datetime_utc,
-                                                                                        reporting_end_datetime_utc,
-                                                                                        period_type)
-
-                    for row_space_periodically in rows_space_periodically:
-                        actual_value = Decimal(0.0) if row_space_periodically[1] is None else row_space_periodically[1]
-                        subtotal_list.append(actual_value)
-
-                    child_space_cost[energy_category_id]['subtotals'].append(subtotal_list)
+            if cnx_historical:
+                cnx_historical.close()
 
         ################################################################################################################
         # Step 12: construct the report
         ################################################################################################################
-        if cursor_system:
-            cursor_system.close()
-        if cnx_system:
-            cnx_system.close()
-
-        if cursor_energy:
-            cursor_energy.close()
-        if cnx_energy:
-            cnx_energy.close()
-
-        if cursor_billing:
-            cursor_billing.close()
-        if cnx_billing:
-            cnx_billing.close()
 
         result = dict()
 
