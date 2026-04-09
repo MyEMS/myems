@@ -174,7 +174,6 @@ class Reporting:
         ################################################################################################################
         # Step 2: query the space
         ################################################################################################################
-        # --- BEGIN NEW NESTED TRY/FINALLY STRUCTURE ---
         cnx_user = None
         cursor_user = None
         cnx_system = None
@@ -728,12 +727,10 @@ class Reporting:
                 cnx_billing.close()
             if cnx_historical:
                 cnx_historical.close()
-        # --- END NEW NESTED TRY/FINALLY STRUCTURE ---
 
         ################################################################################################################
         # Step 12: construct the report
         ################################################################################################################
-        # Original close calls removed as they are now handled in the finally blocks above
 
         result = dict()
 
