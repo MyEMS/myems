@@ -52,8 +52,10 @@ sudo chmod +x run.sh
 ./run.sh
 ```
 
-Quick run on Windows (NOT for production usage):
-Note: For Python, please select 3.8.x,3.10.x, 3.11.x, or 3.12.x
+How to run on Windows (NOT for production usage):
+
+Install python 3.10, 3.11, or 3.12
+
 Find python path in Command Prompt:
 ```bash
 where python
