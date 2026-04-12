@@ -52,7 +52,9 @@ sudo chmod +x run.sh
 ./run.sh
 ```
 
-Quick run on Windows (NOT for production usage):
+How to run on Windows (NOT for production usage):
+
+Install python 3.10, 3.11, or 3.12
 
 Find python path in Command Prompt:
 ```bash
@@ -62,8 +64,8 @@ Assume the result is 'C:\Users\johnson\AppData\Local\Programs\Python\Python310\p
 
 Copy fcntl.py and pwd.py to lib folder:
 ```bash
-cp myems\myems-api\fcntl.py C:\Users\johnson\AppData\Local\Programs\Python\Python310\Lib
-cp myems\myems-api\pwd.py C:\Users\johnson\AppData\Local\Programs\Python\Python310\Lib
+copy myems\myems-api\fcntl.py C:\Users\johnson\AppData\Local\Programs\Python\Python310\Lib
+copy myems\myems-api\pwd.py C:\Users\johnson\AppData\Local\Programs\Python\Python310\Lib
 ```
 
 Install and run with waitress:

@@ -202,363 +202,349 @@ class Reporting:
         ################################################################################################################
         # Step 2: query the shopfloor
         ################################################################################################################
-        cnx_system = mysql.connector.connect(**config.myems_system_db)
-        cursor_system = cnx_system.cursor()
+        cnx_system = None
+        cnx_billing = None
+        cnx_historical = None
+        cursor_system = None
+        cursor_billing = None
+        cursor_historical = None
+        
+        try:
+            cnx_system = mysql.connector.connect(**config.myems_system_db)
+            cnx_billing = mysql.connector.connect(**config.myems_billing_db)
+            cnx_historical = mysql.connector.connect(**config.myems_historical_db)
+            
+            try:
+                cursor_system = cnx_system.cursor()
+                cursor_billing = cnx_billing.cursor()
+                cursor_historical = cnx_historical.cursor()
 
-        cnx_billing = mysql.connector.connect(**config.myems_billing_db)
-        cursor_billing = cnx_billing.cursor()
+                if shopfloor_id is not None:
+                    cursor_system.execute(" SELECT id, name, area, cost_center_id "
+                                          " FROM tbl_shopfloors "
+                                          " WHERE id = %s ", (shopfloor_id,))
+                    row_shopfloor = cursor_system.fetchone()
+                elif shopfloor_uuid is not None:
+                    cursor_system.execute(" SELECT id, name, area, cost_center_id "
+                                          " FROM tbl_shopfloors "
+                                          " WHERE uuid = %s ", (shopfloor_uuid,))
+                    row_shopfloor = cursor_system.fetchone()
 
-        cnx_historical = mysql.connector.connect(**config.myems_historical_db)
-        cursor_historical = cnx_historical.cursor()
+                if row_shopfloor is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.SHOPFLOOR_NOT_FOUND')
 
-        if shopfloor_id is not None:
-            cursor_system.execute(" SELECT id, name, area, cost_center_id "
-                                  " FROM tbl_shopfloors "
-                                  " WHERE id = %s ", (shopfloor_id,))
-            row_shopfloor = cursor_system.fetchone()
-        elif shopfloor_uuid is not None:
-            cursor_system.execute(" SELECT id, name, area, cost_center_id "
-                                  " FROM tbl_shopfloors "
-                                  " WHERE uuid = %s ", (shopfloor_uuid,))
-            row_shopfloor = cursor_system.fetchone()
+                shopfloor = dict()
+                shopfloor['id'] = row_shopfloor[0]
+                shopfloor['name'] = row_shopfloor[1]
+                shopfloor['area'] = row_shopfloor[2]
+                shopfloor['cost_center_id'] = row_shopfloor[3]
 
-        if row_shopfloor is None:
-            if cursor_system:
-                cursor_system.close()
-            if cnx_system:
-                cnx_system.close()
-
-            if cursor_billing:
-                cursor_billing.close()
-            if cnx_billing:
-                cnx_billing.close()
-
-            if cursor_historical:
-                cursor_historical.close()
-            if cnx_historical:
-                cnx_historical.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND', description='API.SHOPFLOOR_NOT_FOUND')
-
-        shopfloor = dict()
-        shopfloor['id'] = row_shopfloor[0]
-        shopfloor['name'] = row_shopfloor[1]
-        shopfloor['area'] = row_shopfloor[2]
-        shopfloor['cost_center_id'] = row_shopfloor[3]
-
-        ################################################################################################################
-        # Step 3: query energy categories
-        ################################################################################################################
-        energy_category_set = set()
-        # query energy categories in base period
-        cursor_billing.execute(" SELECT DISTINCT(energy_category_id) "
-                               " FROM tbl_shopfloor_input_category_hourly "
-                               " WHERE shopfloor_id = %s "
-                               "     AND start_datetime_utc >= %s "
-                               "     AND start_datetime_utc < %s ",
-                               (shopfloor['id'], base_start_datetime_utc, base_end_datetime_utc))
-        rows_energy_categories = cursor_billing.fetchall()
-        if rows_energy_categories is not None and len(rows_energy_categories) > 0:
-            for row_energy_category in rows_energy_categories:
-                energy_category_set.add(row_energy_category[0])
-
-        # query energy categories in reporting period
-        cursor_billing.execute(" SELECT DISTINCT(energy_category_id) "
-                               " FROM tbl_shopfloor_input_category_hourly "
-                               " WHERE shopfloor_id = %s "
-                               "     AND start_datetime_utc >= %s "
-                               "     AND start_datetime_utc < %s ",
-                               (shopfloor['id'], reporting_start_datetime_utc, reporting_end_datetime_utc))
-        rows_energy_categories = cursor_billing.fetchall()
-        if rows_energy_categories is not None and len(rows_energy_categories) > 0:
-            for row_energy_category in rows_energy_categories:
-                energy_category_set.add(row_energy_category[0])
-
-        # query all energy categories in base period and reporting period
-        cursor_system.execute(" SELECT id, name, unit_of_measure, kgce, kgco2e "
-                              " FROM tbl_energy_categories "
-                              " ORDER BY id ", )
-        rows_energy_categories = cursor_system.fetchall()
-        if rows_energy_categories is None or len(rows_energy_categories) == 0:
-            if cursor_system:
-                cursor_system.close()
-            if cnx_system:
-                cnx_system.close()
-
-            if cursor_billing:
-                cursor_billing.close()
-            if cnx_billing:
-                cnx_billing.close()
-
-            if cursor_historical:
-                cursor_historical.close()
-            if cnx_historical:
-                cnx_historical.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404,
-                                   title='API.NOT_FOUND',
-                                   description='API.ENERGY_CATEGORY_NOT_FOUND')
-        energy_category_dict = dict()
-        for row_energy_category in rows_energy_categories:
-            if row_energy_category[0] in energy_category_set:
-                energy_category_dict[row_energy_category[0]] = {"name": row_energy_category[1],
-                                                                "unit_of_measure": row_energy_category[2],
-                                                                "kgce": row_energy_category[3],
-                                                                "kgco2e": row_energy_category[4]}
-
-        ################################################################################################################
-        # Step 4: query associated sensors
-        ################################################################################################################
-        point_list = list()
-        cursor_system.execute(" SELECT p.id, p.name, p.units, p.object_type  "
-                              " FROM tbl_shopfloors st, tbl_sensors se, tbl_shopfloors_sensors ss, "
-                              "      tbl_points p, tbl_sensors_points sp "
-                              " WHERE st.id = %s AND st.id = ss.shopfloor_id AND ss.sensor_id = se.id "
-                              "       AND se.id = sp.sensor_id AND sp.point_id = p.id "
-                              " ORDER BY p.id ", (shopfloor['id'],))
-        rows_points = cursor_system.fetchall()
-        if rows_points is not None and len(rows_points) > 0:
-            for row in rows_points:
-                point_list.append({"id": row[0], "name": row[1], "units": row[2], "object_type": row[3]})
-
-        ################################################################################################################
-        # Step 5: query associated points
-        ################################################################################################################
-        cursor_system.execute(" SELECT p.id, p.name, p.units, p.object_type  "
-                              " FROM tbl_shopfloors s, tbl_shopfloors_points sp, tbl_points p "
-                              " WHERE s.id = %s AND s.id = sp.shopfloor_id AND sp.point_id = p.id "
-                              " ORDER BY p.id ", (shopfloor['id'],))
-        rows_points = cursor_system.fetchall()
-        if rows_points is not None and len(rows_points) > 0:
-            for row in rows_points:
-                point_list.append({"id": row[0], "name": row[1], "units": row[2], "object_type": row[3]})
-
-        ################################################################################################################
-        # Step 6: query base period energy cost
-        ################################################################################################################
-        base = dict()
-        if energy_category_set is not None and len(energy_category_set) > 0:
-            for energy_category_id in energy_category_set:
-                base[energy_category_id] = dict()
-                base[energy_category_id]['timestamps'] = list()
-                base[energy_category_id]['values'] = list()
-                base[energy_category_id]['subtotal'] = Decimal(0.0)
-
-                cursor_billing.execute(" SELECT start_datetime_utc, actual_value "
+                ####################################################################################################
+                # Step 3: query energy categories
+                ####################################################################################################
+                energy_category_set = set()
+                # query energy categories in base period
+                cursor_billing.execute(" SELECT DISTINCT(energy_category_id) "
                                        " FROM tbl_shopfloor_input_category_hourly "
                                        " WHERE shopfloor_id = %s "
-                                       "     AND energy_category_id = %s "
                                        "     AND start_datetime_utc >= %s "
-                                       "     AND start_datetime_utc < %s "
-                                       " ORDER BY start_datetime_utc ",
-                                       (shopfloor['id'],
-                                        energy_category_id,
-                                        base_start_datetime_utc,
-                                        base_end_datetime_utc))
-                rows_shopfloor_hourly = cursor_billing.fetchall()
+                                       "     AND start_datetime_utc < %s ",
+                                       (shopfloor['id'], base_start_datetime_utc, base_end_datetime_utc))
+                rows_energy_categories = cursor_billing.fetchall()
+                if rows_energy_categories is not None and len(rows_energy_categories) > 0:
+                    for row_energy_category in rows_energy_categories:
+                        energy_category_set.add(row_energy_category[0])
 
-                rows_shopfloor_periodically = utilities.aggregate_hourly_data_by_period(rows_shopfloor_hourly,
-                                                                                        base_start_datetime_utc,
-                                                                                        base_end_datetime_utc,
-                                                                                        period_type)
-                for row_shopfloor_periodically in rows_shopfloor_periodically:
-                    current_datetime_local = row_shopfloor_periodically[0].replace(tzinfo=timezone.utc) + \
-                                             timedelta(minutes=timezone_offset)
-                    if period_type == 'hourly':
-                        current_datetime = current_datetime_local.isoformat()[0:19]
-                    elif period_type == 'daily':
-                        current_datetime = current_datetime_local.isoformat()[0:10]
-                    elif period_type == 'weekly':
-                        current_datetime = current_datetime_local.isoformat()[0:10]
-                    elif period_type == 'monthly':
-                        current_datetime = current_datetime_local.isoformat()[0:7]
-                    elif period_type == 'yearly':
-                        current_datetime = current_datetime_local.isoformat()[0:4]
-
-                    actual_value = Decimal(0.0) if row_shopfloor_periodically[1] is None \
-                        else row_shopfloor_periodically[1]
-                    base[energy_category_id]['timestamps'].append(current_datetime)
-                    base[energy_category_id]['values'].append(actual_value)
-                    base[energy_category_id]['subtotal'] += actual_value
-
-        ################################################################################################################
-        # Step 7: query reporting period energy cost
-        ################################################################################################################
-        reporting = dict()
-        if energy_category_set is not None and len(energy_category_set) > 0:
-            for energy_category_id in energy_category_set:
-                reporting[energy_category_id] = dict()
-                reporting[energy_category_id]['timestamps'] = list()
-                reporting[energy_category_id]['values'] = list()
-                reporting[energy_category_id]['subtotal'] = Decimal(0.0)
-                reporting[energy_category_id]['toppeak'] = Decimal(0.0)
-                reporting[energy_category_id]['onpeak'] = Decimal(0.0)
-                reporting[energy_category_id]['midpeak'] = Decimal(0.0)
-                reporting[energy_category_id]['offpeak'] = Decimal(0.0)
-                reporting[energy_category_id]['deep'] = Decimal(0.0)
-
-                cursor_billing.execute(" SELECT start_datetime_utc, actual_value "
+                # query energy categories in reporting period
+                cursor_billing.execute(" SELECT DISTINCT(energy_category_id) "
                                        " FROM tbl_shopfloor_input_category_hourly "
                                        " WHERE shopfloor_id = %s "
-                                       "     AND energy_category_id = %s "
                                        "     AND start_datetime_utc >= %s "
-                                       "     AND start_datetime_utc < %s "
-                                       " ORDER BY start_datetime_utc ",
-                                       (shopfloor['id'],
-                                        energy_category_id,
-                                        reporting_start_datetime_utc,
-                                        reporting_end_datetime_utc))
-                rows_shopfloor_hourly = cursor_billing.fetchall()
+                                       "     AND start_datetime_utc < %s ",
+                                       (shopfloor['id'], reporting_start_datetime_utc, reporting_end_datetime_utc))
+                rows_energy_categories = cursor_billing.fetchall()
+                if rows_energy_categories is not None and len(rows_energy_categories) > 0:
+                    for row_energy_category in rows_energy_categories:
+                        energy_category_set.add(row_energy_category[0])
 
-                rows_shopfloor_periodically = utilities.aggregate_hourly_data_by_period(rows_shopfloor_hourly,
-                                                                                        reporting_start_datetime_utc,
-                                                                                        reporting_end_datetime_utc,
-                                                                                        period_type)
-                for row_shopfloor_periodically in rows_shopfloor_periodically:
-                    current_datetime_local = row_shopfloor_periodically[0].replace(tzinfo=timezone.utc) + \
-                                             timedelta(minutes=timezone_offset)
-                    if period_type == 'hourly':
-                        current_datetime = current_datetime_local.isoformat()[0:19]
-                    elif period_type == 'daily':
-                        current_datetime = current_datetime_local.isoformat()[0:10]
-                    elif period_type == 'weekly':
-                        current_datetime = current_datetime_local.isoformat()[0:10]
-                    elif period_type == 'monthly':
-                        current_datetime = current_datetime_local.isoformat()[0:7]
-                    elif period_type == 'yearly':
-                        current_datetime = current_datetime_local.isoformat()[0:4]
+                # query all energy categories in base period and reporting period
+                cursor_system.execute(" SELECT id, name, unit_of_measure, kgce, kgco2e "
+                                      " FROM tbl_energy_categories "
+                                      " ORDER BY id ", )
+                rows_energy_categories = cursor_system.fetchall()
+                if rows_energy_categories is None or len(rows_energy_categories) == 0:
+                    raise falcon.HTTPError(status=falcon.HTTP_404,
+                                           title='API.NOT_FOUND',
+                                           description='API.ENERGY_CATEGORY_NOT_FOUND')
+                energy_category_dict = dict()
+                for row_energy_category in rows_energy_categories:
+                    if row_energy_category[0] in energy_category_set:
+                        energy_category_dict[row_energy_category[0]] = {"name": row_energy_category[1],
+                                                                        "unit_of_measure": row_energy_category[2],
+                                                                        "kgce": row_energy_category[3],
+                                                                        "kgco2e": row_energy_category[4]}
 
-                    actual_value = Decimal(0.0) if row_shopfloor_periodically[1] is None \
-                        else row_shopfloor_periodically[1]
-                    reporting[energy_category_id]['timestamps'].append(current_datetime)
-                    reporting[energy_category_id]['values'].append(actual_value)
-                    reporting[energy_category_id]['subtotal'] += actual_value
+                #####################################################################################################
+                # Step 4: query associated sensors
+                #####################################################################################################
+                point_list = list()
+                cursor_system.execute(" SELECT p.id, p.name, p.units, p.object_type  "
+                                      " FROM tbl_shopfloors st, tbl_sensors se, tbl_shopfloors_sensors ss, "
+                                      "      tbl_points p, tbl_sensors_points sp "
+                                      " WHERE st.id = %s AND st.id = ss.shopfloor_id AND ss.sensor_id = se.id "
+                                      "       AND se.id = sp.sensor_id AND sp.point_id = p.id "
+                                      " ORDER BY p.id ", (shopfloor['id'],))
+                rows_points = cursor_system.fetchall()
+                if rows_points is not None and len(rows_points) > 0:
+                    for row in rows_points:
+                        point_list.append({"id": row[0], "name": row[1], "units": row[2], "object_type": row[3]})
 
-                energy_category_tariff_dict = utilities.get_energy_category_peak_types(shopfloor['cost_center_id'],
-                                                                                       energy_category_id,
-                                                                                       reporting_start_datetime_utc,
-                                                                                       reporting_end_datetime_utc)
-                for row in rows_shopfloor_hourly:
-                    peak_type = energy_category_tariff_dict.get(row[0], None)
-                    if peak_type == 'toppeak':
-                        reporting[energy_category_id]['toppeak'] += row[1]
-                    elif peak_type == 'onpeak':
-                        reporting[energy_category_id]['onpeak'] += row[1]
-                    elif peak_type == 'midpeak':
-                        reporting[energy_category_id]['midpeak'] += row[1]
-                    elif peak_type == 'offpeak':
-                        reporting[energy_category_id]['offpeak'] += row[1]
-                    elif peak_type == 'deep':
-                        reporting[energy_category_id]['deep'] += row[1]
+                ####################################################################################################
+                # Step 5: query associated points
+                ####################################################################################################
+                cursor_system.execute(" SELECT p.id, p.name, p.units, p.object_type  "
+                                      " FROM tbl_shopfloors s, tbl_shopfloors_points sp, tbl_points p "
+                                      " WHERE s.id = %s AND s.id = sp.shopfloor_id AND sp.point_id = p.id "
+                                      " ORDER BY p.id ", (shopfloor['id'],))
+                rows_points = cursor_system.fetchall()
+                if rows_points is not None and len(rows_points) > 0:
+                    for row in rows_points:
+                        point_list.append({"id": row[0], "name": row[1], "units": row[2], "object_type": row[3]})
 
-        ################################################################################################################
-        # Step 8: query tariff data
-        ################################################################################################################
-        parameters_data = dict()
-        parameters_data['names'] = list()
-        parameters_data['timestamps'] = list()
-        parameters_data['values'] = list()
-        if config.is_tariff_appended and energy_category_set is not None and len(energy_category_set) > 0 \
-                and not is_quick_mode:
-            for energy_category_id in energy_category_set:
-                energy_category_tariff_dict = utilities.get_energy_category_tariffs(shopfloor['cost_center_id'],
-                                                                                    energy_category_id,
-                                                                                    reporting_start_datetime_utc,
-                                                                                    reporting_end_datetime_utc)
-                tariff_timestamp_list = list()
-                tariff_value_list = list()
-                for k, v in energy_category_tariff_dict.items():
-                    # convert k from utc to local
-                    k = k + timedelta(minutes=timezone_offset)
-                    tariff_timestamp_list.append(k.isoformat()[0:19])
-                    tariff_value_list.append(v)
+                #####################################################################################################
+                # Step 6: query base period energy cost
+                #####################################################################################################
+                base = dict()
+                if energy_category_set is not None and len(energy_category_set) > 0:
+                    for energy_category_id in energy_category_set:
+                        base[energy_category_id] = dict()
+                        base[energy_category_id]['timestamps'] = list()
+                        base[energy_category_id]['values'] = list()
+                        base[energy_category_id]['subtotal'] = Decimal(0.0)
 
-                parameters_data['names'].append(_('Tariff') + '-' + energy_category_dict[energy_category_id]['name'])
-                parameters_data['timestamps'].append(tariff_timestamp_list)
-                parameters_data['values'].append(tariff_value_list)
+                        cursor_billing.execute(" SELECT start_datetime_utc, actual_value "
+                                               " FROM tbl_shopfloor_input_category_hourly "
+                                               " WHERE shopfloor_id = %s "
+                                               "     AND energy_category_id = %s "
+                                               "     AND start_datetime_utc >= %s "
+                                               "     AND start_datetime_utc < %s "
+                                               " ORDER BY start_datetime_utc ",
+                                               (shopfloor['id'],
+                                                energy_category_id,
+                                                base_start_datetime_utc,
+                                                base_end_datetime_utc))
+                        rows_shopfloor_hourly = cursor_billing.fetchall()
 
-        ################################################################################################################
-        # Step 9: query associated sensors and points data
-        ################################################################################################################
-        if not is_quick_mode:
-            for point in point_list:
-                point_values = []
-                point_timestamps = []
-                if point['object_type'] == 'ENERGY_VALUE':
-                    query = (" SELECT utc_date_time, actual_value "
-                             " FROM tbl_energy_value "
-                             " WHERE point_id = %s "
-                             "       AND utc_date_time BETWEEN %s AND %s "
-                             " ORDER BY utc_date_time ")
-                    cursor_historical.execute(query, (point['id'],
-                                                      reporting_start_datetime_utc,
-                                                      reporting_end_datetime_utc))
-                    rows = cursor_historical.fetchall()
-
-                    if rows is not None and len(rows) > 0:
-                        for row in rows:
-                            current_datetime_local = row[0].replace(tzinfo=timezone.utc) + \
+                        rows_shopfloor_periodically = utilities.aggregate_hourly_data_by_period(rows_shopfloor_hourly,
+                                                                                                base_start_datetime_utc,
+                                                                                                base_end_datetime_utc,
+                                                                                                period_type)
+                        for row_shopfloor_periodically in rows_shopfloor_periodically:
+                            current_datetime_local = row_shopfloor_periodically[0].replace(tzinfo=timezone.utc) + \
                                                      timedelta(minutes=timezone_offset)
-                            current_datetime = current_datetime_local.isoformat()[0:19]
-                            point_timestamps.append(current_datetime)
-                            point_values.append(row[1])
-                elif point['object_type'] == 'ANALOG_VALUE':
-                    query = (" SELECT utc_date_time, actual_value "
-                             " FROM tbl_analog_value "
-                             " WHERE point_id = %s "
-                             "       AND utc_date_time BETWEEN %s AND %s "
-                             " ORDER BY utc_date_time ")
-                    cursor_historical.execute(query, (point['id'],
-                                                      reporting_start_datetime_utc,
-                                                      reporting_end_datetime_utc))
-                    rows = cursor_historical.fetchall()
+                            if period_type == 'hourly':
+                                current_datetime = current_datetime_local.isoformat()[0:19]
+                            elif period_type == 'daily':
+                                current_datetime = current_datetime_local.isoformat()[0:10]
+                            elif period_type == 'weekly':
+                                current_datetime = current_datetime_local.isoformat()[0:10]
+                            elif period_type == 'monthly':
+                                current_datetime = current_datetime_local.isoformat()[0:7]
+                            elif period_type == 'yearly':
+                                current_datetime = current_datetime_local.isoformat()[0:4]
 
-                    if rows is not None and len(rows) > 0:
-                        for row in rows:
-                            current_datetime_local = row[0].replace(tzinfo=timezone.utc) + \
+                            actual_value = Decimal(0.0) if row_shopfloor_periodically[1] is None \
+                                else row_shopfloor_periodically[1]
+                            base[energy_category_id]['timestamps'].append(current_datetime)
+                            base[energy_category_id]['values'].append(actual_value)
+                            base[energy_category_id]['subtotal'] += actual_value
+
+                ###################################################################################################
+                # Step 7: query reporting period energy cost
+                ###################################################################################################
+                reporting = dict()
+                if energy_category_set is not None and len(energy_category_set) > 0:
+                    for energy_category_id in energy_category_set:
+                        reporting[energy_category_id] = dict()
+                        reporting[energy_category_id]['timestamps'] = list()
+                        reporting[energy_category_id]['values'] = list()
+                        reporting[energy_category_id]['subtotal'] = Decimal(0.0)
+                        reporting[energy_category_id]['toppeak'] = Decimal(0.0)
+                        reporting[energy_category_id]['onpeak'] = Decimal(0.0)
+                        reporting[energy_category_id]['midpeak'] = Decimal(0.0)
+                        reporting[energy_category_id]['offpeak'] = Decimal(0.0)
+                        reporting[energy_category_id]['deep'] = Decimal(0.0)
+
+                        cursor_billing.execute(" SELECT start_datetime_utc, actual_value "
+                                               " FROM tbl_shopfloor_input_category_hourly "
+                                               " WHERE shopfloor_id = %s "
+                                               "     AND energy_category_id = %s "
+                                               "     AND start_datetime_utc >= %s "
+                                               "     AND start_datetime_utc < %s "
+                                               " ORDER BY start_datetime_utc ",
+                                               (shopfloor['id'],
+                                                energy_category_id,
+                                                reporting_start_datetime_utc,
+                                                reporting_end_datetime_utc))
+                        rows_shopfloor_hourly = cursor_billing.fetchall()
+
+                        rows_shopfloor_periodically = utilities.aggregate_hourly_data_by_period(
+                            rows_shopfloor_hourly,
+                            reporting_start_datetime_utc,
+                            reporting_end_datetime_utc,
+                            period_type)
+                        for row_shopfloor_periodically in rows_shopfloor_periodically:
+                            current_datetime_local = row_shopfloor_periodically[0].replace(tzinfo=timezone.utc) + \
                                                      timedelta(minutes=timezone_offset)
-                            current_datetime = current_datetime_local.isoformat()[0:19]
-                            point_timestamps.append(current_datetime)
-                            point_values.append(row[1])
-                elif point['object_type'] == 'DIGITAL_VALUE':
-                    query = (" SELECT utc_date_time, actual_value "
-                             " FROM tbl_digital_value "
-                             " WHERE point_id = %s "
-                             "       AND utc_date_time BETWEEN %s AND %s "
-                             " ORDER BY utc_date_time ")
-                    cursor_historical.execute(query, (point['id'],
-                                                      reporting_start_datetime_utc,
-                                                      reporting_end_datetime_utc))
-                    rows = cursor_historical.fetchall()
+                            if period_type == 'hourly':
+                                current_datetime = current_datetime_local.isoformat()[0:19]
+                            elif period_type == 'daily':
+                                current_datetime = current_datetime_local.isoformat()[0:10]
+                            elif period_type == 'weekly':
+                                current_datetime = current_datetime_local.isoformat()[0:10]
+                            elif period_type == 'monthly':
+                                current_datetime = current_datetime_local.isoformat()[0:7]
+                            elif period_type == 'yearly':
+                                current_datetime = current_datetime_local.isoformat()[0:4]
 
-                    if rows is not None and len(rows) > 0:
-                        for row in rows:
-                            current_datetime_local = row[0].replace(tzinfo=timezone.utc) + \
-                                                     timedelta(minutes=timezone_offset)
-                            current_datetime = current_datetime_local.isoformat()[0:19]
-                            point_timestamps.append(current_datetime)
-                            point_values.append(row[1])
+                            actual_value = Decimal(0.0) if row_shopfloor_periodically[1] is None \
+                                else row_shopfloor_periodically[1]
+                            reporting[energy_category_id]['timestamps'].append(current_datetime)
+                            reporting[energy_category_id]['values'].append(actual_value)
+                            reporting[energy_category_id]['subtotal'] += actual_value
 
-                parameters_data['names'].append(point['name'] + ' (' + point['units'] + ')')
-                parameters_data['timestamps'].append(point_timestamps)
-                parameters_data['values'].append(point_values)
+                        energy_category_tariff_dict = utilities.get_energy_category_peak_types(
+                            shopfloor['cost_center_id'],
+                            energy_category_id,
+                            reporting_start_datetime_utc,
+                            reporting_end_datetime_utc)
+                        for row in rows_shopfloor_hourly:
+                            peak_type = energy_category_tariff_dict.get(row[0], None)
+                            if peak_type == 'toppeak':
+                                reporting[energy_category_id]['toppeak'] += row[1]
+                            elif peak_type == 'onpeak':
+                                reporting[energy_category_id]['onpeak'] += row[1]
+                            elif peak_type == 'midpeak':
+                                reporting[energy_category_id]['midpeak'] += row[1]
+                            elif peak_type == 'offpeak':
+                                reporting[energy_category_id]['offpeak'] += row[1]
+                            elif peak_type == 'deep':
+                                reporting[energy_category_id]['deep'] += row[1]
+
+                #####################################################################################################
+                # Step 8: query tariff data
+                #####################################################################################################
+                parameters_data = dict()
+                parameters_data['names'] = list()
+                parameters_data['timestamps'] = list()
+                parameters_data['values'] = list()
+                if config.is_tariff_appended and energy_category_set is not None and len(energy_category_set) > 0 \
+                        and not is_quick_mode:
+                    for energy_category_id in energy_category_set:
+                        energy_category_tariff_dict = utilities.get_energy_category_tariffs(
+                            shopfloor['cost_center_id'],
+                            energy_category_id,
+                            reporting_start_datetime_utc,
+                            reporting_end_datetime_utc)
+                        tariff_timestamp_list = list()
+                        tariff_value_list = list()
+                        for k, v in energy_category_tariff_dict.items():
+                            # convert k from utc to local
+                            k = k + timedelta(minutes=timezone_offset)
+                            tariff_timestamp_list.append(k.isoformat()[0:19])
+                            tariff_value_list.append(v)
+
+                        parameters_data['names'].append(_('Tariff') + '-' +
+                                                        energy_category_dict[energy_category_id]['name'])
+                        parameters_data['timestamps'].append(tariff_timestamp_list)
+                        parameters_data['values'].append(tariff_value_list)
+
+                ###################################################################################################
+                # Step 9: query associated sensors and points data
+                ###################################################################################################
+                if not is_quick_mode:
+                    for point in point_list:
+                        point_values = []
+                        point_timestamps = []
+                        if point['object_type'] == 'ENERGY_VALUE':
+                            query = (" SELECT utc_date_time, actual_value "
+                                     " FROM tbl_energy_value "
+                                     " WHERE point_id = %s "
+                                     "       AND utc_date_time BETWEEN %s AND %s "
+                                     " ORDER BY utc_date_time ")
+                            cursor_historical.execute(query, (point['id'],
+                                                              reporting_start_datetime_utc,
+                                                              reporting_end_datetime_utc))
+                            rows = cursor_historical.fetchall()
+
+                            if rows is not None and len(rows) > 0:
+                                for row in rows:
+                                    current_datetime_local = row[0].replace(tzinfo=timezone.utc) + \
+                                                             timedelta(minutes=timezone_offset)
+                                    current_datetime = current_datetime_local.isoformat()[0:19]
+                                    point_timestamps.append(current_datetime)
+                                    point_values.append(row[1])
+                        elif point['object_type'] == 'ANALOG_VALUE':
+                            query = (" SELECT utc_date_time, actual_value "
+                                     " FROM tbl_analog_value "
+                                     " WHERE point_id = %s "
+                                     "       AND utc_date_time BETWEEN %s AND %s "
+                                     " ORDER BY utc_date_time ")
+                            cursor_historical.execute(query, (point['id'],
+                                                              reporting_start_datetime_utc,
+                                                              reporting_end_datetime_utc))
+                            rows = cursor_historical.fetchall()
+
+                            if rows is not None and len(rows) > 0:
+                                for row in rows:
+                                    current_datetime_local = row[0].replace(tzinfo=timezone.utc) + \
+                                                             timedelta(minutes=timezone_offset)
+                                    current_datetime = current_datetime_local.isoformat()[0:19]
+                                    point_timestamps.append(current_datetime)
+                                    point_values.append(row[1])
+                        elif point['object_type'] == 'DIGITAL_VALUE':
+                            query = (" SELECT utc_date_time, actual_value "
+                                     " FROM tbl_digital_value "
+                                     " WHERE point_id = %s "
+                                     "       AND utc_date_time BETWEEN %s AND %s "
+                                     " ORDER BY utc_date_time ")
+                            cursor_historical.execute(query, (point['id'],
+                                                              reporting_start_datetime_utc,
+                                                              reporting_end_datetime_utc))
+                            rows = cursor_historical.fetchall()
+
+                            if rows is not None and len(rows) > 0:
+                                for row in rows:
+                                    current_datetime_local = row[0].replace(tzinfo=timezone.utc) + \
+                                                             timedelta(minutes=timezone_offset)
+                                    current_datetime = current_datetime_local.isoformat()[0:19]
+                                    point_timestamps.append(current_datetime)
+                                    point_values.append(row[1])
+
+                        parameters_data['names'].append(point['name'] + ' (' + point['units'] + ')')
+                        parameters_data['timestamps'].append(point_timestamps)
+                        parameters_data['values'].append(point_values)
+
+            finally:
+                if cursor_system:
+                    cursor_system.close()
+                if cursor_billing:
+                    cursor_billing.close()
+                if cursor_historical:
+                    cursor_historical.close()
+                    
+        finally:
+            if cnx_system:
+                cnx_system.close()
+            if cnx_billing:
+                cnx_billing.close()
+            if cnx_historical:
+                cnx_historical.close()
 
         ################################################################################################################
         # Step 10: construct the report
         ################################################################################################################
-        if cursor_system:
-            cursor_system.close()
-        if cnx_system:
-            cnx_system.close()
-
-        if cursor_billing:
-            cursor_billing.close()
-        if cnx_billing:
-            cnx_billing.close()
-
-        if cursor_historical:
-            cursor_historical.close()
-        if cnx_historical:
-            cnx_historical.close()
-
         result = dict()
 
         result['shopfloor'] = dict()
