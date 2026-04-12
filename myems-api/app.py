@@ -34,6 +34,7 @@ from reports import equipmentcarbon
 from reports import equipmentcost
 from reports import equipmentefficiency
 from reports import equipmentenergycategory
+from reports import equipmentprediction
 from reports import equipmentenergyitem
 from reports import equipmentincome
 from reports import equipmentload
@@ -1266,6 +1267,8 @@ api.add_route('/reports/equipmentefficiency',
               equipmentefficiency.Reporting())
 api.add_route('/reports/equipmentenergycategory',
               equipmentenergycategory.Reporting())
+api.add_route('/reports/equipmentprediction',
+              equipmentprediction.Reporting()),
 api.add_route('/reports/equipmentenergyitem',
               equipmentenergyitem.Reporting())
 api.add_route('/reports/equipmentincome',
