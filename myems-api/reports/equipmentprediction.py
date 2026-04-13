@@ -2,31 +2,25 @@
 Equipment Prediction Report API
 
 This module provides REST API endpoints for generating equipment prediction reports.
-It analyzes prediction data by different energy categories for equipment,
-providing insights into energy usage patterns and category-specific optimizations.
+It analyzes energy prediction for equipment, providing insights into future energy usage.
 
 Key Features:
-- Equipment prediction energy consumption by category analysis
+- Equipment energy prediction analysis
 - Base period vs reporting period comparison
-- Energy category breakdown and trends
+- Prediction breakdown and trends
 - Excel export functionality
-
-The module uses Falcon framework for REST API
 """
 
 import re
-import logging
 from datetime import datetime, timedelta, timezone
 from decimal import Decimal
 import falcon
 import mysql.connector
 import simplejson as json
 import config
-import excelexporters.equipmentenergycategory
+import excelexporters.equipmentprediction
 from core import utilities
 from core.useractivity import access_control, api_key_control
-
-logger = logging.getLogger(__name__)
 
 
 class Reporting:
@@ -45,8 +39,8 @@ class Reporting:
     # Step 2: query the equipment
     # Step 3: query energy categories
     # Step 4: query associated points
-    # Step 5: query base period energy input (PREDICTION)
-    # Step 6: query reporting period energy input (PREDICTION)
+    # Step 5: query base period energy input
+    # Step 6: query reporting period energy input
     # Step 7: query tariff data
     # Step 8: query associated points data
     # Step 9: construct the report
@@ -59,11 +53,7 @@ class Reporting:
             access_control(req)
         else:
             api_key_control(req)
-
-        # Log request params
-        logger.info("Request params: %s", req.params)
         print(req.params)
-
         equipment_id = req.params.get('equipmentid')
         equipment_uuid = req.params.get('equipmentuuid')
         period_type = req.params.get('periodtype')
@@ -120,6 +110,7 @@ class Reporting:
                                        description="API.INVALID_BASE_PERIOD_START_DATETIME")
             base_start_datetime_utc = \
                 base_start_datetime_utc.replace(tzinfo=timezone.utc) - timedelta(minutes=timezone_offset)
+            # nomalize the start datetime
             if config.minutes_to_count == 30 and base_start_datetime_utc.minute >= 30:
                 base_start_datetime_utc = base_start_datetime_utc.replace(minute=30, second=0, microsecond=0)
             else:
@@ -154,6 +145,7 @@ class Reporting:
                                        description="API.INVALID_REPORTING_PERIOD_START_DATETIME")
             reporting_start_datetime_utc = \
                 reporting_start_datetime_utc.replace(tzinfo=timezone.utc) - timedelta(minutes=timezone_offset)
+            # nomalize the start datetime
             if config.minutes_to_count == 30 and reporting_start_datetime_utc.minute >= 30:
                 reporting_start_datetime_utc = reporting_start_datetime_utc.replace(minute=30, second=0, microsecond=0)
             else:
@@ -176,6 +168,7 @@ class Reporting:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_REPORTING_PERIOD_END_DATETIME')
 
+        # if turn quick mode on, do not return parameters data and excel file
         is_quick_mode = False
         if quick_mode is not None and \
                 len(str.strip(quick_mode)) > 0 and \
@@ -190,401 +183,484 @@ class Reporting:
         # Step 2: query the equipment
         ################################################################################################################
         cnx_system = None
-        cnx_energy_prediction = None
+        cnx_energy = None
         cnx_historical = None
         try:
             cnx_system = mysql.connector.connect(**config.myems_system_db)
-            cnx_energy_prediction = mysql.connector.connect(**config.myems_energy_prediction_db)
+            cnx_energy = mysql.connector.connect(**config.myems_energy_prediction_db)
             cnx_historical = mysql.connector.connect(**config.myems_historical_db)
 
             cursor_system = None
-            cursor_energy_prediction = None
+            cursor_energy = None
             cursor_historical = None
             try:
-                cursor_system = cnx_system.cursor(dictionary=False)
-                cursor_energy_prediction = cnx_energy_prediction.cursor(dictionary=False)
-                cursor_historical = cnx_historical.cursor(dictionary=False)
+                cursor_system = cnx_system.cursor()
+                cursor_energy = cnx_energy.cursor()
+                cursor_historical = cnx_historical.cursor()
 
                 if equipment_id is not None:
                     cursor_system.execute(" SELECT id, name, cost_center_id "
                                           " FROM tbl_equipments "
                                           " WHERE id = %s ", (equipment_id,))
-                else:
+                    row_equipment = cursor_system.fetchone()
+                elif equipment_uuid is not None:
                     cursor_system.execute(" SELECT id, name, cost_center_id "
                                           " FROM tbl_equipments "
                                           " WHERE uuid = %s ", (equipment_uuid,))
-                row_equipment = cursor_system.fetchone()
+                    row_equipment = cursor_system.fetchone()
 
                 if row_equipment is None:
                     raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                            description='API.EQUIPMENT_NOT_FOUND')
 
-                equipment = {
-                    'id': row_equipment[0],
-                    'name': row_equipment[1],
-                    'cost_center_id': row_equipment[2]
-                }
+                equipment = dict()
+                equipment['id'] = row_equipment[0]
+                equipment['name'] = row_equipment[1]
+                equipment['cost_center_id'] = row_equipment[2]
 
                 #######################################################################################
                 # Step 3: query energy categories
                 #######################################################################################
                 energy_category_set = set()
+                # query energy categories in base period
+                cursor_energy.execute(" SELECT DISTINCT(energy_category_id) "
+                                      " FROM tbl_equipment_input_category_hourly "
+                                      " WHERE equipment_id = %s "
+                                      "     AND start_datetime_utc >= %s "
+                                      "     AND start_datetime_utc < %s ",
+                                      (equipment['id'], base_start_datetime_utc, base_end_datetime_utc))
+                rows_energy_categories = cursor_energy.fetchall()
+                if rows_energy_categories is not None and len(rows_energy_categories) > 0:
+                    for row_energy_category in rows_energy_categories:
+                        energy_category_set.add(row_energy_category[0])
 
-                cursor_energy_prediction.execute("""
-                    SELECT DISTINCT(energy_category_id)
-                    FROM tbl_equipment_input_category_hourly
-                    WHERE equipment_id = %s
-                      AND start_datetime_utc >= %s
-                      AND start_datetime_utc < %s
-                """, (equipment['id'], base_start_datetime_utc, base_end_datetime_utc))
-                rows = cursor_energy_prediction.fetchall()
-                for r in rows:
-                    energy_category_set.add(r[0])
+                # query energy categories in reporting period
+                cursor_energy.execute(" SELECT DISTINCT(energy_category_id) "
+                                      " FROM tbl_equipment_input_category_hourly "
+                                      " WHERE equipment_id = %s "
+                                      "     AND start_datetime_utc >= %s "
+                                      "     AND start_datetime_utc < %s ",
+                                      (equipment['id'], reporting_start_datetime_utc,
+                                       reporting_end_datetime_utc))
+                rows_energy_categories = cursor_energy.fetchall()
+                if rows_energy_categories is not None and len(rows_energy_categories) > 0:
+                    for row_energy_category in rows_energy_categories:
+                        energy_category_set.add(row_energy_category[0])
 
-                cursor_energy_prediction.execute("""
-                    SELECT DISTINCT(energy_category_id)
-                    FROM tbl_equipment_input_category_hourly
-                    WHERE equipment_id = %s
-                      AND start_datetime_utc >= %s
-                      AND start_datetime_utc < %s
-                """, (equipment['id'], reporting_start_datetime_utc, reporting_end_datetime_utc))
-                rows = cursor_energy_prediction.fetchall()
-                for r in rows:
-                    energy_category_set.add(r[0])
-
-                cursor_system.execute("""
-                    SELECT id, name, unit_of_measure, kgce, kgco2e
-                    FROM tbl_energy_categories
-                    ORDER BY id
-                """)
+                # query all energy categories in base period and reporting period
+                cursor_system.execute(" SELECT id, name, unit_of_measure, kgce, kgco2e "
+                                      " FROM tbl_energy_categories "
+                                      " ORDER BY id ", )
                 rows_energy_categories = cursor_system.fetchall()
-                if not rows_energy_categories:
-                    raise falcon.HTTPError(falcon.HTTP_404, 'API.NOT_FOUND', 'API.ENERGY_CATEGORY_NOT_FOUND')
-
-                energy_category_dict = {}
-                for r in rows_energy_categories:
-                    if r[0] in energy_category_set:
-                        energy_category_dict[r[0]] = {
-                            'name': r[1],
-                            'unit_of_measure': r[2],
-                            'kgce': r[3],
-                            'kgco2e': r[4]
-                        }
+                if rows_energy_categories is None or len(rows_energy_categories) == 0:
+                    raise falcon.HTTPError(status=falcon.HTTP_404,
+                                           title='API.NOT_FOUND',
+                                           description='API.ENERGY_CATEGORY_NOT_FOUND')
+                energy_category_dict = dict()
+                for row_energy_category in rows_energy_categories:
+                    if row_energy_category[0] in energy_category_set:
+                        energy_category_dict[row_energy_category[0]] = {
+                            "name": row_energy_category[1],
+                            "unit_of_measure": row_energy_category[2],
+                            "kgce": row_energy_category[3],
+                            "kgco2e": row_energy_category[4]}
 
                 #####################################################################################
                 # Step 4: query associated points
                 #####################################################################################
-                point_list = []
-                cursor_system.execute("""
-                    SELECT p.id, ep.name, p.units, p.object_type
-                    FROM tbl_equipments e
-                    JOIN tbl_equipments_parameters ep ON e.id = ep.equipment_id
-                    JOIN tbl_points p ON ep.point_id = p.id
-                    WHERE e.id = %s
-                      AND ep.parameter_type = 'point'
-                    ORDER BY p.id
-                """, (equipment['id'],))
+                point_list = list()
+                cursor_system.execute(" SELECT p.id, ep.name, p.units, p.object_type  "
+                                      " FROM tbl_equipments e, tbl_equipments_parameters ep, "
+                                      " tbl_points p "
+                                      " WHERE e.id = %s AND e.id = ep.equipment_id "
+                                      " AND ep.parameter_type = 'point' "
+                                      "       AND ep.point_id = p.id "
+                                      " ORDER BY p.id ", (equipment['id'],))
                 rows_points = cursor_system.fetchall()
-                for r in rows_points:
-                    point_list.append({
-                        'id': r[0],
-                        'name': r[1],
-                        'units': r[2],
-                        'object_type': r[3]
-                    })
+                if rows_points is not None and len(rows_points) > 0:
+                    for row in rows_points:
+                        point_list.append({"id": row[0], "name": row[1],
+                                           "units": row[2], "object_type": row[3]})
 
                 ###################################################################################
-                # Step 5: base period prediction
+                # Step 7: query base period energy input
                 ###################################################################################
-                base = {}
-                for ecid in energy_category_set:
-                    cfg = energy_category_dict[ecid]
-                    kgce = cfg['kgce']
-                    kgco2e = cfg['kgco2e']
+                base = dict()
+                if energy_category_set is not None and len(energy_category_set) > 0:
+                    for energy_category_id in energy_category_set:
+                        kgce = energy_category_dict[energy_category_id]['kgce']
+                        kgco2e = energy_category_dict[energy_category_id]['kgco2e']
 
-                    base[ecid] = {
-                        'timestamps': [],
-                        'values': [],
-                        'subtotal': Decimal(0),
-                        'subtotal_in_kgce': Decimal(0),
-                        'subtotal_in_kgco2e': Decimal(0)
-                    }
+                        base[energy_category_id] = dict()
+                        base[energy_category_id]['timestamps'] = list()
+                        base[energy_category_id]['values'] = list()
+                        base[energy_category_id]['subtotal'] = Decimal(0.0)
+                        base[energy_category_id]['subtotal_in_kgce'] = Decimal(0.0)
+                        base[energy_category_id]['subtotal_in_kgco2e'] = Decimal(0.0)
 
-                    cursor_energy_prediction.execute("""
-                        SELECT start_datetime_utc, actual_value
-                        FROM tbl_equipment_input_category_hourly
-                        WHERE equipment_id = %s
-                          AND energy_category_id = %s
-                          AND start_datetime_utc >= %s
-                          AND start_datetime_utc < %s
-                        ORDER BY start_datetime_utc
-                    """, (equipment['id'], ecid, base_start_datetime_utc, base_end_datetime_utc))
-                    rows_hourly = cursor_energy_prediction.fetchall()
+                        cursor_energy.execute(" SELECT start_datetime_utc, actual_value "
+                                              " FROM tbl_equipment_input_category_hourly "
+                                              " WHERE equipment_id = %s "
+                                              "     AND energy_category_id = %s "
+                                              "     AND start_datetime_utc >= %s "
+                                              "     AND start_datetime_utc < %s "
+                                              " ORDER BY start_datetime_utc ",
+                                              (equipment['id'],
+                                               energy_category_id,
+                                               base_start_datetime_utc,
+                                               base_end_datetime_utc))
+                        rows_equipment_hourly = cursor_energy.fetchall()
 
-                    rows_periodic = utilities.aggregate_hourly_data_by_period(
-                        rows_hourly, base_start_datetime_utc, base_end_datetime_utc, period_type)
+                        rows_equipment_periodically = utilities.aggregate_hourly_data_by_period(
+                            rows_equipment_hourly,
+                            base_start_datetime_utc,
+                            base_end_datetime_utc,
+                            period_type)
+                        for row_equipment_periodically in rows_equipment_periodically:
+                            current_datetime_local = row_equipment_periodically[0].replace(
+                                tzinfo=timezone.utc) + timedelta(minutes=timezone_offset)
+                            if period_type == 'hourly':
+                                current_datetime = current_datetime_local.isoformat()[0:19]
+                            elif period_type == 'daily':
+                                current_datetime = current_datetime_local.isoformat()[0:10]
+                            elif period_type == 'weekly':
+                                current_datetime = current_datetime_local.isoformat()[0:10]
+                            elif period_type == 'monthly':
+                                current_datetime = current_datetime_local.isoformat()[0:7]
+                            elif period_type == 'yearly':
+                                current_datetime = current_datetime_local.isoformat()[0:4]
 
-                    for ts, val in rows_periodic:
-                        local_ts = ts.replace(tzinfo=timezone.utc) + timedelta(minutes=timezone_offset)
-                        if period_type == 'hourly':
-                            dt_str = local_ts.isoformat()[:19]
-                        elif period_type in ('daily', 'weekly'):
-                            dt_str = local_ts.isoformat()[:10]
-                        elif period_type == 'monthly':
-                            dt_str = local_ts.isoformat()[:7]
-                        elif period_type == 'yearly':
-                            dt_str = local_ts.isoformat()[:4]
-                        else:
-                            dt_str = ''
-
-                        val = Decimal(val or 0)
-                        base[ecid]['timestamps'].append(dt_str)
-                        base[ecid]['values'].append(val)
-                        base[ecid]['subtotal'] += val
-                        base[ecid]['subtotal_in_kgce'] += val * kgce
-                        base[ecid]['subtotal_in_kgco2e'] += val * kgco2e
+                            actual_value = Decimal(0.0) if row_equipment_periodically[1] is None \
+                                else row_equipment_periodically[1]
+                            base[energy_category_id]['timestamps'].append(current_datetime)
+                            base[energy_category_id]['values'].append(actual_value)
+                            base[energy_category_id]['subtotal'] += actual_value
+                            base[energy_category_id]['subtotal_in_kgce'] += actual_value * kgce
+                            base[energy_category_id]['subtotal_in_kgco2e'] += actual_value * kgco2e
 
                 ######################################################################################
-                # Step 6: reporting period prediction
+                # Step 5: query reporting period energy input
                 ######################################################################################
-                reporting = {}
-                for ecid in energy_category_set:
-                    cfg = energy_category_dict[ecid]
-                    kgce = cfg['kgce']
-                    kgco2e = cfg['kgco2e']
+                reporting = dict()
+                if energy_category_set is not None and len(energy_category_set) > 0:
+                    for energy_category_id in energy_category_set:
+                        kgce = energy_category_dict[energy_category_id]['kgce']
+                        kgco2e = energy_category_dict[energy_category_id]['kgco2e']
 
-                    reporting[ecid] = {
-                        'timestamps': [],
-                        'values': [],
-                        'subtotal': Decimal(0),
-                        'subtotal_in_kgce': Decimal(0),
-                        'subtotal_in_kgco2e': Decimal(0),
-                        'toppeak': Decimal(0),
-                        'onpeak': Decimal(0),
-                        'midpeak': Decimal(0),
-                        'offpeak': Decimal(0),
-                        'deep': Decimal(0)
-                    }
+                        reporting[energy_category_id] = dict()
+                        reporting[energy_category_id]['timestamps'] = list()
+                        reporting[energy_category_id]['values'] = list()
+                        reporting[energy_category_id]['subtotal'] = Decimal(0.0)
+                        reporting[energy_category_id]['subtotal_in_kgce'] = Decimal(0.0)
+                        reporting[energy_category_id]['subtotal_in_kgco2e'] = Decimal(0.0)
+                        reporting[energy_category_id]['toppeak'] = Decimal(0.0)
+                        reporting[energy_category_id]['onpeak'] = Decimal(0.0)
+                        reporting[energy_category_id]['midpeak'] = Decimal(0.0)
+                        reporting[energy_category_id]['offpeak'] = Decimal(0.0)
+                        reporting[energy_category_id]['deep'] = Decimal(0.0)
 
-                    cursor_energy_prediction.execute("""
-                        SELECT start_datetime_utc, actual_value
-                        FROM tbl_equipment_input_category_hourly
-                        WHERE equipment_id = %s
-                          AND energy_category_id = %s
-                          AND start_datetime_utc >= %s
-                          AND start_datetime_utc < %s
-                        ORDER BY start_datetime_utc
-                    """, (equipment['id'], ecid, reporting_start_datetime_utc, reporting_end_datetime_utc))
-                    rows_hourly = cursor_energy_prediction.fetchall()
+                        cursor_energy.execute(" SELECT start_datetime_utc, actual_value "
+                                              " FROM tbl_equipment_input_category_hourly "
+                                              " WHERE equipment_id = %s "
+                                              "     AND energy_category_id = %s "
+                                              "     AND start_datetime_utc >= %s "
+                                              "     AND start_datetime_utc < %s "
+                                              " ORDER BY start_datetime_utc ",
+                                              (equipment['id'],
+                                               energy_category_id,
+                                               reporting_start_datetime_utc,
+                                               reporting_end_datetime_utc))
+                        rows_equipment_hourly = cursor_energy.fetchall()
 
-                    rows_periodic = utilities.aggregate_hourly_data_by_period(
-                        rows_hourly, reporting_start_datetime_utc, reporting_end_datetime_utc, period_type)
+                        rows_equipment_periodically = utilities.aggregate_hourly_data_by_period(
+                            rows_equipment_hourly,
+                            reporting_start_datetime_utc,
+                            reporting_end_datetime_utc,
+                            period_type)
+                        for row_equipment_periodically in rows_equipment_periodically:
+                            current_datetime_local = row_equipment_periodically[0].replace(
+                                tzinfo=timezone.utc) + timedelta(minutes=timezone_offset)
+                            if period_type == 'hourly':
+                                current_datetime = current_datetime_local.isoformat()[0:19]
+                            elif period_type == 'daily':
+                                current_datetime = current_datetime_local.isoformat()[0:10]
+                            elif period_type == 'weekly':
+                                current_datetime = current_datetime_local.isoformat()[0:10]
+                            elif period_type == 'monthly':
+                                current_datetime = current_datetime_local.isoformat()[0:7]
+                            elif period_type == 'yearly':
+                                current_datetime = current_datetime_local.isoformat()[0:4]
 
-                    for ts, val in rows_periodic:
-                        local_ts = ts.replace(tzinfo=timezone.utc) + timedelta(minutes=timezone_offset)
-                        if period_type == 'hourly':
-                            dt_str = local_ts.isoformat()[:19]
-                        elif period_type in ('daily', 'weekly'):
-                            dt_str = local_ts.isoformat()[:10]
-                        elif period_type == 'monthly':
-                            dt_str = local_ts.isoformat()[:7]
-                        elif period_type == 'yearly':
-                            dt_str = local_ts.isoformat()[:4]
-                        else:
-                            dt_str = ''
+                            actual_value = Decimal(0.0) if row_equipment_periodically[1] is None \
+                                else row_equipment_periodically[1]
+                            reporting[energy_category_id]['timestamps'].append(current_datetime)
+                            reporting[energy_category_id]['values'].append(actual_value)
+                            reporting[energy_category_id]['subtotal'] += actual_value
+                            reporting[energy_category_id]['subtotal_in_kgce'] += actual_value * kgce
+                            reporting[energy_category_id]['subtotal_in_kgco2e'] += actual_value * kgco2e
 
-                        val = Decimal(val or 0)
-                        reporting[ecid]['timestamps'].append(dt_str)
-                        reporting[ecid]['values'].append(val)
-                        reporting[ecid]['subtotal'] += val
-                        reporting[ecid]['subtotal_in_kgce'] += val * kgce
-                        reporting[ecid]['subtotal_in_kgco2e'] += val * kgco2e
-
-                    # Peak types
-                    peak_dict = utilities.get_energy_category_peak_types(
-                        equipment['cost_center_id'], ecid,
-                        reporting_start_datetime_utc, reporting_end_datetime_utc)
-                    for ts, val in rows_hourly:
-                        if val is None:
-                            continue
-                        peak = peak_dict.get(ts)
-                        val = Decimal(val)
-                        if peak == 'toppeak':
-                            reporting[ecid]['toppeak'] += val
-                        elif peak == 'onpeak':
-                            reporting[ecid]['onpeak'] += val
-                        elif peak == 'midpeak':
-                            reporting[ecid]['midpeak'] += val
-                        elif peak == 'offpeak':
-                            reporting[ecid]['offpeak'] += val
-                        elif peak == 'deep':
-                            reporting[ecid]['deep'] += val
+                        energy_category_tariff_dict = utilities.get_energy_category_peak_types(
+                            equipment['cost_center_id'],
+                            energy_category_id,
+                            reporting_start_datetime_utc,
+                            reporting_end_datetime_utc)
+                        for row in rows_equipment_hourly:
+                            peak_type = energy_category_tariff_dict.get(row[0], None)
+                            if peak_type == 'toppeak':
+                                reporting[energy_category_id]['toppeak'] += row[1]
+                            elif peak_type == 'onpeak':
+                                reporting[energy_category_id]['onpeak'] += row[1]
+                            elif peak_type == 'midpeak':
+                                reporting[energy_category_id]['midpeak'] += row[1]
+                            elif peak_type == 'offpeak':
+                                reporting[energy_category_id]['offpeak'] += row[1]
+                            elif peak_type == 'deep':
+                                reporting[energy_category_id]['deep'] += row[1]
 
                 ###################################################################################
-                # Step 7: tariff data
+                # Step 6: query tariff data
                 ###################################################################################
-                params = {'names': [], 'timestamps': [], 'values': []}
-                if not is_quick_mode and config.is_tariff_appended:
-                    for ecid in energy_category_set:
-                        tariff_dict = utilities.get_energy_category_tariffs(
-                            equipment['cost_center_id'], ecid,
-                            reporting_start_datetime_utc, reporting_end_datetime_utc)
-                        ts_list = []
-                        val_list = []
-                        for utc_ts, tv in tariff_dict.items():
-                            local = utc_ts + timedelta(minutes=timezone_offset)
-                            ts_list.append(local.isoformat()[:19])
-                            val_list.append(tv)
-                        params['names'].append(_('Tariff') + '-' + energy_category_dict[ecid]['name'])
-                        params['timestamps'].append(ts_list)
-                        params['values'].append(val_list)
+                parameters_data = dict()
+                parameters_data['names'] = list()
+                parameters_data['timestamps'] = list()
+                parameters_data['values'] = list()
+                if not is_quick_mode:
+                    if (config.is_tariff_appended and energy_category_set is not None
+                            and len(energy_category_set) > 0):
+                        for energy_category_id in energy_category_set:
+                            energy_category_tariff_dict = utilities.get_energy_category_tariffs(
+                                equipment['cost_center_id'],
+                                energy_category_id,
+                                reporting_start_datetime_utc,
+                                reporting_end_datetime_utc)
+                            tariff_timestamp_list = list()
+                            tariff_value_list = list()
+                            for k, v in energy_category_tariff_dict.items():
+                                # convert k from utc to local
+                                k = k + timedelta(minutes=timezone_offset)
+                                tariff_timestamp_list.append(k.isoformat()[0:19])
+                                tariff_value_list.append(v)
+
+                            parameters_data['names'].append(
+                                _('Tariff') + '-' + energy_category_dict[energy_category_id]['name'])
+                            parameters_data['timestamps'].append(tariff_timestamp_list)
+                            parameters_data['values'].append(tariff_value_list)
 
                 ######################################################################################
-                # Step 8: associated points data
+                # Step 7: query associated points data
                 ######################################################################################
                 if not is_quick_mode:
-                    for p in point_list:
-                        ts_list = []
-                        val_list = []
-                        query = None
-                        if p['object_type'] == 'ENERGY_VALUE':
-                            query = """
-                                SELECT utc_date_time, actual_value FROM tbl_energy_value
-                                WHERE point_id = %s AND utc_date_time BETWEEN %s AND %s ORDER BY utc_date_time
-                            """
-                        elif p['object_type'] == 'ANALOG_VALUE':
-                            query = """
-                                SELECT utc_date_time, actual_value FROM tbl_analog_value
-                                WHERE point_id = %s AND utc_date_time BETWEEN %s AND %s ORDER BY utc_date_time
-                            """
-                        elif p['object_type'] == 'DIGITAL_VALUE':
-                            query = """
-                                SELECT utc_date_time, actual_value FROM tbl_digital_value
-                                WHERE point_id = %s AND utc_date_time BETWEEN %s AND %s ORDER BY utc_date_time
-                            """
-                        if query:
-                            cursor_historical.execute(query, (p['id'], reporting_start_datetime_utc, reporting_end_datetime_utc))
+                    for point in point_list:
+                        point_values = []
+                        point_timestamps = []
+                        if point['object_type'] == 'ENERGY_VALUE':
+                            query = (" SELECT utc_date_time, actual_value "
+                                     " FROM tbl_energy_value "
+                                     " WHERE point_id = %s "
+                                     "       AND utc_date_time BETWEEN %s AND %s "
+                                     " ORDER BY utc_date_time ")
+                            cursor_historical.execute(query, (point['id'],
+                                                              reporting_start_datetime_utc,
+                                                              reporting_end_datetime_utc))
                             rows = cursor_historical.fetchall()
-                            for utc_ts, val in rows:
-                                local = utc_ts.replace(tzinfo=timezone.utc) + timedelta(minutes=timezone_offset)
-                                ts_list.append(local.isoformat()[:19])
-                                val_list.append(val)
-                        params['names'].append(f"{p['name']} ({p['units']})")
-                        params['timestamps'].append(ts_list)
-                        params['values'].append(val_list)
+
+                            if rows is not None and len(rows) > 0:
+                                for row in rows:
+                                    current_datetime_local = row[0].replace(tzinfo=timezone.utc) + \
+                                                             timedelta(minutes=timezone_offset)
+                                    current_datetime = current_datetime_local.isoformat()[0:19]
+                                    point_timestamps.append(current_datetime)
+                                    point_values.append(row[1])
+                        elif point['object_type'] == 'ANALOG_VALUE':
+                            query = (" SELECT utc_date_time, actual_value "
+                                     " FROM tbl_analog_value "
+                                     " WHERE point_id = %s "
+                                     "       AND utc_date_time BETWEEN %s AND %s "
+                                     " ORDER BY utc_date_time ")
+                            cursor_historical.execute(query, (point['id'],
+                                                              reporting_start_datetime_utc,
+                                                              reporting_end_datetime_utc))
+                            rows = cursor_historical.fetchall()
+
+                            if rows is not None and len(rows) > 0:
+                                for row in rows:
+                                    current_datetime_local = row[0].replace(tzinfo=timezone.utc) + \
+                                                             timedelta(minutes=timezone_offset)
+                                    current_datetime = current_datetime_local.isoformat()[0:19]
+                                    point_timestamps.append(current_datetime)
+                                    point_values.append(row[1])
+                        elif point['object_type'] == 'DIGITAL_VALUE':
+                            query = (" SELECT utc_date_time, actual_value "
+                                     " FROM tbl_digital_value "
+                                     " WHERE point_id = %s "
+                                     "       AND utc_date_time BETWEEN %s AND %s "
+                                     " ORDER BY utc_date_time ")
+                            cursor_historical.execute(query, (point['id'],
+                                                              reporting_start_datetime_utc,
+                                                              reporting_end_datetime_utc))
+                            rows = cursor_historical.fetchall()
+
+                            if rows is not None and len(rows) > 0:
+                                for row in rows:
+                                    current_datetime_local = row[0].replace(tzinfo=timezone.utc) + \
+                                                             timedelta(minutes=timezone_offset)
+                                    current_datetime = current_datetime_local.isoformat()[0:19]
+                                    point_timestamps.append(current_datetime)
+                                    point_values.append(row[1])
+
+                        parameters_data['names'].append(point['name'] + ' (' + point['units'] + ')')
+                        parameters_data['timestamps'].append(point_timestamps)
+                        parameters_data['values'].append(point_values)
 
             finally:
                 if cursor_system:
                     cursor_system.close()
-                if cursor_energy_prediction:
-                    cursor_energy_prediction.close()
+                if cursor_energy:
+                    cursor_energy.close()
                 if cursor_historical:
                     cursor_historical.close()
 
         finally:
             if cnx_system:
                 cnx_system.close()
-            if cnx_energy_prediction:
-                cnx_energy_prediction.close()
+            if cnx_energy:
+                cnx_energy.close()
             if cnx_historical:
                 cnx_historical.close()
 
         ######################################################################################
-        # Step 9: build result
+        # Step 8: construct the report
         ######################################################################################
-        result = {
-            'equipment': {
-                'id': equipment['id'],
-                'name': equipment['name']
-            },
-            'base_period': {
-                'names': [], 'units': [], 'timestamps': [], 'values': [],
-                'subtotals': [], 'subtotals_in_kgce': [], 'subtotals_in_kgco2e': [],
-                'total_in_kgce': Decimal(0), 'total_in_kgco2e': Decimal(0)
-            },
-            'reporting_period': {
-                'names': [], 'energy_category_ids': [], 'units': [], 'timestamps': [], 'values': [],
-                'rates': [], 'subtotals': [], 'subtotals_in_kgce': [], 'subtotals_in_kgco2e': [],
-                'toppeaks': [], 'onpeaks': [], 'midpeaks': [], 'offpeaks': [], 'deeps': [],
-                'increment_rates': [],
-                'total_in_kgce': Decimal(0), 'total_in_kgco2e': Decimal(0),
-                'increment_rate_in_kgce': None, 'increment_rate_in_kgco2e': None
-            },
-            'parameters': params,
-            'excel_bytes_base64': None
+        result = dict()
+
+        result['equipment'] = dict()
+        result['equipment']['name'] = equipment['name']
+        result['equipment']['id'] = equipment['id']
+
+        result['base_period'] = dict()
+        result['base_period']['names'] = list()
+        result['base_period']['units'] = list()
+        result['base_period']['timestamps'] = list()
+        result['base_period']['values'] = list()
+        result['base_period']['subtotals'] = list()
+        result['base_period']['subtotals_in_kgce'] = list()
+        result['base_period']['subtotals_in_kgco2e'] = list()
+        result['base_period']['total_in_kgce'] = Decimal(0.0)
+        result['base_period']['total_in_kgco2e'] = Decimal(0.0)
+        if energy_category_set is not None and len(energy_category_set) > 0:
+            for energy_category_id in energy_category_set:
+                result['base_period']['names'].append(
+                    energy_category_dict[energy_category_id]['name'])
+                result['base_period']['units'].append(
+                    energy_category_dict[energy_category_id]['unit_of_measure'])
+                result['base_period']['timestamps'].append(
+                    base[energy_category_id]['timestamps'])
+                result['base_period']['values'].append(base[energy_category_id]['values'])
+                result['base_period']['subtotals'].append(base[energy_category_id]['subtotal'])
+                result['base_period']['subtotals_in_kgce'].append(
+                    base[energy_category_id]['subtotal_in_kgce'])
+                result['base_period']['subtotals_in_kgco2e'].append(
+                    base[energy_category_id]['subtotal_in_kgco2e'])
+                result['base_period']['total_in_kgce'] += (
+                    base)[energy_category_id]['subtotal_in_kgce']
+                result['base_period']['total_in_kgco2e'] += (
+                    base)[energy_category_id]['subtotal_in_kgco2e']
+
+        result['reporting_period'] = dict()
+        result['reporting_period']['names'] = list()
+        result['reporting_period']['energy_category_ids'] = list()
+        result['reporting_period']['units'] = list()
+        result['reporting_period']['timestamps'] = list()
+        result['reporting_period']['values'] = list()
+        result['reporting_period']['rates'] = list()
+        result['reporting_period']['subtotals'] = list()
+        result['reporting_period']['subtotals_in_kgce'] = list()
+        result['reporting_period']['subtotals_in_kgco2e'] = list()
+        result['reporting_period']['toppeaks'] = list()
+        result['reporting_period']['onpeaks'] = list()
+        result['reporting_period']['midpeaks'] = list()
+        result['reporting_period']['offpeaks'] = list()
+        result['reporting_period']['deeps'] = list()
+        result['reporting_period']['increment_rates'] = list()
+        result['reporting_period']['total_in_kgce'] = Decimal(0.0)
+        result['reporting_period']['total_in_kgco2e'] = Decimal(0.0)
+        result['reporting_period']['increment_rate_in_kgce'] = Decimal(0.0)
+        result['reporting_period']['increment_rate_in_kgco2e'] = Decimal(0.0)
+
+        if energy_category_set is not None and len(energy_category_set) > 0:
+            for energy_category_id in energy_category_set:
+                result['reporting_period']['names'].append(
+                    energy_category_dict[energy_category_id]['name'])
+                result['reporting_period']['energy_category_ids'].append(energy_category_id)
+                result['reporting_period']['units'].append(
+                    energy_category_dict[energy_category_id]['unit_of_measure'])
+                result['reporting_period']['timestamps'].append(
+                    reporting[energy_category_id]['timestamps'])
+                result['reporting_period']['values'].append(
+                    reporting[energy_category_id]['values'])
+                result['reporting_period']['subtotals'].append(
+                    reporting[energy_category_id]['subtotal'])
+                result['reporting_period']['subtotals_in_kgce'].append(
+                    reporting[energy_category_id]['subtotal_in_kgce'])
+                result['reporting_period']['subtotals_in_kgco2e'].append(
+                    reporting[energy_category_id]['subtotal_in_kgco2e'])
+                result['reporting_period']['toppeaks'].append(
+                    reporting[energy_category_id]['toppeak'])
+                result['reporting_period']['onpeaks'].append(
+                    reporting[energy_category_id]['onpeak'])
+                result['reporting_period']['midpeaks'].append(
+                    reporting[energy_category_id]['midpeak'])
+                result['reporting_period']['offpeaks'].append(
+                    reporting[energy_category_id]['offpeak'])
+                result['reporting_period']['deeps'].append(
+                    reporting[energy_category_id]['deep'])
+                result['reporting_period']['increment_rates'].append(
+                    (reporting[energy_category_id]['subtotal'] -
+                     base[energy_category_id]['subtotal']) /
+                    base[energy_category_id]['subtotal']
+                    if base[energy_category_id]['subtotal'] > 0.0 else None)
+                result['reporting_period']['total_in_kgce'] += (
+                    reporting)[energy_category_id]['subtotal_in_kgce']
+                result['reporting_period']['total_in_kgco2e'] += (
+                    reporting)[energy_category_id]['subtotal_in_kgco2e']
+
+                rate = list()
+                for index, value in enumerate(reporting[energy_category_id]['values']):
+                    if index < len(base[energy_category_id]['values']) \
+                            and base[energy_category_id]['values'][index] != 0 and value != 0:
+                        rate.append((value - base[energy_category_id]['values'][index])
+                                    / base[energy_category_id]['values'][index])
+                    else:
+                        rate.append(None)
+                result['reporting_period']['rates'].append(rate)
+
+        result['reporting_period']['increment_rate_in_kgce'] = \
+            (result['reporting_period']['total_in_kgce'] -
+             result['base_period']['total_in_kgce']) / \
+            result['base_period']['total_in_kgce'] \
+            if result['base_period']['total_in_kgce'] > Decimal(0.0) else None
+
+        result['reporting_period']['increment_rate_in_kgco2e'] = \
+            (result['reporting_period']['total_in_kgco2e'] -
+             result['base_period']['total_in_kgco2e']) / \
+            result['base_period']['total_in_kgco2e'] \
+            if result['base_period']['total_in_kgco2e'] > Decimal(0.0) else None
+
+        result['parameters'] = {
+            "names": parameters_data['names'],
+            "timestamps": parameters_data['timestamps'],
+            "values": parameters_data['values']
         }
-
-        # Base period
-        bp = result['base_period']
-        for ecid in energy_category_set:
-            ec = energy_category_dict[ecid]
-            b = base[ecid]
-            bp['names'].append(ec['name'])
-            bp['units'].append(ec['unit_of_measure'])
-            bp['timestamps'].append(b['timestamps'])
-            bp['values'].append(b['values'])
-            bp['subtotals'].append(b['subtotal'])
-            bp['subtotals_in_kgce'].append(b['subtotal_in_kgce'])
-            bp['subtotals_in_kgco2e'].append(b['subtotal_in_kgco2e'])
-            bp['total_in_kgce'] += b['subtotal_in_kgce']
-            bp['total_in_kgco2e'] += b['subtotal_in_kgco2e']
-
-        # Reporting period
-        rp = result['reporting_period']
-        for ecid in energy_category_set:
-            ec = energy_category_dict[ecid]
-            r = reporting[ecid]
-            b = base[ecid]
-            rp['names'].append(ec['name'])
-            rp['energy_category_ids'].append(ecid)
-            rp['units'].append(ec['unit_of_measure'])
-            rp['timestamps'].append(r['timestamps'])
-            rp['values'].append(r['values'])
-            rp['subtotals'].append(r['subtotal'])
-            rp['subtotals_in_kgce'].append(r['subtotal_in_kgce'])
-            rp['subtotals_in_kgco2e'].append(r['subtotal_in_kgco2e'])
-            rp['toppeaks'].append(r['toppeak'])
-            rp['onpeaks'].append(r['onpeak'])
-            rp['midpeaks'].append(r['midpeak'])
-            rp['offpeaks'].append(r['offpeak'])
-            rp['deeps'].append(r['deep'])
-
-            # Increment rate per category
-            if b['subtotal'] > 0:
-                inc = (r['subtotal'] - b['subtotal']) / b['subtotal']
-            else:
-                inc = None
-            rp['increment_rates'].append(inc)
-
-            rp['total_in_kgce'] += r['subtotal_in_kgce']
-            rp['total_in_kgco2e'] += r['subtotal_in_kgco2e']
-
-            # Period-by-period rate
-            rate = []
-            for i, v in enumerate(r['values']):
-                if i < len(b['values']) and b['values'][i] != 0 and v != 0:
-                    rate.append((v - b['values'][i]) / b['values'][i])
-                else:
-                    rate.append(None)
-            rp['rates'].append(rate)
-
-        # Total increment rates
-        if bp['total_in_kgce'] > 0:
-            rp['increment_rate_in_kgce'] = (rp['total_in_kgce'] - bp['total_in_kgce']) / bp['total_in_kgce']
-        if bp['total_in_kgco2e'] > 0:
-            rp['increment_rate_in_kgco2e'] = (rp['total_in_kgco2e'] - bp['total_in_kgco2e']) / bp['total_in_kgco2e']
-
-        # Excel
+        result['excel_bytes_base64'] = None
         if not is_quick_mode:
-            result['excel_bytes_base64'] = excelexporters.equipmentenergycategory.export(
-                result, equipment['name'],
-                base_period_start_datetime_local, base_period_end_datetime_local,
-                reporting_period_start_datetime_local, reporting_period_end_datetime_local,
-                period_type, language
-            )
-
-        # Final log
-        logger.info("Equipment prediction report generated successfully: equipment_id=%s", equipment['id'])
-        print(f"Report done: equipment {equipment['id']} ({equipment['name']})")
-
-        resp.text = json.dumps(result, default=str)
+            result['excel_bytes_base64'] = \
+                excelexporters.equipmentprediction.export(
+                    result,
+                    equipment['name'],
+                    base_period_start_datetime_local,
+                    base_period_end_datetime_local,
+                    reporting_period_start_datetime_local,
+                    reporting_period_end_datetime_local,
+                    period_type,
+                    language)
+        resp.text = json.dumps(result)
