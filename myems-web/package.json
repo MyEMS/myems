@@ -123,6 +123,7 @@
     "webpack-dev-server": "^5.2.1"
   },
   "overrides": {
-    "underscore": "^1.13.1"
+    "underscore": "^1.13.1",
+    "nth-check": "^2.0.1"
   }
 }
