@@ -284,290 +284,298 @@ class Reporting:
         ################################################################################################################
         # Step 2: query the space and energy category
         ################################################################################################################
-        cnx_system = mysql.connector.connect(**config.myems_system_db)
-        cursor_system = cnx_system.cursor()
+        cnx_system = None
+        cnx_energy = None
+        cnx_historical = None
+        try:
+            cnx_system = mysql.connector.connect(**config.myems_system_db)
+            cnx_energy = mysql.connector.connect(**config.myems_energy_db)
+            cnx_historical = mysql.connector.connect(**config.myems_historical_db)
 
-        cnx_energy = mysql.connector.connect(**config.myems_energy_db)
-        cursor_energy = cnx_energy.cursor()
+            cursor_system = None
+            cursor_energy = None
+            cursor_historical = None
+            try:
+                cursor_system = cnx_system.cursor()
+                cursor_energy = cnx_energy.cursor()
+                cursor_historical = cnx_historical.cursor()
 
-        cnx_historical = mysql.connector.connect(**config.myems_historical_db)
-        cursor_historical = cnx_historical.cursor()
+                # Query space 1
+                if space_id1 is not None:
+                    cursor_system.execute(
+                        " SELECT id, name FROM tbl_spaces WHERE id = %s ", (space_id1,)
+                    )
+                    row_space1 = cursor_system.fetchone()
+                elif space_uuid1 is not None:
+                    cursor_system.execute(
+                        " SELECT id, name FROM tbl_spaces WHERE uuid = %s ",
+                        (space_uuid1,),
+                    )
+                    row_space1 = cursor_system.fetchone()
 
-        # Query space 1
-        if space_id1 is not None:
-            cursor_system.execute(
-                " SELECT id, name FROM tbl_spaces WHERE id = %s ", (space_id1,)
-            )
-            row_space1 = cursor_system.fetchone()
-        elif space_uuid1 is not None:
-            cursor_system.execute(
-                " SELECT id, name FROM tbl_spaces WHERE uuid = %s ",
-                (space_uuid1,),
-            )
-            row_space1 = cursor_system.fetchone()
+                if row_space1 is None:
+                    if cursor_system:
+                        cursor_system.close()
+                    if cnx_system:
+                        cnx_system.close()
 
-        if row_space1 is None:
-            if cursor_system:
-                cursor_system.close()
+                    if cursor_energy:
+                        cursor_energy.close()
+                    if cnx_energy:
+                        cnx_energy.close()
+
+                    if cursor_historical:
+                        cursor_historical.close()
+                    if cnx_historical:
+                        cnx_historical.close()
+                    raise falcon.HTTPError(
+                        status=falcon.HTTP_404,
+                        title="API.NOT_FOUND",
+                        name="API.SPACE_NOT_FOUND",
+                    )
+
+                space1 = dict()
+                space1["id"] = row_space1[0]
+                space1["name"] = row_space1[1]
+
+                # Query space 2
+                if space_id2 is not None:
+                    cursor_system.execute(
+                        " SELECT id, name FROM tbl_spaces WHERE id = %s ", (space_id2,)
+                    )
+                    row_space2 = cursor_system.fetchone()
+                elif space_uuid2 is not None:
+                    cursor_system.execute(
+                        " SELECT id, name FROM tbl_spaces WHERE uuid = %s ",
+                        (space_uuid2,),
+                    )
+                    row_space2 = cursor_system.fetchone()
+
+                if row_space2 is None:
+                    if cursor_system:
+                        cursor_system.close()
+                    if cnx_system:
+                        cnx_system.close()
+
+                    if cursor_energy:
+                        cursor_energy.close()
+                    if cnx_energy:
+                        cnx_energy.close()
+
+                    if cursor_historical:
+                        cursor_historical.close()
+                    if cnx_historical:
+                        cnx_historical.close()
+                    raise falcon.HTTPError(
+                        status=falcon.HTTP_404,
+                        title="API.NOT_FOUND",
+                        name="API.SPACE_NOT_FOUND",
+                    )
+
+                space2 = dict()
+                space2["id"] = row_space2[0]
+                space2["name"] = row_space2[1]
+
+                # Query energy category
+                cursor_system.execute(
+                    " SELECT id, name, unit_of_measure FROM tbl_energy_categories WHERE id = %s ",
+                    (energy_category_id,),
+                )
+                row_energy_category = cursor_system.fetchone()
+
+                if row_energy_category is None:
+                    if cursor_system:
+                        cursor_system.close()
+                    if cnx_system:
+                        cnx_system.close()
+
+                    if cursor_energy:
+                        cursor_energy.close()
+                    if cnx_energy:
+                        cnx_energy.close()
+
+                    if cursor_historical:
+                        cursor_historical.close()
+                    if cnx_historical:
+                        cnx_historical.close()
+                    raise falcon.HTTPError(
+                        status=falcon.HTTP_404,
+                        title="API.NOT_FOUND",
+                        name="API.ENERGY_CATEGORY_NOT_FOUND",
+                    )
+
+                energy_category = dict()
+                energy_category["id"] = row_energy_category[0]
+                energy_category["name"] = row_energy_category[1]
+                energy_category["unit_of_measure"] = row_energy_category[2]
+
+                ###########################################################################################
+                # Step 3: query space input category hourly data (pre-aggregated by background service)
+                ###########################################################################################
+                # Query space 1 input category hourly data
+                cursor_energy.execute(
+                    " SELECT start_datetime_utc, actual_value "
+                    " FROM tbl_space_input_category_hourly "
+                    " WHERE space_id = %s "
+                    "     AND energy_category_id = %s "
+                    "     AND start_datetime_utc >= %s "
+                    "     AND start_datetime_utc < %s "
+                    " ORDER BY start_datetime_utc ",
+                    (
+                        space1["id"],
+                        energy_category_id,
+                        reporting_start_datetime_utc,
+                        reporting_end_datetime_utc,
+                    ),
+                )
+                rows_space1_hourly = cursor_energy.fetchall()
+
+                # Query space 2 input category hourly data
+                cursor_energy.execute(
+                    " SELECT start_datetime_utc, actual_value "
+                    " FROM tbl_space_input_category_hourly "
+                    " WHERE space_id = %s "
+                    "     AND energy_category_id = %s "
+                    "     AND start_datetime_utc >= %s "
+                    "     AND start_datetime_utc < %s "
+                    " ORDER BY start_datetime_utc ",
+                    (
+                        space2["id"],
+                        energy_category_id,
+                        reporting_start_datetime_utc,
+                        reporting_end_datetime_utc,
+                    ),
+                )
+                rows_space2_hourly = cursor_energy.fetchall()
+
+                ##############################################################################################
+                # Step 4: aggregate space energy consumption data by period
+                ##############################################################################################
+                # Aggregate energy consumption for space 1
+                space1_energy_data = dict()
+                space1_energy_data["timestamps"] = list()
+                space1_energy_data["values"] = list()
+                space1_energy_data["total_in_category"] = Decimal(0.0)
+
+                # Aggregate space 1 hourly data by period
+                rows_space1_periodically = utilities.aggregate_hourly_data_by_period(
+                    rows_space1_hourly,
+                    reporting_start_datetime_utc,
+                    reporting_end_datetime_utc,
+                    period_type,
+                )
+
+                for row_space1_periodically in rows_space1_periodically:
+                    current_datetime_local = row_space1_periodically[0].replace(
+                        tzinfo=timezone.utc
+                    ) + timedelta(minutes=timezone_offset)
+                    if period_type == "hourly":
+                        current_datetime = current_datetime_local.isoformat()[0:19]
+                    elif period_type == "daily":
+                        current_datetime = current_datetime_local.isoformat()[0:10]
+                    elif period_type == "weekly":
+                        current_datetime = current_datetime_local.isoformat()[0:10]
+                    elif period_type == "monthly":
+                        current_datetime = current_datetime_local.isoformat()[0:7]
+                    elif period_type == "yearly":
+                        current_datetime = current_datetime_local.isoformat()[0:4]
+
+                    actual_value = row_space1_periodically[1]
+
+                    space1_energy_data["timestamps"].append(current_datetime)
+                    space1_energy_data["values"].append(actual_value)
+                    if actual_value is not None:
+                        space1_energy_data["total_in_category"] += actual_value
+
+                # Aggregate energy consumption for space 2
+                space2_energy_data = dict()
+                space2_energy_data["timestamps"] = list()
+                space2_energy_data["values"] = list()
+                space2_energy_data["total_in_category"] = Decimal(0.0)
+
+                # Aggregate space 2 hourly data by period
+                rows_space2_periodically = utilities.aggregate_hourly_data_by_period(
+                    rows_space2_hourly,
+                    reporting_start_datetime_utc,
+                    reporting_end_datetime_utc,
+                    period_type,
+                )
+
+                for row_space2_periodically in rows_space2_periodically:
+                    current_datetime_local = row_space2_periodically[0].replace(
+                        tzinfo=timezone.utc
+                    ) + timedelta(minutes=timezone_offset)
+                    if period_type == "hourly":
+                        current_datetime = current_datetime_local.isoformat()[0:19]
+                    elif period_type == "daily":
+                        current_datetime = current_datetime_local.isoformat()[0:10]
+                    elif period_type == "weekly":
+                        current_datetime = current_datetime_local.isoformat()[0:10]
+                    elif period_type == "monthly":
+                        current_datetime = current_datetime_local.isoformat()[0:7]
+                    elif period_type == "yearly":
+                        current_datetime = current_datetime_local.isoformat()[0:4]
+
+                    actual_value = row_space2_periodically[1]
+
+                    space2_energy_data["timestamps"].append(current_datetime)
+                    space2_energy_data["values"].append(actual_value)
+                    if actual_value is not None:
+                        space2_energy_data["total_in_category"] += actual_value
+
+                # Calculate difference
+                diff = dict()
+                diff["values"] = list()
+                diff["total_in_category"] = Decimal(0.0)
+
+                # Ensure both spaces have the same number of data points
+                min_length = min(
+                    len(space1_energy_data["values"]), len(space2_energy_data["values"])
+                )
+                for i in range(min_length):
+                    space1_value = (
+                        space1_energy_data["values"][i]
+                        if i < len(space1_energy_data["values"])
+                        else None
+                    )
+                    space2_value = (
+                        space2_energy_data["values"][i]
+                        if i < len(space2_energy_data["values"])
+                        else None
+                    )
+                    
+                    # Calculate difference, handling None values
+                    if space1_value is None and space2_value is None:
+                        diff_value = None
+                    elif space1_value is None:
+                        diff_value = None  # Cannot calculate difference when one value is missing
+                    elif space2_value is None:
+                        diff_value = None  # Cannot calculate difference when one value is missing
+                    else:
+                        diff_value = space1_value - space2_value
+                        diff["total_in_category"] += diff_value
+                        
+                    diff["values"].append(diff_value)
+
+            finally:
+                if cursor_system:
+                    cursor_system.close()
+                if cursor_energy:
+                    cursor_energy.close()
+                if cursor_historical:
+                    cursor_historical.close()
+
+        finally:
             if cnx_system:
                 cnx_system.close()
-
-            if cursor_energy:
-                cursor_energy.close()
             if cnx_energy:
                 cnx_energy.close()
-
-            if cursor_historical:
-                cursor_historical.close()
             if cnx_historical:
                 cnx_historical.close()
-            raise falcon.HTTPError(
-                status=falcon.HTTP_404,
-                title="API.NOT_FOUND",
-                name="API.SPACE_NOT_FOUND",
-            )
-
-        space1 = dict()
-        space1["id"] = row_space1[0]
-        space1["name"] = row_space1[1]
-
-        # Query space 2
-        if space_id2 is not None:
-            cursor_system.execute(
-                " SELECT id, name FROM tbl_spaces WHERE id = %s ", (space_id2,)
-            )
-            row_space2 = cursor_system.fetchone()
-        elif space_uuid2 is not None:
-            cursor_system.execute(
-                " SELECT id, name FROM tbl_spaces WHERE uuid = %s ",
-                (space_uuid2,),
-            )
-            row_space2 = cursor_system.fetchone()
-
-        if row_space2 is None:
-            if cursor_system:
-                cursor_system.close()
-            if cnx_system:
-                cnx_system.close()
-
-            if cursor_energy:
-                cursor_energy.close()
-            if cnx_energy:
-                cnx_energy.close()
-
-            if cursor_historical:
-                cursor_historical.close()
-            if cnx_historical:
-                cnx_historical.close()
-            raise falcon.HTTPError(
-                status=falcon.HTTP_404,
-                title="API.NOT_FOUND",
-                name="API.SPACE_NOT_FOUND",
-            )
-
-        space2 = dict()
-        space2["id"] = row_space2[0]
-        space2["name"] = row_space2[1]
-
-        # Query energy category
-        cursor_system.execute(
-            " SELECT id, name, unit_of_measure FROM tbl_energy_categories WHERE id = %s ",
-            (energy_category_id,),
-        )
-        row_energy_category = cursor_system.fetchone()
-
-        if row_energy_category is None:
-            if cursor_system:
-                cursor_system.close()
-            if cnx_system:
-                cnx_system.close()
-
-            if cursor_energy:
-                cursor_energy.close()
-            if cnx_energy:
-                cnx_energy.close()
-
-            if cursor_historical:
-                cursor_historical.close()
-            if cnx_historical:
-                cnx_historical.close()
-            raise falcon.HTTPError(
-                status=falcon.HTTP_404,
-                title="API.NOT_FOUND",
-                name="API.ENERGY_CATEGORY_NOT_FOUND",
-            )
-
-        energy_category = dict()
-        energy_category["id"] = row_energy_category[0]
-        energy_category["name"] = row_energy_category[1]
-        energy_category["unit_of_measure"] = row_energy_category[2]
-
-        ################################################################################################################
-        # Step 3: query space input category hourly data (pre-aggregated by background service)
-        ################################################################################################################
-        # Query space 1 input category hourly data
-        cursor_energy.execute(
-            " SELECT start_datetime_utc, actual_value "
-            " FROM tbl_space_input_category_hourly "
-            " WHERE space_id = %s "
-            "     AND energy_category_id = %s "
-            "     AND start_datetime_utc >= %s "
-            "     AND start_datetime_utc < %s "
-            " ORDER BY start_datetime_utc ",
-            (
-                space1["id"],
-                energy_category_id,
-                reporting_start_datetime_utc,
-                reporting_end_datetime_utc,
-            ),
-        )
-        rows_space1_hourly = cursor_energy.fetchall()
-
-        # Query space 2 input category hourly data
-        cursor_energy.execute(
-            " SELECT start_datetime_utc, actual_value "
-            " FROM tbl_space_input_category_hourly "
-            " WHERE space_id = %s "
-            "     AND energy_category_id = %s "
-            "     AND start_datetime_utc >= %s "
-            "     AND start_datetime_utc < %s "
-            " ORDER BY start_datetime_utc ",
-            (
-                space2["id"],
-                energy_category_id,
-                reporting_start_datetime_utc,
-                reporting_end_datetime_utc,
-            ),
-        )
-        rows_space2_hourly = cursor_energy.fetchall()
-
-        ################################################################################################################
-        # Step 4: aggregate space energy consumption data by period
-        ################################################################################################################
-        # Aggregate energy consumption for space 1
-        space1_energy_data = dict()
-        space1_energy_data["timestamps"] = list()
-        space1_energy_data["values"] = list()
-        space1_energy_data["total_in_category"] = Decimal(0.0)
-
-        # Aggregate space 1 hourly data by period
-        rows_space1_periodically = utilities.aggregate_hourly_data_by_period(
-            rows_space1_hourly,
-            reporting_start_datetime_utc,
-            reporting_end_datetime_utc,
-            period_type,
-        )
-
-        for row_space1_periodically in rows_space1_periodically:
-            current_datetime_local = row_space1_periodically[0].replace(
-                tzinfo=timezone.utc
-            ) + timedelta(minutes=timezone_offset)
-            if period_type == "hourly":
-                current_datetime = current_datetime_local.isoformat()[0:19]
-            elif period_type == "daily":
-                current_datetime = current_datetime_local.isoformat()[0:10]
-            elif period_type == "weekly":
-                current_datetime = current_datetime_local.isoformat()[0:10]
-            elif period_type == "monthly":
-                current_datetime = current_datetime_local.isoformat()[0:7]
-            elif period_type == "yearly":
-                current_datetime = current_datetime_local.isoformat()[0:4]
-
-            actual_value = row_space1_periodically[1]
-
-            space1_energy_data["timestamps"].append(current_datetime)
-            space1_energy_data["values"].append(actual_value)
-            if actual_value is not None:
-                space1_energy_data["total_in_category"] += actual_value
-
-        # Aggregate energy consumption for space 2
-        space2_energy_data = dict()
-        space2_energy_data["timestamps"] = list()
-        space2_energy_data["values"] = list()
-        space2_energy_data["total_in_category"] = Decimal(0.0)
-
-        # Aggregate space 2 hourly data by period
-        rows_space2_periodically = utilities.aggregate_hourly_data_by_period(
-            rows_space2_hourly,
-            reporting_start_datetime_utc,
-            reporting_end_datetime_utc,
-            period_type,
-        )
-
-        for row_space2_periodically in rows_space2_periodically:
-            current_datetime_local = row_space2_periodically[0].replace(
-                tzinfo=timezone.utc
-            ) + timedelta(minutes=timezone_offset)
-            if period_type == "hourly":
-                current_datetime = current_datetime_local.isoformat()[0:19]
-            elif period_type == "daily":
-                current_datetime = current_datetime_local.isoformat()[0:10]
-            elif period_type == "weekly":
-                current_datetime = current_datetime_local.isoformat()[0:10]
-            elif period_type == "monthly":
-                current_datetime = current_datetime_local.isoformat()[0:7]
-            elif period_type == "yearly":
-                current_datetime = current_datetime_local.isoformat()[0:4]
-
-            actual_value = row_space2_periodically[1]
-
-            space2_energy_data["timestamps"].append(current_datetime)
-            space2_energy_data["values"].append(actual_value)
-            if actual_value is not None:
-                space2_energy_data["total_in_category"] += actual_value
-
-        # Calculate difference
-        diff = dict()
-        diff["values"] = list()
-        diff["total_in_category"] = Decimal(0.0)
-
-        # Ensure both spaces have the same number of data points
-        min_length = min(
-            len(space1_energy_data["values"]), len(space2_energy_data["values"])
-        )
-        for i in range(min_length):
-            space1_value = (
-                space1_energy_data["values"][i]
-                if i < len(space1_energy_data["values"])
-                else None
-            )
-            space2_value = (
-                space2_energy_data["values"][i]
-                if i < len(space2_energy_data["values"])
-                else None
-            )
-            
-            # Calculate difference, handling None values
-            if space1_value is None and space2_value is None:
-                diff_value = None
-            elif space1_value is None:
-                diff_value = None  # Cannot calculate difference when one value is missing
-            elif space2_value is None:
-                diff_value = None  # Cannot calculate difference when one value is missing
-            else:
-                diff_value = space1_value - space2_value
-                diff["total_in_category"] += diff_value
-                
-            diff["values"].append(diff_value)
 
         ################################################################################################################
         # Step 5: construct the report
         ################################################################################################################
-        if cursor_system:
-            cursor_system.close()
-        if cnx_system:
-            cnx_system.close()
-
-        if cursor_energy:
-            cursor_energy.close()
-        if cnx_energy:
-            cnx_energy.close()
-
-        if cursor_historical:
-            cursor_historical.close()
-        if cnx_historical:
-            cnx_historical.close()
-
         result = {
             "space1": {
                 "id": space1["id"],

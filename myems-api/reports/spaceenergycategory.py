@@ -46,6 +46,7 @@ from core.useractivity import access_control, api_key_control
 
 logger = logging.getLogger(__name__)
 
+
 class Reporting:
     def __init__(self):
         """"Initializes Reporting"""
@@ -270,481 +271,467 @@ class Reporting:
         ################################################################################################################
         # Step 2: query the space
         ################################################################################################################
-        cnx_system = mysql.connector.connect(**config.myems_system_db)
-        cursor_system = cnx_system.cursor()
+        cnx_system = None
+        cnx_energy = None
+        cnx_historical = None
+        try:
+            cnx_system = mysql.connector.connect(**config.myems_system_db)
+            cnx_energy = mysql.connector.connect(**config.myems_energy_db)
+            cnx_historical = mysql.connector.connect(**config.myems_historical_db)
 
-        cnx_energy = mysql.connector.connect(**config.myems_energy_db)
-        cursor_energy = cnx_energy.cursor()
+            cursor_system = None
+            cursor_energy = None
+            cursor_historical = None
+            try:
+                cursor_system = cnx_system.cursor()
+                cursor_energy = cnx_energy.cursor()
+                cursor_historical = cnx_historical.cursor()
 
-        cnx_historical = mysql.connector.connect(**config.myems_historical_db)
-        cursor_historical = cnx_historical.cursor()
+                if space_id is not None:
+                    cursor_system.execute(" SELECT id, name, area, number_of_occupants, cost_center_id "
+                                          " FROM tbl_spaces "
+                                          " WHERE id = %s ", (space_id,))
+                    row_space = cursor_system.fetchone()
+                elif space_uuid is not None:
+                    cursor_system.execute(" SELECT id, name, area, number_of_occupants, cost_center_id "
+                                          " FROM tbl_spaces "
+                                          " WHERE uuid = %s ", (space_uuid,))
+                    row_space = cursor_system.fetchone()
 
-        if space_id is not None:
-            cursor_system.execute(" SELECT id, name, area, number_of_occupants, cost_center_id "
-                                  " FROM tbl_spaces "
-                                  " WHERE id = %s ", (space_id,))
-            row_space = cursor_system.fetchone()
-        elif space_uuid is not None:
-            cursor_system.execute(" SELECT id, name, area, number_of_occupants, cost_center_id "
-                                  " FROM tbl_spaces "
-                                  " WHERE uuid = %s ", (space_uuid,))
-            row_space = cursor_system.fetchone()
+                if row_space is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.SPACE_NOT_FOUND')
 
-        if row_space is None:
-            if cursor_system:
-                cursor_system.close()
-            if cnx_system:
-                cnx_system.close()
+                space = dict()
+                space['id'] = row_space[0]
+                space['name'] = row_space[1]
+                space['area'] = row_space[2]
+                space['number_of_occupants'] = row_space[3]
+                space['cost_center_id'] = row_space[4]
 
-            if cursor_energy:
-                cursor_energy.close()
-            if cnx_energy:
-                cnx_energy.close()
+                ###############################################################################################
+                # Step 3: query energy categories
+                ###############################################################################################
+                energy_category_set = set()
+                # query energy categories in base period
+                cursor_energy.execute(" SELECT DISTINCT(energy_category_id) "
+                                      " FROM tbl_space_input_category_hourly "
+                                      " WHERE space_id = %s "
+                                      "     AND start_datetime_utc >= %s "
+                                      "     AND start_datetime_utc < %s ",
+                                      (space['id'], base_start_datetime_utc, base_end_datetime_utc))
+                rows_energy_categories = cursor_energy.fetchall()
+                if rows_energy_categories is not None and len(rows_energy_categories) > 0:
+                    for row_energy_category in rows_energy_categories:
+                        energy_category_set.add(row_energy_category[0])
 
-            if cursor_historical:
-                cursor_historical.close()
-            if cnx_historical:
-                cnx_historical.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND', description='API.SPACE_NOT_FOUND')
+                # query energy categories in reporting period
+                cursor_energy.execute(" SELECT DISTINCT(energy_category_id) "
+                                      " FROM tbl_space_input_category_hourly "
+                                      " WHERE space_id = %s "
+                                      "     AND start_datetime_utc >= %s "
+                                      "     AND start_datetime_utc < %s ",
+                                      (space['id'], reporting_start_datetime_utc, reporting_end_datetime_utc))
+                rows_energy_categories = cursor_energy.fetchall()
+                if rows_energy_categories is not None and len(rows_energy_categories) > 0:
+                    for row_energy_category in rows_energy_categories:
+                        energy_category_set.add(row_energy_category[0])
 
-        space = dict()
-        space['id'] = row_space[0]
-        space['name'] = row_space[1]
-        space['area'] = row_space[2]
-        space['number_of_occupants'] = row_space[3]
-        space['cost_center_id'] = row_space[4]
+                # query all energy categories in base period and reporting period
+                cursor_system.execute(" SELECT id, name, unit_of_measure, kgce, kgco2e "
+                                      " FROM tbl_energy_categories "
+                                      " ORDER BY id ", )
+                rows_energy_categories = cursor_system.fetchall()
+                if rows_energy_categories is None or len(rows_energy_categories) == 0:
+                    raise falcon.HTTPError(status=falcon.HTTP_404,
+                                           title='API.NOT_FOUND',
+                                           description='API.ENERGY_CATEGORY_NOT_FOUND')
+                energy_category_dict = dict()
+                for row_energy_category in rows_energy_categories:
+                    if row_energy_category[0] in energy_category_set:
+                        energy_category_dict[row_energy_category[0]] = {"name": row_energy_category[1],
+                                                                        "unit_of_measure": row_energy_category[2],
+                                                                        "kgce": row_energy_category[3],
+                                                                        "kgco2e": row_energy_category[4]}
 
-        ################################################################################################################
-        # Step 3: query energy categories
-        ################################################################################################################
-        energy_category_set = set()
-        # query energy categories in base period
-        cursor_energy.execute(" SELECT DISTINCT(energy_category_id) "
-                              " FROM tbl_space_input_category_hourly "
-                              " WHERE space_id = %s "
-                              "     AND start_datetime_utc >= %s "
-                              "     AND start_datetime_utc < %s ",
-                              (space['id'], base_start_datetime_utc, base_end_datetime_utc))
-        rows_energy_categories = cursor_energy.fetchall()
-        if rows_energy_categories is not None and len(rows_energy_categories) > 0:
-            for row_energy_category in rows_energy_categories:
-                energy_category_set.add(row_energy_category[0])
+                ###################################################################################################
+                # Step 4: query associated sensors
+                ###################################################################################################
+                point_list = list()
+                cursor_system.execute(" SELECT po.id, po.name, po.units, po.object_type  "
+                                      " FROM tbl_spaces sp, tbl_sensors se, tbl_spaces_sensors spse, "
+                                      "      tbl_points po, tbl_sensors_points sepo "
+                                      " WHERE sp.id = %s AND sp.id = spse.space_id AND spse.sensor_id = se.id "
+                                      "       AND se.id = sepo.sensor_id AND sepo.point_id = po.id "
+                                      " ORDER BY po.id ", (space['id'], ))
+                rows_points = cursor_system.fetchall()
+                if rows_points is not None and len(rows_points) > 0:
+                    for row in rows_points:
+                        point_list.append({"id": row[0], "name": row[1], "units": row[2], "object_type": row[3]})
 
-        # query energy categories in reporting period
-        cursor_energy.execute(" SELECT DISTINCT(energy_category_id) "
-                              " FROM tbl_space_input_category_hourly "
-                              " WHERE space_id = %s "
-                              "     AND start_datetime_utc >= %s "
-                              "     AND start_datetime_utc < %s ",
-                              (space['id'], reporting_start_datetime_utc, reporting_end_datetime_utc))
-        rows_energy_categories = cursor_energy.fetchall()
-        if rows_energy_categories is not None and len(rows_energy_categories) > 0:
-            for row_energy_category in rows_energy_categories:
-                energy_category_set.add(row_energy_category[0])
+                ###################################################################################################
+                # Step 5: query associated points
+                ###################################################################################################
+                cursor_system.execute(" SELECT po.id, po.name, po.units, po.object_type  "
+                                      " FROM tbl_spaces sp, tbl_spaces_points sppo, tbl_points po "
+                                      " WHERE sp.id = %s AND sp.id = sppo.space_id AND sppo.point_id = po.id "
+                                      " ORDER BY po.id ", (space['id'], ))
+                rows_points = cursor_system.fetchall()
+                if rows_points is not None and len(rows_points) > 0:
+                    for row in rows_points:
+                        point_list.append({"id": row[0], "name": row[1], "units": row[2], "object_type": row[3]})
 
-        # query all energy categories in base period and reporting period
-        cursor_system.execute(" SELECT id, name, unit_of_measure, kgce, kgco2e "
-                              " FROM tbl_energy_categories "
-                              " ORDER BY id ", )
-        rows_energy_categories = cursor_system.fetchall()
-        if rows_energy_categories is None or len(rows_energy_categories) == 0:
-            if cursor_system:
-                cursor_system.close()
-            if cnx_system:
-                cnx_system.close()
-
-            if cursor_energy:
-                cursor_energy.close()
-            if cnx_energy:
-                cnx_energy.close()
-
-            if cursor_historical:
-                cursor_historical.close()
-            if cnx_historical:
-                cnx_historical.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404,
-                                   title='API.NOT_FOUND',
-                                   description='API.ENERGY_CATEGORY_NOT_FOUND')
-        energy_category_dict = dict()
-        for row_energy_category in rows_energy_categories:
-            if row_energy_category[0] in energy_category_set:
-                energy_category_dict[row_energy_category[0]] = {"name": row_energy_category[1],
-                                                                "unit_of_measure": row_energy_category[2],
-                                                                "kgce": row_energy_category[3],
-                                                                "kgco2e": row_energy_category[4]}
-
-        ################################################################################################################
-        # Step 4: query associated sensors
-        ################################################################################################################
-        point_list = list()
-        cursor_system.execute(" SELECT po.id, po.name, po.units, po.object_type  "
-                              " FROM tbl_spaces sp, tbl_sensors se, tbl_spaces_sensors spse, "
-                              "      tbl_points po, tbl_sensors_points sepo "
-                              " WHERE sp.id = %s AND sp.id = spse.space_id AND spse.sensor_id = se.id "
-                              "       AND se.id = sepo.sensor_id AND sepo.point_id = po.id "
-                              " ORDER BY po.id ", (space['id'], ))
-        rows_points = cursor_system.fetchall()
-        if rows_points is not None and len(rows_points) > 0:
-            for row in rows_points:
-                point_list.append({"id": row[0], "name": row[1], "units": row[2], "object_type": row[3]})
-
-        ################################################################################################################
-        # Step 5: query associated points
-        ################################################################################################################
-        cursor_system.execute(" SELECT po.id, po.name, po.units, po.object_type  "
-                              " FROM tbl_spaces sp, tbl_spaces_points sppo, tbl_points po "
-                              " WHERE sp.id = %s AND sp.id = sppo.space_id AND sppo.point_id = po.id "
-                              " ORDER BY po.id ", (space['id'], ))
-        rows_points = cursor_system.fetchall()
-        if rows_points is not None and len(rows_points) > 0:
-            for row in rows_points:
-                point_list.append({"id": row[0], "name": row[1], "units": row[2], "object_type": row[3]})
-
-        ################################################################################################################
-        # Step 6: query associated working calendars
-        ################################################################################################################
-        working_calendar_list = list()
-        cursor_system.execute(" SELECT swc.id "
-                              " FROM tbl_spaces sp, tbl_spaces_working_calendars swc "
-                              " WHERE sp.id = %s AND sp.id = swc.space_id "
-                              , (space['id'], ))
-        rows = cursor_system.fetchall()
-        if rows is not None and len(rows) > 0:
-            for row in rows:
-                working_calendar_list.append(row[0])
-
-        ################################################################################################################
-        # Step 7: query child spaces
-        ################################################################################################################
-        child_space_list = list()
-        cursor_system.execute(" SELECT id, name  "
-                              " FROM tbl_spaces "
-                              " WHERE parent_space_id = %s "
-                              " ORDER BY id ", (space['id'], ))
-        rows_child_spaces = cursor_system.fetchall()
-        if rows_child_spaces is not None and len(rows_child_spaces) > 0:
-            for row in rows_child_spaces:
-                child_space_list.append({"id": row[0], "name": row[1]})
-
-        ################################################################################################################
-        # Step 8: query base period energy input
-        ################################################################################################################
-        base = dict()
-        base['non_working_days'] = list()
-        if energy_category_set is not None and len(energy_category_set) > 0:
-            if base_start_datetime_utc is not None and base_end_datetime_utc is not None:
-                cursor_system.execute(" SELECT nwd.date_local "
-                                      " FROM tbl_spaces sp, tbl_spaces_working_calendars spwc, "
-                                      "      tbl_working_calendars_non_working_days nwd "
-                                      " WHERE sp.id = %s AND "
-                                      "       sp.id = spwc.space_id AND "
-                                      "       spwc.working_calendar_id = nwd.working_calendar_id AND"
-                                      "       nwd.date_local >= %s AND"
-                                      "       nwd.date_local <= %s ",
-                                      (space['id'],
-                                       base_start_datetime_non_working_day,
-                                       base_end_datetime_non_working_day))
+                ###################################################################################################
+                # Step 6: query associated working calendars
+                ###################################################################################################
+                working_calendar_list = list()
+                cursor_system.execute(" SELECT swc.id "
+                                      " FROM tbl_spaces sp, tbl_spaces_working_calendars swc "
+                                      " WHERE sp.id = %s AND sp.id = swc.space_id ", (space['id'], ))
                 rows = cursor_system.fetchall()
-                for row in rows:
-                    row_datetime = row[0].isoformat()[0:10]
-                    base['non_working_days'].append(row_datetime)
-            for energy_category_id in energy_category_set:
-                kgce = energy_category_dict[energy_category_id]['kgce']
-                kgco2e = energy_category_dict[energy_category_id]['kgco2e']
+                if rows is not None and len(rows) > 0:
+                    for row in rows:
+                        working_calendar_list.append(row[0])
 
-                base[energy_category_id] = dict()
-                base[energy_category_id]['timestamps'] = list()
-                base[energy_category_id]['values'] = list()
-                base[energy_category_id]['subtotal'] = Decimal(0.0)
-                base[energy_category_id]['subtotal_in_kgce'] = Decimal(0.0)
-                base[energy_category_id]['subtotal_in_kgco2e'] = Decimal(0.0)
-                base[energy_category_id]['non_working_days_subtotal'] = Decimal(0.0)
-                base[energy_category_id]['working_days_subtotal'] = Decimal(0.0)
+                ####################################################################################################
+                # Step 7: query child spaces
+                ####################################################################################################
+                child_space_list = list()
+                cursor_system.execute(" SELECT id, name  "
+                                      " FROM tbl_spaces "
+                                      " WHERE parent_space_id = %s "
+                                      " ORDER BY id ", (space['id'], ))
+                rows_child_spaces = cursor_system.fetchall()
+                if rows_child_spaces is not None and len(rows_child_spaces) > 0:
+                    for row in rows_child_spaces:
+                        child_space_list.append({"id": row[0], "name": row[1]})
 
-                cursor_energy.execute(" SELECT start_datetime_utc, actual_value "
-                                      " FROM tbl_space_input_category_hourly "
-                                      " WHERE space_id = %s "
-                                      "     AND energy_category_id = %s "
-                                      "     AND start_datetime_utc >= %s "
-                                      "     AND start_datetime_utc < %s "
-                                      " ORDER BY start_datetime_utc ",
-                                      (space['id'],
-                                       energy_category_id,
-                                       base_start_datetime_utc,
-                                       base_end_datetime_utc))
-                rows_space_hourly = cursor_energy.fetchall()
-
-                rows_space_periodically = utilities.aggregate_hourly_data_by_period(rows_space_hourly,
-                                                                                    base_start_datetime_utc,
-                                                                                    base_end_datetime_utc,
-                                                                                    period_type)
-                for row_space_periodically in rows_space_periodically:
-                    current_datetime_local = row_space_periodically[0].replace(tzinfo=timezone.utc) + \
-                                             timedelta(minutes=timezone_offset)
-                    if period_type == 'hourly':
-                        current_datetime = current_datetime_local.isoformat()[0:19]
-                    elif period_type == 'daily':
-                        current_datetime = current_datetime_local.isoformat()[0:10]
-                    elif period_type == 'weekly':
-                        current_datetime = current_datetime_local.isoformat()[0:10]
-                    elif period_type == 'monthly':
-                        current_datetime = current_datetime_local.isoformat()[0:7]
-                    elif period_type == 'yearly':
-                        current_datetime = current_datetime_local.isoformat()[0:4]
-
-                    actual_value = Decimal(0.0) if row_space_periodically[1] is None else row_space_periodically[1]
-                    base[energy_category_id]['timestamps'].append(current_datetime)
-                    base[energy_category_id]['values'].append(actual_value)
-                    base[energy_category_id]['subtotal'] += actual_value
-                    base[energy_category_id]['subtotal_in_kgce'] += actual_value * kgce
-                    base[energy_category_id]['subtotal_in_kgco2e'] += actual_value * kgco2e
-                    if current_datetime in base['non_working_days']:
-                        base[energy_category_id]['non_working_days_subtotal'] += actual_value
-                    else:
-                        base[energy_category_id]['working_days_subtotal'] += actual_value
-
-        ################################################################################################################
-        # Step 9: query reporting period energy input
-        ################################################################################################################
-        reporting = dict()
-        reporting['non_working_days'] = list()
-        if energy_category_set is not None and len(energy_category_set) > 0:
-            cursor_system.execute(" SELECT nwd.date_local "
-                                  " FROM tbl_spaces sp, tbl_spaces_working_calendars spwc, "
-                                  " tbl_working_calendars_non_working_days nwd "
-                                  " WHERE sp.id = %s AND "
-                                  " sp.id = spwc.space_id AND "
-                                  " spwc.working_calendar_id = nwd.working_calendar_id AND"
-                                  " nwd.date_local >= %s AND"
-                                  " nwd.date_local <= %s ",
-                                  (space['id'],
-                                   reporting_start_datetime_non_working_day,
-                                   reporting_end_datetime_non_working_day))
-            rows = cursor_system.fetchall()
-            for row in rows:
-                row_datetime = row[0].isoformat()[0:10]
-                reporting['non_working_days'].append(row_datetime)
-            for energy_category_id in energy_category_set:
-                kgce = energy_category_dict[energy_category_id]['kgce']
-                kgco2e = energy_category_dict[energy_category_id]['kgco2e']
-
-                reporting[energy_category_id] = dict()
-                reporting[energy_category_id]['timestamps'] = list()
-                reporting[energy_category_id]['values'] = list()
-                reporting[energy_category_id]['subtotal'] = Decimal(0.0)
-                reporting[energy_category_id]['subtotal_in_kgce'] = Decimal(0.0)
-                reporting[energy_category_id]['subtotal_in_kgco2e'] = Decimal(0.0)
-                reporting[energy_category_id]['toppeak'] = Decimal(0.0)
-                reporting[energy_category_id]['onpeak'] = Decimal(0.0)
-                reporting[energy_category_id]['midpeak'] = Decimal(0.0)
-                reporting[energy_category_id]['offpeak'] = Decimal(0.0)
-                reporting[energy_category_id]['deep'] = Decimal(0.0)
-                reporting[energy_category_id]['non_working_days_subtotal'] = Decimal(0.0)
-                reporting[energy_category_id]['working_days_subtotal'] = Decimal(0.0)
-
-                cursor_energy.execute(" SELECT start_datetime_utc, actual_value "
-                                      " FROM tbl_space_input_category_hourly "
-                                      " WHERE space_id = %s "
-                                      "     AND energy_category_id = %s "
-                                      "     AND start_datetime_utc >= %s "
-                                      "     AND start_datetime_utc < %s "
-                                      " ORDER BY start_datetime_utc ",
-                                      (space['id'],
-                                       energy_category_id,
-                                       reporting_start_datetime_utc,
-                                       reporting_end_datetime_utc))
-                rows_space_hourly = cursor_energy.fetchall()
-
-                rows_space_periodically = utilities.aggregate_hourly_data_by_period(rows_space_hourly,
-                                                                                    reporting_start_datetime_utc,
-                                                                                    reporting_end_datetime_utc,
-                                                                                    period_type)
-                for row_space_periodically in rows_space_periodically:
-                    current_datetime_local = row_space_periodically[0].replace(tzinfo=timezone.utc) + \
-                                             timedelta(minutes=timezone_offset)
-                    if period_type == 'hourly':
-                        current_datetime = current_datetime_local.isoformat()[0:19]
-                    elif period_type == 'daily':
-                        current_datetime = current_datetime_local.isoformat()[0:10]
-                    elif period_type == 'weekly':
-                        current_datetime = current_datetime_local.isoformat()[0:10]
-                    elif period_type == 'monthly':
-                        current_datetime = current_datetime_local.isoformat()[0:7]
-                    elif period_type == 'yearly':
-                        current_datetime = current_datetime_local.isoformat()[0:4]
-
-                    actual_value = Decimal(0.0) if row_space_periodically[1] is None else row_space_periodically[1]
-                    reporting[energy_category_id]['timestamps'].append(current_datetime)
-                    reporting[energy_category_id]['values'].append(actual_value)
-                    reporting[energy_category_id]['subtotal'] += actual_value
-                    reporting[energy_category_id]['subtotal_in_kgce'] += actual_value * kgce
-                    reporting[energy_category_id]['subtotal_in_kgco2e'] += actual_value * kgco2e
-                    if current_datetime in reporting['non_working_days']:
-                        reporting[energy_category_id]['non_working_days_subtotal'] += actual_value
-                    else:
-                        reporting[energy_category_id]['working_days_subtotal'] += actual_value
-
-                energy_category_tariff_dict = utilities.get_energy_category_peak_types(space['cost_center_id'],
-                                                                                       energy_category_id,
-                                                                                       reporting_start_datetime_utc,
-                                                                                       reporting_end_datetime_utc)
-                for row in rows_space_hourly:
-                    peak_type = energy_category_tariff_dict.get(row[0], None)
-                    if peak_type == 'toppeak':
-                        reporting[energy_category_id]['toppeak'] += row[1]
-                    elif peak_type == 'onpeak':
-                        reporting[energy_category_id]['onpeak'] += row[1]
-                    elif peak_type == 'midpeak':
-                        reporting[energy_category_id]['midpeak'] += row[1]
-                    elif peak_type == 'offpeak':
-                        reporting[energy_category_id]['offpeak'] += row[1]
-                    elif peak_type == 'deep':
-                        reporting[energy_category_id]['deep'] += row[1]
-        ################################################################################################################
-        # Step 10: query tariff data
-        ################################################################################################################
-        parameters_data = dict()
-        parameters_data['names'] = list()
-        parameters_data['timestamps'] = list()
-        parameters_data['values'] = list()
-        if config.is_tariff_appended and not is_quick_mode:
-            if energy_category_set is not None and len(energy_category_set) > 0:
-                for energy_category_id in energy_category_set:
-                    energy_category_tariff_dict = utilities.get_energy_category_tariffs(space['cost_center_id'],
-                                                                                        energy_category_id,
-                                                                                        reporting_start_datetime_utc,
-                                                                                        reporting_end_datetime_utc)
-                    tariff_timestamp_list = list()
-                    tariff_value_list = list()
-                    for k, v in energy_category_tariff_dict.items():
-                        # convert k from utc to local
-                        k = k + timedelta(minutes=timezone_offset)
-                        tariff_timestamp_list.append(k.isoformat()[0:19])
-                        tariff_value_list.append(v)
-
-                    parameters_data['names'].append(_('Tariff') + '-'
-                                                    + energy_category_dict[energy_category_id]['name'])
-                    parameters_data['timestamps'].append(tariff_timestamp_list)
-                    parameters_data['values'].append(tariff_value_list)
-
-        ################################################################################################################
-        # Step 11: query associated sensors and points data
-        ################################################################################################################
-        if not is_quick_mode:
-            for point in point_list:
-                point_values = []
-                point_timestamps = []
-                if point['object_type'] == 'ENERGY_VALUE':
-                    query = (" SELECT utc_date_time, actual_value "
-                             " FROM tbl_energy_value "
-                             " WHERE point_id = %s "
-                             "       AND utc_date_time BETWEEN %s AND %s "
-                             " ORDER BY utc_date_time ")
-                    cursor_historical.execute(query, (point['id'],
-                                                      reporting_start_datetime_utc,
-                                                      reporting_end_datetime_utc))
-                    rows = cursor_historical.fetchall()
-
-                    if rows is not None and len(rows) > 0:
+                ##################################################################################################
+                # Step 8: query base period energy input
+                ##################################################################################################
+                base = dict()
+                base['non_working_days'] = list()
+                if energy_category_set is not None and len(energy_category_set) > 0:
+                    if base_start_datetime_utc is not None and base_end_datetime_utc is not None:
+                        cursor_system.execute(" SELECT nwd.date_local "
+                                              " FROM tbl_spaces sp, tbl_spaces_working_calendars spwc, "
+                                              "      tbl_working_calendars_non_working_days nwd "
+                                              " WHERE sp.id = %s AND "
+                                              "       sp.id = spwc.space_id AND "
+                                              "       spwc.working_calendar_id = nwd.working_calendar_id AND"
+                                              "       nwd.date_local >= %s AND"
+                                              "       nwd.date_local <= %s ",
+                                              (space['id'],
+                                               base_start_datetime_non_working_day,
+                                               base_end_datetime_non_working_day))
+                        rows = cursor_system.fetchall()
                         for row in rows:
-                            current_datetime_local = row[0].replace(tzinfo=timezone.utc) + \
+                            row_datetime = row[0].isoformat()[0:10]
+                            base['non_working_days'].append(row_datetime)
+                    for energy_category_id in energy_category_set:
+                        kgce = energy_category_dict[energy_category_id]['kgce']
+                        kgco2e = energy_category_dict[energy_category_id]['kgco2e']
+
+                        base[energy_category_id] = dict()
+                        base[energy_category_id]['timestamps'] = list()
+                        base[energy_category_id]['values'] = list()
+                        base[energy_category_id]['subtotal'] = Decimal(0.0)
+                        base[energy_category_id]['subtotal_in_kgce'] = Decimal(0.0)
+                        base[energy_category_id]['subtotal_in_kgco2e'] = Decimal(0.0)
+                        base[energy_category_id]['non_working_days_subtotal'] = Decimal(0.0)
+                        base[energy_category_id]['working_days_subtotal'] = Decimal(0.0)
+
+                        cursor_energy.execute(" SELECT start_datetime_utc, actual_value "
+                                              " FROM tbl_space_input_category_hourly "
+                                              " WHERE space_id = %s "
+                                              "     AND energy_category_id = %s "
+                                              "     AND start_datetime_utc >= %s "
+                                              "     AND start_datetime_utc < %s "
+                                              " ORDER BY start_datetime_utc ",
+                                              (space['id'],
+                                               energy_category_id,
+                                               base_start_datetime_utc,
+                                               base_end_datetime_utc))
+                        rows_space_hourly = cursor_energy.fetchall()
+
+                        rows_space_periodically = utilities.aggregate_hourly_data_by_period(rows_space_hourly,
+                                                                                            base_start_datetime_utc,
+                                                                                            base_end_datetime_utc,
+                                                                                            period_type)
+                        for row_space_periodically in rows_space_periodically:
+                            current_datetime_local = row_space_periodically[0].replace(tzinfo=timezone.utc) + \
                                                      timedelta(minutes=timezone_offset)
-                            current_datetime = current_datetime_local.isoformat()[0:19]
-                            point_timestamps.append(current_datetime)
-                            point_values.append(row[1])
-                elif point['object_type'] == 'ANALOG_VALUE':
-                    query = (" SELECT utc_date_time, actual_value "
-                             " FROM tbl_analog_value "
-                             " WHERE point_id = %s "
-                             "       AND utc_date_time BETWEEN %s AND %s "
-                             " ORDER BY utc_date_time ")
-                    cursor_historical.execute(query, (point['id'],
-                                                      reporting_start_datetime_utc,
-                                                      reporting_end_datetime_utc))
-                    rows = cursor_historical.fetchall()
+                            if period_type == 'hourly':
+                                current_datetime = current_datetime_local.isoformat()[0:19]
+                            elif period_type == 'daily':
+                                current_datetime = current_datetime_local.isoformat()[0:10]
+                            elif period_type == 'weekly':
+                                current_datetime = current_datetime_local.isoformat()[0:10]
+                            elif period_type == 'monthly':
+                                current_datetime = current_datetime_local.isoformat()[0:7]
+                            elif period_type == 'yearly':
+                                current_datetime = current_datetime_local.isoformat()[0:4]
 
-                    if rows is not None and len(rows) > 0:
-                        for row in rows:
-                            current_datetime_local = row[0].replace(tzinfo=timezone.utc) + \
+                            actual_value = Decimal(0.0) if row_space_periodically[1] is None \
+                                else row_space_periodically[1]
+                            base[energy_category_id]['timestamps'].append(current_datetime)
+                            base[energy_category_id]['values'].append(actual_value)
+                            base[energy_category_id]['subtotal'] += actual_value
+                            base[energy_category_id]['subtotal_in_kgce'] += actual_value * kgce
+                            base[energy_category_id]['subtotal_in_kgco2e'] += actual_value * kgco2e
+                            if current_datetime in base['non_working_days']:
+                                base[energy_category_id]['non_working_days_subtotal'] += actual_value
+                            else:
+                                base[energy_category_id]['working_days_subtotal'] += actual_value
+
+                ####################################################################################################
+                # Step 9: query reporting period energy input
+                ####################################################################################################
+                reporting = dict()
+                reporting['non_working_days'] = list()
+                if energy_category_set is not None and len(energy_category_set) > 0:
+                    cursor_system.execute(" SELECT nwd.date_local "
+                                          " FROM tbl_spaces sp, tbl_spaces_working_calendars spwc, "
+                                          " tbl_working_calendars_non_working_days nwd "
+                                          " WHERE sp.id = %s AND "
+                                          " sp.id = spwc.space_id AND "
+                                          " spwc.working_calendar_id = nwd.working_calendar_id AND"
+                                          " nwd.date_local >= %s AND"
+                                          " nwd.date_local <= %s ",
+                                          (space['id'],
+                                           reporting_start_datetime_non_working_day,
+                                           reporting_end_datetime_non_working_day))
+                    rows = cursor_system.fetchall()
+                    for row in rows:
+                        row_datetime = row[0].isoformat()[0:10]
+                        reporting['non_working_days'].append(row_datetime)
+                    for energy_category_id in energy_category_set:
+                        kgce = energy_category_dict[energy_category_id]['kgce']
+                        kgco2e = energy_category_dict[energy_category_id]['kgco2e']
+
+                        reporting[energy_category_id] = dict()
+                        reporting[energy_category_id]['timestamps'] = list()
+                        reporting[energy_category_id]['values'] = list()
+                        reporting[energy_category_id]['subtotal'] = Decimal(0.0)
+                        reporting[energy_category_id]['subtotal_in_kgce'] = Decimal(0.0)
+                        reporting[energy_category_id]['subtotal_in_kgco2e'] = Decimal(0.0)
+                        reporting[energy_category_id]['toppeak'] = Decimal(0.0)
+                        reporting[energy_category_id]['onpeak'] = Decimal(0.0)
+                        reporting[energy_category_id]['midpeak'] = Decimal(0.0)
+                        reporting[energy_category_id]['offpeak'] = Decimal(0.0)
+                        reporting[energy_category_id]['deep'] = Decimal(0.0)
+                        reporting[energy_category_id]['non_working_days_subtotal'] = Decimal(0.0)
+                        reporting[energy_category_id]['working_days_subtotal'] = Decimal(0.0)
+
+                        cursor_energy.execute(" SELECT start_datetime_utc, actual_value "
+                                              " FROM tbl_space_input_category_hourly "
+                                              " WHERE space_id = %s "
+                                              "     AND energy_category_id = %s "
+                                              "     AND start_datetime_utc >= %s "
+                                              "     AND start_datetime_utc < %s "
+                                              " ORDER BY start_datetime_utc ",
+                                              (space['id'],
+                                               energy_category_id,
+                                               reporting_start_datetime_utc,
+                                               reporting_end_datetime_utc))
+                        rows_space_hourly = cursor_energy.fetchall()
+
+                        rows_space_periodically = utilities.aggregate_hourly_data_by_period(
+                            rows_space_hourly,
+                            reporting_start_datetime_utc,
+                            reporting_end_datetime_utc,
+                            period_type)
+                        for row_space_periodically in rows_space_periodically:
+                            current_datetime_local = row_space_periodically[0].replace(tzinfo=timezone.utc) + \
                                                      timedelta(minutes=timezone_offset)
-                            current_datetime = current_datetime_local.isoformat()[0:19]
-                            point_timestamps.append(current_datetime)
-                            point_values.append(row[1])
-                elif point['object_type'] == 'DIGITAL_VALUE':
-                    query = (" SELECT utc_date_time, actual_value "
-                             " FROM tbl_digital_value "
-                             " WHERE point_id = %s "
-                             "       AND utc_date_time BETWEEN %s AND %s "
-                             " ORDER BY utc_date_time ")
-                    cursor_historical.execute(query, (point['id'],
-                                                      reporting_start_datetime_utc,
-                                                      reporting_end_datetime_utc))
-                    rows = cursor_historical.fetchall()
+                            if period_type == 'hourly':
+                                current_datetime = current_datetime_local.isoformat()[0:19]
+                            elif period_type == 'daily':
+                                current_datetime = current_datetime_local.isoformat()[0:10]
+                            elif period_type == 'weekly':
+                                current_datetime = current_datetime_local.isoformat()[0:10]
+                            elif period_type == 'monthly':
+                                current_datetime = current_datetime_local.isoformat()[0:7]
+                            elif period_type == 'yearly':
+                                current_datetime = current_datetime_local.isoformat()[0:4]
 
-                    if rows is not None and len(rows) > 0:
-                        for row in rows:
-                            current_datetime_local = row[0].replace(tzinfo=timezone.utc) + \
-                                                     timedelta(minutes=timezone_offset)
-                            current_datetime = current_datetime_local.isoformat()[0:19]
-                            point_timestamps.append(current_datetime)
-                            point_values.append(row[1])
+                            actual_value = Decimal(0.0) if row_space_periodically[1] is None \
+                                else row_space_periodically[1]
+                            reporting[energy_category_id]['timestamps'].append(current_datetime)
+                            reporting[energy_category_id]['values'].append(actual_value)
+                            reporting[energy_category_id]['subtotal'] += actual_value
+                            reporting[energy_category_id]['subtotal_in_kgce'] += actual_value * kgce
+                            reporting[energy_category_id]['subtotal_in_kgco2e'] += actual_value * kgco2e
+                            if current_datetime in reporting['non_working_days']:
+                                reporting[energy_category_id]['non_working_days_subtotal'] += actual_value
+                            else:
+                                reporting[energy_category_id]['working_days_subtotal'] += actual_value
 
-                parameters_data['names'].append(point['name'] + ' (' + point['units'] + ')')
-                parameters_data['timestamps'].append(point_timestamps)
-                parameters_data['values'].append(point_values)
+                        energy_category_tariff_dict = utilities.get_energy_category_peak_types(
+                            space['cost_center_id'],
+                            energy_category_id,
+                            reporting_start_datetime_utc,
+                            reporting_end_datetime_utc)
+                        for row in rows_space_hourly:
+                            peak_type = energy_category_tariff_dict.get(row[0], None)
+                            if peak_type == 'toppeak':
+                                reporting[energy_category_id]['toppeak'] += row[1]
+                            elif peak_type == 'onpeak':
+                                reporting[energy_category_id]['onpeak'] += row[1]
+                            elif peak_type == 'midpeak':
+                                reporting[energy_category_id]['midpeak'] += row[1]
+                            elif peak_type == 'offpeak':
+                                reporting[energy_category_id]['offpeak'] += row[1]
+                            elif peak_type == 'deep':
+                                reporting[energy_category_id]['deep'] += row[1]
+                ################################################################################################
+                # Step 10: query tariff data
+                ################################################################################################
+                parameters_data = dict()
+                parameters_data['names'] = list()
+                parameters_data['timestamps'] = list()
+                parameters_data['values'] = list()
+                if config.is_tariff_appended and not is_quick_mode:
+                    if energy_category_set is not None and len(energy_category_set) > 0:
+                        for energy_category_id in energy_category_set:
+                            energy_category_tariff_dict = utilities.get_energy_category_tariffs(
+                                space['cost_center_id'],
+                                energy_category_id,
+                                reporting_start_datetime_utc,
+                                reporting_end_datetime_utc)
+                            tariff_timestamp_list = list()
+                            tariff_value_list = list()
+                            for k, v in energy_category_tariff_dict.items():
+                                # convert k from utc to local
+                                k = k + timedelta(minutes=timezone_offset)
+                                tariff_timestamp_list.append(k.isoformat()[0:19])
+                                tariff_value_list.append(v)
 
-        ################################################################################################################
-        # Step 12: query child spaces energy input
-        ################################################################################################################
-        child_space_data = dict()
+                            parameters_data['names'].append(_('Tariff') + '-'
+                                                            + energy_category_dict[energy_category_id]['name'])
+                            parameters_data['timestamps'].append(tariff_timestamp_list)
+                            parameters_data['values'].append(tariff_value_list)
 
-        if energy_category_set is not None and len(energy_category_set) > 0:
-            for energy_category_id in energy_category_set:
-                child_space_data[energy_category_id] = dict()
-                child_space_data[energy_category_id]['child_space_names'] = list()
-                child_space_data[energy_category_id]['subtotals'] = list()
-                child_space_data[energy_category_id]['subtotals_in_kgce'] = list()
-                child_space_data[energy_category_id]['subtotals_in_kgco2e'] = list()
-                kgce = energy_category_dict[energy_category_id]['kgce']
-                kgco2e = energy_category_dict[energy_category_id]['kgco2e']
-                for child_space in child_space_list:
-                    child_space_data[energy_category_id]['child_space_names'].append(child_space['name'])
+                ####################################################################################################
+                # Step 11: query associated sensors and points data
+                ####################################################################################################
+                if not is_quick_mode:
+                    for point in point_list:
+                        point_values = []
+                        point_timestamps = []
+                        if point['object_type'] == 'ENERGY_VALUE':
+                            query = (" SELECT utc_date_time, actual_value "
+                                     " FROM tbl_energy_value "
+                                     " WHERE point_id = %s "
+                                     "       AND utc_date_time BETWEEN %s AND %s "
+                                     " ORDER BY utc_date_time ")
+                            cursor_historical.execute(query, (point['id'],
+                                                              reporting_start_datetime_utc,
+                                                              reporting_end_datetime_utc))
+                            rows = cursor_historical.fetchall()
 
-                    cursor_energy.execute(" SELECT SUM(actual_value) "
-                                          " FROM tbl_space_input_category_hourly "
-                                          " WHERE space_id = %s "
-                                          "     AND energy_category_id = %s "
-                                          "     AND start_datetime_utc >= %s "
-                                          "     AND start_datetime_utc < %s ",
-                                          (child_space['id'],
-                                           energy_category_id,
-                                           reporting_start_datetime_utc,
-                                           reporting_end_datetime_utc))
-                    row_subtotal = cursor_energy.fetchone()
+                            if rows is not None and len(rows) > 0:
+                                for row in rows:
+                                    current_datetime_local = row[0].replace(tzinfo=timezone.utc) + \
+                                                             timedelta(minutes=timezone_offset)
+                                    current_datetime = current_datetime_local.isoformat()[0:19]
+                                    point_timestamps.append(current_datetime)
+                                    point_values.append(row[1])
+                        elif point['object_type'] == 'ANALOG_VALUE':
+                            query = (" SELECT utc_date_time, actual_value "
+                                     " FROM tbl_analog_value "
+                                     " WHERE point_id = %s "
+                                     "       AND utc_date_time BETWEEN %s AND %s "
+                                     " ORDER BY utc_date_time ")
+                            cursor_historical.execute(query, (point['id'],
+                                                              reporting_start_datetime_utc,
+                                                              reporting_end_datetime_utc))
+                            rows = cursor_historical.fetchall()
 
-                    subtotal = Decimal(0.0) if (row_subtotal is None or row_subtotal[0] is None) else row_subtotal[0]
-                    child_space_data[energy_category_id]['subtotals'].append(subtotal)
-                    child_space_data[energy_category_id]['subtotals_in_kgce'].append(subtotal * kgce)
-                    child_space_data[energy_category_id]['subtotals_in_kgco2e'].append(subtotal * kgco2e)
+                            if rows is not None and len(rows) > 0:
+                                for row in rows:
+                                    current_datetime_local = row[0].replace(tzinfo=timezone.utc) + \
+                                                             timedelta(minutes=timezone_offset)
+                                    current_datetime = current_datetime_local.isoformat()[0:19]
+                                    point_timestamps.append(current_datetime)
+                                    point_values.append(row[1])
+                        elif point['object_type'] == 'DIGITAL_VALUE':
+                            query = (" SELECT utc_date_time, actual_value "
+                                     " FROM tbl_digital_value "
+                                     " WHERE point_id = %s "
+                                     "       AND utc_date_time BETWEEN %s AND %s "
+                                     " ORDER BY utc_date_time ")
+                            cursor_historical.execute(query, (point['id'],
+                                                              reporting_start_datetime_utc,
+                                                              reporting_end_datetime_utc))
+                            rows = cursor_historical.fetchall()
+
+                            if rows is not None and len(rows) > 0:
+                                for row in rows:
+                                    current_datetime_local = row[0].replace(tzinfo=timezone.utc) + \
+                                                             timedelta(minutes=timezone_offset)
+                                    current_datetime = current_datetime_local.isoformat()[0:19]
+                                    point_timestamps.append(current_datetime)
+                                    point_values.append(row[1])
+
+                        parameters_data['names'].append(point['name'] + ' (' + point['units'] + ')')
+                        parameters_data['timestamps'].append(point_timestamps)
+                        parameters_data['values'].append(point_values)
+
+                ###########################################################################################
+                # Step 12: query child spaces energy input
+                ###########################################################################################
+                child_space_data = dict()
+
+                if energy_category_set is not None and len(energy_category_set) > 0:
+                    for energy_category_id in energy_category_set:
+                        child_space_data[energy_category_id] = dict()
+                        child_space_data[energy_category_id]['child_space_names'] = list()
+                        child_space_data[energy_category_id]['subtotals'] = list()
+                        child_space_data[energy_category_id]['subtotals_in_kgce'] = list()
+                        child_space_data[energy_category_id]['subtotals_in_kgco2e'] = list()
+                        kgce = energy_category_dict[energy_category_id]['kgce']
+                        kgco2e = energy_category_dict[energy_category_id]['kgco2e']
+                        for child_space in child_space_list:
+                            child_space_data[energy_category_id]['child_space_names'].append(child_space['name'])
+
+                            cursor_energy.execute(" SELECT SUM(actual_value) "
+                                                  " FROM tbl_space_input_category_hourly "
+                                                  " WHERE space_id = %s "
+                                                  "     AND energy_category_id = %s "
+                                                  "     AND start_datetime_utc >= %s "
+                                                  "     AND start_datetime_utc < %s ",
+                                                  (child_space['id'],
+                                                   energy_category_id,
+                                                   reporting_start_datetime_utc,
+                                                   reporting_end_datetime_utc))
+                            row_subtotal = cursor_energy.fetchone()
+
+                            subtotal = Decimal(0.0) if (row_subtotal is None or row_subtotal[0] is None) \
+                                else row_subtotal[0]
+                            child_space_data[energy_category_id]['subtotals'].append(subtotal)
+                            child_space_data[energy_category_id]['subtotals_in_kgce'].append(subtotal * kgce)
+                            child_space_data[energy_category_id]['subtotals_in_kgco2e'].append(subtotal * kgco2e)
+
+            finally:
+                if cursor_system:
+                    cursor_system.close()
+                if cursor_energy:
+                    cursor_energy.close()
+                if cursor_historical:
+                    cursor_historical.close()
+
+        finally:
+            if cnx_system:
+                cnx_system.close()
+            if cnx_energy:
+                cnx_energy.close()
+            if cnx_historical:
+                cnx_historical.close()
 
         ################################################################################################################
         # Step 13: construct the report
         ################################################################################################################
-        if cursor_system:
-            cursor_system.close()
-        if cnx_system:
-            cnx_system.close()
-
-        if cursor_energy:
-            cursor_energy.close()
-        if cnx_energy:
-            cnx_energy.close()
-
-        if cursor_historical:
-            cursor_historical.close()
-        if cnx_historical:
-            cnx_historical.close()
-
         result = dict()
 
         result['space'] = dict()
