@@ -136,6 +136,10 @@
         PHOTOVOLTAIC_POWER_STATION: "สถานีไฟฟ้าโซลาร์เซลล์",
         WIND_FARM: "ฟาร์มกังหันลม",
         SVG: "SVG",
+        FIRST: "หน้าแรก",
+        PREVIOUS: "ก่อนหน้า",
+        NEXT: "ถัดไป",
+        LAST: "หน้าสุดท้าย",
       },
       FDD: {
         ID: "ID",

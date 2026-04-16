@@ -135,6 +135,10 @@
         PHOTOVOLTAIC_POWER_STATION: "Фотоэлектрическая электростанция",
         WIND_FARM: "Ветроэлектростанция",
         SVG: "SVG",
+        FIRST: "Первая",
+        PREVIOUS: "Предыдущая",
+        NEXT: "Следующая",
+        LAST: "Последняя",
       },
       FDD: {
         ID: "ID",

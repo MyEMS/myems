@@ -136,6 +136,10 @@
         PHOTOVOLTAIC_POWER_STATION: "태양광 발전소",
         WIND_FARM: "풍력 발전 단지",
         SVG: "SVG",
+        FIRST: "처음",
+        PREVIOUS: "이전",
+        NEXT: "다음",
+        LAST: "마지막",
       },
       FDD: {
         ID: "ID",

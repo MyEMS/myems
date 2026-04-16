@@ -136,6 +136,10 @@
         PHOTOVOLTAIC_POWER_STATION: "Station Kuasa Fotovoltaic",
         WIND_FARM: "Peternakan Angin",
         SVG: "SVG",
+        FIRST: "Pertama",
+        PREVIOUS: "Sebelumnya",
+        NEXT: "Seterusnya",
+        LAST: "Terakhir",
       },
       FDD: {
         ID: "ID",

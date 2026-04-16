@@ -22,9 +22,13 @@ app.controller('LoginController', function (
 	$scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
 	// login section start
 	$scope.login = function (user, captcha, captchaText, refreshCaptcha) {
-		if(captcha.toLowerCase() !== captchaText.toLowerCase()){
+		const captchaValue = (captcha || '').toString();
+		const captchaTextValue = (captchaText || '').toString();
+		if (captchaValue.toLowerCase() !== captchaTextValue.toLowerCase()) {
 			$scope.captcha = '';
-			refreshCaptcha();
+			if (typeof refreshCaptcha === 'function') {
+				refreshCaptcha();
+			}
 			toaster.pop({
 				type: "error",
 				title: $translate.instant('TOASTER.CAPTCHA_ERROR'),
@@ -108,8 +112,9 @@ app.controller('LoginController', function (
 	};
 
 	$scope.onKeypress = function ($event) {
-		if ($event.charCode == 13) {
-			$scope.login($scope.user);
+		const keyCode = $event && ($event.which || $event.keyCode || $event.charCode);
+		if (keyCode == 13) {
+			$scope.login($scope.user, $scope.captcha, $scope.captchaText, $scope.refreshCaptcha);
 		}
 	};
 

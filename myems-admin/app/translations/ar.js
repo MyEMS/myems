@@ -136,6 +136,10 @@
         PHOTOVOLTAIC_POWER_STATION: "محطة الطاقة الضوئية",
         WIND_FARM: "مزرعة الرياح",
         SVG: "SVG",
+        FIRST: "الأول",
+        PREVIOUS: "السابق",
+        NEXT: "التالي",
+        LAST: "الأخير",
       },
       FDD: {
         ID: "معرف",

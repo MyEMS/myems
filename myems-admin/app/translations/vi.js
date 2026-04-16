@@ -136,6 +136,10 @@
         PHOTOVOLTAIC_POWER_STATION: "Nhà máy điện PV",
         WIND_FARM: "Trang trại gió",
         SVG: "SVG",
+        FIRST: "Đầu",
+        PREVIOUS: "Trước",
+        NEXT: "Tiếp",
+        LAST: "Cuối",
       },
       FDD: {
         ID: "ID",

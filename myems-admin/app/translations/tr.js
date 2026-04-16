@@ -136,6 +136,10 @@
         PHOTOVOLTAIC_POWER_STATION: "Fotovoltaik Güç İstasyonu",
         WIND_FARM: "Rüzgar Çiftliği",
         SVG: "SVG",
+        FIRST: "İlk",
+        PREVIOUS: "Önceki",
+        NEXT: "Sonraki",
+        LAST: "Son",
       },
       FDD: {
         ID: "ID",
