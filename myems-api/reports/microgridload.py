@@ -138,9 +138,9 @@ class Reporting:
             rows_load_hourly = cursor_energy_db.fetchall()
 
             rows_load_periodically = utilities.aggregate_hourly_data_by_period(rows_load_hourly,
-                                                                                    start_datetime_utc,
-                                                                                    end_datetime_utc,
-                                                                                    period_type)
+                                                                               start_datetime_utc,
+                                                                               end_datetime_utc,
+                                                                               period_type)
             for row_load_periodically in rows_load_periodically:
                 current_datetime_local = row_load_periodically[0].replace(tzinfo=timezone.utc) + \
                                          timedelta(minutes=timezone_offset)
@@ -191,9 +191,9 @@ class Reporting:
             rows_load_hourly = cursor_energy_db.fetchall()
 
             rows_load_periodically = utilities.aggregate_hourly_data_by_period(rows_load_hourly,
-                                                                                    start_datetime_utc,
-                                                                                    end_datetime_utc,
-                                                                                    period_type)
+                                                                               start_datetime_utc,
+                                                                               end_datetime_utc,
+                                                                               period_type)
 
             for row_load_periodically in rows_load_periodically:
                 current_datetime_local = row_load_periodically[0].replace(tzinfo=timezone.utc) + \
@@ -245,9 +245,9 @@ class Reporting:
             rows_load_hourly = cursor_energy_db.fetchall()
 
             rows_load_periodically = utilities.aggregate_hourly_data_by_period(rows_load_hourly,
-                                                                                    start_datetime_utc,
-                                                                                    end_datetime_utc,
-                                                                                    period_type)
+                                                                               start_datetime_utc,
+                                                                               end_datetime_utc,
+                                                                               period_type)
             for row_load_periodically in rows_load_periodically:
                 current_datetime_local = row_load_periodically[0].replace(tzinfo=timezone.utc) + \
                                          timedelta(minutes=timezone_offset)

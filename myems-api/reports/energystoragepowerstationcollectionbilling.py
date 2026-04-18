@@ -226,7 +226,8 @@ class Reporting:
                              " AND start_datetime_utc >= %s "
                              " AND start_datetime_utc < %s "
                              " ORDER BY start_datetime_utc ")
-                    cursor_billing_db.execute(query, (energy_storage_power_station['id'], start_datetime_utc, end_datetime_utc))
+                    cursor_billing_db.execute(query, (energy_storage_power_station['id'], start_datetime_utc,
+                                                      end_datetime_utc))
                     rows_charge_hourly = cursor_billing_db.fetchall()
 
                     rows_charge_periodically = utilities.aggregate_hourly_data_by_period(rows_charge_hourly,
@@ -248,7 +249,8 @@ class Reporting:
                         elif period_type == 'yearly':
                             current_datetime = current_datetime_local.isoformat()[0:4]
 
-                        actual_value = Decimal(0.0) if row_charge_periodically[1] is None else row_charge_periodically[1]
+                        actual_value = Decimal(0.0) if row_charge_periodically[1] is None \
+                            else row_charge_periodically[1]
                         timestamps.append(current_datetime)
                         values.append(actual_value)
                     reporting['discharge_7_days']['timestamps_array'].append(timestamps)
@@ -303,7 +305,8 @@ class Reporting:
                         elif period_type == 'yearly':
                             current_datetime = current_datetime_local.isoformat()[0:4]
 
-                        actual_value = Decimal(0.0) if row_charge_periodically[1] is None else row_charge_periodically[1]
+                        actual_value = Decimal(0.0) if row_charge_periodically[1] is None \
+                            else row_charge_periodically[1]
                         timestamps.append(current_datetime)
                         values.append(actual_value)
                     reporting['charge_this_month']['timestamps_array'].append(timestamps)
