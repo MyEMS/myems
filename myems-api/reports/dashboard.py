@@ -137,7 +137,7 @@ class Reporting:
             reporting_period_start_datetime_local = str.strip(reporting_period_start_datetime_local)
             try:
                 reporting_start_datetime_local = datetime.strptime(reporting_period_start_datetime_local,
-                                                                 '%Y-%m-%dT%H:%M:%S')
+                                                                   '%Y-%m-%dT%H:%M:%S')
             except ValueError:
                 raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                        description="API.INVALID_REPORTING_PERIOD_START_DATETIME")
@@ -176,9 +176,12 @@ class Reporting:
         cache_material = {
             'useruuid': user_uuid,
             'base_start_utc': base_start_datetime_utc.isoformat() if base_start_datetime_utc is not None else None,
-            'base_end_utc': base_end_datetime_utc_cache.isoformat() if base_end_datetime_utc_cache is not None else None,
-            'reporting_start_utc': reporting_start_datetime_utc.isoformat() if reporting_start_datetime_utc is not None else None,
-            'reporting_end_utc': reporting_end_datetime_utc_cache.isoformat() if reporting_end_datetime_utc_cache is not None else None,
+            'base_end_utc':
+                base_end_datetime_utc_cache.isoformat() if base_end_datetime_utc_cache is not None else None,
+            'reporting_start_utc':
+                reporting_start_datetime_utc.isoformat() if reporting_start_datetime_utc is not None else None,
+            'reporting_end_utc':
+                reporting_end_datetime_utc_cache.isoformat() if reporting_end_datetime_utc_cache is not None else None,
         }
         cache_key_hash = hashlib.md5(json.dumps(cache_material, sort_keys=True).encode('utf-8')).hexdigest()
         cache_key = f'dashboard:report:{cache_key_hash}'

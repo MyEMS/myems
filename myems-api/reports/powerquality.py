@@ -263,6 +263,7 @@ class Reporting:
             std = variance ** 0.5
             # percentiles
             sorted_vals = sorted(values)
+
             def _percentile(p):
                 if n == 1:
                     return sorted_vals[0]

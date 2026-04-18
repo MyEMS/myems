@@ -136,6 +136,10 @@
         PHOTOVOLTAIC_POWER_STATION: "光伏電站",
         WIND_FARM: "風電場",
         SVG: "SVG",
+        FIRST: "首頁",
+        PREVIOUS: "上一頁",
+        NEXT: "下一頁",
+        LAST: "末頁",
       },
       FDD: {
         ID: "ID",

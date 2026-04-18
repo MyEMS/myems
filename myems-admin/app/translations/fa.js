@@ -136,6 +136,10 @@
         PHOTOVOLTAIC_POWER_STATION: "نیروگاه فتوولتائیک",
         WIND_FARM: "مزرعه بادی",
         SVG: "SVG",
+        FIRST: "اول",
+        PREVIOUS: "قبلی",
+        NEXT: "بعدی",
+        LAST: "آخر",
       },
       FDD: {
         ID: "شناسه",

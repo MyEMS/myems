@@ -101,7 +101,6 @@ class Reporting:
                     description='API.INVALID_DATA_SOURCE_ID'
                 )
 
-
         cnx_historical = mysql.connector.connect(**config.myems_historical_db)
         cursor_historical = cnx_historical.cursor()
 

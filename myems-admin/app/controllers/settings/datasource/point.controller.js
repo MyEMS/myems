@@ -14,6 +14,33 @@ app.controller('PointController', function(
 	$scope.exportdata = '';
 	$scope.importdata = '';
 
+	// pagination for points table
+	$scope.points = [];
+	$scope.pagedPoints = [];
+	$scope.pointPagination = {
+		currentPage: 1,
+		itemsPerPage: 15,
+		totalItems: 0,
+		maxSize: 7
+	};
+
+	$scope.updatePagedPoints = function () {
+		const pointsArray = Array.isArray($scope.points) ? $scope.points : [];
+		$scope.pointPagination.totalItems = pointsArray.length;
+		const totalPages = Math.max(1, Math.ceil($scope.pointPagination.totalItems / $scope.pointPagination.itemsPerPage));
+		if ($scope.pointPagination.currentPage > totalPages) {
+			$scope.pointPagination.currentPage = totalPages;
+		}
+		const start = ($scope.pointPagination.currentPage - 1) * $scope.pointPagination.itemsPerPage;
+		const end = start + $scope.pointPagination.itemsPerPage;
+		// slice in a defensive way to avoid issues if data isn't a real Array
+		$scope.pagedPoints = Array.prototype.slice.call(pointsArray, start, end);
+	};
+
+	$scope.pageChanged = function () {
+		$scope.updatePagedPoints();
+	};
+
 	$scope.getAllDataSources = function() {
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 		DataSourceService.getAllDataSources(headers, function (response) {
@@ -50,9 +77,13 @@ app.controller('PointController', function(
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 		PointService.getPointsByDataSourceID(id, headers, function (response) {
 			if (angular.isDefined(response.status) && response.status === 200) {
-				$scope.points = response.data;
+				$scope.points = Array.isArray(response.data) ? response.data : [];
+				$scope.pointPagination.currentPage = 1;
+				$scope.updatePagedPoints();
 			} else {
 				$scope.points = [];
+				$scope.pointPagination.currentPage = 1;
+				$scope.updatePagedPoints();
 			}
 		});
 
@@ -61,6 +92,7 @@ app.controller('PointController', function(
 
 	$scope.changeDataSource = function(item, model) {
 		$scope.currentDataSource = model;
+		$scope.pointPagination.currentPage = 1;
 		$scope.getPointsByDataSourceID($scope.currentDataSource);
 	};
 
@@ -271,6 +303,10 @@ app.controller('PointController', function(
 	$scope.getAllDataSources();
 	$scope.$on("handleBroadcastDataSourceChanged", function(event) {
 		$scope.getAllDataSources();
+	});
+
+	$scope.$watchGroup(['pointPagination.currentPage', 'pointPagination.itemsPerPage'], function () {
+		$scope.updatePagedPoints();
 	});
 
 });

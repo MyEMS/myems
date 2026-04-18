@@ -17,6 +17,37 @@ app
                     }
                 }
               });
+
+            // Reset scroll position after page navigation
+            $transitions.onSuccess({}, function () {
+                // Use rAF so DOM/UI has applied the new view
+                const resetScroll = function () {
+                    try {
+                        $window.scrollTo(0, 0);
+                        if ($window.document && $window.document.body) {
+                            $window.document.body.scrollTop = 0;
+                        }
+                        if ($window.document && $window.document.documentElement) {
+                            $window.document.documentElement.scrollTop = 0;
+                        }
+                        const pageWrapper = $window.document && $window.document.getElementById('page-wrapper');
+                        if (pageWrapper) {
+                            pageWrapper.scrollTop = 0;
+                        }
+                    } catch (e) {
+                        // ignore
+                    }
+                };
+
+                if (typeof $window.requestAnimationFrame === 'function') {
+                    $window.requestAnimationFrame(function () {
+                        resetScroll();
+                        $window.requestAnimationFrame(resetScroll);
+                    });
+                } else {
+                    $window.setTimeout(resetScroll, 0);
+                }
+            });
         }
     ])
     .config(

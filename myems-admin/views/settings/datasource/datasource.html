@@ -18,7 +18,7 @@
 										   ng-keyup="searchDataSources()">
 								</div>
 							</div>
-							<table class="footable table table-bordered table-hover" data-sort="true" data-page-size="15">
+							<table class="table table-bordered table-hover" data-sort="true">
 								<thead>
 									<tr>
 										<th class="text-center" data-type="numeric">{{'SETTING.ID' | translate}}</th>
@@ -81,7 +81,7 @@
 								<i class="fa fa-plus-circle"></i> {{'SETTING.IMPORT' | translate}}</a>
 							<br>
 							<br>
-							<table class="footable table table-bordered table-hover" data-sort="true" data-page-size="15">
+							<table class="table table-bordered table-hover">
 								<thead>
 									<tr>
 										<th class="text-center" data-type="numeric">{{'SETTING.ID' | translate}}</th>
@@ -98,7 +98,7 @@
 									</tr>
 								</thead>
 								<tbody>
-									<tr ng-repeat="point in points">
+									<tr ng-repeat="point in pagedPoints">
 										<td class="text-center">{{ point.id }}</td>
 										<td class="text-center">{{ point.name }}</td>
 										<td class="text-center">{{ ('POINT.' + point.object_type) | translate }}</td>
@@ -119,14 +119,26 @@
 										</td>
 									</tr>
 								</tbody>
-								<tfoot class="hide-if-no-paging">
-									<tr>
-										<td colspan="6">
-											<ul class="pagination pull-right"></ul>
-										</td>
-									</tr>
-								</tfoot>
 							</table>
+							<div class="row" ng-if="pointPagination.totalItems > pointPagination.itemsPerPage">
+								<div class="col-sm-12 text-right">
+									<uib-pagination
+										total-items="pointPagination.totalItems"
+										ng-model="pointPagination.currentPage"
+										items-per-page="pointPagination.itemsPerPage"
+										max-size="pointPagination.maxSize"
+										class="pagination-sm"
+										boundary-links="true"
+										direction-links="true"
+										rotate="false"
+										first-text="{{'COMMON.FIRST' | translate}}"
+										previous-text="{{'COMMON.PREVIOUS' | translate}}"
+										next-text="{{'COMMON.NEXT' | translate}}"
+										last-text="{{'COMMON.LAST' | translate}}"
+										ng-change="pageChanged()">
+									</uib-pagination>
+								</div>
+							</div>
 						</div>
 					</uib-tab>
 					<uib-tab heading="{{'SETTING.DATA_REPAIR_FILE' | translate}}">

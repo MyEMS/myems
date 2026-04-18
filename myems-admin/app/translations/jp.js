@@ -136,6 +136,10 @@
         PHOTOVOLTAIC_POWER_STATION: "太陽光発電所",
         WIND_FARM: "風力発電所",
         SVG: "SVG",
+        FIRST: "最初",
+        PREVIOUS: "前へ",
+        NEXT: "次へ",
+        LAST: "最後",
       },
       FDD: {
         ID: "ID",

@@ -136,6 +136,10 @@
         PHOTOVOLTAIC_POWER_STATION: "Elektrownia fotowoltaiczna",
         WIND_FARM: "Farma wiatrowa",
         SVG: "SVG",
+        FIRST: "Pierwsza",
+        PREVIOUS: "Poprzednia",
+        NEXT: "Następna",
+        LAST: "Ostatnia",
       },
       FDD: {
         ID: "ID",

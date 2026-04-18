@@ -9,6 +9,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - added demo data translations in database
 - added space prediction excel exporter in myems-api
 - added equipment prediction report in myems-api
+- added support for logging in with the enter key on the login screen in myems-admin
+- added pagination functionality to the data point table in myems-admin
 ### Changed
 - changed default start_datetime_utc to 2024-12-31 16:00:00 in myems-aggregation, myems-cleaning and myems-normalization
 - split myems-admin/app/translations.js into small files
@@ -16,6 +18,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Fixed
 - fixed issue of package.json in myems-web
 - added try...finally to cnx.close() and cursor.close() in myems-api
+- fixed the issue where the scrollbar did not reset when navigating to a new page in myems-admin
 ### Removed
 - removed the defalut interval_in_seconds from config in myems-modbus-tcp
 

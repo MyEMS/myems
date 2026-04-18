@@ -136,6 +136,10 @@
         PHOTOVOLTAIC_POWER_STATION: "Photovoltaik-Kraftwerk",
         WIND_FARM: "Windpark",
         SVG: "SVG",
+        FIRST: "Erste",
+        PREVIOUS: "Vorherige",
+        NEXT: "Nächste",
+        LAST: "Letzte",
       },
       FDD: {
         ID: "ID",
