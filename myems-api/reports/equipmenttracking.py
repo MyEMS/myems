@@ -30,13 +30,18 @@ The module uses Falcon framework for REST API and includes:
 - User authentication and authorization
 """
 
+import hashlib
+import logging
 import falcon
 import mysql.connector
+import redis
 import simplejson as json
 from anytree import AnyNode, LevelOrderIter
 import config
 import excelexporters.equipmenttracking
 from core.useractivity import access_control, api_key_control
+
+logger = logging.getLogger(__name__)
 
 
 class Reporting:
@@ -87,6 +92,40 @@ class Reporting:
             len(str.strip(quick_mode)) > 0 and \
                 str.lower(str.strip(quick_mode)) in ('true', 't', 'on', 'yes', 'y'):
             is_quick_mode = True
+
+        ############################################################################################################
+        # Redis cache
+        ############################################################################################################
+        cache_key = None
+        cache_expire = 1800  # 30 minutes
+        redis_client = None
+        if config.redis.get('is_enabled'):
+            try:
+                redis_client = redis.Redis(
+                    host=config.redis['host'],
+                    port=config.redis['port'],
+                    password=config.redis.get('password') or None,
+                    db=config.redis['db'],
+                    decode_responses=True,
+                    socket_connect_timeout=2,
+                    socket_timeout=2
+                )
+                redis_client.ping()
+
+                cache_params = {
+                    "spaceid": space_id,
+                    "language": language,
+                    "quick_mode": is_quick_mode,
+                }
+                cache_params_json = json.dumps(cache_params, sort_keys=True)
+                cache_key = 'report:equipmenttracking:' + hashlib.sha256(cache_params_json.encode('utf-8')).hexdigest()
+
+                cached_result = redis_client.get(cache_key)
+                if cached_result:
+                    resp.text = cached_result
+                    return
+            except Exception:
+                redis_client = None
 
         cnx = None
         cursor = None
@@ -165,4 +204,11 @@ class Reporting:
                 excelexporters.equipmenttracking.export(result,
                                                         space_name,
                                                         language)
-        resp.text = json.dumps(result)
+        resp_text = json.dumps(result)
+        resp.text = resp_text
+
+        if config.redis.get('is_enabled') and redis_client is not None and cache_key is not None:
+            try:
+                redis_client.setex(cache_key, cache_expire, resp_text)
+            except Exception:
+                logger.warning("Failed to write cache key %s", cache_key, exc_info=True)
