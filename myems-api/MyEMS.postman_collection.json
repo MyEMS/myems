@@ -38352,7 +38352,243 @@
 						}
 					},
 					"response": []
-				}
+				},
+				{
+				          "name": "Meter Prediction Report",
+				          "request": {
+				            "method": "GET",
+				            "header": [
+				              {
+				                "key": "Token",
+				                "value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+				                "type": "text"
+				              },
+				              {
+				                "key": "User-UUID",
+				                "value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+				                "type": "text"
+				              }
+				            ],
+				            "url": {
+				              "raw": "{{base_url}}/reports/meterprediction?meterid=1&periodtype=daily&baseperiodstartdatetime&baseperiodenddatetime&reportingperiodstartdatetime=2026-04-06T00:00:00&reportingperiodenddatetime=2026-04-13T12:37:41&language=zh_CN",
+				              "host": [
+				                "{{base_url}}"
+				              ],
+				              "path": [
+				                "reports",
+				                "meterprediction"
+				              ],
+				              "query": [
+				                {
+				                  "key": "meterid",
+				                  "value": "1"
+				                },
+				                {
+				                  "key": "periodtype",
+				                  "value": "daily"
+				                },
+				                {
+				                  "key": "baseperiodstartdatetime",
+				                  "value": null
+				                },
+				                {
+				                  "key": "baseperiodenddatetime",
+				                  "value": null
+				                },
+				                {
+				                  "key": "reportingperiodstartdatetime",
+				                  "value": "2026-04-06T00:00:00"
+				                },
+				                {
+				                  "key": "reportingperiodenddatetime",
+				                  "value": "2026-04-13T12:37:41"
+				                },
+				                {
+				                  "key": "language",
+				                  "value": "zh_CN"
+				                }
+				              ]
+				            }
+				          },
+				          "response": []
+				        },
+				        {
+				          "name": "Virtual Meter Prediction Report",
+				          "request": {
+				            "method": "GET",
+				            "header": [
+				              {
+				                "key": "Token",
+				                "value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+				                "type": "text"
+				              },
+				              {
+				                "key": "User-UUID",
+				                "value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+				                "type": "text"
+				              }
+				            ],
+				            "url": {
+				              "raw": "{{base_url}}/reports/virtualmeterprediction?virtualmeterid=1&periodtype=daily&baseperiodstartdatetime&baseperiodenddatetime&reportingperiodstartdatetime=2026-04-06T00:00:00&reportingperiodenddatetime=2026-04-13T12:37:41&language=zh_CN",
+				              "host": [
+				                "{{base_url}}"
+				              ],
+				              "path": [
+				                "reports",
+				                "virtualmeterprediction"
+				              ],
+				              "query": [
+				                {
+				                  "key": "virtualmeterid",
+				                  "value": "1"
+				                },
+				                {
+				                  "key": "periodtype",
+				                  "value": "daily"
+				                },
+				                {
+				                  "key": "baseperiodstartdatetime",
+				                  "value": null
+				                },
+				                {
+				                  "key": "baseperiodenddatetime",
+				                  "value": null
+				                },
+				                {
+				                  "key": "reportingperiodstartdatetime",
+				                  "value": "2026-04-06T00:00:00"
+				                },
+				                {
+				                  "key": "reportingperiodenddatetime",
+				                  "value": "2026-04-13T12:37:41"
+				                },
+				                {
+				                  "key": "language",
+				                  "value": "zh_CN"
+				                }
+				              ]
+				            }
+				          },
+				          "response": []
+				        },
+				        {
+				          "name": "Offline Meter Prediction Report",
+				          "request": {
+				            "method": "GET",
+				            "header": [
+				              {
+				                "key": "Token",
+				                "value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+				                "type": "text"
+				              },
+				              {
+				                "key": "User-UUID",
+				                "value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+				                "type": "text"
+				              }
+				            ],
+				            "url": {
+				              "raw": "{{base_url}}/reports/offlinemeterprediction?offlinemeterid=1&periodtype=daily&baseperiodstartdatetime&baseperiodenddatetime&reportingperiodstartdatetime=2026-04-06T00:00:00&reportingperiodenddatetime=2026-04-13T12:37:41&language=zh_CN",
+				              "host": [
+				                "{{base_url}}"
+				              ],
+				              "path": [
+				                "reports",
+				                "offlinemeterprediction"
+				              ],
+				              "query": [
+				                {
+				                  "key": "offlinemeterid",
+				                  "value": "1"
+				                },
+				                {
+				                  "key": "periodtype",
+				                  "value": "daily"
+				                },
+				                {
+				                  "key": "baseperiodstartdatetime",
+				                  "value": null
+				                },
+				                {
+				                  "key": "baseperiodenddatetime",
+				                  "value": null
+				                },
+				                {
+				                  "key": "reportingperiodstartdatetime",
+				                  "value": "2026-04-06T00:00:00"
+				                },
+				                {
+				                  "key": "reportingperiodenddatetime",
+				                  "value": "2026-04-13T12:37:41"
+				                },
+				                {
+				                  "key": "language",
+				                  "value": "zh_CN"
+				                }
+				              ]
+				            }
+				          },
+				          "response": []
+				        },
+				        {
+				          "name": "Shop Floor Prediction Report",
+				          "request": {
+				            "method": "GET",
+				            "header": [
+				              {
+				                "key": "Token",
+				                "value": "c5f872b51ed40ccf55f1c1d6dbd8cb86eefba5d1010e23b2386bd82be431f3eafc0e3360dee18a5327d9e9852e3cf7caad3b81e252f9f311790c22f7a62a90e1",
+				                "type": "text"
+				              },
+				              {
+				                "key": "User-UUID",
+				                "value": "dcdb67d1-6116-4987-916f-6fc6cf2bc0e4",
+				                "type": "text"
+				              }
+				            ],
+				            "url": {
+				              "raw": "{{base_url}}/reports/shopfloorprediction?shopfloorid=1&periodtype=daily&baseperiodstartdatetime&baseperiodenddatetime&reportingperiodstartdatetime=2026-04-06T00:00:00&reportingperiodenddatetime=2026-04-13T12:37:41&language=zh_CN",
+				              "host": [
+				                "{{base_url}}"
+				              ],
+				              "path": [
+				                "reports",
+				                "shopfloorprediction"
+				              ],
+				              "query": [
+				                {
+				                  "key": "shopfloorid",
+				                  "value": "1"
+				                },
+				                {
+				                  "key": "periodtype",
+				                  "value": "daily"
+				                },
+				                {
+				                  "key": "baseperiodstartdatetime",
+				                  "value": null
+				                },
+				                {
+				                  "key": "baseperiodenddatetime",
+				                  "value": null
+				                },
+				                {
+				                  "key": "reportingperiodstartdatetime",
+				                  "value": "2026-04-06T00:00:00"
+				                },
+				                {
+				                  "key": "reportingperiodenddatetime",
+				                  "value": "2026-04-13T12:37:41"
+				                },
+				                {
+				                  "key": "language",
+				                  "value": "zh_CN"
+				                }
+				              ]
+				            }
+				          },
+				          "response": []
+				        }
 			]
 		},
 		{
