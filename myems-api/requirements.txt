@@ -8,7 +8,7 @@ gunicorn==23.0.0
 et_xmlfile==2.0.0
 jdcal==1.4.1
 openpyxl==3.1.5
-pillow==11.0.0
+pillow==12.2.0
 python-decouple==3.8
 paho-mqtt==2.1.0
 plotly==5.24.0
