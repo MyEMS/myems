@@ -445,14 +445,16 @@ class Reporting:
         # export result to Excel file and then encode the file to base64 string
         if not is_quick_mode:
             result['excel_bytes_base64'] = \
-                excelexporters.virtualmeterprediction.export(result,
-                                                         virtual_meter['name'],
-                                                         base_period_start_datetime_local,
-                                                         base_period_end_datetime_local,
-                                                         reporting_period_start_datetime_local,
-                                                         reporting_period_end_datetime_local,
-                                                         period_type,
-                                                         language)
+                excelexporters.virtualmeterprediction.export(
+                    result,
+                    virtual_meter['name'],
+                    base_period_start_datetime_local,
+                    base_period_end_datetime_local,
+                    reporting_period_start_datetime_local,
+                    reporting_period_end_datetime_local,
+                    period_type,
+                    language
+                )
 
         resp_text = json.dumps(result)
         resp.text = resp_text

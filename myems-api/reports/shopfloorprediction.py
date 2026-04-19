@@ -39,13 +39,11 @@ class Reporting:
     # Step 2: query the shopfloor
     # Step 3: query energy categories
     # Step 4: query associated sensors
-    # Step 5: query associated points
-    # Step 6: query associated working calendars
-    # Step 7: query base period energy input
-    # Step 8: query reporting period energy input
-    # Step 9: query tariff data
-    # Step 10: query associated sensors and points data
-    # Step 11: construct the report
+    # Step 5: query associated working calendars
+    # Step 6: query base period energy input
+    # Step 7: query reporting period energy input
+    # Step 8: query tariff data
+    # Step 9: construct the report
     ####################################################################################################################
     @staticmethod
     def on_get(req, resp):
@@ -190,19 +188,15 @@ class Reporting:
         ################################################################################################################
         cnx_system = None
         cnx_energy = None
-        cnx_historical = None
         try:
             cnx_system = mysql.connector.connect(**config.myems_system_db)
             cnx_energy = mysql.connector.connect(**config.myems_energy_prediction_db)
-            cnx_historical = mysql.connector.connect(**config.myems_historical_db)
 
             cursor_system = None
             cursor_energy = None
-            cursor_historical = None
             try:
                 cursor_system = cnx_system.cursor()
                 cursor_energy = cnx_energy.cursor()
-                cursor_historical = cnx_historical.cursor()
 
                 if shopfloor_id is not None:
                     cursor_system.execute(" SELECT id, name, area, cost_center_id "
@@ -285,20 +279,8 @@ class Reporting:
                     for row in rows_points:
                         point_list.append({"id": row[0], "name": row[1], "units": row[2], "object_type": row[3]})
 
-                ###################################################################################################
-                # Step 5: query associated points
-                ###################################################################################################
-                cursor_system.execute(" SELECT p.id, p.name, p.units, p.object_type  "
-                                      " FROM tbl_shopfloors s, tbl_shopfloors_points sp, tbl_points p "
-                                      " WHERE s.id = %s AND s.id = sp.shopfloor_id AND sp.point_id = p.id "
-                                      " ORDER BY p.id ", (shopfloor['id'],))
-                rows_points = cursor_system.fetchall()
-                if rows_points is not None and len(rows_points) > 0:
-                    for row in rows_points:
-                        point_list.append({"id": row[0], "name": row[1], "units": row[2], "object_type": row[3]})
-
                 #####################################################################################################
-                # Step 6: query associated working calendars
+                # Step 5: query associated working calendars
                 #####################################################################################################
                 working_calendar_list = list()
                 cursor_system.execute(" SELECT swc.id "
@@ -310,7 +292,7 @@ class Reporting:
                         working_calendar_list.append(row[0])
 
                 ######################################################################################################
-                # Step 7: query base period energy input
+                # Step 6: query base period energy input
                 ######################################################################################################
                 base = dict()
                 base['non_working_days'] = list()
@@ -388,7 +370,7 @@ class Reporting:
                                 base[energy_category_id]['working_days_subtotal'] += actual_value
 
                 #####################################################################################################
-                # Step 8: query reporting period energy input
+                # Step 7: query reporting period energy input
                 #####################################################################################################
                 reporting = dict()
                 reporting['non_working_days'] = list()
@@ -489,7 +471,7 @@ class Reporting:
                                     reporting[energy_category_id]['deep'] += row[1]
 
                     ###############################################################################################
-                    # Step 9: query tariff data
+                    # Step 8: query tariff data
                     ###############################################################################################
                     parameters_data = dict()
                     parameters_data['names'] = list()
@@ -516,90 +498,20 @@ class Reporting:
                             parameters_data['timestamps'].append(tariff_timestamp_list)
                             parameters_data['values'].append(tariff_value_list)
 
-                    ###############################################################################################
-                    # Step 10: query associated sensors and points data
-                    ###############################################################################################
-                    if not is_quick_mode:
-                        for point in point_list:
-                            point_values = []
-                            point_timestamps = []
-                            if point['object_type'] == 'ENERGY_VALUE':
-                                query = (" SELECT utc_date_time, actual_value "
-                                         " FROM tbl_energy_value "
-                                         " WHERE point_id = %s "
-                                         "       AND utc_date_time BETWEEN %s AND %s "
-                                         " ORDER BY utc_date_time ")
-                                cursor_historical.execute(query, (point['id'],
-                                                                  reporting_start_datetime_utc,
-                                                                  reporting_end_datetime_utc))
-                                rows = cursor_historical.fetchall()
-
-                                if rows is not None and len(rows) > 0:
-                                    for row in rows:
-                                        current_datetime_local = row[0].replace(tzinfo=timezone.utc) + \
-                                                                 timedelta(minutes=timezone_offset)
-                                        current_datetime = current_datetime_local.isoformat()[0:19]
-                                        point_timestamps.append(current_datetime)
-                                        point_values.append(row[1])
-                            elif point['object_type'] == 'ANALOG_VALUE':
-                                query = (" SELECT utc_date_time, actual_value "
-                                         " FROM tbl_analog_value "
-                                         " WHERE point_id = %s "
-                                         "       AND utc_date_time BETWEEN %s AND %s "
-                                         " ORDER BY utc_date_time ")
-                                cursor_historical.execute(query, (point['id'],
-                                                                  reporting_start_datetime_utc,
-                                                                  reporting_end_datetime_utc))
-                                rows = cursor_historical.fetchall()
-
-                                if rows is not None and len(rows) > 0:
-                                    for row in rows:
-                                        current_datetime_local = row[0].replace(tzinfo=timezone.utc) + \
-                                                                 timedelta(minutes=timezone_offset)
-                                        current_datetime = current_datetime_local.isoformat()[0:19]
-                                        point_timestamps.append(current_datetime)
-                                        point_values.append(row[1])
-                            elif point['object_type'] == 'DIGITAL_VALUE':
-                                query = (" SELECT utc_date_time, actual_value "
-                                         " FROM tbl_digital_value "
-                                         " WHERE point_id = %s "
-                                         "       AND utc_date_time BETWEEN %s AND %s "
-                                         " ORDER BY utc_date_time ")
-                                cursor_historical.execute(query, (point['id'],
-                                                                  reporting_start_datetime_utc,
-                                                                  reporting_end_datetime_utc))
-                                rows = cursor_historical.fetchall()
-
-                                if rows is not None and len(rows) > 0:
-                                    for row in rows:
-                                        current_datetime_local = row[0].replace(tzinfo=timezone.utc) + \
-                                                                 timedelta(minutes=timezone_offset)
-                                        current_datetime = current_datetime_local.isoformat()[0:19]
-                                        point_timestamps.append(current_datetime)
-                                        point_values.append(row[1])
-
-                            parameters_data['names'].append(point['name'] + ' (' + point['units'] + ')')
-                            parameters_data['timestamps'].append(point_timestamps)
-                            parameters_data['values'].append(point_values)
-
             finally:
                 if cursor_system:
                     cursor_system.close()
                 if cursor_energy:
                     cursor_energy.close()
-                if cursor_historical:
-                    cursor_historical.close()
 
         finally:
             if cnx_system:
                 cnx_system.close()
             if cnx_energy:
                 cnx_energy.close()
-            if cnx_historical:
-                cnx_historical.close()
 
         ################################################################################################################
-        # Step 11: construct the report
+        # Step 9: construct the report
         ################################################################################################################
         result = dict()
 
@@ -735,12 +647,14 @@ class Reporting:
         result['excel_bytes_base64'] = None
         if not is_quick_mode:
             result['excel_bytes_base64'] = \
-                excelexporters.shopfloorprediction.export(result,
-                                                              shopfloor['name'],
-                                                              base_period_start_datetime_local,
-                                                              base_period_end_datetime_local,
-                                                              reporting_period_start_datetime_local,
-                                                              reporting_period_end_datetime_local,
-                                                              period_type,
-                                                              language)
+                excelexporters.shopfloorprediction.export(
+                    result,
+                    shopfloor['name'],
+                    base_period_start_datetime_local,
+                    base_period_end_datetime_local,
+                    reporting_period_start_datetime_local,
+                    reporting_period_end_datetime_local,
+                    period_type,
+                    language
+                )
         resp.text = json.dumps(result)
