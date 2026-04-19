@@ -80,6 +80,7 @@ from reports import spacecomparison
 from reports import tenantcomparison
 from reports import metercost
 from reports import meterenergy
+from reports import meterprediction
 from reports import meterrealtime
 from reports import meterplan
 from reports import metersaving
@@ -111,6 +112,7 @@ from reports import offlinemeterbatch
 from reports import offlinemetercarbon
 from reports import offlinemetercost
 from reports import offlinemeterenergy
+from reports import offlinemeterprediction
 from reports import offlinemeterplan
 from reports import offlinemetersaving
 from reports import offlinemeterdaily
@@ -136,6 +138,7 @@ from reports import shopfloorcost
 from reports import shopfloorcomparison
 from reports import shopfloordashboard
 from reports import shopfloorenergycategory
+from reports import shopfloorprediction
 from reports import shopfloorenergyitem
 from reports import shopfloorload
 from reports import shopfloorplan
@@ -180,6 +183,7 @@ from reports import virtualmeterbatch
 from reports import virtualmetercarbon
 from reports import virtualmetercost
 from reports import virtualmeterenergy
+from reports import virtualmeterprediction
 from reports import virtualmetersaving
 from reports import virtualmeterplan
 from reports import virtualmetercomparison
@@ -1311,6 +1315,8 @@ api.add_route('/reports/metercost',
               metercost.Reporting())
 api.add_route('/reports/meterenergy',
               meterenergy.Reporting())
+api.add_route('/reports/meterprediction',
+              meterprediction.Reporting())
 api.add_route('/reports/meterrealtime',
               meterrealtime.Reporting())
 api.add_route('/reports/metersaving',
@@ -1371,6 +1377,8 @@ api.add_route('/reports/offlinemetercost',
               offlinemetercost.Reporting())
 api.add_route('/reports/offlinemeterenergy',
               offlinemeterenergy.Reporting())
+api.add_route('/reports/offlinemeterprediction',
+              offlinemeterprediction.Reporting())
 api.add_route('/reports/offlinemeterdaily',
               offlinemeterdaily.Reporting())
 api.add_route('/reports/offlinemeterinput',
@@ -1424,6 +1432,8 @@ api.add_route('/reports/shopfloordashboard',
               shopfloordashboard.Reporting())
 api.add_route('/reports/shopfloorenergycategory',
               shopfloorenergycategory.Reporting())
+api.add_route('/reports/shopfloorprediction',
+              shopfloorprediction.Reporting())
 api.add_route('/reports/shopfloorenergyitem',
               shopfloorenergyitem.Reporting())
 api.add_route('/reports/shopfloorload',
@@ -1512,6 +1522,8 @@ api.add_route('/reports/virtualmeterplan',
               virtualmeterplan.Reporting())
 api.add_route('/reports/virtualmeterenergy',
               virtualmeterenergy.Reporting())
+api.add_route('/reports/virtualmeterprediction',
+              virtualmeterprediction.Reporting())
 api.add_route('/reports/virtualmetercarbon',
               virtualmetercarbon.Reporting())
 api.add_route('/reports/virtualmetercost',
