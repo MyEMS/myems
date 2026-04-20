@@ -184,134 +184,129 @@ class Reporting:
             except Exception:
                 redis_client = None
 
-        cnx_system_db = mysql.connector.connect(**config.myems_system_db)
-        cursor_system_db = cnx_system_db.cursor()
+        cnx_system_db = None
+        cnx_energy_db = None
+        try:
+            cnx_system_db = mysql.connector.connect(**config.myems_system_db)
+            cnx_energy_db = mysql.connector.connect(**config.myems_energy_db)
 
-        cursor_system_db.execute(" SELECT name "
-                                 " FROM tbl_spaces "
-                                 " WHERE id = %s ", (space_id,))
-        row = cursor_system_db.fetchone()
+            cursor_system_db = None
+            cursor_energy_db = None
+            try:
+                cursor_system_db = cnx_system_db.cursor()
+                cursor_energy_db = cnx_energy_db.cursor()
 
-        if row is None:
-            if cursor_system_db:
-                cursor_system_db.close()
+                cursor_system_db.execute(" SELECT name "
+                                         " FROM tbl_spaces "
+                                         " WHERE id = %s ", (space_id,))
+                row = cursor_system_db.fetchone()
+
+                if row is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.SPACE_NOT_FOUND')
+                else:
+                    space_name = row[0]
+
+                ####################################################################################################
+                # Step 2: build a space tree
+                ####################################################################################################
+
+                query = (" SELECT id, name, parent_space_id "
+                         " FROM tbl_spaces "
+                         " ORDER BY id ")
+                cursor_system_db.execute(query)
+                rows_spaces = cursor_system_db.fetchall()
+                node_dict = dict()
+                if rows_spaces is not None and len(rows_spaces) > 0:
+                    for row in rows_spaces:
+                        parent_node = node_dict[row[2]] if row[2] is not None else None
+                        node_dict[row[0]] = AnyNode(id=row[0], parent=parent_node, name=row[1])
+
+                ##############################################################################################
+                # Step 3: query all meters in the space tree
+                ##############################################################################################
+                virtual_meter_dict = dict()
+                space_dict = dict()
+                energy_category_set = set()
+
+                for node in LevelOrderIter(node_dict[space_id]):
+                    space_dict[node.id] = node.name
+
+                cursor_system_db.execute(" SELECT vm.id, vm.name AS virtual_meter_name, vm.energy_category_id, "
+                                         "        s.name AS space_name, "
+                                         "        cc.name AS cost_center_name"
+                                         " FROM tbl_spaces s, tbl_spaces_virtual_meters svm, "
+                                         "      tbl_virtual_meters vm, tbl_cost_centers cc "
+                                         " WHERE s.id IN ( " + ', '.join(map(str, space_dict.keys())) + ") "
+                                         " AND svm.space_id = s.id AND svm.virtual_meter_id = vm.id "
+                                         " AND vm.cost_center_id = cc.id  ", )
+                rows_meters = cursor_system_db.fetchall()
+                if rows_meters is not None and len(rows_meters) > 0:
+                    for row in rows_meters:
+                        virtual_meter_dict[row[0]] = {"virtual_meter_name": row[1],
+                                                      "energy_category_id": row[2],
+                                                      "space_name": row[3],
+                                                      "cost_center_name": row[4],
+                                                      "values": list(),
+                                                      "subtotal": None}
+                        energy_category_set.add(row[2])
+
+                ##################################################################################################
+                # Step 4: query energy categories
+                ##################################################################################################
+
+                # query all energy categories
+                cursor_system_db.execute(" SELECT id, name, unit_of_measure "
+                                         " FROM tbl_energy_categories "
+                                         " ORDER BY id ", )
+                rows_energy_categories = cursor_system_db.fetchall()
+                if rows_energy_categories is None or len(rows_energy_categories) == 0:
+                    raise falcon.HTTPError(status=falcon.HTTP_404,
+                                           title='API.NOT_FOUND',
+                                           description='API.ENERGY_CATEGORY_NOT_FOUND')
+                energy_category_list = list()
+                for row_energy_category in rows_energy_categories:
+                    if row_energy_category[0] in energy_category_set:
+                        energy_category_list.append({"id": row_energy_category[0],
+                                                     "name": row_energy_category[1],
+                                                     "unit_of_measure": row_energy_category[2]})
+
+                ####################################################################################################
+                # Step 5: query reporting period energy input
+                ####################################################################################################
+                for virtual_meter_id in virtual_meter_dict:
+
+                    cursor_energy_db.execute(" SELECT SUM(actual_value) "
+                                             " FROM tbl_virtual_meter_hourly "
+                                             " WHERE virtual_meter_id = %s "
+                                             "     AND start_datetime_utc >= %s "
+                                             "     AND start_datetime_utc < %s ",
+                                             (virtual_meter_id,
+                                              reporting_start_datetime_utc,
+                                              reporting_end_datetime_utc))
+                    rows_meter_energy = cursor_energy_db.fetchall()
+                    for energy_category in energy_category_list:
+                        subtotal = None
+                        for row_meter_energy in rows_meter_energy:
+                            if energy_category['id'] == virtual_meter_dict[virtual_meter_id]['energy_category_id']:
+                                subtotal = row_meter_energy[0]
+                                virtual_meter_dict[virtual_meter_id]['subtotal'] = subtotal
+                                break
+                        # append subtotal
+                        # append None if energy category is not applicable
+                        virtual_meter_dict[virtual_meter_id]['values'].append(subtotal)
+
+            finally:
+                if cursor_system_db:
+                    cursor_system_db.close()
+                if cursor_energy_db:
+                    cursor_energy_db.close()
+
+        finally:
             if cnx_system_db:
                 cnx_system_db.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.SPACE_NOT_FOUND')
-        else:
-            space_name = row[0]
-
-        ################################################################################################################
-        # Step 2: build a space tree
-        ################################################################################################################
-
-        query = (" SELECT id, name, parent_space_id "
-                 " FROM tbl_spaces "
-                 " ORDER BY id ")
-        cursor_system_db.execute(query)
-        rows_spaces = cursor_system_db.fetchall()
-        node_dict = dict()
-        if rows_spaces is not None and len(rows_spaces) > 0:
-            for row in rows_spaces:
-                parent_node = node_dict[row[2]] if row[2] is not None else None
-                node_dict[row[0]] = AnyNode(id=row[0], parent=parent_node, name=row[1])
-
-        ################################################################################################################
-        # Step 3: query all meters in the space tree
-        ################################################################################################################
-        virtual_meter_dict = dict()
-        space_dict = dict()
-        energy_category_set = set()
-
-        for node in LevelOrderIter(node_dict[space_id]):
-            space_dict[node.id] = node.name
-
-        cursor_system_db.execute(" SELECT vm.id, vm.name AS virtual_meter_name, vm.energy_category_id, "
-                                 "        s.name AS space_name, "
-                                 "        cc.name AS cost_center_name"
-                                 " FROM tbl_spaces s, tbl_spaces_virtual_meters svm, "
-                                 "      tbl_virtual_meters vm, tbl_cost_centers cc "
-                                 " WHERE s.id IN ( " + ', '.join(map(str, space_dict.keys())) + ") "
-                                 " AND svm.space_id = s.id AND svm.virtual_meter_id = vm.id "
-                                 " AND vm.cost_center_id = cc.id  ", )
-        rows_meters = cursor_system_db.fetchall()
-        if rows_meters is not None and len(rows_meters) > 0:
-            for row in rows_meters:
-                virtual_meter_dict[row[0]] = {"virtual_meter_name": row[1],
-                                              "energy_category_id": row[2],
-                                              "space_name": row[3],
-                                              "cost_center_name": row[4],
-                                              "values": list(),
-                                              "subtotal": None}
-                energy_category_set.add(row[2])
-
-        ################################################################################################################
-        # Step 4: query energy categories
-        ################################################################################################################
-        cnx_energy_db = mysql.connector.connect(**config.myems_energy_db)
-        cursor_energy_db = cnx_energy_db.cursor()
-
-        # query all energy categories
-        cursor_system_db.execute(" SELECT id, name, unit_of_measure "
-                                 " FROM tbl_energy_categories "
-                                 " ORDER BY id ", )
-        rows_energy_categories = cursor_system_db.fetchall()
-        if rows_energy_categories is None or len(rows_energy_categories) == 0:
-            if cursor_system_db:
-                cursor_system_db.close()
-            if cnx_system_db:
-                cnx_system_db.close()
-
-            if cursor_energy_db:
-                cursor_energy_db.close()
             if cnx_energy_db:
                 cnx_energy_db.close()
-
-            raise falcon.HTTPError(status=falcon.HTTP_404,
-                                   title='API.NOT_FOUND',
-                                   description='API.ENERGY_CATEGORY_NOT_FOUND')
-        energy_category_list = list()
-        for row_energy_category in rows_energy_categories:
-            if row_energy_category[0] in energy_category_set:
-                energy_category_list.append({"id": row_energy_category[0],
-                                             "name": row_energy_category[1],
-                                             "unit_of_measure": row_energy_category[2]})
-
-        ################################################################################################################
-        # Step 5: query reporting period energy input
-        ################################################################################################################
-        for virtual_meter_id in virtual_meter_dict:
-
-            cursor_energy_db.execute(" SELECT SUM(actual_value) "
-                                     " FROM tbl_virtual_meter_hourly "
-                                     " WHERE virtual_meter_id = %s "
-                                     "     AND start_datetime_utc >= %s "
-                                     "     AND start_datetime_utc < %s ",
-                                     (virtual_meter_id,
-                                      reporting_start_datetime_utc,
-                                      reporting_end_datetime_utc))
-            rows_meter_energy = cursor_energy_db.fetchall()
-            for energy_category in energy_category_list:
-                subtotal = None
-                for row_meter_energy in rows_meter_energy:
-                    if energy_category['id'] == virtual_meter_dict[virtual_meter_id]['energy_category_id']:
-                        subtotal = row_meter_energy[0]
-                        virtual_meter_dict[virtual_meter_id]['subtotal'] = subtotal
-                        break
-                # append subtotal
-                # append None if energy category is not applicable
-                virtual_meter_dict[virtual_meter_id]['values'].append(subtotal)
-
-        if cursor_system_db:
-            cursor_system_db.close()
-        if cnx_system_db:
-            cnx_system_db.close()
-
-        if cursor_energy_db:
-            cursor_energy_db.close()
-        if cnx_energy_db:
-            cnx_energy_db.close()
 
         ################################################################################################################
         # Step 6: construct the report

@@ -229,209 +229,192 @@ class Reporting:
         ################################################################################################################
         # Step 2: query the meter and energy category
         ################################################################################################################
-        cnx_system = mysql.connector.connect(**config.myems_system_db)
-        cursor_system = cnx_system.cursor()
+        cnx_system = None
+        cnx_energy = None
+        cnx_historical = None
+        try:
+            cnx_system = mysql.connector.connect(**config.myems_system_db)
+            cnx_energy = mysql.connector.connect(**config.myems_energy_db)
+            cnx_historical = mysql.connector.connect(**config.myems_historical_db)
 
-        cnx_energy = mysql.connector.connect(**config.myems_energy_db)
-        cursor_energy = cnx_energy.cursor()
+            cursor_system = None
+            cursor_energy = None
+            cursor_historical = None
+            try:
+                cursor_system = cnx_system.cursor()
+                cursor_energy = cnx_energy.cursor()
+                cursor_historical = cnx_historical.cursor()
 
-        cnx_historical = mysql.connector.connect(**config.myems_historical_db)
-        cursor_historical = cnx_historical.cursor()
+                if meter_id1 is not None:
+                    cursor_system.execute(" SELECT m.id, m.name, m.energy_category_id, ec.name, ec.unit_of_measure "
+                                          " FROM tbl_meters m, tbl_energy_categories ec "
+                                          " WHERE m.id = %s AND m.energy_category_id = ec.id ", (meter_id1,))
+                    row_meter1 = cursor_system.fetchone()
+                elif meter_uuid1 is not None:
+                    cursor_system.execute(" SELECT m.id, m.name, m.energy_category_id, ec.name, ec.unit_of_measure "
+                                          " FROM tbl_meters m, tbl_energy_categories ec "
+                                          " WHERE m.uuid = %s AND m.energy_category_id = ec.id ", (meter_uuid1,))
+                    row_meter1 = cursor_system.fetchone()
 
-        if meter_id1 is not None:
-            cursor_system.execute(" SELECT m.id, m.name, m.energy_category_id, ec.name, ec.unit_of_measure "
-                                  " FROM tbl_meters m, tbl_energy_categories ec "
-                                  " WHERE m.id = %s AND m.energy_category_id = ec.id ", (meter_id1,))
-            row_meter1 = cursor_system.fetchone()
-        elif meter_uuid1 is not None:
-            cursor_system.execute(" SELECT m.id, m.name, m.energy_category_id, ec.name, ec.unit_of_measure "
-                                  " FROM tbl_meters m, tbl_energy_categories ec "
-                                  " WHERE m.uuid = %s AND m.energy_category_id = ec.id ", (meter_uuid1,))
-            row_meter1 = cursor_system.fetchone()
+                if row_meter1 is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.METER_NOT_FOUND')
 
-        if row_meter1 is None:
-            if cursor_system:
-                cursor_system.close()
+                meter1 = dict()
+                meter1['id'] = row_meter1[0]
+                meter1['name'] = row_meter1[1]
+                meter1['energy_category_id'] = row_meter1[2]
+                meter1['energy_category_name'] = row_meter1[3]
+                meter1['unit_of_measure'] = row_meter1[4]
+
+                if meter_id2 is not None:
+                    cursor_system.execute(" SELECT m.id, m.name, m.energy_category_id, ec.name, ec.unit_of_measure "
+                                          " FROM tbl_meters m, tbl_energy_categories ec "
+                                          " WHERE m.id = %s AND m.energy_category_id = ec.id ", (meter_id2,))
+                    row_meter2 = cursor_system.fetchone()
+                elif meter_uuid2 is not None:
+                    cursor_system.execute(" SELECT m.id, m.name, m.energy_category_id, ec.name, ec.unit_of_measure "
+                                          " FROM tbl_meters m, tbl_energy_categories ec "
+                                          " WHERE m.uuid = %s AND m.energy_category_id = ec.id ", (meter_uuid2,))
+                    row_meter2 = cursor_system.fetchone()
+
+                if row_meter2 is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.METER_NOT_FOUND')
+
+                meter2 = dict()
+                meter2['id'] = row_meter2[0]
+                meter2['name'] = row_meter2[1]
+                meter2['energy_category_id'] = row_meter2[2]
+                meter2['energy_category_name'] = row_meter2[3]
+                meter2['unit_of_measure'] = row_meter2[4]
+                ##################################################################################################
+                # Step 3: query associated points
+                ##################################################################################################
+                point_list1 = list()
+                cursor_system.execute(" SELECT p.id, p.name, p.units, p.object_type  "
+                                      " FROM tbl_meters m, tbl_meters_points mp, tbl_points p "
+                                      " WHERE m.id = %s AND m.id = mp.meter_id AND mp.point_id = p.id "
+                                      " ORDER BY p.id ", (meter1['id'],))
+                rows_points1 = cursor_system.fetchall()
+                if rows_points1 is not None and len(rows_points1) > 0:
+                    for row in rows_points1:
+                        point_list1.append({"id": row[0], "name": row[1], "units": row[2], "object_type": row[3]})
+
+                point_list2 = list()
+                cursor_system.execute(" SELECT p.id, p.name, p.units, p.object_type  "
+                                      " FROM tbl_meters m, tbl_meters_points mp, tbl_points p "
+                                      " WHERE m.id = %s AND m.id = mp.meter_id AND mp.point_id = p.id "
+                                      " ORDER BY p.id ", (meter2['id'],))
+                rows_points2 = cursor_system.fetchall()
+                if rows_points2 is not None and len(rows_points2) > 0:
+                    for row in rows_points2:
+                        point_list2.append({"id": row[0], "name": row[1], "units": row[2], "object_type": row[3]})
+                #####################################################################################################
+                # Step 4: query reporting period energy consumption
+                #####################################################################################################
+                query1 = (" SELECT start_datetime_utc, actual_value "
+                          " FROM tbl_meter_hourly "
+                          " WHERE meter_id = %s "
+                          " AND start_datetime_utc >= %s "
+                          " AND start_datetime_utc < %s "
+                          " ORDER BY start_datetime_utc ")
+                cursor_energy.execute(query1, (meter1['id'], reporting_start_datetime_utc, reporting_end_datetime_utc))
+                rows_meter1_hourly = cursor_energy.fetchall()
+
+                rows_meter1_periodically = utilities.aggregate_hourly_data_by_period(rows_meter1_hourly,
+                                                                                     reporting_start_datetime_utc,
+                                                                                     reporting_end_datetime_utc,
+                                                                                     period_type)
+                reporting1 = dict()
+                reporting1['timestamps'] = list()
+                reporting1['values'] = list()
+                reporting1['total_in_category'] = Decimal(0.0)
+
+                for row_meter1_periodically in rows_meter1_periodically:
+                    current_datetime_local = row_meter1_periodically[0].replace(tzinfo=timezone.utc) + \
+                        timedelta(minutes=timezone_offset)
+                    if period_type == 'hourly':
+                        current_datetime = current_datetime_local.isoformat()[0:19]
+                    elif period_type == 'daily':
+                        current_datetime = current_datetime_local.isoformat()[0:10]
+                    elif period_type == 'weekly':
+                        current_datetime = current_datetime_local.isoformat()[0:10]
+                    elif period_type == 'monthly':
+                        current_datetime = current_datetime_local.isoformat()[0:7]
+                    elif period_type == 'yearly':
+                        current_datetime = current_datetime_local.isoformat()[0:4]
+
+                    actual_value = Decimal(0.0) if row_meter1_periodically[1] is None else row_meter1_periodically[1]
+
+                    reporting1['timestamps'].append(current_datetime)
+                    reporting1['values'].append(actual_value)
+                    reporting1['total_in_category'] += actual_value
+
+                query2 = (" SELECT start_datetime_utc, actual_value "
+                          " FROM tbl_meter_hourly "
+                          " WHERE meter_id = %s "
+                          " AND start_datetime_utc >= %s "
+                          " AND start_datetime_utc < %s "
+                          " ORDER BY start_datetime_utc ")
+                cursor_energy.execute(query2, (meter2['id'], reporting_start_datetime_utc, reporting_end_datetime_utc))
+                rows_meter2_hourly = cursor_energy.fetchall()
+
+                rows_meter2_periodically = utilities.aggregate_hourly_data_by_period(rows_meter2_hourly,
+                                                                                     reporting_start_datetime_utc,
+                                                                                     reporting_end_datetime_utc,
+                                                                                     period_type)
+                reporting2 = dict()
+                diff = dict()
+                reporting2['timestamps'] = list()
+                reporting2['values'] = list()
+                reporting2['total_in_category'] = Decimal(0.0)
+                diff['values'] = list()
+                diff['total_in_category'] = Decimal(0.0)
+
+                for row_meter2_periodically in rows_meter2_periodically:
+                    current_datetime_local = row_meter2_periodically[0].replace(tzinfo=timezone.utc) + \
+                                             timedelta(minutes=timezone_offset)
+                    if period_type == 'hourly':
+                        current_datetime = current_datetime_local.isoformat()[0:19]
+                    elif period_type == 'daily':
+                        current_datetime = current_datetime_local.isoformat()[0:10]
+                    elif period_type == 'weekly':
+                        current_datetime = current_datetime_local.isoformat()[0:10]
+                    elif period_type == 'monthly':
+                        current_datetime = current_datetime_local.isoformat()[0:7]
+                    elif period_type == 'yearly':
+                        current_datetime = current_datetime_local.isoformat()[0:4]
+
+                    actual_value = Decimal(0.0) if row_meter2_periodically[1] is None else row_meter2_periodically[1]
+
+                    reporting2['timestamps'].append(current_datetime)
+                    reporting2['values'].append(actual_value)
+                    reporting2['total_in_category'] += actual_value
+
+                for meter1_value, meter2_value in zip(reporting1['values'], reporting2['values']):
+                    diff['values'].append(meter1_value - meter2_value)
+                    diff['total_in_category'] += meter1_value - meter2_value
+
+            finally:
+                if cursor_system:
+                    cursor_system.close()
+                if cursor_energy:
+                    cursor_energy.close()
+                if cursor_historical:
+                    cursor_historical.close()
+
+        finally:
             if cnx_system:
                 cnx_system.close()
-
-            if cursor_energy:
-                cursor_energy.close()
             if cnx_energy:
                 cnx_energy.close()
-
-            if cursor_historical:
-                cursor_historical.close()
             if cnx_historical:
                 cnx_historical.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND', description='API.METER_NOT_FOUND')
-
-        meter1 = dict()
-        meter1['id'] = row_meter1[0]
-        meter1['name'] = row_meter1[1]
-        meter1['energy_category_id'] = row_meter1[2]
-        meter1['energy_category_name'] = row_meter1[3]
-        meter1['unit_of_measure'] = row_meter1[4]
-
-        if meter_id2 is not None:
-            cursor_system.execute(" SELECT m.id, m.name, m.energy_category_id, ec.name, ec.unit_of_measure "
-                                  " FROM tbl_meters m, tbl_energy_categories ec "
-                                  " WHERE m.id = %s AND m.energy_category_id = ec.id ", (meter_id2,))
-            row_meter2 = cursor_system.fetchone()
-        elif meter_uuid2 is not None:
-            cursor_system.execute(" SELECT m.id, m.name, m.energy_category_id, ec.name, ec.unit_of_measure "
-                                  " FROM tbl_meters m, tbl_energy_categories ec "
-                                  " WHERE m.uuid = %s AND m.energy_category_id = ec.id ", (meter_uuid2,))
-            row_meter2 = cursor_system.fetchone()
-
-        if row_meter2 is None:
-            if cursor_system:
-                cursor_system.close()
-            if cnx_system:
-                cnx_system.close()
-
-            if cursor_energy:
-                cursor_energy.close()
-            if cnx_energy:
-                cnx_energy.close()
-
-            if cursor_historical:
-                cursor_historical.close()
-            if cnx_historical:
-                cnx_historical.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND', description='API.METER_NOT_FOUND')
-
-        meter2 = dict()
-        meter2['id'] = row_meter2[0]
-        meter2['name'] = row_meter2[1]
-        meter2['energy_category_id'] = row_meter2[2]
-        meter2['energy_category_name'] = row_meter2[3]
-        meter2['unit_of_measure'] = row_meter2[4]
-        ################################################################################################################
-        # Step 3: query associated points
-        ################################################################################################################
-        point_list1 = list()
-        cursor_system.execute(" SELECT p.id, p.name, p.units, p.object_type  "
-                              " FROM tbl_meters m, tbl_meters_points mp, tbl_points p "
-                              " WHERE m.id = %s AND m.id = mp.meter_id AND mp.point_id = p.id "
-                              " ORDER BY p.id ", (meter1['id'],))
-        rows_points1 = cursor_system.fetchall()
-        if rows_points1 is not None and len(rows_points1) > 0:
-            for row in rows_points1:
-                point_list1.append({"id": row[0], "name": row[1], "units": row[2], "object_type": row[3]})
-
-        point_list2 = list()
-        cursor_system.execute(" SELECT p.id, p.name, p.units, p.object_type  "
-                              " FROM tbl_meters m, tbl_meters_points mp, tbl_points p "
-                              " WHERE m.id = %s AND m.id = mp.meter_id AND mp.point_id = p.id "
-                              " ORDER BY p.id ", (meter2['id'],))
-        rows_points2 = cursor_system.fetchall()
-        if rows_points2 is not None and len(rows_points2) > 0:
-            for row in rows_points2:
-                point_list2.append({"id": row[0], "name": row[1], "units": row[2], "object_type": row[3]})
-        ################################################################################################################
-        # Step 4: query reporting period energy consumption
-        ################################################################################################################
-        query1 = (" SELECT start_datetime_utc, actual_value "
-                  " FROM tbl_meter_hourly "
-                  " WHERE meter_id = %s "
-                  " AND start_datetime_utc >= %s "
-                  " AND start_datetime_utc < %s "
-                  " ORDER BY start_datetime_utc ")
-        cursor_energy.execute(query1, (meter1['id'], reporting_start_datetime_utc, reporting_end_datetime_utc))
-        rows_meter1_hourly = cursor_energy.fetchall()
-
-        rows_meter1_periodically = utilities.aggregate_hourly_data_by_period(rows_meter1_hourly,
-                                                                             reporting_start_datetime_utc,
-                                                                             reporting_end_datetime_utc,
-                                                                             period_type)
-        reporting1 = dict()
-        reporting1['timestamps'] = list()
-        reporting1['values'] = list()
-        reporting1['total_in_category'] = Decimal(0.0)
-
-        for row_meter1_periodically in rows_meter1_periodically:
-            current_datetime_local = row_meter1_periodically[0].replace(tzinfo=timezone.utc) + \
-                timedelta(minutes=timezone_offset)
-            if period_type == 'hourly':
-                current_datetime = current_datetime_local.isoformat()[0:19]
-            elif period_type == 'daily':
-                current_datetime = current_datetime_local.isoformat()[0:10]
-            elif period_type == 'weekly':
-                current_datetime = current_datetime_local.isoformat()[0:10]
-            elif period_type == 'monthly':
-                current_datetime = current_datetime_local.isoformat()[0:7]
-            elif period_type == 'yearly':
-                current_datetime = current_datetime_local.isoformat()[0:4]
-
-            actual_value = Decimal(0.0) if row_meter1_periodically[1] is None else row_meter1_periodically[1]
-
-            reporting1['timestamps'].append(current_datetime)
-            reporting1['values'].append(actual_value)
-            reporting1['total_in_category'] += actual_value
-
-        query2 = (" SELECT start_datetime_utc, actual_value "
-                  " FROM tbl_meter_hourly "
-                  " WHERE meter_id = %s "
-                  " AND start_datetime_utc >= %s "
-                  " AND start_datetime_utc < %s "
-                  " ORDER BY start_datetime_utc ")
-        cursor_energy.execute(query2, (meter2['id'], reporting_start_datetime_utc, reporting_end_datetime_utc))
-        rows_meter2_hourly = cursor_energy.fetchall()
-
-        rows_meter2_periodically = utilities.aggregate_hourly_data_by_period(rows_meter2_hourly,
-                                                                             reporting_start_datetime_utc,
-                                                                             reporting_end_datetime_utc,
-                                                                             period_type)
-        reporting2 = dict()
-        diff = dict()
-        reporting2['timestamps'] = list()
-        reporting2['values'] = list()
-        reporting2['total_in_category'] = Decimal(0.0)
-        diff['values'] = list()
-        diff['total_in_category'] = Decimal(0.0)
-
-        for row_meter2_periodically in rows_meter2_periodically:
-            current_datetime_local = row_meter2_periodically[0].replace(tzinfo=timezone.utc) + \
-                                     timedelta(minutes=timezone_offset)
-            if period_type == 'hourly':
-                current_datetime = current_datetime_local.isoformat()[0:19]
-            elif period_type == 'daily':
-                current_datetime = current_datetime_local.isoformat()[0:10]
-            elif period_type == 'weekly':
-                current_datetime = current_datetime_local.isoformat()[0:10]
-            elif period_type == 'monthly':
-                current_datetime = current_datetime_local.isoformat()[0:7]
-            elif period_type == 'yearly':
-                current_datetime = current_datetime_local.isoformat()[0:4]
-
-            actual_value = Decimal(0.0) if row_meter2_periodically[1] is None else row_meter2_periodically[1]
-
-            reporting2['timestamps'].append(current_datetime)
-            reporting2['values'].append(actual_value)
-            reporting2['total_in_category'] += actual_value
-
-        for meter1_value, meter2_value in zip(reporting1['values'], reporting2['values']):
-            diff['values'].append(meter1_value - meter2_value)
-            diff['total_in_category'] += meter1_value - meter2_value
 
         ################################################################################################################
         # Step 5: construct the report
         ################################################################################################################
-        if cursor_system:
-            cursor_system.close()
-        if cnx_system:
-            cnx_system.close()
-
-        if cursor_energy:
-            cursor_energy.close()
-        if cnx_energy:
-            cnx_energy.close()
-
-        if cursor_historical:
-            cursor_historical.close()
-        if cnx_historical:
-            cnx_historical.close()
         result = {
             "meter1": {
                 "name": meter1['name'],

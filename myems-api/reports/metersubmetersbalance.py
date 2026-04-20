@@ -198,7 +198,8 @@ class Reporting:
                     "quickmode": is_quick_mode,
                 }
                 cache_params_json = json.dumps(cache_params, sort_keys=True)
-                cache_key = 'report:metersubmetersbalance:' + hashlib.sha256(cache_params_json.encode('utf-8')).hexdigest()
+                cache_key = ('report:metersubmetersbalance:' +
+                             hashlib.sha256(cache_params_json.encode('utf-8')).hexdigest())
 
                 cached_result = redis_client.get(cache_key)
                 if cached_result:
@@ -210,238 +211,241 @@ class Reporting:
         ################################################################################################################
         # Step 2: query the meter and energy category
         ################################################################################################################
-        cnx_system = mysql.connector.connect(**config.myems_system_db)
-        cursor_system = cnx_system.cursor()
+        cnx_system = None
+        cnx_energy = None
+        try:
+            cnx_system = mysql.connector.connect(**config.myems_system_db)
+            cnx_energy = mysql.connector.connect(**config.myems_energy_db)
 
-        cnx_energy = mysql.connector.connect(**config.myems_energy_db)
-        cursor_energy = cnx_energy.cursor()
+            cursor_system = None
+            cursor_energy = None
+            try:
+                cursor_system = cnx_system.cursor()
+                cursor_energy = cnx_energy.cursor()
 
-        if meter_id is not None:
-            cursor_system.execute(" SELECT m.id, m.name, m.cost_center_id, m.energy_category_id, "
-                                  "        ec.name, ec.unit_of_measure, ec.kgce, ec.kgco2e "
-                                  " FROM tbl_meters m, tbl_energy_categories ec "
-                                  " WHERE m.id = %s AND m.energy_category_id = ec.id ", (meter_id,))
-            row_meter = cursor_system.fetchone()
-        elif meter_uuid is not None:
-            cursor_system.execute(" SELECT m.id, m.name, m.cost_center_id, m.energy_category_id, "
-                                  "        ec.name, ec.unit_of_measure, ec.kgce, ec.kgco2e "
-                                  " FROM tbl_meters m, tbl_energy_categories ec "
-                                  " WHERE m.uuid = %s AND m.energy_category_id = ec.id ", (meter_uuid,))
-            row_meter = cursor_system.fetchone()
+                if meter_id is not None:
+                    cursor_system.execute(" SELECT m.id, m.name, m.cost_center_id, m.energy_category_id, "
+                                          "        ec.name, ec.unit_of_measure, ec.kgce, ec.kgco2e "
+                                          " FROM tbl_meters m, tbl_energy_categories ec "
+                                          " WHERE m.id = %s AND m.energy_category_id = ec.id ", (meter_id,))
+                    row_meter = cursor_system.fetchone()
+                elif meter_uuid is not None:
+                    cursor_system.execute(" SELECT m.id, m.name, m.cost_center_id, m.energy_category_id, "
+                                          "        ec.name, ec.unit_of_measure, ec.kgce, ec.kgco2e "
+                                          " FROM tbl_meters m, tbl_energy_categories ec "
+                                          " WHERE m.uuid = %s AND m.energy_category_id = ec.id ", (meter_uuid,))
+                    row_meter = cursor_system.fetchone()
 
-        if row_meter is None:
-            if cursor_system:
-                cursor_system.close()
-            if cnx_system:
-                cnx_system.close()
+                if row_meter is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.METER_NOT_FOUND')
 
-            if cursor_energy:
-                cursor_energy.close()
-            if cnx_energy:
-                cnx_energy.close()
+                master_meter = dict()
+                master_meter['id'] = row_meter[0]
+                master_meter['name'] = row_meter[1]
+                master_meter['cost_center_id'] = row_meter[2]
+                master_meter['energy_category_id'] = row_meter[3]
+                master_meter['energy_category_name'] = row_meter[4]
+                master_meter['unit_of_measure'] = row_meter[5]
 
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND', description='API.METER_NOT_FOUND')
+                #####################################################################################################
+                # Step 3: query associated submeters
+                #####################################################################################################
+                submeter_list = list()
+                submeter_id_set = set()
 
-        master_meter = dict()
-        master_meter['id'] = row_meter[0]
-        master_meter['name'] = row_meter[1]
-        master_meter['cost_center_id'] = row_meter[2]
-        master_meter['energy_category_id'] = row_meter[3]
-        master_meter['energy_category_name'] = row_meter[4]
-        master_meter['unit_of_measure'] = row_meter[5]
+                cursor_system.execute(" SELECT id, name, energy_category_id "
+                                      " FROM tbl_meters "
+                                      " WHERE master_meter_id = %s ",
+                                      (master_meter['id'],))
+                rows_meters = cursor_system.fetchall()
 
-        ################################################################################################################
-        # Step 3: query associated submeters
-        ################################################################################################################
-        submeter_list = list()
-        submeter_id_set = set()
+                if rows_meters is not None and len(rows_meters) > 0:
+                    for row in rows_meters:
+                        submeter_list.append({"id": row[0],
+                                              "name": row[1],
+                                              "energy_category_id": row[2]})
+                        submeter_id_set.add(row[0])
 
-        cursor_system.execute(" SELECT id, name, energy_category_id "
-                              " FROM tbl_meters "
-                              " WHERE master_meter_id = %s ",
-                              (master_meter['id'],))
-        rows_meters = cursor_system.fetchall()
+                ################################################################################################
+                # Step 4: query reporting period master meter energy consumption
+                ################################################################################################
+                reporting = dict()
+                reporting['master_meter_total_in_category'] = Decimal(0.0)
+                reporting['submeters_total_in_category'] = Decimal(0.0)
+                reporting['total_difference_in_category'] = Decimal(0.0)
+                reporting['percentage_difference'] = Decimal(0.0)
+                reporting['timestamps'] = list()
+                reporting['master_meter_values'] = list()
+                reporting['submeters_values'] = list()
+                reporting['difference_values'] = list()
 
-        if rows_meters is not None and len(rows_meters) > 0:
-            for row in rows_meters:
-                submeter_list.append({"id": row[0],
-                                      "name": row[1],
-                                      "energy_category_id": row[2]})
-                submeter_id_set.add(row[0])
+                parameters_data = dict()
+                parameters_data['names'] = list()
+                parameters_data['timestamps'] = list()
+                parameters_data['values'] = list()
 
-        ################################################################################################################
-        # Step 4: query reporting period master meter energy consumption
-        ################################################################################################################
-        reporting = dict()
-        reporting['master_meter_total_in_category'] = Decimal(0.0)
-        reporting['submeters_total_in_category'] = Decimal(0.0)
-        reporting['total_difference_in_category'] = Decimal(0.0)
-        reporting['percentage_difference'] = Decimal(0.0)
-        reporting['timestamps'] = list()
-        reporting['master_meter_values'] = list()
-        reporting['submeters_values'] = list()
-        reporting['difference_values'] = list()
+                query = (" SELECT start_datetime_utc, actual_value "
+                         " FROM tbl_meter_hourly "
+                         " WHERE meter_id = %s "
+                         " AND start_datetime_utc >= %s "
+                         " AND start_datetime_utc < %s "
+                         " ORDER BY start_datetime_utc ")
+                cursor_energy.execute(query, (master_meter['id'],
+                                              reporting_start_datetime_utc, reporting_end_datetime_utc))
+                rows_meter_hourly = cursor_energy.fetchall()
 
-        parameters_data = dict()
-        parameters_data['names'] = list()
-        parameters_data['timestamps'] = list()
-        parameters_data['values'] = list()
-
-        query = (" SELECT start_datetime_utc, actual_value "
-                 " FROM tbl_meter_hourly "
-                 " WHERE meter_id = %s "
-                 " AND start_datetime_utc >= %s "
-                 " AND start_datetime_utc < %s "
-                 " ORDER BY start_datetime_utc ")
-        cursor_energy.execute(query, (master_meter['id'], reporting_start_datetime_utc, reporting_end_datetime_utc))
-        rows_meter_hourly = cursor_energy.fetchall()
-
-        rows_meter_periodically = utilities.aggregate_hourly_data_by_period(rows_meter_hourly,
-                                                                            reporting_start_datetime_utc,
-                                                                            reporting_end_datetime_utc,
-                                                                            period_type)
-
-        for row_meter_periodically in rows_meter_periodically:
-            current_datetime_local = row_meter_periodically[0].replace(tzinfo=timezone.utc) + \
-                                     timedelta(minutes=timezone_offset)
-            if period_type == 'hourly':
-                current_datetime = current_datetime_local.isoformat()[0:19]
-            elif period_type == 'daily':
-                current_datetime = current_datetime_local.isoformat()[0:10]
-            elif period_type == 'weekly':
-                current_datetime = current_datetime_local.isoformat()[0:10]
-            elif period_type == 'monthly':
-                current_datetime = current_datetime_local.isoformat()[0:7]
-            elif period_type == 'yearly':
-                current_datetime = current_datetime_local.isoformat()[0:4]
-
-            actual_value = Decimal(0.0) if row_meter_periodically[1] is None else row_meter_periodically[1]
-
-            reporting['timestamps'].append(current_datetime)
-            reporting['master_meter_values'].append(actual_value)
-            reporting['master_meter_total_in_category'] += actual_value
-
-        # add master meter values to parameter data
-        parameters_data['names'].append(master_meter['name'])
-        parameters_data['timestamps'].append(reporting['timestamps'])
-        parameters_data['values'].append(reporting['master_meter_values'])
-
-        ################################################################################################################
-        # Step 5: query reporting period submeters energy consumption
-        ################################################################################################################
-        if len(submeter_list) > 0:
-            query = (" SELECT start_datetime_utc, SUM(actual_value) "
-                     " FROM tbl_meter_hourly "
-                     " WHERE meter_id IN ( " + ', '.join(map(str, submeter_id_set)) + ") "
-                     " AND start_datetime_utc >= %s "
-                     " AND start_datetime_utc < %s "
-                     " GROUP BY start_datetime_utc "
-                     " ORDER BY start_datetime_utc ")
-            cursor_energy.execute(query, (reporting_start_datetime_utc, reporting_end_datetime_utc))
-            rows_submeters_hourly = cursor_energy.fetchall()
-
-            rows_submeters_periodically = utilities.aggregate_hourly_data_by_period(rows_submeters_hourly,
+                rows_meter_periodically = utilities.aggregate_hourly_data_by_period(rows_meter_hourly,
                                                                                     reporting_start_datetime_utc,
                                                                                     reporting_end_datetime_utc,
                                                                                     period_type)
 
-            for row_submeters_periodically in rows_submeters_periodically:
-                current_datetime_local = row_submeters_periodically[0].replace(tzinfo=timezone.utc) + \
-                                         timedelta(minutes=timezone_offset)
-                if period_type == 'hourly':
-                    current_datetime = current_datetime_local.isoformat()[0:19]
-                elif period_type == 'daily':
-                    current_datetime = current_datetime_local.isoformat()[0:10]
-                elif period_type == 'weekly':
-                    current_datetime = current_datetime_local.isoformat()[0:10]
-                elif period_type == 'monthly':
-                    current_datetime = current_datetime_local.isoformat()[0:7]
-                elif period_type == 'yearly':
-                    current_datetime = current_datetime_local.isoformat()[0:4]
+                for row_meter_periodically in rows_meter_periodically:
+                    current_datetime_local = row_meter_periodically[0].replace(tzinfo=timezone.utc) + \
+                                             timedelta(minutes=timezone_offset)
+                    if period_type == 'hourly':
+                        current_datetime = current_datetime_local.isoformat()[0:19]
+                    elif period_type == 'daily':
+                        current_datetime = current_datetime_local.isoformat()[0:10]
+                    elif period_type == 'weekly':
+                        current_datetime = current_datetime_local.isoformat()[0:10]
+                    elif period_type == 'monthly':
+                        current_datetime = current_datetime_local.isoformat()[0:7]
+                    elif period_type == 'yearly':
+                        current_datetime = current_datetime_local.isoformat()[0:4]
 
-                actual_value = Decimal(0.0) if row_submeters_periodically[1] is None else row_submeters_periodically[1]
+                    actual_value = Decimal(0.0) if row_meter_periodically[1] is None else row_meter_periodically[1]
 
-                reporting['submeters_values'].append(actual_value)
-                reporting['submeters_total_in_category'] += actual_value
+                    reporting['timestamps'].append(current_datetime)
+                    reporting['master_meter_values'].append(actual_value)
+                    reporting['master_meter_total_in_category'] += actual_value
 
-        ################################################################################################################
-        # Step 6: calculate reporting period difference between master meter and submeters
-        ################################################################################################################
-        if len(submeter_list) > 0:
-            for i in range(len(reporting['timestamps'])):
-                reporting['difference_values'].append(reporting['master_meter_values'][i] -
-                                                      reporting['submeters_values'][i])
-        else:
-            for i in range(len(reporting['timestamps'])):
-                reporting['difference_values'].append(reporting['master_meter_values'][i])
+                # add master meter values to parameter data
+                parameters_data['names'].append(master_meter['name'])
+                parameters_data['timestamps'].append(reporting['timestamps'])
+                parameters_data['values'].append(reporting['master_meter_values'])
 
-        reporting['total_difference_in_category'] = \
-            reporting['master_meter_total_in_category'] - reporting['submeters_total_in_category']
+                ##################################################################################################
+                # Step 5: query reporting period submeters energy consumption
+                ##################################################################################################
+                if len(submeter_list) > 0:
+                    query = (" SELECT start_datetime_utc, SUM(actual_value) "
+                             " FROM tbl_meter_hourly "
+                             " WHERE meter_id IN ( " + ', '.join(map(str, submeter_id_set)) + ") "
+                             " AND start_datetime_utc >= %s "
+                             " AND start_datetime_utc < %s "
+                             " GROUP BY start_datetime_utc "
+                             " ORDER BY start_datetime_utc ")
+                    cursor_energy.execute(query, (reporting_start_datetime_utc, reporting_end_datetime_utc))
+                    rows_submeters_hourly = cursor_energy.fetchall()
 
-        if abs(reporting['master_meter_total_in_category']) > Decimal(0.0):
-            reporting['percentage_difference'] = \
-                reporting['total_difference_in_category'] / reporting['master_meter_total_in_category']
-        elif abs(reporting['master_meter_total_in_category']) == Decimal(0.0) and \
-                abs(reporting['submeters_total_in_category']) > Decimal(0.0):
-            reporting['percentage_difference'] = Decimal(-1.0)
+                    rows_submeters_periodically = utilities.aggregate_hourly_data_by_period(
+                        rows_submeters_hourly,
+                        reporting_start_datetime_utc,
+                        reporting_end_datetime_utc,
+                        period_type)
 
-        ################################################################################################################
-        # Step 7: query submeter values as parameter data
-        ################################################################################################################
-        for submeter in submeter_list:
-            submeter_timestamps = list()
-            submeter_values = list()
+                    for row_submeters_periodically in rows_submeters_periodically:
+                        current_datetime_local = row_submeters_periodically[0].replace(tzinfo=timezone.utc) + \
+                                                 timedelta(minutes=timezone_offset)
+                        if period_type == 'hourly':
+                            current_datetime = current_datetime_local.isoformat()[0:19]
+                        elif period_type == 'daily':
+                            current_datetime = current_datetime_local.isoformat()[0:10]
+                        elif period_type == 'weekly':
+                            current_datetime = current_datetime_local.isoformat()[0:10]
+                        elif period_type == 'monthly':
+                            current_datetime = current_datetime_local.isoformat()[0:7]
+                        elif period_type == 'yearly':
+                            current_datetime = current_datetime_local.isoformat()[0:4]
 
-            query = (" SELECT start_datetime_utc, actual_value "
-                     " FROM tbl_meter_hourly "
-                     " WHERE meter_id = %s "
-                     " AND start_datetime_utc >= %s "
-                     " AND start_datetime_utc < %s "
-                     " ORDER BY start_datetime_utc ")
-            cursor_energy.execute(query, (submeter['id'], reporting_start_datetime_utc, reporting_end_datetime_utc))
-            rows_meter_hourly = cursor_energy.fetchall()
+                        actual_value = Decimal(0.0) if row_submeters_periodically[1] is None \
+                            else row_submeters_periodically[1]
 
-            rows_meter_periodically = utilities.aggregate_hourly_data_by_period(rows_meter_hourly,
-                                                                                reporting_start_datetime_utc,
-                                                                                reporting_end_datetime_utc,
-                                                                                period_type)
+                        reporting['submeters_values'].append(actual_value)
+                        reporting['submeters_total_in_category'] += actual_value
 
-            for row_meter_periodically in rows_meter_periodically:
-                current_datetime_local = row_meter_periodically[0].replace(tzinfo=timezone.utc) + \
-                                         timedelta(minutes=timezone_offset)
-                if period_type == 'hourly':
-                    current_datetime = current_datetime_local.isoformat()[0:19]
-                elif period_type == 'daily':
-                    current_datetime = current_datetime_local.isoformat()[0:10]
-                elif period_type == 'weekly':
-                    current_datetime = current_datetime_local.isoformat()[0:10]
-                elif period_type == 'monthly':
-                    current_datetime = current_datetime_local.isoformat()[0:7]
-                elif period_type == 'yearly':
-                    current_datetime = current_datetime_local.isoformat()[0:4]
+                ###############################################################################################
+                # Step 6: calculate reporting period difference between master meter and submeters
+                ###############################################################################################
+                if len(submeter_list) > 0:
+                    for i in range(len(reporting['timestamps'])):
+                        reporting['difference_values'].append(reporting['master_meter_values'][i] -
+                                                              reporting['submeters_values'][i])
+                else:
+                    for i in range(len(reporting['timestamps'])):
+                        reporting['difference_values'].append(reporting['master_meter_values'][i])
 
-                actual_value = Decimal(0.0) if row_meter_periodically[1] is None else row_meter_periodically[1]
+                reporting['total_difference_in_category'] = \
+                    reporting['master_meter_total_in_category'] - reporting['submeters_total_in_category']
 
-                submeter_timestamps.append(current_datetime)
-                submeter_values.append(actual_value)
+                if abs(reporting['master_meter_total_in_category']) > Decimal(0.0):
+                    reporting['percentage_difference'] = \
+                        reporting['total_difference_in_category'] / reporting['master_meter_total_in_category']
+                elif abs(reporting['master_meter_total_in_category']) == Decimal(0.0) and \
+                        abs(reporting['submeters_total_in_category']) > Decimal(0.0):
+                    reporting['percentage_difference'] = Decimal(-1.0)
 
-            parameters_data['names'].append(submeter['name'])
-            parameters_data['timestamps'].append(submeter_timestamps)
-            parameters_data['values'].append(submeter_values)
+                ################################################################################################
+                # Step 7: query submeter values as parameter data
+                ################################################################################################
+                for submeter in submeter_list:
+                    submeter_timestamps = list()
+                    submeter_values = list()
+
+                    query = (" SELECT start_datetime_utc, actual_value "
+                             " FROM tbl_meter_hourly "
+                             " WHERE meter_id = %s "
+                             " AND start_datetime_utc >= %s "
+                             " AND start_datetime_utc < %s "
+                             " ORDER BY start_datetime_utc ")
+                    cursor_energy.execute(query, (submeter['id'],
+                                                  reporting_start_datetime_utc, reporting_end_datetime_utc))
+                    rows_meter_hourly = cursor_energy.fetchall()
+
+                    rows_meter_periodically = utilities.aggregate_hourly_data_by_period(rows_meter_hourly,
+                                                                                        reporting_start_datetime_utc,
+                                                                                        reporting_end_datetime_utc,
+                                                                                        period_type)
+
+                    for row_meter_periodically in rows_meter_periodically:
+                        current_datetime_local = row_meter_periodically[0].replace(tzinfo=timezone.utc) + \
+                                                 timedelta(minutes=timezone_offset)
+                        if period_type == 'hourly':
+                            current_datetime = current_datetime_local.isoformat()[0:19]
+                        elif period_type == 'daily':
+                            current_datetime = current_datetime_local.isoformat()[0:10]
+                        elif period_type == 'weekly':
+                            current_datetime = current_datetime_local.isoformat()[0:10]
+                        elif period_type == 'monthly':
+                            current_datetime = current_datetime_local.isoformat()[0:7]
+                        elif period_type == 'yearly':
+                            current_datetime = current_datetime_local.isoformat()[0:4]
+
+                        actual_value = Decimal(0.0) if row_meter_periodically[1] is None else row_meter_periodically[1]
+
+                        submeter_timestamps.append(current_datetime)
+                        submeter_values.append(actual_value)
+
+                    parameters_data['names'].append(submeter['name'])
+                    parameters_data['timestamps'].append(submeter_timestamps)
+                    parameters_data['values'].append(submeter_values)
+
+            finally:
+                if cursor_system:
+                    cursor_system.close()
+                if cursor_energy:
+                    cursor_energy.close()
+
+        finally:
+            if cnx_system:
+                cnx_system.close()
+            if cnx_energy:
+                cnx_energy.close()
 
         ################################################################################################################
         # Step 8: construct the report
         ################################################################################################################
-        if cursor_system:
-            cursor_system.close()
-        if cnx_system:
-            cnx_system.close()
-
-        if cursor_energy:
-            cursor_energy.close()
-        if cnx_energy:
-            cnx_energy.close()
-
         result = {
             "meter": {
                 "cost_center_id": master_meter['cost_center_id'],
