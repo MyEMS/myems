@@ -249,7 +249,8 @@ class Reporting:
                     "quickmode": is_quick_mode,
                 }
                 cache_params_json = json.dumps(cache_params, sort_keys=True)
-                cache_key = 'report:storeenergycategory:' + hashlib.sha256(cache_params_json.encode('utf-8')).hexdigest()
+                cache_key = 'report:storeenergycategory:' + \
+                            hashlib.sha256(cache_params_json.encode('utf-8')).hexdigest()
 
                 cached_result = redis_client.get(cache_key)
                 if cached_result:

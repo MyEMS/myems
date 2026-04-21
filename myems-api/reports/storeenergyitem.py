@@ -693,8 +693,8 @@ class Reporting:
                                                                                  base_period_end_datetime_local,
                                                                                  reporting_period_start_datetime_local,
                                                                                  reporting_period_end_datetime_local,
-                                                          period_type,
-                                                          language)
+                                                                                 period_type,
+                                                                                 language)
 
         resp_text = json.dumps(result)
         resp.text = resp_text
