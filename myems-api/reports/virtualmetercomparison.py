@@ -40,7 +40,7 @@ import mysql.connector
 import redis
 import simplejson as json
 import config
-import excelexporters.virtualmetercomparison  # ��Ӧ�����Excel����ģ��
+import excelexporters.virtualmetercomparison
 from core import utilities
 from core.useractivity import access_control, api_key_control
 
@@ -437,7 +437,7 @@ class Reporting:
                 "energy_category_id": virtual_meter1['energy_category_id'],
                 "energy_category_name": virtual_meter1['energy_category_name'],
                 "unit_of_measure": virtual_meter1['unit_of_measure'],
-                "equation": virtual_meter1['equation']  # ���������ط���ʽ
+                "equation": virtual_meter1['equation']
             },
             "reporting_period1": {
                 "total_in_category": reporting1['total_in_category'],
