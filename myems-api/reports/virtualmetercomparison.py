@@ -40,7 +40,7 @@ import mysql.connector
 import redis
 import simplejson as json
 import config
-import excelexporters.virtualmetercomparison  # 对应虚拟表Excel导出模块
+import excelexporters.virtualmetercomparison
 from core import utilities
 from core.useractivity import access_control, api_key_control
 
@@ -89,7 +89,8 @@ class Reporting:
         # Step 1: valid parameters
         ################################################################################################################
         if virtual_meter_id1 is None and virtual_meter_uuid1 is None:
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST', description='API.INVALID_VIRTUAL_METER_ID')
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_VIRTUAL_METER_ID')
 
         if virtual_meter_id1 is not None:
             virtual_meter_id1 = str.strip(virtual_meter_id1)
@@ -217,7 +218,8 @@ class Reporting:
                     "quickmode": is_quick_mode,
                 }
                 cache_params_json = json.dumps(cache_params, sort_keys=True)
-                cache_key = 'report:virtualmetercomparison:' + hashlib.sha256(cache_params_json.encode('utf-8')).hexdigest()
+                cache_key = ('report:virtualmetercomparison:' +
+                             hashlib.sha256(cache_params_json.encode('utf-8')).hexdigest())
 
                 cached_result = redis_client.get(cache_key)
                 if cached_result:
@@ -229,219 +231,213 @@ class Reporting:
         ################################################################################################################
         # Step 2: query the virtual meter and energy category
         ################################################################################################################
-        cnx_system = mysql.connector.connect(**config.myems_system_db)
-        cursor_system = cnx_system.cursor()
+        cnx_system = None
+        cnx_energy = None
+        cnx_historical = None
+        try:
+            cnx_system = mysql.connector.connect(**config.myems_system_db)
+            cnx_energy = mysql.connector.connect(** config.myems_energy_db)
+            cnx_historical = mysql.connector.connect(**config.myems_historical_db)
 
-        cnx_energy = mysql.connector.connect(** config.myems_energy_db)
-        cursor_energy = cnx_energy.cursor()
+            cursor_system = None
+            cursor_energy = None
+            cursor_historical = None
+            try:
+                cursor_system = cnx_system.cursor()
+                cursor_energy = cnx_energy.cursor()
+                cursor_historical = cnx_historical.cursor()
 
-        cnx_historical = mysql.connector.connect(**config.myems_historical_db)
-        cursor_historical = cnx_historical.cursor()
+                if virtual_meter_id1 is not None:
+                    cursor_system.execute(" SELECT vm.id, vm.name, vm.energy_category_id, "
+                                          "ec.name, ec.unit_of_measure, vm.equation "
+                                          " FROM tbl_virtual_meters vm, tbl_energy_categories ec "
+                                          " WHERE vm.id = %s AND vm.energy_category_id = ec.id ", (virtual_meter_id1,))
+                    row_virtual_meter1 = cursor_system.fetchone()
+                elif virtual_meter_uuid1 is not None:
+                    cursor_system.execute(" SELECT vm.id, vm.name, vm.energy_category_id, "
+                                          "ec.name, ec.unit_of_measure, vm.equation "
+                                          " FROM tbl_virtual_meters vm, tbl_energy_categories ec "
+                                          " WHERE vm.uuid = %s AND vm.energy_category_id = ec.id ",
+                                          (virtual_meter_uuid1,))
+                    row_virtual_meter1 = cursor_system.fetchone()
 
-        if virtual_meter_id1 is not None:
-            cursor_system.execute(" SELECT vm.id, vm.name, vm.energy_category_id, ec.name, ec.unit_of_measure, vm.equation "
-                                  " FROM tbl_virtual_meters vm, tbl_energy_categories ec "
-                                  " WHERE vm.id = %s AND vm.energy_category_id = ec.id ", (virtual_meter_id1,))
-            row_virtual_meter1 = cursor_system.fetchone()
-        elif virtual_meter_uuid1 is not None:
-            cursor_system.execute(" SELECT vm.id, vm.name, vm.energy_category_id, ec.name, ec.unit_of_measure, vm.equation "
-                                  " FROM tbl_virtual_meters vm, tbl_energy_categories ec "
-                                  " WHERE vm.uuid = %s AND vm.energy_category_id = ec.id ", (virtual_meter_uuid1,))
-            row_virtual_meter1 = cursor_system.fetchone()
+                if row_virtual_meter1 is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.VIRTUAL_METER_NOT_FOUND')
 
-        if row_virtual_meter1 is None:
-            if cursor_system:
-                cursor_system.close()
+                virtual_meter1 = dict()
+                virtual_meter1['id'] = row_virtual_meter1[0]
+                virtual_meter1['name'] = row_virtual_meter1[1]
+                virtual_meter1['energy_category_id'] = row_virtual_meter1[2]
+                virtual_meter1['energy_category_name'] = row_virtual_meter1[3]
+                virtual_meter1['unit_of_measure'] = row_virtual_meter1[4]
+                virtual_meter1['equation'] = row_virtual_meter1[5]  
+
+                if virtual_meter_id2 is not None:
+                    cursor_system.execute(" SELECT vm.id, vm.name, vm.energy_category_id, "
+                                          "ec.name, ec.unit_of_measure, vm.equation "
+                                          " FROM tbl_virtual_meters vm, tbl_energy_categories ec "
+                                          " WHERE vm.id = %s AND vm.energy_category_id = ec.id ", (virtual_meter_id2,))
+                    row_virtual_meter2 = cursor_system.fetchone()
+                elif virtual_meter_uuid2 is not None:
+                    cursor_system.execute(" SELECT vm.id, vm.name, vm.energy_category_id, ec.name, "
+                                          "ec.unit_of_measure, vm.equation "
+                                          " FROM tbl_virtual_meters vm, tbl_energy_categories ec "
+                                          " WHERE vm.uuid = %s AND vm.energy_category_id = ec.id ",
+                                          (virtual_meter_uuid2,))
+                    row_virtual_meter2 = cursor_system.fetchone()
+
+                if row_virtual_meter2 is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.VIRTUAL_METER_NOT_FOUND')
+
+                virtual_meter2 = dict()
+                virtual_meter2['id'] = row_virtual_meter2[0]
+                virtual_meter2['name'] = row_virtual_meter2[1]
+                virtual_meter2['energy_category_id'] = row_virtual_meter2[2]
+                virtual_meter2['energy_category_name'] = row_virtual_meter2[3]
+                virtual_meter2['unit_of_measure'] = row_virtual_meter2[4]
+                virtual_meter2['equation'] = row_virtual_meter2[5]  
+
+                ################################################################################################
+                # Step 3: parse equation and get associated points 
+                ################################################################################################
+                def parse_equation_and_get_points(equation, cursor_system):
+                    if not equation:
+                        return []
+                    variables = re.findall(r'x\d+', equation)  
+                    if not variables:
+                        return []
+                    unique_vars = list(set(variables))
+                   
+                    placeholders = ', '.join(['%s'] * len(unique_vars))
+                    cursor_system.execute(f" SELECT p.id, p.name, p.units, p.object_type "
+                                          f" FROM tbl_points p "
+                                          f" WHERE p.name IN ({placeholders}) ", tuple(unique_vars))
+                    rows = cursor_system.fetchall()
+                    return [{"id": row[0], "name": row[1], "units": row[2], "object_type": row[3]} for row in rows]
+
+                point_list1 = parse_equation_and_get_points(virtual_meter1['equation'], cursor_system)
+                point_list2 = parse_equation_and_get_points(virtual_meter2['equation'], cursor_system)
+
+                ####################################################################################################
+                # Step 4: query reporting period energy consumption
+                ####################################################################################################
+                query1 = (" SELECT start_datetime_utc, actual_value "
+                          " FROM tbl_virtual_meter_hourly "
+                          " WHERE virtual_meter_id = %s "
+                          " AND start_datetime_utc >= %s "
+                          " AND start_datetime_utc < %s "
+                          " ORDER BY start_datetime_utc ")
+                cursor_energy.execute(query1, (virtual_meter1['id'],
+                                               reporting_start_datetime_utc, reporting_end_datetime_utc))
+                rows_virtual_meter1_hourly = cursor_energy.fetchall()
+
+                rows_virtual_meter1_periodically = utilities.aggregate_hourly_data_by_period(
+                    rows_virtual_meter1_hourly,
+                    reporting_start_datetime_utc,
+                    reporting_end_datetime_utc,
+                    period_type)
+                reporting1 = dict()
+                reporting1['timestamps'] = list()
+                reporting1['values'] = list()
+                reporting1['total_in_category'] = Decimal(0.0)
+
+                for row_virtual_meter1_periodically in rows_virtual_meter1_periodically:
+                    current_datetime_local = row_virtual_meter1_periodically[0].replace(tzinfo=timezone.utc) + \
+                        timedelta(minutes=timezone_offset)
+                    if period_type == 'hourly':
+                        current_datetime = current_datetime_local.isoformat()[0:19]
+                    elif period_type == 'daily':
+                        current_datetime = current_datetime_local.isoformat()[0:10]
+                    elif period_type == 'weekly':
+                        current_datetime = current_datetime_local.isoformat()[0:10]
+                    elif period_type == 'monthly':
+                        current_datetime = current_datetime_local.isoformat()[0:7]
+                    elif period_type == 'yearly':
+                        current_datetime = current_datetime_local.isoformat()[0:4]
+
+                    actual_value = Decimal(0.0) if row_virtual_meter1_periodically[1] is None \
+                        else row_virtual_meter1_periodically[1]
+
+                    reporting1['timestamps'].append(current_datetime)
+                    reporting1['values'].append(actual_value)
+                    reporting1['total_in_category'] += actual_value
+
+                query2 = (" SELECT start_datetime_utc, actual_value "
+                          " FROM tbl_virtual_meter_hourly "
+                          " WHERE virtual_meter_id = %s "
+                          " AND start_datetime_utc >= %s "
+                          " AND start_datetime_utc < %s "
+                          " ORDER BY start_datetime_utc ")
+                cursor_energy.execute(query2, (virtual_meter2['id'],
+                                               reporting_start_datetime_utc, reporting_end_datetime_utc))
+                rows_virtual_meter2_hourly = cursor_energy.fetchall()
+
+                rows_virtual_meter2_periodically = utilities.aggregate_hourly_data_by_period(
+                    rows_virtual_meter2_hourly,
+                    reporting_start_datetime_utc,
+                    reporting_end_datetime_utc,
+                    period_type)
+                reporting2 = dict()
+                diff = dict()
+                reporting2['timestamps'] = list()
+                reporting2['values'] = list()
+                reporting2['total_in_category'] = Decimal(0.0)
+                diff['values'] = list()
+                diff['total_in_category'] = Decimal(0.0)
+
+                for row_virtual_meter2_periodically in rows_virtual_meter2_periodically:
+                    current_datetime_local = row_virtual_meter2_periodically[0].replace(tzinfo=timezone.utc) + \
+                                             timedelta(minutes=timezone_offset)
+                    if period_type == 'hourly':
+                        current_datetime = current_datetime_local.isoformat()[0:19]
+                    elif period_type == 'daily':
+                        current_datetime = current_datetime_local.isoformat()[0:10]
+                    elif period_type == 'weekly':
+                        current_datetime = current_datetime_local.isoformat()[0:10]
+                    elif period_type == 'monthly':
+                        current_datetime = current_datetime_local.isoformat()[0:7]
+                    elif period_type == 'yearly':
+                        current_datetime = current_datetime_local.isoformat()[0:4]
+
+                    actual_value = Decimal(0.0) if row_virtual_meter2_periodically[1] is None \
+                        else row_virtual_meter2_periodically[1]
+
+                    reporting2['timestamps'].append(current_datetime)
+                    reporting2['values'].append(actual_value)
+                    reporting2['total_in_category'] += actual_value
+
+                for virtual_meter1_value, virtual_meter2_value in zip(reporting1['values'], reporting2['values']):
+                    diff['values'].append(virtual_meter1_value - virtual_meter2_value)
+                    diff['total_in_category'] += virtual_meter1_value - virtual_meter2_value
+
+            finally:
+                if cursor_system:
+                    cursor_system.close()
+                if cursor_energy:
+                    cursor_energy.close()
+                if cursor_historical:
+                    cursor_historical.close()
+
+        finally:
             if cnx_system:
                 cnx_system.close()
-
-            if cursor_energy:
-                cursor_energy.close()
             if cnx_energy:
                 cnx_energy.close()
-
-            if cursor_historical:
-                cursor_historical.close()
             if cnx_historical:
                 cnx_historical.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND', description='API.VIRTUAL_METER_NOT_FOUND')
-
-        virtual_meter1 = dict()
-        virtual_meter1['id'] = row_virtual_meter1[0]
-        virtual_meter1['name'] = row_virtual_meter1[1]
-        virtual_meter1['energy_category_id'] = row_virtual_meter1[2]
-        virtual_meter1['energy_category_name'] = row_virtual_meter1[3]
-        virtual_meter1['unit_of_measure'] = row_virtual_meter1[4]
-        virtual_meter1['equation'] = row_virtual_meter1[5]  
-
-        if virtual_meter_id2 is not None:
-            cursor_system.execute(" SELECT vm.id, vm.name, vm.energy_category_id, ec.name, ec.unit_of_measure, vm.equation "
-                                  " FROM tbl_virtual_meters vm, tbl_energy_categories ec "
-                                  " WHERE vm.id = %s AND vm.energy_category_id = ec.id ", (virtual_meter_id2,))
-            row_virtual_meter2 = cursor_system.fetchone()
-        elif virtual_meter_uuid2 is not None:
-            cursor_system.execute(" SELECT vm.id, vm.name, vm.energy_category_id, ec.name, ec.unit_of_measure, vm.equation "
-                                  " FROM tbl_virtual_meters vm, tbl_energy_categories ec "
-                                  " WHERE vm.uuid = %s AND vm.energy_category_id = ec.id ", (virtual_meter_uuid2,))
-            row_virtual_meter2 = cursor_system.fetchone()
-
-        if row_virtual_meter2 is None:
-            if cursor_system:
-                cursor_system.close()
-            if cnx_system:
-                cnx_system.close()
-
-            if cursor_energy:
-                cursor_energy.close()
-            if cnx_energy:
-                cnx_energy.close()
-
-            if cursor_historical:
-                cursor_historical.close()
-            if cnx_historical:
-                cnx_historical.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND', description='API.VIRTUAL_METER_NOT_FOUND')
-
-        virtual_meter2 = dict()
-        virtual_meter2['id'] = row_virtual_meter2[0]
-        virtual_meter2['name'] = row_virtual_meter2[1]
-        virtual_meter2['energy_category_id'] = row_virtual_meter2[2]
-        virtual_meter2['energy_category_name'] = row_virtual_meter2[3]
-        virtual_meter2['unit_of_measure'] = row_virtual_meter2[4]
-        virtual_meter2['equation'] = row_virtual_meter2[5]  
-
-        ################################################################################################################
-        # Step 3: parse equation and get associated points 
-        ################################################################################################################
-        def parse_equation_and_get_points(equation, cursor_system):
-            if not equation:
-                return []
-            variables = re.findall(r'x\d+', equation)  
-            if not variables:
-                return []
-            unique_vars = list(set(variables))
-           
-            placeholders = ', '.join(['%s'] * len(unique_vars))
-            cursor_system.execute(f" SELECT p.id, p.name, p.units, p.object_type "
-                                  f" FROM tbl_points p "
-                                  f" WHERE p.name IN ({placeholders}) ", tuple(unique_vars))
-            rows = cursor_system.fetchall()
-            return [{"id": row[0], "name": row[1], "units": row[2], "object_type": row[3]} for row in rows]
-
-        point_list1 = parse_equation_and_get_points(virtual_meter1['equation'], cursor_system)
-        point_list2 = parse_equation_and_get_points(virtual_meter2['equation'], cursor_system)
-
-        ################################################################################################################
-        # Step 4: query reporting period energy consumption
-        ################################################################################################################
-        query1 = (" SELECT start_datetime_utc, actual_value "
-                  " FROM tbl_virtual_meter_hourly "
-                  " WHERE virtual_meter_id = %s "
-                  " AND start_datetime_utc >= %s "
-                  " AND start_datetime_utc < %s "
-                  " ORDER BY start_datetime_utc ")
-        cursor_energy.execute(query1, (virtual_meter1['id'], reporting_start_datetime_utc, reporting_end_datetime_utc))
-        rows_virtual_meter1_hourly = cursor_energy.fetchall()
-
-        rows_virtual_meter1_periodically = utilities.aggregate_hourly_data_by_period(rows_virtual_meter1_hourly,
-                                                                                     reporting_start_datetime_utc,
-                                                                                     reporting_end_datetime_utc,
-                                                                                     period_type)
-        reporting1 = dict()
-        reporting1['timestamps'] = list()
-        reporting1['values'] = list()
-        reporting1['total_in_category'] = Decimal(0.0)
-
-        for row_virtual_meter1_periodically in rows_virtual_meter1_periodically:
-            current_datetime_local = row_virtual_meter1_periodically[0].replace(tzinfo=timezone.utc) + \
-                timedelta(minutes=timezone_offset)
-            if period_type == 'hourly':
-                current_datetime = current_datetime_local.isoformat()[0:19]
-            elif period_type == 'daily':
-                current_datetime = current_datetime_local.isoformat()[0:10]
-            elif period_type == 'weekly':
-                current_datetime = current_datetime_local.isoformat()[0:10]
-            elif period_type == 'monthly':
-                current_datetime = current_datetime_local.isoformat()[0:7]
-            elif period_type == 'yearly':
-                current_datetime = current_datetime_local.isoformat()[0:4]
-
-            actual_value = Decimal(0.0) if row_virtual_meter1_periodically[1] is None else row_virtual_meter1_periodically[1]
-
-            reporting1['timestamps'].append(current_datetime)
-            reporting1['values'].append(actual_value)
-            reporting1['total_in_category'] += actual_value
-
-        query2 = (" SELECT start_datetime_utc, actual_value "
-                  " FROM tbl_virtual_meter_hourly "
-                  " WHERE virtual_meter_id = %s "
-                  " AND start_datetime_utc >= %s "
-                  " AND start_datetime_utc < %s "
-                  " ORDER BY start_datetime_utc ")
-        cursor_energy.execute(query2, (virtual_meter2['id'], reporting_start_datetime_utc, reporting_end_datetime_utc))
-        rows_virtual_meter2_hourly = cursor_energy.fetchall()
-
-        rows_virtual_meter2_periodically = utilities.aggregate_hourly_data_by_period(rows_virtual_meter2_hourly,
-                                                                                     reporting_start_datetime_utc,
-                                                                                     reporting_end_datetime_utc,
-                                                                                     period_type)
-        reporting2 = dict()
-        diff = dict()
-        reporting2['timestamps'] = list()
-        reporting2['values'] = list()
-        reporting2['total_in_category'] = Decimal(0.0)
-        diff['values'] = list()
-        diff['total_in_category'] = Decimal(0.0)
-
-        for row_virtual_meter2_periodically in rows_virtual_meter2_periodically:
-            current_datetime_local = row_virtual_meter2_periodically[0].replace(tzinfo=timezone.utc) + \
-                                     timedelta(minutes=timezone_offset)
-            if period_type == 'hourly':
-                current_datetime = current_datetime_local.isoformat()[0:19]
-            elif period_type == 'daily':
-                current_datetime = current_datetime_local.isoformat()[0:10]
-            elif period_type == 'weekly':
-                current_datetime = current_datetime_local.isoformat()[0:10]
-            elif period_type == 'monthly':
-                current_datetime = current_datetime_local.isoformat()[0:7]
-            elif period_type == 'yearly':
-                current_datetime = current_datetime_local.isoformat()[0:4]
-
-            actual_value = Decimal(0.0) if row_virtual_meter2_periodically[1] is None else row_virtual_meter2_periodically[1]
-
-            reporting2['timestamps'].append(current_datetime)
-            reporting2['values'].append(actual_value)
-            reporting2['total_in_category'] += actual_value
-
-        for virtual_meter1_value, virtual_meter2_value in zip(reporting1['values'], reporting2['values']):
-            diff['values'].append(virtual_meter1_value - virtual_meter2_value)
-            diff['total_in_category'] += virtual_meter1_value - virtual_meter2_value
 
         ################################################################################################################
         # Step 5: construct the report
         ################################################################################################################
-        if cursor_system:
-            cursor_system.close()
-        if cnx_system:
-            cnx_system.close()
-
-        if cursor_energy:
-            cursor_energy.close()
-        if cnx_energy:
-            cnx_energy.close()
-
-        if cursor_historical:
-            cursor_historical.close()
-        if cnx_historical:
-            cnx_historical.close()
-
         result = {
             "virtualmeter1": {
                 "name": virtual_meter1['name'],
                 "energy_category_id": virtual_meter1['energy_category_id'],
                 "energy_category_name": virtual_meter1['energy_category_name'],
                 "unit_of_measure": virtual_meter1['unit_of_measure'],
-                "equation": virtual_meter1['equation']  # 新增：返回方程式
+                "equation": virtual_meter1['equation']
             },
             "reporting_period1": {
                 "total_in_category": reporting1['total_in_category'],
