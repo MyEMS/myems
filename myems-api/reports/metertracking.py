@@ -221,151 +221,157 @@ class Reporting:
             except Exception:
                 redis_client = None
 
-        cnx_system_db = mysql.connector.connect(**config.myems_system_db)
-        cursor_system_db = cnx_system_db.cursor()
+        cnx_system_db = None
+        cnx_historical = None
+        try:
+            cnx_system_db = mysql.connector.connect(**config.myems_system_db)
+            cnx_historical = mysql.connector.connect(**config.myems_historical_db)
 
-        cnx_historical = mysql.connector.connect(**config.myems_historical_db)
-        cursor_historical = cnx_historical.cursor()
+            cursor_system_db = None
+            cursor_historical = None
+            try:
+                cursor_system_db = cnx_system_db.cursor()
+                cursor_historical = cnx_historical.cursor()
 
-        cursor_system_db.execute(" SELECT name "
-                                 " FROM tbl_spaces "
-                                 " WHERE id = %s ", (space_id,))
-        row = cursor_system_db.fetchone()
+                cursor_system_db.execute(" SELECT name "
+                                         " FROM tbl_spaces "
+                                         " WHERE id = %s ", (space_id,))
+                row = cursor_system_db.fetchone()
 
-        if row is None:
-            if cursor_system_db:
-                cursor_system_db.close()
+                if row is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.SPACE_NOT_FOUND')
+                else:
+                    space_name = row[0]
+
+                #################################################################################################
+                # Step 2: build a space tree
+                #################################################################################################
+
+                query = (" SELECT id, name, parent_space_id "
+                         " FROM tbl_spaces "
+                         " ORDER BY id ")
+                cursor_system_db.execute(query)
+                rows_spaces = cursor_system_db.fetchall()
+                node_dict = dict()
+                if rows_spaces is not None and len(rows_spaces) > 0:
+                    for row in rows_spaces:
+                        parent_node = node_dict[row[2]] if row[2] is not None else None
+                        node_dict[row[0]] = AnyNode(id=row[0], parent=parent_node, name=row[1])
+
+                ##################################################################################################
+                # Step 3: query all meters in the space tree
+                ##################################################################################################
+                meter_dict = dict()
+                space_dict = dict()
+
+                if config.is_recursive:
+                    for node in LevelOrderIter(node_dict[space_id]):
+                        space_dict[node.id] = node.name
+
+                    cursor_system_db.execute(" SELECT m.id, m.name AS meter_name, s.name AS space_name, "
+                                             "        cc.name AS cost_center_name, ec.name AS energy_category_name, "
+                                             "         m.description, m.uuid AS meter_uuid "
+                                             " FROM tbl_spaces s, tbl_spaces_meters sm, "
+                                             "tbl_meters m, tbl_cost_centers cc, "
+                                             "      tbl_energy_categories ec "
+                                             " WHERE s.id IN ( " + ', '.join(map(str, space_dict.keys())) + ") "
+                                             "       AND sm.space_id = s.id AND sm.meter_id = m.id "
+                                             + energy_category_query +
+                                             " AND m.cost_center_id = cc.id AND m.energy_category_id = ec.id "
+                                             " ORDER BY meter_id ", )
+                else:
+                    cursor_system_db.execute(" SELECT m.id, m.name AS meter_name, s.name AS space_name, "
+                                             "        cc.name AS cost_center_name, ec.name AS energy_category_name, "
+                                             "         m.description, m.uuid AS meter_uuid "
+                                             " FROM tbl_spaces s, tbl_spaces_meters sm, "
+                                             "tbl_meters m, tbl_cost_centers cc, "
+                                             "      tbl_energy_categories ec "
+                                             " WHERE s.id = %s AND sm.space_id = s.id AND sm.meter_id = m.id "
+                                             + energy_category_query +
+                                             " AND m.cost_center_id = cc.id AND m.energy_category_id = ec.id  "
+                                             " ORDER BY meter_id ", (space_id,))
+
+                rows_meters = cursor_system_db.fetchall()
+                if rows_meters is not None and len(rows_meters) > 0:
+                    for row in rows_meters:
+                        meter_dict[row[0]] = {"meter_name": row[1],
+                                              "space_name": row[2],
+                                              "cost_center_name": row[3],
+                                              "energy_category_name": row[4],
+                                              "description": row[5],
+                                              "meter_uuid": row[6]}
+
+                ####################################################################################################
+                # Step 4: query start value and end value
+                ####################################################################################################
+                integral_start_count = int(0)
+                integral_end_count = int(0)
+                integral_full_count = int(0)
+
+                for meter_id in meter_dict:
+                    cursor_system_db.execute(" SELECT point_id "
+                                             " FROM tbl_meters_points mp, tbl_points p"
+                                             " WHERE p.id = mp.point_id AND p.object_type = 'ENERGY_VALUE' "
+                                             "       AND meter_id = %s ", (meter_id, ))
+
+                    rows_points_id = cursor_system_db.fetchall()
+
+                    start_value = None
+                    end_value = None
+                    is_integral_start_value = False
+
+                    if rows_points_id is not None and len(rows_points_id) > 0:
+                        query_start_value = (" SELECT actual_value "
+                                             " FROM tbl_energy_value "
+                                             " where point_id in ("
+                                             + ', '.join(map(lambda x: str(x[0]), rows_points_id)) + ") "
+                                             " AND utc_date_time BETWEEN %s AND %s "
+                                             " ORDER BY utc_date_time DESC LIMIT 0,1")
+                        query_end_value = (" SELECT actual_value "
+                                           " FROM tbl_energy_value "
+                                           " where point_id in ("
+                                           + ', '.join(map(lambda x: str(x[0]), rows_points_id)) + ") "
+                                           " AND utc_date_time BETWEEN %s AND %s "
+                                           " ORDER BY utc_date_time DESC LIMIT 0,1")
+                        cursor_historical.execute(query_start_value,
+                                                  (reporting_start_datetime_utc - timedelta(minutes=15),
+                                                   reporting_start_datetime_utc, ))
+                        row_start_value = cursor_historical.fetchone()
+                        if row_start_value is not None:
+                            start_value = row_start_value[0]
+                            integral_start_count += int(1)
+                            is_integral_start_value = True
+
+                        cursor_historical.execute(query_end_value,
+                                                  ((reporting_end_datetime_utc - timedelta(minutes=15)),
+                                                   reporting_end_datetime_utc, ))
+                        row_end_value = cursor_historical.fetchone()
+
+                        if row_end_value is not None:
+                            end_value = row_end_value[0]
+                            integral_end_count += int(1)
+                            if is_integral_start_value:
+                                integral_full_count += int(1)
+
+                    meter_dict[meter_id]['start_value'] = start_value
+                    meter_dict[meter_id]['end_value'] = end_value
+                    if start_value is not None and end_value is not None:
+                        meter_dict[meter_id]['difference_value'] = end_value - start_value
+                    else:
+                        meter_dict[meter_id]['difference_value'] = None
+
+            finally:
+                if cursor_system_db:
+                    cursor_system_db.close()
+                if cursor_historical:
+                    cursor_historical.close()
+
+        finally:
             if cnx_system_db:
                 cnx_system_db.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.SPACE_NOT_FOUND')
-        else:
-            space_name = row[0]
-
-        ################################################################################################################
-        # Step 2: build a space tree
-        ################################################################################################################
-
-        query = (" SELECT id, name, parent_space_id "
-                 " FROM tbl_spaces "
-                 " ORDER BY id ")
-        cursor_system_db.execute(query)
-        rows_spaces = cursor_system_db.fetchall()
-        node_dict = dict()
-        if rows_spaces is not None and len(rows_spaces) > 0:
-            for row in rows_spaces:
-                parent_node = node_dict[row[2]] if row[2] is not None else None
-                node_dict[row[0]] = AnyNode(id=row[0], parent=parent_node, name=row[1])
-
-        ################################################################################################################
-        # Step 3: query all meters in the space tree
-        ################################################################################################################
-        meter_dict = dict()
-        space_dict = dict()
-
-        if config.is_recursive:
-            for node in LevelOrderIter(node_dict[space_id]):
-                space_dict[node.id] = node.name
-
-            cursor_system_db.execute(" SELECT m.id, m.name AS meter_name, s.name AS space_name, "
-                                     "        cc.name AS cost_center_name, ec.name AS energy_category_name, "
-                                     "         m.description, m.uuid AS meter_uuid "
-                                     " FROM tbl_spaces s, tbl_spaces_meters sm, tbl_meters m, tbl_cost_centers cc, "
-                                     "      tbl_energy_categories ec "
-                                     " WHERE s.id IN ( " + ', '.join(map(str, space_dict.keys())) + ") "
-                                     "       AND sm.space_id = s.id AND sm.meter_id = m.id "
-                                     + energy_category_query +
-                                     " AND m.cost_center_id = cc.id AND m.energy_category_id = ec.id "
-                                     " ORDER BY meter_id ", )
-        else:
-            cursor_system_db.execute(" SELECT m.id, m.name AS meter_name, s.name AS space_name, "
-                                     "        cc.name AS cost_center_name, ec.name AS energy_category_name, "
-                                     "         m.description, m.uuid AS meter_uuid "
-                                     " FROM tbl_spaces s, tbl_spaces_meters sm, tbl_meters m, tbl_cost_centers cc, "
-                                     "      tbl_energy_categories ec "
-                                     " WHERE s.id = %s AND sm.space_id = s.id AND sm.meter_id = m.id "
-                                     + energy_category_query +
-                                     " AND m.cost_center_id = cc.id AND m.energy_category_id = ec.id  "
-                                     " ORDER BY meter_id ", (space_id,))
-
-        rows_meters = cursor_system_db.fetchall()
-        if rows_meters is not None and len(rows_meters) > 0:
-            for row in rows_meters:
-                meter_dict[row[0]] = {"meter_name": row[1],
-                                      "space_name": row[2],
-                                      "cost_center_name": row[3],
-                                      "energy_category_name": row[4],
-                                      "description": row[5],
-                                      "meter_uuid": row[6]}
-
-        ################################################################################################################
-        # Step 4: query start value and end value
-        ################################################################################################################
-        integral_start_count = int(0)
-        integral_end_count = int(0)
-        integral_full_count = int(0)
-
-        for meter_id in meter_dict:
-            cursor_system_db.execute(" SELECT point_id "
-                                     " FROM tbl_meters_points mp, tbl_points p"
-                                     " WHERE p.id = mp.point_id AND p.object_type = 'ENERGY_VALUE' "
-                                     "       AND meter_id = %s ", (meter_id, ))
-
-            rows_points_id = cursor_system_db.fetchall()
-
-            start_value = None
-            end_value = None
-            is_integral_start_value = False
-
-            if rows_points_id is not None and len(rows_points_id) > 0:
-                query_start_value = (" SELECT actual_value "
-                                     " FROM tbl_energy_value "
-                                     " where point_id in ("
-                                     + ', '.join(map(lambda x: str(x[0]), rows_points_id)) + ") "
-                                     " AND utc_date_time BETWEEN %s AND %s "
-                                     " ORDER BY utc_date_time DESC LIMIT 0,1")
-                query_end_value = (" SELECT actual_value "
-                                   " FROM tbl_energy_value "
-                                   " where point_id in ("
-                                   + ', '.join(map(lambda x: str(x[0]), rows_points_id)) + ") "
-                                   " AND utc_date_time BETWEEN %s AND %s "
-                                   " ORDER BY utc_date_time DESC LIMIT 0,1")
-                cursor_historical.execute(query_start_value,
-                                          (reporting_start_datetime_utc - timedelta(minutes=15),
-                                           reporting_start_datetime_utc, ))
-                row_start_value = cursor_historical.fetchone()
-                if row_start_value is not None:
-                    start_value = row_start_value[0]
-                    integral_start_count += int(1)
-                    is_integral_start_value = True
-
-                cursor_historical.execute(query_end_value,
-                                          ((reporting_end_datetime_utc - timedelta(minutes=15)),
-                                           reporting_end_datetime_utc, ))
-                row_end_value = cursor_historical.fetchone()
-
-                if row_end_value is not None:
-                    end_value = row_end_value[0]
-                    integral_end_count += int(1)
-                    if is_integral_start_value:
-                        integral_full_count += int(1)
-
-            meter_dict[meter_id]['start_value'] = start_value
-            meter_dict[meter_id]['end_value'] = end_value
-            if start_value is not None and end_value is not None:
-                meter_dict[meter_id]['difference_value'] = end_value - start_value
-            else:
-                meter_dict[meter_id]['difference_value'] = None
-
-        if cursor_system_db:
-            cursor_system_db.close()
-        if cnx_system_db:
-            cnx_system_db.close()
-
-        if cursor_historical:
-            cursor_historical.close()
-        if cnx_historical:
-            cnx_historical.close()
+            if cnx_historical:
+                cnx_historical.close()
 
         ################################################################################################################
         # Step 5: construct the report

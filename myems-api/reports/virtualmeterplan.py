@@ -257,309 +257,306 @@ class Reporting:
         ################################################################################################################
         # Step 2: query the virtual meter and energy category
         ################################################################################################################
-        cnx_system = mysql.connector.connect(**config.myems_system_db)
-        cursor_system = cnx_system.cursor()
+        cnx_system = None
+        cnx_energy = None
+        cnx_energy_plan = None
+        try:
+            cnx_system = mysql.connector.connect(**config.myems_system_db)
+            cnx_energy = mysql.connector.connect(**config.myems_energy_db)
+            cnx_energy_plan = mysql.connector.connect(**config.myems_energy_plan_db)
 
-        cnx_energy = mysql.connector.connect(**config.myems_energy_db)
-        cursor_energy = cnx_energy.cursor()
+            cursor_system = None
+            cursor_energy = None
+            cursor_energy_plan = None
+            try:
+                cursor_system = cnx_system.cursor()
+                cursor_energy = cnx_energy.cursor()
+                cursor_energy_plan = cnx_energy_plan.cursor()
 
-        cnx_energy_plan = mysql.connector.connect(**config.myems_energy_plan_db)
-        cursor_energy_plan = cnx_energy_plan.cursor()
+                cursor_system.execute(" SELECT m.id, m.name, m.cost_center_id, m.energy_category_id, "
+                                      "        ec.name, ec.unit_of_measure, ec.kgce, ec.kgco2e "
+                                      " FROM tbl_virtual_meters m, tbl_energy_categories ec "
+                                      " WHERE m.id = %s AND m.energy_category_id = ec.id ", (virtual_meter_id,))
+                row_virtual_meter = cursor_system.fetchone()
+                if row_virtual_meter is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.VIRTUAL_METER_NOT_FOUND')
 
-        cursor_system.execute(" SELECT m.id, m.name, m.cost_center_id, m.energy_category_id, "
-                              "        ec.name, ec.unit_of_measure, ec.kgce, ec.kgco2e "
-                              " FROM tbl_virtual_meters m, tbl_energy_categories ec "
-                              " WHERE m.id = %s AND m.energy_category_id = ec.id ", (virtual_meter_id,))
-        row_virtual_meter = cursor_system.fetchone()
-        if row_virtual_meter is None:
-            if cursor_system:
-                cursor_system.close()
+                virtual_meter = dict()
+                virtual_meter['id'] = row_virtual_meter[0]
+                virtual_meter['name'] = row_virtual_meter[1]
+                virtual_meter['cost_center_id'] = row_virtual_meter[2]
+                virtual_meter['energy_category_id'] = row_virtual_meter[3]
+                virtual_meter['energy_category_name'] = row_virtual_meter[4]
+                virtual_meter['unit_of_measure'] = row_virtual_meter[5]
+                virtual_meter['kgce'] = row_virtual_meter[6]
+                virtual_meter['kgco2e'] = row_virtual_meter[7]
+
+                ################################################################################################
+                # Step 3: query base period energy saving
+                ################################################################################################
+                base = dict()
+                base['timestamps'] = list()
+                base['values_plan'] = list()
+                base['values_actual'] = list()
+                base['values_saving'] = list()
+                base['total_in_category_plan'] = Decimal(0.0)
+                base['total_in_category_actual'] = Decimal(0.0)
+                base['total_in_category_saving'] = Decimal(0.0)
+                base['total_in_kgce_plan'] = Decimal(0.0)
+                base['total_in_kgce_actual'] = Decimal(0.0)
+                base['total_in_kgce_saving'] = Decimal(0.0)
+                base['total_in_kgco2e_plan'] = Decimal(0.0)
+                base['total_in_kgco2e_actual'] = Decimal(0.0)
+                base['total_in_kgco2e_saving'] = Decimal(0.0)
+
+                # query base period plan
+                cursor_energy_plan.execute(" SELECT start_datetime_utc, actual_value "
+                                           " FROM tbl_virtual_meter_hourly "
+                                           " WHERE virtual_meter_id = %s "
+                                           " AND start_datetime_utc >= %s "
+                                           " AND start_datetime_utc < %s "
+                                           " ORDER BY start_datetime_utc ",
+                                           (virtual_meter['id'],
+                                            base_start_datetime_utc,
+                                            base_end_datetime_utc))
+                rows_virtual_meter_hourly = cursor_energy_plan.fetchall()
+
+                rows_virtual_meter_periodically = \
+                    utilities.aggregate_hourly_data_by_period(rows_virtual_meter_hourly,
+                                                              base_start_datetime_utc,
+                                                              base_end_datetime_utc,
+                                                              period_type)
+
+                for row_virtual_meter_periodically in rows_virtual_meter_periodically:
+                    current_datetime_local = row_virtual_meter_periodically[0].replace(tzinfo=timezone.utc) + \
+                                             timedelta(minutes=timezone_offset)
+                    if period_type == 'hourly':
+                        current_datetime = current_datetime_local.isoformat()[0:19]
+                    elif period_type == 'daily':
+                        current_datetime = current_datetime_local.isoformat()[0:10]
+                    elif period_type == 'weekly':
+                        current_datetime = current_datetime_local.isoformat()[0:10]
+                    elif period_type == 'monthly':
+                        current_datetime = current_datetime_local.isoformat()[0:7]
+                    elif period_type == 'yearly':
+                        current_datetime = current_datetime_local.isoformat()[0:4]
+
+                    actual_value = Decimal(0.0) if row_virtual_meter_periodically[1] is None \
+                        else row_virtual_meter_periodically[1]
+                    base['timestamps'].append(current_datetime)
+                    base['values_plan'].append(actual_value)
+                    base['total_in_category_plan'] += actual_value
+                    base['total_in_kgce_plan'] += actual_value * virtual_meter['kgce']
+                    base['total_in_kgco2e_plan'] += actual_value * virtual_meter['kgco2e']
+
+                # query base period actual
+                cursor_energy.execute(" SELECT start_datetime_utc, actual_value "
+                                      " FROM tbl_virtual_meter_hourly "
+                                      " WHERE virtual_meter_id = %s "
+                                      " AND start_datetime_utc >= %s "
+                                      " AND start_datetime_utc < %s "
+                                      " ORDER BY start_datetime_utc ",
+                                      (virtual_meter['id'],
+                                       base_start_datetime_utc,
+                                       base_end_datetime_utc))
+                rows_virtual_meter_hourly = cursor_energy.fetchall()
+
+                rows_virtual_meter_periodically = \
+                    utilities.aggregate_hourly_data_by_period(rows_virtual_meter_hourly,
+                                                              base_start_datetime_utc,
+                                                              base_end_datetime_utc,
+                                                              period_type)
+
+                for row_virtual_meter_periodically in rows_virtual_meter_periodically:
+                    current_datetime_local = row_virtual_meter_periodically[0].replace(tzinfo=timezone.utc) + \
+                                             timedelta(minutes=timezone_offset)
+                    if period_type == 'hourly':
+                        current_datetime = current_datetime_local.isoformat()[0:19]
+                    elif period_type == 'daily':
+                        current_datetime = current_datetime_local.isoformat()[0:10]
+                    elif period_type == 'weekly':
+                        current_datetime = current_datetime_local.isoformat()[0:10]
+                    elif period_type == 'monthly':
+                        current_datetime = current_datetime_local.isoformat()[0:7]
+                    elif period_type == 'yearly':
+                        current_datetime = current_datetime_local.isoformat()[0:4]
+
+                    actual_value = Decimal(0.0) if row_virtual_meter_periodically[1] is None \
+                        else row_virtual_meter_periodically[1]
+                    base['values_actual'].append(actual_value)
+                    base['total_in_category_actual'] += actual_value
+                    base['total_in_kgce_actual'] += actual_value * virtual_meter['kgce']
+                    base['total_in_kgco2e_actual'] += actual_value * virtual_meter['kgco2e']
+
+                # calculate base period saving
+                for i in range(len(base['values_plan'])):
+                    base['values_saving'].append(base['values_plan'][i] - base['values_actual'][i])
+
+                base['total_in_category_saving'] = base['total_in_category_plan'] - base['total_in_category_actual']
+                base['total_in_kgce_saving'] = base['total_in_kgce_plan'] - base['total_in_kgce_actual']
+                base['total_in_kgco2e_saving'] = base['total_in_kgco2e_plan'] - base['total_in_kgco2e_actual']
+
+                #################################################################################################
+                # Step 3: query reporting period energy saving
+                #################################################################################################
+                reporting = dict()
+                reporting['timestamps'] = list()
+                reporting['values_plan'] = list()
+                reporting['values_actual'] = list()
+                reporting['values_saving'] = list()
+                reporting['values_rates'] = list()
+                reporting['total_in_category_plan'] = Decimal(0.0)
+                reporting['total_in_category_actual'] = Decimal(0.0)
+                reporting['total_in_category_saving'] = Decimal(0.0)
+                reporting['total_in_kgce_plan'] = Decimal(0.0)
+                reporting['total_in_kgce_actual'] = Decimal(0.0)
+                reporting['total_in_kgce_saving'] = Decimal(0.0)
+                reporting['total_in_kgco2e_plan'] = Decimal(0.0)
+                reporting['total_in_kgco2e_actual'] = Decimal(0.0)
+                reporting['total_in_kgco2e_saving'] = Decimal(0.0)
+                # query reporting period plan
+                cursor_energy_plan.execute(" SELECT start_datetime_utc, actual_value "
+                                           " FROM tbl_virtual_meter_hourly "
+                                           " WHERE virtual_meter_id = %s "
+                                           " AND start_datetime_utc >= %s "
+                                           " AND start_datetime_utc < %s "
+                                           " ORDER BY start_datetime_utc ",
+                                           (virtual_meter['id'],
+                                            reporting_start_datetime_utc,
+                                            reporting_end_datetime_utc))
+                rows_virtual_meter_hourly = cursor_energy_plan.fetchall()
+
+                rows_virtual_meter_periodically = utilities.aggregate_hourly_data_by_period(
+                    rows_virtual_meter_hourly,
+                    reporting_start_datetime_utc,
+                    reporting_end_datetime_utc,
+                    period_type)
+
+                for row_virtual_meter_periodically in rows_virtual_meter_periodically:
+                    current_datetime_local = row_virtual_meter_periodically[0].replace(tzinfo=timezone.utc) + \
+                                             timedelta(minutes=timezone_offset)
+                    if period_type == 'hourly':
+                        current_datetime = current_datetime_local.isoformat()[0:19]
+                    elif period_type == 'daily':
+                        current_datetime = current_datetime_local.isoformat()[0:10]
+                    elif period_type == 'weekly':
+                        current_datetime = current_datetime_local.isoformat()[0:10]
+                    elif period_type == 'monthly':
+                        current_datetime = current_datetime_local.isoformat()[0:7]
+                    elif period_type == 'yearly':
+                        current_datetime = current_datetime_local.isoformat()[0:4]
+
+                    actual_value = Decimal(0.0) if row_virtual_meter_periodically[1] is None \
+                        else row_virtual_meter_periodically[1]
+
+                    reporting['timestamps'].append(current_datetime)
+                    reporting['values_plan'].append(actual_value)
+                    reporting['total_in_category_plan'] += actual_value
+                    reporting['total_in_kgce_plan'] += actual_value * virtual_meter['kgce']
+                    reporting['total_in_kgco2e_plan'] += actual_value * virtual_meter['kgco2e']
+
+                # query reporting period actual
+                cursor_energy.execute(" SELECT start_datetime_utc, actual_value "
+                                      " FROM tbl_virtual_meter_hourly "
+                                      " WHERE virtual_meter_id = %s "
+                                      " AND start_datetime_utc >= %s "
+                                      " AND start_datetime_utc < %s "
+                                      " ORDER BY start_datetime_utc ",
+                                      (virtual_meter['id'],
+                                       reporting_start_datetime_utc,
+                                       reporting_end_datetime_utc))
+                rows_virtual_meter_hourly = cursor_energy.fetchall()
+
+                rows_virtual_meter_periodically = utilities.aggregate_hourly_data_by_period(
+                    rows_virtual_meter_hourly,
+                    reporting_start_datetime_utc,
+                    reporting_end_datetime_utc,
+                    period_type)
+
+                for row_virtual_meter_periodically in rows_virtual_meter_periodically:
+                    current_datetime_local = row_virtual_meter_periodically[0].replace(tzinfo=timezone.utc) + \
+                                             timedelta(minutes=timezone_offset)
+                    if period_type == 'hourly':
+                        current_datetime = current_datetime_local.isoformat()[0:19]
+                    elif period_type == 'daily':
+                        current_datetime = current_datetime_local.isoformat()[0:10]
+                    elif period_type == 'weekly':
+                        current_datetime = current_datetime_local.isoformat()[0:10]
+                    elif period_type == 'monthly':
+                        current_datetime = current_datetime_local.isoformat()[0:7]
+                    elif period_type == 'yearly':
+                        current_datetime = current_datetime_local.isoformat()[0:4]
+
+                    actual_value = Decimal(0.0) if row_virtual_meter_periodically[1] is None \
+                        else row_virtual_meter_periodically[1]
+
+                    reporting['values_actual'].append(actual_value)
+                    reporting['total_in_category_actual'] += actual_value
+                    reporting['total_in_kgce_actual'] += actual_value * virtual_meter['kgce']
+                    reporting['total_in_kgco2e_actual'] += actual_value * virtual_meter['kgco2e']
+
+                # calculate base period saving
+                for i in range(len(reporting['values_plan'])):
+                    reporting['values_saving'].append(reporting['values_plan'][i] - reporting['values_actual'][i])
+
+                reporting['total_in_category_saving'] = \
+                    reporting['total_in_category_plan'] - reporting['total_in_category_actual']
+                reporting['total_in_kgce_saving'] = \
+                    reporting['total_in_kgce_plan'] - reporting['total_in_kgce_actual']
+                reporting['total_in_kgco2e_saving'] = \
+                    reporting['total_in_kgco2e_plan'] - reporting['total_in_kgco2e_actual']
+
+                for index, value in enumerate(reporting['values_saving']):
+                    if index < len(base['values_saving']) and base['values_saving'][index] != 0 and value != 0:
+                        reporting['values_rates'].append((value -
+                                                          base['values_saving'][index]) / base['values_saving'][index])
+                    else:
+                        reporting['values_rates'].append(None)
+
+                ########################################################################################
+                # Step 5: query tariff data
+                ########################################################################################
+                parameters_data = dict()
+                parameters_data['names'] = list()
+                parameters_data['timestamps'] = list()
+                parameters_data['values'] = list()
+                if config.is_tariff_appended and not is_quick_mode:
+                    tariff_dict = utilities.get_energy_category_tariffs(virtual_meter['cost_center_id'],
+                                                                        virtual_meter['energy_category_id'],
+                                                                        reporting_start_datetime_utc,
+                                                                        reporting_end_datetime_utc)
+                    tariff_timestamp_list = list()
+                    tariff_value_list = list()
+                    for k, v in tariff_dict.items():
+                        # convert k from utc to local
+                        k = k + timedelta(minutes=timezone_offset)
+                        tariff_timestamp_list.append(k.isoformat()[0:19])
+                        tariff_value_list.append(v)
+
+                    parameters_data['names'].append(_('Tariff') + '-' + virtual_meter['energy_category_name'])
+                    parameters_data['timestamps'].append(tariff_timestamp_list)
+                    parameters_data['values'].append(tariff_value_list)
+
+            finally:
+                if cursor_system:
+                    cursor_system.close()
+                if cursor_energy:
+                    cursor_energy.close()
+                if cursor_energy_plan:
+                    cursor_energy_plan.close()
+
+        finally:
             if cnx_system:
                 cnx_system.close()
-
-            if cursor_energy:
-                cursor_energy.close()
             if cnx_energy:
                 cnx_energy.close()
-
-            if cursor_energy_plan:
-                cursor_energy_plan.close()
             if cnx_energy_plan:
                 cnx_energy_plan.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.VIRTUAL_METER_NOT_FOUND')
-
-        virtual_meter = dict()
-        virtual_meter['id'] = row_virtual_meter[0]
-        virtual_meter['name'] = row_virtual_meter[1]
-        virtual_meter['cost_center_id'] = row_virtual_meter[2]
-        virtual_meter['energy_category_id'] = row_virtual_meter[3]
-        virtual_meter['energy_category_name'] = row_virtual_meter[4]
-        virtual_meter['unit_of_measure'] = row_virtual_meter[5]
-        virtual_meter['kgce'] = row_virtual_meter[6]
-        virtual_meter['kgco2e'] = row_virtual_meter[7]
-
-        ################################################################################################################
-        # Step 3: query base period energy saving
-        ################################################################################################################
-        base = dict()
-        base['timestamps'] = list()
-        base['values_plan'] = list()
-        base['values_actual'] = list()
-        base['values_saving'] = list()
-        base['total_in_category_plan'] = Decimal(0.0)
-        base['total_in_category_actual'] = Decimal(0.0)
-        base['total_in_category_saving'] = Decimal(0.0)
-        base['total_in_kgce_plan'] = Decimal(0.0)
-        base['total_in_kgce_actual'] = Decimal(0.0)
-        base['total_in_kgce_saving'] = Decimal(0.0)
-        base['total_in_kgco2e_plan'] = Decimal(0.0)
-        base['total_in_kgco2e_actual'] = Decimal(0.0)
-        base['total_in_kgco2e_saving'] = Decimal(0.0)
-
-        # query base period plan
-        cursor_energy_plan.execute(" SELECT start_datetime_utc, actual_value "
-                                   " FROM tbl_virtual_meter_hourly "
-                                   " WHERE virtual_meter_id = %s "
-                                   " AND start_datetime_utc >= %s "
-                                   " AND start_datetime_utc < %s "
-                                   " ORDER BY start_datetime_utc ",
-                                   (virtual_meter['id'],
-                                    base_start_datetime_utc,
-                                    base_end_datetime_utc))
-        rows_virtual_meter_hourly = cursor_energy_plan.fetchall()
-
-        rows_virtual_meter_periodically = \
-            utilities.aggregate_hourly_data_by_period(rows_virtual_meter_hourly,
-                                                      base_start_datetime_utc,
-                                                      base_end_datetime_utc,
-                                                      period_type)
-
-        for row_virtual_meter_periodically in rows_virtual_meter_periodically:
-            current_datetime_local = row_virtual_meter_periodically[0].replace(tzinfo=timezone.utc) + \
-                                     timedelta(minutes=timezone_offset)
-            if period_type == 'hourly':
-                current_datetime = current_datetime_local.isoformat()[0:19]
-            elif period_type == 'daily':
-                current_datetime = current_datetime_local.isoformat()[0:10]
-            elif period_type == 'weekly':
-                current_datetime = current_datetime_local.isoformat()[0:10]
-            elif period_type == 'monthly':
-                current_datetime = current_datetime_local.isoformat()[0:7]
-            elif period_type == 'yearly':
-                current_datetime = current_datetime_local.isoformat()[0:4]
-
-            actual_value = Decimal(0.0) if row_virtual_meter_periodically[1] is None \
-                else row_virtual_meter_periodically[1]
-            base['timestamps'].append(current_datetime)
-            base['values_plan'].append(actual_value)
-            base['total_in_category_plan'] += actual_value
-            base['total_in_kgce_plan'] += actual_value * virtual_meter['kgce']
-            base['total_in_kgco2e_plan'] += actual_value * virtual_meter['kgco2e']
-
-        # query base period actual
-        cursor_energy.execute(" SELECT start_datetime_utc, actual_value "
-                              " FROM tbl_virtual_meter_hourly "
-                              " WHERE virtual_meter_id = %s "
-                              " AND start_datetime_utc >= %s "
-                              " AND start_datetime_utc < %s "
-                              " ORDER BY start_datetime_utc ",
-                              (virtual_meter['id'],
-                               base_start_datetime_utc,
-                               base_end_datetime_utc))
-        rows_virtual_meter_hourly = cursor_energy.fetchall()
-
-        rows_virtual_meter_periodically = \
-            utilities.aggregate_hourly_data_by_period(rows_virtual_meter_hourly,
-                                                      base_start_datetime_utc,
-                                                      base_end_datetime_utc,
-                                                      period_type)
-
-        for row_virtual_meter_periodically in rows_virtual_meter_periodically:
-            current_datetime_local = row_virtual_meter_periodically[0].replace(tzinfo=timezone.utc) + \
-                                     timedelta(minutes=timezone_offset)
-            if period_type == 'hourly':
-                current_datetime = current_datetime_local.isoformat()[0:19]
-            elif period_type == 'daily':
-                current_datetime = current_datetime_local.isoformat()[0:10]
-            elif period_type == 'weekly':
-                current_datetime = current_datetime_local.isoformat()[0:10]
-            elif period_type == 'monthly':
-                current_datetime = current_datetime_local.isoformat()[0:7]
-            elif period_type == 'yearly':
-                current_datetime = current_datetime_local.isoformat()[0:4]
-
-            actual_value = Decimal(0.0) if row_virtual_meter_periodically[1] is None \
-                else row_virtual_meter_periodically[1]
-            base['values_actual'].append(actual_value)
-            base['total_in_category_actual'] += actual_value
-            base['total_in_kgce_actual'] += actual_value * virtual_meter['kgce']
-            base['total_in_kgco2e_actual'] += actual_value * virtual_meter['kgco2e']
-
-        # calculate base period saving
-        for i in range(len(base['values_plan'])):
-            base['values_saving'].append(base['values_plan'][i] - base['values_actual'][i])
-
-        base['total_in_category_saving'] = base['total_in_category_plan'] - base['total_in_category_actual']
-        base['total_in_kgce_saving'] = base['total_in_kgce_plan'] - base['total_in_kgce_actual']
-        base['total_in_kgco2e_saving'] = base['total_in_kgco2e_plan'] - base['total_in_kgco2e_actual']
-
-        ################################################################################################################
-        # Step 3: query reporting period energy saving
-        ################################################################################################################
-        reporting = dict()
-        reporting['timestamps'] = list()
-        reporting['values_plan'] = list()
-        reporting['values_actual'] = list()
-        reporting['values_saving'] = list()
-        reporting['values_rates'] = list()
-        reporting['total_in_category_plan'] = Decimal(0.0)
-        reporting['total_in_category_actual'] = Decimal(0.0)
-        reporting['total_in_category_saving'] = Decimal(0.0)
-        reporting['total_in_kgce_plan'] = Decimal(0.0)
-        reporting['total_in_kgce_actual'] = Decimal(0.0)
-        reporting['total_in_kgce_saving'] = Decimal(0.0)
-        reporting['total_in_kgco2e_plan'] = Decimal(0.0)
-        reporting['total_in_kgco2e_actual'] = Decimal(0.0)
-        reporting['total_in_kgco2e_saving'] = Decimal(0.0)
-        # query reporting period plan
-        cursor_energy_plan.execute(" SELECT start_datetime_utc, actual_value "
-                                   " FROM tbl_virtual_meter_hourly "
-                                   " WHERE virtual_meter_id = %s "
-                                   " AND start_datetime_utc >= %s "
-                                   " AND start_datetime_utc < %s "
-                                   " ORDER BY start_datetime_utc ",
-                                   (virtual_meter['id'],
-                                    reporting_start_datetime_utc,
-                                    reporting_end_datetime_utc))
-        rows_virtual_meter_hourly = cursor_energy_plan.fetchall()
-
-        rows_virtual_meter_periodically = utilities.aggregate_hourly_data_by_period(rows_virtual_meter_hourly,
-                                                                                    reporting_start_datetime_utc,
-                                                                                    reporting_end_datetime_utc,
-                                                                                    period_type)
-
-        for row_virtual_meter_periodically in rows_virtual_meter_periodically:
-            current_datetime_local = row_virtual_meter_periodically[0].replace(tzinfo=timezone.utc) + \
-                                     timedelta(minutes=timezone_offset)
-            if period_type == 'hourly':
-                current_datetime = current_datetime_local.isoformat()[0:19]
-            elif period_type == 'daily':
-                current_datetime = current_datetime_local.isoformat()[0:10]
-            elif period_type == 'weekly':
-                current_datetime = current_datetime_local.isoformat()[0:10]
-            elif period_type == 'monthly':
-                current_datetime = current_datetime_local.isoformat()[0:7]
-            elif period_type == 'yearly':
-                current_datetime = current_datetime_local.isoformat()[0:4]
-
-            actual_value = Decimal(0.0) if row_virtual_meter_periodically[1] is None \
-                else row_virtual_meter_periodically[1]
-
-            reporting['timestamps'].append(current_datetime)
-            reporting['values_plan'].append(actual_value)
-            reporting['total_in_category_plan'] += actual_value
-            reporting['total_in_kgce_plan'] += actual_value * virtual_meter['kgce']
-            reporting['total_in_kgco2e_plan'] += actual_value * virtual_meter['kgco2e']
-
-        # query reporting period actual
-        cursor_energy.execute(" SELECT start_datetime_utc, actual_value "
-                              " FROM tbl_virtual_meter_hourly "
-                              " WHERE virtual_meter_id = %s "
-                              " AND start_datetime_utc >= %s "
-                              " AND start_datetime_utc < %s "
-                              " ORDER BY start_datetime_utc ",
-                              (virtual_meter['id'],
-                               reporting_start_datetime_utc,
-                               reporting_end_datetime_utc))
-        rows_virtual_meter_hourly = cursor_energy.fetchall()
-
-        rows_virtual_meter_periodically = utilities.aggregate_hourly_data_by_period(rows_virtual_meter_hourly,
-                                                                                    reporting_start_datetime_utc,
-                                                                                    reporting_end_datetime_utc,
-                                                                                    period_type)
-
-        for row_virtual_meter_periodically in rows_virtual_meter_periodically:
-            current_datetime_local = row_virtual_meter_periodically[0].replace(tzinfo=timezone.utc) + \
-                                     timedelta(minutes=timezone_offset)
-            if period_type == 'hourly':
-                current_datetime = current_datetime_local.isoformat()[0:19]
-            elif period_type == 'daily':
-                current_datetime = current_datetime_local.isoformat()[0:10]
-            elif period_type == 'weekly':
-                current_datetime = current_datetime_local.isoformat()[0:10]
-            elif period_type == 'monthly':
-                current_datetime = current_datetime_local.isoformat()[0:7]
-            elif period_type == 'yearly':
-                current_datetime = current_datetime_local.isoformat()[0:4]
-
-            actual_value = Decimal(0.0) if row_virtual_meter_periodically[1] is None \
-                else row_virtual_meter_periodically[1]
-
-            reporting['values_actual'].append(actual_value)
-            reporting['total_in_category_actual'] += actual_value
-            reporting['total_in_kgce_actual'] += actual_value * virtual_meter['kgce']
-            reporting['total_in_kgco2e_actual'] += actual_value * virtual_meter['kgco2e']
-
-        # calculate base period saving
-        for i in range(len(reporting['values_plan'])):
-            reporting['values_saving'].append(reporting['values_plan'][i] - reporting['values_actual'][i])
-
-        reporting['total_in_category_saving'] = \
-            reporting['total_in_category_plan'] - reporting['total_in_category_actual']
-        reporting['total_in_kgce_saving'] = \
-            reporting['total_in_kgce_plan'] - reporting['total_in_kgce_actual']
-        reporting['total_in_kgco2e_saving'] = \
-            reporting['total_in_kgco2e_plan'] - reporting['total_in_kgco2e_actual']
-
-        for index, value in enumerate(reporting['values_saving']):
-            if index < len(base['values_saving']) and base['values_saving'][index] != 0 and value != 0:
-                reporting['values_rates'].append((value - base['values_saving'][index]) / base['values_saving'][index])
-            else:
-                reporting['values_rates'].append(None)
-
-        ################################################################################################################
-        # Step 5: query tariff data
-        ################################################################################################################
-        parameters_data = dict()
-        parameters_data['names'] = list()
-        parameters_data['timestamps'] = list()
-        parameters_data['values'] = list()
-        if config.is_tariff_appended and not is_quick_mode:
-            tariff_dict = utilities.get_energy_category_tariffs(virtual_meter['cost_center_id'],
-                                                                virtual_meter['energy_category_id'],
-                                                                reporting_start_datetime_utc,
-                                                                reporting_end_datetime_utc)
-            tariff_timestamp_list = list()
-            tariff_value_list = list()
-            for k, v in tariff_dict.items():
-                # convert k from utc to local
-                k = k + timedelta(minutes=timezone_offset)
-                tariff_timestamp_list.append(k.isoformat()[0:19])
-                tariff_value_list.append(v)
-
-            parameters_data['names'].append(_('Tariff') + '-' + virtual_meter['energy_category_name'])
-            parameters_data['timestamps'].append(tariff_timestamp_list)
-            parameters_data['values'].append(tariff_value_list)
 
         ################################################################################################################
         # Step 6: construct the report
         ################################################################################################################
-        if cursor_system:
-            cursor_system.close()
-        if cnx_system:
-            cnx_system.close()
-
-        if cursor_energy:
-            cursor_energy.close()
-        if cnx_energy:
-            cnx_energy.close()
-
-        if cursor_energy_plan:
-            cursor_energy_plan.close()
-        if cnx_energy_plan:
-            cnx_energy_plan.close()
-
         result = {
             "virtual_meter": {
                 "cost_center_id": virtual_meter['cost_center_id'],
