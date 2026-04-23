@@ -46,9 +46,8 @@ class Reporting:
     # Step 4: query associated points
     # Step 5: query base period energy input
     # Step 6: query reporting period energy input
-    # Step 7: query tariff data
-    # Step 8: query associated points data
-    # Step 9: construct the report
+    # Step 7: query associated points data
+    # Step 8: construct the report
     ####################################################################################################################
     @staticmethod
     def on_get(req, resp):
@@ -224,7 +223,9 @@ class Reporting:
                     "quickmode": is_quick_mode,
                 }
                 cache_params_json = json.dumps(cache_params, sort_keys=True)
-                cache_key = 'report:equipmentprediction:' + hashlib.sha256(cache_params_json.encode('utf-8')).hexdigest()
+                cache_key = 'report:equipmentprediction:' + hashlib.sha256(
+                    cache_params_json.encode('utf-8')
+                ).hexdigest()
 
                 cached_result = redis_client.get(cache_key)
                 if cached_result:
@@ -475,35 +476,6 @@ class Reporting:
                             elif peak_type == 'deep':
                                 reporting[energy_category_id]['deep'] += row[1]
 
-                ###################################################################################
-                # Step 6: query tariff data
-                ###################################################################################
-                parameters_data = dict()
-                parameters_data['names'] = list()
-                parameters_data['timestamps'] = list()
-                parameters_data['values'] = list()
-                if not is_quick_mode:
-                    if (config.is_tariff_appended and energy_category_set is not None
-                            and len(energy_category_set) > 0):
-                        for energy_category_id in energy_category_set:
-                            energy_category_tariff_dict = utilities.get_energy_category_tariffs(
-                                equipment['cost_center_id'],
-                                energy_category_id,
-                                reporting_start_datetime_utc,
-                                reporting_end_datetime_utc)
-                            tariff_timestamp_list = list()
-                            tariff_value_list = list()
-                            for k, v in energy_category_tariff_dict.items():
-                                # convert k from utc to local
-                                k = k + timedelta(minutes=timezone_offset)
-                                tariff_timestamp_list.append(k.isoformat()[0:19])
-                                tariff_value_list.append(v)
-
-                            parameters_data['names'].append(
-                                _('Tariff') + '-' + energy_category_dict[energy_category_id]['name'])
-                            parameters_data['timestamps'].append(tariff_timestamp_list)
-                            parameters_data['values'].append(tariff_value_list)
-
                 ######################################################################################
                 # Step 7: query associated points data
                 ######################################################################################
@@ -565,11 +537,6 @@ class Reporting:
                                     current_datetime = current_datetime_local.isoformat()[0:19]
                                     point_timestamps.append(current_datetime)
                                     point_values.append(row[1])
-
-                        parameters_data['names'].append(point['name'] + ' (' + point['units'] + ')')
-                        parameters_data['timestamps'].append(point_timestamps)
-                        parameters_data['values'].append(point_values)
-
             finally:
                 if cursor_system:
                     cursor_system.close()
@@ -705,9 +672,9 @@ class Reporting:
             if result['base_period']['total_in_kgco2e'] > Decimal(0.0) else None
 
         result['parameters'] = {
-            "names": parameters_data['names'],
-            "timestamps": parameters_data['timestamps'],
-            "values": parameters_data['values']
+            "names": [],
+            "timestamps": [],
+            "values": []
         }
         result['excel_bytes_base64'] = None
         if not is_quick_mode:

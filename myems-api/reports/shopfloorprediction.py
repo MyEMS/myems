@@ -42,8 +42,7 @@ class Reporting:
     # Step 5: query associated working calendars
     # Step 6: query base period energy input
     # Step 7: query reporting period energy input
-    # Step 8: query tariff data
-    # Step 9: construct the report
+    # Step 8: construct the report
     ####################################################################################################################
     @staticmethod
     def on_get(req, resp):
@@ -469,35 +468,6 @@ class Reporting:
                                     reporting[energy_category_id]['offpeak'] += row[1]
                                 elif peak_type == 'deep':
                                     reporting[energy_category_id]['deep'] += row[1]
-
-                    ###############################################################################################
-                    # Step 8: query tariff data
-                    ###############################################################################################
-                    parameters_data = dict()
-                    parameters_data['names'] = list()
-                    parameters_data['timestamps'] = list()
-                    parameters_data['values'] = list()
-                    if config.is_tariff_appended and energy_category_set is not None and len(energy_category_set) > 0 \
-                            and not is_quick_mode:
-                        for energy_category_id in energy_category_set:
-                            energy_category_tariff_dict = utilities.get_energy_category_tariffs(
-                                shopfloor['cost_center_id'],
-                                energy_category_id,
-                                reporting_start_datetime_utc,
-                                reporting_end_datetime_utc)
-                            tariff_timestamp_list = list()
-                            tariff_value_list = list()
-                            for k, v in energy_category_tariff_dict.items():
-                                # convert k from utc to local
-                                k = k + timedelta(minutes=timezone_offset)
-                                tariff_timestamp_list.append(k.isoformat()[0:19])
-                                tariff_value_list.append(v)
-
-                            parameters_data['names'].append(_('Tariff') + '-' +
-                                                            energy_category_dict[energy_category_id]['name'])
-                            parameters_data['timestamps'].append(tariff_timestamp_list)
-                            parameters_data['values'].append(tariff_value_list)
-
             finally:
                 if cursor_system:
                     cursor_system.close()
@@ -511,7 +481,7 @@ class Reporting:
                 cnx_energy.close()
 
         ################################################################################################################
-        # Step 9: construct the report
+        # Step 8: construct the report
         ################################################################################################################
         result = dict()
 
@@ -640,9 +610,9 @@ class Reporting:
             if result['base_period']['total_in_kgco2e'] > Decimal(0.0) else None
 
         result['parameters'] = {
-            "names": parameters_data['names'],
-            "timestamps": parameters_data['timestamps'],
-            "values": parameters_data['values']
+            "names": [],
+            "timestamps": [],
+            "values": []
         }
         result['excel_bytes_base64'] = None
         if not is_quick_mode:
