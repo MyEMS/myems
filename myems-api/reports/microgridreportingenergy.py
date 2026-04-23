@@ -206,451 +206,459 @@ class Reporting:
         ################################################################################################################
         # Step 2: query the microgrid
         ################################################################################################################
-        cnx_system = mysql.connector.connect(**config.myems_system_db)
-        cursor_system = cnx_system.cursor()
+        cnx_system = None
+        cnx_historical = None
+        cnx_energy = None
+        
+        try:
+            cnx_system = mysql.connector.connect(**config.myems_system_db)
+            cnx_historical = mysql.connector.connect(**config.myems_historical_db)
+            cnx_energy = mysql.connector.connect(**config.myems_energy_db)
+            
+            cursor_system = None
+            cursor_historical = None
+            cursor_energy = None
+            
+            try:
+                cursor_system = cnx_system.cursor()
+                cursor_historical = cnx_historical.cursor()
+                cursor_energy = cnx_energy.cursor()
 
-        cnx_historical = mysql.connector.connect(**config.myems_historical_db)
-        cursor_historical = cnx_historical.cursor()
+                # query all contacts in system
+                query = (" SELECT id, name, uuid "
+                         " FROM tbl_contacts ")
+                cursor_system.execute(query)
+                rows_contacts = cursor_system.fetchall()
 
-        cnx_energy = mysql.connector.connect(**config.myems_energy_db)
-        cursor_energy = cnx_energy.cursor()
+                contact_dict = dict()
+                if rows_contacts is not None and len(rows_contacts) > 0:
+                    for row in rows_contacts:
+                        contact_dict[row[0]] = {"id": row[0],
+                                                "name": row[1],
+                                                "uuid": row[2]}
+                # query all cost centers in system
+                query = (" SELECT id, name, uuid "
+                         " FROM tbl_cost_centers ")
+                cursor_system.execute(query)
+                rows_cost_centers = cursor_system.fetchall()
 
-        # query all contacts in system
-        query = (" SELECT id, name, uuid "
-                 " FROM tbl_contacts ")
-        cursor_system.execute(query)
-        rows_contacts = cursor_system.fetchall()
+                cost_center_dict = dict()
+                if rows_cost_centers is not None and len(rows_cost_centers) > 0:
+                    for row in rows_cost_centers:
+                        cost_center_dict[row[0]] = {"id": row[0],
+                                                    "name": row[1],
+                                                    "uuid": row[2]}
 
-        contact_dict = dict()
-        if rows_contacts is not None and len(rows_contacts) > 0:
-            for row in rows_contacts:
-                contact_dict[row[0]] = {"id": row[0],
-                                        "name": row[1],
-                                        "uuid": row[2]}
-        # query all cost centers in system
-        query = (" SELECT id, name, uuid "
-                 " FROM tbl_cost_centers ")
-        cursor_system.execute(query)
-        rows_cost_centers = cursor_system.fetchall()
+                # query all energy categories in system
+                cursor_system.execute(" SELECT id, name, unit_of_measure, kgce, kgco2e "
+                                      " FROM tbl_energy_categories "
+                                      " ORDER BY id ", )
+                rows_energy_categories = cursor_system.fetchall()
+                if rows_energy_categories is None or len(rows_energy_categories) == 0:
+                    raise falcon.HTTPError(status=falcon.HTTP_404,
+                                           title='API.NOT_FOUND',
+                                           description='API.ENERGY_CATEGORY_NOT_FOUND')
+                energy_category_dict = dict()
+                for row_energy_category in rows_energy_categories:
+                    energy_category_dict[row_energy_category[0]] = {"name": row_energy_category[1],
+                                                                    "unit_of_measure": row_energy_category[2],
+                                                                    "kgce": row_energy_category[3],
+                                                                    "kgco2e": row_energy_category[4]}
 
-        cost_center_dict = dict()
-        if rows_cost_centers is not None and len(rows_cost_centers) > 0:
-            for row in rows_cost_centers:
-                cost_center_dict[row[0]] = {"id": row[0],
-                                            "name": row[1],
-                                            "uuid": row[2]}
+                if microgrid_id is not None:
+                    query = (" SELECT id, name, uuid, "
+                             "        address, postal_code, latitude, longitude, rated_capacity, rated_power, "
+                             "        contact_id, cost_center_id "
+                             " FROM tbl_microgrids "
+                             " WHERE id = %s ")
+                    cursor_system.execute(query, (microgrid_id,))
+                    row = cursor_system.fetchone()
+                elif microgrid_uuid is not None:
+                    query = (" SELECT id, name, uuid, "
+                             "        address, postal_code, latitude, longitude, rated_capacity, rated_power, "
+                             "        contact_id, cost_center_id "
+                             " FROM tbl_microgrids "
+                             " WHERE uuid = %s ")
+                    cursor_system.execute(query, (microgrid_uuid,))
+                    row = cursor_system.fetchone()
 
-        # query all energy categories in system
-        cursor_system.execute(" SELECT id, name, unit_of_measure, kgce, kgco2e "
-                              " FROM tbl_energy_categories "
-                              " ORDER BY id ", )
-        rows_energy_categories = cursor_system.fetchall()
-        if rows_energy_categories is None or len(rows_energy_categories) == 0:
-            if cursor_system:
-                cursor_system.close()
+                if row is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.MICROGRID_NOT_FOUND')
+                else:
+                    microgrid_id = row[0]
+                    meta_result = {"id": row[0],
+                                   "name": row[1],
+                                   "uuid": row[2],
+                                   "address": row[3],
+                                   "postal_code": row[4],
+                                   "latitude": row[5],
+                                   "longitude": row[6],
+                                   "rated_capacity": row[7],
+                                   "rated_power": row[8],
+                                   "contact": contact_dict.get(row[9], None),
+                                   "cost_center": cost_center_dict.get(row[10], None),
+                                   "qrcode": 'microgrid:' + row[2]}
+
+                point_list = list()
+                meter_list = list()
+
+                ##################################################################################################
+                # Step 4: query associated batteries data
+                ##################################################################################################
+                cursor_system.execute(" SELECT p.id, mb.name, p.units, p.object_type  "
+                                      " FROM tbl_microgrids_batteries mb, tbl_points p "
+                                      " WHERE mb.microgrid_id = %s AND mb.soc_point_id = p.id ",
+                                      (microgrid_id,))
+                row_point = cursor_system.fetchone()
+                if row_point is not None:
+                    point_list.append({"id": row_point[0],
+                                       "name": row_point[1] + '.SOC',
+                                       "units": row_point[2],
+                                       "object_type": row_point[3]})
+
+                cursor_system.execute(" SELECT p.id, mb.name, p.units, p.object_type  "
+                                      " FROM tbl_microgrids_batteries mb, tbl_points p "
+                                      " WHERE mb.microgrid_id = %s AND mb.power_point_id = p.id ",
+                                      (microgrid_id,))
+                row_point = cursor_system.fetchone()
+                if row_point is not None:
+                    point_list.append({"id": row_point[0],
+                                       "name": row_point[1]+'.P',
+                                       "units": row_point[2],
+                                       "object_type": row_point[3]})
+
+                cursor_system.execute(" SELECT m.id, mb.name, m.energy_category_id  "
+                                      " FROM tbl_microgrids_batteries mb, tbl_meters m "
+                                      " WHERE mb.microgrid_id = %s AND mb.charge_meter_id = m.id ",
+                                      (microgrid_id,))
+                row_meter = cursor_system.fetchone()
+                if row_meter is not None:
+                    meter_list.append({"id": row_meter[0],
+                                       "name": row_meter[1] + '-Charge',
+                                       "energy_category_id": row_meter[2]})
+
+                cursor_system.execute(" SELECT m.id, mb.name, m.energy_category_id  "
+                                      " FROM tbl_microgrids_batteries mb, tbl_meters m "
+                                      " WHERE mb.microgrid_id = %s AND mb.discharge_meter_id = m.id ",
+                                      (microgrid_id,))
+                row_meter = cursor_system.fetchone()
+                if row_meter is not None:
+                    meter_list.append({"id": row_meter[0],
+                                       "name": row_meter[1] + '-Discharge',
+                                       "energy_category_id": row_meter[2]})
+
+                ###############################################################################################
+                # Step 4: query associated ev chargers
+                ###############################################################################################
+
+                ################################################################################################
+                # Step 5: query associated generators
+                ################################################################################################
+
+                ###############################################################################################
+                # Step 6: query associated grids
+                ###############################################################################################
+                cursor_system.execute(" SELECT p.id, mg.name, p.units, p.object_type  "
+                                      " FROM tbl_microgrids_grids mg, tbl_points p "
+                                      " WHERE mg.microgrid_id = %s AND mg.power_point_id = p.id ",
+                                      (microgrid_id,))
+                row_point = cursor_system.fetchone()
+                if row_point is not None:
+                    point_list.append({"id": row_point[0],
+                                       "name": row_point[1]+'.P',
+                                       "units": row_point[2],
+                                       "object_type": row_point[3]})
+
+                cursor_system.execute(" SELECT m.id, mg.name, m.energy_category_id  "
+                                      " FROM tbl_microgrids_grids mg, tbl_meters m "
+                                      " WHERE mg.microgrid_id = %s AND mg.buy_meter_id = m.id ",
+                                      (microgrid_id,))
+                row_meter = cursor_system.fetchone()
+                if row_meter is not None:
+                    meter_list.append({"id": row_meter[0],
+                                       "name": row_meter[1] + '-Buy',
+                                       "energy_category_id": row_meter[2]})
+
+                cursor_system.execute(" SELECT m.id, mg.name, m.energy_category_id  "
+                                      " FROM tbl_microgrids_grids mg, tbl_meters m "
+                                      " WHERE mg.microgrid_id = %s AND mg.sell_meter_id = m.id ",
+                                      (microgrid_id,))
+                row_meter = cursor_system.fetchone()
+                if row_meter is not None:
+                    meter_list.append({"id": row_meter[0],
+                                       "name": row_meter[1] + '-Sell',
+                                       "energy_category_id": row_meter[2]})
+
+                #################################################################################################
+                # Step 7: query associated heat pumps
+                #################################################################################################
+
+                ################################################################################################
+                # Step 8: query associated loads
+                #################################################################################################
+                cursor_system.execute(" SELECT p.id, ml.name, p.units, p.object_type  "
+                                      " FROM tbl_microgrids_loads ml, tbl_points p "
+                                      " WHERE ml.microgrid_id = %s AND ml.power_point_id = p.id ",
+                                      (microgrid_id,))
+                row_point = cursor_system.fetchone()
+                if row_point is not None:
+                    point_list.append({"id": row_point[0],
+                                       "name": row_point[1]+'.P',
+                                       "units": row_point[2],
+                                       "object_type": row_point[3]})
+
+                cursor_system.execute(" SELECT m.id, ml.name, m.energy_category_id  "
+                                      " FROM tbl_microgrids_loads ml, tbl_meters m "
+                                      " WHERE ml.microgrid_id = %s AND ml.meter_id = m.id ",
+                                      (microgrid_id,))
+                row_meter = cursor_system.fetchone()
+                if row_meter is not None:
+                    meter_list.append({"id": row_meter[0],
+                                       "name": row_meter[1],
+                                       "energy_category_id": row_meter[2]})
+
+                ##################################################################################################
+                # Step 9: query associated photovoltaics
+                #################################################################################################
+                # todo
+
+                #################################################################################################
+                # Step 10: query associated power conversion systems
+                ################################################################################################
+                # todo
+
+                #################################################################################################
+                # Step 11: query associated sensors
+                #################################################################################################
+                # todo
+
+                ###################################################################################################
+                # Step 12: query associated meters data
+                ##################################################################################################
+                timezone_offset = int(config.utc_offset[1:3]) * 60 + int(config.utc_offset[4:6])
+                if config.utc_offset[0] == '-':
+                    timezone_offset = -timezone_offset
+
+                meter_base_list = list()
+
+                for meter in meter_list:
+                    cursor_energy.execute(" SELECT start_datetime_utc, actual_value "
+                                          " FROM tbl_meter_hourly "
+                                          " WHERE meter_id = %s "
+                                          "     AND start_datetime_utc >= %s "
+                                          "     AND start_datetime_utc < %s "
+                                          " ORDER BY start_datetime_utc ",
+                                          (meter['id'],
+                                           base_start_datetime_utc,
+                                           base_end_datetime_utc))
+                    rows_meter_hourly = cursor_energy.fetchall()
+
+                    if rows_meter_hourly is not None and len(rows_meter_hourly) > 0:
+                        print('rows_meter_hourly:' + str(rows_meter_hourly))
+                        rows_meter_periodically = utilities.aggregate_hourly_data_by_period(rows_meter_hourly,
+                                                                                            base_start_datetime_utc,
+                                                                                            base_end_datetime_utc,
+                                                                                            period_type)
+                        print('rows_meter_periodically:' + str(rows_meter_periodically))
+                        meter_report = dict()
+                        meter_report['timestamps'] = list()
+                        meter_report['values'] = list()
+                        meter_report['subtotal'] = Decimal(0.0)
+
+                        for row_meter_periodically in rows_meter_periodically:
+                            current_datetime_local = row_meter_periodically[0].replace(tzinfo=timezone.utc) + \
+                                                     timedelta(minutes=timezone_offset)
+                            if period_type == 'hourly':
+                                current_datetime = current_datetime_local.isoformat()[0:19]
+                            elif period_type == 'daily':
+                                current_datetime = current_datetime_local.isoformat()[0:10]
+                            elif period_type == 'weekly':
+                                current_datetime = current_datetime_local.isoformat()[0:10]
+                            elif period_type == 'monthly':
+                                current_datetime = current_datetime_local.isoformat()[0:7]
+                            elif period_type == 'yearly':
+                                current_datetime = current_datetime_local.isoformat()[0:4]
+
+                            actual_value = Decimal(0.0) if row_meter_periodically[1] is None \
+                                else row_meter_periodically[1]
+
+                            meter_report['timestamps'].append(current_datetime)
+                            meter_report['values'].append(actual_value)
+                            meter_report['subtotal'] += actual_value
+                            meter_report['name'] = meter['name']
+                            meter_report['unit_of_measure'] = \
+                                energy_category_dict[meter['energy_category_id']]['unit_of_measure']
+
+                        meter_base_list.append(meter_report)
+
+                meter_reporting_list = list()
+
+                for meter in meter_list:
+                    cursor_energy.execute(" SELECT start_datetime_utc, actual_value "
+                                          " FROM tbl_meter_hourly "
+                                          " WHERE meter_id = %s "
+                                          "     AND start_datetime_utc >= %s "
+                                          "     AND start_datetime_utc < %s "
+                                          " ORDER BY start_datetime_utc ",
+                                          (meter['id'],
+                                           reporting_start_datetime_utc,
+                                           reporting_end_datetime_utc))
+                    rows_meter_hourly = cursor_energy.fetchall()
+                    if rows_meter_hourly is not None and len(rows_meter_hourly) > 0:
+                        rows_meter_periodically = utilities.aggregate_hourly_data_by_period(
+                            rows_meter_hourly,
+                            reporting_start_datetime_utc,
+                            reporting_end_datetime_utc,
+                            period_type)
+                        meter_report = dict()
+                        meter_report['timestamps'] = list()
+                        meter_report['values'] = list()
+                        meter_report['subtotal'] = Decimal(0.0)
+
+                        for row_meter_periodically in rows_meter_periodically:
+                            current_datetime_local = row_meter_periodically[0].replace(tzinfo=timezone.utc) + \
+                                                     timedelta(minutes=timezone_offset)
+                            if period_type == 'hourly':
+                                current_datetime = current_datetime_local.isoformat()[0:19]
+                            elif period_type == 'daily':
+                                current_datetime = current_datetime_local.isoformat()[0:10]
+                            elif period_type == 'weekly':
+                                current_datetime = current_datetime_local.isoformat()[0:10]
+                            elif period_type == 'monthly':
+                                current_datetime = current_datetime_local.isoformat()[0:7]
+                            elif period_type == 'yearly':
+                                current_datetime = current_datetime_local.isoformat()[0:4]
+
+                            actual_value = Decimal(0.0) if row_meter_periodically[1] is None \
+                                else row_meter_periodically[1]
+
+                            meter_report['timestamps'].append(current_datetime)
+                            meter_report['values'].append(actual_value)
+                            meter_report['subtotal'] += actual_value
+                            meter_report['name'] = meter['name']
+                            meter_report['unit_of_measure'] = \
+                                energy_category_dict[meter['energy_category_id']]['unit_of_measure']
+
+                        meter_reporting_list.append(meter_report)
+
+                ################################################################################################
+                # Step 13: query associated points data
+                ################################################################################################
+
+                parameters_data = dict()
+                parameters_data['names'] = list()
+                parameters_data['timestamps'] = list()
+                parameters_data['values'] = list()
+
+                for point in point_list:
+                    point_values = []
+                    point_timestamps = []
+                    if point['object_type'] == 'ENERGY_VALUE':
+                        query = (" SELECT utc_date_time, actual_value "
+                                 " FROM tbl_energy_value "
+                                 " WHERE point_id = %s "
+                                 "       AND utc_date_time BETWEEN %s AND %s "
+                                 " ORDER BY utc_date_time ")
+                        cursor_historical.execute(query, (point['id'],
+                                                          reporting_start_datetime_utc,
+                                                          reporting_end_datetime_utc))
+                        rows = cursor_historical.fetchall()
+
+                        if rows is not None and len(rows) > 0:
+                            reporting_start_datetime_local = reporting_start_datetime_utc.replace(
+                                tzinfo=timezone.utc) + timedelta(minutes=timezone_offset)
+                            current_datetime_local = reporting_start_datetime_local
+
+                            while current_datetime_local < rows[0][0].replace(tzinfo=timezone.utc) + \
+                                    timedelta(minutes=timezone_offset):
+                                point_timestamps.append(current_datetime_local.isoformat()[5:16])
+                                point_values.append(rows[0][1])
+                                current_datetime_local += timedelta(minutes=1)
+
+                            for index in range(len(rows) - 1):
+                                while current_datetime_local < rows[index + 1][0].replace(tzinfo=timezone.utc) + \
+                                        timedelta(minutes=timezone_offset):
+                                    point_timestamps.append(current_datetime_local.isoformat()[5:16])
+                                    point_values.append(rows[index][1])
+                                    current_datetime_local += timedelta(minutes=1)
+                    elif point['object_type'] == 'ANALOG_VALUE':
+                        query = (" SELECT utc_date_time, actual_value "
+                                 " FROM tbl_analog_value "
+                                 " WHERE point_id = %s "
+                                 "       AND utc_date_time BETWEEN %s AND %s "
+                                 " ORDER BY utc_date_time ")
+                        cursor_historical.execute(query, (point['id'],
+                                                          reporting_start_datetime_utc,
+                                                          reporting_end_datetime_utc))
+                        rows = cursor_historical.fetchall()
+
+                        if rows is not None and len(rows) > 0:
+                            reporting_start_datetime_local = reporting_start_datetime_utc.replace(
+                                tzinfo=timezone.utc) + timedelta(minutes=timezone_offset)
+                            current_datetime_local = reporting_start_datetime_local
+
+                            while current_datetime_local < rows[0][0].replace(tzinfo=timezone.utc) + \
+                                    timedelta(minutes=timezone_offset):
+                                point_timestamps.append(current_datetime_local.isoformat()[5:16])
+                                point_values.append(rows[0][1])
+                                current_datetime_local += timedelta(minutes=1)
+
+                            for index in range(len(rows) - 1):
+                                while current_datetime_local < rows[index + 1][0].replace(tzinfo=timezone.utc) + \
+                                        timedelta(minutes=timezone_offset):
+                                    point_timestamps.append(current_datetime_local.isoformat()[5:16])
+                                    point_values.append(rows[index][1])
+                                    current_datetime_local += timedelta(minutes=1)
+                    elif point['object_type'] == 'DIGITAL_VALUE':
+                        query = (" SELECT utc_date_time, actual_value "
+                                 " FROM tbl_digital_value "
+                                 " WHERE point_id = %s "
+                                 "       AND utc_date_time BETWEEN %s AND %s "
+                                 " ORDER BY utc_date_time ")
+                        cursor_historical.execute(query, (point['id'],
+                                                          reporting_start_datetime_utc,
+                                                          reporting_end_datetime_utc))
+                        rows = cursor_historical.fetchall()
+
+                        if rows is not None and len(rows) > 0:
+                            reporting_start_datetime_local = reporting_start_datetime_utc.replace(
+                                tzinfo=timezone.utc) + timedelta(minutes=timezone_offset)
+                            current_datetime_local = reporting_start_datetime_local
+
+                            while current_datetime_local < rows[0][0].replace(tzinfo=timezone.utc) + \
+                                    timedelta(minutes=timezone_offset):
+                                point_timestamps.append(current_datetime_local.isoformat()[5:16])
+                                point_values.append(rows[0][1])
+                                current_datetime_local += timedelta(minutes=1)
+
+                            for index in range(len(rows) - 1):
+                                while current_datetime_local < rows[index + 1][0].replace(tzinfo=timezone.utc) + \
+                                        timedelta(minutes=timezone_offset):
+                                    point_timestamps.append(current_datetime_local.isoformat()[5:16])
+                                    point_values.append(rows[index][1])
+                                    current_datetime_local += timedelta(minutes=1)
+
+                    parameters_data['names'].append(point['name'] + ' (' + point['units'] + ')')
+                    parameters_data['timestamps'].append(point_timestamps)
+                    parameters_data['values'].append(point_values)
+
+            finally:
+                if cursor_system:
+                    cursor_system.close()
+                if cursor_energy:
+                    cursor_energy.close()
+                if cursor_historical:
+                    cursor_historical.close()
+
+        finally:
             if cnx_system:
                 cnx_system.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404,
-                                   title='API.NOT_FOUND',
-                                   description='API.ENERGY_CATEGORY_NOT_FOUND')
-        energy_category_dict = dict()
-        for row_energy_category in rows_energy_categories:
-            energy_category_dict[row_energy_category[0]] = {"name": row_energy_category[1],
-                                                            "unit_of_measure": row_energy_category[2],
-                                                            "kgce": row_energy_category[3],
-                                                            "kgco2e": row_energy_category[4]}
-
-        if microgrid_id is not None:
-            query = (" SELECT id, name, uuid, "
-                     "        address, postal_code, latitude, longitude, rated_capacity, rated_power, "
-                     "        contact_id, cost_center_id "
-                     " FROM tbl_microgrids "
-                     " WHERE id = %s ")
-            cursor_system.execute(query, (microgrid_id,))
-            row = cursor_system.fetchone()
-        elif microgrid_uuid is not None:
-            query = (" SELECT id, name, uuid, "
-                     "        address, postal_code, latitude, longitude, rated_capacity, rated_power, "
-                     "        contact_id, cost_center_id "
-                     " FROM tbl_microgrids "
-                     " WHERE uuid = %s ")
-            cursor_system.execute(query, (microgrid_uuid,))
-            row = cursor_system.fetchone()
-
-        if row is None:
-            cursor_system.close()
-            cnx_system.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.MICROGRID_NOT_FOUND')
-        else:
-            microgrid_id = row[0]
-            meta_result = {"id": row[0],
-                           "name": row[1],
-                           "uuid": row[2],
-                           "address": row[3],
-                           "postal_code": row[4],
-                           "latitude": row[5],
-                           "longitude": row[6],
-                           "rated_capacity": row[7],
-                           "rated_power": row[8],
-                           "contact": contact_dict.get(row[9], None),
-                           "cost_center": cost_center_dict.get(row[10], None),
-                           "qrcode": 'microgrid:' + row[2]}
-
-        point_list = list()
-        meter_list = list()
-
-        ################################################################################################################
-        # Step 4: query associated batteries data
-        ################################################################################################################
-        cursor_system.execute(" SELECT p.id, mb.name, p.units, p.object_type  "
-                              " FROM tbl_microgrids_batteries mb, tbl_points p "
-                              " WHERE mb.microgrid_id = %s AND mb.soc_point_id = p.id ",
-                              (microgrid_id,))
-        row_point = cursor_system.fetchone()
-        if row_point is not None:
-            point_list.append({"id": row_point[0],
-                               "name": row_point[1] + '.SOC',
-                               "units": row_point[2],
-                               "object_type": row_point[3]})
-
-        cursor_system.execute(" SELECT p.id, mb.name, p.units, p.object_type  "
-                              " FROM tbl_microgrids_batteries mb, tbl_points p "
-                              " WHERE mb.microgrid_id = %s AND mb.power_point_id = p.id ",
-                              (microgrid_id,))
-        row_point = cursor_system.fetchone()
-        if row_point is not None:
-            point_list.append({"id": row_point[0],
-                               "name": row_point[1]+'.P',
-                               "units": row_point[2],
-                               "object_type": row_point[3]})
-
-        cursor_system.execute(" SELECT m.id, mb.name, m.energy_category_id  "
-                              " FROM tbl_microgrids_batteries mb, tbl_meters m "
-                              " WHERE mb.microgrid_id = %s AND mb.charge_meter_id = m.id ",
-                              (microgrid_id,))
-        row_meter = cursor_system.fetchone()
-        if row_meter is not None:
-            meter_list.append({"id": row_meter[0],
-                               "name": row_meter[1] + '-Charge',
-                               "energy_category_id": row_meter[2]})
-
-        cursor_system.execute(" SELECT m.id, mb.name, m.energy_category_id  "
-                              " FROM tbl_microgrids_batteries mb, tbl_meters m "
-                              " WHERE mb.microgrid_id = %s AND mb.discharge_meter_id = m.id ",
-                              (microgrid_id,))
-        row_meter = cursor_system.fetchone()
-        if row_meter is not None:
-            meter_list.append({"id": row_meter[0],
-                               "name": row_meter[1] + '-Discharge',
-                               "energy_category_id": row_meter[2]})
-
-        ################################################################################################################
-        # Step 4: query associated ev chargers
-        ################################################################################################################
-
-        ################################################################################################################
-        # Step 5: query associated generators
-        ################################################################################################################
-
-        ################################################################################################################
-        # Step 6: query associated grids
-        ################################################################################################################
-        cursor_system.execute(" SELECT p.id, mg.name, p.units, p.object_type  "
-                              " FROM tbl_microgrids_grids mg, tbl_points p "
-                              " WHERE mg.microgrid_id = %s AND mg.power_point_id = p.id ",
-                              (microgrid_id,))
-        row_point = cursor_system.fetchone()
-        if row_point is not None:
-            point_list.append({"id": row_point[0],
-                               "name": row_point[1]+'.P',
-                               "units": row_point[2],
-                               "object_type": row_point[3]})
-
-        cursor_system.execute(" SELECT m.id, mg.name, m.energy_category_id  "
-                              " FROM tbl_microgrids_grids mg, tbl_meters m "
-                              " WHERE mg.microgrid_id = %s AND mg.buy_meter_id = m.id ",
-                              (microgrid_id,))
-        row_meter = cursor_system.fetchone()
-        if row_meter is not None:
-            meter_list.append({"id": row_meter[0],
-                               "name": row_meter[1] + '-Buy',
-                               "energy_category_id": row_meter[2]})
-
-        cursor_system.execute(" SELECT m.id, mg.name, m.energy_category_id  "
-                              " FROM tbl_microgrids_grids mg, tbl_meters m "
-                              " WHERE mg.microgrid_id = %s AND mg.sell_meter_id = m.id ",
-                              (microgrid_id,))
-        row_meter = cursor_system.fetchone()
-        if row_meter is not None:
-            meter_list.append({"id": row_meter[0],
-                               "name": row_meter[1] + '-Sell',
-                               "energy_category_id": row_meter[2]})
-
-        ################################################################################################################
-        # Step 7: query associated heat pumps
-        ################################################################################################################
-
-        ################################################################################################################
-        # Step 8: query associated loads
-        ################################################################################################################
-        cursor_system.execute(" SELECT p.id, ml.name, p.units, p.object_type  "
-                              " FROM tbl_microgrids_loads ml, tbl_points p "
-                              " WHERE ml.microgrid_id = %s AND ml.power_point_id = p.id ",
-                              (microgrid_id,))
-        row_point = cursor_system.fetchone()
-        if row_point is not None:
-            point_list.append({"id": row_point[0],
-                               "name": row_point[1]+'.P',
-                               "units": row_point[2],
-                               "object_type": row_point[3]})
-
-        cursor_system.execute(" SELECT m.id, ml.name, m.energy_category_id  "
-                              " FROM tbl_microgrids_loads ml, tbl_meters m "
-                              " WHERE ml.microgrid_id = %s AND ml.meter_id = m.id ",
-                              (microgrid_id,))
-        row_meter = cursor_system.fetchone()
-        if row_meter is not None:
-            meter_list.append({"id": row_meter[0],
-                               "name": row_meter[1],
-                               "energy_category_id": row_meter[2]})
-
-        ################################################################################################################
-        # Step 9: query associated photovoltaics
-        ################################################################################################################
-        # todo
-
-        ################################################################################################################
-        # Step 10: query associated power conversion systems
-        ################################################################################################################
-        # todo
-
-        ################################################################################################################
-        # Step 11: query associated sensors
-        ################################################################################################################
-        # todo
-
-        ################################################################################################################
-        # Step 12: query associated meters data
-        ################################################################################################################
-        timezone_offset = int(config.utc_offset[1:3]) * 60 + int(config.utc_offset[4:6])
-        if config.utc_offset[0] == '-':
-            timezone_offset = -timezone_offset
-
-        meter_base_list = list()
-
-        for meter in meter_list:
-            cursor_energy.execute(" SELECT start_datetime_utc, actual_value "
-                                  " FROM tbl_meter_hourly "
-                                  " WHERE meter_id = %s "
-                                  "     AND start_datetime_utc >= %s "
-                                  "     AND start_datetime_utc < %s "
-                                  " ORDER BY start_datetime_utc ",
-                                  (meter['id'],
-                                   base_start_datetime_utc,
-                                   base_end_datetime_utc))
-            rows_meter_hourly = cursor_energy.fetchall()
-
-            if rows_meter_hourly is not None and len(rows_meter_hourly) > 0:
-                print('rows_meter_hourly:' + str(rows_meter_hourly))
-                rows_meter_periodically = utilities.aggregate_hourly_data_by_period(rows_meter_hourly,
-                                                                                    base_start_datetime_utc,
-                                                                                    base_end_datetime_utc,
-                                                                                    period_type)
-                print('rows_meter_periodically:' + str(rows_meter_periodically))
-                meter_report = dict()
-                meter_report['timestamps'] = list()
-                meter_report['values'] = list()
-                meter_report['subtotal'] = Decimal(0.0)
-
-                for row_meter_periodically in rows_meter_periodically:
-                    current_datetime_local = row_meter_periodically[0].replace(tzinfo=timezone.utc) + \
-                                             timedelta(minutes=timezone_offset)
-                    if period_type == 'hourly':
-                        current_datetime = current_datetime_local.isoformat()[0:19]
-                    elif period_type == 'daily':
-                        current_datetime = current_datetime_local.isoformat()[0:10]
-                    elif period_type == 'weekly':
-                        current_datetime = current_datetime_local.isoformat()[0:10]
-                    elif period_type == 'monthly':
-                        current_datetime = current_datetime_local.isoformat()[0:7]
-                    elif period_type == 'yearly':
-                        current_datetime = current_datetime_local.isoformat()[0:4]
-
-                    actual_value = Decimal(0.0) if row_meter_periodically[1] is None else row_meter_periodically[1]
-
-                    meter_report['timestamps'].append(current_datetime)
-                    meter_report['values'].append(actual_value)
-                    meter_report['subtotal'] += actual_value
-                    meter_report['name'] = meter['name']
-                    meter_report['unit_of_measure'] = \
-                        energy_category_dict[meter['energy_category_id']]['unit_of_measure']
-
-                meter_base_list.append(meter_report)
-
-        meter_reporting_list = list()
-
-        for meter in meter_list:
-            cursor_energy.execute(" SELECT start_datetime_utc, actual_value "
-                                  " FROM tbl_meter_hourly "
-                                  " WHERE meter_id = %s "
-                                  "     AND start_datetime_utc >= %s "
-                                  "     AND start_datetime_utc < %s "
-                                  " ORDER BY start_datetime_utc ",
-                                  (meter['id'],
-                                   reporting_start_datetime_utc,
-                                   reporting_end_datetime_utc))
-            rows_meter_hourly = cursor_energy.fetchall()
-            if rows_meter_hourly is not None and len(rows_meter_hourly) > 0:
-                rows_meter_periodically = utilities.aggregate_hourly_data_by_period(rows_meter_hourly,
-                                                                                    reporting_start_datetime_utc,
-                                                                                    reporting_end_datetime_utc,
-                                                                                    period_type)
-                meter_report = dict()
-                meter_report['timestamps'] = list()
-                meter_report['values'] = list()
-                meter_report['subtotal'] = Decimal(0.0)
-
-                for row_meter_periodically in rows_meter_periodically:
-                    current_datetime_local = row_meter_periodically[0].replace(tzinfo=timezone.utc) + \
-                                             timedelta(minutes=timezone_offset)
-                    if period_type == 'hourly':
-                        current_datetime = current_datetime_local.isoformat()[0:19]
-                    elif period_type == 'daily':
-                        current_datetime = current_datetime_local.isoformat()[0:10]
-                    elif period_type == 'weekly':
-                        current_datetime = current_datetime_local.isoformat()[0:10]
-                    elif period_type == 'monthly':
-                        current_datetime = current_datetime_local.isoformat()[0:7]
-                    elif period_type == 'yearly':
-                        current_datetime = current_datetime_local.isoformat()[0:4]
-
-                    actual_value = Decimal(0.0) if row_meter_periodically[1] is None else row_meter_periodically[1]
-
-                    meter_report['timestamps'].append(current_datetime)
-                    meter_report['values'].append(actual_value)
-                    meter_report['subtotal'] += actual_value
-                    meter_report['name'] = meter['name']
-                    meter_report['unit_of_measure'] = \
-                        energy_category_dict[meter['energy_category_id']]['unit_of_measure']
-
-                meter_reporting_list.append(meter_report)
-
-        ################################################################################################################
-        # Step 13: query associated points data
-        ################################################################################################################
-
-        parameters_data = dict()
-        parameters_data['names'] = list()
-        parameters_data['timestamps'] = list()
-        parameters_data['values'] = list()
-
-        for point in point_list:
-            point_values = []
-            point_timestamps = []
-            if point['object_type'] == 'ENERGY_VALUE':
-                query = (" SELECT utc_date_time, actual_value "
-                         " FROM tbl_energy_value "
-                         " WHERE point_id = %s "
-                         "       AND utc_date_time BETWEEN %s AND %s "
-                         " ORDER BY utc_date_time ")
-                cursor_historical.execute(query, (point['id'],
-                                                  reporting_start_datetime_utc,
-                                                  reporting_end_datetime_utc))
-                rows = cursor_historical.fetchall()
-
-                if rows is not None and len(rows) > 0:
-                    reporting_start_datetime_local = reporting_start_datetime_utc.replace(tzinfo=timezone.utc) + \
-                                                     timedelta(minutes=timezone_offset)
-                    current_datetime_local = reporting_start_datetime_local
-
-                    while current_datetime_local < rows[0][0].replace(tzinfo=timezone.utc) + \
-                            timedelta(minutes=timezone_offset):
-                        point_timestamps.append(current_datetime_local.isoformat()[5:16])
-                        point_values.append(rows[0][1])
-                        current_datetime_local += timedelta(minutes=1)
-
-                    for index in range(len(rows) - 1):
-                        while current_datetime_local < rows[index + 1][0].replace(tzinfo=timezone.utc) + \
-                                timedelta(minutes=timezone_offset):
-                            point_timestamps.append(current_datetime_local.isoformat()[5:16])
-                            point_values.append(rows[index][1])
-                            current_datetime_local += timedelta(minutes=1)
-            elif point['object_type'] == 'ANALOG_VALUE':
-                query = (" SELECT utc_date_time, actual_value "
-                         " FROM tbl_analog_value "
-                         " WHERE point_id = %s "
-                         "       AND utc_date_time BETWEEN %s AND %s "
-                         " ORDER BY utc_date_time ")
-                cursor_historical.execute(query, (point['id'],
-                                                  reporting_start_datetime_utc,
-                                                  reporting_end_datetime_utc))
-                rows = cursor_historical.fetchall()
-
-                if rows is not None and len(rows) > 0:
-                    reporting_start_datetime_local = reporting_start_datetime_utc.replace(tzinfo=timezone.utc) + \
-                                                     timedelta(minutes=timezone_offset)
-                    current_datetime_local = reporting_start_datetime_local
-
-                    while current_datetime_local < rows[0][0].replace(tzinfo=timezone.utc) + \
-                            timedelta(minutes=timezone_offset):
-                        point_timestamps.append(current_datetime_local.isoformat()[5:16])
-                        point_values.append(rows[0][1])
-                        current_datetime_local += timedelta(minutes=1)
-
-                    for index in range(len(rows) - 1):
-                        while current_datetime_local < rows[index + 1][0].replace(tzinfo=timezone.utc) + \
-                                timedelta(minutes=timezone_offset):
-                            point_timestamps.append(current_datetime_local.isoformat()[5:16])
-                            point_values.append(rows[index][1])
-                            current_datetime_local += timedelta(minutes=1)
-            elif point['object_type'] == 'DIGITAL_VALUE':
-                query = (" SELECT utc_date_time, actual_value "
-                         " FROM tbl_digital_value "
-                         " WHERE point_id = %s "
-                         "       AND utc_date_time BETWEEN %s AND %s "
-                         " ORDER BY utc_date_time ")
-                cursor_historical.execute(query, (point['id'],
-                                                  reporting_start_datetime_utc,
-                                                  reporting_end_datetime_utc))
-                rows = cursor_historical.fetchall()
-
-                if rows is not None and len(rows) > 0:
-                    reporting_start_datetime_local = reporting_start_datetime_utc.replace(tzinfo=timezone.utc) + \
-                                                     timedelta(minutes=timezone_offset)
-                    current_datetime_local = reporting_start_datetime_local
-
-                    while current_datetime_local < rows[0][0].replace(tzinfo=timezone.utc) + \
-                            timedelta(minutes=timezone_offset):
-                        point_timestamps.append(current_datetime_local.isoformat()[5:16])
-                        point_values.append(rows[0][1])
-                        current_datetime_local += timedelta(minutes=1)
-
-                    for index in range(len(rows) - 1):
-                        while current_datetime_local < rows[index + 1][0].replace(tzinfo=timezone.utc) + \
-                                timedelta(minutes=timezone_offset):
-                            point_timestamps.append(current_datetime_local.isoformat()[5:16])
-                            point_values.append(rows[index][1])
-                            current_datetime_local += timedelta(minutes=1)
-
-            parameters_data['names'].append(point['name'] + ' (' + point['units'] + ')')
-            parameters_data['timestamps'].append(point_timestamps)
-            parameters_data['values'].append(point_values)
-
-        if cursor_system:
-            cursor_system.close()
-        if cnx_system:
-            cnx_system.close()
-
-        if cursor_energy:
-            cursor_energy.close()
-        if cnx_energy:
-            cnx_energy.close()
-
-        if cursor_historical:
-            cursor_historical.close()
-        if cnx_historical:
-            cnx_historical.close()
+            if cnx_energy:
+                cnx_energy.close()
+            if cnx_historical:
+                cnx_historical.close()
+                
         ################################################################################################################
         # Step 14: construct the report
         ################################################################################################################
