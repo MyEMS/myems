@@ -64,114 +64,117 @@ const DetailedDataTable = ({ title, data, columns, pagesize, t, page: controlled
       <Card>
         <FalconCardHeader title={title} className="bg-light" titleClass="text-lightSlateGray mb-0" />
         <CardBody>
-          <Row>
-            <Col>
-              <BootstrapTable
-                bootstrap4
-                keyField="id"
-                data={pageData}
-                columns={columns}
-                defaultSorted={defaultSorted}
-              />
-            </Col>
-          </Row>
-          <Row noGutters className="px-1 py-3 flex-center">
-            <Col xs="auto">
-              <Button
-                color="falcon-default"
-                size="sm"
-                type="button"
-                onClick={() => setPage(Math.max(1, page - 1))}
-                disabled={page === 1}
-                title={t ? t('Previous Page') : 'Previous Page'}
-              >
-                <FontAwesomeIcon icon="chevron-left" />
-              </Button>
-              {getPaginationArray(totalSize, pagesize, page).map((item, index, array) => {
-                if (item === 'ellipsis') {
-                  const prevItem = index > 0 ? array[index - 1] : null;
-                  const nextItem = index < array.length - 1 ? array[index + 1] : null;
-                  let minPage = 2;
-                  let maxPage = totalPages - 1;
-                  
-                  if (prevItem !== null && typeof prevItem === 'number') {
-                    minPage = prevItem + 1;
-                  }
-                  if (nextItem !== null && typeof nextItem === 'number') {
-                    maxPage = nextItem - 1;
-                  }
+          <div style={{overflowX: 'auto', width: '100%'}}>
+            <Row>
+              <Col>
+                <BootstrapTable
+                    bootstrap4
+                    keyField="id"
+                    data={pageData}
+                    columns={columns}
+                    defaultSorted={defaultSorted}
+                />
+              </Col>
+            </Row>
+            <Row noGutters className="px-1 py-3 flex-center">
+              <Col xs="auto">
+                <Button
+                    color="falcon-default"
+                    size="sm"
+                    type="button"
+                    onClick={() => setPage(Math.max(1, page - 1))}
+                    disabled={page === 1}
+                    title={t ? t('Previous Page') : 'Previous Page'}
+                >
+                  <FontAwesomeIcon icon="chevron-left"/>
+                </Button>
+                {getPaginationArray(totalSize, pagesize, page).map((item, index, array) => {
+                  if (item === 'ellipsis') {
+                    const prevItem = index > 0 ? array[index - 1] : null;
+                    const nextItem = index < array.length - 1 ? array[index + 1] : null;
+                    let minPage = 2;
+                    let maxPage = totalPages - 1;
 
-                  const isActive = ellipsisInput.show && ellipsisInput.index === index;
+                    if (prevItem !== null && typeof prevItem === 'number') {
+                      minPage = prevItem + 1;
+                    }
+                    if (nextItem !== null && typeof nextItem === 'number') {
+                      maxPage = nextItem - 1;
+                    }
 
+                    const isActive = ellipsisInput.show && ellipsisInput.index === index;
+
+                    return (
+                        <div key={`ellipsis-${index}`} className="d-inline-block ml-2 ellipsis-input-container"
+                             style={{position: 'relative'}}>
+                          {isActive ? (
+                              <Input
+                                  type="number"
+                                  min={minPage}
+                                  max={maxPage}
+                                  className="d-inline-block"
+                                  style={{width: '60px', height: '31px', padding: '2px 8px', fontSize: '0.875rem'}}
+                                  autoFocus
+                                  onBlur={() => {
+                                    setEllipsisInput({show: false, index: -1, min: 0, max: 0});
+                                  }}
+                                  onKeyDown={(e) => {
+                                    if (e.key === 'Enter') {
+                                      const value = parseInt(e.target.value);
+                                      if (!isNaN(value) && value >= minPage && value <= maxPage) {
+                                        setPage(value);
+                                        setEllipsisInput({show: false, index: -1, min: 0, max: 0});
+                                      }
+                                    } else if (e.key === 'Escape') {
+                                      setEllipsisInput({show: false, index: -1, min: 0, max: 0});
+                                    }
+                                  }}
+                              />
+                          ) : (
+                              <Button
+                                  color="falcon-default"
+                                  size="sm"
+                                  type="button"
+                                  onClick={() => setEllipsisInput({show: true, index, min: minPage, max: maxPage})}
+                                  style={{cursor: 'pointer'}}
+                              >
+                                ...
+                              </Button>
+                          )}
+                        </div>
+                    );
+                  }
                   return (
-                    <div key={`ellipsis-${index}`} className="d-inline-block ml-2 ellipsis-input-container" style={{ position: 'relative' }}>
-                      {isActive ? (
-                        <Input
-                          type="number"
-                          min={minPage}
-                          max={maxPage}
-                          className="d-inline-block"
-                          style={{ width: '60px', height: '31px', padding: '2px 8px', fontSize: '0.875rem' }}
-                          autoFocus
-                          onBlur={() => {
-                            setEllipsisInput({ show: false, index: -1, min: 0, max: 0 });
-                          }}
-                          onKeyDown={(e) => {
-                            if (e.key === 'Enter') {
-                              const value = parseInt(e.target.value);
-                              if (!isNaN(value) && value >= minPage && value <= maxPage) {
-                                setPage(value);
-                                setEllipsisInput({ show: false, index: -1, min: 0, max: 0 });
-                              }
-                            } else if (e.key === 'Escape') {
-                              setEllipsisInput({ show: false, index: -1, min: 0, max: 0 });
-                            }
-                          }}
-                        />
-                      ) : (
-                        <Button
-                          color="falcon-default"
+                      <Button
+                          color={page === item ? 'falcon-primary' : 'falcon-default'}
                           size="sm"
+                          className="ml-2"
                           type="button"
-                          onClick={() => setEllipsisInput({ show: true, index, min: minPage, max: maxPage })}
-                          style={{ cursor: 'pointer' }}
-                        >
-                          ...
-                        </Button>
-                      )}
-                    </div>
+                          onClick={() => setPage(item)}
+                          key={item}
+                      >
+                        {item}
+                      </Button>
                   );
-                }
-                return (
-                  <Button
-                    color={page === item ? 'falcon-primary' : 'falcon-default'}
+                })}
+                <Button
+                    color="falcon-default"
                     size="sm"
                     className="ml-2"
                     type="button"
-                    onClick={() => setPage(item)}
-                    key={item}
-                  >
-                    {item}
-                  </Button>
-                );
-              })}
-              <Button
-                color="falcon-default"
-                size="sm"
-                className="ml-2"
-                type="button"
-                onClick={() => setPage(Math.min(totalPages, page + 1))}
-                disabled={page >= totalPages}
-                title={t ? t('Next Page') : 'Next Page'}
-              >
-                <FontAwesomeIcon icon="chevron-right" />
-              </Button>
-            </Col>
-          </Row>
+                    onClick={() => setPage(Math.min(totalPages, page + 1))}
+                    disabled={page >= totalPages}
+                    title={t ? t('Next Page') : 'Next Page'}
+                >
+                  <FontAwesomeIcon icon="chevron-right"/>
+                </Button>
+              </Col>
+            </Row>
+          </div>
         </CardBody>
       </Card>
     </Fragment>
-  );
+);
 };
 
 export default withTranslation()(DetailedDataTable);

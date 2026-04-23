@@ -12,6 +12,7 @@ Key Features:
 - Base period vs reporting period comparison
 - Excel export functionality
 - Performance metrics calculation
+- Daily breakdown of energy consumption
 
 Report Components:
 - Meter energy consumption summary
@@ -20,6 +21,7 @@ Report Components:
 - Performance comparison metrics
 - Consumption trends and patterns
 - Efficiency indicators
+- Daily energy consumption breakdown
 
 The module uses Falcon framework for REST API and includes:
 - Database queries for meter data
@@ -61,7 +63,7 @@ class Reporting:
     # Step 2: build a space tree
     # Step 3: query all meters in the space tree
     # Step 4: query energy categories
-    # Step 5: query reporting period energy input
+    # Step 5: query reporting period energy input (total and daily)
     # Step 6: construct the report
     ####################################################################################################################
     @staticmethod
@@ -127,7 +129,7 @@ class Reporting:
                 raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                        description="API.INVALID_REPORTING_PERIOD_END_DATETIME")
             reporting_end_datetime_utc = reporting_end_datetime_utc.replace(tzinfo=timezone.utc) - \
-                timedelta(minutes=timezone_offset)
+                                         timedelta(minutes=timezone_offset)
 
         if reporting_start_datetime_utc >= reporting_end_datetime_utc:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
@@ -136,7 +138,7 @@ class Reporting:
         # if turn quick mode on, do not return parameters data and excel file
         is_quick_mode = False
         if quick_mode is not None and \
-            len(str.strip(quick_mode)) > 0 and \
+                len(str.strip(quick_mode)) > 0 and \
                 str.lower(str.strip(quick_mode)) in ('true', 't', 'on', 'yes', 'y'):
             is_quick_mode = True
 
@@ -235,19 +237,19 @@ class Reporting:
 
                     cursor_system_db.execute(" SELECT m.id, m.name AS meter_name, m.uuid, m.energy_category_id, "
                                              "        s.name AS space_name, "
-                                             "        cc.name AS cost_center_name"
+                                             "        cc.name AS cost_center_name, ec.name AS energy_category_name"
                                              " FROM tbl_spaces s, tbl_spaces_meters sm, "
-                                             "      tbl_meters m, tbl_cost_centers cc "
+                                             "      tbl_meters m, tbl_cost_centers cc,tbl_energy_categories ec "
                                              " WHERE s.id IN ( " + ', '.join(map(str, space_dict.keys())) + ") "
-                                             " AND sm.space_id = s.id AND sm.meter_id = m.id "
-                                             " AND m.cost_center_id = cc.id ORDER BY meter_id ", )
+                                                                                                            " AND sm.space_id = s.id AND sm.meter_id = m.id AND m.energy_category_id = ec.id "
+                                                                                                            " AND m.cost_center_id = cc.id ORDER BY meter_id ", )
                 else:
                     cursor_system_db.execute(" SELECT m.id, m.name AS meter_name, m.uuid, m.energy_category_id, "
                                              "        s.name AS space_name, "
-                                             "        cc.name AS cost_center_name "
+                                             "        cc.name AS cost_center_name,ec.name AS energy_category_name "
                                              " FROM tbl_spaces s, tbl_spaces_meters sm, "
-                                             "      tbl_meters m, tbl_cost_centers cc "
-                                             " WHERE s.id = %s AND sm.space_id = s.id AND sm.meter_id = m.id "
+                                             "      tbl_meters m, tbl_cost_centers cc,tbl_energy_categories ec "
+                                             " WHERE s.id = %s AND sm.space_id = s.id AND sm.meter_id = m.id AND m.energy_category_id = ec.id  "
                                              " AND m.cost_center_id = cc.id  ORDER BY meter_id ", (space_id,))
 
                 rows_meters = cursor_system_db.fetchall()
@@ -259,7 +261,9 @@ class Reporting:
                                               "energy_category_id": row[3],
                                               "space_name": row[4],
                                               "cost_center_name": row[5],
+                                              "energy_category_name": row[6],
                                               "values": list(),
+                                              "daily_values": dict(),
                                               "subtotal": None}
                         energy_category_set.add(row[3])
 
@@ -284,10 +288,21 @@ class Reporting:
                                                      "unit_of_measure": row_energy_category[2]})
 
                 #################################################################################################
-                # Step 5: query reporting period energy input
+                # Step 5: query reporting period energy input (total and daily)
                 #################################################################################################
-                for meter_id in meter_dict:
 
+                # Generate date list for the reporting period
+                date_list = list()
+                current_date = reporting_start_datetime_utc.replace(hour=0, minute=0, second=0, microsecond=0)
+                end_date = reporting_end_datetime_utc.replace(hour=0, minute=0, second=0, microsecond=0)
+
+                while current_date < end_date:
+                    date_list.append(current_date)
+                    current_date += timedelta(days=1)
+
+                # Query total and daily energy for each meter
+                for meter_id in meter_dict:
+                    # Query total energy for the reporting period
                     cursor_energy_db.execute(" SELECT SUM(actual_value) "
                                              " FROM tbl_meter_hourly "
                                              " WHERE meter_id = %s "
@@ -297,6 +312,33 @@ class Reporting:
                                               reporting_start_datetime_utc,
                                               reporting_end_datetime_utc))
                     rows_meter_energy = cursor_energy_db.fetchall()
+
+                    # Query daily energy breakdown
+                    cursor_energy_db.execute(" SELECT DATE(start_datetime_utc) as date_day, "
+                                             "        SUM(actual_value) "
+                                             " FROM tbl_meter_hourly "
+                                             " WHERE meter_id = %s "
+                                             "     AND start_datetime_utc >= %s "
+                                             "     AND start_datetime_utc < %s "
+                                             " GROUP BY date_day "
+                                             " ORDER BY date_day",
+                                             (meter_id,
+                                              reporting_start_datetime_utc,
+                                              reporting_end_datetime_utc))
+                    rows_daily_energy = cursor_energy_db.fetchall()
+
+                    # Build daily values dictionary
+                    daily_values_dict = dict()
+                    for row_daily in rows_daily_energy:
+                        if isinstance(row_daily[0], str):
+                            date_str = row_daily[0]
+                        else:
+                            date_str = row_daily[0].strftime('%Y-%m-%d')
+                        daily_values_dict[date_str] = row_daily[1]
+
+                    meter_dict[meter_id]['daily_values'] = daily_values_dict
+
+                    # Process total energy by energy category
                     for energy_category in energy_category_list:
                         subtotal = None
                         for row_meter_energy in rows_meter_energy:
@@ -307,6 +349,7 @@ class Reporting:
                         # append subtotal
                         # append None if energy category is not applicable
                         meter_dict[meter_id]['values'].append(subtotal)
+
 
             finally:
                 if cursor_system_db:
@@ -325,17 +368,32 @@ class Reporting:
         ################################################################################################################
         meter_list = list()
         for meter_id, meter in meter_dict.items():
+            # Convert daily_values dict to ordered list based on date_list
+            daily_values_list = list()
+            for date_obj in date_list:
+                date_str = date_obj.strftime('%Y-%m-%d')
+                daily_values_list.append({
+                    "date": date_str,
+                    "value": meter['daily_values'].get(date_str, None)
+                })
+
             meter_list.append({
                 "id": meter_id,
                 "meter_name": meter['meter_name'],
+                "energy_category_name": meter['energy_category_name'],
                 "uuid": meter['uuid'],
                 "space_name": meter['space_name'],
                 "cost_center_name": meter['cost_center_name'],
                 "values": meter['values'],
+                "daily_values": daily_values_list,
                 "subtotal": meter['subtotal'],
             })
-
-        result = {'meters': meter_list, 'energycategories': energy_category_list, "excel_bytes_base64": None}
+        result = {
+            'meters': meter_list,
+            'energycategories': energy_category_list,
+            "date_list": [date_obj.strftime('%Y-%m-%d') for date_obj in date_list],
+            "excel_bytes_base64": None
+        }
 
         # export result to Excel file and then encode the file to base64 string
         if not is_quick_mode:
