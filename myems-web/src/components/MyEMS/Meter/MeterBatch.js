@@ -250,7 +250,6 @@ const MeterBatch = ({ setRedirect, setRedirectUrl, t }) => {
               meters.push(detailed_value);
             });
           }
-          console.log('meters:', meters);
 
           setMeterList(meters);
 
