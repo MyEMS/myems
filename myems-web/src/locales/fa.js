@@ -268,6 +268,9 @@ export default {
             minutes: 'دقیقه',
             seconds: 'ثانیه',
             last7Days: 'هفت روز گذشته',
+            tomorrow: 'فردا',
+            dayAfterTomorrow: 'پس فردا',
+            next7Days: '۷ روز آینده',
             'Select Date Range': 'انتخاب بازه زمانی',
             //Card Summaries and Line Charts
             'Base Period': 'دوره پایه',

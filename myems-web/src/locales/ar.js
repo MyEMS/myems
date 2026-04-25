@@ -259,6 +259,9 @@ export default {
             minutes: 'محضر',
             seconds: 'الثواني',
             last7Days: 'آخر 7 أيام',
+            tomorrow: 'غداً',
+            dayAfterTomorrow: 'بعد غد',
+            next7Days: 'الأيام السبعة القادمة',
             'Select Date Range': 'حدد النطاق الزمني',
             //Card Summaries and Line Charts
             'Base Period': 'فترة الأساس',

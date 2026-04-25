@@ -269,6 +269,9 @@ export default {
             minutes: '分',
             seconds: '秒',
             last7Days: '最近七天',
+            tomorrow: '明天',
+            dayAfterTomorrow: '后天',
+            next7Days: '今后七天',
             'Select Date Range': '选择日期范围',
             //Card Summaries and Line Charts
             'Base Period': '基准期',

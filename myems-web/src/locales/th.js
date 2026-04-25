@@ -260,6 +260,9 @@ export default {
             minutes: 'รายงานการประชุม',
             seconds: 'วินาที',
             last7Days: '7 วันที่ผ่านมา',
+            tomorrow: 'พรุ่งนี้',
+            dayAfterTomorrow: 'มะรืน',
+            next7Days: '7 วันข้างหน้า',
             'Select Date Range': 'เลือกช่วงวันที่',
             //Card Summaries and Line Charts
             'Base Period': 'ระยะเวลาฐาน',

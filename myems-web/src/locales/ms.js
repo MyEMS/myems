@@ -261,6 +261,9 @@ export default {
             minutes: 'Minit',
             seconds: 'Saat',
             last7Days: '7 Hari Terakhir',
+            tomorrow: 'Esok',
+            dayAfterTomorrow: 'Lusa',
+            next7Days: '7 Hari Akan Datang',
             'Select Date Range': 'Pilih Julat Tarikh',
             //Card Summaries and Line Charts
             'Base Period': 'Tempoh Asas',

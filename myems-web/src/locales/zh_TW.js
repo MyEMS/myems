@@ -258,6 +258,9 @@ export default {
             minutes: '分',
             seconds: '秒',
             last7Days: '最近七天',
+            tomorrow: '明天',
+            dayAfterTomorrow: '後天',
+            next7Days: '今後七天',
             'Select Date Range': '選擇⽇期範圍',
             //Card Summaries and Line Charts
             'Base Period': '基準期',
