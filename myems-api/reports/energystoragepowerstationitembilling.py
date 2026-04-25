@@ -192,7 +192,8 @@ class Reporting:
                          " AND start_datetime_utc >= %s "
                          " AND start_datetime_utc < %s "
                          " ORDER BY start_datetime_utc ")
-                cursor_billing_db.execute(query, (energy_storage_power_station_id, start_datetime_utc, end_datetime_utc))
+                cursor_billing_db.execute(query,
+                                          (energy_storage_power_station_id, start_datetime_utc, end_datetime_utc))
                 rows_charge_hourly = cursor_billing_db.fetchall()
 
                 rows_charge_periodically = utilities.aggregate_hourly_data_by_period(rows_charge_hourly,
@@ -218,9 +219,9 @@ class Reporting:
                     values.append(actual_value)
                 reporting['charge_7_days']['timestamps_array'].append(timestamps)
                 reporting['charge_7_days']['values_array'].append(values)
-                ################################################################################################################
+                ########################################################################################################
                 # Step 4: query discharge billing data in 7 days
-                ################################################################################################################
+                ########################################################################################################
                 reporting['discharge_7_days'] = dict()
                 reporting['discharge_7_days']['timestamps_array'] = list()
                 reporting['discharge_7_days']['values_array'] = list()
@@ -232,7 +233,8 @@ class Reporting:
                          " AND start_datetime_utc >= %s "
                          " AND start_datetime_utc < %s "
                          " ORDER BY start_datetime_utc ")
-                cursor_billing_db.execute(query, (energy_storage_power_station_id, start_datetime_utc, end_datetime_utc))
+                cursor_billing_db.execute(query,
+                                          (energy_storage_power_station_id, start_datetime_utc, end_datetime_utc))
                 rows_charge_hourly = cursor_billing_db.fetchall()
 
                 rows_charge_periodically = utilities.aggregate_hourly_data_by_period(rows_charge_hourly,
@@ -260,9 +262,9 @@ class Reporting:
                 reporting['discharge_7_days']['timestamps_array'].append(timestamps)
                 reporting['discharge_7_days']['values_array'].append(values)
 
-                ################################################################################################################
+                ########################################################################################################
                 # Step 5: query charge billing data in this month
-                ################################################################################################################
+                ########################################################################################################
                 end_datetime_utc = datetime.utcnow()
                 end_datetime_local = datetime.utcnow() + timedelta(minutes=timezone_offset)
                 period_type = 'daily'
@@ -285,7 +287,8 @@ class Reporting:
                          " AND start_datetime_utc >= %s "
                          " AND start_datetime_utc < %s "
                          " ORDER BY start_datetime_utc ")
-                cursor_billing_db.execute(query, (energy_storage_power_station['id'], start_datetime_utc, end_datetime_utc))
+                cursor_billing_db.execute(query,
+                                          (energy_storage_power_station['id'], start_datetime_utc, end_datetime_utc))
                 rows_charge_hourly = cursor_billing_db.fetchall()
 
                 rows_charge_periodically = utilities.aggregate_hourly_data_by_period(rows_charge_hourly,
@@ -313,9 +316,9 @@ class Reporting:
                 reporting['charge_this_month']['timestamps_array'].append(timestamps)
                 reporting['charge_this_month']['values_array'].append(values)
 
-                ################################################################################################################
+                ########################################################################################################
                 # Step 6: query discharge billing data in this month
-                ################################################################################################################
+                ########################################################################################################
                 reporting['discharge_this_month'] = dict()
                 reporting['discharge_this_month']['timestamps_array'] = list()
                 reporting['discharge_this_month']['values_array'] = list()
@@ -328,7 +331,8 @@ class Reporting:
                          " AND start_datetime_utc >= %s "
                          " AND start_datetime_utc < %s "
                          " ORDER BY start_datetime_utc ")
-                cursor_billing_db.execute(query, (energy_storage_power_station['id'], start_datetime_utc, end_datetime_utc))
+                cursor_billing_db.execute(query,
+                                          (energy_storage_power_station['id'], start_datetime_utc, end_datetime_utc))
                 rows_discharge_hourly = cursor_billing_db.fetchall()
 
                 rows_discharge_periodically = utilities.aggregate_hourly_data_by_period(rows_discharge_hourly,
@@ -350,19 +354,21 @@ class Reporting:
                     elif period_type == 'yearly':
                         current_datetime = current_datetime_local.isoformat()[0:4]
 
-                    actual_value = Decimal(0.0) if row_discharge_periodically[1] is None else row_discharge_periodically[1]
+                    actual_value = Decimal(0.0) if row_discharge_periodically[1] is None \
+                        else row_discharge_periodically[1]
                     timestamps.append(current_datetime)
                     values.append(actual_value)
                 reporting['discharge_this_month']['timestamps_array'].append(timestamps)
                 reporting['discharge_this_month']['values_array'].append(values)
 
-                ################################################################################################################
+                ########################################################################################################
                 # Step 7: query charge billing data in this year
-                ################################################################################################################
+                ########################################################################################################
                 end_datetime_utc = datetime.utcnow()
                 end_datetime_local = datetime.utcnow() + timedelta(minutes=timezone_offset)
                 period_type = 'monthly'
-                start_datetime_local = end_datetime_local.replace(month=1, day=1, hour=0, minute=0, second=0, microsecond=0)
+                start_datetime_local = end_datetime_local.replace(month=1, day=1, hour=0, minute=0, second=0,
+                                                                  microsecond=0)
                 start_datetime_utc = start_datetime_local - timedelta(minutes=timezone_offset)
                 print('start_datetime_local:' + start_datetime_local.isoformat())
                 print('end_datetime_local:' + end_datetime_local.isoformat())
@@ -381,7 +387,8 @@ class Reporting:
                          " AND start_datetime_utc >= %s "
                          " AND start_datetime_utc < %s "
                          " ORDER BY start_datetime_utc ")
-                cursor_billing_db.execute(query, (energy_storage_power_station['id'], start_datetime_utc, end_datetime_utc))
+                cursor_billing_db.execute(query,
+                                          (energy_storage_power_station['id'], start_datetime_utc, end_datetime_utc))
                 rows_charge_hourly = cursor_billing_db.fetchall()
 
                 rows_charge_periodically = utilities.aggregate_hourly_data_by_period(rows_charge_hourly,
@@ -408,9 +415,9 @@ class Reporting:
                 reporting['charge_this_year']['timestamps_array'].append(timestamps)
                 reporting['charge_this_year']['values_array'].append(values)
 
-                ################################################################################################################
+                ########################################################################################################
                 # Step 8: query discharge billing data in this month
-                ################################################################################################################
+                ########################################################################################################
                 reporting['discharge_this_year'] = dict()
                 reporting['discharge_this_year']['timestamps_array'] = list()
                 reporting['discharge_this_year']['values_array'] = list()
@@ -423,7 +430,8 @@ class Reporting:
                          " AND start_datetime_utc >= %s "
                          " AND start_datetime_utc < %s "
                          " ORDER BY start_datetime_utc ")
-                cursor_billing_db.execute(query, (energy_storage_power_station['id'], start_datetime_utc, end_datetime_utc))
+                cursor_billing_db.execute(query,
+                                          (energy_storage_power_station['id'], start_datetime_utc, end_datetime_utc))
                 rows_discharge_hourly = cursor_billing_db.fetchall()
 
                 rows_discharge_periodically = utilities.aggregate_hourly_data_by_period(rows_discharge_hourly,
@@ -444,7 +452,8 @@ class Reporting:
                     elif period_type == 'yearly':
                         current_datetime = current_datetime_local.isoformat()[0:4]
 
-                    actual_value = Decimal(0.0) if row_discharge_periodically[1] is None else row_discharge_periodically[1]
+                    actual_value = Decimal(0.0) if row_discharge_periodically[1] is None \
+                        else row_discharge_periodically[1]
                     timestamps.append(current_datetime)
                     values.append(actual_value)
                 reporting['discharge_this_year']['timestamps_array'].append(timestamps)

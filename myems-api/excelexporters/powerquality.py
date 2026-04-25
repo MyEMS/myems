@@ -361,7 +361,8 @@ def generate_excel(report,
                 item.get('limit_normal_hz', ''),
                 item.get('limit_severe_hz', ''),
                 item.get('compliance_pct', ''),
-                item.get('worst_abs_deviation_pct', item.get('worst_unbalance_pct', item.get('worst_deviation_hz', ''))),
+                item.get('worst_abs_deviation_pct',
+                         item.get('worst_unbalance_pct', item.get('worst_deviation_hz', ''))),
                 item.get('worst_time', ''),
             ]
             # metrics map

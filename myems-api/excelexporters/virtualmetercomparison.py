@@ -203,7 +203,8 @@ def generate_excel(report, name1, name2, reporting_start_datetime_local, reporti
         ws['C7'].fill = table_fill
         ws['C7'].font = name_font
         ws['C7'].alignment = c_c_alignment
-        ws['C7'] = report['virtualmeter1']['energy_category_name'] + " (" + report['virtualmeter1']['unit_of_measure'] + ")"
+        ws['C7'] = \
+            report['virtualmeter1']['energy_category_name'] + " (" + report['virtualmeter1']['unit_of_measure'] + ")"
         ws['C7'].border = f_border
 
         ws['C8'].font = name_font
@@ -232,7 +233,8 @@ def generate_excel(report, name1, name2, reporting_start_datetime_local, reporti
         ws['C11'].fill = table_fill
         ws['C11'].font = name_font
         ws['C11'].alignment = c_c_alignment
-        ws['C11'] = report['virtualmeter2']['energy_category_name'] + " (" + report['virtualmeter2']['unit_of_measure'] + ")"
+        ws['C11'] = \
+            report['virtualmeter2']['energy_category_name'] + " (" + report['virtualmeter2']['unit_of_measure'] + ")"
         ws['C11'].border = f_border
 
         ws['C12'].font = name_font

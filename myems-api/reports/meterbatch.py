@@ -128,8 +128,8 @@ class Reporting:
             except ValueError:
                 raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                        description="API.INVALID_REPORTING_PERIOD_END_DATETIME")
-            reporting_end_datetime_utc = reporting_end_datetime_utc.replace(tzinfo=timezone.utc) - \
-                                         timedelta(minutes=timezone_offset)
+            reporting_end_datetime_utc = \
+                reporting_end_datetime_utc.replace(tzinfo=timezone.utc) - timedelta(minutes=timezone_offset)
 
         if reporting_start_datetime_utc >= reporting_end_datetime_utc:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
@@ -241,15 +241,20 @@ class Reporting:
                                              " FROM tbl_spaces s, tbl_spaces_meters sm, "
                                              "      tbl_meters m, tbl_cost_centers cc,tbl_energy_categories ec "
                                              " WHERE s.id IN ( " + ', '.join(map(str, space_dict.keys())) + ") "
-                                                                                                            " AND sm.space_id = s.id AND sm.meter_id = m.id AND m.energy_category_id = ec.id "
-                                                                                                            " AND m.cost_center_id = cc.id ORDER BY meter_id ", )
+                                             " AND sm.space_id = s.id "
+                                             " AND sm.meter_id = m.id "
+                                             " AND m.energy_category_id = ec.id "
+                                             " AND m.cost_center_id = cc.id ORDER BY meter_id ", )
                 else:
                     cursor_system_db.execute(" SELECT m.id, m.name AS meter_name, m.uuid, m.energy_category_id, "
                                              "        s.name AS space_name, "
                                              "        cc.name AS cost_center_name,ec.name AS energy_category_name "
                                              " FROM tbl_spaces s, tbl_spaces_meters sm, "
                                              "      tbl_meters m, tbl_cost_centers cc,tbl_energy_categories ec "
-                                             " WHERE s.id = %s AND sm.space_id = s.id AND sm.meter_id = m.id AND m.energy_category_id = ec.id  "
+                                             " WHERE s.id = %s "
+                                             " AND sm.space_id = s.id "
+                                             " AND sm.meter_id = m.id "
+                                             " AND m.energy_category_id = ec.id  "
                                              " AND m.cost_center_id = cc.id  ORDER BY meter_id ", (space_id,))
 
                 rows_meters = cursor_system_db.fetchall()
@@ -293,8 +298,10 @@ class Reporting:
 
                 # Generate date list for the reporting period using local time
                 date_list = list()
-                reporting_start_datetime_local = reporting_start_datetime_utc.replace(tzinfo=timezone.utc) + timedelta(minutes=timezone_offset)
-                reporting_end_datetime_local = reporting_end_datetime_utc.replace(tzinfo=timezone.utc) + timedelta(minutes=timezone_offset)
+                reporting_start_datetime_local = \
+                    reporting_start_datetime_utc.replace(tzinfo=timezone.utc) + timedelta(minutes=timezone_offset)
+                reporting_end_datetime_local = \
+                    reporting_end_datetime_utc.replace(tzinfo=timezone.utc) + timedelta(minutes=timezone_offset)
                 
                 current_date = reporting_start_datetime_local.replace(hour=0, minute=0, second=0, microsecond=0)
                 end_date = reporting_end_datetime_local.replace(hour=0, minute=0, second=0, microsecond=0)
@@ -334,7 +341,8 @@ class Reporting:
                     for row_daily in rows_daily_energy:
                         utc_datetime = row_daily[0]
                         if isinstance(utc_datetime, datetime):
-                            local_datetime = utc_datetime.replace(tzinfo=timezone.utc) + timedelta(minutes=timezone_offset)
+                            local_datetime = \
+                                utc_datetime.replace(tzinfo=timezone.utc) + timedelta(minutes=timezone_offset)
                             date_str = local_datetime.strftime('%Y-%m-%d')
                         else:
                             date_str = str(utc_datetime)
@@ -358,8 +366,6 @@ class Reporting:
                         # append subtotal
                         # append None if energy category is not applicable
                         meter_dict[meter_id]['values'].append(subtotal)
-
-
             finally:
                 if cursor_system_db:
                     cursor_system_db.close()

@@ -295,7 +295,7 @@ def generate_excel(
         reporting_period_data2 = report["reporting_period2"]
         diff_data = report["diff"]
         parameters_parameters_datas_len = 0
-        start_detail_data_row_num = 15 + (parameters_parameters_datas_len + 1 + 1) * 6 -4
+        start_detail_data_row_num = 15 + (parameters_parameters_datas_len + 1 + 1) * 6 - 4
         ws["B14"].font = title_font
         ws["B14"] = shopfloor1_name + " and " + shopfloor2_name + _("Detailed Data")
 

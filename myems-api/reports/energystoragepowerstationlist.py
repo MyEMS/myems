@@ -414,7 +414,8 @@ class Reporting:
                                    "battery_soc_point_value": battery_soc_point_value,
                                    "battery_power_point_value": battery_power_point_value,
                                    "charge_times": charge_report_dict[energy_storage_power_station_id]['charge_times'],
-                                   "charge_values": charge_report_dict[energy_storage_power_station_id]['charge_values'],
+                                   "charge_values":
+                                       charge_report_dict[energy_storage_power_station_id]['charge_values'],
                                    "today_total_charge":
                                        charge_report_dict[energy_storage_power_station_id]['today_total_charge'],
                                    "discharge_times":

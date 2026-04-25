@@ -203,7 +203,8 @@ class Reporting:
                         elif period_type == 'yearly':
                             current_datetime = current_datetime_local.isoformat()[0:4]
         
-                        actual_value = Decimal(0.0) if row_charge_periodically[1] is None else row_charge_periodically[1]
+                        actual_value = Decimal(0.0) if row_charge_periodically[1] is None \
+                            else row_charge_periodically[1]
                         timestamps.append(current_datetime)
                         values.append(actual_value)
                     reporting['charge_7_days']['timestamps_array'].append(timestamps)
