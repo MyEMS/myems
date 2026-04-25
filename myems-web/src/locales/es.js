@@ -261,6 +261,9 @@ export default {
             minutes: 'Acta',
             seconds: 'Sobras',
             last7Days: 'Últimos 7 días',
+            tomorrow: 'Mañana',
+            dayAfterTomorrow: 'Pasado mañana',
+            next7Days: 'Próximos 7 días',
             'Select Date Range': 'Seleccionar intervalo de fechas',
             //Card Summaries and Line Charts
             'Base Period': 'Período base',

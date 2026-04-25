@@ -269,6 +269,9 @@ export default {
             minutes: 'Minuut',
             seconds: 'Seconde',
             last7Days: 'Laatste 7 dagen',
+            tomorrow: 'Morgen',
+            dayAfterTomorrow: 'Overmorgen',
+            next7Days: 'Volgende 7 dagen',
             'Select Date Range': 'Selecteer datumbereik',
             //Card Summaries and Line Charts
             'Base Period': 'Basisperiode',

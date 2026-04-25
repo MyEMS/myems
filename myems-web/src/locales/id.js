@@ -261,6 +261,9 @@ export default {
             minutes: 'Cabang',
             seconds: 'Detik',
             last7Days: 'Tujuh Hari Terakhir',
+            tomorrow: 'Besok',
+            dayAfterTomorrow: 'Lusa',
+            next7Days: '7 Hari Berikutnya',
             'Select Date Range': 'Pilih Jangkauan Tanggal',
             //Card Summaries and Line Charts
             'Base Period': 'Periode Dasar',

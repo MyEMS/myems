@@ -261,6 +261,9 @@ export default {
             minutes: 'Протокол',
             seconds: 'Товары второго сорта',
             last7Days: 'Последние 7 дней',
+            tomorrow: 'Завтра',
+            dayAfterTomorrow: 'Послезавтра',
+            next7Days: 'Следующие 7 дней',
             'Select Date Range': 'Выберите диапазон дат',
             //Card Summaries and Line Charts
             'Base Period': 'Базовый период',
