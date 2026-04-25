@@ -8,6 +8,7 @@ within a specific time period.
 Key Features:
 - Multi-meter energy consumption comparison
 - Energy category breakdown with units
+- Daily energy consumption breakdown
 - Formatted Excel output with proper styling
 - Multi-language support
 - Base64 encoding for file transmission
@@ -15,6 +16,7 @@ Key Features:
 The exported Excel file includes:
 - Meter names and associated spaces
 - Energy consumption by category
+- Daily consumption breakdown
 - Proper formatting and borders
 - Logo and header information
 """
@@ -82,9 +84,20 @@ def generate_excel(report, space_name, reporting_start_datetime_local, reporting
     ws = wb.active
     ws.title = "MeterBatch"
 
+    # Calculate required columns
+    ca_len = 1
+    date_list_len = len(report.get('date_list', []))
+    total_cols = 3 + ca_len + date_list_len  # ID, Name, Space + categories + dates
+
     # Col width
-    for i in range(ord('A'), ord('L')):
-        ws.column_dimensions[chr(i)].width = 20.0
+    for i in range(ord('A'), ord('A') + min(total_cols, 26)):
+        ws.column_dimensions[chr(i)].width = 15.0
+
+    # Set wider width for date columns
+    if date_list_len > 0:
+        for i in range(3 + ca_len, 3 + ca_len + date_list_len):
+            col_letter = chr(ord('A') + i) if i < 26 else chr(ord('A') + (i // 26) - 1) + chr(ord('A') + (i % 26))
+            ws.column_dimensions[col_letter].width = 12.0
 
     # Head image
     ws.row_dimensions[1].height = 105
@@ -116,23 +129,42 @@ def generate_excel(report, space_name, reporting_start_datetime_local, reporting
     ws['B6'] = _('Name')
     ws['C6'].font = title_font
     ws['C6'] = _('Space')
+    ws['D6'].font = title_font
+    ws['D6'] = _('Energy Category')
 
-    ca_len = len(report['energycategories'])
-    for i in range(0, ca_len):
-        col = chr(ord('D') + i)
+    # Energy category headers
+    # for i in range(0, ca_len):
+    #     col = chr(ord('D') + i)
+    #     ws[col + '6'].font = title_font
+    #     ws[col + '6'] = report['energycategories'][i]['name'] + " (" + \
+    #                     report['energycategories'][i]['unit_of_measure'] + ")"
+
+    # Date headers
+    date_list = report.get('date_list', [])
+    for i in range(0, len(date_list)):
+        col_idx = 3 + ca_len + i
+        if col_idx < 26:
+            col = chr(ord('A') + col_idx)
+        else:
+            col = chr(ord('A') + (col_idx // 26) - 1) + chr(ord('A') + (col_idx % 26))
         ws[col + '6'].font = title_font
-        ws[col + '6'] = report['energycategories'][i]['name'] + " (" + \
-            report['energycategories'][i]['unit_of_measure'] + ")"
+        ws[col + '6'] = date_list[i]
 
     current_row_number = 7
     for i in range(0, len(report['meters'])):
         ws['A' + str(current_row_number)] = str(report['meters'][i]['id'])
         ws['B' + str(current_row_number)] = report['meters'][i]['meter_name']
         ws['C' + str(current_row_number)] = report['meters'][i]['space_name']
-        ca_len = len(report['meters'][i]['values'])
-        for j in range(0, ca_len):
-            col = chr(ord('D') + j)
-            ws[col + str(current_row_number)] = report['meters'][i]['values'][j]
+        ws['D' + str(current_row_number)] = report['meters'][i].get('energy_category_name', '')
+        # Daily values
+        daily_values = report['meters'][i].get('daily_values', [])
+        for j in range(0, len(daily_values)):
+            col_idx = 3 + ca_len + j
+            if col_idx < 26:
+                col = chr(ord('A') + col_idx)
+            else:
+                col = chr(ord('A') + (col_idx // 26) - 1) + chr(ord('A') + (col_idx % 26))
+            ws[col + str(current_row_number)] = daily_values[j].get('value', None)
 
         current_row_number += 1
 
@@ -140,3 +172,4 @@ def generate_excel(report, space_name, reporting_start_datetime_local, reporting
     wb.save(filename)
 
     return filename
+
