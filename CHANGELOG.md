@@ -7,8 +7,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Added
 - added redis cache to space reports in myems-api
 - added demo data translations in database
-- added space prediction excel exporter in myems-api
+- added combined equipment prediction excel exporter in myems-api
 - added equipment prediction report in myems-api
+- added meter prediction report in myems-api
+- added shopfloor prediction excel exporter in myems-api
+- added space prediction excel exporter in myems-api
+- added store prediction excel exporter in myems-api
+- added tenant prediction excel exporter in myems-api
+- added virtual meter prediction report in myems-api
 - added support for logging in with the enter key on the login screen in myems-admin
 - added pagination functionality to the data point table in myems-admin
 ### Changed

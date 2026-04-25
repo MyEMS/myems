@@ -1,37 +1,37 @@
 """
-Space Prediction Report API
+Tenant Prediction Report API
 
-This module provides REST API endpoints for generating space prediction reports.
-It analyzes historical data and uses predictive algorithms to forecast
-future energy consumption patterns and performance trends.
+This module provides REST API endpoints for generating tenant Prediction reports.
+It analyzes energy consumption by different energy categories for tenants,
+providing insights into energy usage patterns and category-specific optimizations.
 
 Key Features:
-- Space energy consumption prediction
-- Predictive analysis and forecasting
-- Trend-based predictions
-- Performance prediction insights
-- Predictive accuracy assessment
-- Future optimization recommendations
+- Tenant energy consumption by category analysis
+- Base period vs reporting period comparison
+- Prediction breakdown and trends
+- Category-specific optimization insights
+- Excel export functionality
+- Energy mix analysis
 
 Report Components:
-- Space prediction summary
-- Predictive analysis data
-- Future trend predictions
-- Performance forecasts
-- Predictive accuracy metrics
-- Optimization recommendations
+- Tenant energy consumption by category summary
+- Base period comparison data
+- Prediction breakdown
+- Category-specific performance metrics
+- Energy mix analysis
+- Optimization recommendations by category
 
 The module uses Falcon framework for REST API and includes:
-- Database queries for historical data
-- Predictive analysis algorithms
-- Forecasting tools
+- Database queries for Prediction data
+- Category-specific calculations
+- Energy mix analysis tools
+- Excel export via excelexporters
 - Multi-language support
 - User authentication and authorization
 """
 
 import re
 import logging
-import excelexporters.spaceprediction
 from datetime import datetime, timedelta, timezone
 from decimal import Decimal
 import hashlib
@@ -40,7 +40,7 @@ import mysql.connector
 import redis
 import simplejson as json
 import config
-# import excelexporters.spaceenergyprediction
+import excelexporters.tenantprediction
 from core import utilities
 from core.useractivity import access_control, api_key_control
 
@@ -60,10 +60,10 @@ class Reporting:
     ####################################################################################################################
     # PROCEDURES
     # Step 1: valid parameters
-    # Step 2: query the space
+    # Step 2: query the tenant
     # Step 3: query energy categories
-    # Step 4: query base period energy prediction
-    # Step 5: query reporting period energy prediction
+    # Step 4: query base period energy input
+    # Step 5: query reporting period energy input
     # Step 6: query tariff data
     # Step 7: construct the report
     ####################################################################################################################
@@ -76,8 +76,8 @@ class Reporting:
         else:
             api_key_control(req)
         print(req.params)
-        space_id = req.params.get('spaceid')
-        space_uuid = req.params.get('spaceuuid')
+        tenant_id = req.params.get('tenantid')
+        tenant_uuid = req.params.get('tenantuuid')
         period_type = req.params.get('periodtype')
         base_period_start_datetime_local = req.params.get('baseperiodstartdatetime')
         base_period_end_datetime_local = req.params.get('baseperiodenddatetime')
@@ -89,25 +89,25 @@ class Reporting:
         ################################################################################################################
         # Step 1: valid parameters
         ################################################################################################################
-        if space_id is None and space_uuid is None:
+        if tenant_id is None and tenant_uuid is None:
             raise falcon.HTTPError(status=falcon.HTTP_400,
                                    title='API.BAD_REQUEST',
-                                   description='API.INVALID_SPACE_ID')
+                                   description='API.INVALID_TENANT_ID')
 
-        if space_id is not None:
-            space_id = str.strip(space_id)
-            if not space_id.isdigit() or int(space_id) <= 0:
+        if tenant_id is not None:
+            tenant_id = str.strip(tenant_id)
+            if not tenant_id.isdigit() or int(tenant_id) <= 0:
                 raise falcon.HTTPError(status=falcon.HTTP_400,
                                        title='API.BAD_REQUEST',
-                                       description='API.INVALID_SPACE_ID')
+                                       description='API.INVALID_TENANT_ID')
 
-        if space_uuid is not None:
+        if tenant_uuid is not None:
             regex = re.compile(r'^[a-f0-9]{8}-?[a-f0-9]{4}-?4[a-f0-9]{3}-?[89ab][a-f0-9]{3}-?[a-f0-9]{12}\Z', re.I)
-            match = regex.match(str.strip(space_uuid))
+            match = regex.match(str.strip(tenant_uuid))
             if not bool(match):
                 raise falcon.HTTPError(status=falcon.HTTP_400,
                                        title='API.BAD_REQUEST',
-                                       description='API.INVALID_SPACE_UUID')
+                                       description='API.INVALID_TENANT_UUID')
 
         if period_type is None:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
@@ -127,7 +127,7 @@ class Reporting:
             base_period_start_datetime_local = str.strip(base_period_start_datetime_local)
             try:
                 base_start_datetime_utc = datetime.strptime(base_period_start_datetime_local, '%Y-%m-%dT%H:%M:%S')
-
+                base_start_datetime_non_working_day = str(base_period_start_datetime_local).split('T')[0]
             except ValueError:
                 raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                        description="API.INVALID_BASE_PERIOD_START_DATETIME")
@@ -144,7 +144,7 @@ class Reporting:
             base_period_end_datetime_local = str.strip(base_period_end_datetime_local)
             try:
                 base_end_datetime_utc = datetime.strptime(base_period_end_datetime_local, '%Y-%m-%dT%H:%M:%S')
-
+                base_end_datetime_non_working_day = str(base_period_end_datetime_local).split('T')[0]
             except ValueError:
                 raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                        description="API.INVALID_BASE_PERIOD_END_DATETIME")
@@ -164,7 +164,7 @@ class Reporting:
             try:
                 reporting_start_datetime_utc = datetime.strptime(reporting_period_start_datetime_local,
                                                                  '%Y-%m-%dT%H:%M:%S')
-
+                reporting_start_datetime_non_working_day = str(reporting_period_start_datetime_local).split('T')[0]
             except ValueError:
                 raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                        description="API.INVALID_REPORTING_PERIOD_START_DATETIME")
@@ -184,7 +184,8 @@ class Reporting:
             try:
                 reporting_end_datetime_utc = datetime.strptime(reporting_period_end_datetime_local,
                                                                '%Y-%m-%dT%H:%M:%S').replace(tzinfo=timezone.utc) - \
-                    timedelta(minutes=timezone_offset)
+                                             timedelta(minutes=timezone_offset)
+                reporting_end_datetime_non_working_day = str(reporting_period_end_datetime_local).split('T')[0]
             except ValueError:
                 raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                        description="API.INVALID_REPORTING_PERIOD_END_DATETIME")
@@ -230,8 +231,8 @@ class Reporting:
                         minute=0, second=0, microsecond=0)
 
                 cache_params = {
-                    "spaceid": space_id,
-                    "spaceuuid": space_uuid,
+                    "tenantid": tenant_id,
+                    "tenantuuid": tenant_uuid,
                     "periodtype": period_type,
                     "base_start_datetime_utc": base_start_datetime_utc.isoformat() if base_start_datetime_utc else None,
                     "base_end_datetime_utc": base_end_datetime_utc_normalized.isoformat()
@@ -244,8 +245,8 @@ class Reporting:
                     "quickmode": is_quick_mode,
                 }
                 cache_params_json = json.dumps(cache_params, sort_keys=True)
-                cache_key = 'report:spaceprediction:' + \
-                            hashlib.sha256(cache_params_json.encode('utf-8')).hexdigest()
+                cache_key = 'report:tenantprediction:' + hashlib.sha256(
+                    cache_params_json.encode('utf-8')).hexdigest()
 
                 cached_result = redis_client.get(cache_key)
                 if cached_result:
@@ -259,68 +260,65 @@ class Reporting:
         _ = trans.gettext
 
         ################################################################################################################
-        # Step 2: query the space
+        # Step 2: query the tenant
         ################################################################################################################
         cnx_system = None
-        cnx_energy_prediction = None
+        cnx_energy = None
         try:
             cnx_system = mysql.connector.connect(**config.myems_system_db)
-            cnx_energy_prediction = mysql.connector.connect(**config.myems_energy_prediction_db)
+            cnx_energy = mysql.connector.connect(**config.myems_energy_db)
 
             cursor_system = None
-            cursor_energy_prediction = None
+            cursor_energy = None
             try:
                 cursor_system = cnx_system.cursor()
-                cursor_energy_prediction = cnx_energy_prediction.cursor()
+                cursor_energy = cnx_energy.cursor()
 
-                if space_id is not None:
-                    cursor_system.execute(" SELECT id, name, area, number_of_occupants, cost_center_id "
-                                          " FROM tbl_spaces "
-                                          " WHERE id = %s ", (space_id,))
-                    row_space = cursor_system.fetchone()
-                elif space_uuid is not None:
-                    cursor_system.execute(" SELECT id, name, area, number_of_occupants, cost_center_id "
-                                          " FROM tbl_spaces "
-                                          " WHERE uuid = %s ", (space_uuid,))
-                    row_space = cursor_system.fetchone()
+                if tenant_id is not None:
+                    cursor_system.execute(" SELECT id, name, area, cost_center_id "
+                                          " FROM tbl_tenants "
+                                          " WHERE id = %s ", (tenant_id,))
+                    row_tenant = cursor_system.fetchone()
+                elif tenant_uuid is not None:
+                    cursor_system.execute(" SELECT id, name, area, cost_center_id "
+                                          " FROM tbl_tenants "
+                                          " WHERE uuid = %s ", (tenant_uuid,))
+                    row_tenant = cursor_system.fetchone()
 
-                if row_space is None:
+                if row_tenant is None:
                     raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                           description='API.SPACE_NOT_FOUND')
+                                           description='API.TENANT_NOT_FOUND')
 
-                space = dict()
-                space['id'] = row_space[0]
-                space['name'] = row_space[1]
-                space['area'] = row_space[2]
-                space['number_of_occupants'] = row_space[3]
-                space['cost_center_id'] = row_space[4]
+                tenant = dict()
+                tenant['id'] = row_tenant[0]
+                tenant['name'] = row_tenant[1]
+                tenant['area'] = row_tenant[2]
+                tenant['cost_center_id'] = row_tenant[3]
 
-                #####################################################################################################
+                ####################################################################################################
                 # Step 3: query energy categories
-                #####################################################################################################
+                ####################################################################################################
                 energy_category_set = set()
                 # query energy categories in base period
-                cursor_energy_prediction.execute(" SELECT DISTINCT(energy_category_id) "
-                                                 " FROM tbl_space_input_category_hourly "
-                                                 " WHERE space_id = %s "
-                                                 "     AND start_datetime_utc >= %s "
-                                                 "     AND start_datetime_utc < %s ",
-                                                 (space['id'], base_start_datetime_utc, base_end_datetime_utc))
-                rows_energy_categories = cursor_energy_prediction.fetchall()
+                cursor_energy.execute(" SELECT DISTINCT(energy_category_id) "
+                                      " FROM tbl_tenant_input_category_hourly "
+                                      " WHERE tenant_id = %s "
+                                      "     AND start_datetime_utc >= %s "
+                                      "     AND start_datetime_utc < %s ",
+                                      (tenant['id'], base_start_datetime_utc, base_end_datetime_utc))
+                rows_energy_categories = cursor_energy.fetchall()
                 if rows_energy_categories is not None and len(rows_energy_categories) > 0:
                     for row_energy_category in rows_energy_categories:
                         energy_category_set.add(row_energy_category[0])
 
                 # query energy categories in reporting period
-                cursor_energy_prediction.execute(" SELECT DISTINCT(energy_category_id) "
-                                                 " FROM tbl_space_input_category_hourly "
-                                                 " WHERE space_id = %s "
-                                                 "     AND start_datetime_utc >= %s "
-                                                 "     AND start_datetime_utc < %s ",
-                                                 (space['id'],
-                                                  reporting_start_datetime_utc,
-                                                  reporting_end_datetime_utc))
-                rows_energy_categories = cursor_energy_prediction.fetchall()
+                cursor_energy.execute(" SELECT DISTINCT(energy_category_id) "
+                                      " FROM tbl_tenant_input_category_hourly "
+                                      " WHERE tenant_id = %s "
+                                      "     AND start_datetime_utc >= %s "
+                                      "     AND start_datetime_utc < %s ",
+                                      (tenant['id'], reporting_start_datetime_utc, reporting_end_datetime_utc))
+                rows_energy_categories = cursor_energy.fetchall()
                 if rows_energy_categories is not None and len(rows_energy_categories) > 0:
                     for row_energy_category in rows_energy_categories:
                         energy_category_set.add(row_energy_category[0])
@@ -342,11 +340,28 @@ class Reporting:
                                                                         "kgce": row_energy_category[3],
                                                                         "kgco2e": row_energy_category[4]}
 
-                ####################################################################################################
-                # Step 4: query base period energy prediction
-                ####################################################################################################
+                #####################################################################################################
+                # Step 4: query base period energy input
+                #####################################################################################################
                 base = dict()
+                base['non_working_days'] = list()
                 if energy_category_set is not None and len(energy_category_set) > 0:
+                    if base_start_datetime_utc is not None and base_end_datetime_utc is not None:
+                        cursor_system.execute(" SELECT nwd.date_local "
+                                              " FROM tbl_tenants t, tbl_tenants_working_calendars twc, "
+                                              "      tbl_working_calendars_non_working_days nwd "
+                                              " WHERE t.id = %s AND "
+                                              "       t.id = twc.tenant_id AND "
+                                              "       twc.working_calendar_id = nwd.working_calendar_id AND"
+                                              "       nwd.date_local >= %s AND"
+                                              "       nwd.date_local <= %s ",
+                                              (tenant['id'],
+                                               base_start_datetime_non_working_day,
+                                               base_end_datetime_non_working_day))
+                        rows = cursor_system.fetchall()
+                        for row in rows:
+                            row_datetime = row[0].isoformat()[0:10]
+                            base['non_working_days'].append(row_datetime)
                     for energy_category_id in energy_category_set:
                         kgce = energy_category_dict[energy_category_id]['kgce']
                         kgco2e = energy_category_dict[energy_category_id]['kgco2e']
@@ -357,26 +372,28 @@ class Reporting:
                         base[energy_category_id]['subtotal'] = Decimal(0.0)
                         base[energy_category_id]['subtotal_in_kgce'] = Decimal(0.0)
                         base[energy_category_id]['subtotal_in_kgco2e'] = Decimal(0.0)
+                        base[energy_category_id]['non_working_days_subtotal'] = Decimal(0.0)
+                        base[energy_category_id]['working_days_subtotal'] = Decimal(0.0)
 
-                        cursor_energy_prediction.execute(" SELECT start_datetime_utc, actual_value "
-                                                         " FROM tbl_space_input_category_hourly "
-                                                         " WHERE space_id = %s "
-                                                         "     AND energy_category_id = %s "
-                                                         "     AND start_datetime_utc >= %s "
-                                                         "     AND start_datetime_utc < %s "
-                                                         " ORDER BY start_datetime_utc ",
-                                                         (space['id'],
-                                                          energy_category_id,
-                                                          base_start_datetime_utc,
-                                                          base_end_datetime_utc))
-                        rows_space_hourly = cursor_energy_prediction.fetchall()
+                        cursor_energy.execute(" SELECT start_datetime_utc, actual_value "
+                                              " FROM tbl_tenant_input_category_hourly "
+                                              " WHERE tenant_id = %s "
+                                              "     AND energy_category_id = %s "
+                                              "     AND start_datetime_utc >= %s "
+                                              "     AND start_datetime_utc < %s "
+                                              " ORDER BY start_datetime_utc ",
+                                              (tenant['id'],
+                                               energy_category_id,
+                                               base_start_datetime_utc,
+                                               base_end_datetime_utc))
+                        rows_tenant_hourly = cursor_energy.fetchall()
 
-                        rows_space_periodically = utilities.aggregate_hourly_data_by_period(rows_space_hourly,
-                                                                                            base_start_datetime_utc,
-                                                                                            base_end_datetime_utc,
-                                                                                            period_type)
-                        for row_space_periodically in rows_space_periodically:
-                            current_datetime_local = row_space_periodically[0].replace(tzinfo=timezone.utc) + \
+                        rows_tenant_periodically = utilities.aggregate_hourly_data_by_period(rows_tenant_hourly,
+                                                                                             base_start_datetime_utc,
+                                                                                             base_end_datetime_utc,
+                                                                                             period_type)
+                        for row_tenant_periodically in rows_tenant_periodically:
+                            current_datetime_local = row_tenant_periodically[0].replace(tzinfo=timezone.utc) + \
                                                      timedelta(minutes=timezone_offset)
                             if period_type == 'hourly':
                                 current_datetime = current_datetime_local.isoformat()[0:19]
@@ -389,19 +406,39 @@ class Reporting:
                             elif period_type == 'yearly':
                                 current_datetime = current_datetime_local.isoformat()[0:4]
 
-                            actual_value = Decimal(0.0) if row_space_periodically[1] is None \
-                                else row_space_periodically[1]
+                            actual_value = Decimal(0.0) if row_tenant_periodically[1] is None \
+                                else row_tenant_periodically[1]
                             base[energy_category_id]['timestamps'].append(current_datetime)
                             base[energy_category_id]['values'].append(actual_value)
                             base[energy_category_id]['subtotal'] += actual_value
                             base[energy_category_id]['subtotal_in_kgce'] += actual_value * kgce
                             base[energy_category_id]['subtotal_in_kgco2e'] += actual_value * kgco2e
+                            if current_datetime in base['non_working_days']:
+                                base[energy_category_id]['non_working_days_subtotal'] += actual_value
+                            else:
+                                base[energy_category_id]['working_days_subtotal'] += actual_value
 
-                ######################################################################################################
-                # Step 5: query reporting period energy prediction
-                ######################################################################################################
+                ####################################################################################################
+                # Step 5: query reporting period energy input
+                ####################################################################################################
                 reporting = dict()
+                reporting['non_working_days'] = list()
                 if energy_category_set is not None and len(energy_category_set) > 0:
+                    cursor_system.execute(" SELECT nwd.date_local "
+                                          " FROM tbl_tenants t, tbl_tenants_working_calendars twc, "
+                                          " tbl_working_calendars_non_working_days nwd "
+                                          " WHERE t.id = %s AND "
+                                          " t.id = twc.tenant_id AND "
+                                          " twc.working_calendar_id = nwd.working_calendar_id AND"
+                                          " nwd.date_local >= %s AND"
+                                          " nwd.date_local <= %s ",
+                                          (tenant['id'],
+                                           reporting_start_datetime_non_working_day,
+                                           reporting_end_datetime_non_working_day))
+                    rows = cursor_system.fetchall()
+                    for row in rows:
+                        row_datetime = row[0].isoformat()[0:10]
+                        reporting['non_working_days'].append(row_datetime)
                     for energy_category_id in energy_category_set:
                         kgce = energy_category_dict[energy_category_id]['kgce']
                         kgco2e = energy_category_dict[energy_category_id]['kgco2e']
@@ -417,27 +454,29 @@ class Reporting:
                         reporting[energy_category_id]['midpeak'] = Decimal(0.0)
                         reporting[energy_category_id]['offpeak'] = Decimal(0.0)
                         reporting[energy_category_id]['deep'] = Decimal(0.0)
+                        reporting[energy_category_id]['non_working_days_subtotal'] = Decimal(0.0)
+                        reporting[energy_category_id]['working_days_subtotal'] = Decimal(0.0)
 
-                        cursor_energy_prediction.execute(" SELECT start_datetime_utc, actual_value "
-                                                         " FROM tbl_space_input_category_hourly "
-                                                         " WHERE space_id = %s "
-                                                         "     AND energy_category_id = %s "
-                                                         "     AND start_datetime_utc >= %s "
-                                                         "     AND start_datetime_utc < %s "
-                                                         " ORDER BY start_datetime_utc ",
-                                                         (space['id'],
-                                                          energy_category_id,
-                                                          reporting_start_datetime_utc,
-                                                          reporting_end_datetime_utc))
-                        rows_space_hourly = cursor_energy_prediction.fetchall()
+                        cursor_energy.execute(" SELECT start_datetime_utc, actual_value "
+                                              " FROM tbl_tenant_input_category_hourly "
+                                              " WHERE tenant_id = %s "
+                                              "     AND energy_category_id = %s "
+                                              "     AND start_datetime_utc >= %s "
+                                              "     AND start_datetime_utc < %s "
+                                              " ORDER BY start_datetime_utc ",
+                                              (tenant['id'],
+                                               energy_category_id,
+                                               reporting_start_datetime_utc,
+                                               reporting_end_datetime_utc))
+                        rows_tenant_hourly = cursor_energy.fetchall()
 
-                        rows_space_periodically = utilities.aggregate_hourly_data_by_period(
-                            rows_space_hourly,
+                        rows_tenant_periodically = utilities.aggregate_hourly_data_by_period(
+                            rows_tenant_hourly,
                             reporting_start_datetime_utc,
                             reporting_end_datetime_utc,
                             period_type)
-                        for row_space_periodically in rows_space_periodically:
-                            current_datetime_local = row_space_periodically[0].replace(tzinfo=timezone.utc) + \
+                        for row_tenant_periodically in rows_tenant_periodically:
+                            current_datetime_local = row_tenant_periodically[0].replace(tzinfo=timezone.utc) + \
                                                      timedelta(minutes=timezone_offset)
                             if period_type == 'hourly':
                                 current_datetime = current_datetime_local.isoformat()[0:19]
@@ -450,20 +489,24 @@ class Reporting:
                             elif period_type == 'yearly':
                                 current_datetime = current_datetime_local.isoformat()[0:4]
 
-                            actual_value = Decimal(0.0) if row_space_periodically[1] is None \
-                                else row_space_periodically[1]
+                            actual_value = Decimal(0.0) if row_tenant_periodically[1] is None \
+                                else row_tenant_periodically[1]
                             reporting[energy_category_id]['timestamps'].append(current_datetime)
                             reporting[energy_category_id]['values'].append(actual_value)
                             reporting[energy_category_id]['subtotal'] += actual_value
                             reporting[energy_category_id]['subtotal_in_kgce'] += actual_value * kgce
                             reporting[energy_category_id]['subtotal_in_kgco2e'] += actual_value * kgco2e
+                            if current_datetime in reporting['non_working_days']:
+                                reporting[energy_category_id]['non_working_days_subtotal'] += actual_value
+                            else:
+                                reporting[energy_category_id]['working_days_subtotal'] += actual_value
 
                         energy_category_tariff_dict = utilities.get_energy_category_peak_types(
-                            space['cost_center_id'],
+                            tenant['cost_center_id'],
                             energy_category_id,
                             reporting_start_datetime_utc,
                             reporting_end_datetime_utc)
-                        for row in rows_space_hourly:
+                        for row in rows_tenant_hourly:
                             peak_type = energy_category_tariff_dict.get(row[0], None)
                             if peak_type == 'toppeak':
                                 reporting[energy_category_id]['toppeak'] += row[1]
@@ -475,56 +518,58 @@ class Reporting:
                                 reporting[energy_category_id]['offpeak'] += row[1]
                             elif peak_type == 'deep':
                                 reporting[energy_category_id]['deep'] += row[1]
-                #####################################################################################################
+
+                ####################################################################################################
                 # Step 6: query tariff data
-                #####################################################################################################
+                ####################################################################################################
                 parameters_data = dict()
                 parameters_data['names'] = list()
                 parameters_data['timestamps'] = list()
                 parameters_data['values'] = list()
-                if config.is_tariff_appended and not is_quick_mode:
-                    if energy_category_set is not None and len(energy_category_set) > 0:
-                        for energy_category_id in energy_category_set:
-                            energy_category_tariff_dict = utilities.get_energy_category_tariffs(
-                                space['cost_center_id'],
-                                energy_category_id,
-                                reporting_start_datetime_utc,
-                                reporting_end_datetime_utc)
-                            tariff_timestamp_list = list()
-                            tariff_value_list = list()
-                            for k, v in energy_category_tariff_dict.items():
-                                # convert k from utc to local
-                                k = k + timedelta(minutes=timezone_offset)
-                                tariff_timestamp_list.append(k.isoformat()[0:19])
-                                tariff_value_list.append(v)
+                if config.is_tariff_appended and energy_category_set is not None and len(
+                        energy_category_set) > 0 \
+                        and not is_quick_mode:
+                    for energy_category_id in energy_category_set:
+                        energy_category_tariff_dict = utilities.get_energy_category_tariffs(
+                            tenant['cost_center_id'],
+                            energy_category_id,
+                            reporting_start_datetime_utc,
+                            reporting_end_datetime_utc)
+                        tariff_timestamp_list = list()
+                        tariff_value_list = list()
+                        for k, v in energy_category_tariff_dict.items():
+                            # convert k from utc to local
+                            k = k + timedelta(minutes=timezone_offset)
+                            tariff_timestamp_list.append(k.isoformat()[0:19])
+                            tariff_value_list.append(v)
 
-                            parameters_data['names'].append(_('Tariff') + '-'
-                                                            + energy_category_dict[energy_category_id]['name'])
-                            parameters_data['timestamps'].append(tariff_timestamp_list)
-                            parameters_data['values'].append(tariff_value_list)
+                        parameters_data['names'].append(_('Tariff') + '-' +
+                                                        energy_category_dict[energy_category_id][
+                                                            'name'])
+                        parameters_data['timestamps'].append(tariff_timestamp_list)
+                        parameters_data['values'].append(tariff_value_list)
 
             finally:
                 if cursor_system:
                     cursor_system.close()
-                if cursor_energy_prediction:
-                    cursor_energy_prediction.close()
+                if cursor_energy:
+                    cursor_energy.close()
 
         finally:
             if cnx_system:
                 cnx_system.close()
-            if cnx_energy_prediction:
-                cnx_energy_prediction.close()
+            if cnx_energy:
+                cnx_energy.close()
 
         ################################################################################################################
         # Step 7: construct the report
         ################################################################################################################
         result = dict()
 
-        result['space'] = dict()
-        result['space']['id'] = space['id']
-        result['space']['name'] = space['name']
-        result['space']['area'] = space['area']
-        result['space']['number_of_occupants'] = space['number_of_occupants']
+        result['tenant'] = dict()
+        result['tenant']['name'] = tenant['name']
+        result['tenant']['id'] = tenant['id']
+        result['tenant']['area'] = tenant['area']
 
         result['base_period'] = dict()
         result['base_period']['names'] = list()
@@ -536,6 +581,10 @@ class Reporting:
         result['base_period']['subtotals_in_kgco2e'] = list()
         result['base_period']['total_in_kgce'] = Decimal(0.0)
         result['base_period']['total_in_kgco2e'] = Decimal(0.0)
+        result['base_period']['non_working_days_subtotals'] = list()
+        result['base_period']['working_days_subtotals'] = list()
+        result['base_period']['non_working_days_total'] = Decimal(0.0)
+        result['base_period']['working_days_total'] = Decimal(0.0)
         if energy_category_set is not None and len(energy_category_set) > 0:
             for energy_category_id in energy_category_set:
                 result['base_period']['names'].append(energy_category_dict[energy_category_id]['name'])
@@ -547,6 +596,12 @@ class Reporting:
                 result['base_period']['subtotals_in_kgco2e'].append(base[energy_category_id]['subtotal_in_kgco2e'])
                 result['base_period']['total_in_kgce'] += base[energy_category_id]['subtotal_in_kgce']
                 result['base_period']['total_in_kgco2e'] += base[energy_category_id]['subtotal_in_kgco2e']
+                result['base_period']['non_working_days_subtotals'].append(
+                    base[energy_category_id]['non_working_days_subtotal'])
+                result['base_period']['working_days_subtotals'].append(
+                    base[energy_category_id]['working_days_subtotal'])
+                result['base_period']['non_working_days_total'] += base[energy_category_id]['non_working_days_subtotal']
+                result['base_period']['working_days_total'] += base[energy_category_id]['working_days_subtotal']
 
         result['reporting_period'] = dict()
         result['reporting_period']['names'] = list()
@@ -559,7 +614,6 @@ class Reporting:
         result['reporting_period']['subtotals_in_kgce'] = list()
         result['reporting_period']['subtotals_in_kgco2e'] = list()
         result['reporting_period']['subtotals_per_unit_area'] = list()
-        result['reporting_period']['subtotals_per_capita'] = list()
         result['reporting_period']['toppeaks'] = list()
         result['reporting_period']['onpeaks'] = list()
         result['reporting_period']['midpeaks'] = list()
@@ -570,6 +624,10 @@ class Reporting:
         result['reporting_period']['total_in_kgco2e'] = Decimal(0.0)
         result['reporting_period']['increment_rate_in_kgce'] = Decimal(0.0)
         result['reporting_period']['increment_rate_in_kgco2e'] = Decimal(0.0)
+        result['reporting_period']['non_working_days_subtotals'] = list()
+        result['reporting_period']['working_days_subtotals'] = list()
+        result['reporting_period']['non_working_days_total'] = Decimal(0.0)
+        result['reporting_period']['working_days_total'] = Decimal(0.0)
 
         if energy_category_set is not None and len(energy_category_set) > 0:
             for energy_category_id in energy_category_set:
@@ -584,21 +642,26 @@ class Reporting:
                 result['reporting_period']['subtotals_in_kgco2e'].append(
                     reporting[energy_category_id]['subtotal_in_kgco2e'])
                 result['reporting_period']['subtotals_per_unit_area'].append(
-                    reporting[energy_category_id]['subtotal'] / space['area'] if space['area'] > 0.0 else None)
-                result['reporting_period']['subtotals_per_capita'].append(
-                    reporting[energy_category_id]['subtotal'] / space['number_of_occupants']
-                    if space['number_of_occupants'] > 0.0 else None)
+                    reporting[energy_category_id]['subtotal'] / tenant['area'] if tenant['area'] > 0.0 else None)
                 result['reporting_period']['toppeaks'].append(reporting[energy_category_id]['toppeak'])
                 result['reporting_period']['onpeaks'].append(reporting[energy_category_id]['onpeak'])
                 result['reporting_period']['midpeaks'].append(reporting[energy_category_id]['midpeak'])
                 result['reporting_period']['offpeaks'].append(reporting[energy_category_id]['offpeak'])
-                result['reporting_period']['deeps'].append(reporting[energy_category_id]['deep'])
+                result['reporting_period']['deeps'].append(reporting[energy_category_id]['offpeak'])
                 result['reporting_period']['increment_rates'].append(
                     (reporting[energy_category_id]['subtotal'] - base[energy_category_id]['subtotal']) /
                     base[energy_category_id]['subtotal']
                     if base[energy_category_id]['subtotal'] > 0.0 else None)
                 result['reporting_period']['total_in_kgce'] += reporting[energy_category_id]['subtotal_in_kgce']
                 result['reporting_period']['total_in_kgco2e'] += reporting[energy_category_id]['subtotal_in_kgco2e']
+                result['reporting_period']['non_working_days_subtotals'].append(
+                    reporting[energy_category_id]['non_working_days_subtotal'])
+                result['reporting_period']['working_days_subtotals'].append(
+                    reporting[energy_category_id]['working_days_subtotal'])
+                result['reporting_period']['non_working_days_total'] += \
+                    reporting[energy_category_id]['non_working_days_subtotal']
+                result['reporting_period']['working_days_total'] += \
+                    reporting[energy_category_id]['working_days_subtotal']
 
                 rate = list()
                 for index, value in enumerate(reporting[energy_category_id]['values']):
@@ -611,28 +674,19 @@ class Reporting:
                 result['reporting_period']['rates'].append(rate)
 
         result['reporting_period']['total_in_kgco2e_per_unit_area'] = \
-            result['reporting_period']['total_in_kgce'] / space['area'] if space['area'] > 0.0 else None
-
-        result['reporting_period']['total_in_kgco2e_per_capita'] = \
-            result['reporting_period']['total_in_kgce'] / space['number_of_occupants'] \
-            if space['number_of_occupants'] > 0.0 else None
+            result['reporting_period']['total_in_kgce'] / tenant['area'] if tenant['area'] > 0.0 else None
 
         result['reporting_period']['increment_rate_in_kgce'] = \
             (result['reporting_period']['total_in_kgce'] - result['base_period']['total_in_kgce']) / \
-            result['base_period']['total_in_kgce'] \
-            if result['base_period']['total_in_kgce'] > Decimal(0.0) else None
+            result['base_period']['total_in_kgce'] if result['base_period']['total_in_kgce'] > Decimal(0.0) else None
 
         result['reporting_period']['total_in_kgce_per_unit_area'] = \
-            result['reporting_period']['total_in_kgco2e'] / space['area'] if space['area'] > 0.0 else None
-
-        result['reporting_period']['total_in_kgce_per_capita'] = \
-            result['reporting_period']['total_in_kgco2e'] / space['number_of_occupants'] \
-            if space['number_of_occupants'] > 0.0 else None
+            result['reporting_period']['total_in_kgco2e'] / tenant['area'] if tenant['area'] > 0.0 else None
 
         result['reporting_period']['increment_rate_in_kgco2e'] = \
             (result['reporting_period']['total_in_kgco2e'] - result['base_period']['total_in_kgco2e']) / \
-            result['base_period']['total_in_kgco2e'] \
-            if result['base_period']['total_in_kgco2e'] > Decimal(0.0) else None
+            result['base_period']['total_in_kgco2e'] if result['base_period']['total_in_kgco2e'] > Decimal(0.0) \
+            else None
 
         result['parameters'] = {
             "names": parameters_data['names'],
@@ -643,14 +697,16 @@ class Reporting:
         # export result to Excel file and then encode the file to base64 string
         if not is_quick_mode:
             result['excel_bytes_base64'] = \
-                excelexporters.spaceprediction.export(result,
-                                                      space['name'],
-                                                      base_period_start_datetime_local,
-                                                      base_period_end_datetime_local,
-                                                      reporting_period_start_datetime_local,
-                                                      reporting_period_end_datetime_local,
-                                                      period_type,
-                                                      language)
+                excelexporters.tenantprediction.export(
+                    result,
+                    tenant['name'],
+                    base_period_start_datetime_local,
+                    base_period_end_datetime_local,
+                    reporting_period_start_datetime_local,
+                    reporting_period_end_datetime_local,
+                    period_type,
+                    language
+                )
 
         resp_text = json.dumps(result)
         resp.text = resp_text
