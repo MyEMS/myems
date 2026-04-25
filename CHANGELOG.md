@@ -17,6 +17,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - added virtual meter prediction report in myems-api
 - added support for logging in with the enter key on the login screen in myems-admin
 - added pagination functionality to the data point table in myems-admin
+- added daily data to meter batch report in myems-api and myems-web
 ### Changed
 - changed default start_datetime_utc to 2024-12-31 16:00:00 in myems-aggregation, myems-cleaning and myems-normalization
 - split myems-admin/app/translations.js into small files

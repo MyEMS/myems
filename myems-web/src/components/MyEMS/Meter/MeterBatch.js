@@ -242,13 +242,10 @@ const MeterBatch = ({ setRedirect, setRedirectUrl, t }) => {
               detailed_value['name'] = currentMeter['meter_name'];
               detailed_value['uuid'] = currentMeter['uuid'];
               detailed_value['space'] = currentMeter['space_name'];
+              detailed_value['energycategory'] = currentMeter['energy_category_name'];
               detailed_value['costcenter'] = currentMeter['cost_center_name'];
-              currentMeter['values'].forEach((currentValue, energyCategoryIndex) => {
-                if (typeof currentValue === 'number') {
-                  detailed_value['a' + energyCategoryIndex] = currentValue;
-                } else {
-                  detailed_value['a' + energyCategoryIndex] = null;
-                }
+              currentMeter['daily_values'].forEach((dailyItem) => {
+                detailed_value[dailyItem['date']] = dailyItem['value'];
               });
               meters.push(detailed_value);
             });
@@ -272,18 +269,16 @@ const MeterBatch = ({ setRedirect, setRedirectUrl, t }) => {
             text: t('Space'),
             sort: true
           });
-          json['energycategories'].forEach((currentValue, index) => {
+          detailed_column_list.push({
+            dataField: 'energycategory',
+            text: t('Energy Category'),
+            sort: true
+          });
+          json['date_list'].forEach((date, value) => {
             detailed_column_list.push({
-              dataField: 'a' + index,
-              text: currentValue['name'] + ' (' + currentValue['unit_of_measure'] + ')',
-              sort: true,
-              formatter: function(decimalValue) {
-                if (typeof decimalValue === 'number') {
-                  return decimalValue.toFixed(2);
-                } else {
-                  return null;
-                }
-              }
+              dataField: date,
+              text: date,
+              sort: true
             });
           });
           setDetailedDataTableColumns(detailed_column_list);
@@ -407,12 +402,13 @@ const MeterBatch = ({ setRedirect, setRedirectUrl, t }) => {
       <div className="blank-page-image-container" style={{ visibility: resultDataHidden ? 'visible' : 'hidden', display: resultDataHidden ? '' : 'none' }}>
         <img className="img-fluid" src={blankPage} alt="" />
       </div>
-      <div style={{ visibility: resultDataHidden ? 'hidden' : 'visible', display: resultDataHidden ? 'none' : '' }}>
+      <div style={{ visibility: resultDataHidden ? 'hidden' : 'visible', display: resultDataHidden ? 'none' : ''  }}>
         <DetailedDataTable
           data={meterList}
           title={t('Detailed Data')}
           columns={detailedDataTableColumns}
           pagesize={50}
+          enableHorizontalScroll={true}
         />
       </div>
     </Fragment>
