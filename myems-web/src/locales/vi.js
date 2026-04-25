@@ -261,6 +261,9 @@ export default {
             minutes: 'Biên bản',
             seconds: 'Giây',
             last7Days: '7 ngày qua',
+            tomorrow: 'Ngày mai',
+            dayAfterTomorrow: 'Ngày kia',
+            next7Days: '7 ngày tới',
             'Select Date Range': 'Chọn Phạm vi ngày',
             //Card Summaries and Line Charts
             'Base Period': 'Thời gian cơ sở',

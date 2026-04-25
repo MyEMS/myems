@@ -260,6 +260,9 @@ export default {
             minutes: 'minutos',
             seconds: 'segundos',
             last7Days: 'Últimos 7 Dias',
+            tomorrow: 'Amanhã',
+            dayAfterTomorrow: 'Depois de amanhã',
+            next7Days: 'Próximos 7 dias',
             'Select Date Range': 'Selecionar intervalo de data',
             //Card Summaries and Line Charts
             'Base Period': 'Período de base',

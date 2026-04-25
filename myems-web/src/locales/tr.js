@@ -260,6 +260,9 @@ export default {
             minutes: 'Tutanak',
             seconds: 'Saniye',
             last7Days: 'Son 7 Gün',
+            tomorrow: 'Yarın',
+            dayAfterTomorrow: 'Öbür gün',
+            next7Days: 'Önümüzdeki 7 gün',
             'Select Date Range': 'Tarih Aralığını Seçin',
             //Card Summaries and Line Charts
             'Base Period': 'Baz Dönem',

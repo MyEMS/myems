@@ -85,13 +85,11 @@ const SpacePrediction = ({ setRedirect, setRedirectUrl, t }) => {
   const [cascaderValue, setCascaderValue] = useState([]);
   const [basePeriodDateRange, setBasePeriodDateRange] = useState([null, null]);
   const [basePeriodDateRangePickerDisabled, setBasePeriodDateRangePickerDisabled] = useState(true);
+  const tomorrowStart = moment().add(1, 'days').startOf('day');
+  const seventhDayEnd = tomorrowStart.clone().add(6, 'days').endOf('day');
   const [reportingPeriodDateRange, setReportingPeriodDateRange] = useState([
-    current_moment
-      .clone()
-      .subtract(7, 'days')
-      .startOf('day')
-      .toDate(),
-    current_moment.toDate()
+    tomorrowStart.toDate(),
+    seventhDayEnd.toDate()
   ]);
   const dateRangePickerLocale = {
     sunday: t('sunday'),
@@ -102,12 +100,12 @@ const SpacePrediction = ({ setRedirect, setRedirectUrl, t }) => {
     friday: t('friday'),
     saturday: t('saturday'),
     ok: t('ok'),
-    today: t('today'),
-    yesterday: t('yesterday'),
+    today: t('tomorrow'),
+    yesterday: t('dayAfterTomorrow'),
     hours: t('hours'),
     minutes: t('minutes'),
     seconds: t('seconds'),
-    last7Days: t('last7Days'),
+    last7Days: t('next7Days'),
     formattedMonthPattern: 'yyyy-MM-dd'
   };
   const dateRangePickerStyle = { display: 'block', zIndex: 10 };
@@ -723,6 +721,69 @@ const SpacePrediction = ({ setRedirect, setRedirectUrl, t }) => {
     if (DateRange == null) {
       setReportingPeriodDateRange([null, null]);
     } else {
+      const now = moment();
+      const isTodayRange =
+        DateRange[0].getTime() ===
+          now
+            .startOf('day')
+            .toDate()
+            .getTime() &&
+        DateRange[1].getTime() ===
+          now
+            .endOf('day')
+            .toDate()
+            .getTime();
+
+      const isYesterdayRange = 
+        DateRange[0].getTime() ===
+          now
+            .clone()
+            .subtract(1, 'day')
+            .startOf('day')
+            .toDate()
+            .getTime() &&
+        DateRange[1].getTime() ===
+          now
+            .clone()
+            .subtract(1, 'day')
+            .endOf('day')
+            .toDate()
+            .getTime();
+
+      const isLast7DaysRange =
+        DateRange[0].getTime() ===
+          now
+            .clone()
+            .subtract(6, 'days')
+            .startOf('day')
+            .toDate()
+            .getTime() &&
+        DateRange[1].getTime() ===
+          now
+            .endOf('day')
+            .toDate()
+            .getTime();
+
+      if (isTodayRange) {
+        const tomorrow = moment().add(1, 'day');
+        DateRange = [tomorrow.startOf('day').toDate(), tomorrow.endOf('day').toDate()];
+      }
+
+      if (isYesterdayRange) {
+        const dayAfter = moment().add(2, 'days');
+        DateRange = [dayAfter.startOf('day').toDate(), dayAfter.endOf('day').toDate()];
+      }
+
+      if (isLast7DaysRange) {
+        const start = moment()
+          .add(1, 'day')
+          .startOf('day');
+        const end = start
+          .clone()
+          .add(6, 'days')
+          .endOf('day');
+        DateRange = [start.toDate(), end.toDate()];
+      }
       if (moment(DateRange[1]).format('HH:mm:ss') === '00:00:00') {
         // if the user did not change time value, set the default time to the end of day
         DateRange[1] = endOfDay(DateRange[1]);

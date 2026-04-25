@@ -261,6 +261,9 @@ export default {
             minutes: 'Protokoll',
             seconds: 'Nachschlag',
             last7Days: 'Letzte 7 Tage',
+            tomorrow: 'Morgen',
+            dayAfterTomorrow: 'Übermorgen',
+            next7Days: 'Nächste 7 Tage',
             'Select Date Range': 'Datumsbereich auswählen',
             //Card Summaries and Line Charts
             'Base Period': 'Basiszeitraum',

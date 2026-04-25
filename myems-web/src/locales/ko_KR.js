@@ -252,6 +252,9 @@ export default {
             minutes: '분',
             seconds: '초',
             last7Days: '최근 7일',
+            tomorrow: '내일',
+            dayAfterTomorrow: '모레',
+            next7Days: '앞으로 7일',
             'Select Date Range': '날짜 범위 선택',
             //Card Summaries and Line Charts
             'Base Period': '기준 기간',
