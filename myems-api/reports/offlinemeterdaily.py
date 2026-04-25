@@ -132,82 +132,91 @@ class Reporting:
         ################################################################################################################
         # Step 2: query the offline meter
         ################################################################################################################
-        cnx_system = mysql.connector.connect(**config.myems_system_db)
-        cursor_system = cnx_system.cursor()
+        cnx_system = None
+        cnx_energy = None
+        
+        try:
+            cnx_system = mysql.connector.connect(**config.myems_system_db)
+            cnx_energy = mysql.connector.connect(**config.myems_energy_db)
+            
+            cursor_system = None
+            cursor_historical = None
+            
+            try:
+                cursor_system = cnx_system.cursor()
+                cursor_historical = cnx_energy.cursor()
 
-        cnx_energy = mysql.connector.connect(**config.myems_energy_db)
-        cursor_historical = cnx_energy.cursor()
-        if offline_meter_id is not None:
-            cursor_system.execute(" SELECT id, name   "
-                                  " FROM  tbl_offline_meters  "
-                                  " WHERE id = %s ", (offline_meter_id,))
-            row_offline_meter = cursor_system.fetchone()
-        if row_offline_meter is None:
-            if cursor_system:
-                cursor_system.close()
+                if offline_meter_id is not None:
+                    cursor_system.execute(" SELECT id, name   "
+                                          " FROM  tbl_offline_meters  "
+                                          " WHERE id = %s ", (offline_meter_id,))
+                    row_offline_meter = cursor_system.fetchone()
+                else:
+                    cursor_system.execute(" SELECT id, name   "
+                                          " FROM  tbl_offline_meters  "
+                                          " WHERE uuid = %s ", (offline_meter_uuid,))
+                    row_offline_meter = cursor_system.fetchone()
+                    
+                if row_offline_meter is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404,
+                                           title='API.NOT_FOUND',
+                                           description='API.OFFLINE_METER_NOT_FOUND')
+
+                #######################################################
+                # Step 4: query reporting period points trends
+                #######################################################
+                reporting_date_list = list()
+                reporting_daily_values = list()
+
+                query = (" SELECT start_datetime_utc, actual_value "
+                         " FROM tbl_offline_meter_hourly "
+                         " WHERE offline_meter_id = %s "
+                         " AND start_datetime_utc >= %s "
+                         " AND start_datetime_utc < %s "
+                         " ORDER BY start_datetime_utc ")
+                cursor_historical.execute(query, (row_offline_meter[0],
+                                                  reporting_start_datetime_utc,
+                                                  reporting_end_datetime_utc))
+                rows_offline_meter_hourly = cursor_historical.fetchall()
+
+                start_datetime_utc = reporting_start_datetime_utc.replace(tzinfo=None)
+                end_datetime_utc = reporting_end_datetime_utc.replace(tzinfo=None)
+
+                start_datetime_local = start_datetime_utc + timedelta(hours=int(config.utc_offset[1:3]))
+                current_datetime_utc = (start_datetime_local.replace(hour=0) -
+                                        timedelta(hours=int(config.utc_offset[1:3])))
+
+                while current_datetime_utc <= end_datetime_utc:
+                    flag = True
+                    subtotal = Decimal(0.0)
+                    for row in rows_offline_meter_hourly:
+                        if current_datetime_utc <= row[0] < current_datetime_utc + timedelta(days=1):
+                            flag = False
+                            subtotal += row[1]
+                    if flag:
+                        subtotal = None
+                    current_datetime = start_datetime_local.isoformat()[0:10]
+
+                    reporting_date_list.append(current_datetime)
+                    reporting_daily_values.append(subtotal)
+                    current_datetime_utc += timedelta(days=1)
+                    start_datetime_local += timedelta(days=1)
+
+            finally:
+                if cursor_system:
+                    cursor_system.close()
+                if cursor_historical:
+                    cursor_historical.close()
+        
+        finally:
             if cnx_system:
-                cnx_system.disconnect()
-
-            if cursor_historical:
-                cursor_historical.close()
+                cnx_system.close()
             if cnx_energy:
-                cnx_energy.disconnect()
-            raise falcon.HTTPError(status=falcon.HTTP_404,
-                                   title='API.NOT_FOUND',
-                                   description='API.OFFLINE_METER_NOT_FOUND')
-
-        #######################################################
-        # Step 4: query reporting period points trends
-        #######################################################
-        reporting_date_list = list()
-        reporting_daily_values = list()
-
-        query = (" SELECT start_datetime_utc, actual_value "
-                 " FROM tbl_offline_meter_hourly "
-                 " WHERE offline_meter_id = %s "
-                 " AND start_datetime_utc >= %s "
-                 " AND start_datetime_utc < %s "
-                 " ORDER BY start_datetime_utc ")
-        cursor_historical.execute(query, (row_offline_meter[0],
-                                          reporting_start_datetime_utc,
-                                          reporting_end_datetime_utc))
-        rows_offline_meter_hourly = cursor_historical.fetchall()
-
-        start_datetime_utc = reporting_start_datetime_utc.replace(tzinfo=None)
-        end_datetime_utc = reporting_end_datetime_utc.replace(tzinfo=None)
-
-        start_datetime_local = start_datetime_utc + timedelta(hours=int(config.utc_offset[1:3]))
-        current_datetime_utc = start_datetime_local.replace(hour=0) - timedelta(hours=int(config.utc_offset[1:3]))
-
-        while current_datetime_utc <= end_datetime_utc:
-            flag = True
-            subtotal = Decimal(0.0)
-            for row in rows_offline_meter_hourly:
-                if current_datetime_utc <= row[0] < current_datetime_utc + timedelta(days=1):
-                    flag = False
-                    subtotal += row[1]
-            if flag:
-                subtotal = None
-            current_datetime = start_datetime_local.isoformat()[0:10]
-
-            reporting_date_list.append(current_datetime)
-            reporting_daily_values.append(subtotal)
-            current_datetime_utc += timedelta(days=1)
-            start_datetime_local += timedelta(days=1)
+                cnx_energy.close()
 
         ################################################################################################################
         # Step 6: construct the report
         ################################################################################################################
-        if cursor_system:
-            cursor_system.close()
-        if cnx_system:
-            cnx_system.disconnect()
-
-        if cursor_historical:
-            cursor_historical.close()
-        if cnx_energy:
-            cnx_energy.disconnect()
-
         result_values = []
         for date, daily_value in zip(reporting_date_list, reporting_daily_values):
             result_values.append({
