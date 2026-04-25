@@ -123,8 +123,8 @@ class Reporting:
                 if rows_containers is not None and len(rows_containers) > 0:
                     for row_container in rows_containers:
                         container_list.append({"id": row_container[0],
-                                              "name": row_container[1],
-                                              "uuid": row_container[2]})
+                                               "name": row_container[1],
+                                               "uuid": row_container[2]})
                 print('container_list:' + str(container_list))
 
                 ########################################################################################################

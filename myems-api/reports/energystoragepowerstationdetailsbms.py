@@ -1,7 +1,7 @@
 """
 Energy Storage Power Station Details BMS Report API
 
-This module provides REST API endpoints for generating energy storage power station battery management system (BMS) reports.
+This module provides REST API endpoints for energy storage power station battery management system (BMS) reports.
 It analyzes BMS data and performance metrics to provide insights into battery system
 performance, health monitoring, and optimization opportunities.
 

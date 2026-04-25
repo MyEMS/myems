@@ -131,7 +131,7 @@ class Reporting:
 
                 if row is None:
                     raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                          description='API.ENERGY_STORAGE_POWER_STATION_NOT_FOUND')
+                                           description='API.ENERGY_STORAGE_POWER_STATION_NOT_FOUND')
                 energy_storage_power_station_id = row[0]
                 energy_storage_power_station = {
                     "id": row[0],
