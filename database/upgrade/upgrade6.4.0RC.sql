@@ -9,8 +9,6 @@
 
 START TRANSACTION;
 
--- 本次升级数据库结构没有实质性变化
--- There are no substantial changes to the database structure in this upgrade.
 INSERT INTO myems_system_db.tbl_menus (id,name,route, parent_menu_id,is_hidden)
 VALUES
 (215,'Prediction','/equipment/prediction',200,1),
@@ -21,6 +19,6 @@ VALUES
 (611,'Prediction','/shopfloor/prediction',600,1),
 (714,'Prediction','/combinedequipment/prediction',700,1);
 
-UPDATE `myems_system_db`.`tbl_versions` SET version='6.4.0RC', release_date='2026-04-25' WHERE id=1;
+UPDATE `myems_system_db`.`tbl_versions` SET version='6.4.0RC', release_date='2026-04-28' WHERE id=1;
 
 COMMIT;
