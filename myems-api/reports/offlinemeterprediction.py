@@ -219,175 +219,178 @@ class Reporting:
         ################################################################################################################
         # Step 2: query the offline meter and energy category
         ################################################################################################################
-        cnx_system = mysql.connector.connect(**config.myems_system_db)
-        cursor_system = cnx_system.cursor()
+        cnx_system = None
+        cnx_energy = None
+        
+        try:
+            cnx_system = mysql.connector.connect(**config.myems_system_db)
+            cnx_energy = mysql.connector.connect(**config.myems_energy_prediction_db)
 
-        cnx_energy = mysql.connector.connect(**config.myems_energy_prediction_db)
-        cursor_energy = cnx_energy.cursor()
+            cursor_system = None
+            cursor_energy = None
+            
+            try:
+                cursor_system = cnx_system.cursor()
+                cursor_energy = cnx_energy.cursor()
 
-        cursor_system.execute(" SELECT m.id, m.name, m.cost_center_id, m.energy_category_id, "
-                              "        ec.name, ec.unit_of_measure, ec.kgce, ec.kgco2e "
-                              " FROM tbl_offline_meters m, tbl_energy_categories ec "
-                              " WHERE m.id = %s AND m.energy_category_id = ec.id ", (offline_meter_id,))
-        row_offline_meter = cursor_system.fetchone()
-        if row_offline_meter is None:
-            if cursor_system:
-                cursor_system.close()
+                cursor_system.execute(" SELECT m.id, m.name, m.cost_center_id, m.energy_category_id, "
+                                      "        ec.name, ec.unit_of_measure, ec.kgce, ec.kgco2e "
+                                      " FROM tbl_offline_meters m, tbl_energy_categories ec "
+                                      " WHERE m.id = %s AND m.energy_category_id = ec.id ", (offline_meter_id,))
+                row_offline_meter = cursor_system.fetchone()
+                if row_offline_meter is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.OFFLINE_METER_NOT_FOUND')
+
+                offline_meter = dict()
+                offline_meter['id'] = row_offline_meter[0]
+                offline_meter['name'] = row_offline_meter[1]
+                offline_meter['cost_center_id'] = row_offline_meter[2]
+                offline_meter['energy_category_id'] = row_offline_meter[3]
+                offline_meter['energy_category_name'] = row_offline_meter[4]
+                offline_meter['unit_of_measure'] = row_offline_meter[5]
+                offline_meter['kgce'] = row_offline_meter[6]
+                offline_meter['kgco2e'] = row_offline_meter[7]
+
+                ####################################################################################################
+                # Step 3: query base period energy consumption
+                ####################################################################################################
+                query = (" SELECT start_datetime_utc, actual_value "
+                         " FROM tbl_offline_meter_hourly "
+                         " WHERE offline_meter_id = %s "
+                         " AND start_datetime_utc >= %s "
+                         " AND start_datetime_utc < %s "
+                         " ORDER BY start_datetime_utc ")
+                cursor_energy.execute(query, (offline_meter['id'], base_start_datetime_utc, base_end_datetime_utc))
+                rows_offline_meter_hourly = cursor_energy.fetchall()
+
+                rows_offline_meter_periodically = utilities.aggregate_hourly_data_by_period(rows_offline_meter_hourly,
+                                                                                            base_start_datetime_utc,
+                                                                                            base_end_datetime_utc,
+                                                                                            period_type)
+                base = dict()
+                base['timestamps'] = list()
+                base['values'] = list()
+                base['total_in_category'] = Decimal(0.0)
+                base['total_in_kgce'] = Decimal(0.0)
+                base['total_in_kgco2e'] = Decimal(0.0)
+
+                for row_offline_meter_periodically in rows_offline_meter_periodically:
+                    current_datetime_local = row_offline_meter_periodically[0].replace(tzinfo=timezone.utc) + \
+                                             timedelta(minutes=timezone_offset)
+                    if period_type == 'hourly':
+                        current_datetime = current_datetime_local.isoformat()[0:19]
+                    elif period_type == 'daily':
+                        current_datetime = current_datetime_local.isoformat()[0:10]
+                    elif period_type == 'weekly':
+                        current_datetime = current_datetime_local.isoformat()[0:10]
+                    elif period_type == 'monthly':
+                        current_datetime = current_datetime_local.isoformat()[0:7]
+                    elif period_type == 'yearly':
+                        current_datetime = current_datetime_local.isoformat()[0:4]
+
+                    actual_value = Decimal(0.0) if row_offline_meter_periodically[1] is None \
+                        else row_offline_meter_periodically[1]
+                    base['timestamps'].append(current_datetime)
+                    base['values'].append(actual_value)
+                    base['total_in_category'] += actual_value
+                    base['total_in_kgce'] += actual_value * offline_meter['kgce']
+                    base['total_in_kgco2e'] += actual_value * offline_meter['kgco2e']
+                ####################################################################################################
+                # Step 4: query reporting period energy consumption
+                ####################################################################################################
+
+                query = (" SELECT start_datetime_utc, actual_value "
+                         " FROM tbl_offline_meter_hourly "
+                         " WHERE offline_meter_id = %s "
+                         " AND start_datetime_utc >= %s "
+                         " AND start_datetime_utc < %s "
+                         " ORDER BY start_datetime_utc ")
+                cursor_energy.execute(query, (offline_meter['id'],
+                                              reporting_start_datetime_utc, reporting_end_datetime_utc))
+                rows_offline_meter_hourly = cursor_energy.fetchall()
+
+                rows_offline_meter_periodically = utilities.aggregate_hourly_data_by_period(
+                    rows_offline_meter_hourly,
+                    reporting_start_datetime_utc,
+                    reporting_end_datetime_utc,
+                    period_type)
+                reporting = dict()
+                reporting['timestamps'] = list()
+                reporting['values'] = list()
+                reporting['rates'] = list()
+                reporting['total_in_category'] = Decimal(0.0)
+                reporting['total_in_kgce'] = Decimal(0.0)
+                reporting['total_in_kgco2e'] = Decimal(0.0)
+
+                for row_offline_meter_periodically in rows_offline_meter_periodically:
+                    current_datetime_local = row_offline_meter_periodically[0].replace(tzinfo=timezone.utc) + \
+                                             timedelta(minutes=timezone_offset)
+                    if period_type == 'hourly':
+                        current_datetime = current_datetime_local.isoformat()[0:19]
+                    elif period_type == 'daily':
+                        current_datetime = current_datetime_local.isoformat()[0:10]
+                    elif period_type == 'weekly':
+                        current_datetime = current_datetime_local.isoformat()[0:10]
+                    elif period_type == 'monthly':
+                        current_datetime = current_datetime_local.isoformat()[0:7]
+                    elif period_type == 'yearly':
+                        current_datetime = current_datetime_local.isoformat()[0:4]
+
+                    actual_value = Decimal(0.0) if row_offline_meter_periodically[1] is None \
+                        else row_offline_meter_periodically[1]
+
+                    reporting['timestamps'].append(current_datetime)
+                    reporting['values'].append(actual_value)
+                    reporting['total_in_category'] += actual_value
+                    reporting['total_in_kgce'] += actual_value * offline_meter['kgce']
+                    reporting['total_in_kgco2e'] += actual_value * offline_meter['kgco2e']
+
+                for index, value in enumerate(reporting['values']):
+                    if index < len(base['values']) and base['values'][index] != 0 and value != 0:
+                        reporting['rates'].append((value - base['values'][index]) / base['values'][index])
+                    else:
+                        reporting['rates'].append(None)
+
+                #################################################################################################
+                # Step 5: query tariff data
+                #################################################################################################
+                parameters_data = dict()
+                parameters_data['names'] = list()
+                parameters_data['timestamps'] = list()
+                parameters_data['values'] = list()
+                if config.is_tariff_appended and not is_quick_mode:
+                    tariff_dict = utilities.get_energy_category_tariffs(offline_meter['cost_center_id'],
+                                                                        offline_meter['energy_category_id'],
+                                                                        reporting_start_datetime_utc,
+                                                                        reporting_end_datetime_utc)
+                    tariff_timestamp_list = list()
+                    tariff_value_list = list()
+                    for k, v in tariff_dict.items():
+                        # convert k from utc to local
+                        k = k + timedelta(minutes=timezone_offset)
+                        tariff_timestamp_list.append(k.isoformat()[0:19])
+                        tariff_value_list.append(v)
+
+                    parameters_data['names'].append(_('Tariff') + '-' + offline_meter['energy_category_name'])
+                    parameters_data['timestamps'].append(tariff_timestamp_list)
+                    parameters_data['values'].append(tariff_value_list)
+
+            finally:
+                if cursor_system:
+                    cursor_system.close()
+                if cursor_energy:
+                    cursor_energy.close()
+
+        finally:
             if cnx_system:
                 cnx_system.close()
-
-            if cursor_energy:
-                cursor_energy.close()
             if cnx_energy:
                 cnx_energy.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.OFFLINE_METER_NOT_FOUND')
-
-        offline_meter = dict()
-        offline_meter['id'] = row_offline_meter[0]
-        offline_meter['name'] = row_offline_meter[1]
-        offline_meter['cost_center_id'] = row_offline_meter[2]
-        offline_meter['energy_category_id'] = row_offline_meter[3]
-        offline_meter['energy_category_name'] = row_offline_meter[4]
-        offline_meter['unit_of_measure'] = row_offline_meter[5]
-        offline_meter['kgce'] = row_offline_meter[6]
-        offline_meter['kgco2e'] = row_offline_meter[7]
-
-        ################################################################################################################
-        # Step 3: query base period energy consumption
-        ################################################################################################################
-        query = (" SELECT start_datetime_utc, actual_value "
-                 " FROM tbl_offline_meter_hourly "
-                 " WHERE offline_meter_id = %s "
-                 " AND start_datetime_utc >= %s "
-                 " AND start_datetime_utc < %s "
-                 " ORDER BY start_datetime_utc ")
-        cursor_energy.execute(query, (offline_meter['id'], base_start_datetime_utc, base_end_datetime_utc))
-        rows_offline_meter_hourly = cursor_energy.fetchall()
-
-        rows_offline_meter_periodically = utilities.aggregate_hourly_data_by_period(rows_offline_meter_hourly,
-                                                                                    base_start_datetime_utc,
-                                                                                    base_end_datetime_utc,
-                                                                                    period_type)
-        base = dict()
-        base['timestamps'] = list()
-        base['values'] = list()
-        base['total_in_category'] = Decimal(0.0)
-        base['total_in_kgce'] = Decimal(0.0)
-        base['total_in_kgco2e'] = Decimal(0.0)
-
-        for row_offline_meter_periodically in rows_offline_meter_periodically:
-            current_datetime_local = row_offline_meter_periodically[0].replace(tzinfo=timezone.utc) + \
-                                     timedelta(minutes=timezone_offset)
-            if period_type == 'hourly':
-                current_datetime = current_datetime_local.isoformat()[0:19]
-            elif period_type == 'daily':
-                current_datetime = current_datetime_local.isoformat()[0:10]
-            elif period_type == 'weekly':
-                current_datetime = current_datetime_local.isoformat()[0:10]
-            elif period_type == 'monthly':
-                current_datetime = current_datetime_local.isoformat()[0:7]
-            elif period_type == 'yearly':
-                current_datetime = current_datetime_local.isoformat()[0:4]
-
-            actual_value = Decimal(0.0) if row_offline_meter_periodically[1] is None \
-                else row_offline_meter_periodically[1]
-            base['timestamps'].append(current_datetime)
-            base['values'].append(actual_value)
-            base['total_in_category'] += actual_value
-            base['total_in_kgce'] += actual_value * offline_meter['kgce']
-            base['total_in_kgco2e'] += actual_value * offline_meter['kgco2e']
-        ################################################################################################################
-        # Step 4: query reporting period energy consumption
-        ################################################################################################################
-
-        query = (" SELECT start_datetime_utc, actual_value "
-                 " FROM tbl_offline_meter_hourly "
-                 " WHERE offline_meter_id = %s "
-                 " AND start_datetime_utc >= %s "
-                 " AND start_datetime_utc < %s "
-                 " ORDER BY start_datetime_utc ")
-        cursor_energy.execute(query, (offline_meter['id'], reporting_start_datetime_utc, reporting_end_datetime_utc))
-        rows_offline_meter_hourly = cursor_energy.fetchall()
-
-        rows_offline_meter_periodically = utilities.aggregate_hourly_data_by_period(rows_offline_meter_hourly,
-                                                                                    reporting_start_datetime_utc,
-                                                                                    reporting_end_datetime_utc,
-                                                                                    period_type)
-        reporting = dict()
-        reporting['timestamps'] = list()
-        reporting['values'] = list()
-        reporting['rates'] = list()
-        reporting['total_in_category'] = Decimal(0.0)
-        reporting['total_in_kgce'] = Decimal(0.0)
-        reporting['total_in_kgco2e'] = Decimal(0.0)
-
-        for row_offline_meter_periodically in rows_offline_meter_periodically:
-            current_datetime_local = row_offline_meter_periodically[0].replace(tzinfo=timezone.utc) + \
-                                     timedelta(minutes=timezone_offset)
-            if period_type == 'hourly':
-                current_datetime = current_datetime_local.isoformat()[0:19]
-            elif period_type == 'daily':
-                current_datetime = current_datetime_local.isoformat()[0:10]
-            elif period_type == 'weekly':
-                current_datetime = current_datetime_local.isoformat()[0:10]
-            elif period_type == 'monthly':
-                current_datetime = current_datetime_local.isoformat()[0:7]
-            elif period_type == 'yearly':
-                current_datetime = current_datetime_local.isoformat()[0:4]
-
-            actual_value = Decimal(0.0) if row_offline_meter_periodically[1] is None \
-                else row_offline_meter_periodically[1]
-
-            reporting['timestamps'].append(current_datetime)
-            reporting['values'].append(actual_value)
-            reporting['total_in_category'] += actual_value
-            reporting['total_in_kgce'] += actual_value * offline_meter['kgce']
-            reporting['total_in_kgco2e'] += actual_value * offline_meter['kgco2e']
-
-        for index, value in enumerate(reporting['values']):
-            if index < len(base['values']) and base['values'][index] != 0 and value != 0:
-                reporting['rates'].append((value - base['values'][index]) / base['values'][index])
-            else:
-                reporting['rates'].append(None)
-
-        ################################################################################################################
-        # Step 5: query tariff data
-        ################################################################################################################
-        parameters_data = dict()
-        parameters_data['names'] = list()
-        parameters_data['timestamps'] = list()
-        parameters_data['values'] = list()
-        if config.is_tariff_appended and not is_quick_mode:
-            tariff_dict = utilities.get_energy_category_tariffs(offline_meter['cost_center_id'],
-                                                                offline_meter['energy_category_id'],
-                                                                reporting_start_datetime_utc,
-                                                                reporting_end_datetime_utc)
-            tariff_timestamp_list = list()
-            tariff_value_list = list()
-            for k, v in tariff_dict.items():
-                # convert k from utc to local
-                k = k + timedelta(minutes=timezone_offset)
-                tariff_timestamp_list.append(k.isoformat()[0:19])
-                tariff_value_list.append(v)
-
-            parameters_data['names'].append(_('Tariff') + '-' + offline_meter['energy_category_name'])
-            parameters_data['timestamps'].append(tariff_timestamp_list)
-            parameters_data['values'].append(tariff_value_list)
 
         ################################################################################################################
         # Step 6: construct the report
         ################################################################################################################
-        if cursor_system:
-            cursor_system.close()
-        if cnx_system:
-            cnx_system.close()
-
-        if cursor_energy:
-            cursor_energy.close()
-        if cnx_energy:
-            cnx_energy.close()
-
         result = {"offline_meter": {
             "cost_center_id": offline_meter['cost_center_id'],
             "energy_category_id": offline_meter['energy_category_id'],
