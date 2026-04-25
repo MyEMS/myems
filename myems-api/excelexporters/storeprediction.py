@@ -403,9 +403,9 @@ def generate_excel(report,
         pie.width = 9
         s1 = pie.series[0]
         s1.dLbls = DataLabelList()
-        s1.dLbls.showCatName = False  # 标签显示
-        s1.dLbls.showVal = False  # 数量显示
-        s1.dLbls.showPercent = True  # 百分比显示
+        s1.dLbls.showCatName = False
+        s1.dLbls.showVal = False
+        s1.dLbls.showPercent = True
 
         ws.add_chart(pie, "D14")
 

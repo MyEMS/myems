@@ -64,8 +64,8 @@ class Reporting:
     # Step 3: query energy categories
     # Step 6: query base period energy prediction
     # Step 7: query reporting period energy prediction
-    # Step 9: query tariff data
-    # Step 11: construct the report
+    # Step 8: query tariff data
+    # Step 9: construct the report
     ####################################################################################################################
     @staticmethod
     def on_get(req, resp):
@@ -522,7 +522,7 @@ class Reporting:
                     pass
 
         ################################################################################################################
-        # Step 11: construct the report
+        # Step 9: construct the report
         ################################################################################################################
         result = dict()
 

@@ -369,9 +369,9 @@ def generate_excel(report,
         pie.width = 9
         s1 = pie.series[0]
         s1.dLbls = DataLabelList()
-        s1.dLbls.showCatName = False  # ±êÇ©ÏÔÊ¾
-        s1.dLbls.showVal = False  # ÊýÁ¿ÏÔÊ¾
-        s1.dLbls.showPercent = True  # °Ù·Ö±ÈÏÔÊ¾
+        s1.dLbls.showCatName = False
+        s1.dLbls.showVal = False
+        s1.dLbls.showPercent = True
 
         ws.add_chart(pie, "D13")
 

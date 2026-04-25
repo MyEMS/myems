@@ -62,10 +62,10 @@ class Reporting:
     # Step 1: valid parameters
     # Step 2: query the tenant
     # Step 3: query energy categories
-    # Step 7: query base period energy input
-    # Step 8: query reporting period energy input
-    # Step 9: query tariff data
-    # Step 11: construct the report
+    # Step 4: query base period energy input
+    # Step 5: query reporting period energy input
+    # Step 6: query tariff data
+    # Step 7: construct the report
     ####################################################################################################################
     @staticmethod
     def on_get(req, resp):
@@ -341,7 +341,7 @@ class Reporting:
                                                                         "kgco2e": row_energy_category[4]}
 
                 #####################################################################################################
-                # Step 7: query base period energy input
+                # Step 4: query base period energy input
                 #####################################################################################################
                 base = dict()
                 base['non_working_days'] = list()
@@ -419,7 +419,7 @@ class Reporting:
                                 base[energy_category_id]['working_days_subtotal'] += actual_value
 
                 ####################################################################################################
-                # Step 8: query reporting period energy input
+                # Step 5: query reporting period energy input
                 ####################################################################################################
                 reporting = dict()
                 reporting['non_working_days'] = list()
@@ -520,7 +520,7 @@ class Reporting:
                                 reporting[energy_category_id]['deep'] += row[1]
 
                 ####################################################################################################
-                # Step 9: query tariff data
+                # Step 6: query tariff data
                 ####################################################################################################
                 parameters_data = dict()
                 parameters_data['names'] = list()
@@ -562,7 +562,7 @@ class Reporting:
                 cnx_energy.close()
 
         ################################################################################################################
-        # Step 11: construct the report
+        # Step 7: construct the report
         ################################################################################################################
         result = dict()
 
