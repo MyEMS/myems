@@ -19,6 +19,7 @@ from reports import combinedequipmentcarbon
 from reports import combinedequipmentcost
 from reports import combinedequipmentefficiency
 from reports import combinedequipmentenergycategory
+from reports import combinedequipmentprediction
 from reports import combinedequipmentenergyitem
 from reports import combinedequipmentincome
 from reports import combinedequipmentload
@@ -161,6 +162,7 @@ from reports import storebatch
 from reports import storecarbon
 from reports import storecost
 from reports import storedashboard
+from reports import storeprediction
 from reports import storeenergycategory
 from reports import storeenergyitem
 from reports import storeload
@@ -173,6 +175,7 @@ from reports import tenantbill
 from reports import tenantcarbon
 from reports import tenantcost
 from reports import tenantdashboard
+from reports import tenantprediction
 from reports import tenantenergycategory
 from reports import tenantenergyitem
 from reports import tenantload
@@ -1195,6 +1198,8 @@ api.add_route('/reports/combinedequipmentcost',
               combinedequipmentcost.Reporting())
 api.add_route('/reports/combinedequipmentefficiency',
               combinedequipmentefficiency.Reporting())
+api.add_route('/reports/combinedequipmentprediction',
+              combinedequipmentprediction.Reporting())
 api.add_route('/reports/combinedequipmentenergycategory',
               combinedequipmentenergycategory.Reporting())
 api.add_route('/reports/combinedequipmentenergyitem',
@@ -1478,6 +1483,8 @@ api.add_route('/reports/storecost',
               storecost.Reporting())
 api.add_route('/reports/storeendashboard',
               storedashboard.Reporting())
+api.add_route('/reports/storeprediction',
+              storeprediction.Reporting())
 api.add_route('/reports/storeenergycategory',
               storeenergycategory.Reporting())
 api.add_route('/reports/storeenergyitem',
@@ -1502,6 +1509,8 @@ api.add_route('/reports/tenantcost',
               tenantcost.Reporting())
 api.add_route('/reports/tenantdashboard',
               tenantdashboard.Reporting())
+api.add_route('/reports/tenantprediction',
+              tenantprediction.Reporting())
 api.add_route('/reports/tenantenergycategory',
               tenantenergycategory.Reporting())
 api.add_route('/reports/tenantenergyitem',

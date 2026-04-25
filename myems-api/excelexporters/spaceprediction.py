@@ -95,12 +95,6 @@ def generate_excel(report,
                    reporting_end_datetime_local,
                    period_type,
                    language):
-    ROW_HEIGHT_TITLE = 102
-    ROW_HEIGHT_DEFAULT = 42
-    ROW_HEIGHT_TABLE_HEADER = 60
-    COL_WIDTH_A = 1.5
-    COL_WIDTH_B = 25.0
-    COL_WIDTH_DEFAULT = 15.0
 
     trans = get_translation(language)
     trans.install()
@@ -111,16 +105,16 @@ def generate_excel(report,
     ws.title = "SpacePrediction"
 
     # Row height
-    ws.row_dimensions[1].height = ROW_HEIGHT_TITLE
+    ws.row_dimensions[1].height = 102
     for i in range(2, 2000 + 1):
-        ws.row_dimensions[i].height = ROW_HEIGHT_DEFAULT
+        ws.row_dimensions[i].height = 42
 
     # Col width
-    ws.column_dimensions['A'].width = COL_WIDTH_A
-    ws.column_dimensions['B'].width = COL_WIDTH_B
+    ws.column_dimensions['A'].width = 1.5
+    ws.column_dimensions['B'].width = 25.0
 
     for i in range(ord('C'), ord('Z')):
-        ws.column_dimensions[chr(i)].width = COL_WIDTH_DEFAULT
+        ws.column_dimensions[chr(i)].width = 15.0
 
     # Font
     name_font = Font(name='Arial', size=15, bold=True)
