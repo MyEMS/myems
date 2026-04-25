@@ -291,10 +291,13 @@ class Reporting:
                 # Step 5: query reporting period energy input (total and daily)
                 #################################################################################################
 
-                # Generate date list for the reporting period
+                # Generate date list for the reporting period using local time
                 date_list = list()
-                current_date = reporting_start_datetime_utc.replace(hour=0, minute=0, second=0, microsecond=0)
-                end_date = reporting_end_datetime_utc.replace(hour=0, minute=0, second=0, microsecond=0)
+                reporting_start_datetime_local = reporting_start_datetime_utc.replace(tzinfo=timezone.utc) + timedelta(minutes=timezone_offset)
+                reporting_end_datetime_local = reporting_end_datetime_utc.replace(tzinfo=timezone.utc) + timedelta(minutes=timezone_offset)
+                
+                current_date = reporting_start_datetime_local.replace(hour=0, minute=0, second=0, microsecond=0)
+                end_date = reporting_end_datetime_local.replace(hour=0, minute=0, second=0, microsecond=0)
 
                 while current_date < end_date:
                     date_list.append(current_date)
@@ -313,28 +316,34 @@ class Reporting:
                                               reporting_end_datetime_utc))
                     rows_meter_energy = cursor_energy_db.fetchall()
 
-                    # Query daily energy breakdown
-                    cursor_energy_db.execute(" SELECT DATE(start_datetime_utc) as date_day, "
-                                             "        SUM(actual_value) "
+                    # Query daily energy breakdown with UTC timestamps
+                    cursor_energy_db.execute(" SELECT start_datetime_utc, "
+                                             "        actual_value "
                                              " FROM tbl_meter_hourly "
                                              " WHERE meter_id = %s "
                                              "     AND start_datetime_utc >= %s "
                                              "     AND start_datetime_utc < %s "
-                                             " GROUP BY date_day "
-                                             " ORDER BY date_day",
+                                             " ORDER BY start_datetime_utc",
                                              (meter_id,
                                               reporting_start_datetime_utc,
                                               reporting_end_datetime_utc))
                     rows_daily_energy = cursor_energy_db.fetchall()
 
-                    # Build daily values dictionary
+                    # Build daily values dictionary by converting UTC to local time
                     daily_values_dict = dict()
                     for row_daily in rows_daily_energy:
-                        if isinstance(row_daily[0], str):
-                            date_str = row_daily[0]
+                        utc_datetime = row_daily[0]
+                        if isinstance(utc_datetime, datetime):
+                            local_datetime = utc_datetime.replace(tzinfo=timezone.utc) + timedelta(minutes=timezone_offset)
+                            date_str = local_datetime.strftime('%Y-%m-%d')
                         else:
-                            date_str = row_daily[0].strftime('%Y-%m-%d')
-                        daily_values_dict[date_str] = row_daily[1]
+                            date_str = str(utc_datetime)
+                        
+                        value = row_daily[1]
+                        if date_str in daily_values_dict:
+                            daily_values_dict[date_str] += value
+                        else:
+                            daily_values_dict[date_str] = value
 
                     meter_dict[meter_id]['daily_values'] = daily_values_dict
 

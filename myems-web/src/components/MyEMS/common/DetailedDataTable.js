@@ -14,7 +14,7 @@ const defaultSorted = [
   }
 ];
 
-const DetailedDataTable = ({ title, data, columns, pagesize, t, page: controlledPage, onChangePage }) => {
+const DetailedDataTable = ({ title, data, columns, pagesize, t, page: controlledPage, onChangePage, enableHorizontalScroll }) => {
   // Persist current page to prevent flicker/jumps when parent re-renders
   const [uncontrolledPage, setUncontrolledPage] = useState(1);
   const page = controlledPage ?? uncontrolledPage;
@@ -64,7 +64,7 @@ const DetailedDataTable = ({ title, data, columns, pagesize, t, page: controlled
       <Card>
         <FalconCardHeader title={title} className="bg-light" titleClass="text-lightSlateGray mb-0" />
         <CardBody>
-          <div style={{overflowX: 'auto', width: '100%'}}>
+          <div style={enableHorizontalScroll ? {overflowX: 'auto', width: '100%'} : {}}>
             <Row>
               <Col>
                 <BootstrapTable

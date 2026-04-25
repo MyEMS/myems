@@ -408,6 +408,7 @@ const MeterBatch = ({ setRedirect, setRedirectUrl, t }) => {
           title={t('Detailed Data')}
           columns={detailedDataTableColumns}
           pagesize={50}
+          enableHorizontalScroll={true}
         />
       </div>
     </Fragment>
