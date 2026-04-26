@@ -1,3 +1,10 @@
+<p align="center">
+   <img alt="logo" src="https://myems.cn/img/myems.png" width="150" height="150">
+</p>
+<h1 align="center" style="margin: 30px 0 30px; font-weight: bold;">MyEMS v6.4.0</h1>
+<h3 align="center">سامانه مدیریت انرژی متن‌باز پیشرو در صنعت</h3>
+<h6 align="center">نزدیک به هزار نمونه پروژه</h6>
+<h6 align="center">تعهد به متن‌باز ماندن دائمی</h6>
 <h6 align="center">عضویت در گروه QQ و گروه WeChat، پشتیبانی فنی رایگان</h6>
 <h6 align="center">همواره در حال به‌روزرسانی، انتشار یک نسخه کوچک در هر ماه و یک نسخه بزرگ در هر سال</h6>
 
@@ -22,56 +29,56 @@
 
 ## نمایش رابط کاربری وب MyEMS
 
-![MyEMS Web 0](./docs/images/myems_web_en_0.png)
-![MyEMS Web 1](./docs/images/myems_web_en_1.png)
-![MyEMS Web 2](./docs/images/myems_web_en_2.png)
-![MyEMS Web 3](./docs/images/myems_web_en_3.png)
-![MyEMS Web 4](./docs/images/myems_web_en_4.png)
-![MyEMS Web 5](./docs/images/myems_web_en_5.png)
-![MyEMS Web 6](./docs/images/myems_web_en_6.png)
-![MyEMS Web 7](./docs/images/myems_web_en_7.png)
-![MyEMS Web 8](./docs/images/myems_web_en_8.png)
-![MyEMS Web 9](./docs/images/myems_web_en_9.png)
-![MyEMS Web 10](./docs/images/myems_web_en_10.png)
-![MyEMS Web 11](./docs/images/myems_web_en_11.png)
-![MyEMS Web 12](./docs/images/myems_web_en_12.png)
-![MyEMS Web 13](./docs/images/myems_web_en_13.png)
-![MyEMS Web 14](./docs/images/myems_web_en_14.png)
-![MyEMS Web 15](./docs/images/myems_web_en_15.png)
-![MyEMS Web 16](./docs/images/myems_web_en_16.png)
-![MyEMS Web 17](./docs/images/myems_web_en_17.png)
-![MyEMS Web 18](./docs/images/myems_web_en_18.png)
-![MyEMS Web 19](./docs/images/myems_web_en_19.png)
-![MyEMS Web 20](./docs/images/myems_web_en_20.png)
-![MyEMS Web 21](./docs/images/myems_web_en_21.png)
-![MyEMS Web 22](./docs/images/myems_web_en_22.png)
-![MyEMS Web 23](./docs/images/myems_web_en_23.png)
-![MyEMS Web 24](./docs/images/myems_web_en_24.png)
-![MyEMS Web 25](./docs/images/myems_web_en_25.png)
-![MyEMS Web 26](./docs/images/myems_web_en_26.png)
-![MyEMS Web 27](./docs/images/myems_web_en_27.png)
-![MyEMS Web 28](./docs/images/myems_web_en_28.png)
+![MyEMS Web 0](./docs/images/myems_web_0.png)
+![MyEMS Web 1](./docs/images/myems_web_1.png)
+![MyEMS Web 2](./docs/images/myems_web_2.png)
+![MyEMS Web 3](./docs/images/myems_web_3.png)
+![MyEMS Web 4](./docs/images/myems_web_4.png)
+![MyEMS Web 5](./docs/images/myems_web_5.png)
+![MyEMS Web 6](./docs/images/myems_web_6.png)
+![MyEMS Web 7](./docs/images/myems_web_7.png)
+![MyEMS Web 8](./docs/images/myems_web_8.png)
+![MyEMS Web 9](./docs/images/myems_web_9.png)
+![MyEMS Web 10](./docs/images/myems_web_10.png)
+![MyEMS Web 11](./docs/images/myems_web_11.png)
+![MyEMS Web 12](./docs/images/myems_web_12.png)
+![MyEMS Web 13](./docs/images/myems_web_13.png)
+![MyEMS Web 14](./docs/images/myems_web_14.png)
+![MyEMS Web 15](./docs/images/myems_web_15.png)
+![MyEMS Web 16](./docs/images/myems_web_16.png)
+![MyEMS Web 17](./docs/images/myems_web_17.png)
+![MyEMS Web 18](./docs/images/myems_web_18.png)
+![MyEMS Web 19](./docs/images/myems_web_19.png)
+![MyEMS Web 20](./docs/images/myems_web_20.png)
+![MyEMS Web 21](./docs/images/myems_web_21.png)
+![MyEMS Web 22](./docs/images/myems_web_22.png)
+![MyEMS Web 23](./docs/images/myems_web_23.png)
+![MyEMS Web 24](./docs/images/myems_web_24.png)
+![MyEMS Web 25](./docs/images/myems_web_25.png)
+![MyEMS Web 26](./docs/images/myems_web_26.png)
+![MyEMS Web 27](./docs/images/myems_web_27.png)
+![MyEMS Web 28](./docs/images/myems_web_28.png)
 
 
 ## نمایش رابط کاربری مدیریت MyEMS
 
-![MyEMS Admin 0](./docs/images/myems_admin_en_0.png)
-![MyEMS Admin 1](./docs/images/myems_admin_en_1.png)
-![MyEMS Admin 2](./docs/images/myems_admin_en_2.png)
-![MyEMS Admin 3](./docs/images/myems_admin_en_3.png)
-![MyEMS Admin 4](./docs/images/myems_admin_en_4.png)
-![MyEMS Admin 5](./docs/images/myems_admin_en_5.png)
-![MyEMS Admin 6](./docs/images/myems_admin_en_6.png)
-![MyEMS Admin 7](./docs/images/myems_admin_en_7.png)
-![MyEMS Admin 8](./docs/images/myems_admin_en_8.png)
-![MyEMS Admin 9](./docs/images/myems_admin_en_9.png)
-![MyEMS Admin 10](./docs/images/myems_admin_en_10.png)
-![MyEMS Admin 11](./docs/images/myems_admin_en_11.png)
-![MyEMS Admin 12](./docs/images/myems_admin_en_12.png)
-![MyEMS Admin 13](./docs/images/myems_admin_en_13.png)
-![MyEMS Admin 14](./docs/images/myems_admin_en_14.png)
-![MyEMS Admin 15](./docs/images/myems_admin_en_15.png)
-![MyEMS Admin 16](./docs/images/myems_admin_en_16.png)
+![MyEMS Admin 0](./docs/images/myems_admin_0.png)
+![MyEMS Admin 1](./docs/images/myems_admin_1.png)
+![MyEMS Admin 2](./docs/images/myems_admin_2.png)
+![MyEMS Admin 3](./docs/images/myems_admin_3.png)
+![MyEMS Admin 4](./docs/images/myems_admin_4.png)
+![MyEMS Admin 5](./docs/images/myems_admin_5.png)
+![MyEMS Admin 6](./docs/images/myems_admin_6.png)
+![MyEMS Admin 7](./docs/images/myems_admin_7.png)
+![MyEMS Admin 8](./docs/images/myems_admin_8.png)
+![MyEMS Admin 9](./docs/images/myems_admin_9.png)
+![MyEMS Admin 10](./docs/images/myems_admin_10.png)
+![MyEMS Admin 11](./docs/images/myems_admin_11.png)
+![MyEMS Admin 12](./docs/images/myems_admin_12.png)
+![MyEMS Admin 13](./docs/images/myems_admin_13.png)
+![MyEMS Admin 14](./docs/images/myems_admin_14.png)
+![MyEMS Admin 15](./docs/images/myems_admin_15.png)
+![MyEMS Admin 16](./docs/images/myems_admin_16.png)
 
 ## نمایش داشبورد MyEMS
 
@@ -176,32 +183,26 @@
 ## تماس با ما
 
 - شرکت: HaiShi Software
-  -联系人: Zhang Nengyuan
-- تلفن/وی‌چت: (86+) 13011132526
+- مخاطب: Zhang Nengyuan
+- تلفن/وی‌چت: (+86) 13011132526
 - ایمیل: zny@myems.org
-- LINE ID: myems
-- WhatsApp: https://wa.me/message/6HB55A46RVAJP1
 
 | Platform | Description | QR Code |
 |----------|--------------|---------|
-| WeChat | 13011132526 | ![WeChat: 13011132526](./docs/images/qr_code_wechat.png) |
-| Line | MyEMS | ![Line: MyEMS](./docs/images/qr_code_line.png) |
-| WhatsApp | MyEMS | ![WhatsAPP: MyEMS](./docs/images/qr_code_whatsapp.png) |
-| Feishu | 13011132526 | ![Feishu: 13011132526](./docs/images/qr_code_feishu.png) |
-| حساب رسمی وی‌چت | سیستم مدیریت انرژی متن‌باز | ![سیستم مدیریت انرژی متن‌باز](./docs/images/qr_code_mp_weixin.png) |
-| کانال‌های ویت‌چت | سیستم مدیریت انرژی متن‌باز | ![سیستم مدیریت انرژی متن‌باز](./docs/images/qr_code_wechat_channels.png) |
-| گروه وی‌چت | گروه وی‌چت | ![گروه وی‌چت](./docs/images/qr_code_wechat_group.png) |
-| گروه QQ | 792528967 | ![گروه QQ](./docs/images/qr_code_qq_group.png) |
-| Xiaohongshu | Xiaohongshu | ![Xiaohongshju](./docs/images/qr_code_xiaohongshu.png) |
+| 微信 | 13011132526 | ![WeChat: 13011132526](./docs/images/qr_code_wechat.png) |
+| 飞书 | 13011132526 | ![Feishu: 13011132526](./docs/images/qr_code_feishu.png) |
+| 微信公众号 | سیستم مدیریت انرژی متن‌باز | ![سیستم مدیریت انرژی متن‌باز](./docs/images/qr_code_mp_weixin.png) |
+| 微信视频号 | سیستم مدیریت انرژی متن‌باز | ![سیستم مدیریت انرژی متن‌باز](./docs/images/qr_code_wechat_channels.png) |
+| 微信群 | گروه وی‌چت | ![گروه وی‌چت](./docs/images/qr_code_wechat_group.png) |
+| QQ群 | 792528967 | ![گروه QQ](./docs/images/qr_code_qq_group.png) |
+| 小红书 | Xiaohongshu | ![Xiaohongshju](./docs/images/qr_code_xiaohongshu.png) |
 
 ## ویدیوها
 
-[BiliBili](https://space.bilibili.com/539108162)
-
-[YouTube](https://www.youtube.com/@myems)
+ 
 
 ## 🔖 پیوندهای دوستانه
 
-- 👉 Ccbpm Low Code Workflow Forms: [https://gitee.com/opencc/ccflow](https://gitee.com/opencc/ccflow)
-- 👉 IoTGateway: Internet of Things Gateway Cross-platform مبتنی بر .NET6 [https://gitee.com/iioter/iotgateway](https://gitee.com/iioter/iotgateway)
-- 👉 LeLian IoT Platform [https://gitee.com/open-enjoy/enjoy-iot](https://gitee.com/open-enjoy/enjoy-iot)
+- 👉 فرم‌های گردش‌کار کم‌کد Ccbpm: [https://gitee.com/opencc/ccflow](https://gitee.com/opencc/ccflow)
+- 👉 IoTGateway: درگاه اینترنت اشیا بین‌سکویی مبتنی بر .NET6 [https://gitee.com/iioter/iotgateway](https://gitee.com/iioter/iotgateway)
+- 👉 پلتفرم اینترنت اشیای LeLian [https://gitee.com/open-enjoy/enjoy-iot](https://gitee.com/open-enjoy/enjoy-iot)

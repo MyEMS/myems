@@ -19,6 +19,6 @@ VALUES
 (611,'Prediction','/shopfloor/prediction',600,1),
 (714,'Prediction','/combinedequipment/prediction',700,1);
 
-UPDATE `myems_system_db`.`tbl_versions` SET version='6.4.0RC', release_date='2026-04-28' WHERE id=1;
+UPDATE `myems_system_db`.`tbl_versions` SET version='6.4.0', release_date='2026-04-26' WHERE id=1;
 
 COMMIT;
