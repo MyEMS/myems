@@ -5,6 +5,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 ### Added
+### Changed
+### Fixed
+### Removed
+
+## [v6.4.0] - 2026-04-26
+### Added
 - added redis cache to space reports in myems-api
 - added demo data translations in database
 - added combined equipment prediction excel exporter in myems-api
@@ -24,10 +30,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - split myems-web/src/i18n.js into small files
 ### Fixed
 - fixed issue of package.json in myems-web
-- added try...finally to cnx.close() and cursor.close() in myems-api
+- added try...finally for cnx.close() and cursor.close() in myems-api
 - fixed the issue where the scrollbar did not reset when navigating to a new page in myems-admin
 ### Removed
-- removed the defalut interval_in_seconds from config in myems-modbus-tcp
+- removed the default interval_in_seconds from config in myems-modbus-tcp
 
 ## [v6.3.0] - 2026-03-28
 ### Added
