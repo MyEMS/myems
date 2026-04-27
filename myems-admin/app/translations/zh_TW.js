@@ -1639,11 +1639,11 @@
           "能流圖節點不存在或不匹配",
         ENERGY_FLOW_DIAGRAM_NOT_FOUND: "能流圖不存在",
         ENERGY_ITEM_DOES_NOT_BELONG_TO_ENERGY_CATEGORY:
-          "能效分項不屬於能源分類",
+          "能源分項不屬於能源分類",
         ENERGY_ITEM_IS_NOT_BELONG_TO_ENERGY_CATEGORY:
-          "能效分項不屬於能源分類",
-        ENERGY_ITEM_NAME_IS_ALREADY_IN_USE: "能效分項名稱已使用",
-        ENERGY_ITEM_NOT_FOUND: "能效分項不存在",
+          "能源分項不屬於能源分類",
+        ENERGY_ITEM_NAME_IS_ALREADY_IN_USE: "能耗分項名稱已使用",
+        ENERGY_ITEM_NOT_FOUND: "能源分項不存在",
         ENERGY_ITEM_USED_IN_METER: "用於計量錶的能耗分項",
         ENERGY_ITEM_USED_IN_OFFLINE_METER: "用于离线表的能耗分项",
         ENERGY_ITEM_USED_IN_VIRTUAL_METER: "用於虛擬錶的能耗分項",
@@ -1785,8 +1785,8 @@
           "無效的能流圖節點 ID",
         INVALID_ENERGY_FLOW_DIAGRAM_NODE_NAME:
           "無效的能流圖節點名稱",
-        INVALID_ENERGY_ITEM_ID: "無效的能效分項 ID",
-        INVALID_ENERGY_ITEM_NAME: "無效的能效分項名稱",
+        INVALID_ENERGY_ITEM_ID: "無效的能源分項 ID",
+        INVALID_ENERGY_ITEM_NAME: "無效的能源分項名稱",
         INVALID_ENERGY_STORAGE_CONTAINER_ID:
           "儲能容器ID無效",
         INVALID_ENERGY_STORAGE_CONTAINER_NAME:

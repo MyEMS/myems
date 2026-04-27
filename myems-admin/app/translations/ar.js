@@ -387,7 +387,7 @@
         BIND_MICROGRID: "ربط الشبكة المصغرة",
         BIND_ENERGY_STORAGE_CONTAINER: "ملزمة حاوية تخزين الطاقة",
 
-        IOTSIMCARD: "بطاقة SIM لإنترنت الأشياء",
+        IOTSIMCARD: "بطاقة سيم لإنترنت الأشياء",
         CATEGORY_DESCRIPTION: "Basic configuration of energy category management; centrally maintain various energy resources and their conversion standards used in the system.",
         CATEGORY_DESCRIPTION_MORE: "Energy categories are used to define the basic classification of all energy data in the system, such as electricity, natural gas, water, etc. You can set their names, units, and corresponding standard coal conversion factors (kgce) and carbon dioxide emission factors (kgco2e). These parameters will directly affect energy consumption statistics, carbon emission calculations, and energy balance analysis in the system. It is recommended to complete this configuration during system initialization; subsequent changes may affect the statistical consistency of historical reports.",
         CATEGORY_DIALOG_DESCRIPTION: "Create or edit energy categories here. Names should be concise (e.g., 'Industrial Water'); units must comply with industry standards (e.g., 'm³'); standard coal and CO2 factors should refer to the latest national or local energy statistics standards as the sole benchmark for efficiency analysis and carbon footprint calculations.",

@@ -222,7 +222,7 @@
           WORKING_CALENDAR: "稼働カレンダー",
           COMMAND: "コマンド Ⓔ",
           CONTROL_MODE: "制御モード Ⓔ",
-          IOTSIMCARD: "IoT SIMカード Ⓔ",
+          IOTSIMCARD: "IoT SIMカード",
           MICROGRID: "マイクログリッド Ⓔ",
           VIRTUAL_POWER_PLANT: "仮想発電所 Ⓔ",
           ENERGY_STORAGE_CONTAINER: "エネルギー貯蔵コンテナ Ⓔ",

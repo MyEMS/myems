@@ -106,7 +106,7 @@
         COLLAPSE: "Çöküş",
         EXPAND: "Genişletmek",
         CLICK_TO_EXPAND_FOR_MORE_DESCRIPTION: "Daha fazla açıklama için genişletmek için tıklayın",
-        ADVANCED_REPORT: "Gelişmiş rapor",
+        ADVANCED_REPORT: "gelişmiş rapor",
         EXECUTE: "Yürütmek",
         PLACEHOLDER: "Lütfen seçin veya arayın...",
         SPACE: "Uzay",
