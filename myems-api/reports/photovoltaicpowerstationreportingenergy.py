@@ -282,7 +282,7 @@ class Reporting:
                                                                                         reporting_end_datetime_utc,
                                                                                         period_type)
                     meta_report = dict()
-                    meta_report['name'] = '�l���'
+                    meta_report['name'] = '發電量'
                     meta_report['energy_category_id'] = energy_category_id
                     meta_report['unit_of_measure'] = energy_category_dict[1]['unit_of_measure']
                     meta_report['timestamps'] = list()
@@ -351,7 +351,7 @@ class Reporting:
                                                                                         reporting_end_datetime_utc,
                                                                                         period_type)
                     meta_report = dict()
-                    meta_report['name'] = 'ُ�I���'
+                    meta_report['name'] = 'ُ購買電量'
                     meta_report['energy_category_id'] = energy_category_id
                     meta_report['unit_of_measure'] = energy_category_dict[1]['unit_of_measure']
                     meta_report['timestamps'] = list()
@@ -420,7 +420,7 @@ class Reporting:
                                                                                         reporting_end_datetime_utc,
                                                                                         period_type)
                     meta_report = dict()
-                    meta_report['name'] = '�N�����'
+                    meta_report['name'] = '銷售電量'
                     meta_report['energy_category_id'] = energy_category_id
                     meta_report['unit_of_measure'] = energy_category_dict[1]['unit_of_measure']
                     meta_report['timestamps'] = list()
@@ -489,7 +489,7 @@ class Reporting:
                                                                                         reporting_end_datetime_utc,
                                                                                         period_type)
                     meta_report = dict()
-                    meta_report['name'] = 'ؓ�����'
+                    meta_report['name'] = 'ؓ負荷電量'
                     meta_report['energy_category_id'] = energy_category_id
                     meta_report['unit_of_measure'] = energy_category_dict[1]['unit_of_measure']
                     meta_report['timestamps'] = list()

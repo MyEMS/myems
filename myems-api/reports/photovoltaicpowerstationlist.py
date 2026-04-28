@@ -189,14 +189,14 @@ class Reporting:
                                     invertor_run_state_point_value = digital_value_latest_dict.get(
                                         row_point[0])['actual_value']
 
-                        # 0:Shutdown
-                        # 1:Soft Starting
-                        # 2:On Grid Charging
-                        # 3:On Grid DisCharging
-                        # 4:Off Grid DisCharging
-                        # 5:Derating On Grid
-                        # 6:Standby
-                        # 7:Off Grid Charging
+                        # 0：关闭 Shutdown
+                        # 1：软启动中 Soft Starting
+                        # 2：并网充电 On Grid Charging
+                        # 3：并网放电 On Grid DisCharging
+                        # 4：离网放电 Off Grid DisCharging
+                        # 5：降额并网 Derating On Grid
+                        # 6：待机 Standby
+                        # 7：离网充电 Off Grid Charging
 
                         if invertor_run_state_point_value is None:
                             invertor_run_state = 'Unknown'
