@@ -441,9 +441,9 @@ const EquipmentPrediction = ({ setRedirect, setRedirectUrl, t }) => {
             setParameterLineChartData(values);
 
             let names = [];
-            json['parameters']['names'].forEach((currentValue, index) => {
-              names.push({ value: 'a' + index, label: currentValue });
-            });
+            if (json['parameters']['names'].length > 0) {
+              names.push({ value: 'a0', label: json['parameters']['names'][0] });
+            }
             setParameterLineChartOptions(names);
 
             if (!isBasePeriodTimestampExists(json['base_period'])) {
