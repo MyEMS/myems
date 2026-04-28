@@ -153,177 +153,186 @@ class Reporting:
         ################################################################################################################
         # Step 2: query the energy storage power station
         ################################################################################################################
-        cnx_system = mysql.connector.connect(**config.myems_system_db)
-        cursor_system = cnx_system.cursor()
+        cnx_system = None
+        cnx_historical = None
+        
+        try:
+            cnx_system = mysql.connector.connect(**config.myems_system_db)
+            cnx_historical = mysql.connector.connect(**config.myems_historical_db)
 
-        cnx_historical = mysql.connector.connect(**config.myems_historical_db)
-        cursor_historical = cnx_historical.cursor()
+            cursor_system = None
+            cursor_historical = None
+            
+            try:
+                cursor_system = cnx_system.cursor()
+                cursor_historical = cnx_historical.cursor()
 
-        if photovoltaic_power_station_id is not None:
-            query = (" SELECT id, name, uuid "
-                     " FROM tbl_photovoltaic_power_stations "
-                     " WHERE id = %s ")
-            cursor_system.execute(query, (photovoltaic_power_station_id,))
-            row = cursor_system.fetchone()
-        elif photovoltaic_power_station_uuid is not None:
-            query = (" SELECT id, name, uuid "
-                     " FROM tbl_photovoltaic_power_stations "
-                     " WHERE uuid = %s ")
-            cursor_system.execute(query, (photovoltaic_power_station_uuid,))
-            row = cursor_system.fetchone()
+                if photovoltaic_power_station_id is not None:
+                    query = (" SELECT id, name, uuid "
+                             " FROM tbl_photovoltaic_power_stations "
+                             " WHERE id = %s ")
+                    cursor_system.execute(query, (photovoltaic_power_station_id,))
+                    row = cursor_system.fetchone()
+                elif photovoltaic_power_station_uuid is not None:
+                    query = (" SELECT id, name, uuid "
+                             " FROM tbl_photovoltaic_power_stations "
+                             " WHERE uuid = %s ")
+                    cursor_system.execute(query, (photovoltaic_power_station_uuid,))
+                    row = cursor_system.fetchone()
 
-        if row is None:
-            cursor_system.close()
-            cnx_system.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.PHOTOVOLTAIC_POWER_STATION_NOT_FOUND')
-        else:
-            photovoltaic_power_station_id = row[0]
-            meta_result = {"id": row[0],
-                           "name": row[1],
-                           "uuid": row[2]}
+                if row is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.PHOTOVOLTAIC_POWER_STATION_NOT_FOUND')
+                else:
+                    photovoltaic_power_station_id = row[0]
+                    meta_result = {"id": row[0],
+                                   "name": row[1],
+                                   "uuid": row[2]}
 
-        ################################################################################################################
-        # Step 3: query associated data sources
-        ################################################################################################################
-        data_source_list = list()
-        cursor_system.execute(" SELECT DISTINCT(ds.id) "
-                              " FROM tbl_photovoltaic_power_stations_invertors b, tbl_points p, tbl_data_sources ds "
-                              " WHERE b.photovoltaic_power_station_id = %s "
-                              "       AND b.invertor_state_point_id = p.id "
-                              "       AND p.data_source_id = ds.id "
-                              " LIMIT 1 ",
-                              (photovoltaic_power_station_id,))
-        row_data_source = cursor_system.fetchone()
-        if row_data_source is not None:
-            data_source_list.append({"id": row_data_source[0]})
+                ####################################################################################################
+                # Step 3: query associated data sources
+                ####################################################################################################
+                data_source_list = list()
+                cursor_system.execute(" SELECT DISTINCT(ds.id) "
+                                      " FROM tbl_photovoltaic_power_stations_invertors b, "
+                                      " tbl_points p, tbl_data_sources ds "
+                                      " WHERE b.photovoltaic_power_station_id = %s "
+                                      "       AND b.invertor_state_point_id = p.id "
+                                      "       AND p.data_source_id = ds.id "
+                                      " LIMIT 1 ",
+                                      (photovoltaic_power_station_id,))
+                row_data_source = cursor_system.fetchone()
+                if row_data_source is not None:
+                    data_source_list.append({"id": row_data_source[0]})
 
-        ################################################################################################################
-        # Step 4: query associated points
-        ################################################################################################################
-        point_list = list()
-        for data_source in data_source_list:
-            cursor_system.execute(" SELECT p.id, p.name, p.units, p.object_type  "
-                                  " FROM tbl_points p "
-                                  " WHERE p.data_source_id = %s AND p.object_type != 'TEXT_VALUE'",
-                                  (data_source['id'],))
-            rows_points = cursor_system.fetchall()
-            if rows_points is not None and len(rows_points) > 0:
-                for row_point in rows_points:
-                    point_list.append({"id": row_point[0],
-                                       "name": row_point[1],
-                                       "units": row_point[2],
-                                       "object_type": row_point[3]})
+                ####################################################################################################
+                # Step 4: query associated points
+                ####################################################################################################
+                point_list = list()
+                for data_source in data_source_list:
+                    cursor_system.execute(" SELECT p.id, p.name, p.units, p.object_type  "
+                                          " FROM tbl_points p "
+                                          " WHERE p.data_source_id = %s AND p.object_type != 'TEXT_VALUE'",
+                                          (data_source['id'],))
+                    rows_points = cursor_system.fetchall()
+                    if rows_points is not None and len(rows_points) > 0:
+                        for row_point in rows_points:
+                            point_list.append({"id": row_point[0],
+                                               "name": row_point[1],
+                                               "units": row_point[2],
+                                               "object_type": row_point[3]})
 
-        ################################################################################################################
-        # Step 5: query associated points data
-        ################################################################################################################
-        parameters_data = dict()
-        parameters_data['names'] = list()
-        parameters_data['timestamps'] = list()
-        parameters_data['values'] = list()
+                ####################################################################################################
+                # Step 5: query associated points data
+                ####################################################################################################
+                parameters_data = dict()
+                parameters_data['names'] = list()
+                parameters_data['timestamps'] = list()
+                parameters_data['values'] = list()
 
-        for point in point_list:
-            point_values = []
-            point_timestamps = []
-            if point['object_type'] == 'ENERGY_VALUE':
-                query = (" SELECT utc_date_time, actual_value "
-                         " FROM tbl_energy_value "
-                         " WHERE point_id = %s "
-                         "       AND utc_date_time BETWEEN %s AND %s "
-                         " ORDER BY utc_date_time ")
-                cursor_historical.execute(query, (point['id'],
-                                                  reporting_start_datetime_utc,
-                                                  reporting_end_datetime_utc))
-                rows = cursor_historical.fetchall()
+                for point in point_list:
+                    point_values = []
+                    point_timestamps = []
+                    if point['object_type'] == 'ENERGY_VALUE':
+                        query = (" SELECT utc_date_time, actual_value "
+                                 " FROM tbl_energy_value "
+                                 " WHERE point_id = %s "
+                                 "       AND utc_date_time BETWEEN %s AND %s "
+                                 " ORDER BY utc_date_time ")
+                        cursor_historical.execute(query, (point['id'],
+                                                          reporting_start_datetime_utc,
+                                                          reporting_end_datetime_utc))
+                        rows = cursor_historical.fetchall()
 
-                if rows is not None and len(rows) > 0:
-                    reporting_start_datetime_local = reporting_start_datetime_utc.replace(tzinfo=timezone.utc) + \
-                                                     timedelta(minutes=timezone_offset)
-                    current_datetime_local = reporting_start_datetime_local
+                        if rows is not None and len(rows) > 0:
+                            reporting_start_datetime_local = reporting_start_datetime_utc.replace(
+                                tzinfo=timezone.utc) + timedelta(minutes=timezone_offset)
+                            current_datetime_local = reporting_start_datetime_local
 
-                    while current_datetime_local < rows[0][0].replace(tzinfo=timezone.utc) + \
-                            timedelta(minutes=timezone_offset):
-                        point_timestamps.append(current_datetime_local.isoformat()[5:16])
-                        point_values.append(rows[0][1])
-                        current_datetime_local += timedelta(minutes=1)
+                            while current_datetime_local < rows[0][0].replace(tzinfo=timezone.utc) + \
+                                    timedelta(minutes=timezone_offset):
+                                point_timestamps.append(current_datetime_local.isoformat()[5:16])
+                                point_values.append(rows[0][1])
+                                current_datetime_local += timedelta(minutes=1)
 
-                    for index in range(len(rows) - 1):
-                        while current_datetime_local < rows[index + 1][0].replace(tzinfo=timezone.utc) + \
-                                timedelta(minutes=timezone_offset):
-                            point_timestamps.append(current_datetime_local.isoformat()[5:16])
-                            point_values.append(rows[index][1])
-                            current_datetime_local += timedelta(minutes=1)
-            elif point['object_type'] == 'ANALOG_VALUE':
-                query = (" SELECT utc_date_time, actual_value "
-                         " FROM tbl_analog_value "
-                         " WHERE point_id = %s "
-                         "       AND utc_date_time BETWEEN %s AND %s "
-                         " ORDER BY utc_date_time ")
-                cursor_historical.execute(query, (point['id'],
-                                                  reporting_start_datetime_utc,
-                                                  reporting_end_datetime_utc))
-                rows = cursor_historical.fetchall()
+                            for index in range(len(rows) - 1):
+                                while current_datetime_local < rows[index + 1][0].replace(tzinfo=timezone.utc) + \
+                                        timedelta(minutes=timezone_offset):
+                                    point_timestamps.append(current_datetime_local.isoformat()[5:16])
+                                    point_values.append(rows[index][1])
+                                    current_datetime_local += timedelta(minutes=1)
+                    elif point['object_type'] == 'ANALOG_VALUE':
+                        query = (" SELECT utc_date_time, actual_value "
+                                 " FROM tbl_analog_value "
+                                 " WHERE point_id = %s "
+                                 "       AND utc_date_time BETWEEN %s AND %s "
+                                 " ORDER BY utc_date_time ")
+                        cursor_historical.execute(query, (point['id'],
+                                                          reporting_start_datetime_utc,
+                                                          reporting_end_datetime_utc))
+                        rows = cursor_historical.fetchall()
 
-                if rows is not None and len(rows) > 0:
-                    reporting_start_datetime_local = reporting_start_datetime_utc.replace(tzinfo=timezone.utc) + \
-                                                     timedelta(minutes=timezone_offset)
-                    current_datetime_local = reporting_start_datetime_local
+                        if rows is not None and len(rows) > 0:
+                            reporting_start_datetime_local = reporting_start_datetime_utc.replace(
+                                tzinfo=timezone.utc) + timedelta(minutes=timezone_offset)
+                            current_datetime_local = reporting_start_datetime_local
 
-                    while current_datetime_local < rows[0][0].replace(tzinfo=timezone.utc) + \
-                            timedelta(minutes=timezone_offset):
-                        point_timestamps.append(current_datetime_local.isoformat()[5:16])
-                        point_values.append(rows[0][1])
-                        current_datetime_local += timedelta(minutes=1)
+                            while current_datetime_local < rows[0][0].replace(tzinfo=timezone.utc) + \
+                                    timedelta(minutes=timezone_offset):
+                                point_timestamps.append(current_datetime_local.isoformat()[5:16])
+                                point_values.append(rows[0][1])
+                                current_datetime_local += timedelta(minutes=1)
 
-                    for index in range(len(rows) - 1):
-                        while current_datetime_local < rows[index + 1][0].replace(tzinfo=timezone.utc) + \
-                                timedelta(minutes=timezone_offset):
-                            point_timestamps.append(current_datetime_local.isoformat()[5:16])
-                            point_values.append(rows[index][1])
-                            current_datetime_local += timedelta(minutes=1)
-            elif point['object_type'] == 'DIGITAL_VALUE':
-                query = (" SELECT utc_date_time, actual_value "
-                         " FROM tbl_digital_value "
-                         " WHERE point_id = %s "
-                         "       AND utc_date_time BETWEEN %s AND %s "
-                         " ORDER BY utc_date_time ")
-                cursor_historical.execute(query, (point['id'],
-                                                  reporting_start_datetime_utc,
-                                                  reporting_end_datetime_utc))
-                rows = cursor_historical.fetchall()
+                            for index in range(len(rows) - 1):
+                                while current_datetime_local < rows[index + 1][0].replace(tzinfo=timezone.utc) + \
+                                        timedelta(minutes=timezone_offset):
+                                    point_timestamps.append(current_datetime_local.isoformat()[5:16])
+                                    point_values.append(rows[index][1])
+                                    current_datetime_local += timedelta(minutes=1)
+                    elif point['object_type'] == 'DIGITAL_VALUE':
+                        query = (" SELECT utc_date_time, actual_value "
+                                 " FROM tbl_digital_value "
+                                 " WHERE point_id = %s "
+                                 "       AND utc_date_time BETWEEN %s AND %s "
+                                 " ORDER BY utc_date_time ")
+                        cursor_historical.execute(query, (point['id'],
+                                                          reporting_start_datetime_utc,
+                                                          reporting_end_datetime_utc))
+                        rows = cursor_historical.fetchall()
 
-                if rows is not None and len(rows) > 0:
-                    reporting_start_datetime_local = reporting_start_datetime_utc.replace(tzinfo=timezone.utc) + \
-                                                     timedelta(minutes=timezone_offset)
-                    current_datetime_local = reporting_start_datetime_local
+                        if rows is not None and len(rows) > 0:
+                            reporting_start_datetime_local = reporting_start_datetime_utc.replace(
+                                tzinfo=timezone.utc) + timedelta(minutes=timezone_offset)
+                            current_datetime_local = reporting_start_datetime_local
 
-                    while current_datetime_local < rows[0][0].replace(tzinfo=timezone.utc) + \
-                            timedelta(minutes=timezone_offset):
-                        point_timestamps.append(current_datetime_local.isoformat()[5:16])
-                        point_values.append(rows[0][1])
-                        current_datetime_local += timedelta(minutes=1)
+                            while current_datetime_local < rows[0][0].replace(tzinfo=timezone.utc) + \
+                                    timedelta(minutes=timezone_offset):
+                                point_timestamps.append(current_datetime_local.isoformat()[5:16])
+                                point_values.append(rows[0][1])
+                                current_datetime_local += timedelta(minutes=1)
 
-                    for index in range(len(rows) - 1):
-                        while current_datetime_local < rows[index + 1][0].replace(tzinfo=timezone.utc) + \
-                                timedelta(minutes=timezone_offset):
-                            point_timestamps.append(current_datetime_local.isoformat()[5:16])
-                            point_values.append(rows[index][1])
-                            current_datetime_local += timedelta(minutes=1)
+                            for index in range(len(rows) - 1):
+                                while current_datetime_local < rows[index + 1][0].replace(tzinfo=timezone.utc) + \
+                                        timedelta(minutes=timezone_offset):
+                                    point_timestamps.append(current_datetime_local.isoformat()[5:16])
+                                    point_values.append(rows[index][1])
+                                    current_datetime_local += timedelta(minutes=1)
 
-            parameters_data['names'].append(point['name'] + ' (' + point['units'] + ')')
-            parameters_data['timestamps'].append(point_timestamps)
-            parameters_data['values'].append(point_values)
+                    parameters_data['names'].append(point['name'] + ' (' + point['units'] + ')')
+                    parameters_data['timestamps'].append(point_timestamps)
+                    parameters_data['values'].append(point_values)
 
-        if cursor_system:
-            cursor_system.close()
-        if cnx_system:
-            cnx_system.close()
+            finally:
+                if cursor_system:
+                    cursor_system.close()
+                if cursor_historical:
+                    cursor_historical.close()
 
-        if cursor_historical:
-            cursor_historical.close()
-        if cnx_historical:
-            cnx_historical.close()
+        finally:
+            if cnx_system:
+                cnx_system.close()
+            if cnx_historical:
+                cnx_historical.close()
         ################################################################################################################
         # Step 6: construct the report
         ################################################################################################################

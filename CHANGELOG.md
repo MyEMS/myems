@@ -7,6 +7,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Added
 ### Changed
 ### Fixed
+- added try...finally for cnx.close() and cursor.close() in myems-api
 ### Removed
 
 ## [v6.4.0] - 2026-04-26
