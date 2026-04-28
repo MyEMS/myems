@@ -91,125 +91,134 @@ class Reporting:
         ################################################################################################################
         # Step 2: query the energy storage power station
         ################################################################################################################
-        cnx_system_db = mysql.connector.connect(**config.myems_system_db)
-        cursor_system_db = cnx_system_db.cursor()
-        # Get Spaces associated with energy storage power stations
-        query = (" SELECT se.photovoltaic_power_station_id, s.name "
-                 " FROM tbl_spaces s, tbl_spaces_photovoltaic_power_stations se "
-                 " WHERE se.space_id = s.id ")
-        cursor_system_db.execute(query)
-        rows_spaces = cursor_system_db.fetchall()
+        cnx_system_db = None
+        cnx_energy_db = None
+        cnx_billing_db = None
+        cnx_carbon_db = None
+        
+        try:
+            cnx_system_db = mysql.connector.connect(**config.myems_system_db)
+            cnx_energy_db = mysql.connector.connect(**config.myems_energy_db)
+            cnx_billing_db = mysql.connector.connect(**config.myems_billing_db)
+            cnx_carbon_db = mysql.connector.connect(**config.myems_billing_db)
 
-        space_dict = dict()
-        if rows_spaces is not None and len(rows_spaces) > 0:
-            for row in rows_spaces:
-                space_dict[row[0]] = row[1]
-        print(space_dict)
-        # Get energy storage power station
-        if photovoltaic_power_station_id is not None:
-            query = (" SELECT id, name, uuid, "
-                     "        address, latitude, longitude, rated_capacity, rated_power, "
-                     "        contact_id, cost_center_id "
-                     " FROM tbl_photovoltaic_power_stations "
-                     " WHERE id = %s ")
-            cursor_system_db.execute(query, (photovoltaic_power_station_id,))
-            row = cursor_system_db.fetchone()
-        elif photovoltaic_power_station_uuid is not None:
-            query = (" SELECT id, name, uuid, "
-                     "        address, latitude, longitude, rated_capacity, rated_power, "
-                     "        contact_id, cost_center_id "
-                     " FROM tbl_photovoltaic_power_stations "
-                     " WHERE uuid = %s ")
-            cursor_system_db.execute(query, (photovoltaic_power_station_uuid,))
-            row = cursor_system_db.fetchone()
+            cursor_system_db = None
+            cursor_energy_db = None
+            cursor_billing_db = None
+            cursor_carbon_db = None
+            
+            try:
+                cursor_system_db = cnx_system_db.cursor()
+                cursor_energy_db = cnx_energy_db.cursor()
+                cursor_billing_db = cnx_billing_db.cursor()
+                cursor_carbon_db = cnx_carbon_db.cursor()
+                
+                # Get Spaces associated with energy storage power stations
+                query = (" SELECT se.photovoltaic_power_station_id, s.name "
+                         " FROM tbl_spaces s, tbl_spaces_photovoltaic_power_stations se "
+                         " WHERE se.space_id = s.id ")
+                cursor_system_db.execute(query)
+                rows_spaces = cursor_system_db.fetchall()
 
-        if row is None:
-            cursor_system_db.close()
-            cnx_system_db.close()
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.photovoltaic_POWER_STATION_NOT_FOUND')
-        else:
-            photovoltaic_power_station_id = row[0]
-            photovoltaic_power_station = {
-                "id": row[0],
-                "name": row[1],
-                "uuid": row[2],
-                "address": row[3],
-                "space_name": space_dict.get(row[0]),
-                "latitude": row[4],
-                "longitude": row[5],
-                "rated_capacity": row[6],
-                "rated_power": row[7]
-            }
+                space_dict = dict()
+                if rows_spaces is not None and len(rows_spaces) > 0:
+                    for row in rows_spaces:
+                        space_dict[row[0]] = row[1]
+                print(space_dict)
+                # Get energy storage power station
+                if photovoltaic_power_station_id is not None:
+                    query = (" SELECT id, name, uuid, "
+                             "        address, latitude, longitude, rated_capacity, rated_power, "
+                             "        contact_id, cost_center_id "
+                             " FROM tbl_photovoltaic_power_stations "
+                             " WHERE id = %s ")
+                    cursor_system_db.execute(query, (photovoltaic_power_station_id,))
+                    row = cursor_system_db.fetchone()
+                elif photovoltaic_power_station_uuid is not None:
+                    query = (" SELECT id, name, uuid, "
+                             "        address, latitude, longitude, rated_capacity, rated_power, "
+                             "        contact_id, cost_center_id "
+                             " FROM tbl_photovoltaic_power_stations "
+                             " WHERE uuid = %s ")
+                    cursor_system_db.execute(query, (photovoltaic_power_station_uuid,))
+                    row = cursor_system_db.fetchone()
 
-        ################################################################################################################
-        # Step 3: query generation energy data
-        ################################################################################################################
-        cnx_energy_db = mysql.connector.connect(**config.myems_energy_db)
-        cursor_energy_db = cnx_energy_db.cursor()
+                if row is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.photovoltaic_POWER_STATION_NOT_FOUND')
+                else:
+                    photovoltaic_power_station_id = row[0]
+                    photovoltaic_power_station = {
+                        "id": row[0],
+                        "name": row[1],
+                        "uuid": row[2],
+                        "address": row[3],
+                        "space_name": space_dict.get(row[0]),
+                        "latitude": row[4],
+                        "longitude": row[5],
+                        "rated_capacity": row[6],
+                        "rated_power": row[7]
+                    }
 
-        cnx_billing_db = mysql.connector.connect(**config.myems_billing_db)
-        cursor_billing_db = cnx_billing_db.cursor()
+                #################################################################################################
+                # Step 3: query generation energy data
+                #################################################################################################
+                query = (" SELECT SUM(actual_value) "
+                         " FROM tbl_photovoltaic_power_station_generation_hourly "
+                         " WHERE photovoltaic_power_station_id = %s ")
+                cursor_energy_db.execute(query, (photovoltaic_power_station_id, ))
+                row = cursor_energy_db.fetchone()
+                total_generation_energy = Decimal(0.0)
+                if row is not None:
+                    total_generation_energy = row[0]
 
-        cnx_carbon_db = mysql.connector.connect(**config.myems_billing_db)
-        cursor_carbon_db = cnx_carbon_db.cursor()
+                ###################################################################################################
+                # Step 5:  query generation billing data
+                ###################################################################################################
+                query = (" SELECT SUM(actual_value) "
+                         " FROM tbl_photovoltaic_power_station_generation_hourly "
+                         " WHERE photovoltaic_power_station_id = %s ")
+                cursor_billing_db.execute(query, (photovoltaic_power_station_id, ))
+                row = cursor_billing_db.fetchone()
+                total_generation_billing = Decimal(0.0)
+                if row is not None:
+                    total_generation_billing = row[0]
 
-        query = (" SELECT SUM(actual_value) "
-                 " FROM tbl_photovoltaic_power_station_generation_hourly "
-                 " WHERE photovoltaic_power_station_id = %s ")
-        cursor_energy_db.execute(query, (photovoltaic_power_station_id, ))
-        row = cursor_energy_db.fetchone()
-        total_generation_energy = Decimal(0.0)
-        if row is not None:
-            total_generation_energy = row[0]
+                #################################################################################################
+                # Step 7:  query generation carbon data
+                #################################################################################################
+                query = (" SELECT SUM(actual_value) "
+                         " FROM tbl_photovoltaic_power_station_generation_hourly "
+                         " WHERE photovoltaic_power_station_id = %s ")
+                cursor_carbon_db.execute(query, (photovoltaic_power_station_id, ))
+                row = cursor_carbon_db.fetchone()
+                total_generation_carbon = Decimal(0.0)
+                if row is not None:
+                    total_generation_carbon = row[0]
 
-        ################################################################################################################
-        # Step 5:  query generation billing data
-        ################################################################################################################
-        query = (" SELECT SUM(actual_value) "
-                 " FROM tbl_photovoltaic_power_station_generation_hourly "
-                 " WHERE photovoltaic_power_station_id = %s ")
-        cursor_billing_db.execute(query, (photovoltaic_power_station_id, ))
-        row = cursor_billing_db.fetchone()
-        total_generation_billing = Decimal(0.0)
-        if row is not None:
-            total_generation_billing = row[0]
+            finally:
+                if cursor_system_db:
+                    cursor_system_db.close()
+                if cursor_energy_db:
+                    cursor_energy_db.close()
+                if cursor_billing_db:
+                    cursor_billing_db.close()
+                if cursor_carbon_db:
+                    cursor_carbon_db.close()
 
-        ################################################################################################################
-        # Step 7:  query generation carbon data
-        ################################################################################################################
-        query = (" SELECT SUM(actual_value) "
-                 " FROM tbl_photovoltaic_power_station_generation_hourly "
-                 " WHERE photovoltaic_power_station_id = %s ")
-        cursor_carbon_db.execute(query, (photovoltaic_power_station_id, ))
-        row = cursor_carbon_db.fetchone()
-        total_generation_carbon = Decimal(0.0)
-        if row is not None:
-            total_generation_carbon = row[0]
+        finally:
+            if cnx_system_db:
+                cnx_system_db.close()
+            if cnx_energy_db:
+                cnx_energy_db.close()
+            if cnx_billing_db:
+                cnx_billing_db.close()
+            if cnx_carbon_db:
+                cnx_carbon_db.close()
 
         ################################################################################################################
         # Step 7: construct the report
         ################################################################################################################
-        if cursor_system_db:
-            cursor_system_db.close()
-        if cnx_system_db:
-            cnx_system_db.close()
-
-        if cursor_energy_db:
-            cursor_energy_db.close()
-        if cnx_energy_db:
-            cnx_energy_db.close()
-
-        if cursor_billing_db:
-            cursor_billing_db.close()
-        if cnx_billing_db:
-            cnx_billing_db.close()
-
-        if cursor_carbon_db:
-            cursor_carbon_db.close()
-        if cnx_carbon_db:
-            cnx_carbon_db.close()
-
         result = dict()
         result['photovoltaic_power_station'] = photovoltaic_power_station
         result['total_generation_energy'] = total_generation_energy
