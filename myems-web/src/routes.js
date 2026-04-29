@@ -49,6 +49,7 @@ export const equipmentRoutes = {
     { to: '/equipment/statistics', name: 'Statistics' },
     { to: '/equipment/saving', name: 'Saving' },
     { to: '/equipment/plan', name: 'Plan' },
+    { to: '/equipment/prediction', name: 'Prediction' },
     { to: '/equipment/batch', name: 'Batch Analysis' },
     { to: '/equipment/tracking', name: 'Equipment Tracking' },
     { to: '/equipment/comparison', name: 'Equipment Comparison' }
@@ -122,7 +123,7 @@ export const storeRoutes = {
     { to: '/store/saving', name: 'Saving' },
     { to: '/store/plan', name: 'Plan' },
     { to: '/store/batch', name: 'Batch Analysis' },
-    { to: '/store/comparison', name: 'Store Comparison' }
+    { to: '/store/comparison', name: 'Store Comparison' },
   ]
 };
 
