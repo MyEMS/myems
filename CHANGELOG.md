@@ -5,7 +5,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 ### Added
--- added comprehensive and exhaustive explanatory descriptions to myems-admin 
+- added comprehensive and exhaustive explanatory descriptions to myems-admin
+- added equipment prediction report in myems-web
 ### Changed
 ### Fixed
 - added try...finally for cnx.close() and cursor.close() in myems-api

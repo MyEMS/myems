@@ -30,6 +30,7 @@ import EquipmentLoad from '../components/MyEMS/Equipment/EquipmentLoad';
 import EquipmentOutput from '../components/MyEMS/Equipment/EquipmentOutput';
 import EquipmentSaving from '../components/MyEMS/Equipment/EquipmentSaving';
 import EquipmentPlan from '../components/MyEMS/Equipment/EquipmentPlan';
+import EquipmentPrediction from '../components/MyEMS/Equipment/EquipmentPrediction';
 import EquipmentStatistics from '../components/MyEMS/Equipment/EquipmentStatistics';
 import EquipmentTracking from '../components/MyEMS/Equipment/EquipmentTracking';
 import EquipmentComparison from '../components/MyEMS/Equipment/EquipmentComparison';
@@ -156,6 +157,7 @@ const MyEMSRoutes = () => (
     <Route path="/equipment/output" exact component={EquipmentOutput} />
     <Route path="/equipment/saving" exact component={EquipmentSaving} />
     <Route path="/equipment/plan" exact component={EquipmentPlan} />
+    <Route path="/equipment/prediction" exact component={EquipmentPrediction} />
     <Route path="/equipment/statistics" exact component={EquipmentStatistics} />
     <Route path="/equipment/tracking" exact component={EquipmentTracking} />
     <Route path="/equipment/comparison" exact component={EquipmentComparison} />
