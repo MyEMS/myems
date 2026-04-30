@@ -1323,7 +1323,6 @@ export default {
             'Trend Values': 'Valeurs de tendance',
             Category: 'Catégorie',
             Type: 'Type',
-            Unit: 'Unité',
             Limit: 'Limite',
             'Normal Limit': 'Limite normale',
             'Severe Limit': 'Limite sévère',

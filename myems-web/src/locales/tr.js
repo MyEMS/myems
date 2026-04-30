@@ -1294,7 +1294,6 @@ export default {
             SubMeter: 'Podtablica',
             'Power Quality': 'Kualiti kuasa',
             'About Power Quality': 'Perihal kualiti kuasa',
-            'Trend Values': 'Nilai trend',
             Category: 'Kategori',
             Type: 'Jenis',
             Unit: 'Unit',
