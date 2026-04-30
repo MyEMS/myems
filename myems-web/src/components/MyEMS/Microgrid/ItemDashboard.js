@@ -1,11 +1,24 @@
 import React, { Fragment, useEffect, useState, useContext, useCallback } from 'react';
 import CountUp from 'react-countup';
-import { Col, Row, Spinner, Nav, NavItem, NavLink, TabContent, TabPane, Form, FormGroup, Input, CustomInput } from 'reactstrap';
+import {
+  Col,
+  Row,
+  Spinner,
+  Nav,
+  NavItem,
+  NavLink,
+  TabContent,
+  TabPane,
+  Form,
+  FormGroup,
+  Input,
+  CustomInput
+} from 'reactstrap';
 import Cascader from 'rc-cascader';
 import MicrogridTableCard from './MicrogridTableCard';
 import CardSummary from '../common/CardSummary';
 import { toast } from 'react-toastify';
-import { getCookieValue, createCookie, checkEmpty,handleAPIError } from '../../../helpers/utils';
+import { getCookieValue, createCookie, checkEmpty, handleAPIError } from '../../../helpers/utils';
 import withRedirect from '../../../hoc/withRedirect';
 import { withTranslation } from 'react-i18next';
 import moment from 'moment';
@@ -173,67 +186,67 @@ const ItemDashboard = ({ setRedirect, setRedirectUrl, t }) => {
               let selectedSpaceID = [json[0]].map(o => o.value);
               // get Microgrids by root Space ID
               let isResponseOKMicrogrid = false;
-            fetch(APIBaseURL + '/spaces/' + selectedSpaceID + '/microgrids', {
-              method: 'GET',
-              headers: {
-                'Content-type': 'application/json',
-                'User-UUID': getCookieValue('user_uuid'),
-                Token: getCookieValue('token')
-              },
-              body: null
-            })
-              .then(response => {
-                if (response.ok) {
-                  isResponseOKMicrogrid = true;
-                }
-                return response.json();
+              fetch(APIBaseURL + '/spaces/' + selectedSpaceID + '/microgrids', {
+                method: 'GET',
+                headers: {
+                  'Content-type': 'application/json',
+                  'User-UUID': getCookieValue('user_uuid'),
+                  Token: getCookieValue('token')
+                },
+                body: null
               })
-              .then(json => {
-                if (isResponseOKMicrogrid) {
-                  json = JSON.parse(
-                    JSON.stringify([json])
-                      .split('"id":')
-                      .join('"value":')
-                      .split('"name":')
-                      .join('"label":')
-                  );
-                  if (json && Array.isArray(json) && json.length > 0 && json[0] && Array.isArray(json[0])) {
-                    setMicrogridList(json[0]);
-                    setFilteredMicrogridList(json[0]);
-                    if (json[0].length > 0 && json[0][0]) {
-                      // select the first microgrid
-                      let microgridID = json[0][0].value;
-                      setSelectedMicrogrid(microgridID);
-                      // Reset fetched states to reload data
-                      setIsMicrogridsEnergyFetched(false);
-                      setIsMicrogridsBillingFetched(false);
-                      setIsMicrogridsCarbonFetched(false);
-                      // automatically load data for the first microgrid
-                      loadMicrogridData(microgridID);
+                .then(response => {
+                  if (response.ok) {
+                    isResponseOKMicrogrid = true;
+                  }
+                  return response.json();
+                })
+                .then(json => {
+                  if (isResponseOKMicrogrid) {
+                    json = JSON.parse(
+                      JSON.stringify([json])
+                        .split('"id":')
+                        .join('"value":')
+                        .split('"name":')
+                        .join('"label":')
+                    );
+                    if (json && Array.isArray(json) && json.length > 0 && json[0] && Array.isArray(json[0])) {
+                      setMicrogridList(json[0]);
+                      setFilteredMicrogridList(json[0]);
+                      if (json[0].length > 0 && json[0][0]) {
+                        // select the first microgrid
+                        let microgridID = json[0][0].value;
+                        setSelectedMicrogrid(microgridID);
+                        // Reset fetched states to reload data
+                        setIsMicrogridsEnergyFetched(false);
+                        setIsMicrogridsBillingFetched(false);
+                        setIsMicrogridsCarbonFetched(false);
+                        // automatically load data for the first microgrid
+                        loadMicrogridData(microgridID);
+                      } else {
+                        setSelectedMicrogrid(undefined);
+                      }
                     } else {
+                      setMicrogridList([]);
+                      setFilteredMicrogridList([]);
                       setSelectedMicrogrid(undefined);
                     }
                   } else {
-                    setMicrogridList([]);
-                    setFilteredMicrogridList([]);
-                    setSelectedMicrogrid(undefined);
+                    if (json && json.description) {
+                      handleAPIError(json, setRedirect, setRedirectUrl, t, toast);
+                    } else {
+                      toast.error(t('Failed to load microgrids'));
+                    }
                   }
-                } else {
-                  if (json && json.description) {
-                    handleAPIError(json, setRedirect, setRedirectUrl, t, toast)
-                  } else {
-                    toast.error(t('Failed to load microgrids'));
-                  }
-                }
-              })
-              .catch(err => {
-                console.log(err);
-                toast.error(t('Failed to load microgrids'));
-              });
+                })
+                .catch(err => {
+                  console.log(err);
+                  toast.error(t('Failed to load microgrids'));
+                });
             } else {
               console.log('No valid space data after conversion');
               if (json && json.description) {
-                handleAPIError(json, setRedirect, setRedirectUrl, t, toast)
+                handleAPIError(json, setRedirect, setRedirectUrl, t, toast);
               } else {
                 toast.error(t('No spaces found'));
               }
@@ -241,7 +254,7 @@ const ItemDashboard = ({ setRedirect, setRedirectUrl, t }) => {
           } else {
             console.log('Response not OK or invalid format:', json);
             if (json && json.description) {
-              handleAPIError(json, setRedirect, setRedirectUrl, t, toast)
+              handleAPIError(json, setRedirect, setRedirectUrl, t, toast);
             } else {
               toast.error(t('No spaces found'));
             }
@@ -254,7 +267,7 @@ const ItemDashboard = ({ setRedirect, setRedirectUrl, t }) => {
     }
   }, []);
 
-  const loadMicrogridData = (microgridID) => {
+  const loadMicrogridData = microgridID => {
     let user_uuid = getCookieValue('user_uuid');
     let isResponseOK = false;
     setSpinnerHidden(false);
@@ -410,7 +423,7 @@ const ItemDashboard = ({ setRedirect, setRedirectUrl, t }) => {
           }
         } else {
           if (json && json.description) {
-            handleAPIError(json, setRedirect, setRedirectUrl, t, toast)
+            handleAPIError(json, setRedirect, setRedirectUrl, t, toast);
           } else {
             toast.error(t('Failed to load microgrids'));
           }
@@ -435,54 +448,57 @@ const ItemDashboard = ({ setRedirect, setRedirectUrl, t }) => {
   };
 
   // Load functions for each tab (called on demand when tab is activated)
-  const loadEnergyDataFunc = useCallback((user_uuid, microgridID) => {
-    if (isMicrogridsEnergyFetched) return;
-    setIsMicrogridsEnergyFetched(true);
-    let isResponseOK = false;
-    fetch(APIBaseURL + '/reports/microgridsenergy?useruuid=' + user_uuid + '&microgridid=' + microgridID, {
-      method: 'GET',
-      headers: {
-        'Content-type': 'application/json',
-        'User-UUID': getCookieValue('user_uuid'),
-        Token: getCookieValue('token')
-      },
-      body: null
-    })
-      .then(response => {
-        if (response.ok) {
-          isResponseOK = true;
-        }
-        return response.json();
+  const loadEnergyDataFunc = useCallback(
+    (user_uuid, microgridID) => {
+      if (isMicrogridsEnergyFetched) return;
+      setIsMicrogridsEnergyFetched(true);
+      let isResponseOK = false;
+      fetch(APIBaseURL + '/reports/microgridsenergy?useruuid=' + user_uuid + '&microgridid=' + microgridID, {
+        method: 'GET',
+        headers: {
+          'Content-type': 'application/json',
+          'User-UUID': getCookieValue('user_uuid'),
+          Token: getCookieValue('token')
+        },
+        body: null
       })
-      .then(json => {
-        if (isResponseOK) {
-          console.log(json);
-          setChargeEnergyData({
-            unit: 'kWh',
-            station_names_array: json['microgrid_names'] || [],
-            subtotals_array: [
-              json['reporting']['charge_7_days']['values_array'] || [],
-              json['reporting']['charge_this_month']['values_array'] || [],
-              json['reporting']['charge_this_year']['values_array'] || []
-            ]
-          });
-          setDischargeEnergyData({
-            unit: 'kWh',
-            station_names_array: json['microgrid_names'] || [],
-            subtotals_array: [
-              json['reporting']['discharge_7_days']['values_array'] || [],
-              json['reporting']['discharge_this_month']['values_array'] || [],
-              json['reporting']['discharge_this_year']['values_array'] || []
-            ]
-          });
-          setEnergyLabels([
-            json['reporting']['charge_7_days']['timestamps_array'][0] || [],
-            json['reporting']['charge_this_month']['timestamps_array'][0] || [],
-            json['reporting']['charge_this_year']['timestamps_array'][0] || []
-          ]);
-        }
-      });
-  }, [isMicrogridsEnergyFetched]);
+        .then(response => {
+          if (response.ok) {
+            isResponseOK = true;
+          }
+          return response.json();
+        })
+        .then(json => {
+          if (isResponseOK) {
+            console.log(json);
+            setChargeEnergyData({
+              unit: 'kWh',
+              station_names_array: json['microgrid_names'] || [],
+              subtotals_array: [
+                json['reporting']['charge_7_days']['values_array'] || [],
+                json['reporting']['charge_this_month']['values_array'] || [],
+                json['reporting']['charge_this_year']['values_array'] || []
+              ]
+            });
+            setDischargeEnergyData({
+              unit: 'kWh',
+              station_names_array: json['microgrid_names'] || [],
+              subtotals_array: [
+                json['reporting']['discharge_7_days']['values_array'] || [],
+                json['reporting']['discharge_this_month']['values_array'] || [],
+                json['reporting']['discharge_this_year']['values_array'] || []
+              ]
+            });
+            setEnergyLabels([
+              json['reporting']['charge_7_days']['timestamps_array'][0] || [],
+              json['reporting']['charge_this_month']['timestamps_array'][0] || [],
+              json['reporting']['charge_this_year']['timestamps_array'][0] || []
+            ]);
+          }
+        });
+    },
+    [isMicrogridsEnergyFetched]
+  );
 
   // Load energy data when microgrid is selected (first tab - auto load)
   useEffect(() => {
@@ -491,303 +507,324 @@ const ItemDashboard = ({ setRedirect, setRedirectUrl, t }) => {
     loadEnergyDataFunc(user_uuid, selectedMicrogrid);
   }, [selectedMicrogrid, loadEnergyDataFunc]);
 
-  const loadBillingData = useCallback((user_uuid) => {
-    if (isMicrogridsBillingFetched || !selectedMicrogrid) return;
-    setIsMicrogridsBillingFetched(true);
-    let isResponseOK = false;
-    fetch(APIBaseURL + '/reports/microgridsbilling?useruuid=' + user_uuid + '&microgridid=' + selectedMicrogrid, {
-      method: 'GET',
-      headers: {
-        'Content-type': 'application/json',
-        'User-UUID': getCookieValue('user_uuid'),
-        Token: getCookieValue('token')
-      },
-      body: null
-    })
-      .then(response => {
-        if (response.ok) {
-          isResponseOK = true;
-        }
-        return response.json();
+  const loadBillingData = useCallback(
+    user_uuid => {
+      if (isMicrogridsBillingFetched || !selectedMicrogrid) return;
+      setIsMicrogridsBillingFetched(true);
+      let isResponseOK = false;
+      fetch(APIBaseURL + '/reports/microgridsbilling?useruuid=' + user_uuid + '&microgridid=' + selectedMicrogrid, {
+        method: 'GET',
+        headers: {
+          'Content-type': 'application/json',
+          'User-UUID': getCookieValue('user_uuid'),
+          Token: getCookieValue('token')
+        },
+        body: null
       })
-      .then(json => {
-        if (isResponseOK) {
-          console.log(json);
-          setChargeBillingData({
-            unit: currency,
-            station_names_array: json['microgrid_names'] || [],
-            subtotals_array: [
-              json['reporting']['charge_7_days']['values_array'] || [],
-              json['reporting']['charge_this_month']['values_array'] || [],
-              json['reporting']['charge_this_year']['values_array'] || []
-            ]
-          });
-          setDischargeBillingData({
-            unit: currency,
-            station_names_array: json['microgrid_names'] || [],
-            subtotals_array: [
-              json['reporting']['discharge_7_days']['values_array'] || [],
-              json['reporting']['discharge_this_month']['values_array'] || [],
-              json['reporting']['discharge_this_year']['values_array'] || []
-            ]
-          });
-          setBillingLabels([
-            json['reporting']['charge_7_days']['timestamps_array'][0] || [],
-            json['reporting']['charge_this_month']['timestamps_array'][0] || [],
-            json['reporting']['charge_this_year']['timestamps_array'][0] || []
-          ]);
-        }
-      });
-  }, [currency, isMicrogridsBillingFetched, selectedMicrogrid]);
+        .then(response => {
+          if (response.ok) {
+            isResponseOK = true;
+          }
+          return response.json();
+        })
+        .then(json => {
+          if (isResponseOK) {
+            console.log(json);
+            setChargeBillingData({
+              unit: currency,
+              station_names_array: json['microgrid_names'] || [],
+              subtotals_array: [
+                json['reporting']['charge_7_days']['values_array'] || [],
+                json['reporting']['charge_this_month']['values_array'] || [],
+                json['reporting']['charge_this_year']['values_array'] || []
+              ]
+            });
+            setDischargeBillingData({
+              unit: currency,
+              station_names_array: json['microgrid_names'] || [],
+              subtotals_array: [
+                json['reporting']['discharge_7_days']['values_array'] || [],
+                json['reporting']['discharge_this_month']['values_array'] || [],
+                json['reporting']['discharge_this_year']['values_array'] || []
+              ]
+            });
+            setBillingLabels([
+              json['reporting']['charge_7_days']['timestamps_array'][0] || [],
+              json['reporting']['charge_this_month']['timestamps_array'][0] || [],
+              json['reporting']['charge_this_year']['timestamps_array'][0] || []
+            ]);
+          }
+        });
+    },
+    [currency, isMicrogridsBillingFetched, selectedMicrogrid]
+  );
 
-  const loadCarbonData = useCallback((user_uuid) => {
-    if (isMicrogridsCarbonFetched || !selectedMicrogrid) return;
-    setIsMicrogridsCarbonFetched(true);
-    let isResponseOK = false;
-    fetch(APIBaseURL + '/reports/microgridscarbon?useruuid=' + user_uuid + '&microgridid=' + selectedMicrogrid, {
-      method: 'GET',
-      headers: {
-        'Content-type': 'application/json',
-        'User-UUID': getCookieValue('user_uuid'),
-        Token: getCookieValue('token')
-      },
-      body: null
-    })
-      .then(response => {
-        if (response.ok) {
-          isResponseOK = true;
-        }
-        return response.json();
+  const loadCarbonData = useCallback(
+    user_uuid => {
+      if (isMicrogridsCarbonFetched || !selectedMicrogrid) return;
+      setIsMicrogridsCarbonFetched(true);
+      let isResponseOK = false;
+      fetch(APIBaseURL + '/reports/microgridscarbon?useruuid=' + user_uuid + '&microgridid=' + selectedMicrogrid, {
+        method: 'GET',
+        headers: {
+          'Content-type': 'application/json',
+          'User-UUID': getCookieValue('user_uuid'),
+          Token: getCookieValue('token')
+        },
+        body: null
       })
-      .then(json => {
-        if (isResponseOK) {
-          console.log(json);
-          setChargeCarbonData({
-            unit: 'kgCO2',
-            station_names_array: json['microgrid_names'] || [],
-            subtotals_array: [
-              json['reporting']['charge_7_days']['values_array'] || [],
-              json['reporting']['charge_this_month']['values_array'] || [],
-              json['reporting']['charge_this_year']['values_array'] || []
-            ]
-          });
-          setDischargeCarbonData({
-            unit: 'kgCO2',
-            station_names_array: json['microgrid_names'] || [],
-            subtotals_array: [
-              json['reporting']['discharge_7_days']['values_array'] || [],
-              json['reporting']['discharge_this_month']['values_array'] || [],
-              json['reporting']['discharge_this_year']['values_array'] || []
-            ]
-          });
-          setCarbonLabels([
-            json['reporting']['charge_7_days']['timestamps_array'][0] || [],
-            json['reporting']['charge_this_month']['timestamps_array'][0] || [],
-            json['reporting']['charge_this_year']['timestamps_array'][0] || []
-          ]);
-        }
-      });
-  }, [isMicrogridsCarbonFetched, selectedMicrogrid]);
+        .then(response => {
+          if (response.ok) {
+            isResponseOK = true;
+          }
+          return response.json();
+        })
+        .then(json => {
+          if (isResponseOK) {
+            console.log(json);
+            setChargeCarbonData({
+              unit: 'kgCO2',
+              station_names_array: json['microgrid_names'] || [],
+              subtotals_array: [
+                json['reporting']['charge_7_days']['values_array'] || [],
+                json['reporting']['charge_this_month']['values_array'] || [],
+                json['reporting']['charge_this_year']['values_array'] || []
+              ]
+            });
+            setDischargeCarbonData({
+              unit: 'kgCO2',
+              station_names_array: json['microgrid_names'] || [],
+              subtotals_array: [
+                json['reporting']['discharge_7_days']['values_array'] || [],
+                json['reporting']['discharge_this_month']['values_array'] || [],
+                json['reporting']['discharge_this_year']['values_array'] || []
+              ]
+            });
+            setCarbonLabels([
+              json['reporting']['charge_7_days']['timestamps_array'][0] || [],
+              json['reporting']['charge_this_month']['timestamps_array'][0] || [],
+              json['reporting']['charge_this_year']['timestamps_array'][0] || []
+            ]);
+          }
+        });
+    },
+    [isMicrogridsCarbonFetched, selectedMicrogrid]
+  );
 
-  const loadPhotovoltaicData = useCallback((user_uuid) => {
-    if (isMicrogridsPhotovoltaicFetched || !selectedMicrogrid) return;
-    setIsMicrogridsPhotovoltaicFetched(true);
-    let isResponseOK = false;
-    fetch(APIBaseURL + '/reports/microgridphotovoltaic?useruuid=' + user_uuid + '&microgridid=' + selectedMicrogrid, {
-      method: 'GET',
-      headers: {
-        'Content-type': 'application/json',
-        'User-UUID': getCookieValue('user_uuid'),
-        Token: getCookieValue('token')
-      },
-      body: null
-    })
-      .then(response => {
-        if (response.ok) {
-          isResponseOK = true;
-        }
-        return response.json();
+  const loadPhotovoltaicData = useCallback(
+    user_uuid => {
+      if (isMicrogridsPhotovoltaicFetched || !selectedMicrogrid) return;
+      setIsMicrogridsPhotovoltaicFetched(true);
+      let isResponseOK = false;
+      fetch(APIBaseURL + '/reports/microgridphotovoltaic?useruuid=' + user_uuid + '&microgridid=' + selectedMicrogrid, {
+        method: 'GET',
+        headers: {
+          'Content-type': 'application/json',
+          'User-UUID': getCookieValue('user_uuid'),
+          Token: getCookieValue('token')
+        },
+        body: null
       })
-      .then(json => {
-        if (isResponseOK) {
-          console.log(json);
-          setPhotovoltaicEnergyData({
-            unit: 'kWh',
-            station_names_array: json['microgrid_names'] || [],
-            subtotals_array: [
-              json['reporting']['photovoltaic_7_days']['values_array'] || [],
-              json['reporting']['photovoltaic_this_month']['values_array'] || [],
-              json['reporting']['photovoltaic_this_year']['values_array'] || []
-            ]
-          });
-          setPhotovoltaicLabels([
-            json['reporting']['photovoltaic_7_days']['timestamps_array'][0] || [],
-            json['reporting']['photovoltaic_this_month']['timestamps_array'][0] || [],
-            json['reporting']['photovoltaic_this_year']['timestamps_array'][0] || []
-          ]);
-        }
-      });
-  }, [isMicrogridsPhotovoltaicFetched, selectedMicrogrid]);
+        .then(response => {
+          if (response.ok) {
+            isResponseOK = true;
+          }
+          return response.json();
+        })
+        .then(json => {
+          if (isResponseOK) {
+            console.log(json);
+            setPhotovoltaicEnergyData({
+              unit: 'kWh',
+              station_names_array: json['microgrid_names'] || [],
+              subtotals_array: [
+                json['reporting']['photovoltaic_7_days']['values_array'] || [],
+                json['reporting']['photovoltaic_this_month']['values_array'] || [],
+                json['reporting']['photovoltaic_this_year']['values_array'] || []
+              ]
+            });
+            setPhotovoltaicLabels([
+              json['reporting']['photovoltaic_7_days']['timestamps_array'][0] || [],
+              json['reporting']['photovoltaic_this_month']['timestamps_array'][0] || [],
+              json['reporting']['photovoltaic_this_year']['timestamps_array'][0] || []
+            ]);
+          }
+        });
+    },
+    [isMicrogridsPhotovoltaicFetched, selectedMicrogrid]
+  );
 
-  const loadEvchargerData = useCallback((user_uuid) => {
-    if (isMicrogridsEvchargerFetched || !selectedMicrogrid) return;
-    setIsMicrogridsEvchargerFetched(true);
-    let isResponseOK = false;
-    fetch(APIBaseURL + '/reports/microgridevcharger?useruuid=' + user_uuid + '&microgridid=' + selectedMicrogrid, {
-      method: 'GET',
-      headers: {
-        'Content-type': 'application/json',
-        'User-UUID': getCookieValue('user_uuid'),
-        Token: getCookieValue('token')
-      },
-      body: null
-    })
-      .then(response => {
-        if (response.ok) {
-          isResponseOK = true;
-        }
-        return response.json();
+  const loadEvchargerData = useCallback(
+    user_uuid => {
+      if (isMicrogridsEvchargerFetched || !selectedMicrogrid) return;
+      setIsMicrogridsEvchargerFetched(true);
+      let isResponseOK = false;
+      fetch(APIBaseURL + '/reports/microgridevcharger?useruuid=' + user_uuid + '&microgridid=' + selectedMicrogrid, {
+        method: 'GET',
+        headers: {
+          'Content-type': 'application/json',
+          'User-UUID': getCookieValue('user_uuid'),
+          Token: getCookieValue('token')
+        },
+        body: null
       })
-      .then(json => {
-        if (isResponseOK) {
-          console.log(json);
-          setEvchargerEnergyData({
-            unit: 'kWh',
-            station_names_array: json['microgrid_names'] || [],
-            subtotals_array: [
-              json['reporting']['evcharger_7_days']['values_array'] || [],
-              json['reporting']['evcharger_this_month']['values_array'] || [],
-              json['reporting']['evcharger_this_year']['values_array'] || []
-            ]
-          });
-          setEvchargerLabels([
-            json['reporting']['evcharger_7_days']['timestamps_array'][0] || [],
-            json['reporting']['evcharger_this_month']['timestamps_array'][0] || [],
-            json['reporting']['evcharger_this_year']['timestamps_array'][0] || []
-          ]);
-        }
-      });
-  }, [isMicrogridsEvchargerFetched, selectedMicrogrid]);
+        .then(response => {
+          if (response.ok) {
+            isResponseOK = true;
+          }
+          return response.json();
+        })
+        .then(json => {
+          if (isResponseOK) {
+            console.log(json);
+            setEvchargerEnergyData({
+              unit: 'kWh',
+              station_names_array: json['microgrid_names'] || [],
+              subtotals_array: [
+                json['reporting']['evcharger_7_days']['values_array'] || [],
+                json['reporting']['evcharger_this_month']['values_array'] || [],
+                json['reporting']['evcharger_this_year']['values_array'] || []
+              ]
+            });
+            setEvchargerLabels([
+              json['reporting']['evcharger_7_days']['timestamps_array'][0] || [],
+              json['reporting']['evcharger_this_month']['timestamps_array'][0] || [],
+              json['reporting']['evcharger_this_year']['timestamps_array'][0] || []
+            ]);
+          }
+        });
+    },
+    [isMicrogridsEvchargerFetched, selectedMicrogrid]
+  );
 
-  const loadLoadData = useCallback((user_uuid) => {
-    if (isMicrogridsLoadFetched || !selectedMicrogrid) return;
-    setIsMicrogridsLoadFetched(true);
-    let isResponseOK = false;
-    fetch(APIBaseURL + '/reports/microgridload?useruuid=' + user_uuid + '&microgridid=' + selectedMicrogrid, {
-      method: 'GET',
-      headers: {
-        'Content-type': 'application/json',
-        'User-UUID': getCookieValue('user_uuid'),
-        Token: getCookieValue('token')
-      },
-      body: null
-    })
-      .then(response => {
-        if (response.ok) {
-          isResponseOK = true;
-        }
-        return response.json();
+  const loadLoadData = useCallback(
+    user_uuid => {
+      if (isMicrogridsLoadFetched || !selectedMicrogrid) return;
+      setIsMicrogridsLoadFetched(true);
+      let isResponseOK = false;
+      fetch(APIBaseURL + '/reports/microgridload?useruuid=' + user_uuid + '&microgridid=' + selectedMicrogrid, {
+        method: 'GET',
+        headers: {
+          'Content-type': 'application/json',
+          'User-UUID': getCookieValue('user_uuid'),
+          Token: getCookieValue('token')
+        },
+        body: null
       })
-      .then(json => {
-        if (isResponseOK) {
-          console.log(json);
-          setLoadEnergyData({
-            unit: 'kWh',
-            station_names_array: json['microgrid_names'] || [],
-            subtotals_array: [
-              json['reporting']['load_7_days']['values_array'] || [],
-              json['reporting']['load_this_month']['values_array'] || [],
-              json['reporting']['load_this_year']['values_array'] || []
-            ]
-          });
-          setLoadLabels([
-            json['reporting']['load_7_days']['timestamps_array'][0] || [],
-            json['reporting']['load_this_month']['timestamps_array'][0] || [],
-            json['reporting']['load_this_year']['timestamps_array'][0] || []
-          ]);
-        }
-      });
-  }, [isMicrogridsLoadFetched, selectedMicrogrid]);
+        .then(response => {
+          if (response.ok) {
+            isResponseOK = true;
+          }
+          return response.json();
+        })
+        .then(json => {
+          if (isResponseOK) {
+            console.log(json);
+            setLoadEnergyData({
+              unit: 'kWh',
+              station_names_array: json['microgrid_names'] || [],
+              subtotals_array: [
+                json['reporting']['load_7_days']['values_array'] || [],
+                json['reporting']['load_this_month']['values_array'] || [],
+                json['reporting']['load_this_year']['values_array'] || []
+              ]
+            });
+            setLoadLabels([
+              json['reporting']['load_7_days']['timestamps_array'][0] || [],
+              json['reporting']['load_this_month']['timestamps_array'][0] || [],
+              json['reporting']['load_this_year']['timestamps_array'][0] || []
+            ]);
+          }
+        });
+    },
+    [isMicrogridsLoadFetched, selectedMicrogrid]
+  );
 
-  const loadGridBuyData = useCallback((user_uuid) => {
-    if (isMicrogridsGridBuyFetched || !selectedMicrogrid) return;
-    setIsMicrogridsGridBuyFetched(true);
-    let isResponseOK = false;
-    fetch(APIBaseURL + '/reports/microgridgridbuy?useruuid=' + user_uuid + '&microgridid=' + selectedMicrogrid, {
-      method: 'GET',
-      headers: {
-        'Content-type': 'application/json',
-        'User-UUID': getCookieValue('user_uuid'),
-        Token: getCookieValue('token')
-      },
-      body: null
-    })
-      .then(response => {
-        if (response.ok) {
-          isResponseOK = true;
-        }
-        return response.json();
+  const loadGridBuyData = useCallback(
+    user_uuid => {
+      if (isMicrogridsGridBuyFetched || !selectedMicrogrid) return;
+      setIsMicrogridsGridBuyFetched(true);
+      let isResponseOK = false;
+      fetch(APIBaseURL + '/reports/microgridgridbuy?useruuid=' + user_uuid + '&microgridid=' + selectedMicrogrid, {
+        method: 'GET',
+        headers: {
+          'Content-type': 'application/json',
+          'User-UUID': getCookieValue('user_uuid'),
+          Token: getCookieValue('token')
+        },
+        body: null
       })
-      .then(json => {
-        if (isResponseOK) {
-          console.log(json);
-          setGridBuyEnergyData({
-            unit: 'kWh',
-            station_names_array: json['microgrid_names'] || [],
-            subtotals_array: [
-              json['reporting']['grid_buy_7_days']['values_array'] || [],
-              json['reporting']['grid_buy_this_month']['values_array'] || [],
-              json['reporting']['grid_buy_this_year']['values_array'] || []
-            ]
-          });
-          setGridBuyLabels([
-            json['reporting']['grid_buy_7_days']['timestamps_array'][0] || [],
-            json['reporting']['grid_buy_this_month']['timestamps_array'][0] || [],
-            json['reporting']['grid_buy_this_year']['timestamps_array'][0] || []
-          ]);
-        }
-      });
-  }, [isMicrogridsGridBuyFetched, selectedMicrogrid]);
+        .then(response => {
+          if (response.ok) {
+            isResponseOK = true;
+          }
+          return response.json();
+        })
+        .then(json => {
+          if (isResponseOK) {
+            console.log(json);
+            setGridBuyEnergyData({
+              unit: 'kWh',
+              station_names_array: json['microgrid_names'] || [],
+              subtotals_array: [
+                json['reporting']['grid_buy_7_days']['values_array'] || [],
+                json['reporting']['grid_buy_this_month']['values_array'] || [],
+                json['reporting']['grid_buy_this_year']['values_array'] || []
+              ]
+            });
+            setGridBuyLabels([
+              json['reporting']['grid_buy_7_days']['timestamps_array'][0] || [],
+              json['reporting']['grid_buy_this_month']['timestamps_array'][0] || [],
+              json['reporting']['grid_buy_this_year']['timestamps_array'][0] || []
+            ]);
+          }
+        });
+    },
+    [isMicrogridsGridBuyFetched, selectedMicrogrid]
+  );
 
-  const loadGridSellData = useCallback((user_uuid) => {
-    if (isMicrogridsGridSellFetched || !selectedMicrogrid) return;
-    setIsMicrogridsGridSellFetched(true);
-    let isResponseOK = false;
-    fetch(APIBaseURL + '/reports/microgridgridsell?useruuid=' + user_uuid + '&microgridid=' + selectedMicrogrid, {
-      method: 'GET',
-      headers: {
-        'Content-type': 'application/json',
-        'User-UUID': getCookieValue('user_uuid'),
-        Token: getCookieValue('token')
-      },
-      body: null
-    })
-      .then(response => {
-        if (response.ok) {
-          isResponseOK = true;
-        }
-        return response.json();
+  const loadGridSellData = useCallback(
+    user_uuid => {
+      if (isMicrogridsGridSellFetched || !selectedMicrogrid) return;
+      setIsMicrogridsGridSellFetched(true);
+      let isResponseOK = false;
+      fetch(APIBaseURL + '/reports/microgridgridsell?useruuid=' + user_uuid + '&microgridid=' + selectedMicrogrid, {
+        method: 'GET',
+        headers: {
+          'Content-type': 'application/json',
+          'User-UUID': getCookieValue('user_uuid'),
+          Token: getCookieValue('token')
+        },
+        body: null
       })
-      .then(json => {
-        if (isResponseOK) {
-          console.log(json);
-          setGridSellEnergyData({
-            unit: 'kWh',
-            station_names_array: json['microgrid_names'] || [],
-            subtotals_array: [
-              json['reporting']['grid_sell_7_days']['values_array'] || [],
-              json['reporting']['grid_sell_this_month']['values_array'] || [],
-              json['reporting']['grid_sell_this_year']['values_array'] || []
-            ]
-          });
-          setGridSellLabels([
-            json['reporting']['grid_sell_7_days']['timestamps_array'][0] || [],
-            json['reporting']['grid_sell_this_month']['timestamps_array'][0] || [],
-            json['reporting']['grid_sell_this_year']['timestamps_array'][0] || []
-          ]);
-        }
-      });
-  }, [isMicrogridsGridSellFetched, selectedMicrogrid]);
+        .then(response => {
+          if (response.ok) {
+            isResponseOK = true;
+          }
+          return response.json();
+        })
+        .then(json => {
+          if (isResponseOK) {
+            console.log(json);
+            setGridSellEnergyData({
+              unit: 'kWh',
+              station_names_array: json['microgrid_names'] || [],
+              subtotals_array: [
+                json['reporting']['grid_sell_7_days']['values_array'] || [],
+                json['reporting']['grid_sell_this_month']['values_array'] || [],
+                json['reporting']['grid_sell_this_year']['values_array'] || []
+              ]
+            });
+            setGridSellLabels([
+              json['reporting']['grid_sell_7_days']['timestamps_array'][0] || [],
+              json['reporting']['grid_sell_this_month']['timestamps_array'][0] || [],
+              json['reporting']['grid_sell_this_year']['timestamps_array'][0] || []
+            ]);
+          }
+        });
+    },
+    [isMicrogridsGridSellFetched, selectedMicrogrid]
+  );
 
   useEffect(() => {
     let timer = setInterval(() => {
@@ -811,7 +848,12 @@ const ItemDashboard = ({ setRedirect, setRedirectUrl, t }) => {
           <Col xs={6} sm={3} hidden={spaceCascaderHidden}>
             <FormGroup className="form-group">
               {cascaderOptions && cascaderOptions.length > 0 ? (
-                <Cascader options={cascaderOptions} onChange={onSpaceCascaderChange} changeOnSelect expandTrigger="hover">
+                <Cascader
+                  options={cascaderOptions}
+                  onChange={onSpaceCascaderChange}
+                  changeOnSelect
+                  expandTrigger="hover"
+                >
                   <Input bsSize="sm" value={selectedSpaceName || ''} readOnly placeholder={t('Select Space')} />
                 </Cascader>
               ) : (
@@ -848,7 +890,6 @@ const ItemDashboard = ({ setRedirect, setRedirectUrl, t }) => {
         </Row>
       </Form>
       <div className="card-deck">
-
         <CardSummary rate={''} title={t('Total Rated Power')} footunit={'kW'} color="ratedPower">
           {1 && <CountUp end={totalRatedPower} duration={2} prefix="" separator="," decimal="." decimals={2} />}
         </CardSummary>
@@ -973,8 +1014,16 @@ const ItemDashboard = ({ setRedirect, setRedirectUrl, t }) => {
                   chargeData={chargeEnergyData}
                   dischargeData={dischargeEnergyData}
                   periodTypes={periodTypes}
-                  chargeLabelPrefix={chargeEnergyData && chargeEnergyData['unit'] ? t('Microgrid Energy') + ' ' + t('Charge UNIT', { UNIT: chargeEnergyData['unit'] }) : undefined}
-                  dischargeLabelPrefix={dischargeEnergyData && dischargeEnergyData['unit'] ? t('Microgrid Energy') + ' ' + t('Discharge UNIT', { UNIT: dischargeEnergyData['unit'] }) : undefined}
+                  chargeLabelPrefix={
+                    chargeEnergyData && chargeEnergyData['unit']
+                      ? t('Microgrid Energy') + ' ' + t('Charge UNIT', { UNIT: chargeEnergyData['unit'] })
+                      : undefined
+                  }
+                  dischargeLabelPrefix={
+                    dischargeEnergyData && dischargeEnergyData['unit']
+                      ? t('Microgrid Energy') + ' ' + t('Discharge UNIT', { UNIT: dischargeEnergyData['unit'] })
+                      : undefined
+                  }
                 />
               </TabPane>
               <TabPane tabId="2">
@@ -983,8 +1032,16 @@ const ItemDashboard = ({ setRedirect, setRedirectUrl, t }) => {
                   chargeData={chargeBillingData}
                   dischargeData={dischargeBillingData}
                   periodTypes={periodTypes}
-                  chargeLabelPrefix={chargeBillingData && chargeBillingData['unit'] ? t('Microgrid Revenue') + ' ' + t('Charge UNIT', { UNIT: chargeBillingData['unit'] }) : undefined}
-                  dischargeLabelPrefix={dischargeBillingData && dischargeBillingData['unit'] ? t('Microgrid Revenue') + ' ' + t('Discharge UNIT', { UNIT: dischargeBillingData['unit'] }) : undefined}
+                  chargeLabelPrefix={
+                    chargeBillingData && chargeBillingData['unit']
+                      ? t('Microgrid Revenue') + ' ' + t('Charge UNIT', { UNIT: chargeBillingData['unit'] })
+                      : undefined
+                  }
+                  dischargeLabelPrefix={
+                    dischargeBillingData && dischargeBillingData['unit']
+                      ? t('Microgrid Revenue') + ' ' + t('Discharge UNIT', { UNIT: dischargeBillingData['unit'] })
+                      : undefined
+                  }
                 />
               </TabPane>
               <TabPane tabId="3">
@@ -993,8 +1050,16 @@ const ItemDashboard = ({ setRedirect, setRedirectUrl, t }) => {
                   chargeData={chargeCarbonData}
                   dischargeData={dischargeCarbonData}
                   periodTypes={periodTypes}
-                  chargeLabelPrefix={chargeCarbonData && chargeCarbonData['unit'] ? t('Microgrid Carbon') + ' ' + t('Charge UNIT', { UNIT: chargeCarbonData['unit'] }) : undefined}
-                  dischargeLabelPrefix={dischargeCarbonData && dischargeCarbonData['unit'] ? t('Microgrid Carbon') + ' ' + t('Discharge UNIT', { UNIT: dischargeCarbonData['unit'] }) : undefined}
+                  chargeLabelPrefix={
+                    chargeCarbonData && chargeCarbonData['unit']
+                      ? t('Microgrid Carbon') + ' ' + t('Charge UNIT', { UNIT: chargeCarbonData['unit'] })
+                      : undefined
+                  }
+                  dischargeLabelPrefix={
+                    dischargeCarbonData && dischargeCarbonData['unit']
+                      ? t('Microgrid Carbon') + ' ' + t('Discharge UNIT', { UNIT: dischargeCarbonData['unit'] })
+                      : undefined
+                  }
                 />
               </TabPane>
               <TabPane tabId="4">
@@ -1003,7 +1068,11 @@ const ItemDashboard = ({ setRedirect, setRedirectUrl, t }) => {
                   chargeData={photovoltaicEnergyData}
                   dischargeData={{ unit: 'kWh', station_names_array: [], subtotals_array: [] }}
                   periodTypes={periodTypes}
-                  chargeLabelPrefix={photovoltaicEnergyData && photovoltaicEnergyData['unit'] ? t('Photovoltaic Generation') + ' ' + photovoltaicEnergyData['unit'] : undefined}
+                  chargeLabelPrefix={
+                    photovoltaicEnergyData && photovoltaicEnergyData['unit']
+                      ? t('Photovoltaic Generation') + ' ' + photovoltaicEnergyData['unit']
+                      : undefined
+                  }
                 />
               </TabPane>
               <TabPane tabId="5">
@@ -1012,7 +1081,11 @@ const ItemDashboard = ({ setRedirect, setRedirectUrl, t }) => {
                   chargeData={evchargerEnergyData}
                   dischargeData={{ unit: 'kWh', station_names_array: [], subtotals_array: [] }}
                   periodTypes={periodTypes}
-                  chargeLabelPrefix={evchargerEnergyData && evchargerEnergyData['unit'] ? t('EV Charger Consumption') + ' ' + evchargerEnergyData['unit'] : undefined}
+                  chargeLabelPrefix={
+                    evchargerEnergyData && evchargerEnergyData['unit']
+                      ? t('EV Charger Consumption') + ' ' + evchargerEnergyData['unit']
+                      : undefined
+                  }
                 />
               </TabPane>
               <TabPane tabId="6">
@@ -1021,7 +1094,11 @@ const ItemDashboard = ({ setRedirect, setRedirectUrl, t }) => {
                   chargeData={loadEnergyData}
                   dischargeData={{ unit: 'kWh', station_names_array: [], subtotals_array: [] }}
                   periodTypes={periodTypes}
-                  chargeLabelPrefix={loadEnergyData && loadEnergyData['unit'] ? t('Load Consumption') + ' ' + loadEnergyData['unit'] : undefined}
+                  chargeLabelPrefix={
+                    loadEnergyData && loadEnergyData['unit']
+                      ? t('Load Consumption') + ' ' + loadEnergyData['unit']
+                      : undefined
+                  }
                 />
               </TabPane>
               <TabPane tabId="7">
@@ -1030,7 +1107,11 @@ const ItemDashboard = ({ setRedirect, setRedirectUrl, t }) => {
                   chargeData={gridBuyEnergyData}
                   dischargeData={{ unit: 'kWh', station_names_array: [], subtotals_array: [] }}
                   periodTypes={periodTypes}
-                  chargeLabelPrefix={gridBuyEnergyData && gridBuyEnergyData['unit'] ? t('Grid Buy') + ' ' + gridBuyEnergyData['unit'] : undefined}
+                  chargeLabelPrefix={
+                    gridBuyEnergyData && gridBuyEnergyData['unit']
+                      ? t('Grid Buy') + ' ' + gridBuyEnergyData['unit']
+                      : undefined
+                  }
                 />
               </TabPane>
               <TabPane tabId="8">
@@ -1039,7 +1120,11 @@ const ItemDashboard = ({ setRedirect, setRedirectUrl, t }) => {
                   chargeData={gridSellEnergyData}
                   dischargeData={{ unit: 'kWh', station_names_array: [], subtotals_array: [] }}
                   periodTypes={periodTypes}
-                  chargeLabelPrefix={gridSellEnergyData && gridSellEnergyData['unit'] ? t('Grid Sell') + ' ' + gridSellEnergyData['unit'] : undefined}
+                  chargeLabelPrefix={
+                    gridSellEnergyData && gridSellEnergyData['unit']
+                      ? t('Grid Sell') + ' ' + gridSellEnergyData['unit']
+                      : undefined
+                  }
                 />
               </TabPane>
             </TabContent>

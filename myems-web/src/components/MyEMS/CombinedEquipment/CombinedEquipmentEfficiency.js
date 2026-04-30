@@ -22,7 +22,7 @@ import loadable from '@loadable/component';
 import Cascader from 'rc-cascader';
 import CardSummary from '../common/CardSummary';
 import MultiTrendChart from '../common/MultiTrendChart';
-import { getCookieValue, createCookie, checkEmpty,handleAPIError } from '../../../helpers/utils';
+import { getCookieValue, createCookie, checkEmpty, handleAPIError } from '../../../helpers/utils';
 import withRedirect from '../../../hoc/withRedirect';
 import { withTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
@@ -169,7 +169,7 @@ const CombinedEquipmentEfficiency = ({ setRedirect, setRedirectUrl, t }) => {
 
     const efficiencyIndicatorPlugin = {
       id: efficiencyIndicatorPluginId,
-      beforeUpdate: (chart) => {
+      beforeUpdate: chart => {
         if (isUpdatingRef.current) {
           return;
         }
@@ -193,7 +193,7 @@ const CombinedEquipmentEfficiency = ({ setRedirect, setRedirectUrl, t }) => {
           return;
         }
 
-        const getLabelRangeKey = (labels) => {
+        const getLabelRangeKey = labels => {
           if (!Array.isArray(labels) || labels.length === 0) {
             return null;
           }
@@ -228,9 +228,7 @@ const CombinedEquipmentEfficiency = ({ setRedirect, setRedirectUrl, t }) => {
           }
         }
 
-        const existingIndicatorIndex = chart.data.datasets.findIndex(
-          ds => ds._efficiencyIndicator === true
-        );
+        const existingIndicatorIndex = chart.data.datasets.findIndex(ds => ds._efficiencyIndicator === true);
 
         if (!currentOption || !currentSeries[currentOption]) {
           if (existingIndicatorIndex >= 0) {
@@ -242,7 +240,8 @@ const CombinedEquipmentEfficiency = ({ setRedirect, setRedirectUrl, t }) => {
         }
 
         const indicatorData = currentSeries[currentOption];
-        const needsUpdate = existingIndicatorIndex < 0 ||
+        const needsUpdate =
+          existingIndicatorIndex < 0 ||
           JSON.stringify(chart.data.datasets[existingIndicatorIndex].data) !== JSON.stringify(indicatorData);
 
         if (needsUpdate) {
@@ -418,7 +417,7 @@ const CombinedEquipmentEfficiency = ({ setRedirect, setRedirectUrl, t }) => {
           }
           if (baseTitle) {
             const result = baseTitle.call(this, context);
-            return Array.isArray(result) ? result : (result ? [result] : []);
+            return Array.isArray(result) ? result : result ? [result] : [];
           }
           return [];
         };
@@ -428,8 +427,8 @@ const CombinedEquipmentEfficiency = ({ setRedirect, setRedirectUrl, t }) => {
 
       const currentVersion = efficiencyIndicatorVersionRef.current;
       const versionChanged = chart._efficiencyIndicatorLastVersion !== currentVersion;
-      const justRegistered = chart._efficiencyIndicatorPluginRegistered === true &&
-        chart._efficiencyIndicatorLastVersion === undefined;
+      const justRegistered =
+        chart._efficiencyIndicatorPluginRegistered === true && chart._efficiencyIndicatorLastVersion === undefined;
 
       if (versionChanged || justRegistered) {
         chart._efficiencyIndicatorLastVersion = currentVersion;
@@ -517,7 +516,7 @@ const CombinedEquipmentEfficiency = ({ setRedirect, setRedirectUrl, t }) => {
                   setSubmitButtonDisabled(true);
                 }
               } else {
-                handleAPIError(json, setRedirect, setRedirectUrl, t, toast)
+                handleAPIError(json, setRedirect, setRedirectUrl, t, toast);
               }
             })
             .catch(err => {
@@ -525,7 +524,7 @@ const CombinedEquipmentEfficiency = ({ setRedirect, setRedirectUrl, t }) => {
             });
           // end of get CombinedEquipments by root Space ID
         } else {
-          handleAPIError(json, setRedirect, setRedirectUrl, t, toast)
+          handleAPIError(json, setRedirect, setRedirectUrl, t, toast);
         }
       })
       .catch(err => {
@@ -577,7 +576,7 @@ const CombinedEquipmentEfficiency = ({ setRedirect, setRedirectUrl, t }) => {
           // hide export button
           setExportButtonHidden(true);
         } else {
-          handleAPIError(json, setRedirect, setRedirectUrl, t, toast)
+          handleAPIError(json, setRedirect, setRedirectUrl, t, toast);
         }
       })
       .catch(err => {
@@ -907,17 +906,12 @@ const CombinedEquipmentEfficiency = ({ setRedirect, setRedirectUrl, t }) => {
           setCombinedEquipmentReportingLabels(reporting_timestamps);
 
           let indicatorSeries = {};
-          if (
-            json['combined_equipment'] &&
-            json['combined_equipment']['efficiency_indicator'] !== undefined
-          ) {
+          if (json['combined_equipment'] && json['combined_equipment']['efficiency_indicator'] !== undefined) {
             const indicatorValue = json['combined_equipment']['efficiency_indicator'];
             Object.keys(reporting_timestamps).forEach(key => {
               const ts = reporting_timestamps[key] || [];
               indicatorSeries[key] = ts.map(() =>
-                indicatorValue != null && !isNaN(indicatorValue)
-                  ? parseFloat(indicatorValue)
-                  : null
+                indicatorValue != null && !isNaN(indicatorValue) ? parseFloat(indicatorValue) : null
               );
             });
           }
@@ -1381,7 +1375,7 @@ const CombinedEquipmentEfficiency = ({ setRedirect, setRedirectUrl, t }) => {
           // show result data
           setResultDataHidden(false);
         } else {
-          handleAPIError(json, setRedirect, setRedirectUrl, t, toast)
+          handleAPIError(json, setRedirect, setRedirectUrl, t, toast);
         }
       })
       .catch(err => {
@@ -1568,7 +1562,10 @@ const CombinedEquipmentEfficiency = ({ setRedirect, setRedirectUrl, t }) => {
           </Form>
         </CardBody>
       </Card>
-      <div className="blank-page-image-container" style={{ visibility: resultDataHidden ? 'visible' : 'hidden', display: resultDataHidden ? '' : 'none' }}>
+      <div
+        className="blank-page-image-container"
+        style={{ visibility: resultDataHidden ? 'visible' : 'hidden', display: resultDataHidden ? '' : 'none' }}
+      >
         <img className="img-fluid" src={blankPage} alt="" />
       </div>
       <div style={{ visibility: resultDataHidden ? 'hidden' : 'visible', display: resultDataHidden ? 'none' : '' }}>
@@ -1658,42 +1655,42 @@ const CombinedEquipmentEfficiency = ({ setRedirect, setRedirectUrl, t }) => {
         )}
 
         <div ref={chartContainerRef}>
-        <MultiTrendChart
-          reportingTitle={{
-            name: 'Reporting Period Cumulative Efficiency NAME VALUE UNIT',
-            substitute: ['NAME', 'VALUE', 'UNIT'],
-            NAME: combinedEquipmentBaseAndReportingNames,
-            VALUE: combinedEquipmentReportingSubtotals,
-            UNIT: combinedEquipmentBaseAndReportingUnits
-          }}
-          baseTitle={{
-            name: 'Base Period Cumulative Efficiency NAME VALUE UNIT',
-            substitute: ['NAME', 'VALUE', 'UNIT'],
-            NAME: combinedEquipmentBaseAndReportingNames,
-            VALUE: combinedEquipmentBaseSubtotals,
-            UNIT: combinedEquipmentBaseAndReportingUnits
-          }}
-          reportingTooltipTitle={{
-            name: 'Reporting Period Cumulative Efficiency NAME VALUE UNIT',
-            substitute: ['NAME', 'VALUE', 'UNIT'],
-            NAME: combinedEquipmentBaseAndReportingNames,
-            VALUE: null,
-            UNIT: combinedEquipmentBaseAndReportingUnits
-          }}
-          baseTooltipTitle={{
-            name: 'Base Period Cumulative Efficiency NAME VALUE UNIT',
-            substitute: ['NAME', 'VALUE', 'UNIT'],
-            NAME: combinedEquipmentBaseAndReportingNames,
-            VALUE: null,
-            UNIT: combinedEquipmentBaseAndReportingUnits
-          }}
-          reportingLabels={combinedEquipmentReportingLabels}
-          reportingData={combinedEquipmentReportingData}
-          baseLabels={combinedEquipmentBaseLabels}
-          baseData={combinedEquipmentBaseData}
-          rates={combinedEquipmentReportingRates}
-          options={combinedEquipmentReportingOptions}
-        />
+          <MultiTrendChart
+            reportingTitle={{
+              name: 'Reporting Period Cumulative Efficiency NAME VALUE UNIT',
+              substitute: ['NAME', 'VALUE', 'UNIT'],
+              NAME: combinedEquipmentBaseAndReportingNames,
+              VALUE: combinedEquipmentReportingSubtotals,
+              UNIT: combinedEquipmentBaseAndReportingUnits
+            }}
+            baseTitle={{
+              name: 'Base Period Cumulative Efficiency NAME VALUE UNIT',
+              substitute: ['NAME', 'VALUE', 'UNIT'],
+              NAME: combinedEquipmentBaseAndReportingNames,
+              VALUE: combinedEquipmentBaseSubtotals,
+              UNIT: combinedEquipmentBaseAndReportingUnits
+            }}
+            reportingTooltipTitle={{
+              name: 'Reporting Period Cumulative Efficiency NAME VALUE UNIT',
+              substitute: ['NAME', 'VALUE', 'UNIT'],
+              NAME: combinedEquipmentBaseAndReportingNames,
+              VALUE: null,
+              UNIT: combinedEquipmentBaseAndReportingUnits
+            }}
+            baseTooltipTitle={{
+              name: 'Base Period Cumulative Efficiency NAME VALUE UNIT',
+              substitute: ['NAME', 'VALUE', 'UNIT'],
+              NAME: combinedEquipmentBaseAndReportingNames,
+              VALUE: null,
+              UNIT: combinedEquipmentBaseAndReportingUnits
+            }}
+            reportingLabels={combinedEquipmentReportingLabels}
+            reportingData={combinedEquipmentReportingData}
+            baseLabels={combinedEquipmentBaseLabels}
+            baseData={combinedEquipmentBaseData}
+            rates={combinedEquipmentReportingRates}
+            options={combinedEquipmentReportingOptions}
+          />
         </div>
 
         <MultipleLineChart

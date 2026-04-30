@@ -1,9 +1,26 @@
 import React, { Fragment, useState, useEffect, useContext } from 'react';
-import { Card, CardBody, Col, Row, Table, Nav, NavItem, NavLink, TabContent, TabPane, Button, Form, FormGroup, Input, CustomInput, Spinner } from 'reactstrap';
+import {
+  Card,
+  CardBody,
+  Col,
+  Row,
+  Table,
+  Nav,
+  NavItem,
+  NavLink,
+  TabContent,
+  TabPane,
+  Button,
+  Form,
+  FormGroup,
+  Input,
+  CustomInput,
+  Spinner
+} from 'reactstrap';
 import Cascader from 'rc-cascader';
 import MultipleLineChart from '../common/MultipleLineChart';
 import SectionLineChart from '../common/SectionLineChart';
-import { getCookieValue, createCookie, checkEmpty,handleAPIError } from '../../../helpers/utils';
+import { getCookieValue, createCookie, checkEmpty, handleAPIError } from '../../../helpers/utils';
 import withRedirect from '../../../hoc/withRedirect';
 import { withTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
@@ -83,11 +100,14 @@ const MicrogridDetails = ({ setRedirect, setRedirectUrl, t }) => {
   const hasTabData = () => {
     switch (activeTabBottom) {
       case '1':
-        return parameterLineChartLabels && Object.keys(parameterLineChartLabels).length > 0 &&
-               parameterLineChartData && Object.keys(parameterLineChartData).length > 0;
+        return (
+          parameterLineChartLabels &&
+          Object.keys(parameterLineChartLabels).length > 0 &&
+          parameterLineChartData &&
+          Object.keys(parameterLineChartData).length > 0
+        );
       case '2':
-        return scheduleXaxisData && scheduleXaxisData.length > 0 &&
-               scheduleSeriesData && scheduleSeriesData.length > 0;
+        return scheduleXaxisData && scheduleXaxisData.length > 0 && scheduleSeriesData && scheduleSeriesData.length > 0;
       case '3':
         return true; // Table always has structure
       case '4':
@@ -240,7 +260,7 @@ const MicrogridDetails = ({ setRedirect, setRedirectUrl, t }) => {
                     setResultDataHidden(true);
                   }
                 } else {
-                  handleAPIError(json, setRedirect, setRedirectUrl, t, toast)
+                  handleAPIError(json, setRedirect, setRedirectUrl, t, toast);
                 }
               })
               .catch(err => {
@@ -248,7 +268,7 @@ const MicrogridDetails = ({ setRedirect, setRedirectUrl, t }) => {
               });
             // end of get Microgrids by root Space ID
           } else {
-            handleAPIError(json, setRedirect, setRedirectUrl, t, toast)
+            handleAPIError(json, setRedirect, setRedirectUrl, t, toast);
           }
         })
         .catch(err => {
@@ -285,9 +305,7 @@ const MicrogridDetails = ({ setRedirect, setRedirectUrl, t }) => {
       .then(json => {
         if (isResponseOK) {
           if (microgridUUID !== null && microgridUUID) {
-            setFilteredMicrogridList([
-              { id: json['microgrid']['id'], label: json['microgrid']['name'] }
-            ]);
+            setFilteredMicrogridList([{ id: json['microgrid']['id'], label: json['microgrid']['name'] }]);
             setSelectedMicrogrid(json['microgrid']['id']);
           }
           console.log(json);
@@ -412,7 +430,7 @@ const MicrogridDetails = ({ setRedirect, setRedirectUrl, t }) => {
           // show result data
           setResultDataHidden(false);
         } else {
-          handleAPIError(json, setRedirect, setRedirectUrl, t, toast)
+          handleAPIError(json, setRedirect, setRedirectUrl, t, toast);
           // hide spinner
           setSpinnerHidden(true);
         }
@@ -465,7 +483,7 @@ const MicrogridDetails = ({ setRedirect, setRedirectUrl, t }) => {
             setResultDataHidden(true);
           }
         } else {
-          handleAPIError(json, setRedirect, setRedirectUrl, t, toast)
+          handleAPIError(json, setRedirect, setRedirectUrl, t, toast);
         }
       })
       .catch(err => {
@@ -551,7 +569,7 @@ const MicrogridDetails = ({ setRedirect, setRedirectUrl, t }) => {
         if (isResponseOK) {
           setBMSDetailsList(json);
         } else {
-          handleAPIError(json, setRedirect, setRedirectUrl, t, toast)
+          handleAPIError(json, setRedirect, setRedirectUrl, t, toast);
         }
       })
       .catch(err => {
@@ -581,7 +599,7 @@ const MicrogridDetails = ({ setRedirect, setRedirectUrl, t }) => {
         if (isResponseOK) {
           setEVChargerDetailsList(json);
         } else {
-          handleAPIError(json, setRedirect, setRedirectUrl, t, toast)
+          handleAPIError(json, setRedirect, setRedirectUrl, t, toast);
         }
       })
       .catch(err => {
@@ -612,7 +630,7 @@ const MicrogridDetails = ({ setRedirect, setRedirectUrl, t }) => {
         if (isResponseOK) {
           setPCSDetailsList(json);
         } else {
-          handleAPIError(json, setRedirect, setRedirectUrl, t, toast)
+          handleAPIError(json, setRedirect, setRedirectUrl, t, toast);
         }
       })
       .catch(err => {
@@ -643,7 +661,7 @@ const MicrogridDetails = ({ setRedirect, setRedirectUrl, t }) => {
         if (isResponseOK) {
           setPVDetailsList(json);
         } else {
-          handleAPIError(json, setRedirect, setRedirectUrl, t, toast)
+          handleAPIError(json, setRedirect, setRedirectUrl, t, toast);
         }
       })
       .catch(err => {
@@ -673,7 +691,7 @@ const MicrogridDetails = ({ setRedirect, setRedirectUrl, t }) => {
         if (isResponseOK) {
           setGeneratorDetailsList(json);
         } else {
-          handleAPIError(json, setRedirect, setRedirectUrl, t, toast)
+          handleAPIError(json, setRedirect, setRedirectUrl, t, toast);
         }
       })
       .catch(err => {
@@ -703,7 +721,7 @@ const MicrogridDetails = ({ setRedirect, setRedirectUrl, t }) => {
         if (isResponseOK) {
           setGridDetailsList(json);
         } else {
-          handleAPIError(json, setRedirect, setRedirectUrl, t, toast)
+          handleAPIError(json, setRedirect, setRedirectUrl, t, toast);
         }
       })
       .catch(err => {
@@ -733,7 +751,7 @@ const MicrogridDetails = ({ setRedirect, setRedirectUrl, t }) => {
         if (isResponseOK) {
           setLoadDetailsList(json);
         } else {
-          handleAPIError(json, setRedirect, setRedirectUrl, t, toast)
+          handleAPIError(json, setRedirect, setRedirectUrl, t, toast);
         }
       })
       .catch(err => {
@@ -763,7 +781,7 @@ const MicrogridDetails = ({ setRedirect, setRedirectUrl, t }) => {
         if (isResponseOK) {
           setHeatpumpDetailsList(json);
         } else {
-          handleAPIError(json, setRedirect, setRedirectUrl, t, toast)
+          handleAPIError(json, setRedirect, setRedirectUrl, t, toast);
         }
       })
       .catch(err => {
@@ -814,313 +832,313 @@ const MicrogridDetails = ({ setRedirect, setRedirectUrl, t }) => {
         <img className="img-fluid" src={blankPage} alt="" />
       </div>
       <div style={{ visibility: resultDataHidden ? 'hidden' : 'visible', display: resultDataHidden ? 'none' : '' }}>
-      <Row noGutters>
-        <Col lg="3" className="pr-lg-2">
-          <Nav tabs>
-            <NavItem className="cursor-pointer">
-              <NavLink
-                className={classNames({ active: activeTabLeft === '1' })}
-                onClick={() => {
-                  toggleTabLeft('1');
-                }}
-              >
-                <h6>{t('Energy Indicator')}</h6>
-              </NavLink>
-            </NavItem>
-            <NavItem className="cursor-pointer">
-              <NavLink
-                className={classNames({ active: activeTabLeft === '2' })}
-                onClick={() => {
-                  toggleTabLeft('2');
-                }}
-              >
-                <h6>{t('Revenue Indicator')}</h6>
-              </NavLink>
-            </NavItem>
-            <NavItem className="cursor-pointer">
-              <NavLink
-                className={classNames({ active: activeTabLeft === '3' })}
-                onClick={() => {
-                  toggleTabLeft('3');
-                }}
-              >
-                <h6>{t('Carbon Indicator')}</h6>
-              </NavLink>
-            </NavItem>
-          </Nav>
-          <TabContent activeTab={activeTabLeft}>
-            <TabPane tabId="1">
-              <Card className="mb-3 fs--1">
-                <Fragment>
-                  <CardBody className="pt-0">
-                    <Table borderless className="fs--1 mb-0">
-                      <tbody>
-                        <tr className="border-bottom">
-                          <th className="pl-0">{t("Today's Charge")}</th>
-                          <th className="pr-0 text-right">{todayChargeEnergyValue} kWh</th>
-                        </tr>
-                        <tr className="border-bottom">
-                          <th className="pl-0">{t("Today's Discharge")}</th>
-                          <th className="pr-0 text-right ">{todayDischargeEnergyValue} kWh</th>
-                        </tr>
-                        <tr className="border-bottom">
-                          <th className="pl-0 pb-0">{t('Total Charge')}</th>
-                          <th className="pr-0 text-right">{totalChargeEnergyValue} kWh</th>
-                        </tr>
-                        <tr className="border-bottom">
-                          <th className="pl-0 pb-0">{t('Total Discharge')}</th>
-                          <th className="pr-0 text-right">{totalDischargeEnergyValue} kWh</th>
-                        </tr>
-                        <tr className="border-bottom">
-                          <th className="pl-0 pb-0">{t('Total Efficiency')}</th>
-                          <th className="pr-0 text-right">{totalEfficiency}%</th>
-                        </tr>
-                        <tr className="border-bottom">
-                          <th className="pl-0 pb-0">{t('Discharge Achievement Rate')}</th>
-                          <th className="pr-0 text-right">
-                            {((100 * todayDischargeEnergyValue) / microgridRatedCapacity).toFixed(2)}%
-                          </th>
-                        </tr>
-                      </tbody>
-                    </Table>
-                  </CardBody>
-                </Fragment>
-              </Card>
-            </TabPane>
-            <TabPane tabId="2">
-              <Card className="mb-3 fs--1">
-                <Fragment>
-                  <CardBody className="pt-0">
-                    <Table borderless className="fs--1 mb-0">
-                      <tbody>
-                        <tr className="border-bottom">
-                          <th className="pl-0">{t("Today's Cost")}</th>
-                          <th className="pr-0 text-right">
-                            {todayChargeRevenueValue} {currency}
-                          </th>
-                        </tr>
-                        <tr className="border-bottom">
-                          <th className="pl-0 pb-0">{t("Today's Revenue")}</th>
-                          <th className="pr-0 text-right">
-                            {todayDischargeRevenueValue} {currency}
-                          </th>
-                        </tr>
-                        <tr className="border-bottom">
-                          <th className="pl-0">{t('Total Cost')}</th>
-                          <th className="pr-0 text-right ">
-                            {totalChargeRevenueValue} {currency}
-                          </th>
-                        </tr>
-                        <tr className="border-bottom">
-                          <th className="pl-0 pb-0">{t('Total Revenue')}</th>
-                          <th className="pr-0 text-right">
-                            {totalDischargeRevenueValue} {currency}
-                          </th>
-                        </tr>
-                        <tr className="border-bottom">
-                          <th className="pl-0 pb-0">{t("Today's Profit")}</th>
-                          <th className="pr-0 text-right">
-                            {(todayDischargeRevenueValue - todayChargeRevenueValue).toFixed(2)} {currency}
-                          </th>
-                        </tr>
-                        <tr className="border-bottom">
-                          <th className="pl-0 pb-0">{t('Total Profit')}</th>
-                          <th className="pr-0 text-right">
-                            {(totalDischargeRevenueValue - totalChargeRevenueValue).toFixed(2)} {currency}
-                          </th>
-                        </tr>
-                      </tbody>
-                    </Table>
-                  </CardBody>
-                </Fragment>
-              </Card>
-            </TabPane>
-            <TabPane tabId="3">
-              <Card className="mb-3 fs--1">
-                <Fragment>
-                  <CardBody className="pt-0">
-                    <Table borderless className="fs--1 mb-0">
-                      <tbody>
-                        <tr className="border-bottom">
-                          <th className="pl-0">{t("Today's Emission")} </th>
-                          <th className="pr-0 text-right">{todayChargeCarbonValue} kgCO2</th>
-                        </tr>
-                        <tr className="border-bottom">
-                          <th className="pl-0 pb-0">{t("Today's Reduction")}</th>
-                          <th className="pr-0 text-right">{todayDischargeCarbonValue} kgCO2</th>
-                        </tr>
-                        <tr className="border-bottom">
-                          <th className="pl-0">{t('Total Emission')}</th>
-                          <th className="pr-0 text-right ">{totalChargeCarbonValue} kgCO2</th>
-                        </tr>
-                        <tr className="border-bottom">
-                          <th className="pl-0 pb-0">{t('Total Reduction')}</th>
-                          <th className="pr-0 text-right">{totalDischargeCarbonValue} kgCO2</th>
-                        </tr>
-                        <tr className="border-bottom">
-                          <th className="pl-0 pb-0">{t("Today's Net Reduction")}</th>
-                          <th className="pr-0 text-right">
-                            {(todayDischargeCarbonValue - todayChargeCarbonValue).toFixed(2)} kgCO2
-                          </th>
-                        </tr>
-                        <tr className="border-bottom">
-                          <th className="pl-0 pb-0">{t('Total Net Reduction')}</th>
-                          <th className="pr-0 text-right">
-                            {(totalDischargeCarbonValue - totalChargeCarbonValue).toFixed(2)} kgCO2
-                          </th>
-                        </tr>
-                      </tbody>
-                    </Table>
-                  </CardBody>
-                </Fragment>
-              </Card>
-            </TabPane>
-          </TabContent>
-        </Col>
-        <Col lg="6" className="pr-lg-2" key={uuid()}>
-          <div
-            style={{
-              position: isFullscreen ? 'fixed' : 'relative',
-              top: isFullscreen ? 0 : 'auto',
-              left: isFullscreen ? 0 : 'auto',
-              width: isFullscreen ? '100vw' : '100%',
-              height: isFullscreen ? '100vh' : 'auto',
-              backgroundColor: isFullscreen ? '#fff' : 'transparent',
-              zIndex: isFullscreen ? 9999 : 'auto',
-              display: isFullscreen ? 'flex' : 'block',
-              alignItems: isFullscreen ? 'center' : 'flex-start',
-              justifyContent: isFullscreen ? 'center' : 'flex-start',
-              overflow: isFullscreen ? 'auto' : 'visible',
-              padding: isFullscreen ? '20px' : '0'
-            }}
-          >
-            <Button
-              color="secondary"
-              size="sm"
-              onClick={toggleFullscreen}
-              style={{
-                position: 'absolute',
-                top: isFullscreen ? '20px' : '10px',
-                right: isFullscreen ? '20px' : '10px',
-                zIndex: isFullscreen ? 10000 : 10,
-                opacity: 0.8,
-                minWidth: '32px',
-                padding: '4px 8px'
-              }}
-              title={isFullscreen ? '退出全屏' : '全屏显示'}
-            >
-              {isFullscreen ? '✕' : '⛶'}
-            </Button>
+        <Row noGutters>
+          <Col lg="3" className="pr-lg-2">
+            <Nav tabs>
+              <NavItem className="cursor-pointer">
+                <NavLink
+                  className={classNames({ active: activeTabLeft === '1' })}
+                  onClick={() => {
+                    toggleTabLeft('1');
+                  }}
+                >
+                  <h6>{t('Energy Indicator')}</h6>
+                </NavLink>
+              </NavItem>
+              <NavItem className="cursor-pointer">
+                <NavLink
+                  className={classNames({ active: activeTabLeft === '2' })}
+                  onClick={() => {
+                    toggleTabLeft('2');
+                  }}
+                >
+                  <h6>{t('Revenue Indicator')}</h6>
+                </NavLink>
+              </NavItem>
+              <NavItem className="cursor-pointer">
+                <NavLink
+                  className={classNames({ active: activeTabLeft === '3' })}
+                  onClick={() => {
+                    toggleTabLeft('3');
+                  }}
+                >
+                  <h6>{t('Carbon Indicator')}</h6>
+                </NavLink>
+              </NavItem>
+            </Nav>
+            <TabContent activeTab={activeTabLeft}>
+              <TabPane tabId="1">
+                <Card className="mb-3 fs--1">
+                  <Fragment>
+                    <CardBody className="pt-0">
+                      <Table borderless className="fs--1 mb-0">
+                        <tbody>
+                          <tr className="border-bottom">
+                            <th className="pl-0">{t("Today's Charge")}</th>
+                            <th className="pr-0 text-right">{todayChargeEnergyValue} kWh</th>
+                          </tr>
+                          <tr className="border-bottom">
+                            <th className="pl-0">{t("Today's Discharge")}</th>
+                            <th className="pr-0 text-right ">{todayDischargeEnergyValue} kWh</th>
+                          </tr>
+                          <tr className="border-bottom">
+                            <th className="pl-0 pb-0">{t('Total Charge')}</th>
+                            <th className="pr-0 text-right">{totalChargeEnergyValue} kWh</th>
+                          </tr>
+                          <tr className="border-bottom">
+                            <th className="pl-0 pb-0">{t('Total Discharge')}</th>
+                            <th className="pr-0 text-right">{totalDischargeEnergyValue} kWh</th>
+                          </tr>
+                          <tr className="border-bottom">
+                            <th className="pl-0 pb-0">{t('Total Efficiency')}</th>
+                            <th className="pr-0 text-right">{totalEfficiency}%</th>
+                          </tr>
+                          <tr className="border-bottom">
+                            <th className="pl-0 pb-0">{t('Discharge Achievement Rate')}</th>
+                            <th className="pr-0 text-right">
+                              {((100 * todayDischargeEnergyValue) / microgridRatedCapacity).toFixed(2)}%
+                            </th>
+                          </tr>
+                        </tbody>
+                      </Table>
+                    </CardBody>
+                  </Fragment>
+                </Card>
+              </TabPane>
+              <TabPane tabId="2">
+                <Card className="mb-3 fs--1">
+                  <Fragment>
+                    <CardBody className="pt-0">
+                      <Table borderless className="fs--1 mb-0">
+                        <tbody>
+                          <tr className="border-bottom">
+                            <th className="pl-0">{t("Today's Cost")}</th>
+                            <th className="pr-0 text-right">
+                              {todayChargeRevenueValue} {currency}
+                            </th>
+                          </tr>
+                          <tr className="border-bottom">
+                            <th className="pl-0 pb-0">{t("Today's Revenue")}</th>
+                            <th className="pr-0 text-right">
+                              {todayDischargeRevenueValue} {currency}
+                            </th>
+                          </tr>
+                          <tr className="border-bottom">
+                            <th className="pl-0">{t('Total Cost')}</th>
+                            <th className="pr-0 text-right ">
+                              {totalChargeRevenueValue} {currency}
+                            </th>
+                          </tr>
+                          <tr className="border-bottom">
+                            <th className="pl-0 pb-0">{t('Total Revenue')}</th>
+                            <th className="pr-0 text-right">
+                              {totalDischargeRevenueValue} {currency}
+                            </th>
+                          </tr>
+                          <tr className="border-bottom">
+                            <th className="pl-0 pb-0">{t("Today's Profit")}</th>
+                            <th className="pr-0 text-right">
+                              {(todayDischargeRevenueValue - todayChargeRevenueValue).toFixed(2)} {currency}
+                            </th>
+                          </tr>
+                          <tr className="border-bottom">
+                            <th className="pl-0 pb-0">{t('Total Profit')}</th>
+                            <th className="pr-0 text-right">
+                              {(totalDischargeRevenueValue - totalChargeRevenueValue).toFixed(2)} {currency}
+                            </th>
+                          </tr>
+                        </tbody>
+                      </Table>
+                    </CardBody>
+                  </Fragment>
+                </Card>
+              </TabPane>
+              <TabPane tabId="3">
+                <Card className="mb-3 fs--1">
+                  <Fragment>
+                    <CardBody className="pt-0">
+                      <Table borderless className="fs--1 mb-0">
+                        <tbody>
+                          <tr className="border-bottom">
+                            <th className="pl-0">{t("Today's Emission")} </th>
+                            <th className="pr-0 text-right">{todayChargeCarbonValue} kgCO2</th>
+                          </tr>
+                          <tr className="border-bottom">
+                            <th className="pl-0 pb-0">{t("Today's Reduction")}</th>
+                            <th className="pr-0 text-right">{todayDischargeCarbonValue} kgCO2</th>
+                          </tr>
+                          <tr className="border-bottom">
+                            <th className="pl-0">{t('Total Emission')}</th>
+                            <th className="pr-0 text-right ">{totalChargeCarbonValue} kgCO2</th>
+                          </tr>
+                          <tr className="border-bottom">
+                            <th className="pl-0 pb-0">{t('Total Reduction')}</th>
+                            <th className="pr-0 text-right">{totalDischargeCarbonValue} kgCO2</th>
+                          </tr>
+                          <tr className="border-bottom">
+                            <th className="pl-0 pb-0">{t("Today's Net Reduction")}</th>
+                            <th className="pr-0 text-right">
+                              {(todayDischargeCarbonValue - todayChargeCarbonValue).toFixed(2)} kgCO2
+                            </th>
+                          </tr>
+                          <tr className="border-bottom">
+                            <th className="pl-0 pb-0">{t('Total Net Reduction')}</th>
+                            <th className="pr-0 text-right">
+                              {(totalDischargeCarbonValue - totalChargeCarbonValue).toFixed(2)} kgCO2
+                            </th>
+                          </tr>
+                        </tbody>
+                      </Table>
+                    </CardBody>
+                  </Fragment>
+                </Card>
+              </TabPane>
+            </TabContent>
+          </Col>
+          <Col lg="6" className="pr-lg-2" key={uuid()}>
             <div
               style={{
-                width: isFullscreen ? '100%' : '100%',
-                height: isFullscreen ? '100%' : 'auto',
+                position: isFullscreen ? 'fixed' : 'relative',
+                top: isFullscreen ? 0 : 'auto',
+                left: isFullscreen ? 0 : 'auto',
+                width: isFullscreen ? '100vw' : '100%',
+                height: isFullscreen ? '100vh' : 'auto',
+                backgroundColor: isFullscreen ? '#fff' : 'transparent',
+                zIndex: isFullscreen ? 9999 : 'auto',
                 display: isFullscreen ? 'flex' : 'block',
                 alignItems: isFullscreen ? 'center' : 'flex-start',
                 justifyContent: isFullscreen ? 'center' : 'flex-start',
-                maxWidth: isFullscreen ? '100%' : '100%',
-                maxHeight: isFullscreen ? '100%' : 'none',
-                overflow: isFullscreen ? 'auto' : 'visible'
+                overflow: isFullscreen ? 'auto' : 'visible',
+                padding: isFullscreen ? '20px' : '0'
               }}
-              dangerouslySetInnerHTML={microgridSVG}
-            />
-          </div>
-        </Col>
-        <Col lg="3" className="pr-lg-2">
-          <Nav tabs>
-            <NavItem className="cursor-pointer">
-              <NavLink
-                className={classNames({ active: activeTabRight === '1' })}
-                onClick={() => {
-                  toggleTabRight('1');
+            >
+              <Button
+                color="secondary"
+                size="sm"
+                onClick={toggleFullscreen}
+                style={{
+                  position: 'absolute',
+                  top: isFullscreen ? '20px' : '10px',
+                  right: isFullscreen ? '20px' : '10px',
+                  zIndex: isFullscreen ? 10000 : 10,
+                  opacity: 0.8,
+                  minWidth: '32px',
+                  padding: '4px 8px'
                 }}
+                title={isFullscreen ? '退出全屏' : '全屏显示'}
               >
-                <h6>{t('Device Status')}</h6>
-              </NavLink>
-            </NavItem>
-            <NavItem className="cursor-pointer">
-              <NavLink
-                className={classNames({ active: activeTabRight === '2' })}
-                onClick={() => {
-                  toggleTabRight('2');
+                {isFullscreen ? '✕' : '⛶'}
+              </Button>
+              <div
+                style={{
+                  width: isFullscreen ? '100%' : '100%',
+                  height: isFullscreen ? '100%' : 'auto',
+                  display: isFullscreen ? 'flex' : 'block',
+                  alignItems: isFullscreen ? 'center' : 'flex-start',
+                  justifyContent: isFullscreen ? 'center' : 'flex-start',
+                  maxWidth: isFullscreen ? '100%' : '100%',
+                  maxHeight: isFullscreen ? '100%' : 'none',
+                  overflow: isFullscreen ? 'auto' : 'visible'
                 }}
-              >
-                <h6>{t('Basic Information')}</h6>
-              </NavLink>
-            </NavItem>
-          </Nav>
-          <TabContent activeTab={activeTabRight}>
-            <TabPane tabId="1">
-              <Card className="mb-3 fs--1">
-                <Fragment>
-                  <CardBody className="pt-0">
-                    <Table borderless className="fs--1 mb-0">
-                      <tbody>
-                        <tr className="border-bottom">
-                          <th className="pl-0 pb-0">网关</th>
-                          <th className="pr-0 text-right">在线</th>
-                        </tr>
-                        <tr className="border-bottom">
-                          <th className="pl-0">储能</th>
-                          <th className="pr-0 text-right">运行</th>
-                        </tr>
-                        <tr className="border-bottom">
-                          <th className="pl-0">负载</th>
-                          <th className="pr-0 text-right ">运行</th>
-                        </tr>
-                        <tr className="border-bottom">
-                          <th className="pl-0 pb-0">光伏</th>
-                          <th className="pr-0 text-right">运行</th>
-                        </tr>
-                        <tr className="border-bottom">
-                          <th className="pl-0 pb-0">充电桩</th>
-                          <th className="pr-0 text-right">运行</th>
-                        </tr>
-                        <tr className="border-bottom">
-                          <th className="pl-0 pb-0">电网表</th>
-                          <th className="pr-0 text-right">运行</th>
-                        </tr>
-                      </tbody>
-                    </Table>
-                  </CardBody>
-                </Fragment>
-              </Card>
-            </TabPane>
-            <TabPane tabId="2">
-              <Card className="mb-3 fs--1">
-                <Fragment>
-                  <CardBody className="pt-0">
-                    <Table borderless className="fs--1 mb-0">
-                      <tbody>
-                        <tr className="border-bottom">
-                          <th className="pl-0">{t('Name')}</th>
-                          <th className="pr-0 text-right">{microgridName}</th>
-                        </tr>
-                        <tr className="border-bottom">
-                          <th className="pl-0">{t('Address')}</th>
-                          <th className="pr-0 text-right ">{microgridAddress}</th>
-                        </tr>
-                        <tr className="border-bottom">
-                          <th className="pl-0 pb-0">{t('Postal Code')}</th>
-                          <th className="pr-0 text-right">{microgridPostalCode}</th>
-                        </tr>
-                        <tr className="border-bottom">
-                          <th className="pl-0 pb-0">{t('Rated Capacity')} </th>
-                          <th className="pr-0 text-right">{microgridRatedCapacity} kWh</th>
-                        </tr>
-                        <tr className="border-bottom">
-                          <th className="pl-0 pb-0">{t('Rated Power')} </th>
-                          <th className="pr-0 text-right">{microgridRatedPower} kW</th>
-                        </tr>
-                      </tbody>
-                    </Table>
-                  </CardBody>
-                </Fragment>
-              </Card>
-            </TabPane>
-          </TabContent>
-        </Col>
-      </Row>
+                dangerouslySetInnerHTML={microgridSVG}
+              />
+            </div>
+          </Col>
+          <Col lg="3" className="pr-lg-2">
+            <Nav tabs>
+              <NavItem className="cursor-pointer">
+                <NavLink
+                  className={classNames({ active: activeTabRight === '1' })}
+                  onClick={() => {
+                    toggleTabRight('1');
+                  }}
+                >
+                  <h6>{t('Device Status')}</h6>
+                </NavLink>
+              </NavItem>
+              <NavItem className="cursor-pointer">
+                <NavLink
+                  className={classNames({ active: activeTabRight === '2' })}
+                  onClick={() => {
+                    toggleTabRight('2');
+                  }}
+                >
+                  <h6>{t('Basic Information')}</h6>
+                </NavLink>
+              </NavItem>
+            </Nav>
+            <TabContent activeTab={activeTabRight}>
+              <TabPane tabId="1">
+                <Card className="mb-3 fs--1">
+                  <Fragment>
+                    <CardBody className="pt-0">
+                      <Table borderless className="fs--1 mb-0">
+                        <tbody>
+                          <tr className="border-bottom">
+                            <th className="pl-0 pb-0">网关</th>
+                            <th className="pr-0 text-right">在线</th>
+                          </tr>
+                          <tr className="border-bottom">
+                            <th className="pl-0">储能</th>
+                            <th className="pr-0 text-right">运行</th>
+                          </tr>
+                          <tr className="border-bottom">
+                            <th className="pl-0">负载</th>
+                            <th className="pr-0 text-right ">运行</th>
+                          </tr>
+                          <tr className="border-bottom">
+                            <th className="pl-0 pb-0">光伏</th>
+                            <th className="pr-0 text-right">运行</th>
+                          </tr>
+                          <tr className="border-bottom">
+                            <th className="pl-0 pb-0">充电桩</th>
+                            <th className="pr-0 text-right">运行</th>
+                          </tr>
+                          <tr className="border-bottom">
+                            <th className="pl-0 pb-0">电网表</th>
+                            <th className="pr-0 text-right">运行</th>
+                          </tr>
+                        </tbody>
+                      </Table>
+                    </CardBody>
+                  </Fragment>
+                </Card>
+              </TabPane>
+              <TabPane tabId="2">
+                <Card className="mb-3 fs--1">
+                  <Fragment>
+                    <CardBody className="pt-0">
+                      <Table borderless className="fs--1 mb-0">
+                        <tbody>
+                          <tr className="border-bottom">
+                            <th className="pl-0">{t('Name')}</th>
+                            <th className="pr-0 text-right">{microgridName}</th>
+                          </tr>
+                          <tr className="border-bottom">
+                            <th className="pl-0">{t('Address')}</th>
+                            <th className="pr-0 text-right ">{microgridAddress}</th>
+                          </tr>
+                          <tr className="border-bottom">
+                            <th className="pl-0 pb-0">{t('Postal Code')}</th>
+                            <th className="pr-0 text-right">{microgridPostalCode}</th>
+                          </tr>
+                          <tr className="border-bottom">
+                            <th className="pl-0 pb-0">{t('Rated Capacity')} </th>
+                            <th className="pr-0 text-right">{microgridRatedCapacity} kWh</th>
+                          </tr>
+                          <tr className="border-bottom">
+                            <th className="pl-0 pb-0">{t('Rated Power')} </th>
+                            <th className="pr-0 text-right">{microgridRatedPower} kW</th>
+                          </tr>
+                        </tbody>
+                      </Table>
+                    </CardBody>
+                  </Fragment>
+                </Card>
+              </TabPane>
+            </TabContent>
+          </Col>
+        </Row>
       </div>
 
       {/* Overlay to cover content when bottom section is pinned and has no data */}
@@ -1139,296 +1157,294 @@ const MicrogridDetails = ({ setRedirect, setRedirectUrl, t }) => {
         />
       )}
 
-      <div
-        style={{ visibility: resultDataHidden ? 'hidden' : 'visible', display: resultDataHidden ? 'none' : '' }}
-      >
-      <div
-        style={{
-          position: isBottomSectionPinned ? 'fixed' : 'relative',
-          top: isBottomSectionPinned ? '60px' : 'auto',
-          left: isBottomSectionPinned ? '250px' : 'auto',
-          width: isBottomSectionPinned ? 'calc(100% - 250px)' : 'auto',
-          backgroundColor: isBottomSectionPinned ? '#fff' : 'transparent',
-          zIndex: isBottomSectionPinned ? 9998 : 'auto',
-          padding: isBottomSectionPinned ? '10px 15px' : '0',
-          paddingTop: isBottomSectionPinned ? '10px' : '40px',
-          boxShadow: isBottomSectionPinned ? '0 2px 8px rgba(0,0,0,0.1)' : 'none',
-          marginTop: isBottomSectionPinned ? '0' : 'auto'
-        }}
-      >
-        {!isFullscreen && (
-          <Button
-            color="secondary"
-            size="sm"
-            onClick={toggleBottomSectionPin}
+      <div style={{ visibility: resultDataHidden ? 'hidden' : 'visible', display: resultDataHidden ? 'none' : '' }}>
+        <div
+          style={{
+            position: isBottomSectionPinned ? 'fixed' : 'relative',
+            top: isBottomSectionPinned ? '60px' : 'auto',
+            left: isBottomSectionPinned ? '250px' : 'auto',
+            width: isBottomSectionPinned ? 'calc(100% - 250px)' : 'auto',
+            backgroundColor: isBottomSectionPinned ? '#fff' : 'transparent',
+            zIndex: isBottomSectionPinned ? 9998 : 'auto',
+            padding: isBottomSectionPinned ? '10px 15px' : '0',
+            paddingTop: isBottomSectionPinned ? '10px' : '40px',
+            boxShadow: isBottomSectionPinned ? '0 2px 8px rgba(0,0,0,0.1)' : 'none',
+            marginTop: isBottomSectionPinned ? '0' : 'auto'
+          }}
+        >
+          {!isFullscreen && (
+            <Button
+              color="secondary"
+              size="sm"
+              onClick={toggleBottomSectionPin}
+              style={{
+                position: 'absolute',
+                top: isBottomSectionPinned ? '10px' : '5px',
+                right: '10px',
+                zIndex: 9999,
+                opacity: 0.8,
+                minWidth: '32px',
+                padding: '4px 8px'
+              }}
+              title={isBottomSectionPinned ? '恢复原位置' : '提升到顶部'}
+            >
+              {isBottomSectionPinned ? '↓' : '↑'}
+            </Button>
+          )}
+          <Nav tabs>
+            <NavItem className="cursor-pointer">
+              <NavLink
+                className={classNames({ active: activeTabBottom === '1' })}
+                onClick={() => {
+                  toggleTabBottom('1');
+                }}
+              >
+                <h6>{t('Operating Characteristic Curve')}</h6>
+              </NavLink>
+            </NavItem>
+            <NavItem className="cursor-pointer">
+              <NavLink
+                className={classNames({ active: activeTabBottom === '2' })}
+                onClick={() => {
+                  toggleTabBottom('2');
+                }}
+              >
+                <h6>{t('Strategy Management')}</h6>
+              </NavLink>
+            </NavItem>
+            <NavItem className="cursor-pointer">
+              <NavLink
+                className={classNames({ active: activeTabBottom === '3' })}
+                onClick={() => {
+                  toggleTabBottom('3');
+                }}
+              >
+                <h6>{t('Fault Alarms')}</h6>
+              </NavLink>
+            </NavItem>
+
+            <NavItem className="cursor-pointer">
+              <NavLink
+                className={classNames({ active: activeTabBottom === '4' })}
+                onClick={() => {
+                  toggleTabBottom('4');
+                  fetchPCSDetails();
+                }}
+              >
+                <h6>{t('PCS')}</h6>
+              </NavLink>
+            </NavItem>
+
+            <NavItem className="cursor-pointer">
+              <NavLink
+                className={classNames({ active: activeTabBottom === '5' })}
+                onClick={() => {
+                  toggleTabBottom('5');
+                  fetchBMSDetails();
+                }}
+              >
+                <h6>{t('BMS')}</h6>
+              </NavLink>
+            </NavItem>
+
+            <NavItem className="cursor-pointer">
+              <NavLink
+                className={classNames({ active: activeTabBottom === '6' })}
+                onClick={() => {
+                  toggleTabBottom('6');
+                  fetchPVDetails();
+                }}
+              >
+                <h6>{t('Photovoltaic')}</h6>
+              </NavLink>
+            </NavItem>
+
+            <NavItem className="cursor-pointer">
+              <NavLink
+                className={classNames({ active: activeTabBottom === '7' })}
+                onClick={() => {
+                  toggleTabBottom('7');
+                  fetchEVChargerDetails();
+                }}
+              >
+                <h6>{t('EV Charger')}</h6>
+              </NavLink>
+            </NavItem>
+
+            <NavItem className="cursor-pointer">
+              <NavLink
+                className={classNames({ active: activeTabBottom === '8' })}
+                onClick={() => {
+                  toggleTabBottom('8');
+                  fetchGeneratorDetails();
+                }}
+              >
+                <h6>{t('Generator')}</h6>
+              </NavLink>
+            </NavItem>
+
+            <NavItem className="cursor-pointer">
+              <NavLink
+                className={classNames({ active: activeTabBottom === '9' })}
+                onClick={() => {
+                  toggleTabBottom('9');
+                  fetchGridDetails();
+                }}
+              >
+                <h6>{t('Grid Meter')}</h6>
+              </NavLink>
+            </NavItem>
+
+            <NavItem className="cursor-pointer">
+              <NavLink
+                className={classNames({ active: activeTabBottom === '10' })}
+                onClick={() => {
+                  toggleTabBottom('10');
+                  fetchLoadDetails();
+                }}
+              >
+                <h6>{t('Load Meter')}</h6>
+              </NavLink>
+            </NavItem>
+
+            <NavItem className="cursor-pointer">
+              <NavLink
+                className={classNames({ active: activeTabBottom === '11' })}
+                onClick={() => {
+                  toggleTabBottom('11');
+                  fetchHeatpumpDetails();
+                }}
+              >
+                <h6>{t('Heat Pump')}</h6>
+              </NavLink>
+            </NavItem>
+          </Nav>
+          <div
             style={{
-              position: 'absolute',
-              top: isBottomSectionPinned ? '10px' : '5px',
-              right: '10px',
-              zIndex: 9999,
-              opacity: 0.8,
-              minWidth: '32px',
-              padding: '4px 8px'
-            }}
-            title={isBottomSectionPinned ? '恢复原位置' : '提升到顶部'}
-          >
-            {isBottomSectionPinned ? '↓' : '↑'}
-          </Button>
-        )}
-        <Nav tabs>
-        <NavItem className="cursor-pointer">
-          <NavLink
-            className={classNames({ active: activeTabBottom === '1' })}
-            onClick={() => {
-              toggleTabBottom('1');
+              maxHeight: isBottomSectionPinned ? 'calc(100vh - 200px)' : '600px',
+              overflowY: 'auto',
+              overflowX: 'hidden'
             }}
           >
-            <h6>{t('Operating Characteristic Curve')}</h6>
-          </NavLink>
-        </NavItem>
-        <NavItem className="cursor-pointer">
-          <NavLink
-            className={classNames({ active: activeTabBottom === '2' })}
-            onClick={() => {
-              toggleTabBottom('2');
-            }}
-          >
-            <h6>{t('Strategy Management')}</h6>
-          </NavLink>
-        </NavItem>
-        <NavItem className="cursor-pointer">
-          <NavLink
-            className={classNames({ active: activeTabBottom === '3' })}
-            onClick={() => {
-              toggleTabBottom('3');
-            }}
-          >
-            <h6>{t('Fault Alarms')}</h6>
-          </NavLink>
-        </NavItem>
-
-        <NavItem className="cursor-pointer">
-          <NavLink
-            className={classNames({ active: activeTabBottom === '4' })}
-            onClick={() => {
-              toggleTabBottom('4');
-              fetchPCSDetails();
-            }}
-          >
-            <h6>{t('PCS')}</h6>
-          </NavLink>
-        </NavItem>
-
-        <NavItem className="cursor-pointer">
-          <NavLink
-            className={classNames({ active: activeTabBottom === '5' })}
-            onClick={() => {
-              toggleTabBottom('5');
-              fetchBMSDetails();
-            }}
-          >
-            <h6>{t('BMS')}</h6>
-          </NavLink>
-        </NavItem>
-
-        <NavItem className="cursor-pointer">
-          <NavLink
-            className={classNames({ active: activeTabBottom === '6' })}
-            onClick={() => {
-              toggleTabBottom('6');
-              fetchPVDetails();
-            }}
-          >
-            <h6>{t('Photovoltaic')}</h6>
-          </NavLink>
-        </NavItem>
-
-        <NavItem className="cursor-pointer">
-          <NavLink
-            className={classNames({ active: activeTabBottom === '7' })}
-            onClick={() => {
-              toggleTabBottom('7');
-              fetchEVChargerDetails();
-            }}
-          >
-            <h6>{t('EV Charger')}</h6>
-          </NavLink>
-        </NavItem>
-
-        <NavItem className="cursor-pointer">
-          <NavLink
-            className={classNames({ active: activeTabBottom === '8' })}
-            onClick={() => {
-              toggleTabBottom('8');
-              fetchGeneratorDetails();
-            }}
-          >
-            <h6>{t('Generator')}</h6>
-          </NavLink>
-        </NavItem>
-
-        <NavItem className="cursor-pointer">
-          <NavLink
-            className={classNames({ active: activeTabBottom === '9' })}
-            onClick={() => {
-              toggleTabBottom('9');
-              fetchGridDetails();
-            }}
-          >
-            <h6>{t('Grid Meter')}</h6>
-          </NavLink>
-        </NavItem>
-
-        <NavItem className="cursor-pointer">
-          <NavLink
-            className={classNames({ active: activeTabBottom === '10' })}
-            onClick={() => {
-              toggleTabBottom('10');
-              fetchLoadDetails();
-            }}
-          >
-            <h6>{t('Load Meter')}</h6>
-          </NavLink>
-        </NavItem>
-
-        <NavItem className="cursor-pointer">
-          <NavLink
-            className={classNames({ active: activeTabBottom === '11' })}
-            onClick={() => {
-              toggleTabBottom('11');
-              fetchHeatpumpDetails();
-            }}
-          >
-            <h6>{t('Heat Pump')}</h6>
-          </NavLink>
-        </NavItem>
-      </Nav>
-      <div
-        style={{
-          maxHeight: isBottomSectionPinned ? 'calc(100vh - 200px)' : '600px',
-          overflowY: 'auto',
-          overflowX: 'hidden'
-        }}
-      >
-        <TabContent activeTab={activeTabBottom}>
-          <TabPane tabId="1">
-            <MultipleLineChart
-              reportingTitle=""
-              baseTitle=""
-              labels={parameterLineChartLabels}
-              data={parameterLineChartData}
-              options={parameterLineChartOptions}
-            />
-          </TabPane>
-        <TabPane tabId="2">
-          <Card className="mb-3 fs--1">
-            <CardBody className="bg-light">
-              <SectionLineChart
-                xaxisData={scheduleXaxisData}
-                seriesName={scheduleSeriesName}
-                seriesData={scheduleSeriesData}
-                markAreaData={scheduleMarkAreaData}
-              />
-            </CardBody>
-          </Card>
-        </TabPane>
-        <TabPane tabId="3">
-          <Card className="mb-3 fs--1">
-            <CardBody className="bg-light">
-              <Table striped className="border-bottom">
-                <thead>
-                  <tr>
-                    <th>#</th>
-                    <th>{t('Subject')}</th>
-                    <th>{t('Datetime')}</th>
-                    <th>{t('Start Datetime')}</th>
-                    <th>{t('End Datetime')}</th>
-                    <th>{t('Content')}</th>
-                    <th>{t('Status')}</th>
-                    <th>{t('Update Datetime')}</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <th scope="row">1</th>
-                    <td />
-                    <td />
-                    <td />
-                    <td />
-                    <td />
-                    <td />
-                    <td />
-                  </tr>
-                  <tr>
-                    <th scope="row">2</th>
-                    <td />
-                    <td />
-                    <td />
-                    <td />
-                    <td />
-                    <td />
-                    <td />
-                  </tr>
-                  <tr>
-                    <th scope="row">3</th>
-                    <td />
-                    <td />
-                    <td />
-                    <td />
-                    <td />
-                    <td />
-                    <td />
-                  </tr>
-                  <tr>
-                    <th scope="row">4</th>
-                    <td />
-                    <td />
-                    <td />
-                    <td />
-                    <td />
-                    <td />
-                    <td />
-                  </tr>
-                </tbody>
-              </Table>
-            </CardBody>
-          </Card>
-        </TabPane>
-        <TabPane tabId="4">
-          {isIterableArray(PCSDetailsList) &&
-            PCSDetailsList.map(({ id, ...rest }) => <DetailsTable key={id} id={id} {...rest} />)}
-        </TabPane>
-        <TabPane tabId="5">
-          {isIterableArray(BMSDetailsList) &&
-            BMSDetailsList.map(({ id, ...rest }) => <DetailsTable key={id} id={id} {...rest} />)}
-        </TabPane>
-        <TabPane tabId="6">
-          {isIterableArray(PVDetailsList) &&
-            PVDetailsList.map(({ id, ...rest }) => <DetailsTable key={id} id={id} {...rest} />)}
-        </TabPane>
-        <TabPane tabId="7">
-          {isIterableArray(EVChargerDetailsList) &&
-            EVChargerDetailsList.map(({ id, ...rest }) => <DetailsTable key={id} id={id} {...rest} />)}
-        </TabPane>
-        <TabPane tabId="8">
-          {isIterableArray(GeneratorDetailsList) &&
-            GeneratorDetailsList.map(({ id, ...rest }) => <DetailsTable key={id} id={id} {...rest} />)}
-        </TabPane>
-        <TabPane tabId="9">
-          {isIterableArray(GeneratorDetailsList) &&
-            GeneratorDetailsList.map(({ id, ...rest }) => <DetailsTable key={id} id={id} {...rest} />)}
-        </TabPane>
-        <TabPane tabId="10">
-          {isIterableArray(GeneratorDetailsList) &&
-            GeneratorDetailsList.map(({ id, ...rest }) => <DetailsTable key={id} id={id} {...rest} />)}
-        </TabPane>
-        <TabPane tabId="11">
-          {isIterableArray(GeneratorDetailsList) &&
-            GeneratorDetailsList.map(({ id, ...rest }) => <DetailsTable key={id} id={id} {...rest} />)}
-        </TabPane>
-      </TabContent>
-      </div>
-      </div>
+            <TabContent activeTab={activeTabBottom}>
+              <TabPane tabId="1">
+                <MultipleLineChart
+                  reportingTitle=""
+                  baseTitle=""
+                  labels={parameterLineChartLabels}
+                  data={parameterLineChartData}
+                  options={parameterLineChartOptions}
+                />
+              </TabPane>
+              <TabPane tabId="2">
+                <Card className="mb-3 fs--1">
+                  <CardBody className="bg-light">
+                    <SectionLineChart
+                      xaxisData={scheduleXaxisData}
+                      seriesName={scheduleSeriesName}
+                      seriesData={scheduleSeriesData}
+                      markAreaData={scheduleMarkAreaData}
+                    />
+                  </CardBody>
+                </Card>
+              </TabPane>
+              <TabPane tabId="3">
+                <Card className="mb-3 fs--1">
+                  <CardBody className="bg-light">
+                    <Table striped className="border-bottom">
+                      <thead>
+                        <tr>
+                          <th>#</th>
+                          <th>{t('Subject')}</th>
+                          <th>{t('Datetime')}</th>
+                          <th>{t('Start Datetime')}</th>
+                          <th>{t('End Datetime')}</th>
+                          <th>{t('Content')}</th>
+                          <th>{t('Status')}</th>
+                          <th>{t('Update Datetime')}</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <th scope="row">1</th>
+                          <td />
+                          <td />
+                          <td />
+                          <td />
+                          <td />
+                          <td />
+                          <td />
+                        </tr>
+                        <tr>
+                          <th scope="row">2</th>
+                          <td />
+                          <td />
+                          <td />
+                          <td />
+                          <td />
+                          <td />
+                          <td />
+                        </tr>
+                        <tr>
+                          <th scope="row">3</th>
+                          <td />
+                          <td />
+                          <td />
+                          <td />
+                          <td />
+                          <td />
+                          <td />
+                        </tr>
+                        <tr>
+                          <th scope="row">4</th>
+                          <td />
+                          <td />
+                          <td />
+                          <td />
+                          <td />
+                          <td />
+                          <td />
+                        </tr>
+                      </tbody>
+                    </Table>
+                  </CardBody>
+                </Card>
+              </TabPane>
+              <TabPane tabId="4">
+                {isIterableArray(PCSDetailsList) &&
+                  PCSDetailsList.map(({ id, ...rest }) => <DetailsTable key={id} id={id} {...rest} />)}
+              </TabPane>
+              <TabPane tabId="5">
+                {isIterableArray(BMSDetailsList) &&
+                  BMSDetailsList.map(({ id, ...rest }) => <DetailsTable key={id} id={id} {...rest} />)}
+              </TabPane>
+              <TabPane tabId="6">
+                {isIterableArray(PVDetailsList) &&
+                  PVDetailsList.map(({ id, ...rest }) => <DetailsTable key={id} id={id} {...rest} />)}
+              </TabPane>
+              <TabPane tabId="7">
+                {isIterableArray(EVChargerDetailsList) &&
+                  EVChargerDetailsList.map(({ id, ...rest }) => <DetailsTable key={id} id={id} {...rest} />)}
+              </TabPane>
+              <TabPane tabId="8">
+                {isIterableArray(GeneratorDetailsList) &&
+                  GeneratorDetailsList.map(({ id, ...rest }) => <DetailsTable key={id} id={id} {...rest} />)}
+              </TabPane>
+              <TabPane tabId="9">
+                {isIterableArray(GeneratorDetailsList) &&
+                  GeneratorDetailsList.map(({ id, ...rest }) => <DetailsTable key={id} id={id} {...rest} />)}
+              </TabPane>
+              <TabPane tabId="10">
+                {isIterableArray(GeneratorDetailsList) &&
+                  GeneratorDetailsList.map(({ id, ...rest }) => <DetailsTable key={id} id={id} {...rest} />)}
+              </TabPane>
+              <TabPane tabId="11">
+                {isIterableArray(GeneratorDetailsList) &&
+                  GeneratorDetailsList.map(({ id, ...rest }) => <DetailsTable key={id} id={id} {...rest} />)}
+              </TabPane>
+            </TabContent>
+          </div>
+        </div>
       </div>
     </Fragment>
   );

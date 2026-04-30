@@ -28,7 +28,7 @@ import loadable from '@loadable/component';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Link } from 'react-router-dom';
 import Flex from '../../common/Flex';
-import { getCookieValue, createCookie, checkEmpty,handleAPIError } from '../../../helpers/utils';
+import { getCookieValue, createCookie, checkEmpty, handleAPIError } from '../../../helpers/utils';
 import withRedirect from '../../../hoc/withRedirect';
 import { withTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
@@ -118,7 +118,6 @@ const MeterTracking = ({ setRedirect, setRedirectUrl, t }) => {
   const [endIntegrityRate, setEndIntegrityRate] = useState(0);
   const [fullIntegrityRate, setFullIntegrityRate] = useState(0);
 
-
   const [tablePage, setTablePage] = useState(() => {
     if (typeof window === 'undefined') {
       return 1;
@@ -135,57 +134,59 @@ const MeterTracking = ({ setRedirect, setRedirectUrl, t }) => {
     setTablePage(next);
   }, []);
 
-  const loadEnergyCategories = useCallback(spaceId => {
-    if (!spaceId) {
-      setEnergyCategoryOptions([{ value: 'all', label: t('All'), uuid: '' }]);
-      setEnergyCategory('all');
-      setSubmitButtonDisabled(false);
-      return;
-    }
-    let isResponseOK = false;
-    setSubmitButtonDisabled(true);
-    fetch(`${APIBaseURL}/spaces/${spaceId}/treemetersenergycategories`, {
-      method: 'GET',
-      headers: {
-        'Content-type': 'application/json',
-        'User-UUID': getCookieValue('user_uuid'),
-        Token: getCookieValue('token')
-      },
-      body: null
-    })
-      .then(response => {
-        if (response.ok) {
-          isResponseOK = true;
-        }
-        return response.json();
-      })
-      .then(json => {
-        if (isResponseOK) {
-          json = JSON.parse(
-            JSON.stringify([json])
-              .split('"id":')
-              .join('"value":')
-              .split('"name":')
-              .join('"label":')
-          );
-          if (json[0].length > 0) {
-            setEnergyCategoryOptions([{ value: 'all', label: t('All'), uuid: '' }].concat(json[0]));
-          } else {
-            setEnergyCategoryOptions([{ value: 'all', label: t('All'), uuid: '' }]);
-          }
-          setEnergyCategory('all');
-        } else {
-          handleAPIError(json, setRedirect, setRedirectUrl, t, toast)
-        }
-      })
-      .catch(err => {
-        console.log(err);
-      })
-      .finally(() => {
+  const loadEnergyCategories = useCallback(
+    spaceId => {
+      if (!spaceId) {
+        setEnergyCategoryOptions([{ value: 'all', label: t('All'), uuid: '' }]);
+        setEnergyCategory('all');
         setSubmitButtonDisabled(false);
-      });
-  }, [t]);
-
+        return;
+      }
+      let isResponseOK = false;
+      setSubmitButtonDisabled(true);
+      fetch(`${APIBaseURL}/spaces/${spaceId}/treemetersenergycategories`, {
+        method: 'GET',
+        headers: {
+          'Content-type': 'application/json',
+          'User-UUID': getCookieValue('user_uuid'),
+          Token: getCookieValue('token')
+        },
+        body: null
+      })
+        .then(response => {
+          if (response.ok) {
+            isResponseOK = true;
+          }
+          return response.json();
+        })
+        .then(json => {
+          if (isResponseOK) {
+            json = JSON.parse(
+              JSON.stringify([json])
+                .split('"id":')
+                .join('"value":')
+                .split('"name":')
+                .join('"label":')
+            );
+            if (json[0].length > 0) {
+              setEnergyCategoryOptions([{ value: 'all', label: t('All'), uuid: '' }].concat(json[0]));
+            } else {
+              setEnergyCategoryOptions([{ value: 'all', label: t('All'), uuid: '' }]);
+            }
+            setEnergyCategory('all');
+          } else {
+            handleAPIError(json, setRedirect, setRedirectUrl, t, toast);
+          }
+        })
+        .catch(err => {
+          console.log(err);
+        })
+        .finally(() => {
+          setSubmitButtonDisabled(false);
+        });
+    },
+    [t]
+  );
 
   useEffect(() => {
     let isResponseOK = false;
@@ -231,7 +232,7 @@ const MeterTracking = ({ setRedirect, setRedirectUrl, t }) => {
           setExportButtonHidden(true);
           setSpinnerHidden(true);
         } else {
-          handleAPIError(json, setRedirect, setRedirectUrl, t, toast)
+          handleAPIError(json, setRedirect, setRedirectUrl, t, toast);
         }
       })
       .catch(err => {
@@ -450,7 +451,7 @@ const MeterTracking = ({ setRedirect, setRedirectUrl, t }) => {
           // show result data
           setResultDataHidden(false);
         } else {
-          handleAPIError(json, setRedirect, setRedirectUrl, t, toast)
+          handleAPIError(json, setRedirect, setRedirectUrl, t, toast);
         }
       })
       .catch(err => {
@@ -575,7 +576,10 @@ const MeterTracking = ({ setRedirect, setRedirectUrl, t }) => {
           </Form>
         </CardBody>
       </Card>
-      <div className="blank-page-image-container" style={{ visibility: resultDataHidden ? 'visible' : 'hidden', display: resultDataHidden ? '' : 'none' }}>
+      <div
+        className="blank-page-image-container"
+        style={{ visibility: resultDataHidden ? 'visible' : 'hidden', display: resultDataHidden ? '' : 'none' }}
+      >
         <img className="img-fluid" src={blankPage} alt="" />
       </div>
       <div style={{ visibility: resultDataHidden ? 'hidden' : 'visible', display: resultDataHidden ? 'none' : '' }}>
@@ -599,7 +603,6 @@ const MeterTracking = ({ setRedirect, setRedirectUrl, t }) => {
           page={tablePage}
           onChangePage={persistTablePage}
         />
-
       </div>
     </Fragment>
   );

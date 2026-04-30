@@ -42,7 +42,7 @@ CommandDetails.propTypes = {
   id: PropTypes.number.isRequired,
   name: PropTypes.string.isRequired,
   payload: PropTypes.string,
-  description: PropTypes.string.isRequired,
+  description: PropTypes.string.isRequired
 };
 
 export default withTranslation()(CommandDetails);

@@ -15,7 +15,7 @@ import LineChart from '../common/LineChart';
 import { toast } from 'react-toastify';
 import SharePie from '../common/SharePie';
 import loadable from '@loadable/component';
-import { getCookieValue, createCookie, checkEmpty,handleAPIError } from '../../../helpers/utils';
+import { getCookieValue, createCookie, checkEmpty, handleAPIError } from '../../../helpers/utils';
 import withRedirect from '../../../hoc/withRedirect';
 import { withTranslation } from 'react-i18next';
 import moment from 'moment';
@@ -152,7 +152,6 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
           })
           .then(json => {
             if (isResponseOK) {
-
               // hide spinner
               setSpinnerHidden(true);
               let labels = [];
@@ -522,7 +521,6 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
         body: null
       })
         .then(response => {
-
           if (response.ok) {
             isResponseOK = true;
           }
@@ -538,7 +536,7 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
                 .split('"name":')
                 .join('"label":')
             );
-            let selectedSpaceID  = [json[0]].map(o => o.value);
+            let selectedSpaceID = [json[0]].map(o => o.value);
             // get Combined Equipments by root Space ID
             let isResponseOK = false;
             fetch(APIBaseURL + '/spaces/' + selectedSpaceID + '/children', {
@@ -590,7 +588,7 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
                   geojson['features'] = geojsonData;
                   setGeojson(geojson);
                 } else {
-                  handleAPIError(json, setRedirect, setRedirectUrl, t, toast)
+                  handleAPIError(json, setRedirect, setRedirectUrl, t, toast);
                 }
               })
               .catch(err => {
@@ -598,7 +596,7 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
               });
             // end of get Combined Equipments by root Space ID
           } else {
-            handleAPIError(json, setRedirect, setRedirectUrl, t, toast)
+            handleAPIError(json, setRedirect, setRedirectUrl, t, toast);
           }
         })
         .catch(err => {

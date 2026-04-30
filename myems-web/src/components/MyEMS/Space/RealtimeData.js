@@ -5,17 +5,20 @@ import { v4 as uuid } from 'uuid';
 import { Line } from 'react-chartjs-2';
 import { Chart } from 'chart.js';
 import {
-  LineController, LineElement, PointElement,
-  LinearScale, Title, Tooltip, Legend, CategoryScale
+  LineController,
+  LineElement,
+  PointElement,
+  LinearScale,
+  Title,
+  Tooltip,
+  Legend,
+  CategoryScale
 } from 'chart.js';
 import { APIBaseURL } from '../../../config';
 import { getCookieValue } from '../../../helpers/utils';
 import { toast } from 'react-toastify';
 
-Chart.register(
-  LineController, LineElement, PointElement,
-  LinearScale, CategoryScale, Title, Tooltip, Legend
-);
+Chart.register(LineController, LineElement, PointElement, LinearScale, CategoryScale, Title, Tooltip, Legend);
 
 const dividerBorder = '1px solid rgba(0, 0, 0, 0.05)';
 const listItemBorderColor = 'rgba(0, 0, 0, 0.05)';
@@ -51,7 +54,7 @@ class RealtimeData extends Component {
           headers: {
             'Content-type': 'application/json',
             'User-UUID': getCookieValue('user_uuid'),
-            'Token': getCookieValue('token')
+            Token: getCookieValue('token')
           }
         }
       );
@@ -65,9 +68,10 @@ class RealtimeData extends Component {
       if (json['energy_value']) {
         pointList.push({
           name: json['energy_value'].name,
-          value: json['energy_value'].values.length > 0
-            ? json['energy_value'].values[json['energy_value'].values.length - 1]
-            : undefined
+          value:
+            json['energy_value'].values.length > 0
+              ? json['energy_value'].values[json['energy_value'].values.length - 1]
+              : undefined
         });
         trendData[json['energy_value'].name] = {
           values: json['energy_value'].values,
@@ -117,17 +121,19 @@ class RealtimeData extends Component {
       <Line
         data={{
           labels: sampledTimestamps,
-          datasets: [{
-            label: name,
-            data: sampledValues,
-            borderColor: colors[colorIndex],
-            backgroundColor: `${colors[colorIndex]}20`,
-            borderWidth: 2,
-            pointRadius: 1.5,
-            pointHoverRadius: 3,
-            tension: 0.4,
-            fill: true
-          }]
+          datasets: [
+            {
+              label: name,
+              data: sampledValues,
+              borderColor: colors[colorIndex],
+              backgroundColor: `${colors[colorIndex]}20`,
+              borderWidth: 2,
+              pointRadius: 1.5,
+              pointHoverRadius: 3,
+              tension: 0.4,
+              fill: true
+            }
+          ]
         }}
         options={{
           responsive: true,
@@ -195,9 +201,7 @@ class RealtimeData extends Component {
                   <span className="font-weight-bold text-primary">{item.value}</span>
                 </div>
                 {this.state.trendData[item.name] && (
-                  <div className="mt-0">
-                    {this.renderTrendChart(item.name, this.state.trendData[item.name])}
-                  </div>
+                  <div className="mt-0">{this.renderTrendChart(item.name, this.state.trendData[item.name])}</div>
                 )}
               </ListGroupItem>
             ))}

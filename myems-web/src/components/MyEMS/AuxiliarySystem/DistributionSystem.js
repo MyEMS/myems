@@ -14,8 +14,8 @@ import {
   Label
 } from 'reactstrap';
 import RealtimeChart from './RealtimeChart';
-import blankPage from '../../../assets/img/generic/blank-page.png';  // Placeholder background image
-import { getCookieValue, createCookie, checkEmpty,handleAPIError } from '../../../helpers/utils';
+import blankPage from '../../../assets/img/generic/blank-page.png'; // Placeholder background image
+import { getCookieValue, createCookie, checkEmpty, handleAPIError } from '../../../helpers/utils';
 import withRedirect from '../../../hoc/withRedirect';
 import { withTranslation } from 'react-i18next';
 import { v4 as uuid } from 'uuid';
@@ -101,7 +101,7 @@ const DistributionSystem = ({ setRedirect, setRedirectUrl, t }) => {
             if (rootSpaceId) loadDistributionSystemsBySpace(rootSpaceId);
           }
         } else {
-          handleAPIError(json, setRedirect, setRedirectUrl, t, toast)
+          handleAPIError(json, setRedirect, setRedirectUrl, t, toast);
         }
       } catch (err) {
         console.log(err);
@@ -111,7 +111,7 @@ const DistributionSystem = ({ setRedirect, setRedirectUrl, t }) => {
     loadSpaces();
   }, [t]);
 
-  const loadDistributionSystemsBySpace = async (spaceId) => {
+  const loadDistributionSystemsBySpace = async spaceId => {
     let isResponseOK = false;
     try {
       const response = await fetch(`${APIBaseURL}/spaces/${spaceId}/distributionsystems`, {
@@ -146,7 +146,7 @@ const DistributionSystem = ({ setRedirect, setRedirectUrl, t }) => {
         }
         setSpinnerHidden(true);
       } else {
-        handleAPIError(json, setRedirect, setRedirectUrl, t, toast)
+        handleAPIError(json, setRedirect, setRedirectUrl, t, toast);
       }
     } catch (err) {
       console.log(err);
@@ -306,21 +306,24 @@ const DistributionSystem = ({ setRedirect, setRedirectUrl, t }) => {
         </CardBody>
       </Card>
       <Row noGutters>
-      {selectedDistributionSystemID && (
-        <Col lg="4" className="pr-lg-2" key={uuid()}>
-          <RealtimeChart distributionSystemID={selectedDistributionSystemID} />
-        </Col>
-      )}
-      <Col lg="8" className="pr-lg-2">
-        {selectedDistributionSystemID ? (
-          <div onContextMenu={onContextMenu} dangerouslySetInnerHTML={images[selectedDistributionSystemID]} />
-        ) : (
-          <div className="blank-page-image-container d-flex align-items-center justify-content-center" style={{ height: '400px' }}>
-            <img className="img-fluid" src={blankPage} alt="No data" />
-          </div>
+        {selectedDistributionSystemID && (
+          <Col lg="4" className="pr-lg-2" key={uuid()}>
+            <RealtimeChart distributionSystemID={selectedDistributionSystemID} />
+          </Col>
         )}
-      </Col>
-    </Row>
+        <Col lg="8" className="pr-lg-2">
+          {selectedDistributionSystemID ? (
+            <div onContextMenu={onContextMenu} dangerouslySetInnerHTML={images[selectedDistributionSystemID]} />
+          ) : (
+            <div
+              className="blank-page-image-container d-flex align-items-center justify-content-center"
+              style={{ height: '400px' }}
+            >
+              <img className="img-fluid" src={blankPage} alt="No data" />
+            </div>
+          )}
+        </Col>
+      </Row>
       <Card className="bg-light">
         <div onContextMenu={onContextMenu} className="demo">
           <ScorpioMenu

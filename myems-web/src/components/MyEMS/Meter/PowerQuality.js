@@ -18,7 +18,7 @@ import {
 import Cascader from 'rc-cascader';
 import moment from 'moment';
 import loadable from '@loadable/component';
-import { getCookieValue, createCookie, checkEmpty,handleAPIError } from '../../../helpers/utils';
+import { getCookieValue, createCookie, checkEmpty, handleAPIError } from '../../../helpers/utils';
 import withRedirect from '../../../hoc/withRedirect';
 import { withTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
@@ -182,7 +182,7 @@ const PowerQuality = ({ setRedirect, setRedirectUrl, t }) => {
                   setSubmitButtonDisabled(true);
                 }
               } else {
-                handleAPIError(json, setRedirect, setRedirectUrl, t, toast)
+                handleAPIError(json, setRedirect, setRedirectUrl, t, toast);
               }
             })
             .catch(err => {
@@ -190,7 +190,7 @@ const PowerQuality = ({ setRedirect, setRedirectUrl, t }) => {
             });
           // end of get Meters by root Space ID
         } else {
-          handleAPIError(json, setRedirect, setRedirectUrl, t, toast)
+          handleAPIError(json, setRedirect, setRedirectUrl, t, toast);
         }
       })
       .catch(err => {
@@ -241,7 +241,7 @@ const PowerQuality = ({ setRedirect, setRedirectUrl, t }) => {
             setSubmitButtonDisabled(true);
           }
         } else {
-          handleAPIError(json, setRedirect, setRedirectUrl, t, toast)
+          handleAPIError(json, setRedirect, setRedirectUrl, t, toast);
         }
       })
       .catch(err => {
@@ -362,7 +362,7 @@ const PowerQuality = ({ setRedirect, setRedirectUrl, t }) => {
           // show result data
           setResultDataHidden(false);
         } else {
-          handleAPIError(json, setRedirect, setRedirectUrl, t, toast)
+          handleAPIError(json, setRedirect, setRedirectUrl, t, toast);
         }
       })
       .catch(err => {
@@ -490,7 +490,10 @@ const PowerQuality = ({ setRedirect, setRedirectUrl, t }) => {
           </Form>
         </CardBody>
       </Card>
-      <div className="blank-page-image-container" style={{ visibility: resultDataHidden ? 'visible' : 'hidden', display: resultDataHidden ? '' : 'none' }}>
+      <div
+        className="blank-page-image-container"
+        style={{ visibility: resultDataHidden ? 'visible' : 'hidden', display: resultDataHidden ? '' : 'none' }}
+      >
         <img className="img-fluid" src={blankPage} alt="" />
       </div>
       <div style={{ visibility: resultDataHidden ? 'hidden' : 'visible', display: resultDataHidden ? 'none' : '' }}>
@@ -530,13 +533,17 @@ const PowerQuality = ({ setRedirect, setRedirectUrl, t }) => {
                     {item.limit_normal_hz !== undefined && (
                       <Col xs={6} sm={4} md={3} lg={2} className="mb-2">
                         <div className="text-600">{t('Normal Limit')}</div>
-                        <div>{Number(item.limit_normal_hz).toFixed(3)} {t('Hz')}</div>
+                        <div>
+                          {Number(item.limit_normal_hz).toFixed(3)} {t('Hz')}
+                        </div>
                       </Col>
                     )}
                     {item.limit_severe_hz !== undefined && (
                       <Col xs={6} sm={4} md={3} lg={2} className="mb-2">
                         <div className="text-600">{t('Severe Limit')}</div>
-                        <div>{Number(item.limit_severe_hz).toFixed(3)} {t('Hz')}</div>
+                        <div>
+                          {Number(item.limit_severe_hz).toFixed(3)} {t('Hz')}
+                        </div>
                       </Col>
                     )}
                     {item.compliance_pct !== undefined && (
@@ -560,7 +567,9 @@ const PowerQuality = ({ setRedirect, setRedirectUrl, t }) => {
                     {item.worst_deviation_hz !== undefined && (
                       <Col xs={6} sm={4} md={3} lg={2} className="mb-2">
                         <div className="text-600">{t('Worst Deviation')}</div>
-                        <div>{Number(item.worst_deviation_hz).toFixed(3)} {t('Hz')}</div>
+                        <div>
+                          {Number(item.worst_deviation_hz).toFixed(3)} {t('Hz')}
+                        </div>
                       </Col>
                     )}
                     {item.worst_unbalance_pct !== undefined && (
@@ -577,12 +586,13 @@ const PowerQuality = ({ setRedirect, setRedirectUrl, t }) => {
                     )}
                   </Row>
                   <Row>
-                    {Array.isArray(item.metrics) && item.metrics.map((m, mi) => (
-                      <Col xs={6} sm={4} md={3} lg={2} key={mi} className="mb-2">
-                        <div className="text-600">{t(m.name)}</div>
-                        <div>{typeof m.value === 'number' ? Number(m.value).toFixed(3) : m.value}</div>
-                      </Col>
-                    ))}
+                    {Array.isArray(item.metrics) &&
+                      item.metrics.map((m, mi) => (
+                        <Col xs={6} sm={4} md={3} lg={2} key={mi} className="mb-2">
+                          <div className="text-600">{t(m.name)}</div>
+                          <div>{typeof m.value === 'number' ? Number(m.value).toFixed(3) : m.value}</div>
+                        </Col>
+                      ))}
                   </Row>
                 </div>
               ))}
@@ -593,7 +603,9 @@ const PowerQuality = ({ setRedirect, setRedirectUrl, t }) => {
         <Card className="bg-light mt-3">
           <CardBody className="p-3">
             <div className="text-600 mb-2">{t('About Power Quality')}</div>
-            <div className="text-500" style={{ lineHeight: 1.6 }}>{t('PQ.About')}</div>
+            <div className="text-500" style={{ lineHeight: 1.6 }}>
+              {t('PQ.About')}
+            </div>
           </CardBody>
         </Card>
       </div>

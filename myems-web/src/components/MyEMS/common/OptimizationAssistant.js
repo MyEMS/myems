@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 
 const listItemBorderColor = 'rgba(255, 255, 255, 0.05)';
 
-const OptimizationAssistant = ({adviceList, t }) => {
+const OptimizationAssistant = ({ adviceList, t }) => {
   return (
     <Card className="mb-3 overflow-hidden" style={{ minWidth: '12rem', maxWidth: '25%' }}>
       <CardHeader className="position-relative">
@@ -17,19 +17,16 @@ const OptimizationAssistant = ({adviceList, t }) => {
           <ListGroupItem
             className="bg-transparent d-flex justify-content-between px-0 py-1 font-weight-semi-bold border-top-0"
             style={{ borderColor: listItemBorderColor }}
-          >
-          </ListGroupItem>
+          />
           {adviceList.map(({ advice, index }) => (
             <ListGroupItem
               key={uuid()}
               className="bg-transparent d-flex justify-content-between px-0 py-1"
               style={{ borderColor: listItemBorderColor }}
             >
-              <p className="mb-0 ">
-                {advice}
-              </p>
+              <p className="mb-0 ">{advice}</p>
             </ListGroupItem>
-           ))}
+          ))}
         </ListGroup>
       </CardBody>
     </Card>

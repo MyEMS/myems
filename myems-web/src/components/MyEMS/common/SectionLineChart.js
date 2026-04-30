@@ -23,10 +23,10 @@ echarts.use([
   MarkAreaComponent,
   LineChart,
   CanvasRenderer,
-  UniversalTransition]);
+  UniversalTransition
+]);
 
-const SectionLineChart = ({ xaxisData, seriesName, seriesData, markAreaData}) => {
-
+const SectionLineChart = ({ xaxisData, seriesName, seriesData, markAreaData }) => {
   let getOption = () => {
     return {
       tooltip: {
@@ -61,16 +61,10 @@ const SectionLineChart = ({ xaxisData, seriesName, seriesData, markAreaData}) =>
           }
         }
       ]
-    }
+    };
   };
 
-  return (
-    <ReactEchartsCore
-          echarts={echarts}
-          notMerge={true}
-          option={getOption()}
-        />
-  );
+  return <ReactEchartsCore echarts={echarts} notMerge={true} option={getOption()} />;
 };
 
 export default SectionLineChart;

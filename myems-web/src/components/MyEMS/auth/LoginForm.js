@@ -164,13 +164,13 @@ const LoginForm = ({ setRedirect, hasLabel, layout, t }) => {
         </Button>
       </FormGroup>
       <CustomInput
-          type="select"
-          id="language"
-          name="language"
-          bsSize="sm"
-          className="mb-3"
-          value={language}
-          onChange={({target}) => setLanguage(target.value)}
+        type="select"
+        id="language"
+        name="language"
+        bsSize="sm"
+        className="mb-3"
+        value={language}
+        onChange={({ target }) => setLanguage(target.value)}
       >
         <option value="zh_CN">{t('language-zh_CN')}</option>
         <option value="en">{t('language-en')}</option>

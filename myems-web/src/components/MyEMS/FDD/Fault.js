@@ -247,7 +247,6 @@ const Fault = ({ setRedirect, setRedirectUrl, t }) => {
   });
   const labelClasses = 'ls text-uppercase text-600 font-weight-semi-bold mb-0';
 
-
   // Callback fired when value changed
   let onReportingPeriodChange = DateRange => {
     if (DateRange == null) {
@@ -258,7 +257,6 @@ const Fault = ({ setRedirect, setRedirectUrl, t }) => {
         DateRange[1] = endOfDay(DateRange[1]);
       }
       setReportingPeriodDateRange([DateRange[0], DateRange[1]]);
-
     }
   };
 
@@ -354,7 +352,7 @@ const Fault = ({ setRedirect, setRedirectUrl, t }) => {
           setExcelBytesBase64(json['excel_bytes_base64']);
           setSpinnerHidden(true);
         } else {
-          handleAPIError(json, setRedirect, setRedirectUrl, t, toast)
+          handleAPIError(json, setRedirect, setRedirectUrl, t, toast);
         }
       })
       .catch(err => {
@@ -386,7 +384,6 @@ const Fault = ({ setRedirect, setRedirectUrl, t }) => {
         }
       })
       .then(json => {
-
         if (isResponseOK) {
           let isResponseOK = false;
           fetch(
@@ -418,8 +415,6 @@ const Fault = ({ setRedirect, setRedirectUrl, t }) => {
             })
             .then(json => {
               if (isResponseOK) {
-
-
                 let faultList = [];
 
                 if (json.length > 0) {
@@ -446,7 +441,7 @@ const Fault = ({ setRedirect, setRedirectUrl, t }) => {
               }
             });
         } else {
-          handleAPIError(json, setRedirect, setRedirectUrl, t, toast)
+          handleAPIError(json, setRedirect, setRedirectUrl, t, toast);
         }
       })
       .catch(err => {
@@ -479,7 +474,6 @@ const Fault = ({ setRedirect, setRedirectUrl, t }) => {
         }
       })
       .then(json => {
-
         if (isResponseOK) {
           let isResponseOK = false;
           fetch(
@@ -511,8 +505,6 @@ const Fault = ({ setRedirect, setRedirectUrl, t }) => {
             })
             .then(json => {
               if (isResponseOK) {
-
-
                 let faultList = [];
 
                 if (json.length > 0) {
@@ -538,7 +530,7 @@ const Fault = ({ setRedirect, setRedirectUrl, t }) => {
               }
             });
         } else {
-          handleAPIError(json, setRedirect, setRedirectUrl, t, toast)
+          handleAPIError(json, setRedirect, setRedirectUrl, t, toast);
         }
       })
       .catch(err => {
@@ -566,7 +558,6 @@ const Fault = ({ setRedirect, setRedirectUrl, t }) => {
         }
       })
       .then(json => {
-
         if (isResponseOK) {
           let isResponseOK = false;
           fetch(
@@ -598,8 +589,6 @@ const Fault = ({ setRedirect, setRedirectUrl, t }) => {
             })
             .then(json => {
               if (isResponseOK) {
-
-
                 let faultList = [];
 
                 if (json.length > 0) {
@@ -626,7 +615,7 @@ const Fault = ({ setRedirect, setRedirectUrl, t }) => {
               }
             });
         } else {
-          handleAPIError(json, setRedirect, setRedirectUrl, t, toast)
+          handleAPIError(json, setRedirect, setRedirectUrl, t, toast);
         }
       })
       .catch(err => {
@@ -794,10 +783,7 @@ const Fault = ({ setRedirect, setRedirectUrl, t }) => {
         <FalconCardHeader title={t('Fault Alarms')} light={false} titleClass="text-lightSlateGray mb-0">
           {isSelected ? (
             <InputGroup size="sm" className="input-group input-group-sm">
-              <CustomInput
-                type="select"
-                id="bulk-select"
-                bsSize="sm">
+              <CustomInput type="select" id="bulk-select" bsSize="sm">
                 <option>{t('Bulk actions')}</option>
                 <option value="MarkAsRead">{t('Notification Mark As Read')}</option>
                 <option value="MarkAsAcknowledged">{t('Notification Mark As Acknowledged')}</option>

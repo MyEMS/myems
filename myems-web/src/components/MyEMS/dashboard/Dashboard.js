@@ -6,7 +6,7 @@ import LineChart from '../common/LineChart';
 import { toast } from 'react-toastify';
 import SharePie from '../common/SharePie';
 import loadable from '@loadable/component';
-import { getCookieValue, createCookie, checkEmpty,handleAPIError } from '../../../helpers/utils';
+import { getCookieValue, createCookie, checkEmpty, handleAPIError } from '../../../helpers/utils';
 import withRedirect from '../../../hoc/withRedirect';
 import { withTranslation } from 'react-i18next';
 import moment from 'moment';
@@ -276,10 +276,12 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
               totalInTCE['increment_rate'] =
                 parseFloat(json['reporting_period_input']['this_month_increment_rate_in_kgce'] * 100).toFixed(2) + '%';
               totalInTCE['value_per_unit_area'] =
-                json['space']['area'] > 0 ? parseFloat(1000.0 * totalInTCE['value'] / json['space']['area']).toFixed(3) : 0.0;
+                json['space']['area'] > 0
+                  ? parseFloat((1000.0 * totalInTCE['value']) / json['space']['area']).toFixed(3)
+                  : 0.0;
               totalInTCE['value_per_capita'] =
                 json['space']['number_of_occupants'] > 0
-                  ? parseFloat(1000.0 *totalInTCE['value'] / json['space']['number_of_occupants']).toFixed(3)
+                  ? parseFloat((1000.0 * totalInTCE['value']) / json['space']['number_of_occupants']).toFixed(3)
                   : 0.0;
               setTotalInTCE(totalInTCE);
 
@@ -297,12 +299,15 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
               let totalInTCO2E = {};
               totalInTCO2E['value'] = json['reporting_period_input']['this_month_total_in_kgco2e'] / 1000; // convert from kg to t
               totalInTCO2E['increment_rate'] =
-                parseFloat(json['reporting_period_input']['this_month_increment_rate_in_kgco2e'] * 100).toFixed(2) + '%';
+                parseFloat(json['reporting_period_input']['this_month_increment_rate_in_kgco2e'] * 100).toFixed(2) +
+                '%';
               totalInTCO2E['value_per_unit_area'] =
-                json['space']['area'] > 0 ? parseFloat(1000.0 * totalInTCO2E['value'] / json['space']['area']).toFixed(3) : 0.0;
+                json['space']['area'] > 0
+                  ? parseFloat((1000.0 * totalInTCO2E['value']) / json['space']['area']).toFixed(3)
+                  : 0.0;
               totalInTCO2E['value_per_capita'] =
                 json['space']['number_of_occupants'] > 0
-                  ? parseFloat(1000.0 * totalInTCO2E['value'] / json['space']['number_of_occupants']).toFixed(3)
+                  ? parseFloat((1000.0 * totalInTCO2E['value']) / json['space']['number_of_occupants']).toFixed(3)
                   : 0.0;
               setTotalInTCO2E(totalInTCO2E);
 
@@ -647,7 +652,7 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
                   geojson['features'] = geojsonData;
                   setGeojson(geojson);
                 } else {
-                  handleAPIError(json, setRedirect, setRedirectUrl, t, toast)
+                  handleAPIError(json, setRedirect, setRedirectUrl, t, toast);
                 }
               })
               .catch(err => {
@@ -655,7 +660,7 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
               });
             // end of get children of root Space
           } else {
-            handleAPIError(json, setRedirect, setRedirectUrl, t, toast)
+            handleAPIError(json, setRedirect, setRedirectUrl, t, toast);
           }
         })
         .catch(err => {

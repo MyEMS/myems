@@ -12,6 +12,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - added try...finally for cnx.close() and cursor.close() in myems-api
 - fixed overwritten property issues in myems-web
 - fixed overwritten property issues in myems-admin
+- fixed semicolon insertion issues in myems-web
 ### Removed
 
 ## [v6.4.0] - 2026-04-26

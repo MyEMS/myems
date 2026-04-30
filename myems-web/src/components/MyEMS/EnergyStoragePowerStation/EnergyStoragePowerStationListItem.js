@@ -100,18 +100,19 @@ const EnergyStoragePowerStationListItem = ({
                 />
               </Link>
               <Badge color="success" pill className="position-absolute t-0 r-0 mr-2 mt-2 fs--2 z-index-2">
-                  { !isOnline ? t('Communication Offline') :
-                    PCSRunState === 'Running'
-                    ? t('PCS Running')
-                    : PCSRunState === 'Initializing'
-                    ? t('PCS Initializing')
-                    : PCSRunState === 'Standby'
-                    ? t('PCS Standby')
-                    : PCSRunState === 'Shutdown'
-                    ? t('PCS Shutdown')
-                    : PCSRunState === 'Fault'
-                    ? t('PCS Fault')
-                    : PCSRunState}
+                {!isOnline
+                  ? t('Communication Offline')
+                  : PCSRunState === 'Running'
+                  ? t('PCS Running')
+                  : PCSRunState === 'Initializing'
+                  ? t('PCS Initializing')
+                  : PCSRunState === 'Standby'
+                  ? t('PCS Standby')
+                  : PCSRunState === 'Shutdown'
+                  ? t('PCS Shutdown')
+                  : PCSRunState === 'Fault'
+                  ? t('PCS Fault')
+                  : PCSRunState}
               </Badge>
             </div>
           </Col>
@@ -163,8 +164,9 @@ const EnergyStoragePowerStationListItem = ({
                           batteryOperatingState === 'Warning'
                       })}
                     >
-                      {!isOnline ? t('Battery Unknown') :
-                        batteryOperatingState === 'Normal'
+                      {!isOnline
+                        ? t('Battery Unknown')
+                        : batteryOperatingState === 'Normal'
                         ? t('Battery Normal')
                         : batteryOperatingState === 'Standby'
                         ? t('Battery Standby')
@@ -200,8 +202,9 @@ const EnergyStoragePowerStationListItem = ({
                           PCSRunState === 'Fault'
                       })}
                     >
-                      {!isOnline ? t('PCS Unknown') :
-                        PCSRunState === 'Running'
+                      {!isOnline
+                        ? t('PCS Unknown')
+                        : PCSRunState === 'Running'
                         ? t('PCS Running')
                         : PCSRunState === 'Initializing'
                         ? t('PCS Initializing')
