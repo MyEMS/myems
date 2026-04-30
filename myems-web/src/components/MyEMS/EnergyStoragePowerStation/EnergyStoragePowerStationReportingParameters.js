@@ -17,7 +17,7 @@ import moment from 'moment';
 import loadable from '@loadable/component';
 import Cascader from 'rc-cascader';
 import MultipleLineChart from '../common/MultipleLineChart';
-import { getCookieValue, createCookie, checkEmpty,handleAPIError } from '../../../helpers/utils';
+import { getCookieValue, createCookie, checkEmpty, handleAPIError } from '../../../helpers/utils';
 import withRedirect from '../../../hoc/withRedirect';
 import { withTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
@@ -201,18 +201,17 @@ const EnergyStoragePowerStationReportingParameters = ({ setRedirect, setRedirect
                           setPointList([]);
                         }
                       } else {
-                        handleAPIError(json, setRedirect, setRedirectUrl, t, toast)
+                        handleAPIError(json, setRedirect, setRedirectUrl, t, toast);
                       }
                     })
                     .catch(err => {
                       console.log(err);
                     });
-
                 } else {
                   setSelectedEnergyStoragePowerStation(undefined);
                 }
               } else {
-                handleAPIError(json, setRedirect, setRedirectUrl, t, toast)
+                handleAPIError(json, setRedirect, setRedirectUrl, t, toast);
               }
             })
             .catch(err => {
@@ -220,7 +219,7 @@ const EnergyStoragePowerStationReportingParameters = ({ setRedirect, setRedirect
             });
           // end of get EnergyStoragePowerStations by root Space ID
         } else {
-          handleAPIError(json, setRedirect, setRedirectUrl, t, toast)
+          handleAPIError(json, setRedirect, setRedirectUrl, t, toast);
         }
       })
       .catch(err => {
@@ -285,7 +284,7 @@ const EnergyStoragePowerStationReportingParameters = ({ setRedirect, setRedirect
           // show export button
           setExportButtonHidden(false);
         } else {
-          handleAPIError(json, setRedirect, setRedirectUrl, t, toast)
+          handleAPIError(json, setRedirect, setRedirectUrl, t, toast);
           setSpinnerHidden(true);
           setSubmitButtonDisabled(false);
         }
@@ -352,7 +351,7 @@ const EnergyStoragePowerStationReportingParameters = ({ setRedirect, setRedirect
                     setPointList([]);
                   }
                 } else {
-                  handleAPIError(json, setRedirect, setRedirectUrl, t, toast)
+                  handleAPIError(json, setRedirect, setRedirectUrl, t, toast);
                 }
               })
               .catch(err => {
@@ -363,7 +362,7 @@ const EnergyStoragePowerStationReportingParameters = ({ setRedirect, setRedirect
             setPointList([]);
           }
         } else {
-          handleAPIError(json, setRedirect, setRedirectUrl, t, toast)
+          handleAPIError(json, setRedirect, setRedirectUrl, t, toast);
         }
       })
       .catch(err => {
@@ -398,13 +397,13 @@ const EnergyStoragePowerStationReportingParameters = ({ setRedirect, setRedirect
             setPointList([]);
           }
         } else {
-          handleAPIError(json, setRedirect, setRedirectUrl, t, toast)
+          handleAPIError(json, setRedirect, setRedirectUrl, t, toast);
         }
       })
       .catch(err => {
         console.log(err);
       });
-  }
+  };
 
   // Callback fired when value changed
   let onPointsChange = event => {
@@ -419,7 +418,7 @@ const EnergyStoragePowerStationReportingParameters = ({ setRedirect, setRedirect
       // disable submit button
       setSubmitButtonDisabled(true);
     }
-  }
+  };
 
   // Callback fired when value changed
   let onReportingPeriodChange = DateRange => {
@@ -593,7 +592,10 @@ const EnergyStoragePowerStationReportingParameters = ({ setRedirect, setRedirect
           </Form>
         </CardBody>
       </Card>
-      <div className="blank-page-image-container" style={{ visibility: resultDataHidden ? 'visible' : 'hidden', display: resultDataHidden ? '' : 'none' }}>
+      <div
+        className="blank-page-image-container"
+        style={{ visibility: resultDataHidden ? 'visible' : 'hidden', display: resultDataHidden ? '' : 'none' }}
+      >
         <img className="img-fluid" src={blankPage} alt="" />
       </div>
       <div style={{ visibility: resultDataHidden ? 'hidden' : 'visible', display: resultDataHidden ? 'none' : '' }}>

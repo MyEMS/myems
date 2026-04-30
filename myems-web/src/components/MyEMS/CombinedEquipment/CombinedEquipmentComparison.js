@@ -21,7 +21,7 @@ import loadable from '@loadable/component';
 import Cascader from 'rc-cascader';
 import CardSummary from '../common/CardSummary';
 import MultipleLineChart from '../common/MultipleLineChart';
-import { getCookieValue, createCookie, checkEmpty,handleAPIError } from '../../../helpers/utils';
+import { getCookieValue, createCookie, checkEmpty, handleAPIError } from '../../../helpers/utils';
 import withRedirect from '../../../hoc/withRedirect';
 import { withTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
@@ -221,7 +221,7 @@ const CombinedEquipmentComparison = ({ setRedirect, setRedirectUrl, t }) => {
                   setSubmitButtonDisabled(true);
                 }
               } else {
-                handleAPIError(json, setRedirect, setRedirectUrl, t, toast)
+                handleAPIError(json, setRedirect, setRedirectUrl, t, toast);
               }
             })
             .catch(err => {
@@ -229,7 +229,7 @@ const CombinedEquipmentComparison = ({ setRedirect, setRedirectUrl, t }) => {
             });
           // end of get Equipments by root Space ID
         } else {
-          handleAPIError(json, setRedirect, setRedirectUrl, t, toast)
+          handleAPIError(json, setRedirect, setRedirectUrl, t, toast);
         }
       })
       .catch(err => {
@@ -272,7 +272,7 @@ const CombinedEquipmentComparison = ({ setRedirect, setRedirectUrl, t }) => {
             setSubmitButtonDisabled(true);
           }
         } else {
-          handleAPIError(json, setRedirect, setRedirectUrl, t, toast)
+          handleAPIError(json, setRedirect, setRedirectUrl, t, toast);
         }
       })
       .catch(err => {
@@ -319,8 +319,7 @@ const CombinedEquipmentComparison = ({ setRedirect, setRedirectUrl, t }) => {
             if (is_data2_valid === true) {
               // enable submit button
               setSubmitButtonDisabled(false);
-            }
-            else {
+            } else {
               setSubmitButtonDisabled(true);
             }
           } else {
@@ -330,7 +329,7 @@ const CombinedEquipmentComparison = ({ setRedirect, setRedirectUrl, t }) => {
             setSubmitButtonDisabled(true);
           }
         } else {
-          handleAPIError(json, setRedirect, setRedirectUrl, t, toast)
+          handleAPIError(json, setRedirect, setRedirectUrl, t, toast);
         }
       })
       .catch(err => {
@@ -375,8 +374,7 @@ const CombinedEquipmentComparison = ({ setRedirect, setRedirectUrl, t }) => {
             if (is_data1_valid === true) {
               // enable submit button
               setSubmitButtonDisabled(false);
-            } 
-            else {
+            } else {
               setSubmitButtonDisabled(true);
             }
           } else {
@@ -386,7 +384,7 @@ const CombinedEquipmentComparison = ({ setRedirect, setRedirectUrl, t }) => {
             setSubmitButtonDisabled(true);
           }
         } else {
-          handleAPIError(json, setRedirect, setRedirectUrl, t, toast)
+          handleAPIError(json, setRedirect, setRedirectUrl, t, toast);
         }
       })
       .catch(err => {
@@ -396,7 +394,9 @@ const CombinedEquipmentComparison = ({ setRedirect, setRedirectUrl, t }) => {
 
   const onSearchCombinedEquipment1 = ({ target }) => {
     const keyword = target.value.toLowerCase();
-    const filteredResult = combinedEquipmentList1.filter(combinedEquipment => combinedEquipment.label.toLowerCase().includes(keyword));
+    const filteredResult = combinedEquipmentList1.filter(combinedEquipment =>
+      combinedEquipment.label.toLowerCase().includes(keyword)
+    );
     setFilteredCombinedEquipmentList1(keyword.length ? filteredResult : combinedEquipmentList1);
     if (filteredResult.length > 0) {
       setSelectedCombinedEquipment1(filteredResult[0].value);
@@ -404,8 +404,7 @@ const CombinedEquipmentComparison = ({ setRedirect, setRedirectUrl, t }) => {
       if (is_data2_valid === true) {
         // enable submit button
         setSubmitButtonDisabled(false);
-      }
-      else {
+      } else {
         setSubmitButtonDisabled(true);
       }
     } else {
@@ -420,7 +419,9 @@ const CombinedEquipmentComparison = ({ setRedirect, setRedirectUrl, t }) => {
 
   const onSearchCombinedEquipment2 = ({ target }) => {
     const keyword = target.value.toLowerCase();
-    const filteredResult = combinedEquipmentList2.filter(combinedEquipment => combinedEquipment.label.toLowerCase().includes(keyword));
+    const filteredResult = combinedEquipmentList2.filter(combinedEquipment =>
+      combinedEquipment.label.toLowerCase().includes(keyword)
+    );
     setFilteredCombinedEquipmentList2(keyword.length ? filteredResult : combinedEquipmentList2);
     if (filteredResult.length > 0) {
       setSelectedCombinedEquipment2(filteredResult[0].value);
@@ -428,8 +429,7 @@ const CombinedEquipmentComparison = ({ setRedirect, setRedirectUrl, t }) => {
       if (is_data1_valid === true) {
         // enable submit button
         setSubmitButtonDisabled(false);
-      }
-      else {
+      } else {
         setSubmitButtonDisabled(true);
       }
     } else {
@@ -677,7 +677,7 @@ const CombinedEquipmentComparison = ({ setRedirect, setRedirectUrl, t }) => {
           // show result data
           setResultDataHidden(false);
         } else {
-          handleAPIError(json, setRedirect, setRedirectUrl, t, toast)
+          handleAPIError(json, setRedirect, setRedirectUrl, t, toast);
           setSpinnerHidden(true);
           setSubmitButtonDisabled(false);
         }
@@ -894,7 +894,10 @@ const CombinedEquipmentComparison = ({ setRedirect, setRedirectUrl, t }) => {
           </Form>
         </CardBody>
       </Card>
-      <div className="blank-page-image-container" style={{ visibility: resultDataHidden ? 'visible' : 'hidden', display: resultDataHidden ? '' : 'none' }}>
+      <div
+        className="blank-page-image-container"
+        style={{ visibility: resultDataHidden ? 'visible' : 'hidden', display: resultDataHidden ? '' : 'none' }}
+      >
         <img className="img-fluid" src={blankPage} alt="" />
       </div>
       <div style={{ visibility: resultDataHidden ? 'hidden' : 'visible', display: resultDataHidden ? 'none' : '' }}>

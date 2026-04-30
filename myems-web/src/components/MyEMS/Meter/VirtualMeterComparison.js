@@ -20,7 +20,7 @@ import moment from 'moment';
 import loadable from '@loadable/component';
 import Cascader from 'rc-cascader';
 import CardSummary from '../common/CardSummary';
-import { getCookieValue, createCookie, checkEmpty,handleAPIError } from '../../../helpers/utils';
+import { getCookieValue, createCookie, checkEmpty, handleAPIError } from '../../../helpers/utils';
 import withRedirect from '../../../hoc/withRedirect';
 import { withTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
@@ -208,14 +208,14 @@ const VirtualMeterComparison = ({ setRedirect, setRedirectUrl, t }) => {
                   setSubmitButtonDisabled(true);
                 }
               } else {
-                handleAPIError(json, setRedirect, setRedirectUrl, t, toast)
+                handleAPIError(json, setRedirect, setRedirectUrl, t, toast);
               }
             })
             .catch(err => {
               console.log(err);
             });
         } else {
-          handleAPIError(json, setRedirect, setRedirectUrl, t, toast)
+          handleAPIError(json, setRedirect, setRedirectUrl, t, toast);
         }
       })
       .catch(err => {
@@ -264,7 +264,7 @@ const VirtualMeterComparison = ({ setRedirect, setRedirectUrl, t }) => {
             setSubmitButtonDisabled(true);
           }
         } else {
-          handleAPIError(json, setRedirect, setRedirectUrl, t, toast)
+          handleAPIError(json, setRedirect, setRedirectUrl, t, toast);
         }
       })
       .catch(err => {
@@ -311,7 +311,7 @@ const VirtualMeterComparison = ({ setRedirect, setRedirectUrl, t }) => {
             setSubmitButtonDisabled(true);
           }
         } else {
-          handleAPIError(json, setRedirect, setRedirectUrl, t, toast)
+          handleAPIError(json, setRedirect, setRedirectUrl, t, toast);
         }
       })
       .catch(err => {
@@ -481,7 +481,7 @@ const VirtualMeterComparison = ({ setRedirect, setRedirectUrl, t }) => {
                 json['virtualmeter1']['unit_of_measure'] +
                 ')',
               sort: true,
-              formatter: (val) => val !== undefined ? val.toFixed(2) : null
+              formatter: val => (val !== undefined ? val.toFixed(2) : null)
             },
             {
               dataField: 'a1',
@@ -492,7 +492,7 @@ const VirtualMeterComparison = ({ setRedirect, setRedirectUrl, t }) => {
                 json['virtualmeter2']['unit_of_measure'] +
                 ')',
               sort: true,
-              formatter: (val) => val !== undefined ? val.toFixed(2) : null
+              formatter: val => (val !== undefined ? val.toFixed(2) : null)
             },
             {
               dataField: 'a2',
@@ -501,7 +501,7 @@ const VirtualMeterComparison = ({ setRedirect, setRedirectUrl, t }) => {
                 UNIT: '(' + json['virtualmeter1']['unit_of_measure'] + ')'
               }),
               sort: true,
-              formatter: (val) => val !== undefined ? val.toFixed(2) : null
+              formatter: val => (val !== undefined ? val.toFixed(2) : null)
             }
           ]);
 
@@ -533,7 +533,7 @@ const VirtualMeterComparison = ({ setRedirect, setRedirectUrl, t }) => {
           setExportButtonHidden(false);
           setResultDataHidden(false);
         } else {
-          handleAPIError(json, setRedirect, setRedirectUrl, t, toast)
+          handleAPIError(json, setRedirect, setRedirectUrl, t, toast);
           setSpinnerHidden(true);
           setSubmitButtonDisabled(false);
         }

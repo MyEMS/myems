@@ -22,11 +22,7 @@ const nameFormatter = nameuuid => {
   const uuid = nameuuid.length >= 36 ? nameuuid.substring(nameuuid.length - 36, nameuuid.length) : '';
   const name = nameuuid.length >= 36 ? nameuuid.substring(0, nameuuid.length - 36) : nameuuid;
   return (
-    <Link
-      to={'/singlemicrogrid/details?uuid=' + uuid}
-      target="_blank"
-      className="font-weight-semi-bold"
-    >
+    <Link to={'/singlemicrogrid/details?uuid=' + uuid} target="_blank" className="font-weight-semi-bold">
       {name}
     </Link>
   );

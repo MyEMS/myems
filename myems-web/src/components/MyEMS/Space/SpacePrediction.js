@@ -23,7 +23,7 @@ import CardSummary from '../common/CardSummary';
 import MultiTrendChart from '../common/MultiTrendChart';
 import MultipleLineChart from '../common/MultipleLineChart';
 import SharePie from '../common/SharePie';
-import { getCookieValue, createCookie, checkEmpty,handleAPIError } from '../../../helpers/utils';
+import { getCookieValue, createCookie, checkEmpty, handleAPIError } from '../../../helpers/utils';
 import withRedirect from '../../../hoc/withRedirect';
 import { withTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
@@ -85,8 +85,13 @@ const SpacePrediction = ({ setRedirect, setRedirectUrl, t }) => {
   const [cascaderValue, setCascaderValue] = useState([]);
   const [basePeriodDateRange, setBasePeriodDateRange] = useState([null, null]);
   const [basePeriodDateRangePickerDisabled, setBasePeriodDateRangePickerDisabled] = useState(true);
-  const tomorrowStart = moment().add(1, 'days').startOf('day');
-  const seventhDayEnd = tomorrowStart.clone().add(6, 'days').endOf('day');
+  const tomorrowStart = moment()
+    .add(1, 'days')
+    .startOf('day');
+  const seventhDayEnd = tomorrowStart
+    .clone()
+    .add(6, 'days')
+    .endOf('day');
   const [reportingPeriodDateRange, setReportingPeriodDateRange] = useState([
     tomorrowStart.toDate(),
     seventhDayEnd.toDate()
@@ -190,7 +195,7 @@ const SpacePrediction = ({ setRedirect, setRedirectUrl, t }) => {
           // load data with space tree
           loadWithSpaceTree(json);
         } else {
-          handleAPIError(json, setRedirect, setRedirectUrl, t, toast)
+          handleAPIError(json, setRedirect, setRedirectUrl, t, toast);
         }
       })
       .catch(err => {
@@ -639,7 +644,7 @@ const SpacePrediction = ({ setRedirect, setRedirectUrl, t }) => {
             }
           }
 
-           setExcelBytesBase64(json['excel_bytes_base64']);
+          setExcelBytesBase64(json['excel_bytes_base64']);
 
           // enable submit button
           setSubmitButtonDisabled(false);
@@ -650,7 +655,7 @@ const SpacePrediction = ({ setRedirect, setRedirectUrl, t }) => {
           // show result data
           setResultDataHidden(false);
         } else {
-          handleAPIError(json, setRedirect, setRedirectUrl, t, toast)
+          handleAPIError(json, setRedirect, setRedirectUrl, t, toast);
         }
       })
       .catch(err => {
@@ -734,7 +739,7 @@ const SpacePrediction = ({ setRedirect, setRedirectUrl, t }) => {
             .toDate()
             .getTime();
 
-      const isYesterdayRange = 
+      const isYesterdayRange =
         DateRange[0].getTime() ===
           now
             .clone()
@@ -1057,7 +1062,10 @@ const SpacePrediction = ({ setRedirect, setRedirectUrl, t }) => {
           </Form>
         </CardBody>
       </Card>
-      <div className="blank-page-image-container" style={{ visibility: resultDataHidden ? 'visible' : 'hidden', display: resultDataHidden ? '' : 'none' }}>
+      <div
+        className="blank-page-image-container"
+        style={{ visibility: resultDataHidden ? 'visible' : 'hidden', display: resultDataHidden ? '' : 'none' }}
+      >
         <img className="img-fluid" src={blankPage} alt="" />
       </div>
       <div style={{ visibility: resultDataHidden ? 'hidden' : 'visible', display: resultDataHidden ? 'none' : '' }}>

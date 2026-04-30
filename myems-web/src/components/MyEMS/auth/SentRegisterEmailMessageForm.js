@@ -188,10 +188,10 @@ const SentRegisterEmailMessageForm = ({ setRedirect, setRedirectUrl, hasLabel, l
     setIsSubmitDisabled(!isEmailValid || !password || !displayName || !name || !code || !phone || !isPhoneValid);
   };
 
-  const validatePhone = (phoneNum) => {
-  const phoneReg = /^\+?\d{8,}$/;
-  return phoneReg.test(phoneNum.trim());
-};
+  const validatePhone = phoneNum => {
+    const phoneReg = /^\+?\d{8,}$/;
+    return phoneReg.test(phoneNum.trim());
+  };
 
   return (
     <Form className="mt-4" onSubmit={handleSubmit}>

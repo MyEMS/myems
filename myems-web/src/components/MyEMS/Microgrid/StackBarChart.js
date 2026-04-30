@@ -8,7 +8,15 @@ import AppContext from '../../../context/Context';
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Tooltip, Legend, LogarithmicScale);
 
-const StackBarChart = ({ labels, chargeData, dischargeData, periodTypes, chargeLabelPrefix, dischargeLabelPrefix, t }) => {
+const StackBarChart = ({
+  labels,
+  chargeData,
+  dischargeData,
+  periodTypes,
+  chargeLabelPrefix,
+  dischargeLabelPrefix,
+  t
+}) => {
   // 冷色调：用于充电数据（蓝色、青色、绿色系）
   const chargeColors = ['#2c7be5', '#00d27a', '#27bcfd', '#0ea5e9', '#14b8a6'];
   // 暖色调：用于放电数据（红色、橙色、黄色、粉色系）
@@ -48,10 +56,7 @@ const StackBarChart = ({ labels, chargeData, dischargeData, periodTypes, chargeL
           const labelPrefix = dischargeLabelPrefix || t('Discharge UNIT', { UNIT: dischargeData['unit'] });
           const stackLabel = dischargeLabelPrefix || t('Discharge UNIT', { UNIT: dischargeData['unit'] });
           dataArray.push({
-            label:
-              dischargeData['station_names_array'][itemIndex] +
-              ' ' +
-              labelPrefix,
+            label: dischargeData['station_names_array'][itemIndex] + ' ' + labelPrefix,
             stack: stackLabel,
             data: item,
             backgroundColor: dischargeColors[itemIndex % 5]

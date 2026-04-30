@@ -20,7 +20,7 @@ import moment from 'moment';
 import loadable from '@loadable/component';
 import { Link } from 'react-router-dom';
 import Flex from '../../common/Flex';
-import { getCookieValue, createCookie, checkEmpty,handleAPIError } from '../../../helpers/utils';
+import { getCookieValue, createCookie, checkEmpty, handleAPIError } from '../../../helpers/utils';
 import withRedirect from '../../../hoc/withRedirect';
 import { withTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
@@ -155,7 +155,7 @@ const MeterBatch = ({ setRedirect, setRedirectUrl, t }) => {
           setSubmitButtonDisabled(false);
           setSpinnerHidden(true);
         } else {
-          handleAPIError(json, setRedirect, setRedirectUrl, t, toast)
+          handleAPIError(json, setRedirect, setRedirectUrl, t, toast);
         }
       })
       .catch(err => {
@@ -244,7 +244,7 @@ const MeterBatch = ({ setRedirect, setRedirectUrl, t }) => {
               detailed_value['space'] = currentMeter['space_name'];
               detailed_value['energycategory'] = currentMeter['energy_category_name'];
               detailed_value['costcenter'] = currentMeter['cost_center_name'];
-              currentMeter['daily_values'].forEach((dailyItem) => {
+              currentMeter['daily_values'].forEach(dailyItem => {
                 detailed_value[dailyItem['date']] = dailyItem['value'];
               });
               meters.push(detailed_value);
@@ -294,7 +294,7 @@ const MeterBatch = ({ setRedirect, setRedirectUrl, t }) => {
           // show result data
           setResultDataHidden(false);
         } else {
-          handleAPIError(json, setRedirect, setRedirectUrl, t, toast)
+          handleAPIError(json, setRedirect, setRedirectUrl, t, toast);
         }
       })
       .catch(err => {
@@ -399,10 +399,13 @@ const MeterBatch = ({ setRedirect, setRedirectUrl, t }) => {
           </Form>
         </CardBody>
       </Card>
-      <div className="blank-page-image-container" style={{ visibility: resultDataHidden ? 'visible' : 'hidden', display: resultDataHidden ? '' : 'none' }}>
+      <div
+        className="blank-page-image-container"
+        style={{ visibility: resultDataHidden ? 'visible' : 'hidden', display: resultDataHidden ? '' : 'none' }}
+      >
         <img className="img-fluid" src={blankPage} alt="" />
       </div>
-      <div style={{ visibility: resultDataHidden ? 'hidden' : 'visible', display: resultDataHidden ? 'none' : ''  }}>
+      <div style={{ visibility: resultDataHidden ? 'hidden' : 'visible', display: resultDataHidden ? 'none' : '' }}>
         <DetailedDataTable
           data={meterList}
           title={t('Detailed Data')}

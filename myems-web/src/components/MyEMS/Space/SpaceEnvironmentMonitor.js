@@ -17,7 +17,7 @@ import {
 } from 'reactstrap';
 import Cascader from 'rc-cascader';
 import RealtimeData from './RealtimeData';
-import { getCookieValue, createCookie, checkEmpty,handleAPIError } from '../../../helpers/utils';
+import { getCookieValue, createCookie, checkEmpty, handleAPIError } from '../../../helpers/utils';
 import withRedirect from '../../../hoc/withRedirect';
 import { withTranslation } from 'react-i18next';
 import { v4 as uuid } from 'uuid';
@@ -125,14 +125,14 @@ const SpaceEnvironmentMonitor = ({ setRedirect, setRedirectUrl, t }) => {
                   updatePaginationData(json[0], currentPage);
                 }
               } else {
-                handleAPIError(json, setRedirect, setRedirectUrl, t, toast)
+                handleAPIError(json, setRedirect, setRedirectUrl, t, toast);
               }
             })
             .catch(err => {
               console.log(err);
             });
         } else {
-          handleAPIError(json, setRedirect, setRedirectUrl, t, toast)
+          handleAPIError(json, setRedirect, setRedirectUrl, t, toast);
         }
       })
       .catch(err => {
@@ -177,7 +177,7 @@ const SpaceEnvironmentMonitor = ({ setRedirect, setRedirectUrl, t }) => {
             setSelectSensorList([]);
           }
         } else {
-          handleAPIError(json, setRedirect, setRedirectUrl, t, toast)
+          handleAPIError(json, setRedirect, setRedirectUrl, t, toast);
         }
       })
       .catch(err => {
@@ -261,22 +261,25 @@ const SpaceEnvironmentMonitor = ({ setRedirect, setRedirectUrl, t }) => {
       {sensorList.length > sensorsPerPage && (
         <Pagination className="mt-3 justify-content-center">
           <PaginationItem disabled={currentPage === 1}>
-            <PaginationLink previous href="#" onClick={(e) => paginate(currentPage - 1, e)} />
+            <PaginationLink previous href="#" onClick={e => paginate(currentPage - 1, e)} />
           </PaginationItem>
           {[...Array(Math.ceil(sensorList.length / sensorsPerPage))].map((_, index) => (
             <PaginationItem key={index} active={index + 1 === currentPage}>
-              <PaginationLink href="#" onClick={(e) => paginate(index + 1, e)}>
+              <PaginationLink href="#" onClick={e => paginate(index + 1, e)}>
                 {index + 1}
               </PaginationLink>
             </PaginationItem>
           ))}
           <PaginationItem disabled={currentPage === Math.ceil(sensorList.length / sensorsPerPage)}>
-            <PaginationLink next href="#" onClick={(e) => paginate(currentPage + 1, e)} />
+            <PaginationLink next href="#" onClick={e => paginate(currentPage + 1, e)} />
           </PaginationItem>
         </Pagination>
       )}
 
-      <div className="blank-page-image-container" style={{ visibility: resultDataHidden ? 'visible' : 'hidden', display: resultDataHidden ? '' : 'none' }}>
+      <div
+        className="blank-page-image-container"
+        style={{ visibility: resultDataHidden ? 'visible' : 'hidden', display: resultDataHidden ? '' : 'none' }}
+      >
         <img className="img-fluid" src={blankPage} alt="" />
       </div>
     </Fragment>

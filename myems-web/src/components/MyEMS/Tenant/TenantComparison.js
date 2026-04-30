@@ -20,7 +20,7 @@ import moment from 'moment';
 import loadable from '@loadable/component';
 import Cascader from 'rc-cascader';
 import CardSummary from '../common/CardSummary';
-import { getCookieValue, createCookie, checkEmpty,handleAPIError } from '../../../helpers/utils';
+import { getCookieValue, createCookie, checkEmpty, handleAPIError } from '../../../helpers/utils';
 import withRedirect from '../../../hoc/withRedirect';
 import { withTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
@@ -217,7 +217,7 @@ const TenantComparison = ({ setRedirect, setRedirectUrl, t }) => {
                   setSubmitButtonDisabled(true);
                 }
               } else {
-                handleAPIError(json, setRedirect, setRedirectUrl, t, toast)
+                handleAPIError(json, setRedirect, setRedirectUrl, t, toast);
               }
             })
             .catch(err => {
@@ -225,7 +225,7 @@ const TenantComparison = ({ setRedirect, setRedirectUrl, t }) => {
             });
           // end of get Tenants by root Space ID
         } else {
-          handleAPIError(json, setRedirect, setRedirectUrl, t, toast)
+          handleAPIError(json, setRedirect, setRedirectUrl, t, toast);
         }
       })
       .catch(err => {
@@ -268,7 +268,7 @@ const TenantComparison = ({ setRedirect, setRedirectUrl, t }) => {
             setSubmitButtonDisabled(true);
           }
         } else {
-          handleAPIError(json, setRedirect, setRedirectUrl, t, toast)
+          handleAPIError(json, setRedirect, setRedirectUrl, t, toast);
         }
       })
       .catch(err => {
@@ -315,8 +315,7 @@ const TenantComparison = ({ setRedirect, setRedirectUrl, t }) => {
             if (is_data2_valid === true) {
               // enable submit button
               setSubmitButtonDisabled(false);
-            }
-            else {
+            } else {
               setSubmitButtonDisabled(true);
             }
           } else {
@@ -326,7 +325,7 @@ const TenantComparison = ({ setRedirect, setRedirectUrl, t }) => {
             setSubmitButtonDisabled(true);
           }
         } else {
-          handleAPIError(json, setRedirect, setRedirectUrl, t, toast)
+          handleAPIError(json, setRedirect, setRedirectUrl, t, toast);
         }
       })
       .catch(err => {
@@ -371,8 +370,7 @@ const TenantComparison = ({ setRedirect, setRedirectUrl, t }) => {
             if (is_data1_valid === true) {
               // enable submit button
               setSubmitButtonDisabled(false);
-            } 
-            else {
+            } else {
               setSubmitButtonDisabled(true);
             }
           } else {
@@ -382,7 +380,7 @@ const TenantComparison = ({ setRedirect, setRedirectUrl, t }) => {
             setSubmitButtonDisabled(true);
           }
         } else {
-          handleAPIError(json, setRedirect, setRedirectUrl, t, toast)
+          handleAPIError(json, setRedirect, setRedirectUrl, t, toast);
         }
       })
       .catch(err => {
@@ -400,8 +398,7 @@ const TenantComparison = ({ setRedirect, setRedirectUrl, t }) => {
       if (is_data2_valid === true) {
         // enable submit button
         setSubmitButtonDisabled(false);
-      }
-      else {
+      } else {
         setSubmitButtonDisabled(true);
       }
     } else {
@@ -424,8 +421,7 @@ const TenantComparison = ({ setRedirect, setRedirectUrl, t }) => {
       if (is_data1_valid === true) {
         // enable submit button
         setSubmitButtonDisabled(false);
-      }
-      else {
+      } else {
         setSubmitButtonDisabled(true);
       }
     } else {
@@ -556,7 +552,6 @@ const TenantComparison = ({ setRedirect, setRedirectUrl, t }) => {
           setReportingPeriodEnergyConsumptionInCategory2(json['reporting_period2']['total_in_category']);
           setReportingPeriodEnergyConsumptionInDifference(json['diff']['total_in_category']);
 
-
           let timestamps1 = {};
           timestamps1['a0'] = json['reporting_period1']['timestamps'];
           setTenantLineChartLabels1(timestamps1);
@@ -669,7 +664,7 @@ const TenantComparison = ({ setRedirect, setRedirectUrl, t }) => {
           // show result data
           setResultDataHidden(false);
         } else {
-          handleAPIError(json, setRedirect, setRedirectUrl, t, toast)
+          handleAPIError(json, setRedirect, setRedirectUrl, t, toast);
           setSpinnerHidden(true);
           setSubmitButtonDisabled(false);
         }
@@ -886,7 +881,10 @@ const TenantComparison = ({ setRedirect, setRedirectUrl, t }) => {
           </Form>
         </CardBody>
       </Card>
-      <div className="blank-page-image-container" style={{ visibility: resultDataHidden ? 'visible' : 'hidden', display: resultDataHidden ? '' : 'none' }}>
+      <div
+        className="blank-page-image-container"
+        style={{ visibility: resultDataHidden ? 'visible' : 'hidden', display: resultDataHidden ? '' : 'none' }}
+      >
         <img className="img-fluid" src={blankPage} alt="" />
       </div>
       <div style={{ visibility: resultDataHidden ? 'hidden' : 'visible', display: resultDataHidden ? 'none' : '' }}>

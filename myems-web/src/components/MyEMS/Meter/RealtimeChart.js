@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Line } from 'react-chartjs-2';
 import range from 'lodash/range';
 import { Card, CardHeader, CardBody, ListGroup, ListGroupItem } from 'reactstrap';
-import { rgbaColor,handleAPIError  } from '../../../helpers/utils';
+import { rgbaColor, handleAPIError } from '../../../helpers/utils';
 import { withTranslation } from 'react-i18next';
 import { v4 as uuid } from 'uuid';
 import { APIBaseURL } from '../../../config';
@@ -75,7 +75,7 @@ class RealtimeChart extends Component {
 
   componentDidMount() {
     this._isMounted = true;
-    const { t, setRedirect, setRedirectUrl  } = this.props;
+    const { t, setRedirect, setRedirectUrl } = this.props;
     // fetch meter realtime data at the first time
     let isResponseOK = false;
     fetch(APIBaseURL + '/reports/meterrealtime?meterid=' + this.props.meterId, {
@@ -95,12 +95,13 @@ class RealtimeChart extends Component {
       })
       .then(json => {
         if (isResponseOK) {
-
           let length = json['energy_value']['values'].length;
           let trendLog =
             length > 60 ? json['energy_value']['values'].slice(length - 60, length) : json['energy_value']['values'];
           let timestamps =
-            length > 60 ? json['energy_value']['timestamps'].slice(length - 60, length) : json['energy_value']['timestamps'];
+            length > 60
+              ? json['energy_value']['timestamps'].slice(length - 60, length)
+              : json['energy_value']['timestamps'];
           let currentEnergyValue = undefined;
           let energyValuePointName = json['energy_value']['name'];
           let pointList = [];
@@ -130,7 +131,7 @@ class RealtimeChart extends Component {
             });
           }
         } else {
-          handleAPIError(json, setRedirect, setRedirectUrl, t, toast)
+          handleAPIError(json, setRedirect, setRedirectUrl, t, toast);
         }
       })
       .catch(err => {
@@ -157,7 +158,6 @@ class RealtimeChart extends Component {
         })
         .then(json => {
           if (isResponseOK) {
-
             let trendLog = json['energy_value']['values'];
             let timestamps = json['energy_value']['timestamps'];
             let currentEnergyValue = undefined;
@@ -186,7 +186,7 @@ class RealtimeChart extends Component {
               });
             }
           } else {
-            handleAPIError(json, setRedirect, setRedirectUrl, t, toast)
+            handleAPIError(json, setRedirect, setRedirectUrl, t, toast);
           }
         })
         .catch(err => {

@@ -15,7 +15,7 @@ import {
   CustomInput
 } from 'reactstrap';
 import moment from 'moment';
-import { getCookieValue, createCookie, checkEmpty,handleAPIError } from '../../../helpers/utils';
+import { getCookieValue, createCookie, checkEmpty, handleAPIError } from '../../../helpers/utils';
 import withRedirect from '../../../hoc/withRedirect';
 import { withTranslation } from 'react-i18next';
 import BootstrapTable from 'react-bootstrap-table-next';
@@ -222,11 +222,11 @@ const OfflineMeterInput = ({ setRedirect, setRedirectUrl, t }) => {
 
         precision: 6
       },
-      formatter: (cell) => {
+      formatter: cell => {
         if (cell == null || cell === '') return '';
         return Number(cell).toFixed(6);
       },
-      validator: (newValue) => {
+      validator: newValue => {
         if (newValue === '' || newValue == null) return true;
         const num = Number(newValue);
         if (isNaN(num)) {
@@ -320,7 +320,7 @@ const OfflineMeterInput = ({ setRedirect, setRedirectUrl, t }) => {
           toast.success(t('Successfully Saved'));
           getmeterslistdata();
         } else {
-          handleAPIError(json, setRedirect, setRedirectUrl, t, toast)
+          handleAPIError(json, setRedirect, setRedirectUrl, t, toast);
         }
       })
       .catch(err => {

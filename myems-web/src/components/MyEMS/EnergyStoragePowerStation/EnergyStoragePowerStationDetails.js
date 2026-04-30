@@ -20,7 +20,7 @@ import {
 } from 'reactstrap';
 import Cascader from 'rc-cascader';
 import MultipleLineChart from '../common/MultipleLineChart';
-import { getCookieValue, createCookie, checkEmpty,handleAPIError } from '../../../helpers/utils';
+import { getCookieValue, createCookie, checkEmpty, handleAPIError } from '../../../helpers/utils';
 import withRedirect from '../../../hoc/withRedirect';
 import { withTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
@@ -208,7 +208,7 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
                     setSelectedStation(undefined);
                   }
                 } else {
-                  handleAPIError(json, setRedirect, setRedirectUrl, t, toast)
+                  handleAPIError(json, setRedirect, setRedirectUrl, t, toast);
                 }
               })
               .catch(err => {
@@ -216,7 +216,7 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
               });
             // end of get Energy Storage Power Stations by root Space ID
           } else {
-            handleAPIError(json, setRedirect, setRedirectUrl, t, toast)
+            handleAPIError(json, setRedirect, setRedirectUrl, t, toast);
           }
         })
         .catch(err => {
@@ -311,7 +311,7 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
           // show result data
           setResultDataHidden(false);
         } else {
-          handleAPIError(json, setRedirect, setRedirectUrl, t, toast)
+          handleAPIError(json, setRedirect, setRedirectUrl, t, toast);
           // hide spinner
           setSpinnerHidden(true);
         }
@@ -359,7 +359,7 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
             setSelectedStation(undefined);
           }
         } else {
-          handleAPIError(json, setRedirect, setRedirectUrl, t, toast)
+          handleAPIError(json, setRedirect, setRedirectUrl, t, toast);
         }
       })
       .catch(err => {
@@ -418,16 +418,15 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
     refreshSVGData();
   }, 1000 * 10);
 
-
   const refreshTabBottomData = () => {
-    if(activeTabBottom == '1') {
+    if (activeTabBottom == '1') {
       // null
     } else if (activeTabBottom == '2') {
       fetchScheduleDetails();
     } else if (activeTabBottom == '3') {
       // null
     } else if (activeTabBottom == '4') {
-      fetchDCDCDetails()
+      fetchDCDCDetails();
     } else if (activeTabBottom == '5') {
       fetchPCSDetails();
     } else if (activeTabBottom == '6') {
@@ -447,13 +446,11 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
     } else if (activeTabBottom == '13') {
       fetchCommandDetails();
     }
-
   };
 
   useInterval(() => {
     refreshTabBottomData();
   }, 1000 * 60);
-
 
   // Schedule
   const fetchScheduleDetails = () => {
@@ -538,7 +535,7 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
           });
           setScheduleMarkAreaData(schedule_mark_area_data);
         } else {
-          handleAPIError(json, setRedirect, setRedirectUrl, t, toast)
+          handleAPIError(json, setRedirect, setRedirectUrl, t, toast);
         }
       })
       .catch(err => {
@@ -569,7 +566,7 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
         if (isResponseOK) {
           setDCDCDetailsList(json);
         } else {
-          handleAPIError(json, setRedirect, setRedirectUrl, t, toast)
+          handleAPIError(json, setRedirect, setRedirectUrl, t, toast);
         }
       })
       .catch(err => {
@@ -599,7 +596,7 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
         if (isResponseOK) {
           setPCSDetailsList(json);
         } else {
-          handleAPIError(json, setRedirect, setRedirectUrl, t, toast)
+          handleAPIError(json, setRedirect, setRedirectUrl, t, toast);
         }
       })
       .catch(err => {
@@ -629,7 +626,7 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
         if (isResponseOK) {
           setBMSDetailsList(json);
         } else {
-          handleAPIError(json, setRedirect, setRedirectUrl, t, toast)
+          handleAPIError(json, setRedirect, setRedirectUrl, t, toast);
         }
       })
       .catch(err => {
@@ -659,7 +656,7 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
         if (isResponseOK) {
           setGridDetailsList(json);
         } else {
-          handleAPIError(json, setRedirect, setRedirectUrl, t, toast)
+          handleAPIError(json, setRedirect, setRedirectUrl, t, toast);
         }
       })
       .catch(err => {
@@ -689,7 +686,7 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
         if (isResponseOK) {
           setLoadDetailsList(json);
         } else {
-          handleAPIError(json, setRedirect, setRedirectUrl, t, toast)
+          handleAPIError(json, setRedirect, setRedirectUrl, t, toast);
         }
       })
       .catch(err => {
@@ -720,7 +717,7 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
         if (isResponseOK) {
           setESSMeterDetailsList(json);
         } else {
-          handleAPIError(json, setRedirect, setRedirectUrl, t, toast)
+          handleAPIError(json, setRedirect, setRedirectUrl, t, toast);
         }
       })
       .catch(err => {
@@ -750,7 +747,7 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
         if (isResponseOK) {
           setHVACDetailsList(json);
         } else {
-          handleAPIError(json, setRedirect, setRedirectUrl, t, toast)
+          handleAPIError(json, setRedirect, setRedirectUrl, t, toast);
         }
       })
       .catch(err => {
@@ -780,7 +777,7 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
         if (isResponseOK) {
           setFirecontrolDetailsList(json);
         } else {
-          handleAPIError(json, setRedirect, setRedirectUrl, t, toast)
+          handleAPIError(json, setRedirect, setRedirectUrl, t, toast);
         }
       })
       .catch(err => {
@@ -811,7 +808,7 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
         if (isResponseOK) {
           setSTSDetailsList(json);
         } else {
-          handleAPIError(json, setRedirect, setRedirectUrl, t, toast)
+          handleAPIError(json, setRedirect, setRedirectUrl, t, toast);
         }
       })
       .catch(err => {
@@ -841,7 +838,7 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
         if (isResponseOK) {
           setCommandDetailsList(json);
         } else {
-          handleAPIError(json, setRedirect, setRedirectUrl, t, toast)
+          handleAPIError(json, setRedirect, setRedirectUrl, t, toast);
         }
       })
       .catch(err => {
@@ -886,12 +883,25 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
           </Col>
           <Col xs="auto">
             <FormGroup>
-              <Button tag={'a'} href="./details" target="_blank" color="primary" bsSize="sm" hidden={!spaceCascaderHidden}  > 更多  </Button>
+              <Button
+                tag={'a'}
+                href="./details"
+                target="_blank"
+                color="primary"
+                bsSize="sm"
+                hidden={!spaceCascaderHidden}
+              >
+                {' '}
+                更多{' '}
+              </Button>
             </FormGroup>
           </Col>
         </Row>
       </Form>
-      <div className="blank-page-image-container" style={{ visibility: resultDataHidden ? 'visible' : 'hidden', display: resultDataHidden ? '' : 'none' }}>
+      <div
+        className="blank-page-image-container"
+        style={{ visibility: resultDataHidden ? 'visible' : 'hidden', display: resultDataHidden ? '' : 'none' }}
+      >
         <img className="img-fluid" src={blankPage} alt="" />
       </div>
       <div style={{ visibility: resultDataHidden ? 'hidden' : 'visible', display: resultDataHidden ? 'none' : '' }}>
@@ -1312,9 +1322,12 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
               </CardBody>
             </Card>
           </TabPane>
-          {<TabPane tabId="4">
-            {isIterableArray(DCDCDetailsList) && DCDCDetailsList.map(({ id, ...rest }) => <DetailsCard key={id} id={id} {...rest} />) }
-          </TabPane>}
+          {
+            <TabPane tabId="4">
+              {isIterableArray(DCDCDetailsList) &&
+                DCDCDetailsList.map(({ id, ...rest }) => <DetailsCard key={id} id={id} {...rest} />)}
+            </TabPane>
+          }
           <TabPane tabId="5">
             {isIterableArray(PCSDetailsList) &&
               PCSDetailsList.map(({ id, ...rest }) => <DetailsCard key={id} id={id} {...rest} />)}
@@ -1343,9 +1356,12 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
             {isIterableArray(firecontrolDetailsList) &&
               firecontrolDetailsList.map(({ id, ...rest }) => <DetailsCard key={id} id={id} {...rest} />)}
           </TabPane>
-          {<TabPane tabId="12">
-            {isIterableArray(STSDetailsList) && STSDetailsList.map(({ id, ...rest }) => <DetailsCard key={id} id={id} {...rest} />) }
-          </TabPane> }
+          {
+            <TabPane tabId="12">
+              {isIterableArray(STSDetailsList) &&
+                STSDetailsList.map(({ id, ...rest }) => <DetailsCard key={id} id={id} {...rest} />)}
+            </TabPane>
+          }
           <TabPane tabId="13">
             {isIterableArray(commandDetailsList) &&
               commandDetailsList.map(({ id, ...rest }) => <CommandDetails key={id} id={id} {...rest} />)}

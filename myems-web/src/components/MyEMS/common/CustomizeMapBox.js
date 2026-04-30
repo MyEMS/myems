@@ -33,7 +33,10 @@ const CustomizeMapBox = ({ Latitude, Longitude, Zoom, Geojson, t }) => {
       if (Longitude && Latitude) {
         const currentCenter = map.current.getCenter();
         const newCenter = [Longitude, Latitude];
-        if (Math.abs(currentCenter.lng - newCenter[0]) > 0.0001 || Math.abs(currentCenter.lat - newCenter[1]) > 0.0001) {
+        if (
+          Math.abs(currentCenter.lng - newCenter[0]) > 0.0001 ||
+          Math.abs(currentCenter.lat - newCenter[1]) > 0.0001
+        ) {
           map.current.setCenter(newCenter);
         }
       }
