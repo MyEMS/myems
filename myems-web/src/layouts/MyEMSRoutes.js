@@ -101,6 +101,7 @@ import CombinedEquipmentCarbon from '../components/MyEMS/CombinedEquipment/Combi
 import CombinedEquipmentCost from '../components/MyEMS/CombinedEquipment/CombinedEquipmentCost';
 import CombinedEquipmentEfficiency from '../components/MyEMS/CombinedEquipment/CombinedEquipmentEfficiency';
 import CombinedEquipmentEnergyCategory from '../components/MyEMS/CombinedEquipment/CombinedEquipmentEnergyCategory';
+import CombinedEquipmentPrediction from '../components/MyEMS/CombinedEquipment/CombinedEquipmentPrediction';
 import CombinedEquipmentEnergyItem from '../components/MyEMS/CombinedEquipment/CombinedEquipmentEnergyItem';
 import CombinedEquipmentLoad from '../components/MyEMS/CombinedEquipment/CombinedEquipmentLoad';
 import CombinedEquipmentIncome from '../components/MyEMS/CombinedEquipment/CombinedEquipmentIncome';
@@ -234,6 +235,7 @@ const MyEMSRoutes = () => (
     <Route path="/combinedequipment/cost" exact component={CombinedEquipmentCost} />
     <Route path="/combinedequipment/efficiency" exact component={CombinedEquipmentEfficiency} />
     <Route path="/combinedequipment/energycategory" exact component={CombinedEquipmentEnergyCategory} />
+    <Route path="/combinedequipment/prediction" exact component={CombinedEquipmentPrediction} />
     <Route path="/combinedequipment/energyitem" exact component={CombinedEquipmentEnergyItem} />
     <Route path="/combinedequipment/income" exact component={CombinedEquipmentIncome} />
     <Route path="/combinedequipment/load" exact component={CombinedEquipmentLoad} />
