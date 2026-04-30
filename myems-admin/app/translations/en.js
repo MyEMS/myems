@@ -569,7 +569,6 @@
         TITLE_CONFIRM_DELETE: "Confirm Deletion",
         ENTER_NAME: "Enter Name",
         ENTER_DESCRIPTION: "Enter Description",
-        DESCRIPTION: "Description",
         SIMPLIFIED_CODE: "Simplified Code",
         ENTER_SIMPLIFIED_CODE: "Enter Simplified Code",
       },

@@ -578,7 +578,6 @@
         ENTER_STORE_TYPE_SIMPLIFIED_CODE: "Inserir Código Abreviado do Tipo",
         TITLE_CONFIRM_DELETE: "Confirmar Exclusão",
         ENTER_DESCRIPTION: "Inserir Descrição",
-        DESCRIPTION: "Descrição",
         SIMPLIFIED_CODE: "Código Simplificado",
         ENTER_SIMPLIFIED_CODE: "Inserir Código Simplificado",
       },

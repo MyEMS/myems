@@ -568,7 +568,6 @@
         ENTER_STORE_TYPE_SIMPLIFIED_CODE: "Nhập mã viết tắt của loại",
         TITLE_CONFIRM_DELETE: "Xác nhận xóa",
         ENTER_DESCRIPTION: "Nhập mô tả",
-        DESCRIPTION: "Mô tả",
         SIMPLIFIED_CODE: "Mã rút gọn",
         ENTER_SIMPLIFIED_CODE: "Nhập mã rút gọn",
       },

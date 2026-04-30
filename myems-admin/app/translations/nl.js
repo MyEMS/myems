@@ -543,7 +543,6 @@
         ENTER_STORE_TYPE_SIMPLIFIED_CODE: "Voer winkeltype verkorte code in",
         TITLE_CONFIRM_DELETE: "Bevestig verwijderen",
         ENTER_DESCRIPTION: "Beschrijving invoeren",
-        DESCRIPTION: "Beschrijving",
         SIMPLIFIED_CODE: "Verkorte code",
         ENTER_SIMPLIFIED_CODE: "Verkorte code invoeren",
       },
@@ -2360,7 +2359,6 @@
           "Gerelateerd aan brandstofintegratoren",
         THERE_IS_RELATION_WITH_METER: "Gerelateerd aan meetmeter",
         THERE_IS_RELATION_WITH_METERS: "Gerelateerd aan meetmeters",
-        THERE_IS_RELATION_WITH_MICROGRIDS: "Gerelateerd aan microgrids",
         THERE_IS_RELATION_WITH_MICROGRIDS: "Gerelateerd aan microgrids",
         THERE_IS_RELATION_WITH_MICROGRIDS_BATTERIES:
           "Gerelateerd aan microgrid batterijen",

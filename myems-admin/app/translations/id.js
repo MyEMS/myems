@@ -565,7 +565,6 @@
         TITLE_CONFIRM_DELETE: "Konfirmasi Hapus",
         ENTER_NAME: "Masukkan Nama",
         ENTER_DESCRIPTION: "Masukkan Deskripsi",
-        DESCRIPTION: "Deskripsi",
         SIMPLIFIED_CODE: "Kode Simplifikasi",
         ENTER_SIMPLIFIED_CODE: "Masukkan Kode Simplifikasi",
       },
