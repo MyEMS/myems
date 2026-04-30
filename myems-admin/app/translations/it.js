@@ -547,7 +547,6 @@
           "Inserisci codice semplificato tipo negozio",
         TITLE_CONFIRM_DELETE: "Conferma Eliminazione",
         ENTER_DESCRIPTION: "Inserisci descrizione",
-        DESCRIPTION: "Descrizione",
         SIMPLIFIED_CODE: "Codice Semplificato",
         ENTER_SIMPLIFIED_CODE: "Inserisci codice semplificato",
       },
@@ -2386,7 +2385,6 @@
           "In relazione con gli integratori di combustibile",
         THERE_IS_RELATION_WITH_METER: "In relazione con il contatore",
         THERE_IS_RELATION_WITH_METERS: "In relazione con i contatori",
-        THERE_IS_RELATION_WITH_MICROGRIDS: "In relazione con le microgrid",
         THERE_IS_RELATION_WITH_MICROGRIDS: "In relazione con le microgrid",
         THERE_IS_RELATION_WITH_MICROGRIDS_BATTERIES:
           "In relazione con le batterie delle microgrid",

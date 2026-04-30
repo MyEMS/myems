@@ -588,7 +588,6 @@
         ENTER_STORE_TYPE_SIMPLIFIED_CODE: "Ingresar código abreviado del tipo",
         TITLE_CONFIRM_DELETE: "Confirmar eliminación",
         ENTER_DESCRIPTION: "Ingresar descripción",
-        DESCRIPTION: "Descripción",
         SIMPLIFIED_CODE: "Código simplificado",
         ENTER_SIMPLIFIED_CODE: "Ingresar código simplificado",
       },

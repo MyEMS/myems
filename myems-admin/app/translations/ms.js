@@ -562,7 +562,6 @@
         ENTER_STORE_TYPE_SIMPLIFIED_CODE: "Masukkan Kode Singkat Jenis Toko",
         TITLE_CONFIRM_DELETE: "Sahkan Hapusan",
         ENTER_DESCRIPTION: "Masukkan Keterangan",
-        DESCRIPTION: "Penerangan",
         SIMPLIFIED_CODE: "Kod Ringkas",
         ENTER_SIMPLIFIED_CODE: "Masukkan Kod Ringkas",
       },

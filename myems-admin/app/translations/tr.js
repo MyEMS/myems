@@ -571,7 +571,6 @@
         ENTER_STORE_TYPE_SIMPLIFIED_CODE: "Mağaza Türü Kısaltma Kodunu Gir",
         TITLE_CONFIRM_DELETE: "Silmeyi Onayla",
         ENTER_DESCRIPTION: "Açıklama Girin",
-        DESCRIPTION: "Tanım",
         SIMPLIFIED_CODE: "Basitleştirilmiş Kod",
         ENTER_SIMPLIFIED_CODE: "Basitleştirilmiş Kod Girin",
       },

@@ -561,7 +561,6 @@
         ENTER_STORE_TYPE_SIMPLIFIED_CODE: "إدخال الكود المختصر للنوع",
         TITLE_CONFIRM_DELETE: "تأكيد الحذف",
         ENTER_DESCRIPTION: "أدخل الوصف",
-        DESCRIPTION: "الوصف",
         SIMPLIFIED_CODE: "الكود المبسط",
         ENTER_SIMPLIFIED_CODE: "أدخل الكود المبسط",
       },

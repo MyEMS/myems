@@ -570,7 +570,6 @@
         TITLE_CONFIRM_DELETE: "Подтвердить удаление",
         ENTER_NAME: "Введите название",
         ENTER_DESCRIPTION: "Введите описание",
-        DESCRIPTION: "Описание",
         SIMPLIFIED_CODE: "Упрощенный код",
         ENTER_SIMPLIFIED_CODE: "Введите упрощенный код",
       },

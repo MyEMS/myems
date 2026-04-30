@@ -557,7 +557,6 @@
         ENTER_STORE_TYPE_SIMPLIFIED_CODE: "กรอกรหัสย่อประเภท",
         TITLE_CONFIRM_DELETE: "ยืนยันการลบ",
         ENTER_DESCRIPTION: "ป้อนคำอธิบาย",
-        DESCRIPTION: "คำอธิบาย",
         SIMPLIFIED_CODE: "รหัสย่อ",
         ENTER_SIMPLIFIED_CODE: "ป้อนรหัสย่อ",
       },

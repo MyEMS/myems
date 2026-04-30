@@ -585,7 +585,6 @@
         ENTER_STORE_TYPE_SIMPLIFIED_CODE: "Saisir le code abrégé du type",
         TITLE_CONFIRM_DELETE: "Confirmer la suppression",
         ENTER_DESCRIPTION: "Saisir la description",
-        DESCRIPTION: "Description",
         SIMPLIFIED_CODE: "Code simplifié",
         ENTER_SIMPLIFIED_CODE: "Saisir le code simplifié",
       },

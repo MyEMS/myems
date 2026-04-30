@@ -568,7 +568,6 @@
         ENTER_STORE_TYPE_SIMPLIFIED_CODE: "매장 유형 약어 입력",
         TITLE_CONFIRM_DELETE: "삭제 확인",
         ENTER_DESCRIPTION: "설명 입력",
-        DESCRIPTION: "설명",
         SIMPLIFIED_CODE: "약어",
         ENTER_SIMPLIFIED_CODE: "약어 입력",
       },

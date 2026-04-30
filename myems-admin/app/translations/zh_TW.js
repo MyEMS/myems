@@ -562,7 +562,6 @@
         ENTER_STORE_TYPE_SIMPLIFIED_CODE: "輸入門市類型簡稱",
         TITLE_CONFIRM_DELETE: "確認刪除",
         ENTER_DESCRIPTION: "輸入描述",
-        DESCRIPTION: "描述",
         SIMPLIFIED_CODE: "簡化代碼",
         ENTER_SIMPLIFIED_CODE: "輸入簡化代碼",
       },

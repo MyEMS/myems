@@ -562,7 +562,6 @@
         ENTER_STORE_TYPE_SIMPLIFIED_CODE: "输入门店类型简称",
         TITLE_CONFIRM_DELETE: "确认删除",
         ENTER_DESCRIPTION: "输入描述",
-        DESCRIPTION: "描述",
         SIMPLIFIED_CODE: "简化代码",
         ENTER_SIMPLIFIED_CODE: "输入简化代码",
       },
@@ -2308,7 +2307,6 @@
 
         THERE_IS_RELATION_WITH_METER: "与计量表有关",
         THERE_IS_RELATION_WITH_METERS: "与计量表有关",
-        THERE_IS_RELATION_WITH_MICROGRIDS: "与微电网有关",
         THERE_IS_RELATION_WITH_MICROGRIDS: "与微电网有关",
         THERE_IS_RELATION_WITH_MICROGRIDS_BATTERIES: "与微电网电池有关",
         THERE_IS_RELATION_WITH_MICROGRIDS_EVCHARGERS: "与微电网电池有关",

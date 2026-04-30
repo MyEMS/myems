@@ -542,7 +542,6 @@
         ENTER_STORE_TYPE_SIMPLIFIED_CODE: "کد اختصاری نوع فروشگاه را وارد کنید",
         TITLE_CONFIRM_DELETE: "تأیید حذف",
         ENTER_DESCRIPTION: "توضیحات را وارد کنید",
-        DESCRIPTION: "توضیحات",
         SIMPLIFIED_CODE: "کد اختصاری",
         ENTER_SIMPLIFIED_CODE: "کد اختصاری را وارد کنید",
       },

@@ -548,7 +548,6 @@
           "Wprowadź uproszczony kod typu sklepu",
         TITLE_CONFIRM_DELETE: "Potwierdź usunięcie",
         ENTER_DESCRIPTION: "Wprowadź opis",
-        DESCRIPTION: "Opis",
         SIMPLIFIED_CODE: "Kod uproszczony",
         ENTER_SIMPLIFIED_CODE: "Wprowadź kod uproszczony",
       },
@@ -2387,7 +2386,6 @@
           "Istnieje relacja z integratorami paliwa",
         THERE_IS_RELATION_WITH_METER: "Istnieje relacja z licznikiem",
         THERE_IS_RELATION_WITH_METERS: "Istnieje relacja z licznikami",
-        THERE_IS_RELATION_WITH_MICROGRIDS: "Istnieje relacja z mikrosieciami",
         THERE_IS_RELATION_WITH_MICROGRIDS: "Istnieje relacja z mikrosieciami",
         THERE_IS_RELATION_WITH_MICROGRIDS_BATTERIES:
           "Istnieje relacja z bateriami mikrosieci",

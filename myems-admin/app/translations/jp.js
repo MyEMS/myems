@@ -540,7 +540,6 @@
         ENTER_STORE_TYPE_SIMPLIFIED_CODE: "店舗タイプ略称を入力",
         TITLE_CONFIRM_DELETE: "削除の確認",
         ENTER_DESCRIPTION: "説明を入力",
-        DESCRIPTION: "説明",
         SIMPLIFIED_CODE: "簡略コード",
         ENTER_SIMPLIFIED_CODE: "簡略コードを入力",
       },
@@ -2345,7 +2344,6 @@
         THERE_IS_RELATION_WITH_FUEL_INTEGRATORS: "燃料積分計との関係があります",
         THERE_IS_RELATION_WITH_METER: "メーターとの関係があります",
         THERE_IS_RELATION_WITH_METERS: "メーターとの関係があります",
-        THERE_IS_RELATION_WITH_MICROGRIDS: "マイクログリッドとの関係があります",
         THERE_IS_RELATION_WITH_MICROGRIDS: "マイクログリッドとの関係があります",
         THERE_IS_RELATION_WITH_MICROGRIDS_BATTERIES:
           "マイクログリッドバッテリーとの関係があります",

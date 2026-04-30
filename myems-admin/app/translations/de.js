@@ -577,7 +577,6 @@
         ENTER_STORE_TYPE_SIMPLIFIED_CODE: "Filialtyp-Kurzbezeichnung eingeben",
         TITLE_CONFIRM_DELETE: "Löschbestätigung",
         ENTER_DESCRIPTION: "Beschreibung eingeben",
-        DESCRIPTION: "Beschreibung",
         SIMPLIFIED_CODE: "Vereinfachter Code",
         ENTER_SIMPLIFIED_CODE: "Vereinfachten Code eingeben",
       },
