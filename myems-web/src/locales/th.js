@@ -409,6 +409,7 @@ export default {
             Total: 'ทั้งหมด',
             'No data found': 'ไม่พบข้อมูล',
             Export: 'ส่งออก',
+            'AI Analysis': 'การวิเคราะห์ AI',
             Datetime: 'วันที่เวลา',
             'Time-Of-Use Type': 'ประเภทเวลาใช้งาน',
             'Top-Peak': 'ท็อปพีค',

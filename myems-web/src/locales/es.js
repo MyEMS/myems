@@ -416,6 +416,7 @@ export default {
             Total: 'Total',
             'No data found': 'No se han encontrado datos',
             Export: 'Exportar',
+            'AI Analysis': 'Análisis por IA',
             Datetime: 'Fecha y hora',
             'Time-Of-Use Type': 'Tipo de tiempo de uso',
             'Top-Peak': 'Pico superior',

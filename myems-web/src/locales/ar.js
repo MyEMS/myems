@@ -409,6 +409,7 @@ export default {
             Total: 'مجموع',
             'No data found': 'لم يتم العثور على بيانات',
             Export: 'تصدير',
+            'AI Analysis': 'تحليل الذكاء الاصطناعي',
             Datetime: 'التاريخ والوقت',
             'Time-Of-Use Type': 'نوع وقت الاستخدام',
             'Top-Peak': 'توب بيك',

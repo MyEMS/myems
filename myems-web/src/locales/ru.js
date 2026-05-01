@@ -416,6 +416,7 @@ export default {
             Total: 'Итог',
             'No data found': 'Данные не найдены',
             Export: 'Экспорт',
+            'AI Analysis': 'ИИ-анализ',
             Datetime: 'Дата и время',
             'Time-Of-Use Type': 'Тип времени использования',
             'Top-Peak': 'Топ-Пик',

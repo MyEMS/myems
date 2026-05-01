@@ -390,6 +390,7 @@ export default {
             Total: '合計',
             'No data found': 'データがありません',
             Export: 'エクスポート',
+            'AI Analysis': 'AI分析',
             Datetime: '日時',
             'Time-Of-Use Type': '時間帯タイプ',
             'Top-Peak': 'ピーク',

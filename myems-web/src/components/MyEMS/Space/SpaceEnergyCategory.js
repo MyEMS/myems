@@ -28,6 +28,7 @@ import withRedirect from '../../../hoc/withRedirect';
 import { withTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
 import ButtonIcon from '../../common/ButtonIcon';
+import DeepSeekAnalysisModal from '../common/DeepSeekAnalysisModal';
 import { APIBaseURL, settings } from '../../../config';
 import { v4 as uuid } from 'uuid';
 import { periodTypeOptions } from '../common/PeriodTypeOptions';
@@ -120,6 +121,8 @@ const SpaceEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => {
   const [spinnerHidden, setSpinnerHidden] = useState(true);
   const [exportButtonHidden, setExportButtonHidden] = useState(true);
   const [resultDataHidden, setResultDataHidden] = useState(true);
+  const [smartAnalysisOpen, setSmartAnalysisOpen] = useState(false);
+  const [smartAnalysisContext, setSmartAnalysisContext] = useState(null);
 
   //Results
   const [timeOfUseShareData, setTimeOfUseShareData] = useState([]);
@@ -1144,6 +1147,84 @@ const SpaceEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => {
       });
   };
 
+  const buildSmartAnalysisContext = useCallback(() => {
+    const lineValues = {};
+    if (parameterLineChartData && typeof parameterLineChartData === 'object') {
+      Object.keys(parameterLineChartData).forEach(k => {
+        const arr = parameterLineChartData[k];
+        lineValues[k] = Array.isArray(arr) ? arr.slice(0, 200) : arr;
+      });
+    }
+    return {
+      reportType: 'space_energy_category',
+      reportTitle: t('Energy Category Data'),
+      space: { id: selectedSpaceID, name: selectedSpaceName },
+      periodType,
+      comparisonType,
+      reportingPeriod: {
+        start: reportingPeriodDateRange[0]
+          ? moment(reportingPeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss')
+          : null,
+        end: reportingPeriodDateRange[1]
+          ? moment(reportingPeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss')
+          : null
+      },
+      basePeriod: {
+        start:
+          basePeriodDateRange[0] != null
+            ? moment(basePeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss')
+            : null,
+        end:
+          basePeriodDateRange[1] != null
+            ? moment(basePeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss')
+            : null
+      },
+      cardSummaryList,
+      totalInTCE,
+      totalInTCO2E,
+      timeOfUseShare: timeOfUseShareData,
+      tceShare: TCEShareData,
+      tco2eShare: TCO2EShareData,
+      childSpaceProportion: childSpaceProportionList.slice(0, 80),
+      detailedDataSample: detailedDataTableData.slice(0, 120),
+      workingDaysConsumption: workingDaysConsumptionTableData,
+      parameterLineChart: {
+        labels: parameterLineChartLabels,
+        optionLabels: parameterLineChartOptions,
+        values: lineValues
+      },
+      spaceBaseAndReportingNames,
+      spaceBaseAndReportingUnits
+    };
+  }, [
+    selectedSpaceID,
+    selectedSpaceName,
+    periodType,
+    comparisonType,
+    reportingPeriodDateRange,
+    basePeriodDateRange,
+    cardSummaryList,
+    totalInTCE,
+    totalInTCO2E,
+    timeOfUseShareData,
+    TCEShareData,
+    TCO2EShareData,
+    childSpaceProportionList,
+    detailedDataTableData,
+    workingDaysConsumptionTableData,
+    parameterLineChartLabels,
+    parameterLineChartOptions,
+    parameterLineChartData,
+    spaceBaseAndReportingNames,
+    spaceBaseAndReportingUnits,
+    t
+  ]);
+
+  const openSmartAnalysis = () => {
+    setSmartAnalysisContext(buildSmartAnalysisContext());
+    setSmartAnalysisOpen(true);
+  };
+
   return (
     <Fragment>
       <div>
@@ -1284,6 +1365,17 @@ const SpaceEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => {
                 >
                   {t('Export')}
                 </ButtonIcon>
+              </Col>
+              <Col xs="auto">
+                <br />
+                <Button
+                  color="falcon-default"
+                  size="sm"
+                  hidden={exportButtonHidden}
+                  onClick={openSmartAnalysis}
+                >
+                  {t('AI Analysis')}
+                </Button>
               </Col>
             </Row>
           </Form>
@@ -1500,6 +1592,14 @@ const SpaceEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => {
           columns={childSpacesTableColumns}
         />
       </div>
+      <DeepSeekAnalysisModal
+        isOpen={smartAnalysisOpen}
+        toggle={() => setSmartAnalysisOpen(false)}
+        language={language}
+        reportContext={smartAnalysisContext}
+        setRedirect={setRedirect}
+        setRedirectUrl={setRedirectUrl}
+      />
     </Fragment>
   );
 };

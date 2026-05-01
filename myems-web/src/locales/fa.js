@@ -389,6 +389,7 @@ export default {
             Total: 'مجموع',
             'No data found': 'داده‌ای یافت نشد',
             Export: 'خروجی',
+            'AI Analysis': 'تحلیل هوش مصنوعی',
             Datetime: 'تاریخ و زمان',
             'Time-Of-Use Type': 'نوع زمان مصرف',
             'Top-Peak': 'اوج بالا',

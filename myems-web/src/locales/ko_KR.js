@@ -384,6 +384,7 @@ export default {
             Total: '총계',
             'No data found': '데이터 없음',
             Export: '내보내기',
+            'AI Analysis': 'AI 분석',
             Datetime: '날짜 시간',
             'Time-Of-Use Type': '시간대별 유형',
             'Top-Peak': '최대',

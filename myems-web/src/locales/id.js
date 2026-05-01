@@ -412,6 +412,7 @@ export default {
             Total: 'Total',
             'No data found': 'Tidak Ada Data',
             Export: 'Eksport',
+            'AI Analysis': 'Analisis AI',
             Datetime: 'Waktu Tarikh',
             'Time-Of-Use Type': 'Jenis Berbagi Waktu',
             'Top-Peak': 'Tip',

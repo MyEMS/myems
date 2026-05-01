@@ -394,6 +394,7 @@ export default {
             Total: '總計',
             'No data found': '沒有數據',
             Export: '導出',
+            'AI Analysis': 'AI分析',
             Datetime: '⽇期時間',
             'Time-Of-Use Type': '分時類型',
             'Top-Peak': '尖',
