@@ -411,6 +411,7 @@ export default {
             Total: 'Jumlah',
             'No data found': 'Tiada data ditemui',
             Export: 'Eksport',
+            'AI Analysis': 'Analisis AI',
             Datetime: 'Masa tarikh',
             'Time-Of-Use Type': 'Jenis Masa Penggunaan',
             'Top-Peak': 'Puncak Atas',

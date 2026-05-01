@@ -412,6 +412,7 @@ export default {
             Total: 'Gesamt',
             'No data found': 'Keine Daten gefunden',
             Export: 'Export',
+            'AI Analysis': 'KI-Analyse',
             Datetime: 'Terminzeit',
             'Time-Of-Use Type': 'Art der Zeitteilung',
             'Top-Peak': 'Top-Peak',

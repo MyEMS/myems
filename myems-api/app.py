@@ -4,6 +4,7 @@ from falcon_multipart.middleware import MultipartMiddleware
 # for debugging this api on Linux or macOS
 from wsgiref import simple_server
 
+from ai import deepseek_chat
 from core import advancedreport, apikey, command, controlmode, energyflowdiagram, \
     privilege, textmessage, distributioncircuit, virtualmeter, \
     costcenter, point, knowledgefile, meter, tariff, user, storetype, timezone, \
@@ -224,6 +225,9 @@ api.add_route('/advancedreports/import',
               advancedreport.AdvancedReportImport())
 api.add_route('/advancedreports/{id_}/clone',
               advancedreport.AdvancedReportClone())
+
+api.add_route('/ai/deepseek/chat',
+              deepseek_chat.DeepSeekChat())
 
 api.add_route('/combinedequipments',
               combinedequipment.CombinedEquipmentCollection())

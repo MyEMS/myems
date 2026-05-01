@@ -407,6 +407,7 @@ export default {
             Total: 'Toplam',
             'No data found': 'Veri bulunamadı',
             Export: 'Ihracat',
+            'AI Analysis': 'AI Analizi',
             Datetime: 'Tarih-saat',
             'Time-Of-Use Type': 'Kullanım Süresi Türü',
             'Top-Peak': 'Üst Düzey Zirve',
