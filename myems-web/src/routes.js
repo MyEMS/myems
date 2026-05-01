@@ -161,6 +161,7 @@ export const combinedEquipmentRoutes = {
     { to: '/combinedequipment/statistics', name: 'Statistics' },
     { to: '/combinedequipment/saving', name: 'Saving' },
     { to: '/combinedequipment/plan', name: 'Plan' },
+    { to: '/combinedequipment/prediction', name: 'Prediction' },
     { to: '/combinedequipment/batch', name: 'Batch Analysis' },
     { to: '/combinedequipment/comparison', name: 'Combined Equipment Comparison' }
   ]
