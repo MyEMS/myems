@@ -3,10 +3,22 @@
         <h4 class="modal-title">{{operation | translate}}(ID:{{sensor.id}})</h4>
     </div>
     <div class="modal-body">
+        <div class="alert alert-info">
+            <p>
+                {{'SETTING.SENSOR_DIALOG_DESCRIPTION' | translate}}
+                <a ng-click="isModelCollapsed = !isModelCollapsed" class="pull-right">
+                    {{(isModelCollapsed ? 'COMMON.COLLAPSE' : 'COMMON.CLICK_TO_EXPAND_FOR_MORE_DESCRIPTION') | translate}}
+                </a>
+            </p>
+            <div uib-collapse="!isModelCollapsed">
+                <hr>
+                <p>{{'SETTING.SENSOR_DIALOG_DESCRIPTION_MORE' | translate}}</p>
+            </div>
+        </div>
         <form role="form" name="form_sensor" novalidate class="form-horizontal">
             <div class="form-group"><label class="col-sm-4 control-label">{{'SETTING.NAME' | translate}}<span class="text-danger">*</span></label>
                 <div class="col-sm-8">
-                    <input ng-model="sensor.name" type="text" name="sensorname" class="form-control" required="">
+                    <input ng-model="sensor.name" type="text" name="sensorname" class="form-control" required="" placeholder="{{'SETTING.INPUT_SENSOR_NAME_PLACEHOLDER' | translate}}">
                     <div class="m-t-xs" ng-show="form_sensor.sensorname.$invalid && form_sensor.sensorname.$dirty">
                         <small class="text-danger" ng-show="form_sensor.sensorname.$error.required">{{'SETTING.INPUT_NAME' | translate}}</small>
                     </div>
@@ -15,7 +27,7 @@
             <div class="hr-line-dashed"></div>
             <div class="form-group"><label class="col-sm-4 control-label">{{'SETTING.DESCRIPTION' | translate}} ({{'SETTING.OPTIONAL' | translate}})</label>
               <div class="col-sm-8">
-                  <input ng-model="sensor.description" type="text" name="sensordescription" class="form-control" >
+                  <input ng-model="sensor.description" type="text" name="sensordescription" class="form-control" placeholder="{{'SETTING.ENTER_DESCRIPTION' | translate}}">
               </div>
             </div>
         </form>

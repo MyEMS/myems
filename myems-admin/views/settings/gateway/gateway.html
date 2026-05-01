@@ -6,7 +6,19 @@
 				<uib-tabset>
 					<uib-tab heading="{{'GATEWAY.GATEWAY' | translate}}" >
 						<div class="panel-body" ng-controller="GatewayController">
-                                                        <div class="col-md-3">
+							<div class="alert alert-info">
+								<p>
+									{{'SETTING.GATEWAY_DESCRIPTION' | translate}}
+									<a ng-click="isCollapsed = !isCollapsed" class="pull-right">
+										{{(isCollapsed ? 'COMMON.COLLAPSE' : 'COMMON.CLICK_TO_EXPAND_FOR_MORE_DESCRIPTION') | translate}}
+									</a>
+								</p>
+								<div uib-collapse="!isCollapsed">
+									<hr>
+									<p>{{'SETTING.GATEWAY_DESCRIPTION_MORE' | translate}}</p>
+								</div>
+							</div>
+							<div class="col-md-3">
 							    <a ng-click="addGateway()" class="btn btn-primary btn-rounded btn-outline" href=""><i class="fa fa-plus-circle"></i> {{'GATEWAY.ADD_GATEWAY' | translate}}</a>
 							    <a ng-click="importGateway()" class="btn btn-primary btn-rounded  btn-outline" href=""><i class="fa fa-plus-circle"></i> {{'SETTING.IMPORT' | translate}}</a>
                                                         </div>

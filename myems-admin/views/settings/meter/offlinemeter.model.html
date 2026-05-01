@@ -3,10 +3,22 @@
         <h4 class="modal-title">{{operation | translate}}(ID:{{offlinemeter.id}})</h4>
     </div>
     <div class="modal-body">
+        <div class="alert alert-info">
+            <p>
+                {{'SETTING.OFFLINE_METER_DIALOG_DESCRIPTION' | translate}}
+                <a ng-click="isModelCollapsed = !isModelCollapsed" class="pull-right">
+                    {{(isModelCollapsed ? 'COMMON.COLLAPSE' : 'COMMON.CLICK_TO_EXPAND_FOR_MORE_DESCRIPTION') | translate}}
+                </a>
+            </p>
+            <div uib-collapse="!isModelCollapsed">
+                <hr>
+                <p>{{'SETTING.OFFLINE_METER_DIALOG_DESCRIPTION_MORE' | translate}}</p>
+            </div>
+        </div>
         <form role="form" name="form_offlinemeter" novalidate class="form-horizontal">
             <div class="form-group"><label class="col-sm-4 control-label">{{'SETTING.NAME' | translate}}<span class="text-danger">*</span></label>
                 <div class="col-sm-8">
-                    <input ng-model="offlinemeter.name" type="text" name="offlinemetername" class="form-control" required="">
+                    <input ng-model="offlinemeter.name" type="text" name="offlinemetername" class="form-control" required="" placeholder="{{'SETTING.INPUT_METER_NAME_PLACEHOLDER' | translate}}">
                     <div class="m-t-xs" ng-show="form_offlinemeter.offlinemetername.$invalid && form_offlinemeter.offlinemetername.$dirty">
                         <small class="text-danger" ng-show="form_offlinemeter.offlinemetername.$error.required">{{'SETTING.INPUT_NAME' | translate}}</small>
                     </div>
@@ -16,7 +28,7 @@
             <div class="form-group"><label class="col-sm-4 control-label">{{'SETTING.CATEGORY' | translate}}<span class="text-danger">*</span></label>
                 <div class="col-sm-8">
                     <ui-select ng-model="offlinemeter.energy_category.id" on-select="change_energyitems(offlinemeter.energy_category.id)" name="offlinemeter.energy_category_id" theme="bootstrap" required>
-                        <ui-select-match placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
+                        <ui-select-match placeholder="{{'SETTING.SELECT_CATEGORY' | translate}}">{{$select.selected.name}}</ui-select-match>
                         <ui-select-choices repeat="category.id as category in categories | filter: $select.search">
                             <div ng-bind-html="category.name | highlight: $select.search"></div>
                         </ui-select-choices>
@@ -30,7 +42,7 @@
             <div class="form-group"><label class="col-sm-4 control-label">{{'SETTING.ENERGY_ITEM' | translate}} ({{'SETTING.OPTIONAL' | translate}})</label>
                 <div class="col-sm-8">
                     <ui-select ng-model="offlinemeter.energy_item" name="offlinemeter.energy_item_id" theme="bootstrap">
-                        <ui-select-match allow-clear="true" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
+                        <ui-select-match allow-clear="true" placeholder="{{'SETTING.SELECT_ENERGY_ITEM' | translate}}">{{$select.selected.name}}</ui-select-match>
                         <ui-select-choices repeat="energyitem in energyitems | filter: $select.search">
                             <div ng-bind-html="energyitem.name | highlight: $select.search"></div>
                         </ui-select-choices>
@@ -54,7 +66,7 @@
             <div class="hr-line-dashed"></div>
             <div class="form-group"><label class="col-sm-4 control-label">{{'METER.HOURLY_LOW_LIMIT' | translate}}<span class="text-danger">*</span></label>
                 <div class="col-sm-8">
-                    <input ng-model="offlinemeter.hourly_low_limit" type="number" name="offlinemeterhourlylowlimit" class="form-control" required min="0" max="999999" ng-model-options="{ allowInvalid: false }">
+                    <input ng-model="offlinemeter.hourly_low_limit" type="number" name="offlinemeterhourlylowlimit" class="form-control" required min="0" max="999999" ng-model-options="{ allowInvalid: false }" placeholder="{{'METER.INPUT_HOURLY_LOW_LIMIT' | translate}}">
                     <div class="m-t-xs" ng-show="form_offlinemeter.offlinemeterhourlylowlimit.$dirty">
                         <small class="text-danger" ng-show="form_offlinemeter.offlinemeterhourlylowlimit.$error.required">{{'METER.INPUT_HOURLY_LOW_LIMIT' | translate}}</small>
                         <small class="text-danger" ng-show="form_offlinemeter.offlinemeterhourlylowlimit.$error.min">{{'METER.INVALID_INPUT_HINT' | translate}}</small>
@@ -66,7 +78,7 @@
             <div class="hr-line-dashed"></div>
             <div class="form-group"><label class="col-sm-4 control-label">{{'METER.HOURLY_HIGH_LIMIT' | translate}}<span class="text-danger">*</span></label>
                 <div class="col-sm-8">
-                    <input ng-model="offlinemeter.hourly_high_limit" type="number" name="offlinemeterhourlyhighlimit" class="form-control" required min="0" max="999999" ng-model-options="{ allowInvalid: false }">
+                    <input ng-model="offlinemeter.hourly_high_limit" type="number" name="offlinemeterhourlyhighlimit" class="form-control" required min="0" max="999999" ng-model-options="{ allowInvalid: false }" placeholder="{{'METER.INPUT_HOURLY_HIGH_LIMIT' | translate}}">
                     <div class="m-t-xs" ng-show="form_offlinemeter.offlinemeterhourlyhighlimit.$dirty">
                         <small class="text-danger" ng-show="form_offlinemeter.offlinemeterhourlyhighlimit.$error.required">{{'METER.INPUT_HOURLY_HIGH_LIMIT' | translate}}</small>
                         <small class="text-danger" ng-show="form_offlinemeter.offlinemeterhourlyhighlimit.$error.min">{{'METER.INVALID_INPUT_HINT' | translate}}</small>
@@ -79,7 +91,7 @@
             <div class="form-group"><label class="col-sm-4 control-label">{{'SETTING.COSTCENTER' | translate}}<span class="text-danger">*</span></label>
                 <div class="col-sm-8">
                     <ui-select ng-model="offlinemeter.cost_center.id" theme="bootstrap" required>
-                        <ui-select-match allow-clear="false" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
+                        <ui-select-match allow-clear="false" placeholder="{{'SETTING.SELECT_COSTCENTER' | translate}}">{{$select.selected.name}}</ui-select-match>
                         <ui-select-choices repeat="costcenter.id as costcenter in costcenters | filter: $select.search">
                             <div ng-bind-html="costcenter.name | highlight: $select.search"></div>
                         </ui-select-choices>
@@ -89,7 +101,7 @@
             <div class="hr-line-dashed"></div>
             <div class="form-group"><label class="col-sm-4 control-label">{{'SETTING.DESCRIPTION' | translate}} ({{'SETTING.OPTIONAL' | translate}})</label>
               <div class="col-sm-8">
-                  <input ng-model="offlinemeter.description" type="text" name="offlinemeterdescription" class="form-control" >
+                  <input ng-model="offlinemeter.description" type="text" name="offlinemeterdescription" class="form-control" placeholder="{{'SETTING.ENTER_DESCRIPTION' | translate}}">
               </div>
             </div>
         </form>

@@ -6,6 +6,18 @@
 				<uib-tabset active="activeTabIndex">
 					<uib-tab heading="{{'SETTING.METER' | translate}}" index="0" select="handleTabSelect(0)">
 						<div class="panel-body" ng-controller="MeterController">
+							<div class="alert alert-info">
+								<p>
+									{{'SETTING.METER_DESCRIPTION' | translate}}
+									<a ng-click="isCollapsed = !isCollapsed" class="pull-right">
+										{{(isCollapsed ? 'COMMON.COLLAPSE' : 'COMMON.CLICK_TO_EXPAND_FOR_MORE_DESCRIPTION') | translate}}
+									</a>
+								</p>
+								<div uib-collapse="!isCollapsed">
+									<hr>
+									<p>{{'SETTING.METER_DESCRIPTION_MORE' | translate}}</p>
+								</div>
+							</div>
 							<div class="row mb-3">
 								<div class="col-md-3">
 									<a ng-click="addMeter()" class="btn btn-primary btn-rounded btn-outline" href=""><i class="fa fa-plus-circle"></i> {{'SETTING.ADD_METER' | translate}}</a>
@@ -220,6 +232,18 @@
 
 					<uib-tab heading="{{'SETTING.VIRTUAL_METER' | translate}}" index="3" select="handleTabSelect(3)">
 						<div class="panel-body" ng-controller="VirtualMeterController">
+							<div class="alert alert-info">
+								<p>
+									{{'SETTING.VIRTUAL_METER_DESCRIPTION' | translate}}
+									<a ng-click="isCollapsed = !isCollapsed" class="pull-right">
+										{{(isCollapsed ? 'COMMON.COLLAPSE' : 'COMMON.CLICK_TO_EXPAND_FOR_MORE_DESCRIPTION') | translate}}
+									</a>
+								</p>
+								<div uib-collapse="!isCollapsed">
+									<hr>
+									<p>{{'SETTING.VIRTUAL_METER_DESCRIPTION_MORE' | translate}}</p>
+								</div>
+							</div>
 							<div class="row mb-3">
 								<div class="col-md-3">
 								<a ng-click="addVirtualMeter()" class="btn btn-primary btn-rounded  btn-outline" href="">
@@ -283,6 +307,18 @@
 
 					<uib-tab heading="{{'SETTING.OFFLINE_METER' | translate}}" index="4" select="handleTabSelect(4)">
 						<div class="panel-body" ng-controller="OfflineMeterController">
+							<div class="alert alert-info">
+								<p>
+									{{'SETTING.OFFLINE_METER_DESCRIPTION' | translate}}
+									<a ng-click="isCollapsed = !isCollapsed" class="pull-right">
+										{{(isCollapsed ? 'COMMON.COLLAPSE' : 'COMMON.CLICK_TO_EXPAND_FOR_MORE_DESCRIPTION') | translate}}
+									</a>
+								</p>
+								<div uib-collapse="!isCollapsed">
+									<hr>
+									<p>{{'SETTING.OFFLINE_METER_DESCRIPTION_MORE' | translate}}</p>
+								</div>
+							</div>
 							<div class="row mb-3">
 								<div class="col-md-3">
 								<a ng-click="addOfflineMeter()" class="btn btn-primary btn-rounded  btn-outline" href="">

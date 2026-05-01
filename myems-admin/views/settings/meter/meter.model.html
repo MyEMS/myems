@@ -3,10 +3,22 @@
         <h4 class="modal-title">{{operation | translate}}(ID:{{meter.id}})</h4>
     </div>
     <div class="modal-body">
+        <div class="alert alert-info">
+            <p>
+                {{'SETTING.METER_DIALOG_DESCRIPTION' | translate}}
+                <a ng-click="isModelCollapsed = !isModelCollapsed" class="pull-right">
+                    {{(isModelCollapsed ? 'COMMON.COLLAPSE' : 'COMMON.CLICK_TO_EXPAND_FOR_MORE_DESCRIPTION') | translate}}
+                </a>
+            </p>
+            <div uib-collapse="!isModelCollapsed">
+                <hr>
+                <p>{{'SETTING.METER_DIALOG_DESCRIPTION_MORE' | translate}}</p>
+            </div>
+        </div>
         <form role="form" name="form_meter" novalidate class="form-horizontal">
             <div class="form-group"><label class="col-sm-4 control-label">{{'SETTING.NAME' | translate}}<span style="color: red;">*</span></label>
                 <div class="col-sm-8">
-                    <input ng-model="meter.name" type="text" name="metername" class="form-control" required="">
+                    <input ng-model="meter.name" type="text" name="metername" class="form-control" required="" placeholder="{{'SETTING.INPUT_METER_NAME_PLACEHOLDER' | translate}}">
                     <div class="m-t-xs" ng-show="form_meter.metername.$invalid && form_meter.metername.$dirty">
                         <small class="text-danger" ng-show="form_meter.metername.$error.required">{{'SETTING.INPUT_NAME' | translate}}</small>
                     </div>
@@ -16,7 +28,7 @@
             <div class="form-group"><label class="col-sm-4 control-label">{{'SETTING.CATEGORY' | translate}}<span style="color: red;">*</span></label>
                 <div class="col-sm-8">
                     <ui-select ng-model="meter.energy_category.id" on-select="change_energyitems(meter.energy_category.id)" name="meter.energy_category_id" theme="bootstrap" required>
-                        <ui-select-match allow-clear="false" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
+                        <ui-select-match allow-clear="false" placeholder="{{'SETTING.SELECT_CATEGORY' | translate}}">{{$select.selected.name}}</ui-select-match>
                         <ui-select-choices repeat="category.id as category in categories | filter: $select.search">
                             <div ng-bind-html="category.name | highlight: $select.search"></div>
                         </ui-select-choices>
@@ -30,7 +42,7 @@
             <div class="form-group"><label class="col-sm-4 control-label">{{'SETTING.ENERGY_ITEM' | translate}} ({{'SETTING.OPTIONAL' | translate}})</label>
                 <div class="col-sm-8">
                     <ui-select ng-model="meter.energy_item" name="meter.energy_item_id" theme="bootstrap">
-                        <ui-select-match allow-clear="true" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
+                        <ui-select-match allow-clear="true" placeholder="{{'SETTING.SELECT_ENERGY_ITEM' | translate}}">{{$select.selected.name}}</ui-select-match>
                         <ui-select-choices repeat="energyitem in energyitems | filter: $select.search">
                             <div ng-bind-html="energyitem.name | highlight: $select.search"></div>
                         </ui-select-choices>
@@ -52,7 +64,7 @@
 
             <div class="form-group"><label class="col-sm-4 control-label">{{'METER.HOURLY_LOW_LIMIT' | translate}}<span style="color: red;">*</span></label>
                 <div class="col-sm-8">
-                    <input ng-model="meter.hourly_low_limit" type="number" name="meterhourlylowlimit" class="form-control" required min="0" max="999999">
+                    <input ng-model="meter.hourly_low_limit" type="number" name="meterhourlylowlimit" class="form-control" required min="0" max="999999" placeholder="{{'METER.INPUT_HOURLY_LOW_LIMIT' | translate}}">
                     <div class="m-t-xs" ng-show="form_meter.meterhourlylowlimit.$dirty">
                         <small class="text-danger" ng-show="form_meter.meterhourlylowlimit.$error.required">{{'METER.INPUT_HOURLY_LOW_LIMIT' | translate}}</small>
                         <small class="text-danger" ng-show="form_meter.meterhourlylowlimit.$error.min">{{'METER.INVALID_INPUT_HINT' | translate}}</small>
@@ -64,7 +76,7 @@
 
             <div class="form-group"><label class="col-sm-4 control-label">{{'METER.HOURLY_HIGH_LIMIT' | translate}}<span style="color: red;">*</span></label>
                 <div class="col-sm-8">
-                    <input ng-model="meter.hourly_high_limit" type="number" name="meterhourlyhighlimit" class="form-control" required min="0" max="999999">
+                    <input ng-model="meter.hourly_high_limit" type="number" name="meterhourlyhighlimit" class="form-control" required min="0" max="999999" placeholder="{{'METER.INPUT_HOURLY_HIGH_LIMIT' | translate}}">
                     <div class="m-t-xs" ng-show="form_meter.meterhourlyhighlimit.$dirty">
                         <small class="text-danger" ng-show="form_meter.meterhourlyhighlimit.$error.required">{{'METER.INPUT_HOURLY_HIGH_LIMIT' | translate}}</small>
                         <small class="text-danger" ng-show="form_meter.meterhourlyhighlimit.$error.min">{{'METER.INVALID_INPUT_HINT' | translate}}</small>
@@ -77,7 +89,7 @@
             <div class="form-group"><label class="col-sm-4 control-label">{{'SETTING.COSTCENTER' | translate}}<span style="color: red;">*</span></label>
                 <div class="col-sm-8">
                     <ui-select ng-model="meter.cost_center.id" theme="bootstrap" required>
-                        <ui-select-match allow-clear="false" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
+                        <ui-select-match allow-clear="false" placeholder="{{'SETTING.SELECT_COSTCENTER' | translate}}">{{$select.selected.name}}</ui-select-match>
                         <ui-select-choices repeat="costcenter.id as costcenter in costcenters | filter: $select.search">
                             <div ng-bind-html="costcenter.name | highlight: $select.search"></div>
                         </ui-select-choices>
@@ -88,7 +100,7 @@
             <div class="form-group"><label class="col-sm-4 control-label">{{'METER.MASTER_METER' | translate}} ({{'SETTING.OPTIONAL' | translate}})</label>
                 <div class="col-sm-8">
                     <ui-select ng-model="meter.master_meter.id" name="meter.master_meter_id" theme="bootstrap">
-                        <ui-select-match allow-clear="true" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
+                        <ui-select-match allow-clear="true" placeholder="{{'SETTING.SELECT_MASTER_METER' | translate}}">{{$select.selected.name}}</ui-select-match>
                         <ui-select-choices repeat="parentmeter.id as parentmeter in parentmeters | filter: $select.search">
                             <div ng-bind-html="parentmeter.name | highlight: $select.search"></div>
                         </ui-select-choices>
@@ -101,7 +113,7 @@
 
             <div class="form-group"><label class="col-sm-4 control-label">{{'SETTING.DESCRIPTION' | translate}} ({{'SETTING.OPTIONAL' | translate}})</label>
               <div class="col-sm-8">
-                  <input ng-model="meter.description" type="text" name="meterdescription" class="form-control" >
+                  <input ng-model="meter.description" type="text" name="meterdescription" class="form-control" placeholder="{{'SETTING.ENTER_DESCRIPTION' | translate}}">
               </div>
             </div>
             <div class="form-group" ng-show="meter.qrcode"><label class="col-sm-4 control-label">{{'COMMON.QR_CODE' | translate}} </label>

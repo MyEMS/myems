@@ -3,10 +3,22 @@
         <h4 class="modal-title">{{operation | translate}}(ID:{{costcenter.id}})</h4>
     </div>
     <div class="modal-body">
+        <div class="alert alert-info">
+            <p>
+                {{'SETTING.COSTCENTER_DIALOG_DESCRIPTION' | translate}}
+                <a ng-click="isModelCollapsed = !isModelCollapsed" class="pull-right">
+                    {{(isModelCollapsed ? 'COMMON.COLLAPSE' : 'COMMON.CLICK_TO_EXPAND_FOR_MORE_DESCRIPTION') | translate}}
+                </a>
+            </p>
+            <div uib-collapse="!isModelCollapsed">
+                <hr>
+                <p>{{'SETTING.COSTCENTER_DIALOG_DESCRIPTION_MORE' | translate}}</p>
+            </div>
+        </div>
         <form role="form" name="form_costcenter" novalidate class="form-horizontal">
             <div class="form-group"><label class="col-sm-3 control-label">{{'SETTING.NAME' | translate}}<span class="text-danger">*</span></label>
                 <div class="col-sm-9">
-                    <input ng-model="costcenter.name" type="text" name="costcentername" class="form-control" required="">
+                    <input ng-model="costcenter.name" type="text" name="costcentername" class="form-control" required="" placeholder="{{'SETTING.INPUT_COSTCENTER_NAME_PLACEHOLDER' | translate}}">
                     <div class="m-t-xs" ng-show="form_costcenter.costcentername.$invalid && form_costcenter.costcentername.$dirty">
                         <small class="text-danger" ng-show="form_costcenter.costcentername.$error.required">{{'SETTING.INPUT_NAME' | translate}}</small>
                     </div>
@@ -15,7 +27,7 @@
             <div class="hr-line-dashed"></div>
             <div class="form-group"><label class="col-sm-3 control-label">{{'COSTCENTER.EXTERNAL_ID' | translate}} ({{'SETTING.OPTIONAL' | translate}})</label>
                 <div class="col-sm-9">
-                    <input ng-model="costcenter.external_id" type="text" name="costcenterexternalid" class="form-control">
+                    <input ng-model="costcenter.external_id" type="text" name="costcenterexternalid" class="form-control" placeholder="{{'SETTING.INPUT_COSTCENTER_EXTERNAL_ID_PLACEHOLDER' | translate}}">
                 </div>
             </div>
         </form>
