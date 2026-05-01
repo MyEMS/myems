@@ -389,6 +389,7 @@ export default {
             Total: 'Totale',
             'No data found': 'Nessun Dato Trovato',
             Export: 'Esporta',
+            'AI Analysis': 'Analisi IA',
             Datetime: 'Data/Ora',
             'Time-Of-Use Type': 'Tipo Fascia Oraria',
             'Top-Peak': 'Punta',

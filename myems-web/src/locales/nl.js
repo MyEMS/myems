@@ -390,6 +390,7 @@ export default {
             Total: 'Totaal',
             'No data found': 'Geen gegevens gevonden',
             Export: 'Exporteren',
+            'AI Analysis': 'AI-analyse',
             Datetime: 'Datumtijd',
             'Time-Of-Use Type': 'Tijd-van-dag type',
             'Top-Peak': 'Piek',

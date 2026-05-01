@@ -405,6 +405,7 @@ export default {
             Total: 'Tất cả',
             'No data found': 'Không tìm thấy dữ liệu',
             Export: 'Xuất khẩu',
+            'AI Analysis': 'Phân tích AI',
             Datetime: 'Ngày giờ',
             'Time-Of-Use Type': 'Loại thời gian sử dụng',
             'Top-Peak': 'Đỉnh cao nhất',
