@@ -5,6 +5,18 @@
 				<uib-tabset active="activeTabIndex">
 					<uib-tab heading="{{'COMMON.EQUIPMENT' | translate}}" index="0" select="handleTabSelect(0)">
 						<div class="panel-body" ng-controller="EquipmentController">
+							<div class="alert alert-info">
+								<p>
+									{{'SETTING.EQUIPMENT_DESCRIPTION' | translate}}
+									<a ng-click="isCollapsed = !isCollapsed" class="pull-right">
+										{{(isCollapsed ? 'COMMON.COLLAPSE' : 'COMMON.CLICK_TO_EXPAND_FOR_MORE_DESCRIPTION') | translate}}
+									</a>
+								</p>
+								<div uib-collapse="!isCollapsed">
+									<hr>
+									<p>{{'SETTING.EQUIPMENT_DESCRIPTION_MORE' | translate}}</p>
+								</div>
+							</div>
 							<div class="row mb-3">
 								<div class="col-md-3">
 									<a ng-click="addEquipment()" class="btn btn-primary btn-rounded btn-outline" href=""><i class="fa fa-plus-circle"></i> {{'EQUIPMENT.ADD_EQUIPMENT' | translate}}</a>

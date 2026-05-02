@@ -6,6 +6,18 @@
 				<uib-tabset active="activeTabIndex">
 					<uib-tab heading="{{'COMMON.SENSOR' | translate}}" index="0" select="handleTabSelect(0)">
 						<div class="panel-body" ng-controller="SensorController">
+							<div class="alert alert-info">
+								<p>
+									{{'SETTING.SENSOR_DESCRIPTION' | translate}}
+									<a ng-click="isCollapsed = !isCollapsed" class="pull-right">
+										{{(isCollapsed ? 'COMMON.COLLAPSE' : 'COMMON.CLICK_TO_EXPAND_FOR_MORE_DESCRIPTION') | translate}}
+									</a>
+								</p>
+								<div uib-collapse="!isCollapsed">
+									<hr>
+									<p>{{'SETTING.SENSOR_DESCRIPTION_MORE' | translate}}</p>
+								</div>
+							</div>
 							<div class="col-md-3">
 								<a ng-click="addSensor()" class="btn btn-primary btn-rounded btn-outline" href=""><i class="fa fa-plus-circle"></i> {{'SENSOR.ADD_SENSOR' | translate}}</a>
 								<a ng-click="importSensor()" class="btn btn-primary btn-rounded  btn-outline" href=""><i class="fa fa-plus-circle"></i> {{'SETTING.IMPORT' | translate}}</a>

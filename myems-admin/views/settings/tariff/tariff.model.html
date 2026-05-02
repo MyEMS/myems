@@ -3,19 +3,31 @@
         <h4 class="modal-title">{{operation | translate}}(ID:{{tariff.id}})</h4>
     </div>
     <div class="modal-body">
+        <div class="alert alert-info">
+            <p>
+                {{'SETTING.TARIFF_DIALOG_DESCRIPTION' | translate}}
+                <a ng-click="isModelCollapsed = !isModelCollapsed" class="pull-right">
+                    {{(isModelCollapsed ? 'COMMON.COLLAPSE' : 'COMMON.CLICK_TO_EXPAND_FOR_MORE_DESCRIPTION') | translate}}
+                </a>
+            </p>
+            <div uib-collapse="!isModelCollapsed">
+                <hr>
+                <p>{{'SETTING.TARIFF_DIALOG_DESCRIPTION_MORE' | translate}}</p>
+            </div>
+        </div>
         <div class="row">
             <div class="col-sm-4 b-r">
                 <form method="get" class="form-horizontal">
                     <div class="form-group"><label class="col-sm-5 control-label">{{'SETTING.TARIFF_NAME' | translate}}<span class="text-danger">*</span></label>
                         <div class="col-sm-7">
-                            <input ng-model="tariff.name" type="text" class="form-control" required>
+                            <input ng-model="tariff.name" type="text" class="form-control" required placeholder="{{'SETTING.INPUT_TARIFF_NAME_PLACEHOLDER' | translate}}">
                         </div>
                     </div>
                     <div class="hr-line-dashed"></div>
                     <div class="form-group"><label class="col-sm-5 control-label">{{'SETTING.CATEGORY' | translate}}<span class="text-danger">*</span></label>
                         <div class="col-sm-7">
                             <ui-select ng-model="tariff.energy_category.id" theme="bootstrap" required>
-                                <ui-select-match allow-clear="false" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
+                                <ui-select-match allow-clear="false" placeholder="{{'SETTING.SELECT_CATEGORY' | translate}}">{{$select.selected.name}}</ui-select-match>
                                 <ui-select-choices repeat="category.id as category in categories | filter: $select.search">
                                     <div ng-bind-html="category.name | highlight: $select.search"></div>
                                 </ui-select-choices>
@@ -33,7 +45,7 @@
                     <div class="hr-line-dashed"></div>
                     <div class="form-group"><label class="col-sm-5 control-label">{{'SETTING.UNIT' | translate}}<span class="text-danger">*</span></label>
                         <div class="col-sm-7">
-                            <input ng-model="tariff.unit_of_price" type="text" class="form-control" required>
+                            <input ng-model="tariff.unit_of_price" type="text" class="form-control" required placeholder="{{'SETTING.INPUT_UNIT' | translate}}">
                         </div>
                     </div>
                     <div class="hr-line-dashed"></div>
@@ -148,7 +160,7 @@
                                         <option value="49">49</option>
                                         <option value="50">50</option>
                                         <option value="51">51</option>
-                                        <option value="50">52</option>
+                                        <option value="52">52</option>
                                         <option value="53">53</option>
                                         <option value="54">54</option>
                                         <option value="55">55</option>
@@ -388,7 +400,7 @@
                             </select>
                             </td>
                             <td class="text-center sm">
-                                <input type="number" min="0" step="0.000001" ng-model="t.price" class="form-control input-sm">
+                                <input type="number" min="0" step="0.000001" ng-model="t.price" class="form-control input-sm" placeholder="{{'SETTING.PRICE' | translate}}">
                             </td>
 
                             <td class="text-center sm">
