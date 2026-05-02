@@ -211,10 +211,15 @@ const MultiTrendChart = ({
       <CardBody className="rounded-soft">
         <Row className="text-white align-items-center no-gutters">
           <Col>
-            <h5 className="text-lightSlateGray mb-0">{parseTitleOrTooltipTitle(reportingTitle, option)}</h5>
-            <p className="fs--1 font-weight-semi-bold" style={{ color: isDark ? themeColors.light : themeColors.dark }}>
-              {parseTitleOrTooltipTitle(baseTitle, option)}
-            </p>
+            <h5 className="text-lightSlateGray mb-0">
+              {parseTitleOrTooltipTitle(reportingTitle, option)}
+              <span className="mx-2" aria-hidden="true">
+                ｜
+              </span>
+              <span style={{ opacity: isDark ? 0.72 : 0.62 }}>
+                {parseTitleOrTooltipTitle(baseTitle, option)}
+              </span>
+            </h5>
           </Col>
           {isIterableArray(options) && (
             <Col xs="auto" className="d-none d-sm-block">
