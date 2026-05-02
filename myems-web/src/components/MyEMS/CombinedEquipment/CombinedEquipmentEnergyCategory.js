@@ -28,6 +28,7 @@ import withRedirect from '../../../hoc/withRedirect';
 import { withTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
 import ButtonIcon from '../../common/ButtonIcon';
+import DeepSeekAnalysisModal from '../common/DeepSeekAnalysisModal';
 import { APIBaseURL, settings } from '../../../config';
 import { periodTypeOptions } from '../common/PeriodTypeOptions';
 import { comparisonTypeOptions } from '../common/ComparisonTypeOptions';
@@ -116,6 +117,8 @@ const CombinedEquipmentEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => 
   const [submitButtonDisabled, setSubmitButtonDisabled] = useState(true);
   const [spinnerHidden, setSpinnerHidden] = useState(true);
   const [exportButtonHidden, setExportButtonHidden] = useState(true);
+  const [smartAnalysisOpen, setSmartAnalysisOpen] = useState(false);
+  const [smartAnalysisContext, setSmartAnalysisContext] = useState(null);
   const [spaceCascaderHidden, setSpaceCascaderHidden] = useState(false);
   const [resultDataHidden, setResultDataHidden] = useState(true);
   //Results
@@ -1052,6 +1055,121 @@ const CombinedEquipmentEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => 
       });
   };
 
+  const buildSmartAnalysisContext = useCallback(() => {
+    const lineValues = {};
+    if (parameterLineChartData && typeof parameterLineChartData === 'object') {
+      Object.keys(parameterLineChartData).forEach(k => {
+        const arr = parameterLineChartData[k];
+        lineValues[k] = Array.isArray(arr) ? arr.slice(0, 200) : arr;
+      });
+    }
+    const maxAssocCharts = 15;
+    const associatedEquipmentCharts = [];
+    for (
+      let i = 0;
+      i < Math.min(associatedEquipmentNamesOfAssociatedReportPeriodList.length, maxAssocCharts);
+      i++
+    ) {
+      const dataObj = associatedEquipmentLineChartDataList[i];
+      const values = {};
+      if (dataObj && typeof dataObj === 'object') {
+        Object.keys(dataObj).forEach(k => {
+          const arr = dataObj[k];
+          values[k] = Array.isArray(arr) ? arr.slice(0, 200) : arr;
+        });
+      }
+      associatedEquipmentCharts.push({
+        name: associatedEquipmentNamesOfAssociatedReportPeriodList[i],
+        labels: associatedEquipmentLineChartLabelsList[i],
+        optionLabels: associatedEquipmentLineChartOptionsList[i],
+        values
+      });
+    }
+    const combinedLabel =
+      combinedEquipmentList.find(c => String(c.value) === String(selectedCombinedEquipment))?.label ?? null;
+    const spaceDisplayName = Array.isArray(selectedSpaceName)
+      ? selectedSpaceName.join('/')
+      : selectedSpaceName ?? null;
+    return {
+      reportType: 'combined_equipment_energy_category',
+      reportTitle: t('Energy Category Data'),
+      space: { name: spaceDisplayName },
+      combinedEquipment: {
+        id: selectedCombinedEquipment,
+        uuid: uuid || null,
+        name: combinedLabel
+      },
+      periodType,
+      comparisonType,
+      reportingPeriod: {
+        start: reportingPeriodDateRange[0]
+          ? moment(reportingPeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss')
+          : null,
+        end: reportingPeriodDateRange[1]
+          ? moment(reportingPeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss')
+          : null
+      },
+      basePeriod: {
+        start:
+          basePeriodDateRange[0] != null
+            ? moment(basePeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss')
+            : null,
+        end:
+          basePeriodDateRange[1] != null
+            ? moment(basePeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss')
+            : null
+      },
+      cardSummaryList,
+      totalInTCE,
+      totalInTCO2E,
+      timeOfUseShare: timeOfUseShareData,
+      tceShare: TCEShareData,
+      tco2eShare: TCO2EShareData,
+      detailedDataSample: detailedDataTableData.slice(0, 120),
+      parameterLineChart: {
+        labels: parameterLineChartLabels,
+        optionLabels: parameterLineChartOptions,
+        values: lineValues
+      },
+      combinedEquipmentBaseAndReportingNames,
+      combinedEquipmentBaseAndReportingUnits,
+      associatedEquipmentCharts,
+      associatedEquipmentTableSample: associatedEquipmentTableData.slice(0, 80)
+    };
+  }, [
+    t,
+    uuid,
+    selectedSpaceName,
+    selectedCombinedEquipment,
+    combinedEquipmentList,
+    periodType,
+    comparisonType,
+    reportingPeriodDateRange,
+    basePeriodDateRange,
+    cardSummaryList,
+    totalInTCE,
+    totalInTCO2E,
+    timeOfUseShareData,
+    TCEShareData,
+    TCO2EShareData,
+    detailedDataTableData,
+    parameterLineChartLabels,
+    parameterLineChartOptions,
+    parameterLineChartData,
+    combinedEquipmentBaseAndReportingNames,
+    combinedEquipmentBaseAndReportingUnits,
+    associatedEquipmentNamesOfAssociatedReportPeriodList,
+    associatedEquipmentLineChartLabelsList,
+    associatedEquipmentLineChartDataList,
+    associatedEquipmentLineChartOptionsList,
+    associatedEquipmentTableData
+  ]);
+
+  const openSmartAnalysis = () => {
+    setSmartAnalysisContext(buildSmartAnalysisContext());
+    setSmartAnalysisOpen(true);
+  };
+
   return (
     <Fragment>
       <div>
@@ -1212,6 +1330,19 @@ const CombinedEquipmentEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => 
                   {t('Export')}
                 </ButtonIcon>
               </Col>
+              {settings.enableAIAnalysis ? (
+                <Col xs="auto">
+                  <br />
+                  <Button
+                    color="falcon-default"
+                    size="sm"
+                    hidden={exportButtonHidden}
+                    onClick={openSmartAnalysis}
+                  >
+                    {t('AI Analysis')}
+                  </Button>
+                </Col>
+              ) : null}
             </Row>
           </Form>
         </CardBody>
@@ -1394,6 +1525,16 @@ const CombinedEquipmentEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => 
           columns={associatedEquipmentTableColumns}
         />
       </div>
+      {settings.enableAIAnalysis ? (
+        <DeepSeekAnalysisModal
+          isOpen={smartAnalysisOpen}
+          toggle={() => setSmartAnalysisOpen(false)}
+          language={language}
+          reportContext={smartAnalysisContext}
+          setRedirect={setRedirect}
+          setRedirectUrl={setRedirectUrl}
+        />
+      ) : null}
     </Fragment>
   );
 };

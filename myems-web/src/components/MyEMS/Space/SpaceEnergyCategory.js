@@ -1366,17 +1366,19 @@ const SpaceEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => {
                   {t('Export')}
                 </ButtonIcon>
               </Col>
-              <Col xs="auto">
-                <br />
-                <Button
-                  color="falcon-default"
-                  size="sm"
-                  hidden={exportButtonHidden}
-                  onClick={openSmartAnalysis}
-                >
-                  {t('AI Analysis')}
-                </Button>
-              </Col>
+              {settings.enableAIAnalysis ? (
+                <Col xs="auto">
+                  <br />
+                  <Button
+                    color="falcon-default"
+                    size="sm"
+                    hidden={exportButtonHidden}
+                    onClick={openSmartAnalysis}
+                  >
+                    {t('AI Analysis')}
+                  </Button>
+                </Col>
+              ) : null}
             </Row>
           </Form>
         </CardBody>
@@ -1592,14 +1594,16 @@ const SpaceEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => {
           columns={childSpacesTableColumns}
         />
       </div>
-      <DeepSeekAnalysisModal
-        isOpen={smartAnalysisOpen}
-        toggle={() => setSmartAnalysisOpen(false)}
-        language={language}
-        reportContext={smartAnalysisContext}
-        setRedirect={setRedirect}
-        setRedirectUrl={setRedirectUrl}
-      />
+      {settings.enableAIAnalysis ? (
+        <DeepSeekAnalysisModal
+          isOpen={smartAnalysisOpen}
+          toggle={() => setSmartAnalysisOpen(false)}
+          language={language}
+          reportContext={smartAnalysisContext}
+          setRedirect={setRedirect}
+          setRedirectUrl={setRedirectUrl}
+        />
+      ) : null}
     </Fragment>
   );
 };
