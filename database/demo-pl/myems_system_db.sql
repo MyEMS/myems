@@ -85,8 +85,8 @@ START TRANSACTION;
 
 INSERT INTO `myems_system_db`.`tbl_contacts`(`id`, `name`, `uuid`, `email`, `phone`, `description`)
 VALUES
-(1, 'inż. Jiang', '5c5ce6e8-8d00-46b3-9602-4e1520a8b43f',  'john@myems.io', '+8613888888888', 'Budynek 1'),
-(2, 'inż. Zhang', '102b654d-e831-4365-bb1e-dbd55e897851',  'sample.tenant@myems.io', '+8613666666666', 'Główny najemca');
+(1, 'inż. Jiang', '5c5ce6e8-8d00-46b3-9602-4e1520a8b43f',  'john@myems.cn', '+8613888888888', 'Budynek 1'),
+(2, 'inż. Zhang', '102b654d-e831-4365-bb1e-dbd55e897851',  'sample.tenant@myems.cn', '+8613666666666', 'Główny najemca');
 COMMIT;
 
 -- ---------------------------------------------------------------------------------------------------------------------
