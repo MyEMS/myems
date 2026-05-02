@@ -6,6 +6,18 @@
 				<uib-tabset>
 					<uib-tab heading="{{'COMMON.DATA_SOURCE' | translate}}">
 						<div class="panel-body" ng-controller="DataSourceController">
+							<div class="alert alert-info">
+								<p>
+									{{'SETTING.DATASOURCE_DESCRIPTION' | translate}}
+									<a ng-click="isCollapsed = !isCollapsed" class="pull-right">
+										{{(isCollapsed ? 'COMMON.COLLAPSE' : 'COMMON.CLICK_TO_EXPAND_FOR_MORE_DESCRIPTION') | translate}}
+									</a>
+								</p>
+								<div uib-collapse="!isCollapsed">
+									<hr>
+									<p>{{'SETTING.DATASOURCE_DESCRIPTION_MORE' | translate}}</p>
+								</div>
+							</div>
 							<div class="row mb-3">
 								<div class="col-md-3">
 									<a ng-click="addDataSource()" class="btn btn-primary btn-rounded  btn-outline" href=""><i class="fa fa-plus-circle"></i> {{'DATA_SOURCE.ADD_DATA_SOURCE' | translate}}</a>
@@ -58,6 +70,18 @@
 					</uib-tab>
 					<uib-tab heading="{{'SETTING.POINT' | translate}}">
 						<div class="panel-body" ng-controller="PointController">
+							<div class="alert alert-info">
+								<p>
+									{{'SETTING.POINT_DESCRIPTION' | translate}}
+									<a ng-click="isCollapsed = !isCollapsed" class="pull-right">
+										{{(isCollapsed ? 'COMMON.COLLAPSE' : 'COMMON.CLICK_TO_EXPAND_FOR_MORE_DESCRIPTION') | translate}}
+									</a>
+								</p>
+								<div uib-collapse="!isCollapsed">
+									<hr>
+									<p>{{'SETTING.POINT_DESCRIPTION_MORE' | translate}}</p>
+								</div>
+							</div>
 							<form method="get" class="form-horizontal">
 								<div class="form-group"><label
 										class="col-sm-2 control-label">{{'DATA_SOURCE.SELECT_DATA_SOURCE' | translate}}:</label>

@@ -6,6 +6,18 @@
 				<uib-tabset>
 					<uib-tab heading="{{'PROTOCOL.PROTOCOL' | translate}}" >
 						<div class="panel-body" ng-controller="ProtocolController">
+							<div class="alert alert-info">
+								<p>
+									{{'SETTING.PROTOCOL_DESCRIPTION' | translate}}
+									<a ng-click="isCollapsed = !isCollapsed" class="pull-right">
+										{{(isCollapsed ? 'COMMON.COLLAPSE' : 'COMMON.CLICK_TO_EXPAND_FOR_MORE_DESCRIPTION') | translate}}
+									</a>
+								</p>
+								<div uib-collapse="!isCollapsed">
+									<hr>
+									<p>{{'SETTING.PROTOCOL_DESCRIPTION_MORE' | translate}}</p>
+								</div>
+							</div>
 							<a ng-click="addProtocol()" class="btn btn-primary btn-rounded btn-outline" href=""><i class="fa fa-plus-circle"></i> {{'PROTOCOL.ADD_PROTOCOL' | translate}}</a>
 							<br>
 							<br>

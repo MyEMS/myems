@@ -6,6 +6,18 @@
 				<uib-tabset>
 						<uib-tab heading="{{'SETTING.CONTACT' | translate}}">
 							<div class="panel-body" ng-controller="ContactController">
+								<div class="alert alert-info">
+									<p>
+										{{'SETTING.CONTACT_DESCRIPTION' | translate}}
+										<a ng-click="isCollapsed = !isCollapsed" class="pull-right">
+											{{(isCollapsed ? 'COMMON.COLLAPSE' : 'COMMON.CLICK_TO_EXPAND_FOR_MORE_DESCRIPTION') | translate}}
+										</a>
+									</p>
+									<div uib-collapse="!isCollapsed">
+										<hr>
+										<p>{{'SETTING.CONTACT_DESCRIPTION_MORE' | translate}}</p>
+									</div>
+								</div>
 								<div class="col-md-3">
 								   <a ng-click="addContact()" class="btn btn-primary btn-rounded btn-outline" href=""><i class="fa fa-plus-circle"></i> {{'SETTING.ADD_CONTACT' | translate}}</a>
 								</div>

@@ -3,10 +3,22 @@
         <h4 class="modal-title">{{operation | translate}}(ID:{{combinedequipment.id}})</h4>
     </div>
     <div class="modal-body">
+        <div class="alert alert-info">
+            <p>
+                {{'SETTING.COMBINED_EQUIPMENT_DIALOG_DESCRIPTION' | translate}}
+                <a ng-click="isModelCollapsed = !isModelCollapsed" class="pull-right">
+                    {{(isModelCollapsed ? 'COMMON.COLLAPSE' : 'COMMON.CLICK_TO_EXPAND_FOR_MORE_DESCRIPTION') | translate}}
+                </a>
+            </p>
+            <div uib-collapse="!isModelCollapsed">
+                <hr>
+                <p>{{'SETTING.COMBINED_EQUIPMENT_DIALOG_DESCRIPTION_MORE' | translate}}</p>
+            </div>
+        </div>
         <form role="form" name="form_combinedequipment" novalidate class="form-horizontal">
             <div class="form-group"><label class="col-sm-3 control-label">{{'SETTING.NAME' | translate}}<span class="text-danger">*</span></label>
                 <div class="col-sm-9">
-                    <input ng-model="combinedequipment.name" type="text" name="combinedequipmentname" class="form-control" required="">
+                    <input ng-model="combinedequipment.name" type="text" name="combinedequipmentname" class="form-control" required="" placeholder="{{'SETTING.INPUT_COMBINED_EQUIPMENT_NAME_PLACEHOLDER' | translate}}">
                     <div class="m-t-xs" ng-show="form_combinedequipment.combinedequipmentname.$invalid && form_combinedequipment.combinedequipmentname.$dirty">
                         <small class="text-danger" ng-show="form_combinedequipment.combinedequipmentname.$error.required">{{'SETTING.INPUT_NAME' | translate}}</small>
                     </div>
@@ -33,7 +45,7 @@
             <div class="form-group"><label class="col-sm-3 control-label">{{'COMBINED_EQUIPMENT.COST_CENTER' | translate}}<span class="text-danger">*</span></label>
                 <div class="col-sm-9">
                     <ui-select ng-model="combinedequipment.cost_center.id" theme="bootstrap" required>
-                        <ui-select-match allow-clear="false" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
+                        <ui-select-match allow-clear="false" placeholder="{{'SETTING.SELECT_COSTCENTER' | translate}}">{{$select.selected.name}}</ui-select-match>
                         <ui-select-choices repeat="costcenter.id as costcenter in costcenters | filter: $select.search">
                             <div ng-bind-html="costcenter.name | highlight: $select.search"></div>
                         </ui-select-choices>
@@ -43,7 +55,7 @@
             <div class="hr-line-dashed"></div>
             <div class="form-group"><label class="col-sm-3 control-label">{{'COMBINED_EQUIPMENT.EFFICIENCY_INDICATOR' | translate}}<span class="text-danger">*</span></label>
                 <div class="col-sm-9">
-                    <input ng-model="combinedequipment.efficiency_indicator" type="number" step="0.000001" name="combinedequipmentefficiencyindicator" class="form-control" required>
+                    <input ng-model="combinedequipment.efficiency_indicator" type="number" step="0.000001" name="combinedequipmentefficiencyindicator" class="form-control" required placeholder="{{'EQUIPMENT.INPUT_EFFICIENCY_INDICATOR' | translate}}">
                     <div class="m-t-xs" ng-show="form_combinedequipment.combinedequipmentefficiencyindicator.$invalid && form_combinedequipment.combinedequipmentefficiencyindicator.$dirty">
                         <small class="text-danger" ng-show="form_combinedequipment.combinedequipmentefficiencyindicator.$error.required">{{'SETTING.INPUT_EFFICIENCY_INDICATOR' | translate}}</small>
                     </div>
@@ -53,7 +65,7 @@
                 <label class="col-sm-3 control-label">{{'COMBINED_EQUIPMENT.SVG' | translate}} ({{'SETTING.OPTIONAL' | translate}})</label>
                 <div class="col-sm-9">
                     <ui-select ng-model="combinedequipment.svg.id" theme="bootstrap">
-                        <ui-select-match allow-clear="true" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
+                        <ui-select-match allow-clear="true" placeholder="{{'SETTING.SELECT_SVG' | translate}}">{{$select.selected.name}}</ui-select-match>
                         <ui-select-choices repeat="svg.id as svg in svgs | filter: $select.search">
                             <div ng-bind-html="svg.name | highlight: $select.search"></div>
                         </ui-select-choices>
@@ -62,12 +74,12 @@
             </div>
             <div class="form-group"><label class="col-sm-3 control-label">{{'COMBINED_EQUIPMENT.CAMERA_URL' | translate}} ({{'SETTING.OPTIONAL' | translate}})</label>
                 <div class="col-sm-9">
-                    <textarea ng-model="combinedequipment.camera_url" rows="5" cols="50" name="combinedequipmentcameraurl" class="form-control"></textarea>
+                    <textarea ng-model="combinedequipment.camera_url" rows="5" cols="50" name="combinedequipmentcameraurl" class="form-control" placeholder="{{'EQUIPMENT.INPUT_CAMERA_URL' | translate}}"></textarea>
                 </div>
             </div>
             <div class="form-group"><label class="col-sm-3 control-label">{{'SETTING.DESCRIPTION' | translate}} ({{'SETTING.OPTIONAL' | translate}})</label>
                 <div class="col-sm-9">
-                    <input ng-model="combinedequipment.description" type="text" name="combinedequipmentdescription" class="form-control" >
+                    <input ng-model="combinedequipment.description" type="text" name="combinedequipmentdescription" class="form-control" placeholder="{{'SETTING.ENTER_DESCRIPTION' | translate}}">
                     <div class="m-t-xs" ng-show="form_combinedequipment.combinedequipmentdescription.$invalid && form_combinedequipment.combinedequipmentdescription.$dirty">
                         <small class="text-danger" ng-show="form_combinedequipment.combinedequipmentdescription.$error.required">{{'SETTING.INPUT_DESCRIPTION' | translate}}</small>
                     </div>

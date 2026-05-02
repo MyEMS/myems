@@ -3,12 +3,24 @@
         <h4 class="modal-title">{{operation | translate}}(ID:{{virtualmeter.id}})</h4>
     </div>
     <div class="modal-body">
+        <div class="alert alert-info">
+            <p>
+                {{'SETTING.VIRTUAL_METER_DIALOG_DESCRIPTION' | translate}}
+                <a ng-click="isModelCollapsed = !isModelCollapsed" class="pull-right">
+                    {{(isModelCollapsed ? 'COMMON.COLLAPSE' : 'COMMON.CLICK_TO_EXPAND_FOR_MORE_DESCRIPTION') | translate}}
+                </a>
+            </p>
+            <div uib-collapse="!isModelCollapsed">
+                <hr>
+                <p>{{'SETTING.VIRTUAL_METER_DIALOG_DESCRIPTION_MORE' | translate}}</p>
+            </div>
+        </div>
         <div class="row">
             <div class="col-sm-4 b-r">
                 <form role="form" name="form_virtualmeter" novalidate class="form-horizontal">
                     <div class="form-group"><label class="col-sm-5 control-label">{{'SETTING.NAME' | translate}}<span class="text-danger">*</span></label>
                         <div class="col-sm-7">
-                            <input ng-model="virtualmeter.name" type="text" name="virtualmetername" class="form-control" required="">
+                            <input ng-model="virtualmeter.name" type="text" name="virtualmetername" class="form-control" required="" placeholder="{{'SETTING.INPUT_METER_NAME_PLACEHOLDER' | translate}}">
                             <div class="m-t-xs" ng-show="form_virtualmeter.virtualmetername.$invalid && form_virtualmeter.virtualmetername.$dirty">
                                 <small class="text-danger" ng-show="form_virtualmeter.virtualmetername.$error.required">{{'SETTING.INPUT_NAME' | translate}}</small>
                             </div>
@@ -18,7 +30,7 @@
                     <div class="form-group"><label class="col-sm-5 control-label">{{'SETTING.EXPRESSION' | translate}}<span class="text-danger">*</span></label>
 
                         <div class="col-sm-7">
-                            <textarea ng-model="virtualmeter.expression.equation"  type="text" rows="2" name="virtualmeterexpression" class="form-control" required=""></textarea>
+                            <textarea ng-model="virtualmeter.expression.equation"  type="text" rows="2" name="virtualmeterexpression" class="form-control" required="" placeholder="{{'SETTING.INPUT_EXPRESSION' | translate}}"></textarea>
                             <div class="m-t-xs" ng-show="form_virtualmeter.virtualmeterexpression.$invalid && form_virtualmeter.virtualmeterexpression.$dirty">
                                 <small class="text-danger" ng-show="form_virtualmeter.virtualmeterexpression.$error.required">{{'SETTING.INPUT_EXPRESSION' | translate}}</small>
                             </div>
@@ -28,7 +40,7 @@
                     <div class="form-group"><label class="col-sm-5 control-label">{{'SETTING.CATEGORY' | translate}}<span class="text-danger">*</span></label>
                         <div class="col-sm-7">
                             <ui-select ng-model="virtualmeter.energy_category.id" on-select="change_energyitems(virtualmeter.energy_category.id)" name="virtualmeter.energy_category_id" theme="bootstrap" required>
-                                <ui-select-match placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
+                                <ui-select-match placeholder="{{'SETTING.SELECT_CATEGORY' | translate}}">{{$select.selected.name}}</ui-select-match>
                                 <ui-select-choices repeat="category.id as category in categories | filter: $select.search">
                                     <div ng-bind-html="category.name | highlight: $select.search"></div>
                                 </ui-select-choices>
@@ -42,7 +54,7 @@
                     <div class="form-group"><label class="col-sm-5 control-label">{{'SETTING.ENERGY_ITEM' | translate}} ({{'SETTING.OPTIONAL' | translate}})</label>
                         <div class="col-sm-7">
                             <ui-select ng-model="virtualmeter.energy_item" name="virtualmeter.energy_item_id" theme="bootstrap">
-                                <ui-select-match allow-clear="true" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
+                                <ui-select-match allow-clear="true" placeholder="{{'SETTING.SELECT_ENERGY_ITEM' | translate}}">{{$select.selected.name}}</ui-select-match>
                                 <ui-select-choices repeat="energyitem in energyitems | filter: $select.search">
                                     <div ng-bind-html="energyitem.name | highlight: $select.search"></div>
                                 </ui-select-choices>
@@ -65,7 +77,7 @@
                     <div class="form-group"><label class="col-sm-5 control-label">{{'SETTING.COSTCENTER' | translate}}<span class="text-danger">*</span></label>
                         <div class="col-sm-7">
                             <ui-select ng-model="virtualmeter.cost_center.id" theme="bootstrap" required>
-                                <ui-select-match allow-clear="false" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
+                                <ui-select-match allow-clear="false" placeholder="{{'SETTING.SELECT_COSTCENTER' | translate}}">{{$select.selected.name}}</ui-select-match>
                                 <ui-select-choices repeat="costcenter.id as costcenter in costcenters | filter: $select.search">
                                     <div ng-bind-html="costcenter.name | highlight: $select.search"></div>
                                 </ui-select-choices>
@@ -75,7 +87,7 @@
                     <div class="hr-line-dashed"></div>
                     <div class="form-group"><label class="col-sm-5 control-label">{{'SETTING.DESCRIPTION' | translate}} ({{'SETTING.OPTIONAL' | translate}})</label>
                       <div class="col-sm-7">
-                          <input ng-model="virtualmeter.description" type="text" name="virtualmeterdescription" class="form-control" >
+                          <input ng-model="virtualmeter.description" type="text" name="virtualmeterdescription" class="form-control" placeholder="{{'SETTING.ENTER_DESCRIPTION' | translate}}">
                       </div>
                     </div>
                 </form>

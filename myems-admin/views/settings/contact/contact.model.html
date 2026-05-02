@@ -3,10 +3,22 @@
         <h4 class="modal-title">{{operation | translate}}(ID:{{contact.id}})</h4>
     </div>
     <div class="modal-body">
+        <div class="alert alert-info">
+            <p>
+                {{'SETTING.CONTACT_DIALOG_DESCRIPTION' | translate}}
+                <a ng-click="isModelCollapsed = !isModelCollapsed" class="pull-right">
+                    {{(isModelCollapsed ? 'COMMON.COLLAPSE' : 'COMMON.CLICK_TO_EXPAND_FOR_MORE_DESCRIPTION') | translate}}
+                </a>
+            </p>
+            <div uib-collapse="!isModelCollapsed">
+                <hr>
+                <p>{{'SETTING.CONTACT_DIALOG_DESCRIPTION_MORE' | translate}}</p>
+            </div>
+        </div>
         <form role="form" name="form_contact" novalidate class="form-horizontal">
             <div class="form-group"><label class="col-sm-3 control-label">{{'SETTING.NAME' | translate}}<span class="text-danger">*</span></label>
                 <div class="col-sm-9">
-                    <input ng-model="contact.name" type="text" name="name" class="form-control" required="">
+                    <input ng-model="contact.name" type="text" name="name" class="form-control" required="" placeholder="{{'SETTING.INPUT_CONTACT_NAME_PLACEHOLDER' | translate}}">
                     <div class="m-t-xs" ng-show="form_contact.name.$invalid && form_contact.name.$dirty">
                         <small class="text-danger" ng-show="form_contact.name.$error.required">{{'SETTING.INPUT_NAME' | translate}}</small>
                     </div>
@@ -15,7 +27,7 @@
             <div class="hr-line-dashed"></div>
             <div class="form-group"><label class="col-sm-3 control-label">{{'CONTACT.EMAIL' | translate}}<span class="text-danger">*</span></label>
                 <div class="col-sm-9">
-                    <input ng-model="contact.email" type="email" name="email" class="form-control" required="">
+                    <input ng-model="contact.email" type="email" name="email" class="form-control" required="" placeholder="{{'SETTING.INPUT_CONTACT_EMAIL_PLACEHOLDER' | translate}}">
                     <div class="m-t-xs" ng-show="form_contact.email.$invalid && form_contact.email.$dirty">
                         <small class="text-danger" ng-show="form_contact.email.$error.required">{{'CONTACT.INPUT_EMAIL' | translate}}</small>
                         <small class="text-danger" ng-show="form_contact.email.$error">{{'CONTACT.INVALID_EMAIL' | translate}}</small>
@@ -24,7 +36,7 @@
             </div>
             <div class="form-group"><label class="col-sm-3 control-label">{{'CONTACT.PHONE' | translate}}<span class="text-danger">*</span></label>
                 <div class="col-sm-9">
-                    <input ng-model="contact.phone" type="tel" name="phone" class="form-control" required="">
+                    <input ng-model="contact.phone" type="tel" name="phone" class="form-control" required="" placeholder="{{'SETTING.INPUT_CONTACT_PHONE_PLACEHOLDER' | translate}}">
                     <div class="m-t-xs" ng-show="form_contact.phone.$invalid && form_contact.phone.$dirty">
                         <small class="text-danger" ng-show="form_contact.phone.$error.required">{{'CONTACT.INPUT_PHONE' | translate}}</small>
                         <small class="text-danger" ng-show="form_contact.phone.$error">{{'SETTING.INVALID_FORMAT' | translate}}</small>
@@ -33,7 +45,7 @@
             </div>
             <div class="form-group"><label class="col-sm-3 control-label">{{'SETTING.DESCRIPTION' | translate}} ({{'SETTING.OPTIONAL' | translate}})</label>
                 <div class="col-sm-9">
-                    <input ng-model="contact.description" type="text" name="contactdescription" class="form-control" >
+                    <input ng-model="contact.description" type="text" name="contactdescription" class="form-control" placeholder="{{'SETTING.ENTER_DESCRIPTION' | translate}}">
                     <div class="m-t-xs" ng-show="form_contact.description.$invalid && form_contact.description.$dirty">
                         <small class="text-danger" ng-show="form_contact.description.$error.required">{{'SETTING.INPUT_DESCRIPTION' | translate}}</small>
                         <small class="text-danger" ng-show="form_contact.description.$error">{{'SETTING.INVALID_FORMAT' | translate}}</small>
