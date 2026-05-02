@@ -16,11 +16,12 @@ export const settings = {
   currency: '¥',
   isNavbarVerticalCollapsed: false,
   navbarStyle: 'transparent',
-  language: 'zh_CN', //zh_CN, en, de, fr, es, ru, ar, vi, th, tr, ms, id, zh_TW, pt
+  language: 'zh_CN', //default language: en, zh_CN, de, fr, es, ru, ar, vi, th, tr, ms, id, zh_TW, ko_KR, pt, it, pol, nl, jp, fa
   showOnlineMap: false, // indicates if show online map on dashboard
   mapboxToken: 'GET-YOUR-TOKEN-AT-MAPBOX.COM', // you can get access token at https://mapbox.com
   cookieExpireTime: 1000 * 60 * 60, //cookie expires time in milliseconds
   showTCEData: true, // indicates if show Tonne of Coal Equivalent data on dashboard and reports
+  enableAIAnalysis: false, // controls AI analysis entry points (e.g. DeepSeek modal buttons on reports)
 };
 
 const config = { version, navbarBreakPoint, topNavbarBreakpoint, settings, APIBaseURL };

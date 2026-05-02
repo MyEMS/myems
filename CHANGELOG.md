@@ -9,7 +9,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - added equipment prediction report in myems-web
 - added combined equipment prediction report in myems-web
 - added offlinemeteruuid and virtualmeteruuid as optional request parameter to reports in myems-api
-- added deepseek ai analysis to space energy category report in myems-api and myems-web
+- added deepseek ai analysis to reports in myems-api and myems-web
 ### Changed
 ### Fixed
 - added try...finally for cnx.close() and cursor.close() in myems-api
