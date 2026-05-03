@@ -62,6 +62,7 @@ export const meterRoutes = {
   icon: 'chart-pie',
   children: [
     { to: '/meter/meterenergy', name: 'Meter Energy' },
+    { to: '/meter/meterprediction', name: 'Meter Prediction' },
     { to: '/meter/metercarbon', name: 'Meter Carbon' },
     { to: '/meter/metercost', name: 'Meter Cost' },
     { to: '/meter/metertrend', name: 'Meter Trend' },
@@ -79,6 +80,7 @@ export const meterRoutes = {
     { to: '/meter/virtualmeterbatch', name: 'Virtual Meter Batch Analysis' },
     { to: '/meter/virtualmetersaving', name: 'Virtual Meter Saving' },
     { to: '/meter/virtualmeterplan', name: 'Virtual Meter Plan' },
+    { to: '/meter/virtualprediction', name: 'Virtual Meter Prediction' },
     { to: '/meter/virtualmetercomparison', name: 'Virtual Meter Comparison' },
     { to: '/meter/offlinemeterenergy', name: 'Offline Meter Energy' },
     { to: '/meter/offlinemetercarbon', name: 'Offline Meter Carbon' },
@@ -86,6 +88,7 @@ export const meterRoutes = {
     { to: '/meter/offlinemeterbatch', name: 'Offline Meter Batch Analysis' },
     { to: '/meter/offlinemetersaving', name: 'Offline Meter Saving' },
     { to: '/meter/offlinemeterplan', name: 'Offline Meter Plan' },
+    { to: '/meter/offlineprediction', name: 'Offline Meter Prediction' },
     { to: '/meter/offlinemeterinput', name: 'Offline Meter Input' }
   ]
 };
