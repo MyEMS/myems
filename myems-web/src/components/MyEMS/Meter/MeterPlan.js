@@ -76,7 +76,7 @@ const MeterPlan = ({ setRedirect, setRedirectUrl, t }) => {
   const [filteredMeterList, setFilteredMeterList] = useState([]);
   const [selectedMeter, setSelectedMeter] = useState(undefined);
   const [comparisonType, setComparisonType] = useState('none-comparison');
-  const [periodType, setPeriodType] = useState('daily');
+  const [periodType, setPeriodType] = useState('hourly');
   const [cascaderOptions, setCascaderOptions] = useState(undefined);
   const [basePeriodDateRange, setBasePeriodDateRange] = useState([null, null]);
   const [basePeriodDateRangePickerDisabled, setBasePeriodDateRangePickerDisabled] = useState(true);
@@ -812,7 +812,7 @@ const MeterPlan = ({ setRedirect, setRedirectUrl, t }) => {
                     id="periodType"
                     name="periodType"
                     bsSize="sm"
-                    defaultValue="daily"
+                    defaultValue="hourly"
                     onChange={({ target }) => setPeriodType(target.value)}
                   >
                     {periodTypeOptions.map((periodType, index) => (
