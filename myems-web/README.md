@@ -14,7 +14,7 @@ node.js 18.20.0 or later
 
 npm 8.19.4 or later
 
-Note: serialize-javascript is locked to version 6.x in package.json overrides, because version 7.x utilizes crypto.getRandomValues which may cause ReferenceError: crypto is not defined in certain Node.js 18 environments.
++Note: serialize-javascript is constrained to version 6.x in package.json overrides
 ## Running in Local Environment for Development
 
 * Install Node.js via binary archive on Linux
