@@ -10,8 +10,8 @@ Web UI for MyEMS energy data visualization
 
 nginx-1.18.0 or later
 
-Node.js 17.0.0 or later
 Node.js 18.20.0 or later
+
 Npm 8.19.4 or later
 
 Note: The 7.x version of serialize-javascript utilizes crypto.getRandomValues in Node.js 18, but this API may not be properly exposed in certain environments of Node.js 18. If you encounter ReferenceError: crypto is not defined, downgrade serialize-javascript to version 6.x by modifying the overrides section in package.json:
