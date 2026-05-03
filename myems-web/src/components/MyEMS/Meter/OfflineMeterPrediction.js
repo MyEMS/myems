@@ -226,7 +226,10 @@ const OfflineMeterPrediction = ({ setRedirect, setRedirectUrl, t }) => {
         }
       })
       .catch(err => {
-        console.log(err);
+        console.error(err);
+        setSpinnerHidden(true);
+        setSubmitButtonDisabled(false);
+        toast.error(t('Request Failed'));
       });
   }, [t]);
 
@@ -282,7 +285,10 @@ const OfflineMeterPrediction = ({ setRedirect, setRedirectUrl, t }) => {
         }
       })
       .catch(err => {
-        console.log(err);
+        console.error(err);
+        setSpinnerHidden(true);
+        setSubmitButtonDisabled(false);
+        toast.error(t('Request Failed'));
       });
   };
 
@@ -532,8 +538,11 @@ const OfflineMeterPrediction = ({ setRedirect, setRedirectUrl, t }) => {
             name: json['offline_meter']['prediction_name'],
             unit: json['offline_meter']['unit_of_measure']
           });
+          const rate = json['reporting_period']?.['increment_rate'];
           setReportingPeriodEnergyConsumptionRate(
-            parseFloat(json['reporting_period']['increment_rate'] * 100).toFixed(2) + '%'
+            rate != null && !isNaN(rate)
+                ? (parseFloat(rate) * 100).toFixed(2) + '%'
+                : '0.00%'
           );
           setReportingPeriodEnergyConsumptionInCategory(json['reporting_period']['total_in_category']);
           setReportingPeriodEnergyConsumptionInTCE(json['reporting_period']['total_in_kgce'] / 1000);
@@ -744,7 +753,10 @@ const OfflineMeterPrediction = ({ setRedirect, setRedirectUrl, t }) => {
         }
       })
       .catch(err => {
-        console.log(err);
+        console.error(err);
+        setSpinnerHidden(true);
+        setSubmitButtonDisabled(false);
+        toast.error(t('Request Failed'));
       });
   };
 

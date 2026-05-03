@@ -185,8 +185,11 @@ const MeterPrediction = ({ setRedirect, setRedirectUrl, t }) => {
               name: json['meter']['prediction_name'],
               unit: json['meter']['unit_of_measure']
             });
+            const rate = json['reporting_period']?.['increment_rate'];
             setReportingPeriodEnergyConsumptionRate(
-              parseFloat(json['reporting_period']['increment_rate'] * 100).toFixed(2) + '%'
+              rate != null && !isNaN(rate)
+                ? (parseFloat(rate) * 100).toFixed(2) + '%'
+                : '0.00%'
             );
             setReportingPeriodEnergyConsumptionInCategory(json['reporting_period']['total_in_category']);
             setReportingPeriodEnergyConsumptionInTCE(json['reporting_period']['total_in_kgce'] / 1000);
