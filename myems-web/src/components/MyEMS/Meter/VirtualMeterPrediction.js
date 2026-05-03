@@ -38,7 +38,6 @@ import blankPage from '../../../assets/img/generic/blank-page.png';
 const DetailedDataTable = loadable(() => import('../common/DetailedDataTable'));
 
 const VirtualMeterPrediction= ({ setRedirect, setRedirectUrl, t }) => {
-  let current_moment = moment();
   useEffect(() => {
     let is_logged_in = getCookieValue('is_logged_in');
     let user_name = getCookieValue('user_name');
