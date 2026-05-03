@@ -227,14 +227,13 @@ const VirtualMeterPrediction= ({ setRedirect, setRedirectUrl, t }) => {
       .catch(err => {
         console.log(err);
       });
+  }, [t]);
 
-    if (selectedVirtualMeter) {
-      setTimeout(() => {
-        document.getElementById('submit').children[0].click();
-      }, 300);
-    }
-
-  }, [t, selectedVirtualMeter]);
+    useEffect(() => {
+      if (selectedVirtualMeter) {
+        handleSubmit(new Event('submit'));
+      }
+    }, [selectedVirtualMeter]);
 
   const labelClasses = 'ls text-uppercase text-600 font-weight-semi-bold mb-0';
 
@@ -715,7 +714,7 @@ const VirtualMeterPrediction= ({ setRedirect, setRedirectUrl, t }) => {
               detailed_value['basePeriodDatetime'] = null;
               detailed_value['a0'] = null;
               detailed_value['reportingPeriodDatetime'] = null;
-              detailed_value['a0'] = null;
+              detailed_value['b0'] = null;
               if (index < json['base_period']['timestamps'].length) {
                 detailed_value['basePeriodDatetime'] = json['base_period']['timestamps'][index];
                 detailed_value['a0'] = json['base_period']['values'][index];

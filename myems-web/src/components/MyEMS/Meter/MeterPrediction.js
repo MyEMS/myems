@@ -42,7 +42,7 @@ const DetailedDataTable = loadable(() => import('../common/DetailedDataTable'));
 const MeterPrediction = ({ setRedirect, setRedirectUrl, t }) => {
   let current_moment = moment();
   const location = useLocation();
-  const uuid = location.search.split('=')[1];
+  const uuid = new URLSearchParams(location.search).get('uuid');
   useEffect(() => {
     let timer = setInterval(() => {
       let is_logged_in = getCookieValue('is_logged_in');
@@ -317,9 +317,7 @@ const MeterPrediction = ({ setRedirect, setRedirectUrl, t }) => {
               detailed_value['startdatetime'] = t('Total');
               detailed_value['a0'] = json['reporting_period']['total_in_category'];
               detailed_value_list.push(detailed_value);
-              setTimeout(() => {
-                setDetailedDataTableData(detailed_value_list);
-              }, 0);
+              setDetailedDataTableData(detailed_value_list);
             } else {
               let detailed_value_list = [];
               json['reporting_period']['timestamps'].forEach((currentTimestamp, timestampIndex) => {
@@ -504,14 +502,13 @@ const MeterPrediction = ({ setRedirect, setRedirectUrl, t }) => {
         language;
       loadData(url);
     }
+  }, [uuid, periodType, basePeriodDateRange, reportingPeriodDateRange, language, loadData]);
 
+  useEffect(() => {
     if (selectedMeter) {
-      setTimeout(() => {
-        document.getElementById('submit').children[0].click();
-      }, 300);
+      handleSubmit(new Event('submit'));
     }
-
-  }, [uuid, periodType, basePeriodDateRange, reportingPeriodDateRange, language, loadData, selectedMeter]);
+  }, [selectedMeter]);
 
   const labelClasses = 'ls text-uppercase text-600 font-weight-semi-bold mb-0';
 

@@ -182,7 +182,7 @@ const MyEMSRoutes = () => (
     <Route path="/meter/powerquality" exact component={PowerQuality} />
     <Route path="/meter/virtualmetersaving" exact component={VirtualMeterSaving} />
     <Route path="/meter/virtualmeterplan" exact component={VirtualMeterPlan} />
-    <Route path="/meter/virtualprediction" exact component={VirtualMeterPrediction} />
+    <Route path="/meter/virtualmeterprediction" exact component={VirtualMeterPrediction} />
     <Route path="/meter/virtualmeterenergy" exact component={VirtualMeterEnergy} />
     <Route path="/meter/virtualmetercarbon" exact component={VirtualMeterCarbon} />
     <Route path="/meter/virtualmetercost" exact component={VirtualMeterCost} />
@@ -194,7 +194,7 @@ const MyEMSRoutes = () => (
     <Route path="/meter/offlinemeterbatch" exact component={OfflineMeterBatch} />
     <Route path="/meter/offlinemetersaving" exact component={OfflineMeterSaving} />
     <Route path="/meter/offlinemeterplan" exact component={OfflineMeterPlan} />
-    <Route path="/meter/offlineprediction" exact component={OfflineMeterPrediction} />
+    <Route path="/meter/offlinemeterprediction" exact component={OfflineMeterPrediction} />
     <Route path="/meter/offlinemeterinput" exact component={OfflineMeterInput} />
 
     {/*Tenant*/}

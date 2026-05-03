@@ -227,14 +227,13 @@ const OfflineMeterPrediction = ({ setRedirect, setRedirectUrl, t }) => {
       .catch(err => {
         console.log(err);
       });
+  }, [t]);
 
-    if (selectedOfflineMeter) {
-      setTimeout(() => {
-        document.getElementById('submit').children[0].click();
-      }, 300);
-    }
-
-  }, [t, selectedOfflineMeter]);
+  useEffect(() => {
+      if (selectedOfflineMeter) {
+            handleSubmit(new Event('submit'));
+          }
+    }, [selectedOfflineMeter]);
 
   const labelClasses = 'ls text-uppercase text-600 font-weight-semi-bold mb-0';
 
@@ -715,7 +714,7 @@ const OfflineMeterPrediction = ({ setRedirect, setRedirectUrl, t }) => {
               detailed_value['basePeriodDatetime'] = null;
               detailed_value['a0'] = null;
               detailed_value['reportingPeriodDatetime'] = null;
-              detailed_value['a0'] = null;
+              detailed_value['b0'] = null;
               if (index < json['base_period']['timestamps'].length) {
                 detailed_value['basePeriodDatetime'] = json['base_period']['timestamps'][index];
                 detailed_value['a0'] = json['base_period']['values'][index];
