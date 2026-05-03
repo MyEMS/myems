@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useState, useContext } from 'react';
+import React, { Fragment, useEffect, useState, useContext, useMemo } from 'react';
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -89,7 +89,8 @@ const OfflineMeterPrediction = ({ setRedirect, setRedirectUrl, t }) => {
     tomorrowStart.toDate(),
     seventhDayEnd.toDate()
   ]);
-  const dateRangePickerLocale = {
+
+  const dateRangePickerLocale = useMemo(() => ({
     sunday: t('sunday'),
     monday: t('monday'),
     tuesday: t('tuesday'),
@@ -98,14 +99,15 @@ const OfflineMeterPrediction = ({ setRedirect, setRedirectUrl, t }) => {
     friday: t('friday'),
     saturday: t('saturday'),
     ok: t('ok'),
-    today: t('tomorrow'),
-    yesterday: t('dayAfterTomorrow'),
+    today: t('tomorrow'),     
+    yesterday: t('dayAfterTomorrow'),  
     hours: t('hours'),
     minutes: t('minutes'),
     seconds: t('seconds'),
     last7Days: t('next7Days'),
     formattedMonthPattern: 'yyyy-MM-dd'
-  };
+  }), [t]);
+
   const dateRangePickerStyle = { display: 'block', zIndex: 10 };
   const { language } = useContext(AppContext);
 
@@ -236,7 +238,7 @@ const OfflineMeterPrediction = ({ setRedirect, setRedirectUrl, t }) => {
 
   const labelClasses = 'ls text-uppercase text-600 font-weight-semi-bold mb-0';
 
-  let onSpaceCascaderChange = (value, selectedOptions) => {
+  const onSpaceCascaderChange = (value, selectedOptions) => {
     setSelectedSpaceName(selectedOptions.map(o => o.label).join('/'));
     let selectedSpaceID = value[value.length - 1];
     let isResponseOK = false;
@@ -284,7 +286,7 @@ const OfflineMeterPrediction = ({ setRedirect, setRedirectUrl, t }) => {
       });
   };
 
-  let onComparisonTypeChange = ({ target }) => {
+  const onComparisonTypeChange = ({ target }) => {
     setComparisonType(target.value);
     if (target.value === 'year-over-year') {
       setBasePeriodDateRangePickerDisabled(true);
@@ -322,7 +324,7 @@ const OfflineMeterPrediction = ({ setRedirect, setRedirectUrl, t }) => {
     }
   };
 
-  let onBasePeriodChange = DateRange => {
+  const onBasePeriodChange = DateRange => {
     if (DateRange == null) {
       setBasePeriodDateRange([null, null]);
     } else {
@@ -334,7 +336,7 @@ const OfflineMeterPrediction = ({ setRedirect, setRedirectUrl, t }) => {
     }
   };
 
-  let onReportingPeriodChange = DateRange => {
+  const onReportingPeriodChange = DateRange => {
     if (DateRange == null) {
       setReportingPeriodDateRange([null, null]);
     } else {
@@ -381,14 +383,15 @@ const OfflineMeterPrediction = ({ setRedirect, setRedirectUrl, t }) => {
               .toDate()
               .getTime();
 
+        let newRange = [...DateRange];
         if (isTodayRange) {
           const tomorrow = moment().add(1, 'day');
-          DateRange = [tomorrow.startOf('day').toDate(), tomorrow.endOf('day').toDate()];
+          newRange = [tomorrow.startOf('day').toDate(), tomorrow.endOf('day').toDate()];
         }
 
         if (isYesterdayRange) {
           const dayAfter = moment().add(2, 'days');
-          DateRange = [dayAfter.startOf('day').toDate(), dayAfter.endOf('day').toDate()];
+          newRange = [dayAfter.startOf('day').toDate(), dayAfter.endOf('day').toDate()];
         }
 
         if (isLast7DaysRange) {
@@ -399,14 +402,14 @@ const OfflineMeterPrediction = ({ setRedirect, setRedirectUrl, t }) => {
             .clone()
             .add(6, 'days')
             .endOf('day');
-          DateRange = [start.toDate(), end.toDate()];
+          newRange = [start.toDate(), end.toDate()];
         }
-      if (moment(DateRange[1]).format('HH:mm:ss') === '00:00:00') {
+      if (moment(newRange[1]).format('HH:mm:ss') === '00:00:00') {
         // if the user did not change time value, set the default time to the end of day
-        DateRange[1] = endOfDay(DateRange[1]);
+        newRange[1] = endOfDay(newRange[1]);
       }
-      setReportingPeriodDateRange([DateRange[0], DateRange[1]]);
-      const dateDifferenceInSeconds = moment(DateRange[1]).valueOf() / 1000 - moment(DateRange[0]).valueOf() / 1000;
+      setReportingPeriodDateRange([newRange[0], newRange[1]]);
+      const dateDifferenceInSeconds = moment(newRange[1]).valueOf() / 1000 - moment(newRange[0]).valueOf() / 1000;
       if (periodType === 'hourly') {
         if (dateDifferenceInSeconds > 3 * 365 * 24 * 60 * 60) {
           // more than 3 years
@@ -434,22 +437,22 @@ const OfflineMeterPrediction = ({ setRedirect, setRedirectUrl, t }) => {
       }
       if (comparisonType === 'year-over-year') {
         setBasePeriodDateRange([
-          moment(DateRange[0])
+          moment(newRange[0])
             .clone()
             .subtract(1, 'years')
             .toDate(),
-          moment(DateRange[1])
+          moment(newRange[1])
             .clone()
             .subtract(1, 'years')
             .toDate()
         ]);
       } else if (comparisonType === 'month-on-month') {
         setBasePeriodDateRange([
-          moment(DateRange[0])
+          moment(newRange[0])
             .clone()
             .subtract(1, 'months')
             .toDate(),
-          moment(DateRange[1])
+          moment(newRange[1])
             .clone()
             .subtract(1, 'months')
             .toDate()
@@ -458,23 +461,24 @@ const OfflineMeterPrediction = ({ setRedirect, setRedirectUrl, t }) => {
     }
   };
 
-  let onBasePeriodClean = event => {
+  const onBasePeriodClean = event => {
     setBasePeriodDateRange([null, null]);
   };
 
-  let onReportingPeriodClean = event => {
+  const onReportingPeriodClean = event => {
     setReportingPeriodDateRange([null, null]);
   };
 
   const isBasePeriodTimestampExists = base_period_data => {
-    const timestamps = base_period_data['timestamps'];
-
+    if (!base_period_data || !Array.isArray(base_period_data.timestamps)) {
+      return false;
+    }
+    const timestamps = base_period_data.timestamps;
     if (timestamps.length === 0) {
       return false;
     }
-
     for (let i = 0; i < timestamps.length; i++) {
-      if (timestamps[i].length > 0) {
+      if (timestamps[i] && timestamps[i].length > 0) {
         return true;
       }
     }
@@ -495,34 +499,27 @@ const OfflineMeterPrediction = ({ setRedirect, setRedirectUrl, t }) => {
     // Reinitialize tables
     setDetailedDataTableData([]);
 
+    const params = new URLSearchParams({
+      offlinemeterid: selectedOfflineMeter,
+      periodtype: periodType,
+      baseperiodstartdatetime: basePeriodDateRange[0] ? moment(basePeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss') : '',
+      baseperiodenddatetime: basePeriodDateRange[1] ? moment(basePeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss') : '',
+      reportingperiodstartdatetime: moment(reportingPeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss'),
+      reportingperiodenddatetime: moment(reportingPeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss'),
+      language: language
+    });
+    const url = `${APIBaseURL}/reports/offlinemeterprediction?${params.toString()}`;
+
     let isResponseOK = false;
-    fetch(
-      APIBaseURL +
-        '/reports/offlinemeterprediction?' +
-        'offlinemeterid=' +
-        selectedOfflineMeter +
-        '&periodtype=' +
-        periodType +
-        '&baseperiodstartdatetime=' +
-        (basePeriodDateRange[0] != null ? moment(basePeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss') : '') +
-        '&baseperiodenddatetime=' +
-        (basePeriodDateRange[1] != null ? moment(basePeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss') : '') +
-        '&reportingperiodstartdatetime=' +
-        moment(reportingPeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss') +
-        '&reportingperiodenddatetime=' +
-        moment(reportingPeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss') +
-        '&language=' +
-        language,
-      {
-        method: 'GET',
-        headers: {
-          'Content-type': 'application/json',
-          'User-UUID': getCookieValue('user_uuid'),
-          Token: getCookieValue('token')
-        },
-        body: null
-      }
-    )
+    fetch(url, {
+      method: 'GET',
+      headers: {
+        'Content-type': 'application/json',
+        'User-UUID': getCookieValue('user_uuid'),
+        Token: getCookieValue('token')
+      },
+      body: null
+    })
       .then(response => {
         if (response.ok) {
           isResponseOK = true;
@@ -755,12 +752,12 @@ const OfflineMeterPrediction = ({ setRedirect, setRedirectUrl, t }) => {
     e.preventDefault();
     const mimeType = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
     const fileName = 'offlinemeterprediction.xlsx';
-    var fileUrl = 'data:' + mimeType + ';base64,' + excelBytesBase64;
+    const fileUrl = 'data:' + mimeType + ';base64,' + excelBytesBase64;
     fetch(fileUrl)
       .then(response => response.blob())
       .then(blob => {
         const blobUrl = window.URL.createObjectURL(blob, { type: mimeType });
-        var link = window.document.createElement('a');
+        const link = window.document.createElement('a');
         link.href = blobUrl;
         link.download = fileName;
         document.body.appendChild(link);
@@ -833,7 +830,7 @@ const OfflineMeterPrediction = ({ setRedirect, setRedirectUrl, t }) => {
                     id="comparisonType"
                     name="comparisonType"
                     bsSize="sm"
-                    defaultValue="none-comparison"
+                    value={comparisonType}
                     onChange={onComparisonTypeChange}
                   >
                     {comparisonTypeOptions.map((comparisonType, index) => (
@@ -855,7 +852,6 @@ const OfflineMeterPrediction = ({ setRedirect, setRedirectUrl, t }) => {
                     name="periodType"
                     bsSize="sm"
                     value={periodType}
-                    defaultValue="daily"
                     onChange={({ target }) => setPeriodType(target.value)}
                   >
                     {periodTypeOptions.map((periodType, index) => (
