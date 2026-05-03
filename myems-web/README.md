@@ -65,7 +65,7 @@ npm start
 ### Option 1: Install myems-web on Docker
 
 Refer to [myems.cn](https://myems.cn/docs/installation/docker-linux#step-8-myems-web)
-Refer to [myems.cn](https://myems.cn/docs/installation/docker-linux#step-8-myems-web)no
+Refer to [myems.cn](https://myems.cn/docs/installation/docker-linux#step-8-myems-web)
 
 ### Option 2: Install myems-web on Server with NGINX
 
