@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useState, useContext, useCallback } from 'react';
+import React, { Fragment, useEffect, useState, useContext, useCallback, useMemo } from 'react';
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -94,7 +94,8 @@ const MeterPrediction = ({ setRedirect, setRedirectUrl, t }) => {
     tomorrowStart.toDate(),
     seventhDayEnd.toDate()
   ]);
-  const dateRangePickerLocale = {
+  
+  const dateRangePickerLocale = useMemo(() => ({
     sunday: t('sunday'),
     monday: t('monday'),
     tuesday: t('tuesday'),
@@ -110,7 +111,7 @@ const MeterPrediction = ({ setRedirect, setRedirectUrl, t }) => {
     seconds: t('seconds'),
     last7Days: t('next7Days'),
     formattedMonthPattern: 'yyyy-MM-dd'
-  };
+  }), [t]);
   const dateRangePickerStyle = { display: 'block', zIndex: 10 };
   const { language } = useContext(AppContext);
   // buttons
@@ -212,13 +213,13 @@ const MeterPrediction = ({ setRedirect, setRedirectUrl, t }) => {
 
             let values = { a0: [] };
             json['reporting_period']['values'].forEach((currentValue, index) => {
-              values['a0'][index] = currentValue.toFixed(2);
+              values['a0'][index] = typeof currentValue === 'number' ? currentValue.toFixed(2) : null;
             });
             setMeterReportingData(values);
 
             values = { a0: [] };
             json['base_period']['values'].forEach((currentValue, index) => {
-              values['a0'][index] = currentValue.toFixed(2);
+              values['a0'][index] = typeof currentValue === 'number' ? currentValue.toFixed(2) : null;
             });
             setMeterBaseData(values);
 
@@ -356,7 +357,10 @@ const MeterPrediction = ({ setRedirect, setRedirectUrl, t }) => {
           }
         })
         .catch(err => {
-          console.log(err);
+          console.error(err);
+          setSpinnerHidden(true);
+          setSubmitButtonDisabled(false);
+          toast.error(t('Request Failed'));
         });
     },
     [t, uuid, comparisonType, language]
@@ -438,7 +442,10 @@ const MeterPrediction = ({ setRedirect, setRedirectUrl, t }) => {
                 }
               })
               .catch(err => {
-                console.log(err);
+                console.error(err);
+                setSpinnerHidden(true);
+                setSubmitButtonDisabled(false);
+                toast.error(t('Request Failed'));
               });
             // end of get Meters by root Space ID
           } else {
@@ -446,7 +453,10 @@ const MeterPrediction = ({ setRedirect, setRedirectUrl, t }) => {
           }
         })
         .catch(err => {
-          console.log(err);
+          console.error(err);
+          setSpinnerHidden(true);
+          setSubmitButtonDisabled(false);
+          toast.error(t('Request Failed'));
         });
     } else {
       setSpaceCascaderHidden(true);
@@ -523,7 +533,10 @@ const MeterPrediction = ({ setRedirect, setRedirectUrl, t }) => {
         }
       })
       .catch(err => {
-        console.log(err);
+        console.error(err);
+        setSpinnerHidden(true);
+        setSubmitButtonDisabled(false);
+        toast.error(t('Request Failed'));
       });
   };
 
