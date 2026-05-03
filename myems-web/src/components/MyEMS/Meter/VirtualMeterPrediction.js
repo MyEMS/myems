@@ -228,10 +228,10 @@ const VirtualMeterPrediction= ({ setRedirect, setRedirectUrl, t }) => {
       });
   }, [t]);
 
-    useEffect(() => {
+  useEffect(() => {
       if (selectedVirtualMeter) {
-        handleSubmit(new Event('submit'));
-      }
+            handleSubmit(new Event('submit'));
+          }
     }, [selectedVirtualMeter]);
 
   const labelClasses = 'ls text-uppercase text-600 font-weight-semi-bold mb-0';
@@ -682,8 +682,7 @@ const VirtualMeterPrediction= ({ setRedirect, setRedirectUrl, t }) => {
                   ' - ' +
                   json['virtual_meter']['prediction_name'] +
                   ' (' +
-                  json['virtual_meter']['unit_of_measure'] +
-                  ')',
+                  json['virtual_meter']['unit_of_measure'] + ')',
                 sort: true,
                 formatter: function(decimalValue) {
                   if (typeof decimalValue === 'number') {
@@ -767,6 +766,10 @@ const VirtualMeterPrediction= ({ setRedirect, setRedirectUrl, t }) => {
         link.click();
         document.body.removeChild(link);
         window.URL.revokeObjectURL(blobUrl);
+      })
+      .catch(err => {
+        console.error('Export failed:', err);
+        toast.error(t('Export Failed'));
       });
   };
 
@@ -851,7 +854,6 @@ const VirtualMeterPrediction= ({ setRedirect, setRedirectUrl, t }) => {
                     name="periodType"
                     bsSize="sm"
                     value={periodType}
-                    defaultValue="daily"
                     onChange={({ target }) => setPeriodType(target.value)}
                   >
                     {periodTypeOptions.map((periodType, index) => (

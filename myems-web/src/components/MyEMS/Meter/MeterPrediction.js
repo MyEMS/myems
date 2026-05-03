@@ -177,7 +177,7 @@ const MeterPrediction = ({ setRedirect, setRedirectUrl, t }) => {
         .then(json => {
           if (isResponseOK) {
             if (uuid !== null && uuid) {
-              setFilteredMeterList([{ id: json['meter']['id'], label: json['meter']['name'] }]);
+              setFilteredMeterList([{ value: json['meter']['id'], label: json['meter']['name'] }]);
               setSelectedMeter(json['meter']['id']);
             }
             setMeterPrediction({
@@ -359,36 +359,9 @@ const MeterPrediction = ({ setRedirect, setRedirectUrl, t }) => {
           console.log(err);
         });
     },
-    [
-      t,
-      uuid,
-      comparisonType,
-      setSubmitButtonDisabled,
-      setSpinnerHidden,
-      setExportButtonHidden,
-      setResultDataHidden,
-      setDetailedDataTableData,
-      setFilteredMeterList,
-      setSelectedMeter,
-      setMeterPrediction,
-      setReportingPeriodEnergyConsumptionRate,
-      setReportingPeriodEnergyConsumptionInCategory,
-      setReportingPeriodEnergyConsumptionInTCE,
-      setReportingPeriodEnergyConsumptionInCO2,
-      setBasePeriodEnergyConsumptionInCategory,
-      setMeterReportingOptions,
-      setMeterReportingLabels,
-      setMeterBaseLabels,
-      setMeterReportingRates,
-      setMeterReportingData,
-      setMeterBaseData,
-      setParameterLineChartOptions,
-      setParameterLineChartLabels,
-      setParameterLineChartData,
-      setDetailedDataTableColumns,
-      setExcelBytesBase64
-    ]
+    [t, uuid, comparisonType, language]
   );
+
   useEffect(() => {
     if (uuid === null || !uuid) {
       setSpaceCascaderHidden(false);
@@ -787,6 +760,10 @@ const MeterPrediction = ({ setRedirect, setRedirectUrl, t }) => {
         link.click();
         document.body.removeChild(link);
         window.URL.revokeObjectURL(blobUrl);
+      })
+      .catch(err => {
+        console.error('Export failed:', err);
+        toast.error(t('Export Failed'));
       });
   };
 
@@ -963,7 +940,7 @@ const MeterPrediction = ({ setRedirect, setRedirectUrl, t }) => {
                     id="comparisonType"
                     name="comparisonType"
                     bsSize="sm"
-                    defaultValue="none-comparison"
+                    value={comparisonType}
                     onChange={onComparisonTypeChange}
                   >
                     {comparisonTypeOptions.map((comparisonType, index) => (
@@ -984,7 +961,7 @@ const MeterPrediction = ({ setRedirect, setRedirectUrl, t }) => {
                     id="periodType"
                     name="periodType"
                     bsSize="sm"
-                    defaultValue="hourly"
+                    value={periodType}
                     onChange={({ target }) => setPeriodType(target.value)}
                   >
                     {periodTypeOptions.map((periodType, index) => (

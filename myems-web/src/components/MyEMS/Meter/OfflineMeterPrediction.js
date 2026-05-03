@@ -767,6 +767,10 @@ const OfflineMeterPrediction = ({ setRedirect, setRedirectUrl, t }) => {
         link.click();
         document.body.removeChild(link);
         window.URL.revokeObjectURL(blobUrl);
+      })
+      .catch(err => {
+        console.error('Export failed:', err);
+        toast.error(t('Export Failed'));
       });
   };
 
