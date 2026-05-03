@@ -14,7 +14,7 @@ node.js 18.20.0 or later
 
 npm 8.19.4 or later
 
-Note: The 7.x version of serialize-javascript utilizes crypto.getRandomValues in Node.js 18, but this API may not be properly exposed in certain environments of Node.js 18. If you encounter ReferenceError: crypto is not defined, downgrade serialize-javascript to version 6.x by modifying the overrides section in package.json:
+Note: serialize-javascript is locked to version 6.x in package.json overrides, because version 7.x utilizes crypto.getRandomValues which may cause ReferenceError: crypto is not defined in certain Node.js 18 environments.
 ## Running in Local Environment for Development
 
 * Install Node.js via binary archive on Linux
