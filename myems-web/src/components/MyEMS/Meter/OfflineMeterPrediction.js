@@ -55,7 +55,7 @@ const OfflineMeterPrediction = ({ setRedirect, setRedirectUrl, t }) => {
       createCookie('user_uuid', user_uuid, settings.cookieExpireTime);
       createCookie('token', token, settings.cookieExpireTime);
     }
-  });
+  }, []);
 
   useEffect(() => {
     let timer = setInterval(() => {
@@ -326,11 +326,11 @@ const OfflineMeterPrediction = ({ setRedirect, setRedirectUrl, t }) => {
     if (DateRange == null) {
       setBasePeriodDateRange([null, null]);
     } else {
-      if (moment(DateRange[1]).format('HH:mm:ss') === '00:00:00') {
-        // if the user did not change time value, set the default time to the end of day
-        DateRange[1] = endOfDay(DateRange[1]);
+      const newRange = [...DateRange];
+      if (moment(newRange[1]).format('HH:mm:ss') === '00:00:00') {
+        newRange[1] = endOfDay(newRange[1]);
       }
-      setBasePeriodDateRange([DateRange[0], DateRange[1]]);
+      setBasePeriodDateRange(newRange);
     }
   };
 
@@ -411,30 +411,24 @@ const OfflineMeterPrediction = ({ setRedirect, setRedirectUrl, t }) => {
         if (dateDifferenceInSeconds > 3 * 365 * 24 * 60 * 60) {
           // more than 3 years
           setPeriodType('yearly');
-          setPeriodType('yearly');
         } else if (dateDifferenceInSeconds > 6 * 30 * 24 * 60 * 60) {
           // more than 6 months
           setPeriodType('monthly');
-          document.getElementById('periodType').value = 'monthly';
         } else if (dateDifferenceInSeconds > 30 * 24 * 60 * 60) {
           // more than 30 days
           setPeriodType('daily');
-          document.getElementById('periodType').value = 'daily';
         }
       } else if (periodType === 'daily') {
         if (dateDifferenceInSeconds >= 3 * 365 * 24 * 60 * 60) {
           // more than 3 years
           setPeriodType('yearly');
-          setPeriodType('yearly');
         } else if (dateDifferenceInSeconds >= 6 * 30 * 24 * 60 * 60) {
           // more than 6 months
           setPeriodType('monthly');
-          document.getElementById('periodType').value = 'monthly';
         }
       } else if (periodType === 'monthly') {
         if (dateDifferenceInSeconds >= 3 * 365 * 24 * 60 * 60) {
           // more than 3 years
-          setPeriodType('yearly');
           setPeriodType('yearly');
         }
       }
@@ -765,12 +759,14 @@ const OfflineMeterPrediction = ({ setRedirect, setRedirectUrl, t }) => {
     fetch(fileUrl)
       .then(response => response.blob())
       .then(blob => {
+        const blobUrl = window.URL.createObjectURL(blob, { type: mimeType });
         var link = window.document.createElement('a');
-        link.href = window.URL.createObjectURL(blob, { type: mimeType });
+        link.href = blobUrl;
         link.download = fileName;
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
+        window.URL.revokeObjectURL(blobUrl);
       });
   };
 
@@ -812,6 +808,7 @@ const OfflineMeterPrediction = ({ setRedirect, setRedirectUrl, t }) => {
                     id="offlineMeterSelect"
                     name="offlineMeterSelect"
                     bsSize="sm"
+                    value={selectedOfflineMeter ?? ''}
                     onChange={({ target }) => setSelectedOfflineMeter(target.value)}
                   >
                     {offlineMeterList.map((offlineMeter, index) => (
@@ -853,6 +850,7 @@ const OfflineMeterPrediction = ({ setRedirect, setRedirectUrl, t }) => {
                     id="periodType"
                     name="periodType"
                     bsSize="sm"
+                    value={periodType}
                     defaultValue="daily"
                     onChange={({ target }) => setPeriodType(target.value)}
                   >
