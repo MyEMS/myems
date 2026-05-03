@@ -218,7 +218,10 @@ const VirtualMeterPrediction= ({ setRedirect, setRedirectUrl, t }) => {
               }
             })
             .catch(err => {
-              console.log(err);
+              console.error(err);
+              setSpinnerHidden(true);
+              setSubmitButtonDisabled(false);
+              toast.error(t('Request Failed'));
             });
           // end of get Virtual Meters by root Space ID
         } else {
