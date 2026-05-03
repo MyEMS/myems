@@ -41,7 +41,6 @@ npx -v
 * Download all the necessary dependencies into the node_modules directory.
 ```bash
 cd myems/myems-web
-npm i --unsafe-perm=true --allow-root --legacy-peer-deps
 npm i  
 ```
 
