@@ -412,7 +412,7 @@ const VirtualMeterPrediction= ({ setRedirect, setRedirectUrl, t }) => {
         if (dateDifferenceInSeconds > 3 * 365 * 24 * 60 * 60) {
           // more than 3 years
           setPeriodType('yearly');
-          document.getElementById('periodType').value = 'yearly';
+          setPeriodType('yearly');
         } else if (dateDifferenceInSeconds > 6 * 30 * 24 * 60 * 60) {
           // more than 6 months
           setPeriodType('monthly');
@@ -426,7 +426,7 @@ const VirtualMeterPrediction= ({ setRedirect, setRedirectUrl, t }) => {
         if (dateDifferenceInSeconds >= 3 * 365 * 24 * 60 * 60) {
           // more than 3 years
           setPeriodType('yearly');
-          document.getElementById('periodType').value = 'yearly';
+          setPeriodType('yearly');
         } else if (dateDifferenceInSeconds >= 6 * 30 * 24 * 60 * 60) {
           // more than 6 months
           setPeriodType('monthly');
@@ -436,7 +436,7 @@ const VirtualMeterPrediction= ({ setRedirect, setRedirectUrl, t }) => {
         if (dateDifferenceInSeconds >= 3 * 365 * 24 * 60 * 60) {
           // more than 3 years
           setPeriodType('yearly');
-          document.getElementById('periodType').value = 'yearly';
+          setPeriodType('yearly');
         }
       }
       if (comparisonType === 'year-over-year') {

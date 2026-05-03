@@ -40,7 +40,6 @@ import blankPage from '../../../assets/img/generic/blank-page.png';
 const DetailedDataTable = loadable(() => import('../common/DetailedDataTable'));
 
 const MeterPrediction = ({ setRedirect, setRedirectUrl, t }) => {
-  let current_moment = moment();
   const location = useLocation();
   const uuid = new URLSearchParams(location.search).get('uuid');
   useEffect(() => {
@@ -505,10 +504,10 @@ const MeterPrediction = ({ setRedirect, setRedirectUrl, t }) => {
   }, [uuid, periodType, basePeriodDateRange, reportingPeriodDateRange, language, loadData]);
 
   useEffect(() => {
-    if (selectedMeter) {
+    if (selectedMeter && !uuid) {
       handleSubmit(new Event('submit'));
     }
-  }, [selectedMeter]);
+  }, [selectedMeter, uuid]);
 
   const labelClasses = 'ls text-uppercase text-600 font-weight-semi-bold mb-0';
 
@@ -575,7 +574,9 @@ const MeterPrediction = ({ setRedirect, setRedirectUrl, t }) => {
       setSubmitButtonDisabled(true);
     }
     let customInputTarget = document.getElementById('meterSelect');
-    customInputTarget.value = filteredResult[0].value;
+    if (filteredResult.length > 0 && customInputTarget) {
+      customInputTarget.value = filteredResult[0].value;
+    }
   };
 
   let onComparisonTypeChange = ({ target }) => {
@@ -707,7 +708,7 @@ const MeterPrediction = ({ setRedirect, setRedirectUrl, t }) => {
         if (dateDifferenceInSeconds > 3 * 365 * 24 * 60 * 60) {
           // more than 3 years
           setPeriodType('yearly');
-          document.getElementById('periodType').value = 'yearly';
+          setPeriodType('yearly');
         } else if (dateDifferenceInSeconds > 6 * 30 * 24 * 60 * 60) {
           // more than 6 months
           setPeriodType('monthly');
@@ -721,7 +722,7 @@ const MeterPrediction = ({ setRedirect, setRedirectUrl, t }) => {
         if (dateDifferenceInSeconds >= 3 * 365 * 24 * 60 * 60) {
           // more than 3 years
           setPeriodType('yearly');
-          document.getElementById('periodType').value = 'yearly';
+          setPeriodType('yearly');
         } else if (dateDifferenceInSeconds >= 6 * 30 * 24 * 60 * 60) {
           // more than 6 months
           setPeriodType('monthly');
@@ -731,7 +732,7 @@ const MeterPrediction = ({ setRedirect, setRedirectUrl, t }) => {
         if (dateDifferenceInSeconds >= 3 * 365 * 24 * 60 * 60) {
           // more than 3 years
           setPeriodType('yearly');
-          document.getElementById('periodType').value = 'yearly';
+          setPeriodType('yearly');
         }
       }
       if (comparisonType === 'year-over-year') {
