@@ -10,7 +10,8 @@ Web UI for MyEMS energy data visualization
 
 nginx-1.18.0 or later
 
-Node.js 17.0.0 or later
+Node.js 18.20.0 or later
+Npm 8.19.4 or later
 
 ## Running in Local Environment for Development
 
@@ -38,7 +39,7 @@ npx -v
 * Download all the necessary dependencies into the node_modules directory.
 ```bash
 cd myems/myems-web
-npm i --unsafe-perm=true --allow-root --legacy-peer-deps
+npm i  
 ```
 
 * If you modified any scss files then you need to compile SCSS, else you can safely ignore this step.
@@ -61,7 +62,7 @@ npm start
 
 ### Option 1: Install myems-web on Docker
 
-Refer to [myems.cn](https://myems.cn/docs/installation/docker-linux#step-8-myems-web)
+Refer to [myems.cn](https://myems.cn/docs/installation/docker-linux#step-8-myems-web)no
 
 ### Option 2: Install myems-web on Server with NGINX
 
