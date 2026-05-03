@@ -14,7 +14,7 @@ node.js 18.20.0 or later
 
 npm 8.19.4 or later
 
-+Note: serialize-javascript is constrained to version 6.x in package.json overrides
+Note: serialize-javascript is constrained to version 6.x in package.json overrides
 ## Running in Local Environment for Development
 
 * Install Node.js via binary archive on Linux
