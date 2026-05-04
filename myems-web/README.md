@@ -10,8 +10,11 @@ Web UI for MyEMS energy data visualization
 
 nginx-1.18.0 or later
 
-Node.js 17.0.0 or later
+Node.js 22.22.2, 24.5.0 or later
 
+npm 10.9.7, 11.5.1 or later
+
+ 
 ## Running in Local Environment for Development
 
 * Install Node.js via binary archive on Linux
@@ -38,12 +41,12 @@ npx -v
 * Download all the necessary dependencies into the node_modules directory.
 ```bash
 cd myems/myems-web
-npm i --unsafe-perm=true --allow-root --legacy-peer-deps
+npm i  
 ```
 
 * If you modified any scss files then you need to compile SCSS, else you can safely ignore this step.
-Uncomment line 4 in package.json "type": "module",
-Run below command in your project directory to compile scss.
+  Uncomment line 4 in package.json "type": "module",
+  Run below command in your project directory to compile scss.
 ```bash
 npm run scss
 ```
@@ -51,8 +54,8 @@ Comment the line 4 in package.json "//type": "module",
 
 
 * Starting the Development Server
-A local web server will start at http://localhost:3000.
-We are using webpack and webpack-serve to automatically detect file changes. So, if you edit and save a file, your browser will automatically refresh and preview the change.
+  A local web server will start at http://localhost:3000.
+  We are using webpack and webpack-serve to automatically detect file changes. So, if you edit and save a file, your browser will automatically refresh and preview the change.
 ```bash
 npm start
 ```
@@ -137,7 +140,7 @@ sudo mv build  /var/www/myems-web
 cd /var/www/myems-web
 sudo vi .htaccess
 ```
-  Add a IfModule as below:
+Add a IfModule as below:
 ```bash
 <IfModule mod_rewrite.c>
   RewriteEngine On
@@ -148,12 +151,12 @@ sudo vi .htaccess
   RewriteRule . /index.html [L]
 </IfModule>
 ```
-  Configure rewrite.load
+Configure rewrite.load
 ```bash
 cd /etc/apache2/mods-enabled/
 sudo vi rewrite.load
 ```
-  Add content as below
+Add content as below
 ```bash
 LoadModule rewrite_module /usr/lib/apache2/modules/mod_rewrite.so
 ```
@@ -167,7 +170,7 @@ sudo npm run build
 ```
 
 * Run the production build locally at http://localhost:80.
-    If you want to listen on other port, change it in myems/myems-web/server.js
+  If you want to listen on other port, change it in myems/myems-web/server.js
 ```bash
 sudo node server.js
 ```
@@ -176,3 +179,4 @@ sudo node server.js
 ### References
 
 [1]. http://myems.cn
+
