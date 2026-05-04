@@ -262,6 +262,8 @@ app.controller('EquipmentController', function(
 			resolve: {
 				params: function() {
 					return {
+						description: 'SETTING.IMPORT_EQUIPMENT_DESCRIPTION',
+						description_more: 'SETTING.IMPORT_EQUIPMENT_DESCRIPTION_MORE'
 					};
 				}
 			}

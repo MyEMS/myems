@@ -261,6 +261,8 @@ app.controller('OfflineMeterController', function(
 			resolve: {
 				params: function() {
 					return {
+						description: 'SETTING.IMPORT_OFFLINE_METER_DESCRIPTION',
+						description_more: 'SETTING.IMPORT_OFFLINE_METER_DESCRIPTION_MORE'
 					};
 				}
 			}

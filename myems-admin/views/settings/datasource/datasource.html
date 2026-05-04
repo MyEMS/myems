@@ -167,6 +167,18 @@
 					</uib-tab>
 					<uib-tab heading="{{'SETTING.DATA_REPAIR_FILE' | translate}}">
 						<div class="panel-body" ng-controller="DataRepairFileController">
+							<div class="alert alert-info">
+								<p>
+									{{'SETTING.DATA_REPAIR_FILE_DESCRIPTION' | translate}}
+									<a ng-click="isCollapsed = !isCollapsed" class="pull-right">
+										{{(isCollapsed ? 'COMMON.COLLAPSE' : 'COMMON.CLICK_TO_EXPAND_FOR_MORE_DESCRIPTION') | translate}}
+									</a>
+								</p>
+								<div uib-collapse="!isCollapsed">
+									<hr>
+									<p>{{'SETTING.DATA_REPAIR_FILE_DESCRIPTION_MORE' | translate}}</p>
+								</div>
+							</div>
 							<div id="dropzone1" class="dropzone" options="dzOptions" callbacks="dzCallbacks" ng-dropzone></div>
 							<table class="footable table table-bordered table-hover" data-sort="true" data-page-size="15">
 								<thead>

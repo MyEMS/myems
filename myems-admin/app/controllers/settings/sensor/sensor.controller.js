@@ -205,6 +205,8 @@ app.controller('SensorController', function(
 			resolve: {
 				params: function() {
 					return {
+						description: 'SETTING.IMPORT_SENSOR_DESCRIPTION',
+						description_more: 'SETTING.IMPORT_SENSOR_DESCRIPTION_MORE'
 					};
 				}
 			}
