@@ -1605,7 +1605,6 @@
         TREE_VIEW_DESCRIPTION_MORE:
           "Die Baumansicht macht Energiefluss und Messhierarchie sichtbar. Wählen Sie links einen Zähler, rechts werden alle Unterzähler angezeigt. Eine klare Hierarchie hilft bei Energiebilanzprüfung und Verlustanalyse.",
         CHILD_METERS: "Unterer Füllstandsmesser",
-        QR_CODE: "QR-Code",
       },
       SENSOR: {
         ADD_SENSOR: "Sensor hinzufügen",
@@ -1641,7 +1640,7 @@
         INVALID_EMAIL: "Falsches E-Mail-Format (xxx@xxx.xx)",
         ACCOUNT_EXPIRATION_DATETIME: "Ablaufdatum des Kontos",
         PASSWORD_EXPIRATION_DATETIME: "Ablaufdatum des Passworts",
-        PHONE: "Telefonnummer",
+        PHPHONE: "Telefonnummer",
         INPUT_PHONE: "Bitte geben Sie die Telefonnummer ein",
         API_KEY: "API-Schlüssel",
         API_KEY_LIST: "Liste der API-Schlüssel",
@@ -1704,8 +1703,6 @@
         ERROR_UNLOCK_BODY: "Öffnen {{template}} fehlgeschlagen",
 
         USER_PASSWORD: "Benutzer-Passwort",
-        BIND_COMMAND_SUCCESS: "Befehl erfolgreich gebunden",
-        UNBIND_COMMAND_SUCCESS: "Befehl erfolgreich entbunden",
         BIND_DATASOURCE_SUCCESS: "Datenquellebindung erfolgreich",
         UNBIND_DATASOURCE_SUCCESS: "Datenquelleentbindung erfolgreich",
         BIND_METER_SUCCESS: "Binden Sie das Messgerät erfolgreich",
@@ -2175,7 +2172,6 @@
           "Ungültige Berichtsperiode EnddatumUhrzeit",
         INVALID_REPORTING_PERIOD_START_DATETIME:
           "Startdatum des ungültigen Berichtszeitraums",
-        INVALID_REPORT_NAME: "Ungültiger Berichtsname",
         INVALID_REQUIRES_AUTHENTICATION: "Ungültig erfordert Authentifizierung",
         INVALID_ROOMS_VALUE: "Ungültiger Zimmerwert",
         INVALID_RULE_ID: "Ungültige Regel-ID",

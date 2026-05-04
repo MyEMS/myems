@@ -300,15 +300,11 @@
         ADD_TARIFF: "إضافة تعرفة",
         ADD_CATEGORY: "إضافة فئة الطاقة",
         ADD_ENERGY_ITEM: "إضافة عنصر الطاقة",
-        EDIT_ENERGY_ITEM: "تحرير بند الطاقة",
-        SELECT_ENERGY_ITEM: "حدد بند الطاقة",
         ADD_CONTACT: "إضافة جهة اتصال",
         ADD_EMAIL_SERVER: "إضافة خادم بريد إلكتروني",
         ADD_WORKING_CALENDAR: "إضافة تقويم العمل",
         ADD_NON_WORKING_DAY: "إضافة يوم عطلة",
-        SELECT_NON_WORKING_DAY: "حدد يوم عطلة",
         BATCH_ADD_WEEKEND: "إضافة نهايات الأسبوع بالدفعة",
-        PRODUCT: "منتج",
         SELECT_SVG: "يرجى تحديد SVG",
         BIND_COMMAND_DESCRIPTION: "إدارة تعليمات التحكم في العداد؛ ربط تعليمات التشغيل للأدوات التي تدعم التحكم عن بعد.",
         BIND_COMMAND_DESCRIPTION_MORE: "إذا كان العداد الخاص بك يدعم الإغلاق/الفتح عن بعد أو تنزيل المعلمات، فيمكنك ربط تعليمات التحكم المحددة مسبقًا هنا. الطريقة: حدد العداد المستهدف، واسحب التعليمات من 'قائمة التعليمات' على اليمين إلى المنطقة الوسطى. بعد الربط، يمكن للمستخدمين المصرح لهم إرسال إشارات التحكم مباشرة إلى الأداة في واجهة المراقبة.",
@@ -1629,9 +1625,6 @@
         ERROR_UPDATE_BODY: "تحديث {{template}} فشل",
         ERROR_DELETE_BODY: "حذف {{template}} فشل",
         ERROR_UNLOCK_BODY: "فتح {{template}} فشل",
-        BIND_SHOPFLOOR_SUCCESS: "تم ربط ورشة العمل بنجاح",
-        UNBIND_SHOPFLOOR_SUCCESS: "تم إلغاء ربط ورشة العمل بنجاح",
-
         USER_PASSWORD: "كلمة مرور المستخدم",
         BIND_COMMAND_SUCCESS: "ربط نجاح الأمر",
         BIND_DATASOURCE_SUCCESS: "نجاح ربط مصدر البيانات",
@@ -1691,7 +1684,6 @@
       },
       API: {
         ACCOUNT_UNLOCK_FAILED: "Account Unlock Failed",
-        INVALID_PHASE_OF_LIFECYCLE: "مرحلة دورة حياة غير صالحة",
         ADMINISTRATOR_SESSION_NOT_FOUND: "Administrator Session Not Found",
         ADMINISTRATOR_SESSION_TIMEOUT: "Administrator Session Timeout",
         ADVANCED_REPORT_NAME_IS_ALREADY_IN_USE:
