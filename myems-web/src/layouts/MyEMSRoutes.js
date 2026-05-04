@@ -40,6 +40,7 @@ import MeterCarbon from '../components/MyEMS/Meter/MeterCarbon';
 import MeterComparison from '../components/MyEMS/Meter/MeterComparison';
 import MeterCost from '../components/MyEMS/Meter/MeterCost';
 import MeterEnergy from '../components/MyEMS/Meter/MeterEnergy';
+import MeterPrediction from '../components/MyEMS/Meter/MeterPrediction';
 import MeterRealtime from '../components/MyEMS/Meter/MeterRealtime';
 import MeterSaving from '../components/MyEMS/Meter/MeterSaving';
 import MeterPlan from '../components/MyEMS/Meter/MeterPlan';
@@ -51,6 +52,7 @@ import OfflineMeterBatch from '../components/MyEMS/Meter/OfflineMeterBatch';
 import OfflineMeterCarbon from '../components/MyEMS/Meter/OfflineMeterCarbon';
 import OfflineMeterCost from '../components/MyEMS/Meter/OfflineMeterCost';
 import OfflineMeterEnergy from '../components/MyEMS/Meter/OfflineMeterEnergy';
+import OfflineMeterPrediction from '../components/MyEMS/Meter/OfflineMeterPrediction';
 import OfflineMeterSaving from '../components/MyEMS/Meter/OfflineMeterSaving';
 import OfflineMeterPlan from '../components/MyEMS/Meter/OfflineMeterPlan';
 import OfflineMeterInput from '../components/MyEMS/Meter/OfflineMeterInput';
@@ -58,6 +60,7 @@ import VirtualMeterBatch from '../components/MyEMS/Meter/VirtualMeterBatch';
 import VirtualMeterCarbon from '../components/MyEMS/Meter/VirtualMeterCarbon';
 import VirtualMeterCost from '../components/MyEMS/Meter/VirtualMeterCost';
 import VirtualMeterEnergy from '../components/MyEMS/Meter/VirtualMeterEnergy';
+import VirtualMeterPrediction from '../components/MyEMS/Meter/VirtualMeterPrediction';
 import VirtualMeterSaving from '../components/MyEMS/Meter/VirtualMeterSaving';
 import VirtualMeterPlan from '../components/MyEMS/Meter/VirtualMeterPlan';
 import VirtualMeterComparison from '../components/MyEMS/Meter/VirtualMeterComparison';
@@ -172,12 +175,14 @@ const MyEMSRoutes = () => (
     <Route path="/meter/meterrealtime" exact component={MeterRealtime} />
     <Route path="/meter/metersaving" exact component={MeterSaving} />
     <Route path="/meter/meterplan" exact component={MeterPlan} />
+    <Route path="/meter/meterprediction" exact component={MeterPrediction} />
     <Route path="/meter/metersubmetersbalance" exact component={MeterSubmetersBalance} />
     <Route path="/meter/meterbatch" exact component={MeterBatch} />
     <Route path="/meter/metertracking" exact component={MeterTracking} />
     <Route path="/meter/powerquality" exact component={PowerQuality} />
     <Route path="/meter/virtualmetersaving" exact component={VirtualMeterSaving} />
     <Route path="/meter/virtualmeterplan" exact component={VirtualMeterPlan} />
+    <Route path="/meter/virtualmeterprediction" exact component={VirtualMeterPrediction} />
     <Route path="/meter/virtualmeterenergy" exact component={VirtualMeterEnergy} />
     <Route path="/meter/virtualmetercarbon" exact component={VirtualMeterCarbon} />
     <Route path="/meter/virtualmetercost" exact component={VirtualMeterCost} />
@@ -189,6 +194,7 @@ const MyEMSRoutes = () => (
     <Route path="/meter/offlinemeterbatch" exact component={OfflineMeterBatch} />
     <Route path="/meter/offlinemetersaving" exact component={OfflineMeterSaving} />
     <Route path="/meter/offlinemeterplan" exact component={OfflineMeterPlan} />
+    <Route path="/meter/offlinemeterprediction" exact component={OfflineMeterPrediction} />
     <Route path="/meter/offlinemeterinput" exact component={OfflineMeterInput} />
 
     {/*Tenant*/}
