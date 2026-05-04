@@ -62,6 +62,18 @@
 					</uib-tab>
 					<uib-tab heading="{{'SETTING.BIND_POINT' | translate}}" index="1" select="handleTabSelect(1)">
 							<div class="panel-body" ng-controller="SensorPointController">
+								<div class="alert alert-info">
+									<p>
+										{{'SETTING.BIND_POINT_DESCRIPTION' | translate}}
+										<a ng-click="isCollapsed = !isCollapsed" class="pull-right">
+											{{(isCollapsed ? 'COMMON.COLLAPSE' : 'COMMON.CLICK_TO_EXPAND_FOR_MORE_DESCRIPTION') | translate}}
+										</a>
+									</p>
+									<div uib-collapse="!isCollapsed">
+										<hr>
+										<p>{{'SETTING.BIND_POINT_DESCRIPTION_MORE' | translate}}</p>
+									</div>
+								</div>
 								<div class="row">
 									<div class="col-lg-3">
 										<div class="panel panel-info">

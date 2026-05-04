@@ -237,6 +237,8 @@ app.controller('CombinedEquipmentController', function (
 			resolve: {
 				params: function() {
 					return {
+						description: 'SETTING.IMPORT_COMBINED_EQUIPMENT_DESCRIPTION',
+						description_more: 'SETTING.IMPORT_COMBINED_EQUIPMENT_DESCRIPTION_MORE'
 					};
 				}
 			}

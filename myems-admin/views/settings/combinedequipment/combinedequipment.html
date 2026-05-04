@@ -73,6 +73,18 @@
 					</uib-tab>
 					<uib-tab heading="{{'COMBINED_EQUIPMENT.BIND_EQUIPMENT' | translate}}" index="1" select="handleTabSelect(1)">
 						<div class="panel-body" ng-controller="CombinedEquipmentEquipmentController">
+							<div class="alert alert-info">
+								<p>
+									{{'COMBINED_EQUIPMENT.BIND_EQUIPMENT_DESCRIPTION' | translate}}
+									<a ng-click="isCollapsed = !isCollapsed" class="pull-right">
+										{{(isCollapsed ? 'COMMON.COLLAPSE' : 'COMMON.CLICK_TO_EXPAND_FOR_MORE_DESCRIPTION') | translate}}
+									</a>
+								</p>
+								<div uib-collapse="!isCollapsed">
+									<hr>
+									<p>{{'COMBINED_EQUIPMENT.BIND_EQUIPMENT_DESCRIPTION_MORE' | translate}}</p>
+								</div>
+							</div>
 							<div class="row">
 								<div class="col-lg-3">
 									<div class="panel panel-info">
@@ -144,6 +156,18 @@
 					</uib-tab>
 					<uib-tab heading="{{'SETTING.BIND_METER' | translate}}" index="2" select="handleTabSelect(2)">
 						<div class="panel-body" ng-controller="CombinedEquipmentMeterController">
+							<div class="alert alert-info">
+								<p>
+									{{'SETTING.BIND_METER_DESCRIPTION' | translate}}
+									<a ng-click="isCollapsed = !isCollapsed" class="pull-right">
+										{{(isCollapsed ? 'COMMON.COLLAPSE' : 'COMMON.CLICK_TO_EXPAND_FOR_MORE_DESCRIPTION') | translate}}
+									</a>
+								</p>
+								<div uib-collapse="!isCollapsed">
+									<hr>
+									<p>{{'SETTING.BIND_METER_DESCRIPTION_MORE' | translate}}</p>
+								</div>
+							</div>
 							<div class="row">
 								<div class="col-lg-3">
 									<div class="panel panel-info">
@@ -231,6 +255,18 @@
 					</uib-tab>
 					<uib-tab heading="{{'SETTING.BIND_DATA_SOURCE' | translate}}" index="3" select="handleTabSelect(3)">
 						<div class="panel-body" ng-controller="CombinedEquipmentDataSourceController">
+							<div class="alert alert-info">
+								<p>
+									{{'SETTING.BIND_DATA_SOURCE_DESCRIPTION' | translate}}
+									<a ng-click="isCollapsed = !isCollapsed" class="pull-right">
+										{{(isCollapsed ? 'COMMON.COLLAPSE' : 'COMMON.CLICK_TO_EXPAND_FOR_MORE_DESCRIPTION') | translate}}
+									</a>
+								</p>
+								<div uib-collapse="!isCollapsed">
+									<hr>
+									<p>{{'SETTING.BIND_DATA_SOURCE_DESCRIPTION_MORE' | translate}}</p>
+								</div>
+							</div>
 							<div class="row">
 								<div class="col-lg-3">
 									<div class="panel panel-info">
@@ -306,6 +342,18 @@
 					</uib-tab>
 					<uib-tab heading="{{'COMBINED_EQUIPMENT.BIND_PARAMETER' | translate}}" index="4" select="handleTabSelect(4)">
 						<div class="panel-body" ng-controller="CombinedEquipmentParameterController">
+							<div class="alert alert-info">
+								<p>
+									{{'SETTING.BIND_PARAMETER_DESCRIPTION' | translate}}
+									<a ng-click="isCollapsed = !isCollapsed" class="pull-right">
+										{{(isCollapsed ? 'COMMON.COLLAPSE' : 'COMMON.CLICK_TO_EXPAND_FOR_MORE_DESCRIPTION') | translate}}
+									</a>
+								</p>
+								<div uib-collapse="!isCollapsed">
+									<hr>
+									<p>{{'SETTING.BIND_PARAMETER_DESCRIPTION_MORE' | translate}}</p>
+								</div>
+							</div>
 							<div class="row">
 								<div class="col-lg-3">
 									<div class="panel panel-info">
@@ -412,6 +460,18 @@
 					</uib-tab>
 					<uib-tab heading="{{'SETTING.BIND_COMMAND' | translate}}" index="5" select="handleTabSelect(5)">
 						<div class="panel-body" ng-controller="CombinedEquipmentCommandController">
+							<div class="alert alert-info">
+								<p>
+									{{'SETTING.BIND_COMMAND_DESCRIPTION' | translate}}
+									<a ng-click="isCollapsed = !isCollapsed" class="pull-right">
+										{{(isCollapsed ? 'COMMON.COLLAPSE' : 'COMMON.CLICK_TO_EXPAND_FOR_MORE_DESCRIPTION') | translate}}
+									</a>
+								</p>
+								<div uib-collapse="!isCollapsed">
+									<hr>
+									<p>{{'SETTING.BIND_COMMAND_DESCRIPTION_MORE' | translate}}</p>
+								</div>
+							</div>
 							<div class="row">
 								<div class="col-lg-3">
 									<div class="panel panel-info">

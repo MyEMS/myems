@@ -227,6 +227,8 @@ app.controller('GatewayController', function($scope,
 			resolve: {
 				params: function() {
 					return {
+						description: 'SETTING.IMPORT_GATEWAY_DESCRIPTION',
+						description_more: 'SETTING.IMPORT_GATEWAY_DESCRIPTION_MORE'
 					};
 				}
 			}

@@ -285,6 +285,8 @@ app.controller('VirtualMeterController', function($scope, $rootScope, $window, $
 			resolve: {
 				params: function() {
 					return {
+						description: 'SETTING.IMPORT_VIRTUAL_METER_DESCRIPTION',
+						description_more: 'SETTING.IMPORT_VIRTUAL_METER_DESCRIPTION_MORE'
 					};
 				}
 			}

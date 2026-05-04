@@ -231,6 +231,8 @@ app.controller('DataSourceController', function(
 			resolve: {
 				params: function() {
 					return {
+						description: 'SETTING.IMPORT_DATASOURCE_DESCRIPTION',
+						description_more: 'SETTING.IMPORT_DATASOURCE_DESCRIPTION_MORE'
 					};
 				}
 			}
