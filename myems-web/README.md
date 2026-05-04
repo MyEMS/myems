@@ -10,9 +10,9 @@ Web UI for MyEMS energy data visualization
 
 nginx-1.18.0 or later
 
-node.js 22.22.2,24.5.0 or later
+Node.js 22.22.2, 24.5.0 or later
 
-npm 10.9.7,11.5.1or later
+npm 10.9.7, 11.5.1 or later
 
  
 ## Running in Local Environment for Development
