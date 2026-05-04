@@ -192,8 +192,6 @@ const SpacePrediction = ({ setRedirect, setRedirectUrl, t }) => {
           setSelectedSpaceName([json[0]].map(o => o.label));
           // select root space id
           setSelectedSpaceID([json[0]].map(o => o.value));
-          // load data with space tree
-          loadWithSpaceTree(json);
         } else {
           handleAPIError(json, setRedirect, setRedirectUrl, t, toast);
         }
@@ -229,54 +227,7 @@ const SpacePrediction = ({ setRedirect, setRedirectUrl, t }) => {
     }
     return false;
   };
-  const loadWithSpaceTree = spaceTree => {
-    // there is spaceuuid in the url
-    if (spaceUUID !== null && spaceUUID) {
-      // make api url with spaceuuid
-      let url =
-        APIBaseURL +
-        '/reports/spaceprediction?' +
-        'spaceuuid=' +
-        spaceUUID +
-        '&periodtype=' +
-        periodType +
-        '&baseperiodstartdatetime=' +
-        (basePeriodDateRange[0] != null ? moment(basePeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss') : '') +
-        '&baseperiodenddatetime=' +
-        (basePeriodDateRange[1] != null ? moment(basePeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss') : '') +
-        '&reportingperiodstartdatetime=' +
-        moment(reportingPeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss') +
-        '&reportingperiodenddatetime=' +
-        moment(reportingPeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss') +
-        '&language=' +
-        language;
-      loadData(url, spaceTree);
-    } else {
-      // there isn't spaceuuid in the url
-      // make api url with spaceid
-      if (spaceTree && spaceTree.length > 0) {
-        let spaceID = [spaceTree[0]].map(o => o.value)[0];
-        let url =
-          APIBaseURL +
-          '/reports/spaceprediction?' +
-          'spaceid=' +
-          spaceID +
-          '&periodtype=' +
-          periodType +
-          '&baseperiodstartdatetime=' +
-          (basePeriodDateRange[0] != null ? moment(basePeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss') : '') +
-          '&baseperiodenddatetime=' +
-          (basePeriodDateRange[1] != null ? moment(basePeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss') : '') +
-          '&reportingperiodstartdatetime=' +
-          moment(reportingPeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss') +
-          '&reportingperiodenddatetime=' +
-          moment(reportingPeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss') +
-          '&language=' +
-          language;
-        loadData(url, null);
-      }
-    }
-  };
+
   const loadData = (url, spaceTree) => {
     // disable submit button
     setSubmitButtonDisabled(true);
