@@ -267,6 +267,8 @@ app.controller('PointController', function(
 			resolve: {
 				params: function() {
 					return {
+						description: 'SETTING.IMPORT_POINT_DESCRIPTION',
+						description_more: 'SETTING.IMPORT_POINT_DESCRIPTION_MORE'
 					};
 				}
 			}

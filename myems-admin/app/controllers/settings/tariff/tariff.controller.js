@@ -224,6 +224,8 @@ app.controller('TariffController', function(
 			resolve: {
 				params: function() {
 					return {
+						description: 'SETTING.IMPORT_TARIFF_DESCRIPTION',
+						description_more: 'SETTING.IMPORT_TARIFF_DESCRIPTION_MORE'
 					};
 				}
 			}

@@ -286,6 +286,46 @@
         CANCEL: "stornieren",
         EXPORT: "Export",
         IMPORT: "Importieren",
+        IMPORT_GATEWAY_DESCRIPTION:
+          "Gateway-Massenimport über JSON; erstellt oder aktualisiert mehrere Gateway-Konfigurationen schnell.",
+        IMPORT_GATEWAY_DESCRIPTION_MORE:
+          "Per JSON können mehrere Gateways effizient bereitgestellt werden, besonders bei Initialisierung oder Ausbau. Stellen Sie sicher, dass die Struktur (z. B. Name, Beschreibung) korrekt ist. Es wird empfohlen, zuerst ein vorhandenes Gateway zu exportieren und als Vorlage zu verwenden.",
+        IMPORT_DATASOURCE_DESCRIPTION:
+          "Datenquellen-Massenimport über JSON; erstellt oder aktualisiert mehrere Datenquellen schnell.",
+        IMPORT_DATASOURCE_DESCRIPTION_MORE:
+          "Konfigurieren Sie mehrere Erfassungsstrecken per JSON. Für jede Datenquelle werden Name, Gateway, Protokoll und Verbindungszeichenfolge benötigt. Verwenden Sie idealerweise den Export einer vorhandenen Datenquelle als Vorlage.",
+        IMPORT_POINT_DESCRIPTION:
+          "Datenpunkt-Massenimport über JSON; erstellt oder aktualisiert viele Datenpunkte schnell.",
+        IMPORT_POINT_DESCRIPTION_MORE:
+          "Nützlich bei großen PLCs oder Multikreis-Zählern mit vielen Adressen. Definieren Sie pro Punkt Name, Adresse, Objekttyp usw. Erstellen Sie zuerst einen Beispielpunkt und nutzen Sie dessen JSON-Struktur als Referenz.",
+        IMPORT_METER_DESCRIPTION:
+          "Zähler-Massenimport über JSON; erstellt oder aktualisiert mehrere physische Zähler schnell.",
+        IMPORT_METER_DESCRIPTION_MORE:
+          "Per JSON lassen sich Name, Energiekategorie, Energieposition, Faktor und zugehöriger Datenpunkt usw. konfigurieren. Nutzen Sie den Export eines vorhandenen Zählers als Vorlage.",
+        IMPORT_OFFLINE_METER_DESCRIPTION:
+          "Offline-Zähler-Massenimport über JSON; erstellt oder aktualisiert mehrere Offline-Zähler schnell.",
+        IMPORT_OFFLINE_METER_DESCRIPTION_MORE:
+          "Konfigurieren Sie über JSON Name, Energiekategorie, Energieposition, Kostenstelle usw. Nutzen Sie den Export eines vorhandenen Offline-Zählers als Vorlage.",
+        IMPORT_VIRTUAL_METER_DESCRIPTION:
+          "Virtueller-Zähler-Massenimport über JSON; erstellt oder aktualisiert mehrere virtuelle Zähler schnell.",
+        IMPORT_VIRTUAL_METER_DESCRIPTION_MORE:
+          "Konfigurieren Sie per JSON Name, Kategorie, Position, Berechnungsausdruck, Variablen usw. Es wird empfohlen, einen vorhandenen virtuellen Zähler als Vorlage zu exportieren.",
+        IMPORT_SENSOR_DESCRIPTION:
+          "Sensor-Massenimport über JSON; erstellt oder aktualisiert mehrere Sensoren schnell.",
+        IMPORT_SENSOR_DESCRIPTION_MORE:
+          "Konfigurieren Sie Sensoren per JSON (z. B. Name, Beschreibung). Nutzen Sie den Export eines vorhandenen Sensors als Vorlage.",
+        IMPORT_EQUIPMENT_DESCRIPTION:
+          "Geräte-Massenimport über JSON; erstellt oder aktualisiert mehrere Geräte schnell.",
+        IMPORT_EQUIPMENT_DESCRIPTION_MORE:
+          "Konfigurieren Sie energieverbrauchende Geräte per JSON (z. B. Name, Beschreibung). Nutzen Sie den Export eines vorhandenen Geräts als Vorlage.",
+        IMPORT_COMBINED_EQUIPMENT_DESCRIPTION:
+          "Kombigeräte-Massenimport über JSON; erstellt oder aktualisiert mehrere Kombigeräte schnell.",
+        IMPORT_COMBINED_EQUIPMENT_DESCRIPTION_MORE:
+          "Konfigurieren Sie Kombigeräte per JSON (z. B. Name, Beschreibung). Nutzen Sie den Export eines vorhandenen Kombigeräts als Vorlage.",
+        IMPORT_TARIFF_DESCRIPTION:
+          "Tarif-Massenimport über JSON; erstellt oder aktualisiert mehrere Tarifkonfigurationen schnell.",
+        IMPORT_TARIFF_DESCRIPTION_MORE:
+          "Das JSON sollte Name, Energiekategorie, Preistyp, Zeitnutzungstarif usw. enthalten. Es wird empfohlen, zuerst einen vorhandenen Tarif als Vorlage zu exportieren.",
         CLONE: "Klon",
         COPY: "Kopieren",
         DOWNLOAD: "herunterladen",
@@ -356,6 +396,7 @@
         EDIT_WIND_FARM: "Windpark bearbeiten",
 
         REQUIRES_AUTHENTICATION: "Authentifizierung erforderlich",
+        SELECT_SVG: "Bitte SVG auswählen",
         SELECT_DATE: "Bitte wählen Sie ein Datum",
         SELECT_SPACE: "Bitte wählen Sie ein Leerzeichen",
         PLEASE_SELECT_SPACE_FIRST: "Bitte wählen Sie zuerst einen Raum",
@@ -394,11 +435,44 @@
         IS_OUTPUT_COUNTED:
           "Zusammenfassung der Beteiligung an der Energieabgabe",
         BIND_COMMAND: "Bindebefehl Ⓔ",
+        BIND_COMMAND_DESCRIPTION:
+          "Steuerbefehlsverwaltung für Zähler; ordnet fernsteuerbaren Messgeräten Betriebsbefehle zu.",
+        BIND_COMMAND_DESCRIPTION_MORE:
+          "Wenn ein Messgerät Fernschalten oder Parameterübertragung unterstützt, können Sie hier vordefinierte Befehle binden: Zielzähler auswählen und Befehle aus der rechten Liste in den mittleren Bereich ziehen. Danach können berechtigte Benutzer im Monitoring Befehle direkt senden.",
         BIND_DATA_SOURCE: "BindeDatenquelle",
+        BIND_DATA_SOURCE_DESCRIPTION:
+          "Verknüpfung von Gerät und Datenquelle; bindet die Erfassungskette an das entsprechende Verbrauchsgerät.",
+        BIND_DATA_SOURCE_DESCRIPTION_MORE:
+          "Wählen Sie links das Zielgerät und rechts die Datenquelle, dann per Drag-and-Drop in den Bereich der gebundenen Datenquellen. Zum Entbinden in den Papierkorb ziehen.",
         BIND_METER: "Bindemessgerät",
+        BIND_METER_DESCRIPTION:
+          "Verknüpfung von Gerät und Zähler; bindet physische Messgeräte an das entsprechende Verbrauchsgerät.",
+        BIND_METER_DESCRIPTION_MORE:
+          "Wählen Sie links das Zielgerät und rechts den Zähler, dann in den Bereich gebundener Zähler ziehen. Zum Entbinden in den Papierkorb ziehen.",
+        BIND_PARAMETER: "Parameter binden",
+        BIND_PARAMETER_DESCRIPTION:
+          "Verwaltung technischer Geräteparameter; konfiguriert wichtige Betriebskennwerte für Verbrauchsgeräte.",
+        BIND_PARAMETER_DESCRIPTION_MORE:
+          "Parameter (z. B. Nennleistung, Auslegungstemperaturdifferenz) können als Konstante, Echtzeit-Datenpunkt oder Quotient zweier Zähler definiert werden. Eine saubere Parametrierung ist Grundlage für Effizienzvergleich und erweiterte Berichte.",
+        PARAMETER_DIALOG_DESCRIPTION:
+          "Konfigurieren Sie hier Prozessparameter oder technische Kennzahlen des Geräts.",
+        PARAMETER_DIALOG_DESCRIPTION_MORE:
+          "Es gibt drei Typen: 1) Konstante für feste Werte, 2) Datenpunkt für Echtzeitwerte wie Temperatur/Druck, 3) Quotient zweier Zählerwerte. Bitte verwenden Sie eindeutige Parameternamen und korrekte Datenquellen, da dies die Berechnungszuverlässigkeit direkt beeinflusst.",
         BIND_POINT: "Datenpunkte binden",
+        BIND_POINT_DESCRIPTION:
+          "Verknüpfung von Zähler und Datenpunkt; bindet den Echtzeit-Datenpunkt an das physische Messgerät.",
+        BIND_POINT_DESCRIPTION_MORE:
+          "Wählen Sie links den Zielzähler und rechts Datenquelle plus Datenpunkt, dann per Drag-and-Drop in den Bereich gebundener Datenpunkte. Korrekte Bindung ist Voraussetzung für automatische Energieüberwachung.",
         BIND_SENSOR: "Bindungssensor",
+        BIND_SENSOR_DESCRIPTION:
+          "Verknüpfung von Gerät und Sensor; bindet Umweltsensoren an das entsprechende Verbrauchsgerät.",
+        BIND_SENSOR_DESCRIPTION_MORE:
+          "Wählen Sie links das Zielgerät und rechts den Sensor, dann in den Bereich gebundener Sensoren ziehen. Zum Entbinden in den Papierkorb ziehen.",
         BIND_TARIFF: "Bindungsrate",
+        BIND_TARIFF_DESCRIPTION:
+          "Verknüpfung von Kostenstelle und Tarif; konfiguriert den passenden Energietarif pro Kostenstelle.",
+        BIND_TARIFF_DESCRIPTION_MORE:
+          "Wählen Sie links die Kostenstelle und rechts in der Tarifliste den passenden Tarif, dann in den Bindungsbereich ziehen. Stellen Sie sicher, dass jede Energieart je Kostenstelle korrekt verknüpft ist, damit die Kostenstatistik stimmt.",
         BIND_MICROGRID: "Mikrogitter binden",
         BIND_ENERGY_STORAGE_CONTAINER: "Bind Energy Storage Container",
 
@@ -519,6 +593,10 @@
         VIRTUAL_METER: "Virtuelle Meter",
         OFFLINE_METER: "Offline Meter",
         OFFLINE_METER_FILE: "Offline Meter Datei",
+        OFFLINE_METER_FILE_DESCRIPTION:
+          "Verwaltung von Offline-Zählerdateien; lädt nicht in Echtzeit erfasste Zählerstände stapelweise hoch und importiert sie.",
+        OFFLINE_METER_FILE_DESCRIPTION_MORE:
+          "Für Offline-Zähler ohne automatische Anbindung können Sie Messwerte per Excel gesammelt nachtragen. Nutzen Sie die Standardvorlage, tragen Sie Zählername und Zeitstempelwerte ein und laden Sie die Datei hoch. Mit \"Wiederherstellen\" werden die Werte in Verbrauchsdatensätze umgewandelt.",
         PRODUCT: "Produkt",
         N_S_COMMAND: " Gebundener Befehle",
         N_S_DATA_SOURCE: "Gebundene Datenquellen",
@@ -567,6 +645,10 @@
         DRAG_TO_UNBIND:
           "Bitte ziehen Sie in den Papierkorb, um die Bindung aufzuheben",
         COST_FILE: "Datei der Kosten",
+        COST_FILE_DESCRIPTION:
+          "Verwaltung von Kostennachweisen und Anhängen; lädt kostenbezogene Belegdateien hoch und pflegt sie.",
+        COST_FILE_DESCRIPTION_MORE:
+          "Kosten-Dateien speichern Nachweise wie Verträge, Rechnungs-Scans oder Abrechnungsbelege. Dateien können per Drag-and-Drop oder Klick hochgeladen werden; je nach Browser ist Vorschau und Download möglich. Gute Pflege erleichtert Audit und Rückverfolgbarkeit.",
         NAME: "Name",
         AREA: "Bereich",
         UNIT: "Einheit",
@@ -622,6 +704,10 @@
         EDIT_MENU: "Menü bearbeiten",
 
         DATA_REPAIR_FILE: "Daten reparieren dateien",
+        DATA_REPAIR_FILE_DESCRIPTION:
+          "Verwaltung von Datenreparaturdateien; lädt Korrektur- oder Nachtragsdateien für historische Daten hoch und führt sie aus.",
+        DATA_REPAIR_FILE_DESCRIPTION_MORE:
+          "Bei längeren Datenlücken (z. B. Netzwerkunterbrechung) oder bei Korrekturen historischer Werte nutzen Sie die Datenreparatur. Laden Sie eine Datei im System-Excel-Format hoch und klicken Sie auf \"Wiederherstellen\". Sichern Sie vorher Originaldaten und prüfen Sie Zeitstempel sowie Datenpunkt-IDs.",
 
         WORKING_CALENDAR: "Working Calendar",
         NON_WORKING_DAY: "Non Working Day",
@@ -735,6 +821,8 @@
         DEFINITIONS: "Definitionen(JSON)",
         INPUT_HIGH_LIMIT: "Bitte geben Sie das obere Limit ein",
         INPUT_LOW_LIMIT: "Bitte geben Sie die Untergrenze ein",
+        INPUT_HIGHER_LIMIT: "Bitte geben Sie die obere Obergrenze ein",
+        INPUT_LOWER_LIMIT: "Bitte geben Sie die untere Untergrenze ein",
         INPUT_RATIO: "Bitte geben Sie den Skalierungsfaktor ein",
         INPUT_OFFSET_CONSTANT: "Bitte geben Sie Offsetkonstante ein",
         INPUT_ADDRESS: "Bitte geben Sie die Adresse ein",
@@ -1348,13 +1436,22 @@
         SVG: "SVG Ⓔ",
         INPUT_SVG: "Bitte SVG eingeben",
         CAMERA_URL: "Kamera-URL Ⓔ",
+        INPUT_CAMERA_URL: "Bitte Kamera-URL eingeben",
         BIND_EQUIPMENT: "Gerät binden",
+        BIND_EQUIPMENT_DESCRIPTION:
+          "Verknüpfung zwischen Kombigerät und Einzelgerät; fasst mehrere Verbrauchsgeräte zu einem logischen Kombigerät zusammen.",
+        BIND_EQUIPMENT_DESCRIPTION_MORE:
+          "Wählen Sie links das Ziel-Kombigerät und rechts das Einzelgerät, ziehen Sie es per Drag-and-Drop in den Bereich gebundener Geräte. Zum Entbinden ziehen Sie es in den Papierkorb.",
         N_S_EQUIPMENT: "Gebundenes Gerät",
         EQUIPMENT_LIST: "Geräteliste",
         INPUT_METER: "Input Meter",
         OUTPUT_METER: "Output Meter",
         PARAMETER: "Parameter",
         BIND_PARAMETER: "Bindungsparameter",
+        BIND_PARAMETER_DESCRIPTION:
+          "Verwaltung technischer Geräteparameter; konfiguriert wichtige Betriebskennwerte für Verbrauchsgeräte.",
+        BIND_PARAMETER_DESCRIPTION_MORE:
+          "Parameter können als Konstante, Echtzeit-Datenpunkt oder Quotient zweier Zählerwerte definiert werden. Das ist die Grundlage für Effizienzvergleich und Berichte.",
         ADD_PARAMETER: "Parameter hinzufügen",
         EDIT_PARAMETER: "Parameter bearbeiten",
         N_S_PARAMETER: "Enthaltene Parameter",
@@ -1364,6 +1461,7 @@
         PARAMETER_TYPE: "Arten von",
         SELECT_PARAMETER_TYPE: "Wählen Sie einen Typ",
         CONSTANT: "Konstanter Wert",
+        INPUT_CONSTANT: "Bitte Konstantenwert eingeben",
         POINT: "Datenpunkt",
         SELECT_POINT: "Datenpunkt auswählen",
         FRACTION: "Fraktion",
@@ -1382,6 +1480,7 @@
         SVG: "SVG Ⓔ",
         INPUT_SVG: "Bitte SVG eingeben",
         CAMERA_URL: "Kamera-URL Ⓔ",
+        INPUT_CAMERA_URL: "Bitte Kamera-URL eingeben",
         INPUT_METER: "Input Meter",
         OUTPUT_METER: "Output Meter",
         PARAMETER: "Parameter",
@@ -1395,6 +1494,7 @@
         PARAMETER_TYPE: "Arten von",
         SELECT_PARAMETER_TYPE: "Wählen Sie einen Typ",
         CONSTANT: "Konstanter Wert",
+        INPUT_CONSTANT: "Bitte Konstantenwert eingeben",
         POINT: "Datenpunkt",
         SELECT_POINT: "Datenpunkt auswählen",
         FRACTION: "Fraktion",
@@ -1500,6 +1600,10 @@
         MASTER_METER: "Überlegenes Messgerät",
         SELECT_MASTER_METER: "Wählen Sie das übergeordnete Messgerät aus",
         TREE_VIEW: "Baumsicht",
+        TREE_VIEW_DESCRIPTION:
+          "Vorschau der Zählerhierarchie; zeigt die Über-/Unterordnung von Haupt- und Unterzählern als Baum.",
+        TREE_VIEW_DESCRIPTION_MORE:
+          "Die Baumansicht macht Energiefluss und Messhierarchie sichtbar. Wählen Sie links einen Zähler, rechts werden alle Unterzähler angezeigt. Eine klare Hierarchie hilft bei Energiebilanzprüfung und Verlustanalyse.",
         CHILD_METERS: "Unterer Füllstandsmesser",
       },
       SENSOR: {

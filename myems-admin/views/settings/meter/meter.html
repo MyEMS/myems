@@ -77,6 +77,18 @@
 
 					<uib-tab heading="{{'SETTING.BIND_POINT' | translate}}" index="1" select="handleTabSelect(1)">
 						<div class="panel-body" ng-controller="MeterPointController">
+							<div class="alert alert-info">
+								<p>
+									{{'SETTING.BIND_POINT_DESCRIPTION' | translate}}
+									<a ng-click="isCollapsed = !isCollapsed" class="pull-right">
+										{{(isCollapsed ? 'COMMON.COLLAPSE' : 'COMMON.CLICK_TO_EXPAND_FOR_MORE_DESCRIPTION') | translate}}
+									</a>
+								</p>
+								<div uib-collapse="!isCollapsed">
+									<hr>
+									<p>{{'SETTING.BIND_POINT_DESCRIPTION_MORE' | translate}}</p>
+								</div>
+							</div>
 							<div class="row">
 								<div class="col-lg-3">
 									<div class="panel panel-info">
@@ -167,6 +179,18 @@
 
 					<uib-tab heading="{{'METER.TREE_VIEW' | translate}}" index="2" select="handleTabSelect(2)">
 						<div class="panel-body" ng-controller="MeterController">
+							<div class="alert alert-info">
+								<p>
+									{{'METER.TREE_VIEW_DESCRIPTION' | translate}}
+									<a ng-click="isCollapsed = !isCollapsed" class="pull-right">
+										{{(isCollapsed ? 'COMMON.COLLAPSE' : 'COMMON.CLICK_TO_EXPAND_FOR_MORE_DESCRIPTION') | translate}}
+									</a>
+								</p>
+								<div uib-collapse="!isCollapsed">
+									<hr>
+									<p>{{'METER.TREE_VIEW_DESCRIPTION_MORE' | translate}}</p>
+								</div>
+							</div>
 							<div class="row">
 								<div class="col-lg-3">
 									<div class="panel panel-info">
@@ -385,6 +409,18 @@
 
 					<uib-tab heading="{{'SETTING.OFFLINE_METER_FILE' | translate}}" index="5" select="handleTabSelect(5)">
 						<div class="panel-body" ng-controller="OfflineMeterFileController">
+							<div class="alert alert-info">
+								<p>
+									{{'SETTING.OFFLINE_METER_FILE_DESCRIPTION' | translate}}
+									<a ng-click="isCollapsed = !isCollapsed" class="pull-right">
+										{{(isCollapsed ? 'COMMON.COLLAPSE' : 'COMMON.CLICK_TO_EXPAND_FOR_MORE_DESCRIPTION') | translate}}
+									</a>
+								</p>
+								<div uib-collapse="!isCollapsed">
+									<hr>
+									<p>{{'SETTING.OFFLINE_METER_FILE_DESCRIPTION_MORE' | translate}}</p>
+								</div>
+							</div>
 							<div id="dropzone1" class="dropzone" options="dzOptions" callbacks="dzCallbacks" ng-dropzone></div>
 							<table class="footable table table-bordered table-hover" data-sort="true" data-page-size="15">
 								<thead>
@@ -427,6 +463,18 @@
 
 					<uib-tab heading="{{'SETTING.BIND_COMMAND' | translate}}" index="6" select="handleTabSelect(6)">
 						<div class="panel-body" ng-controller="MeterCommandController">
+							<div class="alert alert-info">
+								<p>
+									{{'SETTING.BIND_COMMAND_DESCRIPTION' | translate}}
+									<a ng-click="isCollapsed = !isCollapsed" class="pull-right">
+										{{(isCollapsed ? 'COMMON.COLLAPSE' : 'COMMON.CLICK_TO_EXPAND_FOR_MORE_DESCRIPTION') | translate}}
+									</a>
+								</p>
+								<div uib-collapse="!isCollapsed">
+									<hr>
+									<p>{{'SETTING.BIND_COMMAND_DESCRIPTION_MORE' | translate}}</p>
+								</div>
+							</div>
 							<div class="row">
 								<div class="col-lg-3">
 									<div class="panel panel-info">

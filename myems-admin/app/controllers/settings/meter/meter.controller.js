@@ -425,6 +425,8 @@ app.controller('MeterController', function($scope,
 			resolve: {
 				params: function() {
 					return {
+						description: 'SETTING.IMPORT_METER_DESCRIPTION',
+						description_more: 'SETTING.IMPORT_METER_DESCRIPTION_MORE'
 					};
 				}
 			}

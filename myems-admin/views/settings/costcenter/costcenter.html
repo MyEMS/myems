@@ -59,6 +59,18 @@
 					</uib-tab>
 					<uib-tab heading="{{'SETTING.BIND_TARIFF' | translate}}">
 						<div class="panel-body" ng-controller="CostCenterTariffController">
+							<div class="alert alert-info">
+								<p>
+									{{'SETTING.BIND_TARIFF_DESCRIPTION' | translate}}
+									<a ng-click="isCollapsed = !isCollapsed" class="pull-right">
+										{{(isCollapsed ? 'COMMON.COLLAPSE' : 'COMMON.CLICK_TO_EXPAND_FOR_MORE_DESCRIPTION') | translate}}
+									</a>
+								</p>
+								<div uib-collapse="!isCollapsed">
+									<hr>
+									<p>{{'SETTING.BIND_TARIFF_DESCRIPTION_MORE' | translate}}</p>
+								</div>
+							</div>
 							<div class="row">
 								<div class="col-lg-3">
 									<div class="panel panel-info">
@@ -125,6 +137,18 @@
 
 					<uib-tab heading="{{'SETTING.COST_FILE' | translate}}">
 						<div class="panel-body" ng-controller="CostFileController">
+							<div class="alert alert-info">
+								<p>
+									{{'SETTING.COST_FILE_DESCRIPTION' | translate}}
+									<a ng-click="isCollapsed = !isCollapsed" class="pull-right">
+										{{(isCollapsed ? 'COMMON.COLLAPSE' : 'COMMON.CLICK_TO_EXPAND_FOR_MORE_DESCRIPTION') | translate}}
+									</a>
+								</p>
+								<div uib-collapse="!isCollapsed">
+									<hr>
+									<p>{{'SETTING.COST_FILE_DESCRIPTION_MORE' | translate}}</p>
+								</div>
+							</div>
 							<div id="dropzone1" class="dropzone" options="dzOptions" callbacks="dzCallbacks"
 								ng-dropzone></div>
 							<table class="footable table table-bordered table-hover" data-sort="true"

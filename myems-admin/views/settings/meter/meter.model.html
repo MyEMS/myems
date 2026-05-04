@@ -100,13 +100,13 @@
             <div class="form-group"><label class="col-sm-4 control-label">{{'METER.MASTER_METER' | translate}} ({{'SETTING.OPTIONAL' | translate}})</label>
                 <div class="col-sm-8">
                     <ui-select ng-model="meter.master_meter.id" name="meter.master_meter_id" theme="bootstrap">
-                        <ui-select-match allow-clear="true" placeholder="{{'SETTING.SELECT_MASTER_METER' | translate}}">{{$select.selected.name}}</ui-select-match>
+                        <ui-select-match allow-clear="true" placeholder="{{'METER.SELECT_MASTER_METER' | translate}}">{{$select.selected.name}}</ui-select-match>
                         <ui-select-choices repeat="parentmeter.id as parentmeter in parentmeters | filter: $select.search">
                             <div ng-bind-html="parentmeter.name | highlight: $select.search"></div>
                         </ui-select-choices>
                     </ui-select>
                     <div class="m-t-xs" ng-show="form_meter.meter.master_meter_id.$invalid && form_meter.meter.master_meter_id.$dirty">
-                        <small class="text-danger" ng-show="form_meter.meter.master_meter_id.$error.required">{{'SETTING.SELECT_MASTER_METER' | translate}}</small>
+                        <small class="text-danger" ng-show="form_meter.meter.master_meter_id.$error.required">{{'METER.SELECT_MASTER_METER' | translate}}</small>
                     </div>
                 </div>
             </div>
