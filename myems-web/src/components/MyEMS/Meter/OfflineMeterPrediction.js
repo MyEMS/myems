@@ -236,12 +236,6 @@ const OfflineMeterPrediction = ({ setRedirect, setRedirectUrl, t }) => {
       });
   }, [t]);
 
-  useEffect(() => {
-      if (selectedOfflineMeter) {
-            handleSubmit(new Event('submit'));
-          }
-    }, [selectedOfflineMeter]);
-
   const labelClasses = 'ls text-uppercase text-600 font-weight-semi-bold mb-0';
 
   const onSpaceCascaderChange = (value, selectedOptions) => {
@@ -538,7 +532,7 @@ const OfflineMeterPrediction = ({ setRedirect, setRedirectUrl, t }) => {
       .then(json => {
         if (isResponseOK) {
           setOfflineMeterPrediction({
-            name: json['offline_meter']['prediction_name'],
+            name: json['offline_meter']['energy_category_name'],
             unit: json['offline_meter']['unit_of_measure']
           });
           const rate = json['reporting_period']?.['increment_rate'];
@@ -560,7 +554,7 @@ const OfflineMeterPrediction = ({ setRedirect, setRedirectUrl, t }) => {
           setOfflineMeterBaseData(base_values);
 
           let base_and_reporting_names = {};
-          base_and_reporting_names['a0'] = json['offline_meter']['prediction_name'];
+          base_and_reporting_names['a0'] = json['offline_meter']['energy_category_name'];
           setOfflineMeterBaseAndReportingNames(base_and_reporting_names);
 
           let base_and_reporting_units = {};
@@ -593,7 +587,7 @@ const OfflineMeterPrediction = ({ setRedirect, setRedirectUrl, t }) => {
           let options = [];
           options.push({
             value: 'a0',
-            label: json['offline_meter']['prediction_name'] + ' (' + json['offline_meter']['unit_of_measure'] + ')'
+            label: json['offline_meter']['energy_category_name'] + ' (' + json['offline_meter']['unit_of_measure'] + ')'
           });
           setOfflineMeterReportingOptions(options);
 
@@ -625,7 +619,7 @@ const OfflineMeterPrediction = ({ setRedirect, setRedirectUrl, t }) => {
               {
                 dataField: 'a0',
                 text:
-                  json['offline_meter']['prediction_name'] + ' (' + json['offline_meter']['unit_of_measure'] + ')',
+                  json['offline_meter']['energy_category_name'] + ' (' + json['offline_meter']['unit_of_measure'] + ')',
                 sort: true,
                 formatter: function(decimalValue) {
                   if (typeof decimalValue === 'number') {
@@ -666,7 +660,7 @@ const OfflineMeterPrediction = ({ setRedirect, setRedirectUrl, t }) => {
                 text:
                   t('Base Period') +
                   ' - ' +
-                  json['offline_meter']['prediction_name'] +
+                  json['offline_meter']['energy_category_name'] +
                   ' (' +
                   json['offline_meter']['unit_of_measure'] +
                   ')',
@@ -689,7 +683,7 @@ const OfflineMeterPrediction = ({ setRedirect, setRedirectUrl, t }) => {
                 text:
                   t('Reporting Period') +
                   ' - ' +
-                  json['offline_meter']['prediction_name'] +
+                  json['offline_meter']['energy_category_name'] +
                   ' (' +
                   json['offline_meter']['unit_of_measure'] +
                   ')',
@@ -791,7 +785,7 @@ const OfflineMeterPrediction = ({ setRedirect, setRedirectUrl, t }) => {
       <div>
         <Breadcrumb>
           <BreadcrumbItem>{t('Meter Data')}</BreadcrumbItem>
-          <BreadcrumbItem active>{t('Offline Meter')} {t('Prediction')}</BreadcrumbItem>
+          <BreadcrumbItem active>{t('Offline Meter Prediction')}</BreadcrumbItem>
         </Breadcrumb>
       </div>
       <Card className="bg-light mb-3">

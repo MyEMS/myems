@@ -236,12 +236,6 @@ const VirtualMeterPrediction= ({ setRedirect, setRedirectUrl, t }) => {
       });
   }, [t]);
 
-  useEffect(() => {
-      if (selectedVirtualMeter) {
-            handleSubmit(new Event('submit'));
-          }
-    }, [selectedVirtualMeter]);
-
   const labelClasses = 'ls text-uppercase text-600 font-weight-semi-bold mb-0';
 
   const onSpaceCascaderChange = (value, selectedOptions) => {
@@ -539,7 +533,7 @@ const VirtualMeterPrediction= ({ setRedirect, setRedirectUrl, t }) => {
       .then(json => {
         if (isResponseOK) {
           setVirtualMeterPrediction({
-            name: json['virtual_meter']['prediction_name'],
+            name: json['virtual_meter']['energy_category_name'],
             unit: json['virtual_meter']['unit_of_measure']
           });
           const rate = json['reporting_period']?.['increment_rate'];
@@ -561,7 +555,7 @@ const VirtualMeterPrediction= ({ setRedirect, setRedirectUrl, t }) => {
           setVirtualMeterBaseData(base_values);
 
           let base_and_reporting_names = {};
-          base_and_reporting_names['a0'] = json['virtual_meter']['prediction_name'];
+          base_and_reporting_names['a0'] = json['virtual_meter']['energy_category_name'];
           setVirtualMeterBaseAndReportingNames(base_and_reporting_names);
 
           let base_and_reporting_units = {};
@@ -594,7 +588,7 @@ const VirtualMeterPrediction= ({ setRedirect, setRedirectUrl, t }) => {
           let options = [];
           options.push({
             value: 'a0',
-            label: json['virtual_meter']['prediction_name'] + ' (' + json['virtual_meter']['unit_of_measure'] + ')'
+            label: json['virtual_meter']['energy_category_name'] + ' (' + json['virtual_meter']['unit_of_measure'] + ')'
           });
           setVirtualMeterReportingOptions(options);
 
@@ -626,7 +620,7 @@ const VirtualMeterPrediction= ({ setRedirect, setRedirectUrl, t }) => {
               {
                 dataField: 'a0',
                 text:
-                  json['virtual_meter']['prediction_name'] + ' (' + json['virtual_meter']['unit_of_measure'] + ')',
+                  json['virtual_meter']['energy_category_name'] + ' (' + json['virtual_meter']['unit_of_measure'] + ')',
                 sort: true,
                 formatter: function(decimalValue) {
                   if (typeof decimalValue === 'number') {
@@ -667,7 +661,7 @@ const VirtualMeterPrediction= ({ setRedirect, setRedirectUrl, t }) => {
                 text:
                   t('Base Period') +
                   ' - ' +
-                  json['virtual_meter']['prediction_name'] +
+                  json['virtual_meter']['energy_category_name'] +
                   ' (' +
                   json['virtual_meter']['unit_of_measure'] +
                   ')',
@@ -690,7 +684,7 @@ const VirtualMeterPrediction= ({ setRedirect, setRedirectUrl, t }) => {
                 text:
                   t('Reporting Period') +
                   ' - ' +
-                  json['virtual_meter']['prediction_name'] +
+                  json['virtual_meter']['energy_category_name'] +
                   ' (' +
                   json['virtual_meter']['unit_of_measure'] +
                   ')',
@@ -792,7 +786,7 @@ const VirtualMeterPrediction= ({ setRedirect, setRedirectUrl, t }) => {
       <div>
         <Breadcrumb>
           <BreadcrumbItem>{t('Meter Data')}</BreadcrumbItem>
-          <BreadcrumbItem active>{t('Virtual Meter')} {t('Prediction')}</BreadcrumbItem>
+          <BreadcrumbItem active>{t('Virtual Meter Prediction')}</BreadcrumbItem>
         </Breadcrumb>
       </div>
       <Card className="bg-light mb-3">

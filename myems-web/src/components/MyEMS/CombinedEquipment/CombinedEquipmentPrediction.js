@@ -638,12 +638,7 @@ const CombinedEquipmentPrediction = ({ setRedirect, setRedirectUrl, t }) => {
     } else {
       setSpaceCascaderHidden(true);
     }
-    if (selectedCombinedEquipment) {
-      setTimeout(() => {
-        document.getElementById('submit').children[0].click();
-      }, 300);
-    }
-  }, [uuid, t, selectedCombinedEquipment]);
+  }, [uuid, t]);
 
   useEffect(() => {
     if (uuid !== null && uuid) {

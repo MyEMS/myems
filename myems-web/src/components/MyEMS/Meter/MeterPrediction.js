@@ -182,7 +182,7 @@ const MeterPrediction = ({ setRedirect, setRedirectUrl, t }) => {
               setSelectedMeter(json['meter']['id']);
             }
             setMeterPrediction({
-              name: json['meter']['prediction_name'],
+              name: json['meter']['energy_category_name'],
               unit: json['meter']['unit_of_measure']
             });
             const rate = json['reporting_period']?.['increment_rate'];
@@ -197,7 +197,7 @@ const MeterPrediction = ({ setRedirect, setRedirectUrl, t }) => {
             setBasePeriodEnergyConsumptionInCategory(json['base_period']['total_in_category']);
 
             let names = [];
-            names.push({ value: 'a0', label: json['meter']['prediction_name'] });
+            names.push({ value: 'a0', label: json['meter']['energy_category_name'] });
             setMeterReportingOptions(names);
 
             let timestamps = {};
@@ -253,7 +253,7 @@ const MeterPrediction = ({ setRedirect, setRedirectUrl, t }) => {
                 },
                 {
                   dataField: 'a0',
-                  text: json['meter']['prediction_name'] + ' (' + json['meter']['unit_of_measure'] + ')',
+                  text: json['meter']['energy_category_name'] + ' (' + json['meter']['unit_of_measure'] + ')',
                   sort: true,
                   formatter: function(decimalValue) {
                     if (typeof decimalValue === 'number') {
@@ -274,7 +274,7 @@ const MeterPrediction = ({ setRedirect, setRedirectUrl, t }) => {
                 {
                   dataField: 'a0',
                   text: t('Base Period Consumption CATEGORY VALUE UNIT', {
-                    CATEGORY: json['meter']['prediction_name'],
+                    CATEGORY: json['meter']['energy_category_name'],
                     VALUE: null,
                     UNIT: '(' + json['meter']['unit_of_measure'] + ')'
                   }),
@@ -290,7 +290,7 @@ const MeterPrediction = ({ setRedirect, setRedirectUrl, t }) => {
                 {
                   dataField: 'a1',
                   text: t('Reporting Period Consumption CATEGORY VALUE UNIT', {
-                    CATEGORY: json['meter']['prediction_name'],
+                    CATEGORY: json['meter']['energy_category_name'],
                     VALUE: null,
                     UNIT: '(' + json['meter']['unit_of_measure'] + ')'
                   }),
@@ -482,12 +482,6 @@ const MeterPrediction = ({ setRedirect, setRedirectUrl, t }) => {
       loadData(url);
     }
   }, [uuid, periodType, basePeriodDateRange, reportingPeriodDateRange, language, loadData]);
-
-  useEffect(() => {
-    if (selectedMeter && !uuid) {
-      handleSubmit(new Event('submit'));
-    }
-  }, [selectedMeter, uuid]);
 
   const labelClasses = 'ls text-uppercase text-600 font-weight-semi-bold mb-0';
 
@@ -897,7 +891,7 @@ const MeterPrediction = ({ setRedirect, setRedirectUrl, t }) => {
         <Breadcrumb>
           <BreadcrumbItem>{t('Meter Data')}</BreadcrumbItem>
           <BreadcrumbItem active>
-            <Link to="/meter/meterprediction">{t('Meter')} {t('Prediction')}</Link>
+            <Link to="/meter/meterprediction">{t('Meter Prediction')}</Link>
           </BreadcrumbItem>
         </Breadcrumb>
       </div>
