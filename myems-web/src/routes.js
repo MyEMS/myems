@@ -106,6 +106,7 @@ export const tenantRoutes = {
     { to: '/tenant/statistics', name: 'Statistics' },
     { to: '/tenant/saving', name: 'Saving' },
     { to: '/tenant/plan', name: 'Plan' },
+    { to: '/tenant/prediction' , name: 'Prediction' },
     { to: '/tenant/bill', name: 'Tenant Bill' },
     { to: '/tenant/batch', name: 'Batch Analysis' },
     { to: '/tenant/comparison', name: 'Tenant Comparison' }
@@ -125,6 +126,7 @@ export const storeRoutes = {
     { to: '/store/statistics', name: 'Statistics' },
     { to: '/store/saving', name: 'Saving' },
     { to: '/store/plan', name: 'Plan' },
+    { to: '/store/prediction' , name: 'Prediction' },
     { to: '/store/batch', name: 'Batch Analysis' },
     { to: '/store/comparison', name: 'Store Comparison' },
   ]
@@ -143,6 +145,7 @@ export const shopfloorRoutes = {
     { to: '/shopfloor/statistics', name: 'Statistics' },
     { to: '/shopfloor/saving', name: 'Saving' },
     { to: '/shopfloor/plan', name: 'Plan' },
+    { to: '/shopfloor/prediction' , name: 'Prediction' },
     { to: '/shopfloor/batch', name: 'Batch Analysis' },
     { to: '/shopfloor/comparison', name: 'Shopfloor Comparison' }
   ]
