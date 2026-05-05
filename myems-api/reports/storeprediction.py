@@ -62,10 +62,11 @@ class Reporting:
     # Step 1: valid parameters
     # Step 2: query the store
     # Step 3: query energy categories
-    # Step 4: query base period energy input
-    # Step 5: query reporting period energy input
-    # Step 6: query tariff data
-    # Step 7: construct the report
+    # Step 4: query associated working calendars
+    # Step 5: query base period energy input
+    # Step 6: query reporting period energy input
+    # Step 7: query tariff data
+    # Step 8: construct the report
     ####################################################################################################################
     @staticmethod
     def on_get(req, resp):
@@ -342,8 +343,20 @@ class Reporting:
                                                                         "kgce": row_energy_category[3],
                                                                         "kgco2e": row_energy_category[4]}
 
+                ######################################################################################################
+                # Step 4: query associated working calendars
+                ######################################################################################################
+                working_calendar_list = list()
+                cursor_system.execute(" SELECT swc.id "
+                                      " FROM tbl_stores s, tbl_stores_working_calendars swc "
+                                      " WHERE s.id = %s AND s.id = swc.store_id ", (store['id'], ))
+                rows = cursor_system.fetchall()
+                if rows is not None and len(rows) > 0:
+                    for row in rows:
+                        working_calendar_list.append(row[0])
+
                 ###################################################################################################
-                # Step 4: query base period energy input
+                # Step 5: query base period energy input
                 ###################################################################################################
                 base = dict()
                 base['non_working_days'] = list()
@@ -421,7 +434,7 @@ class Reporting:
                                 base[energy_category_id]['working_days_subtotal'] += actual_value
 
                 #############################################################################################
-                # Step 5: query reporting period energy input
+                # Step 6: query reporting period energy input
                 #############################################################################################
                 reporting = dict()
                 reporting['non_working_days'] = list()
@@ -522,7 +535,7 @@ class Reporting:
                                 reporting[energy_category_id]['deep'] += row[1]
 
                 #####################################################################################################
-                # Step 6: query tariff data
+                # Step 7: query tariff data
                 #####################################################################################################
                 parameters_data = dict()
                 parameters_data['names'] = list()
@@ -564,7 +577,7 @@ class Reporting:
                 cnx_energy.close()
 
         ################################################################################################################
-        # Step 7: construct the report
+        # Step 8: construct the report
         ################################################################################################################
         result = dict()
 
@@ -572,6 +585,7 @@ class Reporting:
         result['store']['name'] = store['name']
         result['store']['id'] = store['id']
         result['store']['area'] = store['area']
+        result['store']['working_calendars'] = working_calendar_list
 
         result['base_period'] = dict()
         result['base_period']['names'] = list()
