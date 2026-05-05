@@ -14,8 +14,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - added offline meter prediction report in myems-web
 - added virtual meter prediction report in myems-web
 ### Changed
-- changed node.js version to 22.22.2, 24.5.0 or later
-- changed npm version to 10.9.7, 11.5.1 or later
+- changed node.js version to 22.22.2, 24.5.0 or later in myems-web
+- changed npm version to 10.9.7, 11.5.1 or later in myems-web
+- changed dockerfile in myems-web
 ### Fixed
 - added try...finally for cnx.close() and cursor.close() in myems-api
 - fixed overwritten property issues in myems-web
