@@ -673,6 +673,90 @@
         ENTER_DESCRIPTION: "Beschrijving invoeren",
         SIMPLIFIED_CODE: "Verkorte code",
         ENTER_SIMPLIFIED_CODE: "Verkorte code invoeren",
+        SPACE_DESCRIPTION:
+          "Beheer van ruimtehiërarchie en assettoewijzing; bouw een ruimtestructuur (campus/gebouw/verdieping/ruimte) voor energie-aggregatie per gebied.",
+        SPACE_DESCRIPTION_MORE:
+          "Ruimtes definiëren de fysieke structuur. Onderhoud bovenliggend/onderliggend relaties en koppel meters, apparatuur, datapunten, sensoren, huurders en winkels aan een ruimte voor gebiedsstatistieken, kostenverdeling en operationele monitoring.",
+        SPACE_DIALOG_DESCRIPTION: "Maak of bewerk hier ruimte-informatie.",
+        SPACE_DIALOG_DESCRIPTION_MORE:
+          "Vul ruimtenaam, oppervlakte en aantal personen in; selecteer tijdzone en kostenplaats. Optioneel: kies contact en stel coördinaten in. Na opslaan kunt u assets koppelen via de tabbladen.",
+        IMPORT_SPACE_DESCRIPTION:
+          "Bulkimport van ruimtes; maak of update ruimtestructuren via JSON.",
+        IMPORT_SPACE_DESCRIPTION_MORE:
+          "Geschikt voor initiële inrichting of grote wijzigingen in de boomstructuur. Aanbevolen: exporteer een ruimte als sjabloon, bewerk het JSON en importeer daarna om formatfouten te vermijden.",
+        EXPORT_SPACE_DESCRIPTION:
+          "Ruimte-export; exporteer de geselecteerde ruimte (incl. configuratie) als JSON.",
+        EXPORT_SPACE_DESCRIPTION_MORE:
+          "Het export-JSON kan worden gebruikt voor back-up, migratie of als importsjabloon. Bescherm de gegevens om lekkage van structuur- en assetinformatie te voorkomen.",
+        INPUT_SPACE_NAME_PLACEHOLDER:
+          "Voer een ruimtenaam in, bv.: Gebouw A Verdieping 3 Kamer 301",
+        INPUT_SPACE_AREA_PLACEHOLDER:
+          "Voer de oppervlakte (m²) in voor indicatoren per oppervlakte",
+        INPUT_SPACE_NUMBER_OF_OCCUPANTS_PLACEHOLDER:
+          "Voer het aantal personen in voor analyse per persoon",
+        INPUT_SPACE_LONGITUDE_PLACEHOLDER:
+          "Voer lengtegraad in, bv.: 121.4737",
+        INPUT_SPACE_LATITUDE_PLACEHOLDER:
+          "Voer breedtegraad in, bv.: 31.2304",
+        TENANT_DESCRIPTION:
+          "Beheer van huurders en huurgegevens; onderhoud huurderinformatie en ondersteun energie-/kostenverdeling.",
+        TENANT_DESCRIPTION_MORE:
+          "Registreer gehuurde ruimten, contractperiode, contact en kostenplaats. In combinatie met ruimte-koppelingen en meetdata ondersteunt dit statistieken, afstemming en kostenallocatie per huurder. Werk bij wanneer het contract wijzigt.",
+        TENANT_DIALOG_DESCRIPTION: "Maak of bewerk hier huurderinformatie.",
+        TENANT_DIALOG_DESCRIPTION_MORE:
+          "Vul naam, oppervlakte, gebouw/verdieping/kamer, huurderstype, contact, contractperiode en kostenplaats in. Koppel daarna meters, datapunten, sensoren, werkkalenders en commando’s indien nodig.",
+        TENANT_TYPE_DESCRIPTION:
+          "Beheer van huurderstype-woordenboek; onderhoud categorieën voor statistieken en filters.",
+        TENANT_TYPE_DESCRIPTION_MORE:
+          "Huurderstypen classificeren huurders (bv. kantoor/retail/productie) voor rapportage en vergelijking. Houd per type een duidelijke naam, beschrijving en verkorte code bij.",
+        TENANT_TYPE_DIALOG_DESCRIPTION: "Maak of bewerk hier een huurderstype.",
+        TENANT_TYPE_DIALOG_DESCRIPTION_MORE:
+          "Voer naam, beschrijving en verkorte code in. Een Engelse/afkorting wordt aanbevolen voor import/export en consistent gebruik.",
+        IMPORT_TENANT_DESCRIPTION:
+          "Bulkimport van huurders; maak of update meerdere huurders via JSON.",
+        IMPORT_TENANT_DESCRIPTION_MORE:
+          "Geschikt voor initiële inrichting of bulkupdates. Aanbevolen: exporteer een huurder als sjabloon, pas het JSON aan en importeer daarna.",
+        EXPORT_TENANT_DESCRIPTION:
+          "Huurder-export; exporteer de geselecteerde huurder (incl. configuratie) als JSON.",
+        EXPORT_TENANT_DESCRIPTION_MORE:
+          "Het export-JSON kan worden gebruikt voor back-up, migratie of als importsjabloon. Bescherm gevoelige huurdergegevens zoals contactinformatie.",
+        SELECT_TENANT_TYPE: "Selecteer huurderstype",
+        SELECT_CONTACT: "Selecteer contact",
+        INPUT_TENANT_NAME_PLACEHOLDER:
+          "Voer huurdernaam in, bv.: Voorbeeld BV",
+        INPUT_TENANT_TYPE_NAME_PLACEHOLDER:
+          "Voer type-naam in, bv.: Kantoor/Retail/Productie",
+        INPUT_TENANT_TYPE_DESCRIPTION_PLACEHOLDER:
+          "Voer huurderstype-beschrijving in",
+        STORE_DESCRIPTION:
+          "Beheer van winkels en operationele info; onderhoud winkelgegevens en ondersteun energie- en kostenanalyse per winkel.",
+        STORE_DESCRIPTION_MORE:
+          "Registreer adres, coördinaten, winkeltype, contact en kostenplaats. In combinatie met ruimte-koppelingen en meetdata ondersteunt dit statistieken en afstemming per winkel. Werk bij wanneer operationele info wijzigt.",
+        STORE_DIALOG_DESCRIPTION: "Maak of bewerk hier winkelinformatie.",
+        STORE_DIALOG_DESCRIPTION_MORE:
+          "Vul naam, oppervlakte, adres en coördinaten in; selecteer winkeltype, contact en kostenplaats. Optioneel: beschrijving. Koppel daarna meters, datapunten, sensoren, kalenders en commando’s.",
+        STORE_TYPE_DESCRIPTION:
+          "Beheer van winkeltype-woordenboek; onderhoud categorieën voor statistieken en filters.",
+        STORE_TYPE_DESCRIPTION_MORE:
+          "Winkeltypen classificeren winkels (bv. horeca/retail/magazijn) voor rapportage en benchmarking. Houd een duidelijke naam, beschrijving en verkorte code bij.",
+        STORE_TYPE_DIALOG_DESCRIPTION: "Maak of bewerk hier een winkeltype.",
+        STORE_TYPE_DIALOG_DESCRIPTION_MORE:
+          "Voer naam, beschrijving en verkorte code in. Een herkenbare afkorting wordt aanbevolen voor import/export.",
+        IMPORT_STORE_DESCRIPTION:
+          "Bulkimport van winkels; maak of update meerdere winkels via JSON.",
+        IMPORT_STORE_DESCRIPTION_MORE:
+          "Geschikt voor initiële inrichting of bulkupdates. Aanbevolen: exporteer een winkel als sjabloon, pas het JSON aan en importeer daarna.",
+        EXPORT_STORE_DESCRIPTION:
+          "Winkel-export; exporteer de geselecteerde winkel (incl. configuratie) als JSON.",
+        EXPORT_STORE_DESCRIPTION_MORE:
+          "Het export-JSON kan worden gebruikt voor back-up, migratie of als importsjabloon. Bescherm gevoelige informatie zoals adressen en contacten.",
+        SELECT_STORE_TYPE: "Selecteer winkeltype",
+        INPUT_STORE_NAME_PLACEHOLDER:
+          "Voer winkelnaam in, bv.: Filiaal #1",
+        INPUT_STORE_TYPE_NAME_PLACEHOLDER:
+          "Voer type-naam in, bv.: Horeca/Retail/Magazijn",
+        INPUT_STORE_TYPE_DESCRIPTION_PLACEHOLDER:
+          "Voer winkeltype-beschrijving in",
       },
       CONTACT: {
         EMAIL: "E-mail",
@@ -1430,6 +1514,66 @@
         INPUT_AREA: "Voer oppervlakte in",
         CURRENT_SELECTED_SPACE: "Huidig geselecteerde ruimte",
         CHILD_SPACES: "Onderliggende ruimtes",
+        BIND_METER_DESCRIPTION:
+          "Beheer ruimte–meter koppeling; koppel meters aan een ruimte voor aggregatie per gebied.",
+        BIND_METER_DESCRIPTION_MORE:
+          "Selecteer een ruimte, kies rechts het metertype en sleep de meter naar het midden om te koppelen. Ontkoppelen kan door naar de prullenbak te slepen.",
+        BIND_EQUIPMENT_DESCRIPTION:
+          "Beheer ruimte–apparatuur koppeling; koppel verbruiksapparatuur aan een ruimte voor statistiek en beheer.",
+        BIND_EQUIPMENT_DESCRIPTION_MORE:
+          "Selecteer een ruimte en sleep apparatuur van de rechterlijst naar het midden. Ontkoppelen door naar de prullenbak te slepen.",
+        BIND_COMBINED_EQUIPMENT_DESCRIPTION:
+          "Beheer ruimte–gecombineerde apparatuur koppeling; koppel complexe systemen aan een ruimte.",
+        BIND_COMBINED_EQUIPMENT_DESCRIPTION_MORE:
+          "Selecteer een ruimte en sleep gecombineerde apparatuur van rechts naar het midden om te koppelen.",
+        BIND_PHOTOVOLTAIC_POWER_STATION_DESCRIPTION:
+          "Beheer ruimte–PV-centrale koppeling; koppel opwekassets aan een ruimte.",
+        BIND_PHOTOVOLTAIC_POWER_STATION_DESCRIPTION_MORE:
+          "Selecteer een ruimte en sleep PV-centrales van rechts naar het midden om te koppelen.",
+        BIND_ENERGY_STORAGE_POWER_STATION_DESCRIPTION:
+          "Beheer ruimte–energieopslagcentrale koppeling; koppel opslagassets aan een ruimte.",
+        BIND_ENERGY_STORAGE_POWER_STATION_DESCRIPTION_MORE:
+          "Selecteer een ruimte en sleep energieopslagcentrales van rechts naar het midden om te koppelen.",
+        BIND_TENANT_DESCRIPTION:
+          "Beheer ruimte–huurder koppeling; verbind huurders aan gehuurde ruimten voor verdeling/afstemming.",
+        BIND_TENANT_DESCRIPTION_MORE:
+          "Selecteer een ruimte en sleep huurders van rechts naar het midden om te koppelen.",
+        BIND_STORE_DESCRIPTION:
+          "Beheer ruimte–winkel koppeling; verbind winkels aan operationele gebieden.",
+        BIND_STORE_DESCRIPTION_MORE:
+          "Selecteer een ruimte en sleep winkels van rechts naar het midden om te koppelen.",
+        BIND_SHOPFLOOR_DESCRIPTION:
+          "Beheer ruimte–werkvloer koppeling; lijn productiegebieden uit met de ruimtestructuur.",
+        BIND_SHOPFLOOR_DESCRIPTION_MORE:
+          "Selecteer een ruimte en sleep werkvloeren van rechts naar het midden om te koppelen.",
+        BIND_ENERGY_FLOW_DIAGRAM_DESCRIPTION:
+          "Beheer ruimte–energiestroomdiagram koppeling; gebruik modellen op ruimte-niveau.",
+        BIND_ENERGY_FLOW_DIAGRAM_DESCRIPTION_MORE:
+          "Selecteer een ruimte en sleep energiestroomdiagrammen van rechts naar het midden om te koppelen.",
+        BIND_DISTRIBUTION_SYSTEM_DESCRIPTION:
+          "Beheer ruimte–distributiesysteem koppeling; koppel elektrische topologie aan een ruimte.",
+        BIND_DISTRIBUTION_SYSTEM_DESCRIPTION_MORE:
+          "Selecteer een ruimte en sleep distributiesystemen van rechts naar het midden om te koppelen.",
+        BIND_MICROGRID_DESCRIPTION:
+          "Beheer ruimte–microgrid koppeling; koppel microgrid-assets aan een ruimte.",
+        BIND_MICROGRID_DESCRIPTION_MORE:
+          "Selecteer een ruimte en sleep microgrids van rechts naar het midden om te koppelen.",
+        BIND_POINT_DESCRIPTION:
+          "Beheer ruimte–datapunt koppeling; koppel belangrijke operationele punten aan een ruimte.",
+        BIND_POINT_DESCRIPTION_MORE:
+          "Selecteer een ruimte, kies een databron en sleep datapunten naar het midden om te koppelen.",
+        BIND_SENSOR_DESCRIPTION:
+          "Beheer ruimte–sensor koppeling; koppel omgevingssensoren aan een ruimte.",
+        BIND_SENSOR_DESCRIPTION_MORE:
+          "Selecteer een ruimte en sleep sensoren van rechts naar het midden om te koppelen.",
+        BIND_WORKING_CALENDAR_DESCRIPTION:
+          "Beheer ruimte–werkkalender koppeling; definieer bedrijfs-/werktijdregels per gebied.",
+        BIND_WORKING_CALENDAR_DESCRIPTION_MORE:
+          "Selecteer een ruimte en sleep werkkalenders van rechts naar het midden om te koppelen.",
+        BIND_COMMAND_DESCRIPTION:
+          "Beheer ruimte–commando koppeling; configureer beschikbare besturingscommando’s voor assets in de ruimte.",
+        BIND_COMMAND_DESCRIPTION_MORE:
+          "Selecteer een ruimte en sleep commando’s van rechts naar het midden om te koppelen.",
         BIND_COMBINED_EQUIPMENT: "Gecombineerde apparatuur koppelen",
         N_S_COMBINED_EQUIPMENT: "Gekoppelde gecombineerde apparatuur",
         COMBINED_EQUIPMENT_LIST: "Gecombineerde apparatuurlijst",
@@ -1486,6 +1630,26 @@
         INPUT_LEASE_NUMBER: "Voer huurcontractnummer in",
         END_BEFORE_START_WARNING:
           "Huurovereenkomst eindtijd kan niet eerder zijn dan starttijd",
+        BIND_METER_DESCRIPTION:
+          "Beheer huurder–meter koppeling; koppel meters aan huurders voor statistiek en afstemming.",
+        BIND_METER_DESCRIPTION_MORE:
+          "Selecteer een huurder en sleep meters van rechts naar het midden om te koppelen.",
+        BIND_POINT_DESCRIPTION:
+          "Beheer huurder–datapunt koppeling; koppel belangrijke operationele punten aan de huurder.",
+        BIND_POINT_DESCRIPTION_MORE:
+          "Selecteer een huurder, kies een databron en sleep datapunten naar het midden om te koppelen.",
+        BIND_SENSOR_DESCRIPTION:
+          "Beheer huurder–sensor koppeling; koppel omgevingssensoren aan huurdergebieden.",
+        BIND_SENSOR_DESCRIPTION_MORE:
+          "Selecteer een huurder en sleep sensoren van rechts naar het midden om te koppelen.",
+        BIND_WORKING_CALENDAR_DESCRIPTION:
+          "Beheer huurder–werkkalender koppeling; definieer werktijd-/bedrijfsregels voor analyses.",
+        BIND_WORKING_CALENDAR_DESCRIPTION_MORE:
+          "Selecteer een huurder en sleep werkkalenders van rechts naar het midden om te koppelen.",
+        BIND_COMMAND_DESCRIPTION:
+          "Beheer huurder–commando koppeling; configureer beschikbare besturingscommando’s voor huurder-assets.",
+        BIND_COMMAND_DESCRIPTION_MORE:
+          "Selecteer een huurder en sleep commando’s van rechts naar het midden om te koppelen.",
       },
       STORE: {
         ADDRESS: "Adres",
@@ -1498,6 +1662,26 @@
         INPUT_LONGITUDE: "Voer lengtegraad in",
         LATITUDE_HINT: "Positief is noorderbreedte, negatief is zuiderbreedte",
         LONGITUDE_HINT: "Positief is oosterlengte, negatief is westerlengte",
+        BIND_METER_DESCRIPTION:
+          "Beheer winkel–meter koppeling; koppel meters aan winkels voor winkelgerichte statistieken.",
+        BIND_METER_DESCRIPTION_MORE:
+          "Selecteer een winkel en sleep meters van rechts naar het midden om te koppelen.",
+        BIND_POINT_DESCRIPTION:
+          "Beheer winkel–datapunt koppeling; koppel belangrijke operationele punten aan de winkel.",
+        BIND_POINT_DESCRIPTION_MORE:
+          "Selecteer een winkel, kies een databron en sleep datapunten naar het midden om te koppelen.",
+        BIND_SENSOR_DESCRIPTION:
+          "Beheer winkel–sensor koppeling; koppel omgevingssensoren aan de winkel.",
+        BIND_SENSOR_DESCRIPTION_MORE:
+          "Selecteer een winkel en sleep sensoren van rechts naar het midden om te koppelen.",
+        BIND_WORKING_CALENDAR_DESCRIPTION:
+          "Beheer winkel–werkkalender koppeling; definieer openingstijden/werktijdregels.",
+        BIND_WORKING_CALENDAR_DESCRIPTION_MORE:
+          "Selecteer een winkel en sleep werkkalenders van rechts naar het midden om te koppelen.",
+        BIND_COMMAND_DESCRIPTION:
+          "Beheer winkel–commando koppeling; configureer beschikbare besturingscommando’s voor winkel-assets.",
+        BIND_COMMAND_DESCRIPTION_MORE:
+          "Selecteer een winkel en sleep commando’s van rechts naar het midden om te koppelen.",
       },
       SHOPFLOOR: {
         ADD_SHOPFLOOR: "Werkvloer toevoegen",

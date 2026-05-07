@@ -670,6 +670,84 @@
         ENTER_DESCRIPTION: "説明を入力",
         SIMPLIFIED_CODE: "簡略コード",
         ENTER_SIMPLIFIED_CODE: "簡略コードを入力",
+        SPACE_DESCRIPTION:
+          "スペース階層と資産の所属管理。キャンパス/建物/フロア/部屋のツリーを作成してエネルギーを集計します。",
+        SPACE_DESCRIPTION_MORE:
+          "スペースは物理構造の基礎です。親子関係を管理し、メーター・設備・データポイント・センサー・テナント・店舗などをスペースに紐付けることで、エリア別集計、費用配賦、運用監視が可能になります。",
+        SPACE_DIALOG_DESCRIPTION: "ここでスペース情報を追加または編集します。",
+        SPACE_DIALOG_DESCRIPTION_MORE:
+          "名称、面積、人数を入力し、タイムゾーンとコストセンターを選択します。必要に応じて連絡先と座標を設定できます。保存後、各タブで資産を紐付けてください。",
+        IMPORT_SPACE_DESCRIPTION:
+          "スペース一括インポート。JSON 形式で複数スペースを作成/更新します。",
+        IMPORT_SPACE_DESCRIPTION_MORE:
+          "初期登録や大規模変更に適しています。既存スペースをテンプレートとしてエクスポートし、JSON を編集してからインポートすることを推奨します。",
+        EXPORT_SPACE_DESCRIPTION:
+          "スペースエクスポート。選択したスペース（設定含む）を JSON で出力します。",
+        EXPORT_SPACE_DESCRIPTION_MORE:
+          "バックアップ、環境移行、インポート用テンプレートとして利用できます。構造や資産情報の漏洩に注意してください。",
+        INPUT_SPACE_NAME_PLACEHOLDER:
+          "スペース名を入力（例：A棟 3階 301室）",
+        INPUT_SPACE_AREA_PLACEHOLDER:
+          "面積（m²）を入力（面積当たり指標に使用）",
+        INPUT_SPACE_NUMBER_OF_OCCUPANTS_PLACEHOLDER:
+          "人数を入力（1人当たり分析に使用）",
+        INPUT_SPACE_LONGITUDE_PLACEHOLDER: "経度を入力（例：121.4737）",
+        INPUT_SPACE_LATITUDE_PLACEHOLDER: "緯度を入力（例：31.2304）",
+        TENANT_DESCRIPTION:
+          "テナントと契約情報の管理。テナント情報を整備し、エネルギー/費用配賦を支援します。",
+        TENANT_DESCRIPTION_MORE:
+          "賃貸区画、契約期間、連絡先、コストセンターを管理します。スペース紐付けと計測データにより、テナント別集計、照合、費用配賦が可能です。契約変更時は更新してください。",
+        TENANT_DIALOG_DESCRIPTION: "ここでテナント情報を追加または編集します。",
+        TENANT_DIALOG_DESCRIPTION_MORE:
+          "名称、面積、建物/フロア/部屋、テナントタイプ、連絡先、契約期間、コストセンターを入力します。保存後、必要に応じてメーター/ポイント/センサー/稼働カレンダー/コマンドを紐付けます。",
+        TENANT_TYPE_DESCRIPTION:
+          "テナントタイプ辞書の管理。分類を整備して統計やフィルタに使用します。",
+        TENANT_TYPE_DESCRIPTION_MORE:
+          "例：オフィス/小売/製造など。レポートや比較のため、名称・説明・略称コードを明確に管理してください。",
+        TENANT_TYPE_DIALOG_DESCRIPTION: "ここでテナントタイプを追加または編集します。",
+        TENANT_TYPE_DIALOG_DESCRIPTION_MORE:
+          "名称、説明、略称コードを入力します。インポート/エクスポートの利便性のため、英字の略称を推奨します。",
+        IMPORT_TENANT_DESCRIPTION:
+          "テナント一括インポート。JSON 形式で複数テナントを作成/更新します。",
+        IMPORT_TENANT_DESCRIPTION_MORE:
+          "初期登録や一括更新に適しています。既存テナントのエクスポートをテンプレートにして JSON を編集後、インポートしてください。",
+        EXPORT_TENANT_DESCRIPTION:
+          "テナントエクスポート。選択したテナント（設定含む）を JSON で出力します。",
+        EXPORT_TENANT_DESCRIPTION_MORE:
+          "バックアップ、移行、テンプレートに利用できます。連絡先などの機微情報の管理に注意してください。",
+        SELECT_TENANT_TYPE: "テナントタイプを選択してください",
+        SELECT_CONTACT: "連絡先を選択してください",
+        INPUT_TENANT_NAME_PLACEHOLDER: "テナント名を入力（例：株式会社ABC）",
+        INPUT_TENANT_TYPE_NAME_PLACEHOLDER:
+          "タイプ名を入力（例：オフィス/小売/製造）",
+        INPUT_TENANT_TYPE_DESCRIPTION_PLACEHOLDER: "タイプの説明を入力",
+        STORE_DESCRIPTION:
+          "店舗情報と運用情報の管理。店舗別のエネルギー集計/精算を支援します。",
+        STORE_DESCRIPTION_MORE:
+          "住所、座標、店舗タイプ、連絡先、コストセンターを管理します。スペース紐付けと計測データにより、店舗別集計や照合が可能です。情報変更時は更新してください。",
+        STORE_DIALOG_DESCRIPTION: "ここで店舗情報を追加または編集します。",
+        STORE_DIALOG_DESCRIPTION_MORE:
+          "名称、面積、住所、座標を入力し、店舗タイプ、連絡先、コストセンターを選択します。必要に応じて説明を入力できます。保存後、各タブで紐付けを行ってください。",
+        STORE_TYPE_DESCRIPTION:
+          "店舗タイプ辞書の管理。店舗の分類を整備して統計やフィルタに使用します。",
+        STORE_TYPE_DESCRIPTION_MORE:
+          "例：飲食/小売/倉庫など。名称・説明・略称コードを明確に管理してください。",
+        STORE_TYPE_DIALOG_DESCRIPTION: "ここで店舗タイプを追加または編集します。",
+        STORE_TYPE_DIALOG_DESCRIPTION_MORE:
+          "名称、説明、略称コードを入力します。英字の略称を推奨します。",
+        IMPORT_STORE_DESCRIPTION:
+          "店舗一括インポート。JSON 形式で複数店舗を作成/更新します。",
+        IMPORT_STORE_DESCRIPTION_MORE:
+          "初期登録や一括更新に適しています。既存店舗のエクスポートをテンプレートにして JSON を編集後、インポートしてください。",
+        EXPORT_STORE_DESCRIPTION:
+          "店舗エクスポート。選択した店舗（設定含む）を JSON で出力します。",
+        EXPORT_STORE_DESCRIPTION_MORE:
+          "バックアップ、移行、テンプレートに利用できます。住所や連絡先などの機微情報に注意してください。",
+        SELECT_STORE_TYPE: "店舗タイプを選択してください",
+        INPUT_STORE_NAME_PLACEHOLDER: "店舗名を入力（例：店舗#1）",
+        INPUT_STORE_TYPE_NAME_PLACEHOLDER:
+          "タイプ名を入力（例：飲食/小売/倉庫）",
+        INPUT_STORE_TYPE_DESCRIPTION_PLACEHOLDER: "タイプの説明を入力",
       },
       CONTACT: {
         EMAIL: "メール",
@@ -1411,6 +1489,66 @@
         INPUT_AREA: "面積を入力してください",
         CURRENT_SELECTED_SPACE: "現在選択されているスペース",
         CHILD_SPACES: "子スペース",
+        BIND_METER_DESCRIPTION:
+          "スペースとメーターの紐付け管理。エリア別集計のためにメーターをスペースに割り当てます。",
+        BIND_METER_DESCRIPTION_MORE:
+          "スペースを選択し、右側でメーター種別を選んで、対象メーターを中央へドラッグしてください。解除はゴミ箱へドラッグします。",
+        BIND_EQUIPMENT_DESCRIPTION:
+          "スペースと設備の紐付け管理。設備をスペースに割り当てて統計/運用保守に利用します。",
+        BIND_EQUIPMENT_DESCRIPTION_MORE:
+          "スペースを選択し、右側の設備を中央へドラッグして紐付けます。解除はゴミ箱へドラッグします。",
+        BIND_COMBINED_EQUIPMENT_DESCRIPTION:
+          "スペースと複合設備の紐付け管理。複雑なシステムをスペースに割り当てます。",
+        BIND_COMBINED_EQUIPMENT_DESCRIPTION_MORE:
+          "スペースを選択し、右側の複合設備を中央へドラッグして紐付けます。",
+        BIND_PHOTOVOLTAIC_POWER_STATION_DESCRIPTION:
+          "スペースと太陽光発電所の紐付け管理。発電資産をスペースに割り当てます。",
+        BIND_PHOTOVOLTAIC_POWER_STATION_DESCRIPTION_MORE:
+          "スペースを選択し、右側の太陽光発電所を中央へドラッグして紐付けます。",
+        BIND_ENERGY_STORAGE_POWER_STATION_DESCRIPTION:
+          "スペースと蓄電所の紐付け管理。蓄電資産をスペースに割り当てます。",
+        BIND_ENERGY_STORAGE_POWER_STATION_DESCRIPTION_MORE:
+          "スペースを選択し、右側の蓄電所を中央へドラッグして紐付けます。",
+        BIND_TENANT_DESCRIPTION:
+          "スペースとテナントの紐付け管理。賃貸区画とテナントを関連付けます。",
+        BIND_TENANT_DESCRIPTION_MORE:
+          "スペースを選択し、右側のテナントを中央へドラッグして紐付けます。",
+        BIND_STORE_DESCRIPTION:
+          "スペースと店舗の紐付け管理。店舗を運用エリアに関連付けます。",
+        BIND_STORE_DESCRIPTION_MORE:
+          "スペースを選択し、右側の店舗を中央へドラッグして紐付けます。",
+        BIND_SHOPFLOOR_DESCRIPTION:
+          "スペースとショップフロアの紐付け管理。生産エリアをスペース階層に整合させます。",
+        BIND_SHOPFLOOR_DESCRIPTION_MORE:
+          "スペースを選択し、右側のショップフロアを中央へドラッグして紐付けます。",
+        BIND_ENERGY_FLOW_DIAGRAM_DESCRIPTION:
+          "スペースとエネルギー流れ図の紐付け管理。スペース単位のモデルを利用します。",
+        BIND_ENERGY_FLOW_DIAGRAM_DESCRIPTION_MORE:
+          "スペースを選択し、右側の流れ図を中央へドラッグして紐付けます。",
+        BIND_DISTRIBUTION_SYSTEM_DESCRIPTION:
+          "スペースと配電システムの紐付け管理。電気トポロジーをスペースに割り当てます。",
+        BIND_DISTRIBUTION_SYSTEM_DESCRIPTION_MORE:
+          "スペースを選択し、右側の配電システムを中央へドラッグして紐付けます。",
+        BIND_MICROGRID_DESCRIPTION:
+          "スペースとマイクログリッドの紐付け管理。マイクログリッド資産をスペースに割り当てます。",
+        BIND_MICROGRID_DESCRIPTION_MORE:
+          "スペースを選択し、右側のマイクログリッドを中央へドラッグして紐付けます。",
+        BIND_POINT_DESCRIPTION:
+          "スペースとデータポイントの紐付け管理。重要な運用ポイントをスペースに紐付けます。",
+        BIND_POINT_DESCRIPTION_MORE:
+          "スペースを選択し、データソースを選んで、ポイントを中央へドラッグして紐付けます。",
+        BIND_SENSOR_DESCRIPTION:
+          "スペースとセンサーの紐付け管理。環境センサーをスペースに割り当てます。",
+        BIND_SENSOR_DESCRIPTION_MORE:
+          "スペースを選択し、右側のセンサーを中央へドラッグして紐付けます。",
+        BIND_WORKING_CALENDAR_DESCRIPTION:
+          "スペースと稼働カレンダーの紐付け管理。運用時間ルールを設定します。",
+        BIND_WORKING_CALENDAR_DESCRIPTION_MORE:
+          "スペースを選択し、右側のカレンダーを中央へドラッグして紐付けます。",
+        BIND_COMMAND_DESCRIPTION:
+          "スペースとコマンドの紐付け管理。利用可能な制御コマンドを設定します。",
+        BIND_COMMAND_DESCRIPTION_MORE:
+          "スペースを選択し、右側のコマンドを中央へドラッグして紐付けます。",
         BIND_COMBINED_EQUIPMENT: "複合設備をバインド",
         N_S_COMBINED_EQUIPMENT: "バインドされた複合設備",
         COMBINED_EQUIPMENT_LIST: "複合設備リスト",
@@ -1464,6 +1602,26 @@
         INPUT_ROOMS: "部屋を入力してください",
         INPUT_LEASE_NUMBER: "リース番号を入力してください",
         END_BEFORE_START_WARNING: "リース終了時間は開始時間より早くできません",
+        BIND_METER_DESCRIPTION:
+          "テナントとメーターの紐付け管理。テナント別集計/精算のためにメーターを割り当てます。",
+        BIND_METER_DESCRIPTION_MORE:
+          "テナントを選択し、右側のメーターを中央へドラッグして紐付けます。",
+        BIND_POINT_DESCRIPTION:
+          "テナントとデータポイントの紐付け管理。重要な運用ポイントをテナントに紐付けます。",
+        BIND_POINT_DESCRIPTION_MORE:
+          "テナントを選択し、データソースを選んでポイントを中央へドラッグします。",
+        BIND_SENSOR_DESCRIPTION:
+          "テナントとセンサーの紐付け管理。環境センサーをテナント区画に割り当てます。",
+        BIND_SENSOR_DESCRIPTION_MORE:
+          "テナントを選択し、右側のセンサーを中央へドラッグして紐付けます。",
+        BIND_WORKING_CALENDAR_DESCRIPTION:
+          "テナントと稼働カレンダーの紐付け管理。営業時間/稼働時間ルールを設定します。",
+        BIND_WORKING_CALENDAR_DESCRIPTION_MORE:
+          "テナントを選択し、右側のカレンダーを中央へドラッグして紐付けます。",
+        BIND_COMMAND_DESCRIPTION:
+          "テナントとコマンドの紐付け管理。テナント資産に対する制御コマンドを設定します。",
+        BIND_COMMAND_DESCRIPTION_MORE:
+          "テナントを選択し、右側のコマンドを中央へドラッグして紐付けます。",
       },
       STORE: {
         ADDRESS: "住所",
@@ -1476,6 +1634,26 @@
         INPUT_LONGITUDE: "経度を入力してください",
         LATITUDE_HINT: "正数は北緯、負数は南緯",
         LONGITUDE_HINT: "正数は東経、負数は西経",
+        BIND_METER_DESCRIPTION:
+          "店舗とメーターの紐付け管理。店舗別集計のためにメーターを割り当てます。",
+        BIND_METER_DESCRIPTION_MORE:
+          "店舗を選択し、右側のメーターを中央へドラッグして紐付けます。",
+        BIND_POINT_DESCRIPTION:
+          "店舗とデータポイントの紐付け管理。重要な運用ポイントを店舗に紐付けます。",
+        BIND_POINT_DESCRIPTION_MORE:
+          "店舗を選択し、データソースを選んでポイントを中央へドラッグします。",
+        BIND_SENSOR_DESCRIPTION:
+          "店舗とセンサーの紐付け管理。環境センサーを店舗に割り当てます。",
+        BIND_SENSOR_DESCRIPTION_MORE:
+          "店舗を選択し、右側のセンサーを中央へドラッグして紐付けます。",
+        BIND_WORKING_CALENDAR_DESCRIPTION:
+          "店舗と稼働カレンダーの紐付け管理。営業時間ルールを設定します。",
+        BIND_WORKING_CALENDAR_DESCRIPTION_MORE:
+          "店舗を選択し、右側のカレンダーを中央へドラッグして紐付けます。",
+        BIND_COMMAND_DESCRIPTION:
+          "店舗とコマンドの紐付け管理。店舗資産に対する制御コマンドを設定します。",
+        BIND_COMMAND_DESCRIPTION_MORE:
+          "店舗を選択し、右側のコマンドを中央へドラッグして紐付けます。",
       },
       SHOPFLOOR: {
         ADD_SHOPFLOOR: "ショップフロアを追加",

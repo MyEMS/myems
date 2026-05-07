@@ -697,6 +697,90 @@
         ENTER_DESCRIPTION: "Açıklama Girin",
         SIMPLIFIED_CODE: "Basitleştirilmiş Kod",
         ENTER_SIMPLIFIED_CODE: "Basitleştirilmiş Kod Girin",
+        SPACE_DESCRIPTION:
+          "Alan hiyerarşisi ve varlık sahipliği yönetimi; enerji toplaması için alan ağacı (kampüs/bina/kat/oda) oluşturun.",
+        SPACE_DESCRIPTION_MORE:
+          "Alanlar fiziksel yapıyı tanımlar. Üst/alt alan ilişkilerini yönetin ve sayaç, ekipman, veri noktası, sensör, kiracı ve mağazaları bir alana bağlayarak bölge bazlı istatistik, maliyet dağıtımı ve operasyon izleme sağlayın.",
+        SPACE_DIALOG_DESCRIPTION: "Buradan alan bilgisi ekleyin veya düzenleyin.",
+        SPACE_DIALOG_DESCRIPTION_MORE:
+          "Alan adı, alan büyüklüğü ve kişi sayısını girin; saat dilimi ve maliyet merkezini seçin. İsteğe bağlı olarak kişi/iletişim ve koordinatları ayarlayın. Kaydettikten sonra varlıkları ilgili sekmelerden bağlayın.",
+        IMPORT_SPACE_DESCRIPTION:
+          "Alan toplu içe aktarma aracı; JSON ile alan yapısını hızlıca oluşturun veya güncelleyin.",
+        IMPORT_SPACE_DESCRIPTION_MORE:
+          "İlk kurulum veya büyük ağaç değişiklikleri için uygundur. Biçim hatalarını önlemek için bir örneği dışa aktarıp şablon olarak düzenleyip tekrar içe aktarmanız önerilir.",
+        EXPORT_SPACE_DESCRIPTION:
+          "Alan dışa aktarma aracı; seçili alanı (ayarlarıyla) JSON olarak dışa aktarır.",
+        EXPORT_SPACE_DESCRIPTION_MORE:
+          "Dışa aktarılan JSON yedekleme, ortamlar arası taşıma veya içe aktarma şablonu olarak kullanılabilir. Yapı ve varlık bilgilerinin sızmaması için verileri koruyun.",
+        INPUT_SPACE_NAME_PLACEHOLDER:
+          "Lütfen alan adını girin, örn.: A Binası 3. Kat Oda 301",
+        INPUT_SPACE_AREA_PLACEHOLDER:
+          "Lütfen alan büyüklüğünü (m²) girin (m² başına tüketim göstergeleri için)",
+        INPUT_SPACE_NUMBER_OF_OCCUPANTS_PLACEHOLDER:
+          "Lütfen kişi sayısını girin (kişi başına analiz için)",
+        INPUT_SPACE_LONGITUDE_PLACEHOLDER:
+          "Lütfen boylamı girin, örn.: 121.4737",
+        INPUT_SPACE_LATITUDE_PLACEHOLDER:
+          "Lütfen enlemi girin, örn.: 31.2304",
+        TENANT_DESCRIPTION:
+          "Kiracı ve kira bilgisi yönetimi; kiracı verilerini yönetin ve enerji/maliyet dağıtımını destekleyin.",
+        TENANT_DESCRIPTION_MORE:
+          "Kiralanan alan, sözleşme süresi, iletişim ve maliyet merkezi bilgilerini kaydedin. Alan bağları ve ölçüm verileri ile kiracı bazlı istatistik, mutabakat ve maliyet dağıtımı yapılabilir. Sözleşme değiştiğinde güncelleyin.",
+        TENANT_DIALOG_DESCRIPTION: "Buradan kiracı bilgisini ekleyin veya düzenleyin.",
+        TENANT_DIALOG_DESCRIPTION_MORE:
+          "Ad, alan, bina/kat/oda, kiracı türü, iletişim, kira dönemi ve maliyet merkezi alanlarını doldurun. Ardından sayaç, veri noktası, sensör, çalışma takvimi ve komutları bağlayın.",
+        TENANT_TYPE_DESCRIPTION:
+          "Kiracı türü sözlüğü yönetimi; istatistik ve filtreleme için kategorileri yönetin.",
+        TENANT_TYPE_DESCRIPTION_MORE:
+          "Kiracı türleri (örn. ofis/perakende/üretim) raporlama ve karşılaştırma için kullanılır. Her tür için açık ad, açıklama ve kısaltma kodu tutun.",
+        TENANT_TYPE_DIALOG_DESCRIPTION: "Buradan kiracı türünü ekleyin veya düzenleyin.",
+        TENANT_TYPE_DIALOG_DESCRIPTION_MORE:
+          "Tür adı, açıklama ve kısaltma kodu girin. İçe/dışa aktarma kolaylığı için akılda kalıcı bir kısaltma önerilir.",
+        IMPORT_TENANT_DESCRIPTION:
+          "Kiracı toplu içe aktarma aracı; JSON ile birden fazla kiracıyı oluşturun veya güncelleyin.",
+        IMPORT_TENANT_DESCRIPTION_MORE:
+          "İlk kurulum veya toplu güncellemeler için uygundur. Şablon olarak bir kiracıyı dışa aktarıp JSON’u düzenleyerek içe aktarmanız önerilir.",
+        EXPORT_TENANT_DESCRIPTION:
+          "Kiracı dışa aktarma aracı; seçili kiracıyı (ayarlarıyla) JSON olarak dışa aktarır.",
+        EXPORT_TENANT_DESCRIPTION_MORE:
+          "Dışa aktarılan JSON yedekleme, taşıma veya şablon olarak kullanılabilir. İletişim gibi hassas verileri koruyun.",
+        SELECT_TENANT_TYPE: "Kiracı türünü seçin",
+        SELECT_CONTACT: "İletişim seçin",
+        INPUT_TENANT_NAME_PLACEHOLDER:
+          "Lütfen kiracı adını girin, örn.: ABC Ltd.",
+        INPUT_TENANT_TYPE_NAME_PLACEHOLDER:
+          "Lütfen tür adını girin, örn.: Ofis/Perakende/Üretim",
+        INPUT_TENANT_TYPE_DESCRIPTION_PLACEHOLDER:
+          "Lütfen kiracı türü açıklamasını girin",
+        STORE_DESCRIPTION:
+          "Mağaza ve operasyon bilgisi yönetimi; mağaza verilerini yönetin ve mağaza bazlı istatistik/uzlaşma sağlayın.",
+        STORE_DESCRIPTION_MORE:
+          "Adres, koordinat, mağaza türü, iletişim ve maliyet merkezi bilgilerini kaydedin. Alan bağları ve ölçüm verileri ile mağaza bazlı istatistik ve maliyet toplama yapılabilir. Bilgiler değiştiğinde güncelleyin.",
+        STORE_DIALOG_DESCRIPTION: "Buradan mağaza bilgisini ekleyin veya düzenleyin.",
+        STORE_DIALOG_DESCRIPTION_MORE:
+          "Ad, alan, adres ve koordinatları girin; mağaza türü, iletişim ve maliyet merkezini seçin. İsteğe bağlı açıklama ekleyin. Ardından sayaç, nokta, sensör, takvim ve komutları bağlayın.",
+        STORE_TYPE_DESCRIPTION:
+          "Mağaza türü sözlüğü yönetimi; istatistik ve filtreleme için kategorileri yönetin.",
+        STORE_TYPE_DESCRIPTION_MORE:
+          "Mağaza türleri (örn. restoran/perakende/depo) raporlar için kullanılır. Her tür için açık ad, açıklama ve kısaltma kodu tutun.",
+        STORE_TYPE_DIALOG_DESCRIPTION: "Buradan mağaza türünü ekleyin veya düzenleyin.",
+        STORE_TYPE_DIALOG_DESCRIPTION_MORE:
+          "Tür adı, açıklama ve kısaltma kodu girin. İçe/dışa aktarma kolaylığı için akılda kalıcı bir kısaltma önerilir.",
+        IMPORT_STORE_DESCRIPTION:
+          "Mağaza toplu içe aktarma aracı; JSON ile birden fazla mağazayı oluşturun veya güncelleyin.",
+        IMPORT_STORE_DESCRIPTION_MORE:
+          "İlk kurulum veya toplu güncellemeler için uygundur. Şablon olarak bir mağazayı dışa aktarıp JSON’u düzenleyerek içe aktarmanız önerilir.",
+        EXPORT_STORE_DESCRIPTION:
+          "Mağaza dışa aktarma aracı; seçili mağazayı (ayarlarıyla) JSON olarak dışa aktarır.",
+        EXPORT_STORE_DESCRIPTION_MORE:
+          "Dışa aktarılan JSON yedekleme, taşıma veya şablon olarak kullanılabilir. Adres ve iletişim gibi hassas verileri koruyun.",
+        SELECT_STORE_TYPE: "Mağaza türünü seçin",
+        INPUT_STORE_NAME_PLACEHOLDER:
+          "Lütfen mağaza adını girin, örn.: Şube #1",
+        INPUT_STORE_TYPE_NAME_PLACEHOLDER:
+          "Lütfen tür adını girin, örn.: Restoran/Perakende/Depo",
+        INPUT_STORE_TYPE_DESCRIPTION_PLACEHOLDER:
+          "Lütfen mağaza türü açıklamasını girin",
       },
       CONTACT: {
         EMAIL: "E-posta",
@@ -1448,6 +1532,66 @@
         INPUT_AREA: "Lütfen Giriş Alanı",
         CURRENT_SELECTED_SPACE: "Geçerli Seçilen Alan",
         CHILD_SPACES: "Çocuk Alanları",
+        BIND_METER_DESCRIPTION:
+          "Alan–sayaç bağlama yönetimi; bölge bazlı toplama için sayaçları alana bağlayın.",
+        BIND_METER_DESCRIPTION_MORE:
+          "Bir alan seçin, sağdan sayaç türünü seçin ve sayacı orta alana sürükleyin. Bağı kaldırmak için çöp kutusuna sürükleyin.",
+        BIND_EQUIPMENT_DESCRIPTION:
+          "Alan–ekipman bağlama yönetimi; tüketim ekipmanlarını alana bağlayın.",
+        BIND_EQUIPMENT_DESCRIPTION_MORE:
+          "Bir alan seçin ve ekipmanları sağ listeden orta alana sürükleyin. Bağı kaldırmak için çöp kutusuna sürükleyin.",
+        BIND_COMBINED_EQUIPMENT_DESCRIPTION:
+          "Alan–kombine ekipman bağlama yönetimi; karmaşık sistemleri alana bağlayın.",
+        BIND_COMBINED_EQUIPMENT_DESCRIPTION_MORE:
+          "Bir alan seçin ve kombine ekipmanı sağ listeden orta alana sürükleyin.",
+        BIND_PHOTOVOLTAIC_POWER_STATION_DESCRIPTION:
+          "Alan–fotovoltaik santral bağlama yönetimi; üretim varlıklarını alana bağlayın.",
+        BIND_PHOTOVOLTAIC_POWER_STATION_DESCRIPTION_MORE:
+          "Bir alan seçin ve PV santralleri sağ listeden orta alana sürükleyin.",
+        BIND_ENERGY_STORAGE_POWER_STATION_DESCRIPTION:
+          "Alan–enerji depolama santrali bağlama yönetimi; depolama varlıklarını alana bağlayın.",
+        BIND_ENERGY_STORAGE_POWER_STATION_DESCRIPTION_MORE:
+          "Bir alan seçin ve enerji depolama santrallerini sağ listeden orta alana sürükleyin.",
+        BIND_TENANT_DESCRIPTION:
+          "Alan–kiracı bağlama yönetimi; kiracıları kiralanan alanlarla ilişkilendirin.",
+        BIND_TENANT_DESCRIPTION_MORE:
+          "Bir alan seçin ve kiracıları sağ listeden orta alana sürükleyin.",
+        BIND_STORE_DESCRIPTION:
+          "Alan–mağaza bağlama yönetimi; mağazaları operasyon alanına bağlayın.",
+        BIND_STORE_DESCRIPTION_MORE:
+          "Bir alan seçin ve mağazaları sağ listeden orta alana sürükleyin.",
+        BIND_SHOPFLOOR_DESCRIPTION:
+          "Alan–atölye bağlama yönetimi; üretim alanlarını alan yapısına hizalayın.",
+        BIND_SHOPFLOOR_DESCRIPTION_MORE:
+          "Bir alan seçin ve atölyeleri sağ listeden orta alana sürükleyin.",
+        BIND_ENERGY_FLOW_DIAGRAM_DESCRIPTION:
+          "Alan–enerji akış diyagramı bağlama yönetimi; alan seviyesinde modeli kullanın.",
+        BIND_ENERGY_FLOW_DIAGRAM_DESCRIPTION_MORE:
+          "Bir alan seçin ve enerji akış diyagramlarını sağ listeden orta alana sürükleyin.",
+        BIND_DISTRIBUTION_SYSTEM_DESCRIPTION:
+          "Alan–dağıtım sistemi bağlama yönetimi; elektrik topolojisini alana bağlayın.",
+        BIND_DISTRIBUTION_SYSTEM_DESCRIPTION_MORE:
+          "Bir alan seçin ve dağıtım sistemlerini sağ listeden orta alana sürükleyin.",
+        BIND_MICROGRID_DESCRIPTION:
+          "Alan–mikro şebeke bağlama yönetimi; mikro şebeke varlıklarını alana bağlayın.",
+        BIND_MICROGRID_DESCRIPTION_MORE:
+          "Bir alan seçin ve mikro şebekeleri sağ listeden orta alana sürükleyin.",
+        BIND_POINT_DESCRIPTION:
+          "Alan–veri noktası bağlama yönetimi; kritik operasyon noktalarını alana bağlayın.",
+        BIND_POINT_DESCRIPTION_MORE:
+          "Bir alan seçin, veri kaynağını seçin ve noktaları orta alana sürükleyin.",
+        BIND_SENSOR_DESCRIPTION:
+          "Alan–sensör bağlama yönetimi; ortam sensörlerini alana bağlayın.",
+        BIND_SENSOR_DESCRIPTION_MORE:
+          "Bir alan seçin ve sensörleri sağ listeden orta alana sürükleyin.",
+        BIND_WORKING_CALENDAR_DESCRIPTION:
+          "Alan–çalışma takvimi bağlama yönetimi; çalışma/çalışmama zaman kurallarını tanımlayın.",
+        BIND_WORKING_CALENDAR_DESCRIPTION_MORE:
+          "Bir alan seçin ve çalışma takvimlerini sağ listeden orta alana sürükleyin.",
+        BIND_COMMAND_DESCRIPTION:
+          "Alan–komut bağlama yönetimi; alan varlıkları için kullanılabilir kontrol komutlarını yapılandırın.",
+        BIND_COMMAND_DESCRIPTION_MORE:
+          "Bir alan seçin ve komutları sağ listeden orta alana sürükleyin.",
         BIND_EQUIPMENT: "Bağlama Ekipmanı",
         N_S_EQUIPMENT: "Ciltli Ekipmanlar",
         EQUIPMENT_LIST: "Ekipman Listesi",
@@ -1497,6 +1641,26 @@
         INPUT_LONGITUDE: "Lütfen Boylamı Girin",
         LATITUDE_HINT: "Pozitif Kuzey, Negatif Güney",
         LONGITUDE_HINT: "Doğu uzunluğu pozitif, batı uzunluğu negatif.",
+        BIND_METER_DESCRIPTION:
+          "Mağaza–sayaç bağlama yönetimi; mağaza bazlı istatistik için sayaçları mağazaya bağlayın.",
+        BIND_METER_DESCRIPTION_MORE:
+          "Bir mağaza seçin ve sayaçları sağ listeden orta alana sürükleyin.",
+        BIND_POINT_DESCRIPTION:
+          "Mağaza–veri noktası bağlama yönetimi; kritik noktaları mağazaya bağlayın.",
+        BIND_POINT_DESCRIPTION_MORE:
+          "Bir mağaza seçin, veri kaynağını seçin ve noktaları orta alana sürükleyin.",
+        BIND_SENSOR_DESCRIPTION:
+          "Mağaza–sensör bağlama yönetimi; ortam sensörlerini mağazaya bağlayın.",
+        BIND_SENSOR_DESCRIPTION_MORE:
+          "Bir mağaza seçin ve sensörleri sağ listeden orta alana sürükleyin.",
+        BIND_WORKING_CALENDAR_DESCRIPTION:
+          "Mağaza–çalışma takvimi bağlama yönetimi; mağaza çalışma saatlerini tanımlayın.",
+        BIND_WORKING_CALENDAR_DESCRIPTION_MORE:
+          "Bir mağaza seçin ve çalışma takvimlerini sağ listeden orta alana sürükleyin.",
+        BIND_COMMAND_DESCRIPTION:
+          "Mağaza–komut bağlama yönetimi; mağaza varlıkları için kullanılabilir kontrol komutlarını yapılandırın.",
+        BIND_COMMAND_DESCRIPTION_MORE:
+          "Bir mağaza seçin ve komutları sağ listeden orta alana sürükleyin.",
       },
       TENANT: {
         BUILDINGS: "Bina",
@@ -1514,6 +1678,26 @@
         INPUT_LEASE_NUMBER: "Lütfen Kira Numarasını Girin",
         END_BEFORE_START_WARNING:
           "Bitiş zamanı, başlangıç zamanından önce olamaz",
+        BIND_METER_DESCRIPTION:
+          "Kiracı–sayaç bağlama yönetimi; istatistik ve mutabakat için sayaçları kiracıya bağlayın.",
+        BIND_METER_DESCRIPTION_MORE:
+          "Bir kiracı seçin ve sayaçları sağ listeden orta alana sürükleyin.",
+        BIND_POINT_DESCRIPTION:
+          "Kiracı–veri noktası bağlama yönetimi; kritik noktaları kiracıya bağlayın.",
+        BIND_POINT_DESCRIPTION_MORE:
+          "Bir kiracı seçin, veri kaynağını seçin ve noktaları orta alana sürükleyin.",
+        BIND_SENSOR_DESCRIPTION:
+          "Kiracı–sensör bağlama yönetimi; ortam sensörlerini kiracı alanlarına bağlayın.",
+        BIND_SENSOR_DESCRIPTION_MORE:
+          "Bir kiracı seçin ve sensörleri sağ listeden orta alana sürükleyin.",
+        BIND_WORKING_CALENDAR_DESCRIPTION:
+          "Kiracı–çalışma takvimi bağlama yönetimi; çalışma saat kurallarını tanımlayın.",
+        BIND_WORKING_CALENDAR_DESCRIPTION_MORE:
+          "Bir kiracı seçin ve çalışma takvimlerini sağ listeden orta alana sürükleyin.",
+        BIND_COMMAND_DESCRIPTION:
+          "Kiracı–komut bağlama yönetimi; kiracı varlıkları için kullanılabilir kontrol komutlarını yapılandırın.",
+        BIND_COMMAND_DESCRIPTION_MORE:
+          "Bir kiracı seçin ve komutları sağ listeden orta alana sürükleyin.",
       },
       SHOPFLOOR: {
         ADD_SHOPFLOOR: "Atölye Ekle",

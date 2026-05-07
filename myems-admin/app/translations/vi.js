@@ -693,6 +693,89 @@
         ENTER_DESCRIPTION: "Nhập mô tả",
         SIMPLIFIED_CODE: "Mã rút gọn",
         ENTER_SIMPLIFIED_CODE: "Nhập mã rút gọn",
+        SPACE_DESCRIPTION:
+          "Quản lý phân cấp không gian và gán tài sản; xây dựng cây không gian (khuôn viên/tòa nhà/tầng/phòng) để tổng hợp năng lượng theo khu vực.",
+        SPACE_DESCRIPTION_MORE:
+          "Không gian định nghĩa cấu trúc vật lý. Duy trì quan hệ cha/con và liên kết đồng hồ, thiết bị, điểm dữ liệu, cảm biến, người thuê và cửa hàng vào không gian để thống kê theo khu vực, phân bổ chi phí và giám sát vận hành.",
+        SPACE_DIALOG_DESCRIPTION: "Tạo hoặc chỉnh sửa thông tin không gian tại đây.",
+        SPACE_DIALOG_DESCRIPTION_MORE:
+          "Nhập tên không gian, diện tích và số người; chọn múi giờ và trung tâm chi phí. Tùy chọn: chọn liên hệ và thiết lập tọa độ. Sau khi lưu, liên kết tài sản ở các tab liên kết.",
+        IMPORT_SPACE_DESCRIPTION:
+          "Công cụ nhập không gian hàng loạt; tạo hoặc cập nhật cấu trúc không gian bằng JSON.",
+        IMPORT_SPACE_DESCRIPTION_MORE:
+          "Phù hợp cho khởi tạo hoặc thay đổi lớn của cây không gian. Nên xuất một không gian làm mẫu, chỉnh sửa JSON rồi nhập lại để tránh lỗi định dạng.",
+        EXPORT_SPACE_DESCRIPTION:
+          "Công cụ xuất không gian; xuất không gian đã chọn (kèm cấu hình) dưới dạng JSON.",
+        EXPORT_SPACE_DESCRIPTION_MORE:
+          "JSON xuất có thể dùng để sao lưu, di chuyển môi trường hoặc làm mẫu nhập. Hãy bảo vệ dữ liệu để tránh rò rỉ thông tin cấu trúc và tài sản.",
+        INPUT_SPACE_NAME_PLACEHOLDER:
+          "Nhập tên không gian, ví dụ: Tòa A Tầng 3 Phòng 301",
+        INPUT_SPACE_AREA_PLACEHOLDER:
+          "Nhập diện tích (m²) để tính chỉ số tiêu thụ theo diện tích",
+        INPUT_SPACE_NUMBER_OF_OCCUPANTS_PLACEHOLDER:
+          "Nhập số người để phân tích tiêu thụ trên đầu người",
+        INPUT_SPACE_LONGITUDE_PLACEHOLDER:
+          "Nhập kinh độ, ví dụ: 121.4737",
+        INPUT_SPACE_LATITUDE_PLACEHOLDER: "Nhập vĩ độ, ví dụ: 31.2304",
+        TENANT_DESCRIPTION:
+          "Quản lý người thuê và thông tin hợp đồng; duy trì dữ liệu người thuê và hỗ trợ phân bổ năng lượng/chi phí.",
+        TENANT_DESCRIPTION_MORE:
+          "Ghi nhận khu vực thuê, thời hạn hợp đồng, liên hệ và trung tâm chi phí. Kết hợp liên kết không gian và dữ liệu đo lường giúp thống kê, đối soát và phân bổ chi phí theo người thuê. Cập nhật khi hợp đồng thay đổi.",
+        TENANT_DIALOG_DESCRIPTION: "Tạo hoặc chỉnh sửa thông tin người thuê tại đây.",
+        TENANT_DIALOG_DESCRIPTION_MORE:
+          "Điền tên, diện tích, tòa nhà/tầng/phòng, loại người thuê, liên hệ, thời hạn thuê và trung tâm chi phí. Sau đó liên kết đồng hồ, điểm, cảm biến, lịch làm việc và lệnh nếu cần.",
+        TENANT_TYPE_DESCRIPTION:
+          "Quản lý danh mục loại người thuê; duy trì phân loại để thống kê và lọc.",
+        TENANT_TYPE_DESCRIPTION_MORE:
+          "Loại người thuê dùng để phân loại (ví dụ: văn phòng/bán lẻ/sản xuất) phục vụ báo cáo và so sánh. Duy trì tên, mô tả và mã viết tắt rõ ràng.",
+        TENANT_TYPE_DIALOG_DESCRIPTION: "Tạo hoặc chỉnh sửa loại người thuê tại đây.",
+        TENANT_TYPE_DIALOG_DESCRIPTION_MORE:
+          "Nhập tên loại, mô tả và mã viết tắt. Nên dùng viết tắt dễ nhớ để thuận tiện nhập/xuất.",
+        IMPORT_TENANT_DESCRIPTION:
+          "Công cụ nhập người thuê hàng loạt; tạo hoặc cập nhật nhiều người thuê bằng JSON.",
+        IMPORT_TENANT_DESCRIPTION_MORE:
+          "Phù hợp cho khởi tạo hoặc cập nhật hàng loạt. Nên xuất một người thuê làm mẫu, chỉnh sửa JSON rồi nhập.",
+        EXPORT_TENANT_DESCRIPTION:
+          "Công cụ xuất người thuê; xuất người thuê đã chọn (kèm cấu hình) dưới dạng JSON.",
+        EXPORT_TENANT_DESCRIPTION_MORE:
+          "JSON xuất có thể dùng để sao lưu, di chuyển hoặc làm mẫu nhập. Hãy bảo vệ dữ liệu nhạy cảm như thông tin liên hệ.",
+        SELECT_TENANT_TYPE: "Chọn loại người thuê",
+        SELECT_CONTACT: "Chọn liên hệ",
+        INPUT_TENANT_NAME_PLACEHOLDER:
+          "Nhập tên người thuê, ví dụ: Công ty ABC",
+        INPUT_TENANT_TYPE_NAME_PLACEHOLDER:
+          "Nhập tên loại, ví dụ: Văn phòng/Bán lẻ/Sản xuất",
+        INPUT_TENANT_TYPE_DESCRIPTION_PLACEHOLDER:
+          "Nhập mô tả loại người thuê",
+        STORE_DESCRIPTION:
+          "Quản lý cửa hàng và thông tin vận hành; duy trì dữ liệu cửa hàng và hỗ trợ thống kê/đối soát theo cửa hàng.",
+        STORE_DESCRIPTION_MORE:
+          "Ghi nhận địa chỉ, tọa độ, loại cửa hàng, liên hệ và trung tâm chi phí. Kết hợp liên kết không gian và dữ liệu đo lường giúp thống kê và tổng hợp chi phí theo cửa hàng. Cập nhật khi thông tin vận hành thay đổi.",
+        STORE_DIALOG_DESCRIPTION: "Tạo hoặc chỉnh sửa thông tin cửa hàng tại đây.",
+        STORE_DIALOG_DESCRIPTION_MORE:
+          "Điền tên, diện tích, địa chỉ và tọa độ; chọn loại cửa hàng, liên hệ và trung tâm chi phí. Tùy chọn mô tả. Sau đó liên kết đồng hồ, điểm, cảm biến, lịch và lệnh.",
+        STORE_TYPE_DESCRIPTION:
+          "Quản lý danh mục loại cửa hàng; duy trì phân loại để thống kê và lọc.",
+        STORE_TYPE_DESCRIPTION_MORE:
+          "Loại cửa hàng phân loại cửa hàng (ví dụ: nhà hàng/bán lẻ/kho) phục vụ báo cáo và so sánh. Duy trì tên, mô tả và mã viết tắt rõ ràng.",
+        STORE_TYPE_DIALOG_DESCRIPTION: "Tạo hoặc chỉnh sửa loại cửa hàng tại đây.",
+        STORE_TYPE_DIALOG_DESCRIPTION_MORE:
+          "Nhập tên loại, mô tả và mã viết tắt. Nên dùng viết tắt dễ nhớ để thuận tiện nhập/xuất.",
+        IMPORT_STORE_DESCRIPTION:
+          "Công cụ nhập cửa hàng hàng loạt; tạo hoặc cập nhật nhiều cửa hàng bằng JSON.",
+        IMPORT_STORE_DESCRIPTION_MORE:
+          "Phù hợp cho khởi tạo hoặc cập nhật hàng loạt. Nên xuất một cửa hàng làm mẫu, chỉnh sửa JSON rồi nhập.",
+        EXPORT_STORE_DESCRIPTION:
+          "Công cụ xuất cửa hàng; xuất cửa hàng đã chọn (kèm cấu hình) dưới dạng JSON.",
+        EXPORT_STORE_DESCRIPTION_MORE:
+          "JSON xuất có thể dùng để sao lưu, di chuyển hoặc làm mẫu nhập. Hãy bảo vệ thông tin nhạy cảm như địa chỉ và liên hệ.",
+        SELECT_STORE_TYPE: "Chọn loại cửa hàng",
+        INPUT_STORE_NAME_PLACEHOLDER:
+          "Nhập tên cửa hàng, ví dụ: Chi nhánh #1",
+        INPUT_STORE_TYPE_NAME_PLACEHOLDER:
+          "Nhập tên loại, ví dụ: Nhà hàng/Bán lẻ/Kho",
+        INPUT_STORE_TYPE_DESCRIPTION_PLACEHOLDER:
+          "Nhập mô tả loại cửa hàng",
       },
       CONTACT: {
         EMAIL: "Email",
@@ -1452,6 +1535,66 @@
         INPUT_AREA: "Vui lòng nhập khu vực",
         CURRENT_SELECTED_SPACE: "Không gian được chọn hiện tại",
         CHILD_SPACES: "Không gian trẻ em",
+        BIND_METER_DESCRIPTION:
+          "Quản lý liên kết không gian–đồng hồ; liên kết đồng hồ vào không gian để tổng hợp theo khu vực.",
+        BIND_METER_DESCRIPTION_MORE:
+          "Chọn không gian, chọn loại đồng hồ ở bên phải và kéo đồng hồ vào vùng liên kết ở giữa. Để gỡ liên kết, kéo vào thùng rác.",
+        BIND_EQUIPMENT_DESCRIPTION:
+          "Quản lý liên kết không gian–thiết bị; liên kết thiết bị tiêu thụ vào không gian để thống kê và vận hành.",
+        BIND_EQUIPMENT_DESCRIPTION_MORE:
+          "Chọn không gian và kéo thiết bị từ danh sách bên phải vào vùng giữa. Để gỡ liên kết, kéo vào thùng rác.",
+        BIND_COMBINED_EQUIPMENT_DESCRIPTION:
+          "Quản lý liên kết không gian–thiết bị kết hợp; liên kết hệ thống phức hợp vào không gian.",
+        BIND_COMBINED_EQUIPMENT_DESCRIPTION_MORE:
+          "Chọn không gian và kéo thiết bị kết hợp từ danh sách bên phải vào vùng giữa.",
+        BIND_PHOTOVOLTAIC_POWER_STATION_DESCRIPTION:
+          "Quản lý liên kết không gian–trạm PV; liên kết tài sản phát điện vào không gian.",
+        BIND_PHOTOVOLTAIC_POWER_STATION_DESCRIPTION_MORE:
+          "Chọn không gian và kéo các trạm PV từ danh sách bên phải vào vùng giữa.",
+        BIND_ENERGY_STORAGE_POWER_STATION_DESCRIPTION:
+          "Quản lý liên kết không gian–trạm lưu trữ; liên kết tài sản lưu trữ vào không gian.",
+        BIND_ENERGY_STORAGE_POWER_STATION_DESCRIPTION_MORE:
+          "Chọn không gian và kéo các trạm lưu trữ năng lượng từ danh sách bên phải vào vùng giữa.",
+        BIND_TENANT_DESCRIPTION:
+          "Quản lý liên kết không gian–người thuê; liên kết người thuê với khu vực thuê.",
+        BIND_TENANT_DESCRIPTION_MORE:
+          "Chọn không gian và kéo người thuê từ danh sách bên phải vào vùng giữa.",
+        BIND_STORE_DESCRIPTION:
+          "Quản lý liên kết không gian–cửa hàng; liên kết cửa hàng với khu vực vận hành.",
+        BIND_STORE_DESCRIPTION_MORE:
+          "Chọn không gian và kéo cửa hàng từ danh sách bên phải vào vùng giữa.",
+        BIND_SHOPFLOOR_DESCRIPTION:
+          "Quản lý liên kết không gian–xưởng; căn chỉnh khu vực sản xuất theo cấu trúc không gian.",
+        BIND_SHOPFLOOR_DESCRIPTION_MORE:
+          "Chọn không gian và kéo xưởng từ danh sách bên phải vào vùng giữa.",
+        BIND_ENERGY_FLOW_DIAGRAM_DESCRIPTION:
+          "Quản lý liên kết không gian–sơ đồ dòng năng lượng; sử dụng mô hình ở cấp không gian.",
+        BIND_ENERGY_FLOW_DIAGRAM_DESCRIPTION_MORE:
+          "Chọn không gian và kéo sơ đồ dòng năng lượng từ danh sách bên phải vào vùng giữa.",
+        BIND_DISTRIBUTION_SYSTEM_DESCRIPTION:
+          "Quản lý liên kết không gian–hệ thống phân phối; liên kết topo điện vào không gian.",
+        BIND_DISTRIBUTION_SYSTEM_DESCRIPTION_MORE:
+          "Chọn không gian và kéo hệ thống phân phối từ danh sách bên phải vào vùng giữa.",
+        BIND_MICROGRID_DESCRIPTION:
+          "Quản lý liên kết không gian–vi lưới điện; liên kết tài sản vi lưới vào không gian.",
+        BIND_MICROGRID_DESCRIPTION_MORE:
+          "Chọn không gian và kéo vi lưới điện từ danh sách bên phải vào vùng giữa.",
+        BIND_POINT_DESCRIPTION:
+          "Quản lý liên kết không gian–điểm dữ liệu; liên kết các điểm vận hành quan trọng vào không gian.",
+        BIND_POINT_DESCRIPTION_MORE:
+          "Chọn không gian, chọn nguồn dữ liệu và kéo các điểm dữ liệu vào vùng giữa.",
+        BIND_SENSOR_DESCRIPTION:
+          "Quản lý liên kết không gian–cảm biến; liên kết cảm biến môi trường vào không gian.",
+        BIND_SENSOR_DESCRIPTION_MORE:
+          "Chọn không gian và kéo cảm biến từ danh sách bên phải vào vùng giữa.",
+        BIND_WORKING_CALENDAR_DESCRIPTION:
+          "Quản lý liên kết không gian–lịch làm việc; đặt quy tắc giờ vận hành/ngừng theo khu vực.",
+        BIND_WORKING_CALENDAR_DESCRIPTION_MORE:
+          "Chọn không gian và kéo lịch làm việc từ danh sách bên phải vào vùng giữa.",
+        BIND_COMMAND_DESCRIPTION:
+          "Quản lý liên kết không gian–lệnh; cấu hình lệnh điều khiển khả dụng cho tài sản trong không gian.",
+        BIND_COMMAND_DESCRIPTION_MORE:
+          "Chọn không gian và kéo lệnh từ danh sách bên phải vào vùng giữa.",
         BIND_EQUIPMENT: "Thiết bị ràng buộc",
         N_S_EQUIPMENT: "Thiết bị ràng buộc",
         EQUIPMENT_LIST: "Danh sách thiết bị",
@@ -1504,6 +1647,26 @@
         INPUT_LONGITUDE: "Vui lòng nhập kinh độ",
         LATITUDE_HINT: "Số dương là vĩ độ bắc và số âm là vĩ độ nam",
         LONGITUDE_HINT: "Kinh Đông là số dương, kinh Tây là số âm.",
+        BIND_METER_DESCRIPTION:
+          "Quản lý liên kết cửa hàng–đồng hồ; liên kết đồng hồ vào cửa hàng để thống kê theo cửa hàng.",
+        BIND_METER_DESCRIPTION_MORE:
+          "Chọn cửa hàng và kéo đồng hồ từ danh sách bên phải vào vùng giữa.",
+        BIND_POINT_DESCRIPTION:
+          "Quản lý liên kết cửa hàng–điểm dữ liệu; liên kết điểm vận hành quan trọng vào cửa hàng.",
+        BIND_POINT_DESCRIPTION_MORE:
+          "Chọn cửa hàng, chọn nguồn dữ liệu và kéo điểm vào vùng giữa.",
+        BIND_SENSOR_DESCRIPTION:
+          "Quản lý liên kết cửa hàng–cảm biến; liên kết cảm biến môi trường vào cửa hàng.",
+        BIND_SENSOR_DESCRIPTION_MORE:
+          "Chọn cửa hàng và kéo cảm biến từ danh sách bên phải vào vùng giữa.",
+        BIND_WORKING_CALENDAR_DESCRIPTION:
+          "Quản lý liên kết cửa hàng–lịch làm việc; đặt quy tắc giờ hoạt động/mở cửa.",
+        BIND_WORKING_CALENDAR_DESCRIPTION_MORE:
+          "Chọn cửa hàng và kéo lịch làm việc từ danh sách bên phải vào vùng giữa.",
+        BIND_COMMAND_DESCRIPTION:
+          "Quản lý liên kết cửa hàng–lệnh; cấu hình lệnh điều khiển khả dụng cho tài sản cửa hàng.",
+        BIND_COMMAND_DESCRIPTION_MORE:
+          "Chọn cửa hàng và kéo lệnh từ danh sách bên phải vào vùng giữa.",
       },
       TENANT: {
         BUILDINGS: "Tòa nhà",
@@ -1521,6 +1684,26 @@
         INPUT_LEASE_NUMBER: "Vui lòng nhập số hợp đồng thuê",
         END_BEFORE_START_WARNING:
           "Thời gian kết thúc không thể sớm hơn thời gian bắt đầu",
+        BIND_METER_DESCRIPTION:
+          "Quản lý liên kết người thuê–đồng hồ; liên kết đồng hồ vào người thuê để thống kê và đối soát.",
+        BIND_METER_DESCRIPTION_MORE:
+          "Chọn người thuê và kéo đồng hồ từ danh sách bên phải vào vùng giữa.",
+        BIND_POINT_DESCRIPTION:
+          "Quản lý liên kết người thuê–điểm dữ liệu; liên kết điểm vận hành quan trọng vào người thuê.",
+        BIND_POINT_DESCRIPTION_MORE:
+          "Chọn người thuê, chọn nguồn dữ liệu và kéo điểm vào vùng giữa.",
+        BIND_SENSOR_DESCRIPTION:
+          "Quản lý liên kết người thuê–cảm biến; liên kết cảm biến môi trường vào khu vực người thuê.",
+        BIND_SENSOR_DESCRIPTION_MORE:
+          "Chọn người thuê và kéo cảm biến từ danh sách bên phải vào vùng giữa.",
+        BIND_WORKING_CALENDAR_DESCRIPTION:
+          "Quản lý liên kết người thuê–lịch làm việc; đặt quy tắc giờ hoạt động cho phân tích.",
+        BIND_WORKING_CALENDAR_DESCRIPTION_MORE:
+          "Chọn người thuê và kéo lịch làm việc từ danh sách bên phải vào vùng giữa.",
+        BIND_COMMAND_DESCRIPTION:
+          "Quản lý liên kết người thuê–lệnh; cấu hình lệnh điều khiển khả dụng cho tài sản người thuê.",
+        BIND_COMMAND_DESCRIPTION_MORE:
+          "Chọn người thuê và kéo lệnh từ danh sách bên phải vào vùng giữa.",
       },
       SHOPFLOOR: {
         ADD_SHOPFLOOR: "Thêm Shopfloor",

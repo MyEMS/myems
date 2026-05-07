@@ -740,6 +740,90 @@
         ENTER_DESCRIPTION: "Beschreibung eingeben",
         SIMPLIFIED_CODE: "Vereinfachter Code",
         ENTER_SIMPLIFIED_CODE: "Vereinfachten Code eingeben",
+        SPACE_DESCRIPTION:
+          "Verwaltung der Raumhierarchie und Asset-Zuordnung; Aufbau einer Raumstruktur (Campus/Gebäude/Etage/Raum) für Energieaggregation.",
+        SPACE_DESCRIPTION_MORE:
+          "Räume definieren die physische Hierarchie. Pflegen Sie Parent/Child-Beziehungen und binden Sie Zähler, Geräte, Datenpunkte, Sensoren, Mieter, Filialen usw. an einen Raum, um Energie- und Kostenstatistiken nach Bereich sowie Monitoring zu ermöglichen.",
+        SPACE_DIALOG_DESCRIPTION: "Rauminformationen hier erstellen oder bearbeiten.",
+        SPACE_DIALOG_DESCRIPTION_MORE:
+          "Geben Sie Raumname, Fläche und Personenzahl ein und wählen Sie Zeitzone sowie Kostenstelle. Optional Kontakt und Koordinaten. Nach dem Speichern können Assets in den Bindungs-Tabs zugeordnet werden.",
+        IMPORT_SPACE_DESCRIPTION:
+          "Raum-Massenimport; mehrere Räume/Strukturen schnell per JSON erstellen oder aktualisieren.",
+        IMPORT_SPACE_DESCRIPTION_MORE:
+          "Geeignet für Initialisierung oder größere Anpassungen der Raumstruktur. Es wird empfohlen, einen bestehenden Raum als Vorlage zu exportieren, JSON entsprechend zu bearbeiten und anschließend zu importieren.",
+        EXPORT_SPACE_DESCRIPTION:
+          "Raum-Export; exportiert den ausgewählten Raum (inkl. Konfiguration) als JSON.",
+        EXPORT_SPACE_DESCRIPTION_MORE:
+          "Das exportierte JSON kann für Backup, Migration oder als Importvorlage genutzt werden. Bitte schützen Sie Struktur- und Asset-Informationen.",
+        INPUT_SPACE_NAME_PLACEHOLDER:
+          "Bitte Raumname eingeben, z. B.: Gebäude A Etage 3 Raum 301",
+        INPUT_SPACE_AREA_PLACEHOLDER:
+          "Bitte Fläche (m²) eingeben, für Energiekennzahlen pro Fläche",
+        INPUT_SPACE_NUMBER_OF_OCCUPANTS_PLACEHOLDER:
+          "Bitte Personenzahl eingeben, für Pro-Kopf-Analysen",
+        INPUT_SPACE_LONGITUDE_PLACEHOLDER:
+          "Bitte Längengrad eingeben, z. B.: 121.4737",
+        INPUT_SPACE_LATITUDE_PLACEHOLDER:
+          "Bitte Breitengrad eingeben, z. B.: 31.2304",
+        TENANT_DESCRIPTION:
+          "Mieterprofil und Leasing-Informationen; pflegt Mieterdaten und unterstützt Energie-/Kostenverteilung.",
+        TENANT_DESCRIPTION_MORE:
+          "Mieter erfassen Informationen zu Leasing-Einheiten, z. B. gemietete Bereiche, Laufzeit, Kontakt und Kostenstelle. In Verbindung mit Raum-Bindungen und Messdaten ermöglicht dies Mieter-Statistiken, Abgleich und Kostenumlage. Daten bei Vertragsänderungen aktualisieren.",
+        TENANT_DIALOG_DESCRIPTION: "Mieterinformationen hier erstellen oder bearbeiten.",
+        TENANT_DIALOG_DESCRIPTION_MORE:
+          "Füllen Sie Name, Fläche, Gebäude/Etage/Raum, Mietertyp, Kontakt, Laufzeit und Kostenstelle aus. Anschließend können Zähler, Datenpunkte, Sensoren, Arbeitskalender und Befehle in den Bindungs-Tabs zugeordnet werden.",
+        TENANT_TYPE_DESCRIPTION:
+          "Mietertyp-Dictionary; pflegt Mieterkategorien für Statistik und Filter.",
+        TENANT_TYPE_DESCRIPTION_MORE:
+          "Mietertypen klassifizieren Mieter (z. B. Büro, Retail, Produktion) für Reports und Benchmarking. Pflegen Sie pro Typ einen klaren Namen, eine Beschreibung und einen Kurzcode.",
+        TENANT_TYPE_DIALOG_DESCRIPTION: "Mietertyp hier erstellen oder bearbeiten.",
+        TENANT_TYPE_DIALOG_DESCRIPTION_MORE:
+          "Geben Sie Mietertyp-Name, Beschreibung und Kurzcode ein. Kurzcode idealerweise als englische Abkürzung, um Import/Export und API-Nutzung zu erleichtern.",
+        IMPORT_TENANT_DESCRIPTION:
+          "Mieter-Massenimport; mehrere Mieter schnell per JSON erstellen oder aktualisieren.",
+        IMPORT_TENANT_DESCRIPTION_MORE:
+          "Geeignet für Initialisierung oder Sammelaktualisierung von Mietdaten. Nutzen Sie den Export eines vorhandenen Mieters als Vorlage, um die JSON-Struktur korrekt zu treffen.",
+        EXPORT_TENANT_DESCRIPTION:
+          "Mieter-Export; exportiert den ausgewählten Mieter (inkl. Konfiguration) als JSON.",
+        EXPORT_TENANT_DESCRIPTION_MORE:
+          "Das exportierte JSON kann für Backup, Migration oder als Importvorlage genutzt werden. Bitte schützen Sie sensible Mieterdaten wie Kontakte.",
+        SELECT_TENANT_TYPE: "Bitte Mietertyp auswählen",
+        SELECT_CONTACT: "Bitte Kontakt auswählen",
+        INPUT_TENANT_NAME_PLACEHOLDER:
+          "Bitte Mietername eingeben, z. B.: Beispiel GmbH",
+        INPUT_TENANT_TYPE_NAME_PLACEHOLDER:
+          "Bitte Mietertyp-Name eingeben, z. B.: Büro/Retail/Produktion",
+        INPUT_TENANT_TYPE_DESCRIPTION_PLACEHOLDER:
+          "Bitte Mietertyp-Beschreibung eingeben",
+        STORE_DESCRIPTION:
+          "Filialprofil und Betriebsinformationen; pflegt Filialdaten und unterstützt filialbezogene Energieabrechnung.",
+        STORE_DESCRIPTION_MORE:
+          "Filialen repräsentieren Betriebseinheiten (z. B. Niederlassungen) mit Adresse, Koordinaten, Filialtyp, Kontakt und Kostenstelle. In Verbindung mit Raum-Bindungen und Messdaten ermöglicht dies Filial-Statistiken, Abgleich und Kostenaggregation. Daten bei Änderungen aktualisieren.",
+        STORE_DIALOG_DESCRIPTION: "Filialinformationen hier erstellen oder bearbeiten.",
+        STORE_DIALOG_DESCRIPTION_MORE:
+          "Geben Sie Name, Fläche, Adresse und Koordinaten ein und wählen Sie Filialtyp, Kontakt und Kostenstelle. Optional Beschreibung. Anschließend können Zähler, Datenpunkte, Sensoren, Arbeitskalender und Befehle zugeordnet werden.",
+        STORE_TYPE_DESCRIPTION:
+          "Filialtyp-Dictionary; pflegt Filialkategorien für Statistik und Filter.",
+        STORE_TYPE_DESCRIPTION_MORE:
+          "Filialtypen klassifizieren Filialen (z. B. Gastronomie, Retail, Lager) für Reports und Benchmarking. Pflegen Sie einen klaren Namen, Beschreibung und Kurzcode.",
+        STORE_TYPE_DIALOG_DESCRIPTION: "Filialtyp hier erstellen oder bearbeiten.",
+        STORE_TYPE_DIALOG_DESCRIPTION_MORE:
+          "Geben Sie Filialtyp-Name, Beschreibung und Kurzcode ein. Kurzcode idealerweise als englische Abkürzung für Import/Export und API-Nutzung.",
+        IMPORT_STORE_DESCRIPTION:
+          "Filial-Massenimport; mehrere Filialen schnell per JSON erstellen oder aktualisieren.",
+        IMPORT_STORE_DESCRIPTION_MORE:
+          "Geeignet für Initialisierung oder Sammelaktualisierung. Nutzen Sie den Export einer vorhandenen Filiale als Vorlage, um die JSON-Struktur korrekt zu treffen.",
+        EXPORT_STORE_DESCRIPTION:
+          "Filial-Export; exportiert die ausgewählte Filiale (inkl. Konfiguration) als JSON.",
+        EXPORT_STORE_DESCRIPTION_MORE:
+          "Das exportierte JSON kann für Backup, Migration oder als Importvorlage genutzt werden. Bitte schützen Sie sensible Filialdaten wie Adressen und Kontakte.",
+        SELECT_STORE_TYPE: "Bitte Filialtyp auswählen",
+        INPUT_STORE_NAME_PLACEHOLDER:
+          "Bitte Filialname eingeben, z. B.: Filiale #1",
+        INPUT_STORE_TYPE_NAME_PLACEHOLDER:
+          "Bitte Filialtyp-Name eingeben, z. B.: Gastronomie/Retail/Lager",
+        INPUT_STORE_TYPE_DESCRIPTION_PLACEHOLDER:
+          "Bitte Filialtyp-Beschreibung eingeben",
       },
       CONTACT: {
         EMAIL: "Briefkasten",
@@ -1547,6 +1631,66 @@
         BIND_MICROGRID: "Mikronetz bindenⒺ",
         N_S_MICROGRID: "Gebundenes Mikronetz",
         MICROGRID_LIST: "Mikronetzliste",
+        BIND_METER_DESCRIPTION:
+          "Zuordnung von Raum und Zähler; ordnet Zähler einem Raum zur Energieaggregation zu.",
+        BIND_METER_DESCRIPTION_MORE:
+          "Wählen Sie links einen Raum, wählen Sie rechts den Zählertyp und ziehen Sie den gewünschten Zähler in den mittleren Bereich. Zum Entbinden in den Papierkorb ziehen.",
+        BIND_COMBINED_EQUIPMENT_DESCRIPTION:
+          "Zuordnung von Raum und Kombigerät; ordnet komplexe Systeme einem Raum für Bereichsanalysen zu.",
+        BIND_COMBINED_EQUIPMENT_DESCRIPTION_MORE:
+          "Wählen Sie einen Raum und ziehen Sie Kombigeräte aus der rechten Liste in den mittleren Bindungsbereich.",
+        BIND_PHOTOVOLTAIC_POWER_STATION_DESCRIPTION:
+          "Zuordnung von Raum und PV-Kraftwerk; ordnet Erzeugungsanlagen einem Raum zu.",
+        BIND_PHOTOVOLTAIC_POWER_STATION_DESCRIPTION_MORE:
+          "Wählen Sie einen Raum und ziehen Sie PV-Kraftwerke aus der rechten Liste in den Bindungsbereich.",
+        BIND_EQUIPMENT_DESCRIPTION:
+          "Zuordnung von Raum und Gerät; ordnet Verbrauchsgeräte einem Bereich für Statistik und Betrieb zu.",
+        BIND_EQUIPMENT_DESCRIPTION_MORE:
+          "Wählen Sie einen Raum und ziehen Sie Geräte aus der rechten Liste in den mittleren Bereich. Zum Entbinden in den Papierkorb ziehen.",
+        BIND_ENERGY_STORAGE_POWER_STATION_DESCRIPTION:
+          "Zuordnung von Raum und Energiespeicherkraftwerk; ordnet Speicheranlagen einem Raum zu.",
+        BIND_ENERGY_STORAGE_POWER_STATION_DESCRIPTION_MORE:
+          "Wählen Sie einen Raum und ziehen Sie Energiespeicherkraftwerke aus der rechten Liste in den Bindungsbereich.",
+        BIND_TENANT_DESCRIPTION:
+          "Zuordnung von Raum und Mieter; verknüpft Mieter mit gemieteten Bereichen für Kosten-/Energieumlage.",
+        BIND_TENANT_DESCRIPTION_MORE:
+          "Wählen Sie einen Raum und ziehen Sie Mieter aus der rechten Liste in den Bindungsbereich. Diese Beziehung kann für mieterbasierte Statistiken genutzt werden.",
+        BIND_STORE_DESCRIPTION:
+          "Zuordnung von Raum und Filiale; verknüpft Filialen mit Betriebsbereichen für Abgleich.",
+        BIND_STORE_DESCRIPTION_MORE:
+          "Wählen Sie einen Raum und ziehen Sie Filialen aus der rechten Liste in den Bindungsbereich. Danach sind Auswertungen nach Filiale möglich.",
+        BIND_SHOPFLOOR_DESCRIPTION:
+          "Zuordnung von Raum und Werkstatt; richtet Produktionsbereiche an der Raumhierarchie aus.",
+        BIND_SHOPFLOOR_DESCRIPTION_MORE:
+          "Wählen Sie einen Raum und ziehen Sie Werkstätten aus der rechten Liste in den Bindungsbereich.",
+        BIND_ENERGY_FLOW_DIAGRAM_DESCRIPTION:
+          "Zuordnung von Raum und Energieflussdiagramm; verwendet das Modell auf Raumbasis für Anzeige/Analyse.",
+        BIND_ENERGY_FLOW_DIAGRAM_DESCRIPTION_MORE:
+          "Wählen Sie einen Raum und ziehen Sie Energieflussdiagramme aus der rechten Liste in den Bindungsbereich.",
+        BIND_DISTRIBUTION_SYSTEM_DESCRIPTION:
+          "Zuordnung von Raum und Verteilungssystem; ordnet elektrische Topologien einem Bereich zu.",
+        BIND_DISTRIBUTION_SYSTEM_DESCRIPTION_MORE:
+          "Wählen Sie einen Raum und ziehen Sie Verteilungssysteme aus der rechten Liste in den Bindungsbereich.",
+        BIND_MICROGRID_DESCRIPTION:
+          "Zuordnung von Raum und Mikronetz; ordnet Mikronetz-Assets einem Raum zu.",
+        BIND_MICROGRID_DESCRIPTION_MORE:
+          "Wählen Sie einen Raum und ziehen Sie Mikronetze aus der rechten Liste in den Bindungsbereich.",
+        BIND_POINT_DESCRIPTION:
+          "Zuordnung von Raum und Datenpunkt; bindet wichtige Betriebsdatenpunkte an einen Raum.",
+        BIND_POINT_DESCRIPTION_MORE:
+          "Wählen Sie einen Raum, wählen Sie rechts eine Datenquelle und ziehen Sie Datenpunkte in den Bindungsbereich. Die Punkte können in Dashboards und Analysen genutzt werden.",
+        BIND_SENSOR_DESCRIPTION:
+          "Zuordnung von Raum und Sensor; ordnet Umweltsensoren einem Raum zu.",
+        BIND_SENSOR_DESCRIPTION_MORE:
+          "Wählen Sie einen Raum und ziehen Sie Sensoren aus der rechten Liste in den Bindungsbereich.",
+        BIND_WORKING_CALENDAR_DESCRIPTION:
+          "Zuordnung von Raum und Arbeitskalender; definiert Betriebs-/Nichtbetriebszeiten für den Bereich.",
+        BIND_WORKING_CALENDAR_DESCRIPTION_MORE:
+          "Wählen Sie einen Raum und ziehen Sie Arbeitskalender aus der rechten Liste in den Bindungsbereich, um Analysen nach Betriebszeiten zu ermöglichen.",
+        BIND_COMMAND_DESCRIPTION:
+          "Zuordnung von Raum und Befehl; konfiguriert verfügbare Steuerbefehle für Assets im Raum.",
+        BIND_COMMAND_DESCRIPTION_MORE:
+          "Wählen Sie einen Raum und ziehen Sie Befehle aus der rechten Liste in den Bindungsbereich.",
       },
       TENANT: {
         BUILDINGS: "Gebäude",
@@ -1564,6 +1708,26 @@
         INPUT_LEASE_NUMBER: "Bitte geben Sie die Mietnummer ein",
         END_BEFORE_START_WARNING:
           "Die Endzeit darf nicht vor der Startzeit liegen",
+        BIND_METER_DESCRIPTION:
+          "Zuordnung von Mieter und Zähler; ordnet Zähler einem Mieter für Statistik und Abgleich zu.",
+        BIND_METER_DESCRIPTION_MORE:
+          "Wählen Sie einen Mieter und ziehen Sie Zähler aus der rechten Liste in den Bindungsbereich. Dies unterstützt mieterbasierte Aggregation und Kostenumlage.",
+        BIND_POINT_DESCRIPTION:
+          "Zuordnung von Mieter und Datenpunkt; bindet wichtige Betriebsdatenpunkte an einen Mieter.",
+        BIND_POINT_DESCRIPTION_MORE:
+          "Wählen Sie einen Mieter, wählen Sie rechts eine Datenquelle und ziehen Sie Datenpunkte in den Bindungsbereich.",
+        BIND_SENSOR_DESCRIPTION:
+          "Zuordnung von Mieter und Sensor; ordnet Umweltsensoren mieterbezogenen Bereichen zu.",
+        BIND_SENSOR_DESCRIPTION_MORE:
+          "Wählen Sie einen Mieter und ziehen Sie Sensoren aus der rechten Liste in den Bindungsbereich.",
+        BIND_WORKING_CALENDAR_DESCRIPTION:
+          "Zuordnung von Mieter und Arbeitskalender; definiert Geschäfts-/Produktionszeiten für Analysen.",
+        BIND_WORKING_CALENDAR_DESCRIPTION_MORE:
+          "Wählen Sie einen Mieter und ziehen Sie Arbeitskalender aus der rechten Liste in den Bindungsbereich, um Energie nach Betriebszeiten auszuwerten.",
+        BIND_COMMAND_DESCRIPTION:
+          "Zuordnung von Mieter und Befehl; konfiguriert verfügbare Steuerbefehle für mieterbezogene Assets.",
+        BIND_COMMAND_DESCRIPTION_MORE:
+          "Wählen Sie einen Mieter und ziehen Sie Befehle aus der rechten Liste in den Bindungsbereich.",
       },
       STORE: {
         ADDRESS: "Adresse",
@@ -1577,6 +1741,26 @@
         LATITUDE_HINT:
           "Positive Zahl für den Norden, negative Zahl für den Süden.",
         LONGITUDE_HINT: "Positive ist Ostlänge, negative ist Westlänge.",
+        BIND_METER_DESCRIPTION:
+          "Zuordnung von Filiale und Zähler; ordnet Zähler einer Filiale für filialbezogene Abrechnung zu.",
+        BIND_METER_DESCRIPTION_MORE:
+          "Wählen Sie eine Filiale und ziehen Sie Zähler aus der rechten Liste in den Bindungsbereich. Binden Sie Haupt- und Unterzähler für genaue Statistiken.",
+        BIND_POINT_DESCRIPTION:
+          "Zuordnung von Filiale und Datenpunkt; bindet wichtige Betriebsdatenpunkte an eine Filiale.",
+        BIND_POINT_DESCRIPTION_MORE:
+          "Wählen Sie eine Filiale, wählen Sie rechts eine Datenquelle und ziehen Sie Datenpunkte in den Bindungsbereich.",
+        BIND_SENSOR_DESCRIPTION:
+          "Zuordnung von Filiale und Sensor; ordnet Umweltsensoren einer Filiale zu.",
+        BIND_SENSOR_DESCRIPTION_MORE:
+          "Wählen Sie eine Filiale und ziehen Sie Sensoren aus der rechten Liste in den Bindungsbereich.",
+        BIND_WORKING_CALENDAR_DESCRIPTION:
+          "Zuordnung von Filiale und Arbeitskalender; definiert Geschäftszeiten für Analysen.",
+        BIND_WORKING_CALENDAR_DESCRIPTION_MORE:
+          "Wählen Sie eine Filiale und ziehen Sie Arbeitskalender aus der rechten Liste in den Bindungsbereich, um Energie nach Geschäftszeiten auszuwerten.",
+        BIND_COMMAND_DESCRIPTION:
+          "Zuordnung von Filiale und Befehl; konfiguriert verfügbare Steuerbefehle für filialbezogene Assets.",
+        BIND_COMMAND_DESCRIPTION_MORE:
+          "Wählen Sie eine Filiale und ziehen Sie Befehle aus der rechten Liste in den Bindungsbereich.",
       },
       SHOPFLOOR: {
         ADD_SHOPFLOOR: "Workshop hinzufügen",
