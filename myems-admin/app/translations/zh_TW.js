@@ -758,6 +758,46 @@
           "門市匯出工具；將選定門市（含配置）以 JSON 格式匯出。",
         EXPORT_STORE_DESCRIPTION_MORE:
           "匯出的 JSON 可用於備份、遷移或作為匯入模板。請保護地址與聯絡資訊等敏感資料。",
+        IMPORT_SVG_DESCRIPTION:
+          "SVG 批量匯入工具；透過 JSON 快速建立或更新多個 SVG 配置。",
+        IMPORT_SVG_DESCRIPTION_MORE:
+          "建議先匯出一個現有 SVG 作為模板，修改 JSON（名稱、描述與 SVG 原始碼）後再匯入，以確保格式正確。",
+        EXPORT_SVG_DESCRIPTION:
+          "SVG 匯出工具；將選定 SVG（含配置）以 JSON 格式匯出。",
+        EXPORT_SVG_DESCRIPTION_MORE:
+          "匯出的 JSON 可用於備份、遷移或作為匯入模板。請妥善保管 SVG 原始碼與相關資訊。",
+        IMPORT_ENERGY_FLOW_DIAGRAM_DESCRIPTION:
+          "能流圖批量匯入工具；透過 JSON 快速建立或更新多個能流圖配置。",
+        IMPORT_ENERGY_FLOW_DIAGRAM_DESCRIPTION_MORE:
+          "建議先匯出一個現有能流圖作為模板，修改 JSON 後再匯入，以確保格式正確。",
+        EXPORT_ENERGY_FLOW_DIAGRAM_DESCRIPTION:
+          "能流圖匯出工具；將選定能流圖（含配置）以 JSON 格式匯出。",
+        EXPORT_ENERGY_FLOW_DIAGRAM_DESCRIPTION_MORE:
+          "匯出的 JSON 可用於備份、遷移或作為匯入模板。",
+        IMPORT_SHOPFLOOR_DESCRIPTION:
+          "車間批量匯入工具；透過 JSON 快速建立或更新多個車間配置。",
+        IMPORT_SHOPFLOOR_DESCRIPTION_MORE:
+          "建議先匯出一個現有車間作為模板，修改 JSON 後再匯入，以確保格式正確。",
+        EXPORT_SHOPFLOOR_DESCRIPTION:
+          "車間匯出工具；將選定車間（含配置）以 JSON 格式匯出。",
+        EXPORT_SHOPFLOOR_DESCRIPTION_MORE:
+          "匯出的 JSON 可用於備份、遷移或作為匯入模板。",
+        IMPORT_DISTRIBUTION_SYSTEM_DESCRIPTION:
+          "配電系統批量匯入工具；透過 JSON 快速建立或更新多個配電系統配置。",
+        IMPORT_DISTRIBUTION_SYSTEM_DESCRIPTION_MORE:
+          "建議先匯出一個現有配電系統作為模板，修改 JSON（包含關聯的 SVG）後再匯入，以確保格式正確。",
+        EXPORT_DISTRIBUTION_SYSTEM_DESCRIPTION:
+          "配電系統匯出工具；將選定配電系統（含配置）以 JSON 格式匯出。",
+        EXPORT_DISTRIBUTION_SYSTEM_DESCRIPTION_MORE:
+          "匯出的 JSON 可用於備份、遷移或作為匯入模板。",
+        IMPORT_WORKING_CALENDAR_DESCRIPTION:
+          "工作日曆批量匯入工具；透過 JSON 快速建立或更新多個工作日曆配置。",
+        IMPORT_WORKING_CALENDAR_DESCRIPTION_MORE:
+          "建議先匯出一個現有工作日曆作為模板，修改 JSON 後再匯入，以確保格式正確。",
+        EXPORT_WORKING_CALENDAR_DESCRIPTION:
+          "工作日曆匯出工具；將選定工作日曆（含配置）以 JSON 格式匯出。",
+        EXPORT_WORKING_CALENDAR_DESCRIPTION_MORE:
+          "匯出的 JSON 可用於備份、遷移或作為匯入模板。",
         SELECT_STORE_TYPE: "請選擇門市類型",
         INPUT_STORE_NAME_PLACEHOLDER:
           "請輸入門市名稱，例如：分店 #1",

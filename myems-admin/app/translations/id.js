@@ -776,6 +776,46 @@
           "Alat ekspor toko; ekspor toko terpilih (beserta konfigurasinya) sebagai JSON.",
         EXPORT_STORE_DESCRIPTION_MORE:
           "JSON ekspor dapat dipakai untuk backup, migrasi, atau template impor. Lindungi informasi sensitif seperti alamat dan kontak.",
+        IMPORT_SVG_DESCRIPTION:
+          "Alat impor SVG massal; buat atau perbarui banyak SVG melalui JSON.",
+        IMPORT_SVG_DESCRIPTION_MORE:
+          "Disarankan ekspor SVG yang ada sebagai template, edit JSON (nama, deskripsi, dan kode sumber SVG), lalu impor agar formatnya benar.",
+        EXPORT_SVG_DESCRIPTION:
+          "Alat ekspor SVG; ekspor SVG terpilih (beserta konfigurasinya) sebagai JSON.",
+        EXPORT_SVG_DESCRIPTION_MORE:
+          "JSON ekspor dapat dipakai untuk backup, migrasi, atau template impor. Lindungi kode sumber SVG dan metadata terkait.",
+        IMPORT_ENERGY_FLOW_DIAGRAM_DESCRIPTION:
+          "Alat impor diagram aliran energi massal; buat atau perbarui banyak diagram melalui JSON.",
+        IMPORT_ENERGY_FLOW_DIAGRAM_DESCRIPTION_MORE:
+          "Disarankan ekspor diagram yang ada sebagai template, edit JSON, lalu impor agar formatnya benar.",
+        EXPORT_ENERGY_FLOW_DIAGRAM_DESCRIPTION:
+          "Alat ekspor diagram aliran energi; ekspor diagram terpilih (beserta konfigurasinya) sebagai JSON.",
+        EXPORT_ENERGY_FLOW_DIAGRAM_DESCRIPTION_MORE:
+          "JSON ekspor dapat dipakai untuk backup, migrasi, atau template impor.",
+        IMPORT_SHOPFLOOR_DESCRIPTION:
+          "Alat impor shopfloor massal; buat atau perbarui banyak shopfloor melalui JSON.",
+        IMPORT_SHOPFLOOR_DESCRIPTION_MORE:
+          "Disarankan ekspor shopfloor yang ada sebagai template, edit JSON, lalu impor agar formatnya benar.",
+        EXPORT_SHOPFLOOR_DESCRIPTION:
+          "Alat ekspor shopfloor; ekspor shopfloor terpilih (beserta konfigurasinya) sebagai JSON.",
+        EXPORT_SHOPFLOOR_DESCRIPTION_MORE:
+          "JSON ekspor dapat dipakai untuk backup, migrasi, atau template impor.",
+        IMPORT_DISTRIBUTION_SYSTEM_DESCRIPTION:
+          "Alat impor sistem distribusi massal; buat atau perbarui banyak sistem melalui JSON.",
+        IMPORT_DISTRIBUTION_SYSTEM_DESCRIPTION_MORE:
+          "Disarankan ekspor sistem yang ada sebagai template, edit JSON (termasuk SVG terkait), lalu impor agar formatnya benar.",
+        EXPORT_DISTRIBUTION_SYSTEM_DESCRIPTION:
+          "Alat ekspor sistem distribusi; ekspor sistem terpilih (beserta konfigurasinya) sebagai JSON.",
+        EXPORT_DISTRIBUTION_SYSTEM_DESCRIPTION_MORE:
+          "JSON ekspor dapat dipakai untuk backup, migrasi, atau template impor.",
+        IMPORT_WORKING_CALENDAR_DESCRIPTION:
+          "Alat impor kalender kerja massal; buat atau perbarui banyak kalender melalui JSON.",
+        IMPORT_WORKING_CALENDAR_DESCRIPTION_MORE:
+          "Disarankan ekspor kalender yang ada sebagai template, edit JSON, lalu impor agar formatnya benar.",
+        EXPORT_WORKING_CALENDAR_DESCRIPTION:
+          "Alat ekspor kalender kerja; ekspor kalender terpilih (beserta konfigurasinya) sebagai JSON.",
+        EXPORT_WORKING_CALENDAR_DESCRIPTION_MORE:
+          "JSON ekspor dapat dipakai untuk backup, migrasi, atau template impor.",
         SELECT_STORE_TYPE: "Silakan pilih jenis toko",
         INPUT_STORE_NAME_PLACEHOLDER:
           "Masukkan nama toko, mis.: Cabang #1",

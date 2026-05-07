@@ -738,6 +738,46 @@
           "ابزار خروجی‌گیری فروشگاه؛ خروجی گرفتن فروشگاه انتخاب‌شده (به همراه پیکربندی) در قالب JSON.",
         EXPORT_STORE_DESCRIPTION_MORE:
           "JSON خروجی می‌تواند برای پشتیبان‌گیری، انتقال یا الگوی واردسازی استفاده شود. اطلاعات حساس مانند آدرس و مخاطب را محافظت کنید.",
+        IMPORT_SVG_DESCRIPTION:
+          "ابزار واردسازی گروهی SVG؛ ایجاد یا به‌روزرسانی چندین SVG از طریق JSON.",
+        IMPORT_SVG_DESCRIPTION_MORE:
+          "پیشنهاد می‌شود ابتدا یک SVG را به‌عنوان الگو خروجی بگیرید، سپس JSON (نام، توضیح و کد منبع SVG) را ویرایش و وارد کنید تا قالب درست باشد.",
+        EXPORT_SVG_DESCRIPTION:
+          "ابزار خروجی‌گیری SVG؛ خروجی گرفتن SVG انتخاب‌شده (به همراه پیکربندی) در قالب JSON.",
+        EXPORT_SVG_DESCRIPTION_MORE:
+          "JSON خروجی می‌تواند برای پشتیبان‌گیری، انتقال یا الگوی واردسازی استفاده شود. کد منبع SVG و فراداده‌های مرتبط را محافظت کنید.",
+        IMPORT_ENERGY_FLOW_DIAGRAM_DESCRIPTION:
+          "ابزار واردسازی گروهی نمودار جریان انرژی؛ ایجاد یا به‌روزرسانی چندین نمودار از طریق JSON.",
+        IMPORT_ENERGY_FLOW_DIAGRAM_DESCRIPTION_MORE:
+          "پیشنهاد می‌شود ابتدا یک نمودار را به‌عنوان الگو خروجی بگیرید، سپس JSON را ویرایش و وارد کنید تا قالب درست باشد.",
+        EXPORT_ENERGY_FLOW_DIAGRAM_DESCRIPTION:
+          "ابزار خروجی‌گیری نمودار جریان انرژی؛ خروجی گرفتن نمودار انتخاب‌شده (به همراه پیکربندی) در قالب JSON.",
+        EXPORT_ENERGY_FLOW_DIAGRAM_DESCRIPTION_MORE:
+          "JSON خروجی می‌تواند برای پشتیبان‌گیری، انتقال یا الگوی واردسازی استفاده شود.",
+        IMPORT_SHOPFLOOR_DESCRIPTION:
+          "ابزار واردسازی گروهی کارگاه (Shopfloor)؛ ایجاد یا به‌روزرسانی چندین مورد از طریق JSON.",
+        IMPORT_SHOPFLOOR_DESCRIPTION_MORE:
+          "پیشنهاد می‌شود ابتدا یک Shopfloor را به‌عنوان الگو خروجی بگیرید، سپس JSON را ویرایش و وارد کنید تا قالب درست باشد.",
+        EXPORT_SHOPFLOOR_DESCRIPTION:
+          "ابزار خروجی‌گیری کارگاه (Shopfloor)؛ خروجی گرفتن مورد انتخاب‌شده (به همراه پیکربندی) در قالب JSON.",
+        EXPORT_SHOPFLOOR_DESCRIPTION_MORE:
+          "JSON خروجی می‌تواند برای پشتیبان‌گیری، انتقال یا الگوی واردسازی استفاده شود.",
+        IMPORT_DISTRIBUTION_SYSTEM_DESCRIPTION:
+          "ابزار واردسازی گروهی سیستم توزیع؛ ایجاد یا به‌روزرسانی چندین سیستم از طریق JSON.",
+        IMPORT_DISTRIBUTION_SYSTEM_DESCRIPTION_MORE:
+          "پیشنهاد می‌شود ابتدا یک سیستم را به‌عنوان الگو خروجی بگیرید، سپس JSON (از جمله SVG مرتبط) را ویرایش و وارد کنید تا قالب درست باشد.",
+        EXPORT_DISTRIBUTION_SYSTEM_DESCRIPTION:
+          "ابزار خروجی‌گیری سیستم توزیع؛ خروجی گرفتن سیستم انتخاب‌شده (به همراه پیکربندی) در قالب JSON.",
+        EXPORT_DISTRIBUTION_SYSTEM_DESCRIPTION_MORE:
+          "JSON خروجی می‌تواند برای پشتیبان‌گیری، انتقال یا الگوی واردسازی استفاده شود.",
+        IMPORT_WORKING_CALENDAR_DESCRIPTION:
+          "ابزار واردسازی گروهی تقویم کاری؛ ایجاد یا به‌روزرسانی چندین تقویم از طریق JSON.",
+        IMPORT_WORKING_CALENDAR_DESCRIPTION_MORE:
+          "پیشنهاد می‌شود ابتدا یک تقویم را به‌عنوان الگو خروجی بگیرید، سپس JSON را ویرایش و وارد کنید تا قالب درست باشد.",
+        EXPORT_WORKING_CALENDAR_DESCRIPTION:
+          "ابزار خروجی‌گیری تقویم کاری؛ خروجی گرفتن تقویم انتخاب‌شده (به همراه پیکربندی) در قالب JSON.",
+        EXPORT_WORKING_CALENDAR_DESCRIPTION_MORE:
+          "JSON خروجی می‌تواند برای پشتیبان‌گیری، انتقال یا الگوی واردسازی استفاده شود.",
         SELECT_STORE_TYPE: "لطفاً نوع فروشگاه را انتخاب کنید",
         INPUT_STORE_NAME_PLACEHOLDER:
           "نام فروشگاه را وارد کنید، مانند: شعبه ۱",

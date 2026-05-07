@@ -147,7 +147,9 @@ app.controller('EnergyFlowDiagramController', function(
 					resolve: {
 						params: function() {
 							return {
-								exportdata: angular.copy($scope.exportdata)
+								exportdata: angular.copy($scope.exportdata),
+								description: 'SETTING.EXPORT_ENERGY_FLOW_DIAGRAM_DESCRIPTION',
+								description_more: 'SETTING.EXPORT_ENERGY_FLOW_DIAGRAM_DESCRIPTION_MORE'
 							};
 						}
 					}

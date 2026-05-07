@@ -751,6 +751,46 @@
           "Winkel-export; exporteer de geselecteerde winkel (incl. configuratie) als JSON.",
         EXPORT_STORE_DESCRIPTION_MORE:
           "Het export-JSON kan worden gebruikt voor back-up, migratie of als importsjabloon. Bescherm gevoelige informatie zoals adressen en contacten.",
+        IMPORT_SVG_DESCRIPTION:
+          "Bulkimport van SVG; maak of update meerdere SVG's via JSON.",
+        IMPORT_SVG_DESCRIPTION_MORE:
+          "Aanbevolen: exporteer een bestaand SVG als sjabloon, pas het JSON (naam, beschrijving en SVG-broncode) aan en importeer daarna om het formaat te waarborgen.",
+        EXPORT_SVG_DESCRIPTION:
+          "SVG-export; exporteer het geselecteerde SVG (incl. configuratie) als JSON.",
+        EXPORT_SVG_DESCRIPTION_MORE:
+          "Het export-JSON kan worden gebruikt voor back-up, migratie of als importsjabloon. Bescherm SVG-broncode en gerelateerde metadata.",
+        IMPORT_ENERGY_FLOW_DIAGRAM_DESCRIPTION:
+          "Bulkimport van energiestroomdiagram; maak of update meerdere diagrammen via JSON.",
+        IMPORT_ENERGY_FLOW_DIAGRAM_DESCRIPTION_MORE:
+          "Aanbevolen: exporteer een bestaand diagram als sjabloon, pas het JSON aan en importeer daarna om het formaat te waarborgen.",
+        EXPORT_ENERGY_FLOW_DIAGRAM_DESCRIPTION:
+          "Export van energiestroomdiagram; exporteer het geselecteerde diagram (incl. configuratie) als JSON.",
+        EXPORT_ENERGY_FLOW_DIAGRAM_DESCRIPTION_MORE:
+          "Het export-JSON kan worden gebruikt voor back-up, migratie of als importsjabloon.",
+        IMPORT_SHOPFLOOR_DESCRIPTION:
+          "Bulkimport van shopfloor; maak of update meerdere shopfloors via JSON.",
+        IMPORT_SHOPFLOOR_DESCRIPTION_MORE:
+          "Aanbevolen: exporteer een bestaande shopfloor als sjabloon, pas het JSON aan en importeer daarna om het formaat te waarborgen.",
+        EXPORT_SHOPFLOOR_DESCRIPTION:
+          "Shopfloor-export; exporteer de geselecteerde shopfloor (incl. configuratie) als JSON.",
+        EXPORT_SHOPFLOOR_DESCRIPTION_MORE:
+          "Het export-JSON kan worden gebruikt voor back-up, migratie of als importsjabloon.",
+        IMPORT_DISTRIBUTION_SYSTEM_DESCRIPTION:
+          "Bulkimport van distributiesysteem; maak of update meerdere systemen via JSON.",
+        IMPORT_DISTRIBUTION_SYSTEM_DESCRIPTION_MORE:
+          "Aanbevolen: exporteer een bestaand systeem als sjabloon, pas het JSON (incl. gekoppelde SVG) aan en importeer daarna om het formaat te waarborgen.",
+        EXPORT_DISTRIBUTION_SYSTEM_DESCRIPTION:
+          "Distributiesysteem-export; exporteer het geselecteerde systeem (incl. configuratie) als JSON.",
+        EXPORT_DISTRIBUTION_SYSTEM_DESCRIPTION_MORE:
+          "Het export-JSON kan worden gebruikt voor back-up, migratie of als importsjabloon.",
+        IMPORT_WORKING_CALENDAR_DESCRIPTION:
+          "Bulkimport van werkrooster; maak of update meerdere werkroosters via JSON.",
+        IMPORT_WORKING_CALENDAR_DESCRIPTION_MORE:
+          "Aanbevolen: exporteer een bestaand werkrooster als sjabloon, pas het JSON aan en importeer daarna om het formaat te waarborgen.",
+        EXPORT_WORKING_CALENDAR_DESCRIPTION:
+          "Werkrooster-export; exporteer het geselecteerde werkrooster (incl. configuratie) als JSON.",
+        EXPORT_WORKING_CALENDAR_DESCRIPTION_MORE:
+          "Het export-JSON kan worden gebruikt voor back-up, migratie of als importsjabloon.",
         SELECT_STORE_TYPE: "Selecteer winkeltype",
         INPUT_STORE_NAME_PLACEHOLDER:
           "Voer winkelnaam in, bv.: Filiaal #1",

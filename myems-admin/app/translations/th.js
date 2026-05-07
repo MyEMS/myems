@@ -769,6 +769,46 @@
           "เครื่องมือส่งออกร้านค้า; ส่งออกร้านค้าที่เลือก (พร้อมการตั้งค่า) เป็น JSON.",
         EXPORT_STORE_DESCRIPTION_MORE:
           "JSON ที่ส่งออกใช้สำหรับสำรองข้อมูล ย้ายสภาพแวดล้อม หรือเป็นแม่แบบนำเข้าได้ โปรดปกป้องข้อมูลสำคัญ เช่น ที่อยู่และผู้ติดต่อ.",
+        IMPORT_SVG_DESCRIPTION:
+          "เครื่องมือนำเข้า SVG แบบกลุ่ม; สร้างหรืออัปเดต SVG หลายรายการด้วย JSON.",
+        IMPORT_SVG_DESCRIPTION_MORE:
+          "แนะนำให้ส่งออก SVG ที่มีอยู่เป็นแม่แบบ แก้ไข JSON (ชื่อ คำอธิบาย และซอร์สโค้ด SVG) แล้วนำเข้าเพื่อให้รูปแบบถูกต้อง.",
+        EXPORT_SVG_DESCRIPTION:
+          "เครื่องมือส่งออก SVG; ส่งออก SVG ที่เลือก (พร้อมการตั้งค่า) เป็น JSON.",
+        EXPORT_SVG_DESCRIPTION_MORE:
+          "JSON ที่ส่งออกใช้สำหรับสำรองข้อมูล ย้ายสภาพแวดล้อม หรือเป็นแม่แบบนำเข้าได้ โปรดปกป้องซอร์สโค้ด SVG และเมทาดาทาที่เกี่ยวข้อง.",
+        IMPORT_ENERGY_FLOW_DIAGRAM_DESCRIPTION:
+          "เครื่องมือนำเข้าไดอะแกรมการไหลของพลังงานแบบกลุ่ม; สร้างหรืออัปเดตไดอะแกรมหลายรายการด้วย JSON.",
+        IMPORT_ENERGY_FLOW_DIAGRAM_DESCRIPTION_MORE:
+          "แนะนำให้ส่งออกไดอะแกรมที่มีอยู่เป็นแม่แบบ แก้ไข JSON แล้วนำเข้าเพื่อให้รูปแบบถูกต้อง.",
+        EXPORT_ENERGY_FLOW_DIAGRAM_DESCRIPTION:
+          "เครื่องมือส่งออกไดอะแกรมการไหลของพลังงาน; ส่งออกไดอะแกรมที่เลือก (พร้อมการตั้งค่า) เป็น JSON.",
+        EXPORT_ENERGY_FLOW_DIAGRAM_DESCRIPTION_MORE:
+          "JSON ที่ส่งออกใช้สำหรับสำรองข้อมูล ย้ายสภาพแวดล้อม หรือเป็นแม่แบบนำเข้าได้.",
+        IMPORT_SHOPFLOOR_DESCRIPTION:
+          "เครื่องมือนำเข้าพื้นที่การผลิต (shopfloor) แบบกลุ่ม; สร้างหรืออัปเดตหลายรายการด้วย JSON.",
+        IMPORT_SHOPFLOOR_DESCRIPTION_MORE:
+          "แนะนำให้ส่งออก shopfloor ที่มีอยู่เป็นแม่แบบ แก้ไข JSON แล้วนำเข้าเพื่อให้รูปแบบถูกต้อง.",
+        EXPORT_SHOPFLOOR_DESCRIPTION:
+          "เครื่องมือส่งออกพื้นที่การผลิต (shopfloor); ส่งออกรายการที่เลือก (พร้อมการตั้งค่า) เป็น JSON.",
+        EXPORT_SHOPFLOOR_DESCRIPTION_MORE:
+          "JSON ที่ส่งออกใช้สำหรับสำรองข้อมูล ย้ายสภาพแวดล้อม หรือเป็นแม่แบบนำเข้าได้.",
+        IMPORT_DISTRIBUTION_SYSTEM_DESCRIPTION:
+          "เครื่องมือนำเข้าระบบกระจายแบบกลุ่ม; สร้างหรืออัปเดตหลายระบบด้วย JSON.",
+        IMPORT_DISTRIBUTION_SYSTEM_DESCRIPTION_MORE:
+          "แนะนำให้ส่งออกระบบที่มีอยู่เป็นแม่แบบ แก้ไข JSON (รวมถึง SVG ที่เชื่อมโยง) แล้วนำเข้าเพื่อให้รูปแบบถูกต้อง.",
+        EXPORT_DISTRIBUTION_SYSTEM_DESCRIPTION:
+          "เครื่องมือส่งออกระบบกระจาย; ส่งออกระบบที่เลือก (พร้อมการตั้งค่า) เป็น JSON.",
+        EXPORT_DISTRIBUTION_SYSTEM_DESCRIPTION_MORE:
+          "JSON ที่ส่งออกใช้สำหรับสำรองข้อมูล ย้ายสภาพแวดล้อม หรือเป็นแม่แบบนำเข้าได้.",
+        IMPORT_WORKING_CALENDAR_DESCRIPTION:
+          "เครื่องมือนำเข้าปฏิทินการทำงานแบบกลุ่ม; สร้างหรืออัปเดตหลายปฏิทินด้วย JSON.",
+        IMPORT_WORKING_CALENDAR_DESCRIPTION_MORE:
+          "แนะนำให้ส่งออกปฏิทินที่มีอยู่เป็นแม่แบบ แก้ไข JSON แล้วนำเข้าเพื่อให้รูปแบบถูกต้อง.",
+        EXPORT_WORKING_CALENDAR_DESCRIPTION:
+          "เครื่องมือส่งออกปฏิทินการทำงาน; ส่งออกปฏิทินที่เลือก (พร้อมการตั้งค่า) เป็น JSON.",
+        EXPORT_WORKING_CALENDAR_DESCRIPTION_MORE:
+          "JSON ที่ส่งออกใช้สำหรับสำรองข้อมูล ย้ายสภาพแวดล้อม หรือเป็นแม่แบบนำเข้าได้.",
         SELECT_STORE_TYPE: "เลือกประเภทร้าน",
         INPUT_STORE_NAME_PLACEHOLDER:
           "กรอกชื่อร้าน เช่น: สาขา #1",

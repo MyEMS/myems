@@ -162,7 +162,9 @@ app.controller('SVGController', function(
 					resolve: {
 						params: function() {
 							return {
-								exportdata: angular.copy($scope.exportdata)
+								exportdata: angular.copy($scope.exportdata),
+								description: 'SETTING.EXPORT_SVG_DESCRIPTION',
+								description_more: 'SETTING.EXPORT_SVG_DESCRIPTION_MORE'
 							};
 						}
 					}

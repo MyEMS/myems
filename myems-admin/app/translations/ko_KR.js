@@ -773,6 +773,46 @@
           "매장 내보내기; 선택한 매장(설정 포함)을 JSON으로 내보냅니다.",
         EXPORT_STORE_DESCRIPTION_MORE:
           "백업/이관/템플릿에 사용할 수 있습니다. 주소/연락처 등 민감 정보 유출에 주의하세요.",
+        IMPORT_SVG_DESCRIPTION:
+          "SVG 일괄 가져오기; JSON으로 여러 SVG를 생성/업데이트합니다.",
+        IMPORT_SVG_DESCRIPTION_MORE:
+          "기존 SVG를 템플릿으로 내보낸 뒤 JSON(이름, 설명, SVG 소스 코드)을 수정하여 가져오면 형식 오류를 줄일 수 있습니다.",
+        EXPORT_SVG_DESCRIPTION:
+          "SVG 내보내기; 선택한 SVG(설정 포함)을 JSON으로 내보냅니다.",
+        EXPORT_SVG_DESCRIPTION_MORE:
+          "백업/이관/템플릿에 사용할 수 있습니다. SVG 소스 코드와 관련 메타데이터 유출에 주의하세요.",
+        IMPORT_ENERGY_FLOW_DIAGRAM_DESCRIPTION:
+          "에너지 흐름도 일괄 가져오기; JSON으로 여러 흐름도를 생성/업데이트합니다.",
+        IMPORT_ENERGY_FLOW_DIAGRAM_DESCRIPTION_MORE:
+          "기존 흐름도를 템플릿으로 내보낸 뒤 JSON을 수정하여 가져오면 형식 오류를 줄일 수 있습니다.",
+        EXPORT_ENERGY_FLOW_DIAGRAM_DESCRIPTION:
+          "에너지 흐름도 내보내기; 선택한 흐름도(설정 포함)을 JSON으로 내보냅니다.",
+        EXPORT_ENERGY_FLOW_DIAGRAM_DESCRIPTION_MORE:
+          "백업/이관/템플릿에 사용할 수 있습니다.",
+        IMPORT_SHOPFLOOR_DESCRIPTION:
+          "작업장(Shopfloor) 일괄 가져오기; JSON으로 여러 작업장 데이터를 생성/업데이트합니다.",
+        IMPORT_SHOPFLOOR_DESCRIPTION_MORE:
+          "기존 작업장 데이터를 템플릿으로 내보낸 뒤 JSON을 수정하여 가져오면 형식 오류를 줄일 수 있습니다.",
+        EXPORT_SHOPFLOOR_DESCRIPTION:
+          "작업장(Shopfloor) 내보내기; 선택한 작업장 데이터(설정 포함)을 JSON으로 내보냅니다.",
+        EXPORT_SHOPFLOOR_DESCRIPTION_MORE:
+          "백업/이관/템플릿에 사용할 수 있습니다.",
+        IMPORT_DISTRIBUTION_SYSTEM_DESCRIPTION:
+          "배전 시스템 일괄 가져오기; JSON으로 여러 시스템을 생성/업데이트합니다.",
+        IMPORT_DISTRIBUTION_SYSTEM_DESCRIPTION_MORE:
+          "기존 시스템을 템플릿으로 내보낸 뒤 JSON(연결된 SVG 포함)을 수정하여 가져오면 형식 오류를 줄일 수 있습니다.",
+        EXPORT_DISTRIBUTION_SYSTEM_DESCRIPTION:
+          "배전 시스템 내보내기; 선택한 시스템(설정 포함)을 JSON으로 내보냅니다.",
+        EXPORT_DISTRIBUTION_SYSTEM_DESCRIPTION_MORE:
+          "백업/이관/템플릿에 사용할 수 있습니다.",
+        IMPORT_WORKING_CALENDAR_DESCRIPTION:
+          "근무 캘린더 일괄 가져오기; JSON으로 여러 캘린더를 생성/업데이트합니다.",
+        IMPORT_WORKING_CALENDAR_DESCRIPTION_MORE:
+          "기존 캘린더를 템플릿으로 내보낸 뒤 JSON을 수정하여 가져오면 형식 오류를 줄일 수 있습니다.",
+        EXPORT_WORKING_CALENDAR_DESCRIPTION:
+          "근무 캘린더 내보내기; 선택한 캘린더(설정 포함)을 JSON으로 내보냅니다.",
+        EXPORT_WORKING_CALENDAR_DESCRIPTION_MORE:
+          "백업/이관/템플릿에 사용할 수 있습니다.",
         SELECT_STORE_TYPE: "매장 유형을 선택하세요",
         INPUT_STORE_NAME_PLACEHOLDER: "매장명을 입력하세요 (예: 지점 #1)",
         INPUT_STORE_TYPE_NAME_PLACEHOLDER:

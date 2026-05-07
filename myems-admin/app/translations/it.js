@@ -751,6 +751,46 @@
           "Esportazione negozio; esporta il negozio selezionato (e configurazione) in JSON.",
         EXPORT_STORE_DESCRIPTION_MORE:
           "Il JSON esportato può servire per backup, migrazione o modello. Proteggi informazioni sensibili come indirizzi e contatti.",
+        IMPORT_SVG_DESCRIPTION:
+          "Importazione massiva SVG; crea o aggiorna più SVG tramite JSON.",
+        IMPORT_SVG_DESCRIPTION_MORE:
+          "Si consiglia di esportare un SVG esistente come modello, adattare il JSON (nome, descrizione e codice sorgente SVG) e poi importare per garantire il formato.",
+        EXPORT_SVG_DESCRIPTION:
+          "Esportazione SVG; esporta l'SVG selezionato (e configurazione) in JSON.",
+        EXPORT_SVG_DESCRIPTION_MORE:
+          "Il JSON esportato può servire per backup, migrazione o modello. Proteggi il codice sorgente SVG e i metadati correlati.",
+        IMPORT_ENERGY_FLOW_DIAGRAM_DESCRIPTION:
+          "Importazione massiva diagrammi di flusso energetico; crea o aggiorna più diagrammi tramite JSON.",
+        IMPORT_ENERGY_FLOW_DIAGRAM_DESCRIPTION_MORE:
+          "Si consiglia di esportare un diagramma esistente come modello, adattare il JSON e poi importare per garantire il formato.",
+        EXPORT_ENERGY_FLOW_DIAGRAM_DESCRIPTION:
+          "Esportazione diagramma di flusso energetico; esporta il diagramma selezionato (e configurazione) in JSON.",
+        EXPORT_ENERGY_FLOW_DIAGRAM_DESCRIPTION_MORE:
+          "Il JSON esportato può servire per backup, migrazione o modello.",
+        IMPORT_SHOPFLOOR_DESCRIPTION:
+          "Importazione massiva shopfloor; crea o aggiorna più shopfloor tramite JSON.",
+        IMPORT_SHOPFLOOR_DESCRIPTION_MORE:
+          "Si consiglia di esportare uno shopfloor esistente come modello, adattare il JSON e poi importare per garantire il formato.",
+        EXPORT_SHOPFLOOR_DESCRIPTION:
+          "Esportazione shopfloor; esporta lo shopfloor selezionato (e configurazione) in JSON.",
+        EXPORT_SHOPFLOOR_DESCRIPTION_MORE:
+          "Il JSON esportato può servire per backup, migrazione o modello.",
+        IMPORT_DISTRIBUTION_SYSTEM_DESCRIPTION:
+          "Importazione massiva sistema di distribuzione; crea o aggiorna più sistemi tramite JSON.",
+        IMPORT_DISTRIBUTION_SYSTEM_DESCRIPTION_MORE:
+          "Si consiglia di esportare un sistema esistente come modello, adattare il JSON (incluso l'SVG associato) e poi importare per garantire il formato.",
+        EXPORT_DISTRIBUTION_SYSTEM_DESCRIPTION:
+          "Esportazione sistema di distribuzione; esporta il sistema selezionato (e configurazione) in JSON.",
+        EXPORT_DISTRIBUTION_SYSTEM_DESCRIPTION_MORE:
+          "Il JSON esportato può servire per backup, migrazione o modello.",
+        IMPORT_WORKING_CALENDAR_DESCRIPTION:
+          "Importazione massiva calendario di lavoro; crea o aggiorna più calendari tramite JSON.",
+        IMPORT_WORKING_CALENDAR_DESCRIPTION_MORE:
+          "Si consiglia di esportare un calendario esistente come modello, adattare il JSON e poi importare per garantire il formato.",
+        EXPORT_WORKING_CALENDAR_DESCRIPTION:
+          "Esportazione calendario di lavoro; esporta il calendario selezionato (e configurazione) in JSON.",
+        EXPORT_WORKING_CALENDAR_DESCRIPTION_MORE:
+          "Il JSON esportato può servire per backup, migrazione o modello.",
         SELECT_STORE_TYPE: "Seleziona tipo negozio",
         INPUT_STORE_NAME_PLACEHOLDER:
           "Inserisci nome negozio, es.: Punto vendita #1",

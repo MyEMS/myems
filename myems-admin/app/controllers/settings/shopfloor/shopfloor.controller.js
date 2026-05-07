@@ -213,7 +213,9 @@ app.controller('ShopfloorController', function (
 					resolve: {
 						params: function() {
 							return {
-								exportdata: angular.copy($scope.exportdata)
+								exportdata: angular.copy($scope.exportdata),
+								description: 'SETTING.EXPORT_SHOPFLOOR_DESCRIPTION',
+								description_more: 'SETTING.EXPORT_SHOPFLOOR_DESCRIPTION_MORE'
 							};
 						}
 					}

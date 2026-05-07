@@ -156,7 +156,9 @@ app.controller('WorkingCalendarController', function(
 					resolve: {
 						params: function() {
 							return {
-								exportdata: angular.copy($scope.exportdata)
+								exportdata: angular.copy($scope.exportdata),
+								description: 'SETTING.EXPORT_WORKING_CALENDAR_DESCRIPTION',
+								description_more: 'SETTING.EXPORT_WORKING_CALENDAR_DESCRIPTION_MORE'
 							};
 						}
 					}

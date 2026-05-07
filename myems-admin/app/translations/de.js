@@ -818,6 +818,46 @@
           "Filial-Export; exportiert die ausgewählte Filiale (inkl. Konfiguration) als JSON.",
         EXPORT_STORE_DESCRIPTION_MORE:
           "Das exportierte JSON kann für Backup, Migration oder als Importvorlage genutzt werden. Bitte schützen Sie sensible Filialdaten wie Adressen und Kontakte.",
+        IMPORT_SVG_DESCRIPTION:
+          "SVG-Massenimport; mehrere SVGs schnell per JSON erstellen oder aktualisieren.",
+        IMPORT_SVG_DESCRIPTION_MORE:
+          "Empfohlen: Exportieren Sie ein vorhandenes SVG als Vorlage, passen Sie das JSON (Name, Beschreibung und SVG-Quellcode) an und importieren Sie anschließend, um das Format sicherzustellen.",
+        EXPORT_SVG_DESCRIPTION:
+          "SVG-Export; exportiert das ausgewählte SVG (inkl. Konfiguration) als JSON.",
+        EXPORT_SVG_DESCRIPTION_MORE:
+          "Das exportierte JSON kann für Backup, Migration oder als Importvorlage genutzt werden. Bitte schützen Sie den SVG-Quellcode und zugehörige Metadaten.",
+        IMPORT_ENERGY_FLOW_DIAGRAM_DESCRIPTION:
+          "Energieflussdiagramm-Massenimport; mehrere Energieflussdiagramme schnell per JSON erstellen oder aktualisieren.",
+        IMPORT_ENERGY_FLOW_DIAGRAM_DESCRIPTION_MORE:
+          "Empfohlen: Exportieren Sie ein vorhandenes Diagramm als Vorlage, passen Sie das JSON an und importieren Sie anschließend, um das Format sicherzustellen.",
+        EXPORT_ENERGY_FLOW_DIAGRAM_DESCRIPTION:
+          "Energieflussdiagramm-Export; exportiert das ausgewählte Energieflussdiagramm (inkl. Konfiguration) als JSON.",
+        EXPORT_ENERGY_FLOW_DIAGRAM_DESCRIPTION_MORE:
+          "Das exportierte JSON kann für Backup, Migration oder als Importvorlage genutzt werden.",
+        IMPORT_SHOPFLOOR_DESCRIPTION:
+          "Shopfloor-Massenimport; mehrere Shopfloors schnell per JSON erstellen oder aktualisieren.",
+        IMPORT_SHOPFLOOR_DESCRIPTION_MORE:
+          "Empfohlen: Exportieren Sie einen vorhandenen Shopfloor als Vorlage, passen Sie das JSON an und importieren Sie anschließend, um das Format sicherzustellen.",
+        EXPORT_SHOPFLOOR_DESCRIPTION:
+          "Shopfloor-Export; exportiert den ausgewählten Shopfloor (inkl. Konfiguration) als JSON.",
+        EXPORT_SHOPFLOOR_DESCRIPTION_MORE:
+          "Das exportierte JSON kann für Backup, Migration oder als Importvorlage genutzt werden.",
+        IMPORT_DISTRIBUTION_SYSTEM_DESCRIPTION:
+          "Verteilnetz-Massenimport; mehrere Verteilnetze schnell per JSON erstellen oder aktualisieren.",
+        IMPORT_DISTRIBUTION_SYSTEM_DESCRIPTION_MORE:
+          "Empfohlen: Exportieren Sie ein vorhandenes Verteilnetz als Vorlage, passen Sie das JSON (inkl. zugeordnetem SVG) an und importieren Sie anschließend, um das Format sicherzustellen.",
+        EXPORT_DISTRIBUTION_SYSTEM_DESCRIPTION:
+          "Verteilnetz-Export; exportiert das ausgewählte Verteilnetz (inkl. Konfiguration) als JSON.",
+        EXPORT_DISTRIBUTION_SYSTEM_DESCRIPTION_MORE:
+          "Das exportierte JSON kann für Backup, Migration oder als Importvorlage genutzt werden.",
+        IMPORT_WORKING_CALENDAR_DESCRIPTION:
+          "Arbeitskalender-Massenimport; mehrere Arbeitskalender schnell per JSON erstellen oder aktualisieren.",
+        IMPORT_WORKING_CALENDAR_DESCRIPTION_MORE:
+          "Empfohlen: Exportieren Sie einen vorhandenen Arbeitskalender als Vorlage, passen Sie das JSON an und importieren Sie anschließend, um das Format sicherzustellen.",
+        EXPORT_WORKING_CALENDAR_DESCRIPTION:
+          "Arbeitskalender-Export; exportiert den ausgewählten Arbeitskalender (inkl. Konfiguration) als JSON.",
+        EXPORT_WORKING_CALENDAR_DESCRIPTION_MORE:
+          "Das exportierte JSON kann für Backup, Migration oder als Importvorlage genutzt werden.",
         SELECT_STORE_TYPE: "Bitte Filialtyp auswählen",
         INPUT_STORE_NAME_PLACEHOLDER:
           "Bitte Filialname eingeben, z. B.: Filiale #1",

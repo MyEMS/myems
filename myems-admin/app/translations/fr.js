@@ -788,6 +788,46 @@
           "Exportation du magasin ; exporter le magasin sélectionné (et sa configuration) en JSON.",
         EXPORT_STORE_DESCRIPTION_MORE:
           "Le JSON exporté peut servir de sauvegarde, de migration ou de modèle. Protégez les informations sensibles (adresses, contacts).",
+        IMPORT_SVG_DESCRIPTION:
+          "Importation en lot de SVG ; créer ou mettre à jour plusieurs SVG via JSON.",
+        IMPORT_SVG_DESCRIPTION_MORE:
+          "Il est recommandé d’exporter un SVG existant comme modèle, d’ajuster le JSON (nom, description et code source SVG), puis d’importer afin de garantir le format.",
+        EXPORT_SVG_DESCRIPTION:
+          "Exportation de SVG ; exporter le SVG sélectionné (et sa configuration) en JSON.",
+        EXPORT_SVG_DESCRIPTION_MORE:
+          "Le JSON exporté peut servir de sauvegarde, de migration ou de modèle. Protégez le code source SVG et les métadonnées associées.",
+        IMPORT_ENERGY_FLOW_DIAGRAM_DESCRIPTION:
+          "Importation en lot de diagrammes de flux d’énergie ; créer ou mettre à jour plusieurs diagrammes via JSON.",
+        IMPORT_ENERGY_FLOW_DIAGRAM_DESCRIPTION_MORE:
+          "Il est recommandé d’exporter un diagramme existant comme modèle, d’ajuster le JSON, puis d’importer afin de garantir le format.",
+        EXPORT_ENERGY_FLOW_DIAGRAM_DESCRIPTION:
+          "Exportation de diagramme de flux d’énergie ; exporter le diagramme sélectionné (et sa configuration) en JSON.",
+        EXPORT_ENERGY_FLOW_DIAGRAM_DESCRIPTION_MORE:
+          "Le JSON exporté peut servir de sauvegarde, de migration ou de modèle.",
+        IMPORT_SHOPFLOOR_DESCRIPTION:
+          "Importation en lot de shopfloor ; créer ou mettre à jour plusieurs shopfloors via JSON.",
+        IMPORT_SHOPFLOOR_DESCRIPTION_MORE:
+          "Il est recommandé d’exporter un shopfloor existant comme modèle, d’ajuster le JSON, puis d’importer afin de garantir le format.",
+        EXPORT_SHOPFLOOR_DESCRIPTION:
+          "Exportation de shopfloor ; exporter le shopfloor sélectionné (et sa configuration) en JSON.",
+        EXPORT_SHOPFLOOR_DESCRIPTION_MORE:
+          "Le JSON exporté peut servir de sauvegarde, de migration ou de modèle.",
+        IMPORT_DISTRIBUTION_SYSTEM_DESCRIPTION:
+          "Importation en lot de système de distribution ; créer ou mettre à jour plusieurs systèmes via JSON.",
+        IMPORT_DISTRIBUTION_SYSTEM_DESCRIPTION_MORE:
+          "Il est recommandé d’exporter un système existant comme modèle, d’ajuster le JSON (y compris le SVG associé), puis d’importer afin de garantir le format.",
+        EXPORT_DISTRIBUTION_SYSTEM_DESCRIPTION:
+          "Exportation de système de distribution ; exporter le système sélectionné (et sa configuration) en JSON.",
+        EXPORT_DISTRIBUTION_SYSTEM_DESCRIPTION_MORE:
+          "Le JSON exporté peut servir de sauvegarde, de migration ou de modèle.",
+        IMPORT_WORKING_CALENDAR_DESCRIPTION:
+          "Importation en lot de calendrier de travail ; créer ou mettre à jour plusieurs calendriers via JSON.",
+        IMPORT_WORKING_CALENDAR_DESCRIPTION_MORE:
+          "Il est recommandé d’exporter un calendrier existant comme modèle, d’ajuster le JSON, puis d’importer afin de garantir le format.",
+        EXPORT_WORKING_CALENDAR_DESCRIPTION:
+          "Exportation de calendrier de travail ; exporter le calendrier sélectionné (et sa configuration) en JSON.",
+        EXPORT_WORKING_CALENDAR_DESCRIPTION_MORE:
+          "Le JSON exporté peut servir de sauvegarde, de migration ou de modèle.",
         SELECT_STORE_TYPE: "Veuillez sélectionner le type de magasin",
         INPUT_STORE_NAME_PLACEHOLDER:
           "Saisissez le nom du magasin, ex. : Magasin #1",

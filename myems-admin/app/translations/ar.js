@@ -760,6 +760,46 @@
           "أداة تصدير المتجر؛ تصدير المتجر المحدد (وتكويناته) بصيغة JSON.",
         EXPORT_STORE_DESCRIPTION_MORE:
           "يمكن استخدام JSON للتخزين الاحتياطي أو النقل أو كقالب للاستيراد. يرجى حماية معلومات المتجر الحساسة مثل العناوين وبيانات الاتصال.",
+        IMPORT_SVG_DESCRIPTION:
+          "أداة استيراد SVG دفعة واحدة؛ إنشاء أو تحديث عدة SVG عبر JSON.",
+        IMPORT_SVG_DESCRIPTION_MORE:
+          "يوصى بتصدير SVG موجود كقالب ثم تعديل JSON (الاسم والوصف وكود SVG) ثم الاستيراد لضمان صحة التنسيق.",
+        EXPORT_SVG_DESCRIPTION:
+          "أداة تصدير SVG؛ تصدير SVG المحدد (وتكويناته) بصيغة JSON.",
+        EXPORT_SVG_DESCRIPTION_MORE:
+          "يمكن استخدام JSON للتخزين الاحتياطي أو النقل أو كقالب للاستيراد. يرجى حماية كود SVG والبيانات الوصفية المرتبطة.",
+        IMPORT_ENERGY_FLOW_DIAGRAM_DESCRIPTION:
+          "أداة استيراد مخطط تدفق الطاقة دفعة واحدة؛ إنشاء أو تحديث عدة مخططات عبر JSON.",
+        IMPORT_ENERGY_FLOW_DIAGRAM_DESCRIPTION_MORE:
+          "يوصى بتصدير مخطط موجود كقالب ثم تعديل JSON ثم الاستيراد لضمان صحة التنسيق.",
+        EXPORT_ENERGY_FLOW_DIAGRAM_DESCRIPTION:
+          "أداة تصدير مخطط تدفق الطاقة؛ تصدير المخطط المحدد (وتكويناته) بصيغة JSON.",
+        EXPORT_ENERGY_FLOW_DIAGRAM_DESCRIPTION_MORE:
+          "يمكن استخدام JSON للتخزين الاحتياطي أو النقل أو كقالب للاستيراد.",
+        IMPORT_SHOPFLOOR_DESCRIPTION:
+          "أداة استيراد أرضية المصنع (Shopfloor) دفعة واحدة؛ إنشاء أو تحديث عدة سجلات عبر JSON.",
+        IMPORT_SHOPFLOOR_DESCRIPTION_MORE:
+          "يوصى بتصدير Shopfloor موجود كقالب ثم تعديل JSON ثم الاستيراد لضمان صحة التنسيق.",
+        EXPORT_SHOPFLOOR_DESCRIPTION:
+          "أداة تصدير أرضية المصنع (Shopfloor)؛ تصدير السجل المحدد (وتكويناته) بصيغة JSON.",
+        EXPORT_SHOPFLOOR_DESCRIPTION_MORE:
+          "يمكن استخدام JSON للتخزين الاحتياطي أو النقل أو كقالب للاستيراد.",
+        IMPORT_DISTRIBUTION_SYSTEM_DESCRIPTION:
+          "أداة استيراد نظام التوزيع دفعة واحدة؛ إنشاء أو تحديث عدة أنظمة عبر JSON.",
+        IMPORT_DISTRIBUTION_SYSTEM_DESCRIPTION_MORE:
+          "يوصى بتصدير نظام موجود كقالب ثم تعديل JSON (بما في ذلك SVG المرتبط) ثم الاستيراد لضمان صحة التنسيق.",
+        EXPORT_DISTRIBUTION_SYSTEM_DESCRIPTION:
+          "أداة تصدير نظام التوزيع؛ تصدير النظام المحدد (وتكويناته) بصيغة JSON.",
+        EXPORT_DISTRIBUTION_SYSTEM_DESCRIPTION_MORE:
+          "يمكن استخدام JSON للتخزين الاحتياطي أو النقل أو كقالب للاستيراد.",
+        IMPORT_WORKING_CALENDAR_DESCRIPTION:
+          "أداة استيراد تقويم العمل دفعة واحدة؛ إنشاء أو تحديث عدة تقاويم عبر JSON.",
+        IMPORT_WORKING_CALENDAR_DESCRIPTION_MORE:
+          "يوصى بتصدير تقويم موجود كقالب ثم تعديل JSON ثم الاستيراد لضمان صحة التنسيق.",
+        EXPORT_WORKING_CALENDAR_DESCRIPTION:
+          "أداة تصدير تقويم العمل؛ تصدير التقويم المحدد (وتكويناته) بصيغة JSON.",
+        EXPORT_WORKING_CALENDAR_DESCRIPTION_MORE:
+          "يمكن استخدام JSON للتخزين الاحتياطي أو النقل أو كقالب للاستيراد.",
         SELECT_STORE_TYPE: "الرجاء اختيار نوع المتجر",
         INPUT_STORE_NAME_PLACEHOLDER:
           "يرجى إدخال اسم المتجر، مثل: فرع #1",

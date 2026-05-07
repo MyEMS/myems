@@ -774,6 +774,46 @@
           "Alat eksport kedai; eksport kedai yang dipilih (termasuk konfigurasi) dalam format JSON.",
         EXPORT_STORE_DESCRIPTION_MORE:
           "JSON eksport boleh digunakan untuk sandaran, migrasi atau sebagai templat import. Sila lindungi maklumat sensitif seperti alamat dan kontak.",
+        IMPORT_SVG_DESCRIPTION:
+          "Alat import SVG secara pukal; cipta atau kemas kini beberapa SVG melalui JSON.",
+        IMPORT_SVG_DESCRIPTION_MORE:
+          "Disyorkan eksport SVG sedia ada sebagai templat, ubah suai JSON (nama, penerangan dan kod sumber SVG) dan import semula untuk memastikan format yang betul.",
+        EXPORT_SVG_DESCRIPTION:
+          "Alat eksport SVG; eksport SVG yang dipilih (termasuk konfigurasi) dalam format JSON.",
+        EXPORT_SVG_DESCRIPTION_MORE:
+          "JSON eksport boleh digunakan untuk sandaran, migrasi atau sebagai templat import. Sila lindungi kod sumber SVG dan metadata berkaitan.",
+        IMPORT_ENERGY_FLOW_DIAGRAM_DESCRIPTION:
+          "Alat import diagram aliran tenaga secara pukal; cipta atau kemas kini beberapa diagram melalui JSON.",
+        IMPORT_ENERGY_FLOW_DIAGRAM_DESCRIPTION_MORE:
+          "Disyorkan eksport diagram sedia ada sebagai templat, ubah suai JSON dan import semula untuk memastikan format yang betul.",
+        EXPORT_ENERGY_FLOW_DIAGRAM_DESCRIPTION:
+          "Alat eksport diagram aliran tenaga; eksport diagram yang dipilih (termasuk konfigurasi) dalam format JSON.",
+        EXPORT_ENERGY_FLOW_DIAGRAM_DESCRIPTION_MORE:
+          "JSON eksport boleh digunakan untuk sandaran, migrasi atau sebagai templat import.",
+        IMPORT_SHOPFLOOR_DESCRIPTION:
+          "Alat import shopfloor secara pukal; cipta atau kemas kini beberapa shopfloor melalui JSON.",
+        IMPORT_SHOPFLOOR_DESCRIPTION_MORE:
+          "Disyorkan eksport shopfloor sedia ada sebagai templat, ubah suai JSON dan import semula untuk memastikan format yang betul.",
+        EXPORT_SHOPFLOOR_DESCRIPTION:
+          "Alat eksport shopfloor; eksport shopfloor yang dipilih (termasuk konfigurasi) dalam format JSON.",
+        EXPORT_SHOPFLOOR_DESCRIPTION_MORE:
+          "JSON eksport boleh digunakan untuk sandaran, migrasi atau sebagai templat import.",
+        IMPORT_DISTRIBUTION_SYSTEM_DESCRIPTION:
+          "Alat import sistem pengagihan secara pukal; cipta atau kemas kini beberapa sistem melalui JSON.",
+        IMPORT_DISTRIBUTION_SYSTEM_DESCRIPTION_MORE:
+          "Disyorkan eksport sistem sedia ada sebagai templat, ubah suai JSON (termasuk SVG yang berkaitan) dan import semula untuk memastikan format yang betul.",
+        EXPORT_DISTRIBUTION_SYSTEM_DESCRIPTION:
+          "Alat eksport sistem pengagihan; eksport sistem yang dipilih (termasuk konfigurasi) dalam format JSON.",
+        EXPORT_DISTRIBUTION_SYSTEM_DESCRIPTION_MORE:
+          "JSON eksport boleh digunakan untuk sandaran, migrasi atau sebagai templat import.",
+        IMPORT_WORKING_CALENDAR_DESCRIPTION:
+          "Alat import kalendar kerja secara pukal; cipta atau kemas kini beberapa kalendar melalui JSON.",
+        IMPORT_WORKING_CALENDAR_DESCRIPTION_MORE:
+          "Disyorkan eksport kalendar sedia ada sebagai templat, ubah suai JSON dan import semula untuk memastikan format yang betul.",
+        EXPORT_WORKING_CALENDAR_DESCRIPTION:
+          "Alat eksport kalendar kerja; eksport kalendar yang dipilih (termasuk konfigurasi) dalam format JSON.",
+        EXPORT_WORKING_CALENDAR_DESCRIPTION_MORE:
+          "JSON eksport boleh digunakan untuk sandaran, migrasi atau sebagai templat import.",
         SELECT_STORE_TYPE: "Sila pilih jenis kedai",
         INPUT_STORE_NAME_PLACEHOLDER:
           "Sila masukkan nama kedai, cth.: Cawangan #1",

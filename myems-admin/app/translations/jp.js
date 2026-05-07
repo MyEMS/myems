@@ -744,6 +744,46 @@
           "店舗エクスポート。選択した店舗（設定含む）を JSON で出力します。",
         EXPORT_STORE_DESCRIPTION_MORE:
           "バックアップ、移行、テンプレートに利用できます。住所や連絡先などの機微情報に注意してください。",
+        IMPORT_SVG_DESCRIPTION:
+          "SVG一括インポート。JSON 形式で複数SVGを作成/更新します。",
+        IMPORT_SVG_DESCRIPTION_MORE:
+          "既存SVGのエクスポートをテンプレートにして JSON（名称、説明、SVGソース）を編集後、インポートしてください。",
+        EXPORT_SVG_DESCRIPTION:
+          "SVGエクスポート。選択したSVG（設定含む）を JSON で出力します。",
+        EXPORT_SVG_DESCRIPTION_MORE:
+          "バックアップ、移行、テンプレートに利用できます。SVGソースと関連メタデータの取り扱いに注意してください。",
+        IMPORT_ENERGY_FLOW_DIAGRAM_DESCRIPTION:
+          "エネルギーフロー図一括インポート。JSON 形式で複数図を作成/更新します。",
+        IMPORT_ENERGY_FLOW_DIAGRAM_DESCRIPTION_MORE:
+          "既存図のエクスポートをテンプレートにして JSON を編集後、インポートしてください。",
+        EXPORT_ENERGY_FLOW_DIAGRAM_DESCRIPTION:
+          "エネルギーフロー図エクスポート。選択した図（設定含む）を JSON で出力します。",
+        EXPORT_ENERGY_FLOW_DIAGRAM_DESCRIPTION_MORE:
+          "バックアップ、移行、テンプレートに利用できます。",
+        IMPORT_SHOPFLOOR_DESCRIPTION:
+          "ショップフロア（Shopfloor）一括インポート。JSON 形式で複数データを作成/更新します。",
+        IMPORT_SHOPFLOOR_DESCRIPTION_MORE:
+          "既存Shopfloorのエクスポートをテンプレートにして JSON を編集後、インポートしてください。",
+        EXPORT_SHOPFLOOR_DESCRIPTION:
+          "ショップフロア（Shopfloor）エクスポート。選択したデータ（設定含む）を JSON で出力します。",
+        EXPORT_SHOPFLOOR_DESCRIPTION_MORE:
+          "バックアップ、移行、テンプレートに利用できます。",
+        IMPORT_DISTRIBUTION_SYSTEM_DESCRIPTION:
+          "配電システム一括インポート。JSON 形式で複数システムを作成/更新します。",
+        IMPORT_DISTRIBUTION_SYSTEM_DESCRIPTION_MORE:
+          "既存システムのエクスポートをテンプレートにして JSON（関連SVG含む）を編集後、インポートしてください。",
+        EXPORT_DISTRIBUTION_SYSTEM_DESCRIPTION:
+          "配電システムエクスポート。選択したシステム（設定含む）を JSON で出力します。",
+        EXPORT_DISTRIBUTION_SYSTEM_DESCRIPTION_MORE:
+          "バックアップ、移行、テンプレートに利用できます。",
+        IMPORT_WORKING_CALENDAR_DESCRIPTION:
+          "稼働カレンダー一括インポート。JSON 形式で複数カレンダーを作成/更新します。",
+        IMPORT_WORKING_CALENDAR_DESCRIPTION_MORE:
+          "既存カレンダーのエクスポートをテンプレートにして JSON を編集後、インポートしてください。",
+        EXPORT_WORKING_CALENDAR_DESCRIPTION:
+          "稼働カレンダーエクスポート。選択したカレンダー（設定含む）を JSON で出力します。",
+        EXPORT_WORKING_CALENDAR_DESCRIPTION_MORE:
+          "バックアップ、移行、テンプレートに利用できます。",
         SELECT_STORE_TYPE: "店舗タイプを選択してください",
         INPUT_STORE_NAME_PLACEHOLDER: "店舗名を入力（例：店舗#1）",
         INPUT_STORE_TYPE_NAME_PLACEHOLDER:

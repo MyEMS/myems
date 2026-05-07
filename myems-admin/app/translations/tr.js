@@ -775,6 +775,46 @@
           "Mağaza dışa aktarma aracı; seçili mağazayı (ayarlarıyla) JSON olarak dışa aktarır.",
         EXPORT_STORE_DESCRIPTION_MORE:
           "Dışa aktarılan JSON yedekleme, taşıma veya şablon olarak kullanılabilir. Adres ve iletişim gibi hassas verileri koruyun.",
+        IMPORT_SVG_DESCRIPTION:
+          "SVG toplu içe aktarma aracı; JSON ile birden fazla SVG’yi oluşturun veya güncelleyin.",
+        IMPORT_SVG_DESCRIPTION_MORE:
+          "Şablon olarak mevcut bir SVG’yi dışa aktarıp JSON’u (ad, açıklama ve SVG kaynak kodu) düzenleyerek içe aktarmanız önerilir.",
+        EXPORT_SVG_DESCRIPTION:
+          "SVG dışa aktarma aracı; seçili SVG’yi (ayarlarıyla) JSON olarak dışa aktarır.",
+        EXPORT_SVG_DESCRIPTION_MORE:
+          "Dışa aktarılan JSON yedekleme, taşıma veya şablon olarak kullanılabilir. SVG kaynak kodunu ve ilgili meta verileri koruyun.",
+        IMPORT_ENERGY_FLOW_DIAGRAM_DESCRIPTION:
+          "Enerji akış diyagramı toplu içe aktarma aracı; JSON ile birden fazla diyagramı oluşturun veya güncelleyin.",
+        IMPORT_ENERGY_FLOW_DIAGRAM_DESCRIPTION_MORE:
+          "Şablon olarak mevcut bir diyagramı dışa aktarıp JSON’u düzenleyerek içe aktarmanız önerilir.",
+        EXPORT_ENERGY_FLOW_DIAGRAM_DESCRIPTION:
+          "Enerji akış diyagramı dışa aktarma aracı; seçili diyagramı (ayarlarıyla) JSON olarak dışa aktarır.",
+        EXPORT_ENERGY_FLOW_DIAGRAM_DESCRIPTION_MORE:
+          "Dışa aktarılan JSON yedekleme, taşıma veya şablon olarak kullanılabilir.",
+        IMPORT_SHOPFLOOR_DESCRIPTION:
+          "Shopfloor toplu içe aktarma aracı; JSON ile birden fazla shopfloor’u oluşturun veya güncelleyin.",
+        IMPORT_SHOPFLOOR_DESCRIPTION_MORE:
+          "Şablon olarak mevcut bir shopfloor’u dışa aktarıp JSON’u düzenleyerek içe aktarmanız önerilir.",
+        EXPORT_SHOPFLOOR_DESCRIPTION:
+          "Shopfloor dışa aktarma aracı; seçili shopfloor’u (ayarlarıyla) JSON olarak dışa aktarır.",
+        EXPORT_SHOPFLOOR_DESCRIPTION_MORE:
+          "Dışa aktarılan JSON yedekleme, taşıma veya şablon olarak kullanılabilir.",
+        IMPORT_DISTRIBUTION_SYSTEM_DESCRIPTION:
+          "Dağıtım sistemi toplu içe aktarma aracı; JSON ile birden fazla sistemi oluşturun veya güncelleyin.",
+        IMPORT_DISTRIBUTION_SYSTEM_DESCRIPTION_MORE:
+          "Şablon olarak mevcut bir sistemi dışa aktarıp JSON’u (ilişkili SVG dahil) düzenleyerek içe aktarmanız önerilir.",
+        EXPORT_DISTRIBUTION_SYSTEM_DESCRIPTION:
+          "Dağıtım sistemi dışa aktarma aracı; seçili sistemi (ayarlarıyla) JSON olarak dışa aktarır.",
+        EXPORT_DISTRIBUTION_SYSTEM_DESCRIPTION_MORE:
+          "Dışa aktarılan JSON yedekleme, taşıma veya şablon olarak kullanılabilir.",
+        IMPORT_WORKING_CALENDAR_DESCRIPTION:
+          "Çalışma takvimi toplu içe aktarma aracı; JSON ile birden fazla takvimi oluşturun veya güncelleyin.",
+        IMPORT_WORKING_CALENDAR_DESCRIPTION_MORE:
+          "Şablon olarak mevcut bir takvimi dışa aktarıp JSON’u düzenleyerek içe aktarmanız önerilir.",
+        EXPORT_WORKING_CALENDAR_DESCRIPTION:
+          "Çalışma takvimi dışa aktarma aracı; seçili takvimi (ayarlarıyla) JSON olarak dışa aktarır.",
+        EXPORT_WORKING_CALENDAR_DESCRIPTION_MORE:
+          "Dışa aktarılan JSON yedekleme, taşıma veya şablon olarak kullanılabilir.",
         SELECT_STORE_TYPE: "Mağaza türünü seçin",
         INPUT_STORE_NAME_PLACEHOLDER:
           "Lütfen mağaza adını girin, örn.: Şube #1",

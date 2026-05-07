@@ -770,6 +770,46 @@
           "Công cụ xuất cửa hàng; xuất cửa hàng đã chọn (kèm cấu hình) dưới dạng JSON.",
         EXPORT_STORE_DESCRIPTION_MORE:
           "JSON xuất có thể dùng để sao lưu, di chuyển hoặc làm mẫu nhập. Hãy bảo vệ thông tin nhạy cảm như địa chỉ và liên hệ.",
+        IMPORT_SVG_DESCRIPTION:
+          "Công cụ nhập SVG hàng loạt; tạo hoặc cập nhật nhiều SVG bằng JSON.",
+        IMPORT_SVG_DESCRIPTION_MORE:
+          "Nên xuất một SVG hiện có làm mẫu, chỉnh sửa JSON (tên, mô tả và mã nguồn SVG) rồi nhập để đảm bảo đúng định dạng.",
+        EXPORT_SVG_DESCRIPTION:
+          "Công cụ xuất SVG; xuất SVG đã chọn (kèm cấu hình) dưới dạng JSON.",
+        EXPORT_SVG_DESCRIPTION_MORE:
+          "JSON xuất có thể dùng để sao lưu, di chuyển hoặc làm mẫu nhập. Hãy bảo vệ mã nguồn SVG và metadata liên quan.",
+        IMPORT_ENERGY_FLOW_DIAGRAM_DESCRIPTION:
+          "Công cụ nhập sơ đồ dòng năng lượng hàng loạt; tạo hoặc cập nhật nhiều sơ đồ bằng JSON.",
+        IMPORT_ENERGY_FLOW_DIAGRAM_DESCRIPTION_MORE:
+          "Nên xuất một sơ đồ hiện có làm mẫu, chỉnh sửa JSON rồi nhập để đảm bảo đúng định dạng.",
+        EXPORT_ENERGY_FLOW_DIAGRAM_DESCRIPTION:
+          "Công cụ xuất sơ đồ dòng năng lượng; xuất sơ đồ đã chọn (kèm cấu hình) dưới dạng JSON.",
+        EXPORT_ENERGY_FLOW_DIAGRAM_DESCRIPTION_MORE:
+          "JSON xuất có thể dùng để sao lưu, di chuyển hoặc làm mẫu nhập.",
+        IMPORT_SHOPFLOOR_DESCRIPTION:
+          "Công cụ nhập shopfloor hàng loạt; tạo hoặc cập nhật nhiều shopfloor bằng JSON.",
+        IMPORT_SHOPFLOOR_DESCRIPTION_MORE:
+          "Nên xuất một shopfloor hiện có làm mẫu, chỉnh sửa JSON rồi nhập để đảm bảo đúng định dạng.",
+        EXPORT_SHOPFLOOR_DESCRIPTION:
+          "Công cụ xuất shopfloor; xuất shopfloor đã chọn (kèm cấu hình) dưới dạng JSON.",
+        EXPORT_SHOPFLOOR_DESCRIPTION_MORE:
+          "JSON xuất có thể dùng để sao lưu, di chuyển hoặc làm mẫu nhập.",
+        IMPORT_DISTRIBUTION_SYSTEM_DESCRIPTION:
+          "Công cụ nhập hệ thống phân phối hàng loạt; tạo hoặc cập nhật nhiều hệ thống bằng JSON.",
+        IMPORT_DISTRIBUTION_SYSTEM_DESCRIPTION_MORE:
+          "Nên xuất một hệ thống hiện có làm mẫu, chỉnh sửa JSON (bao gồm SVG liên kết) rồi nhập để đảm bảo đúng định dạng.",
+        EXPORT_DISTRIBUTION_SYSTEM_DESCRIPTION:
+          "Công cụ xuất hệ thống phân phối; xuất hệ thống đã chọn (kèm cấu hình) dưới dạng JSON.",
+        EXPORT_DISTRIBUTION_SYSTEM_DESCRIPTION_MORE:
+          "JSON xuất có thể dùng để sao lưu, di chuyển hoặc làm mẫu nhập.",
+        IMPORT_WORKING_CALENDAR_DESCRIPTION:
+          "Công cụ nhập lịch làm việc hàng loạt; tạo hoặc cập nhật nhiều lịch bằng JSON.",
+        IMPORT_WORKING_CALENDAR_DESCRIPTION_MORE:
+          "Nên xuất một lịch hiện có làm mẫu, chỉnh sửa JSON rồi nhập để đảm bảo đúng định dạng.",
+        EXPORT_WORKING_CALENDAR_DESCRIPTION:
+          "Công cụ xuất lịch làm việc; xuất lịch đã chọn (kèm cấu hình) dưới dạng JSON.",
+        EXPORT_WORKING_CALENDAR_DESCRIPTION_MORE:
+          "JSON xuất có thể dùng để sao lưu, di chuyển hoặc làm mẫu nhập.",
         SELECT_STORE_TYPE: "Chọn loại cửa hàng",
         INPUT_STORE_NAME_PLACEHOLDER:
           "Nhập tên cửa hàng, ví dụ: Chi nhánh #1",

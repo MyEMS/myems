@@ -756,6 +756,46 @@
           "Narzędzie eksportu sklepu; eksportuje wybrany sklep (z konfiguracją) do JSON.",
         EXPORT_STORE_DESCRIPTION_MORE:
           "Wyeksportowany JSON można użyć do kopii zapasowej, migracji lub jako szablon importu. Chroń wrażliwe informacje (adresy, kontakty).",
+        IMPORT_SVG_DESCRIPTION:
+          "Masowy import SVG; twórz lub aktualizuj wiele SVG poprzez JSON.",
+        IMPORT_SVG_DESCRIPTION_MORE:
+          "Zalecane: wyeksportuj istniejący SVG jako szablon, zmodyfikuj JSON (nazwa, opis i kod źródłowy SVG) i zaimportuj, aby zachować poprawny format.",
+        EXPORT_SVG_DESCRIPTION:
+          "Eksport SVG; eksportuje wybrany SVG (z konfiguracją) do JSON.",
+        EXPORT_SVG_DESCRIPTION_MORE:
+          "Wyeksportowany JSON można użyć do kopii zapasowej, migracji lub jako szablon importu. Chroń kod źródłowy SVG i powiązane metadane.",
+        IMPORT_ENERGY_FLOW_DIAGRAM_DESCRIPTION:
+          "Masowy import diagramu przepływu energii; twórz lub aktualizuj wiele diagramów poprzez JSON.",
+        IMPORT_ENERGY_FLOW_DIAGRAM_DESCRIPTION_MORE:
+          "Zalecane: wyeksportuj istniejący diagram jako szablon, zmodyfikuj JSON i zaimportuj, aby zachować poprawny format.",
+        EXPORT_ENERGY_FLOW_DIAGRAM_DESCRIPTION:
+          "Eksport diagramu przepływu energii; eksportuje wybrany diagram (z konfiguracją) do JSON.",
+        EXPORT_ENERGY_FLOW_DIAGRAM_DESCRIPTION_MORE:
+          "Wyeksportowany JSON można użyć do kopii zapasowej, migracji lub jako szablon importu.",
+        IMPORT_SHOPFLOOR_DESCRIPTION:
+          "Masowy import shopfloor; twórz lub aktualizuj wiele shopfloor poprzez JSON.",
+        IMPORT_SHOPFLOOR_DESCRIPTION_MORE:
+          "Zalecane: wyeksportuj istniejący shopfloor jako szablon, zmodyfikuj JSON i zaimportuj, aby zachować poprawny format.",
+        EXPORT_SHOPFLOOR_DESCRIPTION:
+          "Eksport shopfloor; eksportuje wybrany shopfloor (z konfiguracją) do JSON.",
+        EXPORT_SHOPFLOOR_DESCRIPTION_MORE:
+          "Wyeksportowany JSON można użyć do kopii zapasowej, migracji lub jako szablon importu.",
+        IMPORT_DISTRIBUTION_SYSTEM_DESCRIPTION:
+          "Masowy import systemu dystrybucji; twórz lub aktualizuj wiele systemów poprzez JSON.",
+        IMPORT_DISTRIBUTION_SYSTEM_DESCRIPTION_MORE:
+          "Zalecane: wyeksportuj istniejący system jako szablon, zmodyfikuj JSON (w tym powiązany SVG) i zaimportuj, aby zachować poprawny format.",
+        EXPORT_DISTRIBUTION_SYSTEM_DESCRIPTION:
+          "Eksport systemu dystrybucji; eksportuje wybrany system (z konfiguracją) do JSON.",
+        EXPORT_DISTRIBUTION_SYSTEM_DESCRIPTION_MORE:
+          "Wyeksportowany JSON można użyć do kopii zapasowej, migracji lub jako szablon importu.",
+        IMPORT_WORKING_CALENDAR_DESCRIPTION:
+          "Masowy import kalendarza pracy; twórz lub aktualizuj wiele kalendarzy poprzez JSON.",
+        IMPORT_WORKING_CALENDAR_DESCRIPTION_MORE:
+          "Zalecane: wyeksportuj istniejący kalendarz jako szablon, zmodyfikuj JSON i zaimportuj, aby zachować poprawny format.",
+        EXPORT_WORKING_CALENDAR_DESCRIPTION:
+          "Eksport kalendarza pracy; eksportuje wybrany kalendarz (z konfiguracją) do JSON.",
+        EXPORT_WORKING_CALENDAR_DESCRIPTION_MORE:
+          "Wyeksportowany JSON można użyć do kopii zapasowej, migracji lub jako szablon importu.",
         SELECT_STORE_TYPE: "Wybierz typ sklepu",
         INPUT_STORE_NAME_PLACEHOLDER:
           "Wprowadź nazwę sklepu, np.: Oddział #1",
