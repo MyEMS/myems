@@ -713,6 +713,7 @@
         ENTER_DESCRIPTION: "Ingresar descripción",
         SIMPLIFIED_CODE: "Código simplificado",
         ENTER_SIMPLIFIED_CODE: "Ingresar código simplificado",
+        INPUT_MENU_DISPLAY_NAME_PLACEHOLDER: "Ingrese el nombre para mostrar del menú",
         SPACE_DESCRIPTION:
           "Gestión de jerarquía de espacios y asignación de activos; construya el árbol de campus/edificio/planta/sala para agregación energética.",
         SPACE_DESCRIPTION_MORE:
@@ -927,6 +928,8 @@
         SELECT_DISTRIBUTION_SYSTEM: "Seleccione Sistema de distribución",
         SVG: "SVG",
         INPUT_SVG: "Por favor, introduzca SVG",
+        SELECT_SVG_CONFIGURATION_PLACEHOLDER:
+          "Seleccione el diagrama SVG asociado",
         DISTRIBUTION_CIRCUIT: "Circuito de distribución",
         N_S_DISTRIBUTION_CIRCUIT: " Circuito de Distribución Asociado",
         ADD_DISTRIBUTION_CIRCUIT: "Agregar circuito de distribución",
@@ -952,6 +955,19 @@
           "Por favor, introduzca los clientes",
         DISTRIBUTION_CIRCUIT_METERS: "Metros",
         INPUT_DISTRIBUTION_CIRCUIT_METERS: "Por favor, introduzca medidores",
+        DISTRIBUTION_CIRCUIT_NAME_PLACEHOLDER_EXAMPLE:
+          "p. ej.: Salida del transformador principal #1",
+        DISTRIBUTION_CIRCUIT_DISTRIBUTION_ROOM_PLACEHOLDER_EXAMPLE:
+          "p. ej.: Subestación #1",
+        DISTRIBUTION_CIRCUIT_SWITCHGEAR_PLACEHOLDER_EXAMPLE: "p. ej.: AH1",
+        DISTRIBUTION_CIRCUIT_PEAK_LOAD_PLACEHOLDER:
+          "Ingrese la carga máxima de diseño",
+        DISTRIBUTION_CIRCUIT_PEAK_CURRENT_PLACEHOLDER:
+          "Ingrese la corriente nominal máxima",
+        DISTRIBUTION_CIRCUIT_CUSTOMERS_PLACEHOLDER_EXAMPLE:
+          "p. ej.: Línea de producción A, Edificio de oficinas B",
+        DISTRIBUTION_CIRCUIT_METERS_PLACEHOLDER_EXAMPLE:
+          "p. ej.: Medidor de salida #1",
         PREVIEW: "Vista previa",
         N_S_PREVIEW: " Vista previa",
       },
@@ -1485,6 +1501,8 @@
         EDIT_SVG: "Editar SVG",
         SOURCE_CODE: "Código fuente",
         INPUT_SOURCE_CODE: "Código fuente de entrada",
+        SOURCE_CODE_PLACEHOLDER_EXAMPLE:
+          "p. ej.: <svg xmlns='http://www.w3.org/2000/svg' ...> ... </svg>",
         PREVIEW: "Vista previa",
         SELECT_SVG: "Seleccionar SVG",
         N_S_PREVIEW: "Vista previa",

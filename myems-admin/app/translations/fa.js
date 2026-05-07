@@ -663,6 +663,7 @@
         ENTER_DESCRIPTION: "توضیحات را وارد کنید",
         SIMPLIFIED_CODE: "کد اختصاری",
         ENTER_SIMPLIFIED_CODE: "کد اختصاری را وارد کنید",
+        INPUT_MENU_DISPLAY_NAME_PLACEHOLDER: "لطفاً نام نمایشی منو را وارد کنید",
         SPACE_DESCRIPTION:
           "مدیریت سلسله‌مراتب فضا و تخصیص دارایی‌ها؛ ساخت درخت فضا (محوطه/ساختمان/طبقه/اتاق) برای تجمیع انرژی.",
         SPACE_DESCRIPTION_MORE:
@@ -846,6 +847,7 @@
         SELECT_DISTRIBUTION_SYSTEM: "لطفاً سیستم توزیع را انتخاب کنید",
         SVG: "SVG",
         INPUT_SVG: "لطفاً SVG را وارد کنید",
+        SELECT_SVG_CONFIGURATION_PLACEHOLDER: "لطفاً نمودار SVG مرتبط را انتخاب کنید",
         DISTRIBUTION_CIRCUIT: "مدار توزیع",
         N_S_DISTRIBUTION_CIRCUIT: "مدار توزیع وابسته",
         ADD_DISTRIBUTION_CIRCUIT: "افزودن مدار توزیع",
@@ -869,6 +871,13 @@
         INPUT_DISTRIBUTION_CIRCUIT_CUSTOMERS: "لطفاً کاربران را وارد کنید",
         DISTRIBUTION_CIRCUIT_METERS: "کنتور خروجی",
         INPUT_DISTRIBUTION_CIRCUIT_METERS: "لطفاً کنتور خروجی را وارد کنید",
+        DISTRIBUTION_CIRCUIT_NAME_PLACEHOLDER_EXAMPLE: "مثال: خروجی ترانس اصلی ۱#",
+        DISTRIBUTION_CIRCUIT_DISTRIBUTION_ROOM_PLACEHOLDER_EXAMPLE: "مثال: پست برق شماره ۱",
+        DISTRIBUTION_CIRCUIT_SWITCHGEAR_PLACEHOLDER_EXAMPLE: "مثال: AH1",
+        DISTRIBUTION_CIRCUIT_PEAK_LOAD_PLACEHOLDER: "لطفاً حداکثر بار طراحی را وارد کنید",
+        DISTRIBUTION_CIRCUIT_PEAK_CURRENT_PLACEHOLDER: "لطفاً حداکثر جریان نامی را وارد کنید",
+        DISTRIBUTION_CIRCUIT_CUSTOMERS_PLACEHOLDER_EXAMPLE: "مثال: خط تولید A، ساختمان اداری B",
+        DISTRIBUTION_CIRCUIT_METERS_PLACEHOLDER_EXAMPLE: "مثال: کنتور خروجی ۱#",
         PREVIEW: "پیش‌نمایش",
         N_S_PREVIEW: " پیش‌نمایش",
       },
@@ -1378,6 +1387,8 @@
         EDIT_SVG: "ویرایش SVG",
         SOURCE_CODE: "کد منبع",
         INPUT_SOURCE_CODE: "وارد کردن کد منبع",
+        SOURCE_CODE_PLACEHOLDER_EXAMPLE:
+          "مثال: <svg xmlns='http://www.w3.org/2000/svg' ...> ... </svg>",
         PREVIEW: "پیش‌نمایش",
         SELECT_SVG: "لطفاً SVG را انتخاب کنید",
         N_S_PREVIEW: "پیش‌نمایش",

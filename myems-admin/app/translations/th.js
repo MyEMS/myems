@@ -691,6 +691,7 @@
         ENTER_DESCRIPTION: "ป้อนคำอธิบาย",
         SIMPLIFIED_CODE: "รหัสย่อ",
         ENTER_SIMPLIFIED_CODE: "ป้อนรหัสย่อ",
+        INPUT_MENU_DISPLAY_NAME_PLACEHOLDER: "กรุณากรอกชื่อที่แสดงของเมนู",
         SPACE_DESCRIPTION:
           "จัดการลำดับชั้นพื้นที่และการสังกัดสินทรัพย์; สร้างผังพื้นที่ (วิทยาเขต/อาคาร/ชั้น/ห้อง) เพื่อรวมพลังงานตามพื้นที่.",
         SPACE_DESCRIPTION_MORE:
@@ -900,6 +901,7 @@
         SELECT_DISTRIBUTION_SYSTEM: "เลือกระบบการกระจาย",
         SVG: "SVG",
         INPUT_SVG: "กรุณาใส่ SVG",
+        SELECT_SVG_CONFIGURATION_PLACEHOLDER: "กรุณาเลือกแผนผัง SVG ที่เชื่อมโยง",
         DISTRIBUTION_CIRCUIT: "วงจรจําหน่าย",
         N_S_DISTRIBUTION_CIRCUIT: " วงจรการกระจายที่เกี่ยวข้อง",
         ADD_DISTRIBUTION_CIRCUIT: "เพิ่มวงจรการกระจาย",
@@ -920,6 +922,13 @@
         INPUT_DISTRIBUTION_CIRCUIT_CUSTOMERS: "กรุณาใส่ลูกค้า",
         DISTRIBUTION_CIRCUIT_METERS: "เมตร",
         INPUT_DISTRIBUTION_CIRCUIT_METERS: "กรุณาใส่มิเตอร์",
+        DISTRIBUTION_CIRCUIT_NAME_PLACEHOLDER_EXAMPLE: "ตัวอย่าง: ออกสายหม้อแปลงหลัก 1#",
+        DISTRIBUTION_CIRCUIT_DISTRIBUTION_ROOM_PLACEHOLDER_EXAMPLE: "ตัวอย่าง: สถานีย่อยหมายเลข 1",
+        DISTRIBUTION_CIRCUIT_SWITCHGEAR_PLACEHOLDER_EXAMPLE: "ตัวอย่าง: AH1",
+        DISTRIBUTION_CIRCUIT_PEAK_LOAD_PLACEHOLDER: "กรุณากรอกโหลดออกแบบสูงสุด",
+        DISTRIBUTION_CIRCUIT_PEAK_CURRENT_PLACEHOLDER: "กรุณากรอกกระแสพิกัดสูงสุด",
+        DISTRIBUTION_CIRCUIT_CUSTOMERS_PLACEHOLDER_EXAMPLE: "ตัวอย่าง: สายการผลิต A, อาคารสำนักงาน B",
+        DISTRIBUTION_CIRCUIT_METERS_PLACEHOLDER_EXAMPLE: "ตัวอย่าง: มิเตอร์ออกสาย 1#",
         PREVIEW: "ดูตัวอย่าง",
         N_S_PREVIEW: " ดูตัวอย่าง",
       },
@@ -1441,6 +1450,8 @@
         EDIT_SVG: "แก้ไข SVG",
         SOURCE_CODE: "รหัสแหล่งที่มา",
         INPUT_SOURCE_CODE: "ซอร์สโค้ดอินพุต",
+        SOURCE_CODE_PLACEHOLDER_EXAMPLE:
+          "ตัวอย่าง: <svg xmlns='http://www.w3.org/2000/svg' ...> ... </svg>",
         PREVIEW: "ดูล่วงหน้า",
         SELECT_SVG: "เลือก SVG",
         N_S_PREVIEW: "ดูล่วงหน้า",

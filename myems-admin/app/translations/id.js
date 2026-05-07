@@ -698,6 +698,7 @@
         ENTER_DESCRIPTION: "Masukkan Deskripsi",
         SIMPLIFIED_CODE: "Kode Simplifikasi",
         ENTER_SIMPLIFIED_CODE: "Masukkan Kode Simplifikasi",
+        INPUT_MENU_DISPLAY_NAME_PLACEHOLDER: "Silakan masukkan nama tampilan menu",
         SPACE_DESCRIPTION:
           "Manajemen hierarki ruang dan kepemilikan aset; bangun pohon ruang (kampus/gedung/lantai/ruang) untuk agregasi energi.",
         SPACE_DESCRIPTION_MORE:
@@ -910,6 +911,7 @@
         SELECT_DISTRIBUTION_SYSTEM: "Pilih Sistem Distribusi",
         SVG: "SVG",
         INPUT_SVG: "Silakan masukan SVG",
+        SELECT_SVG_CONFIGURATION_PLACEHOLDER: "Silakan pilih diagram SVG terkait",
         DISTRIBUTION_CIRCUIT: "Sirkuit Distribusi",
         N_S_DISTRIBUTION_CIRCUIT: " Sirkuit Distribusi Terkait",
         ADD_DISTRIBUTION_CIRCUIT: "Tambahkan Sirkuit Distribusi",
@@ -933,6 +935,19 @@
         INPUT_DISTRIBUTION_CIRCUIT_CUSTOMERS: "Silakan masukan pelanggan",
         DISTRIBUTION_CIRCUIT_METERS: "Meters",
         INPUT_DISTRIBUTION_CIRCUIT_METERS: "Silakan Input Meters",
+        DISTRIBUTION_CIRCUIT_NAME_PLACEHOLDER_EXAMPLE:
+          "mis.: Feeder trafo utama #1",
+        DISTRIBUTION_CIRCUIT_DISTRIBUTION_ROOM_PLACEHOLDER_EXAMPLE:
+          "mis.: Gardu induk #1",
+        DISTRIBUTION_CIRCUIT_SWITCHGEAR_PLACEHOLDER_EXAMPLE: "mis.: AH1",
+        DISTRIBUTION_CIRCUIT_PEAK_LOAD_PLACEHOLDER:
+          "Silakan masukkan beban desain maksimum",
+        DISTRIBUTION_CIRCUIT_PEAK_CURRENT_PLACEHOLDER:
+          "Silakan masukkan arus terukur maksimum",
+        DISTRIBUTION_CIRCUIT_CUSTOMERS_PLACEHOLDER_EXAMPLE:
+          "mis.: Lini produksi A, Gedung kantor B",
+        DISTRIBUTION_CIRCUIT_METERS_PLACEHOLDER_EXAMPLE:
+          "mis.: Meter feeder #1",
         PREVIEW: "Pratayang",
         N_S_PREVIEW: " Pratayang",
       },
@@ -1459,6 +1474,8 @@
         EDIT_SVG: "Sunting SVG",
         SOURCE_CODE: "Kode sumber",
         INPUT_SOURCE_CODE: "Kode Sumber Masukan",
+        SOURCE_CODE_PLACEHOLDER_EXAMPLE:
+          "mis.: <svg xmlns='http://www.w3.org/2000/svg' ...> ... </svg>",
         PREVIEW: "Pratinjau",
         SELECT_SVG: "Pilih SVG",
         N_S_PREVIEW: "Pratinjau",

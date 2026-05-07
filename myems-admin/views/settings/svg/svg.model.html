@@ -27,7 +27,7 @@
             <div class="hr-line-dashed"></div>
             <div class="form-group"><label class="col-sm-3 control-label">{{'SVG.SOURCE_CODE' | translate}}<span class="text-danger">*</span></label>
                 <div class="col-sm-9">
-                    <textarea ng-model="svg.svg" rows="10" cols="50" name="svgsourcecode" class="form-control" required="" placeholder="例如：<svg xmlns='http://www.w3.org/2000/svg' ...> ... </svg>"></textarea>
+                    <textarea ng-model="svg.svg" rows="10" cols="50" name="svgsourcecode" class="form-control" required="" placeholder="{{'SVG.SOURCE_CODE_PLACEHOLDER_EXAMPLE' | translate}}"></textarea>
                     <div class="m-t-xs" ng-show="form_svg.svgsourcecode.$invalid && form_svg.svgsourcecode.$dirty">
                         <small class="text-danger" ng-show="form_svg.svgsourcecode.$error.required">{{'SVG.INPUT_SOURCE_CODE' | translate}}</small>
                     </div>

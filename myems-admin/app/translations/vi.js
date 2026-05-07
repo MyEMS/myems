@@ -693,6 +693,7 @@
         ENTER_DESCRIPTION: "Nhập mô tả",
         SIMPLIFIED_CODE: "Mã rút gọn",
         ENTER_SIMPLIFIED_CODE: "Nhập mã rút gọn",
+        INPUT_MENU_DISPLAY_NAME_PLACEHOLDER: "Vui lòng nhập tên hiển thị của menu",
         SPACE_DESCRIPTION:
           "Quản lý phân cấp không gian và gán tài sản; xây dựng cây không gian (khuôn viên/tòa nhà/tầng/phòng) để tổng hợp năng lượng theo khu vực.",
         SPACE_DESCRIPTION_MORE:
@@ -902,6 +903,7 @@
         SELECT_DISTRIBUTION_SYSTEM: "Chọn hệ thống phân phối",
         SVG: "SVG",
         INPUT_SVG: "Vui lòng nhập SVG",
+        SELECT_SVG_CONFIGURATION_PLACEHOLDER: "Vui lòng chọn sơ đồ SVG liên kết",
         DISTRIBUTION_CIRCUIT: "Mạch phân phối",
         N_S_DISTRIBUTION_CIRCUIT: " Mạch phân phối liên kết",
         ADD_DISTRIBUTION_CIRCUIT: "Thêm mạch phân phối",
@@ -925,6 +927,19 @@
         INPUT_DISTRIBUTION_CIRCUIT_CUSTOMERS: "Vui lòng nhập khách hàng",
         DISTRIBUTION_CIRCUIT_METERS: "Mét",
         INPUT_DISTRIBUTION_CIRCUIT_METERS: "Vui lòng nhập đồng hồ",
+        DISTRIBUTION_CIRCUIT_NAME_PLACEHOLDER_EXAMPLE:
+          "ví dụ: Xuất tuyến máy biến áp chính 1#",
+        DISTRIBUTION_CIRCUIT_DISTRIBUTION_ROOM_PLACEHOLDER_EXAMPLE:
+          "ví dụ: Trạm biến áp số 1",
+        DISTRIBUTION_CIRCUIT_SWITCHGEAR_PLACEHOLDER_EXAMPLE: "ví dụ: AH1",
+        DISTRIBUTION_CIRCUIT_PEAK_LOAD_PLACEHOLDER:
+          "Vui lòng nhập tải thiết kế tối đa",
+        DISTRIBUTION_CIRCUIT_PEAK_CURRENT_PLACEHOLDER:
+          "Vui lòng nhập dòng định mức tối đa",
+        DISTRIBUTION_CIRCUIT_CUSTOMERS_PLACEHOLDER_EXAMPLE:
+          "ví dụ: Dây chuyền sản xuất A, Tòa nhà văn phòng B",
+        DISTRIBUTION_CIRCUIT_METERS_PLACEHOLDER_EXAMPLE:
+          "ví dụ: Đồng hồ xuất tuyến 1#",
         PREVIEW: "Xem trước",
         N_S_PREVIEW: " Xem trước",
       },
@@ -1452,6 +1467,8 @@
         EDIT_SVG: "Chỉnh sửa SVG",
         SOURCE_CODE: "Mã nguồn",
         INPUT_SOURCE_CODE: "Mã nguồn đầu vào",
+        SOURCE_CODE_PLACEHOLDER_EXAMPLE:
+          "ví dụ: <svg xmlns='http://www.w3.org/2000/svg' ...> ... </svg>",
         PREVIEW: "Xem trước",
         SELECT_SVG: "Chọn SVG",
         N_S_PREVIEW: "Xem trước",

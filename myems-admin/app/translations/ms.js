@@ -696,6 +696,7 @@
         ENTER_DESCRIPTION: "Masukkan Keterangan",
         SIMPLIFIED_CODE: "Kod Ringkas",
         ENTER_SIMPLIFIED_CODE: "Masukkan Kod Ringkas",
+        INPUT_MENU_DISPLAY_NAME_PLACEHOLDER: "Sila masukkan nama paparan menu",
         SPACE_DESCRIPTION:
           "Pengurusan hierarki ruang dan pemilikan aset; bina pokok ruang (kampus/bangunan/tingkat/bilik) untuk agregasi tenaga mengikut kawasan.",
         SPACE_DESCRIPTION_MORE:
@@ -908,6 +909,8 @@
         SELECT_DISTRIBUTION_SYSTEM: "Pilih Sistem Pengedaran",
         SVG: "SVG",
         INPUT_SVG: "Sila masukkan SVG",
+        SELECT_SVG_CONFIGURATION_PLACEHOLDER:
+          "Sila pilih rajah SVG yang berkaitan",
         DISTRIBUTION_CIRCUIT: "Litar Pengedaran",
         N_S_DISTRIBUTION_CIRCUIT: " Litar Pengedaran Berkaitan",
         ADD_DISTRIBUTION_CIRCUIT: "Tambah Litar Pengedaran",
@@ -930,6 +933,16 @@
         INPUT_DISTRIBUTION_CIRCUIT_CUSTOMERS: "Sila masukkan pelanggan",
         DISTRIBUTION_CIRCUIT_METERS: "Meter",
         INPUT_DISTRIBUTION_CIRCUIT_METERS: "Sila masukkan meter",
+        DISTRIBUTION_CIRCUIT_NAME_PLACEHOLDER_EXAMPLE: "cth.: 1# feeder transformer utama",
+        DISTRIBUTION_CIRCUIT_DISTRIBUTION_ROOM_PLACEHOLDER_EXAMPLE: "cth.: Pencawang #1",
+        DISTRIBUTION_CIRCUIT_SWITCHGEAR_PLACEHOLDER_EXAMPLE: "cth.: AH1",
+        DISTRIBUTION_CIRCUIT_PEAK_LOAD_PLACEHOLDER:
+          "Sila masukkan beban reka bentuk maksimum",
+        DISTRIBUTION_CIRCUIT_PEAK_CURRENT_PLACEHOLDER:
+          "Sila masukkan arus kadar maksimum",
+        DISTRIBUTION_CIRCUIT_CUSTOMERS_PLACEHOLDER_EXAMPLE:
+          "cth.: Barisan pengeluaran A, Bangunan pejabat B",
+        DISTRIBUTION_CIRCUIT_METERS_PLACEHOLDER_EXAMPLE: "cth.: Meter feeder 1#",
         PREVIEW: "Pratonton",
         N_S_PREVIEW: " Pratonton",
       },
@@ -1455,6 +1468,8 @@
         EDIT_SVG: "Edit SVG",
         SOURCE_CODE: "Kod sumber",
         INPUT_SOURCE_CODE: "Kod Sumber Input",
+        SOURCE_CODE_PLACEHOLDER_EXAMPLE:
+          "cth.: <svg xmlns='http://www.w3.org/2000/svg' ...> ... </svg>",
         PREVIEW: "Pratonton",
         SELECT_SVG: "Pilih SVG",
         N_S_PREVIEW: "Pratonton",

@@ -670,6 +670,7 @@
         ENTER_DESCRIPTION: "説明を入力",
         SIMPLIFIED_CODE: "簡略コード",
         ENTER_SIMPLIFIED_CODE: "簡略コードを入力",
+        INPUT_MENU_DISPLAY_NAME_PLACEHOLDER: "メニュー表示名を入力してください",
         SPACE_DESCRIPTION:
           "スペース階層と資産の所属管理。キャンパス/建物/フロア/部屋のツリーを作成してエネルギーを集計します。",
         SPACE_DESCRIPTION_MORE:
@@ -851,6 +852,8 @@
         SELECT_DISTRIBUTION_SYSTEM: "配電システムを選択してください",
         SVG: "SVG",
         INPUT_SVG: "SVGを入力してください",
+        SELECT_SVG_CONFIGURATION_PLACEHOLDER:
+          "関連するSVG図を選択してください",
         DISTRIBUTION_CIRCUIT: "配電回路",
         N_S_DISTRIBUTION_CIRCUIT: "所属配電回路",
         ADD_DISTRIBUTION_CIRCUIT: "配電回路を追加",
@@ -873,6 +876,13 @@
         INPUT_DISTRIBUTION_CIRCUIT_CUSTOMERS: "顧客を入力してください",
         DISTRIBUTION_CIRCUIT_METERS: "出線電力計",
         INPUT_DISTRIBUTION_CIRCUIT_METERS: "出線電力計を入力してください",
+        DISTRIBUTION_CIRCUIT_NAME_PLACEHOLDER_EXAMPLE: "例：1#主変圧器出線",
+        DISTRIBUTION_CIRCUIT_DISTRIBUTION_ROOM_PLACEHOLDER_EXAMPLE: "例：1号変電所",
+        DISTRIBUTION_CIRCUIT_SWITCHGEAR_PLACEHOLDER_EXAMPLE: "例：AH1",
+        DISTRIBUTION_CIRCUIT_PEAK_LOAD_PLACEHOLDER: "最大設計負荷を入力してください",
+        DISTRIBUTION_CIRCUIT_PEAK_CURRENT_PLACEHOLDER: "最大定格電流を入力してください",
+        DISTRIBUTION_CIRCUIT_CUSTOMERS_PLACEHOLDER_EXAMPLE: "例：A生産ライン、Bオフィス棟",
+        DISTRIBUTION_CIRCUIT_METERS_PLACEHOLDER_EXAMPLE: "例：出線メーター1#",
         PREVIEW: "プレビュー",
         N_S_PREVIEW: " プレビュー",
       },
@@ -1384,6 +1394,8 @@
         EDIT_SVG: "SVGを編集",
         SOURCE_CODE: "ソースコード",
         INPUT_SOURCE_CODE: "ソースコードを入力",
+        SOURCE_CODE_PLACEHOLDER_EXAMPLE:
+          "例：<svg xmlns='http://www.w3.org/2000/svg' ...> ... </svg>",
         PREVIEW: "プレビュー",
         SELECT_SVG: "SVGを選択してください",
         N_S_PREVIEW: "プレビュー",

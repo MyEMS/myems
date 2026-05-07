@@ -29,7 +29,7 @@
                 <label class="col-sm-3 control-label">{{'DISTRIBUTION_SYSTEM.SVG' | translate}}<span class="text-danger">*</span></label>
                 <div class="col-sm-9">
                     <ui-select ng-model="distributionsystem.svg.id" theme="bootstrap" required>
-                        <ui-select-match allow-clear="false" placeholder="请选择关联的SVG组态图">{{$select.selected.name}}</ui-select-match>
+                        <ui-select-match allow-clear="false" placeholder="{{'DISTRIBUTION_SYSTEM.SELECT_SVG_CONFIGURATION_PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
                         <ui-select-choices repeat="svg.id as svg in svgs | filter: $select.search">
                             <div ng-bind-html="svg.name | highlight: $select.search"></div>
                         </ui-select-choices>

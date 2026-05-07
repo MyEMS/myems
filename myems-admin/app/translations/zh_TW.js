@@ -683,6 +683,7 @@
         ENTER_DESCRIPTION: "輸入描述",
         SIMPLIFIED_CODE: "簡化代碼",
         ENTER_SIMPLIFIED_CODE: "輸入簡化代碼",
+        INPUT_MENU_DISPLAY_NAME_PLACEHOLDER: "請輸入選單顯示名稱",
         SPACE_DESCRIPTION:
           "空間層級與資產歸屬管理；建立空間樹（園區/建築/樓層/房間）以便按區域匯總能耗。",
         SPACE_DESCRIPTION_MORE:
@@ -865,6 +866,7 @@
         SELECT_DISTRIBUTION_SYSTEM: "請選擇配電系統",
         SVG: "SVG",
         INPUT_SVG: "請輸入SVG",
+        SELECT_SVG_CONFIGURATION_PLACEHOLDER: "請選擇關聯的 SVG 組態圖",
         DISTRIBUTION_CIRCUIT: "配電回路",
         N_S_DISTRIBUTION_CIRCUIT: "附屬配電回路",
         ADD_DISTRIBUTION_CIRCUIT: "添加配電回路",
@@ -885,6 +887,13 @@
         INPUT_DISTRIBUTION_CIRCUIT_CUSTOMERS: "請輸入⽤⼾",
         DISTRIBUTION_CIRCUIT_METERS: "出線電表",
         INPUT_DISTRIBUTION_CIRCUIT_METERS: "請輸入出線電表",
+        DISTRIBUTION_CIRCUIT_NAME_PLACEHOLDER_EXAMPLE: "例如：1#主變出線",
+        DISTRIBUTION_CIRCUIT_DISTRIBUTION_ROOM_PLACEHOLDER_EXAMPLE: "例如：1號變電所",
+        DISTRIBUTION_CIRCUIT_SWITCHGEAR_PLACEHOLDER_EXAMPLE: "例如：AH1",
+        DISTRIBUTION_CIRCUIT_PEAK_LOAD_PLACEHOLDER: "請輸入最大設計負荷",
+        DISTRIBUTION_CIRCUIT_PEAK_CURRENT_PLACEHOLDER: "請輸入最大額定電流",
+        DISTRIBUTION_CIRCUIT_CUSTOMERS_PLACEHOLDER_EXAMPLE: "例如：A 生產線、B 辦公樓",
+        DISTRIBUTION_CIRCUIT_METERS_PLACEHOLDER_EXAMPLE: "例如：1#出線表",
         PREVIEW: "預覽",
         N_S_PREVIEW: " 預覽",
       },
@@ -1408,6 +1417,8 @@
         EDIT_SVG: "編輯SVG",
         SOURCE_CODE: "原始碼",
         INPUT_SOURCE_CODE: "輸入原始碼",
+        SOURCE_CODE_PLACEHOLDER_EXAMPLE:
+          "例如：<svg xmlns='http://www.w3.org/2000/svg' ...> ... </svg>",
         PREVIEW: "預覽",
         SELECT_SVG: "請選擇SVG",
         N_S_PREVIEW: "預覽",

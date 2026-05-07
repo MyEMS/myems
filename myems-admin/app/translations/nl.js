@@ -673,6 +673,7 @@
         ENTER_DESCRIPTION: "Beschrijving invoeren",
         SIMPLIFIED_CODE: "Verkorte code",
         ENTER_SIMPLIFIED_CODE: "Verkorte code invoeren",
+        INPUT_MENU_DISPLAY_NAME_PLACEHOLDER: "Voer menuweergavenaam in",
         SPACE_DESCRIPTION:
           "Beheer van ruimtehiërarchie en assettoewijzing; bouw een ruimtestructuur (campus/gebouw/verdieping/ruimte) voor energie-aggregatie per gebied.",
         SPACE_DESCRIPTION_MORE:
@@ -862,6 +863,8 @@
         SELECT_DISTRIBUTION_SYSTEM: "Selecteer distributiesysteem",
         SVG: "SVG",
         INPUT_SVG: "Voer SVG in",
+        SELECT_SVG_CONFIGURATION_PLACEHOLDER:
+          "Selecteer het gekoppelde SVG-diagram",
         DISTRIBUTION_CIRCUIT: "Distributiekring",
         N_S_DISTRIBUTION_CIRCUIT: "Onderliggende distributiekringen",
         ADD_DISTRIBUTION_CIRCUIT: "Distributiekring toevoegen",
@@ -885,6 +888,19 @@
         DISTRIBUTION_CIRCUIT_METERS: "Uitgaande elektriciteitsmeters",
         INPUT_DISTRIBUTION_CIRCUIT_METERS:
           "Voer uitgaande elektriciteitsmeters in",
+        DISTRIBUTION_CIRCUIT_NAME_PLACEHOLDER_EXAMPLE:
+          "bijv.: 1# hoofdtransformator feeder",
+        DISTRIBUTION_CIRCUIT_DISTRIBUTION_ROOM_PLACEHOLDER_EXAMPLE:
+          "bijv.: Onderstation #1",
+        DISTRIBUTION_CIRCUIT_SWITCHGEAR_PLACEHOLDER_EXAMPLE: "bijv.: AH1",
+        DISTRIBUTION_CIRCUIT_PEAK_LOAD_PLACEHOLDER:
+          "Voer maximale ontwerpbelasting in",
+        DISTRIBUTION_CIRCUIT_PEAK_CURRENT_PLACEHOLDER:
+          "Voer maximale nominale stroom in",
+        DISTRIBUTION_CIRCUIT_CUSTOMERS_PLACEHOLDER_EXAMPLE:
+          "bijv.: Productielijn A, Kantoorgebouw B",
+        DISTRIBUTION_CIRCUIT_METERS_PLACEHOLDER_EXAMPLE:
+          "bijv.: Feeder meter #1",
         PREVIEW: "Voorbeeld",
         N_S_PREVIEW: " Voorbeeld",
       },
@@ -1409,6 +1425,8 @@
         EDIT_SVG: "SVG bewerken",
         SOURCE_CODE: "Broncode",
         INPUT_SOURCE_CODE: "Voer broncode in",
+        SOURCE_CODE_PLACEHOLDER_EXAMPLE:
+          "bijv.: <svg xmlns='http://www.w3.org/2000/svg' ...> ... </svg>",
         PREVIEW: "Voorbeeld",
         SELECT_SVG: "Selecteer SVG",
         N_S_PREVIEW: "Voorbeeld",

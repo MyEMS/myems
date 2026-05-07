@@ -539,6 +539,7 @@
         MENU_DESCRIPTION_MORE: "Menu management is used to define the left navigation bar that users see after logging in. You can adjust the order of menus, modify display names, or set certain function items to be hidden according to business logic. Supports multi-level menu structures. Note that menu visibility is also controlled by user role permissions, and modifications made here will affect all users with relevant permissions.",
         MENU_DIALOG_DESCRIPTION: "Edit menu attributes here.",
         MENU_DIALOG_DESCRIPTION_MORE: "You can modify the display name of the menu and whether it is hidden in the navigation bar. If set to 'Hidden', the function still exists but will not be displayed in the left menu tree. After modification, users usually need to log in again or refresh the page to apply the new menu structure.",
+        INPUT_MENU_DISPLAY_NAME_PLACEHOLDER: "Please enter menu display name",
         KNOWLEDGE_FILE_DESCRIPTION: "System knowledge base and document center; upload and share technical documents, manuals, or policy files related to energy management.",
         KNOWLEDGE_FILE_DESCRIPTION_MORE: "The knowledge base is used to centrally store and manage unstructured data of the factory, such as equipment manuals, energy audit reports, maintenance SOPs, and related national energy policies. Supports multiple file formats. You can associate documents here with specific equipment for easy retrieval by on-site personnel. Proper classification and naming can significantly improve information acquisition efficiency.",
         WORKING_CALENDAR_DESCRIPTION: "Factory production and operation calendar management; defines working time arrangements for different production lines or areas.",
@@ -934,6 +935,7 @@
         SELECT_DISTRIBUTION_SYSTEM: "Select Distribution System",
         SVG: "SVG",
         INPUT_SVG: "Please Input SVG",
+        SELECT_SVG_CONFIGURATION_PLACEHOLDER: "Please select associated SVG diagram",
         BIND_POINT_DESCRIPTION: "Distribution circuit and data point association management; bind real-time collected points to each circuit.",
         BIND_POINT_DESCRIPTION_MORE: "In this interface, you can bind data points from the collection system to specific distribution circuits. Operation method: First select the target circuit on the left, then select a data source and find the corresponding point on the right, and drag it into the 'Bound Points' area in the middle. To unbind, drag the point to the trash can icon below. Correct binding helps display real-time electrical parameters and trends in the distribution preview.",
         DISTRIBUTION_CIRCUIT: "Distribution Circuit",
@@ -962,6 +964,19 @@
         INPUT_DISTRIBUTION_CIRCUIT_CUSTOMERS: "Please Input Customers",
         DISTRIBUTION_CIRCUIT_METERS: "Meters",
         INPUT_DISTRIBUTION_CIRCUIT_METERS: "Please Input Meters",
+        DISTRIBUTION_CIRCUIT_NAME_PLACEHOLDER_EXAMPLE:
+          "e.g.: 1# main transformer feeder",
+        DISTRIBUTION_CIRCUIT_DISTRIBUTION_ROOM_PLACEHOLDER_EXAMPLE:
+          "e.g.: Substation #1",
+        DISTRIBUTION_CIRCUIT_SWITCHGEAR_PLACEHOLDER_EXAMPLE: "e.g.: AH1",
+        DISTRIBUTION_CIRCUIT_PEAK_LOAD_PLACEHOLDER:
+          "Please enter maximum design load",
+        DISTRIBUTION_CIRCUIT_PEAK_CURRENT_PLACEHOLDER:
+          "Please enter maximum rated current",
+        DISTRIBUTION_CIRCUIT_CUSTOMERS_PLACEHOLDER_EXAMPLE:
+          "e.g.: Production line A, Office building B",
+        DISTRIBUTION_CIRCUIT_METERS_PLACEHOLDER_EXAMPLE:
+          "e.g.: Feeder meter #1",
         PREVIEW: "Preview",
         PREVIEW_DESCRIPTION: "Real-time status preview of the distribution system; displays distribution operation parameters graphically or in list form.",
         PREVIEW_DESCRIPTION_MORE: "The preview interface combined with SVG configuration diagrams dynamically displays real-time current, power, and switch status of each circuit. If the graphic does not show data, please check the configuration in the 'Bind Data Points' tab. You can click on the circuit icon to view historical trends of that feeder.",
@@ -1491,6 +1506,8 @@
         EDIT_SVG: "Edit SVG",
         SOURCE_CODE: "Source Code",
         INPUT_SOURCE_CODE: "Please Input Source Code",
+        SOURCE_CODE_PLACEHOLDER_EXAMPLE:
+          "e.g.: <svg xmlns='http://www.w3.org/2000/svg' ...> ... </svg>",
         PREVIEW: "Preview",
         PREVIEW_DESCRIPTION: "SVG real-time rendering preview; verify if the current SVG code can be displayed correctly.",
         PREVIEW_DESCRIPTION_MORE: "The preview interface directly loads and renders the SVG code you defined. If the preview area is blank or displays abnormally, please check whether your SVG source code is in standard XML format and does not contain unsupported external scripts. You can test the self-adaptation effect of SVG by zooming the browser.",

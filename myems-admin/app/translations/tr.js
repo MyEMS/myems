@@ -697,6 +697,7 @@
         ENTER_DESCRIPTION: "Açıklama Girin",
         SIMPLIFIED_CODE: "Basitleştirilmiş Kod",
         ENTER_SIMPLIFIED_CODE: "Basitleştirilmiş Kod Girin",
+        INPUT_MENU_DISPLAY_NAME_PLACEHOLDER: "Lütfen menü görünen adını girin",
         SPACE_DESCRIPTION:
           "Alan hiyerarşisi ve varlık sahipliği yönetimi; enerji toplaması için alan ağacı (kampüs/bina/kat/oda) oluşturun.",
         SPACE_DESCRIPTION_MORE:
@@ -905,6 +906,8 @@
         SELECT_DISTRIBUTION_SYSTEM: "Dağıtım Sistemini Seçin",
         SVG: "SVG",
         INPUT_SVG: "Lütfen SVG girin",
+        SELECT_SVG_CONFIGURATION_PLACEHOLDER:
+          "Lütfen ilişkili SVG diyagramını seçin",
         DISTRIBUTION_CIRCUIT: "Dağıtım Devresi",
         N_S_DISTRIBUTION_CIRCUIT: " İlişkili Dağıtım Devresi",
         ADD_DISTRIBUTION_CIRCUIT: "Dağıtım Devresi Ekle",
@@ -927,6 +930,19 @@
         INPUT_DISTRIBUTION_CIRCUIT_CUSTOMERS: "Lütfen Müşterileri Girin",
         DISTRIBUTION_CIRCUIT_METERS: "Metre",
         INPUT_DISTRIBUTION_CIRCUIT_METERS: "Lütfen Sayaçları Girin",
+        DISTRIBUTION_CIRCUIT_NAME_PLACEHOLDER_EXAMPLE:
+          "örn.: 1# ana trafo çıkışı",
+        DISTRIBUTION_CIRCUIT_DISTRIBUTION_ROOM_PLACEHOLDER_EXAMPLE:
+          "örn.: Trafo merkezi #1",
+        DISTRIBUTION_CIRCUIT_SWITCHGEAR_PLACEHOLDER_EXAMPLE: "örn.: AH1",
+        DISTRIBUTION_CIRCUIT_PEAK_LOAD_PLACEHOLDER:
+          "Lütfen maksimum tasarım yükünü girin",
+        DISTRIBUTION_CIRCUIT_PEAK_CURRENT_PLACEHOLDER:
+          "Lütfen maksimum anma akımını girin",
+        DISTRIBUTION_CIRCUIT_CUSTOMERS_PLACEHOLDER_EXAMPLE:
+          "örn.: Üretim hattı A, Ofis binası B",
+        DISTRIBUTION_CIRCUIT_METERS_PLACEHOLDER_EXAMPLE:
+          "örn.: Çıkış sayacı 1#",
         PREVIEW: "Önizleme",
         N_S_PREVIEW: " Önizleme",
       },
@@ -1449,6 +1465,8 @@
         EDIT_SVG: "Edit SVG",
         SOURCE_CODE: "Kaynak kodu",
         INPUT_SOURCE_CODE: "Giriş Kaynağı Kodu",
+        SOURCE_CODE_PLACEHOLDER_EXAMPLE:
+          "örn.: <svg xmlns='http://www.w3.org/2000/svg' ...> ... </svg>",
         PREVIEW: "Önizleme",
         SELECT_SVG: "SVG Seçin",
         N_S_PREVIEW: "Önizleme",

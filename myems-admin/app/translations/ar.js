@@ -682,6 +682,7 @@
         ENTER_DESCRIPTION: "أدخل الوصف",
         SIMPLIFIED_CODE: "الكود المبسط",
         ENTER_SIMPLIFIED_CODE: "أدخل الكود المبسط",
+        INPUT_MENU_DISPLAY_NAME_PLACEHOLDER: "يرجى إدخال اسم عرض القائمة",
         SPACE_DESCRIPTION:
           "إدارة هيكل المساحات وملكية الأصول؛ بناء شجرة المساحات (حرم/مبنى/طابق/غرفة) لتجميع الطاقة حسب المنطقة.",
         SPACE_DESCRIPTION_MORE:
@@ -893,6 +894,7 @@
         SELECT_DISTRIBUTION_SYSTEM: "حدد نظام التوزيع",
         SVG: "SVG",
         INPUT_SVG: "الرجاء إدخال SVG",
+        SELECT_SVG_CONFIGURATION_PLACEHOLDER: "يرجى اختيار مخطط SVG المرتبط",
         DISTRIBUTION_CIRCUIT: "دائرة التوزيع",
         N_S_DISTRIBUTION_CIRCUIT: " دائرة التوزيع المرتبطة",
         ADD_DISTRIBUTION_CIRCUIT: "إضافة دائرة توزيع",
@@ -913,6 +915,13 @@
         INPUT_DISTRIBUTION_CIRCUIT_CUSTOMERS: "يرجى إدخال العملاء",
         DISTRIBUTION_CIRCUIT_METERS: "امتار",
         INPUT_DISTRIBUTION_CIRCUIT_METERS: "يرجى إدخال العدادات",
+        DISTRIBUTION_CIRCUIT_NAME_PLACEHOLDER_EXAMPLE: "مثال: 1# مخرج المحول الرئيسي",
+        DISTRIBUTION_CIRCUIT_DISTRIBUTION_ROOM_PLACEHOLDER_EXAMPLE: "مثال: محطة تحويل رقم 1",
+        DISTRIBUTION_CIRCUIT_SWITCHGEAR_PLACEHOLDER_EXAMPLE: "مثال: AH1",
+        DISTRIBUTION_CIRCUIT_PEAK_LOAD_PLACEHOLDER: "يرجى إدخال أقصى حمل تصميمي",
+        DISTRIBUTION_CIRCUIT_PEAK_CURRENT_PLACEHOLDER: "يرجى إدخال أقصى تيار مُقنن",
+        DISTRIBUTION_CIRCUIT_CUSTOMERS_PLACEHOLDER_EXAMPLE: "مثال: خط إنتاج A، مبنى مكاتب B",
+        DISTRIBUTION_CIRCUIT_METERS_PLACEHOLDER_EXAMPLE: "مثال: عداد مخرج رقم 1",
         PREVIEW: "معاينه",
         N_S_PREVIEW: " معاينه",
       },
@@ -1436,6 +1445,8 @@
         EDIT_SVG: "تحرير SVG",
         SOURCE_CODE: "مصدر الرمز",
         INPUT_SOURCE_CODE: "إدخال كود المصدر",
+        SOURCE_CODE_PLACEHOLDER_EXAMPLE:
+          "مثال: <svg xmlns='http://www.w3.org/2000/svg' ...> ... </svg>",
         PREVIEW: "المعاينة",
         SELECT_SVG: "اختر SVG",
         N_S_PREVIEW: "المعاينة",

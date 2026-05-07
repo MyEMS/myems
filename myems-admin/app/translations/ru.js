@@ -745,6 +745,8 @@
         ENTER_DESCRIPTION: "Введите описание",
         SIMPLIFIED_CODE: "Упрощенный код",
         ENTER_SIMPLIFIED_CODE: "Введите упрощенный код",
+        INPUT_MENU_DISPLAY_NAME_PLACEHOLDER:
+          "Пожалуйста, введите отображаемое имя меню",
         SPACE_DESCRIPTION:
           "Управление иерархией пространств и принадлежностью активов; постройте дерево (кампус/здание/этаж/комната) для агрегирования энергии по зонам.",
         SPACE_DESCRIPTION_MORE:
@@ -957,6 +959,8 @@
         SELECT_DISTRIBUTION_SYSTEM: "Выберите систему дистрибуции",
         SVG: "SVG",
         INPUT_SVG: "Пожалуйста, введите SVG",
+        SELECT_SVG_CONFIGURATION_PLACEHOLDER:
+          "Пожалуйста, выберите связанный SVG-диаграмму",
         DISTRIBUTION_CIRCUIT: "Распределительная цепь",
         N_S_DISTRIBUTION_CIRCUIT: " Связанная распределительная цепь",
         ADD_DISTRIBUTION_CIRCUIT: "Добавить распределительную цепь",
@@ -981,6 +985,19 @@
         INPUT_DISTRIBUTION_CIRCUIT_CUSTOMERS: "Пожалуйста, введите клиентов",
         DISTRIBUTION_CIRCUIT_METERS: "Метров",
         INPUT_DISTRIBUTION_CIRCUIT_METERS: "Пожалуйста, введите счетчики",
+        DISTRIBUTION_CIRCUIT_NAME_PLACEHOLDER_EXAMPLE:
+          "например: 1# отход главного трансформатора",
+        DISTRIBUTION_CIRCUIT_DISTRIBUTION_ROOM_PLACEHOLDER_EXAMPLE:
+          "например: Подстанция №1",
+        DISTRIBUTION_CIRCUIT_SWITCHGEAR_PLACEHOLDER_EXAMPLE: "например: AH1",
+        DISTRIBUTION_CIRCUIT_PEAK_LOAD_PLACEHOLDER:
+          "Пожалуйста, введите максимальную расчетную нагрузку",
+        DISTRIBUTION_CIRCUIT_PEAK_CURRENT_PLACEHOLDER:
+          "Пожалуйста, введите максимальный номинальный ток",
+        DISTRIBUTION_CIRCUIT_CUSTOMERS_PLACEHOLDER_EXAMPLE:
+          "например: Производственная линия A, Офисное здание B",
+        DISTRIBUTION_CIRCUIT_METERS_PLACEHOLDER_EXAMPLE:
+          "например: Счетчик отхода 1#",
         PREVIEW: "Предварительный просмотр",
         N_S_PREVIEW: " Предварительный просмотр",
       },
@@ -1514,6 +1531,8 @@
         EDIT_SVG: "Изменить SVG",
         SOURCE_CODE: "Исходный код",
         INPUT_SOURCE_CODE: "Исходный код ввода",
+        SOURCE_CODE_PLACEHOLDER_EXAMPLE:
+          "например: <svg xmlns='http://www.w3.org/2000/svg' ...> ... </svg>",
         PREVIEW: "Предварительный просмотр",
         SELECT_SVG: "Выберите SVG",
         N_S_PREVIEW: "Предварительный просмотр",

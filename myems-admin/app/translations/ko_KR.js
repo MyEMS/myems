@@ -698,6 +698,7 @@
         ENTER_DESCRIPTION: "설명 입력",
         SIMPLIFIED_CODE: "약어",
         ENTER_SIMPLIFIED_CODE: "약어 입력",
+        INPUT_MENU_DISPLAY_NAME_PLACEHOLDER: "메뉴 표시 이름을 입력하세요",
         SPACE_DESCRIPTION:
           "공간 계층 및 자산 소속 관리; 캠퍼스/건물/층/호실 트리를 구성하여 에너지를 구역별로 집계합니다.",
         SPACE_DESCRIPTION_MORE:
@@ -880,6 +881,7 @@
         SELECT_DISTRIBUTION_SYSTEM: "배전 시스템을 선택하세요",
         SVG: "SVG",
         INPUT_SVG: "SVG를 입력하세요",
+        SELECT_SVG_CONFIGURATION_PLACEHOLDER: "연결할 SVG 도면을 선택하세요",
         DISTRIBUTION_CIRCUIT: "배전 회로",
         N_S_DISTRIBUTION_CIRCUIT: "부속 배전 회로",
         ADD_DISTRIBUTION_CIRCUIT: "배전 회로 추가",
@@ -900,6 +902,13 @@
         INPUT_DISTRIBUTION_CIRCUIT_CUSTOMERS: "사용자를 입력하세요",
         DISTRIBUTION_CIRCUIT_METERS: "출선 전력계",
         INPUT_DISTRIBUTION_CIRCUIT_METERS: "출선 전력계를 입력하세요",
+        DISTRIBUTION_CIRCUIT_NAME_PLACEHOLDER_EXAMPLE: "예: 1# 주 변압기 출선",
+        DISTRIBUTION_CIRCUIT_DISTRIBUTION_ROOM_PLACEHOLDER_EXAMPLE: "예: 1호 변전소",
+        DISTRIBUTION_CIRCUIT_SWITCHGEAR_PLACEHOLDER_EXAMPLE: "예: AH1",
+        DISTRIBUTION_CIRCUIT_PEAK_LOAD_PLACEHOLDER: "최대 설계 부하를 입력하세요",
+        DISTRIBUTION_CIRCUIT_PEAK_CURRENT_PLACEHOLDER: "최대 정격 전류를 입력하세요",
+        DISTRIBUTION_CIRCUIT_CUSTOMERS_PLACEHOLDER_EXAMPLE: "예: A 생산라인, B 사무동",
+        DISTRIBUTION_CIRCUIT_METERS_PLACEHOLDER_EXAMPLE: "예: 출선 계량기 1#",
         PREVIEW: "미리보기",
         N_S_PREVIEW: " 미리보기",
       },
@@ -1415,6 +1424,8 @@
         EDIT_SVG: "SVG 편집",
         SOURCE_CODE: "소스 코드",
         INPUT_SOURCE_CODE: "소스 코드 입력",
+        SOURCE_CODE_PLACEHOLDER_EXAMPLE:
+          "예: <svg xmlns='http://www.w3.org/2000/svg' ...> ... </svg>",
         PREVIEW: "미리보기",
         SELECT_SVG: "SVG를 선택하세요",
         N_S_PREVIEW: "미리보기",

@@ -678,6 +678,7 @@
         ENTER_DESCRIPTION: "Wprowadź opis",
         SIMPLIFIED_CODE: "Kod uproszczony",
         ENTER_SIMPLIFIED_CODE: "Wprowadź kod uproszczony",
+        INPUT_MENU_DISPLAY_NAME_PLACEHOLDER: "Wprowadź nazwę wyświetlaną menu",
         SPACE_DESCRIPTION:
           "Zarządzanie hierarchią przestrzeni i przypisaniem zasobów; zbuduj drzewo (kampus/budynek/piętro/pomieszczenie) do agregacji energii według obszaru.",
         SPACE_DESCRIPTION_MORE:
@@ -868,6 +869,7 @@
         SELECT_DISTRIBUTION_SYSTEM: "Wybierz system rozdziału energii",
         SVG: "SVG",
         INPUT_SVG: "Wprowadź SVG",
+        SELECT_SVG_CONFIGURATION_PLACEHOLDER: "Wybierz powiązany diagram SVG",
         DISTRIBUTION_CIRCUIT: "Obwód rozdziału energii",
         N_S_DISTRIBUTION_CIRCUIT: "Przypisane obwody rozdziału energii",
         ADD_DISTRIBUTION_CIRCUIT: "Dodaj obwód rozdziału energii",
@@ -888,6 +890,13 @@
         INPUT_DISTRIBUTION_CIRCUIT_CUSTOMERS: "Wprowadź klientów",
         DISTRIBUTION_CIRCUIT_METERS: "Liczniki wyjściowe",
         INPUT_DISTRIBUTION_CIRCUIT_METERS: "Wprowadź liczniki wyjściowe",
+        DISTRIBUTION_CIRCUIT_NAME_PLACEHOLDER_EXAMPLE: "np.: Wyjście transformatora głównego 1#",
+        DISTRIBUTION_CIRCUIT_DISTRIBUTION_ROOM_PLACEHOLDER_EXAMPLE: "np.: Stacja transformatorowa nr 1",
+        DISTRIBUTION_CIRCUIT_SWITCHGEAR_PLACEHOLDER_EXAMPLE: "np.: AH1",
+        DISTRIBUTION_CIRCUIT_PEAK_LOAD_PLACEHOLDER: "Wprowadź maksymalne obciążenie projektowe",
+        DISTRIBUTION_CIRCUIT_PEAK_CURRENT_PLACEHOLDER: "Wprowadź maksymalny prąd znamionowy",
+        DISTRIBUTION_CIRCUIT_CUSTOMERS_PLACEHOLDER_EXAMPLE: "np.: Linia produkcyjna A, Biurowiec B",
+        DISTRIBUTION_CIRCUIT_METERS_PLACEHOLDER_EXAMPLE: "np.: Licznik wyjściowy 1#",
         PREVIEW: "Podgląd",
         N_S_PREVIEW: " Podgląd",
       },
@@ -1422,6 +1431,8 @@
         EDIT_SVG: "Edytuj SVG",
         SOURCE_CODE: "Kod źródłowy",
         INPUT_SOURCE_CODE: "Wprowadź kod źródłowy",
+        SOURCE_CODE_PLACEHOLDER_EXAMPLE:
+          "np.: <svg xmlns='http://www.w3.org/2000/svg' ...> ... </svg>",
         PREVIEW: "Podgląd",
         SELECT_SVG: "Wybierz SVG",
         N_S_PREVIEW: "Podgląd",
