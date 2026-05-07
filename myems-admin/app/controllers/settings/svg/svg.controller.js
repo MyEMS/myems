@@ -210,6 +210,8 @@ app.controller('SVGController', function(
 			resolve: {
 				params: function() {
 					return {
+						description: 'SETTING.IMPORT_SVG_DESCRIPTION',
+						description_more: 'SETTING.IMPORT_SVG_DESCRIPTION_MORE'
 					};
 				}
 			}

@@ -5,6 +5,18 @@
 				<uib-tabset>
 					<uib-tab heading="{{'COMMON.WORKING_CALENDAR' | translate}}" >
 						<div class="panel-body" ng-controller="WorkingCalendarController">
+							<div class="alert alert-info">
+								<p>
+									{{'SETTING.WORKING_CALENDAR_DESCRIPTION' | translate}}
+									<a ng-click="isCollapsed = !isCollapsed" class="pull-right">
+										{{(isCollapsed ? 'COMMON.COLLAPSE' : 'COMMON.CLICK_TO_EXPAND_FOR_MORE_DESCRIPTION') | translate}}
+									</a>
+								</p>
+								<div uib-collapse="!isCollapsed">
+									<hr>
+									<p>{{'SETTING.WORKING_CALENDAR_DESCRIPTION_MORE' | translate}}</p>
+								</div>
+							</div>
 							<a ng-click="addWorkingCalendar()" class="btn btn-primary btn-rounded btn-outline" href=""><i class="fa fa-plus-circle"></i> {{'WORKING_CALENDAR.ADD_WORKING_CALENDAR' | translate}}</a>
 							<a ng-click="importWorkingCalendar()" class="btn btn-primary btn-rounded  btn-outline" href=""><i class="fa fa-plus-circle"></i> {{'SETTING.IMPORT' | translate}}</a>
 							<br>
@@ -43,6 +55,18 @@
 					</uib-tab>
 					<uib-tab heading="{{'SETTING.NON_WORKING_DAY' | translate}}">
 						<div class="panel-body" ng-controller="WorkingCalendarNonWorkingDayController">
+							<div class="alert alert-info">
+								<p>
+									{{'WORKING_CALENDAR.NON_WORKING_DAY_DESCRIPTION' | translate}}
+									<a ng-click="isCollapsed = !isCollapsed" class="pull-right">
+										{{(isCollapsed ? 'COMMON.COLLAPSE' : 'COMMON.CLICK_TO_EXPAND_FOR_MORE_DESCRIPTION') | translate}}
+									</a>
+								</p>
+								<div uib-collapse="!isCollapsed">
+									<hr>
+									<p>{{'WORKING_CALENDAR.NON_WORKING_DAY_DESCRIPTION_MORE' | translate}}</p>
+								</div>
+							</div>
 							<form method="get" class="form-horizontal">
 								<div class="form-group"><label
 										class="col-sm-2 control-label">{{'WORKING_CALENDAR.SELECT_WORKING_CALENDAR' | translate}}:</label>

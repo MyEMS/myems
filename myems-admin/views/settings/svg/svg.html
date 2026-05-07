@@ -5,16 +5,31 @@
 				<uib-tabset>
 					<uib-tab heading="{{'COMMON.SVG' | translate}}">
 						<div class="panel-body" ng-controller="SVGController">
-                            <div class="col-md-3">
-							   <a ng-click="addSVG()" class="btn btn-primary btn-rounded  btn-outline" href=""><i class="fa fa-plus-circle"></i> {{'SVG.ADD_SVG' | translate}}</a>
-                               <a ng-click="importSVG()" class="btn btn-primary btn-rounded  btn-outline" href=""><i class="fa fa-plus-circle"></i> {{'SETTING.IMPORT' | translate}}</a>
-                            </div>
-                            <div class="col-md-9">
-                                <input type="text" class="form-control m-b-xs"
-                                       placeholder="{{'SETTING.SEARCH' | translate}}"
-                                       ng-model="searchKeyword"
-                                       ng-keyup="searchSVGs()">
-                            </div>
+							<div class="alert alert-info">
+								<p>
+									{{'SETTING.SVG_DESCRIPTION' | translate}}
+									<a ng-click="isCollapsed = !isCollapsed" class="pull-right">
+										{{(isCollapsed ? 'COMMON.COLLAPSE' : 'COMMON.CLICK_TO_EXPAND_FOR_MORE_DESCRIPTION') | translate}}
+									</a>
+								</p>
+								<div uib-collapse="!isCollapsed">
+									<hr>
+									<p>{{'SETTING.SVG_DESCRIPTION_MORE' | translate}}</p>
+								</div>
+							</div>
+							<div class="row mb-3">
+								<div class="col-md-3">
+									<a ng-click="addSVG()" class="btn btn-primary btn-rounded btn-outline" href=""><i class="fa fa-plus-circle"></i> {{'SVG.ADD_SVG' | translate}}</a>
+									<a ng-click="importSVG()" class="btn btn-primary btn-rounded btn-outline" href=""><i class="fa fa-plus-circle"></i> {{'SETTING.IMPORT' | translate}}</a>
+								</div>
+								<div class="col-md-9">
+									<input type="text"
+										   class="form-control m-b-xs"
+										   placeholder="{{'SETTING.SEARCH' | translate}}"
+										   ng-model="searchKeyword"
+										   ng-keyup="searchSVGs()">
+								</div>
+							</div>
               <table class="footable table table-bordered table-hover" data-sort="true" data-page-size="15">
 								<thead>
 									<tr>
@@ -50,6 +65,18 @@
 
 					<uib-tab heading="{{'SVG.PREVIEW' | translate}}">
             <div class="panel-body" ng-controller="SVGPreviewController">
+							<div class="alert alert-info">
+								<p>
+									{{'SVG.PREVIEW_DESCRIPTION' | translate}}
+									<a ng-click="isCollapsed = !isCollapsed" class="pull-right">
+										{{(isCollapsed ? 'COMMON.COLLAPSE' : 'COMMON.CLICK_TO_EXPAND_FOR_MORE_DESCRIPTION') | translate}}
+									</a>
+								</p>
+								<div uib-collapse="!isCollapsed">
+									<hr>
+									<p>{{'SVG.PREVIEW_DESCRIPTION_MORE' | translate}}</p>
+								</div>
+							</div>
               <div class="row">
                 <div class="col-lg-3">
                   <div class="panel panel-info">

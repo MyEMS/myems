@@ -195,6 +195,8 @@ app.controller('EnergyFlowDiagramController', function(
 			resolve: {
 				params: function() {
 					return {
+						description: 'SETTING.IMPORT_ENERGY_FLOW_DIAGRAM_DESCRIPTION',
+						description_more: 'SETTING.IMPORT_ENERGY_FLOW_DIAGRAM_DESCRIPTION_MORE'
 					};
 				}
 			}

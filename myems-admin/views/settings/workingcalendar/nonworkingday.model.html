@@ -3,17 +3,29 @@
         <h4 class="modal-title">{{operation | translate}}</h4>
     </div>
     <div class="modal-body">
+        <div class="alert alert-info">
+            <p>
+                {{'WORKING_CALENDAR.NON_WORKING_DAY_DIALOG_DESCRIPTION' | translate}}
+                <a ng-click="isModelCollapsed = !isModelCollapsed" class="pull-right">
+                    {{(isModelCollapsed ? 'COMMON.COLLAPSE' : 'COMMON.CLICK_TO_EXPAND_FOR_MORE_DESCRIPTION') | translate}}
+                </a>
+            </p>
+            <div uib-collapse="!isModelCollapsed">
+                <hr>
+                <p>{{'WORKING_CALENDAR.NON_WORKING_DAY_DIALOG_DESCRIPTION_MORE' | translate}}</p>
+            </div>
+        </div>
         <form role="form" name="form_nonworkingday" novalidate class="form-horizontal">
             <div class="form-group"><label class="col-sm-3 control-label">{{'WORKING_CALENDAR.DATE' | translate}}<span class="text-danger">*</span></label>
-                <div class="col-sm-5">
+                <div class="col-sm-9">
                     <input date-range-picker class="form-control date-picker" type="text" ng-model="nonWorkingDay.date_local" options="dtOptions"
                            placeholder="{{'SETTING.SELECT_DATE' | translate}}" name="datelocal" readonly="" />
                 </div>
             </div>
             <div class="hr-line-dashed"></div>
             <div class="form-group"><label class="col-sm-3 control-label">{{'SETTING.DESCRIPTION' | translate}} ({{'SETTING.OPTIONAL' | translate}})</label>
-              <div class="col-sm-8">
-                  <input ng-model="nonWorkingDay.description" type="text" name="description" class="form-control" >
+              <div class="col-sm-9">
+                  <input ng-model="nonWorkingDay.description" type="text" name="description" class="form-control" placeholder="{{'SETTING.INPUT_NON_WORKING_DAY_DESCRIPTION_PLACEHOLDER' | translate}}">
               </div>
             </div>
         </form>

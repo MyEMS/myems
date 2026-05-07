@@ -228,7 +228,9 @@ app.controller('StoreController', function(
 					resolve: {
 						params: function() {
 							return {
-								exportdata: angular.copy($scope.exportdata)
+								exportdata: angular.copy($scope.exportdata),
+								description: 'SETTING.EXPORT_STORE_DESCRIPTION',
+								description_more: 'SETTING.EXPORT_STORE_DESCRIPTION_MORE',
 							};
 						}
 					}
@@ -277,6 +279,8 @@ app.controller('StoreController', function(
 			resolve: {
 				params: function() {
 					return {
+						description: 'SETTING.IMPORT_STORE_DESCRIPTION',
+						description_more: 'SETTING.IMPORT_STORE_DESCRIPTION_MORE',
 					};
 				}
 			}

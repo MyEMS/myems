@@ -218,6 +218,8 @@ app.controller('DistributionSystemController', function(
 			resolve: {
 				params: function() {
 					return {
+						description: 'SETTING.IMPORT_DISTRIBUTION_SYSTEM_DESCRIPTION',
+						description_more: 'SETTING.IMPORT_DISTRIBUTION_SYSTEM_DESCRIPTION_MORE'
 					};
 				}
 			}

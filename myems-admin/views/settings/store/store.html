@@ -5,6 +5,18 @@
 				<uib-tabset>
 					<uib-tab heading="{{'COMMON.STORE' | translate}}">
 						<div class="panel-body" ng-controller="StoreController">
+							<div class="alert alert-info">
+								<p>
+									{{'SETTING.STORE_DESCRIPTION' | translate}}
+									<a ng-click="isCollapsed = !isCollapsed" class="pull-right">
+										{{(isCollapsed ? 'COMMON.COLLAPSE' : 'COMMON.CLICK_TO_EXPAND_FOR_MORE_DESCRIPTION') | translate}}
+									</a>
+								</p>
+								<div uib-collapse="!isCollapsed">
+									<hr>
+									<p>{{'SETTING.STORE_DESCRIPTION_MORE' | translate}}</p>
+								</div>
+							</div>
                                                         <div class="col-md-3">
 							<a ng-click="addStore()" class="btn btn-primary btn-rounded  btn-outline" href=""><i class="fa fa-plus-circle"></i> {{'SETTING.ADD_STORE' | translate}}</a>
 							<a ng-click="importStore()" class="btn btn-primary btn-rounded  btn-outline" href=""><i class="fa fa-plus-circle"></i> {{'SETTING.IMPORT' | translate}}</a>
@@ -61,6 +73,18 @@
 					</uib-tab>
 					<uib-tab heading="{{'SETTING.STORE_TYPE' | translate}}">
 						<div class="panel-body" ng-controller="StoreTypeController">
+							<div class="alert alert-info">
+								<p>
+									{{'SETTING.STORE_TYPE_DESCRIPTION' | translate}}
+									<a ng-click="isCollapsed = !isCollapsed" class="pull-right">
+										{{(isCollapsed ? 'COMMON.COLLAPSE' : 'COMMON.CLICK_TO_EXPAND_FOR_MORE_DESCRIPTION') | translate}}
+									</a>
+								</p>
+								<div uib-collapse="!isCollapsed">
+									<hr>
+									<p>{{'SETTING.STORE_TYPE_DESCRIPTION_MORE' | translate}}</p>
+								</div>
+							</div>
 							<a ng-click="addStoreType()" class="btn btn-primary btn-rounded btn-outline" href="">
 								<i class="fa fa-plus-circle"></i> {{'SETTING.ADD_STORE_TYPE' | translate}}
 							</a>
@@ -107,6 +131,18 @@
 					</uib-tab>
 					<uib-tab heading="{{'SETTING.BIND_METER' | translate}}">
 						<div class="panel-body" ng-controller="StoreMeterController">
+							<div class="alert alert-info">
+								<p>
+									{{'STORE.BIND_METER_DESCRIPTION' | translate}}
+									<a ng-click="isCollapsed = !isCollapsed" class="pull-right">
+										{{(isCollapsed ? 'COMMON.COLLAPSE' : 'COMMON.CLICK_TO_EXPAND_FOR_MORE_DESCRIPTION') | translate}}
+									</a>
+								</p>
+								<div uib-collapse="!isCollapsed">
+									<hr>
+									<p>{{'STORE.BIND_METER_DESCRIPTION_MORE' | translate}}</p>
+								</div>
+							</div>
 							<div class="row">
 								<div class="col-lg-3">
 									<div class="panel panel-info">
@@ -117,7 +153,7 @@
 											<form role="form">
 												<div class="form-group no-margin"><label>{{'SETTING.SELECT_STORE' | translate}}</label>
 													<ui-select  on-select="changeStore($item,$model)" ng-model="currentStore.selected" theme="bootstrap">
-														<ui-select-match placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
+														<ui-select-match placeholder="{{'SETTING.SELECT_STORE' | translate}}">{{$select.selected.name}}</ui-select-match>
 														<ui-select-choices repeat="store.id as store in stores | filter: $select.search">
 															<div ng-bind-html="store.name | highlight: $select.search"></div>
 														</ui-select-choices>
@@ -185,6 +221,18 @@
 				  </uib-tab>
 					<uib-tab heading="{{'SETTING.BIND_POINT' | translate}}">
 							<div class="panel-body" ng-controller="StorePointController">
+								<div class="alert alert-info">
+									<p>
+										{{'STORE.BIND_POINT_DESCRIPTION' | translate}}
+										<a ng-click="isCollapsed = !isCollapsed" class="pull-right">
+											{{(isCollapsed ? 'COMMON.COLLAPSE' : 'COMMON.CLICK_TO_EXPAND_FOR_MORE_DESCRIPTION') | translate}}
+										</a>
+									</p>
+									<div uib-collapse="!isCollapsed">
+										<hr>
+										<p>{{'STORE.BIND_POINT_DESCRIPTION_MORE' | translate}}</p>
+									</div>
+								</div>
 								<div class="row">
 									<div class="col-lg-3">
 										<div class="panel panel-info">
@@ -195,7 +243,7 @@
 													<form role="form">
 													<div class="form-group no-margin"><label>{{'SETTING.SELECT_STORE' | translate}}</label>
 														<ui-select  on-select="changeStore($item,$model)" ng-model="currentStore.selected" theme="bootstrap">
-															<ui-select-match placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
+															<ui-select-match placeholder="{{'SETTING.SELECT_STORE' | translate}}">{{$select.selected.name}}</ui-select-match>
 															<ui-select-choices repeat="store.id as store in stores | filter: $select.search">
 																<div ng-bind-html="store.name | highlight: $select.search"></div>
 															</ui-select-choices>
@@ -243,7 +291,7 @@
 											<form role="form">
 												<div class="form-group no-margin"><label>{{'DATA_SOURCE.SELECT_DATA_SOURCE' | translate}}</label>
 														<ui-select on-select="changeDataSource($item, $model)" ng-model="currentDataSource" theme="bootstrap">
-																<ui-select-match placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
+																<ui-select-match placeholder="{{'DATA_SOURCE.SELECT_DATA_SOURCE' | translate}}">{{$select.selected.name}}</ui-select-match>
 																<ui-select-choices repeat="datasource.id as datasource in datasources | filter: $select.search">
 																		<div ng-bind-html="datasource.name | highlight: $select.search"></div>
 																</ui-select-choices>
@@ -262,6 +310,18 @@
 					</uib-tab>
 					<uib-tab heading="{{'SETTING.BIND_SENSOR' | translate}}">
 							<div class="panel-body" ng-controller="StoreSensorController">
+								<div class="alert alert-info">
+									<p>
+										{{'STORE.BIND_SENSOR_DESCRIPTION' | translate}}
+										<a ng-click="isCollapsed = !isCollapsed" class="pull-right">
+											{{(isCollapsed ? 'COMMON.COLLAPSE' : 'COMMON.CLICK_TO_EXPAND_FOR_MORE_DESCRIPTION') | translate}}
+										</a>
+									</p>
+									<div uib-collapse="!isCollapsed">
+										<hr>
+										<p>{{'STORE.BIND_SENSOR_DESCRIPTION_MORE' | translate}}</p>
+									</div>
+								</div>
 								<div class="row">
 									<div class="col-lg-3">
 										<div class="panel panel-info">
@@ -272,7 +332,7 @@
 													<form role="form">
 													<div class="form-group no-margin"><label>{{'SETTING.SELECT_STORE' | translate}}</label>
 														<ui-select  on-select="changeStore($item,$model)" ng-model="currentStore.selected" theme="bootstrap">
-															<ui-select-match placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
+															<ui-select-match placeholder="{{'SETTING.SELECT_STORE' | translate}}">{{$select.selected.name}}</ui-select-match>
 															<ui-select-choices repeat="store.id as store in stores | filter: $select.search">
 																<div ng-bind-html="store.name | highlight: $select.search"></div>
 															</ui-select-choices>
@@ -331,6 +391,18 @@
 
 					<uib-tab heading="{{'WORKING_CALENDAR.BIND_WORKING_CALENDAR' | translate}}">
 						<div class="panel-body" ng-controller="StoreWorkingCalendarController">
+							<div class="alert alert-info">
+								<p>
+									{{'STORE.BIND_WORKING_CALENDAR_DESCRIPTION' | translate}}
+									<a ng-click="isCollapsed = !isCollapsed" class="pull-right">
+										{{(isCollapsed ? 'COMMON.COLLAPSE' : 'COMMON.CLICK_TO_EXPAND_FOR_MORE_DESCRIPTION') | translate}}
+									</a>
+								</p>
+								<div uib-collapse="!isCollapsed">
+									<hr>
+									<p>{{'STORE.BIND_WORKING_CALENDAR_DESCRIPTION_MORE' | translate}}</p>
+								</div>
+							</div>
 							<div class="row">
 								<div class="col-lg-3">
 									<div class="panel panel-info">
@@ -344,7 +416,7 @@
 													<ui-select on-select="changeStore($item,$model)"
 														ng-model="currentStore.selected" theme="bootstrap">
 														<ui-select-match
-															placeholder="{{'COMMON.PLACEHOLDER' | translate}}">
+															placeholder="{{'SETTING.SELECT_STORE' | translate}}">
 															{{$select.selected.name}}</ui-select-match>
 														<ui-select-choices
 															repeat="store.id as store in stores | filter: $select.search">
@@ -404,6 +476,18 @@
 					</uib-tab>
 					<uib-tab heading="{{'SETTING.BIND_COMMAND' | translate}}">
 						<div class="panel-body" ng-controller="StoreCommandController">
+							<div class="alert alert-info">
+								<p>
+									{{'STORE.BIND_COMMAND_DESCRIPTION' | translate}}
+									<a ng-click="isCollapsed = !isCollapsed" class="pull-right">
+										{{(isCollapsed ? 'COMMON.COLLAPSE' : 'COMMON.CLICK_TO_EXPAND_FOR_MORE_DESCRIPTION') | translate}}
+									</a>
+								</p>
+								<div uib-collapse="!isCollapsed">
+									<hr>
+									<p>{{'STORE.BIND_COMMAND_DESCRIPTION_MORE' | translate}}</p>
+								</div>
+							</div>
 							<div class="row">
 								<div class="col-lg-3">
 									<div class="panel panel-info">
@@ -417,7 +501,7 @@
 													<ui-select on-select="changeStore($item,$model)"
 														ng-model="currentStore.selected" theme="bootstrap">
 														<ui-select-match
-															placeholder="{{'COMMON.PLACEHOLDER' | translate}}">
+															placeholder="{{'SETTING.SELECT_STORE' | translate}}">
 															{{$select.selected.name}}</ui-select-match>
 														<ui-select-choices
 															repeat="store.id as store in stores | filter: $select.search">

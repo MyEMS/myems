@@ -3,12 +3,24 @@
         <h4 class="modal-title">{{operation | translate}}(ID:{{energyflowdiagramlink.id}})</h4>
     </div>
     <div class="modal-body">
+        <div class="alert alert-info">
+            <p>
+                {{'ENERGY_FLOW_DIAGRAM.LINK_DIALOG_DESCRIPTION' | translate}}
+                <a ng-click="isModelCollapsed = !isModelCollapsed" class="pull-right">
+                    {{(isModelCollapsed ? 'COMMON.COLLAPSE' : 'COMMON.CLICK_TO_EXPAND_FOR_MORE_DESCRIPTION') | translate}}
+                </a>
+            </p>
+            <div uib-collapse="!isModelCollapsed">
+                <hr>
+                <p>{{'ENERGY_FLOW_DIAGRAM.LINK_DIALOG_DESCRIPTION_MORE' | translate}}</p>
+            </div>
+        </div>
         <form role="form" name="form_energyflowdiagramlink" novalidate class="form-horizontal">
-            <div class="form-group" ">
+            <div class="form-group">
               <label class="col-sm-4 control-label">{{'ENERGY_FLOW_DIAGRAM.SOURCE_NODE' | translate}}<span class="text-danger">*</span></label>
                 <div class="col-sm-8">
                     <ui-select ng-model="energyflowdiagramlink.source_node.id" name="energyflowdiagramlink.source_node_id" theme="bootstrap" required>
-                        <ui-select-match allow-clear="false" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
+                        <ui-select-match allow-clear="false" placeholder="{{'SETTING.SELECT_ENERGY_FLOW_DIAGRAM_SOURCE_NODE_PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
                         <ui-select-choices repeat="node.id as node in energyflowdiagramnodes | filter: $select.search">
                             <div ng-bind-html="node.name | highlight: $select.search"></div>
                         </ui-select-choices>
@@ -18,12 +30,12 @@
                     </div>
                 </div>
             </div>
-            <div class="hr-line-dashed" "></div>
-            <div class="form-group" ">
+            <div class="hr-line-dashed"></div>
+            <div class="form-group">
               <label class="col-sm-4 control-label">{{'ENERGY_FLOW_DIAGRAM.TARGET_NODE' | translate}}<span class="text-danger">*</span></label>
                 <div class="col-sm-8">
                     <ui-select ng-model="energyflowdiagramlink.target_node.id" name="energyflowdiagramlink.target_node_id" theme="bootstrap" required>
-                        <ui-select-match allow-clear="false" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
+                        <ui-select-match allow-clear="false" placeholder="{{'SETTING.SELECT_ENERGY_FLOW_DIAGRAM_TARGET_NODE_PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
                         <ui-select-choices repeat="node.id as node in energyflowdiagramnodes | filter: $select.search">
                             <div ng-bind-html="node.name | highlight: $select.search"></div>
                         </ui-select-choices>
@@ -33,12 +45,12 @@
                     </div>
                 </div>
             </div>
-            <div class="hr-line-dashed" "></div>
-            <div class="form-group" ">
+            <div class="hr-line-dashed"></div>
+            <div class="form-group">
               <label class="col-sm-4 control-label">{{'ENERGY_FLOW_DIAGRAM.METER' | translate}}<span class="text-danger">*</span></label>
                 <div class="col-sm-8">
                     <ui-select ng-model="energyflowdiagramlink.meter.uuid" name="energyflowdiagramlink.meter_uuid" theme="bootstrap" required>
-                        <ui-select-match allow-clear="false" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
+                        <ui-select-match allow-clear="false" placeholder="{{'SETTING.SELECT_ENERGY_FLOW_DIAGRAM_METER_PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
                         <ui-select-choices repeat="meter.uuid as meter in mergedmeters  | filter: $select.search">
                             <div ng-bind-html="meter.name | highlight: $select.search"></div>
                         </ui-select-choices>

@@ -261,6 +261,8 @@ app.controller('ShopfloorController', function (
 			resolve: {
 				params: function() {
 					return {
+						description: 'SETTING.IMPORT_SHOPFLOOR_DESCRIPTION',
+						description_more: 'SETTING.IMPORT_SHOPFLOOR_DESCRIPTION_MORE'
 					};
 				}
 			}

@@ -3,6 +3,18 @@
         <h4 class="modal-title">{{ operation | translate}}(ID:{{tenantType.id}})</h4>
     </div>
     <div class="modal-body">
+        <div class="alert alert-info">
+            <p>
+                {{'SETTING.TENANT_TYPE_DIALOG_DESCRIPTION' | translate}}
+                <a ng-click="isModelCollapsed = !isModelCollapsed" class="pull-right">
+                    {{(isModelCollapsed ? 'COMMON.COLLAPSE' : 'COMMON.CLICK_TO_EXPAND_FOR_MORE_DESCRIPTION') | translate}}
+                </a>
+            </p>
+            <div uib-collapse="!isModelCollapsed">
+                <hr>
+                <p>{{'SETTING.TENANT_TYPE_DIALOG_DESCRIPTION_MORE' | translate}}</p>
+            </div>
+        </div>
         <form role="form" name="tenantTypeForm" novalidate class="form-horizontal">
             <div class="form-group">
                 <label class="col-sm-3 control-label">{{ 'SETTING.NAME' | translate }} <span class="text-danger">*</span></label>
@@ -13,7 +25,7 @@
                         ng-model="tenantType.name" 
                         name="tenantTypeName"
                         required 
-                        placeholder="{{ 'SETTING.INPUT_NAME' | translate }}"
+                        placeholder="{{ 'SETTING.INPUT_TENANT_TYPE_NAME_PLACEHOLDER' | translate }}"
                         ng-trim="true"
                     >
                     <div class="m-t-xs" ng-show="tenantTypeForm.tenantTypeName.$invalid && tenantTypeForm.tenantTypeName.$dirty">
@@ -34,7 +46,7 @@
                         ng-model="tenantType.description" 
                         name="tenantTypeDescription"
                         required 
-                        placeholder="{{ 'SETTING.ENTER_DESCRIPTION' | translate }}"
+                        placeholder="{{ 'SETTING.INPUT_TENANT_TYPE_DESCRIPTION_PLACEHOLDER' | translate }}"
                         ng-trim="true"
                     >
                     <div class="m-t-xs" ng-show="tenantTypeForm.tenantTypeDescription.$invalid && tenantTypeForm.tenantTypeDescription.$dirty">

@@ -5,16 +5,31 @@
 				<uib-tabset>
 					<uib-tab heading="{{'COMMON.ENERGY_FLOW_DIAGRAM' | translate}}">
 						<div class="panel-body" ng-controller="EnergyFlowDiagramController">
-                          <div class="col-md-3">
-							 <a ng-click="addEnergyFlowDiagram()" class="btn btn-primary btn-rounded  btn-outline" href=""><i class="fa fa-plus-circle"></i> {{'ENERGY_FLOW_DIAGRAM.ADD_ENERGY_FLOW_DIAGRAM' | translate}}</a>
-                             <a ng-click="importEnergyFlowDiagram()" class="btn btn-primary btn-rounded  btn-outline" href=""><i class="fa fa-plus-circle"></i> {{'SETTING.IMPORT' | translate}}</a>
-                          </div>
-                          <div class="col-md-9">
-                            <input type="text" class="form-control m-b-xs"
-                                   placeholder="{{'SETTING.SEARCH' | translate}}"
-                                   ng-model="searchKeyword"
-                                   ng-keyup="searchEnergyFlowDiagrams()">
-                          </div>
+							<div class="alert alert-info">
+								<p>
+									{{'SETTING.ENERGY_FLOW_DIAGRAM_DESCRIPTION' | translate}}
+									<a ng-click="isCollapsed = !isCollapsed" class="pull-right">
+										{{(isCollapsed ? 'COMMON.COLLAPSE' : 'COMMON.CLICK_TO_EXPAND_FOR_MORE_DESCRIPTION') | translate}}
+									</a>
+								</p>
+								<div uib-collapse="!isCollapsed">
+									<hr>
+									<p>{{'SETTING.ENERGY_FLOW_DIAGRAM_DESCRIPTION_MORE' | translate}}</p>
+								</div>
+							</div>
+							<div class="row mb-3">
+								<div class="col-md-3">
+									<a ng-click="addEnergyFlowDiagram()" class="btn btn-primary btn-rounded btn-outline" href=""><i class="fa fa-plus-circle"></i> {{'ENERGY_FLOW_DIAGRAM.ADD_ENERGY_FLOW_DIAGRAM' | translate}}</a>
+									<a ng-click="importEnergyFlowDiagram()" class="btn btn-primary btn-rounded btn-outline" href=""><i class="fa fa-plus-circle"></i> {{'SETTING.IMPORT' | translate}}</a>
+								</div>
+								<div class="col-md-9">
+									<input type="text"
+										   class="form-control m-b-xs"
+										   placeholder="{{'SETTING.SEARCH' | translate}}"
+										   ng-model="searchKeyword"
+										   ng-keyup="searchEnergyFlowDiagrams()">
+								</div>
+							</div>
               <table class="footable table table-bordered table-hover" data-sort="true" data-page-size="15">
 								<thead>
 									<tr>
@@ -47,6 +62,18 @@
 					</uib-tab>
           <uib-tab heading="{{'ENERGY_FLOW_DIAGRAM.NODE' | translate}}">
             <div class="panel-body" ng-controller="EnergyFlowDiagramNodeController">
+							<div class="alert alert-info">
+								<p>
+									{{'ENERGY_FLOW_DIAGRAM.NODE_DESCRIPTION' | translate}}
+									<a ng-click="isCollapsed = !isCollapsed" class="pull-right">
+										{{(isCollapsed ? 'COMMON.COLLAPSE' : 'COMMON.CLICK_TO_EXPAND_FOR_MORE_DESCRIPTION') | translate}}
+									</a>
+								</p>
+								<div uib-collapse="!isCollapsed">
+									<hr>
+									<p>{{'ENERGY_FLOW_DIAGRAM.NODE_DESCRIPTION_MORE' | translate}}</p>
+								</div>
+							</div>
               <div class="row">
                 <div class="col-lg-3">
                   <div class="panel panel-info">
@@ -109,6 +136,18 @@
           </uib-tab>
           <uib-tab heading="{{'ENERGY_FLOW_DIAGRAM.LINK' | translate}}">
             <div class="panel-body" ng-controller="EnergyFlowDiagramLinkController">
+							<div class="alert alert-info">
+								<p>
+									{{'ENERGY_FLOW_DIAGRAM.LINK_DESCRIPTION' | translate}}
+									<a ng-click="isCollapsed = !isCollapsed" class="pull-right">
+										{{(isCollapsed ? 'COMMON.COLLAPSE' : 'COMMON.CLICK_TO_EXPAND_FOR_MORE_DESCRIPTION') | translate}}
+									</a>
+								</p>
+								<div uib-collapse="!isCollapsed">
+									<hr>
+									<p>{{'ENERGY_FLOW_DIAGRAM.LINK_DESCRIPTION_MORE' | translate}}</p>
+								</div>
+							</div>
               <div class="row">
                 <div class="col-lg-3">
                   <div class="panel panel-info">
@@ -175,6 +214,18 @@
           </uib-tab>
           <uib-tab heading="{{'ENERGY_FLOW_DIAGRAM.PREVIEW' | translate}}">
             <div class="panel-body" ng-controller="EnergyFlowDiagramPreviewController">
+							<div class="alert alert-info">
+								<p>
+									{{'ENERGY_FLOW_DIAGRAM.PREVIEW_DESCRIPTION' | translate}}
+									<a ng-click="isCollapsed = !isCollapsed" class="pull-right">
+										{{(isCollapsed ? 'COMMON.COLLAPSE' : 'COMMON.CLICK_TO_EXPAND_FOR_MORE_DESCRIPTION') | translate}}
+									</a>
+								</p>
+								<div uib-collapse="!isCollapsed">
+									<hr>
+									<p>{{'ENERGY_FLOW_DIAGRAM.PREVIEW_DESCRIPTION_MORE' | translate}}</p>
+								</div>
+							</div>
               <div class="row">
                 <div class="col-lg-3">
                   <div class="panel panel-info">

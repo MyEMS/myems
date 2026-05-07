@@ -3,27 +3,40 @@
         <h4 class="modal-title">{{operation | translate}}(ID:{{svg.id}})</h4>
     </div>
     <div class="modal-body">
+        <div class="alert alert-info">
+            <p>
+                {{'SETTING.SVG_DIALOG_DESCRIPTION' | translate}}
+                <a ng-click="isModelCollapsed = !isModelCollapsed" class="pull-right">
+                    {{(isModelCollapsed ? 'COMMON.COLLAPSE' : 'COMMON.CLICK_TO_EXPAND_FOR_MORE_DESCRIPTION') | translate}}
+                </a>
+            </p>
+            <div uib-collapse="!isModelCollapsed">
+                <hr>
+                <p>{{'SETTING.SVG_DIALOG_DESCRIPTION_MORE' | translate}}</p>
+            </div>
+        </div>
         <form role="form" name="form_svg" novalidate class="form-horizontal">
-            <div class="form-group"><label class="col-sm-2 control-label">{{'SETTING.NAME' | translate}}<span class="text-danger">*</span></label>
-                <div class="col-sm-10">
-                    <input ng-model="svg.name" type="text" name="svgname" class="form-control" required="">
+            <div class="form-group"><label class="col-sm-3 control-label">{{'SETTING.NAME' | translate}}<span class="text-danger">*</span></label>
+                <div class="col-sm-9">
+                    <input ng-model="svg.name" type="text" name="svgname" class="form-control" required="" placeholder="{{'SETTING.INPUT_SVG_NAME_PLACEHOLDER' | translate}}">
                     <div class="m-t-xs" ng-show="form_svg.svgname.$invalid && form_svg.svgname.$dirty">
                         <small class="text-danger" ng-show="form_svg.svgname.$error.required">{{'SETTING.INPUT_NAME' | translate}}</small>
                     </div>
                 </div>
             </div>
             <div class="hr-line-dashed"></div>
-            <div class="form-group"><label class="col-sm-2 control-label">{{'SVG.SOURCE_CODE' | translate}}<span class="text-danger">*</span></label>
-                <div class="col-sm-10">
-                    <textarea ng-model="svg.source_code" rows="10" cols="50" name="svgsourcecode" class="form-control" required="" placeholder="<svg></svg>"></textarea>
+            <div class="form-group"><label class="col-sm-3 control-label">{{'SVG.SOURCE_CODE' | translate}}<span class="text-danger">*</span></label>
+                <div class="col-sm-9">
+                    <textarea ng-model="svg.svg" rows="10" cols="50" name="svgsourcecode" class="form-control" required="" placeholder="例如：<svg xmlns='http://www.w3.org/2000/svg' ...> ... </svg>"></textarea>
                     <div class="m-t-xs" ng-show="form_svg.svgsourcecode.$invalid && form_svg.svgsourcecode.$dirty">
                         <small class="text-danger" ng-show="form_svg.svgsourcecode.$error.required">{{'SVG.INPUT_SOURCE_CODE' | translate}}</small>
                     </div>
                 </div>
             </div>
-            <div class="form-group"><label class="col-sm-2 control-label">{{'SETTING.DESCRIPTION' | translate}} ({{'SETTING.OPTIONAL' | translate}})</label>
-                <div class="col-sm-10">
-                    <input ng-model="svg.description" type="text" name="svgdescription" class="form-control" >
+            <div class="hr-line-dashed"></div>
+            <div class="form-group"><label class="col-sm-3 control-label">{{'SETTING.DESCRIPTION' | translate}} ({{'SETTING.OPTIONAL' | translate}})</label>
+                <div class="col-sm-9">
+                    <input ng-model="svg.description" type="text" name="svgdescription" class="form-control" placeholder="{{'SETTING.INPUT_SVG_DESCRIPTION_PLACEHOLDER' | translate}}">
                 </div>
             </div>
         </form>

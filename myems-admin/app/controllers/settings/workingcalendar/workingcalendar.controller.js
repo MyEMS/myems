@@ -204,6 +204,8 @@ app.controller('WorkingCalendarController', function(
 			resolve: {
 				params: function() {
 					return {
+						description: 'SETTING.IMPORT_WORKING_CALENDAR_DESCRIPTION',
+						description_more: 'SETTING.IMPORT_WORKING_CALENDAR_DESCRIPTION_MORE'
 					};
 				}
 			}

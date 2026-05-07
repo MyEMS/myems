@@ -3,13 +3,31 @@
         <h4 class="modal-title">{{operation | translate}}(ID:{{energyflowdiagram.id}})</h4>
     </div>
     <div class="modal-body">
+        <div class="alert alert-info">
+            <p>
+                {{'SETTING.ENERGY_FLOW_DIAGRAM_DIALOG_DESCRIPTION' | translate}}
+                <a ng-click="isModelCollapsed = !isModelCollapsed" class="pull-right">
+                    {{(isModelCollapsed ? 'COMMON.COLLAPSE' : 'COMMON.CLICK_TO_EXPAND_FOR_MORE_DESCRIPTION') | translate}}
+                </a>
+            </p>
+            <div uib-collapse="!isModelCollapsed">
+                <hr>
+                <p>{{'SETTING.ENERGY_FLOW_DIAGRAM_DIALOG_DESCRIPTION_MORE' | translate}}</p>
+            </div>
+        </div>
         <form role="form" name="form_energyflowdiagram" novalidate class="form-horizontal">
-            <div class="form-group"><label class="col-sm-2 control-label">{{'SETTING.NAME' | translate}}<span class="text-danger">*</span></label>
-                <div class="col-sm-10">
-                    <input ng-model="energyflowdiagram.name" type="text" name="energyflowdiagramname" class="form-control" required="">
+            <div class="form-group"><label class="col-sm-3 control-label">{{'SETTING.NAME' | translate}}<span class="text-danger">*</span></label>
+                <div class="col-sm-9">
+                    <input ng-model="energyflowdiagram.name" type="text" name="energyflowdiagramname" class="form-control" required="" placeholder="{{'SETTING.INPUT_ENERGY_FLOW_DIAGRAM_NAME_PLACEHOLDER' | translate}}">
                     <div class="m-t-xs" ng-show="form_energyflowdiagram.energyflowdiagramname.$invalid && form_energyflowdiagram.energyflowdiagramname.$dirty">
                         <small class="text-danger" ng-show="form_energyflowdiagram.energyflowdiagramname.$error.required">{{'SETTING.INPUT_NAME' | translate}}</small>
                     </div>
+                </div>
+            </div>
+            <div class="hr-line-dashed"></div>
+            <div class="form-group"><label class="col-sm-3 control-label">{{'SETTING.DESCRIPTION' | translate}} ({{'SETTING.OPTIONAL' | translate}})</label>
+                <div class="col-sm-9">
+                    <input ng-model="energyflowdiagram.description" type="text" name="energyflowdiagramdescription" class="form-control" placeholder="{{'SETTING.INPUT_ENERGY_FLOW_DIAGRAM_DESCRIPTION_PLACEHOLDER' | translate}}">
                 </div>
             </div>
         </form>
