@@ -3,10 +3,22 @@
         <h4 class="modal-title">{{operation | translate}}(ID:{{store.id}})</h4>
     </div>
     <div class="modal-body">
+        <div class="alert alert-info">
+            <p>
+                {{'SETTING.STORE_DIALOG_DESCRIPTION' | translate}}
+                <a ng-click="isModelCollapsed = !isModelCollapsed" class="pull-right">
+                    {{(isModelCollapsed ? 'COMMON.COLLAPSE' : 'COMMON.CLICK_TO_EXPAND_FOR_MORE_DESCRIPTION') | translate}}
+                </a>
+            </p>
+            <div uib-collapse="!isModelCollapsed">
+                <hr>
+                <p>{{'SETTING.STORE_DIALOG_DESCRIPTION_MORE' | translate}}</p>
+            </div>
+        </div>
         <form role="form" name="form_store" novalidate class="form-horizontal">
             <div class="form-group"><label class="col-sm-2 control-label">{{'SETTING.NAME' | translate}}<span class="text-danger">*</span></label>
               <div class="col-sm-10">
-                  <input ng-model="store.name" type="text" name="storename" class="form-control" required>
+                  <input ng-model="store.name" type="text" name="storename" class="form-control" required placeholder="{{'SETTING.INPUT_STORE_NAME_PLACEHOLDER' | translate}}">
                   <div class="m-t-xs" ng-show="form_store.storename.$invalid && form_store.storename.$dirty">
                       <small class="text-danger" ng-show="form_store.storename.$error.required">{{'SETTING.INPUT_NAME' | translate}}</small>
                   </div>
@@ -14,7 +26,7 @@
             </div>
             <div class="form-group"><label class="col-sm-2 control-label">{{'SETTING.AREA' | translate}}<span class="text-danger">*</span></label>
                 <div class="col-sm-10">
-                    <input ng-model="store.area" type="number" name="storearea" class="form-control" required>
+                    <input ng-model="store.area" type="number" name="storearea" class="form-control" required placeholder="{{'SETTING.INPUT_AREA' | translate}}">
                     <div class="m-t-xs" ng-show="form_store.storearea.$invalid && form_store.storearea.$dirty">
                         <small class="text-danger" ng-show="form_store.storearea.$error.required">{{'SETTING.INPUT_AREA' | translate}}</small>
                         <small class="text-danger" ng-show="form_store.storearea.$error">{{'SETTING.INVALID_FORMAT' | translate}}</small>
@@ -23,7 +35,7 @@
             </div>
             <div class="form-group"><label class="col-sm-2 control-label">{{'STORE.ADDRESS' | translate}}<span class="text-danger">*</span></label>
               <div class="col-sm-10">
-                  <input ng-model="store.address" type="text" name="storeaddress" class="form-control" required>
+                  <input ng-model="store.address" type="text" name="storeaddress" class="form-control" required placeholder="{{'STORE.INPUT_ADDRESS' | translate}}">
                   <div class="m-t-xs" ng-show="form_store.storeaddress.$invalid && form_store.storeaddress.$dirty">
                       <small class="text-danger" ng-show="form_store.storeaddress.$error.required">{{'STORE.INPUT_ADDRESS' | translate}}</small>
                   </div>
@@ -37,7 +49,7 @@
             </div>
             <div class="form-group"><label class="col-sm-2 control-label">{{'STORE.LONGITUDE' | translate}}(°)<span class="text-danger">*</span></label>
                 <div class="col-sm-10">
-                    <input ng-model="store.longitude" type="number" name="storelongitude" class="form-control" required>
+                    <input ng-model="store.longitude" type="number" name="storelongitude" class="form-control" required placeholder="{{'STORE.INPUT_LONGITUDE' | translate}}">
                     <div class="m-t-xs" ng-show="form_store.storelongitude.$invalid && form_store.storelongitude.$dirty">
                         <small class="text-danger" ng-show="form_store.storelongitude.$error.required">{{'STORE.INPUT_LONGITUDE' | translate}}</small>
                         <small class="text-danger" ng-show="form_store.storelongitude.$error">{{'SETTING.INVALID_FORMAT' | translate}}</small>
@@ -49,7 +61,7 @@
             </div>
             <div class="form-group"><label class="col-sm-2 control-label">{{'STORE.LATITUDE' | translate}}(°)<span class="text-danger">*</span></label>
                 <div class="col-sm-10">
-                    <input ng-model="store.latitude" type="number" name="storelatitude" class="form-control" required>
+                    <input ng-model="store.latitude" type="number" name="storelatitude" class="form-control" required placeholder="{{'STORE.INPUT_LATITUDE' | translate}}">
                     <div class="m-t-xs" ng-show="form_store.storelatitude.$invalid && form_store.storelatitude.$dirty">
                         <small class="text-danger" ng-show="form_store.storelatitude.$error.required">{{'STORE.INPUT_LATITUDE' | translate}}</small>
                         <small class="text-danger" ng-show="form_store.storelatitude.$error">{{'SETTING.INVALID_FORMAT' | translate}}</small>
@@ -62,7 +74,7 @@
             <div class="form-group"><label class="col-sm-2 control-label">{{'STORE.TYPE' | translate}}<span class="text-danger">*</span></label>
                 <div class="col-sm-10">
                     <ui-select ng-model="store.store_type.id" theme="bootstrap" required>
-                        <ui-select-match allow-clear="false" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
+                        <ui-select-match allow-clear="false" placeholder="{{'SETTING.SELECT_STORE_TYPE' | translate}}">{{$select.selected.name}}</ui-select-match>
                         <ui-select-choices repeat="storetype.id as storetype in storetypes | filter: $select.search">
                             <div ng-bind-html="storetype.name | highlight: $select.search"></div>
                         </ui-select-choices>
@@ -72,7 +84,7 @@
             <div class="form-group"><label class="col-sm-2 control-label">{{'SETTING.CONTACT' | translate}}<span class="text-danger">*</span></label>
                 <div class="col-sm-10">
                     <ui-select ng-model="store.contact.id" name="storecontact" theme="bootstrap" required>
-                        <ui-select-match allow-clear="false" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
+                        <ui-select-match allow-clear="false" placeholder="{{'SETTING.SELECT_CONTACT' | translate}}">{{$select.selected.name}}</ui-select-match>
                         <ui-select-choices repeat="contact.id as contact in contacts | filter: $select.search">
                             <div ng-bind-html="contact.name | highlight: $select.search"></div>
                             <small>{{contact.email}},{{contact.phone}}</small>
@@ -95,7 +107,7 @@
             <div class="form-group"><label class="col-sm-2 control-label">{{'SETTING.COSTCENTER' | translate}}<span class="text-danger">*</span></label>
                 <div class="col-sm-10">
                     <ui-select ng-model="store.cost_center.id" theme="bootstrap" required>
-                        <ui-select-match allow-clear="false" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
+                        <ui-select-match allow-clear="false" placeholder="{{'SETTING.SELECT_COSTCENTER' | translate}}">{{$select.selected.name}}</ui-select-match>
                         <ui-select-choices repeat="costcenter.id as costcenter in costcenters | filter: $select.search">
                             <div ng-bind-html="costcenter.name | highlight: $select.search"></div>
                         </ui-select-choices>
@@ -104,7 +116,7 @@
             </div>
             <div class="form-group"><label class="col-sm-2 control-label">{{'SETTING.DESCRIPTION' | translate}} ({{'SETTING.OPTIONAL' | translate}})</label>
               <div class="col-sm-10">
-                  <input ng-model="store.description" type="text" name="storedescription" class="form-control">
+                  <input ng-model="store.description" type="text" name="storedescription" class="form-control" placeholder="{{'SETTING.ENTER_DESCRIPTION' | translate}}">
               </div>
             </div>
             <div class="form-group" ng-show="store.qrcode"><label class="col-sm-2 control-label">{{'COMMON.QR_CODE' | translate}}</label>

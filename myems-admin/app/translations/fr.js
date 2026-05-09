@@ -710,6 +710,131 @@
         ENTER_DESCRIPTION: "Saisir la description",
         SIMPLIFIED_CODE: "Code simplifié",
         ENTER_SIMPLIFIED_CODE: "Saisir le code simplifié",
+        INPUT_MENU_DISPLAY_NAME_PLACEHOLDER: "Veuillez saisir le nom d’affichage du menu",
+        SPACE_DESCRIPTION:
+          "Gestion de la hiérarchie des espaces et de l’affectation des actifs ; construire l’arborescence campus/bâtiment/étage/pièce pour l’agrégation énergétique.",
+        SPACE_DESCRIPTION_MORE:
+          "Les espaces définissent la structure physique et constituent la base de l’agrégation des consommations et des droits. Gérez les relations parent/enfant et liez compteurs, équipements, points, capteurs, locataires et magasins à un espace pour les statistiques, la répartition des coûts et le suivi.",
+        SPACE_DIALOG_DESCRIPTION: "Créer ou modifier ici les informations d’un espace.",
+        SPACE_DIALOG_DESCRIPTION_MORE:
+          "Saisissez le nom, la surface et le nombre d’occupants ; sélectionnez le fuseau horaire et le centre de coûts. Optionnellement, configurez un contact et des coordonnées. Après l’enregistrement, liez les actifs via les onglets dédiés.",
+        IMPORT_SPACE_DESCRIPTION:
+          "Importation en lot des espaces ; créer ou mettre à jour des structures d’espaces via JSON.",
+        IMPORT_SPACE_DESCRIPTION_MORE:
+          "Recommandé pour l’initialisation ou les ajustements importants de l’arborescence. Exportez d’abord un espace comme modèle, modifiez le JSON puis importez pour éviter les erreurs de format.",
+        EXPORT_SPACE_DESCRIPTION:
+          "Exportation d’espace ; exporter l’espace sélectionné (et sa configuration) au format JSON.",
+        EXPORT_SPACE_DESCRIPTION_MORE:
+          "Le JSON exporté peut servir de sauvegarde, de migration ou de modèle d’importation. Protégez ces données pour éviter la fuite d’informations de structure et d’actifs.",
+        INPUT_SPACE_NAME_PLACEHOLDER:
+          "Saisissez le nom de l’espace, ex. : Bâtiment A Étage 3 Salle 301",
+        INPUT_SPACE_AREA_PLACEHOLDER:
+          "Saisissez la surface (m²) pour les indicateurs par surface",
+        INPUT_SPACE_NUMBER_OF_OCCUPANTS_PLACEHOLDER:
+          "Saisissez le nombre d’occupants pour l’analyse par personne",
+        INPUT_SPACE_LONGITUDE_PLACEHOLDER:
+          "Saisissez la longitude, ex. : 121.4737",
+        INPUT_SPACE_LATITUDE_PLACEHOLDER:
+          "Saisissez la latitude, ex. : 31.2304",
+        TENANT_DESCRIPTION:
+          "Gestion des locataires et des baux ; maintenir les informations du locataire et supporter la répartition énergie/coûts.",
+        TENANT_DESCRIPTION_MORE:
+          "Enregistrez les zones louées, la durée du bail, le contact et le centre de coûts. Avec le lien aux espaces et les données de comptage, vous obtenez des statistiques, le rapprochement et la répartition par locataire. Mettez à jour lors des changements de bail.",
+        TENANT_DIALOG_DESCRIPTION: "Créer ou modifier ici les informations du locataire.",
+        TENANT_DIALOG_DESCRIPTION_MORE:
+          "Renseignez le nom, la surface, bâtiment/étage/salle, le type, le contact, les dates de bail et le centre de coûts. Ensuite, liez compteurs, points, capteurs, calendriers et commandes si nécessaire.",
+        TENANT_TYPE_DESCRIPTION:
+          "Gestion du dictionnaire des types de locataires ; maintenir des catégories pour statistiques et filtres.",
+        TENANT_TYPE_DESCRIPTION_MORE:
+          "Les types classent les locataires (ex. bureau, commerce, production) pour les rapports et comparaisons. Conservez un nom, une description et un code abrégé clairs pour chaque type.",
+        TENANT_TYPE_DIALOG_DESCRIPTION: "Créer ou modifier ici un type de locataire.",
+        TENANT_TYPE_DIALOG_DESCRIPTION_MORE:
+          "Saisissez le nom, la description et le code abrégé. Un code en anglais/abrégé est recommandé pour faciliter l’import/export.",
+        IMPORT_TENANT_DESCRIPTION:
+          "Importation en lot des locataires ; créer ou mettre à jour plusieurs locataires via JSON.",
+        IMPORT_TENANT_DESCRIPTION_MORE:
+          "Recommandé pour l’initialisation ou les mises à jour massives. Exportez un locataire comme modèle puis modifiez le JSON avant import.",
+        EXPORT_TENANT_DESCRIPTION:
+          "Exportation du locataire ; exporter le locataire sélectionné (et sa configuration) en JSON.",
+        EXPORT_TENANT_DESCRIPTION_MORE:
+          "Le JSON exporté peut servir de sauvegarde, de migration ou de modèle. Protégez les données sensibles (contacts).",
+        SELECT_TENANT_TYPE: "Veuillez sélectionner le type de locataire",
+        SELECT_CONTACT: "Veuillez sélectionner le contact",
+        INPUT_TENANT_NAME_PLACEHOLDER:
+          "Saisissez le nom du locataire, ex. : Société ACME",
+        INPUT_TENANT_TYPE_NAME_PLACEHOLDER:
+          "Saisissez le nom du type, ex. : Bureau/Commerce/Production",
+        INPUT_TENANT_TYPE_DESCRIPTION_PLACEHOLDER:
+          "Saisissez la description du type de locataire",
+        STORE_DESCRIPTION:
+          "Gestion des magasins et des opérations ; maintenir les informations du magasin et supporter la comptabilité énergétique par magasin.",
+        STORE_DESCRIPTION_MORE:
+          "Enregistrez l’adresse, les coordonnées, le type de magasin, le contact et le centre de coûts. Avec le lien aux espaces et les données de comptage, cela permet les statistiques et le rapprochement par magasin. Mettez à jour lors des changements opérationnels.",
+        STORE_DIALOG_DESCRIPTION: "Créer ou modifier ici les informations du magasin.",
+        STORE_DIALOG_DESCRIPTION_MORE:
+          "Renseignez le nom, la surface, l’adresse et les coordonnées ; sélectionnez le type, le contact et le centre de coûts. Optionnellement une description. Ensuite, liez compteurs, points, capteurs, calendriers et commandes.",
+        STORE_TYPE_DESCRIPTION:
+          "Gestion du dictionnaire des types de magasins ; maintenir des catégories pour statistiques et filtres.",
+        STORE_TYPE_DESCRIPTION_MORE:
+          "Les types classent les magasins (ex. restauration, retail, entrepôt) pour rapports et comparaisons. Gardez un nom, une description et un code abrégé clairs.",
+        STORE_TYPE_DIALOG_DESCRIPTION: "Créer ou modifier ici un type de magasin.",
+        STORE_TYPE_DIALOG_DESCRIPTION_MORE:
+          "Saisissez le nom, la description et le code abrégé. Un code abrégé mnémonique est recommandé pour faciliter l’import/export.",
+        IMPORT_STORE_DESCRIPTION:
+          "Importation en lot des magasins ; créer ou mettre à jour plusieurs magasins via JSON.",
+        IMPORT_STORE_DESCRIPTION_MORE:
+          "Recommandé pour l’initialisation ou les mises à jour massives. Exportez un magasin comme modèle puis modifiez le JSON avant import.",
+        EXPORT_STORE_DESCRIPTION:
+          "Exportation du magasin ; exporter le magasin sélectionné (et sa configuration) en JSON.",
+        EXPORT_STORE_DESCRIPTION_MORE:
+          "Le JSON exporté peut servir de sauvegarde, de migration ou de modèle. Protégez les informations sensibles (adresses, contacts).",
+        IMPORT_SVG_DESCRIPTION:
+          "Importation en lot de SVG ; créer ou mettre à jour plusieurs SVG via JSON.",
+        IMPORT_SVG_DESCRIPTION_MORE:
+          "Il est recommandé d’exporter un SVG existant comme modèle, d’ajuster le JSON (nom, description et code source SVG), puis d’importer afin de garantir le format.",
+        EXPORT_SVG_DESCRIPTION:
+          "Exportation de SVG ; exporter le SVG sélectionné (et sa configuration) en JSON.",
+        EXPORT_SVG_DESCRIPTION_MORE:
+          "Le JSON exporté peut servir de sauvegarde, de migration ou de modèle. Protégez le code source SVG et les métadonnées associées.",
+        IMPORT_ENERGY_FLOW_DIAGRAM_DESCRIPTION:
+          "Importation en lot de diagrammes de flux d’énergie ; créer ou mettre à jour plusieurs diagrammes via JSON.",
+        IMPORT_ENERGY_FLOW_DIAGRAM_DESCRIPTION_MORE:
+          "Il est recommandé d’exporter un diagramme existant comme modèle, d’ajuster le JSON, puis d’importer afin de garantir le format.",
+        EXPORT_ENERGY_FLOW_DIAGRAM_DESCRIPTION:
+          "Exportation de diagramme de flux d’énergie ; exporter le diagramme sélectionné (et sa configuration) en JSON.",
+        EXPORT_ENERGY_FLOW_DIAGRAM_DESCRIPTION_MORE:
+          "Le JSON exporté peut servir de sauvegarde, de migration ou de modèle.",
+        IMPORT_SHOPFLOOR_DESCRIPTION:
+          "Importation en lot de shopfloor ; créer ou mettre à jour plusieurs shopfloors via JSON.",
+        IMPORT_SHOPFLOOR_DESCRIPTION_MORE:
+          "Il est recommandé d’exporter un shopfloor existant comme modèle, d’ajuster le JSON, puis d’importer afin de garantir le format.",
+        EXPORT_SHOPFLOOR_DESCRIPTION:
+          "Exportation de shopfloor ; exporter le shopfloor sélectionné (et sa configuration) en JSON.",
+        EXPORT_SHOPFLOOR_DESCRIPTION_MORE:
+          "Le JSON exporté peut servir de sauvegarde, de migration ou de modèle.",
+        IMPORT_DISTRIBUTION_SYSTEM_DESCRIPTION:
+          "Importation en lot de système de distribution ; créer ou mettre à jour plusieurs systèmes via JSON.",
+        IMPORT_DISTRIBUTION_SYSTEM_DESCRIPTION_MORE:
+          "Il est recommandé d’exporter un système existant comme modèle, d’ajuster le JSON (y compris le SVG associé), puis d’importer afin de garantir le format.",
+        EXPORT_DISTRIBUTION_SYSTEM_DESCRIPTION:
+          "Exportation de système de distribution ; exporter le système sélectionné (et sa configuration) en JSON.",
+        EXPORT_DISTRIBUTION_SYSTEM_DESCRIPTION_MORE:
+          "Le JSON exporté peut servir de sauvegarde, de migration ou de modèle.",
+        IMPORT_WORKING_CALENDAR_DESCRIPTION:
+          "Importation en lot de calendrier de travail ; créer ou mettre à jour plusieurs calendriers via JSON.",
+        IMPORT_WORKING_CALENDAR_DESCRIPTION_MORE:
+          "Il est recommandé d’exporter un calendrier existant comme modèle, d’ajuster le JSON, puis d’importer afin de garantir le format.",
+        EXPORT_WORKING_CALENDAR_DESCRIPTION:
+          "Exportation de calendrier de travail ; exporter le calendrier sélectionné (et sa configuration) en JSON.",
+        EXPORT_WORKING_CALENDAR_DESCRIPTION_MORE:
+          "Le JSON exporté peut servir de sauvegarde, de migration ou de modèle.",
+        SELECT_STORE_TYPE: "Veuillez sélectionner le type de magasin",
+        INPUT_STORE_NAME_PLACEHOLDER:
+          "Saisissez le nom du magasin, ex. : Magasin #1",
+        INPUT_STORE_TYPE_NAME_PLACEHOLDER:
+          "Saisissez le nom du type, ex. : Restauration/Retail/Entrepôt",
+        INPUT_STORE_TYPE_DESCRIPTION_PLACEHOLDER:
+          "Saisissez la description du type de magasin",
       },
       CONTACT: {
         EMAIL: "Messagerie électronique",
@@ -840,6 +965,8 @@
         SELECT_DISTRIBUTION_SYSTEM: "Sélectionner le système de distribution",
         SVG: "SVG",
         INPUT_SVG: "Veuillez saisir SVG",
+        SELECT_SVG_CONFIGURATION_PLACEHOLDER:
+          "Veuillez sélectionner le schéma SVG associé",
         DISTRIBUTION_CIRCUIT: "Distribution Circuit",
         N_S_DISTRIBUTION_CIRCUIT: " Circuit de distribution associé",
         ADD_DISTRIBUTION_CIRCUIT: "Ajouter un circuit de distribution",
@@ -865,6 +992,19 @@
           "S’il vous plaît entrer les clients",
         DISTRIBUTION_CIRCUIT_METERS: "Mètres",
         INPUT_DISTRIBUTION_CIRCUIT_METERS: "Veuillez saisir les compteurs",
+        DISTRIBUTION_CIRCUIT_NAME_PLACEHOLDER_EXAMPLE:
+          "ex. : Départ transformateur principal 1#",
+        DISTRIBUTION_CIRCUIT_DISTRIBUTION_ROOM_PLACEHOLDER_EXAMPLE:
+          "ex. : Poste électrique n°1",
+        DISTRIBUTION_CIRCUIT_SWITCHGEAR_PLACEHOLDER_EXAMPLE: "ex. : AH1",
+        DISTRIBUTION_CIRCUIT_PEAK_LOAD_PLACEHOLDER:
+          "Veuillez saisir la charge maximale de conception",
+        DISTRIBUTION_CIRCUIT_PEAK_CURRENT_PLACEHOLDER:
+          "Veuillez saisir le courant nominal maximal",
+        DISTRIBUTION_CIRCUIT_CUSTOMERS_PLACEHOLDER_EXAMPLE:
+          "ex. : Ligne de production A, Immeuble de bureaux B",
+        DISTRIBUTION_CIRCUIT_METERS_PLACEHOLDER_EXAMPLE:
+          "ex. : Compteur de départ 1#",
         PREVIEW: "Aperçu",
         N_S_PREVIEW: " Aperçu",
       },
@@ -1397,6 +1537,8 @@
         EDIT_SVG: "Modifier le SVG",
         SOURCE_CODE: "Code source",
         INPUT_SOURCE_CODE: "Code source d'entrée",
+        SOURCE_CODE_PLACEHOLDER_EXAMPLE:
+          "ex. : <svg xmlns='http://www.w3.org/2000/svg' ...> ... </svg>",
         PREVIEW: "Prévue",
         SELECT_SVG: "Sélectionner SVG",
         N_S_PREVIEW: "Prévue",
@@ -1480,6 +1622,66 @@
         INPUT_AREA: "S’il vous plaît zone de saisie",
         CURRENT_SELECTED_SPACE: "Espace sélectionné actuel",
         CHILD_SPACES: "Espaces enfants",
+        BIND_METER_DESCRIPTION:
+          "Gestion du lien espace–compteur ; affecter des compteurs à un espace pour l’agrégation par zone.",
+        BIND_METER_DESCRIPTION_MORE:
+          "Sélectionnez un espace, choisissez le type de compteur à droite puis faites glisser le compteur vers la zone centrale. Pour délier, glissez vers la corbeille.",
+        BIND_COMBINED_EQUIPMENT_DESCRIPTION:
+          "Gestion du lien espace–équipement combiné ; affecter des systèmes complexes à un espace pour l’analyse.",
+        BIND_COMBINED_EQUIPMENT_DESCRIPTION_MORE:
+          "Sélectionnez un espace puis faites glisser les équipements combinés depuis la liste de droite vers la zone centrale.",
+        BIND_PHOTOVOLTAIC_POWER_STATION_DESCRIPTION:
+          "Gestion du lien espace–centrale photovoltaïque ; affecter des actifs de production à un espace.",
+        BIND_PHOTOVOLTAIC_POWER_STATION_DESCRIPTION_MORE:
+          "Sélectionnez un espace puis faites glisser les centrales PV vers la zone centrale.",
+        BIND_EQUIPMENT_DESCRIPTION:
+          "Gestion du lien espace–équipement ; affecter des équipements consommateurs à une zone.",
+        BIND_EQUIPMENT_DESCRIPTION_MORE:
+          "Sélectionnez un espace puis faites glisser les équipements depuis la liste de droite. Pour délier, glissez vers la corbeille.",
+        BIND_ENERGY_STORAGE_POWER_STATION_DESCRIPTION:
+          "Gestion du lien espace–centrale de stockage ; affecter des actifs de stockage à un espace.",
+        BIND_ENERGY_STORAGE_POWER_STATION_DESCRIPTION_MORE:
+          "Sélectionnez un espace puis faites glisser les centrales de stockage vers la zone centrale.",
+        BIND_TENANT_DESCRIPTION:
+          "Gestion du lien espace–locataire ; lier les locataires aux zones louées pour la répartition.",
+        BIND_TENANT_DESCRIPTION_MORE:
+          "Sélectionnez un espace puis faites glisser les locataires depuis la liste de droite vers la zone centrale.",
+        BIND_STORE_DESCRIPTION:
+          "Gestion du lien espace–magasin ; lier les magasins aux zones d’exploitation pour le rapprochement.",
+        BIND_STORE_DESCRIPTION_MORE:
+          "Sélectionnez un espace puis faites glisser les magasins depuis la liste de droite vers la zone centrale.",
+        BIND_SHOPFLOOR_DESCRIPTION:
+          "Gestion du lien espace–atelier ; aligner les zones de production sur la hiérarchie des espaces.",
+        BIND_SHOPFLOOR_DESCRIPTION_MORE:
+          "Sélectionnez un espace puis faites glisser les ateliers depuis la liste de droite vers la zone centrale.",
+        BIND_ENERGY_FLOW_DIAGRAM_DESCRIPTION:
+          "Gestion du lien espace–diagramme de flux ; utiliser le modèle énergétique au niveau de l’espace.",
+        BIND_ENERGY_FLOW_DIAGRAM_DESCRIPTION_MORE:
+          "Sélectionnez un espace puis faites glisser les diagrammes de flux depuis la liste de droite vers la zone centrale.",
+        BIND_DISTRIBUTION_SYSTEM_DESCRIPTION:
+          "Gestion du lien espace–système de distribution ; affecter la topologie électrique à une zone.",
+        BIND_DISTRIBUTION_SYSTEM_DESCRIPTION_MORE:
+          "Sélectionnez un espace puis faites glisser les systèmes de distribution depuis la liste de droite vers la zone centrale.",
+        BIND_MICROGRID_DESCRIPTION:
+          "Gestion du lien espace–micro-réseau ; affecter les actifs de micro-réseau à un espace.",
+        BIND_MICROGRID_DESCRIPTION_MORE:
+          "Sélectionnez un espace puis faites glisser les micro-réseaux depuis la liste de droite vers la zone centrale.",
+        BIND_POINT_DESCRIPTION:
+          "Gestion du lien espace–point ; lier des points opérationnels clés à l’espace.",
+        BIND_POINT_DESCRIPTION_MORE:
+          "Sélectionnez un espace, choisissez une source de données et faites glisser les points vers la zone centrale.",
+        BIND_SENSOR_DESCRIPTION:
+          "Gestion du lien espace–capteur ; affecter des capteurs environnementaux à l’espace.",
+        BIND_SENSOR_DESCRIPTION_MORE:
+          "Sélectionnez un espace puis faites glisser les capteurs depuis la liste de droite vers la zone centrale.",
+        BIND_WORKING_CALENDAR_DESCRIPTION:
+          "Gestion du lien espace–calendrier ; définir des règles d’horaires de fonctionnement.",
+        BIND_WORKING_CALENDAR_DESCRIPTION_MORE:
+          "Sélectionnez un espace puis faites glisser les calendriers depuis la liste de droite vers la zone centrale.",
+        BIND_COMMAND_DESCRIPTION:
+          "Gestion du lien espace–commande ; configurer les commandes disponibles pour les actifs de l’espace.",
+        BIND_COMMAND_DESCRIPTION_MORE:
+          "Sélectionnez un espace puis faites glisser les commandes depuis la liste de droite vers la zone centrale.",
         BIND_EQUIPMENT: "Lier l’équipement",
         N_S_EQUIPMENT: "Équipements reliés",
         EQUIPMENT_LIST: "Liste d’équipement",
@@ -1534,6 +1736,26 @@
           "Les nombres positifs sont Nord, les nombres négatifs sont Sud",
         LONGITUDE_HINT:
           "Les nombres positifs sont longitudinaux est, les nombres négatifs sont longitudinaux Ouest",
+        BIND_METER_DESCRIPTION:
+          "Gestion du lien magasin–compteur ; affecter des compteurs aux magasins pour la comptabilité par magasin.",
+        BIND_METER_DESCRIPTION_MORE:
+          "Sélectionnez un magasin puis faites glisser des compteurs depuis la liste de droite vers la zone centrale.",
+        BIND_POINT_DESCRIPTION:
+          "Gestion du lien magasin–point ; lier des points opérationnels clés au magasin.",
+        BIND_POINT_DESCRIPTION_MORE:
+          "Sélectionnez un magasin, choisissez une source de données puis faites glisser des points vers la zone centrale.",
+        BIND_SENSOR_DESCRIPTION:
+          "Gestion du lien magasin–capteur ; affecter des capteurs environnementaux au magasin.",
+        BIND_SENSOR_DESCRIPTION_MORE:
+          "Sélectionnez un magasin puis faites glisser les capteurs depuis la liste de droite vers la zone centrale.",
+        BIND_WORKING_CALENDAR_DESCRIPTION:
+          "Gestion du lien magasin–calendrier ; définir les règles d’horaires d’ouverture.",
+        BIND_WORKING_CALENDAR_DESCRIPTION_MORE:
+          "Sélectionnez un magasin puis faites glisser les calendriers depuis la liste de droite vers la zone centrale.",
+        BIND_COMMAND_DESCRIPTION:
+          "Gestion du lien magasin–commande ; configurer les commandes disponibles pour les actifs du magasin.",
+        BIND_COMMAND_DESCRIPTION_MORE:
+          "Sélectionnez un magasin puis faites glisser les commandes depuis la liste de droite vers la zone centrale.",
       },
       TENANT: {
         BUILDINGS: "Bâtiments",
@@ -1551,6 +1773,26 @@
         INPUT_LEASE_NUMBER: "Veuillez entrer le numéro de bail",
         END_BEFORE_START_WARNING:
           "L'heure de fin ne peut pas précéder l'heure de début",
+        BIND_METER_DESCRIPTION:
+          "Gestion du lien locataire–compteur ; affecter des compteurs aux locataires pour statistiques et rapprochement.",
+        BIND_METER_DESCRIPTION_MORE:
+          "Sélectionnez un locataire puis faites glisser des compteurs depuis la liste de droite vers la zone centrale.",
+        BIND_POINT_DESCRIPTION:
+          "Gestion du lien locataire–point ; lier des points opérationnels clés au locataire.",
+        BIND_POINT_DESCRIPTION_MORE:
+          "Sélectionnez un locataire, choisissez une source de données puis faites glisser des points vers la zone centrale.",
+        BIND_SENSOR_DESCRIPTION:
+          "Gestion du lien locataire–capteur ; affecter des capteurs environnementaux aux zones du locataire.",
+        BIND_SENSOR_DESCRIPTION_MORE:
+          "Sélectionnez un locataire puis faites glisser des capteurs depuis la liste de droite vers la zone centrale.",
+        BIND_WORKING_CALENDAR_DESCRIPTION:
+          "Gestion du lien locataire–calendrier ; définir les règles d’horaires d’activité/production.",
+        BIND_WORKING_CALENDAR_DESCRIPTION_MORE:
+          "Sélectionnez un locataire puis faites glisser les calendriers depuis la liste de droite vers la zone centrale.",
+        BIND_COMMAND_DESCRIPTION:
+          "Gestion du lien locataire–commande ; configurer les commandes disponibles pour les actifs du locataire.",
+        BIND_COMMAND_DESCRIPTION_MORE:
+          "Sélectionnez un locataire puis faites glisser les commandes depuis la liste de droite vers la zone centrale.",
       },
       SHOPFLOOR: {
         ADD_SHOPFLOOR: "Ajouter un atelier",

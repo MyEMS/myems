@@ -5,20 +5,31 @@
 				<uib-tabset active="activeTabIndex">
 					<uib-tab heading="{{'COMMON.SHOPFLOOR' | translate}}" index="0" select="handleTabSelect(0)">
 						<div class="panel-body" ng-controller="ShopfloorController">
-                                                        <div class="col-md-3">
-							    <a ng-click="addShopfloor()" class="btn btn-primary btn-rounded  btn-outline" href="">
-								<i class="fa fa-plus-circle"></i> {{'SHOPFLOOR.ADD_SHOPFLOOR' | translate}}
-							    </a>
-							    <a ng-click="importShopfloor()" class="btn btn-primary btn-rounded  btn-outline" href="">
-								<i class="fa fa-plus-circle"></i> {{'SETTING.IMPORT' | translate}}
-							    </a>
-                                                        </div>
-                                                        <div class="col-md-9">
-                                                            <input type="text" class="form-control m-b-xs"
-                                                                placeholder="{{'SETTING.SEARCH' | translate}}"
-                                                                ng-model="searchKeyword"
-                                                                ng-keyup="searchShopfloors()">
-                                                        </div>
+							<div class="alert alert-info">
+								<p>
+									{{'SETTING.SHOPFLOOR_DESCRIPTION' | translate}}
+									<a ng-click="isCollapsed = !isCollapsed" class="pull-right">
+										{{(isCollapsed ? 'COMMON.COLLAPSE' : 'COMMON.CLICK_TO_EXPAND_FOR_MORE_DESCRIPTION') | translate}}
+									</a>
+								</p>
+								<div uib-collapse="!isCollapsed">
+									<hr>
+									<p>{{'SETTING.SHOPFLOOR_DESCRIPTION_MORE' | translate}}</p>
+								</div>
+							</div>
+							<div class="row mb-3">
+								<div class="col-md-3">
+									<a ng-click="addShopfloor()" class="btn btn-primary btn-rounded btn-outline" href=""><i class="fa fa-plus-circle"></i> {{'SHOPFLOOR.ADD_SHOPFLOOR' | translate}}</a>
+									<a ng-click="importShopfloor()" class="btn btn-primary btn-rounded btn-outline" href=""><i class="fa fa-plus-circle"></i> {{'SETTING.IMPORT' | translate}}</a>
+								</div>
+								<div class="col-md-9">
+									<input type="text"
+										   class="form-control m-b-xs"
+										   placeholder="{{'SETTING.SEARCH' | translate}}"
+										   ng-model="searchKeyword"
+										   ng-keyup="searchShopfloors()">
+								</div>
+							</div>
 							<br>
 							<br>
 							<table class="footable table table-bordered table-hover" data-sort="true" data-page-size="15">
@@ -65,6 +76,18 @@
 					</uib-tab>
 					<uib-tab heading="{{'SETTING.BIND_METER' | translate}}" index="1" select="handleTabSelect(1)">
 						<div class="panel-body" ng-controller="ShopfloorMeterController">
+							<div class="alert alert-info">
+								<p>
+									{{'SETTING.BIND_METER_DESCRIPTION' | translate}}
+									<a ng-click="isCollapsed = !isCollapsed" class="pull-right">
+										{{(isCollapsed ? 'COMMON.COLLAPSE' : 'COMMON.CLICK_TO_EXPAND_FOR_MORE_DESCRIPTION') | translate}}
+									</a>
+								</p>
+								<div uib-collapse="!isCollapsed">
+									<hr>
+									<p>{{'SETTING.BIND_METER_DESCRIPTION_MORE' | translate}}</p>
+								</div>
+							</div>
 							<div class="row">
 								<div class="col-lg-3">
 									<div class="panel panel-info">
@@ -151,6 +174,18 @@
 					</uib-tab>
 					<uib-tab heading="{{'SHOPFLOOR.BIND_EQUIPMENT' | translate}}" index="2" select="handleTabSelect(2)">
 						<div class="panel-body" ng-controller="ShopfloorEquipmentController">
+							<div class="alert alert-info">
+								<p>
+									{{'SHOPFLOOR.BIND_EQUIPMENT_DESCRIPTION' | translate}}
+									<a ng-click="isCollapsed = !isCollapsed" class="pull-right">
+										{{(isCollapsed ? 'COMMON.COLLAPSE' : 'COMMON.CLICK_TO_EXPAND_FOR_MORE_DESCRIPTION') | translate}}
+									</a>
+								</p>
+								<div uib-collapse="!isCollapsed">
+									<hr>
+									<p>{{'SHOPFLOOR.BIND_EQUIPMENT_DESCRIPTION_MORE' | translate}}</p>
+								</div>
+							</div>
 							<div class="row">
 								<div class="col-lg-3">
 									<div class="panel panel-info">
@@ -224,6 +259,18 @@
 					</uib-tab>
 					<uib-tab heading="{{'SETTING.BIND_POINT' | translate}}" index="3" select="handleTabSelect(3)">
 						<div class="panel-body" ng-controller="ShopfloorPointController">
+							<div class="alert alert-info">
+								<p>
+									{{'SETTING.BIND_POINT_DESCRIPTION' | translate}}
+									<a ng-click="isCollapsed = !isCollapsed" class="pull-right">
+										{{(isCollapsed ? 'COMMON.COLLAPSE' : 'COMMON.CLICK_TO_EXPAND_FOR_MORE_DESCRIPTION') | translate}}
+									</a>
+								</p>
+								<div uib-collapse="!isCollapsed">
+									<hr>
+									<p>{{'SETTING.BIND_POINT_DESCRIPTION_MORE' | translate}}</p>
+								</div>
+							</div>
 							<div class="row">
 								<div class="col-lg-3">
 									<div class="panel panel-info">
@@ -312,6 +359,18 @@
 					</uib-tab>
 					<uib-tab heading="{{'SETTING.BIND_SENSOR' | translate}}" index="4" select="handleTabSelect(4)">
 						<div class="panel-body" ng-controller="ShopfloorSensorController">
+							<div class="alert alert-info">
+								<p>
+									{{'SETTING.BIND_SENSOR_DESCRIPTION' | translate}}
+									<a ng-click="isCollapsed = !isCollapsed" class="pull-right">
+										{{(isCollapsed ? 'COMMON.COLLAPSE' : 'COMMON.CLICK_TO_EXPAND_FOR_MORE_DESCRIPTION') | translate}}
+									</a>
+								</p>
+								<div uib-collapse="!isCollapsed">
+									<hr>
+									<p>{{'SETTING.BIND_SENSOR_DESCRIPTION_MORE' | translate}}</p>
+								</div>
+							</div>
 							<div class="row">
 								<div class="col-lg-3">
 									<div class="panel panel-info">
@@ -385,6 +444,18 @@
 
 					<uib-tab heading="{{'WORKING_CALENDAR.BIND_WORKING_CALENDAR' | translate}}" index="5" select="handleTabSelect(5)">
 						<div class="panel-body" ng-controller="ShopfloorWorkingCalendarController">
+							<div class="alert alert-info">
+								<p>
+									{{'WORKING_CALENDAR.BIND_WORKING_CALENDAR_DESCRIPTION' | translate}}
+									<a ng-click="isCollapsed = !isCollapsed" class="pull-right">
+										{{(isCollapsed ? 'COMMON.COLLAPSE' : 'COMMON.CLICK_TO_EXPAND_FOR_MORE_DESCRIPTION') | translate}}
+									</a>
+								</p>
+								<div uib-collapse="!isCollapsed">
+									<hr>
+									<p>{{'WORKING_CALENDAR.BIND_WORKING_CALENDAR_DESCRIPTION_MORE' | translate}}</p>
+								</div>
+							</div>
 							<div class="row">
 								<div class="col-lg-3">
 									<div class="panel panel-info">
@@ -458,6 +529,18 @@
 					</uib-tab>
 					<uib-tab heading="{{'SETTING.BIND_COMMAND' | translate}}" index="6" select="handleTabSelect(6)">
 						<div class="panel-body" ng-controller="ShopfloorCommandController">
+							<div class="alert alert-info">
+								<p>
+									{{'SETTING.BIND_COMMAND_DESCRIPTION' | translate}}
+									<a ng-click="isCollapsed = !isCollapsed" class="pull-right">
+										{{(isCollapsed ? 'COMMON.COLLAPSE' : 'COMMON.CLICK_TO_EXPAND_FOR_MORE_DESCRIPTION') | translate}}
+									</a>
+								</p>
+								<div uib-collapse="!isCollapsed">
+									<hr>
+									<p>{{'SETTING.BIND_COMMAND_DESCRIPTION_MORE' | translate}}</p>
+								</div>
+							</div>
 							<div class="row">
 								<div class="col-lg-3">
 									<div class="panel panel-info">

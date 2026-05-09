@@ -6,6 +6,18 @@
 				<uib-tabset>
 					<uib-tab heading="{{'COMMON.MENU' | translate}}">
 						<div class="panel-body" ng-controller="MenuController">
+							<div class="alert alert-info">
+								<p>
+									{{'SETTING.MENU_DESCRIPTION' | translate}}
+									<a ng-click="isCollapsed = !isCollapsed" class="pull-right">
+										{{(isCollapsed ? 'COMMON.COLLAPSE' : 'COMMON.CLICK_TO_EXPAND_FOR_MORE_DESCRIPTION') | translate}}
+									</a>
+								</p>
+								<div uib-collapse="!isCollapsed">
+									<hr>
+									<p>{{'SETTING.MENU_DESCRIPTION_MORE' | translate}}</p>
+								</div>
+							</div>
 							<div class="row">
 								<div class="col-lg-3">
 									<div class="panel panel-info">

@@ -1,6 +1,8 @@
 
 app.controller('ModalExportCtrl', function($scope, $uibModalInstance, params, toaster, $translate,) {
 	$scope.exportdata = params.exportdata;
+	$scope.description = params.description;
+	$scope.description_more = params.description_more;
 	$scope.ok = function() {
 		let tempInput = document.createElement("input");
 		tempInput.value = $scope.exportdata;

@@ -3,11 +3,23 @@
         <h4 class="modal-title">{{operation | translate}}(ID:{{distributioncircuit.id}})</h4>
     </div>
     <div class="modal-body">
+        <div class="alert alert-info">
+            <p>
+                {{'DISTRIBUTION_SYSTEM.DISTRIBUTION_CIRCUIT_DIALOG_DESCRIPTION' | translate}}
+                <a ng-click="isModelCollapsed = !isModelCollapsed" class="pull-right">
+                    {{(isModelCollapsed ? 'COMMON.COLLAPSE' : 'COMMON.CLICK_TO_EXPAND_FOR_MORE_DESCRIPTION') | translate}}
+                </a>
+            </p>
+            <div uib-collapse="!isModelCollapsed">
+                <hr>
+                <p>{{'DISTRIBUTION_SYSTEM.DISTRIBUTION_CIRCUIT_DIALOG_DESCRIPTION_MORE' | translate}}</p>
+            </div>
+        </div>
         <form role="form" name="form_distributioncircuit" novalidate class="form-horizontal">
             <div class="form-group">
               <label class="col-sm-2 control-label">{{'DISTRIBUTION_SYSTEM.DISTRIBUTION_CIRCUIT_NAME' | translate}}<span class="text-danger">*</span></label>
                 <div class="col-sm-10">
-                    <input ng-model="distributioncircuit.name" type="text" name="distributioncircuitname" class="form-control" required="">
+                    <input ng-model="distributioncircuit.name" type="text" name="distributioncircuitname" class="form-control" required="" placeholder="{{'DISTRIBUTION_SYSTEM.DISTRIBUTION_CIRCUIT_NAME_PLACEHOLDER_EXAMPLE' | translate}}">
                     <div class="m-t-xs" ng-show="form_distributioncircuit.distributioncircuitname.$invalid && form_distributioncircuit.distributioncircuitname.$dirty">
                         <small class="text-danger" ng-show="form_distributioncircuit.distributioncircuitname.$error.required">{{'DISTRIBUTION_SYSTEM.INPUT_DISTRIBUTION_CIRCUIT_NAME' | translate}}</small>
                     </div>
@@ -16,7 +28,7 @@
             <div class="hr-line-dashed"></div>
             <div class="form-group"><label class="col-sm-2 control-label">{{'DISTRIBUTION_SYSTEM.DISTRIBUTION_CIRCUIT_DISTRIBUTION_ROOM' | translate}}<span class="text-danger">*</span></label>
                 <div class="col-sm-10">
-                    <input ng-model="distributioncircuit.distribution_room" type="text" name="distributioncircuitdistributionroom" class="form-control" required="">
+                    <input ng-model="distributioncircuit.distribution_room" type="text" name="distributioncircuitdistributionroom" class="form-control" required="" placeholder="{{'DISTRIBUTION_SYSTEM.DISTRIBUTION_CIRCUIT_DISTRIBUTION_ROOM_PLACEHOLDER_EXAMPLE' | translate}}">
                     <div class="m-t-xs" ng-show="form_distributioncircuit.distributioncircuitdistributionroom.$invalid && form_distributioncircuit.distributioncircuitdistributionroom.$dirty">
                         <small class="text-danger" ng-show="form_distributioncircuit.distributioncircuitdistributionroom.$error.required">{{'DISTRIBUTION_SYSTEM.INPUT_DISTRIBUTION_CIRCUIT_DISTRIBUTION_ROOM' | translate}}</small>
                     </div>
@@ -24,7 +36,7 @@
             </div>
             <div class="form-group"><label class="col-sm-2 control-label">{{'DISTRIBUTION_SYSTEM.DISTRIBUTION_CIRCUIT_SWITCHGEAR' | translate}}<span class="text-danger">*</span></label>
                 <div class="col-sm-10">
-                    <input ng-model="distributioncircuit.switchgear" type="text" name="distributioncircuitswitchgear" class="form-control" required="">
+                    <input ng-model="distributioncircuit.switchgear" type="text" name="distributioncircuitswitchgear" class="form-control" required="" placeholder="{{'DISTRIBUTION_SYSTEM.DISTRIBUTION_CIRCUIT_SWITCHGEAR_PLACEHOLDER_EXAMPLE' | translate}}">
                     <div class="m-t-xs" ng-show="form_distributioncircuit.distributioncircuitswitchgear.$invalid && form_distributioncircuit.distributioncircuitswitchgear.$dirty">
                         <small class="text-danger" ng-show="form_distributioncircuit.distributioncircuitswitchgear.$error.required">{{'DISTRIBUTION_SYSTEM.INPUT_DISTRIBUTION_CIRCUIT_SWITCHGEAR' | translate}}</small>
                     </div>
@@ -32,7 +44,7 @@
             </div>
             <div class="form-group"><label class="col-sm-2 control-label">{{'DISTRIBUTION_SYSTEM.DISTRIBUTION_CIRCUIT_PEAK_LOAD' | translate}}<span class="text-danger">*</span></label>
                 <div class="col-sm-10">
-                    <input ng-model="distributioncircuit.peak_load" type="number" name="distributioncircuitpeakload" class="form-control" required="">
+                    <input ng-model="distributioncircuit.peak_load" type="number" name="distributioncircuitpeakload" class="form-control" required="" placeholder="{{'DISTRIBUTION_SYSTEM.DISTRIBUTION_CIRCUIT_PEAK_LOAD_PLACEHOLDER' | translate}}">
                     <div class="m-t-xs" ng-show="form_distributioncircuit.distributioncircuitpeakload.$invalid && form_distributioncircuit.distributioncircuitpeakload.$dirty">
                         <small class="text-danger" ng-show="form_distributioncircuit.distributioncircuitpeakload.$error.required">{{'DISTRIBUTION_SYSTEM.INPUT_DISTRIBUTION_CIRCUIT_PEAK_LOAD' | translate}}</small>
                     </div>
@@ -40,7 +52,7 @@
             </div>
             <div class="form-group"><label class="col-sm-2 control-label">{{'DISTRIBUTION_SYSTEM.DISTRIBUTION_CIRCUIT_PEAK_CURRENT' | translate}}<span class="text-danger">*</span></label>
                 <div class="col-sm-10">
-                    <input ng-model="distributioncircuit.peak_current" type="number" name="distributioncircuitpeakcurrent" class="form-control" required="">
+                    <input ng-model="distributioncircuit.peak_current" type="number" name="distributioncircuitpeakcurrent" class="form-control" required="" placeholder="{{'DISTRIBUTION_SYSTEM.DISTRIBUTION_CIRCUIT_PEAK_CURRENT_PLACEHOLDER' | translate}}">
                     <div class="m-t-xs" ng-show="form_distributioncircuit.distributioncircuitpeakcurrent.$invalid && form_distributioncircuit.distributioncircuitpeakcurrent.$dirty">
                         <small class="text-danger" ng-show="form_distributioncircuit.distributioncircuitpeakcurrent.$error.required">{{'DISTRIBUTION_SYSTEM.INPUT_DISTRIBUTION_CIRCUIT_PEAK_CURRENT' | translate}}</small>
                     </div>
@@ -48,12 +60,12 @@
             </div>
             <div class="form-group"><label class="col-sm-2 control-label">{{'DISTRIBUTION_SYSTEM.DISTRIBUTION_CIRCUIT_CUSTOMERS' | translate}}<span class="text-danger">*</span></label>
                 <div class="col-sm-10">
-                    <input ng-model="distributioncircuit.customers" type="text" name="distributioncircuitcustomers" class="form-control" required>
+                    <input ng-model="distributioncircuit.customers" type="text" name="distributioncircuitcustomers" class="form-control" required placeholder="{{'DISTRIBUTION_SYSTEM.DISTRIBUTION_CIRCUIT_CUSTOMERS_PLACEHOLDER_EXAMPLE' | translate}}">
                 </div>
             </div>
             <div class="form-group"><label class="col-sm-2 control-label">{{'DISTRIBUTION_SYSTEM.DISTRIBUTION_CIRCUIT_METERS' | translate}}<span class="text-danger">*</span></label>
                 <div class="col-sm-10">
-                    <input ng-model="distributioncircuit.meters" type="text" name="distributioncircuitmeters" class="form-control" required>
+                    <input ng-model="distributioncircuit.meters" type="text" name="distributioncircuitmeters" class="form-control" required placeholder="{{'DISTRIBUTION_SYSTEM.DISTRIBUTION_CIRCUIT_METERS_PLACEHOLDER_EXAMPLE' | translate}}">
                 </div>
             </div>
         </form>

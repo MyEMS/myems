@@ -711,6 +711,132 @@
         ENTER_DESCRIPTION: "Inserir Descrição",
         SIMPLIFIED_CODE: "Código Simplificado",
         ENTER_SIMPLIFIED_CODE: "Inserir Código Simplificado",
+        INPUT_MENU_DISPLAY_NAME_PLACEHOLDER:
+          "Informe o nome de exibição do menu",
+        SPACE_DESCRIPTION:
+          "Gestão da hierarquia de espaços e alocação de ativos; construa a árvore (campus/prédio/andar/sala) para agregação de energia por área.",
+        SPACE_DESCRIPTION_MORE:
+          "Os espaços definem a estrutura física. Mantenha relações pai/filho e vincule medidores, equipamentos, pontos de dados, sensores, inquilinos e lojas a um espaço para estatísticas por área, rateio de custos e monitoramento operacional.",
+        SPACE_DIALOG_DESCRIPTION: "Crie ou edite aqui as informações do espaço.",
+        SPACE_DIALOG_DESCRIPTION_MORE:
+          "Informe nome, área e número de ocupantes; selecione fuso horário e centro de custo. Opcionalmente selecione contato e coordenadas. Após salvar, use as abas de vínculo para associar ativos ao espaço.",
+        IMPORT_SPACE_DESCRIPTION:
+          "Importação em lote de espaços; crie ou atualize estruturas de espaços via JSON.",
+        IMPORT_SPACE_DESCRIPTION_MORE:
+          "Indicado para inicialização ou grandes alterações na árvore de espaços. Recomenda-se exportar um exemplo como modelo, ajustar o JSON e então importar para evitar erros de formato.",
+        EXPORT_SPACE_DESCRIPTION:
+          "Exportação de espaço; exporte o espaço selecionado (com configurações) em JSON.",
+        EXPORT_SPACE_DESCRIPTION_MORE:
+          "O JSON exportado pode ser usado para backup, migração ou como modelo de importação. Proteja os dados para evitar vazamento de estrutura e ativos.",
+        INPUT_SPACE_NAME_PLACEHOLDER:
+          "Informe o nome do espaço, ex.: Prédio A Andar 3 Sala 301",
+        INPUT_SPACE_AREA_PLACEHOLDER:
+          "Informe a área (m²) para indicadores de consumo por área",
+        INPUT_SPACE_NUMBER_OF_OCCUPANTS_PLACEHOLDER:
+          "Informe o número de ocupantes para análise per capita",
+        INPUT_SPACE_LONGITUDE_PLACEHOLDER:
+          "Informe a longitude, ex.: 121.4737",
+        INPUT_SPACE_LATITUDE_PLACEHOLDER:
+          "Informe a latitude, ex.: 31.2304",
+        TENANT_DESCRIPTION:
+          "Gestão de inquilinos e contratos; mantenha dados do inquilino e suporte o rateio de energia/custos.",
+        TENANT_DESCRIPTION_MORE:
+          "Registre área locada, período do contrato, contato e centro de custo. Com a vinculação de espaços e dados de medição, permite estatísticas, conciliação e rateio por inquilino. Atualize quando o contrato mudar.",
+        TENANT_DIALOG_DESCRIPTION: "Crie ou edite aqui as informações do inquilino.",
+        TENANT_DIALOG_DESCRIPTION_MORE:
+          "Preencha nome, área, prédio/andar/sala, tipo, contato, período do contrato e centro de custo. Depois vincule medidores, pontos, sensores, calendários e comandos conforme necessário.",
+        TENANT_TYPE_DESCRIPTION:
+          "Gestão do dicionário de tipos de inquilino; mantenha categorias para estatísticas e filtros.",
+        TENANT_TYPE_DESCRIPTION_MORE:
+          "Tipos classificam inquilinos (ex.: escritório/varejo/produção) para relatórios e comparações. Mantenha nome, descrição e código abreviado claros para cada tipo.",
+        TENANT_TYPE_DIALOG_DESCRIPTION: "Crie ou edite aqui o tipo de inquilino.",
+        TENANT_TYPE_DIALOG_DESCRIPTION_MORE:
+          "Informe nome, descrição e código abreviado. Recomenda-se usar abreviação mnemônica (idealmente em inglês) para facilitar importação/exportação.",
+        IMPORT_TENANT_DESCRIPTION:
+          "Importação em lote de inquilinos; crie ou atualize vários inquilinos via JSON.",
+        IMPORT_TENANT_DESCRIPTION_MORE:
+          "Indicado para inicialização ou atualizações massivas. Recomenda-se exportar um inquilino como modelo e então ajustar o JSON antes de importar.",
+        EXPORT_TENANT_DESCRIPTION:
+          "Exportação de inquilino; exporte o inquilino selecionado (com configurações) em JSON.",
+        EXPORT_TENANT_DESCRIPTION_MORE:
+          "O JSON exportado pode ser usado para backup, migração ou como modelo. Proteja dados sensíveis como contatos.",
+        SELECT_TENANT_TYPE: "Selecionar tipo de inquilino",
+        SELECT_CONTACT: "Selecionar contato",
+        INPUT_TENANT_NAME_PLACEHOLDER:
+          "Informe o nome do inquilino, ex.: Empresa ABC",
+        INPUT_TENANT_TYPE_NAME_PLACEHOLDER:
+          "Informe o nome do tipo, ex.: Escritório/Varejo/Produção",
+        INPUT_TENANT_TYPE_DESCRIPTION_PLACEHOLDER:
+          "Informe a descrição do tipo de inquilino",
+        STORE_DESCRIPTION:
+          "Gestão de lojas e informações operacionais; mantenha dados da loja e suporte estatísticas/contabilização por loja.",
+        STORE_DESCRIPTION_MORE:
+          "Registre endereço, coordenadas, tipo de loja, contato e centro de custo. Com a vinculação de espaços e dados de medição, permite estatísticas e conciliação por loja. Atualize quando informações operacionais mudarem.",
+        STORE_DIALOG_DESCRIPTION: "Crie ou edite aqui as informações da loja.",
+        STORE_DIALOG_DESCRIPTION_MORE:
+          "Preencha nome, área, endereço e coordenadas; selecione tipo de loja, contato e centro de custo. Opcionalmente descrição. Depois vincule medidores, pontos, sensores, calendários e comandos.",
+        STORE_TYPE_DESCRIPTION:
+          "Gestão do dicionário de tipos de loja; mantenha categorias para estatísticas e filtros.",
+        STORE_TYPE_DESCRIPTION_MORE:
+          "Tipos de loja classificam lojas (ex.: restaurante/varejo/depósito) para relatórios e benchmarking. Mantenha nome, descrição e código abreviado claros.",
+        STORE_TYPE_DIALOG_DESCRIPTION: "Crie ou edite aqui o tipo de loja.",
+        STORE_TYPE_DIALOG_DESCRIPTION_MORE:
+          "Informe nome, descrição e código abreviado. Recomenda-se abreviação mnemônica para facilitar importação/exportação.",
+        IMPORT_STORE_DESCRIPTION:
+          "Importação em lote de lojas; crie ou atualize várias lojas via JSON.",
+        IMPORT_STORE_DESCRIPTION_MORE:
+          "Indicado para inicialização ou atualizações massivas. Recomenda-se exportar uma loja como modelo e então ajustar o JSON antes de importar.",
+        EXPORT_STORE_DESCRIPTION:
+          "Exportação de loja; exporte a loja selecionada (com configurações) em JSON.",
+        EXPORT_STORE_DESCRIPTION_MORE:
+          "O JSON exportado pode ser usado para backup, migração ou como modelo. Proteja informações sensíveis como endereços e contatos.",
+        IMPORT_SVG_DESCRIPTION:
+          "Importação em lote de SVG; crie ou atualize vários SVGs via JSON.",
+        IMPORT_SVG_DESCRIPTION_MORE:
+          "Recomenda-se exportar um SVG existente como modelo, ajustar o JSON (nome, descrição e código-fonte SVG) e então importar para garantir o formato correto.",
+        EXPORT_SVG_DESCRIPTION:
+          "Exportação de SVG; exporte o SVG selecionado (com configurações) em JSON.",
+        EXPORT_SVG_DESCRIPTION_MORE:
+          "O JSON exportado pode ser usado para backup, migração ou como modelo. Proteja o código-fonte do SVG e metadados relacionados.",
+        IMPORT_ENERGY_FLOW_DIAGRAM_DESCRIPTION:
+          "Importação em lote de diagrama de fluxo de energia; crie ou atualize vários diagramas via JSON.",
+        IMPORT_ENERGY_FLOW_DIAGRAM_DESCRIPTION_MORE:
+          "Recomenda-se exportar um diagrama existente como modelo, ajustar o JSON e então importar para garantir o formato correto.",
+        EXPORT_ENERGY_FLOW_DIAGRAM_DESCRIPTION:
+          "Exportação de diagrama de fluxo de energia; exporte o diagrama selecionado (com configurações) em JSON.",
+        EXPORT_ENERGY_FLOW_DIAGRAM_DESCRIPTION_MORE:
+          "O JSON exportado pode ser usado para backup, migração ou como modelo.",
+        IMPORT_SHOPFLOOR_DESCRIPTION:
+          "Importação em lote de chão de fábrica (shopfloor); crie ou atualize vários registros via JSON.",
+        IMPORT_SHOPFLOOR_DESCRIPTION_MORE:
+          "Recomenda-se exportar um shopfloor existente como modelo, ajustar o JSON e então importar para garantir o formato correto.",
+        EXPORT_SHOPFLOOR_DESCRIPTION:
+          "Exportação de chão de fábrica (shopfloor); exporte o registro selecionado (com configurações) em JSON.",
+        EXPORT_SHOPFLOOR_DESCRIPTION_MORE:
+          "O JSON exportado pode ser usado para backup, migração ou como modelo.",
+        IMPORT_DISTRIBUTION_SYSTEM_DESCRIPTION:
+          "Importação em lote de sistema de distribuição; crie ou atualize vários sistemas via JSON.",
+        IMPORT_DISTRIBUTION_SYSTEM_DESCRIPTION_MORE:
+          "Recomenda-se exportar um sistema existente como modelo, ajustar o JSON (incluindo o SVG associado) e então importar para garantir o formato correto.",
+        EXPORT_DISTRIBUTION_SYSTEM_DESCRIPTION:
+          "Exportação de sistema de distribuição; exporte o sistema selecionado (com configurações) em JSON.",
+        EXPORT_DISTRIBUTION_SYSTEM_DESCRIPTION_MORE:
+          "O JSON exportado pode ser usado para backup, migração ou como modelo.",
+        IMPORT_WORKING_CALENDAR_DESCRIPTION:
+          "Importação em lote de calendário de trabalho; crie ou atualize vários calendários via JSON.",
+        IMPORT_WORKING_CALENDAR_DESCRIPTION_MORE:
+          "Recomenda-se exportar um calendário existente como modelo, ajustar o JSON e então importar para garantir o formato correto.",
+        EXPORT_WORKING_CALENDAR_DESCRIPTION:
+          "Exportação de calendário de trabalho; exporte o calendário selecionado (com configurações) em JSON.",
+        EXPORT_WORKING_CALENDAR_DESCRIPTION_MORE:
+          "O JSON exportado pode ser usado para backup, migração ou como modelo.",
+        SELECT_STORE_TYPE: "Selecionar tipo de loja",
+        INPUT_STORE_NAME_PLACEHOLDER:
+          "Informe o nome da loja, ex.: Filial #1",
+        INPUT_STORE_TYPE_NAME_PLACEHOLDER:
+          "Informe o nome do tipo, ex.: Restaurante/Varejo/Depósito",
+        INPUT_STORE_TYPE_DESCRIPTION_PLACEHOLDER:
+          "Informe a descrição do tipo de loja",
       },
       CONTACT: {
         EMAIL: "E-mail",
@@ -840,6 +966,8 @@
         SELECT_DISTRIBUTION_SYSTEM: "Selecionar Sistema de Distribuição",
         SVG: "SVG",
         INPUT_SVG: "Por Favor, Insira o SVG",
+        SELECT_SVG_CONFIGURATION_PLACEHOLDER:
+          "Selecione o diagrama SVG associado",
         DISTRIBUTION_CIRCUIT: "Circuito de Distribuição",
         N_S_DISTRIBUTION_CIRCUIT: "Circuito de Distribuição Associado",
         ADD_DISTRIBUTION_CIRCUIT: "Adicionar Circuito de Distribuição",
@@ -864,6 +992,19 @@
         INPUT_DISTRIBUTION_CIRCUIT_CUSTOMERS: "Por Favor, Insira os Clientes",
         DISTRIBUTION_CIRCUIT_METERS: "Medidores",
         INPUT_DISTRIBUTION_CIRCUIT_METERS: "Por Favor, Insira os Medidores",
+        DISTRIBUTION_CIRCUIT_NAME_PLACEHOLDER_EXAMPLE:
+          "ex.: Saída do transformador principal 1#",
+        DISTRIBUTION_CIRCUIT_DISTRIBUTION_ROOM_PLACEHOLDER_EXAMPLE:
+          "ex.: Subestação #1",
+        DISTRIBUTION_CIRCUIT_SWITCHGEAR_PLACEHOLDER_EXAMPLE: "ex.: AH1",
+        DISTRIBUTION_CIRCUIT_PEAK_LOAD_PLACEHOLDER:
+          "Informe a carga máxima de projeto",
+        DISTRIBUTION_CIRCUIT_PEAK_CURRENT_PLACEHOLDER:
+          "Informe a corrente nominal máxima",
+        DISTRIBUTION_CIRCUIT_CUSTOMERS_PLACEHOLDER_EXAMPLE:
+          "ex.: Linha de produção A, Prédio de escritórios B",
+        DISTRIBUTION_CIRCUIT_METERS_PLACEHOLDER_EXAMPLE:
+          "ex.: Medidor de saída 1#",
         PREVIEW: "Visualizar",
         N_S_PREVIEW: "Visualização",
       },
@@ -1417,6 +1558,8 @@
         EDIT_SVG: "Editar SVG",
         SOURCE_CODE: "Código Fonte",
         INPUT_SOURCE_CODE: "Informe o Código Fonte",
+        SOURCE_CODE_PLACEHOLDER_EXAMPLE:
+          "ex.: <svg xmlns='http://www.w3.org/2000/svg' ...> ... </svg>",
         PREVIEW: "Visualização",
         SELECT_SVG: "Selecionar SVG",
         N_S_PREVIEW: "Visualização",
@@ -1500,6 +1643,66 @@
         INPUT_AREA: "Informe a Área",
         CURRENT_SELECTED_SPACE: "Espaço Selecionado Atual",
         CHILD_SPACES: "Espaços Filhos",
+        BIND_METER_DESCRIPTION:
+          "Gestão de vínculo espaço–medidor; vincule medidores ao espaço para agregação por área.",
+        BIND_METER_DESCRIPTION_MORE:
+          "Selecione um espaço, escolha o tipo de medidor à direita e arraste o medidor para a área central. Para desvincular, arraste para a lixeira.",
+        BIND_EQUIPMENT_DESCRIPTION:
+          "Gestão de vínculo espaço–equipamento; vincule equipamentos ao espaço para estatísticas e O&M.",
+        BIND_EQUIPMENT_DESCRIPTION_MORE:
+          "Selecione um espaço e arraste equipamentos da lista à direita para a área central. Para desvincular, arraste para a lixeira.",
+        BIND_COMBINED_EQUIPMENT_DESCRIPTION:
+          "Gestão de vínculo espaço–equipamento combinado; vincule sistemas complexos ao espaço.",
+        BIND_COMBINED_EQUIPMENT_DESCRIPTION_MORE:
+          "Selecione um espaço e arraste equipamentos combinados da lista à direita para a área central.",
+        BIND_PHOTOVOLTAIC_POWER_STATION_DESCRIPTION:
+          "Gestão de vínculo espaço–usina fotovoltaica; vincule ativos de geração ao espaço.",
+        BIND_PHOTOVOLTAIC_POWER_STATION_DESCRIPTION_MORE:
+          "Selecione um espaço e arraste usinas fotovoltaicas da lista à direita para a área central.",
+        BIND_ENERGY_STORAGE_POWER_STATION_DESCRIPTION:
+          "Gestão de vínculo espaço–usina de armazenamento; vincule ativos de armazenamento ao espaço.",
+        BIND_ENERGY_STORAGE_POWER_STATION_DESCRIPTION_MORE:
+          "Selecione um espaço e arraste usinas de armazenamento da lista à direita para a área central.",
+        BIND_TENANT_DESCRIPTION:
+          "Gestão de vínculo espaço–inquilino; associe inquilinos às áreas locadas.",
+        BIND_TENANT_DESCRIPTION_MORE:
+          "Selecione um espaço e arraste inquilinos da lista à direita para a área central.",
+        BIND_STORE_DESCRIPTION:
+          "Gestão de vínculo espaço–loja; associe lojas às áreas operacionais.",
+        BIND_STORE_DESCRIPTION_MORE:
+          "Selecione um espaço e arraste lojas da lista à direita para a área central.",
+        BIND_SHOPFLOOR_DESCRIPTION:
+          "Gestão de vínculo espaço–chão de fábrica; alinhe áreas de produção à estrutura de espaços.",
+        BIND_SHOPFLOOR_DESCRIPTION_MORE:
+          "Selecione um espaço e arraste andares de loja/chão de fábrica da lista à direita para a área central.",
+        BIND_ENERGY_FLOW_DIAGRAM_DESCRIPTION:
+          "Gestão de vínculo espaço–diagrama de fluxo; use o modelo de fluxo no nível do espaço.",
+        BIND_ENERGY_FLOW_DIAGRAM_DESCRIPTION_MORE:
+          "Selecione um espaço e arraste diagramas de fluxo de energia da lista à direita para a área central.",
+        BIND_DISTRIBUTION_SYSTEM_DESCRIPTION:
+          "Gestão de vínculo espaço–sistema de distribuição; associe topologias elétricas ao espaço.",
+        BIND_DISTRIBUTION_SYSTEM_DESCRIPTION_MORE:
+          "Selecione um espaço e arraste sistemas de distribuição da lista à direita para a área central.",
+        BIND_MICROGRID_DESCRIPTION:
+          "Gestão de vínculo espaço–microgrid; associe ativos de microgrid ao espaço.",
+        BIND_MICROGRID_DESCRIPTION_MORE:
+          "Selecione um espaço e arraste microgrids da lista à direita para a área central.",
+        BIND_POINT_DESCRIPTION:
+          "Gestão de vínculo espaço–ponto; vincule pontos operacionais chave ao espaço.",
+        BIND_POINT_DESCRIPTION_MORE:
+          "Selecione um espaço, escolha a fonte de dados e arraste pontos de dados para a área central.",
+        BIND_SENSOR_DESCRIPTION:
+          "Gestão de vínculo espaço–sensor; associe sensores ambientais ao espaço.",
+        BIND_SENSOR_DESCRIPTION_MORE:
+          "Selecione um espaço e arraste sensores da lista à direita para a área central.",
+        BIND_WORKING_CALENDAR_DESCRIPTION:
+          "Gestão de vínculo espaço–calendário; defina regras de horários de operação por área.",
+        BIND_WORKING_CALENDAR_DESCRIPTION_MORE:
+          "Selecione um espaço e arraste calendários de trabalho da lista à direita para a área central.",
+        BIND_COMMAND_DESCRIPTION:
+          "Gestão de vínculo espaço–comando; configure comandos de controle disponíveis para ativos do espaço.",
+        BIND_COMMAND_DESCRIPTION_MORE:
+          "Selecione um espaço e arraste comandos da lista à direita para a área central.",
         BIND_EQUIPMENT: "Vincular Equipamento",
         N_S_EQUIPMENT: "Equipamentos Vinculados",
         EQUIPMENT_LIST: "Lista de Equipamentos",
@@ -1560,6 +1763,26 @@
           "Positivo para a latitude norte, negativo para a latitude sul.",
         LONGITUDE_HINT:
           "Positivo é longitude leste, negativo é longitude oeste.",
+        BIND_METER_DESCRIPTION:
+          "Gestão de vínculo loja–medidor; vincule medidores às lojas para estatísticas por loja.",
+        BIND_METER_DESCRIPTION_MORE:
+          "Selecione uma loja e arraste medidores da lista à direita para a área central.",
+        BIND_POINT_DESCRIPTION:
+          "Gestão de vínculo loja–ponto; vincule pontos operacionais chave à loja.",
+        BIND_POINT_DESCRIPTION_MORE:
+          "Selecione uma loja, escolha a fonte de dados e arraste pontos para a área central.",
+        BIND_SENSOR_DESCRIPTION:
+          "Gestão de vínculo loja–sensor; associe sensores ambientais à loja.",
+        BIND_SENSOR_DESCRIPTION_MORE:
+          "Selecione uma loja e arraste sensores da lista à direita para a área central.",
+        BIND_WORKING_CALENDAR_DESCRIPTION:
+          "Gestão de vínculo loja–calendário; defina regras de horário de funcionamento.",
+        BIND_WORKING_CALENDAR_DESCRIPTION_MORE:
+          "Selecione uma loja e arraste calendários de trabalho da lista à direita para a área central.",
+        BIND_COMMAND_DESCRIPTION:
+          "Gestão de vínculo loja–comando; configure comandos de controle disponíveis para ativos da loja.",
+        BIND_COMMAND_DESCRIPTION_MORE:
+          "Selecione uma loja e arraste comandos da lista à direita para a área central.",
       },
       TENANT: {
         BUILDINGS: "Edifícios",
@@ -1577,6 +1800,26 @@
         INPUT_LEASE_NUMBER: "Por favor, insira o número do contrato de locação",
         END_BEFORE_START_WARNING:
           "O horário de término não pode ser anterior ao horário de início",
+        BIND_METER_DESCRIPTION:
+          "Gestão de vínculo inquilino–medidor; vincule medidores ao inquilino para estatísticas e conciliação.",
+        BIND_METER_DESCRIPTION_MORE:
+          "Selecione um inquilino e arraste medidores da lista à direita para a área central.",
+        BIND_POINT_DESCRIPTION:
+          "Gestão de vínculo inquilino–ponto; vincule pontos operacionais chave ao inquilino.",
+        BIND_POINT_DESCRIPTION_MORE:
+          "Selecione um inquilino, escolha a fonte de dados e arraste pontos para a área central.",
+        BIND_SENSOR_DESCRIPTION:
+          "Gestão de vínculo inquilino–sensor; associe sensores ambientais às áreas do inquilino.",
+        BIND_SENSOR_DESCRIPTION_MORE:
+          "Selecione um inquilino e arraste sensores da lista à direita para a área central.",
+        BIND_WORKING_CALENDAR_DESCRIPTION:
+          "Gestão de vínculo inquilino–calendário; defina regras de horários de operação.",
+        BIND_WORKING_CALENDAR_DESCRIPTION_MORE:
+          "Selecione um inquilino e arraste calendários de trabalho da lista à direita para a área central.",
+        BIND_COMMAND_DESCRIPTION:
+          "Gestão de vínculo inquilino–comando; configure comandos de controle disponíveis para ativos do inquilino.",
+        BIND_COMMAND_DESCRIPTION_MORE:
+          "Selecione um inquilino e arraste comandos da lista à direita para a área central.",
       },
       SHOPFLOOR: {
         ADD_SHOPFLOOR: "Adicionar Andar de Loja",

@@ -696,6 +696,131 @@
         ENTER_DESCRIPTION: "Masukkan Keterangan",
         SIMPLIFIED_CODE: "Kod Ringkas",
         ENTER_SIMPLIFIED_CODE: "Masukkan Kod Ringkas",
+        INPUT_MENU_DISPLAY_NAME_PLACEHOLDER: "Sila masukkan nama paparan menu",
+        SPACE_DESCRIPTION:
+          "Pengurusan hierarki ruang dan pemilikan aset; bina pokok ruang (kampus/bangunan/tingkat/bilik) untuk agregasi tenaga mengikut kawasan.",
+        SPACE_DESCRIPTION_MORE:
+          "Ruang mentakrifkan struktur fizikal. Anda boleh menyelenggara hubungan ruang induk/anak dan mengikat meter, peralatan, titik data, penderia, penyewa, kedai dan lain-lain kepada sesuatu ruang untuk statistik tenaga mengikut kawasan, agihan kos dan pemantauan operasi.",
+        SPACE_DIALOG_DESCRIPTION: "Cipta atau kemas kini maklumat ruang di sini.",
+        SPACE_DIALOG_DESCRIPTION_MORE:
+          "Masukkan nama ruang, keluasan dan bilangan penghuni; pilih zon masa dan pusat kos. Pilihan: pilih kontak dan tetapkan koordinat. Selepas simpan, gunakan tab pengikatan untuk mengaitkan aset kepada ruang.",
+        IMPORT_SPACE_DESCRIPTION:
+          "Alat import ruang secara pukal; cipta atau kemas kini struktur ruang melalui JSON.",
+        IMPORT_SPACE_DESCRIPTION_MORE:
+          "Sesuai untuk inisialisasi atau perubahan besar pada pokok ruang. Disyorkan eksport satu ruang sebagai templat, ubah suai JSON, kemudian import untuk mengurangkan ralat format.",
+        EXPORT_SPACE_DESCRIPTION:
+          "Alat eksport ruang; eksport ruang yang dipilih (termasuk konfigurasi) dalam format JSON.",
+        EXPORT_SPACE_DESCRIPTION_MORE:
+          "JSON eksport boleh digunakan untuk sandaran, migrasi persekitaran atau sebagai templat import. Sila lindungi data untuk mengelakkan kebocoran struktur dan aset.",
+        INPUT_SPACE_NAME_PLACEHOLDER:
+          "Sila masukkan nama ruang, cth.: Bangunan A Tingkat 3 Bilik 301",
+        INPUT_SPACE_AREA_PLACEHOLDER:
+          "Sila masukkan keluasan (m²) untuk indikator penggunaan per keluasan",
+        INPUT_SPACE_NUMBER_OF_OCCUPANTS_PLACEHOLDER:
+          "Sila masukkan bilangan penghuni untuk analisis per kapita",
+        INPUT_SPACE_LONGITUDE_PLACEHOLDER:
+          "Sila masukkan longitud, cth.: 121.4737",
+        INPUT_SPACE_LATITUDE_PLACEHOLDER:
+          "Sila masukkan latitud, cth.: 31.2304",
+        TENANT_DESCRIPTION:
+          "Pengurusan penyewa dan maklumat sewaan; menyelenggara data penyewa dan menyokong agihan tenaga/kos.",
+        TENANT_DESCRIPTION_MORE:
+          "Rekod ruang sewaan, tempoh kontrak, kontak dan pusat kos. Digabungkan dengan pengikatan ruang dan data meter, sistem menyokong statistik, penyelarasan dan agihan kos mengikut penyewa. Kemas kini apabila kontrak berubah.",
+        TENANT_DIALOG_DESCRIPTION: "Cipta atau kemas kini maklumat penyewa di sini.",
+        TENANT_DIALOG_DESCRIPTION_MORE:
+          "Isi nama penyewa, keluasan, bangunan/tingkat/bilik, jenis penyewa, kontak, tempoh sewaan dan pusat kos. Selepas simpan, ikat meter, titik data, penderia, kalendar kerja dan arahan mengikut keperluan.",
+        TENANT_TYPE_DESCRIPTION:
+          "Pengurusan kamus jenis penyewa; menyelenggara kategori untuk statistik dan penapisan.",
+        TENANT_TYPE_DESCRIPTION_MORE:
+          "Jenis penyewa digunakan untuk pengelasan (cth.: pejabat/peruncitan/pembuatan) bagi memudahkan laporan, perbandingan dan penapisan. Sila pastikan nama, penerangan dan kod ringkas yang jelas.",
+        TENANT_TYPE_DIALOG_DESCRIPTION: "Cipta atau kemas kini jenis penyewa di sini.",
+        TENANT_TYPE_DIALOG_DESCRIPTION_MORE:
+          "Masukkan nama jenis, penerangan dan kod ringkas. Disyorkan gunakan singkatan yang mudah diingat untuk memudahkan import/eksport.",
+        IMPORT_TENANT_DESCRIPTION:
+          "Alat import penyewa secara pukal; cipta atau kemas kini beberapa penyewa melalui JSON.",
+        IMPORT_TENANT_DESCRIPTION_MORE:
+          "Sesuai untuk inisialisasi atau kemas kini pukal. Disyorkan eksport penyewa sebagai templat, ubah suai JSON dan import semula untuk memastikan struktur betul.",
+        EXPORT_TENANT_DESCRIPTION:
+          "Alat eksport penyewa; eksport penyewa yang dipilih (termasuk konfigurasi) dalam format JSON.",
+        EXPORT_TENANT_DESCRIPTION_MORE:
+          "JSON eksport boleh digunakan untuk sandaran, migrasi atau sebagai templat import. Sila lindungi maklumat sensitif seperti kontak.",
+        SELECT_TENANT_TYPE: "Sila pilih jenis penyewa",
+        SELECT_CONTACT: "Sila pilih kontak",
+        INPUT_TENANT_NAME_PLACEHOLDER:
+          "Sila masukkan nama penyewa, cth.: Syarikat ABC",
+        INPUT_TENANT_TYPE_NAME_PLACEHOLDER:
+          "Sila masukkan nama jenis, cth.: Pejabat/Peruncitan/Pembuatan",
+        INPUT_TENANT_TYPE_DESCRIPTION_PLACEHOLDER:
+          "Sila masukkan penerangan jenis penyewa",
+        STORE_DESCRIPTION:
+          "Pengurusan kedai dan maklumat operasi; menyelenggara maklumat kedai dan menyokong statistik/penyelarasan mengikut kedai.",
+        STORE_DESCRIPTION_MORE:
+          "Rekod alamat, koordinat, jenis kedai, kontak dan pusat kos. Digabungkan dengan pengikatan ruang dan data meter, sistem menyokong statistik dan agihan kos mengikut kedai. Kemas kini apabila maklumat operasi berubah.",
+        STORE_DIALOG_DESCRIPTION: "Cipta atau kemas kini maklumat kedai di sini.",
+        STORE_DIALOG_DESCRIPTION_MORE:
+          "Isi nama, keluasan, alamat dan koordinat; pilih jenis kedai, kontak dan pusat kos. Pilihan: tambah penerangan. Selepas simpan, ikat meter, titik data, penderia, kalendar kerja dan arahan mengikut keperluan.",
+        STORE_TYPE_DESCRIPTION:
+          "Pengurusan kamus jenis kedai; menyelenggara kategori kedai untuk statistik dan penapisan.",
+        STORE_TYPE_DESCRIPTION_MORE:
+          "Jenis kedai digunakan untuk pengelasan (cth.: restoran/peruncitan/gudang) bagi memudahkan laporan dan perbandingan. Sila pastikan nama, penerangan dan kod ringkas yang jelas.",
+        STORE_TYPE_DIALOG_DESCRIPTION: "Cipta atau kemas kini jenis kedai di sini.",
+        STORE_TYPE_DIALOG_DESCRIPTION_MORE:
+          "Masukkan nama jenis, penerangan dan kod ringkas. Disyorkan gunakan singkatan yang mudah diingat untuk memudahkan import/eksport.",
+        IMPORT_STORE_DESCRIPTION:
+          "Alat import kedai secara pukal; cipta atau kemas kini beberapa kedai melalui JSON.",
+        IMPORT_STORE_DESCRIPTION_MORE:
+          "Sesuai untuk inisialisasi atau kemas kini pukal. Disyorkan eksport kedai sebagai templat, ubah suai JSON dan import semula.",
+        EXPORT_STORE_DESCRIPTION:
+          "Alat eksport kedai; eksport kedai yang dipilih (termasuk konfigurasi) dalam format JSON.",
+        EXPORT_STORE_DESCRIPTION_MORE:
+          "JSON eksport boleh digunakan untuk sandaran, migrasi atau sebagai templat import. Sila lindungi maklumat sensitif seperti alamat dan kontak.",
+        IMPORT_SVG_DESCRIPTION:
+          "Alat import SVG secara pukal; cipta atau kemas kini beberapa SVG melalui JSON.",
+        IMPORT_SVG_DESCRIPTION_MORE:
+          "Disyorkan eksport SVG sedia ada sebagai templat, ubah suai JSON (nama, penerangan dan kod sumber SVG) dan import semula untuk memastikan format yang betul.",
+        EXPORT_SVG_DESCRIPTION:
+          "Alat eksport SVG; eksport SVG yang dipilih (termasuk konfigurasi) dalam format JSON.",
+        EXPORT_SVG_DESCRIPTION_MORE:
+          "JSON eksport boleh digunakan untuk sandaran, migrasi atau sebagai templat import. Sila lindungi kod sumber SVG dan metadata berkaitan.",
+        IMPORT_ENERGY_FLOW_DIAGRAM_DESCRIPTION:
+          "Alat import diagram aliran tenaga secara pukal; cipta atau kemas kini beberapa diagram melalui JSON.",
+        IMPORT_ENERGY_FLOW_DIAGRAM_DESCRIPTION_MORE:
+          "Disyorkan eksport diagram sedia ada sebagai templat, ubah suai JSON dan import semula untuk memastikan format yang betul.",
+        EXPORT_ENERGY_FLOW_DIAGRAM_DESCRIPTION:
+          "Alat eksport diagram aliran tenaga; eksport diagram yang dipilih (termasuk konfigurasi) dalam format JSON.",
+        EXPORT_ENERGY_FLOW_DIAGRAM_DESCRIPTION_MORE:
+          "JSON eksport boleh digunakan untuk sandaran, migrasi atau sebagai templat import.",
+        IMPORT_SHOPFLOOR_DESCRIPTION:
+          "Alat import shopfloor secara pukal; cipta atau kemas kini beberapa shopfloor melalui JSON.",
+        IMPORT_SHOPFLOOR_DESCRIPTION_MORE:
+          "Disyorkan eksport shopfloor sedia ada sebagai templat, ubah suai JSON dan import semula untuk memastikan format yang betul.",
+        EXPORT_SHOPFLOOR_DESCRIPTION:
+          "Alat eksport shopfloor; eksport shopfloor yang dipilih (termasuk konfigurasi) dalam format JSON.",
+        EXPORT_SHOPFLOOR_DESCRIPTION_MORE:
+          "JSON eksport boleh digunakan untuk sandaran, migrasi atau sebagai templat import.",
+        IMPORT_DISTRIBUTION_SYSTEM_DESCRIPTION:
+          "Alat import sistem pengagihan secara pukal; cipta atau kemas kini beberapa sistem melalui JSON.",
+        IMPORT_DISTRIBUTION_SYSTEM_DESCRIPTION_MORE:
+          "Disyorkan eksport sistem sedia ada sebagai templat, ubah suai JSON (termasuk SVG yang berkaitan) dan import semula untuk memastikan format yang betul.",
+        EXPORT_DISTRIBUTION_SYSTEM_DESCRIPTION:
+          "Alat eksport sistem pengagihan; eksport sistem yang dipilih (termasuk konfigurasi) dalam format JSON.",
+        EXPORT_DISTRIBUTION_SYSTEM_DESCRIPTION_MORE:
+          "JSON eksport boleh digunakan untuk sandaran, migrasi atau sebagai templat import.",
+        IMPORT_WORKING_CALENDAR_DESCRIPTION:
+          "Alat import kalendar kerja secara pukal; cipta atau kemas kini beberapa kalendar melalui JSON.",
+        IMPORT_WORKING_CALENDAR_DESCRIPTION_MORE:
+          "Disyorkan eksport kalendar sedia ada sebagai templat, ubah suai JSON dan import semula untuk memastikan format yang betul.",
+        EXPORT_WORKING_CALENDAR_DESCRIPTION:
+          "Alat eksport kalendar kerja; eksport kalendar yang dipilih (termasuk konfigurasi) dalam format JSON.",
+        EXPORT_WORKING_CALENDAR_DESCRIPTION_MORE:
+          "JSON eksport boleh digunakan untuk sandaran, migrasi atau sebagai templat import.",
+        SELECT_STORE_TYPE: "Sila pilih jenis kedai",
+        INPUT_STORE_NAME_PLACEHOLDER:
+          "Sila masukkan nama kedai, cth.: Cawangan #1",
+        INPUT_STORE_TYPE_NAME_PLACEHOLDER:
+          "Sila masukkan nama jenis, cth.: Restoran/Peruncitan/Gudang",
+        INPUT_STORE_TYPE_DESCRIPTION_PLACEHOLDER:
+          "Sila masukkan penerangan jenis kedai",
       },
       CONTACT: {
         EMAIL: "E-mel",
@@ -824,6 +949,8 @@
         SELECT_DISTRIBUTION_SYSTEM: "Pilih Sistem Pengedaran",
         SVG: "SVG",
         INPUT_SVG: "Sila masukkan SVG",
+        SELECT_SVG_CONFIGURATION_PLACEHOLDER:
+          "Sila pilih rajah SVG yang berkaitan",
         DISTRIBUTION_CIRCUIT: "Litar Pengedaran",
         N_S_DISTRIBUTION_CIRCUIT: " Litar Pengedaran Berkaitan",
         ADD_DISTRIBUTION_CIRCUIT: "Tambah Litar Pengedaran",
@@ -846,6 +973,16 @@
         INPUT_DISTRIBUTION_CIRCUIT_CUSTOMERS: "Sila masukkan pelanggan",
         DISTRIBUTION_CIRCUIT_METERS: "Meter",
         INPUT_DISTRIBUTION_CIRCUIT_METERS: "Sila masukkan meter",
+        DISTRIBUTION_CIRCUIT_NAME_PLACEHOLDER_EXAMPLE: "cth.: 1# feeder transformer utama",
+        DISTRIBUTION_CIRCUIT_DISTRIBUTION_ROOM_PLACEHOLDER_EXAMPLE: "cth.: Pencawang #1",
+        DISTRIBUTION_CIRCUIT_SWITCHGEAR_PLACEHOLDER_EXAMPLE: "cth.: AH1",
+        DISTRIBUTION_CIRCUIT_PEAK_LOAD_PLACEHOLDER:
+          "Sila masukkan beban reka bentuk maksimum",
+        DISTRIBUTION_CIRCUIT_PEAK_CURRENT_PLACEHOLDER:
+          "Sila masukkan arus kadar maksimum",
+        DISTRIBUTION_CIRCUIT_CUSTOMERS_PLACEHOLDER_EXAMPLE:
+          "cth.: Barisan pengeluaran A, Bangunan pejabat B",
+        DISTRIBUTION_CIRCUIT_METERS_PLACEHOLDER_EXAMPLE: "cth.: Meter feeder 1#",
         PREVIEW: "Pratonton",
         N_S_PREVIEW: " Pratonton",
       },
@@ -1371,6 +1508,8 @@
         EDIT_SVG: "Edit SVG",
         SOURCE_CODE: "Kod sumber",
         INPUT_SOURCE_CODE: "Kod Sumber Input",
+        SOURCE_CODE_PLACEHOLDER_EXAMPLE:
+          "cth.: <svg xmlns='http://www.w3.org/2000/svg' ...> ... </svg>",
         PREVIEW: "Pratonton",
         SELECT_SVG: "Pilih SVG",
         N_S_PREVIEW: "Pratonton",
@@ -1454,6 +1593,66 @@
         INPUT_AREA: "Sila Input Kawasan",
         CURRENT_SELECTED_SPACE: "Ruang Pilihan Semasa",
         CHILD_SPACES: "Ruang Kanak-kanak",
+        BIND_METER_DESCRIPTION:
+          "Pengurusan pengikatan ruang–meter; ikat meter kepada ruang untuk agregasi tenaga mengikut kawasan.",
+        BIND_METER_DESCRIPTION_MORE:
+          "Pilih ruang pada pokok, pilih jenis meter di sebelah kanan, kemudian seret meter ke kawasan tengah untuk mengikat. Untuk nyahikat, seret ke tong sampah.",
+        BIND_EQUIPMENT_DESCRIPTION:
+          "Pengurusan pengikatan ruang–peralatan; ikat peralatan penggunaan kepada ruang untuk statistik dan penyelenggaraan.",
+        BIND_EQUIPMENT_DESCRIPTION_MORE:
+          "Pilih ruang, kemudian seret peralatan dari senarai kanan ke kawasan tengah. Untuk nyahikat, seret ke tong sampah.",
+        BIND_COMBINED_EQUIPMENT_DESCRIPTION:
+          "Pengurusan pengikatan ruang–peralatan gabungan; ikat sistem kompleks kepada ruang untuk analisis.",
+        BIND_COMBINED_EQUIPMENT_DESCRIPTION_MORE:
+          "Pilih ruang, kemudian seret peralatan gabungan dari senarai kanan ke kawasan tengah untuk mengikat.",
+        BIND_PHOTOVOLTAIC_POWER_STATION_DESCRIPTION:
+          "Pengurusan pengikatan ruang–stesen janakuasa fotovoltaik; ikat aset penjanaan kepada ruang.",
+        BIND_PHOTOVOLTAIC_POWER_STATION_DESCRIPTION_MORE:
+          "Pilih ruang, kemudian seret stesen janakuasa fotovoltaik dari senarai kanan ke kawasan tengah untuk mengikat.",
+        BIND_ENERGY_STORAGE_POWER_STATION_DESCRIPTION:
+          "Pengurusan pengikatan ruang–stesen janakuasa simpanan tenaga; ikat aset simpanan kepada ruang.",
+        BIND_ENERGY_STORAGE_POWER_STATION_DESCRIPTION_MORE:
+          "Pilih ruang, kemudian seret stesen janakuasa simpanan tenaga dari senarai kanan ke kawasan tengah untuk mengikat.",
+        BIND_TENANT_DESCRIPTION:
+          "Pengurusan pengikatan ruang–penyewa; hubungkan penyewa kepada ruang sewaan untuk agihan dan penyelarasan.",
+        BIND_TENANT_DESCRIPTION_MORE:
+          "Pilih ruang, kemudian seret penyewa dari senarai kanan ke kawasan tengah untuk mengikat.",
+        BIND_STORE_DESCRIPTION:
+          "Pengurusan pengikatan ruang–kedai; hubungkan kedai kepada ruang operasi untuk statistik mengikut kedai.",
+        BIND_STORE_DESCRIPTION_MORE:
+          "Pilih ruang, kemudian seret kedai dari senarai kanan ke kawasan tengah untuk mengikat.",
+        BIND_SHOPFLOOR_DESCRIPTION:
+          "Pengurusan pengikatan ruang–shopfloor; selaraskan kawasan pengeluaran dengan struktur ruang.",
+        BIND_SHOPFLOOR_DESCRIPTION_MORE:
+          "Pilih ruang, kemudian seret shopfloor dari senarai kanan ke kawasan tengah untuk mengikat.",
+        BIND_ENERGY_FLOW_DIAGRAM_DESCRIPTION:
+          "Pengurusan pengikatan ruang–rajah aliran tenaga; gunakan model aliran pada peringkat ruang.",
+        BIND_ENERGY_FLOW_DIAGRAM_DESCRIPTION_MORE:
+          "Pilih ruang, kemudian seret rajah aliran tenaga dari senarai kanan ke kawasan tengah untuk mengikat.",
+        BIND_DISTRIBUTION_SYSTEM_DESCRIPTION:
+          "Pengurusan pengikatan ruang–sistem pengedaran; ikat topologi elektrik kepada ruang untuk pemantauan.",
+        BIND_DISTRIBUTION_SYSTEM_DESCRIPTION_MORE:
+          "Pilih ruang, kemudian seret sistem pengedaran dari senarai kanan ke kawasan tengah untuk mengikat.",
+        BIND_MICROGRID_DESCRIPTION:
+          "Pengurusan pengikatan ruang–microgrid; ikat aset microgrid kepada ruang untuk pemantauan berpusat.",
+        BIND_MICROGRID_DESCRIPTION_MORE:
+          "Pilih ruang, kemudian seret microgrid dari senarai kanan ke kawasan tengah untuk mengikat.",
+        BIND_POINT_DESCRIPTION:
+          "Pengurusan pengikatan ruang–titik data; ikat titik operasi utama kepada ruang.",
+        BIND_POINT_DESCRIPTION_MORE:
+          "Pilih ruang, pilih sumber data, kemudian seret titik data ke kawasan tengah untuk mengikat.",
+        BIND_SENSOR_DESCRIPTION:
+          "Pengurusan pengikatan ruang–penderia; ikat penderia persekitaran kepada ruang.",
+        BIND_SENSOR_DESCRIPTION_MORE:
+          "Pilih ruang, kemudian seret penderia dari senarai kanan ke kawasan tengah untuk mengikat.",
+        BIND_WORKING_CALENDAR_DESCRIPTION:
+          "Pengurusan pengikatan ruang–kalendar kerja; tetapkan peraturan masa operasi untuk kawasan.",
+        BIND_WORKING_CALENDAR_DESCRIPTION_MORE:
+          "Pilih ruang, kemudian seret kalendar kerja dari senarai kanan ke kawasan tengah untuk mengikat.",
+        BIND_COMMAND_DESCRIPTION:
+          "Pengurusan pengikatan ruang–arahan; konfigurasi arahan kawalan yang tersedia untuk aset ruang.",
+        BIND_COMMAND_DESCRIPTION_MORE:
+          "Pilih ruang, kemudian seret arahan dari senarai kanan ke kawasan tengah untuk mengikat.",
         BIND_EQUIPMENT: "Peralatan mengikat",
         N_S_EQUIPMENT: "Peralatan terikat",
         EQUIPMENT_LIST: "Senarai Peralatan",
@@ -1508,6 +1707,26 @@
           "Positif ialah latitur utara, negatif ialah latitur selatan.",
         LONGITUDE_HINT:
           "Bilangan positif ialah garis timur dan negatif ialah garis barat.",
+        BIND_METER_DESCRIPTION:
+          "Pengurusan pengikatan kedai–meter; ikat meter kepada kedai untuk statistik dan penyelarasan mengikut kedai.",
+        BIND_METER_DESCRIPTION_MORE:
+          "Pilih kedai, kemudian seret meter dari senarai kanan ke kawasan tengah untuk mengikat.",
+        BIND_POINT_DESCRIPTION:
+          "Pengurusan pengikatan kedai–titik data; ikat titik operasi utama kepada kedai.",
+        BIND_POINT_DESCRIPTION_MORE:
+          "Pilih kedai, pilih sumber data, kemudian seret titik data ke kawasan tengah untuk mengikat.",
+        BIND_SENSOR_DESCRIPTION:
+          "Pengurusan pengikatan kedai–penderia; ikat penderia persekitaran kepada kedai.",
+        BIND_SENSOR_DESCRIPTION_MORE:
+          "Pilih kedai, kemudian seret penderia dari senarai kanan ke kawasan tengah untuk mengikat.",
+        BIND_WORKING_CALENDAR_DESCRIPTION:
+          "Pengurusan pengikatan kedai–kalendar kerja; tetapkan peraturan waktu operasi/berniaga.",
+        BIND_WORKING_CALENDAR_DESCRIPTION_MORE:
+          "Pilih kedai, kemudian seret kalendar kerja dari senarai kanan ke kawasan tengah untuk mengikat.",
+        BIND_COMMAND_DESCRIPTION:
+          "Pengurusan pengikatan kedai–arahan; konfigurasi arahan kawalan yang tersedia untuk aset kedai.",
+        BIND_COMMAND_DESCRIPTION_MORE:
+          "Pilih kedai, kemudian seret arahan dari senarai kanan ke kawasan tengah untuk mengikat.",
       },
       TENANT: {
         BUILDINGS: "Bangunan",
@@ -1525,6 +1744,26 @@
         INPUT_LEASE_NUMBER: "Sila masukkan nombor pajakan",
         END_BEFORE_START_WARNING:
           "Waktu selesai tidak boleh sebelum waktu mulai",
+        BIND_METER_DESCRIPTION:
+          "Pengurusan pengikatan penyewa–meter; ikat meter kepada penyewa untuk statistik dan penyelarasan.",
+        BIND_METER_DESCRIPTION_MORE:
+          "Pilih penyewa, kemudian seret meter dari senarai kanan ke kawasan tengah untuk mengikat.",
+        BIND_POINT_DESCRIPTION:
+          "Pengurusan pengikatan penyewa–titik data; ikat titik operasi utama kepada penyewa.",
+        BIND_POINT_DESCRIPTION_MORE:
+          "Pilih penyewa, pilih sumber data, kemudian seret titik data ke kawasan tengah untuk mengikat.",
+        BIND_SENSOR_DESCRIPTION:
+          "Pengurusan pengikatan penyewa–penderia; ikat penderia persekitaran kepada kawasan penyewa.",
+        BIND_SENSOR_DESCRIPTION_MORE:
+          "Pilih penyewa, kemudian seret penderia dari senarai kanan ke kawasan tengah untuk mengikat.",
+        BIND_WORKING_CALENDAR_DESCRIPTION:
+          "Pengurusan pengikatan penyewa–kalendar kerja; tetapkan peraturan waktu operasi/kerja untuk analisis.",
+        BIND_WORKING_CALENDAR_DESCRIPTION_MORE:
+          "Pilih penyewa, kemudian seret kalendar kerja dari senarai kanan ke kawasan tengah untuk mengikat.",
+        BIND_COMMAND_DESCRIPTION:
+          "Pengurusan pengikatan penyewa–arahan; konfigurasi arahan kawalan yang tersedia untuk aset penyewa.",
+        BIND_COMMAND_DESCRIPTION_MORE:
+          "Pilih penyewa, kemudian seret arahan dari senarai kanan ke kawasan tengah untuk mengikat.",
       },
       SHOPFLOOR: {
         ADD_SHOPFLOOR: "Tambah Shopfloor",
