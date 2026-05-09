@@ -683,6 +683,127 @@
         ENTER_DESCRIPTION: "輸入描述",
         SIMPLIFIED_CODE: "簡化代碼",
         ENTER_SIMPLIFIED_CODE: "輸入簡化代碼",
+        INPUT_MENU_DISPLAY_NAME_PLACEHOLDER: "請輸入選單顯示名稱",
+        SPACE_DESCRIPTION:
+          "空間層級與資產歸屬管理；建立空間樹（園區/建築/樓層/房間）以便按區域匯總能耗。",
+        SPACE_DESCRIPTION_MORE:
+          "空間用於定義場地的物理結構。您可以維護父子空間關係，並將計量表、設備、數據點、傳感器、租戶、門市等綁定到指定空間，實現區域能耗統計、費用分攤與運維監控。",
+        SPACE_DIALOG_DESCRIPTION: "在此新增或編輯空間資訊。",
+        SPACE_DIALOG_DESCRIPTION_MORE:
+          "輸入空間名稱、面積、人数，選擇時區與成本中心；可選擇聯絡人並填寫座標。保存後可在各綁定頁籤中繼續綁定資產。",
+        IMPORT_SPACE_DESCRIPTION:
+          "空間批量匯入工具；透過 JSON 快速建立或更新多個空間結構。",
+        IMPORT_SPACE_DESCRIPTION_MORE:
+          "適用於初始化或大規模調整空間樹。建議先匯出一個範例作為模板，修改 JSON 後再匯入以避免格式錯誤。",
+        EXPORT_SPACE_DESCRIPTION:
+          "空間匯出工具；將選定空間（含配置）以 JSON 格式匯出。",
+        EXPORT_SPACE_DESCRIPTION_MORE:
+          "匯出的 JSON 可用於備份、環境遷移或作為匯入模板。請妥善保管，避免結構與資產資訊外洩。",
+        INPUT_SPACE_NAME_PLACEHOLDER:
+          "請輸入空間名稱，例如：A 棟 3 樓 301 室",
+        INPUT_SPACE_AREA_PLACEHOLDER:
+          "請輸入面積（m²），用於面積能耗等指標計算",
+        INPUT_SPACE_NUMBER_OF_OCCUPANTS_PLACEHOLDER:
+          "請輸入人数，用於人均能耗分析",
+        INPUT_SPACE_LONGITUDE_PLACEHOLDER: "請輸入經度，例如：121.4737",
+        INPUT_SPACE_LATITUDE_PLACEHOLDER: "請輸入緯度，例如：31.2304",
+        TENANT_DESCRIPTION:
+          "租戶資料與租賃資訊管理；維護租戶資訊並支援租戶維度的能耗/費用分攤。",
+        TENANT_DESCRIPTION_MORE:
+          "租戶用於記錄租賃實體資訊（租賃面積、合同期限、聯絡人、成本中心等）。配合空間綁定與計量數據，可進行租戶能耗統計、對賬結算與費用分攤。合同變更時建議及時更新。",
+        TENANT_DIALOG_DESCRIPTION: "在此新增或編輯租戶資訊。",
+        TENANT_DIALOG_DESCRIPTION_MORE:
+          "填寫租戶名稱、面積、建築/樓層/房間、租戶類型、聯絡人、租期與成本中心。保存後可綁定計量表、數據點、傳感器、工作日曆與命令等。",
+        TENANT_TYPE_DESCRIPTION:
+          "租戶類型字典管理；維護租戶分類以便統計與篩選。",
+        TENANT_TYPE_DESCRIPTION_MORE:
+          "租戶類型用於對租戶分類（如：辦公/零售/製造），便於報表對比與篩選。建議為每個類型維護清晰的名稱、描述與簡稱代碼。",
+        TENANT_TYPE_DIALOG_DESCRIPTION: "在此新增或編輯租戶類型。",
+        TENANT_TYPE_DIALOG_DESCRIPTION_MORE:
+          "輸入類型名稱、描述與簡稱代碼。建議使用易識別的英文縮寫以便匯入/匯出與系統使用。",
+        IMPORT_TENANT_DESCRIPTION:
+          "租戶批量匯入工具；透過 JSON 快速建立或更新多個租戶資料。",
+        IMPORT_TENANT_DESCRIPTION_MORE:
+          "適用於初始化或批量更新租賃資訊。建議先匯出一個範例作為模板，再修改 JSON 後匯入。",
+        EXPORT_TENANT_DESCRIPTION:
+          "租戶匯出工具；將選定租戶（含配置）以 JSON 格式匯出。",
+        EXPORT_TENANT_DESCRIPTION_MORE:
+          "匯出的 JSON 可用於備份、遷移或作為匯入模板。請保護聯絡資訊等敏感資料。",
+        SELECT_TENANT_TYPE: "請選擇租戶類型",
+        SELECT_CONTACT: "請選擇聯絡人",
+        INPUT_TENANT_NAME_PLACEHOLDER:
+          "請輸入租戶名稱，例如：XX 有限公司",
+        INPUT_TENANT_TYPE_NAME_PLACEHOLDER:
+          "請輸入類型名稱，例如：辦公/零售/製造",
+        INPUT_TENANT_TYPE_DESCRIPTION_PLACEHOLDER: "請輸入租戶類型描述",
+        STORE_DESCRIPTION:
+          "門市資料與運營資訊管理；維護門市資訊並支援門市維度的能耗/費用統計。",
+        STORE_DESCRIPTION_MORE:
+          "門市用於記錄經營單元（如分店），包含地址、座標、門市類型、聯絡人與成本中心等。配合空間綁定與計量數據，可進行門市能耗統計、對賬與費用匯總。資訊變更時建議及時更新。",
+        STORE_DIALOG_DESCRIPTION: "在此新增或編輯門市資訊。",
+        STORE_DIALOG_DESCRIPTION_MORE:
+          "填寫門市名稱、面積、地址與座標，選擇門市類型、聯絡人與成本中心；可選填描述。保存後可按需綁定計量表、數據點、傳感器、工作日曆與命令等。",
+        STORE_TYPE_DESCRIPTION:
+          "門市類型字典管理；維護門市分類以便統計與篩選。",
+        STORE_TYPE_DESCRIPTION_MORE:
+          "門市類型用於對門市分類（如：餐飲/零售/倉儲），便於報表對比與篩選。建議維護清晰的名稱、描述與簡稱代碼。",
+        STORE_TYPE_DIALOG_DESCRIPTION: "在此新增或編輯門市類型。",
+        STORE_TYPE_DIALOG_DESCRIPTION_MORE:
+          "輸入類型名稱、描述與簡稱代碼。建議使用易識別的縮寫以便匯入/匯出。",
+        IMPORT_STORE_DESCRIPTION:
+          "門市批量匯入工具；透過 JSON 快速建立或更新多個門市資料。",
+        IMPORT_STORE_DESCRIPTION_MORE:
+          "適用於初始化或批量更新。建議先匯出一個範例作為模板，再修改 JSON 後匯入。",
+        EXPORT_STORE_DESCRIPTION:
+          "門市匯出工具；將選定門市（含配置）以 JSON 格式匯出。",
+        EXPORT_STORE_DESCRIPTION_MORE:
+          "匯出的 JSON 可用於備份、遷移或作為匯入模板。請保護地址與聯絡資訊等敏感資料。",
+        IMPORT_SVG_DESCRIPTION:
+          "SVG 批量匯入工具；透過 JSON 快速建立或更新多個 SVG 配置。",
+        IMPORT_SVG_DESCRIPTION_MORE:
+          "建議先匯出一個現有 SVG 作為模板，修改 JSON（名稱、描述與 SVG 原始碼）後再匯入，以確保格式正確。",
+        EXPORT_SVG_DESCRIPTION:
+          "SVG 匯出工具；將選定 SVG（含配置）以 JSON 格式匯出。",
+        EXPORT_SVG_DESCRIPTION_MORE:
+          "匯出的 JSON 可用於備份、遷移或作為匯入模板。請妥善保管 SVG 原始碼與相關資訊。",
+        IMPORT_ENERGY_FLOW_DIAGRAM_DESCRIPTION:
+          "能流圖批量匯入工具；透過 JSON 快速建立或更新多個能流圖配置。",
+        IMPORT_ENERGY_FLOW_DIAGRAM_DESCRIPTION_MORE:
+          "建議先匯出一個現有能流圖作為模板，修改 JSON 後再匯入，以確保格式正確。",
+        EXPORT_ENERGY_FLOW_DIAGRAM_DESCRIPTION:
+          "能流圖匯出工具；將選定能流圖（含配置）以 JSON 格式匯出。",
+        EXPORT_ENERGY_FLOW_DIAGRAM_DESCRIPTION_MORE:
+          "匯出的 JSON 可用於備份、遷移或作為匯入模板。",
+        IMPORT_SHOPFLOOR_DESCRIPTION:
+          "車間批量匯入工具；透過 JSON 快速建立或更新多個車間配置。",
+        IMPORT_SHOPFLOOR_DESCRIPTION_MORE:
+          "建議先匯出一個現有車間作為模板，修改 JSON 後再匯入，以確保格式正確。",
+        EXPORT_SHOPFLOOR_DESCRIPTION:
+          "車間匯出工具；將選定車間（含配置）以 JSON 格式匯出。",
+        EXPORT_SHOPFLOOR_DESCRIPTION_MORE:
+          "匯出的 JSON 可用於備份、遷移或作為匯入模板。",
+        IMPORT_DISTRIBUTION_SYSTEM_DESCRIPTION:
+          "配電系統批量匯入工具；透過 JSON 快速建立或更新多個配電系統配置。",
+        IMPORT_DISTRIBUTION_SYSTEM_DESCRIPTION_MORE:
+          "建議先匯出一個現有配電系統作為模板，修改 JSON（包含關聯的 SVG）後再匯入，以確保格式正確。",
+        EXPORT_DISTRIBUTION_SYSTEM_DESCRIPTION:
+          "配電系統匯出工具；將選定配電系統（含配置）以 JSON 格式匯出。",
+        EXPORT_DISTRIBUTION_SYSTEM_DESCRIPTION_MORE:
+          "匯出的 JSON 可用於備份、遷移或作為匯入模板。",
+        IMPORT_WORKING_CALENDAR_DESCRIPTION:
+          "工作日曆批量匯入工具；透過 JSON 快速建立或更新多個工作日曆配置。",
+        IMPORT_WORKING_CALENDAR_DESCRIPTION_MORE:
+          "建議先匯出一個現有工作日曆作為模板，修改 JSON 後再匯入，以確保格式正確。",
+        EXPORT_WORKING_CALENDAR_DESCRIPTION:
+          "工作日曆匯出工具；將選定工作日曆（含配置）以 JSON 格式匯出。",
+        EXPORT_WORKING_CALENDAR_DESCRIPTION_MORE:
+          "匯出的 JSON 可用於備份、遷移或作為匯入模板。",
+        SELECT_STORE_TYPE: "請選擇門市類型",
+        INPUT_STORE_NAME_PLACEHOLDER:
+          "請輸入門市名稱，例如：分店 #1",
+        INPUT_STORE_TYPE_NAME_PLACEHOLDER:
+          "請輸入類型名稱，例如：餐飲/零售/倉儲",
+        INPUT_STORE_TYPE_DESCRIPTION_PLACEHOLDER: "請輸入門市類型描述",
       },
       CONTACT: {
         EMAIL: "郵箱",
@@ -785,6 +906,7 @@
         SELECT_DISTRIBUTION_SYSTEM: "請選擇配電系統",
         SVG: "SVG",
         INPUT_SVG: "請輸入SVG",
+        SELECT_SVG_CONFIGURATION_PLACEHOLDER: "請選擇關聯的 SVG 組態圖",
         DISTRIBUTION_CIRCUIT: "配電回路",
         N_S_DISTRIBUTION_CIRCUIT: "附屬配電回路",
         ADD_DISTRIBUTION_CIRCUIT: "添加配電回路",
@@ -805,6 +927,13 @@
         INPUT_DISTRIBUTION_CIRCUIT_CUSTOMERS: "請輸入⽤⼾",
         DISTRIBUTION_CIRCUIT_METERS: "出線電表",
         INPUT_DISTRIBUTION_CIRCUIT_METERS: "請輸入出線電表",
+        DISTRIBUTION_CIRCUIT_NAME_PLACEHOLDER_EXAMPLE: "例如：1#主變出線",
+        DISTRIBUTION_CIRCUIT_DISTRIBUTION_ROOM_PLACEHOLDER_EXAMPLE: "例如：1號變電所",
+        DISTRIBUTION_CIRCUIT_SWITCHGEAR_PLACEHOLDER_EXAMPLE: "例如：AH1",
+        DISTRIBUTION_CIRCUIT_PEAK_LOAD_PLACEHOLDER: "請輸入最大設計負荷",
+        DISTRIBUTION_CIRCUIT_PEAK_CURRENT_PLACEHOLDER: "請輸入最大額定電流",
+        DISTRIBUTION_CIRCUIT_CUSTOMERS_PLACEHOLDER_EXAMPLE: "例如：A 生產線、B 辦公樓",
+        DISTRIBUTION_CIRCUIT_METERS_PLACEHOLDER_EXAMPLE: "例如：1#出線表",
         PREVIEW: "預覽",
         N_S_PREVIEW: " 預覽",
       },
@@ -1328,6 +1457,8 @@
         EDIT_SVG: "編輯SVG",
         SOURCE_CODE: "原始碼",
         INPUT_SOURCE_CODE: "輸入原始碼",
+        SOURCE_CODE_PLACEHOLDER_EXAMPLE:
+          "例如：<svg xmlns='http://www.w3.org/2000/svg' ...> ... </svg>",
         PREVIEW: "預覽",
         SELECT_SVG: "請選擇SVG",
         N_S_PREVIEW: "預覽",
@@ -1433,6 +1564,66 @@
         INPUT_AREA: "請輸入⾯積",
         CURRENT_SELECTED_SPACE: "當前選中空間",
         CHILD_SPACES: "⼦空間",
+        BIND_METER_DESCRIPTION:
+          "空間與計量表關聯管理；將計量表綁定到空間以便按區域匯總能耗。",
+        BIND_METER_DESCRIPTION_MORE:
+          "選擇空間後，在右側選擇計量表類型並拖拽計量表到中間綁定區域。需要解除綁定時，將其拖拽到垃圾桶。",
+        BIND_EQUIPMENT_DESCRIPTION:
+          "空間與設備關聯管理；將用能設備綁定到空間以便統計與運維。",
+        BIND_EQUIPMENT_DESCRIPTION_MORE:
+          "選擇空間後，從右側列表拖拽設備到中間綁定區域完成綁定；解除綁定可拖拽到垃圾桶。",
+        BIND_COMBINED_EQUIPMENT_DESCRIPTION:
+          "空間與組合設備關聯管理；將複雜系統綁定到空間以便區域分析。",
+        BIND_COMBINED_EQUIPMENT_DESCRIPTION_MORE:
+          "選擇空間後，從右側列表拖拽組合設備到中間綁定區域完成綁定。",
+        BIND_PHOTOVOLTAIC_POWER_STATION_DESCRIPTION:
+          "空間與光電站關聯管理；將發電資產綁定到空間以便統計。",
+        BIND_PHOTOVOLTAIC_POWER_STATION_DESCRIPTION_MORE:
+          "選擇空間後，從右側列表拖拽光電站到中間綁定區域完成綁定。",
+        BIND_ENERGY_STORAGE_POWER_STATION_DESCRIPTION:
+          "空間與儲能電站關聯管理；將儲能資產綁定到空間以便監控。",
+        BIND_ENERGY_STORAGE_POWER_STATION_DESCRIPTION_MORE:
+          "選擇空間後，從右側列表拖拽儲能電站到中間綁定區域完成綁定。",
+        BIND_TENANT_DESCRIPTION:
+          "空間與租戶關聯管理；將租戶綁定到其租賃空間以便分攤與結算。",
+        BIND_TENANT_DESCRIPTION_MORE:
+          "選擇空間後，從右側列表拖拽租戶到中間綁定區域完成綁定。",
+        BIND_STORE_DESCRIPTION:
+          "空間與門市關聯管理；將門市綁定到運營區域以便門市維度統計。",
+        BIND_STORE_DESCRIPTION_MORE:
+          "選擇空間後，從右側列表拖拽門市到中間綁定區域完成綁定。",
+        BIND_SHOPFLOOR_DESCRIPTION:
+          "空間與車間關聯管理；將生產區域對齊到空間結構。",
+        BIND_SHOPFLOOR_DESCRIPTION_MORE:
+          "選擇空間後，從右側列表拖拽車間到中間綁定區域完成綁定。",
+        BIND_ENERGY_FLOW_DIAGRAM_DESCRIPTION:
+          "空間與能流圖關聯管理；在空間維度使用能流模型進行展示與分析。",
+        BIND_ENERGY_FLOW_DIAGRAM_DESCRIPTION_MORE:
+          "選擇空間後，從右側列表拖拽能流圖到中間綁定區域完成綁定。",
+        BIND_DISTRIBUTION_SYSTEM_DESCRIPTION:
+          "空間與配電系統關聯管理；將電氣拓撲綁定到空間以便監控。",
+        BIND_DISTRIBUTION_SYSTEM_DESCRIPTION_MORE:
+          "選擇空間後，從右側列表拖拽配電系統到中間綁定區域完成綁定。",
+        BIND_MICROGRID_DESCRIPTION:
+          "空間與微電網關聯管理；將微電網資產綁定到空間以便統一監控。",
+        BIND_MICROGRID_DESCRIPTION_MORE:
+          "選擇空間後，從右側列表拖拽微電網到中間綁定區域完成綁定。",
+        BIND_POINT_DESCRIPTION:
+          "空間與數據點關聯管理；將關鍵運行點綁定到空間。",
+        BIND_POINT_DESCRIPTION_MORE:
+          "選擇空間後，先選擇數據源，再拖拽數據點到中間綁定區域完成綁定。",
+        BIND_SENSOR_DESCRIPTION:
+          "空間與傳感器關聯管理；將環境傳感器綁定到空間。",
+        BIND_SENSOR_DESCRIPTION_MORE:
+          "選擇空間後，從右側列表拖拽傳感器到中間綁定區域完成綁定。",
+        BIND_WORKING_CALENDAR_DESCRIPTION:
+          "空間與工作日曆關聯管理；設定區域的運行/停機時間規則。",
+        BIND_WORKING_CALENDAR_DESCRIPTION_MORE:
+          "選擇空間後，從右側列表拖拽工作日曆到中間綁定區域完成綁定。",
+        BIND_COMMAND_DESCRIPTION:
+          "空間與命令關聯管理；配置空間資產可用的控制命令。",
+        BIND_COMMAND_DESCRIPTION_MORE:
+          "選擇空間後，從右側列表拖拽命令到中間綁定區域完成綁定。",
         BIND_COMBINED_EQUIPMENT: "綁定組合設備",
         N_S_COMBINED_EQUIPMENT: "綁定的組合設備",
         COMBINED_EQUIPMENT_LIST: "組合設備列表",
@@ -1486,6 +1677,26 @@
         INPUT_ROOMS: "請輸入房間",
         INPUT_LEASE_NUMBER: "請輸入租約編號",
         END_BEFORE_START_WARNING: "租約結束時間不能早於開始時間",
+        BIND_METER_DESCRIPTION:
+          "租戶與計量表關聯管理；為租戶綁定計量表以便統計與結算。",
+        BIND_METER_DESCRIPTION_MORE:
+          "選擇租戶後，從右側列表拖拽計量表到中間綁定區域完成綁定。",
+        BIND_POINT_DESCRIPTION:
+          "租戶與數據點關聯管理；將關鍵運行點綁定到租戶。",
+        BIND_POINT_DESCRIPTION_MORE:
+          "選擇租戶後，先選擇數據源，再拖拽數據點到中間綁定區域完成綁定。",
+        BIND_SENSOR_DESCRIPTION:
+          "租戶與傳感器關聯管理；為租戶區域綁定環境傳感器。",
+        BIND_SENSOR_DESCRIPTION_MORE:
+          "選擇租戶後，從右側列表拖拽傳感器到中間綁定區域完成綁定。",
+        BIND_WORKING_CALENDAR_DESCRIPTION:
+          "租戶與工作日曆關聯管理；設定租戶的營業/運行時間規則。",
+        BIND_WORKING_CALENDAR_DESCRIPTION_MORE:
+          "選擇租戶後，從右側列表拖拽工作日曆到中間綁定區域完成綁定。",
+        BIND_COMMAND_DESCRIPTION:
+          "租戶與命令關聯管理；配置租戶資產可用的控制命令。",
+        BIND_COMMAND_DESCRIPTION_MORE:
+          "選擇租戶後，從右側列表拖拽命令到中間綁定區域完成綁定。",
       },
       STORE: {
         ADDRESS: "地址",
@@ -1498,6 +1709,26 @@
         INPUT_LONGITUDE: "請輸入經度",
         LATITUDE_HINT: "正數為北緯，負數為南緯",
         LONGITUDE_HINT: "正數為東經，負數為西經",
+        BIND_METER_DESCRIPTION:
+          "門市與計量表關聯管理；為門市綁定計量表以便門市維度統計。",
+        BIND_METER_DESCRIPTION_MORE:
+          "選擇門市後，從右側列表拖拽計量表到中間綁定區域完成綁定。",
+        BIND_POINT_DESCRIPTION:
+          "門市與數據點關聯管理；將關鍵運行點綁定到門市。",
+        BIND_POINT_DESCRIPTION_MORE:
+          "選擇門市後，先選擇數據源，再拖拽數據點到中間綁定區域完成綁定。",
+        BIND_SENSOR_DESCRIPTION:
+          "門市與傳感器關聯管理；為門市綁定環境傳感器。",
+        BIND_SENSOR_DESCRIPTION_MORE:
+          "選擇門市後，從右側列表拖拽傳感器到中間綁定區域完成綁定。",
+        BIND_WORKING_CALENDAR_DESCRIPTION:
+          "門市與工作日曆關聯管理；設定門市的營業時間規則。",
+        BIND_WORKING_CALENDAR_DESCRIPTION_MORE:
+          "選擇門市後，從右側列表拖拽工作日曆到中間綁定區域完成綁定。",
+        BIND_COMMAND_DESCRIPTION:
+          "門市與命令關聯管理；配置門市資產可用的控制命令。",
+        BIND_COMMAND_DESCRIPTION_MORE:
+          "選擇門市後，從右側列表拖拽命令到中間綁定區域完成綁定。",
       },
       SHOPFLOOR: {
         ADD_SHOPFLOOR: "添加⾞間",

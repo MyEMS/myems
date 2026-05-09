@@ -6,6 +6,18 @@
 				<uib-tabset active="activeTabIndex">
 					<uib-tab heading="{{'COMMON.SPACE' | translate}}" index="0" select="handleTabSelect(0)">
 						<div class="panel-body" ng-controller="SpaceController">
+								<div class="alert alert-info">
+									<p>
+										{{'SETTING.SPACE_DESCRIPTION' | translate}}
+										<a ng-click="isCollapsed = !isCollapsed" class="pull-right">
+											{{(isCollapsed ? 'COMMON.COLLAPSE' : 'COMMON.CLICK_TO_EXPAND_FOR_MORE_DESCRIPTION') | translate}}
+										</a>
+									</p>
+									<div uib-collapse="!isCollapsed">
+										<hr>
+										<p>{{'SETTING.SPACE_DESCRIPTION_MORE' | translate}}</p>
+									</div>
+								</div>
 							<div class="row">
 								<div class="col-lg-3">
 									<div class="panel panel-info">
@@ -128,6 +140,18 @@
 
 					<uib-tab heading="{{'SETTING.BIND_METER' | translate}}" index="1" select="handleTabSelect(1)">
 						<div class="panel-body" ng-controller="SpaceMeterController">
+							<div class="alert alert-info">
+								<p>
+									{{'SPACE.BIND_METER_DESCRIPTION' | translate}}
+									<a ng-click="isCollapsed = !isCollapsed" class="pull-right">
+										{{(isCollapsed ? 'COMMON.COLLAPSE' : 'COMMON.CLICK_TO_EXPAND_FOR_MORE_DESCRIPTION') | translate}}
+									</a>
+								</p>
+								<div uib-collapse="!isCollapsed">
+									<hr>
+									<p>{{'SPACE.BIND_METER_DESCRIPTION_MORE' | translate}}</p>
+								</div>
+							</div>
 							<div class="row">
 								<div class="col-lg-3">
 									<div class="panel panel-info">
@@ -200,6 +224,18 @@
 
 					<uib-tab heading="{{'SPACE.BIND_EQUIPMENT' | translate}}" index="2" select="handleTabSelect(2)">
 						<div class="panel-body" ng-controller="SpaceEquipmentController">
+							<div class="alert alert-info">
+								<p>
+									{{'SPACE.BIND_EQUIPMENT_DESCRIPTION' | translate}}
+									<a ng-click="isCollapsed = !isCollapsed" class="pull-right">
+										{{(isCollapsed ? 'COMMON.COLLAPSE' : 'COMMON.CLICK_TO_EXPAND_FOR_MORE_DESCRIPTION') | translate}}
+									</a>
+								</p>
+								<div uib-collapse="!isCollapsed">
+									<hr>
+									<p>{{'SPACE.BIND_EQUIPMENT_DESCRIPTION_MORE' | translate}}</p>
+								</div>
+							</div>
 							<div class="row">
 								<div class="col-lg-3">
 									<div class="panel panel-info">
@@ -257,6 +293,18 @@
 
 					<uib-tab heading="{{'SPACE.BIND_COMBINED_EQUIPMENT' | translate}}" index="3" select="handleTabSelect(3)">
 						<div class="panel-body" ng-controller="SpaceCombinedEquipmentController">
+							<div class="alert alert-info">
+								<p>
+									{{'SPACE.BIND_COMBINED_EQUIPMENT_DESCRIPTION' | translate}}
+									<a ng-click="isCollapsed = !isCollapsed" class="pull-right">
+										{{(isCollapsed ? 'COMMON.COLLAPSE' : 'COMMON.CLICK_TO_EXPAND_FOR_MORE_DESCRIPTION') | translate}}
+									</a>
+								</p>
+								<div uib-collapse="!isCollapsed">
+									<hr>
+									<p>{{'SPACE.BIND_COMBINED_EQUIPMENT_DESCRIPTION_MORE' | translate}}</p>
+								</div>
+							</div>
 							<div class="row">
 								<div class="col-lg-3">
 									<div class="panel panel-info">
@@ -314,6 +362,18 @@
 
 					<uib-tab heading="{{'SETTING.BIND_POINT' | translate}}" index="4" select="handleTabSelect(4)">
 						<div class="panel-body" ng-controller="SpacePointController">
+							<div class="alert alert-info">
+								<p>
+									{{'SPACE.BIND_POINT_DESCRIPTION' | translate}}
+									<a ng-click="isCollapsed = !isCollapsed" class="pull-right">
+										{{(isCollapsed ? 'COMMON.COLLAPSE' : 'COMMON.CLICK_TO_EXPAND_FOR_MORE_DESCRIPTION') | translate}}
+									</a>
+								</p>
+								<div uib-collapse="!isCollapsed">
+									<hr>
+									<p>{{'SPACE.BIND_POINT_DESCRIPTION_MORE' | translate}}</p>
+								</div>
+							</div>
 							<div class="row">
 								<div class="col-lg-3">
 									<div class="panel panel-info">
@@ -387,6 +447,18 @@
 
 					<uib-tab heading="{{'SETTING.BIND_SENSOR' | translate}}" index="5" select="handleTabSelect(5)">
 						<div class="panel-body" ng-controller="SpaceSensorController">
+							<div class="alert alert-info">
+								<p>
+									{{'SPACE.BIND_SENSOR_DESCRIPTION' | translate}}
+									<a ng-click="isCollapsed = !isCollapsed" class="pull-right">
+										{{(isCollapsed ? 'COMMON.COLLAPSE' : 'COMMON.CLICK_TO_EXPAND_FOR_MORE_DESCRIPTION') | translate}}
+									</a>
+								</p>
+								<div uib-collapse="!isCollapsed">
+									<hr>
+									<p>{{'SPACE.BIND_SENSOR_DESCRIPTION_MORE' | translate}}</p>
+								</div>
+							</div>
 							<div class="row">
 								<div class="col-lg-3">
 									<div class="panel panel-info">
@@ -444,6 +516,18 @@
 
 					<uib-tab heading="{{'SPACE.BIND_TENANT' | translate}}" index="6" select="handleTabSelect(6)">
 						<div class="panel-body" ng-controller="SpaceTenantController">
+							<div class="alert alert-info">
+								<p>
+									{{'SPACE.BIND_TENANT_DESCRIPTION' | translate}}
+									<a ng-click="isCollapsed = !isCollapsed" class="pull-right">
+										{{(isCollapsed ? 'COMMON.COLLAPSE' : 'COMMON.CLICK_TO_EXPAND_FOR_MORE_DESCRIPTION') | translate}}
+									</a>
+								</p>
+								<div uib-collapse="!isCollapsed">
+									<hr>
+									<p>{{'SPACE.BIND_TENANT_DESCRIPTION_MORE' | translate}}</p>
+								</div>
+							</div>
 							<div class="row">
 								<div class="col-lg-3">
 									<div class="panel panel-info">
@@ -500,6 +584,18 @@
 
 					<uib-tab heading="{{'SPACE.BIND_STORE' | translate}}" index="7" select="handleTabSelect(7)">
 						<div class="panel-body" ng-controller="SpaceStoreController">
+							<div class="alert alert-info">
+								<p>
+									{{'SPACE.BIND_STORE_DESCRIPTION' | translate}}
+									<a ng-click="isCollapsed = !isCollapsed" class="pull-right">
+										{{(isCollapsed ? 'COMMON.COLLAPSE' : 'COMMON.CLICK_TO_EXPAND_FOR_MORE_DESCRIPTION') | translate}}
+									</a>
+								</p>
+								<div uib-collapse="!isCollapsed">
+									<hr>
+									<p>{{'SPACE.BIND_STORE_DESCRIPTION_MORE' | translate}}</p>
+								</div>
+							</div>
 							<div class="row">
 								<div class="col-lg-3">
 									<div class="panel panel-info">
@@ -556,6 +652,18 @@
 
 					<uib-tab heading="{{'SPACE.BIND_SHOPFLOOR' | translate}}" index="8" select="handleTabSelect(8)">
 						<div class="panel-body" ng-controller="SpaceShopfloorController">
+							<div class="alert alert-info">
+								<p>
+									{{'SPACE.BIND_SHOPFLOOR_DESCRIPTION' | translate}}
+									<a ng-click="isCollapsed = !isCollapsed" class="pull-right">
+										{{(isCollapsed ? 'COMMON.COLLAPSE' : 'COMMON.CLICK_TO_EXPAND_FOR_MORE_DESCRIPTION') | translate}}
+									</a>
+								</p>
+								<div uib-collapse="!isCollapsed">
+									<hr>
+									<p>{{'SPACE.BIND_SHOPFLOOR_DESCRIPTION_MORE' | translate}}</p>
+								</div>
+							</div>
 							<div class="row">
 								<div class="col-lg-3">
 									<div class="panel panel-info">
@@ -611,6 +719,18 @@
 					</uib-tab>
 					<uib-tab heading="{{'SPACE.BIND_ENERGY_FLOW_DIAGRAM' | translate}}" index="9" select="handleTabSelect(9)">
 						<div class="panel-body" ng-controller="SpaceEnergyFlowDiagramController">
+							<div class="alert alert-info">
+								<p>
+									{{'SPACE.BIND_ENERGY_FLOW_DIAGRAM_DESCRIPTION' | translate}}
+									<a ng-click="isCollapsed = !isCollapsed" class="pull-right">
+										{{(isCollapsed ? 'COMMON.COLLAPSE' : 'COMMON.CLICK_TO_EXPAND_FOR_MORE_DESCRIPTION') | translate}}
+									</a>
+								</p>
+								<div uib-collapse="!isCollapsed">
+									<hr>
+									<p>{{'SPACE.BIND_ENERGY_FLOW_DIAGRAM_DESCRIPTION_MORE' | translate}}</p>
+								</div>
+							</div>
 							<div class="row">
 								<div class="col-lg-3">
 									<div class="panel panel-info">
@@ -668,6 +788,18 @@
 
 					<uib-tab heading="{{'SPACE.BIND_DISTRIBUTION_SYSTEM' | translate}}" index="10" select="handleTabSelect(10)">
 						<div class="panel-body" ng-controller="SpaceDistributionSystemController">
+							<div class="alert alert-info">
+								<p>
+									{{'SPACE.BIND_DISTRIBUTION_SYSTEM_DESCRIPTION' | translate}}
+									<a ng-click="isCollapsed = !isCollapsed" class="pull-right">
+										{{(isCollapsed ? 'COMMON.COLLAPSE' : 'COMMON.CLICK_TO_EXPAND_FOR_MORE_DESCRIPTION') | translate}}
+									</a>
+								</p>
+								<div uib-collapse="!isCollapsed">
+									<hr>
+									<p>{{'SPACE.BIND_DISTRIBUTION_SYSTEM_DESCRIPTION_MORE' | translate}}</p>
+								</div>
+							</div>
 							<div class="row">
 								<div class="col-lg-3">
 									<div class="panel panel-info">
@@ -725,6 +857,18 @@
 
 					<uib-tab heading="{{'WORKING_CALENDAR.BIND_WORKING_CALENDAR' | translate}}" index="11" select="handleTabSelect(11)">
 						<div class="panel-body" ng-controller="SpaceWorkingCalendarController">
+							<div class="alert alert-info">
+								<p>
+									{{'SPACE.BIND_WORKING_CALENDAR_DESCRIPTION' | translate}}
+									<a ng-click="isCollapsed = !isCollapsed" class="pull-right">
+										{{(isCollapsed ? 'COMMON.COLLAPSE' : 'COMMON.CLICK_TO_EXPAND_FOR_MORE_DESCRIPTION') | translate}}
+									</a>
+								</p>
+								<div uib-collapse="!isCollapsed">
+									<hr>
+									<p>{{'SPACE.BIND_WORKING_CALENDAR_DESCRIPTION_MORE' | translate}}</p>
+								</div>
+							</div>
 							<div class="row">
 								<div class="col-lg-3">
 									<div class="panel panel-info">
@@ -783,6 +927,18 @@
 
 					<uib-tab heading="{{'SETTING.BIND_COMMAND' | translate}}" index="12" select="handleTabSelect(12)">
 						<div class="panel-body" ng-controller="SpaceCommandController">
+							<div class="alert alert-info">
+								<p>
+									{{'SPACE.BIND_COMMAND_DESCRIPTION' | translate}}
+									<a ng-click="isCollapsed = !isCollapsed" class="pull-right">
+										{{(isCollapsed ? 'COMMON.COLLAPSE' : 'COMMON.CLICK_TO_EXPAND_FOR_MORE_DESCRIPTION') | translate}}
+									</a>
+								</p>
+								<div uib-collapse="!isCollapsed">
+									<hr>
+									<p>{{'SPACE.BIND_COMMAND_DESCRIPTION_MORE' | translate}}</p>
+								</div>
+							</div>
 							<div class="row">
 								<div class="col-lg-3">
 									<div class="panel panel-info">
@@ -841,6 +997,18 @@
 
 					<uib-tab heading="{{'SPACE.BIND_ENERGY_STORAGE_POWER_STATION' | translate}}" index="13" select="handleTabSelect(13)">
 						<div class="panel-body" ng-controller="SpaceEnergyStoragePowerStationController">
+							<div class="alert alert-info">
+								<p>
+									{{'SPACE.BIND_ENERGY_STORAGE_POWER_STATION_DESCRIPTION' | translate}}
+									<a ng-click="isCollapsed = !isCollapsed" class="pull-right">
+										{{(isCollapsed ? 'COMMON.COLLAPSE' : 'COMMON.CLICK_TO_EXPAND_FOR_MORE_DESCRIPTION') | translate}}
+									</a>
+								</p>
+								<div uib-collapse="!isCollapsed">
+									<hr>
+									<p>{{'SPACE.BIND_ENERGY_STORAGE_POWER_STATION_DESCRIPTION_MORE' | translate}}</p>
+								</div>
+							</div>
 							<div class="row">
 								<div class="col-lg-3">
 									<div class="panel panel-info">
@@ -899,6 +1067,18 @@
 				
 					<uib-tab heading="{{'SPACE.BIND_PHOTOVOLTAIC_POWER_STATION' | translate}}" index="14" select="handleTabSelect(14)">
 							<div class="panel-body" ng-controller="SpacePhotovoltaicPowerStationController">
+								<div class="alert alert-info">
+									<p>
+										{{'SPACE.BIND_PHOTOVOLTAIC_POWER_STATION_DESCRIPTION' | translate}}
+										<a ng-click="isCollapsed = !isCollapsed" class="pull-right">
+											{{(isCollapsed ? 'COMMON.COLLAPSE' : 'COMMON.CLICK_TO_EXPAND_FOR_MORE_DESCRIPTION') | translate}}
+										</a>
+									</p>
+									<div uib-collapse="!isCollapsed">
+										<hr>
+										<p>{{'SPACE.BIND_PHOTOVOLTAIC_POWER_STATION_DESCRIPTION_MORE' | translate}}</p>
+									</div>
+								</div>
 								<div class="row">
 								<div class="col-lg-3">
 									<div class="panel panel-info">
@@ -958,6 +1138,18 @@
 
 					<uib-tab heading="{{'SPACE.BIND_MICROGRID' | translate}}" index="15" select="handleTabSelect(15)">
 							<div class="panel-body" ng-controller="SpaceMicrogridController">
+								<div class="alert alert-info">
+									<p>
+										{{'SPACE.BIND_MICROGRID_DESCRIPTION' | translate}}
+										<a ng-click="isCollapsed = !isCollapsed" class="pull-right">
+											{{(isCollapsed ? 'COMMON.COLLAPSE' : 'COMMON.CLICK_TO_EXPAND_FOR_MORE_DESCRIPTION') | translate}}
+										</a>
+									</p>
+									<div uib-collapse="!isCollapsed">
+										<hr>
+										<p>{{'SPACE.BIND_MICROGRID_DESCRIPTION_MORE' | translate}}</p>
+									</div>
+								</div>
 								<div class="row">
 								<div class="col-lg-3">
 									<div class="panel panel-info">

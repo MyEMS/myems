@@ -3,10 +3,22 @@
         <h4 class="modal-title">{{operation | translate}}(ID:{{tenant.id}})</h4>
     </div>
     <div class="modal-body">
+        <div class="alert alert-info">
+            <p>
+                {{'SETTING.TENANT_DIALOG_DESCRIPTION' | translate}}
+                <a ng-click="isModelCollapsed = !isModelCollapsed" class="pull-right">
+                    {{(isModelCollapsed ? 'COMMON.COLLAPSE' : 'COMMON.CLICK_TO_EXPAND_FOR_MORE_DESCRIPTION') | translate}}
+                </a>
+            </p>
+            <div uib-collapse="!isModelCollapsed">
+                <hr>
+                <p>{{'SETTING.TENANT_DIALOG_DESCRIPTION_MORE' | translate}}</p>
+            </div>
+        </div>
         <form role="form" name="form_tenant" novalidate class="form-horizontal">
             <div class="form-group"><label class="col-sm-2 control-label">{{'SETTING.NAME' | translate}}<span class="text-danger">*</span></label>
               <div class="col-sm-10">
-                  <input ng-model="tenant.name" type="text" name="tenantname" class="form-control" required>
+                  <input ng-model="tenant.name" type="text" name="tenantname" class="form-control" required placeholder="{{'SETTING.INPUT_TENANT_NAME_PLACEHOLDER' | translate}}">
                   <div class="m-t-xs" ng-show="form_tenant.tenantname.$invalid && form_tenant.tenantname.$dirty">
                       <small class="text-danger" ng-show="form_tenant.tenantname.$error.required">{{'SETTING.INPUT_NAME' | translate}}</small>
                   </div>
@@ -14,7 +26,7 @@
             </div>
             <div class="form-group"><label class="col-sm-2 control-label">{{'SETTING.AREA' | translate}}<span class="text-danger">*</span></label>
                 <div class="col-sm-10">
-                    <input ng-model="tenant.area" type="number" name="tenantarea" class="form-control" required>
+                    <input ng-model="tenant.area" type="number" name="tenantarea" class="form-control" required placeholder="{{'SETTING.INPUT_AREA' | translate}}">
                     <div class="m-t-xs" ng-show="form_tenant.tenantarea.$invalid && form_tenant.tenantarea.$dirty">
                         <small class="text-danger" ng-show="form_tenant.tenantarea.$error.required">{{'SETTING.INPUT_AREA' | translate}}</small>
                         <small class="text-danger" ng-show="form_tenant.tenantarea.$error">{{'SETTING.INVALID_FORMAT' | translate}}</small>
@@ -23,7 +35,7 @@
             </div>
             <div class="form-group"><label class="col-sm-2 control-label">{{'TENANT.BUILDINGS' | translate}}<span class="text-danger">*</span></label>
               <div class="col-sm-10">
-                  <input ng-model="tenant.buildings" type="text" name="tenantbuildings" class="form-control" required>
+                  <input ng-model="tenant.buildings" type="text" name="tenantbuildings" class="form-control" required placeholder="{{'TENANT.INPUT_BUILDINGS' | translate}}">
                   <div class="m-t-xs" ng-show="form_tenant.tenantbuildings.$invalid && form_tenant.tenantbuildings.$dirty">
                       <small class="text-danger" ng-show="form_tenant.tenantbuildings.$error.required">{{'TENANT.INPUT_BUILDINGS' | translate}}</small>
                   </div>
@@ -31,7 +43,7 @@
             </div>
             <div class="form-group"><label class="col-sm-2 control-label">{{'TENANT.FLOORS' | translate}}<span class="text-danger">*</span></label>
               <div class="col-sm-10">
-                  <input ng-model="tenant.floors" type="text" name="tenantfloors" class="form-control" required>
+                  <input ng-model="tenant.floors" type="text" name="tenantfloors" class="form-control" required placeholder="{{'TENANT.INPUT_FLOORS' | translate}}">
                   <div class="m-t-xs" ng-show="form_tenant.tenantfloors.$invalid && form_tenant.tenantfloors.$dirty">
                       <small class="text-danger" ng-show="form_tenant.tenantfloors.$error.required">{{'TENANT.INPUT_FLOORS' | translate}}</small>
                   </div>
@@ -39,7 +51,7 @@
             </div>
             <div class="form-group"><label class="col-sm-2 control-label">{{'TENANT.ROOMS' | translate}}<span class="text-danger">*</span></label>
               <div class="col-sm-10">
-                  <input ng-model="tenant.rooms" type="text" name="tenantrooms" class="form-control" required>
+                  <input ng-model="tenant.rooms" type="text" name="tenantrooms" class="form-control" required placeholder="{{'TENANT.INPUT_ROOMS' | translate}}">
                   <div class="m-t-xs" ng-show="form_tenant.tenantrooms.$invalid && form_tenant.tenantrooms.$dirty">
                       <small class="text-danger" ng-show="form_tenant.tenantrooms.$error.required">{{'TENANT.INPUT_ROOMS' | translate}}</small>
                   </div>
@@ -48,7 +60,7 @@
             <div class="form-group"><label class="col-sm-2 control-label">{{'TENANT.TYPE' | translate}}<span class="text-danger">*</span></label>
                 <div class="col-sm-10">
                     <ui-select ng-model="tenant.tenant_type.id" theme="bootstrap" required>
-                        <ui-select-match allow-clear="false" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
+                        <ui-select-match allow-clear="false" placeholder="{{'SETTING.SELECT_TENANT_TYPE' | translate}}">{{$select.selected.name}}</ui-select-match>
                         <ui-select-choices repeat="tenanttype.id as tenanttype in tenanttypes | filter: $select.search">
                             <div ng-bind-html="tenanttype.name | highlight: $select.search"></div>
                         </ui-select-choices>
@@ -58,7 +70,7 @@
             <div class="form-group"><label class="col-sm-2 control-label">{{'SETTING.CONTACT' | translate}}<span class="text-danger">*</span></label>
                 <div class="col-sm-10">
                     <ui-select ng-model="tenant.contact.id" name="tenantcontact" theme="bootstrap" required>
-                        <ui-select-match allow-clear="false" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
+                        <ui-select-match allow-clear="false" placeholder="{{'SETTING.SELECT_CONTACT' | translate}}">{{$select.selected.name}}</ui-select-match>
                         <ui-select-choices repeat="contact.id as contact in contacts | filter: $select.search">
                             <div ng-bind-html="contact.name | highlight: $select.search"></div>
                             <small>{{contact.email}},{{contact.phone}}</small>
@@ -88,7 +100,7 @@
             </div>
             <div class="form-group"><label class="col-sm-2 control-label">{{'TENANT.LEASE_NUMBER' | translate}}<span class="text-danger">*</span></label>
               <div class="col-sm-10">
-                  <input ng-model="tenant.lease_number" type="text" name="tenantleasenumber" class="form-control" required>
+                  <input ng-model="tenant.lease_number" type="text" name="tenantleasenumber" class="form-control" required placeholder="{{'TENANT.INPUT_LEASE_NUMBER' | translate}}">
                   <div class="m-t-xs" ng-show="form_tenant.tenantleasenumber.$invalid && form_tenant.tenantleasenumber.$dirty">
                       <small class="text-danger" ng-show="form_tenant.tenantleasenumber.$error.required">{{'TENANT.INPUT_LEASE_NUMBER' | translate}}</small>
                   </div>
@@ -126,7 +138,7 @@
             <div class="form-group"><label class="col-sm-2 control-label">{{'SETTING.COSTCENTER' | translate}}<span class="text-danger">*</span></label>
                 <div class="col-sm-10">
                     <ui-select ng-model="tenant.cost_center.id" theme="bootstrap" required>
-                        <ui-select-match allow-clear="false" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">{{$select.selected.name}}</ui-select-match>
+                        <ui-select-match allow-clear="false" placeholder="{{'SETTING.SELECT_COSTCENTER' | translate}}">{{$select.selected.name}}</ui-select-match>
                         <ui-select-choices repeat="costcenter.id as costcenter in costcenters | filter: $select.search">
                             <div ng-bind-html="costcenter.name | highlight: $select.search"></div>
                         </ui-select-choices>
@@ -135,7 +147,7 @@
             </div>
             <div class="form-group"><label class="col-sm-2 control-label">{{'SETTING.DESCRIPTION' | translate}} ({{'SETTING.OPTIONAL' | translate}})</label>
               <div class="col-sm-10">
-                  <input ng-model="tenant.description" type="text" name="tenantdescription" class="form-control">
+                  <input ng-model="tenant.description" type="text" name="tenantdescription" class="form-control" placeholder="{{'SETTING.ENTER_DESCRIPTION' | translate}}">
               </div>
             </div>
             <div class="form-group" ng-show="tenant.qrcode"><label class="col-sm-2 control-label">{{'COMMON.QR_CODE' | translate}}</label>

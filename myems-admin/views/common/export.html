@@ -3,6 +3,18 @@
         <h4 class="modal-title"></h4>
     </div>
     <div class="modal-body">
+        <div class="alert alert-info" ng-if="description">
+            <p>
+                {{description | translate}}
+                <a ng-click="isCollapsed = !isCollapsed" class="pull-right">
+                    {{(isCollapsed ? 'COMMON.COLLAPSE' : 'COMMON.CLICK_TO_EXPAND_FOR_MORE_DESCRIPTION') | translate}}
+                </a>
+            </p>
+            <div uib-collapse="!isCollapsed">
+                <hr>
+                <p ng-if="description_more">{{description_more | translate}}</p>
+            </div>
+        </div>
         <form role="form" name="form_export" novalidate class="form-horizontal">
             <div class="form-group">
                 <div class="col-sm-12">

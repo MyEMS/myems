@@ -170,7 +170,9 @@ app.controller('DistributionSystemController', function(
 					resolve: {
 						params: function() {
 							return {
-								exportdata: angular.copy($scope.exportdata)
+								exportdata: angular.copy($scope.exportdata),
+								description: 'SETTING.EXPORT_DISTRIBUTION_SYSTEM_DESCRIPTION',
+								description_more: 'SETTING.EXPORT_DISTRIBUTION_SYSTEM_DESCRIPTION_MORE'
 							};
 						}
 					}
@@ -218,6 +220,8 @@ app.controller('DistributionSystemController', function(
 			resolve: {
 				params: function() {
 					return {
+						description: 'SETTING.IMPORT_DISTRIBUTION_SYSTEM_DESCRIPTION',
+						description_more: 'SETTING.IMPORT_DISTRIBUTION_SYSTEM_DESCRIPTION_MORE'
 					};
 				}
 			}

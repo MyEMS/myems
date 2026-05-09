@@ -3,6 +3,18 @@
         <h4 class="modal-title">{{ operation | translate}}<span ng-if="storeType.id">(ID:{{storeType.id}})</span></h4>
     </div>
     <div class="modal-body">
+        <div class="alert alert-info">
+            <p>
+                {{'SETTING.STORE_TYPE_DIALOG_DESCRIPTION' | translate}}
+                <a ng-click="isModelCollapsed = !isModelCollapsed" class="pull-right">
+                    {{(isModelCollapsed ? 'COMMON.COLLAPSE' : 'COMMON.CLICK_TO_EXPAND_FOR_MORE_DESCRIPTION') | translate}}
+                </a>
+            </p>
+            <div uib-collapse="!isModelCollapsed">
+                <hr>
+                <p>{{'SETTING.STORE_TYPE_DIALOG_DESCRIPTION_MORE' | translate}}</p>
+            </div>
+        </div>
         <form role="form" name="storeTypeForm" novalidate class="form-horizontal">
             <div class="form-group">
                 <label class="col-sm-3 control-label">{{ 'SETTING.NAME' | translate }} <span class="text-danger">*</span></label>
@@ -13,12 +25,12 @@
                         ng-model="storeType.name" 
                         name="storeTypeName"
                         required 
-                        placeholder="{{ 'SETTING.INPUT_NAME' | translate }}"
+                        placeholder="{{ 'SETTING.INPUT_STORE_TYPE_NAME_PLACEHOLDER' | translate }}"
                         ng-trim="true"
                     >
                     <div class="m-t-xs" ng-show="storeTypeForm.storeTypeName.$invalid && storeTypeForm.storeTypeName.$dirty">
                         <small class="text-danger" ng-show="storeTypeForm.storeTypeName.$error.required">
-                            {{ 'SETTING.INPUT_NAME' | translate }}
+                            {{ 'SETTING.INPUT_STORE_TYPE_NAME_PLACEHOLDER' | translate }}
                         </small>
                     </div>
                 </div>
@@ -34,12 +46,12 @@
                         ng-model="storeType.description" 
                         name="storeTypeDescription"
                         required 
-                        placeholder="{{ 'SETTING.ENTER_DESCRIPTION' | translate }}"
+                        placeholder="{{ 'SETTING.INPUT_STORE_TYPE_DESCRIPTION_PLACEHOLDER' | translate }}"
                         ng-trim="true"
                     >
                     <div class="m-t-xs" ng-show="storeTypeForm.storeTypeDescription.$invalid && storeTypeForm.storeTypeDescription.$dirty">
                         <small class="text-danger" ng-show="storeTypeForm.storeTypeDescription.$error.required">
-                            {{ 'SETTING.ENTER_DESCRIPTION' | translate }}
+                            {{ 'SETTING.INPUT_STORE_TYPE_DESCRIPTION_PLACEHOLDER' | translate }}
                         </small>
                     </div>
                 </div>

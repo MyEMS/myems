@@ -698,6 +698,126 @@
         ENTER_DESCRIPTION: "설명 입력",
         SIMPLIFIED_CODE: "약어",
         ENTER_SIMPLIFIED_CODE: "약어 입력",
+        INPUT_MENU_DISPLAY_NAME_PLACEHOLDER: "메뉴 표시 이름을 입력하세요",
+        SPACE_DESCRIPTION:
+          "공간 계층 및 자산 소속 관리; 캠퍼스/건물/층/호실 트리를 구성하여 에너지를 구역별로 집계합니다.",
+        SPACE_DESCRIPTION_MORE:
+          "공간은 물리적 구조의 기준입니다. 상위/하위 공간 관계를 관리하고 계량기, 장비, 데이터 포인트, 센서, 임차인, 매장을 공간에 바인딩하여 구역별 통계, 비용 배분, 운영 모니터링을 수행할 수 있습니다.",
+        SPACE_DIALOG_DESCRIPTION: "여기에서 공간 정보를 추가/수정합니다.",
+        SPACE_DIALOG_DESCRIPTION_MORE:
+          "공간명, 면적, 인원 수를 입력하고 시간대 및 코스트센터를 선택합니다. 선택적으로 연락처 및 좌표를 설정할 수 있습니다. 저장 후 각 바인딩 탭에서 자산을 연결하세요.",
+        IMPORT_SPACE_DESCRIPTION:
+          "공간 일괄 가져오기; JSON 형식으로 여러 공간/구조를 생성 또는 업데이트합니다.",
+        IMPORT_SPACE_DESCRIPTION_MORE:
+          "초기 설정이나 대규모 트리 변경에 적합합니다. 기존 공간을 템플릿으로 내보낸 뒤 JSON을 수정하여 가져오기를 권장합니다.",
+        EXPORT_SPACE_DESCRIPTION:
+          "공간 내보내기; 선택한 공간(설정 포함)을 JSON으로 내보냅니다.",
+        EXPORT_SPACE_DESCRIPTION_MORE:
+          "내보낸 JSON은 백업, 환경 이관, 가져오기 템플릿으로 사용할 수 있습니다. 구조/자산 정보 유출에 주의하세요.",
+        INPUT_SPACE_NAME_PLACEHOLDER:
+          "공간명을 입력하세요 (예: A동 3층 301호)",
+        INPUT_SPACE_AREA_PLACEHOLDER:
+          "면적(m²)을 입력하세요 (면적당 지표에 사용)",
+        INPUT_SPACE_NUMBER_OF_OCCUPANTS_PLACEHOLDER:
+          "인원 수를 입력하세요 (1인당 분석에 사용)",
+        INPUT_SPACE_LONGITUDE_PLACEHOLDER: "경도를 입력하세요 (예: 121.4737)",
+        INPUT_SPACE_LATITUDE_PLACEHOLDER: "위도를 입력하세요 (예: 31.2304)",
+        TENANT_DESCRIPTION:
+          "임차인 및 임대 정보 관리; 임차인 데이터를 유지하고 에너지/비용 배분을 지원합니다.",
+        TENANT_DESCRIPTION_MORE:
+          "임대 구역, 계약 기간, 연락처, 코스트센터를 관리합니다. 공간 바인딩과 계측 데이터와 함께 임차인별 통계, 정산, 비용 배분이 가능합니다. 계약 변경 시 업데이트하세요.",
+        TENANT_DIALOG_DESCRIPTION: "여기에서 임차인 정보를 추가/수정합니다.",
+        TENANT_DIALOG_DESCRIPTION_MORE:
+          "명칭, 면적, 건물/층/호실, 임차인 유형, 연락처, 계약 기간, 코스트센터를 입력합니다. 저장 후 필요에 따라 계량기/포인트/센서/근무 캘린더/명령을 바인딩하세요.",
+        TENANT_TYPE_DESCRIPTION:
+          "임차인 유형 사전 관리; 통계 및 필터링을 위한 분류를 유지합니다.",
+        TENANT_TYPE_DESCRIPTION_MORE:
+          "예: 오피스/리테일/제조. 보고서와 비교를 위해 유형명, 설명, 약어 코드를 명확히 관리하세요.",
+        TENANT_TYPE_DIALOG_DESCRIPTION: "여기에서 임차인 유형을 추가/수정합니다.",
+        TENANT_TYPE_DIALOG_DESCRIPTION_MORE:
+          "유형명, 설명, 약어 코드를 입력합니다. 가져오기/내보내기 편의를 위해 영문 약어를 권장합니다.",
+        IMPORT_TENANT_DESCRIPTION:
+          "임차인 일괄 가져오기; JSON으로 여러 임차인을 생성/업데이트합니다.",
+        IMPORT_TENANT_DESCRIPTION_MORE:
+          "초기 설정 또는 일괄 업데이트에 적합합니다. 기존 임차인을 템플릿으로 내보낸 뒤 JSON을 수정하여 가져오기를 권장합니다.",
+        EXPORT_TENANT_DESCRIPTION:
+          "임차인 내보내기; 선택한 임차인(설정 포함)을 JSON으로 내보냅니다.",
+        EXPORT_TENANT_DESCRIPTION_MORE:
+          "백업/이관/템플릿에 사용할 수 있습니다. 연락처 등 민감 정보를 안전하게 관리하세요.",
+        SELECT_TENANT_TYPE: "임차인 유형을 선택하세요",
+        SELECT_CONTACT: "연락처를 선택하세요",
+        INPUT_TENANT_NAME_PLACEHOLDER:
+          "임차인명을 입력하세요 (예: ABC 주식회사)",
+        INPUT_TENANT_TYPE_NAME_PLACEHOLDER:
+          "유형명을 입력하세요 (예: 오피스/리테일/제조)",
+        INPUT_TENANT_TYPE_DESCRIPTION_PLACEHOLDER: "임차인 유형 설명을 입력하세요",
+        STORE_DESCRIPTION:
+          "매장 정보 및 운영 정보 관리; 매장별 에너지 집계/정산을 지원합니다.",
+        STORE_DESCRIPTION_MORE:
+          "주소, 좌표, 매장 유형, 연락처, 코스트센터를 관리합니다. 공간 바인딩과 계측 데이터로 매장별 통계 및 정산이 가능합니다. 운영 정보 변경 시 업데이트하세요.",
+        STORE_DIALOG_DESCRIPTION: "여기에서 매장 정보를 추가/수정합니다.",
+        STORE_DIALOG_DESCRIPTION_MORE:
+          "명칭, 면적, 주소, 좌표를 입력하고 매장 유형/연락처/코스트센터를 선택합니다. 필요 시 설명을 입력할 수 있습니다. 저장 후 각 탭에서 바인딩을 진행하세요.",
+        STORE_TYPE_DESCRIPTION:
+          "매장 유형 사전 관리; 매장 분류를 유지하여 통계 및 필터에 사용합니다.",
+        STORE_TYPE_DESCRIPTION_MORE:
+          "예: 음식점/리테일/창고. 유형명, 설명, 약어 코드를 명확히 관리하세요.",
+        STORE_TYPE_DIALOG_DESCRIPTION: "여기에서 매장 유형을 추가/수정합니다.",
+        STORE_TYPE_DIALOG_DESCRIPTION_MORE:
+          "유형명, 설명, 약어 코드를 입력합니다. 영문 약어를 권장합니다.",
+        IMPORT_STORE_DESCRIPTION:
+          "매장 일괄 가져오기; JSON으로 여러 매장을 생성/업데이트합니다.",
+        IMPORT_STORE_DESCRIPTION_MORE:
+          "초기 설정 또는 일괄 업데이트에 적합합니다. 기존 매장을 템플릿으로 내보낸 뒤 JSON을 수정하여 가져오세요.",
+        EXPORT_STORE_DESCRIPTION:
+          "매장 내보내기; 선택한 매장(설정 포함)을 JSON으로 내보냅니다.",
+        EXPORT_STORE_DESCRIPTION_MORE:
+          "백업/이관/템플릿에 사용할 수 있습니다. 주소/연락처 등 민감 정보 유출에 주의하세요.",
+        IMPORT_SVG_DESCRIPTION:
+          "SVG 일괄 가져오기; JSON으로 여러 SVG를 생성/업데이트합니다.",
+        IMPORT_SVG_DESCRIPTION_MORE:
+          "기존 SVG를 템플릿으로 내보낸 뒤 JSON(이름, 설명, SVG 소스 코드)을 수정하여 가져오면 형식 오류를 줄일 수 있습니다.",
+        EXPORT_SVG_DESCRIPTION:
+          "SVG 내보내기; 선택한 SVG(설정 포함)을 JSON으로 내보냅니다.",
+        EXPORT_SVG_DESCRIPTION_MORE:
+          "백업/이관/템플릿에 사용할 수 있습니다. SVG 소스 코드와 관련 메타데이터 유출에 주의하세요.",
+        IMPORT_ENERGY_FLOW_DIAGRAM_DESCRIPTION:
+          "에너지 흐름도 일괄 가져오기; JSON으로 여러 흐름도를 생성/업데이트합니다.",
+        IMPORT_ENERGY_FLOW_DIAGRAM_DESCRIPTION_MORE:
+          "기존 흐름도를 템플릿으로 내보낸 뒤 JSON을 수정하여 가져오면 형식 오류를 줄일 수 있습니다.",
+        EXPORT_ENERGY_FLOW_DIAGRAM_DESCRIPTION:
+          "에너지 흐름도 내보내기; 선택한 흐름도(설정 포함)을 JSON으로 내보냅니다.",
+        EXPORT_ENERGY_FLOW_DIAGRAM_DESCRIPTION_MORE:
+          "백업/이관/템플릿에 사용할 수 있습니다.",
+        IMPORT_SHOPFLOOR_DESCRIPTION:
+          "작업장(Shopfloor) 일괄 가져오기; JSON으로 여러 작업장 데이터를 생성/업데이트합니다.",
+        IMPORT_SHOPFLOOR_DESCRIPTION_MORE:
+          "기존 작업장 데이터를 템플릿으로 내보낸 뒤 JSON을 수정하여 가져오면 형식 오류를 줄일 수 있습니다.",
+        EXPORT_SHOPFLOOR_DESCRIPTION:
+          "작업장(Shopfloor) 내보내기; 선택한 작업장 데이터(설정 포함)을 JSON으로 내보냅니다.",
+        EXPORT_SHOPFLOOR_DESCRIPTION_MORE:
+          "백업/이관/템플릿에 사용할 수 있습니다.",
+        IMPORT_DISTRIBUTION_SYSTEM_DESCRIPTION:
+          "배전 시스템 일괄 가져오기; JSON으로 여러 시스템을 생성/업데이트합니다.",
+        IMPORT_DISTRIBUTION_SYSTEM_DESCRIPTION_MORE:
+          "기존 시스템을 템플릿으로 내보낸 뒤 JSON(연결된 SVG 포함)을 수정하여 가져오면 형식 오류를 줄일 수 있습니다.",
+        EXPORT_DISTRIBUTION_SYSTEM_DESCRIPTION:
+          "배전 시스템 내보내기; 선택한 시스템(설정 포함)을 JSON으로 내보냅니다.",
+        EXPORT_DISTRIBUTION_SYSTEM_DESCRIPTION_MORE:
+          "백업/이관/템플릿에 사용할 수 있습니다.",
+        IMPORT_WORKING_CALENDAR_DESCRIPTION:
+          "근무 캘린더 일괄 가져오기; JSON으로 여러 캘린더를 생성/업데이트합니다.",
+        IMPORT_WORKING_CALENDAR_DESCRIPTION_MORE:
+          "기존 캘린더를 템플릿으로 내보낸 뒤 JSON을 수정하여 가져오면 형식 오류를 줄일 수 있습니다.",
+        EXPORT_WORKING_CALENDAR_DESCRIPTION:
+          "근무 캘린더 내보내기; 선택한 캘린더(설정 포함)을 JSON으로 내보냅니다.",
+        EXPORT_WORKING_CALENDAR_DESCRIPTION_MORE:
+          "백업/이관/템플릿에 사용할 수 있습니다.",
+        SELECT_STORE_TYPE: "매장 유형을 선택하세요",
+        INPUT_STORE_NAME_PLACEHOLDER: "매장명을 입력하세요 (예: 지점 #1)",
+        INPUT_STORE_TYPE_NAME_PLACEHOLDER:
+          "유형명을 입력하세요 (예: 음식점/리테일/창고)",
+        INPUT_STORE_TYPE_DESCRIPTION_PLACEHOLDER: "매장 유형 설명을 입력하세요",
       },
       CONTACT: {
         EMAIL: "이메일",
@@ -801,6 +921,7 @@
         SELECT_DISTRIBUTION_SYSTEM: "배전 시스템을 선택하세요",
         SVG: "SVG",
         INPUT_SVG: "SVG를 입력하세요",
+        SELECT_SVG_CONFIGURATION_PLACEHOLDER: "연결할 SVG 도면을 선택하세요",
         DISTRIBUTION_CIRCUIT: "배전 회로",
         N_S_DISTRIBUTION_CIRCUIT: "부속 배전 회로",
         ADD_DISTRIBUTION_CIRCUIT: "배전 회로 추가",
@@ -821,6 +942,13 @@
         INPUT_DISTRIBUTION_CIRCUIT_CUSTOMERS: "사용자를 입력하세요",
         DISTRIBUTION_CIRCUIT_METERS: "출선 전력계",
         INPUT_DISTRIBUTION_CIRCUIT_METERS: "출선 전력계를 입력하세요",
+        DISTRIBUTION_CIRCUIT_NAME_PLACEHOLDER_EXAMPLE: "예: 1# 주 변압기 출선",
+        DISTRIBUTION_CIRCUIT_DISTRIBUTION_ROOM_PLACEHOLDER_EXAMPLE: "예: 1호 변전소",
+        DISTRIBUTION_CIRCUIT_SWITCHGEAR_PLACEHOLDER_EXAMPLE: "예: AH1",
+        DISTRIBUTION_CIRCUIT_PEAK_LOAD_PLACEHOLDER: "최대 설계 부하를 입력하세요",
+        DISTRIBUTION_CIRCUIT_PEAK_CURRENT_PLACEHOLDER: "최대 정격 전류를 입력하세요",
+        DISTRIBUTION_CIRCUIT_CUSTOMERS_PLACEHOLDER_EXAMPLE: "예: A 생산라인, B 사무동",
+        DISTRIBUTION_CIRCUIT_METERS_PLACEHOLDER_EXAMPLE: "예: 출선 계량기 1#",
         PREVIEW: "미리보기",
         N_S_PREVIEW: " 미리보기",
       },
@@ -1336,6 +1464,8 @@
         EDIT_SVG: "SVG 편집",
         SOURCE_CODE: "소스 코드",
         INPUT_SOURCE_CODE: "소스 코드 입력",
+        SOURCE_CODE_PLACEHOLDER_EXAMPLE:
+          "예: <svg xmlns='http://www.w3.org/2000/svg' ...> ... </svg>",
         PREVIEW: "미리보기",
         SELECT_SVG: "SVG를 선택하세요",
         N_S_PREVIEW: "미리보기",
@@ -1441,6 +1571,66 @@
         INPUT_AREA: "면적을 입력하세요",
         CURRENT_SELECTED_SPACE: "현재 선택된 공간",
         CHILD_SPACES: "하위 공간",
+        BIND_METER_DESCRIPTION:
+          "공간–계량기 바인딩 관리; 구역별 집계를 위해 계량기를 공간에 할당합니다.",
+        BIND_METER_DESCRIPTION_MORE:
+          "공간을 선택한 뒤 오른쪽에서 계량기 유형을 선택하고 계량기를 가운데 영역으로 드래그하세요. 해제는 휴지통으로 드래그합니다.",
+        BIND_EQUIPMENT_DESCRIPTION:
+          "공간–장비 바인딩 관리; 소비 장비를 공간에 할당하여 통계/운영/유지보수에 활용합니다.",
+        BIND_EQUIPMENT_DESCRIPTION_MORE:
+          "공간을 선택하고 오른쪽 장비를 가운데로 드래그하여 바인딩합니다. 해제는 휴지통으로 드래그합니다.",
+        BIND_COMBINED_EQUIPMENT_DESCRIPTION:
+          "공간–복합 장비 바인딩 관리; 복잡한 시스템을 공간에 할당합니다.",
+        BIND_COMBINED_EQUIPMENT_DESCRIPTION_MORE:
+          "공간을 선택하고 오른쪽 복합 장비를 가운데로 드래그하여 바인딩합니다.",
+        BIND_PHOTOVOLTAIC_POWER_STATION_DESCRIPTION:
+          "공간–태양광 발전소 바인딩 관리; 발전 자산을 공간에 할당합니다.",
+        BIND_PHOTOVOLTAIC_POWER_STATION_DESCRIPTION_MORE:
+          "공간을 선택하고 오른쪽 태양광 발전소를 가운데로 드래그하여 바인딩합니다.",
+        BIND_ENERGY_STORAGE_POWER_STATION_DESCRIPTION:
+          "공간–에너지 저장 발전소 바인딩 관리; 저장 자산을 공간에 할당합니다.",
+        BIND_ENERGY_STORAGE_POWER_STATION_DESCRIPTION_MORE:
+          "공간을 선택하고 오른쪽 저장 발전소를 가운데로 드래그하여 바인딩합니다.",
+        BIND_TENANT_DESCRIPTION:
+          "공간–임차인 바인딩 관리; 임차인을 임대 구역과 연결하여 배분/정산을 지원합니다.",
+        BIND_TENANT_DESCRIPTION_MORE:
+          "공간을 선택하고 오른쪽 임차인을 가운데로 드래그하여 바인딩합니다.",
+        BIND_STORE_DESCRIPTION:
+          "공간–매장 바인딩 관리; 매장을 운영 구역과 연결합니다.",
+        BIND_STORE_DESCRIPTION_MORE:
+          "공간을 선택하고 오른쪽 매장을 가운데로 드래그하여 바인딩합니다.",
+        BIND_SHOPFLOOR_DESCRIPTION:
+          "공간–작업장 바인딩 관리; 생산 구역을 공간 계층과 정렬합니다.",
+        BIND_SHOPFLOOR_DESCRIPTION_MORE:
+          "공간을 선택하고 오른쪽 작업장을 가운데로 드래그하여 바인딩합니다.",
+        BIND_ENERGY_FLOW_DIAGRAM_DESCRIPTION:
+          "공간–에너지 흐름도 바인딩 관리; 공간 단위 흐름 모델을 사용합니다.",
+        BIND_ENERGY_FLOW_DIAGRAM_DESCRIPTION_MORE:
+          "공간을 선택하고 오른쪽 에너지 흐름도를 가운데로 드래그하여 바인딩합니다.",
+        BIND_DISTRIBUTION_SYSTEM_DESCRIPTION:
+          "공간–배전 시스템 바인딩 관리; 전기 토폴로지를 공간에 할당합니다.",
+        BIND_DISTRIBUTION_SYSTEM_DESCRIPTION_MORE:
+          "공간을 선택하고 오른쪽 배전 시스템을 가운데로 드래그하여 바인딩합니다.",
+        BIND_MICROGRID_DESCRIPTION:
+          "공간–마이크로그리드 바인딩 관리; 마이크로그리드 자산을 공간에 할당합니다.",
+        BIND_MICROGRID_DESCRIPTION_MORE:
+          "공간을 선택하고 오른쪽 마이크로그리드를 가운데로 드래그하여 바인딩합니다.",
+        BIND_POINT_DESCRIPTION:
+          "공간–데이터 포인트 바인딩 관리; 핵심 운영 포인트를 공간에 연결합니다.",
+        BIND_POINT_DESCRIPTION_MORE:
+          "공간을 선택하고 데이터 소스를 선택한 뒤 포인트를 가운데로 드래그하여 바인딩합니다.",
+        BIND_SENSOR_DESCRIPTION:
+          "공간–센서 바인딩 관리; 환경 센서를 공간에 할당합니다.",
+        BIND_SENSOR_DESCRIPTION_MORE:
+          "공간을 선택하고 오른쪽 센서를 가운데로 드래그하여 바인딩합니다.",
+        BIND_WORKING_CALENDAR_DESCRIPTION:
+          "공간–근무 캘린더 바인딩 관리; 운영 시간 규칙을 설정합니다.",
+        BIND_WORKING_CALENDAR_DESCRIPTION_MORE:
+          "공간을 선택하고 오른쪽 캘린더를 가운데로 드래그하여 바인딩합니다.",
+        BIND_COMMAND_DESCRIPTION:
+          "공간–명령 바인딩 관리; 공간 자산에 사용할 제어 명령을 설정합니다.",
+        BIND_COMMAND_DESCRIPTION_MORE:
+          "공간을 선택하고 오른쪽 명령을 가운데로 드래그하여 바인딩합니다.",
         BIND_COMBINED_EQUIPMENT: "복합 장비 바인딩",
         N_S_COMBINED_EQUIPMENT: "바인딩된 복합 장비",
         COMBINED_EQUIPMENT_LIST: "복합 장비 목록",
@@ -1495,6 +1685,26 @@
         INPUT_LEASE_NUMBER: "임대 계약 번호를 입력하세요",
         END_BEFORE_START_WARNING:
           "임대 종료 시간은 시작 시간보다 빠를 수 없습니다",
+        BIND_METER_DESCRIPTION:
+          "임차인–계량기 바인딩 관리; 임차인별 통계/정산을 위해 계량기를 할당합니다.",
+        BIND_METER_DESCRIPTION_MORE:
+          "임차인을 선택하고 오른쪽 계량기를 가운데로 드래그하여 바인딩합니다.",
+        BIND_POINT_DESCRIPTION:
+          "임차인–데이터 포인트 바인딩 관리; 핵심 운영 포인트를 임차인에 연결합니다.",
+        BIND_POINT_DESCRIPTION_MORE:
+          "임차인을 선택하고 데이터 소스를 선택한 뒤 포인트를 가운데로 드래그합니다.",
+        BIND_SENSOR_DESCRIPTION:
+          "임차인–센서 바인딩 관리; 환경 센서를 임차인 구역에 할당합니다.",
+        BIND_SENSOR_DESCRIPTION_MORE:
+          "임차인을 선택하고 오른쪽 센서를 가운데로 드래그하여 바인딩합니다.",
+        BIND_WORKING_CALENDAR_DESCRIPTION:
+          "임차인–근무 캘린더 바인딩 관리; 영업/가동 시간 규칙을 설정합니다.",
+        BIND_WORKING_CALENDAR_DESCRIPTION_MORE:
+          "임차인을 선택하고 오른쪽 캘린더를 가운데로 드래그하여 바인딩합니다.",
+        BIND_COMMAND_DESCRIPTION:
+          "임차인–명령 바인딩 관리; 임차인 자산에 사용할 제어 명령을 설정합니다.",
+        BIND_COMMAND_DESCRIPTION_MORE:
+          "임차인을 선택하고 오른쪽 명령을 가운데로 드래그하여 바인딩합니다.",
       },
       STORE: {
         ADDRESS: "주소",
@@ -1507,6 +1717,26 @@
         INPUT_LONGITUDE: "경도를 입력하세요",
         LATITUDE_HINT: "양수는 북위, 음수는 남위",
         LONGITUDE_HINT: "양수는 동경, 음수는 서경",
+        BIND_METER_DESCRIPTION:
+          "매장–계량기 바인딩 관리; 매장별 집계를 위해 계량기를 할당합니다.",
+        BIND_METER_DESCRIPTION_MORE:
+          "매장을 선택하고 오른쪽 계량기를 가운데로 드래그하여 바인딩합니다.",
+        BIND_POINT_DESCRIPTION:
+          "매장–데이터 포인트 바인딩 관리; 핵심 운영 포인트를 매장에 연결합니다.",
+        BIND_POINT_DESCRIPTION_MORE:
+          "매장을 선택하고 데이터 소스를 선택한 뒤 포인트를 가운데로 드래그합니다.",
+        BIND_SENSOR_DESCRIPTION:
+          "매장–센서 바인딩 관리; 환경 센서를 매장에 할당합니다.",
+        BIND_SENSOR_DESCRIPTION_MORE:
+          "매장을 선택하고 오른쪽 센서를 가운데로 드래그하여 바인딩합니다.",
+        BIND_WORKING_CALENDAR_DESCRIPTION:
+          "매장–근무 캘린더 바인딩 관리; 영업 시간 규칙을 설정합니다.",
+        BIND_WORKING_CALENDAR_DESCRIPTION_MORE:
+          "매장을 선택하고 오른쪽 캘린더를 가운데로 드래그하여 바인딩합니다.",
+        BIND_COMMAND_DESCRIPTION:
+          "매장–명령 바인딩 관리; 매장 자산에 사용할 제어 명령을 설정합니다.",
+        BIND_COMMAND_DESCRIPTION_MORE:
+          "매장을 선택하고 오른쪽 명령을 가운데로 드래그하여 바인딩합니다.",
       },
       SHOPFLOOR: {
         ADD_SHOPFLOOR: "작업장 추가",

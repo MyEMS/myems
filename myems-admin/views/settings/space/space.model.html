@@ -3,11 +3,23 @@
         <h4 class="modal-title">{{operation | translate}}(ID:{{space.id}})</h4>
     </div>
     <div class="modal-body">
+        <div class="alert alert-info">
+            <p>
+                {{'SETTING.SPACE_DIALOG_DESCRIPTION' | translate}}
+                <a ng-click="isModelCollapsed = !isModelCollapsed" class="pull-right">
+                    {{(isModelCollapsed ? 'COMMON.COLLAPSE' : 'COMMON.CLICK_TO_EXPAND_FOR_MORE_DESCRIPTION') | translate}}
+                </a>
+            </p>
+            <div uib-collapse="!isModelCollapsed">
+                <hr>
+                <p>{{'SETTING.SPACE_DIALOG_DESCRIPTION_MORE' | translate}}</p>
+            </div>
+        </div>
         <form role="form" name="form_space" novalidate class="form-horizontal">
             <div class="form-group">
                 <label class="col-sm-4 control-label">{{'SETTING.NAME' | translate}}<span class="text-danger">*</span></label>
                 <div class="col-sm-8">
-                    <input ng-model="space.name" type="text" name="spacename" class="form-control" required>
+                    <input ng-model="space.name" type="text" name="spacename" class="form-control" required placeholder="{{'SETTING.INPUT_SPACE_NAME_PLACEHOLDER' | translate}}">
                     <div class="m-t-xs" ng-show="form_space.spacename.$invalid && form_space.spacename.$dirty">
                         <small class="text-danger"
                             ng-show="form_space.spacename.$error.required">{{'SETTING.INPUT_NAME' | translate}}</small>
@@ -18,7 +30,7 @@
             <div class="form-group">
                 <label class="col-sm-4 control-label">{{'SPACE.AREA' | translate}}<span class="text-danger">*</span></label>
                 <div class="col-sm-8">
-                    <input ng-model="space.area" type="number" name="spacearea" class="form-control" required>
+                    <input ng-model="space.area" type="number" name="spacearea" class="form-control" required placeholder="{{'SETTING.INPUT_SPACE_AREA_PLACEHOLDER' | translate}}">
                     <div class="m-t-xs" ng-show="form_space.spacearea.$invalid && form_space.spacearea.$dirty">
                         <small class="text-danger" ng-show="form_space.spacearea.$error.required">{{'SPACE.INPUT_AREA' | translate}}</small>
                         <small class="text-danger" ng-show="form_space.spacearea.$error">{{'SETTING.INVALID_FORMAT' | translate}}</small>
@@ -28,7 +40,7 @@
             <div class="form-group">
                 <label class="col-sm-4 control-label">{{'SETTING.NUMBER_OF_OCCUPANTS' | translate}}<span class="text-danger">*</span></label>
                 <div class="col-sm-8">
-                    <input ng-model="space.number_of_occupants" type="number" name="spacenumberofoccupants" class="form-control" required>
+                    <input ng-model="space.number_of_occupants" type="number" name="spacenumberofoccupants" class="form-control" required placeholder="{{'SETTING.INPUT_SPACE_NUMBER_OF_OCCUPANTS_PLACEHOLDER' | translate}}">
                     <div class="m-t-xs" ng-show="form_space.spacenumberofoccupants.$invalid && form_space.spacenumberofoccupants.$dirty">
                         <small class="text-danger" ng-show="form_space.spacenumberofoccupants.$error.required">{{'SPACE.INPUT_NUMBER_OF_OCCUPANTS' | translate}}</small>
                         <small class="text-danger" ng-show="form_space.spacenumberofoccupants.$error">{{'SETTING.INVALID_FORMAT' | translate}}</small>
@@ -38,7 +50,7 @@
             <div class="form-group"><label class="col-sm-4 control-label">{{'SETTING.CONTACT' | translate}} ({{'SETTING.OPTIONAL' | translate}})</label>
                 <div class="col-sm-8">
                     <ui-select ng-model="space.contact.id" name="spacecontact" theme="bootstrap">
-                        <ui-select-match allow-clear="true" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">
+                        <ui-select-match allow-clear="true" placeholder="{{'SETTING.SELECT_CONTACT' | translate}}">
                             {{$select.selected.name}}</ui-select-match>
                         <ui-select-choices repeat="contact.id as contact in contacts | filter: $select.search">
                             <div ng-bind-html="contact.name | highlight: $select.search"></div>
@@ -55,7 +67,7 @@
             <div class="form-group"><label class="col-sm-4 control-label">{{'SETTING.TIMEZONE' | translate}}<span class="text-danger">*</span></label>
                 <div class="col-sm-8">
                     <ui-select ng-model="space.timezone.id" name="spacetimezone" theme="bootstrap" required>
-                        <ui-select-match allow-clear="false" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">
+                        <ui-select-match allow-clear="false" placeholder="{{'SETTING.SELECT_TIMEZONE' | translate}}">
                             {{ ('TIMEZONE.' + $select.selected.key) | translate }}</ui-select-match>
                         <ui-select-choices repeat="timezone.id as timezone in processedTimezones | filter: $select.search">
                             <div ng-bind-html="('TIMEZONE.' + timezone.key) | translate | highlight: $select.search"></div>
@@ -98,7 +110,7 @@
             <div class="form-group"><label class="col-sm-4 control-label">{{'SETTING.COSTCENTER' | translate}}<span class="text-danger">*</span></label>
                 <div class="col-sm-8">
                     <ui-select ng-model="space.cost_center.id" theme="bootstrap" required>
-                        <ui-select-match allow-clear="flase" placeholder="{{'COMMON.PLACEHOLDER' | translate}}">
+                        <ui-select-match allow-clear="flase" placeholder="{{'SETTING.SELECT_COSTCENTER' | translate}}">
                             {{$select.selected.name}}</ui-select-match>
                         <ui-select-choices repeat="costcenter.id as costcenter in costcenters | filter: $select.search">
                             <div ng-bind-html="costcenter.name | highlight: $select.search"></div>
@@ -114,7 +126,7 @@
             </div>
             <div class="form-group"><label class="col-sm-4 control-label">{{'SPACE.LONGITUDE' | translate}} ({{'SETTING.OPTIONAL' | translate}})</label>
                 <div class="col-sm-8">
-                    <input ng-model="space.longitude" type="number" name="spacelongitude" class="form-control">
+                    <input ng-model="space.longitude" type="number" name="spacelongitude" class="form-control" placeholder="{{'SETTING.INPUT_SPACE_LONGITUDE_PLACEHOLDER' | translate}}">
                     <div class="m-t-xs" ng-show="form_space.spacelongitude.$invalid && form_space.spacelongitude.$dirty">
                         <small class="text-danger" ng-show="form_space.spacelongitude.$error.required">{{'SPACE.INPUT_LONGITUDE' | translate}}</small>
                         <small class="text-danger" ng-show="form_space.spacelongitude.$error">{{'SETTING.INVALID_FORMAT' | translate}}</small>
@@ -123,7 +135,7 @@
             </div>
             <div class="form-group"><label class="col-sm-4 control-label">{{'SPACE.LATITUDE' | translate}} ({{'SETTING.OPTIONAL' | translate}})</label>
                 <div class="col-sm-8">
-                    <input ng-model="space.latitude" type="number" name="spacelatitude" class="form-control">
+                    <input ng-model="space.latitude" type="number" name="spacelatitude" class="form-control" placeholder="{{'SETTING.INPUT_SPACE_LATITUDE_PLACEHOLDER' | translate}}">
                     <div class="m-t-xs" ng-show="form_space.spacelatitude.$invalid && form_space.spacelatitude.$dirty">
                         <small class="text-danger" ng-show="form_space.spacelatitude.$error.required">{{'SPACE.INPUT_LATITUDE' | translate}}</small>
                         <small class="text-danger" ng-show="form_space.spacelatitude.$error">{{'SETTING.INVALID_FORMAT' | translate}}</small>
@@ -132,7 +144,7 @@
             </div>
             <div class="form-group"><label class="col-sm-4 control-label">{{'SETTING.DESCRIPTION' | translate}} ({{'SETTING.OPTIONAL' | translate}})</label>
                 <div class="col-sm-8">
-                    <input ng-model="space.description" type="text" name="spacedescription" class="form-control">
+                    <input ng-model="space.description" type="text" name="spacedescription" class="form-control" placeholder="{{'SETTING.ENTER_DESCRIPTION' | translate}}">
                 </div>
             </div>
             <div class="form-group" ng-show="space.qrcode"><label class="col-sm-4 control-label">{{'COMMON.QR_CODE' | translate}} </label>

@@ -218,7 +218,9 @@ app.controller('TenantController', function (
 					resolve: {
 						params: function() {
 							return {
-								exportdata: angular.copy($scope.exportdata)
+								exportdata: angular.copy($scope.exportdata),
+								description: 'SETTING.EXPORT_TENANT_DESCRIPTION',
+								description_more: 'SETTING.EXPORT_TENANT_DESCRIPTION_MORE'
 							};
 						}
 					}
@@ -263,6 +265,8 @@ app.controller('TenantController', function (
 			resolve: {
 				params: function() {
 					return {
+						description: 'SETTING.IMPORT_TENANT_DESCRIPTION',
+						description_more: 'SETTING.IMPORT_TENANT_DESCRIPTION_MORE'
 					};
 				}
 			}

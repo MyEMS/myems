@@ -698,6 +698,131 @@
         ENTER_DESCRIPTION: "Masukkan Deskripsi",
         SIMPLIFIED_CODE: "Kode Simplifikasi",
         ENTER_SIMPLIFIED_CODE: "Masukkan Kode Simplifikasi",
+        INPUT_MENU_DISPLAY_NAME_PLACEHOLDER: "Silakan masukkan nama tampilan menu",
+        SPACE_DESCRIPTION:
+          "Manajemen hierarki ruang dan kepemilikan aset; bangun pohon ruang (kampus/gedung/lantai/ruang) untuk agregasi energi.",
+        SPACE_DESCRIPTION_MORE:
+          "Ruang mendefinisikan struktur fisik dan menjadi dasar agregasi konsumsi serta izin. Kelola relasi ruang induk/anak dan ikat meter, peralatan, point, sensor, penyewa, toko ke ruang untuk statistik, alokasi biaya, dan pemantauan.",
+        SPACE_DIALOG_DESCRIPTION: "Buat atau edit informasi ruang di sini.",
+        SPACE_DIALOG_DESCRIPTION_MORE:
+          "Isi nama ruang, luas, dan jumlah penghuni; pilih zona waktu dan cost center. Opsional: kontak dan koordinat. Setelah disimpan, ikat aset pada tab-tab terkait.",
+        IMPORT_SPACE_DESCRIPTION:
+          "Alat impor ruang massal; buat atau perbarui struktur ruang melalui JSON.",
+        IMPORT_SPACE_DESCRIPTION_MORE:
+          "Cocok untuk inisialisasi atau perubahan besar pohon ruang. Disarankan ekspor satu ruang sebagai template, edit struktur JSON, lalu impor untuk menghindari kesalahan format.",
+        EXPORT_SPACE_DESCRIPTION:
+          "Alat ekspor ruang; ekspor ruang terpilih (beserta konfigurasinya) sebagai JSON.",
+        EXPORT_SPACE_DESCRIPTION_MORE:
+          "JSON ekspor dapat dipakai untuk backup, migrasi, atau template impor. Simpan dengan aman agar tidak bocor informasi struktur dan aset.",
+        INPUT_SPACE_NAME_PLACEHOLDER:
+          "Masukkan nama ruang, mis.: Gedung A Lantai 3 Ruang 301",
+        INPUT_SPACE_AREA_PLACEHOLDER:
+          "Masukkan luas (m²) untuk indikator konsumsi per luas",
+        INPUT_SPACE_NUMBER_OF_OCCUPANTS_PLACEHOLDER:
+          "Masukkan jumlah penghuni untuk analisis per kapita",
+        INPUT_SPACE_LONGITUDE_PLACEHOLDER:
+          "Masukkan bujur, mis.: 121.4737",
+        INPUT_SPACE_LATITUDE_PLACEHOLDER:
+          "Masukkan lintang, mis.: 31.2304",
+        TENANT_DESCRIPTION:
+          "Manajemen penyewa dan informasi sewa; kelola data penyewa dan dukung alokasi energi/biaya.",
+        TENANT_DESCRIPTION_MORE:
+          "Catat area sewa, periode kontrak, kontak, dan cost center. Dengan ikatan ruang dan data meter, sistem mendukung statistik, rekonsiliasi, dan pembagian biaya per penyewa. Perbarui saat kontrak berubah.",
+        TENANT_DIALOG_DESCRIPTION: "Buat atau edit informasi penyewa di sini.",
+        TENANT_DIALOG_DESCRIPTION_MORE:
+          "Isi nama, luas, gedung/lantai/ruang, jenis penyewa, kontak, periode sewa, dan cost center. Setelah itu, ikat meter, point, sensor, kalender kerja, dan perintah sesuai kebutuhan.",
+        TENANT_TYPE_DESCRIPTION:
+          "Manajemen kamus jenis penyewa; kelola kategori untuk statistik dan filter.",
+        TENANT_TYPE_DESCRIPTION_MORE:
+          "Jenis penyewa mengklasifikasikan penyewa (mis.: kantor, retail, produksi) untuk laporan dan perbandingan. Simpan nama, deskripsi, dan kode singkat yang jelas.",
+        TENANT_TYPE_DIALOG_DESCRIPTION: "Buat atau edit jenis penyewa di sini.",
+        TENANT_TYPE_DIALOG_DESCRIPTION_MORE:
+          "Masukkan nama, deskripsi, dan kode singkat. Disarankan memakai singkatan bahasa Inggris/mnemonik untuk memudahkan impor/ekspor.",
+        IMPORT_TENANT_DESCRIPTION:
+          "Alat impor penyewa massal; buat atau perbarui banyak penyewa melalui JSON.",
+        IMPORT_TENANT_DESCRIPTION_MORE:
+          "Cocok untuk inisialisasi atau pembaruan massal. Disarankan ekspor penyewa sebagai template, edit JSON, lalu impor agar strukturnya benar.",
+        EXPORT_TENANT_DESCRIPTION:
+          "Alat ekspor penyewa; ekspor penyewa terpilih (beserta konfigurasinya) sebagai JSON.",
+        EXPORT_TENANT_DESCRIPTION_MORE:
+          "JSON ekspor dapat dipakai untuk backup, migrasi, atau template impor. Lindungi data sensitif seperti kontak.",
+        SELECT_TENANT_TYPE: "Silakan pilih jenis penyewa",
+        SELECT_CONTACT: "Silakan pilih kontak",
+        INPUT_TENANT_NAME_PLACEHOLDER:
+          "Masukkan nama penyewa, mis.: PT Contoh Sejahtera",
+        INPUT_TENANT_TYPE_NAME_PLACEHOLDER:
+          "Masukkan nama jenis, mis.: Kantor/Retail/Produksi",
+        INPUT_TENANT_TYPE_DESCRIPTION_PLACEHOLDER:
+          "Masukkan deskripsi jenis penyewa",
+        STORE_DESCRIPTION:
+          "Manajemen toko dan informasi operasional; kelola data toko dan dukung akuntansi energi per toko.",
+        STORE_DESCRIPTION_MORE:
+          "Catat alamat, koordinat, jenis toko, kontak, dan cost center. Dengan ikatan ruang dan data meter, memungkinkan statistik dan rekonsiliasi per toko. Perbarui saat info operasional berubah.",
+        STORE_DIALOG_DESCRIPTION: "Buat atau edit informasi toko di sini.",
+        STORE_DIALOG_DESCRIPTION_MORE:
+          "Isi nama, luas, alamat, dan koordinat; pilih jenis toko, kontak, dan cost center. Opsional: deskripsi. Setelah disimpan, ikat meter, point, sensor, kalender, dan perintah.",
+        STORE_TYPE_DESCRIPTION:
+          "Manajemen kamus jenis toko; kelola kategori toko untuk statistik dan filter.",
+        STORE_TYPE_DESCRIPTION_MORE:
+          "Jenis toko mengklasifikasikan toko (mis.: restoran, retail, gudang) untuk laporan dan benchmarking. Simpan nama, deskripsi, dan kode singkat yang jelas.",
+        STORE_TYPE_DIALOG_DESCRIPTION: "Buat atau edit jenis toko di sini.",
+        STORE_TYPE_DIALOG_DESCRIPTION_MORE:
+          "Masukkan nama, deskripsi, dan kode singkat. Disarankan memakai singkatan mnemonik untuk memudahkan impor/ekspor.",
+        IMPORT_STORE_DESCRIPTION:
+          "Alat impor toko massal; buat atau perbarui banyak toko melalui JSON.",
+        IMPORT_STORE_DESCRIPTION_MORE:
+          "Cocok untuk inisialisasi atau pembaruan massal. Disarankan ekspor toko sebagai template, edit JSON, lalu impor.",
+        EXPORT_STORE_DESCRIPTION:
+          "Alat ekspor toko; ekspor toko terpilih (beserta konfigurasinya) sebagai JSON.",
+        EXPORT_STORE_DESCRIPTION_MORE:
+          "JSON ekspor dapat dipakai untuk backup, migrasi, atau template impor. Lindungi informasi sensitif seperti alamat dan kontak.",
+        IMPORT_SVG_DESCRIPTION:
+          "Alat impor SVG massal; buat atau perbarui banyak SVG melalui JSON.",
+        IMPORT_SVG_DESCRIPTION_MORE:
+          "Disarankan ekspor SVG yang ada sebagai template, edit JSON (nama, deskripsi, dan kode sumber SVG), lalu impor agar formatnya benar.",
+        EXPORT_SVG_DESCRIPTION:
+          "Alat ekspor SVG; ekspor SVG terpilih (beserta konfigurasinya) sebagai JSON.",
+        EXPORT_SVG_DESCRIPTION_MORE:
+          "JSON ekspor dapat dipakai untuk backup, migrasi, atau template impor. Lindungi kode sumber SVG dan metadata terkait.",
+        IMPORT_ENERGY_FLOW_DIAGRAM_DESCRIPTION:
+          "Alat impor diagram aliran energi massal; buat atau perbarui banyak diagram melalui JSON.",
+        IMPORT_ENERGY_FLOW_DIAGRAM_DESCRIPTION_MORE:
+          "Disarankan ekspor diagram yang ada sebagai template, edit JSON, lalu impor agar formatnya benar.",
+        EXPORT_ENERGY_FLOW_DIAGRAM_DESCRIPTION:
+          "Alat ekspor diagram aliran energi; ekspor diagram terpilih (beserta konfigurasinya) sebagai JSON.",
+        EXPORT_ENERGY_FLOW_DIAGRAM_DESCRIPTION_MORE:
+          "JSON ekspor dapat dipakai untuk backup, migrasi, atau template impor.",
+        IMPORT_SHOPFLOOR_DESCRIPTION:
+          "Alat impor shopfloor massal; buat atau perbarui banyak shopfloor melalui JSON.",
+        IMPORT_SHOPFLOOR_DESCRIPTION_MORE:
+          "Disarankan ekspor shopfloor yang ada sebagai template, edit JSON, lalu impor agar formatnya benar.",
+        EXPORT_SHOPFLOOR_DESCRIPTION:
+          "Alat ekspor shopfloor; ekspor shopfloor terpilih (beserta konfigurasinya) sebagai JSON.",
+        EXPORT_SHOPFLOOR_DESCRIPTION_MORE:
+          "JSON ekspor dapat dipakai untuk backup, migrasi, atau template impor.",
+        IMPORT_DISTRIBUTION_SYSTEM_DESCRIPTION:
+          "Alat impor sistem distribusi massal; buat atau perbarui banyak sistem melalui JSON.",
+        IMPORT_DISTRIBUTION_SYSTEM_DESCRIPTION_MORE:
+          "Disarankan ekspor sistem yang ada sebagai template, edit JSON (termasuk SVG terkait), lalu impor agar formatnya benar.",
+        EXPORT_DISTRIBUTION_SYSTEM_DESCRIPTION:
+          "Alat ekspor sistem distribusi; ekspor sistem terpilih (beserta konfigurasinya) sebagai JSON.",
+        EXPORT_DISTRIBUTION_SYSTEM_DESCRIPTION_MORE:
+          "JSON ekspor dapat dipakai untuk backup, migrasi, atau template impor.",
+        IMPORT_WORKING_CALENDAR_DESCRIPTION:
+          "Alat impor kalender kerja massal; buat atau perbarui banyak kalender melalui JSON.",
+        IMPORT_WORKING_CALENDAR_DESCRIPTION_MORE:
+          "Disarankan ekspor kalender yang ada sebagai template, edit JSON, lalu impor agar formatnya benar.",
+        EXPORT_WORKING_CALENDAR_DESCRIPTION:
+          "Alat ekspor kalender kerja; ekspor kalender terpilih (beserta konfigurasinya) sebagai JSON.",
+        EXPORT_WORKING_CALENDAR_DESCRIPTION_MORE:
+          "JSON ekspor dapat dipakai untuk backup, migrasi, atau template impor.",
+        SELECT_STORE_TYPE: "Silakan pilih jenis toko",
+        INPUT_STORE_NAME_PLACEHOLDER:
+          "Masukkan nama toko, mis.: Cabang #1",
+        INPUT_STORE_TYPE_NAME_PLACEHOLDER:
+          "Masukkan nama jenis, mis.: Restoran/Retail/Gudang",
+        INPUT_STORE_TYPE_DESCRIPTION_PLACEHOLDER:
+          "Masukkan deskripsi jenis toko",
       },
       CONTACT: {
         EMAIL: "Email",
@@ -826,6 +951,7 @@
         SELECT_DISTRIBUTION_SYSTEM: "Pilih Sistem Distribusi",
         SVG: "SVG",
         INPUT_SVG: "Silakan masukan SVG",
+        SELECT_SVG_CONFIGURATION_PLACEHOLDER: "Silakan pilih diagram SVG terkait",
         DISTRIBUTION_CIRCUIT: "Sirkuit Distribusi",
         N_S_DISTRIBUTION_CIRCUIT: " Sirkuit Distribusi Terkait",
         ADD_DISTRIBUTION_CIRCUIT: "Tambahkan Sirkuit Distribusi",
@@ -849,6 +975,19 @@
         INPUT_DISTRIBUTION_CIRCUIT_CUSTOMERS: "Silakan masukan pelanggan",
         DISTRIBUTION_CIRCUIT_METERS: "Meters",
         INPUT_DISTRIBUTION_CIRCUIT_METERS: "Silakan Input Meters",
+        DISTRIBUTION_CIRCUIT_NAME_PLACEHOLDER_EXAMPLE:
+          "mis.: Feeder trafo utama #1",
+        DISTRIBUTION_CIRCUIT_DISTRIBUTION_ROOM_PLACEHOLDER_EXAMPLE:
+          "mis.: Gardu induk #1",
+        DISTRIBUTION_CIRCUIT_SWITCHGEAR_PLACEHOLDER_EXAMPLE: "mis.: AH1",
+        DISTRIBUTION_CIRCUIT_PEAK_LOAD_PLACEHOLDER:
+          "Silakan masukkan beban desain maksimum",
+        DISTRIBUTION_CIRCUIT_PEAK_CURRENT_PLACEHOLDER:
+          "Silakan masukkan arus terukur maksimum",
+        DISTRIBUTION_CIRCUIT_CUSTOMERS_PLACEHOLDER_EXAMPLE:
+          "mis.: Lini produksi A, Gedung kantor B",
+        DISTRIBUTION_CIRCUIT_METERS_PLACEHOLDER_EXAMPLE:
+          "mis.: Meter feeder #1",
         PREVIEW: "Pratayang",
         N_S_PREVIEW: " Pratayang",
       },
@@ -1375,6 +1514,8 @@
         EDIT_SVG: "Sunting SVG",
         SOURCE_CODE: "Kode sumber",
         INPUT_SOURCE_CODE: "Kode Sumber Masukan",
+        SOURCE_CODE_PLACEHOLDER_EXAMPLE:
+          "mis.: <svg xmlns='http://www.w3.org/2000/svg' ...> ... </svg>",
         PREVIEW: "Pratinjau",
         SELECT_SVG: "Pilih SVG",
         N_S_PREVIEW: "Pratinjau",
@@ -1458,6 +1599,66 @@
         INPUT_AREA: "Silakan Input Area",
         CURRENT_SELECTED_SPACE: "Ruang yang Dipilih Saat Ini",
         CHILD_SPACES: "Ruang Anak",
+        BIND_METER_DESCRIPTION:
+          "Manajemen ikatan ruang–meter; kaitkan meter ke ruang untuk agregasi energi per area.",
+        BIND_METER_DESCRIPTION_MORE:
+          "Pilih ruang di pohon, pilih jenis meter di sisi kanan, lalu tarik meter ke area tengah. Untuk melepas, tarik ke ikon tempat sampah.",
+        BIND_COMBINED_EQUIPMENT_DESCRIPTION:
+          "Manajemen ikatan ruang–peralatan gabungan; kaitkan sistem kompleks ke ruang untuk analisis.",
+        BIND_COMBINED_EQUIPMENT_DESCRIPTION_MORE:
+          "Pilih ruang lalu tarik peralatan gabungan dari daftar kanan ke area tengah untuk mengikat.",
+        BIND_PHOTOVOLTAIC_POWER_STATION_DESCRIPTION:
+          "Manajemen ikatan ruang–PLTS; kaitkan aset pembangkit ke ruang.",
+        BIND_PHOTOVOLTAIC_POWER_STATION_DESCRIPTION_MORE:
+          "Pilih ruang lalu tarik PLTS dari daftar kanan ke area tengah.",
+        BIND_EQUIPMENT_DESCRIPTION:
+          "Manajemen ikatan ruang–peralatan; kaitkan peralatan konsumsi ke ruang untuk statistik dan pemeliharaan.",
+        BIND_EQUIPMENT_DESCRIPTION_MORE:
+          "Pilih ruang lalu tarik peralatan dari daftar kanan ke area tengah. Untuk melepas, tarik ke tempat sampah.",
+        BIND_ENERGY_STORAGE_POWER_STATION_DESCRIPTION:
+          "Manajemen ikatan ruang–pembangkit penyimpanan energi; kaitkan aset penyimpanan ke ruang.",
+        BIND_ENERGY_STORAGE_POWER_STATION_DESCRIPTION_MORE:
+          "Pilih ruang lalu tarik pembangkit penyimpanan dari daftar kanan ke area tengah.",
+        BIND_TENANT_DESCRIPTION:
+          "Manajemen ikatan ruang–penyewa; hubungkan penyewa ke area sewa untuk alokasi energi/biaya.",
+        BIND_TENANT_DESCRIPTION_MORE:
+          "Pilih ruang lalu tarik penyewa dari daftar kanan ke area tengah untuk mengikat.",
+        BIND_STORE_DESCRIPTION:
+          "Manajemen ikatan ruang–toko; hubungkan toko ke area operasional untuk rekonsiliasi per toko.",
+        BIND_STORE_DESCRIPTION_MORE:
+          "Pilih ruang lalu tarik toko dari daftar kanan ke area tengah untuk mengikat.",
+        BIND_SHOPFLOOR_DESCRIPTION:
+          "Manajemen ikatan ruang–workshop; selaraskan area produksi dengan hierarki ruang.",
+        BIND_SHOPFLOOR_DESCRIPTION_MORE:
+          "Pilih ruang lalu tarik workshop dari daftar kanan ke area tengah.",
+        BIND_ENERGY_FLOW_DIAGRAM_DESCRIPTION:
+          "Manajemen ikatan ruang–diagram aliran energi; gunakan model aliran pada level ruang.",
+        BIND_ENERGY_FLOW_DIAGRAM_DESCRIPTION_MORE:
+          "Pilih ruang lalu tarik diagram aliran energi dari daftar kanan ke area tengah.",
+        BIND_DISTRIBUTION_SYSTEM_DESCRIPTION:
+          "Manajemen ikatan ruang–sistem distribusi; kaitkan topologi listrik ke area.",
+        BIND_DISTRIBUTION_SYSTEM_DESCRIPTION_MORE:
+          "Pilih ruang lalu tarik sistem distribusi dari daftar kanan ke area tengah.",
+        BIND_MICROGRID_DESCRIPTION:
+          "Manajemen ikatan ruang–microgrid; kaitkan aset microgrid ke ruang untuk pemantauan.",
+        BIND_MICROGRID_DESCRIPTION_MORE:
+          "Pilih ruang lalu tarik microgrid dari daftar kanan ke area tengah.",
+        BIND_POINT_DESCRIPTION:
+          "Manajemen ikatan ruang–point; kaitkan point operasional kunci ke ruang.",
+        BIND_POINT_DESCRIPTION_MORE:
+          "Pilih ruang, pilih sumber data, lalu tarik point data ke area tengah untuk mengikat.",
+        BIND_SENSOR_DESCRIPTION:
+          "Manajemen ikatan ruang–sensor; kaitkan sensor lingkungan ke ruang.",
+        BIND_SENSOR_DESCRIPTION_MORE:
+          "Pilih ruang lalu tarik sensor dari daftar kanan ke area tengah.",
+        BIND_WORKING_CALENDAR_DESCRIPTION:
+          "Manajemen ikatan ruang–kalender kerja; tetapkan aturan jam operasi/non-operasi.",
+        BIND_WORKING_CALENDAR_DESCRIPTION_MORE:
+          "Pilih ruang lalu tarik kalender kerja dari daftar kanan ke area tengah.",
+        BIND_COMMAND_DESCRIPTION:
+          "Manajemen ikatan ruang–perintah; konfigurasi perintah kontrol yang tersedia untuk aset di ruang.",
+        BIND_COMMAND_DESCRIPTION_MORE:
+          "Pilih ruang lalu tarik perintah dari daftar kanan ke area tengah.",
         BIND_EQUIPMENT: "Peralatan Bind",
         N_S_EQUIPMENT: "Peralatan Terikat",
         EQUIPMENT_LIST: "Daftar Peralatan",
@@ -1515,6 +1716,26 @@
           "Positif adalah garis lintang utara, negatif adalah garis lintang selatan.",
         LONGITUDE_HINT:
           "Positif adalah garis timur, negatif adalah garis barat.",
+        BIND_METER_DESCRIPTION:
+          "Manajemen ikatan toko–meter; kaitkan meter ke toko untuk akuntansi energi per toko.",
+        BIND_METER_DESCRIPTION_MORE:
+          "Pilih toko lalu tarik meter dari daftar kanan ke area tengah untuk mengikat.",
+        BIND_POINT_DESCRIPTION:
+          "Manajemen ikatan toko–point; kaitkan point operasional kunci ke toko.",
+        BIND_POINT_DESCRIPTION_MORE:
+          "Pilih toko, pilih sumber data, lalu tarik point ke area tengah untuk mengikat.",
+        BIND_SENSOR_DESCRIPTION:
+          "Manajemen ikatan toko–sensor; kaitkan sensor lingkungan ke toko.",
+        BIND_SENSOR_DESCRIPTION_MORE:
+          "Pilih toko lalu tarik sensor dari daftar kanan ke area tengah.",
+        BIND_WORKING_CALENDAR_DESCRIPTION:
+          "Manajemen ikatan toko–kalender kerja; tetapkan aturan jam operasional toko.",
+        BIND_WORKING_CALENDAR_DESCRIPTION_MORE:
+          "Pilih toko lalu tarik kalender kerja dari daftar kanan ke area tengah.",
+        BIND_COMMAND_DESCRIPTION:
+          "Manajemen ikatan toko–perintah; konfigurasi perintah kontrol yang tersedia.",
+        BIND_COMMAND_DESCRIPTION_MORE:
+          "Pilih toko lalu tarik perintah dari daftar kanan ke area tengah.",
       },
       TENANT: {
         BUILDINGS: "Bangunan",
@@ -1532,6 +1753,26 @@
         INPUT_LEASE_NUMBER: "Masukkan Nomor Sewa",
         END_BEFORE_START_WARNING:
           "Masa tamat tidak boleh lebih awal daripada masa mula",
+        BIND_METER_DESCRIPTION:
+          "Manajemen ikatan penyewa–meter; kaitkan meter ke penyewa untuk statistik dan rekonsiliasi.",
+        BIND_METER_DESCRIPTION_MORE:
+          "Pilih penyewa lalu tarik meter dari daftar kanan ke area tengah untuk mengikat.",
+        BIND_POINT_DESCRIPTION:
+          "Manajemen ikatan penyewa–point; kaitkan point operasional kunci ke penyewa.",
+        BIND_POINT_DESCRIPTION_MORE:
+          "Pilih penyewa, pilih sumber data, lalu tarik point ke area tengah untuk mengikat.",
+        BIND_SENSOR_DESCRIPTION:
+          "Manajemen ikatan penyewa–sensor; kaitkan sensor lingkungan ke area penyewa.",
+        BIND_SENSOR_DESCRIPTION_MORE:
+          "Pilih penyewa lalu tarik sensor dari daftar kanan ke area tengah.",
+        BIND_WORKING_CALENDAR_DESCRIPTION:
+          "Manajemen ikatan penyewa–kalender kerja; tetapkan aturan jam operasional/produksi.",
+        BIND_WORKING_CALENDAR_DESCRIPTION_MORE:
+          "Pilih penyewa lalu tarik kalender kerja dari daftar kanan ke area tengah.",
+        BIND_COMMAND_DESCRIPTION:
+          "Manajemen ikatan penyewa–perintah; konfigurasi perintah kontrol yang tersedia untuk aset penyewa.",
+        BIND_COMMAND_DESCRIPTION_MORE:
+          "Pilih penyewa lalu tarik perintah dari daftar kanan ke area tengah.",
       },
       SHOPFLOOR: {
         ADD_SHOPFLOOR: "Add Shopfloor",

@@ -5,6 +5,18 @@
 				<uib-tabset active="activeTabIndex">
 					<uib-tab heading="{{'COMMON.TENANT' | translate}}" index="0" select="handleTabSelect(0)">
 						<div class="panel-body" ng-controller="TenantController">
+							<div class="alert alert-info">
+								<p>
+									{{'SETTING.TENANT_DESCRIPTION' | translate}}
+									<a ng-click="isCollapsed = !isCollapsed" class="pull-right">
+										{{(isCollapsed ? 'COMMON.COLLAPSE' : 'COMMON.CLICK_TO_EXPAND_FOR_MORE_DESCRIPTION') | translate}}
+									</a>
+								</p>
+								<div uib-collapse="!isCollapsed">
+									<hr>
+									<p>{{'SETTING.TENANT_DESCRIPTION_MORE' | translate}}</p>
+								</div>
+							</div>
 							<div class="row mb-3">
 								<div class="col-md-3">
 									<a ng-click="addTenant()" class="btn btn-primary btn-rounded  btn-outline" href="">
@@ -96,6 +108,18 @@
 					</uib-tab>
 					<uib-tab heading="{{'SETTING.TENANT_TYPE' | translate}}" index="1" select="handleTabSelect(1)">
 						<div class="panel-body" ng-controller="TenantTypeController">
+							<div class="alert alert-info">
+								<p>
+									{{'SETTING.TENANT_TYPE_DESCRIPTION' | translate}}
+									<a ng-click="isCollapsed = !isCollapsed" class="pull-right">
+										{{(isCollapsed ? 'COMMON.COLLAPSE' : 'COMMON.CLICK_TO_EXPAND_FOR_MORE_DESCRIPTION') | translate}}
+									</a>
+								</p>
+								<div uib-collapse="!isCollapsed">
+									<hr>
+									<p>{{'SETTING.TENANT_TYPE_DESCRIPTION_MORE' | translate}}</p>
+								</div>
+							</div>
 							<a ng-click="addTenantType()" class="btn btn-primary btn-rounded btn-outline" href="">
 								<i class="fa fa-plus-circle"></i> {{'SETTING.ADD_TENANT_TYPE' | translate}}
 							</a>
@@ -140,6 +164,18 @@
 					</uib-tab>
 					<uib-tab heading="{{'SETTING.BIND_METER' | translate}}" index="2" select="handleTabSelect(2)">
 						<div class="panel-body" ng-controller="TenantMeterController">
+							<div class="alert alert-info">
+								<p>
+									{{'TENANT.BIND_METER_DESCRIPTION' | translate}}
+									<a ng-click="isCollapsed = !isCollapsed" class="pull-right">
+										{{(isCollapsed ? 'COMMON.COLLAPSE' : 'COMMON.CLICK_TO_EXPAND_FOR_MORE_DESCRIPTION') | translate}}
+									</a>
+								</p>
+								<div uib-collapse="!isCollapsed">
+									<hr>
+									<p>{{'TENANT.BIND_METER_DESCRIPTION_MORE' | translate}}</p>
+								</div>
+							</div>
 							<div class="row">
 								<div class="col-lg-3">
 									<div class="panel panel-info">
@@ -153,7 +189,7 @@
 													<ui-select on-select="changeTenant($item,$model)"
 														ng-model="currentTenant.selected" theme="bootstrap">
 														<ui-select-match
-															placeholder="{{'COMMON.PLACEHOLDER' | translate}}">
+															placeholder="{{'SETTING.SELECT_TENANT' | translate}}">
 															{{$select.selected.name}}</ui-select-match>
 														<ui-select-choices
 															repeat="tenant.id as tenant in tenants | filter: $select.search">
@@ -224,6 +260,18 @@
 					</uib-tab>
 					<uib-tab heading="{{'SETTING.BIND_POINT' | translate}}" index="3" select="handleTabSelect(3)">
 						<div class="panel-body" ng-controller="TenantPointController">
+							<div class="alert alert-info">
+								<p>
+									{{'TENANT.BIND_POINT_DESCRIPTION' | translate}}
+									<a ng-click="isCollapsed = !isCollapsed" class="pull-right">
+										{{(isCollapsed ? 'COMMON.COLLAPSE' : 'COMMON.CLICK_TO_EXPAND_FOR_MORE_DESCRIPTION') | translate}}
+									</a>
+								</p>
+								<div uib-collapse="!isCollapsed">
+									<hr>
+									<p>{{'TENANT.BIND_POINT_DESCRIPTION_MORE' | translate}}</p>
+								</div>
+							</div>
 							<div class="row">
 								<div class="col-lg-3">
 									<div class="panel panel-info">
@@ -237,7 +285,7 @@
 													<ui-select on-select="changeTenant($item,$model)"
 														ng-model="currentTenant.selected" theme="bootstrap">
 														<ui-select-match
-															placeholder="{{'COMMON.PLACEHOLDER' | translate}}">
+															placeholder="{{'SETTING.SELECT_TENANT' | translate}}">
 															{{$select.selected.name}}</ui-select-match>
 														<ui-select-choices
 															repeat="tenant.id as tenant in tenants | filter: $select.search">
@@ -289,7 +337,7 @@
 													<ui-select on-select="changeDataSource($item, $model)"
 														ng-model="currentDataSource" theme="bootstrap">
 														<ui-select-match
-															placeholder="{{'COMMON.PLACEHOLDER' | translate}}">
+															placeholder="{{'DATA_SOURCE.SELECT_DATA_SOURCE' | translate}}">
 															{{$select.selected.name}}</ui-select-match>
 														<ui-select-choices
 															repeat="datasource.id as datasource in datasources | filter: $select.search">
@@ -311,6 +359,18 @@
 					</uib-tab>
 					<uib-tab heading="{{'SETTING.BIND_SENSOR' | translate}}" index="4" select="handleTabSelect(4)">
 						<div class="panel-body" ng-controller="TenantSensorController">
+							<div class="alert alert-info">
+								<p>
+									{{'TENANT.BIND_SENSOR_DESCRIPTION' | translate}}
+									<a ng-click="isCollapsed = !isCollapsed" class="pull-right">
+										{{(isCollapsed ? 'COMMON.COLLAPSE' : 'COMMON.CLICK_TO_EXPAND_FOR_MORE_DESCRIPTION') | translate}}
+									</a>
+								</p>
+								<div uib-collapse="!isCollapsed">
+									<hr>
+									<p>{{'TENANT.BIND_SENSOR_DESCRIPTION_MORE' | translate}}</p>
+								</div>
+							</div>
 							<div class="row">
 								<div class="col-lg-3">
 									<div class="panel panel-info">
@@ -324,7 +384,7 @@
 													<ui-select on-select="changeTenant($item,$model)"
 														ng-model="currentTenant.selected" theme="bootstrap">
 														<ui-select-match
-															placeholder="{{'COMMON.PLACEHOLDER' | translate}}">
+															placeholder="{{'SETTING.SELECT_TENANT' | translate}}">
 															{{$select.selected.name}}</ui-select-match>
 														<ui-select-choices
 															repeat="tenant.id as tenant in tenants | filter: $select.search">
@@ -382,6 +442,18 @@
 
 					<uib-tab heading="{{'WORKING_CALENDAR.BIND_WORKING_CALENDAR' | translate}}" index="5" select="handleTabSelect(5)">
 						<div class="panel-body" ng-controller="TenantWorkingCalendarController">
+							<div class="alert alert-info">
+								<p>
+									{{'TENANT.BIND_WORKING_CALENDAR_DESCRIPTION' | translate}}
+									<a ng-click="isCollapsed = !isCollapsed" class="pull-right">
+										{{(isCollapsed ? 'COMMON.COLLAPSE' : 'COMMON.CLICK_TO_EXPAND_FOR_MORE_DESCRIPTION') | translate}}
+									</a>
+								</p>
+								<div uib-collapse="!isCollapsed">
+									<hr>
+									<p>{{'TENANT.BIND_WORKING_CALENDAR_DESCRIPTION_MORE' | translate}}</p>
+								</div>
+							</div>
 							<div class="row">
 								<div class="col-lg-3">
 									<div class="panel panel-info">
@@ -395,7 +467,7 @@
 													<ui-select on-select="changeTenant($item,$model)"
 														ng-model="currentTenant.selected" theme="bootstrap">
 														<ui-select-match
-															placeholder="{{'COMMON.PLACEHOLDER' | translate}}">
+															placeholder="{{'SETTING.SELECT_TENANT' | translate}}">
 															{{$select.selected.name}}</ui-select-match>
 														<ui-select-choices
 															repeat="tenant.id as tenant in tenants | filter: $select.search">
@@ -454,6 +526,18 @@
 					</uib-tab>
 					<uib-tab heading="{{'SETTING.BIND_COMMAND' | translate}}" index="6" select="handleTabSelect(6)">
 						<div class="panel-body" ng-controller="TenantCommandController">
+							<div class="alert alert-info">
+								<p>
+									{{'TENANT.BIND_COMMAND_DESCRIPTION' | translate}}
+									<a ng-click="isCollapsed = !isCollapsed" class="pull-right">
+										{{(isCollapsed ? 'COMMON.COLLAPSE' : 'COMMON.CLICK_TO_EXPAND_FOR_MORE_DESCRIPTION') | translate}}
+									</a>
+								</p>
+								<div uib-collapse="!isCollapsed">
+									<hr>
+									<p>{{'TENANT.BIND_COMMAND_DESCRIPTION_MORE' | translate}}</p>
+								</div>
+							</div>
 							<div class="row">
 								<div class="col-lg-3">
 									<div class="panel panel-info">
@@ -467,7 +551,7 @@
 													<ui-select on-select="changeTenant($item,$model)"
 														ng-model="currentTenant.selected" theme="bootstrap">
 														<ui-select-match
-															placeholder="{{'COMMON.PLACEHOLDER' | translate}}">
+															placeholder="{{'SETTING.SELECT_TENANT' | translate}}">
 															{{$select.selected.name}}</ui-select-match>
 														<ui-select-choices
 															repeat="tenant.id as tenant in tenants | filter: $select.search">

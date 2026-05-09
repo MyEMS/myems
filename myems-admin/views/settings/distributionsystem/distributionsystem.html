@@ -5,16 +5,31 @@
 				<uib-tabset>
 					<uib-tab heading="{{'COMMON.DISTRIBUTION_SYSTEM' | translate}}">
 						<div class="panel-body" ng-controller="DistributionSystemController">
-                            <div class="col-md-3">
-							  <a ng-click="addDistributionSystem()" class="btn btn-primary btn-rounded  btn-outline" href=""><i class="fa fa-plus-circle"></i> {{'DISTRIBUTION_SYSTEM.ADD_DISTRIBUTION_SYSTEM' | translate}}</a>
-                              <a ng-click="importDistributionSystem()" class="btn btn-primary btn-rounded  btn-outline" href=""><i class="fa fa-plus-circle"></i> {{'SETTING.IMPORT' | translate}}</a>
-                            </div>
-                          <div class="col-md-9">
-                            <input type="text" class="form-control m-b-xs"
-                                   placeholder="{{'SETTING.SEARCH' | translate}}"
-                                   ng-model="searchKeyword"
-                                   ng-keyup="searchDistributionSystems()">
-                          </div>
+							<div class="alert alert-info">
+								<p>
+									{{'SETTING.DISTRIBUTION_SYSTEM_DESCRIPTION' | translate}}
+									<a ng-click="isCollapsed = !isCollapsed" class="pull-right">
+										{{(isCollapsed ? 'COMMON.COLLAPSE' : 'COMMON.CLICK_TO_EXPAND_FOR_MORE_DESCRIPTION') | translate}}
+									</a>
+								</p>
+								<div uib-collapse="!isCollapsed">
+									<hr>
+									<p>{{'SETTING.DISTRIBUTION_SYSTEM_DESCRIPTION_MORE' | translate}}</p>
+								</div>
+							</div>
+							<div class="row mb-3">
+								<div class="col-md-3">
+									<a ng-click="addDistributionSystem()" class="btn btn-primary btn-rounded btn-outline" href=""><i class="fa fa-plus-circle"></i> {{'DISTRIBUTION_SYSTEM.ADD_DISTRIBUTION_SYSTEM' | translate}}</a>
+									<a ng-click="importDistributionSystem()" class="btn btn-primary btn-rounded btn-outline" href=""><i class="fa fa-plus-circle"></i> {{'SETTING.IMPORT' | translate}}</a>
+								</div>
+								<div class="col-md-9">
+									<input type="text"
+										   class="form-control m-b-xs"
+										   placeholder="{{'SETTING.SEARCH' | translate}}"
+										   ng-model="searchKeyword"
+										   ng-keyup="searchDistributionSystems()">
+								</div>
+							</div>
               <table class="footable table table-bordered table-hover" data-sort="true" data-page-size="15">
 								<thead>
 									<tr>
@@ -48,8 +63,20 @@
 						</div>
 					</uib-tab>
           <uib-tab heading="{{'DISTRIBUTION_SYSTEM.DISTRIBUTION_CIRCUIT' | translate}}">
-            <div class="panel-body" ng-controller="DistributionCircuitController">
-              <div class="row">
+ 						<div class="panel-body" ng-controller="DistributionCircuitController">
+ 							<div class="alert alert-info">
+ 								<p>
+ 									{{'DISTRIBUTION_SYSTEM.DISTRIBUTION_CIRCUIT_DESCRIPTION' | translate}}
+ 									<a ng-click="isCollapsed = !isCollapsed" class="pull-right">
+ 										{{(isCollapsed ? 'COMMON.COLLAPSE' : 'COMMON.CLICK_TO_EXPAND_FOR_MORE_DESCRIPTION') | translate}}
+ 									</a>
+ 								</p>
+ 								<div uib-collapse="!isCollapsed">
+ 									<hr>
+ 									<p>{{'DISTRIBUTION_SYSTEM.DISTRIBUTION_CIRCUIT_DESCRIPTION_MORE' | translate}}</p>
+ 								</div>
+ 							</div>
+ 							<div class="row">
                 <div class="col-lg-3">
                   <div class="panel panel-info">
                     <div class="panel-heading">
@@ -124,6 +151,18 @@
 
           <uib-tab heading="{{'SETTING.BIND_POINT' | translate}}" >
               <div class="panel-body" ng-controller="DistributionCircuitPointController">
+                <div class="alert alert-info">
+                  <p>
+                    {{'DISTRIBUTION_SYSTEM.BIND_POINT_DESCRIPTION' | translate}}
+                    <a ng-click="isCollapsed = !isCollapsed" class="pull-right">
+                      {{(isCollapsed ? 'COMMON.COLLAPSE' : 'COMMON.CLICK_TO_EXPAND_FOR_MORE_DESCRIPTION') | translate}}
+                    </a>
+                  </p>
+                  <div uib-collapse="!isCollapsed">
+                    <hr>
+                    <p>{{'DISTRIBUTION_SYSTEM.BIND_POINT_DESCRIPTION_MORE' | translate}}</p>
+                  </div>
+                </div>
                 <div class="row">
                   <div class="col-lg-3">
                     <div class="panel panel-info">
@@ -203,8 +242,20 @@
             </div>
           </uib-tab>
           <uib-tab heading="{{'DISTRIBUTION_SYSTEM.PREVIEW' | translate}}">
-            <div class="panel-body" ng-controller="DistributionSystemPreviewController">
-              <div class="row">
+ 						<div class="panel-body" ng-controller="DistributionSystemPreviewController">
+ 							<div class="alert alert-info">
+ 								<p>
+ 									{{'DISTRIBUTION_SYSTEM.PREVIEW_DESCRIPTION' | translate}}
+ 									<a ng-click="isCollapsed = !isCollapsed" class="pull-right">
+ 										{{(isCollapsed ? 'COMMON.COLLAPSE' : 'COMMON.CLICK_TO_EXPAND_FOR_MORE_DESCRIPTION') | translate}}
+ 									</a>
+ 								</p>
+ 								<div uib-collapse="!isCollapsed">
+ 									<hr>
+ 									<p>{{'DISTRIBUTION_SYSTEM.PREVIEW_DESCRIPTION_MORE' | translate}}</p>
+ 								</div>
+ 							</div>
+ 							<div class="row">
                 <div class="col-lg-3">
                   <div class="panel panel-info">
                     <div class="panel-heading">
