@@ -154,6 +154,10 @@ export default {
             'Usage Intensity': '使用強度',
             'Dashboard data loaded successfully': '儀表板數據加載成功',
             'Failed to load dashboard data': '加載儀表板數據失敗',
+            'Store Name': '門店名稱',
+            'Store Area': '門店面積',
+            'Energy Consumption': '能耗',
+            'Consumption': '消耗量',
 
             // Dashboard
             'Welcome to MyEMS': '歡迎使⽤ MyEMS',

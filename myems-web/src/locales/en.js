@@ -157,6 +157,10 @@ export default {
             'Usage Intensity': 'Usage Intensity',
             'Dashboard data loaded successfully': 'Dashboard data loaded successfully',
             'Failed to load dashboard data': 'Failed to load dashboard data',
+            'Store Name': 'Store Name',
+            'Store Area': 'Store Area',
+            'Energy Consumption': 'Energy Consumption',
+            'Consumption': 'Consumption',
             // Dashboard
             'Welcome to MyEMS': 'Welcome to MyEMS',
             'An Industry Leading Open Source Energy Management System': 'An Industry Leading Open Source Energy Management System',

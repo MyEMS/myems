@@ -415,7 +415,7 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
                         icon={energyData.increment_rate_in_kgce >= 0 ? faArrowUp : faArrowDown} 
                         className="mr-1" 
                       />
-                      {Math.abs((energyData.increment_rate_in_kgce || 0) * 100).toFixed(2)}% vs last period
+                      {Math.abs((energyData.increment_rate_in_kgce || 0) * 100).toFixed(2)}% vs  {t('last period')}
                     </small>
                   )}
                 </div>
@@ -467,7 +467,7 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
                         icon={energyData.increment_rate_in_kgco2e >= 0 ? faArrowUp : faArrowDown} 
                         className="mr-1" 
                       />
-                      {Math.abs((energyData.increment_rate_in_kgco2e || 0) * 100).toFixed(2)}% vs last period
+                      {Math.abs((energyData.increment_rate_in_kgco2e || 0) * 100).toFixed(2)}% vs {t('last period')}
                     </small>
                   )}
                 </div>

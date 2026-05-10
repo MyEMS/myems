@@ -156,6 +156,10 @@ export default {
             'Usage Intensity': 'Nutzungsintensität',
             'Dashboard data loaded successfully': 'Dashboard-Daten erfolgreich geladen',
             'Failed to load dashboard data': 'Dashboard-Daten konnten nicht geladen werden',
+            'Store Name': 'Filialname',
+            'Store Area': 'Filialfläche',
+            'Energy Consumption': 'Energieverbrauch',
+            'Consumption': 'Verbrauch',
 
             // Dashboard
             'Welcome to MyEMS': 'Willkommen bei MyEMS',
