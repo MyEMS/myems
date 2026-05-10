@@ -5,7 +5,7 @@ import { Collapse, Nav, NavItem, NavLink as BootstrapNavLink } from 'reactstrap'
 import AppContext from '../../context/Context';
 import NavbarVerticalMenuItem from './NavbarVerticalMenuItem';
 
-const NavbarVerticalMenu = ({ routes, location }) => {
+const NavbarVerticalMenu = ({ routes, location, history }) => {
   const [openedIndex, setOpenedIndex] = useState(null);
   const { setShowBurgerMenu } = useContext(AppContext);
 
@@ -22,6 +22,15 @@ const NavbarVerticalMenu = ({ routes, location }) => {
   const toggleOpened = (e, index) => {
     e.preventDefault();
     return setOpenedIndex(openedIndex === index ? null : index);
+  };
+
+  const handleParentClick = (e, route, index) => {
+    e.preventDefault();
+    if (route.children && route.children.length > 0) {
+      const firstChild = route.children[0];
+      history.push(firstChild.to);
+    }
+    setOpenedIndex(openedIndex === index ? null : index);
   };
 
   const getHr = name => {
@@ -52,7 +61,7 @@ const NavbarVerticalMenu = ({ routes, location }) => {
         {getHr(route.name)}
         <NavItem>
           <BootstrapNavLink
-            onClick={e => toggleOpened(e, index)}
+            onClick={e => handleParentClick(e, route, index)}
             className="dropdown-indicator cursor-pointer"
             aria-expanded={openedIndex === index}
           >
@@ -74,7 +83,8 @@ const NavbarVerticalMenu = ({ routes, location }) => {
 
 NavbarVerticalMenu.propTypes = {
   routes: PropTypes.array.isRequired,
-  location: PropTypes.object.isRequired
+  location: PropTypes.object.isRequired,
+  history: PropTypes.object.isRequired
 };
 
 export default withRouter(NavbarVerticalMenu);
