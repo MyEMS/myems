@@ -154,6 +154,7 @@ export default {
         'Store Area': '매장 면적',
         'Energy Consumption': '에너지 소비량',
         'Consumption': '소비량',
+        'last period': '전기',
 
         // Dashboard
         'Welcome to MyEMS': 'MyEMS에 오신 것을 환영합니다',

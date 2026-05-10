@@ -160,6 +160,7 @@ export default {
             'Store Area': '门店面积',
             'Energy Consumption': '能耗',
             'Consumption': '消耗量',
+            'last period': '上期',
             // Dashboard
             'Welcome to MyEMS': '欢迎使用MyEMS',
             'An Industry Leading Open Source Energy Management System': '行业领先的开源能源管理系统',

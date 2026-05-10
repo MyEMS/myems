@@ -159,6 +159,7 @@ export default {
         'Store Area': 'Surface du magasin',
         'Energy Consumption': 'Consommation d\'énergie',
         'Consumption': 'Consommation',
+        'last period': 'période précédente',
 
         // Dashboard
         'Welcome to MyEMS': 'Bienvenue chez MyEMS',

@@ -159,6 +159,7 @@ export default {
         'Store Area': 'مساحت فروشگاه',
         'Energy Consumption': 'مصرف انرژی',
         'Consumption': 'مصرف',
+        'last period': 'دوره قبل',
 
         // Dashboard
         'Welcome to MyEMS': 'به MyEMS خوش آمدید',

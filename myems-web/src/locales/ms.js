@@ -159,6 +159,7 @@ export default {
         'Store Area': 'Kawasan Kedai',
         'Energy Consumption': 'Penggunaan Tenaga',
         'Consumption': 'Penggunaan',
+        'last period': 'tempoh lepas',
 
         // Dashboard
         'Welcome to MyEMS': 'Selamat datang ke MyEMS',

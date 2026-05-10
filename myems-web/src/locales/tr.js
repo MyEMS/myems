@@ -159,6 +159,7 @@ export default {
         'Store Area': 'Mağaza Alanı',
         'Energy Consumption': 'Enerji Tüketimi',
         'Consumption': 'Tüketim',
+        'last period': 'önceki dönem',
 
         // Dashboard
         'Welcome to MyEMS': "MyEMS'ye Hoş Geldiniz",

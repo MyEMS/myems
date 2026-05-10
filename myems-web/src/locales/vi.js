@@ -159,6 +159,7 @@ export default {
         'Store Area': 'Diện tích cửa hàng',
         'Energy Consumption': 'Tiêu thụ năng lượng',
         'Consumption': 'Tiêu thụ',
+        'last period': 'kỳ trước',
 
         // Dashboard
         'Welcome to MyEMS': 'Chào mừng bạn đến với MyEMS',

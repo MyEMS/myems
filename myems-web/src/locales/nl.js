@@ -159,6 +159,7 @@ export default {
         'Store Area': 'Winkel Oppervlakte',
         'Energy Consumption': 'Energieverbruik',
         'Consumption': 'Verbruik',
+        'last period': 'vorige periode',
 
         // Dashboard
         'Welcome to MyEMS': 'Welkom bij MyEMS',
