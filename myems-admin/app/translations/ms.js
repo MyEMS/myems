@@ -361,7 +361,6 @@
         IMPORT_TARIFF_DESCRIPTION_MORE: "Fungsi import kelompok membolehkan anda menggunakan berbilang kadar tenaga dengan pantas dengan menampal data konfigurasi dalam format JSON. Sila pastikan data JSON mematuhi struktur yang diperlukan oleh sistem (termasuk nama, kategori tenaga, jenis harga dan konfigurasi harga masa penggunaan, dll.). Adalah disyorkan untuk mengeksport kadar sedia ada sebagai templat terlebih dahulu, mengubah suainya dan kemudian mengimportnya untuk memastikan ketepatan format.",
         OFFLINE_METER_FILE_DESCRIPTION: "Pengurusan fail bacaan meter luar talian; muat naik kelompok dan import bacaan meter yang tidak dapat dikumpulkan dalam masa nyata.",
         OFFLINE_METER_FILE_DESCRIPTION_MORE: "Untuk meter luar talian yang tidak disambungkan ke sistem automasi, anda boleh melakukan kemasukan data kelompok melalui fail Excel. Sila muat turun templat standard dan isi nama meter serta bacaan untuk setiap titik masa, kemudian seret fail ke sini untuk dimuat naik. Selepas memuat naik, klik 'Pulihkan', dan sistem akan menukar bacaan kepada rekod penggunaan tenaga. Ini sangat penting untuk memastikan kesempurnaan statistik tenaga.",
-        ADD_CONTACT: "Tambah Kenalan",
         START_DATE: "Tarikh mula",
         END_DATE: "Tarikh tamat",
         START_DATE_AFTER_END_DATE:
@@ -2232,7 +2231,6 @@
           "Invalid Energy Storage Container Power Conversion System ID",
         INVALID_ENERGY_STORAGE_POWER_STATION_ID:
           "Invalid Energy Storage Power Station ID",
-        INVALID_PHASE_OF_LIFECYCLE: "Invalid Phase of Lifecycle",
         INVALID_EQUATION_IN_EXPRESSION: "Invalid Equation In Expression",
         INVALID_EQUIPMENT_ID: "Invalid Equipment ID",
         INVALID_EQUIPMENT_NAME: "Invalid Equipment Name",

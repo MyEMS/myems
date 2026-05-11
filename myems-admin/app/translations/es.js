@@ -2276,7 +2276,6 @@
           "Invalid Energy Storage Container Power Conversion System ID",
         INVALID_ENERGY_STORAGE_POWER_STATION_ID:
           "Invalid Energy Storage Power Station ID",
-        INVALID_PHASE_OF_LIFECYCLE: "Invalid Phase of Lifecycle",
         INVALID_EQUATION_IN_EXPRESSION: "Invalid Equation In Expression",
         INVALID_EQUIPMENT_ID: "Invalid Equipment ID",
         INVALID_EQUIPMENT_NAME: "Invalid Equipment Name",
