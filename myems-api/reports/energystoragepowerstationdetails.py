@@ -37,7 +37,8 @@ import mysql.connector
 import simplejson as json
 from core.useractivity import access_control, api_key_control
 import config
-
+import logging
+logger = logging.getLogger(__name__)
 
 class Reporting:
     def __init__(self):
@@ -712,14 +713,14 @@ class Reporting:
                 try:
                     if cur is not None:
                         cur.close()
-                except Exception:
-                    pass
+                except Exception as e:
+                    logger.warning(f"Ignored exception: {e}")
             for cnx in (cnx_historical, cnx_billing, cnx_energy, cnx_system):
                 try:
                     if cnx is not None:
                         cnx.close()
-                except Exception:
-                    pass
+                except Exception as e:
+                    logger.warning(f"Ignored exception: {e}")
 
         ################################################################################################################
         # Step 9: construct the report

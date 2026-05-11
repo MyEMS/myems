@@ -11,6 +11,7 @@ import config
 import excelexporters.combinedequipmentcomparison
 from core import utilities
 from core.useractivity import access_control, api_key_control
+import logging
 
 logger = logging.getLogger(__name__)
 
@@ -517,33 +518,33 @@ class Reporting:
             if cursor_system is not None:
                 try:
                     cursor_system.close()
-                except Exception:
-                    pass
+                except Exception as e:
+                    logger.warning(f"Ignored exception: {e}")
             if cursor_energy is not None:
                 try:
                     cursor_energy.close()
-                except Exception:
-                    pass
+                except Exception as e:
+                    logger.warning(f"Ignored exception: {e}")
             if cursor_historical is not None:
                 try:
                     cursor_historical.close()
-                except Exception:
-                    pass
+                except Exception as e:
+                    logger.warning(f"Ignored exception: {e}")
             if cnx_system is not None:
                 try:
                     cnx_system.close()
-                except Exception:
-                    pass
+                except Exception as e:
+                    logger.warning(f"Ignored exception: {e}")
             if cnx_energy is not None:
                 try:
                     cnx_energy.close()
-                except Exception:
-                    pass
+                except Exception as e:
+                    logger.warning(f"Ignored exception: {e}")
             if cnx_historical is not None:
                 try:
                     cnx_historical.close()
-                except Exception:
-                    pass
+                except Exception as e:
+                    logger.warning(f"Ignored exception: {e}")
 
         ################################################################################################################
         # Step 5: construct the report
