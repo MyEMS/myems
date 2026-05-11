@@ -2245,7 +2245,6 @@
           "Invalid Energy Storage Container Power Conversion System ID",
         INVALID_ENERGY_STORAGE_POWER_STATION_ID:
           "Invalid Energy Storage Power Station ID",
-        INVALID_PHASE_OF_LIFECYCLE: "Invalid Phase of Lifecycle",
         INVALID_EQUATION_IN_EXPRESSION: "Ekspresi tidak valid dalam ekspresi",
         INVALID_EQUIPMENT_ID: "ID perangkat tidak valid",
         INVALID_EQUIPMENT_NAME: "Nama perangkat tidak valid",

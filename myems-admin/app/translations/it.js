@@ -2219,7 +2219,6 @@
           "ID del sistema di conversione della potenza del contenitore di accumulo energia non valido",
         INVALID_ENERGY_STORAGE_POWER_STATION_ID:
           "ID della stazione di accumulo energia non valido",
-        INVALID_PHASE_OF_LIFECYCLE: "Invalid Phase of Lifecycle",
         INVALID_EQUATION_IN_EXPRESSION: "Equazione non valida nell espressione",
         INVALID_EQUIPMENT_ID: "ID attrezzatura non valido",
         INVALID_EQUIPMENT_NAME: "Nome attrezzatura non valido",
