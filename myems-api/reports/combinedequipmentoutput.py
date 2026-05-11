@@ -599,32 +599,32 @@ class Reporting:
                 try:
                     cursor_historical.close()
                 except Exception as e:
-                    logging.warning(f"Ignored exception: {e}")
+                    logger.warning(f"Ignored exception: {e}")
             if cnx_historical is not None:
                 try:
                     cnx_historical.close()
                 except Exception as e:
-                    logging.warning(f"Ignored exception: {e}")
+                    logger.warning(f"Ignored exception: {e}")
             if cursor_energy is not None:
                 try:
                     cursor_energy.close()
                 except Exception as e:
-                    logging.warning(f"Ignored exception: {e}")
+                    logger.warning(f"Ignored exception: {e}")
             if cnx_energy is not None:
                 try:
                     cnx_energy.close()
                 except Exception as e:
-                    logging.warning(f"Ignored exception: {e}")
+                    logger.warning(f"Ignored exception: {e}")
             if cursor_system is not None:
                 try:
                     cursor_system.close()
                 except Exception as e:
-                    logging.warning(f"Ignored exception: {e}")
+                    logger.warning(f"Ignored exception: {e}")
             if cnx_system is not None:
                 try:
                     cnx_system.close()
                 except Exception as e:
-                    logging.warning(f"Ignored exception: {e}")
+                    logger.warning(f"Ignored exception: {e}")
 
         result = dict()
 

@@ -9,6 +9,7 @@ import config
 from decimal import Decimal
 import logging
 
+logger = logging.getLogger(__name__)
 def clear_equipment_cache(equipment_id=None):
     """
     Clear equipment-related cache after data modification
@@ -69,7 +70,7 @@ def clear_equipment_cache(equipment_id=None):
             try:
                 redis_client.close()
             except Exception as e:
-                logging.warning(f"Ignored exception: {e}")
+                logger.warning(f"Ignored exception: {e}")
 
 
 class EquipmentCollection:
@@ -214,7 +215,7 @@ class EquipmentCollection:
                 try:
                     redis_client.close()
                 except Exception as e:
-                    logging.warning(f"Ignored exception: {e}")
+                    logger.warning(f"Ignored exception: {e}")
 
         resp.text = result_json
 
@@ -484,7 +485,7 @@ class EquipmentItem:
                 try:
                     redis_client.close()
                 except Exception as e:
-                    logging.warning(f"Ignored exception: {e}")
+                    logger.warning(f"Ignored exception: {e}")
 
         resp.text = result_json
 
@@ -1079,7 +1080,7 @@ class EquipmentParameterCollection:
                 try:
                     redis_client.close()
                 except Exception as e:
-                    logging.warning(f"Ignored exception: {e}")
+                    logger.warning(f"Ignored exception: {e}")
 
         resp.text = result_json
 

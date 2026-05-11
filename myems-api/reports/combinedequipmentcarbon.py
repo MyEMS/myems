@@ -622,32 +622,32 @@ class Reporting:
                 try:
                     cursor_historical.close()
                 except Exception as e:
-                    logging.warning(f"Ignored exception: {e}")
+                    logger.warning(f"Ignored exception: {e}")
             if cnx_historical is not None:
                 try:
                     cnx_historical.close()
                 except Exception as e:
-                    logging.warning(f"Ignored exception: {e}")
+                    logger.warning(f"Ignored exception: {e}")
             if cursor_carbon is not None:
                 try:
                     cursor_carbon.close()
                 except Exception as e:
-                    logging.warning(f"Ignored exception: {e}")
+                    logger.warning(f"Ignored exception: {e}")
             if cnx_carbon is not None:
                 try:
                     cnx_carbon.close()
                 except Exception as e:
-                    logging.warning(f"Ignored exception: {e}")
+                    logger.warning(f"Ignored exception: {e}")
             if cursor_system is not None:
                 try:
                     cursor_system.close()
                 except Exception as e:
-                    logging.warning(f"Ignored exception: {e}")
+                    logger.warning(f"Ignored exception: {e}")
             if cnx_system is not None:
                 try:
                     cnx_system.close()
                 except Exception as e:
-                    logging.warning(f"Ignored exception: {e}")
+                    logger.warning(f"Ignored exception: {e}")
 
         ################################################################################################################
         # Step 11: construct the report (in-memory, no DB)

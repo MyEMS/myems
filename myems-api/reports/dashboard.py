@@ -41,7 +41,7 @@ import config
 from core import utilities
 from core.useractivity import access_control, api_key_control
 import logging
-
+logger = logging.getLogger(__name__)
 
 class Reporting:
     def __init__(self):
@@ -1066,4 +1066,4 @@ class Reporting:
             try:
                 redis_client.setex(cache_key, cache_expire, result_json)
             except Exception as e:
-                logging.warning(f"Ignored exception: {e}")
+                logger.warning(f"Ignored exception: {e}")

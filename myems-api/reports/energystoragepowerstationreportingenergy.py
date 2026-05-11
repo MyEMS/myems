@@ -43,6 +43,7 @@ from core.useractivity import access_control, api_key_control
 from core.utilities import get_translation
 import logging
 
+logger = logging.getLogger(__name__)
 
 class Reporting:
     def __init__(self):
@@ -636,32 +637,32 @@ class Reporting:
                 try:
                     cursor_energy.close()
                 except Exception as e:
-                    logging.warning(f"Ignored exception: {e}")
+                    logger.warning(f"Ignored exception: {e}")
             if cnx_energy is not None:
                 try:
                     cnx_energy.close()
                 except Exception as e:
-                    logging.warning(f"Ignored exception: {e}")
+                    logger.warning(f"Ignored exception: {e}")
             if cursor_historical is not None:
                 try:
                     cursor_historical.close()
                 except Exception as e:
-                    logging.warning(f"Ignored exception: {e}")
+                    logger.warning(f"Ignored exception: {e}")
             if cnx_historical is not None:
                 try:
                     cnx_historical.close()
                 except Exception as e:
-                    logging.warning(f"Ignored exception: {e}")
+                    logger.warning(f"Ignored exception: {e}")
             if cursor_system is not None:
                 try:
                     cursor_system.close()
                 except Exception as e:
-                    logging.warning(f"Ignored exception: {e}")
+                    logger.warning(f"Ignored exception: {e}")
             if cnx_system is not None:
                 try:
                     cnx_system.close()
                 except Exception as e:
-                    logging.warning(f"Ignored exception: {e}")
+                    logger.warning(f"Ignored exception: {e}")
 
         ################################################################################################################
         # Step 8: construct the report

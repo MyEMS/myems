@@ -8,7 +8,7 @@ from core.useractivity import user_logger, admin_control, access_control, api_ke
 import config
 import logging
 
-
+logger = logging.getLogger(__name__)
 def clear_energy_flow_diagram_cache(diagram_id=None):
     """
     Clear energy flow diagram-related cache after data modification
@@ -72,7 +72,7 @@ def clear_energy_flow_diagram_cache(diagram_id=None):
             try:
                 redis_client.close()
             except Exception as e:
-                logging.warning(f"Ignored exception: {e}")
+                logger.warning(f"Ignored exception: {e}")
 
 
 class EnergyFlowDiagramCollection:
@@ -294,7 +294,7 @@ class EnergyFlowDiagramCollection:
                 try:
                     redis_client.close()
                 except Exception as e:
-                    logging.warning(f"Ignored exception: {e}")
+                    logger.warning(f"Ignored exception: {e}")
 
         resp.text = result_json
 
@@ -554,7 +554,7 @@ class EnergyFlowDiagramItem:
                 try:
                     redis_client.close()
                 except Exception as e:
-                    logging.warning(f"Ignored exception: {e}")
+                    logger.warning(f"Ignored exception: {e}")
 
         resp.text = result_json
 
@@ -843,7 +843,7 @@ class EnergyFlowDiagramLinkCollection:
                 try:
                     redis_client.close()
                 except Exception as e:
-                    logging.warning(f"Ignored exception: {e}")
+                    logger.warning(f"Ignored exception: {e}")
 
         resp.text = result_json
 
@@ -1160,7 +1160,7 @@ class EnergyFlowDiagramLinkItem:
                 try:
                     redis_client.close()
                 except Exception as e:
-                    logging.warning(f"Ignored exception: {e}")
+                    logger.warning(f"Ignored exception: {e}")
 
         resp.text = result_json
 
@@ -1489,7 +1489,7 @@ class EnergyFlowDiagramNodeCollection:
                 try:
                     redis_client.close()
                 except Exception as e:
-                    logging.warning(f"Ignored exception: {e}")
+                    logger.warning(f"Ignored exception: {e}")
 
         resp.text = result_json
 
@@ -1654,7 +1654,7 @@ class EnergyFlowDiagramNodeItem:
                 try:
                     redis_client.close()
                 except Exception as e:
-                    logging.warning(f"Ignored exception: {e}")
+                    logger.warning(f"Ignored exception: {e}")
 
         resp.text = result_json
 
@@ -1988,7 +1988,7 @@ class EnergyFlowDiagramExport:
                 try:
                     redis_client.close()
                 except Exception as e:
-                    logging.warning(f"Ignored exception: {e}")
+                    logger.warning(f"Ignored exception: {e}")
 
         resp.text = result_json
 

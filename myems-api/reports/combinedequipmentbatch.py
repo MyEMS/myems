@@ -304,22 +304,22 @@ class Reporting:
                 try:
                     cursor_energy_db.close()
                 except Exception as e:
-                    logging.warning(f"Ignored exception: {e}")
+                    logger.warning(f"Ignored exception: {e}")
             if cnx_energy_db is not None:
                 try:
                     cnx_energy_db.close()
                 except Exception as e:
-                    logging.warning(f"Ignored exception: {e}")
+                    logger.warning(f"Ignored exception: {e}")
             if cursor_system_db is not None:
                 try:
                     cursor_system_db.close()
                 except Exception as e:
-                    logging.warning(f"Ignored exception: {e}")
+                    logger.warning(f"Ignored exception: {e}")
             if cnx_system_db is not None:
                 try:
                     cnx_system_db.close()
                 except Exception as e:
-                    logging.warning(f"Ignored exception: {e}")
+                    logger.warning(f"Ignored exception: {e}")
 
         ################################################################################################################
         # Step 6: construct the report

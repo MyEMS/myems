@@ -35,7 +35,7 @@ import simplejson as json
 from core.useractivity import access_control, api_key_control
 import config
 import logging
-
+logger = logging.getLogger(__name__)
 
 class AdvancedReportFileCollection:
     def __init__(self):
@@ -129,12 +129,12 @@ class AdvancedReportFileCollection:
                 try:
                     cursor_reporting.close()
                 except Exception as e:
-                    logging.warning(f"Ignored exception: {e}")
+                    logger.warning(f"Ignored exception: {e}")
             if cnx_reporting is not None:
                 try:
                     cnx_reporting.close()
                 except Exception as e:
-                    logging.warning(f"Ignored exception: {e}")
+                    logger.warning(f"Ignored exception: {e}")
 
         ################################################################################################################
         # Step 3: construct the result
@@ -197,12 +197,12 @@ class AdvancedReportFileItem:
                 try:
                     cursor_reporting.close()
                 except Exception as e:
-                    logging.warning(f"Ignored exception: {e}")
+                    logger.warning(f"Ignored exception: {e}")
             if cnx_reporting is not None:
                 try:
                     cnx_reporting.close()
                 except Exception as e:
-                    logging.warning(f"Ignored exception: {e}")
+                    logger.warning(f"Ignored exception: {e}")
 
         if row is None:
             raise falcon.HTTPError(status=falcon.HTTP_404,
@@ -249,11 +249,11 @@ class AdvancedReportFileItem:
                 try:
                     cursor_reporting.close()
                 except Exception as e:
-                    logging.warning(f"Ignored exception: {e}")
+                    logger.warning(f"Ignored exception: {e}")
             if cnx_reporting is not None:
                 try:
                     cnx_reporting.close()
                 except Exception as e:
-                    logging.warning(f"Ignored exception: {e}")
+                    logger.warning(f"Ignored exception: {e}")
 
         resp.status = falcon.HTTP_204

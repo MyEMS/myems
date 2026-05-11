@@ -10,7 +10,7 @@ from core.useractivity import user_logger, admin_control, access_control, api_ke
 import config
 import logging
 
-
+logger = logging.getLogger(__name__)
 def clear_space_cache(space_id=None, parent_space_id=None):
     """
     Clear space-related cache after data modification
@@ -237,7 +237,7 @@ class SpaceCollection:
             try:
                 redis_client.setex(cache_key, cache_expire, result_json)
             except Exception as e:
-                logging.warning(f"Ignored exception: {e}")
+                logger.warning(f"Ignored exception: {e}")
 
         resp.text = result_json
 
@@ -592,7 +592,7 @@ class SpaceItem:
             try:
                 redis_client.setex(cache_key, cache_expire, result_json)
             except Exception as e:
-                logging.warning(f"Ignored exception: {e}")
+                logger.warning(f"Ignored exception: {e}")
 
         resp.text = result_json
 
@@ -1089,7 +1089,7 @@ class SpaceChildrenCollection:
             try:
                 redis_client.setex(cache_key, cache_expire, result_json)
             except Exception as e:
-                logging.warning(f"Ignored exception: {e}")
+                logger.warning(f"Ignored exception: {e}")
 
         resp.text = result_json
 

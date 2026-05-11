@@ -7,6 +7,7 @@ from core.useractivity import user_logger, admin_control, access_control, api_ke
 import config
 import logging
 
+logger = logging.getLogger(__name__)
 def clear_energycategory_cache(energy_category_id=None):
     """
     Clear energy category-related cache after data modification
@@ -50,7 +51,7 @@ def clear_energycategory_cache(energy_category_id=None):
             try:
                 redis_client.close()
             except Exception as e:
-                logging.warning(f"Ignored exception: {e}")
+                logger.warning(f"Ignored exception: {e}")
 
 
 class EnergyCategoryCollection:
@@ -147,7 +148,7 @@ class EnergyCategoryCollection:
                 try:
                     redis_client.close()
                 except Exception as e:
-                    logging.warning(f"Ignored exception: {e}")
+                    logger.warning(f"Ignored exception: {e}")
 
         resp.text = result_json
 
@@ -333,7 +334,7 @@ class EnergyCategoryItem:
                 try:
                     redis_client.close()
                 except Exception as e:
-                    logging.warning(f"Ignored exception: {e}")
+                    logger.warning(f"Ignored exception: {e}")
 
         resp.text = result_json
 
