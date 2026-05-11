@@ -2171,7 +2171,6 @@
           "شناسه سیستم تبدیل توان کانتینر ذخیره انرژی نامعتبر",
         INVALID_ENERGY_STORAGE_POWER_STATION_ID:
           "شناسه نیروگاه ذخیره انرژی نامعتبر",
-        INVALID_PHASE_OF_LIFECYCLE: "مرحله چرخه حیات نامعتبر",
         INVALID_EQUATION_IN_EXPRESSION: "معادله در عبارت نامعتبر",
         INVALID_EQUIPMENT_ID: "شناسه تجهیزات نامعتبر",
         INVALID_EQUIPMENT_NAME: "نام تجهیزات نامعتبر",
