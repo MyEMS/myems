@@ -36,8 +36,9 @@ import simplejson as json
 from decimal import Decimal
 from core.useractivity import access_control
 import config
+import logging
 
-
+logger = logging.getLogger(__name__)
 class Reporting:
     def __init__(self):
         """Initializes Class"""
@@ -72,13 +73,13 @@ class Reporting:
             if cursor_user_db is not None:
                 try:
                     cursor_user_db.close()
-                except Exception:
-                    pass
+                except Exception as e:
+                    logger.warning(f"Ignored exception: {e}")
             if cnx_user_db is not None:
                 try:
                     cnx_user_db.close()
-                except Exception:
-                    pass
+                except Exception as e:
+                    logger.warning(f"Ignored exception: {e}")
 
         # Get all points latest values
         digital_value_latest_dict = dict()
@@ -109,13 +110,13 @@ class Reporting:
             if cursor_historical_db is not None:
                 try:
                     cursor_historical_db.close()
-                except Exception:
-                    pass
+                except Exception as e:
+                    logger.warning(f"Ignored exception: {e}")
             if cnx_historical_db is not None:
                 try:
                     cnx_historical_db.close()
-                except Exception:
-                    pass
+                except Exception as e:
+                    logger.warning(f"Ignored exception: {e}")
 
         # get charge data in latest 24 hours
         timezone_offset = int(config.utc_offset[1:3]) * 60 + int(config.utc_offset[4:6])
@@ -190,13 +191,13 @@ class Reporting:
             if cursor_energy_db is not None:
                 try:
                     cursor_energy_db.close()
-                except Exception:
-                    pass
+                except Exception as e:
+                    logger.warning(f"Ignored exception: {e}")
             if cnx_energy_db is not None:
                 try:
                     cnx_energy_db.close()
-                except Exception:
-                    pass
+                except Exception as e:
+                    logger.warning(f"Ignored exception: {e}")
 
         default_time_list = list()
         default_value_list = list()
@@ -430,11 +431,11 @@ class Reporting:
             if cursor_system_db is not None:
                 try:
                     cursor_system_db.close()
-                except Exception:
-                    pass
+                except Exception as e:
+                    logger.warning(f"Ignored exception: {e}")
             if cnx_system_db is not None:
                 try:
                     cnx_system_db.close()
-                except Exception:
-                    pass
+                except Exception as e:
+                    logger.warning(f"Ignored exception: {e}")
         resp.text = json.dumps(result)

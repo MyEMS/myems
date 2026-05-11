@@ -42,6 +42,7 @@ from anytree import AnyNode, LevelOrderIter
 import config
 import excelexporters.combinedequipmentbatch
 from core.useractivity import access_control, api_key_control
+import logging
 
 logger = logging.getLogger(__name__)
 
@@ -302,23 +303,23 @@ class Reporting:
             if cursor_energy_db is not None:
                 try:
                     cursor_energy_db.close()
-                except Exception:
-                    pass
+                except Exception as e:
+                    logger.warning(f"Ignored exception: {e}")
             if cnx_energy_db is not None:
                 try:
                     cnx_energy_db.close()
-                except Exception:
-                    pass
+                except Exception as e:
+                    logger.warning(f"Ignored exception: {e}")
             if cursor_system_db is not None:
                 try:
                     cursor_system_db.close()
-                except Exception:
-                    pass
+                except Exception as e:
+                    logger.warning(f"Ignored exception: {e}")
             if cnx_system_db is not None:
                 try:
                     cnx_system_db.close()
-                except Exception:
-                    pass
+                except Exception as e:
+                    logger.warning(f"Ignored exception: {e}")
 
         ################################################################################################################
         # Step 6: construct the report
