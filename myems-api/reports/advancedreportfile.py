@@ -34,6 +34,7 @@ import mysql.connector
 import simplejson as json
 from core.useractivity import access_control, api_key_control
 import config
+import logging
 
 
 class AdvancedReportFileCollection:
@@ -127,13 +128,13 @@ class AdvancedReportFileCollection:
             if cursor_reporting is not None:
                 try:
                     cursor_reporting.close()
-                except Exception:
-                    pass
+                except Exception as e:
+                    logging.warning(f"Ignored exception: {e}")
             if cnx_reporting is not None:
                 try:
                     cnx_reporting.close()
-                except Exception:
-                    pass
+                except Exception as e:
+                    logging.warning(f"Ignored exception: {e}")
 
         ################################################################################################################
         # Step 3: construct the result
@@ -195,13 +196,13 @@ class AdvancedReportFileItem:
             if cursor_reporting is not None:
                 try:
                     cursor_reporting.close()
-                except Exception:
-                    pass
+                except Exception as e:
+                    logging.warning(f"Ignored exception: {e}")
             if cnx_reporting is not None:
                 try:
                     cnx_reporting.close()
-                except Exception:
-                    pass
+                except Exception as e:
+                    logging.warning(f"Ignored exception: {e}")
 
         if row is None:
             raise falcon.HTTPError(status=falcon.HTTP_404,
@@ -247,12 +248,12 @@ class AdvancedReportFileItem:
             if cursor_reporting is not None:
                 try:
                     cursor_reporting.close()
-                except Exception:
-                    pass
+                except Exception as e:
+                    logging.warning(f"Ignored exception: {e}")
             if cnx_reporting is not None:
                 try:
                     cnx_reporting.close()
-                except Exception:
-                    pass
+                except Exception as e:
+                    logging.warning(f"Ignored exception: {e}")
 
         resp.status = falcon.HTTP_204

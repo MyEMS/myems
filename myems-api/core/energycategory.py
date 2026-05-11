@@ -5,7 +5,7 @@ import simplejson as json
 import redis
 from core.useractivity import user_logger, admin_control, access_control, api_key_control
 import config
-
+import logging
 
 def clear_energycategory_cache(energy_category_id=None):
     """
@@ -49,8 +49,8 @@ def clear_energycategory_cache(energy_category_id=None):
         if redis_client:
             try:
                 redis_client.close()
-            except Exception:
-                pass
+            except Exception as e:
+                logging.warning(f"Ignored exception: {e}")
 
 
 class EnergyCategoryCollection:
@@ -146,8 +146,8 @@ class EnergyCategoryCollection:
             finally:
                 try:
                     redis_client.close()
-                except Exception:
-                    pass
+                except Exception as e:
+                    logging.warning(f"Ignored exception: {e}")
 
         resp.text = result_json
 
@@ -332,8 +332,8 @@ class EnergyCategoryItem:
             finally:
                 try:
                     redis_client.close()
-                except Exception:
-                    pass
+                except Exception as e:
+                    logging.warning(f"Ignored exception: {e}")
 
         resp.text = result_json
 

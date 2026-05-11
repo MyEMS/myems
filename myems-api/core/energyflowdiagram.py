@@ -6,6 +6,7 @@ import simplejson as json
 import redis
 from core.useractivity import user_logger, admin_control, access_control, api_key_control
 import config
+import logging
 
 
 def clear_energy_flow_diagram_cache(diagram_id=None):
@@ -70,8 +71,8 @@ def clear_energy_flow_diagram_cache(diagram_id=None):
         if redis_client:
             try:
                 redis_client.close()
-            except Exception:
-                pass
+            except Exception as e:
+                logging.warning(f"Ignored exception: {e}")
 
 
 class EnergyFlowDiagramCollection:
@@ -292,8 +293,8 @@ class EnergyFlowDiagramCollection:
             finally:
                 try:
                     redis_client.close()
-                except Exception:
-                    pass
+                except Exception as e:
+                    logging.warning(f"Ignored exception: {e}")
 
         resp.text = result_json
 
@@ -552,8 +553,8 @@ class EnergyFlowDiagramItem:
             finally:
                 try:
                     redis_client.close()
-                except Exception:
-                    pass
+                except Exception as e:
+                    logging.warning(f"Ignored exception: {e}")
 
         resp.text = result_json
 
@@ -841,8 +842,8 @@ class EnergyFlowDiagramLinkCollection:
             finally:
                 try:
                     redis_client.close()
-                except Exception:
-                    pass
+                except Exception as e:
+                    logging.warning(f"Ignored exception: {e}")
 
         resp.text = result_json
 
@@ -1158,8 +1159,8 @@ class EnergyFlowDiagramLinkItem:
             finally:
                 try:
                     redis_client.close()
-                except Exception:
-                    pass
+                except Exception as e:
+                    logging.warning(f"Ignored exception: {e}")
 
         resp.text = result_json
 
@@ -1487,8 +1488,8 @@ class EnergyFlowDiagramNodeCollection:
             finally:
                 try:
                     redis_client.close()
-                except Exception:
-                    pass
+                except Exception as e:
+                    logging.warning(f"Ignored exception: {e}")
 
         resp.text = result_json
 
@@ -1652,8 +1653,8 @@ class EnergyFlowDiagramNodeItem:
             finally:
                 try:
                     redis_client.close()
-                except Exception:
-                    pass
+                except Exception as e:
+                    logging.warning(f"Ignored exception: {e}")
 
         resp.text = result_json
 
@@ -1986,8 +1987,8 @@ class EnergyFlowDiagramExport:
             finally:
                 try:
                     redis_client.close()
-                except Exception:
-                    pass
+                except Exception as e:
+                    logging.warning(f"Ignored exception: {e}")
 
         resp.text = result_json
 

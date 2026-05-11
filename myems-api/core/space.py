@@ -8,6 +8,7 @@ from anytree import AnyNode, LevelOrderIter
 from anytree.exporter import JsonExporter
 from core.useractivity import user_logger, admin_control, access_control, api_key_control
 import config
+import logging
 
 
 def clear_space_cache(space_id=None, parent_space_id=None):
@@ -235,8 +236,8 @@ class SpaceCollection:
         if redis_client:
             try:
                 redis_client.setex(cache_key, cache_expire, result_json)
-            except Exception:
-                pass
+            except Exception as e:
+                logging.warning(f"Ignored exception: {e}")
 
         resp.text = result_json
 
@@ -590,8 +591,8 @@ class SpaceItem:
         if redis_client:
             try:
                 redis_client.setex(cache_key, cache_expire, result_json)
-            except Exception:
-                pass
+            except Exception as e:
+                logging.warning(f"Ignored exception: {e}")
 
         resp.text = result_json
 
@@ -1087,8 +1088,8 @@ class SpaceChildrenCollection:
         if redis_client:
             try:
                 redis_client.setex(cache_key, cache_expire, result_json)
-            except Exception:
-                pass
+            except Exception as e:
+                logging.warning(f"Ignored exception: {e}")
 
         resp.text = result_json
 

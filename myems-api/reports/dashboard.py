@@ -40,6 +40,7 @@ import hashlib
 import config
 from core import utilities
 from core.useractivity import access_control, api_key_control
+import logging
 
 
 class Reporting:
@@ -1064,5 +1065,5 @@ class Reporting:
         if config.redis.get('is_enabled') and redis_client:
             try:
                 redis_client.setex(cache_key, cache_expire, result_json)
-            except Exception:
-                pass
+            except Exception as e:
+                logging.warning(f"Ignored exception: {e}")

@@ -31,6 +31,7 @@ from openpyxl.chart.label import DataLabelList
 from openpyxl.drawing.image import Image
 from openpyxl.styles import PatternFill, Border, Side, Alignment, Font
 from core.utilities import round2
+import logging
 
 ########################################################################################################################
 # PROCEDURES
@@ -153,8 +154,8 @@ def generate_excel(report,
     try:
         img = Image("excelexporters/myems.png")
         ws.add_image(img, 'A1')
-    except Exception:
-        pass
+    except Exception as e:
+        logging.warning(f"Ignored exception: {e}")
 
     # Title
     ws['B3'].alignment = b_r_alignment

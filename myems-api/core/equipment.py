@@ -7,7 +7,7 @@ import redis
 from core.useractivity import user_logger, admin_control, access_control, api_key_control
 import config
 from decimal import Decimal
-
+import logging
 
 def clear_equipment_cache(equipment_id=None):
     """
@@ -68,8 +68,8 @@ def clear_equipment_cache(equipment_id=None):
         if redis_client:
             try:
                 redis_client.close()
-            except Exception:
-                pass
+            except Exception as e:
+                logging.warning(f"Ignored exception: {e}")
 
 
 class EquipmentCollection:
@@ -213,8 +213,8 @@ class EquipmentCollection:
             finally:
                 try:
                     redis_client.close()
-                except Exception:
-                    pass
+                except Exception as e:
+                    logging.warning(f"Ignored exception: {e}")
 
         resp.text = result_json
 
@@ -483,8 +483,8 @@ class EquipmentItem:
             finally:
                 try:
                     redis_client.close()
-                except Exception:
-                    pass
+                except Exception as e:
+                    logging.warning(f"Ignored exception: {e}")
 
         resp.text = result_json
 
@@ -1078,8 +1078,8 @@ class EquipmentParameterCollection:
             finally:
                 try:
                     redis_client.close()
-                except Exception:
-                    pass
+                except Exception as e:
+                    logging.warning(f"Ignored exception: {e}")
 
         resp.text = result_json
 
