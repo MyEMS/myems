@@ -651,6 +651,17 @@ class Reporting:
             ################################################################################################################
             # Step 11: Construct the report
             ################################################################################################################
+            
+            # Prepare store details for response
+            store_details = []
+            for store in store_list:
+                store_details.append({
+                    'id': store['id'],
+                    'name': store['name'],
+                    'area': float(store['area']) if store['area'] else 0.0,
+                    'address': store['address'] if store['address'] else '',
+                })
+            
             result = {
                 'summary': {
                     'total_stores': total_stores,
@@ -659,6 +670,7 @@ class Reporting:
                     'total_sensors': total_sensors,
                     'total_alerts': total_alerts,
                 },
+                'stores': store_details,
                 'reporting_period_input': reporting_input,
                 'base_period_input': base_input,
                 'reporting_period_cost': reporting_cost,
@@ -667,7 +679,7 @@ class Reporting:
                 'reporting_period_start': reporting_start_datetime_utc.isoformat(),
                 'reporting_period_end': reporting_end_datetime_utc.isoformat(),
             }
-
+            #print(result)
             resp.text = json.dumps(result)
 
             # Cache the result

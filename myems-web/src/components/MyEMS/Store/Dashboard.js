@@ -79,6 +79,7 @@ const Dashboard = ({setRedirect, setRedirectUrl, t}) => {
     });
 
     const [topStores, setTopStores] = useState([]);
+    const [allStores, setAllStores] = useState([]);
     const [monthlyTrends, setMonthlyTrends] = useState({
         labels: [],
         energy: [],
@@ -132,6 +133,7 @@ const Dashboard = ({setRedirect, setRedirectUrl, t}) => {
             setEnergyData(json.reporting_period_input || {});
             setCostData(json.reporting_period_cost || {});
             setTopStores(json.top_stores || []);
+            setAllStores(json.stores || []);
 
             // Process monthly trends
             if (json.reporting_period_input.timestamps && json.reporting_period_input.timestamps.length > 0) {
@@ -651,28 +653,59 @@ const Dashboard = ({setRedirect, setRedirectUrl, t}) => {
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    {topStores.map((store, index) => (
-                                        <tr key={store.id}>
-                                            <td>
-                                                <strong>{store.name}</strong>
-                                                <Badge color="primary" className="ml-2">#{index + 1}</Badge>
-                                            </td>
-                                            <td className="text-muted">-</td>
-                                            <td className="text-right">-</td>
-                                            <td className="text-right">
-                                                <strong>{store.total_energy.toFixed(2)}</strong>
-                                            </td>
-                                            <td>
-                                                <Progress
-                                                    value={Math.min((store.total_energy / (topStores[0]?.total_energy || 1)) * 100, 100)}
-                                                    color={index === 0 ? 'danger' : index === 1 ? 'warning' : 'info'}
-                                                    style={{height: '20px'}}
-                                                >
-                                                    {((store.total_energy / (topStores[0]?.total_energy || 1)) * 100).toFixed(1)}%
-                                                </Progress>
-                                            </td>
-                                        </tr>
-                                    ))}
+                                    {allStores.map(store => {
+                                        const storeEnergyData = topStores.find(ts => ts.id === store.id);
+                                        return {
+                                            ...store,
+                                            total_energy: storeEnergyData ? storeEnergyData.total_energy : 0
+                                        };
+                                    })
+                                    .sort((a, b) => b.total_energy - a.total_energy)
+                                    .map((store, index) => {
+                                        const maxEnergy = allStores.length > 0 && topStores.length > 0 
+                                            ? (topStores[0]?.total_energy || 1) 
+                                            : 1;
+                                        const topRank = topStores.findIndex(ts => ts.id === store.id);
+                                        const isTopFive = topRank >= 0 && topRank < 5;
+                                        
+                                        return (
+                                            <tr key={store.id}>
+                                                <td>
+                                                    <strong>{store.name}</strong>
+                                                    {isTopFive && (
+                                                        <Badge color="primary" className="ml-2">
+                                                            #{topRank + 1}
+                                                        </Badge>
+                                                    )}
+                                                </td>
+                                                <td className="text-muted">{store.address || '-'}</td>
+                                                <td className="text-right">{store.area ? store.area.toFixed(2) : '-'}</td>
+                                                <td className="text-right">
+                                                    <strong>{store.total_energy.toFixed(2)}</strong>
+                                                </td>
+                                                <td>
+                                                    {store.total_energy > 0 ? (
+                                                        <Progress
+                                                            value={Math.min((store.total_energy / maxEnergy) * 100, 100)}
+                                                            color={topRank === 0 ? 'danger' : 
+                                                                   topRank === 1 ? 'warning' : 'info'}
+                                                            style={{height: '20px'}}
+                                                        >
+                                                            {((store.total_energy / maxEnergy) * 100).toFixed(1)}%
+                                                        </Progress>
+                                                    ) : (
+                                                        <Progress
+                                                            value={0}
+                                                            color="light"
+                                                            style={{height: '20px'}}
+                                                        >
+                                                            0%
+                                                        </Progress>
+                                                    )}
+                                                </td>
+                                            </tr>
+                                        );
+                                    })}
                                     </tbody>
                                 </table>
                             </div>
