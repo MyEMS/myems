@@ -31,7 +31,6 @@ import {
     faArrowUp,
     faArrowDown
 } from '@fortawesome/free-solid-svg-icons';
-import '../../../assets/css/store-dashboard.css';
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, BarElement, ArcElement, Title, Tooltip, Legend);
 
