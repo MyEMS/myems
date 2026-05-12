@@ -160,7 +160,6 @@ export default {
         'Energy Consumption': 'Tiêu thụ năng lượng',
         'Consumption': 'Tiêu thụ',
         'last period': 'kỳ trước',
-
         // Dashboard
         'Welcome to MyEMS': 'Chào mừng bạn đến với MyEMS',
         'An Industry Leading Open Source Energy Management System':

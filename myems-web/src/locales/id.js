@@ -160,7 +160,6 @@ export default {
         'Energy Consumption': 'Konsumsi Energi',
         'Consumption': 'Konsumsi',
         'last period': 'periode sebelumnya',
-
         // Dashboard
         'Welcome to MyEMS': 'Selamat Datang Di MyEMS',
         'An Industry Leading Open Source Energy Management System':

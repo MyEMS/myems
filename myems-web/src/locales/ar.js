@@ -160,7 +160,6 @@ export default {
         'Energy Consumption': 'استهلاك الطاقة',
         'Consumption': 'الاستهلاك',
         'last period': 'الفترة السابقة',
-
         // Dashboard
         'Welcome to MyEMS': 'مرحبا بكم في MyEMS',
         'An Industry Leading Open Source Energy Management System': 'نظام إدارة طاقة مفتوح المصدر رائد في الصناعة',

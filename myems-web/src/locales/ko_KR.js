@@ -155,7 +155,6 @@ export default {
         'Energy Consumption': '에너지 소비량',
         'Consumption': '소비량',
         'last period': '전기',
-
         // Dashboard
         'Welcome to MyEMS': 'MyEMS에 오신 것을 환영합니다',
         'An Industry Leading Open Source Energy Management System': '업계를 선도하는 오픈소스 에너지 관리 시스템',

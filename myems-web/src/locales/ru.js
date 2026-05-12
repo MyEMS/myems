@@ -160,7 +160,6 @@ export default {
         'Energy Consumption': 'Потребление энергии',
         'Consumption': 'Потребление',
         'last period': 'прошлый период',
-
         // Dashboard
         'Welcome to MyEMS': 'Добро пожаловать в MyEMS',
         'An Industry Leading Open Source Energy Management System':

@@ -1,4 +1,3 @@
-
 """
 Store Dashboard Report API - Redesigned
 
@@ -294,7 +293,7 @@ class Reporting:
                 if row_privilege is None:
                     raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                            description='API.USER_PRIVILEGE_NOT_FOUND')
-                
+
                 privilege_data = json.loads(row_privilege[0])
                 if 'stores' in privilege_data and privilege_data['stores']:
                     store_ids_list = privilege_data['stores']
@@ -374,7 +373,7 @@ class Reporting:
                     store_ids_tuple + (base_start_datetime_utc, base_end_datetime_utc)
                 )
                 rows_base_input = cursor_energy.fetchall()
-                
+
                 if rows_base_input:
                     for row in rows_base_input:
                         ec_id = row[0]
@@ -422,7 +421,7 @@ class Reporting:
                 store_ids_tuple + (reporting_start_datetime_utc, reporting_end_datetime_utc)
             )
             rows_reporting_input = cursor_energy.fetchall()
-            
+
             if rows_reporting_input:
                 for row in rows_reporting_input:
                     ec_id = row[0]
@@ -460,7 +459,7 @@ class Reporting:
             reporting_input['total_in_kgco2e'] = total_in_kgco2e
             reporting_input['total_in_kgce_per_unit_area'] = total_in_kgce / total_area if total_area > 0 else 0.0
             reporting_input['total_in_kgco2e_per_unit_area'] = total_in_kgco2e / total_area if total_area > 0 else 0.0
-            
+
             # Overall increment rates
             base_total_kgce = sum(base_input['subtotals_in_kgce'])
             base_total_kgco2e = sum(base_input['subtotals_in_kgco2e'])
@@ -494,7 +493,7 @@ class Reporting:
                 store_ids_tuple + (reporting_start_datetime_utc, reporting_end_datetime_utc)
             )
             rows_billing = cursor_billing.fetchall()
-            
+
             if rows_billing:
                 for row in rows_billing:
                     ec_id = row[0]
@@ -520,9 +519,9 @@ class Reporting:
             while current_month < reporting_end_datetime_utc:
                 next_month = current_month.replace(month=current_month.month + 1) if current_month.month < 12 \
                     else current_month.replace(year=current_month.year + 1, month=1)
-                
+
                 monthly_timestamps.append(current_month.strftime('%Y-%m'))
-                
+
                 # Query energy for this month
                 for idx, ec_id in enumerate(reporting_input['energy_category_ids']):
                     format_strings = ','.join(['%s'] * len(store_ids_list))
@@ -537,7 +536,7 @@ class Reporting:
                     )
                     row = cursor_energy.fetchone()
                     monthly_energy_values[idx].append(float(row[0]) if row and row[0] else 0.0)
-                
+
                 # Query cost for this month
                 for idx, ec_id in enumerate(reporting_input['energy_category_ids']):
                     format_strings = ','.join(['%s'] * len(store_ids_list))
@@ -552,7 +551,7 @@ class Reporting:
                     )
                     row = cursor_billing.fetchone()
                     monthly_cost_values[idx].append(float(row[0]) if row and row[0] else 0.0)
-                
+
                 current_month = next_month
 
             reporting_input['timestamps'] = [monthly_timestamps] * len(reporting_input['names'])
@@ -625,7 +624,7 @@ class Reporting:
             if rows_stores_names:
                 for row in rows_stores_names:
                     store_name_dict[row[0]] = row[1]
-            
+
             # Then query energy consumption from energy database
             format_strings = ','.join(['%s'] * len(store_ids_list))
             cursor_energy.execute(
@@ -670,7 +669,7 @@ class Reporting:
             }
 
             resp.text = json.dumps(result)
-            
+
             # Cache the result
             if redis_client and cache_key:
                 try:

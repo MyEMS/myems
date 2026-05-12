@@ -159,8 +159,6 @@ export default {
         'Energy Consumption': '能耗',
         'Consumption': '消耗量',
         'last period': '上期',
-
-
         // Dashboard
         'Welcome to MyEMS': '歡迎使⽤ MyEMS',
         'An Industry Leading Open Source Energy Management System': '⾏業領先的開源能源管理系統',

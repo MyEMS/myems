@@ -160,7 +160,6 @@ export default {
         'Energy Consumption': 'Enerji Tüketimi',
         'Consumption': 'Tüketim',
         'last period': 'önceki dönem',
-
         // Dashboard
         'Welcome to MyEMS': "MyEMS'ye Hoş Geldiniz",
         'An Industry Leading Open Source Energy Management System': 'Endüstri Lideri Açık Kaynak Enerji Yönetim Sistemi',
