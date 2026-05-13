@@ -1,12 +1,17 @@
 import React, {Fragment, useEffect, useState, useCallback} from 'react';
 import CountUp from 'react-countup';
-import {Col, Row, Card, CardBody, CardTitle, Progress, Badge} from 'reactstrap';
+import {Col, Row, Card, CardBody} from 'reactstrap';
 import {toast} from 'react-toastify';
 import {getCookieValue, createCookie, checkEmpty} from '../../../helpers/utils';
 import withRedirect from '../../../hoc/withRedirect';
 import {withTranslation} from 'react-i18next';
 import moment from 'moment';
 import {APIBaseURL, settings} from '../../../config';
+import {v4 as uuid} from 'uuid';
+import CardSummary from '../common/CardSummary';
+import SharePie from '../common/SharePie';
+import BarChart from '../common/BarChart';
+import LineChart from '../common/LineChart';
 import {
     Chart as ChartJS,
     CategoryScale,
@@ -19,15 +24,9 @@ import {
     Tooltip,
     Legend
 } from 'chart.js';
-import {Line, Bar, Doughnut} from 'react-chartjs-2';
+import {Line, Bar} from 'react-chartjs-2';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {
-    faBolt,
-    faDollarSign,
-    faLeaf,
-    faExclamationTriangle,
-    faStore,
-    faChartLine,
     faArrowUp,
     faArrowDown
 } from '@fortawesome/free-solid-svg-icons';
@@ -72,7 +71,9 @@ const Dashboard = ({setRedirect, setRedirectUrl, t}) => {
 
     const [costData, setCostData] = useState({
         names: [],
+        units: [],
         subtotals: [],
+        increment_rates: [],
         timestamps: [],
         values: []
     });
@@ -84,6 +85,12 @@ const Dashboard = ({setRedirect, setRedirectUrl, t}) => {
         energy: [],
         cost: []
     });
+
+    // Pie chart data
+    const [energyCategoryPieData, setEnergyCategoryPieData] = useState([]);
+    const [costCategoryPieData, setCostCategoryPieData] = useState([]);
+    const [tcePieData, setTcePieData] = useState([]);
+    const [tco2ePieData, setTco2ePieData] = useState([]);
 
     // Fetch dashboard data
     const fetchDashboardData = useCallback(async () => {
@@ -155,6 +162,54 @@ const Dashboard = ({setRedirect, setRedirectUrl, t}) => {
                 });
             }
 
+            // Process pie chart data - Energy Categories
+            let energyCategoryArray = [];
+            json.reporting_period_input.names.forEach((currentValue, index) => {
+                let item = {};
+                item.id = index;
+                item.name = currentValue;
+                item.value = json.reporting_period_input.subtotals[index];
+                item.color = '#' + (((1 << 24) * Math.random()) | 0).toString(16);
+                energyCategoryArray.push(item);
+            });
+            setEnergyCategoryPieData(energyCategoryArray);
+
+            // Process pie chart data - Cost Categories
+            let costCategoryArray = [];
+            json.reporting_period_cost.names.forEach((currentValue, index) => {
+                let item = {};
+                item.id = index;
+                item.name = currentValue;
+                item.value = json.reporting_period_cost.subtotals[index];
+                item.color = '#' + (((1 << 24) * Math.random()) | 0).toString(16);
+                costCategoryArray.push(item);
+            });
+            setCostCategoryPieData(costCategoryArray);
+
+            // Process pie chart data - TCE
+            let tceArray = [];
+            json.reporting_period_input.names.forEach((currentValue, index) => {
+                let item = {};
+                item.id = index;
+                item.name = currentValue;
+                item.value = json.reporting_period_input.subtotals_in_kgce[index] / 1000;
+                item.color = '#' + (((1 << 24) * Math.random()) | 0).toString(16);
+                tceArray.push(item);
+            });
+            setTcePieData(tceArray);
+
+            // Process pie chart data - TCO2E
+            let tco2eArray = [];
+            json.reporting_period_input.names.forEach((currentValue, index) => {
+                let item = {};
+                item.id = index;
+                item.name = currentValue;
+                item.value = json.reporting_period_input.subtotals_in_kgco2e[index] / 1000;
+                item.color = '#' + (((1 << 24) * Math.random()) | 0).toString(16);
+                tco2eArray.push(item);
+            });
+            setTco2ePieData(tco2eArray);
+
             setLoading(false);
             toast.success(t('Dashboard data loaded successfully'));
 
@@ -181,130 +236,41 @@ const Dashboard = ({setRedirect, setRedirectUrl, t}) => {
         return () => clearInterval(timer);
     }, [setRedirect, setRedirectUrl]);
 
-    // Chart configurations
-    const energyCategoryChartData = {
-        labels: energyData.names || [],
-        datasets: [{
-            label: t('Energy Consumption'),
-            data: energyData.subtotals || [],
-            backgroundColor: [
-                'rgba(54, 162, 235, 0.8)',
-                'rgba(255, 99, 132, 0.8)',
-                'rgba(255, 206, 86, 0.8)',
-                'rgba(75, 192, 192, 0.8)',
-                'rgba(153, 102, 255, 0.8)',
-                'rgba(255, 159, 64, 0.8)'
-            ],
-            borderColor: [
-                'rgba(54, 162, 235, 1)',
-                'rgba(255, 99, 132, 1)',
-                'rgba(255, 206, 86, 1)',
-                'rgba(75, 192, 192, 1)',
-                'rgba(153, 102, 255, 1)',
-                'rgba(255, 159, 64, 1)'
-            ],
-            borderWidth: 2
-        }]
+    // Prepare bar chart data for top stores
+    const prepareTopStoresBarData = () => {
+        const labels = topStores.map(store => store.name);
+        const data = topStores.map(store => ({
+            name: store.name,
+            subtotal: store.total_energy,
+            unit: 'kWh',
+            increment_rate: null,
+            subtotal_per_unit_area: 0,
+            subtotal_per_capita: 0
+        }));
+        return {labels, data};
     };
 
-    const costShareChartData = {
-        labels: costData.names || [],
-        datasets: [{
-            data: costData.subtotals || [],
-            backgroundColor: [
-                '#FF6384',
-                '#36A2EB',
-                '#FFCE56',
-                '#4BC0C0',
-                '#9966FF',
-                '#FF9F40'
-            ],
-            hoverBackgroundColor: [
-                '#FF6384',
-                '#36A2EB',
-                '#FFCE56',
-                '#4BC0C0',
-                '#9966FF',
-                '#FF9F40'
-            ]
-        }]
-    };
+    const topStoresBarData = prepareTopStoresBarData();
 
-    const monthlyTrendChartData = {
-        labels: monthlyTrends.labels || [],
-        datasets: [
-            {
-                label: t('Energy Consumption'),
-                data: monthlyTrends.energy || [],
-                borderColor: 'rgb(54, 162, 235)',
-                backgroundColor: 'rgba(54, 162, 235, 0.5)',
-                tension: 0.4,
-                yAxisID: 'y'
-            },
-            {
-                label: t('Cost'),
-                data: monthlyTrends.cost || [],
-                borderColor: 'rgb(255, 99, 132)',
-                backgroundColor: 'rgba(255, 99, 132, 0.5)',
-                tension: 0.4,
-                yAxisID: 'y1'
-            }
-        ]
-    };
+    // Prepare line chart data for monthly trends
+    const prepareMonthlyTrendData = () => {
+        const timestamps = {};
+        const values = {};
+        const options = [];
 
-    const topStoresChartData = {
-        labels: topStores.map(store => store.name) || [],
-        datasets: [{
-            label: t('Energy Consumption'),
-            data: topStores.map(store => store.total_energy) || [],
-            backgroundColor: 'rgba(75, 192, 192, 0.6)',
-            borderColor: 'rgba(75, 192, 192, 1)',
-            borderWidth: 2
-        }]
-    };
-
-    const chartOptions = {
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: {
-            legend: {
-                position: 'top',
-            },
-            title: {
-                display: true,
-                font: {
-                    size: 16
-                }
-            }
+        if (monthlyTrends.labels && monthlyTrends.labels.length > 0) {
+            timestamps['a0'] = monthlyTrends.labels;
+            values['a0'] = monthlyTrends.energy;
+            timestamps['a1'] = monthlyTrends.labels;
+            values['a1'] = monthlyTrends.cost;
+            options.push({value: 'a0', label: t('Energy Consumption')});
+            options.push({value: 'a1', label: t('Cost')});
         }
+
+        return {timestamps, values, options};
     };
 
-    const dualAxisOptions = {
-        ...chartOptions,
-        scales: {
-            y: {
-                type: 'linear',
-                display: true,
-                position: 'left',
-                title: {
-                    display: true,
-                    text: t('Energy')
-                }
-            },
-            y1: {
-                type: 'linear',
-                display: true,
-                position: 'right',
-                title: {
-                    display: true,
-                    text: t('Cost')
-                },
-                grid: {
-                    drawOnChartArea: false
-                }
-            }
-        }
-    };
+    const monthlyTrendChartData = prepareMonthlyTrendData();
 
     if (loading) {
         return (
@@ -318,328 +284,136 @@ const Dashboard = ({setRedirect, setRedirectUrl, t}) => {
 
     return (
         <Fragment>
-            {/* Page Header */}
-            <Row className="mb-4">
-                <Col>
-                    <h2 className="mb-0">
-                        <FontAwesomeIcon icon={faStore} className="mr-2"/>
-                        {t('Store Dashboard')}
-                    </h2>
-                    <p className="text-muted">
-                        {t('Comprehensive overview of store energy performance')}
-                    </p>
+            {/* Summary Cards - Using CardSummary component */}
+            <div className="card-deck">
+                <CardSummary
+                    rate={null}
+                    title={t('Total Stores')}
+                    color="success"
+                    footnote={t('Active Meters')}
+                    footvalue={summary.total_meters || 0}
+                    footunit=""
+                    secondfootnote={t('Total Area')}
+                    secondfootvalue={summary.total_area || 0}
+                    secondfootunit="m²"
+                >
+                    <CountUp end={summary.total_stores || 0} duration={2} separator=","/>
+                </CardSummary>
+
+                <CardSummary
+                    rate={energyData.increment_rate_in_kgce !== undefined ? 
+                        (parseFloat(energyData.increment_rate_in_kgce * 100).toFixed(2) + '%') : null}
+                    title={t("This Month's Consumption CATEGORY VALUE UNIT", {
+                        CATEGORY: t('Ton of Standard Coal'),
+                        VALUE: null,
+                        UNIT: '(TCE)'
+                    })}
+                    color="warning"
+                    footnote={t('Per Unit Area')}
+                    footvalue={summary.total_area > 0 ? 
+                        parseFloat((energyData.total_in_kgce || 0) / summary.total_area).toFixed(3) : 0}
+                    footunit="(kgCE/m²)"
+                    secondfootnote={t('Per Capita')}
+                    secondfootvalue={0}
+                    secondfootunit="(kgCE)"
+                >
+                    <CountUp
+                        end={(energyData.total_in_kgce || 0) / 1000}
+                        duration={2}
+                        separator=","
+                        decimals={2}
+                    />
+                </CardSummary>
+
+                <CardSummary
+                    rate={costData.subtotals && costData.subtotals.length > 0 ? '+0.00%' : null}
+                    title={t("This Month's Costs CATEGORY VALUE UNIT", {
+                        CATEGORY: null,
+                        VALUE: null,
+                        UNIT: null
+                    })}
+                    color="success"
+                    footnote={t('Per Unit Area')}
+                    footvalue={0}
+                    footunit=""
+                    secondfootnote={t('Categories')}
+                    secondfootvalue={costData.names?.length || 0}
+                    secondfootunit=""
+                >
+                    ¥<CountUp
+                    end={costData.subtotals?.reduce((a, b) => a + b, 0) || 0}
+                    duration={2}
+                    decimals={2}
+                    separator=","
+                />
+                </CardSummary>
+
+                <CardSummary
+                    rate={energyData.increment_rate_in_kgco2e !== undefined ? 
+                        (parseFloat(energyData.increment_rate_in_kgco2e * 100).toFixed(2) + '%') : null}
+                    title={t("This Month's Consumption CATEGORY VALUE UNIT", {
+                        CATEGORY: t('Ton of Carbon Dioxide Emissions'),
+                        VALUE: null,
+                        UNIT: '(TCO2E)'
+                    })}
+                    color="warning"
+                    footnote={t('Per Unit Area')}
+                    footvalue={summary.total_area > 0 ? 
+                        parseFloat((energyData.total_in_kgco2e || 0) / summary.total_area).toFixed(3) : 0}
+                    footunit="(kgCO2E/m²)"
+                    secondfootnote={t('Per Capita')}
+                    secondfootvalue={0}
+                    secondfootunit="(kgCO2E)"
+                >
+                    <CountUp
+                        end={(energyData.total_in_kgco2e || 0) / 1000}
+                        duration={2}
+                        separator=","
+                        decimals={2}
+                    />
+                </CardSummary>
+            </div>
+
+            {/* Charts Row - Four charts in one row using SharePie and BarChart */}
+            <Row noGutters>
+                <Col className="mb-3 pr-lg-2 mb-3">
+                    <SharePie data={energyCategoryPieData} title={t('Energy Consumption by Category')} />
+                </Col>
+                <Col className="mb-3 pr-lg-2 mb-3">
+                    <SharePie data={costCategoryPieData} title={t('Costs by Energy Category')} />
+                </Col>
+                <Col className="mb-3 pr-lg-2 mb-3">
+                    <SharePie data={tcePieData} title={t('Ton of Standard Coal by Energy Category')} />
+                </Col>
+                <Col className="mb-3 pr-lg-2 mb-3">
+                    <SharePie data={tco2ePieData} title={t('Ton of Carbon Dioxide Emissions by Energy Category')} />
                 </Col>
             </Row>
 
-            {/* KPI Cards */}
-            <Row className="mb-4">
-                <Col xl={3} md={6} className="mb-3">
-                    <Card className="h-100 border-left-primary shadow-sm">
-                        <CardBody>
-                            <Row noGutters className="align-items-center">
-                                <Col xs={8}>
-                                    <div className="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                        {t('Total Stores')}
-                                    </div>
-                                    <div className="h5 mb-0 font-weight-bold text-gray-800">
-                                        <CountUp end={summary.total_stores || 0} duration={2} separator=","/>
-                                    </div>
-                                </Col>
-                                <Col xs={4} className="text-right">
-                                    <FontAwesomeIcon icon={faStore} size="2x" className="text-gray-300"/>
-                                </Col>
-                            </Row>
-                        </CardBody>
-                    </Card>
-                </Col>
+            {/* Monthly Trends Line Chart */}
+            <div className="card-deck">
+                <LineChart
+                    reportingTitle={t("This Year's Consumption CATEGORY VALUE UNIT", { 
+                        CATEGORY: null, 
+                        VALUE: null, 
+                        UNIT: null 
+                    })}
+                    baseTitle=""
+                    labels={monthlyTrendChartData.timestamps}
+                    data={monthlyTrendChartData.values}
+                    options={monthlyTrendChartData.options}
+                />
+            </div>
 
-                <Col xl={3} md={6} className="mb-3">
-                    <Card className="h-100 border-left-success shadow-sm">
-                        <CardBody>
-                            <Row noGutters className="align-items-center">
-                                <Col xs={8}>
-                                    <div className="text-xs font-weight-bold text-success text-uppercase mb-1">
-                                        {t('Total Area')}
-                                    </div>
-                                    <div className="h5 mb-0 font-weight-bold text-gray-800">
-                                        <CountUp end={summary.total_area || 0} duration={2} decimals={2}
-                                                 separator=","/> m²
-                                    </div>
-                                </Col>
-                                <Col xs={4} className="text-right">
-                                    <FontAwesomeIcon icon={faChartLine} size="2x" className="text-gray-300"/>
-                                </Col>
-                            </Row>
-                        </CardBody>
-                    </Card>
-                </Col>
-
-                <Col xl={3} md={6} className="mb-3">
-                    <Card className="h-100 border-left-info shadow-sm">
-                        <CardBody>
-                            <Row noGutters className="align-items-center">
-                                <Col xs={8}>
-                                    <div className="text-xs font-weight-bold text-info text-uppercase mb-1">
-                                        {t('Active Meters')}
-                                    </div>
-                                    <div className="h5 mb-0 font-weight-bold text-gray-800">
-                                        <CountUp end={summary.total_meters || 0} duration={2} separator=","/>
-                                    </div>
-                                </Col>
-                                <Col xs={4} className="text-right">
-                                    <FontAwesomeIcon icon={faBolt} size="2x" className="text-gray-300"/>
-                                </Col>
-                            </Row>
-                        </CardBody>
-                    </Card>
-                </Col>
-
-                <Col xl={3} md={6} className="mb-3">
-                    <Card
-                        className={`h-100 shadow-sm ${summary.total_alerts > 0 ? 'border-left-danger' : 'border-left-warning'}`}>
-                        <CardBody>
-                            <Row noGutters className="align-items-center">
-                                <Col xs={8}>
-                                    <div className="text-xs font-weight-bold text-warning text-uppercase mb-1">
-                                        {t('Active Alerts')}
-                                    </div>
-                                    <div className="h5 mb-0 font-weight-bold text-gray-800">
-                                        <CountUp end={summary.total_alerts || 0} duration={2} separator=","/>
-                                    </div>
-                                </Col>
-                                <Col xs={4} className="text-right">
-                                    <FontAwesomeIcon icon={faExclamationTriangle} size="2x" className="text-gray-300"/>
-                                </Col>
-                            </Row>
-                        </CardBody>
-                    </Card>
-                </Col>
-            </Row>
-
-            {/* Energy & Carbon Summary Cards */}
-            <Row className="mb-4">
-                <Col xl={4} md={6} className="mb-3">
-                    <Card className="h-100 bg-gradient-primary text-white">
-                        <CardBody>
-                            <div className="d-flex justify-content-between align-items-center">
-                                <div>
-                                    <h6 className="text-uppercase mb-2">{t('Total Energy Consumption')}</h6>
-                                    <h2 className="mb-0">
-                                        <CountUp
-                                            end={(energyData.total_in_kgce || 0) / 1000}
-                                            duration={2}
-                                            decimals={2}
-                                            separator=","
-                                        /> tce
-                                    </h2>
-                                    {energyData.increment_rate_in_kgce !== undefined && (
-                                        <small>
-                                            <FontAwesomeIcon
-                                                icon={energyData.increment_rate_in_kgce >= 0 ? faArrowUp : faArrowDown}
-                                                className="mr-1"
-                                            />
-                                            {Math.abs((energyData.increment_rate_in_kgce || 0) * 100).toFixed(2)}%
-                                            vs {t('last period')}
-                                        </small>
-                                    )}
-                                </div>
-                                <FontAwesomeIcon icon={faBolt} size="3x" opacity="0.3"/>
-                            </div>
-                        </CardBody>
-                    </Card>
-                </Col>
-
-                <Col xl={4} md={6} className="mb-3">
-                    <Card className="h-100 bg-gradient-success text-white">
-                        <CardBody>
-                            <div className="d-flex justify-content-between align-items-center">
-                                <div>
-                                    <h6 className="text-uppercase mb-2">{t('Total Cost')}</h6>
-                                    <h2 className="mb-0">
-                                        ¥<CountUp
-                                        end={costData.subtotals?.reduce((a, b) => a + b, 0) || 0}
-                                        duration={2}
-                                        decimals={2}
-                                        separator=","
-                                    />
-                                    </h2>
-                                    <small>{t('Current Period')}</small>
-                                </div>
-                                <FontAwesomeIcon icon={faDollarSign} size="3x" opacity="0.3"/>
-                            </div>
-                        </CardBody>
-                    </Card>
-                </Col>
-
-                <Col xl={4} md={6} className="mb-3">
-                    <Card className="h-100 bg-gradient-info text-white">
-                        <CardBody>
-                            <div className="d-flex justify-content-between align-items-center">
-                                <div>
-                                    <h6 className="text-uppercase mb-2">{t('Carbon Emissions')}</h6>
-                                    <h2 className="mb-0">
-                                        <CountUp
-                                            end={(energyData.total_in_kgco2e || 0) / 1000}
-                                            duration={2}
-                                            decimals={2}
-                                            separator=","
-                                        /> tCO₂e
-                                    </h2>
-                                    {energyData.increment_rate_in_kgco2e !== undefined && (
-                                        <small>
-                                            <FontAwesomeIcon
-                                                icon={energyData.increment_rate_in_kgco2e >= 0 ? faArrowUp : faArrowDown}
-                                                className="mr-1"
-                                            />
-                                            {Math.abs((energyData.increment_rate_in_kgco2e || 0) * 100).toFixed(2)}%
-                                            vs {t('last period')}
-                                        </small>
-                                    )}
-                                </div>
-                                <FontAwesomeIcon icon={faLeaf} size="3x" opacity="0.3"/>
-                            </div>
-                        </CardBody>
-                    </Card>
-                </Col>
-            </Row>
-
-            {/* Charts Row 1 */}
-            <Row className="mb-4">
-                <Col xl={6} lg={12} className="mb-3">
-                    <Card className="shadow-sm h-100">
-                        <CardTitle tag="h5" className="card-header py-3">
-                            <FontAwesomeIcon icon={faChartLine} className="mr-2"/>
-                            {t('Energy Consumption by Category')}
-                        </CardTitle>
-                        <CardBody>
-                            <div style={{height: '350px'}}>
-                                <Doughnut data={energyCategoryChartData} options={chartOptions}/>
-                            </div>
-                        </CardBody>
-                    </Card>
-                </Col>
-
-                <Col xl={6} lg={12} className="mb-3">
-                    <Card className="shadow-sm h-100">
-                        <CardTitle tag="h5" className="card-header py-3">
-                            <FontAwesomeIcon icon={faDollarSign} className="mr-2"/>
-                            {t('Cost Distribution by Category')}
-                        </CardTitle>
-                        <CardBody>
-                            <div style={{height: '350px'}}>
-                                <Doughnut data={costShareChartData} options={chartOptions}/>
-                            </div>
-                        </CardBody>
-                    </Card>
-                </Col>
-            </Row>
-
-            {/* Monthly Trends */}
-            <Row className="mb-4">
-                <Col>
-                    <Card className="shadow-sm">
-                        <CardTitle tag="h5" className="card-header py-3">
-                            <FontAwesomeIcon icon={faChartLine} className="mr-2"/>
-                            {t('Monthly Energy & Cost Trends')}
-                        </CardTitle>
-                        <CardBody>
-                            <div style={{height: '400px'}}>
-                                <Line data={monthlyTrendChartData} options={dualAxisOptions}/>
-                            </div>
-                        </CardBody>
-                    </Card>
-                </Col>
-            </Row>
-
-            {/* Top Stores & Energy Details */}
-            <Row className="mb-4">
-                <Col xl={6} lg={12} className="mb-3">
-                    <Card className="shadow-sm h-100">
-                        <CardTitle tag="h5" className="card-header py-3">
-                            <FontAwesomeIcon icon={faStore} className="mr-2"/>
-                            {t('Top 5 Energy Consuming Stores')}
-                        </CardTitle>
-                        <CardBody>
-                            <div style={{height: '350px'}}>
-                                <Bar
-                                    data={topStoresChartData}
-                                    options={{
-                                        ...chartOptions,
-                                        indexAxis: 'y',
-                                        scales: {
-                                            x: {
-                                                beginAtZero: true,
-                                                title: {
-                                                    display: true,
-                                                    text: t('Energy Consumption')
-                                                }
-                                            }
-                                        }
-                                    }}
-                                />
-                            </div>
-                        </CardBody>
-                    </Card>
-                </Col>
-
-                <Col xl={6} lg={12} className="mb-3">
-                    <Card className="shadow-sm h-100">
-                        <CardTitle tag="h5" className="card-header py-3">
-                            <FontAwesomeIcon icon={faBolt} className="mr-2"/>
-                            {t('Energy Category Details')}
-                        </CardTitle>
-                        <CardBody>
-                            <div className="table-responsive">
-                                <table className="table table-hover">
-                                    <thead className="thead-light">
-                                    <tr>
-                                        <th>{t('Category')}</th>
-                                        <th className="text-right">{t('Consumption')}</th>
-                                        <th className="text-right">{t('YoY Change')}</th>
-                                        <th className="text-right">{t('Per m²')}</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    {energyData.names?.map((name, index) => (
-                                        <tr key={index}>
-                                            <td>
-                                                <strong>{name}</strong>
-                                            </td>
-                                            <td className="text-right">
-                                                {energyData.subtotals?.[index]?.toFixed(2) || '0.00'} {energyData.units?.[index]}
-                                            </td>
-                                            <td className="text-right">
-                                                <Badge
-                                                    color={energyData.increment_rates?.[index] >= 0 ? 'danger' : 'success'}>
-                                                    <FontAwesomeIcon
-                                                        icon={energyData.increment_rates?.[index] >= 0 ? faArrowUp : faArrowDown}
-                                                        className="mr-1"
-                                                    />
-                                                    {Math.abs((energyData.increment_rates?.[index] || 0) * 100).toFixed(2)}%
-                                                </Badge>
-                                            </td>
-                                            <td className="text-right">
-                                                {energyData.subtotals_per_unit_area?.[index]?.toFixed(2) || '0.00'}
-                                            </td>
-                                        </tr>
-                                    ))}
-                                    </tbody>
-                                </table>
-                            </div>
-                        </CardBody>
-                    </Card>
-                </Col>
-            </Row>
-
-            {/* Store List with Progress Bars */}
+            {/* Store List Table */}
             <Row>
                 <Col>
-                    <Card className="shadow-sm">
-                        <CardTitle tag="h5" className="card-header py-3">
-                            <FontAwesomeIcon icon={faStore} className="mr-2"/>
-                            {t('Store Performance Overview')}
-                        </CardTitle>
+                    <Card className="mb-3">
                         <CardBody>
+                            <h5 className="mb-3">
+                                <FontAwesomeIcon icon={faArrowUp} className="mr-2"/>
+                                {t('Store Performance Overview')}
+                            </h5>
                             <div className="table-responsive">
                                 <table className="table table-hover">
                                     <thead className="thead-light">
@@ -648,63 +422,35 @@ const Dashboard = ({setRedirect, setRedirectUrl, t}) => {
                                         <th>{t('Address')}</th>
                                         <th className="text-right">{t('Store Area')}(m²)</th>
                                         <th className="text-right">{t('Energy Consumption')}</th>
-                                        <th style={{width: '200px'}}>{t('Usage Intensity')}</th>
+                                        <th className="text-right">{t('Per Unit Area')}</th>
                                     </tr>
                                     </thead>
                                     <tbody>
                                     {allStores.map(store => {
                                         const storeEnergyData = topStores.find(ts => ts.id === store.id);
+                                        const totalEnergy = storeEnergyData ? storeEnergyData.total_energy : 0;
+                                        const perArea = store.area > 0 ? (totalEnergy / store.area).toFixed(2) : '0.00';
+                                        
                                         return {
                                             ...store,
-                                            total_energy: storeEnergyData ? storeEnergyData.total_energy : 0
+                                            totalEnergy,
+                                            perArea
                                         };
                                     })
-                                    .sort((a, b) => b.total_energy - a.total_energy)
-                                    .map((store, index) => {
-                                        const maxEnergy = allStores.length > 0 && topStores.length > 0 
-                                            ? (topStores[0]?.total_energy || 1) 
-                                            : 1;
-                                        const topRank = topStores.findIndex(ts => ts.id === store.id);
-                                        const isTopFive = topRank >= 0 && topRank < 5;
-                                        
-                                        return (
-                                            <tr key={store.id}>
-                                                <td>
-                                                    <strong>{store.name}</strong>
-                                                    {isTopFive && (
-                                                        <Badge color="primary" className="ml-2">
-                                                            #{topRank + 1}
-                                                        </Badge>
-                                                    )}
-                                                </td>
-                                                <td className="text-muted">{store.address || '-'}</td>
-                                                <td className="text-right">{store.area ? store.area.toFixed(2) : '-'}</td>
-                                                <td className="text-right">
-                                                    <strong>{store.total_energy.toFixed(2)}</strong>
-                                                </td>
-                                                <td>
-                                                    {store.total_energy > 0 ? (
-                                                        <Progress
-                                                            value={Math.min((store.total_energy / maxEnergy) * 100, 100)}
-                                                            color={topRank === 0 ? 'danger' : 
-                                                                   topRank === 1 ? 'warning' : 'info'}
-                                                            style={{height: '20px'}}
-                                                        >
-                                                            {((store.total_energy / maxEnergy) * 100).toFixed(1)}%
-                                                        </Progress>
-                                                    ) : (
-                                                        <Progress
-                                                            value={0}
-                                                            color="light"
-                                                            style={{height: '20px'}}
-                                                        >
-                                                            0%
-                                                        </Progress>
-                                                    )}
-                                                </td>
-                                            </tr>
-                                        );
-                                    })}
+                                    .sort((a, b) => b.totalEnergy - a.totalEnergy)
+                                    .map((store) => (
+                                        <tr key={store.id}>
+                                            <td>
+                                                <strong>{store.name}</strong>
+                                            </td>
+                                            <td className="text-muted">{store.address || '-'}</td>
+                                            <td className="text-right">{store.area ? store.area.toFixed(2) : '-'}</td>
+                                            <td className="text-right">
+                                                <strong>{store.totalEnergy.toFixed(2)}</strong>
+                                            </td>
+                                            <td className="text-right">{store.perArea}</td>
+                                        </tr>
+                                    ))}
                                     </tbody>
                                 </table>
                             </div>
