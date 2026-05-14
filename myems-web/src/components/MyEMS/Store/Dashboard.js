@@ -1,735 +1,465 @@
-import React, { Fragment, useEffect, useState } from 'react';
+import React, {Fragment, useEffect, useState, useCallback} from 'react';
 import CountUp from 'react-countup';
-import { Col, Row, Spinner } from 'reactstrap';
-import Weather from './Weather';
-import weather from '../../../data/dashboard/weather';
-import WeeklySales from './WeeklySales';
-import weeklySales from '../../../data/dashboard/weeklySales';
-import BestSellingProducts from './BestSellingProducts';
-import products from '../../../data/dashboard/products';
-import RecentPurchasesTable from './RecentPuchasesTable';
-import ActiveUsersBarChart from './ActiveUsersBarChart';
-
-import CardSummary from '../common/CardSummary';
-import LineChart from '../common/LineChart';
-import { toast } from 'react-toastify';
-import SharePie from '../common/SharePie';
-import loadable from '@loadable/component';
-import { getCookieValue, createCookie, checkEmpty, handleAPIError } from '../../../helpers/utils';
+import {Col, Row, Card, CardBody} from 'reactstrap';
+import {toast} from 'react-toastify';
+import {getCookieValue, createCookie, checkEmpty} from '../../../helpers/utils';
 import withRedirect from '../../../hoc/withRedirect';
-import { withTranslation } from 'react-i18next';
+import {withTranslation} from 'react-i18next';
 import moment from 'moment';
-import { APIBaseURL, settings } from '../../../config';
-import { v4 as uuid } from 'uuid';
-import annotationPlugin from 'chartjs-plugin-annotation';
-import { Chart as ChartJS } from 'chart.js';
+import {APIBaseURL, settings} from '../../../config';
+import {v4 as uuid} from 'uuid';
+import CardSummary from '../common/CardSummary';
+import SharePie from '../common/SharePie';
 import BarChart from '../common/BarChart';
-import { getItemFromStore } from '../../../helpers/utils';
-import CustomizeMapBox from '../common/CustomizeMapBox';
+import LineChart from '../common/LineChart';
+import {
+    Chart as ChartJS,
+    CategoryScale,
+    LinearScale,
+    PointElement,
+    LineElement,
+    BarElement,
+    ArcElement,
+    Title,
+    Tooltip,
+    Legend
+} from 'chart.js';
+import {Line, Bar} from 'react-chartjs-2';
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import {
+    faArrowUp,
+    faArrowDown
+} from '@fortawesome/free-solid-svg-icons';
 
-ChartJS.register(annotationPlugin);
+ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, BarElement, ArcElement, Title, Tooltip, Legend);
 
-const ChildSpacesTable = loadable(() => import('../common/ChildSpacesTable'));
+const Dashboard = ({setRedirect, setRedirectUrl, t}) => {
+    const [loading, setLoading] = useState(true);
+    const [periodType, setPeriodType] = useState('monthly');
 
-const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
-  let current_moment = moment();
-  const [isFetchDashboard, setIsFetchDashboard] = useState(true);
-  const [periodType, setPeriodType] = useState('monthly');
-  const [basePeriodBeginsDatetime, setBasePeriodBeginsDatetime] = useState(
-    current_moment
-      .clone()
-      .subtract(1, 'years')
-      .startOf('year')
-  );
-  const [basePeriodEndsDatetime, setBasePeriodEndsDatetime] = useState(current_moment.clone().subtract(1, 'years'));
-  const [reportingPeriodBeginsDatetime, setReportingPeriodBeginsDatetime] = useState(
-    current_moment.clone().startOf('year')
-  );
-  const [reportingPeriodEndsDatetime, setReportingPeriodEndsDatetime] = useState(current_moment);
+    // Date ranges
+    const [reportingPeriodStart, setReportingPeriodStart] = useState(
+        moment().startOf('year')
+    );
+    const [reportingPeriodEnd, setReportingPeriodEnd] = useState(moment());
+    const [basePeriodStart, setBasePeriodStart] = useState(
+        moment().subtract(1, 'years').startOf('year')
+    );
+    const [basePeriodEnd, setBasePeriodEnd] = useState(
+        moment().subtract(1, 'years')
+    );
 
-  const [spinnerHidden, setSpinnerHidden] = useState(false);
+    // Dashboard data
+    const [summary, setSummary] = useState({
+        total_stores: 0,
+        total_area: 0,
+        total_meters: 0,
+        total_sensors: 0,
+        total_alerts: 0
+    });
 
-  //Results
-  const [costShareData, setCostShareData] = useState([]);
-  const [timeOfUseShareData, setTimeOfUseShareData] = useState([]);
-  const [TCEShareData, setTCEShareData] = useState([]);
-  const [TCO2EShareData, setTCO2EShareData] = useState([]);
+    const [energyData, setEnergyData] = useState({
+        names: [],
+        units: [],
+        subtotals: [],
+        subtotals_in_kgce: [],
+        subtotals_in_kgco2e: [],
+        increment_rates: [],
+        timestamps: [],
+        values: []
+    });
 
-  const [thisYearBarList, setThisYearBarList] = useState([]);
-  const [lastYearBarList, setLastYearBarList] = useState([]);
-  const [thisMonthInputCardSummaryList, setThisMonthInputCardSummaryList] = useState([]);
-  const [thisMonthCostCardSummaryList, setThisMonthCostCardSummaryList] = useState([]);
-  const [barLabels, setBarLabels] = useState([]);
-  const [totalInTCE, setTotalInTCE] = useState({});
-  const [totalInTCO2E, setTotalInTCO2E] = useState({});
+    const [costData, setCostData] = useState({
+        names: [],
+        units: [],
+        subtotals: [],
+        increment_rates: [],
+        timestamps: [],
+        values: []
+    });
 
-  const [spaceInputLineChartLabels, setSpaceInputLineChartLabels] = useState([]);
-  const [spaceInputLineChartData, setSpaceInputLineChartData] = useState({});
-  const [spaceInputLineChartOptions, setSpaceInputLineChartOptions] = useState([]);
-  const [spaceCostLineChartOptions, setSpaceCostLineChartOptions] = useState([]);
-  const [spaceCostLineChartLabels, setSpaceCostLineChartLabels] = useState([]);
-  const [spaceCostLineChartData, setSpaceCostLineChartData] = useState({});
+    const [topStores, setTopStores] = useState([]);
+    const [allStores, setAllStores] = useState([]);
+    const [monthlyTrends, setMonthlyTrends] = useState({
+        labels: [],
+        energy: [],
+        cost: []
+    });
 
-  const [detailedDataTableData, setDetailedDataTableData] = useState([]);
-  const [detailedDataTableColumns, setDetailedDataTableColumns] = useState([
-    { dataField: 'startdatetime', text: t('Datetime'), sort: true }
-  ]);
+    // Pie chart data
+    const [energyCategoryPieData, setEnergyCategoryPieData] = useState([]);
+    const [costCategoryPieData, setCostCategoryPieData] = useState([]);
+    const [tcePieData, setTcePieData] = useState([]);
+    const [tco2ePieData, setTco2ePieData] = useState([]);
 
-  const [childSpacesTableData, setChildSpacesTableData] = useState([]);
-  const [childSpacesTableColumns, setChildSpacesTableColumns] = useState([
-    { dataField: 'name', text: t('Child Spaces'), sort: true }
-  ]);
+    // Fetch dashboard data
+    const fetchDashboardData = useCallback(async () => {
+        let is_logged_in = getCookieValue('is_logged_in');
+        let user_uuid = getCookieValue('user_uuid');
+        let token = getCookieValue('token');
 
-  const [childSpacesInputData, setChildSpacesInputData] = useState([]);
-  const [childSpacesCostData, setChildSpacesCostData] = useState([]);
-  const [monthLabels, setMonthLabels] = useState([]);
-  const [language, setLanguage] = useState(getItemFromStore('myems_web_ui_language', settings.language));
-  const [geojson, setGeojson] = useState({});
-  const [rootLatitude, setRootLatitude] = useState('');
-  const [rootLongitude, setRootLongitude] = useState('');
+        if (checkEmpty(is_logged_in) || checkEmpty(token) || checkEmpty(user_uuid) || !is_logged_in) {
+            setRedirectUrl(`/authentication/basic/login`);
+            setRedirect(true);
+            return;
+        }
 
-  const [sensor, setSensor] = useState({});
-  const [pointList, setPointList] = useState({});
+        createCookie('is_logged_in', true, settings.cookieExpireTime);
+        createCookie('user_uuid', user_uuid, settings.cookieExpireTime);
+        createCookie('token', token, settings.cookieExpireTime);
 
-  useEffect(() => {
-    let is_logged_in = getCookieValue('is_logged_in');
-    let user_name = getCookieValue('user_name');
-    let user_display_name = getCookieValue('user_display_name');
-    let user_uuid = getCookieValue('user_uuid');
-    let token = getCookieValue('token');
-    if (checkEmpty(is_logged_in) || checkEmpty(token) || checkEmpty(user_uuid) || !is_logged_in) {
-      setRedirectUrl(`/authentication/basic/login`);
-      setRedirect(true);
-    } else {
-      //update expires time of cookies
-      createCookie('is_logged_in', true, settings.cookieExpireTime);
-      createCookie('user_name', user_name, settings.cookieExpireTime);
-      createCookie('user_display_name', user_display_name, settings.cookieExpireTime);
-      createCookie('user_uuid', user_uuid, settings.cookieExpireTime);
-      createCookie('token', token, settings.cookieExpireTime);
+        try {
+            setLoading(true);
 
-      let isResponseOK = false;
-      if (isFetchDashboard) {
-        setIsFetchDashboard(false);
-        toast(
-          <Fragment>
-            {t('Welcome to MyEMS')}
-            <br />
-            {t('An Industry Leading Open Source Energy Management System')}
-          </Fragment>
-        );
+            const params = new URLSearchParams({
+                useruuid: user_uuid,
+                periodtype: periodType,
+                baseperiodstartdatetime: basePeriodStart.format('YYYY-MM-DDTHH:mm:ss'),
+                baseperiodenddatetime: basePeriodEnd.format('YYYY-MM-DDTHH:mm:ss'),
+                reportingperiodstartdatetime: reportingPeriodStart.format('YYYY-MM-DDTHH:mm:ss'),
+                reportingperiodenddatetime: reportingPeriodEnd.format('YYYY-MM-DDTHH:mm:ss')
+            });
 
-        fetch(
-          APIBaseURL +
-            '/reports/storedashboard?' +
-            'useruuid=' +
-            user_uuid +
-            '&periodtype=' +
-            periodType +
-            '&baseperiodstartdatetime=' +
-            (basePeriodBeginsDatetime != null ? basePeriodBeginsDatetime.format('YYYY-MM-DDTHH:mm:ss') : '') +
-            '&baseperiodenddatetime=' +
-            (basePeriodEndsDatetime != null ? basePeriodEndsDatetime.format('YYYY-MM-DDTHH:mm:ss') : '') +
-            '&reportingperiodstartdatetime=' +
-            reportingPeriodBeginsDatetime.format('YYYY-MM-DDTHH:mm:ss') +
-            '&reportingperiodenddatetime=' +
-            reportingPeriodEndsDatetime.format('YYYY-MM-DDTHH:mm:ss'),
-          {
-            method: 'GET',
-            headers: {
-              'Content-type': 'application/json',
-              'User-UUID': getCookieValue('user_uuid'),
-              Token: getCookieValue('token')
-            },
-            body: null
-          }
-        )
-          .then(response => {
-            if (response.ok) {
-              isResponseOK = true;
+            const response = await fetch(`${APIBaseURL}/reports/storedashboard?${params}`, {
+                method: 'GET',
+                headers: {
+                    'Content-type': 'application/json',
+                    'User-UUID': user_uuid,
+                    Token: token
+                }
+            });
+
+            if (!response.ok) {
+                throw new Error('API request failed');
             }
-            return response.json();
-          })
-          .then(json => {
-            if (isResponseOK) {
-              // hide spinner
-              setSpinnerHidden(true);
-              let labels = [];
-              let thisYearBarList = [];
-              let lastYearBarList = [];
-              json['reporting_period_input']['names'].forEach((currentValue, index) => {
-                let cardSummaryItem = {};
-                cardSummaryItem['name'] = json['reporting_period_input']['names'][index];
-                cardSummaryItem['unit'] = json['reporting_period_input']['units'][index];
-                cardSummaryItem['subtotal'] = json['reporting_period_input']['subtotals'][index];
-                cardSummaryItem['increment_rate'] =
-                  parseFloat(json['reporting_period_input']['increment_rates'][index] * 100).toFixed(2) + '%';
-                cardSummaryItem['subtotal_per_unit_area'] =
-                  json['reporting_period_input']['subtotals_per_unit_area'][index];
-                labels.push(
-                  t('CATEGORY Consumption UNIT', { CATEGORY: null, UNIT: null }) +
-                    cardSummaryItem['name'] +
-                    cardSummaryItem['unit']
+
+            const json = await response.json();
+
+            setSummary(json.summary || {});
+            setEnergyData(json.reporting_period_input || {});
+            setCostData(json.reporting_period_cost || {});
+            setTopStores(json.top_stores || []);
+            setAllStores(json.stores || []);
+
+            // Process monthly trends
+            if (json.reporting_period_input.timestamps && json.reporting_period_input.timestamps.length > 0) {
+                const labels = json.reporting_period_input.timestamps[0] || [];
+                const energyValues = json.reporting_period_input.values || [];
+                const costValues = json.reporting_period_cost.values || [];
+
+                // Calculate total energy and cost per month
+                const totalEnergy = labels.map((_, idx) =>
+                    energyValues.reduce((sum, category) => sum + (category[idx] || 0), 0)
                 );
-                thisYearBarList.push(cardSummaryItem);
-              });
-
-              json['reporting_period_cost']['names'].forEach((currentValue, index) => {
-                let cardSummaryItem = {};
-                cardSummaryItem['name'] = json['reporting_period_cost']['names'][index];
-                cardSummaryItem['unit'] = json['reporting_period_cost']['units'][index];
-                cardSummaryItem['subtotal'] = json['reporting_period_cost']['subtotals'][index];
-                cardSummaryItem['increment_rate'] =
-                  parseFloat(json['reporting_period_cost']['increment_rates'][index] * 100).toFixed(2) + '%';
-                cardSummaryItem['subtotal_per_unit_area'] =
-                  json['reporting_period_cost']['subtotals_per_unit_area'][index];
-                labels.push(
-                  t('CATEGORY Costs UNIT', { CATEGORY: null, UNIT: null }) +
-                    cardSummaryItem['name'] +
-                    cardSummaryItem['unit']
+                const totalCost = labels.map((_, idx) =>
+                    costValues.reduce((sum, category) => sum + (category[idx] || 0), 0)
                 );
-                thisYearBarList.push(cardSummaryItem);
-              });
-              setBarLabels(labels);
-              setThisYearBarList(thisYearBarList);
 
-              json['base_period_input']['names'].forEach((currentValue, index) => {
-                let cardSummaryItem = {};
-                cardSummaryItem['name'] = json['base_period_input']['names'][index];
-                cardSummaryItem['unit'] = json['base_period_input']['units'][index];
-                cardSummaryItem['subtotal'] = json['base_period_input']['subtotals'][index];
-                cardSummaryItem['increment_rate'] = null;
-                cardSummaryItem['subtotal_per_unit_area'] = json['base_period_input']['subtotals_per_unit_area'][index];
-                lastYearBarList.push(cardSummaryItem);
-              });
-
-              json['base_period_cost']['names'].forEach((currentValue, index) => {
-                let cardSummaryItem = {};
-                cardSummaryItem['name'] = json['base_period_cost']['names'][index];
-                cardSummaryItem['unit'] = json['base_period_cost']['units'][index];
-                cardSummaryItem['subtotal'] = json['base_period_cost']['subtotals'][index];
-                cardSummaryItem['increment_rate'] = null;
-                cardSummaryItem['subtotal_per_unit_area'] = json['base_period_cost']['subtotals_per_unit_area'][index];
-                lastYearBarList.push(cardSummaryItem);
-              });
-              setLastYearBarList(lastYearBarList);
-
-              let timeOfUseArray = [];
-              json['reporting_period_input']['energy_category_ids'].forEach((currentValue, index) => {
-                if (currentValue === 1) {
-                  // energy_category_id 1 electricity
-                  let timeOfUseItem = {};
-                  timeOfUseItem['id'] = 1;
-                  timeOfUseItem['name'] = t('Top-Peak');
-                  timeOfUseItem['value'] = json['reporting_period_input']['toppeaks'][index];
-                  timeOfUseItem['color'] = '#' + (((1 << 24) * Math.random()) | 0).toString(16);
-                  timeOfUseArray.push(timeOfUseItem);
-
-                  timeOfUseItem = {};
-                  timeOfUseItem['id'] = 2;
-                  timeOfUseItem['name'] = t('On-Peak');
-                  timeOfUseItem['value'] = json['reporting_period_input']['onpeaks'][index];
-                  timeOfUseItem['color'] = '#' + (((1 << 24) * Math.random()) | 0).toString(16);
-                  timeOfUseArray.push(timeOfUseItem);
-
-                  timeOfUseItem = {};
-                  timeOfUseItem['id'] = 3;
-                  timeOfUseItem['name'] = t('Mid-Peak');
-                  timeOfUseItem['value'] = json['reporting_period_input']['midpeaks'][index];
-                  timeOfUseItem['color'] = '#' + (((1 << 24) * Math.random()) | 0).toString(16);
-                  timeOfUseArray.push(timeOfUseItem);
-
-                  timeOfUseItem = {};
-                  timeOfUseItem['id'] = 4;
-                  timeOfUseItem['name'] = t('Off-Peak');
-                  timeOfUseItem['value'] = json['reporting_period_input']['offpeaks'][index];
-                  timeOfUseItem['color'] = '#' + (((1 << 24) * Math.random()) | 0).toString(16);
-                  timeOfUseArray.push(timeOfUseItem);
-
-                  timeOfUseItem = {};
-                  timeOfUseItem['id'] = 5;
-                  timeOfUseItem['name'] = t('Deep');
-                  timeOfUseItem['value'] = json['reporting_period_input']['deeps'][index];
-                  timeOfUseItem['color'] = '#' + (((1 << 24) * Math.random()) | 0).toString(16);
-                  timeOfUseArray.push(timeOfUseItem);
-                }
-              });
-              setTimeOfUseShareData(timeOfUseArray);
-              let totalInTCE = {};
-              totalInTCE['value'] = json['reporting_period_input']['total_in_kgce'] / 1000; // convert from kg to t
-              totalInTCE['increment_rate'] =
-                parseFloat(json['reporting_period_input']['increment_rate_in_kgce'] * 100).toFixed(2) + '%';
-              totalInTCE['value_per_unit_area'] = json['reporting_period_input']['total_in_kgce_per_unit_area'] / 1000; // convert from kg to t
-              setTotalInTCE(totalInTCE);
-
-              let costDataArray = [];
-              json['reporting_period_cost']['names'].forEach((currentValue, index) => {
-                let costDataItem = {};
-                costDataItem['id'] = index;
-                costDataItem['name'] = currentValue;
-                costDataItem['value'] = json['reporting_period_cost']['subtotals'][index];
-                costDataItem['color'] = '#' + (((1 << 24) * Math.random()) | 0).toString(16);
-                costDataArray.push(costDataItem);
-              });
-
-              setCostShareData(costDataArray);
-              let totalInTCO2E = {};
-              totalInTCO2E['value'] = json['reporting_period_input']['total_in_kgco2e'] / 1000; // convert from kg to t
-              totalInTCO2E['increment_rate'] =
-                parseFloat(json['reporting_period_input']['increment_rate_in_kgco2e'] * 100).toFixed(2) + '%';
-              totalInTCO2E['value_per_unit_area'] =
-                json['reporting_period_input']['total_in_kgco2e_per_unit_area'] / 1000; // convert from kg to t
-              setTotalInTCO2E(totalInTCO2E);
-
-              let TCEDataArray = [];
-              json['reporting_period_input']['names'].forEach((currentValue, index) => {
-                let TCEDataItem = {};
-                TCEDataItem['id'] = index;
-                TCEDataItem['name'] = currentValue;
-                TCEDataItem['value'] = json['reporting_period_input']['subtotals_in_kgce'][index] / 1000;
-                TCEDataItem['color'] = '#' + (((1 << 24) * Math.random()) | 0).toString(16);
-                TCEDataArray.push(TCEDataItem);
-              });
-              setTCEShareData(TCEDataArray);
-
-              let TCO2EDataArray = [];
-              json['reporting_period_input']['names'].forEach((currentValue, index) => {
-                let TCO2EDataItem = {};
-                TCO2EDataItem['id'] = index;
-                TCO2EDataItem['name'] = currentValue;
-                TCO2EDataItem['value'] = json['reporting_period_input']['subtotals_in_kgco2e'][index] / 1000; // convert from kg to t
-                TCO2EDataItem['color'] = '#' + (((1 << 24) * Math.random()) | 0).toString(16);
-                TCO2EDataArray.push(TCO2EDataItem);
-              });
-              setTCO2EShareData(TCO2EDataArray);
-
-              let timestamps = {};
-              json['reporting_period_input']['timestamps'].forEach((currentValue, index) => {
-                timestamps['a' + index] = currentValue;
-              });
-              setSpaceInputLineChartLabels(timestamps);
-
-              let values = {};
-              json['reporting_period_input']['values'].forEach((currentValue, index) => {
-                values['a' + index] = currentValue;
-              });
-              setSpaceInputLineChartData(values);
-
-              let names = [];
-              let thisMonthInputArr = [];
-              json['reporting_period_input']['names'].forEach((currentValue, index) => {
-                let unit = json['reporting_period_input']['units'][index];
-                let thisMonthItem = {};
-                names.push({ value: 'a' + index, label: currentValue + ' (' + unit + ')' });
-                thisMonthItem['name'] = json['reporting_period_input']['names'][index];
-                thisMonthItem['unit'] = json['reporting_period_input']['units'][index];
-                thisMonthItem['subtotal'] =
-                  json['reporting_period_input']['values'][index][
-                    json['reporting_period_input']['values'][index].length - 1
-                  ];
-                thisMonthItem['increment_rate'] =
-                  parseFloat(json['reporting_period_input']['increment_rates'][index] * 100).toFixed(2) + '%';
-                thisMonthItem['subtotal_per_unit_area'] =
-                  json['reporting_period_input']['subtotals_per_unit_area'][index];
-                thisMonthInputArr.push(thisMonthItem);
-              });
-              setSpaceInputLineChartOptions(names);
-              setThisMonthInputCardSummaryList(thisMonthInputArr);
-
-              timestamps = {};
-              json['reporting_period_cost']['timestamps'].forEach((currentValue, index) => {
-                timestamps['a' + index] = currentValue;
-              });
-              setSpaceCostLineChartLabels(timestamps);
-
-              values = {};
-              json['reporting_period_cost']['values'].forEach((currentValue, index) => {
-                values['a' + index] = currentValue;
-              });
-              setSpaceCostLineChartData(values);
-
-              names = [];
-              let thisMonthCostArr = [];
-              json['reporting_period_cost']['names'].forEach((currentValue, index) => {
-                let thisMonthItem = {};
-                let unit = json['reporting_period_cost']['units'][index];
-                names.push({ value: 'a' + index, label: currentValue + ' (' + unit + ')' });
-                thisMonthItem['name'] = json['reporting_period_cost']['names'][index];
-                thisMonthItem['unit'] = json['reporting_period_cost']['units'][index];
-                thisMonthItem['subtotal'] =
-                  json['reporting_period_cost']['values'][index][
-                    json['reporting_period_cost']['values'][index].length - 1
-                  ];
-                thisMonthItem['increment_rate'] =
-                  parseFloat(json['reporting_period_cost']['increment_rates'][index] * 100).toFixed(2) + '%';
-                thisMonthItem['subtotal_per_unit_area'] =
-                  json['reporting_period_cost']['subtotals_per_unit_area'][index];
-                thisMonthCostArr.push(thisMonthItem);
-              });
-              setSpaceCostLineChartOptions(names);
-              setThisMonthCostCardSummaryList(thisMonthCostArr);
-
-              let detailed_value_list = [];
-              if (json['reporting_period_input']['timestamps'].length > 0) {
-                json['reporting_period_input']['timestamps'][0].forEach((currentTimestamp, timestampIndex) => {
-                  let detailed_value = {};
-                  detailed_value['id'] = timestampIndex;
-                  detailed_value['startdatetime'] = currentTimestamp;
-                  json['reporting_period_input']['values'].forEach((currentValue, energyCategoryIndex) => {
-                    detailed_value['a' + energyCategoryIndex] = json['reporting_period_input']['values'][
-                      energyCategoryIndex
-                    ][timestampIndex].toFixed(2);
-                  });
-                  detailed_value_list.push(detailed_value);
+                setMonthlyTrends({
+                    labels,
+                    energy: totalEnergy,
+                    cost: totalCost
                 });
-              }
-
-              let detailed_value = {};
-              detailed_value['id'] = detailed_value_list.length;
-              detailed_value['startdatetime'] = t('Subtotal');
-              json['reporting_period_input']['subtotals'].forEach((currentValue, index) => {
-                detailed_value['a' + index] = currentValue.toFixed(2);
-              });
-              detailed_value_list.push(detailed_value);
-              setTimeout(() => {
-                setDetailedDataTableData(detailed_value_list);
-              }, 0);
-
-              let detailed_column_list = [];
-              detailed_column_list.push({
-                dataField: 'startdatetime',
-                text: t('Datetime'),
-                sort: true
-              });
-              json['reporting_period_input']['names'].forEach((currentValue, index) => {
-                let unit = json['reporting_period_cost']['units'][index];
-                detailed_column_list.push({
-                  dataField: 'a' + index,
-                  text: currentValue + ' (' + unit + ')',
-                  sort: true
-                });
-              });
-              setDetailedDataTableColumns(detailed_column_list);
-
-              let child_space_value_list = [];
-              if (json['child_space_input']['child_space_names_array'].length > 0) {
-                json['child_space_input']['child_space_names_array'][0].forEach((currentSpaceName, spaceIndex) => {
-                  let child_space_value = {};
-                  child_space_value['id'] = spaceIndex;
-                  child_space_value['name'] = currentSpaceName;
-                  json['child_space_input']['energy_category_names'].forEach((currentValue, energyCategoryIndex) => {
-                    child_space_value['a' + energyCategoryIndex] =
-                      json['child_space_input']['subtotals_array'][energyCategoryIndex][spaceIndex];
-                    child_space_value['b' + energyCategoryIndex] =
-                      json['child_space_cost']['subtotals_array'][energyCategoryIndex][spaceIndex];
-                  });
-                  child_space_value_list.push(child_space_value);
-                });
-              }
-
-              setChildSpacesTableData(child_space_value_list);
-
-              let child_space_column_list = [];
-              child_space_column_list.push({
-                dataField: 'name',
-                text: t('Child Spaces'),
-                sort: true
-              });
-              json['child_space_input']['energy_category_names'].forEach((currentValue, index) => {
-                let unit = json['child_space_input']['units'][index];
-                child_space_column_list.push({
-                  dataField: 'a' + index,
-                  text: t('CATEGORY Consumption UNIT', { CATEGORY: currentValue, UNIT: '(' + unit + ')' }),
-                  sort: true,
-                  formatter: function(decimalValue) {
-                    if (typeof decimalValue === 'number') {
-                      return decimalValue.toFixed(2);
-                    } else {
-                      return null;
-                    }
-                  }
-                });
-              });
-              json['child_space_cost']['energy_category_names'].forEach((currentValue, index) => {
-                let unit = json['child_space_cost']['units'][index];
-                child_space_column_list.push({
-                  dataField: 'b' + index,
-                  text: t('CATEGORY Costs UNIT', { CATEGORY: currentValue, UNIT: '(' + unit + ')' }),
-                  sort: true,
-                  formatter: function(decimalValue) {
-                    if (typeof decimalValue === 'number') {
-                      return decimalValue.toFixed(2);
-                    } else {
-                      return null;
-                    }
-                  }
-                });
-              });
-
-              setChildSpacesTableColumns(child_space_column_list);
-              setChildSpacesInputData(json['child_space_input']);
-              setChildSpacesCostData(json['child_space_cost']);
-              setMonthLabels(json['reporting_period_cost']['timestamps'][0]);
-              setSensor(json['sensor']);
-              setPointList(json['point']);
             }
-          });
-      }
-    }
-  });
 
-  useEffect(() => {
-    let timer = setInterval(() => {
-      let is_logged_in = getCookieValue('is_logged_in');
-      if (is_logged_in === null || !is_logged_in) {
-        setRedirectUrl(`/authentication/basic/login`);
-        setRedirect(true);
-      }
-    }, 1000);
-    return () => clearInterval(timer);
-  }, [setRedirect, setRedirectUrl]);
+            // Process pie chart data - Energy Categories
+            let energyCategoryArray = [];
+            json.reporting_period_input.names.forEach((currentValue, index) => {
+                let item = {};
+                item.id = index;
+                item.name = currentValue;
+                item.value = json.reporting_period_input.subtotals[index];
+                item.color = '#' + (((1 << 24) * Math.random()) | 0).toString(16);
+                energyCategoryArray.push(item);
+            });
+            setEnergyCategoryPieData(energyCategoryArray);
 
-  useEffect(() => {
-    setLanguage(getItemFromStore('myems_web_ui_language'));
-  }, [getItemFromStore('myems_web_ui_language')]);
+            // Process pie chart data - Cost Categories
+            let costCategoryArray = [];
+            json.reporting_period_cost.names.forEach((currentValue, index) => {
+                let item = {};
+                item.id = index;
+                item.name = currentValue;
+                item.value = json.reporting_period_cost.subtotals[index];
+                item.color = '#' + (((1 << 24) * Math.random()) | 0).toString(16);
+                costCategoryArray.push(item);
+            });
+            setCostCategoryPieData(costCategoryArray);
 
-  useEffect(() => {
-    let is_logged_in = getCookieValue('is_logged_in');
-    let user_name = getCookieValue('user_name');
-    let user_display_name = getCookieValue('user_display_name');
-    let user_uuid = getCookieValue('user_uuid');
-    let token = getCookieValue('token');
-    if (checkEmpty(is_logged_in) || checkEmpty(token) || checkEmpty(user_uuid) || !is_logged_in) {
-      setRedirectUrl(`/authentication/basic/login`);
-      setRedirect(true);
-    } else {
-      //update expires time of cookies
-      createCookie('is_logged_in', true, settings.cookieExpireTime);
-      createCookie('user_name', user_name, settings.cookieExpireTime);
-      createCookie('user_display_name', user_display_name, settings.cookieExpireTime);
-      createCookie('user_uuid', user_uuid, settings.cookieExpireTime);
-      createCookie('token', token, settings.cookieExpireTime);
+            // Process pie chart data - TCE
+            let tceArray = [];
+            json.reporting_period_input.names.forEach((currentValue, index) => {
+                let item = {};
+                item.id = index;
+                item.name = currentValue;
+                item.value = json.reporting_period_input.subtotals_in_kgce[index] / 1000;
+                item.color = '#' + (((1 << 24) * Math.random()) | 0).toString(16);
+                tceArray.push(item);
+            });
+            setTcePieData(tceArray);
 
-      let isResponseOK = false;
-      fetch(APIBaseURL + '/spaces/tree', {
-        method: 'GET',
-        headers: {
-          'Content-type': 'application/json',
-          'User-UUID': getCookieValue('user_uuid'),
-          Token: getCookieValue('token')
-        },
-        body: null
-      })
-        .then(response => {
-          if (response.ok) {
-            isResponseOK = true;
-          }
-          return response.json();
-        })
-        .then(json => {
-          if (isResponseOK) {
-            // rename keys
-            json = JSON.parse(
-              JSON.stringify([json])
-                .split('"id":')
-                .join('"value":')
-                .split('"name":')
-                .join('"label":')
-            );
-            let selectedSpaceID = [json[0]].map(o => o.value);
-            // get Combined Equipments by root Space ID
-            let isResponseOK = false;
-            fetch(APIBaseURL + '/spaces/' + selectedSpaceID + '/children', {
-              method: 'GET',
-              headers: {
-                'Content-type': 'application/json',
-                'User-UUID': getCookieValue('user_uuid'),
-                Token: getCookieValue('token')
-              },
-              body: null
-            })
-              .then(response => {
-                if (response.ok) {
-                  isResponseOK = true;
-                }
-                return response.json();
-              })
-              .then(json => {
-                if (isResponseOK) {
-                  json = JSON.parse(
-                    JSON.stringify([json])
-                      .split('"id":')
-                      .join('"value":')
-                      .split('"name":')
-                      .join('"label":')
-                  );
-                  setRootLongitude(json[0]['current']['longitude']);
-                  setRootLatitude(json[0]['current']['latitude']);
-                  let geojson = {};
-                  geojson['type'] = 'FeatureCollection';
-                  let geojsonData = [];
-                  for (const childSpace of json[0]['children']) {
-                    if (childSpace['latitude'] && childSpace['longitude']) {
-                      geojsonData.push({
-                        type: 'Feature',
-                        geometry: {
-                          type: 'Point',
-                          coordinates: [childSpace['longitude'], childSpace['latitude']]
-                        },
-                        properties: {
-                          title: childSpace['label'],
-                          description: childSpace['description'],
-                          uuid: childSpace['uuid'],
-                          url: '/space/energycategory'
-                        }
-                      });
-                    }
-                  }
-                  geojson['features'] = geojsonData;
-                  setGeojson(geojson);
-                } else {
-                  handleAPIError(json, setRedirect, setRedirectUrl, t, toast);
-                }
-              })
-              .catch(err => {
-                console.log(err);
-              });
-            // end of get Combined Equipments by root Space ID
-          } else {
-            handleAPIError(json, setRedirect, setRedirectUrl, t, toast);
-          }
-        })
-        .catch(err => {
-          console.log(err);
-        });
-    }
-  }, [setRedirect, setRedirectUrl, t]);
+            // Process pie chart data - TCO2E
+            let tco2eArray = [];
+            json.reporting_period_input.names.forEach((currentValue, index) => {
+                let item = {};
+                item.id = index;
+                item.name = currentValue;
+                item.value = json.reporting_period_input.subtotals_in_kgco2e[index] / 1000;
+                item.color = '#' + (((1 << 24) * Math.random()) | 0).toString(16);
+                tco2eArray.push(item);
+            });
+            setTco2ePieData(tco2eArray);
 
-  return (
-    <Fragment>
-      <div className="card-deck">
-        <Spinner color="primary" hidden={spinnerHidden} />
-        <Spinner color="secondary" hidden={spinnerHidden} />
-        <Spinner color="success" hidden={spinnerHidden} />
-        <Spinner color="danger" hidden={spinnerHidden} />
-        <Spinner color="warning" hidden={spinnerHidden} />
-        <Spinner color="info" hidden={spinnerHidden} />
-        <Spinner color="light" hidden={spinnerHidden} />
-        {thisMonthInputCardSummaryList.map(cardSummaryItem => (
-          <CardSummary
-            key={uuid()}
-            rate={cardSummaryItem['increment_rate']}
-            title={t("This Month's Consumption CATEGORY VALUE UNIT", {
-              CATEGORY: cardSummaryItem['name'],
-              VALUE: null,
-              UNIT: '(' + cardSummaryItem['unit'] + ')'
-            })}
-            color="success"
-            footnote={t('Per Unit Area')}
-            footvalue={cardSummaryItem['subtotal_per_unit_area']}
-            footunit={'(' + cardSummaryItem['unit'] + '/M²)'}
-          >
-            {cardSummaryItem['subtotal'] && (
-              <CountUp
-                end={cardSummaryItem['subtotal']}
-                duration={2}
-                prefix=""
-                separator=","
-                decimal="."
-                decimals={0}
-              />
-            )}
-          </CardSummary>
-        ))}
-        {thisMonthCostCardSummaryList.map(cardSummaryItem => (
-          <CardSummary
-            key={uuid()}
-            rate={cardSummaryItem['increment_rate']}
-            title={t("This Month's Costs CATEGORY VALUE UNIT", {
-              CATEGORY: cardSummaryItem['name'],
-              VALUE: null,
-              UNIT: '(' + cardSummaryItem['unit'] + ')'
-            })}
-            color="success"
-            footnote={t('Per Unit Area')}
-            footvalue={cardSummaryItem['subtotal_per_unit_area']}
-            footunit={'(' + cardSummaryItem['unit'] + '/M²)'}
-          >
-            {cardSummaryItem['subtotal'] && (
-              <CountUp
-                end={cardSummaryItem['subtotal']}
-                duration={2}
-                prefix=""
-                separator=","
-                decimal="."
-                decimals={0}
-              />
-            )}
-          </CardSummary>
-        ))}
-      </div>
-      <Row noGutters>
-        <Col className="mb-3 pr-lg-2">
-          <SharePie data={TCEShareData} title={'门店总数'} />
-        </Col>
-        <Col className="mb-3 pr-lg-2">
-          <WeeklySales data={weeklySales} />
-        </Col>
-        <Col className="mb-3 pr-lg-2">
-          <SharePie data={costShareData} title={'节约二氧化碳排放量'} />
-        </Col>
-        <Col className="mb-3 pr-lg-2">
-          <SharePie data={TCEShareData} title={'故障告警统计'} />
-        </Col>
-        <Col md={6} className="col-xxl-3 mb-3 pl-md-2">
-          <Weather data={weather} className="h-md-100" />
-        </Col>
-      </Row>
-      <Row noGutters>
-        <Col lg={3} xl={3} className="mb-3 pr-lg-2 mb-3">
-          <BestSellingProducts products={products} />
-        </Col>
-        <Col lg={6} xl={6} className="mb-3 pr-lg-2 mb-3">
-          {settings.showOnlineMap ? (
-            <div className="mb-3 card" style={{ height: '500px' }}>
-              <CustomizeMapBox
-                Latitude={rootLatitude}
-                Longitude={rootLongitude}
-                Zoom={3}
-                Geojson={geojson['features']}
-              />
+            setLoading(false);
+            toast.success(t('Dashboard data loaded successfully'));
+
+        } catch (error) {
+            console.error('Error fetching dashboard data:', error);
+            toast.error(t('Failed to load dashboard data'));
+            setLoading(false);
+        }
+    }, [periodType, basePeriodStart, basePeriodEnd, reportingPeriodStart, reportingPeriodEnd, setRedirect, setRedirectUrl, t]);
+
+    useEffect(() => {
+        fetchDashboardData();
+    }, [fetchDashboardData]);
+
+    // Check login status periodically
+    useEffect(() => {
+        const timer = setInterval(() => {
+            let is_logged_in = getCookieValue('is_logged_in');
+            if (is_logged_in === null || !is_logged_in) {
+                setRedirectUrl(`/authentication/basic/login`);
+                setRedirect(true);
+            }
+        }, 1000);
+        return () => clearInterval(timer);
+    }, [setRedirect, setRedirectUrl]);
+
+    // Prepare bar chart data for top stores
+    const prepareTopStoresBarData = () => {
+        const labels = topStores.map(store => store.name);
+        const data = topStores.map(store => ({
+            name: store.name,
+            subtotal: store.total_energy,
+            unit: 'kWh',
+            increment_rate: null,
+            subtotal_per_unit_area: 0,
+            subtotal_per_capita: 0
+        }));
+        return {labels, data};
+    };
+
+    const topStoresBarData = prepareTopStoresBarData();
+
+    // Prepare line chart data for monthly trends
+    const prepareMonthlyTrendData = () => {
+        const timestamps = {};
+        const values = {};
+        const options = [];
+
+        if (monthlyTrends.labels && monthlyTrends.labels.length > 0) {
+            timestamps['a0'] = monthlyTrends.labels;
+            values['a0'] = monthlyTrends.energy;
+            timestamps['a1'] = monthlyTrends.labels;
+            values['a1'] = monthlyTrends.cost;
+            options.push({value: 'a0', label: t('Energy Consumption')});
+            options.push({value: 'a1', label: t('Cost')});
+        }
+
+        return {timestamps, values, options};
+    };
+
+    const monthlyTrendChartData = prepareMonthlyTrendData();
+
+    if (loading) {
+        return (
+            <div className="d-flex justify-content-center align-items-center" style={{minHeight: '400px'}}>
+                <div className="spinner-border text-primary" role="status">
+                    <span className="sr-only">{t('Loading')}...</span>
+                </div>
             </div>
-          ) : (
-            <></>
-          )}
-        </Col>
-        <Col lg={3} xl={3} className="mb-3 pr-lg-2 mb-3">
-          <ActiveUsersBarChart />
-        </Col>
-      </Row>
-      <div className="card-deck">
-        <BarChart
-          labels={barLabels}
-          data={lastYearBarList}
-          compareData={thisYearBarList}
-          title={'逐月用电量对比 '}
-          compareTitle={t('This Year')}
-          footnote={t('Per Unit Area')}
-          footunit={'/M²'}
-        />
-        <LineChart
-          reportingTitle={'逐月成本趋势'}
-          baseTitle=""
-          labels={spaceInputLineChartLabels}
-          data={spaceInputLineChartData}
-          options={spaceInputLineChartOptions}
-        />
-      </div>
-      <div className="wrapper" />
+        );
+    }
 
-      <RecentPurchasesTable />
-    </Fragment>
-  );
+    return (
+        <Fragment>
+            {/* Summary Cards - Using CardSummary component */}
+            <div className="card-deck">
+                <CardSummary
+                    rate={null}
+                    title={t('Total Stores')}
+                    color="success"
+                    footnote={t('Active Meters')}
+                    footvalue={summary.total_meters || 0}
+                    footunit=""
+                    secondfootnote={t('Total Area')}
+                    secondfootvalue={summary.total_area || 0}
+                    secondfootunit="m²"
+                >
+                    <CountUp end={summary.total_stores || 0} duration={2} separator=","/>
+                </CardSummary>
+
+                <CardSummary
+                    rate={energyData.increment_rate_in_kgce !== undefined ? 
+                        (parseFloat(energyData.increment_rate_in_kgce * 100).toFixed(2) + '%') : null}
+                    title={t("This Month's Consumption CATEGORY VALUE UNIT", {
+                        CATEGORY: t('Ton of Standard Coal'),
+                        VALUE: null,
+                        UNIT: '(TCE)'
+                    })}
+                    color="warning"
+                    footnote={t('Per Unit Area')}
+                    footvalue={summary.total_area > 0 ? 
+                        parseFloat((energyData.total_in_kgce || 0) / summary.total_area).toFixed(3) : 0}
+                    footunit="(kgCE/m²)"
+                    secondfootnote={t('Per Capita')}
+                    secondfootvalue={0}
+                    secondfootunit="(kgCE)"
+                >
+                    <CountUp
+                        end={(energyData.total_in_kgce || 0) / 1000}
+                        duration={2}
+                        separator=","
+                        decimals={2}
+                    />
+                </CardSummary>
+
+                <CardSummary
+                    rate={costData.subtotals && costData.subtotals.length > 0 ? '+0.00%' : null}
+                    title={t("This Month's Costs CATEGORY VALUE UNIT", {
+                        CATEGORY: null,
+                        VALUE: null,
+                        UNIT: null
+                    })}
+                    color="success"
+                    footnote={t('Per Unit Area')}
+                    footvalue={0}
+                    footunit=""
+                    secondfootnote={t('Categories')}
+                    secondfootvalue={costData.names?.length || 0}
+                    secondfootunit=""
+                >
+                    ¥<CountUp
+                    end={costData.subtotals?.reduce((a, b) => a + b, 0) || 0}
+                    duration={2}
+                    decimals={2}
+                    separator=","
+                />
+                </CardSummary>
+
+                <CardSummary
+                    rate={energyData.increment_rate_in_kgco2e !== undefined ? 
+                        (parseFloat(energyData.increment_rate_in_kgco2e * 100).toFixed(2) + '%') : null}
+                    title={t("This Month's Consumption CATEGORY VALUE UNIT", {
+                        CATEGORY: t('Ton of Carbon Dioxide Emissions'),
+                        VALUE: null,
+                        UNIT: '(TCO2E)'
+                    })}
+                    color="warning"
+                    footnote={t('Per Unit Area')}
+                    footvalue={summary.total_area > 0 ? 
+                        parseFloat((energyData.total_in_kgco2e || 0) / summary.total_area).toFixed(3) : 0}
+                    footunit="(kgCO2E/m²)"
+                    secondfootnote={t('Per Capita')}
+                    secondfootvalue={0}
+                    secondfootunit="(kgCO2E)"
+                >
+                    <CountUp
+                        end={(energyData.total_in_kgco2e || 0) / 1000}
+                        duration={2}
+                        separator=","
+                        decimals={2}
+                    />
+                </CardSummary>
+            </div>
+
+            {/* Charts Row - Four charts in one row using SharePie and BarChart */}
+            <Row noGutters>
+                <Col className="mb-3 pr-lg-2 mb-3">
+                    <SharePie data={energyCategoryPieData} title={t('Energy Consumption by Category')} />
+                </Col>
+                <Col className="mb-3 pr-lg-2 mb-3">
+                    <SharePie data={costCategoryPieData} title={t('Costs by Energy Category')} />
+                </Col>
+                <Col className="mb-3 pr-lg-2 mb-3">
+                    <SharePie data={tcePieData} title={t('Ton of Standard Coal by Energy Category')} />
+                </Col>
+                <Col className="mb-3 pr-lg-2 mb-3">
+                    <SharePie data={tco2ePieData} title={t('Ton of Carbon Dioxide Emissions by Energy Category')} />
+                </Col>
+            </Row>
+
+            {/* Monthly Trends Line Chart */}
+            <div className="card-deck">
+                <LineChart
+                    reportingTitle={t("This Year's Consumption CATEGORY VALUE UNIT", { 
+                        CATEGORY: null, 
+                        VALUE: null, 
+                        UNIT: null 
+                    })}
+                    baseTitle=""
+                    labels={monthlyTrendChartData.timestamps}
+                    data={monthlyTrendChartData.values}
+                    options={monthlyTrendChartData.options}
+                />
+            </div>
+
+            {/* Store List Table */}
+            <Row>
+                <Col>
+                    <Card className="mb-3">
+                        <CardBody>
+                            <h5 className="mb-3">
+                                <FontAwesomeIcon icon={faArrowUp} className="mr-2"/>
+                                {t('Store Performance Overview')}
+                            </h5>
+                            <div className="table-responsive">
+                                <table className="table table-hover">
+                                    <thead className="thead-light">
+                                    <tr>
+                                        <th>{t('Store Name')}</th>
+                                        <th>{t('Address')}</th>
+                                        <th className="text-right">{t('Store Area')}(m²)</th>
+                                        <th className="text-right">{t('Energy Consumption')}</th>
+                                        <th className="text-right">{t('Per Unit Area')}</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {allStores.map(store => {
+                                        const storeEnergyData = topStores.find(ts => ts.id === store.id);
+                                        const totalEnergy = storeEnergyData ? storeEnergyData.total_energy : 0;
+                                        const perArea = store.area > 0 ? (totalEnergy / store.area).toFixed(2) : '0.00';
+                                        
+                                        return {
+                                            ...store,
+                                            totalEnergy,
+                                            perArea
+                                        };
+                                    })
+                                    .sort((a, b) => b.totalEnergy - a.totalEnergy)
+                                    .map((store) => (
+                                        <tr key={store.id}>
+                                            <td>
+                                                <strong>{store.name}</strong>
+                                            </td>
+                                            <td className="text-muted">{store.address || '-'}</td>
+                                            <td className="text-right">{store.area ? store.area.toFixed(2) : '-'}</td>
+                                            <td className="text-right">
+                                                <strong>{store.totalEnergy.toFixed(2)}</strong>
+                                            </td>
+                                            <td className="text-right">{store.perArea}</td>
+                                        </tr>
+                                    ))}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </CardBody>
+                    </Card>
+                </Col>
+            </Row>
+        </Fragment>
+    );
 };
 
 export default withTranslation()(withRedirect(Dashboard));

@@ -89,6 +89,7 @@ import StoreSaving from '../components/MyEMS/Store/StoreSaving';
 import StorePlan from '../components/MyEMS/Store/StorePlan';
 import StoreBatch from '../components/MyEMS/Store/StoreBatch';
 import StoreComparison from '../components/MyEMS/Store/StoreComparison';
+import StoreDashboard from '../components/MyEMS/Store/Dashboard';
 // Shopfloor
 import ShopfloorEnergyCategory from '../components/MyEMS/Shopfloor/ShopfloorEnergyCategory';
 import ShopfloorPrediction from '../components/MyEMS/Shopfloor/ShopfloorPrediction';
@@ -215,6 +216,7 @@ const MyEMSRoutes = () => (
     <Route path="/tenant/comparison" exact component={TenantComparison} />
 
     {/*Sotore*/}
+    <Route path="/store" exact component={StoreDashboard} />
     <Route path="/store/energycategory" exact component={StoreEnergyCategory} />
     <Route path="/store/prediction" exact component={StorePrediction} />
     <Route path="/store/energyitem" exact component={StoreEnergyItem} />
@@ -226,7 +228,6 @@ const MyEMSRoutes = () => (
     <Route path="/store/plan" exact component={StorePlan} />
     <Route path="/store/batch" exact component={StoreBatch} />
     <Route path="/store/comparison" exact component={StoreComparison} />
-
 
     {/*Shopfloor*/}
     <Route path="/shopfloor/energycategory" exact component={ShopfloorEnergyCategory} />

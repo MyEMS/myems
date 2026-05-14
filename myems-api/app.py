@@ -1485,7 +1485,7 @@ api.add_route('/reports/storecarbon',
               storecarbon.Reporting())
 api.add_route('/reports/storecost',
               storecost.Reporting())
-api.add_route('/reports/storeendashboard',
+api.add_route('/reports/storedashboard',
               storedashboard.Reporting())
 api.add_route('/reports/storeprediction',
               storeprediction.Reporting())
