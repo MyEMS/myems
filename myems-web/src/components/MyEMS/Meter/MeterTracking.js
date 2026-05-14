@@ -431,10 +431,6 @@ const MeterTracking = ({ setRedirect, setRedirectUrl, t }) => {
           setStartIntegrityRate(json['start_integrity_rate'] * 100);
           setEndIntegrityRate(json['end_integrity_rate'] * 100);
           setFullIntegrityRate(json['full_integrity_rate'] * 100);
-//          起始数据完整率：统计时段内，所有仪表中成功获取到起始时刻能耗读数的仪表占比
-//          结束数据完整率：统计时段内，所有仪表中成功获取到结束时刻能耗读数的仪表占比
-//          全量数据完整率：统计时段内，同时成功获取到起始、结束时刻能耗读数的仪表占比
-
 
           setExcelBytesBase64(json['excel_bytes_base64']);
 
