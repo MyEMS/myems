@@ -12,9 +12,18 @@
                                 <span class="input-group-addon">{{'LOGIN.USERNAME' | translate}}</span>
                                 <input ng-keypress="onKeypress($event)" type="text" ng-model="user.name" placeholder="Username" class="form-control" required="" autofocus="autofocus">
                             </div>
-                            <div class="input-group m-b">
+                            <div class="input-group m-b" style="position: relative;">
                                 <span class="input-group-addon"> {{'LOGIN.PASSWORD' | translate}}</span>
-                                <input ng-keypress="onKeypress($event)" ng-model="user.password" type="password" placeholder="Password" class="form-control" required="" maxlength="100">
+                                <input ng-keypress="onKeypress($event)" ng-model="user.password" type="{{showPassword ? 'text' : 'password'}}" placeholder="Password" class="form-control" required="" maxlength="100" style="padding-right: 40px;">
+                                <span style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); cursor: pointer; z-index: 10; color: #666;" ng-click="togglePassword()">
+                                    <svg ng-if="!showPassword" xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" viewBox="0 0 16 16">
+                                        <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z"/>
+                                        <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z"/>
+                                    </svg>
+                                    <svg ng-if="showPassword" xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" viewBox="0 0 16 16">
+                                        <path d="M13.359 11.238C15.06 9.72 16 8 16 8s-3-5.5-8-5.5a7.028 7.028 0 0 0-2.165.338L2.5 1.5 1.5 2.5l3.359 3.359a2.5 2.5 0 0 0 3.5 3.5l3.359 3.359 1-1zM11.297 9.176a3.5 3.5 0 0 1-4.474-4.474l4.474 4.474zm-2.045-4.425a2.5 2.5 0 0 1 1.421 2.528l-1.421-1.421zM4.646 4.646 8 8l3.354 3.354a7.029 7.029 0 0 1-1.993.338C4.308 11.692 0 8 0 8s3-5.5 8-5.5c.264 0 .526.01.784.029l-4.138 4.138z"/>
+                                    </svg>
+                                </span>
                             </div>
                             <div class="input-group m-b table-parent">
                                 <span class="input-group-addon cell-span"> {{'LOGIN.CAPTCHA' | translate}}</span>
