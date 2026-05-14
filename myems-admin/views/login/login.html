@@ -14,7 +14,7 @@
                             </div>
                             <div class="input-group m-b" style="position: relative;">
                                 <span class="input-group-addon"> {{'LOGIN.PASSWORD' | translate}}</span>
-                                <input ng-keypress="onKeypress($event)" ng-model="user.password" type="{{showPassword ? 'text' : 'password'}}" placeholder="Password" class="form-control" required="" maxlength="100" style="padding-right: 40px;">
+                                <input ng-keypress="onKeypress($event)" ng-model="user.password" ng-attr-type="{{showPassword ? 'text' : 'password'}}" placeholder="Password" class="form-control" required="" maxlength="100" style="padding-right: 40px;">
                                 <span style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); cursor: pointer; z-index: 10; color: #666;" ng-click="togglePassword()">
                                     <svg ng-if="!showPassword" xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" viewBox="0 0 16 16">
                                         <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z"/>
