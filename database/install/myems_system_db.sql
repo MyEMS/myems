@@ -1032,6 +1032,7 @@ VALUES
 (509,'Plan','/store/plan',500,1),
 (510,'Store Comparison','/store/comparison',500,0),
 (511,'Prediction','/store/prediction',500,1),
+(512,'Dashboard', '/store', 500, 0),
 (600,'Shopfloor Data','/shopfloor',NULL,0),
 (601,'Energy Category Data','/shopfloor/energycategory',600,0),
 (602,'Energy Item Data','/shopfloor/energyitem',600,0),
