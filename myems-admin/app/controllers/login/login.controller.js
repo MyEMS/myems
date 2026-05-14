@@ -20,6 +20,11 @@ app.controller('LoginController', function (
 	$scope.language = $window.localStorage.getItem("myems_admin_ui_language") || "zh_CN"; //zh_CN, en, de, fr, es, ru, ar, vi, th, tr, ms, id, zh_TW, pt
 	$scope.fullScreenTitle = "FULLSCREEN";
 	$scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
+	$scope.showPassword = false;
+
+	$scope.togglePassword = function() {
+		$scope.showPassword = !$scope.showPassword;
+	};
 	// login section start
 	$scope.login = function (user, captcha, captchaText, refreshCaptcha) {
 		const captchaValue = (captcha || '').toString();
