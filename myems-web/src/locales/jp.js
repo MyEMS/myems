@@ -416,6 +416,9 @@ export default {
             'Start Integrity Rate': '開始データ完全性率(%)',
             'End Integrity Rate': '終了データ完全性率(%)',
             'Full Integrity Rate': '全体データ完全性率(%)',
+            'Start Integrity Rate Description': '開始データ完全率：統計期間内に、すべてのメーターのうち、開始時刻のエネルギー消費量読み取りに成功したメーターの割合',
+            'End Integrity Rate Description': '終了データ完全率：統計期間内に、すべてのメーターのうち、終了時刻のエネルギー消費量読み取りに成功したメーターの割合',
+            'Full Integrity Rate Description': '全量データ完全率：統計期間内に、すべてのメーターのうち、開始時刻と終了時刻の両方のエネルギー消費量読み取りに成功したメーターの割合',
             //Equipment Tracking
             'Equipment List': '設備リスト',
             'Edit Equipment': '編集',

@@ -75,6 +75,7 @@ const getContentClassNames = color => {
 const CardSummary = ({
   title,
   rate,
+  description,
   color,
   children,
   footnote,
@@ -90,6 +91,13 @@ const CardSummary = ({
       <CardBody className="position-relative">
         <h6 className="font-weight-normal fs--1">
           {title}
+          {description && (
+             <FontAwesomeIcon
+               icon="question-circle"
+               className="ml-1 text-info cursor-pointer"
+               title={description}
+             />
+           )}
           <span className={`badge badge-soft-${color} rounded-capsule ml-2`}>
             {getIcon(rate)}
             {rate}

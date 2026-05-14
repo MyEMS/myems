@@ -438,6 +438,9 @@ export default {
             'Start Integrity Rate': 'Memulai Tingkat Integritas Data(%)',
             'End Integrity Rate': 'Tingkat Integritas Data Akhir(%)',
             'Full Integrity Rate': 'Tingkat Integritas Data Umum(%)',
+            'Start Integrity Rate Description': 'Tingkat Integritas Data Awal: Proporsi meter yang berhasil mendapatkan pembacaan konsumsi energi pada waktu awal dari semua meter selama periode statistik',
+            'End Integrity Rate Description': 'Tingkat Integritas Data Akhir: Proporsi meter yang berhasil mendapatkan pembacaan konsumsi energi pada waktu akhir dari semua meter selama periode statistik',
+            'Full Integrity Rate Description': 'Tingkat Integritas Data Lengkap: Proporsi meter yang berhasil mendapatkan pembacaan konsumsi energi pada waktu awal dan akhir dari semua meter selama periode statistik',
             //Equipment Tracking
             'Equipment List': 'Daftar Peranti',
             'Edit Equipment': 'Edit',

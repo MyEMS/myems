@@ -437,6 +437,9 @@ export default {
             'Start Integrity Rate': 'Mulakan Kadar Integriti(%)',
             'End Integrity Rate': 'Tamatkan Kadar Integriti(%)',
             'Full Integrity Rate': 'Kadar Integriti Penuh(%)',
+            'Start Integrity Rate Description': 'Kadar Integriti Data Mula: Bahagian meter yang berjaya mendapatkan bacaan penggunaan tenaga pada masa mula daripada semua meter dalam tempoh statistik',
+            'End Integrity Rate Description': 'Kadar Integriti Data Akhir: Bahagian meter yang berjaya mendapatkan bacaan penggunaan tenaga pada masa akhir daripada semua meter dalam tempoh statistik',
+            'Full Integrity Rate Description': 'Kadar Integriti Data Penuh: Bahagian meter yang berjaya mendapatkan bacaan penggunaan tenaga pada masa mula dan akhir daripada semua meter dalam tempoh statistik',
             //Equipment Tracking
             'Equipment List': 'Senarai Peralatan',
             'Edit Equipment': 'Edit',

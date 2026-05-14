@@ -416,6 +416,9 @@ export default {
             'Start Integrity Rate': 'Start gegevensintegriteit (%)',
             'End Integrity Rate': 'Eind gegevensintegriteit (%)',
             'Full Integrity Rate': 'Volledige gegevensintegriteit (%)',
+            'Start Integrity Rate Description': 'Startgegevensintegriteitspercentage: Aandeel van alle meters dat tijdens de statistische periode met succes energieverbruiksmetingen heeft verkregen op het starttijdstip',
+            'End Integrity Rate Description': 'Eindgegevensintegriteitspercentage: Aandeel van alle meters dat tijdens de statistische periode met succes energieverbruiksmetingen heeft verkregen op het eindtijdstip',
+            'Full Integrity Rate Description': 'Volledige gegevensintegriteitspercentage: Aandeel van alle meters dat tijdens de statistische periode met succes energieverbruiksmetingen heeft verkregen op zowel het start- als eindtijdstip',
             //Equipment Tracking
             'Equipment List': 'Apparatuurlijst',
             'Edit Equipment': 'Bewerken',

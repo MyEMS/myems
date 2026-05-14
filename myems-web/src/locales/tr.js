@@ -433,6 +433,9 @@ export default {
             'Start Integrity Rate': 'Başlangıç Bütünlük Oranı(%)',
             'End Integrity Rate': 'Son Bütünlük Oranı(%)',
             'Full Integrity Rate': 'Tam Bütünlük Oranı(%)',
+            'Start Integrity Rate Description': 'Başlangıç Veri Bütünlüğü Oranı: İstatistiksel dönemde tüm sayaçlar arasında başlangıç anında enerji tüketimi okumasını başarıyla alan sayaçların oranı',
+            'End Integrity Rate Description': 'Bitiş Veri Bütünlüğü Oranı: İstatistiksel dönemde tüm sayaçlar arasında bitiş anında enerji tüketimi okumasını başarıyla alan sayaçların oranı',
+            'Full Integrity Rate Description': 'Tam Veri Bütünlüğü Oranı: İstatistiksel dönemde tüm sayaçlar arasında hem başlangıç hem de bitiş anında enerji tüketimi okumasını başarıyla alan sayaçların oranı',
             //Equipment Tracking
             'Equipment List': 'Ekipman Listesi',
             'Edit Equipment': 'Düzenlemek',

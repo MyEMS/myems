@@ -415,6 +415,9 @@ export default {
             'Start Integrity Rate': 'Wskaźnik kompletności danych początkowych (%)',
             'End Integrity Rate': 'Wskaźnik kompletności danych końcowych (%)',
             'Full Integrity Rate': 'Całkowity wskaźnik kompletności danych (%)',
+            'Start Integrity Rate Description': 'Wskaźnik integralności danych początkowych: Odsetek liczników, które pomyślnie uzyskały odczyty zużycia energii w momencie rozpoczęcia spośród wszystkich liczników w okresie statystycznym',
+            'End Integrity Rate Description': 'Wskaźnik integralności danych końcowych: Odsetek liczników, które pomyślnie uzyskały odczyty zużycia energii w momencie zakończenia spośród wszystkich liczników w okresie statystycznym',
+            'Full Integrity Rate Description': 'Pełny wskaźnik integralności danych: Odsetek liczników, które pomyślnie uzyskały odczyty zużycia energii zarówno w momencie rozpoczęcia, jak i zakończenia spośród wszystkich liczników w okresie statystycznym',
             //Equipment Tracking
             'Equipment List': 'Lista urządzeń',
             'Edit Equipment': 'Edytuj',

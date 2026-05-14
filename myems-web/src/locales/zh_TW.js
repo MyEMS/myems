@@ -420,6 +420,9 @@ export default {
             'Start Integrity Rate': '起始數據完整率 (%)',
             'End Integrity Rate': '結束數據完整率 (%)',
             'Full Integrity Rate': '整體數據完整率 (%)',
+            'Start Integrity Rate Description': '起始資料完整率：統計時段內，所有儀表中成功取得起始時點能耗讀數的儀表占比',
+            'End Integrity Rate Description': '結束資料完整率：統計時段內，所有儀表中成功取得結束時點能耗讀數的儀表占比',
+            'Full Integrity Rate Description': '全量資料完整率：統計時段內，同時成功取得起始、結束時點能耗讀數的儀表占比',
             //Equipment Tracking
             'Equipment List': '設備列表',
             'Edit Equipment': '編輯',

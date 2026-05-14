@@ -431,6 +431,9 @@ export default {
             'Start Integrity Rate': 'Tỷ lệ toàn vẹn bắt đầu(%)',
             'End Integrity Rate': 'Tỷ lệ toàn vẹn cuối cùng(%)',
             'Full Integrity Rate': 'Tỷ lệ toàn vẹn đầy đủ(%)',
+            'Start Integrity Rate Description': 'Tỷ lệ toàn vẹn dữ liệu bắt đầu: Tỷ lệ đồng hồ đã lấy thành công số liệu tiêu thụ năng lượng tại thời điểm bắt đầu trong số tất cả các đồng hồ trong khoảng thời gian thống kê',
+            'End Integrity Rate Description': 'Tỷ lệ toàn vẹn dữ liệu kết thúc: Tỷ lệ đồng hồ đã lấy thành công số liệu tiêu thụ năng lượng tại thời điểm kết thúc trong số tất cả các đồng hồ trong khoảng thời gian thống kê',
+            'Full Integrity Rate Description': 'Tỷ lệ toàn vẹn dữ liệu toàn diện: Tỷ lệ đồng hồ đã lấy thành công số liệu tiêu thụ năng lượng tại cả thời điểm bắt đầu và kết thúc trong số tất cả các đồng hồ trong khoảng thời gian thống kê',
             //Equipment Tracking
             'Equipment List': 'Danh sách thiết bị',
             'Edit Equipment': 'Biên tập',

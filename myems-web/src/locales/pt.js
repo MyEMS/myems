@@ -433,6 +433,9 @@ export default {
             'Start Integrity Rate': 'Taxa de Integridade Inicial(%)',
             'End Integrity Rate': 'Taxa de integridade final(%)',
             'Full Integrity Rate': 'Taxa de Integridade Total(%)',
+            'Start Integrity Rate Description': 'Taxa de Integridade de Dados Inicial: Proporção de medidores que obtiveram com sucesso leituras de consumo de energia no horário de início entre todos os medidores durante o período estatístico',
+            'End Integrity Rate Description': 'Taxa de Integridade de Dados Final: Proporção de medidores que obtiveram com sucesso leituras de consumo de energia no horário de término entre todos os medidores durante o período estatístico',
+            'Full Integrity Rate Description': 'Taxa de Integridade de Dados Completa: Proporção de medidores que obtiveram com sucesso leituras de consumo de energia nos horários de início e término entre todos os medidores durante o período estatístico',
             //Equipment Tracking
             'Equipment List': 'Lista de equipamentos',
             'Edit Equipment': 'Editar',
