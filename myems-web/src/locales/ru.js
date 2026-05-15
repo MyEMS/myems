@@ -160,6 +160,15 @@ export default {
         'Energy Consumption': 'Потребление энергии',
         'Consumption': 'Потребление',
         'last period': 'прошлый период',
+        // Tenant Dashboard
+        'Tenant Dashboard': 'Панель Арендаторов',
+        'Comprehensive overview of tenant energy performance': 'Комплексный обзор энергоэффективности арендаторов',
+        'Total Tenants': 'Всего Арендаторов',
+        'Tenant Performance Overview': 'Обзор Эффективности Арендаторов',
+        'Tenant Name': 'Название Арендатора',
+        'Tenant Area': 'Площадь Арендатора',
+        'Tenant Type': 'Тип Арендатора',
+
         // Dashboard
         'Welcome to MyEMS': 'Добро пожаловать в MyEMS',
         'An Industry Leading Open Source Energy Management System':

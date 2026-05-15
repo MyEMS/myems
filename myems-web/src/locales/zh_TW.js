@@ -159,6 +159,14 @@ export default {
         'Energy Consumption': '能耗',
         'Consumption': '消耗量',
         'last period': '上期',
+        // Tenant Dashboard
+        'Tenant Dashboard': '租戶儀表板',
+        'Comprehensive overview of tenant energy performance': '租戶能源績效綜合概覽',
+        'Total Tenants': '租戶總數',
+        'Tenant Performance Overview': '租戶績效概覽',
+        'Tenant Name': '租戶名稱',
+        'Tenant Area': '租戶面積',
+        'Tenant Type': '租戶類型',
         // Dashboard
         'Welcome to MyEMS': '歡迎使⽤ MyEMS',
         'An Industry Leading Open Source Energy Management System': '⾏業領先的開源能源管理系統',

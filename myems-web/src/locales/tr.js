@@ -160,6 +160,14 @@ export default {
         'Energy Consumption': 'Enerji Tüketimi',
         'Consumption': 'Tüketim',
         'last period': 'önceki dönem',
+        // Tenant Dashboard
+        'Tenant Dashboard': 'Kiracı Panosu',
+        'Comprehensive overview of tenant energy performance': 'Kiracı enerji performansının kapsamlı görünümü',
+        'Total Tenants': 'Toplam Kiracı Sayısı',
+        'Tenant Performance Overview': 'Kiracı Performansına Genel Bakış',
+        'Tenant Name': 'Kiracı Adı',
+        'Tenant Area': 'Kiracı Alanı',
+        'Tenant Type': 'Kiracı Türü',
         // Dashboard
         'Welcome to MyEMS': "MyEMS'ye Hoş Geldiniz",
         'An Industry Leading Open Source Energy Management System': 'Endüstri Lideri Açık Kaynak Enerji Yönetim Sistemi',

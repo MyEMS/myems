@@ -160,6 +160,14 @@ export default {
         'Energy Consumption': 'Konsumsi Energi',
         'Consumption': 'Konsumsi',
         'last period': 'periode sebelumnya',
+        // Tenant Dashboard
+        'Tenant Dashboard': 'Dasbor Penyewa',
+        'Comprehensive overview of tenant energy performance': 'Gambaran komprehensif kinerja energi penyewa',
+        'Total Tenants': 'Total Penyewa',
+        'Tenant Performance Overview': 'Gambaran Kinerja Penyewa',
+        'Tenant Name': 'Nama Penyewa',
+        'Tenant Area': 'Area Penyewa',
+        'Tenant Type': 'Jenis Penyewa',
         // Dashboard
         'Welcome to MyEMS': 'Selamat Datang Di MyEMS',
         'An Industry Leading Open Source Energy Management System':

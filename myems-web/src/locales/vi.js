@@ -160,6 +160,15 @@ export default {
         'Energy Consumption': 'Tiêu thụ năng lượng',
         'Consumption': 'Tiêu thụ',
         'last period': 'kỳ trước',
+        // Tenant Dashboard
+        'Tenant Dashboard': 'Bảng Điều Khiển Người Thuê',
+        'Comprehensive overview of tenant energy performance': 'Tổng quan toàn diện về hiệu suất năng lượng của người thuê',
+        'Total Tenants': 'Tổng Số Người Thuê',
+        'Tenant Performance Overview': 'Tổng Quan Hiệu Suất Người Thuê',
+        'Tenant Name': 'Tên Người Thuê',
+        'Tenant Area': 'Diện Tích Người Thuê',
+        'Tenant Type': 'Loại Người Thuê',
+
         // Dashboard
         'Welcome to MyEMS': 'Chào mừng bạn đến với MyEMS',
         'An Industry Leading Open Source Energy Management System':

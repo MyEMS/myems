@@ -160,6 +160,14 @@ export default {
         'Energy Consumption': 'การใช้พลังงาน',
         'Consumption': 'การใช้งาน',
         'last period': 'งวดก่อนหน้า',
+        // Tenant Dashboard
+        'Tenant Dashboard': 'แดชบอร์ดผู้เช่า',
+        'Comprehensive overview of tenant energy performance': 'ภาพรวมประสิทธิภาพพลังงานของผู้เช่า',
+        'Total Tenants': 'จำนวนผู้เช่าทั้งหมด',
+        'Tenant Performance Overview': 'ภาพรวมประสิทธิภาพผู้เช่า',
+        'Tenant Name': 'ชื่อผู้เช่า',
+        'Tenant Area': 'พื้นที่ผู้เช่า',
+        'Tenant Type': 'ประเภทผู้เช่า',
         // Dashboard
         'Welcome to MyEMS': 'ยินดีต้อนรับสู่ MyEMS',
         'An Industry Leading Open Source Energy Management System': 'ระบบการจัดการพลังงานโอเพ่นซอร์สชั้นนําของอุตสาหกรรม',

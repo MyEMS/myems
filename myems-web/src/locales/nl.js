@@ -160,6 +160,14 @@ export default {
         'Energy Consumption': 'Energieverbruik',
         'Consumption': 'Verbruik',
         'last period': 'vorige periode',
+        // Tenant Dashboard
+        'Tenant Dashboard': 'Huurders Dashboard',
+        'Comprehensive overview of tenant energy performance': 'Uitgebreid overzicht van energieprestaties van huurders',
+        'Total Tenants': 'Totaal Aantal Huurders',
+        'Tenant Performance Overview': 'Overzicht Huurdersprestaties',
+        'Tenant Name': 'Naam Huurder',
+        'Tenant Area': 'Oppervlakte Huurder',
+        'Tenant Type': 'Type Huurder',
         // Dashboard
         'Welcome to MyEMS': 'Welkom bij MyEMS',
         'An Industry Leading Open Source Energy Management System': 'Een toonaangevend open source energiebeheersysteem',

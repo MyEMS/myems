@@ -160,6 +160,14 @@ export default {
         'Energy Consumption': 'Consumo de Energia',
         'Consumption': 'Consumo',
         'last period': 'período anterior',
+        // Tenant Dashboard
+        'Tenant Dashboard': 'Painel de Inquilinos',
+        'Comprehensive overview of tenant energy performance': 'Visão abrangente do desempenho energético dos inquilinos',
+        'Total Tenants': 'Total de Inquilinos',
+        'Tenant Performance Overview': 'Visão Geral do Desempenho dos Inquilinos',
+        'Tenant Name': 'Nome do Inquilino',
+        'Tenant Area': 'Área do Inquilino',
+        'Tenant Type': 'Tipo de Inquilino',
         // Dashboard
         'Welcome to MyEMS': 'Bem-vindo ao MyEMS',
         'An Industry Leading Open Source Energy Management System':

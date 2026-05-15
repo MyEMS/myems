@@ -98,6 +98,7 @@ export const tenantRoutes = {
   to: '/tenant',
   icon: 'user',
   children: [
+    { to: '/tenant', name: 'Dashboard' },
     { to: '/tenant/energycategory', name: 'Energy Category Data' },
     { to: '/tenant/energyitem', name: 'Energy Item Data' },
     { to: '/tenant/carbon', name: 'Carbon' },

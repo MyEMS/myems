@@ -160,6 +160,14 @@ export default {
         'Energy Consumption': 'エネルギー消費量',
         'Consumption': '消費量',
         'last period': '前期',
+        // Tenant Dashboard
+        'Tenant Dashboard': 'テナントダッシュボード',
+        'Comprehensive overview of tenant energy performance': 'テナントのエネルギーパフォーマンスの包括的な概要',
+        'Total Tenants': 'テナント総数',
+        'Tenant Performance Overview': 'テナントパフォーマンス概要',
+        'Tenant Name': 'テナント名',
+        'Tenant Area': 'テナント面積',
+        'Tenant Type': 'テナントタイプ',
         // Dashboard
         'Welcome to MyEMS': 'MyEMSへようこそ',
         'An Industry Leading Open Source Energy Management System': '業界をリードするオープンソースエネルギー管理システム',
