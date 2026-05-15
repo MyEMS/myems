@@ -470,6 +470,9 @@ export default {
         'Start Integrity Rate': 'Start Integrity Rate(%)',
         'End Integrity Rate': 'End Integrity Rate(%)',
         'Full Integrity Rate': 'Full Integrity Rate(%)',
+        'Start Integrity Rate Description': 'Start Data Integrity Rate: The proportion of all meters that successfully obtained energy consumption readings at the start time within the statistical period',
+        'End Integrity Rate Description': 'End Data Integrity Rate: The proportion of all meters that successfully obtained energy consumption readings at the end time within the statistical period',
+        'Full Integrity Rate Description': 'Full Data Integrity Rate: The proportion of all meters that successfully obtained energy consumption readings at both the start and end times within the statistical period',
         //Equipment Tracking
         'Equipment List': 'Equipment List',
         'Edit Equipment': 'Edit',

@@ -331,14 +331,6 @@ const MeterTracking = ({ setRedirect, setRedirectUrl, t }) => {
       classes: 'border-0 py-2 align-middle',
       sort: true
     },
-    {
-      dataField: '',
-      headerClasses: 'border-0',
-      text: '',
-      classes: 'border-0 py-2 align-middle',
-      formatter: actionFormatter,
-      align: 'right'
-    }
   ];
 
   const labelClasses = 'ls text-uppercase text-600 font-weight-semi-bold mb-0';
@@ -584,13 +576,13 @@ const MeterTracking = ({ setRedirect, setRedirectUrl, t }) => {
       </div>
       <div style={{ visibility: resultDataHidden ? 'hidden' : 'visible', display: resultDataHidden ? 'none' : '' }}>
         <div className="card-deck">
-          <CardSummary title={t('Start Integrity Rate')} color="success">
+          <CardSummary title={t('Start Integrity Rate')} color="success" description={t('Start Integrity Rate Description')}>
             <CountUp end={startIntegrityRate} duration={2} prefix="" separator="," decimals={2} decimal="." />
           </CardSummary>
-          <CardSummary title={t('End Integrity Rate')} color="success">
+          <CardSummary title={t('End Integrity Rate')} color="success" description={t('End Integrity Rate Description')}>
             <CountUp end={endIntegrityRate} duration={2} prefix="" separator="," decimals={2} decimal="." />
           </CardSummary>
-          <CardSummary title={t('Full Integrity Rate')} color="warning">
+          <CardSummary title={t('Full Integrity Rate')} color="warning" description={t('Full Integrity Rate Description')}>
             <CountUp end={fullIntegrityRate} duration={2} prefix="" separator="," decimals={2} decimal="." />
           </CardSummary>
         </div>
