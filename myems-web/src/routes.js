@@ -118,6 +118,7 @@ export const storeRoutes = {
   to: '/store',
   icon: 'shopping-bag',
   children: [
+    { to: '/store', name: 'Dashboard' },
     { to: '/store/energycategory', name: 'Energy Category Data' },
     { to: '/store/energyitem', name: 'Energy Item Data' },
     { to: '/store/carbon', name: 'Carbon' },
