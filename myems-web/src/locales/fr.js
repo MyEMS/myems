@@ -160,7 +160,7 @@ export default {
         'Energy Consumption': 'Consommation d\'énergie',
         'Consumption': 'Consommation',
         'last period': 'période précédente',
-
+        
         // Dashboard
         'Welcome to MyEMS': 'Bienvenue chez MyEMS',
         'An Industry Leading Open Source Energy Management System': 'Un système de gestion de l’énergie open source leader de l’industrie',
@@ -460,6 +460,9 @@ export default {
         'Start Integrity Rate': 'Commencer Intégrité Taux(%)',
         'End Integrity Rate': 'Fin Intégrité Taux(%)',
         'Full Integrity Rate': 'Plein Intégrité Taux(%)',
+        'Start Integrity Rate Description': "Taux d'intégrité des données de début: Proportion des compteurs ayant obtenu avec succès des lectures de consommation d'énergie au moment de début parmi tous les compteurs au cours de la période statistique",
+        'End Integrity Rate Description': "Taux d'intégrité des données de fin: Proportion des compteurs ayant obtenu avec succès des lectures de consommation d'énergie au moment de fin parmi tous les compteurs au cours de la période statistique",
+        'Full Integrity Rate Description': "Taux d'intégrité des données complet: Proportion des compteurs ayant obtenu avec succès des lectures de consommation d'énergie aux moments de début et de fin parmi tous les compteurs au cours de la période statistique",
         //Equipment Tracking
         'Equipment List': 'Équipement Liste',
         'Edit Equipment': 'Éditer',

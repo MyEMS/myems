@@ -18,6 +18,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - added store prediction report in myems-web
 - added the function of displaying the password entered by the user to myems-admin
 - added store dashboard to myems-web
+- added full space path to meter tracking in myems-web
 ### Changed
 - changed node.js version to 22.22.2, 24.5.0 or later in myems-web
 - changed npm version to 10.9.7, 11.5.1 or later in myems-web

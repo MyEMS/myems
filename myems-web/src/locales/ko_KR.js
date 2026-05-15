@@ -435,6 +435,9 @@ export default {
         'Start Integrity Rate': '시작 데이터 무결성율(%)',
         'End Integrity Rate': '종료 데이터 무결성율(%)',
         'Full Integrity Rate': '전체 데이터 무결성율(%)',
+        'Start Integrity Rate Description': '시작 데이터 완전성률: 통계 기간 내 모든 계량기 중 시작 시점 에너지 소비량 판독에 성공한 계량기의 비율',
+        'End Integrity Rate Description': '종료 데이터 완전성률: 통계 기간 내 모든 계량기 중 종료 시점 에너지 소비량 판독에 성공한 계량기의 비율',
+        'Full Integrity Rate Description': '전체 데이터 완전성률: 통계 기간 내 모든 계량기 중 시작 및 종료 시점 에너지 소비량 판독에 모두 성공한 계량기의 비율',
         //Equipment Tracking
         'Equipment List': '장비 목록',
         'Edit Equipment': '편집',
