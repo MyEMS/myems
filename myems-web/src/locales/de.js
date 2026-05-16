@@ -142,7 +142,6 @@ export default {
         'Active Meters': 'Aktive Zähler',
         'Active Alerts': 'Aktive Warnungen',
         'Total Energy Consumption': 'Gesamtenergieverbrauch',
-
         'Carbon Emissions': 'Kohlenstoffemissionen',
         'Current Period': 'Aktueller Zeitraum',
         'Energy Consumption by Category': 'Energieverbrauch nach Kategorie',
@@ -471,6 +470,9 @@ export default {
         'Start Integrity Rate': 'Start Integritätsrate(%)',
         'End Integrity Rate': 'End Integritätsrate(%)',
         'Full Integrity Rate': 'Vollständige Integritätsrate(%)',
+        'Start Integrity Rate Description': 'Anfangsdaten-Integritätsrate: Anteil der Geräte, bei denen während des statistischen Zeitraums erfolgreich Energieverbrauchswerte zum Startzeitpunkt abgerufen wurden, an allen Geräten',
+        'End Integrity Rate Description': 'Enddaten-Integritätsrate: Anteil der Geräte, bei denen während des statistischen Zeitraums erfolgreich Energieverbrauchswerte zum Endzeitpunkt abgerufen wurden, an allen Geräten',
+        'Full Integrity Rate Description': 'Vollständige Daten-Integritätsrate: Anteil der Geräte, bei denen während des statistischen Zeitraums erfolgreich Energieverbrauchswerte sowohl zum Start- als auch zum Endzeitpunkt abgerufen wurden, an allen Geräten',
         //Equipment Tracking
         'Equipment List': 'Ausrüstungsliste',
         'Edit Equipment': 'bearbeiten',
