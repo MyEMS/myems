@@ -449,6 +449,9 @@ export default {
         'Start Integrity Rate': 'Tasso Integrità Dati Iniziale (%)',
         'End Integrity Rate': 'Tasso Integrità Dati Finale (%)',
         'Full Integrity Rate': 'Tasso Integrità Dati Complessivo (%)',
+        'Start Integrity Rate Description': 'Tasso di Integrità Dati Iniziale: Proporzione di contatori che hanno ottenuto con successo letture di consumo energetico all\'ora di inizio tra tutti i contatori durante il periodo statistico',
+        'End Integrity Rate Description': 'Tasso di Integrità Dati Finale: Proporzione di contatori che hanno ottenuto con successo letture di consumo energetico all\'ora di fine tra tutti i contatori durante il periodo statistico',
+        'Full Integrity Rate Description': 'Tasso di Integrità Dati Completo: Proporzione di contatori che hanno ottenuto con successo letture di consumo energetico sia all\'ora di inizio che di fine tra tutti i contatori durante il periodo statistico',
         //Equipment Tracking
         'Equipment List': 'Lista Attrezzature',
         'Edit Equipment': 'Modifica',

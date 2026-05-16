@@ -142,7 +142,6 @@ export default {
         'Active Meters': 'Medidores Activos',
         'Active Alerts': 'Alertas Activas',
         'Total Energy Consumption': 'Consumo Total de Energía',
-
         'Carbon Emissions': 'Emisiones de Carbono',
         'Current Period': 'Período Actual',
         'Energy Consumption by Category': 'Consumo de Energía por Categoría',
@@ -476,6 +475,9 @@ export default {
         'Start Integrity Rate': 'Tasa de integridad de inicio(%)',
         'End Integrity Rate': 'Tasa de integridad final(%)',
         'Full Integrity Rate': 'Tasa de integridad total(%)',
+        'Start Integrity Rate Description': 'Tasa de Integridad de Datos Inicial: Proporción de medidores que obtuvieron con éxito lecturas de consumo de energía en el momento de inicio entre todos los medidores durante el período estadístico',
+        'End Integrity Rate Description': 'Tasa de Integridad de Datos Final: Proporción de medidores que obtuvieron con éxito lecturas de consumo de energía en el momento de finalización entre todos los medidores durante el período estadístico',
+        'Full Integrity Rate Description': 'Tasa de Integridad de Datos Completa: Proporción de medidores que obtuvieron con éxito lecturas de consumo de energía tanto en el momento de inicio como en el de finalización entre todos los medidores durante el período estadístico',
         //Equipment Tracking
         'Equipment List': 'Lista de equipos',
         'Edit Equipment': 'Editar',

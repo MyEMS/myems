@@ -259,6 +259,14 @@ class Reporting:
                         parent_node = node_dict[row[2]] if row[2] is not None else None
                         node_dict[row[0]] = AnyNode(id=row[0], parent=parent_node, name=row[1])
 
+                def get_full_space_path(node):
+                    path_names = []
+                    while node is not None:
+                        path_names.append(node.name)
+                        node = node.parent
+                    path_names.reverse()
+                    return '/'.join(path_names)
+
                 ##################################################################################################
                 # Step 3: query all meters in the space tree
                 ##################################################################################################
@@ -269,7 +277,7 @@ class Reporting:
                     for node in LevelOrderIter(node_dict[space_id]):
                         space_dict[node.id] = node.name
 
-                    cursor_system_db.execute(" SELECT m.id, m.name AS meter_name, s.name AS space_name, "
+                    cursor_system_db.execute(" SELECT m.id, m.name AS meter_name, s.id AS space_id, "
                                              "        cc.name AS cost_center_name, ec.name AS energy_category_name, "
                                              "         m.description, m.uuid AS meter_uuid "
                                              " FROM tbl_spaces s, tbl_spaces_meters sm, "
@@ -281,7 +289,7 @@ class Reporting:
                                              " AND m.cost_center_id = cc.id AND m.energy_category_id = ec.id "
                                              " ORDER BY meter_id ", )
                 else:
-                    cursor_system_db.execute(" SELECT m.id, m.name AS meter_name, s.name AS space_name, "
+                    cursor_system_db.execute(" SELECT m.id, m.name AS meter_name, s.id AS space_id, "
                                              "        cc.name AS cost_center_name, ec.name AS energy_category_name, "
                                              "         m.description, m.uuid AS meter_uuid "
                                              " FROM tbl_spaces s, tbl_spaces_meters sm, "
@@ -295,8 +303,11 @@ class Reporting:
                 rows_meters = cursor_system_db.fetchall()
                 if rows_meters is not None and len(rows_meters) > 0:
                     for row in rows_meters:
+                        # 获取完整空间路径
+                        space_node = node_dict.get(row[2])  # row[2] 是 space_id
+                        full_space_path = get_full_space_path(space_node) if space_node else row[2]
                         meter_dict[row[0]] = {"meter_name": row[1],
-                                              "space_name": row[2],
+                                              "space_name": full_space_path,
                                               "cost_center_name": row[3],
                                               "energy_category_name": row[4],
                                               "description": row[5],
