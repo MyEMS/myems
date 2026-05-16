@@ -3,13 +3,13 @@ Tenant Dashboard Report API - Redesigned
 
 This module provides REST API endpoints for generating comprehensive tenant dashboard reports.
 It aggregates data from multiple sources including tenants, energy categories, sensors,
-and child spaces to provide a complete overview of tenant energy consumption and performance.
+and child Tenant s to provide a complete overview of tenant energy consumption and performance.
 
 Key Features:
 - Multi-tenant energy consumption analysis
 - Energy category breakdown and trends
 - Sensor data integration and monitoring
-- Child space hierarchy analysis
+- Child Tenant  hierarchy analysis
 - Base period vs reporting period comparison
 - Real-time data processing
 - Carbon emissions tracking
@@ -20,7 +20,7 @@ Report Components:
 - Energy input analysis by category
 - Energy cost calculations and trends
 - Carbon emissions tracking
-- Child space consumption breakdown
+- Child Tenant  consumption breakdown
 - Sensor monitoring data
 - Performance metrics and KPIs
 - Time-of-use analysis
