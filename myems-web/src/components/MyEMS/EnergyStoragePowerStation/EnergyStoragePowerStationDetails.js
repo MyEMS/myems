@@ -36,6 +36,7 @@ import CommandDetails from './CommandDetails';
 import DeviceStatusDetails from './DeviceStatusDetails';
 import blankPage from '../../../assets/img/generic/blank-page.png';
 import PinModal from './PinModal';
+import { sanitizeSVG } from '../../../helpers/createMarkup';
 
 const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) => {
   const location = useLocation();
@@ -262,7 +263,7 @@ const EnergyStoragePowerStationDetails = ({ setRedirect, setRedirectUrl, t }) =>
           setEnergyStoragePowerStationAddress(json['energy_storage_power_station']['address']);
           setEnergyStoragePowerStationRatedCapacity(json['energy_storage_power_station']['rated_capacity']);
           setEnergyStoragePowerStationRatedPower(json['energy_storage_power_station']['rated_power']);
-          setEnergyStoragePowerStationSVG({ __html: json['energy_storage_power_station']['svg'] });
+          setEnergyStoragePowerStationSVG({ __html: sanitizeSVG(json['energy_storage_power_station']['svg']) });
 
           setGatewayStatus(json['energy_storage_power_station']['is_online']);
           setPCSStatus(json['energy_storage_power_station']['pcs_run_state']);

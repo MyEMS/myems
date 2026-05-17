@@ -30,6 +30,7 @@
     "chartjs-plugin-annotation": "^2.0.0",
     "chartjs-plugin-datalabels": "^2.1.0",
     "classnames": "^2.2.6",
+    "dompurify": "^3.2.4",
     "echarts": "^5.2.2",
     "echarts-for-react": "^3.0.2",
     "element-resize-event": "^3.0.3",

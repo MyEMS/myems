@@ -2,6 +2,7 @@ import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Button, Media, Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
 import Flex from '../common/Flex';
+import { sanitize } from '../../helpers/createMarkup';
 import moment from 'moment';
 
 const getCircleStackIcon = (icon, transform) => (
@@ -60,7 +61,7 @@ const CalendarEventModal = ({ isOpenModal, setIsOpenModal, modalEventContent }) 
         )}
         {location && (
           <EventModalMediaContent icon="map-marker-alt" heading="Location">
-            <div className="mb-1" dangerouslySetInnerHTML={{ __html: location }} />
+            <div className="mb-1" dangerouslySetInnerHTML={{ __html: sanitize(location) }} />
           </EventModalMediaContent>
         )}
         {schedules && (

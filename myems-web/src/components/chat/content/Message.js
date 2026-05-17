@@ -10,6 +10,7 @@ import ChatMessageOptions from './ChatMessageOptions';
 import { isIterableArray } from '../../../helpers/utils';
 import { ChatContext } from '../../../context/Context';
 import classNames from 'classnames';
+import { sanitize } from '../../../helpers/createMarkup';
 
 const Message = ({ message, senderUserId, status, time, isGroup }) => {
   const { users } = useContext(ChatContext);
@@ -36,7 +37,7 @@ const Message = ({ message, senderUserId, status, time, isGroup }) => {
             {isIterableArray(message?.attachment) ? (
               <div className="chat-message chat-gallery">
                 {message.text && (
-                  <p className="mb-0" dangerouslySetInnerHTML={{ __html: message.text ? message.text : message }} />
+                  <p className="mb-0" dangerouslySetInnerHTML={{ __html: sanitize(message.text ? message.text : message) }} />
                 )}
                 <LightBoxGallery images={message.attachment}>
                   {openImgIndex => (
@@ -66,7 +67,7 @@ const Message = ({ message, senderUserId, status, time, isGroup }) => {
                   })}
                 >
                   {(message || message.text) && (
-                    <p className="mb-0" dangerouslySetInnerHTML={{ __html: message.text ? message.text : message }} />
+                    <p className="mb-0" dangerouslySetInnerHTML={{ __html: sanitize(message.text ? message.text : message) }} />
                   )}
                   {message.attachment && (
                     <FalconLightBox imgSrc={message.attachment}>

@@ -5,6 +5,7 @@ import Fuse from 'fuse.js/dist/fuse.esm';
 import { Link } from 'react-router-dom';
 import Avatar from '../common/Avatar';
 import { isIterableArray } from '../../helpers/utils';
+import { sanitize } from '../../helpers/createMarkup';
 import Flex from '../common/Flex';
 
 const MediaSearchContent = ({ item }) => {
@@ -20,7 +21,7 @@ const MediaSearchContent = ({ item }) => {
 
         <Media body className="ml-2">
           <h6 className="mb-0">{item.title}</h6>
-          <p className="fs--2 mb-0" dangerouslySetInnerHTML={{ __html: item.text || item.time }} />
+          <p className="fs--2 mb-0" dangerouslySetInnerHTML={{ __html: sanitize(item.text || item.time) }} />
         </Media>
       </Media>
     </DropdownItem>

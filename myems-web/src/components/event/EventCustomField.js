@@ -7,7 +7,7 @@ import { isIterableArray } from '../../helpers/utils';
 import ButtonIcon from '../common/ButtonIcon';
 import FormGroupSelect from '../common/FormGroupSelect';
 import createMarkup from '../../helpers/createMarkup';
-
+import DOMPurify from 'dompurify';
 const CustomField = ({ name, type, options, index }) => {
   switch (type) {
     case 'select':

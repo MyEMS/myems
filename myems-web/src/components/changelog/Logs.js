@@ -34,7 +34,7 @@ const Logs = ({ title, publish, logs, children, index: currentIndex }) => (
                     <ul>
                       {isIterableArray(entry[1]) &&
                         entry[1].map((mv, mi) => (
-                          <li dangerouslySetInnerHTML={{ __html: mv }} key={entry[0] + i + mi} />
+                          <li dangerouslySetInnerHTML={createMarkup(mv)} key={entry[0] + i + mi} />
                         ))}
                     </ul>
                   </li>

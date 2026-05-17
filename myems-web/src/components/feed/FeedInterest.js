@@ -8,6 +8,7 @@ import useFakeFetch from '../../hooks/useFakeFetch';
 import Loader from '../common/Loader';
 import createMarkup from '../../helpers/createMarkup';
 import rawEvents from '../../data/event/events';
+import DOMPurify from 'dompurify';
 
 const resolvedEvents = rawEvents.slice(2);
 

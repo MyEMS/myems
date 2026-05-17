@@ -4,6 +4,7 @@ import { CustomInput, FormGroup, Label } from 'reactstrap';
 import Loader from './Loader';
 import { isIterableArray } from '../../helpers/utils';
 import createMarkup from '../../helpers/createMarkup';
+import DOMPurify from 'dompurify';
 
 const FormGroupSelect = ({ loading, id, label, options, value, onChange, ...rest }) => {
   return (
