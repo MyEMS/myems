@@ -118,7 +118,7 @@
     "gulp-rtlcss": "^2.0.0",
     "gulp-sass": "^5.0.0",
     "gulp-sourcemaps": "^2.6.5",
-    "postcss": "^8.4.31",
+    "postcss": "^8.5.10",
     "prettier": "^2.8.8",
     "sass": "^1.43.4",
     "webpack-dev-server": "^5.2.1"
@@ -129,6 +129,9 @@
     "serialize-javascript": "^7.0.5",
     "follow-redirects": "^1.16.0",
     "protocol-buffers-schema": "^3.6.1",
-    "webpack-dev-server": "^5.2.1"
+    "webpack-dev-server": "^5.2.1",
+    "@babel/plugin-transform-modules-systemjs": ">=7.29.4",
+    "fast-uri": ">=3.1.2",
+    "@tootallnate/once": ">=3.0.1"
   }
 }
