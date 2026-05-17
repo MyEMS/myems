@@ -160,7 +160,14 @@ export default {
         'Energy Consumption': 'مصرف انرژی',
         'Consumption': 'مصرف',
         'last period': 'دوره قبل',
-
+        // Tenant Dashboard
+        'Tenant Dashboard': 'داشبورد مستأجران',
+        'Comprehensive overview of tenant energy performance': 'نمای کلی عملکرد انرژی مستأجران',
+        'Total Tenants': 'تعداد کل مستأجران',
+        'Tenant Performance Overview': 'نمای کلی عملکرد مستأجران',
+        'Tenant Name': 'نام مستأجر',
+        'Tenant Area': 'مساحت مستأجر',
+        'Tenant Type': 'نوع مستأجر',
         // Dashboard
         'Welcome to MyEMS': 'به MyEMS خوش آمدید',
         'An Industry Leading Open Source Energy Management System': 'سیستم مدیریت انرژی منبع‌باز پیشرو در صنعت',

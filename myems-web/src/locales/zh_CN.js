@@ -135,6 +135,15 @@ export default {
         'Discharge Revenue Indicator': '放电收益',
         'HVAC': '空调',
         'Fire Control': '消防',
+        // Tenant Dashboard
+        'Tenant Dashboard': '租户仪表板',
+        'Comprehensive overview of tenant energy performance': '租户能源绩效综合概览',
+        'Total Tenants': '租户总数',
+        'Tenant Performance Overview': '租户绩效概览',
+        'Tenant Name': '租户名称',
+        'Tenant Area': '租户面积',
+        'Tenant Type': '租户类型',
+
         // Store Dashboard
         'Store Dashboard': '门店仪表板',
         'Comprehensive overview of store energy performance': '门店能源绩效综合概览',

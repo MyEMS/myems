@@ -135,6 +135,15 @@ export default {
         'Discharge Revenue Indicator': 'Discharge Revenue',
         'HVAC': 'HVAC',
         'Fire Control': 'Fire Control',
+        // Tenant Dashboard
+        'Tenant Dashboard': 'Tenant Dashboard',
+        'Comprehensive overview of tenant energy performance': 'Comprehensive overview of tenant energy performance',
+        'Total Tenants': 'Total Tenants',
+        'Tenant Performance Overview': 'Tenant Performance Overview',
+        'Tenant Name': 'Tenant Name',
+        'Tenant Area': 'Tenant Area',
+        'Tenant Type': 'Tenant Type',
+
         // Store Dashboard
         'Store Dashboard': 'Store Dashboard',
         'Comprehensive overview of store energy performance': 'Comprehensive overview of store energy performance',
