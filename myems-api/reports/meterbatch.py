@@ -236,6 +236,7 @@ class Reporting:
                         space_dict[node.id] = node.name
 
                     cursor_system_db.execute(" SELECT m.id, m.name AS meter_name, m.uuid, m.energy_category_id, "
+                                             "        s.id AS space_id, "
                                              "        s.name AS space_name, "
                                              "        cc.name AS cost_center_name, ec.name AS energy_category_name"
                                              " FROM tbl_spaces s, tbl_spaces_meters sm, "
@@ -247,6 +248,7 @@ class Reporting:
                                              " AND m.cost_center_id = cc.id ORDER BY meter_id ", )
                 else:
                     cursor_system_db.execute(" SELECT m.id, m.name AS meter_name, m.uuid, m.energy_category_id, "
+                                             "        s.id AS space_id, "
                                              "        s.name AS space_name, "
                                              "        cc.name AS cost_center_name,ec.name AS energy_category_name "
                                              " FROM tbl_spaces s, tbl_spaces_meters sm, "
@@ -261,12 +263,17 @@ class Reporting:
                 print(rows_meters)
                 if rows_meters is not None and len(rows_meters) > 0:
                     for row in rows_meters:
+                        current_space_id = row[4]
+                        current_space_node = node_dict.get(current_space_id)
+                        current_space_path = \
+                            '/'.join([node.name for node in current_space_node.path]) \
+                            if current_space_node is not None else row[5]
                         meter_dict[row[0]] = {"meter_name": row[1],
                                               "uuid": row[2],
                                               "energy_category_id": row[3],
-                                              "space_name": row[4],
-                                              "cost_center_name": row[5],
-                                              "energy_category_name": row[6],
+                                              "space_name": current_space_path,
+                                              "cost_center_name": row[6],
+                                              "energy_category_name": row[7],
                                               "values": list(),
                                               "daily_values": dict(),
                                               "subtotal": None}
