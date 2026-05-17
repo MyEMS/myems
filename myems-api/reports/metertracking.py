@@ -303,7 +303,6 @@ class Reporting:
                 rows_meters = cursor_system_db.fetchall()
                 if rows_meters is not None and len(rows_meters) > 0:
                     for row in rows_meters:
-                        # 获取完整空间路径
                         space_node = node_dict.get(row[2])  # row[2] 是 space_id
                         full_space_path = get_full_space_path(space_node) if space_node else row[2]
                         meter_dict[row[0]] = {"meter_name": row[1],
@@ -311,66 +310,86 @@ class Reporting:
                                               "cost_center_name": row[3],
                                               "energy_category_name": row[4],
                                               "description": row[5],
-                                              "meter_uuid": row[6]}
+                                              "meter_uuid": row[6],
+                                              "start_value": None,
+                                              "end_value": None,
+                                              "difference_value": None}
 
                 ####################################################################################################
-                # Step 4: query start value and end value
+                # Step 4: query start value and end value (OPTIMIZED: BULK QUERY)
                 ####################################################################################################
                 integral_start_count = int(0)
                 integral_end_count = int(0)
                 integral_full_count = int(0)
 
-                for meter_id in meter_dict:
-                    cursor_system_db.execute(" SELECT point_id "
-                                             " FROM tbl_meters_points mp, tbl_points p"
-                                             " WHERE p.id = mp.point_id AND p.object_type = 'ENERGY_VALUE' "
-                                             "       AND meter_id = %s ", (meter_id, ))
+                if not meter_dict:
+                    pass
+                else:
+                    meter_ids_str = ','.join(map(str, meter_dict.keys()))
+                    cursor_system_db.execute(f"""
+                        SELECT mp.meter_id, mp.point_id
+                        FROM tbl_meters_points mp
+                        JOIN tbl_points p ON mp.point_id = p.id
+                        WHERE p.object_type = 'ENERGY_VALUE' AND mp.meter_id IN ({meter_ids_str})
+                    """)
+                    point_rows = cursor_system_db.fetchall()
+                    meter_point_map = {}
+                    all_point_ids = []
+                    for mid, pid in point_rows:
+                        if mid not in meter_point_map:
+                            meter_point_map[mid] = []
+                        meter_point_map[mid].append(pid)
+                        all_point_ids.append(pid)
 
-                    rows_points_id = cursor_system_db.fetchall()
+                    start_map = {}
+                    end_map = {}
+                    if all_point_ids:
+                        pid_str = ','.join(map(str, all_point_ids))
+                        s_start = reporting_start_datetime_utc - timedelta(minutes=15)
+                        s_end = reporting_start_datetime_utc
+                        cursor_historical.execute(f"""
+                            SELECT point_id, actual_value
+                            FROM tbl_energy_value
+                            WHERE point_id IN ({pid_str})
+                              AND utc_date_time BETWEEN %s AND %s
+                            ORDER BY utc_date_time DESC
+                        """, (s_start, s_end))
+                        start_map = {pid: val for pid, val in cursor_historical.fetchall()}
 
-                    start_value = None
-                    end_value = None
-                    is_integral_start_value = False
+                        e_start = reporting_end_datetime_utc - timedelta(minutes=15)
+                        e_end = reporting_end_datetime_utc
+                        cursor_historical.execute(f"""
+                            SELECT point_id, actual_value
+                            FROM tbl_energy_value
+                            WHERE point_id IN ({pid_str})
+                              AND utc_date_time BETWEEN %s AND %s
+                            ORDER BY utc_date_time DESC
+                        """, (e_start, e_end))
+                        end_map = {pid: val for pid, val in cursor_historical.fetchall()}
 
-                    if rows_points_id is not None and len(rows_points_id) > 0:
-                        query_start_value = (" SELECT actual_value "
-                                             " FROM tbl_energy_value "
-                                             " where point_id in ("
-                                             + ', '.join(map(lambda x: str(x[0]), rows_points_id)) + ") "
-                                             " AND utc_date_time BETWEEN %s AND %s "
-                                             " ORDER BY utc_date_time DESC LIMIT 0,1")
-                        query_end_value = (" SELECT actual_value "
-                                           " FROM tbl_energy_value "
-                                           " where point_id in ("
-                                           + ', '.join(map(lambda x: str(x[0]), rows_points_id)) + ") "
-                                           " AND utc_date_time BETWEEN %s AND %s "
-                                           " ORDER BY utc_date_time DESC LIMIT 0,1")
-                        cursor_historical.execute(query_start_value,
-                                                  (reporting_start_datetime_utc - timedelta(minutes=15),
-                                                   reporting_start_datetime_utc, ))
-                        row_start_value = cursor_historical.fetchone()
-                        if row_start_value is not None:
-                            start_value = row_start_value[0]
-                            integral_start_count += int(1)
-                            is_integral_start_value = True
+                    for meter_id in meter_dict:
+                        pids = meter_point_map.get(meter_id, [])
+                        s_val = None
+                        e_val = None
+                        for pid in pids:
+                            if s_val is None and pid in start_map:
+                                s_val = start_map[pid]
+                            if e_val is None and pid in end_map:
+                                e_val = end_map[pid]
 
-                        cursor_historical.execute(query_end_value,
-                                                  ((reporting_end_datetime_utc - timedelta(minutes=15)),
-                                                   reporting_end_datetime_utc, ))
-                        row_end_value = cursor_historical.fetchone()
+                        meter_dict[meter_id]['start_value'] = s_val
+                        meter_dict[meter_id]['end_value'] = e_val
+                        if s_val is not None and e_val is not None:
+                            meter_dict[meter_id]['difference_value'] = e_val - s_val
+                        else:
+                            meter_dict[meter_id]['difference_value'] = None
 
-                        if row_end_value is not None:
-                            end_value = row_end_value[0]
-                            integral_end_count += int(1)
-                            if is_integral_start_value:
-                                integral_full_count += int(1)
-
-                    meter_dict[meter_id]['start_value'] = start_value
-                    meter_dict[meter_id]['end_value'] = end_value
-                    if start_value is not None and end_value is not None:
-                        meter_dict[meter_id]['difference_value'] = end_value - start_value
-                    else:
-                        meter_dict[meter_id]['difference_value'] = None
+                        if s_val is not None:
+                            integral_start_count += 1
+                        if e_val is not None:
+                            integral_end_count += 1
+                        if s_val is not None and e_val is not None:
+                            integral_full_count += 1
 
             finally:
                 if cursor_system_db:
