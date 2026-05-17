@@ -1,9 +1,5 @@
 import DOMPurify from 'dompurify';
 
-// Strip every legacy DOM event-handler attribute. DOMPurify already removes
-// `on*` handlers by default, but listing them keeps the intent explicit and
-// guards against bypasses such as CVE-2021-3163 (Quill < 1.3.7,
-// `<img onloadstart=...>` injected via the rich-text editor).
 const FORBID_ATTR = [
   'onabort', 'onafterprint', 'onanimationend', 'onanimationiteration', 'onanimationstart',
   'onauxclick', 'onbeforeinput', 'onbeforeprint', 'onbeforeunload', 'onblur',
