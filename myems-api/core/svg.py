@@ -4,8 +4,59 @@ import falcon
 import mysql.connector
 import simplejson as json
 import redis
+import bleach
 from core.useractivity import user_logger, admin_control, access_control, api_key_control
 import config
+
+
+def sanitize_svg_source_code(source_code):
+    """
+    Sanitize SVG source code to prevent XSS attacks
+    
+    Args:
+        source_code: Raw SVG source code from user input
+    
+    Returns:
+        Cleaned SVG source code with dangerous tags and attributes removed
+    
+    Security: Only allow safe SVG tags and attributes, strip all others
+    """
+    # Whitelist: only allow safe SVG tags
+    ALLOWED_TAGS = [
+        'svg', 'rect', 'circle', 'path', 'g', 'text', 'line', 
+        'polyline', 'polygon', 'ellipse', 'defs', 'use', 
+        'foreignObject', 'tspan', 'tref', 'textPath',
+        'desc', 'title', 'metadata', 'switch', 'image',
+        'clipPath', 'mask', 'pattern', 'marker', 'symbol'
+    ]
+    
+    # Whitelist: only allow safe SVG attributes
+    ALLOWED_ATTRS = {
+        '*': ['id', 'class', 'style', 'xmlns', 'xml:lang', 'lang'],
+        'svg': ['width', 'height', 'viewBox', 'preserveAspectRatio', 'xmlns', 'version', 'baseProfile'],
+        'rect': ['x', 'y', 'width', 'height', 'rx', 'ry', 'fill', 'stroke', 'stroke-width'],
+        'circle': ['cx', 'cy', 'r', 'fill', 'stroke', 'stroke-width'],
+        'ellipse': ['cx', 'cy', 'rx', 'ry', 'fill', 'stroke', 'stroke-width'],
+        'line': ['x1', 'y1', 'x2', 'y2', 'stroke', 'stroke-width'],
+        'polyline': ['points', 'fill', 'stroke', 'stroke-width'],
+        'polygon': ['points', 'fill', 'stroke', 'stroke-width'],
+        'path': ['d', 'fill', 'stroke', 'stroke-width'],
+        'text': ['x', 'y', 'dx', 'dy', 'rotate', 'text-anchor', 'font-family', 'font-size', 'fill'],
+        'tspan': ['x', 'y', 'dx', 'dy', 'rotate', 'font-family', 'font-size', 'fill'],
+        'image': ['x', 'y', 'width', 'height', 'href', 'preserveAspectRatio'],
+        'use': ['x', 'y', 'width', 'height', 'href'],
+        'foreignObject': ['x', 'y', 'width', 'height'],
+    }
+    
+    # Clean the SVG source code
+    cleaned_svg = bleach.clean(
+        source_code,
+        tags=ALLOWED_TAGS,
+        attributes=ALLOWED_ATTRS,
+        strip=True
+    )
+    
+    return cleaned_svg
 
 
 def clear_svg_cache(svg_id=None):
@@ -214,7 +265,8 @@ class SVGCollection:
                 len(str.strip(new_values['data']['source_code'])) == 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_SVG_SOURCE_CODE')
-        source_code = str.strip(new_values['data']['source_code'])
+        # Sanitize SVG source code to prevent XSS attacks
+        source_code = sanitize_svg_source_code(str.strip(new_values['data']['source_code']))
 
         if 'description' in new_values['data'].keys() and \
                 new_values['data']['description'] is not None and \
@@ -489,7 +541,8 @@ class SVGItem:
                 len(str.strip(new_values['data']['source_code'])) == 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_SVG_SOURCE_CODE')
-        source_code = str.strip(new_values['data']['source_code'])
+        # Sanitize SVG source code to prevent XSS attacks
+        source_code = sanitize_svg_source_code(str.strip(new_values['data']['source_code']))
 
         if 'description' in new_values['data'].keys() and \
                 new_values['data']['description'] is not None and \
@@ -663,7 +716,8 @@ class SVGImport:
                 len(str.strip(new_values['source_code'])) == 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_SVG_SOURCE_CODE')
-        source_code = str.strip(new_values['source_code'])
+        # Sanitize SVG source code to prevent XSS attacks
+        source_code = sanitize_svg_source_code(str.strip(new_values['source_code']))
 
         if 'description' in new_values.keys() and \
                 new_values['description'] is not None and \
