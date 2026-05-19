@@ -8,6 +8,7 @@ import ChatSidebarDropdownAction from './ChatSidebarDropdownAction';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { ChatContext } from '../../../context/Context';
 import classNames from 'classnames';
+import { sanitize } from '../../../helpers/createMarkup';
 
 const ChatThread = ({ thread }) => {
   const { threadsDispatch, messages, activeThreadId, setActiveThreadId, getUser } = useContext(ChatContext);
@@ -39,7 +40,7 @@ const ChatThread = ({ thread }) => {
           <div
             className="chat-contact-content pr-3"
             dangerouslySetInnerHTML={{
-              __html: LastMessage(lastMessage, thread)
+              __html: sanitize(LastMessage(lastMessage, thread))
             }}
           />
           <ChatSidebarDropdownAction />

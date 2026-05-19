@@ -33,6 +33,7 @@ import { isIterableArray } from '../../../helpers/utils';
 import classNames from 'classnames';
 import AppContext from '../../../context/Context';
 import blankPage from '../../../assets/img/generic/blank-page.png';
+import { sanitizeSVG } from '../../../helpers/createMarkup';
 
 const MicrogridDetails = ({ setRedirect, setRedirectUrl, t }) => {
   const location = useLocation();
@@ -318,7 +319,7 @@ const MicrogridDetails = ({ setRedirect, setRedirectUrl, t }) => {
           setMicrogridRatedPower(json['microgrid']['rated_power']);
           setMicrogridLatitude(json['microgrid']['latitude']);
           setMicrogridLongitude(json['microgrid']['longitude']);
-          setMicrogridSVG({ __html: json['microgrid']['svg'] });
+          setMicrogridSVG({ __html: sanitizeSVG(json['microgrid']['svg']) });
 
           setTodayChargeEnergyValue(json['energy_indicators']['today_charge_energy_value']);
           setTodayDischargeEnergyValue(json['energy_indicators']['today_discharge_energy_value']);

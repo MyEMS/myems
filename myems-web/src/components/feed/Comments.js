@@ -4,6 +4,7 @@ import { Media } from 'reactstrap';
 import Avatar from '../common/Avatar';
 import { Link } from 'react-router-dom';
 import createMarkup from '../../helpers/createMarkup';
+import DOMPurify from 'dompurify';
 
 const Comments = ({ comments, loadComment }) => {
   return (

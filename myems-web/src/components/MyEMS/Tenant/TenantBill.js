@@ -32,6 +32,7 @@ import DateRangePickerWrapper from '../common/DateRangePickerWrapper';
 import { endOfDay } from 'date-fns';
 import AppContext from '../../../context/Context';
 import blankPage from '../../../assets/img/generic/blank-page.png';
+import DOMPurify from 'dompurify';
 
 const formatCurrency = (number, currency) =>
   `${currency}${number.toFixed(2).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, '$1,')}`;

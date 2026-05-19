@@ -16,6 +16,7 @@ import { Link } from 'react-router-dom';
 import Avatar from '../common/Avatar';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { KanbanContext } from '../../context/Context';
+import { sanitize } from '../../helpers/createMarkup';
 
 const TaskCard = ({ taskCardItemId, taskCard, taskCardImage, members, taskCardIndex }) => {
   const { getItemStyle, setModalContent, setModal } = useContext(KanbanContext);
@@ -59,7 +60,7 @@ const TaskCard = ({ taskCardItemId, taskCard, taskCardImage, members, taskCardIn
               )}
               <p
                 className="mb-0 font-weight-medium text-sans-serif"
-                dangerouslySetInnerHTML={{ __html: taskCard.title }}
+                dangerouslySetInnerHTML={{ __html: sanitize(taskCard.title) }}
               />
               {(taskCard.members || taskCard.attachments || taskCard.checklist) && (
                 <div className="kanban-item-footer">

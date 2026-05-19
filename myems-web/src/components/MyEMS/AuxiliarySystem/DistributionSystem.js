@@ -1,4 +1,6 @@
 import React, { Fragment, useState, useEffect } from 'react';
+import { sanitizeSVG } from '../../../helpers/createMarkup';
+
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -135,7 +137,7 @@ const DistributionSystem = ({ setRedirect, setRedirectUrl, t }) => {
         setDistributionSystemList(systems);
         const imagesMap = {};
         systems.forEach(system => {
-          imagesMap[system.value] = { __html: system.svg?.source_code };
+          imagesMap[system.value] = { __html: sanitizeSVG(system.svg?.source_code) };
         });
         setImages(imagesMap);
         if (systems.length > 0) {
