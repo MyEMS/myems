@@ -5,6 +5,7 @@ import { Card, CardBody, Col, Row } from 'reactstrap';
 import Background from './Background';
 import corner4 from '../../assets/img/illustrations/corner-4.png';
 import createMarkup from '../../helpers/createMarkup';
+import DOMPurify from 'dompurify';
 
 const PageHeader = ({ title, titleTag: TitleTag, description, image, col, children, ...rest }) => (
   <Card {...rest}>

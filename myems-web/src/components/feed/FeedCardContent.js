@@ -8,7 +8,7 @@ import FeedUrl from './FeedUrl';
 import FalconPlyr from '../common/FalconPlyr';
 import { CardBody } from 'reactstrap';
 import FalconLightBox from '../common/FalconLightBox';
-
+import DOMPurify from 'dompurify';
 const FeedCardContent = ({ status, imgSrc, gallery, feedEvent, url, video }) => {
   return (
     <CardBody className={classNames({ 'p-0': !!feedEvent })}>

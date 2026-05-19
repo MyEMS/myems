@@ -37,6 +37,7 @@ import MeterDetails from './MeterDetails';
 import DeviceStatusDetails from './DeviceStatusDetails';
 import blankPage from '../../../assets/img/generic/blank-page.png';
 import FaultDetails from './FaultDetails';
+import { sanitizeSVG } from '../../../helpers/createMarkup';
 
 const PhotovoltaicPowerStationDetails = ({ setRedirect, setRedirectUrl, t }) => {
   const location = useLocation();
@@ -255,7 +256,7 @@ const PhotovoltaicPowerStationDetails = ({ setRedirect, setRedirectUrl, t }) => 
           setPhotovoltaicPowerStationAddress(json['photovoltaic_power_station']['address']);
           setPhotovoltaicPowerStationRatedCapacity(json['photovoltaic_power_station']['rated_capacity']);
           setPhotovoltaicPowerStationRatedPower(json['photovoltaic_power_station']['rated_power']);
-          setPhotovoltaicPowerStationSVG({ __html: json['photovoltaic_power_station']['svg'] });
+          setPhotovoltaicPowerStationSVG({ __html: sanitizeSVG(json['photovoltaic_power_station']['svg']) });
 
           if (json['energy_indicators']['today_generation_energy_value'] !== null) {
             setTodayGenerationEnergyValue(json['energy_indicators']['today_generation_energy_value'].toFixed(3));

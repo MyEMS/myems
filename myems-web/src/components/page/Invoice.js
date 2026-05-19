@@ -7,6 +7,7 @@ import createMarkup from '../../helpers/createMarkup';
 import { isIterableArray } from '../../helpers/utils';
 import useFakeFetch from '../../hooks/useFakeFetch';
 import rawInvoice from '../../data/invoice/invoice';
+import DOMPurify from 'dompurify';
 
 const calculateSubtotal = products => {
   return products.reduce((currentValue, product) => {

@@ -18,6 +18,7 @@ import generic13 from '../../assets/img/generic/13.jpg';
 import Loader from '../common/Loader';
 import useFakeFetch from '../../hooks/useFakeFetch';
 import AppContext from '../../context/Context';
+import DOMPurify from 'dompurify';
 
 const EventDetailContent = () => {
   const { isDark } = useContext(AppContext);

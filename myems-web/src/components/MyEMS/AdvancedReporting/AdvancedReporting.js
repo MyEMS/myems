@@ -12,6 +12,7 @@ import { toast } from 'react-toastify';
 import { APIBaseURL, settings } from '../../../config';
 import DateRangePickerWrapper from '../common/DateRangePickerWrapper';
 import { endOfDay } from 'date-fns';
+import DOMPurify from 'dompurify';
 
 const AdvacnedReporting = ({ setRedirect, setRedirectUrl, t }) => {
   let current_moment = moment();
