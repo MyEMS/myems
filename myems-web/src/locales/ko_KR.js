@@ -163,6 +163,12 @@ export default {
         'Tenant Name': '테넌트 이름',
         'Tenant Area': '테넌트 면적',
         'Tenant Type': '테넌트 유형',
+        // Shopfloor Dashboard
+        'Total Shopfloors': '총 작업장 수',
+        'Shopfloor Performance Overview': '작업장 성과 개요',
+        'Shopfloor Name': '작업장 이름',
+        'Shopfloor Area': '작업장 면적',
+
         // Dashboard
         'Welcome to MyEMS': 'MyEMS에 오신 것을 환영합니다',
         'An Industry Leading Open Source Energy Management System': '업계를 선도하는 오픈소스 에너지 관리 시스템',

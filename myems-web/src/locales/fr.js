@@ -168,6 +168,12 @@ export default {
         'Tenant Name': 'Nom du Locataire',
         'Tenant Area': 'Surface du Locataire',
         'Tenant Type': 'Type de Locataire',
+        // Shopfloor Dashboard
+        'Total Shopfloors': 'Nombre total d\'ateliers',
+        'Shopfloor Performance Overview': 'Aperçu des performances des ateliers',
+        'Shopfloor Name': 'Nom de l\'atelier',
+        'Shopfloor Area': 'Surface de l\'atelier',
+
         // Dashboard
         'Welcome to MyEMS': 'Bienvenue chez MyEMS',
         'An Industry Leading Open Source Energy Management System': 'Un système de gestion de l’énergie open source leader de l’industrie',

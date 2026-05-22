@@ -17,6 +17,10 @@ INSERT INTO `tbl_menus` (`id`, `name`, `route`, `parent_menu_id`, `is_hidden`)
 VALUES (512, 'Dashboard', '/store', 500, 0);
 INSERT INTO `tbl_menus` (`id`, `name`, `route`, `parent_menu_id`, `is_hidden`)
 VALUES (413, 'Dashboard', '/tenant', 400, 0);
+INSERT INTO `myems_system_db`.`tbl_menus` (`id`, `name`, `route`, `parent_menu_id`, `is_hidden`)
+VALUES (612, 'Dashboard', '/shopfloor', 600, 0);
+
+
 UPDATE `myems_system_db`.`tbl_menus` SET `route` = '/meter/virtualmeterprediction' WHERE `id` = 328
 
 UPDATE `myems_system_db`.`tbl_versions` SET version='6.5.0RC', release_date='2026-05-26' WHERE id=1;

@@ -168,6 +168,12 @@ export default {
         'Tenant Name': 'ชื่อผู้เช่า',
         'Tenant Area': 'พื้นที่ผู้เช่า',
         'Tenant Type': 'ประเภทผู้เช่า',
+                // Shopfloor Dashboard
+        'Total Shopfloors': 'จำนวนโรงงานทั้งหมด',
+        'Shopfloor Performance Overview': 'ภาพรวมประสิทธิภาพโรงงาน',
+        'Shopfloor Name': 'ชื่อโรงงาน',
+        'Shopfloor Area': 'พื้นที่โรงงาน',
+
 
             // Dashboard
             'Welcome to MyEMS': 'ยินดีต้อนรับสู่ MyEMS',

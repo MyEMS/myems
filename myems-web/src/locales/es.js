@@ -168,6 +168,11 @@ export default {
         'Tenant Name': 'Nombre del Inquilino',
         'Tenant Area': 'Área del Inquilino',
         'Tenant Type': 'Tipo de Inquilino',
+        // Shopfloor Dashboard
+        'Total Shopfloors': 'Total de talleres',
+        'Shopfloor Performance Overview': 'Resumen de rendimiento de talleres',
+        'Shopfloor Name': 'Nombre del taller',
+        'Shopfloor Area': 'Área del taller',
 
         // Dashboard
         'Welcome to MyEMS': 'Bienvenido a MyEMS',

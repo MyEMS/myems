@@ -168,6 +168,11 @@ export default {
         'Tenant Name': 'Название Арендатора',
         'Tenant Area': 'Площадь Арендатора',
         'Tenant Type': 'Тип Арендатора',
+        // Shopfloor Dashboard
+        'Total Shopfloors': 'Общее количество цехов',
+        'Shopfloor Performance Overview': 'Обзор производительности цехов',
+        'Shopfloor Name': 'Название цеха',
+        'Shopfloor Area': 'Площадь цеха',
 
             // Dashboard
             'Welcome to MyEMS': 'Добро пожаловать в MyEMS',
