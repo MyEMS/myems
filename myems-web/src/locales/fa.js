@@ -186,6 +186,12 @@ export default {
         Meter: 'کنتور',
         'Offline Meter': 'کنتور آفلاین',
         'Virtual Meter': 'کنتور مجازی',
+        // Shopfloor Dashboard
+        'Total Shopfloors': 'تعداد کل کارگاه‌ها',
+        'Shopfloor Performance Overview': 'نمای کلی عملکرد کارگاه‌ها',
+        'Shopfloor Name': 'نام کارگاه',
+        'Shopfloor Area': 'مساحت کارگاه',
+
         Tenant: 'مستأجر',
         Store: 'فروشگاه',
         Shopfloor: 'کارگاه',

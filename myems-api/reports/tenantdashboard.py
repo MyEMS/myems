@@ -560,6 +560,10 @@ class Reporting:
             reporting_input['values'] = monthly_energy_values
             reporting_cost['timestamps'] = [monthly_timestamps] * len(reporting_cost['names'])
             reporting_cost['values'] = monthly_cost_values
+            
+            # Add energy category names to monthly trends for frontend display
+            reporting_input['category_names'] = list(reporting_input['names'])
+            reporting_input['category_units'] = list(reporting_input['units'])
 
             ################################################################################################################
             # Step 9: Query tenant statistics
@@ -612,9 +616,11 @@ class Reporting:
                     cnx_fdd.close()
 
             ################################################################################################################
-            # Step 10: Query top 5 consuming tenants
+            # Step 10: Query top 5 consuming tenants and all tenants energy by category
             ################################################################################################################
             top_tenants = []
+            tenant_energy_by_category = {}
+            
             # First get tenant names
             tenant_name_dict = {}
             format_strings = ','.join(['%s'] * len(tenant_ids_list))
@@ -627,41 +633,70 @@ class Reporting:
                 for row in rows_tenants_names:
                     tenant_name_dict[row[0]] = row[1]
 
-            # Then query energy consumption from energy database
+            # Query energy consumption by category for each tenant
             format_strings = ','.join(['%s'] * len(tenant_ids_list))
             cursor_energy.execute(
-                " SELECT tenant_id, SUM(actual_value) as total_energy "
+                " SELECT tenant_id, energy_category_id, SUM(actual_value) as category_energy "
                 " FROM tbl_tenant_input_category_hourly "
                 " WHERE tenant_id IN (%s) "
                 "   AND start_datetime_utc >= %%s "
                 "   AND start_datetime_utc < %%s "
-                " GROUP BY tenant_id "
-                " ORDER BY total_energy DESC LIMIT 5 " % format_strings,
+                " GROUP BY tenant_id, energy_category_id "
+                " ORDER BY tenant_id, category_energy DESC " % format_strings,
                 tenant_ids_tuple + (reporting_start_datetime_utc, reporting_end_datetime_utc)
             )
-            rows_top = cursor_energy.fetchall()
-            if rows_top:
-                for row in rows_top:
+            rows_all = cursor_energy.fetchall()
+            if rows_all:
+                for row in rows_all:
                     tenant_id = row[0]
-                    tenant_name = tenant_name_dict.get(tenant_id, f'Tenant #{tenant_id}')
-                    top_tenants.append({
-                        'id': tenant_id,
-                        'name': tenant_name,
-                        'total_energy': float(row[1]) if row[1] else 0.0
-                    })
+                    ec_id = row[1]
+                    category_energy = float(row[2]) if row[2] else 0.0
+                    
+                    if tenant_id not in tenant_energy_by_category:
+                        tenant_energy_by_category[tenant_id] = {
+                            'total_energy': 0.0,
+                            'categories': {}
+                        }
+                    
+                    tenant_energy_by_category[tenant_id]['categories'][ec_id] = category_energy
+                    tenant_energy_by_category[tenant_id]['total_energy'] += category_energy
+
+            # Build top 5 tenants
+            sorted_tenants = sorted(
+                tenant_energy_by_category.items(),
+                key=lambda x: x[1]['total_energy'],
+                reverse=True
+            )[:5]
+            
+            for tenant_id, energy_data in sorted_tenants:
+                tenant_name = tenant_name_dict.get(tenant_id, f'Tenant #{tenant_id}')
+                top_tenants.append({
+                    'id': tenant_id,
+                    'name': tenant_name,
+                    'total_energy': energy_data['total_energy'],
+                    'categories': energy_data['categories']
+                })
 
             ################################################################################################################
             # Step 11: Construct the report
             ################################################################################################################
             
-            # Prepare tenant details for response
+            # Prepare tenant details for response with energy data by category
             tenant_details = []
             for tenant in tenant_list:
+                tenant_id = tenant['id']
+                energy_data = tenant_energy_by_category.get(tenant_id, {
+                    'total_energy': 0.0,
+                    'categories': {}
+                })
+                
                 tenant_details.append({
-                    'id': tenant['id'],
+                    'id': tenant_id,
                     'name': tenant['name'],
                     'area': float(tenant['area']) if tenant['area'] else 0.0,
                     'tenant_type': tenant['tenant_type_name'],
+                    'total_energy': energy_data['total_energy'],
+                    'energy_by_category': energy_data['categories']
                 })
             
             result = {
@@ -681,6 +716,7 @@ class Reporting:
                 'reporting_period_start': reporting_start_datetime_utc.isoformat(),
                 'reporting_period_end': reporting_end_datetime_utc.isoformat(),
             }
+
             #print(result)
             resp.text = json.dumps(result)
 

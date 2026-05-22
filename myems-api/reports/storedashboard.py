@@ -558,6 +558,10 @@ class Reporting:
             reporting_input['values'] = monthly_energy_values
             reporting_cost['timestamps'] = [monthly_timestamps] * len(reporting_cost['names'])
             reporting_cost['values'] = monthly_cost_values
+            
+            # Add energy category names to monthly trends for frontend display
+            reporting_input['category_names'] = list(reporting_input['names'])
+            reporting_input['category_units'] = list(reporting_input['units'])
 
             ################################################################################################################
             # Step 9: Query store statistics
@@ -610,9 +614,11 @@ class Reporting:
                     cnx_fdd.close()
 
             ################################################################################################################
-            # Step 10: Query top 5 consuming stores
+            # Step 10: Query top 5 consuming stores and all stores energy by category
             ################################################################################################################
             top_stores = []
+            store_energy_by_category = {}
+            
             # First get store names
             store_name_dict = {}
             format_strings = ','.join(['%s'] * len(store_ids_list))
@@ -625,41 +631,70 @@ class Reporting:
                 for row in rows_stores_names:
                     store_name_dict[row[0]] = row[1]
 
-            # Then query energy consumption from energy database
+            # Query energy consumption by category for each store
             format_strings = ','.join(['%s'] * len(store_ids_list))
             cursor_energy.execute(
-                " SELECT store_id, SUM(actual_value) as total_energy "
+                " SELECT store_id, energy_category_id, SUM(actual_value) as category_energy "
                 " FROM tbl_store_input_category_hourly "
                 " WHERE store_id IN (%s) "
                 "   AND start_datetime_utc >= %%s "
                 "   AND start_datetime_utc < %%s "
-                " GROUP BY store_id "
-                " ORDER BY total_energy DESC LIMIT 5 " % format_strings,
+                " GROUP BY store_id, energy_category_id "
+                " ORDER BY store_id, category_energy DESC " % format_strings,
                 store_ids_tuple + (reporting_start_datetime_utc, reporting_end_datetime_utc)
             )
-            rows_top = cursor_energy.fetchall()
-            if rows_top:
-                for row in rows_top:
+            rows_all = cursor_energy.fetchall()
+            if rows_all:
+                for row in rows_all:
                     store_id = row[0]
-                    store_name = store_name_dict.get(store_id, f'Store #{store_id}')
-                    top_stores.append({
-                        'id': store_id,
-                        'name': store_name,
-                        'total_energy': float(row[1]) if row[1] else 0.0
-                    })
+                    ec_id = row[1]
+                    category_energy = float(row[2]) if row[2] else 0.0
+                    
+                    if store_id not in store_energy_by_category:
+                        store_energy_by_category[store_id] = {
+                            'total_energy': 0.0,
+                            'categories': {}
+                        }
+                    
+                    store_energy_by_category[store_id]['categories'][ec_id] = category_energy
+                    store_energy_by_category[store_id]['total_energy'] += category_energy
+
+            # Build top 5 stores
+            sorted_stores = sorted(
+                store_energy_by_category.items(),
+                key=lambda x: x[1]['total_energy'],
+                reverse=True
+            )[:5]
+            
+            for store_id, energy_data in sorted_stores:
+                store_name = store_name_dict.get(store_id, f'Store #{store_id}')
+                top_stores.append({
+                    'id': store_id,
+                    'name': store_name,
+                    'total_energy': energy_data['total_energy'],
+                    'categories': energy_data['categories']
+                })
 
             ################################################################################################################
             # Step 11: Construct the report
             ################################################################################################################
             
-            # Prepare store details for response
+            # Prepare store details for response with energy data by category
             store_details = []
             for store in store_list:
+                store_id = store['id']
+                energy_data = store_energy_by_category.get(store_id, {
+                    'total_energy': 0.0,
+                    'categories': {}
+                })
+                
                 store_details.append({
-                    'id': store['id'],
+                    'id': store_id,
                     'name': store['name'],
                     'area': float(store['area']) if store['area'] else 0.0,
                     'address': store['address'] if store['address'] else '',
+                    'total_energy': energy_data['total_energy'],
+                    'energy_by_category': energy_data['categories']
                 })
             
             result = {

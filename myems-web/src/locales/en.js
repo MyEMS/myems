@@ -171,6 +171,14 @@ export default {
         'Energy Consumption': 'Energy Consumption',
         'Consumption': 'Consumption',
         'last period': 'last period',
+
+
+        // Shopfloor Dashboard
+        'Total Shopfloors': 'Total Shopfloors',
+        'Shopfloor Performance Overview': 'Shopfloor Performance Overview',
+        'Shopfloor Name': 'Shopfloor Name',
+        'Shopfloor Area': 'Shopfloor Area',
+
         // Dashboard
         'Welcome to MyEMS': 'Welcome to MyEMS',
         'An Industry Leading Open Source Energy Management System': 'An Industry Leading Open Source Energy Management System',
