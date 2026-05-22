@@ -119,7 +119,7 @@ const MeterBatch = ({ setRedirect, setRedirectUrl, t }) => {
     { dataField: 'name', text: t('Name'), formatter: nameFormatter, sort: true },
     { dataField: 'space', text: t('Space'), sort: true }
   ]);
-  const [excelBytesBase64, setExcelBytesBase64] = useState(undefined);
+  const [, setExcelBytesBase64] = useState(undefined);
 
   useEffect(() => {
     let isResponseOK = false;
@@ -215,7 +215,8 @@ const MeterBatch = ({ setRedirect, setRedirectUrl, t }) => {
         '&reportingperiodenddatetime=' +
         moment(reportingPeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss') +
         '&language=' +
-        language,
+        language +
+        '&quickmode=true',
       {
         method: 'GET',
         headers: {
@@ -283,7 +284,7 @@ const MeterBatch = ({ setRedirect, setRedirectUrl, t }) => {
           });
           setDetailedDataTableColumns(detailed_column_list);
 
-          setExcelBytesBase64(json['excel_bytes_base64']);
+          setExcelBytesBase64(undefined);
 
           // enable submit button
           setSubmitButtonDisabled(false);
@@ -304,18 +305,68 @@ const MeterBatch = ({ setRedirect, setRedirectUrl, t }) => {
 
   const handleExport = e => {
     e.preventDefault();
-    const mimeType = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
-    const fileName = 'meterbatch.xlsx';
-    var fileUrl = 'data:' + mimeType + ';base64,' + excelBytesBase64;
-    fetch(fileUrl)
-      .then(response => response.blob())
-      .then(blob => {
-        var link = window.document.createElement('a');
-        link.href = window.URL.createObjectURL(blob, { type: mimeType });
-        link.download = fileName;
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
+    setSubmitButtonDisabled(true);
+    setSpinnerHidden(false);
+
+    let isResponseOK = false;
+    fetch(
+      APIBaseURL +
+        '/reports/meterbatch?' +
+        'spaceid=' +
+        selectedSpaceID +
+        '&reportingperiodstartdatetime=' +
+        moment(reportingPeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss') +
+        '&reportingperiodenddatetime=' +
+        moment(reportingPeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss') +
+        '&language=' +
+        language,
+      {
+        method: 'GET',
+        headers: {
+          'Content-type': 'application/json',
+          'User-UUID': getCookieValue('user_uuid'),
+          Token: getCookieValue('token')
+        },
+        body: null
+      }
+    )
+      .then(response => {
+        if (response.ok) {
+          isResponseOK = true;
+        }
+        return response.json();
+      })
+      .then(json => {
+        if (!isResponseOK) {
+          handleAPIError(json, setRedirect, setRedirectUrl, t, toast);
+          return;
+        }
+
+        if (checkEmpty(json['excel_bytes_base64'])) {
+          toast.error(t('API.UNKNOWN_ERROR'));
+          return;
+        }
+
+        const mimeType = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
+        const fileName = 'meterbatch.xlsx';
+        const fileUrl = 'data:' + mimeType + ';base64,' + json['excel_bytes_base64'];
+        fetch(fileUrl)
+          .then(response => response.blob())
+          .then(blob => {
+            var link = window.document.createElement('a');
+            link.href = window.URL.createObjectURL(blob, { type: mimeType });
+            link.download = fileName;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+          });
+      })
+      .catch(err => {
+        console.log(err);
+      })
+      .finally(() => {
+        setSubmitButtonDisabled(false);
+        setSpinnerHidden(true);
       });
   };
 
