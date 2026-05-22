@@ -168,6 +168,11 @@ export default {
         'Tenant Name': 'テナント名',
         'Tenant Area': 'テナント面積',
         'Tenant Type': 'テナントタイプ',
+        // Shopfloor Dashboard
+        'Total Shopfloors': '车间総数',
+        'Shopfloor Performance Overview': '车间パフォーマンス概要',
+        'Shopfloor Name': '车间名',
+        'Shopfloor Area': '车间面積',
 
             // Dashboard
             'Welcome to MyEMS': 'MyEMSへようこそ',

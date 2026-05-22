@@ -139,6 +139,7 @@ export const shopfloorRoutes = {
   to: '/shopfloor',
   icon: 'industry',
   children: [
+    { to: '/shopfloor', name: 'Dashboard' },
     { to: '/shopfloor/energycategory', name: 'Energy Category Data' },
     { to: '/shopfloor/energyitem', name: 'Energy Item Data' },
     { to: '/shopfloor/carbon', name: 'Carbon' },
