@@ -303,7 +303,7 @@ class Reporting:
                 rows_meters = cursor_system_db.fetchall()
                 if rows_meters is not None and len(rows_meters) > 0:
                     for row in rows_meters:
-                        space_node = node_dict.get(row[2])  # row[2] 是 space_id
+                        space_node = node_dict.get(row[2])
                         full_space_path = get_full_space_path(space_node) if space_node else row[2]
                         meter_dict[row[0]] = {"meter_name": row[1],
                                               "space_name": full_space_path,
@@ -322,50 +322,59 @@ class Reporting:
                 integral_end_count = int(0)
                 integral_full_count = int(0)
 
-                if not meter_dict:
-                    pass
-                else:
-                    meter_ids_str = ','.join(map(str, meter_dict.keys()))
-                    cursor_system_db.execute(f"""
-                        SELECT mp.meter_id, mp.point_id
-                        FROM tbl_meters_points mp
-                        JOIN tbl_points p ON mp.point_id = p.id
-                        WHERE p.object_type = 'ENERGY_VALUE' AND mp.meter_id IN ({meter_ids_str})
-                    """)
+                if meter_dict:
+                    meter_ids = list(meter_dict.keys())
+                    placeholders = ','.join(['%s'] * len(meter_ids))
+                    cursor_system_db.execute(
+                        "SELECT mp.meter_id, mp.point_id "
+                        "FROM tbl_meters_points mp "
+                        "JOIN tbl_points p ON mp.point_id = p.id "
+                        "WHERE p.object_type = 'ENERGY_VALUE' AND mp.meter_id IN (" + placeholders + ")",
+                        tuple(meter_ids)
+                    )
                     point_rows = cursor_system_db.fetchall()
                     meter_point_map = {}
-                    all_point_ids = []
+                    all_point_ids_set = set()
                     for mid, pid in point_rows:
                         if mid not in meter_point_map:
                             meter_point_map[mid] = []
                         meter_point_map[mid].append(pid)
-                        all_point_ids.append(pid)
+                        all_point_ids_set.add(pid)
+                    all_point_ids = list(all_point_ids_set)
 
                     start_map = {}
                     end_map = {}
                     if all_point_ids:
-                        pid_str = ','.join(map(str, all_point_ids))
+                        point_placeholders = ','.join(['%s'] * len(all_point_ids))
                         s_start = reporting_start_datetime_utc - timedelta(minutes=15)
                         s_end = reporting_start_datetime_utc
-                        cursor_historical.execute(f"""
-                            SELECT point_id, actual_value
-                            FROM tbl_energy_value
-                            WHERE point_id IN ({pid_str})
-                              AND utc_date_time BETWEEN %s AND %s
-                            ORDER BY utc_date_time DESC
-                        """, (s_start, s_end))
-                        start_map = {pid: val for pid, val in cursor_historical.fetchall()}
+                        cursor_historical.execute(
+                            "SELECT point_id, actual_value "
+                            "FROM tbl_energy_value "
+                            "WHERE point_id IN (" + point_placeholders + ") "
+                            "AND utc_date_time BETWEEN %s AND %s "
+                            "ORDER BY utc_date_time DESC",
+                            tuple(all_point_ids) + (s_start, s_end)
+                        )
+                        start_rows = cursor_historical.fetchall()
+                        for pid, val in start_rows:
+                            if pid not in start_map:
+                                start_map[pid] = val
 
                         e_start = reporting_end_datetime_utc - timedelta(minutes=15)
                         e_end = reporting_end_datetime_utc
-                        cursor_historical.execute(f"""
-                            SELECT point_id, actual_value
-                            FROM tbl_energy_value
-                            WHERE point_id IN ({pid_str})
-                              AND utc_date_time BETWEEN %s AND %s
-                            ORDER BY utc_date_time DESC
-                        """, (e_start, e_end))
-                        end_map = {pid: val for pid, val in cursor_historical.fetchall()}
+                        cursor_historical.execute(
+                            "SELECT point_id, actual_value "
+                            "FROM tbl_energy_value "
+                            "WHERE point_id IN (" + point_placeholders + ") "
+                            "AND utc_date_time BETWEEN %s AND %s "
+                            "ORDER BY utc_date_time DESC",
+                            tuple(all_point_ids) + (e_start, e_end)
+                        )
+                        end_rows = cursor_historical.fetchall()
+                        for pid, val in end_rows:
+                            if pid not in end_map:
+                                end_map[pid] = val
 
                     for meter_id in meter_dict:
                         pids = meter_point_map.get(meter_id, [])
