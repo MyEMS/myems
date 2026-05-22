@@ -555,6 +555,10 @@ class Reporting:
             reporting_cost['timestamps'] = [monthly_timestamps] * len(reporting_cost['names'])
             reporting_cost['values'] = monthly_cost_values
 
+            # Add energy category names to monthly trends for frontend display
+            reporting_input['category_names'] = list(reporting_input['names'])
+            reporting_input['category_units'] = list(reporting_input['units'])
+
             ################################################################################################################
             # Step 9: Query shopfloor statistics
             ################################################################################################################
@@ -606,9 +610,11 @@ class Reporting:
                     cnx_fdd.close()
 
             ################################################################################################################
-            # Step 10: Query top 5 consuming shopfloors
+            # Step 10: Query top 5 consuming shopfloors and all shopfloors energy by category
             ################################################################################################################
             top_shopfloors = []
+            shopfloor_energy_by_category = {}
+            
             # First get shopfloor names
             shopfloor_name_dict = {}
             format_strings = ','.join(['%s'] * len(shopfloor_ids_list))
@@ -621,40 +627,69 @@ class Reporting:
                 for row in rows_shopfloors_names:
                     shopfloor_name_dict[row[0]] = row[1]
 
-            # Then query energy consumption from energy database
+            # Query energy consumption by category for each shopfloor
             format_strings = ','.join(['%s'] * len(shopfloor_ids_list))
             cursor_energy.execute(
-                " SELECT shopfloor_id, SUM(actual_value) as total_energy "
+                " SELECT shopfloor_id, energy_category_id, SUM(actual_value) as category_energy "
                 " FROM tbl_shopfloor_input_category_hourly "
                 " WHERE shopfloor_id IN (%s) "
                 "   AND start_datetime_utc >= %%s "
                 "   AND start_datetime_utc < %%s "
-                " GROUP BY shopfloor_id "
-                " ORDER BY total_energy DESC LIMIT 5 " % format_strings,
+                " GROUP BY shopfloor_id, energy_category_id "
+                " ORDER BY shopfloor_id, category_energy DESC " % format_strings,
                 shopfloor_ids_tuple + (reporting_start_datetime_utc, reporting_end_datetime_utc)
             )
-            rows_top = cursor_energy.fetchall()
-            if rows_top:
-                for row in rows_top:
+            rows_all = cursor_energy.fetchall()
+            if rows_all:
+                for row in rows_all:
                     shopfloor_id = row[0]
-                    shopfloor_name = shopfloor_name_dict.get(shopfloor_id, f'Shopfloor #{shopfloor_id}')
-                    top_shopfloors.append({
-                        'id': shopfloor_id,
-                        'name': shopfloor_name,
-                        'total_energy': float(row[1]) if row[1] else 0.0
-                    })
+                    ec_id = row[1]
+                    category_energy = float(row[2]) if row[2] else 0.0
+                    
+                    if shopfloor_id not in shopfloor_energy_by_category:
+                        shopfloor_energy_by_category[shopfloor_id] = {
+                            'total_energy': 0.0,
+                            'categories': {}
+                        }
+                    
+                    shopfloor_energy_by_category[shopfloor_id]['categories'][ec_id] = category_energy
+                    shopfloor_energy_by_category[shopfloor_id]['total_energy'] += category_energy
+
+            # Build top 5 shopfloors
+            sorted_shopfloors = sorted(
+                shopfloor_energy_by_category.items(),
+                key=lambda x: x[1]['total_energy'],
+                reverse=True
+            )[:5]
+            
+            for shopfloor_id, energy_data in sorted_shopfloors:
+                shopfloor_name = shopfloor_name_dict.get(shopfloor_id, f'Shopfloor #{shopfloor_id}')
+                top_shopfloors.append({
+                    'id': shopfloor_id,
+                    'name': shopfloor_name,
+                    'total_energy': energy_data['total_energy'],
+                    'categories': energy_data['categories']
+                })
 
             ################################################################################################################
             # Step 11: Construct the report
             ################################################################################################################
 
-            # Prepare shopfloor details for response
+            # Prepare shopfloor details for response with energy data by category
             shopfloor_details = []
             for shopfloor in shopfloor_list:
+                shopfloor_id = shopfloor['id']
+                energy_data = shopfloor_energy_by_category.get(shopfloor_id, {
+                    'total_energy': 0.0,
+                    'categories': {}
+                })
+                
                 shopfloor_details.append({
-                    'id': shopfloor['id'],
+                    'id': shopfloor_id,
                     'name': shopfloor['name'],
                     'area': float(shopfloor['area']) if shopfloor['area'] else 0.0,
+                    'total_energy': energy_data['total_energy'],
+                    'energy_by_category': energy_data['categories']
                 })
 
             result = {

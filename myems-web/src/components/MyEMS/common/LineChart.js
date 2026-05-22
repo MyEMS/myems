@@ -7,14 +7,23 @@ import AppContext from '../../../context/Context';
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Tooltip, Legend);
 
-const LineChart = ({ reportingTitle, baseTitle, labels, data, options }) => {
-  const [selectedLabel, setSelectedLabel] = useState('a0');
-  const [option, setOption] = useState('a0');
+const LineChart = ({ reportingTitle, baseTitle, labels, data, options, defaultOption }) => {
+  const [selectedLabel, setSelectedLabel] = useState(defaultOption || 'a0');
+  const [option, setOption] = useState(defaultOption || 'a0');
   const { isDark } = useContext(AppContext);
   const chartRef = useRef(null);
   const [lineData, setLineData] = useState({
     datasets: []
   });
+  
+  // Update option when defaultOption changes
+  useEffect(() => {
+    if (defaultOption && data[defaultOption]) {
+      setOption(defaultOption);
+      setSelectedLabel(defaultOption);
+    }
+  }, [defaultOption, data]);
+  
   useEffect(() => {
     const chart = chartRef.current;
     if (chart) {

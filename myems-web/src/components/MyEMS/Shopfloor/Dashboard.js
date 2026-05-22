@@ -82,7 +82,9 @@ const Dashboard = ({setRedirect, setRedirectUrl, t}) => {
   const [monthlyTrends, setMonthlyTrends] = useState({
     labels: [],
     energy: [],
-    cost: []
+    cost: [],
+    categoryNames: [],
+    categoryUnits: []
   });
 
   // Pie chart data
@@ -145,19 +147,15 @@ const Dashboard = ({setRedirect, setRedirectUrl, t}) => {
         const labels = json.reporting_period_input.timestamps[0] || [];
         const energyValues = json.reporting_period_input.values || [];
         const costValues = json.reporting_period_cost.values || [];
-
-        // Calculate total energy and cost per month
-        const totalEnergy = labels.map((_, idx) =>
-            energyValues.reduce((sum, category) => sum + (category[idx] || 0), 0)
-        );
-        const totalCost = labels.map((_, idx) =>
-            costValues.reduce((sum, category) => sum + (category[idx] || 0), 0)
-        );
+        const categoryNames = json.reporting_period_input.category_names || [];
+        const categoryUnits = json.reporting_period_input.category_units || [];
 
         setMonthlyTrends({
           labels,
-          energy: totalEnergy,
-          cost: totalCost
+          energy: energyValues,
+          cost: costValues,
+          categoryNames,
+          categoryUnits
         });
       }
 
@@ -251,25 +249,38 @@ const Dashboard = ({setRedirect, setRedirectUrl, t}) => {
 
   const topShopfloorsBarData = prepareTopShopfloorsBarData();
 
-  // Prepare line chart data for monthly trends
+  // Prepare line chart data for monthly trends - now by energy category
   const prepareMonthlyTrendData = () => {
     const timestamps = {};
     const values = {};
     const options = [];
 
     if (monthlyTrends.labels && monthlyTrends.labels.length > 0) {
-      timestamps['a0'] = monthlyTrends.labels;
-      values['a0'] = monthlyTrends.energy;
-      timestamps['a1'] = monthlyTrends.labels;
-      values['a1'] = monthlyTrends.cost;
-      options.push({value: 'a0', label: t('Energy Consumption')});
-      options.push({value: 'a1', label: t('Cost')});
+      // Add cost option first (as default)
+      if (monthlyTrends.cost && monthlyTrends.cost.length > 0) {
+        timestamps['cost'] = monthlyTrends.labels;
+        values['cost'] = monthlyTrends.cost.length > 0 ? monthlyTrends.cost[0] : [];
+        options.push({value: 'cost', label: t('Cost')});
+      }
+      
+      // Add each energy category as a separate option
+      monthlyTrends.energy.forEach((categoryData, index) => {
+        const key = `energy_${index}`;
+        timestamps[key] = monthlyTrends.labels;
+        values[key] = categoryData;
+        const categoryName = monthlyTrends.categoryNames[index] || t('Unknown');
+        const unit = monthlyTrends.categoryUnits[index] || '';
+        options.push({value: key, label: `${t(categoryName)} (${unit})`});
+      });
     }
 
     return {timestamps, values, options};
   };
 
   const monthlyTrendChartData = prepareMonthlyTrendData();
+  
+  // Set default selected option to cost
+  const [selectedChartOption, setSelectedChartOption] = useState('cost');
 
   if (loading) {
     return (
@@ -401,6 +412,7 @@ const Dashboard = ({setRedirect, setRedirectUrl, t}) => {
               labels={monthlyTrendChartData.timestamps}
               data={monthlyTrendChartData.values}
               options={monthlyTrendChartData.options}
+              defaultOption={selectedChartOption}
           />
         </div>
 
@@ -419,35 +431,41 @@ const Dashboard = ({setRedirect, setRedirectUrl, t}) => {
                     <tr>
                       <th>{t('Shopfloor Name')}</th>
                       <th className="text-right">{t('Shopfloor Area')}(m²)</th>
-                      <th className="text-right">{t('Energy Consumption')}</th>
+                      {energyData.names && energyData.names.map((categoryName, index) => (
+                        <th key={index} className="text-right">
+                          {t(categoryName)} ({energyData.units[index] || ''})
+                        </th>
+                      ))}
                       <th className="text-right">{t('Per Unit Area')}</th>
                     </tr>
                     </thead>
                     <tbody>
-                    {allShopfloors.map(shopfloor => {
-                      const shopfloorEnergyData = topShopfloors.find(sf => sf.id === shopfloor.id);
-                      const totalEnergy = shopfloorEnergyData ? shopfloorEnergyData.total_energy : 0;
-                      const perArea = shopfloor.area > 0 ? (totalEnergy / shopfloor.area).toFixed(2) : '0.00';
+                    {allShopfloors
+                    .sort((a, b) => b.total_energy - a.total_energy)
+                    .map((shopfloor) => {
+                      const perArea = shopfloor.area > 0 ? 
+                        (shopfloor.total_energy / shopfloor.area).toFixed(2) : '0.00';
                       
-                      return {
-                          ...shopfloor,
-                          totalEnergy,
-                          perArea
-                      };
-                    })
-                    .sort((a, b) => b.totalEnergy - a.totalEnergy)
-                    .map((shopfloor) => (
+                      return (
                         <tr key={shopfloor.id}>
-                            <td>
-                                <strong>{shopfloor.name}</strong>
-                            </td>
-                            <td className="text-right">{shopfloor.area ? shopfloor.area.toFixed(2) : '-'}</td>
-                            <td className="text-right">
-                                <strong>{shopfloor.totalEnergy.toFixed(2)}</strong>
-                            </td>
-                            <td className="text-right">{shopfloor.perArea}</td>
+                          <td>
+                            <strong>{shopfloor.name}</strong>
+                          </td>
+                          <td className="text-right">{shopfloor.area ? shopfloor.area.toFixed(2) : '-'}</td>
+                          {energyData.energy_category_ids && energyData.energy_category_ids.map((ecId, index) => {
+                            const categoryEnergy = shopfloor.energy_by_category && shopfloor.energy_by_category[ecId] 
+                              ? shopfloor.energy_by_category[ecId] 
+                              : 0;
+                            return (
+                              <td key={index} className="text-right">
+                                {categoryEnergy > 0 ? categoryEnergy.toFixed(2) : '-'}
+                              </td>
+                            );
+                          })}
+                          <td className="text-right">{perArea}</td>
                         </tr>
-                    ))}
+                      );
+                    })}
                     </tbody>
                   </table>
                 </div>
