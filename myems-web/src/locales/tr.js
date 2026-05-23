@@ -168,6 +168,15 @@ export default {
         'Tenant Name': 'Kiracı Adı',
         'Tenant Area': 'Kiracı Alanı',
         'Tenant Type': 'Kiracı Türü',
+        // Equipment Dashboard
+        'Equipment Dashboard': 'Ekipman Gösterge Paneli',
+        'Total Equipments': 'Toplam Ekipman',
+        'Equipment Performance Overview': 'Ekipman Performansına Genel Bakış',
+        'Equipment Name': 'Ekipman Adı',
+        'Equipment Type': 'Ekipman Türü',
+        'Total Energy': 'Toplam Enerji',
+        'Total Sensors': 'Toplam Sensör',
+        'Increment Rate': 'Artış Oranı',
         // Shopfloor Dashboard
         'Total Shopfloors': 'Toplam atölye sayısı',
         'Shopfloor Performance Overview': 'Atölye performansına genel bakış',

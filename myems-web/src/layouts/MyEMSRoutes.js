@@ -19,6 +19,7 @@ import EnterProduction from '../components/MyEMS/Space/EnterProduction';
 import SpaceProduction from '../components/MyEMS/Space/SpaceProduction';
 import SpaceComparison from '../components/MyEMS/Space/SpaceComparison';
 // Equipment
+import EquipmentDashboard from '../components/MyEMS/Equipment/Dashboard';
 import EquipmentBatch from '../components/MyEMS/Equipment/EquipmentBatch';
 import EquipmentCarbon from '../components/MyEMS/Equipment/EquipmentCarbon';
 import EquipmentCost from '../components/MyEMS/Equipment/EquipmentCost';
@@ -156,6 +157,7 @@ const MyEMSRoutes = () => (
     <Route path="/space/comparison" exact component={SpaceComparison} />
 
     {/*Equipment*/}
+    <Route path="/equipment" exact component={EquipmentDashboard} />
     <Route path="/equipment/batch" exact component={EquipmentBatch} />
     <Route path="/equipment/carbon" exact component={EquipmentCarbon} />
     <Route path="/equipment/cost" exact component={EquipmentCost} />

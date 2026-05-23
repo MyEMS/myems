@@ -168,6 +168,15 @@ export default {
         'Tenant Name': 'Naam Huurder',
         'Tenant Area': 'Oppervlakte Huurder',
         'Tenant Type': 'Type Huurder',
+        // Equipment Dashboard
+        'Equipment Dashboard': 'Apparatuur Dashboard',
+        'Total Equipments': 'Totaal Apparatuur',
+        'Equipment Performance Overview': 'Overzicht Apparatuurprestaties',
+        'Equipment Name': 'Naam Apparatuur',
+        'Equipment Type': 'Type Apparatuur',
+        'Total Energy': 'Totale Energie',
+        'Total Sensors': 'Totaal Sensoren',
+        'Increment Rate': 'Groeipercentage',
         // Shopfloor Dashboard
         'Total Shopfloors': 'Totaal aantal werkplaatsen',
         'Shopfloor Performance Overview': 'Overzicht werkplaatsprestaties',

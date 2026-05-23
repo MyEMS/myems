@@ -38,6 +38,7 @@ export const equipmentRoutes = {
   to: '/equipment',
   icon: 'cog',
   children: [
+    { to: '/equipment', name: 'Dashboard' },
     { to: '/equipment/energycategory', name: 'Energy Category Data' },
     { to: '/equipment/energyitem', name: 'Energy Item Data' },
     { to: '/equipment/carbon', name: 'Carbon' },

@@ -168,7 +168,16 @@ export default {
         'Tenant Name': 'ชื่อผู้เช่า',
         'Tenant Area': 'พื้นที่ผู้เช่า',
         'Tenant Type': 'ประเภทผู้เช่า',
-                // Shopfloor Dashboard
+        // Equipment Dashboard
+        'Equipment Dashboard': 'แดชบอร์ดอุปกรณ์',
+        'Total Equipments': 'จำนวนอุปกรณ์ทั้งหมด',
+        'Equipment Performance Overview': 'ภาพรวมประสิทธิภาพอุปกรณ์',
+        'Equipment Name': 'ชื่ออุปกรณ์',
+        'Equipment Type': 'ประเภทอุปกรณ์',
+        'Total Energy': 'พลังงานรวม',
+        'Total Sensors': 'จำนวนเซ็นเซอร์ทั้งหมด',
+        'Increment Rate': 'อัตราการเพิ่มขึ้น',
+        // Shopfloor Dashboard
         'Total Shopfloors': 'จำนวนโรงงานทั้งหมด',
         'Shopfloor Performance Overview': 'ภาพรวมประสิทธิภาพโรงงาน',
         'Shopfloor Name': 'ชื่อโรงงาน',

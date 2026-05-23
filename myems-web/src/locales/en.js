@@ -143,6 +143,15 @@ export default {
         'Tenant Name': 'Tenant Name',
         'Tenant Area': 'Tenant Area',
         'Tenant Type': 'Tenant Type',
+        // Equipment Dashboard
+        'Equipment Dashboard': 'Equipment Dashboard',
+        'Total Equipments': 'Total Equipments',
+        'Equipment Performance Overview': 'Equipment Performance Overview',
+        'Equipment Name': 'Equipment Name',
+        'Equipment Type': 'Equipment Type',
+        'Total Energy': 'Total Energy',
+        'Total Sensors': 'Total Sensors',
+        'Increment Rate': 'Increment Rate',
 
         // Store Dashboard
         'Store Dashboard': 'Store Dashboard',
