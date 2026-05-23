@@ -179,14 +179,17 @@ class Reporting:
                 rows_equipments = cursor.fetchall()
                 if rows_equipments is not None and len(rows_equipments) > 0:
                     for row in rows_equipments:
-                        space_node = node_dict[row[3]]
-                        path_names = []
-                        current_node = space_node
-                        while current_node:
-                            path_names.append(current_node.name)
-                            current_node = current_node.parent
-                        path_names.reverse()
-                        full_space_name = '/'.join(path_names)
+                        space_node = node_dict.get(row[3])
+                        if space_node:
+                            path_names = []
+                            current_node = space_node
+                            while current_node:
+                                path_names.append(current_node.name)
+                                current_node = current_node.parent
+                            path_names.reverse()
+                            full_space_name = '/'.join(path_names)
+                        else:
+                            full_space_name = ''
 
                         equipment_list.append({"id": row[0],
                                                "equipment_name": row[1],
