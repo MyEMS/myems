@@ -317,62 +317,49 @@ class Reporting:
                     date_list.append(current_date)
                     current_date += timedelta(days=1)
 
-                # Query total and daily energy for each meter
-                for meter_id in meter_dict:
-                    # Query total energy for the reporting period
-                    cursor_energy_db.execute(" SELECT SUM(actual_value) "
-                                             " FROM tbl_meter_hourly "
-                                             " WHERE meter_id = %s "
-                                             "     AND start_datetime_utc >= %s "
-                                             "     AND start_datetime_utc < %s ",
-                                             (meter_id,
-                                              reporting_start_datetime_utc,
-                                              reporting_end_datetime_utc))
-                    rows_meter_energy = cursor_energy_db.fetchall()
+                meter_ids = list(meter_dict.keys())
+                if len(meter_ids) > 0:
+                    meter_id_placeholders = ', '.join(['%s'] * len(meter_ids))
+                    daily_query = (
+                        " SELECT meter_id, "
+                        "        DATE(DATE_ADD(start_datetime_utc, INTERVAL " + str(timezone_offset) + " MINUTE)) AS local_date, "
+                        "        SUM(actual_value) AS daily_value "
+                        " FROM tbl_meter_hourly "
+                        " WHERE meter_id IN (" + meter_id_placeholders + ") "
+                        "       AND start_datetime_utc >= %s "
+                        "       AND start_datetime_utc < %s "
+                        " GROUP BY meter_id, local_date "
+                        " ORDER BY meter_id, local_date "
+                    )
+                    cursor_energy_db.execute(daily_query, meter_ids + [reporting_start_datetime_utc, reporting_end_datetime_utc])
+                    rows_daily_aggregated = cursor_energy_db.fetchall()
 
-                    # Query daily energy breakdown with UTC timestamps
-                    cursor_energy_db.execute(" SELECT start_datetime_utc, "
-                                             "        actual_value "
-                                             " FROM tbl_meter_hourly "
-                                             " WHERE meter_id = %s "
-                                             "     AND start_datetime_utc >= %s "
-                                             "     AND start_datetime_utc < %s "
-                                             " ORDER BY start_datetime_utc",
-                                             (meter_id,
-                                              reporting_start_datetime_utc,
-                                              reporting_end_datetime_utc))
-                    rows_daily_energy = cursor_energy_db.fetchall()
+                    meter_subtotal_dict = dict()
+                    for row_daily in rows_daily_aggregated:
+                        meter_id = row_daily[0]
+                        local_date = row_daily[1]
+                        daily_value = row_daily[2]
 
-                    # Build daily values dictionary by converting UTC to local time
-                    daily_values_dict = dict()
-                    for row_daily in rows_daily_energy:
-                        utc_datetime = row_daily[0]
-                        if isinstance(utc_datetime, datetime):
-                            local_datetime = \
-                                utc_datetime.replace(tzinfo=timezone.utc) + timedelta(minutes=timezone_offset)
-                            date_str = local_datetime.strftime('%Y-%m-%d')
+                        if meter_id not in meter_dict:
+                            continue
+
+                        date_str = local_date.strftime('%Y-%m-%d') if isinstance(local_date, datetime) else str(local_date)
+                        meter_dict[meter_id]['daily_values'][date_str] = daily_value
+
+                        if daily_value is None:
+                            continue
+                        if meter_id not in meter_subtotal_dict:
+                            meter_subtotal_dict[meter_id] = daily_value
                         else:
-                            date_str = str(utc_datetime)
-                        
-                        value = row_daily[1]
-                        if date_str in daily_values_dict:
-                            daily_values_dict[date_str] += value
-                        else:
-                            daily_values_dict[date_str] = value
+                            meter_subtotal_dict[meter_id] += daily_value
 
-                    meter_dict[meter_id]['daily_values'] = daily_values_dict
-
-                    # Process total energy by energy category
-                    for energy_category in energy_category_list:
-                        subtotal = None
-                        for row_meter_energy in rows_meter_energy:
-                            if energy_category['id'] == meter_dict[meter_id]['energy_category_id']:
-                                subtotal = row_meter_energy[0]
-                                meter_dict[meter_id]['subtotal'] = subtotal
-                                break
-                        # append subtotal
-                        # append None if energy category is not applicable
-                        meter_dict[meter_id]['values'].append(subtotal)
+                    for meter_id in meter_dict:
+                        subtotal = meter_subtotal_dict.get(meter_id, None)
+                        meter_dict[meter_id]['subtotal'] = subtotal
+                        for energy_category in energy_category_list:
+                            meter_dict[meter_id]['values'].append(
+                                subtotal if energy_category['id'] == meter_dict[meter_id]['energy_category_id'] else None
+                            )
             finally:
                 if cursor_system_db:
                     cursor_system_db.close()
