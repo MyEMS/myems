@@ -62,12 +62,6 @@ where python
 ```
 Assume the result is 'C:\Users\johnson\AppData\Local\Programs\Python\Python310\python.exe'
 
-Copy fcntl.py and pwd.py to lib folder:
-```bash
-copy myems\myems-api\fcntl.py C:\Users\johnson\AppData\Local\Programs\Python\Python310\Lib
-copy myems\myems-api\pwd.py C:\Users\johnson\AppData\Local\Programs\Python\Python310\Lib
-```
-
 Install and run with waitress:
 ```bash
 pip install waitress
