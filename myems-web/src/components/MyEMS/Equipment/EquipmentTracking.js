@@ -222,15 +222,6 @@ const EquipmentTracking = ({ setRedirect, setRedirectUrl, t }) => {
       classes: 'border-0 py-2 align-middle',
       sort: true
     },
-    {
-      key: 'a4',
-      dataField: '',
-      headerClasses: 'border-0',
-      text: '',
-      classes: 'border-0 py-2 align-middle',
-      formatter: actionFormatter,
-      align: 'right'
-    }
   ];
 
   const labelClasses = 'ls text-uppercase text-600 font-weight-semi-bold mb-0';
