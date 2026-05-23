@@ -69,7 +69,6 @@ cd myems\myems-api
 waitress-serve --listen=0.0.0.0:8000 app:api
 ```
 
-
 ## Installation
 
 ### Installation Option 1: Install myems-api on Docker
@@ -206,4 +205,3 @@ Please refer to [API List](https://myems.cn/docs/api)
 [8]. https://foss.heptapod.net/openpyxl/et_xmlfile/
 
 [9]. https://docs.pylonsproject.org/projects/waitress/en/latest/
-
