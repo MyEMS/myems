@@ -91,7 +91,7 @@
     "scorpio-menu": "^0.1.1",
     "slick-carousel": "^1.8.1",
     "styled-components": "^6.0.5",
-    "uuid": "^9.0.0",
+    "uuid": "^11.1.1",
     "validator": "^13.15.35"
   },
   "scripts": {
@@ -119,12 +119,12 @@
     "gulp-rtlcss": "^2.0.0",
     "gulp-sass": "^5.0.0",
     "gulp-sourcemaps": "^2.6.5",
-    "postcss": "^8.5.10",
     "prettier": "^2.8.8",
     "sass": "^1.43.4",
     "webpack-dev-server": "^5.2.1"
   },
   "overrides": {
+    "postcss": ">=8.5.10",
     "underscore": "^1.13.1",
     "nth-check": "^2.0.1",
     "serialize-javascript": "^7.0.5",
@@ -136,3 +136,4 @@
     "@tootallnate/once": ">=3.0.1"
   }
 }
+
