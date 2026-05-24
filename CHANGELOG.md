@@ -22,6 +22,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - added shopfloor dashboard to myems-web
 - added full space path to meter tracking in myems-api and myems-web
 - added full space path to meter batch report in myems-api
+- added full space path to virtual meter batch report in myems-api
+- added full space path to offline meter batch report in myems-api
+- added full space path to tenant batch report in myems-api
+- added full space path to store batch report in myems-api
+- added full space path to shopfloor batch report in myems-api
+- added full space path to equipment batch report in myems-api
+- added full space path to combined equipment batch report in myems-api
 ### Changed
 - changed node.js version to 22.22.2, 24.5.0 or later in myems-web
 - changed npm version to 10.9.7, 11.5.1 or later in myems-web
