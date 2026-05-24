@@ -26,6 +26,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - changed node.js version to 22.22.2, 24.5.0 or later in myems-web
 - changed npm version to 10.9.7, 11.5.1 or later in myems-web
 - changed dockerfile in myems-web
+- changed introduction on waitress which supports windows directly in myems-api
 ### Fixed
 - added try...finally for cnx.close() and cursor.close() in myems-api
 - fixed overwritten property issues in myems-web
