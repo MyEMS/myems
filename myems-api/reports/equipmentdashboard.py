@@ -446,7 +446,8 @@ class Reporting:
                 'subtotals': [0.0] * len(reporting_input['names']),
                 'increment_rates': list(reporting_input['increment_rates']),
                 'timestamps': [],
-                'values': []
+                'values': [],
+                'energy_category_ids': list(reporting_input['energy_category_ids'])
             }
 
             if len(equipment_ids_list) > 0:
@@ -473,54 +474,106 @@ class Reporting:
                                 reporting_cost['subtotals'][idx] = cost
 
             ################################################################################################################
-            # Step 7: Query monthly trends
+            # Step 7: Query monthly trends (OPTIMIZED: single query + memory aggregation)
             ################################################################################################################
-            monthly_timestamps = []
-            monthly_energy_values = [[] for _ in range(len(reporting_input['names']))]
-            monthly_cost_values = [[] for _ in range(len(reporting_cost['names']))]
-
             # Generate monthly timestamps for reporting year
             year_start = reporting_start_datetime_utc.replace(month=1, day=1, hour=0, minute=0, second=0, microsecond=0)
+            monthly_timestamps = []
             current_month = year_start
             while current_month < reporting_end_datetime_utc:
+                monthly_timestamps.append(current_month.strftime('%Y-%m'))
                 if current_month.month < 12:
                     next_month = current_month.replace(month=current_month.month + 1)
                 else:
                     next_month = current_month.replace(year=current_month.year + 1, month=1)
-
-                monthly_timestamps.append(current_month.strftime('%Y-%m'))
-
-                # Query energy for this month per category
-                for idx, ec_id in enumerate(reporting_input['energy_category_ids']):
-                    format_strings = ','.join(['%s'] * len(equipment_ids_list))
-                    cursor_energy.execute(
-                        " SELECT SUM(actual_value) "
-                        " FROM tbl_equipment_input_category_hourly "
-                        " WHERE equipment_id IN (%s) "
-                        "   AND energy_category_id = %%s "
-                        "   AND start_datetime_utc >= %%s "
-                        "   AND start_datetime_utc < %%s " % format_strings,
-                        equipment_ids_tuple + (ec_id, current_month, next_month)
-                    )
-                    row = cursor_energy.fetchone()
-                    monthly_energy_values[idx].append(float(row[0]) if row and row[0] else 0.0)
-
-                # Query cost for this month per category
-                for idx, ec_id in enumerate(reporting_input['energy_category_ids']):
-                    format_strings = ','.join(['%s'] * len(equipment_ids_list))
-                    cursor_billing.execute(
-                        " SELECT SUM(actual_value) "
-                        " FROM tbl_equipment_input_category_hourly "
-                        " WHERE equipment_id IN (%s) "
-                        "     AND energy_category_id = %%s "
-                        "     AND start_datetime_utc >= %%s "
-                        "     AND start_datetime_utc < %%s " % format_strings,
-                        equipment_ids_tuple + (ec_id, current_month, next_month)
-                    )
-                    row = cursor_billing.fetchone()
-                    monthly_cost_values[idx].append(float(row[0]) if row and row[0] else 0.0)
-
                 current_month = next_month
+
+            # Initialize result structures
+            monthly_energy_values = [[] for _ in range(len(reporting_input['names']))]
+            monthly_cost_values = [[] for _ in range(len(reporting_cost['names']))]
+
+            if len(equipment_ids_list) > 0 and len(reporting_input['energy_category_ids']) > 0:
+                format_strings = ','.join(['%s'] * len(equipment_ids_list))
+
+                # OPTIMIZATION: Single query to fetch all monthly energy data grouped by month and category
+                try:
+                    cursor_energy.execute(
+                        " SELECT DATE_FORMAT(start_datetime_utc, '%%Y-%%m') as month_str, "
+                        "        energy_category_id, "
+                        "        SUM(actual_value) as total_value "
+                        " FROM tbl_equipment_input_category_hourly "
+                        " WHERE equipment_id IN (%s) "
+                        "   AND start_datetime_utc >= %%s "
+                        "   AND start_datetime_utc < %%s "
+                        " GROUP BY DATE_FORMAT(start_datetime_utc, '%%Y-%%m'), energy_category_id "
+                        " ORDER BY month_str, energy_category_id " % format_strings,
+                        equipment_ids_tuple + (reporting_start_datetime_utc, reporting_end_datetime_utc)
+                    )
+                    rows_monthly_energy = cursor_energy.fetchall()
+
+                    # Build energy data mapping: {month_str: {ec_id: value}}
+                    energy_data_map = {}
+                    if rows_monthly_energy:
+                        for row in rows_monthly_energy:
+                            month_str = row[0]
+                            ec_id = row[1]
+                            total_value = float(row[2]) if row[2] else 0.0
+
+                            if month_str not in energy_data_map:
+                                energy_data_map[month_str] = {}
+                            energy_data_map[month_str][ec_id] = total_value
+
+                    # Fill energy values for each category
+                    for month_str in monthly_timestamps:
+                        month_data = energy_data_map.get(month_str, {})
+                        for idx, ec_id in enumerate(reporting_input['energy_category_ids']):
+                            monthly_energy_values[idx].append(month_data.get(ec_id, 0.0))
+
+                except Exception as e:
+                    logger.error(f"Error querying monthly energy trends: {e}")
+                    # Fill with zeros on error
+                    for idx in range(len(reporting_input['energy_category_ids'])):
+                        monthly_energy_values[idx] = [0.0] * len(monthly_timestamps)
+
+                # OPTIMIZATION: Single query to fetch all monthly cost data grouped by month and category
+                try:
+                    cursor_billing.execute(
+                        " SELECT DATE_FORMAT(start_datetime_utc, '%%Y-%%m') as month_str, "
+                        "        energy_category_id, "
+                        "        SUM(actual_value) as total_value "
+                        " FROM tbl_equipment_input_category_hourly "
+                        " WHERE equipment_id IN (%s) "
+                        "   AND start_datetime_utc >= %%s "
+                        "   AND start_datetime_utc < %%s "
+                        " GROUP BY DATE_FORMAT(start_datetime_utc, '%%Y-%%m'), energy_category_id "
+                        " ORDER BY month_str, energy_category_id " % format_strings,
+                        equipment_ids_tuple + (reporting_start_datetime_utc, reporting_end_datetime_utc)
+                    )
+                    rows_monthly_cost = cursor_billing.fetchall()
+
+                    # Build cost data mapping: {month_str: {ec_id: value}}
+                    cost_data_map = {}
+                    if rows_monthly_cost:
+                        for row in rows_monthly_cost:
+                            month_str = row[0]
+                            ec_id = row[1]
+                            total_value = float(row[2]) if row[2] else 0.0
+
+                            if month_str not in cost_data_map:
+                                cost_data_map[month_str] = {}
+                            cost_data_map[month_str][ec_id] = total_value
+
+                    # Fill cost values for each category
+                    for month_str in monthly_timestamps:
+                        month_data = cost_data_map.get(month_str, {})
+                        for idx, ec_id in enumerate(reporting_cost['energy_category_ids']):
+                            monthly_cost_values[idx].append(month_data.get(ec_id, 0.0))
+
+                except Exception as e:
+                    logger.error(f"Error querying monthly cost trends: {e}")
+                    # Fill with zeros on error
+                    for idx in range(len(reporting_cost['energy_category_ids'])):
+                        monthly_cost_values[idx] = [0.0] * len(monthly_timestamps)
 
             reporting_input['timestamps'] = [monthly_timestamps] * len(reporting_input['names'])
             reporting_input['values'] = monthly_energy_values
