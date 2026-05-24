@@ -17,9 +17,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - added shopfloor prediction report in myems-web
 - added store prediction report in myems-web
 - added the function of displaying the password entered by the user to myems-admin
-- added store dashboard to myems-web
-- added tenant dashboard to myems-web
-- added shopfloor dashboard to myems-web
+- added store dashboard to myems-api and myems-web
+- added tenant dashboard to myems-api and myems-web
+- added shopfloor dashboard to myems-api and myems-web
+- added equipment dashboard to myems-api and myems-web
 - added full space path to meter tracking in myems-api and myems-web
 - added full space path to meter batch report in myems-api
 - added full space path to virtual meter batch report in myems-api
