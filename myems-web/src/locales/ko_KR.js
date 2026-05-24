@@ -163,6 +163,15 @@ export default {
         'Tenant Name': '테넌트 이름',
         'Tenant Area': '테넌트 면적',
         'Tenant Type': '테넌트 유형',
+        // Equipment Dashboard
+        'Equipment Dashboard': '장비 대시보드',
+        'Total Equipments': '전체 장비 수',
+        'Equipment Performance Overview': '장비 성능 개요',
+        'Equipment Name': '장비 이름',
+        'Equipment Type': '장비 유형',
+        'Total Energy': '전체 에너지',
+        'Total Sensors': '전체 센서 수',
+        'Increment Rate': '증가율',
         // Shopfloor Dashboard
         'Total Shopfloors': '총 작업장 수',
         'Shopfloor Performance Overview': '작업장 성과 개요',

@@ -168,6 +168,15 @@ export default {
         'Tenant Name': 'Nazwa Najemcy',
         'Tenant Area': 'Powierzchnia Najemcy',
         'Tenant Type': 'Typ Najemcy',
+        // Equipment Dashboard
+        'Equipment Dashboard': 'Panel Urządzeń',
+        'Total Equipments': 'Liczba Urządzeń',
+        'Equipment Performance Overview': 'Przegląd Wydajności Urządzeń',
+        'Equipment Name': 'Nazwa Urządzenia',
+        'Equipment Type': 'Typ Urządzenia',
+        'Total Energy': 'Energia Ogółem',
+        'Total Sensors': 'Liczba Czujników',
+        'Increment Rate': 'Współczynnik Wzrostu',
         // Shopfloor Dashboard
         'Total Shopfloors': 'Łączna liczba warsztatów',
         'Shopfloor Performance Overview': 'Przegląd wydajności warsztatów',

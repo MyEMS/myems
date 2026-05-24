@@ -168,6 +168,15 @@ export default {
         'Tenant Name': 'Nome Inquilino',
         'Tenant Area': 'Area Inquilino',
         'Tenant Type': 'Tipo Inquilino',
+        // Equipment Dashboard
+        'Equipment Dashboard': 'Dashboard Apparecchiature',
+        'Total Equipments': 'Totale Apparecchiature',
+        'Equipment Performance Overview': 'Panoramica delle Prestazioni delle Apparecchiature',
+        'Equipment Name': 'Nome Apparecchiatura',
+        'Equipment Type': 'Tipo Apparecchiatura',
+        'Total Energy': 'Energia Totale',
+        'Total Sensors': 'Totale Sensori',
+        'Increment Rate': 'Tasso di Incremento',
         // Shopfloor Dashboard
         'Total Shopfloors': 'Totale officine',
         'Shopfloor Performance Overview': 'Panoramica delle prestazioni delle officine',

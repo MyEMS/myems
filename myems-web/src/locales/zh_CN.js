@@ -143,6 +143,15 @@ export default {
         'Tenant Name': '租户名称',
         'Tenant Area': '租户面积',
         'Tenant Type': '租户类型',
+        // Equipment Dashboard
+        'Equipment Dashboard': '设备仪表板',
+        'Total Equipments': '设备总数',
+        'Equipment Performance Overview': '设备绩效概览',
+        'Equipment Name': '设备名称',
+        'Equipment Type': '设备类型',
+        'Total Energy': '总能耗',
+        'Total Sensors': '传感器总数',
+        'Increment Rate': '增长率',
 
         // Store Dashboard
         'Store Dashboard': '门店仪表板',

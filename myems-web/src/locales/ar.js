@@ -168,6 +168,15 @@ export default {
         'Tenant Name': 'اسم المستأجر',
         'Tenant Area': 'مساحة المستأجر',
         'Tenant Type': 'نوع المستأجر',
+        // Equipment Dashboard
+        'Equipment Dashboard': 'لوحة تحكم المعدات',
+        'Total Equipments': 'إجمالي المعدات',
+        'Equipment Performance Overview': 'نظرة عامة على أداء المعدات',
+        'Equipment Name': 'اسم المعدة',
+        'Equipment Type': 'نوع المعدة',
+        'Total Energy': 'إجمالي الطاقة',
+        'Total Sensors': 'إجمالي المستشعرات',
+        'Increment Rate': 'معدل الزيادة',
         // Shopfloor Dashboard
         'Total Shopfloors': 'إجمالي ورش العمل',
         'Shopfloor Performance Overview': 'نظرة عامة على أداء ورش العمل',

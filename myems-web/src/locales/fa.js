@@ -191,6 +191,15 @@ export default {
         'Shopfloor Performance Overview': 'نمای کلی عملکرد کارگاه‌ها',
         'Shopfloor Name': 'نام کارگاه',
         'Shopfloor Area': 'مساحت کارگاه',
+        // Equipment Dashboard
+        'Equipment Dashboard': 'داشبورد تجهیزات',
+        'Total Equipments': 'تعداد کل تجهیزات',
+        'Equipment Performance Overview': 'نمای کلی عملکرد تجهیزات',
+        'Equipment Name': 'نام تجهیز',
+        'Equipment Type': 'نوع تجهیز',
+        'Total Energy': 'انرژی کل',
+        'Total Sensors': 'تعداد کل حسگر‌ها',
+        'Increment Rate': 'نرخ رشد',
 
         Tenant: 'مستأجر',
         Store: 'فروشگاه',

@@ -168,6 +168,15 @@ export default {
         'Tenant Name': 'Tên Người Thuê',
         'Tenant Area': 'Diện Tích Người Thuê',
         'Tenant Type': 'Loại Người Thuê',
+        // Equipment Dashboard
+        'Equipment Dashboard': 'Bảng Điều Khiển Thiết Bị',
+        'Total Equipments': 'Tổng Số Thiết Bị',
+        'Equipment Performance Overview': 'Tổng Quan Hiệu Suất Thiết Bị',
+        'Equipment Name': 'Tên Thiết Bị',
+        'Equipment Type': 'Loại Thiết Bị',
+        'Total Energy': 'Tổng Năng Lượng',
+        'Total Sensors': 'Tổng Số Cảm Biến',
+        'Increment Rate': 'Tỷ Lệ Tăng Trưởng',
         // Shopfloor Dashboard
         'Total Shopfloors': 'Tổng số xưởng',
         'Shopfloor Performance Overview': 'Tổng quan hiệu suất xưởng',

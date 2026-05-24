@@ -168,6 +168,15 @@ export default {
         'Tenant Name': 'テナント名',
         'Tenant Area': 'テナント面積',
         'Tenant Type': 'テナントタイプ',
+        // Equipment Dashboard
+        'Equipment Dashboard': '設備ダッシュボード',
+        'Total Equipments': '設備総数',
+        'Equipment Performance Overview': '設備パフォーマンス概要',
+        'Equipment Name': '設備名',
+        'Equipment Type': '設備タイプ',
+        'Total Energy': '総エネルギー',
+        'Total Sensors': 'センサー総数',
+        'Increment Rate': '増加率',
         // Shopfloor Dashboard
         'Total Shopfloors': '车间総数',
         'Shopfloor Performance Overview': '车间パフォーマンス概要',
