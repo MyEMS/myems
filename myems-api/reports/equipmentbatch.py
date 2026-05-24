@@ -223,6 +223,9 @@ class Reporting:
                         parent_node = node_dict[row[2]] if row[2] is not None else None
                         node_dict[row[0]] = AnyNode(id=row[0], parent=parent_node, name=row[1])
 
+                space_node = node_dict.get(space_id)
+                space_name = '/'.join([node.name for node in space_node.path]) if space_node is not None else space_name
+
                 ###################################################################################################
                 # Step 3: query all equipments in the space tree
                 ###################################################################################################
@@ -234,6 +237,7 @@ class Reporting:
 
                 cursor_system_db.execute(" SELECT e.id, e.name AS equipment_name, "
                                          "        e.uuid AS equipment_uuid, s.name AS space_name, "
+                                         "        s.id AS space_id, "
                                          "        cc.name AS cost_center_name, e.description "
                                          " FROM tbl_spaces s, tbl_spaces_equipments se, "
                                          "      tbl_equipments e, tbl_cost_centers cc "
@@ -243,11 +247,16 @@ class Reporting:
                 rows_equipments = cursor_system_db.fetchall()
                 if rows_equipments is not None and len(rows_equipments) > 0:
                     for row in rows_equipments:
+                        current_space_id = row[4]
+                        current_space_node = node_dict.get(current_space_id)
+                        current_space_path = \
+                            '/'.join([node.name for node in current_space_node.path]) \
+                            if current_space_node is not None else row[3]
                         equipment_dict[row[0]] = {"equipment_name": row[1],
                                                   "equipment_uuid": row[2],
-                                                  "space_name": row[3],
-                                                  "cost_center_name": row[4],
-                                                  "description": row[5],
+                                                  "space_name": current_space_path,
+                                                  "cost_center_name": row[5],
+                                                  "description": row[6],
                                                   "values": list()}
 
                 #####################################################################################################
@@ -330,7 +339,11 @@ class Reporting:
                 "values": equipment['values'],
             })
 
-        result = {'equipments': equipment_list, 'energycategories': energy_category_list, 'excel_bytes_base64': None}
+        result = {'space_id': space_id,
+                  'space_name': space_name,
+                  'equipments': equipment_list,
+                  'energycategories': energy_category_list,
+                  'excel_bytes_base64': None}
 
         # export result to Excel file and then encode the file to base64 string
         if not is_quick_mode:
