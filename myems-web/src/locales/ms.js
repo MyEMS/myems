@@ -168,6 +168,15 @@ export default {
         'Tenant Name': 'Nama Penyewa',
         'Tenant Area': 'Kawasan Penyewa',
         'Tenant Type': 'Jenis Penyewa',
+        // Equipment Dashboard
+        'Equipment Dashboard': 'Papan Pemuka Peralatan',
+        'Total Equipments': 'Jumlah Peralatan',
+        'Equipment Performance Overview': 'Gambaran Prestasi Peralatan',
+        'Equipment Name': 'Nama Peralatan',
+        'Equipment Type': 'Jenis Peralatan',
+        'Total Energy': 'Jumlah Tenaga',
+        'Total Sensors': 'Jumlah Penderia',
+        'Increment Rate': 'Kadar Kenaikan',
         // Shopfloor Dashboard
         'Total Shopfloors': 'Jumlah bengkel',
         'Shopfloor Performance Overview': 'Gambaran keseluruhan prestasi bengkel',

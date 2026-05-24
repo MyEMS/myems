@@ -167,6 +167,15 @@ export default {
         'Tenant Name': '租戶名稱',
         'Tenant Area': '租戶面積',
         'Tenant Type': '租戶類型',
+        // Equipment Dashboard
+        'Equipment Dashboard': '設備儀表板',
+        'Total Equipments': '設備總數',
+        'Equipment Performance Overview': '設備绩效概覽',
+        'Equipment Name': '設備名稱',
+        'Equipment Type': '設備類型',
+        'Total Energy': '總能耗',
+        'Total Sensors': '傳感器總數',
+        'Increment Rate': '增長率',
         // Shopfloor Dashboard
         'Total Shopfloors': '車間總數',
         'Shopfloor Performance Overview': '車間績效概覽',

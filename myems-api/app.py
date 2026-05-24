@@ -32,6 +32,7 @@ from reports import dashboard
 from reports import distributionsystem as distributionsystemreport
 from reports import energyflowdiagram as energyflowdiagramreport
 from reports import equipmentbatch
+from reports import equipmentdashboard
 from reports import equipmentcarbon
 from reports import equipmentcost
 from reports import equipmentefficiency
@@ -1270,6 +1271,8 @@ api.add_route('/reports/energystoragepowerstationcollectioncarbon',
               energystoragepowerstationcollectioncarbon.Reporting())
 api.add_route('/reports/energystoragepowerstationitemcarbon',
               energystoragepowerstationitemcarbon.Reporting())
+api.add_route('/reports/equipmentdashboard',
+              equipmentdashboard.Reporting())
 api.add_route('/reports/equipmentbatch',
               equipmentbatch.Reporting())
 api.add_route('/reports/equipmentcarbon',

@@ -168,6 +168,15 @@ export default {
         'Tenant Name': 'Название Арендатора',
         'Tenant Area': 'Площадь Арендатора',
         'Tenant Type': 'Тип Арендатора',
+        // Equipment Dashboard
+        'Equipment Dashboard': 'Панель оборудования',
+        'Total Equipments': 'Всего оборудования',
+        'Equipment Performance Overview': 'Обзор производительности оборудования',
+        'Equipment Name': 'Название оборудования',
+        'Equipment Type': 'Тип оборудования',
+        'Total Energy': 'Общая энергия',
+        'Total Sensors': 'Всего датчиков',
+        'Increment Rate': 'Темп роста',
         // Shopfloor Dashboard
         'Total Shopfloors': 'Общее количество цехов',
         'Shopfloor Performance Overview': 'Обзор производительности цехов',
