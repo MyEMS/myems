@@ -222,6 +222,9 @@ class Reporting:
                         parent_node = node_dict[row[2]] if row[2] is not None else None
                         node_dict[row[0]] = AnyNode(id=row[0], parent=parent_node, name=row[1])
 
+                space_node = node_dict.get(space_id)
+                space_name = '/'.join([node.name for node in space_node.path]) if space_node is not None else space_name
+
                 ##############################################################################################
                 # Step 3: query all meters in the space tree
                 ##############################################################################################
@@ -233,7 +236,7 @@ class Reporting:
                     space_dict[node.id] = node.name
 
                 cursor_system_db.execute(" SELECT vm.id, vm.name AS virtual_meter_name, vm.energy_category_id, "
-                                         "        s.name AS space_name, "
+                                         "        s.name AS space_name, s.id AS space_id, "
                                          "        cc.name AS cost_center_name"
                                          " FROM tbl_spaces s, tbl_spaces_virtual_meters svm, "
                                          "      tbl_virtual_meters vm, tbl_cost_centers cc "
@@ -243,10 +246,15 @@ class Reporting:
                 rows_meters = cursor_system_db.fetchall()
                 if rows_meters is not None and len(rows_meters) > 0:
                     for row in rows_meters:
+                        current_space_id = row[4]
+                        current_space_node = node_dict.get(current_space_id)
+                        current_space_path = \
+                            '/'.join([node.name for node in current_space_node.path]) \
+                            if current_space_node is not None else row[3]
                         virtual_meter_dict[row[0]] = {"virtual_meter_name": row[1],
                                                       "energy_category_id": row[2],
-                                                      "space_name": row[3],
-                                                      "cost_center_name": row[4],
+                                                      "space_name": current_space_path,
+                                                      "cost_center_name": row[5],
                                                       "values": list(),
                                                       "subtotal": None}
                         energy_category_set.add(row[2])
