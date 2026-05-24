@@ -62,19 +62,12 @@ where python
 ```
 Assume the result is 'C:\Users\johnson\AppData\Local\Programs\Python\Python310\python.exe'
 
-Copy fcntl.py and pwd.py to lib folder:
-```bash
-copy myems\myems-api\fcntl.py C:\Users\johnson\AppData\Local\Programs\Python\Python310\Lib
-copy myems\myems-api\pwd.py C:\Users\johnson\AppData\Local\Programs\Python\Python310\Lib
-```
-
 Install and run with waitress:
 ```bash
 pip install waitress
 cd myems\myems-api
 waitress-serve --listen=0.0.0.0:8000 app:api
 ```
-
 
 ## Installation
 
@@ -212,4 +205,3 @@ Please refer to [API List](https://myems.cn/docs/api)
 [8]. https://foss.heptapod.net/openpyxl/et_xmlfile/
 
 [9]. https://docs.pylonsproject.org/projects/waitress/en/latest/
-
