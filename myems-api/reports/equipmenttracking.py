@@ -169,7 +169,7 @@ class Reporting:
                     space_dict[node.id] = node.name
 
                 cursor.execute(" SELECT e.id, e.name AS equipment_name, "
-                               " e.uuid AS equipment_uuid, s.name AS space_name, "
+                               " e.uuid AS equipment_uuid, s.id AS space_id, "
                                "        cc.name AS cost_center_name, e.description "
                                " FROM tbl_spaces s, tbl_spaces_equipments se, tbl_equipments e, tbl_cost_centers cc "
                                " WHERE s.id IN ( " + ', '.join(map(str, space_dict.keys())) + ") "
@@ -179,10 +179,22 @@ class Reporting:
                 rows_equipments = cursor.fetchall()
                 if rows_equipments is not None and len(rows_equipments) > 0:
                     for row in rows_equipments:
+                        space_node = node_dict.get(row[3])
+                        if space_node:
+                            path_names = []
+                            current_node = space_node
+                            while current_node:
+                                path_names.append(current_node.name)
+                                current_node = current_node.parent
+                            path_names.reverse()
+                            full_space_name = '/'.join(path_names)
+                        else:
+                            full_space_name = ''
+
                         equipment_list.append({"id": row[0],
                                                "equipment_name": row[1],
                                                "equipment_uuid": row[2],
-                                               "space_name": row[3],
+                                               "space_name": full_space_name,
                                                "cost_center_name": row[4],
                                                "description": row[5]})
 
