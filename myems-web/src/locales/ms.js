@@ -182,6 +182,11 @@ export default {
         'Shopfloor Performance Overview': 'Gambaran keseluruhan prestasi bengkel',
         'Shopfloor Name': 'Nama bengkel',
         'Shopfloor Area': 'Kawasan bengkel',
+        // Combined Equipment Dashboard
+        'Total Combined Equipments': 'Jumlah Peralatan Gabungan',
+        'Combined Equipment Performance Overview': 'Gambaran Keseluruhan Prestasi Peralatan Gabungan',
+        'Combined Equipment Name': 'Nama Peralatan Gabungan',
+        'Associated Equipments': 'Peralatan Berkaitan',
 
         // Dashboard
         'Welcome to MyEMS': 'Selamat datang ke MyEMS',

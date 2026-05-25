@@ -182,6 +182,11 @@ export default {
         'Shopfloor Performance Overview': 'Overzicht werkplaatsprestaties',
         'Shopfloor Name': 'Naam werkplaats',
         'Shopfloor Area': 'Oppervlakte werkplaats',
+        // Combined Equipment Dashboard
+        'Total Combined Equipments': 'Totaal Aantal Gecombineerde Apparatuur',
+        'Combined Equipment Performance Overview': 'Overzicht Gecombineerde Apparatuurprestaties',
+        'Combined Equipment Name': 'Naam Gecombineerde Apparatuur',
+        'Associated Equipments': 'Gerelateerde Apparatuur',
 
         // Dashboard
         'Welcome to MyEMS': 'Welkom bij MyEMS',

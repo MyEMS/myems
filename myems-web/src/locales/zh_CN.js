@@ -152,7 +152,11 @@ export default {
         'Total Energy': '总能耗',
         'Total Sensors': '传感器总数',
         'Increment Rate': '增长率',
-
+        // Combined Equipment Dashboard
+        'Total Combined Equipments': '组合设备总数',
+        'Combined Equipment Performance Overview': '组合设备绩效概览',
+        'Combined Equipment Name': '组合设备名称',
+        'Associated Equipments': '关联设备数',
         // Store Dashboard
         'Store Dashboard': '门店仪表板',
         'Comprehensive overview of store energy performance': '门店能源绩效综合概览',

@@ -182,6 +182,11 @@ export default {
         'Shopfloor Performance Overview': 'Panoramica delle prestazioni delle officine',
         'Shopfloor Name': 'Nome officina',
         'Shopfloor Area': 'Area officina',
+        // Combined Equipment Dashboard
+        'Total Combined Equipments': 'Totale Attrezzature Combinate',
+        'Combined Equipment Performance Overview': 'Panoramica delle Prestazioni delle Attrezzature Combinate',
+        'Combined Equipment Name': 'Nome Attrezzatura Combinata',
+        'Associated Equipments': 'Attrezzature Associate',
 
 
         // Dashboard

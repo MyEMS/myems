@@ -182,6 +182,11 @@ export default {
         'Shopfloor Performance Overview': 'Обзор производительности цехов',
         'Shopfloor Name': 'Название цеха',
         'Shopfloor Area': 'Площадь цеха',
+        // Combined Equipment Dashboard
+        'Total Combined Equipments': 'Общее количество комбинированного оборудования',
+        'Combined Equipment Performance Overview': 'Обзор производительности комбинированного оборудования',
+        'Combined Equipment Name': 'Название комбинированного оборудования',
+        'Associated Equipments': 'Связанное оборудование',
 
             // Dashboard
             'Welcome to MyEMS': 'Добро пожаловать в MyEMS',

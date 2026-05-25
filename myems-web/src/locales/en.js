@@ -188,6 +188,11 @@ export default {
         'Shopfloor Name': 'Shopfloor Name',
         'Shopfloor Area': 'Shopfloor Area',
 
+        // Combined Equipment Dashboard
+        'Total Combined Equipments': 'Total Combined Equipments',
+        'Combined Equipment Performance Overview': 'Combined Equipment Performance Overview',
+        'Combined Equipment Name': 'Combined Equipment Name',
+        'Associated Equipments': 'Associated Equipments',
         // Dashboard
         'Welcome to MyEMS': 'Welcome to MyEMS',
         'An Industry Leading Open Source Energy Management System': 'An Industry Leading Open Source Energy Management System',

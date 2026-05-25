@@ -200,6 +200,11 @@ export default {
         'Total Energy': 'انرژی کل',
         'Total Sensors': 'تعداد کل حسگر‌ها',
         'Increment Rate': 'نرخ رشد',
+        // Combined Equipment Dashboard
+        'Total Combined Equipments': 'تعداد کل تجهیزات ترکیبی',
+        'Combined Equipment Performance Overview': 'نمای کلی عملکرد تجهیزات ترکیبی',
+        'Combined Equipment Name': 'نام تجهیز ترکیبی',
+        'Associated Equipments': 'تجهیزات مرتبط',
 
         Tenant: 'مستأجر',
         Store: 'فروشگاه',
