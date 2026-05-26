@@ -21,6 +21,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - added tenant dashboard to myems-api and myems-web
 - added shopfloor dashboard to myems-api and myems-web
 - added equipment dashboard to myems-api and myems-web
+- added combined equipment dashboard to myems-api and myems-web
 - added full space path to meter tracking in myems-api and myems-web
 - added full space path to meter batch report in myems-api
 - added full space path to virtual meter batch report in myems-api
