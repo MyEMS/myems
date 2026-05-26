@@ -177,6 +177,11 @@ export default {
         'Shopfloor Performance Overview': '작업장 성과 개요',
         'Shopfloor Name': '작업장 이름',
         'Shopfloor Area': '작업장 면적',
+        // Combined Equipment Dashboard
+        'Total Combined Equipments': '총 복합 장비 수',
+        'Combined Equipment Performance Overview': '복합 장비 성과 개요',
+        'Combined Equipment Name': '복합 장비 이름',
+        'Associated Equipments': '관련 장비 수',
 
         // Dashboard
         'Welcome to MyEMS': 'MyEMS에 오신 것을 환영합니다',

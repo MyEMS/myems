@@ -182,6 +182,11 @@ export default {
         'Shopfloor Performance Overview': 'Tổng quan hiệu suất xưởng',
         'Shopfloor Name': 'Tên xưởng',
         'Shopfloor Area': 'Diện tích xưởng',
+        // Combined Equipment Dashboard
+        'Total Combined Equipments': 'Tổng số thiết bị kết hợp',
+        'Combined Equipment Performance Overview': 'Tổng quan hiệu suất thiết bị kết hợp',
+        'Combined Equipment Name': 'Tên thiết bị kết hợp',
+        'Associated Equipments': 'Thiết bị liên kết',
 
         // Dashboard
         'Welcome to MyEMS': 'Chào mừng bạn đến với MyEMS',

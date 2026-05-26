@@ -182,6 +182,11 @@ export default {
         'Shopfloor Performance Overview': 'Atölye performansına genel bakış',
         'Shopfloor Name': 'Atölye adı',
         'Shopfloor Area': 'Atölye alanı',
+        // Combined Equipment Dashboard
+        'Total Combined Equipments': 'Toplam Kombine Ekipman Sayısı',
+        'Combined Equipment Performance Overview': 'Kombine Ekipman Performansına Genel Bakış',
+        'Combined Equipment Name': 'Kombine Ekipman Adı',
+        'Associated Equipments': 'İlgili Ekipmanlar',
 
         // Dashboard
         'Welcome to MyEMS': "MyEMS'ye Hoş Geldiniz",

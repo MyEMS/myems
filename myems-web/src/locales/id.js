@@ -183,6 +183,11 @@ export default {
         'Shopfloor Performance Overview': 'Ikhtisar kinerja bengkel',
         'Shopfloor Name': 'Nama bengkel',
         'Shopfloor Area': 'Area bengkel',
+        // Combined Equipment Dashboard
+        'Total Combined Equipments': 'Total Peralatan Kombinasi',
+        'Combined Equipment Performance Overview': 'Ikhtisar Kinerja Peralatan Kombinasi',
+        'Combined Equipment Name': 'Nama Peralatan Kombinasi',
+        'Associated Equipments': 'Peralatan Terkait',
         // Dashboard
         'Welcome to MyEMS': 'Selamat Datang Di MyEMS',
         'An Industry Leading Open Source Energy Management System':

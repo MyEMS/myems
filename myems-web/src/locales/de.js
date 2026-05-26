@@ -182,6 +182,11 @@ export default {
         'Shopfloor Performance Overview': 'Werkstättenleistungsübersicht',
         'Shopfloor Name': 'Werkstattname',
         'Shopfloor Area': 'Werkstattfläche',
+        // Combined Equipment Dashboard
+        'Total Combined Equipments': 'Gesamtzahl kombinierter Geräte',
+        'Combined Equipment Performance Overview': 'Übersicht der Leistung kombinierter Geräte',
+        'Combined Equipment Name': 'Name des kombinierten Geräts',
+        'Associated Equipments': 'Zugehörige Geräte',
 
         // Dashboard
         'Welcome to MyEMS': 'Willkommen bei MyEMS',
