@@ -5,11 +5,17 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 ### Added
+### Changed
+### Fixed
+### Removed
+
+## [v6.5.0] - 2026-05-26
+### Added
 - added comprehensive and exhaustive explanatory descriptions to myems-admin
 - added equipment prediction report in myems-web
 - added combined equipment prediction report in myems-web
 - added offlinemeteruuid and virtualmeteruuid as optional request parameter to reports in myems-api
-- added deepseek ai analysis to reports in myems-api and myems-web
+- added deepseek AI analysis to reports in myems-api and myems-web
 - added meter prediction report in myems-web
 - added offline meter prediction report in myems-web
 - added virtual meter prediction report in myems-web
@@ -44,6 +50,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - fixed duplicate property issues in myems-admin
 - fixed dependency files vulnerabilities in myems-web
 ### Removed
+- None
 
 ## [v6.4.0] - 2026-04-26
 ### Added
@@ -2269,7 +2276,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Removed
 -   None.
 
-[Unreleased]: https://gitee.com/MyEMS/myems/compare/v6.2.0...HEAD
+[Unreleased]: https://gitee.com/MyEMS/myems/compare/v6.5.0...HEAD
+[6.5.0]: https://gitee.com/MyEMS/myems/compare/v6.4.0...v6.5.0
+[6.4.0]: https://gitee.com/MyEMS/myems/compare/v6.3.0...v6.4.0
+[6.3.0]: https://gitee.com/MyEMS/myems/compare/v6.2.0...v6.3.0
 [6.2.0]: https://gitee.com/MyEMS/myems/compare/v6.1.0...v6.2.0
 [6.1.0]: https://gitee.com/MyEMS/myems/compare/v5.12.0...v6.1.0
 [5.12.0]: https://gitee.com/MyEMS/myems/compare/v5.11.0...v5.12.0
