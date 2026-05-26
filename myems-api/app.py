@@ -18,6 +18,7 @@ from reports import advancedreportfile
 from reports import combinedequipmentbatch
 from reports import combinedequipmentcarbon
 from reports import combinedequipmentcost
+from reports import combinedequipmentdashboard
 from reports import combinedequipmentefficiency
 from reports import combinedequipmentenergycategory
 from reports import combinedequipmentprediction
@@ -1201,6 +1202,8 @@ api.add_route('/reports/combinedequipmentcarbon',
               combinedequipmentcarbon.Reporting())
 api.add_route('/reports/combinedequipmentcost',
               combinedequipmentcost.Reporting())
+api.add_route('/reports/combinedequipmentdashboard',
+              combinedequipmentdashboard.Reporting())
 api.add_route('/reports/combinedequipmentefficiency',
               combinedequipmentefficiency.Reporting())
 api.add_route('/reports/combinedequipmentprediction',

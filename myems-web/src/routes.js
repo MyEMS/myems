@@ -160,6 +160,7 @@ export const combinedEquipmentRoutes = {
   to: '/combinedequipment',
   icon: 'cogs',
   children: [
+    { to: '/combinedequipment', name: 'Dashboard' },
     { to: '/combinedequipment/energycategory', name: 'Energy Category Data' },
     { to: '/combinedequipment/energyitem', name: 'Energy Item Data' },
     { to: '/combinedequipment/carbon', name: 'Carbon' },

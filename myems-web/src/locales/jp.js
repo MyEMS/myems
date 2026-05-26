@@ -182,6 +182,11 @@ export default {
         'Shopfloor Performance Overview': '车间パフォーマンス概要',
         'Shopfloor Name': '车间名',
         'Shopfloor Area': '车间面積',
+        // Combined Equipment Dashboard
+        'Total Combined Equipments': '複合設備総数',
+        'Combined Equipment Performance Overview': '複合設備パフォーマンス概要',
+        'Combined Equipment Name': '複合設備名',
+        'Associated Equipments': '関連設備数',
 
             // Dashboard
             'Welcome to MyEMS': 'MyEMSへようこそ',

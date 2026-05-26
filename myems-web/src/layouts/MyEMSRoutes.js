@@ -106,6 +106,7 @@ import ShopfloorPlan from '../components/MyEMS/Shopfloor/ShopfloorPlan';
 import ShopfloorBatch from '../components/MyEMS/Shopfloor/ShopfloorBatch';
 import ShopfloorComparison from '../components/MyEMS/Shopfloor/ShopfloorComparison';
 // CombinedEquipment
+import CombinedEquipmentDashboard from '../components/MyEMS/CombinedEquipment/Dashboard';
 import CombinedEquipmentBatch from '../components/MyEMS/CombinedEquipment/CombinedEquipmentBatch';
 import CombinedEquipmentCarbon from '../components/MyEMS/CombinedEquipment/CombinedEquipmentCarbon';
 import CombinedEquipmentCost from '../components/MyEMS/CombinedEquipment/CombinedEquipmentCost';
@@ -249,6 +250,7 @@ const MyEMSRoutes = () => (
     <Route path="/shopfloor/comparison" exact component={ShopfloorComparison} />
 
     {/*CombinedEquipment*/}
+    <Route path="/combinedequipment" exact component={CombinedEquipmentDashboard} />
     <Route path="/combinedequipment/batch" exact component={CombinedEquipmentBatch} />
     <Route path="/combinedequipment/carbon" exact component={CombinedEquipmentCarbon} />
     <Route path="/combinedequipment/cost" exact component={CombinedEquipmentCost} />

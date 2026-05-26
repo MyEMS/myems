@@ -182,6 +182,11 @@ export default {
         'Shopfloor Performance Overview': 'Resumen de rendimiento de talleres',
         'Shopfloor Name': 'Nombre del taller',
         'Shopfloor Area': 'Área del taller',
+        // Combined Equipment Dashboard
+        'Total Combined Equipments': 'Total de Equipos Combinados',
+        'Combined Equipment Performance Overview': 'Resumen de Rendimiento de Equipos Combinados',
+        'Combined Equipment Name': 'Nombre del Equipo Combinado',
+        'Associated Equipments': 'Equipos Asociados',
 
         // Dashboard
         'Welcome to MyEMS': 'Bienvenido a MyEMS',

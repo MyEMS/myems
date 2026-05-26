@@ -181,6 +181,11 @@ export default {
         'Shopfloor Performance Overview': '車間績效概覽',
         'Shopfloor Name': '車間名稱',
         'Shopfloor Area': '車間面積',
+        // Combined Equipment Dashboard
+        'Total Combined Equipments': '組合設備總數',
+        'Combined Equipment Performance Overview': '組合設備績效概覽',
+        'Combined Equipment Name': '組合設備名稱',
+        'Associated Equipments': '關聯設備數',
         // Dashboard
         'Welcome to MyEMS': '歡迎使⽤ MyEMS',
         'An Industry Leading Open Source Energy Management System': '⾏業領先的開源能源管理系統',

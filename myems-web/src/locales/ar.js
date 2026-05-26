@@ -182,6 +182,11 @@ export default {
         'Shopfloor Performance Overview': 'نظرة عامة على أداء ورش العمل',
         'Shopfloor Name': 'اسم ورشة العمل',
         'Shopfloor Area': 'مساحة ورشة العمل',
+        // Combined Equipment Dashboard
+        'Total Combined Equipments': 'إجمالي المعدات المشتركة',
+        'Combined Equipment Performance Overview': 'نظرة عامة على أداء المعدات المشتركة',
+        'Combined Equipment Name': 'اسم المعدات المشتركة',
+        'Associated Equipments': 'المعدات المرتبطة',
 
         // Dashboard
         'Welcome to MyEMS': 'مرحبا بكم في MyEMS',

@@ -182,6 +182,11 @@ export default {
         'Shopfloor Performance Overview': 'ภาพรวมประสิทธิภาพโรงงาน',
         'Shopfloor Name': 'ชื่อโรงงาน',
         'Shopfloor Area': 'พื้นที่โรงงาน',
+        // Combined Equipment Dashboard
+        'Total Combined Equipments': 'จำนวนอุปกรณ์รวมทั้งหมด',
+        'Combined Equipment Performance Overview': 'ภาพรวมประสิทธิภาพอุปกรณ์รวม',
+        'Combined Equipment Name': 'ชื่ออุปกรณ์รวม',
+        'Associated Equipments': 'อุปกรณ์ที่เกี่ยวข้อง',
 
 
             // Dashboard
