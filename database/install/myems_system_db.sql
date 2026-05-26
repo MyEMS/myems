@@ -977,6 +977,7 @@ VALUES
 (213,'Plan','/equipment/plan',200,1),
 (214,'Equipment Comparison','/equipment/comparison',200,0),
 (215,'Prediction','/equipment/prediction',200,1),
+(216, 'Dashboard','/equipment',200,0),
 (300,'Meter Data','/meter',NULL,0),
 (301,'Meter Energy','/meter/meterenergy',300,0),
 (302,'Meter Cost','/meter/metercost',300,0),
@@ -1020,6 +1021,7 @@ VALUES
 (410,'Plan','/tenant/plan',400,1),
 (411,'Tenant Comparison','/tenant/comparison',400,0),
 (412,'Prediction','/tenant/prediction',400,1),
+(413,'Dashboard','/tenant',400,0),
 (500,'Store Data','/store',NULL,0),
 (501,'Energy Category Data','/store/energycategory',500,0),
 (502,'Energy Item Data','/store/energyitem',500,0),
@@ -1032,7 +1034,7 @@ VALUES
 (509,'Plan','/store/plan',500,1),
 (510,'Store Comparison','/store/comparison',500,0),
 (511,'Prediction','/store/prediction',500,1),
-(512,'Dashboard', '/store', 500, 0),
+(512,'Dashboard','/store',500,0),
 (600,'Shopfloor Data','/shopfloor',NULL,0),
 (601,'Energy Category Data','/shopfloor/energycategory',600,0),
 (602,'Energy Item Data','/shopfloor/energyitem',600,0),
@@ -1045,6 +1047,7 @@ VALUES
 (609,'Plan','/shopfloor/plan',600,1),
 (610,'Shopfloor Comparison','/shopfloor/comparison',600,0),
 (611,'Prediction','/shopfloor/prediction',600,1),
+(612,'Dashboard','/shopfloor',600,0),
 (700,'Combined Equipment Data','/combinedequipment',NULL,0),
 (701,'Energy Category Data','/combinedequipment/energycategory',700,0),
 (702,'Energy Item Data','/combinedequipment/energyitem',700,0),
@@ -1060,6 +1063,7 @@ VALUES
 (712,'Plan','/combinedequipment/plan',700,1),
 (713,'Combined Equipment Comparison','/combinedequipment/comparison',700,0),
 (714,'Prediction','/combinedequipment/prediction',700,1),
+(715,'Dashboard','/combinedequipment',700,0),
 (800,'Auxiliary System','/auxiliarysystem',NULL,0),
 (801,'Energy Flow Diagram','/auxiliarysystem/energyflowdiagram',800,0),
 (802,'Distribution System','/auxiliarysystem/distributionsystem',800,0),
@@ -2752,7 +2756,7 @@ CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_versions` (
 INSERT INTO `myems_system_db`.`tbl_versions`
 (`id`, `version`, `release_date`)
 VALUES
-(1, '6.5.0RC', '2026-05-26');
+(1, '6.5.0', '2026-05-26');
 
 -- ---------------------------------------------------------------------------------------------------------------------
 -- Table `myems_system_db`.`tbl_wind_farms`
