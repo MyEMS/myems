@@ -92,6 +92,6 @@
     </div>
     <div class="modal-footer">
         <button type="button" class="btn btn-white" ng-click="cancel()">{{'SETTING.CANCEL' | translate}}</button>
-        <button type="button" ng-disabled="form_user.$invalid || (!user.is_admin && !user.privilege_id)" class="btn btn-primary" ng-click="ok()">{{'SETTING.SAVE' | translate}}</button>
+        <button type="button" ng-disabled="form_user.$invalid || isSaveDisabled()" class="btn btn-primary" ng-click="ok()"> {{'SETTING.SAVE' | translate}}</button>
     </div>
 </div>
