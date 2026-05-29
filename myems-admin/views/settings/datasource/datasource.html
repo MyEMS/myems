@@ -1,227 +1,256 @@
 <div class="wrapper wrapper-content" ng-controller="DataSourceMasterController">
-	<div class="row">
-		<div class="col-lg-12">
-			<div class="tabs-container">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="tabs-container">
 
-				<uib-tabset>
-					<uib-tab heading="{{'COMMON.DATA_SOURCE' | translate}}">
-						<div class="panel-body" ng-controller="DataSourceController">
-							<div class="alert alert-info">
-								<p>
-									{{'SETTING.DATASOURCE_DESCRIPTION' | translate}}
-									<a ng-click="isCollapsed = !isCollapsed" class="pull-right">
-										{{(isCollapsed ? 'COMMON.COLLAPSE' : 'COMMON.CLICK_TO_EXPAND_FOR_MORE_DESCRIPTION') | translate}}
-									</a>
-								</p>
-								<div uib-collapse="!isCollapsed">
-									<hr>
-									<p>{{'SETTING.DATASOURCE_DESCRIPTION_MORE' | translate}}</p>
-								</div>
-							</div>
-							<div class="row mb-3">
-								<div class="col-md-3">
-									<a ng-click="addDataSource()" class="btn btn-primary btn-rounded  btn-outline" href=""><i class="fa fa-plus-circle"></i> {{'DATA_SOURCE.ADD_DATA_SOURCE' | translate}}</a>
-									<a ng-click="importDataSource()" class="btn btn-primary btn-rounded  btn-outline" href=""><i class="fa fa-plus-circle"></i> {{'SETTING.IMPORT' | translate}}</a>
-								</div>
-								<div class="col-md-9">
-									<input type="text" class="form-control m-b-xs"
-										   placeholder="{{'SETTING.SEARCH' | translate}}"
-										   ng-model="searchDataSourcesKeyword"
-										   ng-keyup="searchDataSources()">
-								</div>
-							</div>
-							<table class="table table-bordered table-hover" data-sort="true">
-								<thead>
-									<tr>
-										<th class="text-center" data-type="numeric">{{'SETTING.ID' | translate}}</th>
-										<th class="text-center">{{'SETTING.NAME' | translate}}</th>
-										<th class="text-center">{{'GATEWAY.GATEWAY' | translate}}</th>
-										<th class="text-center">{{'DATA_SOURCE.PROTOCOL' | translate}}</th>
-										<th class="text-center">{{'DATA_SOURCE.LAST_SEEN_DATETIME' | translate}}</th>
-										<th class="text-center">{{'SETTING.DESCRIPTION' | translate}} </th>
-										<th class="text-center">{{'SETTING.ACTION' | translate}}</th>
-									</tr>
-								</thead>
-								<tbody>
-									<tr ng-repeat="datasource in datasources">
-										<td class="text-center">{{ datasource.id }}</td>
-										<td class="text-center">{{ datasource.name }}</td>
-										<td class="text-center">{{ datasource.gateway.name }}</td>
-										<td class="text-center">{{ datasource.protocol }}</td>
-										<td class="text-center">{{ datasource.last_seen_datetime }}</td>
-										<td class="text-center">{{ datasource.description}}</td>
-										<td class="text-center">
-											<a ng-click="editDataSource(datasource)" class="btn btn-primary btn-rounded btn-xs">{{'SETTING.EDIT' | translate}}</a>
-											<a ng-click="deleteDataSource(datasource)" class="btn btn-danger btn-rounded btn-xs">{{'SETTING.DELETE' | translate}}</a>
-											<a ng-click="exportDataSource(datasource)" class="btn btn-danger btn-rounded btn-xs" >{{'SETTING.EXPORT' | translate}}</a>
-											<a ng-click="cloneDataSource(datasource)" class="btn btn-danger btn-rounded btn-xs" >{{'SETTING.CLONE' | translate}}</a>
-										</td>
-									</tr>
-								</tbody>
-								<tfoot class="hide-if-no-paging">
-									<tr>
-										<td colspan="6">
-											<ul class="pagination pull-right"></ul>
-										</td>
-									</tr>
-								</tfoot>
-							</table>
-						</div>
-					</uib-tab>
-					<uib-tab heading="{{'SETTING.POINT' | translate}}">
-						<div class="panel-body" ng-controller="PointController">
-							<div class="alert alert-info">
-								<p>
-									{{'SETTING.POINT_DESCRIPTION' | translate}}
-									<a ng-click="isCollapsed = !isCollapsed" class="pull-right">
-										{{(isCollapsed ? 'COMMON.COLLAPSE' : 'COMMON.CLICK_TO_EXPAND_FOR_MORE_DESCRIPTION') | translate}}
-									</a>
-								</p>
-								<div uib-collapse="!isCollapsed">
-									<hr>
-									<p>{{'SETTING.POINT_DESCRIPTION_MORE' | translate}}</p>
-								</div>
-							</div>
-							<form method="get" class="form-horizontal">
-								<div class="form-group"><label
-										class="col-sm-2 control-label">{{'DATA_SOURCE.SELECT_DATA_SOURCE' | translate}}:</label>
-									<div class="col-sm-4" >
-										<ui-select on-select="changeDataSource($item, $model)"
-											ng-model="currentDataSource" theme="bootstrap">
-											<ui-select-match placeholder="{{'COMMON.PLACEHOLDER' | translate}}">
-												{{$select.selected.name}}</ui-select-match>
-											<ui-select-choices
-												repeat="datasource.id as datasource in datasources | filter: $select.search">
-												<div ng-bind-html="datasource.name | highlight: $select.search"></div>
-											</ui-select-choices>
-										</ui-select>
-									</div>
-								</div>
-							</form>
-							<div class="hr-line-dashed"></div>
-							<a ng-click="addPoint()" class="btn btn-primary btn-rounded  btn-outline" href="">
-								<i class="fa fa-plus-circle"></i> {{'SETTING.ADD_POINT' | translate}}</a>
-							<a ng-click="importPoint()" class="btn btn-primary btn-rounded  btn-outline" href="">
-								<i class="fa fa-plus-circle"></i> {{'SETTING.IMPORT' | translate}}</a>
-							<br>
-							<br>
-							<table class="table table-bordered table-hover">
-								<thead>
-									<tr>
-										<th class="text-center" data-type="numeric">{{'SETTING.ID' | translate}}</th>
-										<th class="text-center">{{'SETTING.NAME' | translate}}</th>
-										<th class="text-center">{{'POINT.OBJECT_TYPE' | translate}}</th>
-										<th class="text-center">{{'POINT.LATEST_VALUE' | translate}}</th>
-										<th class="text-center">{{'POINT.UNIT' | translate}}</th>
-										<th class="text-center">{{'POINT.RATIO' | translate}}</th>
-										<th class="text-center">{{'POINT.IS_TREND' | translate}}</th>
-										<th class="text-center">{{'POINT.IS_VIRTUAL' | translate}}</th>
-										<th class="text-center">{{'POINT.ADDRESS' | translate}}</th>
-										<th class="text-center">{{'SETTING.DESCRIPTION' | translate}} ({{'SETTING.OPTIONAL' | translate}})</th>
-										<th class="text-center">{{'SETTING.ACTION' | translate}}</th>
-									</tr>
-								</thead>
-								<tbody>
-									<tr ng-repeat="point in pagedPoints">
-										<td class="text-center">{{ point.id }}</td>
-										<td class="text-center">{{ point.name }}</td>
-										<td class="text-center">{{ ('POINT.' + point.object_type) | translate }}</td>
-										<td class="text-center">{{ point.latest_value }}</td>
-										<td class="text-center">{{ point.units }}</td>
-										<td class="text-center">{{ point.ratio }}</td>
-										<td class="text-center">{{ point.is_trend==false?'SETTING.NO':'SETTING.YES' | translate }}</td>
-										<td class="text-center">{{ point.is_virtual==false?'SETTING.NO':'SETTING.YES' | translate }}</td>
-										<td class="text-center md">{{ point.address }}</td>
-										<td class="text-center md">{{ point.description }}</td>
-										<td class="text-center">
-											<a ng-click="editPoint(point)"
-												class="btn btn-primary btn-rounded btn-xs">{{'SETTING.EDIT' | translate}}</a>
-											<a ng-click="deletePoint(point)"
-												class="btn btn-danger btn-rounded btn-xs">{{'SETTING.DELETE' | translate}}</a>
-											<a ng-click="exportPoint(point)" class="btn btn-danger btn-rounded btn-xs" >{{'SETTING.EXPORT' | translate}}</a>
-											<a ng-click="clonePoint(point)" class="btn btn-danger btn-rounded btn-xs" >{{'SETTING.CLONE' | translate}}</a>
-										</td>
-									</tr>
-								</tbody>
-							</table>
-							<div class="row" ng-if="pointPagination.totalItems > pointPagination.itemsPerPage">
-								<div class="col-sm-12 text-right">
-									<uib-pagination
-										total-items="pointPagination.totalItems"
-										ng-model="pointPagination.currentPage"
-										items-per-page="pointPagination.itemsPerPage"
-										max-size="pointPagination.maxSize"
-										class="pagination-sm"
-										boundary-links="true"
-										direction-links="true"
-										rotate="false"
-										first-text="{{'COMMON.FIRST' | translate}}"
-										previous-text="{{'COMMON.PREVIOUS' | translate}}"
-										next-text="{{'COMMON.NEXT' | translate}}"
-										last-text="{{'COMMON.LAST' | translate}}"
-										ng-change="pageChanged()">
-									</uib-pagination>
-								</div>
-							</div>
-						</div>
-					</uib-tab>
-					<uib-tab heading="{{'SETTING.DATA_REPAIR_FILE' | translate}}">
-						<div class="panel-body" ng-controller="DataRepairFileController">
-							<div class="alert alert-info">
-								<p>
-									{{'SETTING.DATA_REPAIR_FILE_DESCRIPTION' | translate}}
-									<a ng-click="isCollapsed = !isCollapsed" class="pull-right">
-										{{(isCollapsed ? 'COMMON.COLLAPSE' : 'COMMON.CLICK_TO_EXPAND_FOR_MORE_DESCRIPTION') | translate}}
-									</a>
-								</p>
-								<div uib-collapse="!isCollapsed">
-									<hr>
-									<p>{{'SETTING.DATA_REPAIR_FILE_DESCRIPTION_MORE' | translate}}</p>
-								</div>
-							</div>
-							<div id="dropzone1" class="dropzone" options="dzOptions" callbacks="dzCallbacks" ng-dropzone></div>
-							<table class="footable table table-bordered table-hover" data-sort="true" data-page-size="15">
-								<thead>
-									<tr>
-										<th class="text-center" data-type="numeric">{{'SETTING.ID' | translate}}</th>
-										<th class="text-center">{{'SETTING.NAME' | translate}}</th>
-										<th class="text-center">{{'SETTING.STATUS' | translate}}</th>
-										<th class="text-center">{{'SETTING.UPLOAD_TIME' | translate}}</th>
-										<th class="text-center">{{'SETTING.ACTION' | translate}}</th>
-									</tr>
-								</thead>
-								<tbody>
-									<tr ng-repeat="datarepairfile in datarepairfiles">
-										<td class="text-center">{{ datarepairfile.id }}</td>
-										<td class="text-center"><a ng-href="./upload/{{datarepairfile.uuid}}"
-												download="{{datarepairfile.file_name}}">{{ datarepairfile.file_name }}</a>
-										</td>
-										<td class="text-center">{{ datarepairfile.status }}</td>
-										<td class="text-center">
-											{{ datarepairfile.upload_datetime }}</td>
+                <uib-tabset>
+                    <uib-tab heading="{{'COMMON.DATA_SOURCE' | translate}}">
+                        <div class="panel-body" ng-controller="DataSourceController">
+                            <div class="alert alert-info">
+                                <p>
+                                    {{'SETTING.DATASOURCE_DESCRIPTION' | translate}}
+                                    <a ng-click="isCollapsed = !isCollapsed" class="pull-right">
+                                        {{(isCollapsed ? 'COMMON.COLLAPSE' : 'COMMON.CLICK_TO_EXPAND_FOR_MORE_DESCRIPTION') | translate}}
+                                    </a>
+                                </p>
+                                <div uib-collapse="!isCollapsed">
+                                    <hr>
+                                    <p>{{'SETTING.DATASOURCE_DESCRIPTION_MORE' | translate}}</p>
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col-md-3">
+                                    <a ng-click="addDataSource()" class="btn btn-primary btn-rounded  btn-outline"
+                                       href=""><i class="fa fa-plus-circle"></i>
+                                        {{'DATA_SOURCE.ADD_DATA_SOURCE' | translate}}</a>
+                                    <a ng-click="importDataSource()" class="btn btn-primary btn-rounded  btn-outline"
+                                       href=""><i class="fa fa-plus-circle"></i> {{'SETTING.IMPORT' | translate}}</a>
+                                </div>
+                                <div class="col-md-9">
+                                    <input type="text" class="form-control m-b-xs"
+                                           placeholder="{{'SETTING.SEARCH' | translate}}"
+                                           ng-model="searchDataSourcesKeyword"
+                                           ng-keyup="searchDataSources()">
+                                </div>
+                            </div>
+                            <table class="table table-bordered table-hover" data-sort="true">
+                                <thead>
+                                <tr>
+                                    <th class="text-center" data-type="numeric">{{'SETTING.ID' | translate}}</th>
+                                    <th class="text-center">{{'SETTING.NAME' | translate}}</th>
+                                    <th class="text-center">{{'GATEWAY.GATEWAY' | translate}}</th>
+                                    <th class="text-center">{{'DATA_SOURCE.PROTOCOL' | translate}}</th>
+                                    <th class="text-center">{{'DATA_SOURCE.LAST_SEEN_DATETIME' | translate}}</th>
+                                    <th class="text-center">{{'SETTING.DESCRIPTION' | translate}}</th>
+                                    <th class="text-center">{{'SETTING.ACTION' | translate}}</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr ng-repeat="datasource in datasources">
+                                    <td class="text-center">{{ datasource.id }}</td>
+                                    <td class="text-center">{{ datasource.name }}</td>
+                                    <td class="text-center">{{ datasource.gateway.name }}</td>
+                                    <td class="text-center">{{ datasource.protocol }}</td>
+                                    <td class="text-center">{{ datasource.last_seen_datetime }}</td>
+                                    <td class="text-center">{{ datasource.description}}</td>
+                                    <td class="text-center">
+                                        <a ng-click="editDataSource(datasource)"
+                                           class="btn btn-primary btn-rounded btn-xs">{{'SETTING.EDIT' | translate}}</a>
+                                        <a ng-click="deleteDataSource(datasource)"
+                                           class="btn btn-danger btn-rounded btn-xs">{{'SETTING.DELETE' | translate}}</a>
+                                        <a ng-click="exportDataSource(datasource)"
+                                           class="btn btn-danger btn-rounded btn-xs">{{'SETTING.EXPORT' | translate}}</a>
+                                        <a ng-click="cloneDataSource(datasource)"
+                                           class="btn btn-danger btn-rounded btn-xs">{{'SETTING.CLONE' | translate}}</a>
+                                    </td>
+                                </tr>
+                                </tbody>
+                                <tfoot class="hide-if-no-paging">
+                                <tr>
+                                    <td colspan="6">
+                                        <ul class="pagination pull-right"></ul>
+                                    </td>
+                                </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </uib-tab>
+                    <uib-tab heading="{{'SETTING.POINT' | translate}}">
+                        <div class="panel-body" ng-controller="PointController">
+                            <div class="alert alert-info">
+                                <p>
+                                    {{'SETTING.POINT_DESCRIPTION' | translate}}
+                                    <a ng-click="isCollapsed = !isCollapsed" class="pull-right">
+                                        {{(isCollapsed ? 'COMMON.COLLAPSE' : 'COMMON.CLICK_TO_EXPAND_FOR_MORE_DESCRIPTION') | translate}}
+                                    </a>
+                                </p>
+                                <div uib-collapse="!isCollapsed">
+                                    <hr>
+                                    <p>{{'SETTING.POINT_DESCRIPTION_MORE' | translate}}</p>
+                                </div>
+                            </div>
+                            <form method="get" class="form-horizontal">
+                                <div class="form-group"><label
+                                        class="col-sm-2 control-label">11{{'DATA_SOURCE.SELECT_DATA_SOURCE' | translate}}:</label>
+                                    <div class="col-sm-4">
+                                        <ui-select on-select="changeDataSource($item, $model)"
+                                                   ng-model="currentDataSource" theme="bootstrap">
+                                            <ui-select-match placeholder="{{'COMMON.PLACEHOLDER' | translate}}">
+                                                {{$select.selected.name}}
+                                            </ui-select-match>
+                                            <ui-select-choices
+                                                    repeat="datasource.id as datasource in datasources | filter: $select.search">
+                                                <div ng-bind-html="datasource.name | highlight: $select.search"></div>
+                                            </ui-select-choices>
+                                        </ui-select>
+                                    </div>
+                                </div>
+                            </form>
+                            <div class="hr-line-dashed"></div>
+                            <div class="row mb-3">
+                                <div class="col-md-3">
+                                    <a ng-click="addPoint()" class="btn btn-primary btn-rounded  btn-outline" href="">
+                                        <i class="fa fa-plus-circle"></i> {{'SETTING.ADD_POINT' | translate}}</a>
+                                    <a ng-click="importPoint()" class="btn btn-primary btn-rounded  btn-outline"
+                                       href="">
+                                        <i class="fa fa-plus-circle"></i> {{'SETTING.IMPORT' | translate}}</a>
+                                </div>
+                                <div class="col-md-9">
+                                    <input type="text" class="form-control m-b-xs"
+                                           placeholder="{{'SETTING.SEARCH' | translate}}"
+                                           ng-model="searchPointsKeyword"
+                                           ng-keyup="searchPoints()">
+                                </div>
+                            </div>
+                            <table class="table table-bordered table-hover">
+                                <thead>
+                                <tr>
+                                    <th class="text-center" data-type="numeric">{{'SETTING.ID' | translate}}</th>
+                                    <th class="text-center">{{'SETTING.NAME' | translate}}</th>
+                                    <th class="text-center">{{'POINT.OBJECT_TYPE' | translate}}</th>
+                                    <th class="text-center">{{'POINT.LATEST_VALUE' | translate}}</th>
+                                    <th class="text-center">{{'POINT.UNIT' | translate}}</th>
+                                    <th class="text-center">{{'POINT.RATIO' | translate}}</th>
+                                    <th class="text-center">{{'POINT.IS_TREND' | translate}}</th>
+                                    <th class="text-center">{{'POINT.IS_VIRTUAL' | translate}}</th>
+                                    <th class="text-center">{{'POINT.ADDRESS' | translate}}</th>
+                                    <th class="text-center">{{'SETTING.DESCRIPTION' | translate}}
+                                        ({{'SETTING.OPTIONAL' | translate}})
+                                    </th>
+                                    <th class="text-center">{{'SETTING.ACTION' | translate}}</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr ng-repeat="point in pagedPoints">
+                                    <td class="text-center">{{ point.id }}</td>
+                                    <td class="text-center">{{ point.name }}</td>
+                                    <td class="text-center">{{ ('POINT.' + point.object_type) | translate }}</td>
+                                    <td class="text-center">{{ point.latest_value }}</td>
+                                    <td class="text-center">{{ point.units }}</td>
+                                    <td class="text-center">{{ point.ratio }}</td>
+                                    <td class="text-center">
+                                        {{ point.is_trend == false ? 'SETTING.NO' : 'SETTING.YES' | translate }}
+                                    </td>
+                                    <td class="text-center">
+                                        {{ point.is_virtual == false ? 'SETTING.NO' : 'SETTING.YES' | translate }}
+                                    </td>
+                                    <td class="text-center md">{{ point.address }}</td>
+                                    <td class="text-center md">{{ point.description }}</td>
+                                    <td class="text-center">
+                                        <a ng-click="editPoint(point)"
+                                           class="btn btn-primary btn-rounded btn-xs">{{'SETTING.EDIT' | translate}}</a>
+                                        <a ng-click="deletePoint(point)"
+                                           class="btn btn-danger btn-rounded btn-xs">{{'SETTING.DELETE' | translate}}</a>
+                                        <a ng-click="exportPoint(point)"
+                                           class="btn btn-danger btn-rounded btn-xs">{{'SETTING.EXPORT' | translate}}</a>
+                                        <a ng-click="clonePoint(point)"
+                                           class="btn btn-danger btn-rounded btn-xs">{{'SETTING.CLONE' | translate}}</a>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                            <div class="row" ng-if="pointPagination.totalItems > pointPagination.itemsPerPage">
+                                <div class="col-sm-12 text-right">
+                                    <uib-pagination
+                                            total-items="pointPagination.totalItems"
+                                            ng-model="pointPagination.currentPage"
+                                            items-per-page="pointPagination.itemsPerPage"
+                                            max-size="pointPagination.maxSize"
+                                            class="pagination-sm"
+                                            boundary-links="true"
+                                            direction-links="true"
+                                            rotate="false"
+                                            first-text="{{'COMMON.FIRST' | translate}}"
+                                            previous-text="{{'COMMON.PREVIOUS' | translate}}"
+                                            next-text="{{'COMMON.NEXT' | translate}}"
+                                            last-text="{{'COMMON.LAST' | translate}}"
+                                            ng-change="pageChanged()">
+                                    </uib-pagination>
+                                </div>
+                            </div>
+                        </div>
+                    </uib-tab>
+                    <uib-tab heading="{{'SETTING.DATA_REPAIR_FILE' | translate}}">
+                        <div class="panel-body" ng-controller="DataRepairFileController">
+                            <div class="alert alert-info">
+                                <p>
+                                    {{'SETTING.DATA_REPAIR_FILE_DESCRIPTION' | translate}}
+                                    <a ng-click="isCollapsed = !isCollapsed" class="pull-right">
+                                        {{(isCollapsed ? 'COMMON.COLLAPSE' : 'COMMON.CLICK_TO_EXPAND_FOR_MORE_DESCRIPTION') | translate}}
+                                    </a>
+                                </p>
+                                <div uib-collapse="!isCollapsed">
+                                    <hr>
+                                    <p>{{'SETTING.DATA_REPAIR_FILE_DESCRIPTION_MORE' | translate}}</p>
+                                </div>
+                            </div>
+                            <div id="dropzone1" class="dropzone" options="dzOptions" callbacks="dzCallbacks"
+                                 ng-dropzone></div>
+                            <table class="footable table table-bordered table-hover" data-sort="true"
+                                   data-page-size="15">
+                                <thead>
+                                <tr>
+                                    <th class="text-center" data-type="numeric">{{'SETTING.ID' | translate}}</th>
+                                    <th class="text-center">{{'SETTING.NAME' | translate}}</th>
+                                    <th class="text-center">{{'SETTING.STATUS' | translate}}</th>
+                                    <th class="text-center">{{'SETTING.UPLOAD_TIME' | translate}}</th>
+                                    <th class="text-center">{{'SETTING.ACTION' | translate}}</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr ng-repeat="datarepairfile in datarepairfiles">
+                                    <td class="text-center">{{ datarepairfile.id }}</td>
+                                    <td class="text-center"><a ng-href="./upload/{{datarepairfile.uuid}}"
+                                                               download="{{datarepairfile.file_name}}">{{ datarepairfile.file_name
+                                        }}</a>
+                                    </td>
+                                    <td class="text-center">{{ datarepairfile.status }}</td>
+                                    <td class="text-center">
+                                        {{ datarepairfile.upload_datetime }}
+                                    </td>
 
-										<td class="text-center">
-											<a ng-click="restoreDataRepairFile(datarepairfile)"
-												class="btn btn-danger btn-rounded btn-xs">{{'SETTING.RESTORE' | translate}}</a>
-											<a ng-click="deleteDataRepairFile(datarepairfile)"
-												class="btn btn-danger btn-rounded btn-xs">{{'SETTING.DELETE' | translate}}</a>
-										</td>
-									</tr>
-								</tbody>
-								<tfoot class="hide-if-no-paging">
-									<tr>
-										<td colspan="6">
-											<ul class="pagination pull-right"></ul>
-										</td>
-									</tr>
-								</tfoot>
-							</table>
-						</div>
-					</uib-tab>
+                                    <td class="text-center">
+                                        <a ng-click="restoreDataRepairFile(datarepairfile)"
+                                           class="btn btn-danger btn-rounded btn-xs">{{'SETTING.RESTORE' | translate}}</a>
+                                        <a ng-click="deleteDataRepairFile(datarepairfile)"
+                                           class="btn btn-danger btn-rounded btn-xs">{{'SETTING.DELETE' | translate}}</a>
+                                    </td>
+                                </tr>
+                                </tbody>
+                                <tfoot class="hide-if-no-paging">
+                                <tr>
+                                    <td colspan="6">
+                                        <ul class="pagination pull-right"></ul>
+                                    </td>
+                                </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </uib-tab>
 
-				</uib-tabset>
+                </uib-tabset>
 
-			</div>
-		</div>
-	</div>
+            </div>
+        </div>
+    </div>
 </div>

@@ -10,7 +10,7 @@ app.factory('PointService', function($http) {
             });
         },
         searchPoints: function(query, headers, callback) {  
-            $http.get(getAPI()+'points', {params:{q:query}}, {headers})  
+            $http.get(getAPI()+'points', {params:{q:query}, headers})  
             .then(function (response) {
                 callback(response);
             }, function (response) {

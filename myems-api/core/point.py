@@ -224,7 +224,11 @@ class PointCollection:
             resp: Falcon response object
         """
         admin_control(req)
-
+        search_query = req.get_param('q', default=None)
+        if search_query is not None:
+            search_query = search_query.strip()
+        else:
+            search_query = ''
         # Redis cache key
         cache_key = 'point:list'
         cache_expire = 28800  # 8 hours in seconds (long-term cache)
@@ -276,7 +280,12 @@ class PointCollection:
                          "        high_limit, low_limit, higher_limit, lower_limit, ratio, offset_constant, "
                          "        is_trend, is_virtual, address, description, faults, definitions "
                          " FROM tbl_points ")
-                cursor.execute(query)
+                params = []
+                if search_query:
+                    query += " WHERE name LIKE %s  "
+                    params = [f'%{search_query}%']
+                query += " ORDER BY id "
+                cursor.execute(query,params)
                 rows = cursor.fetchall()
 
                 result = list()
