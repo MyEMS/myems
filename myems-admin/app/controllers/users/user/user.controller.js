@@ -404,6 +404,12 @@ app.controller('ModalAddUserCtrl', function ($scope, $uibModalInstance, params, 
         timePickerIncrement: 15,
         singleDatePicker: true,
     };
+	$scope.isSaveDisabled = function() {
+        if (!$scope.user.is_admin) {
+            return !$scope.user.privilege_id;
+        }
+        return false;
+    };
 	$scope.ok = function () {
 		if ($scope.user.phone && $scope.user.phone.trim() && !/^\+?\d{8,}$/.test($scope.user.phone.trim())) {
 			toaster.pop({
@@ -452,6 +458,12 @@ app.controller('ModalEditUserCtrl', function ($scope, $uibModalInstance, params,
         timePicker24Hour: true,
         timePickerIncrement: 15,
         singleDatePicker: true,
+    };
+	$scope.isSaveDisabled = function() {
+        if (!$scope.user.is_admin) {
+            return !$scope.user.privilege_id;
+        }
+        return false;
     };
 	$scope.ok = function () {
 		if ($scope.user.phone && $scope.user.phone.trim() && !/^\+?\d{8,}$/.test($scope.user.phone.trim())) {
@@ -528,6 +540,12 @@ app.controller('ModalApproveUserCtrl', function ($scope, $uibModalInstance, para
         timePicker24Hour: true,
         timePickerIncrement: 15,
         singleDatePicker: true,
+    };
+	$scope.isSaveDisabled = function() {
+        if (!$scope.user.is_admin) {
+            return !$scope.user.privilege_id;
+        }
+        return false;
     };
 	$scope.ok = function () {
 		if ($scope.user.is_admin) {

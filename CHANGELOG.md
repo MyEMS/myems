@@ -7,6 +7,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Added
 ### Changed
 ### Fixed
+- fixed add/edit user issue in myems-admin 
 ### Removed
 
 ## [v6.5.0] - 2026-05-26
