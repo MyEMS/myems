@@ -256,11 +256,11 @@ const SidePanelModal = ({ autoShow, showOnce, autoShowDelay, cookieExpireTime, p
         </div>
         <hr/>
         <div className="text-center mt-5">
-          <h5>{t('Like What You See?')}</h5>
-          <p className="fs--1 mb-3">{t('Get MyEMS now')}</p>
           <Button color="primary" href="https://myems.cn/docs/enterprise" className="mb-4">
             {t('Purchase')}
           </Button>
+          <h5>{t('Like What You See?')}</h5>
+          <p className="fs--1 mb-3">{t('Get MyEMS now')}</p>
           <div
               className="d-inline-block rounded p-2 mx-auto"
               style={{
