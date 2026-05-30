@@ -296,7 +296,7 @@ class PointCollection:
                 if conditions:
                     query += " WHERE " + " AND ".join(conditions)
                 query += " ORDER BY id "
-                print(query, params)
+
                 cursor.execute(query,params)
                 rows = cursor.fetchall()
 
