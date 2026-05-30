@@ -9,8 +9,15 @@ app.factory('PointService', function($http) {
                 callback(response);
             });
         },
-        searchPoints: function(query, headers, callback) {  
-            $http.get(getAPI()+'points', {params:{q:query}, headers})  
+        searchPoints: function(query, dataSourceId, headers, callback) {  
+            const params = {};
+            if (query) {
+                params.q = query;
+            }
+            if (dataSourceId) {
+                params.data_source_id = dataSourceId;
+            }
+            $http.get(getAPI()+'points', {params, headers})  
             .then(function (response) {
                 callback(response);
             }, function (response) {

@@ -112,13 +112,15 @@ app.controller('PointController', function(
 		}
 
 		searchDebounceTimer = setTimeout(() => {
-			if (!trimmedKeyword) {
-				$scope.getPointsByDataSourceID($scope.currentDataSource);
+			if (!trimmedKeyword && !$scope.currentDataSource) {
+				$scope.points = [];
+				$scope.pointPagination.currentPage = 1;
+				$scope.updatePagedPoints();
 				safeApply($scope);
 				return;
 			}
 
-			PointService.searchPoints(trimmedKeyword, headers, (response) => {
+			PointService.searchPoints(trimmedKeyword, $scope.currentDataSource, headers, (response) => {
 				$scope.points = (response.status === 200) ? response.data : [];
 				$scope.pointPagination.currentPage = 1;
 				$scope.updatePagedPoints();
@@ -128,6 +130,7 @@ app.controller('PointController', function(
 
 	$scope.changeDataSource = function(item, model) {
 		$scope.currentDataSource = model;
+		$scope.searchPointsKeyword = '';
 		$scope.pointPagination.currentPage = 1;
 		$scope.getPointsByDataSourceID($scope.currentDataSource);
 	};
