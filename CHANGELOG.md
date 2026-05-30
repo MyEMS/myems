@@ -6,7 +6,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ## [Unreleased]
 ### Added
 ### Changed
+- updated meter batch report in myems-web
 ### Fixed
+- fixed add/edit user issue in myems-admin 
 ### Removed
 
 ## [v6.5.0] - 2026-05-26
