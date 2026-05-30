@@ -70,84 +70,84 @@ const SidePanelModal = ({ autoShow, showOnce, autoShowDelay, cookieExpireTime, p
         </div>
       </ModalHeader>
       <ScrollBarCustom
-        className="modal-body"
-        contentProps={{
-          renderer: ({ elementRef, ...restProps }) => (
-            <span
-              {...restProps}
-              ref={elementRef}
-              className={classNames('p-card position-absolute', { 'border-left': isDark })}
-            />
-          )
-        }}
+          className="modal-body"
+          contentProps={{
+            renderer: ({elementRef, ...restProps}) => (
+                <span
+                    {...restProps}
+                    ref={elementRef}
+                    className={classNames('p-card position-absolute', {'border-left': isDark})}
+                />
+            )
+          }}
       >
         <h5 className="fs-0">{t('Color Scheme')}</h5>
         <p className="fs--1">{t('Choose the perfect color mode for your app')}</p>
         <ButtonGroup className="btn-group-toggle btn-block">
-          <Button color="theme-default" className={classNames('custom-radio-success', { active: !isDark })}>
+          <Button color="theme-default" className={classNames('custom-radio-success', {active: !isDark})}>
             <Label for="theme-mode-default" className="cursor-pointer hover-overlay">
-              <img className="w-100" src={defaultModeImg} alt="" />
+              <img className="w-100" src={defaultModeImg} alt=""/>
             </Label>
             <CustomInput
-              type="radio"
-              id="theme-mode-default"
-              label={t('Light')}
-              checked={!isDark}
-              onChange={({ target }) => setIsDark(!target.checked)}
+                type="radio"
+                id="theme-mode-default"
+                label={t('Light')}
+                checked={!isDark}
+                onChange={({target}) => setIsDark(!target.checked)}
             />
           </Button>
-          <Button color="theme-dark" className={classNames('custom-radio-success', { active: isDark })}>
+          <Button color="theme-dark" className={classNames('custom-radio-success', {active: isDark})}>
             <Label for="theme-mode-dark" className="cursor-pointer hover-overlay">
-              <img className="w-100" src={darkModeImg} alt="" />
+              <img className="w-100" src={darkModeImg} alt=""/>
             </Label>
             <CustomInput
-              type="radio"
-              id="theme-mode-dark"
-              label={t('Dark')}
-              checked={isDark}
-              onChange={({ target }) => setIsDark(target.checked)}
+                type="radio"
+                id="theme-mode-dark"
+                label={t('Dark')}
+                checked={isDark}
+                onChange={({target}) => setIsDark(target.checked)}
             />
           </Button>
         </ButtonGroup>
-        <hr />
+        <hr/>
         <Flex justify="between">
           <Media className="flex-grow-1">
-            <img src={leftArrowFromLeft} alt="" width={20} className="mr-2" />
+            <img src={leftArrowFromLeft} alt="" width={20} className="mr-2"/>
             <Media body>
               <h5 className="fs-0">{t('RTL Mode')}</h5>
               <p className="fs--1 mb-0">{t('Switch your language direction')} </p>
             </Media>
           </Media>
           <CustomInput
-            type="switch"
-            id="rtl-switch"
-            checked={isRTL}
-            onChange={({ target }) => setIsRTL(target.checked)}
+              type="switch"
+              id="rtl-switch"
+              checked={isRTL}
+              onChange={({target}) => setIsRTL(target.checked)}
           />
         </Flex>
         {!isKanban && (
-          <>
-            <hr />
-            <Flex justify="between">
-              <Media className="flex-grow-1">
-                <img src={arrowsH} alt="" width={20} className="mr-2" />
-                <Media body>
-                  <h5 className="fs-0">{t('Fluid Layout')}</h5>
-                  <p className="fs--1 mb-0">{t('Toggle container layout system')}</p>
+            <>
+              <hr/>
+              <Flex justify="between">
+                <Media className="flex-grow-1">
+                  <img src={arrowsH} alt="" width={20} className="mr-2"/>
+                  <Media body>
+                    <h5 className="fs-0">{t('Fluid Layout')}</h5>
+                    <p className="fs--1 mb-0">{t('Toggle container layout system')}</p>
+                  </Media>
                 </Media>
-              </Media>
-              <CustomInput
-                type="switch"
-                id="fluid-switch"
-                checked={isFluid}
-                onChange={({ target }) => setIsFluid(target.checked)}
-              />
-            </Flex>
-          </>
+                <CustomInput
+                    type="switch"
+                    id="fluid-switch"
+                    checked={isFluid}
+                    onChange={({target}) => setIsFluid(target.checked)}
+                />
+              </Flex>
+            </>
         )}
-        <hr />
+        <hr/>
         <Media>
-          <img src={paragraph} alt="" width={20} className="mr-2" />
+          <img src={paragraph} alt="" width={20} className="mr-2"/>
           <Media body>
             <Flex align="center" tag="h5" className="fs-0">
               {t('Navigation Position')}
@@ -157,60 +157,60 @@ const SidePanelModal = ({ autoShow, showOnce, autoShowDelay, cookieExpireTime, p
             </Flex>
             <p className="fs--1 mb-2">{t('Select a suitable navigation system for your web application')}</p>
             <CustomInput
-              type="radio"
-              id="verticalNav-radio"
-              label={t('Vertical')}
-              name="NavBarPositionRadioButton"
-              checked={!isCombo && isVertical}
-              onChange={({ target }) => {
-                setIsVertical(target.checked);
-                setIsTopNav(!target.checked);
-                setIsCombo(!target.checked);
-              }}
-              inline
+                type="radio"
+                id="verticalNav-radio"
+                label={t('Vertical')}
+                name="NavBarPositionRadioButton"
+                checked={!isCombo && isVertical}
+                onChange={({target}) => {
+                  setIsVertical(target.checked);
+                  setIsTopNav(!target.checked);
+                  setIsCombo(!target.checked);
+                }}
+                inline
             />
             <CustomInput
-              type="radio"
-              id="topNav-radio"
-              label={t('Top')}
-              name="NavBarPositionRadioButton"
-              checked={!isCombo && isTopNav}
-              onChange={({ target }) => {
-                setIsTopNav(target.checked);
-                setIsVertical(!target.checked);
-                setIsCombo(!target.checked);
-              }}
-              inline
+                type="radio"
+                id="topNav-radio"
+                label={t('Top')}
+                name="NavBarPositionRadioButton"
+                checked={!isCombo && isTopNav}
+                onChange={({target}) => {
+                  setIsTopNav(target.checked);
+                  setIsVertical(!target.checked);
+                  setIsCombo(!target.checked);
+                }}
+                inline
             />
             <CustomInput
-              type="radio"
-              id="combo-radio"
-              label={t('Combo')}
-              name="NavBarPositionRadioButton"
-              checked={isCombo}
-              onChange={({ target }) => {
-                setIsCombo(target.checked);
-                setIsTopNav(target.checked);
-                setIsVertical(target.checked);
-              }}
-              inline
+                type="radio"
+                id="combo-radio"
+                label={t('Combo')}
+                name="NavBarPositionRadioButton"
+                checked={isCombo}
+                onChange={({target}) => {
+                  setIsCombo(target.checked);
+                  setIsTopNav(target.checked);
+                  setIsVertical(target.checked);
+                }}
+                inline
             />
           </Media>
         </Media>
-        <hr />
+        <hr/>
         <h5 className="fs-0 d-flex align-items-center">{t('Vertical Navbar Style')}</h5>
         <p className="fs--1">{t('Switch between styles for your vertical navbar')}</p>
         <div className="btn-group-toggle btn-block btn-group-navbar-style">
           <ButtonGroup className="btn-block">
-            <VerticalNavRadioBtn img={transparent} btnName={t('Transparent')} />
-            <VerticalNavRadioBtn img={invertedImg} btnName={t('Inverted')} />
+            <VerticalNavRadioBtn img={transparent} btnName={t('Transparent')}/>
+            <VerticalNavRadioBtn img={invertedImg} btnName={t('Inverted')}/>
           </ButtonGroup>
           <ButtonGroup className="btn-block mt-3">
-            <VerticalNavRadioBtn img={card} btnName={t('Card')} />
-            <VerticalNavRadioBtn img={vibrant} btnName={t('Vibrant')} />
+            <VerticalNavRadioBtn img={card} btnName={t('Card')}/>
+            <VerticalNavRadioBtn img={vibrant} btnName={t('Vibrant')}/>
           </ButtonGroup>
         </div>
-        <hr />
+        <hr/>
         <h5 className="fs-0 d-flex align-items-center">
           {t('Language')}{' '}
           <Badge pill color="soft-success" className="fs--2 ml-2">
@@ -220,48 +220,64 @@ const SidePanelModal = ({ autoShow, showOnce, autoShowDelay, cookieExpireTime, p
         <p className="fs--1">{t('Switch between languages')}</p>
         <div className="btn-group-toggle btn-block btn-group-navbar-style">
           <ButtonGroup className="btn-block">
-            <LanguageRadioBtn btnName={'zh_CN'} />
-            <LanguageRadioBtn btnName={'en'} />
-            <LanguageRadioBtn btnName={'de'} />
+            <LanguageRadioBtn btnName={'zh_CN'}/>
+            <LanguageRadioBtn btnName={'en'}/>
+            <LanguageRadioBtn btnName={'de'}/>
           </ButtonGroup>
           <ButtonGroup className="btn-block">
-            <LanguageRadioBtn btnName={'fr'} />
-            <LanguageRadioBtn btnName={'es'} />
-            <LanguageRadioBtn btnName={'ru'} />
+            <LanguageRadioBtn btnName={'fr'}/>
+            <LanguageRadioBtn btnName={'es'}/>
+            <LanguageRadioBtn btnName={'ru'}/>
           </ButtonGroup>
           <ButtonGroup className="btn-block">
-            <LanguageRadioBtn btnName={'ar'} />
-            <LanguageRadioBtn btnName={'vi'} />
-            <LanguageRadioBtn btnName={'th'} />
+            <LanguageRadioBtn btnName={'ar'}/>
+            <LanguageRadioBtn btnName={'vi'}/>
+            <LanguageRadioBtn btnName={'th'}/>
           </ButtonGroup>
           <ButtonGroup className="btn-block">
-            <LanguageRadioBtn btnName={'tr'} />
-            <LanguageRadioBtn btnName={'ms'} />
-            <LanguageRadioBtn btnName={'id'} />
+            <LanguageRadioBtn btnName={'tr'}/>
+            <LanguageRadioBtn btnName={'ms'}/>
+            <LanguageRadioBtn btnName={'id'}/>
           </ButtonGroup>
           <ButtonGroup className="btn-block">
-            <LanguageRadioBtn btnName={'zh_TW'} />
-            <LanguageRadioBtn btnName={'pt'} />
-            <LanguageRadioBtn btnName={'ko_KR'} />
+            <LanguageRadioBtn btnName={'zh_TW'}/>
+            <LanguageRadioBtn btnName={'pt'}/>
+            <LanguageRadioBtn btnName={'ko_KR'}/>
           </ButtonGroup>
           <ButtonGroup className="btn-block">
-            <LanguageRadioBtn btnName={'it'} />
-            <LanguageRadioBtn btnName={'pol'} />
-            <LanguageRadioBtn btnName={'nl'} />
+            <LanguageRadioBtn btnName={'it'}/>
+            <LanguageRadioBtn btnName={'pol'}/>
+            <LanguageRadioBtn btnName={'nl'}/>
           </ButtonGroup>
           <ButtonGroup className="btn-block">
-            <LanguageRadioBtn btnName={'jp'} />
-            <LanguageRadioBtn btnName={'fa'} />
+            <LanguageRadioBtn btnName={'jp'}/>
+            <LanguageRadioBtn btnName={'fa'}/>
           </ButtonGroup>
         </div>
-        <hr />
+        <hr/>
         <div className="text-center mt-5">
-          <img src={QRcode} alt="settings" width={120} className="mb-4" />
-          <h5>{t('Like What You See?')}</h5>
-          <p className="fs--1">{t('Get MyEMS now')}</p>
-          <Button color="primary" href="https://myems.cn/docs/enterprise">
+          <h5 className={isDark ? 'text-white' : ''}>{t('Like What You See?')}</h5>
+          <p className={`fs--1 mb-3 ${isDark ? 'text-white-50' : 'text-muted'}`}>
+            {t('Get MyEMS now')}
+          </p>
+          <Button color="primary" href="https://myems.cn/docs/enterprise" className="mb-4">
             {t('Purchase')}
           </Button>
+          <div
+              className="d-inline-block rounded p-2 mx-auto"
+              style={{
+                backgroundColor: isDark ? 'rgba(255, 255, 255, 0.98)' : '#fff',
+                boxShadow: '0 1px 3px rgba(0,0,0,0.08)'
+              }}
+          >
+            <img
+                src={QRcode}
+                alt="settings"
+                width={120}
+                className="rounded"
+                style={{display: 'block'}}
+            />
+          </div>
         </div>
       </ScrollBarCustom>
     </Modal>
