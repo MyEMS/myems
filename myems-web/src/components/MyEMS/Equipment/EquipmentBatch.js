@@ -106,7 +106,24 @@ const EquipmentBatch = ({ setRedirect, setRedirectUrl, t }) => {
 
   //Results
   const [detailedDataTableColumns, setDetailedDataTableColumns] = useState([
-    { dataField: 'name', text: t('Name'), sort: true },
+    {
+      dataField: 'id',
+      text: t('ID'),
+      sort: true,
+      headerStyle: { width: '90px' },
+      style: { width: '90px' },
+      headerClasses: 'equip-batch-sticky-id',
+      classes: 'equip-batch-sticky-id'
+    },
+    {
+      dataField: 'name',
+      text: t('Name'),
+      sort: true,
+      headerStyle: { width: '220px' },
+      style: { width: '220px' },
+      headerClasses: 'equip-batch-sticky-name',
+      classes: 'equip-batch-sticky-name'
+    },
     { dataField: 'space', text: t('Space'), sort: true }
   ]);
   const [excelBytesBase64, setExcelBytesBase64] = useState(undefined);
@@ -229,10 +246,23 @@ const EquipmentBatch = ({ setRedirect, setRedirectUrl, t }) => {
         if (isResponseOK) {
           let detailed_column_list = [];
           detailed_column_list.push({
+            dataField: 'id',
+            text: t('ID'),
+            sort: true,
+            headerStyle: { width: '90px' },
+            style: { width: '90px' },
+            headerClasses: 'equip-batch-sticky-id',
+            classes: 'equip-batch-sticky-id'
+          });
+          detailed_column_list.push({
             dataField: 'name',
             text: t('Name'),
             formatter: nameFormatter,
-            sort: true
+            sort: true,
+            headerStyle: { width: '220px' },
+            style: { width: '220px' },
+            headerClasses: 'equip-batch-sticky-name',
+            classes: 'equip-batch-sticky-name'
           });
           detailed_column_list.push({
             dataField: 'space',
@@ -406,6 +436,50 @@ const EquipmentBatch = ({ setRedirect, setRedirectUrl, t }) => {
         <img className="img-fluid" src={blankPage} alt="" />
       </div>
       <div style={{ visibility: resultDataHidden ? 'hidden' : 'visible', display: resultDataHidden ? 'none' : '' }}>
+        <style>{`
+          .table-scroll-container thead th.equip-batch-sticky-id,
+          .table-scroll-container tbody td.equip-batch-sticky-id,
+          .table-scroll-container thead th.equip-batch-sticky-name,
+          .table-scroll-container tbody td.equip-batch-sticky-name {
+            position: sticky !important;
+            white-space: nowrap !important;
+            background-clip: padding-box !important;
+          }
+          .table-scroll-container thead th.equip-batch-sticky-id,
+          .table-scroll-container thead th.equip-batch-sticky-name {
+            background-color: #f8f9fa !important;
+            z-index: 12 !important;
+          }
+          .table-scroll-container tbody td.equip-batch-sticky-id,
+          .table-scroll-container tbody td.equip-batch-sticky-name {
+            background-color: #ffffff !important;
+            z-index: 10 !important;
+          }
+          .table-scroll-container tbody tr:hover td.equip-batch-sticky-id,
+          .table-scroll-container tbody tr:hover td.equip-batch-sticky-name {
+            background-color: #f1f3f5 !important;
+          }
+          .table-scroll-container tbody tr:nth-of-type(even) td.equip-batch-sticky-id,
+          .table-scroll-container tbody tr:nth-of-type(even) td.equip-batch-sticky-name {
+            background-color: #f1f3f5 !important;
+          }
+          .table-scroll-container tbody tr:nth-of-type(even):hover td.equip-batch-sticky-id,
+          .table-scroll-container tbody tr:nth-of-type(even):hover td.equip-batch-sticky-name {
+            background-color: #e9ecef !important;
+          }
+          .table-scroll-container thead th.equip-batch-sticky-id,
+          .table-scroll-container tbody td.equip-batch-sticky-id {
+            left: 0 !important;
+          }
+          .table-scroll-container thead th.equip-batch-sticky-name,
+          .table-scroll-container tbody td.equip-batch-sticky-name {
+            left: 90px !important;
+          }
+          .table-scroll-container thead th.equip-batch-sticky-name,
+          .table-scroll-container tbody td.equip-batch-sticky-name {
+            box-shadow: 2px 0 6px rgba(0, 0, 0, 0.12) !important;
+          }
+        `}</style>
         <DetailedDataTable
           data={equipmentList}
           title={t('Detailed Data')}
