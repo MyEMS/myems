@@ -585,6 +585,77 @@ class Reporting:
             reporting_input['category_units'] = list(reporting_input['units'])
 
             ################################################################################################################
+            # Step 7.5: Query reporting period energy output by category
+            ################################################################################################################
+            reporting_output = {
+                'names': [],
+                'units': [],
+                'subtotals': [],
+                'subtotals_in_kgce': [],
+                'subtotals_in_kgco2e': [],
+                'increment_rates': [],
+                'energy_category_ids': []
+            }
+
+            try:
+                format_strings = ','.join(['%s'] * len(equipment_ids_list))
+                cursor_energy.execute(
+                    " SELECT energy_category_id, SUM(actual_value) "
+                    " FROM tbl_equipment_output_category_hourly "
+                    " WHERE equipment_id IN (%s) "
+                    "   AND start_datetime_utc >= %%s "
+                    "   AND start_datetime_utc < %%s "
+                    " GROUP BY energy_category_id " % format_strings,
+                    equipment_ids_tuple + (reporting_start_datetime_utc, reporting_end_datetime_utc)
+                )
+                rows_reporting_output = cursor_energy.fetchall()
+
+                if rows_reporting_output:
+                    for row in rows_reporting_output:
+                        ec_id = row[0]
+                        subtotal = float(row[1]) if row[1] is not None else 0.0
+                        if ec_id in energy_category_dict:
+                            ec_info = energy_category_dict[ec_id]
+                            reporting_output['names'].append(ec_info['name'])
+                            reporting_output['units'].append(ec_info['unit_of_measure'])
+                            reporting_output['subtotals'].append(subtotal)
+                            reporting_output['subtotals_in_kgce'].append(subtotal * ec_info['kgce'])
+                            reporting_output['subtotals_in_kgco2e'].append(subtotal * ec_info['kgco2e'])
+                            reporting_output['energy_category_ids'].append(ec_id)
+
+                # Query base period output for increment rates
+                base_output_subtotals = {}
+                if base_start_datetime_utc and base_end_datetime_utc:
+                    cursor_energy.execute(
+                        " SELECT energy_category_id, SUM(actual_value) "
+                        " FROM tbl_equipment_output_category_hourly "
+                        " WHERE equipment_id IN (%s) "
+                        "   AND start_datetime_utc >= %%s "
+                        "   AND start_datetime_utc < %%s "
+                        " GROUP BY energy_category_id " % format_strings,
+                        equipment_ids_tuple + (base_start_datetime_utc, base_end_datetime_utc)
+                    )
+                    rows_base_output = cursor_energy.fetchall()
+                    if rows_base_output:
+                        for row in rows_base_output:
+                            base_output_subtotals[row[0]] = float(row[1]) if row[1] is not None else 0.0
+
+                # Calculate increment rates for output
+                for i in range(len(reporting_output['names'])):
+                    ec_id = reporting_output['energy_category_ids'][i]
+                    report_val = reporting_output['subtotals'][i]
+                    base_val = base_output_subtotals.get(ec_id, 0.0)
+                    if base_val > 0:
+                        increment_rate = (report_val - base_val) / base_val
+                    else:
+                        increment_rate = 0.0
+                    reporting_output['increment_rates'].append(increment_rate)
+
+            except Exception as e:
+                logger.error(f"Error querying equipment output data: {e}")
+                # Keep empty output data on error
+
+            ################################################################################################################
             # Step 8: Query equipment statistics (meters, sensors, alerts)
             ################################################################################################################
             # Count meters
@@ -730,6 +801,7 @@ class Reporting:
                 'reporting_period_input': reporting_input,
                 'base_period_input': base_input,
                 'reporting_period_cost': reporting_cost,
+                'reporting_period_output': reporting_output,
                 'top_equipments': top_equipments,
                 'period_type': period_type,
                 'reporting_period_start': reporting_start_datetime_utc.isoformat(),
