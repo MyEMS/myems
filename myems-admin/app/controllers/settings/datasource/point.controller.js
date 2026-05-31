@@ -13,6 +13,7 @@ app.controller('PointController', function(
 	$scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
 	$scope.exportdata = '';
 	$scope.importdata = '';
+	$scope.searchPointsKeyword = '';
 
 	// pagination for points table
 	$scope.points = [];
@@ -89,9 +90,47 @@ app.controller('PointController', function(
 
 	};
 
+	let searchDebounceTimer = null;
+
+	function safeApply(scope) {
+		if (!scope.$$phase && !scope.$root.$$phase) {
+			scope.$apply();
+		}
+	}
+
+	$scope.searchPoints = function() {
+		const headers = {
+			"User-UUID": $scope.cur_user?.uuid,
+			"Token": $scope.cur_user?.token
+		};
+
+		const rawKeyword = $scope.searchPointsKeyword || "";
+		const trimmedKeyword = rawKeyword.trim();
+
+		if (searchDebounceTimer) {
+			clearTimeout(searchDebounceTimer);
+		}
+
+		searchDebounceTimer = setTimeout(() => {
+			if (!trimmedKeyword && !$scope.currentDataSource) {
+				$scope.points = [];
+				$scope.pointPagination.currentPage = 1;
+				$scope.updatePagedPoints();
+				safeApply($scope);
+				return;
+			}
+
+			PointService.searchPoints(trimmedKeyword, $scope.currentDataSource, headers, (response) => {
+				$scope.points = (response.status === 200) ? response.data : [];
+				$scope.pointPagination.currentPage = 1;
+				$scope.updatePagedPoints();
+			});
+		}, 300);
+	};
 
 	$scope.changeDataSource = function(item, model) {
 		$scope.currentDataSource = model;
+		$scope.searchPointsKeyword = '';
 		$scope.pointPagination.currentPage = 1;
 		$scope.getPointsByDataSourceID($scope.currentDataSource);
 	};

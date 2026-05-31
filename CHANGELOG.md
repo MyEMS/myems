@@ -5,6 +5,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 ### Added
+- added search box to data point page in myems-admin
 ### Changed
 - updated meter batch report in myems-web
 ### Fixed
