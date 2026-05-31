@@ -188,6 +188,7 @@ export default {
         'Combined Equipment Performance Overview': 'Ikhtisar Kinerja Peralatan Kombinasi',
         'Combined Equipment Name': 'Nama Peralatan Kombinasi',
         'Associated Equipments': 'Peralatan Terkait',
+        'Cumulative Efficiency': 'Efisiensi kumulatif',
         // Dashboard
         'Welcome to MyEMS': 'Selamat Datang Di MyEMS',
         'An Industry Leading Open Source Energy Management System':

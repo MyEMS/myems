@@ -182,7 +182,7 @@ export default {
         'Combined Equipment Performance Overview': '복합 장비 성과 개요',
         'Combined Equipment Name': '복합 장비 이름',
         'Associated Equipments': '관련 장비 수',
-
+        'Cumulative Efficiency': '누적 효율',
         // Dashboard
         'Welcome to MyEMS': 'MyEMS에 오신 것을 환영합니다',
         'An Industry Leading Open Source Energy Management System': '업계를 선도하는 오픈소스 에너지 관리 시스템',

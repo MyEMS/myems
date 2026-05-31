@@ -205,7 +205,7 @@ export default {
         'Combined Equipment Performance Overview': 'نمای کلی عملکرد تجهیزات ترکیبی',
         'Combined Equipment Name': 'نام تجهیز ترکیبی',
         'Associated Equipments': 'تجهیزات مرتبط',
-
+        'Cumulative Efficiency': 'کارایی تجمعی',
         Tenant: 'مستأجر',
         Store: 'فروشگاه',
         Shopfloor: 'کارگاه',

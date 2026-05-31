@@ -187,7 +187,7 @@ export default {
         'Combined Equipment Performance Overview': 'Resumen de Rendimiento de Equipos Combinados',
         'Combined Equipment Name': 'Nombre del Equipo Combinado',
         'Associated Equipments': 'Equipos Asociados',
-
+        'Cumulative Efficiency': 'Eficiencia acumulada',
         // Dashboard
         'Welcome to MyEMS': 'Bienvenido a MyEMS',
         'An Industry Leading Open Source Energy Management System':

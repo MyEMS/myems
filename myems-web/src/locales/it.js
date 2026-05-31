@@ -187,7 +187,7 @@ export default {
         'Combined Equipment Performance Overview': 'Panoramica delle Prestazioni delle Attrezzature Combinate',
         'Combined Equipment Name': 'Nome Attrezzatura Combinata',
         'Associated Equipments': 'Attrezzature Associate',
-
+        'Cumulative Efficiency': 'Efficienza cumulativa',
 
         // Dashboard
         'Welcome to MyEMS': 'Benvenuto in MyEMS',

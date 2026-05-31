@@ -95,6 +95,13 @@ const Dashboard = ({setRedirect, setRedirectUrl, t}) => {
   // Dynamic monthly output cards
   const [monthlyOutputCards, setMonthlyOutputCards] = useState([]);
 
+  // Reporting period output data for table
+  const [reportingPeriodOutput, setReportingPeriodOutput] = useState({
+    names: [],
+    units: [],
+    energy_category_ids: []
+  });
+
   // Fetch dashboard data
   const fetchDashboardData = useCallback(async () => {
     let is_logged_in = getCookieValue('is_logged_in');
@@ -143,6 +150,11 @@ const Dashboard = ({setRedirect, setRedirectUrl, t}) => {
       setCostData(json.reporting_period_cost || {});
       setTopEquipments(json.top_equipments || []);
       setAllEquipments(json.equipments || []);
+      setReportingPeriodOutput(json.reporting_period_output || {
+        names: [],
+        units: [],
+        energy_category_ids: []
+      });
 
       // Process monthly trends
       if (json.reporting_period_input.timestamps && json.reporting_period_input.timestamps.length > 0) {
@@ -517,12 +529,19 @@ const Dashboard = ({setRedirect, setRedirectUrl, t}) => {
                   <table className="table table-hover">
                     <thead className="thead-light">
                     <tr>
+                      <th>{t('ID')}</th>
                       <th>{t('Equipment Name')}</th>
                       {energyData.names && energyData.names.map((categoryName, index) => (
-                        <th key={index} className="text-right">
+                        <th key={`input-${index}`} className="text-right">
                           {t(categoryName)} ({energyData.units[index] || ''})
                         </th>
                       ))}
+                      {reportingPeriodOutput.names && reportingPeriodOutput.names.map((outputName, index) => (
+                        <th key={`output-${index}`} className="text-right">
+                          {t(outputName)} ({reportingPeriodOutput.units[index] || ''})
+                        </th>
+                      ))}
+                      <th className="text-right">{t('Cumulative Efficiency')}</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -532,6 +551,9 @@ const Dashboard = ({setRedirect, setRedirectUrl, t}) => {
                       return (
                         <tr key={equipment.id}>
                           <td>
+                            <strong>{equipment.id}</strong>
+                          </td>
+                          <td>
                             <strong>{equipment.name}</strong>
                           </td>
                           {energyData.energy_category_ids && energyData.energy_category_ids.map((ecId, index) => {
@@ -539,11 +561,26 @@ const Dashboard = ({setRedirect, setRedirectUrl, t}) => {
                               ? equipment.energy_by_category[ecId]
                               : 0;
                             return (
-                              <td key={index} className="text-right">
+                              <td key={`input-${index}`} className="text-right">
                                 {categoryEnergy > 0 ? categoryEnergy.toFixed(2) : '-'}
                               </td>
                             );
                           })}
+                          {reportingPeriodOutput.energy_category_ids && reportingPeriodOutput.energy_category_ids.map((ecId, index) => {
+                            const categoryOutput = equipment.output_by_category && equipment.output_by_category[ecId]
+                              ? equipment.output_by_category[ecId]
+                              : 0;
+                            return (
+                              <td key={`output-${index}`} className="text-right">
+                                {categoryOutput > 0 ? categoryOutput.toFixed(2) : '-'}
+                              </td>
+                            );
+                          })}
+                          <td className="text-right">
+                            {equipment.efficiency !== null && equipment.efficiency !== undefined 
+                              ? equipment.efficiency.toFixed(2) + '%' 
+                              : '-'}
+                          </td>
                         </tr>
                       );
                     })}

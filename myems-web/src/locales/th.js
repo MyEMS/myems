@@ -187,7 +187,7 @@ export default {
         'Combined Equipment Performance Overview': 'ภาพรวมประสิทธิภาพอุปกรณ์รวม',
         'Combined Equipment Name': 'ชื่ออุปกรณ์รวม',
         'Associated Equipments': 'อุปกรณ์ที่เกี่ยวข้อง',
-
+        'Cumulative Efficiency': 'ประสิทธิภาพสะสม',
 
             // Dashboard
             'Welcome to MyEMS': 'ยินดีต้อนรับสู่ MyEMS',

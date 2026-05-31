@@ -187,7 +187,7 @@ export default {
         'Combined Equipment Performance Overview': 'Tổng quan hiệu suất thiết bị kết hợp',
         'Combined Equipment Name': 'Tên thiết bị kết hợp',
         'Associated Equipments': 'Thiết bị liên kết',
-
+        'Cumulative Efficiency': 'Hiệu suất tích lũy',
         // Dashboard
         'Welcome to MyEMS': 'Chào mừng bạn đến với MyEMS',
         'An Industry Leading Open Source Energy Management System':

@@ -187,7 +187,7 @@ export default {
         'Combined Equipment Performance Overview': 'نظرة عامة على أداء المعدات المشتركة',
         'Combined Equipment Name': 'اسم المعدات المشتركة',
         'Associated Equipments': 'المعدات المرتبطة',
-
+        'Cumulative Efficiency': 'الكفاءة التراكمية',
         // Dashboard
         'Welcome to MyEMS': 'مرحبا بكم في MyEMS',
         'An Industry Leading Open Source Energy Management System': 'نظام إدارة طاقة مفتوح المصدر رائد في الصناعة',

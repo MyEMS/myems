@@ -180,7 +180,7 @@ export default {
         'Energy Consumption': 'Energy Consumption',
         'Consumption': 'Consumption',
         'last period': 'last period',
-
+        'Cumulative Efficiency': 'Cumulative Efficiency',
 
         // Shopfloor Dashboard
         'Total Shopfloors': 'Total Shopfloors',

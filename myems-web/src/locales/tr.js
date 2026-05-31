@@ -187,7 +187,7 @@ export default {
         'Combined Equipment Performance Overview': 'Kombine Ekipman Performansına Genel Bakış',
         'Combined Equipment Name': 'Kombine Ekipman Adı',
         'Associated Equipments': 'İlgili Ekipmanlar',
-
+        'Cumulative Efficiency': 'Kümülatif verimlilik',
         // Dashboard
         'Welcome to MyEMS': "MyEMS'ye Hoş Geldiniz",
         'An Industry Leading Open Source Energy Management System': 'Endüstri Lideri Açık Kaynak Enerji Yönetim Sistemi',

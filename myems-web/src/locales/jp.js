@@ -187,7 +187,7 @@ export default {
         'Combined Equipment Performance Overview': '複合設備パフォーマンス概要',
         'Combined Equipment Name': '複合設備名',
         'Associated Equipments': '関連設備数',
-
+        'Cumulative Efficiency': '累積効率',
             // Dashboard
             'Welcome to MyEMS': 'MyEMSへようこそ',
             'An Industry Leading Open Source Energy Management System': '業界をリードするオープンソースエネルギー管理システム',

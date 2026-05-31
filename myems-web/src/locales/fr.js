@@ -187,7 +187,7 @@ export default {
         'Combined Equipment Performance Overview': 'Aperçu des performances des équipements combinés',
         'Combined Equipment Name': 'Nom de l\'équipement combiné',
         'Associated Equipments': 'Équipements associés',
-
+        'Cumulative Efficiency': 'Efficacité cumulative',
         // Dashboard
         'Welcome to MyEMS': 'Bienvenue chez MyEMS',
         'An Industry Leading Open Source Energy Management System': 'Un système de gestion de l’énergie open source leader de l’industrie',

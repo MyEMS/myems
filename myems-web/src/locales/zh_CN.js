@@ -22,6 +22,7 @@ export default {
         'Energy Item Data': '能耗分项分析',
         Carbon: '碳排放分析',
         Cost: '成本分析',
+        Costcb: '成本',
         Output: '产出分析',
         Income: '收入分析',
         Efficiency: '效率分析',
@@ -418,6 +419,7 @@ export default {
         'COMBINED_EQUIPMENT CATEGORY VALUE UNIT': '{{COMBINED_EQUIPMENT}} {{CATEGORY}} {{VALUE}} {{UNIT}}',
         'SHOPFLOOR CATEGORY VALUE UNIT': '{{SHOPFLOOR}} {{CATEGORY}} {{VALUE}} {{UNIT}}',
         'TENANT CATEGORY VALUE UNIT': '{{TENANT}} {{CATEGORY}} {{VALUE}} {{UNIT}}',
+        'Cumulative Efficiency': '累积效率',
         //FDD
         'Fault List': '故障列表',
         'Reporting Period Number of Fault VALUE': '报告期故障数: {{VALUE}}',

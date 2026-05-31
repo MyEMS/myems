@@ -66,7 +66,7 @@ class Reporting:
     # Step 6: Query energy cost data
     # Step 7: Query monthly trends (energy & cost)
     # Step 8: Query equipment statistics (meters, sensors, alerts)
-    # Step 9: Query top consuming equipments
+    # Step 9: Query top consuming equipments and equipment output data
     # Step 10: Construct the report
     ####################################################################################################################
     @staticmethod
@@ -715,10 +715,11 @@ class Reporting:
                     cnx_fdd.close()
 
             ################################################################################################################
-            # Step 9: Query top 5 consuming equipments
+            # Step 9: Query top 5 consuming equipments and equipment output data
             ################################################################################################################
             top_equipments = []
             equipment_energy_by_category = {}
+            equipment_output_by_category = {}
 
             # Build equipment name dict
             equipment_name_dict = {eq['id']: eq['name'] for eq in equipment_list}
@@ -752,6 +753,36 @@ class Reporting:
                         equipment_energy_by_category[equipment_id]['categories'][ec_id] = category_energy
                         equipment_energy_by_category[equipment_id]['total_energy'] += category_energy
 
+                # Query energy output by category for each equipment
+                try:
+                    cursor_energy.execute(
+                        " SELECT equipment_id, energy_category_id, SUM(actual_value) as category_output "
+                        " FROM tbl_equipment_output_category_hourly "
+                        " WHERE equipment_id IN (%s) "
+                        "   AND start_datetime_utc >= %%s "
+                        "   AND start_datetime_utc < %%s "
+                        " GROUP BY equipment_id, energy_category_id "
+                        " ORDER BY equipment_id, category_output DESC " % format_strings,
+                        equipment_ids_tuple + (reporting_start_datetime_utc, reporting_end_datetime_utc)
+                    )
+                    rows_output = cursor_energy.fetchall()
+                    if rows_output:
+                        for row in rows_output:
+                            equipment_id = row[0]
+                            ec_id = row[1]
+                            category_output = float(row[2]) if row[2] else 0.0
+
+                            if equipment_id not in equipment_output_by_category:
+                                equipment_output_by_category[equipment_id] = {
+                                    'total_output': 0.0,
+                                    'categories': {}
+                                }
+
+                            equipment_output_by_category[equipment_id]['categories'][ec_id] = category_output
+                            equipment_output_by_category[equipment_id]['total_output'] += category_output
+                except Exception as e:
+                    logger.error(f"Error querying equipment output data: {e}")
+
             # Build top 5 equipments
             sorted_equipments = sorted(
                 equipment_energy_by_category.items(),
@@ -780,6 +811,16 @@ class Reporting:
                     'total_energy': 0.0,
                     'categories': {}
                 })
+                
+                output_data = equipment_output_by_category.get(equipment_id, {
+                    'total_output': 0.0,
+                    'categories': {}
+                })
+
+                # Calculate efficiency (total_output / total_energy * 100)
+                efficiency = None
+                if energy_data['total_energy'] > 0 and output_data['total_output'] > 0:
+                    efficiency = (output_data['total_output'] / energy_data['total_energy']) * 100
 
                 equipment_details.append({
                     'id': equipment_id,
@@ -787,7 +828,10 @@ class Reporting:
                     'cost_center_id': equipment['cost_center_id'],
                     'equipment_type': equipment['equipment_type_name'],
                     'total_energy': energy_data['total_energy'],
-                    'energy_by_category': energy_data['categories']
+                    'energy_by_category': energy_data['categories'],
+                    'total_output': output_data['total_output'],
+                    'output_by_category': output_data['categories'],
+                    'efficiency': efficiency
                 })
 
             result = {
