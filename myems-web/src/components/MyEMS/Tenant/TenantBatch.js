@@ -105,7 +105,24 @@ const TenantBatch = ({ setRedirect, setRedirectUrl, t }) => {
   const [resultDataHidden, setResultDataHidden] = useState(true);
   //Results
   const [detailedDataTableColumns, setDetailedDataTableColumns] = useState([
-    { dataField: 'name', text: t('Name'), sort: true },
+    {
+      dataField: 'id',
+      text: t('ID'),
+      sort: true,
+      headerStyle: { width: '90px' },
+      style: { width: '90px' },
+      headerClasses: 'tenant-batch-sticky-id',
+      classes: 'tenant-batch-sticky-id'
+    },
+    {
+      dataField: 'name',
+      text: t('Name'),
+      sort: true,
+      headerStyle: { width: '220px' },
+      style: { width: '220px' },
+      headerClasses: 'tenant-batch-sticky-name',
+      classes: 'tenant-batch-sticky-name'
+    },
     { dataField: 'space', text: t('Space'), sort: true }
   ]);
   const [excelBytesBase64, setExcelBytesBase64] = useState(undefined);
@@ -229,10 +246,23 @@ const TenantBatch = ({ setRedirect, setRedirectUrl, t }) => {
           if (json['tenants'].length > 0) {
             let detailed_column_list = [];
             detailed_column_list.push({
+              dataField: 'id',
+              text: t('ID'),
+              sort: true,
+              headerStyle: { width: '90px' },
+              style: { width: '90px' },
+              headerClasses: 'tenant-batch-sticky-id',
+              classes: 'tenant-batch-sticky-id'
+            });
+            detailed_column_list.push({
               dataField: 'name',
               text: t('Name'),
               formatter: nameFormatter,
-              sort: true
+              sort: true,
+              headerStyle: { width: '220px' },
+              style: { width: '220px' },
+              headerClasses: 'tenant-batch-sticky-name',
+              classes: 'tenant-batch-sticky-name'
             });
             detailed_column_list.push({
               dataField: 'space',
@@ -422,6 +452,50 @@ const TenantBatch = ({ setRedirect, setRedirectUrl, t }) => {
         <img className="img-fluid" src={blankPage} alt="" />
       </div>
       <div style={{ visibility: resultDataHidden ? 'hidden' : 'visible', display: resultDataHidden ? 'none' : '' }}>
+        <style>{`
+          .table-scroll-container thead th.tenant-batch-sticky-id,
+          .table-scroll-container tbody td.tenant-batch-sticky-id,
+          .table-scroll-container thead th.tenant-batch-sticky-name,
+          .table-scroll-container tbody td.tenant-batch-sticky-name {
+            position: sticky !important;
+            white-space: nowrap !important;
+            background-clip: padding-box !important;
+          }
+          .table-scroll-container thead th.tenant-batch-sticky-id,
+          .table-scroll-container thead th.tenant-batch-sticky-name {
+            background-color: #f8f9fa !important;
+            z-index: 12 !important;
+          }
+          .table-scroll-container tbody td.tenant-batch-sticky-id,
+          .table-scroll-container tbody td.tenant-batch-sticky-name {
+            background-color: #ffffff !important;
+            z-index: 10 !important;
+          }
+          .table-scroll-container tbody tr:hover td.tenant-batch-sticky-id,
+          .table-scroll-container tbody tr:hover td.tenant-batch-sticky-name {
+            background-color: #f1f3f5 !important;
+          }
+          .table-scroll-container tbody tr:nth-of-type(even) td.tenant-batch-sticky-id,
+          .table-scroll-container tbody tr:nth-of-type(even) td.tenant-batch-sticky-name {
+            background-color: #f1f3f5 !important;
+          }
+          .table-scroll-container tbody tr:nth-of-type(even):hover td.tenant-batch-sticky-id,
+          .table-scroll-container tbody tr:nth-of-type(even):hover td.tenant-batch-sticky-name {
+            background-color: #e9ecef !important;
+          }
+          .table-scroll-container thead th.tenant-batch-sticky-id,
+          .table-scroll-container tbody td.tenant-batch-sticky-id {
+            left: 0 !important;
+          }
+          .table-scroll-container thead th.tenant-batch-sticky-name,
+          .table-scroll-container tbody td.tenant-batch-sticky-name {
+            left: 90px !important;
+          }
+          .table-scroll-container thead th.tenant-batch-sticky-name,
+          .table-scroll-container tbody td.tenant-batch-sticky-name {
+            box-shadow: 2px 0 6px rgba(0, 0, 0, 0.12) !important;
+          }
+        `}</style>
         <DetailedDataTable
           data={tenantList}
           title={t('Detailed Data')}
