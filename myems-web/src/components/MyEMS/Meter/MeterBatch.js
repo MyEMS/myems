@@ -297,6 +297,7 @@ const MeterBatch = ({ setRedirect, setRedirectUrl, t }) => {
               currentMeter['daily_values'].forEach(dailyItem => {
                 detailed_value[dailyItem['date']] = dailyItem['value'];
               });
+              detailed_value['total'] = currentMeter['subtotal'];
               meters.push(detailed_value);
             });
           }
@@ -331,6 +332,18 @@ const MeterBatch = ({ setRedirect, setRedirectUrl, t }) => {
               text: date,
               sort: true
             });
+          });
+          detailed_column_list.push({
+            dataField: 'total',
+            text: t('Total'),
+            sort: true,
+            formatter: function(decimalValue) {
+              if (typeof decimalValue === 'number') {
+                return decimalValue.toFixed(2);
+              } else {
+                return null;
+              }
+            }
           });
           setDetailedDataTableColumns(detailed_column_list);
 
