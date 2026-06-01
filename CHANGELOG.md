@@ -7,7 +7,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Added
 - added search box to data point page in myems-admin
 ### Changed
-- updated meter batch report in myems-web
+- updated meter batch report in myems-api and myems-web
+- updated virtual meter batch report in myems-api and myems-web
 ### Fixed
 - fixed add/edit user issue in myems-admin 
 ### Removed
