@@ -152,7 +152,7 @@ export default {
         'Total Energy': 'Total Energy',
         'Total Sensors': 'Total Sensors',
         'Increment Rate': 'Increment Rate',
-
+        'Cumulative Efficiency': 'Cumulative Efficiency',
         // Store Dashboard
         'Store Dashboard': 'Store Dashboard',
         'Comprehensive overview of store energy performance': 'Comprehensive overview of store energy performance',
@@ -180,7 +180,7 @@ export default {
         'Energy Consumption': 'Energy Consumption',
         'Consumption': 'Consumption',
         'last period': 'last period',
-        'Cumulative Efficiency': 'Cumulative Efficiency',
+
 
         // Shopfloor Dashboard
         'Total Shopfloors': 'Total Shopfloors',

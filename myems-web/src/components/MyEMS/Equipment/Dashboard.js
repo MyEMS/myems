@@ -33,7 +33,7 @@ const Dashboard = ({setRedirect, setRedirectUrl, t}) => {
   const [loading, setLoading] = useState(true);
   const [periodType] = useState('monthly');
 
-  // Date ranges - 本月数据
+  // Date ranges
   const [reportingPeriodStart] = useState(
       moment().startOf('month')
   );
@@ -337,12 +337,6 @@ const Dashboard = ({setRedirect, setRedirectUrl, t}) => {
                 rate={null}
                 title={t('Total Equipments')}
                 color="success"
-                footnote={t('Active Meters')}
-                footvalue={summary.total_meters || 0}
-                footunit=""
-                secondfootnote={t('Total Sensors')}
-                secondfootvalue={summary.total_sensors || 0}
-                secondfootunit=""
             >
               <CountUp end={summary.total_equipments || 0} duration={2} separator=","/>
             </CardSummary>
@@ -359,12 +353,6 @@ const Dashboard = ({setRedirect, setRedirectUrl, t}) => {
                     UNIT: '(' + cardItem.unit + ')'
                   })}
                   color="success"
-                  footnote={t('Increment Rate')}
-                  footvalue={cardItem.increment_rate ? parseFloat(cardItem.increment_rate) : 0}
-                  footunit="%"
-                  secondfootnote={t('Total Equipment Energy')}
-                  secondfootvalue={cardItem.subtotal || 0}
-                  secondfootunit={'(' + cardItem.unit + ')'}
               >
                 <CountUp
                     end={cardItem.subtotal || 0}
@@ -387,12 +375,6 @@ const Dashboard = ({setRedirect, setRedirectUrl, t}) => {
                     UNIT: '(' + cardItem.unit + ')'
                   })}
                   color="info"
-                  footnote={t('Increment Rate')}
-                  footvalue={cardItem.increment_rate ? parseFloat(cardItem.increment_rate) : 0}
-                  footunit="%"
-                  secondfootnote={t('Total Equipment Output')}
-                  secondfootvalue={cardItem.subtotal || 0}
-                  secondfootunit={'(' + cardItem.unit + ')'}
               >
                 <CountUp
                     end={cardItem.subtotal || 0}
@@ -414,13 +396,6 @@ const Dashboard = ({setRedirect, setRedirectUrl, t}) => {
                   UNIT: '(TCE)'
                 })}
                 color="warning"
-                footnote={t('Increment Rate')}
-                footvalue={energyData.increment_rate_in_kgce !== undefined ?
-                    parseFloat(energyData.increment_rate_in_kgce * 100).toFixed(2) : 0}
-                footunit="%"
-                secondfootnote={t('Active Alerts')}
-                secondfootvalue={summary.total_alerts || 0}
-                secondfootunit=""
             >
               <CountUp
                   end={(energyData.total_in_kgce || 0) / 1000}
@@ -440,12 +415,7 @@ const Dashboard = ({setRedirect, setRedirectUrl, t}) => {
                   UNIT: null
                 })}
                 color="success"
-                footnote={t('Categories')}
-                footvalue={costData.names?.length || 0}
-                footunit=""
-                secondfootnote={t('Per Capita')}
-                secondfootvalue={0}
-                secondfootunit=""
+
             >
               ¥<CountUp
                 end={costData.subtotals?.reduce((a, b) => a + b, 0) || 0}
@@ -466,13 +436,7 @@ const Dashboard = ({setRedirect, setRedirectUrl, t}) => {
                   UNIT: '(TCO2E)'
                 })}
                 color="warning"
-                footnote={t('Increment Rate')}
-                footvalue={energyData.increment_rate_in_kgco2e !== undefined ?
-                    parseFloat(energyData.increment_rate_in_kgco2e * 100).toFixed(2) : 0}
-                footunit="%"
-                secondfootnote={t('Per Capita')}
-                secondfootvalue={0}
-                secondfootunit="(kgCO2E)"
+
             >
               <CountUp
                   end={(energyData.total_in_kgco2e || 0) / 1000}
