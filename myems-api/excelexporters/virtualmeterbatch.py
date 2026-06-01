@@ -82,9 +82,16 @@ def generate_excel(report, space_name, reporting_start_datetime_local, reporting
     ws = wb.active
     ws.title = "VirtualMeterBatch"
 
-    # Col width
-    for i in range(ord('A'), ord('L')):
-        ws.column_dimensions[chr(i)].width = 20.0
+    date_list_len = len(report.get('date_list', []))
+    total_cols = 4 + date_list_len + 1  # ID, Name, Space, Energy Category + dates + total
+
+    for i in range(ord('A'), ord('A') + min(total_cols, 26)):
+        ws.column_dimensions[chr(i)].width = 15.0
+
+    if date_list_len > 0:
+        for i in range(4, 4 + date_list_len):
+            col_letter = chr(ord('A') + i) if i < 26 else chr(ord('A') + (i // 26) - 1) + chr(ord('A') + (i % 26))
+            ws.column_dimensions[col_letter].width = 12.0
 
     # Head image
     ws.row_dimensions[1].height = 105
@@ -116,23 +123,43 @@ def generate_excel(report, space_name, reporting_start_datetime_local, reporting
     ws['B6'] = _('Name')
     ws['C6'].font = title_font
     ws['C6'] = _('Space')
+    ws['D6'].font = title_font
+    ws['D6'] = _('Energy Category')
 
-    ca_len = len(report['energycategories'])
-    for i in range(0, ca_len):
-        col = chr(ord('D') + i)
+    date_list = report.get('date_list', [])
+    for i in range(0, len(date_list)):
+        col_idx = 4 + i
+        if col_idx < 26:
+            col = chr(ord('A') + col_idx)
+        else:
+            col = chr(ord('A') + (col_idx // 26) - 1) + chr(ord('A') + (col_idx % 26))
         ws[col + '6'].font = title_font
-        ws[col + '6'] = report['energycategories'][i]['name'] + " (" + \
-            report['energycategories'][i]['unit_of_measure'] + ")"
+        ws[col + '6'] = date_list[i]
+
+    total_col_idx = 4 + len(date_list)
+    if total_col_idx < 26:
+        total_col = chr(ord('A') + total_col_idx)
+    else:
+        total_col = chr(ord('A') + (total_col_idx // 26) - 1) + chr(ord('A') + (total_col_idx % 26))
+    ws[total_col + '6'].font = title_font
+    ws[total_col + '6'] = _('Total')
 
     current_row_number = 7
     for i in range(0, len(report['virtual_meters'])):
         ws['A' + str(current_row_number)] = str(report['virtual_meters'][i]['id'])
         ws['B' + str(current_row_number)] = report['virtual_meters'][i]['virtual_meter_name']
         ws['C' + str(current_row_number)] = report['virtual_meters'][i]['space_name']
-        ca_len = len(report['virtual_meters'][i]['values'])
-        for j in range(0, ca_len):
-            col = chr(ord('D') + j)
-            ws[col + str(current_row_number)] = report['virtual_meters'][i]['values'][j]
+        ws['D' + str(current_row_number)] = report['virtual_meters'][i].get('energy_category_name', '')
+
+        daily_values = report['virtual_meters'][i].get('daily_values', [])
+        for j in range(0, len(daily_values)):
+            col_idx = 4 + j
+            if col_idx < 26:
+                col = chr(ord('A') + col_idx)
+            else:
+                col = chr(ord('A') + (col_idx // 26) - 1) + chr(ord('A') + (col_idx % 26))
+            ws[col + str(current_row_number)] = daily_values[j].get('value', None)
+        ws[total_col + str(current_row_number)] = report['virtual_meters'][i].get('subtotal', None)
 
         current_row_number += 1
 

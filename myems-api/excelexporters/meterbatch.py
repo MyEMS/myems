@@ -87,7 +87,7 @@ def generate_excel(report, space_name, reporting_start_datetime_local, reporting
     # Calculate required columns
     ca_len = 1
     date_list_len = len(report.get('date_list', []))
-    total_cols = 3 + ca_len + date_list_len  # ID, Name, Space + categories + dates
+    total_cols = 3 + ca_len + date_list_len + 1  # ID, Name, Space + categories + dates + total
 
     # Col width
     for i in range(ord('A'), ord('A') + min(total_cols, 26)):
@@ -149,6 +149,13 @@ def generate_excel(report, space_name, reporting_start_datetime_local, reporting
             col = chr(ord('A') + (col_idx // 26) - 1) + chr(ord('A') + (col_idx % 26))
         ws[col + '6'].font = title_font
         ws[col + '6'] = date_list[i]
+    total_col_idx = 3 + ca_len + len(date_list)
+    if total_col_idx < 26:
+        total_col = chr(ord('A') + total_col_idx)
+    else:
+        total_col = chr(ord('A') + (total_col_idx // 26) - 1) + chr(ord('A') + (total_col_idx % 26))
+    ws[total_col + '6'].font = title_font
+    ws[total_col + '6'] = _('Total')
 
     current_row_number = 7
     for i in range(0, len(report['meters'])):
@@ -165,6 +172,7 @@ def generate_excel(report, space_name, reporting_start_datetime_local, reporting
             else:
                 col = chr(ord('A') + (col_idx // 26) - 1) + chr(ord('A') + (col_idx % 26))
             ws[col + str(current_row_number)] = daily_values[j].get('value', None)
+        ws[total_col + str(current_row_number)] = report['meters'][i].get('subtotal', None)
 
         current_row_number += 1
 
