@@ -295,7 +295,10 @@ class Reporting:
                 current_date = reporting_start_datetime_local.replace(hour=0, minute=0, second=0, microsecond=0)
                 end_date = reporting_end_datetime_local.replace(hour=0, minute=0, second=0, microsecond=0)
 
-                while current_date < end_date:
+                if reporting_end_datetime_local == end_date:
+                    end_date -= timedelta(days=1)
+
+                while current_date <= end_date:
                     date_list.append(current_date)
                     current_date += timedelta(days=1)
 

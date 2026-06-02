@@ -26,6 +26,7 @@ import uuid
 from openpyxl import Workbook
 from openpyxl.drawing.image import Image
 from openpyxl.styles import Alignment, Font
+from openpyxl.utils import get_column_letter
 
 
 ########################################################################################################################
@@ -82,16 +83,21 @@ def generate_excel(report, space_name, reporting_start_datetime_local, reporting
     ws = wb.active
     ws.title = "VirtualMeterBatch"
 
-    date_list_len = len(report.get('date_list', []))
+    date_list = list(report.get('date_list') or [])
+    if len(date_list) == 0:
+        first_meter = next(iter(report.get('virtual_meters', [])), None)
+        if first_meter is not None:
+            date_list = [item.get('date') for item in first_meter.get('daily_values', []) if item.get('date')]
+
+    date_list_len = len(date_list)
     total_cols = 4 + date_list_len + 1  # ID, Name, Space, Energy Category + dates + total
 
-    for i in range(ord('A'), ord('A') + min(total_cols, 26)):
-        ws.column_dimensions[chr(i)].width = 15.0
+    for col_number in range(1, total_cols + 1):
+        ws.column_dimensions[get_column_letter(col_number)].width = 15.0
 
     if date_list_len > 0:
-        for i in range(4, 4 + date_list_len):
-            col_letter = chr(ord('A') + i) if i < 26 else chr(ord('A') + (i // 26) - 1) + chr(ord('A') + (i % 26))
-            ws.column_dimensions[col_letter].width = 12.0
+        for col_idx in range(4, 4 + date_list_len):
+            ws.column_dimensions[get_column_letter(col_idx + 1)].width = 12.0
 
     # Head image
     ws.row_dimensions[1].height = 105
@@ -126,21 +132,14 @@ def generate_excel(report, space_name, reporting_start_datetime_local, reporting
     ws['D6'].font = title_font
     ws['D6'] = _('Energy Category')
 
-    date_list = report.get('date_list', [])
     for i in range(0, len(date_list)):
         col_idx = 4 + i
-        if col_idx < 26:
-            col = chr(ord('A') + col_idx)
-        else:
-            col = chr(ord('A') + (col_idx // 26) - 1) + chr(ord('A') + (col_idx % 26))
+        col = get_column_letter(col_idx + 1)
         ws[col + '6'].font = title_font
-        ws[col + '6'] = date_list[i]
+        ws[col + '6'] = str(date_list[i])
 
     total_col_idx = 4 + len(date_list)
-    if total_col_idx < 26:
-        total_col = chr(ord('A') + total_col_idx)
-    else:
-        total_col = chr(ord('A') + (total_col_idx // 26) - 1) + chr(ord('A') + (total_col_idx % 26))
+    total_col = get_column_letter(total_col_idx + 1)
     ws[total_col + '6'].font = title_font
     ws[total_col + '6'] = _('Total')
 
@@ -152,13 +151,11 @@ def generate_excel(report, space_name, reporting_start_datetime_local, reporting
         ws['D' + str(current_row_number)] = report['virtual_meters'][i].get('energy_category_name', '')
 
         daily_values = report['virtual_meters'][i].get('daily_values', [])
-        for j in range(0, len(daily_values)):
+        daily_value_map = {item.get('date'): item.get('value') for item in daily_values if item.get('date')}
+        for j, day in enumerate(date_list):
             col_idx = 4 + j
-            if col_idx < 26:
-                col = chr(ord('A') + col_idx)
-            else:
-                col = chr(ord('A') + (col_idx // 26) - 1) + chr(ord('A') + (col_idx % 26))
-            ws[col + str(current_row_number)] = daily_values[j].get('value', None)
+            col = get_column_letter(col_idx + 1)
+            ws[col + str(current_row_number)] = daily_value_map.get(day, None)
         ws[total_col + str(current_row_number)] = report['virtual_meters'][i].get('subtotal', None)
 
         current_row_number += 1
