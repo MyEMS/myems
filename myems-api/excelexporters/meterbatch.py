@@ -168,8 +168,24 @@ def generate_excel(report, space_name, reporting_start_datetime_local, reporting
         for j, day in enumerate(date_list):
             col_idx = 3 + ca_len + j
             col = get_column_letter(col_idx + 1)
-            ws[col + str(current_row_number)] = daily_value_map.get(day, None)
-        ws[total_col + str(current_row_number)] = report['meters'][i].get('subtotal', None)
+            cell = ws[col + str(current_row_number)]
+            value = daily_value_map.get(day)
+            cell.value = value
+            try:
+                if value is not None and not isinstance(value, bool):
+                    cell.value = float(value)
+                    cell.number_format = '0.00'
+            except (TypeError, ValueError):
+                pass
+        total_cell = ws[total_col + str(current_row_number)]
+        value = report['meters'][i].get('subtotal')
+        total_cell.value = value
+        try:
+            if value is not None and not isinstance(value, bool):
+                total_cell.value = float(value)
+                total_cell.number_format = '0.00'
+        except (TypeError, ValueError):
+            pass
 
         current_row_number += 1
 
