@@ -295,7 +295,7 @@ const Dashboard = ({setRedirect, setRedirectUrl, t}) => {
         options.push({value: key, label: `${t(categoryName)} (${unit})`});
       });
 
-      // Add cost option (成本曲线 - 所有分类的总成本)
+      // Add cost option
       if (monthlyTrends.cost && monthlyTrends.cost.length > 0) {
         timestamps['cost'] = monthlyTrends.labels;
         // Sum all cost categories for each month
@@ -305,7 +305,7 @@ const Dashboard = ({setRedirect, setRedirectUrl, t}) => {
           }, 0);
         });
         values['cost'] = totalCost;
-        options.push({value: 'cost', label: t('Costcb') + ' (CNY)'});
+        options.push({value: 'cost', label: t('CostData') + ' (CNY)'});
       }
     }
 

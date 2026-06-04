@@ -22,6 +22,7 @@ export default {
         'Energy Item Data': 'Enerji Öğesi',
         Carbon: 'CO2 Emisyonları',
         Cost: 'Masraf',
+        CostData: 'Maliyet Verileri',
         Output: 'Çıktı',
         Income: 'Gelir',
         Efficiency: 'Randıman',
@@ -177,6 +178,7 @@ export default {
         'Total Energy': 'Toplam Enerji',
         'Total Sensors': 'Toplam Sensör',
         'Increment Rate': 'Artış Oranı',
+        'Cumulative Efficiency': 'Kümülatif verimlilik',
         // Shopfloor Dashboard
         'Total Shopfloors': 'Toplam atölye sayısı',
         'Shopfloor Performance Overview': 'Atölye performansına genel bakış',
@@ -187,7 +189,7 @@ export default {
         'Combined Equipment Performance Overview': 'Kombine Ekipman Performansına Genel Bakış',
         'Combined Equipment Name': 'Kombine Ekipman Adı',
         'Associated Equipments': 'İlgili Ekipmanlar',
-        'Cumulative Efficiency': 'Kümülatif verimlilik',
+
         // Dashboard
         'Welcome to MyEMS': "MyEMS'ye Hoş Geldiniz",
         'An Industry Leading Open Source Energy Management System': 'Endüstri Lideri Açık Kaynak Enerji Yönetim Sistemi',

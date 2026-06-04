@@ -22,6 +22,7 @@ export default {
         'Energy Item Data': 'Item de energia',
         Carbon: 'Emissões de CO2',
         Cost: 'Custo',
+        CostData: 'Dados de custo',
         Output: 'Saída',
         Income: 'Rendimentos',
         Efficiency: 'Eficiência',
@@ -177,6 +178,7 @@ export default {
         'Total Energy': 'Energia Total',
         'Total Sensors': 'Total de Sensores',
         'Increment Rate': 'Taxa de Incremento',
+        'Cumulative Efficiency': 'Eficiência cumulativa',
         // Shopfloor Dashboard
         'Total Shopfloors': 'Total de oficinas',
         'Shopfloor Performance Overview': 'Visão geral do desempenho das oficinas',
@@ -187,7 +189,7 @@ export default {
         'Combined Equipment Performance Overview': 'Visão Geral do Desempenho dos Equipamentos Combinados',
         'Combined Equipment Name': 'Nome do Equipamento Combinado',
         'Associated Equipments': 'Equipamentos Associados',
-        'Cumulative Efficiency': 'Eficiência cumulativa',
+
         // Dashboard
         'Welcome to MyEMS': 'Bem-vindo ao MyEMS',
         'An Industry Leading Open Source Energy Management System':

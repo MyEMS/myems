@@ -22,6 +22,7 @@ export default {
         'Energy Item Data': '能耗分項分析',
         Carbon: '碳排放分析',
         Cost: '成本分析',
+        CostData: '成本數據',
         Output: '產出分析',
         Income: '收入分析',
         Efficiency: '效率分析',
@@ -176,6 +177,7 @@ export default {
         'Total Energy': '總能耗',
         'Total Sensors': '傳感器總數',
         'Increment Rate': '增長率',
+        'Cumulative Efficiency': '累積效率',
         // Shopfloor Dashboard
         'Total Shopfloors': '車間總數',
         'Shopfloor Performance Overview': '車間績效概覽',
@@ -186,7 +188,7 @@ export default {
         'Combined Equipment Performance Overview': '組合設備績效概覽',
         'Combined Equipment Name': '組合設備名稱',
         'Associated Equipments': '關聯設備數',
-        'Cumulative Efficiency': '累積效率',
+
         // Dashboard
         'Welcome to MyEMS': '歡迎使⽤ MyEMS',
         'An Industry Leading Open Source Energy Management System': '⾏業領先的開源能源管理系統',

@@ -22,6 +22,7 @@ export default {
         'Energy Item Data': 'Analis Pembatasan Konsumsi Energi',
         Carbon: 'Emisi CO2',
         Cost: 'Analisis Biaya',
+        CostData: 'Data Biaya',
         Output: 'Analis Keluaran',
         Income: 'Analisi Pendapatan',
         Efficiency: 'Analis Efisiensi',
@@ -177,7 +178,7 @@ export default {
         'Total Energy': 'Total Energi',
         'Total Sensors': 'Total Sensor',
         'Increment Rate': 'Tingkat Kenaikan',
-
+        'Cumulative Efficiency': 'Efisiensi kumulatif',
         // Shopfloor Dashboard
         'Total Shopfloors': 'Total bengkel',
         'Shopfloor Performance Overview': 'Ikhtisar kinerja bengkel',
@@ -188,7 +189,7 @@ export default {
         'Combined Equipment Performance Overview': 'Ikhtisar Kinerja Peralatan Kombinasi',
         'Combined Equipment Name': 'Nama Peralatan Kombinasi',
         'Associated Equipments': 'Peralatan Terkait',
-        'Cumulative Efficiency': 'Efisiensi kumulatif',
+
         // Dashboard
         'Welcome to MyEMS': 'Selamat Datang Di MyEMS',
         'An Industry Leading Open Source Energy Management System':

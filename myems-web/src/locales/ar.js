@@ -22,6 +22,7 @@ export default {
         'Energy Item Data': 'عنصر الطاقة',
         Carbon: 'انبعاثات ثاني أكسيد الكربون',
         Cost: 'كلف',
+        CostData: 'بيانات التكلفة',
         Output: 'الناتج',
         Income: 'دخل',
         Efficiency: 'كفاءة',
@@ -177,6 +178,7 @@ export default {
         'Total Energy': 'إجمالي الطاقة',
         'Total Sensors': 'إجمالي المستشعرات',
         'Increment Rate': 'معدل الزيادة',
+        'Cumulative Efficiency': 'الكفاءة التراكمية',
         // Shopfloor Dashboard
         'Total Shopfloors': 'إجمالي ورش العمل',
         'Shopfloor Performance Overview': 'نظرة عامة على أداء ورش العمل',
@@ -187,7 +189,7 @@ export default {
         'Combined Equipment Performance Overview': 'نظرة عامة على أداء المعدات المشتركة',
         'Combined Equipment Name': 'اسم المعدات المشتركة',
         'Associated Equipments': 'المعدات المرتبطة',
-        'Cumulative Efficiency': 'الكفاءة التراكمية',
+
         // Dashboard
         'Welcome to MyEMS': 'مرحبا بكم في MyEMS',
         'An Industry Leading Open Source Energy Management System': 'نظام إدارة طاقة مفتوح المصدر رائد في الصناعة',

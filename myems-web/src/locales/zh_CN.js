@@ -22,7 +22,7 @@ export default {
         'Energy Item Data': '能耗分项分析',
         Carbon: '碳排放分析',
         Cost: '成本分析',
-        Costcb: '成本',
+        CostData: '成本数据',
         Output: '产出分析',
         Income: '收入分析',
         Efficiency: '效率分析',
@@ -153,6 +153,7 @@ export default {
         'Total Energy': '总能耗',
         'Total Sensors': '传感器总数',
         'Increment Rate': '增长率',
+        'Cumulative Efficiency': '累积效率',
         // Combined Equipment Dashboard
         'Total Combined Equipments': '组合设备总数',
         'Combined Equipment Performance Overview': '组合设备绩效概览',
@@ -419,7 +420,7 @@ export default {
         'COMBINED_EQUIPMENT CATEGORY VALUE UNIT': '{{COMBINED_EQUIPMENT}} {{CATEGORY}} {{VALUE}} {{UNIT}}',
         'SHOPFLOOR CATEGORY VALUE UNIT': '{{SHOPFLOOR}} {{CATEGORY}} {{VALUE}} {{UNIT}}',
         'TENANT CATEGORY VALUE UNIT': '{{TENANT}} {{CATEGORY}} {{VALUE}} {{UNIT}}',
-        'Cumulative Efficiency': '累积效率',
+
         //FDD
         'Fault List': '故障列表',
         'Reporting Period Number of Fault VALUE': '报告期故障数: {{VALUE}}',

@@ -22,6 +22,7 @@ export default {
         'Energy Item Data': 'Barangan Tenaga',
         Carbon: 'Emisi CO2',
         Cost: 'Kos',
+        CostData: 'Data Kos',
         Output: 'Output',
         Income: 'Pendapatan',
         Efficiency: 'Kecekapan',

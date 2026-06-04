@@ -22,6 +22,7 @@ export default {
         'Energy Item Data': 'Energieonderdeel-analyse',
         Carbon: 'CO2-uitstootanalyse',
         Cost: 'Kostenanalyse',
+        CostData: 'Kostengegevens',
         Output: 'Outputanalyse',
         Income: 'Inkomstenanalyse',
         Efficiency: 'Efficiëntieanalyse',
@@ -177,6 +178,7 @@ export default {
         'Total Energy': 'Totale Energie',
         'Total Sensors': 'Totaal Sensoren',
         'Increment Rate': 'Groeipercentage',
+        'Cumulative Efficiency': 'Cumulatieve efficiëntie',
         // Shopfloor Dashboard
         'Total Shopfloors': 'Totaal aantal werkplaatsen',
         'Shopfloor Performance Overview': 'Overzicht werkplaatsprestaties',
@@ -187,7 +189,7 @@ export default {
         'Combined Equipment Performance Overview': 'Overzicht Gecombineerde Apparatuurprestaties',
         'Combined Equipment Name': 'Naam Gecombineerde Apparatuur',
         'Associated Equipments': 'Gerelateerde Apparatuur',
-        'Cumulative Efficiency': 'Cumulatieve efficiëntie',
+
         // Dashboard
         'Welcome to MyEMS': 'Welkom bij MyEMS',
         'An Industry Leading Open Source Energy Management System': 'Een toonaangevend open source energiebeheersysteem',
