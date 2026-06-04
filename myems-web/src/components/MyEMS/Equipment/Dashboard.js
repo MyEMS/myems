@@ -285,7 +285,7 @@ const Dashboard = ({setRedirect, setRedirectUrl, t}) => {
     const options = [];
 
     if (monthlyTrends.labels && monthlyTrends.labels.length > 0) {
-      // Add each energy category as a separate option (能耗曲线)
+      // Add each energy category as a separate option
       monthlyTrends.energy.forEach((categoryData, index) => {
         const key = `energy_${index}`;
         timestamps[key] = monthlyTrends.labels;
