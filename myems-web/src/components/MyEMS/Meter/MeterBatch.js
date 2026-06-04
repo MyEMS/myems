@@ -115,6 +115,12 @@ const MeterBatch = ({ setRedirect, setRedirectUrl, t }) => {
       </Media>
     </Link>
   );
+  const numberTwoDecimalFormatter = value => {
+    if (value === null || value === undefined) return null;
+    const numberValue = typeof value === 'number' ? value : Number(value);
+    if (!Number.isFinite(numberValue)) return value;
+    return numberValue.toFixed(2);
+  };
 
   //Results
   const [detailedDataTableColumns, setDetailedDataTableColumns] = useState([
@@ -330,20 +336,15 @@ const MeterBatch = ({ setRedirect, setRedirectUrl, t }) => {
             detailed_column_list.push({
               dataField: date,
               text: date,
-              sort: true
+              sort: true,
+              formatter: numberTwoDecimalFormatter
             });
           });
           detailed_column_list.push({
             dataField: 'total',
             text: t('Total'),
             sort: true,
-            formatter: function(decimalValue) {
-              if (typeof decimalValue === 'number') {
-                return decimalValue.toFixed(2);
-              } else {
-                return null;
-              }
-            }
+            formatter: numberTwoDecimalFormatter
           });
           setDetailedDataTableColumns(detailed_column_list);
 

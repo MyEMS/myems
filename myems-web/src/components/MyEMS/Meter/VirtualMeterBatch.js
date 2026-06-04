@@ -202,6 +202,12 @@ const VirtualMeterBatch = ({ setRedirect, setRedirectUrl, t }) => {
 
   const labelClasses = 'ls text-uppercase text-600 font-weight-semi-bold mb-0';
   const { language } = useContext(Appcontext);
+  const numberTwoDecimalFormatter = value => {
+    if (value === null || value === undefined) return null;
+    const numberValue = typeof value === 'number' ? value : Number(value);
+    if (!Number.isFinite(numberValue)) return value;
+    return numberValue.toFixed(2);
+  };
 
   let onSpaceCascaderChange = (value, selectedOptions) => {
     setSelectedSpaceName(selectedOptions.map(o => o.label).join('/'));
@@ -315,20 +321,15 @@ const VirtualMeterBatch = ({ setRedirect, setRedirectUrl, t }) => {
             detailed_column_list.push({
               dataField: date,
               text: date,
-              sort: true
+              sort: true,
+              formatter: numberTwoDecimalFormatter
             });
           });
           detailed_column_list.push({
             dataField: 'total',
             text: t('Total'),
             sort: true,
-            formatter: function(decimalValue) {
-              if (typeof decimalValue === 'number') {
-                return decimalValue.toFixed(2);
-              } else {
-                return null;
-              }
-            }
+            formatter: numberTwoDecimalFormatter
           });
           setDetailedDataTableColumns(detailed_column_list);
 
