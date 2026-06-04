@@ -296,3 +296,25 @@ grid-row: 2;
   bottom: 20px;
   z-index: -1;
 }
+
+.form-row > .col-6.col-sm-3 {
+  flex: 0 0 auto !important;
+  width: auto !important;
+  max-width: 100% !important;
+}
+
+.col-6.col-sm-3 .rs-picker-daterange,
+.col-6.col-sm-3 .rs-picker-daterange .rs-date-range-input.rs-input {
+  min-width: 22rem !important;
+}
+
+#comparisonType.custom-select,
+#periodType.custom-select {
+  display: block !important;
+  width: 8rem !important;
+  padding-right: 1.75rem !important;
+}
+
+.col-6.col-sm-3 > .form-group > input.form-control-sm[readonly] {
+  min-width: 14rem;
+}
