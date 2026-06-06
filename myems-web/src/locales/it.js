@@ -22,6 +22,7 @@ export default {
         'Energy Item Data': 'Analisi Voci di Consumo',
         Carbon: 'Analisi Emissioni CO2',
         Cost: 'Analisi Costi',
+        CostData: 'Dati sui costi',
         Output: 'Analisi Produzione',
         Income: 'Analisi Ricavi',
         Efficiency: 'Analisi Efficienza',
@@ -177,6 +178,7 @@ export default {
         'Total Energy': 'Energia Totale',
         'Total Sensors': 'Totale Sensori',
         'Increment Rate': 'Tasso di Incremento',
+        'Cumulative Efficiency': 'Efficienza cumulativa',
         // Shopfloor Dashboard
         'Total Shopfloors': 'Totale officine',
         'Shopfloor Performance Overview': 'Panoramica delle prestazioni delle officine',

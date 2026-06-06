@@ -22,6 +22,7 @@ export default {
         'Energy Item Data': 'Energy Item',
         Carbon: 'CO2 Emissions',
         Cost: 'Cost',
+        CostData: 'Cost Data',
         Output: 'Output',
         Income: 'Income',
         Efficiency: 'Efficiency',
@@ -152,7 +153,7 @@ export default {
         'Total Energy': 'Total Energy',
         'Total Sensors': 'Total Sensors',
         'Increment Rate': 'Increment Rate',
-
+        'Cumulative Efficiency': 'Cumulative Efficiency',
         // Store Dashboard
         'Store Dashboard': 'Store Dashboard',
         'Comprehensive overview of store energy performance': 'Comprehensive overview of store energy performance',

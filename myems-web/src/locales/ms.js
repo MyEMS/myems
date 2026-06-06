@@ -22,6 +22,7 @@ export default {
         'Energy Item Data': 'Barangan Tenaga',
         Carbon: 'Emisi CO2',
         Cost: 'Kos',
+        CostData: 'Data Kos',
         Output: 'Output',
         Income: 'Pendapatan',
         Efficiency: 'Kecekapan',
@@ -177,6 +178,7 @@ export default {
         'Total Energy': 'Jumlah Tenaga',
         'Total Sensors': 'Jumlah Penderia',
         'Increment Rate': 'Kadar Kenaikan',
+        'Cumulative Efficiency': 'Kecekapan terkumpul',
         // Shopfloor Dashboard
         'Total Shopfloors': 'Jumlah bengkel',
         'Shopfloor Performance Overview': 'Gambaran keseluruhan prestasi bengkel',

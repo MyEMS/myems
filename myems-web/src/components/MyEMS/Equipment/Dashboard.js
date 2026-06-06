@@ -35,11 +35,11 @@ const Dashboard = ({setRedirect, setRedirectUrl, t}) => {
 
   // Date ranges
   const [reportingPeriodStart] = useState(
-      moment().startOf('year')
+      moment().startOf('month')
   );
   const [reportingPeriodEnd] = useState(moment());
   const [basePeriodStart] = useState(
-      moment().subtract(1, 'years').startOf('year')
+      moment().subtract(1, 'years').startOf('month')
   );
   const [basePeriodEnd] = useState(
       moment().subtract(1, 'years')
@@ -89,6 +89,19 @@ const Dashboard = ({setRedirect, setRedirectUrl, t}) => {
   const [tcePieData, setTcePieData] = useState([]);
   const [tco2ePieData, setTco2ePieData] = useState([]);
 
+  // Dynamic monthly consumption cards
+  const [monthlyConsumptionCards, setMonthlyConsumptionCards] = useState([]);
+
+  // Dynamic monthly output cards
+  const [monthlyOutputCards, setMonthlyOutputCards] = useState([]);
+
+  // Reporting period output data for table
+  const [reportingPeriodOutput, setReportingPeriodOutput] = useState({
+    names: [],
+    units: [],
+    energy_category_ids: []
+  });
+
   // Fetch dashboard data
   const fetchDashboardData = useCallback(async () => {
     let is_logged_in = getCookieValue('is_logged_in');
@@ -137,6 +150,11 @@ const Dashboard = ({setRedirect, setRedirectUrl, t}) => {
       setCostData(json.reporting_period_cost || {});
       setTopEquipments(json.top_equipments || []);
       setAllEquipments(json.equipments || []);
+      setReportingPeriodOutput(json.reporting_period_output || {
+        names: [],
+        units: [],
+        energy_category_ids: []
+      });
 
       // Process monthly trends
       if (json.reporting_period_input.timestamps && json.reporting_period_input.timestamps.length > 0) {
@@ -203,6 +221,38 @@ const Dashboard = ({setRedirect, setRedirectUrl, t}) => {
       });
       setTco2ePieData(tco2eArray);
 
+      // Process dynamic monthly consumption cards
+      let consumptionCards = [];
+      if (json.reporting_period_input.names && json.reporting_period_input.names.length > 0) {
+        json.reporting_period_input.names.forEach((categoryName, index) => {
+          let cardItem = {};
+          cardItem.name = categoryName;
+          cardItem.unit = json.reporting_period_input.units[index];
+          cardItem.subtotal = json.reporting_period_input.subtotals[index];
+          cardItem.increment_rate = json.reporting_period_input.increment_rates[index] !== undefined
+            ? parseFloat(json.reporting_period_input.increment_rates[index] * 100).toFixed(2) + '%'
+            : null;
+          consumptionCards.push(cardItem);
+        });
+      }
+      setMonthlyConsumptionCards(consumptionCards);
+
+      // Process dynamic monthly output cards
+      let outputCards = [];
+      if (json.reporting_period_output && json.reporting_period_output.names && json.reporting_period_output.names.length > 0) {
+        json.reporting_period_output.names.forEach((outputName, index) => {
+          let cardItem = {};
+          cardItem.name = outputName;
+          cardItem.unit = json.reporting_period_output.units[index];
+          cardItem.subtotal = json.reporting_period_output.subtotals[index];
+          cardItem.increment_rate = json.reporting_period_output.increment_rates[index] !== undefined
+            ? parseFloat(json.reporting_period_output.increment_rates[index] * 100).toFixed(2) + '%'
+            : null;
+          outputCards.push(cardItem);
+        });
+      }
+      setMonthlyOutputCards(outputCards);
+
       setLoading(false);
 
     } catch (error) {
@@ -235,13 +285,6 @@ const Dashboard = ({setRedirect, setRedirectUrl, t}) => {
     const options = [];
 
     if (monthlyTrends.labels && monthlyTrends.labels.length > 0) {
-      // Add cost option first (as default)
-      if (monthlyTrends.cost && monthlyTrends.cost.length > 0) {
-        timestamps['cost'] = monthlyTrends.labels;
-        values['cost'] = monthlyTrends.cost.length > 0 ? monthlyTrends.cost[0] : [];
-        options.push({value: 'cost', label: t('Cost')});
-      }
-
       // Add each energy category as a separate option
       monthlyTrends.energy.forEach((categoryData, index) => {
         const key = `energy_${index}`;
@@ -251,6 +294,19 @@ const Dashboard = ({setRedirect, setRedirectUrl, t}) => {
         const unit = monthlyTrends.categoryUnits[index] || '';
         options.push({value: key, label: `${t(categoryName)} (${unit})`});
       });
+
+      // Add cost option
+      if (monthlyTrends.cost && monthlyTrends.cost.length > 0) {
+        timestamps['cost'] = monthlyTrends.labels;
+        // Sum all cost categories for each month
+        const totalCost = monthlyTrends.labels.map((_, monthIndex) => {
+          return monthlyTrends.cost.reduce((sum, costCategory) => {
+            return sum + (costCategory[monthIndex] || 0);
+          }, 0);
+        });
+        values['cost'] = totalCost;
+        options.push({value: 'cost', label: t('CostData') + ' (CNY)'});
+      }
     }
 
     return {timestamps, values, options};
@@ -273,95 +329,124 @@ const Dashboard = ({setRedirect, setRedirectUrl, t}) => {
 
   return (
       <Fragment>
-        {/* Summary Cards */}
-        <div className="card-deck">
-          <CardSummary
-              rate={null}
-              title={t('Total Equipments')}
-              color="success"
-              footnote={t('Active Meters')}
-              footvalue={summary.total_meters || 0}
-              footunit=""
-              secondfootnote={t('Total Sensors')}
-              secondfootvalue={summary.total_sensors || 0}
-              secondfootunit=""
-          >
-            <CountUp end={summary.total_equipments || 0} duration={2} separator=","/>
-          </CardSummary>
+        {/* All Summary Cards in Row Layout - 4 per row */}
+        <Row noGutters>
+          {/* Fixed Summary Cards - Equipment Total First */}
+          <Col className="mb-2 pr-lg-2">
+            <CardSummary
+                rate={null}
+                title={t('Total Equipments')}
+                color="success"
+            >
+              <CountUp end={summary.total_equipments || 0} duration={2} separator=","/>
+            </CardSummary>
+          </Col>
 
-          <CardSummary
-              rate={energyData.increment_rate_in_kgce !== undefined ?
-                  (parseFloat(energyData.increment_rate_in_kgce * 100).toFixed(2) + '%') : null}
-              title={t("This Month's Consumption CATEGORY VALUE UNIT", {
-                CATEGORY: t('Ton of Standard Coal'),
-                VALUE: null,
-                UNIT: '(TCE)'
-              })}
-              color="warning"
-              footnote={t('Increment Rate')}
-              footvalue={energyData.increment_rate_in_kgce !== undefined ?
-                  parseFloat(energyData.increment_rate_in_kgce * 100).toFixed(2) : 0}
-              footunit="%"
-              secondfootnote={t('Active Alerts')}
-              secondfootvalue={summary.total_alerts || 0}
-              secondfootunit=""
-          >
-            <CountUp
-                end={(energyData.total_in_kgce || 0) / 1000}
+          {/* Dynamic Monthly Consumption Cards */}
+          {monthlyConsumptionCards.map((cardItem, index) => (
+            <Col key={index} className="mb-2 pr-lg-2">
+              <CardSummary
+                  rate={cardItem.increment_rate}
+                  title={t("This Month's Consumption CATEGORY VALUE UNIT", {
+                    CATEGORY: t(cardItem.name),
+                    VALUE: null,
+                    UNIT: '(' + cardItem.unit + ')'
+                  })}
+                  color="success"
+              >
+                <CountUp
+                    end={cardItem.subtotal || 0}
+                    duration={2}
+                    separator=","
+                    decimals={2}
+                />
+              </CardSummary>
+            </Col>
+          ))}
+
+          {/* Dynamic Monthly Output Cards */}
+          {monthlyOutputCards.map((cardItem, index) => (
+            <Col key={`output-${index}`} className="mb-2 pr-lg-2">
+              <CardSummary
+                  rate={cardItem.increment_rate}
+                  title={t("This Month's Generation CATEGORY VALUE UNIT", {
+                    CATEGORY: t(cardItem.name),
+                    VALUE: null,
+                    UNIT: '(' + cardItem.unit + ')'
+                  })}
+                  color="info"
+              >
+                <CountUp
+                    end={cardItem.subtotal || 0}
+                    duration={2}
+                    separator=","
+                    decimals={2}
+                />
+              </CardSummary>
+            </Col>
+          ))}
+
+          <Col className="mb-2 pr-lg-2">
+            <CardSummary
+                rate={energyData.increment_rate_in_kgce !== undefined ?
+                    (parseFloat(energyData.increment_rate_in_kgce * 100).toFixed(2) + '%') : null}
+                title={t("This Month's Consumption CATEGORY VALUE UNIT", {
+                  CATEGORY: t('Ton of Standard Coal'),
+                  VALUE: null,
+                  UNIT: '(TCE)'
+                })}
+                color="warning"
+            >
+              <CountUp
+                  end={(energyData.total_in_kgce || 0) / 1000}
+                  duration={2}
+                  separator=","
+                  decimals={2}
+              />
+            </CardSummary>
+          </Col>
+
+          <Col className="mb-2 pr-lg-2">
+            <CardSummary
+                rate={costData.subtotals && costData.subtotals.length > 0 ? '+0.00%' : null}
+                title={t("This Month's Costs CATEGORY VALUE UNIT", {
+                  CATEGORY: null,
+                  VALUE: null,
+                  UNIT: null
+                })}
+                color="success"
+
+            >
+              ¥<CountUp
+                end={costData.subtotals?.reduce((a, b) => a + b, 0) || 0}
                 duration={2}
-                separator=","
                 decimals={2}
-            />
-          </CardSummary>
-
-          <CardSummary
-              rate={costData.subtotals && costData.subtotals.length > 0 ? '+0.00%' : null}
-              title={t("This Month's Costs CATEGORY VALUE UNIT", {
-                CATEGORY: null,
-                VALUE: null,
-                UNIT: null
-              })}
-              color="success"
-              footnote={t('Categories')}
-              footvalue={costData.names?.length || 0}
-              footunit=""
-              secondfootnote={t('Per Capita')}
-              secondfootvalue={0}
-              secondfootunit=""
-          >
-            ¥<CountUp
-              end={costData.subtotals?.reduce((a, b) => a + b, 0) || 0}
-              duration={2}
-              decimals={2}
-              separator=","
-          />
-          </CardSummary>
-
-          <CardSummary
-              rate={energyData.increment_rate_in_kgco2e !== undefined ?
-                  (parseFloat(energyData.increment_rate_in_kgco2e * 100).toFixed(2) + '%') : null}
-              title={t("This Month's Consumption CATEGORY VALUE UNIT", {
-                CATEGORY: t('Ton of Carbon Dioxide Emissions'),
-                VALUE: null,
-                UNIT: '(TCO2E)'
-              })}
-              color="warning"
-              footnote={t('Increment Rate')}
-              footvalue={energyData.increment_rate_in_kgco2e !== undefined ?
-                  parseFloat(energyData.increment_rate_in_kgco2e * 100).toFixed(2) : 0}
-              footunit="%"
-              secondfootnote={t('Per Capita')}
-              secondfootvalue={0}
-              secondfootunit="(kgCO2E)"
-          >
-            <CountUp
-                end={(energyData.total_in_kgco2e || 0) / 1000}
-                duration={2}
                 separator=","
-                decimals={2}
             />
-          </CardSummary>
-        </div>
+            </CardSummary>
+          </Col>
+
+          <Col className="mb-2 pr-lg-2">
+            <CardSummary
+                rate={energyData.increment_rate_in_kgco2e !== undefined ?
+                    (parseFloat(energyData.increment_rate_in_kgco2e * 100).toFixed(2) + '%') : null}
+                title={t("This Month's Consumption CATEGORY VALUE UNIT", {
+                  CATEGORY: t('Ton of Carbon Dioxide Emissions'),
+                  VALUE: null,
+                  UNIT: '(TCO2E)'
+                })}
+                color="warning"
+
+            >
+              <CountUp
+                  end={(energyData.total_in_kgco2e || 0) / 1000}
+                  duration={2}
+                  separator=","
+                  decimals={2}
+              />
+            </CardSummary>
+          </Col>
+        </Row>
 
         {/* Charts Row - Four pie charts */}
         <Row noGutters>
@@ -408,12 +493,19 @@ const Dashboard = ({setRedirect, setRedirectUrl, t}) => {
                   <table className="table table-hover">
                     <thead className="thead-light">
                     <tr>
+                      <th>{t('ID')}</th>
                       <th>{t('Equipment Name')}</th>
                       {energyData.names && energyData.names.map((categoryName, index) => (
-                        <th key={index} className="text-right">
+                        <th key={`input-${index}`} className="text-right">
                           {t(categoryName)} ({energyData.units[index] || ''})
                         </th>
                       ))}
+                      {reportingPeriodOutput.names && reportingPeriodOutput.names.map((outputName, index) => (
+                        <th key={`output-${index}`} className="text-right">
+                          {t(outputName)} ({reportingPeriodOutput.units[index] || ''})
+                        </th>
+                      ))}
+                      <th className="text-right">{t('Cumulative Efficiency')}</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -423,6 +515,9 @@ const Dashboard = ({setRedirect, setRedirectUrl, t}) => {
                       return (
                         <tr key={equipment.id}>
                           <td>
+                            <strong>{equipment.id}</strong>
+                          </td>
+                          <td>
                             <strong>{equipment.name}</strong>
                           </td>
                           {energyData.energy_category_ids && energyData.energy_category_ids.map((ecId, index) => {
@@ -430,11 +525,26 @@ const Dashboard = ({setRedirect, setRedirectUrl, t}) => {
                               ? equipment.energy_by_category[ecId]
                               : 0;
                             return (
-                              <td key={index} className="text-right">
+                              <td key={`input-${index}`} className="text-right">
                                 {categoryEnergy > 0 ? categoryEnergy.toFixed(2) : '-'}
                               </td>
                             );
                           })}
+                          {reportingPeriodOutput.energy_category_ids && reportingPeriodOutput.energy_category_ids.map((ecId, index) => {
+                            const categoryOutput = equipment.output_by_category && equipment.output_by_category[ecId]
+                              ? equipment.output_by_category[ecId]
+                              : 0;
+                            return (
+                              <td key={`output-${index}`} className="text-right">
+                                {categoryOutput > 0 ? categoryOutput.toFixed(2) : '-'}
+                              </td>
+                            );
+                          })}
+                          <td className="text-right">
+                            {equipment.efficiency !== null && equipment.efficiency !== undefined 
+                              ? equipment.efficiency.toFixed(2) + '%' 
+                              : '-'}
+                          </td>
                         </tr>
                       );
                     })}

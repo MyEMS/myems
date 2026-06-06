@@ -66,7 +66,7 @@ class Reporting:
     # Step 6: Query energy cost data
     # Step 7: Query monthly trends (energy & cost)
     # Step 8: Query equipment statistics (meters, sensors, alerts)
-    # Step 9: Query top consuming equipments
+    # Step 9: Query top consuming equipments and equipment output data
     # Step 10: Construct the report
     ####################################################################################################################
     @staticmethod
@@ -585,6 +585,77 @@ class Reporting:
             reporting_input['category_units'] = list(reporting_input['units'])
 
             ################################################################################################################
+            # Step 7.5: Query reporting period energy output by category
+            ################################################################################################################
+            reporting_output = {
+                'names': [],
+                'units': [],
+                'subtotals': [],
+                'subtotals_in_kgce': [],
+                'subtotals_in_kgco2e': [],
+                'increment_rates': [],
+                'energy_category_ids': []
+            }
+
+            try:
+                format_strings = ','.join(['%s'] * len(equipment_ids_list))
+                cursor_energy.execute(
+                    " SELECT energy_category_id, SUM(actual_value) "
+                    " FROM tbl_equipment_output_category_hourly "
+                    " WHERE equipment_id IN (%s) "
+                    "   AND start_datetime_utc >= %%s "
+                    "   AND start_datetime_utc < %%s "
+                    " GROUP BY energy_category_id " % format_strings,
+                    equipment_ids_tuple + (reporting_start_datetime_utc, reporting_end_datetime_utc)
+                )
+                rows_reporting_output = cursor_energy.fetchall()
+
+                if rows_reporting_output:
+                    for row in rows_reporting_output:
+                        ec_id = row[0]
+                        subtotal = float(row[1]) if row[1] is not None else 0.0
+                        if ec_id in energy_category_dict:
+                            ec_info = energy_category_dict[ec_id]
+                            reporting_output['names'].append(ec_info['name'])
+                            reporting_output['units'].append(ec_info['unit_of_measure'])
+                            reporting_output['subtotals'].append(subtotal)
+                            reporting_output['subtotals_in_kgce'].append(subtotal * ec_info['kgce'])
+                            reporting_output['subtotals_in_kgco2e'].append(subtotal * ec_info['kgco2e'])
+                            reporting_output['energy_category_ids'].append(ec_id)
+
+                # Query base period output for increment rates
+                base_output_subtotals = {}
+                if base_start_datetime_utc and base_end_datetime_utc:
+                    cursor_energy.execute(
+                        " SELECT energy_category_id, SUM(actual_value) "
+                        " FROM tbl_equipment_output_category_hourly "
+                        " WHERE equipment_id IN (%s) "
+                        "   AND start_datetime_utc >= %%s "
+                        "   AND start_datetime_utc < %%s "
+                        " GROUP BY energy_category_id " % format_strings,
+                        equipment_ids_tuple + (base_start_datetime_utc, base_end_datetime_utc)
+                    )
+                    rows_base_output = cursor_energy.fetchall()
+                    if rows_base_output:
+                        for row in rows_base_output:
+                            base_output_subtotals[row[0]] = float(row[1]) if row[1] is not None else 0.0
+
+                # Calculate increment rates for output
+                for i in range(len(reporting_output['names'])):
+                    ec_id = reporting_output['energy_category_ids'][i]
+                    report_val = reporting_output['subtotals'][i]
+                    base_val = base_output_subtotals.get(ec_id, 0.0)
+                    if base_val > 0:
+                        increment_rate = (report_val - base_val) / base_val
+                    else:
+                        increment_rate = 0.0
+                    reporting_output['increment_rates'].append(increment_rate)
+
+            except Exception as e:
+                logger.error(f"Error querying equipment output data: {e}")
+                # Keep empty output data on error
+
+            ################################################################################################################
             # Step 8: Query equipment statistics (meters, sensors, alerts)
             ################################################################################################################
             # Count meters
@@ -644,10 +715,11 @@ class Reporting:
                     cnx_fdd.close()
 
             ################################################################################################################
-            # Step 9: Query top 5 consuming equipments
+            # Step 9: Query top 5 consuming equipments and equipment output data
             ################################################################################################################
             top_equipments = []
             equipment_energy_by_category = {}
+            equipment_output_by_category = {}
 
             # Build equipment name dict
             equipment_name_dict = {eq['id']: eq['name'] for eq in equipment_list}
@@ -681,6 +753,36 @@ class Reporting:
                         equipment_energy_by_category[equipment_id]['categories'][ec_id] = category_energy
                         equipment_energy_by_category[equipment_id]['total_energy'] += category_energy
 
+                # Query energy output by category for each equipment
+                try:
+                    cursor_energy.execute(
+                        " SELECT equipment_id, energy_category_id, SUM(actual_value) as category_output "
+                        " FROM tbl_equipment_output_category_hourly "
+                        " WHERE equipment_id IN (%s) "
+                        "   AND start_datetime_utc >= %%s "
+                        "   AND start_datetime_utc < %%s "
+                        " GROUP BY equipment_id, energy_category_id "
+                        " ORDER BY equipment_id, category_output DESC " % format_strings,
+                        equipment_ids_tuple + (reporting_start_datetime_utc, reporting_end_datetime_utc)
+                    )
+                    rows_output = cursor_energy.fetchall()
+                    if rows_output:
+                        for row in rows_output:
+                            equipment_id = row[0]
+                            ec_id = row[1]
+                            category_output = float(row[2]) if row[2] else 0.0
+
+                            if equipment_id not in equipment_output_by_category:
+                                equipment_output_by_category[equipment_id] = {
+                                    'total_output': 0.0,
+                                    'categories': {}
+                                }
+
+                            equipment_output_by_category[equipment_id]['categories'][ec_id] = category_output
+                            equipment_output_by_category[equipment_id]['total_output'] += category_output
+                except Exception as e:
+                    logger.error(f"Error querying equipment output data: {e}")
+
             # Build top 5 equipments
             sorted_equipments = sorted(
                 equipment_energy_by_category.items(),
@@ -709,6 +811,16 @@ class Reporting:
                     'total_energy': 0.0,
                     'categories': {}
                 })
+                
+                output_data = equipment_output_by_category.get(equipment_id, {
+                    'total_output': 0.0,
+                    'categories': {}
+                })
+
+                # Calculate efficiency (total_output / total_energy * 100)
+                efficiency = None
+                if energy_data['total_energy'] > 0 and output_data['total_output'] > 0:
+                    efficiency = (output_data['total_output'] / energy_data['total_energy']) * 100
 
                 equipment_details.append({
                     'id': equipment_id,
@@ -716,7 +828,10 @@ class Reporting:
                     'cost_center_id': equipment['cost_center_id'],
                     'equipment_type': equipment['equipment_type_name'],
                     'total_energy': energy_data['total_energy'],
-                    'energy_by_category': energy_data['categories']
+                    'energy_by_category': energy_data['categories'],
+                    'total_output': output_data['total_output'],
+                    'output_by_category': output_data['categories'],
+                    'efficiency': efficiency
                 })
 
             result = {
@@ -730,6 +845,7 @@ class Reporting:
                 'reporting_period_input': reporting_input,
                 'base_period_input': base_input,
                 'reporting_period_cost': reporting_cost,
+                'reporting_period_output': reporting_output,
                 'top_equipments': top_equipments,
                 'period_type': period_type,
                 'reporting_period_start': reporting_start_datetime_utc.isoformat(),
