@@ -340,7 +340,7 @@ const Dashboard = ({setRedirect, setRedirectUrl, t}) => {
                     title={t("This Month's Costs CATEGORY VALUE UNIT", {
                         CATEGORY: null,
                         VALUE: null,
-                        UNIT: null
+                        UNIT: costData.units && costData.units.length > 0 ? '(' + costData.units[0] + ')' : '(CNY)'
                     })}
                     color="success"
                     footnote={t('Per Unit Area')}
@@ -350,7 +350,7 @@ const Dashboard = ({setRedirect, setRedirectUrl, t}) => {
                     secondfootvalue={costData.names?.length || 0}
                     secondfootunit=""
                 >
-                    ¥<CountUp
+                    <CountUp
                     end={costData.subtotals?.reduce((a, b) => a + b, 0) || 0}
                     duration={2}
                     decimals={2}
@@ -437,16 +437,12 @@ const Dashboard = ({setRedirect, setRedirectUrl, t}) => {
                                                 {t(categoryName)} ({energyData.units[index] || ''})
                                             </th>
                                         ))}
-                                        <th className="text-right">{t('Per Unit Area')}</th>
                                     </tr>
                                     </thead>
                                     <tbody>
                                     {allStores
                                     .sort((a, b) => b.total_energy - a.total_energy)
                                     .map((store) => {
-                                        const perArea = store.area > 0 ? 
-                                            (store.total_energy / store.area).toFixed(2) : '0.00';
-                                        
                                         return (
                                             <tr key={store.id}>
                                                 <td>
@@ -464,7 +460,6 @@ const Dashboard = ({setRedirect, setRedirectUrl, t}) => {
                                                         </td>
                                                     );
                                                 })}
-                                                <td className="text-right">{perArea}</td>
                                             </tr>
                                         );
                                     })}

@@ -412,12 +412,12 @@ const Dashboard = ({setRedirect, setRedirectUrl, t}) => {
                 title={t("This Month's Costs CATEGORY VALUE UNIT", {
                   CATEGORY: null,
                   VALUE: null,
-                  UNIT: null
+                  UNIT: costData.units && costData.units.length > 0 ? '(' + costData.units[0] + ')' : '(CNY)'
                 })}
                 color="success"
 
             >
-              ¥<CountUp
+              <CountUp
                 end={costData.subtotals?.reduce((a, b) => a + b, 0) || 0}
                 duration={2}
                 decimals={2}
