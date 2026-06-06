@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { getGrays, getPosition, isIterableArray, numberFormatter } from '../../../helpers/utils';
+import { getGrays, getPosition, isIterableArray, numberFormatter, colors } from '../../../helpers/utils';
 import SharePieItem from './SharePieItem';
 import { Card, CardBody, Col, Row } from 'reactstrap';
 import * as echarts from 'echarts/lib/echarts';
@@ -10,6 +10,23 @@ import { useContext } from 'react';
 import AppContext from '../../../context/Context';
 
 echarts.use([PieChart]);
+
+const timeOfUseColors = {
+  1: '#e63757',
+  2: '#f6c343',
+  3: '#27bcfd',
+  4: '#00d27a',
+  5: '#727cf5'
+};
+
+const withSharePieColors = data =>
+  isIterableArray(data)
+    ? data.map((item, index) => ({
+        ...item,
+        color: timeOfUseColors[item.id] || colors[index % colors.length]
+      }))
+    : [];
+
 const getOption = (data, isDark) => {
   const grays = getGrays(isDark);
   return {
@@ -42,6 +59,7 @@ const getOption = (data, isDark) => {
           borderWidth: 2,
           borderColor: isDark ? '#0E1C2F' : '#fff'
         },
+        label: { show: false },
         labelLine: { show: false },
         data: data
       }
@@ -51,7 +69,8 @@ const getOption = (data, isDark) => {
 
 const SharePie = ({ data, title }) => {
   const { isDark } = useContext(AppContext);
-  const totalShare = data.map(d => d.value).reduce((total, currentValue) => total + currentValue, 0);
+  const coloredData = withSharePieColors(data);
+  const totalShare = coloredData.map(d => d.value).reduce((total, currentValue) => total + currentValue, 0);
   return (
     <Card className="h-md-100">
       <CardBody>
@@ -59,15 +78,15 @@ const SharePie = ({ data, title }) => {
           <Col xs={5} sm={6} className="col-xxl pr-2">
             <h6 className="mt-1">{title}</h6>
             <div className="fs--2 mt-3">
-              {isIterableArray(data) &&
-                data.map(({ id, ...rest }) => <SharePieItem {...rest} totalShare={totalShare} key={id} />)}
+              {isIterableArray(coloredData) &&
+                coloredData.map(({ id, ...rest }) => <SharePieItem {...rest} totalShare={totalShare} key={id} />)}
             </div>
           </Col>
           <Col xs="auto">
             <div className="position-relative">
               <ReactEchartsCore
                 echarts={echarts}
-                option={getOption(data, isDark)}
+                option={getOption(coloredData, isDark)}
                 style={{ width: '6.625rem', height: '6.625rem' }}
               />
               <div className="absolute-centered font-weight-medium text-dark fs-2">
