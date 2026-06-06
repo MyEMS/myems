@@ -22,6 +22,7 @@ export default {
         'Energy Item Data': '에너지 항목 분석',
         Carbon: '탄소 배출 분석',
         Cost: '비용 분석',
+        CostData: '비용 데이터',
         Output: '산출 분석',
         Income: '수입 분석',
         Efficiency: '효율 분석',
@@ -172,6 +173,7 @@ export default {
         'Total Energy': '전체 에너지',
         'Total Sensors': '전체 센서 수',
         'Increment Rate': '증가율',
+        'Cumulative Efficiency': '누적 효율',
         // Shopfloor Dashboard
         'Total Shopfloors': '총 작업장 수',
         'Shopfloor Performance Overview': '작업장 성과 개요',

@@ -22,6 +22,7 @@ export default {
         'Energy Item Data': 'عنصر الطاقة',
         Carbon: 'انبعاثات ثاني أكسيد الكربون',
         Cost: 'كلف',
+        CostData: 'بيانات التكلفة',
         Output: 'الناتج',
         Income: 'دخل',
         Efficiency: 'كفاءة',
@@ -177,6 +178,7 @@ export default {
         'Total Energy': 'إجمالي الطاقة',
         'Total Sensors': 'إجمالي المستشعرات',
         'Increment Rate': 'معدل الزيادة',
+        'Cumulative Efficiency': 'الكفاءة التراكمية',
         // Shopfloor Dashboard
         'Total Shopfloors': 'إجمالي ورش العمل',
         'Shopfloor Performance Overview': 'نظرة عامة على أداء ورش العمل',

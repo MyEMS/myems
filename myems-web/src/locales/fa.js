@@ -22,6 +22,7 @@ export default {
         'Energy Item Data': 'تحلیل آیتم انرژی',
         Carbon: 'تحلیل انتشار کربن',
         Cost: 'تحلیل هزینه',
+        CostData: 'داده‌های هزینه',
         Output: 'تحلیل خروجی',
         Income: 'تحلیل درآمد',
         Efficiency: 'تحلیل کارایی',
@@ -200,6 +201,7 @@ export default {
         'Total Energy': 'انرژی کل',
         'Total Sensors': 'تعداد کل حسگر‌ها',
         'Increment Rate': 'نرخ رشد',
+        'Cumulative Efficiency': 'کارایی تجمعی',
         // Combined Equipment Dashboard
         'Total Combined Equipments': 'تعداد کل تجهیزات ترکیبی',
         'Combined Equipment Performance Overview': 'نمای کلی عملکرد تجهیزات ترکیبی',

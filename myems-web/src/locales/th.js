@@ -22,6 +22,7 @@ export default {
         'Energy Item Data': 'รายการพลังงาน',
         Carbon: 'การปล่อยก๊าซคาร์บอนไดออกไซด์',
         Cost: 'ค่า',
+        CostData: 'ข้อมูลต้นทุน',
         Output: 'ผลิตภัณฑ์',
         Income: 'รายได้',
         Efficiency: 'ประสิทธิภาพ',
@@ -177,6 +178,7 @@ export default {
         'Total Energy': 'พลังงานรวม',
         'Total Sensors': 'จำนวนเซ็นเซอร์ทั้งหมด',
         'Increment Rate': 'อัตราการเพิ่มขึ้น',
+        'Cumulative Efficiency': 'ประสิทธิภาพสะสม',
         // Shopfloor Dashboard
         'Total Shopfloors': 'จำนวนโรงงานทั้งหมด',
         'Shopfloor Performance Overview': 'ภาพรวมประสิทธิภาพโรงงาน',

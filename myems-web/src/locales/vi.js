@@ -22,6 +22,7 @@ export default {
         'Energy Item Data': 'Mục năng lượng',
         Carbon: 'Khí thải CO2',
         Cost: 'Chi phí',
+        CostData: 'Dữ liệu chi phí',
         Output: 'Ra',
         Income: 'Thu nhập',
         Efficiency: 'Hiệu quả',
@@ -177,6 +178,7 @@ export default {
         'Total Energy': 'Tổng Năng Lượng',
         'Total Sensors': 'Tổng Số Cảm Biến',
         'Increment Rate': 'Tỷ Lệ Tăng Trưởng',
+        'Cumulative Efficiency': 'Hiệu suất tích lũy',
         // Shopfloor Dashboard
         'Total Shopfloors': 'Tổng số xưởng',
         'Shopfloor Performance Overview': 'Tổng quan hiệu suất xưởng',

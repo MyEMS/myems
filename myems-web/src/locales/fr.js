@@ -22,6 +22,7 @@ export default {
         'Energy Item Data': 'Élément d’énergie',
         Carbon: 'Émissions de CO2',
         Cost: 'Coût',
+        CostData: 'Données de coût',
         Output: 'Sortie',
         Income: 'Revenu',
         Efficiency: 'Efficacité',
@@ -177,6 +178,7 @@ export default {
         'Total Energy': 'Énergie totale',
         'Total Sensors': 'Total des capteurs',
         'Increment Rate': 'Taux d’incrément',
+        'Cumulative Efficiency': 'Efficacité cumulative',
         // Shopfloor Dashboard
         'Total Shopfloors': 'Nombre total d\'ateliers',
         'Shopfloor Performance Overview': 'Aperçu des performances des ateliers',
