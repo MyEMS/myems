@@ -171,20 +171,12 @@ def generate_excel(report, space_name, reporting_start_datetime_local, reporting
     ca_len = len(report['energycategories'])
 
     for i in range(0, ca_len):
-        col = get_column_letter(column_index_from_string('D') + i * 2)
+        col = get_column_letter(column_index_from_string('D') + i)
         ws[col + '7'].fill = table_fill
         ws[col + '7'].font = name_font
         ws[col + '7'].alignment = c_c_alignment
         ws[col + '7'] = report['energycategories'][i]['name'] + \
             " (" + report['energycategories'][i]['unit_of_measure'] + ")"
-        ws[col + '7'].border = f_border
-
-        col = get_column_letter(column_index_from_string(col) + 1)
-        ws[col + '7'].fill = table_fill
-        ws[col + '7'].font = name_font
-        ws[col + '7'].alignment = c_c_alignment
-        ws[col + '7'] = report['energycategories'][i]['name'] + \
-            " " + _('Maximum Load') + " (" + report['energycategories'][i]['unit_of_measure'] + ")"
         ws[col + '7'].border = f_border
 
     current_row_number = 8
@@ -202,17 +194,11 @@ def generate_excel(report, space_name, reporting_start_datetime_local, reporting
 
         ca_len = len(report['tenants'][i]['values'])
         for j in range(0, ca_len):
-            col = get_column_letter(column_index_from_string('D') + j * 2)
+            col = get_column_letter(column_index_from_string('D') + j)
             ws[col + str(current_row_number)].font = title_font
             ws[col + str(current_row_number)].border = f_border
             ws[col + str(current_row_number)].alignment = c_c_alignment
             ws[col + str(current_row_number)] = report['tenants'][i]['values'][j]
-
-            col = get_column_letter(column_index_from_string(col) + 1)
-            ws[col + str(current_row_number)].font = title_font
-            ws[col + str(current_row_number)].border = f_border
-            ws[col + str(current_row_number)].alignment = c_c_alignment
-            ws[col + str(current_row_number)] = report['tenants'][i]['maximum'][j]
         current_row_number += 1
 
     filename = str(uuid.uuid4()) + '.xlsx'

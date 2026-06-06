@@ -270,32 +270,18 @@ const TenantBatch = ({ setRedirect, setRedirectUrl, t }) => {
               sort: true
             });
             json['energycategories'].forEach((currentValue, index) => {
-              detailed_column_list.push(
-                {
-                  dataField: 'a' + 2 * index,
-                  text: currentValue['name'] + ' (' + currentValue['unit_of_measure'] + ')',
-                  sort: true,
-                  formatter: function(decimalValue) {
-                    if (typeof decimalValue === 'number') {
-                      return decimalValue.toFixed(2);
-                    } else {
-                      return null;
-                    }
-                  }
-                },
-                {
-                  dataField: 'a' + (2 * index + 1),
-                  text: currentValue['name'] + ' ' + t('Maximum Load') + ' (' + currentValue['unit_of_measure'] + ')',
-                  sort: true,
-                  formatter: function(decimalValue) {
-                    if (typeof decimalValue === 'number') {
-                      return decimalValue.toFixed(2);
-                    } else {
-                      return null;
-                    }
+              detailed_column_list.push({
+                dataField: 'a' + index,
+                text: currentValue['name'] + ' (' + currentValue['unit_of_measure'] + ')',
+                sort: true,
+                formatter: function(decimalValue) {
+                  if (typeof decimalValue === 'number') {
+                    return decimalValue.toFixed(2);
+                  } else {
+                    return null;
                   }
                 }
-              );
+              });
             });
 
             setDetailedDataTableColumns(detailed_column_list);
@@ -307,10 +293,7 @@ const TenantBatch = ({ setRedirect, setRedirectUrl, t }) => {
               detailed_value['space'] = currentTenant['space_name'];
               detailed_value['costcenter'] = currentTenant['cost_center_name'];
               currentTenant['values'].forEach((currentValue, energyCategoryIndex) => {
-                detailed_value['a' + 2 * energyCategoryIndex] = currentValue;
-              });
-              currentTenant['maximum'].forEach((currentValue, energyCategoryIndex) => {
-                detailed_value['a' + (2 * energyCategoryIndex + 1)] = currentValue;
+                detailed_value['a' + energyCategoryIndex] = currentValue;
               });
               tenants.push(detailed_value);
             });
