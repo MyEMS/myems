@@ -11,6 +11,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - updated virtual meter batch report in myems-api and myems-web
 - updated dashboard in myems-web
 - updated notification in myems-web
+- updated equipment dashboard in myems-web
 ### Fixed
 - fixed add/edit user issue in myems-admin 
 ### Removed
