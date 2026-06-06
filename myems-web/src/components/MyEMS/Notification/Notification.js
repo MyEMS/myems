@@ -1,4 +1,4 @@
-import React, { createRef, Fragment, useEffect, useState } from 'react';
+import React, { createRef, Fragment, useContext, useEffect, useState } from 'react';
 import paginationFactory, { PaginationProvider } from 'react-bootstrap-table2-paginator';
 import BootstrapTable from 'react-bootstrap-table-next';
 import { toast } from 'react-toastify';
@@ -24,14 +24,63 @@ import Badge from 'reactstrap/es/Badge';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import FalconCardHeader from '../../common/FalconCardHeader';
 import { getPaginationArray } from '../../../helpers/utils';
-import { getCookieValue, createCookie, checkEmpty, handleAPIError } from '../../../helpers/utils';
+import { getCookieValue, createCookie, checkEmpty,handleAPIError } from '../../../helpers/utils';
 import Datetime from 'react-datetime';
 import withRedirect from '../../../hoc/withRedirect';
 import { withTranslation } from 'react-i18next';
 import moment from 'moment';
+import 'moment/locale/zh-cn';
+import 'moment/locale/zh-tw';
+import 'moment/locale/de';
+import 'moment/locale/fr';
+import 'moment/locale/es';
+import 'moment/locale/ru';
+import 'moment/locale/ar';
+import 'moment/locale/vi';
+import 'moment/locale/th';
+import 'moment/locale/tr';
+import 'moment/locale/ms';
+import 'moment/locale/id';
+import 'moment/locale/pt';
+import AppContext from '../../../context/Context';
 import { APIBaseURL, settings } from '../../../config';
 
+const getMomentLocale = language => {
+  switch (language) {
+    case 'zh_CN':
+      return 'zh-cn';
+    case 'zh_TW':
+      return 'zh-tw';
+    case 'de':
+      return 'de';
+    case 'fr':
+      return 'fr';
+    case 'es':
+      return 'es';
+    case 'ru':
+      return 'ru';
+    case 'ar':
+      return 'ar';
+    case 'vi':
+      return 'vi';
+    case 'th':
+      return 'th';
+    case 'tr':
+      return 'tr';
+    case 'ms':
+      return 'ms';
+    case 'id':
+      return 'id';
+    case 'pt':
+      return 'pt';
+    default:
+      return 'en';
+  }
+};
+
 const Notification = ({ setRedirect, setRedirectUrl, t }) => {
+  const { language } = useContext(AppContext);
+  const momentLocale = getMomentLocale(language);
   let current_moment = moment();
   const [startDatetime, setStartDatetime] = useState(current_moment.clone().subtract(1, 'months'));
   const [endDatetime, setEndDatetime] = useState(current_moment);
@@ -213,7 +262,7 @@ const Notification = ({ setRedirect, setRedirectUrl, t }) => {
           setNotifications(notificationList);
           setSpinnerHidden(true);
         } else {
-          handleAPIError(json, setRedirect, setRedirectUrl, t, toast);
+          handleAPIError(json, setRedirect, setRedirectUrl, t, toast)
         }
       })
       .catch(err => {
@@ -483,7 +532,7 @@ const Notification = ({ setRedirect, setRedirectUrl, t }) => {
               }
             });
         } else {
-          handleAPIError(json, setRedirect, setRedirectUrl, t, toast);
+          handleAPIError(json, setRedirect, setRedirectUrl, t, toast)
         }
       })
       .catch(err => {
@@ -580,7 +629,7 @@ const Notification = ({ setRedirect, setRedirectUrl, t }) => {
               }
             });
         } else {
-          handleAPIError(json, setRedirect, setRedirectUrl, t, toast);
+          handleAPIError(json, setRedirect, setRedirectUrl, t, toast)
         }
       })
       .catch(err => {
@@ -672,7 +721,7 @@ const Notification = ({ setRedirect, setRedirectUrl, t }) => {
               }
             });
         } else {
-          handleAPIError(json, setRedirect, setRedirectUrl, t, toast);
+          handleAPIError(json, setRedirect, setRedirectUrl, t, toast)
         }
       })
       .catch(err => {
@@ -703,7 +752,7 @@ const Notification = ({ setRedirect, setRedirectUrl, t }) => {
           return null;
         } else {
           let json = response.json();
-          handleAPIError(json, setRedirect, setRedirectUrl, t, toast);
+          handleAPIError(json, setRedirect, setRedirectUrl, t, toast)
         }
       })
       .catch(err => {
@@ -734,7 +783,7 @@ const Notification = ({ setRedirect, setRedirectUrl, t }) => {
           return null;
         } else {
           let json = response.json();
-          handleAPIError(json, setRedirect, setRedirectUrl, t, toast);
+          handleAPIError(json, setRedirect, setRedirectUrl, t, toast)
         }
       })
       .catch(err => {
@@ -804,7 +853,7 @@ const Notification = ({ setRedirect, setRedirectUrl, t }) => {
           setNotifications(notificationList);
           setSpinnerHidden(true);
         } else {
-          handleAPIError(json, setRedirect, setRedirectUrl, t, toast);
+          handleAPIError(json, setRedirect, setRedirectUrl, t, toast)
         }
       });
   };
@@ -882,11 +931,16 @@ const Notification = ({ setRedirect, setRedirectUrl, t }) => {
                     {t('Reporting Period Begins')}
                   </Label>
                   <Datetime
-                    id="startDatetime"
+                    key={`startDatetime-${language}`}
+                    locale={momentLocale}
                     value={startDatetime}
                     onChange={onStartDatetimeChange}
                     isValidDate={getStartDatetime}
                     closeOnSelect={true}
+                    inputProps={{
+                      className: 'form-control form-control-sm',
+                      id: 'startDatetime'
+                    }}
                   />
                 </FormGroup>
               </Col>
@@ -896,11 +950,16 @@ const Notification = ({ setRedirect, setRedirectUrl, t }) => {
                     {t('Reporting Period Ends')}
                   </Label>
                   <Datetime
-                    id="endDatetime"
+                    key={`endDatetime-${language}`}
+                    locale={momentLocale}
                     value={endDatetime}
                     onChange={onEndDatetimeChange}
                     isValidDate={getEndDatetime}
                     closeOnSelect={true}
+                    inputProps={{
+                      className: 'form-control form-control-sm',
+                      id: 'endDatetime'
+                    }}
                   />
                 </FormGroup>
               </Col>
