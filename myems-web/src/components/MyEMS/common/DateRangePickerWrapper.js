@@ -35,9 +35,7 @@ const DateRangePickerWrapper = ({
     }
     if (onChange) onChange(dates);
   };
-
-  // rsuite v5 keeps each panel's header-title text bound to internal calendarDate,
-  // which doesn't update on cell clicks. Sync the clicked panel's header text manually.
+  
   const handleSelect = (date, event) => {
     const target = event && event.target;
     if (!target || !target.closest) return;
@@ -49,7 +47,6 @@ const DateRangePickerWrapper = ({
     }
   };
 
-  // defaultCalendarValue is uncontrolled (read once on mount); remount via key to reposition panels when value changes.
   const calendarKey = useMemo(() => {
     const start = calendarMonth[0] ? moment(calendarMonth[0]).format('YYYY-MM') : 'na';
     const end = calendarMonth[1] ? moment(calendarMonth[1]).format('YYYY-MM') : 'na';
