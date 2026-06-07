@@ -328,6 +328,7 @@ export default {
         'Per Unit Area': 'Nilai Area Unit',
         'Per Capita': 'Per Capita',
         'Per Unit Production': 'Nilai Produk Unit',
+        'Comprehensive Unit Price': 'Harga satuan rata-rata',
         Baseline: 'Nilai Garis Dasar',
         Actual: 'Nilai Sebenarnya',
         'Baseline Value - Actual Value': 'Nilai Garis Dasar - Nilai Sebenarnya',

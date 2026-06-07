@@ -83,8 +83,13 @@ const CardSummary = ({
   footunit,
   secondfootnote,
   secondfootvalue,
-  secondfootunit
+  secondfootunit,
+  thirdfootnote,
+  thirdfootvalue,
+  thirdfootunit,
+  thirdfootdecimals
 }) => {
+  const hasValue = value => value !== null && value !== undefined;
   return (
     <Card className="mb-3 overflow-hidden" style={{ minWidth: '15rem' }}>
       <Background image={getImage(color)} className="bg-card" />
@@ -106,16 +111,34 @@ const CardSummary = ({
         <div className={getContentClassNames(color)}>{children}</div>
         <h6 className="font-weight-light fs--2 text-nowrap">
           {footnote}{' '}
-          {footvalue && <CountUp end={footvalue} duration={2} prefix="" separator="," decimal="." decimals={2} />}{' '}
+          {hasValue(footvalue) && (
+            <CountUp end={footvalue} duration={2} prefix="" separator="," decimal="." decimals={2} />
+          )}{' '}
           {footunit}
         </h6>
         <h6 className="font-weight-light fs--2 text-nowrap">
           {secondfootnote}{' '}
-          {secondfootvalue && (
+          {hasValue(secondfootvalue) && (
             <CountUp end={secondfootvalue} duration={2} prefix="" separator="," decimal="." decimals={2} />
           )}{' '}
           {secondfootunit}
         </h6>
+        {(thirdfootnote || hasValue(thirdfootvalue) || thirdfootunit) && (
+          <h6 className="font-weight-light fs--2 text-nowrap">
+            {thirdfootnote}{' '}
+            {hasValue(thirdfootvalue) && (
+              <CountUp
+                end={thirdfootvalue}
+                duration={2}
+                prefix=""
+                separator=","
+                decimal="."
+                decimals={hasValue(thirdfootdecimals) ? thirdfootdecimals : 2}
+              />
+            )}{' '}
+            {thirdfootunit}
+          </h6>
+        )}
       </CardBody>
     </Card>
   );
@@ -127,11 +150,15 @@ CardSummary.propTypes = {
   color: PropTypes.string,
   children: PropTypes.node,
   footnote: PropTypes.string,
-  footvalue: PropTypes.number,
+  footvalue: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   footunit: PropTypes.string,
   secondfootnote: PropTypes.string,
-  secondfootvalue: PropTypes.number,
-  secondfootunit: PropTypes.string
+  secondfootvalue: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+  secondfootunit: PropTypes.string,
+  thirdfootnote: PropTypes.string,
+  thirdfootvalue: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+  thirdfootunit: PropTypes.string,
+  thirdfootdecimals: PropTypes.number
 };
 
 CardSummary.defaultProps = {

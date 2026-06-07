@@ -328,6 +328,7 @@ export default {
         'Per Unit Area': 'Por Área Unidade',
         'Per Capita': 'Por Capita',
         'Per Unit Production': 'Produção por unidade',
+        'Comprehensive Unit Price': 'Preço unitário médio',
         Baseline: 'Linha de base',
         Actual: 'Atuais',
         'Baseline Value - Actual Value': 'Linha de base - Atual',
