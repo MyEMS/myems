@@ -230,8 +230,8 @@ const Dashboard = ({setRedirect, setRedirectUrl, t}) => {
           cardItem.unit = json.reporting_period_input.units[index];
           cardItem.subtotal = json.reporting_period_input.subtotals[index];
           cardItem.increment_rate = json.reporting_period_input.increment_rates[index] !== undefined
-            ? parseFloat(json.reporting_period_input.increment_rates[index] * 100).toFixed(2) + '%'
-            : null;
+              ? parseFloat(json.reporting_period_input.increment_rates[index] * 100).toFixed(2) + '%'
+              : null;
           consumptionCards.push(cardItem);
         });
       }
@@ -246,8 +246,8 @@ const Dashboard = ({setRedirect, setRedirectUrl, t}) => {
           cardItem.unit = json.reporting_period_output.units[index];
           cardItem.subtotal = json.reporting_period_output.subtotals[index];
           cardItem.increment_rate = json.reporting_period_output.increment_rates[index] !== undefined
-            ? parseFloat(json.reporting_period_output.increment_rates[index] * 100).toFixed(2) + '%'
-            : null;
+              ? parseFloat(json.reporting_period_output.increment_rates[index] * 100).toFixed(2) + '%'
+              : null;
           outputCards.push(cardItem);
         });
       }
@@ -305,7 +305,7 @@ const Dashboard = ({setRedirect, setRedirectUrl, t}) => {
           }, 0);
         });
         values['cost'] = totalCost;
-        options.push({value: 'cost', label: t('CostData')});
+        options.push({value: 'cost', label: t('CostData') + ' (CNY)'});
       }
     }
 
@@ -338,6 +338,48 @@ const Dashboard = ({setRedirect, setRedirectUrl, t}) => {
           >
             <CountUp end={summary.total_equipments || 0} duration={2} separator=","/>
           </CardSummary>
+
+          {/* Dynamic Monthly Consumption Cards */}
+          {monthlyConsumptionCards.map((cardItem, index) => (
+              <CardSummary
+                  key={index}
+                  rate={cardItem.increment_rate}
+                  title={t("This Month's Consumption CATEGORY VALUE UNIT", {
+                    CATEGORY: t(cardItem.name),
+                    VALUE: null,
+                    UNIT: '(' + cardItem.unit + ')'
+                  })}
+                  color="success"
+              >
+                <CountUp
+                    end={cardItem.subtotal || 0}
+                    duration={2}
+                    separator=","
+                    decimals={2}
+                />
+              </CardSummary>
+          ))}
+
+          {/* Dynamic Monthly Output Cards */}
+          {monthlyOutputCards.map((cardItem, index) => (
+              <CardSummary
+                  key={`output-${index}`}
+                  rate={cardItem.increment_rate}
+                  title={t("This Month's Generation CATEGORY VALUE UNIT", {
+                    CATEGORY: t(cardItem.name),
+                    VALUE: null,
+                    UNIT: '(' + cardItem.unit + ')'
+                  })}
+                  color="info"
+              >
+                <CountUp
+                    end={cardItem.subtotal || 0}
+                    duration={2}
+                    separator=","
+                    decimals={2}
+                />
+              </CardSummary>
+          ))}
 
           <CardSummary
               rate={energyData.increment_rate_in_kgce !== undefined ?
@@ -441,58 +483,58 @@ const Dashboard = ({setRedirect, setRedirectUrl, t}) => {
                       <th>{t('ID')}</th>
                       <th>{t('Equipment Name')}</th>
                       {energyData.names && energyData.names.map((categoryName, index) => (
-                        <th key={`input-${index}`} className="text-right">
-                          {t(categoryName)} ({energyData.units[index] || ''})
-                        </th>
+                          <th key={`input-${index}`} className="text-right">
+                            {t(categoryName)} ({energyData.units[index] || ''})
+                          </th>
                       ))}
                       {reportingPeriodOutput.names && reportingPeriodOutput.names.map((outputName, index) => (
-                        <th key={`output-${index}`} className="text-right">
-                          {t(outputName)} ({reportingPeriodOutput.units[index] || ''})
-                        </th>
+                          <th key={`output-${index}`} className="text-right">
+                            {t(outputName)} ({reportingPeriodOutput.units[index] || ''})
+                          </th>
                       ))}
                       <th className="text-right">{t('Cumulative Efficiency')}</th>
                     </tr>
                     </thead>
                     <tbody>
                     {allEquipments
-                    .sort((a, b) => b.total_energy - a.total_energy)
-                    .map((equipment) => {
-                      return (
-                        <tr key={equipment.id}>
-                          <td>
-                            <strong>{equipment.id}</strong>
-                          </td>
-                          <td>
-                            <strong>{equipment.name}</strong>
-                          </td>
-                          {energyData.energy_category_ids && energyData.energy_category_ids.map((ecId, index) => {
-                            const categoryEnergy = equipment.energy_by_category && equipment.energy_by_category[ecId]
-                              ? equipment.energy_by_category[ecId]
-                              : 0;
-                            return (
-                              <td key={`input-${index}`} className="text-right">
-                                {categoryEnergy > 0 ? categoryEnergy.toFixed(2) : '-'}
-                              </td>
-                            );
-                          })}
-                          {reportingPeriodOutput.energy_category_ids && reportingPeriodOutput.energy_category_ids.map((ecId, index) => {
-                            const categoryOutput = equipment.output_by_category && equipment.output_by_category[ecId]
-                              ? equipment.output_by_category[ecId]
-                              : 0;
-                            return (
-                              <td key={`output-${index}`} className="text-right">
-                                {categoryOutput > 0 ? categoryOutput.toFixed(2) : '-'}
-                              </td>
-                            );
-                          })}
-                          <td className="text-right">
-                            {equipment.efficiency !== null && equipment.efficiency !== undefined 
-                              ? equipment.efficiency.toFixed(2) + '%' 
-                              : '-'}
-                          </td>
-                        </tr>
-                      );
-                    })}
+                        .sort((a, b) => b.total_energy - a.total_energy)
+                        .map((equipment) => {
+                          return (
+                              <tr key={equipment.id}>
+                                <td>
+                                  <strong>{equipment.id}</strong>
+                                </td>
+                                <td>
+                                  <strong>{equipment.name}</strong>
+                                </td>
+                                {energyData.energy_category_ids && energyData.energy_category_ids.map((ecId, index) => {
+                                  const categoryEnergy = equipment.energy_by_category && equipment.energy_by_category[ecId]
+                                      ? equipment.energy_by_category[ecId]
+                                      : 0;
+                                  return (
+                                      <td key={`input-${index}`} className="text-right">
+                                        {categoryEnergy > 0 ? categoryEnergy.toFixed(2) : '-'}
+                                      </td>
+                                  );
+                                })}
+                                {reportingPeriodOutput.energy_category_ids && reportingPeriodOutput.energy_category_ids.map((ecId, index) => {
+                                  const categoryOutput = equipment.output_by_category && equipment.output_by_category[ecId]
+                                      ? equipment.output_by_category[ecId]
+                                      : 0;
+                                  return (
+                                      <td key={`output-${index}`} className="text-right">
+                                        {categoryOutput > 0 ? categoryOutput.toFixed(2) : '-'}
+                                      </td>
+                                  );
+                                })}
+                                <td className="text-right">
+                                  {equipment.efficiency !== null && equipment.efficiency !== undefined
+                                      ? equipment.efficiency.toFixed(2) + '%'
+                                      : '-'}
+                                </td>
+                              </tr>
+                          );
+                        })}
                     </tbody>
                   </table>
                 </div>
