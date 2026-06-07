@@ -279,7 +279,7 @@ const Dashboard = ({setRedirect, setRedirectUrl, t}) => {
       if (monthlyTrends.cost && monthlyTrends.cost.length > 0) {
         timestamps['cost'] = monthlyTrends.labels;
         values['cost'] = monthlyTrends.cost.length > 0 ? monthlyTrends.cost[0] : [];
-        options.push({value: 'cost', label: t('Cost')});
+        options.push({value: 'cost', label: t('CostData')});
       }
       
       // Add each energy category as a separate option

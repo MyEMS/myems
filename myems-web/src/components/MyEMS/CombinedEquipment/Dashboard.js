@@ -239,7 +239,7 @@ const Dashboard = ({setRedirect, setRedirectUrl, t}) => {
       if (monthlyTrends.cost && monthlyTrends.cost.length > 0) {
         timestamps['cost'] = monthlyTrends.labels;
         values['cost'] = monthlyTrends.cost.length > 0 ? monthlyTrends.cost[0] : [];
-        options.push({value: 'cost', label: t('Cost')});
+        options.push({value: 'cost', label: t('CostData')});
       }
 
       // Add each energy category as a separate option
@@ -279,12 +279,7 @@ const Dashboard = ({setRedirect, setRedirectUrl, t}) => {
               rate={null}
               title={t('Total Combined Equipments')}
               color="success"
-              footnote={t('Active Meters')}
-              footvalue={summary.total_meters || 0}
-              footunit=""
-              secondfootnote={t('Associated Equipments')}
-              secondfootvalue={summary.total_associated_equipments || 0}
-              secondfootunit=""
+
           >
             <CountUp end={summary.total_combined_equipments || 0} duration={2} separator=","/>
           </CardSummary>
@@ -298,13 +293,7 @@ const Dashboard = ({setRedirect, setRedirectUrl, t}) => {
                 UNIT: '(TCE)'
               })}
               color="warning"
-              footnote={t('Increment Rate')}
-              footvalue={energyData.increment_rate_in_kgce !== undefined ?
-                  parseFloat(energyData.increment_rate_in_kgce * 100).toFixed(2) : 0}
-              footunit="%"
-              secondfootnote={t('Active Alerts')}
-              secondfootvalue={summary.total_alerts || 0}
-              secondfootunit=""
+
           >
             <CountUp
                 end={(energyData.total_in_kgce || 0) / 1000}
@@ -322,12 +311,7 @@ const Dashboard = ({setRedirect, setRedirectUrl, t}) => {
                 UNIT: costData.units && costData.units.length > 0 ? '(' + costData.units[0] + ')' : '(CNY)'
               })}
               color="success"
-              footnote={t('Categories')}
-              footvalue={costData.names?.length || 0}
-              footunit=""
-              secondfootnote={t('Per Capita')}
-              secondfootvalue={0}
-              secondfootunit=""
+
           >
             <CountUp
               end={costData.subtotals?.reduce((a, b) => a + b, 0) || 0}
@@ -346,13 +330,7 @@ const Dashboard = ({setRedirect, setRedirectUrl, t}) => {
                 UNIT: '(TCO2E)'
               })}
               color="warning"
-              footnote={t('Increment Rate')}
-              footvalue={energyData.increment_rate_in_kgco2e !== undefined ?
-                  parseFloat(energyData.increment_rate_in_kgco2e * 100).toFixed(2) : 0}
-              footunit="%"
-              secondfootnote={t('Per Capita')}
-              secondfootvalue={0}
-              secondfootunit="(kgCO2E)"
+
           >
             <CountUp
                 end={(energyData.total_in_kgco2e || 0) / 1000}

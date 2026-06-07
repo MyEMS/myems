@@ -259,7 +259,7 @@ const Dashboard = ({setRedirect, setRedirectUrl, t}) => {
       if (monthlyTrends.cost && monthlyTrends.cost.length > 0) {
         timestamps['cost'] = monthlyTrends.labels;
         values['cost'] = monthlyTrends.cost.length > 0 ? monthlyTrends.cost[0] : [];
-        options.push({value: 'cost', label: t('Cost')});
+        options.push({value: 'cost', label: t('CostData')});
       }
       
       // Add each energy category as a separate option
@@ -299,12 +299,6 @@ const Dashboard = ({setRedirect, setRedirectUrl, t}) => {
               rate={null}
               title={t('Total Shopfloors')}
               color="success"
-              footnote={t('Active Meters')}
-              footvalue={summary.total_meters || 0}
-              footunit=""
-              secondfootnote={t('Total Area')}
-              secondfootvalue={summary.total_area || 0}
-              secondfootunit="m²"
           >
             <CountUp end={summary.total_shopfloors || 0} duration={2} separator=","/>
           </CardSummary>
@@ -318,13 +312,6 @@ const Dashboard = ({setRedirect, setRedirectUrl, t}) => {
                 UNIT: '(TCE)'
               })}
               color="warning"
-              footnote={t('Per Unit Area')}
-              footvalue={summary.total_area > 0 ?
-                  parseFloat((energyData.total_in_kgce || 0) / summary.total_area).toFixed(3) : 0}
-              footunit="(kgCE/m²)"
-              secondfootnote={t('Per Capita')}
-              secondfootvalue={0}
-              secondfootunit="(kgCE)"
           >
             <CountUp
                 end={(energyData.total_in_kgce || 0) / 1000}
@@ -342,12 +329,6 @@ const Dashboard = ({setRedirect, setRedirectUrl, t}) => {
                 UNIT: costData.units && costData.units.length > 0 ? '(' + costData.units[0] + ')' : '(CNY)'
               })}
               color="success"
-              footnote={t('Per Unit Area')}
-              footvalue={0}
-              footunit=""
-              secondfootnote={t('Categories')}
-              secondfootvalue={costData.names?.length || 0}
-              secondfootunit=""
           >
             <CountUp
               end={costData.subtotals?.reduce((a, b) => a + b, 0) || 0}
@@ -366,13 +347,6 @@ const Dashboard = ({setRedirect, setRedirectUrl, t}) => {
                 UNIT: '(TCO2E)'
               })}
               color="warning"
-              footnote={t('Per Unit Area')}
-              footvalue={summary.total_area > 0 ?
-                  parseFloat((energyData.total_in_kgco2e || 0) / summary.total_area).toFixed(3) : 0}
-              footunit="(kgCO2E/m²)"
-              secondfootnote={t('Per Capita')}
-              secondfootvalue={0}
-              secondfootunit="(kgCO2E)"
           >
             <CountUp
                 end={(energyData.total_in_kgco2e || 0) / 1000}

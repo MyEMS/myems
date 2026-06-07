@@ -49,7 +49,7 @@ const NavbarVerticalMenu = ({ routes, location, history }) => {
         <Fragment key={index}>
           {getHr(route.name)}
           <NavItem>
-            <NavLink className="nav-link" {...route} onClick={() => setShowBurgerMenu(false)}>
+            <NavLink className="nav-link" {...route} exact onClick={() => setShowBurgerMenu(false)}>
               <NavbarVerticalMenuItem route={route} />
             </NavLink>
           </NavItem>

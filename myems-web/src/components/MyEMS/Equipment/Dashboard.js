@@ -305,7 +305,7 @@ const Dashboard = ({setRedirect, setRedirectUrl, t}) => {
           }, 0);
         });
         values['cost'] = totalCost;
-        options.push({value: 'cost', label: t('CostData') + ' (CNY)'});
+        options.push({value: 'cost', label: t('CostData')});
       }
     }
 
@@ -329,124 +329,69 @@ const Dashboard = ({setRedirect, setRedirectUrl, t}) => {
 
   return (
       <Fragment>
-        {/* All Summary Cards in Row Layout - 4 per row */}
-        <Row noGutters>
-          {/* Fixed Summary Cards - Equipment Total First */}
-          <Col className="mb-2 pr-lg-2">
-            <CardSummary
-                rate={null}
-                title={t('Total Equipments')}
-                color="success"
-            >
-              <CountUp end={summary.total_equipments || 0} duration={2} separator=","/>
-            </CardSummary>
-          </Col>
+        {/* Summary Cards */}
+        <div className="card-deck">
+          <CardSummary
+              rate={null}
+              title={t('Total Equipments')}
+              color="success"
+          >
+            <CountUp end={summary.total_equipments || 0} duration={2} separator=","/>
+          </CardSummary>
 
-          {/* Dynamic Monthly Consumption Cards */}
-          {monthlyConsumptionCards.map((cardItem, index) => (
-            <Col key={index} className="mb-2 pr-lg-2">
-              <CardSummary
-                  rate={cardItem.increment_rate}
-                  title={t("This Month's Consumption CATEGORY VALUE UNIT", {
-                    CATEGORY: t(cardItem.name),
-                    VALUE: null,
-                    UNIT: '(' + cardItem.unit + ')'
-                  })}
-                  color="success"
-              >
-                <CountUp
-                    end={cardItem.subtotal || 0}
-                    duration={2}
-                    separator=","
-                    decimals={2}
-                />
-              </CardSummary>
-            </Col>
-          ))}
-
-          {/* Dynamic Monthly Output Cards */}
-          {monthlyOutputCards.map((cardItem, index) => (
-            <Col key={`output-${index}`} className="mb-2 pr-lg-2">
-              <CardSummary
-                  rate={cardItem.increment_rate}
-                  title={t("This Month's Generation CATEGORY VALUE UNIT", {
-                    CATEGORY: t(cardItem.name),
-                    VALUE: null,
-                    UNIT: '(' + cardItem.unit + ')'
-                  })}
-                  color="info"
-              >
-                <CountUp
-                    end={cardItem.subtotal || 0}
-                    duration={2}
-                    separator=","
-                    decimals={2}
-                />
-              </CardSummary>
-            </Col>
-          ))}
-
-          <Col className="mb-2 pr-lg-2">
-            <CardSummary
-                rate={energyData.increment_rate_in_kgce !== undefined ?
-                    (parseFloat(energyData.increment_rate_in_kgce * 100).toFixed(2) + '%') : null}
-                title={t("This Month's Consumption CATEGORY VALUE UNIT", {
-                  CATEGORY: t('Ton of Standard Coal'),
-                  VALUE: null,
-                  UNIT: '(TCE)'
-                })}
-                color="warning"
-            >
-              <CountUp
-                  end={(energyData.total_in_kgce || 0) / 1000}
-                  duration={2}
-                  separator=","
-                  decimals={2}
-              />
-            </CardSummary>
-          </Col>
-
-          <Col className="mb-2 pr-lg-2">
-            <CardSummary
-                rate={costData.subtotals && costData.subtotals.length > 0 ? '+0.00%' : null}
-                title={t("This Month's Costs CATEGORY VALUE UNIT", {
-                  CATEGORY: null,
-                  VALUE: null,
-                  UNIT: costData.units && costData.units.length > 0 ? '(' + costData.units[0] + ')' : '(CNY)'
-                })}
-                color="success"
-
-            >
-              <CountUp
-                end={costData.subtotals?.reduce((a, b) => a + b, 0) || 0}
+          <CardSummary
+              rate={energyData.increment_rate_in_kgce !== undefined ?
+                  (parseFloat(energyData.increment_rate_in_kgce * 100).toFixed(2) + '%') : null}
+              title={t("This Month's Consumption CATEGORY VALUE UNIT", {
+                CATEGORY: t('Ton of Standard Coal'),
+                VALUE: null,
+                UNIT: '(TCE)'
+              })}
+              color="warning"
+          >
+            <CountUp
+                end={(energyData.total_in_kgce || 0) / 1000}
                 duration={2}
-                decimals={2}
                 separator=","
+                decimals={2}
             />
-            </CardSummary>
-          </Col>
+          </CardSummary>
 
-          <Col className="mb-2 pr-lg-2">
-            <CardSummary
-                rate={energyData.increment_rate_in_kgco2e !== undefined ?
-                    (parseFloat(energyData.increment_rate_in_kgco2e * 100).toFixed(2) + '%') : null}
-                title={t("This Month's Consumption CATEGORY VALUE UNIT", {
-                  CATEGORY: t('Ton of Carbon Dioxide Emissions'),
-                  VALUE: null,
-                  UNIT: '(TCO2E)'
-                })}
-                color="warning"
+          <CardSummary
+              rate={costData.subtotals && costData.subtotals.length > 0 ? '+0.00%' : null}
+              title={t("This Month's Costs CATEGORY VALUE UNIT", {
+                CATEGORY: null,
+                VALUE: null,
+                UNIT: costData.units && costData.units.length > 0 ? '(' + costData.units[0] + ')' : '(CNY)'
+              })}
+              color="success"
+          >
+            <CountUp
+              end={costData.subtotals?.reduce((a, b) => a + b, 0) || 0}
+              duration={2}
+              decimals={2}
+              separator=","
+          />
+          </CardSummary>
 
-            >
-              <CountUp
-                  end={(energyData.total_in_kgco2e || 0) / 1000}
-                  duration={2}
-                  separator=","
-                  decimals={2}
-              />
-            </CardSummary>
-          </Col>
-        </Row>
+          <CardSummary
+              rate={energyData.increment_rate_in_kgco2e !== undefined ?
+                  (parseFloat(energyData.increment_rate_in_kgco2e * 100).toFixed(2) + '%') : null}
+              title={t("This Month's Consumption CATEGORY VALUE UNIT", {
+                CATEGORY: t('Ton of Carbon Dioxide Emissions'),
+                VALUE: null,
+                UNIT: '(TCO2E)'
+              })}
+              color="warning"
+          >
+            <CountUp
+                end={(energyData.total_in_kgco2e || 0) / 1000}
+                duration={2}
+                separator=","
+                decimals={2}
+            />
+          </CardSummary>
+        </div>
 
         {/* Charts Row - Four pie charts */}
         <Row noGutters>
