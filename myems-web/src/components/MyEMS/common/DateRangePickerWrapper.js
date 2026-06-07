@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import moment from 'moment';
 import { DateRangePicker } from 'rsuite';
 import PropTypes from 'prop-types';
@@ -15,42 +15,64 @@ const DateRangePickerWrapper = ({
   locale,
   placeholder
 }) => {
-  let flag = true;
-  const Ref = React.useRef();
+  const [calendarMonth, setCalendarMonth] = useState([new Date(), new Date()]);
 
-  const onSelected = date => {
-    let time = moment(date).format('YYYY-MM-DD');
-    let calendarObj = Ref.current.overlay.children[0].children[0].children[0].children[0].children[1];
-    let calendarTitleObj = Ref.current.overlay.children[0].children[0].children[0].children[0].children[0];
-    if (flag) {
-      setTimeout(() => {
-        calendarTitleObj.childNodes[0].nodeValue =
-          time + ' ' + calendarObj.children[0].children[0].children[1].innerText;
-      }, 0);
+  useEffect(() => {
+    if (value && value[0] && value[1]) {
+      setCalendarMonth([value[0], value[1]]);
+    } else if (value && value[0]) {
+      setCalendarMonth([value[0], value[0]]);
+    } else {
+      setCalendarMonth([new Date(), new Date()]);
     }
-    flag = !flag;
+  }, [value]);
+
+  const handleChange = (dates) => {
+    if (dates && dates[0] && dates[1]) {
+      setCalendarMonth([dates[0], dates[1]]);
+    } else if (dates && dates[0]) {
+      setCalendarMonth([dates[0], dates[0]]);
+    }
+    if (onChange) onChange(dates);
   };
+  
+  const handleSelect = (date, event) => {
+    const target = event && event.target;
+    if (!target || !target.closest) return;
+    const calendarEl = target.closest('.rs-calendar');
+    if (!calendarEl) return;
+    const titleEl = calendarEl.querySelector('.rs-calendar-header-title');
+    if (titleEl) {
+      titleEl.textContent = moment(date).format('YYYY-MM-DD');
+    }
+  };
+
+  const calendarKey = useMemo(() => {
+    const start = calendarMonth[0] ? moment(calendarMonth[0]).format('YYYY-MM') : 'na';
+    const end = calendarMonth[1] ? moment(calendarMonth[1]).format('YYYY-MM') : 'na';
+    return `${start}_${end}`;
+  }, [calendarMonth]);
 
   return (
     <DateRangePicker
+      key={calendarKey}
       id={id}
       disabled={disabled}
       format={format}
       value={value}
-      onChange={onChange}
+      onChange={handleChange}
+      onSelect={handleSelect}
       size={size}
       style={style}
       onClean={onClean}
       cleanable={false}
       locale={locale}
       placeholder={placeholder}
-      onSelect={onSelected}
-      ref={Ref}
+      defaultCalendarValue={calendarMonth}
       preventOverflow={true}
     />
   );
 };
-
 DateRangePickerWrapper.propTypes = {
   ranges: PropTypes.array,
   value: PropTypes.arrayOf(PropTypes.instanceOf(Date)),
@@ -69,4 +91,5 @@ DateRangePickerWrapper.propTypes = {
   showMeridian: PropTypes.bool,
   showOneCalendar: PropTypes.bool
 };
+
 export default DateRangePickerWrapper;
