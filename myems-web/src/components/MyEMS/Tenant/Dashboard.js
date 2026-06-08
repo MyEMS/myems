@@ -259,7 +259,13 @@ const Dashboard = ({setRedirect, setRedirectUrl, t}) => {
       // Add cost option first (as default)
       if (dailyTrends.cost && dailyTrends.cost.length > 0) {
         timestamps['cost'] = dailyTrends.labels;
-        values['cost'] = dailyTrends.cost.length > 0 ? dailyTrends.cost[0] : [];
+        // Sum all cost categories for each day
+        const totalCost = dailyTrends.labels.map((_, dayIndex) => {
+          return dailyTrends.cost.reduce((sum, costCategory) => {
+            return sum + (costCategory[dayIndex] || 0);
+          }, 0);
+        });
+        values['cost'] = totalCost;
         options.push({value: 'cost', label: t('CostData')+ ' (CNY)'});
       }
       
