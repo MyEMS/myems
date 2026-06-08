@@ -1,7 +1,8 @@
-import React, { Fragment, useEffect, useState, useContext } from 'react';
+import React, { Fragment, useEffect, useState, useContext, useCallback } from 'react';
 import {
   Breadcrumb,
   BreadcrumbItem,
+  Button,
   Card,
   CardBody,
   Col,
@@ -27,6 +28,7 @@ import withRedirect from '../../../hoc/withRedirect';
 import { withTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
 import ButtonIcon from '../../common/ButtonIcon';
+import DeepSeekAnalysisModal from '../common/DeepSeekAnalysisModal';
 import { APIBaseURL, settings } from '../../../config';
 import AppContext from '../../../context/Context';
 
@@ -68,6 +70,8 @@ const EquipmentTracking = ({ setRedirect, setRedirectUrl, t }) => {
   const [spinnerHidden, setSpinnerHidden] = useState(false);
   const [exportButtonHidden, setExportButtonHidden] = useState(true);
   const [excelBytesBase64, setExcelBytesBase64] = useState(undefined);
+  const [smartAnalysisOpen, setSmartAnalysisOpen] = useState(false);
+  const [smartAnalysisContext, setSmartAnalysisContext] = useState(null);
 
   const { language } = useContext(AppContext);
 
@@ -306,6 +310,33 @@ const EquipmentTracking = ({ setRedirect, setRedirectUrl, t }) => {
       });
   };
 
+  const buildSmartAnalysisContext = useCallback(() => {
+    const spaceDisplayName = Array.isArray(selectedSpaceName)
+      ? selectedSpaceName.join('/')
+      : selectedSpaceName ?? null;
+    const costCenterSet = new Set();
+    equipmentList.forEach(row => {
+      if (row.costcenter) {
+        costCenterSet.add(row.costcenter);
+      }
+    });
+    return {
+      reportType: 'equipment_tracking',
+      reportTitle: t('Equipment Tracking'),
+      space: { name: spaceDisplayName },
+      trackingSummary: {
+        equipmentCount: equipmentList.length,
+        costCenterCount: costCenterSet.size
+      },
+      equipmentDataSample: equipmentList.slice(0, 80)
+    };
+  }, [t, selectedSpaceName, equipmentList]);
+
+  const openSmartAnalysis = () => {
+    setSmartAnalysisContext(buildSmartAnalysisContext());
+    setSmartAnalysisOpen(true);
+  };
+
   return (
     <Fragment>
       <div>
@@ -353,11 +384,34 @@ const EquipmentTracking = ({ setRedirect, setRedirectUrl, t }) => {
                   {t('Export')}
                 </ButtonIcon>
               </Col>
+              {settings.enableAIAnalysis ? (
+                <Col xs="auto">
+                  <br />
+                  <Button
+                    color="falcon-default"
+                    size="sm"
+                    hidden={exportButtonHidden}
+                    onClick={openSmartAnalysis}
+                  >
+                    {t('AI Analysis')}
+                  </Button>
+                </Col>
+              ) : null}
             </Row>
           </Form>
         </CardBody>
       </Card>
       <DetailedDataTable data={equipmentList} title={t('Equipment List')} columns={columns} pagesize={10} />
+      {settings.enableAIAnalysis ? (
+        <DeepSeekAnalysisModal
+          isOpen={smartAnalysisOpen}
+          toggle={() => setSmartAnalysisOpen(false)}
+          language={language}
+          reportContext={smartAnalysisContext}
+          setRedirect={setRedirect}
+          setRedirectUrl={setRedirectUrl}
+        />
+      ) : null}
     </Fragment>
   );
 };

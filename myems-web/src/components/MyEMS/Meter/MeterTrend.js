@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useState, useContext } from 'react';
+import React, { Fragment, useEffect, useState, useContext, useCallback } from 'react';
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -27,6 +27,7 @@ import { APIBaseURL, settings } from '../../../config';
 import DateRangePickerWrapper from '../common/DateRangePickerWrapper';
 import { endOfDay } from 'date-fns';
 import AppContext from '../../../context/Context';
+import DeepSeekAnalysisModal from '../common/DeepSeekAnalysisModal';
 import MultipleLineChart from '../common/MultipleLineChart';
 import blankPage from '../../../assets/img/generic/blank-page.png';
 
@@ -104,6 +105,8 @@ const MeterTrend = ({ setRedirect, setRedirectUrl, t }) => {
   const [spinnerHidden, setSpinnerHidden] = useState(true);
   const [exportButtonHidden, setExportButtonHidden] = useState(true);
   const [resultDataHidden, setResultDataHidden] = useState(true);
+  const [smartAnalysisOpen, setSmartAnalysisOpen] = useState(false);
+  const [smartAnalysisContext, setSmartAnalysisContext] = useState(null);
   //Results
   const [meterLineChartOptions, setMeterLineChartOptions] = useState([]);
   const [meterLineChartData, setMeterLineChartData] = useState({});
@@ -447,6 +450,75 @@ const MeterTrend = ({ setRedirect, setRedirectUrl, t }) => {
       });
   };
 
+  const buildSmartAnalysisContext = useCallback(() => {
+    const lineValues = {};
+    if (parameterLineChartData && typeof parameterLineChartData === 'object') {
+      Object.keys(parameterLineChartData).forEach(k => {
+        const arr = parameterLineChartData[k];
+        lineValues[k] = Array.isArray(arr) ? arr.slice(0, 200) : arr;
+      });
+    }
+    const sliceNestedArrays = (obj, maxLen) => {
+      const out = {};
+      if (!obj || typeof obj !== 'object') {
+        return out;
+      }
+      Object.keys(obj).forEach(k => {
+        const arr = obj[k];
+        out[k] = Array.isArray(arr) ? arr.slice(0, maxLen) : arr;
+      });
+      return out;
+    };
+    const meterLabel =
+      filteredMeterList.find(m => String(m.value) === String(selectedMeter))?.label ?? null;
+    return {
+      reportType: 'meter_trend',
+      reportTitle: t('Meter Trend'),
+      spaceName: selectedSpaceName ?? null,
+      meter: {
+        id: selectedMeter,
+        name: meterLabel
+      },
+      reportingPeriod: {
+        start: reportingPeriodDateRange[0]
+          ? moment(reportingPeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss')
+          : null,
+        end: reportingPeriodDateRange[1]
+          ? moment(reportingPeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss')
+          : null
+      },
+      meterTrend: {
+        labels: sliceNestedArrays(meterLineChartLabels, 200),
+        values: sliceNestedArrays(meterLineChartData, 200),
+        options: meterLineChartOptions
+      },
+      detailedDataSample: detailedDataTableData.slice(0, 120),
+      parameterLineChart: {
+        labels: parameterLineChartLabels,
+        optionLabels: parameterLineChartOptions,
+        values: lineValues
+      }
+    };
+  }, [
+    t,
+    selectedSpaceName,
+    selectedMeter,
+    filteredMeterList,
+    reportingPeriodDateRange,
+    meterLineChartLabels,
+    meterLineChartData,
+    meterLineChartOptions,
+    detailedDataTableData,
+    parameterLineChartLabels,
+    parameterLineChartOptions,
+    parameterLineChartData
+  ]);
+
+  const openSmartAnalysis = () => {
+    setSmartAnalysisContext(buildSmartAnalysisContext());
+    setSmartAnalysisOpen(true);
+  };
+
   return (
     <Fragment>
       <div>
@@ -546,6 +618,19 @@ const MeterTrend = ({ setRedirect, setRedirectUrl, t }) => {
                   {t('Export')}
                 </ButtonIcon>
               </Col>
+              {settings.enableAIAnalysis ? (
+                <Col xs="auto">
+                  <br />
+                  <Button
+                    color="falcon-default"
+                    size="sm"
+                    hidden={exportButtonHidden}
+                    onClick={openSmartAnalysis}
+                  >
+                    {t('AI Analysis')}
+                  </Button>
+                </Col>
+              ) : null}
             </Row>
           </Form>
         </CardBody>
@@ -580,6 +665,16 @@ const MeterTrend = ({ setRedirect, setRedirectUrl, t }) => {
           pagesize={50}
         />
       </div>
+      {settings.enableAIAnalysis ? (
+        <DeepSeekAnalysisModal
+          isOpen={smartAnalysisOpen}
+          toggle={() => setSmartAnalysisOpen(false)}
+          language={language}
+          reportContext={smartAnalysisContext}
+          setRedirect={setRedirect}
+          setRedirectUrl={setRedirectUrl}
+        />
+      ) : null}
     </Fragment>
   );
 };

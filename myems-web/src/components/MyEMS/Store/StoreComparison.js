@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useState, useContext } from 'react';
+import React, { Fragment, useEffect, useState, useContext, useCallback } from 'react';
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -26,6 +26,7 @@ import withRedirect from '../../../hoc/withRedirect';
 import { withTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
 import ButtonIcon from '../../common/ButtonIcon';
+import DeepSeekAnalysisModal from '../common/DeepSeekAnalysisModal';
 import { APIBaseURL, settings } from '../../../config';
 import { periodTypeOptions } from '../common/PeriodTypeOptions';
 import MultiTrendChart from '../common/MultiTrendChart';
@@ -116,6 +117,8 @@ const StoreComparison = ({ setRedirect, setRedirectUrl, t }) => {
   const [submitButtonDisabled, setSubmitButtonDisabled] = useState(true);
   const [spinnerHidden, setSpinnerHidden] = useState(true);
   const [exportButtonHidden, setExportButtonHidden] = useState(true);
+  const [smartAnalysisOpen, setSmartAnalysisOpen] = useState(false);
+  const [smartAnalysisContext, setSmartAnalysisContext] = useState(null);
   const [resultDataHidden, setResultDataHidden] = useState(true);
   //Results
   const [store1, setStore1] = useState({
@@ -697,6 +700,98 @@ const StoreComparison = ({ setRedirect, setRedirectUrl, t }) => {
       });
   };
 
+  const buildSmartAnalysisContext = useCallback(() => {
+    const sliceChartValues = dataObj => {
+      const values = {};
+      if (dataObj && typeof dataObj === 'object') {
+        Object.keys(dataObj).forEach(k => {
+          const arr = dataObj[k];
+          values[k] = Array.isArray(arr) ? arr.slice(0, 200) : arr;
+        });
+      }
+      return values;
+    };
+    const sliceNestedArrays = (obj, maxLen) => {
+      const out = {};
+      if (!obj || typeof obj !== 'object') {
+        return out;
+      }
+      Object.keys(obj).forEach(k => {
+        const arr = obj[k];
+        out[k] = Array.isArray(arr) ? arr.slice(0, maxLen) : arr;
+      });
+      return out;
+    };
+    const spaceDisplayName1 = Array.isArray(selectedSpaceName1)
+      ? selectedSpaceName1.join('/')
+      : selectedSpaceName1 ?? null;
+    const spaceDisplayName2 = Array.isArray(selectedSpaceName2)
+      ? selectedSpaceName2.join('/')
+      : selectedSpaceName2 ?? null;
+    return {
+      reportType: 'store_comparison',
+      reportTitle: t('Store Comparison'),
+      space1Name: spaceDisplayName1,
+      space2Name: spaceDisplayName2,
+      store1: {
+        id: selectedStore1,
+        ...store1
+      },
+      store2: {
+        id: selectedStore2,
+        ...store2
+      },
+      energyCategory,
+      periodType,
+      reportingPeriod: {
+        start: reportingPeriodDateRange[0]
+          ? moment(reportingPeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss')
+          : null,
+        end: reportingPeriodDateRange[1]
+          ? moment(reportingPeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss')
+          : null
+      },
+      reportingPeriodTotals: {
+        store1: reportingPeriodEnergyConsumptionInCategory1,
+        store2: reportingPeriodEnergyConsumptionInCategory2,
+        difference: reportingPeriodEnergyConsumptionInDifference
+      },
+      store1Trend: {
+        labels: sliceNestedArrays(storeChartLabels1, 200),
+        values: sliceChartValues(storeChartData1)
+      },
+      store2Trend: {
+        labels: sliceNestedArrays(storeChartLabels2, 200),
+        values: sliceChartValues(storeChartData2)
+      },
+      detailedDataSample: detailedDataTableData.slice(0, 120)
+    };
+  }, [
+    t,
+    selectedSpaceName1,
+    selectedSpaceName2,
+    selectedStore1,
+    selectedStore2,
+    store1,
+    store2,
+    energyCategory,
+    periodType,
+    reportingPeriodDateRange,
+    reportingPeriodEnergyConsumptionInCategory1,
+    reportingPeriodEnergyConsumptionInCategory2,
+    reportingPeriodEnergyConsumptionInDifference,
+    storeChartLabels1,
+    storeChartData1,
+    storeChartLabels2,
+    storeChartData2,
+    detailedDataTableData
+  ]);
+
+  const openSmartAnalysis = () => {
+    setSmartAnalysisContext(buildSmartAnalysisContext());
+    setSmartAnalysisOpen(true);
+  };
+
   return (
     <Fragment>
       <div>
@@ -883,6 +978,19 @@ const StoreComparison = ({ setRedirect, setRedirectUrl, t }) => {
                   {t('Export')}
                 </ButtonIcon>
               </Col>
+              {settings.enableAIAnalysis ? (
+                <Col xs="auto">
+                  <br />
+                  <Button
+                    color="falcon-default"
+                    size="sm"
+                    hidden={exportButtonHidden}
+                    onClick={openSmartAnalysis}
+                  >
+                    {t('AI Analysis')}
+                  </Button>
+                </Col>
+              ) : null}
             </Row>
           </Form>
         </CardBody>
@@ -997,6 +1105,16 @@ const StoreComparison = ({ setRedirect, setRedirectUrl, t }) => {
           pagesize={50}
         />
       </div>
+      {settings.enableAIAnalysis ? (
+        <DeepSeekAnalysisModal
+          isOpen={smartAnalysisOpen}
+          toggle={() => setSmartAnalysisOpen(false)}
+          language={language}
+          reportContext={smartAnalysisContext}
+          setRedirect={setRedirect}
+          setRedirectUrl={setRedirectUrl}
+        />
+      ) : null}
     </Fragment>
   );
 };

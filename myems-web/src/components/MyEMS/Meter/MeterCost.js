@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useState, useContext } from 'react';
+import React, { Fragment, useEffect, useState, useContext, useCallback } from 'react';
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -26,6 +26,7 @@ import withRedirect from '../../../hoc/withRedirect';
 import { withTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
 import ButtonIcon from '../../common/ButtonIcon';
+import DeepSeekAnalysisModal from '../common/DeepSeekAnalysisModal';
 import { APIBaseURL, settings } from '../../../config';
 import { periodTypeOptions } from '../common/PeriodTypeOptions';
 import { comparisonTypeOptions } from '../common/ComparisonTypeOptions';
@@ -113,6 +114,8 @@ const MeterCost = ({ setRedirect, setRedirectUrl, t }) => {
   const [spinnerHidden, setSpinnerHidden] = useState(true);
   const [exportButtonHidden, setExportButtonHidden] = useState(true);
   const [resultDataHidden, setResultDataHidden] = useState(true);
+  const [smartAnalysisOpen, setSmartAnalysisOpen] = useState(false);
+  const [smartAnalysisContext, setSmartAnalysisContext] = useState(null);
   //Results
   const [meterEnergyCategory, setMeterEnergyCategory] = useState({ name: '', unit: '' });
   const [reportingPeriodEnergyCostInCategory, setReportingPeriodEnergyCostInCategory] = useState(0);
@@ -723,6 +726,117 @@ const MeterCost = ({ setRedirect, setRedirectUrl, t }) => {
       });
   };
 
+  const buildSmartAnalysisContext = useCallback(() => {
+    const lineValues = {};
+    if (parameterLineChartData && typeof parameterLineChartData === 'object') {
+      Object.keys(parameterLineChartData).forEach(k => {
+        const arr = parameterLineChartData[k];
+        lineValues[k] = Array.isArray(arr) ? arr.slice(0, 200) : arr;
+      });
+    }
+    const sliceNestedArrays = (obj, maxLen) => {
+      const out = {};
+      if (!obj || typeof obj !== 'object') {
+        return out;
+      }
+      Object.keys(obj).forEach(k => {
+        const arr = obj[k];
+        out[k] = Array.isArray(arr) ? arr.slice(0, maxLen) : arr;
+      });
+      return out;
+    };
+    const meterLabel =
+      filteredMeterList.find(m => String(m.value) === String(selectedMeter))?.label ?? null;
+    return {
+      reportType: 'meter_cost',
+      reportTitle: t('Meter Cost'),
+      spaceName: selectedSpaceName ?? null,
+      meter: {
+        id: selectedMeter,
+        name: meterLabel,
+        energyCategory: meterEnergyCategory
+      },
+      periodType,
+      comparisonType,
+      reportingPeriod: {
+        start: reportingPeriodDateRange[0]
+          ? moment(reportingPeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss')
+          : null,
+        end: reportingPeriodDateRange[1]
+          ? moment(reportingPeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss')
+          : null
+      },
+      basePeriod: {
+        start:
+          basePeriodDateRange[0] != null
+            ? moment(basePeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss')
+            : null,
+        end:
+          basePeriodDateRange[1] != null
+            ? moment(basePeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss')
+            : null
+      },
+      reportingTotals: {
+        costInCategory: reportingPeriodEnergyCostInCategory,
+        incrementRate: reportingPeriodEnergyCostRate,
+        tce: reportingPeriodEnergyConsumptionInTCE,
+        tco2e: reportingPeriodEnergyConsumptionInCO2
+      },
+      basePeriodTotalInCategory: meterBaseSubtotals['a0'],
+      meterTrend: {
+        reportingLabels: sliceNestedArrays(meterReportingLabels, 200),
+        reportingData: sliceNestedArrays(meterReportingData, 200),
+        baseLabels: sliceNestedArrays(meterBaseLabels, 200),
+        baseData: sliceNestedArrays(meterBaseData, 200),
+        rates: sliceNestedArrays(meterReportingRates, 200),
+        options: meterReportingOptions
+      },
+      detailedDataSample: detailedDataTableData.slice(0, 120),
+      parameterLineChart: {
+        labels: parameterLineChartLabels,
+        optionLabels: parameterLineChartOptions,
+        values: lineValues
+      },
+      meterBaseAndReportingNames,
+      meterBaseAndReportingUnits,
+      meterReportingSubtotals,
+      meterBaseSubtotals
+    };
+  }, [
+    t,
+    selectedSpaceName,
+    selectedMeter,
+    filteredMeterList,
+    meterEnergyCategory,
+    periodType,
+    comparisonType,
+    reportingPeriodDateRange,
+    basePeriodDateRange,
+    reportingPeriodEnergyCostInCategory,
+    reportingPeriodEnergyCostRate,
+    reportingPeriodEnergyConsumptionInTCE,
+    reportingPeriodEnergyConsumptionInCO2,
+    meterBaseSubtotals,
+    meterReportingLabels,
+    meterReportingData,
+    meterBaseLabels,
+    meterBaseData,
+    meterReportingRates,
+    meterReportingOptions,
+    detailedDataTableData,
+    parameterLineChartLabels,
+    parameterLineChartOptions,
+    parameterLineChartData,
+    meterBaseAndReportingNames,
+    meterBaseAndReportingUnits,
+    meterReportingSubtotals
+  ]);
+
+  const openSmartAnalysis = () => {
+    setSmartAnalysisContext(buildSmartAnalysisContext());
+    setSmartAnalysisOpen(true);
+  };
+
   return (
     <Fragment>
       <div>
@@ -884,6 +998,19 @@ const MeterCost = ({ setRedirect, setRedirectUrl, t }) => {
                   {t('Export')}
                 </ButtonIcon>
               </Col>
+              {settings.enableAIAnalysis ? (
+                <Col xs="auto">
+                  <br />
+                  <Button
+                    color="falcon-default"
+                    size="sm"
+                    hidden={exportButtonHidden}
+                    onClick={openSmartAnalysis}
+                  >
+                    {t('AI Analysis')}
+                  </Button>
+                </Col>
+              ) : null}
             </Row>
           </Form>
         </CardBody>
@@ -1001,6 +1128,16 @@ const MeterCost = ({ setRedirect, setRedirectUrl, t }) => {
           pagesize={50}
         />
       </div>
+      {settings.enableAIAnalysis ? (
+        <DeepSeekAnalysisModal
+          isOpen={smartAnalysisOpen}
+          toggle={() => setSmartAnalysisOpen(false)}
+          language={language}
+          reportContext={smartAnalysisContext}
+          setRedirect={setRedirect}
+          setRedirectUrl={setRedirectUrl}
+        />
+      ) : null}
     </Fragment>
   );
 };

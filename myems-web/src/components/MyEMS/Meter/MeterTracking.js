@@ -22,6 +22,7 @@ import {
 } from 'reactstrap';
 import CountUp from 'react-countup';
 import Cascader from 'rc-cascader';
+import DeepSeekAnalysisModal from '../common/DeepSeekAnalysisModal';
 import CardSummary from '../common/CardSummary';
 import moment from 'moment';
 import loadable from '@loadable/component';
@@ -112,6 +113,8 @@ const MeterTracking = ({ setRedirect, setRedirectUrl, t }) => {
   const [spinnerHidden, setSpinnerHidden] = useState(false);
   const [exportButtonHidden, setExportButtonHidden] = useState(true);
   const [resultDataHidden, setResultDataHidden] = useState(true);
+  const [smartAnalysisOpen, setSmartAnalysisOpen] = useState(false);
+  const [smartAnalysisContext, setSmartAnalysisContext] = useState(null);
   // Results
   const [excelBytesBase64, setExcelBytesBase64] = useState(undefined);
   const [startIntegrityRate, setStartIntegrityRate] = useState(0);
@@ -468,6 +471,61 @@ const MeterTracking = ({ setRedirect, setRedirectUrl, t }) => {
       });
   };
 
+  const buildSmartAnalysisContext = useCallback(() => {
+    const energyCategoryLabel =
+      energyCategoryOptions.find(c => String(c.value) === String(energyCategory))?.label ?? energyCategory;
+    let totalDifference = 0;
+    meterList.forEach(row => {
+      const value = Number(row.differencevalue);
+      if (Number.isFinite(value)) {
+        totalDifference += value;
+      }
+    });
+    return {
+      reportType: 'meter_tracking',
+      reportTitle: t('Meter Tracking'),
+      space: { id: selectedSpaceID, name: selectedSpaceName ?? null },
+      energyCategory: {
+        value: energyCategory,
+        label: energyCategoryLabel
+      },
+      reportingPeriod: {
+        start: reportingPeriodDateRange[0]
+          ? moment(reportingPeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss')
+          : null,
+        end: reportingPeriodDateRange[1]
+          ? moment(reportingPeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss')
+          : null
+      },
+      integrityRates: {
+        start: startIntegrityRate,
+        end: endIntegrityRate,
+        full: fullIntegrityRate
+      },
+      trackingSummary: {
+        meterCount: meterList.length,
+        totalDifference
+      },
+      meterDataSample: meterList.slice(0, 80)
+    };
+  }, [
+    t,
+    selectedSpaceID,
+    selectedSpaceName,
+    energyCategory,
+    energyCategoryOptions,
+    reportingPeriodDateRange,
+    startIntegrityRate,
+    endIntegrityRate,
+    fullIntegrityRate,
+    meterList
+  ]);
+
+  const openSmartAnalysis = () => {
+    setSmartAnalysisContext(buildSmartAnalysisContext());
+    setSmartAnalysisOpen(true);
+  };
+
   return (
     <Fragment>
       <div>
@@ -564,6 +622,19 @@ const MeterTracking = ({ setRedirect, setRedirectUrl, t }) => {
                   {t('Export')}
                 </ButtonIcon>
               </Col>
+              {settings.enableAIAnalysis ? (
+                <Col xs="auto">
+                  <br />
+                  <Button
+                    color="falcon-default"
+                    size="sm"
+                    hidden={exportButtonHidden}
+                    onClick={openSmartAnalysis}
+                  >
+                    {t('AI Analysis')}
+                  </Button>
+                </Col>
+              ) : null}
             </Row>
           </Form>
         </CardBody>
@@ -596,6 +667,16 @@ const MeterTracking = ({ setRedirect, setRedirectUrl, t }) => {
           onChangePage={persistTablePage}
         />
       </div>
+      {settings.enableAIAnalysis ? (
+        <DeepSeekAnalysisModal
+          isOpen={smartAnalysisOpen}
+          toggle={() => setSmartAnalysisOpen(false)}
+          language={language}
+          reportContext={smartAnalysisContext}
+          setRedirect={setRedirect}
+          setRedirectUrl={setRedirectUrl}
+        />
+      ) : null}
     </Fragment>
   );
 };

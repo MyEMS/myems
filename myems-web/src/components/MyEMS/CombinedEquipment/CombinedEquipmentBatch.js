@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useState, useContext } from 'react';
+import React, { Fragment, useEffect, useState, useContext, useCallback } from 'react';
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -23,6 +23,7 @@ import withRedirect from '../../../hoc/withRedirect';
 import { withTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
 import ButtonIcon from '../../common/ButtonIcon';
+import DeepSeekAnalysisModal from '../common/DeepSeekAnalysisModal';
 import { APIBaseURL, settings } from '../../../config';
 import DateRangePickerWrapper from '../common/DateRangePickerWrapper';
 import { endOfDay } from 'date-fns';
@@ -102,6 +103,8 @@ const CombinedEquipmentBatch = ({ setRedirect, setRedirectUrl, t }) => {
   const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);
   const [spinnerHidden, setSpinnerHidden] = useState(true);
   const [exportButtonHidden, setExportButtonHidden] = useState(true);
+  const [smartAnalysisOpen, setSmartAnalysisOpen] = useState(false);
+  const [smartAnalysisContext, setSmartAnalysisContext] = useState(null);
   const [resultDataHidden, setResultDataHidden] = useState(true);
 
   //Results
@@ -339,6 +342,72 @@ const CombinedEquipmentBatch = ({ setRedirect, setRedirectUrl, t }) => {
       });
   };
 
+  const buildSmartAnalysisContext = useCallback(() => {
+    const fixedFields = new Set(['id', 'name', 'uuid', 'space', 'costcenter']);
+    const buildBatchRowSample = row => {
+      if (!row || typeof row !== 'object') {
+        return row;
+      }
+      const sample = {
+        id: row.id,
+        name: row.name,
+        uuid: row.uuid,
+        space: row.space,
+        costcenter: row.costcenter
+      };
+      const energyCategoryValues = {};
+      let count = 0;
+      Object.keys(row).forEach(k => {
+        if (fixedFields.has(k) || count >= 20) {
+          return;
+        }
+        energyCategoryValues[k] = row[k];
+        count += 1;
+      });
+      if (Object.keys(energyCategoryValues).length) {
+        sample.energyCategoryValues = energyCategoryValues;
+      }
+      return sample;
+    };
+    const energyCategoryColumns = detailedDataTableColumns
+      .filter(c => c.dataField && !fixedFields.has(c.dataField))
+      .map(c => ({ field: c.dataField, label: c.text }))
+      .slice(0, 20);
+    const spaceDisplayName = Array.isArray(selectedSpaceName)
+      ? selectedSpaceName.join('/')
+      : selectedSpaceName ?? null;
+    return {
+      reportType: 'combined_equipment_batch',
+      reportTitle: t('Batch Analysis'),
+      space: { id: selectedSpaceID, name: spaceDisplayName },
+      reportingPeriod: {
+        start: reportingPeriodDateRange[0]
+          ? moment(reportingPeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss')
+          : null,
+        end: reportingPeriodDateRange[1]
+          ? moment(reportingPeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss')
+          : null
+      },
+      batchSummary: {
+        combinedEquipmentCount: combinedEquipmentList.length
+      },
+      energyCategoryColumns,
+      batchDataSample: combinedEquipmentList.slice(0, 80).map(buildBatchRowSample)
+    };
+  }, [
+    t,
+    selectedSpaceID,
+    selectedSpaceName,
+    reportingPeriodDateRange,
+    combinedEquipmentList,
+    detailedDataTableColumns
+  ]);
+
+  const openSmartAnalysis = () => {
+    setSmartAnalysisContext(buildSmartAnalysisContext());
+    setSmartAnalysisOpen(true);
+  };
+
   const nameFormatter = (dataField, { name, uuid }) => (
     <Link to={{ pathname: '/combinedequipment/energycategory?uuid=' + uuid }} target="_blank">
       <Media tag={Flex} align="center">
@@ -426,6 +495,19 @@ const CombinedEquipmentBatch = ({ setRedirect, setRedirectUrl, t }) => {
                   {t('Export')}
                 </ButtonIcon>
               </Col>
+              {settings.enableAIAnalysis ? (
+                <Col xs="auto">
+                  <br />
+                  <Button
+                    color="falcon-default"
+                    size="sm"
+                    hidden={exportButtonHidden}
+                    onClick={openSmartAnalysis}
+                  >
+                    {t('AI Analysis')}
+                  </Button>
+                </Col>
+              ) : null}
             </Row>
           </Form>
         </CardBody>
@@ -488,6 +570,16 @@ const CombinedEquipmentBatch = ({ setRedirect, setRedirectUrl, t }) => {
           pagesize={50}
         />
       </div>
+      {settings.enableAIAnalysis ? (
+        <DeepSeekAnalysisModal
+          isOpen={smartAnalysisOpen}
+          toggle={() => setSmartAnalysisOpen(false)}
+          language={language}
+          reportContext={smartAnalysisContext}
+          setRedirect={setRedirect}
+          setRedirectUrl={setRedirectUrl}
+        />
+      ) : null}
     </Fragment>
   );
 };

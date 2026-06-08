@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useState, useContext } from 'react';
+import React, { Fragment, useEffect, useState, useContext, useCallback } from 'react';
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -19,6 +19,7 @@ import CountUp from 'react-countup';
 import moment from 'moment';
 import loadable from '@loadable/component';
 import Cascader from 'rc-cascader';
+import DeepSeekAnalysisModal from '../common/DeepSeekAnalysisModal';
 import CardSummary from '../common/CardSummary';
 import MultipleLineChart from '../common/MultipleLineChart';
 import { getCookieValue, createCookie, checkEmpty, handleAPIError } from '../../../helpers/utils';
@@ -111,6 +112,8 @@ const SpaceComparison = ({ setRedirect, setRedirectUrl, t }) => {
   const [spinnerHidden, setSpinnerHidden] = useState(true);
   const [exportButtonHidden, setExportButtonHidden] = useState(true);
   const [resultDataHidden, setResultDataHidden] = useState(true);
+  const [smartAnalysisOpen, setSmartAnalysisOpen] = useState(false);
+  const [smartAnalysisContext, setSmartAnalysisContext] = useState(null);
   //Results
   const [space1, setSpace1] = useState({
     id: undefined,
@@ -498,6 +501,69 @@ const SpaceComparison = ({ setRedirect, setRedirectUrl, t }) => {
       });
   };
 
+  const buildSmartAnalysisContext = useCallback(() => {
+    const sliceChartValues = dataObj => {
+      const values = {};
+      if (dataObj && typeof dataObj === 'object') {
+        Object.keys(dataObj).forEach(k => {
+          const arr = dataObj[k];
+          values[k] = Array.isArray(arr) ? arr.slice(0, 200) : arr;
+        });
+      }
+      return values;
+    };
+    return {
+      reportType: 'space_comparison',
+      reportTitle: t('Space Comparison'),
+      space1,
+      space2,
+      energyCategory,
+      periodType,
+      reportingPeriod: {
+        start: reportingPeriodDateRange[0]
+          ? moment(reportingPeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss')
+          : null,
+        end: reportingPeriodDateRange[1]
+          ? moment(reportingPeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss')
+          : null
+      },
+      reportingPeriodTotals: {
+        space1: reportingPeriodEnergyConsumptionInCategory1,
+        space2: reportingPeriodEnergyConsumptionInCategory2,
+        difference: reportingPeriodEnergyConsumptionInDifference
+      },
+      space1Trend: {
+        labels: spaceLineChartLabels1,
+        values: sliceChartValues(spaceLineChartData1)
+      },
+      space2Trend: {
+        labels: spaceLineChartLabels2,
+        values: sliceChartValues(spaceLineChartData2)
+      },
+      detailedDataSample: detailedDataTableData.slice(0, 120)
+    };
+  }, [
+    space1,
+    space2,
+    energyCategory,
+    periodType,
+    reportingPeriodDateRange,
+    reportingPeriodEnergyConsumptionInCategory1,
+    reportingPeriodEnergyConsumptionInCategory2,
+    reportingPeriodEnergyConsumptionInDifference,
+    spaceLineChartLabels1,
+    spaceLineChartData1,
+    spaceLineChartLabels2,
+    spaceLineChartData2,
+    detailedDataTableData,
+    t
+  ]);
+
+  const openSmartAnalysis = () => {
+    setSmartAnalysisContext(buildSmartAnalysisContext());
+    setSmartAnalysisOpen(true);
+  };
+
   return (
     <Fragment>
       <div>
@@ -636,6 +702,19 @@ const SpaceComparison = ({ setRedirect, setRedirectUrl, t }) => {
                   {t('Export')}
                 </ButtonIcon>
               </Col>
+              {settings.enableAIAnalysis ? (
+                <Col xs="auto">
+                  <br />
+                  <Button
+                    color="falcon-default"
+                    size="sm"
+                    hidden={exportButtonHidden}
+                    onClick={openSmartAnalysis}
+                  >
+                    {t('AI Analysis')}
+                  </Button>
+                </Col>
+              ) : null}
             </Row>
           </Form>
         </CardBody>
@@ -750,6 +829,16 @@ const SpaceComparison = ({ setRedirect, setRedirectUrl, t }) => {
           pagesize={50}
         />
       </div>
+      {settings.enableAIAnalysis ? (
+        <DeepSeekAnalysisModal
+          isOpen={smartAnalysisOpen}
+          toggle={() => setSmartAnalysisOpen(false)}
+          language={language}
+          reportContext={smartAnalysisContext}
+          setRedirect={setRedirect}
+          setRedirectUrl={setRedirectUrl}
+        />
+      ) : null}
     </Fragment>
   );
 };

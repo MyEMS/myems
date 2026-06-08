@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useState, useContext } from 'react';
+import React, { Fragment, useEffect, useState, useContext, useCallback } from 'react';
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -26,6 +26,7 @@ import withRedirect from '../../../hoc/withRedirect';
 import { withTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
 import ButtonIcon from '../../common/ButtonIcon';
+import DeepSeekAnalysisModal from '../common/DeepSeekAnalysisModal';
 import { APIBaseURL, settings } from '../../../config';
 import { periodTypeOptions } from '../common/PeriodTypeOptions';
 import { comparisonTypeOptions } from '../common/ComparisonTypeOptions';
@@ -110,6 +111,8 @@ const ShopfloorLoad = ({ setRedirect, setRedirectUrl, t }) => {
   const [submitButtonDisabled, setSubmitButtonDisabled] = useState(true);
   const [spinnerHidden, setSpinnerHidden] = useState(true);
   const [exportButtonHidden, setExportButtonHidden] = useState(true);
+  const [smartAnalysisOpen, setSmartAnalysisOpen] = useState(false);
+  const [smartAnalysisContext, setSmartAnalysisContext] = useState(null);
   const [resultDataHidden, setResultDataHidden] = useState(true);
 
   //Results
@@ -787,6 +790,106 @@ const ShopfloorLoad = ({ setRedirect, setRedirectUrl, t }) => {
       });
   };
 
+  const buildSmartAnalysisContext = useCallback(() => {
+    const lineValues = {};
+    if (parameterLineChartData && typeof parameterLineChartData === 'object') {
+      Object.keys(parameterLineChartData).forEach(k => {
+        const arr = parameterLineChartData[k];
+        lineValues[k] = Array.isArray(arr) ? arr.slice(0, 200) : arr;
+      });
+    }
+    const reportingTrendValues = {};
+    if (shopfloorReportingData && typeof shopfloorReportingData === 'object') {
+      Object.keys(shopfloorReportingData).forEach(k => {
+        const arr = shopfloorReportingData[k];
+        reportingTrendValues[k] = Array.isArray(arr) ? arr.slice(0, 200) : arr;
+      });
+    }
+    const baseTrendValues = {};
+    if (shopfloorBaseData && typeof shopfloorBaseData === 'object') {
+      Object.keys(shopfloorBaseData).forEach(k => {
+        const arr = shopfloorBaseData[k];
+        baseTrendValues[k] = Array.isArray(arr) ? arr.slice(0, 200) : arr;
+      });
+    }
+    const shopfloorLabel =
+      shopfloorList.find(s => String(s.value) === String(selectedShopfloor))?.label ?? null;
+    const spaceDisplayName = Array.isArray(selectedSpaceName)
+      ? selectedSpaceName.join('/')
+      : selectedSpaceName ?? null;
+    return {
+      reportType: 'shopfloor_load',
+      reportTitle: t('Load'),
+      space: { name: spaceDisplayName },
+      shopfloor: {
+        id: selectedShopfloor,
+        name: shopfloorLabel
+      },
+      periodType,
+      comparisonType,
+      reportingPeriod: {
+        start: reportingPeriodDateRange[0]
+          ? moment(reportingPeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss')
+          : null,
+        end: reportingPeriodDateRange[1]
+          ? moment(reportingPeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss')
+          : null
+      },
+      basePeriod: {
+        start:
+          basePeriodDateRange[0] != null
+            ? moment(basePeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss')
+            : null,
+        end:
+          basePeriodDateRange[1] != null
+            ? moment(basePeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss')
+            : null
+      },
+      cardSummaryList,
+      detailedDataSample: detailedDataTableData.slice(0, 120),
+      parameterLineChart: {
+        labels: parameterLineChartLabels,
+        optionLabels: parameterLineChartOptions,
+        values: lineValues
+      },
+      maximumLoadTrend: {
+        reportingLabels: shopfloorReportingLabels,
+        reportingValues: reportingTrendValues,
+        baseLabels: shopfloorBaseLabels,
+        baseValues: baseTrendValues,
+        optionLabels: shopfloorReportingOptions
+      },
+      shopfloorBaseAndReportingNames,
+      shopfloorBaseAndReportingUnits
+    };
+  }, [
+    t,
+    selectedSpaceName,
+    selectedShopfloor,
+    shopfloorList,
+    periodType,
+    comparisonType,
+    reportingPeriodDateRange,
+    basePeriodDateRange,
+    cardSummaryList,
+    detailedDataTableData,
+    parameterLineChartLabels,
+    parameterLineChartOptions,
+    parameterLineChartData,
+    shopfloorReportingLabels,
+    shopfloorReportingData,
+    shopfloorBaseLabels,
+    shopfloorBaseData,
+    shopfloorReportingOptions,
+    shopfloorBaseAndReportingNames,
+    shopfloorBaseAndReportingUnits
+  ]);
+
+  const openSmartAnalysis = () => {
+    setSmartAnalysisContext(buildSmartAnalysisContext());
+    setSmartAnalysisOpen(true);
+  };
+
   return (
     <Fragment>
       <div>
@@ -945,6 +1048,19 @@ const ShopfloorLoad = ({ setRedirect, setRedirectUrl, t }) => {
                   {t('Export')}
                 </ButtonIcon>
               </Col>
+              {settings.enableAIAnalysis ? (
+                <Col xs="auto">
+                  <br />
+                  <Button
+                    color="falcon-default"
+                    size="sm"
+                    hidden={exportButtonHidden}
+                    onClick={openSmartAnalysis}
+                  >
+                    {t('AI Analysis')}
+                  </Button>
+                </Col>
+              ) : null}
             </Row>
           </Form>
         </CardBody>
@@ -1073,6 +1189,16 @@ const ShopfloorLoad = ({ setRedirect, setRedirectUrl, t }) => {
           pagesize={50}
         />
       </div>
+      {settings.enableAIAnalysis ? (
+        <DeepSeekAnalysisModal
+          isOpen={smartAnalysisOpen}
+          toggle={() => setSmartAnalysisOpen(false)}
+          language={language}
+          reportContext={smartAnalysisContext}
+          setRedirect={setRedirect}
+          setRedirectUrl={setRedirectUrl}
+        />
+      ) : null}
     </Fragment>
   );
 };

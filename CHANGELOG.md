@@ -6,7 +6,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ## [Unreleased]
 ### Added
 - added search box to data point page in myems-admin
-- added deepseek AI analysis to space carbon report and space cost report in myems-web
+- added deepseek AI analysis to reports in myems-web
 ### Changed
 - updated meter batch report in myems-api and myems-web
 - updated virtual meter batch report in myems-api and myems-web
