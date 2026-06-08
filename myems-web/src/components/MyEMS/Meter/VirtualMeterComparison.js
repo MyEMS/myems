@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useState, useContext } from 'react';
+import React, { Fragment, useEffect, useState, useContext, useCallback } from 'react';
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -19,6 +19,7 @@ import CountUp from 'react-countup';
 import moment from 'moment';
 import loadable from '@loadable/component';
 import Cascader from 'rc-cascader';
+import DeepSeekAnalysisModal from '../common/DeepSeekAnalysisModal';
 import CardSummary from '../common/CardSummary';
 import { getCookieValue, createCookie, checkEmpty, handleAPIError } from '../../../helpers/utils';
 import withRedirect from '../../../hoc/withRedirect';
@@ -109,6 +110,8 @@ const VirtualMeterComparison = ({ setRedirect, setRedirectUrl, t }) => {
   const [spinnerHidden, setSpinnerHidden] = useState(true);
   const [exportButtonHidden, setExportButtonHidden] = useState(true);
   const [resultDataHidden, setResultDataHidden] = useState(true);
+  const [smartAnalysisOpen, setSmartAnalysisOpen] = useState(false);
+  const [smartAnalysisContext, setSmartAnalysisContext] = useState(null);
 
   // Results state
   const [virtualMeter1, setVirtualMeter1] = useState({
@@ -562,6 +565,79 @@ const VirtualMeterComparison = ({ setRedirect, setRedirectUrl, t }) => {
       });
   };
 
+  const buildSmartAnalysisContext = useCallback(() => {
+    const sliceChartValues = dataObj => {
+      const values = {};
+      if (dataObj && typeof dataObj === 'object') {
+        Object.keys(dataObj).forEach(k => {
+          const arr = dataObj[k];
+          values[k] = Array.isArray(arr) ? arr.slice(0, 200) : arr;
+        });
+      }
+      return values;
+    };
+    return {
+      reportType: 'virtual_meter_comparison',
+      reportTitle: t('Virtual Meter Comparison'),
+      space1Name: selectedSpaceName1 ?? null,
+      space2Name: selectedSpaceName2 ?? null,
+      virtualMeter1: {
+        id: selectedVirtualMeter1,
+        ...virtualMeter1
+      },
+      virtualMeter2: {
+        id: selectedVirtualMeter2,
+        ...virtualMeter2
+      },
+      periodType,
+      reportingPeriod: {
+        start: reportingPeriodDateRange[0]
+          ? moment(reportingPeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss')
+          : null,
+        end: reportingPeriodDateRange[1]
+          ? moment(reportingPeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss')
+          : null
+      },
+      reportingPeriodTotals: {
+        virtualMeter1: reportingPeriodEnergyConsumptionInCategory1,
+        virtualMeter2: reportingPeriodEnergyConsumptionInCategory2,
+        difference: reportingPeriodEnergyConsumptionInDifference
+      },
+      virtualMeter1Trend: {
+        labels: virtualMeterLineChartLabels1,
+        values: sliceChartValues(virtualMeterLineChartData1)
+      },
+      virtualMeter2Trend: {
+        labels: virtualMeterLineChartLabels2,
+        values: sliceChartValues(virtualMeterLineChartData2)
+      },
+      detailedDataSample: detailedDataTableData.slice(0, 120)
+    };
+  }, [
+    selectedSpaceName1,
+    selectedSpaceName2,
+    selectedVirtualMeter1,
+    selectedVirtualMeter2,
+    virtualMeter1,
+    virtualMeter2,
+    periodType,
+    reportingPeriodDateRange,
+    reportingPeriodEnergyConsumptionInCategory1,
+    reportingPeriodEnergyConsumptionInCategory2,
+    reportingPeriodEnergyConsumptionInDifference,
+    virtualMeterLineChartLabels1,
+    virtualMeterLineChartData1,
+    virtualMeterLineChartLabels2,
+    virtualMeterLineChartData2,
+    detailedDataTableData,
+    t
+  ]);
+
+  const openSmartAnalysis = () => {
+    setSmartAnalysisContext(buildSmartAnalysisContext());
+    setSmartAnalysisOpen(true);
+  };
+
   return (
     <Fragment>
       <div>
@@ -725,6 +801,19 @@ const VirtualMeterComparison = ({ setRedirect, setRedirectUrl, t }) => {
                   {t('Export')}
                 </ButtonIcon>
               </Col>
+              {settings.enableAIAnalysis ? (
+                <Col xs="auto">
+                  <br />
+                  <Button
+                    color="falcon-default"
+                    size="sm"
+                    hidden={exportButtonHidden}
+                    onClick={openSmartAnalysis}
+                  >
+                    {t('AI Analysis')}
+                  </Button>
+                </Col>
+              ) : null}
             </Row>
           </Form>
         </CardBody>
@@ -849,6 +938,16 @@ const VirtualMeterComparison = ({ setRedirect, setRedirectUrl, t }) => {
           pagesize={50}
         />
       </div>
+      {settings.enableAIAnalysis ? (
+        <DeepSeekAnalysisModal
+          isOpen={smartAnalysisOpen}
+          toggle={() => setSmartAnalysisOpen(false)}
+          language={language}
+          reportContext={smartAnalysisContext}
+          setRedirect={setRedirect}
+          setRedirectUrl={setRedirectUrl}
+        />
+      ) : null}
     </Fragment>
   );
 };

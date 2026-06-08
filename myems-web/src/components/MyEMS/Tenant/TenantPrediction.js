@@ -1151,13 +1151,24 @@ const TenantPrediction = ({ setRedirect, setRedirectUrl, t }) => {
         lineValues[k] = Array.isArray(arr) ? arr.slice(0, 200) : arr;
       });
     }
+    const sliceNestedArrays = (obj, maxLen) => {
+      const out = {};
+      if (!obj || typeof obj !== 'object') {
+        return out;
+      }
+      Object.keys(obj).forEach(k => {
+        const arr = obj[k];
+        out[k] = Array.isArray(arr) ? arr.slice(0, maxLen) : arr;
+      });
+      return out;
+    };
     const tenantLabel =
       tenantList.find(x => String(x.value) === String(selectedTenant))?.label ?? null;
     const spaceDisplayName = Array.isArray(selectedSpaceName)
       ? selectedSpaceName.join('/')
       : selectedSpaceName ?? null;
     return {
-      reportType: 'tenant_energy_category',
+      reportType: 'tenant_prediction',
       reportTitle: t('Prediction'),
       space: { name: spaceDisplayName },
       tenant: {
@@ -1199,7 +1210,17 @@ const TenantPrediction = ({ setRedirect, setRedirectUrl, t }) => {
         values: lineValues
       },
       tenantBaseAndReportingNames,
-      tenantBaseAndReportingUnits
+      tenantBaseAndReportingUnits,
+      tenantReportingSubtotals,
+      tenantBaseSubtotals,
+      tenantTrend: {
+        reportingLabels: sliceNestedArrays(tenantReportingLabels, 200),
+        reportingData: sliceNestedArrays(tenantReportingData, 200),
+        baseLabels: sliceNestedArrays(tenantBaseLabels, 200),
+        baseData: sliceNestedArrays(tenantBaseData, 200),
+        rates: sliceNestedArrays(tenantReportingRates, 200),
+        options: tenantReportingOptions
+      }
     };
   }, [
     t,
@@ -1223,7 +1244,15 @@ const TenantPrediction = ({ setRedirect, setRedirectUrl, t }) => {
     parameterLineChartOptions,
     parameterLineChartData,
     tenantBaseAndReportingNames,
-    tenantBaseAndReportingUnits
+    tenantBaseAndReportingUnits,
+    tenantReportingSubtotals,
+    tenantBaseSubtotals,
+    tenantReportingLabels,
+    tenantReportingData,
+    tenantBaseLabels,
+    tenantBaseData,
+    tenantReportingRates,
+    tenantReportingOptions
   ]);
 
   const openSmartAnalysis = () => {
