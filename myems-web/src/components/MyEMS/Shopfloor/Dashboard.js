@@ -259,7 +259,7 @@ const Dashboard = ({setRedirect, setRedirectUrl, t}) => {
       if (monthlyTrends.cost && monthlyTrends.cost.length > 0) {
         timestamps['cost'] = monthlyTrends.labels;
         values['cost'] = monthlyTrends.cost.length > 0 ? monthlyTrends.cost[0] : [];
-        options.push({value: 'cost', label: t('CostData')});
+        options.push({value: 'cost', label: t('CostData')+ ' (CNY)'});
       }
       
       // Add each energy category as a separate option

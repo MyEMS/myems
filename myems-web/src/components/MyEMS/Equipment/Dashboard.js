@@ -492,6 +492,8 @@ const Dashboard = ({setRedirect, setRedirectUrl, t}) => {
                           </th>
                       ))}
                       <th className="text-right">{t('Cumulative Efficiency')}</th>
+                      <th className="text-right">{t('Cost')} (CNY)</th>
+                      <th className="text-right">{t('Microgrid Carbon')} (kgCO2e)</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -529,6 +531,16 @@ const Dashboard = ({setRedirect, setRedirectUrl, t}) => {
                                 <td className="text-right">
                                   {equipment.efficiency !== null && equipment.efficiency !== undefined
                                       ? equipment.efficiency.toFixed(2) + '%'
+                                      : '-'}
+                                </td>
+                                <td className="text-right">
+                                  {equipment.total_cost !== null && equipment.total_cost !== undefined && equipment.total_cost > 0
+                                      ? equipment.total_cost.toFixed(2)
+                                      : '-'}
+                                </td>
+                                <td className="text-right">
+                                  {equipment.total_carbon !== null && equipment.total_carbon !== undefined && equipment.total_carbon > 0
+                                      ? equipment.total_carbon.toFixed(2)
                                       : '-'}
                                 </td>
                               </tr>

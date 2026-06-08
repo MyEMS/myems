@@ -788,6 +788,68 @@ class Reporting:
                 except Exception as e:
                     logger.error(f"Error querying equipment output data: {e}")
 
+                # Query cost by category for each equipment
+                equipment_cost_by_category = {}
+                try:
+                    cursor_billing.execute(
+                        " SELECT equipment_id, energy_category_id, SUM(actual_value) as category_cost "
+                        " FROM tbl_equipment_input_category_hourly "
+                        " WHERE equipment_id IN (%s) "
+                        "   AND start_datetime_utc >= %%s "
+                        "   AND start_datetime_utc < %%s "
+                        " GROUP BY equipment_id, energy_category_id "
+                        " ORDER BY equipment_id, category_cost DESC " % format_strings,
+                        equipment_ids_tuple + (daily_start, reporting_end_datetime_utc)
+                    )
+                    rows_cost = cursor_billing.fetchall()
+                    if rows_cost:
+                        for row in rows_cost:
+                            equipment_id = row[0]
+                            ec_id = row[1]
+                            category_cost = float(row[2]) if row[2] else 0.0
+
+                            if equipment_id not in equipment_cost_by_category:
+                                equipment_cost_by_category[equipment_id] = {
+                                    'total_cost': 0.0,
+                                    'categories': {}
+                                }
+
+                            equipment_cost_by_category[equipment_id]['categories'][ec_id] = category_cost
+                            equipment_cost_by_category[equipment_id]['total_cost'] += category_cost
+                except Exception as e:
+                    logger.error(f"Error querying equipment cost data: {e}")
+
+                # Query carbon by category for each equipment
+                equipment_carbon_by_category = {}
+                try:
+                    cursor_carbon.execute(
+                        " SELECT equipment_id, energy_category_id, SUM(actual_value) as category_carbon "
+                        " FROM tbl_equipment_input_category_hourly "
+                        " WHERE equipment_id IN (%s) "
+                        "   AND start_datetime_utc >= %%s "
+                        "   AND start_datetime_utc < %%s "
+                        " GROUP BY equipment_id, energy_category_id "
+                        " ORDER BY equipment_id, category_carbon DESC " % format_strings,
+                        equipment_ids_tuple + (daily_start, reporting_end_datetime_utc)
+                    )
+                    rows_carbon = cursor_carbon.fetchall()
+                    if rows_carbon:
+                        for row in rows_carbon:
+                            equipment_id = row[0]
+                            ec_id = row[1]
+                            category_carbon = float(row[2]) if row[2] else 0.0
+
+                            if equipment_id not in equipment_carbon_by_category:
+                                equipment_carbon_by_category[equipment_id] = {
+                                    'total_carbon': 0.0,
+                                    'categories': {}
+                                }
+
+                            equipment_carbon_by_category[equipment_id]['categories'][ec_id] = category_carbon
+                            equipment_carbon_by_category[equipment_id]['total_carbon'] += category_carbon
+                except Exception as e:
+                    logger.error(f"Error querying equipment carbon data: {e}")
+
             # Build top 5 equipments
             sorted_equipments = sorted(
                 equipment_energy_by_category.items(),
@@ -822,6 +884,16 @@ class Reporting:
                     'categories': {}
                 })
 
+                cost_data = equipment_cost_by_category.get(equipment_id, {
+                    'total_cost': 0.0,
+                    'categories': {}
+                })
+
+                carbon_data = equipment_carbon_by_category.get(equipment_id, {
+                    'total_carbon': 0.0,
+                    'categories': {}
+                })
+
                 # Calculate efficiency (total_output / total_energy * 100)
                 efficiency = None
                 if energy_data['total_energy'] > 0 and output_data['total_output'] > 0:
@@ -836,6 +908,10 @@ class Reporting:
                     'energy_by_category': energy_data['categories'],
                     'total_output': output_data['total_output'],
                     'output_by_category': output_data['categories'],
+                    'total_cost': cost_data['total_cost'],
+                    'cost_by_category': cost_data['categories'],
+                    'total_carbon': carbon_data['total_carbon'],
+                    'carbon_by_category': carbon_data['categories'],
                     'efficiency': efficiency
                 })
 
