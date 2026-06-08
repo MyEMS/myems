@@ -345,15 +345,6 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
               });
               setSpaceInputLineChartData(values);
 
-              const normalizeUnitForUnitPrice = unit => {
-                if (unit === null || unit === undefined) return '';
-                let u = String(unit).trim();
-                let lower = u.toLowerCase();
-                if (lower.includes('kwh')) return 'Kwh';
-                if (lower === 'm3' || lower.includes('m³') || lower.includes('m3')) return 'M3';
-                return u;
-              };
-
               let input_names = [];
               let thisMonthInputArr = [];
               let thisMonthInputByEnergyCategoryId = {};
@@ -451,14 +442,18 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
                     ? parseFloat(thisMonthItem['subtotal'] / json['space']['number_of_occupants']).toFixed(3)
                     : 0.0;
 
-                let inputSubtotal = thisMonthInputByEnergyCategoryId[energyCategoryId]?.subtotal;
-                let inputUnit = thisMonthInputByEnergyCategoryId[energyCategoryId]?.unit;
+                let inputItem =
+                  json['reporting_period_input']['energy_category_ids'] &&
+                  json['reporting_period_input']['energy_category_ids'][index] === energyCategoryId
+                    ? thisMonthInputArr[index]
+                    : thisMonthInputByEnergyCategoryId[energyCategoryId];
+                let inputSubtotal = inputItem?.subtotal;
+                let inputUnit = inputItem?.unit;
                 let costSubtotalValue = Number(thisMonthItem['subtotal']) || 0;
                 let inputSubtotalValue = Number(inputSubtotal) || 0;
                 thisMonthItem['comprehensive_unit_price'] =
                   inputSubtotalValue > 0 ? costSubtotalValue / inputSubtotalValue : 0;
-                let normalizedInputUnit = normalizeUnitForUnitPrice(inputUnit);
-                thisMonthItem['comprehensive_unit_price_unit'] = normalizedInputUnit ? 'CNY/' + normalizedInputUnit : 'CNY';
+                thisMonthItem['comprehensive_unit_price_unit'] = inputUnit ? thisMonthItem['unit'] + '/' + inputUnit : thisMonthItem['unit'];
 
                 thisMonthCostArr.push(thisMonthItem);
               });
