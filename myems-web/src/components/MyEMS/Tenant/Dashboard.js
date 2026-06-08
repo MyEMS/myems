@@ -80,7 +80,7 @@ const Dashboard = ({setRedirect, setRedirectUrl, t}) => {
 
   const [topTenants, setTopTenants] = useState([]);
   const [allTenants, setAllTenants] = useState([]);
-  const [monthlyTrends, setMonthlyTrends] = useState({
+  const [dailyTrends, setDailyTrends] = useState({
     labels: [],
     energy: [],
     cost: [],
@@ -143,7 +143,7 @@ const Dashboard = ({setRedirect, setRedirectUrl, t}) => {
       setTopTenants(json.top_tenants || []);
       setAllTenants(json.tenants || []);
 
-      // Process monthly trends
+      // Process daily trends (from 1st of last month to now)
       if (json.reporting_period_input.timestamps && json.reporting_period_input.timestamps.length > 0) {
         const labels = json.reporting_period_input.timestamps[0] || [];
         const energyValues = json.reporting_period_input.values || [];
@@ -151,7 +151,7 @@ const Dashboard = ({setRedirect, setRedirectUrl, t}) => {
         const categoryNames = json.reporting_period_input.category_names || [];
         const categoryUnits = json.reporting_period_input.category_units || [];
 
-        setMonthlyTrends({
+        setDailyTrends({
           labels,
           energy: energyValues,
           cost: costValues,
@@ -249,27 +249,27 @@ const Dashboard = ({setRedirect, setRedirectUrl, t}) => {
 
   const topTenantsBarData = prepareTopTenantsBarData();
 
-  // Prepare line chart data for monthly trends - now by energy category
-  const prepareMonthlyTrendData = () => {
+  // Prepare line chart data for daily trends - now by energy category
+  const prepareDailyTrendData = () => {
     const timestamps = {};
     const values = {};
     const options = [];
 
-    if (monthlyTrends.labels && monthlyTrends.labels.length > 0) {
+    if (dailyTrends.labels && dailyTrends.labels.length > 0) {
       // Add cost option first (as default)
-      if (monthlyTrends.cost && monthlyTrends.cost.length > 0) {
-        timestamps['cost'] = monthlyTrends.labels;
-        values['cost'] = monthlyTrends.cost.length > 0 ? monthlyTrends.cost[0] : [];
+      if (dailyTrends.cost && dailyTrends.cost.length > 0) {
+        timestamps['cost'] = dailyTrends.labels;
+        values['cost'] = dailyTrends.cost.length > 0 ? dailyTrends.cost[0] : [];
         options.push({value: 'cost', label: t('CostData')+ ' (CNY)'});
       }
       
       // Add each energy category as a separate option
-      monthlyTrends.energy.forEach((categoryData, index) => {
+      dailyTrends.energy.forEach((categoryData, index) => {
         const key = `energy_${index}`;
-        timestamps[key] = monthlyTrends.labels;
+        timestamps[key] = dailyTrends.labels;
         values[key] = categoryData;
-        const categoryName = monthlyTrends.categoryNames[index] || t('Unknown');
-        const unit = monthlyTrends.categoryUnits[index] || '';
+        const categoryName = dailyTrends.categoryNames[index] || t('Unknown');
+        const unit = dailyTrends.categoryUnits[index] || '';
         options.push({value: key, label: `${t(categoryName)} (${unit})`});
       });
     }
@@ -277,7 +277,7 @@ const Dashboard = ({setRedirect, setRedirectUrl, t}) => {
     return {timestamps, values, options};
   };
 
-  const monthlyTrendChartData = prepareMonthlyTrendData();
+  const dailyTrendChartData = prepareDailyTrendData();
   
   // Set default selected option to cost
   const [selectedChartOption, setSelectedChartOption] = useState('cost');
@@ -374,15 +374,15 @@ const Dashboard = ({setRedirect, setRedirectUrl, t}) => {
         {/* Monthly Trends Line Chart */}
         <div className="card-deck">
           <LineChart
-              reportingTitle={t("This Year's Consumption CATEGORY VALUE UNIT", {
+              reportingTitle={t("This Month's Consumption CATEGORY VALUE UNIT", {
                 CATEGORY: null,
                 VALUE: null,
                 UNIT: null
               })}
               baseTitle=""
-              labels={monthlyTrendChartData.timestamps}
-              data={monthlyTrendChartData.values}
-              options={monthlyTrendChartData.options}
+              labels={dailyTrendChartData.timestamps}
+              data={dailyTrendChartData.values}
+              options={dailyTrendChartData.options}
               defaultOption={selectedChartOption}
           />
         </div>
@@ -393,8 +393,7 @@ const Dashboard = ({setRedirect, setRedirectUrl, t}) => {
             <Card className="mb-3">
               <CardBody>
                 <h5 className="mb-3">
-                  <FontAwesomeIcon icon={faArrowUp} className="mr-2"/>
-                  {t('Tenant Performance Overview')}
+                  {t('Detailed Data')}
                 </h5>
                 <div className="table-responsive">
                   <table className="table table-hover">
@@ -408,6 +407,8 @@ const Dashboard = ({setRedirect, setRedirectUrl, t}) => {
                           {t(categoryName)} ({energyData.units[index] || ''})
                         </th>
                       ))}
+                      <th className="text-right">{t('Cost')} (CNY)</th>
+                      <th className="text-right">{t('Microgrid Carbon')} (kgCO2e)</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -431,6 +432,16 @@ const Dashboard = ({setRedirect, setRedirectUrl, t}) => {
                               </td>
                             );
                           })}
+                          <td className="text-right">
+                            {tenant.total_cost !== null && tenant.total_cost !== undefined && tenant.total_cost > 0
+                                ? tenant.total_cost.toFixed(2)
+                                : '-'}
+                          </td>
+                          <td className="text-right">
+                            {tenant.total_carbon !== null && tenant.total_carbon !== undefined && tenant.total_carbon > 0
+                                ? tenant.total_carbon.toFixed(2)
+                                : '-'}
+                          </td>
                         </tr>
                       );
                     })}
