@@ -1,6 +1,9 @@
 "use strict";
+
+// Energy Storage Container Load service - REST API wrapper
 app.factory("EnergyStorageContainerLoadService", function ($http) {
   return {
+        // GET all energy storage container loads
     getAllEnergyStorageContainerLoads: function (headers, callback) {
       $http.get(getAPI() + "energystoragecontainerloads", { headers }).then(
         function (response) {
@@ -11,6 +14,7 @@ app.factory("EnergyStorageContainerLoadService", function ($http) {
         }
       );
     },
+        // GET energy storage container loads by energy storage container id by ID
     getEnergyStorageContainerLoadsByEnergyStorageContainerID: function (
       id,
       headers,
@@ -27,6 +31,7 @@ app.factory("EnergyStorageContainerLoadService", function ($http) {
           }
         );
     },
+        // POST create energy storage container load
     addEnergyStorageContainerLoad: function (
       id,
       energystoragecontainerload,
@@ -48,6 +53,7 @@ app.factory("EnergyStorageContainerLoadService", function ($http) {
           }
         );
     },
+        // PUT update energy storage container load
     editEnergyStorageContainerLoad: function (
       id,
       energystoragecontainerload,
@@ -73,6 +79,7 @@ app.factory("EnergyStorageContainerLoadService", function ($http) {
           }
         );
     },
+        // DELETE energy storage container load
     deleteEnergyStorageContainerLoad: function (
       id,
       energystoragecontainerloadyID,
@@ -97,6 +104,7 @@ app.factory("EnergyStorageContainerLoadService", function ($http) {
           }
         );
     },
+        // POST create pair
     addPair: function (id, lid, pid, headers, callback) {
       $http
         .post(
@@ -118,6 +126,7 @@ app.factory("EnergyStorageContainerLoadService", function ($http) {
           }
         );
     },
+        // DELETE pair
     deletePair: function (id, lid, pid, headers, callback) {
       $http
         .delete(
@@ -139,6 +148,7 @@ app.factory("EnergyStorageContainerLoadService", function ($http) {
           }
         );
     },
+        // GET points by load id by ID
     getPointsByLoadID: function (id, lid, headers, callback) {
       $http
         .get(

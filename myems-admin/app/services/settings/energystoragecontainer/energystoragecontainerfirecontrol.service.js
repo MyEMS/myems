@@ -1,6 +1,9 @@
 "use strict";
+
+// Energy Storage Container Fire Control service - REST API wrapper
 app.factory("EnergyStorageContainerFirecontrolService", function ($http) {
   return {
+        // GET all energy storage container firecontrols
     getAllEnergyStorageContainerFirecontrols: function (headers, callback) {
       $http
         .get(getAPI() + "energystoragecontainerfirecontrols", { headers })
@@ -13,6 +16,7 @@ app.factory("EnergyStorageContainerFirecontrolService", function ($http) {
           }
         );
     },
+        // GET energy storage container firecontrols by energy storage container id by ID
     getEnergyStorageContainerFirecontrolsByEnergyStorageContainerID: function (
       id,
       headers,
@@ -31,6 +35,7 @@ app.factory("EnergyStorageContainerFirecontrolService", function ($http) {
           }
         );
     },
+        // POST create energy storage container firecontrol
     addEnergyStorageContainerFirecontrol: function (
       id,
       energystoragecontainerfirecontrol,
@@ -52,6 +57,7 @@ app.factory("EnergyStorageContainerFirecontrolService", function ($http) {
           }
         );
     },
+        // PUT update energy storage container firecontrol
     editEnergyStorageContainerFirecontrol: function (
       id,
       energystoragecontainerfirecontrol,
@@ -77,6 +83,7 @@ app.factory("EnergyStorageContainerFirecontrolService", function ($http) {
           }
         );
     },
+        // DELETE energy storage container firecontrol
     deleteEnergyStorageContainerFirecontrol: function (
       id,
       energystoragecontainerfirecontrolID,
@@ -101,6 +108,7 @@ app.factory("EnergyStorageContainerFirecontrolService", function ($http) {
           }
         );
     },
+        // POST create pair
     addPair: function (id, fid, pid, headers, callback) {
       $http
         .post(
@@ -122,6 +130,7 @@ app.factory("EnergyStorageContainerFirecontrolService", function ($http) {
           }
         );
     },
+        // DELETE pair
     deletePair: function (id, fid, pid, headers, callback) {
       $http
         .delete(
@@ -143,6 +152,7 @@ app.factory("EnergyStorageContainerFirecontrolService", function ($http) {
           }
         );
     },
+        // GET points by firecontrol id by ID
     getPointsByFirecontrolID: function (id, fid, headers, callback) {
       $http
         .get(

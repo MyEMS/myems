@@ -1,6 +1,9 @@
 'use strict';
+
+// Store Meter service - REST API wrapper
 app.factory('StoreMeterService', function($http) {
     return {
+        // POST create pair
         addPair: function(storeID, meterID, metertype, headers, callback) {
             var meter={};
             if(metertype=='meters'){
@@ -19,6 +22,7 @@ app.factory('StoreMeterService', function($http) {
             });
         },
 
+        // DELETE pair
         deletePair: function(storeID, meterID, metertype, headers, callback) {
             $http.delete(getAPI()+'stores/'+storeID+'/'+metertype+'/'+meterID, {headers})
             .then(function (response) {
@@ -27,6 +31,7 @@ app.factory('StoreMeterService', function($http) {
                 callback(response);
             });
         },
+        // GET meters by store id by ID
         getMetersByStoreID: function(id, metertype, headers, callback) {
             $http.get(getAPI()+'stores/'+id+'/'+metertype, {headers})
             .then(function (response) {

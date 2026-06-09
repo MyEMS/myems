@@ -1,5 +1,7 @@
 'use strict';
 
+// Shop Floor Working Calendar controller - working calendar association
+
 app.controller('ShopfloorWorkingCalendarController', function(
     $scope,
     $window,
@@ -18,6 +20,7 @@ app.controller('ShopfloorWorkingCalendarController', function(
     $scope.currentShopfloor = {selected: undefined};
     $scope.isShopfloorSelected = false;
 
+    // Load all shopfloors from API
     $scope.getAllShopfloors = function() {
         let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
         ShopfloorService.getAllShopfloors(headers, function(response) {
@@ -29,6 +32,7 @@ app.controller('ShopfloorWorkingCalendarController', function(
         });
     };
 
+    // Load working calendars by shopfloor id
     $scope.getWorkingCalendarsByShopfloorID = function(id) {
         let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
         ShopfloorWorkingCalendarService.getWorkingCalendarsByShopfloorID(id, headers, function(response) {
@@ -41,6 +45,7 @@ app.controller('ShopfloorWorkingCalendarController', function(
         });
     };
 
+    // Load all working calendars from API
     $scope.getAllWorkingCalendars = function() {
         let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
         WorkingCalendarService.getAllWorkingCalendars(headers, function(response) {
@@ -57,6 +62,7 @@ app.controller('ShopfloorWorkingCalendarController', function(
         });
     };
 
+    // Handle shopfloor change
     $scope.changeShopfloor = function(item, model) {
         $scope.currentShopfloor = item;
         $scope.currentShopfloor.selected = model;
@@ -68,6 +74,7 @@ app.controller('ShopfloorWorkingCalendarController', function(
         }
     };
 
+    // Bind working calendar via drag-and-drop
     $scope.pairWorkingCalendar = function(dragEl, dropEl) {
         if (!$scope.isShopfloorSelected || !$scope.currentShopfloor || !$scope.currentShopfloor.id) {
             DragDropWarningService.showWarning("SETTING.PLEASE_SELECT_SHOPFLOOR_FIRST");
@@ -96,6 +103,7 @@ app.controller('ShopfloorWorkingCalendarController', function(
         });
     };
 
+    // Unbind working calendar via drag-to-trash
     $scope.deleteWorkingCalendarPair = function(dragEl, dropEl) {
         if (angular.element('#' + dragEl).hasClass('source')) return;
         if (!$scope.isShopfloorSelected || !$scope.currentShopfloor || !$scope.currentShopfloor.id) {

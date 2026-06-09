@@ -1,5 +1,7 @@
 'use strict';
 
+// Store Command controller - drag-and-drop command binding
+
 app.controller('StoreCommandController', function (
     $scope,
     $rootScope,
@@ -17,6 +19,7 @@ app.controller('StoreCommandController', function (
     $scope.storecommands = [];
     $scope.isStoreSelected = false;
 
+    // Load all commands from API
     $scope.getAllCommands = function() {
         let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
         CommandService.getAllCommands(headers, function(response) {
@@ -33,6 +36,7 @@ app.controller('StoreCommandController', function (
         });
     };
 
+    // Load commands by store id
     $scope.getCommandsByStoreID = function(id) {
         let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
         StoreCommandService.getCommandsByStoreID(id, headers, function(response) {
@@ -46,6 +50,7 @@ app.controller('StoreCommandController', function (
         });
     };
 
+    // Handle store change
     $scope.changeStore = function(item, model) {
         $scope.currentStore = item;
         $scope.currentStore.selected = model;
@@ -57,6 +62,7 @@ app.controller('StoreCommandController', function (
         }
     };
 
+    // Load all stores from API
     $scope.getAllStores = function() {
         let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
         StoreService.getAllStores(headers, function(response) {
@@ -68,6 +74,7 @@ app.controller('StoreCommandController', function (
         });
     };
 
+    // Bind command via drag-and-drop
     $scope.pairCommand = function(dragEl, dropEl) {
         if (!$scope.isStoreSelected || !$scope.currentStore || !$scope.currentStore.id) {
             DragDropWarningService.showWarning("SETTING.PLEASE_SELECT_STORE_FIRST");
@@ -96,6 +103,7 @@ app.controller('StoreCommandController', function (
         });
     };
 
+    // Unbind command via drag-to-trash
     $scope.deleteCommandPair = function(dragEl, dropEl) {
         if (angular.element('#' + dragEl).hasClass('source')) return;
         if (!$scope.isStoreSelected || !$scope.currentStore || !$scope.currentStore.id) {

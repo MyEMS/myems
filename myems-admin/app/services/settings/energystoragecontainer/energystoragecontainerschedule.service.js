@@ -1,6 +1,9 @@
 "use strict";
+
+// Energy Storage Container Schedule service - REST API wrapper
 app.factory("EnergyStorageContainerScheduleService", function ($http) {
   return {
+        // GET all energy storage container schedules
     getAllEnergyStorageContainerSchedules: function (headers, callback) {
       $http.get(getAPI() + "energystoragecontainerschedules", { headers }).then(
         function (response) {
@@ -11,6 +14,7 @@ app.factory("EnergyStorageContainerScheduleService", function ($http) {
         }
       );
     },
+        // GET energy storage container schedules by energy storage container id by ID
     getEnergyStorageContainerSchedulesByEnergyStorageContainerID: function (
       id,
       headers,
@@ -29,6 +33,7 @@ app.factory("EnergyStorageContainerScheduleService", function ($http) {
           }
         );
     },
+        // POST create energy storage container schedule
     addEnergyStorageContainerSchedule: function (
       id,
       energystoragecontainerschedule,
@@ -50,6 +55,7 @@ app.factory("EnergyStorageContainerScheduleService", function ($http) {
           }
         );
     },
+        // PUT update energy storage container schedule
     editEnergyStorageContainerSchedule: function (
       id,
       energystoragecontainerschedule,
@@ -75,6 +81,7 @@ app.factory("EnergyStorageContainerScheduleService", function ($http) {
           }
         );
     },
+        // DELETE energy storage container schedule
     deleteEnergyStorageContainerSchedule: function (
       id,
       energystoragecontainerscheduleyID,

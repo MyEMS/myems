@@ -1,5 +1,7 @@
 'use strict';
 
+// Distribution Circuit controller - distribution circuit management
+
 app.controller('DistributionCircuitController', function(
 	$scope,
 	$rootScope,
@@ -14,6 +16,7 @@ app.controller('DistributionCircuitController', function(
       $scope.distributioncircuits = [];
       $scope.currentDistributionSystem = null;
 	  $scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
+      // Load all distribution systems from API
       $scope.getAllDistributionSystems = function() {
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
   		DistributionSystemService.getAllDistributionSystems(headers, function (response) {
@@ -25,6 +28,7 @@ app.controller('DistributionCircuitController', function(
   		});
   	};
 
+  	// Load distribution circuits by distribution system id
   	$scope.getDistributionCircuitsByDistributionSystemID = function(id) {
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
   		DistributionCircuitService.getDistributionCircuitsByDistributionSystemID(id, headers, function (response) {
@@ -36,6 +40,7 @@ app.controller('DistributionCircuitController', function(
 		});
   	};
 
+  	// Handle distribution system change
   	$scope.changeDistributionSystem=function(item,model){
     	$scope.currentDistributionSystem=item;
     	$scope.currentDistributionSystem.selected=model;
@@ -43,6 +48,7 @@ app.controller('DistributionCircuitController', function(
     	$scope.getDistributionCircuitsByDistributionSystemID($scope.currentDistributionSystem.id);
   	};
 
+  	// Open add modal and create distribution circuit
   	$scope.addDistributionCircuit = function() {
 
   		var modalInstance = $uibModal.open({
@@ -84,6 +90,7 @@ app.controller('DistributionCircuitController', function(
 		$rootScope.modalInstance = modalInstance;
   	};
 
+  	// Open edit modal and update distribution circuit
   	$scope.editDistributionCircuit = function(distributioncircuit) {
   		var modalInstance = $uibModal.open({
   			templateUrl: 'views/settings/distributionsystem/distributioncircuit.model.html',
@@ -126,6 +133,7 @@ app.controller('DistributionCircuitController', function(
 		$rootScope.modalInstance = modalInstance;
   	};
 
+  	// Confirm and delete distribution circuit
   	$scope.deleteDistributionCircuit = function(distributioncircuit) {
   		SweetAlert.swal({
   				title: $translate.instant("SWEET.TITLE"),
@@ -173,6 +181,7 @@ app.controller('DistributionCircuitController', function(
   });
 
 
+// Modal controller for add dialog
   app.controller('ModalAddDistributionCircuitCtrl', function($scope, $uibModalInstance, params) {
 
   	$scope.operation = "DISTRIBUTION_SYSTEM.ADD_DISTRIBUTION_CIRCUIT";
@@ -186,6 +195,7 @@ app.controller('DistributionCircuitController', function(
   	};
   });
 
+// Modal controller for edit dialog
   app.controller('ModalEditDistributionCircuitCtrl', function($scope, $uibModalInstance, params) {
   	$scope.operation = "DISTRIBUTION_SYSTEM.EDIT_DISTRIBUTION_CIRCUIT";
   	$scope.distributioncircuit = params.distributioncircuit;

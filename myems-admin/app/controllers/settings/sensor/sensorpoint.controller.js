@@ -1,5 +1,7 @@
 'use strict';
 
+// Sensor Point controller - drag-and-drop point binding
+
 app.controller('SensorPointController', function (
     $scope,
     $window,
@@ -17,6 +19,7 @@ app.controller('SensorPointController', function (
     $scope.currentSensor = { selected: undefined };
     $scope.isSensorSelected = false;
 
+    // Load all data sources from API
     $scope.getAllDataSources = function () {
         let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
         DataSourceService.getAllDataSources(headers, function (response) {
@@ -32,6 +35,7 @@ app.controller('SensorPointController', function (
         });
     };
 
+    // Load points by data source id
     $scope.getPointsByDataSourceID = function (id) {
         let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
         PointService.getPointsByDataSourceID(id, headers, function (response) {
@@ -59,6 +63,7 @@ app.controller('SensorPointController', function (
         });
     };
 
+    // Load points by sensor id
     $scope.getPointsBySensorID = function (id) {
         let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
         SensorPointService.getPointsBySensorID(id, headers, function (response) {
@@ -75,6 +80,7 @@ app.controller('SensorPointController', function (
         });
     };
 
+    // Handle sensor change
     $scope.changeSensor = function (item, model) {
         $scope.currentSensor = item;
         $scope.currentSensor.selected = model;
@@ -88,11 +94,13 @@ app.controller('SensorPointController', function (
         }
     };
 
+    // Handle data source change
     $scope.changeDataSource = function (item, model) {
         $scope.currentDataSource = model;
         $scope.getPointsByDataSourceID($scope.currentDataSource);
     };
 
+    // Load all sensors from API
     $scope.getAllSensors = function () {
         let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
         SensorService.getAllSensors(headers, function (response) {
@@ -110,6 +118,7 @@ app.controller('SensorPointController', function (
         });
     };
 
+    // Bind point via drag-and-drop
     $scope.pairPoint = function (dragEl, dropEl) {
         if (!$scope.isSensorSelected || !$scope.currentSensor || !$scope.currentSensor.id) {
             DragDropWarningService.showWarning("SETTING.PLEASE_SELECT_SENSOR_FIRST");
@@ -138,6 +147,7 @@ app.controller('SensorPointController', function (
         });
     };
 
+    // Unbind point via drag-to-trash
     $scope.deletePointPair = function (dragEl, dropEl) {
         if (angular.element('#' + dragEl).hasClass('source')) {
             return;
@@ -171,6 +181,7 @@ app.controller('SensorPointController', function (
 
     $scope.tabInitialized = false;
 
+    // Initialize tab
     $scope.initTab = function() {
         if (!$scope.tabInitialized) {
             $scope.tabInitialized = true;

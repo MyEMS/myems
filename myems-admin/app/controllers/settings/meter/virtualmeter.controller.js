@@ -1,5 +1,7 @@
 'use strict';
 
+// Virtual Meter controller - drag-and-drop meter binding
+
 app.controller('VirtualMeterController', function($scope, $rootScope, $window, $uibModal, $translate, $timeout,
 	MeterService,
 	VirtualMeterService,
@@ -14,6 +16,7 @@ app.controller('VirtualMeterController', function($scope, $rootScope, $window, $
 	$scope.exportdata = '';
 	$scope.importdata = '';
 	$scope.searchVirtualMeterKeyword = '';
+	// Load all cost centers from API
 	$scope.getAllCostCenters = function() {
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 		CostCenterService.getAllCostCenters(headers, function (response) {
@@ -25,6 +28,7 @@ app.controller('VirtualMeterController', function($scope, $rootScope, $window, $
 		});
 	};
 
+	// Load all categories from API
 	$scope.getAllCategories = function() {
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 		CategoryService.getAllCategories(headers, function (response) {
@@ -36,6 +40,7 @@ app.controller('VirtualMeterController', function($scope, $rootScope, $window, $
 		});
 	};
 
+	// Load all energy items from API
 	$scope.getAllEnergyItems = function() {
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 		EnergyItemService.getAllEnergyItems(headers, function (response) {
@@ -47,6 +52,7 @@ app.controller('VirtualMeterController', function($scope, $rootScope, $window, $
 		});
 	};
 
+	// Load all virtual meters from API
 	$scope.getAllVirtualMeters = function() {
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 		VirtualMeterService.getAllVirtualMeters(headers, function (response) {
@@ -58,6 +64,7 @@ app.controller('VirtualMeterController', function($scope, $rootScope, $window, $
 		});
 
 	};
+	// Load all meters from API
 	$scope.getAllMeters = function() {
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 		MeterService.getAllMeters(headers, function (response) {
@@ -69,6 +76,7 @@ app.controller('VirtualMeterController', function($scope, $rootScope, $window, $
 		});
 	};
 
+	// Load all offline meters from API
 	$scope.getAllOfflineMeters = function() {
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 		OfflineMeterService.getAllOfflineMeters(headers, function (response) {
@@ -80,6 +88,7 @@ app.controller('VirtualMeterController', function($scope, $rootScope, $window, $
 		});
 	};
 
+	// Open add modal and create virtual meter
 	$scope.addVirtualMeter = function() {
 		var modalInstance = $uibModal.open({
 			templateUrl: 'views/settings/meter/virtualmeter.model.html',
@@ -133,6 +142,7 @@ app.controller('VirtualMeterController', function($scope, $rootScope, $window, $
 		$rootScope.modalInstance = modalInstance;
 	};
 
+	// Open edit modal and update virtual meter
 	$scope.editVirtualMeter = function(virtualmeter) {
 		var modalInstance = $uibModal.open({
 			windowClass: "animated fadeIn",
@@ -188,6 +198,7 @@ app.controller('VirtualMeterController', function($scope, $rootScope, $window, $
 		$rootScope.modalInstance = modalInstance;
 	};
 
+	// Confirm and delete virtual meter
 	$scope.deleteVirtualMeter = function(virtualmeter) {
 		SweetAlert.swal({
 				title: $translate.instant("SWEET.TITLE"),
@@ -226,6 +237,7 @@ app.controller('VirtualMeterController', function($scope, $rootScope, $window, $
 			});
 	};
 
+	// Export virtual meter as JSON
 	$scope.exportVirtualMeter = function(virtualmeter) {
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 		VirtualMeterService.exportVirtualMeter(virtualmeter, headers, function(response) {
@@ -255,6 +267,7 @@ app.controller('VirtualMeterController', function($scope, $rootScope, $window, $
 		});
 	};
 
+	// Clone an existing virtual meter
 	$scope.cloneVirtualMeter = function(virtualmeter){
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 		VirtualMeterService.cloneVirtualMeter(virtualmeter, headers, function(response) {
@@ -277,6 +290,7 @@ app.controller('VirtualMeterController', function($scope, $rootScope, $window, $
 		});
 	};
 
+	// Import virtual meter from JSON
 	$scope.importVirtualMeter = function() {
 		var modalInstance = $uibModal.open({
 			templateUrl: 'views/common/import.html',
@@ -322,6 +336,7 @@ app.controller('VirtualMeterController', function($scope, $rootScope, $window, $
 			scope.$apply();
 		}
 	}
+	// Search virtual meters by keyword
 	$scope.searchVirtualMeters = function() {
 		const headers = {
 			"User-UUID": $scope.cur_user?.uuid,
@@ -351,6 +366,7 @@ app.controller('VirtualMeterController', function($scope, $rootScope, $window, $
 
 	$scope.tabInitialized = false;
 
+	// Initialize tab
 	$scope.initTab = function() {
 		if (!$scope.tabInitialized) {
 			$scope.tabInitialized = true;
@@ -395,6 +411,7 @@ app.controller('VirtualMeterController', function($scope, $rootScope, $window, $
 
 });
 
+// Modal controller for add dialog
 app.controller('ModalAddVirtualMeterCtrl', function($timeout, $scope,
 	$uibModalInstance,
 	params) {
@@ -493,6 +510,7 @@ app.controller('ModalAddVirtualMeterCtrl', function($timeout, $scope,
 	};
 
 	$scope.last_meter_type_select = null;
+	// Handle meter type change
 	$scope.changeMeterType = function() {
 		switch ($scope.currentMeterType.selected.sid) {
 			case 'meter':
@@ -518,6 +536,7 @@ app.controller('ModalAddVirtualMeterCtrl', function($timeout, $scope,
 	};
 });
 
+// Modal controller for edit dialog
 app.controller('ModalEditVirtualMeterCtrl', function($timeout, $scope, $uibModalInstance, params) {
 	$scope.operation = "SETTING.EDIT_VIRTUAL_METER";
 	$scope.virtualmeter = params.virtualmeter;
@@ -624,6 +643,7 @@ app.controller('ModalEditVirtualMeterCtrl', function($timeout, $scope, $uibModal
 	};
 
 	$scope.last_meter_type_select = null;
+	// Handle meter type change
 	$scope.changeMeterType = function() {
 		switch ($scope.currentMeterType.selected.sid) {
 			case 'meter':

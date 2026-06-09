@@ -1,5 +1,7 @@
 'use strict';
 
+// Space Energy Flow Diagram controller - CRUD and settings management
+
 app.controller('SpaceEnergyFlowDiagramController', function(
     $scope,
     $window,
@@ -20,6 +22,7 @@ app.controller('SpaceEnergyFlowDiagramController', function(
     $scope.tabInitialized = false;
     $scope.isSpaceSelected = false;
 
+    // Load all spaces from API
     $scope.getAllSpaces = function() {
     let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
     SpaceService.getAllSpaces(headers, function (response) {
@@ -64,6 +67,7 @@ app.controller('SpaceEnergyFlowDiagramController', function(
     });
     };
 
+	// Load energy flow diagrams by space id
 	$scope.getEnergyFlowDiagramsBySpaceID = function(id) {
 	if ($scope.isLoadingEnergyflowdiagrams) return;
 	$scope.isLoadingEnergyflowdiagrams = true;
@@ -94,6 +98,7 @@ app.controller('SpaceEnergyFlowDiagramController', function(
         });
     };
 
+	// Load all energy flow diagrams from API
 	$scope.getAllEnergyFlowDiagrams = function() {
         let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 		EnergyFlowDiagramService.getAllEnergyFlowDiagrams(headers, function (response) {
@@ -106,6 +111,7 @@ app.controller('SpaceEnergyFlowDiagramController', function(
 		});
 	};
 
+	// Bind energy flow diagram via drag-and-drop
 	$scope.pairEnergyFlowDiagram=function(dragEl,dropEl){
 		var energyflowdiagramid=angular.element('#'+dragEl).scope().energyflowdiagram.id;
 		var spaceid=angular.element(spacetreewithenergyflowdiagram).jstree(true).get_top_selected();
@@ -130,6 +136,7 @@ app.controller('SpaceEnergyFlowDiagramController', function(
 		});
 	};
 
+	// Unbind energy flow diagram via drag-to-trash
 	$scope.deleteEnergyFlowDiagramPair=function(dragEl,dropEl){
 		if(angular.element('#'+dragEl).hasClass('source')){
 			return;
@@ -157,6 +164,7 @@ app.controller('SpaceEnergyFlowDiagramController', function(
 		});
 	};
 
+    // Initialize tab
     $scope.initTab = function() {
         if (!$scope.tabInitialized) {
             $scope.tabInitialized = true;
@@ -183,6 +191,7 @@ app.controller('SpaceEnergyFlowDiagramController', function(
         }
     }, 0);
 
+  // Refresh space tree
   $scope.refreshSpaceTree = function() {
     let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
     SpaceService.getAllSpaces(headers, function (response) {

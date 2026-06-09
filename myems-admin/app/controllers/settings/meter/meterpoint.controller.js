@@ -1,5 +1,7 @@
 'use strict';
 
+// Meter Point controller - drag-and-drop point binding
+
 app.controller('MeterPointController', function (
     $scope,
     $window,
@@ -15,6 +17,7 @@ app.controller('MeterPointController', function (
     $scope.currentMeter = {selected:undefined};
     $scope.isMeterSelected = false;
     $scope.meterpoints = [];
+    // Load all data sources from API
     $scope.getAllDataSources = function () {
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
         DataSourceService.getAllDataSources(headers, function (response) {
@@ -30,6 +33,7 @@ app.controller('MeterPointController', function (
         });
     };
 
+    // Load points by data source id
     $scope.getPointsByDataSourceID = function (id) {
         let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
         PointService.getPointsByDataSourceID(id, headers, function (response) {
@@ -57,6 +61,7 @@ app.controller('MeterPointController', function (
         });
     };
 
+    // Load points by meter id
     $scope.getPointsByMeterID = function (id) {
         let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
         MeterPointService.getPointsByMeterID(id, headers, function (response) {
@@ -70,6 +75,7 @@ app.controller('MeterPointController', function (
         });
     };
 
+    // Handle meter change
     $scope.changeMeter=function(item,model){
         $scope.currentMeter=item;
         $scope.currentMeter.selected=model;
@@ -86,11 +92,13 @@ app.controller('MeterPointController', function (
         }
     };
 
+    // Handle data source change
     $scope.changeDataSource = function (item, model) {
         $scope.currentDataSource = model;
         $scope.getPointsByDataSourceID($scope.currentDataSource);
     };
 
+    // Load all meters from API
     $scope.getAllMeters = function () {
         let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
         MeterService.getAllMeters(headers, function (response) {
@@ -106,6 +114,7 @@ app.controller('MeterPointController', function (
 
     };
 
+    // Bind point via drag-and-drop
     $scope.pairPoint = function (dragEl, dropEl) {
         if (!$scope.isMeterSelected || !$scope.currentMeter || !$scope.currentMeter.id) {
             DragDropWarningService.showWarning("SETTING.PLEASE_SELECT_METER_FIRST");
@@ -135,6 +144,7 @@ app.controller('MeterPointController', function (
         });
     };
 
+    // Unbind point via drag-to-trash
     $scope.deletePointPair = function (dragEl, dropEl) {
         if (angular.element('#' + dragEl).hasClass('source')) {
             return;
@@ -169,6 +179,7 @@ app.controller('MeterPointController', function (
 
     $scope.tabInitialized = false;
 
+    // Initialize tab
     $scope.initTab = function() {
         if (!$scope.tabInitialized) {
             $scope.tabInitialized = true;

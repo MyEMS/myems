@@ -1,5 +1,7 @@
 'use strict';
 
+// Sensor controller - drag-and-drop sensor binding
+
 app.controller('SensorController', function(
     $scope,
     $rootScope,
@@ -13,6 +15,7 @@ app.controller('SensorController', function(
 	$scope.exportdata = '';
 	$scope.importdata = '';
 	$scope.searchKeyword = '';
+	// Load all sensors from API
 	$scope.getAllSensors = function() {
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 		SensorService.getAllSensors(headers, function (response) {
@@ -25,6 +28,7 @@ app.controller('SensorController', function(
 
 	};
 
+	// Open add modal and create sensor
 	$scope.addSensor = function() {
 		var modalInstance = $uibModal.open({
 			templateUrl: 'views/settings/sensor/sensor.model.html',
@@ -65,6 +69,7 @@ app.controller('SensorController', function(
 		$rootScope.modalInstance = modalInstance;
 	};
 
+	// Open edit modal and update sensor
 	$scope.editSensor = function(sensor) {
 		var modalInstance = $uibModal.open({
 			windowClass: "animated fadeIn",
@@ -107,6 +112,7 @@ app.controller('SensorController', function(
 		$rootScope.modalInstance = modalInstance;
 	};
 
+	// Confirm and delete sensor
 	$scope.deleteSensor = function(sensor) {
 		SweetAlert.swal({
 				title: $translate.instant("SWEET.TITLE"),
@@ -145,6 +151,7 @@ app.controller('SensorController', function(
 			});
 	};
 
+	// Export sensor as JSON
 	$scope.exportSensor = function(sensor) {
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 		SensorService.exportSensor(sensor, headers, function(response) {
@@ -174,6 +181,7 @@ app.controller('SensorController', function(
 		});
 	};
 
+	// Clone an existing sensor
 	$scope.cloneSensor = function(sensor){
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 		SensorService.cloneSensor(sensor, headers, function(response) {
@@ -197,6 +205,7 @@ app.controller('SensorController', function(
 		});
 	};
 
+	// Import sensor from JSON
 	$scope.importSensor = function() {
 		var modalInstance = $uibModal.open({
 			templateUrl: 'views/common/import.html',
@@ -244,6 +253,7 @@ app.controller('SensorController', function(
 			scope.$apply();
 		}
 	}
+	// Search sensors by keyword
 	$scope.searchSensors = function() {
 		const headers = {
 			"User-UUID": $scope.cur_user?.uuid,
@@ -274,6 +284,7 @@ app.controller('SensorController', function(
 	$scope.getAllSensors();
 });
 
+// Modal controller for add dialog
 app.controller('ModalAddSensorCtrl', function($scope, $uibModalInstance, params) {
 
 	$scope.operation = "SENSOR.ADD_SENSOR";
@@ -286,6 +297,7 @@ app.controller('ModalAddSensorCtrl', function($scope, $uibModalInstance, params)
 	};
 });
 
+// Modal controller for edit dialog
 app.controller('ModalEditSensorCtrl', function($scope, $uibModalInstance, params) {
 	$scope.operation = "SENSOR.EDIT_SENSOR";
 	$scope.sensor = params.sensor;

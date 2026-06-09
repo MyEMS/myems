@@ -1,5 +1,7 @@
 'use strict';
 
+// Store master controller - coordinates tab events between child controllers
+
 var STORE_TAB_INDEXES = {
     STORE: 0,
     BIND_METER: 1,
@@ -13,6 +15,7 @@ app.controller('StoreMasterController', function($scope, $timeout) {
     $scope.TAB_INDEXES = STORE_TAB_INDEXES;
     $scope.activeTabIndex = STORE_TAB_INDEXES.STORE;
 
+    // Handle tab selection
     $scope.handleTabSelect = function(tabIndex) {
         $scope.activeTabIndex = tabIndex;
         $timeout(function() {

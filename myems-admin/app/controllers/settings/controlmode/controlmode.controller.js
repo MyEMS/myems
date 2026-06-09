@@ -1,5 +1,7 @@
 'use strict';
 
+// Control Mode controller - CRUD and settings management
+
 app.controller('ControlModeController', function(
 	$scope,
 	$rootScope,
@@ -13,6 +15,7 @@ app.controller('ControlModeController', function(
 	$scope.exportdata = '';
 	$scope.importdata = '';
 
+	// Load all control modes from API
 	$scope.getAllControlModes = function() {
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 		ControlModeService.getAllControlModes(headers, function (response) {
@@ -25,6 +28,7 @@ app.controller('ControlModeController', function(
 
 	};
 
+	// Open add modal and create control mode
 	$scope.addControlMode = function() {
 		var modalInstance = $uibModal.open({
 			templateUrl: 'views/settings/controlmode/controlmode.model.html',
@@ -65,6 +69,7 @@ app.controller('ControlModeController', function(
 		$rootScope.modalInstance = modalInstance;
 	};
 
+	// Open edit modal and update control mode
 	$scope.editControlMode = function(controlmode) {
 		var modalInstance = $uibModal.open({
 			windowClass: "animated fadeIn",
@@ -106,6 +111,7 @@ app.controller('ControlModeController', function(
 		$rootScope.modalInstance = modalInstance;
 	};
 
+	// Confirm and delete control mode
 	$scope.deleteControlMode = function(controlmode) {
 		SweetAlert.swal({
 				title: $translate.instant("SWEET.TITLE"),
@@ -144,6 +150,7 @@ app.controller('ControlModeController', function(
 		);
 	};
 
+	// Export control mode as JSON
 	$scope.exportControlMode = function(controlmode) {
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 		ControlModeService.exportControlMode(controlmode, headers, function(response) {
@@ -173,6 +180,7 @@ app.controller('ControlModeController', function(
 		});
 	};
 
+	// Clone an existing control mode
 	$scope.cloneControlMode = function(controlmode){
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 		ControlModeService.cloneControlMode(controlmode, headers, function(response) {
@@ -196,6 +204,7 @@ app.controller('ControlModeController', function(
 		});
 	};
 
+	// Import control mode from JSON
 	$scope.importControlMode = function() {
 		var modalInstance = $uibModal.open({
 			templateUrl: 'views/common/import.html',
@@ -239,6 +248,7 @@ app.controller('ControlModeController', function(
 
 });
 
+// Modal controller for add dialog
 app.controller('ModalAddControlModeCtrl', function($scope, $timeout, $uibModalInstance, params, $translate) {
 
 	$scope.operation = "SETTING.ADD_CONTROL_MODE";
@@ -446,6 +456,7 @@ app.controller('ModalAddControlModeCtrl', function($scope, $timeout, $uibModalIn
 	};
 });
 
+// Modal controller for edit dialog
 app.controller('ModalEditControlModeCtrl', function($scope, $timeout, $uibModalInstance, params, $translate) {
 	$scope.operation = "SETTING.EDIT_CONTROL_MODE";
 	$scope.disable=true;

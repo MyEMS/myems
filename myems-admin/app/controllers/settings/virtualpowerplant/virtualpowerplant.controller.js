@@ -1,5 +1,7 @@
 'use strict';
 
+// Virtual Power Plant controller - CRUD and settings management
+
 app.controller('VirtualPowerPlantController', function(
     $scope,
     $rootScope,
@@ -16,6 +18,7 @@ app.controller('VirtualPowerPlantController', function(
 	$scope.exportdata = '';
 	$scope.importdata = '';
 
+	// Load all virtual power plants from API
 	$scope.getAllVirtualPowerPlants = function() {
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 		VirtualPowerPlantService.getAllVirtualPowerPlants(headers, function (response) {
@@ -26,6 +29,7 @@ app.controller('VirtualPowerPlantController', function(
 			}
 		});
 	};
+	// Load all cost centers from API
 	$scope.getAllCostCenters = function() {
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 		CostCenterService.getAllCostCenters(headers, function (response) {
@@ -37,6 +41,7 @@ app.controller('VirtualPowerPlantController', function(
 		});
 	};
 
+    // Load all points from API
     $scope.getAllPoints = function() {
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 		PointService.getAllPoints(headers, function (response) {
@@ -48,6 +53,7 @@ app.controller('VirtualPowerPlantController', function(
 		});
 	};
 
+	// Load all sv gs from API
 	$scope.getAllSVGs = function() {
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token, "Quickmode": 'true'  };
 		SVGService.getAllSVGs(headers, function (response) {
@@ -59,6 +65,7 @@ app.controller('VirtualPowerPlantController', function(
 		});
 	};
 
+	// Open add modal and create virtual power plant
 	$scope.addVirtualPowerPlant = function() {
 		var modalInstance = $uibModal.open({
 			templateUrl: 'views/settings/virtualpowerplant/virtualpowerplant.model.html',
@@ -104,6 +111,7 @@ app.controller('VirtualPowerPlantController', function(
 		$rootScope.modalInstance = modalInstance;
 	};
 
+	// Open edit modal and update virtual power plant
 	$scope.editVirtualPowerPlant = function(virtualpowerplant) {
 		var modalInstance = $uibModal.open({
 			windowClass: "animated fadeIn",
@@ -150,6 +158,7 @@ app.controller('VirtualPowerPlantController', function(
 		$rootScope.modalInstance = modalInstance;
 	};
 
+	// Confirm and delete virtual power plant
 	$scope.deleteVirtualPowerPlant=function(virtualpowerplant){
 		SweetAlert.swal({
 		        title: $translate.instant("SWEET.TITLE"),
@@ -187,6 +196,7 @@ app.controller('VirtualPowerPlantController', function(
 		);
 	};
 
+	// Export virtual power plant as JSON
 	$scope.exportVirtualPowerPlant = function(virtualpowerplant) {
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 		VirtualPowerPlantService.exportVirtualPowerPlant(virtualpowerplant, headers, function(response) {
@@ -216,6 +226,7 @@ app.controller('VirtualPowerPlantController', function(
 		});
 	};
 
+	// Clone an existing virtual power plant
 	$scope.cloneVirtualPowerPlant = function(virtualpowerplant){
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 		VirtualPowerPlantService.cloneVirtualPowerPlant(virtualpowerplant, headers, function(response) {
@@ -239,6 +250,7 @@ app.controller('VirtualPowerPlantController', function(
 		});
 	};
 
+	// Import virtual power plant from JSON
 	$scope.importVirtualPowerPlant = function() {
 		var modalInstance = $uibModal.open({
 			templateUrl: 'views/common/import.html',
@@ -288,6 +300,7 @@ app.controller('VirtualPowerPlantController', function(
 	});
 });
 
+// Modal controller for add dialog
 app.controller('ModalAddVirtualPowerPlantCtrl', function($scope, $uibModalInstance,params) {
 
 	$scope.operation = "SETTING.ADD_VIRTUAL_POWER_PLANT";
@@ -304,6 +317,7 @@ app.controller('ModalAddVirtualPowerPlantCtrl', function($scope, $uibModalInstan
 	};
 });
 
+// Modal controller for edit dialog
 app.controller('ModalEditVirtualPowerPlantCtrl', function($scope, $uibModalInstance, params) {
 	$scope.operation = "SETTING.EDIT_VIRTUAL_POWER_PLANT";
 	$scope.virtualpowerplant = params.virtualpowerplant;

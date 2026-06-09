@@ -1,5 +1,7 @@
 'use strict';
 
+// Space Sensor controller - drag-and-drop sensor binding
+
 app.controller('SpaceSensorController', function (
     $scope,
     $window,
@@ -33,6 +35,7 @@ app.controller('SpaceSensorController', function (
         });
     };
 
+    // Load all sensors from API
     $scope.getAllSensors = function () {
         let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
         SensorService.getAllSensors(headers, function (response) {
@@ -45,6 +48,7 @@ app.controller('SpaceSensorController', function (
         });
     };
 
+    // Load all spaces from API
     $scope.getAllSpaces = function() {
       let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
       SpaceService.getAllSpaces(headers, function (response) {
@@ -89,6 +93,7 @@ app.controller('SpaceSensorController', function (
       });
     };
 
+    // Load sensors by space id
     $scope.getSensorsBySpaceID = function (id) {
         if ($scope.isLoadingSensors) return;
         $scope.isLoadingSensors = true;
@@ -104,6 +109,7 @@ app.controller('SpaceSensorController', function (
         });
     };
 
+    // Bind sensor via drag-and-drop
     $scope.pairSensor = function (dragEl, dropEl) {
         var sensorid = angular.element('#' + dragEl).scope().sensor.id;
         var spaceid = $scope.currentSpaceID;
@@ -128,6 +134,7 @@ app.controller('SpaceSensorController', function (
         });
     };
 
+    // Unbind sensor via drag-to-trash
     $scope.deleteSensorPair = function (dragEl, dropEl) {
         if (angular.element('#' + dragEl).hasClass('source')) {
             return;
@@ -155,6 +162,7 @@ app.controller('SpaceSensorController', function (
         });
     };
 
+    // Initialize tab
     $scope.initTab = function() {
         if (!$scope.tabInitialized) {
             $scope.tabInitialized = true;
@@ -181,6 +189,7 @@ app.controller('SpaceSensorController', function (
         }
     }, 0);
 
+    // Refresh space tree
     $scope.refreshSpaceTree = function() {
       let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
       SpaceService.getAllSpaces(headers, function (response) {

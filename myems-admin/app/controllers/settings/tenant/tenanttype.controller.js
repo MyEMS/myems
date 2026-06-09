@@ -1,5 +1,7 @@
 'use strict';
 
+// Tenant Type controller - entity association management
+
 app.controller('TenantTypeController', function(
     $scope,
     $rootScope,
@@ -10,6 +12,7 @@ app.controller('TenantTypeController', function(
     toaster,
     SweetAlert) {
     $scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user")); 
+    // Load all tenant types from API
     $scope.getAllTenantTypes = function() {
         let headers = { 
             "User-UUID": $scope.cur_user.uuid, 
@@ -24,6 +27,7 @@ app.controller('TenantTypeController', function(
         });
     };
 
+    // Open add modal and create tenant type
     $scope.addTenantType = function() {
         var modalInstance = $uibModal.open({
             templateUrl: 'views/settings/tenant/tenanttype.model.html',
@@ -69,6 +73,7 @@ app.controller('TenantTypeController', function(
         $rootScope.modalInstance = modalInstance;
     };
 
+    // Open edit modal and update tenant type
     $scope.editTenantType = function(tenantType) { 
         var modalInstance = $uibModal.open({
             templateUrl: 'views/settings/tenant/tenanttype.model.html',
@@ -114,6 +119,7 @@ app.controller('TenantTypeController', function(
         $rootScope.modalInstance = modalInstance;
     };
 
+    // Confirm and delete tenant type
     $scope.deleteTenantType = function(tenantType) { 
         SweetAlert.swal({
             title: $translate.instant("SWEET.TITLE"),
@@ -154,6 +160,7 @@ app.controller('TenantTypeController', function(
     $scope.getAllTenantTypes();
 });
 
+// Modal controller for add dialog
 app.controller('ModalAddTenantTypeCtrl', function(
     $scope,
     $uibModalInstance,
@@ -172,6 +179,7 @@ app.controller('ModalAddTenantTypeCtrl', function(
     };
 });
 
+// Modal controller for edit dialog
 app.controller('ModalEditTenantTypeCtrl', function(
     $scope,
     $uibModalInstance,

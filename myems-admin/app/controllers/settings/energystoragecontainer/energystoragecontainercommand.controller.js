@@ -1,5 +1,7 @@
 "use strict";
 
+// Energy Storage Container Command controller - drag-and-drop command binding
+
 app.controller(
   "EnergyStorageContainerCommandController",
   function (
@@ -20,6 +22,7 @@ app.controller(
     );
     $scope.currentEnergyStorageContainer = { selected: undefined };
     $scope.isEnergyStorageContainerSelected = false;
+    // Load all commands from API
     $scope.getAllCommands = function () {
       let headers = {
         "User-UUID": $scope.cur_user.uuid,
@@ -34,6 +37,7 @@ app.controller(
       });
     };
 
+    // Load commands by energy storage container id
     $scope.getCommandsByEnergyStorageContainerID = function (id) {
       let headers = {
         "User-UUID": $scope.cur_user.uuid,
@@ -52,6 +56,7 @@ app.controller(
       );
     };
 
+    // Handle energy storage container change
     $scope.changeEnergyStorageContainer = function (item, model) {
       $scope.currentEnergyStorageContainer = item;
       $scope.currentEnergyStorageContainer.selected = model;
@@ -65,6 +70,7 @@ app.controller(
       }
     };
 
+    // Load all energy storage containers from API
     $scope.getAllEnergyStorageContainers = function () {
       let headers = {
         "User-UUID": $scope.cur_user.uuid,
@@ -90,6 +96,7 @@ app.controller(
       );
     };
 
+    // Bind command via drag-and-drop
     $scope.pairCommand = function (dragEl, dropEl) {
       var commandid = angular.element("#" + dragEl).scope().command.id;
       var energystoragecontainerid = $scope.currentEnergyStorageContainer.id;
@@ -124,6 +131,7 @@ app.controller(
       );
     };
 
+    // Unbind command via drag-to-trash
     $scope.deleteCommandPair = function (dragEl, dropEl) {
       if (angular.element("#" + dragEl).hasClass("source")) {
         return;

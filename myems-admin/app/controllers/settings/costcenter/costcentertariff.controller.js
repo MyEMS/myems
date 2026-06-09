@@ -1,5 +1,7 @@
 'use strict';
 
+// Cost Center Tariff controller - tariff association
+
 app.controller('CostCenterTariffController', function (
     $scope,
     $window,
@@ -11,6 +13,7 @@ app.controller('CostCenterTariffController', function (
 ) {
     $scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
 
+    // Load all cost centers from API
     $scope.getAllCostCenters = function () {
         let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
         CostCenterService.getAllCostCenters(headers, function (response) {
@@ -26,6 +29,7 @@ app.controller('CostCenterTariffController', function (
         });
     };
 
+    // Load tariffs by cost center id
     $scope.getTariffsByCostCenterID = function (id) {
         let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
         CostCenterTariffService.getTariffsByCostCenterID(id, headers, function (response) {
@@ -39,10 +43,12 @@ app.controller('CostCenterTariffController', function (
         });
     };
 
+    // Handle cost center change
     $scope.changeCostCenter = function () {
         $scope.getTariffsByCostCenterID($scope.currentCostCenter.id);
     };
 
+    // Load all tariffs from API
     $scope.getAllTariffs = function () {
         let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
         TariffService.getAllTariffs(headers, function (response) {
@@ -60,6 +66,7 @@ app.controller('CostCenterTariffController', function (
         });
     };
 
+    // Bind tariff via drag-and-drop
     $scope.pairTariff = function (dragEl, dropEl) {
         var tariffid = angular.element('#' + dragEl).scope().tariff.id;
         var costcenterid = $scope.currentCostCenter.id;
@@ -86,6 +93,7 @@ app.controller('CostCenterTariffController', function (
         });
     };
 
+    // Unbind tariff via drag-to-trash
     $scope.deleteTariffPair = function (dragEl, dropEl) {
         if (angular.element('#' + dragEl).hasClass('source')) {
             return;

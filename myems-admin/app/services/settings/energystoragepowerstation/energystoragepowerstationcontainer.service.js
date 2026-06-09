@@ -1,6 +1,9 @@
 "use strict";
+
+// Energy Storage Power Station Container service - REST API wrapper
 app.factory("EnergyStoragePowerStationContainerService", function ($http) {
   return {
+        // POST create pair
     addPair: function (
       energystoragepowerstationID,
       containerID,
@@ -26,6 +29,7 @@ app.factory("EnergyStoragePowerStationContainerService", function ($http) {
         );
     },
 
+        // DELETE pair
     deletePair: function (
       energystoragepowerstationID,
       containerID,
@@ -50,6 +54,7 @@ app.factory("EnergyStoragePowerStationContainerService", function ($http) {
           }
         );
     },
+        // GET containers by energy storage power station id by ID
     getContainersByEnergyStoragePowerStationID: function (
       id,
       headers,

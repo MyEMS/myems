@@ -1,5 +1,7 @@
 'use strict';
 
+// Space Equipment controller - drag-and-drop equipment binding
+
 app.controller('SpaceEquipmentController', function(
     $scope,
     $window,
@@ -20,6 +22,7 @@ app.controller('SpaceEquipmentController', function(
     $scope.tabInitialized = false;
     $scope.isSpaceSelected = false;
 
+    // Load all spaces from API
     $scope.getAllSpaces = function() {
     let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
     SpaceService.getAllSpaces(headers, function (response) {
@@ -64,6 +67,7 @@ app.controller('SpaceEquipmentController', function(
     });
     };
 
+	// Load equipments by space id
 	$scope.getEquipmentsBySpaceID = function(id) {
 	if ($scope.isLoadingEquipments) return;
     $scope.isLoadingEquipments = true;
@@ -94,6 +98,7 @@ app.controller('SpaceEquipmentController', function(
         });
     };
 
+	// Load all equipments from API
 	$scope.getAllEquipments = function() {
         let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 		EquipmentService.getAllEquipments(headers, function (response) {
@@ -106,6 +111,7 @@ app.controller('SpaceEquipmentController', function(
 		});
 	};
 
+	// Bind equipment via drag-and-drop
 	$scope.pairEquipment=function(dragEl,dropEl){
 		var equipmentid=angular.element('#'+dragEl).scope().equipment.id;
 		var spaceid=angular.element(spacetreewithequipment).jstree(true).get_top_selected();
@@ -130,6 +136,7 @@ app.controller('SpaceEquipmentController', function(
 		});
 	};
 
+	// Unbind equipment via drag-to-trash
 	$scope.deleteEquipmentPair=function(dragEl,dropEl){
 		if(angular.element('#'+dragEl).hasClass('source')){
 			return;
@@ -157,6 +164,7 @@ app.controller('SpaceEquipmentController', function(
 		});
 	};
 
+    // Initialize tab
     $scope.initTab = function() {
         if (!$scope.tabInitialized) {
             $scope.tabInitialized = true;
@@ -183,6 +191,7 @@ app.controller('SpaceEquipmentController', function(
         }
     }, 0);
 
+  // Refresh space tree
   $scope.refreshSpaceTree = function() {
     let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
     SpaceService.getAllSpaces(headers, function (response) {

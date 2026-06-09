@@ -1,5 +1,7 @@
 'use strict';
 
+// Space Working Calendar controller - working calendar association
+
 app.controller('SpaceWorkingCalendarController', function(
     $scope ,
     $window,
@@ -18,6 +20,7 @@ app.controller('SpaceWorkingCalendarController', function(
     $scope.isLoadingWorkingcalendars = false;
     $scope.tabInitialized = false;
     $scope.isSpaceSelected = false;
+    // Load all spaces from API
     $scope.getAllSpaces = function() {
     let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
     SpaceService.getAllSpaces(headers, function (response) {
@@ -63,6 +66,7 @@ app.controller('SpaceWorkingCalendarController', function(
     });
     };
 
+	// Load working calendars by space id
 	$scope.getWorkingCalendarsBySpaceID = function(id) {
 	  if($scope.isLoadingWorkingcalendars) return;
 	  $scope.isLoadingWorkingcalendars = true;
@@ -93,6 +97,7 @@ app.controller('SpaceWorkingCalendarController', function(
         });
     };
 
+	// Load all working calendars from API
 	$scope.getAllWorkingCalendars = function() {
     let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 		WorkingCalendarService.getAllWorkingCalendars(headers, function (response) {
@@ -106,6 +111,7 @@ app.controller('SpaceWorkingCalendarController', function(
 
 	};
 
+	// Bind working calendar via drag-and-drop
 	$scope.pairWorkingCalendar=function(dragEl,dropEl){
 		var workingcalendarid=angular.element('#'+dragEl).scope().workingcalendar.id;
 		var spaceid=angular.element(spacetreewithworkingcalendar).jstree(true).get_top_selected();
@@ -130,6 +136,7 @@ app.controller('SpaceWorkingCalendarController', function(
 		});
 	};
 
+	// Unbind working calendar via drag-to-trash
 	$scope.deleteWorkingCalendarPair=function(dragEl,dropEl){
 		if(angular.element('#'+dragEl).hasClass('source')){
 			return;
@@ -157,6 +164,7 @@ app.controller('SpaceWorkingCalendarController', function(
 		});
 	};
 
+    // Initialize tab
     $scope.initTab = function() {
         if (!$scope.tabInitialized) {
             $scope.tabInitialized = true;
@@ -183,6 +191,7 @@ app.controller('SpaceWorkingCalendarController', function(
         }
     }, 0);
 
+    // Refresh space tree
     $scope.refreshSpaceTree = function() {
     let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
     SpaceService.getAllSpaces(headers, function (response) {

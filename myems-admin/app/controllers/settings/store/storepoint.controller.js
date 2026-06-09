@@ -1,4 +1,6 @@
 'use strict';
+
+// Store Point controller - drag-and-drop point binding
 app.controller('StorePointController', function (
     $window,
     $scope,
@@ -17,6 +19,7 @@ app.controller('StorePointController', function (
     $scope.currentStore = { selected: undefined };
     $scope.isStoreSelected = false;
 
+    // Load all data sources from API
     $scope.getAllDataSources = function () {
         let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
         DataSourceService.getAllDataSources(headers, function (response) {
@@ -32,6 +35,7 @@ app.controller('StorePointController', function (
         });
     };
 
+    // Load points by data source id
     $scope.getPointsByDataSourceID = function (id) {
         let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
         PointService.getPointsByDataSourceID(id, headers, function (response) {
@@ -49,6 +53,7 @@ app.controller('StorePointController', function (
         });
     };
 
+    // Load points by store id
     $scope.getPointsByStoreID = function (id) {
         let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
         StorePointService.getPointsByStoreID(id, headers, function (response) {
@@ -63,6 +68,7 @@ app.controller('StorePointController', function (
         });
     };
 
+    // Handle store change
     $scope.changeStore = function (item, model) {
         $scope.currentStore = item;
         $scope.currentStore.selected = model;
@@ -74,11 +80,13 @@ app.controller('StorePointController', function (
         }
     };
 
+    // Handle data source change
     $scope.changeDataSource = function (item, model) {
         $scope.currentDataSource = model;
         $scope.getPointsByDataSourceID($scope.currentDataSource);
     };
 
+    // Load all stores from API
     $scope.getAllStores = function () {
         let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
         StoreService.getAllStores(headers, function (response) {
@@ -95,6 +103,7 @@ app.controller('StorePointController', function (
         });
     };
 
+    // Bind point via drag-and-drop
     $scope.pairPoint = function (dragEl, dropEl) {
         if (!$scope.isStoreSelected || !$scope.currentStore || !$scope.currentStore.id) {
             DragDropWarningService.showWarning("SETTING.PLEASE_SELECT_STORE_FIRST");
@@ -123,6 +132,7 @@ app.controller('StorePointController', function (
         });
     };
 
+    // Unbind point via drag-to-trash
     $scope.deletePointPair = function (dragEl, dropEl) {
         if (angular.element('#' + dragEl).hasClass('source')) {
             return;

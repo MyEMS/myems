@@ -1,5 +1,7 @@
 'use strict';
 
+// Microgrid User controller - user association
+
 app.controller('MicrogridUserController', function (
     $scope,
     $rootScope,
@@ -15,6 +17,7 @@ app.controller('MicrogridUserController', function (
     $scope.currentMicrogrid = {selected:undefined};
     $scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
     $scope.isMicrogridSelected = false;
+    // Load all users from API
     $scope.getAllUsers = function () {
         let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
         UserService.getAllUsers(headers, function (response) {
@@ -26,6 +29,7 @@ app.controller('MicrogridUserController', function (
         });
     };
 
+    // Load users by microgrid id
     $scope.getUsersByMicrogridID = function (id) {
         let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
         MicrogridUserService.getUsersByMicrogridID(id, headers, function (response) {
@@ -37,6 +41,7 @@ app.controller('MicrogridUserController', function (
         });
     };
 
+    // Handle microgrid change
     $scope.changeMicrogrid=function(item,model){
         $scope.currentMicrogrid=item;
         $scope.currentMicrogrid.selected=model;
@@ -48,6 +53,7 @@ app.controller('MicrogridUserController', function (
         }
     };
 
+    // Load all microgrids from API
     $scope.getAllMicrogrids = function () {
         let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
         MicrogridService.getAllMicrogrids(headers, function (response) {
@@ -59,6 +65,7 @@ app.controller('MicrogridUserController', function (
         });
     };
 
+    // Bind user via drag-and-drop
     $scope.pairUser = function (dragEl, dropEl) {
         var userid = angular.element('#' + dragEl).scope().user.id;
         var microgridid = $scope.currentMicrogrid.id;
@@ -83,6 +90,7 @@ app.controller('MicrogridUserController', function (
         });
     };
 
+    // Unbind user via drag-to-trash
     $scope.deleteUserPair = function (dragEl, dropEl) {
         if (angular.element('#' + dragEl).hasClass('source')) {
             return;

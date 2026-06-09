@@ -1,5 +1,7 @@
 'use strict';
 
+// Distribution System controller - CRUD and settings management
+
 app.controller('DistributionSystemController', function(
 	$scope,
 	$rootScope,
@@ -14,6 +16,7 @@ app.controller('DistributionSystemController', function(
 	$scope.exportdata = '';
 	$scope.importdata = '';
 	$scope.searchKeyword = '';
+	// Load all sv gs from API
 	$scope.getAllSVGs = function() {
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token, "Quickmode": 'true'  };
 		SVGService.getAllSVGs(headers, function (response) {
@@ -25,6 +28,7 @@ app.controller('DistributionSystemController', function(
 		});
 	};
 
+	// Load all distribution systems from API
 	$scope.getAllDistributionSystems = function() {
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 		DistributionSystemService.getAllDistributionSystems(headers, function(response) {
@@ -36,6 +40,7 @@ app.controller('DistributionSystemController', function(
 		});
 	};
 
+	// Open add modal and create distribution system
 	$scope.addDistributionSystem = function() {
 		var modalInstance = $uibModal.open({
 			templateUrl: 'views/settings/distributionsystem/distributionsystem.model.html',
@@ -77,6 +82,7 @@ app.controller('DistributionSystemController', function(
 		$rootScope.modalInstance = modalInstance;
 	};
 
+	// Open edit modal and update distribution system
 	$scope.editDistributionSystem = function(distributionsystem) {
 		var modalInstance = $uibModal.open({
 			windowClass: "animated fadeIn",
@@ -120,6 +126,7 @@ app.controller('DistributionSystemController', function(
 		$rootScope.modalInstance = modalInstance;
 	};
 
+	// Confirm and delete distribution system
 	$scope.deleteDistributionSystem=function(distributionsystem){
 		SweetAlert.swal({
 			title: $translate.instant("SWEET.TITLE"),
@@ -158,6 +165,7 @@ app.controller('DistributionSystemController', function(
 		    });
 	};
 
+	// Export distribution system as JSON
 	$scope.exportDistributionSystem = function(distributionsystem) {
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 		DistributionSystemService.exportDistributionSystem(distributionsystem, headers, function(response) {
@@ -189,6 +197,7 @@ app.controller('DistributionSystemController', function(
 		});
 	};
 
+	// Clone an existing distribution system
 	$scope.cloneDistributionSystem = function(distributionsystem){
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 		DistributionSystemService.cloneDistributionSystem(distributionsystem, headers, function(response) {
@@ -212,6 +221,7 @@ app.controller('DistributionSystemController', function(
 		});
 	};
 
+	// Import distribution system from JSON
 	$scope.importDistributionSystem = function() {
 		var modalInstance = $uibModal.open({
 			templateUrl: 'views/common/import.html',
@@ -259,6 +269,7 @@ app.controller('DistributionSystemController', function(
 			scope.$apply();
 		}
 	}
+	// Search distribution systems by keyword
 	$scope.searchDistributionSystems = function() {
 		const headers = {
 			"User-UUID": $scope.cur_user?.uuid,

@@ -1,5 +1,7 @@
 'use strict';
 
+// Energy Item controller - CRUD and settings management
+
 app.controller('EnergyItemController', function(
     $scope,
     $rootScope,
@@ -11,6 +13,7 @@ app.controller('EnergyItemController', function(
     toaster,
     SweetAlert) {
 	$scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
+	// Load all categories from API
 	$scope.getAllCategories = function() {
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 		CategoryService.getAllCategories(headers, function (response) {
@@ -23,6 +26,7 @@ app.controller('EnergyItemController', function(
 
 	};
 
+	// Load all energy items from API
 	$scope.getAllEnergyItems = function() {
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 		EnergyItemService.getAllEnergyItems(headers, function (response) {
@@ -35,6 +39,7 @@ app.controller('EnergyItemController', function(
 
 	};
 
+	// Open add modal and create energy item
 	$scope.addEnergyItem = function() {
 		var modalInstance = $uibModal.open({
 			templateUrl: 'views/settings/category/energyitem.model.html',
@@ -75,6 +80,7 @@ app.controller('EnergyItemController', function(
 		$rootScope.modalInstance = modalInstance;
 	};
 
+	// Open edit modal and update energy item
 	$scope.editEnergyItem=function(energyItem){
 		var modalInstance = $uibModal.open({
 		    windowClass: "animated fadeIn",
@@ -117,6 +123,7 @@ app.controller('EnergyItemController', function(
 		$rootScope.modalInstance = modalInstance;
 	};
 
+	// Confirm and delete energy item
 	$scope.deleteEnergyItem=function(energyItem){
 		SweetAlert.swal({
 			title: $translate.instant("SWEET.TITLE"),
@@ -161,6 +168,7 @@ app.controller('EnergyItemController', function(
 	});
 });
 
+// Modal controller for add dialog
 app.controller('ModalAddEnergyItemCtrl', function ($scope, $uibModalInstance,params) {
 
 	$scope.operation="SETTING.ADD_ENERGY_ITEM";
@@ -174,6 +182,7 @@ app.controller('ModalAddEnergyItemCtrl', function ($scope, $uibModalInstance,par
     };
 });
 
+// Modal controller for edit dialog
 app.controller('ModalEditEnergyItemCtrl', function ($scope, $uibModalInstance, params) {
     $scope.operation="SETTING.EDIT_ENERGY_ITEM";
     $scope.energyItem = params.energyItem;

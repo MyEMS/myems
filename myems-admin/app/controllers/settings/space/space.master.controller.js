@@ -1,5 +1,7 @@
 'use strict';
 
+// Space master controller - coordinates tab events between child controllers
+
 var SPACE_TAB_INDEXES = {
 	SPACE: 0,
 	METER: 1,
@@ -23,6 +25,7 @@ app.controller('SpaceMasterController', function($scope, $timeout) {
 	$scope.TAB_INDEXES = SPACE_TAB_INDEXES;
 	$scope.activeTabIndex = SPACE_TAB_INDEXES.SPACE;
 
+	// Handle tab selection
 	$scope.handleTabSelect = function(tabIndex) {
 		$scope.activeTabIndex = tabIndex;
 		$timeout(function() {

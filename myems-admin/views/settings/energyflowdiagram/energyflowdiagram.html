@@ -1,10 +1,13 @@
+<!-- Energy Flow Diagram settings page -->
 <div class="wrapper wrapper-content"  ng-controller="EnergyFlowDiagramMasterController">
 	<div class="row">
 		<div class="col-lg-12">
 			<div class="tabs-container">
 				<uib-tabset>
+					<!-- Tab: Energy Flow Diagram -->
 					<uib-tab heading="{{'COMMON.ENERGY_FLOW_DIAGRAM' | translate}}">
 						<div class="panel-body" ng-controller="EnergyFlowDiagramController">
+							<!-- Collapsible description panel -->
 							<div class="alert alert-info">
 								<p>
 									{{'SETTING.ENERGY_FLOW_DIAGRAM_DESCRIPTION' | translate}}
@@ -19,17 +22,20 @@
 							</div>
 							<div class="row mb-3">
 								<div class="col-md-3">
+									<!-- Add new energy flow diagram -->
 									<a ng-click="addEnergyFlowDiagram()" class="btn btn-primary btn-rounded btn-outline" href=""><i class="fa fa-plus-circle"></i> {{'ENERGY_FLOW_DIAGRAM.ADD_ENERGY_FLOW_DIAGRAM' | translate}}</a>
 									<a ng-click="importEnergyFlowDiagram()" class="btn btn-primary btn-rounded btn-outline" href=""><i class="fa fa-plus-circle"></i> {{'SETTING.IMPORT' | translate}}</a>
 								</div>
 								<div class="col-md-9">
-									<input type="text"
+									<!-- Search input -->
+										   <input type="text"
 										   class="form-control m-b-xs"
-										   placeholder="{{'SETTING.SEARCH' | translate}}"
+										   										   placeholder="{{'SETTING.SEARCH' | translate}}"
 										   ng-model="searchKeyword"
 										   ng-keyup="searchEnergyFlowDiagrams()">
 								</div>
 							</div>
+              <!-- Energy Flow Diagram list table -->
               <table class="footable table table-bordered table-hover" data-sort="true" data-page-size="15">
 								<thead>
 									<tr>
@@ -60,8 +66,10 @@
 							</table>
 						</div>
 					</uib-tab>
+          <!-- Tab: Node -->
           <uib-tab heading="{{'ENERGY_FLOW_DIAGRAM.NODE' | translate}}">
             <div class="panel-body" ng-controller="EnergyFlowDiagramNodeController">
+							<!-- Collapsible description panel -->
 							<div class="alert alert-info">
 								<p>
 									{{'ENERGY_FLOW_DIAGRAM.NODE_DESCRIPTION' | translate}}
@@ -102,6 +110,7 @@
                     <div class="panel-body" >
                       <a ng-show="is_show_add_node" ng-click="addEnergyFlowDiagramNode()" class="btn btn-primary btn-rounded  btn-outline" href="">
 												<i class="fa fa-plus-circle"></i> {{'ENERGY_FLOW_DIAGRAM.ADD_NODE' | translate}}</a>
+                      <!-- Energy Flow Diagram list table -->
                       <table class="footable table table-bordered table-hover" data-sort="true" data-page-size="15">
                         <thead>
                           <tr>
@@ -134,8 +143,10 @@
             </div>
           </div>
           </uib-tab>
+          <!-- Tab: Link -->
           <uib-tab heading="{{'ENERGY_FLOW_DIAGRAM.LINK' | translate}}">
             <div class="panel-body" ng-controller="EnergyFlowDiagramLinkController">
+							<!-- Collapsible description panel -->
 							<div class="alert alert-info">
 								<p>
 									{{'ENERGY_FLOW_DIAGRAM.LINK_DESCRIPTION' | translate}}
@@ -176,6 +187,7 @@
                     <div class="panel-body" >
                       <a ng-show="is_show_add_link" ng-click="addEnergyFlowDiagramLink()" class="btn btn-primary btn-rounded  btn-outline" href="">
 												<i class="fa fa-plus-circle"></i> {{'ENERGY_FLOW_DIAGRAM.ADD_LINK' | translate}}</a>
+                      <!-- Energy Flow Diagram list table -->
                       <table class="footable table table-bordered table-hover" data-sort="true" data-page-size="15">
                         <thead>
                           <tr>
@@ -212,8 +224,10 @@
             </div>
           </div>
           </uib-tab>
+          <!-- Tab: Preview -->
           <uib-tab heading="{{'ENERGY_FLOW_DIAGRAM.PREVIEW' | translate}}">
             <div class="panel-body" ng-controller="EnergyFlowDiagramPreviewController">
+							<!-- Collapsible description panel -->
 							<div class="alert alert-info">
 								<p>
 									{{'ENERGY_FLOW_DIAGRAM.PREVIEW_DESCRIPTION' | translate}}

@@ -1,5 +1,7 @@
 'use strict';
 
+// Space controller - CRUD and settings management
+
 app.controller('SpaceController', function (
 	$scope,
 	$rootScope,
@@ -19,6 +21,7 @@ app.controller('SpaceController', function (
 	$scope.exportdata = '';
 	$scope.importdata = '';
 
+	// Load all cost centers from API
 	$scope.getAllCostCenters = function () {
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 		CostCenterService.getAllCostCenters(headers, function (response) {
@@ -30,6 +33,7 @@ app.controller('SpaceController', function (
 		});
 	};
 
+	// Load all contacts from API
 	$scope.getAllContacts = function () {
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 		ContactService.getAllContacts(headers, function (response) {
@@ -41,6 +45,7 @@ app.controller('SpaceController', function (
 		});
 	};
 
+	// Load all spaces from API
 	$scope.getAllSpaces = function () {
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 		SpaceService.getAllSpaces(headers, function (response) {
@@ -80,6 +85,7 @@ app.controller('SpaceController', function (
 		});
 	};
 
+	// Refresh space tree
 	$scope.refreshSpaceTree = function () {
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 		SpaceService.getAllSpaces(headers, function (response) {
@@ -113,6 +119,7 @@ app.controller('SpaceController', function (
 		});
 	};
 
+	// Load space children from API
 	$scope.getSpaceChildren = function (spaceid) {
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 		SpaceService.getSpaceChildren(spaceid, headers, function (response) {
@@ -126,6 +133,7 @@ app.controller('SpaceController', function (
 		});
 	};
 
+	// Load all timezones from API
 	$scope.getAllTimezones = function () {
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 		SpaceService.getAllTimezones(headers, function (response) {
@@ -155,6 +163,7 @@ app.controller('SpaceController', function (
             return [...topTz, ...otherTzs];
         };
 
+	// Open add modal and create space
 	$scope.addSpace = function () {
 		var modalInstance = $uibModal.open({
 			templateUrl: 'views/settings/space/space.model.html',
@@ -203,6 +212,7 @@ app.controller('SpaceController', function (
 		$rootScope.modalInstance = modalInstance;
 	};
 
+	// Open edit modal and update space
 	$scope.editSpace = function (space) {
 		var modalInstance = $uibModal.open({
 			windowClass: "animated fadeIn",
@@ -257,6 +267,7 @@ app.controller('SpaceController', function (
 		$rootScope.modalInstance = modalInstance;
 	};
 
+	// Confirm and delete space
 	$scope.deleteSpace = function (space) {
 		SweetAlert.swal({
 			title: $translate.instant("SWEET.TITLE"),
@@ -294,6 +305,7 @@ app.controller('SpaceController', function (
 			});
 	};
 
+	// Export space as JSON
 	$scope.exportSpace = function(space) {
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 		SpaceService.exportSpace(space, headers, function(response) {
@@ -323,6 +335,7 @@ app.controller('SpaceController', function (
 		});
 	};
 
+	// Clone an existing space
 	$scope.cloneSpace = function(space){
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 		SpaceService.cloneSpace(space, headers, function(response) {
@@ -345,6 +358,7 @@ app.controller('SpaceController', function (
 		});
 	};
 
+	// Import space from JSON
 	$scope.importSpace = function() {
 		var modalInstance = $uibModal.open({
 			templateUrl: 'views/common/import.html',
@@ -396,6 +410,7 @@ app.controller('SpaceController', function (
 
 });
 
+// Modal controller for add dialog
 app.controller('ModalAddSpaceCtrl', function ($scope, $uibModalInstance, params) {
 	$scope.operation = "SETTING.ADD_SPACE";
 	$scope.timezones = params.timezones; 
@@ -416,6 +431,7 @@ app.controller('ModalAddSpaceCtrl', function ($scope, $uibModalInstance, params)
 	};
 });
 
+// Modal controller for edit dialog
 app.controller('ModalEditSpaceCtrl', function ($scope, $uibModalInstance, params) {
 	$scope.operation = "SETTING.EDIT_SPACE";
 	$scope.space = params.space;

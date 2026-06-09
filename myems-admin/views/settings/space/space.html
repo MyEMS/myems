@@ -1,11 +1,14 @@
+<!-- Space settings page -->
 <div class="wrapper wrapper-content" ng-controller="SpaceMasterController">
 	<div class="row">
 		<div class="col-lg-12">
 			<div class="tabs-container">
 
 				<uib-tabset active="activeTabIndex">
+					<!-- Tab: Space -->
 					<uib-tab heading="{{'COMMON.SPACE' | translate}}" index="0" select="handleTabSelect(0)">
 						<div class="panel-body" ng-controller="SpaceController">
+								<!-- Collapsible description panel -->
 								<div class="alert alert-info">
 									<p>
 										{{'SETTING.SPACE_DESCRIPTION' | translate}}
@@ -25,6 +28,7 @@
 											{{'SETTING.SELECT_SPACE' | translate}}
 										</div>
 										<div class="panel-body" style="overflow: auto; max-height: 700px;">
+											<!-- Space tree selector -->
 											<div id="spacetree"></div>
 										</div>
 									</div>
@@ -35,6 +39,7 @@
 											{{'SPACE.CURRENT_SELECTED_SPACE' | translate}}
 										</div>
 										<div class="panel-body">
+											<!-- Space list table -->
 											<table class="footable table table-bordered table-hover" data-sort="true" data-page-size="15">
 												<thead>
 													<tr>
@@ -89,6 +94,7 @@
 											</a>
 											<br>
 											<br>
+											<!-- Child spaces list table -->
 											<table class="footable table table-bordered table-hover" data-sort="true" data-page-size="15">
 												<thead>
 													<tr >
@@ -138,8 +144,10 @@
 						</div>
 					</uib-tab>
 
+					<!-- Tab: Bind Meter -->
 					<uib-tab heading="{{'SETTING.BIND_METER' | translate}}" index="1" select="handleTabSelect(1)">
 						<div class="panel-body" ng-controller="SpaceMeterController">
+							<!-- Collapsible description panel -->
 							<div class="alert alert-info">
 								<p>
 									{{'SPACE.BIND_METER_DESCRIPTION' | translate}}
@@ -193,7 +201,7 @@
 								</div>
 
 								<div class="col-lg-4">
-									<!-- according panel-->
+									<!-- Accordion panel: available items for drag-and-drop binding -->
 									<div class="panel panel-primary">
 										<div class="panel-heading">
 											{{'SETTING.METER' | translate}}
@@ -222,8 +230,10 @@
 						</div>
 					</uib-tab>
 
+					<!-- Tab: Bind Equipment -->
 					<uib-tab heading="{{'SPACE.BIND_EQUIPMENT' | translate}}" index="2" select="handleTabSelect(2)">
 						<div class="panel-body" ng-controller="SpaceEquipmentController">
+							<!-- Collapsible description panel -->
 							<div class="alert alert-info">
 								<p>
 									{{'SPACE.BIND_EQUIPMENT_DESCRIPTION' | translate}}
@@ -275,7 +285,7 @@
 								</div>
 
 								<div class="col-lg-4">
-									<!-- according panel-->
+									<!-- Accordion panel: available items for drag-and-drop binding -->
 									<div class="panel panel-primary">
 										<div class="panel-heading"> {{'SPACE.EQUIPMENT_LIST' | translate}} </div>
 										<div class="panel-body" uib-tooltip="{{'SETTING.DRAG_TO_BIND' | translate}}"
@@ -291,8 +301,10 @@
 						</div>
 					</uib-tab>
 
+					<!-- Tab: Bind Combined Equipment -->
 					<uib-tab heading="{{'SPACE.BIND_COMBINED_EQUIPMENT' | translate}}" index="3" select="handleTabSelect(3)">
 						<div class="panel-body" ng-controller="SpaceCombinedEquipmentController">
+							<!-- Collapsible description panel -->
 							<div class="alert alert-info">
 								<p>
 									{{'SPACE.BIND_COMBINED_EQUIPMENT_DESCRIPTION' | translate}}
@@ -344,7 +356,7 @@
 								</div>
 
 								<div class="col-lg-4">
-									<!-- according panel-->
+									<!-- Accordion panel: available items for drag-and-drop binding -->
 									<div class="panel panel-primary">
 										<div class="panel-heading"> {{'SPACE.COMBINED_EQUIPMENT_LIST' | translate}} </div>
 										<div class="panel-body" uib-tooltip="{{'SETTING.DRAG_TO_BIND' | translate}}"
@@ -360,8 +372,10 @@
 						</div>
 					</uib-tab>
 
+					<!-- Tab: Bind Point -->
 					<uib-tab heading="{{'SETTING.BIND_POINT' | translate}}" index="4" select="handleTabSelect(4)">
 						<div class="panel-body" ng-controller="SpacePointController">
+							<!-- Collapsible description panel -->
 							<div class="alert alert-info">
 								<p>
 									{{'SPACE.BIND_POINT_DESCRIPTION' | translate}}
@@ -445,8 +459,10 @@
 						</div>
 					</uib-tab>
 
+					<!-- Tab: Bind Sensor -->
 					<uib-tab heading="{{'SETTING.BIND_SENSOR' | translate}}" index="5" select="handleTabSelect(5)">
 						<div class="panel-body" ng-controller="SpaceSensorController">
+							<!-- Collapsible description panel -->
 							<div class="alert alert-info">
 								<p>
 									{{'SPACE.BIND_SENSOR_DESCRIPTION' | translate}}
@@ -514,8 +530,10 @@
 						</div>
 					</uib-tab>
 
+					<!-- Tab: Bind Tenant -->
 					<uib-tab heading="{{'SPACE.BIND_TENANT' | translate}}" index="6" select="handleTabSelect(6)">
 						<div class="panel-body" ng-controller="SpaceTenantController">
+							<!-- Collapsible description panel -->
 							<div class="alert alert-info">
 								<p>
 									{{'SPACE.BIND_TENANT_DESCRIPTION' | translate}}
@@ -566,7 +584,7 @@
 								</div>
 
 								<div class="col-lg-4">
-									<!-- according panel-->
+									<!-- Accordion panel: available items for drag-and-drop binding -->
 									<div class="panel panel-primary">
 										<div class="panel-heading"> {{'SPACE.TENANT_LIST' | translate}} </div>
 										<div class="panel-body" uib-tooltip="{{'SETTING.DRAG_TO_BIND' | translate}}"
@@ -582,8 +600,10 @@
 						</div>
 					</uib-tab>
 
+					<!-- Tab: Bind Store -->
 					<uib-tab heading="{{'SPACE.BIND_STORE' | translate}}" index="7" select="handleTabSelect(7)">
 						<div class="panel-body" ng-controller="SpaceStoreController">
+							<!-- Collapsible description panel -->
 							<div class="alert alert-info">
 								<p>
 									{{'SPACE.BIND_STORE_DESCRIPTION' | translate}}
@@ -634,7 +654,7 @@
 								</div>
 
 								<div class="col-lg-4">
-									<!-- according panel-->
+									<!-- Accordion panel: available items for drag-and-drop binding -->
 									<div class="panel panel-primary">
 										<div class="panel-heading"> {{'SPACE.STORE_LIST' | translate}} </div>
 										<div class="panel-body" uib-tooltip="{{'SETTING.DRAG_TO_BIND' | translate}}"
@@ -650,8 +670,10 @@
 						</div>
 					</uib-tab>
 
+					<!-- Tab: Bind Shopfloor -->
 					<uib-tab heading="{{'SPACE.BIND_SHOPFLOOR' | translate}}" index="8" select="handleTabSelect(8)">
 						<div class="panel-body" ng-controller="SpaceShopfloorController">
+							<!-- Collapsible description panel -->
 							<div class="alert alert-info">
 								<p>
 									{{'SPACE.BIND_SHOPFLOOR_DESCRIPTION' | translate}}
@@ -702,7 +724,7 @@
 								</div>
 
 								<div class="col-lg-4">
-									<!-- according panel-->
+									<!-- Accordion panel: available items for drag-and-drop binding -->
 									<div class="panel panel-primary">
 										<div class="panel-heading"> {{'SPACE.SHOPFLOOR_LIST' | translate}} </div>
 										<div class="panel-body" uib-tooltip="{{'SETTING.DRAG_TO_BIND' | translate}}"
@@ -717,8 +739,10 @@
 							</div>
 						</div>
 					</uib-tab>
+					<!-- Tab: Bind Energy Flow Diagram -->
 					<uib-tab heading="{{'SPACE.BIND_ENERGY_FLOW_DIAGRAM' | translate}}" index="9" select="handleTabSelect(9)">
 						<div class="panel-body" ng-controller="SpaceEnergyFlowDiagramController">
+							<!-- Collapsible description panel -->
 							<div class="alert alert-info">
 								<p>
 									{{'SPACE.BIND_ENERGY_FLOW_DIAGRAM_DESCRIPTION' | translate}}
@@ -770,7 +794,7 @@
 								</div>
 
 								<div class="col-lg-4">
-									<!-- according panel-->
+									<!-- Accordion panel: available items for drag-and-drop binding -->
 									<div class="panel panel-primary">
 										<div class="panel-heading"> {{'SPACE.ENERGY_FLOW_DIAGRAM_LIST' | translate}} </div>
 										<div class="panel-body" uib-tooltip="{{'SETTING.DRAG_TO_BIND' | translate}}"
@@ -786,8 +810,10 @@
 						</div>
 					</uib-tab>
 
+					<!-- Tab: Bind Distribution System -->
 					<uib-tab heading="{{'SPACE.BIND_DISTRIBUTION_SYSTEM' | translate}}" index="10" select="handleTabSelect(10)">
 						<div class="panel-body" ng-controller="SpaceDistributionSystemController">
+							<!-- Collapsible description panel -->
 							<div class="alert alert-info">
 								<p>
 									{{'SPACE.BIND_DISTRIBUTION_SYSTEM_DESCRIPTION' | translate}}
@@ -839,7 +865,7 @@
 								</div>
 
 								<div class="col-lg-4">
-									<!-- according panel-->
+									<!-- Accordion panel: available items for drag-and-drop binding -->
 									<div class="panel panel-primary">
 										<div class="panel-heading"> {{'SPACE.DISTRIBUTION_SYSTEM_LIST' | translate}} </div>
 										<div class="panel-body" uib-tooltip="{{'SETTING.DRAG_TO_BIND' | translate}}"
@@ -855,8 +881,10 @@
 						</div>
 					</uib-tab>
 
+					<!-- Tab: Bind Working Calendar -->
 					<uib-tab heading="{{'WORKING_CALENDAR.BIND_WORKING_CALENDAR' | translate}}" index="11" select="handleTabSelect(11)">
 						<div class="panel-body" ng-controller="SpaceWorkingCalendarController">
+							<!-- Collapsible description panel -->
 							<div class="alert alert-info">
 								<p>
 									{{'SPACE.BIND_WORKING_CALENDAR_DESCRIPTION' | translate}}
@@ -908,7 +936,7 @@
 								</div>
 
 								<div class="col-lg-4">
-									<!-- according panel-->
+									<!-- Accordion panel: available items for drag-and-drop binding -->
 									<div class="panel panel-primary">
 										<div class="panel-heading">
 											{{'SETTING.WORKING_CALENDAR' | translate}}
@@ -925,8 +953,10 @@
 						</div>
 					</uib-tab>
 
+					<!-- Tab: Bind Command -->
 					<uib-tab heading="{{'SETTING.BIND_COMMAND' | translate}}" index="12" select="handleTabSelect(12)">
 						<div class="panel-body" ng-controller="SpaceCommandController">
+							<!-- Collapsible description panel -->
 							<div class="alert alert-info">
 								<p>
 									{{'SPACE.BIND_COMMAND_DESCRIPTION' | translate}}
@@ -978,7 +1008,7 @@
 								</div>
 
 								<div class="col-lg-4">
-									<!-- according panel-->
+									<!-- Accordion panel: available items for drag-and-drop binding -->
 									<div class="panel panel-primary">
 										<div class="panel-heading">
 											{{'SETTING.COMMAND_LIST' | translate}}
@@ -995,8 +1025,10 @@
 						</div>
 					</uib-tab>
 
+					<!-- Tab: Bind Energy Storage Power Station -->
 					<uib-tab heading="{{'SPACE.BIND_ENERGY_STORAGE_POWER_STATION' | translate}}" index="13" select="handleTabSelect(13)">
 						<div class="panel-body" ng-controller="SpaceEnergyStoragePowerStationController">
+							<!-- Collapsible description panel -->
 							<div class="alert alert-info">
 								<p>
 									{{'SPACE.BIND_ENERGY_STORAGE_POWER_STATION_DESCRIPTION' | translate}}
@@ -1048,7 +1080,7 @@
 								</div>
 
 								<div class="col-lg-4">
-									<!-- according panel-->
+									<!-- Accordion panel: available items for drag-and-drop binding -->
 									<div class="panel panel-primary">
 										<div class="panel-heading"> {{'SPACE.ENERGY_STORAGE_POWER_STATION_LIST' | translate}} </div>
 										<div class="panel-body" uib-tooltip="{{'SETTING.DRAG_TO_BIND' | translate}}"
@@ -1065,8 +1097,10 @@
 					</uib-tab>
 
 				
+					<!-- Tab: Bind Photovoltaic Power Station -->
 					<uib-tab heading="{{'SPACE.BIND_PHOTOVOLTAIC_POWER_STATION' | translate}}" index="14" select="handleTabSelect(14)">
 							<div class="panel-body" ng-controller="SpacePhotovoltaicPowerStationController">
+								<!-- Collapsible description panel -->
 								<div class="alert alert-info">
 									<p>
 										{{'SPACE.BIND_PHOTOVOLTAIC_POWER_STATION_DESCRIPTION' | translate}}
@@ -1136,8 +1170,10 @@
 							</div>
 					</uib-tab>
 
+					<!-- Tab: Bind Microgrid -->
 					<uib-tab heading="{{'SPACE.BIND_MICROGRID' | translate}}" index="15" select="handleTabSelect(15)">
 							<div class="panel-body" ng-controller="SpaceMicrogridController">
+								<!-- Collapsible description panel -->
 								<div class="alert alert-info">
 									<p>
 										{{'SPACE.BIND_MICROGRID_DESCRIPTION' | translate}}
@@ -1191,7 +1227,7 @@
 								</div>
 
 								<div class="col-lg-4">
-									<!-- according panel -->
+									<!-- Accordion panel: available items for drag-and-drop binding -->
 									<div class="panel panel-primary">
 									<div class="panel-heading">
 										{{'SPACE.MICROGRID_LIST' | translate}}

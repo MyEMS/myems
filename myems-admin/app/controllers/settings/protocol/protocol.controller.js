@@ -1,5 +1,7 @@
 'use strict';
 
+// Protocol controller - CRUD and settings management
+
 app.controller('ProtocolController', function($scope,
 	$rootScope,
 	$window,
@@ -10,6 +12,7 @@ app.controller('ProtocolController', function($scope,
 	SweetAlert) {
 	$scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
 
+	// Load all protocols from API
 	$scope.getAllProtocols = function () {
 		let headers = {"User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token};
 		ProtocolService.getAllProtocols(headers, function (response) {
@@ -22,6 +25,7 @@ app.controller('ProtocolController', function($scope,
 
 	};
 
+	// Open add modal and create protocol
 	$scope.addProtocol = function () {
 		var modalInstance = $uibModal.open({
 			templateUrl: 'views/settings/protocol/protocol.model.html',
@@ -62,6 +66,7 @@ app.controller('ProtocolController', function($scope,
 		$rootScope.modalInstance = modalInstance;
 	};
 
+	// Open edit modal and update protocol
 	$scope.editProtocol = function (protocol) {
 		var modalInstance = $uibModal.open({
 			windowClass: "animated fadeIn",
@@ -104,6 +109,7 @@ app.controller('ProtocolController', function($scope,
 		$rootScope.modalInstance = modalInstance;
 	};
 
+	// Confirm and delete protocol
 	$scope.deleteProtocol = function (protocol) {
 		SweetAlert.swal({
 				title: $translate.instant("SWEET.TITLE"),
@@ -145,6 +151,7 @@ app.controller('ProtocolController', function($scope,
 	$scope.getAllProtocols();
 });
 
+// Modal controller for add dialog
 	app.controller('ModalAddProtocolCtrl', function ($scope, $uibModalInstance, params) {
 
 		$scope.operation = "PROTOCOL.ADD_PROTOCOL";
@@ -157,6 +164,7 @@ app.controller('ProtocolController', function($scope,
 		};
 	});
 
+// Modal controller for edit dialog
 	app.controller('ModalEditProtocolCtrl', function ($scope, $uibModalInstance, params) {
 		$scope.operation = "PROTOCOL.EDIT_PROTOCOL";
 		$scope.protocol = params.protocol;

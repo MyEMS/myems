@@ -1,15 +1,18 @@
+<!-- IoT SIM Card settings page -->
 <div class="wrapper wrapper-content" ng-controller="IoTSIMCardMasterController">
 	<div class="row">
 		<div class="col-lg-12">
 			<div class="tabs-container">
 
 				<uib-tabset>
+					<!-- Tab: Iotsimcard -->
 					<uib-tab heading="{{'IOTSIMCARD.IOTSIMCARD' | translate}}">
 						<div class="panel-body" ng-controller="IoTSIMCardController">
 							<a ng-click="addIoTSIMCard()" class="btn btn-primary btn-rounded btn-outline" href="">
 								<i class="fa fa-plus-circle"></i> {{'IOTSIMCARD.ADD_IOTSIMCARD' | translate}}</a>
 							<br>
 							<br>
+							<!-- IoT SIM Card list table -->
 							<table class="footable table table-bordered table-hover" data-sort="true"
 								data-page-size="15">
 								<thead>

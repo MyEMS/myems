@@ -1,5 +1,7 @@
 'use strict';
 
+// Combined Equipment Parameter controller - drag-and-drop meter binding
+
 app.controller('CombinedEquipmentParameterController', function (
     $scope,
     $rootScope,
@@ -24,6 +26,7 @@ app.controller('CombinedEquipmentParameterController', function (
 	$scope.virtualmeters = [];
 	$scope.mergedMeters = [];
 
+	// Load all combined equipments from API
 	$scope.getAllCombinedEquipments = function () {
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 		CombinedEquipmentService.getAllCombinedEquipments(headers, function (response) {
@@ -35,6 +38,7 @@ app.controller('CombinedEquipmentParameterController', function (
 		});
 	};
 
+	// Handle combined equipment change
 	$scope.changeCombinedEquipment = function (item, model) {
 		$scope.currentCombinedEquipment = item;
 		$scope.currentCombinedEquipment.selected = model;
@@ -42,6 +46,7 @@ app.controller('CombinedEquipmentParameterController', function (
 		$scope.getParametersByCombinedEquipmentID($scope.currentCombinedEquipment.id, true);
 	};
 
+	// Load parameters by combined equipment id
 	$scope.getParametersByCombinedEquipmentID = function (id, shouldGetPoints) {
 		$scope.combinedequipmentparameters = [];
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
@@ -55,6 +60,7 @@ app.controller('CombinedEquipmentParameterController', function (
 		});
 	};
 
+	// Open add modal and create combined equipment parameter
 	$scope.addCombinedEquipmentParameter = function () {
 		if (!$scope.currentCombinedEquipment || !$scope.currentCombinedEquipment.id) {
 			return;
@@ -110,6 +116,7 @@ app.controller('CombinedEquipmentParameterController', function (
 		});
 	};
 
+	// Open edit modal and update combined equipment parameter
 	$scope.editCombinedEquipmentParameter = function (combinedequipmentparameter) {
 		if (!$scope.currentCombinedEquipment || !$scope.currentCombinedEquipment.id) {
 			return;
@@ -165,6 +172,7 @@ app.controller('CombinedEquipmentParameterController', function (
 		});
 	};
 
+	// Confirm and delete combined equipment parameter
 	$scope.deleteCombinedEquipmentParameter = function (combinedequipmentparameter) {
 		SweetAlert.swal({
 			title: $translate.instant("SWEET.TITLE"),
@@ -202,6 +210,7 @@ app.controller('CombinedEquipmentParameterController', function (
 			});
 	};
 
+	// Return CSS class for meter type
 	$scope.colorMeterType = function (type) {
 		if (type == 'meters') {
 			return 'btn-primary'
@@ -239,6 +248,7 @@ app.controller('CombinedEquipmentParameterController', function (
 		}
 	};
 
+	// Load merged meters from API
 	$scope.getMergedMeters = function () {
 		$scope.mergedmeters = [];
 		$scope.meters = [];
@@ -282,6 +292,7 @@ app.controller('CombinedEquipmentParameterController', function (
 		});
 	};
 
+	// Load bound points from parameters from API
 	$scope.getBoundPointsFromParameters = function () {
 		var boundPoints = [];
 		if (angular.isDefined($scope.combinedequipmentparameters) && $scope.combinedequipmentparameters.length > 0) {
@@ -304,6 +315,7 @@ app.controller('CombinedEquipmentParameterController', function (
 		return boundPoints;
 	};
 
+	// Load points by combined equipment id
 	$scope.getPointsByCombinedEquipmentID = function (id, shouldGetBoundPoints, callback) {
 		if (!id) {
 			if (callback) callback();
@@ -343,6 +355,7 @@ app.controller('CombinedEquipmentParameterController', function (
 
 	$scope.tabInitialized = false;
 
+	// Initialize tab
 	$scope.initTab = function() {
 		if (!$scope.tabInitialized) {
 			$scope.tabInitialized = true;
@@ -379,6 +392,7 @@ app.controller('CombinedEquipmentParameterController', function (
 });
 
 
+// Modal controller for add dialog
 app.controller('ModalAddCombinedEquipmentParameterCtrl', function ($scope, $uibModalInstance, params) {
 
 	$scope.operation = "COMBINED_EQUIPMENT.ADD_PARAMETER";
@@ -406,6 +420,7 @@ app.controller('ModalAddCombinedEquipmentParameterCtrl', function ($scope, $uibM
 	};
 });
 
+// Modal controller for edit dialog
 app.controller('ModalEditCombinedEquipmentParameterCtrl', function ($scope, $uibModalInstance, params) {
 	$scope.operation = "COMBINED_EQUIPMENT.EDIT_PARAMETER";
 	$scope.combinedequipmentparameter = params.combinedequipmentparameter;

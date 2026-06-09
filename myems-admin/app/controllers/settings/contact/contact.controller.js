@@ -1,5 +1,7 @@
 'use strict';
 
+// Contact controller - CRUD and settings management
+
 app.controller('ContactController', function(
     $scope,
     $rootScope,
@@ -12,6 +14,7 @@ app.controller('ContactController', function(
 
 	$scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
 	$scope.searchKeyword = '';
+	// Load all contacts from API
 	$scope.getAllContacts = function() {
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 		ContactService.getAllContacts(headers, function (response) {
@@ -24,6 +27,7 @@ app.controller('ContactController', function(
 
 	};
 
+	// Open add modal and create contact
 	$scope.addContact = function() {
 		var modalInstance = $uibModal.open({
 			templateUrl: 'views/settings/contact/contact.model.html',
@@ -63,6 +67,7 @@ app.controller('ContactController', function(
 		$rootScope.modalInstance = modalInstance;
 	};
 
+	// Open edit modal and update contact
 	$scope.editContact=function(contact){
 		var modalInstance = $uibModal.open({
 		    windowClass: "animated fadeIn",
@@ -104,6 +109,7 @@ app.controller('ContactController', function(
 		$rootScope.modalInstance = modalInstance;
 	};
 
+	// Confirm and delete contact
 	$scope.deleteContact=function(contact){
 		SweetAlert.swal({
 		        title: $translate.instant("SWEET.TITLE"),
@@ -146,6 +152,7 @@ app.controller('ContactController', function(
 			scope.$apply();
 		}
 	}
+	// Search contact by keyword
 	$scope.searchContact = function() {
 		const headers = {
 			"User-UUID": $scope.cur_user?.uuid,
@@ -176,6 +183,7 @@ app.controller('ContactController', function(
 	$scope.getAllContacts();
 });
 
+// Modal controller for add dialog
 app.controller('ModalAddContactCtrl', function ($scope, $uibModalInstance,params) {
 
     $scope.operation="SETTING.ADD_CONTACT";
@@ -189,6 +197,7 @@ app.controller('ModalAddContactCtrl', function ($scope, $uibModalInstance,params
     };
 });
 
+// Modal controller for edit dialog
 app.controller('ModalEditContactCtrl', function ($scope, $uibModalInstance, params) {
     $scope.operation="SETTING.EDIT_CONTACT";
     $scope.contact = params.contact;

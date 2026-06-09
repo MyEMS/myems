@@ -1,5 +1,7 @@
 'use strict';
 
+// Equipment Parameter controller - drag-and-drop meter binding
+
 app.controller('EquipmentParameterController', function(
     $scope,
     $rootScope,
@@ -24,6 +26,7 @@ app.controller('EquipmentParameterController', function(
     $scope.virtualmeters = [];
     $scope.mergedMeters = [];
 
+	// Load all equipments from API
 	$scope.getAllEquipments = function() {
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 		EquipmentService.getAllEquipments(headers, function (response) {
@@ -35,6 +38,7 @@ app.controller('EquipmentParameterController', function(
 		});
 	};
 
+	// Handle equipment change
 	$scope.changeEquipment=function(item,model){
 		$scope.currentEquipment=item;
 		$scope.currentEquipment.selected=model;
@@ -42,6 +46,7 @@ app.controller('EquipmentParameterController', function(
 		$scope.getParametersByEquipmentID($scope.currentEquipment.id);
 	};
 
+	// Load parameters by equipment id
 	$scope.getParametersByEquipmentID = function(id) {
 		$scope.equipmentparameters=[];
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
@@ -52,6 +57,7 @@ app.controller('EquipmentParameterController', function(
 		});
 	};
 
+    // Open add modal and create equipment parameter
     $scope.addEquipmentParameter = function() {
         $scope.getAddPoints().then(function() {
             var modalInstance = $uibModal.open({
@@ -104,6 +110,7 @@ app.controller('EquipmentParameterController', function(
         })
     };
 
+	// Open edit modal and update equipment parameter
 	$scope.editEquipmentParameter = function(equipmentparameter) {
             $scope.getEditPoints(equipmentparameter).then(function() {
 		var modalInstance = $uibModal.open({
@@ -158,6 +165,7 @@ app.controller('EquipmentParameterController', function(
             })
 	};
 
+	// Confirm and delete equipment parameter
 	$scope.deleteEquipmentParameter = function(equipmentparameter) {
 		SweetAlert.swal({
 				title: $translate.instant("SWEET.TITLE"),
@@ -197,6 +205,7 @@ app.controller('EquipmentParameterController', function(
 		);
 	};
 
+	// Return CSS class for meter type
 	$scope.colorMeterType = function(type) {
 		if (type === 'meters') {
 			return 'btn-primary'
@@ -234,6 +243,7 @@ app.controller('EquipmentParameterController', function(
 		}
 	};
 
+	// Load merged meters from API
 	$scope.getMergedMeters = function() {
 		$scope.mergedmeters = [];
 		$scope.meters = [];
@@ -278,6 +288,7 @@ app.controller('EquipmentParameterController', function(
 
 	};
 
+	// Load all points from API
 	$scope.getAllPoints = function() {
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 		PointService.getAllPoints(headers, function (response) {
@@ -290,6 +301,7 @@ app.controller('EquipmentParameterController', function(
 
 	};
 
+        // Load add points from API
         $scope.getAddPoints = function() {
             return new Promise(function(resolve, reject) {
                 let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
@@ -308,6 +320,7 @@ app.controller('EquipmentParameterController', function(
             });
         };
 
+	// Load edit points from API
 	$scope.getEditPoints = function(equipmentparameter) {
             return new Promise(function(resolve, reject) {
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
@@ -328,6 +341,7 @@ app.controller('EquipmentParameterController', function(
 
 	$scope.tabInitialized = false;
 
+	// Initialize tab
 	$scope.initTab = function() {
 		if (!$scope.tabInitialized) {
 			$scope.tabInitialized = true;
@@ -357,6 +371,7 @@ app.controller('EquipmentParameterController', function(
 });
 
 
+// Modal controller for add dialog
 app.controller('ModalAddEquipmentParameterCtrl', function($scope, $uibModalInstance, params) {
 
 	$scope.operation = "EQUIPMENT.ADD_PARAMETER";
@@ -375,6 +390,7 @@ app.controller('ModalAddEquipmentParameterCtrl', function($scope, $uibModalInsta
 	};
 });
 
+// Modal controller for edit dialog
 app.controller('ModalEditEquipmentParameterCtrl', function($scope, $uibModalInstance, params) {
 	$scope.operation = "EQUIPMENT.EDIT_PARAMETER";
 	$scope.equipmentparameter = params.equipmentparameter;
