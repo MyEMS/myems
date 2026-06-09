@@ -1,6 +1,9 @@
 "use strict";
+
+// Energy Storage Container Battery service - REST API wrapper
 app.factory("EnergyStorageContainerBatteryService", function ($http) {
   return {
+        // GET all energy storage container batteries
     getAllEnergyStorageContainerBatteries: function (headers, callback) {
       $http.get(getAPI() + "energystoragecontainerbatteries", { headers }).then(
         function (response) {
@@ -11,6 +14,7 @@ app.factory("EnergyStorageContainerBatteryService", function ($http) {
         }
       );
     },
+        // GET energy storage container batteries by energy storage container id by ID
     getEnergyStorageContainerBatteriesByEnergyStorageContainerID: function (
       id,
       headers,
@@ -29,6 +33,7 @@ app.factory("EnergyStorageContainerBatteryService", function ($http) {
           }
         );
     },
+        // POST create energy storage container battery
     addEnergyStorageContainerBattery: function (
       id,
       energystoragecontainerbattery,
@@ -50,6 +55,7 @@ app.factory("EnergyStorageContainerBatteryService", function ($http) {
           }
         );
     },
+        // PUT update energy storage container battery
     editEnergyStorageContainerBattery: function (
       id,
       energystoragecontainerbattery,
@@ -76,6 +82,7 @@ app.factory("EnergyStorageContainerBatteryService", function ($http) {
         );
     },
 
+        // DELETE energy storage container battery
     deleteEnergyStorageContainerBattery: function (
       id,
       energystoragecontainerbatteryID,
@@ -100,6 +107,7 @@ app.factory("EnergyStorageContainerBatteryService", function ($http) {
           }
         );
     },
+        // POST create pair
     addPair: function (id, bid, pid, headers, callback) {
       $http
         .post(
@@ -121,6 +129,7 @@ app.factory("EnergyStorageContainerBatteryService", function ($http) {
           }
         );
     },
+        // DELETE pair
     deletePair: function (id, bid, pid, headers, callback) {
       $http
         .delete(
@@ -142,6 +151,7 @@ app.factory("EnergyStorageContainerBatteryService", function ($http) {
           }
         );
     },
+        // GET points by bmsid by ID
     getPointsByBMSID: function (id, bid, headers, callback) {
       $http
         .get(

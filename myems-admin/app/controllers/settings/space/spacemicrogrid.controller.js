@@ -1,5 +1,7 @@
 'use strict';
 
+// Space Microgrid controller - CRUD and settings management
+
 app.controller('SpaceMicrogridController', function(
     $scope,
     $window,
@@ -21,6 +23,7 @@ app.controller('SpaceMicrogridController', function(
     $scope.tabInitialized = false;
     $scope.isSpaceSelected = false;
 
+    // Load all spaces from API
     $scope.getAllSpaces = function() {
         let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
         SpaceService.getAllSpaces(headers, function (response) {
@@ -59,6 +62,7 @@ app.controller('SpaceMicrogridController', function(
         });
     };
 
+    // Load microgrids by space id
     $scope.getMicrogridsBySpaceID = function(id) {
         if($scope.isLoadingMicrogrids) return;
         $scope.isLoadingMicrogrids = true;
@@ -89,6 +93,7 @@ app.controller('SpaceMicrogridController', function(
         });
     };
 
+    // Load all microgrids from API
     $scope.getAllMicrogrids = function() {
         let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
         MicrogridService.getAllMicrogrids(headers, function (response) {
@@ -101,6 +106,7 @@ app.controller('SpaceMicrogridController', function(
         });
     };
 
+    // Bind microgrid via drag-and-drop
     $scope.pairMicrogrid = function(dragEl, dropEl) {
         var microgridid = angular.element('#' + dragEl).scope().microgrid.id;
         var spaceid = angular.element(spacetreewithmicrogrid).jstree(true).get_top_selected();
@@ -125,6 +131,7 @@ app.controller('SpaceMicrogridController', function(
         });
     };
 
+    // Unbind microgrid via drag-to-trash
     $scope.deleteMicrogridPair = function(dragEl, dropEl) {
         if (angular.element('#' + dragEl).hasClass('source')) {
             return;
@@ -152,6 +159,7 @@ app.controller('SpaceMicrogridController', function(
         });
     };
 
+    // Refresh space tree
     $scope.refreshSpaceTree = function() {
         let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
         SpaceService.getAllSpaces(headers, function (response) {
@@ -200,6 +208,7 @@ app.controller('SpaceMicrogridController', function(
             { MICROGRID: 15 }
         );
 
+    // Initialize tab
     $scope.initTab = function() {
         if (!$scope.tabInitialized) {
             $scope.tabInitialized = true;

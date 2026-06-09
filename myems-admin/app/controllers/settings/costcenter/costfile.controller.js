@@ -1,5 +1,7 @@
 'use strict';
 
+// Cost File controller - CRUD and settings management
+
 app.controller('CostFileController', function (
     $scope,
 	$window,
@@ -11,6 +13,7 @@ app.controller('CostFileController', function (
 
     $scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
 
+    // Load all cost files from API
     $scope.getAllCostFiles = function () {
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
         CostFileService.getAllCostFiles(headers, function (response) {
@@ -75,6 +78,7 @@ app.controller('CostFileController', function (
         });
     };
 
+    // Confirm and delete cost file
     $scope.deleteCostFile = function (costfile) {
         SweetAlert.swal({
                 title: $translate.instant("SWEET.TITLE"),

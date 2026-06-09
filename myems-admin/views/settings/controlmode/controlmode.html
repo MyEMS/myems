@@ -1,14 +1,18 @@
+<!-- Control Mode settings page -->
 <div class="wrapper wrapper-content">
 	<div class="row">
 		<div class="col-lg-12">
 			<div class="tabs-container">
 				<uib-tabset>
+					<!-- Tab: Control Mode List -->
 					<uib-tab heading="{{'SETTING.CONTROL_MODE_LIST' | translate}}" >
 						<div class="panel-body" ng-controller="ControlModeController">
+							<!-- Add new control mode -->
 							<a ng-click="addControlMode()" class="btn btn-primary btn-rounded btn-outline" href=""><i class="fa fa-plus-circle"></i> {{'SETTING.ADD_CONTROL_MODE' | translate}}</a>
 							<a ng-click="importControlMode()" class="btn btn-primary btn-rounded  btn-outline" href=""><i class="fa fa-plus-circle"></i> {{'SETTING.IMPORT' | translate}}</a>
 							<br>
 							<br>
+							<!-- Control Mode list table -->
 							<table class="footable table table-bordered table-hover" data-sort="true" data-page-size="15">
 								<thead>
 									<tr>

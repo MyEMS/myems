@@ -1,10 +1,13 @@
+<!-- Shop Floor settings page -->
 <div class="wrapper wrapper-content" ng-controller="ShopfloorMasterController">
 	<div class="row">
 		<div class="col-lg-12">
 			<div class="tabs-container">
 				<uib-tabset active="activeTabIndex">
+					<!-- Tab: Shopfloor -->
 					<uib-tab heading="{{'COMMON.SHOPFLOOR' | translate}}" index="0" select="handleTabSelect(0)">
 						<div class="panel-body" ng-controller="ShopfloorController">
+							<!-- Collapsible description panel -->
 							<div class="alert alert-info">
 								<p>
 									{{'SETTING.SHOPFLOOR_DESCRIPTION' | translate}}
@@ -19,19 +22,22 @@
 							</div>
 							<div class="row mb-3">
 								<div class="col-md-3">
+									<!-- Add new shopfloor -->
 									<a ng-click="addShopfloor()" class="btn btn-primary btn-rounded btn-outline" href=""><i class="fa fa-plus-circle"></i> {{'SHOPFLOOR.ADD_SHOPFLOOR' | translate}}</a>
 									<a ng-click="importShopfloor()" class="btn btn-primary btn-rounded btn-outline" href=""><i class="fa fa-plus-circle"></i> {{'SETTING.IMPORT' | translate}}</a>
 								</div>
 								<div class="col-md-9">
-									<input type="text"
+									<!-- Search input -->
+										   <input type="text"
 										   class="form-control m-b-xs"
-										   placeholder="{{'SETTING.SEARCH' | translate}}"
+										   										   placeholder="{{'SETTING.SEARCH' | translate}}"
 										   ng-model="searchKeyword"
 										   ng-keyup="searchShopfloors()">
 								</div>
 							</div>
 							<br>
 							<br>
+							<!-- Shop Floor list table -->
 							<table class="footable table table-bordered table-hover" data-sort="true" data-page-size="15">
 								<thead>
 									<tr>
@@ -74,8 +80,10 @@
 							</table>
 						</div>
 					</uib-tab>
+					<!-- Tab: Bind Meter -->
 					<uib-tab heading="{{'SETTING.BIND_METER' | translate}}" index="1" select="handleTabSelect(1)">
 						<div class="panel-body" ng-controller="ShopfloorMeterController">
+							<!-- Collapsible description panel -->
 							<div class="alert alert-info">
 								<p>
 									{{'SETTING.BIND_METER_DESCRIPTION' | translate}}
@@ -144,7 +152,7 @@
 								</div>
 
 								<div class="col-lg-4">
-									<!-- according panel-->
+									<!-- Accordion panel: available items for drag-and-drop binding -->
 									<div class="panel panel-primary">
 										<div class="panel-heading">
 											{{'SETTING.METER' | translate}}
@@ -172,8 +180,10 @@
 							</div>
 						</div>
 					</uib-tab>
+					<!-- Tab: Bind Equipment -->
 					<uib-tab heading="{{'SHOPFLOOR.BIND_EQUIPMENT' | translate}}" index="2" select="handleTabSelect(2)">
 						<div class="panel-body" ng-controller="ShopfloorEquipmentController">
+							<!-- Collapsible description panel -->
 							<div class="alert alert-info">
 								<p>
 									{{'SHOPFLOOR.BIND_EQUIPMENT_DESCRIPTION' | translate}}
@@ -241,7 +251,7 @@
 								</div>
 
 								<div class="col-lg-4">
-									<!-- according panel-->
+									<!-- Accordion panel: available items for drag-and-drop binding -->
 									<div class="panel panel-primary">
 										<div class="panel-heading"> {{'SHOPFLOOR.EQUIPMENT_LIST' | translate}}
 										</div>
@@ -257,8 +267,10 @@
 							</div>
 						</div>
 					</uib-tab>
+					<!-- Tab: Bind Point -->
 					<uib-tab heading="{{'SETTING.BIND_POINT' | translate}}" index="3" select="handleTabSelect(3)">
 						<div class="panel-body" ng-controller="ShopfloorPointController">
+							<!-- Collapsible description panel -->
 							<div class="alert alert-info">
 								<p>
 									{{'SETTING.BIND_POINT_DESCRIPTION' | translate}}
@@ -357,8 +369,10 @@
 							</div>
 						</div>
 					</uib-tab>
+					<!-- Tab: Bind Sensor -->
 					<uib-tab heading="{{'SETTING.BIND_SENSOR' | translate}}" index="4" select="handleTabSelect(4)">
 						<div class="panel-body" ng-controller="ShopfloorSensorController">
+							<!-- Collapsible description panel -->
 							<div class="alert alert-info">
 								<p>
 									{{'SETTING.BIND_SENSOR_DESCRIPTION' | translate}}
@@ -442,8 +456,10 @@
 						</div>
 					</uib-tab>
 
+					<!-- Tab: Bind Working Calendar -->
 					<uib-tab heading="{{'WORKING_CALENDAR.BIND_WORKING_CALENDAR' | translate}}" index="5" select="handleTabSelect(5)">
 						<div class="panel-body" ng-controller="ShopfloorWorkingCalendarController">
+							<!-- Collapsible description panel -->
 							<div class="alert alert-info">
 								<p>
 									{{'WORKING_CALENDAR.BIND_WORKING_CALENDAR_DESCRIPTION' | translate}}
@@ -511,7 +527,7 @@
 								</div>
 
 								<div class="col-lg-4">
-									<!-- according panel-->
+									<!-- Accordion panel: available items for drag-and-drop binding -->
 									<div class="panel panel-primary">
 										<div class="panel-heading">
 											{{'SETTING.WORKING_CALENDAR' | translate}}
@@ -527,8 +543,10 @@
 							</div>
 						</div>
 					</uib-tab>
+					<!-- Tab: Bind Command -->
 					<uib-tab heading="{{'SETTING.BIND_COMMAND' | translate}}" index="6" select="handleTabSelect(6)">
 						<div class="panel-body" ng-controller="ShopfloorCommandController">
+							<!-- Collapsible description panel -->
 							<div class="alert alert-info">
 								<p>
 									{{'SETTING.BIND_COMMAND_DESCRIPTION' | translate}}
@@ -597,7 +615,7 @@
 								</div>
 
 								<div class="col-lg-4">
-									<!-- according panel-->
+									<!-- Accordion panel: available items for drag-and-drop binding -->
 									<div class="panel panel-primary">
 										<div class="panel-heading">
 											{{'SETTING.COMMAND_LIST' | translate}}

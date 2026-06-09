@@ -1,5 +1,7 @@
 'use strict';
 
+// Working Calendar master controller - coordinates tab events between child controllers
+
 app.controller('WorkingCalendarMasterController', function($scope) {
 
 

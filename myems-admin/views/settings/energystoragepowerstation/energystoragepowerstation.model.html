@@ -1,8 +1,11 @@
+<!-- Modal dialog for Energy Storage Power Station add/edit -->
 <div class="inmodal">
+    <!-- Modal header -->
     <div class="modal-header">
         <h4 class="modal-title">{{operation | translate}}(ID:{{energystoragepowerstation.id}})</h4>
     </div>
     <div class="modal-body">
+        <!-- Energy Storage Power Station form fields -->
         <form role="form" name="form_energystoragepowerstation" novalidate class="form-horizontal">
             <div class="form-group">
                 <label class="col-sm-3 control-label">{{'SETTING.NAME' | translate}}<span class="text-danger">*</span></label>
@@ -275,6 +278,7 @@
             </div>
         </form>
     </div>
+    <!-- Modal action buttons -->
     <div class="modal-footer">
         <button type="button" class="btn btn-white" ng-click="cancel()">{{'SETTING.CANCEL' | translate}}</button>
         <button type="button" ng-disabled="form_energystoragepowerstation.$invalid" class="btn btn-primary"

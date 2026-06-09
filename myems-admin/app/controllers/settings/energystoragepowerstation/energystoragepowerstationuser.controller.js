@@ -1,5 +1,7 @@
 "use strict";
 
+// Energy Storage Power Station User controller - user association
+
 app.controller(
   "EnergyStoragePowerStationUserController",
   function (
@@ -16,6 +18,7 @@ app.controller(
     $scope.cur_user = JSON.parse(
       $window.localStorage.getItem("myems_admin_ui_current_user")
     );
+    // Load all users from API
     $scope.getAllUsers = function () {
       let headers = {
         "User-UUID": $scope.cur_user.uuid,
@@ -30,6 +33,7 @@ app.controller(
       });
     };
 
+    // Load users by energy storage power station id
     $scope.getUsersByEnergyStoragePowerStationID = function (id) {
       let headers = {
         "User-UUID": $scope.cur_user.uuid,
@@ -48,6 +52,7 @@ app.controller(
       );
     };
 
+    // Handle energy storage power station change
     $scope.changeEnergyStoragePowerStation = function (item, model) {
       $scope.currentEnergyStoragePowerStation = item;
       $scope.currentEnergyStoragePowerStation.selected = model;
@@ -56,6 +61,7 @@ app.controller(
       );
     };
 
+    // Load all energy storage power stations from API
     $scope.getAllEnergyStoragePowerStations = function () {
       let headers = {
         "User-UUID": $scope.cur_user.uuid,
@@ -73,6 +79,7 @@ app.controller(
       );
     };
 
+    // Bind user via drag-and-drop
     $scope.pairUser = function (dragEl, dropEl) {
       var userid = angular.element("#" + dragEl).scope().user.id;
       var energystoragepowerstationid =
@@ -108,6 +115,7 @@ app.controller(
       );
     };
 
+    // Unbind user via drag-to-trash
     $scope.deleteUserPair = function (dragEl, dropEl) {
       if (angular.element("#" + dragEl).hasClass("source")) {
         return;

@@ -1,5 +1,7 @@
 'use strict';
 
+// Shop Floor Equipment controller - drag-and-drop equipment binding
+
 app.controller('ShopfloorEquipmentController', function (
     $scope,
     $window,
@@ -16,6 +18,7 @@ app.controller('ShopfloorEquipmentController', function (
     $scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
     $scope.isShopfloorSelected = false;
 
+    // Load all equipments from API
     $scope.getAllEquipments = function() {
         let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
         EquipmentService.getAllEquipments(headers, function(response) {
@@ -32,6 +35,7 @@ app.controller('ShopfloorEquipmentController', function (
         });
     };
 
+    // Load equipments by shopfloor id
     $scope.getEquipmentsByShopfloorID = function(id) {
         let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
         ShopfloorEquipmentService.getEquipmentsByShopfloorID(id, headers, function(response) {
@@ -44,6 +48,7 @@ app.controller('ShopfloorEquipmentController', function (
         });
     };
 
+    // Handle shopfloor change
     $scope.changeShopfloor = function(item, model) {
         $scope.currentShopfloor = item;
         $scope.currentShopfloor.selected = model;
@@ -55,6 +60,7 @@ app.controller('ShopfloorEquipmentController', function (
         }
     };
 
+    // Load all shopfloors from API
     $scope.getAllShopfloors = function() {
         let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
         ShopfloorService.getAllShopfloors(headers, function(response) {
@@ -66,6 +72,7 @@ app.controller('ShopfloorEquipmentController', function (
         });
     };
 
+    // Bind equipment via drag-and-drop
     $scope.pairEquipment = function(dragEl, dropEl) {
         if (!$scope.isShopfloorSelected || !$scope.currentShopfloor || !$scope.currentShopfloor.id) {
             DragDropWarningService.showWarning("SETTING.PLEASE_SELECT_SHOPFLOOR_FIRST");
@@ -94,6 +101,7 @@ app.controller('ShopfloorEquipmentController', function (
         });
     };
 
+    // Unbind equipment via drag-to-trash
     $scope.deleteEquipmentPair = function(dragEl, dropEl) {
         if (angular.element('#' + dragEl).hasClass('source')) return;
         if (!$scope.isShopfloorSelected || !$scope.currentShopfloor || !$scope.currentShopfloor.id) {

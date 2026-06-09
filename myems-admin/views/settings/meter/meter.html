@@ -1,11 +1,14 @@
+<!-- Meter settings page -->
 <div class="wrapper wrapper-content" ng-controller="MeterMasterController">
 	<div class="row">
 		<div class="col-lg-12">
 			<div class="tabs-container">
 
 				<uib-tabset active="activeTabIndex">
+					<!-- Tab: Meter -->
 					<uib-tab heading="{{'SETTING.METER' | translate}}" index="0" select="handleTabSelect(0)">
 						<div class="panel-body" ng-controller="MeterController">
+							<!-- Collapsible description panel -->
 							<div class="alert alert-info">
 								<p>
 									{{'SETTING.METER_DESCRIPTION' | translate}}
@@ -20,16 +23,19 @@
 							</div>
 							<div class="row mb-3">
 								<div class="col-md-3">
+									<!-- Add new meter -->
 									<a ng-click="addMeter()" class="btn btn-primary btn-rounded btn-outline" href=""><i class="fa fa-plus-circle"></i> {{'SETTING.ADD_METER' | translate}}</a>
 									<a ng-click="importMeter()" class="btn btn-primary btn-rounded  btn-outline" href=""><i class="fa fa-plus-circle"></i> {{'SETTING.IMPORT' | translate}}</a>
 								</div>
 								<div class="col-md-9">
-									 <input type="text" class="form-control m-b-xs"
-									   placeholder="{{'SETTING.SEARCH' | translate}}"
+									 <!-- Search input -->
+									   <input type="text" class="form-control m-b-xs"
+									   									   placeholder="{{'SETTING.SEARCH' | translate}}"
 									   ng-model="searchKeyword"
 									   ng-keyup="searchMeters()">
 								</div>
 							</div>
+							<!-- Meter list table -->
 							<table class="footable table table-bordered table-hover" data-sort="true" data-page-size="15">
 								<thead>
 									<tr>
@@ -75,8 +81,10 @@
 						</div>
 					</uib-tab>
 
+					<!-- Tab: Bind Point -->
 					<uib-tab heading="{{'SETTING.BIND_POINT' | translate}}" index="1" select="handleTabSelect(1)">
 						<div class="panel-body" ng-controller="MeterPointController">
+							<!-- Collapsible description panel -->
 							<div class="alert alert-info">
 								<p>
 									{{'SETTING.BIND_POINT_DESCRIPTION' | translate}}
@@ -177,8 +185,10 @@
 						</div>
 					</uib-tab>
 
+					<!-- Tab: Tree View -->
 					<uib-tab heading="{{'METER.TREE_VIEW' | translate}}" index="2" select="handleTabSelect(2)">
 						<div class="panel-body" ng-controller="MeterController">
+							<!-- Collapsible description panel -->
 							<div class="alert alert-info">
 								<p>
 									{{'METER.TREE_VIEW_DESCRIPTION' | translate}}
@@ -208,6 +218,7 @@
 											{{'METER.CHILD_METERS' | translate}}
 										</div>
 										<div class="panel-body">
+											<!-- Meter list table -->
 											<table class="footable table table-bordered table-hover" data-sort="true" data-page-size="15">
 												<thead>
 													<tr>
@@ -254,8 +265,10 @@
 						</div>
 					</uib-tab>
 
+					<!-- Tab: Virtual Meter -->
 					<uib-tab heading="{{'SETTING.VIRTUAL_METER' | translate}}" index="3" select="handleTabSelect(3)">
 						<div class="panel-body" ng-controller="VirtualMeterController">
+							<!-- Collapsible description panel -->
 							<div class="alert alert-info">
 								<p>
 									{{'SETTING.VIRTUAL_METER_DESCRIPTION' | translate}}
@@ -278,12 +291,14 @@
 										<div>`x = (-b +- sqrt(b^2-4ac))/(2a) .`</div> -->
 								</div>
 								<div class="col-md-9">
-									<input type="text" class="form-control m-b-xs"
-										   placeholder="{{'SETTING.SEARCH' | translate}}"
+									<!-- Search input -->
+										   <input type="text" class="form-control m-b-xs"
+										   										   placeholder="{{'SETTING.SEARCH' | translate}}"
 										   ng-model="searchVirtualMeterKeyword"
 										   ng-keyup="searchVirtualMeters()">
 								</div>
 							</div>
+							<!-- Meter list table -->
 							<table class="footable table table-bordered table-hover" data-sort="true" data-page-size="15">
 								<thead>
 									<tr>
@@ -329,8 +344,10 @@
 						</div>
 					</uib-tab>
 
+					<!-- Tab: Offline Meter -->
 					<uib-tab heading="{{'SETTING.OFFLINE_METER' | translate}}" index="4" select="handleTabSelect(4)">
 						<div class="panel-body" ng-controller="OfflineMeterController">
+							<!-- Collapsible description panel -->
 							<div class="alert alert-info">
 								<p>
 									{{'SETTING.OFFLINE_METER_DESCRIPTION' | translate}}
@@ -351,12 +368,14 @@
 									<i class="fa fa-plus-circle"></i> {{'SETTING.IMPORT' | translate}}</a>
 								</div>
 								<div class="col-md-9">
-									<input type="text" class="form-control m-b-xs"
-										   placeholder="{{'SETTING.SEARCH' | translate}}"
+									<!-- Search input -->
+										   <input type="text" class="form-control m-b-xs"
+										   										   placeholder="{{'SETTING.SEARCH' | translate}}"
 										   ng-model="searchOfflineMeterKeyword"
 										   ng-keyup="searchOfflineMeters()">
 								</div>
 							</div>
+							<!-- Meter list table -->
 							<table class="footable table table-bordered table-hover" data-sort="true" data-page-size="15">
 								<thead>
 									<tr>
@@ -407,8 +426,10 @@
 						</div>
 					</uib-tab>
 
+					<!-- Tab: Offline Meter File -->
 					<uib-tab heading="{{'SETTING.OFFLINE_METER_FILE' | translate}}" index="5" select="handleTabSelect(5)">
 						<div class="panel-body" ng-controller="OfflineMeterFileController">
+							<!-- Collapsible description panel -->
 							<div class="alert alert-info">
 								<p>
 									{{'SETTING.OFFLINE_METER_FILE_DESCRIPTION' | translate}}
@@ -422,6 +443,7 @@
 								</div>
 							</div>
 							<div id="dropzone1" class="dropzone" options="dzOptions" callbacks="dzCallbacks" ng-dropzone></div>
+							<!-- Meter list table -->
 							<table class="footable table table-bordered table-hover" data-sort="true" data-page-size="15">
 								<thead>
 									<tr>
@@ -461,8 +483,10 @@
 						</div>
 					</uib-tab>
 
+					<!-- Tab: Bind Command -->
 					<uib-tab heading="{{'SETTING.BIND_COMMAND' | translate}}" index="6" select="handleTabSelect(6)">
 						<div class="panel-body" ng-controller="MeterCommandController">
+							<!-- Collapsible description panel -->
 							<div class="alert alert-info">
 								<p>
 									{{'SETTING.BIND_COMMAND_DESCRIPTION' | translate}}
@@ -531,7 +555,7 @@
 								</div>
 
 								<div class="col-lg-4">
-									<!-- according panel-->
+									<!-- Accordion panel: available items for drag-and-drop binding -->
 									<div class="panel panel-primary">
 										<div class="panel-heading">
 											{{'SETTING.COMMAND_LIST' | translate}}

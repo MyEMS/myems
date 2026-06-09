@@ -1,6 +1,9 @@
 'use strict';
+
+// Shop Floor Meter service - REST API wrapper
 app.factory('ShopfloorMeterService', function($http) {
     return {
+        // POST create pair
         addPair: function(shopfloorID,meterID, metertype, headers, callback) {
             var meter={};
             if(metertype=='meters'){
@@ -19,6 +22,7 @@ app.factory('ShopfloorMeterService', function($http) {
             });
         },
 
+        // DELETE pair
         deletePair: function(shopfloorID,meterID, metertype, headers, callback) {
             $http.delete(getAPI()+'shopfloors/'+shopfloorID+'/'+metertype+'/'+meterID, {headers})
             .then(function (response) {
@@ -27,6 +31,7 @@ app.factory('ShopfloorMeterService', function($http) {
                 callback(response);
             });
         },
+        // GET meters by shopfloor id by ID
         getMetersByShopfloorID: function(id, headers, metertype, callback) {
             $http.get(getAPI()+'shopfloors/'+id+'/'+metertype, {headers})
             .then(function (response) {

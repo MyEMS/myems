@@ -1,5 +1,7 @@
 'use strict';
 
+// Energy Plan File controller - CRUD and settings management
+
 app.controller('EnergyPlanFileController', function(
 	$scope, 
 	$window,
@@ -11,6 +13,7 @@ app.controller('EnergyPlanFileController', function(
 
 	$scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
 
+	// Load all energy plan files from API
 	$scope.getAllEnergyPlanFiles = function() {
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 		EnergyPlanFileService.getAllEnergyPlanFiles(headers, function (response) {
@@ -76,6 +79,7 @@ app.controller('EnergyPlanFileController', function(
         });
     };
 
+	// Confirm and delete energy plan file
 	$scope.deleteEnergyPlanFile = function(energyplanfile) {
 		SweetAlert.swal({
 			title: $translate.instant("SWEET.TITLE"),

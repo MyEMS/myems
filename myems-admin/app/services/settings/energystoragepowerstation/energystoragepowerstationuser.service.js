@@ -1,6 +1,9 @@
 "use strict";
+
+// Energy Storage Power Station User service - REST API wrapper
 app.factory("EnergyStoragePowerStationUserService", function ($http) {
   return {
+        // POST create pair
     addPair: function (energystoragepowerstationID, userID, headers, callback) {
       $http
         .post(
@@ -21,6 +24,7 @@ app.factory("EnergyStoragePowerStationUserService", function ($http) {
         );
     },
 
+        // DELETE pair
     deletePair: function (
       energystoragepowerstationID,
       userID,
@@ -45,6 +49,7 @@ app.factory("EnergyStoragePowerStationUserService", function ($http) {
           }
         );
     },
+        // GET users by energy storage power station id by ID
     getUsersByEnergyStoragePowerStationID: function (id, headers, callback) {
       $http
         .get(getAPI() + "energystoragepowerstations/" + id + "/users", {

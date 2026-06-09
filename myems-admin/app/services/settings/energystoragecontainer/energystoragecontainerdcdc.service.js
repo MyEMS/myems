@@ -1,6 +1,9 @@
 "use strict";
+
+// Energy Storage Container DC-DC service - REST API wrapper
 app.factory("EnergyStorageContainerDCDCService", function ($http) {
   return {
+        // GET all energy storage container dcd cs
     getAllEnergyStorageContainerDCDCs: function (headers, callback) {
       $http.get(getAPI() + "energystoragecontainerdcdcs", { headers }).then(
         function (response) {
@@ -11,6 +14,7 @@ app.factory("EnergyStorageContainerDCDCService", function ($http) {
         }
       );
     },
+        // GET energy storage container dcd cs by energy storage container id by ID
     getEnergyStorageContainerDCDCsByEnergyStorageContainerID: function (
       id,
       headers,
@@ -27,6 +31,7 @@ app.factory("EnergyStorageContainerDCDCService", function ($http) {
           }
         );
     },
+        // POST create energy storage container dcdc
     addEnergyStorageContainerDCDC: function (
       id,
       energystoragecontainerdcdc,
@@ -48,6 +53,7 @@ app.factory("EnergyStorageContainerDCDCService", function ($http) {
           }
         );
     },
+        // PUT update energy storage container dcdc
     editEnergyStorageContainerDCDC: function (
       id,
       energystoragecontainerdcdc,
@@ -73,6 +79,7 @@ app.factory("EnergyStorageContainerDCDCService", function ($http) {
           }
         );
     },
+        // DELETE energy storage container dcdc
     deleteEnergyStorageContainerDCDC: function (
       id,
       energystoragecontainerdcdcID,
@@ -97,6 +104,7 @@ app.factory("EnergyStorageContainerDCDCService", function ($http) {
           }
         );
     },
+        // POST create pair
     addPair: function (id, fid, pid, headers, callback) {
       $http
         .post(
@@ -118,6 +126,7 @@ app.factory("EnergyStorageContainerDCDCService", function ($http) {
           }
         );
     },
+        // DELETE pair
     deletePair: function (id, fid, pid, headers, callback) {
       $http
         .delete(
@@ -139,6 +148,7 @@ app.factory("EnergyStorageContainerDCDCService", function ($http) {
           }
         );
     },
+        // GET points by dcdcid by ID
     getPointsByDCDCID: function (id, fid, headers, callback) {
       $http
         .get(

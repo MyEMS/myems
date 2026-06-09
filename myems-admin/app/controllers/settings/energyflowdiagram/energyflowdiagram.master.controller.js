@@ -1,5 +1,7 @@
 'use strict';
 
+// Energy Flow Diagram master controller - coordinates tab events between child controllers
+
 app.controller('EnergyFlowDiagramMasterController', function($scope) {
 
 		$scope.$on('handleEmitEnergyFlowDiagramChanged', function(event) {

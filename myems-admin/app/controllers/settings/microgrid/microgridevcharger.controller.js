@@ -1,5 +1,7 @@
 'use strict';
 
+// Microgrid EV Charger controller - CRUD and settings management
+
 app.controller('MicrogridEVChargerController', function(
 	$scope,
 	$rootScope,
@@ -19,6 +21,7 @@ app.controller('MicrogridEVChargerController', function(
 	  $scope.meters = [];
       $scope.currentMicrogrid = null;
 	  $scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
+      // Load all microgrids from API
       $scope.getAllMicrogrids = function() {
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
   		MicrogridService.getAllMicrogrids(headers, function (response) {
@@ -30,6 +33,7 @@ app.controller('MicrogridEVChargerController', function(
   		});
   	};
 
+    // Load data sources by microgrid id
     $scope.getDataSourcesByMicrogridID = function(id) {
       let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
       MicrogridDataSourceService.getDataSourcesByMicrogridID(id, headers, function(response) {
@@ -41,6 +45,7 @@ app.controller('MicrogridEVChargerController', function(
       });
     };
 
+    // Load data source points by microgrid id
     $scope.getDataSourcePointsByMicrogridID = function(id) {
       let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
       MicrogridDataSourceService.getDataSourcePointsByMicrogridID(id, headers, function(response) {
@@ -52,6 +57,7 @@ app.controller('MicrogridEVChargerController', function(
       });
     };
 
+	// Load all meters from API
 	$scope.getAllMeters = function() {
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 		MeterService.getAllMeters(headers, function (response) {
@@ -62,6 +68,7 @@ app.controller('MicrogridEVChargerController', function(
 			}
 		});
 	};
+  	// Load microgrid ev chargers by microgrid id
   	$scope.getMicrogridEVChargersByMicrogridID = function(id) {
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
   		MicrogridEVChargerService.getMicrogridEVChargersByMicrogridID(id, headers, function (response) {
@@ -73,6 +80,7 @@ app.controller('MicrogridEVChargerController', function(
 			});
   	};
 
+  	// Handle microgrid change
   	$scope.changeMicrogrid=function(item,model){
     	$scope.currentMicrogrid=item;
     	$scope.currentMicrogrid.selected=model;
@@ -82,6 +90,7 @@ app.controller('MicrogridEVChargerController', function(
         $scope.getDataSourcePointsByMicrogridID($scope.currentMicrogrid.id);
   	};
 
+  	// Open add modal and create microgrid ev charger
   	$scope.addMicrogridEVCharger = function() {
   		var modalInstance = $uibModal.open({
   			templateUrl: 'views/settings/microgrid/microgridevcharger.model.html',
@@ -127,6 +136,7 @@ app.controller('MicrogridEVChargerController', function(
 		$rootScope.modalInstance = modalInstance;
   	};
 
+  	// Open edit modal and update microgrid ev charger
   	$scope.editMicrogridEVCharger = function(microgridevcharger) {
   		var modalInstance = $uibModal.open({
   			templateUrl: 'views/settings/microgrid/microgridevcharger.model.html',
@@ -174,6 +184,7 @@ app.controller('MicrogridEVChargerController', function(
 		$rootScope.modalInstance = modalInstance;
   	};
 
+  	// Confirm and delete microgrid ev charger
   	$scope.deleteMicrogridEVCharger = function(microgridevcharger) {
   		SweetAlert.swal({
   				title: $translate.instant("SWEET.TITLE"),
@@ -244,6 +255,7 @@ app.controller('MicrogridEVChargerController', function(
   });
 
 
+// Modal controller for add dialog
   app.controller('ModalAddMicrogridEVChargerCtrl', function($scope, $uibModalInstance, params) {
 
   	$scope.operation = "MICROGRID.ADD_MICROGRID_EVCHARGER";
@@ -258,6 +270,7 @@ app.controller('MicrogridEVChargerController', function(
   	};
   });
 
+// Modal controller for edit dialog
   app.controller('ModalEditMicrogridEVChargerCtrl', function($scope, $uibModalInstance, params) {
   	$scope.operation = "MICROGRID.EDIT_MICROGRID_EVCHARGER";
   	$scope.microgridevcharger = params.microgridevcharger;
@@ -307,11 +320,13 @@ app.controller('MicrogridEVChargerController', function(
       $uibModalInstance.dismiss("cancel");
     };
 
+    // Handle data source change
     $scope.changeDataSource = function (item, model) {
       $scope.currentDataSource = model;
       $scope.getPointsByDataSourceID($scope.currentDataSource);
     };
 
+    // Load points by data source id
     $scope.getPointsByDataSourceID = function (id) {
       let headers = { "User-UUID": params.user_uuid, Token: params.token };
       PointService.getPointsByDataSourceID(id, headers, function (response) {
@@ -323,6 +338,7 @@ app.controller('MicrogridEVChargerController', function(
       });
     };
 
+    // Bind point via drag-and-drop
     $scope.pairPoint = function (dragEl, dropEl) {
       var pointid = angular.element("#" + dragEl).scope().point.id;
       let headers = { "User-UUID": params.user_uuid, Token: params.token };
@@ -370,6 +386,7 @@ app.controller('MicrogridEVChargerController', function(
       );
     };
 
+    // Unbind point via drag-to-trash
     $scope.deletePointPair = function (dragEl, dropEl) {
       if (angular.element("#" + dragEl).hasClass("source")) {
         return;

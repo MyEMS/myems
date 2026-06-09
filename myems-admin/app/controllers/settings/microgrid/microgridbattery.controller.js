@@ -1,5 +1,7 @@
 'use strict';
 
+// Microgrid Battery controller - CRUD and settings management
+
 app.controller('MicrogridBatteryController', function(
 	$scope,
 	$rootScope,
@@ -19,6 +21,7 @@ app.controller('MicrogridBatteryController', function(
 	  $scope.meters = [];
       $scope.currentMicrogrid = null;
 	  $scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
+      // Load all microgrids from API
       $scope.getAllMicrogrids = function() {
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
   		MicrogridService.getAllMicrogrids(headers, function (response) {
@@ -30,6 +33,7 @@ app.controller('MicrogridBatteryController', function(
   		});
   	};
 
+    // Load data sources by microgrid id
     $scope.getDataSourcesByMicrogridID = function(id) {
       let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
       MicrogridDataSourceService.getDataSourcesByMicrogridID(id, headers, function(response) {
@@ -41,6 +45,7 @@ app.controller('MicrogridBatteryController', function(
       });
     };
 
+    // Load data source points by microgrid id
     $scope.getDataSourcePointsByMicrogridID = function(id) {
       let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
       MicrogridDataSourceService.getDataSourcePointsByMicrogridID(id, headers, function(response) {
@@ -52,6 +57,7 @@ app.controller('MicrogridBatteryController', function(
       });
     };
 
+	// Load all meters from API
 	$scope.getAllMeters = function() {
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 		MeterService.getAllMeters(headers, function (response) {
@@ -63,6 +69,7 @@ app.controller('MicrogridBatteryController', function(
 		});
 	};
 
+  	// Load microgrid batteries by microgrid id
   	$scope.getMicrogridBatteriesByMicrogridID = function(id) {
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
   		MicrogridBatteryService.getMicrogridBatteriesByMicrogridID(id, headers, function (response) {
@@ -74,6 +81,7 @@ app.controller('MicrogridBatteryController', function(
 			});
   	};
 
+  	// Handle microgrid change
   	$scope.changeMicrogrid=function(item,model){
     	$scope.currentMicrogrid=item;
     	$scope.currentMicrogrid.selected=model;
@@ -83,6 +91,7 @@ app.controller('MicrogridBatteryController', function(
         $scope.getDataSourcePointsByMicrogridID($scope.currentMicrogrid.id);
   	};
 
+  	// Open add modal and create microgrid battery
   	$scope.addMicrogridBattery = function() {
 
   		var modalInstance = $uibModal.open({
@@ -132,6 +141,7 @@ app.controller('MicrogridBatteryController', function(
 		$rootScope.modalInstance = modalInstance;
   	};
 
+  	// Open edit modal and update microgrid battery
   	$scope.editMicrogridBattery = function(microgridbattery) {
   		var modalInstance = $uibModal.open({
   			templateUrl: 'views/settings/microgrid/microgridbattery.model.html',
@@ -182,6 +192,7 @@ app.controller('MicrogridBatteryController', function(
 		$rootScope.modalInstance = modalInstance;
   	};
 
+  	// Confirm and delete microgrid battery
   	$scope.deleteMicrogridBattery = function(microgridbattery) {
   		SweetAlert.swal({
   				title: $translate.instant("SWEET.TITLE"),
@@ -252,6 +263,7 @@ app.controller('MicrogridBatteryController', function(
   });
 
 
+// Modal controller for add dialog
   app.controller('ModalAddMicrogridBatteryCtrl', function($scope, $uibModalInstance, params) {
 
   	$scope.operation = "MICROGRID.ADD_MICROGRID_BATTERY";
@@ -266,6 +278,7 @@ app.controller('MicrogridBatteryController', function(
   	};
   });
 
+// Modal controller for edit dialog
   app.controller('ModalEditMicrogridBatteryCtrl', function($scope, $uibModalInstance, params) {
   	$scope.operation = "MICROGRID.EDIT_MICROGRID_BATTERY";
   	$scope.microgridbattery = params.microgridbattery;
@@ -315,11 +328,13 @@ app.controller('MicrogridBatteryController', function(
       $uibModalInstance.dismiss("cancel");
     };
 
+    // Handle data source change
     $scope.changeDataSource = function (item, model) {
       $scope.currentDataSource = model;
       $scope.getPointsByDataSourceID($scope.currentDataSource);
     };
 
+    // Load points by data source id
     $scope.getPointsByDataSourceID = function (id) {
       let headers = { "User-UUID": params.user_uuid, Token: params.token };
       PointService.getPointsByDataSourceID(id, headers, function (response) {
@@ -331,6 +346,7 @@ app.controller('MicrogridBatteryController', function(
       });
     };
 
+    // Bind point via drag-and-drop
     $scope.pairPoint = function (dragEl, dropEl) {
       var pointid = angular.element("#" + dragEl).scope().point.id;
       let headers = { "User-UUID": params.user_uuid, Token: params.token };
@@ -378,6 +394,7 @@ app.controller('MicrogridBatteryController', function(
       );
     };
 
+    // Unbind point via drag-to-trash
     $scope.deletePointPair = function (dragEl, dropEl) {
       if (angular.element("#" + dragEl).hasClass("source")) {
         return;

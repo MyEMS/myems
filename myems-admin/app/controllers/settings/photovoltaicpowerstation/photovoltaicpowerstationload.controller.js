@@ -1,5 +1,7 @@
 'use strict';
 
+// Photovoltaic Power Station Load controller - CRUD and settings management
+
 app.controller('PhotovoltaicPowerStationLoadController', function(
 	$scope,
 	$rootScope,
@@ -19,6 +21,7 @@ app.controller('PhotovoltaicPowerStationLoadController', function(
 	  $scope.meters = [];
       $scope.currentPhotovoltaicPowerStation = null;
 	  $scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
+      // Load all photovoltaic power stations from API
       $scope.getAllPhotovoltaicPowerStations = function() {
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
   		PhotovoltaicPowerStationService.getAllPhotovoltaicPowerStations(headers, function (response) {
@@ -30,6 +33,7 @@ app.controller('PhotovoltaicPowerStationLoadController', function(
   		});
   	};
 
+    // Load data sources by photovoltaic power station id
     $scope.getDataSourcesByPhotovoltaicPowerStationID = function(id) {
       let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
       PhotovoltaicPowerStationDataSourceService.getDataSourcesByPhotovoltaicPowerStationID(id, headers, function(response) {
@@ -41,6 +45,7 @@ app.controller('PhotovoltaicPowerStationLoadController', function(
       });
     };
 
+    // Load data source points by photovoltaic power station id
     $scope.getDataSourcePointsByPhotovoltaicPowerStationID = function(id) {
       let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
       PhotovoltaicPowerStationDataSourceService.getDataSourcePointsByPhotovoltaicPowerStationID(id, headers, function(response) {
@@ -52,6 +57,7 @@ app.controller('PhotovoltaicPowerStationLoadController', function(
       });
     };
 
+	// Load all meters from API
 	$scope.getAllMeters = function() {
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 		MeterService.getAllMeters(headers, function (response) {
@@ -62,6 +68,7 @@ app.controller('PhotovoltaicPowerStationLoadController', function(
 			}
 		});
 	};
+  	// Load photovoltaic power station loads by photovoltaic power station id
   	$scope.getPhotovoltaicPowerStationLoadsByPhotovoltaicPowerStationID = function(id) {
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
   		PhotovoltaicPowerStationLoadService.getPhotovoltaicPowerStationLoadsByPhotovoltaicPowerStationID(id, headers, function (response) {
@@ -73,6 +80,7 @@ app.controller('PhotovoltaicPowerStationLoadController', function(
 			});
   	};
 
+  	// Handle photovoltaic power station change
   	$scope.changePhotovoltaicPowerStation=function(item,model){
     	$scope.currentPhotovoltaicPowerStation=item;
     	$scope.currentPhotovoltaicPowerStation.selected=model;
@@ -82,6 +90,7 @@ app.controller('PhotovoltaicPowerStationLoadController', function(
         $scope.getDataSourcePointsByPhotovoltaicPowerStationID($scope.currentPhotovoltaicPowerStation.id);
   	};
 
+  	// Open add modal and create photovoltaic power station load
   	$scope.addPhotovoltaicPowerStationLoad = function() {
   		var modalInstance = $uibModal.open({
   			templateUrl: 'views/settings/photovoltaicpowerstation/photovoltaicpowerstationload.model.html',
@@ -208,6 +217,7 @@ app.controller('PhotovoltaicPowerStationLoadController', function(
 		$rootScope.modalInstance = modalInstance;
   	};
 
+  	// Open edit modal and update photovoltaic power station load
   	$scope.editPhotovoltaicPowerStationLoad = function(photovoltaicpowerstationload) {
   		var modalInstance = $uibModal.open({
   			templateUrl: 'views/settings/photovoltaicpowerstation/photovoltaicpowerstationload.model.html',
@@ -332,6 +342,7 @@ app.controller('PhotovoltaicPowerStationLoadController', function(
 		$rootScope.modalInstance = modalInstance;
   	};
 
+  	// Confirm and delete photovoltaic power station load
   	$scope.deletePhotovoltaicPowerStationLoad = function(photovoltaicpowerstationload) {
   		SweetAlert.swal({
   				title: $translate.instant("SWEET.TITLE"),
@@ -402,6 +413,7 @@ app.controller('PhotovoltaicPowerStationLoadController', function(
   });
 
 
+// Modal controller for add dialog
   app.controller('ModalAddPhotovoltaicPowerStationLoadCtrl', function($scope, $uibModalInstance, params) {
 
   	$scope.operation = "PHOTOVOLTAIC_POWER_STATION.ADD_LOAD";
@@ -416,6 +428,7 @@ app.controller('PhotovoltaicPowerStationLoadController', function(
   	};
   });
 
+// Modal controller for edit dialog
   app.controller('ModalEditPhotovoltaicPowerStationLoadCtrl', function($scope, $uibModalInstance, params) {
   	$scope.operation = "PHOTOVOLTAIC_POWER_STATION.EDIT_LOAD";
   	$scope.photovoltaicpowerstationload = params.photovoltaicpowerstationload;
@@ -465,11 +478,13 @@ app.controller(
       $uibModalInstance.dismiss("cancel");
     };
 
+    // Handle data source change
     $scope.changeDataSource = function (item, model) {
       $scope.currentDataSource = model;
       $scope.getPointsByDataSourceID($scope.currentDataSource);
     };
 
+    // Load points by data source id
     $scope.getPointsByDataSourceID = function (id) {
       let headers = { "User-UUID": params.user_uuid, Token: params.token };
       PointService.getPointsByDataSourceID(id, headers, function (response) {
@@ -481,6 +496,7 @@ app.controller(
       });
     };
 
+    // Bind point via drag-and-drop
     $scope.pairPoint = function (dragEl, dropEl) {
       var pointid = angular.element("#" + dragEl).scope().point.id;
       let headers = { "User-UUID": params.user_uuid, Token: params.token };
@@ -528,6 +544,7 @@ app.controller(
       );
     };
 
+    // Unbind point via drag-to-trash
     $scope.deletePointPair = function (dragEl, dropEl) {
       if (angular.element("#" + dragEl).hasClass("source")) {
         return;

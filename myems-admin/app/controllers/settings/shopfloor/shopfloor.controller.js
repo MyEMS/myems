@@ -1,5 +1,7 @@
 'use strict';
 
+// Shop Floor controller - entity association management
+
 app.controller('ShopfloorController', function (
     $scope,
     $rootScope,
@@ -15,6 +17,7 @@ app.controller('ShopfloorController', function (
 	$scope.exportdata = '';
 	$scope.importdata = '';
 
+	// Load all cost centers from API
 	$scope.getAllCostCenters = function () {
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 		CostCenterService.getAllCostCenters(headers, function (response) {
@@ -26,6 +29,7 @@ app.controller('ShopfloorController', function (
 		});
 	};
 
+	// Load all contacts from API
 	$scope.getAllContacts = function () {
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 		ContactService.getAllContacts(headers, function (response) {
@@ -37,6 +41,7 @@ app.controller('ShopfloorController', function (
 		});
 	};
 
+	// Load all shopfloors from API
 	$scope.getAllShopfloors = function () {
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 		ShopfloorService.getAllShopfloors(headers,function (response) {
@@ -49,6 +54,7 @@ app.controller('ShopfloorController', function (
 	};
 
         let searchDebounceTimer = null;
+        // Search shopfloors by keyword
         $scope.searchShopfloors = function() {
                 let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
                 const rawKeyword = $scope.searchKeyword || "";
@@ -71,6 +77,7 @@ app.controller('ShopfloorController', function (
                 }, 300);
         };
 
+	// Open add modal and create shopfloor
 	$scope.addShopfloor = function () {
 		var modalInstance = $uibModal.open({
 			templateUrl: 'views/settings/shopfloor/shopfloor.model.html',
@@ -117,6 +124,7 @@ app.controller('ShopfloorController', function (
 		$rootScope.modalInstance = modalInstance;
 	};
 
+	// Open edit modal and update shopfloor
 	$scope.editShopfloor = function(shopfloor) {
 		var modalInstance = $uibModal.open({
 			windowClass: "animated fadeIn",
@@ -164,6 +172,7 @@ app.controller('ShopfloorController', function (
 		$rootScope.modalInstance = modalInstance;
 	};
 
+	// Confirm and delete shopfloor
 	$scope.deleteShopfloor = function (shopfloor) {
 		SweetAlert.swal({
 			title: $translate.instant("SWEET.TITLE"),
@@ -201,6 +210,7 @@ app.controller('ShopfloorController', function (
 			});
 	};
 
+	// Export shopfloor as JSON
 	$scope.exportShopfloor = function(shopfloor) {
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 		ShopfloorService.exportShopfloor(shopfloor, headers, function(response) {
@@ -232,6 +242,7 @@ app.controller('ShopfloorController', function (
 		});
 	};
 
+	// Clone an existing shopfloor
 	$scope.cloneShopfloor = function(shopfloor){
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 		ShopfloorService.cloneShopfloor(shopfloor, headers, function(response) {
@@ -255,6 +266,7 @@ app.controller('ShopfloorController', function (
 		});
 	};
 
+	// Import shopfloor from JSON
 	$scope.importShopfloor = function() {
 		var modalInstance = $uibModal.open({
 			templateUrl: 'views/common/import.html',
@@ -304,6 +316,7 @@ app.controller('ShopfloorController', function (
 	});
 });
 
+// Modal controller for add dialog
 app.controller('ModalAddShopfloorCtrl', function ($scope, $uibModalInstance, params) {
 
 	$scope.operation = "SHOPFLOOR.ADD_SHOPFLOOR";
@@ -318,6 +331,7 @@ app.controller('ModalAddShopfloorCtrl', function ($scope, $uibModalInstance, par
 	};
 });
 
+// Modal controller for edit dialog
 app.controller('ModalEditShopfloorCtrl', function ($scope, $uibModalInstance, params) {
 	$scope.operation = "SHOPFLOOR.EDIT_SHOPFLOOR";
 	$scope.shopfloor = params.shopfloor;

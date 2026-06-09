@@ -1,5 +1,7 @@
 'use strict';
 
+// Cost Center controller - CRUD and settings management
+
 app.controller('CostCenterController', function(
 	$scope,
 	$rootScope,
@@ -10,6 +12,7 @@ app.controller('CostCenterController', function(
 	toaster,
 	SweetAlert) {
 	$scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
+	// Load all cost centers from API
 	$scope.getAllCostCenters = function() {
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 		CostCenterService.getAllCostCenters(headers, function (response) {
@@ -21,6 +24,7 @@ app.controller('CostCenterController', function(
 		});
 	};
 
+	// Open add modal and create cost center
 	$scope.addCostCenter = function() {
 		var modalInstance = $uibModal.open({
 			templateUrl: 'views/settings/costcenter/costcenter.model.html',
@@ -54,6 +58,7 @@ app.controller('CostCenterController', function(
 		$rootScope.modalInstance = modalInstance;
 	};
 
+	// Open edit modal and update cost center
 	$scope.editCostCenter=function(costcenter){
 		var modalInstance = $uibModal.open({
 		    windowClass: "animated fadeIn",
@@ -96,6 +101,7 @@ app.controller('CostCenterController', function(
 		$rootScope.modalInstance = modalInstance;
 	};
 
+	// Confirm and delete cost center
 	$scope.deleteCostCenter=function(costcenter){
 		SweetAlert.swal({
 		        title: $translate.instant("SWEET.TITLE"),
@@ -138,6 +144,7 @@ app.controller('CostCenterController', function(
 
 });
 
+// Modal controller for add dialog
 app.controller('ModalAddCostCenterCtrl', function ($scope, $uibModalInstance) {
     $scope.operation="SETTING.ADD_COSTCENTER";
     $scope.ok = function () {
@@ -149,6 +156,7 @@ app.controller('ModalAddCostCenterCtrl', function ($scope, $uibModalInstance) {
     };
 });
 
+// Modal controller for edit dialog
 app.controller('ModalEditCostCenterCtrl', function ($scope, $uibModalInstance, params) {
     $scope.operation="SETTING.EDIT_COSTCENTER";
     $scope.costcenter = params.costcenter;

@@ -1,6 +1,9 @@
 'use strict';
+
+// Combined Equipment Meter service - REST API wrapper
 app.factory('CombinedEquipmentMeterService', function ($http) {
     return {
+        // POST create pair
         addPair: function (combinedequipmentID, meterID, metertype, is_output, headers, callback) {
             var meter = {};
             if (metertype == 'meters') {
@@ -18,6 +21,7 @@ app.factory('CombinedEquipmentMeterService', function ($http) {
             });
         },
 
+        // DELETE pair
         deletePair: function (combinedequipmentID, meterID, metertype, headers, callback) {
             $http.delete(getAPI() + 'combinedequipments/' + combinedequipmentID + '/' + metertype + '/' + meterID, {headers})
             .then(function (response) {
@@ -26,6 +30,7 @@ app.factory('CombinedEquipmentMeterService', function ($http) {
                 callback(response);
             });
         },
+        // GET meters by combined equipment id by ID
         getMetersByCombinedEquipmentID: function (id, metertype, headers, callback) {
             $http.get(getAPI() + 'combinedequipments/' + id + '/' + metertype, {headers})
             .then(function (response) {

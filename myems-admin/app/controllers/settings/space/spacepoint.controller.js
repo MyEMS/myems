@@ -1,5 +1,7 @@
 'use strict';
 
+// Space Point controller - drag-and-drop point binding
+
 app.controller('SpacePointController', function (
     $scope, 
     $window,
@@ -23,6 +25,7 @@ app.controller('SpacePointController', function (
     $scope.tabInitialized = false;
     $scope.isSpaceSelected = false;
 
+    // Load all spaces from API
     $scope.getAllSpaces = function() {
       let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
       SpaceService.getAllSpaces(headers, function (response) {
@@ -68,6 +71,7 @@ app.controller('SpacePointController', function (
       });
     };
 
+    // Load all data sources from API
     $scope.getAllDataSources = function () {
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
         DataSourceService.getAllDataSources(headers, function (response) {
@@ -97,6 +101,7 @@ app.controller('SpacePointController', function (
         });
     };
 
+    // Load points by data source id
     $scope.getPointsByDataSourceID = function (id) {
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
         PointService.getPointsByDataSourceID(id, headers, function (response) {
@@ -109,6 +114,7 @@ app.controller('SpacePointController', function (
         });
     };
 
+    // Load points by space id
     $scope.getPointsBySpaceID = function (id) {
         if ($scope.isLoadingPoints) return;
         $scope.isLoadingPoints = true;
@@ -125,11 +131,13 @@ app.controller('SpacePointController', function (
 
     };
 
+    // Handle data source change
     $scope.changeDataSource = function (item, model) {
         $scope.currentDataSource = model;
         $scope.getPointsByDataSourceID($scope.currentDataSource);
     };
 
+    // Bind point via drag-and-drop
     $scope.pairPoint = function (dragEl, dropEl) {
         var pointid = angular.element('#' + dragEl).scope().point.id;
         var spaceid = $scope.currentSpaceID;
@@ -154,6 +162,7 @@ app.controller('SpacePointController', function (
         });
     };
 
+    // Unbind point via drag-to-trash
     $scope.deletePointPair = function (dragEl, dropEl) {
         if (angular.element('#' + dragEl).hasClass('source')) {
             return;
@@ -181,6 +190,7 @@ app.controller('SpacePointController', function (
         });
     };
 
+    // Initialize tab
     $scope.initTab = function() {
         if (!$scope.tabInitialized) {
             $scope.tabInitialized = true;
@@ -207,6 +217,7 @@ app.controller('SpacePointController', function (
         }
     }, 0);
 
+    // Refresh space tree
     $scope.refreshSpaceTree = function() {
       let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
       SpaceService.getAllSpaces(headers, function (response) {

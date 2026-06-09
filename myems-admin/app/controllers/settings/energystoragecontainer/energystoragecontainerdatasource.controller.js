@@ -1,5 +1,7 @@
 "use strict";
 
+// Energy Storage Container Data Source controller - data source association
+
 app.controller(
   "EnergyStorageContainerDataSourceController",
   function (
@@ -21,6 +23,7 @@ app.controller(
     $scope.currentEnergyStorageContainer = { selected: undefined };
     $scope.isEnergyStorageContainerSelected = false;
 
+    // Load all data sources from API
     $scope.getAllDataSources = function () {
       let headers = {
         "User-UUID": $scope.cur_user.uuid,
@@ -35,6 +38,7 @@ app.controller(
       });
     };
 
+    // Load data sources by energy storage container id
     $scope.getDataSourcesByEnergyStorageContainerID = function (id) {
       let headers = {
         "User-UUID": $scope.cur_user.uuid,
@@ -53,6 +57,7 @@ app.controller(
       );
     };
 
+    // Handle energy storage container change
     $scope.changeEnergyStorageContainer = function (item, model) {
       $scope.currentEnergyStorageContainer = item;
       $scope.currentEnergyStorageContainer.selected = model;
@@ -66,6 +71,7 @@ app.controller(
       }
     };
 
+    // Load all energy storage containers from API
     $scope.getAllEnergyStorageContainers = function () {
       let headers = {
         "User-UUID": $scope.cur_user.uuid,
@@ -91,6 +97,7 @@ app.controller(
       );
     };
 
+    // Bind data source via drag-and-drop
     $scope.pairDataSource = function (dragEl, dropEl) {
       var datasourceid = angular.element("#" + dragEl).scope().datasource.id;
       var energystoragecontainerid = $scope.currentEnergyStorageContainer.id;
@@ -125,6 +132,7 @@ app.controller(
       );
     };
 
+    // Unbind data source via drag-to-trash
     $scope.deleteDataSourcePair = function (dragEl, dropEl) {
       if (angular.element("#" + dragEl).hasClass("source")) {
         return;

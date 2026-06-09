@@ -1,5 +1,7 @@
 'use strict';
 
+// Photovoltaic Power Station User controller - user association
+
 app.controller('PhotovoltaicPowerStationUserController', function (
     $scope,
     $window,
@@ -11,6 +13,7 @@ app.controller('PhotovoltaicPowerStationUserController', function (
     SweetAlert) {
     $scope.currentPhotovoltaicPowerStation = {selected:undefined};
     $scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
+    // Load all users from API
     $scope.getAllUsers = function () {
         let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
         UserService.getAllUsers(headers, function (response) {
@@ -22,6 +25,7 @@ app.controller('PhotovoltaicPowerStationUserController', function (
         });
     };
 
+    // Load users by photovoltaic power station id
     $scope.getUsersByPhotovoltaicPowerStationID = function (id) {
         let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
         PhotovoltaicPowerStationUserService.getUsersByPhotovoltaicPowerStationID(id, headers, function (response) {
@@ -33,12 +37,14 @@ app.controller('PhotovoltaicPowerStationUserController', function (
         });
     };
 
+    // Handle photovoltaic power station change
     $scope.changePhotovoltaicPowerStation=function(item,model){
         $scope.currentPhotovoltaicPowerStation=item;
         $scope.currentPhotovoltaicPowerStation.selected=model;
         $scope.getUsersByPhotovoltaicPowerStationID($scope.currentPhotovoltaicPowerStation.id);
     };
 
+    // Load all photovoltaic power stations from API
     $scope.getAllPhotovoltaicPowerStations = function () {
         let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
         PhotovoltaicPowerStationService.getAllPhotovoltaicPowerStations(headers, function (response) {
@@ -50,6 +56,7 @@ app.controller('PhotovoltaicPowerStationUserController', function (
         });
     };
 
+    // Bind user via drag-and-drop
     $scope.pairUser = function (dragEl, dropEl) {
         var userid = angular.element('#' + dragEl).scope().user.id;
         var photovoltaicpowerstationid = $scope.currentPhotovoltaicPowerStation.id;
@@ -74,6 +81,7 @@ app.controller('PhotovoltaicPowerStationUserController', function (
         });
     };
 
+    // Unbind user via drag-to-trash
     $scope.deleteUserPair = function (dragEl, dropEl) {
         if (angular.element('#' + dragEl).hasClass('source')) {
             return;

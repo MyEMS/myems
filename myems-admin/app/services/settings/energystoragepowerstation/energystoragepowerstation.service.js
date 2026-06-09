@@ -1,6 +1,9 @@
 "use strict";
+
+// Energy Storage Power Station service - REST API wrapper
 app.factory("EnergyStoragePowerStationService", function ($http) {
   return {
+        // GET all energy storage power stations
     getAllEnergyStoragePowerStations: function (headers, callback) {
       $http.get(getAPI() + "energystoragepowerstations", { headers }).then(
         function (response) {
@@ -11,6 +14,7 @@ app.factory("EnergyStoragePowerStationService", function ($http) {
         }
       );
     },
+        // Search energy storage power stations by query
     searchEnergyStoragePowerStations: function(query, headers, callback) {
         $http.get(getAPI()+'energystoragepowerstations', { params: { q: query },headers: headers })
         .then(function (response) {
@@ -19,6 +23,7 @@ app.factory("EnergyStoragePowerStationService", function ($http) {
             callback(response);
         });
     },
+        // POST create energy storage power station
     addEnergyStoragePowerStation: function (
       energystoragepowerstation,
       headers,
@@ -39,6 +44,7 @@ app.factory("EnergyStoragePowerStationService", function ($http) {
           }
         );
     },
+        // PUT update energy storage power station
     editEnergyStoragePowerStation: function (
       energystoragepowerstation,
       headers,
@@ -61,6 +67,7 @@ app.factory("EnergyStoragePowerStationService", function ($http) {
           }
         );
     },
+        // DELETE energy storage power station
     deleteEnergyStoragePowerStation: function (
       energystoragepowerstation,
       headers,
@@ -82,6 +89,7 @@ app.factory("EnergyStoragePowerStationService", function ($http) {
           }
         );
     },
+        // GET export energy storage power station
     exportEnergyStoragePowerStation: function (
       energystoragepowerstation,
       headers,
@@ -104,6 +112,7 @@ app.factory("EnergyStoragePowerStationService", function ($http) {
           }
         );
     },
+        // POST import energy storage power station
     importEnergyStoragePowerStation: function (importdata, headers, callback) {
       $http
         .post(
@@ -120,6 +129,7 @@ app.factory("EnergyStoragePowerStationService", function ($http) {
           }
         );
     },
+        // POST clone energy storage power station
     cloneEnergyStoragePowerStation: function (
       energystoragepowerstation,
       headers,

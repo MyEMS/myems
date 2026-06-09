@@ -1,5 +1,7 @@
 'use strict';
 
+// Space Store controller - entity association management
+
 app.controller('SpaceStoreController', function(
     $scope,
     $window,
@@ -18,6 +20,7 @@ app.controller('SpaceStoreController', function(
     $scope.tabInitialized = false;
     $scope.isSpaceSelected = false;
 
+    // Load all spaces from API
     $scope.getAllSpaces = function() {
     let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
     SpaceService.getAllSpaces(headers, function (response) {
@@ -62,6 +65,7 @@ app.controller('SpaceStoreController', function(
     });
     };
 
+	// Load stores by space id
 	$scope.getStoresBySpaceID = function(id) {
 	if ($scope.isLoadingStores) return;
 	$scope.isLoadingStores = true;
@@ -92,6 +96,7 @@ app.controller('SpaceStoreController', function(
         });
     };
 
+	// Load all stores from API
 	$scope.getAllStores = function() {
         let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 		StoreService.getAllStores(headers, function (response) {
@@ -104,6 +109,7 @@ app.controller('SpaceStoreController', function(
 		});
 	};
 
+	// Bind store via drag-and-drop
 	$scope.pairStore=function(dragEl,dropEl){
 		var storeid=angular.element('#'+dragEl).scope().store.id;
 		var spaceid=angular.element(spacetreewithstore).jstree(true).get_top_selected();
@@ -129,6 +135,7 @@ app.controller('SpaceStoreController', function(
 		});
 	};
 
+	// Unbind store via drag-to-trash
 	$scope.deleteStorePair=function(dragEl,dropEl){
 		if(angular.element('#'+dragEl).hasClass('source')){
 			return;
@@ -156,6 +163,7 @@ app.controller('SpaceStoreController', function(
 		});
 	};
 
+    // Initialize tab
     $scope.initTab = function() {
         if (!$scope.tabInitialized) {
             $scope.tabInitialized = true;
@@ -182,6 +190,7 @@ app.controller('SpaceStoreController', function(
         }
     }, 0);
 
+  // Refresh space tree
   $scope.refreshSpaceTree = function() {
     let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
     SpaceService.getAllSpaces(headers, function (response) {

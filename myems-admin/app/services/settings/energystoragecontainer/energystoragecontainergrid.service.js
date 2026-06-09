@@ -1,6 +1,9 @@
 "use strict";
+
+// Energy Storage Container Grid service - REST API wrapper
 app.factory("EnergyStorageContainerGridService", function ($http) {
   return {
+        // GET all energy storage container grids
     getAllEnergyStorageContainerGrids: function (headers, callback) {
       $http.get(getAPI() + "energystoragecontainergrids", { headers }).then(
         function (response) {
@@ -11,6 +14,7 @@ app.factory("EnergyStorageContainerGridService", function ($http) {
         }
       );
     },
+        // GET energy storage container grids by energy storage container id by ID
     getEnergyStorageContainerGridsByEnergyStorageContainerID: function (
       id,
       headers,
@@ -27,6 +31,7 @@ app.factory("EnergyStorageContainerGridService", function ($http) {
           }
         );
     },
+        // POST create energy storage container grid
     addEnergyStorageContainerGrid: function (
       id,
       energystoragecontainergrid,
@@ -48,6 +53,7 @@ app.factory("EnergyStorageContainerGridService", function ($http) {
           }
         );
     },
+        // PUT update energy storage container grid
     editEnergyStorageContainerGrid: function (
       id,
       energystoragecontainergrid,
@@ -73,6 +79,7 @@ app.factory("EnergyStorageContainerGridService", function ($http) {
           }
         );
     },
+        // DELETE energy storage container grid
     deleteEnergyStorageContainerGrid: function (
       id,
       energystoragecontainergridyID,
@@ -97,6 +104,7 @@ app.factory("EnergyStorageContainerGridService", function ($http) {
           }
         );
     },
+        // POST create pair
     addPair: function (id, gid, pid, headers, callback) {
       $http
         .post(
@@ -118,6 +126,7 @@ app.factory("EnergyStorageContainerGridService", function ($http) {
           }
         );
     },
+        // DELETE pair
     deletePair: function (id, gid, pid, headers, callback) {
       $http
         .delete(
@@ -139,6 +148,7 @@ app.factory("EnergyStorageContainerGridService", function ($http) {
           }
         );
     },
+        // GET points by grid id by ID
     getPointsByGridID: function (id, gid, headers, callback) {
       $http
         .get(

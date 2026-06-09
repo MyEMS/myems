@@ -1,6 +1,9 @@
 "use strict";
+
+// Energy Storage Container Data Source service - REST API wrapper
 app.factory("EnergyStorageContainerDataSourceService", function ($http) {
   return {
+        // POST create pair
     addPair: function (
       energystoragecontainerID,
       dataSourceID,
@@ -26,6 +29,7 @@ app.factory("EnergyStorageContainerDataSourceService", function ($http) {
         );
     },
 
+        // DELETE pair
     deletePair: function (
       energystoragecontainerID,
       dataSourceID,
@@ -50,6 +54,7 @@ app.factory("EnergyStorageContainerDataSourceService", function ($http) {
           }
         );
     },
+        // GET data sources by energy storage container id by ID
     getDataSourcesByEnergyStorageContainerID: function (id, headers, callback) {
       $http
         .get(getAPI() + "energystoragecontainers/" + id + "/datasources", {
@@ -64,6 +69,7 @@ app.factory("EnergyStorageContainerDataSourceService", function ($http) {
           }
         );
     },
+        // GET data source points by energy storage container id by ID
     getDataSourcePointsByEnergyStorageContainerID: function (
       id,
       headers,

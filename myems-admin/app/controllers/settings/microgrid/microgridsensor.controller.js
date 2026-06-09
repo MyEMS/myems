@@ -1,5 +1,7 @@
 'use strict';
 
+// Microgrid Sensor controller - drag-and-drop sensor binding
+
 app.controller('MicrogridSensorController', function (
     $scope,
     $rootScope,
@@ -15,6 +17,7 @@ app.controller('MicrogridSensorController', function (
     $scope.currentMicrogrid = {selected:undefined};
     $scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
     $scope.isMicrogridSelected = false;
+    // Load all sensors from API
     $scope.getAllSensors = function () {
         let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
         SensorService.getAllSensors(headers, function (response) {
@@ -26,6 +29,7 @@ app.controller('MicrogridSensorController', function (
         });
     };
 
+    // Load sensors by microgrid id
     $scope.getSensorsByMicrogridID = function (id) {
         let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
         MicrogridSensorService.getSensorsByMicrogridID(id, headers, function (response) {
@@ -37,6 +41,7 @@ app.controller('MicrogridSensorController', function (
         });
     };
 
+    // Handle microgrid change
     $scope.changeMicrogrid=function(item,model){
         $scope.currentMicrogrid=item;
         $scope.currentMicrogrid.selected=model;
@@ -48,6 +53,7 @@ app.controller('MicrogridSensorController', function (
         }
     };
 
+    // Load all microgrids from API
     $scope.getAllMicrogrids = function () {
         let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
         MicrogridService.getAllMicrogrids(headers, function (response) {
@@ -59,6 +65,7 @@ app.controller('MicrogridSensorController', function (
         });
     };
 
+    // Bind sensor via drag-and-drop
     $scope.pairSensor = function (dragEl, dropEl) {
         var sensorid = angular.element('#' + dragEl).scope().sensor.id;
         var microgridid = $scope.currentMicrogrid.id;
@@ -83,6 +90,7 @@ app.controller('MicrogridSensorController', function (
         });
     };
 
+    // Unbind sensor via drag-to-trash
     $scope.deleteSensorPair = function (dragEl, dropEl) {
         if (angular.element('#' + dragEl).hasClass('source')) {
             return;

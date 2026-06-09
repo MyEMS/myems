@@ -1,5 +1,7 @@
 'use strict';
 
+// Offline Meter File controller - drag-and-drop meter binding
+
 app.controller('OfflineMeterFileController', function(
 	$scope, 
 	$window,
@@ -12,6 +14,7 @@ app.controller('OfflineMeterFileController', function(
 
 	$scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
 
+	// Load all offline meter files from API
 	$scope.getAllOfflineMeterFiles = function() {
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 		OfflineMeterFileService.getAllOfflineMeterFiles(headers, function (response) {
@@ -77,6 +80,7 @@ app.controller('OfflineMeterFileController', function(
         });
     };
 
+	// Confirm and delete offline meter file
 	$scope.deleteOfflineMeterFile = function(offlinemeterfile) {
 		SweetAlert.swal({
 			title: $translate.instant("SWEET.TITLE"),
@@ -117,6 +121,7 @@ app.controller('OfflineMeterFileController', function(
 	$scope.tabInitialized = false;
 	$scope.refeshfiles = undefined;
 
+	// Initialize tab
 	$scope.initTab = function() {
 		if (!$scope.tabInitialized) {
 			$scope.tabInitialized = true;

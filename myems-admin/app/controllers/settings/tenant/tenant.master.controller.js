@@ -1,5 +1,7 @@
 'use strict';
 
+// Tenant master controller - coordinates tab events between child controllers
+
 var TENANT_TAB_INDEXES = {
     TENANT: 0,
     TENANT_TYPE: 1,
@@ -14,6 +16,7 @@ app.controller('TenantMasterController', function($scope, $timeout) {
     $scope.TAB_INDEXES = TENANT_TAB_INDEXES;
     $scope.activeTabIndex = TENANT_TAB_INDEXES.TENANT;
 
+    // Handle tab selection
     $scope.handleTabSelect = function(tabIndex) {
         $scope.activeTabIndex = tabIndex;
         $timeout(function() {

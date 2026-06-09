@@ -1,10 +1,13 @@
+<!-- SVG settings page -->
 <div class="wrapper wrapper-content" ng-controller="SVGMasterController">
 	<div class="row">
 		<div class="col-lg-12">
 			<div class="tabs-container">
 				<uib-tabset>
+					<!-- Tab: SVG -->
 					<uib-tab heading="{{'COMMON.SVG' | translate}}">
 						<div class="panel-body" ng-controller="SVGController">
+							<!-- Collapsible description panel -->
 							<div class="alert alert-info">
 								<p>
 									{{'SETTING.SVG_DESCRIPTION' | translate}}
@@ -19,17 +22,20 @@
 							</div>
 							<div class="row mb-3">
 								<div class="col-md-3">
+									<!-- Add new svg -->
 									<a ng-click="addSVG()" class="btn btn-primary btn-rounded btn-outline" href=""><i class="fa fa-plus-circle"></i> {{'SVG.ADD_SVG' | translate}}</a>
 									<a ng-click="importSVG()" class="btn btn-primary btn-rounded btn-outline" href=""><i class="fa fa-plus-circle"></i> {{'SETTING.IMPORT' | translate}}</a>
 								</div>
 								<div class="col-md-9">
-									<input type="text"
+									<!-- Search input -->
+										   <input type="text"
 										   class="form-control m-b-xs"
-										   placeholder="{{'SETTING.SEARCH' | translate}}"
+										   										   placeholder="{{'SETTING.SEARCH' | translate}}"
 										   ng-model="searchKeyword"
 										   ng-keyup="searchSVGs()">
 								</div>
 							</div>
+              <!-- SVG list table -->
               <table class="footable table table-bordered table-hover" data-sort="true" data-page-size="15">
 								<thead>
 									<tr>
@@ -63,8 +69,10 @@
 						</div>
 					</uib-tab>
 
+					<!-- Tab: Preview -->
 					<uib-tab heading="{{'SVG.PREVIEW' | translate}}">
             <div class="panel-body" ng-controller="SVGPreviewController">
+							<!-- Collapsible description panel -->
 							<div class="alert alert-info">
 								<p>
 									{{'SVG.PREVIEW_DESCRIPTION' | translate}}

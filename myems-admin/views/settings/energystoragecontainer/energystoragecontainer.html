@@ -1,8 +1,10 @@
+<!-- Energy Storage Container settings page -->
 <div class="wrapper wrapper-content" ng-controller="EnergyStorageContainerMasterController">
 	<div class="row">
 		<div class="col-lg-12">
 			<div class="tabs-container">
 				<uib-tabset>
+					<!-- Tab: Energy Storage Container -->
 					<uib-tab heading="{{'COMMON.ENERGY_STORAGE_CONTAINER' | translate}}">
 						<div class="panel-body" ng-controller="EnergyStorageContainerController">
                                                         <div class="col-md-3">
@@ -13,13 +15,15 @@
 								href=""> <i class="fa fa-plus-circle"></i> {{'SETTING.IMPORT' | translate}}</a>
                                                         </div>
                                                         <div class="col-md-9">
-                                                            <input type="text" class="form-control m-b-xs"
-                                                                placeholder="{{'SETTING.SEARCH' | translate}}"
+                                                            <!-- Search input -->
+                                                                <input type="text" class="form-control m-b-xs"
+                                                                                                                                placeholder="{{'SETTING.SEARCH' | translate}}"
                                                                 ng-model="searchKeyword"
                                                                 ng-keyup="searchEnergyStorageContainers()">
                                                         </div>
 							<br>
 							<br>
+							<!-- Energy Storage Container list table -->
 							<table class="footable table table-bordered table-hover" data-sort="true"
 								data-page-size="15">
 								<thead>
@@ -73,6 +77,7 @@
 							</table>
 						</div>
 					</uib-tab>
+					<!-- Tab: Bind Data Source -->
 					<uib-tab heading="{{'SETTING.BIND_DATA_SOURCE' | translate}}">
 						<div class="panel-body" ng-controller="EnergyStorageContainerDataSourceController">
 							<div class="row">
@@ -132,7 +137,7 @@
 								</div>
 
 								<div class="col-lg-4">
-									<!-- according panel-->
+									<!-- Accordion panel: available items for drag-and-drop binding -->
 									<div class="panel panel-primary">
 										<div class="panel-heading">
 											{{'SETTING.DATA_SOURCE_LIST' | translate}}
@@ -193,6 +198,7 @@
 												{{'ENERGY_STORAGE_CONTAINER.ADD_ENERGY_STORAGE_CONTAINER_POWER_CONVERSION_SYSTEM'
 												| translate}}
 											</a>
+											<!-- Energy Storage Container list table -->
 											<table class="footable table table-bordered table-hover" data-sort="true"
 												data-page-size="15">
 												<thead>
@@ -251,6 +257,7 @@
 							</div>
 						</div>
 					</uib-tab>
+					<!-- Tab: Energy Storage Container Battery -->
 					<uib-tab heading="{{'ENERGY_STORAGE_CONTAINER.ENERGY_STORAGE_CONTAINER_BATTERY' | translate}}">
 						<div class="panel-body" ng-controller="EnergyStorageContainerBatteryController">
 							<div class="row">
@@ -294,6 +301,7 @@
 												<i class="fa fa-plus-circle"></i>
 												{{'ENERGY_STORAGE_CONTAINER.ADD_ENERGY_STORAGE_CONTAINER_BATTERY' |
 												translate}}</a>
+											<!-- Energy Storage Container list table -->
 											<table class="footable table table-bordered table-hover" data-sort="true"
 												data-page-size="15">
 												<thead>
@@ -377,6 +385,7 @@
 							</div>
 						</div>
 					</uib-tab>
+					<!-- Tab: Energy Storage Container Grid -->
 					<uib-tab heading="{{'ENERGY_STORAGE_CONTAINER.ENERGY_STORAGE_CONTAINER_GRID' | translate}}">
 						<div class="panel-body" ng-controller="EnergyStorageContainerGridController">
 							<div class="row">
@@ -420,6 +429,7 @@
 												<i class="fa fa-plus-circle"></i>
 												{{'ENERGY_STORAGE_CONTAINER.ADD_ENERGY_STORAGE_CONTAINER_GRID' |
 												translate}}</a>
+											<!-- Energy Storage Container list table -->
 											<table class="footable table table-bordered table-hover" data-sort="true"
 												data-page-size="15">
 												<thead>
@@ -481,6 +491,7 @@
 							</div>
 						</div>
 					</uib-tab>
+					<!-- Tab: Energy Storage Container Load -->
 					<uib-tab heading="{{'ENERGY_STORAGE_CONTAINER.ENERGY_STORAGE_CONTAINER_LOAD' | translate}}">
 						<div class="panel-body" ng-controller="EnergyStorageContainerLoadController">
 							<div class="row">
@@ -525,6 +536,7 @@
 												{{'ENERGY_STORAGE_CONTAINER.ADD_ENERGY_STORAGE_CONTAINER_LOAD' |
 												translate}}
 											</a>
+											<!-- Energy Storage Container list table -->
 											<table class="footable table table-bordered table-hover" data-sort="true"
 												data-page-size="15">
 												<thead>
@@ -583,6 +595,7 @@
 							</div>
 						</div>
 					</uib-tab>
+					<!-- Tab: Energy Storage Container Hvac -->
 					<uib-tab heading="{{'ENERGY_STORAGE_CONTAINER.ENERGY_STORAGE_CONTAINER_HVAC' | translate}}">
 						<div class="panel-body" ng-controller="EnergyStorageContainerHVACController">
 							<div class="row">
@@ -626,6 +639,7 @@
 												<i class="fa fa-plus-circle"></i>
 												{{'ENERGY_STORAGE_CONTAINER.ADD_ENERGY_STORAGE_CONTAINER_HVAC' |
 												translate}}</a>
+											<!-- Energy Storage Container list table -->
 											<table class="footable table table-bordered table-hover" data-sort="true"
 												data-page-size="15">
 												<thead>
@@ -671,6 +685,7 @@
 							</div>
 						</div>
 					</uib-tab>
+					<!-- Tab: Energy Storage Container Firecontrol -->
 					<uib-tab heading="{{'ENERGY_STORAGE_CONTAINER.ENERGY_STORAGE_CONTAINER_FIRECONTROL' | translate}}">
 						<div class="panel-body" ng-controller="EnergyStorageContainerFirecontrolController">
 							<div class="row">
@@ -714,6 +729,7 @@
 												<i class="fa fa-plus-circle"></i>
 												{{'ENERGY_STORAGE_CONTAINER.ADD_ENERGY_STORAGE_CONTAINER_FIRECONTROL' |
 												translate}}</a>
+											<!-- Energy Storage Container list table -->
 											<table class="footable table table-bordered table-hover" data-sort="true"
 												data-page-size="15">
 												<thead>
@@ -760,6 +776,7 @@
 							</div>
 						</div>
 					</uib-tab>
+					<!-- Tab: Energy Storage Container Dcdc -->
 					<uib-tab heading="{{'ENERGY_STORAGE_CONTAINER.ENERGY_STORAGE_CONTAINER_DCDC' | translate}}">
 						<div class="panel-body" ng-controller="EnergyStorageContainerDCDCController">
 							<div class="row">
@@ -803,6 +820,7 @@
 												<i class="fa fa-plus-circle"></i>
 												{{'ENERGY_STORAGE_CONTAINER.ADD_ENERGY_STORAGE_CONTAINER_DCDC' |
 												translate}}</a>
+											<!-- Energy Storage Container list table -->
 											<table class="footable table table-bordered table-hover" data-sort="true"
 												data-page-size="15">
 												<thead>
@@ -848,6 +866,7 @@
 							</div>
 						</div>
 					</uib-tab>
+					<!-- Tab: Energy Storage Container Sts -->
 					<uib-tab heading="{{'ENERGY_STORAGE_CONTAINER.ENERGY_STORAGE_CONTAINER_STS' | translate}}">
 						<div class="panel-body" ng-controller="EnergyStorageContainerSTSController">
 							<div class="row">
@@ -891,6 +910,7 @@
 												<i class="fa fa-plus-circle"></i>
 												{{'ENERGY_STORAGE_CONTAINER.ADD_ENERGY_STORAGE_CONTAINER_STS' |
 												translate}}</a>
+											<!-- Energy Storage Container list table -->
 											<table class="footable table table-bordered table-hover" data-sort="true"
 												data-page-size="15">
 												<thead>
@@ -936,6 +956,7 @@
 							</div>
 						</div>
 					</uib-tab>
+					<!-- Tab: Schedule -->
 					<uib-tab heading="{{'SETTING.SCHEDULE' | translate}}">
 						<div class="panel-body" ng-controller="EnergyStorageContainerScheduleController">
 							<div class="row">
@@ -963,6 +984,7 @@
 									</div>
 								</div>
 								<div class="col-lg-9">
+									<!-- Energy Storage Container list table -->
 									<table id="scheduleTable" class="footable table table-bordered table-hover" data-sort="false" data-page-size="10">
 										<thead>
 											<tr>
@@ -1099,6 +1121,7 @@
 						</div>
 					</uib-tab>
 
+					<!-- Tab: Bind Command -->
 					<uib-tab heading="{{'SETTING.BIND_COMMAND' | translate}}">
 						<div class="panel-body" ng-controller="EnergyStorageContainerCommandController">
 							<div class="row">
@@ -1156,7 +1179,7 @@
 									</div>
 								</div>
 								<div class="col-lg-4">
-									<!-- according panel-->
+									<!-- Accordion panel: available items for drag-and-drop binding -->
 									<div class="panel panel-primary">
 										<div class="panel-heading">
 											{{'SETTING.COMMAND_LIST' | translate}}
