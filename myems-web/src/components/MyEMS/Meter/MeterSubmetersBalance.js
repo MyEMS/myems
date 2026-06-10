@@ -438,12 +438,9 @@ const MeterSubmetersBalance = ({ setRedirect, setRedirectUrl, t }) => {
             ...(() => {
               const meterName = json['parameters']['names'];
               const unitOfMeasure = json['meter']['unit_of_measure'];
-              const maxLength = 8;
-              const length = meterName.length;
-              const numColumns = Math.min(length, maxLength);
               const columns = [];
 
-              for (let i = 0; i < numColumns; i++) {
+              for (let i = 0; i < meterName.length; i++) {
                 if (i === 0) {
                   columns.push({
                     dataField: 'a' + i,
@@ -476,7 +473,7 @@ const MeterSubmetersBalance = ({ setRedirect, setRedirectUrl, t }) => {
               return columns;
             })(),
             {
-              dataField: 'a' + Math.min(8, json['parameters']['names'].length),
+              dataField: 'a' + json['parameters']['names'].length,
               text:
                 t('Difference Value') +
                 ':' +
@@ -500,7 +497,7 @@ const MeterSubmetersBalance = ({ setRedirect, setRedirectUrl, t }) => {
             let detailed_value = {};
             detailed_value['id'] = timestampIndex;
             detailed_value['startdatetime'] = currentTimestamp;
-            detailed_value['a' + Math.min(8, json['parameters']['names'].length)] =
+            detailed_value['a' + json['parameters']['names'].length] =
               json['reporting_period']['difference_values'][timestampIndex];
             detailed_value_list.push(detailed_value);
           });
@@ -517,7 +514,7 @@ const MeterSubmetersBalance = ({ setRedirect, setRedirectUrl, t }) => {
           let detailed_value = {};
           detailed_value['id'] = detailed_value_list.length;
           detailed_value['startdatetime'] = t('Total');
-          detailed_value['a' + Math.min(8, json['parameters']['names'].length)] =
+          detailed_value['a' + json['parameters']['names'].length] =
             json['reporting_period']['difference_in_category'];
           detailed_value_list.push(detailed_value);
 
