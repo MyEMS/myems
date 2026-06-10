@@ -649,28 +649,32 @@ class Reporting:
             # Step 9: Query shopfloor statistics
             ################################################################################################################
             # Count meters
-            # Validate all IDs are integers before using in SQL (already validated above)
-            format_strings = ','.join(['%s'] * len(shopfloor_ids_list))
-            cursor_system.execute(
-                " SELECT COUNT(DISTINCT meter_id) "
-                " FROM tbl_shopfloors_meters "
-                " WHERE shopfloor_id IN (%s) " % format_strings,
-                shopfloor_ids_tuple
-            )
-            row = cursor_system.fetchone()
-            total_meters = int(row[0]) if row and row[0] else 0
+            total_meters = 0
+            if len(shopfloor_ids_list) > 0:
+                # Validate all IDs are integers before using in SQL (already validated above)
+                format_strings = ','.join(['%s'] * len(shopfloor_ids_list))
+                cursor_system.execute(
+                    " SELECT COUNT(DISTINCT meter_id) "
+                    " FROM tbl_shopfloors_meters "
+                    " WHERE shopfloor_id IN (%s) " % format_strings,
+                    shopfloor_ids_tuple
+                )
+                row = cursor_system.fetchone()
+                total_meters = int(row[0]) if row and row[0] else 0
 
             # Count sensors
-            # Validate all IDs are integers before using in SQL (already validated above)
-            format_strings = ','.join(['%s'] * len(shopfloor_ids_list))
-            cursor_system.execute(
-                " SELECT COUNT(DISTINCT sensor_id) "
-                " FROM tbl_shopfloors_sensors "
-                " WHERE shopfloor_id IN (%s) " % format_strings,
-                shopfloor_ids_tuple
-            )
-            row = cursor_system.fetchone()
-            total_sensors = int(row[0]) if row and row[0] else 0
+            total_sensors = 0
+            if len(shopfloor_ids_list) > 0:
+                # Validate all IDs are integers before using in SQL (already validated above)
+                format_strings = ','.join(['%s'] * len(shopfloor_ids_list))
+                cursor_system.execute(
+                    " SELECT COUNT(DISTINCT sensor_id) "
+                    " FROM tbl_shopfloors_sensors "
+                    " WHERE shopfloor_id IN (%s) " % format_strings,
+                    shopfloor_ids_tuple
+                )
+                row = cursor_system.fetchone()
+                total_sensors = int(row[0]) if row and row[0] else 0
 
             # Count active alerts (from FDD system)
             total_alerts = 0
@@ -679,17 +683,18 @@ class Reporting:
             try:
                 cnx_fdd = mysql.connector.connect(**config.myems_fdd_db)
                 cursor_fdd = cnx_fdd.cursor()
-                # Validate all IDs are integers before using in SQL (already validated above)
-                format_strings = ','.join(['%s'] * len(shopfloor_ids_list))
-                cursor_fdd.execute(
-                    " SELECT COUNT(*) "
-                    " FROM tbl_faults "
-                    " WHERE shopfloor_id IN (%s) "
-                    "   AND status = 'active' " % format_strings,
-                    shopfloor_ids_tuple
-                )
-                row = cursor_fdd.fetchone()
-                total_alerts = int(row[0]) if row and row[0] else 0
+                if len(shopfloor_ids_list) > 0:
+                    # Validate all IDs are integers before using in SQL (already validated above)
+                    format_strings = ','.join(['%s'] * len(shopfloor_ids_list))
+                    cursor_fdd.execute(
+                        " SELECT COUNT(*) "
+                        " FROM tbl_faults "
+                        " WHERE shopfloor_id IN (%s) "
+                        "   AND status = 'active' " % format_strings,
+                        shopfloor_ids_tuple
+                    )
+                    row = cursor_fdd.fetchone()
+                    total_alerts = int(row[0]) if row and row[0] else 0
             except:
                 total_alerts = 0
             finally:
@@ -706,103 +711,110 @@ class Reporting:
             
             # First get shopfloor names
             shopfloor_name_dict = {}
-            # Validate all IDs are integers before using in SQL (already validated above)
-            format_strings = ','.join(['%s'] * len(shopfloor_ids_list))
-            cursor_system.execute(
-                " SELECT id, name FROM tbl_shopfloors WHERE id IN (%s) " % format_strings,
-                shopfloor_ids_tuple
-            )
-            rows_shopfloors_names = cursor_system.fetchall()
-            if rows_shopfloors_names:
-                for row in rows_shopfloors_names:
-                    shopfloor_name_dict[row[0]] = row[1]
+            if len(shopfloor_ids_list) > 0:
+                # Validate all IDs are integers before using in SQL (already validated above)
+                format_strings = ','.join(['%s'] * len(shopfloor_ids_list))
+                cursor_system.execute(
+                    " SELECT id, name FROM tbl_shopfloors WHERE id IN (%s) " % format_strings,
+                    shopfloor_ids_tuple
+                )
+                rows_shopfloors_names = cursor_system.fetchall()
+                if rows_shopfloors_names:
+                    for row in rows_shopfloors_names:
+                        shopfloor_name_dict[row[0]] = row[1]
 
             # Query energy consumption by category for each shopfloor
-            # Validate all IDs are integers before using in SQL (already validated above)
-            format_strings = ','.join(['%s'] * len(shopfloor_ids_list))
-            cursor_energy.execute(
-                " SELECT shopfloor_id, energy_category_id, SUM(actual_value) as category_energy "
-                " FROM tbl_shopfloor_input_category_hourly "
-                " WHERE shopfloor_id IN (%s) "
-                "   AND start_datetime_utc >= %%s "
-                "   AND start_datetime_utc < %%s "
-                " GROUP BY shopfloor_id, energy_category_id "
-                " ORDER BY shopfloor_id, category_energy DESC " % format_strings,
-                shopfloor_ids_tuple + (reporting_start_datetime_utc, reporting_end_datetime_utc)
-            )
-            rows_all = cursor_energy.fetchall()
-            if rows_all:
-                for row in rows_all:
-                    shopfloor_id = row[0]
-                    ec_id = row[1]
-                    category_energy = float(row[2]) if row[2] else 0.0
-                    
-                    if shopfloor_id not in shopfloor_energy_by_category:
-                        shopfloor_energy_by_category[shopfloor_id] = {
-                            'total_energy': 0.0,
-                            'categories': {}
-                        }
-                    
-                    shopfloor_energy_by_category[shopfloor_id]['categories'][ec_id] = category_energy
-                    shopfloor_energy_by_category[shopfloor_id]['total_energy'] += category_energy
+            shopfloor_energy_by_category = {}
+            if len(shopfloor_ids_list) > 0:
+                # Validate all IDs are integers before using in SQL (already validated above)
+                format_strings = ','.join(['%s'] * len(shopfloor_ids_list))
+                cursor_energy.execute(
+                    " SELECT shopfloor_id, energy_category_id, SUM(actual_value) as category_energy "
+                    " FROM tbl_shopfloor_input_category_hourly "
+                    " WHERE shopfloor_id IN (%s) "
+                    "   AND start_datetime_utc >= %%s "
+                    "   AND start_datetime_utc < %%s "
+                    " GROUP BY shopfloor_id, energy_category_id "
+                    " ORDER BY shopfloor_id, category_energy DESC " % format_strings,
+                    shopfloor_ids_tuple + (reporting_start_datetime_utc, reporting_end_datetime_utc)
+                )
+                rows_all = cursor_energy.fetchall()
+                if rows_all:
+                    for row in rows_all:
+                        shopfloor_id = row[0]
+                        ec_id = row[1]
+                        category_energy = float(row[2]) if row[2] else 0.0
+                        
+                        if shopfloor_id not in shopfloor_energy_by_category:
+                            shopfloor_energy_by_category[shopfloor_id] = {
+                                'total_energy': 0.0,
+                                'categories': {}
+                            }
+                        
+                        shopfloor_energy_by_category[shopfloor_id]['categories'][ec_id] = category_energy
+                        shopfloor_energy_by_category[shopfloor_id]['total_energy'] += category_energy
 
             # Query cost by category for each shopfloor
             shopfloor_cost_by_category = {}
-            # Validate all IDs are integers before using in SQL (already validated above)
-            cursor_billing.execute(
-                " SELECT shopfloor_id, energy_category_id, SUM(actual_value) as category_cost "
-                " FROM tbl_shopfloor_input_category_hourly "
-                " WHERE shopfloor_id IN (%s) "
-                "   AND start_datetime_utc >= %%s "
-                "   AND start_datetime_utc < %%s "
-                " GROUP BY shopfloor_id, energy_category_id "
-                " ORDER BY shopfloor_id, category_cost DESC " % format_strings,
-                shopfloor_ids_tuple + (daily_start, reporting_end_datetime_utc)
-            )
-            rows_cost = cursor_billing.fetchall()
-            if rows_cost:
-                for row in rows_cost:
-                    shopfloor_id = row[0]
-                    ec_id = row[1]
-                    category_cost = float(row[2]) if row[2] else 0.0
+            if len(shopfloor_ids_list) > 0:
+                # Validate all IDs are integers before using in SQL (already validated above)
+                format_strings = ','.join(['%s'] * len(shopfloor_ids_list))
+                cursor_billing.execute(
+                    " SELECT shopfloor_id, energy_category_id, SUM(actual_value) as category_cost "
+                    " FROM tbl_shopfloor_input_category_hourly "
+                    " WHERE shopfloor_id IN (%s) "
+                    "   AND start_datetime_utc >= %%s "
+                    "   AND start_datetime_utc < %%s "
+                    " GROUP BY shopfloor_id, energy_category_id "
+                    " ORDER BY shopfloor_id, category_cost DESC " % format_strings,
+                    shopfloor_ids_tuple + (daily_start, reporting_end_datetime_utc)
+                )
+                rows_cost = cursor_billing.fetchall()
+                if rows_cost:
+                    for row in rows_cost:
+                        shopfloor_id = row[0]
+                        ec_id = row[1]
+                        category_cost = float(row[2]) if row[2] else 0.0
 
-                    if shopfloor_id not in shopfloor_cost_by_category:
-                        shopfloor_cost_by_category[shopfloor_id] = {
-                            'total_cost': 0.0,
-                            'categories': {}
-                        }
+                        if shopfloor_id not in shopfloor_cost_by_category:
+                            shopfloor_cost_by_category[shopfloor_id] = {
+                                'total_cost': 0.0,
+                                'categories': {}
+                            }
 
-                    shopfloor_cost_by_category[shopfloor_id]['categories'][ec_id] = category_cost
-                    shopfloor_cost_by_category[shopfloor_id]['total_cost'] += category_cost
+                        shopfloor_cost_by_category[shopfloor_id]['categories'][ec_id] = category_cost
+                        shopfloor_cost_by_category[shopfloor_id]['total_cost'] += category_cost
 
             # Query carbon by category for each shopfloor
             shopfloor_carbon_by_category = {}
-            # Validate all IDs are integers before using in SQL (already validated above)
-            cursor_carbon.execute(
-                " SELECT shopfloor_id, energy_category_id, SUM(actual_value) as category_carbon "
-                " FROM tbl_shopfloor_input_category_hourly "
-                " WHERE shopfloor_id IN (%s) "
-                "   AND start_datetime_utc >= %%s "
-                "   AND start_datetime_utc < %%s "
-                " GROUP BY shopfloor_id, energy_category_id "
-                " ORDER BY shopfloor_id, category_carbon DESC " % format_strings,
-                shopfloor_ids_tuple + (daily_start, reporting_end_datetime_utc)
-            )
-            rows_carbon = cursor_carbon.fetchall()
-            if rows_carbon:
-                for row in rows_carbon:
-                    shopfloor_id = row[0]
-                    ec_id = row[1]
-                    category_carbon = float(row[2]) if row[2] else 0.0
+            if len(shopfloor_ids_list) > 0:
+                # Validate all IDs are integers before using in SQL (already validated above)
+                format_strings = ','.join(['%s'] * len(shopfloor_ids_list))
+                cursor_carbon.execute(
+                    " SELECT shopfloor_id, energy_category_id, SUM(actual_value) as category_carbon "
+                    " FROM tbl_shopfloor_input_category_hourly "
+                    " WHERE shopfloor_id IN (%s) "
+                    "   AND start_datetime_utc >= %%s "
+                    "   AND start_datetime_utc < %%s "
+                    " GROUP BY shopfloor_id, energy_category_id "
+                    " ORDER BY shopfloor_id, category_carbon DESC " % format_strings,
+                    shopfloor_ids_tuple + (daily_start, reporting_end_datetime_utc)
+                )
+                rows_carbon = cursor_carbon.fetchall()
+                if rows_carbon:
+                    for row in rows_carbon:
+                        shopfloor_id = row[0]
+                        ec_id = row[1]
+                        category_carbon = float(row[2]) if row[2] else 0.0
 
-                    if shopfloor_id not in shopfloor_carbon_by_category:
-                        shopfloor_carbon_by_category[shopfloor_id] = {
-                            'total_carbon': 0.0,
-                            'categories': {}
-                        }
+                        if shopfloor_id not in shopfloor_carbon_by_category:
+                            shopfloor_carbon_by_category[shopfloor_id] = {
+                                'total_carbon': 0.0,
+                                'categories': {}
+                            }
 
-                    shopfloor_carbon_by_category[shopfloor_id]['categories'][ec_id] = category_carbon
-                    shopfloor_carbon_by_category[shopfloor_id]['total_carbon'] += category_carbon
+                        shopfloor_carbon_by_category[shopfloor_id]['categories'][ec_id] = category_carbon
+                        shopfloor_carbon_by_category[shopfloor_id]['total_carbon'] += category_carbon
 
             # Build top 5 shopfloors
             sorted_shopfloors = sorted(
