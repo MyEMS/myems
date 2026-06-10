@@ -328,6 +328,7 @@ export default {
             'Per Unit Area': 'ต่อหน่วยพื้นที่',
             'Per Capita': 'Per Capita',
             'Per Unit Production': 'ต่อหน่วยการผลิต',
+            'Comprehensive Unit Price': 'ราคาเฉลี่ยต่อหน่วย',
             Baseline: 'พื้นฐาน',
             Actual: 'จริง',
             'Baseline Value - Actual Value': 'พื้นฐาน - จริง',

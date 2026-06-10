@@ -328,6 +328,7 @@ export default {
         'Per Unit Area': 'На единицу площади',
         'Per Capita': 'Per Capita',
         'Per Unit Production': 'На единицу продукции',
+        'Comprehensive Unit Price': 'Средняя цена за единицу',
         Baseline: 'Базис',
         Actual: 'Действительный',
         'Baseline Value - Actual Value': 'Базовый уровень - Фактический',

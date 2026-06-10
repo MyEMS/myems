@@ -320,6 +320,7 @@ export default {
         'Per Unit Area': '단위 면적당 값',
         'Per Capita': '인당 값',
         'Per Unit Production': '단위 제품당 값',
+        'Comprehensive Unit Price': '종합 단가',
         Baseline: '기준값',
         Actual: '실제값',
         'Baseline Value - Actual Value': '기준값 - 실제값',
