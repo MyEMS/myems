@@ -46,6 +46,24 @@ from core.useractivity import access_control, api_key_control
 logger = logging.getLogger(__name__)
 
 
+def validate_integer_ids(id_list, param_name="IDs"):
+    """
+    Validate that all IDs in the list are integers to prevent SQL injection.
+    
+    Args:
+        id_list: List of IDs to validate
+        param_name: Name of the parameter for error messages
+        
+    Raises:
+        ValueError: If any ID is not an integer
+    """
+    if not isinstance(id_list, (list, tuple)):
+        raise ValueError(f"{param_name} must be a list or tuple")
+    if not all(isinstance(x, int) for x in id_list):
+        raise ValueError(f"All {param_name} must be integers")
+    return True
+
+
 class Reporting:
     def __init__(self):
         """Initializes Class"""
@@ -288,6 +306,8 @@ class Reporting:
                 privilege_data = json.loads(row_privilege[0])
                 if 'equipments' in privilege_data and privilege_data['equipments']:
                     equipment_ids_list = privilege_data['equipments']
+                    # Validate all IDs are integers before using in SQL
+                    validate_integer_ids(equipment_ids_list, "equipment_ids")
                     format_strings = ','.join(['%s'] * len(equipment_ids_list))
                     cursor_system.execute(
                         " SELECT e.id, e.name, e.cost_center_id "
@@ -343,6 +363,8 @@ class Reporting:
             }
 
             if base_start_datetime_utc and base_end_datetime_utc:
+                # Validate all IDs are integers before using in SQL
+                validate_integer_ids(equipment_ids_list, "equipment_ids")
                 format_strings = ','.join(['%s'] * len(equipment_ids_list))
                 cursor_energy.execute(
                     " SELECT energy_category_id, SUM(actual_value) "
@@ -383,6 +405,8 @@ class Reporting:
                 'energy_category_ids': []
             }
 
+            # Validate all IDs are integers before using in SQL
+            validate_integer_ids(equipment_ids_list, "equipment_ids")
             format_strings = ','.join(['%s'] * len(equipment_ids_list))
             cursor_energy.execute(
                 " SELECT energy_category_id, SUM(actual_value) "
@@ -498,6 +522,8 @@ class Reporting:
             daily_cost_values = [[] for _ in range(len(reporting_cost['names']))]
 
             if len(equipment_ids_list) > 0 and len(reporting_input['energy_category_ids']) > 0:
+                # Validate all IDs are integers before using in SQL
+                validate_integer_ids(equipment_ids_list, "equipment_ids")
                 format_strings = ','.join(['%s'] * len(equipment_ids_list))
 
                 # OPTIMIZATION: Single query to fetch all daily energy data grouped by day and category
@@ -603,6 +629,7 @@ class Reporting:
             }
 
             try:
+                # Validate all IDs are integers before using in SQL (already validated above)
                 format_strings = ','.join(['%s'] * len(equipment_ids_list))
                 cursor_energy.execute(
                     " SELECT energy_category_id, SUM(actual_value) "
@@ -667,6 +694,8 @@ class Reporting:
             total_meters = 0
             total_sensors = 0
             if len(equipment_ids_list) > 0:
+                # Validate all IDs are integers before using in SQL
+                validate_integer_ids(equipment_ids_list, "equipment_ids")
                 format_strings = ','.join(['%s'] * len(equipment_ids_list))
                 try:
                     cursor_system.execute(
@@ -701,6 +730,8 @@ class Reporting:
                 cnx_fdd = mysql.connector.connect(**config.myems_fdd_db)
                 cursor_fdd = cnx_fdd.cursor()
                 if len(equipment_ids_list) > 0:
+                    # Validate all IDs are integers before using in SQL
+                    validate_integer_ids(equipment_ids_list, "equipment_ids")
                     format_strings = ','.join(['%s'] * len(equipment_ids_list))
                     cursor_fdd.execute(
                         " SELECT COUNT(*) "
@@ -731,6 +762,8 @@ class Reporting:
 
             # Query energy consumption by category for each equipment
             if len(equipment_ids_list) > 0:
+                # Validate all IDs are integers before using in SQL
+                validate_integer_ids(equipment_ids_list, "equipment_ids")
                 format_strings = ','.join(['%s'] * len(equipment_ids_list))
                 cursor_energy.execute(
                     " SELECT equipment_id, energy_category_id, SUM(actual_value) as category_energy "

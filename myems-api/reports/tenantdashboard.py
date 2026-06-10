@@ -49,6 +49,24 @@ from core.useractivity import access_control, api_key_control
 logger = logging.getLogger(__name__)
 
 
+def validate_integer_ids(id_list, param_name="IDs"):
+    """
+    Validate that all IDs in the list are integers to prevent SQL injection.
+    
+    Args:
+        id_list: List of IDs to validate
+        param_name: Name of the parameter for error messages
+        
+    Raises:
+        ValueError: If any ID is not an integer
+    """
+    if not isinstance(id_list, (list, tuple)):
+        raise ValueError(f"{param_name} must be a list or tuple")
+    if not all(isinstance(x, int) for x in id_list):
+        raise ValueError(f"All {param_name} must be integers")
+    return True
+
+
 class Reporting:
     def __init__(self):
         """Initializes Class"""
@@ -298,6 +316,8 @@ class Reporting:
                 privilege_data = json.loads(row_privilege[0])
                 if 'tenants' in privilege_data and privilege_data['tenants']:
                     tenant_ids_list = privilege_data['tenants']
+                    # Validate all IDs are integers before using in SQL
+                    validate_integer_ids(tenant_ids_list, "tenant_ids")
                     format_strings = ','.join(['%s'] * len(tenant_ids_list))
                     cursor_system.execute(
                         " SELECT t.id, t.name, t.area, t.tenant_type_id, tt.name as tenant_type_name "
@@ -364,6 +384,8 @@ class Reporting:
             }
 
             if base_start_datetime_utc and base_end_datetime_utc:
+                # Validate all IDs are integers before using in SQL
+                validate_integer_ids(tenant_ids_list, "tenant_ids")
                 format_strings = ','.join(['%s'] * len(tenant_ids_list))
                 cursor_energy.execute(
                     " SELECT energy_category_id, SUM(actual_value) "
@@ -412,6 +434,8 @@ class Reporting:
                 'energy_category_ids': []
             }
 
+            # Validate all IDs are integers before using in SQL
+            validate_integer_ids(tenant_ids_list, "tenant_ids")
             format_strings = ','.join(['%s'] * len(tenant_ids_list))
             cursor_energy.execute(
                 " SELECT energy_category_id, SUM(actual_value) "
@@ -485,6 +509,7 @@ class Reporting:
             }
 
             # Query billing data
+            # Validate all IDs are integers before using in SQL (already validated above)
             format_strings = ','.join(['%s'] * len(tenant_ids_list))
             cursor_billing.execute(
                 " SELECT energy_category_id, SUM(actual_value) "
@@ -534,6 +559,7 @@ class Reporting:
             daily_cost_values = [[] for _ in range(len(reporting_cost['names']))]
 
             if len(tenant_ids_list) > 0 and len(reporting_input['energy_category_ids']) > 0:
+                # Validate all IDs are integers before using in SQL (already validated above)
                 format_strings = ','.join(['%s'] * len(tenant_ids_list))
 
                 # OPTIMIZATION: Single query to fetch all daily energy data grouped by day and category
@@ -629,6 +655,7 @@ class Reporting:
             # Step 9: Query tenant statistics
             ################################################################################################################
             # Count meters
+            # Validate all IDs are integers before using in SQL (already validated above)
             format_strings = ','.join(['%s'] * len(tenant_ids_list))
             cursor_system.execute(
                 " SELECT COUNT(DISTINCT meter_id) "
@@ -640,6 +667,7 @@ class Reporting:
             total_meters = int(row[0]) if row and row[0] else 0
 
             # Count sensors
+            # Validate all IDs are integers before using in SQL (already validated above)
             format_strings = ','.join(['%s'] * len(tenant_ids_list))
             cursor_system.execute(
                 " SELECT COUNT(DISTINCT sensor_id) "
@@ -657,6 +685,7 @@ class Reporting:
             try:
                 cnx_fdd = mysql.connector.connect(**config.myems_fdd_db)
                 cursor_fdd = cnx_fdd.cursor()
+                # Validate all IDs are integers before using in SQL (already validated above)
                 format_strings = ','.join(['%s'] * len(tenant_ids_list))
                 cursor_fdd.execute(
                     " SELECT COUNT(*) "
@@ -683,6 +712,7 @@ class Reporting:
             
             # First get tenant names
             tenant_name_dict = {}
+            # Validate all IDs are integers before using in SQL (already validated above)
             format_strings = ','.join(['%s'] * len(tenant_ids_list))
             cursor_system.execute(
                 " SELECT id, name FROM tbl_tenants WHERE id IN (%s) " % format_strings,
@@ -694,6 +724,7 @@ class Reporting:
                     tenant_name_dict[row[0]] = row[1]
 
             # Query energy consumption by category for each tenant
+            # Validate all IDs are integers before using in SQL (already validated above)
             format_strings = ','.join(['%s'] * len(tenant_ids_list))
             cursor_energy.execute(
                 " SELECT tenant_id, energy_category_id, SUM(actual_value) as category_energy "
@@ -723,6 +754,7 @@ class Reporting:
 
             # Query cost by category for each tenant
             tenant_cost_by_category = {}
+            # Validate all IDs are integers before using in SQL (already validated above)
             cursor_billing.execute(
                 " SELECT tenant_id, energy_category_id, SUM(actual_value) as category_cost "
                 " FROM tbl_tenant_input_category_hourly "
@@ -751,6 +783,7 @@ class Reporting:
 
             # Query carbon by category for each tenant
             tenant_carbon_by_category = {}
+            # Validate all IDs are integers before using in SQL (already validated above)
             cursor_carbon.execute(
                 " SELECT tenant_id, energy_category_id, SUM(actual_value) as category_carbon "
                 " FROM tbl_tenant_input_category_hourly "

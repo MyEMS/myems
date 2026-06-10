@@ -46,6 +46,24 @@ from core.useractivity import access_control, api_key_control
 logger = logging.getLogger(__name__)
 
 
+def validate_integer_ids(id_list, param_name="IDs"):
+    """
+    Validate that all IDs in the list are integers to prevent SQL injection.
+    
+    Args:
+        id_list: List of IDs to validate
+        param_name: Name of the parameter for error messages
+        
+    Raises:
+        ValueError: If any ID is not an integer
+    """
+    if not isinstance(id_list, (list, tuple)):
+        raise ValueError(f"{param_name} must be a list or tuple")
+    if not all(isinstance(x, int) for x in id_list):
+        raise ValueError(f"All {param_name} must be integers")
+    return True
+
+
 class Reporting:
     def __init__(self):
         """Initializes Class"""
@@ -287,6 +305,8 @@ class Reporting:
                 privilege_data = json.loads(row_privilege[0])
                 if 'combinedequipments' in privilege_data and privilege_data['combinedequipments']:
                     combined_equipment_ids_list = privilege_data['combinedequipments']
+                    # Validate all IDs are integers before using in SQL
+                    validate_integer_ids(combined_equipment_ids_list, "combined_equipment_ids")
                     format_strings = ','.join(['%s'] * len(combined_equipment_ids_list))
                     cursor_system.execute(
                         " SELECT ce.id, ce.name, ce.cost_center_id "
@@ -341,6 +361,8 @@ class Reporting:
             }
 
             if base_start_datetime_utc and base_end_datetime_utc:
+                # Validate all IDs are integers before using in SQL
+                validate_integer_ids(combined_equipment_ids_list, "combined_equipment_ids")
                 format_strings = ','.join(['%s'] * len(combined_equipment_ids_list))
                 cursor_energy.execute(
                     " SELECT energy_category_id, SUM(actual_value) "
@@ -381,6 +403,8 @@ class Reporting:
                 'energy_category_ids': []
             }
 
+            # Validate all IDs are integers before using in SQL
+            validate_integer_ids(combined_equipment_ids_list, "combined_equipment_ids")
             format_strings = ','.join(['%s'] * len(combined_equipment_ids_list))
             cursor_energy.execute(
                 " SELECT energy_category_id, SUM(actual_value) "
@@ -449,6 +473,8 @@ class Reporting:
             }
 
             if len(combined_equipment_ids_list) > 0:
+                # Validate all IDs are integers before using in SQL
+                validate_integer_ids(combined_equipment_ids_list, "combined_equipment_ids")
                 format_strings = ','.join(['%s'] * len(combined_equipment_ids_list))
                 cursor_billing.execute(
                     " SELECT energy_category_id, SUM(actual_value) "
@@ -496,6 +522,8 @@ class Reporting:
             daily_cost_values = [[] for _ in range(len(reporting_cost['names']))]
 
             if len(combined_equipment_ids_list) > 0 and len(reporting_input['energy_category_ids']) > 0:
+                # Validate all IDs are integers before using in SQL
+                validate_integer_ids(combined_equipment_ids_list, "combined_equipment_ids")
                 format_strings = ','.join(['%s'] * len(combined_equipment_ids_list))
 
                 # OPTIMIZATION: Single query to fetch all daily energy data grouped by day and category
@@ -594,6 +622,8 @@ class Reporting:
             total_meters = 0
             total_associated_equipments = 0
             if len(combined_equipment_ids_list) > 0:
+                # Validate all IDs are integers before using in SQL
+                validate_integer_ids(combined_equipment_ids_list, "combined_equipment_ids")
                 format_strings = ','.join(['%s'] * len(combined_equipment_ids_list))
                 try:
                     cursor_system.execute(
@@ -628,6 +658,8 @@ class Reporting:
                 cnx_fdd = mysql.connector.connect(**config.myems_fdd_db)
                 cursor_fdd = cnx_fdd.cursor()
                 if len(combined_equipment_ids_list) > 0:
+                    # Validate all IDs are integers before using in SQL
+                    validate_integer_ids(combined_equipment_ids_list, "combined_equipment_ids")
                     format_strings = ','.join(['%s'] * len(combined_equipment_ids_list))
                     cursor_fdd.execute(
                         " SELECT COUNT(*) "
@@ -657,6 +689,8 @@ class Reporting:
 
             # Query energy consumption by category for each combined equipment
             if len(combined_equipment_ids_list) > 0:
+                # Validate all IDs are integers before using in SQL
+                validate_integer_ids(combined_equipment_ids_list, "combined_equipment_ids")
                 format_strings = ','.join(['%s'] * len(combined_equipment_ids_list))
                 cursor_energy.execute(
                     " SELECT combined_equipment_id, energy_category_id, SUM(actual_value) as category_energy "
@@ -686,59 +720,63 @@ class Reporting:
 
             # Query cost by category for each combined equipment
             combined_equipment_cost_by_category = {}
-            cursor_billing.execute(
-                " SELECT combined_equipment_id, energy_category_id, SUM(actual_value) as category_cost "
-                " FROM tbl_combined_equipment_input_category_hourly "
-                " WHERE combined_equipment_id IN (%s) "
-                "   AND start_datetime_utc >= %%s "
-                "   AND start_datetime_utc < %%s "
-                " GROUP BY combined_equipment_id, energy_category_id "
-                " ORDER BY combined_equipment_id, category_cost DESC " % format_strings,
-                combined_equipment_ids_tuple + (daily_start, reporting_end_datetime_utc)
-            )
-            rows_cost = cursor_billing.fetchall()
-            if rows_cost:
-                for row in rows_cost:
-                    combined_equipment_id = row[0]
-                    ec_id = row[1]
-                    category_cost = float(row[2]) if row[2] else 0.0
+            if len(combined_equipment_ids_list) > 0:
+                # Validate all IDs are integers before using in SQL (already validated above)
+                cursor_billing.execute(
+                    " SELECT combined_equipment_id, energy_category_id, SUM(actual_value) as category_cost "
+                    " FROM tbl_combined_equipment_input_category_hourly "
+                    " WHERE combined_equipment_id IN (%s) "
+                    "   AND start_datetime_utc >= %%s "
+                    "   AND start_datetime_utc < %%s "
+                    " GROUP BY combined_equipment_id, energy_category_id "
+                    " ORDER BY combined_equipment_id, category_cost DESC " % format_strings,
+                    combined_equipment_ids_tuple + (daily_start, reporting_end_datetime_utc)
+                )
+                rows_cost = cursor_billing.fetchall()
+                if rows_cost:
+                    for row in rows_cost:
+                        combined_equipment_id = row[0]
+                        ec_id = row[1]
+                        category_cost = float(row[2]) if row[2] else 0.0
 
-                    if combined_equipment_id not in combined_equipment_cost_by_category:
-                        combined_equipment_cost_by_category[combined_equipment_id] = {
-                            'total_cost': 0.0,
-                            'categories': {}
-                        }
+                        if combined_equipment_id not in combined_equipment_cost_by_category:
+                            combined_equipment_cost_by_category[combined_equipment_id] = {
+                                'total_cost': 0.0,
+                                'categories': {}
+                            }
 
-                    combined_equipment_cost_by_category[combined_equipment_id]['categories'][ec_id] = category_cost
-                    combined_equipment_cost_by_category[combined_equipment_id]['total_cost'] += category_cost
+                        combined_equipment_cost_by_category[combined_equipment_id]['categories'][ec_id] = category_cost
+                        combined_equipment_cost_by_category[combined_equipment_id]['total_cost'] += category_cost
 
             # Query carbon by category for each combined equipment
             combined_equipment_carbon_by_category = {}
-            cursor_carbon.execute(
-                " SELECT combined_equipment_id, energy_category_id, SUM(actual_value) as category_carbon "
-                " FROM tbl_combined_equipment_input_category_hourly "
-                " WHERE combined_equipment_id IN (%s) "
-                "   AND start_datetime_utc >= %%s "
-                "   AND start_datetime_utc < %%s "
-                " GROUP BY combined_equipment_id, energy_category_id "
-                " ORDER BY combined_equipment_id, category_carbon DESC " % format_strings,
-                combined_equipment_ids_tuple + (daily_start, reporting_end_datetime_utc)
-            )
-            rows_carbon = cursor_carbon.fetchall()
-            if rows_carbon:
-                for row in rows_carbon:
-                    combined_equipment_id = row[0]
-                    ec_id = row[1]
-                    category_carbon = float(row[2]) if row[2] else 0.0
+            if len(combined_equipment_ids_list) > 0:
+                # Validate all IDs are integers before using in SQL (already validated above)
+                cursor_carbon.execute(
+                    " SELECT combined_equipment_id, energy_category_id, SUM(actual_value) as category_carbon "
+                    " FROM tbl_combined_equipment_input_category_hourly "
+                    " WHERE combined_equipment_id IN (%s) "
+                    "   AND start_datetime_utc >= %%s "
+                    "   AND start_datetime_utc < %%s "
+                    " GROUP BY combined_equipment_id, energy_category_id "
+                    " ORDER BY combined_equipment_id, category_carbon DESC " % format_strings,
+                    combined_equipment_ids_tuple + (daily_start, reporting_end_datetime_utc)
+                )
+                rows_carbon = cursor_carbon.fetchall()
+                if rows_carbon:
+                    for row in rows_carbon:
+                        combined_equipment_id = row[0]
+                        ec_id = row[1]
+                        category_carbon = float(row[2]) if row[2] else 0.0
 
-                    if combined_equipment_id not in combined_equipment_carbon_by_category:
-                        combined_equipment_carbon_by_category[combined_equipment_id] = {
-                            'total_carbon': 0.0,
-                            'categories': {}
-                        }
+                        if combined_equipment_id not in combined_equipment_carbon_by_category:
+                            combined_equipment_carbon_by_category[combined_equipment_id] = {
+                                'total_carbon': 0.0,
+                                'categories': {}
+                            }
 
-                    combined_equipment_carbon_by_category[combined_equipment_id]['categories'][ec_id] = category_carbon
-                    combined_equipment_carbon_by_category[combined_equipment_id]['total_carbon'] += category_carbon
+                        combined_equipment_carbon_by_category[combined_equipment_id]['categories'][ec_id] = category_carbon
+                        combined_equipment_carbon_by_category[combined_equipment_id]['total_carbon'] += category_carbon
 
             # Build top 5 combined equipments
             sorted_combined_equipments = sorted(
