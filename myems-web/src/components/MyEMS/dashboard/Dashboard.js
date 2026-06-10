@@ -347,10 +347,13 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
 
               let input_names = [];
               let thisMonthInputArr = [];
+              let thisMonthInputByEnergyCategoryId = {};
               json['reporting_period_input']['names'].forEach((currentValue, index) => {
                 let unit = json['reporting_period_input']['units'][index];
                 let thisMonthItem = {};
+                let energyCategoryId = json['reporting_period_input']['energy_category_ids'][index];
                 input_names.push({ value: 'a' + index, label: currentValue + ' (' + unit + ')' });
+                thisMonthItem['energy_category_id'] = energyCategoryId;
                 thisMonthItem['name'] = json['reporting_period_input']['names'][index];
                 thisMonthItem['unit'] = json['reporting_period_input']['units'][index];
                 thisMonthItem['subtotal'] =
@@ -367,6 +370,10 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
                   json['space']['number_of_occupants'] > 0
                     ? parseFloat(thisMonthItem['subtotal'] / json['space']['number_of_occupants']).toFixed(3)
                     : 0.0;
+                thisMonthInputByEnergyCategoryId[energyCategoryId] = {
+                  subtotal: thisMonthItem['subtotal'],
+                  unit: thisMonthItem['unit']
+                };
                 thisMonthInputArr.push(thisMonthItem);
               });
               setSpaceInputLineChartOptions(input_names);
@@ -415,7 +422,9 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
               json['reporting_period_cost']['names'].forEach((currentValue, index) => {
                 let thisMonthItem = {};
                 let unit = json['reporting_period_cost']['units'][index];
+                let energyCategoryId = json['reporting_period_cost']['energy_category_ids'][index];
                 cost_names.push({ value: 'a' + index, label: currentValue + ' (' + unit + ')' });
+                thisMonthItem['energy_category_id'] = energyCategoryId;
                 thisMonthItem['name'] = json['reporting_period_cost']['names'][index];
                 thisMonthItem['unit'] = json['reporting_period_cost']['units'][index];
                 thisMonthItem['subtotal'] =
@@ -432,6 +441,19 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
                   json['space']['number_of_occupants'] > 0
                     ? parseFloat(thisMonthItem['subtotal'] / json['space']['number_of_occupants']).toFixed(3)
                     : 0.0;
+
+                let inputItem =
+                  json['reporting_period_input']['energy_category_ids'] &&
+                  json['reporting_period_input']['energy_category_ids'][index] === energyCategoryId
+                    ? thisMonthInputArr[index]
+                    : thisMonthInputByEnergyCategoryId[energyCategoryId];
+                let inputSubtotal = inputItem?.subtotal;
+                let inputUnit = inputItem?.unit;
+                let costSubtotalValue = Number(thisMonthItem['subtotal']) || 0;
+                let inputSubtotalValue = Number(inputSubtotal) || 0;
+                thisMonthItem['comprehensive_unit_price'] =
+                  inputSubtotalValue > 0 ? costSubtotalValue / inputSubtotalValue : 0;
+                thisMonthItem['comprehensive_unit_price_unit'] = inputUnit ? thisMonthItem['unit'] + '/' + inputUnit : thisMonthItem['unit'];
 
                 thisMonthCostArr.push(thisMonthItem);
               });
@@ -718,6 +740,14 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
             secondfootnote={t('Per Capita')}
             secondfootvalue={cardSummaryItem['subtotal_per_capita']}
             secondfootunit={'(' + cardSummaryItem['unit'] + ')'}
+            thirdfootnote={t('Comprehensive Unit Price')}
+            thirdfootvalue={cardSummaryItem['comprehensive_unit_price']}
+            thirdfootunit={
+              cardSummaryItem['comprehensive_unit_price_unit']
+                ? '(' + cardSummaryItem['comprehensive_unit_price_unit'] + ')'
+                : ''
+            }
+            thirdfootdecimals={3}
           >
             {cardSummaryItem['subtotal'] && (
               <CountUp

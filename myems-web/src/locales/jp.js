@@ -325,6 +325,7 @@ export default {
         'Per Unit Area': '単位面積あたり',
         'Per Capita': '一人あたり',
         'Per Unit Production': '単位製品あたり',
+        'Comprehensive Unit Price': '総合単価',
         Baseline: 'ベースライン値',
         Actual: '実績値',
         'Baseline Value - Actual Value': 'ベースライン値 - 実績値',
