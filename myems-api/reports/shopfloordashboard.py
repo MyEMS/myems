@@ -377,7 +377,7 @@ class Reporting:
                 'energy_category_ids': []
             }
 
-            if base_start_datetime_utc and base_end_datetime_utc:
+            if base_start_datetime_utc and base_end_datetime_utc and len(shopfloor_ids_list) > 0:
                 # Validate all IDs are integers before using in SQL
                 validate_integer_ids(shopfloor_ids_list, "shopfloor_ids")
                 format_strings = ','.join(['%s'] * len(shopfloor_ids_list))
@@ -429,33 +429,34 @@ class Reporting:
             }
 
             # Validate all IDs are integers before using in SQL
-            validate_integer_ids(shopfloor_ids_list, "shopfloor_ids")
-            format_strings = ','.join(['%s'] * len(shopfloor_ids_list))
-            cursor_energy.execute(
-                " SELECT energy_category_id, SUM(actual_value) "
-                " FROM tbl_shopfloor_input_category_hourly "
-                " WHERE shopfloor_id IN (%s) "
-                "   AND start_datetime_utc >= %%s "
-                "   AND start_datetime_utc < %%s "
-                " GROUP BY energy_category_id " % format_strings,
-                shopfloor_ids_tuple + (reporting_start_datetime_utc, reporting_end_datetime_utc)
-            )
-            rows_reporting_input = cursor_energy.fetchall()
+            if len(shopfloor_ids_list) > 0:
+                validate_integer_ids(shopfloor_ids_list, "shopfloor_ids")
+                format_strings = ','.join(['%s'] * len(shopfloor_ids_list))
+                cursor_energy.execute(
+                    " SELECT energy_category_id, SUM(actual_value) "
+                    " FROM tbl_shopfloor_input_category_hourly "
+                    " WHERE shopfloor_id IN (%s) "
+                    "   AND start_datetime_utc >= %%s "
+                    "   AND start_datetime_utc < %%s "
+                    " GROUP BY energy_category_id " % format_strings,
+                    shopfloor_ids_tuple + (reporting_start_datetime_utc, reporting_end_datetime_utc)
+                )
+                rows_reporting_input = cursor_energy.fetchall()
 
-            if rows_reporting_input:
-                for row in rows_reporting_input:
-                    ec_id = row[0]
-                    subtotal = float(row[1]) if row[1] is not None else 0.0
-                    if ec_id in energy_category_dict:
-                        ec_info = energy_category_dict[ec_id]
-                        reporting_input['names'].append(ec_info['name'])
-                        reporting_input['units'].append(ec_info['unit_of_measure'])
-                        reporting_input['subtotals'].append(subtotal)
-                        reporting_input['subtotals_in_kgce'].append(subtotal * ec_info['kgce'])
-                        reporting_input['subtotals_in_kgco2e'].append(subtotal * ec_info['kgco2e'])
-                        reporting_input['subtotals_per_unit_area'].append(
-                            subtotal / total_area if total_area > 0 else 0.0)
-                        reporting_input['energy_category_ids'].append(ec_id)
+                if rows_reporting_input:
+                    for row in rows_reporting_input:
+                        ec_id = row[0]
+                        subtotal = float(row[1]) if row[1] is not None else 0.0
+                        if ec_id in energy_category_dict:
+                            ec_info = energy_category_dict[ec_id]
+                            reporting_input['names'].append(ec_info['name'])
+                            reporting_input['units'].append(ec_info['unit_of_measure'])
+                            reporting_input['subtotals'].append(subtotal)
+                            reporting_input['subtotals_in_kgce'].append(subtotal * ec_info['kgce'])
+                            reporting_input['subtotals_in_kgco2e'].append(subtotal * ec_info['kgco2e'])
+                            reporting_input['subtotals_per_unit_area'].append(
+                                subtotal / total_area if total_area > 0 else 0.0)
+                            reporting_input['energy_category_ids'].append(ec_id)
 
             # Calculate increment rates
             for i in range(len(reporting_input['names'])):
@@ -504,29 +505,30 @@ class Reporting:
 
             # Query billing data
             # Validate all IDs are integers before using in SQL (already validated above)
-            format_strings = ','.join(['%s'] * len(shopfloor_ids_list))
-            cursor_billing.execute(
-                " SELECT energy_category_id, SUM(actual_value) "
-                " FROM tbl_shopfloor_input_category_hourly "
-                " WHERE shopfloor_id IN (%s) "
-                "   AND start_datetime_utc >= %%s "
-                "   AND start_datetime_utc < %%s "
-                " GROUP BY energy_category_id " % format_strings,
-                shopfloor_ids_tuple + (reporting_start_datetime_utc, reporting_end_datetime_utc)
-            )
-            rows_billing = cursor_billing.fetchall()
+            if len(shopfloor_ids_list) > 0:
+                format_strings = ','.join(['%s'] * len(shopfloor_ids_list))
+                cursor_billing.execute(
+                    " SELECT energy_category_id, SUM(actual_value) "
+                    " FROM tbl_shopfloor_input_category_hourly "
+                    " WHERE shopfloor_id IN (%s) "
+                    "   AND start_datetime_utc >= %%s "
+                    "   AND start_datetime_utc < %%s "
+                    " GROUP BY energy_category_id " % format_strings,
+                    shopfloor_ids_tuple + (reporting_start_datetime_utc, reporting_end_datetime_utc)
+                )
+                rows_billing = cursor_billing.fetchall()
 
-            if rows_billing:
-                for row in rows_billing:
-                    ec_id = row[0]
-                    cost = float(row[1]) if row[1] is not None else 0.0
-                    if ec_id in energy_category_dict:
-                        ec_name = energy_category_dict[ec_id]['name']
-                        if ec_name in reporting_cost['names']:
-                            idx = reporting_cost['names'].index(ec_name)
-                            reporting_cost['subtotals'][idx] = cost
-                            reporting_cost['subtotals_per_unit_area'][idx] = (
-                                cost / total_area if total_area > 0 else 0.0)
+                if rows_billing:
+                    for row in rows_billing:
+                        ec_id = row[0]
+                        cost = float(row[1]) if row[1] is not None else 0.0
+                        if ec_id in energy_category_dict:
+                            ec_name = energy_category_dict[ec_id]['name']
+                            if ec_name in reporting_cost['names']:
+                                idx = reporting_cost['names'].index(ec_name)
+                                reporting_cost['subtotals'][idx] = cost
+                                reporting_cost['subtotals_per_unit_area'][idx] = (
+                                    cost / total_area if total_area > 0 else 0.0)
 
             ################################################################################################################
             # Step 8: Query daily trends from 1st of last month (OPTIMIZED: single query + memory aggregation)

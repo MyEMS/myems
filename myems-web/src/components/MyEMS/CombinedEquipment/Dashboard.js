@@ -398,7 +398,7 @@ const Dashboard = ({setRedirect, setRedirectUrl, t}) => {
                         </th>
                       ))}
                       <th className="text-right">{t('Cost')} (CNY)</th>
-                      <th className="text-right">{t('Carbon Emission')} (kgCO2e)</th>
+                      <th className="text-right">{t('Microgrid Carbon')} (kgCO2e)</th>
                     </tr>
                     </thead>
                     <tbody>

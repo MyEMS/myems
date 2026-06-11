@@ -192,7 +192,7 @@ class RealtimeData extends Component {
             </ListGroupItem>
             {this.state.pointList.map((item, index) => (
               <ListGroupItem
-                key={uuid()}
+                key={item.name || index}
                 className="bg-transparent d-flex flex-column justify-content-between py-1"
                 style={{ borderColor: listItemBorderColor }}
               >
