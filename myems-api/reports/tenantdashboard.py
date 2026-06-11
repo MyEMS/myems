@@ -327,16 +327,16 @@ class Reporting:
                             " WHERE t.id IN (%s) ORDER BY t.id " % format_strings,
                             tuple(tenant_ids_list)
                         )
-                    rows_tenants = cursor_system.fetchall()
-                    if rows_tenants:
-                        for row in rows_tenants:
-                            tenant_list.append({
-                                'id': row[0],
-                                'name': row[1],
-                                'area': row[2],
-                                'tenant_type_id': row[3],
-                                'tenant_type_name': row[4] if row[4] else ''
-                            })
+                        rows_tenants = cursor_system.fetchall()
+                        if rows_tenants:
+                            for row in rows_tenants:
+                                tenant_list.append({
+                                    'id': row[0],
+                                    'name': row[1],
+                                    'area': row[2],
+                                    'tenant_type_id': row[3],
+                                    'tenant_type_name': row[4] if row[4] else ''
+                                })
 
             if not tenant_list:
                 raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
@@ -763,18 +763,20 @@ class Reporting:
 
             # Query cost by category for each tenant
             tenant_cost_by_category = {}
-            # Validate all IDs are integers before using in SQL (already validated above)
-            cursor_billing.execute(
-                " SELECT tenant_id, energy_category_id, SUM(actual_value) as category_cost "
-                " FROM tbl_tenant_input_category_hourly "
-                " WHERE tenant_id IN (%s) "
-                "   AND start_datetime_utc >= %%s "
-                "   AND start_datetime_utc < %%s "
-                " GROUP BY tenant_id, energy_category_id "
-                " ORDER BY tenant_id, category_cost DESC " % format_strings,
-                tenant_ids_tuple + (daily_start, reporting_end_datetime_utc)
-            )
-            rows_cost = cursor_billing.fetchall()
+            if len(tenant_ids_list) > 0:
+                # Validate all IDs are integers before using in SQL (already validated above)
+                format_strings = ','.join(['%s'] * len(tenant_ids_list))
+                cursor_billing.execute(
+                    " SELECT tenant_id, energy_category_id, SUM(actual_value) as category_cost "
+                    " FROM tbl_tenant_input_category_hourly "
+                    " WHERE tenant_id IN (%s) "
+                    "   AND start_datetime_utc >= %%s "
+                    "   AND start_datetime_utc < %%s "
+                    " GROUP BY tenant_id, energy_category_id "
+                    " ORDER BY tenant_id, category_cost DESC " % format_strings,
+                    tenant_ids_tuple + (daily_start, reporting_end_datetime_utc)
+                )
+                rows_cost = cursor_billing.fetchall()
             if rows_cost:
                 for row in rows_cost:
                     tenant_id = row[0]
@@ -792,18 +794,20 @@ class Reporting:
 
             # Query carbon by category for each tenant
             tenant_carbon_by_category = {}
-            # Validate all IDs are integers before using in SQL (already validated above)
-            cursor_carbon.execute(
-                " SELECT tenant_id, energy_category_id, SUM(actual_value) as category_carbon "
-                " FROM tbl_tenant_input_category_hourly "
-                " WHERE tenant_id IN (%s) "
-                "   AND start_datetime_utc >= %%s "
-                "   AND start_datetime_utc < %%s "
-                " GROUP BY tenant_id, energy_category_id "
-                " ORDER BY tenant_id, category_carbon DESC " % format_strings,
-                tenant_ids_tuple + (daily_start, reporting_end_datetime_utc)
-            )
-            rows_carbon = cursor_carbon.fetchall()
+            if len(tenant_ids_list) > 0:
+                # Validate all IDs are integers before using in SQL (already validated above)
+                format_strings = ','.join(['%s'] * len(tenant_ids_list))
+                cursor_carbon.execute(
+                    " SELECT tenant_id, energy_category_id, SUM(actual_value) as category_carbon "
+                    " FROM tbl_tenant_input_category_hourly "
+                    " WHERE tenant_id IN (%s) "
+                    "   AND start_datetime_utc >= %%s "
+                    "   AND start_datetime_utc < %%s "
+                    " GROUP BY tenant_id, energy_category_id "
+                    " ORDER BY tenant_id, category_carbon DESC " % format_strings,
+                    tenant_ids_tuple + (daily_start, reporting_end_datetime_utc)
+                )
+                rows_carbon = cursor_carbon.fetchall()
             if rows_carbon:
                 for row in rows_carbon:
                     tenant_id = row[0]

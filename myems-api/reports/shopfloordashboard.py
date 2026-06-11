@@ -314,24 +314,25 @@ class Reporting:
                 if 'shopfloors' in privilege_data and privilege_data['shopfloors']:
                     shopfloor_ids_list = privilege_data['shopfloors']
                     if not shopfloor_ids_list:
-                       return []
-                    # Validate all IDs are integers before using in SQL
-                    validate_integer_ids(shopfloor_ids_list, "shopfloor_ids")
-                    format_strings = ','.join(['%s'] * len(shopfloor_ids_list))
-                    cursor_system.execute(
-                        " SELECT s.id, s.name, s.area "
-                        " FROM tbl_shopfloors s "
-                        " WHERE s.id IN (%s) ORDER BY s.id " % format_strings,
-                        tuple(shopfloor_ids_list)
-                    )
-                    rows_shopfloors = cursor_system.fetchall()
-                    if rows_shopfloors:
-                        for row in rows_shopfloors:
-                            shopfloor_list.append({
-                                'id': row[0],
-                                'name': row[1],
-                                'area': row[2]
-                            })
+                        shopfloor_list = []
+                    else:
+                        # Validate all IDs are integers before using in SQL
+                        validate_integer_ids(shopfloor_ids_list, "shopfloor_ids")
+                        format_strings = ','.join(['%s'] * len(shopfloor_ids_list))
+                        cursor_system.execute(
+                            " SELECT s.id, s.name, s.area "
+                            " FROM tbl_shopfloors s "
+                            " WHERE s.id IN (%s) ORDER BY s.id " % format_strings,
+                            tuple(shopfloor_ids_list)
+                        )
+                        rows_shopfloors = cursor_system.fetchall()
+                        if rows_shopfloors:
+                            for row in rows_shopfloors:
+                                shopfloor_list.append({
+                                    'id': row[0],
+                                    'name': row[1],
+                                    'area': row[2]
+                                })
 
             if not shopfloor_list:
                 raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
@@ -382,8 +383,6 @@ class Reporting:
             if base_start_datetime_utc and base_end_datetime_utc and len(shopfloor_ids_list) > 0:
                 # Validate all IDs are integers before using in SQL
                 validate_integer_ids(shopfloor_ids_list, "shopfloor_ids")
-                if not shopfloor_ids_list:
-                   return []
                 format_strings = ','.join(['%s'] * len(shopfloor_ids_list))
                 cursor_energy.execute(
                     " SELECT energy_category_id, SUM(actual_value) "
@@ -435,8 +434,6 @@ class Reporting:
             # Validate all IDs are integers before using in SQL
             if len(shopfloor_ids_list) > 0:
                 validate_integer_ids(shopfloor_ids_list, "shopfloor_ids")
-                if not shopfloor_ids_list:
-                   return []
                 format_strings = ','.join(['%s'] * len(shopfloor_ids_list))
                 cursor_energy.execute(
                     " SELECT energy_category_id, SUM(actual_value) "
@@ -659,8 +656,6 @@ class Reporting:
             # Count meters
             total_meters = 0
             if len(shopfloor_ids_list) > 0:
-                if not shopfloor_ids_list:
-                    return []
                 # Validate all IDs are integers before using in SQL (already validated above)
                 format_strings = ','.join(['%s'] * len(shopfloor_ids_list))
                 cursor_system.execute(
@@ -675,8 +670,6 @@ class Reporting:
             # Count sensors
             total_sensors = 0
             if len(shopfloor_ids_list) > 0:
-                if not shopfloor_ids_list:
-                    return []
                 # Validate all IDs are integers before using in SQL (already validated above)
                 format_strings = ','.join(['%s'] * len(shopfloor_ids_list))
                 cursor_system.execute(
@@ -696,8 +689,6 @@ class Reporting:
                 cnx_fdd = mysql.connector.connect(**config.myems_fdd_db)
                 cursor_fdd = cnx_fdd.cursor()
                 if len(shopfloor_ids_list) > 0:
-                    if not shopfloor_ids_list:
-                       return []
                     # Validate all IDs are integers before using in SQL (already validated above)
                     format_strings = ','.join(['%s'] * len(shopfloor_ids_list))
                     cursor_fdd.execute(
@@ -726,8 +717,6 @@ class Reporting:
             # First get shopfloor names
             shopfloor_name_dict = {}
             if len(shopfloor_ids_list) > 0:
-                if not shopfloor_ids_list:
-                    return []
                 # Validate all IDs are integers before using in SQL (already validated above)
                 format_strings = ','.join(['%s'] * len(shopfloor_ids_list))
                 cursor_system.execute(
@@ -742,8 +731,6 @@ class Reporting:
             # Query energy consumption by category for each shopfloor
             shopfloor_energy_by_category = {}
             if len(shopfloor_ids_list) > 0:
-                if not shopfloor_ids_list:
-                    return []
                 # Validate all IDs are integers before using in SQL (already validated above)
                 format_strings = ','.join(['%s'] * len(shopfloor_ids_list))
                 cursor_energy.execute(
@@ -775,8 +762,6 @@ class Reporting:
             # Query cost by category for each shopfloor
             shopfloor_cost_by_category = {}
             if len(shopfloor_ids_list) > 0:
-                if not shopfloor_ids_list:
-                    return []
                 # Validate all IDs are integers before using in SQL (already validated above)
                 format_strings = ','.join(['%s'] * len(shopfloor_ids_list))
                 cursor_billing.execute(
@@ -808,8 +793,6 @@ class Reporting:
             # Query carbon by category for each shopfloor
             shopfloor_carbon_by_category = {}
             if len(shopfloor_ids_list) > 0:
-                if not shopfloor_ids_list:
-                    return []
                 # Validate all IDs are integers before using in SQL (already validated above)
                 format_strings = ','.join(['%s'] * len(shopfloor_ids_list))
                 cursor_carbon.execute(
