@@ -318,14 +318,15 @@ class Reporting:
                     tenant_ids_list = privilege_data['tenants']
                     # Validate all IDs are integers before using in SQL
                     validate_integer_ids(tenant_ids_list, "tenant_ids")
-                    format_strings = ','.join(['%s'] * len(tenant_ids_list))
-                    cursor_system.execute(
-                        " SELECT t.id, t.name, t.area, t.tenant_type_id, tt.name as tenant_type_name "
-                        " FROM tbl_tenants t "
-                        " LEFT JOIN tbl_tenant_types tt ON t.tenant_type_id = tt.id "
-                        " WHERE t.id IN (%s) ORDER BY t.id " % format_strings,
-                        tuple(tenant_ids_list)
-                    )
+                    if len(tenant_ids_list) > 0:
+                        format_strings = ','.join(['%s'] * len(tenant_ids_list))
+                        cursor_system.execute(
+                            " SELECT t.id, t.name, t.area, t.tenant_type_id, tt.name as tenant_type_name "
+                            " FROM tbl_tenants t "
+                            " LEFT JOIN tbl_tenant_types tt ON t.tenant_type_id = tt.id "
+                            " WHERE t.id IN (%s) ORDER BY t.id " % format_strings,
+                            tuple(tenant_ids_list)
+                        )
                     rows_tenants = cursor_system.fetchall()
                     if rows_tenants:
                         for row in rows_tenants:
@@ -386,16 +387,17 @@ class Reporting:
             if base_start_datetime_utc and base_end_datetime_utc:
                 # Validate all IDs are integers before using in SQL
                 validate_integer_ids(tenant_ids_list, "tenant_ids")
-                format_strings = ','.join(['%s'] * len(tenant_ids_list))
-                cursor_energy.execute(
-                    " SELECT energy_category_id, SUM(actual_value) "
-                    " FROM tbl_tenant_input_category_hourly "
-                    " WHERE tenant_id IN (%s) "
-                    "   AND start_datetime_utc >= %%s "
-                    "   AND start_datetime_utc < %%s "
-                    " GROUP BY energy_category_id " % format_strings,
-                    tenant_ids_tuple + (base_start_datetime_utc, base_end_datetime_utc)
-                )
+                if len(tenant_ids_list) > 0:
+                    format_strings = ','.join(['%s'] * len(tenant_ids_list))
+                    cursor_energy.execute(
+                        " SELECT energy_category_id, SUM(actual_value) "
+                        " FROM tbl_tenant_input_category_hourly "
+                        " WHERE tenant_id IN (%s) "
+                        "   AND start_datetime_utc >= %%s "
+                        "   AND start_datetime_utc < %%s "
+                        " GROUP BY energy_category_id " % format_strings,
+                        tenant_ids_tuple + (base_start_datetime_utc, base_end_datetime_utc)
+                    )
                 rows_base_input = cursor_energy.fetchall()
 
                 if rows_base_input:
@@ -436,16 +438,17 @@ class Reporting:
 
             # Validate all IDs are integers before using in SQL
             validate_integer_ids(tenant_ids_list, "tenant_ids")
-            format_strings = ','.join(['%s'] * len(tenant_ids_list))
-            cursor_energy.execute(
-                " SELECT energy_category_id, SUM(actual_value) "
+            if len(tenant_ids_list) > 0:
+                format_strings = ','.join(['%s'] * len(tenant_ids_list))
+                cursor_energy.execute(
+                    " SELECT energy_category_id, SUM(actual_value) "
                 " FROM tbl_tenant_input_category_hourly "
                 " WHERE tenant_id IN (%s) "
                 "   AND start_datetime_utc >= %%s "
                 "   AND start_datetime_utc < %%s "
                 " GROUP BY energy_category_id " % format_strings,
                 tenant_ids_tuple + (reporting_start_datetime_utc, reporting_end_datetime_utc)
-            )
+               )
             rows_reporting_input = cursor_energy.fetchall()
 
             if rows_reporting_input:
@@ -510,9 +513,10 @@ class Reporting:
 
             # Query billing data
             # Validate all IDs are integers before using in SQL (already validated above)
-            format_strings = ','.join(['%s'] * len(tenant_ids_list))
-            cursor_billing.execute(
-                " SELECT energy_category_id, SUM(actual_value) "
+            if len(tenant_ids_list) > 0:
+                format_strings = ','.join(['%s'] * len(tenant_ids_list))
+                cursor_billing.execute(
+                    " SELECT energy_category_id, SUM(actual_value) "
                 " FROM tbl_tenant_input_category_hourly "
                 " WHERE tenant_id IN (%s) "
                 "   AND start_datetime_utc >= %%s "
@@ -656,10 +660,11 @@ class Reporting:
             ################################################################################################################
             # Count meters
             # Validate all IDs are integers before using in SQL (already validated above)
-            format_strings = ','.join(['%s'] * len(tenant_ids_list))
-            cursor_system.execute(
-                " SELECT COUNT(DISTINCT meter_id) "
-                " FROM tbl_tenants_meters "
+            if len(tenant_ids_list) > 0:
+                format_strings = ','.join(['%s'] * len(tenant_ids_list))
+                cursor_system.execute(
+                    " SELECT COUNT(DISTINCT meter_id) "
+                    " FROM tbl_tenants_meters "
                 " WHERE tenant_id IN (%s) " % format_strings,
                 tenant_ids_tuple
             )
@@ -668,9 +673,10 @@ class Reporting:
 
             # Count sensors
             # Validate all IDs are integers before using in SQL (already validated above)
-            format_strings = ','.join(['%s'] * len(tenant_ids_list))
-            cursor_system.execute(
-                " SELECT COUNT(DISTINCT sensor_id) "
+            if len(tenant_ids_list) > 0:
+                format_strings = ','.join(['%s'] * len(tenant_ids_list))
+                cursor_system.execute(
+                    " SELECT COUNT(DISTINCT sensor_id) "
                 " FROM tbl_tenants_sensors "
                 " WHERE tenant_id IN (%s) " % format_strings,
                 tenant_ids_tuple
@@ -686,14 +692,15 @@ class Reporting:
                 cnx_fdd = mysql.connector.connect(**config.myems_fdd_db)
                 cursor_fdd = cnx_fdd.cursor()
                 # Validate all IDs are integers before using in SQL (already validated above)
-                format_strings = ','.join(['%s'] * len(tenant_ids_list))
-                cursor_fdd.execute(
-                    " SELECT COUNT(*) "
-                    " FROM tbl_faults "
-                    " WHERE tenant_id IN (%s) "
-                    "   AND status = 'active' " % format_strings,
-                    tenant_ids_tuple
-                )
+                if len(tenant_ids_list) > 0:
+                    format_strings = ','.join(['%s'] * len(tenant_ids_list))
+                    cursor_fdd.execute(
+                        " SELECT COUNT(*) "
+                        " FROM tbl_faults "
+                        " WHERE tenant_id IN (%s) "
+                        "   AND status = 'active' " % format_strings,
+                        tenant_ids_tuple
+                    )
                 row = cursor_fdd.fetchone()
                 total_alerts = int(row[0]) if row and row[0] else 0
             except:
@@ -713,11 +720,12 @@ class Reporting:
             # First get tenant names
             tenant_name_dict = {}
             # Validate all IDs are integers before using in SQL (already validated above)
-            format_strings = ','.join(['%s'] * len(tenant_ids_list))
-            cursor_system.execute(
-                " SELECT id, name FROM tbl_tenants WHERE id IN (%s) " % format_strings,
-                tenant_ids_tuple
-            )
+            if len(tenant_ids_list) > 0:
+                format_strings = ','.join(['%s'] * len(tenant_ids_list))
+                cursor_system.execute(
+                    " SELECT id, name FROM tbl_tenants WHERE id IN (%s) " % format_strings,
+                    tenant_ids_tuple
+                )
             rows_tenants_names = cursor_system.fetchall()
             if rows_tenants_names:
                 for row in rows_tenants_names:
@@ -725,17 +733,18 @@ class Reporting:
 
             # Query energy consumption by category for each tenant
             # Validate all IDs are integers before using in SQL (already validated above)
-            format_strings = ','.join(['%s'] * len(tenant_ids_list))
-            cursor_energy.execute(
-                " SELECT tenant_id, energy_category_id, SUM(actual_value) as category_energy "
-                " FROM tbl_tenant_input_category_hourly "
-                " WHERE tenant_id IN (%s) "
-                "   AND start_datetime_utc >= %%s "
-                "   AND start_datetime_utc < %%s "
-                " GROUP BY tenant_id, energy_category_id "
-                " ORDER BY tenant_id, category_energy DESC " % format_strings,
-                tenant_ids_tuple + (reporting_start_datetime_utc, reporting_end_datetime_utc)
-            )
+            if len(tenant_ids_list) > 0:
+                format_strings = ','.join(['%s'] * len(tenant_ids_list))
+                cursor_energy.execute(
+                    " SELECT tenant_id, energy_category_id, SUM(actual_value) as category_energy "
+                    " FROM tbl_tenant_input_category_hourly "
+                    " WHERE tenant_id IN (%s) "
+                    "   AND start_datetime_utc >= %%s "
+                    "   AND start_datetime_utc < %%s "
+                    " GROUP BY tenant_id, energy_category_id "
+                    " ORDER BY tenant_id, category_energy DESC " % format_strings,
+                    tenant_ids_tuple + (reporting_start_datetime_utc, reporting_end_datetime_utc)
+                )
             rows_all = cursor_energy.fetchall()
             if rows_all:
                 for row in rows_all:
