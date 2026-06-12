@@ -35,7 +35,7 @@ const DateRangePickerWrapper = ({
     }
     if (onChange) onChange(dates);
   };
-  
+
   const handleSelect = (date, event) => {
     const target = event && event.target;
     if (!target || !target.closest) return;
