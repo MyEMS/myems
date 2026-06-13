@@ -21,7 +21,6 @@ export default {
         'Energy Category Data': 'Danh mục năng lượng',
         'Energy Item Data': 'Mục năng lượng',
         Carbon: 'Khí thải CO2',
-        //
         CostAnalysis: 'Chi phí',
         Cost: 'Chi phí',
         CostData: 'Dữ liệu chi phí',

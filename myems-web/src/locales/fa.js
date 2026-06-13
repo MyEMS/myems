@@ -21,7 +21,7 @@ export default {
         'Energy Category Data': 'تحلیل دسته‌بندی انرژی',
         'Energy Item Data': 'تحلیل آیتم انرژی',
         Carbon: 'تحلیل انتشار کربن',
-        CostAnalysis: 'تحلیل هزینه',//
+        CostAnalysis: 'تحلیل هزینه',
         Cost: 'هزینه',
         CostData: 'داده‌های هزینه',
         Output: 'تحلیل خروجی',

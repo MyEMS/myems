@@ -21,7 +21,7 @@ export default {
         'Energy Category Data': 'Categoría de energía',
         'Energy Item Data': 'Artículo de energía',
         Carbon: 'Emisiones de CO2',
-        CostAnalysis: 'Costar',//
+        CostAnalysis: 'Costar',
         Cost: 'Costo',
         CostData: 'Datos de costo',
         Output: 'Salida',

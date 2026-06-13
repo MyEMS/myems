@@ -442,7 +442,6 @@ const Dashboard = ({setRedirect, setRedirectUrl, t}) => {
           />
         </div>
 
-
         {/* Combined Equipment List Table */}
         <Row>
           <Col>

@@ -13,7 +13,6 @@ export const spaceRoutes = {
   to: '/space',
   icon: 'building',
   exact: true,
-
   children: [
     { to: '/space/energycategory', name: 'Energy Category Data' },
     { to: '/space/energyitem', name: 'Energy Item Data' },

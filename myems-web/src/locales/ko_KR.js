@@ -21,7 +21,7 @@ export default {
         'Energy Category Data': '에너지 분류 분석',
         'Energy Item Data': '에너지 항목 분석',
         Carbon: '탄소 배출 분석',
-        //
+
         CostAnalysis: '비용 분석',
         Cost: '비용',
         CostData: '비용 데이터',

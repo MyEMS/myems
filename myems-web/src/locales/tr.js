@@ -20,7 +20,6 @@ export default {
         'Knowledge Base': 'Bilgi bankası',
         'Energy Category Data': 'Enerji Kategorisi',
         'Energy Item Data': 'Enerji Öğesi',
-        //
         Carbon: 'CO2 Emisyonları',
         CostAnalysis: 'Masraf',
         Cost: 'Maliyet',

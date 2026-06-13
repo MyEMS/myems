@@ -21,7 +21,6 @@ export default {
         'Energy Category Data': 'Категория «Энергия»',
         'Energy Item Data': 'Энергетический элемент',
         Carbon: 'Выбросы CO2',
-        //
         CostAnalysis: 'Стоить',
         Cost: 'Стоимость',
         CostData: 'Данные о стоимости',

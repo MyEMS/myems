@@ -21,7 +21,6 @@ export default {
         'Energy Category Data': 'Kategori Tenaga',
         'Energy Item Data': 'Barangan Tenaga',
         Carbon: 'Emisi CO2',
-        //
         CostAnalysis: 'Kos',
         Cost: 'Kos',
         CostData: 'Data Kos',

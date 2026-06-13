@@ -471,7 +471,6 @@ const Dashboard = ({setRedirect, setRedirectUrl, t}) => {
                 />
             </div>
 
-
             {/* Store List Table */}
             <Row>
                 <Col>

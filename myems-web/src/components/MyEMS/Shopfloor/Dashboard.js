@@ -411,7 +411,6 @@ const Dashboard = ({setRedirect, setRedirectUrl, t}) => {
           />
           </CardSummary>
 
-
           <CardSummary
               rate={energyData.increment_rate_in_kgco2e !== undefined ?
                   (parseFloat(energyData.increment_rate_in_kgco2e * 100).toFixed(2) + '%') : null}
