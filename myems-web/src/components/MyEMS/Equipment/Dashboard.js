@@ -189,7 +189,7 @@ const Dashboard = ({setRedirect, setRedirectUrl, t}) => {
         item.id = index;
         item.name = currentValue;
         item.value = json.reporting_period_input.subtotals[index];
-        item.color = '#' + (((1 << 24) * Math.random()) | 0).toString(16);
+        item.color = '#' + (((1 << 24) * Math.random()) | 0).toString(16).padStart(6, '0');
         energyCategoryArray.push(item);
       });
       setEnergyCategoryPieData(energyCategoryArray);
@@ -201,7 +201,7 @@ const Dashboard = ({setRedirect, setRedirectUrl, t}) => {
         item.id = index;
         item.name = currentValue;
         item.value = json.reporting_period_cost.subtotals[index];
-        item.color = '#' + (((1 << 24) * Math.random()) | 0).toString(16);
+        item.color = '#' + (((1 << 24) * Math.random()) | 0).toString(16).padStart(6, '0');
         costCategoryArray.push(item);
       });
       setCostCategoryPieData(costCategoryArray);
@@ -213,7 +213,7 @@ const Dashboard = ({setRedirect, setRedirectUrl, t}) => {
         item.id = index;
         item.name = currentValue;
         item.value = json.reporting_period_input.subtotals_in_kgce[index] / 1000;
-        item.color = '#' + (((1 << 24) * Math.random()) | 0).toString(16);
+        item.color = '#' + (((1 << 24) * Math.random()) | 0).toString(16).padStart(6, '0');
         tceArray.push(item);
       });
       setTcePieData(tceArray);
@@ -225,7 +225,7 @@ const Dashboard = ({setRedirect, setRedirectUrl, t}) => {
         item.id = index;
         item.name = currentValue;
         item.value = json.reporting_period_input.subtotals_in_kgco2e[index] / 1000;
-        item.color = '#' + (((1 << 24) * Math.random()) | 0).toString(16);
+        item.color = '#' + (((1 << 24) * Math.random()) | 0).toString(16).padStart(6, '0');
         tco2eArray.push(item);
       });
       setTco2ePieData(tco2eArray);
