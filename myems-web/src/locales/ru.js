@@ -22,6 +22,7 @@ export default {
         'Energy Item Data': 'Энергетический элемент',
         Carbon: 'Выбросы CO2',
         Cost: 'Стоить',
+        Costs: 'Стоимость',
         CostData: 'Данные о стоимости',
         Output: 'Выпуск',
         Income: 'Доход',

@@ -22,6 +22,7 @@ export default {
         'Energy Item Data': 'عنصر الطاقة',
         Carbon: 'انبعاثات ثاني أكسيد الكربون',
         Cost: 'كلف',
+        Costs: 'تكلفة',
         CostData: 'بيانات التكلفة',
         Output: 'الناتج',
         Income: 'دخل',

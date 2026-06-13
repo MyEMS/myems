@@ -22,6 +22,7 @@ export default {
         'Energy Item Data': 'Analiza pozycji zużycia energii',
         Carbon: 'Analiza emisji CO2',
         Cost: 'Analiza kosztów',
+        Costs: 'Koszt',
         CostData: 'Dane kosztów',
         Output: 'Analiza wytwarzania',
         Income: 'Analiza dochodów',
