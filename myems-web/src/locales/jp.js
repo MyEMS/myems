@@ -22,6 +22,7 @@ export default {
         'Energy Item Data': 'エネルギー項目分析',
         Carbon: '炭素排出分析',
         CostAnalysis: 'コスト分析',
+        Cost: 'コスト',
         CostData: 'コストデータ',
         Output: '産出分析',
         Income: '収入分析',
