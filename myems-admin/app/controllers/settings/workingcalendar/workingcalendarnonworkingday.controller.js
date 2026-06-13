@@ -1,5 +1,7 @@
 'use strict';
 
+// Working Calendar Non-working Day controller - working calendar association
+
 // Define constant for weekend days (improve readability)
 const WEEKEND_DAYS = {
   SUNDAY: 0,
@@ -24,6 +26,7 @@ app.controller('WorkingCalendarNonWorkingDayController', function (
     $scope.days = [],
     $scope.nonWorkingDaysFlagArray = [],
 
+    // Load non working days by working calendar id
     $scope.getNonWorkingDaysByWorkingCalendarID = function (id) {
         if (!id) {
             $scope.nonworkingdays = [];
@@ -43,12 +46,14 @@ app.controller('WorkingCalendarNonWorkingDayController', function (
         });
     };
 
+    // Handle working calendar change
     $scope.changeWorkingCalendar=function(item,model){
   	  $scope.currentWorkingCalendar=item;
   	  $scope.currentWorkingCalendar.selected=model;
   	  $scope.getNonWorkingDaysByWorkingCalendarID(item ? item.id : null);
     };
 
+    // Load all working calendars from API
     $scope.getAllWorkingCalendars = function () {
         let headers = {
             "User-UUID": $scope.cur_user.uuid || '',
@@ -69,6 +74,7 @@ app.controller('WorkingCalendarNonWorkingDayController', function (
         });
     };
 
+    // Open add modal and create non working day
     $scope.addNonWorkingDay = function() {
 		var modalInstance = $uibModal.open({
 			templateUrl: 'views/settings/workingcalendar/nonworkingday.model.html',
@@ -202,6 +208,7 @@ app.controller('WorkingCalendarNonWorkingDayController', function (
         processBatch();
     };
 
+    // Open edit modal and update non working day
     $scope.editNonWorkingDay = function(nonWorkingDay) {
 		var modalInstance = $uibModal.open({
 			windowClass: "animated fadeIn",
@@ -244,6 +251,7 @@ app.controller('WorkingCalendarNonWorkingDayController', function (
         $rootScope.modalInstance = modalInstance;
 	};
 
+	// Confirm and delete non working day
 	$scope.deleteNonWorkingDay = function(nonworkingday) {
 		SweetAlert.swal({
 				title: $translate.instant("SWEET.TITLE"),
@@ -300,6 +308,7 @@ app.controller('WorkingCalendarNonWorkingDayController', function (
         }
       }
 
+    // Handle month change
     $scope.changeMonth = function(num) {
         $scope.month = moment($scope.month).add(num, 'months').format('YYYY-MM');
         $scope.getNonWorkingDaysByWorkingCalendarID($scope.currentWorkingCalendar.id);
@@ -312,6 +321,7 @@ app.controller('WorkingCalendarNonWorkingDayController', function (
   	});
 });
 
+// Modal controller for add dialog
 app.controller('ModalAddNonWorkingDayCtrl', function ($scope, $uibModalInstance, params) {
 	$scope.operation = "SETTING.ADD_NON_WORKING_DAY";
     $scope.nonWorkingDay = {
@@ -341,6 +351,7 @@ app.controller('ModalAddNonWorkingDayCtrl', function ($scope, $uibModalInstance,
 	};
 });
 
+// Modal controller for edit dialog
 app.controller('ModalEditNonWorkingDayCtrl', function($scope, $uibModalInstance, params) {
 	$scope.operation = "SETTING.EDIT_NON_WORKING_DAY";
 	$scope.nonWorkingDay = params.nonWorkingDay;
@@ -367,6 +378,7 @@ app.controller('ModalEditNonWorkingDayCtrl', function($scope, $uibModalInstance,
 	};
 });
 
+// Modal controller for add dialog
 app.controller('ModalBatchAddWeekendNonWorkingDayCtrl', function ($scope, $uibModalInstance, params) {
     $scope.operation = "SETTING.BATCH_ADD_WEEKEND";
     $scope.batchParams = {

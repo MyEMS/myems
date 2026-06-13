@@ -1,5 +1,7 @@
 'use strict';
 
+// Store Working Calendar controller - working calendar association
+
 app.controller('StoreWorkingCalendarController', function(
     $scope,
     $rootScope,
@@ -19,6 +21,7 @@ app.controller('StoreWorkingCalendarController', function(
     $scope.currentStore = {selected: undefined};
     $scope.isStoreSelected = false;
 
+    // Load all stores from API
     $scope.getAllStores = function() {
         let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
         StoreService.getAllStores(headers, function(response) {
@@ -31,6 +34,7 @@ app.controller('StoreWorkingCalendarController', function(
     };
 
 
+    // Load working calendars by store id
     $scope.getWorkingCalendarsByStoreID = function(storeid) {
         let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
         StoreWorkingCalendarService.getWorkingCalendarsByStoreID(storeid, headers, function(response) {
@@ -45,6 +49,7 @@ app.controller('StoreWorkingCalendarController', function(
     };
 
 
+    // Load all working calendars from API
     $scope.getAllWorkingCalendars = function() {
         let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
         WorkingCalendarService.getAllWorkingCalendars(headers, function(response) {
@@ -62,6 +67,7 @@ app.controller('StoreWorkingCalendarController', function(
     };
 
 
+    // Handle store change
     $scope.changeStore = function(item, model) {
         $scope.currentStore = item;
         $scope.currentStore.selected = model;
@@ -73,6 +79,7 @@ app.controller('StoreWorkingCalendarController', function(
         }
     };
 
+    // Bind working calendar via drag-and-drop
     $scope.pairWorkingCalendar = function(dragEl, dropEl) {
         if (!$scope.isStoreSelected || !$scope.currentStore || !$scope.currentStore.id) {
             DragDropWarningService.showWarning("SETTING.PLEASE_SELECT_STORE_FIRST");
@@ -102,6 +109,7 @@ app.controller('StoreWorkingCalendarController', function(
     };
 
  
+    // Unbind working calendar via drag-to-trash
     $scope.deleteWorkingCalendarPair = function(dragEl, dropEl) {
         if (angular.element('#' + dragEl).hasClass('source')) return;
         if (!$scope.isStoreSelected || !$scope.currentStore || !$scope.currentStore.id) {

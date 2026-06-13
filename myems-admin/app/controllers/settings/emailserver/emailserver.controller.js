@@ -1,5 +1,7 @@
 'use strict';
 
+// Email Server controller - CRUD and settings management
+
 app.controller('EmailServerController', function($scope,
 	$rootScope,
 	$window,
@@ -9,6 +11,7 @@ app.controller('EmailServerController', function($scope,
     toaster,
     SweetAlert) {
     $scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
+	// Load all email servers from API
 	$scope.getAllEmailServers = function() {
 	    let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 		EmailServerService.getAllEmailServers(headers, function (response) {
@@ -21,6 +24,7 @@ app.controller('EmailServerController', function($scope,
 
 	};
 
+	// Open add modal and create email server
 	$scope.addEmailServer = function() {
 		var modalInstance = $uibModal.open({
 			templateUrl: 'views/settings/emailserver/emailserver.model.html',
@@ -60,6 +64,7 @@ app.controller('EmailServerController', function($scope,
 		$rootScope.modalInstance = modalInstance;
 	};
 
+	// Open edit modal and update email server
 	$scope.editEmailServer=function(emailserver){
 		var modalInstance = $uibModal.open({
 		    windowClass: "animated fadeIn",
@@ -101,6 +106,7 @@ app.controller('EmailServerController', function($scope,
 		$rootScope.modalInstance = modalInstance;
 	};
 
+	// Confirm and delete email server
 	$scope.deleteEmailServer=function(emailserver){
 		SweetAlert.swal({
 		        title: $translate.instant("SWEET.TITLE"),
@@ -140,6 +146,7 @@ app.controller('EmailServerController', function($scope,
 	$scope.getAllEmailServers();
 });
 
+// Modal controller for add dialog
 app.controller('ModalAddEmailServerCtrl', function ($scope, $uibModalInstance,params) {
 
     $scope.operation="SETTING.ADD_EMAIL_SERVER";
@@ -153,6 +160,7 @@ app.controller('ModalAddEmailServerCtrl', function ($scope, $uibModalInstance,pa
     };
 });
 
+// Modal controller for edit dialog
 app.controller('ModalEditEmailServerCtrl', function ($scope, $uibModalInstance, params) {
     $scope.operation="SETTING.EDIT_EMAIL_SERVER";
     $scope.emailserver = params.emailserver;

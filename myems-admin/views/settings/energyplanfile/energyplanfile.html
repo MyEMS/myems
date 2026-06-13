@@ -1,12 +1,15 @@
+<!-- Energy Plan File settings page -->
 <div class="wrapper wrapper-content" ng-controller="EnergyPlanFileController">
 	<div class="row">
 		<div class="col-lg-12">
 			<div class="tabs-container">
 
 				<uib-tabset>
+                    <!-- Tab: Energy Plan File -->
                     <uib-tab heading="{{'SETTING.ENERGY_PLAN_FILE' | translate}}">
 						<div class="panel-body" ng-controller="EnergyPlanFileController">
 							<div id="dropzone1" class="dropzone" options="dzOptions" callbacks="dzCallbacks" ng-dropzone></div>
+							<!-- Energy Plan File list table -->
 							<table class="footable table table-bordered table-hover" data-sort="true" data-page-size="15">
 								<thead>
 									<tr>

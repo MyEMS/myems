@@ -1,5 +1,7 @@
 'use strict';
 
+// Store Type controller - entity association management
+
 app.controller('StoreTypeController', function(
     $scope,
     $rootScope,
@@ -10,6 +12,7 @@ app.controller('StoreTypeController', function(
     toaster,
     SweetAlert) {
     $scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user")); 
+    // Load all store types from API
     $scope.getAllStoreTypes = function() {
         let headers = { 
             "User-UUID": $scope.cur_user.uuid, 
@@ -24,6 +27,7 @@ app.controller('StoreTypeController', function(
         });
     };
 
+    // Open add modal and create store type
     $scope.addStoreType = function() {
         var modalInstance = $uibModal.open({
             templateUrl: 'views/settings/store/storetype.model.html',
@@ -69,6 +73,7 @@ app.controller('StoreTypeController', function(
         $rootScope.modalInstance = modalInstance;
     };
 
+    // Open edit modal and update store type
     $scope.editStoreType = function(storeType) { 
         var modalInstance = $uibModal.open({
             templateUrl: 'views/settings/store/storetype.model.html',
@@ -114,6 +119,7 @@ app.controller('StoreTypeController', function(
         $rootScope.modalInstance = modalInstance;
     };
 
+    // Confirm and delete store type
     $scope.deleteStoreType = function(storeType) { 
         SweetAlert.swal({
             title: $translate.instant("SWEET.TITLE"),
@@ -154,6 +160,7 @@ app.controller('StoreTypeController', function(
     $scope.getAllStoreTypes();
 });
 
+// Modal controller for add dialog
 app.controller('ModalAddStoreTypeCtrl', function(
     $scope,
     $uibModalInstance,
@@ -172,6 +179,7 @@ app.controller('ModalAddStoreTypeCtrl', function(
     };
 });
 
+// Modal controller for edit dialog
 app.controller('ModalEditStoreTypeCtrl', function(
     $scope,
     $uibModalInstance,

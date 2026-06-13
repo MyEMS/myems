@@ -1,10 +1,13 @@
 "use strict";
 
+// Energy Storage Container Schedule controller - schedule management
+
 app.controller("EnergyStorageContainerScheduleController", function ($scope, $rootScope, $window, $translate, $uibModal, PEAK_TYPE, EnergyStorageContainerService, EnergyStorageContainerScheduleService, toaster, SweetAlert) {
     $scope.energystoragecontainers = [];
     $scope.energystoragecontainerschedules = [];
     $scope.currentEnergyStorageContainer = null;
     $scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
+    // Load all energy storage containers from API
     $scope.getAllEnergyStorageContainers = function () {
         let headers = {
             "User-UUID": $scope.cur_user.uuid, Token: $scope.cur_user.token,
@@ -45,6 +48,7 @@ app.controller("EnergyStorageContainerScheduleController", function ($scope, $ro
         $scope.error.message = '';
     };
 
+    // Load energy storage container schedules by energy storage container id
     $scope.getEnergyStorageContainerSchedulesByEnergyStorageContainerID = function (id) {
         let headers = {
             "User-UUID": $scope.cur_user.uuid, Token: $scope.cur_user.token,
@@ -58,6 +62,7 @@ app.controller("EnergyStorageContainerScheduleController", function ($scope, $ro
         });
     };
 
+    // Handle energy storage container change
     $scope.changeEnergyStorageContainer = function (item, model) {
         $scope.resetScheduleError();
         resetScheduleForm();
@@ -142,6 +147,7 @@ app.controller("EnergyStorageContainerScheduleController", function ($scope, $ro
         return currentTime >= 24 * 3600 - 1;
     };
 
+    // Open edit modal and update energy storage container schedule
     $scope.editEnergyStorageContainerSchedule = function (energystoragecontainerschedule) {
         var modalInstance = $uibModal.open({
             templateUrl: 'views/settings/energystoragecontainer/energystoragecontainerschedule.model.html',
@@ -227,6 +233,7 @@ app.controller("EnergyStorageContainerScheduleController", function ($scope, $ro
         $rootScope.modalInstance = modalInstance;
     };
 
+    // Open add modal and create energy storage container schedule
     $scope.addEnergyStorageContainerSchedule = function (t) {
         $scope.resetScheduleError();
         if (!$scope.currentEnergyStorageContainer || !$scope.currentEnergyStorageContainer.id) {
@@ -314,6 +321,7 @@ app.controller("EnergyStorageContainerScheduleController", function ($scope, $ro
     };
 
 
+    // Confirm and delete energy storage container schedule
     $scope.deleteEnergyStorageContainerSchedule = function (energystoragecontainerschedule) {
         SweetAlert.swal({
             title: $translate.instant("SWEET.TITLE"),
@@ -378,6 +386,7 @@ app.controller("ModalAddEnergyStorageContainerScheduleCtrl", function ($scope,$t
 		show: false,
 		message: ''
 	};
+    // Initialize row
     $scope.initRow=function(){
         $scope.t.start_hour = "00";
         $scope.t.start_min = "00";

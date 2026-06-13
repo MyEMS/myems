@@ -1,5 +1,7 @@
 'use strict';
 
+// Meter controller - drag-and-drop meter binding
+
 app.controller('MeterController', function($scope,
 	$rootScope,
 	$window,
@@ -17,6 +19,7 @@ app.controller('MeterController', function($scope,
 	$scope.importdata = '';
 	$scope.searchKeyword = '';
 
+	// Load all cost centers from API
 	$scope.getAllCostCenters = function() {
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 		CostCenterService.getAllCostCenters(headers, function (response) {
@@ -28,6 +31,7 @@ app.controller('MeterController', function($scope,
 		});
 	};
 
+	// Load all categories from API
 	$scope.getAllCategories = function() {
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 		CategoryService.getAllCategories(headers, function (response) {
@@ -40,6 +44,7 @@ app.controller('MeterController', function($scope,
 
 	};
 
+	// Load all energy items from API
 	$scope.getAllEnergyItems = function() {
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 		EnergyItemService.getAllEnergyItems(headers, function (response) {
@@ -51,6 +56,7 @@ app.controller('MeterController', function($scope,
 	});
 
 };
+	// Load all meters from API
 	$scope.getAllMeters = function() {
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 		MeterService.getAllMeters(headers, function (response) {
@@ -97,6 +103,7 @@ app.controller('MeterController', function($scope,
         }
     }
 
+    // Search meters by keyword
     $scope.searchMeters = function() {
         const headers = {
             "User-UUID": $scope.cur_user?.uuid,
@@ -170,6 +177,7 @@ app.controller('MeterController', function($scope,
     };
 
 
+	// Refresh meter tree
 	$scope.refreshMeterTree = function() {
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 		MeterService.getAllMeters(headers, function (response) {
@@ -203,6 +211,7 @@ app.controller('MeterController', function($scope,
 		});
 	};
 
+	// Load meter submeters from API
 	$scope.getMeterSubmeters = function(meterid) {
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 		MeterService.getMeterSubmeters(meterid, headers, function (response) {
@@ -214,6 +223,7 @@ app.controller('MeterController', function($scope,
 		});
 	};
 
+	// Open add modal and create meter
 	$scope.addMeter = function() {
 		var modalInstance = $uibModal.open({
 			templateUrl: 'views/settings/meter/meter.model.html',
@@ -270,6 +280,7 @@ app.controller('MeterController', function($scope,
 		$rootScope.modalInstance = modalInstance;
 	};
 
+	// Open edit modal and update meter
 	$scope.editMeter = function(meter) {
 		var modalInstance = $uibModal.open({
 			windowClass: "animated fadeIn",
@@ -328,6 +339,7 @@ app.controller('MeterController', function($scope,
 		$rootScope.modalInstance = modalInstance;
 	};
 
+	// Confirm and delete meter
 	$scope.deleteMeter = function(meter) {
 		SweetAlert.swal({
 				title: $translate.instant("SWEET.TITLE"),
@@ -366,6 +378,7 @@ app.controller('MeterController', function($scope,
 			});
 	};
 
+	// Export meter as JSON
 	$scope.exportMeter = function(meter) {
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 		MeterService.exportMeter(meter, headers, function(response) {
@@ -395,6 +408,7 @@ app.controller('MeterController', function($scope,
 		});
 	};
 
+	// Clone an existing meter
 	$scope.cloneMeter = function(meter){
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 		MeterService.cloneMeter(meter, headers, function(response) {
@@ -417,6 +431,7 @@ app.controller('MeterController', function($scope,
 		});
 	};
 
+	// Import meter from JSON
 	$scope.importMeter = function() {
 		var modalInstance = $uibModal.open({
 			templateUrl: 'views/common/import.html',
@@ -463,6 +478,7 @@ app.controller('MeterController', function($scope,
 	if (isTreeView) {
 		$scope.tabInitialized = false;
 		
+		// Initialize tab
 		$scope.initTab = function() {
 			if (!$scope.tabInitialized) {
 				$scope.tabInitialized = true;
@@ -499,6 +515,7 @@ app.controller('MeterController', function($scope,
 
 });
 
+// Modal controller for add dialog
 app.controller('ModalAddMeterCtrl', function($scope, $uibModalInstance, params) {
 
 	$scope.operation = "SETTING.ADD_METER";
@@ -541,6 +558,7 @@ app.controller('ModalAddMeterCtrl', function($scope, $uibModalInstance, params) 
 	};
 });
 
+// Modal controller for edit dialog
 app.controller('ModalEditMeterCtrl', function($scope, $uibModalInstance, params) {
 	$scope.operation = "SETTING.EDIT_METER";
 	$scope.meter = params.meter;

@@ -1,5 +1,7 @@
 "use strict";
 
+// Energy Storage Power Station Container controller - container association
+
 app.controller(
   "EnergyStoragePowerStationContainerController",
   function (
@@ -16,6 +18,7 @@ app.controller(
     $scope.cur_user = JSON.parse(
       $window.localStorage.getItem("myems_admin_ui_current_user")
     );
+    // Load all energy storage containers from API
     $scope.getAllEnergyStorageContainers = function () {
       let headers = {
         "User-UUID": $scope.cur_user.uuid,
@@ -33,6 +36,7 @@ app.controller(
       );
     };
 
+    // Load containers by energy storage power station id
     $scope.getContainersByEnergyStoragePowerStationID = function (id) {
       let headers = {
         "User-UUID": $scope.cur_user.uuid,
@@ -51,6 +55,7 @@ app.controller(
       );
     };
 
+    // Handle energy storage power station change
     $scope.changeEnergyStoragePowerStation = function (item, model) {
       $scope.currentEnergyStoragePowerStation = item;
       $scope.currentEnergyStoragePowerStation.selected = model;
@@ -59,6 +64,7 @@ app.controller(
       );
     };
 
+    // Load all energy storage power stations from API
     $scope.getAllEnergyStoragePowerStations = function () {
       let headers = {
         "User-UUID": $scope.cur_user.uuid,
@@ -76,6 +82,7 @@ app.controller(
       );
     };
 
+    // Bind energy storage container via drag-and-drop
     $scope.pairEnergyStorageContainer = function (dragEl, dropEl) {
       var energystoragecontainerid = angular.element("#" + dragEl).scope()
         .energystoragecontainer.id;
@@ -114,6 +121,7 @@ app.controller(
       );
     };
 
+    // Unbind energy storage container via drag-to-trash
     $scope.deleteEnergyStorageContainerPair = function (dragEl, dropEl) {
       if (angular.element("#" + dragEl).hasClass("source")) {
         return;

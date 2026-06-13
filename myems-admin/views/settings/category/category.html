@@ -1,11 +1,14 @@
+<!-- Energy Category & Energy Item settings page -->
 <div class="wrapper wrapper-content" ng-controller="EnergyCategoryMasterController">
 	<div class="row">
 		<div class="col-lg-12">
 			<div class="tabs-container">
 
 				<uib-tabset>
+						<!-- Tab: Energy Category management -->
 						<uib-tab heading="{{'SETTING.CATEGORY' | translate}}">
 							<div class="panel-body" ng-controller="EnergyCategoryController">
+								<!-- Collapsible description panel -->
 								<div class="alert alert-info">
 									<p>
 										{{'SETTING.CATEGORY_DESCRIPTION' | translate}}
@@ -18,9 +21,11 @@
 										<p>{{'SETTING.CATEGORY_DESCRIPTION_MORE' | translate}}</p>
 									</div>
 								</div>
+								<!-- Add new energy category -->
 								<a ng-click="addCategory()" class="btn btn-primary btn-rounded btn-outline" href=""><i class="fa fa-plus-circle"></i> {{'SETTING.ADD_CATEGORY' | translate}}</a>
 								<br>
 								<br>
+								<!-- Energy category list table -->
 								<table id="footable1" class="footable table table-bordered table-hover" data-sort="true" data-page-size="15">
 									<thead>
 										<tr>
@@ -55,8 +60,10 @@
 								</table>
 							</div>
 						</uib-tab>
+						<!-- Tab: Energy Item management -->
 						<uib-tab heading="{{'SETTING.ENERGY_ITEM' | translate}}">
 							<div class="panel-body" ng-controller="EnergyItemController">
+								<!-- Collapsible description panel -->
 								<div class="alert alert-info">
 									<p>
 										{{'SETTING.ENERGY_ITEM_DESCRIPTION' | translate}}
@@ -69,9 +76,11 @@
 										<p>{{'SETTING.ENERGY_ITEM_DESCRIPTION_MORE' | translate}}</p>
 									</div>
 								</div>
+								<!-- Add new energy item -->
 								<a ng-click="addEnergyItem()" class="btn btn-primary btn-rounded btn-outline" href=""><i class="fa fa-plus-circle"></i> {{'SETTING.ADD_ENERGY_ITEM' | translate}}</a>
 								<br>
 								<br>
+								<!-- Energy item list table -->
 								<table class="footable table table-bordered table-hover" data-sort="true" data-page-size="15">
 									<thead>
 										<tr>

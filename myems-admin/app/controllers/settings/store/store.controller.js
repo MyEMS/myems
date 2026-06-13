@@ -1,5 +1,7 @@
 'use strict';
 
+// Store controller - entity association management
+
 app.controller('StoreController', function(
     $scope,
     $rootScope,
@@ -16,6 +18,7 @@ app.controller('StoreController', function(
 	$scope.exportdata = '';
 	$scope.importdata = '';
 
+	// Load all cost centers from API
 	$scope.getAllCostCenters = function() {
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 		CostCenterService.getAllCostCenters(headers, function (response) {
@@ -27,6 +30,7 @@ app.controller('StoreController', function(
 		});
 	};
 
+	// Load all contacts from API
 	$scope.getAllContacts = function() {
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 		ContactService.getAllContacts(headers, function (response) {
@@ -38,6 +42,7 @@ app.controller('StoreController', function(
 		});
 	};
 
+	// Load all stores from API
 	$scope.getAllStores = function() {
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 		StoreService.getAllStores(headers, function (response) {
@@ -50,6 +55,7 @@ app.controller('StoreController', function(
 	};
 
         let searchDebounceTimer = null;
+	// Search stores by keyword
 	$scope.searchStores = function() {
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
                 const rawKeyword = $scope.searchKeyword || "";
@@ -72,6 +78,7 @@ app.controller('StoreController', function(
                 }, 300);
 	};
 
+    // Load all store types from API
     $scope.getAllStoreTypes = function() {
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
         StoreTypeService.getAllStoreTypes(headers, function (response) {
@@ -83,6 +90,7 @@ app.controller('StoreController', function(
         });
     };
 
+	// Open add modal and create store
 	$scope.addStore = function() {
 		var modalInstance = $uibModal.open({
 			templateUrl: 'views/settings/store/store.model.html',
@@ -131,6 +139,7 @@ app.controller('StoreController', function(
 		$rootScope.modalInstance = modalInstance;
 	};
 
+	// Open edit modal and update store
 	$scope.editStore = function(store) {
 		var modalInstance = $uibModal.open({
 			windowClass: "animated fadeIn",
@@ -180,6 +189,7 @@ app.controller('StoreController', function(
 		$rootScope.modalInstance = modalInstance;
 	};
 
+	// Confirm and delete store
 	$scope.deleteStore=function(store){
 		SweetAlert.swal({
 		        title: $translate.instant("SWEET.TITLE"),
@@ -216,6 +226,7 @@ app.controller('StoreController', function(
 		    });
 	};
 
+	// Export store as JSON
 	$scope.exportStore = function(store) {
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 		StoreService.exportStore(store, headers, function(response) {
@@ -247,6 +258,7 @@ app.controller('StoreController', function(
 		});
 	};
 
+	// Clone an existing store
 	$scope.cloneStore = function(store){
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 		StoreService.cloneStore(store, headers, function(response) {
@@ -271,6 +283,7 @@ app.controller('StoreController', function(
 		});
 	};
 
+	// Import store from JSON
 	$scope.importStore = function() {
 		var modalInstance = $uibModal.open({
 			templateUrl: 'views/common/import.html',
@@ -325,6 +338,7 @@ app.controller('StoreController', function(
 	});
 });
 
+// Modal controller for add dialog
 app.controller('ModalAddStoreCtrl', function($scope, $uibModalInstance,params) {
 
 	$scope.operation = "SETTING.ADD_STORE";
@@ -340,6 +354,7 @@ app.controller('ModalAddStoreCtrl', function($scope, $uibModalInstance,params) {
 	};
 });
 
+// Modal controller for edit dialog
 app.controller('ModalEditStoreCtrl', function($scope, $uibModalInstance, params) {
 	$scope.operation = "SETTING.EDIT_STORE";
 	$scope.store = params.store;

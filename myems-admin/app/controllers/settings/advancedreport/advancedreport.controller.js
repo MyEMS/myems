@@ -1,5 +1,7 @@
 'use strict';
 
+// Advanced Report controller - CRUD and settings management
+
 app.controller('AdvancedReportController', function(
     $scope,
     $rootScope,
@@ -15,6 +17,7 @@ app.controller('AdvancedReportController', function(
 
 	$scope.initExpression = {};
 
+	// Load all advanced report from API
 	$scope.getAllAdvancedReport = function() {
         let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 		AdvancedReportService.getAllAdvancedReport(headers, function (response) {
@@ -27,6 +30,7 @@ app.controller('AdvancedReportController', function(
 
 	};
 
+	// Open add modal and create advanced report
 	$scope.addAdvancedReport = function() {
 
 		var modalInstance = $uibModal.open({
@@ -69,6 +73,7 @@ app.controller('AdvancedReportController', function(
 		$rootScope.modalInstance = modalInstance;
 	};
 
+	// Open edit modal and update advanced report
 	$scope.editAdvancedReport = function(advancedReport) {
 		var modalInstance = $uibModal.open({
 			windowClass: "animated fadeIn",
@@ -133,6 +138,7 @@ app.controller('AdvancedReportController', function(
         });
     };
 
+	// Confirm and delete advanced report
 	$scope.deleteAdvancedReport = function(advancedReport) {
 		SweetAlert.swal({
 				title: $translate.instant("SWEET.TITLE"),
@@ -170,6 +176,7 @@ app.controller('AdvancedReportController', function(
 			});
 	};
 
+	// Export advanced report as JSON
 	$scope.exportAdvancedReport = function(advancedReport) {
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 		AdvancedReportService.exportAdvancedReport(advancedReport, headers, function(response) {
@@ -199,6 +206,7 @@ app.controller('AdvancedReportController', function(
 		});
 	};
 
+	// Clone an existing advanced report
 	$scope.cloneAdvancedReport = function(advancedReport){
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 		AdvancedReportService.cloneAdvancedReport(advancedReport, headers, function(response) {
@@ -222,6 +230,7 @@ app.controller('AdvancedReportController', function(
 		});
 	};
 
+	// Import advanced report from JSON
 	$scope.importAdvancedReport = function() {
 		var modalInstance = $uibModal.open({
 			templateUrl: 'views/common/import.html',
@@ -265,6 +274,7 @@ app.controller('AdvancedReportController', function(
 
 });
 
+// Modal controller for add dialog
 app.controller('ModalAddAdvancedReportCtrl', function($scope, $uibModalInstance, params) {
 
 	$scope.operation = "ADVANCED_REPORT.ADD_ADVANCED_REPORT";
@@ -296,6 +306,7 @@ app.controller('ModalAddAdvancedReportCtrl', function($scope, $uibModalInstance,
 	};
 });
 
+// Modal controller for edit dialog
 app.controller('ModalEditAdvancedReportCtrl', function($scope, $uibModalInstance, params) {
 	$scope.operation = "ADVANCED_REPORT.EDIT_ADVANCED_REPORT";
 	$scope.advancedReport = params.advancedReport;

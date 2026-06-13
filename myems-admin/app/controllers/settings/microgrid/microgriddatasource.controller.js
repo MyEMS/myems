@@ -1,5 +1,7 @@
 "use strict";
 
+// Microgrid Data Source controller - data source association
+
 app.controller(
   "MicrogridDataSourceController",
   function (
@@ -21,6 +23,7 @@ app.controller(
     $scope.currentMicrogrid = { selected: undefined };
     $scope.isMicrogridSelected = false;
 
+    // Load all data sources from API
     $scope.getAllDataSources = function () {
       let headers = {
         "User-UUID": $scope.cur_user.uuid,
@@ -36,6 +39,7 @@ app.controller(
       });
     };
 
+    // Load data sources by microgrid id
     $scope.getDataSourcesByMicrogridID = function (id) {
       let headers = {
         "User-UUID": $scope.cur_user.uuid,
@@ -55,6 +59,7 @@ app.controller(
       );
     };
 
+    // Handle microgrid change
     $scope.changeMicrogrid = function (item, model) {
       $scope.currentMicrogrid = item;
       $scope.currentMicrogrid.selected = model;
@@ -68,6 +73,7 @@ app.controller(
       }
     };
 
+    // Load all microgrids from API
     $scope.getAllMicrogrids = function () {
       let headers = {
         "User-UUID": $scope.cur_user.uuid,
@@ -94,6 +100,7 @@ app.controller(
       );
     };
 
+    // Bind data source via drag-and-drop
     $scope.pairDataSource = function (dragEl, dropEl) {
       var datasourceid = angular.element("#" + dragEl).scope().datasource.id;
       var microgridid = $scope.currentMicrogrid.id;
@@ -129,6 +136,7 @@ app.controller(
       );
     };
 
+    // Unbind data source via drag-to-trash
     $scope.deleteDataSourcePair = function (dragEl, dropEl) {
       if (angular.element("#" + dragEl).hasClass("source")) {
         return;

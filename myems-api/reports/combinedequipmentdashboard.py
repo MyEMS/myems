@@ -46,6 +46,24 @@ from core.useractivity import access_control, api_key_control
 logger = logging.getLogger(__name__)
 
 
+def validate_integer_ids(id_list, param_name="IDs"):
+    """
+    Validate that all IDs in the list are integers to prevent SQL injection.
+    
+    Args:
+        id_list: List of IDs to validate
+        param_name: Name of the parameter for error messages
+        
+    Raises:
+        ValueError: If any ID is not an integer
+    """
+    if not isinstance(id_list, (list, tuple)):
+        raise ValueError(f"{param_name} must be a list or tuple")
+    if not all(isinstance(x, int) for x in id_list):
+        raise ValueError(f"All {param_name} must be integers")
+    return True
+
+
 class Reporting:
     def __init__(self):
         """Initializes Class"""
@@ -287,6 +305,8 @@ class Reporting:
                 privilege_data = json.loads(row_privilege[0])
                 if 'combinedequipments' in privilege_data and privilege_data['combinedequipments']:
                     combined_equipment_ids_list = privilege_data['combinedequipments']
+                    # Validate all IDs are integers before using in SQL
+                    validate_integer_ids(combined_equipment_ids_list, "combined_equipment_ids")
                     format_strings = ','.join(['%s'] * len(combined_equipment_ids_list))
                     cursor_system.execute(
                         " SELECT ce.id, ce.name, ce.cost_center_id "
@@ -341,6 +361,8 @@ class Reporting:
             }
 
             if base_start_datetime_utc and base_end_datetime_utc:
+                # Validate all IDs are integers before using in SQL
+                validate_integer_ids(combined_equipment_ids_list, "combined_equipment_ids")
                 format_strings = ','.join(['%s'] * len(combined_equipment_ids_list))
                 cursor_energy.execute(
                     " SELECT energy_category_id, SUM(actual_value) "
@@ -381,6 +403,8 @@ class Reporting:
                 'energy_category_ids': []
             }
 
+            # Validate all IDs are integers before using in SQL
+            validate_integer_ids(combined_equipment_ids_list, "combined_equipment_ids")
             format_strings = ','.join(['%s'] * len(combined_equipment_ids_list))
             cursor_energy.execute(
                 " SELECT energy_category_id, SUM(actual_value) "
@@ -449,6 +473,8 @@ class Reporting:
             }
 
             if len(combined_equipment_ids_list) > 0:
+                # Validate all IDs are integers before using in SQL
+                validate_integer_ids(combined_equipment_ids_list, "combined_equipment_ids")
                 format_strings = ','.join(['%s'] * len(combined_equipment_ids_list))
                 cursor_billing.execute(
                     " SELECT energy_category_id, SUM(actual_value) "
@@ -472,113 +498,120 @@ class Reporting:
                                 reporting_cost['subtotals'][idx] = cost
 
             ################################################################################################################
-            # Step 7: Query monthly trends (OPTIMIZED: single query + memory aggregation)
+            # Step 7: Query daily trends from 1st of last month (OPTIMIZED: single query + memory aggregation)
             ################################################################################################################
-            # Generate monthly timestamps for reporting year
-            year_start = reporting_start_datetime_utc.replace(month=1, day=1, hour=0, minute=0, second=0, microsecond=0)
-            monthly_timestamps = []
-            current_month = year_start
-            while current_month < reporting_end_datetime_utc:
-                monthly_timestamps.append(current_month.strftime('%Y-%m'))
-                if current_month.month < 12:
-                    next_month = current_month.replace(month=current_month.month + 1)
-                else:
-                    next_month = current_month.replace(year=current_month.year + 1, month=1)
-                current_month = next_month
+            # Calculate the start date: 1st of last month relative to reporting end
+            if reporting_end_datetime_utc.month == 1:
+                daily_start = reporting_end_datetime_utc.replace(
+                    year=reporting_end_datetime_utc.year - 1, month=12, day=1,
+                    hour=0, minute=0, second=0, microsecond=0)
+            else:
+                daily_start = reporting_end_datetime_utc.replace(
+                    month=reporting_end_datetime_utc.month - 1, day=1,
+                    hour=0, minute=0, second=0, microsecond=0)
+
+            # Generate daily timestamps
+            daily_timestamps = []
+            current_day = daily_start
+            while current_day < reporting_end_datetime_utc:
+                daily_timestamps.append(current_day.strftime('%Y-%m-%d'))
+                current_day = current_day + timedelta(days=1)
 
             # Initialize result structures
-            monthly_energy_values = [[] for _ in range(len(reporting_input['names']))]
-            monthly_cost_values = [[] for _ in range(len(reporting_cost['names']))]
+            daily_energy_values = [[] for _ in range(len(reporting_input['names']))]
+            daily_cost_values = [[] for _ in range(len(reporting_cost['names']))]
 
             if len(combined_equipment_ids_list) > 0 and len(reporting_input['energy_category_ids']) > 0:
+                # Validate all IDs are integers before using in SQL
+                validate_integer_ids(combined_equipment_ids_list, "combined_equipment_ids")
                 format_strings = ','.join(['%s'] * len(combined_equipment_ids_list))
 
-                # OPTIMIZATION: Single query to fetch all monthly energy data grouped by month and category
+                # OPTIMIZATION: Single query to fetch all daily energy data grouped by day and category
                 try:
                     cursor_energy.execute(
-                        " SELECT DATE_FORMAT(start_datetime_utc, '%%Y-%%m') as month_str, "
+                        " SELECT DATE_FORMAT(start_datetime_utc, '%%Y-%%m-%%d') as day_str, "
                         "        energy_category_id, "
                         "        SUM(actual_value) as total_value "
                         " FROM tbl_combined_equipment_input_category_hourly "
                         " WHERE combined_equipment_id IN (%s) "
                         "   AND start_datetime_utc >= %%s "
                         "   AND start_datetime_utc < %%s "
-                        " GROUP BY DATE_FORMAT(start_datetime_utc, '%%Y-%%m'), energy_category_id "
-                        " ORDER BY month_str, energy_category_id " % format_strings,
-                        combined_equipment_ids_tuple + (reporting_start_datetime_utc, reporting_end_datetime_utc)
+                        " GROUP BY DATE_FORMAT(start_datetime_utc, '%%Y-%%m-%%d'), energy_category_id "
+                        " ORDER BY day_str, energy_category_id " % format_strings,
+                        combined_equipment_ids_tuple + (daily_start, reporting_end_datetime_utc)
                     )
-                    rows_monthly_energy = cursor_energy.fetchall()
+                    rows_daily_energy = cursor_energy.fetchall()
 
-                    # Build energy data mapping: {month_str: {ec_id: value}}
+                    # Build energy data mapping: {day_str: {ec_id: value}}
                     energy_data_map = {}
-                    if rows_monthly_energy:
-                        for row in rows_monthly_energy:
-                            month_str = row[0]
+                    if rows_daily_energy:
+                        for row in rows_daily_energy:
+                            day_str = row[0]
                             ec_id = row[1]
                             total_value = float(row[2]) if row[2] else 0.0
 
-                            if month_str not in energy_data_map:
-                                energy_data_map[month_str] = {}
-                            energy_data_map[month_str][ec_id] = total_value
+                            if day_str not in energy_data_map:
+                                energy_data_map[day_str] = {}
+                            energy_data_map[day_str][ec_id] = total_value
 
                     # Fill energy values for each category
-                    for month_str in monthly_timestamps:
-                        month_data = energy_data_map.get(month_str, {})
+                    for day_str in daily_timestamps:
+                        day_data = energy_data_map.get(day_str, {})
                         for idx, ec_id in enumerate(reporting_input['energy_category_ids']):
-                            monthly_energy_values[idx].append(month_data.get(ec_id, 0.0))
+                            daily_energy_values[idx].append(day_data.get(ec_id, 0.0))
 
                 except Exception as e:
-                    logger.error(f"Error querying monthly energy trends: {e}")
+                    logger.error(f"Error querying daily energy trends: {e}")
                     # Fill with zeros on error
                     for idx in range(len(reporting_input['energy_category_ids'])):
-                        monthly_energy_values[idx] = [0.0] * len(monthly_timestamps)
+                        daily_energy_values[idx] = [0.0] * len(daily_timestamps)
 
-                # OPTIMIZATION: Single query to fetch all monthly cost data grouped by month and category
+                # OPTIMIZATION: Single query to fetch all daily cost data grouped by day and category
                 try:
                     cursor_billing.execute(
-                        " SELECT DATE_FORMAT(start_datetime_utc, '%%Y-%%m') as month_str, "
+                        " SELECT DATE_FORMAT(start_datetime_utc, '%%Y-%%m-%%d') as day_str, "
                         "        energy_category_id, "
                         "        SUM(actual_value) as total_value "
                         " FROM tbl_combined_equipment_input_category_hourly "
                         " WHERE combined_equipment_id IN (%s) "
                         "   AND start_datetime_utc >= %%s "
                         "   AND start_datetime_utc < %%s "
-                        " GROUP BY DATE_FORMAT(start_datetime_utc, '%%Y-%%m'), energy_category_id "
-                        " ORDER BY month_str, energy_category_id " % format_strings,
-                        combined_equipment_ids_tuple + (reporting_start_datetime_utc, reporting_end_datetime_utc)
+                        " GROUP BY DATE_FORMAT(start_datetime_utc, '%%Y-%%m-%%d'), energy_category_id "
+                        " ORDER BY day_str, energy_category_id " % format_strings,
+                        combined_equipment_ids_tuple + (daily_start, reporting_end_datetime_utc)
                     )
-                    rows_monthly_cost = cursor_billing.fetchall()
+                    rows_daily_cost = cursor_billing.fetchall()
 
-                    # Build cost data mapping: {month_str: {ec_id: value}}
+                    # Build cost data mapping: {day_str: {ec_id: value}}
                     cost_data_map = {}
-                    if rows_monthly_cost:
-                        for row in rows_monthly_cost:
-                            month_str = row[0]
+                    if rows_daily_cost:
+                        for row in rows_daily_cost:
+                            day_str = row[0]
                             ec_id = row[1]
                             total_value = float(row[2]) if row[2] else 0.0
 
-                            if month_str not in cost_data_map:
-                                cost_data_map[month_str] = {}
-                            cost_data_map[month_str][ec_id] = total_value
+                            if day_str not in cost_data_map:
+                                cost_data_map[day_str] = {}
+                            cost_data_map[day_str][ec_id] = total_value
 
                     # Fill cost values for each category
-                    for month_str in monthly_timestamps:
-                        month_data = cost_data_map.get(month_str, {})
+                    for day_str in daily_timestamps:
+                        day_data = cost_data_map.get(day_str, {})
                         for idx, ec_id in enumerate(reporting_cost['energy_category_ids']):
-                            monthly_cost_values[idx].append(month_data.get(ec_id, 0.0))
+                            daily_cost_values[idx].append(day_data.get(ec_id, 0.0))
 
                 except Exception as e:
-                    logger.error(f"Error querying monthly cost trends: {e}")
+                    logger.error(f"Error querying daily cost trends: {e}")
                     # Fill with zeros on error
                     for idx in range(len(reporting_cost['energy_category_ids'])):
-                        monthly_cost_values[idx] = [0.0] * len(monthly_timestamps)
+                        daily_cost_values[idx] = [0.0] * len(daily_timestamps)
 
-            reporting_input['timestamps'] = [monthly_timestamps] * len(reporting_input['names'])
-            reporting_input['values'] = monthly_energy_values
-            reporting_cost['timestamps'] = [monthly_timestamps] * len(reporting_cost['names'])
-            reporting_cost['values'] = monthly_cost_values
-
-            # Add energy category names to monthly trends for frontend display
+            reporting_input['timestamps'] = [daily_timestamps] * len(reporting_input['names'])
+            reporting_input['values'] = daily_energy_values
+            reporting_cost['timestamps'] = [daily_timestamps] * len(reporting_cost['names'])
+            reporting_cost['values'] = daily_cost_values
+            
+            # Add energy category names to daily trends for frontend display
             reporting_input['category_names'] = list(reporting_input['names'])
             reporting_input['category_units'] = list(reporting_input['units'])
 
@@ -589,6 +622,8 @@ class Reporting:
             total_meters = 0
             total_associated_equipments = 0
             if len(combined_equipment_ids_list) > 0:
+                # Validate all IDs are integers before using in SQL
+                validate_integer_ids(combined_equipment_ids_list, "combined_equipment_ids")
                 format_strings = ','.join(['%s'] * len(combined_equipment_ids_list))
                 try:
                     cursor_system.execute(
@@ -623,6 +658,8 @@ class Reporting:
                 cnx_fdd = mysql.connector.connect(**config.myems_fdd_db)
                 cursor_fdd = cnx_fdd.cursor()
                 if len(combined_equipment_ids_list) > 0:
+                    # Validate all IDs are integers before using in SQL
+                    validate_integer_ids(combined_equipment_ids_list, "combined_equipment_ids")
                     format_strings = ','.join(['%s'] * len(combined_equipment_ids_list))
                     cursor_fdd.execute(
                         " SELECT COUNT(*) "
@@ -652,6 +689,8 @@ class Reporting:
 
             # Query energy consumption by category for each combined equipment
             if len(combined_equipment_ids_list) > 0:
+                # Validate all IDs are integers before using in SQL
+                validate_integer_ids(combined_equipment_ids_list, "combined_equipment_ids")
                 format_strings = ','.join(['%s'] * len(combined_equipment_ids_list))
                 cursor_energy.execute(
                     " SELECT combined_equipment_id, energy_category_id, SUM(actual_value) as category_energy "
@@ -678,6 +717,66 @@ class Reporting:
 
                         combined_equipment_energy_by_category[combined_equipment_id]['categories'][ec_id] = category_energy
                         combined_equipment_energy_by_category[combined_equipment_id]['total_energy'] += category_energy
+
+            # Query cost by category for each combined equipment
+            combined_equipment_cost_by_category = {}
+            if len(combined_equipment_ids_list) > 0:
+                # Validate all IDs are integers before using in SQL (already validated above)
+                cursor_billing.execute(
+                    " SELECT combined_equipment_id, energy_category_id, SUM(actual_value) as category_cost "
+                    " FROM tbl_combined_equipment_input_category_hourly "
+                    " WHERE combined_equipment_id IN (%s) "
+                    "   AND start_datetime_utc >= %%s "
+                    "   AND start_datetime_utc < %%s "
+                    " GROUP BY combined_equipment_id, energy_category_id "
+                    " ORDER BY combined_equipment_id, category_cost DESC " % format_strings,
+                    combined_equipment_ids_tuple + (daily_start, reporting_end_datetime_utc)
+                )
+                rows_cost = cursor_billing.fetchall()
+                if rows_cost:
+                    for row in rows_cost:
+                        combined_equipment_id = row[0]
+                        ec_id = row[1]
+                        category_cost = float(row[2]) if row[2] else 0.0
+
+                        if combined_equipment_id not in combined_equipment_cost_by_category:
+                            combined_equipment_cost_by_category[combined_equipment_id] = {
+                                'total_cost': 0.0,
+                                'categories': {}
+                            }
+
+                        combined_equipment_cost_by_category[combined_equipment_id]['categories'][ec_id] = category_cost
+                        combined_equipment_cost_by_category[combined_equipment_id]['total_cost'] += category_cost
+
+            # Query carbon by category for each combined equipment
+            combined_equipment_carbon_by_category = {}
+            if len(combined_equipment_ids_list) > 0:
+                # Validate all IDs are integers before using in SQL (already validated above)
+                cursor_carbon.execute(
+                    " SELECT combined_equipment_id, energy_category_id, SUM(actual_value) as category_carbon "
+                    " FROM tbl_combined_equipment_input_category_hourly "
+                    " WHERE combined_equipment_id IN (%s) "
+                    "   AND start_datetime_utc >= %%s "
+                    "   AND start_datetime_utc < %%s "
+                    " GROUP BY combined_equipment_id, energy_category_id "
+                    " ORDER BY combined_equipment_id, category_carbon DESC " % format_strings,
+                    combined_equipment_ids_tuple + (daily_start, reporting_end_datetime_utc)
+                )
+                rows_carbon = cursor_carbon.fetchall()
+                if rows_carbon:
+                    for row in rows_carbon:
+                        combined_equipment_id = row[0]
+                        ec_id = row[1]
+                        category_carbon = float(row[2]) if row[2] else 0.0
+
+                        if combined_equipment_id not in combined_equipment_carbon_by_category:
+                            combined_equipment_carbon_by_category[combined_equipment_id] = {
+                                'total_carbon': 0.0,
+                                'categories': {}
+                            }
+
+                        combined_equipment_carbon_by_category[combined_equipment_id]['categories'][ec_id] = category_carbon
+                        combined_equipment_carbon_by_category[combined_equipment_id]['total_carbon'] += category_carbon
 
             # Build top 5 combined equipments
             sorted_combined_equipments = sorted(
@@ -707,13 +806,25 @@ class Reporting:
                     'total_energy': 0.0,
                     'categories': {}
                 })
+                cost_data = combined_equipment_cost_by_category.get(combined_equipment_id, {
+                    'total_cost': 0.0,
+                    'categories': {}
+                })
+                carbon_data = combined_equipment_carbon_by_category.get(combined_equipment_id, {
+                    'total_carbon': 0.0,
+                    'categories': {}
+                })
 
                 combined_equipment_details.append({
                     'id': combined_equipment_id,
                     'name': combined_equipment['name'],
                     'cost_center_id': combined_equipment['cost_center_id'],
                     'total_energy': energy_data['total_energy'],
-                    'energy_by_category': energy_data['categories']
+                    'energy_by_category': energy_data['categories'],
+                    'total_cost': cost_data['total_cost'],
+                    'cost_by_category': cost_data['categories'],
+                    'total_carbon': carbon_data['total_carbon'],
+                    'carbon_by_category': carbon_data['categories']
                 })
 
             result = {

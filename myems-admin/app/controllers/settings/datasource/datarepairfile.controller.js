@@ -1,5 +1,7 @@
 'use strict';
 
+// Datarepairfile controller - CRUD and settings management
+
 app.controller('DataRepairFileController', function(
 	$scope, 
 	$window,
@@ -11,6 +13,7 @@ app.controller('DataRepairFileController', function(
 
 	$scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
 
+	// Load all data repair files from API
 	$scope.getAllDataRepairFiles = function() {
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 		DataRepairFileService.getAllDataRepairFiles(headers, function (response) {
@@ -76,6 +79,7 @@ app.controller('DataRepairFileController', function(
         });
     };
 
+	// Confirm and delete data repair file
 	$scope.deleteDataRepairFile = function(datarepairfile) {
 		SweetAlert.swal({
 			title: $translate.instant("SWEET.TITLE"),

@@ -1,5 +1,7 @@
 'use strict';
 
+// Energy Category controller - CRUD and settings management
+
 app.controller('EnergyCategoryController', function($scope,
 	$rootScope,
 	$window,
@@ -9,6 +11,7 @@ app.controller('EnergyCategoryController', function($scope,
 	toaster,
 	SweetAlert) {
     $scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
+	// Load all categories from API
 	$scope.getAllCategories = function() {
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 		CategoryService.getAllCategories(headers, function (response) {
@@ -20,6 +23,7 @@ app.controller('EnergyCategoryController', function($scope,
 		});
 	};
 
+	// Open add modal and create category
 	$scope.addCategory = function() {
 		var modalInstance = $uibModal.open({
 			templateUrl: 'views/settings/category/category.model.html',
@@ -61,6 +65,7 @@ app.controller('EnergyCategoryController', function($scope,
 		$rootScope.modalInstance = modalInstance;
 	};
 
+	// Open edit modal and update category
 	$scope.editCategory=function(category){
 		var modalInstance = $uibModal.open({
 		    windowClass: "animated fadeIn",
@@ -104,6 +109,7 @@ app.controller('EnergyCategoryController', function($scope,
 		$rootScope.modalInstance = modalInstance;
 	};
 
+	// Confirm and delete category
 	$scope.deleteCategory=function(category){
 		SweetAlert.swal({
 		        title: $translate.instant("SWEET.TITLE"),
@@ -145,6 +151,7 @@ app.controller('EnergyCategoryController', function($scope,
 
 });
 
+// Modal controller for add dialog
 app.controller('ModalAddCategoryCtrl', function ($scope, $uibModalInstance,params) {
 
     $scope.operation="SETTING.ADD_CATEGORY";
@@ -158,6 +165,7 @@ app.controller('ModalAddCategoryCtrl', function ($scope, $uibModalInstance,param
     };
 });
 
+// Modal controller for edit dialog
 app.controller('ModalEditCategoryCtrl', function ($scope, $uibModalInstance, params) {
     $scope.operation="SETTING.EDIT_CATEGORY";
     $scope.category = params.category;

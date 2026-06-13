@@ -1,6 +1,9 @@
 'use strict';
+
+// Knowledge File service - REST API wrapper
 app.factory('KnowledgeFileService', function ($http) {
     return {
+        // GET all knowledge files
         getAllKnowledgeFiles: function (headers, callback) {
             $http.get(getAPI() + 'knowledgefiles', {headers})
             .then(function (response) {
@@ -10,6 +13,7 @@ app.factory('KnowledgeFileService', function ($http) {
             });
         },
         
+        // POST create knowledge file
         addKnowledgeFile: function (knowledgefile, headers, callback) {
             $http.post(getAPI() + 'knowledgefiles', {data: knowledgefile}, {headers})
             .then(function (response) {
@@ -19,6 +23,7 @@ app.factory('KnowledgeFileService', function ($http) {
             });
         },
 
+        // API: restore knowledge file
         restoreKnowledgeFile: function (knowledgefile, headers, callback) {
             $http.get(getAPI() + 'knowledgefiles/' + knowledgefile.id + '/restore', {headers})
             .then(function (response) {
@@ -28,6 +33,7 @@ app.factory('KnowledgeFileService', function ($http) {
             });
         },
 
+        // DELETE knowledge file
         deleteKnowledgeFile: function (knowledgefile, headers, callback) {
             $http.delete(getAPI() + 'knowledgefiles/' + knowledgefile.id, {headers})
             .then(function (response) {

@@ -1,5 +1,7 @@
 'use strict';
 
+// Store Sensor controller - drag-and-drop sensor binding
+
 app.controller('StoreSensorController', function (
     $scope,
     $rootScope,
@@ -18,6 +20,7 @@ app.controller('StoreSensorController', function (
     $scope.isStoreSelected = false;
     $scope.storesensors = [];
 
+    // Load all sensors from API
     $scope.getAllSensors = function () {
         let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
         SensorService.getAllSensors(headers, function (response) {
@@ -34,6 +37,7 @@ app.controller('StoreSensorController', function (
         });
     };
 
+    // Load sensors by store id
     $scope.getSensorsByStoreID = function (id) {
         let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
         StoreSensorService.getSensorsByStoreID(id, headers, function (response) {
@@ -47,6 +51,7 @@ app.controller('StoreSensorController', function (
         });
     };
 
+    // Handle store change
     $scope.changeStore = function(item, model) {
         $scope.currentStore = item;
         $scope.currentStore.selected = model;
@@ -58,6 +63,7 @@ app.controller('StoreSensorController', function (
         }
     };
 
+    // Load all stores from API
     $scope.getAllStores = function () {
         let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
         StoreService.getAllStores(headers, function (response) {
@@ -69,6 +75,7 @@ app.controller('StoreSensorController', function (
         });
     };
 
+    // Bind sensor via drag-and-drop
     $scope.pairSensor = function (dragEl, dropEl) {
         if (!$scope.isStoreSelected || !$scope.currentStore || !$scope.currentStore.id) {
             DragDropWarningService.showWarning("SETTING.PLEASE_SELECT_STORE_FIRST");
@@ -97,6 +104,7 @@ app.controller('StoreSensorController', function (
         });
     };
 
+    // Unbind sensor via drag-to-trash
     $scope.deleteSensorPair = function (dragEl, dropEl) {
         if (angular.element('#' + dragEl).hasClass('source')) {
             return;

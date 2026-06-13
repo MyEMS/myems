@@ -1,5 +1,7 @@
 'use strict';
 
+// Gateway controller - CRUD and settings management
+
 app.controller('GatewayController', function($scope,
 	$rootScope,
 	$window,
@@ -12,6 +14,7 @@ app.controller('GatewayController', function($scope,
 	$scope.exportdata = '';
 	$scope.importdata = '';
 
+	// Load all gateways from API
 	$scope.getAllGateways = function() {
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 		GatewayService.getAllGateways(headers, function (response) {
@@ -25,6 +28,7 @@ app.controller('GatewayController', function($scope,
 	};
 
         let searchDebounceTimer = null;
+        // Search gateways by keyword
         $scope.searchGateways = function() {
                 let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
                 const rawKeyword = $scope.searchKeyword || "";
@@ -47,6 +51,7 @@ app.controller('GatewayController', function($scope,
                 }, 300);
         };
 
+	// Open add modal and create gateway
 	$scope.addGateway = function() {
 		var modalInstance = $uibModal.open({
 			templateUrl: 'views/settings/gateway/gateway.model.html',
@@ -87,6 +92,7 @@ app.controller('GatewayController', function($scope,
 		$rootScope.modalInstance = modalInstance;
 	};
 
+	// Open edit modal and update gateway
 	$scope.editGateway = function(gateway) {
 		var modalInstance = $uibModal.open({
 			windowClass: "animated fadeIn",
@@ -129,6 +135,7 @@ app.controller('GatewayController', function($scope,
 		$rootScope.modalInstance = modalInstance;
 	};
 
+	// Confirm and delete gateway
 	$scope.deleteGateway = function(gateway) {
 		SweetAlert.swal({
 			title: $translate.instant("SWEET.TITLE"),
@@ -167,6 +174,7 @@ app.controller('GatewayController', function($scope,
 		});
 	};
 
+	// Export gateway as JSON
 	$scope.exportGateway = function(gateway) {
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 		GatewayService.exportGateway(gateway, headers, function(response) {
@@ -196,6 +204,7 @@ app.controller('GatewayController', function($scope,
 		});
 	};
 
+	// Clone an existing gateway
 	$scope.cloneGateway = function(gateway){
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 		GatewayService.cloneGateway(gateway, headers, function(response) {
@@ -219,6 +228,7 @@ app.controller('GatewayController', function($scope,
 		});
 	};
 
+	// Import gateway from JSON
 	$scope.importGateway = function() {
 		var modalInstance = $uibModal.open({
 			templateUrl: 'views/common/import.html',
@@ -260,6 +270,7 @@ app.controller('GatewayController', function($scope,
 		$rootScope.modalInstance = modalInstance;
 	};
 
+    // Copy gateway token to clipboard
     $scope.copyToClipboardGateway = function (gateway) {
         let tempInput = document.createElement("input");
         tempInput.value = gateway.token;
@@ -278,6 +289,7 @@ app.controller('GatewayController', function($scope,
 	$scope.getAllGateways();
 });
 
+// Modal controller for add dialog
 app.controller('ModalAddGatewayCtrl', function($scope, $uibModalInstance, params) {
 
 	$scope.operation = "GATEWAY.ADD_GATEWAY";
@@ -290,6 +302,7 @@ app.controller('ModalAddGatewayCtrl', function($scope, $uibModalInstance, params
 	};
 });
 
+// Modal controller for edit dialog
 app.controller('ModalEditGatewayCtrl', function($scope, $uibModalInstance, params) {
 	$scope.operation = "GATEWAY.EDIT_GATEWAY";
 	$scope.gateway = params.gateway;

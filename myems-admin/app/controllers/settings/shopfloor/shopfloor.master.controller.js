@@ -1,5 +1,7 @@
 'use strict';
 
+// Shop Floor master controller - coordinates tab events between child controllers
+
 var SHOPFLOOR_TAB_INDEXES = {
     SHOPFLOOR: 0,
     BIND_METER: 1,
@@ -14,6 +16,7 @@ app.controller('ShopfloorMasterController', function($scope, $timeout) {
     $scope.TAB_INDEXES = SHOPFLOOR_TAB_INDEXES;
     $scope.activeTabIndex = SHOPFLOOR_TAB_INDEXES.SHOPFLOOR;
 
+    // Handle tab selection
     $scope.handleTabSelect = function(tabIndex) {
         $scope.activeTabIndex = tabIndex;
         $timeout(function() {

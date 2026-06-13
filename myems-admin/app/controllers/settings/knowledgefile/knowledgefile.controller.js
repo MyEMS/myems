@@ -1,5 +1,7 @@
 'use strict';
 
+// Knowledge File controller - CRUD and settings management
+
 app.controller('KnowledgeFileController', function (
     $scope,
 	$window,
@@ -10,6 +12,7 @@ app.controller('KnowledgeFileController', function (
 
     $scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
 
+    // Load all knowledge files from API
     $scope.getAllKnowledgeFiles = function () {
         let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
         KnowledgeFileService.getAllKnowledgeFiles(headers, function (response) {
@@ -74,6 +77,7 @@ app.controller('KnowledgeFileController', function (
         });
     };
 
+    // Confirm and delete knowledge file
     $scope.deleteKnowledgeFile = function (knowledgefile) {
         SweetAlert.swal({
             title: $translate.instant("SWEET.TITLE"),

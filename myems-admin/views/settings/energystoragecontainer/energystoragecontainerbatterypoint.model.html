@@ -1,4 +1,6 @@
+<!-- Modal dialog for binding points to Energy Storage Container Battery Point -->
 <div class="inmodal">
+    <!-- Modal header -->
     <div class="modal-header">
         <h4 class="modal-title">{{operation | translate}}(ID:{{energystoragecontainerbattery.id}})</h4>
     </div>
@@ -9,6 +11,7 @@
                     <div class="panel-heading">
                         {{energystoragecontainerbattery.name}}{{'SETTING.N_S_POINT' | translate}}
                     </div>
+                    <!-- Bound points drop zone -->
                     <div class="panel-body" x-hjc-drop-target="true" x-on-drop="pairPoint(dragEl,dropEl)"
                         uib-tooltip="{{'SETTING.DRAG_TO_UNBIND' | translate}}">
                         <div class="btn btn-primary btn-rounded btn-block"
@@ -23,6 +26,7 @@
                         {{'SETTING.TRASH' | translate}}
                     </div>
                     <div class="panel-body trash">
+                        <!-- Trash zone for unbinding points -->
                         <img class="trashcan" src="img/trashcan.png" x-hjc-drop-target="true"
                             x-on-drop="deletePointPair(dragEl,dropEl)">
                     </div>
@@ -37,6 +41,7 @@
                     </div>
                     <div class="panel-body" slim-scroll box-height="600px"
                         uib-tooltip="{{'SETTING.DRAG_TO_BIND' | translate}}">
+                        <!-- Energy Storage Container Battery Point form fields -->
                         <form role="form">
                             <div class="form-group no-margin">
                                 <label>{{'DATA_SOURCE.SELECT_DATA_SOURCE' | translate}}</label>
@@ -60,6 +65,7 @@
             </div>
         </div>
     </div>
+    <!-- Modal action buttons -->
     <div class="modal-footer">
         <button type="button" class="btn btn-white" ng-click="cancel()">{{'SETTING.OK' | translate}}</button>
     </div>

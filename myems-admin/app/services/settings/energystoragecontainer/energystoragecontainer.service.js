@@ -1,6 +1,9 @@
 "use strict";
+
+// Energy Storage Container service - REST API wrapper
 app.factory("EnergyStorageContainerService", function ($http) {
   return {
+        // GET all energy storage containers
     getAllEnergyStorageContainers: function (headers, callback) {
       $http.get(getAPI() + "energystoragecontainers", { headers }).then(
         function (response) {
@@ -11,6 +14,7 @@ app.factory("EnergyStorageContainerService", function ($http) {
         }
       );
     },
+        // Search energy storage containers by query
     searchEnergyStorageContainers: function(query, headers, callback) {
         $http.get(getAPI()+'energystoragecontainers', { params: { q: query },headers: headers })
         .then(function (response) {
@@ -19,6 +23,7 @@ app.factory("EnergyStorageContainerService", function ($http) {
             callback(response);
         });
     },
+        // POST create energy storage container
     addEnergyStorageContainer: function (
       energystoragecontainer,
       headers,
@@ -39,6 +44,7 @@ app.factory("EnergyStorageContainerService", function ($http) {
           }
         );
     },
+        // PUT update energy storage container
     editEnergyStorageContainer: function (
       energystoragecontainer,
       headers,
@@ -59,6 +65,7 @@ app.factory("EnergyStorageContainerService", function ($http) {
           }
         );
     },
+        // DELETE energy storage container
     deleteEnergyStorageContainer: function (
       energystoragecontainer,
       headers,
@@ -78,6 +85,7 @@ app.factory("EnergyStorageContainerService", function ($http) {
           }
         );
     },
+        // GET export energy storage container
     exportEnergyStorageContainer: function (
       energystoragecontainer, 
       headers, 
@@ -97,6 +105,7 @@ app.factory("EnergyStorageContainerService", function ($http) {
           }
         );
     },
+        // POST import energy storage container
     importEnergyStorageContainer: function(
       importdata, 
       headers, 
@@ -114,6 +123,7 @@ app.factory("EnergyStorageContainerService", function ($http) {
           callback(response);
       });
    },
+        // POST clone energy storage container
    cloneEnergyStorageContainer: function(energystoragecontainer, headers, callback) {
             $http.post(getAPI()+'energystoragecontainers/'+energystoragecontainer.id+'/clone', 
               {data:null}, 

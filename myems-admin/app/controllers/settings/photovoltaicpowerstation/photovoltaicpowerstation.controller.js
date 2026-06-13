@@ -1,5 +1,7 @@
 'use strict';
 
+// Photovoltaic Power Station controller - CRUD and settings management
+
 app.controller('PhotovoltaicPowerStationController', function(
     $scope,
     $rootScope,
@@ -16,6 +18,7 @@ app.controller('PhotovoltaicPowerStationController', function(
 	$scope.exportdata = '';
 	$scope.importdata = '';
 
+	// Load all contacts from API
 	$scope.getAllContacts = function() {
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token};
 		ContactService.getAllContacts(headers, function (response) {
@@ -27,6 +30,7 @@ app.controller('PhotovoltaicPowerStationController', function(
 		});
 	};
 
+	// Load all cost centers from API
 	$scope.getAllCostCenters = function() {
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 		CostCenterService.getAllCostCenters(headers, function (response) {
@@ -38,6 +42,7 @@ app.controller('PhotovoltaicPowerStationController', function(
 		});
 	};
 
+	// Load all sv gs from API
 	$scope.getAllSVGs = function() {
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token, "Quickmode": 'true'  };
 		SVGService.getAllSVGs(headers, function (response) {
@@ -49,6 +54,7 @@ app.controller('PhotovoltaicPowerStationController', function(
 		});
 	};
 
+	// Load all photovoltaic power stations from API
 	$scope.getAllPhotovoltaicPowerStations = function() {
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 		PhotovoltaicPowerStationService.getAllPhotovoltaicPowerStations(headers, function (response) {
@@ -61,6 +67,7 @@ app.controller('PhotovoltaicPowerStationController', function(
 	};
 
         let searchDebounceTimer = null;
+        // Search photovoltaic power stations by keyword
         $scope.searchPhotovoltaicPowerStations = function() {
                 let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
                 const rawKeyword = $scope.searchKeyword || "";
@@ -83,6 +90,7 @@ app.controller('PhotovoltaicPowerStationController', function(
                 }, 300);
         };
 
+	// Load all phase of lifecycles from API
 	$scope.getAllPhaseOfLifecycles = function() {
 		$scope.phaseoflifecycles = [
 			{"code":"1use", "name": $translate.instant("PHOTOVOLTAIC_POWER_STATION.PHASE_1USE")},
@@ -90,6 +98,7 @@ app.controller('PhotovoltaicPowerStationController', function(
 			{"code":"3installation", "name": $translate.instant("PHOTOVOLTAIC_POWER_STATION.PHASE_3INSTALLATION")}
 		];
 	};
+	// Open add modal and create photovoltaic power station
 	$scope.addPhotovoltaicPowerStation = function() {
 		var modalInstance = $uibModal.open({
 			templateUrl: 'views/settings/photovoltaicpowerstation/photovoltaicpowerstation.model.html',
@@ -135,6 +144,7 @@ app.controller('PhotovoltaicPowerStationController', function(
 		$rootScope.modalInstance = modalInstance;
 	};
 
+	// Open edit modal and update photovoltaic power station
 	$scope.editPhotovoltaicPowerStation = function(photovoltaicpowerstation) {
 		var modalInstance = $uibModal.open({
 			windowClass: "animated fadeIn",
@@ -183,6 +193,7 @@ app.controller('PhotovoltaicPowerStationController', function(
 		$rootScope.modalInstance = modalInstance;
 	};
 
+	// Confirm and delete photovoltaic power station
 	$scope.deletePhotovoltaicPowerStation=function(photovoltaicpowerstation){
 		SweetAlert.swal({
       title: $translate.instant("SWEET.TITLE"),
@@ -220,6 +231,7 @@ app.controller('PhotovoltaicPowerStationController', function(
     });
 	};
 
+	// Export photovoltaic power station as JSON
 	$scope.exportPhotovoltaicPowerStation = function(photovoltaicpowerstation) {
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 		PhotovoltaicPowerStationService.exportPhotovoltaicPowerStation(photovoltaicpowerstation, headers, function(response) {
@@ -249,6 +261,7 @@ app.controller('PhotovoltaicPowerStationController', function(
 		});
 	};
 
+	// Clone an existing photovoltaic power station
 	$scope.clonePhotovoltaicPowerStation = function(photovoltaicpowerstation){
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 		PhotovoltaicPowerStationService.clonePhotovoltaicPowerStation(photovoltaicpowerstation, headers, function(response) {
@@ -271,6 +284,7 @@ app.controller('PhotovoltaicPowerStationController', function(
 		});
 	};
 
+	// Import photovoltaic power station from JSON
 	$scope.importPhotovoltaicPowerStation = function() {
 		var modalInstance = $uibModal.open({
 			templateUrl: 'views/common/import.html',
@@ -319,6 +333,7 @@ app.controller('PhotovoltaicPowerStationController', function(
 	});
 });
 
+// Modal controller for add dialog
 app.controller('ModalAddPhotovoltaicPowerStationCtrl', function($scope, $uibModalInstance,params) {
 	$scope.operation = "SETTING.ADD_PHOTOVOLTAIC_POWER_STATION";
 	$scope.costcenters=params.costcenters;
@@ -337,6 +352,7 @@ app.controller('ModalAddPhotovoltaicPowerStationCtrl', function($scope, $uibModa
 	};
 });
 
+// Modal controller for edit dialog
 app.controller('ModalEditPhotovoltaicPowerStationCtrl', function($scope, $uibModalInstance, params) {
 	$scope.operation = "SETTING.EDIT_PHOTOVOLTAIC_POWER_STATION";
 	$scope.photovoltaicpowerstation = params.photovoltaicpowerstation;

@@ -1,5 +1,7 @@
 'use strict';
 
+// Combined Equipment Equipment controller - drag-and-drop equipment binding
+
 app.controller('CombinedEquipmentEquipmentController', function (
     $scope,
     $window,
@@ -15,6 +17,7 @@ app.controller('CombinedEquipmentEquipmentController', function (
     $scope.currentCombinedEquipment = {selected:undefined};
     $scope.isCombinedEquipmentSelected = false;
 
+    // Load all equipments from API
     $scope.getAllEquipments = function () {
         let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
         EquipmentService.getAllEquipments(headers, function (response) {
@@ -34,6 +37,7 @@ app.controller('CombinedEquipmentEquipmentController', function (
         });
     };
 
+    // Load equipments by combined equipment id
     $scope.getEquipmentsByCombinedEquipmentID = function (id) {
         let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
         CombinedEquipmentEquipmentService.getEquipmentsByCombinedEquipmentID(id, headers, function (response) {
@@ -47,6 +51,7 @@ app.controller('CombinedEquipmentEquipmentController', function (
         });
     };
 
+  // Handle combined equipment change
   $scope.changeCombinedEquipment=function(item,model){
   	$scope.currentCombinedEquipment=item;
   	$scope.currentCombinedEquipment.selected=model;
@@ -58,6 +63,7 @@ app.controller('CombinedEquipmentEquipmentController', function (
   	}
   };
 
+  // Load all combined equipments from API
   $scope.getAllCombinedEquipments = function () {
     let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
     CombinedEquipmentService.getAllCombinedEquipments(headers, function (response) {
@@ -69,6 +75,7 @@ app.controller('CombinedEquipmentEquipmentController', function (
     });
   };
 
+    // Bind equipment via drag-and-drop
     $scope.pairEquipment = function (dragEl, dropEl) {
         if (!$scope.isCombinedEquipmentSelected || !$scope.currentCombinedEquipment || !$scope.currentCombinedEquipment.id) {
             DragDropWarningService.showWarning("SETTING.PLEASE_SELECT_COMBINED_EQUIPMENT_FIRST");
@@ -98,6 +105,7 @@ app.controller('CombinedEquipmentEquipmentController', function (
         });
     };
 
+    // Unbind equipment via drag-to-trash
     $scope.deleteEquipmentPair = function (dragEl, dropEl) {
         if (angular.element('#' + dragEl).hasClass('source')) {
             return;
@@ -133,6 +141,7 @@ app.controller('CombinedEquipmentEquipmentController', function (
 
     $scope.tabInitialized = false;
 
+    // Initialize tab
     $scope.initTab = function() {
         if (!$scope.tabInitialized) {
             $scope.tabInitialized = true;

@@ -1,5 +1,7 @@
 'use strict';
 
+// Space Photovoltaic Power Station controller - CRUD and settings management
+
 app.controller('SpacePhotovoltaicPowerStationController', function(
     $scope,
     $window,
@@ -20,6 +22,7 @@ app.controller('SpacePhotovoltaicPowerStationController', function(
     $scope.tabInitialized = false;
     $scope.isSpaceSelected = false;
 
+    // Load all spaces from API
     $scope.getAllSpaces = function() {
     let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
     SpaceService.getAllSpaces(headers, function (response) {
@@ -64,6 +67,7 @@ app.controller('SpacePhotovoltaicPowerStationController', function(
     });
     };
 
+	// Load photovoltaic power stations by space id
 	$scope.getPhotovoltaicPowerStationsBySpaceID = function(id) {
 	if ($scope.isLoadingPhotovoltaicpowerstations) return;
 	$scope.isLoadingPhotovoltaicpowerstations = true;
@@ -94,6 +98,7 @@ app.controller('SpacePhotovoltaicPowerStationController', function(
         });
     };
 
+	// Load all photovoltaic power stations from API
 	$scope.getAllPhotovoltaicPowerStations = function() {
         let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 		PhotovoltaicPowerStationService.getAllPhotovoltaicPowerStations(headers, function (response) {
@@ -106,6 +111,7 @@ app.controller('SpacePhotovoltaicPowerStationController', function(
 		});
 	};
 
+	// Bind photovoltaic power station via drag-and-drop
 	$scope.pairPhotovoltaicPowerStation=function(dragEl,dropEl){
 		var photovoltaicpowerstationid=angular.element('#'+dragEl).scope().photovoltaicpowerstation.id;
 		var spaceid=angular.element(spacetreewithphotovoltaicpowerstation).jstree(true).get_top_selected();
@@ -130,6 +136,7 @@ app.controller('SpacePhotovoltaicPowerStationController', function(
 		});
 	};
 
+	// Unbind photovoltaic power station via drag-to-trash
 	$scope.deletePhotovoltaicPowerStationPair=function(dragEl,dropEl){
 		if(angular.element('#'+dragEl).hasClass('source')){
 			return;
@@ -157,6 +164,7 @@ app.controller('SpacePhotovoltaicPowerStationController', function(
 		});
 	};
 
+    // Initialize tab
     $scope.initTab = function() {
         if (!$scope.tabInitialized) {
             $scope.tabInitialized = true;
@@ -183,6 +191,7 @@ app.controller('SpacePhotovoltaicPowerStationController', function(
         }
     }, 0);
 
+  // Refresh space tree
   $scope.refreshSpaceTree = function() {
     let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
     SpaceService.getAllSpaces(headers, function (response) {

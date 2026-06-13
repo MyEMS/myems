@@ -1,5 +1,7 @@
 'use strict';
 
+// Energy Flow Diagram Link controller - CRUD and settings management
+
 app.controller('EnergyFlowDiagramLinkController', function(
 	$scope,
 	$rootScope,
@@ -24,6 +26,7 @@ app.controller('EnergyFlowDiagramLinkController', function(
     $scope.virtualmeters = [];
     $scope.mergedMeters = [];
 	  $scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
+	  // Load all energy flow diagrams from API
 	  $scope.getAllEnergyFlowDiagrams = function() {
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 		EnergyFlowDiagramService.getAllEnergyFlowDiagrams(headers, function (response) {
@@ -35,6 +38,7 @@ app.controller('EnergyFlowDiagramLinkController', function(
 		});
 	};
 
+	// Handle energy flow diagram change
 	$scope.changeEnergyFlowDiagram=function(item,model){
 		$scope.currentEnergyFlowDiagram=item;
 		$scope.currentEnergyFlowDiagram.selected=model;
@@ -43,6 +47,7 @@ app.controller('EnergyFlowDiagramLinkController', function(
     	$scope.getNodesByEnergyFlowDiagramID($scope.currentEnergyFlowDiagram.id);
 	};
 
+	// Load links by energy flow diagram id
 	$scope.getLinksByEnergyFlowDiagramID = function(id) {
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 		EnergyFlowDiagramLinkService.getLinksByEnergyFlowDiagramID(id, headers, function (response) {
@@ -55,6 +60,7 @@ app.controller('EnergyFlowDiagramLinkController', function(
 		});
 	};
 
+	// Load nodes by energy flow diagram id
 	$scope.getNodesByEnergyFlowDiagramID = function(id) {
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 		EnergyFlowDiagramNodeService.getNodesByEnergyFlowDiagramID(id, headers, function (response) {
@@ -66,6 +72,7 @@ app.controller('EnergyFlowDiagramLinkController', function(
 		});
 	};
 
+	// Open add modal and create energy flow diagram link
 	$scope.addEnergyFlowDiagramLink = function() {
 
 		var modalInstance = $uibModal.open({
@@ -118,6 +125,7 @@ app.controller('EnergyFlowDiagramLinkController', function(
 		$rootScope.modalInstance = modalInstance;
 	};
 
+	// Open edit modal and update energy flow diagram link
 	$scope.editEnergyFlowDiagramLink = function(energyflowdiagramlink) {
 		var modalInstance = $uibModal.open({
 			templateUrl: 'views/settings/energyflowdiagram/energyflowdiagramlink.model.html',
@@ -170,6 +178,7 @@ app.controller('EnergyFlowDiagramLinkController', function(
 		$rootScope.modalInstance = modalInstance;
 	};
 
+	// Confirm and delete energy flow diagram link
 	$scope.deleteEnergyFlowDiagramLink = function(energyflowdiagramlink) {
 		SweetAlert.swal({
 				title: $translate.instant("SWEET.TITLE"),
@@ -208,6 +217,7 @@ app.controller('EnergyFlowDiagramLinkController', function(
 			});
 	};
 
+	// Return CSS class for meter type
 	$scope.colorMeterType=function(type){
 		if(type=='meters'){
 			return 'btn-primary'
@@ -227,6 +237,7 @@ app.controller('EnergyFlowDiagramLinkController', function(
 		}
 	};
 
+	// Load merged meters from API
 	$scope.getMergedMeters = function() {
 		$scope.mergedmeters = [];
 		$scope.meters = [];
@@ -282,6 +293,7 @@ app.controller('EnergyFlowDiagramLinkController', function(
 	});
 });
 
+// Modal controller for add dialog
 app.controller('ModalAddEnergyFlowDiagramLinkCtrl', function($scope, $uibModalInstance, params) {
 
 	$scope.operation = "ENERGY_FLOW_DIAGRAM.ADD_LINK";
@@ -301,6 +313,7 @@ app.controller('ModalAddEnergyFlowDiagramLinkCtrl', function($scope, $uibModalIn
 	};
 });
 
+// Modal controller for edit dialog
 app.controller('ModalEditEnergyFlowDiagramLinkCtrl', function($scope, $uibModalInstance, params) {
 	$scope.operation = "ENERGY_FLOW_DIAGRAM.EDIT_LINK";
 	$scope.energyflowdiagramlink = params.energyflowdiagramlink;

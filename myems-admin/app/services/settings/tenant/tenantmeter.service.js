@@ -1,6 +1,9 @@
 'use strict';
+
+// Tenant Meter service - REST API wrapper
 app.factory('TenantMeterService', function($http) {
     return {
+        // POST create pair
         addPair: function(tenantID, meterID, metertype, headers, callback) {
             var meter={};
             if(metertype=='meters'){
@@ -19,6 +22,7 @@ app.factory('TenantMeterService', function($http) {
             });
         },
 
+        // DELETE pair
         deletePair: function(tenantID, meterID, metertype, headers, callback) {
             $http.delete(getAPI()+'tenants/'+tenantID+'/'+metertype+'/'+meterID, {headers})
             .then(function (response) {
@@ -27,6 +31,7 @@ app.factory('TenantMeterService', function($http) {
                 callback(response);
             });
         },
+        // GET meters by tenant id by ID
         getMetersByTenantID: function(id, metertype, headers, callback) {
             $http.get(getAPI()+'tenants/'+id+'/'+metertype, {headers})
             .then(function (response) {

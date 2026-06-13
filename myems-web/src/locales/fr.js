@@ -328,6 +328,7 @@ export default {
         'Per Unit Area': 'Par unité de surface',
         'Per Capita': 'Per Capita',
         'Per Unit Production': 'Production unitaire',
+        'Comprehensive Unit Price': 'Prix unitaire moyen',
         Baseline: 'Ligne de base',
         Actual: 'Effective',
         'Baseline Value - Actual Value': 'Ligne de base - Effective',

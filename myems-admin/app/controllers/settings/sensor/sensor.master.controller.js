@@ -1,5 +1,7 @@
 'use strict';
 
+// Sensor master controller - coordinates tab events between child controllers
+
 var SENSOR_TAB_INDEXES = {
 	SENSOR: 0,
 	BIND_POINT: 1
@@ -9,6 +11,7 @@ app.controller('SensorMasterController', function($scope, $timeout) {
 	$scope.TAB_INDEXES = SENSOR_TAB_INDEXES;
 	$scope.activeTabIndex = SENSOR_TAB_INDEXES.SENSOR;
 
+	// Handle tab selection
 	$scope.handleTabSelect = function(tabIndex) {
 		$scope.activeTabIndex = tabIndex;
 		$timeout(function() {

@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useState, useContext } from 'react';
+import React, { Fragment, useEffect, useState, useContext, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import {
   Breadcrumb,
@@ -27,6 +27,7 @@ import withRedirect from '../../../hoc/withRedirect';
 import { withTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
 import ButtonIcon from '../../common/ButtonIcon';
+import DeepSeekAnalysisModal from '../common/DeepSeekAnalysisModal';
 import { APIBaseURL, settings } from '../../../config';
 import DateRangePickerWrapper from '../common/DateRangePickerWrapper';
 import { endOfDay } from 'date-fns';
@@ -158,6 +159,8 @@ const Invoice = ({ setRedirect, setRedirectUrl, t }) => {
   const [submitButtonDisabled, setSubmitButtonDisabled] = useState(true);
   const [spinnerHidden, setSpinnerHidden] = useState(true);
   const [exportButtonHidden, setExportButtonHidden] = useState(true);
+  const [smartAnalysisOpen, setSmartAnalysisOpen] = useState(false);
+  const [smartAnalysisContext, setSmartAnalysisContext] = useState(null);
   const [resultDataHidden, setResultDataHidden] = useState(true);
   //Results
   const [invoice, setInvoice] = useState(undefined);
@@ -441,6 +444,76 @@ const Invoice = ({ setRedirect, setRedirectUrl, t }) => {
       });
   };
 
+  const buildSmartAnalysisContext = useCallback(() => {
+    const tenantLabel =
+      tenantList.find(x => String(x.value) === String(selectedTenant))?.label ?? null;
+    const spaceDisplayName = Array.isArray(selectedSpaceName)
+      ? selectedSpaceName.join('/')
+      : selectedSpaceName ?? null;
+    return {
+      reportType: 'tenant_bill',
+      reportTitle: t('Tenant Bill'),
+      space: { name: spaceDisplayName },
+      tenant: {
+        id: selectedTenant,
+        name: tenantLabel
+      },
+      reportingPeriod: {
+        start: reportingPeriodDateRange[0]
+          ? moment(reportingPeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss')
+          : null,
+        end: reportingPeriodDateRange[1]
+          ? moment(reportingPeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss')
+          : null
+      },
+      billSummary: invoice
+        ? {
+            institution: invoice.institution,
+            leaseNumber: invoice.summary?.lease_number,
+            billNumber: invoice.summary?.invoice_no,
+            billDate: invoice.summary?.invoice_date,
+            paymentDueDate: invoice.summary?.payment_due,
+            amountDue: invoice.summary?.amount_due,
+            currency: invoice.currency,
+            tenantName: invoice.user?.name,
+            email: invoice.user?.email,
+            phone: invoice.user?.cell
+          }
+        : null,
+      billLineItems: (invoice?.products || []).slice(0, 50).map(product => ({
+        name: product.name,
+        unit: product.unit,
+        startdate: product.startdate,
+        enddate: product.enddate,
+        quantity: product.subtotalinput,
+        amount: product.subtotalcost
+      })),
+      billingTotals: {
+        subtotal,
+        taxRate,
+        tax,
+        total,
+        currency: invoice?.currency ?? null
+      }
+    };
+  }, [
+    t,
+    selectedSpaceName,
+    selectedTenant,
+    tenantList,
+    reportingPeriodDateRange,
+    invoice,
+    subtotal,
+    taxRate,
+    tax,
+    total
+  ]);
+
+  const openSmartAnalysis = () => {
+    setSmartAnalysisContext(buildSmartAnalysisContext());
+    setSmartAnalysisOpen(true);
+  };
+
   return (
     <Fragment>
       <div>
@@ -537,6 +610,19 @@ const Invoice = ({ setRedirect, setRedirectUrl, t }) => {
                   {t('Export')}
                 </ButtonIcon>
               </Col>
+              {settings.enableAIAnalysis ? (
+                <Col xs="auto">
+                  <br />
+                  <Button
+                    color="falcon-default"
+                    size="sm"
+                    hidden={exportButtonHidden}
+                    onClick={openSmartAnalysis}
+                  >
+                    {t('AI Analysis')}
+                  </Button>
+                </Col>
+              ) : null}
             </Row>
           </Form>
         </CardBody>
@@ -661,6 +747,16 @@ const Invoice = ({ setRedirect, setRedirectUrl, t }) => {
           }
         </Card>
       </div>
+      {settings.enableAIAnalysis ? (
+        <DeepSeekAnalysisModal
+          isOpen={smartAnalysisOpen}
+          toggle={() => setSmartAnalysisOpen(false)}
+          language={language}
+          reportContext={smartAnalysisContext}
+          setRedirect={setRedirect}
+          setRedirectUrl={setRedirectUrl}
+        />
+      ) : null}
     </Fragment>
   );
 };

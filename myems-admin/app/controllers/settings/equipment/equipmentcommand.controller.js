@@ -1,5 +1,7 @@
 'use strict';
 
+// Equipment Command controller - drag-and-drop command binding
+
 app.controller('EquipmentCommandController', function (
     $scope,
     $window,
@@ -13,6 +15,7 @@ app.controller('EquipmentCommandController', function (
     $scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
     $scope.currentEquipment = {selected:undefined};
     $scope.isEquipmentSelected = false;
+    // Load all commands from API
     $scope.getAllCommands = function() {
         let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 		CommandService.getAllCommands(headers, function (response) {
@@ -26,6 +29,7 @@ app.controller('EquipmentCommandController', function (
 		});
 	};
 
+    // Load commands by equipment id
     $scope.getCommandsByEquipmentID = function (id) {
         let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
         EquipmentCommandService.getCommandsByEquipmentID(id, headers, function (response) {
@@ -53,6 +57,7 @@ app.controller('EquipmentCommandController', function (
         });
     };
 
+    // Handle equipment change
     $scope.changeEquipment=function(item,model){
   	  $scope.currentEquipment=item;
   	  $scope.currentEquipment.selected=model;
@@ -66,6 +71,7 @@ app.controller('EquipmentCommandController', function (
   	  }
     };
 
+    // Load all equipments from API
     $scope.getAllEquipments = function () {
         let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
         EquipmentService.getAllEquipments(headers, function (response) {
@@ -81,6 +87,7 @@ app.controller('EquipmentCommandController', function (
 
     };
 
+    // Bind command via drag-and-drop
     $scope.pairCommand = function (dragEl, dropEl) {
         if (!$scope.isEquipmentSelected || !$scope.currentEquipment || !$scope.currentEquipment.id) {
             DragDropWarningService.showWarning("SETTING.PLEASE_SELECT_EQUIPMENT_FIRST");
@@ -109,6 +116,7 @@ app.controller('EquipmentCommandController', function (
         });
     };
 
+    // Unbind command via drag-to-trash
     $scope.deleteCommandPair = function (dragEl, dropEl) {
         if (angular.element('#' + dragEl).hasClass('source')) {
             return;
@@ -142,6 +150,7 @@ app.controller('EquipmentCommandController', function (
 
     $scope.tabInitialized = false;
 
+    // Initialize tab
     $scope.initTab = function() {
         if (!$scope.tabInitialized) {
             $scope.tabInitialized = true;

@@ -1,5 +1,7 @@
 'use strict';
 
+// Meter Command controller - drag-and-drop meter binding
+
 app.controller('MeterCommandController', function (
     $scope,
     $window,
@@ -13,6 +15,7 @@ app.controller('MeterCommandController', function (
     $scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
     $scope.currentMeter = {selected:undefined};
     $scope.isMeterSelected = false;
+    // Load all commands from API
     $scope.getAllCommands = function() {
         let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 		CommandService.getAllCommands(headers, function (response) {
@@ -26,6 +29,7 @@ app.controller('MeterCommandController', function (
 		});
 	};
 
+    // Load commands by meter id
     $scope.getCommandsByMeterID = function (id) {
         let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
         MeterCommandService.getCommandsByMeterID(id, headers, function (response) {
@@ -39,6 +43,7 @@ app.controller('MeterCommandController', function (
         });
     };
 
+    // Handle meter change
     $scope.changeMeter=function(item,model){
   	  $scope.currentMeter=item;
   	  $scope.currentMeter.selected=model;
@@ -52,6 +57,7 @@ app.controller('MeterCommandController', function (
   	  }
     };
 
+    // Load all meters from API
     $scope.getAllMeters = function () {
         let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
         MeterService.getAllMeters(headers, function (response) {
@@ -67,6 +73,7 @@ app.controller('MeterCommandController', function (
 
     };
 
+    // Bind command via drag-and-drop
     $scope.pairCommand = function (dragEl, dropEl) {
         if (!$scope.isMeterSelected || !$scope.currentMeter || !$scope.currentMeter.id) {
             DragDropWarningService.showWarning("SETTING.PLEASE_SELECT_METER_FIRST");
@@ -95,6 +102,7 @@ app.controller('MeterCommandController', function (
         });
     };
 
+    // Unbind command via drag-to-trash
     $scope.deleteCommandPair = function (dragEl, dropEl) {
         if (angular.element('#' + dragEl).hasClass('source')) {
             return;
@@ -128,6 +136,7 @@ app.controller('MeterCommandController', function (
 
     $scope.tabInitialized = false;
 
+    // Initialize tab
     $scope.initTab = function() {
         if (!$scope.tabInitialized) {
             $scope.tabInitialized = true;

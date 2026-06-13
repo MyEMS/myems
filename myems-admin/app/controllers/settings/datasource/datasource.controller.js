@@ -1,5 +1,7 @@
 'use strict';
 
+// Data Source controller - data source association
+
 app.controller('DataSourceController', function(
 	$scope,
 	$rootScope,
@@ -15,6 +17,7 @@ app.controller('DataSourceController', function(
 	$scope.exportdata = '';
 	$scope.importdata = '';
 	$scope.searchDataSourcesKeyword = '';
+	// Load all data sources from API
 	$scope.getAllDataSources = function() {
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 		DataSourceService.getAllDataSources(headers, function (response) {
@@ -27,6 +30,7 @@ app.controller('DataSourceController', function(
 
 	};
 
+	// Load all gateways from API
 	$scope.getAllGateways = function() {
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 		GatewayService.getAllGateways(headers, function (response) {
@@ -39,6 +43,7 @@ app.controller('DataSourceController', function(
 
 	};
 
+	// Load all protocols from API
 	$scope.getAllProtocols = function() {
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 		ProtocolService.getAllProtocols(headers, function (response) {
@@ -50,6 +55,7 @@ app.controller('DataSourceController', function(
 		});
 	};
 
+	// Open add modal and create data source
 	$scope.addDataSource = function() {
 		var modalInstance = $uibModal.open({
 			templateUrl: 'views/settings/datasource/datasource.model.html',
@@ -92,6 +98,7 @@ app.controller('DataSourceController', function(
 		$rootScope.modalInstance = modalInstance;
 	};
 
+	// Open edit modal and update data source
 	$scope.editDataSource = function(datasource) {
 		var modalInstance = $uibModal.open({
 			windowClass: "animated fadeIn",
@@ -135,6 +142,7 @@ app.controller('DataSourceController', function(
 		$rootScope.modalInstance = modalInstance;
 	};
 
+	// Confirm and delete data source
 	$scope.deleteDataSource = function(datasource) {
 		SweetAlert.swal({
 				title: $translate.instant("SWEET.TITLE"),
@@ -172,6 +180,7 @@ app.controller('DataSourceController', function(
 			});
 	};
 
+	// Export data source as JSON
 	$scope.exportDataSource = function(datasource) {
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 		DataSourceService.exportDataSource(datasource, headers, function(response) {
@@ -201,6 +210,7 @@ app.controller('DataSourceController', function(
 		});
 	};
 
+	// Clone an existing data source
 	$scope.cloneDataSource = function(datasource){
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 		DataSourceService.cloneDataSource(datasource, headers, function(response) {
@@ -223,6 +233,7 @@ app.controller('DataSourceController', function(
 		});
 	};
 
+	// Import data source from JSON
 	$scope.importDataSource = function() {
 		var modalInstance = $uibModal.open({
 			templateUrl: 'views/common/import.html',
@@ -269,6 +280,7 @@ app.controller('DataSourceController', function(
 			scope.$apply();
 		}
 	}
+	// Search data sources by keyword
 	$scope.searchDataSources = function() {
 		const headers = {
 			"User-UUID": $scope.cur_user?.uuid,
@@ -306,6 +318,7 @@ app.controller('DataSourceController', function(
 });
 
 
+// Modal controller for add dialog
 app.controller('ModalAddDataSourceCtrl', function($scope, $uibModalInstance, params) {
 
 	$scope.operation = "DATA_SOURCE.ADD_DATA_SOURCE";
@@ -321,6 +334,7 @@ app.controller('ModalAddDataSourceCtrl', function($scope, $uibModalInstance, par
 	};
 });
 
+// Modal controller for edit dialog
 app.controller('ModalEditDataSourceCtrl', function($scope, $uibModalInstance, params) {
 	$scope.operation = "DATA_SOURCE.EDIT_DATA_SOURCE";
 	$scope.gateways = params.gateways;

@@ -325,6 +325,7 @@ export default {
         'Per Unit Area': '单位面积值',
         'Per Capita': '人均值',
         'Per Unit Production': '单位产品值',
+        'Comprehensive Unit Price': '综合单价',
         Baseline: '基线值',
         Actual: '实际值',
         'Baseline Value - Actual Value': '基线值-实际值',

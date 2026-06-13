@@ -1,5 +1,7 @@
 'use strict';
 
+// Space Command controller - drag-and-drop command binding
+
 app.controller('SpaceCommandController', function(
     $scope,
     $window,
@@ -19,6 +21,7 @@ app.controller('SpaceCommandController', function(
     $scope.tabInitialized = false;
     $scope.isSpaceSelected = false;
 
+    // Load all spaces from API
     $scope.getAllSpaces = function() {
     let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
     SpaceService.getAllSpaces(headers, function (response) {
@@ -64,6 +67,7 @@ app.controller('SpaceCommandController', function(
     });
     };
 
+	// Load commands by space id
 	$scope.getCommandsBySpaceID = function(id) {
 	if ($scope.isLoadingCommands) return;
     $scope.isLoadingCommands = true;
@@ -94,6 +98,7 @@ app.controller('SpaceCommandController', function(
         });
     };
 
+	// Load all commands from API
 	$scope.getAllCommands = function() {
     let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 		CommandService.getAllCommands(headers, function (response) {
@@ -107,6 +112,7 @@ app.controller('SpaceCommandController', function(
 		});
 	};
 
+	// Bind command via drag-and-drop
 	$scope.pairCommand=function(dragEl,dropEl){
 		var commandid=angular.element('#'+dragEl).scope().command.id;
 		var spaceid=angular.element(spacetreewithcommand).jstree(true).get_top_selected();
@@ -131,6 +137,7 @@ app.controller('SpaceCommandController', function(
 		});
 	};
 
+	// Unbind command via drag-to-trash
 	$scope.deleteCommandPair=function(dragEl,dropEl){
 		if(angular.element('#'+dragEl).hasClass('source')){
 			return;
@@ -158,6 +165,7 @@ app.controller('SpaceCommandController', function(
 		});
 	};
 
+    // Initialize tab
     $scope.initTab = function() {
         if (!$scope.tabInitialized) {
             $scope.tabInitialized = true;
@@ -184,6 +192,7 @@ app.controller('SpaceCommandController', function(
         }
     }, 0);
 
+  // Refresh space tree
   $scope.refreshSpaceTree = function() {
     let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
     SpaceService.getAllSpaces(headers, function (response) {

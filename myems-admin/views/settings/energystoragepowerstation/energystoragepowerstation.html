@@ -1,8 +1,10 @@
+<!-- Energy Storage Power Station settings page -->
 <div class="wrapper wrapper-content" ng-controller="EnergyStoragePowerStationMasterController">
 	<div class="row">
 		<div class="col-lg-12">
 			<div class="tabs-container">
 				<uib-tabset>
+					<!-- Tab: Energy Storage Power Station -->
 					<uib-tab heading="{{'COMMON.ENERGY_STORAGE_POWER_STATION' | translate}}">
 						<div class="panel-body" ng-controller="EnergyStoragePowerStationController">
                                                         <div class="col-md-3">
@@ -15,13 +17,15 @@
 									class="fa fa-plus-circle"></i> {{'SETTING.IMPORT' | translate}}</a>
                                                         </div>
                                                         <div class="col-md-9">
-                                                            <input type="text" class="form-control m-b-xs"
-                                                                placeholder="{{'SETTING.SEARCH' | translate}}"
+                                                            <!-- Search input -->
+                                                                <input type="text" class="form-control m-b-xs"
+                                                                                                                                placeholder="{{'SETTING.SEARCH' | translate}}"
                                                                 ng-model="searchKeyword"
                                                                 ng-keyup="searchEnergystoragepowerstations()">
                                                         </div>
 							<br>
 							<br>
+							<!-- Energy Storage Power Station list table -->
 							<table class="footable table table-bordered table-hover" data-sort="true"
 								data-page-size="15">
 								<thead>
@@ -73,6 +77,7 @@
 							</table>
 						</div>
 					</uib-tab>
+					<!-- Tab: Bind Energy Storage Container -->
 					<uib-tab heading="{{'SETTING.BIND_ENERGY_STORAGE_CONTAINER' | translate}}">
 						<div class="panel-body" ng-controller="EnergyStoragePowerStationContainerController">
 							<div class="row">
@@ -148,6 +153,7 @@
 							</div>
 						</div>
 					</uib-tab>
+					<!-- Tab: Bind User -->
 					<uib-tab heading="{{'ENERGY_STORAGE_POWER_STATION.BIND_USER' | translate}}">
 						<div class="panel-body" ng-controller="EnergyStoragePowerStationUserController">
 							<div class="row">

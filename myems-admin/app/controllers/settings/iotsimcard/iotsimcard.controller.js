@@ -1,5 +1,7 @@
 'use strict';
 
+// IoT SIM Card controller - CRUD and settings management
+
 app.controller('IoTSIMCardController', function(
     $scope,
     $rootScope,
@@ -11,6 +13,7 @@ app.controller('IoTSIMCardController', function(
     SweetAlert) {
 
 	$scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
+	// Load all io tsim cards from API
 	$scope.getAllIoTSIMCards = function() {
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 		IoTSIMCardService.getAllIoTSIMCards(headers, function (response) {
@@ -23,6 +26,7 @@ app.controller('IoTSIMCardController', function(
 
 	};
 
+	// Open add modal and create io tsim card
 	$scope.addIoTSIMCard = function() {
 		var modalInstance = $uibModal.open({
 			templateUrl: 'views/settings/iotsimcard/iotsimcard.model.html',
@@ -62,6 +66,7 @@ app.controller('IoTSIMCardController', function(
 		$rootScope.modalInstance = modalInstance;
 	};
 
+	// Open edit modal and update io tsim card
 	$scope.editIoTSIMCard=function(iotsimcard){
 		var modalInstance = $uibModal.open({
 		    windowClass: "animated fadeIn",
@@ -103,6 +108,7 @@ app.controller('IoTSIMCardController', function(
 		$rootScope.modalInstance = modalInstance;
 	};
 
+	// Confirm and delete io tsim card
 	$scope.deleteIoTSIMCard=function(iotsimcard){
 		SweetAlert.swal({
 		        title: $translate.instant("SWEET.TITLE"),
@@ -142,6 +148,7 @@ app.controller('IoTSIMCardController', function(
 	$scope.getAllIoTSIMCards();
 });
 
+// Modal controller for add dialog
 app.controller('ModalAddIoTSIMCardCtrl', function ($scope, $uibModalInstance,params) {
 
     $scope.operation="IOTSIMCARD.ADD_IOTSIMCARD";
@@ -155,6 +162,7 @@ app.controller('ModalAddIoTSIMCardCtrl', function ($scope, $uibModalInstance,par
     };
 });
 
+// Modal controller for edit dialog
 app.controller('ModalEditIoTSIMCardCtrl', function ($scope, $uibModalInstance, params) {
     $scope.operation="IOTSIMCARD.EDIT_IOTSIMCARD";
     $scope.iotsimcard = params.iotsimcard;

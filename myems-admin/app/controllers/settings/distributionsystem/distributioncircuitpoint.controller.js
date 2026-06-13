@@ -1,4 +1,6 @@
 'use strict';
+
+// Distribution Circuit Point controller - drag-and-drop point binding
 app.controller('DistributionCircuitPointController', function (
     $scope,
     $rootScope,
@@ -17,6 +19,7 @@ app.controller('DistributionCircuitPointController', function (
     $scope.currentDistributionCircuit = { selected: undefined };
     $scope.isDistributionCircuitSelected = false;
 
+    // Load all data sources from API
     $scope.getAllDataSources = function () {
         let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
         DataSourceService.getAllDataSources(headers, function (response) {
@@ -32,6 +35,7 @@ app.controller('DistributionCircuitPointController', function (
         });
     };
 
+    // Load points by data source id
     $scope.getPointsByDataSourceID = function (id) {
         let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
         PointService.getPointsByDataSourceID(id, headers, function (response) {
@@ -49,6 +53,7 @@ app.controller('DistributionCircuitPointController', function (
         });
     };
 
+    // Load points by distribution circuit id
     $scope.getPointsByDistributionCircuitID = function (id) {
         let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
         DistributionCircuitPointService.getPointsByDistributionCircuitID(id, headers, function (response) {
@@ -63,6 +68,7 @@ app.controller('DistributionCircuitPointController', function (
         });
     };
 
+    // Handle distribution circuit change
     $scope.changeDistributionCircuit = function (item, model) {
         $scope.currentDistributionCircuit = item;
         $scope.currentDistributionCircuit.selected = model;
@@ -74,11 +80,13 @@ app.controller('DistributionCircuitPointController', function (
         }
     };
 
+    // Handle data source change
     $scope.changeDataSource = function (item, model) {
         $scope.currentDataSource = model;
         $scope.getPointsByDataSourceID($scope.currentDataSource);
     };
 
+    // Load all distribution circuits from API
     $scope.getAllDistributionCircuits = function () {
         let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
         DistributionCircuitService.getAllDistributionCircuits(headers, function (response) {
@@ -99,6 +107,7 @@ app.controller('DistributionCircuitPointController', function (
         });
     };
 
+    // Bind point via drag-and-drop
     $scope.pairPoint = function (dragEl, dropEl) {
         var pointid = angular.element('#' + dragEl).scope().point.id;
         var distributioncircuitid = $scope.currentDistributionCircuit.id;
@@ -123,6 +132,7 @@ app.controller('DistributionCircuitPointController', function (
         });
     };
 
+    // Unbind point via drag-to-trash
     $scope.deletePointPair = function (dragEl, dropEl) {
         if (angular.element('#' + dragEl).hasClass('source')) {
             return;

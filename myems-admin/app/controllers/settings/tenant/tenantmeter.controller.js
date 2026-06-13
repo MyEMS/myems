@@ -1,5 +1,7 @@
 'use strict';
 
+// Tenant Meter controller - drag-and-drop meter binding
+
 app.controller('TenantMeterController', function(
     $scope,
     $window,
@@ -18,6 +20,7 @@ app.controller('TenantMeterController', function(
 	$scope.isTenantSelected = false;
 	$scope.currentMeterType = "meters";
 	$scope.currentmeters = [];
+	  // Load all tenants from API
 	  $scope.getAllTenants = function(id) {
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 		TenantService.getAllTenants(headers, function (response) {
@@ -29,6 +32,7 @@ app.controller('TenantMeterController', function(
 		});
 	};
 
+	// Handle tenant change
 	$scope.changeTenant=function(item,model){
 		$scope.currentTenant=item;
 		$scope.currentTenant.selected=model;
@@ -42,6 +46,7 @@ app.controller('TenantMeterController', function(
 		}
 	};
 
+	// Load meters by tenant id
 	$scope.getMetersByTenantID = function(id) {
 		var metertypes=['meters','virtualmeters','offlinemeters'];
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
@@ -73,6 +78,7 @@ app.controller('TenantMeterController', function(
 		});
 	};
 
+	// Return CSS class for meter type
 	$scope.colorMeterType=function(type){
 		if(type=='meters'){
 			return 'btn-primary'
@@ -106,6 +112,7 @@ app.controller('TenantMeterController', function(
 		$scope.changeMeterType();
 	};
 
+	// Handle meter type change
 	$scope.changeMeterType=function(){
 		// Defensive assignment to prevent race conditions
 		$scope.filteredMeters = $scope.filteredMeters || [];
@@ -128,6 +135,7 @@ app.controller('TenantMeterController', function(
 	};
 
 
+	// Load all meters from API
 	$scope.getAllMeters = function() {
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 		MeterService.getAllMeters(headers, function (response) {
@@ -144,6 +152,7 @@ app.controller('TenantMeterController', function(
 	};
 
 
+	// Load all offline meters from API
 	$scope.getAllOfflineMeters = function() {
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 		OfflineMeterService.getAllOfflineMeters(headers, function (response) {
@@ -157,6 +166,7 @@ app.controller('TenantMeterController', function(
 
 	};
 
+	// Load all virtual meters from API
 	$scope.getAllVirtualMeters = function() {
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 		VirtualMeterService.getAllVirtualMeters(headers, function (response) {
@@ -170,6 +180,7 @@ app.controller('TenantMeterController', function(
 
 	};
 
+	// Bind meter via drag-and-drop
 	$scope.pairMeter=function(dragEl,dropEl){
 		if (!$scope.isTenantSelected || !$scope.currentTenant || !$scope.currentTenant.id) {
 		    DragDropWarningService.showWarning("SETTING.PLEASE_SELECT_TENANT_FIRST");
@@ -198,6 +209,7 @@ app.controller('TenantMeterController', function(
         });
     };
 
+    // Unbind meter via drag-to-trash
     $scope.deleteMeterPair = function (dragEl, dropEl) {
         if (angular.element('#' + dragEl).hasClass('source')) {
             return;

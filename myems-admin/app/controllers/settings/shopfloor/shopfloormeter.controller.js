@@ -1,5 +1,7 @@
 'use strict';
 
+// Shop Floor Meter controller - drag-and-drop meter binding
+
 app.controller('ShopfloorMeterController', function(
     $scope,
     $window,
@@ -18,6 +20,7 @@ app.controller('ShopfloorMeterController', function(
     $scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
     $scope.isShopfloorSelected = false;
       
+    // Load all shopfloors from API
     $scope.getAllShopfloors = function() {
         let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
         ShopfloorService.getAllShopfloors(headers, function (response) {
@@ -29,6 +32,7 @@ app.controller('ShopfloorMeterController', function(
         });
     };
 
+    // Handle shopfloor change
     $scope.changeShopfloor = function(item, model){
         $scope.currentShopfloor = item;
         $scope.currentShopfloor.selected = model;
@@ -42,6 +46,7 @@ app.controller('ShopfloorMeterController', function(
         }
     };
 
+    // Load meters by shopfloor id
     $scope.getMetersByShopfloorID = function(id) {
         var metertypes = ['meters','virtualmeters','offlinemeters'];
         let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
@@ -73,6 +78,7 @@ app.controller('ShopfloorMeterController', function(
         });
     };
 
+    // Return CSS class for meter type
     $scope.colorMeterType = function(type){
         if(type=='meters'){
             return 'btn-primary';
@@ -83,6 +89,7 @@ app.controller('ShopfloorMeterController', function(
         }
     };
 
+    // Handle meter type change
     $scope.changeMeterType = function(){
         // Defensive assignment to prevent race conditions
         $scope.filteredMeters = $scope.filteredMeters || [];
@@ -125,6 +132,7 @@ app.controller('ShopfloorMeterController', function(
         $scope.changeMeterType();
     };
 
+    // Load all meters from API
     $scope.getAllMeters = function() {
         let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
         MeterService.getAllMeters(headers, function (response) {
@@ -140,6 +148,7 @@ app.controller('ShopfloorMeterController', function(
         });
     };
 
+    // Load all offline meters from API
     $scope.getAllOfflineMeters = function() {
         let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
         OfflineMeterService.getAllOfflineMeters(headers, function (response) {
@@ -152,6 +161,7 @@ app.controller('ShopfloorMeterController', function(
         });
     };
 
+    // Load all virtual meters from API
     $scope.getAllVirtualMeters = function() {
         let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
         VirtualMeterService.getAllVirtualMeters(headers, function (response) {
@@ -164,6 +174,7 @@ app.controller('ShopfloorMeterController', function(
         });
     };
 
+    // Bind meter via drag-and-drop
     $scope.pairMeter = function(dragEl, dropEl){
         if (!$scope.isShopfloorSelected || !$scope.currentShopfloor || !$scope.currentShopfloor.id) {
             DragDropWarningService.showWarning("SETTING.PLEASE_SELECT_SHOPFLOOR_FIRST");
@@ -192,6 +203,7 @@ app.controller('ShopfloorMeterController', function(
         });
     };
 
+    // Unbind meter via drag-to-trash
     $scope.deleteMeterPair = function (dragEl, dropEl) {
         if (angular.element('#' + dragEl).hasClass('source')) return;
         if (!$scope.isShopfloorSelected || !$scope.currentShopfloor || !$scope.currentShopfloor.id) {

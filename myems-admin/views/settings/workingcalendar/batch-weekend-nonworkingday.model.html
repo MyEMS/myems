@@ -1,8 +1,11 @@
+<!-- Modal dialog for Batch Weekend Non-working Day add/edit -->
 <div class="inmodal">
+    <!-- Modal header -->
     <div class="modal-header">
         <h4 class="modal-title">{{operation | translate}}</h4>
     </div>
     <div class="modal-body">
+        <!-- Batch Weekend Non-working Day form fields -->
         <form role="form" name="form_batch_weekend" novalidate class="form-horizontal">
             <div class="form-group">
                 <label class="col-sm-3 control-label">{{'SETTING.START_DATE' | translate}} <span class="text-danger">*</span></label>
@@ -29,6 +32,7 @@
             </div>
         </form>
     </div>
+    <!-- Modal action buttons -->
     <div class="modal-footer">
         <button type="button" class="btn btn-white" ng-click="cancel()">{{'SETTING.CANCEL' | translate}}</button>
         <button type="button" class="btn btn-primary" ng-click="ok()">{{'SETTING.SAVE' | translate}}</button>

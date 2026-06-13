@@ -80,7 +80,7 @@ const Dashboard = ({setRedirect, setRedirectUrl, t}) => {
 
   const [topTenants, setTopTenants] = useState([]);
   const [allTenants, setAllTenants] = useState([]);
-  const [monthlyTrends, setMonthlyTrends] = useState({
+  const [dailyTrends, setDailyTrends] = useState({
     labels: [],
     energy: [],
     cost: [],
@@ -143,7 +143,7 @@ const Dashboard = ({setRedirect, setRedirectUrl, t}) => {
       setTopTenants(json.top_tenants || []);
       setAllTenants(json.tenants || []);
 
-      // Process monthly trends
+      // Process daily trends (from 1st of last month to now)
       if (json.reporting_period_input.timestamps && json.reporting_period_input.timestamps.length > 0) {
         const labels = json.reporting_period_input.timestamps[0] || [];
         const energyValues = json.reporting_period_input.values || [];
@@ -151,7 +151,7 @@ const Dashboard = ({setRedirect, setRedirectUrl, t}) => {
         const categoryNames = json.reporting_period_input.category_names || [];
         const categoryUnits = json.reporting_period_input.category_units || [];
 
-        setMonthlyTrends({
+        setDailyTrends({
           labels,
           energy: energyValues,
           cost: costValues,
@@ -249,27 +249,33 @@ const Dashboard = ({setRedirect, setRedirectUrl, t}) => {
 
   const topTenantsBarData = prepareTopTenantsBarData();
 
-  // Prepare line chart data for monthly trends - now by energy category
-  const prepareMonthlyTrendData = () => {
+  // Prepare line chart data for daily trends - now by energy category
+  const prepareDailyTrendData = () => {
     const timestamps = {};
     const values = {};
     const options = [];
 
-    if (monthlyTrends.labels && monthlyTrends.labels.length > 0) {
+    if (dailyTrends.labels && dailyTrends.labels.length > 0) {
       // Add cost option first (as default)
-      if (monthlyTrends.cost && monthlyTrends.cost.length > 0) {
-        timestamps['cost'] = monthlyTrends.labels;
-        values['cost'] = monthlyTrends.cost.length > 0 ? monthlyTrends.cost[0] : [];
-        options.push({value: 'cost', label: t('Cost')});
+      if (dailyTrends.cost && dailyTrends.cost.length > 0) {
+        timestamps['cost'] = dailyTrends.labels;
+        // Sum all cost categories for each day
+        const totalCost = dailyTrends.labels.map((_, dayIndex) => {
+          return dailyTrends.cost.reduce((sum, costCategory) => {
+            return sum + (costCategory[dayIndex] || 0);
+          }, 0);
+        });
+        values['cost'] = totalCost;
+        options.push({value: 'cost', label: t('CostData')+ ' (CNY)'});
       }
       
       // Add each energy category as a separate option
-      monthlyTrends.energy.forEach((categoryData, index) => {
+      dailyTrends.energy.forEach((categoryData, index) => {
         const key = `energy_${index}`;
-        timestamps[key] = monthlyTrends.labels;
+        timestamps[key] = dailyTrends.labels;
         values[key] = categoryData;
-        const categoryName = monthlyTrends.categoryNames[index] || t('Unknown');
-        const unit = monthlyTrends.categoryUnits[index] || '';
+        const categoryName = dailyTrends.categoryNames[index] || t('Unknown');
+        const unit = dailyTrends.categoryUnits[index] || '';
         options.push({value: key, label: `${t(categoryName)} (${unit})`});
       });
     }
@@ -277,7 +283,7 @@ const Dashboard = ({setRedirect, setRedirectUrl, t}) => {
     return {timestamps, values, options};
   };
 
-  const monthlyTrendChartData = prepareMonthlyTrendData();
+  const dailyTrendChartData = prepareDailyTrendData();
   
   // Set default selected option to cost
   const [selectedChartOption, setSelectedChartOption] = useState('cost');
@@ -300,12 +306,6 @@ const Dashboard = ({setRedirect, setRedirectUrl, t}) => {
               rate={null}
               title={t('Total Tenants')}
               color="success"
-              footnote={t('Active Meters')}
-              footvalue={summary.total_meters || 0}
-              footunit=""
-              secondfootnote={t('Total Area')}
-              secondfootvalue={summary.total_area || 0}
-              secondfootunit="m²"
           >
             <CountUp end={summary.total_tenants || 0} duration={2} separator=","/>
           </CardSummary>
@@ -318,15 +318,7 @@ const Dashboard = ({setRedirect, setRedirectUrl, t}) => {
                 VALUE: null,
                 UNIT: '(TCE)'
               })}
-              color="warning"
-              footnote={t('Per Unit Area')}
-              footvalue={summary.total_area > 0 ?
-                  parseFloat((energyData.total_in_kgce || 0) / summary.total_area).toFixed(3) : 0}
-              footunit="(kgCE/m²)"
-              secondfootnote={t('Per Capita')}
-              secondfootvalue={0}
-              secondfootunit="(kgCE)"
-          >
+              color="warning">
             <CountUp
                 end={(energyData.total_in_kgce || 0) / 1000}
                 duration={2}
@@ -340,17 +332,10 @@ const Dashboard = ({setRedirect, setRedirectUrl, t}) => {
               title={t("This Month's Costs CATEGORY VALUE UNIT", {
                 CATEGORY: null,
                 VALUE: null,
-                UNIT: null
+                UNIT: costData.units && costData.units.length > 0 ? '(' + costData.units[0] + ')' : '(CNY)'
               })}
-              color="success"
-              footnote={t('Per Unit Area')}
-              footvalue={0}
-              footunit=""
-              secondfootnote={t('Categories')}
-              secondfootvalue={costData.names?.length || 0}
-              secondfootunit=""
-          >
-            ¥<CountUp
+              color="success" >
+            <CountUp
               end={costData.subtotals?.reduce((a, b) => a + b, 0) || 0}
               duration={2}
               decimals={2}
@@ -366,15 +351,7 @@ const Dashboard = ({setRedirect, setRedirectUrl, t}) => {
                 VALUE: null,
                 UNIT: '(TCO2E)'
               })}
-              color="warning"
-              footnote={t('Per Unit Area')}
-              footvalue={summary.total_area > 0 ?
-                  parseFloat((energyData.total_in_kgco2e || 0) / summary.total_area).toFixed(3) : 0}
-              footunit="(kgCO2E/m²)"
-              secondfootnote={t('Per Capita')}
-              secondfootvalue={0}
-              secondfootunit="(kgCO2E)"
-          >
+              color="warning">
             <CountUp
                 end={(energyData.total_in_kgco2e || 0) / 1000}
                 duration={2}
@@ -403,15 +380,15 @@ const Dashboard = ({setRedirect, setRedirectUrl, t}) => {
         {/* Monthly Trends Line Chart */}
         <div className="card-deck">
           <LineChart
-              reportingTitle={t("This Year's Consumption CATEGORY VALUE UNIT", {
+              reportingTitle={t("This Month's Consumption CATEGORY VALUE UNIT", {
                 CATEGORY: null,
                 VALUE: null,
                 UNIT: null
               })}
               baseTitle=""
-              labels={monthlyTrendChartData.timestamps}
-              data={monthlyTrendChartData.values}
-              options={monthlyTrendChartData.options}
+              labels={dailyTrendChartData.timestamps}
+              data={dailyTrendChartData.values}
+              options={dailyTrendChartData.options}
               defaultOption={selectedChartOption}
           />
         </div>
@@ -422,8 +399,7 @@ const Dashboard = ({setRedirect, setRedirectUrl, t}) => {
             <Card className="mb-3">
               <CardBody>
                 <h5 className="mb-3">
-                  <FontAwesomeIcon icon={faArrowUp} className="mr-2"/>
-                  {t('Tenant Performance Overview')}
+                  {t('Detailed Data')}
                 </h5>
                 <div className="table-responsive">
                   <table className="table table-hover">
@@ -437,16 +413,14 @@ const Dashboard = ({setRedirect, setRedirectUrl, t}) => {
                           {t(categoryName)} ({energyData.units[index] || ''})
                         </th>
                       ))}
-                      <th className="text-right">{t('Per Unit Area')}</th>
+                      <th className="text-right">{t('Cost')} (CNY)</th>
+                      <th className="text-right">{t('Microgrid Carbon')} (kgCO2e)</th>
                     </tr>
                     </thead>
                     <tbody>
                     {allTenants
                     .sort((a, b) => b.total_energy - a.total_energy)
                     .map((tenant) => {
-                      const perArea = tenant.area > 0 ? 
-                        (tenant.total_energy / tenant.area).toFixed(2) : '0.00';
-                      
                       return (
                         <tr key={tenant.id}>
                           <td>
@@ -464,7 +438,16 @@ const Dashboard = ({setRedirect, setRedirectUrl, t}) => {
                               </td>
                             );
                           })}
-                          <td className="text-right">{perArea}</td>
+                          <td className="text-right">
+                            {tenant.total_cost !== null && tenant.total_cost !== undefined && tenant.total_cost > 0
+                                ? tenant.total_cost.toFixed(2)
+                                : '-'}
+                          </td>
+                          <td className="text-right">
+                            {tenant.total_carbon !== null && tenant.total_carbon !== undefined && tenant.total_carbon > 0
+                                ? tenant.total_carbon.toFixed(2)
+                                : '-'}
+                          </td>
                         </tr>
                       );
                     })}

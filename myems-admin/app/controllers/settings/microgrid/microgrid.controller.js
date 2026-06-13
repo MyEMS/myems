@@ -1,5 +1,7 @@
 'use strict';
 
+// Microgrid controller - CRUD and settings management
+
 app.controller('MicrogridController', function(
     $scope,
     $rootScope,
@@ -16,6 +18,7 @@ app.controller('MicrogridController', function(
 	$scope.exportdata = '';
 	$scope.importdata = '';
 
+	// Load all cost centers from API
 	$scope.getAllCostCenters = function() {
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 		CostCenterService.getAllCostCenters(headers, function (response) {
@@ -27,6 +30,7 @@ app.controller('MicrogridController', function(
 		});
 	};
 
+	// Load all contacts from API
 	$scope.getAllContacts = function() {
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 		ContactService.getAllContacts(headers, function (response) {
@@ -38,6 +42,7 @@ app.controller('MicrogridController', function(
 		});
 	};
 
+	// Load all sv gs from API
 	$scope.getAllSVGs = function() {
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token, "Quickmode": 'true'  };
 		SVGService.getAllSVGs(headers, function (response) {
@@ -48,6 +53,7 @@ app.controller('MicrogridController', function(
 			}
 		});
 	};
+	// Load all phase of lifecycles from API
 	$scope.getAllPhaseOfLifecycles = function() {
 		$scope.phaseoflifecycles = [
 			{"code":"1use", "name": $translate.instant("MICROGRID.PHASE_1USE")},
@@ -55,6 +61,7 @@ app.controller('MicrogridController', function(
 			{"code":"3installation", "name": $translate.instant("MICROGRID.PHASE_3INSTALLATION")}
 		];
 	};
+	// Load all microgrids from API
 	$scope.getAllMicrogrids = function() {
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 		MicrogridService.getAllMicrogrids(headers, function (response) {
@@ -67,6 +74,7 @@ app.controller('MicrogridController', function(
 	};
 
         let searchDebounceTimer = null;
+        // Search microgrids by keyword
         $scope.searchMicrogrids = function() {
                 let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
                 const rawKeyword = $scope.searchKeyword || "";
@@ -89,6 +97,7 @@ app.controller('MicrogridController', function(
                 }, 300);
         };
 
+	// Open add modal and create microgrid
 	$scope.addMicrogrid = function() {
 		var modalInstance = $uibModal.open({
 			templateUrl: 'views/settings/microgrid/microgrid.model.html',
@@ -134,6 +143,7 @@ app.controller('MicrogridController', function(
 		$rootScope.modalInstance = modalInstance;
 	};
 
+	// Open edit modal and update microgrid
 	$scope.editMicrogrid = function(microgrid) {
 		var modalInstance = $uibModal.open({
 			windowClass: "animated fadeIn",
@@ -182,6 +192,7 @@ app.controller('MicrogridController', function(
 		$rootScope.modalInstance = modalInstance;
 	};
 
+	// Confirm and delete microgrid
 	$scope.deleteMicrogrid=function(microgrid){
 		SweetAlert.swal({
 		        title: $translate.instant("SWEET.TITLE"),
@@ -218,6 +229,7 @@ app.controller('MicrogridController', function(
 		    });
 	};
 
+	// Export microgrid as JSON
 	$scope.exportMicrogrid = function(microgrid) {
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 		MicrogridService.exportMicrogrid(microgrid, headers, function(response) {
@@ -247,6 +259,7 @@ app.controller('MicrogridController', function(
 		});
 	};
 
+	// Clone an existing microgrid
 	$scope.cloneMicrogrid = function(microgrid){
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 		MicrogridService.cloneMicrogrid(microgrid, headers, function(response) {
@@ -270,6 +283,7 @@ app.controller('MicrogridController', function(
 		});
 	};
 
+	// Import microgrid from JSON
 	$scope.importMicrogrid = function() {
 		var modalInstance = $uibModal.open({
 			templateUrl: 'views/common/import.html',
@@ -319,6 +333,7 @@ app.controller('MicrogridController', function(
 	});
 });
 
+// Modal controller for add dialog
 app.controller('ModalAddMicrogridCtrl', function($scope, $uibModalInstance,params) {
 
 	$scope.operation = "SETTING.ADD_MICROGRID";
@@ -338,6 +353,7 @@ app.controller('ModalAddMicrogridCtrl', function($scope, $uibModalInstance,param
 	};
 });
 
+// Modal controller for edit dialog
 app.controller('ModalEditMicrogridCtrl', function($scope, $uibModalInstance, params) {
 	$scope.operation = "SETTING.EDIT_MICROGRID";
 	$scope.microgrid = params.microgrid;

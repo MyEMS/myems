@@ -80,7 +80,7 @@ const Dashboard = ({setRedirect, setRedirectUrl, t}) => {
 
     const [topStores, setTopStores] = useState([]);
     const [allStores, setAllStores] = useState([]);
-    const [monthlyTrends, setMonthlyTrends] = useState({
+    const [dailyTrends, setDailyTrends] = useState({
         labels: [],
         energy: [],
         cost: [],
@@ -143,7 +143,7 @@ const Dashboard = ({setRedirect, setRedirectUrl, t}) => {
             setTopStores(json.top_stores || []);
             setAllStores(json.stores || []);
 
-            // Process monthly trends
+            // Process daily trends
             if (json.reporting_period_input.timestamps && json.reporting_period_input.timestamps.length > 0) {
                 const labels = json.reporting_period_input.timestamps[0] || [];
                 const energyValues = json.reporting_period_input.values || [];
@@ -151,7 +151,7 @@ const Dashboard = ({setRedirect, setRedirectUrl, t}) => {
                 const categoryNames = json.reporting_period_input.category_names || [];
                 const categoryUnits = json.reporting_period_input.category_units || [];
 
-                setMonthlyTrends({
+                setDailyTrends({
                     labels,
                     energy: energyValues,
                     cost: costValues,
@@ -249,27 +249,33 @@ const Dashboard = ({setRedirect, setRedirectUrl, t}) => {
 
     const topStoresBarData = prepareTopStoresBarData();
 
-    // Prepare line chart data for monthly trends - now by energy category
-    const prepareMonthlyTrendData = () => {
+    // Prepare line chart data for daily trends - now by energy category
+    const prepareDailyTrendData = () => {
         const timestamps = {};
         const values = {};
         const options = [];
 
-        if (monthlyTrends.labels && monthlyTrends.labels.length > 0) {
+        if (dailyTrends.labels && dailyTrends.labels.length > 0) {
             // Add cost option first (as default)
-            if (monthlyTrends.cost && monthlyTrends.cost.length > 0) {
-                timestamps['cost'] = monthlyTrends.labels;
-                values['cost'] = monthlyTrends.cost.length > 0 ? monthlyTrends.cost[0] : [];
-                options.push({value: 'cost', label: t('Cost')});
+            if (dailyTrends.cost && dailyTrends.cost.length > 0) {
+                timestamps['cost'] = dailyTrends.labels;
+                // Sum all cost categories for each day
+                const totalCost = dailyTrends.labels.map((_, dayIndex) => {
+                    return dailyTrends.cost.reduce((sum, costCategory) => {
+                        return sum + (costCategory[dayIndex] || 0);
+                    }, 0);
+                });
+                values['cost'] = totalCost;
+                options.push({value: 'cost', label: t('CostData')+ ' (CNY)'});
             }
-            
+
             // Add each energy category as a separate option
-            monthlyTrends.energy.forEach((categoryData, index) => {
+            dailyTrends.energy.forEach((categoryData, index) => {
                 const key = `energy_${index}`;
-                timestamps[key] = monthlyTrends.labels;
+                timestamps[key] = dailyTrends.labels;
                 values[key] = categoryData;
-                const categoryName = monthlyTrends.categoryNames[index] || t('Unknown');
-                const unit = monthlyTrends.categoryUnits[index] || '';
+                const categoryName = dailyTrends.categoryNames[index] || t('Unknown');
+                const unit = dailyTrends.categoryUnits[index] || '';
                 options.push({value: key, label: `${t(categoryName)} (${unit})`});
             });
         }
@@ -277,8 +283,8 @@ const Dashboard = ({setRedirect, setRedirectUrl, t}) => {
         return {timestamps, values, options};
     };
 
-    const monthlyTrendChartData = prepareMonthlyTrendData();
-    
+    const dailyTrendChartData = prepareDailyTrendData();
+
     // Set default selected option to cost
     const [selectedChartOption, setSelectedChartOption] = useState('cost');
 
@@ -300,18 +306,13 @@ const Dashboard = ({setRedirect, setRedirectUrl, t}) => {
                     rate={null}
                     title={t('Total Stores')}
                     color="success"
-                    footnote={t('Active Meters')}
-                    footvalue={summary.total_meters || 0}
-                    footunit=""
-                    secondfootnote={t('Total Area')}
-                    secondfootvalue={summary.total_area || 0}
-                    secondfootunit="m²"
+
                 >
                     <CountUp end={summary.total_stores || 0} duration={2} separator=","/>
                 </CardSummary>
 
                 <CardSummary
-                    rate={energyData.increment_rate_in_kgce !== undefined ? 
+                    rate={energyData.increment_rate_in_kgce !== undefined ?
                         (parseFloat(energyData.increment_rate_in_kgce * 100).toFixed(2) + '%') : null}
                     title={t("This Month's Consumption CATEGORY VALUE UNIT", {
                         CATEGORY: t('Ton of Standard Coal'),
@@ -319,13 +320,7 @@ const Dashboard = ({setRedirect, setRedirectUrl, t}) => {
                         UNIT: '(TCE)'
                     })}
                     color="warning"
-                    footnote={t('Per Unit Area')}
-                    footvalue={summary.total_area > 0 ? 
-                        parseFloat((energyData.total_in_kgce || 0) / summary.total_area).toFixed(3) : 0}
-                    footunit="(kgCE/m²)"
-                    secondfootnote={t('Per Capita')}
-                    secondfootvalue={0}
-                    secondfootunit="(kgCE)"
+
                 >
                     <CountUp
                         end={(energyData.total_in_kgce || 0) / 1000}
@@ -340,26 +335,21 @@ const Dashboard = ({setRedirect, setRedirectUrl, t}) => {
                     title={t("This Month's Costs CATEGORY VALUE UNIT", {
                         CATEGORY: null,
                         VALUE: null,
-                        UNIT: null
+                        UNIT: costData.units && costData.units.length > 0 ? '(' + costData.units[0] + ')' : '(CNY)'
                     })}
                     color="success"
-                    footnote={t('Per Unit Area')}
-                    footvalue={0}
-                    footunit=""
-                    secondfootnote={t('Categories')}
-                    secondfootvalue={costData.names?.length || 0}
-                    secondfootunit=""
+
                 >
-                    ¥<CountUp
-                    end={costData.subtotals?.reduce((a, b) => a + b, 0) || 0}
-                    duration={2}
-                    decimals={2}
-                    separator=","
-                />
+                    <CountUp
+                        end={costData.subtotals?.reduce((a, b) => a + b, 0) || 0}
+                        duration={2}
+                        decimals={2}
+                        separator=","
+                    />
                 </CardSummary>
 
                 <CardSummary
-                    rate={energyData.increment_rate_in_kgco2e !== undefined ? 
+                    rate={energyData.increment_rate_in_kgco2e !== undefined ?
                         (parseFloat(energyData.increment_rate_in_kgco2e * 100).toFixed(2) + '%') : null}
                     title={t("This Month's Consumption CATEGORY VALUE UNIT", {
                         CATEGORY: t('Ton of Carbon Dioxide Emissions'),
@@ -367,13 +357,7 @@ const Dashboard = ({setRedirect, setRedirectUrl, t}) => {
                         UNIT: '(TCO2E)'
                     })}
                     color="warning"
-                    footnote={t('Per Unit Area')}
-                    footvalue={summary.total_area > 0 ? 
-                        parseFloat((energyData.total_in_kgco2e || 0) / summary.total_area).toFixed(3) : 0}
-                    footunit="(kgCO2E/m²)"
-                    secondfootnote={t('Per Capita')}
-                    secondfootvalue={0}
-                    secondfootunit="(kgCO2E)"
+
                 >
                     <CountUp
                         end={(energyData.total_in_kgco2e || 0) / 1000}
@@ -387,31 +371,31 @@ const Dashboard = ({setRedirect, setRedirectUrl, t}) => {
             {/* Charts Row - Four charts in one row using SharePie and BarChart */}
             <Row noGutters>
                 <Col className="mb-3 pr-lg-2 mb-3">
-                    <SharePie data={energyCategoryPieData} title={t('Energy Consumption by Category')} />
+                    <SharePie data={energyCategoryPieData} title={t('Energy Consumption by Category')}/>
                 </Col>
                 <Col className="mb-3 pr-lg-2 mb-3">
-                    <SharePie data={costCategoryPieData} title={t('Costs by Energy Category')} />
+                    <SharePie data={costCategoryPieData} title={t('Costs by Energy Category')}/>
                 </Col>
                 <Col className="mb-3 pr-lg-2 mb-3">
-                    <SharePie data={tcePieData} title={t('Ton of Standard Coal by Energy Category')} />
+                    <SharePie data={tcePieData} title={t('Ton of Standard Coal by Energy Category')}/>
                 </Col>
                 <Col className="mb-3 pr-lg-2 mb-3">
-                    <SharePie data={tco2ePieData} title={t('Ton of Carbon Dioxide Emissions by Energy Category')} />
+                    <SharePie data={tco2ePieData} title={t('Ton of Carbon Dioxide Emissions by Energy Category')}/>
                 </Col>
             </Row>
 
-            {/* Monthly Trends Line Chart */}
+            {/* Daily Trends Line Chart */}
             <div className="card-deck">
                 <LineChart
-                    reportingTitle={t("This Year's Consumption CATEGORY VALUE UNIT", { 
-                        CATEGORY: null, 
-                        VALUE: null, 
-                        UNIT: null 
+                    reportingTitle={t("This Month's Costs CATEGORY VALUE UNIT", {
+                        CATEGORY: null,
+                        VALUE: null,
+                        UNIT: null
                     })}
                     baseTitle=""
-                    labels={monthlyTrendChartData.timestamps}
-                    data={monthlyTrendChartData.values}
-                    options={monthlyTrendChartData.options}
+                    labels={dailyTrendChartData.timestamps}
+                    data={dailyTrendChartData.values}
+                    options={dailyTrendChartData.options}
                     defaultOption={selectedChartOption}
                 />
             </div>
@@ -422,8 +406,7 @@ const Dashboard = ({setRedirect, setRedirectUrl, t}) => {
                     <Card className="mb-3">
                         <CardBody>
                             <h5 className="mb-3">
-                                <FontAwesomeIcon icon={faArrowUp} className="mr-2"/>
-                                {t('Store Performance Overview')}
+                                {t('Detailed Data')}
                             </h5>
                             <div className="table-responsive">
                                 <table className="table table-hover">
@@ -437,37 +420,44 @@ const Dashboard = ({setRedirect, setRedirectUrl, t}) => {
                                                 {t(categoryName)} ({energyData.units[index] || ''})
                                             </th>
                                         ))}
-                                        <th className="text-right">{t('Per Unit Area')}</th>
+                                        <th className="text-right">{t('Cost')} (CNY)</th>
+                                        <th className="text-right">{t('Microgrid Carbon')} (kgCO2e)</th>
                                     </tr>
                                     </thead>
                                     <tbody>
                                     {allStores
-                                    .sort((a, b) => b.total_energy - a.total_energy)
-                                    .map((store) => {
-                                        const perArea = store.area > 0 ? 
-                                            (store.total_energy / store.area).toFixed(2) : '0.00';
-                                        
-                                        return (
-                                            <tr key={store.id}>
-                                                <td>
-                                                    <strong>{store.name}</strong>
-                                                </td>
-                                                <td className="text-muted">{store.address || '-'}</td>
-                                                <td className="text-right">{store.area ? store.area.toFixed(2) : '-'}</td>
-                                                {energyData.energy_category_ids && energyData.energy_category_ids.map((ecId, index) => {
-                                                    const categoryEnergy = store.energy_by_category && store.energy_by_category[ecId] 
-                                                        ? store.energy_by_category[ecId] 
-                                                        : 0;
-                                                    return (
-                                                        <td key={index} className="text-right">
-                                                            {categoryEnergy > 0 ? categoryEnergy.toFixed(2) : '-'}
-                                                        </td>
-                                                    );
-                                                })}
-                                                <td className="text-right">{perArea}</td>
-                                            </tr>
-                                        );
-                                    })}
+                                        .sort((a, b) => b.total_energy - a.total_energy)
+                                        .map((store) => {
+                                            return (
+                                                <tr key={store.id}>
+                                                    <td>
+                                                        <strong>{store.name}</strong>
+                                                    </td>
+                                                    <td className="text-muted">{store.address || '-'}</td>
+                                                    <td className="text-right">{store.area ? store.area.toFixed(2) : '-'}</td>
+                                                    {energyData.energy_category_ids && energyData.energy_category_ids.map((ecId, index) => {
+                                                        const categoryEnergy = store.energy_by_category && store.energy_by_category[ecId]
+                                                            ? store.energy_by_category[ecId]
+                                                            : 0;
+                                                        return (
+                                                            <td key={index} className="text-right">
+                                                                {categoryEnergy > 0 ? categoryEnergy.toFixed(2) : '-'}
+                                                            </td>
+                                                        );
+                                                    })}
+                                                    <td className="text-right">
+                                                      {store.total_cost !== null && store.total_cost !== undefined && store.total_cost > 0
+                                                          ? store.total_cost.toFixed(2)
+                                                          : '-'}
+                                                    </td>
+                                                    <td className="text-right">
+                                                      {store.total_carbon !== null && store.total_carbon !== undefined && store.total_carbon > 0
+                                                          ? store.total_carbon.toFixed(2)
+                                                          : '-'}
+                                                    </td>
+                                                </tr>
+                                            );
+                                        })}
                                     </tbody>
                                 </table>
                             </div>

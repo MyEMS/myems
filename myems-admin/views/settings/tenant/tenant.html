@@ -1,10 +1,13 @@
+<!-- Tenant settings page -->
 <div class="wrapper wrapper-content" ng-controller="TenantMasterController">
 	<div class="row">
 		<div class="col-lg-12">
 			<div class="tabs-container">
 				<uib-tabset active="activeTabIndex">
+					<!-- Tab: Tenant -->
 					<uib-tab heading="{{'COMMON.TENANT' | translate}}" index="0" select="handleTabSelect(0)">
 						<div class="panel-body" ng-controller="TenantController">
+							<!-- Collapsible description panel -->
 							<div class="alert alert-info">
 								<p>
 									{{'SETTING.TENANT_DESCRIPTION' | translate}}
@@ -25,12 +28,14 @@
 										<i class="fa fa-plus-circle"></i> {{'SETTING.IMPORT' | translate}}</a>
 								</div>
 								<div class="col-md-9">
-									<input type="text" class="form-control m-b-xs"
-										   placeholder="{{'SETTING.SEARCH' | translate}}"
+									<!-- Search input -->
+										   <input type="text" class="form-control m-b-xs"
+										   										   placeholder="{{'SETTING.SEARCH' | translate}}"
 										   ng-model="searchTenantKeyword"
 										   ng-keyup="searchTenant()">
 								</div>
 							</div>
+							<!-- Tenant list table -->
 							<table class="footable table table-bordered table-hover" data-sort="true"
 								data-page-size="15">
 								<thead>
@@ -106,8 +111,10 @@
 							</table>
 						</div>
 					</uib-tab>
+					<!-- Tab: Tenant Type -->
 					<uib-tab heading="{{'SETTING.TENANT_TYPE' | translate}}" index="1" select="handleTabSelect(1)">
 						<div class="panel-body" ng-controller="TenantTypeController">
+							<!-- Collapsible description panel -->
 							<div class="alert alert-info">
 								<p>
 									{{'SETTING.TENANT_TYPE_DESCRIPTION' | translate}}
@@ -124,6 +131,7 @@
 								<i class="fa fa-plus-circle"></i> {{'SETTING.ADD_TENANT_TYPE' | translate}}
 							</a>
 							<br>
+							<!-- Tenant list table -->
 							<table class="footable table table-bordered table-hover" data-sort="true"
 								data-page-size="15">
 								<thead>
@@ -162,8 +170,10 @@
 							<div uib-modal="addEditModal" class="modal fade" role="dialog"></div>
 						</div>
 					</uib-tab>
+					<!-- Tab: Bind Meter -->
 					<uib-tab heading="{{'SETTING.BIND_METER' | translate}}" index="2" select="handleTabSelect(2)">
 						<div class="panel-body" ng-controller="TenantMeterController">
+							<!-- Collapsible description panel -->
 							<div class="alert alert-info">
 								<p>
 									{{'TENANT.BIND_METER_DESCRIPTION' | translate}}
@@ -230,7 +240,7 @@
 								</div>
 
 								<div class="col-lg-4">
-									<!-- according panel-->
+									<!-- Accordion panel: available items for drag-and-drop binding -->
 									<div class="panel panel-primary">
 										<div class="panel-heading">
 											{{'SETTING.METER' | translate}}
@@ -258,8 +268,10 @@
 							</div>
 						</div>
 					</uib-tab>
+					<!-- Tab: Bind Point -->
 					<uib-tab heading="{{'SETTING.BIND_POINT' | translate}}" index="3" select="handleTabSelect(3)">
 						<div class="panel-body" ng-controller="TenantPointController">
+							<!-- Collapsible description panel -->
 							<div class="alert alert-info">
 								<p>
 									{{'TENANT.BIND_POINT_DESCRIPTION' | translate}}
@@ -357,8 +369,10 @@
 							</div>
 						</div>
 					</uib-tab>
+					<!-- Tab: Bind Sensor -->
 					<uib-tab heading="{{'SETTING.BIND_SENSOR' | translate}}" index="4" select="handleTabSelect(4)">
 						<div class="panel-body" ng-controller="TenantSensorController">
+							<!-- Collapsible description panel -->
 							<div class="alert alert-info">
 								<p>
 									{{'TENANT.BIND_SENSOR_DESCRIPTION' | translate}}
@@ -440,8 +454,10 @@
 						</div>
 					</uib-tab>
 
+					<!-- Tab: Bind Working Calendar -->
 					<uib-tab heading="{{'WORKING_CALENDAR.BIND_WORKING_CALENDAR' | translate}}" index="5" select="handleTabSelect(5)">
 						<div class="panel-body" ng-controller="TenantWorkingCalendarController">
+							<!-- Collapsible description panel -->
 							<div class="alert alert-info">
 								<p>
 									{{'TENANT.BIND_WORKING_CALENDAR_DESCRIPTION' | translate}}
@@ -508,7 +524,7 @@
 								</div>
 
 								<div class="col-lg-4">
-									<!-- according panel-->
+									<!-- Accordion panel: available items for drag-and-drop binding -->
 									<div class="panel panel-primary">
 										<div class="panel-heading">
 											{{'SETTING.WORKING_CALENDAR' | translate}}
@@ -524,8 +540,10 @@
 							</div>
 						</div>
 					</uib-tab>
+					<!-- Tab: Bind Command -->
 					<uib-tab heading="{{'SETTING.BIND_COMMAND' | translate}}" index="6" select="handleTabSelect(6)">
 						<div class="panel-body" ng-controller="TenantCommandController">
+							<!-- Collapsible description panel -->
 							<div class="alert alert-info">
 								<p>
 									{{'TENANT.BIND_COMMAND_DESCRIPTION' | translate}}
@@ -593,7 +611,7 @@
 								</div>
 
 								<div class="col-lg-4">
-									<!-- according panel-->
+									<!-- Accordion panel: available items for drag-and-drop binding -->
 									<div class="panel panel-primary">
 										<div class="panel-heading">
 											{{'SETTING.COMMAND_LIST' | translate}}

@@ -49,6 +49,24 @@ from core.useractivity import access_control, api_key_control
 logger = logging.getLogger(__name__)
 
 
+def validate_integer_ids(id_list, param_name="IDs"):
+    """
+    Validate that all IDs in the list are integers to prevent SQL injection.
+    
+    Args:
+        id_list: List of IDs to validate
+        param_name: Name of the parameter for error messages
+        
+    Raises:
+        ValueError: If any ID is not an integer
+    """
+    if not isinstance(id_list, (list, tuple)):
+        raise ValueError(f"{param_name} must be a list or tuple")
+    if not all(isinstance(x, int) for x in id_list):
+        raise ValueError(f"All {param_name} must be integers")
+    return True
+
+
 class Reporting:
     def __init__(self):
         """Initializes Class"""
@@ -297,6 +315,8 @@ class Reporting:
                 privilege_data = json.loads(row_privilege[0])
                 if 'stores' in privilege_data and privilege_data['stores']:
                     store_ids_list = privilege_data['stores']
+                    # Validate all IDs are integers before using in SQL
+                    validate_integer_ids(store_ids_list, "store_ids")
                     format_strings = ','.join(['%s'] * len(store_ids_list))
                     cursor_system.execute(
                         " SELECT id, name, area, address, contact_id, cost_center_id "
@@ -362,6 +382,8 @@ class Reporting:
             }
 
             if base_start_datetime_utc and base_end_datetime_utc:
+                # Validate all IDs are integers before using in SQL
+                validate_integer_ids(store_ids_list, "store_ids")
                 format_strings = ','.join(['%s'] * len(store_ids_list))
                 cursor_energy.execute(
                     " SELECT energy_category_id, SUM(actual_value) "
@@ -410,6 +432,8 @@ class Reporting:
                 'energy_category_ids': []
             }
 
+            # Validate all IDs are integers before using in SQL
+            validate_integer_ids(store_ids_list, "store_ids")
             format_strings = ','.join(['%s'] * len(store_ids_list))
             cursor_energy.execute(
                 " SELECT energy_category_id, SUM(actual_value) "
@@ -473,6 +497,7 @@ class Reporting:
             ################################################################################################################
             reporting_cost = {
                 'names': list(reporting_input['names']),
+                'energy_category_ids': list(reporting_input['energy_category_ids']),
                 'units': ['CNY'] * len(reporting_input['names']),
                 'subtotals': [0.0] * len(reporting_input['names']),
                 'subtotals_per_unit_area': [0.0] * len(reporting_input['names']),
@@ -482,6 +507,7 @@ class Reporting:
             }
 
             # Query billing data
+            # Validate all IDs are integers before using in SQL (already validated above)
             format_strings = ','.join(['%s'] * len(store_ids_list))
             cursor_billing.execute(
                 " SELECT energy_category_id, SUM(actual_value) "
@@ -507,59 +533,119 @@ class Reporting:
                                 cost / total_area if total_area > 0 else 0.0)
 
             ################################################################################################################
-            # Step 8: Query monthly trends
+            # Step 8: Query daily trends from 1st of last month (OPTIMIZED: single query + memory aggregation)
             ################################################################################################################
-            monthly_timestamps = []
-            monthly_energy_values = [[] for _ in range(len(reporting_input['names']))]
-            monthly_cost_values = [[] for _ in range(len(reporting_cost['names']))]
+            # Calculate the start date: 1st of last month relative to reporting end
+            if reporting_end_datetime_utc.month == 1:
+                daily_start = reporting_end_datetime_utc.replace(
+                    year=reporting_end_datetime_utc.year - 1, month=12, day=1,
+                    hour=0, minute=0, second=0, microsecond=0)
+            else:
+                daily_start = reporting_end_datetime_utc.replace(
+                    month=reporting_end_datetime_utc.month - 1, day=1,
+                    hour=0, minute=0, second=0, microsecond=0)
 
-            # Generate monthly timestamps for current year
-            year_start = reporting_start_datetime_utc.replace(month=1, day=1, hour=0, minute=0, second=0, microsecond=0)
-            current_month = year_start
-            while current_month < reporting_end_datetime_utc:
-                next_month = current_month.replace(month=current_month.month + 1) if current_month.month < 12 \
-                    else current_month.replace(year=current_month.year + 1, month=1)
+            # Generate daily timestamps
+            daily_timestamps = []
+            current_day = daily_start
+            while current_day < reporting_end_datetime_utc:
+                daily_timestamps.append(current_day.strftime('%Y-%m-%d'))
+                current_day = current_day + timedelta(days=1)
 
-                monthly_timestamps.append(current_month.strftime('%Y-%m'))
+            # Initialize result structures
+            daily_energy_values = [[] for _ in range(len(reporting_input['names']))]
+            daily_cost_values = [[] for _ in range(len(reporting_cost['names']))]
 
-                # Query energy for this month
-                for idx, ec_id in enumerate(reporting_input['energy_category_ids']):
-                    format_strings = ','.join(['%s'] * len(store_ids_list))
+            if len(store_ids_list) > 0 and len(reporting_input['energy_category_ids']) > 0:
+                # Validate all IDs are integers before using in SQL (already validated above)
+                format_strings = ','.join(['%s'] * len(store_ids_list))
+
+                # OPTIMIZATION: Single query to fetch all daily energy data grouped by day and category
+                try:
                     cursor_energy.execute(
-                        " SELECT SUM(actual_value) "
+                        " SELECT DATE_FORMAT(start_datetime_utc, '%%Y-%%m-%%d') as day_str, "
+                        "        energy_category_id, "
+                        "        SUM(actual_value) as total_value "
                         " FROM tbl_store_input_category_hourly "
                         " WHERE store_id IN (%s) "
-                        "   AND energy_category_id = %%s "
                         "   AND start_datetime_utc >= %%s "
-                        "   AND start_datetime_utc < %%s " % format_strings,
-                        store_ids_tuple + (ec_id, current_month, next_month)
+                        "   AND start_datetime_utc < %%s "
+                        " GROUP BY DATE_FORMAT(start_datetime_utc, '%%Y-%%m-%%d'), energy_category_id "
+                        " ORDER BY day_str, energy_category_id " % format_strings,
+                        store_ids_tuple + (daily_start, reporting_end_datetime_utc)
                     )
-                    row = cursor_energy.fetchone()
-                    monthly_energy_values[idx].append(float(row[0]) if row and row[0] else 0.0)
+                    rows_daily_energy = cursor_energy.fetchall()
 
-                # Query cost for this month
-                for idx, ec_id in enumerate(reporting_input['energy_category_ids']):
-                    format_strings = ','.join(['%s'] * len(store_ids_list))
+                    # Build energy data mapping: {day_str: {ec_id: value}}
+                    energy_data_map = {}
+                    if rows_daily_energy:
+                        for row in rows_daily_energy:
+                            day_str = row[0]
+                            ec_id = row[1]
+                            total_value = float(row[2]) if row[2] else 0.0
+
+                            if day_str not in energy_data_map:
+                                energy_data_map[day_str] = {}
+                            energy_data_map[day_str][ec_id] = total_value
+
+                    # Fill energy values for each category
+                    for day_str in daily_timestamps:
+                        day_data = energy_data_map.get(day_str, {})
+                        for idx, ec_id in enumerate(reporting_input['energy_category_ids']):
+                            daily_energy_values[idx].append(day_data.get(ec_id, 0.0))
+
+                except Exception as e:
+                    logger.error(f"Error querying daily energy trends: {e}")
+                    # Fill with zeros on error
+                    for idx in range(len(reporting_input['energy_category_ids'])):
+                        daily_energy_values[idx] = [0.0] * len(daily_timestamps)
+
+                # OPTIMIZATION: Single query to fetch all daily cost data grouped by day and category
+                try:
                     cursor_billing.execute(
-                        " SELECT SUM(actual_value) "
+                        " SELECT DATE_FORMAT(start_datetime_utc, '%%Y-%%m-%%d') as day_str, "
+                        "        energy_category_id, "
+                        "        SUM(actual_value) as total_value "
                         " FROM tbl_store_input_category_hourly "
                         " WHERE store_id IN (%s) "
-                        "     AND energy_category_id = %%s "
-                        "     AND start_datetime_utc >= %%s "
-                        "     AND start_datetime_utc < %%s " % format_strings,
-                        store_ids_tuple + (ec_id, current_month, next_month)
+                        "   AND start_datetime_utc >= %%s "
+                        "   AND start_datetime_utc < %%s "
+                        " GROUP BY DATE_FORMAT(start_datetime_utc, '%%Y-%%m-%%d'), energy_category_id "
+                        " ORDER BY day_str, energy_category_id " % format_strings,
+                        store_ids_tuple + (daily_start, reporting_end_datetime_utc)
                     )
-                    row = cursor_billing.fetchone()
-                    monthly_cost_values[idx].append(float(row[0]) if row and row[0] else 0.0)
+                    rows_daily_cost = cursor_billing.fetchall()
 
-                current_month = next_month
+                    # Build cost data mapping: {day_str: {ec_id: value}}
+                    cost_data_map = {}
+                    if rows_daily_cost:
+                        for row in rows_daily_cost:
+                            day_str = row[0]
+                            ec_id = row[1]
+                            total_value = float(row[2]) if row[2] else 0.0
 
-            reporting_input['timestamps'] = [monthly_timestamps] * len(reporting_input['names'])
-            reporting_input['values'] = monthly_energy_values
-            reporting_cost['timestamps'] = [monthly_timestamps] * len(reporting_cost['names'])
-            reporting_cost['values'] = monthly_cost_values
+                            if day_str not in cost_data_map:
+                                cost_data_map[day_str] = {}
+                            cost_data_map[day_str][ec_id] = total_value
+
+                    # Fill cost values for each category
+                    for day_str in daily_timestamps:
+                        day_data = cost_data_map.get(day_str, {})
+                        for idx, ec_id in enumerate(reporting_cost['energy_category_ids']):
+                            daily_cost_values[idx].append(day_data.get(ec_id, 0.0))
+
+                except Exception as e:
+                    logger.error(f"Error querying daily cost trends: {e}")
+                    # Fill with zeros on error
+                    for idx in range(len(reporting_cost['energy_category_ids'])):
+                        daily_cost_values[idx] = [0.0] * len(daily_timestamps)
+
+            reporting_input['timestamps'] = [daily_timestamps] * len(reporting_input['names'])
+            reporting_input['values'] = daily_energy_values
+            reporting_cost['timestamps'] = [daily_timestamps] * len(reporting_cost['names'])
+            reporting_cost['values'] = daily_cost_values
             
-            # Add energy category names to monthly trends for frontend display
+            # Add energy category names to daily trends for frontend display
             reporting_input['category_names'] = list(reporting_input['names'])
             reporting_input['category_units'] = list(reporting_input['units'])
 
@@ -567,26 +653,32 @@ class Reporting:
             # Step 9: Query store statistics
             ################################################################################################################
             # Count meters
-            format_strings = ','.join(['%s'] * len(store_ids_list))
-            cursor_system.execute(
-                " SELECT COUNT(DISTINCT meter_id) "
-                " FROM tbl_stores_meters "
-                " WHERE store_id IN (%s) " % format_strings,
-                store_ids_tuple
-            )
-            row = cursor_system.fetchone()
-            total_meters = int(row[0]) if row and row[0] else 0
+            total_meters = 0
+            if len(store_ids_list) > 0:
+                # Validate all IDs are integers before using in SQL (already validated above)
+                format_strings = ','.join(['%s'] * len(store_ids_list))
+                cursor_system.execute(
+                    " SELECT COUNT(DISTINCT meter_id) "
+                    " FROM tbl_stores_meters "
+                    " WHERE store_id IN (%s) " % format_strings,
+                    store_ids_tuple
+                )
+                row = cursor_system.fetchone()
+                total_meters = int(row[0]) if row and row[0] else 0
 
             # Count sensors
-            format_strings = ','.join(['%s'] * len(store_ids_list))
-            cursor_system.execute(
-                " SELECT COUNT(DISTINCT sensor_id) "
-                " FROM tbl_stores_sensors "
-                " WHERE store_id IN (%s) " % format_strings,
-                store_ids_tuple
-            )
-            row = cursor_system.fetchone()
-            total_sensors = int(row[0]) if row and row[0] else 0
+            total_sensors = 0
+            if len(store_ids_list) > 0:
+                # Validate all IDs are integers before using in SQL (already validated above)
+                format_strings = ','.join(['%s'] * len(store_ids_list))
+                cursor_system.execute(
+                    " SELECT COUNT(DISTINCT sensor_id) "
+                    " FROM tbl_stores_sensors "
+                    " WHERE store_id IN (%s) " % format_strings,
+                    store_ids_tuple
+                )
+                row = cursor_system.fetchone()
+                total_sensors = int(row[0]) if row and row[0] else 0
 
             # Count active alerts (from FDD system)
             total_alerts = 0
@@ -595,16 +687,18 @@ class Reporting:
             try:
                 cnx_fdd = mysql.connector.connect(**config.myems_fdd_db)
                 cursor_fdd = cnx_fdd.cursor()
-                format_strings = ','.join(['%s'] * len(store_ids_list))
-                cursor_fdd.execute(
-                    " SELECT COUNT(*) "
-                    " FROM tbl_faults "
-                    " WHERE store_id IN (%s) "
-                    "   AND status = 'active' " % format_strings,
-                    store_ids_tuple
-                )
-                row = cursor_fdd.fetchone()
-                total_alerts = int(row[0]) if row and row[0] else 0
+                if len(store_ids_list) > 0:
+                    # Validate all IDs are integers before using in SQL (already validated above)
+                    format_strings = ','.join(['%s'] * len(store_ids_list))
+                    cursor_fdd.execute(
+                        " SELECT COUNT(*) "
+                        " FROM tbl_faults "
+                        " WHERE store_id IN (%s) "
+                        "   AND status = 'active' " % format_strings,
+                        store_ids_tuple
+                    )
+                    row = cursor_fdd.fetchone()
+                    total_alerts = int(row[0]) if row and row[0] else 0
             except:
                 total_alerts = 0
             finally:
@@ -621,43 +715,110 @@ class Reporting:
             
             # First get store names
             store_name_dict = {}
-            format_strings = ','.join(['%s'] * len(store_ids_list))
-            cursor_system.execute(
-                " SELECT id, name FROM tbl_stores WHERE id IN (%s) " % format_strings,
-                store_ids_tuple
-            )
-            rows_stores_names = cursor_system.fetchall()
-            if rows_stores_names:
-                for row in rows_stores_names:
-                    store_name_dict[row[0]] = row[1]
+            if len(store_ids_list) > 0:
+                # Validate all IDs are integers before using in SQL (already validated above)
+                format_strings = ','.join(['%s'] * len(store_ids_list))
+                cursor_system.execute(
+                    " SELECT id, name FROM tbl_stores WHERE id IN (%s) " % format_strings,
+                    store_ids_tuple
+                )
+                rows_stores_names = cursor_system.fetchall()
+                if rows_stores_names:
+                    for row in rows_stores_names:
+                        store_name_dict[row[0]] = row[1]
 
             # Query energy consumption by category for each store
-            format_strings = ','.join(['%s'] * len(store_ids_list))
-            cursor_energy.execute(
-                " SELECT store_id, energy_category_id, SUM(actual_value) as category_energy "
-                " FROM tbl_store_input_category_hourly "
-                " WHERE store_id IN (%s) "
-                "   AND start_datetime_utc >= %%s "
-                "   AND start_datetime_utc < %%s "
-                " GROUP BY store_id, energy_category_id "
-                " ORDER BY store_id, category_energy DESC " % format_strings,
-                store_ids_tuple + (reporting_start_datetime_utc, reporting_end_datetime_utc)
-            )
-            rows_all = cursor_energy.fetchall()
-            if rows_all:
-                for row in rows_all:
-                    store_id = row[0]
-                    ec_id = row[1]
-                    category_energy = float(row[2]) if row[2] else 0.0
-                    
-                    if store_id not in store_energy_by_category:
-                        store_energy_by_category[store_id] = {
-                            'total_energy': 0.0,
-                            'categories': {}
-                        }
-                    
-                    store_energy_by_category[store_id]['categories'][ec_id] = category_energy
-                    store_energy_by_category[store_id]['total_energy'] += category_energy
+            store_energy_by_category = {}
+            if len(store_ids_list) > 0:
+                # Validate all IDs are integers before using in SQL (already validated above)
+                format_strings = ','.join(['%s'] * len(store_ids_list))
+                cursor_energy.execute(
+                    " SELECT store_id, energy_category_id, SUM(actual_value) as category_energy "
+                    " FROM tbl_store_input_category_hourly "
+                    " WHERE store_id IN (%s) "
+                    "   AND start_datetime_utc >= %%s "
+                    "   AND start_datetime_utc < %%s "
+                    " GROUP BY store_id, energy_category_id "
+                    " ORDER BY store_id, category_energy DESC " % format_strings,
+                    store_ids_tuple + (reporting_start_datetime_utc, reporting_end_datetime_utc)
+                )
+                rows_all = cursor_energy.fetchall()
+                if rows_all:
+                    for row in rows_all:
+                        store_id = row[0]
+                        ec_id = row[1]
+                        category_energy = float(row[2]) if row[2] else 0.0
+                        
+                        if store_id not in store_energy_by_category:
+                            store_energy_by_category[store_id] = {
+                                'total_energy': 0.0,
+                                'categories': {}
+                            }
+                        
+                        store_energy_by_category[store_id]['categories'][ec_id] = category_energy
+                        store_energy_by_category[store_id]['total_energy'] += category_energy
+
+            # Query cost by category for each store
+            store_cost_by_category = {}
+            if len(store_ids_list) > 0:
+                # Validate all IDs are integers before using in SQL (already validated above)
+                format_strings = ','.join(['%s'] * len(store_ids_list))
+                cursor_billing.execute(
+                    " SELECT store_id, energy_category_id, SUM(actual_value) as category_cost "
+                    " FROM tbl_store_input_category_hourly "
+                    " WHERE store_id IN (%s) "
+                    "   AND start_datetime_utc >= %%s "
+                    "   AND start_datetime_utc < %%s "
+                    " GROUP BY store_id, energy_category_id "
+                    " ORDER BY store_id, category_cost DESC " % format_strings,
+                    store_ids_tuple + (daily_start, reporting_end_datetime_utc)
+                )
+                rows_cost = cursor_billing.fetchall()
+                if rows_cost:
+                    for row in rows_cost:
+                        store_id = row[0]
+                        ec_id = row[1]
+                        category_cost = float(row[2]) if row[2] else 0.0
+
+                        if store_id not in store_cost_by_category:
+                            store_cost_by_category[store_id] = {
+                                'total_cost': 0.0,
+                                'categories': {}
+                            }
+
+                        store_cost_by_category[store_id]['categories'][ec_id] = category_cost
+                        store_cost_by_category[store_id]['total_cost'] += category_cost
+
+            # Query carbon by category for each store
+            store_carbon_by_category = {}
+            if len(store_ids_list) > 0:
+                # Validate all IDs are integers before using in SQL (already validated above)
+                format_strings = ','.join(['%s'] * len(store_ids_list))
+                cursor_carbon.execute(
+                    " SELECT store_id, energy_category_id, SUM(actual_value) as category_carbon "
+                    " FROM tbl_store_input_category_hourly "
+                    " WHERE store_id IN (%s) "
+                    "   AND start_datetime_utc >= %%s "
+                    "   AND start_datetime_utc < %%s "
+                    " GROUP BY store_id, energy_category_id "
+                    " ORDER BY store_id, category_carbon DESC " % format_strings,
+                    store_ids_tuple + (daily_start, reporting_end_datetime_utc)
+                )
+                rows_carbon = cursor_carbon.fetchall()
+                if rows_carbon:
+                    for row in rows_carbon:
+                        store_id = row[0]
+                        ec_id = row[1]
+                        category_carbon = float(row[2]) if row[2] else 0.0
+
+                        if store_id not in store_carbon_by_category:
+                            store_carbon_by_category[store_id] = {
+                                'total_carbon': 0.0,
+                                'categories': {}
+                            }
+
+                        store_carbon_by_category[store_id]['categories'][ec_id] = category_carbon
+                        store_carbon_by_category[store_id]['total_carbon'] += category_carbon
 
             # Build top 5 stores
             sorted_stores = sorted(
@@ -687,14 +848,26 @@ class Reporting:
                     'total_energy': 0.0,
                     'categories': {}
                 })
-                
+                cost_data = store_cost_by_category.get(store_id, {
+                    'total_cost': 0.0,
+                    'categories': {}
+                })
+                carbon_data = store_carbon_by_category.get(store_id, {
+                    'total_carbon': 0.0,
+                    'categories': {}
+                })
+            
                 store_details.append({
                     'id': store_id,
                     'name': store['name'],
                     'area': float(store['area']) if store['area'] else 0.0,
                     'address': store['address'] if store['address'] else '',
                     'total_energy': energy_data['total_energy'],
-                    'energy_by_category': energy_data['categories']
+                    'energy_by_category': energy_data['categories'],
+                    'total_cost': cost_data['total_cost'],
+                    'cost_by_category': cost_data['categories'],
+                    'total_carbon': carbon_data['total_carbon'],
+                    'carbon_by_category': carbon_data['categories']
                 })
             
             result = {

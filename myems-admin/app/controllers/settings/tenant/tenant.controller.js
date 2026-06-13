@@ -1,5 +1,7 @@
 'use strict';
 
+// Tenant controller - entity association management
+
 app.controller('TenantController', function (
 	$scope,
 	$rootScope,
@@ -17,6 +19,7 @@ app.controller('TenantController', function (
 	$scope.importdata = '';
 	$scope.tenantTypes = [];
 	$scope.searchTenantKeyword = '';
+	// Load all cost centers from API
 	$scope.getAllCostCenters = function () {
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 		CostCenterService.getAllCostCenters(headers, function (response) {
@@ -28,6 +31,7 @@ app.controller('TenantController', function (
 		});
 	};
 
+	// Load all contacts from API
 	$scope.getAllContacts = function () {
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 		ContactService.getAllContacts(headers, function (response) {
@@ -39,6 +43,7 @@ app.controller('TenantController', function (
 		});
 	};
 
+	// Load all tenants from API
 	$scope.getAllTenants = function () {
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 		TenantService.getAllTenants(headers, function (response) {
@@ -50,6 +55,7 @@ app.controller('TenantController', function (
 		});
 	};
 
+	// Load all tenant types from API
 	$scope.getAllTenantTypes = function () {
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 		TenantTypeService.getAllTenantTypes(headers, function (response) {
@@ -62,6 +68,7 @@ app.controller('TenantController', function (
 		});
 	};
 	
+	// Open add modal and create tenant
 	$scope.addTenant = function () {
 		var modalInstance = $uibModal.open({
 			templateUrl: 'views/settings/tenant/tenant.model.html',
@@ -115,6 +122,7 @@ app.controller('TenantController', function (
 		$rootScope.modalInstance = modalInstance;
 	};
 
+	// Open edit modal and update tenant
 	$scope.editTenant = function (tenant) {
 		var modalInstance = $uibModal.open({
 			windowClass: "animated fadeIn",
@@ -169,6 +177,7 @@ app.controller('TenantController', function (
 		$rootScope.modalInstance = modalInstance;
 	};
 
+	// Confirm and delete tenant
 	$scope.deleteTenant = function (tenant) {
 		SweetAlert.swal({
 			title: $translate.instant("SWEET.TITLE"),
@@ -206,6 +215,7 @@ app.controller('TenantController', function (
 			});
 	};
 
+	// Export tenant as JSON
 	$scope.exportTenant = function(tenant) {
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 		TenantService.exportTenant(tenant, headers, function(response) {
@@ -235,6 +245,7 @@ app.controller('TenantController', function (
 		});
 	};
 
+	// Clone an existing tenant
 	$scope.cloneTenant = function(tenant){
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 		TenantService.cloneTenant(tenant, headers, function(response) {
@@ -257,6 +268,7 @@ app.controller('TenantController', function (
 		});
 	};
 
+	// Import tenant from JSON
 	$scope.importTenant = function() {
 		var modalInstance = $uibModal.open({
 			templateUrl: 'views/common/import.html',
@@ -302,6 +314,7 @@ app.controller('TenantController', function (
 			scope.$apply();
 		}
 	}
+	// Search tenant by keyword
 	$scope.searchTenant = function() {
 		const headers = {
 			"User-UUID": $scope.cur_user?.uuid,
@@ -342,6 +355,7 @@ app.controller('TenantController', function (
 	});
 });
 
+// Modal controller for add dialog
 app.controller('ModalAddTenantCtrl', function ($scope, $uibModalInstance, params) {
 	$scope.operation = "SETTING.ADD_TENANT";
 	$scope.tenanttypes = params.tenantTypes;
@@ -390,6 +404,7 @@ app.controller('ModalAddTenantCtrl', function ($scope, $uibModalInstance, params
 	};
 });
 
+// Modal controller for edit dialog
 app.controller('ModalEditTenantCtrl', function ($scope, $uibModalInstance, params) {
 	$scope.operation = "SETTING.EDIT_TENANT";
 	$scope.tenant = params.tenant;

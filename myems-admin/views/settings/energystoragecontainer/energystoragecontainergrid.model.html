@@ -1,8 +1,11 @@
+<!-- Modal dialog for Energy Storage Container Grid add/edit -->
 <div class="inmodal">
+    <!-- Modal header -->
     <div class="modal-header">
         <h4 class="modal-title">{{operation | translate}}(ID:{{energystoragecontainergrid.id}})</h4>
     </div>
     <div class="modal-body">
+        <!-- Energy Storage Container Grid form fields -->
         <form role="form" name="form_energystoragecontainergrid" novalidate class="form-horizontal">
             <div class="form-group">
                 <label class="col-sm-5 control-label">{{'ENERGY_STORAGE_CONTAINER.ENERGY_STORAGE_CONTAINER_GRID_NAME' |
@@ -69,6 +72,7 @@
             </div>
         </form>
     </div>
+    <!-- Modal action buttons -->
     <div class="modal-footer">
         <button type="button" class="btn btn-white" ng-click="cancel()">{{'SETTING.CANCEL' | translate}}</button>
         <button type="button" ng-disabled="form_energystoragecontainergrid.$invalid" class="btn btn-primary"

@@ -1,10 +1,13 @@
+<!-- Store settings page -->
 <div class="wrapper wrapper-content" ng-controller="StoreMasterController">
 	<div class="row">
 		<div class="col-lg-12">
 			<div class="tabs-container">
 				<uib-tabset>
+					<!-- Tab: Store -->
 					<uib-tab heading="{{'COMMON.STORE' | translate}}">
 						<div class="panel-body" ng-controller="StoreController">
+							<!-- Collapsible description panel -->
 							<div class="alert alert-info">
 								<p>
 									{{'SETTING.STORE_DESCRIPTION' | translate}}
@@ -18,17 +21,20 @@
 								</div>
 							</div>
                                                         <div class="col-md-3">
+							<!-- Add new store -->
 							<a ng-click="addStore()" class="btn btn-primary btn-rounded  btn-outline" href=""><i class="fa fa-plus-circle"></i> {{'SETTING.ADD_STORE' | translate}}</a>
 							<a ng-click="importStore()" class="btn btn-primary btn-rounded  btn-outline" href=""><i class="fa fa-plus-circle"></i> {{'SETTING.IMPORT' | translate}}</a>
                                                         </div>
                                                         <div class="col-md-9">
-                                                        <input type="text" class="form-control m-b-xs" 
-                                                            placeholder="{{'SETTING.SEARCH' | translate}}"
+                                                        <!-- Search input -->
+                                                            <input type="text" class="form-control m-b-xs" 
+                                                                                                                        placeholder="{{'SETTING.SEARCH' | translate}}"
                                                             ng-model="searchKeyword"
                                                             ng-keyup="searchStores()">
                                                         </div>
 							<br>
 							<br>
+							<!-- Store list table -->
 							<table class="footable table table-bordered table-hover" data-sort="true" data-page-size="15">
 								<thead>
 									<tr>
@@ -71,8 +77,10 @@
 							</table>
 						</div>
 					</uib-tab>
+					<!-- Tab: Store Type -->
 					<uib-tab heading="{{'SETTING.STORE_TYPE' | translate}}">
 						<div class="panel-body" ng-controller="StoreTypeController">
+							<!-- Collapsible description panel -->
 							<div class="alert alert-info">
 								<p>
 									{{'SETTING.STORE_TYPE_DESCRIPTION' | translate}}
@@ -89,6 +97,7 @@
 								<i class="fa fa-plus-circle"></i> {{'SETTING.ADD_STORE_TYPE' | translate}}
 							</a>
 							<br>
+							<!-- Store list table -->
 							<table class="footable table table-bordered table-hover" data-sort="true"
 								data-page-size="15">
 								<thead>
@@ -129,8 +138,10 @@
 							<div uib-modal="addEditModal" class="modal fade" role="dialog"></div>
 						</div>
 					</uib-tab>
+					<!-- Tab: Bind Meter -->
 					<uib-tab heading="{{'SETTING.BIND_METER' | translate}}">
 						<div class="panel-body" ng-controller="StoreMeterController">
+							<!-- Collapsible description panel -->
 							<div class="alert alert-info">
 								<p>
 									{{'STORE.BIND_METER_DESCRIPTION' | translate}}
@@ -194,7 +205,7 @@
 							</div>
 
 							<div class="col-lg-4">
-								<!-- according panel-->
+								<!-- Accordion panel: available items for drag-and-drop binding -->
 								<div class="panel panel-primary">
 									<div class="panel-heading">
 										{{'SETTING.METER' | translate}}
@@ -219,8 +230,10 @@
 						</div>
 					</div>
 				  </uib-tab>
+					<!-- Tab: Bind Point -->
 					<uib-tab heading="{{'SETTING.BIND_POINT' | translate}}">
 							<div class="panel-body" ng-controller="StorePointController">
+								<!-- Collapsible description panel -->
 								<div class="alert alert-info">
 									<p>
 										{{'STORE.BIND_POINT_DESCRIPTION' | translate}}
@@ -308,8 +321,10 @@
 							</div>
 						</div>
 					</uib-tab>
+					<!-- Tab: Bind Sensor -->
 					<uib-tab heading="{{'SETTING.BIND_SENSOR' | translate}}">
 							<div class="panel-body" ng-controller="StoreSensorController">
+								<!-- Collapsible description panel -->
 								<div class="alert alert-info">
 									<p>
 										{{'STORE.BIND_SENSOR_DESCRIPTION' | translate}}
@@ -389,8 +404,10 @@
 						</div>
 					</uib-tab>
 
+					<!-- Tab: Bind Working Calendar -->
 					<uib-tab heading="{{'WORKING_CALENDAR.BIND_WORKING_CALENDAR' | translate}}">
 						<div class="panel-body" ng-controller="StoreWorkingCalendarController">
+							<!-- Collapsible description panel -->
 							<div class="alert alert-info">
 								<p>
 									{{'STORE.BIND_WORKING_CALENDAR_DESCRIPTION' | translate}}
@@ -458,7 +475,7 @@
 								</div>
 
 								<div class="col-lg-4">
-									<!-- according panel-->
+									<!-- Accordion panel: available items for drag-and-drop binding -->
 									<div class="panel panel-primary">
 										<div class="panel-heading">
 											{{'SETTING.WORKING_CALENDAR' | translate}}
@@ -474,8 +491,10 @@
 							</div>
 						</div>
 					</uib-tab>
+					<!-- Tab: Bind Command -->
 					<uib-tab heading="{{'SETTING.BIND_COMMAND' | translate}}">
 						<div class="panel-body" ng-controller="StoreCommandController">
+							<!-- Collapsible description panel -->
 							<div class="alert alert-info">
 								<p>
 									{{'STORE.BIND_COMMAND_DESCRIPTION' | translate}}
@@ -544,7 +563,7 @@
 								</div>
 
 								<div class="col-lg-4">
-									<!-- according panel-->
+									<!-- Accordion panel: available items for drag-and-drop binding -->
 									<div class="panel panel-primary">
 										<div class="panel-heading">
 											{{'SETTING.COMMAND_LIST' | translate}}

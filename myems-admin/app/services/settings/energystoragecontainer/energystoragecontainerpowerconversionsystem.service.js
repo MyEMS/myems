@@ -1,8 +1,11 @@
 "use strict";
+
+// Energy Storage Container Power Conversion System service - REST API wrapper
 app.factory(
   "EnergyStorageContainerPowerconversionsystemService",
   function ($http) {
     return {
+        // GET all energy storage container powerconversionsystems
       getAllEnergyStorageContainerPowerconversionsystems: function (
         headers,
         callback
@@ -39,6 +42,7 @@ app.factory(
               }
             );
         },
+        // POST create energy storage container powerconversionsystem
       addEnergyStorageContainerPowerconversionsystem: function (
         id,
         energystoragecontainerpowerconversionsystem,
@@ -63,6 +67,7 @@ app.factory(
             }
           );
       },
+        // PUT update energy storage container powerconversionsystem
       editEnergyStorageContainerPowerconversionsystem: function (
         id,
         energystoragecontainerpowerconversionsystem,
@@ -88,6 +93,7 @@ app.factory(
             }
           );
       },
+        // DELETE energy storage container powerconversionsystem
       deleteEnergyStorageContainerPowerconversionsystem: function (
         id,
         energystoragecontainerpowerconversionsystemyID,
@@ -112,6 +118,7 @@ app.factory(
             }
           );
       },
+        // POST create pair
       addPair: function (id, pcsid, pid, headers, callback) {
         $http
           .post(
@@ -133,6 +140,7 @@ app.factory(
             }
           );
       },
+        // DELETE pair
       deletePair: function (id, pcsid, pid, headers, callback) {
         $http
           .delete(
@@ -154,6 +162,7 @@ app.factory(
             }
           );
       },
+        // GET points by pcsid by ID
       getPointsByPCSID: function (id, pcsid, headers, callback) {
         $http
           .get(

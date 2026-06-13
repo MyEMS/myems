@@ -1,5 +1,7 @@
 'use strict';
 
+// Tariff controller - tariff association
+
 app.controller('TariffController', function(
 	$scope,
 	$rootScope,
@@ -17,6 +19,7 @@ app.controller('TariffController', function(
 	$scope.importdata = '';
 	$scope.searchKeyword = '';
 
+	// Load all categories from API
 	$scope.getAllCategories = function() {
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 		CategoryService.getAllCategories(headers, function (response) {
@@ -28,6 +31,7 @@ app.controller('TariffController', function(
 		});
 
 	};
+	// Load all tariffs from API
 	$scope.getAllTariffs = function() {
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 		TariffService.getAllTariffs(headers, function (response) {
@@ -44,6 +48,7 @@ app.controller('TariffController', function(
 		return TARIFF_TYPE[type];
 	};
 
+	// Open add modal and create tariff
 	$scope.addTariff = function() {
 		var modalInstance = $uibModal.open({
 			templateUrl: 'views/settings/tariff/tariff.model.html',
@@ -84,6 +89,7 @@ app.controller('TariffController', function(
 		$rootScope.modalInstance = modalInstance;
 	};
 
+	// Open edit modal and update tariff
 	$scope.editTariff = function(tariff) {
 		var modalInstance = $uibModal.open({
 			windowClass: "animated fadeIn",
@@ -126,6 +132,7 @@ app.controller('TariffController', function(
 		$rootScope.modalInstance = modalInstance;
 	};
 
+	// Confirm and delete tariff
 	$scope.deleteTariff = function(tariff) {
 		SweetAlert.swal({
 				title: $translate.instant("SWEET.TITLE"),
@@ -164,6 +171,7 @@ app.controller('TariffController', function(
 		);
 	};
 
+	// Export tariff as JSON
 	$scope.exportTariff = function(tariff) {
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 		TariffService.exportTariff(tariff, headers, function(response) {
@@ -193,6 +201,7 @@ app.controller('TariffController', function(
 		});
 	};
 
+	// Clone an existing tariff
 	$scope.cloneTariff = function(tariff){
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 		TariffService.cloneTariff(tariff, headers, function(response) {
@@ -216,6 +225,7 @@ app.controller('TariffController', function(
 		});
 	};
 
+	// Import tariff from JSON
 	$scope.importTariff = function() {
 		var modalInstance = $uibModal.open({
 			templateUrl: 'views/common/import.html',
@@ -263,6 +273,7 @@ app.controller('TariffController', function(
 			scope.$apply();
 		}
 	}
+	// Search tariffs by keyword
 	$scope.searchTariffs = function() {
 		const headers = {
 			"User-UUID": $scope.cur_user?.uuid,
@@ -293,6 +304,7 @@ app.controller('TariffController', function(
 
 });
 
+// Modal controller for add dialog
 app.controller('ModalAddTariffCtrl', function($scope, $timeout, $uibModalInstance, TARIFF_TYPE, PEAK_TYPE, params, $translate) {
 
 	$scope.operation = "SETTING.ADD_TARIFF";
@@ -542,6 +554,7 @@ app.controller('ModalAddTariffCtrl', function($scope, $timeout, $uibModalInstanc
 	};
 });
 
+// Modal controller for edit dialog
 app.controller('ModalEditTariffCtrl', function($scope, $timeout, $uibModalInstance, TARIFF_TYPE, PEAK_TYPE, params, $translate) {
 	$scope.operation = "SETTING.EDIT_TARIFF";
 	$scope.disable=true;

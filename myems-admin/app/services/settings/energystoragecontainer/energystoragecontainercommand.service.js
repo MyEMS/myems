@@ -1,6 +1,9 @@
 "use strict";
+
+// Energy Storage Container Command service - REST API wrapper
 app.factory("EnergyStorageContainerCommandService", function ($http) {
   return {
+        // POST create pair
     addPair: function (energystoragecontainerID, commandID, headers, callback) {
       $http
         .post(
@@ -21,6 +24,7 @@ app.factory("EnergyStorageContainerCommandService", function ($http) {
         );
     },
 
+        // DELETE pair
     deletePair: function (
       energystoragecontainerID,
       commandID,
@@ -45,6 +49,7 @@ app.factory("EnergyStorageContainerCommandService", function ($http) {
           }
         );
     },
+        // GET commands by energy storage container id by ID
     getCommandsByEnergyStorageContainerID: function (id, headers, callback) {
       $http
         .get(getAPI() + "energystoragecontainers/" + id + "/commands", {

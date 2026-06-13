@@ -1,4 +1,6 @@
+<!-- Modal dialog for Energy Storage Container Schedule add/edit -->
 <div class="inmodal">
+    <!-- Modal header -->
     <div class="modal-header">
         <h4 class="modal-title">{{operation | translate}}(ID:{{energystoragecontainer.id}})</h4>
     </div>
@@ -401,6 +403,7 @@
 			</div>
 		</div>
     </div>
+    <!-- Modal action buttons -->
     <div class="modal-footer">
         <button type="button" class="btn btn-white" ng-click="cancel()">{{'SETTING.CANCEL' | translate}}</button>
         <button type="button" ng-disabled="!(controlmode.name && controlmode.list.length > 0)" class="btn btn-primary" ng-click="ok()">{{'SETTING.SAVE' | translate}}</button>

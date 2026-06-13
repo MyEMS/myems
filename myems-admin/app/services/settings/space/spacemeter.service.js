@@ -1,6 +1,9 @@
 'use strict';
+
+// Space Meter service - REST API wrapper
 app.factory('SpaceMeterService', function($http) {
     return {
+        // POST create pair
         addPair: function(spaceID,meterID, metertype, headers, callback) {
             var meter={};
             if(metertype=='meters'){
@@ -19,6 +22,7 @@ app.factory('SpaceMeterService', function($http) {
             });
         },
 
+        // DELETE pair
         deletePair: function(spaceID,meterID, metertype, headers, callback) {
             $http.delete(getAPI()+'spaces/'+spaceID+'/'+metertype+'/'+meterID, {headers})
             .then(function (response) {
@@ -27,6 +31,7 @@ app.factory('SpaceMeterService', function($http) {
                 callback(response);
             });
         },
+        // GET meters by space id by ID
         getMetersBySpaceID: function(id, metertype, headers, callback) {
             $http.get(getAPI()+'spaces/'+id+'/'+metertype, {headers})
             .then(function (response) {
