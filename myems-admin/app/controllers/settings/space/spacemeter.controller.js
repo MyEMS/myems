@@ -1,5 +1,7 @@
 'use strict';
 
+// Space Meter controller - drag-and-drop meter binding
+
 app.controller('SpaceMeterController', function(
     $scope ,
     $window,
@@ -35,6 +37,7 @@ app.controller('SpaceMeterController', function(
         }
     }
 
+    // Load all spaces from API
     $scope.getAllSpaces = function() {
     let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
     SpaceService.getAllSpaces(headers, function (response) {
@@ -78,6 +81,7 @@ app.controller('SpaceMeterController', function(
     });
     };
 
+	// Load meters by space id
 	$scope.getMetersBySpaceID = function(id) {
 	    if ($scope.isLoadingMeters) return;
 	    $scope.isLoadingMeters = true;
@@ -113,6 +117,7 @@ app.controller('SpaceMeterController', function(
         });
     };
 
+	// Return CSS class for meter type
 	$scope.colorMeterType=function(type){
 		if(type=='meters'){
 			return 'btn-primary'
@@ -146,6 +151,7 @@ app.controller('SpaceMeterController', function(
 		$scope.changeMeterType();
 	};
 
+	// Handle meter type change
 	$scope.changeMeterType=function(){
 		// Defensive assignment to prevent race conditions
 		$scope.filteredMeters = $scope.filteredMeters || [];
@@ -167,6 +173,7 @@ app.controller('SpaceMeterController', function(
 		}
 	};
 
+	// Load all meters from API
 	$scope.getAllMeters = function() {
         let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 		MeterService.getAllMeters(headers, function (response) {
@@ -182,6 +189,7 @@ app.controller('SpaceMeterController', function(
 
 	};
 
+	// Load all offline meters from API
 	$scope.getAllOfflineMeters = function() {
         let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 		OfflineMeterService.getAllOfflineMeters(headers, function (response) {
@@ -195,6 +203,7 @@ app.controller('SpaceMeterController', function(
 
 	};
 
+	// Load all virtual meters from API
 	$scope.getAllVirtualMeters = function() {
         let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 		VirtualMeterService.getAllVirtualMeters(headers, function (response) {
@@ -208,6 +217,7 @@ app.controller('SpaceMeterController', function(
 
 	};
 
+	// Bind meter via drag-and-drop
 	$scope.pairMeter=function(dragEl,dropEl){
 		if (!$scope.isSpaceSelected) {
 			DragDropWarningService.showWarning("SETTING.PLEASE_SELECT_SPACE_FIRST");
@@ -236,6 +246,7 @@ app.controller('SpaceMeterController', function(
 		});
 	};
 
+	// Unbind meter via drag-to-trash
 	$scope.deleteMeterPair=function(dragEl,dropEl){
 		if(angular.element('#'+dragEl).hasClass('source')){
 			return;
@@ -268,6 +279,7 @@ app.controller('SpaceMeterController', function(
 		});
 	};
 
+    // Initialize tab
     $scope.initTab = function() {
         if (!$scope.tabInitialized) {
             $scope.tabInitialized = true;
@@ -305,6 +317,7 @@ app.controller('SpaceMeterController', function(
         }
     }, 0);
 
+    // Refresh space tree
     $scope.refreshSpaceTree = function() {
     let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
     SpaceService.getAllSpaces(headers, function (response) {

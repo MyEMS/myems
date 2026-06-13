@@ -328,6 +328,7 @@ export default {
         'Per Unit Area': 'Birim Alan Başına',
         'Per Capita': 'Per Capita',
         'Per Unit Production': 'Birim Üretim Başına',
+        'Comprehensive Unit Price': 'Ortalama Birim Fiyat',
         Baseline: 'Taban çizgisi',
         Actual: 'Gerçek',
         'Baseline Value - Actual Value': 'Taban çizgisi - Gerçek',

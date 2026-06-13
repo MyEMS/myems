@@ -1127,13 +1127,24 @@ const ShopfloorPrediction = ({ setRedirect, setRedirectUrl, t }) => {
         lineValues[k] = Array.isArray(arr) ? arr.slice(0, 200) : arr;
       });
     }
+    const sliceNestedArrays = (obj, maxLen) => {
+      const out = {};
+      if (!obj || typeof obj !== 'object') {
+        return out;
+      }
+      Object.keys(obj).forEach(k => {
+        const arr = obj[k];
+        out[k] = Array.isArray(arr) ? arr.slice(0, maxLen) : arr;
+      });
+      return out;
+    };
     const shopfloorLabel =
       shopfloorList.find(s => String(s.value) === String(selectedShopfloor))?.label ?? null;
     const spaceDisplayName = Array.isArray(selectedSpaceName)
       ? selectedSpaceName.join('/')
       : selectedSpaceName ?? null;
     return {
-      reportType: 'shopfloor_energy_category',
+      reportType: 'shopfloor_prediction',
       reportTitle: t('Prediction'),
       space: { name: spaceDisplayName },
       shopfloor: {
@@ -1175,7 +1186,17 @@ const ShopfloorPrediction = ({ setRedirect, setRedirectUrl, t }) => {
         values: lineValues
       },
       shopfloorBaseAndReportingNames,
-      shopfloorBaseAndReportingUnits
+      shopfloorBaseAndReportingUnits,
+      shopfloorReportingSubtotals,
+      shopfloorBaseSubtotals,
+      shopfloorTrend: {
+        reportingLabels: sliceNestedArrays(shopfloorReportingLabels, 200),
+        reportingData: sliceNestedArrays(shopfloorReportingData, 200),
+        baseLabels: sliceNestedArrays(shopfloorBaseLabels, 200),
+        baseData: sliceNestedArrays(shopfloorBaseData, 200),
+        rates: sliceNestedArrays(shopfloorReportingRates, 200),
+        options: shopfloorReportingOptions
+      }
     };
   }, [
     t,
@@ -1199,7 +1220,15 @@ const ShopfloorPrediction = ({ setRedirect, setRedirectUrl, t }) => {
     parameterLineChartOptions,
     parameterLineChartData,
     shopfloorBaseAndReportingNames,
-    shopfloorBaseAndReportingUnits
+    shopfloorBaseAndReportingUnits,
+    shopfloorReportingSubtotals,
+    shopfloorBaseSubtotals,
+    shopfloorReportingLabels,
+    shopfloorReportingData,
+    shopfloorBaseLabels,
+    shopfloorBaseData,
+    shopfloorReportingRates,
+    shopfloorReportingOptions
   ]);
 
   const openSmartAnalysis = () => {

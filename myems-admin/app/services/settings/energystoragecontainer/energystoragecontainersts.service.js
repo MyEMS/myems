@@ -1,6 +1,9 @@
 "use strict";
+
+// Energy Storage Container STS service - REST API wrapper
 app.factory("EnergyStorageContainerSTSService", function ($http) {
   return {
+        // GET all energy storage container st ses
     getAllEnergyStorageContainerSTSes: function (headers, callback) {
       $http.get(getAPI() + "energystoragecontainerstses", { headers }).then(
         function (response) {
@@ -11,6 +14,7 @@ app.factory("EnergyStorageContainerSTSService", function ($http) {
         }
       );
     },
+        // GET energy storage container st ses by energy storage container id by ID
     getEnergyStorageContainerSTSesByEnergyStorageContainerID: function (
       id,
       headers,
@@ -27,6 +31,7 @@ app.factory("EnergyStorageContainerSTSService", function ($http) {
           }
         );
     },
+        // POST create energy storage container sts
     addEnergyStorageContainerSTS: function (
       id,
       energystoragecontainersts,
@@ -48,6 +53,7 @@ app.factory("EnergyStorageContainerSTSService", function ($http) {
           }
         );
     },
+        // PUT update energy storage container sts
     editEnergyStorageContainerSTS: function (
       id,
       energystoragecontainersts,
@@ -73,6 +79,7 @@ app.factory("EnergyStorageContainerSTSService", function ($http) {
           }
         );
     },
+        // DELETE energy storage container sts
     deleteEnergyStorageContainerSTS: function (
       id,
       energystoragecontainerstsID,
@@ -97,6 +104,7 @@ app.factory("EnergyStorageContainerSTSService", function ($http) {
           }
         );
     },
+        // POST create pair
     addPair: function (id, fid, pid, headers, callback) {
       $http
         .post(
@@ -118,6 +126,7 @@ app.factory("EnergyStorageContainerSTSService", function ($http) {
           }
         );
     },
+        // DELETE pair
     deletePair: function (id, fid, pid, headers, callback) {
       $http
         .delete(
@@ -139,6 +148,7 @@ app.factory("EnergyStorageContainerSTSService", function ($http) {
           }
         );
     },
+        // GET points by stsid by ID
     getPointsBySTSID: function (id, fid, headers, callback) {
       $http
         .get(

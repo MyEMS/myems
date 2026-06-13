@@ -1,8 +1,11 @@
+<!-- Modal dialog for Data Source add/edit -->
 <div class="inmodal">
+    <!-- Modal header -->
     <div class="modal-header">
         <h4 class="modal-title">{{operation | translate}}(ID:{{datasource.id}})</h4>
     </div>
     <div class="modal-body">
+        <!-- Collapsible description panel -->
         <div class="alert alert-info">
             <p>
                 {{'SETTING.DATASOURCE_DIALOG_DESCRIPTION' | translate}}
@@ -15,6 +18,7 @@
                 <p>{{'SETTING.DATASOURCE_DIALOG_DESCRIPTION_MORE' | translate}}</p>
             </div>
         </div>
+        <!-- Data Source form fields -->
         <form role="form" name="form_datasource" novalidate class="form-horizontal">
             <div class="form-group"><label class="col-sm-2 control-label">{{'SETTING.NAME' | translate}}<span class="text-danger">*</span></label>
                 <div class="col-sm-10">
@@ -70,6 +74,7 @@
               </div>
         </form>
     </div>
+    <!-- Modal action buttons -->
     <div class="modal-footer">
         <button type="button" class="btn btn-white" ng-click="cancel()">{{'SETTING.CANCEL' | translate}}</button>
         <button type="button" ng-disabled="form_datasource.$invalid" class="btn btn-primary" ng-click="ok()">{{'SETTING.SAVE' | translate}}</button>

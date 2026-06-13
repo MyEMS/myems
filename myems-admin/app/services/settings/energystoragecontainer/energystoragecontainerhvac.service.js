@@ -1,6 +1,9 @@
 "use strict";
+
+// Energy Storage Container HVAC service - REST API wrapper
 app.factory("EnergyStorageContainerHVACService", function ($http) {
   return {
+        // GET all energy storage container hva cs
     getAllEnergyStorageContainerHVACs: function (headers, callback) {
       $http.get(getAPI() + "energystoragecontainerhvacs", { headers }).then(
         function (response) {
@@ -11,6 +14,7 @@ app.factory("EnergyStorageContainerHVACService", function ($http) {
         }
       );
     },
+        // GET energy storage container hva cs by energy storage container id by ID
     getEnergyStorageContainerHVACsByEnergyStorageContainerID: function (
       id,
       headers,
@@ -27,6 +31,7 @@ app.factory("EnergyStorageContainerHVACService", function ($http) {
           }
         );
     },
+        // POST create energy storage container hvac
     addEnergyStorageContainerHVAC: function (
       id,
       energystoragecontainerhvac,
@@ -48,6 +53,7 @@ app.factory("EnergyStorageContainerHVACService", function ($http) {
           }
         );
     },
+        // PUT update energy storage container hvac
     editEnergyStorageContainerHVAC: function (
       id,
       energystoragecontainerhvac,
@@ -73,6 +79,7 @@ app.factory("EnergyStorageContainerHVACService", function ($http) {
           }
         );
     },
+        // DELETE energy storage container hvac
     deleteEnergyStorageContainerHVAC: function (
       id,
       energystoragecontainerhvacID,
@@ -97,6 +104,7 @@ app.factory("EnergyStorageContainerHVACService", function ($http) {
           }
         );
     },
+        // POST create pair
     addPair: function (id, hid, pid, headers, callback) {
       $http
         .post(
@@ -118,6 +126,7 @@ app.factory("EnergyStorageContainerHVACService", function ($http) {
           }
         );
     },
+        // DELETE pair
     deletePair: function (id, hid, pid, headers, callback) {
       $http
         .delete(
@@ -139,6 +148,7 @@ app.factory("EnergyStorageContainerHVACService", function ($http) {
           }
         );
     },
+        // GET points by hvacid by ID
     getPointsByHVACID: function (id, hid, headers, callback) {
       $http
         .get(

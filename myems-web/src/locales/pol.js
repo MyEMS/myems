@@ -326,6 +326,7 @@ export default {
         'Per Unit Area': 'Na jednostkę powierzchni',
         'Per Capita': 'Na mieszkańca',
         'Per Unit Production': 'Na jednostkę produktu',
+        'Comprehensive Unit Price': 'Średnia cena jednostkowa',
         Baseline: 'Wartość bazowa',
         Actual: 'Wartość rzeczywista',
         'Baseline Value - Actual Value': 'Wartość bazowa - wartość rzeczywista',

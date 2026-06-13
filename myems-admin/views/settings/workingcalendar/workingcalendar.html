@@ -1,10 +1,13 @@
+<!-- Working Calendar settings page -->
 <div class="wrapper wrapper-content" ng-controller="WorkingCalendarMasterController">
 	<div class="row">
 		<div class="col-lg-12">
 			<div class="tabs-container">
 				<uib-tabset>
+					<!-- Tab: Working Calendar -->
 					<uib-tab heading="{{'COMMON.WORKING_CALENDAR' | translate}}" >
 						<div class="panel-body" ng-controller="WorkingCalendarController">
+							<!-- Collapsible description panel -->
 							<div class="alert alert-info">
 								<p>
 									{{'SETTING.WORKING_CALENDAR_DESCRIPTION' | translate}}
@@ -17,10 +20,12 @@
 									<p>{{'SETTING.WORKING_CALENDAR_DESCRIPTION_MORE' | translate}}</p>
 								</div>
 							</div>
+							<!-- Add new working calendar -->
 							<a ng-click="addWorkingCalendar()" class="btn btn-primary btn-rounded btn-outline" href=""><i class="fa fa-plus-circle"></i> {{'WORKING_CALENDAR.ADD_WORKING_CALENDAR' | translate}}</a>
 							<a ng-click="importWorkingCalendar()" class="btn btn-primary btn-rounded  btn-outline" href=""><i class="fa fa-plus-circle"></i> {{'SETTING.IMPORT' | translate}}</a>
 							<br>
 							<br>
+							<!-- Working Calendar list table -->
 							<table class="footable table table-bordered table-hover" data-sort="true" data-page-size="15">
 								<thead>
 									<tr>
@@ -53,8 +58,10 @@
 							</table>
 						</div>
 					</uib-tab>
+					<!-- Tab: Non Working Day -->
 					<uib-tab heading="{{'SETTING.NON_WORKING_DAY' | translate}}">
 						<div class="panel-body" ng-controller="WorkingCalendarNonWorkingDayController">
+							<!-- Collapsible description panel -->
 							<div class="alert alert-info">
 								<p>
 									{{'WORKING_CALENDAR.NON_WORKING_DAY_DESCRIPTION' | translate}}
@@ -88,6 +95,7 @@
 									class="fa fa-plus-circle"></i> {{'SETTING.ADD_NON_WORKING_DAY' | translate}}</a>
 							<a ng-click="currentWorkingCalendar.id?batchAddWeekendNonWorkingDay():''" ng-disabled="!currentWorkingCalendar.id" class="btn btn-success btn-rounded  btn-outline ml-2" href="javascript:void(0);"><i
 									class="fa fa-calendar-plus-o"></i> {{'SETTING.BATCH_ADD_WEEKEND' | translate}}</a>
+							<!-- Working Calendar list table -->
 							<table class="footable table table-bordered table-hover" data-sort="true" data-page-size="15">
 								<thead>
 									<tr>

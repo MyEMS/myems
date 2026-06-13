@@ -1,11 +1,14 @@
+<!-- Cost Center settings page -->
 <div class="wrapper wrapper-content" ng-controller="CostCenterMasterController">
 	<div class="row">
 		<div class="col-lg-12">
 			<div class="tabs-container">
 
 				<uib-tabset>
+					<!-- Tab: Costcenter -->
 					<uib-tab heading="{{'SETTING.COSTCENTER' | translate}}">
 						<div class="panel-body" ng-controller="CostCenterController">
+							<!-- Collapsible description panel -->
 							<div class="alert alert-info">
 								<p>
 									{{'SETTING.COSTCENTER_DESCRIPTION' | translate}}
@@ -22,6 +25,7 @@
 								<i class="fa fa-plus-circle"></i> {{'SETTING.ADD_COSTCENTER' | translate}}</a>
 							<br>
 							<br>
+							<!-- Cost Center list table -->
 							<table class="footable table table-bordered table-hover" data-sort="true"
 								data-page-size="15">
 								<thead>
@@ -57,8 +61,10 @@
 							</table>
 						</div>
 					</uib-tab>
+					<!-- Tab: Bind Tariff -->
 					<uib-tab heading="{{'SETTING.BIND_TARIFF' | translate}}">
 						<div class="panel-body" ng-controller="CostCenterTariffController">
+							<!-- Collapsible description panel -->
 							<div class="alert alert-info">
 								<p>
 									{{'SETTING.BIND_TARIFF_DESCRIPTION' | translate}}
@@ -135,8 +141,10 @@
 						</div>
 					</uib-tab>
 
+					<!-- Tab: Cost File -->
 					<uib-tab heading="{{'SETTING.COST_FILE' | translate}}">
 						<div class="panel-body" ng-controller="CostFileController">
+							<!-- Collapsible description panel -->
 							<div class="alert alert-info">
 								<p>
 									{{'SETTING.COST_FILE_DESCRIPTION' | translate}}
@@ -151,6 +159,7 @@
 							</div>
 							<div id="dropzone1" class="dropzone" options="dzOptions" callbacks="dzCallbacks"
 								ng-dropzone></div>
+							<!-- Cost Center list table -->
 							<table class="footable table table-bordered table-hover" data-sort="true"
 								data-page-size="15">
 								<thead>

@@ -1,5 +1,7 @@
 'use strict';
 
+// Working Calendar controller - working calendar association
+
 app.controller('WorkingCalendarController', function(
     $scope,
     $rootScope,
@@ -13,6 +15,7 @@ app.controller('WorkingCalendarController', function(
 	$scope.exportdata = '';
 	$scope.importdata = '';
 
+	// Load all working calendars from API
 	$scope.getAllWorkingCalendars = function() {
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 		WorkingCalendarService.getAllWorkingCalendars(headers, function (response) {
@@ -24,6 +27,7 @@ app.controller('WorkingCalendarController', function(
 		});
 	};
 
+	// Open add modal and create working calendar
 	$scope.addWorkingCalendar = function() {
 		var modalInstance = $uibModal.open({
 			templateUrl: 'views/settings/workingcalendar/workingcalendar.model.html',
@@ -64,6 +68,7 @@ app.controller('WorkingCalendarController', function(
 		$rootScope.modalInstance = modalInstance;
 	};
 
+	// Open edit modal and update working calendar
 	$scope.editWorkingCalendar = function(workingcalendar) {
 		var modalInstance = $uibModal.open({
 			windowClass: "animated fadeIn",
@@ -106,6 +111,7 @@ app.controller('WorkingCalendarController', function(
 		$rootScope.modalInstance = modalInstance;
 	};
 
+	// Confirm and delete working calendar
 	$scope.deleteWorkingCalendar = function(workingcalendar) {
 		SweetAlert.swal({
 				title: $translate.instant("SWEET.TITLE"),
@@ -144,6 +150,7 @@ app.controller('WorkingCalendarController', function(
 			});
 	};
 
+	// Export working calendar as JSON
 	$scope.exportWorkingCalendar = function(workingcalendar) {
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 		WorkingCalendarService.exportWorkingCalendar(workingcalendar, headers, function(response) {
@@ -175,6 +182,7 @@ app.controller('WorkingCalendarController', function(
 		});
 	};
 
+	// Clone an existing working calendar
 	$scope.cloneWorkingCalendar = function(workingcalendar){
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 		WorkingCalendarService.cloneWorkingCalendar(workingcalendar, headers, function(response) {
@@ -198,6 +206,7 @@ app.controller('WorkingCalendarController', function(
 		});
 	};
 
+	// Import working calendar from JSON
 	$scope.importWorkingCalendar = function() {
 		var modalInstance = $uibModal.open({
 			templateUrl: 'views/common/import.html',
@@ -242,6 +251,7 @@ app.controller('WorkingCalendarController', function(
 	$scope.getAllWorkingCalendars();
 });
 
+// Modal controller for add dialog
 app.controller('ModalAddWorkingCalendarCtrl', function($scope, $uibModalInstance, params) {
 
 	$scope.operation = "WORKING_CALENDAR.ADD_WORKING_CALENDAR";
@@ -254,6 +264,7 @@ app.controller('ModalAddWorkingCalendarCtrl', function($scope, $uibModalInstance
 	};
 });
 
+// Modal controller for edit dialog
 app.controller('ModalEditWorkingCalendarCtrl', function($scope, $uibModalInstance, params) {
 	$scope.operation = "WORKING_CALENDAR.EDIT_WORKING_CALENDAR";
 	$scope.workingcalendar = params.workingcalendar;

@@ -1,3 +1,4 @@
+// Shop Floor Sensor controller - drag-and-drop sensor binding
 app.controller('ShopfloorSensorController', function (
     $scope,
     $window,
@@ -15,6 +16,7 @@ app.controller('ShopfloorSensorController', function (
     $scope.isShopfloorSelected = false;
     $scope.shopfloorsensors = [];
 
+    // Load all sensors from API
     $scope.getAllSensors = function() {
         let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
         SensorService.getAllSensors(headers, function(response) {
@@ -31,6 +33,7 @@ app.controller('ShopfloorSensorController', function (
         });
     };
 
+    // Load sensors by shopfloor id
     $scope.getSensorsByShopfloorID = function(id) {
         let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
         ShopfloorSensorService.getSensorsByShopfloorID(id, headers, function(response) {
@@ -44,6 +47,7 @@ app.controller('ShopfloorSensorController', function (
         });
     };
 
+    // Handle shopfloor change
     $scope.changeShopfloor = function(item, model) {
         $scope.currentShopfloor = item;
         $scope.currentShopfloor.selected = model;
@@ -55,6 +59,7 @@ app.controller('ShopfloorSensorController', function (
         }
     };
 
+    // Load all shopfloors from API
     $scope.getAllShopfloors = function() {
         let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
         ShopfloorService.getAllShopfloors(headers, function(response) {
@@ -66,6 +71,7 @@ app.controller('ShopfloorSensorController', function (
         });
     };
 
+    // Bind sensor via drag-and-drop
     $scope.pairSensor = function(dragEl, dropEl) {
         if (!$scope.isShopfloorSelected || !$scope.currentShopfloor || !$scope.currentShopfloor.id) {
             DragDropWarningService.showWarning("SETTING.PLEASE_SELECT_SHOPFLOOR_FIRST");
@@ -94,6 +100,7 @@ app.controller('ShopfloorSensorController', function (
         });
     };
 
+    // Unbind sensor via drag-to-trash
     $scope.deleteSensorPair = function(dragEl, dropEl) {
         if (angular.element('#' + dragEl).hasClass('source')) return;
         if (!$scope.isShopfloorSelected || !$scope.currentShopfloor || !$scope.currentShopfloor.id) {

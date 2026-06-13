@@ -1,22 +1,27 @@
+<!-- Microgrid settings page -->
 <div class="wrapper wrapper-content" ng-controller="MicrogridMasterController">
 	<div class="row">
 		<div class="col-lg-12">
 			<div class="tabs-container">
 				<uib-tabset>
+					<!-- Tab: Microgrid -->
 					<uib-tab heading="{{'COMMON.MICROGRID' | translate}}">
 						<div class="panel-body" ng-controller="MicrogridController">
                                                         <div class="col-md-3">
+							    <!-- Add new microgrid -->
 							    <a ng-click="addMicrogrid()" class="btn btn-primary btn-rounded  btn-outline" href=""><i class="fa fa-plus-circle"></i> {{'SETTING.ADD_MICROGRID' | translate}}</a>
 							    <a ng-click="importMicrogrid()" class="btn btn-primary btn-rounded  btn-outline" href=""><i class="fa fa-plus-circle"></i> {{'SETTING.IMPORT' | translate}}</a>
                                                         </div>
                                                         <div class="col-md-9">
-                                                            <input type="text" class="form-control m-b-xs"
-                                                                placeholder="{{'SETTING.SEARCH' | translate}}"
+                                                            <!-- Search input -->
+                                                                <input type="text" class="form-control m-b-xs"
+                                                                                                                                placeholder="{{'SETTING.SEARCH' | translate}}"
                                                                 ng-model="searchKeyword"
                                                                 ng-keyup="searchMicrogrids()">
                                                         </div>
 							<br>
 							<br>
+							<!-- Microgrid list table -->
 							<table class="footable table table-bordered table-hover" data-sort="true" data-page-size="15">
 								<thead>
 									<tr>
@@ -67,6 +72,7 @@
 							</table>
 						</div>
 					</uib-tab>
+					<!-- Tab: Bind Data Source -->
 					<uib-tab heading="{{'SETTING.BIND_DATA_SOURCE' | translate}}">
 						<div class="panel-body" ng-controller="MicrogridDataSourceController">
 							<div class="row">
@@ -142,6 +148,7 @@
 							</div>
 						</div>
 					</uib-tab>
+					<!-- Tab: Microgrid Power Conversion System -->
 					<uib-tab heading="{{'MICROGRID.MICROGRID_POWER_CONVERSION_SYSTEM' | translate}}">
 						<div class="panel-body" ng-controller="MicrogridPowerconversionsystemController">
 						  <div class="row">
@@ -173,6 +180,7 @@
 								  <a ng-show="is_show_add_microgrid_powerconversionsystem" ng-click="addMicrogridPowerconversionsystem()" class="btn btn-primary btn-rounded  btn-outline" href="">
 									<i class="fa fa-plus-circle"></i> {{'MICROGRID.ADD_MICROGRID_POWER_CONVERSION_SYSTEM' | translate}}
 								  </a>
+								  <!-- Microgrid list table -->
 								  <table class="footable table table-bordered table-hover" data-sort="true" data-page-size="15">
 									<thead>
 									  <tr>
@@ -210,6 +218,7 @@
 						</div>
 					  </div>
 					</uib-tab>
+					<!-- Tab: Microgrid Photovoltaic -->
 					<uib-tab heading="{{'MICROGRID.MICROGRID_PHOTOVOLTAIC' | translate}}">
 						<div class="panel-body" ng-controller="MicrogridPhotovoltaicController">
 						  <div class="row">
@@ -240,6 +249,7 @@
 								<div class="panel-body" >
 								  <a ng-show="is_show_add_microgrid_photovoltaic" ng-click="addMicrogridPhotovoltaic()" class="btn btn-primary btn-rounded  btn-outline" href="">
 															<i class="fa fa-plus-circle"></i> {{'MICROGRID.ADD_MICROGRID_PHOTOVOLTAIC' | translate}}</a>
+								  <!-- Microgrid list table -->
 								  <table class="footable table table-bordered table-hover" data-sort="true" data-page-size="15">
 									<thead>
 									  <tr>
@@ -279,6 +289,7 @@
 						</div>
 					  </div>
 					</uib-tab>
+					<!-- Tab: Microgrid Battery -->
 					<uib-tab heading="{{'MICROGRID.MICROGRID_BATTERY' | translate}}">
 						<div class="panel-body" ng-controller="MicrogridBatteryController">
 						  <div class="row">
@@ -309,6 +320,7 @@
 								<div class="panel-body" >
 								  <a ng-show="is_show_add_microgrid_battery" ng-click="addMicrogridBattery()" class="btn btn-primary btn-rounded  btn-outline" href="">
 															<i class="fa fa-plus-circle"></i> {{'MICROGRID.ADD_MICROGRID_BATTERY' | translate}}</a>
+								  <!-- Microgrid list table -->
 								  <table class="footable table table-bordered table-hover" data-sort="true" data-page-size="15">
 									<thead>
 									  <tr>
@@ -358,6 +370,7 @@
 						</div>
 					  </div>
 					</uib-tab>
+					<!-- Tab: Microgrid Evcharger -->
 					<uib-tab heading="{{'MICROGRID.MICROGRID_EVCHARGER' | translate}}">
 						<div class="panel-body" ng-controller="MicrogridEVChargerController">
 						  <div class="row">
@@ -388,6 +401,7 @@
 								<div class="panel-body" >
 								  <a ng-show="is_show_add_microgrid_evcharger" ng-click="addMicrogridEVCharger()" class="btn btn-primary btn-rounded  btn-outline" href="">
 															<i class="fa fa-plus-circle"></i> {{'MICROGRID.ADD_MICROGRID_EVCHARGER' | translate}}</a>
+								  <!-- Microgrid list table -->
 								  <table class="footable table table-bordered table-hover" data-sort="true" data-page-size="15">
 									<thead>
 									  <tr>
@@ -427,6 +441,7 @@
 						</div>
 					  </div>
 					</uib-tab>
+					<!-- Tab: Microgrid Grid -->
 					<uib-tab heading="{{'MICROGRID.MICROGRID_GRID' | translate}}">
 						<div class="panel-body" ng-controller="MicrogridGridController">
 						  <div class="row">
@@ -457,6 +472,7 @@
 								<div class="panel-body" >
 								  <a ng-show="is_show_add_microgrid_grid" ng-click="addMicrogridGrid()" class="btn btn-primary btn-rounded  btn-outline" href="">
 															<i class="fa fa-plus-circle"></i> {{'MICROGRID.ADD_MICROGRID_GRID' | translate}}</a>
+								  <!-- Microgrid list table -->
 								  <table class="footable table table-bordered table-hover" data-sort="true" data-page-size="15">
 									<thead>
 									  <tr>
@@ -498,6 +514,7 @@
 						</div>
 					  </div>
 					</uib-tab>
+					<!-- Tab: Microgrid Load -->
 					<uib-tab heading="{{'MICROGRID.MICROGRID_LOAD' | translate}}">
 						<div class="panel-body" ng-controller="MicrogridLoadController">
 						  <div class="row">
@@ -528,6 +545,7 @@
 								<div class="panel-body" >
 								  <a ng-show="is_show_add_microgrid_load" ng-click="addMicrogridLoad()" class="btn btn-primary btn-rounded  btn-outline" href="">
 															<i class="fa fa-plus-circle"></i> {{'MICROGRID.ADD_MICROGRID_LOAD' | translate}}</a>
+								  <!-- Microgrid list table -->
 								  <table class="footable table table-bordered table-hover" data-sort="true" data-page-size="15">
 									<thead>
 									  <tr>
@@ -567,6 +585,7 @@
 						</div>
 					  </div>
 					</uib-tab>
+					<!-- Tab: Microgrid Heatpump -->
 					<uib-tab heading="{{'MICROGRID.MICROGRID_HEATPUMP' | translate}}">
 						<div class="panel-body" ng-controller="MicrogridHeatpumpController">
 						  <div class="row">
@@ -597,6 +616,7 @@
 								<div class="panel-body" >
 								  <a ng-show="is_show_add_microgrid_heatpump" ng-click="addMicrogridHeatpump()" class="btn btn-primary btn-rounded  btn-outline" href="">
 															<i class="fa fa-plus-circle"></i> {{'MICROGRID.ADD_MICROGRID_HEATPUMP' | translate}}</a>
+								  <!-- Microgrid list table -->
 								  <table class="footable table table-bordered table-hover" data-sort="true" data-page-size="15">
 									<thead>
 									  <tr>
@@ -640,6 +660,7 @@
 						</div>
 					  </div>
 					</uib-tab>
+					<!-- Tab: Bind Sensor -->
 					<uib-tab heading="{{'SETTING.BIND_SENSOR' | translate}}">
 							<div class="panel-body" ng-controller="MicrogridSensorController">
 								<div class="row">
@@ -708,6 +729,7 @@
 							</div>
 						</div>
 					</uib-tab>
+					<!-- Tab: Microgrid Generator -->
 					<uib-tab heading="{{'MICROGRID.MICROGRID_GENERATOR' | translate}}">
 						<div class="panel-body" ng-controller="MicrogridGeneratorController">
 						  <div class="row">
@@ -738,6 +760,7 @@
 								<div class="panel-body" >
 								  <a ng-show="is_show_add_microgrid_generator" ng-click="addMicrogridGenerator()" class="btn btn-primary btn-rounded  btn-outline" href="">
 															<i class="fa fa-plus-circle"></i> {{'MICROGRID.ADD_MICROGRID_GENERATOR' | translate}}</a>
+								  <!-- Microgrid list table -->
 								  <table class="footable table table-bordered table-hover" data-sort="true" data-page-size="15">
 									<thead>
 									  <tr>
@@ -777,6 +800,7 @@
 						</div>
 					  </div>
 					</uib-tab>
+					<!-- Tab: Bind User -->
 					<uib-tab heading="{{'MICROGRID.BIND_USER' | translate}}">
 							<div class="panel-body" ng-controller="MicrogridUserController">
 								<div class="row">

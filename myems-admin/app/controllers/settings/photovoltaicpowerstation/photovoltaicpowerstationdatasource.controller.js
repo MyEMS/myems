@@ -1,5 +1,7 @@
 "use strict";
 
+// Photovoltaic Power Station Data Source controller - data source association
+
 app.controller(
   "PhotovoltaicPowerStationDataSourceController",
   function (
@@ -18,6 +20,7 @@ app.controller(
     );
     $scope.currentPhotovoltaicPowerStation = { selected: undefined };
 
+    // Load all data sources from API
     $scope.getAllDataSources = function () {
       let headers = {
         "User-UUID": $scope.cur_user.uuid,
@@ -33,6 +36,7 @@ app.controller(
       });
     };
 
+    // Load data sources by photovoltaic power station id
     $scope.getDataSourcesByPhotovoltaicPowerStationID = function (id) {
       let headers = {
         "User-UUID": $scope.cur_user.uuid,
@@ -52,6 +56,7 @@ app.controller(
       );
     };
 
+    // Handle photovoltaic power station change
     $scope.changePhotovoltaicPowerStation = function (item, model) {
       $scope.currentPhotovoltaicPowerStation = item;
       $scope.currentPhotovoltaicPowerStation.selected = model;
@@ -60,6 +65,7 @@ app.controller(
       );
     };
 
+    // Load all photovoltaic power stations from API
     $scope.getAllPhotovoltaicPowerStations = function () {
       let headers = {
         "User-UUID": $scope.cur_user.uuid,
@@ -83,6 +89,7 @@ app.controller(
       );
     };
 
+    // Bind data source via drag-and-drop
     $scope.pairDataSource = function (dragEl, dropEl) {
       var datasourceid = angular.element("#" + dragEl).scope().datasource.id;
       var photovoltaicpowerstationid = $scope.currentPhotovoltaicPowerStation.id;
@@ -118,6 +125,7 @@ app.controller(
       );
     };
 
+    // Unbind data source via drag-to-trash
     $scope.deleteDataSourcePair = function (dragEl, dropEl) {
       if (angular.element("#" + dragEl).hasClass("source")) {
         return;

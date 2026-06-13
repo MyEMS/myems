@@ -1,5 +1,7 @@
 'use strict';
 
+// Combined Equipment controller - drag-and-drop equipment binding
+
 app.controller('CombinedEquipmentController', function (
     $scope,
     $rootScope,
@@ -15,6 +17,7 @@ app.controller('CombinedEquipmentController', function (
 	$scope.exportdata = '';
 	$scope.importdata = '';
     $scope.searchKeyword = '';
+	// Load all combined equipments from API
 	$scope.getAllCombinedEquipments = function () {
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 		CombinedEquipmentService.getAllCombinedEquipments(headers, function (response) {
@@ -26,6 +29,7 @@ app.controller('CombinedEquipmentController', function (
 		});
 	};
 
+	// Load all cost centers from API
 	$scope.getAllCostCenters = function () {
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 		CostCenterService.getAllCostCenters(headers, function (response) {
@@ -37,6 +41,7 @@ app.controller('CombinedEquipmentController', function (
 		});
 	};
 
+	// Load all sv gs from API
 	$scope.getAllSVGs = function() {
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token, "Quickmode": 'true'  };
 		SVGService.getAllSVGs(headers, function (response) {
@@ -47,6 +52,7 @@ app.controller('CombinedEquipmentController', function (
 			}
 		});
 	};
+	// Open add modal and create combined equipment
 	$scope.addCombinedEquipment = function () {
 		var modalInstance = $uibModal.open({
 			templateUrl: 'views/settings/combinedequipment/combinedequipment.model.html',
@@ -92,6 +98,7 @@ app.controller('CombinedEquipmentController', function (
 		$rootScope.modalInstance = modalInstance;
 	};
 
+	// Open edit modal and update combined equipment
 	$scope.editCombinedEquipment = function (combinedequipment) {
 		var modalInstance = $uibModal.open({
 			windowClass: "animated fadeIn",
@@ -139,6 +146,7 @@ app.controller('CombinedEquipmentController', function (
 		$rootScope.modalInstance = modalInstance;
 	};
 
+	// Confirm and delete combined equipment
 	$scope.deleteCombinedEquipment = function (combinedequipment) {
 		SweetAlert.swal({
 			title: $translate.instant("SWEET.TITLE"),
@@ -177,6 +185,7 @@ app.controller('CombinedEquipmentController', function (
 			});
 	};
 
+	// Export combined equipment as JSON
 	$scope.exportCombinedEquipment = function(combinedequipment) {
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 		CombinedEquipmentService.exportCombinedEquipment(combinedequipment, headers, function(response) {
@@ -206,6 +215,7 @@ app.controller('CombinedEquipmentController', function (
 		});
 	};
 
+	// Clone an existing combined equipment
 	$scope.cloneCombinedEquipment = function(combinedequipment){
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 		CombinedEquipmentService.cloneCombinedEquipment(combinedequipment, headers, function(response) {
@@ -229,6 +239,7 @@ app.controller('CombinedEquipmentController', function (
 		});
 	};
 
+	// Import combined equipment from JSON
 	$scope.importCombinedEquipment = function() {
 		var modalInstance = $uibModal.open({
 			templateUrl: 'views/common/import.html',
@@ -276,6 +287,7 @@ app.controller('CombinedEquipmentController', function (
 			scope.$apply();
 		}
 	}
+	// Search combined equipments by keyword
 	$scope.searchCombinedEquipments = function() {
 		const headers = {
 			"User-UUID": $scope.cur_user?.uuid,

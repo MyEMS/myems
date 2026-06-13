@@ -1,4 +1,6 @@
 'use strict';
+
+// Shop Floor Point controller - drag-and-drop point binding
 app.controller('ShopfloorPointController', function (
     $scope,
     $window,
@@ -16,6 +18,7 @@ app.controller('ShopfloorPointController', function (
     $scope.currentShopfloor = { selected: undefined };
     $scope.isShopfloorSelected = false;
 
+    // Load all data sources from API
     $scope.getAllDataSources = function () {
         let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
         DataSourceService.getAllDataSources(headers, function (response) {
@@ -31,6 +34,7 @@ app.controller('ShopfloorPointController', function (
         });
     };
 
+    // Load points by data source id
     $scope.getPointsByDataSourceID = function (id) {
         let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
         PointService.getPointsByDataSourceID(id, headers, function (response) {
@@ -48,6 +52,7 @@ app.controller('ShopfloorPointController', function (
         });
     };
 
+    // Load points by shopfloor id
     $scope.getPointsByShopfloorID = function (id) {
         let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
         ShopfloorPointService.getPointsByShopfloorID(id, headers, function (response) {
@@ -62,6 +67,7 @@ app.controller('ShopfloorPointController', function (
         });
     };
 
+    // Handle shopfloor change
     $scope.changeShopfloor = function (item, model) {
         $scope.currentShopfloor = item;
         $scope.currentShopfloor.selected = model;
@@ -73,11 +79,13 @@ app.controller('ShopfloorPointController', function (
         }
     };
 
+    // Handle data source change
     $scope.changeDataSource = function (item, model) {
         $scope.currentDataSource = model;
         $scope.getPointsByDataSourceID($scope.currentDataSource);
     };
 
+    // Load all shopfloors from API
     $scope.getAllShopfloors = function () {
         let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
         ShopfloorService.getAllShopfloors(headers, function (response) {
@@ -94,6 +102,7 @@ app.controller('ShopfloorPointController', function (
         });
     };
 
+    // Bind point via drag-and-drop
     $scope.pairPoint = function (dragEl, dropEl) {
         if (!$scope.isShopfloorSelected || !$scope.currentShopfloor || !$scope.currentShopfloor.id) {
             DragDropWarningService.showWarning("SETTING.PLEASE_SELECT_SHOPFLOOR_FIRST");
@@ -122,6 +131,7 @@ app.controller('ShopfloorPointController', function (
         });
     };
 
+    // Unbind point via drag-to-trash
     $scope.deletePointPair = function (dragEl, dropEl) {
         if (angular.element('#' + dragEl).hasClass('source')) {
             return;

@@ -1,5 +1,7 @@
 'use strict';
 
+// Offline Meter controller - drag-and-drop meter binding
+
 app.controller('OfflineMeterController', function(
 	$scope,
 	$rootScope,
@@ -16,6 +18,7 @@ app.controller('OfflineMeterController', function(
 
 	$scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
 	$scope.searchOfflineMeterKeyword = '';
+	// Load all cost centers from API
 	$scope.getAllCostCenters = function() {
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 		CostCenterService.getAllCostCenters(headers, function (response) {
@@ -27,6 +30,7 @@ app.controller('OfflineMeterController', function(
 		});
 	};
 
+	// Load all categories from API
 	$scope.getAllCategories = function() {
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 		CategoryService.getAllCategories(headers, function (response) {
@@ -38,6 +42,7 @@ app.controller('OfflineMeterController', function(
 		});
 	};
 
+	// Load all energy items from API
 	$scope.getAllEnergyItems = function() {
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 		EnergyItemService.getAllEnergyItems(headers, function (response) {
@@ -49,6 +54,7 @@ app.controller('OfflineMeterController', function(
 		});
 	};
 
+	// Load all offline meters from API
 	$scope.getAllOfflineMeters = function() {
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 		OfflineMeterService.getAllOfflineMeters(headers, function (response) {
@@ -61,6 +67,7 @@ app.controller('OfflineMeterController', function(
 
 	};
 
+	// Open add modal and create offline meter
 	$scope.addOfflineMeter = function() {
 		var modalInstance = $uibModal.open({
 			templateUrl: 'views/settings/meter/offlinemeter.model.html',
@@ -111,6 +118,7 @@ app.controller('OfflineMeterController', function(
 		$rootScope.modalInstance = modalInstance;
 	};
 
+	// Open edit modal and update offline meter
 	$scope.editOfflineMeter = function(offlinemeter) {
 		var modalInstance = $uibModal.open({
 			windowClass: "animated fadeIn",
@@ -163,6 +171,7 @@ app.controller('OfflineMeterController', function(
 		$rootScope.modalInstance = modalInstance;
 	};
 
+	// Confirm and delete offline meter
 	$scope.deleteOfflineMeter = function(offlinemeter) {
 		SweetAlert.swal({
 				title: $translate.instant("SWEET.TITLE"),
@@ -201,6 +210,7 @@ app.controller('OfflineMeterController', function(
 			});
 	};
 
+	// Export offline meter as JSON
 	$scope.exportOfflineMeter = function(offlinemeter) {
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 		OfflineMeterService.exportOfflineMeter(offlinemeter, headers, function(response) {
@@ -230,6 +240,7 @@ app.controller('OfflineMeterController', function(
 		});
 	};
 
+	// Clone an existing offline meter
 	$scope.cloneOfflineMeter = function(offlinemeter){
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 		OfflineMeterService.cloneOfflineMeter(offlinemeter, headers, function(response) {
@@ -253,6 +264,7 @@ app.controller('OfflineMeterController', function(
 		});
 	};
 
+	// Import offline meter from JSON
 	$scope.importOfflineMeter = function() {
 		var modalInstance = $uibModal.open({
 			templateUrl: 'views/common/import.html',
@@ -300,6 +312,7 @@ app.controller('OfflineMeterController', function(
 			scope.$apply();
 		}
 	}
+	// Search offline meters by keyword
 	$scope.searchOfflineMeters = function() {
 		const headers = {
 			"User-UUID": $scope.cur_user?.uuid,
@@ -330,6 +343,7 @@ app.controller('OfflineMeterController', function(
 
 	$scope.tabInitialized = false;
 
+	// Initialize tab
 	$scope.initTab = function() {
 		if (!$scope.tabInitialized) {
 			$scope.tabInitialized = true;
@@ -353,6 +367,7 @@ app.controller('OfflineMeterController', function(
 	}, 0);
 });
 
+// Modal controller for add dialog
 app.controller('ModalAddOfflineMeterCtrl', function($scope, $uibModalInstance, params) {
 
 	$scope.operation = "SETTING.ADD_OFFLINE_METER";
@@ -395,6 +410,7 @@ app.controller('ModalAddOfflineMeterCtrl', function($scope, $uibModalInstance, p
 
 });
 
+// Modal controller for edit dialog
 app.controller('ModalEditOfflineMeterCtrl', function($scope, $uibModalInstance, params) {
 	$scope.operation = "SETTING.EDIT_OFFLINE_METER";
 	$scope.offlinemeter = params.offlinemeter;

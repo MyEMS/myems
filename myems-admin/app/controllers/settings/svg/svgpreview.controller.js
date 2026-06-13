@@ -1,10 +1,13 @@
 'use strict';
 
+// SVG Preview controller - CRUD and settings management
+
 app.controller('SVGPreviewController', function($scope, $window, SVGService) {
     $scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
       $scope.svgs = [];
       $scope.currentSVG = null;
 
+      // Load all sv gs from API
       $scope.getAllSVGs = function() {
         let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
       SVGService.getAllSVGs(headers, function(response) {
@@ -16,6 +19,7 @@ app.controller('SVGPreviewController', function($scope, $window, SVGService) {
       });
     };
 
+    // Handle svg change
     $scope.changeSVG=function(item,model){
         $scope.currentSVG=item;
         $scope.currentSVG.selected=model;

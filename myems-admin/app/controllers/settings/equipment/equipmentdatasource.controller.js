@@ -1,5 +1,7 @@
 "use strict";
 
+// Equipment Data Source controller - drag-and-drop equipment binding
+
 app.controller(
   "EquipmentDataSourceController",
   function (
@@ -20,6 +22,7 @@ app.controller(
     $scope.currentEquipment = { selected: undefined };
     $scope.isEquipmentSelected = false;
 
+    // Load all data sources from API
     $scope.getAllDataSources = function () {
       let headers = {
         "User-UUID": $scope.cur_user.uuid,
@@ -37,6 +40,7 @@ app.controller(
       });
     };
 
+    // Load data sources by equipment id
     $scope.getDataSourcesByEquipmentID = function (id) {
       let headers = {
         "User-UUID": $scope.cur_user.uuid,
@@ -72,6 +76,7 @@ app.controller(
       });
     };
 
+    // Handle equipment change
     $scope.changeEquipment = function (item, model) {
       $scope.currentEquipment = item;
       $scope.currentEquipment.selected = model;
@@ -87,6 +92,7 @@ app.controller(
       }
     };
 
+    // Load all equipments from API
     $scope.getAllEquipments = function () {
       let headers = {
         "User-UUID": $scope.cur_user.uuid,
@@ -110,6 +116,7 @@ app.controller(
       );
     };
 
+    // Bind data source via drag-and-drop
     $scope.pairDataSource = function (dragEl, dropEl) {
       if (!$scope.isEquipmentSelected || !$scope.currentEquipment || !$scope.currentEquipment.id) {
         DragDropWarningService.showWarning("SETTING.PLEASE_SELECT_EQUIPMENT_FIRST");
@@ -149,6 +156,7 @@ app.controller(
       );
     };
 
+    // Unbind data source via drag-to-trash
     $scope.deleteDataSourcePair = function (dragEl, dropEl) {
       if (angular.element("#" + dragEl).hasClass("source")) {
         return;
@@ -195,6 +203,7 @@ app.controller(
 
     $scope.tabInitialized = false;
 
+    // Initialize tab
     $scope.initTab = function() {
         if (!$scope.tabInitialized) {
             $scope.tabInitialized = true;

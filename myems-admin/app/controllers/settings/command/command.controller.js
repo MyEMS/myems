@@ -1,5 +1,7 @@
 'use strict';
 
+// Command controller - drag-and-drop command binding
+
 app.controller('CommandController', function(
 	$scope,
 	$rootScope,
@@ -13,6 +15,7 @@ app.controller('CommandController', function(
 	$scope.exportdata = '';
 	$scope.importdata = '';
 	$scope.searchKeyword = '';
+	// Load all commands from API
 	$scope.getAllCommands = function() {
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 		CommandService.getAllCommands(headers, function (response) {
@@ -24,6 +27,7 @@ app.controller('CommandController', function(
 		});
 	};
 
+	// Open add modal and create command
 	$scope.addCommand = function() {
 		var modalInstance = $uibModal.open({
 			templateUrl: 'views/settings/command/command.model.html',
@@ -57,6 +61,7 @@ app.controller('CommandController', function(
 		$rootScope.modalInstance = modalInstance;
 	};
 
+	// Open edit modal and update command
 	$scope.editCommand=function(command){
 		var modalInstance = $uibModal.open({
 		    windowClass: "animated fadeIn",
@@ -99,6 +104,7 @@ app.controller('CommandController', function(
 		$rootScope.modalInstance = modalInstance;
 	};
 
+	// Confirm and delete command
 	$scope.deleteCommand=function(command){
 		SweetAlert.swal({
 		        title: $translate.instant("SWEET.TITLE"),
@@ -136,6 +142,7 @@ app.controller('CommandController', function(
 		        }
 		    });
 	};
+	// Send command command
 	$scope.sendCommand = function (command) {
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
         CommandService.sendCommand(command, headers, function (response) {
@@ -158,6 +165,7 @@ app.controller('CommandController', function(
         });
     };
 
+	// Export command as JSON
 	$scope.exportCommand = function(command) {
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 		CommandService.exportCommand(command, headers, function(response) {
@@ -187,6 +195,7 @@ app.controller('CommandController', function(
 		});
 	};
 
+	// Clone an existing command
 	$scope.cloneCommand = function(command){
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 		CommandService.cloneCommand(command, headers, function(response) {
@@ -210,6 +219,7 @@ app.controller('CommandController', function(
 		});
 	};
 
+	// Import command from JSON
 	$scope.importCommand = function() {
 		var modalInstance = $uibModal.open({
 			templateUrl: 'views/common/import.html',
@@ -255,6 +265,7 @@ app.controller('CommandController', function(
 			scope.$apply();
 		}
 	}
+	// Search commands by keyword
 	$scope.searchCommands = function() {
 		const headers = {
 			"User-UUID": $scope.cur_user?.uuid,
@@ -286,6 +297,7 @@ app.controller('CommandController', function(
 
 });
 
+// Modal controller for add dialog
 app.controller('ModalAddCommandCtrl', function ($scope, $uibModalInstance) {
     $scope.operation="SETTING.ADD_COMMAND";
     $scope.ok = function () {
@@ -297,6 +309,7 @@ app.controller('ModalAddCommandCtrl', function ($scope, $uibModalInstance) {
     };
 });
 
+// Modal controller for edit dialog
 app.controller('ModalEditCommandCtrl', function ($scope, $uibModalInstance, params) {
     $scope.operation="SETTING.EDIT_COMMAND";
     $scope.command = params.command;

@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useState, useContext } from 'react';
+import React, { Fragment, useEffect, useState, useContext, useCallback } from 'react';
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -19,6 +19,7 @@ import CountUp from 'react-countup';
 import Cascader from 'rc-cascader';
 import moment from 'moment';
 import loadable from '@loadable/component';
+import DeepSeekAnalysisModal from '../common/DeepSeekAnalysisModal';
 import CardSummary from '../common/CardSummary';
 import LineChart from '../common/LineChart';
 import { getCookieValue, createCookie, checkEmpty, handleAPIError } from '../../../helpers/utils';
@@ -109,6 +110,8 @@ const MeterSubmetersBalance = ({ setRedirect, setRedirectUrl, t }) => {
   const [spinnerHidden, setSpinnerHidden] = useState(true);
   const [exportButtonHidden, setExportButtonHidden] = useState(true);
   const [resultDataHidden, setResultDataHidden] = useState(true);
+  const [smartAnalysisOpen, setSmartAnalysisOpen] = useState(false);
+  const [smartAnalysisContext, setSmartAnalysisContext] = useState(null);
   //Results
   const [meterEnergyCategory, setMeterEnergyCategory] = useState({ name: '', unit: '' });
   const [
@@ -435,12 +438,9 @@ const MeterSubmetersBalance = ({ setRedirect, setRedirectUrl, t }) => {
             ...(() => {
               const meterName = json['parameters']['names'];
               const unitOfMeasure = json['meter']['unit_of_measure'];
-              const maxLength = 8;
-              const length = meterName.length;
-              const numColumns = Math.min(length, maxLength);
               const columns = [];
 
-              for (let i = 0; i < numColumns; i++) {
+              for (let i = 0; i < meterName.length; i++) {
                 if (i === 0) {
                   columns.push({
                     dataField: 'a' + i,
@@ -473,7 +473,7 @@ const MeterSubmetersBalance = ({ setRedirect, setRedirectUrl, t }) => {
               return columns;
             })(),
             {
-              dataField: 'a' + Math.min(8, json['parameters']['names'].length),
+              dataField: 'a' + json['parameters']['names'].length,
               text:
                 t('Difference Value') +
                 ':' +
@@ -497,7 +497,7 @@ const MeterSubmetersBalance = ({ setRedirect, setRedirectUrl, t }) => {
             let detailed_value = {};
             detailed_value['id'] = timestampIndex;
             detailed_value['startdatetime'] = currentTimestamp;
-            detailed_value['a' + Math.min(8, json['parameters']['names'].length)] =
+            detailed_value['a' + json['parameters']['names'].length] =
               json['reporting_period']['difference_values'][timestampIndex];
             detailed_value_list.push(detailed_value);
           });
@@ -514,7 +514,7 @@ const MeterSubmetersBalance = ({ setRedirect, setRedirectUrl, t }) => {
           let detailed_value = {};
           detailed_value['id'] = detailed_value_list.length;
           detailed_value['startdatetime'] = t('Total');
-          detailed_value['a' + Math.min(8, json['parameters']['names'].length)] =
+          detailed_value['a' + json['parameters']['names'].length] =
             json['reporting_period']['difference_in_category'];
           detailed_value_list.push(detailed_value);
 
@@ -556,6 +556,89 @@ const MeterSubmetersBalance = ({ setRedirect, setRedirectUrl, t }) => {
         link.click();
         document.body.removeChild(link);
       });
+  };
+
+  const buildSmartAnalysisContext = useCallback(() => {
+    const lineValues = {};
+    if (parameterLineChartData && typeof parameterLineChartData === 'object') {
+      Object.keys(parameterLineChartData).forEach(k => {
+        const arr = parameterLineChartData[k];
+        lineValues[k] = Array.isArray(arr) ? arr.slice(0, 200) : arr;
+      });
+    }
+    const sliceNestedArrays = (obj, maxLen) => {
+      const out = {};
+      if (!obj || typeof obj !== 'object') {
+        return out;
+      }
+      Object.keys(obj).forEach(k => {
+        const arr = obj[k];
+        out[k] = Array.isArray(arr) ? arr.slice(0, maxLen) : arr;
+      });
+      return out;
+    };
+    const meterLabel =
+      filteredMeterList.find(m => String(m.value) === String(selectedMeter))?.label ?? null;
+    return {
+      reportType: 'meter_submeters_balance',
+      reportTitle: t('Master Meter Submeters Balance'),
+      spaceName: selectedSpaceName ?? null,
+      meter: {
+        id: selectedMeter,
+        name: meterLabel,
+        energyCategory: meterEnergyCategory
+      },
+      periodType,
+      reportingPeriod: {
+        start: reportingPeriodDateRange[0]
+          ? moment(reportingPeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss')
+          : null,
+        end: reportingPeriodDateRange[1]
+          ? moment(reportingPeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss')
+          : null
+      },
+      reportingTotals: {
+        masterMeterConsumption: reportingPeriodMasterMeterConsumptionInCategory,
+        submetersConsumption: reportingPeriodSubmetersConsumptionInCategory,
+        difference: reportingPeriodDifferenceInCategory,
+        percentageDifference: reportingPeriodPercentageDifference
+      },
+      differenceTrend: {
+        labels: sliceNestedArrays(meterLineChartLabels, 200),
+        values: sliceNestedArrays(meterLineChartData, 200),
+        options: meterLineChartOptions
+      },
+      detailedDataSample: detailedDataTableData.slice(0, 120),
+      parameterLineChart: {
+        labels: parameterLineChartLabels,
+        optionLabels: parameterLineChartOptions,
+        values: lineValues
+      }
+    };
+  }, [
+    t,
+    selectedSpaceName,
+    selectedMeter,
+    filteredMeterList,
+    meterEnergyCategory,
+    periodType,
+    reportingPeriodDateRange,
+    reportingPeriodMasterMeterConsumptionInCategory,
+    reportingPeriodSubmetersConsumptionInCategory,
+    reportingPeriodDifferenceInCategory,
+    reportingPeriodPercentageDifference,
+    meterLineChartLabels,
+    meterLineChartData,
+    meterLineChartOptions,
+    detailedDataTableData,
+    parameterLineChartLabels,
+    parameterLineChartOptions,
+    parameterLineChartData
+  ]);
+
+  const openSmartAnalysis = () => {
+    setSmartAnalysisContext(buildSmartAnalysisContext());
+    setSmartAnalysisOpen(true);
   };
 
   return (
@@ -678,6 +761,19 @@ const MeterSubmetersBalance = ({ setRedirect, setRedirectUrl, t }) => {
                   {t('Export')}
                 </ButtonIcon>
               </Col>
+              {settings.enableAIAnalysis ? (
+                <Col xs="auto">
+                  <br />
+                  <Button
+                    color="falcon-default"
+                    size="sm"
+                    hidden={exportButtonHidden}
+                    onClick={openSmartAnalysis}
+                  >
+                    {t('AI Analysis')}
+                  </Button>
+                </Col>
+              ) : null}
             </Row>
           </Form>
         </CardBody>
@@ -791,6 +887,16 @@ const MeterSubmetersBalance = ({ setRedirect, setRedirectUrl, t }) => {
           />
         </Fragment>
       </div>
+      {settings.enableAIAnalysis ? (
+        <DeepSeekAnalysisModal
+          isOpen={smartAnalysisOpen}
+          toggle={() => setSmartAnalysisOpen(false)}
+          language={language}
+          reportContext={smartAnalysisContext}
+          setRedirect={setRedirect}
+          setRedirectUrl={setRedirectUrl}
+        />
+      ) : null}
     </Fragment>
   );
 };

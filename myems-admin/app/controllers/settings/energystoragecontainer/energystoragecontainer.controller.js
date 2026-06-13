@@ -1,5 +1,7 @@
 "use strict";
 
+// Energy Storage Container controller - container association
+
 app.controller(
   "EnergyStorageContainerController",
   function (
@@ -18,6 +20,7 @@ app.controller(
     $scope.cur_user = JSON.parse(
       $window.localStorage.getItem("myems_admin_ui_current_user")
     );
+    // Load all cost centers from API
     $scope.getAllCostCenters = function () {
       let headers = {
         "User-UUID": $scope.cur_user.uuid,
@@ -32,6 +35,7 @@ app.controller(
       });
     };
 
+    // Load all contacts from API
     $scope.getAllContacts = function () {
       let headers = {
         "User-UUID": $scope.cur_user.uuid,
@@ -46,6 +50,7 @@ app.controller(
       });
     };
 
+    // Load all energy storage containers from API
     $scope.getAllEnergyStorageContainers = function () {
       let headers = {
         "User-UUID": $scope.cur_user.uuid,
@@ -64,6 +69,7 @@ app.controller(
     };
     
     let searchDebounceTimer = null;
+    // Search energy storage containers by keyword
     $scope.searchEnergyStorageContainers = function() {
         let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
         const rawKeyword = $scope.searchKeyword || "";
@@ -86,6 +92,7 @@ app.controller(
         }, 300);
     };
 
+    // Export energy storage container as JSON
     $scope.exportEnergyStorageContainer = function (container) {
       let headers = {
         "User-UUID": $scope.cur_user.uuid,
@@ -112,6 +119,7 @@ app.controller(
         }
       });
     };
+    // Import energy storage container from JSON
     $scope.importEnergyStorageContainer = function () {
       var modalInstance = $uibModal.open({
         templateUrl: 'views/common/import.html',
@@ -159,6 +167,7 @@ app.controller(
       $rootScope.modalInstance = modalInstance;
     };
 
+    // Clone an existing energy storage container
     $scope.cloneEnergyStorageContainer = function(energystoragecontainer){
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 		EnergyStorageContainerService.cloneEnergyStorageContainer(energystoragecontainer, headers, function(response) {
@@ -182,6 +191,7 @@ app.controller(
 		});
 	};
 
+    // Open add modal and create energy storage container
     $scope.addEnergyStorageContainer = function () {
       var modalInstance = $uibModal.open({
         templateUrl:
@@ -246,6 +256,7 @@ app.controller(
       $rootScope.modalInstance = modalInstance;
     };
 
+    // Open edit modal and update energy storage container
     $scope.editEnergyStorageContainer = function (energystoragecontainer) {
       var modalInstance = $uibModal.open({
         windowClass: "animated fadeIn",
@@ -315,6 +326,7 @@ app.controller(
       $rootScope.modalInstance = modalInstance;
     };
 
+    // Confirm and delete energy storage container
     $scope.deleteEnergyStorageContainer = function (energystoragecontainer) {
       SweetAlert.swal(
         {

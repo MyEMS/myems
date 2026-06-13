@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useState, useContext, useRef } from 'react';
+import React, { Fragment, useEffect, useState, useContext, useRef, useCallback } from 'react';
 import { Chart as ChartJS } from 'chart.js';
 import {
   Breadcrumb,
@@ -27,6 +27,7 @@ import withRedirect from '../../../hoc/withRedirect';
 import { withTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
 import ButtonIcon from '../../common/ButtonIcon';
+import DeepSeekAnalysisModal from '../common/DeepSeekAnalysisModal';
 import { APIBaseURL, settings } from '../../../config';
 import { periodTypeOptions } from '../common/PeriodTypeOptions';
 import { comparisonTypeOptions } from '../common/ComparisonTypeOptions';
@@ -112,6 +113,8 @@ const CombinedEquipmentEfficiency = ({ setRedirect, setRedirectUrl, t }) => {
   const [submitButtonDisabled, setSubmitButtonDisabled] = useState(true);
   const [spinnerHidden, setSpinnerHidden] = useState(true);
   const [exportButtonHidden, setExportButtonHidden] = useState(true);
+  const [smartAnalysisOpen, setSmartAnalysisOpen] = useState(false);
+  const [smartAnalysisContext, setSmartAnalysisContext] = useState(null);
   const [resultDataHidden, setResultDataHidden] = useState(true);
   //Results
   const [cardSummaryList, setCardSummaryList] = useState([]);
@@ -1400,6 +1403,116 @@ const CombinedEquipmentEfficiency = ({ setRedirect, setRedirectUrl, t }) => {
       });
   };
 
+  const buildSmartAnalysisContext = useCallback(() => {
+    const lineValues = {};
+    if (parameterLineChartData && typeof parameterLineChartData === 'object') {
+      Object.keys(parameterLineChartData).forEach(k => {
+        const arr = parameterLineChartData[k];
+        lineValues[k] = Array.isArray(arr) ? arr.slice(0, 200) : arr;
+      });
+    }
+    const sliceNestedArrays = (obj, maxLen) => {
+      const out = {};
+      if (!obj || typeof obj !== 'object') {
+        return out;
+      }
+      Object.keys(obj).forEach(k => {
+        const arr = obj[k];
+        out[k] = Array.isArray(arr) ? arr.slice(0, maxLen) : arr;
+      });
+      return out;
+    };
+    const combinedLabel =
+      combinedEquipmentList.find(c => String(c.value) === String(selectedCombinedEquipment))?.label ??
+      null;
+    const spaceDisplayName = Array.isArray(selectedSpaceName)
+      ? selectedSpaceName.join('/')
+      : selectedSpaceName ?? null;
+    return {
+      reportType: 'combined_equipment_efficiency',
+      reportTitle: t('Efficiency'),
+      space: { name: spaceDisplayName },
+      combinedEquipment: {
+        id: selectedCombinedEquipment,
+        name: combinedLabel
+      },
+      combinedEquipmentEfficiencyIndicator,
+      periodType,
+      comparisonType,
+      reportingPeriod: {
+        start: reportingPeriodDateRange[0]
+          ? moment(reportingPeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss')
+          : null,
+        end: reportingPeriodDateRange[1]
+          ? moment(reportingPeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss')
+          : null
+      },
+      basePeriod: {
+        start:
+          basePeriodDateRange[0] != null
+            ? moment(basePeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss')
+            : null,
+        end:
+          basePeriodDateRange[1] != null
+            ? moment(basePeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss')
+            : null
+      },
+      cardSummaryList,
+      detailedDataSample: detailedDataTableData.slice(0, 120),
+      parameterLineChart: {
+        labels: parameterLineChartLabels,
+        optionLabels: parameterLineChartOptions,
+        values: lineValues
+      },
+      combinedEquipmentBaseAndReportingNames,
+      combinedEquipmentBaseAndReportingUnits,
+      combinedEquipmentReportingSubtotals,
+      combinedEquipmentBaseSubtotals,
+      combinedEquipmentTrend: {
+        reportingLabels: sliceNestedArrays(combinedEquipmentReportingLabels, 200),
+        reportingData: sliceNestedArrays(combinedEquipmentReportingData, 200),
+        baseLabels: sliceNestedArrays(combinedEquipmentBaseLabels, 200),
+        baseData: sliceNestedArrays(combinedEquipmentBaseData, 200),
+        rates: sliceNestedArrays(combinedEquipmentReportingRates, 200),
+        options: combinedEquipmentReportingOptions,
+        efficiencyIndicatorSeries: sliceNestedArrays(efficiencyIndicatorSeries, 200)
+      },
+      associatedEquipmentTableSample: associatedEquipmentTableData.slice(0, 80)
+    };
+  }, [
+    t,
+    selectedSpaceName,
+    selectedCombinedEquipment,
+    combinedEquipmentList,
+    combinedEquipmentEfficiencyIndicator,
+    periodType,
+    comparisonType,
+    reportingPeriodDateRange,
+    basePeriodDateRange,
+    cardSummaryList,
+    detailedDataTableData,
+    parameterLineChartLabels,
+    parameterLineChartOptions,
+    parameterLineChartData,
+    combinedEquipmentBaseAndReportingNames,
+    combinedEquipmentBaseAndReportingUnits,
+    combinedEquipmentReportingSubtotals,
+    combinedEquipmentBaseSubtotals,
+    combinedEquipmentReportingLabels,
+    combinedEquipmentReportingData,
+    combinedEquipmentBaseLabels,
+    combinedEquipmentBaseData,
+    combinedEquipmentReportingRates,
+    combinedEquipmentReportingOptions,
+    efficiencyIndicatorSeries,
+    associatedEquipmentTableData
+  ]);
+
+  const openSmartAnalysis = () => {
+    setSmartAnalysisContext(buildSmartAnalysisContext());
+    setSmartAnalysisOpen(true);
+  };
+
   return (
     <Fragment>
       <div>
@@ -1558,6 +1671,19 @@ const CombinedEquipmentEfficiency = ({ setRedirect, setRedirectUrl, t }) => {
                   {t('Export')}
                 </ButtonIcon>
               </Col>
+              {settings.enableAIAnalysis ? (
+                <Col xs="auto">
+                  <br />
+                  <Button
+                    color="falcon-default"
+                    size="sm"
+                    hidden={exportButtonHidden}
+                    onClick={openSmartAnalysis}
+                  >
+                    {t('AI Analysis')}
+                  </Button>
+                </Col>
+              ) : null}
             </Row>
           </Form>
         </CardBody>
@@ -1714,6 +1840,16 @@ const CombinedEquipmentEfficiency = ({ setRedirect, setRedirectUrl, t }) => {
           columns={associatedEquipmentTableColumns}
         />
       </div>
+      {settings.enableAIAnalysis ? (
+        <DeepSeekAnalysisModal
+          isOpen={smartAnalysisOpen}
+          toggle={() => setSmartAnalysisOpen(false)}
+          language={language}
+          reportContext={smartAnalysisContext}
+          setRedirect={setRedirect}
+          setRedirectUrl={setRedirectUrl}
+        />
+      ) : null}
     </Fragment>
   );
 };

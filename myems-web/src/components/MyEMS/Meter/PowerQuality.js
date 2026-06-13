@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useState, useContext } from 'react';
+import React, { Fragment, useEffect, useState, useContext, useCallback } from 'react';
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -23,6 +23,7 @@ import withRedirect from '../../../hoc/withRedirect';
 import { withTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
 import ButtonIcon from '../../common/ButtonIcon';
+import DeepSeekAnalysisModal from '../common/DeepSeekAnalysisModal';
 import { APIBaseURL, settings } from '../../../config';
 import DateRangePickerWrapper from '../common/DateRangePickerWrapper';
 import { endOfDay } from 'date-fns';
@@ -104,6 +105,8 @@ const PowerQuality = ({ setRedirect, setRedirectUrl, t }) => {
   const [spinnerHidden, setSpinnerHidden] = useState(true);
   const [exportButtonHidden, setExportButtonHidden] = useState(true);
   const [resultDataHidden, setResultDataHidden] = useState(true);
+  const [smartAnalysisOpen, setSmartAnalysisOpen] = useState(false);
+  const [smartAnalysisContext, setSmartAnalysisContext] = useState(null);
   //Results
   const [meterLineChartOptions, setMeterLineChartOptions] = useState([]);
   const [meterLineChartData, setMeterLineChartData] = useState({});
@@ -387,6 +390,60 @@ const PowerQuality = ({ setRedirect, setRedirectUrl, t }) => {
       });
   };
 
+  const buildSmartAnalysisContext = useCallback(() => {
+    const sliceNestedArrays = (obj, maxLen) => {
+      const out = {};
+      if (!obj || typeof obj !== 'object') {
+        return out;
+      }
+      Object.keys(obj).forEach(k => {
+        const arr = obj[k];
+        out[k] = Array.isArray(arr) ? arr.slice(0, maxLen) : arr;
+      });
+      return out;
+    };
+    const meterLabel =
+      filteredMeterList.find(m => String(m.value) === String(selectedMeter))?.label ?? null;
+    return {
+      reportType: 'power_quality',
+      reportTitle: t('Power Quality'),
+      spaceName: selectedSpaceName ?? null,
+      meter: {
+        id: selectedMeter,
+        name: meterLabel
+      },
+      reportingPeriod: {
+        start: reportingPeriodDateRange[0]
+          ? moment(reportingPeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss')
+          : null,
+        end: reportingPeriodDateRange[1]
+          ? moment(reportingPeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss')
+          : null
+      },
+      powerQualityTrend: {
+        labels: sliceNestedArrays(meterLineChartLabels, 200),
+        values: sliceNestedArrays(meterLineChartData, 200),
+        options: meterLineChartOptions
+      },
+      analysisResults: analysisResults.slice(0, 80)
+    };
+  }, [
+    t,
+    selectedSpaceName,
+    selectedMeter,
+    filteredMeterList,
+    reportingPeriodDateRange,
+    meterLineChartLabels,
+    meterLineChartData,
+    meterLineChartOptions,
+    analysisResults
+  ]);
+
+  const openSmartAnalysis = () => {
+    setSmartAnalysisContext(buildSmartAnalysisContext());
+    setSmartAnalysisOpen(true);
+  };
+
   return (
     <Fragment>
       <div>
@@ -486,6 +543,19 @@ const PowerQuality = ({ setRedirect, setRedirectUrl, t }) => {
                   {t('Export')}
                 </ButtonIcon>
               </Col>
+              {settings.enableAIAnalysis ? (
+                <Col xs="auto">
+                  <br />
+                  <Button
+                    color="falcon-default"
+                    size="sm"
+                    hidden={exportButtonHidden}
+                    onClick={openSmartAnalysis}
+                  >
+                    {t('AI Analysis')}
+                  </Button>
+                </Col>
+              ) : null}
             </Row>
           </Form>
         </CardBody>
@@ -609,6 +679,16 @@ const PowerQuality = ({ setRedirect, setRedirectUrl, t }) => {
           </CardBody>
         </Card>
       </div>
+      {settings.enableAIAnalysis ? (
+        <DeepSeekAnalysisModal
+          isOpen={smartAnalysisOpen}
+          toggle={() => setSmartAnalysisOpen(false)}
+          language={language}
+          reportContext={smartAnalysisContext}
+          setRedirect={setRedirect}
+          setRedirectUrl={setRedirectUrl}
+        />
+      ) : null}
     </Fragment>
   );
 };

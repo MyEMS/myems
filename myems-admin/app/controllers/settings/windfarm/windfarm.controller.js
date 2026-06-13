@@ -1,5 +1,7 @@
 'use strict';
 
+// Wind Farm controller - CRUD and settings management
+
 app.controller('WindFarmController', function(
     $scope,
     $rootScope,
@@ -16,6 +18,7 @@ app.controller('WindFarmController', function(
 	$scope.exportdata = '';
 	$scope.importdata = '';
 
+	// Load all cost centers from API
 	$scope.getAllCostCenters = function() {
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 		CostCenterService.getAllCostCenters(headers, function (response) {
@@ -27,6 +30,7 @@ app.controller('WindFarmController', function(
 		});
 	};
 
+	// Load all contacts from API
 	$scope.getAllContacts = function() {
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 		ContactService.getAllContacts(headers, function (response) {
@@ -38,6 +42,7 @@ app.controller('WindFarmController', function(
 		});
 	};
 
+	// Load all sv gs from API
 	$scope.getAllSVGs = function() {
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token, "Quickmode": 'true'  };
 		SVGService.getAllSVGs(headers, function (response) {
@@ -49,6 +54,7 @@ app.controller('WindFarmController', function(
 		});
 	};
 
+	// Load all wind farms from API
 	$scope.getAllWindFarms = function() {
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 		WindFarmService.getAllWindFarms(headers, function (response) {
@@ -61,6 +67,7 @@ app.controller('WindFarmController', function(
 	};
 
         let searchDebounceTimer = null;
+        // Search wind farms by keyword
         $scope.searchWindFarms = function() {
                 let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
                 const rawKeyword = $scope.searchKeyword || "";
@@ -83,6 +90,7 @@ app.controller('WindFarmController', function(
                 }, 300);
         };
 
+	// Open add modal and create wind farm
 	$scope.addWindFarm = function() {
 		var modalInstance = $uibModal.open({
 			templateUrl: 'views/settings/windfarm/windfarm.model.html',
@@ -127,6 +135,7 @@ app.controller('WindFarmController', function(
 		$rootScope.modalInstance = modalInstance;
 	};
 
+	// Open edit modal and update wind farm
 	$scope.editWindFarm = function(windfarm) {
 		var modalInstance = $uibModal.open({
 			windowClass: "animated fadeIn",
@@ -174,6 +183,7 @@ app.controller('WindFarmController', function(
 		$rootScope.modalInstance = modalInstance;
 	};
 
+	// Confirm and delete wind farm
 	$scope.deleteWindFarm=function(windfarm){
 		SweetAlert.swal({
 		        title: $translate.instant("SWEET.TITLE"),
@@ -210,6 +220,7 @@ app.controller('WindFarmController', function(
 		    });
 	};
 
+	// Export wind farm as JSON
 	$scope.exportWindFarm = function(modifiedWindFarm) {
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 		WindFarmService.exportWindFarm(modifiedWindFarm, headers, function(response) {
@@ -239,6 +250,7 @@ app.controller('WindFarmController', function(
 		});
 	};
 
+	// Clone an existing wind farm
 	$scope.cloneWindFarm = function(modifiedWindFarm){
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 		WindFarmService.cloneWindFarm(modifiedWindFarm, headers, function(response) {
@@ -262,6 +274,7 @@ app.controller('WindFarmController', function(
 		});
 	};
 
+	// Import wind farm from JSON
 	$scope.importWindFarm = function() {
 		var modalInstance = $uibModal.open({
 			templateUrl: 'views/common/import.html',
@@ -310,6 +323,7 @@ app.controller('WindFarmController', function(
 	});
 });
 
+// Modal controller for add dialog
 app.controller('ModalAddWindFarmCtrl', function($scope, $uibModalInstance,params) {
 
 	$scope.operation = "SETTING.ADD_WIND_FARM";
@@ -325,6 +339,7 @@ app.controller('ModalAddWindFarmCtrl', function($scope, $uibModalInstance,params
 	};
 });
 
+// Modal controller for edit dialog
 app.controller('ModalEditWindFarmCtrl', function($scope, $uibModalInstance, params) {
 	$scope.operation = "SETTING.EDIT_WIND_FARM";
 	$scope.windfarm = params.windfarm;

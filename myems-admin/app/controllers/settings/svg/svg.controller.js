@@ -1,5 +1,7 @@
 'use strict';
 
+// SVG controller - CRUD and settings management
+
 app.controller('SVGController', function(
 	$scope,
 	$rootScope,
@@ -14,6 +16,7 @@ app.controller('SVGController', function(
 	$scope.importdata = '';
 	$scope.current_svg = null;
 	$scope.searchKeyword = '';
+	// Load all sv gs from API
 	$scope.getAllSVGs = function() {
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token, "QUICKMODE": true };
 		SVGService.getAllSVGs(headers, function(response) {
@@ -25,6 +28,7 @@ app.controller('SVGController', function(
 		});
 	};
 
+	// Open add modal and create svg
 	$scope.addSVG = function() {
 		var modalInstance = $uibModal.open({
 			templateUrl: 'views/settings/svg/svg.model.html',
@@ -58,6 +62,7 @@ app.controller('SVGController', function(
 		$rootScope.modalInstance = modalInstance;
 	};
 
+	// Open edit modal and update svg
 	$scope.editSVG = function(svg) {
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 		SVGService.getSVG(svg.id, headers, function (response) {
@@ -113,6 +118,7 @@ app.controller('SVGController', function(
 		});
 	};
 
+	// Confirm and delete svg
 	$scope.deleteSVG=function(svg){
 		SweetAlert.swal({
 			title: $translate.instant("SWEET.TITLE"),
@@ -150,6 +156,7 @@ app.controller('SVGController', function(
 		    });
 	};
 
+	// Export svg as JSON
 	$scope.exportSVG = function(svg) {
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 		SVGService.exportSVG(svg, headers, function(response) {
@@ -181,6 +188,7 @@ app.controller('SVGController', function(
 		});
 	};
 
+	// Clone an existing svg
 	$scope.cloneSVG = function(svg){
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 		SVGService.cloneSVG(svg, headers, function(response) {
@@ -204,6 +212,7 @@ app.controller('SVGController', function(
 		});
 	};
 
+	// Import svg from JSON
 	$scope.importSVG = function() {
 		var modalInstance = $uibModal.open({
 			templateUrl: 'views/common/import.html',
@@ -251,6 +260,7 @@ app.controller('SVGController', function(
 			scope.$apply();
 		}
 	}
+	// Search sv gs by keyword
 	$scope.searchSVGs = function() {
 		const headers = {
 			"User-UUID": $scope.cur_user?.uuid,

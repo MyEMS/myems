@@ -1,5 +1,7 @@
 'use strict';
 
+// Space Combined Equipment controller - drag-and-drop equipment binding
+
 app.controller('SpaceCombinedEquipmentController', function($scope,
     $window,
     $timeout,
@@ -19,6 +21,7 @@ app.controller('SpaceCombinedEquipmentController', function($scope,
     $scope.tabInitialized = false;
     $scope.isSpaceSelected = false;
 
+    // Load all spaces from API
     $scope.getAllSpaces = function() {
     let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
     SpaceService.getAllSpaces(headers, function (response) {
@@ -63,6 +66,7 @@ app.controller('SpaceCombinedEquipmentController', function($scope,
     });
     };
 
+	// Load combined equipments by space id
 	$scope.getCombinedEquipmentsBySpaceID = function(id) {
 	if ($scope.isLoadingCombineEquipments) return;
     $scope.isLoadingCombineEquipments = true;
@@ -93,6 +97,7 @@ app.controller('SpaceCombinedEquipmentController', function($scope,
         });
     };
 
+	// Load all combined equipments from API
 	$scope.getAllCombinedEquipments = function() {
         let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 		CombinedEquipmentService.getAllCombinedEquipments(headers, function (response) {
@@ -105,6 +110,7 @@ app.controller('SpaceCombinedEquipmentController', function($scope,
       });
 	};
 
+	// Bind combined equipment via drag-and-drop
 	$scope.pairCombinedEquipment=function(dragEl,dropEl){
 		var combinedequipmentid=angular.element('#'+dragEl).scope().combinedequipment.id;
 		var spaceid=angular.element(spacetreewithcombinedequipment).jstree(true).get_top_selected();
@@ -129,6 +135,7 @@ app.controller('SpaceCombinedEquipmentController', function($scope,
 		});
 	};
 
+	// Unbind combined equipment via drag-to-trash
 	$scope.deleteCombinedEquipmentPair=function(dragEl,dropEl){
 		if(angular.element('#'+dragEl).hasClass('source')){
 			return;
@@ -156,6 +163,7 @@ app.controller('SpaceCombinedEquipmentController', function($scope,
 		});
 	};
 
+    // Initialize tab
     $scope.initTab = function() {
         if (!$scope.tabInitialized) {
             $scope.tabInitialized = true;
@@ -182,6 +190,7 @@ app.controller('SpaceCombinedEquipmentController', function($scope,
         }
     }, 0);
 
+  // Refresh space tree
   $scope.refreshSpaceTree = function() {
     let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
     SpaceService.getAllSpaces(headers, function (response) {

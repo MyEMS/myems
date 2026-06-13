@@ -1,5 +1,7 @@
 'use strict';
 
+// Energy Flow Diagram controller - CRUD and settings management
+
 app.controller('EnergyFlowDiagramController', function(
     $scope,
     $rootScope,
@@ -13,6 +15,7 @@ app.controller('EnergyFlowDiagramController', function(
 	$scope.exportdata = '';
 	$scope.importdata = '';
 	$scope.searchKeyword = '';
+	// Load all energy flow diagrams from API
 	$scope.getAllEnergyFlowDiagrams = function() {
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 		EnergyFlowDiagramService.getAllEnergyFlowDiagrams(headers, function (response) {
@@ -24,6 +27,7 @@ app.controller('EnergyFlowDiagramController', function(
 		});
 	};
 
+	// Open add modal and create energy flow diagram
 	$scope.addEnergyFlowDiagram = function() {
 		var modalInstance = $uibModal.open({
 			templateUrl: 'views/settings/energyflowdiagram/energyflowdiagram.model.html',
@@ -57,6 +61,7 @@ app.controller('EnergyFlowDiagramController', function(
 		$rootScope.modalInstance = modalInstance;
 	};
 
+	// Open edit modal and update energy flow diagram
 	$scope.editEnergyFlowDiagram = function(energyflowdiagram) {
 		var modalInstance = $uibModal.open({
 			windowClass: "animated fadeIn",
@@ -98,6 +103,7 @@ app.controller('EnergyFlowDiagramController', function(
 		$rootScope.modalInstance = modalInstance;
 	};
 
+	// Confirm and delete energy flow diagram
 	$scope.deleteEnergyFlowDiagram=function(energyflowdiagram){
 		SweetAlert.swal({
 		        title: $translate.instant("SWEET.TITLE"),
@@ -135,6 +141,7 @@ app.controller('EnergyFlowDiagramController', function(
 		    });
 	};
 
+	// Export energy flow diagram as JSON
 	$scope.exportEnergyFlowDiagram = function(energyflowdiagram) {
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 		EnergyFlowDiagramService.exportEnergyFlowDiagram(energyflowdiagram, headers, function(response) {
@@ -166,6 +173,7 @@ app.controller('EnergyFlowDiagramController', function(
 		});
 	};
 
+	// Clone an existing energy flow diagram
 	$scope.cloneEnergyFlowDiagram = function(energyflowdiagram){
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 		EnergyFlowDiagramService.cloneEnergyFlowDiagram(energyflowdiagram, headers, function(response) {
@@ -189,6 +197,7 @@ app.controller('EnergyFlowDiagramController', function(
 		});
 	};
 
+	// Import energy flow diagram from JSON
 	$scope.importEnergyFlowDiagram = function() {
 		var modalInstance = $uibModal.open({
 			templateUrl: 'views/common/import.html',
@@ -236,6 +245,7 @@ app.controller('EnergyFlowDiagramController', function(
 			scope.$apply();
 		}
 	}
+	// Search energy flow diagrams by keyword
 	$scope.searchEnergyFlowDiagrams = function() {
 		const headers = {
 			"User-UUID": $scope.cur_user?.uuid,

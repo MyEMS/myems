@@ -1,5 +1,7 @@
 'use strict';
 
+// Virtual Power Plant Microgrid controller - CRUD and settings management
+
 app.controller('VirtualPowerPlantMicrogridController', function (
     $scope,
     $window,
@@ -11,6 +13,7 @@ app.controller('VirtualPowerPlantMicrogridController', function (
     SweetAlert) {
     $scope.currentVirtualPowerPlant = {selected:undefined};
     $scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
+    // Load all microgrids from API
     $scope.getAllMicrogrids = function () {
         let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
         MicrogridService.getAllMicrogrids(headers, function (response) {
@@ -22,6 +25,7 @@ app.controller('VirtualPowerPlantMicrogridController', function (
         });
     };
 
+    // Load microgrids by virtual power plant id
     $scope.getMicrogridsByVirtualPowerPlantID = function (id) {
         let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
         VirtualPowerPlantMicrogridService.getMicrogridsByVirtualPowerPlantID(id, headers, function (response) {
@@ -33,12 +37,14 @@ app.controller('VirtualPowerPlantMicrogridController', function (
         });
     };
 
+    // Handle virtual power plant change
     $scope.changeVirtualPowerPlant=function(item,model){
         $scope.currentVirtualPowerPlant=item;
         $scope.currentVirtualPowerPlant.selected=model;
         $scope.getMicrogridsByVirtualPowerPlantID($scope.currentVirtualPowerPlant.id);
     };
 
+    // Load all virtual power plants from API
     $scope.getAllVirtualPowerPlants = function () {
         let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
         VirtualPowerPlantService.getAllVirtualPowerPlants(headers, function (response) {
@@ -50,6 +56,7 @@ app.controller('VirtualPowerPlantMicrogridController', function (
         });
     };
 
+    // Bind microgrid via drag-and-drop
     $scope.pairMicrogrid = function (dragEl, dropEl) {
         var microgridid = angular.element('#' + dragEl).scope().microgrid.id;
         var virtualpowerplantid = $scope.currentVirtualPowerPlant.id;
@@ -74,6 +81,7 @@ app.controller('VirtualPowerPlantMicrogridController', function (
         });
     };
 
+    // Unbind microgrid via drag-to-trash
     $scope.deleteMicrogridPair = function (dragEl, dropEl) {
         if (angular.element('#' + dragEl).hasClass('source')) {
             return;

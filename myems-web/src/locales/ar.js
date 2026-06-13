@@ -327,6 +327,7 @@ export default {
         'Per Unit Area': 'لكل وحدة مساحة',
         'Per Capita': 'Per Capita',
         'Per Unit Production': 'لكل وحدة إنتاج',
+        'Comprehensive Unit Price': 'متوسط سعر الوحدة',
         Baseline: 'الاساس',
         Actual: 'حقيقي',
         'Baseline Value - Actual Value': 'خط الأساس - الفعلي',

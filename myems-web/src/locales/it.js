@@ -327,6 +327,7 @@ export default {
         'Per Unit Area': 'Per Unità di Superficie',
         'Per Capita': 'Pro Capite',
         'Per Unit Production': 'Per Unità di Prodotto',
+        'Comprehensive Unit Price': 'Prezzo unitario complessivo',
         Baseline: 'Valore Baseline',
         Actual: 'Valore Attuale',
         'Baseline Value - Actual Value': 'Valore Baseline - Valore Attuale',

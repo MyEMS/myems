@@ -1,5 +1,7 @@
 'use strict';
 
+// Combined Equipment Meter controller - drag-and-drop meter binding
+
 app.controller('CombinedEquipmentMeterController', function (
     $scope,
     $rootScope,
@@ -22,6 +24,7 @@ app.controller('CombinedEquipmentMeterController', function (
     $scope.currentMeterType = "meters";
     $scope.currentmeters = [];
 
+    // Load all combined equipments from API
     $scope.getAllCombinedEquipments = function (id) {
         let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
         CombinedEquipmentService.getAllCombinedEquipments(headers, function (response) {
@@ -33,6 +36,7 @@ app.controller('CombinedEquipmentMeterController', function (
         });
     };
 
+    // Handle combined equipment change
     $scope.changeCombinedEquipment = function (item, model) {
         $scope.currentCombinedEquipment = item;
         $scope.currentCombinedEquipment.selected = model;
@@ -46,6 +50,7 @@ app.controller('CombinedEquipmentMeterController', function (
         }
     };
 
+    // Load meters by combined equipment id
     $scope.getMetersByCombinedEquipmentID = function (id) {
         var metertypes = ['meters', 'virtualmeters', 'offlinemeters'];
         let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
@@ -80,6 +85,7 @@ app.controller('CombinedEquipmentMeterController', function (
         });
     };
 
+    // Return CSS class for meter type
     $scope.colorMeterType = function (type) {
         if (type == 'meters') {
             return 'btn-primary'
@@ -90,6 +96,7 @@ app.controller('CombinedEquipmentMeterController', function (
         }
     };
 
+    // Handle meter type change
     $scope.changeMeterType = function () {
         // Defensive assignment to prevent race conditions
         $scope.filteredMeters = $scope.filteredMeters || [];
@@ -112,6 +119,7 @@ app.controller('CombinedEquipmentMeterController', function (
     };
 
 
+    // Load all meters from API
     $scope.getAllMeters = function () {
          let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
         MeterService.getAllMeters(headers, function (response) {
@@ -131,6 +139,7 @@ app.controller('CombinedEquipmentMeterController', function (
     };
 
 
+    // Load all offline meters from API
     $scope.getAllOfflineMeters = function () {
         let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
         OfflineMeterService.getAllOfflineMeters(headers, function (response) {
@@ -148,6 +157,7 @@ app.controller('CombinedEquipmentMeterController', function (
 
     };
 
+    // Load all virtual meters from API
     $scope.getAllVirtualMeters = function () {
         let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
         VirtualMeterService.getAllVirtualMeters(headers, function (response) {
@@ -188,6 +198,7 @@ app.controller('CombinedEquipmentMeterController', function (
         $scope.changeMeterType();
     };
 
+    // Bind meter via drag-and-drop
     $scope.pairMeter = function (dragEl, dropEl) {
         if (!$scope.isCombinedEquipmentSelected || !$scope.currentCombinedEquipment || !$scope.currentCombinedEquipment.id) {
             DragDropWarningService.showWarning("SETTING.PLEASE_SELECT_COMBINED_EQUIPMENT_FIRST");
@@ -231,6 +242,7 @@ app.controller('CombinedEquipmentMeterController', function (
         $rootScope.modalInstance = modalInstance;
     };
 
+    // Unbind meter via drag-to-trash
     $scope.deleteMeterPair = function (dragEl, dropEl) {
         if (angular.element('#' + dragEl).hasClass('source')) {
             return;
@@ -266,6 +278,7 @@ app.controller('CombinedEquipmentMeterController', function (
 
     $scope.tabInitialized = false;
 
+    // Initialize tab
     $scope.initTab = function() {
         if (!$scope.tabInitialized) {
             $scope.tabInitialized = true;
@@ -317,6 +330,7 @@ app.controller('CombinedEquipmentMeterController', function (
         );
 });
 
+// Modal controller for edit dialog
 app.controller('ModalEditCombinedEquipmentMeterCtrl', function ($scope, $uibModalInstance) {
     $scope.is_output = "false";
 

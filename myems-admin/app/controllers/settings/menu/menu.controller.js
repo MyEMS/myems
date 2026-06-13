@@ -1,5 +1,7 @@
 'use strict';
 
+// Menu controller - CRUD and settings management
+
 app.controller('MenuController', function (
     $scope,
     $rootScope,
@@ -14,6 +16,7 @@ app.controller('MenuController', function (
     $scope.currentMenuChildren = [];
     $scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
 
+    // Load all menus from API
     $scope.getAllMenus = function () {
         let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
         MenuService.getAllMenus(headers, function (response) {
@@ -48,6 +51,7 @@ app.controller('MenuController', function (
         });
     };
 
+    // Refresh menu tree
     $scope.refreshMenuTree = function () {
         let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
         MenuService.getAllMenus(headers, function (response) {
@@ -78,6 +82,7 @@ app.controller('MenuController', function (
         });
     };
 
+    // Load menu children from API
     $scope.getMenuChildren = function (menuid) {
         let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
         MenuService.getMenuChildren(menuid, headers, function (response) {
@@ -109,6 +114,7 @@ app.controller('MenuController', function (
         });
     };
 
+    // Open edit modal and update menu
     $scope.editMenu = function (menu) {
         var modalInstance = $uibModal.open({
             windowClass: "animated fadeIn",
@@ -156,6 +162,7 @@ app.controller('MenuController', function (
 });
 
 
+// Modal controller for edit dialog
 app.controller('ModalEditMenuCtrl', function ($scope, $uibModalInstance, params) {
     $scope.operation = "SETTING.EDIT_MENU";
     $scope.menu = params.menu;

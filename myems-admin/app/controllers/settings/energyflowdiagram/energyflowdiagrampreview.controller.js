@@ -1,10 +1,13 @@
 'use strict';
 
+// Energyflowdiagrampreview controller - SVG preview
+
 app.controller('EnergyFlowDiagramPreviewController', function($scope, $window, EnergyFlowDiagramService, EnergyFlowDiagramLinkService) {
       $scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
       $scope.energyflowdiagrams = [];
       $scope.currentEnergyFlowDiagram = null;
 
+      // Load all energy flow diagrams from API
       $scope.getAllEnergyFlowDiagrams = function() {
         let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
         EnergyFlowDiagramService.getAllEnergyFlowDiagrams(headers, function (response) {
@@ -16,6 +19,7 @@ app.controller('EnergyFlowDiagramPreviewController', function($scope, $window, E
         });
     };
 
+    // Load links by energy flow diagram id
     $scope.getLinksByEnergyFlowDiagramID = function(id) {
         let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
   			EnergyFlowDiagramLinkService.getLinksByEnergyFlowDiagramID(id, headers, function (response) {
@@ -27,12 +31,14 @@ app.controller('EnergyFlowDiagramPreviewController', function($scope, $window, E
   			});
   	};
 
+    // Handle energy flow diagram change
     $scope.changeEnergyFlowDiagram=function(item,model){
         $scope.currentEnergyFlowDiagram=item;
         $scope.currentEnergyFlowDiagram.selected=model;
         $scope.refreshEnergyFlowChart();
     };
 
+    // Refresh energy flow chart
     $scope.refreshEnergyFlowChart = function() {
       var data = {title: {text:null}, accessibility:{point:{valueDescriptionFormat:null}}, series:[{keys:null, data:null, type:null, name:null }]};
       data.title.text = ($scope.currentEnergyFlowDiagram != null) ? $scope.currentEnergyFlowDiagram.name: null;

@@ -1,22 +1,27 @@
+<!-- Photovoltaic Power Station settings page -->
 <div class="wrapper wrapper-content" ng-controller="PhotovoltaicPowerStationMasterController">
 	<div class="row">
 		<div class="col-lg-12">
 			<div class="tabs-container">
 				<uib-tabset>
+					<!-- Tab: Photovoltaic Power Station -->
 					<uib-tab heading="{{'COMMON.PHOTOVOLTAIC_POWER_STATION' | translate}}">
 						<div class="panel-body" ng-controller="PhotovoltaicPowerStationController">
                                                         <div class="col-md-3">
+							    <!-- Add new photovoltaic power station -->
 							    <a ng-click="addPhotovoltaicPowerStation()" class="btn btn-primary btn-rounded  btn-outline" href=""><i class="fa fa-plus-circle"></i> {{'SETTING.ADD_PHOTOVOLTAIC_POWER_STATION' | translate}}</a>
 							    <a ng-click="importPhotovoltaicPowerStation()" class="btn btn-primary btn-rounded  btn-outline" href=""><i class="fa fa-plus-circle"></i> {{'SETTING.IMPORT' | translate}}</a>
                                                         </div>
                                                         <div class="col-md-9">
-                                                            <input type="text" class="form-control m-b-xs"
-                                                                placeholder="{{'SETTING.SEARCH' | translate}}"
+                                                            <!-- Search input -->
+                                                                <input type="text" class="form-control m-b-xs"
+                                                                                                                                placeholder="{{'SETTING.SEARCH' | translate}}"
                                                                 ng-model="searchKeyword"
                                                                 ng-keyup="searchPhotovoltaicPowerStations()">
                                                         </div>
 							<br>
 							<br>
+							<!-- Photovoltaic Power Station list table -->
 							<table class="footable table table-bordered table-hover" data-sort="true" data-page-size="15">
 								<thead>
 									<tr>
@@ -55,6 +60,7 @@
 							</table>
 						</div>
 					</uib-tab>
+					<!-- Tab: Bind Data Source -->
 					<uib-tab heading="{{'SETTING.BIND_DATA_SOURCE' | translate}}">
 						<div class="panel-body" ng-controller="PhotovoltaicPowerStationDataSourceController">
 							<div class="row">
@@ -130,6 +136,7 @@
 							</div>
 						</div>
 					</uib-tab>
+					<!-- Tab: Invertor -->
 					<uib-tab heading="{{'PHOTOVOLTAIC_POWER_STATION.INVERTOR' | translate}}">
 						<div class="panel-body" ng-controller="PhotovoltaicPowerStationInvertorController">
 							<div class="row">
@@ -162,6 +169,7 @@
 											<a ng-show="is_show_add_photovoltaic_power_station_invertor" ng-click="addPhotovoltaicPowerStationInvertor()" class="btn btn-primary btn-rounded  btn-outline" href="">
 												<i class="fa fa-plus-circle"></i> {{'PHOTOVOLTAIC_POWER_STATION.ADD_INVERTOR' | translate}}
 											</a>
+											<!-- Photovoltaic Power Station list table -->
 											<table class="footable table table-bordered table-hover" data-sort="true" data-page-size="15">
 												<thead>
 													<tr>
@@ -205,6 +213,7 @@
 							</div>
 						</div>
 					</uib-tab>
+					<!-- Tab: Grid -->
 					<uib-tab heading="{{'PHOTOVOLTAIC_POWER_STATION.GRID' | translate}}">
 						<div class="panel-body" ng-controller="PhotovoltaicPowerStationGridController">
 						  <div class="row">
@@ -235,6 +244,7 @@
 								<div class="panel-body" >
 								  <a ng-show="is_show_add_photovoltaicpowerstation_grid" ng-click="addPhotovoltaicPowerStationGrid()" class="btn btn-primary btn-rounded  btn-outline" href="">
 															<i class="fa fa-plus-circle"></i> {{'PHOTOVOLTAIC_POWER_STATION.ADD_GRID' | translate}}</a>
+								  <!-- Photovoltaic Power Station list table -->
 								  <table class="footable table table-bordered table-hover" data-sort="true" data-page-size="15">
 									<thead>
 									  <tr>
@@ -276,6 +286,7 @@
 						</div>
 					  </div>
 					</uib-tab>
+					<!-- Tab: Load -->
 					<uib-tab heading="{{'PHOTOVOLTAIC_POWER_STATION.LOAD' | translate}}">
 						<div class="panel-body" ng-controller="PhotovoltaicPowerStationLoadController">
 						  <div class="row">
@@ -307,6 +318,7 @@
 										<a ng-show="is_show_add_photovoltaicpowerstation_load" ng-click="addPhotovoltaicPowerStationLoad()" class="btn btn-primary btn-rounded  btn-outline" href="">
 																	<i class="fa fa-plus-circle"></i> {{'PHOTOVOLTAIC_POWER_STATION.ADD_LOAD' | translate}}
 										</a>
+										<!-- Photovoltaic Power Station list table -->
 										<table class="footable table table-bordered table-hover" data-sort="true" data-page-size="15">
 											<thead>
 											<tr>
@@ -346,6 +358,7 @@
 						  </div>
 					  	</div>
 					</uib-tab>
+					<!-- Tab: Bind User -->
 					<uib-tab heading="{{'PHOTOVOLTAIC_POWER_STATION.BIND_USER' | translate}}">
 							<div class="panel-body" ng-controller="PhotovoltaicPowerStationUserController">
 								<div class="row">

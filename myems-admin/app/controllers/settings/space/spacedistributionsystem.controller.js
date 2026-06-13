@@ -1,5 +1,7 @@
 'use strict';
 
+// Space Distribution System controller - CRUD and settings management
+
 app.controller('SpaceDistributionSystemController', function(
     $scope,
     $window,
@@ -20,6 +22,7 @@ app.controller('SpaceDistributionSystemController', function(
     $scope.tabInitialized = false;
     $scope.isSpaceSelected = false;
 
+    // Load all spaces from API
     $scope.getAllSpaces = function() {
     let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
     SpaceService.getAllSpaces(headers, function (response) {
@@ -64,6 +67,7 @@ app.controller('SpaceDistributionSystemController', function(
     });
     };
 
+	// Load distribution systems by space id
 	$scope.getDistributionSystemsBySpaceID = function(id) {
 	if ($scope.isLoadingIstributionsystems) return;
 	$scope.isLoadingIstributionsystems = true;
@@ -94,6 +98,7 @@ app.controller('SpaceDistributionSystemController', function(
         });
     };
 
+	// Load all distribution systems from API
 	$scope.getAllDistributionSystems = function() {
         let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 		DistributionSystemService.getAllDistributionSystems(headers, function (response) {
@@ -106,6 +111,7 @@ app.controller('SpaceDistributionSystemController', function(
 		});
 	};
 
+	// Bind distribution system via drag-and-drop
 	$scope.pairDistributionSystem=function(dragEl,dropEl){
 		var distributionsystemid=angular.element('#'+dragEl).scope().distributionsystem.id;
 		var spaceid=angular.element(spacetreewithdistributionsystem).jstree(true).get_top_selected();
@@ -130,6 +136,7 @@ app.controller('SpaceDistributionSystemController', function(
 		});
 	};
 
+	// Unbind distribution system via drag-to-trash
 	$scope.deleteDistributionSystemPair=function(dragEl,dropEl){
 		if(angular.element('#'+dragEl).hasClass('source')){
 			return;
@@ -157,6 +164,7 @@ app.controller('SpaceDistributionSystemController', function(
 		});
 	};
 
+    // Initialize tab
     $scope.initTab = function() {
         if (!$scope.tabInitialized) {
             $scope.tabInitialized = true;
@@ -183,6 +191,7 @@ app.controller('SpaceDistributionSystemController', function(
         }
     }, 0);
 
+  // Refresh space tree
   $scope.refreshSpaceTree = function() {
     let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
     SpaceService.getAllSpaces(headers, function (response) {

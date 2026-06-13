@@ -1152,13 +1152,24 @@ const StorePrediction = ({ setRedirect, setRedirectUrl, t }) => {
         lineValues[k] = Array.isArray(arr) ? arr.slice(0, 200) : arr;
       });
     }
+    const sliceNestedArrays = (obj, maxLen) => {
+      const out = {};
+      if (!obj || typeof obj !== 'object') {
+        return out;
+      }
+      Object.keys(obj).forEach(k => {
+        const arr = obj[k];
+        out[k] = Array.isArray(arr) ? arr.slice(0, maxLen) : arr;
+      });
+      return out;
+    };
     const storeLabel =
       storeList.find(s => String(s.value) === String(selectedStore))?.label ?? null;
     const spaceDisplayName = Array.isArray(selectedSpaceName)
       ? selectedSpaceName.join('/')
       : selectedSpaceName ?? null;
     return {
-      reportType: 'store_energy_category',
+      reportType: 'store_prediction',
       reportTitle: t('Prediction'),
       space: { name: spaceDisplayName },
       store: {
@@ -1200,7 +1211,17 @@ const StorePrediction = ({ setRedirect, setRedirectUrl, t }) => {
         values: lineValues
       },
       storeBaseAndReportingNames,
-      storeBaseAndReportingUnits
+      storeBaseAndReportingUnits,
+      storeReportingSubtotals,
+      storeBaseSubtotals,
+      storeTrend: {
+        reportingLabels: sliceNestedArrays(storeReportingLabels, 200),
+        reportingData: sliceNestedArrays(storeReportingData, 200),
+        baseLabels: sliceNestedArrays(storeBaseLabels, 200),
+        baseData: sliceNestedArrays(storeBaseData, 200),
+        rates: sliceNestedArrays(storeReportingRates, 200),
+        options: storeReportingOptions
+      }
     };
   }, [
     t,
@@ -1224,7 +1245,15 @@ const StorePrediction = ({ setRedirect, setRedirectUrl, t }) => {
     parameterLineChartOptions,
     parameterLineChartData,
     storeBaseAndReportingNames,
-    storeBaseAndReportingUnits
+    storeBaseAndReportingUnits,
+    storeReportingSubtotals,
+    storeBaseSubtotals,
+    storeReportingLabels,
+    storeReportingData,
+    storeBaseLabels,
+    storeBaseData,
+    storeReportingRates,
+    storeReportingOptions
   ]);
 
   const openSmartAnalysis = () => {

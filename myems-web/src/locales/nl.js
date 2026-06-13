@@ -326,6 +326,7 @@ export default {
         'Per Unit Area': 'Waarde per eenheid oppervlakte',
         'Per Capita': 'Waarde per persoon',
         'Per Unit Production': 'Waarde per eenheid product',
+        'Comprehensive Unit Price': 'Gemiddelde eenheidsprijs',
         Baseline: 'Baseline waarde',
         Actual: 'Werkelijke waarde',
         'Baseline Value - Actual Value': 'Baseline waarde - Werkelijke waarde',

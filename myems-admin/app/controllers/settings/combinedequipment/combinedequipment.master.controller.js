@@ -1,5 +1,7 @@
 'use strict';
 
+// Combined Equipment master controller - coordinates tab events between child controllers
+
 var COMBINED_EQUIPMENT_TAB_INDEXES = {
 	COMBINED_EQUIPMENT: 0,
 	BIND_EQUIPMENT: 1,
@@ -13,6 +15,7 @@ app.controller('CombinedEquipmentMasterController', function($scope, $timeout) {
 	$scope.TAB_INDEXES = COMBINED_EQUIPMENT_TAB_INDEXES;
 	$scope.activeTabIndex = COMBINED_EQUIPMENT_TAB_INDEXES.COMBINED_EQUIPMENT;
 
+	// Handle tab selection
 	$scope.handleTabSelect = function(tabIndex) {
 		$scope.activeTabIndex = tabIndex;
 		$timeout(function() {

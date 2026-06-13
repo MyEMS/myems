@@ -326,6 +326,7 @@ export default {
         'Per Unit Area': 'ارزش به ازای واحد سطح',
         'Per Capita': 'ارزش سرانه',
         'Per Unit Production': 'ارزش به ازای واحد محصول',
+        'Comprehensive Unit Price': 'قیمت واحد متوسط',
         Baseline: 'مقدار پایه',
         Actual: 'مقدار واقعی',
         'Baseline Value - Actual Value': 'مقدار پایه - مقدار واقعی',

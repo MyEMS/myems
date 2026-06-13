@@ -1,11 +1,14 @@
+<!-- Data Source settings page -->
 <div class="wrapper wrapper-content" ng-controller="DataSourceMasterController">
     <div class="row">
         <div class="col-lg-12">
             <div class="tabs-container">
 
                 <uib-tabset>
+                    <!-- Tab: Data Source -->
                     <uib-tab heading="{{'COMMON.DATA_SOURCE' | translate}}">
                         <div class="panel-body" ng-controller="DataSourceController">
+                            <!-- Collapsible description panel -->
                             <div class="alert alert-info">
                                 <p>
                                     {{'SETTING.DATASOURCE_DESCRIPTION' | translate}}
@@ -27,12 +30,14 @@
                                        href=""><i class="fa fa-plus-circle"></i> {{'SETTING.IMPORT' | translate}}</a>
                                 </div>
                                 <div class="col-md-9">
-                                    <input type="text" class="form-control m-b-xs"
-                                           placeholder="{{'SETTING.SEARCH' | translate}}"
+                                    <!-- Search input -->
+                                           <input type="text" class="form-control m-b-xs"
+                                                                                      placeholder="{{'SETTING.SEARCH' | translate}}"
                                            ng-model="searchDataSourcesKeyword"
                                            ng-keyup="searchDataSources()">
                                 </div>
                             </div>
+                            <!-- Data Source list table -->
                             <table class="table table-bordered table-hover" data-sort="true">
                                 <thead>
                                 <tr>
@@ -75,8 +80,10 @@
                             </table>
                         </div>
                     </uib-tab>
+                    <!-- Tab: Point -->
                     <uib-tab heading="{{'SETTING.POINT' | translate}}">
                         <div class="panel-body" ng-controller="PointController">
+                            <!-- Collapsible description panel -->
                             <div class="alert alert-info">
                                 <p>
                                     {{'SETTING.POINT_DESCRIPTION' | translate}}
@@ -116,12 +123,14 @@
                                         <i class="fa fa-plus-circle"></i> {{'SETTING.IMPORT' | translate}}</a>
                                 </div>
                                 <div class="col-md-9">
-                                    <input type="text" class="form-control m-b-xs"
-                                           placeholder="{{'SETTING.SEARCH' | translate}}"
+                                    <!-- Search input -->
+                                           <input type="text" class="form-control m-b-xs"
+                                                                                      placeholder="{{'SETTING.SEARCH' | translate}}"
                                            ng-model="searchPointsKeyword"
                                            ng-keyup="searchPoints()">
                                 </div>
                             </div>
+                            <!-- Data Source list table -->
                             <table class="table table-bordered table-hover">
                                 <thead>
                                 <tr>
@@ -190,8 +199,10 @@
                             </div>
                         </div>
                     </uib-tab>
+                    <!-- Tab: Data Repair File -->
                     <uib-tab heading="{{'SETTING.DATA_REPAIR_FILE' | translate}}">
                         <div class="panel-body" ng-controller="DataRepairFileController">
+                            <!-- Collapsible description panel -->
                             <div class="alert alert-info">
                                 <p>
                                     {{'SETTING.DATA_REPAIR_FILE_DESCRIPTION' | translate}}
@@ -206,6 +217,7 @@
                             </div>
                             <div id="dropzone1" class="dropzone" options="dzOptions" callbacks="dzCallbacks"
                                  ng-dropzone></div>
+                            <!-- Data Source list table -->
                             <table class="footable table table-bordered table-hover" data-sort="true"
                                    data-page-size="15">
                                 <thead>

@@ -1,5 +1,7 @@
 'use strict';
 
+// Tenant Working Calendar controller - working calendar association
+
 app.controller('TenantWorkingCalendarController', function(
     $scope ,
     $window,
@@ -15,6 +17,7 @@ app.controller('TenantWorkingCalendarController', function(
     $scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
     $scope.currentTenant = {selected:undefined};
     $scope.isTenantSelected = false;
+    // Handle tenant change
     $scope.changeTenant=function(item,model){
       $scope.currentTenant=item;
       $scope.currentTenant.selected=model;
@@ -28,6 +31,7 @@ app.controller('TenantWorkingCalendarController', function(
       }
     };
 
+  // Load all tenants from API
   $scope.getAllTenants = function() {
         let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 		TenantService.getAllTenants(headers, function (response) {
@@ -39,6 +43,7 @@ app.controller('TenantWorkingCalendarController', function(
 		});
 	};
 
+	// Load working calendars by tenant id
 	$scope.getWorkingCalendarsByTenantID = function(id) {
       $scope.tenantworkingcalendars=[];
       let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
@@ -52,6 +57,7 @@ app.controller('TenantWorkingCalendarController', function(
       });
 	};
 
+	// Load all working calendars from API
 	$scope.getAllWorkingCalendars = function() {
         let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 		WorkingCalendarService.getAllWorkingCalendars(headers, function (response) {
@@ -80,6 +86,7 @@ app.controller('TenantWorkingCalendarController', function(
         });
     };
 
+	// Bind working calendar via drag-and-drop
 	$scope.pairWorkingCalendar=function(dragEl,dropEl){
 		if (!$scope.isTenantSelected || !$scope.currentTenant || !$scope.currentTenant.id) {
 		    DragDropWarningService.showWarning("SETTING.PLEASE_SELECT_TENANT_FIRST");
@@ -108,6 +115,7 @@ app.controller('TenantWorkingCalendarController', function(
 		});
 	};
 
+	// Unbind working calendar via drag-to-trash
 	$scope.deleteWorkingCalendarPair=function(dragEl,dropEl){
 		if(angular.element('#'+dragEl).hasClass('source')){
 			return;

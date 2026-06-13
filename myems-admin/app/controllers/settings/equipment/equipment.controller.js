@@ -1,5 +1,7 @@
 'use strict';
 
+// Equipment controller - drag-and-drop equipment binding
+
 app.controller('EquipmentController', function(
 	$scope,
 	$rootScope,
@@ -17,6 +19,7 @@ app.controller('EquipmentController', function(
 	$scope.searchEquipmentKeyword = '';
     $scope.searchTimeout = null;
 
+	// Load all equipments from API
 	$scope.getAllEquipments = function() {
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 		EquipmentService.getAllEquipments(headers, function (response) {
@@ -28,6 +31,7 @@ app.controller('EquipmentController', function(
 		});
 	};
 
+    // Search equipments by keyword
     $scope.searchEquipments = function() {
         if ($scope.searchTimeout) {
             clearTimeout($scope.searchTimeout);
@@ -51,6 +55,7 @@ app.controller('EquipmentController', function(
         }, 300);
     };
 
+	// Load all cost centers from API
 	$scope.getAllCostCenters = function() {
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 		CostCenterService.getAllCostCenters(headers, function (response) {
@@ -62,6 +67,7 @@ app.controller('EquipmentController', function(
 		});
 	};
 
+	// Load all sv gs from API
 	$scope.getAllSVGs = function() {
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token, "Quickmode": 'true'  };
 		SVGService.getAllSVGs(headers, function (response) {
@@ -73,6 +79,7 @@ app.controller('EquipmentController', function(
 		});
 	};
 
+	// Open add modal and create equipment
 	$scope.addEquipment = function() {
 		var modalInstance = $uibModal.open({
 			templateUrl: 'views/settings/equipment/equipment.model.html',
@@ -118,6 +125,7 @@ app.controller('EquipmentController', function(
 		$rootScope.modalInstance = modalInstance;
 	};
 
+	// Open edit modal and update equipment
 	$scope.editEquipment = function(equipment) {
 		var modalInstance = $uibModal.open({
 			windowClass: "animated fadeIn",
@@ -165,6 +173,7 @@ app.controller('EquipmentController', function(
 		$rootScope.modalInstance = modalInstance;
 	};
 
+	// Confirm and delete equipment
 	$scope.deleteEquipment=function(equipment){
 		SweetAlert.swal({
 		        title: $translate.instant("SWEET.TITLE"),
@@ -202,6 +211,7 @@ app.controller('EquipmentController', function(
 		    });
 	};
 
+	// Export equipment as JSON
 	$scope.exportEquipment = function(equipment) {
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 		EquipmentService.exportEquipment(equipment, headers, function(response) {
@@ -231,6 +241,7 @@ app.controller('EquipmentController', function(
 		});
 	};
 
+	// Clone an existing equipment
 	$scope.cloneEquipment = function(equipment){
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 		EquipmentService.cloneEquipment(equipment, headers, function(response) {
@@ -254,6 +265,7 @@ app.controller('EquipmentController', function(
 		});
 	};
 
+	// Import equipment from JSON
 	$scope.importEquipment = function() {
 		var modalInstance = $uibModal.open({
 			templateUrl: 'views/common/import.html',

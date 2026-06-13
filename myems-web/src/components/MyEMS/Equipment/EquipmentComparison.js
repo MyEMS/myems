@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useState, useContext } from 'react';
+import React, { Fragment, useEffect, useState, useContext, useCallback } from 'react';
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -26,6 +26,7 @@ import withRedirect from '../../../hoc/withRedirect';
 import { withTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
 import ButtonIcon from '../../common/ButtonIcon';
+import DeepSeekAnalysisModal from '../common/DeepSeekAnalysisModal';
 import { APIBaseURL, settings } from '../../../config';
 import { periodTypeOptions } from '../common/PeriodTypeOptions';
 import MultiTrendChart from '../common/MultiTrendChart';
@@ -116,6 +117,8 @@ const EquipmentComparison = ({ setRedirect, setRedirectUrl, t }) => {
   const [submitButtonDisabled, setSubmitButtonDisabled] = useState(true);
   const [spinnerHidden, setSpinnerHidden] = useState(true);
   const [exportButtonHidden, setExportButtonHidden] = useState(true);
+  const [smartAnalysisOpen, setSmartAnalysisOpen] = useState(false);
+  const [smartAnalysisContext, setSmartAnalysisContext] = useState(null);
   const [resultDataHidden, setResultDataHidden] = useState(true);
   //Results
   const [equipment1, setEquipment1] = useState({
@@ -698,6 +701,98 @@ const EquipmentComparison = ({ setRedirect, setRedirectUrl, t }) => {
       });
   };
 
+  const buildSmartAnalysisContext = useCallback(() => {
+    const sliceChartValues = dataObj => {
+      const values = {};
+      if (dataObj && typeof dataObj === 'object') {
+        Object.keys(dataObj).forEach(k => {
+          const arr = dataObj[k];
+          values[k] = Array.isArray(arr) ? arr.slice(0, 200) : arr;
+        });
+      }
+      return values;
+    };
+    const sliceNestedArrays = (obj, maxLen) => {
+      const out = {};
+      if (!obj || typeof obj !== 'object') {
+        return out;
+      }
+      Object.keys(obj).forEach(k => {
+        const arr = obj[k];
+        out[k] = Array.isArray(arr) ? arr.slice(0, maxLen) : arr;
+      });
+      return out;
+    };
+    const spaceDisplayName1 = Array.isArray(selectedSpaceName1)
+      ? selectedSpaceName1.join('/')
+      : selectedSpaceName1 ?? null;
+    const spaceDisplayName2 = Array.isArray(selectedSpaceName2)
+      ? selectedSpaceName2.join('/')
+      : selectedSpaceName2 ?? null;
+    return {
+      reportType: 'equipment_comparison',
+      reportTitle: t('Equipment Comparison'),
+      space1Name: spaceDisplayName1,
+      space2Name: spaceDisplayName2,
+      equipment1: {
+        id: selectedEquipment1,
+        ...equipment1
+      },
+      equipment2: {
+        id: selectedEquipment2,
+        ...equipment2
+      },
+      energyCategory,
+      periodType,
+      reportingPeriod: {
+        start: reportingPeriodDateRange[0]
+          ? moment(reportingPeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss')
+          : null,
+        end: reportingPeriodDateRange[1]
+          ? moment(reportingPeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss')
+          : null
+      },
+      reportingPeriodTotals: {
+        equipment1: reportingPeriodEnergyConsumptionInCategory1,
+        equipment2: reportingPeriodEnergyConsumptionInCategory2,
+        difference: reportingPeriodEnergyConsumptionInDifference
+      },
+      equipment1Trend: {
+        labels: sliceNestedArrays(equipmentLineChartLabels1, 200),
+        values: sliceChartValues(equipmentLineChartData1)
+      },
+      equipment2Trend: {
+        labels: sliceNestedArrays(equipmentLineChartLabels2, 200),
+        values: sliceChartValues(equipmentLineChartData2)
+      },
+      detailedDataSample: detailedDataTableData.slice(0, 120)
+    };
+  }, [
+    t,
+    selectedSpaceName1,
+    selectedSpaceName2,
+    selectedEquipment1,
+    selectedEquipment2,
+    equipment1,
+    equipment2,
+    energyCategory,
+    periodType,
+    reportingPeriodDateRange,
+    reportingPeriodEnergyConsumptionInCategory1,
+    reportingPeriodEnergyConsumptionInCategory2,
+    reportingPeriodEnergyConsumptionInDifference,
+    equipmentLineChartLabels1,
+    equipmentLineChartData1,
+    equipmentLineChartLabels2,
+    equipmentLineChartData2,
+    detailedDataTableData
+  ]);
+
+  const openSmartAnalysis = () => {
+    setSmartAnalysisContext(buildSmartAnalysisContext());
+    setSmartAnalysisOpen(true);
+  };
+
   return (
     <Fragment>
       <div>
@@ -793,8 +888,8 @@ const EquipmentComparison = ({ setRedirect, setRedirectUrl, t }) => {
                 </FormGroup>
               </Col>
             </Row>
-            <Row>
-              <Col xs="auto">
+            <Row form>
+              <Col xs={12} sm={3}>
                 <FormGroup>
                   <Label className={labelClasses} for="energyCategorySelect">
                     {t('Energy Category')}
@@ -814,7 +909,7 @@ const EquipmentComparison = ({ setRedirect, setRedirectUrl, t }) => {
                   </CustomInput>
                 </FormGroup>
               </Col>
-              <Col xs="auto">
+              <Col xs={12} sm={3}>
                 <FormGroup>
                   <Label className={labelClasses} for="periodType">
                     {t('Period Types')}
@@ -835,7 +930,9 @@ const EquipmentComparison = ({ setRedirect, setRedirectUrl, t }) => {
                   </CustomInput>
                 </FormGroup>
               </Col>
+            </Row>
 
+            <Row form>
               <Col xs={6} sm={3}>
                 <FormGroup className="form-group">
                   <Label className={labelClasses} for="reportingPeriodDateRangePicker">
@@ -884,6 +981,19 @@ const EquipmentComparison = ({ setRedirect, setRedirectUrl, t }) => {
                   {t('Export')}
                 </ButtonIcon>
               </Col>
+              {settings.enableAIAnalysis ? (
+                <Col xs="auto">
+                  <br />
+                  <Button
+                    color="falcon-default"
+                    size="sm"
+                    hidden={exportButtonHidden}
+                    onClick={openSmartAnalysis}
+                  >
+                    {t('AI Analysis')}
+                  </Button>
+                </Col>
+              ) : null}
             </Row>
           </Form>
         </CardBody>
@@ -999,6 +1109,16 @@ const EquipmentComparison = ({ setRedirect, setRedirectUrl, t }) => {
           pagesize={50}
         />
       </div>
+      {settings.enableAIAnalysis ? (
+        <DeepSeekAnalysisModal
+          isOpen={smartAnalysisOpen}
+          toggle={() => setSmartAnalysisOpen(false)}
+          language={language}
+          reportContext={smartAnalysisContext}
+          setRedirect={setRedirect}
+          setRedirectUrl={setRedirectUrl}
+        />
+      ) : null}
     </Fragment>
   );
 };

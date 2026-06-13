@@ -1,5 +1,7 @@
 "use strict";
 
+// Energy Storage Container Grid controller - container association
+
 app.controller(
   "EnergyStorageContainerGridController",
   function (
@@ -24,6 +26,7 @@ app.controller(
     $scope.cur_user = JSON.parse(
       $window.localStorage.getItem("myems_admin_ui_current_user")
     );
+    // Load all energy storage containers from API
     $scope.getAllEnergyStorageContainers = function () {
       let headers = {
         "User-UUID": $scope.cur_user.uuid,
@@ -41,6 +44,7 @@ app.controller(
       );
     };
 
+    // Load data sources by energy storage container id
     $scope.getDataSourcesByEnergyStorageContainerID = function (id) {
       let headers = {
         "User-UUID": $scope.cur_user.uuid,
@@ -59,6 +63,7 @@ app.controller(
       );
     };
 
+    // Load data source points by energy storage container id
     $scope.getDataSourcePointsByEnergyStorageContainerID = function (id) {
       let headers = {
         "User-UUID": $scope.cur_user.uuid,
@@ -77,6 +82,7 @@ app.controller(
       );
     };
 
+    // Load all meters from API
     $scope.getAllMeters = function () {
       let headers = {
         "User-UUID": $scope.cur_user.uuid,
@@ -90,6 +96,7 @@ app.controller(
         }
       });
     };
+    // Load energy storage container grids by energy storage container id
     $scope.getEnergyStorageContainerGridsByEnergyStorageContainerID = function (
       id
     ) {
@@ -110,6 +117,7 @@ app.controller(
       );
     };
 
+    // Handle energy storage container change
     $scope.changeEnergyStorageContainer = function (item, model) {
       $scope.currentEnergyStorageContainer = item;
       $scope.currentEnergyStorageContainer.selected = model;
@@ -125,6 +133,7 @@ app.controller(
       );
     };
 
+    // Open add modal and create energy storage container grid
     $scope.addEnergyStorageContainerGrid = function () {
       var modalInstance = $uibModal.open({
         templateUrl:
@@ -202,6 +211,7 @@ app.controller(
       $rootScope.modalInstance = modalInstance;
     };
 
+    // Open edit modal and update energy storage container grid
     $scope.editEnergyStorageContainerGrid = function (
       energystoragecontainergrid
     ) {
@@ -313,6 +323,7 @@ app.controller(
       });
       $rootScope.modalInstance = modalInstance;
     };
+    // Confirm and delete energy storage container grid
     $scope.deleteEnergyStorageContainerGrid = function (
       energystoragecontainergrid
     ) {
@@ -464,6 +475,7 @@ app.controller(
       $uibModalInstance.dismiss("cancel");
     };
 
+    // Handle data source change
     $scope.changeDataSource = function (item, model) {
       console.log("changeDataSource");
       $scope.currentDataSource = model;
@@ -471,6 +483,7 @@ app.controller(
       $scope.getPointsByDataSourceID($scope.currentDataSource);
     };
 
+    // Load points by data source id
     $scope.getPointsByDataSourceID = function (id) {
       console.log("getPointsByDataSourceID");
       let headers = { "User-UUID": params.user_uuid, Token: params.token };
@@ -483,6 +496,7 @@ app.controller(
       });
     };
 
+    // Bind point via drag-and-drop
     $scope.pairPoint = function (dragEl, dropEl) {
       var pointid = angular.element("#" + dragEl).scope().point.id;
       let headers = { "User-UUID": params.user_uuid, Token: params.token };
@@ -530,6 +544,7 @@ app.controller(
       );
     };
 
+    // Unbind point via drag-to-trash
     $scope.deletePointPair = function (dragEl, dropEl) {
       if (angular.element("#" + dragEl).hasClass("source")) {
         return;

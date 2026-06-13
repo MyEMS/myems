@@ -1,5 +1,7 @@
 'use strict';
 
+// Tenant Point controller - drag-and-drop point binding
+
 app.controller('TenantPointController', function (
     $scope, 
     $window,
@@ -15,6 +17,7 @@ app.controller('TenantPointController', function (
     $scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
     $scope.currentTenant = {selected:undefined};
     $scope.isTenantSelected = false;
+    // Load all data sources from API
     $scope.getAllDataSources = function () {
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
         DataSourceService.getAllDataSources(headers, function (response) {
@@ -30,6 +33,7 @@ app.controller('TenantPointController', function (
         });
     };
 
+    // Load points by data source id
     $scope.getPointsByDataSourceID = function (id) {
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
         PointService.getPointsByDataSourceID(id, headers, function (response) {
@@ -43,6 +47,7 @@ app.controller('TenantPointController', function (
         });
     };
 
+    // Load points by tenant id
     $scope.getPointsByTenantID = function (id) {
         let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
         TenantPointService.getPointsByTenantID(id, headers, function (response) {
@@ -71,6 +76,7 @@ app.controller('TenantPointController', function (
         });
     };
 
+  // Handle tenant change
   $scope.changeTenant=function(item,model){
     	$scope.currentTenant=item;
     	$scope.currentTenant.selected=model;
@@ -84,11 +90,13 @@ app.controller('TenantPointController', function (
     	}
   };
 
+    // Handle data source change
     $scope.changeDataSource = function (item, model) {
         $scope.currentDataSource = model;
         $scope.getPointsByDataSourceID($scope.currentDataSource);
     };
 
+    // Load all tenants from API
     $scope.getAllTenants = function () {
         let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
         TenantService.getAllTenants(headers, function (response) {
@@ -101,6 +109,7 @@ app.controller('TenantPointController', function (
 
     };
 
+    // Bind point via drag-and-drop
     $scope.pairPoint = function (dragEl, dropEl) {
         if (!$scope.isTenantSelected || !$scope.currentTenant || !$scope.currentTenant.id) {
             DragDropWarningService.showWarning("SETTING.PLEASE_SELECT_TENANT_FIRST");
@@ -129,6 +138,7 @@ app.controller('TenantPointController', function (
         });
     };
 
+    // Unbind point via drag-to-trash
     $scope.deletePointPair = function (dragEl, dropEl) {
         if (angular.element('#' + dragEl).hasClass('source')) {
             return;

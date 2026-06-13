@@ -1,5 +1,7 @@
 'use strict';
 
+// Equipment Meter controller - drag-and-drop meter binding
+
 app.controller('EquipmentMeterController', function(
 	$scope,
 	$rootScope,
@@ -20,6 +22,7 @@ app.controller('EquipmentMeterController', function(
     $scope.currentEquipment = {selected:undefined};
     $scope.currentMeterType = "meters";
     $scope.isEquipmentSelected = false;
+	// Load all equipments from API
 	$scope.getAllEquipments = function(id) {
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 		EquipmentService.getAllEquipments(headers, function (response) {
@@ -31,6 +34,7 @@ app.controller('EquipmentMeterController', function(
 		});
 	};
 
+	// Handle equipment change
 	$scope.changeEquipment=function(item,model){
 		$scope.currentEquipment=item;
 		$scope.currentEquipment.selected=model;
@@ -45,6 +49,7 @@ app.controller('EquipmentMeterController', function(
 		}
 	};
 
+	// Load meters by equipment id
 	$scope.getMetersByEquipmentID = function(id) {
 		var metertypes=['meters','virtualmeters','offlinemeters'];
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
@@ -76,6 +81,7 @@ app.controller('EquipmentMeterController', function(
 		});
 	};
 
+	// Return CSS class for meter type
 	$scope.colorMeterType=function(type){
 		if(type=='meters'){
 			return 'btn-primary'
@@ -86,6 +92,7 @@ app.controller('EquipmentMeterController', function(
 		}
 	};
 
+	// Handle meter type change
 	$scope.changeMeterType=function(){
 		// Defensive assignment to prevent race conditions
 		$scope.filteredMeters = $scope.filteredMeters || [];
@@ -105,6 +112,7 @@ app.controller('EquipmentMeterController', function(
 		}
 	};
 
+	// Load all meters from API
 	$scope.getAllMeters = function() {
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 		MeterService.getAllMeters(headers, function (response) {
@@ -121,6 +129,7 @@ app.controller('EquipmentMeterController', function(
 		});
 	};
 
+	// Load all offline meters from API
 	$scope.getAllOfflineMeters = function() {
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 		OfflineMeterService.getAllOfflineMeters(headers, function (response) {
@@ -133,6 +142,7 @@ app.controller('EquipmentMeterController', function(
 		});
 	};
 
+	// Load all virtual meters from API
 	$scope.getAllVirtualMeters = function() {
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 		VirtualMeterService.getAllVirtualMeters(headers, function (response) {
@@ -170,6 +180,7 @@ app.controller('EquipmentMeterController', function(
 		$scope.changeMeterType();
 	};
 
+	// Bind meter via drag-and-drop
 	$scope.pairMeter=function(dragEl,dropEl){
         if (!$scope.isEquipmentSelected || !$scope.currentEquipment || !$scope.currentEquipment.id) {
             DragDropWarningService.showWarning("SETTING.PLEASE_SELECT_EQUIPMENT_FIRST");
@@ -213,6 +224,7 @@ app.controller('EquipmentMeterController', function(
 		$rootScope.modalInstance = modalInstance;
     };
 
+    // Unbind meter via drag-to-trash
     $scope.deleteMeterPair = function (dragEl, dropEl) {
         if (angular.element('#' + dragEl).hasClass('source')) {
             return;
@@ -248,6 +260,7 @@ app.controller('EquipmentMeterController', function(
 
 	$scope.tabInitialized = false;
 
+	// Initialize tab
 	$scope.initTab = function() {
 		if (!$scope.tabInitialized) {
 			$scope.tabInitialized = true;
@@ -299,6 +312,7 @@ app.controller('EquipmentMeterController', function(
         );
 });
 
+// Modal controller for edit dialog
 app.controller('ModalEditEquipmentMeterCtrl', function ($scope, $uibModalInstance) {
     $scope.is_output = "false";
 

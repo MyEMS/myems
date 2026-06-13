@@ -1,5 +1,7 @@
 'use strict';
 
+// Tenant Sensor controller - drag-and-drop sensor binding
+
 app.controller('TenantSensorController', function (
     $scope,
     $window,
@@ -14,6 +16,7 @@ app.controller('TenantSensorController', function (
     $scope.currentTenant = {selected:undefined};
     $scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
     $scope.isTenantSelected = false;
+    // Load all sensors from API
     $scope.getAllSensors = function () {
         let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
         SensorService.getAllSensors(headers, function (response) {
@@ -27,6 +30,7 @@ app.controller('TenantSensorController', function (
         });
     };
 
+    // Load sensors by tenant id
     $scope.getSensorsByTenantID = function (id) {
         let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
         TenantSensorService.getSensorsByTenantID(id, headers, function (response) {
@@ -54,6 +58,7 @@ app.controller('TenantSensorController', function (
         });
     };
 
+    // Handle tenant change
     $scope.changeTenant=function(item,model){
   	    $scope.currentTenant=item;
   	    $scope.currentTenant.selected=model;
@@ -67,6 +72,7 @@ app.controller('TenantSensorController', function (
   	    }
     };
 
+    // Load all tenants from API
     $scope.getAllTenants = function () {
         let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
         TenantService.getAllTenants(headers, function (response) {
@@ -78,6 +84,7 @@ app.controller('TenantSensorController', function (
         });
     };
 
+    // Bind sensor via drag-and-drop
     $scope.pairSensor = function (dragEl, dropEl) {
         if (!$scope.isTenantSelected || !$scope.currentTenant || !$scope.currentTenant.id) {
             DragDropWarningService.showWarning("SETTING.PLEASE_SELECT_TENANT_FIRST");
@@ -106,6 +113,7 @@ app.controller('TenantSensorController', function (
         });
     };
 
+    // Unbind sensor via drag-to-trash
     $scope.deleteSensorPair = function (dragEl, dropEl) {
         if (angular.element('#' + dragEl).hasClass('source')) {
             return;

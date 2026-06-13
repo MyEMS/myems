@@ -1,10 +1,13 @@
+<!-- Distribution System settings page -->
 <div class="wrapper wrapper-content" ng-controller="DistributionSystemMasterController">
 	<div class="row">
 		<div class="col-lg-12">
 			<div class="tabs-container">
 				<uib-tabset>
+					<!-- Tab: Distribution System -->
 					<uib-tab heading="{{'COMMON.DISTRIBUTION_SYSTEM' | translate}}">
 						<div class="panel-body" ng-controller="DistributionSystemController">
+							<!-- Collapsible description panel -->
 							<div class="alert alert-info">
 								<p>
 									{{'SETTING.DISTRIBUTION_SYSTEM_DESCRIPTION' | translate}}
@@ -19,17 +22,20 @@
 							</div>
 							<div class="row mb-3">
 								<div class="col-md-3">
+									<!-- Add new distribution system -->
 									<a ng-click="addDistributionSystem()" class="btn btn-primary btn-rounded btn-outline" href=""><i class="fa fa-plus-circle"></i> {{'DISTRIBUTION_SYSTEM.ADD_DISTRIBUTION_SYSTEM' | translate}}</a>
 									<a ng-click="importDistributionSystem()" class="btn btn-primary btn-rounded btn-outline" href=""><i class="fa fa-plus-circle"></i> {{'SETTING.IMPORT' | translate}}</a>
 								</div>
 								<div class="col-md-9">
-									<input type="text"
+									<!-- Search input -->
+										   <input type="text"
 										   class="form-control m-b-xs"
-										   placeholder="{{'SETTING.SEARCH' | translate}}"
+										   										   placeholder="{{'SETTING.SEARCH' | translate}}"
 										   ng-model="searchKeyword"
 										   ng-keyup="searchDistributionSystems()">
 								</div>
 							</div>
+              <!-- Distribution System list table -->
               <table class="footable table table-bordered table-hover" data-sort="true" data-page-size="15">
 								<thead>
 									<tr>
@@ -62,8 +68,10 @@
 							</table>
 						</div>
 					</uib-tab>
+          <!-- Tab: Distribution Circuit -->
           <uib-tab heading="{{'DISTRIBUTION_SYSTEM.DISTRIBUTION_CIRCUIT' | translate}}">
  						<div class="panel-body" ng-controller="DistributionCircuitController">
+ 							<!-- Collapsible description panel -->
  							<div class="alert alert-info">
  								<p>
  									{{'DISTRIBUTION_SYSTEM.DISTRIBUTION_CIRCUIT_DESCRIPTION' | translate}}
@@ -104,6 +112,7 @@
                     <div class="panel-body" >
                       <a ng-show="is_show_add_distribution_circuit" ng-click="addDistributionCircuit()" class="btn btn-primary btn-rounded  btn-outline" href="">
 												<i class="fa fa-plus-circle"></i> {{'DISTRIBUTION_SYSTEM.ADD_DISTRIBUTION_CIRCUIT' | translate}}</a>
+                      <!-- Distribution System list table -->
                       <table class="footable table table-bordered table-hover" data-sort="true" data-page-size="15">
                         <thead>
                           <tr>
@@ -149,8 +158,10 @@
           </div>
           </uib-tab>
 
+          <!-- Tab: Bind Point -->
           <uib-tab heading="{{'SETTING.BIND_POINT' | translate}}" >
               <div class="panel-body" ng-controller="DistributionCircuitPointController">
+                <!-- Collapsible description panel -->
                 <div class="alert alert-info">
                   <p>
                     {{'DISTRIBUTION_SYSTEM.BIND_POINT_DESCRIPTION' | translate}}
@@ -241,8 +252,10 @@
               </div>
             </div>
           </uib-tab>
+          <!-- Tab: Preview -->
           <uib-tab heading="{{'DISTRIBUTION_SYSTEM.PREVIEW' | translate}}">
  						<div class="panel-body" ng-controller="DistributionSystemPreviewController">
+ 							<!-- Collapsible description panel -->
  							<div class="alert alert-info">
  								<p>
  									{{'DISTRIBUTION_SYSTEM.PREVIEW_DESCRIPTION' | translate}}

@@ -329,6 +329,7 @@ export default {
         'Per Unit Area': 'Trên một đơn vị diện tích',
         'Per Capita': 'Per Capita',
         'Per Unit Production': 'Mỗi đơn vị sản xuất',
+        'Comprehensive Unit Price': 'Đơn giá tổng hợp',
         Baseline: 'Baseline',
         Actual: 'Thực tế',
         'Baseline Value - Actual Value': 'Baseline - Thực tế',

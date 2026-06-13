@@ -1,5 +1,7 @@
 'use strict';
 
+// Meter master controller - coordinates tab events between child controllers
+
 var METER_TAB_INDEXES = {
 	METER: 0,
 	BIND_POINT: 1,
@@ -14,6 +16,7 @@ app.controller('MeterMasterController', function($scope, $timeout) {
 	$scope.TAB_INDEXES = METER_TAB_INDEXES;
 	$scope.activeTabIndex = METER_TAB_INDEXES.METER;
 
+	// Handle tab selection
 	$scope.handleTabSelect = function(tabIndex) {
 		$scope.activeTabIndex = tabIndex;
 		$timeout(function() {

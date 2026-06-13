@@ -1,5 +1,7 @@
 'use strict';
 
+// Shop Floor Command controller - drag-and-drop command binding
+
 app.controller('ShopfloorCommandController', function (
     $scope,
     $window,
@@ -15,6 +17,7 @@ app.controller('ShopfloorCommandController', function (
     $scope.currentShopfloor = {selected: undefined};
     $scope.isShopfloorSelected = false;
 
+    // Load all commands from API
     $scope.getAllCommands = function() {
         let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
         CommandService.getAllCommands(headers, function(response) {
@@ -31,6 +34,7 @@ app.controller('ShopfloorCommandController', function (
         });
     };
 
+    // Load commands by shopfloor id
     $scope.getCommandsByShopfloorID = function(id) {
         let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
         ShopfloorCommandService.getCommandsByShopfloorID(id, headers, function(response) {
@@ -43,6 +47,7 @@ app.controller('ShopfloorCommandController', function (
         });
     };
 
+    // Handle shopfloor change
     $scope.changeShopfloor = function(item, model) {
         $scope.currentShopfloor = item;
         $scope.currentShopfloor.selected = model;
@@ -54,6 +59,7 @@ app.controller('ShopfloorCommandController', function (
         }
     };
 
+    // Load all shopfloors from API
     $scope.getAllShopfloors = function() {
         let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
         ShopfloorService.getAllShopfloors(headers, function(response) {
@@ -65,6 +71,7 @@ app.controller('ShopfloorCommandController', function (
         });
     };
 
+    // Bind command via drag-and-drop
     $scope.pairCommand = function(dragEl, dropEl) {
         if (!$scope.isShopfloorSelected || !$scope.currentShopfloor || !$scope.currentShopfloor.id) {
             DragDropWarningService.showWarning("SETTING.PLEASE_SELECT_SHOPFLOOR_FIRST");
@@ -93,6 +100,7 @@ app.controller('ShopfloorCommandController', function (
         });
     };
 
+    // Unbind command via drag-to-trash
     $scope.deleteCommandPair = function(dragEl, dropEl) {
         if (angular.element('#' + dragEl).hasClass('source')) return;
         if (!$scope.isShopfloorSelected || !$scope.currentShopfloor || !$scope.currentShopfloor.id) {

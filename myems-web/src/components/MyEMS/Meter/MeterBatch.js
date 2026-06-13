@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useRef, useState, useContext } from 'react';
+import React, { Fragment, useEffect, useRef, useState, useContext, useCallback } from 'react';
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -25,6 +25,7 @@ import withRedirect from '../../../hoc/withRedirect';
 import { withTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
 import ButtonIcon from '../../common/ButtonIcon';
+import DeepSeekAnalysisModal from '../common/DeepSeekAnalysisModal';
 import { APIBaseURL, settings } from '../../../config';
 import DateRangePickerWrapper from '../common/DateRangePickerWrapper';
 import { endOfDay } from 'date-fns';
@@ -103,6 +104,8 @@ const MeterBatch = ({ setRedirect, setRedirectUrl, t }) => {
   const [spinnerHidden, setSpinnerHidden] = useState(true);
   const [exportButtonHidden, setExportButtonHidden] = useState(true);
   const [resultDataHidden, setResultDataHidden] = useState(true);
+  const [smartAnalysisOpen, setSmartAnalysisOpen] = useState(false);
+  const [smartAnalysisContext, setSmartAnalysisContext] = useState(null);
   const stickyTableWrapperRef = useRef(null);
   const [stickySecondColumnLeft, setStickySecondColumnLeft] = useState(0);
   const [stickyScopeClassName] = useState(() => `meter-batch-sticky-two-${Math.random().toString(36).slice(2, 10)}`);
@@ -384,6 +387,78 @@ const MeterBatch = ({ setRedirect, setRedirectUrl, t }) => {
       });
   };
 
+  const buildSmartAnalysisContext = useCallback(() => {
+    const fixedFields = new Set(['id', 'name', 'uuid', 'space', 'energycategory', 'costcenter', 'total']);
+    const buildBatchRowSample = row => {
+      if (!row || typeof row !== 'object') {
+        return row;
+      }
+      const sample = {
+        id: row.id,
+        name: row.name,
+        space: row.space,
+        energycategory: row.energycategory,
+        costcenter: row.costcenter,
+        total: row.total
+      };
+      const dailyValues = {};
+      let count = 0;
+      Object.keys(row).forEach(k => {
+        if (fixedFields.has(k) || count >= 31) {
+          return;
+        }
+        dailyValues[k] = row[k];
+        count += 1;
+      });
+      if (Object.keys(dailyValues).length) {
+        sample.dailyValues = dailyValues;
+      }
+      return sample;
+    };
+    const dateColumns = detailedDataTableColumns
+      .map(c => c.dataField)
+      .filter(f => f && !fixedFields.has(f))
+      .slice(0, 31);
+    let totalConsumption = 0;
+    meterList.forEach(row => {
+      const value = Number(row.total);
+      if (Number.isFinite(value)) {
+        totalConsumption += value;
+      }
+    });
+    return {
+      reportType: 'meter_batch',
+      reportTitle: t('Meter Batch Analysis'),
+      space: { id: selectedSpaceID, name: selectedSpaceName },
+      reportingPeriod: {
+        start: reportingPeriodDateRange[0]
+          ? moment(reportingPeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss')
+          : null,
+        end: reportingPeriodDateRange[1]
+          ? moment(reportingPeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss')
+          : null
+      },
+      batchSummary: {
+        meterCount: meterList.length,
+        totalConsumption
+      },
+      dateColumns,
+      batchDataSample: meterList.slice(0, 80).map(buildBatchRowSample)
+    };
+  }, [
+    t,
+    selectedSpaceID,
+    selectedSpaceName,
+    reportingPeriodDateRange,
+    meterList,
+    detailedDataTableColumns
+  ]);
+
+  const openSmartAnalysis = () => {
+    setSmartAnalysisContext(buildSmartAnalysisContext());
+    setSmartAnalysisOpen(true);
+  };
+
   return (
     <Fragment>
       <div>
@@ -460,6 +535,19 @@ const MeterBatch = ({ setRedirect, setRedirectUrl, t }) => {
                   {t('Export')}
                 </ButtonIcon>
               </Col>
+              {settings.enableAIAnalysis ? (
+                <Col xs="auto">
+                  <br />
+                  <Button
+                    color="falcon-default"
+                    size="sm"
+                    hidden={exportButtonHidden}
+                    onClick={openSmartAnalysis}
+                  >
+                    {t('AI Analysis')}
+                  </Button>
+                </Col>
+              ) : null}
             </Row>
           </Form>
         </CardBody>
@@ -533,6 +621,16 @@ const MeterBatch = ({ setRedirect, setRedirectUrl, t }) => {
           enableHorizontalScroll={true}
         />
       </div>
+      {settings.enableAIAnalysis ? (
+        <DeepSeekAnalysisModal
+          isOpen={smartAnalysisOpen}
+          toggle={() => setSmartAnalysisOpen(false)}
+          language={language}
+          reportContext={smartAnalysisContext}
+          setRedirect={setRedirect}
+          setRedirectUrl={setRedirectUrl}
+        />
+      ) : null}
     </Fragment>
   );
 };

@@ -1,5 +1,7 @@
 "use strict";
 
+// Combined Equipment Data Source controller - drag-and-drop equipment binding
+
 app.controller(
   "CombinedEquipmentDataSourceController",
   function (
@@ -20,6 +22,7 @@ app.controller(
     $scope.currentCombinedEquipment = { selected: undefined };
     $scope.isCombinedEquipmentSelected = false;
 
+    // Load all data sources from API
     $scope.getAllDataSources = function () {
       let headers = {
         "User-UUID": $scope.cur_user.uuid,
@@ -37,6 +40,7 @@ app.controller(
       });
     };
 
+    // Load data sources by combined equipment id
     $scope.getDataSourcesByCombinedEquipmentID = function (id) {
       if (!id) {
         $scope.combinedequipmentdatasources = [];
@@ -63,6 +67,7 @@ app.controller(
       );
     };
 
+    // Handle combined equipment change
     $scope.changeCombinedEquipment = function (item, model) {
       $scope.currentCombinedEquipment = item;
       $scope.currentCombinedEquipment.selected = model;
@@ -78,6 +83,7 @@ app.controller(
       }
     };
 
+    // Load all combined equipments from API
     $scope.getAllCombinedEquipments = function () {
       let headers = {
         "User-UUID": $scope.cur_user.uuid,
@@ -103,6 +109,7 @@ app.controller(
       );
     };
 
+    // Bind data source via drag-and-drop
     $scope.pairDataSource = function (dragEl, dropEl) {
       if (!$scope.isCombinedEquipmentSelected || !$scope.currentCombinedEquipment || !$scope.currentCombinedEquipment.id) {
         toaster.pop({
@@ -149,6 +156,7 @@ app.controller(
       );
     };
 
+    // Unbind data source via drag-to-trash
     $scope.deleteDataSourcePair = function (dragEl, dropEl) {
       if (!dragEl) {
         return;
@@ -231,6 +239,7 @@ app.controller(
 
     $scope.tabInitialized = false;
 
+    // Initialize tab
     $scope.initTab = function() {
         if (!$scope.tabInitialized) {
             $scope.tabInitialized = true;

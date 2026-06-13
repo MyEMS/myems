@@ -329,6 +329,7 @@ export default {
         'Per Unit Area': 'Kawasan Unit',
         'Per Capita': 'Per Capita',
         'Per Unit Production': 'Pengeluaran Seunit',
+        'Comprehensive Unit Price': 'Harga unit purata',
         Baseline: 'Garis dasar',
         Actual: 'Sebenar',
         'Baseline Value - Actual Value': 'Garis dasar - Sebenar',

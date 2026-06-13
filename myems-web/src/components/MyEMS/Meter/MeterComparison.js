@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useState, useContext } from 'react';
+import React, { Fragment, useEffect, useState, useContext, useCallback } from 'react';
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -19,6 +19,7 @@ import CountUp from 'react-countup';
 import moment from 'moment';
 import loadable from '@loadable/component';
 import Cascader from 'rc-cascader';
+import DeepSeekAnalysisModal from '../common/DeepSeekAnalysisModal';
 import CardSummary from '../common/CardSummary';
 import MultipleLineChart from '../common/MultipleLineChart';
 import { getCookieValue, createCookie, checkEmpty, handleAPIError } from '../../../helpers/utils';
@@ -116,6 +117,8 @@ const MeterComparison = ({ setRedirect, setRedirectUrl, t }) => {
   const [spinnerHidden, setSpinnerHidden] = useState(true);
   const [exportButtonHidden, setExportButtonHidden] = useState(true);
   const [resultDataHidden, setResultDataHidden] = useState(true);
+  const [smartAnalysisOpen, setSmartAnalysisOpen] = useState(false);
+  const [smartAnalysisContext, setSmartAnalysisContext] = useState(null);
   //Results
   const [meter1, setMeter1] = useState({
     name: undefined,
@@ -652,6 +655,79 @@ const MeterComparison = ({ setRedirect, setRedirectUrl, t }) => {
       });
   };
 
+  const buildSmartAnalysisContext = useCallback(() => {
+    const sliceChartValues = dataObj => {
+      const values = {};
+      if (dataObj && typeof dataObj === 'object') {
+        Object.keys(dataObj).forEach(k => {
+          const arr = dataObj[k];
+          values[k] = Array.isArray(arr) ? arr.slice(0, 200) : arr;
+        });
+      }
+      return values;
+    };
+    return {
+      reportType: 'meter_comparison',
+      reportTitle: t('Meter Comparison'),
+      space1Name: selectedSpaceName1 ?? null,
+      space2Name: selectedSpaceName2 ?? null,
+      meter1: {
+        id: selectedMeter1,
+        ...meter1
+      },
+      meter2: {
+        id: selectedMeter2,
+        ...meter2
+      },
+      periodType,
+      reportingPeriod: {
+        start: reportingPeriodDateRange[0]
+          ? moment(reportingPeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss')
+          : null,
+        end: reportingPeriodDateRange[1]
+          ? moment(reportingPeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss')
+          : null
+      },
+      reportingPeriodTotals: {
+        meter1: reportingPeriodEnergyConsumptionInCategory1,
+        meter2: reportingPeriodEnergyConsumptionInCategory2,
+        difference: reportingPeriodEnergyConsumptionInDifference
+      },
+      meter1Trend: {
+        labels: meterLineChartLabels1,
+        values: sliceChartValues(meterLineChartData1)
+      },
+      meter2Trend: {
+        labels: meterLineChartLabels2,
+        values: sliceChartValues(meterLineChartData2)
+      },
+      detailedDataSample: detailedDataTableData.slice(0, 120)
+    };
+  }, [
+    selectedSpaceName1,
+    selectedSpaceName2,
+    selectedMeter1,
+    selectedMeter2,
+    meter1,
+    meter2,
+    periodType,
+    reportingPeriodDateRange,
+    reportingPeriodEnergyConsumptionInCategory1,
+    reportingPeriodEnergyConsumptionInCategory2,
+    reportingPeriodEnergyConsumptionInDifference,
+    meterLineChartLabels1,
+    meterLineChartData1,
+    meterLineChartLabels2,
+    meterLineChartData2,
+    detailedDataTableData,
+    t
+  ]);
+
+  const openSmartAnalysis = () => {
+    setSmartAnalysisContext(buildSmartAnalysisContext());
+    setSmartAnalysisOpen(true);
+  };
+
   return (
     <Fragment>
       <div>
@@ -747,8 +823,8 @@ const MeterComparison = ({ setRedirect, setRedirectUrl, t }) => {
                 </FormGroup>
               </Col>
             </Row>
-            <Row>
-              <Col xs="auto">
+            <Row form>
+              <Col xs={12} sm={3}>
                 <FormGroup>
                   <Label className={labelClasses} for="periodType">
                     {t('Period Types')}
@@ -769,7 +845,9 @@ const MeterComparison = ({ setRedirect, setRedirectUrl, t }) => {
                   </CustomInput>
                 </FormGroup>
               </Col>
+            </Row>
 
+            <Row form>
               <Col xs={6} sm={3}>
                 <FormGroup className="form-group">
                   <Label className={labelClasses} for="reportingPeriodDateRangePicker">
@@ -818,6 +896,19 @@ const MeterComparison = ({ setRedirect, setRedirectUrl, t }) => {
                   {t('Export')}
                 </ButtonIcon>
               </Col>
+              {settings.enableAIAnalysis ? (
+                <Col xs="auto">
+                  <br />
+                  <Button
+                    color="falcon-default"
+                    size="sm"
+                    hidden={exportButtonHidden}
+                    onClick={openSmartAnalysis}
+                  >
+                    {t('AI Analysis')}
+                  </Button>
+                </Col>
+              ) : null}
             </Row>
           </Form>
         </CardBody>
@@ -933,6 +1024,16 @@ const MeterComparison = ({ setRedirect, setRedirectUrl, t }) => {
           pagesize={50}
         />
       </div>
+      {settings.enableAIAnalysis ? (
+        <DeepSeekAnalysisModal
+          isOpen={smartAnalysisOpen}
+          toggle={() => setSmartAnalysisOpen(false)}
+          language={language}
+          reportContext={smartAnalysisContext}
+          setRedirect={setRedirect}
+          setRedirectUrl={setRedirectUrl}
+        />
+      ) : null}
     </Fragment>
   );
 };

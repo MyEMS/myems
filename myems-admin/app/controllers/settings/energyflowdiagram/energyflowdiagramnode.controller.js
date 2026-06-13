@@ -1,5 +1,7 @@
 'use strict';
 
+// Energy Flow Diagram Node controller - CRUD and settings management
+
 app.controller('EnergyFlowDiagramNodeController', function(
 	$scope,
 	$rootScope,
@@ -14,6 +16,7 @@ app.controller('EnergyFlowDiagramNodeController', function(
       $scope.energyflowdiagramnodes = [];
       $scope.currentEnergyFlowDiagram = null;
 	  $scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
+      // Load all energy flow diagrams from API
       $scope.getAllEnergyFlowDiagrams = function() {
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
   		EnergyFlowDiagramService.getAllEnergyFlowDiagrams(headers, function (response) {
@@ -25,6 +28,7 @@ app.controller('EnergyFlowDiagramNodeController', function(
   		});
   	};
 
+  	// Load nodes by energy flow diagram id
   	$scope.getNodesByEnergyFlowDiagramID = function(id) {
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
   		EnergyFlowDiagramNodeService.getNodesByEnergyFlowDiagramID(id, headers, function (response) {
@@ -36,6 +40,7 @@ app.controller('EnergyFlowDiagramNodeController', function(
 			});
   	};
 
+  	// Handle energy flow diagram change
   	$scope.changeEnergyFlowDiagram=function(item,model){
     		$scope.currentEnergyFlowDiagram=item;
     		$scope.currentEnergyFlowDiagram.selected=model;
@@ -43,6 +48,7 @@ app.controller('EnergyFlowDiagramNodeController', function(
     		$scope.getNodesByEnergyFlowDiagramID($scope.currentEnergyFlowDiagram.id);
   	};
 
+  	// Open add modal and create energy flow diagram node
   	$scope.addEnergyFlowDiagramNode = function() {
 
   		var modalInstance = $uibModal.open({
@@ -84,6 +90,7 @@ app.controller('EnergyFlowDiagramNodeController', function(
 		$rootScope.modalInstance = modalInstance;
   	};
 
+  	// Open edit modal and update energy flow diagram node
   	$scope.editEnergyFlowDiagramNode = function(energyflowdiagramnode) {
   		var modalInstance = $uibModal.open({
   			templateUrl: 'views/settings/energyflowdiagram/energyflowdiagramnode.model.html',
@@ -125,6 +132,7 @@ app.controller('EnergyFlowDiagramNodeController', function(
 		$rootScope.modalInstance = modalInstance;
   	};
 
+  	// Confirm and delete energy flow diagram node
   	$scope.deleteEnergyFlowDiagramNode = function(energyflowdiagramnode) {
   		SweetAlert.swal({
   				title: $translate.instant("SWEET.TITLE"),
@@ -171,6 +179,7 @@ app.controller('EnergyFlowDiagramNodeController', function(
   });
 
 
+// Modal controller for add dialog
   app.controller('ModalAddEnergyFlowDiagramNodeCtrl', function($scope, $uibModalInstance, params) {
 
   	$scope.operation = "ENERGY_FLOW_DIAGRAM.ADD_NODE";
@@ -185,6 +194,7 @@ app.controller('EnergyFlowDiagramNodeController', function(
   	};
   });
 
+// Modal controller for edit dialog
   app.controller('ModalEditEnergyFlowDiagramNodeCtrl', function($scope, $uibModalInstance, params) {
   	$scope.operation = "ENERGY_FLOW_DIAGRAM.EDIT_NODE";
   	$scope.energyflowdiagramnode = params.energyflowdiagramnode;

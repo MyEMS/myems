@@ -1,5 +1,7 @@
 'use strict';
 
+// Space Energy Storage Power Station controller - CRUD and settings management
+
 app.controller('SpaceEnergyStoragePowerStationController', function(
     $scope,
     $window,
@@ -20,6 +22,7 @@ app.controller('SpaceEnergyStoragePowerStationController', function(
     $scope.tabInitialized = false;
     $scope.isSpaceSelected = false;
 
+    // Load all spaces from API
     $scope.getAllSpaces = function() {
     let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
     SpaceService.getAllSpaces(headers, function (response) {
@@ -64,6 +67,7 @@ app.controller('SpaceEnergyStoragePowerStationController', function(
     });
     };
 
+	// Load energy storage power stations by space id
 	$scope.getEnergyStoragePowerStationsBySpaceID = function(id) {
 	if ($scope.isLoadingEnergystoragepowerstations) return;
 	$scope.isLoadingEnergystoragepowerstations = true;
@@ -94,6 +98,7 @@ app.controller('SpaceEnergyStoragePowerStationController', function(
         });
     };
 
+	// Load all energy storage power stations from API
 	$scope.getAllEnergyStoragePowerStations = function() {
         let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 		EnergyStoragePowerStationService.getAllEnergyStoragePowerStations(headers, function (response) {
@@ -106,6 +111,7 @@ app.controller('SpaceEnergyStoragePowerStationController', function(
 		});
 	};
 
+	// Bind energy storage power station via drag-and-drop
 	$scope.pairEnergyStoragePowerStation=function(dragEl,dropEl){
 		var energystoragepowerstationid=angular.element('#'+dragEl).scope().energystoragepowerstation.id;
 		var spaceid=angular.element(spacetreewithenergystoragepowerstation).jstree(true).get_top_selected();
@@ -130,6 +136,7 @@ app.controller('SpaceEnergyStoragePowerStationController', function(
 		});
 	};
 
+	// Unbind energy storage power station via drag-to-trash
 	$scope.deleteEnergyStoragePowerStationPair=function(dragEl,dropEl){
 		if(angular.element('#'+dragEl).hasClass('source')){
 			return;
@@ -157,6 +164,7 @@ app.controller('SpaceEnergyStoragePowerStationController', function(
 		});
 	};
 
+    // Initialize tab
     $scope.initTab = function() {
         if (!$scope.tabInitialized) {
             $scope.tabInitialized = true;
@@ -183,6 +191,7 @@ app.controller('SpaceEnergyStoragePowerStationController', function(
         }
     }, 0);
 
+  // Refresh space tree
   $scope.refreshSpaceTree = function() {
     let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
     SpaceService.getAllSpaces(headers, function (response) {

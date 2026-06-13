@@ -1,14 +1,18 @@
+<!-- Advanced Report settings page -->
 <div class="wrapper wrapper-content">
 	<div class="row">
 		<div class="col-lg-12">
 			<div class="tabs-container">
 				<uib-tabset>
+					<!-- Tab: Advanced Report -->
 					<uib-tab heading="{{'MENU.SETTINGS.ADVANCED_REPORT' | translate}}" >
 						<div class="panel-body" ng-controller="AdvancedReportController">
+							<!-- Add new advanced report -->
 							<a ng-click="addAdvancedReport()" class="btn btn-primary btn-rounded btn-outline" href=""><i class="fa fa-plus-circle"></i> {{'ADVANCED_REPORT.ADD_ADVANCED_REPORT' | translate}}</a>
 							<a ng-click="importAdvancedReport()" class="btn btn-primary btn-rounded  btn-outline" href=""><i class="fa fa-plus-circle"></i> {{'SETTING.IMPORT' | translate}}</a>
 							<br>
 							<br>
+							<!-- Advanced Report list table -->
 							<table class="footable table table-bordered table-hover" data-sort="true" data-page-size="15">
 								<thead>
 									<tr>

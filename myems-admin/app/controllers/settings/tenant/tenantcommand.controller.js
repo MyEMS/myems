@@ -1,5 +1,7 @@
 'use strict';
 
+// Tenant Command controller - drag-and-drop command binding
+
 app.controller('TenantCommandController', function (
     $scope,
     $window,
@@ -18,6 +20,7 @@ app.controller('TenantCommandController', function (
     $scope.tenants = [];
     $scope.tenantcommands = [];
     $scope.commands = [];
+    // Load all commands from API
     $scope.getAllCommands = function () {
         const headers = { 
             "User-UUID": $scope.cur_user.uuid, 
@@ -33,6 +36,7 @@ app.controller('TenantCommandController', function (
         });
     };
 
+    // Load commands by tenant id
     $scope.getCommandsByTenantID = function (tenantId) {
         if (!tenantId) {
             toaster.pop('warning', $translate.instant("TOASTER.WARNING_TITLE"), $translate.instant("TOASTER.INVALID_TENANT_ID"));
@@ -62,6 +66,7 @@ app.controller('TenantCommandController', function (
         });
     };
 
+    // Handle tenant change
     $scope.changeTenant = function (item, model) {
         if (!item || !item.id) {
             $scope.isTenantSelected = false;
@@ -77,6 +82,7 @@ app.controller('TenantCommandController', function (
         $scope.getCommandsByTenantID($scope.currentTenant.id);
     };
 
+    // Load all tenants from API
     $scope.getAllTenants = function () {
         const headers = { 
             "User-UUID": $scope.cur_user.uuid, 
@@ -113,6 +119,7 @@ app.controller('TenantCommandController', function (
 
     };
 
+    // Bind command via drag-and-drop
     $scope.pairCommand = function (dragEl, dropEl) {
         if (!$scope.isTenantSelected || !$scope.currentTenant || !$scope.currentTenant.id) {
             DragDropWarningService.showWarning("SETTING.PLEASE_SELECT_TENANT_FIRST");
@@ -137,6 +144,7 @@ app.controller('TenantCommandController', function (
             }
         });
     };
+    // Unbind command via drag-to-trash
     $scope.deleteCommandPair = function (dragEl, dropEl) {
         if (angular.element('#' + dragEl).hasClass('source')) return;
         if (!$scope.isTenantSelected || !$scope.currentTenant || !$scope.currentTenant.id) {

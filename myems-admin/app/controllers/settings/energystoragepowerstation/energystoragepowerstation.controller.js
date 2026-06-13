@@ -1,5 +1,7 @@
 "use strict";
 
+// Energy Storage Power Station controller - CRUD and settings management
+
 app.controller(
   "EnergyStoragePowerStationController",
   function (
@@ -26,6 +28,7 @@ app.controller(
     $scope.exportdata = "";
     $scope.importdata = "";
 
+    // Load all contacts from API
     $scope.getAllContacts = function () {
       let headers = {
         "User-UUID": $scope.cur_user.uuid,
@@ -40,6 +43,7 @@ app.controller(
       });
     };
 
+    // Load all cost centers from API
     $scope.getAllCostCenters = function () {
       let headers = {
         "User-UUID": $scope.cur_user.uuid,
@@ -54,6 +58,7 @@ app.controller(
       });
     };
 
+    // Load all points from API
     $scope.getAllPoints = function () {
       let headers = {
         "User-UUID": $scope.cur_user.uuid,
@@ -68,6 +73,7 @@ app.controller(
       });
     };
 
+    // Load all sv gs from API
     $scope.getAllSVGs = function () {
       let headers = {
         "User-UUID": $scope.cur_user.uuid,
@@ -83,6 +89,7 @@ app.controller(
       });
     };
 
+    // Load all energy storage power stations from API
     $scope.getAllEnergyStoragePowerStations = function () {
       let headers = {
         "User-UUID": $scope.cur_user.uuid,
@@ -101,6 +108,7 @@ app.controller(
     };
 
     let searchDebounceTimer = null;
+    // Search energystoragepowerstations by keyword
     $scope.searchEnergystoragepowerstations = function() {
         let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
         const rawKeyword = $scope.searchKeyword || "";
@@ -123,6 +131,7 @@ app.controller(
         }, 300);
     };
 
+    // Load all phase of lifecycles from API
     $scope.getAllPhaseOfLifecycles = function () {
       $scope.phaseoflifecycles = [
         {
@@ -144,6 +153,7 @@ app.controller(
       ];
     };
 
+    // Open add modal and create energy storage power station
     $scope.addEnergyStoragePowerStation = function () {
       var modalInstance = $uibModal.open({
         templateUrl:
@@ -258,6 +268,7 @@ app.controller(
       $rootScope.modalInstance = modalInstance;
     };
 
+    // Open edit modal and update energy storage power station
     $scope.editEnergyStoragePowerStation = function (
       energystoragepowerstation
     ) {
@@ -382,6 +393,7 @@ app.controller(
       $rootScope.modalInstance = modalInstance;
     };
 
+    // Confirm and delete energy storage power station
     $scope.deleteEnergyStoragePowerStation = function (
       energystoragepowerstation
     ) {
@@ -441,6 +453,7 @@ app.controller(
       );
     };
 
+    // Export energy storage power station as JSON
     $scope.exportEnergyStoragePowerStation = function (
       energystoragepowerstation
     ) {
@@ -482,6 +495,7 @@ app.controller(
       );
     };
 
+    // Clone an existing energy storage power station
     $scope.cloneEnergyStoragePowerStation = function (
       energystoragepowerstation
     ) {
@@ -521,6 +535,7 @@ app.controller(
       );
     };
 
+    // Import energy storage power station from JSON
     $scope.importEnergyStoragePowerStation = function () {
       var modalInstance = $uibModal.open({
         templateUrl: "views/common/import.html",
