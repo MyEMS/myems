@@ -21,7 +21,7 @@ export default {
         'Energy Category Data': 'Analis Klasifikasi Konsumsi Energi',
         'Energy Item Data': 'Analis Pembatasan Konsumsi Energi',
         Carbon: 'Emisi CO2',
-        CostAnalysis: 'Analisis Biaya',
+        CostAnalysis: 'Analisis Biaya',//
         Cost: 'Biaya',
         CostData: 'Data Biaya',
         Output: 'Analis Keluaran',

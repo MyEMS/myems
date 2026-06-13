@@ -1085,7 +1085,6 @@ const CombinedEquipmentCost = ({ setRedirect, setRedirectUrl, t }) => {
     setSmartAnalysisContext(buildSmartAnalysisContext());
     setSmartAnalysisOpen(true);
   };
-
   return (
     <Fragment>
       <div>

@@ -21,6 +21,7 @@ export default {
         'Energy Category Data': 'فئة الطاقة',
         'Energy Item Data': 'عنصر الطاقة',
         Carbon: 'انبعاثات ثاني أكسيد الكربون',
+        //
         CostAnalysis: 'كلف',
         Cost: 'تكلفة',
         CostData: 'بيانات التكلفة',

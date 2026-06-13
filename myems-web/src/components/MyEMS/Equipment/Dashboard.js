@@ -543,6 +543,7 @@ const Dashboard = ({setRedirect, setRedirectUrl, t}) => {
           />
         </div>
 
+
         {/* Equipment List Table */}
         <Row>
           <Col>

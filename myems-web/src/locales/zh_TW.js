@@ -20,6 +20,7 @@ export default {
         'Knowledge Base': '知識庫',
         'Energy Category Data': '能耗分類分析',
         'Energy Item Data': '能耗分項分析',
+        //
         Carbon: '碳排放分析',
         CostAnalysis: '成本分析',
         Cost: '成本',

@@ -21,6 +21,7 @@ export default {
         'Energy Category Data': 'ประเภทพลังงาน',
         'Energy Item Data': 'รายการพลังงาน',
         Carbon: 'การปล่อยก๊าซคาร์บอนไดออกไซด์',
+        //
         CostAnalysis: 'ค่า',
         Cost: 'ต้นทุน',
         CostData: 'ข้อมูลต้นทุน',
