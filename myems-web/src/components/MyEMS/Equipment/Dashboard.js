@@ -619,7 +619,7 @@ const Dashboard = ({setRedirect, setRedirectUrl, t}) => {
                         onClick={() => handleSort('cost')}
                         style={{cursor: 'pointer'}}
                       >
-                        {t('Cost')} (CNY)
+                        {t('Costs')} (CNY)
                         <FontAwesomeIcon 
                           icon={sortConfig.key === 'cost' ? (sortConfig.direction === 'asc' ? faSortUp : faSortDown) : faSort}
                           className="ml-1"

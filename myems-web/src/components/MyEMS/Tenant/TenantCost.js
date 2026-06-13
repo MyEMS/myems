@@ -1000,7 +1000,7 @@ const TenantCost = ({ setRedirect, setRedirectUrl, t }) => {
       <div>
         <Breadcrumb>
           <BreadcrumbItem>{t('Tenant Data')}</BreadcrumbItem>
-          <BreadcrumbItem active>{t('CostAnalysis')}</BreadcrumbItem>
+          <BreadcrumbItem active>{t('Cost')}</BreadcrumbItem>
         </Breadcrumb>
       </div>
       <Card className="bg-light mb-3">
