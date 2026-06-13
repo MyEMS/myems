@@ -943,7 +943,7 @@ const SpaceCost = ({ setRedirect, setRedirectUrl, t }) => {
     }
     return {
       reportType: 'space_cost',
-      reportTitle: t('Cost'),
+      reportTitle: t('CostAnalysis'),
       space: { id: selectedSpaceID, name: selectedSpaceName },
       periodType,
       comparisonType,
@@ -1017,7 +1017,7 @@ const SpaceCost = ({ setRedirect, setRedirectUrl, t }) => {
         <Breadcrumb>
           <BreadcrumbItem>{t('Space Data')}</BreadcrumbItem>
           <BreadcrumbItem active onClick={() => window.location.reload()}>
-            <Link to="/space/cost">{t('Cost')}</Link>
+            <Link to="/space/cost">{t('CostAnalysis')}</Link>
           </BreadcrumbItem>
         </Breadcrumb>
       </div>

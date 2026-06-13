@@ -978,7 +978,7 @@ const CombinedEquipmentCost = ({ setRedirect, setRedirectUrl, t }) => {
       <div>
         <Breadcrumb>
           <BreadcrumbItem>{t('Combined Equipment Data')}</BreadcrumbItem>
-          <BreadcrumbItem active>{t('Cost')}</BreadcrumbItem>
+          <BreadcrumbItem active>{t('CostAnalysis')}</BreadcrumbItem>
         </Breadcrumb>
       </div>
       <Card className="bg-light mb-3">

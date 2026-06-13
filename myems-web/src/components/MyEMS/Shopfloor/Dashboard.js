@@ -382,7 +382,7 @@ const Dashboard = ({setRedirect, setRedirectUrl, t}) => {
         {/* Daily Trends Line Chart */}
         <div className="card-deck">
           <LineChart
-              reportingTitle={t("This Month's Costs CATEGORY VALUE UNIT", {
+              reportingTitle={t("This Month's Consumption CATEGORY VALUE UNIT", {
                 CATEGORY: null,
                 VALUE: null,
                 UNIT: null

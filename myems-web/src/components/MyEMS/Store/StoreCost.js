@@ -890,7 +890,7 @@ const StoreCost = ({ setRedirect, setRedirectUrl, t }) => {
       <div>
         <Breadcrumb>
           <BreadcrumbItem>{t('Store Data')}</BreadcrumbItem>
-          <BreadcrumbItem active>{t('Cost')}</BreadcrumbItem>
+          <BreadcrumbItem active>{t('CostAnalysis')}</BreadcrumbItem>
         </Breadcrumb>
       </div>
       <Card className="bg-light mb-3">
