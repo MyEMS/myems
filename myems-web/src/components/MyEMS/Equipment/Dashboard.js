@@ -24,7 +24,10 @@ import {
 } from 'chart.js';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {
-  faArrowUp
+  faArrowUp,
+  faSort,
+  faSortUp,
+  faSortDown
 } from '@fortawesome/free-solid-svg-icons';
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, BarElement, ArcElement, Title, Tooltip, Legend);
@@ -100,6 +103,12 @@ const Dashboard = ({setRedirect, setRedirectUrl, t}) => {
     names: [],
     units: [],
     energy_category_ids: []
+  });
+
+  // Sorting state
+  const [sortConfig, setSortConfig] = useState({
+    key: null,
+    direction: 'asc'
   });
 
   // Fetch dashboard data
@@ -261,6 +270,73 @@ const Dashboard = ({setRedirect, setRedirectUrl, t}) => {
       setLoading(false);
     }
   }, [periodType, basePeriodStart, basePeriodEnd, reportingPeriodStart, reportingPeriodEnd, setRedirect, setRedirectUrl, t]);
+
+  // Handle sorting
+  const handleSort = (key) => {
+    let direction = 'asc';
+    if (sortConfig.key === key && sortConfig.direction === 'asc') {
+      direction = 'desc';
+    }
+    setSortConfig({key, direction});
+  };
+
+  // Get sorted equipments
+  const getSortedEquipments = () => {
+    if (!sortConfig.key) {
+      return allEquipments.sort((a, b) => b.total_energy - a.total_energy);
+    }
+
+    const sortedEquipments = [...allEquipments];
+    sortedEquipments.sort((a, b) => {
+      let aValue, bValue;
+
+      switch (sortConfig.key) {
+        case 'id':
+          aValue = a.id;
+          bValue = b.id;
+          break;
+        case 'name':
+          aValue = a.name;
+          bValue = b.name;
+          break;
+        case 'efficiency':
+          aValue = a.efficiency !== null && a.efficiency !== undefined ? a.efficiency : -1;
+          bValue = b.efficiency !== null && b.efficiency !== undefined ? b.efficiency : -1;
+          break;
+        case 'cost':
+          aValue = a.total_cost !== null && a.total_cost !== undefined ? a.total_cost : 0;
+          bValue = b.total_cost !== null && b.total_cost !== undefined ? b.total_cost : 0;
+          break;
+        case 'carbon':
+          aValue = a.total_carbon !== null && a.total_carbon !== undefined ? a.total_carbon : 0;
+          bValue = b.total_carbon !== null && b.total_carbon !== undefined ? b.total_carbon : 0;
+          break;
+        default:
+          if (sortConfig.key.startsWith('input_')) {
+            const index = parseInt(sortConfig.key.split('_')[1]);
+            const ecId = energyData.energy_category_ids && energyData.energy_category_ids[index];
+            aValue = a.energy_by_category && a.energy_by_category[ecId] ? a.energy_by_category[ecId] : 0;
+            bValue = b.energy_by_category && b.energy_by_category[ecId] ? b.energy_by_category[ecId] : 0;
+          } else if (sortConfig.key.startsWith('output_')) {
+            const index = parseInt(sortConfig.key.split('_')[1]);
+            const ecId = reportingPeriodOutput.energy_category_ids && reportingPeriodOutput.energy_category_ids[index];
+            aValue = a.output_by_category && a.output_by_category[ecId] ? a.output_by_category[ecId] : 0;
+            bValue = b.output_by_category && b.output_by_category[ecId] ? b.output_by_category[ecId] : 0;
+          }
+          break;
+      }
+
+      if (typeof aValue === 'string') {
+        return sortConfig.direction === 'asc' 
+          ? aValue.localeCompare(bValue)
+          : bValue.localeCompare(aValue);
+      }
+
+      return sortConfig.direction === 'asc' ? aValue - bValue : bValue - aValue;
+    });
+
+    return sortedEquipments;
+  };
 
   useEffect(() => {
     fetchDashboardData();
@@ -479,26 +555,91 @@ const Dashboard = ({setRedirect, setRedirectUrl, t}) => {
                   <table className="table table-hover">
                     <thead className="thead-light">
                     <tr>
-                      <th>{t('ID')}</th>
-                      <th>{t('Equipment Name')}</th>
+                      <th 
+                        onClick={() => handleSort('id')}
+                        style={{cursor: 'pointer'}}
+                      >
+                        {t('ID')}
+                        <FontAwesomeIcon 
+                          icon={sortConfig.key === 'id' ? (sortConfig.direction === 'asc' ? faSortUp : faSortDown) : faSort}
+                          className="ml-1"
+                        />
+                      </th>
+                      <th 
+                        onClick={() => handleSort('name')}
+                        style={{cursor: 'pointer'}}
+                      >
+                        {t('Equipment Name')}
+                        <FontAwesomeIcon 
+                          icon={sortConfig.key === 'name' ? (sortConfig.direction === 'asc' ? faSortUp : faSortDown) : faSort}
+                          className="ml-1"
+                        />
+                      </th>
                       {energyData.names && energyData.names.map((categoryName, index) => (
-                          <th key={`input-${index}`} className="text-right">
+                          <th 
+                            key={`input-${index}`} 
+                            className="text-right"
+                            onClick={() => handleSort(`input_${index}`)}
+                            style={{cursor: 'pointer'}}
+                          >
                             {t(categoryName)} ({energyData.units[index] || ''})
+                            <FontAwesomeIcon 
+                              icon={sortConfig.key === `input_${index}` ? (sortConfig.direction === 'asc' ? faSortUp : faSortDown) : faSort}
+                              className="ml-1"
+                            />
                           </th>
                       ))}
                       {reportingPeriodOutput.names && reportingPeriodOutput.names.map((outputName, index) => (
-                          <th key={`output-${index}`} className="text-right">
+                          <th 
+                            key={`output-${index}`} 
+                            className="text-right"
+                            onClick={() => handleSort(`output_${index}`)}
+                            style={{cursor: 'pointer'}}
+                          >
                             {t(outputName)} ({reportingPeriodOutput.units[index] || ''})
+                            <FontAwesomeIcon 
+                              icon={sortConfig.key === `output_${index}` ? (sortConfig.direction === 'asc' ? faSortUp : faSortDown) : faSort}
+                              className="ml-1"
+                            />
                           </th>
                       ))}
-                      <th className="text-right">{t('Cumulative Efficiency')}</th>
-                      <th className="text-right">{t('Cost')} (CNY)</th>
-                      <th className="text-right">{t('Microgrid Carbon')} (kgCO2e)</th>
+                      <th 
+                        className="text-right"
+                        onClick={() => handleSort('efficiency')}
+                        style={{cursor: 'pointer'}}
+                      >
+                        {t('Cumulative Efficiency')}
+                        <FontAwesomeIcon 
+                          icon={sortConfig.key === 'efficiency' ? (sortConfig.direction === 'asc' ? faSortUp : faSortDown) : faSort}
+                          className="ml-1"
+                        />
+                      </th>
+                      <th 
+                        className="text-right"
+                        onClick={() => handleSort('cost')}
+                        style={{cursor: 'pointer'}}
+                      >
+                        {t('Cost')} (CNY)
+                        <FontAwesomeIcon 
+                          icon={sortConfig.key === 'cost' ? (sortConfig.direction === 'asc' ? faSortUp : faSortDown) : faSort}
+                          className="ml-1"
+                        />
+                      </th>
+                      <th 
+                        className="text-right"
+                        onClick={() => handleSort('carbon')}
+                        style={{cursor: 'pointer'}}
+                      >
+                        {t('Microgrid Carbon')} (kgCO2e)
+                        <FontAwesomeIcon 
+                          icon={sortConfig.key === 'carbon' ? (sortConfig.direction === 'asc' ? faSortUp : faSortDown) : faSort}
+                          className="ml-1"
+                        />
+                      </th>
                     </tr>
                     </thead>
                     <tbody>
-                    {allEquipments
-                        .sort((a, b) => b.total_energy - a.total_energy)
+                    {getSortedEquipments()
                         .map((equipment) => {
                           return (
                               <tr key={equipment.id}>
