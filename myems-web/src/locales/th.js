@@ -22,6 +22,7 @@ export default {
         'Energy Item Data': 'รายการพลังงาน',
         Carbon: 'การปล่อยก๊าซคาร์บอนไดออกไซด์',
         Cost: 'ค่า',
+        Costs: 'ต้นทุน',
         CostData: 'ข้อมูลต้นทุน',
         Output: 'ผลิตภัณฑ์',
         Income: 'รายได้',

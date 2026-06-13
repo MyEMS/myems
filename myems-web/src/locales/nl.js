@@ -22,6 +22,7 @@ export default {
         'Energy Item Data': 'Energieonderdeel-analyse',
         Carbon: 'CO2-uitstootanalyse',
         Cost: 'Kostenanalyse',
+        Costs: 'Kosten',
         CostData: 'Kostengegevens',
         Output: 'Outputanalyse',
         Income: 'Inkomstenanalyse',

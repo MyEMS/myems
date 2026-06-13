@@ -22,6 +22,7 @@ export default {
         'Energy Item Data': 'تحلیل آیتم انرژی',
         Carbon: 'تحلیل انتشار کربن',
         Cost: 'تحلیل هزینه',
+        Costs: 'هزینه',
         CostData: 'داده‌های هزینه',
         Output: 'تحلیل خروجی',
         Income: 'تحلیل درآمد',

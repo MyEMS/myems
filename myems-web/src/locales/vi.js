@@ -22,6 +22,7 @@ export default {
         'Energy Item Data': 'Mục năng lượng',
         Carbon: 'Khí thải CO2',
         Cost: 'Chi phí',
+        Costs: 'Chi phí',
         CostData: 'Dữ liệu chi phí',
         Output: 'Ra',
         Income: 'Thu nhập',

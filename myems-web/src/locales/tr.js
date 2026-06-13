@@ -22,6 +22,7 @@ export default {
         'Energy Item Data': 'Enerji Öğesi',
         Carbon: 'CO2 Emisyonları',
         Cost: 'Masraf',
+        Costs: 'Maliyet',
         CostData: 'Maliyet Verileri',
         Output: 'Çıktı',
         Income: 'Gelir',

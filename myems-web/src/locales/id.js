@@ -22,6 +22,7 @@ export default {
         'Energy Item Data': 'Analis Pembatasan Konsumsi Energi',
         Carbon: 'Emisi CO2',
         Cost: 'Analisis Biaya',
+        Costs: 'Biaya',
         CostData: 'Data Biaya',
         Output: 'Analis Keluaran',
         Income: 'Analisi Pendapatan',

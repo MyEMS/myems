@@ -22,6 +22,7 @@ export default {
         'Energy Item Data': 'Unterpunkt Energieverbrauch',
         Carbon: 'CO2 Emissionen',
         Cost: 'Kosten',
+        Costs: 'Kosten',
         CostData: 'Kostendaten',
         Output: 'Ausgang',
         Income: 'Einkommen',
