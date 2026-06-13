@@ -18,6 +18,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - fixed add/edit user issue in myems-admin 
 - fixed issue of DateRangePickerWrapper in myems-web
 - fixed issue of MeterSubmetersBalance in myems-web
+- fixed issue of shopfloor prediction report in myems-api
 ### Removed
 
 ## [v6.5.0] - 2026-05-26
