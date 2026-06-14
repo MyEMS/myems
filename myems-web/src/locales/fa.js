@@ -508,6 +508,7 @@ export default {
         'Old Password': 'رمز عبور قدیمی',
         'New Password': 'رمز عبور جدید',
         'Confirm Password': 'تکرار رمز عبور جدید',
+        Back: 'بازگشت',
         'Update Password': 'به‌روزرسانی رمز عبور',
         'Password has been changed!': 'رمز عبور تغییر یافت!',
         'Verification code has been sent to your inbox. \

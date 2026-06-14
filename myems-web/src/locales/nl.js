@@ -508,6 +508,7 @@ export default {
         'Old Password': 'Oud wachtwoord',
         'New Password': 'Nieuw wachtwoord',
         'Confirm Password': 'Herhaal nieuw wachtwoord',
+        Back: 'Terug',
         'Update Password': 'Wachtwoord bijwerken',
         'Password has been changed!': 'Wachtwoord is gewijzigd!',
         'Verification code has been sent to your inbox. \

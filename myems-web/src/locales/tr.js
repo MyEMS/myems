@@ -529,6 +529,7 @@ export default {
         'Old Password': 'Eski Şifre',
         'New Password': 'Yeni Şifre',
         'Confirm Password': 'Şifreyi Onayla',
+        Back: 'Geri',
         'Update Password': 'Şifreyi Güncelle',
         'Password has been changed!': 'Şifre değiştirildi!',
         'Verification code has been sent to your inbox. \

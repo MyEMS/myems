@@ -528,6 +528,7 @@ export default {
             'Old Password': 'รหัสผ่านเก่า',
             'New Password': 'รหัสผ่านใหม่',
             'Confirm Password': 'ยืนยันรหัสผ่าน',
+            Back: 'กลับ',
             'Update Password': 'อัปเดตรหัสผ่าน',
             'Password has been changed!': 'เปลี่ยนรหัสผ่านแล้ว!',
             'Verification code has been sent to your inbox. \

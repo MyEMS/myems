@@ -527,6 +527,7 @@ export default {
         'Old Password': 'Mật khẩu cũ',
         'New Password': 'Mật khẩu mới',
         'Confirm Password': 'Xác nhận mật khẩu',
+        Back: 'Quay lại',
         'Update Password': 'Cập nhật mật khẩu',
         'Password has been changed!': 'Mật khẩu đã được thay đổi!',
         'Verification code has been sent to your inbox. \

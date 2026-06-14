@@ -533,6 +533,7 @@ export default {
         'Old Password': 'Kata Laluan Lama',
         'New Password': 'Kata Laluan Baru',
         'Confirm Password': 'Sahkan Kata Laluan',
+        Back: 'Kembali',
         'Update Password': 'Kemas kini Kata Laluan',
         'Password has been changed!': 'Kata laluan telah ditukar!',
         'Verification code has been sent to your inbox. \

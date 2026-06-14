@@ -529,6 +529,7 @@ export default {
         'Old Password': 'كلمة المرور القديمة',
         'New Password': 'كلمة مرور جديدة',
         'Confirm Password': 'تأكيد كلمة المرور',
+        Back: 'رجوع',
         'Update Password': 'تحديث كلمة المرور',
         'Password has been changed!': 'تم تغيير كلمة المرور!',
         'Verification code has been sent to your inbox. \

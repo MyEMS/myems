@@ -529,6 +529,7 @@ export default {
         'Old Password': 'Senha antiga',
         'New Password': 'Nova senha',
         'Confirm Password': 'Confirmar senha',
+        Back: 'Voltar',
         'Update Password': 'Atualizar senha',
         'Password has been changed!': 'A senha foi alterada!',
         'Verification code has been sent to your inbox. \

@@ -508,6 +508,7 @@ export default {
         'Old Password': 'Stare hasło',
         'New Password': 'Nowe hasło',
         'Confirm Password': 'Potwierdź nowe hasło',
+        Back: 'Wstecz',
         'Update Password': 'Aktualizuj hasło',
         'Password has been changed!': 'Hasło zostało zmienione!',
         'Verification code has been sent to your inbox. \
