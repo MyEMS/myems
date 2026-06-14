@@ -12,6 +12,7 @@ import CardSummary from '../common/CardSummary';
 import SharePie from '../common/SharePie';
 import BarChart from '../common/BarChart';
 import LineChart from '../common/LineChart';
+import CustomizeMapBox from '../common/CustomizeMapBox';
 import {
     Chart as ChartJS,
     CategoryScale,
@@ -97,6 +98,9 @@ const Dashboard = ({setRedirect, setRedirectUrl, t}) => {
     const [tcePieData, setTcePieData] = useState([]);
     const [tco2ePieData, setTco2ePieData] = useState([]);
 
+    // Map data
+    const [mapGeojson, setMapGeojson] = useState(null);
+
     // Sorting state
     const [sortConfig, setSortConfig] = useState({
         key: null,
@@ -151,6 +155,28 @@ const Dashboard = ({setRedirect, setRedirectUrl, t}) => {
             setCostData(json.reporting_period_cost || {});
             setTopStores(json.top_stores || []);
             setAllStores(json.stores || []);
+
+            // Process map data - convert stores to GeoJSON format
+            if (json.stores && json.stores.length > 0) {
+                const features = json.stores
+                    .filter(store => store.latitude !== null && store.longitude !== null)
+                    .map(store => ({
+                        type: 'Feature',
+                        geometry: {
+                            type: 'Point',
+                            coordinates: [store.longitude, store.latitude]
+                        },
+                        properties: {
+                            id: store.id,
+                            title: store.name,
+                            description: store.address || '',
+                            url: '/app/store'
+                        }
+                    }));
+                setMapGeojson(features.length > 0 ? features : null);
+            } else {
+                setMapGeojson(null);
+            }
 
             // Process daily trends
             if (json.reporting_period_input.timestamps && json.reporting_period_input.timestamps.length > 0) {
@@ -455,6 +481,29 @@ const Dashboard = ({setRedirect, setRedirectUrl, t}) => {
                 </Col>
             </Row>
 
+            {/* Store Map Card */}
+            {settings.showOnlineMap && mapGeojson && mapGeojson.length > 0 && (
+                <Row>
+                    <Col>
+                        <Card className="mb-3">
+                            <CardBody>
+                                <h5 className="mb-3">
+                                    {t('Store Location Map')}
+                                </h5>
+                                <div style={{height: '400px'}}>
+                                    <CustomizeMapBox
+                                        Latitude={null}
+                                        Longitude={null}
+                                        Zoom={10}
+                                        Geojson={mapGeojson}
+                                    />
+                                </div>
+                            </CardBody>
+                        </Card>
+                    </Col>
+                </Row>
+            )}
+
             {/* Daily Trends Line Chart */}
             <div className="card-deck">
                 <LineChart
@@ -502,6 +551,12 @@ const Dashboard = ({setRedirect, setRedirectUrl, t}) => {
                                                 icon={sortConfig.key === 'address' ? (sortConfig.direction === 'asc' ? faSortUp : faSortDown) : faSort}
                                                 className="ml-1"
                                             />
+                                        </th>
+                                        <th className="text-right">
+                                            {t('Latitude')}
+                                        </th>
+                                        <th className="text-right">
+                                            {t('Longitude')}
                                         </th>
                                         <th
                                             className="text-right"
@@ -561,6 +616,8 @@ const Dashboard = ({setRedirect, setRedirectUrl, t}) => {
                                                         <strong>{store.name}</strong>
                                                     </td>
                                                     <td className="text-muted">{store.address || '-'}</td>
+                                                    <td className="text-right">{store.latitude !== null && store.latitude !== undefined ? store.latitude.toFixed(6) : '-'}</td>
+                                                    <td className="text-right">{store.longitude !== null && store.longitude !== undefined ? store.longitude.toFixed(6) : '-'}</td>
                                                     <td className="text-right">{store.area ? store.area.toFixed(2) : '-'}</td>
                                                     {energyData.energy_category_ids && energyData.energy_category_ids.map((ecId, index) => {
                                                         const categoryEnergy = store.energy_by_category && store.energy_by_category[ecId]
