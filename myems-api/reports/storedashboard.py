@@ -292,7 +292,7 @@ class Reporting:
             # Get store list based on user privileges
             store_list = []
             if user['is_admin']:
-                cursor_system.execute(" SELECT id, name, area, address, contact_id, cost_center_id "
+                cursor_system.execute(" SELECT id, name, area, address, latitude, longitude, contact_id, cost_center_id "
                                       " FROM tbl_stores ORDER BY id ")
                 rows_stores = cursor_system.fetchall()
                 if rows_stores:
@@ -302,8 +302,10 @@ class Reporting:
                             'name': row[1],
                             'area': row[2],
                             'address': row[3],
-                            'contact_id': row[4],
-                            'cost_center_id': row[5]
+                            'latitude': row[4],
+                            'longitude': row[5],
+                            'contact_id': row[6],
+                            'cost_center_id': row[7]
                         })
             else:
                 cursor_user.execute(" SELECT data FROM tbl_privileges WHERE id = %s ", (user['privilege_id'],))
@@ -319,7 +321,7 @@ class Reporting:
                     validate_integer_ids(store_ids_list, "store_ids")
                     format_strings = ','.join(['%s'] * len(store_ids_list))
                     cursor_system.execute(
-                        " SELECT id, name, area, address, contact_id, cost_center_id "
+                        " SELECT id, name, area, address, latitude, longitude, contact_id, cost_center_id "
                         " FROM tbl_stores WHERE id IN (%s) ORDER BY id " % format_strings,
                         tuple(store_ids_list)
                     )
@@ -331,8 +333,10 @@ class Reporting:
                                 'name': row[1],
                                 'area': row[2],
                                 'address': row[3],
-                                'contact_id': row[4],
-                                'cost_center_id': row[5]
+                                'latitude': row[4],
+                                'longitude': row[5],
+                                'contact_id': row[6],
+                                'cost_center_id': row[7]
                             })
 
             if not store_list:
@@ -862,6 +866,8 @@ class Reporting:
                     'name': store['name'],
                     'area': float(store['area']) if store['area'] else 0.0,
                     'address': store['address'] if store['address'] else '',
+                    'latitude': store['latitude'] if store['latitude'] is not None else None,
+                    'longitude': store['longitude'] if store['longitude'] is not None else None,
                     'total_energy': energy_data['total_energy'],
                     'energy_by_category': energy_data['categories'],
                     'total_cost': cost_data['total_cost'],
