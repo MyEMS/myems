@@ -64,8 +64,8 @@
 											{{'KNOWLEDGEFILE.ABOUT_MYEMS' | translate}}
 										</div>
 										<div class="panel-body" style="font-size:16px;">
-											<p class="m-b-none">{{'KNOWLEDGEFILE.ABOUT_INTRO' | translate}}</p>
-											<p>{{'KNOWLEDGEFILE.OFFICIAL_SITE' | translate}}</p>
+											<p class="m-b-none" ng-bind-html="'KNOWLEDGEFILE.ABOUT_INTRO' | translate"></p>
+											<p ng-bind-html="'KNOWLEDGEFILE.OFFICIAL_SITE' | translate"></p>
 
 											<div class="row m-t-sm">
 												<div class="col-sm-4"><strong>{{'KNOWLEDGEFILE.SOURCE_CODE' | translate}}</strong></div>
@@ -95,7 +95,7 @@
 												{{'KNOWLEDGEFILE.COMMUNITY_FREE' | translate}}
 											</p>
 											<ul>
-												<li>{{'KNOWLEDGEFILE.QQ_GROUP' | translate}}</li>
+												<li ng-bind-html="'KNOWLEDGEFILE.QQ_GROUP' | translate"></li>
 												<li>{{'KNOWLEDGEFILE.WECHAT_GROUP' | translate}}</li>
 											</ul>
 											<hr style="margin:12px 0;">
