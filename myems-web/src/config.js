@@ -17,7 +17,7 @@ export const settings = {
   isNavbarVerticalCollapsed: false,
   navbarStyle: 'transparent',
   language: 'zh_CN', //default language: en, zh_CN, de, fr, es, ru, ar, vi, th, tr, ms, id, zh_TW, ko_KR, pt, it, pol, nl, jp, fa
-  showOnlineMap: false, // indicates if show online map on dashboard
+  showOnlineMap: true, // indicates if show online map on dashboard
   mapboxToken: 'GET-YOUR-TOKEN-AT-MAPBOX.COM', // you can get access token at https://mapbox.com
   cookieExpireTime: 1000 * 60 * 60, //cookie expires time in milliseconds
   showTCEData: true, // indicates if show Tonne of Coal Equivalent data on dashboard and reports

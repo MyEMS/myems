@@ -173,8 +173,16 @@ const Dashboard = ({setRedirect, setRedirectUrl, t}) => {
                             url: '/app/store'
                         }
                     }));
+                
+                console.log('Map data processed:', {
+                    totalStores: json.stores.length,
+                    storesWithCoordinates: features.length,
+                    sampleData: features.slice(0, 2)
+                });
+                
                 setMapGeojson(features.length > 0 ? features : null);
             } else {
+                console.log('No stores data received');
                 setMapGeojson(null);
             }
 
@@ -481,29 +489,6 @@ const Dashboard = ({setRedirect, setRedirectUrl, t}) => {
                 </Col>
             </Row>
 
-            {/* Store Map Card */}
-            {settings.showOnlineMap && mapGeojson && mapGeojson.length > 0 && (
-                <Row>
-                    <Col>
-                        <Card className="mb-3">
-                            <CardBody>
-                                <h5 className="mb-3">
-                                    {t('Store Location Map')}
-                                </h5>
-                                <div style={{height: '400px'}}>
-                                    <CustomizeMapBox
-                                        Latitude={null}
-                                        Longitude={null}
-                                        Zoom={10}
-                                        Geojson={mapGeojson}
-                                    />
-                                </div>
-                            </CardBody>
-                        </Card>
-                    </Col>
-                </Row>
-            )}
-
             {/* Daily Trends Line Chart */}
             <div className="card-deck">
                 <LineChart
@@ -519,6 +504,42 @@ const Dashboard = ({setRedirect, setRedirectUrl, t}) => {
                     defaultOption={selectedChartOption}
                 />
             </div>
+
+            {/* Store Map Card */}
+            {settings.showOnlineMap && mapGeojson && mapGeojson.length > 0 ? (
+                <Row>
+                    <Col>
+                        <Card className="mb-3">
+                            <CardBody>
+                                <h5 className="mb-3">
+
+                                </h5>
+                                <div style={{height: '400px'}}>
+                                    <CustomizeMapBox
+                                        Latitude={null}
+                                        Longitude={null}
+                                        Zoom={10}
+                                        Geojson={mapGeojson}
+                                    />
+                                </div>
+                            </CardBody>
+                        </Card>
+                    </Col>
+                </Row>
+            ) : settings.showOnlineMap && (!mapGeojson || mapGeojson.length === 0) ? (
+                <Row>
+                    <Col>
+                        <Card className="mb-3">
+                            <CardBody>
+                                <div className="text-center text-muted py-5">
+                                    <p>{t('No store location data available')}</p>
+                                    <small>Please ensure stores have latitude and longitude set in the database</small>
+                                </div>
+                            </CardBody>
+                        </Card>
+                    </Col>
+                </Row>
+            ) : null}
 
             {/* Store List Table */}
             <Row>
