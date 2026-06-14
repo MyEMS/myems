@@ -2707,6 +2707,9 @@
         WORKING_CALENDAR_NOT_FOUND: "工作日历不存在",
       },
       Dashboard: "总览",
+      "Meter Prediction": "计量表预测分析㊭",
+      "Virtual Meter Prediction": "虚拟表预测分析㊭",
+      "Offline Meter Prediction": "离线表预测分析㊭",
       "Space Data": "空间数据",
       "Energy Category Data": "能耗分类分析",
       "Energy Item Data": "能耗分项分析",
@@ -2730,9 +2733,6 @@
       "Equipment Comparison": "对比分析",
       "Meter Data": "计量表数据",
       "Meter Energy": "计量表能耗分析",
-      "Meter Prediction": "计量表预测分析㊭",
-      "Virtual Meter Prediction": "虚拟表预测分析㊭",
-      "Offline Meter Prediction": "离线表预测分析㊭",
       "Meter Cost": "计量表成本分析",
       "Meter Trend": "计量表趋势分析",
       "Meter Realtime": "计量表实时分析",
@@ -2771,6 +2771,5 @@
       "Energy Flow Diagram": "能流图",
       "Distribution System": "配电系统",
       "Knowledge Base": "知识库",
-
     };
 })(window);
