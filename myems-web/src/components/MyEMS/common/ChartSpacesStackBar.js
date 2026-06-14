@@ -28,7 +28,10 @@ const ChartSpacesStackBar = ({ labels, inputData, costData, title, childSpaces, 
   });
 
   useEffect(() => {
-    const colors = ['#2c7be5', '#00d27a', '#27bcfd', '#f5803e', '#e63757'];
+    const consumptionColors = ['#1565c0', '#1976d2', '#42a5f5', '#64b5f6', '#90caf9'];
+    const consumptionBorders = ['#0d47a1', '#1565c0', '#1976d2', '#42a5f5', '#64b5f6'];
+    const costColors = ['#e65100', '#f57c00', '#fb8c00', '#ef6c57', '#d84315'];
+    const costBorders = ['#bf360c', '#e65100', '#f57c00', '#d84315', '#bf360c'];
     const chart = chartRef.current;
     let dataArray = [];
     let index = option.substring(1);
@@ -46,11 +49,15 @@ const ChartSpacesStackBar = ({ labels, inputData, costData, title, childSpaces, 
         });
         let childSpaceArray = inputData['child_space_names_array'][index];
         inputData['subtotals_array'][index].forEach((item, itemIndex) => {
+          const colorIndex = itemIndex % consumptionColors.length;
           dataArray.push({
             label: childSpaceArray[itemIndex] + ' ' + category,
             stack: category,
             data: item,
-            backgroundColor: colors[itemIndex % 5]
+            backgroundColor: consumptionColors[colorIndex],
+            borderColor: consumptionBorders[colorIndex],
+            borderWidth: 1,
+            borderRadius: 2
           });
         });
       }
@@ -61,11 +68,15 @@ const ChartSpacesStackBar = ({ labels, inputData, costData, title, childSpaces, 
         });
         let childSpaceArray = costData['child_space_names_array'][index];
         costData['subtotals_array'][index].forEach((item, itemIndex) => {
+          const colorIndex = itemIndex % costColors.length;
           dataArray.push({
             label: childSpaceArray[itemIndex] + ' ' + category,
             stack: category,
             data: item,
-            backgroundColor: colors[itemIndex % 5]
+            backgroundColor: costColors[colorIndex],
+            borderColor: costBorders[colorIndex],
+            borderWidth: 1,
+            borderRadius: 2
           });
         });
       }
@@ -112,6 +123,22 @@ const ChartSpacesStackBar = ({ labels, inputData, costData, title, childSpaces, 
       <Card className="mb-3">
         <FalconCardHeader title={title} className="bg-light" titleClass="text-lightSlateGray mb-0" />
         <CardBody className="rounded-soft">
+          <Row className="text-white align-items-center no-gutters mb-2">
+            <Col xs="auto" className="d-flex align-items-center mr-3">
+              <span
+                className="d-inline-block rounded mr-1"
+                style={{ width: 12, height: 12, backgroundColor: '#1976d2' }}
+              />
+              <small className="text-lightSlateGray">{t('Consumption')}</small>
+            </Col>
+            <Col xs="auto" className="d-flex align-items-center">
+              <span
+                className="d-inline-block rounded mr-1"
+                style={{ width: 12, height: 12, backgroundColor: '#f57c00' }}
+              />
+              <small className="text-lightSlateGray">{t('Costs')}</small>
+            </Col>
+          </Row>
           <Row className="text-white align-items-center no-gutters">
             <Col>
               <h4 className="text-lightSlateGray mb-0"> </h4>
