@@ -61,6 +61,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - fixed semicolon insertion issues in myems-web
 - fixed duplicate property issues in myems-admin
 - fixed dependency files vulnerabilities in myems-web
+- fixed issue of menu setting in myems-admin
 ### Removed
 - None
 
