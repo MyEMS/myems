@@ -518,6 +518,7 @@ export default {
         'Old Password': '原密码',
         'New Password': '新密码',
         'Confirm Password': '重复新密码',
+        Back: '返回',
         'Update Password': '更新密码',
         'Password has been changed!': '密码已修改!',
         'Verification code has been sent to your inbox. \

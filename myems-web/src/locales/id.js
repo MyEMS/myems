@@ -535,6 +535,7 @@ export default {
         'Old Password': 'Kata Sandi Asal',
         'New Password': 'Kata Sandi Baru',
         'Confirm Password': 'Ulangi Kata Sandi Baru',
+        Back: 'Kembali',
         'Update Password': 'Kemaskini Kata Sandi',
         'Password has been changed!': 'Kata Sandi Telah Diubah!',
         'Verification code has been sent to your inbox. \

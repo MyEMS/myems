@@ -503,6 +503,7 @@ export default {
         'Old Password': '기존 비밀번호',
         'New Password': '새 비밀번호',
         'Confirm Password': '새 비밀번호 확인',
+        Back: '돌아가기',
         'Update Password': '비밀번호 업데이트',
         'Password has been changed!': '비밀번호가 변경되었습니다!',
         'Verification code has been sent to your inbox. \

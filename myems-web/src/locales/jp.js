@@ -508,6 +508,7 @@ export default {
         'Old Password': '旧パスワード',
         'New Password': '新パスワード',
         'Confirm Password': '新パスワード確認',
+        Back: '戻る',
         'Update Password': 'パスワード更新',
         'Password has been changed!': 'パスワードが変更されました！',
         'Verification code has been sent to your inbox. \

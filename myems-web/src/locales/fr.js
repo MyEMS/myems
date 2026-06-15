@@ -532,6 +532,7 @@ export default {
         'Old Password': 'Vieux Mot de passe',
         'New Password': 'Nouveau Mot de passe',
         'Confirm Password': 'Confirmer Mot de passe',
+        Back: 'Retour',
         'Update Password': 'Mettre à jour Mot de passe',
         'Password has been changed!': 'Le mot de passe a été changé!',
         'Verification code has been sent to your inbox. \

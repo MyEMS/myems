@@ -539,6 +539,7 @@ export default {
         'Old Password': 'Contraseña antigua',
         'New Password': 'Nueva contraseña',
         'Confirm Password': 'Confirmar contraseña',
+        Back: 'Volver',
         'Update Password': 'Actualizar contraseña',
         'Password has been changed!': 'Se ha cambiado la contraseña!',
         'Verification code has been sent to your inbox. \
