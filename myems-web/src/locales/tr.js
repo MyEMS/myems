@@ -529,6 +529,8 @@ export default {
         'Old Password': 'Eski Şifre',
         'New Password': 'Yeni Şifre',
         'Confirm Password': 'Şifreyi Onayla',
+        'Hide password': 'Şifreyi gizle',
+        'Show password': 'Şifreyi göster',
         Back: 'Geri',
         'Update Password': 'Şifreyi Güncelle',
         'Password has been changed!': 'Şifre değiştirildi!',

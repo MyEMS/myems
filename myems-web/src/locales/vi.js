@@ -527,6 +527,8 @@ export default {
         'Old Password': 'Mật khẩu cũ',
         'New Password': 'Mật khẩu mới',
         'Confirm Password': 'Xác nhận mật khẩu',
+        'Hide password': 'Ẩn mật khẩu',
+        'Show password': 'Hiện mật khẩu',
         Back: 'Quay lại',
         'Update Password': 'Cập nhật mật khẩu',
         'Password has been changed!': 'Mật khẩu đã được thay đổi!',

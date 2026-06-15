@@ -535,6 +535,8 @@ export default {
         'Old Password': 'Kata Sandi Asal',
         'New Password': 'Kata Sandi Baru',
         'Confirm Password': 'Ulangi Kata Sandi Baru',
+        'Hide password': 'Sembunyikan kata sandi',
+        'Show password': 'Tampilkan kata sandi',
         Back: 'Kembali',
         'Update Password': 'Kemaskini Kata Sandi',
         'Password has been changed!': 'Kata Sandi Telah Diubah!',

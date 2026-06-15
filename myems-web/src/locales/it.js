@@ -509,6 +509,8 @@ export default {
         'Old Password': 'Vecchia Password',
         'New Password': 'Nuova Password',
         'Confirm Password': 'Conferma Nuova Password',
+        'Hide password': 'Nascondi password',
+        'Show password': 'Mostra password',
         Back: 'Indietro',
         'Update Password': 'Aggiorna Password',
         'Password has been changed!': 'Password modificata!',
