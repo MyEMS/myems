@@ -509,6 +509,7 @@ export default {
         'Old Password': 'Vecchia Password',
         'New Password': 'Nuova Password',
         'Confirm Password': 'Conferma Nuova Password',
+        Back: 'Indietro',
         'Update Password': 'Aggiorna Password',
         'Password has been changed!': 'Password modificata!',
         'Verification code has been sent to your inbox. \

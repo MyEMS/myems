@@ -543,6 +543,7 @@ export default {
         'Old Password': 'Old Password',
         'New Password': 'New Password',
         'Confirm Password': 'Confirm Password',
+        Back: 'Back',
         'Update Password': 'Update Password',
         'Password has been changed!': 'Password has been changed!',
         'Verification code has been sent to your inbox. \

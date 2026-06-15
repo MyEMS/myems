@@ -1,15 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
+import { useHistory } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import { Button, Card, CardBody, Form } from 'reactstrap';
+import { FaEye, FaEyeSlash } from 'react-icons/fa';
+import { Button, Card, CardBody, Col, Form, FormGroup, Input, Label, Row } from 'reactstrap';
 import FalconCardHeader from '../../common/FalconCardHeader';
-import FormGroupInput from '../../common/FormGroupInput';
 import { getCookieValue, createCookie, checkEmpty, handleAPIError } from '../../../helpers/utils';
 import withRedirect from '../../../hoc/withRedirect';
 import { withTranslation } from 'react-i18next';
 import { APIBaseURL, settings } from '../../../config';
 
 const ChangePasswordForm = ({ setRedirect, setRedirectUrl, layout, t }) => {
+  const history = useHistory();
   useEffect(() => {
     let is_logged_in = getCookieValue('is_logged_in');
     let user_name = getCookieValue('user_name');
@@ -44,12 +46,66 @@ const ChangePasswordForm = ({ setRedirect, setRedirectUrl, layout, t }) => {
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [isDisabled, setIsDisabled] = useState(true);
+  const [passwordVisible, setPasswordVisible] = useState({
+    oldPassword: false,
+    newPassword: false,
+    confirmPassword: false
+  });
 
   useEffect(() => {
     if (oldPassword === '' || newPassword === '' || confirmPassword === '') return setIsDisabled(true);
 
     setIsDisabled(newPassword !== confirmPassword);
   }, [oldPassword, newPassword, confirmPassword]);
+
+  const togglePasswordVisibility = field => {
+    setPasswordVisible(currentState => ({
+      ...currentState,
+      [field]: !currentState[field]
+    }));
+  };
+
+  const handleBack = () => {
+    if (window.history.length > 1) {
+      history.goBack();
+      return;
+    }
+
+    setRedirectUrl(`/`);
+    setRedirect(true);
+  };
+
+  const renderPasswordInput = ({ id, label, value, onChange, visibleKey, autoComplete }) => (
+    <FormGroup>
+      <Label htmlFor={id}>{label}</Label>
+      <div className="position-relative">
+        <Input
+          id={id}
+          value={value}
+          maxLength={100}
+          onChange={onChange}
+          className="pr-6"
+          type={passwordVisible[visibleKey] ? 'text' : 'password'}
+          autoComplete={autoComplete}
+        />
+        <Button
+          color="link"
+          className="position-absolute bg-transparent border-0 px-3 text-500"
+          onClick={() => togglePasswordVisibility(visibleKey)}
+          type="button"
+          style={{
+            top: '50%',
+            right: 0,
+            transform: 'translateY(-50%)',
+            boxShadow: 'none',
+            zIndex: 3
+          }}
+        >
+          {passwordVisible[visibleKey] ? <FaEye /> : <FaEyeSlash />}
+        </Button>
+      </div>
+    </FormGroup>
+  );
 
   const handleSubmit = e => {
     e.preventDefault();
@@ -97,32 +153,42 @@ const ChangePasswordForm = ({ setRedirect, setRedirectUrl, layout, t }) => {
       <FalconCardHeader title={t('Change Password')} light={false} />
       <CardBody className="bg-light">
         <Form onSubmit={handleSubmit}>
-          <FormGroupInput
-            id="old-password"
-            label={t('Old Password')}
-            value={oldPassword}
-            maxLength={100}
-            onChange={({ target }) => setOldPassword(target.value)}
-            type="password"
-          />
-          <FormGroupInput
-            id="new-password"
-            label={t('New Password')}
-            value={newPassword}
-            maxLength={100}
-            onChange={({ target }) => setNewPassword(target.value)}
-            type="password"
-          />
-          <FormGroupInput
-            id="confirm-password"
-            label={t('Confirm Password')}
-            value={confirmPassword}
-            onChange={({ target }) => setConfirmPassword(target.value)}
-            type="password"
-          />
-          <Button color="primary" block disabled={isDisabled}>
-            {t('Update Password')}
-          </Button>
+          {renderPasswordInput({
+            id: 'old-password',
+            label: t('Old Password'),
+            value: oldPassword,
+            onChange: ({ target }) => setOldPassword(target.value),
+            visibleKey: 'oldPassword',
+            autoComplete: 'current-password'
+          })}
+          {renderPasswordInput({
+            id: 'new-password',
+            label: t('New Password'),
+            value: newPassword,
+            onChange: ({ target }) => setNewPassword(target.value),
+            visibleKey: 'newPassword',
+            autoComplete: 'new-password'
+          })}
+          {renderPasswordInput({
+            id: 'confirm-password',
+            label: t('Confirm Password'),
+            value: confirmPassword,
+            onChange: ({ target }) => setConfirmPassword(target.value),
+            visibleKey: 'confirmPassword',
+            autoComplete: 'new-password'
+          })}
+          <Row>
+            <Col xs="12" md="6" className="mb-2 mb-md-0">
+              <Button color="secondary" block onClick={handleBack} type="button">
+                {t('Back')}
+              </Button>
+            </Col>
+            <Col xs="12" md="6">
+              <Button color="primary" block disabled={isDisabled} type="submit">
+                {t('Update Password')}
+              </Button>
+            </Col>
+          </Row>
         </Form>
       </CardBody>
     </Card>
