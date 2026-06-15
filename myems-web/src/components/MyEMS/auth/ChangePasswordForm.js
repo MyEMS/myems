@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { useHistory } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
-import { Button, Card, CardBody, Col, Form, FormGroup, Input, InputGroup, InputGroupAddon, Label, Row } from 'reactstrap';
+import { Button, Card, CardBody, Col, Form, FormGroup, Input, Label, Row } from 'reactstrap';
 import FalconCardHeader from '../../common/FalconCardHeader';
 import { getCookieValue, createCookie, checkEmpty, handleAPIError } from '../../../helpers/utils';
 import withRedirect from '../../../hoc/withRedirect';
@@ -78,29 +78,32 @@ const ChangePasswordForm = ({ setRedirect, setRedirectUrl, layout, t }) => {
   const renderPasswordInput = ({ id, label, value, onChange, visibleKey, autoComplete }) => (
     <FormGroup>
       <Label htmlFor={id}>{label}</Label>
-      <InputGroup>
+      <div className="position-relative">
         <Input
           id={id}
           value={value}
           maxLength={100}
           onChange={onChange}
-          className="border-right-0"
+          className="pr-6"
           type={passwordVisible[visibleKey] ? 'text' : 'password'}
           autoComplete={autoComplete}
         />
-        <InputGroupAddon addonType="append">
-          <Button
-            color="link"
-            className="bg-white border-0 px-3 text-500"
-            onClick={() => togglePasswordVisibility(visibleKey)}
-            type="button"
-            style={{ boxShadow: 'none' }}
-            aria-label={passwordVisible[visibleKey] ? 'Hide password' : 'Show password'}
-          >
-            {passwordVisible[visibleKey] ? <FaEyeSlash /> : <FaEye />}
-          </Button>
-        </InputGroupAddon>
-      </InputGroup>
+        <Button
+          color="link"
+          className="position-absolute bg-transparent border-0 px-3 text-500"
+          onClick={() => togglePasswordVisibility(visibleKey)}
+          type="button"
+          style={{
+            top: '50%',
+            right: 0,
+            transform: 'translateY(-50%)',
+            boxShadow: 'none',
+            zIndex: 3
+          }}
+        >
+          {passwordVisible[visibleKey] ? <FaEye /> : <FaEyeSlash />}
+        </Button>
+      </div>
     </FormGroup>
   );
 
