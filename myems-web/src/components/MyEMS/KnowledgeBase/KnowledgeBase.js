@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { Alert, Card, CardBody, CardImg, CardText, CardTitle, Col, Row, Spinner, CardHeader } from 'reactstrap';
 import Summary from './Summary';
 import FalconCardHeader from '../../common/FalconCardHeader';
-import createMarkup from '../../../helpers/createMarkup';
 import { isIterableArray } from '../../../helpers/utils';
 import { getCookieValue, createCookie } from '../../../helpers/utils';
 import withRedirect from '../../../hoc/withRedirect';
@@ -86,7 +85,7 @@ const KnowledgeBase = ({ setRedirect, setRedirectUrl, t }) => {
           });
       }
     }
-  });
+  }, []);
 
   return (
     <div className="wrapper-content">
@@ -99,7 +98,7 @@ const KnowledgeBase = ({ setRedirect, setRedirectUrl, t }) => {
               {reports.map(({ additional, ...rest }, index) => (
                 <Col md={6} className="h-100" key={index}>
                   <Summary divider={reports.length !== index + 1} {...rest}>
-                    <p className="text-1000 mb-0" dangerouslySetInnerHTML={createMarkup(additional)} />
+                    <p className="text-1000 mb-0">{additional}</p>
                   </Summary>
                 </Col>
               ))}
@@ -191,14 +190,14 @@ const KnowledgeBase = ({ setRedirect, setRedirectUrl, t }) => {
               </ul>
               <hr />
               <div className="d-flex align-items-center mb-2">
-                <span className="badge bg-warning text-dark me-2">{t('PLANET_BADGE')}</span>
+                <span className="badge" style={{ backgroundColor: 'rgb(22, 185, 152)', color: '#fff' }} me-2>{t('PLANET_BADGE')}</span>
                 <strong className="fs--1">{t('PLANET_TITLE')}</strong>
               </div>
               <ul className="mb-2">
                 <li>{t('PLANET_DESC_1')}</li>
                 <li>{t('PLANET_DESC_2')}</li>
               </ul>
-              <a href="https://t.zsxq.com/blbKD" target="_blank" rel="noopener noreferrer" className="btn btn-warning btn-sm">
+              <a href="https://t.zsxq.com/blbKD" target="_blank" rel="noopener noreferrer" className="btn btn-sm" style={{ backgroundColor: 'rgb(22, 185, 152)', borderColor: 'rgb(22, 185, 152)', color: '#fff' }}>
                 {t('JOIN_NOW')} &rarr;
               </a>
             </CardBody>
