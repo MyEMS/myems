@@ -527,10 +527,7 @@ const Dashboard = ({setRedirect, setRedirectUrl, t}) => {
                     <Col>
                         <Card className="mb-3">
                             <CardBody>
-                                <h5 className="mb-3">
-
-                                </h5>
-                                <div style={{height: '400px'}}>
+                               <div style={{height: '400px'}}>
                                     <CustomizeMapBox
                                         Latitude={rootLatitude || 39.9042}
                                         Longitude={rootLongitude || 116.4074}
