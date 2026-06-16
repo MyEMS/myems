@@ -508,6 +508,8 @@ export default {
         'Old Password': 'Oud wachtwoord',
         'New Password': 'Nieuw wachtwoord',
         'Confirm Password': 'Herhaal nieuw wachtwoord',
+        'Hide password': 'Wachtwoord verbergen',
+        'Show password': 'Wachtwoord tonen',
         Back: 'Terug',
         'Update Password': 'Wachtwoord bijwerken',
         'Password has been changed!': 'Wachtwoord is gewijzigd!',

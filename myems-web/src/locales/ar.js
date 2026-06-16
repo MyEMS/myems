@@ -529,6 +529,8 @@ export default {
         'Old Password': 'كلمة المرور القديمة',
         'New Password': 'كلمة مرور جديدة',
         'Confirm Password': 'تأكيد كلمة المرور',
+        'Hide password': 'إخفاء كلمة المرور',
+        'Show password': 'إظهار كلمة المرور',
         Back: 'رجوع',
         'Update Password': 'تحديث كلمة المرور',
         'Password has been changed!': 'تم تغيير كلمة المرور!',

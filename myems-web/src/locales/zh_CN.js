@@ -518,6 +518,8 @@ export default {
         'Old Password': '原密码',
         'New Password': '新密码',
         'Confirm Password': '重复新密码',
+        'Hide password': '隐藏密码',
+        'Show password': '显示密码',
         Back: '返回',
         'Update Password': '更新密码',
         'Password has been changed!': '密码已修改!',

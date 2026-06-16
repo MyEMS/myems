@@ -529,6 +529,8 @@ export default {
         'Old Password': 'Senha antiga',
         'New Password': 'Nova senha',
         'Confirm Password': 'Confirmar senha',
+        'Hide password': 'Ocultar senha',
+        'Show password': 'Mostrar senha',
         Back: 'Voltar',
         'Update Password': 'Atualizar senha',
         'Password has been changed!': 'A senha foi alterada!',
