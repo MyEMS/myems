@@ -159,7 +159,6 @@ const Dashboard = ({setRedirect, setRedirectUrl, t}) => {
 
             // Process map data - convert stores to GeoJSON format
             if (json.stores && json.stores.length > 0) {
-                console.log('Raw stores data:', json.stores);
                 
                 const features = json.stores
                     .filter(store => {
@@ -188,16 +187,9 @@ const Dashboard = ({setRedirect, setRedirectUrl, t}) => {
                                 url: '/app/store'
                             }
                         };
-                        console.log(`Feature ${index}:`, feature);
                         return feature;
                     });
-                
-                console.log('Map data processed:', {
-                    totalStores: json.stores.length,
-                    storesWithCoordinates: features.length,
-                    firstFeature: features[0],
-                    allFeatures: features
-                });
+
                 
                 setMapGeojson(features.length > 0 ? features : null);
                 
@@ -207,7 +199,6 @@ const Dashboard = ({setRedirect, setRedirectUrl, t}) => {
                     setRootLatitude(firstCoord[1]);
                 }
             } else {
-                console.log('No stores data received');
                 setMapGeojson(null);
             }
 
@@ -279,7 +270,6 @@ const Dashboard = ({setRedirect, setRedirectUrl, t}) => {
             setLoading(false);
 
         } catch (error) {
-            console.error('Error fetching dashboard data:', error);
             toast.error(t('Failed to load dashboard data'));
             setLoading(false);
         }
