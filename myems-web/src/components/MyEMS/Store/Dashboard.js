@@ -598,12 +598,7 @@ const Dashboard = ({setRedirect, setRedirectUrl, t}) => {
                                                 className="ml-1"
                                             />
                                         </th>
-                                        <th className="text-right">
-                                            {t('Latitude')}
-                                        </th>
-                                        <th className="text-right">
-                                            {t('Longitude')}
-                                        </th>
+
                                         <th
                                             className="text-right"
                                             onClick={() => handleSort('area')}
@@ -662,8 +657,6 @@ const Dashboard = ({setRedirect, setRedirectUrl, t}) => {
                                                         <strong>{store.name}</strong>
                                                     </td>
                                                     <td className="text-muted">{store.address || '-'}</td>
-                                                    <td className="text-right">{store.latitude !== null && store.latitude !== undefined ? store.latitude.toFixed(6) : '-'}</td>
-                                                    <td className="text-right">{store.longitude !== null && store.longitude !== undefined ? store.longitude.toFixed(6) : '-'}</td>
                                                     <td className="text-right">{store.area ? store.area.toFixed(2) : '-'}</td>
                                                     {energyData.energy_category_ids && energyData.energy_category_ids.map((ecId, index) => {
                                                         const categoryEnergy = store.energy_by_category && store.energy_by_category[ecId]
