@@ -73,7 +73,7 @@ const CustomizeMapBox = ({ Latitude, Longitude, Zoom, Geojson, t }) => {
       doubleClickZoom: true,
       touchZoomRotate: true,
       trackResize: true,
-      attributionControl: false
+      attributionControl: true
     });
 
     map.current.on('move', () => {
