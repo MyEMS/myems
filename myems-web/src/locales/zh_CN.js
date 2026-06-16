@@ -265,7 +265,7 @@ export default {
         'language-id': 'Bahasa Indonesia',
         'language-zh_TW': '繁體中文',
         'language-pt': 'Português',
-        'language-ko_KR': '로그아웃',
+        'language-ko_KR': '한국어',
         'language-it': 'Italiano',
         'language-pol': 'Polski',
         'language-nl': 'Nederlands',
@@ -518,6 +518,7 @@ export default {
         'Old Password': '原密码',
         'New Password': '新密码',
         'Confirm Password': '重复新密码',
+        Back: '返回',
         'Update Password': '更新密码',
         'Password has been changed!': '密码已修改!',
         'Verification code has been sent to your inbox. \

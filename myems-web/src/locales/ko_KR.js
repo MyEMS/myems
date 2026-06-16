@@ -260,7 +260,7 @@ export default {
         'language-id': 'Bahasa Indonesia',
         'language-zh_TW': '繁體中文',
         'language-pt': 'Português',
-        'language-ko_KR': '로그아웃',
+        'language-ko_KR': '한국어',
         'language-it': 'Italiano',
         'language-pol': 'Polski',
         'language-nl': 'Nederlands',
@@ -503,6 +503,7 @@ export default {
         'Old Password': '기존 비밀번호',
         'New Password': '새 비밀번호',
         'Confirm Password': '새 비밀번호 확인',
+        Back: '돌아가기',
         'Update Password': '비밀번호 업데이트',
         'Password has been changed!': '비밀번호가 변경되었습니다!',
         'Verification code has been sent to your inbox. \
