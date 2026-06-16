@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import AppContext from '../../../context/Context';
-import { Button, Form, Row, Col, FormGroup, Input, CustomInput, Label, InputGroup, InputGroupAddon } from 'reactstrap';
+import { Button, Form, Row, Col, FormGroup, Input, CustomInput, Label } from 'reactstrap';
 import { createCookie, getItemFromStore, setItemToStore, themeColors } from '../../../helpers/utils';
 import withRedirect from '../../../hoc/withRedirect';
 import { withTranslation } from 'react-i18next';
@@ -19,7 +19,7 @@ const LoginForm = ({ setRedirect, hasLabel, layout, t }) => {
   const [captchaCode, setCaptchaCode] = useState('');
   const [remember, setRemember] = useState(true);
   const [isDisabled, setIsDisabled] = useState(true);
-  const [inputType, setInputType] = useState('password');
+  const [passwordVisible, setPasswordVisible] = useState(false);
   const captchaRef = useRef(null);
   // Context
   const { language, setLanguage, isDark } = useContext(AppContext);
@@ -80,8 +80,8 @@ const LoginForm = ({ setRedirect, hasLabel, layout, t }) => {
     return () => clearInterval(interval);
   }, []);
 
-  const toggleVisibility = () => {
-    setInputType(inputType === 'password' ? 'text' : 'password');
+  const togglePasswordVisibility = () => {
+    setPasswordVisible(currentState => !currentState);
   };
 
   const handleRefreshCaptcha = () => {
@@ -102,21 +102,32 @@ const LoginForm = ({ setRedirect, hasLabel, layout, t }) => {
       </FormGroup>
       <FormGroup>
         {hasLabel && <Label>{t('Password')}</Label>}
-        <InputGroup>
+        <div className="position-relative">
           <Input
             placeholder={!hasLabel ? t('Password') : ''}
             value={password}
             maxLength={100}
-            className="password-input"
+            className="password-input pr-6"
             onChange={({ target }) => setPassword(target.value)}
-            type={inputType}
+            type={passwordVisible ? 'text' : 'password'}
           />
-          <InputGroupAddon addonType="append">
-            <Button color="secondary" onClick={toggleVisibility}>
-              {inputType === 'password' ? <FaEyeSlash /> : <FaEye />}
-            </Button>
-          </InputGroupAddon>
-        </InputGroup>
+          <Button
+            color="link"
+            className="position-absolute bg-transparent border-0 px-3 text-500"
+            onClick={togglePasswordVisibility}
+            type="button"
+            aria-label={t(passwordVisible ? 'Hide password' : 'Show password')}
+            style={{
+              top: '50%',
+              right: 0,
+              transform: 'translateY(-50%)',
+              boxShadow: 'none',
+              zIndex: 3
+            }}
+          >
+            {passwordVisible ? <FaEye /> : <FaEyeSlash />}
+          </Button>
+        </div>
       </FormGroup>
       <FormGroup>
         <Row className="justify-content-between align-items-center">
