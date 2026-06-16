@@ -656,7 +656,7 @@ const Dashboard = ({setRedirect, setRedirectUrl, t}) => {
                                                     <td>
                                                         <strong>{store.name}</strong>
                                                     </td>
-                                                    <td className="text-muted">{store.add地图上ress || '-'}</td>
+                                                    <td className="text-muted">{store.address || '-'}</td>
                                                     <td className="text-right">{store.area ? store.area.toFixed(2) : '-'}</td>
                                                     {energyData.energy_category_ids && energyData.energy_category_ids.map((ecId, index) => {
                                                         const categoryEnergy = store.energy_by_category && store.energy_by_category[ecId]
