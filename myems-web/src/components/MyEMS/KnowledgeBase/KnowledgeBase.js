@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Alert, Card, CardBody, CardImg, CardText, CardTitle, Col, Row, Spinner, CardHeader } from 'reactstrap';
 import Summary from './Summary';
 import FalconCardHeader from '../../common/FalconCardHeader';
+import createMarkup from '../../../helpers/createMarkup';
 import { isIterableArray } from '../../../helpers/utils';
 import { getCookieValue, createCookie } from '../../../helpers/utils';
 import withRedirect from '../../../hoc/withRedirect';
@@ -184,7 +185,7 @@ const KnowledgeBase = ({ setRedirect, setRedirectUrl, t }) => {
               </ul>
               <hr />
               <div className="d-flex align-items-center mb-2">
-                <span className="badge" style={{ backgroundColor: 'rgb(22, 185, 152)', color: '#fff' }} me-2>{t('PLANET_BADGE')}</span>
+                <span className="badge" style={{ backgroundColor: 'rgb(22, 185, 152)', color: '#fff', marginRight: '8px' }}>{t('PLANET_BADGE')}</span>
                 <strong className="fs--1">{t('PLANET_TITLE')}</strong>
               </div>
               <ul className="mb-2">
