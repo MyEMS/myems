@@ -266,8 +266,11 @@ const Dashboard = ({setRedirect, setRedirectUrl, t}) => {
                 tco2eArray.push(item);
             });
             setTco2ePieData(tco2eArray);
+
             setLoading(false);
+
         } catch (error) {
+            console.error('Error fetching dashboard data:', error);
             toast.error(t('Failed to load dashboard data'));
             setLoading(false);
         }
