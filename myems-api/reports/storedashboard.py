@@ -292,7 +292,7 @@ class Reporting:
             # Get store list based on user privileges
             store_list = []
             if user['is_admin']:
-                cursor_system.execute(" SELECT id, name, area, address, latitude, longitude, contact_id, cost_center_id "
+                cursor_system.execute(" SELECT id, name, uuid, area, address, latitude, longitude, contact_id, cost_center_id "
                                       " FROM tbl_stores ORDER BY id ")
                 rows_stores = cursor_system.fetchall()
                 if rows_stores:
@@ -300,12 +300,13 @@ class Reporting:
                         store_list.append({
                             'id': row[0],
                             'name': row[1],
-                            'area': row[2],
-                            'address': row[3],
-                            'latitude': row[4],
-                            'longitude': row[5],
-                            'contact_id': row[6],
-                            'cost_center_id': row[7]
+                            'uuid': row[2],
+                            'area': row[3],
+                            'address': row[4],
+                            'latitude': row[5],
+                            'longitude': row[6],
+                            'contact_id': row[7],
+                            'cost_center_id': row[8]
                         })
             else:
                 cursor_user.execute(" SELECT data FROM tbl_privileges WHERE id = %s ", (user['privilege_id'],))
@@ -321,7 +322,7 @@ class Reporting:
                     validate_integer_ids(store_ids_list, "store_ids")
                     format_strings = ','.join(['%s'] * len(store_ids_list))
                     cursor_system.execute(
-                        " SELECT id, name, area, address, latitude, longitude, contact_id, cost_center_id "
+                        " SELECT id, name, uuid, area, address, latitude, longitude, contact_id, cost_center_id "
                         " FROM tbl_stores WHERE id IN (%s) ORDER BY id " % format_strings,
                         tuple(store_ids_list)
                     )
@@ -331,12 +332,13 @@ class Reporting:
                             store_list.append({
                                 'id': row[0],
                                 'name': row[1],
-                                'area': row[2],
-                                'address': row[3],
-                                'latitude': row[4],
-                                'longitude': row[5],
-                                'contact_id': row[6],
-                                'cost_center_id': row[7]
+                                'uuid': row[2],
+                                'area': row[3],
+                                'address': row[4],
+                                'latitude': row[5],
+                                'longitude': row[6],
+                                'contact_id': row[7],
+                                'cost_center_id': row[8]
                             })
 
             if not store_list:

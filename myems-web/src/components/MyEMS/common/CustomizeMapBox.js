@@ -9,6 +9,7 @@ import { settings } from '../../../config';
 import map_maker from '../../../assets/img/icons/map-marker.png';
 
 mapboxgl.accessToken = settings.mapboxToken;
+mapboxgl.config = { MAX_PARALLEL_IMAGE_REQUESTS: 64 };
 if (mapboxgl.getRTLTextPluginStatus !== 'loaded') {
   mapboxgl.setRTLTextPlugin(
     'https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-rtl-text/v0.2.3/mapbox-gl-rtl-text.js'
@@ -63,7 +64,6 @@ const CustomizeMapBox = ({ Latitude, Longitude, Zoom, Geojson, t }) => {
       container: mapContainer.current,
       zoom: initialZoom,
       center: [initialLng, initialLat],
-      // https://docs.mapbox.com/api/maps/styles/#mapbox-styles
       style: isDark ? 'mapbox://styles/mapbox/dark-v11' : 'mapbox://styles/mapbox/streets-v12',
       scrollZoom: true,
       boxZoom: true,
@@ -71,7 +71,9 @@ const CustomizeMapBox = ({ Latitude, Longitude, Zoom, Geojson, t }) => {
       dragPan: true,
       keyboard: true,
       doubleClickZoom: true,
-      touchZoomRotate: true
+      touchZoomRotate: true,
+      trackResize: true,
+      attributionControl: false
     });
 
     map.current.on('move', () => {
@@ -182,6 +184,26 @@ const CustomizeMapBox = ({ Latitude, Longitude, Zoom, Geojson, t }) => {
         layout: {
           'icon-image': 'map-marker',
           'icon-size': 0.5
+        }
+      });
+
+      // Add text labels for store names
+      map.current.addLayer({
+        id: 'store-labels',
+        type: 'symbol',
+        source: 'myems',
+        filter: ['!', ['has', 'point_count']],
+        layout: {
+          'text-field': ['get', 'title'],
+          'text-font': ['DIN Offc Pro Medium', 'Arial Unicode MS Bold'],
+          'text-size': 12,
+          'text-offset': [0, 1.5],
+          'text-anchor': 'top'
+        },
+        paint: {
+          'text-color': '#333333',
+          'text-halo-color': '#ffffff',
+          'text-halo-width': 2
         }
       });
 

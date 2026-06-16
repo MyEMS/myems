@@ -81,7 +81,8 @@ const Dashboard = ({setRedirect, setRedirectUrl, t}) => {
         timestamps: [],
         values: []
     });
-
+    const [rootLatitude, setRootLatitude] = useState(null);
+    const [rootLongitude, setRootLongitude] = useState(null);
     const [topStores, setTopStores] = useState([]);
     const [allStores, setAllStores] = useState([]);
     const [dailyTrends, setDailyTrends] = useState({
@@ -158,29 +159,53 @@ const Dashboard = ({setRedirect, setRedirectUrl, t}) => {
 
             // Process map data - convert stores to GeoJSON format
             if (json.stores && json.stores.length > 0) {
+                console.log('Raw stores data:', json.stores);
+                
                 const features = json.stores
-                    .filter(store => store.latitude !== null && store.longitude !== null)
-                    .map(store => ({
-                        type: 'Feature',
-                        geometry: {
-                            type: 'Point',
-                            coordinates: [store.longitude, store.latitude]
-                        },
-                        properties: {
-                            id: store.id,
-                            title: store.name,
-                            description: store.address || '',
-                            url: '/app/store'
+                    .filter(store => {
+                        const hasCoords = store.latitude !== null && store.longitude !== null && 
+                                         store.latitude !== undefined && store.longitude !== undefined;
+                        if (!hasCoords) {
+                            console.warn(`Store "${store.name}" missing coordinates:`, {
+                                latitude: store.latitude,
+                                longitude: store.longitude
+                            });
                         }
-                    }));
+                        return hasCoords;
+                    })
+                    .map((store, index) => {
+                        const feature = {
+                            type: 'Feature',
+                            geometry: {
+                                type: 'Point',
+                                coordinates: [parseFloat(store.longitude), parseFloat(store.latitude)]
+                            },
+                            properties: {
+                                id: store.id,
+                                uuid: store.uuid || `store_${store.id}`,
+                                title: store.name,
+                                description: store.address || '',
+                                url: '/app/store'
+                            }
+                        };
+                        console.log(`Feature ${index}:`, feature);
+                        return feature;
+                    });
                 
                 console.log('Map data processed:', {
                     totalStores: json.stores.length,
                     storesWithCoordinates: features.length,
-                    sampleData: features.slice(0, 2)
+                    firstFeature: features[0],
+                    allFeatures: features
                 });
                 
                 setMapGeojson(features.length > 0 ? features : null);
+                
+                if (features.length > 0) {
+                    const firstCoord = features[0].geometry.coordinates;
+                    setRootLongitude(firstCoord[0]);
+                    setRootLatitude(firstCoord[1]);
+                }
             } else {
                 console.log('No stores data received');
                 setMapGeojson(null);
@@ -516,8 +541,8 @@ const Dashboard = ({setRedirect, setRedirectUrl, t}) => {
                                 </h5>
                                 <div style={{height: '400px'}}>
                                     <CustomizeMapBox
-                                        Latitude={null}
-                                        Longitude={null}
+                                        Latitude={rootLatitude || 39.9042}
+                                        Longitude={rootLongitude || 116.4074}
                                         Zoom={10}
                                         Geojson={mapGeojson}
                                     />
@@ -572,12 +597,6 @@ const Dashboard = ({setRedirect, setRedirectUrl, t}) => {
                                                 icon={sortConfig.key === 'address' ? (sortConfig.direction === 'asc' ? faSortUp : faSortDown) : faSort}
                                                 className="ml-1"
                                             />
-                                        </th>
-                                        <th className="text-right">
-                                            {t('Latitude')}
-                                        </th>
-                                        <th className="text-right">
-                                            {t('Longitude')}
                                         </th>
                                         <th
                                             className="text-right"
@@ -637,8 +656,6 @@ const Dashboard = ({setRedirect, setRedirectUrl, t}) => {
                                                         <strong>{store.name}</strong>
                                                     </td>
                                                     <td className="text-muted">{store.address || '-'}</td>
-                                                    <td className="text-right">{store.latitude !== null && store.latitude !== undefined ? store.latitude.toFixed(6) : '-'}</td>
-                                                    <td className="text-right">{store.longitude !== null && store.longitude !== undefined ? store.longitude.toFixed(6) : '-'}</td>
                                                     <td className="text-right">{store.area ? store.area.toFixed(2) : '-'}</td>
                                                     {energyData.energy_category_ids && energyData.energy_category_ids.map((ecId, index) => {
                                                         const categoryEnergy = store.energy_by_category && store.energy_by_category[ecId]

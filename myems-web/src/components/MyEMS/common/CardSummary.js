@@ -146,7 +146,7 @@ const CardSummary = ({
 
 CardSummary.propTypes = {
   title: PropTypes.string.isRequired,
-  rate: PropTypes.string.isRequired,
+  rate: PropTypes.string,
   color: PropTypes.string,
   children: PropTypes.node,
   footnote: PropTypes.string,
