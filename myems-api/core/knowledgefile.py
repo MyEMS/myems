@@ -157,8 +157,6 @@ class KnowledgeFileCollection:
             if config.utc_offset[0] == '-':
                 timezone_offset = -timezone_offset
             for row in rows_system:
-                # Base64 encode the bytes
-                # get the Base64 encoded data using human-readable characters.
                 meta_result = {"id": row[0],
                                "file_name": row[1],
                                "uuid": row[2],
@@ -187,14 +185,12 @@ class KnowledgeFileCollection:
         admin_control(req)
         try:
             upload = req.get_param('file')
-            # Validate file extension
             allowed_extensions = ('.pdf', '.doc', '.docx', '.xls', '.xlsx', '.txt', '.csv', '.md', '.ppt', '.pptx')
             filename = upload.filename
             if not any(filename.lower().endswith(ext) for ext in allowed_extensions):
                 raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                        description='API.UNSUPPORTED_FILE_TYPE')
 
-            # Validate MIME type
             content_type = upload.content_type or ''
             allowed_mime_types = ('application/pdf',
                                   'application/msword',
@@ -205,12 +201,10 @@ class KnowledgeFileCollection:
                                   'application/vnd.ms-powerpoint',
                                   'application/vnd.openxmlformats-officedocument.presentationml.presentation')
             if content_type and content_type not in allowed_mime_types:
-                # Allow if extension matches but MIME is missing/generic (some browsers)
                 if not any(filename.lower().endswith(ext) for ext in ('.pdf', '.doc', '.docx', '.xls', '.xlsx', '.txt', '.csv', '.md', '.ppt', '.pptx')):
                     raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                            description='API.INVALID_MIME_TYPE')
 
-            # Read upload file as binary
             raw_blob = upload.file.read()
             file_uuid = str(uuid.uuid4())
 

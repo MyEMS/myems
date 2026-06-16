@@ -11,7 +11,6 @@ import { APIBaseURL, settings } from '../../../config';
 const KnowledgeBase = ({ setRedirect, setRedirectUrl, t }) => {
   const [fetchSuccess, setFetchSuccess] = useState(false);
 
-  //Results
   const [reports, setReports] = useState([]);
 
   const [spinnerHidden, setSpinnerHidden] = useState(false);
@@ -28,7 +27,6 @@ const KnowledgeBase = ({ setRedirect, setRedirectUrl, t }) => {
       setRedirectUrl(`/authentication/basic/login`);
       setRedirect(true);
     } else {
-      //update expires time of cookies
       createCookie('is_logged_in', true, settings.cookieExpireTime);
       createCookie('user_name', user_name, settings.cookieExpireTime);
       createCookie('user_display_name', user_display_name, settings.cookieExpireTime);
@@ -111,10 +109,8 @@ const KnowledgeBase = ({ setRedirect, setRedirectUrl, t }) => {
         </CardBody>
       </Card>
 
-      {/* Info Section */}
       <Row className="mt-4">
         <Col md={8}>
-          {/* About MyEMS */}
           <Card className="shadow">
             <CardHeader className="bg-primary text-white">
               <span className="fs--1">{t('ABOUT_MYEMS')}</span>
@@ -164,7 +160,6 @@ const KnowledgeBase = ({ setRedirect, setRedirectUrl, t }) => {
                   </a>
                 </div>
               </div>
-              {/* Collapsible more */}
               <a href="#" onClick={e => { e.preventDefault(); setIsAboutCollapsed(!isAboutCollapsed); }} className="text-primary fs--1">
                 {isAboutCollapsed ? t('HIDE_MORE') : t('CLICK_TO_EXPAND_FOR_MORE_DESCRIPTION')}
               </a>
@@ -177,7 +172,6 @@ const KnowledgeBase = ({ setRedirect, setRedirectUrl, t }) => {
             </CardBody>
           </Card>
 
-          {/* Support & Community */}
           <Card className="shadow mt-3">
             <CardHeader className="bg-success text-white">
               <span className="fs--1">{t('SUPPORT_TITLE')}</span>
@@ -204,14 +198,12 @@ const KnowledgeBase = ({ setRedirect, setRedirectUrl, t }) => {
           </Card>
         </Col>
 
-        {/* QR Codes */}
         <Col md={4}>
           <Card className="shadow h-100">
             <CardHeader className="bg-primary text-white">
               <span className="fs--1">{t('SCAN_QR')}</span>
             </CardHeader>
             <CardBody className="text-center">
-              {/* WeChat Official Account */}
               <div className="mb-3">
                 <p className="text-muted mb-1" style={{ fontSize: '15px' }}>{t('WECHAT_MP')}</p>
                 <CardImg
@@ -227,7 +219,6 @@ const KnowledgeBase = ({ setRedirect, setRedirectUrl, t }) => {
 
               <hr />
 
-              {/* WeChat */}
               <div className="mb-3">
                 <p className="text-muted mb-1" style={{ fontSize: '15px' }}>{t('WECHAT')}</p>
                 <CardImg
@@ -241,7 +232,6 @@ const KnowledgeBase = ({ setRedirect, setRedirectUrl, t }) => {
 
               <hr />
 
-              {/* Feishu */}
               <div className="mb-3">
                 <p className="text-muted mb-1" style={{ fontSize: '15px' }}>{t('LARK')}</p>
                 <CardImg
@@ -255,7 +245,6 @@ const KnowledgeBase = ({ setRedirect, setRedirectUrl, t }) => {
 
               <hr />
 
-              {/* Video Account */}
               <div>
                 <p className="text-muted" style={{ fontSize: '14px' }}>{t('VIDEO_ACCOUNT')}</p>
               </div>
