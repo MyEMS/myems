@@ -508,6 +508,8 @@ export default {
         'Old Password': 'رمز عبور قدیمی',
         'New Password': 'رمز عبور جدید',
         'Confirm Password': 'تکرار رمز عبور جدید',
+        'Hide password': 'پنهان کردن رمز عبور',
+        'Show password': 'نمایش رمز عبور',
         Back: 'بازگشت',
         'Update Password': 'به‌روزرسانی رمز عبور',
         'Password has been changed!': 'رمز عبور تغییر یافت!',

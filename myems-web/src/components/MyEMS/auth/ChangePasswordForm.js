@@ -93,6 +93,7 @@ const ChangePasswordForm = ({ setRedirect, setRedirectUrl, layout, t }) => {
           className="position-absolute bg-transparent border-0 px-3 text-500"
           onClick={() => togglePasswordVisibility(visibleKey)}
           type="button"
+          aria-label={t(passwordVisible[visibleKey] ? 'Hide password' : 'Show password')}
           style={{
             top: '50%',
             right: 0,

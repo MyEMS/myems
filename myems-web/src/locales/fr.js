@@ -532,6 +532,8 @@ export default {
         'Old Password': 'Vieux Mot de passe',
         'New Password': 'Nouveau Mot de passe',
         'Confirm Password': 'Confirmer Mot de passe',
+        'Hide password': 'Masquer le mot de passe',
+        'Show password': 'Afficher le mot de passe',
         Back: 'Retour',
         'Update Password': 'Mettre à jour Mot de passe',
         'Password has been changed!': 'Le mot de passe a été changé!',

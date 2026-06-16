@@ -543,6 +543,8 @@ export default {
         'Old Password': 'Old Password',
         'New Password': 'New Password',
         'Confirm Password': 'Confirm Password',
+        'Hide password': 'Hide password',
+        'Show password': 'Show password',
         Back: 'Back',
         'Update Password': 'Update Password',
         'Password has been changed!': 'Password has been changed!',
