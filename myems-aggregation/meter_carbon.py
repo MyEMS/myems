@@ -27,7 +27,7 @@ from decimal import Decimal
 
 import mysql.connector
 
-import carbon_dioxide_emmision_factor
+import carbon_dioxide_emission_factor
 import config
 
 
@@ -242,7 +242,7 @@ def main(logger):
             factor_dict = dict()
             # Retrieve carbon dioxide emission factor for the meter's energy category
             factor_dict[meter['energy_category_id']] = \
-                carbon_dioxide_emmision_factor.get_energy_category_factor(
+                carbon_dioxide_emission_factor.get_energy_category_factor(
                     meter['energy_category_id'],
                     start_datetime_utc,
                     end_datetime_utc)
