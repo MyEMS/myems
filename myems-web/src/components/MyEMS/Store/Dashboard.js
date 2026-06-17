@@ -102,6 +102,10 @@ const Dashboard = ({setRedirect, setRedirectUrl, t}) => {
     // Map data
     const [mapGeojson, setMapGeojson] = useState(null);
 
+    const [mapDataReady, setMapDataReady] = useState(false);
+
+    const [mapKey, setMapKey] = useState(0);
+
     // Sorting state
     const [sortConfig, setSortConfig] = useState({
         key: null,
@@ -126,6 +130,8 @@ const Dashboard = ({setRedirect, setRedirectUrl, t}) => {
 
         try {
             setLoading(true);
+
+            setMapDataReady(false);
 
             const params = new URLSearchParams({
                 useruuid: user_uuid,
@@ -159,11 +165,11 @@ const Dashboard = ({setRedirect, setRedirectUrl, t}) => {
 
             // Process map data - convert stores to GeoJSON format
             if (json.stores && json.stores.length > 0) {
-                
+
                 const features = json.stores
                     .filter(store => {
-                        const hasCoords = store.latitude !== null && store.longitude !== null && 
-                                         store.latitude !== undefined && store.longitude !== undefined;
+                        const hasCoords = store.latitude !== null && store.longitude !== null &&
+                            store.latitude !== undefined && store.longitude !== undefined;
                         if (!hasCoords) {
                             console.warn(`Store "${store.name}" missing coordinates:`, {
                                 latitude: store.latitude,
@@ -190,16 +196,24 @@ const Dashboard = ({setRedirect, setRedirectUrl, t}) => {
                         return feature;
                     });
 
-                
-                setMapGeojson(features.length > 0 ? features : null);
-                
+                // 更新地图数据
                 if (features.length > 0) {
+                    setMapGeojson(features);
+
+                    setMapKey(prev => prev + 1);
+
+                    setMapDataReady(true);
+
                     const firstCoord = features[0].geometry.coordinates;
                     setRootLongitude(firstCoord[0]);
                     setRootLatitude(firstCoord[1]);
+                } else {
+                    setMapGeojson(null);
+                    setMapDataReady(true);
                 }
             } else {
                 setMapGeojson(null);
+                setMapDataReady(true);
             }
 
             // Process daily trends
@@ -273,6 +287,7 @@ const Dashboard = ({setRedirect, setRedirectUrl, t}) => {
             console.error('Error fetching dashboard data:', error);
             toast.error(t('Failed to load dashboard data'));
             setLoading(false);
+            setMapDataReady(true);
         }
     }, [periodType, basePeriodStart, basePeriodEnd, reportingPeriodStart, reportingPeriodEnd, setRedirect, setRedirectUrl, t]);
 
@@ -521,37 +536,40 @@ const Dashboard = ({setRedirect, setRedirectUrl, t}) => {
                 />
             </div>
 
-            {/* Store Map Card */}
-            {settings.showOnlineMap && mapGeojson && mapGeojson.length > 0 ? (
-                <Row>
-                    <Col>
-                        <Card className="mb-3">
-                            <CardBody>
-                               <div style={{height: '400px'}}>
-                                    <CustomizeMapBox
-                                        Latitude={rootLatitude || 39.9042}
-                                        Longitude={rootLongitude || 116.4074}
-                                        Zoom={10}
-                                        Geojson={mapGeojson}
-                                    />
-                                </div>
-                            </CardBody>
-                        </Card>
-                    </Col>
-                </Row>
-            ) : settings.showOnlineMap && (!mapGeojson || mapGeojson.length === 0) ? (
-                <Row>
-                    <Col>
-                        <Card className="mb-3">
-                            <CardBody>
-                                <div className="text-center text-muted py-5">
-                                    <p>{t('No store location data available')}</p>
-                                    <small>Please ensure stores have latitude and longitude set in the database</small>
-                                </div>
-                            </CardBody>
-                        </Card>
-                    </Col>
-                </Row>
+            {/* Store Map Card  */}
+            {settings.showOnlineMap && mapDataReady ? (
+                mapGeojson && mapGeojson.length > 0 ? (
+                    <Row>
+                        <Col>
+                            <Card className="mb-3">
+                                <CardBody>
+                                    <div style={{height: '400px'}}>
+                                        <CustomizeMapBox
+                                            key={`map-${mapKey}`}
+                                            Latitude={rootLatitude || 39.9042}
+                                            Longitude={rootLongitude || 116.4074}
+                                            Zoom={10}
+                                            Geojson={mapGeojson}
+                                        />
+                                    </div>
+                                </CardBody>
+                            </Card>
+                        </Col>
+                    </Row>
+                ) : (
+                    <Row>
+                        <Col>
+                            <Card className="mb-3">
+                                <CardBody>
+                                    <div className="text-center text-muted py-5">
+                                        <p>{t('No store location data available')}</p>
+                                        <small>Please ensure stores have latitude and longitude set in the database</small>
+                                    </div>
+                                </CardBody>
+                            </Card>
+                        </Col>
+                    </Row>
+                )
             ) : null}
 
             {/* Store List Table */}
@@ -657,14 +675,14 @@ const Dashboard = ({setRedirect, setRedirectUrl, t}) => {
                                                         );
                                                     })}
                                                     <td className="text-right">
-                                                      {store.total_cost !== null && store.total_cost !== undefined && store.total_cost > 0
-                                                          ? store.total_cost.toFixed(2)
-                                                          : '-'}
+                                                        {store.total_cost !== null && store.total_cost !== undefined && store.total_cost > 0
+                                                            ? store.total_cost.toFixed(2)
+                                                            : '-'}
                                                     </td>
                                                     <td className="text-right">
-                                                      {store.total_carbon !== null && store.total_carbon !== undefined && store.total_carbon > 0
-                                                          ? store.total_carbon.toFixed(2)
-                                                          : '-'}
+                                                        {store.total_carbon !== null && store.total_carbon !== undefined && store.total_carbon > 0
+                                                            ? store.total_carbon.toFixed(2)
+                                                            : '-'}
                                                     </td>
                                                 </tr>
                                             );
