@@ -23,7 +23,7 @@ from decimal import Decimal
 
 import mysql.connector
 
-import carbon_dioxide_emmision_factor
+import carbon_dioxide_emission_factor
 import config
 
 
@@ -233,7 +233,7 @@ def main(logger):
             factor_dict = dict()
             for energy_category_id in energy_category_list:
                 factor_dict[energy_category_id] = \
-                    carbon_dioxide_emmision_factor.get_energy_category_factor(
+                    carbon_dioxide_emission_factor.get_energy_category_factor(
                         energy_category_id,
                         start_datetime_utc,
                         end_datetime_utc)
