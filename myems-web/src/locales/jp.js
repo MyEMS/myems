@@ -49,7 +49,7 @@ export default {
         XIAOHONGSHU: '小紅書',
         HIDE_MORE: '閉じる',
         CLICK_TO_EXPAND_FOR_MORE_DESCRIPTION: 'クリックして詳細を表示',
-        ABOUT_MORE: 'MyEMS オープンソースエネルギー管理システムは、工場、商業ビル、産業団地、産業生産のエネルギー消費の全面的な収集、監視、分析に適しています。',
+        ABOUT_MORE: 'オープンソースのエネルギー管理システムMyEMSは、工場、商業ビル、工業団地、工業生産のエネルギー消費の包括的な収集、監視、分析に適しています。',
         'Energy Category Data': 'エネルギー分類分析',
         'Energy Item Data': 'エネルギー項目分析',
         Carbon: '炭素排出分析',

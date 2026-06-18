@@ -49,7 +49,7 @@ export default {
         XIAOHONGSHU: 'Xiaohongshu',
         HIDE_MORE: 'Hide More',
         CLICK_TO_EXPAND_FOR_MORE_DESCRIPTION: 'Click to expand for more description',
-        ABOUT_MORE: 'More content will be added here for extended description.',
+        ABOUT_MORE: 'MyEMS open-source energy management system is suitable for comprehensive collection, monitoring, and analysis of energy consumption in factories, commercial buildings, industrial parks, and industrial production.',
         'Energy Category Data': 'Energy Category',
         'Energy Item Data': 'Energy Item',
         Carbon: 'CO2 Emissions',

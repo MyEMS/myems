@@ -49,7 +49,7 @@ export default {
         XIAOHONGSHU: '샤오홍슈',
         HIDE_MORE: '축소',
         CLICK_TO_EXPAND_FOR_MORE_DESCRIPTION: '자세한 설명을 보려면 클릭하세요',
-        ABOUT_MORE: 'MyEMS 오픈 소스 에너지 관리 시스템은 공장, 상업 건물, 산업 단지 및 산업 생산의 종합적인 에너지 소비 수집, 모니터링 및 분석에 적합합니다.',
+        ABOUT_MORE: '오픈 소스 에너지 관리 시스템 MyEMS는 공장, 상업 건물, 산업 단지, 산업 생산의 에너지 소비에 대한 종합적인 수집, 모니터링 및 분석에 적합합니다.',
         'Energy Category Data': '에너지 분류 분석',
         'Energy Item Data': '에너지 항목 분석',
         Carbon: '탄소 배출 분석',

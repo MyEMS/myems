@@ -49,7 +49,7 @@ export default {
         XIAOHONGSHU: 'Xiaohongshu',
         HIDE_MORE: 'Réduire',
         CLICK_TO_EXPAND_FOR_MORE_DESCRIPTION: 'Cliquez pour développer la description',
-        ABOUT_MORE: "Le système de gestion énergétique open source MyEMS convient à la collecte, à la surveillance et à l'analyse complètes de la consommation d'énergie dans les usines, les bâtiments commerciaux, les parcs industriels et la production industrielle.",
+        ABOUT_MORE: "Le système de gestion énergétique open source MyEMS est adapté à la collecte, à la surveillance et à l'analyse complètes de la consommation d'énergie dans les usines, les bâtiments commerciaux, les parcs industriels et la production industrielle.",
         'Energy Category Data': 'Catégorie d’énergie',
         'Energy Item Data': 'Élément d’énergie',
         Carbon: 'Émissions de CO2',

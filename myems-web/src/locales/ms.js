@@ -49,7 +49,7 @@ export default {
         XIAOHONGSHU: 'Xiaohongshu',
         HIDE_MORE: 'Tutup',
         CLICK_TO_EXPAND_FOR_MORE_DESCRIPTION: 'Klik untuk mengembangkan keterangan',
-        ABOUT_MORE: 'Sistem pengurusan tenaga sumber terbuka MyEMS sesuai untuk pengumpulan, pemantauan dan analisis penggunaan tenaga yang menyeluruh di kilang, bangunan komersial, taman industri dan pengeluaran industri.',
+        ABOUT_MORE: 'Sistem pengurusan tenaga sumber terbuka MyEMS sesuai untuk pengumpulan, pemantauan, dan analisis menyeluruh penggunaan tenaga di kilang, bangunan komersial, taman perindustrian, dan pengeluaran perindustrian.',
         'Energy Category Data': 'Kategori Tenaga',
         'Energy Item Data': 'Barangan Tenaga',
         Carbon: 'Emisi CO2',

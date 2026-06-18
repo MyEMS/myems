@@ -49,7 +49,7 @@ export default {
         XIAOHONGSHU: 'Xiaohongshu',
         HIDE_MORE: 'Daralt',
         CLICK_TO_EXPAND_FOR_MORE_DESCRIPTION: 'Daha fazla açıklama için tıklayın',
-        ABOUT_MORE: 'MyEMS açık kaynak enerji yönetim sistemi, fabrikalar, ticari binalar, sanayi parkları ve endüstriyel üretimdeki enerji tüketiminin kapsamlı olarak toplanması, izlenmesi ve analiz edilmesi için uygundur.',
+        ABOUT_MORE: 'Açık kaynak enerji yönetim sistemi MyEMS, fabrikalar, ticari binalar, endüstri parkları ve endüstriyel üretimde kapsamlı enerji tüketimi toplama, izleme ve analiz için uygundur.',
         'Energy Category Data': 'Enerji Kategorisi',
         'Energy Item Data': 'Enerji Öğesi',
         Carbon: 'CO2 Emisyonları',

@@ -13,7 +13,6 @@ const KnowledgeBase = ({ setRedirect, setRedirectUrl, t, i18n }) => {
   const [fetchSuccess, setFetchSuccess] = useState(false);
   const [reports, setReports] = useState([]);
   const [spinnerHidden, setSpinnerHidden] = useState(false);
-  const [isAboutCollapsed, setIsAboutCollapsed] = useState(false);
 
   const isChinese = (lng) => {
     const l = lng.toLowerCase().replace('-', '_');
@@ -114,7 +113,7 @@ const KnowledgeBase = ({ setRedirect, setRedirectUrl, t, i18n }) => {
         </CardBody>
       </Card>
 
-      <Row className="mt-4">
+      <Row className="mt-4 align-items-stretch">
         <Col md={isChinese(lng) ? 8 : 12}>
           <Card className="shadow">
             <CardHeader className="bg-primary text-white">
@@ -196,131 +195,87 @@ const KnowledgeBase = ({ setRedirect, setRedirectUrl, t, i18n }) => {
                   </>
                 )}
               </div>
-              <a href="#" onClick={e => { e.preventDefault(); setIsAboutCollapsed(!isAboutCollapsed); }} className="text-primary fs--1">
-                {isAboutCollapsed ? t('HIDE_MORE') : t('CLICK_TO_EXPAND_FOR_MORE_DESCRIPTION')}
-              </a>
-              {isAboutCollapsed && (
-                <>
-                  <hr />
-                  <CardText className="mb-3">{t('ABOUT_MORE')}</CardText>
-                </>
-              )}
+              <hr />
+              <CardText className="mb-0">{t('ABOUT_MORE')}</CardText>
             </CardBody>
           </Card>
 
+          {isChinese(lng) && (
           <Card className="shadow mt-3">
             <CardHeader className="bg-success text-white">
               <span className="fs--1">{t('SUPPORT_TITLE')}</span>
             </CardHeader>
             <CardBody>
-              {isChinese(lng) ? (
-                <>
-                  <CardText className="mb-1">{t('COMMUNITY_FREE')}</CardText>
-                  <ul className="mb-2">
-                    <li dangerouslySetInnerHTML={createMarkup(t('QQ_GROUP'))} />
-                    <li>{t('WECHAT_GROUP')}</li>
-                  </ul>
-                  <hr />
-                  <div className="d-flex align-items-center mb-2">
-                    <span className="badge" style={{ backgroundColor: 'rgb(22, 185, 152)', color: '#fff', marginRight: '8px' }}>{t('PLANET_BADGE')}</span>
-                    <strong className="fs--1">{t('PLANET_TITLE')}</strong>
-                  </div>
-                  <ul className="mb-2">
-                    <li>{t('PLANET_DESC_1')}</li>
-                    <li>{t('PLANET_DESC_2')}</li>
-                  </ul>
-                  <a href="https://t.zsxq.com/blbKD" target="_blank" rel="noopener noreferrer" className="btn btn-sm" style={{ backgroundColor: 'rgb(22, 185, 152)', borderColor: 'rgb(22, 185, 152)', color: '#fff' }}>
-                    {t('JOIN_NOW')} &rarr;
-                  </a>
-                </>
-              ) : (
-                <>
-                  <CardText className="mb-1">{t('COMMUNITY_FREE_EN')}</CardText>
-                  <ul className="mb-2">
-                    <li>
-                      <strong>YouTube:</strong>{' '}
-                      <a href="https://www.youtube.com/@myems" target="_blank" rel="noopener noreferrer" className="text-success">
-                        www.youtube.com/@myems
-                      </a>
-                    </li>
-                    <li>
-                      <strong>WordPress:</strong>{' '}
-                      <a href="https://myems8.wordpress.com/" target="_blank" rel="noopener noreferrer" className="text-success">
-                        myems8.wordpress.com
-                      </a>
-                    </li>
-                    <li>
-                      <strong>Medium:</strong>{' '}
-                      <a href="https://medium.com/@myems" target="_blank" rel="noopener noreferrer" className="text-success">
-                        medium.com/@myems
-                      </a>
-                    </li>
-                  </ul>
-                </>
-              )}
+              <CardText className="mb-1">{t('COMMUNITY_FREE')}</CardText>
+              <ul className="mb-2">
+                <li dangerouslySetInnerHTML={createMarkup(t('QQ_GROUP'))} />
+                <li>{t('WECHAT_GROUP')}</li>
+              </ul>
+              <hr />
+              <div className="d-flex align-items-center mb-2">
+                <span className="badge" style={{ backgroundColor: 'rgb(22, 185, 152)', color: '#fff', marginRight: '8px' }}>{t('PLANET_BADGE')}</span>
+                <strong className="fs--1">{t('PLANET_TITLE')}</strong>
+              </div>
+              <ul className="mb-2">
+                <li>{t('PLANET_DESC_1')}</li>
+                <li>{t('PLANET_DESC_2')}</li>
+              </ul>
+              <a href="https://t.zsxq.com/blbKD" target="_blank" rel="noopener noreferrer" className="btn btn-sm" style={{ backgroundColor: 'rgb(22, 185, 152)', borderColor: 'rgb(22, 185, 152)', color: '#fff' }}>
+                {t('JOIN_NOW')} &rarr;
+              </a>
             </CardBody>
           </Card>
+          )}
         </Col>
 
         {isChinese(lng) && (
-        <Col md={4}>
-          <Card className="shadow">
+        <Col md={4} className="d-flex">
+          <Card className="shadow flex-grow-1">
             <CardHeader className="bg-primary text-white">
               <span className="fs--1">{t('SCAN_QR')}</span>
             </CardHeader>
-            <CardBody className="text-center">
-              <div className="mb-3">
-                <p className="text-muted mb-1" style={{ fontSize: '15px' }}>{t('WECHAT_MP')}</p>
-                <CardImg
-                  src={require('../../../assets/img/qrcode/qr_code_mp_weixin.png')}
-                  className="img-thumbnail"
-                  style={{ width: 128, height: 128 }}
-                  alt={t('WECHAT_MP')}
-                />
-                <p className="mt-1 mb-0" style={{ fontSize: '13px', color: '#6c757d' }}>
-                  {t('WECHAT_MP_DESC')}
-                </p>
-              </div>
+            <CardBody className="text-center d-flex flex-column justify-content-around">
+              <Row className="mb-3">
+                <Col xs={6} className="text-center">
+                  <p className="text-muted mb-1" style={{ fontSize: '15px' }}>{t('WECHAT_MP')}</p>
+                  <CardImg
+                    src={require('../../../assets/img/qrcode/qr_code_mp_weixin.png')}
+                    className="img-thumbnail"
+                    style={{ width: 110, height: 110 }}
+                    alt={t('WECHAT_MP')}
+                  />
+                </Col>
+                <Col xs={6} className="text-center">
+                  <p className="text-muted mb-1" style={{ fontSize: '15px' }}>{t('WECHAT_GROUP_QR')}</p>
+                  <CardImg
+                    src={require('../../../assets/img/qrcode/qr_code_wechat_group.png')}
+                    className="img-thumbnail"
+                    style={{ width: 110, height: 110 }}
+                    alt={t('WECHAT_GROUP_QR')}
+                  />
+                </Col>
+              </Row>
 
-              <hr />
-
-              <div className="mb-3">
-                <p className="text-muted mb-1" style={{ fontSize: '15px' }}>{t('WECHAT_GROUP_QR')}</p>
-                <CardImg
-                  src={require('../../../assets/img/qrcode/qr_code_wechat_group.png')}
-                  className="img-thumbnail"
-                  style={{ width: 128, height: 128 }}
-                  alt={t('WECHAT_GROUP_QR')}
-                />
-              </div>
-
-              <hr />
-
-              <div className="mb-3">
-                <p className="text-muted mb-1" style={{ fontSize: '15px' }}>{t('WECHAT')}</p>
-                <CardImg
-                  src={require('../../../assets/img/qrcode/qr_code_wechat.png')}
-                  className="img-thumbnail"
-                  style={{ width: 128, height: 128 }}
-                  alt={t('WECHAT')}
-                />
-                <p className="mt-1 mb-0" style={{ fontSize: '13px', color: '#6c757d' }}>13011132526</p>
-              </div>
-
-              <hr />
-
-              <div className="mb-3">
-                <p className="text-muted mb-1" style={{ fontSize: '15px' }}>{t('LARK')}</p>
-                <CardImg
-                  src={require('../../../assets/img/qrcode/qr_code_feishu.png')}
-                  className="img-thumbnail"
-                  style={{ width: 128, height: 128 }}
-                  alt={t('LARK')}
-                />
-                <p className="mt-1 mb-0" style={{ fontSize: '13px', color: '#6c757d' }}>13011132526</p>
-              </div>
-
-              <hr />
+              <Row className="mb-3">
+                <Col xs={6} className="text-center">
+                  <p className="text-muted mb-1" style={{ fontSize: '15px' }}>{t('WECHAT')}</p>
+                  <CardImg
+                    src={require('../../../assets/img/qrcode/qr_code_wechat.png')}
+                    className="img-thumbnail"
+                    style={{ width: 110, height: 110 }}
+                    alt={t('WECHAT')}
+                  />
+                </Col>
+                <Col xs={6} className="text-center">
+                  <p className="text-muted mb-1" style={{ fontSize: '15px' }}>{t('LARK')}</p>
+                  <CardImg
+                    src={require('../../../assets/img/qrcode/qr_code_feishu.png')}
+                    className="img-thumbnail"
+                    style={{ width: 110, height: 110 }}
+                    alt={t('LARK')}
+                  />
+                </Col>
+              </Row>
 
               <Row>
                 <Col xs={6} className="text-center">

@@ -49,7 +49,7 @@ export default {
         XIAOHONGSHU: 'Xiaohongshu',
         HIDE_MORE: 'Contraer',
         CLICK_TO_EXPAND_FOR_MORE_DESCRIPTION: 'Haga clic para ampliar la descripción',
-        ABOUT_MORE: 'El sistema de gestión energética de código abierto MyEMS es adecuado para la recopilación, monitoreo y análisis completos del consumo energético en fábricas, edificios comerciales, parques industriales y producción industrial.',
+        ABOUT_MORE: 'El sistema de gestión energética de código abierto MyEMS es adecuado para la recopilación, supervisión y análisis integral del consumo de energía en fábricas, edificios comerciales, parques industriales y producción industrial.',
         'Energy Category Data': 'Categoría de energía',
         'Energy Item Data': 'Artículo de energía',
         Carbon: 'Emisiones de CO2',

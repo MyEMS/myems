@@ -49,7 +49,7 @@ export default {
         XIAOHONGSHU: 'Xiaohongshu',
         HIDE_MORE: 'Thu gọn',
         CLICK_TO_EXPAND_FOR_MORE_DESCRIPTION: 'Nhấp để mở rộng mô tả',
-        ABOUT_MORE: 'Hệ thống quản lý năng lượng mã nguồn mở MyEMS phù hợp cho việc thu thập, giám sát và phân tích toàn diện mức tiêu thụ năng lượng trong nhà máy, tòa nhà thương mại, khu công nghiệp và sản xuất công nghiệp.',
+        ABOUT_MORE: 'He thong quan ly nang luong ma nguon mo MyEMS phu hop voi viec thu thap, giam sat va phan tich toan dien tieu thu nang luong trong nha may, nha thuong mai, khu cong nghiep va san xuat cong nghiep.',
         'Energy Category Data': 'Danh mục năng lượng',
         'Energy Item Data': 'Mục năng lượng',
         Carbon: 'Khí thải CO2',

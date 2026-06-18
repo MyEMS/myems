@@ -49,7 +49,7 @@ export default {
         XIAOHONGSHU: 'Xiaohongshu',
         HIDE_MORE: 'Inklappen',
         CLICK_TO_EXPAND_FOR_MORE_DESCRIPTION: 'Klik om meer beschrijving uit te vouwen',
-        ABOUT_MORE: 'Het open-source energiebeheersysteem MyEMS is geschikt voor de uitgebreide verzameling, monitoring en analyse van het energieverbruik in fabrieken, commerciële gebouwen, industrieparken en industriële productie.',
+        ABOUT_MORE: 'Het open-source energiebeheersysteem MyEMS is geschikt voor uitgebreide verzameling, bewaking en analyse van energieverbruik in fabrieken, commerciële gebouwen, industrieparken en industriële productie.',
         'Energy Category Data': 'Energiecategorie-analyse',
         'Energy Item Data': 'Energieonderdeel-analyse',
         Carbon: 'CO2-uitstootanalyse',
