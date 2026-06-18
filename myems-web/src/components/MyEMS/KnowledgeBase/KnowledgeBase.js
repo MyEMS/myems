@@ -9,13 +9,16 @@ import withRedirect from '../../../hoc/withRedirect';
 import { withTranslation } from 'react-i18next';
 import { APIBaseURL, settings } from '../../../config';
 
-const KnowledgeBase = ({ setRedirect, setRedirectUrl, t }) => {
+const KnowledgeBase = ({ setRedirect, setRedirectUrl, t, i18n }) => {
   const [fetchSuccess, setFetchSuccess] = useState(false);
   const [reports, setReports] = useState([]);
   const [spinnerHidden, setSpinnerHidden] = useState(false);
   const [isAboutCollapsed, setIsAboutCollapsed] = useState(false);
 
-  const isChinese = (lng) => ['zh_CN', 'zh_TW', 'zh'].includes(lng);
+  const isChinese = (lng) => {
+    const l = lng.toLowerCase().replace('-', '_');
+    return l.startsWith('zh');
+  };
 
   useEffect(() => {
     let is_logged_in = getCookieValue('is_logged_in');
@@ -85,7 +88,7 @@ const KnowledgeBase = ({ setRedirect, setRedirectUrl, t }) => {
     }
   }, []);
 
-  const lng = localStorage.getItem('i18nextLng') || 'en';
+  const lng = i18n.language;
 
   return (
     <div className="wrapper-content">
