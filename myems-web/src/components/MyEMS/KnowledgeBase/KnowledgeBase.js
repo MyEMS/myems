@@ -264,7 +264,7 @@ const KnowledgeBase = ({ setRedirect, setRedirectUrl, t, i18n }) => {
 
         {isChinese(lng) && (
         <Col md={4}>
-          <Card className="shadow h-100">
+          <Card className="shadow">
             <CardHeader className="bg-primary text-white">
               <span className="fs--1">{t('SCAN_QR')}</span>
             </CardHeader>
@@ -322,9 +322,26 @@ const KnowledgeBase = ({ setRedirect, setRedirectUrl, t, i18n }) => {
 
               <hr />
 
-              <div>
-                <p className="text-muted" style={{ fontSize: '14px' }}>{t('VIDEO_ACCOUNT')}</p>
-              </div>
+              <Row>
+                <Col xs={6} className="text-center">
+                  <p className="text-muted mb-1" style={{ fontSize: '15px' }}>{t('VIDEO_ACCOUNT')}</p>
+                  <CardImg
+                    src={require('../../../assets/img/qrcode/qr_code_wechat_channels.png')}
+                    className="img-thumbnail"
+                    style={{ width: 110, height: 110 }}
+                    alt={t('VIDEO_ACCOUNT')}
+                  />
+                </Col>
+                <Col xs={6} className="text-center">
+                  <p className="text-muted mb-1" style={{ fontSize: '15px' }}>{t('XIAOHONGSHU')}</p>
+                  <CardImg
+                    src={require('../../../assets/img/qrcode/qr_code_xiaohongshu.png')}
+                    className="img-thumbnail"
+                    style={{ width: 110, height: 110 }}
+                    alt={t('XIAOHONGSHU')}
+                  />
+                </Col>
+              </Row>
             </CardBody>
           </Card>
         </Col>
