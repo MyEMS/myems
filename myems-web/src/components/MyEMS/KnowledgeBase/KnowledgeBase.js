@@ -115,7 +115,7 @@ const KnowledgeBase = ({ setRedirect, setRedirectUrl, t, i18n }) => {
       </Card>
 
       <Row className="mt-4">
-        <Col md={8}>
+        <Col md={isChinese(lng) ? 8 : 12}>
           <Card className="shadow">
             <CardHeader className="bg-primary text-white">
               <span className="fs--1">{t('ABOUT_MYEMS')}</span>
@@ -262,102 +262,73 @@ const KnowledgeBase = ({ setRedirect, setRedirectUrl, t, i18n }) => {
           </Card>
         </Col>
 
+        {isChinese(lng) && (
         <Col md={4}>
           <Card className="shadow h-100">
             <CardHeader className="bg-primary text-white">
               <span className="fs--1">{t('SCAN_QR')}</span>
             </CardHeader>
             <CardBody className="text-center">
-              {isChinese(lng) ? (
-                <>
-                  <div className="mb-3">
-                    <p className="text-muted mb-1" style={{ fontSize: '15px' }}>{t('WECHAT_MP')}</p>
-                    <CardImg
-                      src={require('../../../assets/img/qrcode/qr_code_mp_weixin.png')}
-                      className="img-thumbnail"
-                      style={{ width: 128, height: 128 }}
-                      alt={t('WECHAT_MP')}
-                    />
-                    <p className="mt-1 mb-0" style={{ fontSize: '13px', color: '#6c757d' }}>
-                      {t('WECHAT_MP_DESC')}
-                    </p>
-                  </div>
+              <div className="mb-3">
+                <p className="text-muted mb-1" style={{ fontSize: '15px' }}>{t('WECHAT_MP')}</p>
+                <CardImg
+                  src={require('../../../assets/img/qrcode/qr_code_mp_weixin.png')}
+                  className="img-thumbnail"
+                  style={{ width: 128, height: 128 }}
+                  alt={t('WECHAT_MP')}
+                />
+                <p className="mt-1 mb-0" style={{ fontSize: '13px', color: '#6c757d' }}>
+                  {t('WECHAT_MP_DESC')}
+                </p>
+              </div>
 
-                  <hr />
+              <hr />
 
-                  <div className="mb-3">
-                    <p className="text-muted mb-1" style={{ fontSize: '15px' }}>{t('WECHAT_GROUP')}</p>
-                    <CardImg
-                      src={require('../../../assets/img/qrcode/qr_code_wechat_group.png')}
-                      className="img-thumbnail"
-                      style={{ width: 128, height: 128 }}
-                      alt={t('WECHAT_GROUP')}
-                    />
-                  </div>
+              <div className="mb-3">
+                <p className="text-muted mb-1" style={{ fontSize: '15px' }}>{t('WECHAT_GROUP_QR')}</p>
+                <CardImg
+                  src={require('../../../assets/img/qrcode/qr_code_wechat_group.png')}
+                  className="img-thumbnail"
+                  style={{ width: 128, height: 128 }}
+                  alt={t('WECHAT_GROUP_QR')}
+                />
+              </div>
 
-                  <hr />
+              <hr />
 
-                  <div className="mb-3">
-                    <p className="text-muted mb-1" style={{ fontSize: '15px' }}>{t('WECHAT')}</p>
-                    <CardImg
-                      src={require('../../../assets/img/qrcode/qr_code_wechat.png')}
-                      className="img-thumbnail"
-                      style={{ width: 128, height: 128 }}
-                      alt={t('WECHAT')}
-                    />
-                    <p className="mt-1 mb-0" style={{ fontSize: '13px', color: '#6c757d' }}>13011132526</p>
-                  </div>
+              <div className="mb-3">
+                <p className="text-muted mb-1" style={{ fontSize: '15px' }}>{t('WECHAT')}</p>
+                <CardImg
+                  src={require('../../../assets/img/qrcode/qr_code_wechat.png')}
+                  className="img-thumbnail"
+                  style={{ width: 128, height: 128 }}
+                  alt={t('WECHAT')}
+                />
+                <p className="mt-1 mb-0" style={{ fontSize: '13px', color: '#6c757d' }}>13011132526</p>
+              </div>
 
-                  <hr />
+              <hr />
 
-                  <div className="mb-3">
-                    <p className="text-muted mb-1" style={{ fontSize: '15px' }}>{t('LARK')}</p>
-                    <CardImg
-                      src={require('../../../assets/img/qrcode/qr_code_feishu.png')}
-                      className="img-thumbnail"
-                      style={{ width: 128, height: 128 }}
-                      alt={t('LARK')}
-                    />
-                    <p className="mt-1 mb-0" style={{ fontSize: '13px', color: '#6c757d' }}>13011132526</p>
-                  </div>
+              <div className="mb-3">
+                <p className="text-muted mb-1" style={{ fontSize: '15px' }}>{t('LARK')}</p>
+                <CardImg
+                  src={require('../../../assets/img/qrcode/qr_code_feishu.png')}
+                  className="img-thumbnail"
+                  style={{ width: 128, height: 128 }}
+                  alt={t('LARK')}
+                />
+                <p className="mt-1 mb-0" style={{ fontSize: '13px', color: '#6c757d' }}>13011132526</p>
+              </div>
 
-                  <hr />
+              <hr />
 
-                  <div>
-                    <p className="text-muted" style={{ fontSize: '14px' }}>{t('VIDEO_ACCOUNT')}</p>
-                  </div>
-                </>
-              ) : (
-                <>
-                  <div className="mb-3">
-                    <p className="text-muted mb-1" style={{ fontSize: '15px' }}>YouTube</p>
-                    <a href="https://www.youtube.com/@myems" target="_blank" rel="noopener noreferrer" className="text-success" style={{ fontSize: '14px' }}>
-                      www.youtube.com/@myems
-                    </a>
-                  </div>
-
-                  <hr />
-
-                  <div className="mb-3">
-                    <p className="text-muted mb-1" style={{ fontSize: '15px' }}>WordPress</p>
-                    <a href="https://myems8.wordpress.com/" target="_blank" rel="noopener noreferrer" className="text-success" style={{ fontSize: '14px' }}>
-                      myems8.wordpress.com
-                    </a>
-                  </div>
-
-                  <hr />
-
-                  <div className="mb-3">
-                    <p className="text-muted mb-1" style={{ fontSize: '15px' }}>Medium</p>
-                    <a href="https://medium.com/@myems" target="_blank" rel="noopener noreferrer" className="text-success" style={{ fontSize: '14px' }}>
-                      medium.com/@myems
-                    </a>
-                  </div>
-                </>
-              )}
+              <div>
+                <p className="text-muted" style={{ fontSize: '14px' }}>{t('VIDEO_ACCOUNT')}</p>
+              </div>
             </CardBody>
           </Card>
         </Col>
+        )}
       </Row>
     </div>
   );
