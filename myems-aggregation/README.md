@@ -63,7 +63,7 @@ Install myems-aggregation service:
 cp -r myems/myems-aggregation /myems-aggregation
 cd /myems-aggregation
 ```
-Copy exmaple.env file to .env and modify the .env file:
+Copy example.env file to .env and modify the .env file:
 ```bash
 cp /myems-aggregation/example.env /myems-aggregation/.env
 nano /myems-aggregation/.env

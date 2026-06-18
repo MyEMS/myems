@@ -16,6 +16,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - updated tenant batch report in myems-api and myems-web
 - updated reset password dialog in myems-web
 - updated login form in myems-web
+- updated knowledge file page in myems-web
 ### Fixed
 - fixed add/edit user issue in myems-admin 
 - fixed issue of DateRangePickerWrapper in myems-web

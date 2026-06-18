@@ -1,6 +1,6 @@
 import base64
 import os
-import sys
+
 import uuid
 from datetime import datetime, timezone, timedelta
 import falcon
@@ -157,16 +157,13 @@ class KnowledgeFileCollection:
             if config.utc_offset[0] == '-':
                 timezone_offset = -timezone_offset
             for row in rows_system:
-                # Base64 encode the bytes
-                # get the Base64 encoded data using human-readable characters.
                 meta_result = {"id": row[0],
                                "file_name": row[1],
                                "uuid": row[2],
                                "upload_datetime": (row[3].replace(tzinfo=None)
                                                    + timedelta(minutes=timezone_offset)).isoformat()[0:19],
                                "user_display_name": user_dict.get(row[4], None),
-                               "file_size_bytes": sys.getsizeof(row[5]),
-                               "file_bytes_base64": (base64.b64encode(row[5])).decode('utf-8')
+                               "file_size_bytes": len(row[5]),
                                }
                 result.append(meta_result)
 
@@ -188,10 +185,27 @@ class KnowledgeFileCollection:
         admin_control(req)
         try:
             upload = req.get_param('file')
-            # Read upload file as binary
-            raw_blob = upload.file.read()
-            # Retrieve filename
+            allowed_extensions = ('.pdf', '.doc', '.docx', '.xls', '.xlsx', '.txt', '.csv', '.md', '.ppt', '.pptx')
             filename = upload.filename
+            if not any(filename.lower().endswith(ext) for ext in allowed_extensions):
+                raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                       description='API.UNSUPPORTED_FILE_TYPE')
+
+            content_type = upload.content_type or ''
+            allowed_mime_types = ('application/pdf',
+                                  'application/msword',
+                                  'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+                                  'application/vnd.ms-excel',
+                                  'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+                                  'text/plain', 'text/csv', 'text/markdown',
+                                  'application/vnd.ms-powerpoint',
+                                  'application/vnd.openxmlformats-officedocument.presentationml.presentation')
+            if content_type and content_type not in allowed_mime_types:
+                if not any(filename.lower().endswith(ext) for ext in ('.pdf', '.doc', '.docx', '.xls', '.xlsx', '.txt', '.csv', '.md', '.ppt', '.pptx')):
+                    raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                           description='API.INVALID_MIME_TYPE')
+
+            raw_blob = upload.file.read()
             file_uuid = str(uuid.uuid4())
 
             # Define file_path
