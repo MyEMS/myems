@@ -28,6 +28,8 @@ export default {
         BILIBILI: 'Bilibili',
         MODBUS_CONFIG: 'Thu Thập Dữ Liệu Modbus TCP',
         WECHAT_ARTICLE: 'Bài Viết WeChat',
+        BLOG: 'Blog',
+        COMMUNITY_FREE_EN: 'Phien ban cong dong ma nguon mo cung cap ho tro ky thuat mien phi:',
         SUPPORT_TITLE: 'Hỗ Trợ Kỹ Thuật & Cộng Đồng',
         COMMUNITY_FREE: 'Phiên bản cộng đồng mã nguồn mở cung cấp hỗ trợ kỹ thuật miễn phí:',
         QQ_GROUP: 'Nhóm QQ: <strong>792528967</strong> (Ngày làm việc 9:00-18:00)',

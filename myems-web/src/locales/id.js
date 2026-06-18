@@ -28,6 +28,8 @@ export default {
         BILIBILI: 'Bilibili',
         MODBUS_CONFIG: 'Pengumpulan Data Modbus TCP',
         WECHAT_ARTICLE: 'Artikel WeChat',
+        BLOG: 'Blog',
+        COMMUNITY_FREE_EN: 'Edisi komunitas sumber terbuka menyediakan dukungan teknis gratis:',
         SUPPORT_TITLE: 'Dukungan Teknis & Komunitas',
         COMMUNITY_FREE: 'Edisi komunitas sumber terbuka menawarkan dukungan teknis gratis:',
         QQ_GROUP: 'Grup QQ: <strong>792528967</strong> (Hari kerja 9:00-18:00)',

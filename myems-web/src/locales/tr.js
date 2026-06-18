@@ -28,6 +28,8 @@ export default {
         BILIBILI: 'Bilibili',
         MODBUS_CONFIG: 'Modbus TCP Veri Toplama',
         WECHAT_ARTICLE: 'WeChat Makalesi',
+        BLOG: 'Blog',
+        COMMUNITY_FREE_EN: 'Acik kaynak topluluk surumu ucretsiz teknik destek sunar:',
         SUPPORT_TITLE: 'Teknik Destek ve Topluluk',
         COMMUNITY_FREE: 'Açık kaynak topluluk sürümü ücretsiz teknik destek sunar:',
         QQ_GROUP: 'QQ Grubu: <strong>792528967</strong> (Hafta içi 9:00-18:00)',

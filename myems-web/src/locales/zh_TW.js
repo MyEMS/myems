@@ -28,6 +28,8 @@ export default {
         BILIBILI: '嗶哩嗶哩 (Bilibili)',
         MODBUS_CONFIG: 'Modbus TCP 採集配置',
         WECHAT_ARTICLE: '微信公眾號文章',
+        BLOG: '部落格',
+        COMMUNITY_FREE_EN: '開源社群版提供免費技術支援：',
         SUPPORT_TITLE: '技術支持 & 社區',
         COMMUNITY_FREE: '開源社區版提供免費技術支持：',
         QQ_GROUP: 'QQ群：<strong>792528967</strong>（工作日 9:00-18:00 專人值班）',

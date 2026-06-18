@@ -28,6 +28,8 @@ export default {
         BILIBILI: '哔哩哔哩 (Bilibili)',
         MODBUS_CONFIG: 'Modbus TCP 采集配置',
         WECHAT_ARTICLE: '微信公众号文章',
+        BLOG: '博客',
+        COMMUNITY_FREE_EN: '开源社区版提供免费技术支持：',
         SUPPORT_TITLE: '技术支持 & 社区',
         COMMUNITY_FREE: '开源社区版提供免费技术支持：',
         QQ_GROUP: 'QQ群：<strong>792528967</strong>（工作日 9:00-18:00 专人值班）',

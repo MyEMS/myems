@@ -28,6 +28,8 @@ export default {
         BILIBILI: 'Bilibili',
         MODBUS_CONFIG: 'Raccolta Dati Modbus TCP',
         WECHAT_ARTICLE: 'Articolo WeChat',
+        BLOG: 'Blog',
+        COMMUNITY_FREE_EN: 'L edizione community open source offre supporto tecnico gratuito:',
         SUPPORT_TITLE: 'Supporto Tecnico e Comunità',
         COMMUNITY_FREE: "L'edizione community open source offre supporto tecnico gratuito:",
         QQ_GROUP: 'Gruppo QQ: <strong>792528967</strong> (Giorni feriali 9:00-18:00)',
