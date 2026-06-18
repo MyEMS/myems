@@ -1,11 +1,9 @@
-import os
-import uuid
+from io import BytesIO
 from datetime import datetime
 from functools import wraps
 import falcon
 import mysql.connector
 import simplejson as json
-from gunicorn.http.body import Body
 import config
 
 
@@ -228,6 +226,15 @@ def write_log(user_uuid, request_method, resource_type, resource_id, request_bod
             cnx.close()
 
 
+def _read_and_replay_request_body(req):
+    """
+    Read the request body once and replay it from memory for downstream handlers.
+    """
+    reads = req.bounded_stream.read()
+    req.stream = BytesIO(reads)
+    return reads.decode('utf-8')
+
+
 def user_logger(func):
     """
     Decorator for logging user activities
@@ -257,17 +264,10 @@ def user_logger(func):
 
         if func_name == "on_post":
             try:
-                file_name = str(uuid.uuid4())
-                with open(file_name, "wb") as fw:
-                    reads = req.stream.read()
-                    fw.write(reads)
-                raw_json = reads.decode('utf-8')
-                with open(file_name, "rb") as fr:
-                    req.stream = Body(fr)
-                    func(*args, **kwargs)
-                    write_log(user_uuid=user_uuid, request_method='POST', resource_type=class_name,
-                              resource_id=kwargs.get('id_'), request_body=raw_json)
-                os.remove(file_name)
+                raw_json = _read_and_replay_request_body(req)
+                func(*args, **kwargs)
+                write_log(user_uuid=user_uuid, request_method='POST', resource_type=class_name,
+                          resource_id=kwargs.get('id_'), request_body=raw_json)
             except OSError as e:
                 print("Failed to stream request")
             except UnicodeDecodeError as e:
@@ -280,18 +280,10 @@ def user_logger(func):
             return
         elif func_name == "on_put":
             try:
-                file_name = str(uuid.uuid4())
-
-                with open(file_name, "wb") as fw:
-                    reads = req.stream.read()
-                    fw.write(reads)
-                raw_json = reads.decode('utf-8')
-                with open(file_name, "rb") as fr:
-                    req.stream = Body(fr)
-                    func(*args, **kwargs)
-                    write_log(user_uuid=user_uuid, request_method='PUT', resource_type=class_name,
-                              resource_id=kwargs.get('id_'), request_body=raw_json)
-                os.remove(file_name)
+                raw_json = _read_and_replay_request_body(req)
+                func(*args, **kwargs)
+                write_log(user_uuid=user_uuid, request_method='PUT', resource_type=class_name,
+                          resource_id=kwargs.get('id_'), request_body=raw_json)
             except OSError as e:
                 print("Failed to stream request")
             except UnicodeDecodeError as e:
