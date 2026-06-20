@@ -19,18 +19,6 @@ class AdvancedReportCollection:
         pass
 
     @staticmethod
-    def on_options(req, resp):
-        """
-        Handle OPTIONS request for CORS preflight
-
-        Args:
-            req: Falcon request object
-            resp: Falcon response object
-        """
-        _ = req
-        resp.status = falcon.HTTP_200
-
-    @staticmethod
     def on_get(req, resp):
         """
         Handle GET requests to retrieve all advanced reports
@@ -255,20 +243,6 @@ class AdvancedReportItem:
 
     def __init__(self):
         pass
-
-    @staticmethod
-    def on_options(req, resp, id_):
-        """
-        Handle OPTIONS request for CORS preflight
-
-        Args:
-            req: Falcon request object
-            resp: Falcon response object
-            id_: Report ID parameter
-        """
-        _ = req
-        resp.status = falcon.HTTP_200
-        _ = id_
 
     @staticmethod
     def on_get(req, resp, id_):
@@ -564,20 +538,6 @@ class AdvancedReportRun:
         pass
 
     @staticmethod
-    def on_options(req, resp, id_):
-        """
-        Handle OPTIONS request for CORS preflight
-
-        Args:
-            req: Falcon request object
-            resp: Falcon response object
-            id_: Report ID parameter
-        """
-        _ = req
-        resp.status = falcon.HTTP_200
-        _ = id_
-
-    @staticmethod
     @user_logger
     def on_put(req, resp, id_):
         """
@@ -638,20 +598,6 @@ class AdvancedReportExport:
 
     def __init__(self):
         pass
-
-    @staticmethod
-    def on_options(req, resp, id_):
-        """
-        Handle OPTIONS request for CORS preflight
-
-        Args:
-            req: Falcon request object
-            resp: Falcon response object
-            id_: Report ID parameter
-        """
-        _ = req
-        resp.status = falcon.HTTP_200
-        _ = id_
 
     @staticmethod
     def on_get(req, resp, id_):
@@ -743,18 +689,6 @@ class AdvancedReportImport:
 
     def __init__(self):
         pass
-
-    @staticmethod
-    def on_options(req, resp):
-        """
-        Handle OPTIONS request for CORS preflight
-
-        Args:
-            req: Falcon request object
-            resp: Falcon response object
-        """
-        _ = req
-        resp.status = falcon.HTTP_200
 
     @staticmethod
     @user_logger
@@ -904,20 +838,6 @@ class AdvancedReportClone:
 
     def __init__(self):
         pass
-
-    @staticmethod
-    def on_options(req, resp, id_):
-        """
-        Handle OPTIONS request for CORS preflight
-
-        Args:
-            req: Falcon request object
-            resp: Falcon response object
-            id_: Report ID parameter
-        """
-        _ = req
-        resp.status = falcon.HTTP_200
-        _ = id_
 
     @staticmethod
     @user_logger

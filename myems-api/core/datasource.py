@@ -21,12 +21,6 @@ class DataSourceCollection:
         pass
 
     @staticmethod
-    def on_options(req, resp):
-        """Handle OPTIONS requests for CORS preflight"""
-        _ = req
-        resp.status = falcon.HTTP_200
-
-    @staticmethod
     def on_get(req, resp):
         admin_control(req)
         search_query = req.get_param('q', default=None)
@@ -217,12 +211,6 @@ class DataSourceCollection:
 class DataSourceItem:
     def __init__(self):
         pass
-
-    @staticmethod
-    def on_options(req, resp, id_):
-        _ = req
-        resp.status = falcon.HTTP_200
-        _ = id_
 
     @staticmethod
     def on_get(req, resp, id_):
@@ -460,12 +448,6 @@ class DataSourcePointCollection:
         pass
 
     @staticmethod
-    def on_options(req, resp, id_):
-        _ = req
-        resp.status = falcon.HTTP_200
-        _ = id_
-
-    @staticmethod
     def on_get(req, resp, id_):
         admin_control(req)
         if not id_.isdigit() or int(id_) <= 0:
@@ -608,12 +590,6 @@ class DataSourceExport:
         pass
 
     @staticmethod
-    def on_options(req, resp, id_):
-        _ = req
-        resp.status = falcon.HTTP_200
-        _ = id_
-
-    @staticmethod
     def on_get(req, resp, id_):
         admin_control(req)
         if not id_.isdigit() or int(id_) <= 0:
@@ -716,11 +692,6 @@ class DataSourceExport:
 class DataSourceImport:
     def __init__(self):
         pass
-
-    @staticmethod
-    def on_options(req, resp):
-        _ = req
-        resp.status = falcon.HTTP_200
 
     @staticmethod
     @user_logger
@@ -858,12 +829,6 @@ class DataSourceImport:
 class DataSourceClone:
     def __init__(self):
         pass
-
-    @staticmethod
-    def on_options(req, resp, id_):
-        _ = req
-        resp.status = falcon.HTTP_200
-        _ = id_
 
     @staticmethod
     @user_logger

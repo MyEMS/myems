@@ -21,18 +21,6 @@ class MicrogridCollection:
         pass
 
     @staticmethod
-    def on_options(req, resp):
-        """
-        Handle OPTIONS request for CORS preflight
-
-        Args:
-            req: Falcon request object
-            resp: Falcon response object
-        """
-        _ = req
-        resp.status = falcon.HTTP_200
-
-    @staticmethod
     def on_get(req, resp):
         """
         Handle GET requests to retrieve all microgrids
@@ -356,12 +344,6 @@ class MicrogridCollection:
 class MicrogridItem:
     def __init__(self):
         pass
-
-    @staticmethod
-    def on_options(req, resp, id_):
-        _ = req
-        resp.status = falcon.HTTP_200
-        _ = id_
 
     @staticmethod
     def on_get(req, resp, id_):
@@ -751,12 +733,6 @@ class MicrogridBatteryCollection:
         pass
 
     @staticmethod
-    def on_options(req, resp, id_):
-        _ = req
-        resp.status = falcon.HTTP_200
-        _ = id_
-
-    @staticmethod
     def on_get(req, resp, id_):
         access_control(req)
         if not id_.isdigit() or int(id_) <= 0:
@@ -1021,13 +997,6 @@ class MicrogridBatteryCollection:
 class MicrogridBatteryItem:
     def __init__(self):
         pass
-
-    @staticmethod
-    def on_options(req, resp, id_, bid):
-        _ = req
-        resp.status = falcon.HTTP_200
-        _ = id_
-        _ = bid
 
     @staticmethod
     def on_get(req, resp, id_, bid):
@@ -1366,12 +1335,6 @@ class MicrogridCommandCollection:
         pass
 
     @staticmethod
-    def on_options(req, resp, id_):
-        _ = req
-        resp.status = falcon.HTTP_200
-        _ = id_
-
-    @staticmethod
     def on_get(req, resp, id_):
         access_control(req)
         if not id_.isdigit() or int(id_) <= 0:
@@ -1419,12 +1382,6 @@ class MicrogridCommandCollection:
 class MicrogridEVChargerCollection:
     def __init__(self):
         pass
-
-    @staticmethod
-    def on_options(req, resp, id_):
-        _ = req
-        resp.status = falcon.HTTP_200
-        _ = id_
 
     @staticmethod
     def on_get(req, resp, id_):
@@ -1620,13 +1577,6 @@ class MicrogridEVChargerCollection:
 class MicrogridEVChargerItem:
     def __init__(self):
         pass
-
-    @staticmethod
-    def on_options(req, resp, id_, eid):
-        _ = req
-        resp.status = falcon.HTTP_200
-        _ = id_
-        _ = eid
 
     @staticmethod
     def on_get(req, resp, id_, eid):
@@ -1890,12 +1840,6 @@ class MicrogridGeneratorCollection:
         pass
 
     @staticmethod
-    def on_options(req, resp, id_):
-        _ = req
-        resp.status = falcon.HTTP_200
-        _ = id_
-
-    @staticmethod
     def on_get(req, resp, id_):
         access_control(req)
         if not id_.isdigit() or int(id_) <= 0:
@@ -2088,13 +2032,6 @@ class MicrogridGeneratorCollection:
 class MicrogridGeneratorItem:
     def __init__(self):
         pass
-
-    @staticmethod
-    def on_options(req, resp, id_, gid):
-        _ = req
-        resp.status = falcon.HTTP_200
-        _ = id_
-        _ = gid
 
     @staticmethod
     def on_get(req, resp, id_, gid):
@@ -2358,12 +2295,6 @@ class MicrogridGridCollection:
         pass
 
     @staticmethod
-    def on_options(req, resp, id_):
-        _ = req
-        resp.status = falcon.HTTP_200
-        _ = id_
-
-    @staticmethod
     def on_get(req, resp, id_):
         access_control(req)
         if not id_.isdigit() or int(id_) <= 0:
@@ -2573,13 +2504,6 @@ class MicrogridGridCollection:
 class MicrogridGridItem:
     def __init__(self):
         pass
-
-    @staticmethod
-    def on_options(req, resp, id_, gid):
-        _ = req
-        resp.status = falcon.HTTP_200
-        _ = id_
-        _ = gid
 
     @staticmethod
     def on_get(req, resp, id_, gid):
@@ -2861,12 +2785,6 @@ class MicrogridHeatpumpCollection:
         pass
 
     @staticmethod
-    def on_options(req, resp, id_):
-        _ = req
-        resp.status = falcon.HTTP_200
-        _ = id_
-
-    @staticmethod
     def on_get(req, resp, id_):
         access_control(req)
         if not id_.isdigit() or int(id_) <= 0:
@@ -3096,13 +3014,6 @@ class MicrogridHeatpumpCollection:
 class MicrogridHeatpumpItem:
     def __init__(self):
         pass
-
-    @staticmethod
-    def on_options(req, resp, id_, hid):
-        _ = req
-        resp.status = falcon.HTTP_200
-        _ = id_
-        _ = hid
 
     @staticmethod
     def on_get(req, resp, id_, hid):
@@ -3405,12 +3316,6 @@ class MicrogridLoadCollection:
         pass
 
     @staticmethod
-    def on_options(req, resp, id_):
-        _ = req
-        resp.status = falcon.HTTP_200
-        _ = id_
-
-    @staticmethod
     def on_get(req, resp, id_):
         access_control(req)
         if not id_.isdigit() or int(id_) <= 0:
@@ -3603,13 +3508,6 @@ class MicrogridLoadCollection:
 class MicrogridLoadItem:
     def __init__(self):
         pass
-
-    @staticmethod
-    def on_options(req, resp, id_, lid):
-        _ = req
-        resp.status = falcon.HTTP_200
-        _ = id_
-        _ = lid
 
     @staticmethod
     def on_get(req, resp, id_, lid):
@@ -3873,12 +3771,6 @@ class MicrogridPhotovoltaicCollection:
         pass
 
     @staticmethod
-    def on_options(req, resp, id_):
-        _ = req
-        resp.status = falcon.HTTP_200
-        _ = id_
-
-    @staticmethod
     def on_get(req, resp, id_):
         access_control(req)
         if not id_.isdigit() or int(id_) <= 0:
@@ -4072,13 +3964,6 @@ class MicrogridPhotovoltaicCollection:
 class MicrogridPhotovoltaicItem:
     def __init__(self):
         pass
-
-    @staticmethod
-    def on_options(req, resp, id_, pvid):
-        _ = req
-        resp.status = falcon.HTTP_200
-        _ = id_
-        _ = pvid
 
     @staticmethod
     def on_get(req, resp, id_, pvid):
@@ -4341,12 +4226,6 @@ class MicrogridPowerconversionsystemCollection:
         pass
 
     @staticmethod
-    def on_options(req, resp, id_):
-        _ = req
-        resp.status = falcon.HTTP_200
-        _ = id_
-
-    @staticmethod
     def on_get(req, resp, id_):
         access_control(req)
         if not id_.isdigit() or int(id_) <= 0:
@@ -4553,13 +4432,6 @@ class MicrogridPowerconversionsystemCollection:
 class MicrogridPowerconversionsystemItem:
     def __init__(self):
         pass
-
-    @staticmethod
-    def on_options(req, resp, id_, pcsid):
-        _ = req
-        resp.status = falcon.HTTP_200
-        _ = id_
-        _ = pcsid
 
     @staticmethod
     def on_get(req, resp, id_, pcsid):
@@ -4850,12 +4722,6 @@ class MicrogridScheduleCollection:
         pass
 
     @staticmethod
-    def on_options(req, resp, id_):
-        _ = req
-        resp.status = falcon.HTTP_200
-        _ = id_
-
-    @staticmethod
     def on_get(req, resp, id_):
         access_control(req)
         if not id_.isdigit() or int(id_) <= 0:
@@ -4968,13 +4834,6 @@ class MicrogridScheduleCollection:
 class MicrogridScheduleItem:
     def __init__(self):
         pass
-
-    @staticmethod
-    def on_options(req, resp, id_, sid):
-        _ = req
-        resp.status = falcon.HTTP_200
-        _ = id_
-        _ = sid
 
     @staticmethod
     def on_get(req, resp, id_, sid):
@@ -5184,12 +5043,6 @@ class MicrogridSensorCollection:
         pass
 
     @staticmethod
-    def on_options(req, resp, id_):
-        _ = req
-        resp.status = falcon.HTTP_200
-        _ = id_
-
-    @staticmethod
     def on_get(req, resp, id_):
         access_control(req)
         if not id_.isdigit() or int(id_) <= 0:
@@ -5314,13 +5167,6 @@ class MicrogridSensorItem:
         pass
 
     @staticmethod
-    def on_options(req, resp, id_, sid):
-        _ = req
-        resp.status = falcon.HTTP_200
-        _ = id_
-        _ = sid
-
-    @staticmethod
     @user_logger
     def on_delete(req, resp, id_, sid):
         admin_control(req)
@@ -5377,12 +5223,6 @@ class MicrogridSensorItem:
 class MicrogridUserCollection:
     def __init__(self):
         pass
-
-    @staticmethod
-    def on_options(req, resp, id_):
-        _ = req
-        resp.status = falcon.HTTP_200
-        _ = id_
 
     @staticmethod
     def on_get(req, resp, id_):
@@ -5519,13 +5359,6 @@ class MicrogridUserItem:
         pass
 
     @staticmethod
-    def on_options(req, resp, id_, uid):
-        _ = req
-        resp.status = falcon.HTTP_200
-        _ = id_
-        _ = uid
-
-    @staticmethod
     @user_logger
     def on_delete(req, resp, id_, uid):
         # todo Verify if the user is bound when deleting it
@@ -5593,12 +5426,6 @@ class MicrogridUserItem:
 class MicrogridExport:
     def __init__(self):
         pass
-
-    @staticmethod
-    def on_options(req, resp, id_):
-        _ = req
-        resp.status = falcon.HTTP_200
-        _ = id_
 
     @staticmethod
     def on_get(req, resp, id_):
@@ -5683,11 +5510,6 @@ class MicrogridExport:
 class MicrogridImport:
     def __init__(self):
         pass
-
-    @staticmethod
-    def on_options(req, resp):
-        _ = req
-        resp.status = falcon.HTTP_200
 
     @staticmethod
     @user_logger
@@ -5901,12 +5723,6 @@ class MicrogridClone:
         pass
 
     @staticmethod
-    def on_options(req, resp, id_):
-        _ = req
-        resp.status = falcon.HTTP_200
-        _ = id_
-
-    @staticmethod
     @user_logger
     def on_post(req, resp, id_):
         admin_control(req)
@@ -6024,12 +5840,6 @@ class MicrogridClone:
 class MicrogridDataSourceCollection:
     def __init__(self):
         pass
-
-    @staticmethod
-    def on_options(req, resp, id_):
-        _ = req
-        _ = id_
-        resp.status = falcon.HTTP_200
 
     @staticmethod
     def on_get(req, resp, id_):
@@ -6153,13 +5963,6 @@ class MicrogridDataSourceItem:
         pass
 
     @staticmethod
-    def on_options(req, resp, id_, dsid):
-        _ = req
-        _ = id_
-        _ = dsid
-        resp.status = falcon.HTTP_200
-
-    @staticmethod
     @user_logger
     def on_delete(req, resp, id_, dsid):
         admin_control(req)
@@ -6215,12 +6018,6 @@ class MicrogridDataSourcePointCollection:
         pass
 
     @staticmethod
-    def on_options(req, resp, id_):
-        _ = req
-        resp.status = falcon.HTTP_200
-        _ = id_
-
-    @staticmethod
     def on_get(req, resp, id_):
         if 'API-KEY' not in req.headers or \
                 not isinstance(req.headers['API-KEY'], str) or \
@@ -6268,13 +6065,6 @@ class MicrogridDataSourcePointCollection:
 class MicrogridBatteryPointCollection:
     def __init__(self):
         pass
-
-    @staticmethod
-    def on_options(req, resp, id_, bid):
-        _ = req
-        resp.status = falcon.HTTP_200
-        _ = id_
-        _ = bid
 
     @staticmethod
     def on_get(req, resp, id_, bid):
@@ -6410,14 +6200,6 @@ class MicrogridBatteryPointItem:
         pass
 
     @staticmethod
-    def on_options(req, resp, id_, bid, pid):
-        _ = req
-        resp.status = falcon.HTTP_200
-        _ = id_
-        _ = bid
-        _ = pid
-
-    @staticmethod
     @user_logger
     def on_delete(req, resp, id_, bid, pid):
         admin_control(req)
@@ -6476,13 +6258,6 @@ class MicrogridBatteryPointItem:
 class MicrogridEVChargerPointCollection:
     def __init__(self):
         pass
-
-    @staticmethod
-    def on_options(req, resp, id_, eid):
-        _ = req
-        resp.status = falcon.HTTP_200
-        _ = id_
-        _ = eid
 
     @staticmethod
     def on_get(req, resp, id_, eid):
@@ -6618,14 +6393,6 @@ class MicrogridEVChargerPointItem:
         pass
 
     @staticmethod
-    def on_options(req, resp, id_, eid, pid):
-        _ = req
-        resp.status = falcon.HTTP_200
-        _ = id_
-        _ = eid
-        _ = pid
-
-    @staticmethod
     @user_logger
     def on_delete(req, resp, id_, eid, pid):
         admin_control(req)
@@ -6684,13 +6451,6 @@ class MicrogridEVChargerPointItem:
 class MicrogridGeneratorPointCollection:
     def __init__(self):
         pass
-
-    @staticmethod
-    def on_options(req, resp, id_, gid):
-        _ = req
-        resp.status = falcon.HTTP_200
-        _ = id_
-        _ = gid
 
     @staticmethod
     def on_get(req, resp, id_, gid):
@@ -6826,14 +6586,6 @@ class MicrogridGeneratorPointItem:
         pass
 
     @staticmethod
-    def on_options(req, resp, id_, gid, pid):
-        _ = req
-        resp.status = falcon.HTTP_200
-        _ = id_
-        _ = gid
-        _ = pid
-
-    @staticmethod
     @user_logger
     def on_delete(req, resp, id_, gid, pid):
         admin_control(req)
@@ -6892,13 +6644,6 @@ class MicrogridGeneratorPointItem:
 class MicrogridGridPointCollection:
     def __init__(self):
         pass
-
-    @staticmethod
-    def on_options(req, resp, id_, gid):
-        _ = req
-        resp.status = falcon.HTTP_200
-        _ = id_
-        _ = gid
 
     @staticmethod
     def on_get(req, resp, id_, gid):
@@ -7034,14 +6779,6 @@ class MicrogridGridPointItem:
         pass
 
     @staticmethod
-    def on_options(req, resp, id_, gid, pid):
-        _ = req
-        resp.status = falcon.HTTP_200
-        _ = id_
-        _ = gid
-        _ = pid
-
-    @staticmethod
     @user_logger
     def on_delete(req, resp, id_, gid, pid):
         admin_control(req)
@@ -7100,13 +6837,6 @@ class MicrogridGridPointItem:
 class MicrogridHeatPumpPointCollection:
     def __init__(self):
         pass
-
-    @staticmethod
-    def on_options(req, resp, id_, hid):
-        _ = req
-        resp.status = falcon.HTTP_200
-        _ = id_
-        _ = hid
 
     @staticmethod
     def on_get(req, resp, id_, hid):
@@ -7242,14 +6972,6 @@ class MicrogridHeatPumpPointItem:
         pass
 
     @staticmethod
-    def on_options(req, resp, id_, hid, pid):
-        _ = req
-        resp.status = falcon.HTTP_200
-        _ = id_
-        _ = hid
-        _ = pid
-
-    @staticmethod
     @user_logger
     def on_delete(req, resp, id_, hid, pid):
         admin_control(req)
@@ -7308,13 +7030,6 @@ class MicrogridHeatPumpPointItem:
 class MicrogridLoadPointCollection:
     def __init__(self):
         pass
-
-    @staticmethod
-    def on_options(req, resp, id_, lid):
-        _ = req
-        resp.status = falcon.HTTP_200
-        _ = id_
-        _ = lid
 
     @staticmethod
     def on_get(req, resp, id_, lid):
@@ -7450,14 +7165,6 @@ class MicrogridLoadPointItem:
         pass
 
     @staticmethod
-    def on_options(req, resp, id_, lid, pid):
-        _ = req
-        resp.status = falcon.HTTP_200
-        _ = id_
-        _ = lid
-        _ = pid
-
-    @staticmethod
     @user_logger
     def on_delete(req, resp, id_, lid, pid):
         admin_control(req)
@@ -7516,13 +7223,6 @@ class MicrogridLoadPointItem:
 class MicrogridPhotovoltaicPointCollection:
     def __init__(self):
         pass
-
-    @staticmethod
-    def on_options(req, resp, id_, pvid):
-        _ = req
-        resp.status = falcon.HTTP_200
-        _ = id_
-        _ = pvid
 
     @staticmethod
     def on_get(req, resp, id_, pvid):
@@ -7658,14 +7358,6 @@ class MicrogridPhotovoltaicPointItem:
         pass
 
     @staticmethod
-    def on_options(req, resp, id_, pvid, pid):
-        _ = req
-        resp.status = falcon.HTTP_200
-        _ = id_
-        _ = pvid
-        _ = pid
-
-    @staticmethod
     @user_logger
     def on_delete(req, resp, id_, pvid, pid):
         admin_control(req)
@@ -7724,13 +7416,6 @@ class MicrogridPhotovoltaicPointItem:
 class MicrogridPowerConversionSystemPointCollection:
     def __init__(self):
         pass
-
-    @staticmethod
-    def on_options(req, resp, id_, pcsid):
-        _ = req
-        resp.status = falcon.HTTP_200
-        _ = id_
-        _ = pcsid
 
     @staticmethod
     def on_get(req, resp, id_, pcsid):
@@ -7864,14 +7549,6 @@ class MicrogridPowerConversionSystemPointCollection:
 class MicrogridPowerConversionSystemPointItem:
     def __init__(self):
         pass
-
-    @staticmethod
-    def on_options(req, resp, id_, pcsid, pid):
-        _ = req
-        resp.status = falcon.HTTP_200
-        _ = id_
-        _ = pcsid
-        _ = pid
 
     @staticmethod
     @user_logger

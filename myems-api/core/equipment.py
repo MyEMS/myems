@@ -86,12 +86,6 @@ class EquipmentCollection:
         pass
 
     @staticmethod
-    def on_options(req, resp):
-        """Handle OPTIONS requests for CORS preflight"""
-        _ = req
-        resp.status = falcon.HTTP_200
-
-    @staticmethod
     def on_get(req, resp):
         if 'API-KEY' not in req.headers or \
                 not isinstance(req.headers['API-KEY'], str) or \
@@ -364,12 +358,6 @@ class EquipmentCollection:
 class EquipmentItem:
     def __init__(self):
         pass
-
-    @staticmethod
-    def on_options(req, resp, id_):
-        _ = req
-        resp.status = falcon.HTTP_200
-        _ = id_
 
     @staticmethod
     def on_get(req, resp, id_):
@@ -886,12 +874,6 @@ class EquipmentParameterCollection:
         pass
 
     @staticmethod
-    def on_options(req, resp, id_):
-        _ = req
-        resp.status = falcon.HTTP_200
-        _ = id_
-
-    @staticmethod
     def on_get(req, resp, id_):
         if 'API-KEY' not in req.headers or \
                 not isinstance(req.headers['API-KEY'], str) or \
@@ -1286,13 +1268,6 @@ class EquipmentParameterCollection:
 class EquipmentParameterItem:
     def __init__(self):
         pass
-
-    @staticmethod
-    def on_options(req, resp, id_, pid):
-        _ = req
-        resp.status = falcon.HTTP_200
-        _ = id_
-        _ = pid
 
     @staticmethod
     def on_get(req, resp, id_, pid):
@@ -1708,12 +1683,6 @@ class EquipmentMeterCollection:
         pass
 
     @staticmethod
-    def on_options(req, resp, id_):
-        _ = req
-        resp.status = falcon.HTTP_200
-        _ = id_
-
-    @staticmethod
     def on_get(req, resp, id_):
         if 'API-KEY' not in req.headers or \
                 not isinstance(req.headers['API-KEY'], str) or \
@@ -1869,13 +1838,6 @@ class EquipmentMeterItem:
         pass
 
     @staticmethod
-    def on_options(req, resp, id_, mid):
-        _ = req
-        resp.status = falcon.HTTP_200
-        _ = id_
-        _ = mid
-
-    @staticmethod
     @user_logger
     def on_delete(req, resp, id_, mid):
         admin_control(req)
@@ -1935,12 +1897,6 @@ class EquipmentMeterItem:
 class EquipmentOfflineMeterCollection:
     def __init__(self):
         pass
-
-    @staticmethod
-    def on_options(req, resp, id_):
-        _ = req
-        resp.status = falcon.HTTP_200
-        _ = id_
 
     @staticmethod
     def on_get(req, resp, id_):
@@ -2098,13 +2054,6 @@ class EquipmentOfflineMeterItem:
         pass
 
     @staticmethod
-    def on_options(req, resp, id_, mid):
-        _ = req
-        resp.status = falcon.HTTP_200
-        _ = id_
-        _ = mid
-
-    @staticmethod
     @user_logger
     def on_delete(req, resp, id_, mid):
         admin_control(req)
@@ -2164,12 +2113,6 @@ class EquipmentOfflineMeterItem:
 class EquipmentVirtualMeterCollection:
     def __init__(self):
         pass
-
-    @staticmethod
-    def on_options(req, resp, id_):
-        _ = req
-        resp.status = falcon.HTTP_200
-        _ = id_
 
     @staticmethod
     def on_get(req, resp, id_):
@@ -2327,13 +2270,6 @@ class EquipmentVirtualMeterItem:
         pass
 
     @staticmethod
-    def on_options(req, resp, id_, mid):
-        _ = req
-        resp.status = falcon.HTTP_200
-        _ = id_
-        _ = mid
-
-    @staticmethod
     @user_logger
     def on_delete(req, resp, id_, mid):
         admin_control(req)
@@ -2393,12 +2329,6 @@ class EquipmentVirtualMeterItem:
 class EquipmentCommandCollection:
     def __init__(self):
         pass
-
-    @staticmethod
-    def on_options(req, resp, id_):
-        _ = req
-        resp.status = falcon.HTTP_200
-        _ = id_
 
     @staticmethod
     def on_get(req, resp, id_):
@@ -2535,13 +2465,6 @@ class EquipmentCommandItem:
         pass
 
     @staticmethod
-    def on_options(req, resp, id_, cid):
-        _ = req
-        resp.status = falcon.HTTP_200
-        _ = id_
-        _ = cid
-
-    @staticmethod
     @user_logger
     def on_delete(req, resp, id_, cid):
         admin_control(req)
@@ -2601,12 +2524,6 @@ class EquipmentCommandItem:
 class EquipmentExport:
     def __init__(self):
         pass
-
-    @staticmethod
-    def on_options(req, resp, id_):
-        _ = req
-        resp.status = falcon.HTTP_200
-        _ = id_
 
     @staticmethod
     def on_get(req, resp, id_):
@@ -2886,11 +2803,6 @@ class EquipmentExport:
 class EquipmentImport:
     def __init__(self):
         pass
-
-    @staticmethod
-    def on_options(req, resp):
-        _ = req
-        resp.status = falcon.HTTP_200
 
     @staticmethod
     def on_post(req, resp):
@@ -3252,12 +3164,6 @@ class EquipmentImport:
 class EquipmentClone:
     def __init__(self):
         pass
-
-    @staticmethod
-    def on_options(req, resp, id_):
-        _ = req
-        resp.status = falcon.HTTP_200
-        _ = id_
 
     @staticmethod
     @user_logger
@@ -3760,12 +3666,6 @@ class EquipmentDataSourceCollection:
         pass
 
     @staticmethod
-    def on_options(req, resp, id_):
-        _ = req
-        _ = id_
-        resp.status = falcon.HTTP_200
-
-    @staticmethod
     def on_get(req, resp, id_):
         if 'API-KEY' not in req.headers or \
                 not isinstance(req.headers['API-KEY'], str) or \
@@ -3890,13 +3790,6 @@ class EquipmentDataSourceItem:
         pass
 
     @staticmethod
-    def on_options(req, resp, id_, dsid):
-        _ = req
-        _ = id_
-        _ = dsid
-        resp.status = falcon.HTTP_200
-
-    @staticmethod
     @user_logger
     def on_delete(req, resp, id_, dsid):
         admin_control(req)
@@ -3953,12 +3846,6 @@ class EquipmentDataSourceItem:
 class EquipmentAddPointsCollection:
     def __init__(self):
         pass
-
-    @staticmethod
-    def on_options(req, resp, id_):
-        _ = req
-        resp.status = falcon.HTTP_200
-        _ = id_
 
     @staticmethod
     def on_get(req, resp, id_):
@@ -4048,13 +3935,6 @@ class EquipmentAddPointsCollection:
 class EquipmentEditPointsCollection:
     def __init__(self):
         pass
-
-    @staticmethod
-    def on_options(req, resp, id_, pid):
-        _ = req
-        resp.status = falcon.HTTP_200
-        _ = id_
-        _ = pid
 
     @staticmethod
     def on_get(req, resp, id_, pid):

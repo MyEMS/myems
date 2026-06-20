@@ -63,12 +63,6 @@ class CostCenterCollection:
         pass
 
     @staticmethod
-    def on_options(req, resp):
-        """Handle OPTIONS requests for CORS preflight"""
-        _ = req
-        resp.status = falcon.HTTP_200
-
-    @staticmethod
     def on_get(req, resp):
         """Handles GET requests"""
         if 'API-KEY' not in req.headers or \
@@ -225,12 +219,6 @@ class CostCenterCollection:
 class CostCenterItem:
     def __init__(self):
         pass
-
-    @staticmethod
-    def on_options(req, resp, id_):
-        _ = req
-        resp.status = falcon.HTTP_200
-        _ = id_
 
     @staticmethod
     def on_get(req, resp, id_):
@@ -615,12 +603,6 @@ class CostCenterTariffCollection:
         pass
 
     @staticmethod
-    def on_options(req, resp, id_):
-        _ = req
-        resp.status = falcon.HTTP_200
-        _ = id_
-
-    @staticmethod
     def on_get(req, resp, id_):
         """Handles GET requests"""
         if 'API-KEY' not in req.headers or \
@@ -778,12 +760,6 @@ class CostCenterTariffCollection:
 class CostCenterTariffItem:
     def __init__(self):
         pass
-
-    @staticmethod
-    def on_options(req, resp, id_, tid):
-        _ = req
-        resp.status = falcon.HTTP_200
-        _ = id_
 
     @staticmethod
     @user_logger

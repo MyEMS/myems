@@ -42,11 +42,6 @@ class AdvancedReportFileCollection:
         """Initializes Class"""
         pass
 
-    @staticmethod
-    def on_options(req, resp):
-        _ = req
-        resp.status = falcon.HTTP_200
-
     ####################################################################################################################
     # PROCEDURES
     # Step 1: valid parameters
@@ -161,12 +156,6 @@ class AdvancedReportFileItem:
     def __init__(self):
         """Initializes Class"""
         pass
-
-    @staticmethod
-    def on_options(req, resp, id_):
-        _ = req
-        resp.status = falcon.HTTP_200
-        _ = id_
 
     @staticmethod
     def on_get(req, resp, id_):

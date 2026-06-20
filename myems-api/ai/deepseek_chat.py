@@ -93,11 +93,6 @@ class DeepSeekChat:
         pass
 
     @staticmethod
-    def on_options(req, resp):
-        _ = req
-        resp.status = falcon.HTTP_200
-
-    @staticmethod
     def on_post(req, resp):
         access_control(req)
 
