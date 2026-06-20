@@ -540,6 +540,8 @@ export default {
         'Old Password': 'Stare hasło',
         'New Password': 'Nowe hasło',
         'Confirm Password': 'Potwierdź nowe hasło',
+        'Hide password': 'Ukryj hasło',
+        'Show password': 'Pokaż hasło',
         Back: 'Wstecz',
         'Update Password': 'Aktualizuj hasło',
         'Password has been changed!': 'Hasło zostało zmienione!',

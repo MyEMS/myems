@@ -565,6 +565,8 @@ export default {
         'Old Password': 'Kata Laluan Lama',
         'New Password': 'Kata Laluan Baru',
         'Confirm Password': 'Sahkan Kata Laluan',
+        'Hide password': 'Sembunyikan kata laluan',
+        'Show password': 'Tunjukkan kata laluan',
         Back: 'Kembali',
         'Update Password': 'Kemas kini Kata Laluan',
         'Password has been changed!': 'Kata laluan telah ditukar!',

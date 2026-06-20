@@ -571,6 +571,8 @@ export default {
         'Old Password': 'Старый пароль',
         'New Password': 'Новый пароль',
         'Confirm Password': 'Подтвердите пароль',
+        'Hide password': 'Скрыть пароль',
+        'Show password': 'Показать пароль',
         Back: 'Назад',
         'Update Password': 'Обновить пароль',
         'Password has been changed!': 'Пароль был изменен!',

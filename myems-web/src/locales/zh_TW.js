@@ -544,6 +544,8 @@ export default {
         'Old Password': '原密碼',
         'New Password': '新密碼',
         'Confirm Password': '重覆新密碼',
+        'Hide password': '隱藏密碼',
+        'Show password': '顯示密碼',
         Back: '返回',
         'Update Password': '更新密碼',
         'Password has been changed!': '密碼已修改!',

@@ -540,6 +540,8 @@ export default {
         'Old Password': '旧パスワード',
         'New Password': '新パスワード',
         'Confirm Password': '新パスワード確認',
+        'Hide password': 'パスワードを非表示',
+        'Show password': 'パスワードを表示',
         Back: '戻る',
         'Update Password': 'パスワード更新',
         'Password has been changed!': 'パスワードが変更されました！',

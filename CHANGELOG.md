@@ -15,12 +15,17 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - updated equipment dashboard in myems-web
 - updated tenant batch report in myems-api and myems-web
 - updated reset password dialog in myems-web
+- updated login form in myems-web
+- updated knowledge file page in myems-web
+- updated user activity logger in myems-api
 ### Fixed
 - fixed add/edit user issue in myems-admin 
 - fixed issue of DateRangePickerWrapper in myems-web
 - fixed issue of MeterSubmetersBalance in myems-web
 - fixed issue of shopfloor prediction report in myems-api
+- fixed typo of file name in myems-aggregation
 ### Removed
+- removed unused function from carbon_dioxide_emission_factor in myems-aggregation
 
 ## [v6.5.0] - 2026-05-26
 ### Added
