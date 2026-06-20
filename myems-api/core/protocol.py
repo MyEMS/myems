@@ -60,12 +60,6 @@ class ProtocolCollection:
         pass
 
     @staticmethod
-    def on_options(req, resp):
-        """Handle OPTIONS requests for CORS preflight"""
-        _ = req
-        resp.status = falcon.HTTP_200
-
-    @staticmethod
     def on_get(req, resp):
         """
         Handle GET requests to retrieve all protocols
@@ -261,13 +255,6 @@ class ProtocolItem:
     def __init__(self):
         """Initialize ProtocolItem"""
         pass
-
-    @staticmethod
-    def on_options(req, resp, id_):
-        """Handle OPTIONS requests for CORS preflight"""
-        _ = req
-        resp.status = falcon.HTTP_200
-        _ = id_
 
     @staticmethod
     def on_get(req, resp, id_):

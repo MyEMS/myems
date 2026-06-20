@@ -49,11 +49,6 @@ class Reporting:
     def __init__(self):
         pass
 
-    @staticmethod
-    def on_options(req, resp):
-        _ = req
-        resp.status = falcon.HTTP_200
-
     ####################################################################################################################
     # PROCEDURES
     # Step 1: valid parameters

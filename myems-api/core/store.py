@@ -78,18 +78,6 @@ class StoreCollection:
         pass
 
     @staticmethod
-    def on_options(req, resp):
-        """
-        Handle OPTIONS request for CORS preflight
-
-        Args:
-            req: Falcon request object
-            resp: Falcon response object
-        """
-        _ = req
-        resp.status = falcon.HTTP_200
-
-    @staticmethod
     def on_get(req, resp):
         """
         Handle GET requests to retrieve all stores
@@ -408,12 +396,6 @@ class StoreCollection:
 class StoreItem:
     def __init__(self):
         pass
-
-    @staticmethod
-    def on_options(req, resp, id_):
-        _ = req
-        resp.status = falcon.HTTP_200
-        _ = id_
 
     @staticmethod
     def on_get(req, resp, id_):
@@ -793,12 +775,6 @@ class StoreMeterCollection:
         pass
 
     @staticmethod
-    def on_options(req, resp, id_):
-        _ = req
-        resp.status = falcon.HTTP_200
-        _ = id_
-
-    @staticmethod
     def on_get(req, resp, id_):
         if 'API-KEY' not in req.headers or \
                 not isinstance(req.headers['API-KEY'], str) or \
@@ -979,12 +955,6 @@ class StoreMeterItem:
         pass
 
     @staticmethod
-    def on_options(req, resp, id_, mid):
-        _ = req
-        resp.status = falcon.HTTP_200
-        _ = id_
-
-    @staticmethod
     @user_logger
     def on_delete(req, resp, id_, mid):
         admin_control(req)
@@ -1043,12 +1013,6 @@ class StoreMeterItem:
 class StoreOfflineMeterCollection:
     def __init__(self):
         pass
-
-    @staticmethod
-    def on_options(req, resp, id_):
-        _ = req
-        resp.status = falcon.HTTP_200
-        _ = id_
 
     @staticmethod
     def on_get(req, resp, id_):
@@ -1195,12 +1159,6 @@ class StoreOfflineMeterItem:
         pass
 
     @staticmethod
-    def on_options(req, resp, id_, mid):
-        _ = req
-        resp.status = falcon.HTTP_200
-        _ = id_
-
-    @staticmethod
     @user_logger
     def on_delete(req, resp, id_, mid):
         admin_control(req)
@@ -1260,12 +1218,6 @@ class StoreOfflineMeterItem:
 class StorePointCollection:
     def __init__(self):
         pass
-
-    @staticmethod
-    def on_options(req, resp, id_):
-        _ = req
-        resp.status = falcon.HTTP_200
-        _ = id_
 
     @staticmethod
     def on_get(req, resp, id_):
@@ -1411,12 +1363,6 @@ class StorePointItem:
         pass
 
     @staticmethod
-    def on_options(req, resp, id_, pid):
-        _ = req
-        resp.status = falcon.HTTP_200
-        _ = id_
-
-    @staticmethod
     @user_logger
     def on_delete(req, resp, id_, pid):
         admin_control(req)
@@ -1476,12 +1422,6 @@ class StorePointItem:
 class StoreSensorCollection:
     def __init__(self):
         pass
-
-    @staticmethod
-    def on_options(req, resp, id_):
-        _ = req
-        resp.status = falcon.HTTP_200
-        _ = id_
 
     @staticmethod
     def on_get(req, resp, id_):
@@ -1615,12 +1555,6 @@ class StoreSensorItem:
         pass
 
     @staticmethod
-    def on_options(req, resp, id_, sid):
-        _ = req
-        resp.status = falcon.HTTP_200
-        _ = id_
-
-    @staticmethod
     @user_logger
     def on_delete(req, resp, id_, sid):
         admin_control(req)
@@ -1679,12 +1613,6 @@ class StoreSensorItem:
 class StoreVirtualMeterCollection:
     def __init__(self):
         pass
-
-    @staticmethod
-    def on_options(req, resp, id_):
-        _ = req
-        resp.status = falcon.HTTP_200
-        _ = id_
 
     @staticmethod
     def on_get(req, resp, id_):
@@ -1831,12 +1759,6 @@ class StoreVirtualMeterItem:
         pass
 
     @staticmethod
-    def on_options(req, resp, id_, mid):
-        _ = req
-        resp.status = falcon.HTTP_200
-        _ = id_
-
-    @staticmethod
     @user_logger
     def on_delete(req, resp, id_, mid):
         admin_control(req)
@@ -1896,12 +1818,6 @@ class StoreVirtualMeterItem:
 class StoreWorkingCalendarCollection:
     def __init__(self):
         pass
-
-    @staticmethod
-    def on_options(req, resp, id_):
-        _ = req
-        resp.status = falcon.HTTP_200
-        _ = id_
 
     @staticmethod
     def on_get(req, resp, id_):
@@ -2035,12 +1951,6 @@ class StoreWorkingCalendarItem:
         pass
 
     @staticmethod
-    def on_options(req, resp, id_, wcid):
-        _ = req
-        resp.status = falcon.HTTP_200
-        _ = id_
-
-    @staticmethod
     @user_logger
     def on_delete(req, resp, id_, wcid):
         admin_control(req)
@@ -2100,12 +2010,6 @@ class StoreWorkingCalendarItem:
 class StoreCommandCollection:
     def __init__(self):
         pass
-
-    @staticmethod
-    def on_options(req, resp, id_):
-        _ = req
-        resp.status = falcon.HTTP_200
-        _ = id_
 
     @staticmethod
     def on_get(req, resp, id_):
@@ -2239,12 +2143,6 @@ class StoreCommandItem:
         pass
 
     @staticmethod
-    def on_options(req, resp, id_, cid):
-        _ = req
-        resp.status = falcon.HTTP_200
-        _ = id_
-
-    @staticmethod
     @user_logger
     def on_delete(req, resp, id_, cid):
         admin_control(req)
@@ -2303,12 +2201,6 @@ class StoreCommandItem:
 class StoreExport:
     def __init__(self):
         pass
-
-    @staticmethod
-    def on_options(req, resp, id_):
-        _ = req
-        resp.status = falcon.HTTP_200
-        _ = id_
 
     @staticmethod
     def on_get(req, resp, id_):
@@ -2589,11 +2481,6 @@ class StoreExport:
 class StoreImport:
     def __init__(self):
         pass
-
-    @staticmethod
-    def on_options(req, resp):
-        _ = req
-        resp.status = falcon.HTTP_200
 
     @staticmethod
     @user_logger
@@ -2905,12 +2792,6 @@ class StoreImport:
 class StoreClone:
     def __init__(self):
         pass
-
-    @staticmethod
-    def on_options(req, resp, id_):
-        _ = req
-        resp.status = falcon.HTTP_200
-        _ = id_
 
     @staticmethod
     @user_logger

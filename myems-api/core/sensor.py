@@ -66,12 +66,6 @@ class SensorCollection:
         pass
 
     @staticmethod
-    def on_options(req, resp):
-        """Handle OPTIONS requests for CORS preflight"""
-        _ = req
-        resp.status = falcon.HTTP_200
-
-    @staticmethod
     def on_get(req, resp):
         if 'API-KEY' not in req.headers or \
                 not isinstance(req.headers['API-KEY'], str) or \
@@ -233,12 +227,6 @@ class SensorCollection:
 class SensorItem:
     def __init__(self):
         pass
-
-    @staticmethod
-    def on_options(req, resp, id_):
-        _ = req
-        resp.status = falcon.HTTP_200
-        _ = id_
 
     @staticmethod
     def on_get(req, resp, id_):
@@ -494,12 +482,6 @@ class SensorPointCollection:
         pass
 
     @staticmethod
-    def on_options(req, resp, id_):
-        _ = req
-        resp.status = falcon.HTTP_200
-        _ = id_
-
-    @staticmethod
     def on_get(req, resp, id_):
         if 'API-KEY' not in req.headers or \
                 not isinstance(req.headers['API-KEY'], str) or \
@@ -664,12 +646,6 @@ class SensorPointItem:
         pass
 
     @staticmethod
-    def on_options(req, resp, id_, pid):
-        _ = req
-        resp.status = falcon.HTTP_200
-        _ = id_
-
-    @staticmethod
     @user_logger
     def on_delete(req, resp, id_, pid):
         admin_control(req)
@@ -728,12 +704,6 @@ class SensorPointItem:
 class SensorExport:
     def __init__(self):
         pass
-
-    @staticmethod
-    def on_options(req, resp, id_):
-        _ = req
-        resp.status = falcon.HTTP_200
-        _ = id_
 
     @staticmethod
     def on_get(req, resp, id_):
@@ -832,11 +802,6 @@ class SensorImport:
         pass
 
     @staticmethod
-    def on_options(req, resp):
-        _ = req
-        resp.status = falcon.HTTP_200
-
-    @staticmethod
     @user_logger
     def on_post(req, resp):
         """Handles POST requests"""
@@ -929,12 +894,6 @@ class SensorClone:
 
     def __init__(self):
         pass
-
-    @staticmethod
-    def on_options(req, resp, id_):
-        _ = req
-        resp.status = falcon.HTTP_200
-        _ = id_
 
     @staticmethod
     @user_logger

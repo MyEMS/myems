@@ -20,18 +20,6 @@ class EnergyStorageContainerCollection:
         pass
 
     @staticmethod
-    def on_options(req, resp):
-        """
-        Handle OPTIONS request for CORS preflight
-
-        Args:
-            req: Falcon request object
-            resp: Falcon response object
-        """
-        _ = req
-        resp.status = falcon.HTTP_200
-
-    @staticmethod
     def on_get(req, resp):
         """
         Handle GET requests to retrieve all energy storage containers
@@ -261,12 +249,6 @@ class EnergyStorageContainerItem:
     """
     def __init__(self):
         pass
-
-    @staticmethod
-    def on_options(req, resp, id_):
-        _ = req
-        resp.status = falcon.HTTP_200
-        _ = id_
 
     @staticmethod
     def on_get(req, resp, id_):
@@ -587,12 +569,6 @@ class EnergyStorageContainerBatteryCollection:
         pass
 
     @staticmethod
-    def on_options(req, resp, id_):
-        _ = req
-        resp.status = falcon.HTTP_200
-        _ = id_
-
-    @staticmethod
     def on_get(req, resp, id_):
         access_control(req)
         if not id_.isdigit() or int(id_) <= 0:
@@ -860,12 +836,6 @@ class EnergyStorageContainerBatteryCollection:
 class EnergyStorageContainerBatteryItem:
     def __init__(self):
         pass
-
-    @staticmethod
-    def on_options(req, resp, id_, bid):
-        _ = req
-        resp.status = falcon.HTTP_200
-        _ = id_
 
     @staticmethod
     def on_get(req, resp, id_, bid):
@@ -1206,12 +1176,6 @@ class EnergyStorageContainerBatteryPointCollection:
         pass
 
     @staticmethod
-    def on_options(req, resp, id_, bid):
-        _ = req
-        resp.status = falcon.HTTP_200
-        _ = id_
-
-    @staticmethod
     def on_get(req, resp, id_, bid):
         if 'API-KEY' not in req.headers or \
                 not isinstance(req.headers['API-KEY'], str) or \
@@ -1346,12 +1310,6 @@ class EnergyStorageContainerBatteryPointItem:
         pass
 
     @staticmethod
-    def on_options(req, resp, id_, bid, pid):
-        _ = req
-        resp.status = falcon.HTTP_200
-        _ = id_
-
-    @staticmethod
     @user_logger
     def on_delete(req, resp, id_, bid, pid):
         """Handles DELETE requests"""
@@ -1411,12 +1369,6 @@ class EnergyStorageContainerBatteryPointItem:
 class EnergyStorageContainerCommandCollection:
     def __init__(self):
         pass
-
-    @staticmethod
-    def on_options(req, resp, id_):
-        _ = req
-        resp.status = falcon.HTTP_200
-        _ = id_
 
     @staticmethod
     def on_get(req, resp, id_):
@@ -1551,12 +1503,6 @@ class EnergyStorageContainerCommandItem:
         pass
 
     @staticmethod
-    def on_options(req, resp, id_, cid):
-        _ = req
-        resp.status = falcon.HTTP_200
-        _ = id_
-
-    @staticmethod
     @user_logger
     def on_delete(req, resp, id_, cid):
         admin_control(req)
@@ -1613,12 +1559,6 @@ class EnergyStorageContainerCommandItem:
 class EnergyStorageContainerDataSourceCollection:
     def __init__(self):
         pass
-
-    @staticmethod
-    def on_options(req, resp, id_):
-        _ = req
-        resp.status = falcon.HTTP_200
-        _ = id_
 
     @staticmethod
     def on_get(req, resp, id_):
@@ -1753,12 +1693,6 @@ class EnergyStorageContainerDataSourceItem:
         pass
 
     @staticmethod
-    def on_options(req, resp, id_, dsid):
-        _ = req
-        resp.status = falcon.HTTP_200
-        _ = id_
-
-    @staticmethod
     @user_logger
     def on_delete(req, resp, id_, dsid):
         admin_control(req)
@@ -1817,12 +1751,6 @@ class EnergyStorageContainerDataSourcePointCollection:
         pass
 
     @staticmethod
-    def on_options(req, resp, id_):
-        _ = req
-        resp.status = falcon.HTTP_200
-        _ = id_
-
-    @staticmethod
     def on_get(req, resp, id_):
         if 'API-KEY' not in req.headers or \
                 not isinstance(req.headers['API-KEY'], str) or \
@@ -1870,12 +1798,6 @@ class EnergyStorageContainerDataSourcePointCollection:
 class EnergyStorageContainerDCDCCollection:
     def __init__(self):
         pass
-
-    @staticmethod
-    def on_options(req, resp, id_):
-        _ = req
-        resp.status = falcon.HTTP_200
-        _ = id_
 
     @staticmethod
     def on_get(req, resp, id_):
@@ -2001,12 +1923,6 @@ class EnergyStorageContainerDCDCCollection:
 class EnergyStorageContainerDCDCItem:
     def __init__(self):
         pass
-
-    @staticmethod
-    def on_options(req, resp, id_, did):
-        _ = req
-        resp.status = falcon.HTTP_200
-        _ = id_
 
     @staticmethod
     def on_get(req, resp, id_, did):
@@ -2200,12 +2116,6 @@ class EnergyStorageContainerDCDCPointCollection:
         pass
 
     @staticmethod
-    def on_options(req, resp, id_, did):
-        _ = req
-        resp.status = falcon.HTTP_200
-        _ = id_
-
-    @staticmethod
     def on_get(req, resp, id_, did):
         if 'API-KEY' not in req.headers or \
                 not isinstance(req.headers['API-KEY'], str) or \
@@ -2340,12 +2250,6 @@ class EnergyStorageContainerDCDCPointItem:
         pass
 
     @staticmethod
-    def on_options(req, resp, id_, did, pid):
-        _ = req
-        resp.status = falcon.HTTP_200
-        _ = id_
-
-    @staticmethod
     @user_logger
     def on_delete(req, resp, id_, did, pid):
         """Handles DELETE requests"""
@@ -2405,12 +2309,6 @@ class EnergyStorageContainerDCDCPointItem:
 class EnergyStorageContainerFirecontrolCollection:
     def __init__(self):
         pass
-
-    @staticmethod
-    def on_options(req, resp, id_):
-        _ = req
-        resp.status = falcon.HTTP_200
-        _ = id_
 
     @staticmethod
     def on_get(req, resp, id_):
@@ -2539,12 +2437,6 @@ class EnergyStorageContainerFirecontrolCollection:
 class EnergyStorageContainerFirecontrolItem:
     def __init__(self):
         pass
-
-    @staticmethod
-    def on_options(req, resp, id_, fid):
-        _ = req
-        resp.status = falcon.HTTP_200
-        _ = id_
 
     @staticmethod
     def on_get(req, resp, id_, fid):
@@ -2741,12 +2633,6 @@ class EnergyStorageContainerFirecontrolPointCollection:
         pass
 
     @staticmethod
-    def on_options(req, resp, id_, fid):
-        _ = req
-        resp.status = falcon.HTTP_200
-        _ = id_
-
-    @staticmethod
     def on_get(req, resp, id_, fid):
         if 'API-KEY' not in req.headers or \
                 not isinstance(req.headers['API-KEY'], str) or \
@@ -2883,12 +2769,6 @@ class EnergyStorageContainerFirecontrolPointItem:
         pass
 
     @staticmethod
-    def on_options(req, resp, id_, fid, pid):
-        _ = req
-        resp.status = falcon.HTTP_200
-        _ = id_
-
-    @staticmethod
     @user_logger
     def on_delete(req, resp, id_, fid, pid):
         """Handles DELETE requests"""
@@ -2948,12 +2828,6 @@ class EnergyStorageContainerFirecontrolPointItem:
 class EnergyStorageContainerGridCollection:
     def __init__(self):
         pass
-
-    @staticmethod
-    def on_options(req, resp, id_):
-        _ = req
-        resp.status = falcon.HTTP_200
-        _ = id_
 
     @staticmethod
     def on_get(req, resp, id_):
@@ -3167,12 +3041,6 @@ class EnergyStorageContainerGridCollection:
 class EnergyStorageContainerGridItem:
     def __init__(self):
         pass
-
-    @staticmethod
-    def on_options(req, resp, id_, gid):
-        _ = req
-        resp.status = falcon.HTTP_200
-        _ = id_
 
     @staticmethod
     def on_get(req, resp, id_, gid):
@@ -3455,12 +3323,6 @@ class EnergyStorageContainerGridPointCollection:
         pass
 
     @staticmethod
-    def on_options(req, resp, id_, gid):
-        _ = req
-        resp.status = falcon.HTTP_200
-        _ = id_
-
-    @staticmethod
     def on_get(req, resp, id_, gid):
         if 'API-KEY' not in req.headers or \
                 not isinstance(req.headers['API-KEY'], str) or \
@@ -3595,12 +3457,6 @@ class EnergyStorageContainerGridPointItem:
         pass
 
     @staticmethod
-    def on_options(req, resp, id_, gid, pid):
-        _ = req
-        resp.status = falcon.HTTP_200
-        _ = id_
-
-    @staticmethod
     @user_logger
     def on_delete(req, resp, id_, gid, pid):
         """Handles DELETE requests"""
@@ -3660,12 +3516,6 @@ class EnergyStorageContainerGridPointItem:
 class EnergyStorageContainerHVACCollection:
     def __init__(self):
         pass
-
-    @staticmethod
-    def on_options(req, resp, id_):
-        _ = req
-        resp.status = falcon.HTTP_200
-        _ = id_
 
     @staticmethod
     def on_get(req, resp, id_):
@@ -3791,12 +3641,6 @@ class EnergyStorageContainerHVACCollection:
 class EnergyStorageContainerHVACItem:
     def __init__(self):
         pass
-
-    @staticmethod
-    def on_options(req, resp, id_, hid):
-        _ = req
-        resp.status = falcon.HTTP_200
-        _ = id_
 
     @staticmethod
     def on_get(req, resp, id_, hid):
@@ -3990,12 +3834,6 @@ class EnergyStorageContainerHVACPointCollection:
         pass
 
     @staticmethod
-    def on_options(req, resp, id_, hid):
-        _ = req
-        resp.status = falcon.HTTP_200
-        _ = id_
-
-    @staticmethod
     def on_get(req, resp, id_, hid):
         if 'API-KEY' not in req.headers or \
                 not isinstance(req.headers['API-KEY'], str) or \
@@ -4130,12 +3968,6 @@ class EnergyStorageContainerHVACPointItem:
         pass
 
     @staticmethod
-    def on_options(req, resp, id_, hid, pid):
-        _ = req
-        resp.status = falcon.HTTP_200
-        _ = id_
-
-    @staticmethod
     @user_logger
     def on_delete(req, resp, id_, hid, pid):
         """Handles DELETE requests"""
@@ -4195,12 +4027,6 @@ class EnergyStorageContainerHVACPointItem:
 class EnergyStorageContainerLoadCollection:
     def __init__(self):
         pass
-
-    @staticmethod
-    def on_options(req, resp, id_):
-        _ = req
-        resp.status = falcon.HTTP_200
-        _ = id_
 
     @staticmethod
     def on_get(req, resp, id_):
@@ -4397,12 +4223,6 @@ class EnergyStorageContainerLoadCollection:
 class EnergyStorageContainerLoadItem:
     def __init__(self):
         pass
-
-    @staticmethod
-    def on_options(req, resp, id_, lid):
-        _ = req
-        resp.status = falcon.HTTP_200
-        _ = id_
 
     @staticmethod
     def on_get(req, resp, id_, lid):
@@ -4667,12 +4487,6 @@ class EnergyStorageContainerLoadPointCollection:
         pass
 
     @staticmethod
-    def on_options(req, resp, id_, lid):
-        _ = req
-        resp.status = falcon.HTTP_200
-        _ = id_
-
-    @staticmethod
     def on_get(req, resp, id_, lid):
         if 'API-KEY' not in req.headers or \
                 not isinstance(req.headers['API-KEY'], str) or \
@@ -4807,12 +4621,6 @@ class EnergyStorageContainerLoadPointItem:
         pass
 
     @staticmethod
-    def on_options(req, resp, id_, lid, pid):
-        _ = req
-        resp.status = falcon.HTTP_200
-        _ = id_
-
-    @staticmethod
     @user_logger
     def on_delete(req, resp, id_, lid, pid):
         """Handles DELETE requests"""
@@ -4872,12 +4680,6 @@ class EnergyStorageContainerLoadPointItem:
 class EnergyStorageContainerPCSCollection:
     def __init__(self):
         pass
-
-    @staticmethod
-    def on_options(req, resp, id_):
-        _ = req
-        resp.status = falcon.HTTP_200
-        _ = id_
 
     @staticmethod
     def on_get(req, resp, id_):
@@ -5046,12 +4848,6 @@ class EnergyStorageContainerPCSCollection:
 class EnergyStorageContainerPCSItem:
     def __init__(self):
         pass
-
-    @staticmethod
-    def on_options(req, resp, id_, pcsid):
-        _ = req
-        resp.status = falcon.HTTP_200
-        _ = id_
 
     @staticmethod
     def on_get(req, resp, id_, pcsid):
@@ -5302,12 +5098,6 @@ class EnergyStorageContainerPCSPointCollection:
         pass
 
     @staticmethod
-    def on_options(req, resp, id_, pcsid):
-        _ = req
-        resp.status = falcon.HTTP_200
-        _ = id_
-
-    @staticmethod
     def on_get(req, resp, id_, pcsid):
         if 'API-KEY' not in req.headers or \
                 not isinstance(req.headers['API-KEY'], str) or \
@@ -5442,12 +5232,6 @@ class EnergyStorageContainerPCSPointItem:
         pass
 
     @staticmethod
-    def on_options(req, resp, id_, pcsid, pid):
-        _ = req
-        resp.status = falcon.HTTP_200
-        _ = id_
-
-    @staticmethod
     @user_logger
     def on_delete(req, resp, id_, pcsid, pid):
         """Handles DELETE requests"""
@@ -5507,12 +5291,6 @@ class EnergyStorageContainerPCSPointItem:
 class EnergyStorageContainerScheduleCollection:
     def __init__(self):
         pass
-
-    @staticmethod
-    def on_options(req, resp, id_):
-        _ = req
-        resp.status = falcon.HTTP_200
-        _ = id_
 
     @staticmethod
     def on_get(req, resp, id_):
@@ -5628,12 +5406,6 @@ class EnergyStorageContainerScheduleCollection:
 class EnergyStorageContainerScheduleItem:
     def __init__(self):
         pass
-
-    @staticmethod
-    def on_options(req, resp, id_, sid):
-        _ = req
-        resp.status = falcon.HTTP_200
-        _ = id_
 
     @staticmethod
     def on_get(req, resp, id_, sid):
@@ -5843,12 +5615,6 @@ class EnergyStorageContainerSTSCollection:
         pass
 
     @staticmethod
-    def on_options(req, resp, id_):
-        _ = req
-        resp.status = falcon.HTTP_200
-        _ = id_
-
-    @staticmethod
     def on_get(req, resp, id_):
         access_control(req)
         if not id_.isdigit() or int(id_) <= 0:
@@ -5972,12 +5738,6 @@ class EnergyStorageContainerSTSCollection:
 class EnergyStorageContainerSTSItem:
     def __init__(self):
         pass
-
-    @staticmethod
-    def on_options(req, resp, id_, fid):
-        _ = req
-        resp.status = falcon.HTTP_200
-        _ = id_
 
     @staticmethod
     def on_get(req, resp, id_, fid):
@@ -6171,12 +5931,6 @@ class EnergyStorageContainerSTSPointCollection:
         pass
 
     @staticmethod
-    def on_options(req, resp, id_, fid):
-        _ = req
-        resp.status = falcon.HTTP_200
-        _ = id_
-
-    @staticmethod
     def on_get(req, resp, id_, fid):
         if 'API-KEY' not in req.headers or \
                 not isinstance(req.headers['API-KEY'], str) or \
@@ -6311,12 +6065,6 @@ class EnergyStorageContainerSTSPointItem:
         pass
 
     @staticmethod
-    def on_options(req, resp, id_, fid, pid):
-        _ = req
-        resp.status = falcon.HTTP_200
-        _ = id_
-
-    @staticmethod
     @user_logger
     def on_delete(req, resp, id_, fid, pid):
         """Handles DELETE requests"""
@@ -6376,12 +6124,6 @@ class EnergyStorageContainerSTSPointItem:
 class EnergyStorageContainerClone:
     def __init__(self):
         pass
-
-    @staticmethod
-    def on_options(req, resp, id_):
-        _ = req
-        resp.status = falcon.HTTP_200
-        _ = id_
 
     @staticmethod
     @user_logger
@@ -6452,12 +6194,6 @@ class EnergyStorageContainerClone:
 class EnergyStorageContainerExport:
     def __init__(self):
         pass
-
-    @staticmethod
-    def on_options(req, resp, id_):
-        _ = req
-        resp.status = falcon.HTTP_200
-        _ = id_
 
     @staticmethod
     def on_get(req, resp, id_):
@@ -6532,11 +6268,6 @@ class EnergyStorageContainerExport:
 class EnergyStorageContainerImport:
     def __init__(self):
         pass
-
-    @staticmethod
-    def on_options(req, resp):
-        _ = req
-        resp.status = falcon.HTTP_200
 
     @staticmethod
     @user_logger

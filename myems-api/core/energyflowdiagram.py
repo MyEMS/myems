@@ -89,18 +89,6 @@ class EnergyFlowDiagramCollection:
         pass
 
     @staticmethod
-    def on_options(req, resp):
-        """
-        Handle OPTIONS request for CORS preflight
-
-        Args:
-            req: Falcon request object
-            resp: Falcon response object
-        """
-        _ = req
-        resp.status = falcon.HTTP_200
-
-    @staticmethod
     def on_get(req, resp):
         """
         Handle GET requests to retrieve all energy flow diagrams
@@ -380,12 +368,6 @@ class EnergyFlowDiagramItem:
     """
     def __init__(self):
         pass
-
-    @staticmethod
-    def on_options(req, resp, id_):
-        _ = req
-        resp.status = falcon.HTTP_200
-        _ = id_
 
     @staticmethod
     def on_get(req, resp, id_):
@@ -684,12 +666,6 @@ class EnergyFlowDiagramItem:
 class EnergyFlowDiagramLinkCollection:
     def __init__(self):
         pass
-
-    @staticmethod
-    def on_options(req, resp, id_):
-        _ = req
-        resp.status = falcon.HTTP_200
-        _ = id_
 
     @staticmethod
     def on_get(req, resp, id_):
@@ -1010,12 +986,6 @@ class EnergyFlowDiagramLinkCollection:
 class EnergyFlowDiagramLinkItem:
     def __init__(self):
         pass
-
-    @staticmethod
-    def on_options(req, resp, id_, lid):
-        _ = req
-        resp.status = falcon.HTTP_200
-        _ = id_
 
     @staticmethod
     def on_get(req, resp, id_, lid):
@@ -1397,12 +1367,6 @@ class EnergyFlowDiagramNodeCollection:
         pass
 
     @staticmethod
-    def on_options(req, resp, id_):
-        _ = req
-        resp.status = falcon.HTTP_200
-        _ = id_
-
-    @staticmethod
     def on_get(req, resp, id_):
         if 'API-KEY' not in req.headers or \
                 not isinstance(req.headers['API-KEY'], str) or \
@@ -1569,12 +1533,6 @@ class EnergyFlowDiagramNodeCollection:
 class EnergyFlowDiagramNodeItem:
     def __init__(self):
         pass
-
-    @staticmethod
-    def on_options(req, resp, id_, nid):
-        _ = req
-        resp.status = falcon.HTTP_200
-        _ = id_
 
     @staticmethod
     def on_get(req, resp, id_, nid):
@@ -1817,12 +1775,6 @@ class EnergyFlowDiagramExport:
         pass
 
     @staticmethod
-    def on_options(req, resp, id_):
-        _ = req
-        resp.status = falcon.HTTP_200
-        _ = id_
-
-    @staticmethod
     def on_get(req, resp, id_):
         if 'API-KEY' not in req.headers or \
                 not isinstance(req.headers['API-KEY'], str) or \
@@ -1996,11 +1948,6 @@ class EnergyFlowDiagramExport:
 class EnergyFlowDiagramImport:
     def __init__(self):
         pass
-
-    @staticmethod
-    def on_options(req, resp):
-        _ = req
-        resp.status = falcon.HTTP_200
 
     @staticmethod
     @user_logger
@@ -2216,12 +2163,6 @@ class EnergyFlowDiagramImport:
 class EnergyFlowDiagramClone:
     def __init__(self):
         pass
-
-    @staticmethod
-    def on_options(req, resp, id_):
-        _ = req
-        resp.status = falcon.HTTP_200
-        _ = id_
 
     @staticmethod
     @user_logger

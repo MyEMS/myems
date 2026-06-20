@@ -61,12 +61,6 @@ class OfflineMeterFileCollection:
         pass
 
     @staticmethod
-    def on_options(req, resp):
-        """Handle OPTIONS requests for CORS preflight"""
-        _ = req
-        resp.status = falcon.HTTP_200
-
-    @staticmethod
     def on_get(req, resp):
         """
         Handle GET requests to retrieve all offline meter files
@@ -324,13 +318,6 @@ class OfflineMeterFileItem:
         pass
 
     @staticmethod
-    def on_options(req, resp, id_):
-        """Handle OPTIONS requests for CORS preflight"""
-        _ = req
-        resp.status = falcon.HTTP_200
-        _ = id_
-
-    @staticmethod
     def on_get(req, resp, id_):
         """
         Handle GET requests to retrieve a specific offline meter file
@@ -514,13 +501,6 @@ class OfflineMeterFileRestore:
     def __init__(self):
         """Initialize OfflineMeterFileRestore"""
         pass
-
-    @staticmethod
-    def on_options(req, resp, id_):
-        """Handle OPTIONS requests for CORS preflight"""
-        _ = req
-        resp.status = falcon.HTTP_200
-        _ = id_
 
     @staticmethod
     def on_get(req, resp, id_):

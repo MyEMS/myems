@@ -100,11 +100,6 @@ class SpaceCollection:
         pass
 
     @staticmethod
-    def on_options(req, resp):
-        _ = req
-        resp.status = falcon.HTTP_200
-
-    @staticmethod
     def on_get(req, resp):
         if 'API-KEY' not in req.headers or \
                 not isinstance(req.headers['API-KEY'], str) or \
@@ -449,12 +444,6 @@ class SpaceCollection:
 class SpaceItem:
     def __init__(self):
         pass
-
-    @staticmethod
-    def on_options(req, resp, id_):
-        _ = req
-        resp.status = falcon.HTTP_200
-        _ = id_
 
     @staticmethod
     def on_get(req, resp, id_):
@@ -916,12 +905,6 @@ class SpaceChildrenCollection:
         pass
 
     @staticmethod
-    def on_options(req, resp, id_):
-        _ = req
-        resp.status = falcon.HTTP_200
-        _ = id_
-
-    @staticmethod
     def on_get(req, resp, id_):
         if 'API-KEY' not in req.headers or \
                 not isinstance(req.headers['API-KEY'], str) or \
@@ -1099,12 +1082,6 @@ class SpaceCombinedEquipmentCollection:
         pass
 
     @staticmethod
-    def on_options(req, resp, id_):
-        _ = req
-        resp.status = falcon.HTTP_200
-        _ = id_
-
-    @staticmethod
     def on_get(req, resp, id_):
         if 'API-KEY' not in req.headers or \
                 not isinstance(req.headers['API-KEY'], str) or \
@@ -1233,12 +1210,6 @@ class SpaceCombinedEquipmentItem:
         pass
 
     @staticmethod
-    def on_options(req, resp, id_, eid):
-        _ = req
-        resp.status = falcon.HTTP_200
-        _ = id_
-
-    @staticmethod
     @user_logger
     def on_delete(req, resp, id_, eid):
         admin_control(req)
@@ -1295,12 +1266,6 @@ class SpaceCombinedEquipmentItem:
 class SpaceEnergyStoragePowerStationCollection:
     def __init__(self):
         pass
-
-    @staticmethod
-    def on_options(req, resp, id_):
-        _ = req
-        resp.status = falcon.HTTP_200
-        _ = id_
 
     @staticmethod
     def on_get(req, resp, id_):
@@ -1481,12 +1446,6 @@ class SpaceEnergyStoragePowerStationItem:
         pass
 
     @staticmethod
-    def on_options(req, resp, id_, eid):
-        _ = req
-        resp.status = falcon.HTTP_200
-        _ = id_
-
-    @staticmethod
     @user_logger
     def on_delete(req, resp, id_, eid):
         admin_control(req)
@@ -1543,12 +1502,6 @@ class SpaceEnergyStoragePowerStationItem:
 class SpaceEquipmentCollection:
     def __init__(self):
         pass
-
-    @staticmethod
-    def on_options(req, resp, id_):
-        _ = req
-        resp.status = falcon.HTTP_200
-        _ = id_
 
     @staticmethod
     def on_get(req, resp, id_):
@@ -1679,12 +1632,6 @@ class SpaceEquipmentItem:
         pass
 
     @staticmethod
-    def on_options(req, resp, id_, eid):
-        _ = req
-        resp.status = falcon.HTTP_200
-        _ = id_
-
-    @staticmethod
     @user_logger
     def on_delete(req, resp, id_, eid):
         admin_control(req)
@@ -1741,12 +1688,6 @@ class SpaceEquipmentItem:
 class SpaceMeterCollection:
     def __init__(self):
         pass
-
-    @staticmethod
-    def on_options(req, resp, id_):
-        _ = req
-        resp.status = falcon.HTTP_200
-        _ = id_
 
     @staticmethod
     def on_get(req, resp, id_):
@@ -1890,12 +1831,6 @@ class SpaceMeterItem:
         pass
 
     @staticmethod
-    def on_options(req, resp, id_, mid):
-        _ = req
-        resp.status = falcon.HTTP_200
-        _ = id_
-
-    @staticmethod
     @user_logger
     def on_delete(req, resp, id_, mid):
         admin_control(req)
@@ -1952,12 +1887,6 @@ class SpaceMeterItem:
 class SpaceMicrogridCollection:
     def __init__(self):
         pass
-
-    @staticmethod
-    def on_options(req, resp, id_):
-        _ = req
-        resp.status = falcon.HTTP_200
-        _ = id_
 
     @staticmethod
     def on_get(req, resp, id_):
@@ -2086,12 +2015,6 @@ class SpaceMicrogridItem:
         pass
 
     @staticmethod
-    def on_options(req, resp, id_, mid):
-        _ = req
-        resp.status = falcon.HTTP_200
-        _ = id_
-
-    @staticmethod
     @user_logger
     def on_delete(req, resp, id_, mid):
         admin_control(req)
@@ -2147,12 +2070,6 @@ class SpaceMicrogridItem:
 class SpaceOfflineMeterCollection:
     def __init__(self):
         pass
-
-    @staticmethod
-    def on_options(req, resp, id_):
-        _ = req
-        resp.status = falcon.HTTP_200
-        _ = id_
 
     @staticmethod
     def on_get(req, resp, id_):
@@ -2294,12 +2211,6 @@ class SpaceOfflineMeterItem:
         pass
 
     @staticmethod
-    def on_options(req, resp, id_, mid):
-        _ = req
-        resp.status = falcon.HTTP_200
-        _ = id_
-
-    @staticmethod
     @user_logger
     def on_delete(req, resp, id_, mid):
         admin_control(req)
@@ -2355,12 +2266,6 @@ class SpaceOfflineMeterItem:
 class SpacePhotovoltaicPowerStationCollection:
     def __init__(self):
         pass
-
-    @staticmethod
-    def on_options(req, resp, id_):
-        _ = req
-        resp.status = falcon.HTTP_200
-        _ = id_
 
     @staticmethod
     def on_get(req, resp, id_):
@@ -2492,12 +2397,6 @@ class SpacePhotovoltaicPowerStationItem:
         pass
 
     @staticmethod
-    def on_options(req, resp, id_, eid):
-        _ = req
-        resp.status = falcon.HTTP_200
-        _ = id_
-
-    @staticmethod
     @user_logger
     def on_delete(req, resp, id_, eid):
         admin_control(req)
@@ -2553,12 +2452,6 @@ class SpacePhotovoltaicPowerStationItem:
 class SpacePointCollection:
     def __init__(self):
         pass
-
-    @staticmethod
-    def on_options(req, resp, id_):
-        _ = req
-        resp.status = falcon.HTTP_200
-        _ = id_
 
     @staticmethod
     def on_get(req, resp, id_):
@@ -2699,12 +2592,6 @@ class SpacePointItem:
         pass
 
     @staticmethod
-    def on_options(req, resp, id_, pid):
-        _ = req
-        resp.status = falcon.HTTP_200
-        _ = id_
-
-    @staticmethod
     @user_logger
     def on_delete(req, resp, id_, pid):
         admin_control(req)
@@ -2760,12 +2647,6 @@ class SpacePointItem:
 class SpaceSensorCollection:
     def __init__(self):
         pass
-
-    @staticmethod
-    def on_options(req, resp, id_):
-        _ = req
-        resp.status = falcon.HTTP_200
-        _ = id_
 
     @staticmethod
     def on_get(req, resp, id_):
@@ -2894,12 +2775,6 @@ class SpaceSensorItem:
         pass
 
     @staticmethod
-    def on_options(req, resp, id_, sid):
-        _ = req
-        resp.status = falcon.HTTP_200
-        _ = id_
-
-    @staticmethod
     @user_logger
     def on_delete(req, resp, id_, sid):
         admin_control(req)
@@ -2954,12 +2829,6 @@ class SpaceSensorItem:
 class SpaceShopfloorCollection:
     def __init__(self):
         pass
-
-    @staticmethod
-    def on_options(req, resp, id_):
-        _ = req
-        resp.status = falcon.HTTP_200
-        _ = id_
 
     @staticmethod
     def on_get(req, resp, id_):
@@ -3088,12 +2957,6 @@ class SpaceShopfloorItem:
         pass
 
     @staticmethod
-    def on_options(req, resp, id_, sid):
-        _ = req
-        resp.status = falcon.HTTP_200
-        _ = id_
-
-    @staticmethod
     @user_logger
     def on_delete(req, resp, id_, sid):
         admin_control(req)
@@ -3149,12 +3012,6 @@ class SpaceShopfloorItem:
 class SpaceStoreCollection:
     def __init__(self):
         pass
-
-    @staticmethod
-    def on_options(req, resp, id_):
-        _ = req
-        resp.status = falcon.HTTP_200
-        _ = id_
 
     @staticmethod
     def on_get(req, resp, id_):
@@ -3283,12 +3140,6 @@ class SpaceStoreItem:
         pass
 
     @staticmethod
-    def on_options(req, resp, id_, tid):
-        _ = req
-        resp.status = falcon.HTTP_200
-        _ = id_
-
-    @staticmethod
     @user_logger
     def on_delete(req, resp, id_, tid):
         admin_control(req)
@@ -3343,12 +3194,6 @@ class SpaceStoreItem:
 class SpaceTenantCollection:
     def __init__(self):
         pass
-
-    @staticmethod
-    def on_options(req, resp, id_):
-        _ = req
-        resp.status = falcon.HTTP_200
-        _ = id_
 
     @staticmethod
     def on_get(req, resp, id_):
@@ -3477,12 +3322,6 @@ class SpaceTenantItem:
         pass
 
     @staticmethod
-    def on_options(req, resp, id_, tid):
-        _ = req
-        resp.status = falcon.HTTP_200
-        _ = id_
-
-    @staticmethod
     @user_logger
     def on_delete(req, resp, id_, tid):
         admin_control(req)
@@ -3537,12 +3376,6 @@ class SpaceTenantItem:
 class SpaceVirtualMeterCollection:
     def __init__(self):
         pass
-
-    @staticmethod
-    def on_options(req, resp, id_):
-        _ = req
-        resp.status = falcon.HTTP_200
-        _ = id_
 
     @staticmethod
     def on_get(req, resp, id_):
@@ -3684,12 +3517,6 @@ class SpaceVirtualMeterItem:
         pass
 
     @staticmethod
-    def on_options(req, resp, id_, mid):
-        _ = req
-        resp.status = falcon.HTTP_200
-        _ = id_
-
-    @staticmethod
     @user_logger
     def on_delete(req, resp, id_, mid):
         admin_control(req)
@@ -3745,11 +3572,6 @@ class SpaceVirtualMeterItem:
 class SpaceTreeCollection:
     def __init__(self):
         pass
-
-    @staticmethod
-    def on_options(req, resp):
-        _ = req
-        resp.status = falcon.HTTP_200
 
     @staticmethod
     def on_get(req, resp):
@@ -3865,12 +3687,6 @@ class SpaceTreeMetersEnergyCategoryCollection:
         pass
 
     @staticmethod
-    def on_options(req, resp, id_):
-        _ = req
-        resp.status = falcon.HTTP_200
-        _ = id_
-
-    @staticmethod
     def on_get(req, resp, id_):
         if 'API-KEY' not in req.headers or \
                 not isinstance(req.headers['API-KEY'], str) or \
@@ -3944,12 +3760,6 @@ class SpaceTreeMetersEnergyCategoryCollection:
 class SpaceWorkingCalendarCollection:
     def __init__(self):
         pass
-
-    @staticmethod
-    def on_options(req, resp, id_):
-        _ = req
-        resp.status = falcon.HTTP_200
-        _ = id_
 
     @staticmethod
     def on_get(req, resp, id_):
@@ -4078,12 +3888,6 @@ class SpaceWorkingCalendarItem:
         pass
 
     @staticmethod
-    def on_options(req, resp, id_, wcid):
-        _ = req
-        resp.status = falcon.HTTP_200
-        _ = id_
-
-    @staticmethod
     @user_logger
     def on_delete(req, resp, id_, wcid):
         admin_control(req)
@@ -4139,12 +3943,6 @@ class SpaceWorkingCalendarItem:
 class SpaceCommandCollection:
     def __init__(self):
         pass
-
-    @staticmethod
-    def on_options(req, resp, id_):
-        _ = req
-        resp.status = falcon.HTTP_200
-        _ = id_
 
     @staticmethod
     def on_get(req, resp, id_):
@@ -4273,12 +4071,6 @@ class SpaceCommandItem:
         pass
 
     @staticmethod
-    def on_options(req, resp, id_, cid):
-        _ = req
-        resp.status = falcon.HTTP_200
-        _ = id_
-
-    @staticmethod
     @user_logger
     def on_delete(req, resp, id_, cid):
         admin_control(req)
@@ -4333,12 +4125,6 @@ class SpaceCommandItem:
 class SpaceExport:
     def __init__(self):
         pass
-
-    @staticmethod
-    def on_options(req, resp, id_):
-        _ = req
-        resp.status = falcon.HTTP_200
-        _ = id_
 
     @staticmethod
     def on_get(req, resp, id_):
@@ -4770,11 +4556,6 @@ class SpaceExport:
 class SpaceImport:
     def __init__(self):
         pass
-
-    @staticmethod
-    def on_options(req, resp):
-        _ = req
-        resp.status = falcon.HTTP_200
 
     @staticmethod
     @user_logger
@@ -5216,12 +4997,6 @@ class SpaceImport:
 class SpaceClone:
     def __init__(self):
         pass
-
-    @staticmethod
-    def on_options(req, resp, id_):
-        _ = req
-        resp.status = falcon.HTTP_200
-        _ = id_
 
     @staticmethod
     @user_logger
@@ -5826,12 +5601,6 @@ class SpaceEnergyFlowDiagramCollection:
         pass
 
     @staticmethod
-    def on_options(req, resp, id_):
-        _ = req
-        resp.status = falcon.HTTP_200
-        _ = id_
-
-    @staticmethod
     def on_get(req, resp, id_):
         if 'API-KEY' not in req.headers or \
                 not isinstance(req.headers['API-KEY'], str) or \
@@ -5958,12 +5727,6 @@ class SpaceEnergyFlowDiagramItem:
         pass
 
     @staticmethod
-    def on_options(req, resp, id_, eid):
-        _ = req
-        resp.status = falcon.HTTP_200
-        _ = id_
-
-    @staticmethod
     @user_logger
     def on_delete(req, resp, id_, eid):
         admin_control(req)
@@ -6019,12 +5782,6 @@ class SpaceEnergyFlowDiagramItem:
 class DistributionSystemCollection:
     def __init__(self):
         pass
-
-    @staticmethod
-    def on_options(req, resp, id_):
-        _ = req
-        resp.status = falcon.HTTP_200
-        _ = id_
 
     @staticmethod
     def on_get(req, resp, id_):
@@ -6171,12 +5928,6 @@ class DistributionSystemCollection:
 class DistributionSystemItem:
     def __init__(self):
         pass
-
-    @staticmethod
-    def on_options(req, resp, id_, did):
-        _ = req
-        resp.status = falcon.HTTP_200
-        _ = id_
 
     @staticmethod
     @user_logger

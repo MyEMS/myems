@@ -44,11 +44,6 @@ class Reporting:
         pass
 
     @staticmethod
-    def on_options(req, resp):
-        _ = req
-        resp.status = falcon.HTTP_200
-
-    @staticmethod
     def on_post(req, resp):
         if 'API-KEY' not in req.headers or \
                 not isinstance(req.headers['API-KEY'], str) or \

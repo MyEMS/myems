@@ -20,12 +20,6 @@ class WechatMessageCollection(object):
         pass
 
     @staticmethod
-    def on_options(req, resp):
-        """Handle OPTIONS requests for CORS preflight"""
-        _ = req
-        resp.status = falcon.HTTP_200
-
-    @staticmethod
     def on_get(req, resp):
         admin_control(req)
 
@@ -285,12 +279,6 @@ class WechatMessageCollection(object):
 class WechatMessageItem:
     def __init__(self):
         pass
-
-    @staticmethod
-    def on_options(req, resp, id_):
-        _ = req
-        resp.status = falcon.HTTP_200
-        _ = id_
 
     @staticmethod
     def on_get(req, resp, id_):
