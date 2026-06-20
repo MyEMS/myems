@@ -13,11 +13,6 @@ class DataRepairFileCollection:
         pass
 
     @staticmethod
-    def on_options(req, resp):
-        _ = req
-        resp.status = falcon.HTTP_200
-
-    @staticmethod
     def on_get(req, resp):
         admin_control(req)
         
@@ -173,12 +168,6 @@ class DataRepairFileItem:
         pass
 
     @staticmethod
-    def on_options(req, resp, id_):
-        _ = req
-        resp.status = falcon.HTTP_200
-        _ = id_
-
-    @staticmethod
     def on_get(req, resp, id_):
         admin_control(req)
         if not id_.isdigit() or int(id_) <= 0:
@@ -293,12 +282,6 @@ class DataRepairFileItem:
 class DataRepairFileRestore:
     def __init__(self):
         pass
-
-    @staticmethod
-    def on_options(req, resp, id_):
-        _ = req
-        resp.status = falcon.HTTP_200
-        _ = id_
 
     @staticmethod
     def on_get(req, resp, id_):

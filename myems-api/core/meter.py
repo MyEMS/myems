@@ -69,12 +69,6 @@ class MeterCollection:
         pass
 
     @staticmethod
-    def on_options(req, resp):
-        """Handle OPTIONS requests for CORS preflight"""
-        _ = req
-        resp.status = falcon.HTTP_200
-
-    @staticmethod
     def on_get(req, resp):
         if 'API-KEY' not in req.headers or \
                 not isinstance(req.headers['API-KEY'], str) or \
@@ -406,12 +400,6 @@ class MeterCollection:
 class MeterItem:
     def __init__(self):
         pass
-
-    @staticmethod
-    def on_options(req, resp, id_):
-        _ = req
-        _ = id_
-        resp.status = falcon.HTTP_200
 
     @staticmethod
     def on_get(req, resp, id_):
@@ -1085,12 +1073,6 @@ class MeterSubmeterCollection:
         pass
 
     @staticmethod
-    def on_options(req, resp, id_):
-        _ = req
-        _ = id_
-        resp.status = falcon.HTTP_200
-
-    @staticmethod
     def on_get(req, resp, id_):
         if 'API-KEY' not in req.headers or \
                 not isinstance(req.headers['API-KEY'], str) or \
@@ -1236,12 +1218,6 @@ class MeterSubmeterCollection:
 class MeterPointCollection:
     def __init__(self):
         pass
-
-    @staticmethod
-    def on_options(req, resp, id_):
-        _ = req
-        _ = id_
-        resp.status = falcon.HTTP_200
 
     @staticmethod
     def on_get(req, resp, id_):
@@ -1421,13 +1397,6 @@ class MeterPointItem:
         pass
 
     @staticmethod
-    def on_options(req, resp, id_, pid):
-        _ = req
-        _ = id_
-        _ = pid
-        resp.status = falcon.HTTP_200
-
-    @staticmethod
     @user_logger
     def on_delete(req, resp, id_, pid):
         """Handles DELETE requests"""
@@ -1487,12 +1456,6 @@ class MeterPointItem:
 class MeterCommandCollection:
     def __init__(self):
         pass
-
-    @staticmethod
-    def on_options(req, resp, id_):
-        _ = req
-        _ = id_
-        resp.status = falcon.HTTP_200
 
     @staticmethod
     def on_get(req, resp, id_):
@@ -1663,13 +1626,6 @@ class MeterCommandItem:
         pass
 
     @staticmethod
-    def on_options(req, resp, id_, cid):
-        _ = req
-        _ = id_
-        _ = cid
-        resp.status = falcon.HTTP_200
-
-    @staticmethod
     @user_logger
     def on_delete(req, resp, id_, cid):
         admin_control(req)
@@ -1728,12 +1684,6 @@ class MeterCommandItem:
 class MeterExport:
     def __init__(self):
         pass
-
-    @staticmethod
-    def on_options(req, resp, id_):
-        _ = req
-        _ = id_
-        resp.status = falcon.HTTP_200
 
     @staticmethod
     def on_get(req, resp, id_):
@@ -1896,11 +1846,6 @@ class MeterExport:
 class MeterImport:
     def __init__(self):
         pass
-
-    @staticmethod
-    def on_options(req, resp):
-        _ = req
-        resp.status = falcon.HTTP_200
 
     @staticmethod
     @user_logger
@@ -2133,12 +2078,6 @@ class MeterImport:
 class MeterClone:
     def __init__(self):
         pass
-
-    @staticmethod
-    def on_options(req, resp, id_):
-        _ = req
-        _ = id_
-        resp.status = falcon.HTTP_200
 
     @staticmethod
     @user_logger

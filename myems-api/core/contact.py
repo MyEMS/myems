@@ -61,12 +61,6 @@ class ContactCollection:
         pass
 
     @staticmethod
-    def on_options(req, resp):
-        """Handle OPTIONS requests for CORS preflight"""
-        _ = req
-        resp.status = falcon.HTTP_200
-
-    @staticmethod
     def on_get(req, resp):
         if 'API-KEY' not in req.headers or \
                 not isinstance(req.headers['API-KEY'], str) or \
@@ -251,12 +245,6 @@ class ContactCollection:
 class ContactItem:
     def __init__(self):
         pass
-
-    @staticmethod
-    def on_options(req, resp, id_):
-        _ = id_
-        _ = req
-        resp.status = falcon.HTTP_200
 
     @staticmethod
     def on_get(req, resp, id_):

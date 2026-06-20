@@ -13,11 +13,6 @@ class RuleCollection:
         pass
 
     @staticmethod
-    def on_options(req, resp):
-        _ = req
-        resp.status = falcon.HTTP_200
-
-    @staticmethod
     def on_get(req, resp):
         """Handles GET requests"""
         admin_control(req)
@@ -232,12 +227,6 @@ class RuleItem:
     def __init__(self):
         """Initializes RuleItem"""
         pass
-
-    @staticmethod
-    def on_options(req, resp, id_):
-        _ = req
-        resp.status = falcon.HTTP_200
-        _ = id_
 
     @staticmethod
     def on_get(req, resp, id_):
@@ -504,12 +493,6 @@ class RuleRun:
         pass
 
     @staticmethod
-    def on_options(req, resp, id_):
-        _ = req
-        resp.status = falcon.HTTP_200
-        _ = id_
-
-    @staticmethod
     @user_logger
     def on_put(req, resp, id_):
         """Handles PUT requests"""
@@ -553,12 +536,6 @@ class RuleExport:
     def __init__(self):
         """Initializes RuleExport"""
         pass
-
-    @staticmethod
-    def on_options(req, resp, id_):
-        _ = req
-        resp.status = falcon.HTTP_200
-        _ = id_
 
     @staticmethod
     def on_get(req, resp, id_):
@@ -633,11 +610,6 @@ class RuleImport:
     def __init__(self):
         """Initializes RuleImport"""
         pass
-
-    @staticmethod
-    def on_options(req, resp):
-        _ = req
-        resp.status = falcon.HTTP_200
 
     @staticmethod
     @user_logger
@@ -788,12 +760,6 @@ class RuleClone:
     def __init__(self):
         """Initializes RuleClone"""
         pass
-
-    @staticmethod
-    def on_options(req, resp, id_):
-        _ = req
-        resp.status = falcon.HTTP_200
-        _ = id_
 
     @staticmethod
     @user_logger

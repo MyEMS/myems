@@ -72,11 +72,6 @@ class Reporting:
         """Initializes Class"""
         pass
 
-    @staticmethod
-    def on_options(req, resp):
-        _ = req
-        resp.status = falcon.HTTP_200
-
     ####################################################################################################################
     # PROCEDURES
     # Step 1: Validate parameters

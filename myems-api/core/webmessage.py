@@ -20,12 +20,6 @@ class WebMessageCollection:
         pass
 
     @staticmethod
-    def on_options(req, resp):
-        """Handle OPTIONS requests for CORS preflight"""
-        _ = req
-        resp.status = falcon.HTTP_200
-
-    @staticmethod
     def on_get(req, resp):
         access_control(req)
         start_datetime_local = req.params.get('startdatetime')
@@ -192,11 +186,6 @@ class WebMessageCollection:
 class WebMessageStatusNewCollection:
     def __init__(self):
         pass
-
-    @staticmethod
-    def on_options(req, resp):
-        _ = req
-        resp.status = falcon.HTTP_200
 
     @staticmethod
     def on_get(req, resp):
@@ -417,12 +406,6 @@ class WebMessageStatusNewCollection:
 class WebMessageItem:
     def __init__(self):
         pass
-
-    @staticmethod
-    def on_options(req, resp, id_):
-        _ = req
-        resp.status = falcon.HTTP_200
-        _ = id_
 
     @staticmethod
     def on_get(req, resp, id_):
@@ -735,11 +718,6 @@ class WebMessageItem:
 class WebMessageBatch:
     def __init__(self):
         pass
-
-    @staticmethod
-    def on_options(req, resp):
-        _ = req
-        resp.status = falcon.HTTP_200
 
     @staticmethod
     @user_logger

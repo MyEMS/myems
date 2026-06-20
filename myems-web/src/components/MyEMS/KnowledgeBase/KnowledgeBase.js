@@ -127,8 +127,8 @@ const KnowledgeBase = ({ setRedirect, setRedirectUrl, t, i18n }) => {
                   <strong className="fs--1">{t('SOURCE_CODE')}</strong>
                 </div>
                 <div className="col-sm-8">
-                  <a href="https://gitee.com/myems/myems" target="_blank" rel="noopener noreferrer" className="text-success">
-                    https://gitee.com/myems/myems
+                  <a href={isChinese(lng) ? 'https://gitee.com/myems/myems' : 'https://github.com/myems/myems'} target="_blank" rel="noopener noreferrer" className="text-success">
+                    {isChinese(lng) ? 'https://gitee.com/myems/myems' : 'https://github.com/myems/myems'}
                   </a>
                 </div>
                 <div className="col-sm-4 mt-2">

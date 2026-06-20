@@ -26,6 +26,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - fixed typo of file name in myems-aggregation
 ### Removed
 - removed unused function from carbon_dioxide_emission_factor in myems-aggregation
+- remvoed falcon-cors middleware and on_options methods from myems-api
 
 ## [v6.5.0] - 2026-05-26
 ### Added

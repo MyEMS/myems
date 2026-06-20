@@ -21,18 +21,6 @@ class TicketCollection:
         pass
 
     @staticmethod
-    def on_options(req, resp):
-        """
-        Handle OPTIONS request for CORS preflight
-
-        Args:
-            req: Falcon request object
-            resp: Falcon response object
-        """
-        _ = req
-        resp.status = falcon.HTTP_200
-
-    @staticmethod
     def on_get(req, resp):
         """
         Handle GET requests to retrieve tickets from workflow system
@@ -138,20 +126,6 @@ class TicketItem:
         pass
 
     @staticmethod
-    def on_options(req, resp, id_):
-        """
-        Handle OPTIONS request for CORS preflight
-
-        Args:
-            req: Falcon request object
-            resp: Falcon response object
-            id_: Ticket ID parameter
-        """
-        _ = req
-        resp.status = falcon.HTTP_200
-        _ = id_
-
-    @staticmethod
     def on_get(req, resp, id_):
         """
         Handle GET requests to retrieve a specific ticket by ID
@@ -240,4 +214,3 @@ class TicketItem:
                                    description='API.INVALID_TICKET_ID')
         # TODO: Implement ticket deletion functionality
         resp.status = falcon.HTTP_204
-

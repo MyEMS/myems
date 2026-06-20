@@ -84,11 +84,6 @@ class UserCollection:
         pass
 
     @staticmethod
-    def on_options(req, resp):
-        _ = req
-        resp.status = falcon.HTTP_200
-
-    @staticmethod
     def on_get(req, resp):
         admin_control(req)
 
@@ -376,12 +371,6 @@ class UserCollection:
 class UserItem:
     def __init__(self):
         pass
-
-    @staticmethod
-    def on_options(req, resp, id_):
-        _ = req
-        resp.status = falcon.HTTP_200
-        _ = id_
 
     @staticmethod
     def on_get(req, resp, id_):
@@ -721,11 +710,6 @@ class UserLogin:
         pass
 
     @staticmethod
-    def on_options(req, resp):
-        _ = req
-        resp.status = falcon.HTTP_200
-
-    @staticmethod
     def on_put(req, resp):
         """Handles PUT requests"""
         try:
@@ -962,11 +946,6 @@ class UserLogout:
         pass
 
     @staticmethod
-    def on_options(req, resp):
-        _ = req
-        resp.status = falcon.HTTP_200
-
-    @staticmethod
     @user_logger
     def on_put(req, resp):
         """Handles PUT requests"""
@@ -1014,11 +993,6 @@ class UserLogout:
 class ChangePassword:
     def __init__(self):
         pass
-
-    @staticmethod
-    def on_options(req, resp):
-        _ = req
-        resp.status = falcon.HTTP_200
 
     @staticmethod
     def on_put(req, resp):
@@ -1175,11 +1149,6 @@ class ResetPassword:
         pass
 
     @staticmethod
-    def on_options(req, resp):
-        _ = req
-        resp.status = falcon.HTTP_200
-
-    @staticmethod
     def on_put(req, resp):
         """Handles PUT requests"""
         if 'USER-UUID' not in req.headers or \
@@ -1329,12 +1298,6 @@ class Unlock:
         pass
 
     @staticmethod
-    def on_options(req, resp, id_):
-        _ = req
-        resp.status = falcon.HTTP_200
-        _ = id_
-
-    @staticmethod
     def on_put(req, resp, id_):
         """Handles PUT requests"""
         if 'USER-UUID' not in req.headers or \
@@ -1404,11 +1367,6 @@ class Unlock:
 class ForgotPassword:
     def __init__(self):
         pass
-
-    @staticmethod
-    def on_options(req, resp):
-        _ = req
-        resp.status = falcon.HTTP_200
 
     @staticmethod
     def on_put(req, resp):
@@ -1526,11 +1484,6 @@ class ForgotPassword:
 class EmailMessageCollection:
     def __init__(self):
         pass
-
-    @staticmethod
-    def on_options(req, resp):
-        _ = req
-        resp.status = falcon.HTTP_200
 
     @staticmethod
     def on_get(req, resp):
@@ -1764,12 +1717,6 @@ class EmailMessageCollection:
 class EmailMessageItem:
     def __init__(self):
         pass
-
-    @staticmethod
-    def on_options(req, resp, id_):
-        _ = req
-        resp.status = falcon.HTTP_200
-        _ = id_
 
     @staticmethod
     def on_get(req, resp, id_):
@@ -2009,11 +1956,6 @@ class NewUserCollection:
         pass
 
     @staticmethod
-    def on_options(req, resp):
-        _ = req
-        resp.status = falcon.HTTP_200
-
-    @staticmethod
     def on_get(req, resp):
         admin_control(req)
         cnx = None
@@ -2201,12 +2143,6 @@ class NewUserCollection:
 class NewUserItem:
     def __init__(self):
         pass
-
-    @staticmethod
-    def on_options(req, resp, id_):
-        _ = req
-        resp.status = falcon.HTTP_200
-        _ = id_
 
     @staticmethod
     def on_get(req, resp, id_):
@@ -2398,12 +2334,6 @@ class NewUserItem:
 class NewUserApprove:
     def __init__(self):
         pass
-
-    @staticmethod
-    def on_options(req, resp, id_):
-        _ = req
-        resp.status = falcon.HTTP_200
-        _ = id_
 
     @staticmethod
     @user_logger
