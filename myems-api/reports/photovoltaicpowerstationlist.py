@@ -108,9 +108,9 @@ class Reporting:
                 timezone_offset = int(config.utc_offset[1:3]) * 60 + int(config.utc_offset[4:6])
                 if config.utc_offset[0] == '-':
                     timezone_offset = -timezone_offset
-                reporting_start_datetime_local = (datetime.utcnow().replace(tzinfo=timezone.utc) +
-                                                  timedelta(minutes=timezone_offset)).\
-                    replace(hour=0, minute=0, second=0, microsecond=0)
+                reporting_start_datetime_local = (
+                    datetime.now(timezone.utc) + timedelta(minutes=timezone_offset)
+                ).replace(hour=0, minute=0, second=0, microsecond=0)
                 reporting_end_datetime_local = reporting_start_datetime_local + timedelta(hours=24)
                 reporting_start_datetime_utc = reporting_start_datetime_local - timedelta(minutes=timezone_offset)
                 reporting_end_datetime_utc = reporting_end_datetime_local - timedelta(minutes=timezone_offset)
@@ -164,10 +164,11 @@ class Reporting:
 
                         is_online = False
                         row_datetime = list()
-                        row_datetime.append(datetime.utcnow())
+                        current_datetime_utc = datetime.now(timezone.utc).replace(tzinfo=None)
+                        row_datetime.append(current_datetime_utc)
                         if row_datetime is not None and len(row_datetime) > 0:
                             if isinstance(row_datetime[0], datetime):
-                                if row_datetime[0] + timedelta(minutes=10) > datetime.utcnow():
+                                if row_datetime[0] + timedelta(minutes=10) > current_datetime_utc:
                                     is_online = True
 
                         # get invertor run state point

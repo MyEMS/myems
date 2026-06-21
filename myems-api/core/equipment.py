@@ -1,5 +1,5 @@
 import uuid
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 import falcon
 import mysql.connector
 import simplejson as json
@@ -3417,9 +3417,11 @@ class EquipmentClone:
                     timezone_offset = int(config.utc_offset[1:3]) * 60 + int(config.utc_offset[4:6])
                     if config.utc_offset[0] == '-':
                         timezone_offset = -timezone_offset
-                    new_name = (str.strip(meta_result['name']) +
-                                (datetime.utcnow() + timedelta(minutes=timezone_offset)).isoformat(sep='-',
-                                                                                                   timespec='seconds'))
+                    suffix = (
+                        datetime.now(timezone.utc).replace(tzinfo=None)
+                        + timedelta(minutes=timezone_offset)
+                    ).isoformat(sep='-', timespec='seconds')
+                    new_name = str.strip(meta_result['name']) + suffix
                     add_values = (" INSERT INTO tbl_equipments "
                                   "    (name, uuid, is_input_counted, is_output_counted, "
                                   "     cost_center_id, efficiency_indicator, svg_id, camera_url, description) "

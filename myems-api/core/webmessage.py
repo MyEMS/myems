@@ -118,7 +118,7 @@ class WebMessageCollection:
                                            description='API.INVALID_SESSION_PLEASE_RE_LOGIN')
                 else:
                     utc_expires = row[0]
-                    if datetime.utcnow() > utc_expires:
+                    if datetime.now(timezone.utc).replace(tzinfo=None) > utc_expires:
                         raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                                description='API.USER_SESSION_TIMEOUT')
 
@@ -219,7 +219,7 @@ class WebMessageStatusNewCollection:
                                            description='API.INVALID_SESSION_PLEASE_RE_LOGIN')
                 else:
                     utc_expires = row[0]
-                    if datetime.utcnow() > utc_expires:
+                    if datetime.now(timezone.utc).replace(tzinfo=None) > utc_expires:
                         raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                                description='API.USER_SESSION_TIMEOUT')
 
@@ -348,7 +348,7 @@ class WebMessageStatusNewCollection:
                                            description='API.INVALID_SESSION_PLEASE_RE_LOGIN')
                 else:
                     utc_expires = row[0]
-                    if datetime.utcnow() > utc_expires:
+                    if datetime.now(timezone.utc).replace(tzinfo=None) > utc_expires:
                         raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                                description='API.USER_SESSION_TIMEOUT')
 
@@ -443,7 +443,7 @@ class WebMessageItem:
                                            description='API.INVALID_SESSION_PLEASE_RE_LOGIN')
                 else:
                     utc_expires = row[0]
-                    if datetime.utcnow() > utc_expires:
+                    if datetime.now(timezone.utc).replace(tzinfo=None) > utc_expires:
                         raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                                description='API.USER_SESSION_TIMEOUT')
 
@@ -575,7 +575,7 @@ class WebMessageItem:
                                            description='API.INVALID_SESSION_PLEASE_RE_LOGIN')
                 else:
                     utc_expires = row[0]
-                    if datetime.utcnow() > utc_expires:
+                    if datetime.now(timezone.utc).replace(tzinfo=None) > utc_expires:
                         raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                                description='API.USER_SESSION_TIMEOUT')
 
@@ -664,7 +664,7 @@ class WebMessageItem:
                                            description='API.INVALID_SESSION_PLEASE_RE_LOGIN')
                 else:
                     utc_expires = row[0]
-                    if datetime.utcnow() > utc_expires:
+                    if datetime.now(timezone.utc).replace(tzinfo=None) > utc_expires:
                         raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                                description='API.USER_SESSION_TIMEOUT')
 

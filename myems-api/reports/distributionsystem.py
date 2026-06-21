@@ -29,7 +29,7 @@ The module uses Falcon framework for REST API and includes:
 - User authentication and authorization
 """
 
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 import falcon
 import mysql.connector
 import simplejson as json
@@ -75,7 +75,9 @@ class Reporting:
                                        description='API.INVALID_DISTRIBUTION_SYSTEM_ID')
         # set the earliest datetime of valid actual value
         # if the utc_date_time is less than reporting_start_datetime_utc, then the value is None because of timeout
-        reporting_start_datetime_utc = datetime.utcnow() - timedelta(minutes=30)
+        reporting_start_datetime_utc = (
+            datetime.now(timezone.utc).replace(tzinfo=None) - timedelta(minutes=30)
+        )
 
         ################################################################################################################
         # Step 2: Step 2: query the distribution system

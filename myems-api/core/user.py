@@ -891,12 +891,12 @@ class UserLogin:
                     cursor.execute(update_failed_login_count, (user_uuid,))
                     cnx.commit()
 
-                if result['account_expiration_datetime_utc'] <= datetime.utcnow():
+                if result['account_expiration_datetime_utc'] <= datetime.now(timezone.utc).replace(tzinfo=None):
                     raise falcon.HTTPError(status=falcon.HTTP_400,
                                            title='API.BAD_REQUEST',
                                            description='API.USER_ACCOUNT_HAS_EXPIRED')
 
-                if result['password_expiration_datetime_utc'] <= datetime.utcnow():
+                if result['password_expiration_datetime_utc'] <= datetime.now(timezone.utc).replace(tzinfo=None):
                     raise falcon.HTTPError(status=falcon.HTTP_400,
                                            title='API.BAD_REQUEST',
                                            description='API.USER_PASSWORD_HAS_EXPIRED')
@@ -906,7 +906,8 @@ class UserLogin:
                                " VALUES (%s, %s, %s) ")
                 user_uuid = result['uuid']
                 token = hashlib.sha512(os.urandom(24)).hexdigest()
-                utc_expires = datetime.utcnow() + timedelta(seconds=config.session_expires_in_seconds)
+                utc_expires = datetime.now(timezone.utc).replace(tzinfo=None) + \
+                    timedelta(seconds=config.session_expires_in_seconds)
                 cursor.execute(add_session, (user_uuid, token, utc_expires))
                 cnx.commit()
             finally:
@@ -1430,7 +1431,7 @@ class ForgotPassword:
                         raise falcon.HTTPError(status=falcon.HTTP_404, title='API.ERROR',
                                                description='API.INVALID_VERIFICATION_CODE')
                     else:
-                        if datetime.utcnow() > row[2]:
+                        if datetime.now(timezone.utc).replace(tzinfo=None) > row[2]:
                             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                                    description='API.ADMINISTRATOR_SESSION_TIMEOUT')
                 else:
@@ -1587,7 +1588,7 @@ class EmailMessageCollection:
                                    title='API.BAD_REQUEST',
                                    description='API.FAILED_TO_READ_REQUEST_STREAM')
 
-        expires_datetime_utc = datetime.utcnow() + timedelta(seconds=60 * 60 * 1)
+        expires_datetime_utc = datetime.now(timezone.utc).replace(tzinfo=None) + timedelta(seconds=60 * 60 * 1)
 
         if 'recipient_email' not in new_values['data'].keys() or \
                 not isinstance(new_values['data']['recipient_email'], str) or \
@@ -2070,8 +2071,8 @@ class NewUserCollection:
                 if row is not None:
                     expires_datetime_utc = row[0]
                     print(expires_datetime_utc)
-                    print(datetime.utcnow())
-                    if datetime.utcnow() > expires_datetime_utc:
+                    print(datetime.now(timezone.utc).replace(tzinfo=None))
+                    if datetime.now(timezone.utc).replace(tzinfo=None) > expires_datetime_utc:
                         raise falcon.HTTPError(status=falcon.HTTP_400,
                                                title='API.BAD_REQUEST',
                                                description='API.NEW_USER_SESSION_TIMEOUT')

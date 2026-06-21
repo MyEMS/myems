@@ -31,7 +31,7 @@ import math
 import telnetlib3
 import asyncio
 import time
-from datetime import datetime
+from datetime import datetime, timezone
 from decimal import Decimal
 import mysql.connector
 from modbus_tk import modbus_tcp
@@ -411,7 +411,7 @@ def process(logger, data_source_id, host, port, interval_in_seconds):
                     continue
 
             # Get current UTC timestamp for data storage
-            current_datetime_utc = datetime.utcnow()
+            current_datetime_utc = datetime.now(timezone.utc).replace(tzinfo=None)
 
             # Bulk insert analog values into historical database and update latest values
             # Process in batches of 100 to avoid overwhelming the database

@@ -96,7 +96,7 @@ class Reporting:
         if config.utc_offset[0] == '-':
             timezone_offset = -timezone_offset
 
-        reporting_end_datetime_utc = datetime.utcnow()
+        reporting_end_datetime_utc = datetime.now(timezone.utc).replace(tzinfo=None)
         reporting_start_datetime_utc = reporting_end_datetime_utc - timedelta(minutes=60)
         ################################################################################################################
         # Step 2: query the meter and energy category

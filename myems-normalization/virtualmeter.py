@@ -22,7 +22,7 @@ Key features:
 
 import random
 import time
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from decimal import Decimal
 from multiprocessing import Pool
 import mysql.connector
@@ -192,8 +192,11 @@ def worker(virtual_meter):
         start_datetime_utc += timedelta(minutes=config.minutes_to_count)
 
     # Calculate end datetime
-    end_datetime_utc = datetime.utcnow().replace()
-    end_datetime_utc = end_datetime_utc.replace(second=0, microsecond=0, tzinfo=None)
+    end_datetime_utc = datetime.now(timezone.utc).replace(
+        second=0,
+        microsecond=0,
+        tzinfo=None,
+    )
 
     # Validate time difference and limit processing to one month maximum
     time_difference = end_datetime_utc - start_datetime_utc

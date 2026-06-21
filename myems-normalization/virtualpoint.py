@@ -25,7 +25,7 @@ import json
 import random
 import re
 import time
-from datetime import datetime
+from datetime import datetime, timezone
 from decimal import Decimal
 from multiprocessing import Pool
 import mysql.connector
@@ -381,7 +381,7 @@ def worker(virtual_point):
     if row is not None and len(row) > 0 and isinstance(row[0], datetime):
         start_datetime_utc = row[0].replace(tzinfo=None)
 
-    end_datetime_utc = datetime.utcnow().replace(tzinfo=None)
+    end_datetime_utc = datetime.now(timezone.utc).replace(tzinfo=None)
 
     if end_datetime_utc <= start_datetime_utc:
         if cursor_historical_db:

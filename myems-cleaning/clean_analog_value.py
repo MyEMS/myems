@@ -10,7 +10,7 @@ older than the specified retention period (default: 365 days).
 """
 
 import time
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 
 import mysql.connector
 import schedule
@@ -46,7 +46,7 @@ def job(logger):
 
     # Calculate the cutoff date for data retention
     # Delete analog values older than the configured retention period
-    expired_utc = datetime.utcnow() - timedelta(days=config.live_in_days)
+    expired_utc = datetime.now(timezone.utc).replace(tzinfo=None) - timedelta(days=config.live_in_days)
 
     try:
         # Execute deletion of expired analog values

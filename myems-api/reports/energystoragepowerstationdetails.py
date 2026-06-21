@@ -92,8 +92,8 @@ class Reporting:
                 raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                        description='API.INVALID_ENERGY_STORAGE_POWER_STATION_UUID')
 
-        reporting_start_datetime_utc = datetime.utcnow() - timedelta(days=3)
-        reporting_end_datetime_utc = datetime.utcnow()
+        reporting_end_datetime_utc = datetime.now(timezone.utc).replace(tzinfo=None)
+        reporting_start_datetime_utc = reporting_end_datetime_utc - timedelta(days=3)
 
         ################################################################################################################
         # Step 2: query the energy storage power station
@@ -217,7 +217,8 @@ class Reporting:
                 is_online = False
                 if row_datetime is not None and len(row_datetime) > 0:
                     if isinstance(row_datetime[0], datetime):
-                        if row_datetime[0] + timedelta(minutes=10) > datetime.utcnow():
+                        current_datetime_utc = datetime.now(timezone.utc).replace(tzinfo=None)
+                        if row_datetime[0] + timedelta(minutes=10) > current_datetime_utc:
                             is_online = True
 
                 # get PCS run state point
@@ -501,8 +502,8 @@ class Reporting:
             if config.utc_offset[0] == '-':
                 timezone_offset = -timezone_offset
 
-            today_end_datetime_utc = datetime.utcnow()
-            today_end_datetime_local = datetime.utcnow() + timedelta(minutes=timezone_offset)
+            today_end_datetime_utc = datetime.now(timezone.utc).replace(tzinfo=None)
+            today_end_datetime_local = today_end_datetime_utc + timedelta(minutes=timezone_offset)
             today_start_datetime_local = today_end_datetime_local.replace(hour=0, minute=0, second=0, microsecond=0)
             today_start_datetime_utc = today_start_datetime_local - timedelta(minutes=timezone_offset)
 

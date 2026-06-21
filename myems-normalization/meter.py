@@ -209,7 +209,7 @@ def worker(meter):
         start_datetime_utc += timedelta(minutes=config.minutes_to_count)
 
     # Calculate end datetime with cleaning service buffer
-    end_datetime_utc = datetime.utcnow().replace(tzinfo=timezone.utc)
+    end_datetime_utc = datetime.now(timezone.utc)
     # We should allow myems-cleaning service to take at most [minutes_to_clean] minutes to clean the data
     end_datetime_utc -= timedelta(minutes=config.minutes_to_clean)
 
