@@ -234,7 +234,7 @@ class Reporting:
 
                 space_ids = list(space_dict.keys())
                 if not space_ids:
-                    result = {'stores': [], 'energycategories': []}
+                    result = {'stores': [], 'energycategories': [], 'excel_bytes_base64': None}
                     resp.text = json.dumps(result)
                     if config.redis.get('is_enabled') and redis_client is not None and cache_key is not None:
                         try:
