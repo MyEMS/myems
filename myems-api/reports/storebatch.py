@@ -243,16 +243,15 @@ class Reporting:
                             logger.warning("Failed to write cache key %s", cache_key, exc_info=True)
                     return
 
-                space_placeholders = ','.join(['%s'] * len(space_ids))
                 cursor_system_db.execute(" SELECT store.id, store.name AS store_name, store.uuid AS store_uuid, "
                                          " s.name AS space_name, s.id AS space_id, "
                                          " cc.name AS cost_center_name, store.description "
                                          " FROM tbl_spaces s, tbl_spaces_stores ss, "
                                          " tbl_stores store, tbl_cost_centers cc "
-                                         " WHERE s.id IN (" + space_placeholders + ") "
+                                         " WHERE s.id IN ( " + ', '.join(map(str, space_ids)) + ") "
                                          "       AND ss.space_id = s.id AND ss.store_id = store.id "
-                                         "       AND store.cost_center_id = cc.id  ",
-                                         tuple(space_ids))
+                                         "       AND store.cost_center_id = cc.id  ", )
+                rows_stores = cursor_system_db.fetchall()
                 if rows_stores is not None and len(rows_stores) > 0:
                     for row in rows_stores:
                         current_space_id = row[4]
@@ -303,15 +302,14 @@ class Reporting:
                 ################################################################################################
                 if store_dict:
                     store_ids = list(store_dict.keys())
-                    placeholders = ','.join(['%s'] * len(store_ids))
                     cursor_energy_db.execute(
                         " SELECT store_id, energy_category_id, SUM(actual_value) "
                         " FROM tbl_store_input_category_hourly "
-                        " WHERE store_id IN (" + placeholders + ") "
+                        " WHERE store_id IN (" + ', '.join(map(str, store_ids)) + ") "
                         "     AND start_datetime_utc >= %s "
                         "     AND start_datetime_utc < %s "
                         " GROUP BY store_id, energy_category_id ",
-                        tuple(store_ids) + (reporting_start_datetime_utc, reporting_end_datetime_utc))
+                        (reporting_start_datetime_utc, reporting_end_datetime_utc))
                     rows_store_energy = cursor_energy_db.fetchall()
                     energy_map = {}
                     for row in rows_store_energy:

@@ -242,16 +242,15 @@ class Reporting:
                             logger.warning("Failed to write cache key %s", cache_key, exc_info=True)
                     return
 
-                space_placeholders = ','.join(['%s'] * len(space_ids))
                 cursor_system_db.execute(" SELECT shopfloor.id, shopfloor.name AS shopfloor_name, "
                                          "        shopfloor.uuid AS shopfloor_uuid, s.name AS space_name, "
                                          "        s.id AS space_id, cc.name AS cost_center_name, shopfloor.description "
                                          " FROM tbl_spaces s, tbl_spaces_shopfloors ss,"
                                          " tbl_shopfloors shopfloor, tbl_cost_centers cc "
-                                         " WHERE s.id IN (" + space_placeholders + ") "
+                                         " WHERE s.id IN ( " + ', '.join(map(str, space_ids)) + ") "
                                          "       AND ss.space_id = s.id AND ss.shopfloor_id = shopfloor.id "
-                                         "       AND shopfloor.cost_center_id = cc.id  ",
-                                         tuple(space_ids))
+                                         "       AND shopfloor.cost_center_id = cc.id  ", )
+                rows_shopfloors = cursor_system_db.fetchall()
                 if rows_shopfloors is not None and len(rows_shopfloors) > 0:
                     for row in rows_shopfloors:
                         current_space_id = row[4]
@@ -302,15 +301,14 @@ class Reporting:
                 ###############################################################################################
                 if shopfloor_dict:
                     shopfloor_ids = list(shopfloor_dict.keys())
-                    placeholders = ','.join(['%s'] * len(shopfloor_ids))
                     cursor_energy_db.execute(
                         " SELECT shopfloor_id, energy_category_id, SUM(actual_value) "
                         " FROM tbl_shopfloor_input_category_hourly "
-                        " WHERE shopfloor_id IN (" + placeholders + ") "
+                        " WHERE shopfloor_id IN (" + ', '.join(map(str, shopfloor_ids)) + ") "
                         "     AND start_datetime_utc >= %s "
                         "     AND start_datetime_utc < %s "
                         " GROUP BY shopfloor_id, energy_category_id ",
-                        tuple(shopfloor_ids) + (reporting_start_datetime_utc, reporting_end_datetime_utc))
+                        (reporting_start_datetime_utc, reporting_end_datetime_utc))
                     rows_shopfloor_energy = cursor_energy_db.fetchall()
                     energy_map = {}
                     for row in rows_shopfloor_energy:
