@@ -23,18 +23,15 @@ const CustomizeMapBox = ({ Latitude, Longitude, Zoom, Geojson, t }) => {
   const [zoom, setZoom] = useState(9);
   const { isDark, language } = useContext(AppContext);
 
-
   const lastProcessedGeojsonRef = useRef(null);
-
+  const isMapReadyRef = useRef(false);
 
   const addGeojsonDataToMap = (geojsonData) => {
     if (!map.current) {
-      console.warn('Map not initialized');
       return;
     }
 
-    if (!geojsonData || geojsonData.length === 0) {
-      console.warn('No Geojson data to add');
+    if (!geojsonData || !Array.isArray(geojsonData) || geojsonData.length === 0) {
       return;
     }
 
@@ -44,34 +41,53 @@ const CustomizeMapBox = ({ Latitude, Longitude, Zoom, Geojson, t }) => {
       });
       return;
     }
+
     const addSourceAndLayers = () => {
       if (!map.current) return;
+
       try {
         if (map.current.getSource('myems')) {
-          if (map.current.getLayer('clusters')) {
-            map.current.removeLayer('clusters');
-          }
-          if (map.current.getLayer('cluster-count')) {
-            map.current.removeLayer('cluster-count');
-          }
-          if (map.current.getLayer('unclustered-point')) {
-            map.current.removeLayer('unclustered-point');
-          }
+          const layers = ['clusters', 'cluster-count', 'unclustered-point'];
+          layers.forEach(layerId => {
+            if (map.current.getLayer(layerId)) {
+              map.current.removeLayer(layerId);
+            }
+          });
           map.current.removeSource('myems');
         }
       } catch (error) {
         console.warn('Error removing old layers/source:', error);
       }
-      map.current.addSource('myems', {
-        type: 'geojson',
-        data: {
-          type: 'FeatureCollection',
-          features: geojsonData
+
+      const features = geojsonData.map(feature => ({
+        type: 'Feature',
+        geometry: feature.geometry || {
+          type: 'Point',
+          coordinates: [116.397, 39.908]
         },
-        cluster: true,
-        clusterMaxZoom: 14,
-        clusterRadius: 50
-      });
+        properties: feature.properties || {
+          title: '未知空间',
+          description: '',
+          uuid: '',
+          url: '/space/energycategory'
+        }
+      }));
+
+      try {
+        map.current.addSource('myems', {
+          type: 'geojson',
+          data: {
+            type: 'FeatureCollection',
+            features: features
+          },
+          cluster: true,
+          clusterMaxZoom: 14,
+          clusterRadius: 50
+        });
+      } catch (error) {
+
+        return;
+      }
 
       map.current.addLayer({
         id: 'clusters',
@@ -83,6 +99,7 @@ const CustomizeMapBox = ({ Latitude, Longitude, Zoom, Geojson, t }) => {
           'circle-radius': ['step', ['get', 'point_count'], 20, 1, 30, 15, 40]
         }
       });
+
 
       map.current.addLayer({
         id: 'cluster-count',
@@ -96,6 +113,7 @@ const CustomizeMapBox = ({ Latitude, Longitude, Zoom, Geojson, t }) => {
         }
       });
 
+
       map.current.addLayer({
         id: 'unclustered-point',
         type: 'symbol',
@@ -107,8 +125,10 @@ const CustomizeMapBox = ({ Latitude, Longitude, Zoom, Geojson, t }) => {
         }
       });
 
+      // 移除旧的事件监听
       map.current.off('click', 'clusters');
       map.current.off('click', 'unclustered-point');
+
 
       map.current.on('click', 'clusters', e => {
         const features = map.current.queryRenderedFeatures(e.point, {
@@ -126,12 +146,15 @@ const CustomizeMapBox = ({ Latitude, Longitude, Zoom, Geojson, t }) => {
         }
       });
 
+
       map.current.on('click', 'unclustered-point', e => {
+        if (!e.features || e.features.length === 0) return;
+
         const coordinates = e.features[0].geometry.coordinates.slice();
-        const url = e.features[0].properties.url;
-        const uuid = e.features[0].properties.uuid;
-        const title = e.features[0].properties.title;
-        const description = e.features[0].properties.description;
+        const url = e.features[0].properties.url || '/space/energycategory';
+        const uuid = e.features[0].properties.uuid || '';
+        const title = e.features[0].properties.title || '未命名空间';
+        const description = e.features[0].properties.description || '';
 
         while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
           coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
@@ -141,29 +164,54 @@ const CustomizeMapBox = ({ Latitude, Longitude, Zoom, Geojson, t }) => {
             .setLngLat(coordinates)
             .setHTML(
                 `
-              <h3 style="font: 400 15px/22px 'Source Sans Pro', 'Helvetica Neue', sans-serif;
-                  background: #91c949;
-                  color: #fff;
-                  margin: 0;
-                  padding: 10px;
-                  border-radius: 3px 3px 0 0;
-                  font-weight: 700;"><a target="_blank" href="${url}?uuid=${uuid}">${title}</a>
-              </h3>
-            <h4 style="font: 400 15px/22px 'Source Sans Pro', 'Helvetica Neue', sans-serif;
-                background: #91c949;
-                color: #fff;
-                margin: 0;
-                padding: 10px;
-                font-weight: 400;">${description}</h4>`
+              <div style="min-width: 200px; max-width: 300px;">
+                <h3 style="font: 600 16px/22px 'Source Sans Pro', 'Helvetica Neue', sans-serif;
+                    background: #91c949;
+                    color: #fff;
+                    margin: 0;
+                    padding: 10px;
+                    border-radius: 3px 3px 0 0;">
+                  <a target="_blank" href="${url}?uuid=${uuid}" style="color: #fff; text-decoration: none;">
+                    ${title}
+                  </a>
+                </h3>
+                ${description ? `
+                  <h4 style="font: 400 14px/20px 'Source Sans Pro', 'Helvetica Neue', sans-serif;
+                      background: #f5f5f5;
+                      color: #333;
+                      margin: 0;
+                      padding: 10px;
+                      border-radius: 0 0 3px 3px;
+                      font-weight: 400;">
+                    ${description}
+                  </h4>
+                ` : ''}
+              </div>`
             )
             .addTo(map.current);
       });
+
+
+      map.current.on('mouseenter', 'clusters', () => {
+        map.current.getCanvas().style.cursor = 'pointer';
+      });
+      map.current.on('mouseleave', 'clusters', () => {
+        map.current.getCanvas().style.cursor = '';
+      });
+      map.current.on('mouseenter', 'unclustered-point', () => {
+        map.current.getCanvas().style.cursor = 'pointer';
+      });
+      map.current.on('mouseleave', 'unclustered-point', () => {
+        map.current.getCanvas().style.cursor = '';
+      });
+
+      isMapReadyRef.current = true;
     };
 
     if (!map.current.hasImage('map-marker')) {
       map.current.loadImage(map_maker, (error, image) => {
         if (error) {
-          console.error('Error loading map marker image:', error);
+
           return;
         }
         if (map.current && !map.current.hasImage('map-marker')) {
@@ -176,7 +224,6 @@ const CustomizeMapBox = ({ Latitude, Longitude, Zoom, Geojson, t }) => {
     }
   };
 
-
   useEffect(() => {
     let is_logged_in = getCookieValue('is_logged_in');
     if (checkEmpty(is_logged_in) || !is_logged_in) {
@@ -184,7 +231,8 @@ const CustomizeMapBox = ({ Latitude, Longitude, Zoom, Geojson, t }) => {
     }
 
     if (map.current) {
-      if (Longitude && Latitude) {
+
+      if (Longitude && Latitude && !isNaN(Longitude) && !isNaN(Latitude)) {
         const currentCenter = map.current.getCenter();
         const newCenter = [Longitude, Latitude];
         if (
@@ -194,10 +242,19 @@ const CustomizeMapBox = ({ Latitude, Longitude, Zoom, Geojson, t }) => {
           map.current.setCenter(newCenter);
         }
       }
-      if (Zoom) {
+      if (Zoom && !isNaN(Zoom)) {
         const currentZoom = map.current.getZoom();
         if (Math.abs(currentZoom - Zoom) > 0.01) {
           map.current.setZoom(Zoom);
+        }
+      }
+
+
+      if (map.current.isStyleLoaded() && Geojson && Geojson.length > 0) {
+        const geojsonString = JSON.stringify(Geojson);
+        if (lastProcessedGeojsonRef.current !== geojsonString) {
+          lastProcessedGeojsonRef.current = geojsonString;
+          addGeojsonDataToMap(Geojson);
         }
       }
       return;
@@ -210,9 +267,11 @@ const CustomizeMapBox = ({ Latitude, Longitude, Zoom, Geojson, t }) => {
       lang = 'zh-Hant';
     }
 
-    const initialZoom = Zoom || 9;
-    const initialLng = Longitude || -77.032;
-    const initialLat = Latitude || 38.913;
+
+    const initialZoom = Zoom && !isNaN(Zoom) ? Zoom : 9;
+    const initialLng = Longitude && !isNaN(Longitude) ? Longitude : 116.397;
+    const initialLat = Latitude && !isNaN(Latitude) ? Latitude : 39.908;
+
     map.current = new mapboxgl.Map({
       container: mapContainer.current,
       zoom: initialZoom,
@@ -236,8 +295,10 @@ const CustomizeMapBox = ({ Latitude, Longitude, Zoom, Geojson, t }) => {
     const mapboxLanguage = new MapboxLanguage({
       defaultLanguage: lang
     });
-
     map.current.addControl(mapboxLanguage);
+
+
+    map.current.addControl(new mapboxgl.NavigationControl(), 'top-right');
 
 
     if (Geojson && Geojson.length > 0) {
@@ -250,13 +311,14 @@ const CustomizeMapBox = ({ Latitude, Longitude, Zoom, Geojson, t }) => {
       if (map.current) {
         map.current.remove();
         map.current = null;
+        isMapReadyRef.current = false;
       }
     };
   }, [Latitude, Longitude, Zoom, isDark, language]);
 
 
   useEffect(() => {
-    if (!Geojson || Geojson.length === 0 || !map.current) {
+    if (!Geojson || !Array.isArray(Geojson) || Geojson.length === 0 || !map.current) {
       return;
     }
 
@@ -269,23 +331,27 @@ const CustomizeMapBox = ({ Latitude, Longitude, Zoom, Geojson, t }) => {
 
 
     const timer = setTimeout(() => {
-      if (map.current) {
+      if (map.current && map.current.isStyleLoaded()) {
         addGeojsonDataToMap(Geojson);
       }
-    }, 200);
+    }, 300);
 
     return () => clearTimeout(timer);
   }, [Geojson]);
 
 
   useEffect(() => {
-    if (!map.current || !Geojson || Geojson.length === 0) {
+    if (!map.current || !Geojson || !Array.isArray(Geojson) || Geojson.length === 0) {
       return;
     }
 
     const handleMapLoad = () => {
-      if (map.current && !map.current.getSource('myems')) {
-        addGeojsonDataToMap(Geojson);
+      if (map.current && map.current.isStyleLoaded()) {
+        const geojsonString = JSON.stringify(Geojson);
+        if (lastProcessedGeojsonRef.current !== geojsonString) {
+          lastProcessedGeojsonRef.current = geojsonString;
+          addGeojsonDataToMap(Geojson);
+        }
       }
     };
 

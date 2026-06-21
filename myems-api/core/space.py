@@ -3839,7 +3839,7 @@ class SpaceTreeCollection:
             cnx = mysql.connector.connect(**config.myems_system_db)
             try:
                 cursor = cnx.cursor()
-                query = (" SELECT id, name, parent_space_id "
+                query = (" SELECT id, name, uuid, parent_space_id, latitude, longitude "
                          " FROM tbl_spaces "
                          " ORDER BY id ")
                 cursor.execute(query)
@@ -3847,8 +3847,12 @@ class SpaceTreeCollection:
                 node_dict = dict()
                 if rows_spaces is not None and len(rows_spaces) > 0:
                     for row in rows_spaces:
-                        parent_node = node_dict[row[2]] if row[2] is not None else None
-                        node_dict[row[0]] = AnyNode(id=row[0], parent=parent_node, name=row[1])
+                        parent_node = node_dict[row[3]] if row[3] is not None else None
+                        node = AnyNode(id=row[0], parent=parent_node, name=row[1])
+                        node.uuid = row[2]
+                        node.latitude = float(row[4]) if row[4] is not None else None
+                        node.longitude = float(row[5]) if row[5] is not None else None
+                        node_dict[row[0]] = node
 
                 resp.text = JsonExporter(sort_keys=True).export(node_dict[space_id], )
             finally:
