@@ -230,18 +230,27 @@ class Reporting:
                 for node in LevelOrderIter(node_dict[space_id]):
                     space_dict[node.id] = node.name
 
-                if space_dict:
-                    cursor_system_db.execute(" SELECT t.id, t.name AS tenant_name, t.uuid AS tenant_uuid, "
-                                             " s.name AS space_name, s.id AS space_id, "
-                                             "        cc.name AS cost_center_name, t.description "
-                                             " FROM tbl_spaces s, tbl_spaces_tenants st, tbl_tenants t, "
-                                             " tbl_cost_centers cc "
-                                             " WHERE s.id IN ( " + ', '.join(map(str, space_dict.keys())) + ") "
-                                             "       AND st.space_id = s.id AND st.tenant_id = t.id "
-                                             "       AND t.cost_center_id = cc.id  ", )
-                    rows_tenants = cursor_system_db.fetchall()
-                else:
-                    rows_tenants = None
+                space_ids = list(space_dict.keys())
+                if not space_ids:
+                    result = {'tenants': [], 'energycategories': []}
+                    resp.text = json.dumps(result)
+                    if config.redis.get('is_enabled') and redis_client is not None and cache_key is not None:
+                        try:
+                            redis_client.setex(cache_key, cache_expire, resp.text)
+                        except Exception:
+                            logger.warning("Failed to write cache key %s", cache_key, exc_info=True)
+                    return
+
+                space_placeholders = ','.join(['%s'] * len(space_ids))
+                cursor_system_db.execute(" SELECT t.id, t.name AS tenant_name, t.uuid AS tenant_uuid, "
+                                         " s.name AS space_name, s.id AS space_id, "
+                                         "        cc.name AS cost_center_name, t.description "
+                                         " FROM tbl_spaces s, tbl_spaces_tenants st, tbl_tenants t, "
+                                         " tbl_cost_centers cc "
+                                         " WHERE s.id IN (" + space_placeholders + ") "
+                                         "       AND st.space_id = s.id AND st.tenant_id = t.id "
+                                         "       AND t.cost_center_id = cc.id  ",
+                                         tuple(space_ids))
                 if rows_tenants is not None and len(rows_tenants) > 0:
                     for row in rows_tenants:
                         current_space_id = row[4]

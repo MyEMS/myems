@@ -232,18 +232,27 @@ class Reporting:
                 for node in LevelOrderIter(node_dict[space_id]):
                     space_dict[node.id] = node.name
 
-                if space_dict:
-                    cursor_system_db.execute(" SELECT store.id, store.name AS store_name, store.uuid AS store_uuid, "
-                                             " s.name AS space_name, s.id AS space_id, "
-                                             " cc.name AS cost_center_name, store.description "
-                                             " FROM tbl_spaces s, tbl_spaces_stores ss, "
-                                             " tbl_stores store, tbl_cost_centers cc "
-                                             " WHERE s.id IN ( " + ', '.join(map(str, space_dict.keys())) + ") "
-                                             "       AND ss.space_id = s.id AND ss.store_id = store.id "
-                                             "       AND store.cost_center_id = cc.id  ", )
-                    rows_stores = cursor_system_db.fetchall()
-                else:
-                    rows_stores = None
+                space_ids = list(space_dict.keys())
+                if not space_ids:
+                    result = {'stores': [], 'energycategories': []}
+                    resp.text = json.dumps(result)
+                    if config.redis.get('is_enabled') and redis_client is not None and cache_key is not None:
+                        try:
+                            redis_client.setex(cache_key, cache_expire, resp.text)
+                        except Exception:
+                            logger.warning("Failed to write cache key %s", cache_key, exc_info=True)
+                    return
+
+                space_placeholders = ','.join(['%s'] * len(space_ids))
+                cursor_system_db.execute(" SELECT store.id, store.name AS store_name, store.uuid AS store_uuid, "
+                                         " s.name AS space_name, s.id AS space_id, "
+                                         " cc.name AS cost_center_name, store.description "
+                                         " FROM tbl_spaces s, tbl_spaces_stores ss, "
+                                         " tbl_stores store, tbl_cost_centers cc "
+                                         " WHERE s.id IN (" + space_placeholders + ") "
+                                         "       AND ss.space_id = s.id AND ss.store_id = store.id "
+                                         "       AND store.cost_center_id = cc.id  ",
+                                         tuple(space_ids))
                 if rows_stores is not None and len(rows_stores) > 0:
                     for row in rows_stores:
                         current_space_id = row[4]
