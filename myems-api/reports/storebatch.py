@@ -232,15 +232,18 @@ class Reporting:
                 for node in LevelOrderIter(node_dict[space_id]):
                     space_dict[node.id] = node.name
 
-                cursor_system_db.execute(" SELECT store.id, store.name AS store_name, store.uuid AS store_uuid, "
-                                         " s.name AS space_name, s.id AS space_id, "
-                                         " cc.name AS cost_center_name, store.description "
-                                         " FROM tbl_spaces s, tbl_spaces_stores ss, "
-                                         " tbl_stores store, tbl_cost_centers cc "
-                                         " WHERE s.id IN ( " + ', '.join(map(str, space_dict.keys())) + ") "
-                                         "       AND ss.space_id = s.id AND ss.store_id = store.id "
-                                         "       AND store.cost_center_id = cc.id  ", )
-                rows_stores = cursor_system_db.fetchall()
+                if space_dict:
+                    cursor_system_db.execute(" SELECT store.id, store.name AS store_name, store.uuid AS store_uuid, "
+                                             " s.name AS space_name, s.id AS space_id, "
+                                             " cc.name AS cost_center_name, store.description "
+                                             " FROM tbl_spaces s, tbl_spaces_stores ss, "
+                                             " tbl_stores store, tbl_cost_centers cc "
+                                             " WHERE s.id IN ( " + ', '.join(map(str, space_dict.keys())) + ") "
+                                             "       AND ss.space_id = s.id AND ss.store_id = store.id "
+                                             "       AND store.cost_center_id = cc.id  ", )
+                    rows_stores = cursor_system_db.fetchall()
+                else:
+                    rows_stores = None
                 if rows_stores is not None and len(rows_stores) > 0:
                     for row in rows_stores:
                         current_space_id = row[4]
@@ -289,25 +292,27 @@ class Reporting:
                 ################################################################################################
                 # Step 5: query reporting period energy input
                 ################################################################################################
-                for store_id in store_dict:
-
-                    cursor_energy_db.execute(" SELECT energy_category_id, SUM(actual_value) "
-                                             " FROM tbl_store_input_category_hourly "
-                                             " WHERE store_id = %s "
-                                             "     AND start_datetime_utc >= %s "
-                                             "     AND start_datetime_utc < %s "
-                                             " GROUP BY energy_category_id ",
-                                             (store_id,
-                                              reporting_start_datetime_utc,
-                                              reporting_end_datetime_utc))
+                if store_dict:
+                    store_ids = list(store_dict.keys())
+                    placeholders = ','.join(['%s'] * len(store_ids))
+                    cursor_energy_db.execute(
+                        " SELECT store_id, energy_category_id, SUM(actual_value) "
+                        " FROM tbl_store_input_category_hourly "
+                        " WHERE store_id IN (" + placeholders + ") "
+                        "     AND start_datetime_utc >= %s "
+                        "     AND start_datetime_utc < %s "
+                        " GROUP BY store_id, energy_category_id ",
+                        tuple(store_ids) + (reporting_start_datetime_utc, reporting_end_datetime_utc))
                     rows_store_energy = cursor_energy_db.fetchall()
-                    for energy_category in energy_category_list:
-                        subtotal = Decimal(0.0)
-                        for row_store_energy in rows_store_energy:
-                            if energy_category['id'] == row_store_energy[0]:
-                                subtotal = row_store_energy[1]
-                                break
-                        store_dict[store_id]['values'].append(subtotal)
+                    energy_map = {}
+                    for row in rows_store_energy:
+                        energy_map.setdefault(row[0], {})[row[1]] = row[2]
+                    for store_id in store_dict:
+                        for energy_category in energy_category_list:
+                            subtotal = Decimal(0.0)
+                            if store_id in energy_map and energy_category['id'] in energy_map[store_id]:
+                                subtotal = energy_map[store_id][energy_category['id']]
+                            store_dict[store_id]['values'].append(subtotal)
 
             finally:
                 if cursor_system_db:

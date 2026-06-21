@@ -226,15 +226,18 @@ class Reporting:
             for node in LevelOrderIter(node_dict[space_id]):
                 space_dict[node.id] = node.name
 
-            cursor_system_db.execute(" SELECT ce.id, ce.name AS combined_equipment_name, "
-                                     "        ce.uuid AS combined_equipment_uuid, s.name AS space_name, "
-                                     "        s.id AS space_id, cc.name AS cost_center_name, ce.description "
-                                     " FROM tbl_spaces s, tbl_spaces_combined_equipments sce, "
-                                     "      tbl_combined_equipments ce, tbl_cost_centers cc "
-                                     " WHERE s.id IN ( " + ', '.join(map(str, space_dict.keys())) + ") "
-                                     "       AND sce.space_id = s.id AND sce.combined_equipment_id = ce.id "
-                                     "       AND ce.cost_center_id = cc.id  ", )
-            rows_combined_equipments = cursor_system_db.fetchall()
+            if space_dict:
+                cursor_system_db.execute(" SELECT ce.id, ce.name AS combined_equipment_name, "
+                                         "        ce.uuid AS combined_equipment_uuid, s.name AS space_name, "
+                                         "        s.id AS space_id, cc.name AS cost_center_name, ce.description "
+                                         " FROM tbl_spaces s, tbl_spaces_combined_equipments sce, "
+                                         "      tbl_combined_equipments ce, tbl_cost_centers cc "
+                                         " WHERE s.id IN ( " + ', '.join(map(str, space_dict.keys())) + ") "
+                                         "       AND sce.space_id = s.id AND sce.combined_equipment_id = ce.id "
+                                         "       AND ce.cost_center_id = cc.id  ", )
+                rows_combined_equipments = cursor_system_db.fetchall()
+            else:
+                rows_combined_equipments = None
             if rows_combined_equipments is not None and len(rows_combined_equipments) > 0:
                 for row in rows_combined_equipments:
                     current_space_id = row[4]
@@ -284,24 +287,28 @@ class Reporting:
             ############################################################################################################
             # Step 5: query reporting period energy input
             ############################################################################################################
-            for combined_equipment_id in combined_equipment_dict:
-                cursor_energy_db.execute(" SELECT energy_category_id, SUM(actual_value) "
-                                         " FROM tbl_combined_equipment_input_category_hourly "
-                                         " WHERE combined_equipment_id = %s "
-                                         "     AND start_datetime_utc >= %s "
-                                         "     AND start_datetime_utc < %s "
-                                         " GROUP BY energy_category_id ",
-                                         (combined_equipment_id,
-                                          reporting_start_datetime_utc,
-                                          reporting_end_datetime_utc))
+            if combined_equipment_dict:
+                combined_equipment_ids = list(combined_equipment_dict.keys())
+                placeholders = ','.join(['%s'] * len(combined_equipment_ids))
+                cursor_energy_db.execute(
+                    " SELECT combined_equipment_id, energy_category_id, SUM(actual_value) "
+                    " FROM tbl_combined_equipment_input_category_hourly "
+                    " WHERE combined_equipment_id IN (" + placeholders + ") "
+                    "     AND start_datetime_utc >= %s "
+                    "     AND start_datetime_utc < %s "
+                    " GROUP BY combined_equipment_id, energy_category_id ",
+                    tuple(combined_equipment_ids) + (reporting_start_datetime_utc, reporting_end_datetime_utc))
                 rows_combined_equipment_energy = cursor_energy_db.fetchall()
-                for energy_category in energy_category_list:
-                    subtotal = Decimal(0.0)
-                    for row_combined_equipment_energy in rows_combined_equipment_energy:
-                        if energy_category['id'] == row_combined_equipment_energy[0]:
-                            subtotal = row_combined_equipment_energy[1]
-                            break
-                    combined_equipment_dict[combined_equipment_id]['values'].append(subtotal)
+                # build mapping: combined_equipment_id -> {energy_category_id: sum_value}
+                energy_map = {}
+                for row in rows_combined_equipment_energy:
+                    energy_map.setdefault(row[0], {})[row[1]] = row[2]
+                for combined_equipment_id in combined_equipment_dict:
+                    for energy_category in energy_category_list:
+                        subtotal = Decimal(0.0)
+                        if combined_equipment_id in energy_map and energy_category['id'] in energy_map[combined_equipment_id]:
+                            subtotal = energy_map[combined_equipment_id][energy_category['id']]
+                        combined_equipment_dict[combined_equipment_id]['values'].append(subtotal)
         finally:
             if cursor_energy_db is not None:
                 try:
