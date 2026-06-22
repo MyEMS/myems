@@ -9,12 +9,22 @@ import { settings } from '../../../config';
 import map_maker from '../../../assets/img/icons/map-marker.png';
 import DOMPurify from 'dompurify';
 
-mapboxgl.accessToken = settings.mapboxToken;
-if (mapboxgl.getRTLTextPluginStatus !== 'loaded') {
-  mapboxgl.setRTLTextPlugin(
-      'https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-rtl-text/v0.2.3/mapbox-gl-rtl-text.js'
-  );
+if (settings.mapboxToken && 
+    !settings.mapboxToken.includes('GET-YOUR-TOKEN') && 
+    settings.mapboxToken.trim() !== '') {
+  mapboxgl.accessToken = settings.mapboxToken;
+  if (mapboxgl.getRTLTextPluginStatus !== 'loaded') {
+    mapboxgl.setRTLTextPlugin(
+        'https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-rtl-text/v0.2.3/mapbox-gl-rtl-text.js'
+    );
+  }
+} else {
+  console.warn('⚠️ Mapbox Token is invalid or not configured. Map functionality will be unavailable.');
 }
+
+const isValidCoordinate = (value) => {
+  return typeof value === 'number' && !isNaN(value) && isFinite(value);
+};
 
 const CustomizeMapBox = ({ Latitude, Longitude, Zoom, Geojson, t }) => {
   const mapContainer = useRef(null);
@@ -60,19 +70,37 @@ const CustomizeMapBox = ({ Latitude, Longitude, Zoom, Geojson, t }) => {
         console.warn('Error removing old layers/source:', error);
       }
 
-      const features = geojsonData.map(feature => ({
-        type: 'Feature',
-        geometry: feature.geometry || {
-          type: 'Point',
-          coordinates: [116.397, 39.908]
-        },
-        properties: feature.properties || {
-          title: '未知空间',
-          description: '',
-          uuid: '',
-          url: '/space/energycategory'
+      const features = geojsonData.map(feature => {
+        let coordinates = [116.397, 39.908];
+        
+        if (feature.geometry && 
+            feature.geometry.coordinates && 
+            Array.isArray(feature.geometry.coordinates) && 
+            feature.geometry.coordinates.length >= 2) {
+          const lng = parseFloat(feature.geometry.coordinates[0]);
+          const lat = parseFloat(feature.geometry.coordinates[1]);
+          
+          if (isValidCoordinate(lng) && isValidCoordinate(lat)) {
+            coordinates = [lng, lat];
+          } else {
+            console.warn('⚠️ GeoJSON contains invalid coordinates, using default coordinates', feature);
+          }
         }
-      }));
+        
+        return {
+          type: 'Feature',
+          geometry: {
+            type: 'Point',
+            coordinates: coordinates
+          },
+          properties: feature.properties || {
+            title: 'Unknown Space',
+            description: '',
+            uuid: '',
+            url: '/space/energycategory'
+          }
+        };
+      });
 
       try {
         map.current.addSource('myems', {
@@ -154,7 +182,7 @@ const CustomizeMapBox = ({ Latitude, Longitude, Zoom, Geojson, t }) => {
         const coordinates = e.features[0].geometry.coordinates.slice();
         const url = e.features[0].properties.url || '/space/energycategory';
         const uuid = e.features[0].properties.uuid || '';
-        const title = e.features[0].properties.title || '未命名空间';
+        const title = e.features[0].properties.title || 'Unnamed Space';
         const description = e.features[0].properties.description || '';
 
         while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
@@ -238,7 +266,7 @@ const CustomizeMapBox = ({ Latitude, Longitude, Zoom, Geojson, t }) => {
 
     if (map.current) {
 
-      if (Longitude && Latitude && !isNaN(Longitude) && !isNaN(Latitude)) {
+      if (isValidCoordinate(Longitude) && isValidCoordinate(Latitude)) {
         const currentCenter = map.current.getCenter();
         const newCenter = [Longitude, Latitude];
         if (
@@ -274,9 +302,9 @@ const CustomizeMapBox = ({ Latitude, Longitude, Zoom, Geojson, t }) => {
     }
 
 
-    const initialZoom = Zoom && !isNaN(Zoom) ? Zoom : 9;
-    const initialLng = Longitude && !isNaN(Longitude) ? Longitude : 116.397;
-    const initialLat = Latitude && !isNaN(Latitude) ? Latitude : 39.908;
+    const initialZoom = isValidCoordinate(Zoom) ? Zoom : 9;
+    const initialLng = isValidCoordinate(Longitude) ? Longitude : 116.397;
+    const initialLat = isValidCoordinate(Latitude) ? Latitude : 39.908;
 
     map.current = new mapboxgl.Map({
       container: mapContainer.current,

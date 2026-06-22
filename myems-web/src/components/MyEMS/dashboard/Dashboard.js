@@ -720,9 +720,9 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
       <Fragment>
         <div className="card-deck">
           <Spinner color="primary" hidden={spinnerHidden} />
-          {thisMonthInputCardSummaryList.map(cardSummaryItem => (
+          {thisMonthInputCardSummaryList.map((cardSummaryItem, index) => (
               <CardSummary
-                  key={uuid()}
+                  key={cardSummaryItem['name'] + '-' + index}
                   rate={cardSummaryItem['increment_rate']}
                   title={t("This Month's Consumption CATEGORY VALUE UNIT", {
                     CATEGORY: cardSummaryItem['name'],
@@ -749,9 +749,9 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
                 )}
               </CardSummary>
           ))}
-          {thisMonthCostCardSummaryList.map(cardSummaryItem => (
+          {thisMonthCostCardSummaryList.map((cardSummaryItem, index) => (
               <CardSummary
-                  key={uuid()}
+                  key={cardSummaryItem['name'] + '-' + index}
                   rate={cardSummaryItem['increment_rate']}
                   title={t("This Month's Costs CATEGORY VALUE UNIT", {
                     CATEGORY: cardSummaryItem['name'],
@@ -786,9 +786,9 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
                 )}
               </CardSummary>
           ))}
-          {thisMonthOutputCardSummaryList.map(cardSummaryItem => (
+          {thisMonthOutputCardSummaryList.map((cardSummaryItem, index) => (
               <CardSummary
-                  key={uuid()}
+                  key={cardSummaryItem['name'] + '-' + index}
                   rate={cardSummaryItem['increment_rate']}
                   title={t("This Month's Generation CATEGORY VALUE UNIT", {
                     CATEGORY: cardSummaryItem['name'],
@@ -944,8 +944,8 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
                 {settings.showOnlineMap ? '加载地图数据...' : '地图功能未启用'}
               </div>
           )}
-          {Object.keys(sensor).map(item => (
-              <RealtimeSensor key={uuid()} sensor={sensor[item]} pointList={pointList} />
+          {Object.entries(sensor).map(([sensorKey, sensorValue], index) => (
+              <RealtimeSensor key={sensorKey || 'sensor-' + index} sensor={sensorValue} pointList={pointList} />
           ))}
         </div>
         <Row noGutters>
