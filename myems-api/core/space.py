@@ -793,7 +793,7 @@ class SpaceItem:
             latitude = None
 
         if 'longitude' in new_values['data'].keys():
-            if new_values['data']['latitude'] is not None:
+            if new_values['data']['longitude'] is not None:
                 if not (isinstance(new_values['data']['longitude'], float) or
                         isinstance(new_values['data']['longitude'], int)) or \
                         new_values['data']['longitude'] < -180.0 or \
