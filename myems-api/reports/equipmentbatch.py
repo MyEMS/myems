@@ -231,27 +231,18 @@ class Reporting:
                     space_dict[node.id] = node.name
 
                 space_ids = list(space_dict.keys())
-                if not space_ids:
-                    result = {'equipments': [], 'energycategories': [], 'excel_bytes_base64': None}
-                    resp.text = json.dumps(result)
-                    if config.redis.get('is_enabled') and redis_client is not None and cache_key is not None:
-                        try:
-                            redis_client.setex(cache_key, cache_expire, resp.text)
-                        except Exception:
-                            logger.warning("Failed to write cache key %s", cache_key, exc_info=True)
-                    return
-
-                cursor_system_db.execute(" SELECT e.id, e.name AS equipment_name, "
-                                         "        e.uuid AS equipment_uuid, s.name AS space_name, "
-                                         "        s.id AS space_id, "
-                                         "        cc.name AS cost_center_name, e.description "
-                                         " FROM tbl_spaces s, tbl_spaces_equipments se, "
-                                         "      tbl_equipments e, tbl_cost_centers cc "
-                                         " WHERE s.id IN ( " + ', '.join(map(str, space_ids)) + ") "
-                                         "       AND se.space_id = s.id AND se.equipment_id = e.id "
-                                         "       AND e.cost_center_id = cc.id  ", )
-                rows_equipments = cursor_system_db.fetchall()
-                if rows_equipments is not None and len(rows_equipments) > 0:
+                if space_ids:
+                    cursor_system_db.execute(" SELECT e.id, e.name AS equipment_name, "
+                                             "        e.uuid AS equipment_uuid, s.name AS space_name, "
+                                             "        s.id AS space_id, "
+                                             "        cc.name AS cost_center_name, e.description "
+                                             " FROM tbl_spaces s, tbl_spaces_equipments se, "
+                                             "      tbl_equipments e, tbl_cost_centers cc "
+                                             " WHERE s.id IN ( " + ', '.join(map(str, space_ids)) + ") "
+                                             "       AND se.space_id = s.id AND se.equipment_id = e.id "
+                                             "       AND e.cost_center_id = cc.id  ", )
+                    rows_equipments = cursor_system_db.fetchall()
+                    if rows_equipments is not None and len(rows_equipments) > 0:
                     for row in rows_equipments:
                         current_space_id = row[4]
                         current_space_node = node_dict.get(current_space_id)

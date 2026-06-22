@@ -231,26 +231,17 @@ class Reporting:
                     space_dict[node.id] = node.name
 
                 space_ids = list(space_dict.keys())
-                if not space_ids:
-                    result = {'tenants': [], 'energycategories': [], 'excel_bytes_base64': None}
-                    resp.text = json.dumps(result)
-                    if config.redis.get('is_enabled') and redis_client is not None and cache_key is not None:
-                        try:
-                            redis_client.setex(cache_key, cache_expire, resp.text)
-                        except Exception:
-                            logger.warning("Failed to write cache key %s", cache_key, exc_info=True)
-                    return
-
-                cursor_system_db.execute(" SELECT t.id, t.name AS tenant_name, t.uuid AS tenant_uuid, "
-                                         " s.name AS space_name, s.id AS space_id, "
-                                         "        cc.name AS cost_center_name, t.description "
-                                         " FROM tbl_spaces s, tbl_spaces_tenants st, tbl_tenants t, "
-                                         " tbl_cost_centers cc "
-                                         " WHERE s.id IN ( " + ', '.join(map(str, space_ids)) + ") "
-                                         "       AND st.space_id = s.id AND st.tenant_id = t.id "
-                                         "       AND t.cost_center_id = cc.id  ", )
-                rows_tenants = cursor_system_db.fetchall()
-                if rows_tenants is not None and len(rows_tenants) > 0:
+                if space_ids:
+                    cursor_system_db.execute(" SELECT t.id, t.name AS tenant_name, t.uuid AS tenant_uuid, "
+                                             " s.name AS space_name, s.id AS space_id, "
+                                             "        cc.name AS cost_center_name, t.description "
+                                             " FROM tbl_spaces s, tbl_spaces_tenants st, tbl_tenants t, "
+                                             " tbl_cost_centers cc "
+                                             " WHERE s.id IN ( " + ', '.join(map(str, space_ids)) + ") "
+                                             "       AND st.space_id = s.id AND st.tenant_id = t.id "
+                                             "       AND t.cost_center_id = cc.id  ", )
+                    rows_tenants = cursor_system_db.fetchall()
+                    if rows_tenants is not None and len(rows_tenants) > 0:
                     for row in rows_tenants:
                         current_space_id = row[4]
                         current_space_node = node_dict.get(current_space_id)

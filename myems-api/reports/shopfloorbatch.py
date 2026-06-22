@@ -232,26 +232,17 @@ class Reporting:
                     space_dict[node.id] = node.name
 
                 space_ids = list(space_dict.keys())
-                if not space_ids:
-                    result = {'shopfloors': [], 'energycategories': [], 'excel_bytes_base64': None}
-                    resp.text = json.dumps(result)
-                    if config.redis.get('is_enabled') and redis_client is not None and cache_key is not None:
-                        try:
-                            redis_client.setex(cache_key, cache_expire, resp.text)
-                        except Exception:
-                            logger.warning("Failed to write cache key %s", cache_key, exc_info=True)
-                    return
-
-                cursor_system_db.execute(" SELECT shopfloor.id, shopfloor.name AS shopfloor_name, "
-                                         "        shopfloor.uuid AS shopfloor_uuid, s.name AS space_name, "
-                                         "        s.id AS space_id, cc.name AS cost_center_name, shopfloor.description "
-                                         " FROM tbl_spaces s, tbl_spaces_shopfloors ss,"
-                                         " tbl_shopfloors shopfloor, tbl_cost_centers cc "
-                                         " WHERE s.id IN ( " + ', '.join(map(str, space_ids)) + ") "
-                                         "       AND ss.space_id = s.id AND ss.shopfloor_id = shopfloor.id "
-                                         "       AND shopfloor.cost_center_id = cc.id  ", )
-                rows_shopfloors = cursor_system_db.fetchall()
-                if rows_shopfloors is not None and len(rows_shopfloors) > 0:
+                if space_ids:
+                    cursor_system_db.execute(" SELECT shopfloor.id, shopfloor.name AS shopfloor_name, "
+                                             "        shopfloor.uuid AS shopfloor_uuid, s.name AS space_name, "
+                                             "        s.id AS space_id, cc.name AS cost_center_name, shopfloor.description "
+                                             " FROM tbl_spaces s, tbl_spaces_shopfloors ss,"
+                                             " tbl_shopfloors shopfloor, tbl_cost_centers cc "
+                                             " WHERE s.id IN ( " + ', '.join(map(str, space_ids)) + ") "
+                                             "       AND ss.space_id = s.id AND ss.shopfloor_id = shopfloor.id "
+                                             "       AND shopfloor.cost_center_id = cc.id  ", )
+                    rows_shopfloors = cursor_system_db.fetchall()
+                    if rows_shopfloors is not None and len(rows_shopfloors) > 0:
                     for row in rows_shopfloors:
                         current_space_id = row[4]
                         current_space_node = node_dict.get(current_space_id)
