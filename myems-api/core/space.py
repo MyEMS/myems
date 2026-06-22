@@ -776,7 +776,7 @@ class SpaceItem:
                                        description='API.INVALID_COST_CENTER_ID')
             cost_center_id = new_values['data']['cost_center_id']
         else:
-            cost_center_id = None
+            cost_center_id = None 
 
         if 'latitude' in new_values['data'].keys():
             if new_values['data']['latitude'] is not None:
