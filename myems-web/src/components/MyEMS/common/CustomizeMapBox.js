@@ -7,6 +7,7 @@ import 'mapbox-gl/dist/mapbox-gl.css';
 import { checkEmpty, getCookieValue } from '../../../helpers/utils';
 import { settings } from '../../../config';
 import map_maker from '../../../assets/img/icons/map-marker.png';
+import DOMPurify from 'dompurify';
 
 mapboxgl.accessToken = settings.mapboxToken;
 if (mapboxgl.getRTLTextPluginStatus !== 'loaded') {
@@ -160,6 +161,11 @@ const CustomizeMapBox = ({ Latitude, Longitude, Zoom, Geojson, t }) => {
           coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
         }
 
+        const safeTitle = DOMPurify.sanitize(title);
+        const safeDescription = DOMPurify.sanitize(description);
+        const safeUrl = DOMPurify.sanitize(url);
+        const safeUuid = DOMPurify.sanitize(uuid);
+
         new mapboxgl.Popup()
             .setLngLat(coordinates)
             .setHTML(
@@ -171,11 +177,11 @@ const CustomizeMapBox = ({ Latitude, Longitude, Zoom, Geojson, t }) => {
                     margin: 0;
                     padding: 10px;
                     border-radius: 3px 3px 0 0;">
-                  <a target="_blank" href="${url}?uuid=${uuid}" style="color: #fff; text-decoration: none;">
-                    ${title}
+                  <a target="_blank" href="${safeUrl}?uuid=${safeUuid}" style="color: #fff; text-decoration: none;">
+                    ${safeTitle}
                   </a>
                 </h3>
-                ${description ? `
+                ${safeDescription ? `
                   <h4 style="font: 400 14px/20px 'Source Sans Pro', 'Helvetica Neue', sans-serif;
                       background: #f5f5f5;
                       color: #333;
@@ -183,7 +189,7 @@ const CustomizeMapBox = ({ Latitude, Longitude, Zoom, Geojson, t }) => {
                       padding: 10px;
                       border-radius: 0 0 3px 3px;
                       font-weight: 400;">
-                    ${description}
+                    ${safeDescription}
                   </h4>
                 ` : ''}
               </div>`
