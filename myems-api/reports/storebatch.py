@@ -244,18 +244,18 @@ class Reporting:
                                              "       AND store.cost_center_id = cc.id  ", )
                     rows_stores = cursor_system_db.fetchall()
                     if rows_stores is not None and len(rows_stores) > 0:
-                    for row in rows_stores:
-                        current_space_id = row[4]
-                        current_space_node = node_dict.get(current_space_id)
-                        current_space_path = \
-                            '/'.join([node.name for node in current_space_node.path]) \
-                            if current_space_node is not None else row[3]
-                        store_dict[row[0]] = {"store_name": row[1],
-                                              "store_uuid": row[2],
-                                              "space_name": current_space_path,
-                                              "cost_center_name": row[5],
-                                              "description": row[6],
-                                              "values": list()}
+                        for row in rows_stores:
+                            current_space_id = row[4]
+                            current_space_node = node_dict.get(current_space_id)
+                            current_space_path = \
+                                '/'.join([node.name for node in current_space_node.path]) \
+                                if current_space_node is not None else row[3]
+                            store_dict[row[0]] = {"store_name": row[1],
+                                                  "store_uuid": row[2],
+                                                  "space_name": current_space_path,
+                                                  "cost_center_name": row[5],
+                                                  "description": row[6],
+                                                  "values": list()}
 
                 #################################################################################################
                 # Step 4: query energy categories
