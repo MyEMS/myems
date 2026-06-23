@@ -1,5 +1,5 @@
 import uuid
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 import falcon
 import mysql.connector
 import simplejson as json
@@ -3611,7 +3611,7 @@ class SpaceTreeCollection:
                                            description='API.USER_SESSION_NOT_FOUND')
 
                 utc_expires = row[0]
-                if datetime.utcnow() > utc_expires:
+                if datetime.now(timezone.utc).replace(tzinfo=None) > utc_expires:
                     raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                            description='API.USER_SESSION_TIMEOUT')
 
@@ -5291,9 +5291,11 @@ class SpaceClone:
                     timezone_offset = int(config.utc_offset[1:3]) * 60 + int(config.utc_offset[4:6])
                     if config.utc_offset[0] == '-':
                         timezone_offset = -timezone_offset
-                    new_name = (str.strip(meta_result['name']) +
-                                (datetime.utcnow() +
-                                 timedelta(minutes=timezone_offset)).isoformat(sep='-', timespec='seconds'))
+                    suffix = (
+                        datetime.now(timezone.utc).replace(tzinfo=None)
+                        + timedelta(minutes=timezone_offset)
+                    ).isoformat(sep='-', timespec='seconds')
+                    new_name = str.strip(meta_result['name']) + suffix
 
                     # save new space to database
                     add_values = (" INSERT INTO tbl_spaces "

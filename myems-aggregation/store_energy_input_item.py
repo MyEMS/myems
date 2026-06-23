@@ -21,7 +21,7 @@ ensuring accurate energy consumption aggregation for all stores in the system.
 
 import random
 import time
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from decimal import Decimal
 from multiprocessing import Pool
 
@@ -313,7 +313,11 @@ def worker(store):
             # start from the next time slot
             start_datetime_utc += timedelta(minutes=config.minutes_to_count)
 
-        end_datetime_utc = datetime.utcnow().replace(second=0, microsecond=0, tzinfo=None)
+        end_datetime_utc = datetime.now(timezone.utc).replace(
+            second=0,
+            microsecond=0,
+            tzinfo=None,
+        )
 
         print("start_datetime_utc: " + start_datetime_utc.isoformat()[0:19]
               + "end_datetime_utc: " + end_datetime_utc.isoformat()[0:19])

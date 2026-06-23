@@ -124,7 +124,7 @@ class CostFileCollection:
                                            description='API.INVALID_SESSION_PLEASE_RE_LOGIN')
                 
                 utc_expires = row[0]
-                if datetime.utcnow() > utc_expires:
+                if datetime.now(timezone.utc).replace(tzinfo=None) > utc_expires:
                     raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                            description='API.USER_SESSION_TIMEOUT')
 
@@ -159,7 +159,7 @@ class CostFileCollection:
                               " VALUES (%s, %s, %s, %s, %s) ")
                 cursor_historical_db.execute(add_values, (filename,
                                                           file_uuid,
-                                                          datetime.utcnow(),
+                                                          datetime.now(timezone.utc).replace(tzinfo=None),
                                                           'new',
                                                           raw_blob))
                 new_id = cursor_historical_db.lastrowid

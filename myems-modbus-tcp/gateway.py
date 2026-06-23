@@ -14,7 +14,7 @@ This allows the MyEMS system to track which gateways are online and operational.
 """
 
 import time
-from datetime import datetime
+from datetime import datetime, timezone
 import mysql.connector
 import schedule
 import config
@@ -89,7 +89,7 @@ def job(logger):
     ############################################################################################################
     # TODO: Get more information, such as CPU/MEMORY/DISK usage, network status, etc.
     # Currently only collecting current timestamp as basic status information
-    current_datetime_utc = datetime.utcnow()
+    current_datetime_utc = datetime.now(timezone.utc).replace(tzinfo=None)
 
     ############################################################################################################
     # Step 3: Update Gateway Information - Report status to system database

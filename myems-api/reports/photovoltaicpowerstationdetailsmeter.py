@@ -29,7 +29,7 @@ The module uses Falcon framework for REST API and includes:
 - User authentication and authorization
 """
 
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 import falcon
 import mysql.connector
 import simplejson as json
@@ -105,7 +105,10 @@ class Reporting:
                 query = (" SELECT point_id, actual_value "
                          " FROM tbl_analog_value_latest "
                          " WHERE utc_date_time > %s ")
-                cursor_historical.execute(query, (datetime.utcnow() - timedelta(minutes=60),))
+                cursor_historical.execute(
+                    query,
+                    (datetime.now(timezone.utc).replace(tzinfo=None) - timedelta(minutes=60),),
+                )
                 rows = cursor_historical.fetchall()
                 if rows is not None and len(rows) > 0:
                     for row in rows:
@@ -117,7 +120,10 @@ class Reporting:
                 query = (" SELECT point_id, actual_value "
                          " FROM tbl_energy_value_latest "
                          " WHERE utc_date_time > %s ")
-                cursor_historical.execute(query, (datetime.utcnow() - timedelta(minutes=60),))
+                cursor_historical.execute(
+                    query,
+                    (datetime.now(timezone.utc).replace(tzinfo=None) - timedelta(minutes=60),),
+                )
                 rows = cursor_historical.fetchall()
                 if rows is not None and len(rows) > 0:
                     for row in rows:
@@ -129,7 +135,10 @@ class Reporting:
                 query = (" SELECT point_id, actual_value "
                          " FROM tbl_digital_value_latest "
                          " WHERE utc_date_time > %s ")
-                cursor_historical.execute(query, (datetime.utcnow() - timedelta(minutes=60),))
+                cursor_historical.execute(
+                    query,
+                    (datetime.now(timezone.utc).replace(tzinfo=None) - timedelta(minutes=60),),
+                )
                 rows = cursor_historical.fetchall()
                 if rows is not None and len(rows) > 0:
                     for row in rows:

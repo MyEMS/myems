@@ -1,7 +1,7 @@
 import decimal
 import random
 import time
-from datetime import datetime
+from datetime import datetime, timezone
 import paho.mqtt.client as mqtt
 import simplejson as json
 import config
@@ -46,7 +46,8 @@ def main():
     mqc = None
     try:
         mqc = mqtt.Client(callback_api_version=mqtt.CallbackAPIVersion.VERSION2,
-                          client_id='MYEMS' + datetime.utcnow().isoformat()[0:19],
+                          client_id='MYEMS'
+                          + datetime.now(timezone.utc).replace(tzinfo=None).isoformat()[0:19],
                           clean_session=None,
                           userdata=None,
                           protocol=mqtt.MQTTv5,
@@ -68,10 +69,16 @@ def main():
         if g_mqtt_connected_flag:
             try:
                 # publish real time value to mqtt broker
-                payload = json.dumps({"data_source_id": 1,
-                                      "point_id": 1,
-                                      "utc_date_time": datetime.utcnow().isoformat(timespec='seconds'),
-                                      "value": decimal.Decimal(random.randrange(0, 10000))})
+                payload = json.dumps({
+                    "data_source_id": 1,
+                    "point_id": 1,
+                    "utc_date_time": (
+                        datetime.now(timezone.utc)
+                        .replace(tzinfo=None)
+                        .isoformat(timespec='seconds')
+                    ),
+                    "value": decimal.Decimal(random.randrange(0, 10000)),
+                })
                 print('payload=' + str(payload))
                 info = mqc.publish('testtopic',
                                    payload=payload,

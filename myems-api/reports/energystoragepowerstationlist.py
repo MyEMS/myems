@@ -117,7 +117,12 @@ class Reporting:
         timezone_offset = int(config.utc_offset[1:3]) * 60 + int(config.utc_offset[4:6])
         if config.utc_offset[0] == '-':
             timezone_offset = -timezone_offset
-        reporting_end_datetime_utc = datetime.utcnow().replace(minute=0, second=0, microsecond=0)
+        reporting_end_datetime_utc = datetime.now(timezone.utc).replace(
+            minute=0,
+            second=0,
+            microsecond=0,
+            tzinfo=None,
+        )
         reporting_start_datetime_utc = reporting_end_datetime_utc - timedelta(hours=24)
         today_start_datetime_local = (reporting_end_datetime_utc.replace(tzinfo=timezone.utc) +
                                       timedelta(minutes=timezone_offset)).replace(hour=0, minute=0, second=0,
@@ -261,7 +266,8 @@ class Reporting:
                     is_online = False
                     if row_datetime is not None and len(row_datetime) > 0:
                         if isinstance(row_datetime[0], datetime):
-                            if row_datetime[0] + timedelta(minutes=10) > datetime.utcnow():
+                            current_datetime_utc = datetime.now(timezone.utc).replace(tzinfo=None)
+                            if row_datetime[0] + timedelta(minutes=10) > current_datetime_utc:
                                 is_online = True
 
                     # get PCS run state point

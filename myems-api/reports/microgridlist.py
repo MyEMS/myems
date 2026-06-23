@@ -30,7 +30,7 @@ The module uses Falcon framework for REST API and includes:
 """
 
 import falcon
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 import mysql.connector
 import simplejson as json
 from core.useractivity import access_control
@@ -148,7 +148,8 @@ class Reporting:
                         is_online = False
                         if row_datetime is not None and len(row_datetime) > 0:
                             if isinstance(row_datetime[0], datetime):
-                                if row_datetime[0] + timedelta(minutes=10) > datetime.utcnow():
+                                current_datetime_utc = datetime.now(timezone.utc).replace(tzinfo=None)
+                                if row_datetime[0] + timedelta(minutes=10) > current_datetime_utc:
                                     is_online = True
 
                         # get PCS run state point
