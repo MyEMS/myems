@@ -208,7 +208,7 @@ const CustomizeMapBox = ({ Latitude, Longitude, Zoom, Geojson, t }) => {
                   <a target="_blank" href="${safeUrl}?uuid=${safeUuid}" style="color: #fff; text-decoration: none;">
                     ${safeTitle}
                   </a>
-                </h3>
+                </h3> 
                 ${safeDescription ? `
                   <h4 style="font: 400 14px/20px 'Source Sans Pro', 'Helvetica Neue', sans-serif;
                       background: #f5f5f5;
