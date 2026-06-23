@@ -99,7 +99,7 @@ class NotificationCollection:
                                            description='API.INVALID_SESSION_PLEASE_RE_LOGIN')
                 
                 utc_expires = row[0]
-                if datetime.utcnow() > utc_expires:
+                if datetime.now(timezone.utc).replace(tzinfo=None) > utc_expires:
                     raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                            description='API.USER_SESSION_TIMEOUT')
 
@@ -204,7 +204,7 @@ class NotificationItem:
                                            description='API.INVALID_SESSION_PLEASE_RE_LOGIN')
                 
                 utc_expires = row_session[0]
-                if datetime.utcnow() > utc_expires:
+                if datetime.now(timezone.utc).replace(tzinfo=None) > utc_expires:
                     raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                            description='API.USER_SESSION_TIMEOUT')
 
@@ -309,7 +309,7 @@ class NotificationItem:
                                            description='API.INVALID_SESSION_PLEASE_RE_LOGIN')
                 
                 utc_expires = row_session[0]
-                if datetime.utcnow() > utc_expires:
+                if datetime.now(timezone.utc).replace(tzinfo=None) > utc_expires:
                     raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                            description='API.USER_SESSION_TIMEOUT')
 
@@ -384,7 +384,7 @@ class NotificationItem:
                                            description='API.INVALID_SESSION_PLEASE_RE_LOGIN')
                 
                 utc_expires = row_session[0]
-                if datetime.utcnow() > utc_expires:
+                if datetime.now(timezone.utc).replace(tzinfo=None) > utc_expires:
                     raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                            description='API.USER_SESSION_TIMEOUT')
 

@@ -1,5 +1,5 @@
 from io import BytesIO
-from datetime import datetime
+from datetime import datetime, timezone
 from functools import wraps
 import falcon
 import mysql.connector
@@ -59,7 +59,7 @@ def admin_control(req):
             else:
                 utc_expires = row[0]
                 # Check if session has expired
-                if datetime.utcnow() > utc_expires:
+                if datetime.now(timezone.utc).replace(tzinfo=None) > utc_expires:
                     raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                            description='API.ADMINISTRATOR_SESSION_TIMEOUT')
             
@@ -123,7 +123,7 @@ def access_control(req):
                                        description='API.USER_SESSION_NOT_FOUND')
             else:
                 utc_expires = row[0]
-                if datetime.utcnow() > utc_expires:
+                if datetime.now(timezone.utc).replace(tzinfo=None) > utc_expires:
                     raise falcon.HTTPError(status=falcon.HTTP_400,
                                            title='API.BAD_REQUEST',
                                            description='API.USER_SESSION_TIMEOUT')
@@ -173,7 +173,7 @@ def api_key_control(req):
                                        description='API.API_KEY_NOT_FOUND')
             else:
                 expires_datetime_utc = row[0]
-                if datetime.utcnow() > expires_datetime_utc:
+                if datetime.now(timezone.utc).replace(tzinfo=None) > expires_datetime_utc:
                     raise falcon.HTTPError(status=falcon.HTTP_400,
                                            title='API.BAD_REQUEST',
                                            description='API.API_KEY_HAS_EXPIRED')
@@ -202,7 +202,7 @@ def write_log(user_uuid, request_method, resource_type, resource_id, request_bod
                    "    (user_uuid, request_datetime_utc, request_method, resource_type, resource_id, request_body) "
                    " VALUES (%s, %s, %s, %s, %s , %s) ")
         cursor.execute(add_row, (user_uuid,
-                                 datetime.utcnow(),
+                                 datetime.now(timezone.utc).replace(tzinfo=None),
                                  request_method,
                                  resource_type,
                                  resource_id if resource_id else None,

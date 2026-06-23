@@ -1,5 +1,5 @@
 import uuid
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 import falcon
 import mysql.connector
 import simplejson as json
@@ -5653,9 +5653,11 @@ class MicrogridImport:
                     timezone_offset = int(config.utc_offset[1:3]) * 60 + int(config.utc_offset[4:6])
                     if config.utc_offset[0] == '-':
                         timezone_offset = -timezone_offset
-                    name = (str.strip(original_name) +
-                            (datetime.utcnow() +
-                            timedelta(minutes=timezone_offset)).isoformat(sep='-', timespec='seconds'))
+                    suffix = (
+                        datetime.now(timezone.utc).replace(tzinfo=None)
+                        + timedelta(minutes=timezone_offset)
+                    ).isoformat(sep='-', timespec='seconds')
+                    name = str.strip(original_name) + suffix
 
                 cursor.execute(" SELECT name "
                                " FROM tbl_contacts "
@@ -5799,9 +5801,11 @@ class MicrogridClone:
                 timezone_offset = int(config.utc_offset[1:3]) * 60 + int(config.utc_offset[4:6])
                 if config.utc_offset[0] == '-':
                     timezone_offset = -timezone_offset
-                new_name = (str.strip(meta_result['name']) +
-                            (datetime.utcnow() +
-                            timedelta(minutes=timezone_offset)).isoformat(sep='-', timespec='seconds'))
+                suffix = (
+                    datetime.now(timezone.utc).replace(tzinfo=None)
+                    + timedelta(minutes=timezone_offset)
+                ).isoformat(sep='-', timespec='seconds')
+                new_name = str.strip(meta_result['name']) + suffix
                 
                 add_values = (" INSERT INTO tbl_microgrids "
                               "    (name, uuid, address, postal_code, latitude, longitude, "

@@ -113,8 +113,8 @@ class Reporting:
                 reporting['photovoltaic_this_month'] = dict()
                 reporting['photovoltaic_this_year'] = dict()
 
-                end_datetime_utc = datetime.utcnow()
-                end_datetime_local = datetime.utcnow() + timedelta(minutes=timezone_offset)
+                end_datetime_utc = datetime.now(timezone.utc).replace(tzinfo=None)
+                end_datetime_local = end_datetime_utc + timedelta(minutes=timezone_offset)
                 period_type = 'daily'
                 start_datetime_local = (end_datetime_local.replace(hour=0, minute=0, second=0, microsecond=0) -
                                         timedelta(days=6))
@@ -169,8 +169,8 @@ class Reporting:
                 ###########################################################################################
                 # Step 4: query photovoltaic energy data in this month
                 ###########################################################################################
-                end_datetime_utc = datetime.utcnow()
-                end_datetime_local = datetime.utcnow() + timedelta(minutes=timezone_offset)
+                end_datetime_utc = datetime.now(timezone.utc).replace(tzinfo=None)
+                end_datetime_local = end_datetime_utc + timedelta(minutes=timezone_offset)
                 period_type = 'daily'
                 start_datetime_local = end_datetime_local.replace(day=1, hour=0, minute=0, second=0, microsecond=0)
                 start_datetime_utc = start_datetime_local - timedelta(minutes=timezone_offset)
@@ -224,8 +224,8 @@ class Reporting:
                 #######################################################################################
                 # Step 5: query photovoltaic energy data in this year
                 #######################################################################################
-                end_datetime_utc = datetime.utcnow()
-                end_datetime_local = datetime.utcnow() + timedelta(minutes=timezone_offset)
+                end_datetime_utc = datetime.now(timezone.utc).replace(tzinfo=None)
+                end_datetime_local = end_datetime_utc + timedelta(minutes=timezone_offset)
                 period_type = 'monthly'
                 start_datetime_local = end_datetime_local.replace(month=1, day=1, hour=0,
                                                                   minute=0, second=0, microsecond=0)

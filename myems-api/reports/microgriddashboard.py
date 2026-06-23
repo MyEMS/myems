@@ -230,7 +230,8 @@ class Reporting:
                         is_online = False
                         if row_datetime is not None and len(row_datetime) > 0:
                             if isinstance(row_datetime[0], datetime):
-                                if row_datetime[0] + timedelta(minutes=10) > datetime.utcnow():
+                                current_datetime_utc = datetime.now(timezone.utc).replace(tzinfo=None)
+                                if row_datetime[0] + timedelta(minutes=10) > current_datetime_utc:
                                     is_online = True
 
                         meta_result = {"id": row[0],

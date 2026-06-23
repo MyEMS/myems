@@ -142,7 +142,13 @@ class ApiKeyCollection:
                 # Insert new API key into database
                 cursor.execute(" INSERT INTO tbl_api_keys "
                                " (name, token, created_datetime_utc, expires_datetime_utc) "
-                               " VALUES(%s, %s, %s, %s) ", (name, token, datetime.utcnow(), expires_datetime_utc))
+                               " VALUES(%s, %s, %s, %s) ",
+                               (
+                                   name,
+                                   token,
+                                   datetime.now(timezone.utc).replace(tzinfo=None),
+                                   expires_datetime_utc,
+                               ))
 
                 new_id = cursor.lastrowid
                 cnx.commit()

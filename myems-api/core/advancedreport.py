@@ -920,9 +920,11 @@ class AdvancedReportClone:
                     timezone_offset = -timezone_offset
 
                 # Generate new name with timestamp suffix
-                new_name = (str.strip(result['name']) +
-                            (datetime.utcnow() + timedelta(minutes=timezone_offset)).isoformat(sep='-',
-                                                                                               timespec='seconds'))
+                suffix = (
+                    datetime.now(timezone.utc).replace(tzinfo=None)
+                    + timedelta(minutes=timezone_offset)
+                ).isoformat(sep='-', timespec='seconds')
+                new_name = str.strip(result['name']) + suffix
 
                 # Insert cloned report into database
                 add_row = (" INSERT INTO tbl_reports "

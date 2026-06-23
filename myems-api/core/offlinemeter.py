@@ -1,5 +1,5 @@
 import uuid
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 import falcon
 import mysql.connector
 import simplejson as json
@@ -1199,9 +1199,11 @@ class OfflineMeterClone:
                 if config.utc_offset[0] == '-':
                     timezone_offset = -timezone_offset
                 
-                new_name = (str.strip(meta_result['name']) +
-                            (datetime.utcnow() +
-                            timedelta(minutes=timezone_offset)).isoformat(sep='-', timespec='seconds'))
+                suffix = (
+                    datetime.now(timezone.utc).replace(tzinfo=None)
+                    + timedelta(minutes=timezone_offset)
+                ).isoformat(sep='-', timespec='seconds')
+                new_name = str.strip(meta_result['name']) + suffix
                 
                 energy_item_id = meta_result['energy_item']['id'] if meta_result['energy_item'] is not None else None
                 

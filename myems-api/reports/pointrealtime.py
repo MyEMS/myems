@@ -30,7 +30,7 @@ The module uses Falcon framework for REST API and includes:
 - User authentication and authorization
 """
 
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 import falcon
 import mysql.connector
 import simplejson as json
@@ -63,7 +63,9 @@ class Reporting:
         ################################################################################################################
         # Step 1: valid parameters
         ################################################################################################################
-        reporting_start_datetime_utc = datetime.utcnow() - timedelta(minutes=60)
+        reporting_start_datetime_utc = (
+            datetime.now(timezone.utc).replace(tzinfo=None) - timedelta(minutes=60)
+        )
         latest_value_data = list()
 
         data_source_ids = None

@@ -94,7 +94,7 @@ class Reporting:
         if config.utc_offset[0] == '-':
             timezone_offset = -timezone_offset
 
-        reporting_end_datetime_utc = datetime.utcnow()
+        reporting_end_datetime_utc = datetime.now(timezone.utc).replace(tzinfo=None)
 
         if time_range == '24h':
             reporting_start_datetime_utc = reporting_end_datetime_utc - timedelta(hours=24)
