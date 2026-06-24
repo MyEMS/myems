@@ -7,10 +7,10 @@ import withRedirect from '../../../hoc/withRedirect';
 import {withTranslation} from 'react-i18next';
 import moment from 'moment';
 import {APIBaseURL, settings} from '../../../config';
-import {v4 as uuid} from 'uuid';
+
 import CardSummary from '../common/CardSummary';
 import SharePie from '../common/SharePie';
-import BarChart from '../common/BarChart';
+
 import LineChart from '../common/LineChart';
 import CustomizeMapBox from '../common/CustomizeMapBox';
 import {
