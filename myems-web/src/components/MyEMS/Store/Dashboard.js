@@ -158,8 +158,25 @@ const Dashboard = ({setRedirect, setRedirectUrl, t}) => {
             const json = await response.json();
 
             setSummary(json.summary || {});
-            setEnergyData(json.reporting_period_input || {});
-            setCostData(json.reporting_period_cost || {});
+            
+            const reportingPeriodInput = json.reporting_period_input || {};
+            if (reportingPeriodInput.increment_rate_in_kgce !== undefined) {
+                const rate = reportingPeriodInput.increment_rate_in_kgce;
+                if (isNaN(rate) || !isFinite(rate)) {
+                    reportingPeriodInput.increment_rate_in_kgce = 0;
+                }
+            }
+            if (reportingPeriodInput.increment_rate_in_kgco2e !== undefined) {
+                const rate = reportingPeriodInput.increment_rate_in_kgco2e;
+                if (isNaN(rate) || !isFinite(rate)) {
+                    reportingPeriodInput.increment_rate_in_kgco2e = 0;
+                }
+            }
+            setEnergyData(reportingPeriodInput);
+            
+            const reportingPeriodCost = json.reporting_period_cost || {};
+            setCostData(reportingPeriodCost);
+            
             setTopStores(json.top_stores || []);
             setAllStores(json.stores || []);
 
@@ -448,7 +465,10 @@ const Dashboard = ({setRedirect, setRedirectUrl, t}) => {
                 </CardSummary>
 
                 <CardSummary
-                    rate={energyData.increment_rate_in_kgce !== undefined ?
+                    rate={energyData.increment_rate_in_kgce !== undefined && 
+                          energyData.increment_rate_in_kgce !== null &&
+                          !isNaN(energyData.increment_rate_in_kgce) &&
+                          isFinite(energyData.increment_rate_in_kgce) ?
                         (parseFloat(energyData.increment_rate_in_kgce * 100).toFixed(2) + '%') : null}
                     title={t("This Month's Consumption CATEGORY VALUE UNIT", {
                         CATEGORY: t('Ton of Standard Coal'),
@@ -485,7 +505,10 @@ const Dashboard = ({setRedirect, setRedirectUrl, t}) => {
                 </CardSummary>
 
                 <CardSummary
-                    rate={energyData.increment_rate_in_kgco2e !== undefined ?
+                    rate={energyData.increment_rate_in_kgco2e !== undefined && 
+                          energyData.increment_rate_in_kgco2e !== null &&
+                          !isNaN(energyData.increment_rate_in_kgco2e) &&
+                          isFinite(energyData.increment_rate_in_kgco2e) ?
                         (parseFloat(energyData.increment_rate_in_kgco2e * 100).toFixed(2) + '%') : null}
                     title={t("This Month's Consumption CATEGORY VALUE UNIT", {
                         CATEGORY: t('Ton of Carbon Dioxide Emissions'),
