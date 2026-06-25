@@ -76,7 +76,7 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
   const [childSpacesInputData, setChildSpacesInputData] = useState([]);
   const [childSpacesCostData, setChildSpacesCostData] = useState([]);
   const [monthLabels, setMonthLabels] = useState([]);
-  const [geojson, setGeojson] = useState([]); // 改为数组类型
+  const [geojson, setGeojson] = useState([]);
   const [rootLatitude, setRootLatitude] = useState(null);
   const [rootLongitude, setRootLongitude] = useState(null);
   const [isMapDataLoaded, setIsMapDataLoaded] = useState(false);
@@ -691,7 +691,7 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
                           coordinates: [lng, lat]
                         },
                         properties: {
-                          title: childSpace['label'] || childSpace['name'] || '未命名空间',
+                          title: childSpace['label'] || childSpace['name'] || ' ',
                           description: childSpace['description'] || '',
                           uuid: childSpace['uuid'] || '',
                           url: '/space/energycategory'
@@ -941,7 +941,7 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
               </div>
           ) : (
               <div className="mb-3 card" style={{ height: '400px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                {settings.showOnlineMap ? '加载地图数据...' : '地图功能未启用'}
+                {settings.showOnlineMap ? '...' : ' '}
               </div>
           )}
           {Object.entries(sensor).map(([sensorKey, sensorValue], index) => (

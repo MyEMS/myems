@@ -1,7 +1,7 @@
 export const version = '6.5.0';
 export const navbarBreakPoint = 'xl'; // Vertical navbar breakpoint
 export const topNavbarBreakpoint = 'lg';
-//export const APIBaseURL = 'http://127.0.0.1:8000';
+// export const APIBaseURL = 'http://127.0.0.1:8000';
 export const APIBaseURL = window.location.protocol + '//' + window.location.hostname + ':' + window.location.port + '/api';
 export const settings = {
   isFluid: true,
@@ -17,7 +17,7 @@ export const settings = {
   isNavbarVerticalCollapsed: false,
   navbarStyle: 'transparent',
   language: 'zh_CN', //default language: en, zh_CN, de, fr, es, ru, ar, vi, th, tr, ms, id, zh_TW, ko_KR, pt, it, pol, nl, jp, fa
-  showOnlineMap: true, // indicates if show online map on dashboard
+  showOnlineMap: false, // indicates if show online map on dashboard
   mapboxToken: 'GET-YOUR-TOKEN-AT-MAPBOX.COM', // you can get access token at https://mapbox.com
   cookieExpireTime: 1000 * 60 * 60, //cookie expires time in milliseconds
   showTCEData: true, // indicates if show Tonne of Coal Equivalent data on dashboard and reports

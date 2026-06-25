@@ -213,7 +213,6 @@ const Dashboard = ({setRedirect, setRedirectUrl, t}) => {
                         return feature;
                     });
 
-                // 更新地图数据
                 if (features.length > 0) {
                     setMapGeojson(features);
 
