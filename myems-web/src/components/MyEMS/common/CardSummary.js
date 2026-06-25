@@ -73,74 +73,74 @@ const getContentClassNames = color => {
 };
 
 const CardSummary = ({
-  title,
-  rate,
-  description,
-  color,
-  children,
-  footnote,
-  footvalue,
-  footunit,
-  secondfootnote,
-  secondfootvalue,
-  secondfootunit,
-  thirdfootnote,
-  thirdfootvalue,
-  thirdfootunit,
-  thirdfootdecimals
-}) => {
+                       title,
+                       rate,
+                       description,
+                       color,
+                       children,
+                       footnote,
+                       footvalue,
+                       footunit,
+                       secondfootnote,
+                       secondfootvalue,
+                       secondfootunit,
+                       thirdfootnote,
+                       thirdfootvalue,
+                       thirdfootunit,
+                       thirdfootdecimals
+                     }) => {
   const hasValue = value => value !== null && value !== undefined;
   return (
-    <Card className="mb-3 overflow-hidden" style={{ minWidth: '15rem' }}>
-      <Background image={getImage(color)} className="bg-card" />
-      <CardBody className="position-relative">
-        <h6 className="font-weight-normal fs--1">
-          {title}
-          {description && (
-             <FontAwesomeIcon
-               icon="question-circle"
-               className="ml-1 text-info cursor-pointer"
-               title={description}
-             />
-           )}
-          <span className={`badge badge-soft-${color} rounded-capsule ml-2`}>
+      <Card className="mb-3 overflow-hidden" style={{ minWidth: '15rem' }}>
+        <Background image={getImage(color)} className="bg-card" />
+        <CardBody className="position-relative">
+          <h6 className="font-weight-normal fs--1">
+            {title}
+            {description && (
+                <FontAwesomeIcon
+                    icon="question-circle"
+                    className="ml-1 text-info cursor-pointer"
+                    title={description}
+                />
+            )}
+            <span className={`badge badge-soft-${color} rounded-capsule ml-2`}>
             {getIcon(rate)}
-            {rate}
+              {rate}
           </span>
-        </h6>
-        <div className={getContentClassNames(color)}>{children}</div>
-        <h6 className="font-weight-light fs--2 text-nowrap">
-          {footnote}{' '}
-          {hasValue(footvalue) && (
-            <CountUp end={footvalue} duration={2} prefix="" separator="," decimal="." decimals={2} />
-          )}{' '}
-          {footunit}
-        </h6>
-        <h6 className="font-weight-light fs--2 text-nowrap">
-          {secondfootnote}{' '}
-          {hasValue(secondfootvalue) && (
-            <CountUp end={secondfootvalue} duration={2} prefix="" separator="," decimal="." decimals={2} />
-          )}{' '}
-          {secondfootunit}
-        </h6>
-        {(thirdfootnote || hasValue(thirdfootvalue) || thirdfootunit) && (
-          <h6 className="font-weight-light fs--2 text-nowrap">
-            {thirdfootnote}{' '}
-            {hasValue(thirdfootvalue) && (
-              <CountUp
-                end={thirdfootvalue}
-                duration={2}
-                prefix=""
-                separator=","
-                decimal="."
-                decimals={hasValue(thirdfootdecimals) ? thirdfootdecimals : 2}
-              />
-            )}{' '}
-            {thirdfootunit}
           </h6>
-        )}
-      </CardBody>
-    </Card>
+          <div className={getContentClassNames(color)}>{children}</div>
+          <h6 className="font-weight-light fs--2 text-nowrap">
+            {footnote}{' '}
+            {hasValue(footvalue) && (
+                <CountUp end={footvalue} duration={2} prefix="" separator="," decimal="." decimals={2} />
+            )}{' '}
+            {footunit}
+          </h6>
+          <h6 className="font-weight-light fs--2 text-nowrap">
+            {secondfootnote}{' '}
+            {hasValue(secondfootvalue) && (
+                <CountUp end={secondfootvalue} duration={2} prefix="" separator="," decimal="." decimals={2} />
+            )}{' '}
+            {secondfootunit}
+          </h6>
+          {(thirdfootnote || hasValue(thirdfootvalue) || thirdfootunit) && (
+              <h6 className="font-weight-light fs--2 text-nowrap">
+                {thirdfootnote}{' '}
+                {hasValue(thirdfootvalue) && (
+                    <CountUp
+                        end={thirdfootvalue}
+                        duration={2}
+                        prefix=""
+                        separator=","
+                        decimal="."
+                        decimals={hasValue(thirdfootdecimals) ? thirdfootdecimals : 2}
+                    />
+                )}{' '}
+                {thirdfootunit}
+              </h6>
+          )}
+        </CardBody>
+      </Card>
   );
 };
 
