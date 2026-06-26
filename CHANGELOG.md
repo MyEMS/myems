@@ -5,6 +5,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 ### Added
+### Changed
+### Fixed
+### Removed
+
+## [v6.6.0] - 2026-06-26
+### Added
 - added search box to data point page in myems-admin
 - added deepseek AI analysis to reports in myems-web
 - added map to store dashboard in myems-web
@@ -29,7 +35,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - fixed typo of file name in myems-aggregation
 ### Removed
 - removed unused function from carbon_dioxide_emission_factor in myems-aggregation
-- remvoed falcon-cors middleware and on_options methods from myems-api
+- removed falcon-cors middleware and on_options methods from myems-api
 
 ## [v6.5.0] - 2026-05-26
 ### Added
@@ -2299,7 +2305,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Removed
 -   None.
 
-[Unreleased]: https://gitee.com/MyEMS/myems/compare/v6.5.0...HEAD
+[Unreleased]: https://gitee.com/MyEMS/myems/compare/v6.6.0...HEAD
+[6.6.0]: https://gitee.com/MyEMS/myems/compare/v6.5.0...v6.6.0
 [6.5.0]: https://gitee.com/MyEMS/myems/compare/v6.4.0...v6.5.0
 [6.4.0]: https://gitee.com/MyEMS/myems/compare/v6.3.0...v6.4.0
 [6.3.0]: https://gitee.com/MyEMS/myems/compare/v6.2.0...v6.3.0
