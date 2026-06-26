@@ -1,6 +1,6 @@
 import collections
 import statistics
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from decimal import Decimal
 import mysql.connector
 import config
@@ -1059,3 +1059,94 @@ def round2(actual_value, precision):
         return result
     else:
         return "-"
+
+
+def query_point_values_batch(point_list, start_datetime_utc, end_datetime_utc, cursor_historical):
+    """Batch-query historical point values, grouping by object_type.
+
+    Executes at most 3 queries (one per table) instead of one query per point.
+
+    Args:
+        point_list: list of dicts with 'id', 'object_type' keys
+        start_datetime_utc: start datetime in UTC
+        end_datetime_utc: end datetime in UTC
+        cursor_historical: mysql cursor for the historical database
+
+    Returns:
+        dict mapping point_id -> list of (utc_date_time, actual_value) tuples,
+        ordered by utc_date_time. Points with no data map to an empty list.
+    """
+    if not point_list:
+        return {}
+
+    table_map = {
+        'ENERGY_VALUE': 'tbl_energy_value',
+        'ANALOG_VALUE': 'tbl_analog_value',
+        'DIGITAL_VALUE': 'tbl_digital_value',
+    }
+
+    groups = {}
+    for point in point_list:
+        obj_type = point.get('object_type')
+        if obj_type in table_map:
+            groups.setdefault(obj_type, []).append(point['id'])
+
+    result = {point['id']: [] for point in point_list}
+
+    for obj_type, point_ids in groups.items():
+        table = table_map[obj_type]
+        placeholders = ','.join(['%s'] * len(point_ids))
+        query = (
+            " SELECT point_id, utc_date_time, actual_value "
+            " FROM " + table + " "
+            " WHERE point_id IN (" + placeholders + ") "
+            "       AND utc_date_time BETWEEN %s AND %s "
+            " ORDER BY point_id, utc_date_time "
+        )
+        cursor_historical.execute(query, tuple(point_ids) + (start_datetime_utc, end_datetime_utc))
+        rows = cursor_historical.fetchall()
+        for row in rows:
+            pid = row[0]
+            if pid in result:
+                result[pid].append((row[1], row[2]))
+
+    return result
+
+
+def build_parameters_data_from_batch(point_list, start_datetime_utc, end_datetime_utc,
+                                     cursor_historical, timezone_offset):
+    """Query point values in batch and format as parameters_data dict.
+
+    Replaces the standard N+1 for-loop pattern found in most report files.
+    Timestamps are formatted as isoformat()[0:19].
+
+    Args:
+        point_list: list of dicts with 'id', 'name', 'units', 'object_type'
+        start_datetime_utc: start datetime in UTC
+        end_datetime_utc: end datetime in UTC
+        cursor_historical: mysql cursor for historical database
+        timezone_offset: offset in minutes from UTC
+
+    Returns:
+        dict with keys 'names', 'timestamps', 'values', each a list.
+    """
+    names = []
+    timestamps = []
+    values = []
+
+    results_by_point_id = query_point_values_batch(
+        point_list, start_datetime_utc, end_datetime_utc, cursor_historical)
+
+    for point in point_list:
+        rows = results_by_point_id.get(point['id'], [])
+        point_timestamps = []
+        point_values = []
+        for utc_dt, actual_value in rows:
+            current_datetime_local = utc_dt.replace(tzinfo=timezone.utc) + timedelta(minutes=timezone_offset)
+            point_timestamps.append(current_datetime_local.isoformat()[0:19])
+            point_values.append(actual_value)
+        names.append(point['name'] + ' (' + point['units'] + ')')
+        timestamps.append(point_timestamps)
+        values.append(point_values)
+
+    return {'names': names, 'timestamps': timestamps, 'values': values}

@@ -230,29 +230,31 @@ class Reporting:
                 for node in LevelOrderIter(node_dict[space_id]):
                     space_dict[node.id] = node.name
 
-                cursor_system_db.execute(" SELECT e.id, e.name AS equipment_name, "
-                                         "        e.uuid AS equipment_uuid, s.name AS space_name, "
-                                         "        s.id AS space_id, "
-                                         "        cc.name AS cost_center_name, e.description "
-                                         " FROM tbl_spaces s, tbl_spaces_equipments se, "
-                                         "      tbl_equipments e, tbl_cost_centers cc "
-                                         " WHERE s.id IN ( " + ', '.join(map(str, space_dict.keys())) + ") "
-                                         "       AND se.space_id = s.id AND se.equipment_id = e.id "
-                                         "       AND e.cost_center_id = cc.id  ", )
-                rows_equipments = cursor_system_db.fetchall()
-                if rows_equipments is not None and len(rows_equipments) > 0:
-                    for row in rows_equipments:
-                        current_space_id = row[4]
-                        current_space_node = node_dict.get(current_space_id)
-                        current_space_path = \
-                            '/'.join([node.name for node in current_space_node.path]) \
-                            if current_space_node is not None else row[3]
-                        equipment_dict[row[0]] = {"equipment_name": row[1],
-                                                  "equipment_uuid": row[2],
-                                                  "space_name": current_space_path,
-                                                  "cost_center_name": row[5],
-                                                  "description": row[6],
-                                                  "values": list()}
+                space_ids = list(space_dict.keys())
+                if space_ids:
+                    cursor_system_db.execute(" SELECT e.id, e.name AS equipment_name, "
+                                             "        e.uuid AS equipment_uuid, s.name AS space_name, "
+                                             "        s.id AS space_id, "
+                                             "        cc.name AS cost_center_name, e.description "
+                                             " FROM tbl_spaces s, tbl_spaces_equipments se, "
+                                             "      tbl_equipments e, tbl_cost_centers cc "
+                                             " WHERE s.id IN ( " + ', '.join(map(str, space_ids)) + ") "
+                                             "       AND se.space_id = s.id AND se.equipment_id = e.id "
+                                             "       AND e.cost_center_id = cc.id  ", )
+                    rows_equipments = cursor_system_db.fetchall()
+                    if rows_equipments is not None and len(rows_equipments) > 0:
+                        for row in rows_equipments:
+                            current_space_id = row[4]
+                            current_space_node = node_dict.get(current_space_id)
+                            current_space_path = \
+                                '/'.join([node.name for node in current_space_node.path]) \
+                                if current_space_node is not None else row[3]
+                            equipment_dict[row[0]] = {"equipment_name": row[1],
+                                                      "equipment_uuid": row[2],
+                                                      "space_name": current_space_path,
+                                                      "cost_center_name": row[5],
+                                                      "description": row[6],
+                                                      "values": list()}
 
                 #####################################################################################################
                 # Step 4: query energy categories
@@ -287,25 +289,27 @@ class Reporting:
                 ########################################################################################
                 # Step 5: query reporting period energy input
                 ########################################################################################
-                for equipment_id in equipment_dict:
-
-                    cursor_energy_db.execute(" SELECT energy_category_id, SUM(actual_value) "
-                                             " FROM tbl_equipment_input_category_hourly "
-                                             " WHERE equipment_id = %s "
-                                             "     AND start_datetime_utc >= %s "
-                                             "     AND start_datetime_utc < %s "
-                                             " GROUP BY energy_category_id ",
-                                             (equipment_id,
-                                              reporting_start_datetime_utc,
-                                              reporting_end_datetime_utc))
+                if equipment_dict:
+                    equipment_ids = list(equipment_dict.keys())
+                    cursor_energy_db.execute(
+                        " SELECT equipment_id, energy_category_id, SUM(actual_value) "
+                        " FROM tbl_equipment_input_category_hourly "
+                        " WHERE equipment_id IN (" + ', '.join(map(str, equipment_ids)) + ") "
+                        "     AND start_datetime_utc >= %s "
+                        "     AND start_datetime_utc < %s "
+                        " GROUP BY equipment_id, energy_category_id ",
+                        (reporting_start_datetime_utc, reporting_end_datetime_utc))
                     rows_equipment_energy = cursor_energy_db.fetchall()
-                    for energy_category in energy_category_list:
-                        subtotal = Decimal(0.0)
-                        for row_equipment_energy in rows_equipment_energy:
-                            if energy_category['id'] == row_equipment_energy[0]:
-                                subtotal = row_equipment_energy[1]
-                                break
-                        equipment_dict[equipment_id]['values'].append(subtotal)
+                    # build mapping: equipment_id -> {energy_category_id: sum_value}
+                    energy_map = {}
+                    for row in rows_equipment_energy:
+                        energy_map.setdefault(row[0], {})[row[1]] = row[2]
+                    for equipment_id in equipment_dict:
+                        for energy_category in energy_category_list:
+                            subtotal = Decimal(0.0)
+                            if equipment_id in energy_map and energy_category['id'] in energy_map[equipment_id]:
+                                subtotal = energy_map[equipment_id][energy_category['id']]
+                            equipment_dict[equipment_id]['values'].append(subtotal)
 
             finally:
                 if cursor_system_db:

@@ -161,62 +161,12 @@ class Reporting:
         try:
             cursor_historical = cnx_historical.cursor()
             try:
-                for point in point_list:
-                    point_values = []
-                    point_timestamps = []
-                    if point['object_type'] == 'ENERGY_VALUE':
-                        query = (" SELECT utc_date_time, actual_value "
-                                 " FROM tbl_energy_value "
-                                 " WHERE point_id = %s "
-                                 "       AND utc_date_time BETWEEN %s AND %s "
-                                 " ORDER BY utc_date_time ")
-                        cursor_historical.execute(query, (point['id'],
-                                                          reporting_start_datetime_utc,
-                                                          reporting_end_datetime_utc))
-                        rows = cursor_historical.fetchall()
-                        if rows is not None and len(rows) > 0:
-                            for row in rows:
-                                current_datetime_local = row[0].replace(tzinfo=timezone.utc) + \
-                                                         timedelta(minutes=timezone_offset)
-                                point_timestamps.append(current_datetime_local.isoformat()[0:19])
-                                point_values.append(row[1])
-
-                    elif point['object_type'] == 'ANALOG_VALUE':
-                        query = (" SELECT utc_date_time, actual_value "
-                                 " FROM tbl_analog_value "
-                                 " WHERE point_id = %s "
-                                 "       AND utc_date_time BETWEEN %s AND %s "
-                                 " ORDER BY utc_date_time ")
-                        cursor_historical.execute(query, (point['id'],
-                                                          reporting_start_datetime_utc,
-                                                          reporting_end_datetime_utc))
-                        rows = cursor_historical.fetchall()
-                        if rows is not None and len(rows) > 0:
-                            for row in rows:
-                                current_datetime_local = row[0].replace(tzinfo=timezone.utc) + \
-                                                         timedelta(minutes=timezone_offset)
-                                point_timestamps.append(current_datetime_local.isoformat()[0:19])
-                                point_values.append(row[1])
-                    elif point['object_type'] == 'DIGITAL_VALUE':
-                        query = (" SELECT utc_date_time, actual_value "
-                                 " FROM tbl_digital_value "
-                                 " WHERE point_id = %s "
-                                 "       AND utc_date_time BETWEEN %s AND %s "
-                                 " ORDER BY utc_date_time ")
-                        cursor_historical.execute(query, (point['id'],
-                                                          reporting_start_datetime_utc,
-                                                          reporting_end_datetime_utc))
-                        rows = cursor_historical.fetchall()
-                        if rows is not None and len(rows) > 0:
-                            for row in rows:
-                                current_datetime_local = row[0].replace(tzinfo=timezone.utc) + \
-                                                         timedelta(minutes=timezone_offset)
-                                point_timestamps.append(current_datetime_local.isoformat()[0:19])
-                                point_values.append(row[1])
-
-                    parameters_data['names'].append(point['name'] + ' (' + point['units'] + ')')
-                    parameters_data['timestamps'].append(point_timestamps)
-                    parameters_data['values'].append(point_values)
+                point_data = utilities.build_parameters_data_from_batch(
+                    point_list, reporting_start_datetime_utc, reporting_end_datetime_utc,
+                    cursor_historical, timezone_offset)
+                parameters_data['names'].extend(point_data['names'])
+                parameters_data['timestamps'].extend(point_data['timestamps'])
+                parameters_data['values'].extend(point_data['values'])
             finally:
                 cursor_historical.close()
         finally:
