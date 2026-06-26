@@ -20,6 +20,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - updated knowledge file page in myems-web
 - updated user activity logger in myems-api
 - replaced datetime.utcnow() with datetime.now(timezone.utc)
+- optimized multiple N+1 queries into batch queries in myems-api
 ### Fixed
 - fixed add/edit user issue in myems-admin 
 - fixed issue of DateRangePickerWrapper in myems-web
