@@ -1,7 +1,6 @@
 import React, { useContext, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Route, Switch } from 'react-router-dom';
-// import Dashboard from '../components/dashboard/Dashboard';
 import Dashboard from '../components/MyEMS/dashboard/Dashboard';
 import DashboardAlt from '../components/dashboard-alt/DashboardAlt';
 import NavbarTop from '../components/navbar/NavbarTop';
@@ -11,9 +10,9 @@ import loadable from '@loadable/component';
 import AppContext from '../context/Context';
 import ProductProvider from '../components/e-commerce/ProductProvider';
 import SidePanelModal from '../components/side-panel/SidePanelModal';
+import ErrorBoundary from '../components/ErrorBoundary';
 import { getPageName } from '../helpers/utils';
 
-// const DashboardRoutes = loadable(() => import('./DashboardRoutes'));
 const DashboardRoutes = loadable(() => import('./MyEMSRoutes'));
 
 const DashboardLayout = ({ location }) => {
@@ -35,13 +34,14 @@ const DashboardLayout = ({ location }) => {
       <ProductProvider>
         <div className="content">
           <NavbarTop />
-          <Switch>
-            {/* added one more route to avoid navlink active issue */}
-            <Route path="/" exact component={Dashboard} />
-            <Route path="/dashboard" exact component={Dashboard} />
-            <Route path="/dashboard-alt" exact component={DashboardAlt} />
-            <DashboardRoutes />
-          </Switch>
+          <ErrorBoundary>
+            <Switch>
+              <Route path="/" exact component={Dashboard} />
+              <Route path="/dashboard" exact component={Dashboard} />
+              <Route path="/dashboard-alt" exact component={DashboardAlt} />
+              <DashboardRoutes />
+            </Switch>
+          </ErrorBoundary>
           {!isKanban && <Footer />}
         </div>
         <SidePanelModal autoShow={false} path={location.pathname} />
