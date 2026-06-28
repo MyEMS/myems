@@ -125,21 +125,6 @@ const SpaceEquipments = loadable(() => import('../components/MyEMS/Monitoring/Sp
 const CombinedEquipments = loadable(() => import('../components/MyEMS/Monitoring/CombinedEquipments'));
 const AdvancedReporting = loadable(() => import('../components/MyEMS/AdvancedReporting/AdvancedReporting'));
 
-// Space
-// Equipment
-// Meter
-// Tenant
-// Store
-// Shopfloor
-// CombinedEquipment
-// Auxiliary System
-// Knowledge Base
-// Notification
-// FDD
-// Monitoring
-// Advanced Reporting
-
-
 const MyEMSRoutes = () => (
   <Switch>
     {/*Space*/}
