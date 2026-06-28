@@ -17,11 +17,17 @@ class ErrorBoundary extends Component {
 
     componentDidCatch(error, errorInfo) {
         console.error('ErrorBoundary caught an error:', error, errorInfo);
-        this.setState({
-            error,
-            errorInfo
-        });
+
+        if (process.env.NODE_ENV === 'production') {
+
+            this.reportErrorToService(error, errorInfo);
+        }
     }
+
+    reportErrorToService = (error, errorInfo) => {
+
+        console.warn('Error reporting service not configured. Please integrate with your preferred error monitoring solution.');
+    };
 
     handleReset = () => {
         this.setState({
@@ -64,9 +70,9 @@ class ErrorBoundary extends Component {
                                 Error Details (Developer Information)
                             </summary>
                             <pre style={{ fontSize: '12px', whiteSpace: 'pre-wrap', wordBreak: 'break-word' }}>
-                {this.state.error && this.state.error.toString()}
+                                {this.state.error && this.state.error.toString()}
                                 {this.state.errorInfo && this.state.errorInfo.componentStack}
-              </pre>
+                            </pre>
                         </details>
                     )}
 
