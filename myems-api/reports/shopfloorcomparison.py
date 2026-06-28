@@ -38,7 +38,6 @@ class Reporting:
             access_control(req)
         else:
             api_key_control(req)
-        print(req.params)
         # this procedure accepts shopfloor id or shopfloor uuid to identify a shopfloor
         shopfloor_id1 = req.params.get("shopfloorid1")
         shopfloor_uuid1 = req.params.get("shopflooruuid1")

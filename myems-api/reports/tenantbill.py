@@ -70,7 +70,6 @@ class Reporting:
             access_control(req)
         else:
             api_key_control(req)
-        print(req.params)
         tenant_id = req.params.get('tenantid')
         tenant_uuid = req.params.get('tenantuuid')
         reporting_period_start_datetime_local = req.params.get('reportingperiodstartdatetime')

@@ -34,7 +34,6 @@ class Reporting:
             access_control(req)
         else:
             api_key_control(req)
-        print(req.params)
         # this procedure accepts energy storage power station id or
         # energy storage power station uuid to identify a energy storage power station
         energy_storage_power_station_id = req.params.get('id')

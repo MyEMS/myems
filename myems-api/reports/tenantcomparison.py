@@ -38,7 +38,6 @@ class Reporting:
             access_control(req)
         else:
             api_key_control(req)
-        print(req.params)
         # this procedure accepts tenant id or tenant uuid to identify a tenant
         tenant_id1 = req.params.get("tenantid1")
         tenant_uuid1 = req.params.get("tenantuuid1")

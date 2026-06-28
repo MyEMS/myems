@@ -68,7 +68,6 @@ class Reporting:
             access_control(req)
         else:
             api_key_control(req)
-        print(req.params)
         # this procedure accepts virtual meter id or virtual meter uuid to identify a virtual meter
         virtual_meter_id1 = req.params.get('virtualmeterid1')
         virtual_meter_uuid1 = req.params.get('virtualmeteruuid1')

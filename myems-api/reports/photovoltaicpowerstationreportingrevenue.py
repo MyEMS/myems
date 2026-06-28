@@ -66,7 +66,6 @@ class Reporting:
             access_control(req)
         else:
             api_key_control(req)
-        print(req.params)
         # this procedure accepts photovoltaic power station id or
         # photovoltaic power station uuid to identify a photovoltaic power station
         photovoltaic_power_station_id = req.params.get('id')

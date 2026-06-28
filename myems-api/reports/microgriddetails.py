@@ -71,7 +71,6 @@ class Reporting:
             access_control(req)
         else:
             api_key_control(req)
-        print(req.params)
         # this procedure accepts microgrid id or microgrid uuid to identify a microgrid
         microgrid_id = req.params.get('id')
         microgrid_uuid = req.params.get('uuid')

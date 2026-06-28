@@ -60,7 +60,6 @@ class Reporting:
             access_control(req)
         else:
             api_key_control(req)
-        print(req.params)
         sensor_id = req.params.get('sensorid')
         sensor_uuid = req.params.get('sensoruuid')
         quick_mode = req.params.get('quickmode')
