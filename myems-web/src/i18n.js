@@ -45,7 +45,7 @@ function loadLocale(lng) {
 
 export const i18nInitPromise = (async function init() {
     const zhCNModule = await loadLocale('zh_CN');
-    i18n
+    await i18n
         .use(initReactI18next)
         .init({
             resources: {
