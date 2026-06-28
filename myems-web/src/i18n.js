@@ -46,7 +46,7 @@ export const i18nInitPromise = (async function init() {
         .use(initReactI18next)
         .init({
             resources: {
-                zh_CN: { translation: zhCNModule.default.translation },
+                zh_CN: { translation: zhCNModule?.default?.translation || {} },
             },
             lng: 'zh_CN',
             keySeparator: false,
@@ -63,7 +63,7 @@ export async function changeLanguage(lng) {
     }
     if (!cache.has(lng)) {
         const module = await loadLocale(lng);
-        i18n.addResourceBundle(lng, 'translation', module.default.translation, true, true);
+        i18n.addResourceBundle(lng, 'translation', module?.default?.translation || {}, true, true);
     }
     await i18n.changeLanguage(lng);
 }
