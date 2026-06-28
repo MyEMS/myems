@@ -31,11 +31,14 @@ function loadLocale(lng) {
     if (cache.has(lng)) return Promise.resolve(cache.get(lng));
     if (pendingLoads.has(lng)) return pendingLoads.get(lng);
 
-    const promise = localeImports[lng]().then((module) => {
-        cache.set(lng, module);
-        pendingLoads.delete(lng);
-        return module;
-    });
+    const promise = localeImports[lng]()
+        .then((module) => {
+            cache.set(lng, module);
+            return module;
+        })
+        .finally(() => {
+            pendingLoads.delete(lng);
+        });
     pendingLoads.set(lng, promise);
     return promise;
 }
@@ -58,8 +61,10 @@ export const i18nInitPromise = (async function init() {
 
 export async function changeLanguage(lng) {
     if (!localeImports[lng]) {
-        console.warn(`Unsupported language: ${lng}`);
-        return;
+        throw new Error(`Unsupported language: ${lng}`);
+    }
+    if (!i18n.isInitialized) {
+        await i18nInitPromise;
     }
     if (!cache.has(lng)) {
         const module = await loadLocale(lng);
