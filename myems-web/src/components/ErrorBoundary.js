@@ -19,22 +19,16 @@ class ErrorBoundary extends Component {
         console.error('ErrorBoundary caught an error:', error, errorInfo);
 
         if (process.env.NODE_ENV === 'production') {
-
             this.reportErrorToService(error, errorInfo);
         }
     }
 
     reportErrorToService = (error, errorInfo) => {
-
         console.warn('Error reporting service not configured. Please integrate with your preferred error monitoring solution.');
     };
 
     handleReset = () => {
-        this.setState({
-            hasError: false,
-            error: null,
-            errorInfo: null
-        });
+        window.location.reload();
     };
 
     render() {
