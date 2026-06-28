@@ -34,7 +34,7 @@ function loadLocale(lng) {
     });
 }
 
-(async function init() {
+export const i18nInitPromise = (async function init() {
     const zhCNModule = await loadLocale('zh_CN');
     i18n
         .use(initReactI18next)

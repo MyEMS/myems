@@ -6,11 +6,13 @@ import ReactDOM from 'react-dom';
 import App from './App';
 import Main from './Main';
 import './helpers/initFA';
-import './i18n';
+import { i18nInitPromise } from './i18n';
 
-ReactDOM.render(
-  <Main>
-    <App />
-  </Main>,
-  document.getElementById('main')
-);
+i18nInitPromise.then(() => {
+  ReactDOM.render(
+    <Main>
+      <App />
+    </Main>,
+    document.getElementById('main')
+  );
+});

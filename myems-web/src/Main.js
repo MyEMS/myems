@@ -110,7 +110,7 @@ const Main = props => {
 
   useEffect(() => {
     setItemToStore('myems_web_ui_language', language);
-    changeLanguage(language);
+    changeLanguage(language).catch(err => console.error('Failed to change language', err));
     // eslint-disable-next-line
   }, [language]);
 
