@@ -43,9 +43,9 @@ class ErrorBoundary extends Component {
           borderRadius: '8px',
           boxShadow: '0 2px 8px rgba(0,0,0,0.1)'
         }}>
-          <h2 style={{ color: '#dc3545', marginBottom: '16px' }}>页面加载出错</h2>
+          <h2 style={{ color: '#dc3545', marginBottom: '16px' }}>Page Loading Error</h2>
           <p style={{ color: '#6c757d', marginBottom: '24px' }}>
-            抱歉，该页面加载时出现了错误。请尝试刷新页面或返回主页。
+            Sorry, an error occurred while loading this page. Please try refreshing the page or returning to the homepage.
           </p>
           <details style={{
             textAlign: 'left',
@@ -57,7 +57,7 @@ class ErrorBoundary extends Component {
             overflow: 'auto'
           }}>
             <summary style={{ cursor: 'pointer', fontWeight: 'bold', marginBottom: '8px' }}>
-              错误详情（开发者信息）
+              Error Details (Developer Information)
             </summary>
             <pre style={{ fontSize: '12px', whiteSpace: 'pre-wrap', wordBreak: 'break-word' }}>
               {this.state.error && this.state.error.toString()}
@@ -77,7 +77,7 @@ class ErrorBoundary extends Component {
                 fontSize: '14px'
               }}
             >
-              重试
+              Retry
             </button>
             <button
               onClick={() => window.location.href = '/'}
@@ -91,7 +91,7 @@ class ErrorBoundary extends Component {
                 fontSize: '14px'
               }}
             >
-              返回首页
+              Return to Homepage
             </button>
           </div>
         </div>
