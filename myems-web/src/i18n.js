@@ -25,13 +25,19 @@ const localeImports = {
 };
 
 const cache = new Map();
+const pendingLoads = new Map();
 
 function loadLocale(lng) {
     if (cache.has(lng)) return Promise.resolve(cache.get(lng));
-    return localeImports[lng]().then((module) => {
+    if (pendingLoads.has(lng)) return pendingLoads.get(lng);
+
+    const promise = localeImports[lng]().then((module) => {
         cache.set(lng, module);
+        pendingLoads.delete(lng);
         return module;
     });
+    pendingLoads.set(lng, promise);
+    return promise;
 }
 
 export const i18nInitPromise = (async function init() {

@@ -15,4 +15,13 @@ i18nInitPromise.then(() => {
     </Main>,
     document.getElementById('main')
   );
+}).catch(err => {
+  console.error('i18n init failed:', err);
+  // 降级渲染：即使 i18n 初始化失败，也尝试渲染应用
+  ReactDOM.render(
+    <Main>
+      <App />
+    </Main>,
+    document.getElementById('main')
+  );
 });
