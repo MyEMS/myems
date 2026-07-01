@@ -1,60 +1,76 @@
 import i18n from 'i18next';
-import {initReactI18next} from 'react-i18next';
-import en from './locales/en';
-import zh_CN from './locales/zh_CN';
-import de from './locales/de';
-import fr from './locales/fr';
-import es from './locales/es';
-import ru from './locales/ru';
-import ar from './locales/ar';
-import vi from './locales/vi';
-import th from './locales/th';
-import tr from './locales/tr';
-import ms from './locales/ms';
-import id from './locales/id';
-import zh_TW from './locales/zh_TW';
-import ko_KR from './locales/ko_KR';
-import pt from './locales/pt';
-import it from './locales/it';
-import pol from './locales/pol';
-import nl from './locales/nl';
-import jp from './locales/jp';
-import fa from './locales/fa';
+import { initReactI18next } from 'react-i18next';
 
-const resources = {
-    en,
-    zh_CN,
-    de,
-    fr,
-    es,
-    ru,
-    ar,
-    vi,
-    th,
-    tr,
-    ms,
-    id,
-    zh_TW,
-    ko_KR,
-    pt,
-    it,
-    pol,
-    nl,
-    jp,
-    fa
+const localeImports = {
+    en: () => import('./locales/en'),
+    zh_CN: () => import('./locales/zh_CN'),
+    de: () => import('./locales/de'),
+    fr: () => import('./locales/fr'),
+    es: () => import('./locales/es'),
+    ru: () => import('./locales/ru'),
+    ar: () => import('./locales/ar'),
+    vi: () => import('./locales/vi'),
+    th: () => import('./locales/th'),
+    tr: () => import('./locales/tr'),
+    ms: () => import('./locales/ms'),
+    id: () => import('./locales/id'),
+    zh_TW: () => import('./locales/zh_TW'),
+    ko_KR: () => import('./locales/ko_KR'),
+    pt: () => import('./locales/pt'),
+    it: () => import('./locales/it'),
+    pol: () => import('./locales/pol'),
+    nl: () => import('./locales/nl'),
+    jp: () => import('./locales/jp'),
+    fa: () => import('./locales/fa'),
 };
 
-i18n
-    .use(initReactI18next) // passes i18n down to react-i18next
-    .init({
-        resources,
-        lng: 'zh_CN',
+const cache = new Map();
+const pendingLoads = new Map();
 
-        keySeparator: false, // we do not use keys in form messages.welcome
+function loadLocale(lng) {
+    if (cache.has(lng)) return Promise.resolve(cache.get(lng));
+    if (pendingLoads.has(lng)) return pendingLoads.get(lng);
 
-        interpolation: {
-            escapeValue: false // react already safes from xss
-        }
-    });
+    const promise = localeImports[lng]()
+        .then((module) => {
+            cache.set(lng, module);
+            return module;
+        })
+        .finally(() => {
+            pendingLoads.delete(lng);
+        });
+    pendingLoads.set(lng, promise);
+    return promise;
+}
+
+export const i18nInitPromise = (async function init() {
+    const zhCNModule = await loadLocale('zh_CN');
+    await i18n
+        .use(initReactI18next)
+        .init({
+            resources: {
+                zh_CN: { translation: zhCNModule?.default?.translation || {} },
+            },
+            lng: 'zh_CN',
+            keySeparator: false,
+            interpolation: {
+                escapeValue: false,
+            },
+        });
+})();
+
+export async function changeLanguage(lng) {
+    if (!localeImports[lng]) {
+        throw new Error(`Unsupported language: ${lng}`);
+    }
+    if (!i18n.isInitialized) {
+        await i18nInitPromise;
+    }
+    if (!cache.has(lng)) {
+        const module = await loadLocale(lng);
+        i18n.addResourceBundle(lng, 'translation', module?.default?.translation || {}, true, true);
+    }
+    await i18n.changeLanguage(lng);
+}
 
 export default i18n;

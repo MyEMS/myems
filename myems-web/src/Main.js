@@ -11,7 +11,7 @@ import {
   getCookieValue,
   checkEmpty
 } from './helpers/utils';
-import i18n from 'i18next';
+import { changeLanguage } from './i18n';
 
 const Main = props => {
   const [isFluid, setIsFluid] = useState(getItemFromStore('isFluid', settings.isFluid));
@@ -110,7 +110,7 @@ const Main = props => {
 
   useEffect(() => {
     setItemToStore('myems_web_ui_language', language);
-    i18n.changeLanguage(language);
+    changeLanguage(language).catch(err => console.error('Failed to change language', err));
     // eslint-disable-next-line
   }, [language]);
 
