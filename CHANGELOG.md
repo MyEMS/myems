@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ## [Unreleased]
 ### Added
 ### Changed
+- changed component import method from static to dynamic imports in myems-web
+- added ErrorBoundary component to capture rendering errors in myems-web
 ### Fixed
 ### Removed
 - removed print(req.params) from myems-api
