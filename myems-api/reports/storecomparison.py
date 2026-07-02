@@ -38,7 +38,6 @@ class Reporting:
             access_control(req)
         else:
             api_key_control(req)
-        print(req.params)
         # this procedure accepts store id or store uuid to identify a store
         store_id1 = req.params.get("storeid1")
         store_uuid1 = req.params.get("storeuuid1")

@@ -62,7 +62,6 @@ class Reporting:
             access_control(req)
         else:
             api_key_control(req)
-        print(req.params)
         meter_id = req.params.get('meterid')
         meter_uuid = req.params.get('meteruuid')
         quick_mode = req.params.get('quickmode')

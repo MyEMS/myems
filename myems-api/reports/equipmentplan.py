@@ -72,7 +72,6 @@ class Reporting:
             access_control(req)
         else:
             api_key_control(req)
-        print(req.params)
         equipment_id = req.params.get('equipmentid')
         equipment_uuid = req.params.get('equipmentuuid')
         period_type = req.params.get('periodtype')

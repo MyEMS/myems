@@ -68,7 +68,6 @@ class Reporting:
             access_control(req)
         else:
             api_key_control(req)
-        print(req.params)
         # this procedure accepts meter id or meter uuid to identify a meter
         meter_id1 = req.params.get('meterid1')
         meter_uuid1 = req.params.get('meteruuid1')

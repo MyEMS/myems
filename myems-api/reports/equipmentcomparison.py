@@ -38,7 +38,6 @@ class Reporting:
             access_control(req)
         else:
             api_key_control(req)
-        print(req.params)
         # this procedure accepts equipment id or equipment uuid to identify a equipment
         equipment_id1 = req.params.get("equipmentid1")
         equipment_uuid1 = req.params.get("equipmentuuid1")

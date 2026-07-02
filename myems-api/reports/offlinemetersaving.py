@@ -69,7 +69,6 @@ class Reporting:
             access_control(req)
         else:
             api_key_control(req)
-        print(req.params)
         offline_meter_id = req.params.get('offlinemeterid')
         offline_meter_uuid = req.params.get('offlinemeteruuid')
         period_type = req.params.get('periodtype')

@@ -73,7 +73,6 @@ class Reporting:
             access_control(req)
         else:
             api_key_control(req)
-        print(req.params)
         store_id = req.params.get('storeid')
         store_uuid = req.params.get('storeuuid')
         period_type = req.params.get('periodtype')

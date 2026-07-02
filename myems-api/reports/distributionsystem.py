@@ -59,7 +59,6 @@ class Reporting:
             access_control(req)
         else:
             api_key_control(req)
-        print(req.params)
         distribution_system_id = req.params.get('distributionsystemid')
 
         ################################################################################################################
