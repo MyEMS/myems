@@ -64,7 +64,6 @@ class Reporting:
             access_control(req)
         else:
             api_key_control(req)
-        print(req.params)
         space_id = req.params.get('spaceid')
         language = req.params.get('language')
         quick_mode = req.params.get('quick_mode')

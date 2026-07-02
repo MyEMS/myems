@@ -73,7 +73,6 @@ class Reporting:
             access_control(req)
         else:
             api_key_control(req)
-        print(req.params)
         space_id = req.params.get('spaceid')
         space_uuid = req.params.get('spaceuuid')
         period_type = req.params.get('periodtype')

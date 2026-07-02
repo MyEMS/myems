@@ -38,7 +38,6 @@ class Reporting:
             access_control(req)
         else:
             api_key_control(req)
-        print(req.params)
         # this procedure accepts space id or space uuid to identify a space
         space_id1 = req.params.get("spaceid1")
         space_uuid1 = req.params.get("spaceuuid1")

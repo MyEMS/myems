@@ -48,7 +48,6 @@ class Reporting:
             access_control(req)
         else:
             api_key_control(req)
-        print(req.params)
         shopfloor_id = req.params.get('shopfloorid')
         shopfloor_uuid = req.params.get('shopflooruuid')
         period_type = req.params.get('periodtype')

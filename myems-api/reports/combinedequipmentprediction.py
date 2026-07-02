@@ -70,7 +70,6 @@ class Reporting:
             access_control(req)
         else:
             api_key_control(req)
-        print(req.params)
         combined_equipment_id = req.params.get('combinedequipmentid')
         combined_equipment_uuid = req.params.get('combinedequipmentuuid')
         period_type = req.params.get('periodtype')
