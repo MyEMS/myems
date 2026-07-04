@@ -92,6 +92,10 @@ def _would_create_cycle(cursor, diagram_id, source_node_id, target_node_id, excl
     Returns:
         True if the new link would create a cycle, False otherwise
     """
+    # Ensure type consistency between JSON-parsed values and database cursor values
+    source_node_id = int(source_node_id)
+    target_node_id = int(target_node_id)
+
     if source_node_id == target_node_id:
         return True
 
@@ -965,12 +969,7 @@ class EnergyFlowDiagramLinkCollection:
                                            title='API.NOT_FOUND',
                                            description='API.ENERGY_FLOW_DIAGRAM_LINK_IS_ALREADY_IN_USE')
 
-                # Check if this link would create a cycle in the directed graph
-                if _would_create_cycle(cursor, int(id_), source_node_id, target_node_id):
-                    raise falcon.HTTPError(status=falcon.HTTP_400,
-                                           title='API.BAD_REQUEST',
-                                           description='ENERGY_FLOW_DIAGRAM_LINK_WOULD_CREATE_CYCLE')
-
+                # Validate source node existence before cycle detection
                 query = (" SELECT id, name "
                          " FROM tbl_energy_flow_diagrams_nodes "
                          " WHERE id = %s ")
@@ -986,6 +985,12 @@ class EnergyFlowDiagramLinkCollection:
                 if cursor.fetchone() is None:
                     raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                            description='API.TARGET_NODE_NOT_FOUND')
+
+                # Check if this link would create a cycle in the directed graph
+                if _would_create_cycle(cursor, int(id_), source_node_id, target_node_id):
+                    raise falcon.HTTPError(status=falcon.HTTP_400,
+                                           title='API.BAD_REQUEST',
+                                           description='SETTING.ENERGY_FLOW_DIAGRAM_LINK_WOULD_CREATE_CYCLE')
 
                 query = (" SELECT id, name, uuid "
                          " FROM tbl_meters ")
@@ -1352,12 +1357,7 @@ class EnergyFlowDiagramLinkItem:
                                            title='API.NOT_FOUND',
                                            description='API.ENERGY_FLOW_DIAGRAM_LINK_IS_ALREADY_IN_USE')
 
-                # Check if this link change would create a cycle in the directed graph
-                if _would_create_cycle(cursor, int(id_), source_node_id, target_node_id, exclude_link_id=int(lid)):
-                    raise falcon.HTTPError(status=falcon.HTTP_400,
-                                           title='API.BAD_REQUEST',
-                                           description='ENERGY_FLOW_DIAGRAM_LINK_WOULD_CREATE_CYCLE')
-
+                # Validate source node existence before cycle detection
                 query = (" SELECT id, name "
                          " FROM tbl_energy_flow_diagrams_nodes "
                          " WHERE id = %s ")
@@ -1373,6 +1373,12 @@ class EnergyFlowDiagramLinkItem:
                 if cursor.fetchone() is None:
                     raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                            description='API.TARGET_NODE_NOT_FOUND')
+
+                # Check if this link change would create a cycle in the directed graph
+                if _would_create_cycle(cursor, int(id_), source_node_id, target_node_id, exclude_link_id=int(lid)):
+                    raise falcon.HTTPError(status=falcon.HTTP_400,
+                                           title='API.BAD_REQUEST',
+                                           description='SETTING.ENERGY_FLOW_DIAGRAM_LINK_WOULD_CREATE_CYCLE')
 
                 query = (" SELECT id, name, uuid "
                          " FROM tbl_meters ")
