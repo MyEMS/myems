@@ -449,6 +449,11 @@
           "Verknüpfung von Gerät und Zähler; bindet physische Messgeräte an das entsprechende Verbrauchsgerät.",
         BIND_METER_DESCRIPTION_MORE:
           "Wählen Sie links das Zielgerät und rechts den Zähler, dann in den Bereich gebundener Zähler ziehen. Zum Entbinden in den Papierkorb ziehen.",
+        METER_ALREADY_BOUND_TO_OTHER_SPACE: "Dieser Zähler ist bereits an einen anderen Raum gebunden",
+        VIRTUAL_METER_ALREADY_BOUND_TO_OTHER_SPACE: "Dieser virtuelle Zähler ist bereits an einen anderen Raum gebunden",
+        OFFLINE_METER_ALREADY_BOUND_TO_OTHER_SPACE: "Dieser Offline-Zähler ist bereits an einen anderen Raum gebunden",
+        CONFIRM_BIND_METER: "Bindung bestätigen",
+        CONFIRM_BIND_METER_MESSAGE: "Dieser Zähler ist bereits an Raum \"{0}\" gebunden. Möchten Sie die Bindung an den aktuellen Raum fortsetzen? (Ein Zähler kann an mehrere Räume gebunden werden)",
         BIND_PARAMETER: "Parameter binden",
         BIND_PARAMETER_DESCRIPTION:
           "Verwaltung technischer Geräteparameter; konfiguriert wichtige Betriebskennwerte für Verbrauchsgeräte.",

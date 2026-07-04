@@ -436,6 +436,14 @@
         BIND_MICROGRID: "Mikro şebekeyi bağlama",
         BIND_ENERGY_STORAGE_CONTAINER:
           "Bağlam Enerji depolama KonteinerComment",
+        BIND_METER: "Sayaç bağla",
+        BIND_METER_DESCRIPTION: "Alan ve sayaç ilişkisi yönetimi; sayaçları alanlara bağlayarak enerjiyi bölgeye göre toplar.",
+        BIND_METER_DESCRIPTION_MORE: "Bir alan seçin, ardından sağdan sayaç tipini seçip sayacı ortadaki bağlama alanına sürükleyin. Bağlamayı kaldırmak için çöp kutusuna sürükleyin.",
+        METER_ALREADY_BOUND_TO_OTHER_SPACE: "Bu sayaç zaten başka bir alana bağlanmış",
+        VIRTUAL_METER_ALREADY_BOUND_TO_OTHER_SPACE: "Bu sanal sayaç zaten başka bir alana bağlanmış",
+        OFFLINE_METER_ALREADY_BOUND_TO_OTHER_SPACE: "Bu çevrimdışı sayaç zaten başka bir alana bağlanmış",
+        CONFIRM_BIND_METER: "Bağlamayı onayla",
+        CONFIRM_BIND_METER_MESSAGE: "Bu sayaç zaten \"{0}\" alanına bağlanmış. Mevcut alana bağlamaya devam etmek istiyor musunuz? (Bir sayaç birden fazla alana bağlanabilir)",
 
         IOTSIMCARD: "IoT SIM kartı",
         CATEGORY_DESCRIPTION: "Enerji kategorisi yönetiminin temel konfigürasyonu; sistemde kullanılan çeşitli enerji kaynaklarını ve bunların dönüşüm standartlarını merkezi olarak yönetir.",
@@ -1593,6 +1601,11 @@
           "Alan–sayaç bağlama yönetimi; bölge bazlı toplama için sayaçları alana bağlayın.",
         BIND_METER_DESCRIPTION_MORE:
           "Bir alan seçin, sağdan sayaç türünü seçin ve sayacı orta alana sürükleyin. Bağı kaldırmak için çöp kutusuna sürükleyin.",
+        METER_ALREADY_BOUND_TO_OTHER_SPACE: "Bu sayaç zaten başka bir alana bağlı",
+        VIRTUAL_METER_ALREADY_BOUND_TO_OTHER_SPACE: "Bu sanal sayaç zaten başka bir alana bağlı",
+        OFFLINE_METER_ALREADY_BOUND_TO_OTHER_SPACE: "Bu çevrimdışı sayaç zaten başka bir alana bağlı",
+        CONFIRM_BIND_METER: "Bağlamayı onayla",
+        CONFIRM_BIND_METER_MESSAGE: "Bu sayaç zaten \"{0}\" alanına bağlı. Mevcut alana bağlamaya devam etmek istiyor musunuz? (Bir sayaç birden fazla alana bağlanabilir)",
         BIND_EQUIPMENT_DESCRIPTION:
           "Alan–ekipman bağlama yönetimi; tüketim ekipmanlarını alana bağlayın.",
         BIND_EQUIPMENT_DESCRIPTION_MORE:
