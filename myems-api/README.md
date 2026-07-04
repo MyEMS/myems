@@ -4,43 +4,6 @@
 
 RESTful API service for [MyEMS](https://github.com/MyEMS/myems) components and third party applications.
 
-## Dependencies
-
-anytree
-
-simplejson
-
-mysql-connector-python
-
-falcon
-
-falcon_cors
-
-falcon-multipart
-
-gunicorn
-
-et_xmlfile
-
-jdcal
-
-openpyxl
-
-pillow
-
-python-decouple
-
-paho-mqtt
-
-plotly
-
-kaleido
-
-requests
-
-redis
-
-
 ## Quick Run for Development
 
 Quick run on Linux (NOT for production use):
@@ -191,17 +154,15 @@ Please refer to [API List](https://myems.cn/docs/api)
 [1]. http://myems.cn
 
 [2]. https://falconframework.org/
+=
+[3]. https://github.com/yohanboniface/falcon-multipart
 
-[3]. https://github.com/lwcolton/falcon-cors
+[4]. http://gunicorn.org
 
-[4]. https://github.com/yohanboniface/falcon-multipart
+[5]. https://github.com/henriquebastos/python-decouple/
 
-[5]. http://gunicorn.org
+[6]. https://foss.heptapod.net/openpyxl/openpyxl
 
-[6]. https://github.com/henriquebastos/python-decouple/
+[7]. https://foss.heptapod.net/openpyxl/et_xmlfile/
 
-[7]. https://foss.heptapod.net/openpyxl/openpyxl
-
-[8]. https://foss.heptapod.net/openpyxl/et_xmlfile/
-
-[9]. https://docs.pylonsproject.org/projects/waitress/en/latest/
+[8]. https://docs.pylonsproject.org/projects/waitress/en/latest/
