@@ -990,7 +990,7 @@ class EnergyFlowDiagramLinkCollection:
                 if _would_create_cycle(cursor, int(id_), source_node_id, target_node_id):
                     raise falcon.HTTPError(status=falcon.HTTP_400,
                                            title='API.BAD_REQUEST',
-                                           description='SETTING.ENERGY_FLOW_DIAGRAM_LINK_WOULD_CREATE_CYCLE')
+                                           description='API.ENERGY_FLOW_DIAGRAM_LINK_WOULD_CREATE_CYCLE')
 
                 query = (" SELECT id, name, uuid "
                          " FROM tbl_meters ")
@@ -1378,7 +1378,7 @@ class EnergyFlowDiagramLinkItem:
                 if _would_create_cycle(cursor, int(id_), source_node_id, target_node_id, exclude_link_id=int(lid)):
                     raise falcon.HTTPError(status=falcon.HTTP_400,
                                            title='API.BAD_REQUEST',
-                                           description='SETTING.ENERGY_FLOW_DIAGRAM_LINK_WOULD_CREATE_CYCLE')
+                                           description='API.ENERGY_FLOW_DIAGRAM_LINK_WOULD_CREATE_CYCLE')
 
                 query = (" SELECT id, name, uuid "
                          " FROM tbl_meters ")
