@@ -1421,7 +1421,6 @@ export default {
         'Trend Values': 'Trendwerte',
         Category: 'Kategorie',
         Type: 'Typ',
-        Unit: 'Einheit',
         Limit: 'Grenzwert',
         'Normal Limit': 'Normaler Grenzwert',
         'Severe Limit': 'Schwerer Grenzwert',
