@@ -606,7 +606,8 @@ api.add_route('/meters/import',
               meter.MeterImport())
 api.add_route('/meters/{id_}/clone',
               meter.MeterClone())
-
+api.add_route('/meters/{id_}/spaces',
+              space.MeterSpaceCollection())
 
 api.add_route('/microgrids',
               microgrid.MicrogridCollection())
@@ -894,8 +895,7 @@ api.add_route('/spaces/{id_}/meters',
               space.SpaceMeterCollection())
 api.add_route('/spaces/{id_}/meters/{mid}',
               space.SpaceMeterItem())
-api.add_route('/spaces/check-meter-binding',
-              space.SpaceMeterBindingCheck())
+
 api.add_route('/spaces/{id_}/microgrids',
               space.SpaceMicrogridCollection())
 api.add_route('/spaces/{id_}/microgrids/{mid}',

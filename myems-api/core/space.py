@@ -1826,13 +1826,13 @@ class SpaceMeterCollection:
         resp.location = '/spaces/' + str(id_) + '/meters/' + str(meter_id)
 
 
-class SpaceMeterBindingCheck:
-    """Check which spaces a meter is bound to"""
+class MeterSpaceCollection:
+    """Get spaces that a meter is bound to (RESTful style)"""
     def __init__(self):
         pass
 
     @staticmethod
-    def on_get(req, resp):
+    def on_get(req, resp, id_):
         if 'API-KEY' not in req.headers or \
                 not isinstance(req.headers['API-KEY'], str) or \
                 len(str.strip(req.headers['API-KEY'])) == 0:
@@ -1840,12 +1840,11 @@ class SpaceMeterBindingCheck:
         else:
             api_key_control(req)
         
-        meter_id = req.get_param('meter_id')
-        meter_type = req.get_param('meter_type')  # meters, virtualmeters, offlinemeters
-        
-        if not meter_id or not meter_id.isdigit() or int(meter_id) <= 0:
+        if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_METER_ID')
+        
+        meter_type = req.get_param('type')  # meters, virtualmeters, offlinemeters
         
         if meter_type not in ['meters', 'virtualmeters', 'offlinemeters']:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
@@ -1874,7 +1873,7 @@ class SpaceMeterBindingCheck:
                     meter_tbl = 'tbl_offline_meters'
                 
                 # Check if meter exists
-                cursor.execute(f" SELECT name FROM {meter_tbl} WHERE id = %s ", (meter_id,))
+                cursor.execute(f" SELECT name FROM {meter_tbl} WHERE id = %s ", (id_,))
                 if cursor.fetchone() is None:
                     raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                            description='API.METER_NOT_FOUND')
@@ -1884,7 +1883,7 @@ class SpaceMeterBindingCheck:
                              FROM {relation_table} sm, tbl_spaces s 
                              WHERE sm.space_id = s.id AND sm.{meter_col} = %s 
                              ORDER BY s.id """
-                cursor.execute(query, (meter_id,))
+                cursor.execute(query, (id_,))
                 rows = cursor.fetchall()
                 
                 result = []
