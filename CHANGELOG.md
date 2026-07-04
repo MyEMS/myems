@@ -5,6 +5,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 ### Added
+- added circle check to energy flow diagram in myems-api and myems-admin
 ### Changed
 - changed component import method from static to dynamic imports in myems-web
 - added ErrorBoundary component to capture rendering errors in myems-web
