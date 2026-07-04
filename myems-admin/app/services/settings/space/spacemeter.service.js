@@ -39,6 +39,22 @@ app.factory('SpaceMeterService', function($http) {
             }, function (response) {
                 callback(response);
             });
+        },
+        
+        // GET spaces that a meter is bound to
+        checkMeterBinding: function(meterId, meterType, headers, callback) {
+            $http.get(getAPI()+'spaces/check-meter-binding', {
+                params: {
+                    meter_id: meterId,
+                    meter_type: meterType
+                },
+                headers: headers
+            })
+            .then(function (response) {
+                callback(response);
+            }, function (response) {
+                callback(response);
+            });
         }
     };
 });
