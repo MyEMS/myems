@@ -2008,6 +2008,8 @@
           "Energy Flow Diagram Link Is Already In Use",
         ENERGY_FLOW_DIAGRAM_LINK_NOT_FOUND_OR_NOT_MATCH:
           "Energy Flow Diagram Link Not Found Or Not Match",
+        ENERGY_FLOW_DIAGRAM_LINK_WOULD_CREATE_CYCLE:
+          "Energy Flow Diagram Link Would Create A Cycle",
         ENERGY_FLOW_DIAGRAM_NAME_IS_ALREADY_IN_USE:
           "Energy Flow Diagram Name Is Already In Use",
         ENERGY_FLOW_DIAGRAM_NODE_NAME_IS_ALREADY_IN_USE:

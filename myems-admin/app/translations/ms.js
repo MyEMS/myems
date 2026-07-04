@@ -2049,6 +2049,8 @@
           "Energy Flow Diagram Link Is Already In Use",
         ENERGY_FLOW_DIAGRAM_LINK_NOT_FOUND_OR_NOT_MATCH:
           "Energy Flow Diagram Link Not Found Or Not Match",
+        ENERGY_FLOW_DIAGRAM_LINK_WOULD_CREATE_CYCLE:
+          "Pautan Gambar Rajah Aliran Tenaga Akan Membuat Kitaran",
         ENERGY_FLOW_DIAGRAM_NAME_IS_ALREADY_IN_USE:
           "Nama Gambarajah Aliran Tenaga Sudah Digunakan",
         ENERGY_FLOW_DIAGRAM_NODE_NAME_IS_ALREADY_IN_USE:

@@ -2016,6 +2016,8 @@
           "Energieflowdiagram link is al in gebruik",
         ENERGY_FLOW_DIAGRAM_LINK_NOT_FOUND_OR_NOT_MATCH:
           "Energieflowdiagram link bestaat niet of komt niet overeen",
+        ENERGY_FLOW_DIAGRAM_LINK_WOULD_CREATE_CYCLE:
+          "Energieflußdiagramm-Link zou een cyclus creëren",
         ENERGY_FLOW_DIAGRAM_NAME_IS_ALREADY_IN_USE:
           "Energie-stroomdiagram naam is al in gebruik",
         ENERGY_FLOW_DIAGRAM_NODE_NAME_IS_ALREADY_IN_USE:

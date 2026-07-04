@@ -1952,6 +1952,8 @@
           "能流图链接已使用",
         ENERGY_FLOW_DIAGRAM_LINK_NOT_FOUND_OR_NOT_MATCH:
           "能流图链接不存在或不匹配",
+        ENERGY_FLOW_DIAGRAM_LINK_WOULD_CREATE_CYCLE:
+          "能流图链接将形成循环，禁止保存",
         ENERGY_FLOW_DIAGRAM_NAME_IS_ALREADY_IN_USE: "能流图名称已使用",
         ENERGY_FLOW_DIAGRAM_NODE_NAME_IS_ALREADY_IN_USE: "能流图节点名称已使用",
         ENERGY_FLOW_DIAGRAM_NODE_NOT_FOUND_OR_NOT_MATCH:
