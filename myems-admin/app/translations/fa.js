@@ -1990,6 +1990,8 @@
           "پیوند نمودار جریان انرژی قبلاً استفاده شده است",
         ENERGY_FLOW_DIAGRAM_LINK_NOT_FOUND_OR_NOT_MATCH:
           "پیوند نمودار جریان انرژی یافت نشد یا مطابقت ندارد",
+        ENERGY_FLOW_DIAGRAM_LINK_WOULD_CREATE_CYCLE:
+          "پیوند نمودار جریان انرژی یک چرخه ایجاد می‌کند",
         ENERGY_FLOW_DIAGRAM_NAME_IS_ALREADY_IN_USE:
           "نام نمودار جریان انرژی قبلاً استفاده شده است",
         ENERGY_FLOW_DIAGRAM_NODE_NAME_IS_ALREADY_IN_USE:

@@ -2063,6 +2063,8 @@
           "Link Grafik Aliran Energi Telah Digunakan",
         ENERGY_FLOW_DIAGRAM_LINK_NOT_FOUND_OR_NOT_MATCH:
           "Link Grafik Aliran Energi Tidak Ada Atau Tidak Cocok",
+        ENERGY_FLOW_DIAGRAM_LINK_WOULD_CREATE_CYCLE:
+          "Tautan Diagram Aliran Energi Akan Membuat Siklus",
         ENERGY_FLOW_DIAGRAM_NAME_IS_ALREADY_IN_USE:
           "Nama Diagram Aliran Energi Sudah Digunakan",
         ENERGY_FLOW_DIAGRAM_NODE_NAME_IS_ALREADY_IN_USE:

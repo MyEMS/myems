@@ -2017,6 +2017,8 @@
           "Energy Flow Diagram Link Is Already In Use",
         ENERGY_FLOW_DIAGRAM_LINK_NOT_FOUND_OR_NOT_MATCH:
           "Energy Flow Diagram Link Not Found Or Not Match",
+        ENERGY_FLOW_DIAGRAM_LINK_WOULD_CREATE_CYCLE:
+          "سيؤدي رابط مخطط تدفق الطاقة إلى إنشاء دورة",
         ENERGY_FLOW_DIAGRAM_NAME_IS_ALREADY_IN_USE:
           "اسم مخطط تدفق الطاقة قيد الاستخدام بالفعل",
         ENERGY_FLOW_DIAGRAM_NODE_NAME_IS_ALREADY_IN_USE:

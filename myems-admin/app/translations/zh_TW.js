@@ -1994,6 +1994,8 @@
           "能流圖鏈接已使⽤",
         ENERGY_FLOW_DIAGRAM_LINK_NOT_FOUND_OR_NOT_MATCH:
           "能流圖鏈接不存在或不匹配",
+        ENERGY_FLOW_DIAGRAM_LINK_WOULD_CREATE_CYCLE:
+          "能流圖鏈接將形成循環，禁止保存",
         ENERGY_FLOW_DIAGRAM_NAME_IS_ALREADY_IN_USE: "能流圖名稱已使用",
         ENERGY_FLOW_DIAGRAM_NODE_NAME_IS_ALREADY_IN_USE: "能流圖節點名稱已使用",
         ENERGY_FLOW_DIAGRAM_NODE_NOT_FOUND_OR_NOT_MATCH:

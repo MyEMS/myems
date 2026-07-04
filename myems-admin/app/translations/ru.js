@@ -2125,6 +2125,8 @@
           "Energy Flow Diagram Link Is Already In Use",
         ENERGY_FLOW_DIAGRAM_LINK_NOT_FOUND_OR_NOT_MATCH:
           "Energy Flow Diagram Link Not Found Or Not Match",
+        ENERGY_FLOW_DIAGRAM_LINK_WOULD_CREATE_CYCLE:
+          "Ссылка на диаграмму энергопотока создаст цикл",
         ENERGY_FLOW_DIAGRAM_NAME_IS_ALREADY_IN_USE:
           "Название диаграммы энергопотока уже используется",
         ENERGY_FLOW_DIAGRAM_NODE_NAME_IS_ALREADY_IN_USE:
