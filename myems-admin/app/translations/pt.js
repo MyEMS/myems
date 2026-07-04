@@ -2118,6 +2118,8 @@
           "Link do Diagrama de Fluxo de Energia Já Está em Uso",
         ENERGY_FLOW_DIAGRAM_LINK_NOT_FOUND_OR_NOT_MATCH:
           "Link do Diagrama de Fluxo de Energia Não Encontrado ou Não Corresponde",
+        ENERGY_FLOW_DIAGRAM_LINK_WOULD_CREATE_CYCLE:
+          "O link do diagrama de fluxo de energia criaria um ciclo",
         ENERGY_FLOW_DIAGRAM_NAME_IS_ALREADY_IN_USE:
           "Nome do Diagrama de Fluxo de Energia Já Está em Uso",
         ENERGY_FLOW_DIAGRAM_NODE_NAME_IS_ALREADY_IN_USE:

@@ -2035,6 +2035,8 @@
           "Collegamento diagramma flusso energia già in uso",
         ENERGY_FLOW_DIAGRAM_LINK_NOT_FOUND_OR_NOT_MATCH:
           "Collegamento diagramma flusso energia non trovato o non corrispondente",
+        ENERGY_FLOW_DIAGRAM_LINK_WOULD_CREATE_CYCLE:
+          "Il collegamento del diagramma di flusso energetico creerebbe un ciclo",
         ENERGY_FLOW_DIAGRAM_NAME_IS_ALREADY_IN_USE:
           "Il nome del diagramma di flusso energetico è già in uso",
         ENERGY_FLOW_DIAGRAM_NODE_NAME_IS_ALREADY_IN_USE:

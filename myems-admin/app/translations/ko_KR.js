@@ -2008,6 +2008,8 @@
           "Energy Flow Diagram Link Is Already In Use",
         ENERGY_FLOW_DIAGRAM_LINK_NOT_FOUND_OR_NOT_MATCH:
           "Energy Flow Diagram Link Not Found Or Not Match",
+        ENERGY_FLOW_DIAGRAM_LINK_WOULD_CREATE_CYCLE:
+          "에너지 흐름도 링크가 순환을 생성합니다",
         ENERGY_FLOW_DIAGRAM_NAME_IS_ALREADY_IN_USE:
           "에너지 흐름도 이름이 이미 사용 중입니다",
         ENERGY_FLOW_DIAGRAM_NODE_NAME_IS_ALREADY_IN_USE:

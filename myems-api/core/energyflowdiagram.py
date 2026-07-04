@@ -75,6 +75,77 @@ def clear_energy_flow_diagram_cache(diagram_id=None):
                 logger.warning(f"Ignored exception: {e}")
 
 
+def _would_create_cycle(cursor, diagram_id, source_node_id, target_node_id, exclude_link_id=None):
+    """
+    Check if adding a link from source_node_id to target_node_id would create a cycle
+    in the directed graph of energy flow diagram links.
+
+    Uses DFS to detect if there is already a path from target_node to source_node.
+
+    Args:
+        cursor: Database cursor
+        diagram_id: Energy flow diagram ID
+        source_node_id: Source node ID of the new/updated link
+        target_node_id: Target node ID of the new/updated link
+        exclude_link_id: Optional link ID to exclude (for update operations)
+
+    Returns:
+        True if the new link would create a cycle, False otherwise
+    """
+    # Ensure type consistency between JSON-parsed values and database cursor values
+    source_node_id = int(source_node_id)
+    target_node_id = int(target_node_id)
+
+    if source_node_id == target_node_id:
+        return True
+
+    # Load all existing links for this diagram
+    if exclude_link_id is not None:
+        cursor.execute(" SELECT source_node_id, target_node_id "
+                       " FROM tbl_energy_flow_diagrams_links "
+                       " WHERE energy_flow_diagram_id = %s AND id != %s ",
+                       (diagram_id, exclude_link_id))
+    else:
+        cursor.execute(" SELECT source_node_id, target_node_id "
+                       " FROM tbl_energy_flow_diagrams_links "
+                       " WHERE energy_flow_diagram_id = %s ",
+                       (diagram_id,))
+
+    rows = cursor.fetchall()
+
+    # Build adjacency list (directed graph)
+    adjacency = {}
+    for row in rows:
+        src = row[0]
+        tgt = row[1]
+        if src not in adjacency:
+            adjacency[src] = []
+        adjacency[src].append(tgt)
+
+    # Add the proposed new edge
+    if source_node_id not in adjacency:
+        adjacency[source_node_id] = []
+    adjacency[source_node_id].append(target_node_id)
+
+    # DFS from target_node to see if we can reach source_node
+    visited = set()
+    stack = [target_node_id]
+
+    while stack:
+        node = stack.pop()
+        if node == source_node_id:
+            return True
+        if node in visited:
+            continue
+        visited.add(node)
+        if node in adjacency:
+            for neighbor in adjacency[node]:
+                if neighbor not in visited:
+                    stack.append(neighbor)
+
+    return False
+
+
 class EnergyFlowDiagramCollection:
     """
     Energy Flow Diagram Collection Resource
@@ -898,6 +969,7 @@ class EnergyFlowDiagramLinkCollection:
                                            title='API.NOT_FOUND',
                                            description='API.ENERGY_FLOW_DIAGRAM_LINK_IS_ALREADY_IN_USE')
 
+                # Validate source node existence before cycle detection
                 query = (" SELECT id, name "
                          " FROM tbl_energy_flow_diagrams_nodes "
                          " WHERE id = %s ")
@@ -913,6 +985,12 @@ class EnergyFlowDiagramLinkCollection:
                 if cursor.fetchone() is None:
                     raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                            description='API.TARGET_NODE_NOT_FOUND')
+
+                # Check if this link would create a cycle in the directed graph
+                if _would_create_cycle(cursor, int(id_), source_node_id, target_node_id):
+                    raise falcon.HTTPError(status=falcon.HTTP_400,
+                                           title='API.BAD_REQUEST',
+                                           description='API.ENERGY_FLOW_DIAGRAM_LINK_WOULD_CREATE_CYCLE')
 
                 query = (" SELECT id, name, uuid "
                          " FROM tbl_meters ")
@@ -1279,6 +1357,7 @@ class EnergyFlowDiagramLinkItem:
                                            title='API.NOT_FOUND',
                                            description='API.ENERGY_FLOW_DIAGRAM_LINK_IS_ALREADY_IN_USE')
 
+                # Validate source node existence before cycle detection
                 query = (" SELECT id, name "
                          " FROM tbl_energy_flow_diagrams_nodes "
                          " WHERE id = %s ")
@@ -1294,6 +1373,12 @@ class EnergyFlowDiagramLinkItem:
                 if cursor.fetchone() is None:
                     raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                            description='API.TARGET_NODE_NOT_FOUND')
+
+                # Check if this link change would create a cycle in the directed graph
+                if _would_create_cycle(cursor, int(id_), source_node_id, target_node_id, exclude_link_id=int(lid)):
+                    raise falcon.HTTPError(status=falcon.HTTP_400,
+                                           title='API.BAD_REQUEST',
+                                           description='API.ENERGY_FLOW_DIAGRAM_LINK_WOULD_CREATE_CYCLE')
 
                 query = (" SELECT id, name, uuid "
                          " FROM tbl_meters ")

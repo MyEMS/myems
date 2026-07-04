@@ -1984,6 +1984,8 @@
           "エネルギー流れ図リンクが既に使用されています",
         ENERGY_FLOW_DIAGRAM_LINK_NOT_FOUND_OR_NOT_MATCH:
           "エネルギー流れ図リンクが存在しないか、一致しません",
+        ENERGY_FLOW_DIAGRAM_LINK_WOULD_CREATE_CYCLE:
+          "エネルギーフロー図のリンクが循環を生成します",
         ENERGY_FLOW_DIAGRAM_NAME_IS_ALREADY_IN_USE:
           "エネルギー流れ図名はすでに使用されています",
         ENERGY_FLOW_DIAGRAM_NODE_NAME_IS_ALREADY_IN_USE:

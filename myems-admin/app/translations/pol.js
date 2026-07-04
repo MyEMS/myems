@@ -2031,6 +2031,8 @@
           "Łącze schematu przepływu energii jest już w użyciu",
         ENERGY_FLOW_DIAGRAM_LINK_NOT_FOUND_OR_NOT_MATCH:
           "Łącze schematu przepływu energii nie istnieje lub nie pasuje",
+        ENERGY_FLOW_DIAGRAM_LINK_WOULD_CREATE_CYCLE:
+          "Łącze schematu przepływu energii utworzy cykl",
         ENERGY_FLOW_DIAGRAM_NAME_IS_ALREADY_IN_USE:
           "Nazwa schematu przepływu energii jest już w użyciu",
         ENERGY_FLOW_DIAGRAM_NODE_NAME_IS_ALREADY_IN_USE:

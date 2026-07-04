@@ -2107,6 +2107,8 @@
           "Energieflussdiagramm-Link wird bereits verwendet",
         ENERGY_FLOW_DIAGRAM_LINK_NOT_FOUND_OR_NOT_MATCH:
           "Energieflussdiagramm-Link nicht gefunden oder stimmt nicht überein",
+        ENERGY_FLOW_DIAGRAM_LINK_WOULD_CREATE_CYCLE:
+          "Energieflussdiagramm-Link würde einen Kreislauf erzeugen",
         ENERGY_FLOW_DIAGRAM_NAME_IS_ALREADY_IN_USE:
           "Der Name des Energieflussdiagramms ist bereits in Verwendung",
         ENERGY_FLOW_DIAGRAM_NODE_NAME_IS_ALREADY_IN_USE:
