@@ -2324,6 +2324,7 @@
         INVALID_PRIVILEGE_DATA: "Ongeldige privilegengegevens",
         INVALID_PRIVILEGE_ID: "Ongeldig privilege ID",
         INVALID_PRIVILEGE_NAME: "Ongeldige privilegenaam",
+        SUPER_ADMIN_ACCOUNT_IS_PROTECTED: "Het huidige account heeft geen toestemming om het superbeheerderaccount te wijzigen",
         INVALID_PROTOCOL_CODE: "Ongeldige protocolcode",
         INVALID_PROTOCOL_ID: "Ongeldig protocol-ID",
         INVALID_PROTOCOL_NAME: "Ongeldige protocolnaam",

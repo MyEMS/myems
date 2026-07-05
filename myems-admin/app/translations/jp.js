@@ -2285,6 +2285,7 @@
         INVALID_PRIVILEGE_DATA: "無効な権限データ",
         INVALID_PRIVILEGE_ID: "無効な権限ID",
         INVALID_PRIVILEGE_NAME: "無効な権限名称",
+        SUPER_ADMIN_ACCOUNT_IS_PROTECTED: "現在のアカウントにはスーパー管理者アカウントを変更する権限がありません",
         INVALID_PROTOCOL_CODE: "Invalid Protocol Code",
         INVALID_PROTOCOL_ID: "Invalid Protocol ID",
         INVALID_PROTOCOL_NAME: "Invalid Protocol Name",

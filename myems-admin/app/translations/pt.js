@@ -2451,6 +2451,7 @@
         INVALID_PRIVILEGE_DATA: "Dados de Privilégio Inválidos",
         INVALID_PRIVILEGE_ID: "ID de Privilégio Inválido",
         INVALID_PRIVILEGE_NAME: "Nome de Privilégio Inválido",
+        SUPER_ADMIN_ACCOUNT_IS_PROTECTED: "A conta atual não tem permissão para modificar a conta do superadministrador",
         INVALID_PROTOCOL_CODE: "Código de Protocolo Inválido",
         INVALID_PROTOCOL_ID: "ID de Protocolo Inválido",
         INVALID_PROTOCOL_NAME: "Nome de Protocolo Inválido",

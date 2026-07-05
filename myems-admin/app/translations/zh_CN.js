@@ -2246,6 +2246,7 @@
         INVALID_PRIVILEGE_DATA: "无效的权限数据",
         INVALID_PRIVILEGE_ID: "无效的权限ID",
         INVALID_PRIVILEGE_NAME: "无效的权限名称",
+        SUPER_ADMIN_ACCOUNT_IS_PROTECTED: "当前账号无权限修改超级管理员账号",
         INVALID_PROTOCOL_CODE: "无效的协议代码",
         INVALID_PROTOCOL_ID: "无效的协议ID",
         INVALID_PROTOCOL_NAME: "无效的协议名称",

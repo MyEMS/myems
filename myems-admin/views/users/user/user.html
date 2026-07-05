@@ -47,15 +47,15 @@
 										<td class="text-center">{{ user.account_expiration_datetime }}</td>
 										<td class="text-center">{{ user.password_expiration_datetime }}</td>
 										<td class="text-center">
-											<a class="btn btn-primary btn-rounded btn-xs"
+											<a ng-if="canManageUser(user)" class="btn btn-primary btn-rounded btn-xs"
 												ng-click="editUser(user)">{{'SETTING.EDIT' | translate}}</a>
-											<a ng-hide="user.name=='administrator'"
+											<a ng-if="canManageUser(user) && user.name!='administrator'"
 												class="btn btn-info btn-rounded btn-xs"
 												ng-click="resetPassword(user)">{{'USER.RESET_PASSWORD' | translate}}</a>
-											<a ng-hide="user.name=='administrator'" ng-click="deleteUser(user)"
+											<a ng-if="canManageUser(user) && user.name!='administrator'" ng-click="deleteUser(user)"
 												class="btn btn-danger btn-rounded btn-xs">{{'SETTING.DELETE' |
 												translate}}</a>
-											<a ng-hide="!user.is_locked" ng-click="unlockUser(user)"
+											<a ng-if="canManageUser(user) && user.is_locked" ng-click="unlockUser(user)"
 												class="btn btn-danger btn-rounded btn-xs">{{'SETTING.UNLOCK' |
 												translate}}</a>
 										</td>

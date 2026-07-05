@@ -2337,6 +2337,7 @@
         INVALID_PRIVILEGE_DATA: "Dati privilegio non validi",
         INVALID_PRIVILEGE_ID: "ID privilegio non valido",
         INVALID_PRIVILEGE_NAME: "Nome privilegio non valido",
+        SUPER_ADMIN_ACCOUNT_IS_PROTECTED: "L'account corrente non e autorizzato a modificare l'account del super amministratore",
         INVALID_PROTOCOL_CODE: "Codice protocollo non valido",
         INVALID_PROTOCOL_ID: "ID del protocollo non valido",
         INVALID_PROTOCOL_NAME: "Nome del protocollo non valido",
