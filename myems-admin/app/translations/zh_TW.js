@@ -2294,6 +2294,7 @@
         INVALID_PRIVILEGE_DATA: "無效的權限數據",
         INVALID_PRIVILEGE_ID: "無效的權限 ID",
         INVALID_PRIVILEGE_NAME: "無效的權限名稱",
+        SUPER_ADMIN_ACCOUNT_IS_PROTECTED: "目前帳號無權限修改超級管理員帳號",
         INVALID_PROTOCOL_CODE: "無效的協定",
         INVALID_PROTOCOL_ID: "無效的協定",
         INVALID_PROTOCOL_NAME: "無效的協定",

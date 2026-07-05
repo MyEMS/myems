@@ -11,6 +11,15 @@ app.controller('UserController', function ($scope,
 	SweetAlert) {
 	$scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
 	$scope.searchKeyword = '';
+	$scope.isProtectedSuperAdmin = function (user) {
+		return !!user && user.id === 1;
+	};
+	$scope.canManageUser = function (user) {
+		if (!$scope.isProtectedSuperAdmin(user)) {
+			return true;
+		}
+		return !!$scope.cur_user && $scope.cur_user.id === 1;
+	};
 	$scope.getAllUsers = function () {
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 		UserService.getAllUsers(headers, function (response) {

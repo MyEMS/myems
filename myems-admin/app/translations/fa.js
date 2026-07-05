@@ -2295,6 +2295,7 @@
         INVALID_PRIVILEGE_DATA: "داده مجوز نامعتبر",
         INVALID_PRIVILEGE_ID: "شناسه مجوز نامعتبر",
         INVALID_PRIVILEGE_NAME: "نام مجوز نامعتبر",
+        SUPER_ADMIN_ACCOUNT_IS_PROTECTED: "حساب فعلی مجاز به تغییر حساب مدیر کل نیست",
         INVALID_PROTOCOL_CODE: "کد پروتکل نامعتبر",
         INVALID_PROTOCOL_ID: "شناسه پروتکل نامعتبر",
         INVALID_PROTOCOL_NAME: "نام پروتکل نامعتبر",

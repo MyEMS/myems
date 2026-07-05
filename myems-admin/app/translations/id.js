@@ -2363,6 +2363,7 @@
         INVALID_PRIVILEGE_DATA: "Data izin tidak valid",
         INVALID_PRIVILEGE_ID: "ID ijin tidak valid",
         INVALID_PRIVILEGE_NAME: "Nama ijin tidak valid",
+        SUPER_ADMIN_ACCOUNT_IS_PROTECTED: "Akun saat ini tidak diizinkan untuk mengubah akun super administrator",
         INVALID_PROTOCOL_CODE: "Invalid Protocol Code",
         INVALID_PROTOCOL_ID: "Invalid Protocol ID",
         INVALID_PROTOCOL_NAME: "Invalid Protocol Name",

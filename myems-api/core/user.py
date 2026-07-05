@@ -13,6 +13,8 @@ from core.useractivity import user_logger, write_log, admin_control
 import config
 
 PASSWORD_RENEWAL_DELTA = timedelta(days=365)
+SUPER_ADMIN_USER_ID = 1
+PROTECTED_SUPER_ADMIN_ERROR = 'API.SUPER_ADMIN_ACCOUNT_IS_PROTECTED'
 
 
 def update_password_expiration(cursor, user_uuid=None, user_name=None, now_utc=None):
@@ -69,6 +71,34 @@ def clear_user_cache(user_id=None):
     except Exception:
         # If cache clear fails, ignore and continue
         pass
+
+
+def get_request_user_uuid(req):
+    if 'USER-UUID' not in req.headers or \
+            not isinstance(req.headers['USER-UUID'], str) or \
+            len(str.strip(req.headers['USER-UUID'])) == 0:
+        raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                               description='API.INVALID_USER_UUID')
+    return str.strip(req.headers['USER-UUID'])
+
+
+def get_user_id_by_uuid(cursor, user_uuid):
+    cursor.execute(" SELECT id "
+                   " FROM tbl_users "
+                   " WHERE uuid = %s ", (user_uuid,))
+    row = cursor.fetchone()
+    return row[0] if row is not None else None
+
+
+def ensure_admin_can_manage_user(cursor, admin_user_uuid, target_user_id):
+    if int(target_user_id) != SUPER_ADMIN_USER_ID:
+        return
+
+    admin_user_id = get_user_id_by_uuid(cursor, admin_user_uuid)
+    if admin_user_id != SUPER_ADMIN_USER_ID:
+        raise falcon.HTTPError(status=falcon.HTTP_403,
+                               title='API.FORBIDDEN',
+                               description=PROTECTED_SUPER_ADMIN_ERROR)
 
 
 class UserCollection:
@@ -478,6 +508,7 @@ class UserItem:
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_USER_ID')
+        admin_user_uuid = get_request_user_uuid(req)
 
         cnx_user_db = None
         cursor_user_db = None
@@ -499,6 +530,8 @@ class UserItem:
                                            description='API.USER_NOT_FOUND')
                 else:
                     user_uuid = row[0]
+
+                ensure_admin_can_manage_user(cursor_user_db, admin_user_uuid, id_)
 
                 cnx_system_db = mysql.connector.connect(**config.myems_system_db)
                 try:
@@ -544,6 +577,7 @@ class UserItem:
     def on_put(req, resp, id_):
         """Handles PUT requests"""
         admin_control(req)
+        admin_user_uuid = get_request_user_uuid(req)
         try:
             raw_json = req.stream.read().decode('utf-8')
             new_values = json.loads(raw_json)
@@ -651,6 +685,8 @@ class UserItem:
                 if cursor.fetchone() is None:
                     raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                            description='API.USER_NOT_FOUND')
+
+                ensure_admin_can_manage_user(cursor, admin_user_uuid, id_)
 
                 cursor.execute(" SELECT name "
                                " FROM tbl_users "
@@ -1152,6 +1188,7 @@ class ResetPassword:
     @staticmethod
     def on_put(req, resp):
         """Handles PUT requests"""
+        admin_control(req)
         if 'USER-UUID' not in req.headers or \
                 not isinstance(req.headers['USER-UUID'], str) or \
                 len(str.strip(req.headers['USER-UUID'])) == 0:
@@ -1248,6 +1285,7 @@ class ResetPassword:
                                            description='API.INVALID_USERNAME')
 
                 user_id = row[0]
+                ensure_admin_can_manage_user(cursor, admin_user_uuid, user_id)
                 original_pwd_expire_utc = None
                 try:
                     original_pwd_expire_utc = row[1]
@@ -1301,12 +1339,8 @@ class Unlock:
     @staticmethod
     def on_put(req, resp, id_):
         """Handles PUT requests"""
-        if 'USER-UUID' not in req.headers or \
-                not isinstance(req.headers['USER-UUID'], str) or \
-                len(str.strip(req.headers['USER-UUID'])) == 0:
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.INVALID_USER_UUID')
-        admin_user_uuid = str.strip(req.headers['USER-UUID'])
+        admin_control(req)
+        admin_user_uuid = get_request_user_uuid(req)
 
         if not id_.isdigit() or int(id_) <= 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
@@ -1327,6 +1361,8 @@ class Unlock:
                 if row is None:
                     raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                            description='API.INVALID_Id')
+
+                ensure_admin_can_manage_user(cursor, admin_user_uuid, id_)
 
                 failed_login_count = row[0]
                 if failed_login_count < config.maximum_failed_login_count:

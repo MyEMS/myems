@@ -2339,6 +2339,7 @@
         INVALID_PRIVILEGE_DATA: "Nieprawidłowe dane uprawnień",
         INVALID_PRIVILEGE_ID: "Nieprawidłowy ID uprawnienia",
         INVALID_PRIVILEGE_NAME: "Nieprawidłowa nazwa uprawnienia",
+        SUPER_ADMIN_ACCOUNT_IS_PROTECTED: "Bieżące konto nie ma uprawnień do modyfikacji konta superadministratora",
         INVALID_PROTOCOL_CODE: "Invalid Protocol Code",
         INVALID_PROTOCOL_ID: "Invalid Protocol ID",
         INVALID_PROTOCOL_NAME: "Invalid Protocol Name",
