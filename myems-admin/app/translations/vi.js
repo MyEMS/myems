@@ -434,6 +434,14 @@
         BIND_TARIFF_DESCRIPTION_MORE: "Liên kết biểu giá đặt trước (ví dụ giá điện theo giờ cao/thấp) với trung tâm chi phí. Chọn trung tâm bên trái, tìm biểu giá trong “Danh sách biểu giá” bên phải, kéo vào vùng “Biểu giá đã liên kết”. Để gỡ, kéo biểu giá xuống thùng rác. Đảm bảo mỗi loại năng lượng của mỗi trung tâm gắn đúng biểu giá để thống kê chi phí chính xác.",
         BIND_MICROGRID: "Liên kết Microgrid",
         BIND_ENERGY_STORAGE_CONTAINER: "Container lưu trữ năng lượng ràng buộc",
+        BIND_METER: "Ràng buộc đồng hồ",
+        BIND_METER_DESCRIPTION: "Quản lý mối quan hệ giữa không gian và đồng hồ; liên kết đồng hồ với không gian để tổng hợp năng lượng theo khu vực.",
+        BIND_METER_DESCRIPTION_MORE: "Chọn không gian, sau đó chọn loại đồng hồ bên phải và kéo đồng hồ vào vùng liên kết ở giữa. Để hủy liên kết, kéo vào thùng rác.",
+        METER_ALREADY_BOUND_TO_OTHER_SPACE: "Đồng hồ này đã được liên kết với không gian khác",
+        VIRTUAL_METER_ALREADY_BOUND_TO_OTHER_SPACE: "Đồng hồ ảo này đã được liên kết với không gian khác",
+        OFFLINE_METER_ALREADY_BOUND_TO_OTHER_SPACE: "Đồng hồ ngoại tuyến này đã được liên kết với không gian khác",
+        CONFIRM_BIND_METER: "Xác nhận liên kết",
+        CONFIRM_BIND_METER_MESSAGE: "Đồng hồ này đã được liên kết với không gian \"{0}\". Bạn có muốn tiếp tục liên kết với không gian hiện tại không? (Một đồng hồ có thể liên kết với nhiều không gian)",
 
         IOTSIMCARD: "Thẻ sim Iot",
         CATEGORY_DESCRIPTION: "Cấu hình cơ bản của quản lý danh mục năng lượng; duy trì tập trung các nguồn năng lượng khác nhau và các tiêu chuẩn chuyển đổi của chúng được sử dụng trong hệ thống.",
@@ -1596,6 +1604,11 @@
           "Quản lý liên kết không gian–đồng hồ; liên kết đồng hồ vào không gian để tổng hợp theo khu vực.",
         BIND_METER_DESCRIPTION_MORE:
           "Chọn không gian, chọn loại đồng hồ ở bên phải và kéo đồng hồ vào vùng liên kết ở giữa. Để gỡ liên kết, kéo vào thùng rác.",
+        METER_ALREADY_BOUND_TO_OTHER_SPACE: "Đồng hồ này đã được liên kết với không gian khác",
+        VIRTUAL_METER_ALREADY_BOUND_TO_OTHER_SPACE: "Đồng hồ ảo này đã được liên kết với không gian khác",
+        OFFLINE_METER_ALREADY_BOUND_TO_OTHER_SPACE: "Đồng hồ ngoại tuyến này đã được liên kết với không gian khác",
+        CONFIRM_BIND_METER: "Xác nhận liên kết",
+        CONFIRM_BIND_METER_MESSAGE: "Đồng hồ này đã được liên kết với không gian \"{0}\". Bạn có muốn tiếp tục liên kết với không gian hiện tại không? (Một đồng hồ có thể liên kết với nhiều không gian)",
         BIND_EQUIPMENT_DESCRIPTION:
           "Quản lý liên kết không gian–thiết bị; liên kết thiết bị tiêu thụ vào không gian để thống kê và vận hành.",
         BIND_EQUIPMENT_DESCRIPTION_MORE:

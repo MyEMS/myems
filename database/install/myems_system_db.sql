@@ -2756,7 +2756,7 @@ CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_versions` (
 INSERT INTO `myems_system_db`.`tbl_versions`
 (`id`, `version`, `release_date`)
 VALUES
-(1, '6.6.0', '2026-06-26');
+(1, '6.7.0RC', '2026-07-26');
 
 -- ---------------------------------------------------------------------------------------------------------------------
 -- Table `myems_system_db`.`tbl_wind_farms`
