@@ -192,7 +192,7 @@ app.controller('ShopfloorMeterController', function(
             if (angular.isDefined(response.status) && response.status === 200) {
                 // Filter out the current shopfloor from the results
                 angular.forEach(response.data, function(shopfloor) {
-                    if (shopfloor.id != shopfloorid) {
+                    if (shopfloor.id !== shopfloorid) {
                         otherShopfloorsWithMeter.push(shopfloor.name);
                     }
                 });
