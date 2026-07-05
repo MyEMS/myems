@@ -5,10 +5,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 ### Added
+- added circle check to energy flow diagram in myems-api and myems-admin
 ### Changed
 - changed component import method from static to dynamic imports in myems-web
 - added ErrorBoundary component to capture rendering errors in myems-web
 ### Fixed
+- fixed Overwritten property issue in myems-web
 ### Removed
 - removed print(req.params) from myems-api
 
@@ -31,7 +33,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - replaced datetime.utcnow() with datetime.now(timezone.utc)
 - optimized multiple N+1 queries into batch queries in myems-api
 ### Fixed
-- fixed add/edit user issue in myems-admin 
+- fixed add/edit user issue in myems-admin
 - fixed issue of DateRangePickerWrapper in myems-web
 - fixed issue of MeterSubmetersBalance in myems-web
 - fixed issue of shopfloor prediction report in myems-api
