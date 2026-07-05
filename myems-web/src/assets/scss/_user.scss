@@ -189,24 +189,39 @@
 
 .rs-btn,
 
-.rs-picker-toggle-textbox {color: $gray-800; font-family: sans-serif;}
+.rs-picker-toggle-textbox {color: $input-color; font-family: sans-serif;}
 
-.rs-picker-toggle-value{font-size: 14px;line-height: 20px;color: $gray-900!important;}
+.rs-picker-toggle-value{font-size: 14px;line-height: 20px;color: $input-color!important;}
 
 .rs-picker-has-value,
 .rs-picker-disabled,
 
 
-.rs-picker-disabled{--rs-input-disabled-bg: $gray-900}
+.rs-picker-disabled{--rs-input-disabled-bg:#{$input-disabled-bg}}
 
-.rs-picker-daterange-header{color: $gray-900 !important;}
+.rs-picker-daterange-header{color: $input-color !important;}
 
 .rs-picker-input,
-.rs-picker-toggle {--rs-input-bg:$white;background-color: $white;border: 1px solid $white !important;}
+.rs-picker-toggle {
+  --rs-input-bg:#{$input-bg};
+  background-color: $input-bg;
+  color: $input-color;
+  border: 1px solid $input-border-color !important;
+}
+
+.rs-picker-toggle-placeholder,
+.rs-picker-toggle-caret,
+.rs-picker-toggle-clean {
+  color: rgba($input-color, 0.7) !important;
+}
 
 
-.rs-picker-menu {background-color: $white;}
-.rs-picker-default {--rs-input-bg:$white;background-color: $white;border: 1px solid $gray-300 !important;}
+.rs-picker-menu {background-color: $input-bg;}
+.rs-picker-default {
+  --rs-input-bg:#{$input-bg};
+  background-color: $input-bg;
+  border: 1px solid $input-border-color !important;
+}
 
 .rs-btn-active,
 .rs-picker-default:not(.rs-picker-disabled),
@@ -214,7 +229,7 @@
 .rs-btn:hover, 
 .rs-picker-toggle-active,
 .rs-picker-toggle:focus,
-.rs-picker-toggle:hover {border-color: $white !important;}
+.rs-picker-toggle:hover {border-color: $input-border-color !important;}
 
 .password-input {
 padding-right: 40px;
@@ -306,6 +321,22 @@ grid-row: 2;
 .col-6.col-sm-3 .rs-picker-daterange,
 .col-6.col-sm-3 .rs-picker-daterange .rs-date-range-input.rs-input {
   min-width: 22rem !important;
+}
+
+.rs-picker-daterange .rs-date-range-input.rs-input,
+.rs-picker-daterange .rs-date-range-input.rs-input input,
+.rs-picker-daterange .rs-picker-toggle-textbox input {
+  background-color: $input-bg !important;
+  color: $input-color !important;
+  -webkit-text-fill-color: $input-color !important;
+  border-color: $input-border-color !important;
+}
+
+.rs-picker-daterange .rs-date-range-input.rs-input::placeholder,
+.rs-picker-daterange .rs-date-range-input.rs-input input::placeholder,
+.rs-picker-daterange .rs-picker-toggle-textbox input::placeholder {
+  color: rgba($input-color, 0.7) !important;
+  -webkit-text-fill-color: rgba($input-color, 0.7) !important;
 }
 
 #comparisonType.custom-select,
