@@ -2303,6 +2303,7 @@
         INVALID_PRIVILEGE_DATA: "Invalid Privilege Data",
         INVALID_PRIVILEGE_ID: "Invalid privilege ID",
         INVALID_PRIVILEGE_NAME: "Invalid Privilege Name",
+        SUPER_ADMIN_ACCOUNT_IS_PROTECTED: "현재 계정은 최고 관리자 계정을 수정할 권한이 없습니다",
         INVALID_PROTOCOL_CODE: "Invalid Protocol Code",
         INVALID_PROTOCOL_ID: "Invalid Protocol ID",
         INVALID_PROTOCOL_NAME: "Invalid Protocol Name",

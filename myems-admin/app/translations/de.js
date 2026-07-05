@@ -2403,6 +2403,7 @@
         INVALID_PRIVILEGE_DATA: "Ungültige Berechtigungsdaten",
         INVALID_PRIVILEGE_ID: "Ungültige Berechtigungs-ID",
         INVALID_PRIVILEGE_NAME: "Ungültiger Berechtigungsname",
+        SUPER_ADMIN_ACCOUNT_IS_PROTECTED: "Das aktuelle Konto ist nicht berechtigt, das Superadministrator-Konto zu ändern",
         INVALID_PROTOCOL_CODE: "Ungültiger Protokollcode",
         INVALID_PROTOCOL_ID: "Ungültige Protokoll-ID",
         INVALID_PROTOCOL_NAME: "Ungültiger Protokollname",
