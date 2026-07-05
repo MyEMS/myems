@@ -432,6 +432,13 @@
         BIND_COMMAND: "Commando koppelen Ⓔ",
         BIND_DATA_SOURCE: "Gegevensbron koppelen",
         BIND_METER: "Meter koppelen",
+        BIND_METER_DESCRIPTION: "Beheer van de relatie tussen ruimte en meter; koppel meters aan ruimtes om energie per gebied te aggregeren.",
+        BIND_METER_DESCRIPTION_MORE: "Selecteer een ruimte, kies dan het metertype rechts en sleep de meter naar het bindingsgebied in het midden. Om binding ongedaan te maken, sleep naar de prullenbak.",
+        METER_ALREADY_BOUND_TO_OTHER_SPACE: "Deze meter is al gekoppeld aan een andere ruimte",
+        VIRTUAL_METER_ALREADY_BOUND_TO_OTHER_SPACE: "Deze virtuele meter is al gekoppeld aan een andere ruimte",
+        OFFLINE_METER_ALREADY_BOUND_TO_OTHER_SPACE: "Deze offline meter is al gekoppeld aan een andere ruimte",
+        CONFIRM_BIND_METER: "Binding bevestigen",
+        CONFIRM_BIND_METER_MESSAGE: "Deze meter is al gekoppeld aan ruimte \"{0}\". Wilt u doorgaan met koppelen aan de huidige ruimte? (Eén meter kan aan meerdere ruimtes worden gekoppeld)",
         BIND_POINT: "Gegevenspunt koppelen",
         BIND_SENSOR: "Sensor koppelen",
         BIND_TARIFF: "Tarief koppelen",
@@ -1567,6 +1574,11 @@
           "Beheer ruimte–meter koppeling; koppel meters aan een ruimte voor aggregatie per gebied.",
         BIND_METER_DESCRIPTION_MORE:
           "Selecteer een ruimte, kies rechts het metertype en sleep de meter naar het midden om te koppelen. Ontkoppelen kan door naar de prullenbak te slepen.",
+        METER_ALREADY_BOUND_TO_OTHER_SPACE: "Deze meter is al gekoppeld aan een andere ruimte",
+        VIRTUAL_METER_ALREADY_BOUND_TO_OTHER_SPACE: "Deze virtuele meter is al gekoppeld aan een andere ruimte",
+        OFFLINE_METER_ALREADY_BOUND_TO_OTHER_SPACE: "Deze offline meter is al gekoppeld aan een andere ruimte",
+        CONFIRM_BIND_METER: "Koppeling bevestigen",
+        CONFIRM_BIND_METER_MESSAGE: "Deze meter is al gekoppeld aan ruimte \"{0}\". Doorgaan met koppelen aan de huidige ruimte? (Een meter kan aan meerdere ruimtes worden gekoppeld)",
         BIND_EQUIPMENT_DESCRIPTION:
           "Beheer ruimte–apparatuur koppeling; koppel verbruiksapparatuur aan een ruimte voor statistiek en beheer.",
         BIND_EQUIPMENT_DESCRIPTION_MORE:
