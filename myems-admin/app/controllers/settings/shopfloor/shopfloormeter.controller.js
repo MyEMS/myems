@@ -14,6 +14,7 @@ app.controller('ShopfloorMeterController', function(
     ShopfloorMeterService,
     ShopfloorService,
     toaster,
+    SweetAlert,
     DragDropWarningService) {
     $scope.currentShopfloor = { selected: undefined };
     $scope.currentMeterType = "meters";
@@ -183,7 +184,52 @@ app.controller('ShopfloorMeterController', function(
         var meterid = angular.element('#' + dragEl).scope().meter.id;
         var shopfloorid = $scope.currentShopfloor.id;
         let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
-        ShopfloorMeterService.addPair(shopfloorid, meterid, $scope.currentMeterType, headers, function (response) {
+        
+        // Check if this meter is already bound to other shopfloors using backend API (fast)
+        ShopfloorMeterService.checkMeterBinding(meterid, $scope.currentMeterType, headers, function(response) {
+            var otherShopfloorsWithMeter = [];
+            
+            if (angular.isDefined(response.status) && response.status === 200) {
+                // Filter out the current shopfloor from the results
+                angular.forEach(response.data, function(shopfloor) {
+                    if (shopfloor.id != shopfloorid) {
+                        otherShopfloorsWithMeter.push(shopfloor.name);
+                    }
+                });
+            } else {
+                // If API call fails, log error and proceed with binding anyway
+                console.error('Failed to check meter binding:', response);
+                // Still allow binding to proceed even if check fails
+            }
+            
+            // If meter is bound to other shopfloors, ask for confirmation
+            if (otherShopfloorsWithMeter.length > 0) {
+                var message = $translate.instant("SETTING.CONFIRM_BIND_METER_MESSAGE").replace('{0}', otherShopfloorsWithMeter.join(', '));
+                
+                SweetAlert.swal({
+                    title: $translate.instant("SETTING.CONFIRM_BIND_METER"),
+                    text: message,
+                    type: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#DD6B55",
+                    confirmButtonText: $translate.instant("SETTING.YES"),
+                    cancelButtonText: $translate.instant("SETTING.NO"),
+                    closeOnConfirm: true
+                }, function(isConfirm) {
+                    if (isConfirm) {
+                        performBinding(shopfloorid, meterid, $scope.currentMeterType, headers);
+                    }
+                });
+            } else {
+                // Meter is not bound to any other shopfloor, proceed directly
+                performBinding(shopfloorid, meterid, $scope.currentMeterType, headers);
+            }
+        });
+    };
+
+    // Helper function to perform binding operation
+    function performBinding(shopfloorid, meterid, metertype, headers) {
+        ShopfloorMeterService.addPair(shopfloorid, meterid, metertype, headers, function (response) {
             if (angular.isDefined(response.status) && response.status === 201) {
                 toaster.pop({
                     type: "success",
