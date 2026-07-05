@@ -1,5 +1,6 @@
 import os
 import uuid
+import logging
 from datetime import datetime, timezone, timedelta
 import falcon
 import mysql.connector
@@ -85,11 +86,11 @@ class CostFileCollection:
             # Now that we know the file has been fully saved to disk move it into place.
             os.rename(file_path + '~', file_path)
         except OSError as ex:
-            print("Failed to stream request: " + str(ex))
+            logging.error("Failed to stream request: %s", str(ex))
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR',
                                    description='API.FAILED_TO_UPLOAD_COST_FILE')
         except Exception as ex:
-            print("Unexpected error reading request stream: " + str(ex))
+            logging.error("Unexpected error reading request stream: %s", str(ex))
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR',
                                    description='API.FAILED_TO_UPLOAD_COST_FILE')
 
@@ -266,9 +267,9 @@ class CostFileItem:
             # remove the file from disk
             os.remove(file_path)
         except OSError as ex:
-            print("Failed to stream request: " + str(ex))
+            logging.error("Failed to stream request: %s", str(ex))
         except Exception as ex:
-            print(str(ex))
+            logging.error("Failed to delete cost file: %s", str(ex))
             # ignore exception and don't return API.COST_FILE_NOT_FOUND error
             pass
 
@@ -349,11 +350,11 @@ class CostFileRestore:
             # move it into place.
             os.replace(temp_file_path, file_path)
         except OSError as ex:
-            print("Failed to stream request: " + str(ex))
+            logging.error("Failed to stream request: %s", str(ex))
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR',
                                    description='API.FAILED_TO_RESTORE_COST_FILE')
         except Exception as ex:
-            print("Unexpected error reading request stream: " + str(ex))
+            logging.error("Unexpected error reading request stream: %s", str(ex))
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.ERROR',
                                    description='API.FAILED_TO_RESTORE_COST_FILE')
         resp.text = json.dumps('success')

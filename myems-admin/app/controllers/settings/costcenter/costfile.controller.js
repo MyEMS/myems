@@ -50,7 +50,7 @@ app.controller('CostFileController', function (
             toaster.pop({
                 type: "error",
                 title: $translate.instant("TOASTER.ERROR_ADD_BODY", {template: file.name}),
-                body: angular.isObject(response) ?
+                body: (angular.isObject(response) && response.description) ?
                       $translate.instant(response.description) :
                       response,
                 showCloseButton: true,
