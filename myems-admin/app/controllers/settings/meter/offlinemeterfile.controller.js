@@ -48,11 +48,13 @@ app.controller('OfflineMeterFileController', function(
 			});
 			$scope.getAllOfflineMeterFiles();
 		},
-        'error': function (file, xhr) {
+        'error': function (file, response) {
             toaster.pop({
                 type: "error",
                 title: $translate.instant("TOASTER.ERROR_ADD_BODY", {template: file.name}),
-                body: $translate.instant(xhr),
+                body: (angular.isObject(response) && response.description) ?
+                      $translate.instant(response.description) :
+                      response,
                 showCloseButton: true,
             });
         }
