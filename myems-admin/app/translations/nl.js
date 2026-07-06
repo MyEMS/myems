@@ -438,7 +438,7 @@
         VIRTUAL_METER_ALREADY_BOUND_TO_OTHER_SPACE: "Deze virtuele meter is al gekoppeld aan een andere ruimte",
         OFFLINE_METER_ALREADY_BOUND_TO_OTHER_SPACE: "Deze offline meter is al gekoppeld aan een andere ruimte",
         CONFIRM_BIND_METER: "Binding bevestigen",
-        CONFIRM_BIND_METER_MESSAGE: "Deze meter is al gekoppeld aan ruimte \"{0}\". Wilt u doorgaan met koppelen aan de huidige ruimte? (Eén meter kan aan meerdere ruimtes worden gekoppeld)",
+        CONFIRM_BIND_METER_MESSAGE: "Deze meter is al gekoppeld aan {0} \"{1}\". Wilt u doorgaan met koppelen aan de huidige {2}? (Het koppelen van één meter aan meerdere {3} kan dubbele berekeningen veroorzaken)",
         BIND_POINT: "Gegevenspunt koppelen",
         BIND_SENSOR: "Sensor koppelen",
         BIND_TARIFF: "Tarief koppelen",

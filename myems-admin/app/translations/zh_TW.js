@@ -418,7 +418,7 @@
         VIRTUAL_METER_ALREADY_BOUND_TO_OTHER_SPACE: "該虛擬表已綁定到其他空間",
         OFFLINE_METER_ALREADY_BOUND_TO_OTHER_SPACE: "該離線表已綁定到其他空間",
         CONFIRM_BIND_METER: "確認綁定",
-        CONFIRM_BIND_METER_MESSAGE: "此計量表已綁定到空間 \"{0}\"。是否繼續綁定到當前空間？（一個計量表可以綁定到多個空間）",
+        CONFIRM_BIND_METER_MESSAGE: "此計量表已綁定到{0} \"{1}\"。是否繼續綁定到當前{2}？（一個計量表綁定到多個{3}可能導致重複計算）",
         BIND_PARAMETER: "綁定參數",
         BIND_PARAMETER_DESCRIPTION: "設備工藝參數管理；為耗能設備設定關鍵的運行指標或技術參數。",
         BIND_PARAMETER_DESCRIPTION_MORE: "在此介面，您可為設備定義各種工藝參數（如額定功率、設計溫差等）。參數可來自固定數值、即時資料點，或兩個計量表的比值。合理設定工藝參數是進行能效對標與進階報表分析的基礎。這些參數將作為計算設備理論能耗或效率的關鍵輸入。",
@@ -1577,7 +1577,7 @@
         VIRTUAL_METER_ALREADY_BOUND_TO_OTHER_SPACE: "該虛擬表已綁定到其他空間",
         OFFLINE_METER_ALREADY_BOUND_TO_OTHER_SPACE: "該離線表已綁定到其他空間",
         CONFIRM_BIND_METER: "確認綁定",
-        CONFIRM_BIND_METER_MESSAGE: "此計量表已綁定到空間 \"{0}\"。是否繼續綁定到當前空間？（一個計量表可以綁定到多個空間）",
+        CONFIRM_BIND_METER_MESSAGE: "此計量表已綁定到{0} \"{1}\"。是否繼續綁定到當前{2}？（一個計量表綁定到多個{3}可能導致重複計算）",
         BIND_EQUIPMENT_DESCRIPTION:
           "空間與設備關聯管理；將用能設備綁定到空間以便統計與運維。",
         BIND_EQUIPMENT_DESCRIPTION_MORE:

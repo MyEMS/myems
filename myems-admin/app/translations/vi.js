@@ -441,7 +441,7 @@
         VIRTUAL_METER_ALREADY_BOUND_TO_OTHER_SPACE: "Đồng hồ ảo này đã được liên kết với không gian khác",
         OFFLINE_METER_ALREADY_BOUND_TO_OTHER_SPACE: "Đồng hồ ngoại tuyến này đã được liên kết với không gian khác",
         CONFIRM_BIND_METER: "Xác nhận liên kết",
-        CONFIRM_BIND_METER_MESSAGE: "Đồng hồ này đã được liên kết với không gian \"{0}\". Bạn có muốn tiếp tục liên kết với không gian hiện tại không? (Một đồng hồ có thể liên kết với nhiều không gian)",
+        CONFIRM_BIND_METER_MESSAGE: "Đồng hồ này đã được liên kết với {0} \"{1}\". Bạn có muốn tiếp tục liên kết với {2} hiện tại không? (Liên kết một đồng hồ với nhiều {3} có thể gây ra tính toán trùng lặp)",
 
         IOTSIMCARD: "Thẻ sim Iot",
         CATEGORY_DESCRIPTION: "Cấu hình cơ bản của quản lý danh mục năng lượng; duy trì tập trung các nguồn năng lượng khác nhau và các tiêu chuẩn chuyển đổi của chúng được sử dụng trong hệ thống.",
@@ -1608,7 +1608,7 @@
         VIRTUAL_METER_ALREADY_BOUND_TO_OTHER_SPACE: "Đồng hồ ảo này đã được liên kết với không gian khác",
         OFFLINE_METER_ALREADY_BOUND_TO_OTHER_SPACE: "Đồng hồ ngoại tuyến này đã được liên kết với không gian khác",
         CONFIRM_BIND_METER: "Xác nhận liên kết",
-        CONFIRM_BIND_METER_MESSAGE: "Đồng hồ này đã được liên kết với không gian \"{0}\". Bạn có muốn tiếp tục liên kết với không gian hiện tại không? (Một đồng hồ có thể liên kết với nhiều không gian)",
+        CONFIRM_BIND_METER_MESSAGE: "Đồng hồ này đã được liên kết với {0} \"{1}\". Bạn có muốn tiếp tục liên kết với {2} hiện tại không? (Liên kết một đồng hồ với nhiều {3} có thể gây ra tính toán trùng lặp)",
         BIND_EQUIPMENT_DESCRIPTION:
           "Quản lý liên kết không gian–thiết bị; liên kết thiết bị tiêu thụ vào không gian để thống kê và vận hành.",
         BIND_EQUIPMENT_DESCRIPTION_MORE:

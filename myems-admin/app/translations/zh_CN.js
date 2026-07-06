@@ -440,7 +440,7 @@
         VIRTUAL_METER_ALREADY_BOUND_TO_OTHER_SPACE: "该虚拟表已绑定到其他空间",
         OFFLINE_METER_ALREADY_BOUND_TO_OTHER_SPACE: "该离线表已绑定到其他空间",
         CONFIRM_BIND_METER: "确认绑定",
-        CONFIRM_BIND_METER_MESSAGE: "此计量表已绑定到空间 \"{0}\"。是否继续绑定到当前空间？（一个计量表可以绑定到多个空间）",
+        CONFIRM_BIND_METER_MESSAGE: "此计量表已绑定到{0} \"{1}\"。是否继续绑定到当前{2}？（一个计量表绑定到多个{3}可能导致重复计算）",
         BIND_PARAMETER: "绑定参数",
         BIND_PARAMETER_DESCRIPTION: "设备工艺参数管理；为耗能设备配置关键的运行指标或技术参数。",
         BIND_PARAMETER_DESCRIPTION_MORE: "在此界面，您可以为设备定义各种工艺参数（如额定功率、设计温差等）。参数可以来源于一个固定的数值、一个实时数据点，或者是两个计量表的比值。合理配置工艺参数是进行能效对标和高级报表分析的基础。这些参数将作为计算设备理论能耗或效率的关键输入。",

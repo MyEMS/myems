@@ -443,7 +443,7 @@
         VIRTUAL_METER_ALREADY_BOUND_TO_OTHER_SPACE: "Bu sanal sayaç zaten başka bir alana bağlanmış",
         OFFLINE_METER_ALREADY_BOUND_TO_OTHER_SPACE: "Bu çevrimdışı sayaç zaten başka bir alana bağlanmış",
         CONFIRM_BIND_METER: "Bağlamayı onayla",
-        CONFIRM_BIND_METER_MESSAGE: "Bu sayaç zaten \"{0}\" alanına bağlanmış. Mevcut alana bağlamaya devam etmek istiyor musunuz? (Bir sayaç birden fazla alana bağlanabilir)",
+        CONFIRM_BIND_METER_MESSAGE: "Bu sayaç zaten {0} \"{1}\"'e bağlı. Mevcut {2}'e bağlamaya devam etmek istiyor musunuz? (Bir sayacın birden fazla {3}'e bağlanması yinelenen hesaplamalara neden olabilir)",
 
         IOTSIMCARD: "IoT SIM kartı",
         CATEGORY_DESCRIPTION: "Enerji kategorisi yönetiminin temel konfigürasyonu; sistemde kullanılan çeşitli enerji kaynaklarını ve bunların dönüşüm standartlarını merkezi olarak yönetir.",
@@ -1605,7 +1605,7 @@
         VIRTUAL_METER_ALREADY_BOUND_TO_OTHER_SPACE: "Bu sanal sayaç zaten başka bir alana bağlı",
         OFFLINE_METER_ALREADY_BOUND_TO_OTHER_SPACE: "Bu çevrimdışı sayaç zaten başka bir alana bağlı",
         CONFIRM_BIND_METER: "Bağlamayı onayla",
-        CONFIRM_BIND_METER_MESSAGE: "Bu sayaç zaten \"{0}\" alanına bağlı. Mevcut alana bağlamaya devam etmek istiyor musunuz? (Bir sayaç birden fazla alana bağlanabilir)",
+        CONFIRM_BIND_METER_MESSAGE: "Bu sayaç zaten {0} \"{1}\" alanına bağlı. Mevcut {2} alanına bağlamaya devam etmek istiyor musunuz? (Bir sayaç birden fazla alana bağlanabilir, bu da yinelenen hesaplamalara neden olabilir)",
         BIND_EQUIPMENT_DESCRIPTION:
           "Alan–ekipman bağlama yönetimi; tüketim ekipmanlarını alana bağlayın.",
         BIND_EQUIPMENT_DESCRIPTION_MORE:
