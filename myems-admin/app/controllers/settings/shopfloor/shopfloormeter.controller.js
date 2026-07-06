@@ -204,8 +204,10 @@ app.controller('ShopfloorMeterController', function(
             
             // If meter is bound to other shopfloors, ask for confirmation
             if (otherShopfloorsWithMeter.length > 0) {
-                var message = $translate.instant("SETTING.CONFIRM_BIND_METER_MESSAGE").replace('{0}', otherShopfloorsWithMeter.join(', '));
-                
+                var shopfloorText = $translate.instant("COMMON.SHOPFLOOR");
+                var messageTemplate = $translate.instant("SETTING.CONFIRM_BIND_METER_MESSAGE");
+                var message = messageTemplate.replace('{0}', shopfloorText).replace('{1}', otherShopfloorsWithMeter.join(', ')).replace('{2}', shopfloorText).replace('{3}', shopfloorText);
+
                 SweetAlert.swal({
                     title: $translate.instant("SETTING.CONFIRM_BIND_METER"),
                     text: message,
