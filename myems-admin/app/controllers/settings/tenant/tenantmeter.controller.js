@@ -14,6 +14,7 @@ app.controller('TenantMeterController', function(
     TenantMeterService,
     TenantService,
     toaster,
+    SweetAlert,
     DragDropWarningService) {
     $scope.currentTenant = {selected:undefined};
 	$scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
@@ -189,7 +190,54 @@ app.controller('TenantMeterController', function(
 		var meterid=angular.element('#'+dragEl).scope().meter.id;
 		var tenantid=$scope.currentTenant.id;
 		let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
-		TenantMeterService.addPair(tenantid, meterid, $scope.currentMeterType, headers, function (response) {
+		
+		// Check if this meter is already bound to other tenants using backend API (fast)
+		TenantMeterService.checkMeterBinding(meterid, $scope.currentMeterType, headers, function(response) {
+			var otherTenantsWithMeter = [];
+			
+			if (angular.isDefined(response.status) && response.status === 200) {
+				// Filter out the current tenant from the results
+				angular.forEach(response.data, function(tenant) {
+					if (tenant.id != tenantid) {
+						otherTenantsWithMeter.push(tenant.name);
+					}
+				});
+			} else {
+				// If API call fails, log error and proceed with binding anyway
+				console.error('Failed to check meter binding:', response);
+				// Still allow binding to proceed even if check fails
+			}
+			
+			// If meter is bound to other tenants, ask for confirmation
+			if (otherTenantsWithMeter.length > 0) {
+				var tenantText = $translate.instant("COMMON.TENANT");
+				var messageTemplate = $translate.instant("SETTING.CONFIRM_BIND_METER_MESSAGE");
+				var message = messageTemplate.replace('{0}', tenantText).replace('{1}', otherTenantsWithMeter.join(', ')).replace('{2}', tenantText).replace('{3}', tenantText);
+				
+				SweetAlert.swal({
+					title: $translate.instant("SETTING.CONFIRM_BIND_METER"),
+					text: message,
+					type: "warning",
+					showCancelButton: true,
+					confirmButtonColor: "#DD6B55",
+					confirmButtonText: $translate.instant("SETTING.YES"),
+					cancelButtonText: $translate.instant("SETTING.NO"),
+					closeOnConfirm: true
+				}, function(isConfirm) {
+					if (isConfirm) {
+						performBinding(tenantid, meterid, $scope.currentMeterType, headers);
+					}
+				});
+			} else {
+				// Meter is not bound to any other tenant, proceed directly
+				performBinding(tenantid, meterid, $scope.currentMeterType, headers);
+			}
+		});
+    };
+
+    // Helper function to perform binding operation
+    function performBinding(tenantid, meterid, metertype, headers) {
+        TenantMeterService.addPair(tenantid, meterid, metertype, headers, function(response) {
             if (angular.isDefined(response.status) && response.status === 201) {
                 toaster.pop({
                     type: "success",
