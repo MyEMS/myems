@@ -438,7 +438,7 @@
         VIRTUAL_METER_ALREADY_BOUND_TO_OTHER_SPACE: "Ten licznik wirtualny jest już przypisany do innej przestrzeni",
         OFFLINE_METER_ALREADY_BOUND_TO_OTHER_SPACE: "Ten licznik offline jest już przypisany do innej przestrzeni",
         CONFIRM_BIND_METER: "Potwierdź przypisanie",
-        CONFIRM_BIND_METER_MESSAGE: "Ten licznik jest już przypisany do przestrzeni \"{0}\". Czy chcesz kontynuować przypisywanie do bieżącej przestrzeni? (Jeden licznik może być przypisany do wielu przestrzeni)",
+        CONFIRM_BIND_METER_MESSAGE: "Ten licznik jest już przypisany do {0} \"{1}\". Czy chcesz kontynuować przypisywanie do bieżącej {2}? (Przypisanie jednego licznika do wielu {3} może powodować duplikowanie obliczeń)",
         BIND_POINT: "Przypisz punkt danych",
         BIND_SENSOR: "Przypisz czujnik",
         BIND_TARIFF: "Przypisz taryfę",

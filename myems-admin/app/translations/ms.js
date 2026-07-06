@@ -328,7 +328,7 @@
         VIRTUAL_METER_ALREADY_BOUND_TO_OTHER_SPACE: "Meter maya ini sudah terikat ke ruang lain",
         OFFLINE_METER_ALREADY_BOUND_TO_OTHER_SPACE: "Meter luar talian ini sudah terikat ke ruang lain",
         CONFIRM_BIND_METER: "Sahkan pengikatan",
-        CONFIRM_BIND_METER_MESSAGE: "Meter ini sudah terikat ke ruang \"{0}\". Teruskan mengikat ke ruang semasa? (Satu meter boleh terikat ke beberapa ruang)",
+        CONFIRM_BIND_METER_MESSAGE: "Meter ini sudah terikat ke {0} \"{1}\". Teruskan mengikat ke {2} semasa? (Mengikat satu meter ke beberapa {3} boleh menyebabkan pengiraan berganda)",
         BIND_PARAMETER: "Ikat Parameter",
         BIND_PARAMETER_DESCRIPTION: "Pengurusan parameter proses peralatan; mengkonfigurasi penunjuk operasi utama atau parameter teknikal untuk peralatan penggunaan tenaga.",
         BIND_PARAMETER_DESCRIPTION_MORE: "Dalam antara muka ini, anda boleh menentukan pelbagai parameter proses untuk peralatan (seperti kuasa undian, perbezaan suhu reka bentuk, dll.). Parameter boleh datang daripada nilai tetap, titik data masa nyata, atau nisbah dua meter. Konfigurasi parameter proses yang munasabah adalah asas untuk penandaarasan kecekapan tenaga dan analisis laporan lanjutan. Parameter ini akan berfungsi sebagai input utama untuk mengira penggunaan tenaga teori atau kecekapan peralatan.",

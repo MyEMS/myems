@@ -328,7 +328,7 @@
         VIRTUAL_METER_ALREADY_BOUND_TO_OTHER_SPACE: "Meteran virtual ini sudah terikat ke ruang lain",
         OFFLINE_METER_ALREADY_BOUND_TO_OTHER_SPACE: "Meteran offline ini sudah terikat ke ruang lain",
         CONFIRM_BIND_METER: "Konfirmasi pengikatan",
-        CONFIRM_BIND_METER_MESSAGE: "Meteran ini sudah terikat ke ruang \"{0}\". Lanjutkan mengikat ke ruang saat ini? (Satu meteran dapat terikat ke beberapa ruang)",
+        CONFIRM_BIND_METER_MESSAGE: "Meteran ini sudah terikat ke {0} \"{1}\". Lanjutkan mengikat ke {2} saat ini? (Mengikat satu meteran ke beberapa {3} dapat menyebabkan perhitungan ganda)",
         BIND_PARAMETER: "Ikat Parameter",
         BIND_PARAMETER_DESCRIPTION: "Manajemen parameter proses peralatan; mengonfigurasi indikator operasi utama atau parameter teknis untuk peralatan pengonsumsi energi.",
         BIND_PARAMETER_DESCRIPTION_MORE: "Di antarmuka ini, Anda dapat menentukan berbagai parameter proses untuk peralatan (seperti daya pengenal, perbedaan suhu desain, dll.). Parameter dapat berasal dari nilai tetap, titik data waktu nyata, atau rasio dua meteran. Konfigurasi parameter proses yang wajar adalah dasar untuk tolok ukur efisiensi energi dan analisis laporan tingkat lanjut. Parameter ini akan berfungsi sebagai input utama untuk menghitung konsumsi energi teoritis atau efisiensi peralatan.",
