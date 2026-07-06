@@ -453,7 +453,7 @@
         VIRTUAL_METER_ALREADY_BOUND_TO_OTHER_SPACE: "Dieser virtuelle Zähler ist bereits an einen anderen Raum gebunden",
         OFFLINE_METER_ALREADY_BOUND_TO_OTHER_SPACE: "Dieser Offline-Zähler ist bereits an einen anderen Raum gebunden",
         CONFIRM_BIND_METER: "Bindung bestätigen",
-        CONFIRM_BIND_METER_MESSAGE: "Dieser Zähler ist bereits an Raum \"{0}\" gebunden. Möchten Sie die Bindung an den aktuellen Raum fortsetzen? (Ein Zähler kann an mehrere Räume gebunden werden)",
+        CONFIRM_BIND_METER_MESSAGE: "Dieser Zähler ist bereits an {0} \"{1}\" gebunden. Möchten Sie die Bindung an den aktuellen {2} fortsetzen? (Das Binden eines Zählers an mehrere {3} kann zu doppelten Berechnungen führen)",
         BIND_PARAMETER: "Parameter binden",
         BIND_PARAMETER_DESCRIPTION:
           "Verwaltung technischer Geräteparameter; konfiguriert wichtige Betriebskennwerte für Verbrauchsgeräte.",

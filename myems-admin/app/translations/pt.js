@@ -328,7 +328,7 @@
         VIRTUAL_METER_ALREADY_BOUND_TO_OTHER_SPACE: "Este medidor virtual já está vinculado a outro espaço",
         OFFLINE_METER_ALREADY_BOUND_TO_OTHER_SPACE: "Este medidor offline já está vinculado a outro espaço",
         CONFIRM_BIND_METER: "Confirmar vínculo",
-        CONFIRM_BIND_METER_MESSAGE: "Este medidor já está vinculado ao espaço \"{0}\". Deseja continuar vinculando-o ao espaço atual? (Um medidor pode estar vinculado a vários espaços)",
+        CONFIRM_BIND_METER_MESSAGE: "Este medidor já está vinculado a {0} \"{1}\". Deseja continuar vinculando-o ao {2} atual? (Vincular um medidor a vários {3} pode causar cálculos duplicados)",
         BIND_PARAMETER: "Vincular Parâmetros",
         BIND_PARAMETER_DESCRIPTION: "Gestão de parâmetros de processo do equipamento; configurar indicadores de operação chave ou parâmetros técnicos para equipamentos de consumo de energia.",
         BIND_PARAMETER_DESCRIPTION_MORE: "Nesta interface, você pode definir vários parâmetros de processo para o equipamento (como potência nominal, diferença de temperatura de projeto, etc.). Os parâmetros podem vir de um valor fixo, um ponto de dados em tempo real ou a razão de dois medidores. A configuração razoável dos parâmetros de processo é a base para o benchmarking de eficiência energética e análise de relatórios avançados. Esses parâmetros servirão como entradas chave para calcular o consumo teórico de energia ou a eficiência do equipamento.",

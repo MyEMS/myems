@@ -320,7 +320,7 @@
         VIRTUAL_METER_ALREADY_BOUND_TO_OTHER_SPACE: "Questo contatore virtuale è già associato ad un altro spazio",
         OFFLINE_METER_ALREADY_BOUND_TO_OTHER_SPACE: "Questo contatore offline è già associato ad un altro spazio",
         CONFIRM_BIND_METER: "Conferma associazione",
-        CONFIRM_BIND_METER_MESSAGE: "Questo contatore è già associato allo spazio \"{0}\". Vuoi continuare ad associarlo allo spazio attuale? (Un contatore può essere associato a più spazi)",
+        CONFIRM_BIND_METER_MESSAGE: "Questo contatore è già associato a {0} \"{1}\". Vuoi continuare ad associarlo al {2} attuale? (Associare un contatore a più {3} può causare calcoli duplicati)",
         BIND_PARAMETER: "Associa parametri",
         BIND_PARAMETER_DESCRIPTION: "Gestione dei parametri di processo dell'apparecchiatura; configurare indicatori operativi chiave o parametri tecnici per apparecchiature di consumo energetico.",
         BIND_PARAMETER_DESCRIPTION_MORE: "In questa interfaccia, è possibile definire vari parametri di processo per l'apparecchiatura (come potenza nominale, differenza di temperatura di progetto, ecc.). I parametri possono provenire da un valore fisso, un punto dati in tempo reale o il rapporto di due contatori. Una configurazione ragionevole dei parametri di processo è la base per il benchmarking dell'efficienza energetica e l'analisi dei report avanzati. Questi parametri fungeranno da input chiave per il calcolo del consumo energetico teorico o dell'efficienza dell'apparecchiatura.",

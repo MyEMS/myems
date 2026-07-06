@@ -254,7 +254,9 @@ app.controller('SpaceMeterController', function(
             
             // If meter is bound to other spaces, ask for confirmation
             if (otherSpacesWithMeter.length > 0) {
-                var message = $translate.instant("SETTING.CONFIRM_BIND_METER_MESSAGE").replace('{0}', otherSpacesWithMeter.join(', '));
+                var spaceText = $translate.instant("COMMON.SPACE");
+                var messageTemplate = $translate.instant("SETTING.CONFIRM_BIND_METER_MESSAGE");
+                var message = messageTemplate.replace('{0}', spaceText).replace('{1}', otherSpacesWithMeter.join(', ')).replace('{2}', spaceText).replace('{3}', spaceText);
                 
                 SweetAlert.swal({
                     title: $translate.instant("SETTING.CONFIRM_BIND_METER"),

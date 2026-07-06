@@ -328,7 +328,7 @@
         VIRTUAL_METER_ALREADY_BOUND_TO_OTHER_SPACE: "Ce compteur virtuel est déjà lié à un autre espace",
         OFFLINE_METER_ALREADY_BOUND_TO_OTHER_SPACE: "Ce compteur hors ligne est déjà lié à un autre espace",
         CONFIRM_BIND_METER: "Confirmer la liaison",
-        CONFIRM_BIND_METER_MESSAGE: "Ce compteur est déjà lié à l'espace \"{0}\". Voulez-vous continuer la liaison à l'espace actuel ? (Un compteur peut être lié à plusieurs espaces)",
+        CONFIRM_BIND_METER_MESSAGE: "Ce compteur est déjà lié à {0} \"{1}\". Voulez-vous continuer la liaison au {2} actuel ? (Lier un compteur à plusieurs {3} peut entraîner des calculs en double)",
         BIND_PARAMETER: "Lier les paramètres",
         BIND_PARAMETER_DESCRIPTION: "Gestion des paramètres de processus de l'équipement ; configurer les indicateurs de fonctionnement clés ou les paramètres techniques pour les équipements de consommation d'énergie.",
         BIND_PARAMETER_DESCRIPTION_MORE: "Dans cette interface, vous pouvez définir divers paramètres de processus pour l'équipement (tels que la puissance nominale, la différence de température de conception, etc.). Les paramètres peuvent provenir d'une valeur fixe, d'un point de données en temps réel ou du rapport de deux compteurs. Une configuration raisonnable des paramètres de processus est la base de l'analyse comparative de l'efficacité énergétique et de l'analyse des rapports avancés. Ces paramètres serviront d'entrées clés pour calculer la consommation d'énergie théorique ou l'efficacité de l'équipement.",

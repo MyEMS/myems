@@ -608,6 +608,8 @@ api.add_route('/meters/{id_}/clone',
               meter.MeterClone())
 api.add_route('/meters/{id_}/spaces',
               space.MeterSpaceCollection())
+api.add_route('/meters/{id_}/shopfloors',
+              shopfloor.MeterShopfloorCollection())
 
 api.add_route('/microgrids',
               microgrid.MicrogridCollection())

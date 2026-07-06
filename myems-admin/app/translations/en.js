@@ -441,7 +441,7 @@
         VIRTUAL_METER_ALREADY_BOUND_TO_OTHER_SPACE: "This virtual meter is already bound to another space",
         OFFLINE_METER_ALREADY_BOUND_TO_OTHER_SPACE: "This offline meter is already bound to another space",
         CONFIRM_BIND_METER: "Confirm Binding",
-        CONFIRM_BIND_METER_MESSAGE: "This meter is already bound to space \"{0}\". Do you want to continue binding to the current space? (A meter can be bound to multiple spaces)",
+        CONFIRM_BIND_METER_MESSAGE: "This meter is already bound to {0} \"{1}\". Do you want to continue binding to the current {2}? (Binding one meter to multiple {3} may cause duplicate calculations)",
         BIND_PARAMETER: "Bind Parameter",
         BIND_PARAMETER_DESCRIPTION: "Equipment process parameter management; configure key operating indicators or technical parameters for energy-consuming equipment.",
         BIND_PARAMETER_DESCRIPTION_MORE: "In this interface, you can define various process parameters for the equipment (such as rated power, design temperature difference, etc.). Parameters can come from a fixed value, a real-time data point, or the ratio of two meters. Properly configuring process parameters is the basis for energy efficiency benchmarking and advanced report analysis. These parameters will serve as key inputs for calculating theoretical energy consumption or efficiency of the equipment.",
