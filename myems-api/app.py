@@ -610,6 +610,8 @@ api.add_route('/meters/{id_}/spaces',
               space.MeterSpaceCollection())
 api.add_route('/meters/{id_}/shopfloors',
               shopfloor.MeterShopfloorCollection())
+api.add_route('/meters/{id_}/stores',
+              store.MeterStoreCollection())
 
 api.add_route('/microgrids',
               microgrid.MicrogridCollection())

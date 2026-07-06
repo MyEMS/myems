@@ -15,6 +15,7 @@ app.controller('StoreMeterController', function(
     StoreMeterService,
     StoreService,
     toaster,
+    SweetAlert,
     DragDropWarningService
 ) {
     $scope.cur_user = JSON.parse($window.localStorage.getItem("myems_admin_ui_current_user"));
@@ -186,7 +187,54 @@ app.controller('StoreMeterController', function(
         var meterid = angular.element('#' + dragEl).scope().meter.id;
         var storeid = $scope.currentStore.id;
         let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
-        StoreMeterService.addPair(storeid, meterid, $scope.currentMeterType, headers, function(response) {
+        
+        // Check if this meter is already bound to other stores using backend API (fast)
+        StoreMeterService.checkMeterBinding(meterid, $scope.currentMeterType, headers, function(response) {
+            var otherStoresWithMeter = [];
+            
+            if (angular.isDefined(response.status) && response.status === 200) {
+                // Filter out the current store from the results
+                angular.forEach(response.data, function(store) {
+                    if (store.id != storeid) {
+                        otherStoresWithMeter.push(store.name);
+                    }
+                });
+            } else {
+                // If API call fails, log error and proceed with binding anyway
+                console.error('Failed to check meter binding:', response);
+                // Still allow binding to proceed even if check fails
+            }
+            
+            // If meter is bound to other stores, ask for confirmation
+            if (otherStoresWithMeter.length > 0) {
+                var storeText = $translate.instant("COMMON.STORE");
+                var messageTemplate = $translate.instant("SETTING.CONFIRM_BIND_METER_MESSAGE");
+                var message = messageTemplate.replace('{0}', storeText).replace('{1}', otherStoresWithMeter.join(', ')).replace('{2}', storeText).replace('{3}', storeText);
+                
+                SweetAlert.swal({
+                    title: $translate.instant("SETTING.CONFIRM_BIND_METER"),
+                    text: message,
+                    type: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#DD6B55",
+                    confirmButtonText: $translate.instant("SETTING.YES"),
+                    cancelButtonText: $translate.instant("SETTING.NO"),
+                    closeOnConfirm: true
+                }, function(isConfirm) {
+                    if (isConfirm) {
+                        performBinding(storeid, meterid, $scope.currentMeterType, headers);
+                    }
+                });
+            } else {
+                // Meter is not bound to any other store, proceed directly
+                performBinding(storeid, meterid, $scope.currentMeterType, headers);
+            }
+        });
+    };
+
+    // Helper function to perform binding operation
+    function performBinding(storeid, meterid, metertype, headers) {
+        StoreMeterService.addPair(storeid, meterid, metertype, headers, function(response) {
             if (angular.isDefined(response.status) && response.status === 201) {
                 toaster.pop({
                     type: "success",
