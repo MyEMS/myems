@@ -200,28 +200,75 @@ app.controller('EquipmentMeterController', function(
 		    var meterid=angular.element('#'+dragEl).scope().meter.id;
 		    var equipmentid=$scope.currentEquipment.id;
 			let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
-            EquipmentMeterService.addPair(equipmentid, meterid, $scope.currentMeterType, is_output, headers, function (response) {
-				if (angular.isDefined(response.status) && response.status === 201) {
-					toaster.pop({
-						type: "success",
-						title: $translate.instant("TOASTER.SUCCESS_TITLE"),
-						body: $translate.instant("TOASTER.BIND_METER_SUCCESS"),
-						showCloseButton: true,
+			
+			// Check if this meter is already bound to other equipments using backend API (fast)
+			EquipmentMeterService.checkMeterBinding(meterid, $scope.currentMeterType, headers, function(response) {
+				var otherEquipmentsWithMeter = [];
+				
+				if (angular.isDefined(response.status) && response.status === 200) {
+					// Filter out the current equipment from the results
+					angular.forEach(response.data, function(equipment) {
+						if (equipment.id !== equipmentid) {
+							otherEquipmentsWithMeter.push(equipment.name);
+						}
 					});
-					// Reacquire the binding and trigger filtering
-					$scope.getMetersByEquipmentID($scope.currentEquipment.id);
 				} else {
-					toaster.pop({
-						type: "error",
-						title: $translate.instant(response.data.title),
-						body: $translate.instant(response.data.description),
-						showCloseButton: true,
+					// If API call fails, log error and proceed with binding anyway
+					console.error('Failed to check meter binding:', response);
+					// Still allow binding to proceed even if check fails
+				}
+				
+				// If meter is bound to other equipments, ask for confirmation
+				if (otherEquipmentsWithMeter.length > 0) {
+					var equipmentText = $translate.instant("COMMON.EQUIPMENT");
+					var messageTemplate = $translate.instant("SETTING.CONFIRM_BIND_METER_MESSAGE");
+					var message = messageTemplate.replace('{0}', equipmentText).replace('{1}', otherEquipmentsWithMeter.join(', ')).replace('{2}', equipmentText).replace('{3}', equipmentText);
+					
+					SweetAlert.swal({
+						title: $translate.instant("SETTING.CONFIRM_BIND_METER"),
+						text: message,
+						type: "warning",
+						showCancelButton: true,
+						confirmButtonColor: "#DD6B55",
+						confirmButtonText: $translate.instant("SETTING.YES"),
+						cancelButtonText: $translate.instant("SETTING.NO"),
+						closeOnConfirm: true
+					}, function(isConfirm) {
+						if (isConfirm) {
+							performBinding(equipmentid, meterid, $scope.currentMeterType, is_output, headers);
+						}
 					});
+				} else {
+					// Meter is not bound to any other equipment, proceed directly
+					performBinding(equipmentid, meterid, $scope.currentMeterType, is_output, headers);
 				}
 			});
         },function() {
         });
 		$rootScope.modalInstance = modalInstance;
+    };
+
+    // Helper function to perform binding operation
+    function performBinding(equipmentid, meterid, metertype, is_output, headers) {
+        EquipmentMeterService.addPair(equipmentid, meterid, metertype, is_output, headers, function(response) {
+            if (angular.isDefined(response.status) && response.status === 201) {
+                toaster.pop({
+                    type: "success",
+                    title: $translate.instant("TOASTER.SUCCESS_TITLE"),
+                    body: $translate.instant("TOASTER.BIND_METER_SUCCESS"),
+                    showCloseButton: true,
+                });
+                // Reacquire the binding and trigger filtering
+                $scope.getMetersByEquipmentID($scope.currentEquipment.id);
+            } else {
+                toaster.pop({
+                    type: "error",
+                    title: $translate.instant(response.data.title),
+                    body: $translate.instant(response.data.description),
+                    showCloseButton: true,
+                });
+            }
+        });
     };
 
     // Unbind meter via drag-to-trash

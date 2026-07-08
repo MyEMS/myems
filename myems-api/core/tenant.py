@@ -1089,6 +1089,80 @@ class TenantMeterItem:
         resp.status = falcon.HTTP_204
 
 
+class MeterTenantCollection:
+    """Get tenants that a meter is bound to (RESTful style)"""
+    def __init__(self):
+        pass
+
+    @staticmethod
+    def on_get(req, resp, id_):
+        if 'API-KEY' not in req.headers or \
+                not isinstance(req.headers['API-KEY'], str) or \
+                len(str.strip(req.headers['API-KEY'])) == 0:
+            access_control(req)
+        else:
+            api_key_control(req)
+        
+        if not id_.isdigit() or int(id_) <= 0:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_METER_ID')
+        
+        meter_type = req.get_param('type')  # meters, virtualmeters, offlinemeters
+        
+        if meter_type not in ['meters', 'virtualmeters', 'offlinemeters']:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_METER_TYPE')
+        
+        cnx = None
+        cursor = None
+        
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
+                
+                # Determine the table and column names based on meter type
+                if meter_type == 'meters':
+                    relation_table = 'tbl_tenants_meters'
+                    meter_col = 'meter_id'
+                    meter_tbl = 'tbl_meters'
+                elif meter_type == 'virtualmeters':
+                    relation_table = 'tbl_tenants_virtual_meters'
+                    meter_col = 'virtual_meter_id'
+                    meter_tbl = 'tbl_virtual_meters'
+                else:  # offlinemeters
+                    relation_table = 'tbl_tenants_offline_meters'
+                    meter_col = 'offline_meter_id'
+                    meter_tbl = 'tbl_offline_meters'
+                
+                # Check if meter exists
+                cursor.execute(f" SELECT name FROM {meter_tbl} WHERE id = %s ", (id_,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.METER_NOT_FOUND')
+                
+                # Query all tenants that this meter is bound to
+                query = f""" SELECT t.id, t.name 
+                             FROM {relation_table} tm, tbl_tenants t 
+                             WHERE tm.tenant_id = t.id AND tm.{meter_col} = %s 
+                             ORDER BY t.id """
+                cursor.execute(query, (id_,))
+                rows = cursor.fetchall()
+                
+                result = []
+                if rows is not None and len(rows) > 0:
+                    for row in rows:
+                        result.append({"id": row[0], "name": row[1]})
+                
+                resp.text = json.dumps(result)
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
+
+
 class TenantOfflineMeterCollection:
     def __init__(self):
         pass
