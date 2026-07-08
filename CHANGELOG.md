@@ -8,6 +8,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - added circle check to energy flow diagram in myems-api and myems-admin
 - added duplicate check for binding meter to space in myems-api and myems-admin
 - added duplicate check for binding meter to shopfloor in myems-api and myems-admin
+- added duplicate check for binding meter to combined equipment in myems-api and myems-admin
+- added duplicate check for binding meter to equipment in myems-api and myems-admin
+- added duplicate check for binding meter to store in myems-api and myems-admin
+- added duplicate check for binding meter to tenant in myems-api and myems-admin
 - added myems_production_db.tbl_equipment_hourly to database
 - added modification protection for super administrator in myems-api and myems-admin
 ### Changed
