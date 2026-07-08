@@ -19,6 +19,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - added ErrorBoundary component to capture rendering errors in myems-web
 ### Fixed
 - fixed Overwritten property issue in myems-web
+- fixed datetime picker color theme issue in myems-web
 ### Removed
 - removed print(req.params) from myems-api
 
