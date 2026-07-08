@@ -195,7 +195,7 @@ app.controller('StoreMeterController', function(
             if (angular.isDefined(response.status) && response.status === 200) {
                 // Filter out the current store from the results
                 angular.forEach(response.data, function(store) {
-                    if (store.id != storeid) {
+                    if (store.id !== storeid) {
                         otherStoresWithMeter.push(store.name);
                     }
                 });
