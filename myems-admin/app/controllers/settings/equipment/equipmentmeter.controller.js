@@ -208,7 +208,7 @@ app.controller('EquipmentMeterController', function(
 				if (angular.isDefined(response.status) && response.status === 200) {
 					// Filter out the current equipment from the results
 					angular.forEach(response.data, function(equipment) {
-						if (equipment.id != equipmentid) {
+						if (equipment.id !== equipmentid) {
 							otherEquipmentsWithMeter.push(equipment.name);
 						}
 					});

@@ -198,7 +198,7 @@ app.controller('TenantMeterController', function(
 			if (angular.isDefined(response.status) && response.status === 200) {
 				// Filter out the current tenant from the results
 				angular.forEach(response.data, function(tenant) {
-					if (tenant.id != tenantid) {
+					if (tenant.id !== tenantid) {
 						otherTenantsWithMeter.push(tenant.name);
 					}
 				});
