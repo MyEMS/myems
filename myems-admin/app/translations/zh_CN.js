@@ -222,6 +222,7 @@
           ENERGY_FLOW_DIAGRAM: "能流图",
           DISTRIBUTION_SYSTEM: "配电系统",
           MENU: "菜单",
+          DOWNLOAD_OFFLINE_METER_TEMPLATE: "下载离线表模板",
           KNOWLEDGEFILE: "知识库",
           WORKING_CALENDAR: "工作日历",
           COMMAND: "指令 ㊭",
@@ -2779,6 +2780,5 @@
       "Energy Flow Diagram": "能流图",
       "Distribution System": "配电系统",
       "Knowledge Base": "知识库",
-      DOWNLOAD_OFFLINE_METER_TEMPLATE: "下载离线表模板",
-    };
+      };
 })(window);

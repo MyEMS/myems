@@ -222,6 +222,7 @@
           ENERGY_FLOW_DIAGRAM: "Diagramas de fluxo de energia",
           DISTRIBUTION_SYSTEM: "Sistemas de Distribui莽茫o",
           MENU: "Menus",
+          DOWNLOAD_OFFLINE_METER_TEMPLATE: "Baixar modelo de medidor offline",
           KNOWLEDGEFILE: "Base de Conhecimento",
           WORKING_CALENDAR: "Calend谩rio de trabalho",
           COMMAND: "Comandos 鈷?,
@@ -3063,7 +3064,6 @@
       "Energy Flow Diagram": "Diagrama de Fluxo de Energia",
       "Distribution System": "Sistema de Distribui莽茫o",
       "Knowledge Base": "Base de Conhecimentos",
-      DOWNLOAD_OFFLINE_METER_TEMPLATE: "Baixar modelo de medidor offline",
     };
 })(window);
 

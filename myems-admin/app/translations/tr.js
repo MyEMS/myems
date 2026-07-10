@@ -222,6 +222,7 @@
           ENERGY_FLOW_DIAGRAM: "Enerji Ak谋艧 Diyagramlar谋",
           DISTRIBUTION_SYSTEM: "Da臒谋t谋m Sistemleri",
           MENU: "Men眉",
+          DOWNLOAD_OFFLINE_METER_TEMPLATE: "Çevrimdışı Sayaç Şablonunu İndir",
           KNOWLEDGEFILE: "Bilgi bankas谋",
           WORKING_CALENDAR: "脟al谋艧ma Takvimi",
           COMMAND: "Komut 鈷?,
@@ -2914,7 +2915,6 @@
       "Energy Flow Diagram": "Enerji Ak谋艧 Diyagram谋",
       "Distribution System": "Da臒谋t谋m Sistemi",
       "Knowledge Base": "Bilgi Bankas谋",
-      DOWNLOAD_OFFLINE_METER_TEMPLATE: "Çevrimdışı Sayaç Şablonunu İndir",
     };
 })(window);
 

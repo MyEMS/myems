@@ -218,6 +218,7 @@
           ENERGY_FLOW_DIAGRAM: "Diagramma Flusso Energia",
           DISTRIBUTION_SYSTEM: "Sistema di Distribuzione",
           MENU: "Menu",
+          DOWNLOAD_OFFLINE_METER_TEMPLATE: "Scarica modello contatore offline",
           KNOWLEDGEFILE: "Knowledge Base",
           WORKING_CALENDAR: "Calendario Lavorativo",
           COMMAND: "Comando 鈷?,
@@ -2913,7 +2914,6 @@
       "Energy Flow Diagram": "Diagramma Flusso Energia",
       "Distribution System": "Sistema di Distribuzione",
       "Knowledge Base": "Knowledge Base",
-      DOWNLOAD_OFFLINE_METER_TEMPLATE: "Scarica modello contatore offline",
     };
 })(window);
 

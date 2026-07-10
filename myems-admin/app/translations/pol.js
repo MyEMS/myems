@@ -218,6 +218,7 @@
           ENERGY_FLOW_DIAGRAM: "Schemat przep艂ywu energii",
           DISTRIBUTION_SYSTEM: "System rozdzia艂u energii",
           MENU: "Menu",
+          DOWNLOAD_OFFLINE_METER_TEMPLATE: "Pobierz szablon licznika offline",
           KNOWLEDGEFILE: "Baza wiedzy",
           WORKING_CALENDAR: "Kalendarz roboczy",
           COMMAND: "Polecenie 鈷?,
@@ -2917,7 +2918,6 @@
       "Energy Flow Diagram": "Schemat przep艂ywu energii",
       "Distribution System": "System rozdzia艂u energii",
       "Knowledge Base": "Baza wiedzy",
-      DOWNLOAD_OFFLINE_METER_TEMPLATE: "Pobierz szablon licznika offline",
     };
 })(window);
 

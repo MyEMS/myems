@@ -222,6 +222,7 @@
           ENERGY_FLOW_DIAGRAM: "แผนภาพการไหลของพลังงาน",
           DISTRIBUTION_SYSTEM: "ระบบจําหน่าย",
           MENU: "เมนู",
+          DOWNLOAD_OFFLINE_METER_TEMPLATE: "ดาวน์โหลดเทมเพลตมิเตอร์ออฟไลน์",
           KNOWLEDGEFILE: "ฐานความรู้",
           WORKING_CALENDAR: "ปฏิทินการทํางาน",
           COMMAND: "คำ สั่ง Ⓔ",
@@ -2888,6 +2889,5 @@
       "Energy Flow Diagram": "แผนภาพการไหลของพลังงาน",
       "Distribution System": "ระบบกระจายสินค้า",
       "Knowledge Base": "ฐานความรู้",
-      DOWNLOAD_OFFLINE_METER_TEMPLATE: "ดาวน์โหลดเทมเพลตมิเตอร์ออฟไลน์",
-    };
+      };
 })(window);

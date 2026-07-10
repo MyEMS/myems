@@ -224,6 +224,7 @@
           ENERGY_FLOW_DIAGRAM: "Diagramas de flujo de energ铆a",
           DISTRIBUTION_SYSTEM: "Sistemas de distribuci贸n",
           MENU: "Men煤s",
+          DOWNLOAD_OFFLINE_METER_TEMPLATE: "Descargar plantilla de medidor sin conexión",
           KNOWLEDGEFILE: "Knowledge base",
           WORKING_CALENDAR: "Calendario de trabajo",
           COMMAND: "Comandos 鈷?,
@@ -2977,7 +2978,6 @@
       "Energy Flow Diagram": "Diagrama de Flujo de Energ铆a",
       "Distribution System": "Sistema de Distribuci贸n",
       "Knowledge Base": "Base de Conocimientos",
-      DOWNLOAD_OFFLINE_METER_TEMPLATE: "Descargar plantilla de medidor sin conexión",
     };
 })(window);
 

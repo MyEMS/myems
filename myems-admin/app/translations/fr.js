@@ -222,6 +222,7 @@
           ENERGY_FLOW_DIAGRAM: "Diagrammes de flux d鈥櫭﹏ergie",
           DISTRIBUTION_SYSTEM: "Syst猫mes de distribution",
           MENU: "Menus",
+          DOWNLOAD_OFFLINE_METER_TEMPLATE: "Télécharger le modèle de compteur hors ligne",
           KNOWLEDGEFILE: "Base de connaissances",
           WORKING_CALENDAR: "Calendrier de travail",
           COMMAND: "Commandes 鈷?,
@@ -2968,7 +2969,6 @@
       "Energy Flow Diagram": "Diagramme de flux d'茅nergie",
       "Distribution System": "Syst猫me de distribution",
       "Knowledge Base": "Base de connaissances",
-      DOWNLOAD_OFFLINE_METER_TEMPLATE: "Télécharger le modèle de compteur hors ligne",
     };
 })(window);
 

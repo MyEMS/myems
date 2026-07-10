@@ -222,6 +222,7 @@
           ENERGY_FLOW_DIAGRAM: "S啤 膽峄?d貌ng n膬ng l瓢峄g",
           DISTRIBUTION_SYSTEM: "H峄?th峄憂g ph芒n ph峄慽",
           MENU: "Th峄眂 膽啤n",
+          DOWNLOAD_OFFLINE_METER_TEMPLATE: "Tải xuống mẫu đồng hồ ngoại tuyến",
           KNOWLEDGEFILE: "C啤 s峄?tri th峄ヽ",
           WORKING_CALENDAR: "L峄媍h l脿m vi峄嘽",
           COMMAND: "L峄噉h 鈷?,
@@ -2931,7 +2932,6 @@
       "Energy Flow Diagram": "S啤 膽峄?d貌ng n膬ng l瓢峄g",
       "Distribution System": "H峄?th峄憂g ph芒n ph峄慽",
       "Knowledge Base": "C啤 s峄?tri th峄ヽ",
-      DOWNLOAD_OFFLINE_METER_TEMPLATE: "Tải xuống mẫu đồng hồ ngoại tuyến",
     };
 })(window);
 

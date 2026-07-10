@@ -222,6 +222,7 @@
           ENERGY_FLOW_DIAGRAM: "賲禺胤胤丕鬲 鬲丿賮賯 丕賱胤丕賯丞",
           DISTRIBUTION_SYSTEM: "兀賳馗賲丞 丕賱鬲賵夭賷毓",
           MENU: "丕賱賯賵丕卅賲",
+          DOWNLOAD_OFFLINE_METER_TEMPLATE: "تنزيل قالب العداد غير المتصل",
           KNOWLEDGEFILE: "賲毓丕乇賮",
           WORKING_CALENDAR: "鬲賯賵賷賲 丕賱毓賲賱",
           COMMAND: "丕賱丕賵丕賲乇 鈷?,
@@ -2887,7 +2888,6 @@
       "Energy Flow Diagram": "賲禺胤胤 鬲丿賮賯 丕賱胤丕賯丞",
       "Distribution System": "賳馗丕賲 丕賱鬲賵夭賷毓",
       "Knowledge Base": "賯丕毓丿丞 丕賱賲毓乇賮丞",
-      DOWNLOAD_OFFLINE_METER_TEMPLATE: "تنزيل قالب العداد غير المتصل",
     };
 })(window);
 

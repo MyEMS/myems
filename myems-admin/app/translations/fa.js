@@ -218,6 +218,7 @@
           ENERGY_FLOW_DIAGRAM: "賳賲賵丿丕乇 噩乇蹖丕賳 丕賳乇跇蹖",
           DISTRIBUTION_SYSTEM: "爻蹖爻鬲賲 鬲賵夭蹖毓",
           MENU: "賲賳賵",
+          DOWNLOAD_OFFLINE_METER_TEMPLATE: "دانلود قالب کنتور آفلاین",
           KNOWLEDGEFILE: "倬丕蹖诏丕賴 丿丕賳卮",
           WORKING_CALENDAR: "鬲賯賵蹖賲 讴丕乇蹖",
           COMMAND: "賮乇賲丕賳 鈷?,
@@ -2852,7 +2853,6 @@
       "Energy Flow Diagram": "賳賲賵丿丕乇 噩乇蹖丕賳 丕賳乇跇蹖",
       "Distribution System": "爻蹖爻鬲賲 鬲賵夭蹖毓",
       "Knowledge Base": "倬丕蹖诏丕賴 丿丕賳卮",
-      DOWNLOAD_OFFLINE_METER_TEMPLATE: "دانلود قالب کنتور آفلاین",
     };
 })(window);
 

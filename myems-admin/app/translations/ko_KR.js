@@ -222,6 +222,7 @@
           ENERGY_FLOW_DIAGRAM: "鞐愲剤歆€ 頋愲霃?,
           DISTRIBUTION_SYSTEM: "氚办爠 鞁滌姢韰?,
           MENU: "氅旊壌",
+          DOWNLOAD_OFFLINE_METER_TEMPLATE: "오프라인 미터 템플릿 다운로드",
           KNOWLEDGEFILE: "歆€鞁?氩犾澊鞀?,
           WORKING_CALENDAR: "鞛戩梾 鞚检爼",
           COMMAND: "氇呺牴 鈷?,
@@ -2882,7 +2883,6 @@
       "Energy Flow Diagram": "鞐愲剤歆€ 頋愲霃?,
       "Distribution System": "氚办爠 鞁滌姢韰?,
       "Knowledge Base": "歆€鞁?氩犾澊鞀?,
-      DOWNLOAD_OFFLINE_METER_TEMPLATE: "오프라인 미터 템플릿 다운로드",
     };
 })(window);
 

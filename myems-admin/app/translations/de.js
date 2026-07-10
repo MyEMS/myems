@@ -222,6 +222,7 @@
           ENERGY_FLOW_DIAGRAM: "Energieflussdiagramm",
           DISTRIBUTION_SYSTEM: "Verteilungssysteme",
           MENU: "Men眉s",
+          DOWNLOAD_OFFLINE_METER_TEMPLATE: "Offline-Zählervorlage herunterladen",
           KNOWLEDGEFILE: "Wissensdatenbank",
           WORKING_CALENDAR: "Arbeitskalender",
           COMMAND: "Befehle 鈷?,
@@ -2985,7 +2986,6 @@
       "Energy Flow Diagram": "Energieflussdiagramm",
       "Distribution System": "Vertriebssystem",
       "Knowledge Base": "Wissensbasis",
-      DOWNLOAD_OFFLINE_METER_TEMPLATE: "Offline-Zählervorlage herunterladen",
     };
 })(window);
 

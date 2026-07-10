@@ -222,6 +222,7 @@
           ENERGY_FLOW_DIAGRAM: "Gambar Rajah Aliran Tenaga",
           DISTRIBUTION_SYSTEM: "Sistem Pengedaran",
           MENU: "Menus",
+          DOWNLOAD_OFFLINE_METER_TEMPLATE: "Muat Turun Templat Meter Luar Talian",
           KNOWLEDGEFILE: "Pangkalan Pengetahuan",
           WORKING_CALENDAR: "Kalendar Kerja",
           COMMAND: "Perintah 鈷?,
@@ -2918,7 +2919,6 @@
       "Energy Flow Diagram": "Rajah Aliran Tenaga",
       "Distribution System": "Sistem Pengedaran",
       "Knowledge Base": "Pangkalan Pengetahuan",
-      DOWNLOAD_OFFLINE_METER_TEMPLATE: "Muat Turun Templat Meter Luar Talian",
     };
 })(window);
 

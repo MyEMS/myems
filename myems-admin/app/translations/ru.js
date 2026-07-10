@@ -222,6 +222,7 @@
           ENERGY_FLOW_DIAGRAM: "袛懈邪谐褉邪屑屑褘 锌芯褌芯泻芯胁 褝薪械褉谐懈懈",
           DISTRIBUTION_SYSTEM: "袪邪褋锌褉械写械谢懈褌械谢褜薪褘械 褋懈褋褌械屑褘",
           MENU: "袦械薪褞",
+          DOWNLOAD_OFFLINE_METER_TEMPLATE: "Скачать шаблон офлайн-счетчика",
           KNOWLEDGEFILE: "袘邪蟹邪 蟹薪邪薪懈泄",
           WORKING_CALENDAR: "袪邪斜芯褔懈泄 泻邪谢械薪写邪褉褜",
           COMMAND: "袣芯屑邪薪写褘 鈷?,
@@ -3002,7 +3003,6 @@
       "Energy Flow Diagram": "袛懈邪谐褉邪屑屑邪 锌芯褌芯泻邪 褝薪械褉谐懈懈",
       "Distribution System": "小懈褋褌械屑邪 褉邪褋锌褉械写械谢械薪懈褟",
       "Knowledge Base": "袘邪蟹邪 蟹薪邪薪懈泄",
-      DOWNLOAD_OFFLINE_METER_TEMPLATE: "Скачать шаблон офлайн-счетчика",
     };
 })(window);
 

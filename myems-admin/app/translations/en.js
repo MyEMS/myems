@@ -222,6 +222,7 @@
           ENERGY_FLOW_DIAGRAM: "Energy Flow Diagrams",
           DISTRIBUTION_SYSTEM: "Distribution Systems",
           MENU: "Menus",
+          DOWNLOAD_OFFLINE_METER_TEMPLATE: "Download Offline Meter Template",
           KNOWLEDGEFILE: "Knowledge Base",
           WORKING_CALENDAR: "Working Calendar",
           COMMAND: "Commands 鈷?,
@@ -2871,7 +2872,6 @@
       "Energy Flow Diagram": "Energy Flow Diagram",
       "Distribution System": "Distribution System",
       "Knowledge Base": "Knowledge Base",
-      DOWNLOAD_OFFLINE_METER_TEMPLATE: "Download Offline Meter Template",
     };
 })(window);
 
