@@ -34,11 +34,10 @@ app.controller('MainController', [
                         var fileName = 'offline_meter_data.xlsx';
                         // Decode base64 to blob
                         var byteCharacters = atob(response.data.excel_bytes_base64);
-                        var byteNumbers = new Array(byteCharacters.length);
+                        var byteArray = new Uint8Array(byteCharacters.length);
                         for (var i = 0; i < byteCharacters.length; i++) {
-                            byteNumbers[i] = byteCharacters.charCodeAt(i);
+                            byteArray[i] = byteCharacters.charCodeAt(i);
                         }
-                        var byteArray = new Uint8Array(byteNumbers);
                         var blob = new Blob([byteArray], { type: mimeType });
                         // Trigger download
                         var link = $window.document.createElement('a');
@@ -49,6 +48,9 @@ app.controller('MainController', [
                         $window.document.body.removeChild(link);
                         $window.URL.revokeObjectURL(link.href);
                     }
+                })
+                .catch(function(error) {
+                    console.error('Failed to download template:', error);
                 });
         };
     }

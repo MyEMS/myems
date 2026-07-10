@@ -729,3 +729,10 @@ li span.divider{
 	vertical-align: middle;
 }
 
+.template-download-btn {
+	margin: 8px auto;
+	width: 90%;
+	text-align: center;
+	color: #FFF;
+	cursor: pointer;
+}

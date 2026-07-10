@@ -3,6 +3,7 @@ import os
 import uuid
 import logging
 from datetime import datetime, timezone, timedelta
+from pathlib import Path
 import falcon
 import mysql.connector
 from mysql.connector.errors import InterfaceError, OperationalError, ProgrammingError, DataError
@@ -607,15 +608,14 @@ class OfflineMeterFileTemplateDownload:
             req: Falcon request object
             resp: Falcon response object
         """
-        template_file = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))),
-                                      'myems-normalization', 'offline_meter_data.xlsx')
+        template_file = Path(__file__).resolve().parent.parent.parent / 'myems-normalization' / 'offline_meter_data.xlsx'
 
-        if not os.path.exists(template_file):
+        if not template_file.is_file():
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.TEMPLATE_FILE_NOT_FOUND')
 
         try:
-            with open(template_file, 'rb') as f:
+            with open(str(template_file), 'rb') as f:
                 binary_file_data = f.read()
 
             base64_encoded_data = base64.b64encode(binary_file_data)
@@ -627,7 +627,7 @@ class OfflineMeterFileTemplateDownload:
             }
 
             resp.text = json.dumps(result)
-        except Exception as ex:
+        except (IOError, OSError) as ex:
             logging.error("Failed to read template file: %s", str(ex))
             raise falcon.HTTPError(status=falcon.HTTP_500, title='API.ERROR',
                                    description='API.FAILED_TO_READ_TEMPLATE_FILE')
