@@ -1,3 +1,4 @@
+import base64
 import os
 import uuid
 import logging
@@ -579,3 +580,54 @@ class OfflineMeterFileRestore:
                                    description='API.FAILED_TO_RESTORE_OFFLINE_METER_FILE')
         
         resp.text = json.dumps('success')
+
+
+class OfflineMeterFileTemplateDownload:
+    """
+    Offline Meter File Template Download Resource
+
+    This class handles downloading the offline meter template file (Excel).
+    The template is a pre-defined xlsx file used as a format guide for
+    importing offline meter data.
+    """
+
+    def __init__(self):
+        """Initialize OfflineMeterFileTemplateDownload"""
+        pass
+
+    @staticmethod
+    def on_get(req, resp):
+        """
+        Handle GET requests to download the offline meter template file
+
+        Returns the template xlsx file as a base64-encoded string in JSON format,
+        following the same pattern used by myems-web report exports.
+
+        Args:
+            req: Falcon request object
+            resp: Falcon response object
+        """
+        template_dir = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'template')
+        template_file = os.path.join(template_dir, 'offline_meter_data.xlsx')
+
+        if not os.path.exists(template_file):
+            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                   description='API.TEMPLATE_FILE_NOT_FOUND')
+
+        try:
+            with open(template_file, 'rb') as f:
+                binary_file_data = f.read()
+
+            base64_encoded_data = base64.b64encode(binary_file_data)
+            base64_message = base64_encoded_data.decode('utf-8')
+
+            result = {
+                'excel_bytes_base64': base64_message,
+                'file_name': 'offline_meter_data.xlsx'
+            }
+
+            resp.text = json.dumps(result)
+        except Exception as ex:
+            logging.error("Failed to read template file: %s", str(ex))
+            raise falcon.HTTPError(status=falcon.HTTP_500, title='API.ERROR',
+                                   description='API.FAILED_TO_READ_TEMPLATE_FILE')

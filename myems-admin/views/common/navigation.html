@@ -12,9 +12,9 @@
             </li>
             <!-- Download template button -->
             <li>
-                <a href="/views/template/offline_meter_data.xlsx" download target="_self"
+                <a ng-click="downloadOfflineMeterTemplate()"
                    class="btn btn-success btn-rounded btn-block"
-                   style="margin: 8px auto; width: 90%; text-align: center; color: #FFF;">
+                   style="margin: 8px auto; width: 90%; text-align: center; color: #FFF; cursor: pointer;">
                     <i class="fa fa-download"></i> {{ 'MENU.SETTINGS.DOWNLOAD_OFFLINE_METER_TEMPLATE' | translate }}
                 </a>
             </li>

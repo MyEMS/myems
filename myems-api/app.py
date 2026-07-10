@@ -719,6 +719,8 @@ api.add_route('/offlinemeters/{id_}/clone',
 
 api.add_route('/offlinemeterfiles',
               offlinemeterfile.OfflineMeterFileCollection())
+api.add_route('/offlinemeterfiles/template/download',
+              offlinemeterfile.OfflineMeterFileTemplateDownload())
 api.add_route('/offlinemeterfiles/{id_}',
               offlinemeterfile.OfflineMeterFileItem())
 api.add_route('/offlinemeterfiles/{id_}/restore',
