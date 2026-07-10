@@ -2,7 +2,6 @@ import os
 import uuid
 import logging
 from datetime import datetime, timezone, timedelta
-from pathlib import Path
 import falcon
 import mysql.connector
 from mysql.connector.errors import InterfaceError, OperationalError, ProgrammingError, DataError
@@ -580,46 +579,3 @@ class OfflineMeterFileRestore:
                                    description='API.FAILED_TO_RESTORE_OFFLINE_METER_FILE')
         
         resp.text = json.dumps('success')
-
-
-class OfflineMeterFileTemplateDownload:
-    """
-    Offline Meter File Template Download Resource
-
-    This class handles downloading the offline meter template file (Excel).
-    The template is a pre-defined xlsx file used as a format guide for
-    importing offline meter data.
-    """
-
-    def __init__(self):
-        """Initialize OfflineMeterFileTemplateDownload"""
-        pass
-
-    @staticmethod
-    def on_get(req, resp):
-        """
-        Handle GET requests to download the offline meter template file
-
-        Returns the template xlsx file as a binary stream.
-
-        Args:
-            req: Falcon request object
-            resp: Falcon response object
-        """
-        BASE_DIR = Path(__file__).resolve().parents[2]
-        template_file = BASE_DIR / 'myems-normalization' / 'offline_meter_data.xlsx'
-
-        logging.debug('Template path: %s', str(template_file))
-
-        if not template_file.is_file():
-            raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
-                                   description='API.TEMPLATE_FILE_NOT_FOUND')
-
-        try:
-            resp.content_type = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
-            resp.stream = open(str(template_file), 'rb')
-            resp.set_header('Content-Disposition', 'attachment; filename=offline_meter_data.xlsx')
-        except (IOError, OSError) as ex:
-            logging.error("Failed to read template file: %s", str(ex))
-            raise falcon.HTTPError(status=falcon.HTTP_500, title='API.ERROR',
-                                   description='API.FAILED_TO_READ_TEMPLATE_FILE')
