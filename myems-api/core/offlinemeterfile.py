@@ -607,8 +607,8 @@ class OfflineMeterFileTemplateDownload:
             req: Falcon request object
             resp: Falcon response object
         """
-        template_dir = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'template')
-        template_file = os.path.join(template_dir, 'offline_meter_data.xlsx')
+        template_file = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))),
+                                      'myems-normalization', 'offline_meter_data.xlsx')
 
         if not os.path.exists(template_file):
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
