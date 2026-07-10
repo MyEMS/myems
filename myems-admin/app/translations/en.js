@@ -2874,5 +2874,3 @@
       "Knowledge Base": "Knowledge Base",
     };
 })(window);
-
-
