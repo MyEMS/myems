@@ -220,7 +220,6 @@
           MENU: "メニュー",
           KNOWLEDGEFILE: "ナレッジベース",
           WORKING_CALENDAR: "稼働カレンダー",
-          DOWNLOAD_OFFLINE_METER_TEMPLATE: "オフラインメーターテンプレートをダウンロード",
           COMMAND: "コマンド Ⓔ",
           CONTROL_MODE: "制御モード Ⓔ",
           IOTSIMCARD: "IoT SIMカード Ⓔ",
@@ -2857,5 +2856,6 @@
       "Energy Flow Diagram": "エネルギー流れ図",
       "Distribution System": "配電システム",
       "Knowledge Base": "ナレッジベース",
+      DOWNLOAD_OFFLINE_METER_TEMPLATE: "オフラインメーターテンプレートをダウンロード",
     };
 })(window);

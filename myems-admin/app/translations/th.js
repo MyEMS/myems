@@ -224,7 +224,6 @@
           MENU: "เมนู",
           KNOWLEDGEFILE: "ฐานความรู้",
           WORKING_CALENDAR: "ปฏิทินการทํางาน",
-          DOWNLOAD_OFFLINE_METER_TEMPLATE: "ดาวน์โหลดเทมเพลตมิเตอร์ออฟไลน์",
           COMMAND: "คำ สั่ง Ⓔ",
           CONTROL_MODE: "Control Mode Ⓔ",
           IOTSIMCARD: "IoT SIM Card Ⓔ",
@@ -2889,5 +2888,6 @@
       "Energy Flow Diagram": "แผนภาพการไหลของพลังงาน",
       "Distribution System": "ระบบกระจายสินค้า",
       "Knowledge Base": "ฐานความรู้",
+      DOWNLOAD_OFFLINE_METER_TEMPLATE: "ดาวน์โหลดเทมเพลตมิเตอร์ออฟไลน์",
     };
 })(window);

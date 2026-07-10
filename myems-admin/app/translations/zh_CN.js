@@ -224,7 +224,6 @@
           MENU: "菜单",
           KNOWLEDGEFILE: "知识库",
           WORKING_CALENDAR: "工作日历",
-          DOWNLOAD_OFFLINE_METER_TEMPLATE: "下载离线表模板",
           COMMAND: "指令 ㊭",
           CONTROL_MODE: "控制模式 ㊭",
           IOTSIMCARD: "物联网卡 ㊭",
@@ -2780,5 +2779,6 @@
       "Energy Flow Diagram": "能流图",
       "Distribution System": "配电系统",
       "Knowledge Base": "知识库",
+      DOWNLOAD_OFFLINE_METER_TEMPLATE: "下载离线表模板",
     };
 })(window);
