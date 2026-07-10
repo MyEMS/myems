@@ -27,30 +27,26 @@ app.controller('MainController', [
 
         // Download offline meter template file
         $rootScope.downloadOfflineMeterTemplate = function() {
-            $http.get(getAPI() + 'offlinemeterfiles/template/download')
+            var url = getAPI() + 'offlinemeterfiles/template/download';
+            fetch(url)
                 .then(function(response) {
-                    if (response.status === 200 && response.data.excel_bytes_base64) {
-                        var mimeType = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
-                        var fileName = 'offline_meter_data.xlsx';
-                        // Decode base64 to blob
-                        var byteCharacters = atob(response.data.excel_bytes_base64);
-                        var byteArray = new Uint8Array(byteCharacters.length);
-                        for (var i = 0; i < byteCharacters.length; i++) {
-                            byteArray[i] = byteCharacters.charCodeAt(i);
-                        }
-                        var blob = new Blob([byteArray], { type: mimeType });
-                        // Trigger download
-                        var link = $window.document.createElement('a');
-                        link.href = $window.URL.createObjectURL(blob);
-                        link.download = fileName;
-                        $window.document.body.appendChild(link);
-                        link.click();
-                        $window.document.body.removeChild(link);
-                        $window.URL.revokeObjectURL(link.href);
+                    if (!response.ok) {
+                        throw new Error('HTTP ' + response.status);
                     }
+                    return response.blob();
+                })
+                .then(function(blob) {
+                    var link = $window.document.createElement('a');
+                    link.href = $window.URL.createObjectURL(blob);
+                    link.download = 'offline_meter_data.xlsx';
+                    $window.document.body.appendChild(link);
+                    link.click();
+                    $window.document.body.removeChild(link);
+                    $window.URL.revokeObjectURL(link.href);
                 })
                 .catch(function(error) {
                     console.error('Failed to download template:', error);
+                    alert('模板下载失败，请稍后重试');
                 });
         };
     }

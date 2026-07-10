@@ -1,4 +1,3 @@
-import base64
 import os
 import uuid
 import logging
@@ -601,32 +600,25 @@ class OfflineMeterFileTemplateDownload:
         """
         Handle GET requests to download the offline meter template file
 
-        Returns the template xlsx file as a base64-encoded string in JSON format,
-        following the same pattern used by myems-web report exports.
+        Returns the template xlsx file as a binary stream.
 
         Args:
             req: Falcon request object
             resp: Falcon response object
         """
-        template_file = Path(__file__).resolve().parent.parent.parent / 'myems-normalization' / 'offline_meter_data.xlsx'
+        BASE_DIR = Path(__file__).resolve().parents[2]
+        template_file = BASE_DIR / 'myems-normalization' / 'offline_meter_data.xlsx'
+
+        logging.debug('Template path: %s', str(template_file))
 
         if not template_file.is_file():
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.TEMPLATE_FILE_NOT_FOUND')
 
         try:
-            with open(str(template_file), 'rb') as f:
-                binary_file_data = f.read()
-
-            base64_encoded_data = base64.b64encode(binary_file_data)
-            base64_message = base64_encoded_data.decode('utf-8')
-
-            result = {
-                'excel_bytes_base64': base64_message,
-                'file_name': 'offline_meter_data.xlsx'
-            }
-
-            resp.text = json.dumps(result)
+            resp.content_type = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+            resp.stream = open(str(template_file), 'rb')
+            resp.set_header('Content-Disposition', 'attachment; filename=offline_meter_data.xlsx')
         except (IOError, OSError) as ex:
             logging.error("Failed to read template file: %s", str(ex))
             raise falcon.HTTPError(status=falcon.HTTP_500, title='API.ERROR',
