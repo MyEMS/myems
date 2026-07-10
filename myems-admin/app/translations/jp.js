@@ -220,6 +220,7 @@
           MENU: "メニュー",
           KNOWLEDGEFILE: "ナレッジベース",
           WORKING_CALENDAR: "稼働カレンダー",
+          DOWNLOAD_OFFLINE_METER_TEMPLATE: "オフラインメーターテンプレートをダウンロード",
           COMMAND: "コマンド Ⓔ",
           CONTROL_MODE: "制御モード Ⓔ",
           IOTSIMCARD: "IoT SIMカード Ⓔ",

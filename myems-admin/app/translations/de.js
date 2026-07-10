@@ -224,6 +224,7 @@
           MENU: "Menüs",
           KNOWLEDGEFILE: "Wissensdatenbank",
           WORKING_CALENDAR: "Arbeitskalender",
+          DOWNLOAD_OFFLINE_METER_TEMPLATE: "Offline-Zählervorlage herunterladen",
           COMMAND: "Befehle Ⓔ",
           CONTROL_MODE: "Control Mode Ⓔ",
           IOTSIMCARD: "IoT SIM Card Ⓔ",

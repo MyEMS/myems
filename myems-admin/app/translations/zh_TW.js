@@ -224,6 +224,7 @@
           MENU: "菜單",
           KNOWLEDGEFILE: "知識庫",
           WORKING_CALENDAR: "⼯作⽇歷",
+          DOWNLOAD_OFFLINE_METER_TEMPLATE: "下載離線表模板",
           COMMAND: "指令 Ⓔ",
           CONTROL_MODE: "Control Mode Ⓔ",
           IOTSIMCARD: "IoT SIM Card Ⓔ",

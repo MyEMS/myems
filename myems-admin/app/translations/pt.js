@@ -224,6 +224,7 @@
           MENU: "Menus",
           KNOWLEDGEFILE: "Base de Conhecimento",
           WORKING_CALENDAR: "Calendário de trabalho",
+          DOWNLOAD_OFFLINE_METER_TEMPLATE: "Baixar modelo de medidor offline",
           COMMAND: "Comandos Ⓔ",
           CONTROL_MODE: "Control Mode Ⓔ",
           IOTSIMCARD: "IoT SIM Card Ⓔ",

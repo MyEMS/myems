@@ -224,6 +224,7 @@
           MENU: "القوائم",
           KNOWLEDGEFILE: "معارف",
           WORKING_CALENDAR: "تقويم العمل",
+          DOWNLOAD_OFFLINE_METER_TEMPLATE: "تنزيل قالب العداد غير المتصل",
           COMMAND: "الاوامر Ⓔ",
           CONTROL_MODE: "Control Mode Ⓔ",
           IOTSIMCARD: "IoT SIM Card Ⓔ",

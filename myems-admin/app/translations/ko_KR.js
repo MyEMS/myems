@@ -224,6 +224,7 @@
           MENU: "메뉴",
           KNOWLEDGEFILE: "지식 베이스",
           WORKING_CALENDAR: "작업 일정",
+          DOWNLOAD_OFFLINE_METER_TEMPLATE: "오프라인 미터 템플릿 다운로드",
           COMMAND: "명령 Ⓔ",
           CONTROL_MODE: "제어 모드 Ⓔ",
           IOTSIMCARD: "IoT SIM 카드 Ⓔ",

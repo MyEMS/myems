@@ -220,6 +220,7 @@
           MENU: "Menu",
           KNOWLEDGEFILE: "Baza wiedzy",
           WORKING_CALENDAR: "Kalendarz roboczy",
+          DOWNLOAD_OFFLINE_METER_TEMPLATE: "Pobierz szablon licznika offline",
           COMMAND: "Polecenie Ⓔ",
           CONTROL_MODE: "Tryb sterowania Ⓔ",
           IOTSIMCARD: "Karta SIM IoT Ⓔ",

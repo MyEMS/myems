@@ -220,6 +220,7 @@
           MENU: "Menu",
           KNOWLEDGEFILE: "Kennisbank",
           WORKING_CALENDAR: "Werkkalender",
+          DOWNLOAD_OFFLINE_METER_TEMPLATE: "Offline metervoorbeeld downloaden",
           COMMAND: "Commando Ⓔ",
           CONTROL_MODE: "Besturingsmodus Ⓔ",
           IOTSIMCARD: "IoT-simkaart Ⓔ",

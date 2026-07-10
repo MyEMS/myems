@@ -224,6 +224,7 @@
           MENU: "Menus",
           KNOWLEDGEFILE: "Pangkalan Pengetahuan",
           WORKING_CALENDAR: "Kalendar Kerja",
+          DOWNLOAD_OFFLINE_METER_TEMPLATE: "Muat Turun Templat Meter Luar Talian",
           COMMAND: "Perintah Ⓔ",
           CONTROL_MODE: "Control Mode Ⓔ",
           IOTSIMCARD: "IoT SIM Card Ⓔ",

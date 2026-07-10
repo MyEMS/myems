@@ -220,6 +220,7 @@
           MENU: "Menu",
           KNOWLEDGEFILE: "Knowledge Base",
           WORKING_CALENDAR: "Calendario Lavorativo",
+          DOWNLOAD_OFFLINE_METER_TEMPLATE: "Scarica modello contatore offline",
           COMMAND: "Comando Ⓔ",
           CONTROL_MODE: "Modalità di Controllo Ⓔ",
           IOTSIMCARD: "SIM IoT Ⓔ",

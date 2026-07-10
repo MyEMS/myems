@@ -224,6 +224,7 @@
           MENU: "Thực đơn",
           KNOWLEDGEFILE: "Cơ sở tri thức",
           WORKING_CALENDAR: "Lịch làm việc",
+          DOWNLOAD_OFFLINE_METER_TEMPLATE: "Tải xuống mẫu đồng hồ ngoại tuyến",
           COMMAND: "Lệnh Ⓔ",
           CONTROL_MODE: "Control Mode Ⓔ",
           IOTSIMCARD: "IoT SIM Card Ⓔ",

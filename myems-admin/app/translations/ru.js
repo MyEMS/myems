@@ -224,6 +224,7 @@
           MENU: "Меню",
           KNOWLEDGEFILE: "База знаний",
           WORKING_CALENDAR: "Рабочий календарь",
+          DOWNLOAD_OFFLINE_METER_TEMPLATE: "Скачать шаблон офлайн-счетчика",
           COMMAND: "Команды Ⓔ",
           CONTROL_MODE: "Control Mode Ⓔ",
           IOTSIMCARD: "IoT SIM Card Ⓔ",

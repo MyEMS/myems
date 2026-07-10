@@ -220,6 +220,7 @@
           MENU: "منو",
           KNOWLEDGEFILE: "پایگاه دانش",
           WORKING_CALENDAR: "تقویم کاری",
+          DOWNLOAD_OFFLINE_METER_TEMPLATE: "دانلود قالب کنتور آفلاین",
           COMMAND: "فرمان Ⓔ",
           CONTROL_MODE: "حالت کنترل Ⓔ",
           IOTSIMCARD: "سیم‌کارت اینترنت اشیا Ⓔ",

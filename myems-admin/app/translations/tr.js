@@ -224,6 +224,7 @@
           MENU: "Menü",
           KNOWLEDGEFILE: "Bilgi bankası",
           WORKING_CALENDAR: "Çalışma Takvimi",
+          DOWNLOAD_OFFLINE_METER_TEMPLATE: "Çevrimdışı Sayaç Şablonunu İndir",
           COMMAND: "Komut Ⓔ",
           CONTROL_MODE: "Control Mode Ⓔ",
           IOTSIMCARD: "IoT SIM Card Ⓔ",

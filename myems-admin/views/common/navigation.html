@@ -10,6 +10,14 @@
                     {{'MY_EMS_NAME' | translate }}
                 </div>
             </li>
+            <!-- Download template button -->
+            <li>
+                <a href="views/template/offline_meter_data.xlsx" download
+                   class="btn btn-success btn-rounded btn-block"
+                   style="margin: 8px auto; width: 90%; text-align: center;">
+                    <i class="fa fa-download"></i> {{ 'MENU.SETTINGS.DOWNLOAD_OFFLINE_METER_TEMPLATE' | translate }}
+                </a>
+            </li>
             <li ng-class="{active: $state.includes('settings')}">
                 <a href=""><i class="fa fa-gears"></i> <span class="nav-label">{{ 'MENU.SETTINGS.SETTINGS' | translate }}</span>  <span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level collapse" ng-class="{in: $state.includes('settings')}">

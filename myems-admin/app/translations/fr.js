@@ -224,6 +224,7 @@
           MENU: "Menus",
           KNOWLEDGEFILE: "Base de connaissances",
           WORKING_CALENDAR: "Calendrier de travail",
+          DOWNLOAD_OFFLINE_METER_TEMPLATE: "Télécharger le modèle de compteur hors ligne",
           COMMAND: "Commandes Ⓔ",
           CONTROL_MODE: "Control Mode Ⓔ",
           IOTSIMCARD: "IoT SIM Card Ⓔ",
