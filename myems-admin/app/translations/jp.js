@@ -121,6 +121,7 @@
         ENERGY_FLOW_DIAGRAM: "エネルギー流れ図",
         MICROGRID: "マイクログリッド",
         MENU: "メニュー",
+          DOWNLOAD_OFFLINE_METER_TEMPLATE: "オフラインメーターテンプレートをダウンロード",
         DATE: "日付",
         TARIFF: {
           TOPPEAK: "ピーク",

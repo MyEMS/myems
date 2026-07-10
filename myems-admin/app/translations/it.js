@@ -1,4 +1,4 @@
-﻿(function (global) {
+(function (global) {
   global.myemsAdminTranslations = global.myemsAdminTranslations || {};
   global.myemsAdminTranslations["it"] = {
             TIMEZONE: {
@@ -12,11 +12,11 @@
                 'U.S. Mountain Standard Time': 'Ora Standard Montana USA (GMT-07:00) Arizona',
                 'Central Standard Time': 'Ora Standard Centrale (GMT-06:00) Fuso Orario Centrale, USA/Canada',
                 'Canada Central Standard Time': 'Ora Standard Centrale del Canada (GMT-06:00) Saskatchewan',
-                'Mexico Standard Time': 'Ora Standard del Messico (GMT-06:00) Citt脿 del Messico, Monterrey',
+                'Mexico Standard Time': 'Ora Standard del Messico (GMT-06:00) Città del Messico, Monterrey',
                 'Central America Standard Time': 'Ora Standard dell\'America Centrale (GMT-06:00) America Centrale',
                 'Eastern Standard Time': 'Ora Standard Orientale (GMT-05:00) Fuso Orario Orientale, USA/Canada',
                 'U.S. Eastern Standard Time': 'Ora Standard Orientale USA (GMT-05:00) Indiana Orientale',
-                'S.A. Pacific Standard Time': 'Ora Standard del Pacifico Sudamericano (GMT-05:00) Bogot脿, Lima',
+                'S.A. Pacific Standard Time': 'Ora Standard del Pacifico Sudamericano (GMT-05:00) Bogotà, Lima',
                 'Atlantic Standard Time': 'Ora Standard dell\'Atlantico (GMT-04:00) Fuso Orario Atlantico, Canada',
                 'S.A. Western Standard Time': 'Ora Standard Occidentale Sudamericana (GMT-04:00) Georgetown, La Paz',
                 'Pacific S.A. Standard Time': 'Ora Standard del Pacifico Sudamericano (GMT-04:00) Santiago',
@@ -28,7 +28,7 @@
                 'Azores Standard Time': 'Ora Standard delle Azzorre (GMT-01:00) Isole Azzorre',
                 'Cape Verde Standard Time': 'Ora Standard di Capo Verde (GMT-01:00) Isole di Capo Verde',
                 'GMT Standard Time': 'Ora GMT (GMT+00:00) Londra, Lisbona',
-                'Greenwich Standard Time': 'Ora di Greenwich (GMT+00:00) Monrovia, Reykjav铆k',
+                'Greenwich Standard Time': 'Ora di Greenwich (GMT+00:00) Monrovia, Reykjavík',
                 'Central Europe Standard Time': 'Ora Standard dell\'Europa Centrale (GMT+01:00) Budapest, Praga',
                 'Central European Standard Time': 'Ora Standard dell\'Europa Centrale (GMT+01:00) Varsavia, Zagabria',
                 'Romance Standard Time': 'Ora Standard dei Paesi di Lingua Romanza (GMT+01:00) Parigi, Madrid',
@@ -79,7 +79,7 @@
                 'Azerbaijan Standard Time': 'Ora Standard dell\'Azerbaigian (GMT-03:00) Buenos Aires',
                 'Middle East Standard Time': 'Ora Standard del Medio Oriente (GMT+02:00) Beirut',
                 'Jordan Standard Time': 'Ora Standard della Giordania (GMT+02:00) Amman',
-                'Central Standard Time (Mexico)': 'Ora Standard Centrale (Messico) (GMT-06:00) Citt脿 del Messico (Versione Nuova)',
+                'Central Standard Time (Mexico)': 'Ora Standard Centrale (Messico) (GMT-06:00) Città del Messico (Versione Nuova)',
                 'Mountain Standard Time (Mexico)': 'Ora Standard Montana (Messico) (GMT-07:00) Chihuahua (Versione Nuova)',
                 'Pacific Standard Time (Mexico)': 'Ora Standard del Pacifico (Messico) (GMT-08:00) Tijuana',
                 'Namibia Standard Time': 'Ora Standard della Namibia (GMT+02:00) Windhoek',
@@ -93,7 +93,7 @@
                 'Pakistan Standard Time': 'Ora Standard del Pakistan (GMT+05:00) Islamabad, Karachi',
                 'Mauritius Standard Time': 'Ora Standard di Mauritius (GMT+04:00) Port Louis',
                 'UTC': 'Ora Mondiale Coordinata (GMT+00:00) Riferimento Orario Globale',
-                'Paraguay Standard Time': 'Ora Standard del Paraguay (GMT-04:00) Asunci贸n',
+                'Paraguay Standard Time': 'Ora Standard del Paraguay (GMT-04:00) Asunción',
                 'Kamchatka Standard Time': 'Ora Standard del Kamchatka (GMT+12:00) Petropavlovsk'
             },
       MY_EMS_NAME: "MyEMS",
@@ -121,6 +121,7 @@
         ENERGY_FLOW_DIAGRAM: "Diagramma Flusso Energia",
         MICROGRID: "Microgrid",
         MENU: "Menu",
+          DOWNLOAD_OFFLINE_METER_TEMPLATE: "Scarica modello contatore offline",
         DATE: "Data",
         TARIFF: {
           TOPPEAK: "Picco Massimo",
@@ -133,7 +134,7 @@
         WORKING_CALENDAR: "Calendario Lavorativo",
         NON_WORKING_DAY: "Giorno Non Lavorativo",
         COMMAND: "Comando",
-        CONTROL_MODE: "Modalit脿 di Controllo",
+        CONTROL_MODE: "Modalità di Controllo",
         VIRTUAL_POWER_PLANT: "Centrale Elettrica Virtuale",
         ENERGY_STORAGE_CONTAINER: "Container di Accumulo Energia",
         ENERGY_STORAGE_POWER_STATION: "Centrale di Accumulo Energia",
@@ -159,7 +160,7 @@
         EDIT_RULE: "Modifica Regola",
         FDD_CODE: "Codice Diagnosi",
         CATEGORY: "Categoria Diagnosi",
-        PRIORITY: "Priorit脿 Allarme",
+        PRIORITY: "Priorità Allarme",
         CHANNEL: "Canale Allarme",
         IS_ENABLED: "Abilitato",
         LAST_RUN_DATETIME: "Ultima Esecuzione",
@@ -199,7 +200,7 @@
       MENU: {
         SETTINGS: {
           SETTINGS: "Amministrazione Sistema",
-          ADVANCED: "Impostazioni Avanzate 鈷?,
+          ADVANCED: "Impostazioni Avanzate Ⓔ",
           CATEGORY: "Categoria Energia",
           TARIFF: "Tariffa Energia",
           COSTCENTER: "Centro di Costo",
@@ -218,32 +219,31 @@
           ENERGY_FLOW_DIAGRAM: "Diagramma Flusso Energia",
           DISTRIBUTION_SYSTEM: "Sistema di Distribuzione",
           MENU: "Menu",
-          DOWNLOAD_OFFLINE_METER_TEMPLATE: "Scarica modello contatore offline",
           KNOWLEDGEFILE: "Knowledge Base",
           WORKING_CALENDAR: "Calendario Lavorativo",
-          COMMAND: "Comando 鈷?,
-          CONTROL_MODE: "Modalit脿 di Controllo 鈷?,
-          IOTSIMCARD: "SIM IoT 鈷?,
-          MICROGRID: "Microgrid 鈷?,
-          VIRTUAL_POWER_PLANT: "Centrale Elettrica Virtuale 鈷?,
-          ENERGY_STORAGE_CONTAINER: "Container di Accumulo Energia 鈷?,
-          ENERGY_STORAGE_POWER_STATION: "Centrale di Accumulo Energia 鈷?,
-          PHOTOVOLTAIC_POWER_STATION: "Centrale Fotovoltaica 鈷?,
-          WIND_FARM: "Parco Eolico 鈷?,
-          EMAIL_SERVER: "Server Email 鈷?,
-          PRODUCT: "Prodotto鈷?,
-          SVG_SYSTEM: "Sistema di Visualizzazione Configurazione 鈷?,
-          ADVANCED_REPORT: "Report Avanzato 鈷?,
-          ENERGY_PLAN_FILE: "Piano Energia 鈷?,
+          COMMAND: "Comando Ⓔ",
+          CONTROL_MODE: "Modalità di Controllo Ⓔ",
+          IOTSIMCARD: "SIM IoT Ⓔ",
+          MICROGRID: "Microgrid Ⓔ",
+          VIRTUAL_POWER_PLANT: "Centrale Elettrica Virtuale Ⓔ",
+          ENERGY_STORAGE_CONTAINER: "Container di Accumulo Energia Ⓔ",
+          ENERGY_STORAGE_POWER_STATION: "Centrale di Accumulo Energia Ⓔ",
+          PHOTOVOLTAIC_POWER_STATION: "Centrale Fotovoltaica Ⓔ",
+          WIND_FARM: "Parco Eolico Ⓔ",
+          EMAIL_SERVER: "Server Email Ⓔ",
+          PRODUCT: "ProdottoⒺ",
+          SVG_SYSTEM: "Sistema di Visualizzazione Configurazione Ⓔ",
+          ADVANCED_REPORT: "Report Avanzato Ⓔ",
+          ENERGY_PLAN_FILE: "Piano Energia Ⓔ",
           SVG: "SVG",
         },
         FDD: {
-          FDD: "Rilevamento e Diagnosi Guasti 鈷?,
-          RULE: "Gestione Regole 鈷?,
-          MESSAGEALARM: "Allarme SMS 鈷?,
-          EMAILALARM: "Allarme Email 鈷?,
-          WEBALARM: "Allarme Web 鈷?,
-          WECHATALARM: "Allarme WeChat 鈷?,
+          FDD: "Rilevamento e Diagnosi Guasti Ⓔ",
+          RULE: "Gestione Regole Ⓔ",
+          MESSAGEALARM: "Allarme SMS Ⓔ",
+          EMAILALARM: "Allarme Email Ⓔ",
+          WEBALARM: "Allarme Web Ⓔ",
+          WECHATALARM: "Allarme WeChat Ⓔ",
         },
         USERSETTING: {
           USERSETTING: "Utenti e Permessi",
@@ -273,7 +273,7 @@
         ID: "ID",
         ACTION: "Azione",
         ADD: "Aggiungi",
-        BIND_PROPERTY: "Associa Propriet脿",
+        BIND_PROPERTY: "Associa Proprietà",
         EDIT: "Modifica",
         DELETE: "Elimina",
         UNLOCK: "Sblocca",
@@ -288,7 +288,7 @@
         DOWNLOAD: "Scarica",
         REFRESH: "Aggiorna",
         RETURN: "Indietro",
-        YES: "S矛",
+        YES: "Sì",
         NO: "No",
         ON: "Acceso",
         OFF: "Spento",
@@ -312,64 +312,64 @@
         BATCH_ADD_WEEKEND: "Aggiungi Fine Settimana in Blocco",
         SELECT_SVG: "Selezionare l'SVG",
         BIND_COMMAND_DESCRIPTION: "Gestione dei comandi di controllo del contatore; associare comandi operativi per strumenti che supportano il controllo remoto.",
-        BIND_COMMAND_DESCRIPTION_MORE: "Se il contatore supporta l'apertura/chiusura remota o il download dei parametri, 猫 possibile associare qui comandi di controllo predefiniti. Metodo: Selezionare il contatore di destinazione, trascinare il comando dalla 'Lista Comandi' a destra nell'area centrale. Dopo l'associazione, gli utenti autorizzati possono inviare segnali di controllo direttamente allo strumento nell'interfaccia di monitoraggio.",
+        BIND_COMMAND_DESCRIPTION_MORE: "Se il contatore supporta l'apertura/chiusura remota o il download dei parametri, è possibile associare qui comandi di controllo predefiniti. Metodo: Selezionare il contatore di destinazione, trascinare il comando dalla 'Lista Comandi' a destra nell'area centrale. Dopo l'associazione, gli utenti autorizzati possono inviare segnali di controllo direttamente allo strumento nell'interfaccia di monitoraggio.",
         BIND_DATA_SOURCE_DESCRIPTION: "Gestione dell'associazione tra apparecchiatura e sorgente dati; collegare il link di raccolta originale all'apparecchiatura di consumo energetico corrispondente.",
-        BIND_DATA_SOURCE_DESCRIPTION_MORE: "In questa interfaccia, 猫 possibile collegare sorgenti dati a specifiche apparecchiature. Metodo: Selezionare prima l'apparecchiatura di destinazione a sinistra, quindi trovare la sorgente dati corrispondente a destra e trascinarla nell'area 'Sorgenti Dati Associate' al centro. Per scollegare, trascinare la sorgente dati sull'icona del cestino in basso.",
+        BIND_DATA_SOURCE_DESCRIPTION_MORE: "In questa interfaccia, è possibile collegare sorgenti dati a specifiche apparecchiature. Metodo: Selezionare prima l'apparecchiatura di destinazione a sinistra, quindi trovare la sorgente dati corrispondente a destra e trascinarla nell'area 'Sorgenti Dati Associate' al centro. Per scollegare, trascinare la sorgente dati sull'icona del cestino in basso.",
         BIND_METER_DESCRIPTION: "Gestione dell'associazione tra apparecchiatura e contatore; collegare contatori fisici all'apparecchiatura di consumo energetico corrispondente.",
-        BIND_METER_DESCRIPTION_MORE: "In questa interfaccia, 猫 possibile collegare contatori a specifiche apparecchiature. Metodo: Selezionare prima l'apparecchiatura di destinazione a sinistra, quindi trovare il contatore corrispondente a destra e trascinarlo nell'area 'Contatori Associati' al centro. Per scollegare, trascinare il contatore sull'icona del cestino in basso.",
-        METER_ALREADY_BOUND_TO_OTHER_SPACE: "Questo contatore 猫 gi脿 associato ad un altro spazio",
-        VIRTUAL_METER_ALREADY_BOUND_TO_OTHER_SPACE: "Questo contatore virtuale 猫 gi脿 associato ad un altro spazio",
-        OFFLINE_METER_ALREADY_BOUND_TO_OTHER_SPACE: "Questo contatore offline 猫 gi脿 associato ad un altro spazio",
+        BIND_METER_DESCRIPTION_MORE: "In questa interfaccia, è possibile collegare contatori a specifiche apparecchiature. Metodo: Selezionare prima l'apparecchiatura di destinazione a sinistra, quindi trovare il contatore corrispondente a destra e trascinarlo nell'area 'Contatori Associati' al centro. Per scollegare, trascinare il contatore sull'icona del cestino in basso.",
+        METER_ALREADY_BOUND_TO_OTHER_SPACE: "Questo contatore è già associato ad un altro spazio",
+        VIRTUAL_METER_ALREADY_BOUND_TO_OTHER_SPACE: "Questo contatore virtuale è già associato ad un altro spazio",
+        OFFLINE_METER_ALREADY_BOUND_TO_OTHER_SPACE: "Questo contatore offline è già associato ad un altro spazio",
         CONFIRM_BIND_METER: "Conferma associazione",
-        CONFIRM_BIND_METER_MESSAGE: "Questo contatore 猫 gi脿 associato a {0} \"{1}\". Vuoi continuare ad associarlo al {2} attuale? (Associare un contatore a pi霉 {3} pu貌 causare calcoli duplicati)",
+        CONFIRM_BIND_METER_MESSAGE: "Questo contatore è già associato a {0} \"{1}\". Vuoi continuare ad associarlo al {2} attuale? (Associare un contatore a più {3} può causare calcoli duplicati)",
         BIND_PARAMETER: "Associa parametri",
         BIND_PARAMETER_DESCRIPTION: "Gestione dei parametri di processo dell'apparecchiatura; configurare indicatori operativi chiave o parametri tecnici per apparecchiature di consumo energetico.",
-        BIND_PARAMETER_DESCRIPTION_MORE: "In questa interfaccia, 猫 possibile definire vari parametri di processo per l'apparecchiatura (come potenza nominale, differenza di temperatura di progetto, ecc.). I parametri possono provenire da un valore fisso, un punto dati in tempo reale o il rapporto di due contatori. Una configurazione ragionevole dei parametri di processo 猫 la base per il benchmarking dell'efficienza energetica e l'analisi dei report avanzati. Questi parametri fungeranno da input chiave per il calcolo del consumo energetico teorico o dell'efficienza dell'apparecchiatura.",
+        BIND_PARAMETER_DESCRIPTION_MORE: "In questa interfaccia, è possibile definire vari parametri di processo per l'apparecchiatura (come potenza nominale, differenza di temperatura di progetto, ecc.). I parametri possono provenire da un valore fisso, un punto dati in tempo reale o il rapporto di due contatori. Una configurazione ragionevole dei parametri di processo è la base per il benchmarking dell'efficienza energetica e l'analisi dei report avanzati. Questi parametri fungeranno da input chiave per il calcolo del consumo energetico teorico o dell'efficienza dell'apparecchiatura.",
         PARAMETER_DIALOG_DESCRIPTION: "Configurare qui i parametri di processo o gli indicatori tecnici dell'apparecchiatura.",
-        PARAMETER_DIALOG_DESCRIPTION_MORE: "I parametri di processo sono la base principale per l'analisi dell'efficienza energetica delle apparecchiature. 脠 possibile scegliere tre tipi: 1. Costante: Applicabile a valori fissi come la potenza nominale e l'efficienza di progetto; 2. Punto Dati: Applicabile a dati raccolti in tempo reale come temperatura ambiente e pressione; 3. Frazione: Applicabile al rapporto tra le letture di due contatori. Assicurarsi che il nome del parametro sia identificabile e che la sorgente dati selezionata sia accurata, il che influenzer脿 direttamente l'affidabilit脿 dei successivi calcoli del consumo energetico.",
+        PARAMETER_DIALOG_DESCRIPTION_MORE: "I parametri di processo sono la base principale per l'analisi dell'efficienza energetica delle apparecchiature. È possibile scegliere tre tipi: 1. Costante: Applicabile a valori fissi come la potenza nominale e l'efficienza di progetto; 2. Punto Dati: Applicabile a dati raccolti in tempo reale come temperatura ambiente e pressione; 3. Frazione: Applicabile al rapporto tra le letture di due contatori. Assicurarsi che il nome del parametro sia identificabile e che la sorgente dati selezionata sia accurata, il che influenzerà direttamente l'affidabilità dei successivi calcoli del consumo energetico.",
         BIND_POINT_DESCRIPTION: "Gestione dell'associazione tra contatore e punto dati; collegare le sorgenti dati di raccolta in tempo reale corrispondenti ai contatori fisici.",
-        BIND_POINT_DESCRIPTION_MORE: "In questa interfaccia, 猫 possibile collegare punti dati dal sistema di raccolta a specifici contatori. Metodo: Selezionare prima il contatore di destinazione a sinistra, quindi selezionare la sorgente dati e trovare il punto dati corrispondente a destra, e trascinarlo nell'area 'Punti Dati Associati' al centro. Per scollegare, trascinare il punto dati sull'icona del cestino in basso. Un collegamento corretto 猫 il prerequisito per il monitoraggio automatico del consumo energetico.",
+        BIND_POINT_DESCRIPTION_MORE: "In questa interfaccia, è possibile collegare punti dati dal sistema di raccolta a specifici contatori. Metodo: Selezionare prima il contatore di destinazione a sinistra, quindi selezionare la sorgente dati e trovare il punto dati corrispondente a destra, e trascinarlo nell'area 'Punti Dati Associati' al centro. Per scollegare, trascinare il punto dati sull'icona del cestino in basso. Un collegamento corretto è il prerequisito per il monitoraggio automatico del consumo energetico.",
         BIND_SENSOR_DESCRIPTION: "Gestione dell'associazione tra apparecchiatura e sensore; collegare sensori ambientali all'apparecchiatura di consumo energetico corrispondente.",
-        BIND_SENSOR_DESCRIPTION_MORE: "In questa interfaccia, 猫 possibile collegare sensori a specifiche apparecchiature. Metodo: Selezionare prima l'apparecchiatura di destinazione a sinistra, quindi trovare il sensore corrispondente a destra e trascinarlo nell'area 'Sensori Associati' al centro. Per scollegare, trascinare il sensore sull'icona del cestino in basso.",
+        BIND_SENSOR_DESCRIPTION_MORE: "In questa interfaccia, è possibile collegare sensori a specifiche apparecchiature. Metodo: Selezionare prima l'apparecchiatura di destinazione a sinistra, quindi trovare il sensore corrispondente a destra e trascinarlo nell'area 'Sensori Associati' al centro. Per scollegare, trascinare il sensore sull'icona del cestino in basso.",
         BIND_TARIFF_DESCRIPTION: "Gestione dell'associazione delle tariffe del centro di costo; configurare gli standard di fatturazione energetica corrispondenti per ogni centro di costo.",
-        BIND_TARIFF_DESCRIPTION_MORE: "In questa interfaccia, 猫 possibile collegare tariffe predefinite (come i prezzi dell'elettricit脿 nelle ore di punta e fuori punta) a specifici centri di costo. Metodo: Selezionare prima il centro di costo di destinazione a sinistra, quindi trovare la tariffa di destinazione nella 'Lista Tariffe' a destra e trascinarla nell'area 'Tariffe Associate' al centro. Per scollegare, trascinare la tariffa sull'icona del cestino in basso. Assicurarsi che ogni tipo di energia in ogni centro di costo sia associato alla tariffa corretta per garantire l'accuratezza delle statistiche sui costi.",
+        BIND_TARIFF_DESCRIPTION_MORE: "In questa interfaccia, è possibile collegare tariffe predefinite (come i prezzi dell'elettricità nelle ore di punta e fuori punta) a specifici centri di costo. Metodo: Selezionare prima il centro di costo di destinazione a sinistra, quindi trovare la tariffa di destinazione nella 'Lista Tariffe' a destra e trascinarla nell'area 'Tariffe Associate' al centro. Per scollegare, trascinare la tariffa sull'icona del cestino in basso. Assicurarsi che ogni tipo di energia in ogni centro di costo sia associato alla tariffa corretta per garantire l'accuratezza delle statistiche sui costi.",
         COST_FILE_DESCRIPTION: "Gestione dei documenti di costo originali e degli allegati; caricare e mantenere vari file di supporto relativi ai costi.",
-        COST_FILE_DESCRIPTION_MORE: "I file di costo vengono utilizzati per memorizzare documenti originali come contratti, scansioni di fatture o note di liquidazione relative ai costi energetici. 脠 possibile trascinare i file direttamente nell'area di caricamento o fare clic per caricare. Il sistema supporta l'anteprima online dei file (a seconda delle capacit脿 del browser) e il download. Il mantenimento corretto dei file di costo aiuta negli audit finanziari e nella tracciabilit脿 dei costi, garantendo che ogni spesa nel sistema di gestione dell'energia sia documentata.",
+        COST_FILE_DESCRIPTION_MORE: "I file di costo vengono utilizzati per memorizzare documenti originali come contratti, scansioni di fatture o note di liquidazione relative ai costi energetici. È possibile trascinare i file direttamente nell'area di caricamento o fare clic per caricare. Il sistema supporta l'anteprima online dei file (a seconda delle capacità del browser) e il download. Il mantenimento corretto dei file di costo aiuta negli audit finanziari e nella tracciabilità dei costi, garantendo che ogni spesa nel sistema di gestione dell'energia sia documentata.",
         DATA_REPAIR_FILE_DESCRIPTION: "Gestione dei file di riparazione dati; caricare ed eseguire file di riparazione dati storici o record di completamento manuale.",
-        DATA_REPAIR_FILE_DESCRIPTION_MORE: "In caso di perdita di dati per lunghi periodi a causa di interruzioni di rete o quando 猫 necessario correggere valori storici errati, 猫 possibile utilizzare la funzione di riparazione dati. Preparare i dati secondo il formato del modello Excel richiesto dal sistema e trascinare il file nell'area di caricamento. Dopo il caricamento, fare clic sul pulsante 'Ripristina' e il sistema analizzer脿 il file e sovrascriver脿 i record del database per il periodo corrispondente. Assicurarsi di eseguire il backup dei dati originali prima dell'operazione e verificare che i timestamp e gli ID dei punti dati nel file siano accurati.",
-        IMPORT_GATEWAY_DESCRIPTION: "Strumento di importazione batch di gateway; creare o aggiornare rapidamente pi霉 configurazioni di gateway tramite il formato JSON.",
-        IMPORT_GATEWAY_DESCRIPTION_MORE: "La funzione di importazione batch consente di distribuire rapidamente pi霉 gateway incollando i dati di configurazione in formato JSON. Questo 猫 molto efficiente durante l'inizializzazione del sistema o l'espansione su larga scala. Assicurarsi che i dati JSON siano conformi alla struttura richiesta dal sistema (inclusi campi come nome, descrizione, ecc.). Si consiglia di esportare prima un gateway esistente come modello, modificarlo e quindi importarlo per garantire l'accuratezza del formato.",
-        IMPORT_DATASOURCE_DESCRIPTION: "Strumento di importazione batch di sorgenti dati; creare o aggiornare rapidamente pi霉 configurazioni di sorgenti dati tramite il formato JSON.",
-        IMPORT_DATASOURCE_DESCRIPTION_MORE: "La funzione di importazione batch di sorgenti dati consente di configurare rapidamente pi霉 link di raccolta tramite il formato JSON. 脠 necessario specificare il nome, il gateway, il protocollo e la stringa di connessione per ogni sorgente dati. Si consiglia di esportare prima una sorgente dati esistente come modello, modificarla e quindi importarla per garantire l'accuratezza del formato.",
-        IMPORT_POINT_DESCRIPTION: "Strumento di importazione batch di punti dati; creare o aggiornare rapidamente pi霉 configurazioni di punti dati tramite il formato JSON.",
-        IMPORT_POINT_DESCRIPTION_MORE: "La funzione di importazione dei punti dati supporta la configurazione batch dei punti di raccolta tramite il formato JSON. Questo 猫 molto utile quando si gestiscono apparecchiature che hanno centinaia o migliaia di indirizzi di registro (come grandi PLC o contatori multi-circuito). 脠 necessario specificare parametri come nome, indirizzo e tipo di oggetto per ogni punto. Si consiglia di creare manualmente un punto campione per la sorgente dati corrente ed esportarlo prima, fare riferimento alla sua struttura JSON per l'editing batch e quindi importarlo di nuovo per evitare fallimenti di importazione dovuti a errori di formato.",
-        IMPORT_METER_DESCRIPTION: "Strumento di importazione batch di contatori; creare o aggiornare rapidamente pi霉 configurazioni di contatori tramite il formato JSON.",
-        IMPORT_METER_DESCRIPTION_MORE: "La funzione di importazione batch di contatori consente di configurare rapidamente pi霉 contatori fisici tramite il formato JSON. 脠 necessario specificare il nome di ogni contatore, la categoria energetica, la voce energetica, il moltiplicatore e i punti dati associati, ecc. Si consiglia di esportare prima un contatore esistente come modello, modificarlo e quindi importarlo per garantire l'accuratezza del formato.",
-        IMPORT_OFFLINE_METER_DESCRIPTION: "Strumento di importazione batch di contatori offline; creare o aggiornare rapidamente pi霉 configurazioni di contatori offline tramite il formato JSON.",
-        IMPORT_OFFLINE_METER_DESCRIPTION_MORE: "La funzione di importazione batch di contatori offline consente di configurare rapidamente pi霉 contatori offline tramite il formato JSON. 脠 necessario specificare il nome di ogni contatore, la categoria energetica, la voce energetica e il centro di costo associato, ecc. Si consiglia di esportare prima un contatore offline esistente come modello, modificarlo e quindi importarlo per garantire l'accuratezza del formato.",
-        IMPORT_VIRTUAL_METER_DESCRIPTION: "Strumento di importazione batch di contatori virtuali; creare o aggiornare rapidamente pi霉 configurazioni di contatori virtuali tramite il formato JSON.",
-        IMPORT_VIRTUAL_METER_DESCRIPTION_MORE: "La funzione di importazione batch di contatori virtuali consente di configurare rapidamente pi霉 contatori virtuali tramite il formato JSON. 脠 necessario specificare il nome di ogni contatore, la categoria energetica, la voce energetica, l'espressione di calcolo e le variabili associate, ecc. Si consiglia di esportare prima un contatore virtuale esistente come modello, modificarlo e quindi importarlo per garantire l'accuratezza del formato.",
-        IMPORT_SENSOR_DESCRIPTION: "Strumento di importazione batch di sensori; creare o aggiornare rapidamente pi霉 configurazioni di sensori tramite il formato JSON.",
-        IMPORT_SENSOR_DESCRIPTION_MORE: "La funzione di importazione batch di sensori consente di configurare rapidamente pi霉 sensori tramite il formato JSON. 脠 necessario specificare il nome, la descrizione, ecc. per ogni sensore. Si consiglia di esportare prima un sensore esistente come modello, modificarlo e quindi importarlo per garantire l'accuratezza del formato.",
-        IMPORT_EQUIPMENT_DESCRIPTION: "Strumento di importazione batch di apparecchiature; creare o aggiornare rapidamente pi霉 configurazioni di apparecchiature tramite il formato JSON.",
-        IMPORT_EQUIPMENT_DESCRIPTION_MORE: "La funzione di importazione batch di apparecchiature consente di configurare rapidamente pi霉 apparecchiature di consumo energetico tramite il formato JSON. 脠 necessario specificare il nome, la descrizione, etc. per ogni apparecchiatura. Si consiglia di esportare prima un'apparecchiatura esistente come modello, modificarla e quindi importarla per garantire l'accuratezza del formato.",
-        IMPORT_COMBINED_EQUIPMENT_DESCRIPTION: "Strumento di importazione batch di apparecchiature combinate; creare o aggiornare rapidamente pi霉 configurazioni di apparecchiature combinate tramite il formato JSON.",
-        IMPORT_COMBINED_EQUIPMENT_DESCRIPTION_MORE: "La funzione di importazione batch di apparecchiature combinate consente di configurare rapidamente pi霉 apparecchiature combinate tramite il formato JSON. 脠 necessario specificare il nome, la descrizione, etc. per ogni apparecchiatura combinata. Si consiglia di esportare prima un'apparecchiatura combinata esistente come modello, modificarla e quindi importarla per garantire l'accuratezza del formato.",
-        IMPORT_TARIFF_DESCRIPTION: "Strumento di importazione batch di tariffe energetiche; creare o aggiornare rapidamente pi霉 configurazioni di tariffe tramite il formato JSON.",
-        IMPORT_TARIFF_DESCRIPTION_MORE: "La funzione di importazione batch consente di distribuire rapidamente pi霉 tariffe energetiche incollando i dati di configurazione in formato JSON. Assicurarsi che i dati JSON siano conformi alla struttura richiesta dal sistema (inclusi nome, categoria energetica, tipo di prezzo e configurazioni dei prezzi in base all'ora di utilizzo, ecc.). Si consiglia di esportare prima una tariffa esistente come modello, modificarla e quindi importarla per garantire l'accuratezza del formato.",
+        DATA_REPAIR_FILE_DESCRIPTION_MORE: "In caso di perdita di dati per lunghi periodi a causa di interruzioni di rete o quando è necessario correggere valori storici errati, è possibile utilizzare la funzione di riparazione dati. Preparare i dati secondo il formato del modello Excel richiesto dal sistema e trascinare il file nell'area di caricamento. Dopo il caricamento, fare clic sul pulsante 'Ripristina' e il sistema analizzerà il file e sovrascriverà i record del database per il periodo corrispondente. Assicurarsi di eseguire il backup dei dati originali prima dell'operazione e verificare che i timestamp e gli ID dei punti dati nel file siano accurati.",
+        IMPORT_GATEWAY_DESCRIPTION: "Strumento di importazione batch di gateway; creare o aggiornare rapidamente più configurazioni di gateway tramite il formato JSON.",
+        IMPORT_GATEWAY_DESCRIPTION_MORE: "La funzione di importazione batch consente di distribuire rapidamente più gateway incollando i dati di configurazione in formato JSON. Questo è molto efficiente durante l'inizializzazione del sistema o l'espansione su larga scala. Assicurarsi che i dati JSON siano conformi alla struttura richiesta dal sistema (inclusi campi come nome, descrizione, ecc.). Si consiglia di esportare prima un gateway esistente come modello, modificarlo e quindi importarlo per garantire l'accuratezza del formato.",
+        IMPORT_DATASOURCE_DESCRIPTION: "Strumento di importazione batch di sorgenti dati; creare o aggiornare rapidamente più configurazioni di sorgenti dati tramite il formato JSON.",
+        IMPORT_DATASOURCE_DESCRIPTION_MORE: "La funzione di importazione batch di sorgenti dati consente di configurare rapidamente più link di raccolta tramite il formato JSON. È necessario specificare il nome, il gateway, il protocollo e la stringa di connessione per ogni sorgente dati. Si consiglia di esportare prima una sorgente dati esistente come modello, modificarla e quindi importarla per garantire l'accuratezza del formato.",
+        IMPORT_POINT_DESCRIPTION: "Strumento di importazione batch di punti dati; creare o aggiornare rapidamente più configurazioni di punti dati tramite il formato JSON.",
+        IMPORT_POINT_DESCRIPTION_MORE: "La funzione di importazione dei punti dati supporta la configurazione batch dei punti di raccolta tramite il formato JSON. Questo è molto utile quando si gestiscono apparecchiature che hanno centinaia o migliaia di indirizzi di registro (come grandi PLC o contatori multi-circuito). È necessario specificare parametri come nome, indirizzo e tipo di oggetto per ogni punto. Si consiglia di creare manualmente un punto campione per la sorgente dati corrente ed esportarlo prima, fare riferimento alla sua struttura JSON per l'editing batch e quindi importarlo di nuovo per evitare fallimenti di importazione dovuti a errori di formato.",
+        IMPORT_METER_DESCRIPTION: "Strumento di importazione batch di contatori; creare o aggiornare rapidamente più configurazioni di contatori tramite il formato JSON.",
+        IMPORT_METER_DESCRIPTION_MORE: "La funzione di importazione batch di contatori consente di configurare rapidamente più contatori fisici tramite il formato JSON. È necessario specificare il nome di ogni contatore, la categoria energetica, la voce energetica, il moltiplicatore e i punti dati associati, ecc. Si consiglia di esportare prima un contatore esistente come modello, modificarlo e quindi importarlo per garantire l'accuratezza del formato.",
+        IMPORT_OFFLINE_METER_DESCRIPTION: "Strumento di importazione batch di contatori offline; creare o aggiornare rapidamente più configurazioni di contatori offline tramite il formato JSON.",
+        IMPORT_OFFLINE_METER_DESCRIPTION_MORE: "La funzione di importazione batch di contatori offline consente di configurare rapidamente più contatori offline tramite il formato JSON. È necessario specificare il nome di ogni contatore, la categoria energetica, la voce energetica e il centro di costo associato, ecc. Si consiglia di esportare prima un contatore offline esistente come modello, modificarlo e quindi importarlo per garantire l'accuratezza del formato.",
+        IMPORT_VIRTUAL_METER_DESCRIPTION: "Strumento di importazione batch di contatori virtuali; creare o aggiornare rapidamente più configurazioni di contatori virtuali tramite il formato JSON.",
+        IMPORT_VIRTUAL_METER_DESCRIPTION_MORE: "La funzione di importazione batch di contatori virtuali consente di configurare rapidamente più contatori virtuali tramite il formato JSON. È necessario specificare il nome di ogni contatore, la categoria energetica, la voce energetica, l'espressione di calcolo e le variabili associate, ecc. Si consiglia di esportare prima un contatore virtuale esistente come modello, modificarlo e quindi importarlo per garantire l'accuratezza del formato.",
+        IMPORT_SENSOR_DESCRIPTION: "Strumento di importazione batch di sensori; creare o aggiornare rapidamente più configurazioni di sensori tramite il formato JSON.",
+        IMPORT_SENSOR_DESCRIPTION_MORE: "La funzione di importazione batch di sensori consente di configurare rapidamente più sensori tramite il formato JSON. È necessario specificare il nome, la descrizione, ecc. per ogni sensore. Si consiglia di esportare prima un sensore esistente come modello, modificarlo e quindi importarlo per garantire l'accuratezza del formato.",
+        IMPORT_EQUIPMENT_DESCRIPTION: "Strumento di importazione batch di apparecchiature; creare o aggiornare rapidamente più configurazioni di apparecchiature tramite il formato JSON.",
+        IMPORT_EQUIPMENT_DESCRIPTION_MORE: "La funzione di importazione batch di apparecchiature consente di configurare rapidamente più apparecchiature di consumo energetico tramite il formato JSON. È necessario specificare il nome, la descrizione, etc. per ogni apparecchiatura. Si consiglia di esportare prima un'apparecchiatura esistente come modello, modificarla e quindi importarla per garantire l'accuratezza del formato.",
+        IMPORT_COMBINED_EQUIPMENT_DESCRIPTION: "Strumento di importazione batch di apparecchiature combinate; creare o aggiornare rapidamente più configurazioni di apparecchiature combinate tramite il formato JSON.",
+        IMPORT_COMBINED_EQUIPMENT_DESCRIPTION_MORE: "La funzione di importazione batch di apparecchiature combinate consente di configurare rapidamente più apparecchiature combinate tramite il formato JSON. È necessario specificare il nome, la descrizione, etc. per ogni apparecchiatura combinata. Si consiglia di esportare prima un'apparecchiatura combinata esistente come modello, modificarla e quindi importarla per garantire l'accuratezza del formato.",
+        IMPORT_TARIFF_DESCRIPTION: "Strumento di importazione batch di tariffe energetiche; creare o aggiornare rapidamente più configurazioni di tariffe tramite il formato JSON.",
+        IMPORT_TARIFF_DESCRIPTION_MORE: "La funzione di importazione batch consente di distribuire rapidamente più tariffe energetiche incollando i dati di configurazione in formato JSON. Assicurarsi che i dati JSON siano conformi alla struttura richiesta dal sistema (inclusi nome, categoria energetica, tipo di prezzo e configurazioni dei prezzi in base all'ora di utilizzo, ecc.). Si consiglia di esportare prima una tariffa esistente come modello, modificarla e quindi importarla per garantire l'accuratezza del formato.",
         OFFLINE_METER_FILE_DESCRIPTION: "Gestione dei file di lettura dei contatori offline; caricamento batch e importazione delle letture dei contatori che non possono essere raccolte in tempo reale.",
-        OFFLINE_METER_FILE_DESCRIPTION_MORE: "Per i contatori offline che non sono collegati al sistema di automazione, 猫 possibile eseguire l'inserimento batch dei dati tramite file Excel. Scaricare il modello standard, inserire il nome del contatore e le letture per ogni punto temporale, e trascinare il file qui per caricarlo. Dopo il caricamento, fare clic su 'Ripristina' e il sistema convertir脿 le letture in record di consumo energetico. Questo 猫 molto importante per garantire la completezza delle statistiche energetiche.",
+        OFFLINE_METER_FILE_DESCRIPTION_MORE: "Per i contatori offline che non sono collegati al sistema di automazione, è possibile eseguire l'inserimento batch dei dati tramite file Excel. Scaricare il modello standard, inserire il nome del contatore e le letture per ogni punto temporale, e trascinare il file qui per caricarlo. Dopo il caricamento, fare clic su 'Ripristina' e il sistema convertirà le letture in record di consumo energetico. Questo è molto importante per garantire la completezza delle statistiche energetiche.",
         START_DATE: "Data Inizio",
         END_DATE: "Data Fine",
         START_DATE_AFTER_END_DATE:
-          "La data di inizio non pu貌 essere successiva alla data di fine",
+          "La data di inizio non può essere successiva alla data di fine",
         NO_WEEKEND_IN_RANGE:
           "Nessun sabato/domenica nell'intervallo di date selezionato",
         BATCH_ADD_RESULT:
           "Aggiunta batch completata, aggiunti {{success}}, falliti {{fail}}, totale {{total}}",
         ADD_MICROGRID: "Aggiungi Microgrid",
         ADD_COMMAND: "Aggiungi Comando",
-        ADD_CONTROL_MODE: "Aggiungi Modalit脿 di Controllo",
+        ADD_CONTROL_MODE: "Aggiungi Modalità di Controllo",
         ADD_VIRTUAL_POWER_PLANT: "Aggiungi Centrale Elettrica Virtuale",
         ADD_ENERGY_STORAGE_CONTAINER: "Aggiungi Container di Accumulo Energia",
         ADD_ENERGY_STORAGE_POWER_STATION:
@@ -393,7 +393,7 @@
         EDIT_NON_WORKING_DAY: "Modifica Giorno Non Lavorativo",
         EDIT_MICROGRID: "Modifica Microgrid",
         EDIT_COMMAND: "Modifica Comando",
-        EDIT_CONTROL_MODE: "Modifica Modalit脿 di Controllo",
+        EDIT_CONTROL_MODE: "Modifica Modalità di Controllo",
         EDIT_VIRTUAL_POWER_PLANT: "Modifica Centrale Elettrica Virtuale",
         EDIT_ENERGY_STORAGE_CONTAINER: "Modifica Container di Accumulo Energia",
         EDIT_ENERGY_STORAGE_POWER_STATION:
@@ -436,7 +436,7 @@
         SELECT_WIND_FARM: "Seleziona Parco Eolico",
         IS_INPUT_COUNTED: "Consumo incluso nella somma",
         IS_OUTPUT_COUNTED: "Produzione energia inclusa nella somma",
-        BIND_COMMAND: "Associa Comando 鈷?,
+        BIND_COMMAND: "Associa Comando Ⓔ",
         BIND_DATA_SOURCE: "Associa Sorgente Dati",
         BIND_METER: "Associa Contatore",
         BIND_POINT: "Associa Punto Dati",
@@ -446,73 +446,73 @@
         BIND_ENERGY_STORAGE_CONTAINER: "Associa Container di Accumulo Energia",
         IOTSIMCARD: "SIM IoT",
         CATEGORY_DESCRIPTION: "Configurazione di base della gestione delle categorie energetiche; manutenzione centralizzata delle varie risorse energetiche e dei relativi standard di conversione utilizzati nel sistema.",
-        CATEGORY_DESCRIPTION_MORE: "Le categorie energetiche vengono utilizzate per definire la classificazione di base di tutti i dati energetici nel sistema, come elettricit脿, gas naturale, acqua, ecc. 脠 possibile impostarne nomi, unit脿 e i corrispondenti fattori di conversione in carbone standard (kgce) e fattori di emissione di anidride carbonica (kgco2e). Questi parametri influenzeranno direttamente le statistiche sul consumo energetico, i calcoli delle emissioni di carbonio e l'analisi del bilancio energetico nel sistema. Si consiglia di completare questa configurazione durante l'inizializzazione del sistema; modifiche successive potrebbero influire sulla coerenza statistica dei report storici.",
+        CATEGORY_DESCRIPTION_MORE: "Le categorie energetiche vengono utilizzate per definire la classificazione di base di tutti i dati energetici nel sistema, come elettricità, gas naturale, acqua, ecc. È possibile impostarne nomi, unità e i corrispondenti fattori di conversione in carbone standard (kgce) e fattori di emissione di anidride carbonica (kgco2e). Questi parametri influenzeranno direttamente le statistiche sul consumo energetico, i calcoli delle emissioni di carbonio e l'analisi del bilancio energetico nel sistema. Si consiglia di completare questa configurazione durante l'inizializzazione del sistema; modifiche successive potrebbero influire sulla coerenza statistica dei report storici.",
         CATEGORY_DIALOG_DESCRIPTION: "Crea o modifica le categorie energetiche qui.",
-        CATEGORY_DIALOG_DESCRIPTION_MORE: "Il nome deve essere conciso e chiaro (ad es. 'Acqua industriale'); l'unit脿 deve essere conforme agli standard del settore (ad es. 'm鲁'); i fattori carbone standard e CO2 devono fare riferimento agli ultimi standard statistici energetici nazionali o locali, che fungeranno da unico punto di riferimento per le successive analisi di efficienza e il calcolo dell'impronta di carbonio.",
-        ENERGY_ITEM_DESCRIPTION: "Gestione raffinata delle voci energetiche; suddividere ulteriormente le sottovoci in base alle categorie energetiche per ottenere un audit energetico pi霉 granulare.",
-        ENERGY_ITEM_DESCRIPTION_MORE: "Le voci energetiche supportano la divisione dei principali tipi di energia (ad es. 'Elettricit脿') in voci pi霉 specifiche in base all'uso, come 'Elettricit脿 di potenza', 'Elettricit脿 per illuminazione', 'Sistema di condizionamento', ecc. Ogni voce deve appartenere a una categoria energetica. I dati delle voci derivano tipicamente dall'associazione dei contatori o da calcoli logici per l'analisi della composizione energetica multidimensionale. Una granularit脿 ragionevole aiuta a identificare rapidamente le anomalie nel consumo energetico e a ottimizzare le strategie di risparmio energetico.",
+        CATEGORY_DIALOG_DESCRIPTION_MORE: "Il nome deve essere conciso e chiaro (ad es. 'Acqua industriale'); l'unità deve essere conforme agli standard del settore (ad es. 'm³'); i fattori carbone standard e CO2 devono fare riferimento agli ultimi standard statistici energetici nazionali o locali, che fungeranno da unico punto di riferimento per le successive analisi di efficienza e il calcolo dell'impronta di carbonio.",
+        ENERGY_ITEM_DESCRIPTION: "Gestione raffinata delle voci energetiche; suddividere ulteriormente le sottovoci in base alle categorie energetiche per ottenere un audit energetico più granulare.",
+        ENERGY_ITEM_DESCRIPTION_MORE: "Le voci energetiche supportano la divisione dei principali tipi di energia (ad es. 'Elettricità') in voci più specifiche in base all'uso, come 'Elettricità di potenza', 'Elettricità per illuminazione', 'Sistema di condizionamento', ecc. Ogni voce deve appartenere a una categoria energetica. I dati delle voci derivano tipicamente dall'associazione dei contatori o da calcoli logici per l'analisi della composizione energetica multidimensionale. Una granularità ragionevole aiuta a identificare rapidamente le anomalie nel consumo energetico e a ottimizzare le strategie di risparmio energetico.",
         ENERGY_ITEM_DIALOG_DESCRIPTION: "Configura le voci energetiche qui.",
-        ENERGY_ITEM_DIALOG_DESCRIPTION_MORE: "Selezionare la categoria energetica corrispondente e inserire un nome specifico per la voce. Il nome deve riflettere l'uso o le caratteristiche regionali (ad es. 'Illuminazione 2掳 piano'). Una volta configurati, associateli nella gestione 'Equipaggiamento' o 'Contatore' per un'accurata raccolta dati in tempo reale.",
+        ENERGY_ITEM_DIALOG_DESCRIPTION_MORE: "Selezionare la categoria energetica corrispondente e inserire un nome specifico per la voce. Il nome deve riflettere l'uso o le caratteristiche regionali (ad es. 'Illuminazione 2° piano'). Una volta configurati, associateli nella gestione 'Equipaggiamento' o 'Contatore' per un'accurata raccolta dati in tempo reale.",
         TARIFF_DESCRIPTION: "Configurazione principale del sistema dei prezzi dell'energia; gestione degli standard di fatturazione per diverse categorie energetiche in diversi periodi di tempo.",
-        TARIFF_DESCRIPTION_MORE: "Le tariffe energetiche definiscono il costo finanziario del consumo energetico. Il sistema supporta sia la modalit脿 'Tariffa fissa' che 'Tariffa a fasce orarie (TOU)'. Per tipi di energia come l'elettricit脿, 猫 possibile configurare con precisione i prezzi per i periodi di picco massimo, picco, medio e fuori picco. La configurazione delle tariffe 猫 la base per l'analisi del centro di costo e la valutazione del potenziale di risparmio energetico. Assicurarsi che i periodi di validit脿 delle tariffe siano continui e coperti integralmente per garantire l'accuratezza delle statistiche sui costi.",
+        TARIFF_DESCRIPTION_MORE: "Le tariffe energetiche definiscono il costo finanziario del consumo energetico. Il sistema supporta sia la modalità 'Tariffa fissa' che 'Tariffa a fasce orarie (TOU)'. Per tipi di energia come l'elettricità, è possibile configurare con precisione i prezzi per i periodi di picco massimo, picco, medio e fuori picco. La configurazione delle tariffe è la base per l'analisi del centro di costo e la valutazione del potenziale di risparmio energetico. Assicurarsi che i periodi di validità delle tariffe siano continui e coperti integralmente per garantire l'accuratezza delle statistiche sui costi.",
         TARIFF_DIALOG_DESCRIPTION: "Configura i dettagli della tariffa qui.",
-        TARIFF_DIALOG_DESCRIPTION_MORE: "Selezionare la categoria energetica corrispondente e impostare il tipo di tariffa e il prezzo. Se si tratta di una tariffa TOU, 猫 necessario definire gli orari di inizio e fine per ciascun periodo. Nota: i periodi di validit脿 delle tariffe devono evitare sovrapposizioni e garantire una copertura totale all'interno del ciclo di analisi.",
-        COSTCENTER_DESCRIPTION: "Contabilit脿 finanziaria e gestione delle responsabilit脿; collegamento del consumo energetico e dei relativi costi a specifiche unit脿 organizzative o conti.",
-        COSTCENTER_DESCRIPTION_MORE: "I centri di costo consentono di scomporre e aggregare i costi energetici per dipartimento, linea di produzione o area. Associando le tariffe energetiche e collegando spazi/equipaggiamenti, il sistema calcola automaticamente le spese energetiche in tempo reale e storiche per ciascun centro. Ci貌 aiuta a condurre audit energetici, controllo del budget e valutazione delle prestazioni. Una struttura ragionevole dei centri di costo 猫 la pietra angolare per ottenere una gestione raffinata dei costi energetici.",
+        TARIFF_DIALOG_DESCRIPTION_MORE: "Selezionare la categoria energetica corrispondente e impostare il tipo di tariffa e il prezzo. Se si tratta di una tariffa TOU, è necessario definire gli orari di inizio e fine per ciascun periodo. Nota: i periodi di validità delle tariffe devono evitare sovrapposizioni e garantire una copertura totale all'interno del ciclo di analisi.",
+        COSTCENTER_DESCRIPTION: "Contabilità finanziaria e gestione delle responsabilità; collegamento del consumo energetico e dei relativi costi a specifiche unità organizzative o conti.",
+        COSTCENTER_DESCRIPTION_MORE: "I centri di costo consentono di scomporre e aggregare i costi energetici per dipartimento, linea di produzione o area. Associando le tariffe energetiche e collegando spazi/equipaggiamenti, il sistema calcola automaticamente le spese energetiche in tempo reale e storiche per ciascun centro. Ciò aiuta a condurre audit energetici, controllo del budget e valutazione delle prestazioni. Una struttura ragionevole dei centri di costo è la pietra angolare per ottenere una gestione raffinata dei costi energetici.",
         COSTCENTER_DIALOG_DESCRIPTION: "Crea o modifica un centro di costo qui.",
-        COSTCENTER_DIALOG_DESCRIPTION_MORE: "Inserire il nome e l'ID di associazione esterno (ad es. codice del centro di costo nell'ERP). In seguito 猫 possibile collegare le risorse fisiche a questo centro nell'interfaccia di configurazione di ciascun terminale di consumo energetico per ottenere l'allocazione automatica dei costi e la contabilit脿.",
+        COSTCENTER_DIALOG_DESCRIPTION_MORE: "Inserire il nome e l'ID di associazione esterno (ad es. codice del centro di costo nell'ERP). In seguito è possibile collegare le risorse fisiche a questo centro nell'interfaccia di configurazione di ciascun terminale di consumo energetico per ottenere l'allocazione automatica dei costi e la contabilità.",
         CONTACT_DESCRIPTION: "Libreria del personale per le notifiche di sistema e la collaborazione nella manutenzione; mantenimento delle informazioni di contatto dei responsabili per l'invio di allarmi e l'assegnazione di compiti.",
         CONTACT_DESCRIPTION_MORE: "La gestione dei contatti memorizza centralmente le informazioni di tutto il personale coinvolto nel funzionamento e nella manutenzione del sistema. Queste informazioni verranno utilizzate per allarmi SMS, notifiche e-mail e assegnazione di compiti. Si consiglia di inserire i contatti per dipartimento funzionale e garantire la correttezza dei formati e-mail e telefonici in modo che le comunicazioni raggiungano immediatamente il responsabile in caso di anomalia energetica o guasto all'equipaggiamento.",
         CONTACT_DIALOG_DESCRIPTION: "Inserisci le informazioni di contatto qui.",
-        CONTACT_DIALOG_DESCRIPTION_MORE: "Inserire il nome, l'e-mail e il numero di telefono del contatto. In seguito 猫 possibile collegare questo contatto a specifici spazi, equipaggiamenti o gateway come contatto principale per la manutenzione di tali risorse.",
+        CONTACT_DIALOG_DESCRIPTION_MORE: "Inserire il nome, l'e-mail e il numero di telefono del contatto. In seguito è possibile collegare questo contatto a specifici spazi, equipaggiamenti o gateway come contatto principale per la manutenzione di tali risorse.",
         GATEWAY_DESCRIPTION: "Gestione dell'hardware di accesso IoT; monitoraggio dello stato online dei gateway fisici e dei relativi token di comunicazione con il cloud.",
-        GATEWAY_DESCRIPTION_MORE: "I gateway sono il ponte tra la raccolta dati sul campo e la piattaforma cloud. Qui 猫 possibile visualizzare il token univoco di ciascun gateway, l'ora dell'ultima comunicazione e le informazioni sulla versione. I token vengono utilizzati per l'autenticazione dell'identit脿 durante l'accesso al gateway; si prega di conservarli in modo sicuro. Monitorando lo stato del gateway, 猫 possibile individuare rapidamente le anomalie nella raccolta dati causate da interruzioni di rete o guasti hardware.",
+        GATEWAY_DESCRIPTION_MORE: "I gateway sono il ponte tra la raccolta dati sul campo e la piattaforma cloud. Qui è possibile visualizzare il token univoco di ciascun gateway, l'ora dell'ultima comunicazione e le informazioni sulla versione. I token vengono utilizzati per l'autenticazione dell'identità durante l'accesso al gateway; si prega di conservarli in modo sicuro. Monitorando lo stato del gateway, è possibile individuare rapidamente le anomalie nella raccolta dati causate da interruzioni di rete o guasti hardware.",
         GATEWAY_DIALOG_DESCRIPTION: "Registra un dispositivo gateway fisico qui.",
-        GATEWAY_DIALOG_DESCRIPTION_MORE: "Inserire un nome gateway facilmente identificabile. Il sistema generer脿 automaticamente un token di comunicazione, che dovr脿 essere configurato nell'hardware del gateway sul campo per stabilire un canale dati crittografato sicuro.",
+        GATEWAY_DIALOG_DESCRIPTION_MORE: "Inserire un nome gateway facilmente identificabile. Il sistema genererà automaticamente un token di comunicazione, che dovrà essere configurato nell'hardware del gateway sul campo per stabilire un canale dati crittografato sicuro.",
         PROTOCOL_DESCRIPTION: "Definizione degli standard di comunicazione; mantenimento dei vari protocolli di comunicazione industriale supportati dal sistema e dei relativi codici caratteristici.",
-        PROTOCOL_DESCRIPTION_MORE: "La gestione dei protocolli definisce le regole di comunicazione utilizzate durante il processo di raccolta dati, come Modbus TCP, MQTT, BACnet, ecc. I codici di protocollo devono corrispondere agli identificatori dei driver di raccolta. Attraverso la gestione standardizzata dei protocolli, il sistema pu貌 ottenere accesso e analisi uniformi per dispositivi hardware eterogenei.",
+        PROTOCOL_DESCRIPTION_MORE: "La gestione dei protocolli definisce le regole di comunicazione utilizzate durante il processo di raccolta dati, come Modbus TCP, MQTT, BACnet, ecc. I codici di protocollo devono corrispondere agli identificatori dei driver di raccolta. Attraverso la gestione standardizzata dei protocolli, il sistema può ottenere accesso e analisi uniformi per dispositivi hardware eterogenei.",
         PROTOCOL_DIALOG_DESCRIPTION: "Configura il nome del protocollo e il suo codice caratteristico qui.",
-        PROTOCOL_DIALOG_DESCRIPTION_MORE: "Il codice del protocollo 猫 solitamente un identificatore univoco concordato internamente o richiesto dai driver. Assicurarsi che il protocollo aggiunto sia supportato dal motore di raccolta in background.",
+        PROTOCOL_DIALOG_DESCRIPTION_MORE: "Il codice del protocollo è solitamente un identificatore univoco concordato internamente o richiesto dai driver. Assicurarsi che il protocollo aggiunto sia supportato dal motore di raccolta in background.",
         DATASOURCE_DESCRIPTION: "Configurazione del collegamento di raccolta dati; definisce tramite quale protocollo e indirizzo di connessione il servizio di raccolta ottiene i dati sul campo.",
-        DATASOURCE_DESCRIPTION_MORE: "Una sorgente dati rappresenta un punto finale di raccolta fisico o logico specifico. 脠 necessario specificare il protocollo di comunicazione, la stringa di connessione (ad es. IP:Port o SerialPort) e il gateway associato. Una sorgente dati pu貌 ospitare pi霉 punti dati. Una ragionevole configurazione del ciclo di campionamento e dei parametri di timeout della sorgente dati pu貌 migliorare efficacemente la stabilit脿 e l'immediatezza della raccolta dati.",
+        DATASOURCE_DESCRIPTION_MORE: "Una sorgente dati rappresenta un punto finale di raccolta fisico o logico specifico. È necessario specificare il protocollo di comunicazione, la stringa di connessione (ad es. IP:Port o SerialPort) e il gateway associato. Una sorgente dati può ospitare più punti dati. Una ragionevole configurazione del ciclo di campionamento e dei parametri di timeout della sorgente dati può migliorare efficacemente la stabilità e l'immediatezza della raccolta dati.",
         DATASOURCE_DIALOG_DESCRIPTION: "Configura i parametri di connessione della sorgente dati qui.",
-        DATASOURCE_DIALOG_DESCRIPTION_MORE: "Assicurarsi che l'indirizzo di connessione sia raggiungibile nell'ambiente di rete in cui si trova il gateway. Se si tratta di una comunicazione seriale, inserire accuratamente parametri come il baud rate. Una volta creata la sorgente dati, 猫 possibile iniziare ad associarvi specifici punti dati di sensori o contatori.",
-        POINT_DESCRIPTION: "Unit脿 di definizione pi霉 piccola dei punti di raccolta dati IoT; collegamento con sorgenti dati specifiche e definizione delle regole per l'analisi dei dati grezzi.",
-        POINT_DESCRIPTION_MORE: "Un punto dati 猫 la pi霉 piccola unit脿 di dati nel sistema, rappresentando un parametro specifico raccolto da un gateway o da una sorgente dati. 脠 necessario configurare il tipo di oggetto (ad es. valore cumulativo, valore istantaneo, valore digitale o testo), l'indirizzo di analisi e la formula di correzione (y=kx+b). I punti dati vengono solitamente associati a contatori, sensori o equipaggiamenti come sorgente dei loro dati grezzi. Una ragionevole configurazione dei limiti superiore e inferiore pu貌 aiutare il sistema a identificare e filtrare automaticamente i dati di salto non validi.",
+        DATASOURCE_DIALOG_DESCRIPTION_MORE: "Assicurarsi che l'indirizzo di connessione sia raggiungibile nell'ambiente di rete in cui si trova il gateway. Se si tratta di una comunicazione seriale, inserire accuratamente parametri come il baud rate. Una volta creata la sorgente dati, è possibile iniziare ad associarvi specifici punti dati di sensori o contatori.",
+        POINT_DESCRIPTION: "Unità di definizione più piccola dei punti di raccolta dati IoT; collegamento con sorgenti dati specifiche e definizione delle regole per l'analisi dei dati grezzi.",
+        POINT_DESCRIPTION_MORE: "Un punto dati è la più piccola unità di dati nel sistema, rappresentando un parametro specifico raccolto da un gateway o da una sorgente dati. È necessario configurare il tipo di oggetto (ad es. valore cumulativo, valore istantaneo, valore digitale o testo), l'indirizzo di analisi e la formula di correzione (y=kx+b). I punti dati vengono solitamente associati a contatori, sensori o equipaggiamenti come sorgente dei loro dati grezzi. Una ragionevole configurazione dei limiti superiore e inferiore può aiutare il sistema a identificare e filtrare automaticamente i dati di salto non validi.",
         POINT_DIALOG_DESCRIPTION: "Crea o modifica i punti dati qui.",
-        POINT_DIALOG_DESCRIPTION_MORE: "Inserire il nome del punto dati e selezionare il tipo di oggetto corretto. Il campo dell'indirizzo 猫 solitamente in formato JSON e deve essere conforme ai requisiti del driver del protocollo utilizzato dalla sorgente dati. Il coefficiente di correzione k e l'offset b vengono utilizzati per eseguire una correzione lineare sui valori grezzi raccolti. 脠 possibile impostare limiti di allarme su quattro livelli per monitorare la ragionevolezza dei dati.",
+        POINT_DIALOG_DESCRIPTION_MORE: "Inserire il nome del punto dati e selezionare il tipo di oggetto corretto. Il campo dell'indirizzo è solitamente in formato JSON e deve essere conforme ai requisiti del driver del protocollo utilizzato dalla sorgente dati. Il coefficiente di correzione k e l'offset b vengono utilizzati per eseguire una correzione lineare sui valori grezzi raccolti. È possibile impostare limiti di allarme su quattro livelli per monitorare la ragionevolezza dei dati.",
         METER_DESCRIPTION: "Gestione dei dispositivi di misurazione dell'energia fisica; manutenzione di contatori elettrici, idrici, del gas e altri contatori reali.",
-        METER_DESCRIPTION_MORE: "I contatori sono i nodi fondamentali della rete di monitoraggio energetico e rappresentano i contatori fisici reali sul campo. 脠 necessario configurare il fattore del contatore, la voce energetica, il punto dati associato e il centro di costo di appartenenza. Configurando i limiti dell'intervallo orario, il sistema pu貌 identificare e filtrare automaticamente i dati errati generati da salti del contatore o anomalie di comunicazione. I dati dei contatori fisici sono la base grezza per gli audit energetici e i calcoli dei costi in tutto il sistema.",
+        METER_DESCRIPTION_MORE: "I contatori sono i nodi fondamentali della rete di monitoraggio energetico e rappresentano i contatori fisici reali sul campo. È necessario configurare il fattore del contatore, la voce energetica, il punto dati associato e il centro di costo di appartenenza. Configurando i limiti dell'intervallo orario, il sistema può identificare e filtrare automaticamente i dati errati generati da salti del contatore o anomalie di comunicazione. I dati dei contatori fisici sono la base grezza per gli audit energetici e i calcoli dei costi in tutto il sistema.",
         METER_DIALOG_DESCRIPTION: "Inserisci i dettagli del contatore fisico qui.",
-        METER_DIALOG_DESCRIPTION_MORE: "Inserire il nome del contatore e selezionare la categoria energetica corrispondente. Assicurarsi di associare il punto dati corretto e configurare il fattore in base al rapporto del trasformatore. I limiti dell'intervallo orario devono essere impostati con riferimento alla portata/potenza nominale massima del contatore per garantire l'affidabilit脿 dei dati.",
-        VIRTUAL_METER_DESCRIPTION: "Gestione dei contatori a calcolo logico; esecuzione di operazioni aritmetiche su pi霉 contatori o punti dati utilizzando espressioni matematiche.",
-        VIRTUAL_METER_DESCRIPTION_MORE: "I contatori virtuali vengono utilizzati per soddisfare complesse esigenze statistiche energetiche, come il calcolo del consumo totale di elettricit脿 di un'officina (somma di pi霉 contatori secondari) o il consumo energetico netto di un dispositivo (linea in ingresso meno i rami). 脠 possibile scrivere espressioni matematiche utilizzando contatori fisici, punti dati o altri contatori virtuali come variabili. I dati del contatore virtuale sono logicamente equivalenti ai dati del contatore fisico e possono essere utilizzati per la visualizzazione di report e l'analisi dell'efficienza energetica.",
+        METER_DIALOG_DESCRIPTION_MORE: "Inserire il nome del contatore e selezionare la categoria energetica corrispondente. Assicurarsi di associare il punto dati corretto e configurare il fattore in base al rapporto del trasformatore. I limiti dell'intervallo orario devono essere impostati con riferimento alla portata/potenza nominale massima del contatore per garantire l'affidabilità dei dati.",
+        VIRTUAL_METER_DESCRIPTION: "Gestione dei contatori a calcolo logico; esecuzione di operazioni aritmetiche su più contatori o punti dati utilizzando espressioni matematiche.",
+        VIRTUAL_METER_DESCRIPTION_MORE: "I contatori virtuali vengono utilizzati per soddisfare complesse esigenze statistiche energetiche, come il calcolo del consumo totale di elettricità di un'officina (somma di più contatori secondari) o il consumo energetico netto di un dispositivo (linea in ingresso meno i rami). È possibile scrivere espressioni matematiche utilizzando contatori fisici, punti dati o altri contatori virtuali come variabili. I dati del contatore virtuale sono logicamente equivalenti ai dati del contatore fisico e possono essere utilizzati per la visualizzazione di report e l'analisi dell'efficienza energetica.",
         VIRTUAL_METER_DIALOG_DESCRIPTION: "Configura la logica di calcolo del contatore virtuale qui.",
-        VIRTUAL_METER_DIALOG_DESCRIPTION_MORE: "Inserire il nome del contatore virtuale e scrivere l'espressione di calcolo (ad es.: v1 + v2 - v3). 脠 necessario mappare le variabili nell'espressione a specifici contatori fisici o punti dati. Assicurarsi che la logica di calcolo sia conforme ai principi del bilancio energetico e selezionare la categoria energetica e l'unit脿 corrette.",
+        VIRTUAL_METER_DIALOG_DESCRIPTION_MORE: "Inserire il nome del contatore virtuale e scrivere l'espressione di calcolo (ad es.: v1 + v2 - v3). È necessario mappare le variabili nell'espressione a specifici contatori fisici o punti dati. Assicurarsi che la logica di calcolo sia conforme ai principi del bilancio energetico e selezionare la categoria energetica e l'unità corrette.",
         OFFLINE_METER_DESCRIPTION: "Inserimento manuale e gestione dei dati offline; manutenzione dei terminali energetici che non possono essere raccolti in tempo reale o che richiedono una lettura manuale periodica.",
-        OFFLINE_METER_DESCRIPTION_MORE: "I contatori offline vengono utilizzati per gestire i punti di misurazione in cui non sono installati sistemi di raccolta automatizzati. 脠 possibile inserire manualmente le letture del contatore o importare dati di consumo storici in blocco tramite file Excel. Il sistema integrer脿 questi dati offline con i dati raccolti in tempo reale per fornire una mappa completa del bilancio energetico dell'intero stabilimento. Ci貌 猫 fondamentale per migliorare l'estensione della copertura dell'audit energetico.",
+        OFFLINE_METER_DESCRIPTION_MORE: "I contatori offline vengono utilizzati per gestire i punti di misurazione in cui non sono installati sistemi di raccolta automatizzati. È possibile inserire manualmente le letture del contatore o importare dati di consumo storici in blocco tramite file Excel. Il sistema integrerà questi dati offline con i dati raccolti in tempo reale per fornire una mappa completa del bilancio energetico dell'intero stabilimento. Ciò è fondamentale per migliorare l'estensione della copertura dell'audit energetico.",
         OFFLINE_METER_DIALOG_DESCRIPTION: "Inserisci le informazioni di base del contatore offline qui.",
-        OFFLINE_METER_DIALOG_DESCRIPTION_MORE: "Configurare il nome del contatore offline, la categoria energetica e il centro di costo associato. I contatori offline non necessitano di punti dati associati. Una volta creato, 猫 possibile inserire i valori di lettura periodica per questo contatore nel modulo 'Inserimento manuale' o utilizzare la funzione di importazione in blocco per aggiornare il consumo storico.",
-        SENSOR_DESCRIPTION: "Gestione dei dispositivi sensori di ambiente e stato; monitoraggio di vari parametri dei sensori come temperatura, umidit脿, pressione e illuminamento.",
-        SENSOR_DESCRIPTION_MORE: "La gestione dei sensori viene utilizzata per la manutenzione di dispositivi di monitoraggio ambientale non di misurazione. 脠 possibile definire intervalli di misurazione dei sensori, soglie di allarme e punti dati associati. Questi dati vengono solitamente utilizzati per la correzione dei fattori ambientali nel benchmarking dell'efficienza energetica. Ad esempio, quando si analizza l'efficienza del condizionamento dell'aria, i dati dei sensori di temperatura e umidit脿 esterna sono elementi di riferimento essenziali.",
+        OFFLINE_METER_DIALOG_DESCRIPTION_MORE: "Configurare il nome del contatore offline, la categoria energetica e il centro di costo associato. I contatori offline non necessitano di punti dati associati. Una volta creato, è possibile inserire i valori di lettura periodica per questo contatore nel modulo 'Inserimento manuale' o utilizzare la funzione di importazione in blocco per aggiornare il consumo storico.",
+        SENSOR_DESCRIPTION: "Gestione dei dispositivi sensori di ambiente e stato; monitoraggio di vari parametri dei sensori come temperatura, umidità, pressione e illuminamento.",
+        SENSOR_DESCRIPTION_MORE: "La gestione dei sensori viene utilizzata per la manutenzione di dispositivi di monitoraggio ambientale non di misurazione. È possibile definire intervalli di misurazione dei sensori, soglie di allarme e punti dati associati. Questi dati vengono solitamente utilizzati per la correzione dei fattori ambientali nel benchmarking dell'efficienza energetica. Ad esempio, quando si analizza l'efficienza del condizionamento dell'aria, i dati dei sensori di temperatura e umidità esterna sono elementi di riferimento essenziali.",
         SENSOR_DIALOG_DESCRIPTION: "Configura le informazioni del sensore qui.",
-        SENSOR_DIALOG_DESCRIPTION_MORE: "Inserire il nome del sensore, l'UNIT脌 e il punto dati monitorato. 脠 inoltre possibile impostare l'intervallo di misurazione tipico per questo sensore in modo che il sistema possa identificare automaticamente le fluttuazioni anomale dei dati.",
+        SENSOR_DIALOG_DESCRIPTION_MORE: "Inserire il nome del sensore, l'UNITÀ e il punto dati monitorato. È inoltre possibile impostare l'intervallo di misurazione tipico per questo sensore in modo che il sistema possa identificare automaticamente le fluttuazioni anomale dei dati.",
         EQUIPMENT_DESCRIPTION: "Gestione dei terminali di consumo energetico e degli impianti di produzione; costruzione di modelli di equipaggiamento specifici nel sistema e relativi parametri di processo.",
-        EQUIPMENT_DESCRIPTION_MORE: "La gestione dell'equipaggiamento 猫 il cuore della modellazione energetica. 脠 possibile definire equipaggiamenti specifici come unit脿 di condizionamento, compressori d'aria, ascensori, ecc. Associando contatori, sensori e punti dati, il sistema consente la valutazione dell'efficienza energetica, il monitoraggio dello stato operativo e la diagnosi dei guasti per ogni singolo dispositivo. 脠 inoltre possibile caricare i parametri della targa del dispositivo (ad es. potenza nominale) come riferimento di base per l'analisi dell'efficienza energetica.",
+        EQUIPMENT_DESCRIPTION_MORE: "La gestione dell'equipaggiamento è il cuore della modellazione energetica. È possibile definire equipaggiamenti specifici come unità di condizionamento, compressori d'aria, ascensori, ecc. Associando contatori, sensori e punti dati, il sistema consente la valutazione dell'efficienza energetica, il monitoraggio dello stato operativo e la diagnosi dei guasti per ogni singolo dispositivo. È inoltre possibile caricare i parametri della targa del dispositivo (ad es. potenza nominale) come riferimento di base per l'analisi dell'efficienza energetica.",
         EQUIPMENT_DIALOG_DESCRIPTION: "Definisci le risorse dell'equipaggiamento qui.",
-        EQUIPMENT_DIALOG_DESCRIPTION_MORE: "Compilare in dettaglio il nome dell'equipaggiamento, il tipo e il centro di costo a cui appartiene. Il contatore associato determiner脿 le statistiche sul consumo energetico di quel dispositivo. Si consiglia di caricare foto o documenti dell'equipaggiamento in modo che il personale di manutenzione possa identificare rapidamente i dispositivi fisici sul posto.",
-        COMBINED_EQUIPMENT_DESCRIPTION: "Gestione dell'integrazione di sistemi energetici complessi; combinazione di pi霉 singoli dispositivi o sottosistemi in un unico insieme per l'analisi dell'efficienza energetica.",
-        COMBINED_EQUIPMENT_DESCRIPTION_MORE: "L'equipaggiamento combinato viene utilizzato per gestire insiemi complessi composti da pi霉 dispositivi come 'sistema centrale frigorifera' o 'sala compressori d'aria'. Supporta l'aggregazione logica tra i dispositivi per aiutarti ad analizzare l'efficienza della conversione energetica (ad es. COP) e lo spazio di ottimizzazione operativa da una prospettiva di sistema globale. Attraverso l'equipaggiamento combinato, 猫 possibile identificare pi霉 chiaramente le opportunit脿 di risparmio energetico sistemico, non solo l'ottimizzazione per i singoli dispositivi.",
+        EQUIPMENT_DIALOG_DESCRIPTION_MORE: "Compilare in dettaglio il nome dell'equipaggiamento, il tipo e il centro di costo a cui appartiene. Il contatore associato determinerà le statistiche sul consumo energetico di quel dispositivo. Si consiglia di caricare foto o documenti dell'equipaggiamento in modo che il personale di manutenzione possa identificare rapidamente i dispositivi fisici sul posto.",
+        COMBINED_EQUIPMENT_DESCRIPTION: "Gestione dell'integrazione di sistemi energetici complessi; combinazione di più singoli dispositivi o sottosistemi in un unico insieme per l'analisi dell'efficienza energetica.",
+        COMBINED_EQUIPMENT_DESCRIPTION_MORE: "L'equipaggiamento combinato viene utilizzato per gestire insiemi complessi composti da più dispositivi come 'sistema centrale frigorifera' o 'sala compressori d'aria'. Supporta l'aggregazione logica tra i dispositivi per aiutarti ad analizzare l'efficienza della conversione energetica (ad es. COP) e lo spazio di ottimizzazione operativa da una prospettiva di sistema globale. Attraverso l'equipaggiamento combinato, è possibile identificare più chiaramente le opportunità di risparmio energetico sistemico, non solo l'ottimizzazione per i singoli dispositivi.",
         COMBINED_EQUIPMENT_DIALOG_DESCRIPTION: "Configura i sistemi di equipaggiamento combinato qui.",
-        COMBINED_EQUIPMENT_DIALOG_DESCRIPTION_MORE: "Selezionare tutti i sotto-equipaggiamenti inclusi nella combinazione e definire la relazione di misurazione complessiva di input/output del sistema. 脠 possibile configurare formule specifiche per il calcolo dell'efficienza energetica per l'equipaggiamento combinato per monitorare in tempo reale gli indicatori di efficienza operativa dell'intero sistema.",
+        COMBINED_EQUIPMENT_DIALOG_DESCRIPTION_MORE: "Selezionare tutti i sotto-equipaggiamenti inclusi nella combinazione e definire la relazione di misurazione complessiva di input/output del sistema. È possibile configurare formule specifiche per il calcolo dell'efficienza energetica per l'equipaggiamento combinato per monitorare in tempo reale gli indicatori di efficienza operativa dell'intero sistema.",
         INPUT_NAME: "Inserisci nome",
-        INPUT_CATEGORY_NAME_PLACEHOLDER: "Inserire il nome della categoria energetica, ad es. Elettricit脿, Gas naturale, Acqua potabile, ecc.",
-        INPUT_CATEGORY_UNIT_PLACEHOLDER: "Inserire l'unit脿 di misura, ad es. kWh, m鲁, t, ecc.",
-        INPUT_CATEGORY_KGCE_PLACEHOLDER: "Inserire il fattore di conversione in carbone standard (kgce/unit脿)",
-        INPUT_CATEGORY_KGCO2E_PLACEHOLDER: "Inserire il fattore di emissione di anidride carbonica (kgco2e/unit脿)",
+        INPUT_CATEGORY_NAME_PLACEHOLDER: "Inserire il nome della categoria energetica, ad es. Elettricità, Gas naturale, Acqua potabile, ecc.",
+        INPUT_CATEGORY_UNIT_PLACEHOLDER: "Inserire l'unità di misura, ad es. kWh, m³, t, ecc.",
+        INPUT_CATEGORY_KGCE_PLACEHOLDER: "Inserire il fattore di conversione in carbone standard (kgce/unità)",
+        INPUT_CATEGORY_KGCO2E_PLACEHOLDER: "Inserire il fattore di emissione di anidride carbonica (kgco2e/unità)",
         INPUT_ENERGY_ITEM_NAME_PLACEHOLDER: "Inserire il nome della voce di consumo energetico, ad es. Illuminazione, Aria condizionata, ecc.",
         INPUT_TARIFF_NAME_PLACEHOLDER: "Inserire il nome della tariffa, ad es. Tariffa elettrica industriale 2024",
-        INPUT_TARIFF_PRICE_PLACEHOLDER: "Inserire il prezzo unitario della tariffa (valuta/unit脿)",
+        INPUT_TARIFF_PRICE_PLACEHOLDER: "Inserire il prezzo unitario della tariffa (valuta/unità)",
         INPUT_COSTCENTER_NAME_PLACEHOLDER: "Inserire il nome del centro di costo, ad es. Reparto produzione 1, Edificio uffici",
         INPUT_COSTCENTER_EXTERNAL_ID_PLACEHOLDER: "Inserire l'ID del sistema esterno, ad es. codice ERP",
         INPUT_CONTACT_NAME_PLACEHOLDER: "Inserire il nome del contatto",
@@ -524,16 +524,16 @@
         INPUT_DATASOURCE_NAME_PLACEHOLDER: "Inserire il nome della sorgente dati, ad es. Contatore multifunzione trasformatore 1",
         INPUT_DATASOURCE_CONNECTION_PLACEHOLDER: "Inserire l'indirizzo di connessione, ad es. 192.168.1.10:502",
         INPUT_POINT_NAME_PLACEHOLDER: "Inserire il nome del punto dati, ad es. Potenza attiva trasformatore 1",
-        INPUT_POINT_UNIT_PLACEHOLDER: "Inserire l'unit脿, ad es. kW, kWh, 鈩? %, ecc.",
+        INPUT_POINT_UNIT_PLACEHOLDER: "Inserire l'unità, ad es. kW, kWh, ℃, %, ecc.",
         INPUT_POINT_ADDRESS_PLACEHOLDER: 'Inserire l\'indirizzo di analisi (JSON), ad es. {"register": 100, "type": "float32"}',
         INPUT_POINT_FAULTS_PLACEHOLDER: 'Inserire le definizioni dei guasti (JSON), ad es. {"1": "Dispositivo offline", "2": "Timeout comunicazione"}',
         INPUT_POINT_DEFINITIONS_PLACEHOLDER: 'Inserire le definizioni personalizzate (JSON)',
         INPUT_METER_NAME_PLACEHOLDER: "Inserire il nome del contatore, ad es. Contatore di ingresso principale",
-        INPUT_SENSOR_NAME_PLACEHOLDER: "Inserire il nome del sensore, ad es. Sensore di temperatura e umidit脿 ambiente sala server",
+        INPUT_SENSOR_NAME_PLACEHOLDER: "Inserire il nome del sensore, ad es. Sensore di temperatura e umidità ambiente sala server",
         INPUT_EQUIPMENT_NAME_PLACEHOLDER: "Inserire il nome dell'equipaggiamento, ad es. Refrigeratore centrifugo n. 1",
         INPUT_COMBINED_EQUIPMENT_NAME_PLACEHOLDER: "Inserire il nome dell'equipaggiamento combinato, ad es. Sistema energetico aria condizionata centrale",
         INPUT_AREA: "Inserisci area",
-        INPUT_UNIT: "Inserisci unit脿",
+        INPUT_UNIT: "Inserisci unità",
         INPUT_CONTACT: "Inserisci contatto",
         INPUT_EXPRESSION: "Inserisci espressione",
         INPUT_KGCE: "Inserisci kg carbone standard",
@@ -553,7 +553,7 @@
         INPUT_BAUD_RATE: "Inserisci baud rate",
         INVALID_FORMAT: "Formato non corretto",
         INVALID_BAUD_RATE: "Baud rate non corretto",
-        NOT_NULLABLE: "Non pu貌 essere vuoto",
+        NOT_NULLABLE: "Non può essere vuoto",
         NUMBER_OF_OCCUPANTS: "Numero persone",
         METER: "Contatore",
         VIRTUAL_METER: "Contatore Virtuale",
@@ -571,19 +571,19 @@
         N_S_USER: "Utenti Associati",
         COMMAND_LIST: "Lista Comandi",
         DATA_SOURCE_LIST: "Lista Sorgenti Dati",
-        CONTROL_MODE_LIST: "Lista Modalit脿 di Controllo",
+        CONTROL_MODE_LIST: "Lista Modalità di Controllo",
         END_TIME_SHOULD_BE_AFTER_START_TIME:
           "L'ora di fine deve essere successiva all'ora di inizio",
         TARIFF_TIME_PERIODS_OVERLAP:
-          "Allo stesso periodo 猫 consentito un solo tipo di tariffazione",
+          "Allo stesso periodo è consentito un solo tipo di tariffazione",
         VALID_THROUGH_TIME_SHOULD_BE_AFTER_VALID_FROM_TIME:
-          "La fine validit脿 tariffa deve essere successiva all'inizio",
+          "La fine validità tariffa deve essere successiva all'inizio",
         TARIFF_NOT_FULL_DAY_COVERAGE:
           "Le impostazioni temporali della tariffa devono coprire 24 ore complete",
         TIME_PERIOD_OVERLAP_ERROR:
-          "Allo stesso periodo 猫 consentita una sola operazione di controllo",
+          "Allo stesso periodo è consentita una sola operazione di controllo",
         CONTROL_MODE_NOT_FULL_DAY_COVERAGE:
-          "Le impostazioni temporali della modalit脿 di controllo devono coprire 24 ore complete",
+          "Le impostazioni temporali della modalità di controllo devono coprire 24 ore complete",
         SCHEDULE_NOT_FULL_DAY_COVERAGE:
           "Le impostazioni temporali della pianificazione devono coprire 24 ore complete",
         IS_ACTIVE: "Attivo",
@@ -603,7 +603,7 @@
         COST_FILE: "File Costi",
         NAME: "Nome",
         AREA: "Area",
-        UNIT: "Unit脿",
+        UNIT: "Unità",
         CONTACT: "Contatto",
         TIMEZONE: "Fuso Orario",
         TARIFF: "Tariffa",
@@ -617,18 +617,18 @@
         POINT: "Punto Dati",
         KGCE: "Kg Carbone Standard",
         KGCO2E: "Kg Emissioni CO2",
-        TARIFF_VALID_FROM: "Inizio Validit脿 Tariffa",
-        TARIFF_VALID_THROUGH: "Fine Validit脿 Tariffa",
+        TARIFF_VALID_FROM: "Inizio Validità Tariffa",
+        TARIFF_VALID_THROUGH: "Fine Validità Tariffa",
         TIME_OF_USE_START_TIME: "Ora Inizio Tariffa Oraria",
         TIME_OF_USE_END_TIME: "Ora Fine Tariffa Oraria",
         TARIFF_TYPE: "Tipo Tariffa",
         TARIFF_NAME: "Nome",
-        TARIFF_VALIDITY_WARNING: "Nota: Il periodo di validit脿 delle tariffe per ogni classificazione energetica deve coprire in modo continuo dal 2024-01-01T00:00:00 fino ad oggi o successivamente, senza interruzioni o sovrapposizioni.",
+        TARIFF_VALIDITY_WARNING: "Nota: Il periodo di validità delle tariffe per ogni classificazione energetica deve coprire in modo continuo dal 2024-01-01T00:00:00 fino ad oggi o successivamente, senza interruzioni o sovrapposizioni.",
         PRICE: "Prezzo",
         TIMEOFUSE: "Tariffa Oraria",
         PEAK_TYPE: "Picco/Valle/Medio",
-        START_AMOUNT: "Quantit脿 Iniziale",
-        END_AMOUNT: "Quantit脿 Finale",
+        START_AMOUNT: "Quantità Iniziale",
+        END_AMOUNT: "Quantità Finale",
         PORT: "Porta",
         SMS: "SMS",
         SERIAL_PORT: "Indirizzo Porta Seriale",
@@ -654,7 +654,7 @@
         CREATED_TIME: "Ora Creazione",
         EXPIRES_TIME: "Ora Scadenza",
         DESCRIPTION: "Descrizione",
-        ENERGY_PLAN_FILE: "Piano Energia 鈷?,
+        ENERGY_PLAN_FILE: "Piano Energia Ⓔ",
         SCHEDULE: "Strategia di Pianificazione",
         SCHEDULE_START_TIME: "Ora Inizio Pianificazione",
         SCHEDULE_END_TIME: "Ora Fine Pianificazione",
@@ -677,7 +677,7 @@
         INPUT_MENU_DISPLAY_NAME_PLACEHOLDER:
           "Inserisci il nome di visualizzazione del menu",
         SPACE_DESCRIPTION:
-          "Gestione gerarchia spazi e assegnazione asset; costruisci l鈥檃lbero campus/edificio/piano/stanza per l鈥檃ggregazione energetica.",
+          "Gestione gerarchia spazi e assegnazione asset; costruisci l’albero campus/edificio/piano/stanza per l’aggregazione energetica.",
         SPACE_DESCRIPTION_MORE:
           "Gli spazi definiscono la struttura fisica e sono la base per aggregazione consumi e permessi. Gestisci relazioni padre/figlio e associa contatori, apparecchiature, punti, sensori, inquilini e negozi allo spazio per statistiche, ripartizione costi e monitoraggio.",
         SPACE_DIALOG_DESCRIPTION: "Crea o modifica qui le informazioni dello spazio.",
@@ -686,15 +686,15 @@
         IMPORT_SPACE_DESCRIPTION:
           "Importazione massiva spazi; crea o aggiorna strutture spazi tramite JSON.",
         IMPORT_SPACE_DESCRIPTION_MORE:
-          "Consigliato per inizializzazione o modifiche importanti dell鈥檃lbero. Esporta uno spazio come modello, modifica il JSON e poi importa per evitare errori di formato.",
+          "Consigliato per inizializzazione o modifiche importanti dell’albero. Esporta uno spazio come modello, modifica il JSON e poi importa per evitare errori di formato.",
         EXPORT_SPACE_DESCRIPTION:
           "Esportazione spazio; esporta lo spazio selezionato (e la sua configurazione) in JSON.",
         EXPORT_SPACE_DESCRIPTION_MORE:
-          "Il JSON esportato pu貌 servire per backup, migrazione o come modello di importazione. Proteggi i dati per evitare divulgazione di struttura e asset.",
+          "Il JSON esportato può servire per backup, migrazione o come modello di importazione. Proteggi i dati per evitare divulgazione di struttura e asset.",
         INPUT_SPACE_NAME_PLACEHOLDER:
           "Inserisci nome spazio, es.: Edificio A Piano 3 Stanza 301",
         INPUT_SPACE_AREA_PLACEHOLDER:
-          "Inserisci area (m虏) per indicatori di consumo per superficie",
+          "Inserisci area (m²) per indicatori di consumo per superficie",
         INPUT_SPACE_NUMBER_OF_OCCUPANTS_PLACEHOLDER:
           "Inserisci numero occupanti per analisi pro-capite",
         INPUT_SPACE_LONGITUDE_PLACEHOLDER:
@@ -704,10 +704,10 @@
         TENANT_DESCRIPTION:
           "Gestione inquilini e contratti; mantieni dati inquilino e supporta ripartizione energia/costi.",
         TENANT_DESCRIPTION_MORE:
-          "Registra aree in locazione, periodo contratto, contatto e centro di costo. Con l鈥檃ssociazione agli spazi e i dati di misura, abilita statistiche, riconciliazione e ripartizione per inquilino. Aggiorna quando il contratto cambia.",
-        TENANT_DIALOG_DESCRIPTION: "Crea o modifica qui le informazioni dell鈥檌nquilino.",
+          "Registra aree in locazione, periodo contratto, contatto e centro di costo. Con l’associazione agli spazi e i dati di misura, abilita statistiche, riconciliazione e ripartizione per inquilino. Aggiorna quando il contratto cambia.",
+        TENANT_DIALOG_DESCRIPTION: "Crea o modifica qui le informazioni dell’inquilino.",
         TENANT_DIALOG_DESCRIPTION_MORE:
-          "Compila nome, area, edificio/piano/stanza, tipo, contatto, periodo di locazione e centro di costo. Poi associa contatori, punti, sensori, calendari e comandi secondo necessit脿.",
+          "Compila nome, area, edificio/piano/stanza, tipo, contatto, periodo di locazione e centro di costo. Poi associa contatori, punti, sensori, calendari e comandi secondo necessità.",
         TENANT_TYPE_DESCRIPTION:
           "Gestione dizionario tipi inquilino; mantieni categorie per statistiche e filtri.",
         TENANT_TYPE_DESCRIPTION_MORE:
@@ -716,13 +716,13 @@
         TENANT_TYPE_DIALOG_DESCRIPTION_MORE:
           "Inserisci nome, descrizione e codice abbreviato. Si consiglia una sigla mnemonica per facilitare import/export.",
         IMPORT_TENANT_DESCRIPTION:
-          "Importazione massiva inquilini; crea o aggiorna pi霉 inquilini tramite JSON.",
+          "Importazione massiva inquilini; crea o aggiorna più inquilini tramite JSON.",
         IMPORT_TENANT_DESCRIPTION_MORE:
           "Consigliato per inizializzazione o aggiornamenti massivi. Esporta un inquilino come modello, modifica il JSON e poi importa.",
         EXPORT_TENANT_DESCRIPTION:
-          "Esportazione inquilino; esporta l鈥檌nquilino selezionato (e configurazione) in JSON.",
+          "Esportazione inquilino; esporta l’inquilino selezionato (e configurazione) in JSON.",
         EXPORT_TENANT_DESCRIPTION_MORE:
-          "Il JSON esportato pu貌 servire per backup, migrazione o modello. Proteggi dati sensibili (contatti).",
+          "Il JSON esportato può servire per backup, migrazione o modello. Proteggi dati sensibili (contatti).",
         SELECT_TENANT_TYPE: "Seleziona tipo inquilino",
         SELECT_CONTACT: "Seleziona contatto",
         INPUT_TENANT_NAME_PLACEHOLDER:
@@ -734,7 +734,7 @@
         STORE_DESCRIPTION:
           "Gestione negozi e operazioni; mantieni dati negozio e supporta contabilizzazione energetica per negozio.",
         STORE_DESCRIPTION_MORE:
-          "Registra indirizzo, coordinate, tipo negozio, contatto e centro di costo. Con l鈥檃ssociazione agli spazi e i dati di misura, abilita statistiche e riconciliazione per negozio. Aggiorna quando cambiano i dati operativi.",
+          "Registra indirizzo, coordinate, tipo negozio, contatto e centro di costo. Con l’associazione agli spazi e i dati di misura, abilita statistiche e riconciliazione per negozio. Aggiorna quando cambiano i dati operativi.",
         STORE_DIALOG_DESCRIPTION: "Crea o modifica qui le informazioni del negozio.",
         STORE_DIALOG_DESCRIPTION_MORE:
           "Compila nome, area, indirizzo e coordinate; seleziona tipo, contatto e centro di costo. Opzionale: descrizione. Poi associa contatori, punti, sensori, calendari e comandi.",
@@ -746,53 +746,53 @@
         STORE_TYPE_DIALOG_DESCRIPTION_MORE:
           "Inserisci nome, descrizione e codice abbreviato. Si consiglia una sigla mnemonica per facilitare import/export.",
         IMPORT_STORE_DESCRIPTION:
-          "Importazione massiva negozi; crea o aggiorna pi霉 negozi tramite JSON.",
+          "Importazione massiva negozi; crea o aggiorna più negozi tramite JSON.",
         IMPORT_STORE_DESCRIPTION_MORE:
           "Consigliato per inizializzazione o aggiornamenti massivi. Esporta un negozio come modello, modifica il JSON e poi importa.",
         EXPORT_STORE_DESCRIPTION:
           "Esportazione negozio; esporta il negozio selezionato (e configurazione) in JSON.",
         EXPORT_STORE_DESCRIPTION_MORE:
-          "Il JSON esportato pu貌 servire per backup, migrazione o modello. Proteggi informazioni sensibili come indirizzi e contatti.",
+          "Il JSON esportato può servire per backup, migrazione o modello. Proteggi informazioni sensibili come indirizzi e contatti.",
         IMPORT_SVG_DESCRIPTION:
-          "Importazione massiva SVG; crea o aggiorna pi霉 SVG tramite JSON.",
+          "Importazione massiva SVG; crea o aggiorna più SVG tramite JSON.",
         IMPORT_SVG_DESCRIPTION_MORE:
           "Si consiglia di esportare un SVG esistente come modello, adattare il JSON (nome, descrizione e codice sorgente SVG) e poi importare per garantire il formato.",
         EXPORT_SVG_DESCRIPTION:
           "Esportazione SVG; esporta l'SVG selezionato (e configurazione) in JSON.",
         EXPORT_SVG_DESCRIPTION_MORE:
-          "Il JSON esportato pu貌 servire per backup, migrazione o modello. Proteggi il codice sorgente SVG e i metadati correlati.",
+          "Il JSON esportato può servire per backup, migrazione o modello. Proteggi il codice sorgente SVG e i metadati correlati.",
         IMPORT_ENERGY_FLOW_DIAGRAM_DESCRIPTION:
-          "Importazione massiva diagrammi di flusso energetico; crea o aggiorna pi霉 diagrammi tramite JSON.",
+          "Importazione massiva diagrammi di flusso energetico; crea o aggiorna più diagrammi tramite JSON.",
         IMPORT_ENERGY_FLOW_DIAGRAM_DESCRIPTION_MORE:
           "Si consiglia di esportare un diagramma esistente come modello, adattare il JSON e poi importare per garantire il formato.",
         EXPORT_ENERGY_FLOW_DIAGRAM_DESCRIPTION:
           "Esportazione diagramma di flusso energetico; esporta il diagramma selezionato (e configurazione) in JSON.",
         EXPORT_ENERGY_FLOW_DIAGRAM_DESCRIPTION_MORE:
-          "Il JSON esportato pu貌 servire per backup, migrazione o modello.",
+          "Il JSON esportato può servire per backup, migrazione o modello.",
         IMPORT_SHOPFLOOR_DESCRIPTION:
-          "Importazione massiva shopfloor; crea o aggiorna pi霉 shopfloor tramite JSON.",
+          "Importazione massiva shopfloor; crea o aggiorna più shopfloor tramite JSON.",
         IMPORT_SHOPFLOOR_DESCRIPTION_MORE:
           "Si consiglia di esportare uno shopfloor esistente come modello, adattare il JSON e poi importare per garantire il formato.",
         EXPORT_SHOPFLOOR_DESCRIPTION:
           "Esportazione shopfloor; esporta lo shopfloor selezionato (e configurazione) in JSON.",
         EXPORT_SHOPFLOOR_DESCRIPTION_MORE:
-          "Il JSON esportato pu貌 servire per backup, migrazione o modello.",
+          "Il JSON esportato può servire per backup, migrazione o modello.",
         IMPORT_DISTRIBUTION_SYSTEM_DESCRIPTION:
-          "Importazione massiva sistema di distribuzione; crea o aggiorna pi霉 sistemi tramite JSON.",
+          "Importazione massiva sistema di distribuzione; crea o aggiorna più sistemi tramite JSON.",
         IMPORT_DISTRIBUTION_SYSTEM_DESCRIPTION_MORE:
           "Si consiglia di esportare un sistema esistente come modello, adattare il JSON (incluso l'SVG associato) e poi importare per garantire il formato.",
         EXPORT_DISTRIBUTION_SYSTEM_DESCRIPTION:
           "Esportazione sistema di distribuzione; esporta il sistema selezionato (e configurazione) in JSON.",
         EXPORT_DISTRIBUTION_SYSTEM_DESCRIPTION_MORE:
-          "Il JSON esportato pu貌 servire per backup, migrazione o modello.",
+          "Il JSON esportato può servire per backup, migrazione o modello.",
         IMPORT_WORKING_CALENDAR_DESCRIPTION:
-          "Importazione massiva calendario di lavoro; crea o aggiorna pi霉 calendari tramite JSON.",
+          "Importazione massiva calendario di lavoro; crea o aggiorna più calendari tramite JSON.",
         IMPORT_WORKING_CALENDAR_DESCRIPTION_MORE:
           "Si consiglia di esportare un calendario esistente come modello, adattare il JSON e poi importare per garantire il formato.",
         EXPORT_WORKING_CALENDAR_DESCRIPTION:
           "Esportazione calendario di lavoro; esporta il calendario selezionato (e configurazione) in JSON.",
         EXPORT_WORKING_CALENDAR_DESCRIPTION_MORE:
-          "Il JSON esportato pu貌 servire per backup, migrazione o modello.",
+          "Il JSON esportato può servire per backup, migrazione o modello.",
         SELECT_STORE_TYPE: "Seleziona tipo negozio",
         INPUT_STORE_NAME_PLACEHOLDER:
           "Inserisci nome negozio, es.: Punto vendita #1",
@@ -865,29 +865,29 @@
       },
       POINT: {
         OBJECT_TYPE: "Tipo Oggetto",
-        UNIT: "Unit脿",
+        UNIT: "Unità",
         HIGH_LIMIT: "Limite Alto",
         LOW_LIMIT: "Limite Basso",
         OUTPUT_FUNCTION: "Funzione Calcolo Valore Output (y=kx+b)",
-        RATIO: "Coefficiente di Proporzionalit脿 k",
+        RATIO: "Coefficiente di Proporzionalità k",
         OFFSET_CONSTANT: "Costante di Offset b",
         IS_TREND: "Salva Trend",
         IS_VIRTUAL: "Punto Virtuale",
         ADDRESS: "Indirizzo (JSON)",
-        HIGHER_LIMIT: "Limite Superiore 鈷?,
-        LOWER_LIMIT: "Limite Inferiore 鈷?,
-        LATEST_VALUE: " Valore Pi霉 Recente",
+        HIGHER_LIMIT: "Limite Superiore Ⓔ",
+        LOWER_LIMIT: "Limite Inferiore Ⓔ",
+        LATEST_VALUE: " Valore Più Recente",
         FAULTS: "Guasti (JSON)",
         DEFINITIONS: "Definizioni (JSON)",
         INPUT_HIGH_LIMIT: "Inserisci limite alto",
         INPUT_LOW_LIMIT: "Inserisci limite basso",
         INPUT_HIGHER_LIMIT: "Inserisci il limite superiore",
         INPUT_LOWER_LIMIT: "Inserisci il limite inferiore",
-        INPUT_RATIO: "Inserisci coefficiente di proporzionalit脿",
+        INPUT_RATIO: "Inserisci coefficiente di proporzionalità",
         INPUT_OFFSET_CONSTANT: "Inserisci costante di offset",
         INPUT_ADDRESS: "Inserisci indirizzo",
         INVALID_INPUT_HINT:
-          "Il valore inserito non 猫 corretto, l'intervallo deve essere da 0 a 999999",
+          "Il valore inserito non è corretto, l'intervallo deve essere da 0 a 999999",
         INVALID_RANGE_HINT:
           "Il limite alto deve essere maggiore del limite basso",
         INVALID_RANGE_HINT_1:
@@ -950,8 +950,8 @@
       MICROGRID: {
         ADDRESS: "Indirizzo",
         POSTAL_CODE: "Codice Postale",
-        CAPACITY: "Capacit脿",
-        RATED_CAPACITY: "Capacit脿 Nominale",
+        CAPACITY: "Capacità",
+        RATED_CAPACITY: "Capacità Nominale",
         RATED_POWER: "Potenza Nominale",
         RATED_INPUT_POWER: "Potenza di Ingresso Nominale",
         RATED_OUTPUT_POWER: "Potenza di Uscita Nominale",
@@ -964,7 +964,7 @@
         IS_COST_DATA_DISPLAYED: "Mostra Dati di Costo",
         INPUT_ADDRESS: "Inserisci indirizzo",
         INPUT_POSTAL_CODE: "Inserisci codice postale",
-        INPUT_CAPACITY: "Inserisci capacit脿",
+        INPUT_CAPACITY: "Inserisci capacità",
         INPUT_NOMINAL_VOLTAGE: "Inserisci tensione nominale",
         INPUT_LATITUDE: "Inserisci longitudine",
         INPUT_LONGITUDE: "Inserisci latitudine",
@@ -981,7 +981,7 @@
         METER: "Contatore",
         CHARGE_METER: "Contatore Carica",
         DISCHARGE_METER: "Contatore Scarica",
-        ELECTRICITY_METER: "Contatore Elettricit脿",
+        ELECTRICITY_METER: "Contatore Elettricità",
         HEAT_METER: "Contatore Calore",
         COOLING_METER: "Contatore Freddo",
         BUY_METER: "Contatore Acquisto",
@@ -1042,7 +1042,7 @@
         PHASE_2COMMISSIONING: "In Collaudo",
         PHASE_3INSTALLATION: "In Costruzione",
         INVALID_INPUT_HINT:
-          "Il valore inserito non 猫 corretto, l'intervallo deve essere da 0 a 999999",
+          "Il valore inserito non è corretto, l'intervallo deve essere da 0 a 999999",
       },
       VIRTUAL_POWER_PLANT: {
         BALANCING_PRICE_POINT: "Punto Dati Prezzo di Bilanciamento",
@@ -1051,14 +1051,14 @@
         MICROGRID: "Microgrid",
       },
       ENERGY_STORAGE_CONTAINER: {
-        CAPACITY: "Capacit脿",
-        RATED_CAPACITY: "Capacit脿 Nominale",
+        CAPACITY: "Capacità",
+        RATED_CAPACITY: "Capacità Nominale",
         RATED_POWER: "Potenza Nominale",
         RATED_INPUT_POWER: "Potenza di Ingresso Nominale",
         RATED_OUTPUT_POWER: "Potenza di Uscita Nominale",
         NOMINAL_VOLTAGE: "Tensione Nominale",
         SERIAL_NUMBER: "Numero di Serie",
-        INPUT_CAPACITY: "Inserisci capacit脿",
+        INPUT_CAPACITY: "Inserisci capacità",
         INPUT_NOMINAL_VOLTAGE: "Inserisci tensione nominale",
         INPUT_SERIAL_NUMBER: "Inserisci numero di serie",
         INPUT_SVG: "Inserisci SVG",
@@ -1074,7 +1074,7 @@
         WORKING_STATUS_POINT: "Punto Dati Stato Lavorativo",
         GRID_CONNECTION_STATUS_POINT: "Punto Dati Stato Connessione Rete",
         DEVICE_STATUS_POINT: "Punto Dati Stato Dispositivo",
-        CONTROL_MODE_POINT: "Punto Dati Modalit脿 di Controllo",
+        CONTROL_MODE_POINT: "Punto Dati Modalità di Controllo",
         TOTAL_AC_ACTIVE_POWER_POINT: "Punto Dati Potenza Attiva AC Totale",
         TOTAL_AC_REACTIVE_POWER_POINT: "Punto Dati Potenza Reattiva AC Totale",
         TOTAL_AC_APPARENT_POWER_POINT: "Punto Dati Potenza Apparente AC Totale",
@@ -1125,8 +1125,8 @@
         SOH_POINT: "Punto Dati SOH",
         CHARGING_POWER_LIMIT_POINT: "Punto Dati Limite Potenza di Carica",
         DISCHARGE_LIMIT_POWER_POINT: "Punto Dati Limite Potenza di Scarica",
-        RECHARGEABLE_CAPACITY_POINT: "Punto Dati Capacit脿 Ricaricabile",
-        DISCHARGEABLE_CAPACITY_POINT: "Punto Dati Capacit脿 Scaricabile",
+        RECHARGEABLE_CAPACITY_POINT: "Punto Dati Capacità Ricaricabile",
+        DISCHARGEABLE_CAPACITY_POINT: "Punto Dati Capacità Scaricabile",
         AVERAGE_TEMPERATURE_POINT: "Punto Dati Temperatura Media",
         AVERAGE_VOLTAGE_POINT: "Punto Dati Tensione Media",
         INSULATION_VALUE_POINT: "Punto Dati Valore Isolamento",
@@ -1176,7 +1176,7 @@
         SECOND_LEVEL_FIRE_ALARM_POINT: "Allarme Antincendio di Secondo Livello",
         RUNNING_LIGHT_POINT: "Luce di Funzionamento",
         FAULT_LIGHT_POINT: "Luce di Guasto",
-        AC_RELAY_TRIPPING_POINT: "Scatto Rel猫 AC",
+        AC_RELAY_TRIPPING_POINT: "Scatto Relè AC",
         INSIDE_TEMPERATURE_POINT: "Punto Dati Temperatura Interna",
         OUTSIDE_TEMPERATURE_POINT: "Punto Dati Temperatura Esterna",
         TEMPERATURE_ALARM_POINT: "Punto Dati Stato Allarme Temperatura",
@@ -1197,7 +1197,7 @@
         COIL_TEMPERATURE_POINT: "Temperatura Bobina",
         TEMPERATURE_OUTSIDE_POINT: "Temperatura Esterna Armadio",
         TEMPERATURE_INSIDE_POINT: "Temperatura Interna Armadio",
-        HUMIDITY_INSIDE_POINT: "Umidit脿 Interna Armadio",
+        HUMIDITY_INSIDE_POINT: "Umidità Interna Armadio",
         CONDENSATION_TEMPERATURE_POINT: "Temperatura di Condensazione",
         DEFROSTING_TEMPERATURE_POINT: "Temperatura di Sbrinamento",
         OUTLET_AIR_TEMPERATURE_POINT: "Temperatura Aria in Uscita",
@@ -1213,11 +1213,11 @@
         COOLING_CONTROL_HYSTERESIS_POINT: "Isteresi Controllo Raffreddamento",
         HIGH_TEMPERATURE_ALARM_SET_POINT: "Temperatura Allarme Alta",
         LOW_TEMPERATURE_ALARM_SET_POINT: "Temperatura Allarme Bassa",
-        HIGH_HUMIDITY_ALARM_SET_POINT: "Umidit脿 Allarme Alta",
+        HIGH_HUMIDITY_ALARM_SET_POINT: "Umidità Allarme Alta",
         METER: "Contatore",
         CHARGE_METER: "Contatore Carica",
         DISCHARGE_METER: "Contatore Scarica",
-        ELECTRICITY_METER: "Contatore Elettricit脿",
+        ELECTRICITY_METER: "Contatore Elettricità",
         BUY_METER: "Contatore Acquisto",
         SELL_METER: "Contatore Vendita",
         ENERGY_STORAGE_CONTAINER_BATTERY: "Batteria",
@@ -1276,8 +1276,8 @@
       },
       ENERGY_STORAGE_POWER_STATION: {
         ADDRESS: "Indirizzo",
-        CAPACITY: "Capacit脿",
-        RATED_CAPACITY: "Capacit脿 Nominale",
+        CAPACITY: "Capacità",
+        RATED_CAPACITY: "Capacità Nominale",
         RATED_POWER: "Potenza Nominale",
         RATED_INPUT_POWER: "Potenza di Ingresso Nominale",
         RATED_OUTPUT_POWER: "Potenza di Uscita Nominale",
@@ -1289,7 +1289,7 @@
         SVG: "SVG",
         IS_COST_DATA_DISPLAYED: "Mostra Dati di Costo",
         INPUT_ADDRESS: "Inserisci indirizzo",
-        INPUT_CAPACITY: "Inserisci capacit脿",
+        INPUT_CAPACITY: "Inserisci capacità",
         INPUT_LATITUDE: "Inserisci longitudine",
         INPUT_LONGITUDE: "Inserisci latitudine",
         INPUT_SVG: "Inserisci SVG",
@@ -1303,8 +1303,8 @@
       PHOTOVOLTAIC_POWER_STATION: {
         STATION_CODE: "Codice Centrale",
         ADDRESS: "Indirizzo",
-        CAPACITY: "Capacit脿",
-        RATED_CAPACITY: "Capacit脿 Nominale",
+        CAPACITY: "Capacità",
+        RATED_CAPACITY: "Capacità Nominale",
         RATED_POWER: "Potenza Nominale",
         RATED_INPUT_POWER: "Potenza di Ingresso Nominale",
         RATED_OUTPUT_POWER: "Potenza di Uscita Nominale",
@@ -1314,7 +1314,7 @@
         SVG: "SVG",
         IS_COST_DATA_DISPLAYED: "Mostra Dati di Costo",
         INPUT_ADDRESS: "Inserisci indirizzo",
-        INPUT_CAPACITY: "Inserisci capacit脿",
+        INPUT_CAPACITY: "Inserisci capacità",
         INPUT_LATITUDE: "Inserisci longitudine",
         INPUT_LONGITUDE: "Inserisci latitudine",
         INPUT_STATION_CODE: "Inserisci il codice della stazione",
@@ -1507,14 +1507,14 @@
         COST_CENTER: "Centro di Costo",
         SELECT_COST_CENTER: "Seleziona Centro di Costo",
         EFFICIENCY_INDICATOR: 'Indicatore di Efficienza',
-        SVG: "SVG 鈷?,
+        SVG: "SVG Ⓔ",
         INPUT_SVG: "Inserisci SVG",
-        CAMERA_URL: "URL Telecamera 鈷?,
+        CAMERA_URL: "URL Telecamera Ⓔ",
         INPUT_CAMERA_URL: "Inserisci l'indirizzo della telecamera",
         INPUT_CONSTANT: "Inserisci il valore costante",
         BIND_EQUIPMENT: "Associa Equipaggiamento",
-        BIND_EQUIPMENT_DESCRIPTION: "Gestione dell'associazione tra apparecchiature combinate e apparecchiature singole; raggruppare pi霉 apparecchiature di consumo energetico in un'unica apparecchiatura combinata logica.",
-        BIND_EQUIPMENT_DESCRIPTION_MORE: "In questa interfaccia, 猫 possibile collegare pi霉 apparecchiature singole a un'apparecchiatura combinata. Metodo operativo: selezionare prima l'apparecchiatura combinata di destinazione a sinistra, quindi trovare l'apparecchiatura singola corrispondente a destra e trascinarla nell'area 'Apparecchiature Associate' al centro. Per scollegare, trascinare l'apparecchiatura sull'icona del cestino in basso.",
+        BIND_EQUIPMENT_DESCRIPTION: "Gestione dell'associazione tra apparecchiature combinate e apparecchiature singole; raggruppare più apparecchiature di consumo energetico in un'unica apparecchiatura combinata logica.",
+        BIND_EQUIPMENT_DESCRIPTION_MORE: "In questa interfaccia, è possibile collegare più apparecchiature singole a un'apparecchiatura combinata. Metodo operativo: selezionare prima l'apparecchiatura combinata di destinazione a sinistra, quindi trovare l'apparecchiatura singola corrispondente a destra e trascinarla nell'area 'Apparecchiature Associate' al centro. Per scollegare, trascinare l'apparecchiatura sull'icona del cestino in basso.",
         N_S_EQUIPMENT: "Equipaggiamenti Associati",
         EQUIPMENT_LIST: "Lista Equipaggiamenti",
         INPUT_METER: "Contatore di Ingresso",
@@ -1522,7 +1522,7 @@
         PARAMETER: "Parametro",
         BIND_PARAMETER: "Associa Parametro",
         BIND_PARAMETER_DESCRIPTION: "Gestione dei parametri di processo dell'apparecchiatura; configurare indicatori operativi chiave o parametri tecnici per apparecchiature di consumo energetico.",
-        BIND_PARAMETER_DESCRIPTION_MORE: "In questa interfaccia, 猫 possibile definire vari parametri di processo per l'apparecchiatura (come potenza nominale, differenza di temperatura di progetto, ecc.). I parametri possono provenire da un valore fisso, un punto dati in tempo reale o il rapporto di due contatori. Una configurazione ragionevole dei parametri di processo 猫 la base per il benchmarking dell'efficienza energetica e l'analisi dei report avanzati. Questi parametri fungeranno da input chiave per il calcolo del consumo energetico teorico o dell'efficienza dell'apparecchiatura.",
+        BIND_PARAMETER_DESCRIPTION_MORE: "In questa interfaccia, è possibile definire vari parametri di processo per l'apparecchiatura (come potenza nominale, differenza di temperatura di progetto, ecc.). I parametri possono provenire da un valore fisso, un punto dati in tempo reale o il rapporto di due contatori. Una configurazione ragionevole dei parametri di processo è la base per il benchmarking dell'efficienza energetica e l'analisi dei report avanzati. Questi parametri fungeranno da input chiave per il calcolo del consumo energetico teorico o dell'efficienza dell'apparecchiatura.",
         ADD_PARAMETER: "Aggiungi Parametro",
         EDIT_PARAMETER: "Modifica Parametro",
         N_S_PARAMETER: "Parametri Subordinati",
@@ -1547,9 +1547,9 @@
         COST_CENTER: "Centro di Costo",
         SELECT_COST_CENTER: "Seleziona Centro di Costo",
         EFFICIENCY_INDICATOR: 'Indicatore di Efficienza',
-        SVG: "SVG 鈷?,
+        SVG: "SVG Ⓔ",
         INPUT_SVG: "Inserisci SVG",
-        CAMERA_URL: "URL Telecamera 鈷?,
+        CAMERA_URL: "URL Telecamera Ⓔ",
         INPUT_CAMERA_URL: "Inserisci l'indirizzo della telecamera",
         INPUT_CONSTANT: "Inserisci il valore costante",
         INPUT_METER: "Contatore di Ingresso",
@@ -1580,76 +1580,76 @@
         CURRENT_SELECTED_SPACE: "Spazio Attualmente Selezionato",
         CHILD_SPACES: "Sottospazi",
         BIND_METER_DESCRIPTION:
-          "Gestione associazione spazio鈥揷ontatore; assegna contatori agli spazi per aggregazione per area.",
+          "Gestione associazione spazio–contatore; assegna contatori agli spazi per aggregazione per area.",
         BIND_METER_DESCRIPTION_MORE:
           "Seleziona uno spazio, scegli il tipo contatore a destra e trascina il contatore nell'area centrale. Per scollegare, trascina nel cestino.",
         BIND_EQUIPMENT_DESCRIPTION:
-          "Gestione associazione spazio鈥揺quipaggiamento; assegna equipaggiamenti allo spazio per statistiche e manutenzione.",
+          "Gestione associazione spazio–equipaggiamento; assegna equipaggiamenti allo spazio per statistiche e manutenzione.",
         BIND_EQUIPMENT_DESCRIPTION_MORE:
-          "Seleziona uno spazio e trascina gli equipaggiamenti dalla lista a destra nell鈥檃rea centrale. Per scollegare, trascina nel cestino.",
+          "Seleziona uno spazio e trascina gli equipaggiamenti dalla lista a destra nell’area centrale. Per scollegare, trascina nel cestino.",
         BIND_COMBINED_EQUIPMENT_DESCRIPTION:
-          "Gestione associazione spazio鈥揺quipaggiamento combinato; assegna sistemi complessi allo spazio per analisi.",
+          "Gestione associazione spazio–equipaggiamento combinato; assegna sistemi complessi allo spazio per analisi.",
         BIND_COMBINED_EQUIPMENT_DESCRIPTION_MORE:
-          "Seleziona uno spazio e trascina gli equipaggiamenti combinati dalla lista a destra nell鈥檃rea centrale.",
+          "Seleziona uno spazio e trascina gli equipaggiamenti combinati dalla lista a destra nell’area centrale.",
         BIND_PHOTOVOLTAIC_POWER_STATION_DESCRIPTION:
-          "Gestione associazione spazio鈥揷entrale fotovoltaica; assegna asset di generazione allo spazio.",
+          "Gestione associazione spazio–centrale fotovoltaica; assegna asset di generazione allo spazio.",
         BIND_PHOTOVOLTAIC_POWER_STATION_DESCRIPTION_MORE:
-          "Seleziona uno spazio e trascina le centrali FV dalla lista a destra nell鈥檃rea centrale.",
+          "Seleziona uno spazio e trascina le centrali FV dalla lista a destra nell’area centrale.",
         BIND_ENERGY_STORAGE_POWER_STATION_DESCRIPTION:
-          "Gestione associazione spazio鈥揷entrale accumulo; assegna asset di accumulo allo spazio.",
+          "Gestione associazione spazio–centrale accumulo; assegna asset di accumulo allo spazio.",
         BIND_ENERGY_STORAGE_POWER_STATION_DESCRIPTION_MORE:
-          "Seleziona uno spazio e trascina le centrali di accumulo dalla lista a destra nell鈥檃rea centrale.",
+          "Seleziona uno spazio e trascina le centrali di accumulo dalla lista a destra nell’area centrale.",
         BIND_TENANT_DESCRIPTION:
-          "Gestione associazione spazio鈥搃nquilino; collega inquilini alle aree in locazione per ripartizioni.",
+          "Gestione associazione spazio–inquilino; collega inquilini alle aree in locazione per ripartizioni.",
         BIND_TENANT_DESCRIPTION_MORE:
-          "Seleziona uno spazio e trascina gli inquilini dalla lista a destra nell鈥檃rea centrale.",
+          "Seleziona uno spazio e trascina gli inquilini dalla lista a destra nell’area centrale.",
         BIND_STORE_DESCRIPTION:
-          "Gestione associazione spazio鈥搉egozio; collega negozi alle aree operative per riconciliazione.",
+          "Gestione associazione spazio–negozio; collega negozi alle aree operative per riconciliazione.",
         BIND_STORE_DESCRIPTION_MORE:
-          "Seleziona uno spazio e trascina i negozi dalla lista a destra nell鈥檃rea centrale.",
+          "Seleziona uno spazio e trascina i negozi dalla lista a destra nell’area centrale.",
         BIND_SHOPFLOOR_DESCRIPTION:
-          "Gestione associazione spazio鈥搑eparto; allinea aree di produzione con la gerarchia spazi.",
+          "Gestione associazione spazio–reparto; allinea aree di produzione con la gerarchia spazi.",
         BIND_SHOPFLOOR_DESCRIPTION_MORE:
-          "Seleziona uno spazio e trascina i reparti dalla lista a destra nell鈥檃rea centrale.",
+          "Seleziona uno spazio e trascina i reparti dalla lista a destra nell’area centrale.",
         BIND_ENERGY_FLOW_DIAGRAM_DESCRIPTION:
-          "Gestione associazione spazio鈥揹iagramma flusso energia; usa il modello di flusso a livello spazio.",
+          "Gestione associazione spazio–diagramma flusso energia; usa il modello di flusso a livello spazio.",
         BIND_ENERGY_FLOW_DIAGRAM_DESCRIPTION_MORE:
-          "Seleziona uno spazio e trascina i diagrammi dalla lista a destra nell鈥檃rea centrale.",
+          "Seleziona uno spazio e trascina i diagrammi dalla lista a destra nell’area centrale.",
         BIND_DISTRIBUTION_SYSTEM_DESCRIPTION:
-          "Gestione associazione spazio鈥搒istema di distribuzione; assegna topologie elettriche allo spazio.",
+          "Gestione associazione spazio–sistema di distribuzione; assegna topologie elettriche allo spazio.",
         BIND_DISTRIBUTION_SYSTEM_DESCRIPTION_MORE:
-          "Seleziona uno spazio e trascina i sistemi di distribuzione dalla lista a destra nell鈥檃rea centrale.",
+          "Seleziona uno spazio e trascina i sistemi di distribuzione dalla lista a destra nell’area centrale.",
         BIND_MICROGRID_DESCRIPTION:
-          "Gestione associazione spazio鈥搈icrogrid; assegna asset microgrid allo spazio per monitoraggio.",
+          "Gestione associazione spazio–microgrid; assegna asset microgrid allo spazio per monitoraggio.",
         BIND_MICROGRID_DESCRIPTION_MORE:
-          "Seleziona uno spazio e trascina le microgrid dalla lista a destra nell鈥檃rea centrale.",
+          "Seleziona uno spazio e trascina le microgrid dalla lista a destra nell’area centrale.",
         BIND_POINT_DESCRIPTION:
-          "Gestione associazione spazio鈥損unto; collega punti operativi chiave allo spazio.",
+          "Gestione associazione spazio–punto; collega punti operativi chiave allo spazio.",
         BIND_POINT_DESCRIPTION_MORE:
-          "Seleziona uno spazio, scegli una sorgente dati e trascina i punti nell鈥檃rea centrale.",
+          "Seleziona uno spazio, scegli una sorgente dati e trascina i punti nell’area centrale.",
         BIND_SENSOR_DESCRIPTION:
-          "Gestione associazione spazio鈥搒ensore; assegna sensori ambientali allo spazio.",
+          "Gestione associazione spazio–sensore; assegna sensori ambientali allo spazio.",
         BIND_SENSOR_DESCRIPTION_MORE:
-          "Seleziona uno spazio e trascina i sensori dalla lista a destra nell鈥檃rea centrale.",
+          "Seleziona uno spazio e trascina i sensori dalla lista a destra nell’area centrale.",
         BIND_WORKING_CALENDAR_DESCRIPTION:
-          "Gestione associazione spazio鈥揷alendario di lavoro; definisce regole di orari operativi.",
+          "Gestione associazione spazio–calendario di lavoro; definisce regole di orari operativi.",
         BIND_WORKING_CALENDAR_DESCRIPTION_MORE:
-          "Seleziona uno spazio e trascina i calendari dalla lista a destra nell鈥檃rea centrale.",
+          "Seleziona uno spazio e trascina i calendari dalla lista a destra nell’area centrale.",
         BIND_COMMAND_DESCRIPTION:
-          "Gestione associazione spazio鈥揷omando; configura i comandi disponibili per gli asset dello spazio.",
+          "Gestione associazione spazio–comando; configura i comandi disponibili per gli asset dello spazio.",
         BIND_COMMAND_DESCRIPTION_MORE:
-          "Seleziona uno spazio e trascina i comandi dalla lista a destra nell鈥檃rea centrale.",
+          "Seleziona uno spazio e trascina i comandi dalla lista a destra nell’area centrale.",
         BIND_COMBINED_EQUIPMENT: "Associa Equipaggiamento Combinato",
         N_S_COMBINED_EQUIPMENT: "Equipaggiamenti Combinati Associati",
         COMBINED_EQUIPMENT_LIST: "Lista Equipaggiamenti Combinati",
-        BIND_PHOTOVOLTAIC_POWER_STATION: "Associa Centrale Fotovoltaica 鈷?,
+        BIND_PHOTOVOLTAIC_POWER_STATION: "Associa Centrale Fotovoltaica Ⓔ",
         N_S_PHOTOVOLTAIC_POWER_STATION: "Centrali Fotovoltaiche Associate",
         PHOTOVOLTAIC_POWER_STATION_LIST: "Lista Centrali Fotovoltaiche",
         BIND_EQUIPMENT: "Associa Equipaggiamento",
         N_S_EQUIPMENT: "Equipaggiamenti Associati",
         EQUIPMENT_LIST: "Lista Equipaggiamenti",
         BIND_ENERGY_STORAGE_POWER_STATION:
-          "Associa Centrale di Accumulo Energia 鈷?,
+          "Associa Centrale di Accumulo Energia Ⓔ",
         N_S_ENERGY_STORAGE_POWER_STATION:
           "Centrali di Accumulo Energia Associate",
         ENERGY_STORAGE_POWER_STATION_LIST: "Lista Centrali di Accumulo Energia",
@@ -1675,7 +1675,7 @@
         INPUT_LONGITUDE: "Inserisci longitudine",
         NUMBER_OF_OCCUPANTS: "Numero Persone",
         INPUT_NUMBER_OF_OCCUPANTS: "Inserisci numero persone",
-        BIND_MICROGRID: "Associa Microgrid 鈷?,
+        BIND_MICROGRID: "Associa Microgrid Ⓔ",
         N_S_MICROGRID: "Microgrid Associate",
         MICROGRID_LIST: "Lista Microgrid",
       },
@@ -1694,27 +1694,27 @@
         INPUT_ROOMS: "Inserisci stanze",
         INPUT_LEASE_NUMBER: "Inserisci numero contratto",
         END_BEFORE_START_WARNING:
-          "La data di fine locazione non pu貌 essere precedente alla data di inizio",
+          "La data di fine locazione non può essere precedente alla data di inizio",
         BIND_METER_DESCRIPTION:
-          "Gestione associazione inquilino鈥揷ontatore; assegna contatori agli inquilini per statistiche e riconciliazione.",
+          "Gestione associazione inquilino–contatore; assegna contatori agli inquilini per statistiche e riconciliazione.",
         BIND_METER_DESCRIPTION_MORE:
-          "Seleziona un inquilino e trascina i contatori dalla lista a destra nell鈥檃rea centrale.",
+          "Seleziona un inquilino e trascina i contatori dalla lista a destra nell’area centrale.",
         BIND_POINT_DESCRIPTION:
-          "Gestione associazione inquilino鈥損unto; collega punti operativi chiave all鈥檌nquilino.",
+          "Gestione associazione inquilino–punto; collega punti operativi chiave all’inquilino.",
         BIND_POINT_DESCRIPTION_MORE:
-          "Seleziona un inquilino, scegli una sorgente dati e trascina i punti nell鈥檃rea centrale.",
+          "Seleziona un inquilino, scegli una sorgente dati e trascina i punti nell’area centrale.",
         BIND_SENSOR_DESCRIPTION:
-          "Gestione associazione inquilino鈥搒ensore; assegna sensori ambientali alle aree dell鈥檌nquilino.",
+          "Gestione associazione inquilino–sensore; assegna sensori ambientali alle aree dell’inquilino.",
         BIND_SENSOR_DESCRIPTION_MORE:
-          "Seleziona un inquilino e trascina i sensori dalla lista a destra nell鈥檃rea centrale.",
+          "Seleziona un inquilino e trascina i sensori dalla lista a destra nell’area centrale.",
         BIND_WORKING_CALENDAR_DESCRIPTION:
-          "Gestione associazione inquilino鈥揷alendario di lavoro; definisce regole di orari operativi.",
+          "Gestione associazione inquilino–calendario di lavoro; definisce regole di orari operativi.",
         BIND_WORKING_CALENDAR_DESCRIPTION_MORE:
-          "Seleziona un inquilino e trascina i calendari dalla lista a destra nell鈥檃rea centrale.",
+          "Seleziona un inquilino e trascina i calendari dalla lista a destra nell’area centrale.",
         BIND_COMMAND_DESCRIPTION:
-          "Gestione associazione inquilino鈥揷omando; configura i comandi disponibili per gli asset dell鈥檌nquilino.",
+          "Gestione associazione inquilino–comando; configura i comandi disponibili per gli asset dell’inquilino.",
         BIND_COMMAND_DESCRIPTION_MORE:
-          "Seleziona un inquilino e trascina i comandi dalla lista a destra nell鈥檃rea centrale.",
+          "Seleziona un inquilino e trascina i comandi dalla lista a destra nell’area centrale.",
       },
       STORE: {
         ADDRESS: "Indirizzo",
@@ -1728,25 +1728,25 @@
         LATITUDE_HINT: "Positivo = Nord, Negativo = Sud",
         LONGITUDE_HINT: "Positivo = Est, Negativo = Ovest",
         BIND_METER_DESCRIPTION:
-          "Gestione associazione negozio鈥揷ontatore; assegna contatori ai negozi per contabilizzazione per negozio.",
+          "Gestione associazione negozio–contatore; assegna contatori ai negozi per contabilizzazione per negozio.",
         BIND_METER_DESCRIPTION_MORE:
-          "Seleziona un negozio e trascina i contatori dalla lista a destra nell鈥檃rea centrale.",
+          "Seleziona un negozio e trascina i contatori dalla lista a destra nell’area centrale.",
         BIND_POINT_DESCRIPTION:
-          "Gestione associazione negozio鈥損unto; collega punti operativi chiave al negozio.",
+          "Gestione associazione negozio–punto; collega punti operativi chiave al negozio.",
         BIND_POINT_DESCRIPTION_MORE:
-          "Seleziona un negozio, scegli una sorgente dati e trascina i punti nell鈥檃rea centrale.",
+          "Seleziona un negozio, scegli una sorgente dati e trascina i punti nell’area centrale.",
         BIND_SENSOR_DESCRIPTION:
-          "Gestione associazione negozio鈥搒ensore; assegna sensori ambientali al negozio.",
+          "Gestione associazione negozio–sensore; assegna sensori ambientali al negozio.",
         BIND_SENSOR_DESCRIPTION_MORE:
-          "Seleziona un negozio e trascina i sensori dalla lista a destra nell鈥檃rea centrale.",
+          "Seleziona un negozio e trascina i sensori dalla lista a destra nell’area centrale.",
         BIND_WORKING_CALENDAR_DESCRIPTION:
-          "Gestione associazione negozio鈥揷alendario di lavoro; definisce regole di orari di apertura.",
+          "Gestione associazione negozio–calendario di lavoro; definisce regole di orari di apertura.",
         BIND_WORKING_CALENDAR_DESCRIPTION_MORE:
-          "Seleziona un negozio e trascina i calendari dalla lista a destra nell鈥檃rea centrale.",
+          "Seleziona un negozio e trascina i calendari dalla lista a destra nell’area centrale.",
         BIND_COMMAND_DESCRIPTION:
-          "Gestione associazione negozio鈥揷omando; configura i comandi disponibili per gli asset del negozio.",
+          "Gestione associazione negozio–comando; configura i comandi disponibili per gli asset del negozio.",
         BIND_COMMAND_DESCRIPTION_MORE:
-          "Seleziona un negozio e trascina i comandi dalla lista a destra nell鈥檃rea centrale.",
+          "Seleziona un negozio e trascina i comandi dalla lista a destra nell’area centrale.",
       },
       SHOPFLOOR: {
         ADD_SHOPFLOOR: "Aggiungi Reparto Produzione",
@@ -1762,7 +1762,7 @@
         HOURLY_LOW_LIMIT: "Valore Minimo Orario (incluso)",
         INPUT_HOURLY_LOW_LIMIT: "Inserisci valore minimo orario",
         INVALID_INPUT_HINT:
-          "Il valore inserito non 猫 corretto, l'intervallo deve essere da 0 a 999999",
+          "Il valore inserito non è corretto, l'intervallo deve essere da 0 a 999999",
         INVALID_RANGE_HINT: "Il valore massimo deve essere maggiore del minimo",
         HOURLY_HIGH_LIMIT: "Valore Massimo Orario (incluso)",
         INPUT_HOURLY_HIGH_LIMIT: "Inserisci valore massimo orario",
@@ -1770,7 +1770,7 @@
         SELECT_MASTER_METER: "Seleziona contatore superiore",
         TREE_VIEW: "Vista ad Albero",
         TREE_VIEW_DESCRIPTION: "Anteprima della struttura gerarchica dei contatori; visualizza la relazione genitore-figlio (totale-parte) tra i contatori in una vista ad albero.",
-        TREE_VIEW_DESCRIPTION_MORE: "La vista ad albero riflette intuitivamente il flusso di energia e la gerarchia di misurazione. 脠 possibile selezionare un contatore nell'albero a sinistra e il lato destro visualizzer脿 tutti i suoi sottocontatori. La relazione gerarchica viene configurata tramite il campo 'Contatore superiore' nella finestra di modifica del contatore. Mantenere una struttura gerarchica chiara aiuta il sistema a eseguire verifiche del bilancio energetico (confronto tra il contatore principale e la somma dei sottocontatori) e analisi delle perdite.",
+        TREE_VIEW_DESCRIPTION_MORE: "La vista ad albero riflette intuitivamente il flusso di energia e la gerarchia di misurazione. È possibile selezionare un contatore nell'albero a sinistra e il lato destro visualizzerà tutti i suoi sottocontatori. La relazione gerarchica viene configurata tramite il campo 'Contatore superiore' nella finestra di modifica del contatore. Mantenere una struttura gerarchica chiara aiuta il sistema a eseguire verifiche del bilancio energetico (confronto tra il contatore principale e la somma dei sottocontatori) e analisi delle perdite.",
         CHILD_METERS: "Contatori Subordinati",
         QR_CODE: "Codice QR",
       },
@@ -1932,7 +1932,7 @@
       },
       SWEET: {
         TITLE: "Confermare l'eliminazione?",
-        TEXT: "L'eliminazione rimuover脿 anche tutti i dati correlati!",
+        TEXT: "L'eliminazione rimuoverà anche tutti i dati correlati!",
         CONFIRM_BUTTON_TEXT: "Conferma Elimina",
         CANCEL_BUTTON_TEXT: "Annulla",
         UNLOCK_TITLE: "Confermare lo sblocco?",
@@ -1944,10 +1944,10 @@
         ADMINISTRATOR_SESSION_NOT_FOUND: "Sessione amministratore non trovata",
         ADMINISTRATOR_SESSION_TIMEOUT: "Sessione amministratore scaduta",
         ADVANCED_REPORT_NAME_IS_ALREADY_IN_USE:
-          "Il nome del report avanzato 猫 gi脿 in uso",
+          "Il nome del report avanzato è già in uso",
         ADVANCED_REPORT_NOT_FOUND: "Report avanzato non trovato",
-        API_KEY_HAS_EXPIRED: "La chiave API 猫 scaduta",
-        API_KEY_NAME_IS_ALREADY_IN_USE: "Il nome della chiave API 猫 gi脿 in uso",
+        API_KEY_HAS_EXPIRED: "La chiave API è scaduta",
+        API_KEY_NAME_IS_ALREADY_IN_USE: "Il nome della chiave API è già in uso",
         API_KEY_NOT_FOUND: "Chiave API non trovata",
         BAD_REQUEST: "Richiesta non valida",
         BALANCING_PRICE_POINT_NOT_FOUND: "Punto del prezzo di bilanciamento non trovato",
@@ -1959,73 +1959,73 @@
         COMBINED_EQUIPMENT_COMMAND_RELATION_EXISTS:
           "La relazione tra attrezzatura combinata e comando esiste",
         COMBINED_EQUIPMENT_COMMAND_RELATION_NOT_FOUND:
-          "La relazione tra attrezzatura combinata e comando non 猫 stata trovata",
+          "La relazione tra attrezzatura combinata e comando non è stata trovata",
         COMBINED_EQUIPMENT_EQUIPMENT_RELATION_EXISTS:
-          "Relazione attrezzatura combinata-attrezzatura gi脿 esistente",
+          "Relazione attrezzatura combinata-attrezzatura già esistente",
         COMBINED_EQUIPMENT_EQUIPMENT_RELATION_NOT_FOUND:
           "Relazione attrezzatura combinata-attrezzatura non trovata",
         COMBINED_EQUIPMENT_METER_RELATION_EXISTS:
-          "Relazione attrezzatura combinata-contatore gi脿 esistente",
+          "Relazione attrezzatura combinata-contatore già esistente",
         COMBINED_EQUIPMENT_METER_RELATION_NOT_FOUND:
           "Relazione attrezzatura combinata-contatore non trovata",
         COMBINED_EQUIPMENT_DATA_SOURCE_RELATION_EXISTS:
-          "La relazione di binding della sorgente dati dell'attrezzatura combinata esiste gi脿",
+          "La relazione di binding della sorgente dati dell'attrezzatura combinata esiste già",
         COMBINED_EQUIPMENT_DATA_SOURCE_RELATION_NOT_FOUND:
           "La relazione di binding della sorgente dati dell'attrezzatura combinata non esiste",
         COMBINED_EQUIPMENT_NAME_IS_ALREADY_IN_USE:
-          "Il nome dell'attrezzatura combinata 猫 gi脿 in uso",
+          "Il nome dell'attrezzatura combinata è già in uso",
         COMBINED_EQUIPMENT_NOT_FOUND: "Attrezzatura combinata non trovata",
         COMBINED_EQUIPMENT_OFFLINE_METER_RELATION_EXISTS:
-          "Relazione attrezzatura combinata-contatore offline gi脿 esistente",
+          "Relazione attrezzatura combinata-contatore offline già esistente",
         COMBINED_EQUIPMENT_OFFLINE_METER_RELATION_NOT_FOUND:
           "Relazione attrezzatura combinata-contatore offline non trovata",
         COMBINED_EQUIPMENT_PARAMETER_NAME_IS_ALREADY_IN_USE:
-          "Il nome del parametro dell'attrezzatura combinata 猫 gi脿 in uso",
+          "Il nome del parametro dell'attrezzatura combinata è già in uso",
         COMBINED_EQUIPMENT_PARAMETER_NOT_FOUND_OR_NOT_MATCH:
           "Parametro attrezzatura combinata non trovato o non corrispondente",
         COMBINED_EQUIPMENT_VIRTUAL_METER_RELATION_EXISTS:
-          "Relazione attrezzatura combinata-contatore virtuale gi脿 esistente",
+          "Relazione attrezzatura combinata-contatore virtuale già esistente",
         COMBINED_EQUIPMENT_VIRTUAL_METER_RELATION_NOT_FOUND:
           "Relazione attrezzatura combinata-contatore virtuale non trovata",
-        COMMAND_NAME_IS_ALREADY_IN_USE: "Il nome del comando 猫 gi脿 in uso",
+        COMMAND_NAME_IS_ALREADY_IN_USE: "Il nome del comando è già in uso",
         COMMAND_NOT_FOUND: "Command not found",
-        CONTACT_NAME_IS_ALREADY_IN_USE: "Il nome del contatto 猫 gi脿 in uso",
+        CONTACT_NAME_IS_ALREADY_IN_USE: "Il nome del contatto è già in uso",
         CONTACT_NOT_FOUND: "Contatto non trovato",
         COOLING_METER_NOT_FOUND: "Misuratore di raffreddamento non trovato",
-        COST_CENTER_EXTERNAL_ID_EXISTS: "ID esterno centro di costo gi脿 esistente",
-        COST_CENTER_NAME_EXISTS: "Nome centro di costo gi脿 esistente",
+        COST_CENTER_EXTERNAL_ID_EXISTS: "ID esterno centro di costo già esistente",
+        COST_CENTER_NAME_EXISTS: "Nome centro di costo già esistente",
         COST_CENTER_NOT_FOUND: "Centro di costo non trovato",
         COST_FILE_NOT_FOUND: "File costi non trovato",
         DATA_REPAIR_FILE_NOT_FOUND: "File di riparazione dati non trovato",
         DATA_SOURCE_NAME_IS_ALREADY_IN_USE:
-          "Il nome della sorgente dati 猫 gi脿 in uso",
+          "Il nome della sorgente dati è già in uso",
         DATA_SOURCE_NOT_FOUND: "Sorgente dati non trovata",
         DATABASE_ERROR: "Errore database",
         DATE_IS_ALREADY_IN_WORKING_CALENDAR:
-          "Data gi脿 presente nel calendario lavorativo",
+          "Data già presente nel calendario lavorativo",
         DATE_LOCAL_NOT_FOUND: "Data locale non trovata",
         DATE_LOCAL_USED_IN_WORKING_CALENDAR:
-          "La data locale 猫 gi脿 utilizzata nel calendario di lavoro",
+          "La data locale è già utilizzata nel calendario di lavoro",
         DISCHARGE_METER_NOT_FOUND: "Misuratore di scarica non trovato",
         DISTRIBUTION_CIRCUIT_NAME_IS_ALREADY_IN_USE:
-          "Il nome del circuito di distribuzione 猫 gi脿 in uso",
+          "Il nome del circuito di distribuzione è già in uso",
         DISTRIBUTION_CIRCUIT_NOT_FOUND: "Circuito distribuzione non trovato",
         DISTRIBUTION_CIRCUIT_POINT_RELATION_EXISTS:
-          "Relazione circuito distribuzione-punto dati gi脿 esistente",
+          "Relazione circuito distribuzione-punto dati già esistente",
         DISTRIBUTION_CIRCUIT_POINT_RELATION_NOT_FOUND:
           "Relazione circuito distribuzione-punto dati non trovata",
         DISTRIBUTION_SYSTEM_NAME_IS_ALREADY_IN_USE:
-          "Il nome del sistema di distribuzione 猫 gi脿 in uso",
+          "Il nome del sistema di distribuzione è già in uso",
         DISTRIBUTION_SYSTEM_NOT_FOUND: "Sistema distribuzione non trovato",
-        ELECTRICITY_METER_NOT_FOUND: "Misuratore di elettricit脿 non trovato",
-        EMAIL_IS_ALREADY_IN_USE: "Email gi脿 in uso",
+        ELECTRICITY_METER_NOT_FOUND: "Misuratore di elettricità non trovato",
+        EMAIL_IS_ALREADY_IN_USE: "Email già in uso",
         EMAIL_MESSAGE_NOT_FOUND: "Messaggio email non trovato",
         EMAIL_SERVER_HOST_IS_ALREADY_IN_USE:
-          "Host server email gi脿 in uso",
+          "Host server email già in uso",
         EMAIL_SERVER_NOT_FOUND: "Server email non trovato",
         EMPTY_VARIABLES_ARRAY: "Array variabili vuoto",
         ENERGY_CATEGORY_NAME_IS_ALREADY_IN_USE:
-          "Il nome della categoria energetica 猫 gi脿 in uso",
+          "Il nome della categoria energetica è già in uso",
         ENERGY_CATEGORY_NOT_FOUND: "Categoria energia non trovata",
         ENERGY_CATEGORY_USED_IN_ENERGY_ITEMS:
           "Categoria energetica utilizzata nelle voci di consumo energetico",
@@ -2038,15 +2038,15 @@
         ENERGY_CATEGORY_USED_IN_VIRTUAL_METER:
           "Categoria energetica utilizzata nel contatore virtuale",
         ENERGY_FLOW_DIAGRAM_LINK_IS_ALREADY_IN_USE:
-          "Collegamento diagramma flusso energia gi脿 in uso",
+          "Collegamento diagramma flusso energia già in uso",
         ENERGY_FLOW_DIAGRAM_LINK_NOT_FOUND_OR_NOT_MATCH:
           "Collegamento diagramma flusso energia non trovato o non corrispondente",
         ENERGY_FLOW_DIAGRAM_LINK_WOULD_CREATE_CYCLE:
           "Il collegamento del diagramma di flusso energetico creerebbe un ciclo",
         ENERGY_FLOW_DIAGRAM_NAME_IS_ALREADY_IN_USE:
-          "Il nome del diagramma di flusso energetico 猫 gi脿 in uso",
+          "Il nome del diagramma di flusso energetico è già in uso",
         ENERGY_FLOW_DIAGRAM_NODE_NAME_IS_ALREADY_IN_USE:
-          "Il nome del nodo del diagramma di flusso energetico 猫 gi脿 in uso",
+          "Il nome del nodo del diagramma di flusso energetico è già in uso",
         ENERGY_FLOW_DIAGRAM_NODE_NOT_FOUND_OR_NOT_MATCH:
           "Nodo diagramma flusso energia non trovato o non corrispondente",
         ENERGY_FLOW_DIAGRAM_NOT_FOUND: "Diagramma flusso energia non trovato",
@@ -2055,7 +2055,7 @@
         ENERGY_ITEM_IS_NOT_BELONG_TO_ENERGY_CATEGORY:
           "Voce energia non appartiene alla categoria energia",
         ENERGY_ITEM_NAME_IS_ALREADY_IN_USE:
-          "Il nome della voce di consumo energetico 猫 gi脿 in uso",
+          "Il nome della voce di consumo energetico è già in uso",
         ENERGY_ITEM_NOT_FOUND: "Voce energia non trovata",
         ENERGY_ITEM_USED_IN_METER:
           "Voce di consumo energetico utilizzata nel contatore",
@@ -2064,54 +2064,54 @@
         ENERGY_ITEM_USED_IN_VIRTUAL_METER:
           "Voce di consumo energetico utilizzata nel contatore virtuale",
         ENERGY_STORAGE_CONTAINER_NAME_IS_ALREADY_IN_USE:
-          "Il nome del container di accumulo energetico 猫 gi脿 in uso",
+          "Il nome del container di accumulo energetico è già in uso",
         ENERGY_STORAGE_CONTAINER_NOT_FOUND:
           "Contenitore di accumulo energia non trovato",
         ENERGY_STORAGE_CONTAINER_SENSOR_RELATION_EXISTS:
           "La relazione tra contenitore di accumulo energia e sensore esiste",
         ENERGY_STORAGE_CONTAINER_SENSOR_RELATION_NOT_FOUND:
-          "La relazione tra contenitore di accumulo energia e sensore non 猫 stata trovata",
+          "La relazione tra contenitore di accumulo energia e sensore non è stata trovata",
         ENERGY_STORAGE_CONTAINER_BATTERY_NAME_IS_ALREADY_IN_USE:
-          "Il nome della batteria del container di accumulo energetico 猫 gi脿 in uso",
+          "Il nome della batteria del container di accumulo energetico è già in uso",
         ENERGY_STORAGE_CONTAINER_BATTERY_NOT_FOUND:
           "Batteria del contenitore di accumulo energia non trovata",
         ENERGY_STORAGE_CONTAINER_GRID_NAME_IS_ALREADY_IN_USE:
-          "Il nome della rete elettrica del container di accumulo energetico 猫 gi脿 in uso",
+          "Il nome della rete elettrica del container di accumulo energetico è già in uso",
         ENERGY_STORAGE_CONTAINER_GRID_NOT_FOUND:
           "Rete del contenitore di accumulo energia non trovata",
         ENERGY_STORAGE_CONTAINER_LOAD_NAME_IS_ALREADY_IN_USE:
-          "Il nome del carico del container di accumulo energetico 猫 gi脿 in uso",
+          "Il nome del carico del container di accumulo energetico è già in uso",
         ENERGY_STORAGE_CONTAINER_LOAD_NOT_FOUND:
           "Carico del contenitore di accumulo energia non trovato",
         ENERGY_STORAGE_CONTAINER_PCS_NAME_IS_ALREADY_IN_USE:
-          "Il nome del sistema di conversione di potenza del container di accumulo energetico 猫 gi脿 in uso",
+          "Il nome del sistema di conversione di potenza del container di accumulo energetico è già in uso",
         ENERGY_STORAGE_CONTAINER_POWER_CONVERSION_SYSTEM_NOT_FOUND:
           "Sistema di conversione della potenza del contenitore di accumulo energia non trovato",
         ENERGY_STORAGE_CONTAINER_USER_RELATION_EXISTS:
           "La relazione tra contenitore di accumulo energia e utente esiste",
         ENERGY_STORAGE_CONTAINER_USER_RELATION_NOT_FOUND:
-          "La relazione tra contenitore di accumulo energia e utente non 猫 stata trovata",
+          "La relazione tra contenitore di accumulo energia e utente non è stata trovata",
         ENERGY_STORAGE_POWER_STATION_NOT_FOUND:
           "Stazione di accumulo energia non trovata",
         EQUIPMENT_COMMAND_RELATION_EXISTS: "La relazione tra apparecchiatura e comando esiste",
         EQUIPMENT_COMMAND_RELATION_NOT_FOUND:
-          "La relazione tra apparecchiatura e comando non 猫 stata trovata",
-        EQUIPMENT_METER_RELATION_EXISTS: "Relazione attrezzatura-contatore gi脿 esistente",
+          "La relazione tra apparecchiatura e comando non è stata trovata",
+        EQUIPMENT_METER_RELATION_EXISTS: "Relazione attrezzatura-contatore già esistente",
         EQUIPMENT_METER_RELATION_NOT_FOUND:
           "Relazione attrezzatura-contatore non trovata",
         EQUIPMENT_NAME_IS_ALREADY_IN_USE:
-          "Il nome dell'attrezzatura 猫 gi脿 in uso",
+          "Il nome dell'attrezzatura è già in uso",
         EQUIPMENT_NOT_FOUND: "Attrezzatura non trovata",
         EQUIPMENT_OFFLINE_METER_RELATION_EXISTS:
-          "Relazione attrezzatura-contatore offline gi脿 esistente",
+          "Relazione attrezzatura-contatore offline già esistente",
         EQUIPMENT_OFFLINE_METER_RELATION_NOT_FOUND:
           "Relazione attrezzatura-contatore offline non trovata",
         EQUIPMENT_PARAMETER_NAME_IS_ALREADY_IN_USE:
-          "Il nome del parametro dell'attrezzatura 猫 gi脿 in uso",
+          "Il nome del parametro dell'attrezzatura è già in uso",
         EQUIPMENT_PARAMETER_NOT_FOUND_OR_NOT_MATCH:
           "Parametro attrezzatura non trovato o non corrispondente",
         EQUIPMENT_VIRTUAL_METER_RELATION_EXISTS:
-          "Relazione attrezzatura-contatore virtuale gi脿 esistente",
+          "Relazione attrezzatura-contatore virtuale già esistente",
         EQUIPMENT_VIRTUAL_METER_RELATION_NOT_FOUND:
           "Relazione attrezzatura-contatore virtuale non trovata",
         ERROR: "Errore",
@@ -2130,7 +2130,7 @@
         FAILED_TO_UPLOAD_KNOWLEDGE_FILE: "Upload file conoscenza fallito",
         FAILED_TO_UPLOAD_OFFLINE_METER_FILE:
           "Upload file contatore offline fallito",
-        GATEWAY_NAME_IS_ALREADY_IN_USE: "Il nome del gateway 猫 gi脿 in uso",
+        GATEWAY_NAME_IS_ALREADY_IN_USE: "Il nome del gateway è già in uso",
         GATEWAY_NOT_FOUND: "Gateway non trovato",
         HEAT_METER_NOT_FOUND: "Misuratore di calore non trovato",
         INVALID_ACKNOWLEDGE_CODE: "Codice di conferma non valido",
@@ -2149,8 +2149,8 @@
         INVALID_BAUD_RATE: "Baud rate non valido",
         INVALID_BUILDINGS_VALUE: "Valore edifici non valido",
         INVALID_BUY_METER_ID: "ID del misuratore di acquisto non valido",
-        INVALID_CAPACITY: "Capacit脿 non valida",
-        INVALID_CAPACITY_VALUE: "Valore capacit脿 non valido",
+        INVALID_CAPACITY: "Capacità non valida",
+        INVALID_CAPACITY_VALUE: "Valore capacità non valido",
         INVALID_CATEGORY: "Categoria non valida",
         INVALID_CHANNEL: "Canale non valido",
         INVALID_CHARGE_METER_ID: "ID del misuratore di carica non valido",
@@ -2186,7 +2186,7 @@
         INVALID_DISTRIBUTION_ROOM: "Stanza distribuzione non valida",
         INVALID_DISTRIBUTION_SYSTEM_ID: "ID sistema distribuzione non valido",
         INVALID_DISTRIBUTION_SYSTEM_NAME: "Nome sistema distribuzione non valido",
-        INVALID_ELECTRICITY_METER_ID: "ID del misuratore di elettricit脿 non valido",
+        INVALID_ELECTRICITY_METER_ID: "ID del misuratore di elettricità non valido",
         INVALID_EMAIL: "Email non valida",
         INVALID_EMAIL_MESSAGE_ID: "ID messaggio email non valido",
         INVALID_EMAIL_SERVER_HOST: "Host server email non valido",
@@ -2333,7 +2333,7 @@
         INVALID_PORT: "Porta non valida",
         INVALID_POSTAL_CODE_VALUE: "Valore del codice postale non valido",
         INVALID_POWER_POINT_ID: "ID del punto di potenza non valido",
-        INVALID_PRIORITY: "Priorit脿 non valida",
+        INVALID_PRIORITY: "Priorità non valida",
         INVALID_PRIVILEGE: "Privilegio non valido",
         INVALID_PRIVILEGE_DATA: "Dati privilegio non validi",
         INVALID_PRIVILEGE_ID: "ID privilegio non valido",
@@ -2411,9 +2411,9 @@
         INVALID_TIMEZONE_ID: "ID fuso orario non valido",
         INVALID_TOKEN: "Token non valido",
         INVALID_TOPIC: "Argomento non valido",
-        INVALID_UNIT_OF_MEASURE: "Unit脿 di misura non valida",
-        INVALID_UNIT_OF_PRICE: "Unit脿 di prezzo non valida",
-        INVALID_UNITS: "Unit脿 non valide",
+        INVALID_UNIT_OF_MEASURE: "Unità di misura non valida",
+        INVALID_UNIT_OF_PRICE: "Unità di prezzo non valida",
+        INVALID_UNITS: "Unità non valide",
         INVALID_USER_ID: "ID utente non valido",
         INVALID_USER_NAME: "Nome utente non valido",
         INVALID_USER_NAME_OR_EMAIL: "Nome utente o email non validi",
@@ -2444,53 +2444,53 @@
         MASTER_METER_NOT_FOUND: "Contatore principale non trovato",
         MENU_NOT_FOUND: "Menu non trovato",
         METER_CANNOT_HAVE_MORE_THAN_ONE_ENERGY_VALUE_POINTS:
-          "Il contatore non pu貌 avere pi霉 di un punto ENERGY_VALUE",
+          "Il contatore non può avere più di un punto ENERGY_VALUE",
         METER_COMMAND_RELATION_EXISTS: "La relazione comando-contatore esiste",
         METER_COMMAND_RELATION_NOT_FOUND: "La relazione comando-contatore non trovata",
-        METER_NAME_IS_ALREADY_IN_USE: "Il nome del contatore 猫 gi脿 in uso",
+        METER_NAME_IS_ALREADY_IN_USE: "Il nome del contatore è già in uso",
         METER_NOT_FOUND: "Contatore non trovato",
         METER_OF_VARIABLE_NOT_FOUND: "Contatore variabile non trovato",
-        METER_POINT_RELATION_EXISTS: "Relazione contatore-punto dati gi脿 esistente",
+        METER_POINT_RELATION_EXISTS: "Relazione contatore-punto dati già esistente",
         METER_POINT_RELATION_NOT_FOUND: "Relazione contatore-punto dati non trovata",
         MICROGRID_BATTERY_NAME_IS_ALREADY_IN_USE:
-          "Il nome della batteria della microgrid 猫 gi脿 in uso",
+          "Il nome della batteria della microgrid è già in uso",
         MICROGRID_BATTERY_NOT_FOUND: "Batteria Microgrid non trovata",
         MICROGRID_EVCHARGER_NAME_IS_ALREADY_IN_USE:
-          "Il nome dell'evcharger della microgrid 猫 gi脿 in uso",
+          "Il nome dell'evcharger della microgrid è già in uso",
         MICROGRID_EVCHARGER_NOT_FOUND: "Evcharger Microgrid non trovato",
         MICROGRID_GENERATOR_NAME_IS_ALREADY_IN_USE:
-          "Il nome del generatore della microgrid 猫 gi脿 in uso",
+          "Il nome del generatore della microgrid è già in uso",
         MICROGRID_GENERATOR_NOT_FOUND: "Generatore Microgrid non trovato",
         MICROGRID_GRID_NAME_IS_ALREADY_IN_USE:
-          "Il nome della rete della microgrid 猫 gi脿 in uso",
+          "Il nome della rete della microgrid è già in uso",
         MICROGRID_GRID_NOT_FOUND: "Griglia Microgrid non trovata",
         MICROGRID_HEATPUMP_NAME_IS_ALREADY_IN_USE:
-          "Il nome della pompa di calore della microgrid 猫 gi脿 in uso",
+          "Il nome della pompa di calore della microgrid è già in uso",
         MICROGRID_HEATPUMP_NOT_FOUND: "Heatpump Microgrid non trovato",
         MICROGRID_LOAD_NAME_IS_ALREADY_IN_USE:
-          "Il nome del carico della microgrid 猫 gi脿 in uso",
+          "Il nome del carico della microgrid è già in uso",
         MICROGRID_LOAD_NOT_FOUND: "Carico Microgrid non trovato",
         MICROGRID_NAME_IS_ALREADY_IN_USE:
-          "Il nome della microgrid 猫 gi脿 in uso",
+          "Il nome della microgrid è già in uso",
         MICROGRID_NOT_FOUND: "Microgrid non trovata",
         MICROGRID_PHOTOVOLTAIC_NAME_IS_ALREADY_IN_USE:
-          "Il nome del fotovoltaico della microgrid 猫 gi脿 in uso",
+          "Il nome del fotovoltaico della microgrid è già in uso",
         MICROGRID_PHOTOVOLTAIC_NOT_FOUND: "Photovoltaic Microgrid non trovato",
         MICROGRID_POWER_CONVERSION_SYSTEM_NAME_IS_ALREADY_IN_USE:
-          "Il nome del sistema di conversione della potenza della Microgrid 猫 gi脿 in uso",
+          "Il nome del sistema di conversione della potenza della Microgrid è già in uso",
         MICROGRID_POWER_CONVERSION_SYSTEM_NOT_FOUND:
           "Sistema di conversione della potenza della Microgrid non trovato",
         MICROGRID_SENSOR_RELATION_EXISTS: "La relazione Microgrid-sensore esiste",
         MICROGRID_SENSOR_RELATION_NOT_FOUND:
           "La relazione Microgrid-sensore non trovata",
         MICROGRID_DATA_SOURCE_RELATION_EXISTS:
-          "La relazione di binding della sorgente dati della microgrid esiste gi脿",
+          "La relazione di binding della sorgente dati della microgrid esiste già",
         MICROGRID_USER_RELATION_EXISTS: "La relazione utente Microgrid esiste",
         MICROGRID_USER_RELATION_NOT_FOUND: "La relazione utente Microgrid non trovata",
         MQTT_CONNECTION_ERROR: "Errore di connessione MQTT",
         MQTT_PUBLISH_ERROR: "Errore di pubblicazione MQTT",
         NEW_PASSWORD_LENGTH_CANNOT_EXCEED_100_CHARACTERS:
-          "Lunghezza nuova password non pu貌 superare 100 caratteri",
+          "Lunghezza nuova password non può superare 100 caratteri",
         NEW_USER_SESSION_NOT_FOUND: "Sessione utente nuovo non trovata",
         NEW_USER_SESSION_TIMEOUT: "Timeout della sessione utente nuovo",
         NON_WORKING_DAY_NOT_FOUND: "Giorno non lavorativo non trovato",
@@ -2498,70 +2498,70 @@
         NOTIFICATION_NOT_FOUND: "Notifica non trovata",
         OFFLINE_METER_FILE_NOT_FOUND: "File contatore offline non trovato",
         OFFLINE_METER_NAME_IS_ALREADY_IN_USE:
-          "Il nome del contatore offline 猫 gi脿 in uso",
+          "Il nome del contatore offline è già in uso",
         OFFLINE_METER_NOT_FOUND: "Contatore offline non trovato",
         OFFLINE_METER_OF_VARIABLE_NOT_FOUND:
           "Contatore offline variabile non trovato",
         OLD_PASSWORD_LENGTH_CANNOT_EXCEED_100_CHARACTERS:
-          "Lunghezza vecchia password non pu貌 superare 100 caratteri",
+          "Lunghezza vecchia password non può superare 100 caratteri",
         PARENT_SPACE_NOT_FOUND: "Spazio padre non trovato",
         PASSWORD_LENGTH_CANNOT_EXCEED_100_CHARACTERS:
-          "Lunghezza password non pu貌 superare 100 caratteri",
+          "Lunghezza password non può superare 100 caratteri",
         PASSWORDS_MATCH: "Nuova password identica alla vecchia password",
         PHOTOVOLTAIC_POWER_STATION_NAME_IS_ALREADY_IN_USE:
-          "Il nome della centrale fotovoltaica 猫 gi脿 in uso",
+          "Il nome della centrale fotovoltaica è già in uso",
         PHOTOVOLTAIC_POWER_STATION_NOT_FOUND:
           "Centrale Fotovoltaica non trovata",
-        POINT_NAME_IS_ALREADY_IN_USE: "Il nome del punto dati 猫 gi脿 in uso",
+        POINT_NAME_IS_ALREADY_IN_USE: "Il nome del punto dati è già in uso",
         POINT_NOT_FOUND: "Punto dati non trovato",
         POWER_POINT_NOT_FOUND: "Punto di potenza non trovato",
-        PRIVILEGE_NAME_IS_ALREADY_IN_USE: "Il nome del privilegio 猫 gi脿 in uso",
+        PRIVILEGE_NAME_IS_ALREADY_IN_USE: "Il nome del privilegio è già in uso",
         PRIVILEGE_NOT_FOUND: "Privilegio non trovato",
         PROTOCOL_CODE_IS_ALREADY_IN_USE:
-          "Il codice del protocollo 猫 gi脿 in uso",
-        PROTOCOL_NAME_IS_ALREADY_IN_USE: "Il nome del protocollo 猫 gi脿 in uso",
+          "Il codice del protocollo è già in uso",
+        PROTOCOL_NAME_IS_ALREADY_IN_USE: "Il nome del protocollo è già in uso",
         PROTOCOL_NOT_FOUND: "Protocollo non trovato",
-        RULE_NAME_IS_ALREADY_IN_USE: "Il nome della regola 猫 gi脿 in uso",
+        RULE_NAME_IS_ALREADY_IN_USE: "Il nome della regola è già in uso",
         RULE_NOT_FOUND: "Regola non trovata",
         SELL_METER_NOT_FOUND: "Contatore di vendita non trovato",
-        SENSOR_NAME_IS_ALREADY_IN_USE: "Il nome del sensore 猫 gi脿 in uso",
+        SENSOR_NAME_IS_ALREADY_IN_USE: "Il nome del sensore è già in uso",
         SENSOR_NOT_FOUND: "Sensore non trovato",
-        SENSOR_POINT_RELATION_EXISTS: "Relazione sensore-punto dati gi脿 esistente",
+        SENSOR_POINT_RELATION_EXISTS: "Relazione sensore-punto dati già esistente",
         SENSOR_POINT_RELATION_NOT_FOUND: "Relazione sensore-punto dati non trovata",
         SHOPFLOOR_COMMAND_RELATION_EXISTS: "La relazione comando-shopfloor esiste",
         SHOPFLOOR_COMMAND_RELATION_NOT_FOUND:
           "La relazione comando-shopfloor non trovata",
         SHOPFLOOR_EQUIPMENT_RELATION_EXISTS:
-          "Relazione reparto-attrezzatura gi脿 esistente",
+          "Relazione reparto-attrezzatura già esistente",
         SHOPFLOOR_EQUIPMENT_RELATION_NOT_FOUND:
           "Relazione reparto-attrezzatura non trovata",
-        SHOPFLOOR_METER_RELATION_EXISTS: "Relazione reparto-contatore gi脿 esistente",
+        SHOPFLOOR_METER_RELATION_EXISTS: "Relazione reparto-contatore già esistente",
         SHOPFLOOR_METER_RELATION_NOT_FOUND:
           "Relazione reparto-contatore non trovata",
-        SHOPFLOOR_NAME_IS_ALREADY_IN_USE: "Il nome dell'officina 猫 gi脿 in uso",
+        SHOPFLOOR_NAME_IS_ALREADY_IN_USE: "Il nome dell'officina è già in uso",
         SHOPFLOOR_NOT_FOUND: "Reparto non trovato",
         SHOPFLOOR_OFFLINE_METER_RELATION_EXISTS:
-          "Relazione reparto-contatore offline gi脿 esistente",
+          "Relazione reparto-contatore offline già esistente",
         SHOPFLOOR_OFFLINE_METER_RELATION_NOT_FOUND:
           "Relazione reparto-contatore offline non trovata",
-        SHOPFLOOR_POINT_RELATION_EXISTS: "Relazione reparto-punto dati gi脿 esistente",
+        SHOPFLOOR_POINT_RELATION_EXISTS: "Relazione reparto-punto dati già esistente",
         SHOPFLOOR_POINT_RELATION_NOT_FOUND:
           "Relazione reparto-punto dati non trovata",
-        SHOPFLOOR_SENSOR_RELATION_EXISTS: "Relazione reparto-sensore gi脿 esistente",
+        SHOPFLOOR_SENSOR_RELATION_EXISTS: "Relazione reparto-sensore già esistente",
         SHOPFLOOR_SENSOR_RELATION_NOT_FOUND:
           "Relazione reparto-sensore non trovata",
         SHOPFLOOR_VIRTUAL_METER_RELATION_EXISTS:
-          "Relazione reparto-contatore virtuale gi脿 esistente",
+          "Relazione reparto-contatore virtuale già esistente",
         SHOPFLOOR_VIRTUAL_METER_RELATION_NOT_FOUND:
           "Relazione reparto-contatore virtuale non trovata",
         SHOPFLOOR_WORKING_CALENDAR_RELATION_EXISTS:
-          "Relazione reparto-calendario lavorativo gi脿 esistente",
+          "Relazione reparto-calendario lavorativo già esistente",
         SHOPFLOOR_WORKING_CALENDAR_RELATION_NOT_FOUND:
           "Relazione reparto-calendario lavorativo non trovata",
         SOC_POINT_NOT_FOUND: "Punto SOC non trovato",
         SOURCE_NODE_NOT_FOUND: "Nodo sorgente non trovato",
         SPACE_COMBINED_EQUIPMENT_RELATION_EXISTS:
-          "Relazione spazio-attrezzatura combinata gi脿 esistente",
+          "Relazione spazio-attrezzatura combinata già esistente",
         SPACE_COMBINED_EQUIPMENT_RELATION_NOT_FOUND:
           "Relazione spazio-attrezzatura combinata non trovata",
         SPACE_COMMAND_RELATION_EXISTS: "La relazione comando-spazio esiste",
@@ -2578,111 +2578,111 @@
           "Relazione stazione di accumulo energetico-Spazio esiste",
         SPACE_ENERGY_STORAGE_POWER_STATION_RELATION_NOT_FOUND:
           "Relazione stazione di accumulo energetico-Spazio non trovata",
-        SPACE_EQUIPMENT_RELATION_EXISTS: "Relazione spazio-attrezzatura gi脿 esistente",
+        SPACE_EQUIPMENT_RELATION_EXISTS: "Relazione spazio-attrezzatura già esistente",
         SPACE_EQUIPMENT_RELATION_NOT_FOUND:
           "Relazione spazio-attrezzatura non trovata",
-        SPACE_METER_RELATION_EXISTS: "Relazione spazio-contatore gi脿 esistente",
+        SPACE_METER_RELATION_EXISTS: "Relazione spazio-contatore già esistente",
         SPACE_METER_RELATION_NOT_FOUND: "Relazione spazio-contatore non trovata",
-        SPACE_NAME_IS_ALREADY_IN_USE: "Il nome dello spazio 猫 gi脿 in uso",
+        SPACE_NAME_IS_ALREADY_IN_USE: "Il nome dello spazio è già in uso",
         SPACE_NOT_FOUND: "Spazio non trovato",
         SPACE_NOT_FOUND_IN_PRIVILEGE: "Spazio non trovato nel privilegio",
         SPACE_OFFLINE_METER_RELATION_EXISTS:
-          "Relazione spazio-contatore offline gi脿 esistente",
+          "Relazione spazio-contatore offline già esistente",
         SPACE_OFFLINE_METER_RELATION_NOT_FOUND:
           "Relazione spazio-contatore offline non trovata",
         SPACE_PHOTOVOLTAIC_POWER_STATION_RELATION_EXISTS:
           "Relazione stazione fotovoltaica-Spazio esiste",
         SPACE_PHOTOVOLTAIC_POWER_STATION_RELATION_NOT_FOUND:
           "Relazione stazione fotovoltaica-Spazio non trovata",
-        SPACE_POINT_RELATION_EXISTS: "Relazione spazio-punto dati gi脿 esistente",
+        SPACE_POINT_RELATION_EXISTS: "Relazione spazio-punto dati già esistente",
         SPACE_POINT_RELATION_NOT_FOUND: "Relazione spazio-punto dati non trovata",
-        SPACE_SENSOR_RELATION_EXISTS: "Relazione spazio-sensore gi脿 esistente",
+        SPACE_SENSOR_RELATION_EXISTS: "Relazione spazio-sensore già esistente",
         SPACE_SENSOR_RELATION_NOT_FOUND: "Relazione spazio-sensore non trovata",
-        SPACE_SHOPFLOOR_RELATION_EXISTS: "Relazione spazio-reparto gi脿 esistente",
+        SPACE_SHOPFLOOR_RELATION_EXISTS: "Relazione spazio-reparto già esistente",
         SPACE_SHOPFLOOR_RELATION_NOT_FOUND:
           "Relazione spazio-reparto non trovata",
-        SPACE_STORE_RELATION_EXISTS: "Relazione spazio-negozio gi脿 esistente",
+        SPACE_STORE_RELATION_EXISTS: "Relazione spazio-negozio già esistente",
         SPACE_STORE_RELATION_NOT_FOUND: "Relazione spazio-negozio non trovata",
-        SPACE_TENANT_RELATION_EXISTS: "Relazione spazio-locatario gi脿 esistente",
+        SPACE_TENANT_RELATION_EXISTS: "Relazione spazio-locatario già esistente",
         SPACE_TENANT_RELATION_NOT_FOUND: "Relazione spazio-locatario non trovata",
         SPACE_VIRTUAL_METER_RELATION_EXISTS:
-          "Relazione spazio-contatore virtuale gi脿 esistente",
+          "Relazione spazio-contatore virtuale già esistente",
         SPACE_VIRTUAL_METER_RELATION_NOT_FOUND:
           "Relazione spazio-contatore virtuale non trovata",
         SPACE_WORKING_CALENDAR_RELATION_EXISTS:
-          "Relazione spazio-calendario lavorativo gi脿 esistente",
+          "Relazione spazio-calendario lavorativo già esistente",
         SPACE_WORKING_CALENDAR_RELATION_NOT_FOUND:
           "Relazione spazio-calendario lavorativo non trovata",
         START_DATETIME_MUST_BE_EARLIER_THAN_END_DATETIME:
           "Data/ora inizio deve precedere data/ora fine",
         STORE_COMMAND_RELATION_EXISTS: "Relazione comando-Negozio esiste",
         STORE_COMMAND_RELATION_NOT_FOUND: "Relazione comando-Negozio non trovata",
-        STORE_METER_RELATION_EXISTS: "Relazione negozio-contatore gi脿 esistente",
+        STORE_METER_RELATION_EXISTS: "Relazione negozio-contatore già esistente",
         STORE_METER_RELATION_NOT_FOUND: "Relazione negozio-contatore non trovata",
-        STORE_NAME_IS_ALREADY_IN_USE: "Il nome del negozio 猫 gi脿 in uso",
+        STORE_NAME_IS_ALREADY_IN_USE: "Il nome del negozio è già in uso",
         STORE_NOT_FOUND: "Negozio non trovato",
         STORE_OFFLINE_METER_RELATION_EXISTS:
-          "Relazione negozio-contatore offline gi脿 esistente",
+          "Relazione negozio-contatore offline già esistente",
         STORE_OFFLINE_METER_RELATION_NOT_FOUND:
           "Relazione negozio-contatore offline non trovata",
-        STORE_POINT_RELATION_EXISTS: "Relazione negozio-punto dati gi脿 esistente",
+        STORE_POINT_RELATION_EXISTS: "Relazione negozio-punto dati già esistente",
         STORE_POINT_RELATION_NOT_FOUND: "Relazione negozio-punto dati non trovata",
-        STORE_SENSOR_RELATION_EXISTS: "Relazione negozio-sensore gi脿 esistente",
+        STORE_SENSOR_RELATION_EXISTS: "Relazione negozio-sensore già esistente",
         STORE_SENSOR_RELATION_NOT_FOUND: "Relazione negozio-sensore non trovata",
         STORE_TYPE_NAME_IS_ALREADY_IN_USE:
-          "Il nome del tipo di negozio 猫 gi脿 in uso",
+          "Il nome del tipo di negozio è già in uso",
         STORE_TYPE_NOT_FOUND: "Tipo negozio non trovato",
         STORE_TYPE_SIMPLIFIED_CODE_IS_ALREADY_IN_USE:
-          "Codice semplificato tipo negozio gi脿 in uso",
-        STORE_TYPE_USED_IN_STORE: "Tipo negozio gi脿 usato nel negozio",
+          "Codice semplificato tipo negozio già in uso",
+        STORE_TYPE_USED_IN_STORE: "Tipo negozio già usato nel negozio",
         STORE_VIRTUAL_METER_RELATION_EXISTS:
-          "Relazione negozio-contatore virtuale gi脿 esistente",
+          "Relazione negozio-contatore virtuale già esistente",
         STORE_VIRTUAL_METER_RELATION_NOT_FOUND:
           "Relazione negozio-contatore virtuale non trovata",
         STORE_WORKING_CALENDAR_RELATION_EXISTS:
-          "Relazione negozio-calendario lavorativo gi脿 esistente",
+          "Relazione negozio-calendario lavorativo già esistente",
         STORE_WORKING_CALENDAR_RELATION_NOT_FOUND:
           "Relazione negozio-calendario lavorativo non trovata",
-        SVG_NAME_IS_ALREADY_IN_USE: "Il nome SVG 猫 gi脿 in uso",
+        SVG_NAME_IS_ALREADY_IN_USE: "Il nome SVG è già in uso",
         SVG_NOT_FOUND: "SVG non trovato",
         SVG_SYSTEM_NAME_IS_ALREADY_IN_USE:
-          "Il nome del sistema di visualizzazione SCADA 猫 gi脿 in uso",
+          "Il nome del sistema di visualizzazione SCADA è già in uso",
         SVG_SYSTEM_NOT_FOUND: "Sistema di visualizzazione SCADA non trovato",
         TARGET_NODE_NOT_FOUND: "Nodo destinazione non trovato",
         TARIFF_IN_USE: "Tariffa in uso",
         TARIFF_IS_ALREADY_ASSOCIATED_WITH_COST_CENTER:
-          "Tariffa gi脿 associata al centro di costo",
+          "Tariffa già associata al centro di costo",
         TARIFF_IS_NOT_ASSOCIATED_WITH_COST_CENTER:
           "Tariffa non associata al centro di costo",
         TARIFF_NAME_IS_ALREADY_IN_USE:
-          "Il nome della tariffa energetica 猫 gi脿 in uso",
+          "Il nome della tariffa energetica è già in uso",
         TARIFF_NOT_FOUND: "Tariffa non trovata",
         TENANT_COMMAND_RELATION_EXISTS: "Relazione comando-Inquilino esiste",
         TENANT_COMMAND_RELATION_NOT_FOUND: "Tenant command relation not found",
-        TENANT_METER_RELATION_EXISTS: "Relazione locatario-contatore gi脿 esistente",
+        TENANT_METER_RELATION_EXISTS: "Relazione locatario-contatore già esistente",
         TENANT_METER_RELATION_NOT_FOUND: "Relazione locatario-contatore non trovata",
-        TENANT_NAME_IS_ALREADY_IN_USE: "Il nome dell'inquilino 猫 gi脿 in uso",
+        TENANT_NAME_IS_ALREADY_IN_USE: "Il nome dell'inquilino è già in uso",
         TENANT_NOT_FOUND: "Locatario non trovato",
         TENANT_OFFLINE_METER_RELATION_EXISTS:
-          "Relazione locatario-contatore offline gi脿 esistente",
+          "Relazione locatario-contatore offline già esistente",
         TENANT_OFFLINE_METER_RELATION_NOT_FOUND:
           "Relazione locatario-contatore offline non trovata",
-        TENANT_POINT_RELATION_EXISTS: "Relazione locatario-punto dati gi脿 esistente",
+        TENANT_POINT_RELATION_EXISTS: "Relazione locatario-punto dati già esistente",
         TENANT_POINT_RELATION_NOT_FOUND: "Relazione locatario-punto dati non trovata",
-        TENANT_SENSOR_RELATION_EXISTS: "Relazione locatario-sensore gi脿 esistente",
+        TENANT_SENSOR_RELATION_EXISTS: "Relazione locatario-sensore già esistente",
         TENANT_SENSOR_RELATION_NOT_FOUND: "Relazione locatario-sensore non trovata",
         TENANT_TYPE_NAME_IS_ALREADY_IN_USE:
-          "Il nome del tipo di inquilino 猫 gi脿 in uso",
+          "Il nome del tipo di inquilino è già in uso",
         TENANT_TYPE_NOT_FOUND: "Tipo locatario non trovato",
         TENANT_TYPE_SIMPLIFIED_CODE_IS_ALREADY_IN_USE:
-          "Codice semplificato tipo locatario gi脿 in uso",
-        TENANT_TYPE_USED_IN_TENANT: "Tipo locatario gi脿 usato nel locatario",
+          "Codice semplificato tipo locatario già in uso",
+        TENANT_TYPE_USED_IN_TENANT: "Tipo locatario già usato nel locatario",
         TENANT_VIRTUAL_METER_RELATION_EXISTS:
-          "Relazione locatario-contatore virtuale gi脿 esistente",
+          "Relazione locatario-contatore virtuale già esistente",
         TENANT_VIRTUAL_METER_RELATION_NOT_FOUND:
           "Relazione locatario-contatore virtuale non trovata",
         TENANT_WORKING_CALENDAR_RELATION_EXISTS:
-          "Relazione locatario-calendario lavorativo gi脿 esistente",
+          "Relazione locatario-calendario lavorativo già esistente",
         TENANT_WORKING_CALENDAR_RELATION_NOT_FOUND:
           "Relazione locatario-calendario lavorativo non trovata",
         TEXT_MESSAGE_NOT_FOUND: "Messaggio SMS non trovato",
@@ -2802,20 +2802,20 @@
         THERE_IS_RELATION_WITH_WIND_FARMS:
           "In relazione con le centrali eoliche",
         THIS_DATA_SOURCE_IS_BEING_USED_BY_A_METER:
-          "Questa sorgente dati 猫 attualmente utilizzata da un contatore",
+          "Questa sorgente dati è attualmente utilizzata da un contatore",
         THIS_METER_IS_BEING_USED_BY_A_VIRTUAL_METER:
-          "Questo contatore 猫 attualmente utilizzato da un contatore virtuale",
+          "Questo contatore è attualmente utilizzato da un contatore virtuale",
         THIS_OFFLINE_METER_IS_BEING_USED_BY_A_VIRTUAL_METER:
-          "Questo contatore offline 猫 attualmente utilizzato da un contatore virtuale",
-        THIS_SPACE_CANNOT_BE_CLONED: "Spazio non pu貌 essere clonato",
-        THIS_SPACE_CANNOT_BE_DELETED: "Spazio non pu貌 essere eliminato",
+          "Questo contatore offline è attualmente utilizzato da un contatore virtuale",
+        THIS_SPACE_CANNOT_BE_CLONED: "Spazio non può essere clonato",
+        THIS_SPACE_CANNOT_BE_DELETED: "Spazio non può essere eliminato",
         TIMEZONE_NOT_FOUND: "Fuso orario non trovato",
         TOKEN_NOT_FOUND_IN_HEADERS_PLEASE_LOGIN:
           "Token non trovato negli header, effettuare il login",
         USER_ACCOUNT_HAS_BEEN_LOCKED: "Account utente bloccato",
         USER_ACCOUNT_HAS_EXPIRED: "Account utente scaduto",
-        USER_ACCOUNT_IS_NOT_LOCKED: "L'account utente non 猫 bloccato",
-        USER_NAME_IS_ALREADY_IN_USE: "Il nome utente 猫 gi脿 in uso",
+        USER_ACCOUNT_IS_NOT_LOCKED: "L'account utente non è bloccato",
+        USER_NAME_IS_ALREADY_IN_USE: "Il nome utente è già in uso",
         USER_NOT_FOUND: "Utente non trovato",
         USER_PASSWORD_HAS_EXPIRED: "Password utente scaduta",
         USER_PRIVILEGE_NOT_FOUND: "Privilegio utente non trovato",
@@ -2824,34 +2824,34 @@
         USER_UUID_NOT_FOUND_IN_HEADERS_PLEASE_LOGIN:
           "UUID utente non trovato negli header, effettuare il login",
         VIRTUAL_METER_NAME_IS_ALREADY_IN_USE:
-          "Il nome del contatore virtuale 猫 gi脿 in uso",
+          "Il nome del contatore virtuale è già in uso",
         VIRTUAL_METER_NOT_FOUND: "Contatore virtuale non trovato",
         VIRTUAL_METER_OF_VARIABLE_NOT_FOUND:
           "Contatore virtuale variabile non trovato",
         VIRTUAL_POINT_CAN_NOT_BE_DIGITAL_VALUE:
-          "Il punto virtuale non pu貌 essere un valore digitale",
+          "Il punto virtuale non può essere un valore digitale",
         VIRTUAL_POINT_CAN_NOT_BE_TEXT_VALUE:
-          "Il punto virtuale non pu貌 essere un valore di testo",
+          "Il punto virtuale non può essere un valore di testo",
         VIRTUAL_POWER_PLANT_MICROGRID_RELATION_EXISTS:
           "La relazione tra Centrale Elettrica Virtuale e Microgrid esiste",
         VIRTUAL_POWER_PLANT_MICROGRID_RELATION_NOT_FOUND:
-          "La relazione tra Centrale Elettrica Virtuale e Microgrid non 猫 stata trovata",
+          "La relazione tra Centrale Elettrica Virtuale e Microgrid non è stata trovata",
         VIRTUAL_POWER_PLANT_NAME_IS_ALREADY_IN_USE:
-          "Il nome dell'impianto di energia virtuale 猫 gi脿 in uso",
+          "Il nome dell'impianto di energia virtuale è già in uso",
         VIRTUAL_POWER_PLANT_NOT_FOUND: "Centrale Elettrica Virtuale non trovata",
         WEB_MESSAGE_NOT_FOUND: "Messaggio web non trovato",
         WECHAT_MESSAGE_NOT_FOUND: "Messaggio WeChat non trovato",
         WIND_FARM_NAME_IS_ALREADY_IN_USE:
-          "Il nome della centrale eolica 猫 gi脿 in uso",
+          "Il nome della centrale eolica è già in uso",
         WIND_FARM_NOT_FOUND: "Parco Eolico non trovato",
         WORKING_CALENDAR_NAME_IS_ALREADY_IN_USE:
-          "Il nome del calendario lavorativo 猫 gi脿 in uso",
+          "Il nome del calendario lavorativo è già in uso",
         WORKING_CALENDAR_NOT_FOUND: "Calendario lavorativo non trovato",
       },
       Dashboard: "Dashboard",
-      "Meter Prediction": "Previsione contatore鈷?,
-      "Virtual Meter Prediction": "Previsione contatore virtuale鈷?,
-      "Offline Meter Prediction": "Previsione contatore offline鈷?,
+      "Meter Prediction": "Previsione contatoreⒺ",
+      "Virtual Meter Prediction": "Previsione contatore virtualeⒺ",
+      "Offline Meter Prediction": "Previsione contatore offlineⒺ",
       "Space Data": "Dati Spazi",
       "Energy Category Data": "Analisi Categoria Energia",
       "Energy Item Data": "Analisi Voci Consumo Energia",
@@ -2861,13 +2861,13 @@
       Efficiency: "Analisi Efficienza",
       Load: "Analisi Carico",
       Statistics: "Analisi Statistica",
-      Saving: "Analisi Risparmio Energetico鈷?,
+      Saving: "Analisi Risparmio EnergeticoⒺ",
       Carbon: "Analisi Emissioni Carbonio",
       "Environment Monitor": "Monitor Ambientale",
-      Plan: "Analisi Piano鈷?,
+      Plan: "Analisi PianoⒺ",
       Production: "Produzione",
       "Enter Production": "Inserimento Produzione",
-      Prediction: "Analisi Previsionale鈷?,
+      Prediction: "Analisi PrevisionaleⒺ",
       "Space Comparison": "Analisi Comparativa",
       "Equipment Data": "Dati Equipaggiamento",
       "Batch Analysis": "Analisi Batch",
@@ -2891,16 +2891,16 @@
       "Virtual Meter Batch Analysis": "Analisi Batch Contatori Virtuali",
       "Offline Meter Batch Analysis": "Analisi Batch Contatori Offline",
       "Offline Meter Carbon": "Analisi Emissioni Carbonio Contatore Offline",
-      "Meter Saving": "Analisi Risparmio Contatore鈷?,
-      "Offline Meter Saving": "Analisi Risparmio Contatore Offline鈷?,
-      "Virtual Meter Saving": "Analisi Risparmio Contatore Virtuale鈷?,
+      "Meter Saving": "Analisi Risparmio ContatoreⒺ",
+      "Offline Meter Saving": "Analisi Risparmio Contatore OfflineⒺ",
+      "Virtual Meter Saving": "Analisi Risparmio Contatore VirtualeⒺ",
       "Meter Comparison": "Analisi Comparativa Contatori",
       "Offline Meter Input": "Inserimento Dati Contatore Offline",
-      "Meter Plan": "Analisi Piano Contatore鈷?,
-      "Offline Meter Plan": "Analisi Piano Contatore Offline鈷?,
-      "Virtual Meter Plan": "Analisi Piano Contatore Virtuale鈷?,
+      "Meter Plan": "Analisi Piano ContatoreⒺ",
+      "Offline Meter Plan": "Analisi Piano Contatore OfflineⒺ",
+      "Virtual Meter Plan": "Analisi Piano Contatore VirtualeⒺ",
       "Virtual Meter Comparison": "Analisi Comparativa Contatori Virtuali",
-      "Power Quality": "Qualit脿 dell'Energia",
+      "Power Quality": "Qualità dell'Energia",
       "Tenant Data": "Dati Inquilini",
       "Tenant Bill": "Fattura Inquilino",
       "Tenant Comparison": "Analisi Comparativa",
@@ -2916,5 +2916,3 @@
       "Knowledge Base": "Knowledge Base",
     };
 })(window);
-
-

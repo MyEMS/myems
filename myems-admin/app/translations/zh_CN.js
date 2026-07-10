@@ -121,6 +121,7 @@
         ENERGY_FLOW_DIAGRAM: "能流图",
         MICROGRID: "微电网",
         MENU: "菜单",
+          DOWNLOAD_OFFLINE_METER_TEMPLATE: "下载离线表模板",
         DATE: "日期",
         TARIFF: {
           TOPPEAK: "尖",

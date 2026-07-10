@@ -1,4 +1,4 @@
-﻿(function (global) {
+(function (global) {
   global.myemsAdminTranslations = global.myemsAdminTranslations || {};
   global.myemsAdminTranslations["ms"] = {
             TIMEZONE: {
@@ -28,7 +28,7 @@
                 'Azores Standard Time': 'Masa Kepulauan Azores (GMT-01:00) Kepulauan Azores',
                 'Cape Verde Standard Time': 'Masa Cape Verde (GMT-01:00) Kepulauan Cape Verde',
                 'GMT Standard Time': 'Masa GMT (GMT+00:00) London, Lisbon',
-                'Greenwich Standard Time': 'Masa Greenwich (GMT+00:00) Monrovia, Reykjav铆k',
+                'Greenwich Standard Time': 'Masa Greenwich (GMT+00:00) Monrovia, Reykjavík',
                 'Central Europe Standard Time': 'Masa Piawai Eropah Tengah (GMT+01:00) Budapest, Prague',
                 'Central European Standard Time': 'Masa Piawai Eropah Tengah (GMT+01:00) Warsaw, Zagreb',
                 'Romance Standard Time': 'Masa Negara Romance (GMT+01:00) Paris, Madrid',
@@ -93,7 +93,7 @@
                 'Pakistan Standard Time': 'Masa Pakistan (GMT+05:00) Islamabad, Karachi',
                 'Mauritius Standard Time': 'Masa Mauritius (GMT+04:00) Port Louis',
                 'UTC': 'Masa Bersepadu Sedunia (GMT+00:00) Rujukan Masa Global',
-                'Paraguay Standard Time': 'Masa Paraguay (GMT-04:00) Asunci贸n',
+                'Paraguay Standard Time': 'Masa Paraguay (GMT-04:00) Asunción',
                 'Kamchatka Standard Time': 'Masa Kamchatka (GMT+12:00) Petropavlovsk'
             },
       MY_EMS_NAME: "MyEMS",
@@ -121,6 +121,7 @@
         ENERGY_FLOW_DIAGRAM: "Gambar Rajah Aliran Tenaga",
         MICROGRID: "Microgrid",
         MENU: "Menu",
+          DOWNLOAD_OFFLINE_METER_TEMPLATE: "Muat Turun Templat Meter Luar Talian",
         DATE: "Julat Tarikh",
         TARIFF: {
           TOPPEAK: "Puncak atas",
@@ -203,7 +204,7 @@
       MENU: {
         SETTINGS: {
           SETTINGS: "Seting Sistem",
-          ADVANCED: "Tetapan lanjutan 鈷?,
+          ADVANCED: "Tetapan lanjutan Ⓔ",
           CATEGORY: "Kategori Tenaga",
           TARIFF: "Tarif",
           COSTCENTER: "Pusat Kos",
@@ -222,32 +223,31 @@
           ENERGY_FLOW_DIAGRAM: "Gambar Rajah Aliran Tenaga",
           DISTRIBUTION_SYSTEM: "Sistem Pengedaran",
           MENU: "Menus",
-          DOWNLOAD_OFFLINE_METER_TEMPLATE: "Muat Turun Templat Meter Luar Talian",
           KNOWLEDGEFILE: "Pangkalan Pengetahuan",
           WORKING_CALENDAR: "Kalendar Kerja",
-          COMMAND: "Perintah 鈷?,
-          CONTROL_MODE: "Control Mode 鈷?,
-          IOTSIMCARD: "IoT SIM Card 鈷?,
-          MICROGRID: "Microgrids 鈷?,
-          VIRTUAL_POWER_PLANT: "Loji Kuasa Maya 鈷?,
-          ENERGY_STORAGE_CONTAINER: "Station Kuasa Storan Energi 鈷?,
-          ENERGY_STORAGE_POWER_STATION: "Station Kuasa Storan Energi 鈷?,
-          PHOTOVOLTAIC_POWER_STATION: "Station Kuasa Fotovoltaic 鈷?,
-          WIND_FARM: "Peternakan Angin 鈷?,
-          EMAIL_SERVER: "Pelayan E-mel 鈷?,
-          PRODUCT: "Produk 鈷?,
-          SVG_SYSTEM: "Sistem Penggambaran SCADA 鈷?,
-          ADVANCED_REPORT: "Laporan Lanjutan 鈷?,
-          ENERGY_PLAN_FILE: "Rencana energi 鈷?,
-          SVG: "SVG 鈷?,
+          COMMAND: "Perintah Ⓔ",
+          CONTROL_MODE: "Control Mode Ⓔ",
+          IOTSIMCARD: "IoT SIM Card Ⓔ",
+          MICROGRID: "Microgrids Ⓔ",
+          VIRTUAL_POWER_PLANT: "Loji Kuasa Maya Ⓔ",
+          ENERGY_STORAGE_CONTAINER: "Station Kuasa Storan Energi Ⓔ",
+          ENERGY_STORAGE_POWER_STATION: "Station Kuasa Storan Energi Ⓔ",
+          PHOTOVOLTAIC_POWER_STATION: "Station Kuasa Fotovoltaic Ⓔ",
+          WIND_FARM: "Peternakan Angin Ⓔ",
+          EMAIL_SERVER: "Pelayan E-mel Ⓔ",
+          PRODUCT: "Produk Ⓔ",
+          SVG_SYSTEM: "Sistem Penggambaran SCADA Ⓔ",
+          ADVANCED_REPORT: "Laporan Lanjutan Ⓔ",
+          ENERGY_PLAN_FILE: "Rencana energi Ⓔ",
+          SVG: "SVG Ⓔ",
         },
         FDD: {
-          FDD: "FDD 鈷?,
-          RULE: "Peraturan 鈷?,
-          MESSAGEALARM: "Penggera SMS 鈷?,
-          EMAILALARM: "Penggera E-mel 鈷?,
-          WEBALARM: "Penggera Web 鈷?,
-          WECHATALARM: "Penggera WeChat 鈷?,
+          FDD: "FDD Ⓔ",
+          RULE: "Peraturan Ⓔ",
+          MESSAGEALARM: "Penggera SMS Ⓔ",
+          EMAILALARM: "Penggera E-mel Ⓔ",
+          WEBALARM: "Penggera Web Ⓔ",
+          WECHATALARM: "Penggera WeChat Ⓔ",
         },
         USERSETTING: {
           USERSETTING: "Pengguna dan Keistimewaan",
@@ -380,7 +380,7 @@
         ADD_CONTROL_MODE: "Add Control Mode",
         ADD_VIRTUAL_POWER_PLANT: "Tambah Loji Kuasa Maya",
         ADD_ENERGY_STORAGE_CONTAINER: "Tambah bekas penyimpanan tenaga",
-        ADD_ENERGY_STORAGE_POWER_STATION: "Tambah Stesen Kuasa Storan Ener摹ija",
+        ADD_ENERGY_STORAGE_POWER_STATION: "Tambah Stesen Kuasa Storan Enerġija",
         ADD_PHOTOVOLTAIC_POWER_STATION: "Tambah Stesen Kuasa Fotovoltaic",
         ADD_WIND_FARM: "Tambah Peternakan Angin",
 
@@ -404,7 +404,7 @@
         EDIT_VIRTUAL_POWER_PLANT: "Edit Loji Kuasa Maya",
         EDIT_ENERGY_STORAGE_CONTAINER: "Sunting bekas penyimpanan tenaga",
         EDIT_ENERGY_STORAGE_POWER_STATION:
-          "Sunting Stasyen Kuasa Storan Ener摹ija",
+          "Sunting Stasyen Kuasa Storan Enerġija",
         EDIT_PHOTOVOLTAIC_POWER_STATION: "Sunting Stesen Kuasa Fotovoltaic",
         EDIT_WIND_FARM: "Edit Peternakan Angin",
 
@@ -441,7 +441,7 @@
 
         IS_INPUT_COUNTED: "Adakah input tenaga dikira dalam",
         IS_OUTPUT_COUNTED: "Adakah output tenaga dikira",
-        BIND_COMMAND: "Perintah Mengikat 鈷?,
+        BIND_COMMAND: "Perintah Mengikat Ⓔ",
         BIND_DATA_SOURCE: "Penghubungan Sumber Data Berjaya",
         BIND_METER: "Meter mengikat",
         BIND_POINT: "Titik Bind",
@@ -454,7 +454,7 @@
         CATEGORY_DESCRIPTION: "Konfigurasi asas pengurusan kategori tenaga; mengekalkan pelbagai sumber tenaga secara berpusat dan piawaian penukaran yang digunakan dalam sistem.",
         CATEGORY_DESCRIPTION_MORE: "Kategori tenaga digunakan untuk menentukan klasifikasi asas semua data tenaga dalam sistem, seperti elektrik, gas asli, air, dll. Anda boleh menetapkan nama, unit, dan pekali penukaran arang batu piawai (kgce) dan faktor pelepasan karbon dioksida (kgco2e) yang sepadan. Parameter ini akan mempengaruhi statistik penggunaan tenaga, pengiraan pelepasan karbon dan analisis keseimbangan tenaga dalam sistem secara langsung. Adalah disyorkan untuk melengkapkan konfigurasi sedemikian semasa memulakan sistem, kerana perubahan seterusnya mungkin menjejaskan konsistensi statistik laporan sejarah.",
         CATEGORY_DIALOG_DESCRIPTION: "Cipta atau edit kategori tenaga di sini.",
-        CATEGORY_DIALOG_DESCRIPTION_MORE: "Nama harus ringkas dan jelas (cth., 'Air Industri'); unit mesti mematuhi piawaian industri (cth., 'm鲁'); faktor arang batu piawai dan karbon dioksida harus merujuk kepada piawaian statistik tenaga terkini yang dikeluarkan oleh pihak berkuasa negeri atau tempatan, yang akan berfungsi sebagai satu-satunya penanda aras untuk analisis kecekapan tenaga dan pengiraan jejak karbon seterusnya.",
+        CATEGORY_DIALOG_DESCRIPTION_MORE: "Nama harus ringkas dan jelas (cth., 'Air Industri'); unit mesti mematuhi piawaian industri (cth., 'm³'); faktor arang batu piawai dan karbon dioksida harus merujuk kepada piawaian statistik tenaga terkini yang dikeluarkan oleh pihak berkuasa negeri atau tempatan, yang akan berfungsi sebagai satu-satunya penanda aras untuk analisis kecekapan tenaga dan pengiraan jejak karbon seterusnya.",
         ENERGY_ITEM_DESCRIPTION: "Pengurusan barangan penggunaan tenaga yang diperhalusi; membahagikan lagi sub-item berdasarkan kategori tenaga untuk mencapai pengauditan tenaga yang lebih terperinci.",
         ENERGY_ITEM_DESCRIPTION_MORE: "Item penggunaan tenaga menyokong pembahagian kategori tenaga utama (seperti 'elektrik') kepada item yang lebih khusus mengikut penggunaan, seperti 'elektrik kuasa', 'elektrik pencahayaan', 'sistem penyaman udara', dll. Setiap sub-item mesti tergolong dalam kategori tenaga. Data sub-item biasanya diperolehi melalui pengikatan meter atau pengiraan logik dan digunakan untuk analisis komposisi penggunaan tenaga berbilang dimensi. Butiran pembahagian yang munasabah membantu mengesan anomali penggunaan tenaga dengan cepat dan mengoptimumkan strategi penjimatan tenaga.",
         ENERGY_ITEM_DIALOG_DESCRIPTION: "Konfigurasikan item penggunaan tenaga di sini.",
@@ -496,24 +496,24 @@
         VIRTUAL_METER_DIALOG_DESCRIPTION: "Konfigurasikan logik pengiraan meter maya di sini.",
         VIRTUAL_METER_DIALOG_DESCRIPTION_MORE: "Masukkan nama meter maya dan tulis ungkapan pengiraan (cth., v1 + v2 - v3). Anda perlu memetakan pembolehubah (v1, v2, dll.) dalam ungkapan kepada meter fizikal atau titik data tertentu. Pastikan logik pengiraan mematuhi prinsip keseimbangan tenaga dan pilih kategori dan unit tenaga yang betul.",
         OFFLINE_METER_DESCRIPTION: "Kemasukan manual dan pengurusan data luar talian; mengekalkan terminal tenaga yang tidak boleh dikumpul dalam masa nyata atau memerlukan bacaan manual berkala.",
-        OFFLINE_METER_DESCRIPTION_MORE: "Meter luar talian digunakan untuk mengurus titik pemeteran tanpa sistem pengumpulan automatik. Anda boleh memasukkan bacaan meter secara manual ho岷穋 mengimport data penggunaan sejarah secara pukal melalui fail Excel. Sistem ini mengintegrasikan data luar talian ini v峄沬 data masa nyata 膽峄?cung c岷 m峄檛 b岷 膽峄?c芒n b岷眓g n膬ng l瓢峄g ho脿n ch峄塶h cho to脿n b峄?nh脿 m谩y. 膼i峄乽 n脿y r岷 quan tr峄峮g 膽峄?c岷 thi峄噉 ph岷 vi ki峄僲 to谩n n膬ng l瓢峄g.",
+        OFFLINE_METER_DESCRIPTION_MORE: "Meter luar talian digunakan untuk mengurus titik pemeteran tanpa sistem pengumpulan automatik. Anda boleh memasukkan bacaan meter secara manual hoặc mengimport data penggunaan sejarah secara pukal melalui fail Excel. Sistem ini mengintegrasikan data luar talian ini với data masa nyata để cung cấp một bản đồ cân bằng năng lượng hoàn chỉnh cho toàn bộ nhà máy. Điều này rất quan trọng để cải thiện phạm vi kiểm toán năng lượng.",
         OFFLINE_METER_DIALOG_DESCRIPTION: "Masukkan maklumat asas meter luar talian di sini.",
-        OFFLINE_METER_DIALOG_DESCRIPTION_MORE: "Konfigurasikan nama, kategori tenaga dan pusat kos meter luar talian. Meter luar talian kh么ng c岷 c谩c 膽i峄僲 d峄?li峄噓 li锚n k岷縯. Sau khi t岷, b岷 c贸 th峄?nh岷璸 c谩c ch峄?s峄?膽峄媙h k峄?trong m么-膽un 'Nh岷璸 th峄?c么ng' ho岷穋 s峄?d峄g ch峄ヽ n膬ng nh岷璸 h脿ng lo岷 膽峄?c岷璸 nh岷璽 m峄ヽ ti锚u th峄?n膬ng l瓢峄g l峄媍h s峄?",
+        OFFLINE_METER_DIALOG_DESCRIPTION_MORE: "Konfigurasikan nama, kategori tenaga dan pusat kos meter luar talian. Meter luar talian không cần các điểm dữ liệu liên kết. Sau khi tạo, bạn có thể nhập các chỉ số định kỳ trong mô-đun 'Nhập thủ công' hoặc sử dụng chức năng nhập hàng loạt để cập nhật mức tiêu thụ năng lượng lịch sử.",
         SENSOR_DESCRIPTION: "Pengurusan peranti penderiaan persekitaran dan status; memantau pelbagai parameter penderiaan seperti suhu, kelembapan, tekanan dan pencahayaan.",
-        SENSOR_DESCRIPTION_MORE: "Pengurusan penderia digunakan untuk peralatan pemantauan persekitaran bukan pemeteran. Anda boleh menentukan julat ukuran penderia, ambang penggera v脿 c谩c 膽i峄僲 d峄?li峄噓 li锚n k岷縯. C谩c d峄?li峄噓 n脿y th瓢峄漬g 膽瓢峄 s峄?d峄g 膽峄?hi峄噓 ch峄塶h c谩c y岷縰 t峄?m么i tr瓢峄漬g trong vi峄嘽 膽谩nh gi谩 hi峄噓 qu岷?n膬ng l瓢峄g. V铆 d峄? khi ph芒n t铆ch hi峄噓 qu岷?膽i峄乽 h貌a kh么ng kh铆, d峄?li峄噓 t峄?c谩c c岷 bi岷縩 nhi峄噒 膽峄?v脿 膽峄?岷﹎ ngo脿i tr峄漣 l脿 c谩c m峄 tham kh岷 thi岷縯 y岷縰.",
+        SENSOR_DESCRIPTION_MORE: "Pengurusan penderia digunakan untuk peralatan pemantauan persekitaran bukan pemeteran. Anda boleh menentukan julat ukuran penderia, ambang penggera và các điểm dữ liệu liên kết. Các dữ liệu này thường được sử dụng để hiệu chỉnh các yếu tố môi trường trong việc đánh giá hiệu quả năng lượng. Ví dụ, khi phân tích hiệu quả điều hòa không khí, dữ liệu từ các cảm biến nhiệt độ và độ ẩm ngoài trời là các mục tham khảo thiết yếu.",
         SENSOR_DIALOG_DESCRIPTION: "Konfigurasikan maklumat sensor.",
-        SENSOR_DIALOG_DESCRIPTION_MORE: "Masukkan nama sensor, unit v脿 膽i峄僲 d峄?li峄噓 m脿 n贸 gi谩m s谩t. B岷 c农ng c贸 th峄?膽岷穞 ph岷 vi 膽o 膽i峄僴 h矛nh cho c岷 bi岷縩 n脿y 膽峄?h峄?th峄憂g c贸 th峄?t峄?膽峄檔g x谩c 膽峄媙h c谩c bi岷縩 膽峄檔g d峄?li峄噓 b岷 th瓢峄漬g l峄嘽h 膽i 膽谩ng k峄?",
-        EQUIPMENT_DESCRIPTION: "Pengurusan terminal yang menggunakan tenaga v脿 kemudahan s岷 xu岷; x芒y d峄眓g c谩c m么 h矛nh thi岷縯 b峄?ti锚u th峄?n膬ng l瓢峄g c峄?th峄?v脿 c谩c th么ng s峄?quy tr矛nh c峄 ch煤ng.",
-        EQUIPMENT_DESCRIPTION_MORE: "Pengurusan peralatan l脿 c峄憈 l玫i c峄 vi峄嘽 m么 h矛nh h贸a n膬ng l瓢峄g. B岷 c贸 th峄?膽峄媙h ngh末a c谩c thi岷縯 b峄?c峄?th峄?nh瓢 膽啤n v峄?膽i峄乽 h貌a kh么ng kh铆, m谩y n茅n kh铆 v脿 thang m谩y. B岷眓g c谩ch li锚n k岷縯 膽峄搉g h峄? c岷 bi岷縩 v脿 膽i峄僲 d峄?li峄噓, h峄?th峄憂g 膽岷 膽瓢峄 膽谩nh gi谩 hi峄噓 qu岷?n膬ng l瓢峄g, gi谩m s谩t tr岷g th谩i v脿 ch岷﹏ 膽o谩n l峄梚 cho t峄玭g thi岷縯 b峄? B岷 c农ng c贸 th峄?t岷 l锚n c谩c th么ng s峄?tr锚n nh茫n thi岷縯 b峄?(ch岷硁g h岷 nh瓢 c么ng su岷 膽峄媙h m峄ヽ) l脿m tham chi岷縰 c啤 s峄?cho ph芒n t铆ch hi峄噓 qu岷?n膬ng l瓢峄g.",
+        SENSOR_DIALOG_DESCRIPTION_MORE: "Masukkan nama sensor, unit và điểm dữ liệu mà nó giám sát. Bạn cũng có thể đặt phạm vi đo điển hình cho cảm biến này để hệ thống có thể tự động xác định các biến động dữ liệu bất thường lệch đi đáng kể.",
+        EQUIPMENT_DESCRIPTION: "Pengurusan terminal yang menggunakan tenaga và kemudahan sản xuất; xây dựng các mô hình thiết bị tiêu thụ năng lượng cụ thể và các thông số quy trình của chúng.",
+        EQUIPMENT_DESCRIPTION_MORE: "Pengurusan peralatan là cốt lõi của việc mô hình hóa năng lượng. Bạn có thể định nghĩa các thiết bị cụ thể như đơn vị điều hòa không khí, máy nén khí và thang máy. Bằng cách liên kết đồng hồ, cảm biến và điểm dữ liệu, hệ thống đạt được đánh giá hiệu quả năng lượng, giám sát trạng thái và chẩn đoán lỗi cho từng thiết bị. Bạn cũng có thể tải lên các thông số trên nhãn thiết bị (chẳng hạn như công suất định mức) làm tham chiếu cơ sở cho phân tích hiệu quả năng lượng.",
         EQUIPMENT_DIALOG_DESCRIPTION: "Tentukan aset peralatan di sini.",
-        EQUIPMENT_DIALOG_DESCRIPTION_MORE: "Isikan nama peralatan, jenis v脿 trung t芒m chi ph铆 m脿 n贸 thu峄檆 v峄?m峄檛 c谩ch chi ti岷縯. 膼峄搉g h峄?li锚n k岷縯 s岷?quy岷縯 膽峄媙h c谩c th峄憂g k锚 ti锚u th峄?n膬ng l瓢峄g c峄 thi岷縯 b峄? Khuy岷縩 ngh峄?t岷 l锚n 岷h ho岷穋 t脿i li峄噓 c峄 thi岷縯 b峄?膽峄?nh芒n vi锚n b岷 tr矛 c贸 th峄?nhanh ch贸ng x谩c 膽峄媙h thi岷縯 b峄?v岷璽 l媒 t岷 hi峄噉 tr瓢峄漬g.",
-        COMBINED_EQUIPMENT_DESCRIPTION: "Pengurusan integrasi h峄?th峄憂g n膬ng l瓢峄g ph峄ヽ t岷; k岷縯 h峄 nhi峄乽 thi岷縯 b峄?膽啤n l岷?ho岷穋 h峄?th峄憂g con th脿nh m峄檛 t峄昻g th峄?膽峄?ph芒n t铆ch hi峄噓 qu岷?n膬ng l瓢峄g.",
-        COMBINED_EQUIPMENT_DESCRIPTION_MORE: "Peralatan gabungan digunakan 膽峄?qu岷 l媒 c谩c b峄?ph峄ヽ t岷 bao g峄搈 nhi峄乽 thi岷縯 b峄? ch岷硁g h岷 nh瓢 'H峄?th峄憂g tr岷 l脿m l岷h' ho岷穋 'Tr岷 m谩y n茅n kh铆'. N贸 h峄?tr峄?t峄昻g h峄 logic tr锚n c谩c thi岷縯 b峄?膽峄?gi煤p b岷 ph芒n t铆ch hi峄噓 qu岷?chuy峄僴 膽峄昳 n膬ng l瓢峄g (v铆 d峄? COP) v脿 kh么ng gian t峄慽 瓢u h贸a t峄?g贸c nh矛n h峄?th峄憂g t峄昻g th峄? Th么ng qua thi岷縯 b峄?k岷縯 h峄, b岷 c贸 th峄?x谩c 膽峄媙h r玫 r脿ng h啤n c谩c c啤 h峄檌 ti岷縯 ki峄噈 n膬ng l瓢峄g mang t铆nh h峄?th峄憂g, kh么ng ch峄?l脿 t峄慽 瓢u h贸a thi岷縯 b峄?膽啤n l岷?",
-        COMBINED_EQUIPMENT_DIALOG_DESCRIPTION: "Konfigurasikan h峄?th峄憂g thi岷縯 b峄?k岷縯 h峄.",
-        COMBINED_EQUIPMENT_DIALOG_DESCRIPTION_MORE: "Pilih t岷 c岷?c谩c thi岷縯 b峄?ph峄?膽瓢峄 bao g峄搈 trong s峄?k岷縯 h峄 v脿 膽峄媙h ngh末a m峄慽 quan h峄?膽o l瓢峄漬g 膽岷 v脿o/膽岷 ra t峄昻g th峄?c峄 h峄?th峄憂g. B岷 c贸 th峄?c岷 h矛nh c谩c c么ng th峄ヽ t铆nh to谩n hi峄噓 qu岷?n膬ng l瓢峄g c峄?th峄?cho thi岷縯 b峄?k岷縯 h峄 膽峄?gi谩m s谩t c谩c ch峄?s峄?hi峄噓 qu岷?v岷璶 h脿nh t峄昻g th峄?c峄 to脿n b峄?h峄?th峄憂g trong th峄漣 gian th峄眂.",
+        EQUIPMENT_DIALOG_DESCRIPTION_MORE: "Isikan nama peralatan, jenis và trung tâm chi phí mà nó thuộc về một cách chi tiết. Đồng hồ liên kết sẽ quyết định các thống kê tiêu thụ năng lượng của thiết bị. Khuyến nghị tải lên ảnh hoặc tài liệu của thiết bị để nhân viên bảo trì có thể nhanh chóng xác định thiết bị vật lý tại hiện trường.",
+        COMBINED_EQUIPMENT_DESCRIPTION: "Pengurusan integrasi hệ thống năng lượng phức tạp; kết hợp nhiều thiết bị đơn lẻ hoặc hệ thống con thành một tổng thể để phân tích hiệu quả năng lượng.",
+        COMBINED_EQUIPMENT_DESCRIPTION_MORE: "Peralatan gabungan digunakan để quản lý các bộ phức tạp bao gồm nhiều thiết bị, chẳng hạn như 'Hệ thống trạm làm lạnh' hoặc 'Trạm máy nén khí'. Nó hỗ trợ tổng hợp logic trên các thiết bị để giúp bạn phân tích hiệu quả chuyển đổi năng lượng (ví dụ: COP) và không gian tối ưu hóa từ góc nhìn hệ thống tổng thể. Thông qua thiết bị kết hợp, bạn có thể xác định rõ ràng hơn các cơ hội tiết kiệm năng lượng mang tính hệ thống, không chỉ là tối ưu hóa thiết bị đơn lẻ.",
+        COMBINED_EQUIPMENT_DIALOG_DESCRIPTION: "Konfigurasikan hệ thống thiết bị kết hợp.",
+        COMBINED_EQUIPMENT_DIALOG_DESCRIPTION_MORE: "Pilih tất cả các thiết bị phụ được bao gồm trong sự kết hợp và định nghĩa mối quan hệ đo lường đầu vào/đầu ra tổng thể của hệ thống. Bạn có thể cấu hình các công thức tính toán hiệu quả năng lượng cụ thể cho thiết bị kết hợp để giám sát các chỉ số hiệu quả vận hành tổng thể của toàn bộ hệ thống trong thời gian thực.",
         INPUT_NAME: "Sila masukkan nama",
         INPUT_CATEGORY_NAME_PLACEHOLDER: "Sila masukkan nama kategori tenaga, contoh: Elektrik, Gas asli, Air paip, dsb.",
-        INPUT_CATEGORY_UNIT_PLACEHOLDER: "Sila masukkan unit ukuran, contoh: kWh, m鲁, t dsb.",
+        INPUT_CATEGORY_UNIT_PLACEHOLDER: "Sila masukkan unit ukuran, contoh: kWh, m³, t dsb.",
         INPUT_CATEGORY_KGCE_PLACEHOLDER: "Sila masukkan faktor penukaran arang batu piawai (kgce/unit)",
         INPUT_CATEGORY_KGCO2E_PLACEHOLDER: "Sila masukkan faktor pelepasan karbon dioksida (kgco2e/unit)",
         INPUT_ENERGY_ITEM_NAME_PLACEHOLDER: "Sila masukkan nama item tenaga, contoh: Pencahayaan, Penyaman udara, dsb.",
@@ -530,7 +530,7 @@
         INPUT_DATASOURCE_NAME_PLACEHOLDER: "Sila masukkan nama sumber data, contoh: Meter Pelbagai Fungsi Transformer 1",
         INPUT_DATASOURCE_CONNECTION_PLACEHOLDER: "Sila masukkan alamat sambungan, contoh: 192.168.1.10:502",
         INPUT_POINT_NAME_PLACEHOLDER: "Sila masukkan nama titik data, contoh: Kuasa Aktif Transformer 1",
-        INPUT_POINT_UNIT_PLACEHOLDER: "Sila masukkan unit, contoh: kW, kWh, 鈩? % dsb.",
+        INPUT_POINT_UNIT_PLACEHOLDER: "Sila masukkan unit, contoh: kW, kWh, ℃, % dsb.",
         INPUT_POINT_ADDRESS_PLACEHOLDER: 'Sila masukkan alamat penghuraian (JSON), contoh: {"register": 100, "type": "float32"}',
         INPUT_POINT_FAULTS_PLACEHOLDER: 'Sila masukkan definisi kerosakan (JSON), contoh: {"1": "Peranti Luar Talian", "2": "Masa Tamat Komunikasi"}',
         INPUT_POINT_DEFINITIONS_PLACEHOLDER: 'Sila masukkan definisi tersuai (JSON)',
@@ -680,7 +680,7 @@
 
         DESCRIPTION: "Keterangan",
 
-        ENERGY_PLAN_FILE: "Rencana energi 鈷?,
+        ENERGY_PLAN_FILE: "Rencana energi Ⓔ",
 
         SCHEDULE: "Jadual",
         SCHEDULE_START_TIME: "Masa tamat",
@@ -720,7 +720,7 @@
         INPUT_SPACE_NAME_PLACEHOLDER:
           "Sila masukkan nama ruang, cth.: Bangunan A Tingkat 3 Bilik 301",
         INPUT_SPACE_AREA_PLACEHOLDER:
-          "Sila masukkan keluasan (m虏) untuk indikator penggunaan per keluasan",
+          "Sila masukkan keluasan (m²) untuk indikator penggunaan per keluasan",
         INPUT_SPACE_NUMBER_OF_OCCUPANTS_PLACEHOLDER:
           "Sila masukkan bilangan penghuni untuk analisis per kapita",
         INPUT_SPACE_LONGITUDE_PLACEHOLDER:
@@ -1526,9 +1526,9 @@
         COST_CENTER: "Pusat Kos",
         SELECT_COST_CENTER: "Sila Pilih Pusat Kos",
         EFFICIENCY_INDICATOR: "Penunjuk Kecekapan",
-        SVG: "SVG 鈷?,
+        SVG: "SVG Ⓔ",
         INPUT_SVG: "Sila masukkan SVG",
-        CAMERA_URL: "URL kamera 鈷?,
+        CAMERA_URL: "URL kamera Ⓔ",
         INPUT_CAMERA_URL: "Sila masukkan alamat kamera",
         INPUT_CONSTANT: "Sila masukkan nilai pemalar",
         INPUT_METER: "Input Meter",
@@ -1559,9 +1559,9 @@
         COST_CENTER: "Pusat Kos",
         SELECT_COST_CENTER: "Sila Pilih Pusat Kos",
         EFFICIENCY_INDICATOR: "Penunjuk Kecekapan",
-        SVG: "SVG 鈷?,
+        SVG: "SVG Ⓔ",
         INPUT_SVG: "Sila masukkan SVG",
-        CAMERA_URL: "URL kamera 鈷?,
+        CAMERA_URL: "URL kamera Ⓔ",
         INPUT_CAMERA_URL: "Sila masukkan alamat kamera",
         INPUT_CONSTANT: "Sila masukkan nilai pemalar",
         BIND_EQUIPMENT: "Peralatan mengikat",
@@ -1599,63 +1599,63 @@
         CURRENT_SELECTED_SPACE: "Ruang Pilihan Semasa",
         CHILD_SPACES: "Ruang Kanak-kanak",
         BIND_METER_DESCRIPTION:
-          "Pengurusan pengikatan ruang鈥搈eter; ikat meter kepada ruang untuk agregasi tenaga mengikut kawasan.",
+          "Pengurusan pengikatan ruang–meter; ikat meter kepada ruang untuk agregasi tenaga mengikut kawasan.",
         BIND_METER_DESCRIPTION_MORE:
           "Pilih ruang pada pokok, pilih jenis meter di sebelah kanan, kemudian seret meter ke kawasan tengah untuk mengikat. Untuk nyahikat, seret ke tong sampah.",
         BIND_EQUIPMENT_DESCRIPTION:
-          "Pengurusan pengikatan ruang鈥損eralatan; ikat peralatan penggunaan kepada ruang untuk statistik dan penyelenggaraan.",
+          "Pengurusan pengikatan ruang–peralatan; ikat peralatan penggunaan kepada ruang untuk statistik dan penyelenggaraan.",
         BIND_EQUIPMENT_DESCRIPTION_MORE:
           "Pilih ruang, kemudian seret peralatan dari senarai kanan ke kawasan tengah. Untuk nyahikat, seret ke tong sampah.",
         BIND_COMBINED_EQUIPMENT_DESCRIPTION:
-          "Pengurusan pengikatan ruang鈥損eralatan gabungan; ikat sistem kompleks kepada ruang untuk analisis.",
+          "Pengurusan pengikatan ruang–peralatan gabungan; ikat sistem kompleks kepada ruang untuk analisis.",
         BIND_COMBINED_EQUIPMENT_DESCRIPTION_MORE:
           "Pilih ruang, kemudian seret peralatan gabungan dari senarai kanan ke kawasan tengah untuk mengikat.",
         BIND_PHOTOVOLTAIC_POWER_STATION_DESCRIPTION:
-          "Pengurusan pengikatan ruang鈥搒tesen janakuasa fotovoltaik; ikat aset penjanaan kepada ruang.",
+          "Pengurusan pengikatan ruang–stesen janakuasa fotovoltaik; ikat aset penjanaan kepada ruang.",
         BIND_PHOTOVOLTAIC_POWER_STATION_DESCRIPTION_MORE:
           "Pilih ruang, kemudian seret stesen janakuasa fotovoltaik dari senarai kanan ke kawasan tengah untuk mengikat.",
         BIND_ENERGY_STORAGE_POWER_STATION_DESCRIPTION:
-          "Pengurusan pengikatan ruang鈥搒tesen janakuasa simpanan tenaga; ikat aset simpanan kepada ruang.",
+          "Pengurusan pengikatan ruang–stesen janakuasa simpanan tenaga; ikat aset simpanan kepada ruang.",
         BIND_ENERGY_STORAGE_POWER_STATION_DESCRIPTION_MORE:
           "Pilih ruang, kemudian seret stesen janakuasa simpanan tenaga dari senarai kanan ke kawasan tengah untuk mengikat.",
         BIND_TENANT_DESCRIPTION:
-          "Pengurusan pengikatan ruang鈥損enyewa; hubungkan penyewa kepada ruang sewaan untuk agihan dan penyelarasan.",
+          "Pengurusan pengikatan ruang–penyewa; hubungkan penyewa kepada ruang sewaan untuk agihan dan penyelarasan.",
         BIND_TENANT_DESCRIPTION_MORE:
           "Pilih ruang, kemudian seret penyewa dari senarai kanan ke kawasan tengah untuk mengikat.",
         BIND_STORE_DESCRIPTION:
-          "Pengurusan pengikatan ruang鈥搆edai; hubungkan kedai kepada ruang operasi untuk statistik mengikut kedai.",
+          "Pengurusan pengikatan ruang–kedai; hubungkan kedai kepada ruang operasi untuk statistik mengikut kedai.",
         BIND_STORE_DESCRIPTION_MORE:
           "Pilih ruang, kemudian seret kedai dari senarai kanan ke kawasan tengah untuk mengikat.",
         BIND_SHOPFLOOR_DESCRIPTION:
-          "Pengurusan pengikatan ruang鈥搒hopfloor; selaraskan kawasan pengeluaran dengan struktur ruang.",
+          "Pengurusan pengikatan ruang–shopfloor; selaraskan kawasan pengeluaran dengan struktur ruang.",
         BIND_SHOPFLOOR_DESCRIPTION_MORE:
           "Pilih ruang, kemudian seret shopfloor dari senarai kanan ke kawasan tengah untuk mengikat.",
         BIND_ENERGY_FLOW_DIAGRAM_DESCRIPTION:
-          "Pengurusan pengikatan ruang鈥搑ajah aliran tenaga; gunakan model aliran pada peringkat ruang.",
+          "Pengurusan pengikatan ruang–rajah aliran tenaga; gunakan model aliran pada peringkat ruang.",
         BIND_ENERGY_FLOW_DIAGRAM_DESCRIPTION_MORE:
           "Pilih ruang, kemudian seret rajah aliran tenaga dari senarai kanan ke kawasan tengah untuk mengikat.",
         BIND_DISTRIBUTION_SYSTEM_DESCRIPTION:
-          "Pengurusan pengikatan ruang鈥搒istem pengedaran; ikat topologi elektrik kepada ruang untuk pemantauan.",
+          "Pengurusan pengikatan ruang–sistem pengedaran; ikat topologi elektrik kepada ruang untuk pemantauan.",
         BIND_DISTRIBUTION_SYSTEM_DESCRIPTION_MORE:
           "Pilih ruang, kemudian seret sistem pengedaran dari senarai kanan ke kawasan tengah untuk mengikat.",
         BIND_MICROGRID_DESCRIPTION:
-          "Pengurusan pengikatan ruang鈥搈icrogrid; ikat aset microgrid kepada ruang untuk pemantauan berpusat.",
+          "Pengurusan pengikatan ruang–microgrid; ikat aset microgrid kepada ruang untuk pemantauan berpusat.",
         BIND_MICROGRID_DESCRIPTION_MORE:
           "Pilih ruang, kemudian seret microgrid dari senarai kanan ke kawasan tengah untuk mengikat.",
         BIND_POINT_DESCRIPTION:
-          "Pengurusan pengikatan ruang鈥搕itik data; ikat titik operasi utama kepada ruang.",
+          "Pengurusan pengikatan ruang–titik data; ikat titik operasi utama kepada ruang.",
         BIND_POINT_DESCRIPTION_MORE:
           "Pilih ruang, pilih sumber data, kemudian seret titik data ke kawasan tengah untuk mengikat.",
         BIND_SENSOR_DESCRIPTION:
-          "Pengurusan pengikatan ruang鈥損enderia; ikat penderia persekitaran kepada ruang.",
+          "Pengurusan pengikatan ruang–penderia; ikat penderia persekitaran kepada ruang.",
         BIND_SENSOR_DESCRIPTION_MORE:
           "Pilih ruang, kemudian seret penderia dari senarai kanan ke kawasan tengah untuk mengikat.",
         BIND_WORKING_CALENDAR_DESCRIPTION:
-          "Pengurusan pengikatan ruang鈥搆alendar kerja; tetapkan peraturan masa operasi untuk kawasan.",
+          "Pengurusan pengikatan ruang–kalendar kerja; tetapkan peraturan masa operasi untuk kawasan.",
         BIND_WORKING_CALENDAR_DESCRIPTION_MORE:
           "Pilih ruang, kemudian seret kalendar kerja dari senarai kanan ke kawasan tengah untuk mengikat.",
         BIND_COMMAND_DESCRIPTION:
-          "Pengurusan pengikatan ruang鈥揳rahan; konfigurasi arahan kawalan yang tersedia untuk aset ruang.",
+          "Pengurusan pengikatan ruang–arahan; konfigurasi arahan kawalan yang tersedia untuk aset ruang.",
         BIND_COMMAND_DESCRIPTION_MORE:
           "Pilih ruang, kemudian seret arahan dari senarai kanan ke kawasan tengah untuk mengikat.",
         BIND_EQUIPMENT: "Peralatan mengikat",
@@ -1664,11 +1664,11 @@
         BIND_COMBINED_EQUIPMENT: "Peralatan Gabungan Bind",
         N_S_COMBINED_EQUIPMENT: "Peralatan Gabungan terikat",
         COMBINED_EQUIPMENT_LIST: "Senarai Peralatan Gabungan",
-        BIND_PHOTOVOLTAIC_POWER_STATION: "Bind Photovoltaic Power Station鈷?,
+        BIND_PHOTOVOLTAIC_POWER_STATION: "Bind Photovoltaic Power StationⒺ",
         N_S_PHOTOVOLTAIC_POWER_STATION: "Stesen Janakuasa Fotovoltaik Terikat",
         PHOTOVOLTAIC_POWER_STATION_LIST: "Senarai Stesen Janakuasa Fotovoltaik",
         BIND_ENERGY_STORAGE_POWER_STATION:
-          "Stesen Janakuasa Simpanan Tenaga Bind鈷?,
+          "Stesen Janakuasa Simpanan Tenaga BindⒺ",
         N_S_ENERGY_STORAGE_POWER_STATION:
           "Stesen Janakuasa Simpanan Tenaga Terikat",
         ENERGY_STORAGE_POWER_STATION_LIST:
@@ -1695,7 +1695,7 @@
         INPUT_LONGITUDE: "Sila masukkan longitud",
         NUMBER_OF_OCCUPANTS: "The Number of Occupants",
         INPUT_NUMBER_OF_OCCUPANTS: "Please Input The Number of Occupants",
-        BIND_MICROGRID: "Mengikat mikrogrid鈷?,
+        BIND_MICROGRID: "Mengikat mikrogridⒺ",
         N_S_MICROGRID: "Mikrogrid terikat",
         MICROGRID_LIST: "Senarai mikrogrid",
       },
@@ -1713,23 +1713,23 @@
         LONGITUDE_HINT:
           "Bilangan positif ialah garis timur dan negatif ialah garis barat.",
         BIND_METER_DESCRIPTION:
-          "Pengurusan pengikatan kedai鈥搈eter; ikat meter kepada kedai untuk statistik dan penyelarasan mengikut kedai.",
+          "Pengurusan pengikatan kedai–meter; ikat meter kepada kedai untuk statistik dan penyelarasan mengikut kedai.",
         BIND_METER_DESCRIPTION_MORE:
           "Pilih kedai, kemudian seret meter dari senarai kanan ke kawasan tengah untuk mengikat.",
         BIND_POINT_DESCRIPTION:
-          "Pengurusan pengikatan kedai鈥搕itik data; ikat titik operasi utama kepada kedai.",
+          "Pengurusan pengikatan kedai–titik data; ikat titik operasi utama kepada kedai.",
         BIND_POINT_DESCRIPTION_MORE:
           "Pilih kedai, pilih sumber data, kemudian seret titik data ke kawasan tengah untuk mengikat.",
         BIND_SENSOR_DESCRIPTION:
-          "Pengurusan pengikatan kedai鈥損enderia; ikat penderia persekitaran kepada kedai.",
+          "Pengurusan pengikatan kedai–penderia; ikat penderia persekitaran kepada kedai.",
         BIND_SENSOR_DESCRIPTION_MORE:
           "Pilih kedai, kemudian seret penderia dari senarai kanan ke kawasan tengah untuk mengikat.",
         BIND_WORKING_CALENDAR_DESCRIPTION:
-          "Pengurusan pengikatan kedai鈥搆alendar kerja; tetapkan peraturan waktu operasi/berniaga.",
+          "Pengurusan pengikatan kedai–kalendar kerja; tetapkan peraturan waktu operasi/berniaga.",
         BIND_WORKING_CALENDAR_DESCRIPTION_MORE:
           "Pilih kedai, kemudian seret kalendar kerja dari senarai kanan ke kawasan tengah untuk mengikat.",
         BIND_COMMAND_DESCRIPTION:
-          "Pengurusan pengikatan kedai鈥揳rahan; konfigurasi arahan kawalan yang tersedia untuk aset kedai.",
+          "Pengurusan pengikatan kedai–arahan; konfigurasi arahan kawalan yang tersedia untuk aset kedai.",
         BIND_COMMAND_DESCRIPTION_MORE:
           "Pilih kedai, kemudian seret arahan dari senarai kanan ke kawasan tengah untuk mengikat.",
       },
@@ -1750,23 +1750,23 @@
         END_BEFORE_START_WARNING:
           "Waktu selesai tidak boleh sebelum waktu mulai",
         BIND_METER_DESCRIPTION:
-          "Pengurusan pengikatan penyewa鈥搈eter; ikat meter kepada penyewa untuk statistik dan penyelarasan.",
+          "Pengurusan pengikatan penyewa–meter; ikat meter kepada penyewa untuk statistik dan penyelarasan.",
         BIND_METER_DESCRIPTION_MORE:
           "Pilih penyewa, kemudian seret meter dari senarai kanan ke kawasan tengah untuk mengikat.",
         BIND_POINT_DESCRIPTION:
-          "Pengurusan pengikatan penyewa鈥搕itik data; ikat titik operasi utama kepada penyewa.",
+          "Pengurusan pengikatan penyewa–titik data; ikat titik operasi utama kepada penyewa.",
         BIND_POINT_DESCRIPTION_MORE:
           "Pilih penyewa, pilih sumber data, kemudian seret titik data ke kawasan tengah untuk mengikat.",
         BIND_SENSOR_DESCRIPTION:
-          "Pengurusan pengikatan penyewa鈥損enderia; ikat penderia persekitaran kepada kawasan penyewa.",
+          "Pengurusan pengikatan penyewa–penderia; ikat penderia persekitaran kepada kawasan penyewa.",
         BIND_SENSOR_DESCRIPTION_MORE:
           "Pilih penyewa, kemudian seret penderia dari senarai kanan ke kawasan tengah untuk mengikat.",
         BIND_WORKING_CALENDAR_DESCRIPTION:
-          "Pengurusan pengikatan penyewa鈥搆alendar kerja; tetapkan peraturan waktu operasi/kerja untuk analisis.",
+          "Pengurusan pengikatan penyewa–kalendar kerja; tetapkan peraturan waktu operasi/kerja untuk analisis.",
         BIND_WORKING_CALENDAR_DESCRIPTION_MORE:
           "Pilih penyewa, kemudian seret kalendar kerja dari senarai kanan ke kawasan tengah untuk mengikat.",
         BIND_COMMAND_DESCRIPTION:
-          "Pengurusan pengikatan penyewa鈥揳rahan; konfigurasi arahan kawalan yang tersedia untuk aset penyewa.",
+          "Pengurusan pengikatan penyewa–arahan; konfigurasi arahan kawalan yang tersedia untuk aset penyewa.",
         BIND_COMMAND_DESCRIPTION_MORE:
           "Pilih penyewa, kemudian seret arahan dari senarai kanan ke kawasan tengah untuk mengikat.",
       },
@@ -2855,9 +2855,9 @@
         WORKING_CALENDAR_NOT_FOUND: "Working Calendar Not Found",
       },
       Dashboard: "Dashboard",
-      "Meter Prediction": "Ramalan Meter鈷?,
-      "Virtual Meter Prediction": "Ramalan Meter Maya鈷?,
-      "Offline Meter Prediction": "Ramalan Meter Luar Talian鈷?,
+      "Meter Prediction": "Ramalan MeterⒺ",
+      "Virtual Meter Prediction": "Ramalan Meter MayaⒺ",
+      "Offline Meter Prediction": "Ramalan Meter Luar TalianⒺ",
       "Space Data": "Ruang",
       "Energy Category Data": "Kategori Tenaga",
       "Energy Item Data": "Barangan Tenaga",
@@ -2867,13 +2867,13 @@
       Efficiency: "Kecekapan",
       Load: "Beban",
       Statistics: "Statistik",
-      Saving: "Penjimatan鈷?,
+      Saving: "PenjimatanⒺ",
       Carbon: "Karbon",
       "Environment Monitor": "Pemantau Persekitaran",
-      Plan: "Rancangan鈷?,
+      Plan: "RancanganⒺ",
       Production: "Pengeluaran",
       "Enter Production": "Masuk Pengeluaran",
-      Prediction: "Ramalan鈷?,
+      Prediction: "RamalanⒺ",
       "Space Comparison": "Perbandingan Ruang",
       "Equipment Data": "Data Peralatan",
       "Batch Analysis": "Analisis Kelompok",
@@ -2896,14 +2896,14 @@
       "Virtual Meter Batch Analysis": "Analisis Kelompok Meter Maya",
       "Offline Meter Batch Analysis": "Analisis Kelompok Meter Luar Talian",
       "Offline Meter Carbon": "Karbon Meter Luar Talian",
-      "Meter Saving": "Penjimatan Meter鈷?,
-      "Offline Meter Saving": "Penjimatan Meter Luar Talian鈷?,
-      "Virtual Meter Saving": "Penjimatan Meter Maya鈷?,
+      "Meter Saving": "Penjimatan MeterⒺ",
+      "Offline Meter Saving": "Penjimatan Meter Luar TalianⒺ",
+      "Virtual Meter Saving": "Penjimatan Meter MayaⒺ",
       "Meter Comparison": "Perbandingan Meter",
       "Offline Meter Input": "Input Meter Luar Talian",
-      "Meter Plan": "Rancangan Meter鈷?,
-      "Offline Meter Plan": "Rancangan Meter Luar Talian鈷?,
-      "Virtual Meter Plan": "Rancangan Meter Maya鈷?,
+      "Meter Plan": "Rancangan MeterⒺ",
+      "Offline Meter Plan": "Rancangan Meter Luar TalianⒺ",
+      "Virtual Meter Plan": "Rancangan Meter MayaⒺ",
       "Virtual Meter Comparison": "Perbandingan Meter Maya",
       "Power Quality": "Kualiti Kuasa",
       "Tenant Data": "Data Penyewa",
@@ -2921,5 +2921,3 @@
       "Knowledge Base": "Pangkalan Pengetahuan",
     };
 })(window);
-
-
