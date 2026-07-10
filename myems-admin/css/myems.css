@@ -735,4 +735,9 @@ li span.divider{
 	text-align: center;
 	color: #FFF;
 	cursor: pointer;
+	white-space: normal;
+	word-break: break-word;
+	line-height: 1.4;
+	padding: 8px 10px;
+	height: auto;
 }
