@@ -325,6 +325,11 @@
         BIND_DATA_SOURCE_DESCRIPTION_MORE: "Dans cette interface, vous pouvez lier des sources de données à des équipements spécifiques. Méthode : Sélectionnez d'abord l'équipement cible à gauche, puis trouvez la source de données correspondante à droite et faites-la glisser vers la zone 'Sources de données liées' au centre. Pour délier, faites glisser la source de données vers l'icône de la corbeille en bas.",
         BIND_METER_DESCRIPTION: "Gestion de l'association entre l'équipement et le compteur ; lier des compteurs physiques à l'équipement de consommation d'énergie correspondant.",
         BIND_METER_DESCRIPTION_MORE: "Dans cette interface, vous pouvez lier des compteurs à des équipements spécifiques. Méthode : Sélectionnez d'abord l'équipement cible à gauche, puis trouvez le compteur correspondant à droite et faites-le glisser vers la zone 'Compteurs liés' au centre. Pour délier, faites glisser le compteur vers l'icône de la corbeille en bas.",
+        METER_ALREADY_BOUND_TO_OTHER_SPACE: "Ce compteur est déjà lié à un autre espace",
+        VIRTUAL_METER_ALREADY_BOUND_TO_OTHER_SPACE: "Ce compteur virtuel est déjà lié à un autre espace",
+        OFFLINE_METER_ALREADY_BOUND_TO_OTHER_SPACE: "Ce compteur hors ligne est déjà lié à un autre espace",
+        CONFIRM_BIND_METER: "Confirmer la liaison",
+        CONFIRM_BIND_METER_MESSAGE: "Ce compteur est déjà lié à {0} \"{1}\". Voulez-vous continuer la liaison au {2} actuel ? (Lier un compteur à plusieurs {3} peut entraîner des calculs en double)",
         BIND_PARAMETER: "Lier les paramètres",
         BIND_PARAMETER_DESCRIPTION: "Gestion des paramètres de processus de l'équipement ; configurer les indicateurs de fonctionnement clés ou les paramètres techniques pour les équipements de consommation d'énergie.",
         BIND_PARAMETER_DESCRIPTION_MORE: "Dans cette interface, vous pouvez définir divers paramètres de processus pour l'équipement (tels que la puissance nominale, la différence de température de conception, etc.). Les paramètres peuvent provenir d'une valeur fixe, d'un point de données en temps réel ou du rapport de deux compteurs. Une configuration raisonnable des paramètres de processus est la base de l'analyse comparative de l'efficacité énergétique et de l'analyse des rapports avancés. Ces paramètres serviront d'entrées clés pour calculer la consommation d'énergie théorique ou l'efficacité de l'équipement.",
@@ -1624,7 +1629,7 @@
         CURRENT_SELECTED_SPACE: "Espace sélectionné actuel",
         CHILD_SPACES: "Espaces enfants",
         BIND_METER_DESCRIPTION:
-          "Gestion du lien espace–compteur ; affecter des compteurs à un espace pour l’agrégation par zone.",
+          "Gestion du lien espace–compteur ; affecter des compteurs à un espace pour l'agrégation par zone.",
         BIND_METER_DESCRIPTION_MORE:
           "Sélectionnez un espace, choisissez le type de compteur à droite puis faites glisser le compteur vers la zone centrale. Pour délier, glissez vers la corbeille.",
         BIND_COMBINED_EQUIPMENT_DESCRIPTION:
@@ -2384,6 +2389,7 @@
         INVALID_PRIVILEGE_DATA: "Invalid Privilege Data",
         INVALID_PRIVILEGE_ID: "Invalid Privilege ID",
         INVALID_PRIVILEGE_NAME: "Invalid Privilege Name",
+        SUPER_ADMIN_ACCOUNT_IS_PROTECTED: "Le compte actuel n'est pas autorise a modifier le compte du super administrateur",
         INVALID_PROTOCOL_CODE: "Invalid Protocol Code",
         INVALID_PROTOCOL_ID: "Invalid Protocol ID",
         INVALID_PROTOCOL_NAME: "Invalid Protocol Name",

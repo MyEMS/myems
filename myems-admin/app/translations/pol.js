@@ -433,6 +433,13 @@
         BIND_COMMAND: "Przypisz polecenie Ⓔ",
         BIND_DATA_SOURCE: "Przypisz źródło danych",
         BIND_METER: "Przypisz licznik",
+        BIND_METER_DESCRIPTION: "Zarządzanie relacjami między przestrzenią a licznikiem; przypisz liczniki do przestrzeni, aby agregować zużycie energii według obszaru.",
+        BIND_METER_DESCRIPTION_MORE: "Wybierz przestrzeń, następnie wybierz typ licznika po prawej stronie i przeciągnij licznik do środkowego obszaru powiązania. Aby anulować powiązanie, przeciągnij do kosza.",
+        METER_ALREADY_BOUND_TO_OTHER_SPACE: "Ten licznik jest już przypisany do innej przestrzeni",
+        VIRTUAL_METER_ALREADY_BOUND_TO_OTHER_SPACE: "Ten licznik wirtualny jest już przypisany do innej przestrzeni",
+        OFFLINE_METER_ALREADY_BOUND_TO_OTHER_SPACE: "Ten licznik offline jest już przypisany do innej przestrzeni",
+        CONFIRM_BIND_METER: "Potwierdź przypisanie",
+        CONFIRM_BIND_METER_MESSAGE: "Ten licznik jest już przypisany do {0} \"{1}\". Czy chcesz kontynuować przypisywanie do bieżącej {2}? (Przypisanie jednego licznika do wielu {3} może powodować duplikowanie obliczeń)",
         BIND_POINT: "Przypisz punkt danych",
         BIND_SENSOR: "Przypisz czujnik",
         BIND_TARIFF: "Przypisz taryfę",
@@ -1574,6 +1581,11 @@
           "Zarządzanie powiązaniem przestrzeń–licznik; przypisz liczniki do przestrzeni dla agregacji według obszaru.",
         BIND_METER_DESCRIPTION_MORE:
           "Wybierz przestrzeń, po prawej wybierz typ licznika i przeciągnij licznik do obszaru powiązań. Aby odpiąć, przeciągnij do kosza.",
+        METER_ALREADY_BOUND_TO_OTHER_SPACE: "Ten licznik jest już przypisany do innej przestrzeni",
+        VIRTUAL_METER_ALREADY_BOUND_TO_OTHER_SPACE: "Ten wirtualny licznik jest już przypisany do innej przestrzeni",
+        OFFLINE_METER_ALREADY_BOUND_TO_OTHER_SPACE: "Ten offline'owy licznik jest już przypisany do innej przestrzeni",
+        CONFIRM_BIND_METER: "Potwierdź przypisanie",
+        CONFIRM_BIND_METER_MESSAGE: "Ten licznik jest już przypisany do przestrzeni \"{0}\". Kontynuować przypisanie do bieżącej przestrzeni? (Jeden licznik może być przypisany do wielu przestrzeni)",
         BIND_EQUIPMENT_DESCRIPTION:
           "Zarządzanie powiązaniem przestrzeń–urządzenie; przypisz urządzenia zużycia do przestrzeni.",
         BIND_EQUIPMENT_DESCRIPTION_MORE:
@@ -2328,6 +2340,7 @@
         INVALID_PRIVILEGE_DATA: "Nieprawidłowe dane uprawnień",
         INVALID_PRIVILEGE_ID: "Nieprawidłowy ID uprawnienia",
         INVALID_PRIVILEGE_NAME: "Nieprawidłowa nazwa uprawnienia",
+        SUPER_ADMIN_ACCOUNT_IS_PROTECTED: "Bieżące konto nie ma uprawnień do modyfikacji konta superadministratora",
         INVALID_PROTOCOL_CODE: "Invalid Protocol Code",
         INVALID_PROTOCOL_ID: "Invalid Protocol ID",
         INVALID_PROTOCOL_NAME: "Invalid Protocol Name",

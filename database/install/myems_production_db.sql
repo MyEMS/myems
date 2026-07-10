@@ -45,6 +45,21 @@ CREATE INDEX `tbl_shifts_index_3` ON `myems_production_db`.`tbl_shifts` (`shopfl
 CREATE INDEX `tbl_shifts_index_4` ON `myems_production_db`.`tbl_shifts` (`shopfloor_id`, `team_id`);
 
 -- ---------------------------------------------------------------------------------------------------------------------
+-- Table `myems_production_db`.`tbl_equipment_hourly`
+-- ---------------------------------------------------------------------------------------------------------------------
+DROP TABLE IF EXISTS `myems_production_db`.`tbl_equipment_hourly` ;
+
+CREATE TABLE IF NOT EXISTS `myems_production_db`.`tbl_equipment_hourly` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `equipment_id` BIGINT NOT NULL,
+  `start_datetime_utc` DATETIME NOT NULL,
+  `product_id` BIGINT NOT NULL,
+  `product_count` DECIMAL(21, 6) NOT NULL,
+  PRIMARY KEY (`id`));
+CREATE INDEX `tbl_equipment_hourly_index_1`
+ON `myems_production_db`.`tbl_equipment_hourly` (`equipment_id`, `product_id`, `start_datetime_utc`);
+
+-- ---------------------------------------------------------------------------------------------------------------------
 -- Table `myems_production_db`.`tbl_shopfloor_hourly`
 -- ---------------------------------------------------------------------------------------------------------------------
 DROP TABLE IF EXISTS `myems_production_db`.`tbl_shopfloor_hourly` ;

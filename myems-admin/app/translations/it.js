@@ -317,6 +317,11 @@
         BIND_DATA_SOURCE_DESCRIPTION_MORE: "In questa interfaccia, è possibile collegare sorgenti dati a specifiche apparecchiature. Metodo: Selezionare prima l'apparecchiatura di destinazione a sinistra, quindi trovare la sorgente dati corrispondente a destra e trascinarla nell'area 'Sorgenti Dati Associate' al centro. Per scollegare, trascinare la sorgente dati sull'icona del cestino in basso.",
         BIND_METER_DESCRIPTION: "Gestione dell'associazione tra apparecchiatura e contatore; collegare contatori fisici all'apparecchiatura di consumo energetico corrispondente.",
         BIND_METER_DESCRIPTION_MORE: "In questa interfaccia, è possibile collegare contatori a specifiche apparecchiature. Metodo: Selezionare prima l'apparecchiatura di destinazione a sinistra, quindi trovare il contatore corrispondente a destra e trascinarlo nell'area 'Contatori Associati' al centro. Per scollegare, trascinare il contatore sull'icona del cestino in basso.",
+        METER_ALREADY_BOUND_TO_OTHER_SPACE: "Questo contatore è già associato ad un altro spazio",
+        VIRTUAL_METER_ALREADY_BOUND_TO_OTHER_SPACE: "Questo contatore virtuale è già associato ad un altro spazio",
+        OFFLINE_METER_ALREADY_BOUND_TO_OTHER_SPACE: "Questo contatore offline è già associato ad un altro spazio",
+        CONFIRM_BIND_METER: "Conferma associazione",
+        CONFIRM_BIND_METER_MESSAGE: "Questo contatore è già associato a {0} \"{1}\". Vuoi continuare ad associarlo al {2} attuale? (Associare un contatore a più {3} può causare calcoli duplicati)",
         BIND_PARAMETER: "Associa parametri",
         BIND_PARAMETER_DESCRIPTION: "Gestione dei parametri di processo dell'apparecchiatura; configurare indicatori operativi chiave o parametri tecnici per apparecchiature di consumo energetico.",
         BIND_PARAMETER_DESCRIPTION_MORE: "In questa interfaccia, è possibile definire vari parametri di processo per l'apparecchiatura (come potenza nominale, differenza di temperatura di progetto, ecc.). I parametri possono provenire da un valore fisso, un punto dati in tempo reale o il rapporto di due contatori. Una configurazione ragionevole dei parametri di processo è la base per il benchmarking dell'efficienza energetica e l'analisi dei report avanzati. Questi parametri fungeranno da input chiave per il calcolo del consumo energetico teorico o dell'efficienza dell'apparecchiatura.",
@@ -1577,7 +1582,7 @@
         BIND_METER_DESCRIPTION:
           "Gestione associazione spazio–contatore; assegna contatori agli spazi per aggregazione per area.",
         BIND_METER_DESCRIPTION_MORE:
-          "Seleziona uno spazio, scegli il tipo contatore a destra e trascina il contatore nell’area centrale. Per scollegare, trascina nel cestino.",
+          "Seleziona uno spazio, scegli il tipo contatore a destra e trascina il contatore nell'area centrale. Per scollegare, trascina nel cestino.",
         BIND_EQUIPMENT_DESCRIPTION:
           "Gestione associazione spazio–equipaggiamento; assegna equipaggiamenti allo spazio per statistiche e manutenzione.",
         BIND_EQUIPMENT_DESCRIPTION_MORE:
@@ -2333,6 +2338,7 @@
         INVALID_PRIVILEGE_DATA: "Dati privilegio non validi",
         INVALID_PRIVILEGE_ID: "ID privilegio non valido",
         INVALID_PRIVILEGE_NAME: "Nome privilegio non valido",
+        SUPER_ADMIN_ACCOUNT_IS_PROTECTED: "L'account corrente non e autorizzato a modificare l'account del super amministratore",
         INVALID_PROTOCOL_CODE: "Codice protocollo non valido",
         INVALID_PROTOCOL_ID: "ID del protocollo non valido",
         INVALID_PROTOCOL_NAME: "Nome del protocollo non valido",

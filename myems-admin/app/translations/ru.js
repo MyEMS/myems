@@ -455,6 +455,11 @@
           "Связь оборудования и физического счётчика; привязка измерителя к соответствующему энергопотребляющему оборудованию.",
         BIND_METER_DESCRIPTION_MORE:
           "Слева выберите оборудование, справа — счётчик и перетащите его в область «Связанные счётчики». Для отвязки перетащите в корзину.",
+        METER_ALREADY_BOUND_TO_OTHER_SPACE: "Этот счетчик уже привязан к другому пространству",
+        VIRTUAL_METER_ALREADY_BOUND_TO_OTHER_SPACE: "Этот виртуальный счетчик уже привязан к другому пространству",
+        OFFLINE_METER_ALREADY_BOUND_TO_OTHER_SPACE: "Этот автономный счетчик уже привязан к другому пространству",
+        CONFIRM_BIND_METER: "Подтвердить привязку",
+        CONFIRM_BIND_METER_MESSAGE: "Этот счетчик уже привязан к {0} \"{1}\". Хотите продолжить привязку к текущему {2}? (Привязка одного счетчика к нескольким {3} может привести к дублированию расчетов)",
         BIND_PARAMETER: "Привязка параметра",
         BIND_PARAMETER_DESCRIPTION:
           "Параметры технологического процесса оборудования; настройка эксплуатационных или технических показателей для энергопотребляющего оборудования.",
@@ -2423,6 +2428,7 @@
         INVALID_PRIVILEGE_DATA: "Invalid Privilege Data",
         INVALID_PRIVILEGE_ID: "Invalid Privilege ID",
         INVALID_PRIVILEGE_NAME: "Invalid Privilege Name",
+        SUPER_ADMIN_ACCOUNT_IS_PROTECTED: "Текущая учетная запись не имеет прав на изменение учетной записи суперадминистратора",
         INVALID_PROTOCOL_CODE: "Invalid Protocol Code",
         INVALID_PROTOCOL_ID: "Invalid Protocol ID",
         INVALID_PROTOCOL_NAME: "Invalid Protocol Name",

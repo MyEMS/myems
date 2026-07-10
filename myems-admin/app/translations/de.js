@@ -450,6 +450,11 @@
           "Verknüpfung von Gerät und Zähler; bindet physische Messgeräte an das entsprechende Verbrauchsgerät.",
         BIND_METER_DESCRIPTION_MORE:
           "Wählen Sie links das Zielgerät und rechts den Zähler, dann in den Bereich gebundener Zähler ziehen. Zum Entbinden in den Papierkorb ziehen.",
+        METER_ALREADY_BOUND_TO_OTHER_SPACE: "Dieser Zähler ist bereits an einen anderen Raum gebunden",
+        VIRTUAL_METER_ALREADY_BOUND_TO_OTHER_SPACE: "Dieser virtuelle Zähler ist bereits an einen anderen Raum gebunden",
+        OFFLINE_METER_ALREADY_BOUND_TO_OTHER_SPACE: "Dieser Offline-Zähler ist bereits an einen anderen Raum gebunden",
+        CONFIRM_BIND_METER: "Bindung bestätigen",
+        CONFIRM_BIND_METER_MESSAGE: "Dieser Zähler ist bereits an {0} \"{1}\" gebunden. Möchten Sie die Bindung an den aktuellen {2} fortsetzen? (Das Binden eines Zählers an mehrere {3} kann zu doppelten Berechnungen führen)",
         BIND_PARAMETER: "Parameter binden",
         BIND_PARAMETER_DESCRIPTION:
           "Verwaltung technischer Geräteparameter; konfiguriert wichtige Betriebskennwerte für Verbrauchsgeräte.",
@@ -2404,6 +2409,7 @@
         INVALID_PRIVILEGE_DATA: "Ungültige Berechtigungsdaten",
         INVALID_PRIVILEGE_ID: "Ungültige Berechtigungs-ID",
         INVALID_PRIVILEGE_NAME: "Ungültiger Berechtigungsname",
+        SUPER_ADMIN_ACCOUNT_IS_PROTECTED: "Das aktuelle Konto ist nicht berechtigt, das Superadministrator-Konto zu ändern",
         INVALID_PROTOCOL_CODE: "Ungültiger Protokollcode",
         INVALID_PROTOCOL_ID: "Ungültige Protokoll-ID",
         INVALID_PROTOCOL_NAME: "Ungültiger Protokollname",

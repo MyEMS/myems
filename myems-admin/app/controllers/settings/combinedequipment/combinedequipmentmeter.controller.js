@@ -218,28 +218,78 @@ app.controller('CombinedEquipmentMeterController', function (
             var meterid = angular.element('#' + dragEl).scope().meter.id;
             var combinedequipmentid = $scope.currentCombinedEquipment.id;
             let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
-            CombinedEquipmentMeterService.addPair(combinedequipmentid, meterid, $scope.currentMeterType, is_output, headers, function (response) {
-                if (angular.isDefined(response.status) && response.status === 201) {
-                    toaster.pop({
-                        type: "success",
-                        title: $translate.instant("TOASTER.SUCCESS_TITLE"),
-                        body: $translate.instant("TOASTER.BIND_METER_SUCCESS"),
-                        showCloseButton: true,
+            
+            // Check if this meter is already bound to other combined equipments using backend API (fast)
+            CombinedEquipmentMeterService.checkMeterBinding(meterid, $scope.currentMeterType, headers, function(response) {
+                var otherCombinedEquipmentsWithMeter = [];
+                
+                if (angular.isDefined(response.status) && response.status === 200) {
+                    // Filter out the current combined equipment from the results
+                    angular.forEach(response.data, function(combinedequipment) {
+                        if (combinedequipment.id !== combinedequipmentid) {
+                            otherCombinedEquipmentsWithMeter.push(combinedequipment.name);
+                        }
                     });
-
-                    $scope.getMetersByCombinedEquipmentID($scope.currentCombinedEquipment.id);
                 } else {
-                    toaster.pop({
-                        type: "error",
-                        title: $translate.instant(response.data.title),
-                        body: $translate.instant(response.data.description),
-                        showCloseButton: true,
+                    // If API call fails, log error and proceed with binding anyway
+                    console.error('Failed to check meter binding:', response);
+                    // Still allow binding to proceed even if check fails
+                }
+                
+                // If meter is bound to other combined equipments, ask for confirmation
+                if (otherCombinedEquipmentsWithMeter.length > 0) {
+                    var combinedEquipmentText = $translate.instant("COMMON.COMBINED_EQUIPMENT");
+                    var messageTemplate = $translate.instant("SETTING.CONFIRM_BIND_METER_MESSAGE");
+                    var message = messageTemplate.replace('{0}', combinedEquipmentText)
+                                               .replace('{1}', otherCombinedEquipmentsWithMeter.join(', '))
+                                               .replace('{2}', combinedEquipmentText)
+                                               .replace('{3}', combinedEquipmentText);
+                    
+                    SweetAlert.swal({
+                        title: $translate.instant("SETTING.CONFIRM_BIND_METER"),
+                        text: message,
+                        type: "warning",
+                        showCancelButton: true,
+                        confirmButtonColor: "#DD6B55",
+                        confirmButtonText: $translate.instant("SETTING.YES"),
+                        cancelButtonText: $translate.instant("SETTING.NO"),
+                        closeOnConfirm: true
+                    }, function(isConfirm) {
+                        if (isConfirm) {
+                            performBinding(combinedequipmentid, meterid, $scope.currentMeterType, is_output, headers);
+                        }
                     });
+                } else {
+                    // Meter is not bound to any other combined equipment, proceed directly
+                    performBinding(combinedequipmentid, meterid, $scope.currentMeterType, is_output, headers);
                 }
             });
         }, function () {
         });
         $rootScope.modalInstance = modalInstance;
+    };
+
+    // Helper function to perform binding operation
+    function performBinding(combinedequipmentid, meterid, metertype, is_output, headers) {
+        CombinedEquipmentMeterService.addPair(combinedequipmentid, meterid, metertype, is_output, headers, function(response) {
+            if (angular.isDefined(response.status) && response.status === 201) {
+                toaster.pop({
+                    type: "success",
+                    title: $translate.instant("TOASTER.SUCCESS_TITLE"),
+                    body: $translate.instant("TOASTER.BIND_METER_SUCCESS"),
+                    showCloseButton: true,
+                });
+                // Reacquire the binding and trigger filtering
+                $scope.getMetersByCombinedEquipmentID($scope.currentCombinedEquipment.id);
+            } else {
+                toaster.pop({
+                    type: "error",
+                    title: $translate.instant(response.data.title),
+                    body: $translate.instant(response.data.description),
+                    showCloseButton: true,
+                });
+            }
+        });
     };
 
     // Unbind meter via drag-to-trash

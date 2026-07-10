@@ -65,6 +65,7 @@ app.controller('SpaceMeterController', function(
       }
 
       angular.element(spacetreewithmeter).jstree(treedata);
+      
       //space tree selected changed event handler
       angular.element(spacetreewithmeter).on("changed.jstree", function (e, data) {
           if (data.selected && data.selected.length > 0) {
@@ -104,6 +105,13 @@ app.controller('SpaceMeterController', function(
 
         $q.all(promises).then(function(results) {
             $scope.spacemeters = [].concat.apply([], results);
+            
+            // Cache the meters data to the current space object for quick lookup
+            var currentSpace = $scope.spaces.find(function(s) { return s.id == id; });
+            if (currentSpace) {
+                currentSpace.spacemeters = angular.copy($scope.spacemeters);
+            }
+            
             $scope.isLoadingMeters = false;
             $scope.filterAvailableMeters();
         }).catch(function(error) {
@@ -226,24 +234,49 @@ app.controller('SpaceMeterController', function(
 		var meterid=angular.element('#'+dragEl).scope().meter.id;
 		var spaceid=angular.element(spacetreewithmeter).jstree(true).get_top_selected();
         let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
-		SpaceMeterService.addPair(spaceid,meterid, $scope.currentMeterType, headers, function (response) {
-			if (angular.isDefined(response.status) && response.status === 201) {
-					toaster.pop({
-						type: "success",
-						title: $translate.instant("TOASTER.SUCCESS_TITLE"),
-						body: $translate.instant("TOASTER.BIND_METER_SUCCESS"),
-						showCloseButton: true,
-					});
-					$scope.getMetersBySpaceID(spaceid);
-				} else {
-          toaster.pop({
-              type: "error",
-              title: $translate.instant(response.data.title),
-              body: $translate.instant(response.data.description),
-              showCloseButton: true,
-          });
-				}
-		});
+        
+        // Check if this meter is already bound to other spaces using backend API (fast)
+        SpaceMeterService.checkMeterBinding(meterid, $scope.currentMeterType, headers, function(response) {
+            var otherSpacesWithMeter = [];
+            
+            if (angular.isDefined(response.status) && response.status === 200) {
+                // Filter out the current space from the results
+                angular.forEach(response.data, function(space) {
+                    if (space.id != spaceid) {
+                        otherSpacesWithMeter.push(space.name);
+                    }
+                });
+            } else {
+                // If API call fails, log error and proceed with binding anyway
+                console.error('Failed to check meter binding:', response);
+                // Still allow binding to proceed even if check fails
+            }
+            
+            // If meter is bound to other spaces, ask for confirmation
+            if (otherSpacesWithMeter.length > 0) {
+                var spaceText = $translate.instant("COMMON.SPACE");
+                var messageTemplate = $translate.instant("SETTING.CONFIRM_BIND_METER_MESSAGE");
+                var message = messageTemplate.replace('{0}', spaceText).replace('{1}', otherSpacesWithMeter.join(', ')).replace('{2}', spaceText).replace('{3}', spaceText);
+                
+                SweetAlert.swal({
+                    title: $translate.instant("SETTING.CONFIRM_BIND_METER"),
+                    text: message,
+                    type: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#DD6B55",
+                    confirmButtonText: $translate.instant("SETTING.YES"),
+                    cancelButtonText: $translate.instant("SETTING.NO"),
+                    closeOnConfirm: true
+                }, function(isConfirm) {
+                    if (isConfirm) {
+                        performBinding(spaceid, meterid, $scope.currentMeterType, headers);
+                    }
+                });
+            } else {
+                // Meter is not bound to any other space, proceed directly
+                performBinding(spaceid, meterid, $scope.currentMeterType, headers);
+            }
+        });
 	};
 
 	// Unbind meter via drag-to-trash
@@ -276,6 +309,28 @@ app.controller('SpaceMeterController', function(
                     showCloseButton: true,
                 });
             }
+		});
+	};
+
+	// Helper function to perform binding operation
+	function performBinding(spaceid, meterid, metertype, headers) {
+		SpaceMeterService.addPair(spaceid, meterid, metertype, headers, function (response) {
+			if (angular.isDefined(response.status) && response.status === 201) {
+				toaster.pop({
+					type: "success",
+					title: $translate.instant("TOASTER.SUCCESS_TITLE"),
+					body: $translate.instant("TOASTER.BIND_METER_SUCCESS"),
+					showCloseButton: true,
+				});
+				$scope.getMetersBySpaceID(spaceid);
+			} else {
+				toaster.pop({
+					type: "error",
+					title: $translate.instant(response.data.title),
+					body: $translate.instant(response.data.description),
+					showCloseButton: true,
+				});
+			}
 		});
 	};
 

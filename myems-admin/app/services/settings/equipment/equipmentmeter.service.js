@@ -38,6 +38,21 @@ app.factory('EquipmentMeterService', function($http) {
             }, function (response) {
                 callback(response);
             }); 
+        },
+        
+        // GET equipments that a meter is bound to (RESTful style)
+        checkMeterBinding: function(meterId, meterType, headers, callback) {
+            $http.get(getAPI()+'meters/'+meterId+'/equipments', {
+                params: {
+                    type: meterType
+                },
+                headers: headers
+            })
+            .then(function (response) {
+                callback(response);
+            }, function (response) {
+                callback(response);
+            });
         }
     };
 });  

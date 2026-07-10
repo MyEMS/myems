@@ -606,7 +606,18 @@ api.add_route('/meters/import',
               meter.MeterImport())
 api.add_route('/meters/{id_}/clone',
               meter.MeterClone())
-
+api.add_route('/meters/{id_}/spaces',
+              space.MeterSpaceCollection())
+api.add_route('/meters/{id_}/shopfloors',
+              shopfloor.MeterShopfloorCollection())
+api.add_route('/meters/{id_}/stores',
+              store.MeterStoreCollection())
+api.add_route('/meters/{id_}/tenants',
+              tenant.MeterTenantCollection())
+api.add_route('/meters/{id_}/equipments',
+              equipment.MeterEquipmentCollection())
+api.add_route('/meters/{id_}/combinedequipments',
+              combinedequipment.MeterCombinedEquipmentCollection())
 
 api.add_route('/microgrids',
               microgrid.MicrogridCollection())
@@ -896,6 +907,7 @@ api.add_route('/spaces/{id_}/meters',
               space.SpaceMeterCollection())
 api.add_route('/spaces/{id_}/meters/{mid}',
               space.SpaceMeterItem())
+
 api.add_route('/spaces/{id_}/microgrids',
               space.SpaceMicrogridCollection())
 api.add_route('/spaces/{id_}/microgrids/{mid}',

@@ -433,6 +433,14 @@
         BIND_TARIFF_DESCRIPTION_MORE: "ผูกอัตราที่ตั้งไว้ (เช่น ราคาไฟตามช่วงเวลา) กับศูนย์ต้นทุน เลือกศูนย์ด้านซ้าย ค้นหาอัตราใน “รายการอัตรา” ด้านขวา ลากไปยังพื้นที่ “อัตราที่เชื่อมแล้ว” ตรวจสอบให้แต่ละประเภทพลังงานของแต่ละศูนย์เชื่อมอัตราที่ถูกต้อง",
         BIND_MICROGRID: "ผูกไมโครกริด",
         BIND_ENERGY_STORAGE_CONTAINER: "ผูกภาชนะเก็บพลังงาน",
+        BIND_METER: "ผูกมิเตอร์",
+        BIND_METER_DESCRIPTION: "การจัดการความสัมพันธ์ระหว่างพื้นที่และมิเตอร์ ผูกมิเตอร์กับพื้นที่เพื่อรวมพลังงานตามภูมิภาค",
+        BIND_METER_DESCRIPTION_MORE: "เลือกพื้นที่ จากนั้นเลือกประเภทมิเตอร์ทางด้านขวาและลากมิเตอร์ไปยังพื้นที่ผูกมัดตรงกลาง หากต้องการยกเลิกการผูก ให้ลากไปที่ถังขยะ",
+        METER_ALREADY_BOUND_TO_OTHER_SPACE: "มิเตอร์นี้ถูกผูกไว้แล้วกับพื้นที่อื่น",
+        VIRTUAL_METER_ALREADY_BOUND_TO_OTHER_SPACE: "มิเตอร์เสมือนนี้ถูกผูกไว้แล้วกับพื้นที่อื่น",
+        OFFLINE_METER_ALREADY_BOUND_TO_OTHER_SPACE: "มิเตอร์ออฟไลน์นี้ถูกผูกไว้แล้วกับพื้นที่อื่น",
+        CONFIRM_BIND_METER: "ยืนยันการผูก",
+        CONFIRM_BIND_METER_MESSAGE: "มิเตอร์นี้ถูกผูกไว้แล้วกับ {0} \"{1}\" คุณต้องการดำเนินการผูกกับ {2} ปัจจุบันหรือไม่? (การผูกมิเตอร์หนึ่งตัวกับหลาย {3} อาจทำให้เกิดการคำนวณซ้ำ)",
 
         IOTSIMCARD: "IoT SIM การ์ด",
         CATEGORY_DESCRIPTION: "การกำหนดค่าพื้นฐานของการจัดการหมวดหมู่พลังงาน รักษาทรัพยากรพลังงานต่างๆ และมาตรฐานการแปลงที่ใช้ในระบบจากส่วนกลาง",
@@ -1580,6 +1588,11 @@
           "จัดการการผูกพื้นที่–มิเตอร์; ผูกมิเตอร์กับพื้นที่เพื่อรวมข้อมูลตามพื้นที่.",
         BIND_METER_DESCRIPTION_MORE:
           "เลือกพื้นที่ เลือกประเภทมิเตอร์ด้านขวา แล้วลากมิเตอร์ไปยังพื้นที่ตรงกลางเพื่อผูก หากต้องการยกเลิกผูก ให้ลากไปที่ถังขยะ.",
+        METER_ALREADY_BOUND_TO_OTHER_SPACE: "มิเตอร์นี้ถูกผูกไว้กับพื้นที่อื่นแล้ว",
+        VIRTUAL_METER_ALREADY_BOUND_TO_OTHER_SPACE: "มิเตอร์เสมือนนี้ถูกผูกไว้กับพื้นที่อื่นแล้ว",
+        OFFLINE_METER_ALREADY_BOUND_TO_OTHER_SPACE: "มิเตอร์ออฟไลน์นี้ถูกผูกไว้กับพื้นที่อื่นแล้ว",
+        CONFIRM_BIND_METER: "ยืนยันการผูก",
+        CONFIRM_BIND_METER_MESSAGE: "มิเตอร์นี้ถูกผูกไว้กับพื้นที่ \"{0}\" แล้ว ต้องการดำเนินการผูกกับพื้นที่ปัจจุบันต่อหรือไม่? (หนึ่งมิเตอร์สามารถผูกกับหลายพื้นที่ได้)",
         BIND_EQUIPMENT_DESCRIPTION:
           "จัดการการผูกพื้นที่–อุปกรณ์; ผูกอุปกรณ์ใช้พลังงานเข้ากับพื้นที่เพื่อสถิติและการดูแล.",
         BIND_EQUIPMENT_DESCRIPTION_MORE:
@@ -2318,6 +2331,7 @@
         INVALID_PRIVILEGE_DATA: "Invalid Privilege Data",
         INVALID_PRIVILEGE_ID: "Invalid Privilege ID",
         INVALID_PRIVILEGE_NAME: "Invalid Privilege Name",
+        SUPER_ADMIN_ACCOUNT_IS_PROTECTED: "บัญชีปัจจุบันไม่มีสิทธิ์แก้ไขบัญชีผู้ดูแลระบบสูงสุด",
         INVALID_PROTOCOL_CODE: "Invalid Protocol Code",
         INVALID_PROTOCOL_ID: "Invalid Protocol ID",
         INVALID_PROTOCOL_NAME: "Invalid Protocol Name",
