@@ -121,7 +121,6 @@
         ENERGY_FLOW_DIAGRAM: "Energiestroomdiagram",
         MICROGRID: "Microgrid",
         MENU: "Menu",
-          DOWNLOAD_OFFLINE_METER_TEMPLATE: "Offline metervoorbeeld downloaden",
         DATE: "Datum",
         TARIFF: {
           TOPPEAK: "Piek",
@@ -219,6 +218,7 @@
           ENERGY_FLOW_DIAGRAM: "Energiestroomdiagram",
           DISTRIBUTION_SYSTEM: "Distributiesysteem",
           MENU: "Menu",
+          DOWNLOAD_OFFLINE_METER_TEMPLATE: "Offline metervoorbeeld downloaden",
           KNOWLEDGEFILE: "Kennisbank",
           WORKING_CALENDAR: "Werkkalender",
           COMMAND: "Commando Ⓔ",

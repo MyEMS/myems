@@ -121,7 +121,6 @@
         ENERGY_FLOW_DIAGRAM: "แผนภาพการไหลของพลังงาน",
         MICROGRID: "ไมโครกริด",
         MENU: "เมนู",
-          DOWNLOAD_OFFLINE_METER_TEMPLATE: "ดาวน์โหลดเทมเพลตมิเตอร์ออฟไลน์",
         DATE: "ช่วงวันที่",
         TARIFF: {
           TOPPEAK: "จุดสูงสุด",

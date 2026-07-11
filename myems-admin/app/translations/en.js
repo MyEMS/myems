@@ -121,7 +121,6 @@
         ENERGY_FLOW_DIAGRAM: "Energy Flow Diagram",
         MICROGRID: "Microgrid",
         MENU: "Menu",
-          DOWNLOAD_OFFLINE_METER_TEMPLATE: "Download Offline Meter Template",
         DATE: "Date Range",
         TARIFF: {
           TOPPEAK: "Top-peak",
@@ -223,6 +222,7 @@
           ENERGY_FLOW_DIAGRAM: "Energy Flow Diagrams",
           DISTRIBUTION_SYSTEM: "Distribution Systems",
           MENU: "Menus",
+          DOWNLOAD_OFFLINE_METER_TEMPLATE: "Download Offline Meter Template",
           KNOWLEDGEFILE: "Knowledge Base",
           WORKING_CALENDAR: "Working Calendar",
           COMMAND: "Commands Ⓔ",

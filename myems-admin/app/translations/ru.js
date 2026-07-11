@@ -121,7 +121,6 @@
         ENERGY_FLOW_DIAGRAM: "Диаграмма потоков энергии",
         MICROGRID: "Микросеть",
         MENU: "Меню",
-          DOWNLOAD_OFFLINE_METER_TEMPLATE: "Скачать шаблон офлайн-счетчика",
         DATE: "Диапазон дат",
         TARIFF: {
           TOPPEAK: "Топ-пик",
@@ -223,6 +222,7 @@
           ENERGY_FLOW_DIAGRAM: "Диаграммы потоков энергии",
           DISTRIBUTION_SYSTEM: "Распределительные системы",
           MENU: "Меню",
+          DOWNLOAD_OFFLINE_METER_TEMPLATE: "Скачать шаблон офлайн-счетчика",
           KNOWLEDGEFILE: "База знаний",
           WORKING_CALENDAR: "Рабочий календарь",
           COMMAND: "Команды Ⓔ",

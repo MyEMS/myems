@@ -121,7 +121,6 @@
         ENERGY_FLOW_DIAGRAM: "Diagram Aliran Energi",
         MICROGRID: "Jaringan mikro",
         MENU: "Menu",
-          DOWNLOAD_OFFLINE_METER_TEMPLATE: "Unduh Template Meter Offline",
         DATE: "Rentang Tanggal",
         TARIFF: {
           TOPPEAK: "Puncak teratas",
@@ -223,6 +222,7 @@
           ENERGY_FLOW_DIAGRAM: "Diagram Aliran Energi",
           DISTRIBUTION_SYSTEM: "Sistem Distribusi",
           MENU: "Menus",
+          DOWNLOAD_OFFLINE_METER_TEMPLATE: "Unduh Template Meter Offline",
           KNOWLEDGEFILE: "Basis Pengetahuan",
           WORKING_CALENDAR: "Kalender Kerja",
           COMMAND: "Perintah Ⓔ",

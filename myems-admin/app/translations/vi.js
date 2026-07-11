@@ -121,7 +121,6 @@
         ENERGY_FLOW_DIAGRAM: "Sơ đồ dòng năng lượng",
         MICROGRID: "Lưới điện siêu nhỏ",
         MENU: "Thực đơn",
-          DOWNLOAD_OFFLINE_METER_TEMPLATE: "Tải xuống mẫu đồng hồ ngoại tuyến",
         DATE: "Phạm vi ngày",
         TARIFF: {
           TOPPEAK: "Đỉnh cao nhất",
@@ -223,6 +222,7 @@
           ENERGY_FLOW_DIAGRAM: "Sơ đồ dòng năng lượng",
           DISTRIBUTION_SYSTEM: "Hệ thống phân phối",
           MENU: "Thực đơn",
+          DOWNLOAD_OFFLINE_METER_TEMPLATE: "Tải xuống mẫu đồng hồ ngoại tuyến",
           KNOWLEDGEFILE: "Cơ sở tri thức",
           WORKING_CALENDAR: "Lịch làm việc",
           COMMAND: "Lệnh Ⓔ",

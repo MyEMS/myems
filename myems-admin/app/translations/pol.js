@@ -121,7 +121,6 @@
         ENERGY_FLOW_DIAGRAM: "Schemat przepływu energii",
         MICROGRID: "Mikrosieć",
         MENU: "Menu",
-          DOWNLOAD_OFFLINE_METER_TEMPLATE: "Pobierz szablon licznika offline",
         DATE: "Data",
         TARIFF: {
           TOPPEAK: "Szczyt",
@@ -219,6 +218,7 @@
           ENERGY_FLOW_DIAGRAM: "Schemat przepływu energii",
           DISTRIBUTION_SYSTEM: "System rozdziału energii",
           MENU: "Menu",
+          DOWNLOAD_OFFLINE_METER_TEMPLATE: "Pobierz szablon licznika offline",
           KNOWLEDGEFILE: "Baza wiedzy",
           WORKING_CALENDAR: "Kalendarz roboczy",
           COMMAND: "Polecenie Ⓔ",

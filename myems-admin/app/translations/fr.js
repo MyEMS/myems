@@ -121,7 +121,6 @@
         ENERGY_FLOW_DIAGRAM: "Diagramme de flux d’énergie",
         MICROGRID: "Micro-réseau",
         MENU: "Menu",
-          DOWNLOAD_OFFLINE_METER_TEMPLATE: "Télécharger le modèle de compteur hors ligne",
         DATE: "Plage de dates",
         TARIFF: {
           TOPPEAK: "Sommet-sommet",
@@ -223,6 +222,7 @@
           ENERGY_FLOW_DIAGRAM: "Diagrammes de flux d’énergie",
           DISTRIBUTION_SYSTEM: "Systèmes de distribution",
           MENU: "Menus",
+          DOWNLOAD_OFFLINE_METER_TEMPLATE: "Télécharger le modèle de compteur hors ligne",
           KNOWLEDGEFILE: "Base de connaissances",
           WORKING_CALENDAR: "Calendrier de travail",
           COMMAND: "Commandes Ⓔ",

@@ -121,7 +121,6 @@
         ENERGY_FLOW_DIAGRAM: "Diagrama de flujo de energía",
         MICROGRID: "Microrred",
         MENU: "Menú",
-          DOWNLOAD_OFFLINE_METER_TEMPLATE: "Descargar plantilla de medidor sin conexión",
         DATE: "Intervalo de fechas",
         TARIFF: {
           TOPPEAK: "Pico superior",
@@ -225,6 +224,7 @@
           ENERGY_FLOW_DIAGRAM: "Diagramas de flujo de energía",
           DISTRIBUTION_SYSTEM: "Sistemas de distribución",
           MENU: "Menús",
+          DOWNLOAD_OFFLINE_METER_TEMPLATE: "Descargar plantilla de medidor sin conexión",
           KNOWLEDGEFILE: "Knowledge base",
           WORKING_CALENDAR: "Calendario de trabajo",
           COMMAND: "Comandos Ⓔ",

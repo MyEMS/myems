@@ -121,7 +121,6 @@
         ENERGY_FLOW_DIAGRAM: "Energieflussdiagramm",
         MICROGRID: "Mikrogitter",
         MENU: "Menü",
-          DOWNLOAD_OFFLINE_METER_TEMPLATE: "Offline-Zählervorlage herunterladen",
         DATE: "Datum",
         TARIFF: {
           TOPPEAK: "Trinkgeld",
@@ -223,6 +222,7 @@
           ENERGY_FLOW_DIAGRAM: "Energieflussdiagramm",
           DISTRIBUTION_SYSTEM: "Verteilungssysteme",
           MENU: "Menüs",
+          DOWNLOAD_OFFLINE_METER_TEMPLATE: "Offline-Zählervorlage herunterladen",
           KNOWLEDGEFILE: "Wissensdatenbank",
           WORKING_CALENDAR: "Arbeitskalender",
           COMMAND: "Befehle Ⓔ",

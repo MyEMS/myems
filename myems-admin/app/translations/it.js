@@ -121,7 +121,6 @@
         ENERGY_FLOW_DIAGRAM: "Diagramma Flusso Energia",
         MICROGRID: "Microgrid",
         MENU: "Menu",
-          DOWNLOAD_OFFLINE_METER_TEMPLATE: "Scarica modello contatore offline",
         DATE: "Data",
         TARIFF: {
           TOPPEAK: "Picco Massimo",
@@ -219,6 +218,7 @@
           ENERGY_FLOW_DIAGRAM: "Diagramma Flusso Energia",
           DISTRIBUTION_SYSTEM: "Sistema di Distribuzione",
           MENU: "Menu",
+          DOWNLOAD_OFFLINE_METER_TEMPLATE: "Scarica modello contatore offline",
           KNOWLEDGEFILE: "Knowledge Base",
           WORKING_CALENDAR: "Calendario Lavorativo",
           COMMAND: "Comando Ⓔ",

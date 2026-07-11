@@ -121,7 +121,6 @@
         ENERGY_FLOW_DIAGRAM: "에너지 흐름도",
         MICROGRID: "마이크로그리드",
         MENU: "메뉴",
-          DOWNLOAD_OFFLINE_METER_TEMPLATE: "오프라인 미터 템플릿 다운로드",
         DATE: "날짜",
         TARIFF: {
           TOPPEAK: "초피크",
@@ -223,6 +222,7 @@
           ENERGY_FLOW_DIAGRAM: "에너지 흐름도",
           DISTRIBUTION_SYSTEM: "배전 시스템",
           MENU: "메뉴",
+          DOWNLOAD_OFFLINE_METER_TEMPLATE: "오프라인 미터 템플릿 다운로드",
           KNOWLEDGEFILE: "지식 베이스",
           WORKING_CALENDAR: "작업 일정",
           COMMAND: "명령 Ⓔ",
