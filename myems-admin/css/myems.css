@@ -729,3 +729,8 @@ li span.divider{
 	vertical-align: middle;
 }
 
+
+.template-download-row {
+	margin-top: 10px;
+	margin-bottom: 10px;
+}

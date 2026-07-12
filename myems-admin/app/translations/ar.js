@@ -222,6 +222,7 @@
           ENERGY_FLOW_DIAGRAM: "مخططات تدفق الطاقة",
           DISTRIBUTION_SYSTEM: "أنظمة التوزيع",
           MENU: "القوائم",
+          DOWNLOAD_OFFLINE_METER_TEMPLATE: "تنزيل قالب العداد غير المتصل",
           KNOWLEDGEFILE: "معارف",
           WORKING_CALENDAR: "تقويم العمل",
           COMMAND: "الاوامر Ⓔ",

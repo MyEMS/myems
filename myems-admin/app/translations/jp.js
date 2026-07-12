@@ -218,6 +218,7 @@
           ENERGY_FLOW_DIAGRAM: "エネルギー流れ図",
           DISTRIBUTION_SYSTEM: "配電システム",
           MENU: "メニュー",
+          DOWNLOAD_OFFLINE_METER_TEMPLATE: "オフラインメーターテンプレートをダウンロード",
           KNOWLEDGEFILE: "ナレッジベース",
           WORKING_CALENDAR: "稼働カレンダー",
           COMMAND: "コマンド Ⓔ",
