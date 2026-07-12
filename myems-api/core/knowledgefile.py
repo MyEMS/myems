@@ -1,6 +1,4 @@
-import base64
 import os
-
 import uuid
 from datetime import datetime, timezone, timedelta
 import falcon

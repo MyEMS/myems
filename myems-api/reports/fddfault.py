@@ -29,7 +29,6 @@ The module uses Falcon framework for REST API and includes:
 - User authentication and authorization
 """
 
-import falcon
 import simplejson as json
 
 
