@@ -218,6 +218,7 @@
           ENERGY_FLOW_DIAGRAM: "نمودار جریان انرژی",
           DISTRIBUTION_SYSTEM: "سیستم توزیع",
           MENU: "منو",
+          DOWNLOAD_OFFLINE_METER_TEMPLATE: "دانلود قالب کنتور آفلاین",
           KNOWLEDGEFILE: "پایگاه دانش",
           WORKING_CALENDAR: "تقویم کاری",
           COMMAND: "فرمان Ⓔ",

@@ -222,6 +222,7 @@
           ENERGY_FLOW_DIAGRAM: "Диаграммы потоков энергии",
           DISTRIBUTION_SYSTEM: "Распределительные системы",
           MENU: "Меню",
+          DOWNLOAD_OFFLINE_METER_TEMPLATE: "Скачать шаблон офлайн-счетчика",
           KNOWLEDGEFILE: "База знаний",
           WORKING_CALENDAR: "Рабочий календарь",
           COMMAND: "Команды Ⓔ",

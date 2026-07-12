@@ -1,8 +1,8 @@
 'use strict';
 app.controller('MainController', [
-    '$rootScope', '$location', '$window', '$timeout','$cookies',
-    function($rootScope, $location, $window, $timeout,$cookies) {
-        
+    '$rootScope', '$location', '$window', '$timeout', '$cookies',
+    function($rootScope, $location, $window, $timeout, $cookies) {
+
         $rootScope.$on("handleReLogin",function(){
             $timeout(function(){
                 $window.localStorage.removeItem("myems_admin_ui_current_user");

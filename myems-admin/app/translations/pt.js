@@ -222,6 +222,7 @@
           ENERGY_FLOW_DIAGRAM: "Diagramas de fluxo de energia",
           DISTRIBUTION_SYSTEM: "Sistemas de Distribuição",
           MENU: "Menus",
+          DOWNLOAD_OFFLINE_METER_TEMPLATE: "Baixar modelo de medidor offline",
           KNOWLEDGEFILE: "Base de Conhecimento",
           WORKING_CALENDAR: "Calendário de trabalho",
           COMMAND: "Comandos Ⓔ",

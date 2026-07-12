@@ -222,6 +222,7 @@
           ENERGY_FLOW_DIAGRAM: "Enerji Akış Diyagramları",
           DISTRIBUTION_SYSTEM: "Dağıtım Sistemleri",
           MENU: "Menü",
+          DOWNLOAD_OFFLINE_METER_TEMPLATE: "Çevrimdışı Sayaç Şablonunu İndir",
           KNOWLEDGEFILE: "Bilgi bankası",
           WORKING_CALENDAR: "Çalışma Takvimi",
           COMMAND: "Komut Ⓔ",

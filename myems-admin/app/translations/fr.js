@@ -222,6 +222,7 @@
           ENERGY_FLOW_DIAGRAM: "Diagrammes de flux d’énergie",
           DISTRIBUTION_SYSTEM: "Systèmes de distribution",
           MENU: "Menus",
+          DOWNLOAD_OFFLINE_METER_TEMPLATE: "Télécharger le modèle de compteur hors ligne",
           KNOWLEDGEFILE: "Base de connaissances",
           WORKING_CALENDAR: "Calendrier de travail",
           COMMAND: "Commandes Ⓔ",
