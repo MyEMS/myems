@@ -1,4 +1,3 @@
-import falcon
 import mysql.connector
 import simplejson as json
 from datetime import timezone, timedelta

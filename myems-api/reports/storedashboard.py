@@ -36,7 +36,6 @@ The module uses Falcon framework for REST API and includes:
 
 import logging
 from datetime import datetime, timedelta, timezone
-from decimal import Decimal
 import hashlib
 import falcon
 import mysql.connector
