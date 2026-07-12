@@ -2857,5 +2857,5 @@
       "Energy Flow Diagram": "エネルギー流れ図",
       "Distribution System": "配電システム",
       "Knowledge Base": "ナレッジベース",
-      };
+    };
 })(window);

@@ -2889,5 +2889,5 @@
       "Energy Flow Diagram": "แผนภาพการไหลของพลังงาน",
       "Distribution System": "ระบบกระจายสินค้า",
       "Knowledge Base": "ฐานความรู้",
-      };
+    };
 })(window);

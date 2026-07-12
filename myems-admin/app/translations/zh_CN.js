@@ -2780,5 +2780,5 @@
       "Energy Flow Diagram": "能流图",
       "Distribution System": "配电系统",
       "Knowledge Base": "知识库",
-      };
+    };
 })(window);

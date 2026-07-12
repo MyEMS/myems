@@ -2822,5 +2822,5 @@
       "Energy Flow Diagram": "能流圖",
       "Distribution System": "配電系統",
       "Knowledge Base": "知識庫",
-      };
+    };
 })(window);
