@@ -729,15 +729,3 @@ li span.divider{
 	vertical-align: middle;
 }
 
-.template-download-btn {
-	margin: 8px auto;
-	width: 90%;
-	text-align: center;
-	color: #FFF;
-	cursor: pointer;
-	white-space: normal;
-	word-break: break-word;
-	line-height: 1.4;
-	padding: 8px 10px;
-	height: auto;
-}
