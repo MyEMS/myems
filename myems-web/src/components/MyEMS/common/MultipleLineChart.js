@@ -17,7 +17,7 @@ import {
 
 echarts.use([LineChart, GridComponent, ToolboxComponent, DataZoomComponent, MarkLineComponent, MarkPointComponent]);
 
-const MultipleLineChart = ({ reportingTitle, baseTitle, labels, data, options }) => {
+const MultipleLineChart = ({ reportingTitle, baseTitle, labels, data, options, yAxisScale = false }) => {
   const colors = ['#2c7be5', '#00d27a', '#27bcfd', '#f5803e', '#e63757'];
   const [values, setValues] = useState(['a0']);
   const [oldValues, setOldValues] = useState(['a0']);
@@ -231,6 +231,7 @@ const MultipleLineChart = ({ reportingTitle, baseTitle, labels, data, options })
       },
       yAxis: {
         type: 'value',
+        scale: yAxisScale,
         splitLine: { show: false },
         axisLabel: {
           color: rgbaColor(isDark ? '#fff' : '#000', 0.8)
