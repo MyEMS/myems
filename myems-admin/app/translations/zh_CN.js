@@ -773,6 +773,7 @@
         DATA_REPAIR_FILE: "数据修补文件",
         DATA_REPAIR_FILE_DESCRIPTION: "数据修补文件管理；上传并执行历史数据修复或手工补录文件。",
         DATA_REPAIR_FILE_DESCRIPTION_MORE: "当现场采集由于网络中断等原因出现长时间数据缺失，或者需要修正错误的历史数值时，您可以使用数据修补功能。请按照系统要求的Excel模板格式准备数据，并将文件拖拽至上传区域。上传后点击“恢复”按钮，系统将解析文件并覆盖对应时间段的数据库记录。请务必在操作前备份原始数据，并确保文件中的时间戳和数据点ID准确无误。",
+        DOWNLOAD_DATA_REPAIR_TEMPLATE: "下载数据修补模板",
 
         WORKING_CALENDAR: "工作日历",
         NON_WORKING_DAY: "非工作日",

@@ -670,6 +670,7 @@
         DATA_REPAIR_FILE: "Tệp sửa chữa dữ liệu",
         DATA_REPAIR_FILE_DESCRIPTION: "Quản lý tệp sửa chữa dữ liệu; tải lên và thực thi sửa dữ liệu lịch sử hoặc bổ sung thủ công.",
         DATA_REPAIR_FILE_DESCRIPTION_MORE: "Khi thiếu dữ liệu dài do mạng hoặc cần sửa giá trị lịch sử, dùng chức năng sửa chữa. Chuẩn bị dữ liệu theo mẫu Excel của hệ thống, kéo tệp vào vùng tải lên, nhấn “Khôi phục” để ghi đè bản ghi cơ sở dữ liệu theo khung thời gian. Nên sao lưu dữ liệu gốc và đảm bảo mốc thời gian và ID điểm dữ liệu chính xác.",
+        DOWNLOAD_DATA_REPAIR_TEMPLATE: "Tải xuống mẫu sửa chữa dữ liệu",
 
         WORKING_CALENDAR: "Lịch làm việc",
         NON_WORKING_DAY: "Ngày không làm việc",

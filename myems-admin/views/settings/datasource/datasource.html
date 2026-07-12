@@ -217,6 +217,15 @@
                             </div>
                             <div id="dropzone1" class="dropzone" options="dzOptions" callbacks="dzCallbacks"
                                  ng-dropzone></div>
+                            <!-- Download template button -->
+                            <div class="row template-download-row">
+                                <div class="col-md-12">
+                                    <a href="views/template/data_repair_sample.xlsx" download
+                                       class="btn btn-success btn-rounded">
+                                        <i class="fa fa-download"></i> {{ 'SETTING.DOWNLOAD_DATA_REPAIR_TEMPLATE' | translate }}
+                                    </a>
+                                </div>
+                            </div>
                             <!-- Data Source list table -->
                             <table class="footable table table-bordered table-hover" data-sort="true"
                                    data-page-size="15">
