@@ -714,6 +714,7 @@
           "Verwaltung von Datenreparaturdateien; lädt Korrektur- oder Nachtragsdateien für historische Daten hoch und führt sie aus.",
         DATA_REPAIR_FILE_DESCRIPTION_MORE:
           "Bei längeren Datenlücken (z. B. Netzwerkunterbrechung) oder bei Korrekturen historischer Werte nutzen Sie die Datenreparatur. Laden Sie eine Datei im System-Excel-Format hoch und klicken Sie auf \"Wiederherstellen\". Sichern Sie vorher Originaldaten und prüfen Sie Zeitstempel sowie Datenpunkt-IDs.",
+        DOWNLOAD_DATA_REPAIR_TEMPLATE: "Datenreparaturvorlage herunterladen",
 
         WORKING_CALENDAR: "Working Calendar",
         NON_WORKING_DAY: "Non Working Day",

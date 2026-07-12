@@ -779,6 +779,7 @@
         DATA_REPAIR_FILE: "Data Repair File",
         DATA_REPAIR_FILE_DESCRIPTION: "Data repair file management; upload and execute history data repair or manual supplemental recording files.",
         DATA_REPAIR_FILE_DESCRIPTION_MORE: "When there is a long period of data loss due to network interruptions or when historical values need to be corrected, you can use the data repair function. Please prepare the data according to the Excel template format required by the system, and drag the file to the upload area. After uploading, click the 'Restore' button, and the system will parse the file and overwrite the database records for the corresponding time period. Please make sure to back up the original data before operation and ensure that the timestamps and data point IDs in the file are accurate.",
+        DOWNLOAD_DATA_REPAIR_TEMPLATE: "Download Data Repair Template",
 
         WORKING_CALENDAR: "Working Calendar",
         NON_WORKING_DAY: "Non Working Day",
