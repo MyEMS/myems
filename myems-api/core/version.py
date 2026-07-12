@@ -1,4 +1,3 @@
-import falcon
 import simplejson as json
 
 
