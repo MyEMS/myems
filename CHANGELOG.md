@@ -28,6 +28,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - added search box to data point page in myems-admin
 - added deepseek AI analysis to reports in myems-web
 - added map to store dashboard in myems-web
+- added offline_meter_data.xlsx to myems-admin
 ### Changed
 - updated meter batch report in myems-api and myems-web
 - updated virtual meter batch report in myems-api and myems-web
