@@ -1503,6 +1503,7 @@ const TenantEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => {
           labels={parameterLineChartLabels}
           data={parameterLineChartData}
           options={parameterLineChartOptions}
+          yAxisScale={true}
         />
         <br />
         <WorkingDaysConsumptionTable

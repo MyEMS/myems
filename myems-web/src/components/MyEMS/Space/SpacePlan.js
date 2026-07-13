@@ -1156,6 +1156,7 @@ const SpacePlan = ({ setRedirect, setRedirectUrl, t }) => {
           labels={parameterLineChartLabels}
           data={parameterLineChartData}
           options={parameterLineChartOptions}
+          yAxisScale={true}
         />
 
         <DetailedDataTable

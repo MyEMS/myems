@@ -828,6 +828,7 @@ const PhotovoltaicPowerStationDetails = ({ setRedirect, setRedirectUrl, t }) => 
               labels={parameterLineChartLabels}
               data={parameterLineChartData}
               options={parameterLineChartOptions}
+              yAxisScale={true}
             />
           </TabPane>
           <TabPane tabId="2">
