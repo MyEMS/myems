@@ -630,6 +630,8 @@
                     DATA_REPAIR_FILE: 'Veri Onarım Dosyası',
                     DATA_REPAIR_FILE_DESCRIPTION: 'Veri onarım dosyası yönetimi; geçmiş veri düzeltmesi veya manuel tamamlama dosyalarını yükler ve çalıştırır.',
                     DATA_REPAIR_FILE_DESCRIPTION_MORE: 'Ağ kesintisi gibi nedenlerle uzun süreli veri eksikliği veya geçmiş değer düzeltmesi gerektiğinde kullanın. Sistem Excel şablonuna uygun dosyayı yükleyin, “Geri yükle” ile veritabanı kayıtlarının üzerine yazılır. İşlemden önce yedek alın; zaman damgaları ve veri noktası kimlikleri doğru olmalıdır.',
+                    DOWNLOAD_DATA_REPAIR_TEMPLATE: 'Veri Onarım Şablonunu İndir',
+
                     WORKING_CALENDAR: 'Çalışma Takvimi',
                     NON_WORKING_DAY: 'Çalışma Dışı Gün',
                     COMMAND: 'Komut',
