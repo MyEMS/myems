@@ -464,34 +464,34 @@ class Reporting:
                         elif peak_type == 'deep':
                             reporting[energy_category_id]['deep'] += row[1]
 
-                ########################################################################################################
-                # Step 8: query tariff data
-                ########################################################################################################
-                parameters_data = dict()
-                parameters_data['names'] = list()
-                parameters_data['timestamps'] = list()
-                parameters_data['values'] = list()
-                if not is_quick_mode:
-                    if config.is_tariff_appended and energy_category_set is not None and len(
-                            energy_category_set) > 0:
-                        for energy_category_id in energy_category_set:
-                            energy_category_tariff_dict = \
-                                utilities.get_energy_category_tariffs(combined_equipment['cost_center_id'],
-                                                                      energy_category_id,
-                                                                      reporting_start_datetime_utc,
-                                                                      reporting_end_datetime_utc)
-                            tariff_timestamp_list = list()
-                            tariff_value_list = list()
-                            for k, v in energy_category_tariff_dict.items():
-                                # convert k from utc to local
-                                k = k + timedelta(minutes=timezone_offset)
-                                tariff_timestamp_list.append(k.isoformat()[0:19])
-                                tariff_value_list.append(v)
+            ########################################################################################################
+            # Step 8: query tariff data
+            ########################################################################################################
+            parameters_data = dict()
+            parameters_data['names'] = list()
+            parameters_data['timestamps'] = list()
+            parameters_data['values'] = list()
+            if not is_quick_mode:
+                if config.is_tariff_appended and energy_category_set is not None and len(
+                        energy_category_set) > 0:
+                    for energy_category_id in energy_category_set:
+                        energy_category_tariff_dict = \
+                            utilities.get_energy_category_tariffs(combined_equipment['cost_center_id'],
+                                                                  energy_category_id,
+                                                                  reporting_start_datetime_utc,
+                                                                  reporting_end_datetime_utc)
+                        tariff_timestamp_list = list()
+                        tariff_value_list = list()
+                        for k, v in energy_category_tariff_dict.items():
+                            # convert k from utc to local
+                            k = k + timedelta(minutes=timezone_offset)
+                            tariff_timestamp_list.append(k.isoformat()[0:19])
+                            tariff_value_list.append(v)
 
-                            parameters_data['names'].append(
-                                _('Tariff') + '-' + energy_category_dict[energy_category_id]['name'])
-                            parameters_data['timestamps'].append(tariff_timestamp_list)
-                            parameters_data['values'].append(tariff_value_list)
+                        parameters_data['names'].append(
+                            _('Tariff') + '-' + energy_category_dict[energy_category_id]['name'])
+                        parameters_data['timestamps'].append(tariff_timestamp_list)
+                        parameters_data['values'].append(tariff_value_list)
 
         finally:
             if cursor_energy is not None:
@@ -611,17 +611,10 @@ class Reporting:
             result['base_period']['total_in_kgco2e'] \
             if result['base_period']['total_in_kgco2e'] > Decimal(0.0) else None
 
-        if 'parameters_data' not in locals():
-            parameters_data = {
-                "names": [],
-                "timestamps": [],
-                "values": []
-            }
-
         result['parameters'] = {
-            "names": parameters_data.get('names', []),
-            "timestamps": parameters_data.get('timestamps', []),
-            "values": parameters_data.get('values', [])
+            "names": parameters_data['names'],
+            "timestamps": parameters_data['timestamps'],
+            "values": parameters_data['values']
         }
 
         result['excel_bytes_base64'] = None

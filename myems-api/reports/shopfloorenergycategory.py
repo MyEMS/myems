@@ -542,68 +542,68 @@ class Reporting:
                             else:
                                 reporting[energy_category_id]['working_days_subtotal'] += actual_value
 
-                            energy_category_tariff_dict = utilities.get_energy_category_peak_types(
-                                shopfloor['cost_center_id'],
-                                energy_category_id,
-                                reporting_start_datetime_utc,
-                                reporting_end_datetime_utc)
-                            for row in rows_shopfloor_hourly:
-                                peak_type = energy_category_tariff_dict.get(row[0], None)
-                                if peak_type == 'toppeak':
-                                    reporting[energy_category_id]['toppeak'] += row[1]
-                                elif peak_type == 'onpeak':
-                                    reporting[energy_category_id]['onpeak'] += row[1]
-                                elif peak_type == 'midpeak':
-                                    reporting[energy_category_id]['midpeak'] += row[1]
-                                elif peak_type == 'offpeak':
-                                    reporting[energy_category_id]['offpeak'] += row[1]
-                                elif peak_type == 'deep':
-                                    reporting[energy_category_id]['deep'] += row[1]
+                        energy_category_tariff_dict = utilities.get_energy_category_peak_types(
+                            shopfloor['cost_center_id'],
+                            energy_category_id,
+                            reporting_start_datetime_utc,
+                            reporting_end_datetime_utc)
+                        for row in rows_shopfloor_hourly:
+                            peak_type = energy_category_tariff_dict.get(row[0], None)
+                            if peak_type == 'toppeak':
+                                reporting[energy_category_id]['toppeak'] += row[1]
+                            elif peak_type == 'onpeak':
+                                reporting[energy_category_id]['onpeak'] += row[1]
+                            elif peak_type == 'midpeak':
+                                reporting[energy_category_id]['midpeak'] += row[1]
+                            elif peak_type == 'offpeak':
+                                reporting[energy_category_id]['offpeak'] += row[1]
+                            elif peak_type == 'deep':
+                                reporting[energy_category_id]['deep'] += row[1]
 
-                    ###############################################################################################
-                    # Step 9: query tariff data
-                    ###############################################################################################
-                    parameters_data = dict()
-                    parameters_data['names'] = list()
-                    parameters_data['timestamps'] = list()
-                    parameters_data['values'] = list()
-                    if config.is_tariff_appended and energy_category_set is not None and len(energy_category_set) > 0 \
-                            and not is_quick_mode:
-                        for energy_category_id in energy_category_set:
-                            energy_category_tariff_dict = utilities.get_energy_category_tariffs(
-                                shopfloor['cost_center_id'],
-                                energy_category_id,
-                                reporting_start_datetime_utc,
-                                reporting_end_datetime_utc)
-                            tariff_timestamp_list = list()
-                            tariff_value_list = list()
-                            for k, v in energy_category_tariff_dict.items():
-                                # convert k from utc to local
-                                k = k + timedelta(minutes=timezone_offset)
-                                tariff_timestamp_list.append(k.isoformat()[0:19])
-                                tariff_value_list.append(v)
+                ###############################################################################################
+                # Step 9: query tariff data
+                ###############################################################################################
+                parameters_data = dict()
+                parameters_data['names'] = list()
+                parameters_data['timestamps'] = list()
+                parameters_data['values'] = list()
+                if config.is_tariff_appended and energy_category_set is not None and len(energy_category_set) > 0 \
+                        and not is_quick_mode:
+                    for energy_category_id in energy_category_set:
+                        energy_category_tariff_dict = utilities.get_energy_category_tariffs(
+                            shopfloor['cost_center_id'],
+                            energy_category_id,
+                            reporting_start_datetime_utc,
+                            reporting_end_datetime_utc)
+                        tariff_timestamp_list = list()
+                        tariff_value_list = list()
+                        for k, v in energy_category_tariff_dict.items():
+                            # convert k from utc to local
+                            k = k + timedelta(minutes=timezone_offset)
+                            tariff_timestamp_list.append(k.isoformat()[0:19])
+                            tariff_value_list.append(v)
 
-                            parameters_data['names'].append(_('Tariff') + '-' +
-                                                            energy_category_dict[energy_category_id]['name'])
-                            parameters_data['timestamps'].append(tariff_timestamp_list)
-                            parameters_data['values'].append(tariff_value_list)
+                        parameters_data['names'].append(_('Tariff') + '-' +
+                                                        energy_category_dict[energy_category_id]['name'])
+                        parameters_data['timestamps'].append(tariff_timestamp_list)
+                        parameters_data['values'].append(tariff_value_list)
 
-                    ###############################################################################################
-                    # Step 10: query associated sensors and points data
-                    ###############################################################################################
-                    if not is_quick_mode:
+                ###############################################################################################
+                # Step 10: query associated sensors and points data
+                ###############################################################################################
+                if not is_quick_mode:
 
-                        point_data = utilities.build_parameters_data_from_batch(
+                    point_data = utilities.build_parameters_data_from_batch(
 
-                            point_list, reporting_start_datetime_utc, reporting_end_datetime_utc,
+                        point_list, reporting_start_datetime_utc, reporting_end_datetime_utc,
 
-                            cursor_historical, timezone_offset)
+                        cursor_historical, timezone_offset)
 
-                        parameters_data['names'].extend(point_data['names'])
+                    parameters_data['names'].extend(point_data['names'])
 
-                        parameters_data['timestamps'].extend(point_data['timestamps'])
+                    parameters_data['timestamps'].extend(point_data['timestamps'])
 
-                        parameters_data['values'].extend(point_data['values'])
+                    parameters_data['values'].extend(point_data['values'])
             finally:
                 if cursor_system:
                     cursor_system.close()
