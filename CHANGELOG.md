@@ -22,6 +22,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Fixed
 - fixed Overwritten property issue in myems-web
 - fixed datetime picker color theme issue in myems-web
+- fixed parameters_data issues in myems-api
 ### Removed
 - removed print(req.params) from myems-api
 
