@@ -277,7 +277,7 @@ class Reporting:
             equipment_list = []
             if user['is_admin']:
                 cursor_system.execute(
-                    " SELECT e.id, e.name, e.cost_center_id "
+                    " SELECT e.id, e.name, e.cost_center_id, e.uuid "
                     " FROM tbl_equipments e "
                     " ORDER BY e.id "
                 )
@@ -288,6 +288,7 @@ class Reporting:
                             'id': row[0],
                             'name': row[1],
                             'cost_center_id': row[2],
+                            'uuid': row[3],
                             'equipment_type_name': ''
                         })
             else:
@@ -304,7 +305,7 @@ class Reporting:
                     validate_integer_ids(equipment_ids_list, "equipment_ids")
                     format_strings = ','.join(['%s'] * len(equipment_ids_list))
                     cursor_system.execute(
-                        " SELECT e.id, e.name, e.cost_center_id "
+                        " SELECT e.id, e.name, e.cost_center_id, e.uuid "
                         " FROM tbl_equipments e "
                         " WHERE e.id IN (%s) ORDER BY e.id " % format_strings,
                         tuple(equipment_ids_list)
@@ -316,6 +317,7 @@ class Reporting:
                                 'id': row[0],
                                 'name': row[1],
                                 'cost_center_id': row[2],
+                                'uuid': row[3],
                                 'equipment_type_name': ''
                             })
 
@@ -929,6 +931,7 @@ class Reporting:
                 equipment_details.append({
                     'id': equipment_id,
                     'name': equipment['name'],
+                    'uuid': equipment['uuid'],
                     'cost_center_id': equipment['cost_center_id'],
                     'equipment_type': equipment['equipment_type_name'],
                     'total_energy': energy_data['total_energy'],

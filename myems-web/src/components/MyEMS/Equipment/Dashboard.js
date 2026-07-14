@@ -3,6 +3,7 @@ import CountUp from 'react-countup';
 import {Col, Row, Card, CardBody} from 'reactstrap';
 import {toast} from 'react-toastify';
 import {getCookieValue, createCookie, checkEmpty} from '../../../helpers/utils';
+import { Link } from 'react-router-dom';
 import withRedirect from '../../../hoc/withRedirect';
 import {withTranslation} from 'react-i18next';
 import moment from 'moment';
@@ -647,7 +648,9 @@ const Dashboard = ({setRedirect, setRedirectUrl, t}) => {
                                   <strong>{equipment.id}</strong>
                                 </td>
                                 <td>
-                                  <strong>{equipment.name}</strong>
+                                  <Link to={{ pathname: '/equipment/energycategory?uuid=' + equipment.uuid }} target="_blank">
+                                    <strong>{equipment.name}</strong>
+                                  </Link>
                                 </td>
                                 {energyData.energy_category_ids && energyData.energy_category_ids.map((ecId, index) => {
                                   const categoryEnergy = equipment.energy_by_category && equipment.energy_by_category[ecId]
