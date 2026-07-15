@@ -939,11 +939,7 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
                     Geojson={geojson}
                 />
               </div>
-          ) : (
-              <div className="mb-3 card" style={{ height: '400px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                {settings.showOnlineMap ? '...' : ' '}
-              </div>
-          )}
+          ) : null}
           {Object.entries(sensor).map(([sensorKey, sensorValue], index) => (
               <RealtimeSensor key={sensorKey || 'sensor-' + index} sensor={sensorValue} pointList={pointList} />
           ))}
