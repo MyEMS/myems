@@ -25,6 +25,7 @@ import {
   Legend
 } from 'chart.js';
 import {Line, Bar} from 'react-chartjs-2';
+import {Link} from 'react-router-dom';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {
   faArrowUp,
@@ -476,7 +477,12 @@ const Dashboard = ({setRedirect, setRedirectUrl, t}) => {
                   <table className="table table-hover">
                     <thead className="thead-light">
                     <tr>
-                      <th 
+                      <th
+                        style={{width: '5%'}}
+                      >
+                        {t('ID')}
+                      </th>
+                      <th
                         onClick={() => handleSort('name')}
                         style={{cursor: 'pointer'}}
                       >
@@ -551,7 +557,12 @@ const Dashboard = ({setRedirect, setRedirectUrl, t}) => {
                       return (
                         <tr key={tenant.id}>
                           <td>
-                            <strong>{tenant.name}</strong>
+                            <strong>{tenant.id}</strong>
+                          </td>
+                          <td>
+                            <Link to={'/tenant/energycategory?uuid=' + tenant.uuid} target="_blank" rel="noopener noreferrer">
+                              <strong>{tenant.name}</strong>
+                            </Link>
                           </td>
                           <td className="text-muted">{tenant.tenant_type || '-'}</td>
                           <td className="text-right">{tenant.area ? tenant.area.toFixed(2) : '-'}</td>

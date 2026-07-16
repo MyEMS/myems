@@ -277,7 +277,7 @@ class Reporting:
             combined_equipment_list = []
             if user['is_admin']:
                 cursor_system.execute(
-                    " SELECT ce.id, ce.name, ce.cost_center_id "
+                    " SELECT ce.id, ce.name, ce.uuid, ce.cost_center_id "
                     " FROM tbl_combined_equipments ce "
                     " ORDER BY ce.id "
                 )
@@ -287,7 +287,8 @@ class Reporting:
                         combined_equipment_list.append({
                             'id': row[0],
                             'name': row[1],
-                            'cost_center_id': row[2]
+                            'uuid': row[2],
+                            'cost_center_id': row[3]
                         })
             else:
                 cursor_user.execute(" SELECT data FROM tbl_privileges WHERE id = %s ", (user['privilege_id'],))
@@ -303,7 +304,7 @@ class Reporting:
                     validate_integer_ids(combined_equipment_ids_list, "combined_equipment_ids")
                     format_strings = ','.join(['%s'] * len(combined_equipment_ids_list))
                     cursor_system.execute(
-                        " SELECT ce.id, ce.name, ce.cost_center_id "
+                        " SELECT ce.id, ce.name, ce.uuid, ce.cost_center_id "
                         " FROM tbl_combined_equipments ce "
                         " WHERE ce.id IN (%s) ORDER BY ce.id " % format_strings,
                         tuple(combined_equipment_ids_list)
@@ -314,7 +315,8 @@ class Reporting:
                             combined_equipment_list.append({
                                 'id': row[0],
                                 'name': row[1],
-                                'cost_center_id': row[2]
+                                'uuid': row[2],
+                                'cost_center_id': row[3]
                             })
 
             if not combined_equipment_list:
@@ -812,6 +814,7 @@ class Reporting:
                 combined_equipment_details.append({
                     'id': combined_equipment_id,
                     'name': combined_equipment['name'],
+                    'uuid': combined_equipment['uuid'],
                     'cost_center_id': combined_equipment['cost_center_id'],
                     'total_energy': energy_data['total_energy'],
                     'energy_by_category': energy_data['categories'],

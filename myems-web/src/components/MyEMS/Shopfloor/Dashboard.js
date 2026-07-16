@@ -8,6 +8,7 @@ import {withTranslation} from 'react-i18next';
 import moment from 'moment';
 import {APIBaseURL, settings} from '../../../config';
 import {v4 as uuid} from 'uuid';
+import {Link} from 'react-router-dom';
 import CardSummary from '../common/CardSummary';
 import SharePie from '../common/SharePie';
 import BarChart from '../common/BarChart';
@@ -474,12 +475,15 @@ const Dashboard = ({setRedirect, setRedirectUrl, t}) => {
                   <table className="table table-hover">
                     <thead className="thead-light">
                     <tr>
-                      <th 
+                      <th style={{width: '5%'}}>
+                        {t('ID')}
+                      </th>
+                      <th
                         onClick={() => handleSort('name')}
                         style={{cursor: 'pointer'}}
                       >
                         {t('Shopfloor Name')}
-                        <FontAwesomeIcon 
+                        <FontAwesomeIcon
                           icon={sortConfig.key === 'name' ? (sortConfig.direction === 'asc' ? faSortUp : faSortDown) : faSort}
                           className="ml-1"
                         />
@@ -539,7 +543,12 @@ const Dashboard = ({setRedirect, setRedirectUrl, t}) => {
                       return (
                         <tr key={shopfloor.id}>
                           <td>
-                            <strong>{shopfloor.name}</strong>
+                            <strong>{shopfloor.id}</strong>
+                          </td>
+                          <td>
+                            <Link to={'/shopfloor/energycategory?uuid=' + shopfloor.uuid} target="_blank" rel="noopener noreferrer">
+                              <strong>{shopfloor.name}</strong>
+                            </Link>
                           </td>
                           <td className="text-right">{shopfloor.area ? shopfloor.area.toFixed(2) : '-'}</td>
                           {energyData.energy_category_ids && energyData.energy_category_ids.map((ecId, index) => {

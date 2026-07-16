@@ -286,7 +286,7 @@ class Reporting:
             # Get shopfloor list based on user privileges
             shopfloor_list = []
             if user['is_admin']:
-                cursor_system.execute(" SELECT s.id, s.name, s.area "
+                cursor_system.execute(" SELECT s.id, s.name, s.uuid, s.area "
                                       " FROM tbl_shopfloors s "
                                       " ORDER BY s.id ")
                 rows_shopfloors = cursor_system.fetchall()
@@ -295,7 +295,8 @@ class Reporting:
                         shopfloor_list.append({
                             'id': row[0],
                             'name': row[1],
-                            'area': row[2]
+                            'uuid': row[2],
+                            'area': row[3]
                         })
             else:
                 cursor_user.execute(" SELECT data FROM tbl_privileges WHERE id = %s ", (user['privilege_id'],))
@@ -314,7 +315,7 @@ class Reporting:
                         validate_integer_ids(shopfloor_ids_list, "shopfloor_ids")
                         format_strings = ','.join(['%s'] * len(shopfloor_ids_list))
                         cursor_system.execute(
-                            " SELECT s.id, s.name, s.area "
+                            " SELECT s.id, s.name, s.uuid, s.area "
                             " FROM tbl_shopfloors s "
                             " WHERE s.id IN (%s) ORDER BY s.id " % format_strings,
                             tuple(shopfloor_ids_list)
@@ -325,7 +326,8 @@ class Reporting:
                                 shopfloor_list.append({
                                     'id': row[0],
                                     'name': row[1],
-                                    'area': row[2]
+                                    'uuid': row[2],
+                                    'area': row[3]
                                 })
 
             if not shopfloor_list:
@@ -855,6 +857,7 @@ class Reporting:
                 shopfloor_details.append({
                     'id': shopfloor_id,
                     'name': shopfloor['name'],
+                    'uuid': shopfloor['uuid'],
                     'area': float(shopfloor['area']) if shopfloor['area'] else 0.0,
                     'total_energy': energy_data['total_energy'],
                     'energy_by_category': energy_data['categories'],

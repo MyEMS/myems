@@ -7,6 +7,7 @@ import withRedirect from '../../../hoc/withRedirect';
 import {withTranslation} from 'react-i18next';
 import moment from 'moment';
 import {APIBaseURL, settings} from '../../../config';
+import {Link} from 'react-router-dom';
 
 import CardSummary from '../common/CardSummary';
 import SharePie from '../common/SharePie';
@@ -606,6 +607,9 @@ const Dashboard = ({setRedirect, setRedirectUrl, t}) => {
                                 <table className="table table-hover">
                                     <thead className="thead-light">
                                     <tr>
+                                        <th style={{width: '5%'}}>
+                                            {t('ID')}
+                                        </th>
                                         <th
                                             onClick={() => handleSort('name')}
                                             style={{cursor: 'pointer'}}
@@ -682,7 +686,12 @@ const Dashboard = ({setRedirect, setRedirectUrl, t}) => {
                                             return (
                                                 <tr key={store.id}>
                                                     <td>
-                                                        <strong>{store.name}</strong>
+                                                        <strong>{store.id}</strong>
+                                                    </td>
+                                                    <td>
+                                                        <Link to={'/store/energycategory?uuid=' + store.uuid} target="_blank" rel="noopener noreferrer">
+                                                            <strong>{store.name}</strong>
+                                                        </Link>
                                                     </td>
                                                     <td className="text-muted">{store.address || '-'}</td>
                                                     <td className="text-right">{store.area ? store.area.toFixed(2) : '-'}</td>
