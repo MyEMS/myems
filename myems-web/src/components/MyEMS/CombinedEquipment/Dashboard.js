@@ -7,6 +7,7 @@ import withRedirect from '../../../hoc/withRedirect';
 import {withTranslation} from 'react-i18next';
 import moment from 'moment';
 import {APIBaseURL, settings} from '../../../config';
+import {Link} from 'react-router-dom';
 import CardSummary from '../common/CardSummary';
 import SharePie from '../common/SharePie';
 import LineChart from '../common/LineChart';
@@ -454,12 +455,15 @@ const Dashboard = ({setRedirect, setRedirectUrl, t}) => {
                   <table className="table table-hover">
                     <thead className="thead-light">
                     <tr>
-                      <th 
+                      <th style={{width: '5%'}}>
+                        {t('ID')}
+                      </th>
+                      <th
                         onClick={() => handleSort('name')}
                         style={{cursor: 'pointer'}}
                       >
                         {t('Combined Equipment Name')}
-                        <FontAwesomeIcon 
+                        <FontAwesomeIcon
                           icon={sortConfig.key === 'name' ? (sortConfig.direction === 'asc' ? faSortUp : faSortDown) : faSort}
                           className="ml-1"
                         />
@@ -508,7 +512,12 @@ const Dashboard = ({setRedirect, setRedirectUrl, t}) => {
                       return (
                         <tr key={combinedEquipment.id}>
                           <td>
-                            <strong>{combinedEquipment.name}</strong>
+                            <strong>{combinedEquipment.id}</strong>
+                          </td>
+                          <td>
+                            <Link to={'/combinedequipment/energycategory?uuid=' + combinedEquipment.uuid} target="_blank" rel="noopener noreferrer">
+                              <strong>{combinedEquipment.name}</strong>
+                            </Link>
                           </td>
                           {energyData.energy_category_ids && energyData.energy_category_ids.map((ecId, index) => {
                             const categoryEnergy = combinedEquipment.energy_by_category && combinedEquipment.energy_by_category[ecId]

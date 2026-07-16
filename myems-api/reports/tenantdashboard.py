@@ -286,7 +286,7 @@ class Reporting:
             # Get tenant list based on user privileges
             tenant_list = []
             if user['is_admin']:
-                cursor_system.execute(" SELECT t.id, t.name, t.area, t.tenant_type_id, tt.name as tenant_type_name "
+                cursor_system.execute(" SELECT t.id, t.uuid, t.name, t.area, t.tenant_type_id, tt.name as tenant_type_name "
                                       " FROM tbl_tenants t "
                                       " LEFT JOIN tbl_tenant_types tt ON t.tenant_type_id = tt.id "
                                       " ORDER BY t.id ")
@@ -295,10 +295,11 @@ class Reporting:
                     for row in rows_tenants:
                         tenant_list.append({
                             'id': row[0],
-                            'name': row[1],
-                            'area': row[2],
-                            'tenant_type_id': row[3],
-                            'tenant_type_name': row[4] if row[4] else ''
+                            'uuid': row[1],
+                            'name': row[2],
+                            'area': row[3],
+                            'tenant_type_id': row[4],
+                            'tenant_type_name': row[5] if row[5] else ''
                         })
             else:
                 cursor_user.execute(" SELECT data FROM tbl_privileges WHERE id = %s ", (user['privilege_id'],))
@@ -315,7 +316,7 @@ class Reporting:
                     if len(tenant_ids_list) > 0:
                         format_strings = ','.join(['%s'] * len(tenant_ids_list))
                         cursor_system.execute(
-                            " SELECT t.id, t.name, t.area, t.tenant_type_id, tt.name as tenant_type_name "
+                            " SELECT t.id, t.uuid, t.name, t.area, t.tenant_type_id, tt.name as tenant_type_name "
                             " FROM tbl_tenants t "
                             " LEFT JOIN tbl_tenant_types tt ON t.tenant_type_id = tt.id "
                             " WHERE t.id IN (%s) ORDER BY t.id " % format_strings,
@@ -326,10 +327,11 @@ class Reporting:
                             for row in rows_tenants:
                                 tenant_list.append({
                                     'id': row[0],
-                                    'name': row[1],
-                                    'area': row[2],
-                                    'tenant_type_id': row[3],
-                                    'tenant_type_name': row[4] if row[4] else ''
+                                    'uuid': row[1],
+                                    'name': row[2],
+                                    'area': row[3],
+                                    'tenant_type_id': row[4],
+                                    'tenant_type_name': row[5] if row[5] else ''
                                 })
 
             if not tenant_list:
@@ -856,6 +858,7 @@ class Reporting:
             
                 tenant_details.append({
                     'id': tenant_id,
+                    'uuid': tenant['uuid'],
                     'name': tenant['name'],
                     'area': float(tenant['area']) if tenant['area'] else 0.0,
                     'tenant_type': tenant['tenant_type_name'],
