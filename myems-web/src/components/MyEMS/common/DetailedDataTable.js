@@ -112,6 +112,12 @@ const DetailedDataTable = ({ title, data, columns, pagesize, t, page: controlled
         .table-scroll-container tbody tr:hover .sticky-first-column {
           background-color: #f1f3f5 !important;
         }
+        .table-scroll-container tbody tr:nth-of-type(even) td {
+          background-color: #f1f3f5;
+        }
+        .table-scroll-container tbody tr:nth-of-type(even):hover td {
+          background-color: #e9ecef;
+        }
         .table-scroll-container tbody tr:nth-of-type(even) .sticky-first-column {
           background-color: #f1f3f5 !important;
         }
