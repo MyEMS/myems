@@ -1167,6 +1167,7 @@ const StoreEnergyItem = ({ setRedirect, setRedirectUrl, t }) => {
           labels={parameterLineChartLabels}
           data={parameterLineChartData}
           options={parameterLineChartOptions}
+          yAxisScale={true}
         />
         <br />
         <DetailedDataTable

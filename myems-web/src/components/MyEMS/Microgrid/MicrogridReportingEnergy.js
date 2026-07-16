@@ -997,6 +997,7 @@ const MicrogridReportingEnergy = ({ setRedirect, setRedirectUrl, t }) => {
           labels={parameterLineChartLabels}
           data={parameterLineChartData}
           options={parameterLineChartOptions}
+          yAxisScale={true}
         />
       </div>
     </Fragment>

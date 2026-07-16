@@ -1154,6 +1154,7 @@ const SpaceIncome = ({ setRedirect, setRedirectUrl, t }) => {
           labels={parameterLineChartLabels}
           data={parameterLineChartData}
           options={parameterLineChartOptions}
+          yAxisScale={true}
         />
         <DetailedDataTable
           data={detailedDataTableData}
