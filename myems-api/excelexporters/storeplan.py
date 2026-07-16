@@ -304,7 +304,8 @@ def generate_excel(report,
         ws[col + str(current_row_number)].alignment = c_c_alignment
         ws[col + str(current_row_number)].border = f_border
         ws[col + str(current_row_number)] = \
-            round2(reporting_period_data['total_in_kgce_per_unit_area_saving'] / 1000, 2)
+            round2(reporting_period_data['total_in_kgce_per_unit_area_saving'] / 1000, 2) \
+            if reporting_period_data['total_in_kgce_per_unit_area_saving'] is not None else ''
 
         col = chr(ord(col) + 1)
 
@@ -312,7 +313,8 @@ def generate_excel(report,
         ws[col + str(current_row_number)].alignment = c_c_alignment
         ws[col + str(current_row_number)].border = f_border
         ws[col + str(current_row_number)] = \
-            round2(reporting_period_data['total_in_kgco2e_per_unit_area_saving'] / 1000, 2)
+            round2(reporting_period_data['total_in_kgco2e_per_unit_area_saving'] / 1000, 2) \
+            if reporting_period_data['total_in_kgco2e_per_unit_area_saving'] is not None else ''
 
         current_row_number += 1
 
