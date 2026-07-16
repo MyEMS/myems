@@ -515,13 +515,9 @@ const Dashboard = ({setRedirect, setRedirectUrl, t}) => {
                             <strong>{combinedEquipment.id}</strong>
                           </td>
                           <td>
-                            {combinedEquipment.uuid ? (
-                              <Link to={'/combinedequipment/energycategory?uuid=' + combinedEquipment.uuid} target="_blank">
-                                <strong>{combinedEquipment.name}</strong>
-                              </Link>
-                            ) : (
+                            <Link to={'/combinedequipment/energycategory?uuid=' + combinedEquipment.uuid} target="_blank">
                               <strong>{combinedEquipment.name}</strong>
-                            )}
+                            </Link>
                           </td>
                           {energyData.energy_category_ids && energyData.energy_category_ids.map((ecId, index) => {
                             const categoryEnergy = combinedEquipment.energy_by_category && combinedEquipment.energy_by_category[ecId]

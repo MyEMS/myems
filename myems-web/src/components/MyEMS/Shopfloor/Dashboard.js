@@ -546,13 +546,9 @@ const Dashboard = ({setRedirect, setRedirectUrl, t}) => {
                             <strong>{shopfloor.id}</strong>
                           </td>
                           <td>
-                            {shopfloor.uuid ? (
-                              <Link to={'/shopfloor/energycategory?uuid=' + shopfloor.uuid} target="_blank">
-                                <strong>{shopfloor.name}</strong>
-                              </Link>
-                            ) : (
+                            <Link to={'/shopfloor/energycategory?uuid=' + shopfloor.uuid} target="_blank">
                               <strong>{shopfloor.name}</strong>
-                            )}
+                            </Link>
                           </td>
                           <td className="text-right">{shopfloor.area ? shopfloor.area.toFixed(2) : '-'}</td>
                           {energyData.energy_category_ids && energyData.energy_category_ids.map((ecId, index) => {

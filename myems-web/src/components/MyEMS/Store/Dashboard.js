@@ -689,13 +689,9 @@ const Dashboard = ({setRedirect, setRedirectUrl, t}) => {
                                                         <strong>{store.id}</strong>
                                                     </td>
                                                     <td>
-                                                        {store.uuid ? (
-                                                            <Link to={'/store/energycategory?uuid=' + store.uuid} target="_blank">
-                                                              <strong>{store.name}</strong>
-                                                            </Link>
-                                                          ) : (
+                                                        <Link to={'/store/energycategory?uuid=' + store.uuid} target="_blank">
                                                             <strong>{store.name}</strong>
-                                                          )}
+                                                        </Link>
                                                     </td>
                                                     <td className="text-muted">{store.address || '-'}</td>
                                                     <td className="text-right">{store.area ? store.area.toFixed(2) : '-'}</td>

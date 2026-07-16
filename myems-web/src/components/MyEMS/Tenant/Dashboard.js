@@ -560,13 +560,9 @@ const Dashboard = ({setRedirect, setRedirectUrl, t}) => {
                             <strong>{tenant.id}</strong>
                           </td>
                           <td>
-                            {tenant.uuid ? (
-                                <Link to={'/tenant/energycategory?uuid=' + tenant.uuid} target="_blank">
-                                  <strong>{tenant.name}</strong>
-                                </Link>
-                              ) : (
-                                <strong>{tenant.name}</strong>
-                              )}
+                            <Link to={'/tenant/energycategory?uuid=' + tenant.uuid} target="_blank">
+                              <strong>{tenant.name}</strong>
+                            </Link>
                           </td>
                           <td className="text-muted">{tenant.tenant_type || '-'}</td>
                           <td className="text-right">{tenant.area ? tenant.area.toFixed(2) : '-'}</td>
