@@ -689,7 +689,7 @@ const Dashboard = ({setRedirect, setRedirectUrl, t}) => {
                                                         <strong>{store.id}</strong>
                                                     </td>
                                                     <td>
-                                                        <Link to={'/store/energycategory?uuid=' + store.uuid} target="_blank">
+                                                        <Link to={'/store/energycategory?uuid=' + store.uuid} target="_blank" rel="noopener noreferrer">
                                                             <strong>{store.name}</strong>
                                                         </Link>
                                                     </td>
