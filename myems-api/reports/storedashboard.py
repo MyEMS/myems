@@ -860,6 +860,7 @@ class Reporting:
                 store_details.append({
                     'id': store_id,
                     'name': store['name'],
+                    'uuid': store['uuid'],
                     'area': float(store['area']) if store['area'] else 0.0,
                     'address': store['address'] if store['address'] else '',
                     'latitude': store['latitude'] if store['latitude'] is not None else None,
