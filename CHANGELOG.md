@@ -33,7 +33,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - added map to store dashboard in myems-web
 - added offline_meter_data.xlsx download link to myems-admin
 - added data_repair_sample.xlsx download link to myems-admin
-- added hytper link to equipment name in equipment dashboard in myems-web and myems-api 
+- added hytper link to equipment name in equipment dashboard in myems-web and myems-api
+- added yAxisScale to Operating Characteristic Curve in myems-web
 ### Changed
 - updated meter batch report in myems-api and myems-web
 - updated virtual meter batch report in myems-api and myems-web
