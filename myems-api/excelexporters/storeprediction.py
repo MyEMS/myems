@@ -286,7 +286,8 @@ def generate_excel(report,
 
         ws[tce_col + '10'].font = name_font
         ws[tce_col + '10'].alignment = c_c_alignment
-        ws[tce_col + '10'] = round2(reporting_period_data['total_in_kgce_per_unit_area'] / 1000, 2)
+        ws[tce_col + '10'] = round2(reporting_period_data['total_in_kgce_per_unit_area'] / 1000, 2) \
+            if reporting_period_data['total_in_kgce_per_unit_area'] is not None else ''
         ws[tce_col + '10'].border = f_border
 
         ws[tce_col + '11'].font = name_font
@@ -310,7 +311,8 @@ def generate_excel(report,
 
         ws[tco2e_col + '10'].font = name_font
         ws[tco2e_col + '10'].alignment = c_c_alignment
-        ws[tco2e_col + '10'] = round2(reporting_period_data['total_in_kgco2e_per_unit_area'] / 1000, 2)
+        ws[tco2e_col + '10'] = round2(reporting_period_data['total_in_kgco2e_per_unit_area'] / 1000, 2) \
+            if reporting_period_data['total_in_kgco2e_per_unit_area'] is not None else ''
         ws[tco2e_col + '10'].border = f_border
 
         ws[tco2e_col + '11'].font = name_font
