@@ -456,7 +456,7 @@ const Dashboard = ({setRedirect, setRedirectUrl, t}) => {
                     <thead className="thead-light">
                     <tr>
                       <th style={{width: '5%'}}>
-                        ID
+                        {t('ID')}
                       </th>
                       <th
                         onClick={() => handleSort('name')}
@@ -515,9 +515,13 @@ const Dashboard = ({setRedirect, setRedirectUrl, t}) => {
                             <strong>{combinedEquipment.id}</strong>
                           </td>
                           <td>
-                            <Link to={{ pathname: '/combinedequipment/energycategory?uuid=' + combinedEquipment.uuid }} target="_blank">
+                            {combinedEquipment.uuid ? (
+                              <Link to={'/combinedequipment/energycategory?uuid=' + combinedEquipment.uuid} target="_blank">
+                                <strong>{combinedEquipment.name}</strong>
+                              </Link>
+                            ) : (
                               <strong>{combinedEquipment.name}</strong>
-                            </Link>
+                            )}
                           </td>
                           {energyData.energy_category_ids && energyData.energy_category_ids.map((ecId, index) => {
                             const categoryEnergy = combinedEquipment.energy_by_category && combinedEquipment.energy_by_category[ecId]

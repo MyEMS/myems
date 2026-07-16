@@ -608,7 +608,7 @@ const Dashboard = ({setRedirect, setRedirectUrl, t}) => {
                                     <thead className="thead-light">
                                     <tr>
                                         <th style={{width: '5%'}}>
-                                            ID
+                                            {t('ID')}
                                         </th>
                                         <th
                                             onClick={() => handleSort('name')}
@@ -689,9 +689,13 @@ const Dashboard = ({setRedirect, setRedirectUrl, t}) => {
                                                         <strong>{store.id}</strong>
                                                     </td>
                                                     <td>
-                                                        <Link to={{ pathname: '/store/energycategory?uuid=' + store.uuid }} target="_blank">
+                                                        {store.uuid ? (
+                                                            <Link to={'/store/energycategory?uuid=' + store.uuid} target="_blank">
+                                                              <strong>{store.name}</strong>
+                                                            </Link>
+                                                          ) : (
                                                             <strong>{store.name}</strong>
-                                                        </Link>
+                                                          )}
                                                     </td>
                                                     <td className="text-muted">{store.address || '-'}</td>
                                                     <td className="text-right">{store.area ? store.area.toFixed(2) : '-'}</td>
