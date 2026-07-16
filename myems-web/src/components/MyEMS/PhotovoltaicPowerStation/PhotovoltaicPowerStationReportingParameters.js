@@ -513,6 +513,7 @@ const PhotovoltaicPowerStationReportingParameters = ({ setRedirect, setRedirectU
           labels={parameterLineChartLabels}
           data={parameterLineChartData}
           options={parameterLineChartOptions}
+          yAxisScale={true}
         />
       </div>
     </Fragment>

@@ -605,6 +605,7 @@ const EnergyStoragePowerStationReportingParameters = ({ setRedirect, setRedirect
           labels={parameterLineChartLabels}
           data={parameterLineChartData}
           options={parameterLineChartOptions}
+          yAxisScale={true}
         />
       </div>
     </Fragment>
