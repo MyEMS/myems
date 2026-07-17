@@ -39,6 +39,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - added hytper link to name in shopfloor dashboard in myems-web and myems-api
 - added hytper link to name in combined equipment dashboard in myems-web and myems-api
 - added hytper link to name in tenant dashboard in myems-web and myems-api
+- added api_key_control to deepseek_chat in myems-api
 ### Changed
 - updated meter batch report in myems-api and myems-web
 - updated virtual meter batch report in myems-api and myems-web

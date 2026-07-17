@@ -12,7 +12,7 @@ import falcon
 import requests
 import simplejson as json
 import config
-from core.useractivity import access_control
+from core.useractivity import access_control, api_key_control
 
 logger = logging.getLogger(__name__)
 
@@ -94,7 +94,12 @@ class DeepSeekChat:
 
     @staticmethod
     def on_post(req, resp):
-        access_control(req)
+        if 'API-KEY' not in req.headers or \
+                not isinstance(req.headers['API-KEY'], str) or \
+                len(str.strip(req.headers['API-KEY'])) == 0:
+            access_control(req)
+        else:
+            api_key_control(req)
 
         api_key = str(config.deepseek_api_key or '').strip()
         if not api_key:
