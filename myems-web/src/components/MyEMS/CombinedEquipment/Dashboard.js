@@ -242,6 +242,10 @@ const Dashboard = ({setRedirect, setRedirectUrl, t}) => {
       let aValue, bValue;
 
       switch (sortConfig.key) {
+        case 'id':
+          aValue = a.id;
+          bValue = b.id;
+          break;
         case 'name':
           aValue = a.name;
           bValue = b.name;
@@ -455,8 +459,14 @@ const Dashboard = ({setRedirect, setRedirectUrl, t}) => {
                   <table className="table table-hover">
                     <thead className="thead-light">
                     <tr>
-                      <th style={{width: '5%'}}>
+                      <th style={{width: '5%', cursor: 'pointer'}}
+                        onClick={() => handleSort('id')}
+                      >
                         {t('ID')}
+                        <FontAwesomeIcon
+                          icon={sortConfig.key === 'id' ? (sortConfig.direction === 'asc' ? faSortUp : faSortDown) : faSort}
+                          className="ml-1"
+                        />
                       </th>
                       <th
                         onClick={() => handleSort('name')}
