@@ -151,6 +151,7 @@ const CombinedEquipmentCost = ({ setRedirect, setRedirectUrl, t }) => {
 
   const [associatedEquipmentTableData, setAssociatedEquipmentTableData] = useState([]);
   const [associatedEquipmentTableColumns, setAssociatedEquipmentTableColumns] = useState([
+    { dataField: 'id', text: t('ID'), sort: true },
     { dataField: 'name', text: t('Associated Equipment'), sort: true }
   ]);
 
@@ -893,6 +894,11 @@ const CombinedEquipmentCost = ({ setRedirect, setRedirectUrl, t }) => {
           setAssociatedEquipmentTableData(associated_equipment_value_list);
 
           let associated_equipment_column_list = [];
+          associated_equipment_column_list.push({
+            dataField: 'id',
+            text: t('ID'),
+            sort: true
+          });
           associated_equipment_column_list.push({
             dataField: 'name',
             text: t('Associated Equipment'),

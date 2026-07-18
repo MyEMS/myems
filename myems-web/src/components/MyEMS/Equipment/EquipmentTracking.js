@@ -194,6 +194,14 @@ const EquipmentTracking = ({ setRedirect, setRedirectUrl, t }) => {
 
   const columns = [
     {
+      key: 'a5',
+      dataField: 'id',
+      headerClasses: 'border-0',
+      text: t('ID'),
+      classes: 'border-0 py-2 align-middle',
+      sort: true
+    },
+    {
       key: 'a0',
       dataField: 'equipmentname',
       headerClasses: 'border-0',
