@@ -208,7 +208,7 @@ const EquipmentTracking = ({ setRedirect, setRedirectUrl, t }) => {
     },
     {
       key: 'a0',
-      dataField: 'equipmentname',
+      dataField: 'name',
       headerClasses: 'border-0',
       text: t('Name'),
       classes: 'border-0 py-2 align-middle',
