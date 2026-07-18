@@ -638,7 +638,7 @@ const CombinedEquipmentEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => 
                 (currentEquipmentName, equipmentIndex) => {
                   let associated_equipment_value = {};
 
-                  associated_equipment_value['id'] = json['associated_equipment']['associated_equipment_ids'][equipmentIndex];
+                  associated_equipment_value['id'] = (json['associated_equipment']['associated_equipment_ids'] && json['associated_equipment']['associated_equipment_ids'][equipmentIndex]) || equipmentIndex;
                   associated_equipment_value['name'] = currentEquipmentName;
                   json['associated_equipment']['energy_category_names'].forEach((currentValue, energyCategoryIndex) => {
                     let subtotal_of_equipment =
