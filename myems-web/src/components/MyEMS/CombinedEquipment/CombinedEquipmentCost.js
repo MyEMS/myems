@@ -868,7 +868,7 @@ const CombinedEquipmentCost = ({ setRedirect, setRedirectUrl, t }) => {
             json['associated_equipment']['associated_equipment_names_array'][0].forEach(
               (currentEquipmentName, equipmentIndex) => {
                 let associated_equipment_value = {};
-                const ids = json['associated_equipment']['associated_equipment_ids'] || [];
+                const ids = json['associated_equipment']?.associated_equipment_ids || [];
                 associated_equipment_value['id'] = ids[equipmentIndex] ?? equipmentIndex;
                 associated_equipment_value['name'] = currentEquipmentName;
                 let total = 0.0;
