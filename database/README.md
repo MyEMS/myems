@@ -559,10 +559,10 @@ Devices/Sensors
 myems-modbus-tcp (Data acquisition service)
     ↓ (write)
 myems_historical_db.tbl_analog_value / tbl_digital_value / tbl_energy_value
-    ↓ (Normalization)
-myems-normalization (Data normalization service)
     ↓ (Cleaning)
 myems-cleaning (Data cleaning service)
+    ↓ (Normalization)
+myems-normalization (Data normalization service)
     ↓ (Aggregation)
 myems-aggregation (Data aggregation service)
     ↓ (write)
