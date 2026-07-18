@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Line } from 'react-chartjs-2';
-import range from 'lodash/range';
 import { Card, CardHeader, CardBody, ListGroup, ListGroupItem } from 'reactstrap';
 import { rgbaColor, handleAPIError } from '../../../helpers/utils';
 import { withTranslation } from 'react-i18next';
@@ -9,10 +8,16 @@ import { APIBaseURL } from '../../../config';
 import { getCookieValue, floatFormatter } from '../../../helpers/utils';
 import { toast } from 'react-toastify';
 import withRedirect from '../../../hoc/withRedirect';
-const dividerBorder = '1px solid rgba(255, 255, 255, 0.15)';
-const listItemBorderColor = 'rgba(255, 255, 255, 0.05)';
+const dividerBorder = '1px solid rgba(255, 255, 255, 0.24)';
+const listItemBorderColor = 'rgba(255, 255, 255, 0.12)';
+const chartPanelStyle = {
+  backgroundColor: 'rgba(255, 255, 255, 0.08)',
+  borderRadius: '0.6rem',
+  padding: '0.75rem 0.75rem 0.25rem'
+};
 
 const chartOptions = {
+  maintainAspectRatio: false,
   plugins: {
     legend: {
       display: false
@@ -21,14 +26,26 @@ const chartOptions = {
   scales: {
     y: {
       display: true,
-      stacked: false
+      stacked: false,
+      ticks: {
+        color: rgbaColor('#fff', 0.9),
+        maxTicksLimit: 5,
+        padding: 8
+      },
+      grid: {
+        color: rgbaColor('#fff', 0.16),
+        borderColor: rgbaColor('#fff', 0.28),
+        drawBorder: true
+      }
     },
     x: {
       stacked: false,
       ticks: {
         display: true,
+        color: rgbaColor('#fff', 0.88),
         maxTicksLimit: 10,
-        callback: function(value, index, values) {
+        padding: 6,
+        callback: function(value, index) {
           const timeStr = this.chart.data.labels[index];
           if (timeStr) {
             const match = timeStr.match(/\d{2}:\d{2}:\d{2}/);
@@ -38,8 +55,10 @@ const chartOptions = {
         }
       },
       categoryPercentage: 1.0,
-      gridLines: {
-        color: rgbaColor('#fff', 0.1),
+      grid: {
+        color: rgbaColor('#fff', 0.12),
+        borderColor: rgbaColor('#fff', 0.28),
+        drawBorder: true,
         display: true
       }
     }
@@ -60,7 +79,17 @@ class RealtimeChart extends Component {
       datasets: [
         {
           label: '',
-          backgroundColor: rgbaColor('#fff', 0.3)
+          borderColor: rgbaColor('#fff', 0.96),
+          backgroundColor: rgbaColor('#fff', 0.24),
+          borderWidth: 2.4,
+          pointRadius: 0,
+          pointHoverRadius: 4,
+          pointBackgroundColor: rgbaColor('#fff', 0.96),
+          pointHoverBackgroundColor: rgbaColor('#fff', 1),
+          pointHoverBorderColor: rgbaColor('#0183d0', 0.9),
+          pointHoverBorderWidth: 2,
+          tension: 0.35,
+          fill: true
         }
       ]
     },
@@ -218,7 +247,11 @@ class RealtimeChart extends Component {
           <p className="pb-2" style={{ borderBottom: dividerBorder }}>
             {t('Trend in the last hour of Energy Value Point')} {this.state.energyValuePointName}
           </p>
-          <Line data={chartData} options={chartOptions} width={10} height={4} />
+          <div style={chartPanelStyle}>
+            <div style={{ height: '180px' }}>
+              <Line data={chartData} options={chartOptions} />
+            </div>
+          </div>
           <ListGroup flush className="mt-4">
             <ListGroupItem
               className="bg-transparent d-flex justify-content-between px-0 py-1 font-weight-semi-bold border-top-0"

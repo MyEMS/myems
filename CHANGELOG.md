@@ -54,6 +54,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - replaced datetime.utcnow() with datetime.now(timezone.utc)
 - optimized multiple N+1 queries into batch queries in myems-api
 - updated translations in myems-admin
+- updated meter realtime in myems-web
 ### Fixed
 - fixed add/edit user issue in myems-admin
 - fixed issue of DateRangePickerWrapper in myems-web
