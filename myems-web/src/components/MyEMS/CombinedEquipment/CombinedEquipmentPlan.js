@@ -778,14 +778,14 @@ const CombinedEquipmentPlan = ({ setRedirect, setRedirectUrl, t }) => {
           let associated_equipment_value_list = [];
           if (json['associated_equipment']['associated_equipment_names_array'].length > 0) {
             json['associated_equipment']['associated_equipment_names_array'][0].forEach(
-              (currentEquipmentName, spaceIndex) => {
+              (currentEquipmentName, equipmentIndex) => {
                 let associated_equipment_value = {};
                 const ids = json['associated_equipment']?.associated_equipment_ids || [];
-                associated_equipment_value['id'] = ids[spaceIndex] ?? spaceIndex;
+                associated_equipment_value['id'] = ids[equipmentIndex] ?? equipmentIndex;
                 associated_equipment_value['name'] = currentEquipmentName;
                 json['associated_equipment']['energy_category_names'].forEach((currentValue, energyCategoryIndex) => {
                   associated_equipment_value['a' + energyCategoryIndex] =
-                    json['associated_equipment']['subtotals_saving_array'][energyCategoryIndex][spaceIndex];
+                    json['associated_equipment']['subtotals_saving_array'][energyCategoryIndex][equipmentIndex];
                 });
                 associated_equipment_value_list.push(associated_equipment_value);
               }

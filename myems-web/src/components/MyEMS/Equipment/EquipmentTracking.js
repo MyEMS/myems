@@ -139,7 +139,7 @@ const EquipmentTracking = ({ setRedirect, setRedirectUrl, t }) => {
                   if (!seenIds.has(id)) {
                     seenIds.add(id);
                     equipments.push({
-                      key: index,
+                      key: id,
                       id: id,
                       name: currentValue['equipment_name'],
                       uuid: currentValue['equipment_uuid'],
@@ -284,7 +284,7 @@ const EquipmentTracking = ({ setRedirect, setRedirectUrl, t }) => {
             if (!seenIds.has(id)) {
               seenIds.add(id);
               equipments.push({
-                key: index,
+                key: id,
                 id: id,
                 name: currentValue['equipment_name'],
                 uuid: currentValue['equipment_uuid'],
