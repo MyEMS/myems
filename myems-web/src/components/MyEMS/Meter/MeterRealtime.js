@@ -20,7 +20,6 @@ import RealtimeChart from './RealtimeChart';
 import { getCookieValue, createCookie, checkEmpty, handleAPIError } from '../../../helpers/utils';
 import withRedirect from '../../../hoc/withRedirect';
 import { withTranslation } from 'react-i18next';
-import { v4 as uuid } from 'uuid';
 import { toast } from 'react-toastify';
 import { APIBaseURL, settings } from '../../../config';
 
@@ -180,50 +179,36 @@ const MeterRealtime = ({ setRedirect, setRedirectUrl, t }) => {
   };
 
   useEffect(() => {
-    const meterLen = meterList.length;
-    const maxCursor = Math.ceil(meterLen / len);
-
+    const nextMaxCursor = Math.max(1, Math.ceil(meterList.length / len));
     setCursor(1);
-    setMaxCursor(maxCursor);
-
-    document.getElementById('cursor_2').hidden = true;
-    document.getElementById('cursor_3').hidden = true;
-    document.getElementById('cursor_4').hidden = true;
-    if (maxCursor === 2) {
-      document.getElementById('cursor_2').hidden = false;
-    }
-    if (maxCursor === 3) {
-      document.getElementById('cursor_2').hidden = false;
-      document.getElementById('cursor_3').hidden = false;
-    }
-    if (maxCursor >= 4) {
-      document.getElementById('cursor_2').hidden = false;
-      document.getElementById('cursor_3').hidden = false;
-      document.getElementById('cursor_4').hidden = false;
-    }
+    setMaxCursor(nextMaxCursor);
   }, [meterList]);
 
   useEffect(() => {
-    setSelectMeterList(meterList.slice(cursor * len - 8, cursor * len));
-  }, [meterList, cursor]);
-
-  function getCursor(location) {
-    if (maxCursor <= 0) {
-      return 1;
+    if (cursor >= 1) {
+      setSelectMeterList(meterList.slice((cursor - 1) * len, cursor * len));
     }
+  }, [cursor, meterList]);
 
-    switch (location) {
-      default:
-      case 1:
-        return cursor > maxCursor - 3 && maxCursor - 3 >= 1 ? maxCursor - 3 : cursor;
-      case 2:
-        return cursor > maxCursor - 3 && maxCursor - 3 >= 1 ? maxCursor - 2 : cursor + 1;
-      case 3:
-        return cursor > maxCursor - 3 && maxCursor - 3 >= 1 ? maxCursor - 1 : cursor + 2;
-      case 4:
-        return cursor > maxCursor - 3 && maxCursor - 3 >= 1 ? maxCursor : cursor + 3;
+  const getVisiblePageNumbers = () => {
+    const startPage = Math.min(Math.max(cursor, 1), Math.max(1, maxCursor - 3));
+    const pageCount = Math.min(4, maxCursor);
+    return Array.from({ length: pageCount }, (_, index) => startPage + index);
+  };
+
+  const handlePageChange = pageNumber => {
+    const safePageNumber = Math.min(Math.max(pageNumber, 1), maxCursor);
+    if (safePageNumber === cursor) {
+      return;
     }
-  }
+    setSelectMeterList([]);
+    setCursor(safePageNumber);
+  };
+
+  const handlePaginationClick = (event, pageNumber) => {
+    event.preventDefault();
+    handlePageChange(pageNumber);
+  };
 
   return (
     <Fragment>
@@ -265,44 +250,33 @@ const MeterRealtime = ({ setRedirect, setRedirectUrl, t }) => {
       </Card>
       <Row noGutters>
         {selectMeterList.map(meter => (
-          <Col lg="3" className="pr-lg-2" key={uuid()}>
+          <Col lg="3" className="pr-lg-2" key={meter['id']}>
             <RealtimeChart meterId={meter['id']} meterName={meter['name']} />
           </Col>
         ))}
       </Row>
       <Pagination>
-        <PaginationItem>
-          <PaginationLink first href="#" onClick={() => setCursor(1)} />
+        <PaginationItem disabled={cursor <= 1}>
+          <PaginationLink first href="#" onClick={event => handlePaginationClick(event, 1)} />
         </PaginationItem>
 
-        <PaginationItem>
-          <PaginationLink previous href="#" onClick={() => (cursor - 1 >= 1 ? setCursor(cursor - 1) : null)} />
+        <PaginationItem disabled={cursor <= 1}>
+          <PaginationLink previous href="#" onClick={event => handlePaginationClick(event, cursor - 1)} />
         </PaginationItem>
-        <PaginationItem>
-          <PaginationLink href="#" onClick={() => setCursor(getCursor(1))}>
-            {getCursor(1)}
-          </PaginationLink>
+
+        {getVisiblePageNumbers().map(pageNumber => (
+          <PaginationItem active={cursor === pageNumber} key={pageNumber}>
+            <PaginationLink href="#" onClick={event => handlePaginationClick(event, pageNumber)}>
+              {pageNumber}
+            </PaginationLink>
+          </PaginationItem>
+        ))}
+
+        <PaginationItem disabled={cursor >= maxCursor}>
+          <PaginationLink next href="#" onClick={event => handlePaginationClick(event, cursor + 1)} />
         </PaginationItem>
-        <PaginationItem id="cursor_2">
-          <PaginationLink href="#" onClick={() => setCursor(getCursor(2))}>
-            {getCursor(2)}
-          </PaginationLink>
-        </PaginationItem>
-        <PaginationItem id="cursor_3">
-          <PaginationLink href="#" onClick={() => setCursor(getCursor(3))}>
-            {getCursor(3)}
-          </PaginationLink>
-        </PaginationItem>
-        <PaginationItem id="cursor_4">
-          <PaginationLink href="#" onClick={() => setCursor(getCursor(4))}>
-            {getCursor(4)}
-          </PaginationLink>
-        </PaginationItem>
-        <PaginationItem>
-          <PaginationLink next href="#" onClick={() => (cursor + 1 <= maxCursor ? setCursor(cursor + 1) : null)} />
-        </PaginationItem>
-        <PaginationItem>
-          <PaginationLink last href="#" onClick={() => setCursor(maxCursor)} />
+        <PaginationItem disabled={cursor >= maxCursor}>
+          <PaginationLink last href="#" onClick={event => handlePaginationClick(event, maxCursor)} />
         </PaginationItem>
       </Pagination>
     </Fragment>
