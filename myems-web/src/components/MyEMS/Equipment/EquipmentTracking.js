@@ -137,10 +137,10 @@ const EquipmentTracking = ({ setRedirect, setRedirectUrl, t }) => {
                   equipments.push({
                     key: index,
                     id: currentValue['value'],
-                    name: currentValue['equipment_label'],
+                    name: currentValue['equipment_name'],
                     uuid: currentValue['equipment_uuid'],
-                    space: currentValue['space_label'],
-                    costcenter: currentValue['cost_center_label'],
+                    space: currentValue['space_name'],
+                    costcenter: currentValue['cost_center_name'],
                     description: currentValue['description']
                   });
                 });
@@ -277,10 +277,10 @@ const EquipmentTracking = ({ setRedirect, setRedirectUrl, t }) => {
             equipments.push({
               key: index,
               id: currentValue['value'],
-              name: currentValue['equipment_label'],
+              name: currentValue['equipment_name'],
               uuid: currentValue['equipment_uuid'],
-              space: currentValue['space_label'],
-              costcenter: currentValue['cost_center_label'],
+              space: currentValue['space_name'],
+              costcenter: currentValue['cost_center_name'],
               description: currentValue['description']
             });
           });
