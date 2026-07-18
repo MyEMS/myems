@@ -689,6 +689,8 @@ class Reporting:
                 result['associated_equipment']['subtotals_array'].append(
                     associated_equipment_data[energy_category_id]['subtotals'])
 
+        result['associated_equipment']['associated_equipment_ids'] = [e['id'] for e in associated_equipment_list]
+
         # export result to Excel file and then encode the file to base64 string
         result['excel_bytes_base64'] = None
         if not is_quick_mode:
