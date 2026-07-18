@@ -255,50 +255,44 @@ const EnergyFlowDiagram = ({ setRedirect, setRedirectUrl, t }) => {
       labelTextBorderColor = 'rgba(0, 0, 0, 1)';
     }
 
-    let colorIndex = 0;
-    for (let i = 0; i < energyFlowDiagramData.nodes.length; i++) {
-      let item = energyFlowDiagramData.nodes[i];
-      item.itemStyle = { color: colorArr[colorIndex % 9] };
-      colorIndex++;
-    }
+    // Clone to avoid mutating React state; Sankey requires link value > 0
+    const sourceNodes = Array.isArray(energyFlowDiagramData.nodes) ? energyFlowDiagramData.nodes : [];
+    const sourceLinks = Array.isArray(energyFlowDiagramData.links) ? energyFlowDiagramData.links : [];
+    const links = sourceLinks
+      .filter(item => item && item.source != null && item.target != null && Number(item.value) > 0)
+      .map(item => ({ ...item, value: Number(item.value) }));
+    const linkedNames = new Set();
+    links.forEach(item => {
+      linkedNames.add(item.source);
+      linkedNames.add(item.target);
+    });
+    const nodes = sourceNodes
+      .filter(item => item && item.name != null && linkedNames.has(item.name))
+      .map((item, index) => ({
+        ...item,
+        itemStyle: { color: colorArr[index % 9] }
+      }));
+    const nodeColorMap = {};
+    nodes.forEach(item => {
+      nodeColorMap[item.name] = item.itemStyle.color;
+    });
 
-    energyFlowDiagramData.links.forEach(function(item) {
-      if (item.value === null) {
-        item.value = 0;
-      }
-      let sourceColor = null;
-      let targetColor = null;
-      for (let i = 0; i < energyFlowDiagramData.nodes.length; i++) {
-        if (item.source === energyFlowDiagramData.nodes[i].name) {
-          sourceColor = energyFlowDiagramData.nodes[i].itemStyle.color;
-        }
-        if (item.target === energyFlowDiagramData.nodes[i].name) {
-          targetColor = energyFlowDiagramData.nodes[i].itemStyle.color;
-        }
-        if (sourceColor != null && targetColor != null) {
-          break;
-        }
-      }
-      const color = {
-        type: 'linear',
-        x: 0,
-        y: 0,
-        x2: 1,
-        y2: 0,
-        colorStops: [
-          {
-            offset: 0,
-            color: sourceColor
-          },
-          {
-            offset: 1,
-            color: targetColor
-          }
-        ],
-        globalCoord: false
-      };
+    links.forEach(function(item) {
+      const sourceColor = nodeColorMap[item.source] || colorArr[0];
+      const targetColor = nodeColorMap[item.target] || colorArr[1];
       item.lineStyle = {
-        color: color
+        color: {
+          type: 'linear',
+          x: 0,
+          y: 0,
+          x2: 1,
+          y2: 0,
+          colorStops: [
+            { offset: 0, color: sourceColor },
+            { offset: 1, color: targetColor }
+          ],
+          globalCoord: false
+        }
       };
     });
 
@@ -312,9 +306,11 @@ const EnergyFlowDiagram = ({ setRedirect, setRedirectUrl, t }) => {
         {
           name: 'sankey',
           type: 'sankey',
-          data: energyFlowDiagramData.nodes,
-          links: energyFlowDiagramData.links,
-          focusNodeAdjacency: 'allEdges',
+          data: nodes,
+          links: links,
+          emphasis: {
+            focus: 'adjacency'
+          },
           itemStyle: {
             borderWidth: 1,
             borderColor: '#aaa'
@@ -567,13 +563,13 @@ const EnergyFlowDiagram = ({ setRedirect, setRedirectUrl, t }) => {
       <div className="blank-page-image-container" style={{ display: resultDataHidden ? 'block' : 'none' }}>
         <img className="img-fluid" src={blankPage} alt="" />
       </div>
-      <div style={{ display: resultDataHidden ? 'none' : 'block' }}>
+      {!resultDataHidden && (
         <Card className="mb-3 fs--1">
           <CardBody className="rounded-soft bg-gradient">
-            <ReactEchartsCore echarts={echarts} option={getOption()} style={{ width: '100%', height: 600 }} />
+            <ReactEchartsCore echarts={echarts} option={getOption()} style={{ width: '100%', height: 600 }} notMerge />
           </CardBody>
         </Card>
-      </div>
+      )}
     </Fragment>
   );
 };

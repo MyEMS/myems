@@ -61,6 +61,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - fixed issue of MeterSubmetersBalance in myems-web
 - fixed issue of shopfloor prediction report in myems-api
 - fixed typo of file name in myems-aggregation
+- fixed issue of EnergyFlowDiagram in myems-web
 ### Removed
 - removed unused function from carbon_dioxide_emission_factor in myems-aggregation
 - removed falcon-cors middleware and on_options methods from myems-api
