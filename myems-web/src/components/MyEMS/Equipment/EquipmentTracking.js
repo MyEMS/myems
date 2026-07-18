@@ -136,11 +136,11 @@ const EquipmentTracking = ({ setRedirect, setRedirectUrl, t }) => {
                 json_equipments[0].forEach((currentValue, index) => {
                   equipments.push({
                     key: index,
-                    id: currentValue['id'],
-                    name: currentValue['equipment_name'],
+                    id: currentValue['value'],
+                    name: currentValue['equipment_label'],
                     uuid: currentValue['equipment_uuid'],
-                    space: currentValue['space_name'],
-                    costcenter: currentValue['cost_center_name'],
+                    space: currentValue['space_label'],
+                    costcenter: currentValue['cost_center_label'],
                     description: currentValue['description']
                   });
                 });
@@ -276,10 +276,11 @@ const EquipmentTracking = ({ setRedirect, setRedirectUrl, t }) => {
           json_equipments[0].forEach((currentValue, index) => {
             equipments.push({
               key: index,
-              id: currentValue['id'],
-              name: currentValue['equipment_name'],
-              space: currentValue['space_name'],
-              costcenter: currentValue['cost_center_name'],
+              id: currentValue['value'],
+              name: currentValue['equipment_label'],
+              uuid: currentValue['equipment_uuid'],
+              space: currentValue['space_label'],
+              costcenter: currentValue['cost_center_label'],
               description: currentValue['description']
             });
           });
