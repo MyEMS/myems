@@ -133,16 +133,21 @@ const EquipmentTracking = ({ setRedirect, setRedirectUrl, t }) => {
                 );
 
                 let equipments = [];
+                let seenIds = new Set();
                 json_equipments[0].forEach((currentValue, index) => {
-                  equipments.push({
-                    key: index,
-                    id: currentValue['value'],
-                    name: currentValue['equipment_name'],
-                    uuid: currentValue['equipment_uuid'],
-                    space: currentValue['space_name'],
-                    costcenter: currentValue['cost_center_name'],
-                    description: currentValue['description']
-                  });
+                  let id = currentValue['value'];
+                  if (!seenIds.has(id)) {
+                    seenIds.add(id);
+                    equipments.push({
+                      key: index,
+                      id: id,
+                      name: currentValue['equipment_name'],
+                      uuid: currentValue['equipment_uuid'],
+                      space: currentValue['space_name'],
+                      costcenter: currentValue['cost_center_name'],
+                      description: currentValue['description']
+                    });
+                  }
                 });
                 setEquipmentList(equipments);
 
@@ -273,16 +278,21 @@ const EquipmentTracking = ({ setRedirect, setRedirectUrl, t }) => {
           );
 
           let equipments = [];
+          let seenIds = new Set();
           json_equipments[0].forEach((currentValue, index) => {
-            equipments.push({
-              key: index,
-              id: currentValue['value'],
-              name: currentValue['equipment_name'],
-              uuid: currentValue['equipment_uuid'],
-              space: currentValue['space_name'],
-              costcenter: currentValue['cost_center_name'],
-              description: currentValue['description']
-            });
+            let id = currentValue['value'];
+            if (!seenIds.has(id)) {
+              seenIds.add(id);
+              equipments.push({
+                key: index,
+                id: id,
+                name: currentValue['equipment_name'],
+                uuid: currentValue['equipment_uuid'],
+                space: currentValue['space_name'],
+                costcenter: currentValue['cost_center_name'],
+                description: currentValue['description']
+              });
+            }
           });
           setEquipmentList(equipments);
 
