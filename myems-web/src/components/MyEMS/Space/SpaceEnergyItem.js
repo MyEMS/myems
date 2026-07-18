@@ -147,6 +147,7 @@ const SpaceEnergyItem = ({ setRedirect, setRedirectUrl, t }) => {
 
   const [childSpacesTableData, setChildSpacesTableData] = useState([]);
   const [childSpacesTableColumns, setChildSpacesTableColumns] = useState([
+    { dataField: 'id', text: t('ID'), sort: true },
     { dataField: 'name', text: t('Child Spaces'), sort: true }
   ]);
   const [excelBytesBase64, setExcelBytesBase64] = useState(undefined);
@@ -494,7 +495,7 @@ const SpaceEnergyItem = ({ setRedirect, setRedirectUrl, t }) => {
             if (json['child_space']['child_space_names_array'].length > 0) {
               json['child_space']['child_space_names_array'][0].forEach((currentSpaceName, spaceIndex) => {
                 let child_space_value = {};
-                child_space_value['id'] = spaceIndex;
+                child_space_value['id'] = json['child_space']['child_space_ids_array'][0][spaceIndex];
                 child_space_value['name'] = currentSpaceName;
                 json['child_space']['energy_item_names'].forEach((currentValue, energyItemIndex) => {
                   child_space_value['a' + energyItemIndex] =
@@ -507,6 +508,11 @@ const SpaceEnergyItem = ({ setRedirect, setRedirectUrl, t }) => {
             setChildSpacesTableData(child_space_value_list);
 
             let child_space_column_list = [];
+            child_space_column_list.push({
+              dataField: 'id',
+              text: t('ID'),
+              sort: true
+            });
             child_space_column_list.push({
               dataField: 'name',
               text: t('Child Spaces'),
