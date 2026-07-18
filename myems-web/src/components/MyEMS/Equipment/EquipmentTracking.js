@@ -135,7 +135,7 @@ const EquipmentTracking = ({ setRedirect, setRedirectUrl, t }) => {
                 let equipments = [];
                 let seenIds = new Set();
                 json_equipments[0].forEach((currentValue, index) => {
-                  let id = currentValue['value'];
+                  let id = currentValue['value'] ?? currentValue['id'] ?? index;
                   if (!seenIds.has(id)) {
                     seenIds.add(id);
                     equipments.push({
@@ -280,7 +280,7 @@ const EquipmentTracking = ({ setRedirect, setRedirectUrl, t }) => {
           let equipments = [];
           let seenIds = new Set();
           json_equipments[0].forEach((currentValue, index) => {
-            let id = currentValue['value'];
+            let id = currentValue['value'] ?? currentValue['id'] ?? index;
             if (!seenIds.has(id)) {
               seenIds.add(id);
               equipments.push({
