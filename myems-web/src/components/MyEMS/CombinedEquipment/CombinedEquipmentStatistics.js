@@ -749,7 +749,8 @@ const CombinedEquipmentStatistics = ({ setRedirect, setRedirectUrl, t }) => {
             json['associated_equipment']['associated_equipment_names_array'][0].forEach(
               (currentEquipmentName, equipmentIndex) => {
                 let associated_equipment_value = {};
-                associated_equipment_value['id'] = (json['associated_equipment']['associated_equipment_ids'] && json['associated_equipment']['associated_equipment_ids'][equipmentIndex]) || equipmentIndex;
+                const ids = json['associated_equipment']['associated_equipment_ids'] || [];
+                associated_equipment_value['id'] = ids[equipmentIndex] ?? equipmentIndex;
                 associated_equipment_value['name'] = currentEquipmentName;
                 json['associated_equipment']['energy_category_names'].forEach((currentValue, energyCategoryIndex) => {
                   associated_equipment_value['a' + energyCategoryIndex] =
