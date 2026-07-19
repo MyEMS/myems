@@ -179,8 +179,8 @@ const MeterRealtime = ({ setRedirect, setRedirectUrl, t }) => {
   };
 
   useEffect(() => {
-    const nextMaxCursor = Math.max(1, Math.ceil(meterList.length / len));
-    setCursor(1);
+    const nextMaxCursor = meterList.length > 0 ? Math.ceil(meterList.length / len) : 0;
+    setCursor(nextMaxCursor > 0 ? 1 : 0);
     setMaxCursor(nextMaxCursor);
   }, [meterList]);
 
@@ -255,30 +255,32 @@ const MeterRealtime = ({ setRedirect, setRedirectUrl, t }) => {
           </Col>
         ))}
       </Row>
-      <Pagination>
-        <PaginationItem disabled={cursor <= 1}>
-          <PaginationLink first href="#" onClick={event => handlePaginationClick(event, 1)} />
-        </PaginationItem>
-
-        <PaginationItem disabled={cursor <= 1}>
-          <PaginationLink previous href="#" onClick={event => handlePaginationClick(event, cursor - 1)} />
-        </PaginationItem>
-
-        {getVisiblePageNumbers().map(pageNumber => (
-          <PaginationItem active={cursor === pageNumber} key={pageNumber}>
-            <PaginationLink href="#" onClick={event => handlePaginationClick(event, pageNumber)}>
-              {pageNumber}
-            </PaginationLink>
+      {maxCursor > 0 && (
+        <Pagination>
+          <PaginationItem disabled={cursor <= 1}>
+            <PaginationLink first href="#" onClick={event => handlePaginationClick(event, 1)} />
           </PaginationItem>
-        ))}
 
-        <PaginationItem disabled={cursor >= maxCursor}>
-          <PaginationLink next href="#" onClick={event => handlePaginationClick(event, cursor + 1)} />
-        </PaginationItem>
-        <PaginationItem disabled={cursor >= maxCursor}>
-          <PaginationLink last href="#" onClick={event => handlePaginationClick(event, maxCursor)} />
-        </PaginationItem>
-      </Pagination>
+          <PaginationItem disabled={cursor <= 1}>
+            <PaginationLink previous href="#" onClick={event => handlePaginationClick(event, cursor - 1)} />
+          </PaginationItem>
+
+          {getVisiblePageNumbers().map(pageNumber => (
+            <PaginationItem active={cursor === pageNumber} key={pageNumber}>
+              <PaginationLink href="#" onClick={event => handlePaginationClick(event, pageNumber)}>
+                {pageNumber}
+              </PaginationLink>
+            </PaginationItem>
+          ))}
+
+          <PaginationItem disabled={cursor >= maxCursor}>
+            <PaginationLink next href="#" onClick={event => handlePaginationClick(event, cursor + 1)} />
+          </PaginationItem>
+          <PaginationItem disabled={cursor >= maxCursor}>
+            <PaginationLink last href="#" onClick={event => handlePaginationClick(event, maxCursor)} />
+          </PaginationItem>
+        </Pagination>
+      )}
     </Fragment>
   );
 };
