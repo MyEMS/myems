@@ -206,14 +206,15 @@ class Reporting:
         redis_client = None
         if config.redis.get('is_enabled'):
             try:
-                redis_pool = redis.ConnectionPool(
+                redis_client = redis.Redis(
                     host=config.redis['host'],
                     port=config.redis['port'],
                     password=config.redis.get('password') or None,
                     db=config.redis['db'],
-                    max_connections=20
+                    decode_responses=True,
+                    socket_connect_timeout=2,
+                    socket_timeout=2
                 )
-                redis_client = redis.Redis(connection_pool=redis_pool)
                 redis_client.ping()
 
                 # Normalize end datetimes for cache key: set minute/second/microsecond to 0
