@@ -777,8 +777,10 @@ def generate_excel(report,
     ####################################################################################################################
     if "child_space" not in report.keys() or "energy_category_names" not in report['child_space'].keys() or \
             len(report['child_space']["energy_category_names"]) == 0 \
+            or 'child_space_ids_array' not in report['child_space'].keys() \
             or 'child_space_names_array' not in report['child_space'].keys() \
             or report['child_space']['energy_category_names'] is None \
+            or len(report['child_space']['child_space_ids_array']) == 0 \
             or len(report['child_space']['child_space_names_array']) == 0 \
             or len(report['child_space']['child_space_names_array'][0]) == 0:
         pass
@@ -793,13 +795,21 @@ def generate_excel(report,
         table_start_row_number = current_row_number
 
         ws.row_dimensions[current_row_number].height = 60
+
         ws['B' + str(current_row_number)].fill = table_fill
         ws['B' + str(current_row_number)].font = name_font
         ws['B' + str(current_row_number)].alignment = c_c_alignment
         ws['B' + str(current_row_number)].border = f_border
-        ws['B' + str(current_row_number)] = _('Child Space')
+        ws['B' + str(current_row_number)] = _('ID')
 
-        col = 'C'
+
+        ws['C' + str(current_row_number)].fill = table_fill
+        ws['C' + str(current_row_number)].font = name_font
+        ws['C' + str(current_row_number)].alignment = c_c_alignment
+        ws['C' + str(current_row_number)].border = f_border
+        ws['C' + str(current_row_number)] = _('Child Space')
+
+        col = 'D'
 
         for i in range(0, ca_len):
             ws[col + str(current_row_number)].fill = table_fill
@@ -813,17 +823,26 @@ def generate_excel(report,
         current_row_number += 1
         ca_child_len = len(child_space_data['child_space_names_array'][0])
 
+
         for i in range(0, ca_child_len):
             ws['B' + str(current_row_number)].font = title_font
             ws['B' + str(current_row_number)].alignment = c_c_alignment
             ws['B' + str(current_row_number)].border = f_border
-            ws['B' + str(current_row_number)] = child_space_data['child_space_names_array'][0][i]
+            ws['B' + str(current_row_number)] = child_space_data['child_space_ids_array'][0][i]
             current_row_number += 1
 
         current_row_number -= ca_child_len
 
+
         for i in range(0, ca_child_len):
-            col = 'C'
+
+            ws['C' + str(current_row_number)].font = title_font
+            ws['C' + str(current_row_number)].alignment = c_c_alignment
+            ws['C' + str(current_row_number)].border = f_border
+            ws['C' + str(current_row_number)] = child_space_data['child_space_names_array'][0][i]
+            
+
+            col = 'D'
             for j in range(0, ca_len):
                 ws[col + str(current_row_number)].font = name_font
                 ws[col + str(current_row_number)].alignment = c_c_alignment
@@ -837,8 +856,10 @@ def generate_excel(report,
 
         for i in range(0, ca_len):
             pie = PieChart()
-            labels = Reference(ws, min_col=2, min_row=table_start_row_number + 1, max_row=table_end_row_number)
-            pie_data = Reference(ws, min_col=3 + i, min_row=table_start_row_number, max_row=table_end_row_number)
+
+            labels = Reference(ws, min_col=3, min_row=table_start_row_number + 1, max_row=table_end_row_number)
+
+            pie_data = Reference(ws, min_col=4 + i, min_row=table_start_row_number, max_row=table_end_row_number)
             pie.add_data(pie_data, titles_from_data=True)
             pie.set_categories(labels)
             pie.title = reporting_period_data['names'][i] + " (" + reporting_period_data['units'][i] + ")"
