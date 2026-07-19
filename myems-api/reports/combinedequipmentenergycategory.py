@@ -43,7 +43,6 @@ import config
 import excelexporters.combinedequipmentenergycategory
 from core import utilities
 from core.useractivity import access_control, api_key_control
-import logging
 
 logger = logging.getLogger(__name__)
 

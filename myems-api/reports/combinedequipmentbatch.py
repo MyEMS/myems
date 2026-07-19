@@ -42,7 +42,6 @@ from anytree import AnyNode, LevelOrderIter
 import config
 import excelexporters.combinedequipmentbatch
 from core.useractivity import access_control, api_key_control
-import logging
 
 logger = logging.getLogger(__name__)
 
