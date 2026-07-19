@@ -528,12 +528,18 @@ const ShopfloorBatch = ({ setRedirect, setRedirectUrl, t }) => {
           .table-scroll-container thead th.shopfloor-batch-sticky-id,
           .table-scroll-container thead th.shopfloor-batch-sticky-name {
             background-color: #f8f9fa !important;
-            z-index: 12 !important;
+            z-index: 2 !important;
           }
           .table-scroll-container tbody td.shopfloor-batch-sticky-id,
           .table-scroll-container tbody td.shopfloor-batch-sticky-name {
             background-color: #ffffff !important;
-            z-index: 10 !important;
+            z-index: 1 !important;
+          }
+          .table-scroll-container thead .sticky-first-column {
+            z-index: 2 !important;
+          }
+          .table-scroll-container tbody td.sticky-first-column {
+            z-index: 1 !important;
           }
           .table-scroll-container tbody tr:hover td.shopfloor-batch-sticky-id,
           .table-scroll-container tbody tr:hover td.shopfloor-batch-sticky-name {
