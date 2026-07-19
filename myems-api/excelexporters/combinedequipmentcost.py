@@ -872,11 +872,17 @@ def generate_excel(report,
         ws['B' + str(current_row_number)].font = name_font
         ws['B' + str(current_row_number)].alignment = c_c_alignment
         ws['B' + str(current_row_number)].border = f_border
-        ws['B' + str(current_row_number)] = _('Associated Equipment')
+        ws['B' + str(current_row_number)] = _('ID')
+
+        ws['C' + str(current_row_number)].fill = table_fill
+        ws['C' + str(current_row_number)].font = name_font
+        ws['C' + str(current_row_number)].alignment = c_c_alignment
+        ws['C' + str(current_row_number)].border = f_border
+        ws['C' + str(current_row_number)] = _('Associated Equipment')
         ca_len = len(associated_equipment['energy_category_names'])
 
         for i in range(0, ca_len):
-            col = chr(ord('C') + i)
+            col = chr(ord('D') + i)
             ws[col + str(current_row_number)].fill = table_fill
             ws[col + str(current_row_number)].font = name_font
             ws[col + str(current_row_number)].alignment = c_c_alignment
@@ -884,7 +890,7 @@ def generate_excel(report,
             ws[col + str(current_row_number)] = \
                 associated_equipment['energy_category_names'][i] + " (" + associated_equipment['units'][i] + ")"
 
-        end_col = chr(ord('B') + ca_len + 1)
+        end_col = chr(ord('C') + ca_len + 1)
         ws[end_col + str(current_row_number)].fill = table_fill
         ws[end_col + str(current_row_number)].font = name_font
         ws[end_col + str(current_row_number)].alignment = c_c_alignment
@@ -900,11 +906,16 @@ def generate_excel(report,
 
             ws['B' + row].font = title_font
             ws['B' + row].alignment = c_c_alignment
-            ws['B' + row] = associated_equipment['associated_equipment_names_array'][0][i]
+            ws['B' + row] = associated_equipment['associated_equipment_ids'][i]
             ws['B' + row].border = f_border
 
+            ws['C' + row].font = title_font
+            ws['C' + row].alignment = c_c_alignment
+            ws['C' + row] = associated_equipment['associated_equipment_names_array'][0][i]
+            ws['C' + row].border = f_border
+
             for j in range(0, ca_len):
-                col = chr(ord('C') + j)
+                col = chr(ord('D') + j)
                 ws[col + row].font = title_font
                 ws[col + row].alignment = c_c_alignment
                 ws[col + row] = round2(associated_equipment['subtotals_array'][j][i], 2)

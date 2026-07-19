@@ -105,7 +105,7 @@ def generate_excel(report, space_name, language):
                               wrap_text=True,
                               shrink_to_fit=False,
                               indent=0)
-    for i in range(ord('B'), ord('F')):
+    for i in range(ord('B'), ord('G')):
         ws.column_dimensions[chr(i)].width = 30.0
 
     # Img
@@ -116,22 +116,27 @@ def generate_excel(report, space_name, language):
     ws['B3'].border = f_border
     ws['B3'].font = name_font
     ws['B3'].alignment = b_c_alignment
-    ws['B3'] = _('Name') + ':'
+    ws['B3'] = _('ID') + ':'
 
     ws['C3'].border = f_border
-    ws['C3'].alignment = b_c_alignment
     ws['C3'].font = name_font
-    ws['C3'] = _('Space') + ':'
+    ws['C3'].alignment = b_c_alignment
+    ws['C3'] = _('Name') + ':'
 
     ws['D3'].border = f_border
-    ws['D3'].font = name_font
     ws['D3'].alignment = b_c_alignment
-    ws['D3'] = _('Cost Center') + ':'
+    ws['D3'].font = name_font
+    ws['D3'] = _('Space') + ':'
 
     ws['E3'].border = f_border
-    ws['E3'].alignment = b_c_alignment
     ws['E3'].font = name_font
-    ws['E3'] = _('Description') + ':'
+    ws['E3'].alignment = b_c_alignment
+    ws['E3'] = _('Cost Center') + ':'
+
+    ws['F3'].border = f_border
+    ws['F3'].alignment = b_c_alignment
+    ws['F3'].font = name_font
+    ws['F3'] = _('Description') + ':'
 
     current_row_number = 4
     for i in range(0, len(report['equipments'])):
@@ -139,22 +144,27 @@ def generate_excel(report, space_name, language):
         ws['B' + str(current_row_number)].font = title_font
         ws['B' + str(current_row_number)].border = f_border
         ws['B' + str(current_row_number)].alignment = c_c_alignment
-        ws['B' + str(current_row_number)] = report['equipments'][i]['equipment_name']
+        ws['B' + str(current_row_number)] = report['equipments'][i]['id']
 
         ws['C' + str(current_row_number)].font = title_font
         ws['C' + str(current_row_number)].border = f_border
         ws['C' + str(current_row_number)].alignment = c_c_alignment
-        ws['C' + str(current_row_number)] = report['equipments'][i]['space_name']
+        ws['C' + str(current_row_number)] = report['equipments'][i]['equipment_name']
 
         ws['D' + str(current_row_number)].font = title_font
         ws['D' + str(current_row_number)].border = f_border
         ws['D' + str(current_row_number)].alignment = c_c_alignment
-        ws['D' + str(current_row_number)] = report['equipments'][i]['cost_center_name']
+        ws['D' + str(current_row_number)] = report['equipments'][i]['space_name']
 
         ws['E' + str(current_row_number)].font = title_font
         ws['E' + str(current_row_number)].border = f_border
         ws['E' + str(current_row_number)].alignment = c_c_alignment
-        ws['E' + str(current_row_number)] = report['equipments'][i]['description']
+        ws['E' + str(current_row_number)] = report['equipments'][i]['cost_center_name']
+
+        ws['F' + str(current_row_number)].font = title_font
+        ws['F' + str(current_row_number)].border = f_border
+        ws['F' + str(current_row_number)].alignment = c_c_alignment
+        ws['F' + str(current_row_number)] = report['equipments'][i]['description']
         current_row_number += 1
 
     filename = str(uuid.uuid4()) + '.xlsx'
