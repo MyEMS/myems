@@ -210,6 +210,8 @@ def main(logger):
             energy_category_list = list()
             end_datetime_utc = start_datetime_utc
             for row_hourly in rows_hourly:
+                if row_hourly is None or len(row_hourly) < 3:
+                    continue
                 current_datetime_utc = row_hourly[0]
                 energy_category_id = row_hourly[1]
 
@@ -217,6 +219,8 @@ def main(logger):
                     energy_category_list.append(energy_category_id)
 
                 actual_value = row_hourly[2]
+                if actual_value is None:
+                    continue
                 if energy_dict.get(current_datetime_utc) is None:
                     energy_dict[current_datetime_utc] = dict()
                 energy_dict[current_datetime_utc][energy_category_id] = actual_value

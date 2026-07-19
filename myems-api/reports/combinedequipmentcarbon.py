@@ -206,15 +206,14 @@ class Reporting:
         redis_client = None
         if config.redis.get('is_enabled'):
             try:
-                redis_client = redis.Redis(
+                redis_pool = redis.ConnectionPool(
                     host=config.redis['host'],
                     port=config.redis['port'],
                     password=config.redis.get('password') or None,
                     db=config.redis['db'],
-                    decode_responses=True,
-                    socket_connect_timeout=2,
-                    socket_timeout=2
+                    max_connections=20
                 )
+                redis_client = redis.Redis(connection_pool=redis_pool)
                 redis_client.ping()
 
                 # Normalize end datetimes for cache key: set minute/second/microsecond to 0
@@ -650,7 +649,7 @@ class Reporting:
                 result['reporting_period']['increment_rates'].append(
                     (reporting[energy_category_id]['subtotal'] - base[energy_category_id]['subtotal']) /
                     base[energy_category_id]['subtotal']
-                    if base[energy_category_id]['subtotal'] > 0.0 else None)
+                    if base[energy_category_id]['subtotal'] > Decimal('0.0') else None)
                 result['reporting_period']['total'] += reporting[energy_category_id]['subtotal']
 
                 rate = list()

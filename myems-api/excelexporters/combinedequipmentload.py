@@ -597,7 +597,7 @@ def generate_excel(report,
                             ws[col + str(current_row_number)].alignment = c_c_alignment
                             ws[col + str(current_row_number)] = round2(base_period_data['sub_maximums'][j][i], 2) \
                                 if i < len(base_period_data['sub_maximums'][j]) \
-                                and base_period_data['sub_averages'][j][i] is not None else None
+                                and base_period_data['sub_maximums'][j][i] is not None else None
                             ws[col + str(current_row_number)].border = f_border
 
                     current_col_number += 1

@@ -632,8 +632,7 @@ const SpaceCost = ({ setRedirect, setRedirectUrl, t }) => {
             if (json['child_space']['child_space_names_array'].length > 0) {
               json['child_space']['child_space_names_array'][0].forEach((currentSpaceName, spaceIndex) => {
                 let child_space_value = {};
-                const childIds = json['child_space']?.child_space_ids || [];
-                child_space_value['id'] = childIds[spaceIndex] ?? spaceIndex;
+                child_space_value['id'] = spaceIndex;
                 child_space_value['name'] = currentSpaceName;
                 let total = 0.0;
                 json['child_space']['energy_category_names'].forEach((currentValue, energyCategoryIndex) => {
