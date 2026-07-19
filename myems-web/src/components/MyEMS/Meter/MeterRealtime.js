@@ -2,6 +2,7 @@ import React, { Fragment, useEffect, useState } from 'react';
 import {
   Breadcrumb,
   BreadcrumbItem,
+  Button,
   Card,
   CardBody,
   Col,
@@ -10,17 +11,14 @@ import {
   Input,
   Label,
   Row,
-  Spinner,
-  Pagination,
-  PaginationItem,
-  PaginationLink
+  Spinner
 } from 'reactstrap';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Cascader from 'rc-cascader';
 import RealtimeChart from './RealtimeChart';
-import { getCookieValue, createCookie, checkEmpty, handleAPIError } from '../../../helpers/utils';
+import { getCookieValue, createCookie, checkEmpty, handleAPIError, getPaginationArray } from '../../../helpers/utils';
 import withRedirect from '../../../hoc/withRedirect';
 import { withTranslation } from 'react-i18next';
-import { v4 as uuid } from 'uuid';
 import { toast } from 'react-toastify';
 import { APIBaseURL, settings } from '../../../config';
 
@@ -180,50 +178,36 @@ const MeterRealtime = ({ setRedirect, setRedirectUrl, t }) => {
   };
 
   useEffect(() => {
-    const meterLen = meterList.length;
-    const maxCursor = Math.ceil(meterLen / len);
-
-    setCursor(1);
-    setMaxCursor(maxCursor);
-
-    document.getElementById('cursor_2').hidden = true;
-    document.getElementById('cursor_3').hidden = true;
-    document.getElementById('cursor_4').hidden = true;
-    if (maxCursor === 2) {
-      document.getElementById('cursor_2').hidden = false;
-    }
-    if (maxCursor === 3) {
-      document.getElementById('cursor_2').hidden = false;
-      document.getElementById('cursor_3').hidden = false;
-    }
-    if (maxCursor >= 4) {
-      document.getElementById('cursor_2').hidden = false;
-      document.getElementById('cursor_3').hidden = false;
-      document.getElementById('cursor_4').hidden = false;
-    }
+    const nextMaxCursor = meterList.length > 0 ? Math.ceil(meterList.length / len) : 0;
+    setCursor(nextMaxCursor > 0 ? 1 : 0);
+    setMaxCursor(nextMaxCursor);
   }, [meterList]);
 
   useEffect(() => {
-    setSelectMeterList(meterList.slice(cursor * len - 8, cursor * len));
-  }, [meterList, cursor]);
-
-  function getCursor(location) {
-    if (maxCursor <= 0) {
-      return 1;
+    if (cursor >= 1) {
+      setSelectMeterList(meterList.slice((cursor - 1) * len, cursor * len));
     }
+  }, [cursor, meterList]);
 
-    switch (location) {
-      default:
-      case 1:
-        return cursor > maxCursor - 3 && maxCursor - 3 >= 1 ? maxCursor - 3 : cursor;
-      case 2:
-        return cursor > maxCursor - 3 && maxCursor - 3 >= 1 ? maxCursor - 2 : cursor + 1;
-      case 3:
-        return cursor > maxCursor - 3 && maxCursor - 3 >= 1 ? maxCursor - 1 : cursor + 2;
-      case 4:
-        return cursor > maxCursor - 3 && maxCursor - 3 >= 1 ? maxCursor : cursor + 3;
+  const getVisiblePageNumbers = () => {
+    const startPage = Math.min(Math.max(cursor, 1), Math.max(1, maxCursor - 3));
+    const pageCount = Math.min(4, maxCursor);
+    return Array.from({ length: pageCount }, (_, index) => startPage + index);
+  };
+
+  const handlePageChange = pageNumber => {
+    const safePageNumber = Math.min(Math.max(pageNumber, 1), maxCursor);
+    if (safePageNumber === cursor) {
+      return;
     }
-  }
+    setSelectMeterList([]);
+    setCursor(safePageNumber);
+  };
+
+  const handlePaginationClick = (event, pageNumber) => {
+    event.preventDefault();
+    handlePageChange(pageNumber);
+  };
 
   return (
     <Fragment>
@@ -265,46 +249,52 @@ const MeterRealtime = ({ setRedirect, setRedirectUrl, t }) => {
       </Card>
       <Row noGutters>
         {selectMeterList.map(meter => (
-          <Col lg="3" className="pr-lg-2" key={uuid()}>
+          <Col lg="3" className="pr-lg-2" key={meter['id']}>
             <RealtimeChart meterId={meter['id']} meterName={meter['name']} />
           </Col>
         ))}
       </Row>
-      <Pagination>
-        <PaginationItem>
-          <PaginationLink first href="#" onClick={() => setCursor(1)} />
-        </PaginationItem>
-
-        <PaginationItem>
-          <PaginationLink previous href="#" onClick={() => (cursor - 1 >= 1 ? setCursor(cursor - 1) : null)} />
-        </PaginationItem>
-        <PaginationItem>
-          <PaginationLink href="#" onClick={() => setCursor(getCursor(1))}>
-            {getCursor(1)}
-          </PaginationLink>
-        </PaginationItem>
-        <PaginationItem id="cursor_2">
-          <PaginationLink href="#" onClick={() => setCursor(getCursor(2))}>
-            {getCursor(2)}
-          </PaginationLink>
-        </PaginationItem>
-        <PaginationItem id="cursor_3">
-          <PaginationLink href="#" onClick={() => setCursor(getCursor(3))}>
-            {getCursor(3)}
-          </PaginationLink>
-        </PaginationItem>
-        <PaginationItem id="cursor_4">
-          <PaginationLink href="#" onClick={() => setCursor(getCursor(4))}>
-            {getCursor(4)}
-          </PaginationLink>
-        </PaginationItem>
-        <PaginationItem>
-          <PaginationLink next href="#" onClick={() => (cursor + 1 <= maxCursor ? setCursor(cursor + 1) : null)} />
-        </PaginationItem>
-        <PaginationItem>
-          <PaginationLink last href="#" onClick={() => setCursor(maxCursor)} />
-        </PaginationItem>
-      </Pagination>
+      {maxCursor > 0 && (
+        <Row noGutters className="px-1 py-3 flex-center">
+          <Col xs="auto">
+            <Button
+              color="falcon-default"
+              size="sm"
+              type="button"
+              onClick={() => handlePageChange(cursor - 1)}
+              disabled={cursor <= 1}
+              title={t('Previous Page')}
+            >
+              <FontAwesomeIcon icon="chevron-left" />
+            </Button>
+            {getPaginationArray(meterList.length, len, cursor)
+              .filter(item => item !== 'ellipsis')
+              .map(pageNumber => (
+                <Button
+                  color={cursor === pageNumber ? 'falcon-primary' : 'falcon-default'}
+                  size="sm"
+                  className="ml-2"
+                  type="button"
+                  onClick={() => handlePageChange(pageNumber)}
+                  key={pageNumber}
+                >
+                  {pageNumber}
+                </Button>
+              ))}
+            <Button
+              color="falcon-default"
+              size="sm"
+              className="ml-2"
+              type="button"
+              onClick={() => handlePageChange(cursor + 1)}
+              disabled={cursor >= maxCursor}
+              title={t('Next Page')}
+            >
+              <FontAwesomeIcon icon="chevron-right" />
+            </Button>
+          </Col>
+        </Row>
+      )}
     </Fragment>
   );
 };

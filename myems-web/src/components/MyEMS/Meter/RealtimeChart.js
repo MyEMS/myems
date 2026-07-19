@@ -82,12 +82,14 @@ class RealtimeChart extends Component {
           borderColor: rgbaColor('#fff', 0.96),
           backgroundColor: rgbaColor('#fff', 0.24),
           borderWidth: 2.4,
-          pointRadius: 0,
-          pointHoverRadius: 4,
-          pointBackgroundColor: rgbaColor('#fff', 0.96),
+          pointRadius: 3,
+          pointHoverRadius: 5,
+          pointBackgroundColor: rgbaColor('#fff', 1),
+          pointBorderColor: rgbaColor('#fff', 1),
+          pointBorderWidth: 0,
           pointHoverBackgroundColor: rgbaColor('#fff', 1),
           pointHoverBorderColor: rgbaColor('#0183d0', 0.9),
-          pointHoverBorderWidth: 2,
+          pointHoverBorderWidth: 3,
           tension: 0.35,
           fill: true
         }
