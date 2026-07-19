@@ -872,7 +872,10 @@ class Reporting:
                     associated_equipment_data[energy_category_id]['subtotal_saving'])
 
         # export result to Excel file and then encode the file to base64 string
-        result['associated_equipment']['associated_equipment_ids'] = [e.get('id', i) for i, e in enumerate(associated_equipment_list)]
+        result['associated_equipment']['associated_equipment_ids'] = [
+            e.get('id', i) if isinstance(e, dict) else i
+            for i, e in enumerate(associated_equipment_list)
+        ]
         result['excel_bytes_base64'] = None
         if not is_quick_mode:
             result['excel_bytes_base64'] = \

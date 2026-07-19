@@ -775,7 +775,8 @@ const CombinedEquipmentEnergyItem = ({ setRedirect, setRedirectUrl, t }) => {
               (currentEquipmentName, equipmentIndex) => {
                 let associated_equipment_value = {};
                 const ids = json['associated_equipment']?.associated_equipment_ids || [];
-                associated_equipment_value['id'] = ids[equipmentIndex] ?? equipmentIndex;
+                const rawId = ids[equipmentIndex] ?? equipmentIndex;
+                associated_equipment_value['id'] = Number(rawId);
                 associated_equipment_value['name'] = currentEquipmentName;
                 json['associated_equipment']['energy_item_names'].forEach((currentValue, energyItemIndex) => {
                   associated_equipment_value['a' + energyItemIndex] =
