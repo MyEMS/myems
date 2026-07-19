@@ -745,12 +745,18 @@ def generate_excel(report,
         ws['B' + str(current_row_number)].font = name_font
         ws['B' + str(current_row_number)].alignment = c_c_alignment
         ws['B' + str(current_row_number)].border = f_border
-        ws['B' + str(current_row_number)] = _('Associated Equipment')
+        ws['B' + str(current_row_number)] = _('ID')
+
+        ws['C' + str(current_row_number)].fill = table_fill
+        ws['C' + str(current_row_number)].font = name_font
+        ws['C' + str(current_row_number)].alignment = c_c_alignment
+        ws['C' + str(current_row_number)].border = f_border
+        ws['C' + str(current_row_number)] = _('Associated Equipment')
         ca_len = len(associated_equipment['energy_category_names'])
 
         for i in range(0, ca_len):
-            col_average = chr(ord('C') + 2 * i)
-            col_maximum = chr(ord('D') + 2 * i)
+            col_average = chr(ord('D') + 2 * i)
+            col_maximum = chr(ord('E') + 2 * i)
 
             ws[col_average + str(current_row_number)].font = name_font
             ws[col_average + str(current_row_number)].alignment = c_c_alignment
@@ -774,12 +780,17 @@ def generate_excel(report,
 
             ws['B' + rows].font = title_font
             ws['B' + rows].alignment = c_c_alignment
-            ws['B' + rows] = associated_equipment['associated_equipment_names_array'][0][j]
+            ws['B' + rows] = associated_equipment['associated_equipment_ids'][j]
             ws['B' + rows].border = f_border
 
+            ws['C' + rows].font = title_font
+            ws['C' + rows].alignment = c_c_alignment
+            ws['C' + rows] = associated_equipment['associated_equipment_names_array'][0][j]
+            ws['C' + rows].border = f_border
+
             for index in range(0, ca_len):
-                col_average = chr(ord('C') + 2 * index)
-                col_maximum = chr(ord('D') + 2 * index)
+                col_average = chr(ord('D') + 2 * index)
+                col_maximum = chr(ord('E') + 2 * index)
 
                 ws[col_average + str(rows)].font = name_font
                 ws[col_average + str(rows)].alignment = c_c_alignment

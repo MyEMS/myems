@@ -160,18 +160,24 @@ def generate_excel(report, space_name, reporting_start_datetime_local, reporting
     ws['B6'].font = name_font
     ws['B6'].alignment = c_c_alignment
     ws['B6'].fill = table_fill
-    ws['B6'] = _('Name')
+    ws['B6'] = _('ID')
 
     ws['C6'].border = f_border
-    ws['C6'].alignment = c_c_alignment
     ws['C6'].font = name_font
+    ws['C6'].alignment = c_c_alignment
     ws['C6'].fill = table_fill
-    ws['C6'] = _('Space')
+    ws['C6'] = _('Name')
+
+    ws['D6'].border = f_border
+    ws['D6'].alignment = c_c_alignment
+    ws['D6'].font = name_font
+    ws['D6'].fill = table_fill
+    ws['D6'] = _('Space')
 
     ca_len = len(report['energycategories'])
 
     for i in range(0, ca_len):
-        col = chr(ord('D') + i)
+        col = chr(ord('E') + i)
         ws[col + '6'].fill = table_fill
         ws[col + '6'].font = name_font
         ws[col + '6'].alignment = c_c_alignment
@@ -185,16 +191,21 @@ def generate_excel(report, space_name, reporting_start_datetime_local, reporting
         ws['B' + str(current_row_number)].font = title_font
         ws['B' + str(current_row_number)].border = f_border
         ws['B' + str(current_row_number)].alignment = c_c_alignment
-        ws['B' + str(current_row_number)] = report['combined_equipments'][i]['combined_equipment_name']
+        ws['B' + str(current_row_number)] = report['combined_equipments'][i]['id']
 
         ws['C' + str(current_row_number)].font = title_font
         ws['C' + str(current_row_number)].border = f_border
         ws['C' + str(current_row_number)].alignment = c_c_alignment
-        ws['C' + str(current_row_number)] = report['combined_equipments'][i]['space_name']
+        ws['C' + str(current_row_number)] = report['combined_equipments'][i]['combined_equipment_name']
+
+        ws['D' + str(current_row_number)].font = title_font
+        ws['D' + str(current_row_number)].border = f_border
+        ws['D' + str(current_row_number)].alignment = c_c_alignment
+        ws['D' + str(current_row_number)] = report['combined_equipments'][i]['space_name']
 
         ca_len = len(report['combined_equipments'][i]['values'])
         for j in range(0, ca_len):
-            col = chr(ord('D') + j)
+            col = chr(ord('E') + j)
             ws[col + str(current_row_number)].font = data_font
             ws[col + str(current_row_number)].border = f_border
             ws[col + str(current_row_number)].alignment = c_c_alignment
