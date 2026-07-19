@@ -151,6 +151,7 @@ const CombinedEquipmentCarbon = ({ setRedirect, setRedirectUrl, t }) => {
 
   const [associatedEquipmentTableData, setAssociatedEquipmentTableData] = useState([]);
   const [associatedEquipmentTableColumns, setAssociatedEquipmentTableColumns] = useState([
+    { dataField: 'id', text: t('ID'), sort: true },
     { dataField: 'name', text: t('Associated Equipment'), sort: true }
   ]);
 
@@ -867,7 +868,9 @@ const CombinedEquipmentCarbon = ({ setRedirect, setRedirectUrl, t }) => {
             json['associated_equipment']['associated_equipment_names_array'][0].forEach(
               (currentEquipmentName, equipmentIndex) => {
                 let associated_equipment_value = {};
-                associated_equipment_value['id'] = equipmentIndex;
+                const ids = json['associated_equipment']?.associated_equipment_ids || [];
+                const rawId = ids[equipmentIndex] ?? equipmentIndex;
+                associated_equipment_value['id'] = Number(rawId);
                 associated_equipment_value['name'] = currentEquipmentName;
                 let total = 0.0;
                 json['associated_equipment']['energy_category_names'].forEach((currentValue, energyCategoryIndex) => {
@@ -893,6 +896,11 @@ const CombinedEquipmentCarbon = ({ setRedirect, setRedirectUrl, t }) => {
           setAssociatedEquipmentTableData(associated_equipment_value_list);
 
           let associated_equipment_column_list = [];
+          associated_equipment_column_list.push({
+            dataField: 'id',
+            text: t('ID'),
+            sort: true
+          });
           associated_equipment_column_list.push({
             dataField: 'name',
             text: t('Associated Equipment'),
