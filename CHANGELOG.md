@@ -20,6 +20,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - changed component import method from static to dynamic imports in myems-web
 - added ErrorBoundary component to capture rendering errors in myems-web
 - upgraded echarts version in myems-web
+- updated meter realtime report in myems-web
 ### Fixed
 - fixed Overwritten property issue in myems-web
 - fixed datetime picker color theme issue in myems-web
