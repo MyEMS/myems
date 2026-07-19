@@ -2,6 +2,7 @@ import React, { Fragment, useEffect, useState } from 'react';
 import {
   Breadcrumb,
   BreadcrumbItem,
+  Button,
   Card,
   CardBody,
   Col,
@@ -10,14 +11,12 @@ import {
   Input,
   Label,
   Row,
-  Spinner,
-  Pagination,
-  PaginationItem,
-  PaginationLink
+  Spinner
 } from 'reactstrap';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Cascader from 'rc-cascader';
 import RealtimeChart from './RealtimeChart';
-import { getCookieValue, createCookie, checkEmpty, handleAPIError } from '../../../helpers/utils';
+import { getCookieValue, createCookie, checkEmpty, handleAPIError, getPaginationArray } from '../../../helpers/utils';
 import withRedirect from '../../../hoc/withRedirect';
 import { withTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
@@ -256,30 +255,45 @@ const MeterRealtime = ({ setRedirect, setRedirectUrl, t }) => {
         ))}
       </Row>
       {maxCursor > 0 && (
-        <Pagination>
-          <PaginationItem disabled={cursor <= 1}>
-            <PaginationLink first href="#" onClick={event => handlePaginationClick(event, 1)} />
-          </PaginationItem>
-
-          <PaginationItem disabled={cursor <= 1}>
-            <PaginationLink previous href="#" onClick={event => handlePaginationClick(event, cursor - 1)} />
-          </PaginationItem>
-
-          {getVisiblePageNumbers().map(pageNumber => (
-            <PaginationItem active={cursor === pageNumber} key={pageNumber}>
-              <PaginationLink href="#" onClick={event => handlePaginationClick(event, pageNumber)}>
-                {pageNumber}
-              </PaginationLink>
-            </PaginationItem>
-          ))}
-
-          <PaginationItem disabled={cursor >= maxCursor}>
-            <PaginationLink next href="#" onClick={event => handlePaginationClick(event, cursor + 1)} />
-          </PaginationItem>
-          <PaginationItem disabled={cursor >= maxCursor}>
-            <PaginationLink last href="#" onClick={event => handlePaginationClick(event, maxCursor)} />
-          </PaginationItem>
-        </Pagination>
+        <Row noGutters className="px-1 py-3 flex-center">
+          <Col xs="auto">
+            <Button
+              color="falcon-default"
+              size="sm"
+              type="button"
+              onClick={() => handlePageChange(cursor - 1)}
+              disabled={cursor <= 1}
+              title={t('Previous Page')}
+            >
+              <FontAwesomeIcon icon="chevron-left" />
+            </Button>
+            {getPaginationArray(meterList.length, len, cursor)
+              .filter(item => item !== 'ellipsis')
+              .map(pageNumber => (
+                <Button
+                  color={cursor === pageNumber ? 'falcon-primary' : 'falcon-default'}
+                  size="sm"
+                  className="ml-2"
+                  type="button"
+                  onClick={() => handlePageChange(pageNumber)}
+                  key={pageNumber}
+                >
+                  {pageNumber}
+                </Button>
+              ))}
+            <Button
+              color="falcon-default"
+              size="sm"
+              className="ml-2"
+              type="button"
+              onClick={() => handlePageChange(cursor + 1)}
+              disabled={cursor >= maxCursor}
+              title={t('Next Page')}
+            >
+              <FontAwesomeIcon icon="chevron-right" />
+            </Button>
+          </Col>
+        </Row>
       )}
     </Fragment>
   );
