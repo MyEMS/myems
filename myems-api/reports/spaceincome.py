@@ -678,6 +678,7 @@ class Reporting:
                 result['child_space']['subtotals_array'].append(
                     child_space_data[energy_category_id]['subtotals'])
 
+        result['child_space']['child_space_ids'] = [e['id'] for e in child_space_list]
         # export result to Excel file and then encode the file to base64 string
         result['excel_bytes_base64'] = None
         if not is_quick_mode:

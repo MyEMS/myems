@@ -494,7 +494,8 @@ const SpaceEnergyItem = ({ setRedirect, setRedirectUrl, t }) => {
             if (json['child_space']['child_space_names_array'].length > 0) {
               json['child_space']['child_space_names_array'][0].forEach((currentSpaceName, spaceIndex) => {
                 let child_space_value = {};
-                child_space_value['id'] = spaceIndex;
+                const childIds = json['child_space']?.child_space_ids || [];
+                child_space_value['id'] = childIds[spaceIndex] ?? spaceIndex;
                 child_space_value['name'] = currentSpaceName;
                 json['child_space']['energy_item_names'].forEach((currentValue, energyItemIndex) => {
                   child_space_value['a' + energyItemIndex] =
