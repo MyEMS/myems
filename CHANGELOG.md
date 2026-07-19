@@ -15,6 +15,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - added myems_production_db.tbl_equipment_hourly to database
 - added modification protection for super administrator in myems-api and myems-admin
 - added yAxisScale attribute to the MultipleLineChart component to control the scale configuration of the ECharts Y-axis in myems-web
+- added ID to equipment list in combined equipment reports
 ### Changed
 - changed component import method from static to dynamic imports in myems-web
 - added ErrorBoundary component to capture rendering errors in myems-web

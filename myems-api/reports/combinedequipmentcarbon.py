@@ -650,7 +650,7 @@ class Reporting:
                 result['reporting_period']['increment_rates'].append(
                     (reporting[energy_category_id]['subtotal'] - base[energy_category_id]['subtotal']) /
                     base[energy_category_id]['subtotal']
-                    if base[energy_category_id]['subtotal'] > 0.0 else None)
+                    if base[energy_category_id]['subtotal'] > Decimal('0.0') else None)
                 result['reporting_period']['total'] += reporting[energy_category_id]['subtotal']
 
                 rate = list()
@@ -688,6 +688,11 @@ class Reporting:
                     associated_equipment_data[energy_category_id]['associated_equipment_names'])
                 result['associated_equipment']['subtotals_array'].append(
                     associated_equipment_data[energy_category_id]['subtotals'])
+
+        result['associated_equipment']['associated_equipment_ids'] = [
+            e.get('id', i) if isinstance(e, dict) else i
+            for i, e in enumerate(associated_equipment_list)
+        ]
 
         # export result to Excel file and then encode the file to base64 string
         result['excel_bytes_base64'] = None

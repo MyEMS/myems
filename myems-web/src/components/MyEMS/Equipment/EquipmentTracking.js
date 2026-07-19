@@ -133,16 +133,21 @@ const EquipmentTracking = ({ setRedirect, setRedirectUrl, t }) => {
                 );
 
                 let equipments = [];
+                let seenIds = new Set();
                 json_equipments[0].forEach((currentValue, index) => {
-                  equipments.push({
-                    key: index,
-                    id: currentValue['id'],
-                    name: currentValue['equipment_name'],
-                    uuid: currentValue['equipment_uuid'],
-                    space: currentValue['space_name'],
-                    costcenter: currentValue['cost_center_name'],
-                    description: currentValue['description']
-                  });
+                  let id = currentValue['value'] ?? currentValue['id'] ?? index;
+                  if (!seenIds.has(id)) {
+                    seenIds.add(id);
+                    equipments.push({
+                      key: id,
+                      id: id,
+                      name: currentValue['equipment_name'],
+                      uuid: currentValue['equipment_uuid'],
+                      space: currentValue['space_name'],
+                      costcenter: currentValue['cost_center_name'],
+                      description: currentValue['description']
+                    });
+                  }
                 });
                 setEquipmentList(equipments);
 
@@ -194,8 +199,16 @@ const EquipmentTracking = ({ setRedirect, setRedirectUrl, t }) => {
 
   const columns = [
     {
+      key: 'a5',
+      dataField: 'id',
+      headerClasses: 'border-0',
+      text: t('ID'),
+      classes: 'border-0 py-2 align-middle',
+      sort: true
+    },
+    {
       key: 'a0',
-      dataField: 'equipmentname',
+      dataField: 'name',
       headerClasses: 'border-0',
       text: t('Name'),
       classes: 'border-0 py-2 align-middle',
@@ -265,15 +278,21 @@ const EquipmentTracking = ({ setRedirect, setRedirectUrl, t }) => {
           );
 
           let equipments = [];
+          let seenIds = new Set();
           json_equipments[0].forEach((currentValue, index) => {
-            equipments.push({
-              key: index,
-              id: currentValue['id'],
-              name: currentValue['equipment_name'],
-              space: currentValue['space_name'],
-              costcenter: currentValue['cost_center_name'],
-              description: currentValue['description']
-            });
+            let id = currentValue['value'] ?? currentValue['id'] ?? index;
+            if (!seenIds.has(id)) {
+              seenIds.add(id);
+              equipments.push({
+                key: id,
+                id: id,
+                name: currentValue['equipment_name'],
+                uuid: currentValue['equipment_uuid'],
+                space: currentValue['space_name'],
+                costcenter: currentValue['cost_center_name'],
+                description: currentValue['description']
+              });
+            }
           });
           setEquipmentList(equipments);
 

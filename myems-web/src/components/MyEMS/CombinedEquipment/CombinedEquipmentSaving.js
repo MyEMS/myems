@@ -154,6 +154,7 @@ const CombinedEquipmentSaving = ({ setRedirect, setRedirectUrl, t }) => {
 
   const [associatedEquipmentTableData, setAssociatedEquipmentTableData] = useState([]);
   const [associatedEquipmentTableColumns, setAssociatedEquipmentTableColumns] = useState([
+    { dataField: 'id', text: t('ID'), sort: true },
     { dataField: 'name', text: t('Associated Equipment'), sort: true }
   ]);
 
@@ -777,13 +778,15 @@ const CombinedEquipmentSaving = ({ setRedirect, setRedirectUrl, t }) => {
           let associated_equipment_value_list = [];
           if (json['associated_equipment']['associated_equipment_names_array'].length > 0) {
             json['associated_equipment']['associated_equipment_names_array'][0].forEach(
-              (currentEquipmentName, spaceIndex) => {
+              (currentEquipmentName, equipmentIndex) => {
                 let associated_equipment_value = {};
-                associated_equipment_value['id'] = spaceIndex;
+                const ids = json['associated_equipment']?.associated_equipment_ids || [];
+                const rawId = ids[equipmentIndex] ?? equipmentIndex;
+                associated_equipment_value['id'] = Number(rawId);
                 associated_equipment_value['name'] = currentEquipmentName;
                 json['associated_equipment']['energy_category_names'].forEach((currentValue, energyCategoryIndex) => {
                   associated_equipment_value['a' + energyCategoryIndex] =
-                    json['associated_equipment']['subtotals_saving_array'][energyCategoryIndex][spaceIndex];
+                    json['associated_equipment']['subtotals_saving_array'][energyCategoryIndex][equipmentIndex];
                 });
                 associated_equipment_value_list.push(associated_equipment_value);
               }
@@ -793,6 +796,11 @@ const CombinedEquipmentSaving = ({ setRedirect, setRedirectUrl, t }) => {
           setAssociatedEquipmentTableData(associated_equipment_value_list);
 
           let associated_equipment_column_list = [];
+          associated_equipment_column_list.push({
+            dataField: 'id',
+            text: t('ID'),
+            sort: true
+          });
           associated_equipment_column_list.push({
             dataField: 'name',
             text: t('Associated Equipment'),
