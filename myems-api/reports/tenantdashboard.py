@@ -41,6 +41,7 @@ import falcon
 import mysql.connector
 import redis
 import simplejson as json
+from anytree import AnyNode, LevelOrderIter
 import config
 from core import utilities
 from core.useractivity import access_control, api_key_control
@@ -259,6 +260,12 @@ class Reporting:
         cnx_billing = None
         cnx_carbon = None
         cnx_historical = None
+        cursor_user = None
+        cursor_system = None
+        cursor_energy = None
+        cursor_billing = None
+        cursor_carbon = None
+        cursor_historical = None
 
         try:
             cnx_user = mysql.connector.connect(**config.myems_user_db)
@@ -309,6 +316,8 @@ class Reporting:
                                            description='API.USER_PRIVILEGE_NOT_FOUND')
 
                 privilege_data = json.loads(row_privilege[0])
+                # Privilege data in MyEMS is {"spaces": [space_id]}.
+                # Optionally support explicit tenant IDs if present.
                 if 'tenants' in privilege_data and privilege_data['tenants']:
                     tenant_ids_list = privilege_data['tenants']
                     # Validate all IDs are integers before using in SQL
@@ -333,6 +342,56 @@ class Reporting:
                                     'tenant_type_id': row[4],
                                     'tenant_type_name': row[5] if row[5] else ''
                                 })
+                elif 'spaces' in privilege_data and privilege_data['spaces']:
+                    space_id = privilege_data['spaces'][0]
+                    try:
+                        space_id = int(space_id)
+                    except (TypeError, ValueError):
+                        raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                               description='API.USER_PRIVILEGE_NOT_FOUND')
+
+                    # Build space tree and collect tenants under the privileged space hierarchy
+                    cursor_system.execute(" SELECT id, name, parent_space_id "
+                                          " FROM tbl_spaces "
+                                          " ORDER BY id ")
+                    rows_spaces = cursor_system.fetchall()
+                    node_dict = dict()
+                    if rows_spaces is not None and len(rows_spaces) > 0:
+                        for row in rows_spaces:
+                            parent_node = node_dict[row[2]] if row[2] is not None else None
+                            node_dict[row[0]] = AnyNode(id=row[0], parent=parent_node, name=row[1])
+
+                    if space_id not in node_dict:
+                        raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                               description='API.SPACE_NOT_FOUND')
+
+                    space_ids = [node.id for node in LevelOrderIter(node_dict[space_id])]
+                    if space_ids:
+                        format_strings = ','.join(['%s'] * len(space_ids))
+                        cursor_system.execute(
+                            " SELECT DISTINCT t.id, t.uuid, t.name, t.area, t.tenant_type_id, "
+                            "        tt.name as tenant_type_name "
+                            " FROM tbl_tenants t "
+                            " INNER JOIN tbl_spaces_tenants st ON st.tenant_id = t.id "
+                            " LEFT JOIN tbl_tenant_types tt ON t.tenant_type_id = tt.id "
+                            " WHERE st.space_id IN (%s) "
+                            " ORDER BY t.id " % format_strings,
+                            tuple(space_ids)
+                        )
+                        rows_tenants = cursor_system.fetchall()
+                        if rows_tenants:
+                            for row in rows_tenants:
+                                tenant_list.append({
+                                    'id': row[0],
+                                    'uuid': row[1],
+                                    'name': row[2],
+                                    'area': row[3],
+                                    'tenant_type_id': row[4],
+                                    'tenant_type_name': row[5] if row[5] else ''
+                                })
+                else:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.USER_PRIVILEGE_NOT_FOUND')
 
             if not tenant_list:
                 raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
@@ -759,6 +818,7 @@ class Reporting:
 
             # Query cost by category for each tenant
             tenant_cost_by_category = {}
+            rows_cost = []
             if len(tenant_ids_list) > 0:
                 # Validate all IDs are integers before using in SQL (already validated above)
                 format_strings = ','.join(['%s'] * len(tenant_ids_list))
@@ -790,6 +850,7 @@ class Reporting:
 
             # Query carbon by category for each tenant
             tenant_carbon_by_category = {}
+            rows_carbon = []
             if len(tenant_ids_list) > 0:
                 # Validate all IDs are integers before using in SQL (already validated above)
                 format_strings = ','.join(['%s'] * len(tenant_ids_list))
@@ -898,6 +959,8 @@ class Reporting:
                 except:
                     pass
 
+        except falcon.HTTPError:
+            raise
         except Exception as e:
             logger.error(f"Error in tenant dashboard: {str(e)}")
             raise

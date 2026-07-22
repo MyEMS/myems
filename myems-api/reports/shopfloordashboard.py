@@ -41,6 +41,7 @@ import falcon
 import mysql.connector
 import redis
 import simplejson as json
+from anytree import AnyNode, LevelOrderIter
 import config
 from core import utilities
 from core.useractivity import access_control, api_key_control
@@ -259,6 +260,12 @@ class Reporting:
         cnx_billing = None
         cnx_carbon = None
         cnx_historical = None
+        cursor_user = None
+        cursor_system = None
+        cursor_energy = None
+        cursor_billing = None
+        cursor_carbon = None
+        cursor_historical = None
 
         try:
             cnx_user = mysql.connector.connect(**config.myems_user_db)
@@ -306,19 +313,61 @@ class Reporting:
                                            description='API.USER_PRIVILEGE_NOT_FOUND')
 
                 privilege_data = json.loads(row_privilege[0])
+                # Privilege data in MyEMS is {"spaces": [space_id]}.
+                # Optionally support explicit shopfloor IDs if present.
                 if 'shopfloors' in privilege_data and privilege_data['shopfloors']:
                     shopfloor_ids_list = privilege_data['shopfloors']
-                    if not shopfloor_ids_list:
-                        shopfloor_list = []
-                    else:
-                        # Validate all IDs are integers before using in SQL
-                        validate_integer_ids(shopfloor_ids_list, "shopfloor_ids")
-                        format_strings = ','.join(['%s'] * len(shopfloor_ids_list))
+                    # Validate all IDs are integers before using in SQL
+                    validate_integer_ids(shopfloor_ids_list, "shopfloor_ids")
+                    format_strings = ','.join(['%s'] * len(shopfloor_ids_list))
+                    cursor_system.execute(
+                        " SELECT s.id, s.name, s.uuid, s.area "
+                        " FROM tbl_shopfloors s "
+                        " WHERE s.id IN (%s) ORDER BY s.id " % format_strings,
+                        tuple(shopfloor_ids_list)
+                    )
+                    rows_shopfloors = cursor_system.fetchall()
+                    if rows_shopfloors:
+                        for row in rows_shopfloors:
+                            shopfloor_list.append({
+                                'id': row[0],
+                                'name': row[1],
+                                'uuid': row[2],
+                                'area': row[3]
+                            })
+                elif 'spaces' in privilege_data and privilege_data['spaces']:
+                    space_id = privilege_data['spaces'][0]
+                    try:
+                        space_id = int(space_id)
+                    except (TypeError, ValueError):
+                        raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                               description='API.USER_PRIVILEGE_NOT_FOUND')
+
+                    # Build space tree and collect shopfloors under the privileged space hierarchy
+                    cursor_system.execute(" SELECT id, name, parent_space_id "
+                                          " FROM tbl_spaces "
+                                          " ORDER BY id ")
+                    rows_spaces = cursor_system.fetchall()
+                    node_dict = dict()
+                    if rows_spaces is not None and len(rows_spaces) > 0:
+                        for row in rows_spaces:
+                            parent_node = node_dict[row[2]] if row[2] is not None else None
+                            node_dict[row[0]] = AnyNode(id=row[0], parent=parent_node, name=row[1])
+
+                    if space_id not in node_dict:
+                        raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                               description='API.SPACE_NOT_FOUND')
+
+                    space_ids = [node.id for node in LevelOrderIter(node_dict[space_id])]
+                    if space_ids:
+                        format_strings = ','.join(['%s'] * len(space_ids))
                         cursor_system.execute(
-                            " SELECT s.id, s.name, s.uuid, s.area "
+                            " SELECT DISTINCT s.id, s.name, s.uuid, s.area "
                             " FROM tbl_shopfloors s "
-                            " WHERE s.id IN (%s) ORDER BY s.id " % format_strings,
-                            tuple(shopfloor_ids_list)
+                            " INNER JOIN tbl_spaces_shopfloors ss ON ss.shopfloor_id = s.id "
+                            " WHERE ss.space_id IN (%s) "
+                            " ORDER BY s.id " % format_strings,
+                            tuple(space_ids)
                         )
                         rows_shopfloors = cursor_system.fetchall()
                         if rows_shopfloors:
@@ -329,6 +378,9 @@ class Reporting:
                                     'uuid': row[2],
                                     'area': row[3]
                                 })
+                else:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.USER_PRIVILEGE_NOT_FOUND')
 
             if not shopfloor_list:
                 raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
@@ -894,6 +946,8 @@ class Reporting:
                 except:
                     pass
 
+        except falcon.HTTPError:
+            raise
         except Exception as e:
             logger.error(f"Error in shopfloor dashboard: {str(e)}")
             raise
