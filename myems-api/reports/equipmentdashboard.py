@@ -38,6 +38,7 @@ import falcon
 import mysql.connector
 import redis
 import simplejson as json
+from anytree import AnyNode, LevelOrderIter
 import config
 from core import utilities
 from core.useractivity import access_control, api_key_control
@@ -251,6 +252,11 @@ class Reporting:
         cnx_energy = None
         cnx_billing = None
         cnx_carbon = None
+        cursor_user = None
+        cursor_system = None
+        cursor_energy = None
+        cursor_billing = None
+        cursor_carbon = None
 
         try:
             cnx_user = mysql.connector.connect(**config.myems_user_db)
@@ -299,6 +305,8 @@ class Reporting:
                                            description='API.USER_PRIVILEGE_NOT_FOUND')
 
                 privilege_data = json.loads(row_privilege[0])
+                # Privilege data in MyEMS is {"spaces": [space_id]}.
+                # Optionally support explicit equipment IDs if present.
                 if 'equipments' in privilege_data and privilege_data['equipments']:
                     equipment_ids_list = privilege_data['equipments']
                     # Validate all IDs are integers before using in SQL
@@ -320,6 +328,53 @@ class Reporting:
                                 'uuid': row[3],
                                 'equipment_type_name': ''
                             })
+                elif 'spaces' in privilege_data and privilege_data['spaces']:
+                    space_id = privilege_data['spaces'][0]
+                    try:
+                        space_id = int(space_id)
+                    except (TypeError, ValueError):
+                        raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                               description='API.USER_PRIVILEGE_NOT_FOUND')
+
+                    # Build space tree and collect equipments under the privileged space hierarchy
+                    cursor_system.execute(" SELECT id, name, parent_space_id "
+                                          " FROM tbl_spaces "
+                                          " ORDER BY id ")
+                    rows_spaces = cursor_system.fetchall()
+                    node_dict = dict()
+                    if rows_spaces is not None and len(rows_spaces) > 0:
+                        for row in rows_spaces:
+                            parent_node = node_dict[row[2]] if row[2] is not None else None
+                            node_dict[row[0]] = AnyNode(id=row[0], parent=parent_node, name=row[1])
+
+                    if space_id not in node_dict:
+                        raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                               description='API.SPACE_NOT_FOUND')
+
+                    space_ids = [node.id for node in LevelOrderIter(node_dict[space_id])]
+                    if space_ids:
+                        format_strings = ','.join(['%s'] * len(space_ids))
+                        cursor_system.execute(
+                            " SELECT DISTINCT e.id, e.name, e.cost_center_id, e.uuid "
+                            " FROM tbl_equipments e "
+                            " INNER JOIN tbl_spaces_equipments se ON se.equipment_id = e.id "
+                            " WHERE se.space_id IN (%s) "
+                            " ORDER BY e.id " % format_strings,
+                            tuple(space_ids)
+                        )
+                        rows_equipments = cursor_system.fetchall()
+                        if rows_equipments:
+                            for row in rows_equipments:
+                                equipment_list.append({
+                                    'id': row[0],
+                                    'name': row[1],
+                                    'cost_center_id': row[2],
+                                    'uuid': row[3],
+                                    'equipment_type_name': ''
+                                })
+                else:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.USER_PRIVILEGE_NOT_FOUND')
 
             if not equipment_list:
                 raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
@@ -972,6 +1027,8 @@ class Reporting:
                 except Exception:
                     pass
 
+        except falcon.HTTPError:
+            raise
         except Exception as e:
             logger.error(f"Error in equipment dashboard: {str(e)}")
             raise
