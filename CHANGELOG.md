@@ -26,6 +26,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - fixed datetime picker color theme issue in myems-web
 - fixed parameters_data issues in myems-api
 - fixed issues of combinedequipmentdashboard, equipmentdashboard, shopfloordashboard, storedashboard and tenantdashboard in myems-api
+- fixed issue of combined equipment load excel exporter in myems-api
 ### Removed
 - removed print(req.params) from myems-api
 

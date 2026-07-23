@@ -545,7 +545,7 @@ api.add_route('/equipments/{id_}/clone',
 
 api.add_route('/equipments/{id_}/datasources',
               equipment.EquipmentDataSourceCollection())
-api.add_route('/equipments/{id_}/datasources/{dsid}', 
+api.add_route('/equipments/{id_}/datasources/{dsid}',
               equipment.EquipmentDataSourceItem())
 api.add_route('/equipments/{id_}/addpoints',
               equipment.EquipmentAddPointsCollection())
