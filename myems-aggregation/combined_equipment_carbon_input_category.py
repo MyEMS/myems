@@ -217,10 +217,8 @@ def main(logger):
                 actual_value = row_hourly[2]
                 if actual_value is None:
                     continue
-
                 if energy_category_id not in energy_category_list:
                     energy_category_list.append(energy_category_id)
-
                 if energy_dict.get(current_datetime_utc) is None:
                     energy_dict[current_datetime_utc] = dict()
                 energy_dict[current_datetime_utc][energy_category_id] = actual_value
