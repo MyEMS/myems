@@ -28,7 +28,10 @@ const WorkingDaysConsumptionTable = loadable(() => import('../common/WorkingDays
 
 const SpaceEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => {
     const location = useLocation();
-    const spaceUUID = location.search.split('=')[1];
+
+    const searchParams = new URLSearchParams(location.search);
+    const spaceUUID = searchParams.get('spaceuuid');
+
     const { language } = useContext(AppContext);
 
     const defaultPeriodType = 'daily';
@@ -853,8 +856,8 @@ const SpaceEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => {
                     <Col className="mb-3 pr-lg-2 mb-3">
                         <SharePie data={TCO2EShareData} title={t('Ton of Carbon Dioxide Emissions by Energy Category')} />
                     </Col>
-                    {childSpaceProportionList.map(childSpaceProportionItem => (
-                        <Col className="mb-3 pr-lg-2 mb-3" key={uuid()}>
+                    {childSpaceProportionList.map((childSpaceProportionItem, index) => (
+                        <Col className="mb-3 pr-lg-2 mb-3" key={childSpaceProportionItem['name'] + '_' + index}>
                             <SharePie
                                 data={childSpaceProportionItem['data']}
                                 title={t('Child Space Proportion CATEGORY UNIT', {
