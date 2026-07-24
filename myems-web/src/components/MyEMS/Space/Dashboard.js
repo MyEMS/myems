@@ -556,7 +556,7 @@ const SpaceEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => {
 
                     let url =
                         APIBaseURL +
-                        '/reports/spaceenergycategory?' +
+                        '/reports/spacedashboard?' +
                         (spaceUUID && spaceUUID !== 'undefined' && spaceUUID !== 'null'
                             ? 'spaceuuid=' + spaceId
                             : 'spaceid=' + spaceId) +
@@ -613,7 +613,7 @@ const SpaceEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => {
 
                     let url =
                         APIBaseURL +
-                        '/reports/spaceenergycategory?' +
+                        '/reports/spacedashboard?' +
                         (spaceUUID && spaceUUID !== 'undefined' && spaceUUID !== 'null'
                             ? 'spaceuuid=' + spaceId
                             : 'spaceid=' + spaceId) +
