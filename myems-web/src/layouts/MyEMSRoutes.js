@@ -5,6 +5,7 @@ import { Redirect, Route, Switch } from 'react-router-dom';
 
 const loadingFallback = <div className="loading">Loading...</div>;
 
+const SpaceDashboard = loadable(() => import('../components/MyEMS/Space/Dashboard'), { fallback: loadingFallback });
 const SpaceEnergyCategory = loadable(() => import('../components/MyEMS/Space/SpaceEnergyCategory'), { fallback: loadingFallback });
 const SpaceEnergyItem = loadable(() => import('../components/MyEMS/Space/SpaceEnergyItem'), { fallback: loadingFallback });
 const SpaceCarbon = loadable(() => import('../components/MyEMS/Space/SpaceCarbon'), { fallback: loadingFallback });
@@ -142,6 +143,7 @@ const AdvancedReporting = loadable(() => import('../components/MyEMS/AdvancedRep
 const MyEMSRoutes = () => (
     <Switch>
         {/*Space*/}
+        <Route path="/space" exact component={SpaceDashboard} />
         <Route path="/space/energycategory" exact component={SpaceEnergyCategory} />
         <Route path="/space/energyitem" exact component={SpaceEnergyItem} />
         <Route path="/space/carbon" exact component={SpaceCarbon} />

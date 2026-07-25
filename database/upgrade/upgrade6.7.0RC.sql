@@ -19,6 +19,9 @@ CREATE TABLE IF NOT EXISTS `myems_production_db`.`tbl_equipment_hourly` (
 CREATE INDEX `tbl_equipment_hourly_index_1`
 ON `myems_production_db`.`tbl_equipment_hourly` (`equipment_id`, `product_id`, `start_datetime_utc`);
 
+INSERT INTO myems_system_db.tbl_menus (id,name,route, parent_menu_id,is_hidden)
+VALUES (117,'Dashboard','/space',100,0);
+
 UPDATE `myems_system_db`.`tbl_versions`
 SET version='6.7.0RC', release_date='2026-07-26' WHERE id=1;
 

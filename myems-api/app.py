@@ -150,6 +150,7 @@ from reports import shopfloorsaving
 from reports import shopfloorstatistics
 from reports import spacecarbon
 from reports import spacecost
+from reports import spacedashboard
 from reports import spaceefficiency
 from reports import spaceenergycategory
 from reports import spaceenergyitem
@@ -1472,6 +1473,8 @@ api.add_route('/reports/spacecarbon',
               spacecarbon.Reporting())
 api.add_route('/reports/spacecost',
               spacecost.Reporting())
+api.add_route('/reports/spacedashboard',
+              spacedashboard.Reporting())
 api.add_route('/reports/spaceefficiency',
               spaceefficiency.Reporting())
 api.add_route('/reports/spaceenergycategory',
