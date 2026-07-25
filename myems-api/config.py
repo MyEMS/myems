@@ -155,8 +155,5 @@ session_expires_in_seconds = config('SESSION_EXPIRES_IN_SECONDS', default=28800,
 
 # DeepSeek API (smart report analysis via /ai/deepseek/chat); empty key disables the feature
 deepseek_api_key = config('DEEPSEEK_API_KEY', default='')
-deepseek_api_url = config(
-    'DEEPSEEK_API_URL',
-    default='https://api.deepseek.com/v1/chat/completions',
-)
-deepseek_model = config('DEEPSEEK_MODEL', default='deepseek-chat')
+deepseek_api_url = config('DEEPSEEK_API_URL', default='https://api.deepseek.com/chat/completions',)
+deepseek_model = config('DEEPSEEK_MODEL', default='deepseek-v4-flash')
