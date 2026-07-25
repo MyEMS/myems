@@ -17,6 +17,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - added yAxisScale attribute to the MultipleLineChart component to control the scale configuration of the ECharts Y-axis in myems-web
 - added ID to equipment list in combined equipment reports
 - added space dashboard to myems-api and myems-web
+- added min/max/avg to trend chart in myems-web
 ### Changed
 - changed component import method from static to dynamic imports in myems-web
 - added ErrorBoundary component to capture rendering errors in myems-web
