@@ -1,7 +1,7 @@
 """
-Space Energy Category Report API
+Space Dashboard Report API
 
-This module provides REST API endpoints for generating space energy category reports.
+This module provides REST API endpoints for generating space dashboard reports.
 It analyzes energy consumption by different energy categories for spaces,
 providing insights into energy usage patterns and category-specific optimizations.
 
@@ -10,7 +10,6 @@ Key Features:
 - Base period vs reporting period comparison
 - Energy category breakdown and trends
 - Category-specific optimization insights
-- Excel export functionality
 - Energy mix analysis
 
 Report Components:
@@ -25,7 +24,6 @@ The module uses Falcon framework for REST API and includes:
 - Database queries for energy category data
 - Category-specific calculations
 - Energy mix analysis tools
-- Excel export via excelexporters
 - Multi-language support
 - User authentication and authorization
 """
@@ -40,7 +38,7 @@ import mysql.connector
 import redis
 import simplejson as json
 import config
-import excelexporters.spaceenergycategory
+
 from core import utilities
 from core.useractivity import access_control, api_key_control
 
@@ -57,16 +55,12 @@ class Reporting:
     # Step 1: valid parameters
     # Step 2: query the space
     # Step 3: query energy categories
-    # Step 4: query associated sensors
-    # Step 5: query associated points
-    # Step 6: query associated working calendars
-    # Step 7: query child spaces
-    # Step 8: query base period energy input
-    # Step 9: query reporting period energy input
-    # Step 10: query tariff data
-    # Step 11: query associated sensors and points data
-    # Step 12: query child spaces energy input
-    # Step 13: construct the report
+    # Step 4: query associated working calendars
+    # Step 5: query child spaces
+    # Step 6: query base period energy input
+    # Step 7: query reporting period energy input
+    # Step 8: query child spaces energy input
+    # Step 9: construct the report
     ####################################################################################################################
     @staticmethod
     def on_get(req, resp):
@@ -349,34 +343,7 @@ class Reporting:
                                                                         "kgco2e": row_energy_category[4]}
 
                 ###################################################################################################
-                # Step 4: query associated sensors
-                ###################################################################################################
-                point_list = list()
-                cursor_system.execute(" SELECT po.id, po.name, po.units, po.object_type  "
-                                      " FROM tbl_spaces sp, tbl_sensors se, tbl_spaces_sensors spse, "
-                                      "      tbl_points po, tbl_sensors_points sepo "
-                                      " WHERE sp.id = %s AND sp.id = spse.space_id AND spse.sensor_id = se.id "
-                                      "       AND se.id = sepo.sensor_id AND sepo.point_id = po.id "
-                                      " ORDER BY po.id ", (space['id'], ))
-                rows_points = cursor_system.fetchall()
-                if rows_points is not None and len(rows_points) > 0:
-                    for row in rows_points:
-                        point_list.append({"id": row[0], "name": row[1], "units": row[2], "object_type": row[3]})
-
-                ###################################################################################################
-                # Step 5: query associated points
-                ###################################################################################################
-                cursor_system.execute(" SELECT po.id, po.name, po.units, po.object_type  "
-                                      " FROM tbl_spaces sp, tbl_spaces_points sppo, tbl_points po "
-                                      " WHERE sp.id = %s AND sp.id = sppo.space_id AND sppo.point_id = po.id "
-                                      " ORDER BY po.id ", (space['id'], ))
-                rows_points = cursor_system.fetchall()
-                if rows_points is not None and len(rows_points) > 0:
-                    for row in rows_points:
-                        point_list.append({"id": row[0], "name": row[1], "units": row[2], "object_type": row[3]})
-
-                ###################################################################################################
-                # Step 6: query associated working calendars
+                # Step 4: query associated working calendars
                 ###################################################################################################
                 working_calendar_list = list()
                 cursor_system.execute(" SELECT swc.id "
@@ -578,52 +545,8 @@ class Reporting:
                                 reporting[energy_category_id]['offpeak'] += row[1]
                             elif peak_type == 'deep':
                                 reporting[energy_category_id]['deep'] += row[1]
-                ################################################################################################
-                # Step 10: query tariff data
-                ################################################################################################
-                parameters_data = dict()
-                parameters_data['names'] = list()
-                parameters_data['timestamps'] = list()
-                parameters_data['values'] = list()
-                if config.is_tariff_appended and not is_quick_mode:
-                    if energy_category_set is not None and len(energy_category_set) > 0:
-                        for energy_category_id in energy_category_set:
-                            energy_category_tariff_dict = utilities.get_energy_category_tariffs(
-                                space['cost_center_id'],
-                                energy_category_id,
-                                reporting_start_datetime_utc,
-                                reporting_end_datetime_utc)
-                            tariff_timestamp_list = list()
-                            tariff_value_list = list()
-                            for k, v in energy_category_tariff_dict.items():
-                                # convert k from utc to local
-                                k = k + timedelta(minutes=timezone_offset)
-                                tariff_timestamp_list.append(k.isoformat()[0:19])
-                                tariff_value_list.append(v)
-
-                            parameters_data['names'].append(_('Tariff') + '-'
-                                                            + energy_category_dict[energy_category_id]['name'])
-                            parameters_data['timestamps'].append(tariff_timestamp_list)
-                            parameters_data['values'].append(tariff_value_list)
-
-                ####################################################################################################
-                # Step 11: query associated sensors and points data
-                ####################################################################################################
-                if not is_quick_mode:
-
-                    point_data = utilities.build_parameters_data_from_batch(
-
-                        point_list, reporting_start_datetime_utc, reporting_end_datetime_utc,
-
-                        cursor_historical, timezone_offset)
-
-                    parameters_data['names'].extend(point_data['names'])
-
-                    parameters_data['timestamps'].extend(point_data['timestamps'])
-
-                    parameters_data['values'].extend(point_data['values'])
                 ###########################################################################################
-                # Step 12: query child spaces energy input
+                # Step 10: query child spaces energy input
                 ###########################################################################################
                 child_space_data = dict()
 
@@ -676,7 +599,7 @@ class Reporting:
                 cnx_historical.close()
 
         ################################################################################################################
-        # Step 13: construct the report
+        # Step 11: construct the report
         ################################################################################################################
         result = dict()
 
@@ -817,12 +740,6 @@ class Reporting:
             result['base_period']['total_in_kgco2e'] \
             if result['base_period']['total_in_kgco2e'] > Decimal(0.0) else None
 
-        result['parameters'] = {
-            "names": parameters_data['names'],
-            "timestamps": parameters_data['timestamps'],
-            "values": parameters_data['values']
-        }
-
         result['child_space'] = dict()
         result['child_space']['energy_category_names'] = list()  # 1D array [energy category]
         result['child_space']['units'] = list()  # 1D array [energy category]
@@ -845,17 +762,6 @@ class Reporting:
                     child_space_data[energy_category_id]['subtotals_in_kgce'])
                 result['child_space']['subtotals_in_kgco2e_array'].append(
                     child_space_data[energy_category_id]['subtotals_in_kgco2e'])
-        # export result to Excel file and then encode the file to base64 string
-        if not is_quick_mode:
-            result['excel_bytes_base64'] = \
-                excelexporters.spaceenergycategory.export(result,
-                                                          space['name'],
-                                                          base_period_start_datetime_local,
-                                                          base_period_end_datetime_local,
-                                                          reporting_period_start_datetime_local,
-                                                          reporting_period_end_datetime_local,
-                                                          period_type,
-                                                          language)
 
         resp_text = json.dumps(result)
         resp.text = resp_text
