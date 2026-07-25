@@ -1231,6 +1231,56 @@ const SpaceEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => {
     setSmartAnalysisOpen(true);
   };
 
+  const formatTrendSummaryValue = value => {
+    const numericValue = Number(value);
+    return Number.isFinite(numericValue) ? numericValue.toFixed(2) : '--';
+  };
+
+  const formatTrendSummaryWithUnit = (value, unit, withSpace = true) => {
+    const formattedValue = formatTrendSummaryValue(value);
+    if (!unit || unit === '()') {
+      return formattedValue;
+    }
+    return withSpace ? `${formattedValue} ${unit}` : `${formattedValue}${unit}`;
+  };
+
+  const getTrendSummaryStats = values => {
+    const numericValues = (Array.isArray(values) ? values : [])
+      .map(item => Number(item))
+      .filter(item => Number.isFinite(item));
+
+    if (numericValues.length === 0) {
+      return null;
+    }
+
+    const total = numericValues.reduce((sum, current) => sum + current, 0);
+    return {
+      mean: total / numericValues.length,
+      min: Math.min(...numericValues),
+      max: Math.max(...numericValues)
+    };
+  };
+
+  const spaceBaseTitleValues = Object.keys(spaceReportingData).reduce((accumulator, key) => {
+    const unit = spaceBaseAndReportingUnits[key];
+    const stats = getTrendSummaryStats(spaceReportingData[key]);
+    const titleParts = [formatTrendSummaryWithUnit(spaceBaseSubtotals[key], unit)];
+
+    titleParts.push(
+      `${t('mean')}:${formatTrendSummaryWithUnit(stats ? stats.mean : null, unit, false)}`,
+      `${t('min')}:${formatTrendSummaryWithUnit(stats ? stats.min : null, unit, false)}`,
+      `${t('max')}:${formatTrendSummaryWithUnit(stats ? stats.max : null, unit, false)}`
+    );
+
+    accumulator[key] = titleParts.join(' | ');
+    return accumulator;
+  }, {});
+
+  const emptyTitleUnits = Object.keys(spaceReportingData).reduce((accumulator, key) => {
+    accumulator[key] = '';
+    return accumulator;
+  }, {});
+
   return (
     <Fragment>
       <div>
@@ -1547,8 +1597,8 @@ const SpaceEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => {
             name: 'Base Period Consumption CATEGORY VALUE UNIT',
             substitute: ['CATEGORY', 'VALUE', 'UNIT'],
             CATEGORY: spaceBaseAndReportingNames,
-            VALUE: spaceBaseSubtotals,
-            UNIT: spaceBaseAndReportingUnits
+            VALUE: spaceBaseTitleValues,
+            UNIT: emptyTitleUnits
           }}
           reportingTooltipTitle={{
             name: 'Reporting Period Consumption CATEGORY VALUE UNIT',
