@@ -56,10 +56,6 @@ const SpaceDashboard = ({ setRedirect, setRedirectUrl, t }) => {
     const [spaceBaseAndReportingNames, setSpaceBaseAndReportingNames] = useState({ a0: '' });
     const [spaceBaseAndReportingUnits, setSpaceBaseAndReportingUnits] = useState({ a0: '()' });
 
-    const [spaceBaseLabels, setSpaceBaseLabels] = useState({ a0: [] });
-    const [spaceBaseData, setSpaceBaseData] = useState({ a0: [] });
-    const [spaceBaseSubtotals, setSpaceBaseSubtotals] = useState({ a0: (0).toFixed(2) });
-
     const [spaceReportingLabels, setSpaceReportingLabels] = useState({ a0: [] });
     const [spaceReportingData, setSpaceReportingData] = useState({ a0: [] });
     const [spaceReportingSubtotals, setSpaceReportingSubtotals] = useState({ a0: (0).toFixed(2) });
@@ -253,18 +249,6 @@ const SpaceDashboard = ({ setRedirect, setRedirectUrl, t }) => {
                     });
                     setChildSpaceProportionList(childSpaceProportionArray);
 
-                    let base_timestamps = {};
-                    json['base_period']['timestamps'].forEach((currentValue, index) => {
-                        base_timestamps['a' + index] = currentValue;
-                    });
-                    setSpaceBaseLabels(base_timestamps);
-
-                    let base_values = {};
-                    json['base_period']['values'].forEach((currentValue, index) => {
-                        base_values['a' + index] = currentValue;
-                    });
-                    setSpaceBaseData(base_values);
-
                     let base_and_reporting_names = {};
                     json['reporting_period']['names'].forEach((currentValue, index) => {
                         base_and_reporting_names['a' + index] = currentValue;
@@ -276,12 +260,6 @@ const SpaceDashboard = ({ setRedirect, setRedirectUrl, t }) => {
                         base_and_reporting_units['a' + index] = '(' + currentValue + ')';
                     });
                     setSpaceBaseAndReportingUnits(base_and_reporting_units);
-
-                    let base_subtotals = {};
-                    json['base_period']['subtotals'].forEach((currentValue, index) => {
-                        base_subtotals['a' + index] = currentValue.toFixed(2);
-                    });
-                    setSpaceBaseSubtotals(base_subtotals);
 
                     let reporting_timestamps = {};
                     json['reporting_period']['timestamps'].forEach((currentValue, index) => {
@@ -735,11 +713,11 @@ const SpaceDashboard = ({ setRedirect, setRedirectUrl, t }) => {
                         UNIT: spaceBaseAndReportingUnits
                     }}
                     baseTitle={{
-                        name: 'Base Period Consumption CATEGORY VALUE UNIT',
-                        substitute: ['CATEGORY', 'VALUE', 'UNIT'],
-                        CATEGORY: spaceBaseAndReportingNames,
-                        VALUE: spaceBaseSubtotals,
-                        UNIT: spaceBaseAndReportingUnits
+                        name: '',
+                        substitute: [],
+                        CATEGORY: {},
+                        VALUE: {},
+                        UNIT: {}
                     }}
                     reportingTooltipTitle={{
                         name: 'Reporting Period Consumption CATEGORY VALUE UNIT',
@@ -749,16 +727,16 @@ const SpaceDashboard = ({ setRedirect, setRedirectUrl, t }) => {
                         UNIT: spaceBaseAndReportingUnits
                     }}
                     baseTooltipTitle={{
-                        name: 'Base Period Consumption CATEGORY VALUE UNIT',
-                        substitute: ['CATEGORY', 'VALUE', 'UNIT'],
-                        CATEGORY: spaceBaseAndReportingNames,
-                        VALUE: null,
-                        UNIT: spaceBaseAndReportingUnits
+                        name: '',
+                        substitute: [],
+                        CATEGORY: {},
+                        VALUE: {},
+                        UNIT: {}
                     }}
                     reportingLabels={spaceReportingLabels}
                     reportingData={spaceReportingData}
-                    baseLabels={spaceBaseLabels}
-                    baseData={spaceBaseData}
+                    baseLabels={{}}
+                    baseData={{}}
                     rates={spaceReportingRates}
                     options={spaceReportingOptions}
                 />
