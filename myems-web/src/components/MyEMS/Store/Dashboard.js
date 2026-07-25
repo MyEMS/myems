@@ -69,7 +69,6 @@ const Dashboard = ({setRedirect, setRedirectUrl, t}) => {
         subtotals: [],
         subtotals_in_kgce: [],
         subtotals_in_kgco2e: [],
-        increment_rates: [],
         timestamps: [],
         values: []
     });
@@ -78,7 +77,6 @@ const Dashboard = ({setRedirect, setRedirectUrl, t}) => {
         names: [],
         units: [],
         subtotals: [],
-        increment_rates: [],
         timestamps: [],
         values: []
     });
@@ -161,18 +159,6 @@ const Dashboard = ({setRedirect, setRedirectUrl, t}) => {
             setSummary(json.summary || {});
             
             const reportingPeriodInput = json.reporting_period_input || {};
-            if (reportingPeriodInput.increment_rate_in_kgce !== undefined) {
-                const rate = reportingPeriodInput.increment_rate_in_kgce;
-                if (isNaN(rate) || !isFinite(rate)) {
-                    reportingPeriodInput.increment_rate_in_kgce = 0;
-                }
-            }
-            if (reportingPeriodInput.increment_rate_in_kgco2e !== undefined) {
-                const rate = reportingPeriodInput.increment_rate_in_kgco2e;
-                if (isNaN(rate) || !isFinite(rate)) {
-                    reportingPeriodInput.increment_rate_in_kgco2e = 0;
-                }
-            }
             setEnergyData(reportingPeriodInput);
             
             const reportingPeriodCost = json.reporting_period_cost || {};
@@ -469,11 +455,7 @@ const Dashboard = ({setRedirect, setRedirectUrl, t}) => {
                 </CardSummary>
 
                 <CardSummary
-                    rate={energyData.increment_rate_in_kgce !== undefined && 
-                          energyData.increment_rate_in_kgce !== null &&
-                          !isNaN(energyData.increment_rate_in_kgce) &&
-                          isFinite(energyData.increment_rate_in_kgce) ?
-                        (parseFloat(energyData.increment_rate_in_kgce * 100).toFixed(2) + '%') : null}
+                    rate={null}
                     title={t("This Month's Consumption CATEGORY VALUE UNIT", {
                         CATEGORY: t('Ton of Standard Coal'),
                         VALUE: null,
@@ -491,7 +473,7 @@ const Dashboard = ({setRedirect, setRedirectUrl, t}) => {
                 </CardSummary>
 
                 <CardSummary
-                    rate={costData.subtotals && costData.subtotals.length > 0 ? '+0.00%' : null}
+                    rate={costData.subtotals && costData.subtotals.length > 0 ? null : null}
                     title={t("This Month's Costs CATEGORY VALUE UNIT", {
                         CATEGORY: null,
                         VALUE: null,
@@ -509,11 +491,7 @@ const Dashboard = ({setRedirect, setRedirectUrl, t}) => {
                 </CardSummary>
 
                 <CardSummary
-                    rate={energyData.increment_rate_in_kgco2e !== undefined && 
-                          energyData.increment_rate_in_kgco2e !== null &&
-                          !isNaN(energyData.increment_rate_in_kgco2e) &&
-                          isFinite(energyData.increment_rate_in_kgco2e) ?
-                        (parseFloat(energyData.increment_rate_in_kgco2e * 100).toFixed(2) + '%') : null}
+                    rate={null}
                     title={t("This Month's Consumption CATEGORY VALUE UNIT", {
                         CATEGORY: t('Ton of Carbon Dioxide Emissions'),
                         VALUE: null,

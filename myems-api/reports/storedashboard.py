@@ -431,7 +431,6 @@ class Reporting:
                 'subtotals_in_kgce': [],
                 'subtotals_in_kgco2e': [],
                 'subtotals_per_unit_area': [],
-                'increment_rates': [],
                 'toppeaks': [],
                 'onpeaks': [],
                 'midpeaks': [],
@@ -482,7 +481,6 @@ class Reporting:
                 'subtotals_in_kgce': [],
                 'subtotals_in_kgco2e': [],
                 'subtotals_per_unit_area': [],
-                'increment_rates': [],
                 'toppeaks': [],
                 'onpeaks': [],
                 'midpeaks': [],
@@ -522,21 +520,6 @@ class Reporting:
                             subtotal / total_area if total_area > 0 else 0.0)
                         reporting_input['energy_category_ids'].append(ec_id)
 
-            # Calculate increment rates
-            for i in range(len(reporting_input['names'])):
-                name = reporting_input['names'][i]
-                if name in base_input['names']:
-                    base_idx = base_input['names'].index(name)
-                    base_val = base_input['subtotals'][base_idx]
-                    report_val = reporting_input['subtotals'][i]
-                    if base_val > 0:
-                        increment_rate = (report_val - base_val) / base_val
-                    else:
-                        increment_rate = 0.0
-                    reporting_input['increment_rates'].append(increment_rate)
-                else:
-                    reporting_input['increment_rates'].append(0.0)
-
             # Calculate totals
             total_in_kgce = sum(reporting_input['subtotals_in_kgce'])
             total_in_kgco2e = sum(reporting_input['subtotals_in_kgco2e'])
@@ -544,14 +527,6 @@ class Reporting:
             reporting_input['total_in_kgco2e'] = total_in_kgco2e
             reporting_input['total_in_kgce_per_unit_area'] = total_in_kgce / total_area if total_area > 0 else 0.0
             reporting_input['total_in_kgco2e_per_unit_area'] = total_in_kgco2e / total_area if total_area > 0 else 0.0
-
-            # Overall increment rates
-            base_total_kgce = sum(base_input['subtotals_in_kgce'])
-            base_total_kgco2e = sum(base_input['subtotals_in_kgco2e'])
-            reporting_input['increment_rate_in_kgce'] = (
-                (total_in_kgce - base_total_kgce) / base_total_kgce if base_total_kgce > 0 else 0.0)
-            reporting_input['increment_rate_in_kgco2e'] = (
-                (total_in_kgco2e - base_total_kgco2e) / base_total_kgco2e if base_total_kgco2e > 0 else 0.0)
 
             ################################################################################################################
             # Step 6 & 7: Query energy cost data
@@ -562,7 +537,6 @@ class Reporting:
                 'units': ['CNY'] * len(reporting_input['names']),
                 'subtotals': [0.0] * len(reporting_input['names']),
                 'subtotals_per_unit_area': [0.0] * len(reporting_input['names']),
-                'increment_rates': list(reporting_input['increment_rates']),
                 'timestamps': [],
                 'values': []
             }
