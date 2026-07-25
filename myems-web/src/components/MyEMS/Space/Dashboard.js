@@ -700,7 +700,7 @@ const SpaceEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => {
             {loading && (
                 <div className="text-center py-5">
                     <Spinner color="primary" style={{ width: '3rem', height: '3rem' }} />
-                    <p className="mt-3">{t('Loading data...')}</p>
+                    <span className="sr-only">{t('Loading')}...</span>
                 </div>
             )}
 
