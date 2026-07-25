@@ -7,14 +7,13 @@ providing insights into energy usage patterns and category-specific optimization
 
 Key Features:
 - Space energy consumption by category analysis
-- Base period vs reporting period comparison
+- Reporting period energy consumption
 - Energy category breakdown and trends
 - Category-specific optimization insights
 - Energy mix analysis
 
 Report Components:
 - Space energy consumption by category summary
-- Base period comparison data
 - Energy category breakdown
 - Category-specific performance metrics
 - Energy mix analysis
@@ -72,8 +71,6 @@ class Reporting:
         space_id = req.params.get('spaceid')
         space_uuid = req.params.get('spaceuuid')
         period_type = req.params.get('periodtype')
-        base_period_start_datetime_local = req.params.get('baseperiodstartdatetime')
-        base_period_end_datetime_local = req.params.get('baseperiodenddatetime')
         reporting_period_start_datetime_local = req.params.get('reportingperiodstartdatetime')
         reporting_period_end_datetime_local = req.params.get('reportingperiodenddatetime')
         language = req.params.get('language')
@@ -115,42 +112,6 @@ class Reporting:
         if config.utc_offset[0] == '-':
             timezone_offset = -timezone_offset
 
-        base_start_datetime_utc = None
-        if base_period_start_datetime_local is not None and len(str.strip(base_period_start_datetime_local)) > 0:
-            base_period_start_datetime_local = str.strip(base_period_start_datetime_local)
-            try:
-                base_start_datetime_utc = datetime.strptime(base_period_start_datetime_local, '%Y-%m-%dT%H:%M:%S')
-                base_start_datetime_non_working_day = str(base_period_start_datetime_local).split('T')[0]
-
-            except ValueError:
-                raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                       description="API.INVALID_BASE_PERIOD_START_DATETIME")
-            base_start_datetime_utc = \
-                base_start_datetime_utc.replace(tzinfo=timezone.utc) - timedelta(minutes=timezone_offset)
-            # nomalize the start datetime
-            if config.minutes_to_count == 30 and base_start_datetime_utc.minute >= 30:
-                base_start_datetime_utc = base_start_datetime_utc.replace(minute=30, second=0, microsecond=0)
-            else:
-                base_start_datetime_utc = base_start_datetime_utc.replace(minute=0, second=0, microsecond=0)
-
-        base_end_datetime_utc = None
-        if base_period_end_datetime_local is not None and len(str.strip(base_period_end_datetime_local)) > 0:
-            base_period_end_datetime_local = str.strip(base_period_end_datetime_local)
-            try:
-                base_end_datetime_utc = datetime.strptime(base_period_end_datetime_local, '%Y-%m-%dT%H:%M:%S')
-                base_end_datetime_non_working_day = str(base_period_end_datetime_local).split('T')[0]
-
-            except ValueError:
-                raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                       description="API.INVALID_BASE_PERIOD_END_DATETIME")
-            base_end_datetime_utc = \
-                base_end_datetime_utc.replace(tzinfo=timezone.utc) - timedelta(minutes=timezone_offset)
-
-        if base_start_datetime_utc is not None and base_end_datetime_utc is not None and \
-                base_start_datetime_utc >= base_end_datetime_utc:
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.INVALID_BASE_PERIOD_END_DATETIME')
-
         if reporting_period_start_datetime_local is None:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description="API.INVALID_REPORTING_PERIOD_START_DATETIME")
@@ -180,7 +141,7 @@ class Reporting:
             try:
                 reporting_end_datetime_utc = datetime.strptime(reporting_period_end_datetime_local,
                                                                '%Y-%m-%dT%H:%M:%S').replace(tzinfo=timezone.utc) - \
-                    timedelta(minutes=timezone_offset)
+                                             timedelta(minutes=timezone_offset)
                 reporting_end_datetime_non_working_day = str(reporting_period_end_datetime_local).split('T')[0]
             except ValueError:
                 raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
@@ -335,7 +296,7 @@ class Reporting:
                         working_calendar_list.append(row[0])
 
                 ####################################################################################################
-                # Step 7: query child spaces
+                # Step 5: query child spaces
                 ####################################################################################################
                 child_space_list = list()
                 cursor_system.execute(" SELECT id, name  "
@@ -348,7 +309,7 @@ class Reporting:
                         child_space_list.append({"id": row[0], "name": row[1]})
 
                 ##################################################################################################
-                # Step 8: query reporting period energy input
+                # Step 6: query reporting period energy input
                 ##################################################################################################
                 reporting = dict()
                 reporting['non_working_days'] = list()
@@ -447,8 +408,9 @@ class Reporting:
                                 reporting[energy_category_id]['offpeak'] += row[1]
                             elif peak_type == 'deep':
                                 reporting[energy_category_id]['deep'] += row[1]
+
                 ###########################################################################################
-                # Step 10: query child spaces energy input
+                # Step 7: query child spaces energy input
                 ###########################################################################################
                 child_space_data = dict()
 
@@ -501,7 +463,7 @@ class Reporting:
                 cnx_historical.close()
 
         ################################################################################################################
-        # Step 11: construct the report
+        # Step 8: construct the report
         ################################################################################################################
         result = dict()
 
@@ -573,14 +535,14 @@ class Reporting:
 
         result['reporting_period']['total_in_kgce_per_capita'] = \
             result['reporting_period']['total_in_kgce'] / space['number_of_occupants'] \
-            if space['number_of_occupants'] > 0.0 else None
+                if space['number_of_occupants'] > 0.0 else None
 
         result['reporting_period']['total_in_kgco2e_per_unit_area'] = \
             result['reporting_period']['total_in_kgco2e'] / space['area'] if space['area'] > 0.0 else None
 
         result['reporting_period']['total_in_kgco2e_per_capita'] = \
             result['reporting_period']['total_in_kgco2e'] / space['number_of_occupants'] \
-            if space['number_of_occupants'] > 0.0 else None
+                if space['number_of_occupants'] > 0.0 else None
 
         result['child_space'] = dict()
         result['child_space']['energy_category_names'] = list()  # 1D array [energy category]

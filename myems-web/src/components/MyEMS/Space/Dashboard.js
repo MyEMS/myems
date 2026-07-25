@@ -456,8 +456,6 @@ const SpaceDashboard = ({ setRedirect, setRedirectUrl, t }) => {
                             ? 'spaceuuid=' + spaceId
                             : 'spaceid=' + spaceId) +
                         '&periodtype=' + defaultPeriodType +
-                        '&baseperiodstartdatetime=' +
-                        '&baseperiodenddatetime=' +
                         '&reportingperiodstartdatetime=' +
                         moment(defaultStart).format('YYYY-MM-DDTHH:mm:ss') +
                         '&reportingperiodenddatetime=' +

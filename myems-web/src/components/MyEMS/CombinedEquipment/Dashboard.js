@@ -119,8 +119,6 @@ const Dashboard = ({setRedirect, setRedirectUrl, t}) => {
       const params = new URLSearchParams({
         useruuid: user_uuid,
         periodtype: periodType,
-        baseperiodstartdatetime: basePeriodStart.format('YYYY-MM-DDTHH:mm:ss'),
-        baseperiodenddatetime: basePeriodEnd.format('YYYY-MM-DDTHH:mm:ss'),
         reportingperiodstartdatetime: reportingPeriodStart.format('YYYY-MM-DDTHH:mm:ss'),
         reportingperiodenddatetime: reportingPeriodEnd.format('YYYY-MM-DDTHH:mm:ss')
       });

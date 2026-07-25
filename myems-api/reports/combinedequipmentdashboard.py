@@ -9,7 +9,7 @@ Key Features:
 - Multi-combined-equipment energy consumption analysis
 - Energy category breakdown and trends
 - Associated equipment integration and monitoring
-- Base period vs reporting period comparison
+- Reporting period energy consumption analysis
 - Real-time data processing
 - Carbon emissions tracking
 - Cost analysis and optimization insights
@@ -49,11 +49,11 @@ logger = logging.getLogger(__name__)
 def validate_integer_ids(id_list, param_name="IDs"):
     """
     Validate that all IDs in the list are integers to prevent SQL injection.
-    
+
     Args:
         id_list: List of IDs to validate
         param_name: Name of the parameter for error messages
-        
+
     Raises:
         ValueError: If any ID is not an integer
     """
@@ -74,13 +74,12 @@ class Reporting:
     # Step 1: Validate parameters
     # Step 2: Query user and get associated combined equipments
     # Step 3: Query energy categories
-    # Step 4: Query base period energy input by category
-    # Step 5: Query reporting period energy input by category
-    # Step 6: Query energy cost data
-    # Step 7: Query monthly trends (energy & cost)
-    # Step 8: Query combined equipment statistics (meters, sensors, alerts)
-    # Step 9: Query top consuming combined equipments
-    # Step 10: Construct the report
+    # Step 4: Query reporting period energy input by category
+    # Step 5: Query energy cost data
+    # Step 6: Query daily trends (energy & cost) from 1st of last month
+    # Step 7: Query combined equipment statistics (meters, associated equipments, alerts)
+    # Step 8: Query top consuming combined equipments
+    # Step 9: Construct the report
     ####################################################################################################################
     @staticmethod
     def on_get(req, resp):
@@ -93,8 +92,6 @@ class Reporting:
 
         user_uuid = req.params.get('useruuid')
         period_type = req.params.get('periodtype', 'monthly')
-        base_period_start_datetime_local = req.params.get('baseperiodstartdatetime')
-        base_period_end_datetime_local = req.params.get('baseperiodenddatetime')
         reporting_period_start_datetime_local = req.params.get('reportingperiodstartdatetime')
         reporting_period_end_datetime_local = req.params.get('reportingperiodenddatetime')
         language = req.params.get('language', 'zh_CN')
@@ -123,37 +120,6 @@ class Reporting:
         timezone_offset = int(config.utc_offset[1:3]) * 60 + int(config.utc_offset[4:6])
         if config.utc_offset[0] == '-':
             timezone_offset = -timezone_offset
-
-        base_start_datetime_utc = None
-        if base_period_start_datetime_local is not None and len(str.strip(base_period_start_datetime_local)) > 0:
-            base_period_start_datetime_local = str.strip(base_period_start_datetime_local)
-            try:
-                base_start_datetime_utc = datetime.strptime(base_period_start_datetime_local, '%Y-%m-%dT%H:%M:%S')
-            except ValueError:
-                raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                       description="API.INVALID_BASE_PERIOD_START_DATETIME")
-            base_start_datetime_utc = \
-                base_start_datetime_utc.replace(tzinfo=timezone.utc) - timedelta(minutes=timezone_offset)
-            if config.minutes_to_count == 30 and base_start_datetime_utc.minute >= 30:
-                base_start_datetime_utc = base_start_datetime_utc.replace(minute=30, second=0, microsecond=0)
-            else:
-                base_start_datetime_utc = base_start_datetime_utc.replace(minute=0, second=0, microsecond=0)
-
-        base_end_datetime_utc = None
-        if base_period_end_datetime_local is not None and len(str.strip(base_period_end_datetime_local)) > 0:
-            base_period_end_datetime_local = str.strip(base_period_end_datetime_local)
-            try:
-                base_end_datetime_utc = datetime.strptime(base_period_end_datetime_local, '%Y-%m-%dT%H:%M:%S')
-            except ValueError:
-                raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                       description="API.INVALID_BASE_PERIOD_END_DATETIME")
-            base_end_datetime_utc = \
-                base_end_datetime_utc.replace(tzinfo=timezone.utc) - timedelta(minutes=timezone_offset)
-
-        if base_start_datetime_utc is not None and base_end_datetime_utc is not None and \
-                base_start_datetime_utc >= base_end_datetime_utc:
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.INVALID_BASE_PERIOD_END_DATETIME')
 
         if reporting_period_start_datetime_local is None:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
@@ -209,10 +175,6 @@ class Reporting:
                 )
                 redis_client.ping()
 
-                base_end_datetime_utc_normalized = None
-                if base_end_datetime_utc is not None:
-                    base_end_datetime_utc_normalized = base_end_datetime_utc.replace(minute=0, second=0, microsecond=0)
-
                 reporting_end_datetime_utc_normalized = None
                 if reporting_end_datetime_utc is not None:
                     reporting_end_datetime_utc_normalized = reporting_end_datetime_utc.replace(
@@ -221,9 +183,6 @@ class Reporting:
                 cache_params = {
                     "useruuid": user_uuid,
                     "periodtype": period_type,
-                    "base_start_datetime_utc": base_start_datetime_utc.isoformat() if base_start_datetime_utc else None,
-                    "base_end_datetime_utc": base_end_datetime_utc_normalized.isoformat()
-                    if base_end_datetime_utc_normalized else None,
                     "reporting_start_datetime_utc": reporting_start_datetime_utc.isoformat()
                     if reporting_start_datetime_utc else None,
                     "reporting_end_datetime_utc": reporting_end_datetime_utc_normalized.isoformat()
@@ -399,47 +358,7 @@ class Reporting:
                     }
 
             ################################################################################################################
-            # Step 4: Query base period energy input by category
-            ################################################################################################################
-            base_input = {
-                'names': [],
-                'units': [],
-                'subtotals': [],
-                'subtotals_in_kgce': [],
-                'subtotals_in_kgco2e': [],
-                'energy_category_ids': []
-            }
-
-            if base_start_datetime_utc and base_end_datetime_utc:
-                # Validate all IDs are integers before using in SQL
-                validate_integer_ids(combined_equipment_ids_list, "combined_equipment_ids")
-                format_strings = ','.join(['%s'] * len(combined_equipment_ids_list))
-                cursor_energy.execute(
-                    " SELECT energy_category_id, SUM(actual_value) "
-                    " FROM tbl_combined_equipment_input_category_hourly "
-                    " WHERE combined_equipment_id IN (%s) "
-                    "   AND start_datetime_utc >= %%s "
-                    "   AND start_datetime_utc < %%s "
-                    " GROUP BY energy_category_id " % format_strings,
-                    combined_equipment_ids_tuple + (base_start_datetime_utc, base_end_datetime_utc)
-                )
-                rows_base_input = cursor_energy.fetchall()
-
-                if rows_base_input:
-                    for row in rows_base_input:
-                        ec_id = row[0]
-                        subtotal = float(row[1]) if row[1] is not None else 0.0
-                        if ec_id in energy_category_dict:
-                            ec_info = energy_category_dict[ec_id]
-                            base_input['names'].append(ec_info['name'])
-                            base_input['units'].append(ec_info['unit_of_measure'])
-                            base_input['subtotals'].append(subtotal)
-                            base_input['subtotals_in_kgce'].append(subtotal * ec_info['kgce'])
-                            base_input['subtotals_in_kgco2e'].append(subtotal * ec_info['kgco2e'])
-                            base_input['energy_category_ids'].append(ec_id)
-
-            ################################################################################################################
-            # Step 5: Query reporting period energy input by category
+            # Step 4: Query reporting period energy input by category
             ################################################################################################################
             reporting_input = {
                 'names': [],
@@ -486,7 +405,7 @@ class Reporting:
             reporting_input['total_in_kgco2e'] = total_in_kgco2e
 
             ################################################################################################################
-            # Step 6: Query energy cost data
+            # Step 5: Query energy cost data
             ################################################################################################################
             reporting_cost = {
                 'names': list(reporting_input['names']),
@@ -523,7 +442,7 @@ class Reporting:
                                 reporting_cost['subtotals'][idx] = cost
 
             ################################################################################################################
-            # Step 7: Query daily trends from 1st of last month (OPTIMIZED: single query + memory aggregation)
+            # Step 6: Query daily trends from 1st of last month (OPTIMIZED: single query + memory aggregation)
             ################################################################################################################
             # Calculate the start date: 1st of last month relative to reporting end
             if reporting_end_datetime_utc.month == 1:
@@ -635,13 +554,13 @@ class Reporting:
             reporting_input['values'] = daily_energy_values
             reporting_cost['timestamps'] = [daily_timestamps] * len(reporting_cost['names'])
             reporting_cost['values'] = daily_cost_values
-            
+
             # Add energy category names to daily trends for frontend display
             reporting_input['category_names'] = list(reporting_input['names'])
             reporting_input['category_units'] = list(reporting_input['units'])
 
             ################################################################################################################
-            # Step 8: Query combined equipment statistics (meters, associated equipments, alerts)
+            # Step 7: Query combined equipment statistics (meters, associated equipments, alerts)
             ################################################################################################################
             # Count meters
             total_meters = 0
@@ -704,7 +623,7 @@ class Reporting:
                     cnx_fdd.close()
 
             ################################################################################################################
-            # Step 9: Query top 5 consuming combined equipments
+            # Step 8: Query top 5 consuming combined equipments
             ################################################################################################################
             top_combined_equipments = []
             combined_equipment_energy_by_category = {}
@@ -820,7 +739,7 @@ class Reporting:
                 })
 
             ################################################################################################################
-            # Step 10: Construct the report
+            # Step 9: Construct the report
             ################################################################################################################
 
             # Prepare combined equipment details for response with energy data by category
@@ -862,7 +781,6 @@ class Reporting:
                 },
                 'combined_equipments': combined_equipment_details,
                 'reporting_period_input': reporting_input,
-                'base_period_input': base_input,
                 'reporting_period_cost': reporting_cost,
                 'top_combined_equipments': top_combined_equipments,
                 'period_type': period_type,
