@@ -57,10 +57,9 @@ class Reporting:
     # Step 3: query energy categories
     # Step 4: query associated working calendars
     # Step 5: query child spaces
-    # Step 6: query base period energy input
-    # Step 7: query reporting period energy input
-    # Step 8: query child spaces energy input
-    # Step 9: construct the report
+    # Step 6: query reporting period energy input
+    # Step 7: query child spaces energy input
+    # Step 8: construct the report
     ####################################################################################################################
     @staticmethod
     def on_get(req, resp):
