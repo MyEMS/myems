@@ -123,6 +123,9 @@ const SpaceDashboard = ({ setRedirect, setRedirectUrl, t }) => {
             setLoading(true);
             setResultDataHidden(true);
 
+            const controller = new AbortController();
+            const signal = controller.signal;
+
             fetch(url, {
                 method: 'GET',
                 headers: {
@@ -130,7 +133,8 @@ const SpaceDashboard = ({ setRedirect, setRedirectUrl, t }) => {
                     'User-UUID': getCookieValue('user_uuid'),
                     Token: getCookieValue('token')
                 },
-                body: null
+                body: null,
+                signal: signal
             })
                 .then(response => {
                     if (!response.ok) {
@@ -145,8 +149,6 @@ const SpaceDashboard = ({ setRedirect, setRedirectUrl, t }) => {
                         cardSummaryItem['name'] = json['reporting_period']['names'][index];
                         cardSummaryItem['unit'] = json['reporting_period']['units'][index];
                         cardSummaryItem['subtotal'] = json['reporting_period']['subtotals'][index];
-                        cardSummaryItem['increment_rate'] =
-                            parseFloat(json['reporting_period']['increment_rates'][index] * 100).toFixed(2) + '%';
                         cardSummaryItem['subtotal_per_unit_area'] = json['reporting_period']['subtotals_per_unit_area'][index];
                         cardSummaryItem['subtotal_per_capita'] = json['reporting_period']['subtotals_per_capita'][index];
                         cardSummaryArray.push(cardSummaryItem);
@@ -196,16 +198,12 @@ const SpaceDashboard = ({ setRedirect, setRedirectUrl, t }) => {
 
                     let totalInTCE = {};
                     totalInTCE['value'] = json['reporting_period']['total_in_kgce'] / 1000;
-                    totalInTCE['increment_rate'] =
-                        parseFloat(json['reporting_period']['increment_rate_in_kgce'] * 100).toFixed(2) + '%';
                     totalInTCE['value_per_unit_area'] = json['reporting_period']['total_in_kgce_per_unit_area'];
                     totalInTCE['value_per_capita'] = json['reporting_period']['total_in_kgce_per_capita'];
                     setTotalInTCE(totalInTCE);
 
                     let totalInTCO2E = {};
                     totalInTCO2E['value'] = json['reporting_period']['total_in_kgco2e'] / 1000;
-                    totalInTCO2E['increment_rate'] =
-                        parseFloat(json['reporting_period']['increment_rate_in_kgco2e'] * 100).toFixed(2) + '%';
                     totalInTCO2E['value_per_unit_area'] = json['reporting_period']['total_in_kgco2e_per_unit_area'];
                     totalInTCO2E['value_per_capita'] = json['reporting_period']['total_in_kgco2e_per_capita'];
                     setTotalInTCO2E(totalInTCO2E);
@@ -302,16 +300,6 @@ const SpaceDashboard = ({ setRedirect, setRedirectUrl, t }) => {
                         reporting_subtotals['a' + index] = currentValue.toFixed(2);
                     });
                     setSpaceReportingSubtotals(reporting_subtotals);
-
-                    let rates = {};
-                    json['reporting_period']['rates'].forEach((currentValue, index) => {
-                        let currentRate = [];
-                        currentValue.forEach(rate => {
-                            currentRate.push(rate ? parseFloat(rate * 100).toFixed(2) : '0.00');
-                        });
-                        rates['a' + index] = currentRate;
-                    });
-                    setSpaceReportingRates(rates);
 
                     let options = [];
                     json['reporting_period']['names'].forEach((currentValue, index) => {
@@ -439,9 +427,11 @@ const SpaceDashboard = ({ setRedirect, setRedirectUrl, t }) => {
                     setResultDataHidden(false);
                 })
                 .catch(err => {
-                    console.error('Load data error:', err);
-                    setLoading(false);
-                    toast.error(t('Failed to load data. Please try again.'));
+                    if (err.name !== 'AbortError') {
+                        console.error('Load data error:', err);
+                        setLoading(false);
+                        toast.error(t('Failed to load data. Please try again.'));
+                    }
                 });
         },
         [t]
@@ -453,6 +443,9 @@ const SpaceDashboard = ({ setRedirect, setRedirectUrl, t }) => {
         const defaultEnd = now.toDate();
 
         let isResponseOK = false;
+        const controller = new AbortController();
+        const signal = controller.signal;
+
         fetch(APIBaseURL + '/spaces/tree', {
             method: 'GET',
             headers: {
@@ -460,7 +453,8 @@ const SpaceDashboard = ({ setRedirect, setRedirectUrl, t }) => {
                 'User-UUID': getCookieValue('user_uuid'),
                 Token: getCookieValue('token')
             },
-            body: null
+            body: null,
+            signal: signal
         })
             .then(response => {
                 if (response.ok) {
@@ -498,9 +492,11 @@ const SpaceDashboard = ({ setRedirect, setRedirectUrl, t }) => {
                 }
             })
             .catch(err => {
-                console.error('Get space tree error:', err);
-                setLoading(false);
-                toast.error(t('Failed to load space data.'));
+                if (err.name !== 'AbortError') {
+                    console.error('Get space tree error:', err);
+                    setLoading(false);
+                    toast.error(t('Failed to load space data.'));
+                }
             });
     }, [spaceUUID, language, loadData, t, setRedirect, setRedirectUrl]);
 
@@ -510,6 +506,9 @@ const SpaceDashboard = ({ setRedirect, setRedirectUrl, t }) => {
         }
 
         let isResponseOK = false;
+        const controller = new AbortController();
+        const signal = controller.signal;
+
         fetch(APIBaseURL + '/spaces/tree', {
             method: 'GET',
             headers: {
@@ -517,7 +516,8 @@ const SpaceDashboard = ({ setRedirect, setRedirectUrl, t }) => {
                 'User-UUID': getCookieValue('user_uuid'),
                 Token: getCookieValue('token')
             },
-            body: null
+            body: null,
+            signal: signal
         })
             .then(response => {
                 if (response.ok) {
@@ -555,10 +555,14 @@ const SpaceDashboard = ({ setRedirect, setRedirectUrl, t }) => {
                 }
             })
             .catch(err => {
-                console.error('Get space tree error:', err);
-                setLoading(false);
-                toast.error(t('Failed to load space data.'));
+                if (err.name !== 'AbortError') {
+                    console.error('Get space tree error:', err);
+                    setLoading(false);
+                    toast.error(t('Failed to load space data.'));
+                }
             });
+
+        return () => controller.abort();
     }, [spaceUUID, language, defaultDates, loadData, t, setRedirect, setRedirectUrl]);
 
     return (
@@ -590,7 +594,7 @@ const SpaceDashboard = ({ setRedirect, setRedirectUrl, t }) => {
                     {cardSummaryList.map(cardSummaryItem => (
                         <CardSummary
                             key={cardSummaryItem['name']}
-                            rate={cardSummaryItem['increment_rate']}
+                            rate=""
                             title={t('Reporting Period Consumption CATEGORY UNIT', {
                                 CATEGORY: cardSummaryItem['name'],
                                 UNIT: '(' + cardSummaryItem['unit'] + ')'
@@ -618,7 +622,7 @@ const SpaceDashboard = ({ setRedirect, setRedirectUrl, t }) => {
 
                     {settings.showTCEData ? (
                         <CardSummary
-                            rate={totalInTCE['increment_rate'] || ''}
+                            rate=""
                             title={t('Reporting Period Consumption CATEGORY UNIT', {
                                 CATEGORY: t('Ton of Standard Coal'),
                                 UNIT: '(TCE)'
@@ -639,7 +643,7 @@ const SpaceDashboard = ({ setRedirect, setRedirectUrl, t }) => {
                         <></>
                     )}
                     <CardSummary
-                        rate={totalInTCO2E['increment_rate'] || ''}
+                        rate=""
                         title={t('Reporting Period Consumption CATEGORY UNIT', {
                             CATEGORY: t('Ton of Carbon Dioxide Emissions'),
                             UNIT: '(TCO2E)'
@@ -657,11 +661,7 @@ const SpaceDashboard = ({ setRedirect, setRedirectUrl, t }) => {
                         )}
                     </CardSummary>
                     <CardSummary
-                        rate={
-                            totalInTCE['value'] && totalInTCE['value'] !== 0 && totalInTCO2E['value']
-                                ? ((totalInTCO2E['value'] / totalInTCE['value'] - 1) * 100).toFixed(2) + '%'
-                                : '--'
-                        }
+                        rate=""
                         title={t('Reporting Period Consumption CATEGORY UNIT', {
                             CATEGORY: t('Carbon Emissions Per Unit Of Energy Consumption'),
                             UNIT: '(TCO2E/TCE)'
