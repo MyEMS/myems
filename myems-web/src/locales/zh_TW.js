@@ -1,4 +1,4 @@
-// Auto-split from i18n.js — language: zh_TW
+﻿// Auto-split from i18n.js — language: zh_TW
 export default {
     translation: {
         // routes & menus
@@ -89,6 +89,9 @@ export default {
         'Meter Batch Analysis': '計量表批量分析',
         'Meter Comparison': '計量表對比分析',
         'Meter Tracking': '計量表台賬',
+        'Meter Count': '計量表台賬 Count',
+        'Virtual Meter Count': 'Virtual Meter Count',
+        'Offline Meter Count': 'Offline Meter Count',
         'Virtual Meter Saving': '虛擬表節能分析㊭',
         'Virtual Meter Plan': '虛擬表計劃分析㊭',
         'Virtual Meter Energy': '虛擬表能耗分析',

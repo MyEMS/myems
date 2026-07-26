@@ -1,4 +1,4 @@
-// Auto-split from i18n.js — language: tr
+﻿// Auto-split from i18n.js — language: tr
 export default {
     translation: {
         // routes & menus
@@ -89,6 +89,9 @@ export default {
         'Meter Batch Analysis': 'Sayaç Toplu Analizi',
         'Meter Comparison': 'Sayaç Karşılaştırması',
         'Meter Tracking': 'Sayaç Takibi',
+        'Meter Count': 'Sayaç Takibi Count',
+        'Virtual Meter Count': 'Virtual Meter Count',
+        'Offline Meter Count': 'Offline Meter Count',
         'Virtual Meter Saving': 'Sanal Sayaç TasarrufuⒺ',
         'Virtual Meter Plan': 'Sanal Sayaç PlanıⒺ',
         'Virtual Meter Energy': 'Sanal Sayaç Enerji',

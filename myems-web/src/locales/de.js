@@ -1,4 +1,4 @@
-// Auto-split from i18n.js — language: de
+﻿// Auto-split from i18n.js — language: de
 export default {
     translation: {
         // routes & menus
@@ -89,6 +89,9 @@ export default {
         'Meter Batch Analysis': 'Meter Charge Analyse',
         'Meter Comparison': 'Meter Vergleich',
         'Meter Tracking': 'Meterverfolgung',
+        'Meter Count': 'Meterverfolgung Count',
+        'Virtual Meter Count': 'Virtual Meter Count',
+        'Offline Meter Count': 'Offline Meter Count',
         'Virtual Meter Saving': 'Virtual Meter SparenⒺ',
         'Virtual Meter Plan': 'Virtueller ZählerplanⒺ',
         'Virtual Meter Energy': 'Virtuelles Meter Energie',

@@ -1,4 +1,4 @@
-// Auto-split from i18n.js — language: ms
+﻿// Auto-split from i18n.js — language: ms
 export default {
     translation: {
         // routes & menus
@@ -89,6 +89,9 @@ export default {
         'Meter Batch Analysis': 'Analisis Kelompok Meter',
         'Meter Comparison': 'Perbandingan Meter',
         'Meter Tracking': 'Penjejakan Meter',
+        'Meter Count': 'Penjejakan Meter Count',
+        'Virtual Meter Count': 'Virtual Meter Count',
+        'Offline Meter Count': 'Offline Meter Count',
         'Virtual Meter Saving': 'Penjimatan Meter MayaⒺ',
         'Virtual Meter Plan': 'Pelan Meter MayaⒺ',
         'Virtual Meter Energy': 'Tenaga Meter Maya',

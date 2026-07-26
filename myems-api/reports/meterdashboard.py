@@ -310,11 +310,9 @@ class Reporting:
                                               "difference_value": None}
 
                 ####################################################################################################
-                # Step 4: query start value and end value (OPTIMIZED: BULK QUERY)
+                # Step 4: count meters, virtual meters and offline meters
                 ####################################################################################################
-                integral_start_count = int(0)
-                integral_end_count = int(0)
-                integral_full_count = int(0)
+                meter_count = len(meter_dict)
 
                 if meter_dict:
                     meter_ids = list(meter_dict.keys())
@@ -387,12 +385,41 @@ class Reporting:
                         else:
                             meter_dict[meter_id]['difference_value'] = None
 
-                        if s_val is not None:
-                            integral_start_count += 1
-                        if e_val is not None:
-                            integral_end_count += 1
-                        if s_val is not None and e_val is not None:
-                            integral_full_count += 1
+                # Count virtual meters in the space tree
+                virtual_meter_count = 0
+                if config.is_recursive:
+                    cursor_system_db.execute(
+                        " SELECT COUNT(*) "
+                        " FROM tbl_spaces s, tbl_spaces_virtual_meters svm, tbl_virtual_meters vm "
+                        " WHERE s.id IN ( " + ', '.join(map(str, space_dict.keys())) + ") "
+                        "       AND svm.space_id = s.id AND svm.virtual_meter_id = vm.id ", )
+                else:
+                    cursor_system_db.execute(
+                        " SELECT COUNT(*) "
+                        " FROM tbl_spaces s, tbl_spaces_virtual_meters svm, tbl_virtual_meters vm "
+                        " WHERE s.id = %s AND svm.space_id = s.id AND svm.virtual_meter_id = vm.id ",
+                        (space_id,))
+                row = cursor_system_db.fetchone()
+                if row is not None:
+                    virtual_meter_count = row[0]
+
+                # Count offline meters in the space tree
+                offline_meter_count = 0
+                if config.is_recursive:
+                    cursor_system_db.execute(
+                        " SELECT COUNT(*) "
+                        " FROM tbl_spaces s, tbl_spaces_offline_meters som, tbl_offline_meters om "
+                        " WHERE s.id IN ( " + ', '.join(map(str, space_dict.keys())) + ") "
+                        "       AND som.space_id = s.id AND som.offline_meter_id = om.id ", )
+                else:
+                    cursor_system_db.execute(
+                        " SELECT COUNT(*) "
+                        " FROM tbl_spaces s, tbl_spaces_offline_meters som, tbl_offline_meters om "
+                        " WHERE s.id = %s AND som.space_id = s.id AND som.offline_meter_id = om.id ",
+                        (space_id,))
+                row = cursor_system_db.fetchone()
+                if row is not None:
+                    offline_meter_count = row[0]
 
             finally:
                 if cursor_system_db:
@@ -424,23 +451,12 @@ class Reporting:
                 "meter_uuid": meter['meter_uuid']
             })
 
-        meter_count = len(meter_list)
-        start_integrity_rate = Decimal(integral_start_count / meter_count) if meter_count > 0 else None
-        end_integrity_rate = Decimal(integral_end_count / meter_count) if meter_count > 0 else None
-        full_integrity_rate = Decimal(integral_full_count / meter_count) if meter_count > 0 else None
-
-        result = {'meters': meter_list, 'start_integrity_rate': start_integrity_rate,
-                  'end_integrity_rate': end_integrity_rate, 'full_integrity_rate': full_integrity_rate,
-                  'excel_bytes_base64': None}
-        # export result to Excel file and then encode the file to base64 string
-        if not is_quick_mode:
-            result['excel_bytes_base64'] = \
-                excelexporters.metertracking.export(result,
-                                                    space_name,
-                                                    energy_category_name,
-                                                    reporting_period_start_datetime_local,
-                                                    reporting_period_end_datetime_local,
-                                                    language)
+        result = {
+            'meters': meter_list,
+            'meter_count': meter_count,
+            'virtual_meter_count': virtual_meter_count,
+            'offline_meter_count': offline_meter_count
+        }
         resp_text = json.dumps(result)
         resp.text = resp_text
 

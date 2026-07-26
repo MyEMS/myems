@@ -1,4 +1,4 @@
-// Auto-split from i18n.js — language: th
+﻿// Auto-split from i18n.js — language: th
 export default {
     translation: {
         // routes & menus
@@ -89,6 +89,9 @@ export default {
         'Meter Batch Analysis': 'การวิเคราะห์แบทช์มิเตอร์',
         'Meter Comparison': 'การเปรียบเทียบมิเตอร์',
         'Meter Tracking': 'การติดตามมิเตอร์',
+        'Meter Count': 'การติดตามมิเตอร์ Count',
+        'Virtual Meter Count': 'Virtual Meter Count',
+        'Offline Meter Count': 'Offline Meter Count',
         'Virtual Meter Saving': 'การบันทึกมิเตอร์เสมือนⒺ',
         'Virtual Meter Plan': 'แผนมิเตอร์เสมือนⒺ',
         'Virtual Meter Energy': 'เครื่องวัดพลังงานเสมือน',

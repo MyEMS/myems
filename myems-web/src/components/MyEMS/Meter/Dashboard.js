@@ -70,9 +70,9 @@ const MeterDashboard = ({ setRedirect, setRedirectUrl, t }) => {
   const [resultDataHidden, setResultDataHidden] = useState(true);
 
   // Results
-  const [startIntegrityRate, setStartIntegrityRate] = useState(0);
-  const [endIntegrityRate, setEndIntegrityRate] = useState(0);
-  const [fullIntegrityRate, setFullIntegrityRate] = useState(0);
+  const [meterCount, setMeterCount] = useState(0);
+  const [virtualMeterCount, setVirtualMeterCount] = useState(0);
+  const [offlineMeterCount, setOfflineMeterCount] = useState(0);
 
   const [tablePage, setTablePage] = useState(() => {
     if (typeof window === 'undefined') {
@@ -147,9 +147,9 @@ const MeterDashboard = ({ setRedirect, setRedirectUrl, t }) => {
           const nextPage = Math.min(tablePage || 1, totalPages);
           persistTablePage(nextPage);
 
-          setStartIntegrityRate(json['start_integrity_rate'] * 100);
-          setEndIntegrityRate(json['end_integrity_rate'] * 100);
-          setFullIntegrityRate(json['full_integrity_rate'] * 100);
+          setMeterCount(json['meter_count']);
+          setVirtualMeterCount(json['virtual_meter_count']);
+          setOfflineMeterCount(json['offline_meter_count']);
 
           setLoading(false);
           setResultDataHidden(false);
@@ -311,14 +311,14 @@ const MeterDashboard = ({ setRedirect, setRedirectUrl, t }) => {
       </div>
       <div style={{ visibility: resultDataHidden ? 'hidden' : 'visible', display: resultDataHidden ? 'none' : '' }}>
         <div className="card-deck">
-          <CardSummary title={t('Start Integrity Rate')} color="success" description={t('Start Integrity Rate Description')}>
-            <CountUp end={startIntegrityRate} duration={2} prefix="" separator="," decimals={2} decimal="." />
+          <CardSummary title={t('Meter Count')} color="success">
+            <CountUp end={meterCount} duration={2} prefix="" separator="," decimals={0} decimal="." />
           </CardSummary>
-          <CardSummary title={t('End Integrity Rate')} color="success" description={t('End Integrity Rate Description')}>
-            <CountUp end={endIntegrityRate} duration={2} prefix="" separator="," decimals={2} decimal="." />
+          <CardSummary title={t('Virtual Meter Count')} color="info">
+            <CountUp end={virtualMeterCount} duration={2} prefix="" separator="," decimals={0} decimal="." />
           </CardSummary>
-          <CardSummary title={t('Full Integrity Rate')} color="warning" description={t('Full Integrity Rate Description')}>
-            <CountUp end={fullIntegrityRate} duration={2} prefix="" separator="," decimals={2} decimal="." />
+          <CardSummary title={t('Offline Meter Count')} color="warning">
+            <CountUp end={offlineMeterCount} duration={2} prefix="" separator="," decimals={0} decimal="." />
           </CardSummary>
         </div>
 
