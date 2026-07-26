@@ -1,0 +1,684 @@
+import React, { Fragment, useEffect, useState, useContext, useCallback } from 'react';
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  Button,
+  ButtonGroup,
+  Card,
+  CardBody,
+  Col,
+  DropdownItem,
+  DropdownMenu,
+  DropdownToggle,
+  Form,
+  FormGroup,
+  Input,
+  Label,
+  Media,
+  Row,
+  UncontrolledDropdown,
+  CustomInput,
+  Spinner
+} from 'reactstrap';
+import CountUp from 'react-countup';
+import Cascader from 'rc-cascader';
+import DeepSeekAnalysisModal from '../common/DeepSeekAnalysisModal';
+import CardSummary from '../common/CardSummary';
+import moment from 'moment';
+import loadable from '@loadable/component';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Link } from 'react-router-dom';
+import Flex from '../../common/Flex';
+import { getCookieValue, createCookie, checkEmpty, handleAPIError } from '../../../helpers/utils';
+import withRedirect from '../../../hoc/withRedirect';
+import { withTranslation } from 'react-i18next';
+import { toast } from 'react-toastify';
+import ButtonIcon from '../../common/ButtonIcon';
+import { APIBaseURL, settings } from '../../../config';
+import DateRangePickerWrapper from '../common/DateRangePickerWrapper';
+import { endOfDay } from 'date-fns';
+import Appcontext from '../../../context/Context';
+import blankPage from '../../../assets/img/generic/blank-page.png';
+
+const MeterTracking = ({ setRedirect, setRedirectUrl, t }) => {
+  let current_moment = moment();
+  useEffect(() => {
+    let is_logged_in = getCookieValue('is_logged_in');
+    let user_name = getCookieValue('user_name');
+    let user_display_name = getCookieValue('user_display_name');
+    let user_uuid = getCookieValue('user_uuid');
+    let token = getCookieValue('token');
+    if (checkEmpty(is_logged_in) || checkEmpty(token) || checkEmpty(user_uuid) || !is_logged_in) {
+      setRedirectUrl(`/authentication/basic/login`);
+      setRedirect(true);
+    } else {
+      //update expires time of cookies
+      createCookie('is_logged_in', true, settings.cookieExpireTime);
+      createCookie('user_name', user_name, settings.cookieExpireTime);
+      createCookie('user_display_name', user_display_name, settings.cookieExpireTime);
+      createCookie('user_uuid', user_uuid, settings.cookieExpireTime);
+      createCookie('token', token, settings.cookieExpireTime);
+    }
+  });
+
+  useEffect(() => {
+    let timer = setInterval(() => {
+      let is_logged_in = getCookieValue('is_logged_in');
+      if (is_logged_in === null || !is_logged_in) {
+        setRedirectUrl(`/authentication/basic/login`);
+        setRedirect(true);
+      }
+    }, 1000);
+    return () => clearInterval(timer);
+  }, [setRedirect, setRedirectUrl]);
+
+  // State
+  const [selectedSpaceName, setSelectedSpaceName] = useState(undefined);
+  const [selectedSpaceID, setSelectedSpaceID] = useState(undefined);
+  const [meterList, setMeterList] = useState([]);
+  const [cascaderOptions, setCascaderOptions] = useState(undefined);
+  const [energyCategoryOptions, setEnergyCategoryOptions] = useState([]);
+  const [energyCategory, setEnergyCategory] = useState('all');
+
+  //Query Form
+  const [reportingPeriodDateRange, setReportingPeriodDateRange] = useState([
+    current_moment
+      .clone()
+      .startOf('month')
+      .toDate(),
+    current_moment.toDate()
+  ]);
+  const dateRangePickerLocale = {
+    sunday: t('sunday'),
+    monday: t('monday'),
+    tuesday: t('tuesday'),
+    wednesday: t('wednesday'),
+    thursday: t('thursday'),
+    friday: t('friday'),
+    saturday: t('saturday'),
+    ok: t('ok'),
+    today: t('today'),
+    yesterday: t('yesterday'),
+    hours: t('hours'),
+    minutes: t('minutes'),
+    seconds: t('seconds'),
+    last7Days: t('last7Days'),
+    formattedMonthPattern: 'yyyy-MM-dd'
+  };
+  const dateRangePickerStyle = { display: 'block', zIndex: 10 };
+  const { language } = useContext(Appcontext);
+
+  // buttons
+  const [submitButtonDisabled, setSubmitButtonDisabled] = useState(true);
+  const [spinnerHidden, setSpinnerHidden] = useState(false);
+  const [exportButtonHidden, setExportButtonHidden] = useState(true);
+  const [resultDataHidden, setResultDataHidden] = useState(true);
+  const [smartAnalysisOpen, setSmartAnalysisOpen] = useState(false);
+  const [smartAnalysisContext, setSmartAnalysisContext] = useState(null);
+  // Results
+  const [excelBytesBase64, setExcelBytesBase64] = useState(undefined);
+  const [startIntegrityRate, setStartIntegrityRate] = useState(0);
+  const [endIntegrityRate, setEndIntegrityRate] = useState(0);
+  const [fullIntegrityRate, setFullIntegrityRate] = useState(0);
+
+  const [tablePage, setTablePage] = useState(() => {
+    if (typeof window === 'undefined') {
+      return 1;
+    }
+    const saved = window.sessionStorage.getItem('metertracking_page');
+    const parsed = Number.parseInt(saved, 10);
+    return Number.isFinite(parsed) && parsed > 0 ? parsed : 1;
+  });
+  const persistTablePage = useCallback(page => {
+    const next = Math.max(1, Number.parseInt(page, 10) || 1);
+    if (typeof window !== 'undefined') {
+      window.sessionStorage.setItem('metertracking_page', String(next));
+    }
+    setTablePage(next);
+  }, []);
+
+  const loadEnergyCategories = useCallback(
+    spaceId => {
+      if (!spaceId) {
+        setEnergyCategoryOptions([{ value: 'all', label: t('All'), uuid: '' }]);
+        setEnergyCategory('all');
+        setSubmitButtonDisabled(false);
+        return;
+      }
+      let isResponseOK = false;
+      setSubmitButtonDisabled(true);
+      fetch(`${APIBaseURL}/spaces/${spaceId}/treemetersenergycategories`, {
+        method: 'GET',
+        headers: {
+          'Content-type': 'application/json',
+          'User-UUID': getCookieValue('user_uuid'),
+          Token: getCookieValue('token')
+        },
+        body: null
+      })
+        .then(response => {
+          if (response.ok) {
+            isResponseOK = true;
+          }
+          return response.json();
+        })
+        .then(json => {
+          if (isResponseOK) {
+            json = JSON.parse(
+              JSON.stringify([json])
+                .split('"id":')
+                .join('"value":')
+                .split('"name":')
+                .join('"label":')
+            );
+            if (json[0].length > 0) {
+              setEnergyCategoryOptions([{ value: 'all', label: t('All'), uuid: '' }].concat(json[0]));
+            } else {
+              setEnergyCategoryOptions([{ value: 'all', label: t('All'), uuid: '' }]);
+            }
+            setEnergyCategory('all');
+          } else {
+            handleAPIError(json, setRedirect, setRedirectUrl, t, toast);
+          }
+        })
+        .catch(err => {
+          console.log(err);
+        })
+        .finally(() => {
+          setSubmitButtonDisabled(false);
+        });
+    },
+    [t]
+  );
+
+  useEffect(() => {
+    let isResponseOK = false;
+    fetch(APIBaseURL + '/spaces/tree', {
+      method: 'GET',
+      headers: {
+        'Content-type': 'application/json',
+        'User-UUID': getCookieValue('user_uuid'),
+        Token: getCookieValue('token')
+      },
+      body: null
+    })
+      .then(response => {
+        if (response.ok) {
+          isResponseOK = true;
+        }
+        return response.json();
+      })
+      .then(json => {
+        if (isResponseOK) {
+          // rename keys
+          json = JSON.parse(
+            JSON.stringify([json])
+              .split('"id":')
+              .join('"value":')
+              .split('"name":')
+              .join('"label":')
+          );
+          setCascaderOptions(json);
+          if (json[0]) {
+            const defaultSpace = json[0];
+            setSelectedSpaceName(defaultSpace.label);
+            const defaultSpaceId = defaultSpace.value;
+            setSelectedSpaceID(defaultSpaceId);
+            loadEnergyCategories(defaultSpaceId);
+          } else {
+            setSelectedSpaceName(undefined);
+            setSelectedSpaceID(undefined);
+            setEnergyCategoryOptions([{ value: 'all', label: t('All'), uuid: '' }]);
+            setSubmitButtonDisabled(false);
+          }
+          // hide export button
+          setExportButtonHidden(true);
+          setSpinnerHidden(true);
+        } else {
+          handleAPIError(json, setRedirect, setRedirectUrl, t, toast);
+        }
+      })
+      .catch(err => {
+        console.log(err);
+        setSubmitButtonDisabled(false);
+      });
+  }, [t, loadEnergyCategories]);
+
+  const DetailedDataTable = loadable(() => import('../common/DetailedDataTable'));
+
+  const nameFormatter = (dataField, { name, uuid }) => (
+    <Link to={{ pathname: '/meter/meterenergy?uuid=' + uuid }} target="_blank">
+      <Media tag={Flex} align="center">
+        <Media body className="ml-2">
+          <h5 className="mb-0 fs--1">{name}</h5>
+        </Media>
+      </Media>
+    </Link>
+  );
+
+  const actionFormatter = (dataField, { id }) => (
+    // Control your row with this id
+    // todo: add edit meter function
+    <UncontrolledDropdown>
+      <DropdownToggle color="link" size="sm" className="text-600 btn-reveal mr-3">
+        <FontAwesomeIcon icon="ellipsis-h" className="fs--1" />
+      </DropdownToggle>
+      <DropdownMenu right className="border py-2">
+        <DropdownItem onClick={() => console.log('Edit: ', id)}>{t('Edit Meter')}</DropdownItem>
+      </DropdownMenu>
+    </UncontrolledDropdown>
+  );
+
+  const columns = [
+    {
+      dataField: 'id',
+      headerClasses: 'border-0',
+      text: t('ID'),
+      classes: 'border-0 py-2 align-middle',
+      sort: true
+    },
+    {
+      dataField: 'name',
+      headerClasses: 'border-0',
+      text: t('Name'),
+      classes: 'border-0 py-2 align-middle',
+      formatter: nameFormatter,
+      sort: true
+    },
+    {
+      dataField: 'space',
+      headerClasses: 'border-0',
+      text: t('Space'),
+      classes: 'border-0 py-2 align-middle',
+      sort: true
+    },
+    {
+      dataField: 'costcenter',
+      headerClasses: 'border-0',
+      text: t('Cost Center'),
+      classes: 'border-0 py-2 align-middle',
+      sort: true
+    },
+    {
+      dataField: 'energycategory',
+      headerClasses: 'border-0',
+      text: t('Energy Category'),
+      classes: 'border-0 py-2 align-middle',
+      sort: true
+    },
+    {
+      dataField: 'description',
+      headerClasses: 'border-0',
+      text: t('Description'),
+      classes: 'border-0 py-2 align-middle',
+      sort: true
+    },
+    {
+      dataField: 'startvalue',
+      headerClasses: 'border-0',
+      text: t('Start Value'),
+      classes: 'border-0 py-2 align-middle',
+      sort: true
+    },
+    {
+      dataField: 'endvalue',
+      headerClasses: 'border-0',
+      text: t('End Value'),
+      classes: 'border-0 py-2 align-middle',
+      sort: true
+    },
+    {
+      dataField: 'differencevalue',
+      headerClasses: 'border-0',
+      text: t('Difference Value'),
+      classes: 'border-0 py-2 align-middle',
+      sort: true
+    },
+  ];
+
+  const labelClasses = 'ls text-uppercase text-600 font-weight-semi-bold mb-0';
+
+  let onSpaceCascaderChange = (value, selectedOptions) => {
+    setSelectedSpaceName(selectedOptions.map(o => o.label).join('/'));
+    const nextSpaceId = value[value.length - 1];
+    setSelectedSpaceID(nextSpaceId);
+    setResultDataHidden(true);
+    setMeterList([]);
+    persistTablePage(1);
+    loadEnergyCategories(nextSpaceId);
+  };
+
+  let onReportingPeriodChange = DateRange => {
+    if (DateRange == null) {
+      setReportingPeriodDateRange([null, null]);
+    } else {
+      if (moment(DateRange[1]).format('HH:mm:ss') === '00:00:00') {
+        // if the user did not change time value, set the default time to the end of day
+        DateRange[1] = endOfDay(DateRange[1]);
+      }
+      setReportingPeriodDateRange([DateRange[0], DateRange[1]]);
+    }
+  };
+
+  let onReportingPeriodClean = event => {
+    setReportingPeriodDateRange([null, null]);
+  };
+
+  // Handler
+  const handleSubmit = e => {
+    e.preventDefault();
+    // disable submit button
+    setSubmitButtonDisabled(true);
+    // show spinner
+    setSpinnerHidden(false);
+    // hide export button
+    setExportButtonHidden(true);
+    // hide result data
+    setResultDataHidden(true);
+    // Reinitialize tables
+    setMeterList([]);
+    persistTablePage(1);
+
+    let isResponseOK = false;
+    fetch(
+      APIBaseURL +
+        '/reports/meterdashboard?' +
+        'spaceid=' +
+        selectedSpaceID +
+        '&energyCategory=' +
+        energyCategory +
+        '&reportingperiodstartdatetime=' +
+        moment(reportingPeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss') +
+        '&reportingperiodenddatetime=' +
+        moment(reportingPeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss') +
+        '&language=' +
+        language,
+      {
+        method: 'GET',
+        headers: {
+          'Content-type': 'application/json',
+          'User-UUID': getCookieValue('user_uuid'),
+          Token: getCookieValue('token')
+        },
+        body: null
+      }
+    )
+      .then(response => {
+        if (response.ok) {
+          isResponseOK = true;
+        }
+        return response.json();
+      })
+      .then(json => {
+        if (isResponseOK) {
+          let meters = [];
+          json['meters'].forEach((currentValue, index) => {
+            meters.push({
+              id: currentValue['id'],
+              uuid: currentValue['meter_uuid'],
+              name: currentValue['meter_name'],
+              space: currentValue['space_name'],
+              costcenter: currentValue['cost_center_name'],
+              energycategory: currentValue['energy_category_name'],
+              description: currentValue['description'],
+              startvalue: currentValue['start_value'],
+              endvalue: currentValue['end_value'],
+              differencevalue: currentValue['difference_value']
+            });
+          });
+          setMeterList(meters);
+          const totalPages = Math.max(1, Math.ceil(meters.length / 50));
+          const nextPage = Math.min(tablePage || 1, totalPages);
+          persistTablePage(nextPage);
+
+          setStartIntegrityRate(json['start_integrity_rate'] * 100);
+          setEndIntegrityRate(json['end_integrity_rate'] * 100);
+          setFullIntegrityRate(json['full_integrity_rate'] * 100);
+
+          setExcelBytesBase64(json['excel_bytes_base64']);
+
+          // enable submit button
+          setSubmitButtonDisabled(false);
+          // hide spinner
+          setSpinnerHidden(true);
+          // show export button
+          setExportButtonHidden(false);
+          // show result data
+          setResultDataHidden(false);
+        } else {
+          handleAPIError(json, setRedirect, setRedirectUrl, t, toast);
+        }
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  };
+
+  const handleExport = e => {
+    e.preventDefault();
+    const mimeType = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
+    const fileName = 'metertracking.xlsx';
+    var fileUrl = 'data:' + mimeType + ';base64,' + excelBytesBase64;
+    fetch(fileUrl)
+      .then(response => response.blob())
+      .then(blob => {
+        var link = window.document.createElement('a');
+        link.href = window.URL.createObjectURL(blob, { type: mimeType });
+        link.download = fileName;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+      });
+  };
+
+  const buildSmartAnalysisContext = useCallback(() => {
+    const energyCategoryLabel =
+      energyCategoryOptions.find(c => String(c.value) === String(energyCategory))?.label ?? energyCategory;
+    let totalDifference = 0;
+    meterList.forEach(row => {
+      const value = Number(row.differencevalue);
+      if (Number.isFinite(value)) {
+        totalDifference += value;
+      }
+    });
+    return {
+      reportType: 'meter_tracking',
+      reportTitle: t('Meter Tracking'),
+      space: { id: selectedSpaceID, name: selectedSpaceName ?? null },
+      energyCategory: {
+        value: energyCategory,
+        label: energyCategoryLabel
+      },
+      reportingPeriod: {
+        start: reportingPeriodDateRange[0]
+          ? moment(reportingPeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss')
+          : null,
+        end: reportingPeriodDateRange[1]
+          ? moment(reportingPeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss')
+          : null
+      },
+      integrityRates: {
+        start: startIntegrityRate,
+        end: endIntegrityRate,
+        full: fullIntegrityRate
+      },
+      trackingSummary: {
+        meterCount: meterList.length,
+        totalDifference
+      },
+      meterDataSample: meterList.slice(0, 80)
+    };
+  }, [
+    t,
+    selectedSpaceID,
+    selectedSpaceName,
+    energyCategory,
+    energyCategoryOptions,
+    reportingPeriodDateRange,
+    startIntegrityRate,
+    endIntegrityRate,
+    fullIntegrityRate,
+    meterList
+  ]);
+
+  const openSmartAnalysis = () => {
+    setSmartAnalysisContext(buildSmartAnalysisContext());
+    setSmartAnalysisOpen(true);
+  };
+
+  return (
+    <Fragment>
+      <div>
+        <Breadcrumb>
+          <BreadcrumbItem>{t('Meter Data')}</BreadcrumbItem>
+          <BreadcrumbItem active>{t('Meter Tracking')}</BreadcrumbItem>
+        </Breadcrumb>
+      </div>
+      <Card className="bg-light mb-3">
+        <CardBody className="p-3">
+          <Form onSubmit={handleSubmit}>
+            <Row form>
+              <Col xs={6} sm={3}>
+                <FormGroup className="form-group">
+                  <Label className={labelClasses} for="space">
+                    {t('Space')}
+                  </Label>
+                  <br />
+                  <Cascader
+                    options={cascaderOptions}
+                    onChange={onSpaceCascaderChange}
+                    changeOnSelect
+                    expandTrigger="hover"
+                  >
+                    <Input bsSize="sm" value={selectedSpaceName || ''} readOnly />
+                  </Cascader>
+                </FormGroup>
+              </Col>
+              <Col xs="auto">
+                <FormGroup>
+                  <Label className={labelClasses} for="energyCategory">
+                    {t('Energy Category')}
+                  </Label>
+                  <CustomInput
+                    type="select"
+                    id="energyCategory"
+                    name="energyCategory"
+                    bsSize="sm"
+                    onChange={({ target }) => setEnergyCategory(target.value)}
+                  >
+                    {energyCategoryOptions.map((energyCategory, index) => (
+                      <option value={energyCategory.value} key={energyCategory.value}>
+                        {t(energyCategory.label)}
+                      </option>
+                    ))}
+                  </CustomInput>
+                </FormGroup>
+              </Col>
+              <Col xs={6} sm={3}>
+                <FormGroup className="form-group">
+                  <Label className={labelClasses} for="reportingPeriodDateRangePicker">
+                    {t('Reporting Period')}
+                  </Label>
+                  <br />
+                  <DateRangePickerWrapper
+                    id="reportingPeriodDateRangePicker"
+                    format="yyyy-MM-dd HH:mm:ss"
+                    value={reportingPeriodDateRange}
+                    onChange={onReportingPeriodChange}
+                    size="sm"
+                    style={dateRangePickerStyle}
+                    onClean={onReportingPeriodClean}
+                    locale={dateRangePickerLocale}
+                    placeholder={t('Select Date Range')}
+                  />
+                </FormGroup>
+              </Col>
+              <Col xs="auto">
+                <FormGroup>
+                  <br />
+                  <ButtonGroup id="submit">
+                    <Button size="sm" color="success" disabled={submitButtonDisabled}>
+                      {t('Submit')}
+                    </Button>
+                  </ButtonGroup>
+                </FormGroup>
+              </Col>
+              <Col xs="auto">
+                <FormGroup>
+                  <br />
+                  <Spinner color="primary" hidden={spinnerHidden} />
+                </FormGroup>
+              </Col>
+              <Col xs="auto">
+                <br />
+                <ButtonIcon
+                  icon="external-link-alt"
+                  transform="shrink-3 down-2"
+                  color="falcon-default"
+                  size="sm"
+                  hidden={exportButtonHidden}
+                  onClick={handleExport}
+                >
+                  {t('Export')}
+                </ButtonIcon>
+              </Col>
+              {settings.enableAIAnalysis ? (
+                <Col xs="auto">
+                  <br />
+                  <Button
+                    color="falcon-default"
+                    size="sm"
+                    hidden={exportButtonHidden}
+                    onClick={openSmartAnalysis}
+                  >
+                    {t('AI Analysis')}
+                  </Button>
+                </Col>
+              ) : null}
+            </Row>
+          </Form>
+        </CardBody>
+      </Card>
+      <div
+        className="blank-page-image-container"
+        style={{ visibility: resultDataHidden ? 'visible' : 'hidden', display: resultDataHidden ? '' : 'none' }}
+      >
+        <img className="img-fluid" src={blankPage} alt="" />
+      </div>
+      <div style={{ visibility: resultDataHidden ? 'hidden' : 'visible', display: resultDataHidden ? 'none' : '' }}>
+        <div className="card-deck">
+          <CardSummary title={t('Start Integrity Rate')} color="success" description={t('Start Integrity Rate Description')}>
+            <CountUp end={startIntegrityRate} duration={2} prefix="" separator="," decimals={2} decimal="." />
+          </CardSummary>
+          <CardSummary title={t('End Integrity Rate')} color="success" description={t('End Integrity Rate Description')}>
+            <CountUp end={endIntegrityRate} duration={2} prefix="" separator="," decimals={2} decimal="." />
+          </CardSummary>
+          <CardSummary title={t('Full Integrity Rate')} color="warning" description={t('Full Integrity Rate Description')}>
+            <CountUp end={fullIntegrityRate} duration={2} prefix="" separator="," decimals={2} decimal="." />
+          </CardSummary>
+        </div>
+
+        <DetailedDataTable
+          data={meterList}
+          title={t('Meter List')}
+          columns={columns}
+          pagesize={50}
+          page={tablePage}
+          onChangePage={persistTablePage}
+        />
+      </div>
+      {settings.enableAIAnalysis ? (
+        <DeepSeekAnalysisModal
+          isOpen={smartAnalysisOpen}
+          toggle={() => setSmartAnalysisOpen(false)}
+          language={language}
+          reportContext={smartAnalysisContext}
+          setRedirect={setRedirect}
+          setRedirectUrl={setRedirectUrl}
+        />
+      ) : null}
+    </Fragment>
+  );
+};
+
+export default withTranslation()(withRedirect(MeterTracking));

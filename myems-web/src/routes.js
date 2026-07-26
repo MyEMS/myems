@@ -62,6 +62,7 @@ export const meterRoutes = {
   to: '/meter',
   icon: 'chart-pie',
   children: [
+    { to: '/meter', name: 'Dashboard' },
     { to: '/meter/meterenergy', name: 'Meter Energy' },
     { to: '/meter/metercarbon', name: 'Meter Carbon' },
     { to: '/meter/metercost', name: 'Meter Cost' },
