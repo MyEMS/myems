@@ -23,6 +23,6 @@ INSERT INTO myems_system_db.tbl_menus (id,name,route, parent_menu_id,is_hidden)
 VALUES (117,'Dashboard','/space',100,0);
 
 UPDATE `myems_system_db`.`tbl_versions`
-SET version='6.7.0RC', release_date='2026-07-26' WHERE id=1;
+SET version='6.7.0', release_date='2026-07-26' WHERE id=1;
 
 COMMIT;
