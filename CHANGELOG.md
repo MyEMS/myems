@@ -5,6 +5,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 ### Added
+### Changed
+### Fixed
+### Removed
+
+## [v6.7.0] - 2026-07-26
+### Added
 - added circle check to energy flow diagram in myems-api and myems-admin
 - added duplicate check for binding meter to space in myems-api and myems-admin
 - added duplicate check for binding meter to shopfloor in myems-api and myems-admin
@@ -2341,7 +2347,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Removed
 -   None.
 
-[Unreleased]: https://gitee.com/MyEMS/myems/compare/v6.6.0...HEAD
+[Unreleased]: https://gitee.com/MyEMS/myems/compare/v6.7.0...HEAD
+[6.7.0]: https://gitee.com/MyEMS/myems/compare/v6.6.0...v6.7.0
 [6.6.0]: https://gitee.com/MyEMS/myems/compare/v6.5.0...v6.6.0
 [6.5.0]: https://gitee.com/MyEMS/myems/compare/v6.4.0...v6.5.0
 [6.4.0]: https://gitee.com/MyEMS/myems/compare/v6.3.0...v6.4.0
