@@ -571,7 +571,7 @@ const SpaceDashboard = ({ setRedirect, setRedirectUrl, t }) => {
                         <CardSummary
                             key={cardSummaryItem['name']}
                             rate=""
-                            title={t('Reporting Period Consumption CATEGORY UNIT', {
+                            title={t('This Month\'s Consumption CATEGORY VALUE UNIT', {
                                 CATEGORY: cardSummaryItem['name'],
                                 UNIT: '(' + cardSummaryItem['unit'] + ')'
                             })}
@@ -599,7 +599,7 @@ const SpaceDashboard = ({ setRedirect, setRedirectUrl, t }) => {
                     {settings.showTCEData ? (
                         <CardSummary
                             rate=""
-                            title={t('Reporting Period Consumption CATEGORY UNIT', {
+                            title={t('This Month\'s Consumption CATEGORY VALUE UNIT', {
                                 CATEGORY: t('Ton of Standard Coal'),
                                 UNIT: '(TCE)'
                             })}
@@ -620,7 +620,7 @@ const SpaceDashboard = ({ setRedirect, setRedirectUrl, t }) => {
                     )}
                     <CardSummary
                         rate=""
-                        title={t('Reporting Period Consumption CATEGORY UNIT', {
+                        title={t('This Month\'s Consumption CATEGORY VALUE UNIT', {
                             CATEGORY: t('Ton of Carbon Dioxide Emissions'),
                             UNIT: '(TCO2E)'
                         })}
@@ -638,7 +638,7 @@ const SpaceDashboard = ({ setRedirect, setRedirectUrl, t }) => {
                     </CardSummary>
                     <CardSummary
                         rate=""
-                        title={t('Reporting Period Consumption CATEGORY UNIT', {
+                        title={t('This Month\'s Consumption CATEGORY VALUE UNIT', {
                             CATEGORY: t('Carbon Emissions Per Unit Of Energy Consumption'),
                             UNIT: '(TCO2E/TCE)'
                         })}
@@ -704,7 +704,7 @@ const SpaceDashboard = ({ setRedirect, setRedirectUrl, t }) => {
 
                 <MultiTrendChart
                     reportingTitle={{
-                        name: 'Reporting Period Consumption CATEGORY VALUE UNIT',
+                        name: 'This Month\'s Consumption CATEGORY VALUE UNIT',
                         substitute: ['CATEGORY', 'VALUE', 'UNIT'],
                         CATEGORY: spaceBaseAndReportingNames,
                         VALUE: spaceReportingSubtotals,
