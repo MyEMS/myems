@@ -605,15 +605,11 @@ class Reporting:
         result['reporting_period']['timestamps'] = list()
         result['reporting_period']['sub_averages'] = list()
         result['reporting_period']['sub_maximums'] = list()
-        result['reporting_period']['rates_of_sub_maximums'] = list()
         result['reporting_period']['averages'] = list()
         result['reporting_period']['averages_per_unit_area'] = list()
-        result['reporting_period']['averages_increment_rate'] = list()
         result['reporting_period']['maximums'] = list()
         result['reporting_period']['maximums_per_unit_area'] = list()
-        result['reporting_period']['maximums_increment_rate'] = list()
         result['reporting_period']['factors'] = list()
-        result['reporting_period']['factors_increment_rate'] = list()
 
         if energy_category_set is not None and len(energy_category_set) > 0:
             for energy_category_id in energy_category_set:
@@ -630,19 +626,7 @@ class Reporting:
                     shopfloor['area'] is not None and
                     shopfloor['area'] > Decimal(0.0)
                     else None)
-                result['reporting_period']['averages_increment_rate'].append(
-                    (reporting[energy_category_id]['average'] - base[energy_category_id]['average']) /
-                    base[energy_category_id]['average'] if (reporting[energy_category_id]['average'] is not None and
-                                                            base[energy_category_id]['average'] is not None and
-                                                            base[energy_category_id]['average'] > Decimal(0.0))
-                    else None)
                 result['reporting_period']['maximums'].append(reporting[energy_category_id]['maximum'])
-                result['reporting_period']['maximums_increment_rate'].append(
-                    (reporting[energy_category_id]['maximum'] - base[energy_category_id]['maximum']) /
-                    base[energy_category_id]['maximum'] if (reporting[energy_category_id]['maximum'] is not None and
-                                                            base[energy_category_id]['maximum'] is not None and
-                                                            base[energy_category_id]['maximum'] > Decimal(0.0))
-                    else None)
                 result['reporting_period']['maximums_per_unit_area'].append(
                     reporting[energy_category_id]['maximum'] / shopfloor['area']
                     if reporting[energy_category_id]['maximum'] is not None and
@@ -650,23 +634,6 @@ class Reporting:
                     shopfloor['area'] > Decimal(0.0)
                     else None)
                 result['reporting_period']['factors'].append(reporting[energy_category_id]['factor'])
-                result['reporting_period']['factors_increment_rate'].append(
-                    (reporting[energy_category_id]['factor'] - base[energy_category_id]['factor']) /
-                    base[energy_category_id]['factor'] if (reporting[energy_category_id]['factor'] is not None and
-                                                           base[energy_category_id]['factor'] is not None and
-                                                           base[energy_category_id]['factor'] > Decimal(0.0))
-                    else None)
-
-                rate = list()
-                for index, value in enumerate(reporting[energy_category_id]['sub_maximums']):
-                    if index < len(base[energy_category_id]['sub_maximums']) \
-                            and base[energy_category_id]['sub_maximums'][index] != 0 and value != 0\
-                            and base[energy_category_id]['sub_maximums'][index] is not None and value is not None:
-                        rate.append((value - base[energy_category_id]['sub_maximums'][index])
-                                    / base[energy_category_id]['sub_maximums'][index])
-                    else:
-                        rate.append(None)
-                result['reporting_period']['rates_of_sub_maximums'].append(rate)
 
         result['parameters'] = {
             "names": parameters_data['names'],
