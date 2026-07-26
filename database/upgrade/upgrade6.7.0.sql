@@ -1,8 +1,8 @@
 -- ---------------------------------------------------------------------------------------------------------------------
 -- 警告：升级前备份数据库
 -- WARNING: BACKUP YOUR DATABASE BEFORE UPGRADING
--- 此脚本仅用于将6.6.0升级到6.7.0RC
--- THIS SCRIPT IS ONLY FOR UPGRADING 6.6.0 TO 6.7.0RC
+-- 此脚本仅用于将6.6.0升级到6.7.0
+-- THIS SCRIPT IS ONLY FOR UPGRADING 6.6.0 TO 6.7.0
 -- 当前版本号在`myems_system_db`.`tbl_versions`中查看
 -- THE CURRENT VERSION CAN BE FOUND AT `myems_system_db`.`tbl_versions`
 -- ---------------------------------------------------------------------------------------------------------------------
