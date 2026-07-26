@@ -30,6 +30,7 @@ const MultiTrendChart = ({
   baseData,
   rates,
   options,
+  showTrendSummaryStats = true,
   t
 }) => {
   const [option, setOption] = useState('a0');
@@ -206,6 +207,94 @@ const MultiTrendChart = ({
     return t(name, title_parameter);
   };
 
+  const formatTrendSummaryValue = value => {
+    const numericValue = Number(value);
+    return Number.isFinite(numericValue) ? numericValue.toFixed(2) : '--';
+  };
+
+  const formatTrendSummaryWithUnit = (value, unit, withSpace = true) => {
+    const formattedValue = formatTrendSummaryValue(value);
+    if (!unit || unit === '()') {
+      return formattedValue;
+    }
+    return withSpace ? `${formattedValue} ${unit}` : `${formattedValue}${unit}`;
+  };
+
+  const getTrendSummaryStats = values => {
+    const numericValues = (Array.isArray(values) ? values : [])
+      .map(item => Number(item))
+      .filter(item => Number.isFinite(item));
+
+    if (numericValues.length === 0) {
+      return null;
+    }
+
+    const total = numericValues.reduce((sum, current) => sum + current, 0);
+    return {
+      mean: total / numericValues.length,
+      min: Math.min(...numericValues),
+      max: Math.max(...numericValues)
+    };
+  };
+
+  const shouldRenderTrendSummaryStats = () => {
+    const reportingTitleName = reportingTitle && reportingTitle.name;
+    const baseTitleName = baseTitle && baseTitle.name;
+    return (
+      showTrendSummaryStats &&
+      typeof reportingTitleName === 'string' &&
+      typeof baseTitleName === 'string' &&
+      reportingTitleName.indexOf('Reporting Period') > -1 &&
+      baseTitleName.indexOf('Base Period') > -1
+    );
+  };
+
+  const getTrendSummaryUnit = key => {
+    if (baseTitle && baseTitle.UNIT && baseTitle.UNIT[key]) {
+      return baseTitle.UNIT[key];
+    }
+    if (reportingTitle && reportingTitle.UNIT && reportingTitle.UNIT[key]) {
+      return reportingTitle.UNIT[key];
+    }
+    return null;
+  };
+
+  const renderBaseTitle = key => {
+    const titleText = parseTitleOrTooltipTitle(baseTitle, key);
+
+    if (!shouldRenderTrendSummaryStats() || typeof titleText !== 'string') {
+      return <span style={{ opacity: isDark ? 0.72 : 0.62 }}>{titleText}</span>;
+    }
+
+    const stats = getTrendSummaryStats(reportingData[key]);
+    if (!stats) {
+      return <span style={{ opacity: isDark ? 0.72 : 0.62 }}>{titleText}</span>;
+    }
+
+    const unit = getTrendSummaryUnit(key);
+    const statsSegments = [
+      `${t('mean')}:${formatTrendSummaryWithUnit(stats.mean, unit, false)}`,
+      `${t('min')}:${formatTrendSummaryWithUnit(stats.min, unit, false)}`,
+      `${t('max')}:${formatTrendSummaryWithUnit(stats.max, unit, false)}`
+    ];
+
+    return (
+      <span style={{ opacity: isDark ? 0.72 : 0.62 }}>
+        <span>{titleText}</span>
+        <span style={{ fontSize: '0.82em' }}>
+          {statsSegments.map((segment, index) => (
+            <React.Fragment key={`${segment}-${index}`}>
+              <span className="mx-1" aria-hidden="true">
+                |
+              </span>
+              <span style={{ whiteSpace: 'nowrap' }}>{segment}</span>
+            </React.Fragment>
+          ))}
+        </span>
+      </span>
+    );
+  };
+
   return (
     <Card className="mb-3">
       <CardBody className="rounded-soft">
@@ -216,9 +305,7 @@ const MultiTrendChart = ({
               <span className="mx-2" aria-hidden="true">
                 ｜
               </span>
-              <span style={{ opacity: isDark ? 0.72 : 0.62 }}>
-                {parseTitleOrTooltipTitle(baseTitle, option)}
-              </span>
+              {renderBaseTitle(option)}
             </h5>
           </Col>
           {isIterableArray(options) && (

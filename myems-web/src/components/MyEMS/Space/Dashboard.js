@@ -904,6 +904,7 @@ const SpaceEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => {
                     baseData={spaceBaseData}
                     rates={spaceReportingRates}
                     options={spaceReportingOptions}
+                    showTrendSummaryStats={false}
                 />
 
                 <MultipleLineChart
