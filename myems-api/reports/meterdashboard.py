@@ -122,9 +122,10 @@ class Reporting:
         if config.utc_offset[0] == '-':
             timezone_offset = -timezone_offset
 
-        if reporting_period_start_datetime_local is None:
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description="API.INVALID_REPORTING_PERIOD_START_DATETIME")
+        # Set default reporting period to current month if not provided
+        if reporting_period_start_datetime_local is None or len(str.strip(reporting_period_start_datetime_local)) == 0:
+            now = datetime.now().replace(tzinfo=timezone.utc) - timedelta(minutes=timezone_offset)
+            reporting_start_datetime_utc = now.replace(day=1, hour=0, minute=0, second=0, microsecond=0)
         else:
             reporting_period_start_datetime_local = str.strip(reporting_period_start_datetime_local)
             try:
@@ -141,9 +142,8 @@ class Reporting:
             else:
                 reporting_start_datetime_utc = reporting_start_datetime_utc.replace(minute=0, second=0, microsecond=0)
 
-        if reporting_period_end_datetime_local is None:
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description="API.INVALID_REPORTING_PERIOD_END_DATETIME")
+        if reporting_period_end_datetime_local is None or len(str.strip(reporting_period_end_datetime_local)) == 0:
+            reporting_end_datetime_utc = datetime.now().replace(tzinfo=timezone.utc) - timedelta(minutes=timezone_offset)
         else:
             reporting_period_end_datetime_local = str.strip(reporting_period_end_datetime_local)
             try:

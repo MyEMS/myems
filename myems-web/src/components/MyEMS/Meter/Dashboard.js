@@ -2,45 +2,31 @@ import React, { Fragment, useEffect, useState, useContext, useCallback } from 'r
 import {
   Breadcrumb,
   BreadcrumbItem,
-  Button,
-  ButtonGroup,
-  Card,
-  CardBody,
   Col,
   DropdownItem,
   DropdownMenu,
   DropdownToggle,
-  Form,
-  FormGroup,
-  Input,
-  Label,
   Media,
   Row,
   UncontrolledDropdown,
-  CustomInput,
   Spinner
 } from 'reactstrap';
 import CountUp from 'react-countup';
-import Cascader from 'rc-cascader';
-import DeepSeekAnalysisModal from '../common/DeepSeekAnalysisModal';
-import CardSummary from '../common/CardSummary';
 import moment from 'moment';
 import loadable from '@loadable/component';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Link } from 'react-router-dom';
 import Flex from '../../common/Flex';
+import CardSummary from '../common/CardSummary';
 import { getCookieValue, createCookie, checkEmpty, handleAPIError } from '../../../helpers/utils';
 import withRedirect from '../../../hoc/withRedirect';
 import { withTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
-import ButtonIcon from '../../common/ButtonIcon';
 import { APIBaseURL, settings } from '../../../config';
-import DateRangePickerWrapper from '../common/DateRangePickerWrapper';
-import { endOfDay } from 'date-fns';
 import Appcontext from '../../../context/Context';
 import blankPage from '../../../assets/img/generic/blank-page.png';
 
-const MeterTracking = ({ setRedirect, setRedirectUrl, t }) => {
+const MeterDashboard = ({ setRedirect, setRedirectUrl, t }) => {
   let current_moment = moment();
   useEffect(() => {
     let is_logged_in = getCookieValue('is_logged_in');
@@ -73,50 +59,17 @@ const MeterTracking = ({ setRedirect, setRedirectUrl, t }) => {
   }, [setRedirect, setRedirectUrl]);
 
   // State
-  const [selectedSpaceName, setSelectedSpaceName] = useState(undefined);
   const [selectedSpaceID, setSelectedSpaceID] = useState(undefined);
   const [meterList, setMeterList] = useState([]);
   const [cascaderOptions, setCascaderOptions] = useState(undefined);
-  const [energyCategoryOptions, setEnergyCategoryOptions] = useState([]);
-  const [energyCategory, setEnergyCategory] = useState('all');
 
-  //Query Form
-  const [reportingPeriodDateRange, setReportingPeriodDateRange] = useState([
-    current_moment
-      .clone()
-      .startOf('month')
-      .toDate(),
-    current_moment.toDate()
-  ]);
-  const dateRangePickerLocale = {
-    sunday: t('sunday'),
-    monday: t('monday'),
-    tuesday: t('tuesday'),
-    wednesday: t('wednesday'),
-    thursday: t('thursday'),
-    friday: t('friday'),
-    saturday: t('saturday'),
-    ok: t('ok'),
-    today: t('today'),
-    yesterday: t('yesterday'),
-    hours: t('hours'),
-    minutes: t('minutes'),
-    seconds: t('seconds'),
-    last7Days: t('last7Days'),
-    formattedMonthPattern: 'yyyy-MM-dd'
-  };
-  const dateRangePickerStyle = { display: 'block', zIndex: 10 };
   const { language } = useContext(Appcontext);
 
   // buttons
-  const [submitButtonDisabled, setSubmitButtonDisabled] = useState(true);
-  const [spinnerHidden, setSpinnerHidden] = useState(false);
-  const [exportButtonHidden, setExportButtonHidden] = useState(true);
+  const [loading, setLoading] = useState(true);
   const [resultDataHidden, setResultDataHidden] = useState(true);
-  const [smartAnalysisOpen, setSmartAnalysisOpen] = useState(false);
-  const [smartAnalysisContext, setSmartAnalysisContext] = useState(null);
+
   // Results
-  const [excelBytesBase64, setExcelBytesBase64] = useState(undefined);
   const [startIntegrityRate, setStartIntegrityRate] = useState(0);
   const [endIntegrityRate, setEndIntegrityRate] = useState(0);
   const [fullIntegrityRate, setFullIntegrityRate] = useState(0);
@@ -137,58 +90,77 @@ const MeterTracking = ({ setRedirect, setRedirectUrl, t }) => {
     setTablePage(next);
   }, []);
 
-  const loadEnergyCategories = useCallback(
-    spaceId => {
-      if (!spaceId) {
-        setEnergyCategoryOptions([{ value: 'all', label: t('All'), uuid: '' }]);
-        setEnergyCategory('all');
-        setSubmitButtonDisabled(false);
-        return;
-      }
-      let isResponseOK = false;
-      setSubmitButtonDisabled(true);
-      fetch(`${APIBaseURL}/spaces/${spaceId}/treemetersenergycategories`, {
-        method: 'GET',
-        headers: {
-          'Content-type': 'application/json',
-          'User-UUID': getCookieValue('user_uuid'),
-          Token: getCookieValue('token')
-        },
-        body: null
-      })
+  // Load data with default parameters (current month)
+  const loadData = useCallback(
+    (spaceId) => {
+      if (!spaceId) return;
+      
+      setLoading(true);
+      setResultDataHidden(true);
+
+      const now = moment();
+      const startDatetime = now.clone().startOf('month').format('YYYY-MM-DDTHH:mm:ss');
+      const endDatetime = now.format('YYYY-MM-DDTHH:mm:ss');
+
+      fetch(
+        APIBaseURL +
+          '/reports/meterdashboard?' +
+          'spaceid=' + spaceId +
+          '&energyCategory=all' +
+          '&reportingperiodstartdatetime=' + startDatetime +
+          '&reportingperiodenddatetime=' + endDatetime +
+          '&language=' + language,
+        {
+          method: 'GET',
+          headers: {
+            'Content-type': 'application/json',
+            'User-UUID': getCookieValue('user_uuid'),
+            Token: getCookieValue('token')
+          },
+          body: null
+        }
+      )
         .then(response => {
-          if (response.ok) {
-            isResponseOK = true;
+          if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
           }
           return response.json();
         })
         .then(json => {
-          if (isResponseOK) {
-            json = JSON.parse(
-              JSON.stringify([json])
-                .split('"id":')
-                .join('"value":')
-                .split('"name":')
-                .join('"label":')
-            );
-            if (json[0].length > 0) {
-              setEnergyCategoryOptions([{ value: 'all', label: t('All'), uuid: '' }].concat(json[0]));
-            } else {
-              setEnergyCategoryOptions([{ value: 'all', label: t('All'), uuid: '' }]);
-            }
-            setEnergyCategory('all');
-          } else {
-            handleAPIError(json, setRedirect, setRedirectUrl, t, toast);
-          }
+          let meters = [];
+          json['meters'].forEach((currentValue, index) => {
+            meters.push({
+              id: currentValue['id'],
+              uuid: currentValue['meter_uuid'],
+              name: currentValue['meter_name'],
+              space: currentValue['space_name'],
+              costcenter: currentValue['cost_center_name'],
+              energycategory: currentValue['energy_category_name'],
+              description: currentValue['description'],
+              startvalue: currentValue['start_value'],
+              endvalue: currentValue['end_value'],
+              differencevalue: currentValue['difference_value']
+            });
+          });
+          setMeterList(meters);
+          const totalPages = Math.max(1, Math.ceil(meters.length / 50));
+          const nextPage = Math.min(tablePage || 1, totalPages);
+          persistTablePage(nextPage);
+
+          setStartIntegrityRate(json['start_integrity_rate'] * 100);
+          setEndIntegrityRate(json['end_integrity_rate'] * 100);
+          setFullIntegrityRate(json['full_integrity_rate'] * 100);
+
+          setLoading(false);
+          setResultDataHidden(false);
         })
         .catch(err => {
-          console.log(err);
-        })
-        .finally(() => {
-          setSubmitButtonDisabled(false);
+          console.error('Load data error:', err);
+          setLoading(false);
+          toast.error(t('Failed to load data. Please try again.'));
         });
     },
-    [t]
+    [language, tablePage, persistTablePage, t]
   );
 
   useEffect(() => {
@@ -220,29 +192,23 @@ const MeterTracking = ({ setRedirect, setRedirectUrl, t }) => {
           );
           setCascaderOptions(json);
           if (json[0]) {
-            const defaultSpace = json[0];
-            setSelectedSpaceName(defaultSpace.label);
-            const defaultSpaceId = defaultSpace.value;
+            const defaultSpaceId = json[0].value;
             setSelectedSpaceID(defaultSpaceId);
-            loadEnergyCategories(defaultSpaceId);
+            loadData(defaultSpaceId);
           } else {
-            setSelectedSpaceName(undefined);
             setSelectedSpaceID(undefined);
-            setEnergyCategoryOptions([{ value: 'all', label: t('All'), uuid: '' }]);
-            setSubmitButtonDisabled(false);
+            setLoading(false);
           }
-          // hide export button
-          setExportButtonHidden(true);
-          setSpinnerHidden(true);
         } else {
           handleAPIError(json, setRedirect, setRedirectUrl, t, toast);
         }
       })
       .catch(err => {
-        console.log(err);
-        setSubmitButtonDisabled(false);
+        console.error('Get space tree error:', err);
+        setLoading(false);
+        toast.error(t('Failed to load space data.'));
       });
-  }, [t, loadEnergyCategories]);
+  }, [loadData, t, setRedirect, setRedirectUrl]);
 
   const DetailedDataTable = loadable(() => import('../common/DetailedDataTable'));
 
@@ -257,8 +223,6 @@ const MeterTracking = ({ setRedirect, setRedirectUrl, t }) => {
   );
 
   const actionFormatter = (dataField, { id }) => (
-    // Control your row with this id
-    // todo: add edit meter function
     <UncontrolledDropdown>
       <DropdownToggle color="link" size="sm" className="text-600 btn-reveal mr-3">
         <FontAwesomeIcon icon="ellipsis-h" className="fs--1" />
@@ -336,309 +300,9 @@ const MeterTracking = ({ setRedirect, setRedirectUrl, t }) => {
     },
   ];
 
-  const labelClasses = 'ls text-uppercase text-600 font-weight-semi-bold mb-0';
-
-  let onSpaceCascaderChange = (value, selectedOptions) => {
-    setSelectedSpaceName(selectedOptions.map(o => o.label).join('/'));
-    const nextSpaceId = value[value.length - 1];
-    setSelectedSpaceID(nextSpaceId);
-    setResultDataHidden(true);
-    setMeterList([]);
-    persistTablePage(1);
-    loadEnergyCategories(nextSpaceId);
-  };
-
-  let onReportingPeriodChange = DateRange => {
-    if (DateRange == null) {
-      setReportingPeriodDateRange([null, null]);
-    } else {
-      if (moment(DateRange[1]).format('HH:mm:ss') === '00:00:00') {
-        // if the user did not change time value, set the default time to the end of day
-        DateRange[1] = endOfDay(DateRange[1]);
-      }
-      setReportingPeriodDateRange([DateRange[0], DateRange[1]]);
-    }
-  };
-
-  let onReportingPeriodClean = event => {
-    setReportingPeriodDateRange([null, null]);
-  };
-
-  // Handler
-  const handleSubmit = e => {
-    e.preventDefault();
-    // disable submit button
-    setSubmitButtonDisabled(true);
-    // show spinner
-    setSpinnerHidden(false);
-    // hide export button
-    setExportButtonHidden(true);
-    // hide result data
-    setResultDataHidden(true);
-    // Reinitialize tables
-    setMeterList([]);
-    persistTablePage(1);
-
-    let isResponseOK = false;
-    fetch(
-      APIBaseURL +
-        '/reports/meterdashboard?' +
-        'spaceid=' +
-        selectedSpaceID +
-        '&energyCategory=' +
-        energyCategory +
-        '&reportingperiodstartdatetime=' +
-        moment(reportingPeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss') +
-        '&reportingperiodenddatetime=' +
-        moment(reportingPeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss') +
-        '&language=' +
-        language,
-      {
-        method: 'GET',
-        headers: {
-          'Content-type': 'application/json',
-          'User-UUID': getCookieValue('user_uuid'),
-          Token: getCookieValue('token')
-        },
-        body: null
-      }
-    )
-      .then(response => {
-        if (response.ok) {
-          isResponseOK = true;
-        }
-        return response.json();
-      })
-      .then(json => {
-        if (isResponseOK) {
-          let meters = [];
-          json['meters'].forEach((currentValue, index) => {
-            meters.push({
-              id: currentValue['id'],
-              uuid: currentValue['meter_uuid'],
-              name: currentValue['meter_name'],
-              space: currentValue['space_name'],
-              costcenter: currentValue['cost_center_name'],
-              energycategory: currentValue['energy_category_name'],
-              description: currentValue['description'],
-              startvalue: currentValue['start_value'],
-              endvalue: currentValue['end_value'],
-              differencevalue: currentValue['difference_value']
-            });
-          });
-          setMeterList(meters);
-          const totalPages = Math.max(1, Math.ceil(meters.length / 50));
-          const nextPage = Math.min(tablePage || 1, totalPages);
-          persistTablePage(nextPage);
-
-          setStartIntegrityRate(json['start_integrity_rate'] * 100);
-          setEndIntegrityRate(json['end_integrity_rate'] * 100);
-          setFullIntegrityRate(json['full_integrity_rate'] * 100);
-
-          setExcelBytesBase64(json['excel_bytes_base64']);
-
-          // enable submit button
-          setSubmitButtonDisabled(false);
-          // hide spinner
-          setSpinnerHidden(true);
-          // show export button
-          setExportButtonHidden(false);
-          // show result data
-          setResultDataHidden(false);
-        } else {
-          handleAPIError(json, setRedirect, setRedirectUrl, t, toast);
-        }
-      })
-      .catch(err => {
-        console.log(err);
-      });
-  };
-
-  const handleExport = e => {
-    e.preventDefault();
-    const mimeType = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
-    const fileName = 'metertracking.xlsx';
-    var fileUrl = 'data:' + mimeType + ';base64,' + excelBytesBase64;
-    fetch(fileUrl)
-      .then(response => response.blob())
-      .then(blob => {
-        var link = window.document.createElement('a');
-        link.href = window.URL.createObjectURL(blob, { type: mimeType });
-        link.download = fileName;
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-      });
-  };
-
-  const buildSmartAnalysisContext = useCallback(() => {
-    const energyCategoryLabel =
-      energyCategoryOptions.find(c => String(c.value) === String(energyCategory))?.label ?? energyCategory;
-    let totalDifference = 0;
-    meterList.forEach(row => {
-      const value = Number(row.differencevalue);
-      if (Number.isFinite(value)) {
-        totalDifference += value;
-      }
-    });
-    return {
-      reportType: 'meter_tracking',
-      reportTitle: t('Meter Tracking'),
-      space: { id: selectedSpaceID, name: selectedSpaceName ?? null },
-      energyCategory: {
-        value: energyCategory,
-        label: energyCategoryLabel
-      },
-      reportingPeriod: {
-        start: reportingPeriodDateRange[0]
-          ? moment(reportingPeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss')
-          : null,
-        end: reportingPeriodDateRange[1]
-          ? moment(reportingPeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss')
-          : null
-      },
-      integrityRates: {
-        start: startIntegrityRate,
-        end: endIntegrityRate,
-        full: fullIntegrityRate
-      },
-      trackingSummary: {
-        meterCount: meterList.length,
-        totalDifference
-      },
-      meterDataSample: meterList.slice(0, 80)
-    };
-  }, [
-    t,
-    selectedSpaceID,
-    selectedSpaceName,
-    energyCategory,
-    energyCategoryOptions,
-    reportingPeriodDateRange,
-    startIntegrityRate,
-    endIntegrityRate,
-    fullIntegrityRate,
-    meterList
-  ]);
-
-  const openSmartAnalysis = () => {
-    setSmartAnalysisContext(buildSmartAnalysisContext());
-    setSmartAnalysisOpen(true);
-  };
-
   return (
     <Fragment>
-      <div>
-        <Breadcrumb>
-          <BreadcrumbItem>{t('Meter Data')}</BreadcrumbItem>
-          <BreadcrumbItem active>{t('Meter Tracking')}</BreadcrumbItem>
-        </Breadcrumb>
-      </div>
-      <Card className="bg-light mb-3">
-        <CardBody className="p-3">
-          <Form onSubmit={handleSubmit}>
-            <Row form>
-              <Col xs={6} sm={3}>
-                <FormGroup className="form-group">
-                  <Label className={labelClasses} for="space">
-                    {t('Space')}
-                  </Label>
-                  <br />
-                  <Cascader
-                    options={cascaderOptions}
-                    onChange={onSpaceCascaderChange}
-                    changeOnSelect
-                    expandTrigger="hover"
-                  >
-                    <Input bsSize="sm" value={selectedSpaceName || ''} readOnly />
-                  </Cascader>
-                </FormGroup>
-              </Col>
-              <Col xs="auto">
-                <FormGroup>
-                  <Label className={labelClasses} for="energyCategory">
-                    {t('Energy Category')}
-                  </Label>
-                  <CustomInput
-                    type="select"
-                    id="energyCategory"
-                    name="energyCategory"
-                    bsSize="sm"
-                    onChange={({ target }) => setEnergyCategory(target.value)}
-                  >
-                    {energyCategoryOptions.map((energyCategory, index) => (
-                      <option value={energyCategory.value} key={energyCategory.value}>
-                        {t(energyCategory.label)}
-                      </option>
-                    ))}
-                  </CustomInput>
-                </FormGroup>
-              </Col>
-              <Col xs={6} sm={3}>
-                <FormGroup className="form-group">
-                  <Label className={labelClasses} for="reportingPeriodDateRangePicker">
-                    {t('Reporting Period')}
-                  </Label>
-                  <br />
-                  <DateRangePickerWrapper
-                    id="reportingPeriodDateRangePicker"
-                    format="yyyy-MM-dd HH:mm:ss"
-                    value={reportingPeriodDateRange}
-                    onChange={onReportingPeriodChange}
-                    size="sm"
-                    style={dateRangePickerStyle}
-                    onClean={onReportingPeriodClean}
-                    locale={dateRangePickerLocale}
-                    placeholder={t('Select Date Range')}
-                  />
-                </FormGroup>
-              </Col>
-              <Col xs="auto">
-                <FormGroup>
-                  <br />
-                  <ButtonGroup id="submit">
-                    <Button size="sm" color="success" disabled={submitButtonDisabled}>
-                      {t('Submit')}
-                    </Button>
-                  </ButtonGroup>
-                </FormGroup>
-              </Col>
-              <Col xs="auto">
-                <FormGroup>
-                  <br />
-                  <Spinner color="primary" hidden={spinnerHidden} />
-                </FormGroup>
-              </Col>
-              <Col xs="auto">
-                <br />
-                <ButtonIcon
-                  icon="external-link-alt"
-                  transform="shrink-3 down-2"
-                  color="falcon-default"
-                  size="sm"
-                  hidden={exportButtonHidden}
-                  onClick={handleExport}
-                >
-                  {t('Export')}
-                </ButtonIcon>
-              </Col>
-              {settings.enableAIAnalysis ? (
-                <Col xs="auto">
-                  <br />
-                  <Button
-                    color="falcon-default"
-                    size="sm"
-                    hidden={exportButtonHidden}
-                    onClick={openSmartAnalysis}
-                  >
-                    {t('AI Analysis')}
-                  </Button>
-                </Col>
-              ) : null}
-            </Row>
-          </Form>
-        </CardBody>
-      </Card>
+      <Spinner color="primary" hidden={!loading} />
       <div
         className="blank-page-image-container"
         style={{ visibility: resultDataHidden ? 'visible' : 'hidden', display: resultDataHidden ? '' : 'none' }}
@@ -667,18 +331,8 @@ const MeterTracking = ({ setRedirect, setRedirectUrl, t }) => {
           onChangePage={persistTablePage}
         />
       </div>
-      {settings.enableAIAnalysis ? (
-        <DeepSeekAnalysisModal
-          isOpen={smartAnalysisOpen}
-          toggle={() => setSmartAnalysisOpen(false)}
-          language={language}
-          reportContext={smartAnalysisContext}
-          setRedirect={setRedirect}
-          setRedirectUrl={setRedirectUrl}
-        />
-      ) : null}
     </Fragment>
   );
 };
 
-export default withTranslation()(withRedirect(MeterTracking));
+export default withTranslation()(withRedirect(MeterDashboard));
