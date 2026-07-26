@@ -92,6 +92,8 @@ export default {
         'Meter Count': 'تتبع العداد Count',
         'Virtual Meter Count': 'Virtual Meter Count',
         'Offline Meter Count': 'Offline Meter Count',
+        'Virtual Meter List': 'قائمة العدادات الافتراضية',
+        'Offline Meter List': 'قائمة العدادات غير المتصلة',
         'Virtual Meter Saving': 'توفير العداد الافتراضيⒺ',
         'Virtual Meter Plan': 'خطة العدادات الافتراضيةⒺ',
         'Virtual Meter Energy': 'طاقة العداد الافتراضي',

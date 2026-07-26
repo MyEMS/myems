@@ -92,6 +92,8 @@ export default {
         'Meter Count': 'Rejestr liczników Count',
         'Virtual Meter Count': 'Virtual Meter Count',
         'Offline Meter Count': 'Offline Meter Count',
+        'Virtual Meter List': 'Lista Wirtualnych Liczników',
+        'Offline Meter List': 'Lista Liczników Offline',
         'Virtual Meter Saving': 'Analiza oszczędności energii przez liczniki wirtualneⒺ',
         'Virtual Meter Plan': 'Analiza planistyczna liczników wirtualnychⒺ',
         'Virtual Meter Energy': 'Analiza zużycia energii przez liczniki wirtualne',

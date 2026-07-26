@@ -1,4 +1,4 @@
-﻿// Auto-split from i18n.js — language: vi
+// Auto-split from i18n.js — language: vi
 export default {
     translation: {
         // routes & menus
@@ -92,6 +92,8 @@ export default {
         'Meter Count': 'Theo dõi đồng hồ đo Count',
         'Virtual Meter Count': 'Virtual Meter Count',
         'Offline Meter Count': 'Offline Meter Count',
+        'Virtual Meter List': 'Danh sách đồng hồ ảo',
+        'Offline Meter List': 'Danh sách đồng hồ ngoại tuyến',
         'Virtual Meter Saving': 'Tiết kiệm đồng hồ ảoⒺ',
         'Virtual Meter Plan': 'Kế hoạch đồng hồ ảoⒺ',
         'Virtual Meter Energy': 'Năng lượng đồng hồ ảo',

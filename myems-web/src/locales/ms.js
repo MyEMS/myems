@@ -92,6 +92,8 @@ export default {
         'Meter Count': 'Penjejakan Meter Count',
         'Virtual Meter Count': 'Virtual Meter Count',
         'Offline Meter Count': 'Offline Meter Count',
+        'Virtual Meter List': 'Senarai Meter Maya',
+        'Offline Meter List': 'Senarai Meter Luar Talian',
         'Virtual Meter Saving': 'Penjimatan Meter MayaⒺ',
         'Virtual Meter Plan': 'Pelan Meter MayaⒺ',
         'Virtual Meter Energy': 'Tenaga Meter Maya',

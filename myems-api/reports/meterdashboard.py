@@ -385,41 +385,211 @@ class Reporting:
                         else:
                             meter_dict[meter_id]['difference_value'] = None
 
-                # Count virtual meters in the space tree
-                virtual_meter_count = 0
+                # Query virtual meters in the space tree
+                virtual_meter_dict = dict()
                 if config.is_recursive:
-                    cursor_system_db.execute(
-                        " SELECT COUNT(*) "
-                        " FROM tbl_spaces s, tbl_spaces_virtual_meters svm, tbl_virtual_meters vm "
-                        " WHERE s.id IN ( " + ', '.join(map(str, space_dict.keys())) + ") "
-                        "       AND svm.space_id = s.id AND svm.virtual_meter_id = vm.id ", )
+                    cursor_system_db.execute(" SELECT vm.id, vm.name AS virtual_meter_name, s.id AS space_id, "
+                                             "        cc.name AS cost_center_name, ec.name AS energy_category_name, "
+                                             "         vm.description, vm.uuid AS virtual_meter_uuid "
+                                             " FROM tbl_spaces s, tbl_spaces_virtual_meters svm, "
+                                             "tbl_virtual_meters vm, tbl_cost_centers cc, "
+                                             "      tbl_energy_categories ec "
+                                             " WHERE s.id IN ( " + ', '.join(map(str, space_dict.keys())) + ") "
+                                             "       AND svm.space_id = s.id AND svm.virtual_meter_id = vm.id "
+                                             + energy_category_query +
+                                             " AND vm.cost_center_id = cc.id AND vm.energy_category_id = ec.id "
+                                             " ORDER BY virtual_meter_id ", )
                 else:
-                    cursor_system_db.execute(
-                        " SELECT COUNT(*) "
-                        " FROM tbl_spaces s, tbl_spaces_virtual_meters svm, tbl_virtual_meters vm "
-                        " WHERE s.id = %s AND svm.space_id = s.id AND svm.virtual_meter_id = vm.id ",
-                        (space_id,))
-                row = cursor_system_db.fetchone()
-                if row is not None:
-                    virtual_meter_count = row[0]
+                    cursor_system_db.execute(" SELECT vm.id, vm.name AS virtual_meter_name, s.id AS space_id, "
+                                             "        cc.name AS cost_center_name, ec.name AS energy_category_name, "
+                                             "         vm.description, vm.uuid AS virtual_meter_uuid "
+                                             " FROM tbl_spaces s, tbl_spaces_virtual_meters svm, "
+                                             "tbl_virtual_meters vm, tbl_cost_centers cc, "
+                                             "      tbl_energy_categories ec "
+                                             " WHERE s.id = %s AND svm.space_id = s.id AND svm.virtual_meter_id = vm.id "
+                                             + energy_category_query +
+                                             " AND vm.cost_center_id = cc.id AND vm.energy_category_id = ec.id  "
+                                             " ORDER BY virtual_meter_id ", (space_id,))
+
+                rows_virtual_meters = cursor_system_db.fetchall()
+                if rows_virtual_meters is not None and len(rows_virtual_meters) > 0:
+                    for row in rows_virtual_meters:
+                        space_node = node_dict.get(row[2])
+                        full_space_path = get_full_space_path(space_node) if space_node else row[2]
+                        virtual_meter_dict[row[0]] = {"virtual_meter_name": row[1],
+                                                      "space_name": full_space_path,
+                                                      "cost_center_name": row[3],
+                                                      "energy_category_name": row[4],
+                                                      "description": row[5],
+                                                      "virtual_meter_uuid": row[6],
+                                                      "start_value": None,
+                                                      "end_value": None,
+                                                      "difference_value": None}
+
+                # Count virtual meters in the space tree
+                virtual_meter_count = len(virtual_meter_dict)
+
+                if virtual_meter_dict:
+                    cnx_energy = mysql.connector.connect(**config.myems_energy_db)
+                    cursor_energy = cnx_energy.cursor()
+                    try:
+                        virtual_meter_ids = list(virtual_meter_dict.keys())
+                        placeholders = ','.join(['%s'] * len(virtual_meter_ids))
+                        
+                        # Query start value from tbl_virtual_meter_hourly
+                        s_start = reporting_start_datetime_utc - timedelta(hours=1)
+                        s_end = reporting_start_datetime_utc
+                        cursor_energy.execute(
+                            "SELECT virtual_meter_id, actual_value "
+                            "FROM tbl_virtual_meter_hourly "
+                            "WHERE virtual_meter_id IN (" + placeholders + ") "
+                            "AND start_datetime_utc >= %s "
+                            "AND start_datetime_utc < %s "
+                            "ORDER BY start_datetime_utc DESC",
+                            tuple(virtual_meter_ids) + (s_start, s_end)
+                        )
+                        virtual_start_rows = cursor_energy.fetchall()
+                        virtual_start_map = {}
+                        for vmid, val in virtual_start_rows:
+                            if vmid not in virtual_start_map:
+                                virtual_start_map[vmid] = val
+
+                        # Query end value from tbl_virtual_meter_hourly
+                        e_start = reporting_end_datetime_utc - timedelta(hours=1)
+                        e_end = reporting_end_datetime_utc
+                        cursor_energy.execute(
+                            "SELECT virtual_meter_id, actual_value "
+                            "FROM tbl_virtual_meter_hourly "
+                            "WHERE virtual_meter_id IN (" + placeholders + ") "
+                            "AND start_datetime_utc >= %s "
+                            "AND start_datetime_utc < %s "
+                            "ORDER BY start_datetime_utc DESC",
+                            tuple(virtual_meter_ids) + (e_start, e_end)
+                        )
+                        virtual_end_rows = cursor_energy.fetchall()
+                        virtual_end_map = {}
+                        for vmid, val in virtual_end_rows:
+                            if vmid not in virtual_end_map:
+                                virtual_end_map[vmid] = val
+
+                        for vm_id in virtual_meter_dict:
+                            s_val = virtual_start_map.get(vm_id, None)
+                            e_val = virtual_end_map.get(vm_id, None)
+
+                            virtual_meter_dict[vm_id]['start_value'] = s_val
+                            virtual_meter_dict[vm_id]['end_value'] = e_val
+                            if s_val is not None and e_val is not None:
+                                virtual_meter_dict[vm_id]['difference_value'] = e_val - s_val
+                            else:
+                                virtual_meter_dict[vm_id]['difference_value'] = None
+                    finally:
+                        if cursor_energy:
+                            cursor_energy.close()
+                        if cnx_energy:
+                            cnx_energy.close()
+
+                # Query offline meters in the space tree
+                offline_meter_dict = dict()
+                if config.is_recursive:
+                    cursor_system_db.execute(" SELECT om.id, om.name AS offline_meter_name, s.id AS space_id, "
+                                             "        cc.name AS cost_center_name, ec.name AS energy_category_name, "
+                                             "         om.description, om.uuid AS offline_meter_uuid "
+                                             " FROM tbl_spaces s, tbl_spaces_offline_meters som, "
+                                             "tbl_offline_meters om, tbl_cost_centers cc, "
+                                             "      tbl_energy_categories ec "
+                                             " WHERE s.id IN ( " + ', '.join(map(str, space_dict.keys())) + ") "
+                                             "       AND som.space_id = s.id AND som.offline_meter_id = om.id "
+                                             + energy_category_query +
+                                             " AND om.cost_center_id = cc.id AND om.energy_category_id = ec.id "
+                                             " ORDER BY offline_meter_id ", )
+                else:
+                    cursor_system_db.execute(" SELECT om.id, om.name AS offline_meter_name, s.id AS space_id, "
+                                             "        cc.name AS cost_center_name, ec.name AS energy_category_name, "
+                                             "         om.description, om.uuid AS offline_meter_uuid "
+                                             " FROM tbl_spaces s, tbl_spaces_offline_meters som, "
+                                             "tbl_offline_meters om, tbl_cost_centers cc, "
+                                             "      tbl_energy_categories ec "
+                                             " WHERE s.id = %s AND som.space_id = s.id AND som.offline_meter_id = om.id "
+                                             + energy_category_query +
+                                             " AND om.cost_center_id = cc.id AND om.energy_category_id = ec.id  "
+                                             " ORDER BY offline_meter_id ", (space_id,))
+
+                rows_offline_meters = cursor_system_db.fetchall()
+                if rows_offline_meters is not None and len(rows_offline_meters) > 0:
+                    for row in rows_offline_meters:
+                        space_node = node_dict.get(row[2])
+                        full_space_path = get_full_space_path(space_node) if space_node else row[2]
+                        offline_meter_dict[row[0]] = {"offline_meter_name": row[1],
+                                                      "space_name": full_space_path,
+                                                      "cost_center_name": row[3],
+                                                      "energy_category_name": row[4],
+                                                      "description": row[5],
+                                                      "offline_meter_uuid": row[6],
+                                                      "start_value": None,
+                                                      "end_value": None,
+                                                      "difference_value": None}
 
                 # Count offline meters in the space tree
-                offline_meter_count = 0
-                if config.is_recursive:
-                    cursor_system_db.execute(
-                        " SELECT COUNT(*) "
-                        " FROM tbl_spaces s, tbl_spaces_offline_meters som, tbl_offline_meters om "
-                        " WHERE s.id IN ( " + ', '.join(map(str, space_dict.keys())) + ") "
-                        "       AND som.space_id = s.id AND som.offline_meter_id = om.id ", )
-                else:
-                    cursor_system_db.execute(
-                        " SELECT COUNT(*) "
-                        " FROM tbl_spaces s, tbl_spaces_offline_meters som, tbl_offline_meters om "
-                        " WHERE s.id = %s AND som.space_id = s.id AND som.offline_meter_id = om.id ",
-                        (space_id,))
-                row = cursor_system_db.fetchone()
-                if row is not None:
-                    offline_meter_count = row[0]
+                offline_meter_count = len(offline_meter_dict)
+
+                if offline_meter_dict:
+                    cnx_energy = mysql.connector.connect(**config.myems_energy_db)
+                    cursor_energy = cnx_energy.cursor()
+                    try:
+                        offline_meter_ids = list(offline_meter_dict.keys())
+                        placeholders = ','.join(['%s'] * len(offline_meter_ids))
+                        
+                        # Query start value from tbl_offline_meter_hourly
+                        s_start = reporting_start_datetime_utc - timedelta(hours=1)
+                        s_end = reporting_start_datetime_utc
+                        cursor_energy.execute(
+                            "SELECT offline_meter_id, actual_value "
+                            "FROM tbl_offline_meter_hourly "
+                            "WHERE offline_meter_id IN (" + placeholders + ") "
+                            "AND start_datetime_utc >= %s "
+                            "AND start_datetime_utc < %s "
+                            "ORDER BY start_datetime_utc DESC",
+                            tuple(offline_meter_ids) + (s_start, s_end)
+                        )
+                        offline_start_rows = cursor_energy.fetchall()
+                        offline_start_map = {}
+                        for omid, val in offline_start_rows:
+                            if omid not in offline_start_map:
+                                offline_start_map[omid] = val
+
+                        # Query end value from tbl_offline_meter_hourly
+                        e_start = reporting_end_datetime_utc - timedelta(hours=1)
+                        e_end = reporting_end_datetime_utc
+                        cursor_energy.execute(
+                            "SELECT offline_meter_id, actual_value "
+                            "FROM tbl_offline_meter_hourly "
+                            "WHERE offline_meter_id IN (" + placeholders + ") "
+                            "AND start_datetime_utc >= %s "
+                            "AND start_datetime_utc < %s "
+                            "ORDER BY start_datetime_utc DESC",
+                            tuple(offline_meter_ids) + (e_start, e_end)
+                        )
+                        offline_end_rows = cursor_energy.fetchall()
+                        offline_end_map = {}
+                        for omid, val in offline_end_rows:
+                            if omid not in offline_end_map:
+                                offline_end_map[omid] = val
+
+                        for om_id in offline_meter_dict:
+                            s_val = offline_start_map.get(om_id, None)
+                            e_val = offline_end_map.get(om_id, None)
+
+                            offline_meter_dict[om_id]['start_value'] = s_val
+                            offline_meter_dict[om_id]['end_value'] = e_val
+                            if s_val is not None and e_val is not None:
+                                offline_meter_dict[om_id]['difference_value'] = e_val - s_val
+                            else:
+                                offline_meter_dict[om_id]['difference_value'] = None
+                    finally:
+                        if cursor_energy:
+                            cursor_energy.close()
+                        if cnx_energy:
+                            cnx_energy.close()
 
             finally:
                 if cursor_system_db:
@@ -451,10 +621,42 @@ class Reporting:
                 "meter_uuid": meter['meter_uuid']
             })
 
+        virtual_meter_list = list()
+        for vm_id, vm in virtual_meter_dict.items():
+            virtual_meter_list.append({
+                "id": vm_id,
+                "virtual_meter_name": vm['virtual_meter_name'],
+                "space_name": vm['space_name'],
+                "cost_center_name": vm['cost_center_name'],
+                "energy_category_name": vm['energy_category_name'],
+                "description": vm['description'],
+                "start_value": vm['start_value'],
+                "end_value": vm['end_value'],
+                "difference_value": vm['difference_value'],
+                "virtual_meter_uuid": vm['virtual_meter_uuid']
+            })
+
+        offline_meter_list = list()
+        for om_id, om in offline_meter_dict.items():
+            offline_meter_list.append({
+                "id": om_id,
+                "offline_meter_name": om['offline_meter_name'],
+                "space_name": om['space_name'],
+                "cost_center_name": om['cost_center_name'],
+                "energy_category_name": om['energy_category_name'],
+                "description": om['description'],
+                "start_value": om['start_value'],
+                "end_value": om['end_value'],
+                "difference_value": om['difference_value'],
+                "offline_meter_uuid": om['offline_meter_uuid']
+            })
+
         result = {
             'meters': meter_list,
             'meter_count': meter_count,
+            'virtual_meters': virtual_meter_list,
             'virtual_meter_count': virtual_meter_count,
+            'offline_meters': offline_meter_list,
             'offline_meter_count': offline_meter_count
         }
         resp_text = json.dumps(result)

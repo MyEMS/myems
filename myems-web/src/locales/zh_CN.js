@@ -92,6 +92,8 @@ export default {
         'Meter Count': '计量表数量',
         'Virtual Meter Count': '虚拟表数量',
         'Offline Meter Count': '离线表数量',
+        'Virtual Meter List': '虚拟表列表',
+        'Offline Meter List': '离线表列表',
         'Virtual Meter Saving': '虚拟表节能分析㊭',
         'Virtual Meter Plan': '虚拟表计划分析㊭',
         'Virtual Meter Energy': '虚拟表能耗分析',

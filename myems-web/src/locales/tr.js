@@ -92,6 +92,8 @@ export default {
         'Meter Count': 'Sayaç Takibi Count',
         'Virtual Meter Count': 'Virtual Meter Count',
         'Offline Meter Count': 'Offline Meter Count',
+        'Virtual Meter List': 'Sanal Sayaç Listesi',
+        'Offline Meter List': 'Çevrimdışı Sayaç Listesi',
         'Virtual Meter Saving': 'Sanal Sayaç TasarrufuⒺ',
         'Virtual Meter Plan': 'Sanal Sayaç PlanıⒺ',
         'Virtual Meter Energy': 'Sanal Sayaç Enerji',

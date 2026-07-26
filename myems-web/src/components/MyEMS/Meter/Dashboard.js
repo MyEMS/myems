@@ -9,7 +9,12 @@ import {
   Media,
   Row,
   UncontrolledDropdown,
-  Spinner
+  Spinner,
+  Nav,
+  NavItem,
+  NavLink,
+  TabContent,
+  TabPane
 } from 'reactstrap';
 import CountUp from 'react-countup';
 import moment from 'moment';
@@ -61,7 +66,10 @@ const MeterDashboard = ({ setRedirect, setRedirectUrl, t }) => {
   // State
   const [selectedSpaceID, setSelectedSpaceID] = useState(undefined);
   const [meterList, setMeterList] = useState([]);
+  const [virtualMeterList, setVirtualMeterList] = useState([]);
+  const [offlineMeterList, setOfflineMeterList] = useState([]);
   const [cascaderOptions, setCascaderOptions] = useState(undefined);
+  const [activeTab, setActiveTab] = useState('1');
 
   const { language } = useContext(Appcontext);
 
@@ -146,6 +154,42 @@ const MeterDashboard = ({ setRedirect, setRedirectUrl, t }) => {
           const totalPages = Math.max(1, Math.ceil(meters.length / 50));
           const nextPage = Math.min(tablePage || 1, totalPages);
           persistTablePage(nextPage);
+
+          // Process virtual meters
+          let virtualMeters = [];
+          json['virtual_meters'].forEach((currentValue, index) => {
+            virtualMeters.push({
+              id: currentValue['id'],
+              uuid: currentValue['virtual_meter_uuid'],
+              name: currentValue['virtual_meter_name'],
+              space: currentValue['space_name'],
+              costcenter: currentValue['cost_center_name'],
+              energycategory: currentValue['energy_category_name'],
+              description: currentValue['description'],
+              startvalue: currentValue['start_value'],
+              endvalue: currentValue['end_value'],
+              differencevalue: currentValue['difference_value']
+            });
+          });
+          setVirtualMeterList(virtualMeters);
+
+          // Process offline meters
+          let offlineMeters = [];
+          json['offline_meters'].forEach((currentValue, index) => {
+            offlineMeters.push({
+              id: currentValue['id'],
+              uuid: currentValue['offline_meter_uuid'],
+              name: currentValue['offline_meter_name'],
+              space: currentValue['space_name'],
+              costcenter: currentValue['cost_center_name'],
+              energycategory: currentValue['energy_category_name'],
+              description: currentValue['description'],
+              startvalue: currentValue['start_value'],
+              endvalue: currentValue['end_value'],
+              differencevalue: currentValue['difference_value']
+            });
+          });
+          setOfflineMeterList(offlineMeters);
 
           setMeterCount(json['meter_count']);
           setVirtualMeterCount(json['virtual_meter_count']);
@@ -280,14 +324,14 @@ const MeterDashboard = ({ setRedirect, setRedirectUrl, t }) => {
     {
       dataField: 'startvalue',
       headerClasses: 'border-0',
-      text: t('Start Value'),
+      text: `${t('This Month')}${t('Start Value')}`,
       classes: 'border-0 py-2 align-middle',
       sort: true
     },
     {
       dataField: 'endvalue',
       headerClasses: 'border-0',
-      text: t('End Value'),
+      text: `${t('This Month')}${t('End Value')}`,
       classes: 'border-0 py-2 align-middle',
       sort: true
     },
@@ -322,14 +366,65 @@ const MeterDashboard = ({ setRedirect, setRedirectUrl, t }) => {
           </CardSummary>
         </div>
 
-        <DetailedDataTable
-          data={meterList}
-          title={t('Meter List')}
-          columns={columns}
-          pagesize={50}
-          page={tablePage}
-          onChangePage={persistTablePage}
-        />
+        <Nav tabs className="mt-3">
+          <NavItem>
+            <NavLink
+              className={activeTab === '1' ? 'active' : ''}
+              onClick={() => { setActiveTab('1'); }}
+            >
+              {t('Meter List')}
+            </NavLink>
+          </NavItem>
+          <NavItem>
+            <NavLink
+              className={activeTab === '2' ? 'active' : ''}
+              onClick={() => { setActiveTab('2'); }}
+            >
+              {t('Virtual Meter List')}
+            </NavLink>
+          </NavItem>
+          <NavItem>
+            <NavLink
+              className={activeTab === '3' ? 'active' : ''}
+              onClick={() => { setActiveTab('3'); }}
+            >
+              {t('Offline Meter List')}
+            </NavLink>
+          </NavItem>
+        </Nav>
+
+        <TabContent activeTab={activeTab} className="mt-3">
+          <TabPane tabId="1">
+            <DetailedDataTable
+              data={meterList}
+              title={t('Meter List')}
+              columns={columns}
+              pagesize={50}
+              page={tablePage}
+              onChangePage={persistTablePage}
+            />
+          </TabPane>
+          <TabPane tabId="2">
+            <DetailedDataTable
+              data={virtualMeterList}
+              title={t('Virtual Meter List')}
+              columns={columns}
+              pagesize={50}
+              page={tablePage}
+              onChangePage={persistTablePage}
+            />
+          </TabPane>
+          <TabPane tabId="3">
+            <DetailedDataTable
+              data={offlineMeterList}
+              title={t('Offline Meter List')}
+              columns={columns}
+              pagesize={50}
+              page={tablePage}
+              onChangePage={persistTablePage}
+            />
+          </TabPane>
+        </TabContent>
       </div>
     </Fragment>
   );

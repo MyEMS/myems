@@ -92,6 +92,8 @@ export default {
         'Meter Count': 'دفترچه کنتور Count',
         'Virtual Meter Count': 'Virtual Meter Count',
         'Offline Meter Count': 'Offline Meter Count',
+        'Virtual Meter List': 'لیست کنتورهای مجازی',
+        'Offline Meter List': 'لیست کنتورهای آفلاین',
         'Virtual Meter Saving': 'تحلیل صرفه‌جویی کنتور مجازیⒺ',
         'Virtual Meter Plan': 'تحلیل برنامه کنتور مجازیⒺ',
         'Virtual Meter Energy': 'تحلیل انرژی کنتور مجازی',

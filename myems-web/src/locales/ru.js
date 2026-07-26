@@ -1,4 +1,4 @@
-﻿// Auto-split from i18n.js — language: ru
+// Auto-split from i18n.js — language: ru
 export default {
     translation: {
         // routes & menus
@@ -92,6 +92,8 @@ export default {
         'Meter Count': 'Слежение за счетчиком Count',
         'Virtual Meter Count': 'Virtual Meter Count',
         'Offline Meter Count': 'Offline Meter Count',
+        'Virtual Meter List': 'Список виртуальных счетчиков',
+        'Offline Meter List': 'Список автономных счетчиков',
         'Virtual Meter Saving': 'Экономия виртуальных счетчиковⒺ',
         'Virtual Meter Plan': 'План виртуального счетчикаⒺ',
         'Virtual Meter Energy': 'Виртуальный счетчик энергии',

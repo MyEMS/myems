@@ -92,6 +92,8 @@ export default {
         'Meter Count': 'Pemberi Tabel Keukuran Count',
         'Virtual Meter Count': 'Virtual Meter Count',
         'Offline Meter Count': 'Offline Meter Count',
+        'Virtual Meter List': 'Daftar Meter Virtual',
+        'Offline Meter List': 'Daftar Meter Offline',
         'Virtual Meter Saving': 'Analis Menyimpan Energi Tabel VirtualⒺ',
         'Virtual Meter Plan': 'Paket Meteran VirtualⒺ',
         'Virtual Meter Energy': 'Analis Konsum Energi Tabel Virtual',

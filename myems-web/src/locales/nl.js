@@ -92,6 +92,8 @@ export default {
         'Meter Count': 'Meetmeter logboek Count',
         'Virtual Meter Count': 'Virtual Meter Count',
         'Offline Meter Count': 'Offline Meter Count',
+        'Virtual Meter List': 'Lijst virtuele meters',
+        'Offline Meter List': 'Lijst offline meters',
         'Virtual Meter Saving': 'Virtuele meter energiebesparingsanalyseⒺ',
         'Virtual Meter Plan': 'Virtuele meter planningsanalyseⒺ',
         'Virtual Meter Energy': 'Virtuele meter energieverbruiksanalyse',
