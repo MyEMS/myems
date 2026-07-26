@@ -156,7 +156,7 @@ class RealtimeChart extends Component {
               chartData: chartData,
               trendLog: trendLog,
               timestamps: timestamps,
-              currentEnergyValue: currentEnergyValue !== undefined && currentEnergyValue !== null ? floatFormatter(parseFloat(currentEnergyValue).toFixed(3)) : '',
+              currentEnergyValue: currentEnergyValue !== undefined && currentEnergyValue !== null && !isNaN(parseFloat(currentEnergyValue)) ? floatFormatter(parseFloat(currentEnergyValue).toFixed(3)) : '',
               energyValuePointName: energyValuePointName,
               pointList: pointList
             });
@@ -211,7 +211,7 @@ class RealtimeChart extends Component {
               this.setState({
                 trendLog: trendLog,
                 timestamps: timestamps,
-                currentEnergyValue: currentEnergyValue !== undefined && currentEnergyValue !== null ? floatFormatter(parseFloat(currentEnergyValue).toFixed(3)) : '',
+                currentEnergyValue: currentEnergyValue !== undefined && currentEnergyValue !== null && !isNaN(parseFloat(currentEnergyValue)) ? floatFormatter(parseFloat(currentEnergyValue).toFixed(3)) : '',
                 energyValuePointName: energyValuePointName,
                 pointList: pointList
               });
