@@ -251,6 +251,16 @@ export const checkEmpty = str => {
   return str == null || str === '' || str.trim().length === 0;
 };
 
+/**
+ * Formats a number to a string with three decimal places.
+ * @param {number|null} temp - The number to format
+ * @returns {string|null} Formatted string with 3 decimal places, or null if input is null/undefined
+ * @example
+ * floatFormatter(0)      // returns '0.000'
+ * floatFormatter(1.5)    // returns '1.500'
+ * floatFormatter(75)     // returns '75.000'
+ * floatFormatter(null)   // returns null
+ */
 export const floatFormatter = temp => {
   if (temp == null) return temp;
   if (temp === 0) return '0.000';
