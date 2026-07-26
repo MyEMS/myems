@@ -9,13 +9,11 @@ import moment from 'moment';
 import loadable from '@loadable/component';
 import CardSummary from '../common/CardSummary';
 import MultiTrendChart from '../common/MultiTrendChart';
-import MultipleLineChart from '../common/MultipleLineChart';
 import SharePie from '../common/SharePie';
 import { getCookieValue, createCookie, checkEmpty, handleAPIError } from '../../../helpers/utils';
 import withRedirect from '../../../hoc/withRedirect';
 import { withTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
-import DeepSeekAnalysisModal from '../common/DeepSeekAnalysisModal';
 import { APIBaseURL, settings } from '../../../config';
 import { v4 as uuid } from 'uuid';
 import AppContext from '../../../context/Context';
@@ -23,10 +21,9 @@ import { useLocation } from 'react-router-dom';
 import blankPage from '../../../assets/img/generic/blank-page.png';
 
 const ChildSpacesTable = loadable(() => import('../common/ChildSpacesTable'));
-const DetailedDataTable = loadable(() => import('../common/DetailedDataTable'));
 const WorkingDaysConsumptionTable = loadable(() => import('../common/WorkingDaysConsumptionTable'));
 
-const SpaceEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => {
+const SpaceDashboard = ({ setRedirect, setRedirectUrl, t }) => {
     const location = useLocation();
 
     const searchParams = new URLSearchParams(location.search);
@@ -46,8 +43,6 @@ const SpaceEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => {
 
     const [loading, setLoading] = useState(true);
     const [resultDataHidden, setResultDataHidden] = useState(true);
-    const [smartAnalysisOpen, setSmartAnalysisOpen] = useState(false);
-    const [smartAnalysisContext, setSmartAnalysisContext] = useState(null);
 
     const [timeOfUseShareData, setTimeOfUseShareData] = useState([]);
     const [TCEShareData, setTCEShareData] = useState([]);
@@ -61,10 +56,6 @@ const SpaceEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => {
     const [spaceBaseAndReportingNames, setSpaceBaseAndReportingNames] = useState({ a0: '' });
     const [spaceBaseAndReportingUnits, setSpaceBaseAndReportingUnits] = useState({ a0: '()' });
 
-    const [spaceBaseLabels, setSpaceBaseLabels] = useState({ a0: [] });
-    const [spaceBaseData, setSpaceBaseData] = useState({ a0: [] });
-    const [spaceBaseSubtotals, setSpaceBaseSubtotals] = useState({ a0: (0).toFixed(2) });
-
     const [spaceReportingLabels, setSpaceReportingLabels] = useState({ a0: [] });
     const [spaceReportingData, setSpaceReportingData] = useState({ a0: [] });
     const [spaceReportingSubtotals, setSpaceReportingSubtotals] = useState({ a0: (0).toFixed(2) });
@@ -72,14 +63,6 @@ const SpaceEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => {
     const [spaceReportingRates, setSpaceReportingRates] = useState({ a0: [] });
     const [spaceReportingOptions, setSpaceReportingOptions] = useState([]);
 
-    const [parameterLineChartLabels, setParameterLineChartLabels] = useState([]);
-    const [parameterLineChartData, setParameterLineChartData] = useState({});
-    const [parameterLineChartOptions, setParameterLineChartOptions] = useState([]);
-
-    const [detailedDataTableData, setDetailedDataTableData] = useState([]);
-    const [detailedDataTableColumns, setDetailedDataTableColumns] = useState([
-        { dataField: 'startdatetime', text: t('Datetime'), sort: true }
-    ]);
 
     const [childSpacesTableData, setChildSpacesTableData] = useState([]);
     const [childSpacesTableColumns, setChildSpacesTableColumns] = useState([
@@ -136,6 +119,9 @@ const SpaceEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => {
             setLoading(true);
             setResultDataHidden(true);
 
+            const controller = new AbortController();
+            const signal = controller.signal;
+
             fetch(url, {
                 method: 'GET',
                 headers: {
@@ -143,7 +129,8 @@ const SpaceEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => {
                     'User-UUID': getCookieValue('user_uuid'),
                     Token: getCookieValue('token')
                 },
-                body: null
+                body: null,
+                signal: signal
             })
                 .then(response => {
                     if (!response.ok) {
@@ -158,8 +145,6 @@ const SpaceEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => {
                         cardSummaryItem['name'] = json['reporting_period']['names'][index];
                         cardSummaryItem['unit'] = json['reporting_period']['units'][index];
                         cardSummaryItem['subtotal'] = json['reporting_period']['subtotals'][index];
-                        cardSummaryItem['increment_rate'] =
-                            parseFloat(json['reporting_period']['increment_rates'][index] * 100).toFixed(2) + '%';
                         cardSummaryItem['subtotal_per_unit_area'] = json['reporting_period']['subtotals_per_unit_area'][index];
                         cardSummaryItem['subtotal_per_capita'] = json['reporting_period']['subtotals_per_capita'][index];
                         cardSummaryArray.push(cardSummaryItem);
@@ -209,16 +194,12 @@ const SpaceEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => {
 
                     let totalInTCE = {};
                     totalInTCE['value'] = json['reporting_period']['total_in_kgce'] / 1000;
-                    totalInTCE['increment_rate'] =
-                        parseFloat(json['reporting_period']['increment_rate_in_kgce'] * 100).toFixed(2) + '%';
                     totalInTCE['value_per_unit_area'] = json['reporting_period']['total_in_kgce_per_unit_area'];
                     totalInTCE['value_per_capita'] = json['reporting_period']['total_in_kgce_per_capita'];
                     setTotalInTCE(totalInTCE);
 
                     let totalInTCO2E = {};
                     totalInTCO2E['value'] = json['reporting_period']['total_in_kgco2e'] / 1000;
-                    totalInTCO2E['increment_rate'] =
-                        parseFloat(json['reporting_period']['increment_rate_in_kgco2e'] * 100).toFixed(2) + '%';
                     totalInTCO2E['value_per_unit_area'] = json['reporting_period']['total_in_kgco2e_per_unit_area'];
                     totalInTCO2E['value_per_capita'] = json['reporting_period']['total_in_kgco2e_per_capita'];
                     setTotalInTCO2E(totalInTCO2E);
@@ -268,18 +249,6 @@ const SpaceEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => {
                     });
                     setChildSpaceProportionList(childSpaceProportionArray);
 
-                    let base_timestamps = {};
-                    json['base_period']['timestamps'].forEach((currentValue, index) => {
-                        base_timestamps['a' + index] = currentValue;
-                    });
-                    setSpaceBaseLabels(base_timestamps);
-
-                    let base_values = {};
-                    json['base_period']['values'].forEach((currentValue, index) => {
-                        base_values['a' + index] = currentValue;
-                    });
-                    setSpaceBaseData(base_values);
-
                     let base_and_reporting_names = {};
                     json['reporting_period']['names'].forEach((currentValue, index) => {
                         base_and_reporting_names['a' + index] = currentValue;
@@ -291,12 +260,6 @@ const SpaceEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => {
                         base_and_reporting_units['a' + index] = '(' + currentValue + ')';
                     });
                     setSpaceBaseAndReportingUnits(base_and_reporting_units);
-
-                    let base_subtotals = {};
-                    json['base_period']['subtotals'].forEach((currentValue, index) => {
-                        base_subtotals['a' + index] = currentValue.toFixed(2);
-                    });
-                    setSpaceBaseSubtotals(base_subtotals);
 
                     let reporting_timestamps = {};
                     json['reporting_period']['timestamps'].forEach((currentValue, index) => {
@@ -316,86 +279,12 @@ const SpaceEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => {
                     });
                     setSpaceReportingSubtotals(reporting_subtotals);
 
-                    let rates = {};
-                    json['reporting_period']['rates'].forEach((currentValue, index) => {
-                        let currentRate = [];
-                        currentValue.forEach(rate => {
-                            currentRate.push(rate ? parseFloat(rate * 100).toFixed(2) : '0.00');
-                        });
-                        rates['a' + index] = currentRate;
-                    });
-                    setSpaceReportingRates(rates);
-
                     let options = [];
                     json['reporting_period']['names'].forEach((currentValue, index) => {
                         let unit = json['reporting_period']['units'][index];
                         options.push({ value: 'a' + index, label: currentValue + ' (' + unit + ')' });
                     });
                     setSpaceReportingOptions(options);
-
-                    let timestamps = {};
-                    json['parameters']['timestamps'].forEach((currentValue, index) => {
-                        timestamps['a' + index] = currentValue;
-                    });
-                    setParameterLineChartLabels(timestamps);
-
-                    let values = {};
-                    json['parameters']['values'].forEach((currentValue, index) => {
-                        values['a' + index] = currentValue;
-                    });
-                    setParameterLineChartData(values);
-
-                    let names = [];
-                    json['parameters']['names'].forEach((currentValue, index) => {
-                        names.push({ value: 'a' + index, label: currentValue });
-                    });
-                    setParameterLineChartOptions(names);
-
-                    let detailed_value_list = [];
-                    if (json['reporting_period']['timestamps'].length > 0) {
-                        json['reporting_period']['timestamps'][0].forEach((currentTimestamp, timestampIndex) => {
-                            let detailed_value = {};
-                            detailed_value['id'] = timestampIndex;
-                            detailed_value['startdatetime'] = currentTimestamp;
-                            json['reporting_period']['values'].forEach((currentValue, energyCategoryIndex) => {
-                                detailed_value['a' + energyCategoryIndex] =
-                                    json['reporting_period']['values'][energyCategoryIndex][timestampIndex];
-                            });
-                            detailed_value_list.push(detailed_value);
-                        });
-                    }
-
-                    let detailed_value = {};
-                    detailed_value['id'] = detailed_value_list.length;
-                    detailed_value['startdatetime'] = t('Subtotal');
-                    json['reporting_period']['subtotals'].forEach((currentValue, index) => {
-                        detailed_value['a' + index] = currentValue;
-                    });
-                    detailed_value_list.push(detailed_value);
-                    setDetailedDataTableData(detailed_value_list);
-
-                    let detailed_column_list = [];
-                    detailed_column_list.push({
-                        dataField: 'startdatetime',
-                        text: t('Datetime'),
-                        sort: true
-                    });
-                    json['reporting_period']['names'].forEach((currentValue, index) => {
-                        let unit = json['reporting_period']['units'][index];
-                        detailed_column_list.push({
-                            dataField: 'a' + index,
-                            text: currentValue + ' (' + unit + ')',
-                            sort: true,
-                            formatter: function(decimalValue) {
-                                if (typeof decimalValue === 'number') {
-                                    return decimalValue.toFixed(2);
-                                } else {
-                                    return null;
-                                }
-                            }
-                        });
-                    });
-                    setDetailedDataTableColumns(detailed_column_list);
 
                     let workding_days_table_column_list = [];
                     workding_days_table_column_list.push({
@@ -516,9 +405,11 @@ const SpaceEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => {
                     setResultDataHidden(false);
                 })
                 .catch(err => {
-                    console.error('Load data error:', err);
-                    setLoading(false);
-                    toast.error(t('Failed to load data. Please try again.'));
+                    if (err.name !== 'AbortError') {
+                        console.error('Load data error:', err);
+                        setLoading(false);
+                        toast.error(t('Failed to load data. Please try again.'));
+                    }
                 });
         },
         [t]
@@ -530,6 +421,9 @@ const SpaceEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => {
         const defaultEnd = now.toDate();
 
         let isResponseOK = false;
+        const controller = new AbortController();
+        const signal = controller.signal;
+
         fetch(APIBaseURL + '/spaces/tree', {
             method: 'GET',
             headers: {
@@ -537,7 +431,8 @@ const SpaceEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => {
                 'User-UUID': getCookieValue('user_uuid'),
                 Token: getCookieValue('token')
             },
-            body: null
+            body: null,
+            signal: signal
         })
             .then(response => {
                 if (response.ok) {
@@ -561,8 +456,6 @@ const SpaceEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => {
                             ? 'spaceuuid=' + spaceId
                             : 'spaceid=' + spaceId) +
                         '&periodtype=' + defaultPeriodType +
-                        '&baseperiodstartdatetime=' +
-                        '&baseperiodenddatetime=' +
                         '&reportingperiodstartdatetime=' +
                         moment(defaultStart).format('YYYY-MM-DDTHH:mm:ss') +
                         '&reportingperiodenddatetime=' +
@@ -575,9 +468,11 @@ const SpaceEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => {
                 }
             })
             .catch(err => {
-                console.error('Get space tree error:', err);
-                setLoading(false);
-                toast.error(t('Failed to load space data.'));
+                if (err.name !== 'AbortError') {
+                    console.error('Get space tree error:', err);
+                    setLoading(false);
+                    toast.error(t('Failed to load space data.'));
+                }
             });
     }, [spaceUUID, language, loadData, t, setRedirect, setRedirectUrl]);
 
@@ -587,6 +482,9 @@ const SpaceEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => {
         }
 
         let isResponseOK = false;
+        const controller = new AbortController();
+        const signal = controller.signal;
+
         fetch(APIBaseURL + '/spaces/tree', {
             method: 'GET',
             headers: {
@@ -594,7 +492,8 @@ const SpaceEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => {
                 'User-UUID': getCookieValue('user_uuid'),
                 Token: getCookieValue('token')
             },
-            body: null
+            body: null,
+            signal: signal
         })
             .then(response => {
                 if (response.ok) {
@@ -632,68 +531,15 @@ const SpaceEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => {
                 }
             })
             .catch(err => {
-                console.error('Get space tree error:', err);
-                setLoading(false);
-                toast.error(t('Failed to load space data.'));
+                if (err.name !== 'AbortError') {
+                    console.error('Get space tree error:', err);
+                    setLoading(false);
+                    toast.error(t('Failed to load space data.'));
+                }
             });
+
+        return () => controller.abort();
     }, [spaceUUID, language, defaultDates, loadData, t, setRedirect, setRedirectUrl]);
-
-    const buildSmartAnalysisContext = useCallback(() => {
-        const lineValues = {};
-        if (parameterLineChartData && typeof parameterLineChartData === 'object') {
-            Object.keys(parameterLineChartData).forEach(k => {
-                const arr = parameterLineChartData[k];
-                lineValues[k] = Array.isArray(arr) ? arr.slice(0, 200) : arr;
-            });
-        }
-        return {
-            reportType: 'space_energy_category',
-            reportTitle: t('Energy Category Data'),
-            periodType: defaultPeriodType,
-            reportingPeriod: {
-                start: moment(defaultDates.start).format('YYYY-MM-DDTHH:mm:ss'),
-                end: moment(defaultDates.end).format('YYYY-MM-DDTHH:mm:ss')
-            },
-            cardSummaryList,
-            totalInTCE,
-            totalInTCO2E,
-            timeOfUseShare: timeOfUseShareData,
-            tceShare: TCEShareData,
-            tco2eShare: TCO2EShareData,
-            childSpaceProportion: childSpaceProportionList.slice(0, 80),
-            detailedDataSample: detailedDataTableData.slice(0, 120),
-            workingDaysConsumption: workingDaysConsumptionTableData,
-            parameterLineChart: {
-                labels: parameterLineChartLabels,
-                optionLabels: parameterLineChartOptions,
-                values: lineValues
-            },
-            spaceBaseAndReportingNames,
-            spaceBaseAndReportingUnits
-        };
-    }, [
-        defaultDates,
-        cardSummaryList,
-        totalInTCE,
-        totalInTCO2E,
-        timeOfUseShareData,
-        TCEShareData,
-        TCO2EShareData,
-        childSpaceProportionList,
-        detailedDataTableData,
-        workingDaysConsumptionTableData,
-        parameterLineChartLabels,
-        parameterLineChartOptions,
-        parameterLineChartData,
-        spaceBaseAndReportingNames,
-        spaceBaseAndReportingUnits,
-        t
-    ]);
-
-    const openSmartAnalysis = () => {
-        setSmartAnalysisContext(buildSmartAnalysisContext());
-        setSmartAnalysisOpen(true);
-    };
 
     return (
         <Fragment>
@@ -718,22 +564,13 @@ const SpaceEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => {
                 visibility: !loading && !resultDataHidden ? 'visible' : 'hidden',
                 display: !loading && !resultDataHidden ? '' : 'none'
             }}>
-                <div className="mb-3 text-right">
-                    {settings.enableAIAnalysis && (
-                        <button
-                            className="btn btn-falcon-default btn-sm"
-                            onClick={openSmartAnalysis}
-                        >
-                            {t('AI Analysis')}
-                        </button>
-                    )}
-                </div>
+
 
                 <div className="card-deck">
                     {cardSummaryList.map(cardSummaryItem => (
                         <CardSummary
                             key={cardSummaryItem['name']}
-                            rate={cardSummaryItem['increment_rate']}
+                            rate=""
                             title={t('Reporting Period Consumption CATEGORY UNIT', {
                                 CATEGORY: cardSummaryItem['name'],
                                 UNIT: '(' + cardSummaryItem['unit'] + ')'
@@ -761,7 +598,7 @@ const SpaceEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => {
 
                     {settings.showTCEData ? (
                         <CardSummary
-                            rate={totalInTCE['increment_rate'] || ''}
+                            rate=""
                             title={t('Reporting Period Consumption CATEGORY UNIT', {
                                 CATEGORY: t('Ton of Standard Coal'),
                                 UNIT: '(TCE)'
@@ -782,7 +619,7 @@ const SpaceEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => {
                         <></>
                     )}
                     <CardSummary
-                        rate={totalInTCO2E['increment_rate'] || ''}
+                        rate=""
                         title={t('Reporting Period Consumption CATEGORY UNIT', {
                             CATEGORY: t('Ton of Carbon Dioxide Emissions'),
                             UNIT: '(TCO2E)'
@@ -800,11 +637,7 @@ const SpaceEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => {
                         )}
                     </CardSummary>
                     <CardSummary
-                        rate={
-                            totalInTCE['value'] && totalInTCE['value'] !== 0 && totalInTCO2E['value']
-                                ? ((totalInTCO2E['value'] / totalInTCE['value'] - 1) * 100).toFixed(2) + '%'
-                                : '--'
-                        }
+                        rate=""
                         title={t('Reporting Period Consumption CATEGORY UNIT', {
                             CATEGORY: t('Carbon Emissions Per Unit Of Energy Consumption'),
                             UNIT: '(TCO2E/TCE)'
@@ -878,11 +711,11 @@ const SpaceEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => {
                         UNIT: spaceBaseAndReportingUnits
                     }}
                     baseTitle={{
-                        name: 'Base Period Consumption CATEGORY VALUE UNIT',
-                        substitute: ['CATEGORY', 'VALUE', 'UNIT'],
-                        CATEGORY: spaceBaseAndReportingNames,
-                        VALUE: spaceBaseSubtotals,
-                        UNIT: spaceBaseAndReportingUnits
+                        name: '',
+                        substitute: [],
+                        CATEGORY: {},
+                        VALUE: {},
+                        UNIT: {}
                     }}
                     reportingTooltipTitle={{
                         name: 'Reporting Period Consumption CATEGORY VALUE UNIT',
@@ -892,40 +725,23 @@ const SpaceEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => {
                         UNIT: spaceBaseAndReportingUnits
                     }}
                     baseTooltipTitle={{
-                        name: 'Base Period Consumption CATEGORY VALUE UNIT',
-                        substitute: ['CATEGORY', 'VALUE', 'UNIT'],
-                        CATEGORY: spaceBaseAndReportingNames,
-                        VALUE: null,
-                        UNIT: spaceBaseAndReportingUnits
+                        name: '',
+                        substitute: [],
+                        CATEGORY: {},
+                        VALUE: {},
+                        UNIT: {}
                     }}
                     reportingLabels={spaceReportingLabels}
                     reportingData={spaceReportingData}
-                    baseLabels={spaceBaseLabels}
-                    baseData={spaceBaseData}
+                    baseLabels={{}}
+                    baseData={{}}
                     rates={spaceReportingRates}
                     options={spaceReportingOptions}
-                />
-
-                <MultipleLineChart
-                    reportingTitle={t('Operating Characteristic Curve')}
-                    baseTitle=""
-                    labels={parameterLineChartLabels}
-                    data={parameterLineChartData}
-                    options={parameterLineChartOptions}
-                    yAxisScale={true}
                 />
 
                 <WorkingDaysConsumptionTable
                     data={workingDaysConsumptionTableData}
                     columns={workingDaysConsumptionTableColumns}
-                />
-                <br />
-
-                <DetailedDataTable
-                    data={detailedDataTableData}
-                    title={t('Detailed Data')}
-                    columns={detailedDataTableColumns}
-                    pagesize={50}
                 />
                 <br />
 
@@ -935,19 +751,8 @@ const SpaceEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => {
                     columns={childSpacesTableColumns}
                 />
             </div>
-
-            {settings.enableAIAnalysis ? (
-                <DeepSeekAnalysisModal
-                    isOpen={smartAnalysisOpen}
-                    toggle={() => setSmartAnalysisOpen(false)}
-                    language={language}
-                    reportContext={smartAnalysisContext}
-                    setRedirect={setRedirect}
-                    setRedirectUrl={setRedirectUrl}
-                />
-            ) : null}
         </Fragment>
     );
 };
 
-export default withTranslation()(withRedirect(SpaceEnergyCategory));
+export default withTranslation()(withRedirect(SpaceDashboard));
