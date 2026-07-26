@@ -7,6 +7,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Added
 ### Changed
 ### Fixed
+- fixed issue of meter realtime report in myems-web
 ### Removed
 
 ## [v6.7.0] - 2026-07-26
