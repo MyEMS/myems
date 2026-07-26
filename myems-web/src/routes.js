@@ -12,8 +12,8 @@ export const spaceRoutes = {
   name: 'Space Data',
   to: '/space',
   icon: 'building',
-  exact: true,
   children: [
+    { to: '/space', name: 'Dashboard' },
     { to: '/space/energycategory', name: 'Energy Category Data' },
     { to: '/space/energyitem', name: 'Energy Item Data' },
     { to: '/space/carbon', name: 'Carbon' },

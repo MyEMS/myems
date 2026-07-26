@@ -10,7 +10,7 @@ Key Features:
 - Energy category breakdown and trends
 - Sensor data integration and monitoring
 - Child space hierarchy analysis
-- Base period vs reporting period comparison
+- Reporting period energy consumption analysis
 - Real-time data processing
 - Carbon emissions tracking
 - Cost analysis and optimization insights
@@ -52,11 +52,11 @@ logger = logging.getLogger(__name__)
 def validate_integer_ids(id_list, param_name="IDs"):
     """
     Validate that all IDs in the list are integers to prevent SQL injection.
-    
+
     Args:
         id_list: List of IDs to validate
         param_name: Name of the parameter for error messages
-        
+
     Raises:
         ValueError: If any ID is not an integer
     """
@@ -77,17 +77,12 @@ class Reporting:
     # Step 1: Validate parameters
     # Step 2: Query user and get associated stores
     # Step 3: Query energy categories
-    # Step 4: Query base period energy input by category
-    # Step 5: Query reporting period energy input by category
-    # Step 6: Query base period energy cost by category
-    # Step 7: Query reporting period energy cost by category
-    # Step 8: Query carbon emissions data
-    # Step 9: Query time-of-use data (for electricity)
-    # Step 10: Query monthly trends (energy & cost)
-    # Step 11: Query store statistics (meters, sensors, alerts)
-    # Step 12: Query top consuming stores
-    # Step 13: Query real-time sensor data
-    # Step 14: Construct the report
+    # Step 4: Query reporting period energy input by category
+    # Step 5: Query reporting period energy cost by category
+    # Step 6: Query daily trends (energy & cost) from 1st of last month
+    # Step 7: Query store statistics (meters, sensors, alerts)
+    # Step 8: Query top consuming stores
+    # Step 9: Construct the report
     ####################################################################################################################
     @staticmethod
     def on_get(req, resp):
@@ -100,8 +95,6 @@ class Reporting:
 
         user_uuid = req.params.get('useruuid')
         period_type = req.params.get('periodtype', 'monthly')
-        base_period_start_datetime_local = req.params.get('baseperiodstartdatetime')
-        base_period_end_datetime_local = req.params.get('baseperiodenddatetime')
         reporting_period_start_datetime_local = req.params.get('reportingperiodstartdatetime')
         reporting_period_end_datetime_local = req.params.get('reportingperiodenddatetime')
         language = req.params.get('language', 'zh_CN')
@@ -130,37 +123,6 @@ class Reporting:
         timezone_offset = int(config.utc_offset[1:3]) * 60 + int(config.utc_offset[4:6])
         if config.utc_offset[0] == '-':
             timezone_offset = -timezone_offset
-
-        base_start_datetime_utc = None
-        if base_period_start_datetime_local is not None and len(str.strip(base_period_start_datetime_local)) > 0:
-            base_period_start_datetime_local = str.strip(base_period_start_datetime_local)
-            try:
-                base_start_datetime_utc = datetime.strptime(base_period_start_datetime_local, '%Y-%m-%dT%H:%M:%S')
-            except ValueError:
-                raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                       description="API.INVALID_BASE_PERIOD_START_DATETIME")
-            base_start_datetime_utc = \
-                base_start_datetime_utc.replace(tzinfo=timezone.utc) - timedelta(minutes=timezone_offset)
-            if config.minutes_to_count == 30 and base_start_datetime_utc.minute >= 30:
-                base_start_datetime_utc = base_start_datetime_utc.replace(minute=30, second=0, microsecond=0)
-            else:
-                base_start_datetime_utc = base_start_datetime_utc.replace(minute=0, second=0, microsecond=0)
-
-        base_end_datetime_utc = None
-        if base_period_end_datetime_local is not None and len(str.strip(base_period_end_datetime_local)) > 0:
-            base_period_end_datetime_local = str.strip(base_period_end_datetime_local)
-            try:
-                base_end_datetime_utc = datetime.strptime(base_period_end_datetime_local, '%Y-%m-%dT%H:%M:%S')
-            except ValueError:
-                raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                       description="API.INVALID_BASE_PERIOD_END_DATETIME")
-            base_end_datetime_utc = \
-                base_end_datetime_utc.replace(tzinfo=timezone.utc) - timedelta(minutes=timezone_offset)
-
-        if base_start_datetime_utc is not None and base_end_datetime_utc is not None and \
-                base_start_datetime_utc >= base_end_datetime_utc:
-            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                   description='API.INVALID_BASE_PERIOD_END_DATETIME')
 
         if reporting_period_start_datetime_local is None:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
@@ -216,10 +178,6 @@ class Reporting:
                 )
                 redis_client.ping()
 
-                base_end_datetime_utc_normalized = None
-                if base_end_datetime_utc is not None:
-                    base_end_datetime_utc_normalized = base_end_datetime_utc.replace(minute=0, second=0, microsecond=0)
-
                 reporting_end_datetime_utc_normalized = None
                 if reporting_end_datetime_utc is not None:
                     reporting_end_datetime_utc_normalized = reporting_end_datetime_utc.replace(
@@ -228,9 +186,6 @@ class Reporting:
                 cache_params = {
                     "useruuid": user_uuid,
                     "periodtype": period_type,
-                    "base_start_datetime_utc": base_start_datetime_utc.isoformat() if base_start_datetime_utc else None,
-                    "base_end_datetime_utc": base_end_datetime_utc_normalized.isoformat()
-                    if base_end_datetime_utc_normalized else None,
                     "reporting_start_datetime_utc": reporting_start_datetime_utc.isoformat()
                     if reporting_start_datetime_utc else None,
                     "reporting_end_datetime_utc": reporting_end_datetime_utc_normalized.isoformat()
@@ -422,58 +377,7 @@ class Reporting:
                     }
 
             ################################################################################################################
-            # Step 4: Query base period energy input by category
-            ################################################################################################################
-            base_input = {
-                'names': [],
-                'units': [],
-                'subtotals': [],
-                'subtotals_in_kgce': [],
-                'subtotals_in_kgco2e': [],
-                'subtotals_per_unit_area': [],
-                'increment_rates': [],
-                'toppeaks': [],
-                'onpeaks': [],
-                'midpeaks': [],
-                'offpeaks': [],
-                'deeps': [],
-                'timestamps': [],
-                'values': [],
-                'energy_category_ids': []
-            }
-
-            if base_start_datetime_utc and base_end_datetime_utc:
-                # Validate all IDs are integers before using in SQL
-                validate_integer_ids(store_ids_list, "store_ids")
-                format_strings = ','.join(['%s'] * len(store_ids_list))
-                cursor_energy.execute(
-                    " SELECT energy_category_id, SUM(actual_value) "
-                    " FROM tbl_store_input_category_hourly "
-                    " WHERE store_id IN (%s) "
-                    "   AND start_datetime_utc >= %%s "
-                    "   AND start_datetime_utc < %%s "
-                    " GROUP BY energy_category_id " % format_strings,
-                    store_ids_tuple + (base_start_datetime_utc, base_end_datetime_utc)
-                )
-                rows_base_input = cursor_energy.fetchall()
-
-                if rows_base_input:
-                    for row in rows_base_input:
-                        ec_id = row[0]
-                        subtotal = float(row[1]) if row[1] is not None else 0.0
-                        if ec_id in energy_category_dict:
-                            ec_info = energy_category_dict[ec_id]
-                            base_input['names'].append(ec_info['name'])
-                            base_input['units'].append(ec_info['unit_of_measure'])
-                            base_input['subtotals'].append(subtotal)
-                            base_input['subtotals_in_kgce'].append(subtotal * ec_info['kgce'])
-                            base_input['subtotals_in_kgco2e'].append(subtotal * ec_info['kgco2e'])
-                            base_input['subtotals_per_unit_area'].append(
-                                subtotal / total_area if total_area > 0 else 0.0)
-                            base_input['energy_category_ids'].append(ec_id)
-
-            ################################################################################################################
-            # Step 5: Query reporting period energy input by category
+            # Step 4: Query reporting period energy input by category
             ################################################################################################################
             reporting_input = {
                 'names': [],
@@ -482,7 +386,6 @@ class Reporting:
                 'subtotals_in_kgce': [],
                 'subtotals_in_kgco2e': [],
                 'subtotals_per_unit_area': [],
-                'increment_rates': [],
                 'toppeaks': [],
                 'onpeaks': [],
                 'midpeaks': [],
@@ -522,21 +425,6 @@ class Reporting:
                             subtotal / total_area if total_area > 0 else 0.0)
                         reporting_input['energy_category_ids'].append(ec_id)
 
-            # Calculate increment rates
-            for i in range(len(reporting_input['names'])):
-                name = reporting_input['names'][i]
-                if name in base_input['names']:
-                    base_idx = base_input['names'].index(name)
-                    base_val = base_input['subtotals'][base_idx]
-                    report_val = reporting_input['subtotals'][i]
-                    if base_val > 0:
-                        increment_rate = (report_val - base_val) / base_val
-                    else:
-                        increment_rate = 0.0
-                    reporting_input['increment_rates'].append(increment_rate)
-                else:
-                    reporting_input['increment_rates'].append(0.0)
-
             # Calculate totals
             total_in_kgce = sum(reporting_input['subtotals_in_kgce'])
             total_in_kgco2e = sum(reporting_input['subtotals_in_kgco2e'])
@@ -545,16 +433,8 @@ class Reporting:
             reporting_input['total_in_kgce_per_unit_area'] = total_in_kgce / total_area if total_area > 0 else 0.0
             reporting_input['total_in_kgco2e_per_unit_area'] = total_in_kgco2e / total_area if total_area > 0 else 0.0
 
-            # Overall increment rates
-            base_total_kgce = sum(base_input['subtotals_in_kgce'])
-            base_total_kgco2e = sum(base_input['subtotals_in_kgco2e'])
-            reporting_input['increment_rate_in_kgce'] = (
-                (total_in_kgce - base_total_kgce) / base_total_kgce if base_total_kgce > 0 else 0.0)
-            reporting_input['increment_rate_in_kgco2e'] = (
-                (total_in_kgco2e - base_total_kgco2e) / base_total_kgco2e if base_total_kgco2e > 0 else 0.0)
-
             ################################################################################################################
-            # Step 6 & 7: Query energy cost data
+            # Step 5: Query energy cost data
             ################################################################################################################
             reporting_cost = {
                 'names': list(reporting_input['names']),
@@ -562,7 +442,6 @@ class Reporting:
                 'units': ['CNY'] * len(reporting_input['names']),
                 'subtotals': [0.0] * len(reporting_input['names']),
                 'subtotals_per_unit_area': [0.0] * len(reporting_input['names']),
-                'increment_rates': list(reporting_input['increment_rates']),
                 'timestamps': [],
                 'values': []
             }
@@ -594,7 +473,7 @@ class Reporting:
                                 cost / total_area if total_area > 0 else 0.0)
 
             ################################################################################################################
-            # Step 8: Query daily trends from 1st of last month (OPTIMIZED: single query + memory aggregation)
+            # Step 6: Query daily trends from 1st of last month (OPTIMIZED: single query + memory aggregation)
             ################################################################################################################
             # Calculate the start date: 1st of last month relative to reporting end
             if reporting_end_datetime_utc.month == 1:
@@ -705,41 +584,44 @@ class Reporting:
             reporting_input['values'] = daily_energy_values
             reporting_cost['timestamps'] = [daily_timestamps] * len(reporting_cost['names'])
             reporting_cost['values'] = daily_cost_values
-            
+
             # Add energy category names to daily trends for frontend display
             reporting_input['category_names'] = list(reporting_input['names'])
             reporting_input['category_units'] = list(reporting_input['units'])
 
             ################################################################################################################
-            # Step 9: Query store statistics
+            # Step 7: Query store statistics
             ################################################################################################################
             # Count meters
             total_meters = 0
-            if len(store_ids_list) > 0:
-                # Validate all IDs are integers before using in SQL (already validated above)
-                format_strings = ','.join(['%s'] * len(store_ids_list))
-                cursor_system.execute(
-                    " SELECT COUNT(DISTINCT meter_id) "
-                    " FROM tbl_stores_meters "
-                    " WHERE store_id IN (%s) " % format_strings,
-                    store_ids_tuple
-                )
-                row = cursor_system.fetchone()
-                total_meters = int(row[0]) if row and row[0] else 0
-
-            # Count sensors
             total_sensors = 0
             if len(store_ids_list) > 0:
                 # Validate all IDs are integers before using in SQL (already validated above)
                 format_strings = ','.join(['%s'] * len(store_ids_list))
-                cursor_system.execute(
-                    " SELECT COUNT(DISTINCT sensor_id) "
-                    " FROM tbl_stores_sensors "
-                    " WHERE store_id IN (%s) " % format_strings,
-                    store_ids_tuple
-                )
-                row = cursor_system.fetchone()
-                total_sensors = int(row[0]) if row and row[0] else 0
+                try:
+                    cursor_system.execute(
+                        " SELECT COUNT(DISTINCT meter_id) "
+                        " FROM tbl_stores_meters "
+                        " WHERE store_id IN (%s) " % format_strings,
+                        store_ids_tuple
+                    )
+                    row = cursor_system.fetchone()
+                    total_meters = int(row[0]) if row and row[0] else 0
+                except Exception:
+                    total_meters = 0
+
+                # Count sensors
+                try:
+                    cursor_system.execute(
+                        " SELECT COUNT(DISTINCT sensor_id) "
+                        " FROM tbl_stores_sensors "
+                        " WHERE store_id IN (%s) " % format_strings,
+                        store_ids_tuple
+                    )
+                    row = cursor_system.fetchone()
+                    total_sensors = int(row[0]) if row and row[0] else 0
+                except Exception:
+                    total_sensors = 0
 
             # Count active alerts (from FDD system)
             total_alerts = 0
@@ -760,7 +642,7 @@ class Reporting:
                     )
                     row = cursor_fdd.fetchone()
                     total_alerts = int(row[0]) if row and row[0] else 0
-            except:
+            except Exception:
                 total_alerts = 0
             finally:
                 if cursor_fdd:
@@ -769,11 +651,11 @@ class Reporting:
                     cnx_fdd.close()
 
             ################################################################################################################
-            # Step 10: Query top 5 consuming stores and all stores energy by category
+            # Step 8: Query top 5 consuming stores and all stores energy by category
             ################################################################################################################
             top_stores = []
             store_energy_by_category = {}
-            
+
             # First get store names
             store_name_dict = {}
             if len(store_ids_list) > 0:
@@ -809,13 +691,13 @@ class Reporting:
                         store_id = row[0]
                         ec_id = row[1]
                         category_energy = float(row[2]) if row[2] else 0.0
-                        
+
                         if store_id not in store_energy_by_category:
                             store_energy_by_category[store_id] = {
                                 'total_energy': 0.0,
                                 'categories': {}
                             }
-                        
+
                         store_energy_by_category[store_id]['categories'][ec_id] = category_energy
                         store_energy_by_category[store_id]['total_energy'] += category_energy
 
@@ -887,7 +769,7 @@ class Reporting:
                 key=lambda x: x[1]['total_energy'],
                 reverse=True
             )[:5]
-            
+
             for store_id, energy_data in sorted_stores:
                 store_name = store_name_dict.get(store_id, f'Store #{store_id}')
                 top_stores.append({
@@ -898,9 +780,9 @@ class Reporting:
                 })
 
             ################################################################################################################
-            # Step 11: Construct the report
+            # Step 9: Construct the report
             ################################################################################################################
-            
+
             # Prepare store details for response with energy data by category
             store_details = []
             for store in store_list:
@@ -917,7 +799,7 @@ class Reporting:
                     'total_carbon': 0.0,
                     'categories': {}
                 })
-            
+
                 store_details.append({
                     'id': store_id,
                     'name': store['name'],
@@ -933,7 +815,7 @@ class Reporting:
                     'total_carbon': carbon_data['total_carbon'],
                     'carbon_by_category': carbon_data['categories']
                 })
-            
+
             result = {
                 'summary': {
                     'total_stores': total_stores,
@@ -944,21 +826,20 @@ class Reporting:
                 },
                 'stores': store_details,
                 'reporting_period_input': reporting_input,
-                'base_period_input': base_input,
                 'reporting_period_cost': reporting_cost,
                 'top_stores': top_stores,
                 'period_type': period_type,
                 'reporting_period_start': reporting_start_datetime_utc.isoformat(),
                 'reporting_period_end': reporting_end_datetime_utc.isoformat(),
             }
-            #print(result)
+
             resp.text = json.dumps(result)
 
             # Cache the result
             if redis_client and cache_key:
                 try:
                     redis_client.setex(cache_key, cache_expire, json.dumps(result))
-                except:
+                except Exception:
                     pass
 
         except falcon.HTTPError:

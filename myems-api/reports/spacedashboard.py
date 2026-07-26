@@ -1,0 +1,577 @@
+"""
+Space Dashboard Report API
+
+This module provides REST API endpoints for generating space dashboard reports.
+It analyzes energy consumption by different energy categories for spaces,
+providing insights into energy usage patterns and category-specific optimizations.
+
+Key Features:
+- Space energy consumption by category analysis
+- Reporting period energy consumption
+- Energy category breakdown and trends
+- Category-specific optimization insights
+- Energy mix analysis
+
+Report Components:
+- Space energy consumption by category summary
+- Energy category breakdown
+- Category-specific performance metrics
+- Energy mix analysis
+- Optimization recommendations by category
+
+The module uses Falcon framework for REST API and includes:
+- Database queries for energy category data
+- Category-specific calculations
+- Energy mix analysis tools
+- Multi-language support
+- User authentication and authorization
+"""
+
+import re
+import logging
+from datetime import datetime, timedelta, timezone
+from decimal import Decimal
+import hashlib
+import falcon
+import mysql.connector
+import redis
+import simplejson as json
+import config
+
+from core import utilities
+from core.useractivity import access_control, api_key_control
+
+logger = logging.getLogger(__name__)
+
+
+class Reporting:
+    def __init__(self):
+        """"Initializes Reporting"""
+        pass
+
+    ####################################################################################################################
+    # PROCEDURES
+    # Step 1: valid parameters
+    # Step 2: query the space
+    # Step 3: query energy categories
+    # Step 4: query associated working calendars
+    # Step 5: query child spaces
+    # Step 6: query reporting period energy input
+    # Step 7: query child spaces energy input
+    # Step 8: construct the report
+    ####################################################################################################################
+    @staticmethod
+    def on_get(req, resp):
+        if 'API-KEY' not in req.headers or \
+                not isinstance(req.headers['API-KEY'], str) or \
+                len(str.strip(req.headers['API-KEY'])) == 0:
+            access_control(req)
+        else:
+            api_key_control(req)
+        space_id = req.params.get('spaceid')
+        space_uuid = req.params.get('spaceuuid')
+        period_type = req.params.get('periodtype')
+        reporting_period_start_datetime_local = req.params.get('reportingperiodstartdatetime')
+        reporting_period_end_datetime_local = req.params.get('reportingperiodenddatetime')
+        language = req.params.get('language')
+        quick_mode = req.params.get('quickmode')
+
+        ################################################################################################################
+        # Step 1: valid parameters
+        ################################################################################################################
+        if space_id is None and space_uuid is None:
+            raise falcon.HTTPError(status=falcon.HTTP_400,
+                                   title='API.BAD_REQUEST',
+                                   description='API.INVALID_SPACE_ID')
+
+        if space_id is not None:
+            space_id = str.strip(space_id)
+            if not space_id.isdigit() or int(space_id) <= 0:
+                raise falcon.HTTPError(status=falcon.HTTP_400,
+                                       title='API.BAD_REQUEST',
+                                       description='API.INVALID_SPACE_ID')
+
+        if space_uuid is not None:
+            regex = re.compile(r'^[a-f0-9]{8}-?[a-f0-9]{4}-?4[a-f0-9]{3}-?[89ab][a-f0-9]{3}-?[a-f0-9]{12}\Z', re.I)
+            match = regex.match(str.strip(space_uuid))
+            if not bool(match):
+                raise falcon.HTTPError(status=falcon.HTTP_400,
+                                       title='API.BAD_REQUEST',
+                                       description='API.INVALID_SPACE_UUID')
+
+        if period_type is None:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_PERIOD_TYPE')
+        else:
+            period_type = str.strip(period_type)
+            if period_type not in ['hourly', 'daily', 'weekly', 'monthly', 'yearly']:
+                raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                       description='API.INVALID_PERIOD_TYPE')
+
+        timezone_offset = int(config.utc_offset[1:3]) * 60 + int(config.utc_offset[4:6])
+        if config.utc_offset[0] == '-':
+            timezone_offset = -timezone_offset
+
+        if reporting_period_start_datetime_local is None:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description="API.INVALID_REPORTING_PERIOD_START_DATETIME")
+        else:
+            reporting_period_start_datetime_local = str.strip(reporting_period_start_datetime_local)
+            try:
+                reporting_start_datetime_utc = datetime.strptime(reporting_period_start_datetime_local,
+                                                                 '%Y-%m-%dT%H:%M:%S')
+                reporting_start_datetime_non_working_day = str(reporting_period_start_datetime_local).split('T')[0]
+
+            except ValueError:
+                raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                       description="API.INVALID_REPORTING_PERIOD_START_DATETIME")
+            reporting_start_datetime_utc = \
+                reporting_start_datetime_utc.replace(tzinfo=timezone.utc) - timedelta(minutes=timezone_offset)
+            # nomalize the start datetime
+            if config.minutes_to_count == 30 and reporting_start_datetime_utc.minute >= 30:
+                reporting_start_datetime_utc = reporting_start_datetime_utc.replace(minute=30, second=0, microsecond=0)
+            else:
+                reporting_start_datetime_utc = reporting_start_datetime_utc.replace(minute=0, second=0, microsecond=0)
+
+        if reporting_period_end_datetime_local is None:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description="API.INVALID_REPORTING_PERIOD_END_DATETIME")
+        else:
+            reporting_period_end_datetime_local = str.strip(reporting_period_end_datetime_local)
+            try:
+                reporting_end_datetime_utc = datetime.strptime(reporting_period_end_datetime_local,
+                                                               '%Y-%m-%dT%H:%M:%S').replace(tzinfo=timezone.utc) - \
+                                             timedelta(minutes=timezone_offset)
+                reporting_end_datetime_non_working_day = str(reporting_period_end_datetime_local).split('T')[0]
+            except ValueError:
+                raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                       description="API.INVALID_REPORTING_PERIOD_END_DATETIME")
+
+        if reporting_start_datetime_utc >= reporting_end_datetime_utc:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_REPORTING_PERIOD_END_DATETIME')
+
+        # if turn quick mode on, do not return parameters data and excel file
+        is_quick_mode = False
+        if quick_mode is not None and \
+                len(str.strip(quick_mode)) > 0 and \
+                str.lower(str.strip(quick_mode)) in ('true', 't', 'on', 'yes', 'y'):
+            is_quick_mode = True
+
+        ############################################################################################################
+        # Redis cache
+        ############################################################################################################
+        cache_key = None
+        cache_expire = 1800  # 30 minutes
+        redis_client = None
+        if config.redis.get('is_enabled'):
+            try:
+                redis_client = redis.Redis(
+                    host=config.redis['host'],
+                    port=config.redis['port'],
+                    password=config.redis.get('password') or None,
+                    db=config.redis['db'],
+                    decode_responses=True,
+                    socket_connect_timeout=2,
+                    socket_timeout=2
+                )
+                redis_client.ping()
+
+                # Normalize end datetimes for cache key: set minute/second/microsecond to 0
+                reporting_end_datetime_utc_normalized = None
+                if reporting_end_datetime_utc is not None:
+                    reporting_end_datetime_utc_normalized = reporting_end_datetime_utc.replace(
+                        minute=0, second=0, microsecond=0)
+
+                cache_params = {
+                    "spaceid": space_id,
+                    "spaceuuid": space_uuid,
+                    "periodtype": period_type,
+                    "reporting_start_datetime_utc": reporting_start_datetime_utc.isoformat()
+                    if reporting_start_datetime_utc else None,
+                    "reporting_end_datetime_utc": reporting_end_datetime_utc_normalized.isoformat()
+                    if reporting_end_datetime_utc_normalized else None,
+                    "language": language,
+                    "quickmode": is_quick_mode,
+                }
+                cache_params_json = json.dumps(cache_params, sort_keys=True)
+                cache_key = 'report:spaceenergycategory:' + \
+                            hashlib.sha256(cache_params_json.encode('utf-8')).hexdigest()
+
+                cached_result = redis_client.get(cache_key)
+                if cached_result:
+                    resp.text = cached_result
+                    return
+            except Exception:
+                redis_client = None
+
+        trans = utilities.get_translation(language)
+        trans.install()
+        _ = trans.gettext
+
+        ################################################################################################################
+        # Step 2: query the space
+        ################################################################################################################
+        cnx_system = None
+        cnx_energy = None
+        cnx_historical = None
+        try:
+            cnx_system = mysql.connector.connect(**config.myems_system_db)
+            cnx_energy = mysql.connector.connect(**config.myems_energy_db)
+            cnx_historical = mysql.connector.connect(**config.myems_historical_db)
+
+            cursor_system = None
+            cursor_energy = None
+            cursor_historical = None
+            try:
+                cursor_system = cnx_system.cursor()
+                cursor_energy = cnx_energy.cursor()
+                cursor_historical = cnx_historical.cursor()
+
+                if space_id is not None:
+                    cursor_system.execute(" SELECT id, name, area, number_of_occupants, cost_center_id "
+                                          " FROM tbl_spaces "
+                                          " WHERE id = %s ", (space_id,))
+                    row_space = cursor_system.fetchone()
+                elif space_uuid is not None:
+                    cursor_system.execute(" SELECT id, name, area, number_of_occupants, cost_center_id "
+                                          " FROM tbl_spaces "
+                                          " WHERE uuid = %s ", (space_uuid,))
+                    row_space = cursor_system.fetchone()
+
+                if row_space is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.SPACE_NOT_FOUND')
+
+                space = dict()
+                space['id'] = row_space[0]
+                space['name'] = row_space[1]
+                space['area'] = row_space[2]
+                space['number_of_occupants'] = row_space[3]
+                space['cost_center_id'] = row_space[4]
+
+                ###############################################################################################
+                # Step 3: query energy categories
+                ###############################################################################################
+                energy_category_set = set()
+                # query energy categories in reporting period
+                cursor_energy.execute(" SELECT DISTINCT(energy_category_id) "
+                                      " FROM tbl_space_input_category_hourly "
+                                      " WHERE space_id = %s "
+                                      "     AND start_datetime_utc >= %s "
+                                      "     AND start_datetime_utc < %s ",
+                                      (space['id'], reporting_start_datetime_utc, reporting_end_datetime_utc))
+                rows_energy_categories = cursor_energy.fetchall()
+                if rows_energy_categories is not None and len(rows_energy_categories) > 0:
+                    for row_energy_category in rows_energy_categories:
+                        energy_category_set.add(row_energy_category[0])
+
+                # query all energy categories in base period and reporting period
+                cursor_system.execute(" SELECT id, name, unit_of_measure, kgce, kgco2e "
+                                      " FROM tbl_energy_categories "
+                                      " ORDER BY id ", )
+                rows_energy_categories = cursor_system.fetchall()
+                if rows_energy_categories is None or len(rows_energy_categories) == 0:
+                    raise falcon.HTTPError(status=falcon.HTTP_404,
+                                           title='API.NOT_FOUND',
+                                           description='API.ENERGY_CATEGORY_NOT_FOUND')
+                energy_category_dict = dict()
+                for row_energy_category in rows_energy_categories:
+                    if row_energy_category[0] in energy_category_set:
+                        energy_category_dict[row_energy_category[0]] = {"name": row_energy_category[1],
+                                                                        "unit_of_measure": row_energy_category[2],
+                                                                        "kgce": row_energy_category[3],
+                                                                        "kgco2e": row_energy_category[4]}
+
+                ###################################################################################################
+                # Step 4: query associated working calendars
+                ###################################################################################################
+                working_calendar_list = list()
+                cursor_system.execute(" SELECT swc.id "
+                                      " FROM tbl_spaces sp, tbl_spaces_working_calendars swc "
+                                      " WHERE sp.id = %s AND sp.id = swc.space_id ", (space['id'], ))
+                rows = cursor_system.fetchall()
+                if rows is not None and len(rows) > 0:
+                    for row in rows:
+                        working_calendar_list.append(row[0])
+
+                ####################################################################################################
+                # Step 5: query child spaces
+                ####################################################################################################
+                child_space_list = list()
+                cursor_system.execute(" SELECT id, name  "
+                                      " FROM tbl_spaces "
+                                      " WHERE parent_space_id = %s "
+                                      " ORDER BY id ", (space['id'], ))
+                rows_child_spaces = cursor_system.fetchall()
+                if rows_child_spaces is not None and len(rows_child_spaces) > 0:
+                    for row in rows_child_spaces:
+                        child_space_list.append({"id": row[0], "name": row[1]})
+
+                ##################################################################################################
+                # Step 6: query reporting period energy input
+                ##################################################################################################
+                reporting = dict()
+                reporting['non_working_days'] = list()
+                if energy_category_set is not None and len(energy_category_set) > 0:
+                    cursor_system.execute(" SELECT nwd.date_local "
+                                          " FROM tbl_spaces sp, tbl_spaces_working_calendars spwc, "
+                                          " tbl_working_calendars_non_working_days nwd "
+                                          " WHERE sp.id = %s AND "
+                                          " sp.id = spwc.space_id AND "
+                                          " spwc.working_calendar_id = nwd.working_calendar_id AND"
+                                          " nwd.date_local >= %s AND"
+                                          " nwd.date_local <= %s ",
+                                          (space['id'],
+                                           reporting_start_datetime_non_working_day,
+                                           reporting_end_datetime_non_working_day))
+                    rows = cursor_system.fetchall()
+                    for row in rows:
+                        row_datetime = row[0].isoformat()[0:10]
+                        reporting['non_working_days'].append(row_datetime)
+                    for energy_category_id in energy_category_set:
+                        kgce = energy_category_dict[energy_category_id]['kgce']
+                        kgco2e = energy_category_dict[energy_category_id]['kgco2e']
+
+                        reporting[energy_category_id] = dict()
+                        reporting[energy_category_id]['timestamps'] = list()
+                        reporting[energy_category_id]['values'] = list()
+                        reporting[energy_category_id]['subtotal'] = Decimal(0.0)
+                        reporting[energy_category_id]['subtotal_in_kgce'] = Decimal(0.0)
+                        reporting[energy_category_id]['subtotal_in_kgco2e'] = Decimal(0.0)
+                        reporting[energy_category_id]['toppeak'] = Decimal(0.0)
+                        reporting[energy_category_id]['onpeak'] = Decimal(0.0)
+                        reporting[energy_category_id]['midpeak'] = Decimal(0.0)
+                        reporting[energy_category_id]['offpeak'] = Decimal(0.0)
+                        reporting[energy_category_id]['deep'] = Decimal(0.0)
+                        reporting[energy_category_id]['non_working_days_subtotal'] = Decimal(0.0)
+                        reporting[energy_category_id]['working_days_subtotal'] = Decimal(0.0)
+
+                        cursor_energy.execute(" SELECT start_datetime_utc, actual_value "
+                                              " FROM tbl_space_input_category_hourly "
+                                              " WHERE space_id = %s "
+                                              "     AND energy_category_id = %s "
+                                              "     AND start_datetime_utc >= %s "
+                                              "     AND start_datetime_utc < %s "
+                                              " ORDER BY start_datetime_utc ",
+                                              (space['id'],
+                                               energy_category_id,
+                                               reporting_start_datetime_utc,
+                                               reporting_end_datetime_utc))
+                        rows_space_hourly = cursor_energy.fetchall()
+
+                        rows_space_periodically = utilities.aggregate_hourly_data_by_period(
+                            rows_space_hourly,
+                            reporting_start_datetime_utc,
+                            reporting_end_datetime_utc,
+                            period_type)
+                        for row_space_periodically in rows_space_periodically:
+                            current_datetime_local = row_space_periodically[0].replace(tzinfo=timezone.utc) + \
+                                                     timedelta(minutes=timezone_offset)
+                            if period_type == 'hourly':
+                                current_datetime = current_datetime_local.isoformat()[0:19]
+                            elif period_type == 'daily':
+                                current_datetime = current_datetime_local.isoformat()[0:10]
+                            elif period_type == 'weekly':
+                                current_datetime = current_datetime_local.isoformat()[0:10]
+                            elif period_type == 'monthly':
+                                current_datetime = current_datetime_local.isoformat()[0:7]
+                            elif period_type == 'yearly':
+                                current_datetime = current_datetime_local.isoformat()[0:4]
+
+                            actual_value = Decimal(0.0) if row_space_periodically[1] is None \
+                                else row_space_periodically[1]
+                            reporting[energy_category_id]['timestamps'].append(current_datetime)
+                            reporting[energy_category_id]['values'].append(actual_value)
+                            reporting[energy_category_id]['subtotal'] += actual_value
+                            reporting[energy_category_id]['subtotal_in_kgce'] += actual_value * kgce
+                            reporting[energy_category_id]['subtotal_in_kgco2e'] += actual_value * kgco2e
+                            if current_datetime in reporting['non_working_days']:
+                                reporting[energy_category_id]['non_working_days_subtotal'] += actual_value
+                            else:
+                                reporting[energy_category_id]['working_days_subtotal'] += actual_value
+
+                        energy_category_tariff_dict = utilities.get_energy_category_peak_types(
+                            space['cost_center_id'],
+                            energy_category_id,
+                            reporting_start_datetime_utc,
+                            reporting_end_datetime_utc)
+                        for row in rows_space_hourly:
+                            peak_type = energy_category_tariff_dict.get(row[0], None)
+                            if peak_type == 'toppeak':
+                                reporting[energy_category_id]['toppeak'] += row[1]
+                            elif peak_type == 'onpeak':
+                                reporting[energy_category_id]['onpeak'] += row[1]
+                            elif peak_type == 'midpeak':
+                                reporting[energy_category_id]['midpeak'] += row[1]
+                            elif peak_type == 'offpeak':
+                                reporting[energy_category_id]['offpeak'] += row[1]
+                            elif peak_type == 'deep':
+                                reporting[energy_category_id]['deep'] += row[1]
+
+                ###########################################################################################
+                # Step 7: query child spaces energy input
+                ###########################################################################################
+                child_space_data = dict()
+
+                if energy_category_set is not None and len(energy_category_set) > 0:
+                    for energy_category_id in energy_category_set:
+                        child_space_data[energy_category_id] = dict()
+                        child_space_data[energy_category_id]['child_space_ids'] = list()
+                        child_space_data[energy_category_id]['child_space_names'] = list()
+                        child_space_data[energy_category_id]['subtotals'] = list()
+                        child_space_data[energy_category_id]['subtotals_in_kgce'] = list()
+                        child_space_data[energy_category_id]['subtotals_in_kgco2e'] = list()
+                        kgce = energy_category_dict[energy_category_id]['kgce']
+                        kgco2e = energy_category_dict[energy_category_id]['kgco2e']
+                        for child_space in child_space_list:
+                            child_space_data[energy_category_id]['child_space_ids'].append(child_space['id'])
+                            child_space_data[energy_category_id]['child_space_names'].append(child_space['name'])
+
+                            cursor_energy.execute(" SELECT SUM(actual_value) "
+                                                  " FROM tbl_space_input_category_hourly "
+                                                  " WHERE space_id = %s "
+                                                  "     AND energy_category_id = %s "
+                                                  "     AND start_datetime_utc >= %s "
+                                                  "     AND start_datetime_utc < %s ",
+                                                  (child_space['id'],
+                                                   energy_category_id,
+                                                   reporting_start_datetime_utc,
+                                                   reporting_end_datetime_utc))
+                            row_subtotal = cursor_energy.fetchone()
+
+                            subtotal = Decimal(0.0) if (row_subtotal is None or row_subtotal[0] is None) \
+                                else row_subtotal[0]
+                            child_space_data[energy_category_id]['subtotals'].append(subtotal)
+                            child_space_data[energy_category_id]['subtotals_in_kgce'].append(subtotal * kgce)
+                            child_space_data[energy_category_id]['subtotals_in_kgco2e'].append(subtotal * kgco2e)
+
+            finally:
+                if cursor_system:
+                    cursor_system.close()
+                if cursor_energy:
+                    cursor_energy.close()
+                if cursor_historical:
+                    cursor_historical.close()
+
+        finally:
+            if cnx_system:
+                cnx_system.close()
+            if cnx_energy:
+                cnx_energy.close()
+            if cnx_historical:
+                cnx_historical.close()
+
+        ################################################################################################################
+        # Step 8: construct the report
+        ################################################################################################################
+        result = dict()
+
+        result['space'] = dict()
+        result['space']['id'] = space['id']
+        result['space']['name'] = space['name']
+        result['space']['area'] = space['area']
+        result['space']['number_of_occupants'] = space['number_of_occupants']
+        result['space']['working_calendars'] = working_calendar_list
+
+        result['reporting_period'] = dict()
+        result['reporting_period']['names'] = list()
+        result['reporting_period']['energy_category_ids'] = list()
+        result['reporting_period']['units'] = list()
+        result['reporting_period']['timestamps'] = list()
+        result['reporting_period']['values'] = list()
+        result['reporting_period']['subtotals'] = list()
+        result['reporting_period']['subtotals_in_kgce'] = list()
+        result['reporting_period']['subtotals_in_kgco2e'] = list()
+        result['reporting_period']['subtotals_per_unit_area'] = list()
+        result['reporting_period']['subtotals_per_capita'] = list()
+        result['reporting_period']['toppeaks'] = list()
+        result['reporting_period']['onpeaks'] = list()
+        result['reporting_period']['midpeaks'] = list()
+        result['reporting_period']['offpeaks'] = list()
+        result['reporting_period']['deeps'] = list()
+        result['reporting_period']['total_in_kgce'] = Decimal(0.0)
+        result['reporting_period']['total_in_kgco2e'] = Decimal(0.0)
+        result['reporting_period']['non_working_days_subtotals'] = list()
+        result['reporting_period']['working_days_subtotals'] = list()
+        result['reporting_period']['non_working_days_total'] = Decimal(0.0)
+        result['reporting_period']['working_days_total'] = Decimal(0.0)
+
+        if energy_category_set is not None and len(energy_category_set) > 0:
+            for energy_category_id in energy_category_set:
+                result['reporting_period']['names'].append(energy_category_dict[energy_category_id]['name'])
+                result['reporting_period']['energy_category_ids'].append(energy_category_id)
+                result['reporting_period']['units'].append(energy_category_dict[energy_category_id]['unit_of_measure'])
+                result['reporting_period']['timestamps'].append(reporting[energy_category_id]['timestamps'])
+                result['reporting_period']['values'].append(reporting[energy_category_id]['values'])
+                result['reporting_period']['subtotals'].append(reporting[energy_category_id]['subtotal'])
+                result['reporting_period']['subtotals_in_kgce'].append(
+                    reporting[energy_category_id]['subtotal_in_kgce'])
+                result['reporting_period']['subtotals_in_kgco2e'].append(
+                    reporting[energy_category_id]['subtotal_in_kgco2e'])
+                result['reporting_period']['subtotals_per_unit_area'].append(
+                    reporting[energy_category_id]['subtotal'] / space['area'] if space['area'] > 0.0 else None)
+                result['reporting_period']['subtotals_per_capita'].append(
+                    reporting[energy_category_id]['subtotal'] / space['number_of_occupants']
+                    if space['number_of_occupants'] > 0.0 else None)
+                result['reporting_period']['toppeaks'].append(reporting[energy_category_id]['toppeak'])
+                result['reporting_period']['onpeaks'].append(reporting[energy_category_id]['onpeak'])
+                result['reporting_period']['midpeaks'].append(reporting[energy_category_id]['midpeak'])
+                result['reporting_period']['offpeaks'].append(reporting[energy_category_id]['offpeak'])
+                result['reporting_period']['deeps'].append(reporting[energy_category_id]['deep'])
+                result['reporting_period']['total_in_kgce'] += reporting[energy_category_id]['subtotal_in_kgce']
+                result['reporting_period']['total_in_kgco2e'] += reporting[energy_category_id]['subtotal_in_kgco2e']
+                result['reporting_period']['non_working_days_subtotals'].append(
+                    reporting[energy_category_id]['non_working_days_subtotal'])
+                result['reporting_period']['working_days_subtotals'].append(
+                    reporting[energy_category_id]['working_days_subtotal'])
+                result['reporting_period']['non_working_days_total'] += \
+                    reporting[energy_category_id]['non_working_days_subtotal']
+                result['reporting_period']['working_days_total'] += \
+                    reporting[energy_category_id]['working_days_subtotal']
+
+        result['reporting_period']['total_in_kgce_per_unit_area'] = \
+            result['reporting_period']['total_in_kgce'] / space['area'] if space['area'] > 0.0 else None
+
+        result['reporting_period']['total_in_kgce_per_capita'] = \
+            result['reporting_period']['total_in_kgce'] / space['number_of_occupants'] \
+                if space['number_of_occupants'] > 0.0 else None
+
+        result['reporting_period']['total_in_kgco2e_per_unit_area'] = \
+            result['reporting_period']['total_in_kgco2e'] / space['area'] if space['area'] > 0.0 else None
+
+        result['reporting_period']['total_in_kgco2e_per_capita'] = \
+            result['reporting_period']['total_in_kgco2e'] / space['number_of_occupants'] \
+                if space['number_of_occupants'] > 0.0 else None
+
+        result['child_space'] = dict()
+        result['child_space']['energy_category_names'] = list()  # 1D array [energy category]
+        result['child_space']['units'] = list()  # 1D array [energy category]
+        result['child_space']['child_space_ids_array'] = list()  # 2D array [energy category][child space]
+        result['child_space']['child_space_names_array'] = list()  # 2D array [energy category][child space]
+        result['child_space']['subtotals_array'] = list()  # 2D array [energy category][child space]
+        result['child_space']['subtotals_in_kgce_array'] = list()  # 2D array [energy category][child space]
+        result['child_space']['subtotals_in_kgco2e_array'] = list()  # 2D array [energy category][child space]
+        if energy_category_set is not None and len(energy_category_set) > 0:
+            for energy_category_id in energy_category_set:
+                result['child_space']['energy_category_names'].append(energy_category_dict[energy_category_id]['name'])
+                result['child_space']['units'].append(energy_category_dict[energy_category_id]['unit_of_measure'])
+                result['child_space']['child_space_ids_array'].append(
+                    child_space_data[energy_category_id]['child_space_ids'])
+                result['child_space']['child_space_names_array'].append(
+                    child_space_data[energy_category_id]['child_space_names'])
+                result['child_space']['subtotals_array'].append(
+                    child_space_data[energy_category_id]['subtotals'])
+                result['child_space']['subtotals_in_kgce_array'].append(
+                    child_space_data[energy_category_id]['subtotals_in_kgce'])
+                result['child_space']['subtotals_in_kgco2e_array'].append(
+                    child_space_data[energy_category_id]['subtotals_in_kgco2e'])
+
+        resp_text = json.dumps(result)
+        resp.text = resp_text
+
+        if config.redis.get('is_enabled') and redis_client is not None and cache_key is not None:
+            try:
+                redis_client.setex(cache_key, cache_expire, resp_text)
+            except Exception:
+                logger.warning("Failed to write cache key %s", cache_key, exc_info=True)

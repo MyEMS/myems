@@ -16,7 +16,6 @@ from core.useractivity import access_control, api_key_control
 
 logger = logging.getLogger(__name__)
 
-_DEFAULT_URL = 'https://api.deepseek.com/v1/chat/completions'
 _MAX_REPORT_CHARS = 120000
 _MAX_MESSAGES = 5
 _MAX_CONTENT_CHARS = 32000
@@ -191,8 +190,8 @@ class DeepSeekChat:
                 description='API.INVALID_MESSAGES',
             )
 
-        url = str(config.deepseek_api_url or _DEFAULT_URL).strip() or _DEFAULT_URL
-        model = str(config.deepseek_model or 'deepseek-chat').strip() or 'deepseek-chat'
+        url = str(config.deepseek_api_url).strip()
+        model = str(config.deepseek_model or 'deepseek-v4-flash').strip() or 'deepseek-v4-flash'
 
         payload = {
             'model': model,

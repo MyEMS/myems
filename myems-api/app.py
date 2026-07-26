@@ -4,7 +4,7 @@ from falcon_multipart.middleware import MultipartMiddleware
 # for debugging this api on Linux or macOS
 from wsgiref import simple_server
 
-from ai import deepseek_chat
+from ai import deepseek
 from core import advancedreport, apikey, command, controlmode, energyflowdiagram, \
     privilege, textmessage, distributioncircuit, virtualmeter, \
     costcenter, point, knowledgefile, meter, tariff, user, storetype, timezone, \
@@ -150,6 +150,7 @@ from reports import shopfloorsaving
 from reports import shopfloorstatistics
 from reports import spacecarbon
 from reports import spacecost
+from reports import spacedashboard
 from reports import spaceefficiency
 from reports import spaceenergycategory
 from reports import spaceenergyitem
@@ -224,7 +225,7 @@ api.add_route('/advancedreports/{id_}/clone',
               advancedreport.AdvancedReportClone())
 
 api.add_route('/ai/deepseek/chat',
-              deepseek_chat.DeepSeekChat())
+              deepseek.DeepSeekChat())
 
 api.add_route('/combinedequipments',
               combinedequipment.CombinedEquipmentCollection())
@@ -545,7 +546,7 @@ api.add_route('/equipments/{id_}/clone',
 
 api.add_route('/equipments/{id_}/datasources',
               equipment.EquipmentDataSourceCollection())
-api.add_route('/equipments/{id_}/datasources/{dsid}', 
+api.add_route('/equipments/{id_}/datasources/{dsid}',
               equipment.EquipmentDataSourceItem())
 api.add_route('/equipments/{id_}/addpoints',
               equipment.EquipmentAddPointsCollection())
@@ -1472,6 +1473,8 @@ api.add_route('/reports/spacecarbon',
               spacecarbon.Reporting())
 api.add_route('/reports/spacecost',
               spacecost.Reporting())
+api.add_route('/reports/spacedashboard',
+              spacedashboard.Reporting())
 api.add_route('/reports/spaceefficiency',
               spaceefficiency.Reporting())
 api.add_route('/reports/spaceenergycategory',
