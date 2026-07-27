@@ -89,7 +89,7 @@ export default {
         'Meter Batch Analysis': '계량기 일괄 분석',
         'Meter Comparison': '계량기 비교 분석',
         'Meter Tracking': '계량기 대장',
-        'Meter Count': '계량기 대장 Count',
+        'Meter Count': '미터 수',
         'Virtual Meter Count': '가상 미터 수',
         'Offline Meter Count': '오프라인 미터 수',
         'Virtual Meter List': '가상 계량기 목록',

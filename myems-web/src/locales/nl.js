@@ -89,7 +89,7 @@ export default {
         'Meter Batch Analysis': 'Meetmeter batchanalyse',
         'Meter Comparison': 'Meetmeter vergelijkende analyse',
         'Meter Tracking': 'Meetmeter logboek',
-        'Meter Count': 'Meetmeter logboek Count',
+        'Meter Count': 'Aantal meters',
         'Virtual Meter Count': 'Aantal virtuele meters',
         'Offline Meter Count': 'Aantal offline meters',
         'Virtual Meter List': 'Lijst virtuele meters',

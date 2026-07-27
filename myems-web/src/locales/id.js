@@ -89,7 +89,7 @@ export default {
         'Meter Batch Analysis': 'Analisis Seri Dari Meter Pengukuran',
         'Meter Comparison': 'Analisi Komparatif Dari Meter Ukuran',
         'Meter Tracking': 'Pemberi Tabel Keukuran',
-        'Meter Count': 'Pemberi Tabel Keukuran Count',
+        'Meter Count': 'Jumlah Meter',
         'Virtual Meter Count': 'Jumlah Meter Virtual',
         'Offline Meter Count': 'Jumlah Meter Offline',
         'Virtual Meter List': 'Daftar Meter Virtual',

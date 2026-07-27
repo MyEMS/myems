@@ -89,7 +89,7 @@ export default {
         'Meter Batch Analysis': 'Sayaç Toplu Analizi',
         'Meter Comparison': 'Sayaç Karşılaştırması',
         'Meter Tracking': 'Sayaç Takibi',
-        'Meter Count': 'Sayaç Takibi Count',
+        'Meter Count': 'Sayaç Sayısı',
         'Virtual Meter Count': 'Sanal Sayaç Sayısı',
         'Offline Meter Count': 'Çevrimdışı Sayaç Sayısı',
         'Virtual Meter List': 'Sanal Sayaç Listesi',

@@ -89,7 +89,7 @@ export default {
         'Meter Batch Analysis': 'Phân tích hàng loạt đồng hồ',
         'Meter Comparison': 'So sánh đồng hồ',
         'Meter Tracking': 'Theo dõi đồng hồ đo',
-        'Meter Count': 'Theo dõi đồng hồ đo Count',
+        'Meter Count': 'Số lượng đồng hồ',
         'Virtual Meter Count': 'Số lượng đồng hồ ảo',
         'Offline Meter Count': 'Số lượng đồng hồ ngoại tuyến',
         'Virtual Meter List': 'Danh sách đồng hồ ảo',

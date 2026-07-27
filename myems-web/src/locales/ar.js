@@ -89,7 +89,7 @@ export default {
         'Meter Batch Analysis': 'تحليل دفعة العدادات',
         'Meter Comparison': 'مقارنة العدادات',
         'Meter Tracking': 'تتبع العداد',
-        'Meter Count': 'تتبع العداد Count',
+        'Meter Count': 'عدد العدادات',
         'Virtual Meter Count': 'عدد العدادات الافتراضية',
         'Offline Meter Count': 'عدد العدادات غير المتصلة',
         'Virtual Meter List': 'قائمة العدادات الافتراضية',

@@ -89,7 +89,7 @@ export default {
         'Meter Batch Analysis': 'การวิเคราะห์แบทช์มิเตอร์',
         'Meter Comparison': 'การเปรียบเทียบมิเตอร์',
         'Meter Tracking': 'การติดตามมิเตอร์',
-        'Meter Count': 'การติดตามมิเตอร์ Count',
+        'Meter Count': 'จำนวนมิเตอร์',
         'Virtual Meter Count': 'จำนวนมิเตอร์เสมือน',
         'Offline Meter Count': 'จำนวนมิเตอร์ออฟไลน์',
         'Virtual Meter List': 'รายการมิเตอร์เสมือน',

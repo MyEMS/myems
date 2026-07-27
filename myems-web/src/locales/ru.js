@@ -89,7 +89,7 @@ export default {
         'Meter Batch Analysis': 'Пакетный анализ счетчиков',
         'Meter Comparison': 'Сравнение счетчиков',
         'Meter Tracking': 'Слежение за счетчиком',
-        'Meter Count': 'Слежение за счетчиком Count',
+        'Meter Count': 'Количество счетчиков',
         'Virtual Meter Count': 'Количество виртуальных счетчиков',
         'Offline Meter Count': 'Количество автономных счетчиков',
         'Virtual Meter List': 'Список виртуальных счетчиков',

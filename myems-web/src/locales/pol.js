@@ -89,7 +89,7 @@ export default {
         'Meter Batch Analysis': 'Analiza zbiorcza liczników',
         'Meter Comparison': 'Analiza porównawcza liczników',
         'Meter Tracking': 'Rejestr liczników',
-        'Meter Count': 'Rejestr liczników Count',
+        'Meter Count': 'Liczba liczników',
         'Virtual Meter Count': 'Liczba liczników wirtualnych',
         'Offline Meter Count': 'Liczba liczników offline',
         'Virtual Meter List': 'Lista Wirtualnych Liczników',

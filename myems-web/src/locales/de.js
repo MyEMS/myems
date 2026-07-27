@@ -89,7 +89,7 @@ export default {
         'Meter Batch Analysis': 'Meter Charge Analyse',
         'Meter Comparison': 'Meter Vergleich',
         'Meter Tracking': 'Meterverfolgung',
-        'Meter Count': 'Meterverfolgung Count',
+        'Meter Count': 'Zähleranzahl',
         'Virtual Meter Count': 'Anzahl virtueller Zähler',
         'Offline Meter Count': 'Anzahl Offline-Zähler',
         'Virtual Meter List': 'Liste virtueller Zähler',

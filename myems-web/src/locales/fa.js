@@ -89,7 +89,7 @@ export default {
         'Meter Batch Analysis': 'تحلیل انبوه کنتور',
         'Meter Comparison': 'تحلیل مقایسه‌ای کنتور',
         'Meter Tracking': 'دفترچه کنتور',
-        'Meter Count': 'دفترچه کنتور Count',
+        'Meter Count': 'تعداد کنتورها',
         'Virtual Meter Count': 'تعداد کنتورهای مجازی',
         'Offline Meter Count': 'تعداد کنتورهای آفلاین',
         'Virtual Meter List': 'لیست کنتورهای مجازی',

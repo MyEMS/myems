@@ -89,7 +89,7 @@ export default {
         'Meter Batch Analysis': '計量メータ一括分析',
         'Meter Comparison': '計量メータ比較分析',
         'Meter Tracking': '計量メータ台帳',
-        'Meter Count': '計量メータ台帳 Count',
+        'Meter Count': 'メーター数',
         'Virtual Meter Count': '仮想メーター数',
         'Offline Meter Count': 'オフラインメーター数',
         'Virtual Meter List': '仮想メーターリスト',

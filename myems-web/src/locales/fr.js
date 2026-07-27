@@ -89,7 +89,7 @@ export default {
         'Meter Batch Analysis': 'Compteur Analyse des lots ',
         'Meter Comparison': 'Compteurs Comparaison',
         'Meter Tracking': 'Compteurs Suivi',
-        'Meter Count': 'Compteurs Suivi Count',
+        'Meter Count': 'Nombre de compteurs',
         'Virtual Meter Count': 'Nombre de compteurs virtuels',
         'Offline Meter Count': 'Nombre de compteurs hors ligne',
         'Virtual Meter List': 'Liste des compteurs virtuels',
