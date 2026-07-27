@@ -206,7 +206,7 @@ class Reporting:
                     "quickmode": is_quick_mode,
                 }
                 cache_params_json = json.dumps(cache_params, sort_keys=True)
-                cache_key = 'report:metertracking:' + hashlib.sha256(cache_params_json.encode('utf-8')).hexdigest()
+                cache_key = 'report:meterdashboard:' + hashlib.sha256(cache_params_json.encode('utf-8')).hexdigest()
 
                 cached_result = redis_client.get(cache_key)
                 if cached_result:
@@ -271,17 +271,19 @@ class Reporting:
                     for node in LevelOrderIter(node_dict[space_id]):
                         space_dict[node.id] = node.name
 
+                    space_ids = list(space_dict.keys())
+                    placeholders = ','.join(['%s'] * len(space_ids))
                     cursor_system_db.execute(" SELECT m.id, m.name AS meter_name, s.id AS space_id, "
                                              "        cc.name AS cost_center_name, ec.name AS energy_category_name, "
                                              "         m.description, m.uuid AS meter_uuid "
                                              " FROM tbl_spaces s, tbl_spaces_meters sm, "
                                              "tbl_meters m, tbl_cost_centers cc, "
                                              "      tbl_energy_categories ec "
-                                             " WHERE s.id IN ( " + ', '.join(map(str, space_dict.keys())) + ") "
+                                             " WHERE s.id IN (" + placeholders + ") "
                                              "       AND sm.space_id = s.id AND sm.meter_id = m.id "
                                              + energy_category_query +
                                              " AND m.cost_center_id = cc.id AND m.energy_category_id = ec.id "
-                                             " ORDER BY meter_id ", )
+                                             " ORDER BY meter_id ", tuple(space_ids))
                 else:
                     cursor_system_db.execute(" SELECT m.id, m.name AS meter_name, s.id AS space_id, "
                                              "        cc.name AS cost_center_name, ec.name AS energy_category_name, "
@@ -388,17 +390,19 @@ class Reporting:
                 # Query virtual meters in the space tree
                 virtual_meter_dict = dict()
                 if config.is_recursive:
+                    space_ids = list(space_dict.keys())
+                    placeholders = ','.join(['%s'] * len(space_ids))
                     cursor_system_db.execute(" SELECT vm.id, vm.name AS virtual_meter_name, s.id AS space_id, "
                                              "        cc.name AS cost_center_name, ec.name AS energy_category_name, "
                                              "         vm.description, vm.uuid AS virtual_meter_uuid "
                                              " FROM tbl_spaces s, tbl_spaces_virtual_meters svm, "
                                              "tbl_virtual_meters vm, tbl_cost_centers cc, "
                                              "      tbl_energy_categories ec "
-                                             " WHERE s.id IN ( " + ', '.join(map(str, space_dict.keys())) + ") "
+                                             " WHERE s.id IN (" + placeholders + ") "
                                              "       AND svm.space_id = s.id AND svm.virtual_meter_id = vm.id "
                                              + energy_category_query +
                                              " AND vm.cost_center_id = cc.id AND vm.energy_category_id = ec.id "
-                                             " ORDER BY virtual_meter_id ", )
+                                             " ORDER BY virtual_meter_id ", tuple(space_ids))
                 else:
                     cursor_system_db.execute(" SELECT vm.id, vm.name AS virtual_meter_name, s.id AS space_id, "
                                              "        cc.name AS cost_center_name, ec.name AS energy_category_name, "
@@ -491,17 +495,19 @@ class Reporting:
                 # Query offline meters in the space tree
                 offline_meter_dict = dict()
                 if config.is_recursive:
+                    space_ids = list(space_dict.keys())
+                    placeholders = ','.join(['%s'] * len(space_ids))
                     cursor_system_db.execute(" SELECT om.id, om.name AS offline_meter_name, s.id AS space_id, "
                                              "        cc.name AS cost_center_name, ec.name AS energy_category_name, "
                                              "         om.description, om.uuid AS offline_meter_uuid "
                                              " FROM tbl_spaces s, tbl_spaces_offline_meters som, "
                                              "tbl_offline_meters om, tbl_cost_centers cc, "
                                              "      tbl_energy_categories ec "
-                                             " WHERE s.id IN ( " + ', '.join(map(str, space_dict.keys())) + ") "
+                                             " WHERE s.id IN (" + placeholders + ") "
                                              "       AND som.space_id = s.id AND som.offline_meter_id = om.id "
                                              + energy_category_query +
                                              " AND om.cost_center_id = cc.id AND om.energy_category_id = ec.id "
-                                             " ORDER BY offline_meter_id ", )
+                                             " ORDER BY offline_meter_id ", tuple(space_ids))
                 else:
                     cursor_system_db.execute(" SELECT om.id, om.name AS offline_meter_name, s.id AS space_id, "
                                              "        cc.name AS cost_center_name, ec.name AS energy_category_name, "
