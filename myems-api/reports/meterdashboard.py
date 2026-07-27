@@ -1,7 +1,7 @@
 """
-Meter Tracking Report API
+Meter Dashboard Report API
 
-This module provides REST API endpoints for generating meter tracking reports.
+This module provides REST API endpoints for generating meter Dashboard reports.
 It tracks meter performance over time and provides insights into
 operational patterns, maintenance needs, and performance trends.
 
@@ -14,7 +14,7 @@ Key Features:
 - Performance monitoring
 
 Report Components:
-- Meter tracking summary
+- Meter Dashboard summary
 - Time-series performance data
 - Performance trend analysis
 - Maintenance indicators
@@ -22,7 +22,7 @@ Report Components:
 - Operational patterns
 
 The module uses Falcon framework for REST API and includes:
-- Database queries for tracking data
+- Database queries for Dashboard data
 - Time-series analysis algorithms
 - Performance monitoring tools
 - Excel export via excelexporters
