@@ -89,7 +89,7 @@ export default {
         'Meter Batch Analysis': 'Analisi Batch Contatore',
         'Meter Comparison': 'Analisi Comparativa Contatori',
         'Meter Tracking': 'Registro Contatori',
-        'Meter Count': 'Registro Contatori Count',
+        'Meter Count': 'Numero di contatori',
         'Virtual Meter Count': 'Numero di contatori virtuali',
         'Offline Meter Count': 'Numero di contatori offline',
         'Virtual Meter List': 'Elenco Contatori Virtuali',
