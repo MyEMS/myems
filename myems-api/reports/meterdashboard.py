@@ -116,6 +116,10 @@ class Reporting:
                                                description='API.ENERGY_CATEGORY_NOT_FOUND')
                     else:
                         energy_category_name = row[0]
+                        if cursor_system_db:
+                            cursor_system_db.close()
+                        if cnx_system_db:
+                            cnx_system_db.close()
 
         timezone_offset = int(config.utc_offset[1:3]) * 60 + int(config.utc_offset[4:6])
         if config.utc_offset[0] == '-':
@@ -135,7 +139,7 @@ class Reporting:
                                        description="API.INVALID_REPORTING_PERIOD_START_DATETIME")
             reporting_start_datetime_utc = \
                 reporting_start_datetime_utc.replace(tzinfo=timezone.utc) - timedelta(minutes=timezone_offset)
-            # nomalize the start datetime
+            # normalize the start datetime
             if config.minutes_to_count == 30 and reporting_start_datetime_utc.minute >= 30:
                 reporting_start_datetime_utc = reporting_start_datetime_utc.replace(minute=30, second=0, microsecond=0)
             else:
