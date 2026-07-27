@@ -92,7 +92,7 @@ class Reporting:
                                    description='API.INVALID_ENERGY_CATEGORY_ID')
         else:
             if energy_category == 'all':
-                energy_category_query = ""
+                energy_category_id = None
                 energy_category_name = None
             else:
                 energy_category = str.strip(energy_category)
@@ -100,12 +100,12 @@ class Reporting:
                     raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                            description='API.INVALID_ENERGY_CATEGORY_ID')
                 else:
+                    energy_category_id = int(energy_category)
                     cnx_system_db = mysql.connector.connect(**config.myems_system_db)
                     cursor_system_db = cnx_system_db.cursor()
-                    energy_category_query = "AND m.energy_category_id = '" + energy_category + "' "
                     cursor_system_db.execute(" SELECT name "
                                              " FROM tbl_energy_categories "
-                                             " WHERE id = %s ", (energy_category,))
+                                             " WHERE id = %s ", (energy_category_id,))
                     row = cursor_system_db.fetchone()
 
                     if row is None:
@@ -273,28 +273,51 @@ class Reporting:
 
                     space_ids = list(space_dict.keys())
                     placeholders = ','.join(['%s'] * len(space_ids))
-                    cursor_system_db.execute(" SELECT m.id, m.name AS meter_name, s.id AS space_id, "
-                                             "        cc.name AS cost_center_name, ec.name AS energy_category_name, "
-                                             "         m.description, m.uuid AS meter_uuid "
-                                             " FROM tbl_spaces s, tbl_spaces_meters sm, "
-                                             "tbl_meters m, tbl_cost_centers cc, "
-                                             "      tbl_energy_categories ec "
-                                             " WHERE s.id IN (" + placeholders + ") "
-                                             "       AND sm.space_id = s.id AND sm.meter_id = m.id "
-                                             + energy_category_query +
-                                             " AND m.cost_center_id = cc.id AND m.energy_category_id = ec.id "
-                                             " ORDER BY meter_id ", tuple(space_ids))
+                    if energy_category_id is not None:
+                        cursor_system_db.execute(" SELECT m.id, m.name AS meter_name, s.id AS space_id, "
+                                                 "        cc.name AS cost_center_name, ec.name AS energy_category_name, "
+                                                 "         m.description, m.uuid AS meter_uuid "
+                                                 " FROM tbl_spaces s, tbl_spaces_meters sm, "
+                                                 "tbl_meters m, tbl_cost_centers cc, "
+                                                 "      tbl_energy_categories ec "
+                                                 " WHERE s.id IN (" + placeholders + ") "
+                                                 "       AND sm.space_id = s.id AND sm.meter_id = m.id "
+                                                 "       AND m.energy_category_id = %s "
+                                                 " AND m.cost_center_id = cc.id AND m.energy_category_id = ec.id "
+                                                 " ORDER BY meter_id ", tuple(space_ids) + (energy_category_id,))
+                    else:
+                        cursor_system_db.execute(" SELECT m.id, m.name AS meter_name, s.id AS space_id, "
+                                                 "        cc.name AS cost_center_name, ec.name AS energy_category_name, "
+                                                 "         m.description, m.uuid AS meter_uuid "
+                                                 " FROM tbl_spaces s, tbl_spaces_meters sm, "
+                                                 "tbl_meters m, tbl_cost_centers cc, "
+                                                 "      tbl_energy_categories ec "
+                                                 " WHERE s.id IN (" + placeholders + ") "
+                                                 "       AND sm.space_id = s.id AND sm.meter_id = m.id "
+                                                 " AND m.cost_center_id = cc.id AND m.energy_category_id = ec.id "
+                                                 " ORDER BY meter_id ", tuple(space_ids))
                 else:
-                    cursor_system_db.execute(" SELECT m.id, m.name AS meter_name, s.id AS space_id, "
-                                             "        cc.name AS cost_center_name, ec.name AS energy_category_name, "
-                                             "         m.description, m.uuid AS meter_uuid "
-                                             " FROM tbl_spaces s, tbl_spaces_meters sm, "
-                                             "tbl_meters m, tbl_cost_centers cc, "
-                                             "      tbl_energy_categories ec "
-                                             " WHERE s.id = %s AND sm.space_id = s.id AND sm.meter_id = m.id "
-                                             + energy_category_query +
-                                             " AND m.cost_center_id = cc.id AND m.energy_category_id = ec.id  "
-                                             " ORDER BY meter_id ", (space_id,))
+                    if energy_category_id is not None:
+                        cursor_system_db.execute(" SELECT m.id, m.name AS meter_name, s.id AS space_id, "
+                                                 "        cc.name AS cost_center_name, ec.name AS energy_category_name, "
+                                                 "         m.description, m.uuid AS meter_uuid "
+                                                 " FROM tbl_spaces s, tbl_spaces_meters sm, "
+                                                 "tbl_meters m, tbl_cost_centers cc, "
+                                                 "      tbl_energy_categories ec "
+                                                 " WHERE s.id = %s AND sm.space_id = s.id AND sm.meter_id = m.id "
+                                                 "       AND m.energy_category_id = %s "
+                                                 " AND m.cost_center_id = cc.id AND m.energy_category_id = ec.id  "
+                                                 " ORDER BY meter_id ", (space_id, energy_category_id))
+                    else:
+                        cursor_system_db.execute(" SELECT m.id, m.name AS meter_name, s.id AS space_id, "
+                                                 "        cc.name AS cost_center_name, ec.name AS energy_category_name, "
+                                                 "         m.description, m.uuid AS meter_uuid "
+                                                 " FROM tbl_spaces s, tbl_spaces_meters sm, "
+                                                 "tbl_meters m, tbl_cost_centers cc, "
+                                                 "      tbl_energy_categories ec "
+                                                 " WHERE s.id = %s AND sm.space_id = s.id AND sm.meter_id = m.id "
+                                                 " AND m.cost_center_id = cc.id AND m.energy_category_id = ec.id  "
+                                                 " ORDER BY meter_id ", (space_id,))
 
                 rows_meters = cursor_system_db.fetchall()
                 if rows_meters is not None and len(rows_meters) > 0:
@@ -392,28 +415,51 @@ class Reporting:
                 if config.is_recursive:
                     space_ids = list(space_dict.keys())
                     placeholders = ','.join(['%s'] * len(space_ids))
-                    cursor_system_db.execute(" SELECT vm.id, vm.name AS virtual_meter_name, s.id AS space_id, "
-                                             "        cc.name AS cost_center_name, ec.name AS energy_category_name, "
-                                             "         vm.description, vm.uuid AS virtual_meter_uuid "
-                                             " FROM tbl_spaces s, tbl_spaces_virtual_meters svm, "
-                                             "tbl_virtual_meters vm, tbl_cost_centers cc, "
-                                             "      tbl_energy_categories ec "
-                                             " WHERE s.id IN (" + placeholders + ") "
-                                             "       AND svm.space_id = s.id AND svm.virtual_meter_id = vm.id "
-                                             + energy_category_query +
-                                             " AND vm.cost_center_id = cc.id AND vm.energy_category_id = ec.id "
-                                             " ORDER BY virtual_meter_id ", tuple(space_ids))
+                    if energy_category_id is not None:
+                        cursor_system_db.execute(" SELECT vm.id, vm.name AS virtual_meter_name, s.id AS space_id, "
+                                                 "        cc.name AS cost_center_name, ec.name AS energy_category_name, "
+                                                 "         vm.description, vm.uuid AS virtual_meter_uuid "
+                                                 " FROM tbl_spaces s, tbl_spaces_virtual_meters svm, "
+                                                 "tbl_virtual_meters vm, tbl_cost_centers cc, "
+                                                 "      tbl_energy_categories ec "
+                                                 " WHERE s.id IN (" + placeholders + ") "
+                                                 "       AND svm.space_id = s.id AND svm.virtual_meter_id = vm.id "
+                                                 "       AND vm.energy_category_id = %s "
+                                                 " AND vm.cost_center_id = cc.id AND vm.energy_category_id = ec.id "
+                                                 " ORDER BY virtual_meter_id ", tuple(space_ids) + (energy_category_id,))
+                    else:
+                        cursor_system_db.execute(" SELECT vm.id, vm.name AS virtual_meter_name, s.id AS space_id, "
+                                                 "        cc.name AS cost_center_name, ec.name AS energy_category_name, "
+                                                 "         vm.description, vm.uuid AS virtual_meter_uuid "
+                                                 " FROM tbl_spaces s, tbl_spaces_virtual_meters svm, "
+                                                 "tbl_virtual_meters vm, tbl_cost_centers cc, "
+                                                 "      tbl_energy_categories ec "
+                                                 " WHERE s.id IN (" + placeholders + ") "
+                                                 "       AND svm.space_id = s.id AND svm.virtual_meter_id = vm.id "
+                                                 " AND vm.cost_center_id = cc.id AND vm.energy_category_id = ec.id "
+                                                 " ORDER BY virtual_meter_id ", tuple(space_ids))
                 else:
-                    cursor_system_db.execute(" SELECT vm.id, vm.name AS virtual_meter_name, s.id AS space_id, "
-                                             "        cc.name AS cost_center_name, ec.name AS energy_category_name, "
-                                             "         vm.description, vm.uuid AS virtual_meter_uuid "
-                                             " FROM tbl_spaces s, tbl_spaces_virtual_meters svm, "
-                                             "tbl_virtual_meters vm, tbl_cost_centers cc, "
-                                             "      tbl_energy_categories ec "
-                                             " WHERE s.id = %s AND svm.space_id = s.id AND svm.virtual_meter_id = vm.id "
-                                             + energy_category_query +
-                                             " AND vm.cost_center_id = cc.id AND vm.energy_category_id = ec.id  "
-                                             " ORDER BY virtual_meter_id ", (space_id,))
+                    if energy_category_id is not None:
+                        cursor_system_db.execute(" SELECT vm.id, vm.name AS virtual_meter_name, s.id AS space_id, "
+                                                 "        cc.name AS cost_center_name, ec.name AS energy_category_name, "
+                                                 "         vm.description, vm.uuid AS virtual_meter_uuid "
+                                                 " FROM tbl_spaces s, tbl_spaces_virtual_meters svm, "
+                                                 "tbl_virtual_meters vm, tbl_cost_centers cc, "
+                                                 "      tbl_energy_categories ec "
+                                                 " WHERE s.id = %s AND svm.space_id = s.id AND svm.virtual_meter_id = vm.id "
+                                                 "       AND vm.energy_category_id = %s "
+                                                 " AND vm.cost_center_id = cc.id AND vm.energy_category_id = ec.id  "
+                                                 " ORDER BY virtual_meter_id ", (space_id, energy_category_id))
+                    else:
+                        cursor_system_db.execute(" SELECT vm.id, vm.name AS virtual_meter_name, s.id AS space_id, "
+                                                 "        cc.name AS cost_center_name, ec.name AS energy_category_name, "
+                                                 "         vm.description, vm.uuid AS virtual_meter_uuid "
+                                                 " FROM tbl_spaces s, tbl_spaces_virtual_meters svm, "
+                                                 "tbl_virtual_meters vm, tbl_cost_centers cc, "
+                                                 "      tbl_energy_categories ec "
+                                                 " WHERE s.id = %s AND svm.space_id = s.id AND svm.virtual_meter_id = vm.id "
+                                                 " AND vm.cost_center_id = cc.id AND vm.energy_category_id = ec.id  "
+                                                 " ORDER BY virtual_meter_id ", (space_id,))
 
                 rows_virtual_meters = cursor_system_db.fetchall()
                 if rows_virtual_meters is not None and len(rows_virtual_meters) > 0:
@@ -497,28 +543,51 @@ class Reporting:
                 if config.is_recursive:
                     space_ids = list(space_dict.keys())
                     placeholders = ','.join(['%s'] * len(space_ids))
-                    cursor_system_db.execute(" SELECT om.id, om.name AS offline_meter_name, s.id AS space_id, "
-                                             "        cc.name AS cost_center_name, ec.name AS energy_category_name, "
-                                             "         om.description, om.uuid AS offline_meter_uuid "
-                                             " FROM tbl_spaces s, tbl_spaces_offline_meters som, "
-                                             "tbl_offline_meters om, tbl_cost_centers cc, "
-                                             "      tbl_energy_categories ec "
-                                             " WHERE s.id IN (" + placeholders + ") "
-                                             "       AND som.space_id = s.id AND som.offline_meter_id = om.id "
-                                             + energy_category_query +
-                                             " AND om.cost_center_id = cc.id AND om.energy_category_id = ec.id "
-                                             " ORDER BY offline_meter_id ", tuple(space_ids))
+                    if energy_category_id is not None:
+                        cursor_system_db.execute(" SELECT om.id, om.name AS offline_meter_name, s.id AS space_id, "
+                                                 "        cc.name AS cost_center_name, ec.name AS energy_category_name, "
+                                                 "         om.description, om.uuid AS offline_meter_uuid "
+                                                 " FROM tbl_spaces s, tbl_spaces_offline_meters som, "
+                                                 "tbl_offline_meters om, tbl_cost_centers cc, "
+                                                 "      tbl_energy_categories ec "
+                                                 " WHERE s.id IN (" + placeholders + ") "
+                                                 "       AND som.space_id = s.id AND som.offline_meter_id = om.id "
+                                                 "       AND om.energy_category_id = %s "
+                                                 " AND om.cost_center_id = cc.id AND om.energy_category_id = ec.id "
+                                                 " ORDER BY offline_meter_id ", tuple(space_ids) + (energy_category_id,))
+                    else:
+                        cursor_system_db.execute(" SELECT om.id, om.name AS offline_meter_name, s.id AS space_id, "
+                                                 "        cc.name AS cost_center_name, ec.name AS energy_category_name, "
+                                                 "         om.description, om.uuid AS offline_meter_uuid "
+                                                 " FROM tbl_spaces s, tbl_spaces_offline_meters som, "
+                                                 "tbl_offline_meters om, tbl_cost_centers cc, "
+                                                 "      tbl_energy_categories ec "
+                                                 " WHERE s.id IN (" + placeholders + ") "
+                                                 "       AND som.space_id = s.id AND som.offline_meter_id = om.id "
+                                                 " AND om.cost_center_id = cc.id AND om.energy_category_id = ec.id "
+                                                 " ORDER BY offline_meter_id ", tuple(space_ids))
                 else:
-                    cursor_system_db.execute(" SELECT om.id, om.name AS offline_meter_name, s.id AS space_id, "
-                                             "        cc.name AS cost_center_name, ec.name AS energy_category_name, "
-                                             "         om.description, om.uuid AS offline_meter_uuid "
-                                             " FROM tbl_spaces s, tbl_spaces_offline_meters som, "
-                                             "tbl_offline_meters om, tbl_cost_centers cc, "
-                                             "      tbl_energy_categories ec "
-                                             " WHERE s.id = %s AND som.space_id = s.id AND som.offline_meter_id = om.id "
-                                             + energy_category_query +
-                                             " AND om.cost_center_id = cc.id AND om.energy_category_id = ec.id  "
-                                             " ORDER BY offline_meter_id ", (space_id,))
+                    if energy_category_id is not None:
+                        cursor_system_db.execute(" SELECT om.id, om.name AS offline_meter_name, s.id AS space_id, "
+                                                 "        cc.name AS cost_center_name, ec.name AS energy_category_name, "
+                                                 "         om.description, om.uuid AS offline_meter_uuid "
+                                                 " FROM tbl_spaces s, tbl_spaces_offline_meters som, "
+                                                 "tbl_offline_meters om, tbl_cost_centers cc, "
+                                                 "      tbl_energy_categories ec "
+                                                 " WHERE s.id = %s AND som.space_id = s.id AND som.offline_meter_id = om.id "
+                                                 "       AND om.energy_category_id = %s "
+                                                 " AND om.cost_center_id = cc.id AND om.energy_category_id = ec.id  "
+                                                 " ORDER BY offline_meter_id ", (space_id, energy_category_id))
+                    else:
+                        cursor_system_db.execute(" SELECT om.id, om.name AS offline_meter_name, s.id AS space_id, "
+                                                 "        cc.name AS cost_center_name, ec.name AS energy_category_name, "
+                                                 "         om.description, om.uuid AS offline_meter_uuid "
+                                                 " FROM tbl_spaces s, tbl_spaces_offline_meters som, "
+                                                 "tbl_offline_meters om, tbl_cost_centers cc, "
+                                                 "      tbl_energy_categories ec "
+                                                 " WHERE s.id = %s AND som.space_id = s.id AND som.offline_meter_id = om.id "
+                                                 " AND om.cost_center_id = cc.id AND om.energy_category_id = ec.id  "
+                                                 " ORDER BY offline_meter_id ", (space_id,))
 
                 rows_offline_meters = cursor_system_db.fetchall()
                 if rows_offline_meters is not None and len(rows_offline_meters) > 0:
