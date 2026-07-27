@@ -32,7 +32,7 @@ The module uses Falcon framework for REST API and includes:
 
 import logging
 from datetime import datetime, timedelta, timezone
-from decimal import Decimal
+
 import hashlib
 import falcon
 import mysql.connector
@@ -40,7 +40,6 @@ import redis
 import simplejson as json
 from anytree import AnyNode, LevelOrderIter
 import config
-import excelexporters.metertracking
 from core.useractivity import access_control, api_key_control
 
 logger = logging.getLogger(__name__)
