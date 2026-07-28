@@ -492,7 +492,7 @@ class Reporting:
             "cost_center_id": offline_meter['cost_center_id'],
             "energy_category_id": offline_meter['energy_category_id'],
             "energy_category_name": offline_meter['energy_category_name'],
-            "unit_of_measure": 'KG',
+            "unit_of_measure": 'KGCO2E',
             "kgce": offline_meter['kgce'],
             "kgco2e": offline_meter['kgco2e'],
         }, "base_period": {
