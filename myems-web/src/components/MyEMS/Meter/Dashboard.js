@@ -1,5 +1,8 @@
 import React, { Fragment, useEffect, useState, useContext, useCallback } from 'react';
 import {
+  Breadcrumb,
+  BreadcrumbItem,
+  Col,
   DropdownItem,
   DropdownMenu,
   DropdownToggle,
@@ -75,7 +78,8 @@ const MeterDashboard = ({ setRedirect, setRedirectUrl, t }) => {
   const [virtualMeterCount, setVirtualMeterCount] = useState(0);
   const [offlineMeterCount, setOfflineMeterCount] = useState(0);
 
-  const [tablePage, setTablePage] = useState(() => {
+  // Separate page state for each tab
+  const [meterTablePage, setMeterTablePage] = useState(() => {
     if (typeof window === 'undefined') {
       return 1;
     }
@@ -83,12 +87,15 @@ const MeterDashboard = ({ setRedirect, setRedirectUrl, t }) => {
     const parsed = Number.parseInt(saved, 10);
     return Number.isFinite(parsed) && parsed > 0 ? parsed : 1;
   });
-  const persistTablePage = useCallback(page => {
+  const [virtualMeterTablePage, setVirtualMeterTablePage] = useState(1);
+  const [offlineMeterTablePage, setOfflineMeterTablePage] = useState(1);
+
+  const persistMeterTablePage = useCallback(page => {
     const next = Math.max(1, Number.parseInt(page, 10) || 1);
     if (typeof window !== 'undefined') {
       window.sessionStorage.setItem('metertracking_page', String(next));
     }
-    setTablePage(next);
+    setMeterTablePage(next);
   }, []);
 
   const loadData = useCallback(
@@ -143,9 +150,6 @@ const MeterDashboard = ({ setRedirect, setRedirectUrl, t }) => {
                 });
               });
               setMeterList(meters);
-              const totalPages = Math.max(1, Math.ceil(meters.length / 50));
-              const nextPage = Math.min(tablePage || 1, totalPages);
-              persistTablePage(nextPage);
 
               let virtualMeters = [];
               json['virtual_meters'].forEach((currentValue, index) => {
@@ -156,10 +160,7 @@ const MeterDashboard = ({ setRedirect, setRedirectUrl, t }) => {
                   space: currentValue['space_name'],
                   costcenter: currentValue['cost_center_name'],
                   energycategory: currentValue['energy_category_name'],
-                  description: currentValue['description'],
-                  startvalue: currentValue['start_value'],
-                  endvalue: currentValue['end_value'],
-                  differencevalue: currentValue['difference_value']
+                  description: currentValue['description']
                 });
               });
               setVirtualMeterList(virtualMeters);
@@ -173,10 +174,7 @@ const MeterDashboard = ({ setRedirect, setRedirectUrl, t }) => {
                   space: currentValue['space_name'],
                   costcenter: currentValue['cost_center_name'],
                   energycategory: currentValue['energy_category_name'],
-                  description: currentValue['description'],
-                  startvalue: currentValue['start_value'],
-                  endvalue: currentValue['end_value'],
-                  differencevalue: currentValue['difference_value']
+                  description: currentValue['description']
                 });
               });
               setOfflineMeterList(offlineMeters);
@@ -184,6 +182,12 @@ const MeterDashboard = ({ setRedirect, setRedirectUrl, t }) => {
               setMeterCount(json['meter_count']);
               setVirtualMeterCount(json['virtual_meter_count']);
               setOfflineMeterCount(json['offline_meter_count']);
+
+              const totalPages = Math.max(1, Math.ceil(meters.length / 50));
+              const currentPage = meterTablePage;
+              if (currentPage > totalPages) {
+                persistMeterTablePage(totalPages);
+              }
 
               setLoading(false);
               setResultDataHidden(false);
@@ -194,7 +198,7 @@ const MeterDashboard = ({ setRedirect, setRedirectUrl, t }) => {
               toast.error(t('Failed to load data. Please try again.'));
             });
       },
-      [language, tablePage, persistTablePage, t]
+      [language, meterTablePage, persistMeterTablePage, t]
   );
 
   useEffect(() => {
@@ -241,7 +245,17 @@ const MeterDashboard = ({ setRedirect, setRedirectUrl, t }) => {
           setLoading(false);
           toast.error(t('Failed to load space data.'));
         });
-  }, [loadData, t, setRedirect, setRedirectUrl]);
+  }, []);
+
+  const handleTabChange = useCallback((tabId) => {
+    setActiveTab(tabId);
+    // Reset to first page when switching tabs
+    if (tabId === '2') {
+      setVirtualMeterTablePage(1);
+    } else if (tabId === '3') {
+      setOfflineMeterTablePage(1);
+    }
+  }, []);
 
   const DetailedDataTable = loadable(() => import('../common/DetailedDataTable'));
 
@@ -266,7 +280,7 @@ const MeterDashboard = ({ setRedirect, setRedirectUrl, t }) => {
       </UncontrolledDropdown>
   );
 
-  const baseColumns = [
+  const meterColumns = [
     {
       dataField: 'id',
       headerClasses: 'border-0',
@@ -309,11 +323,7 @@ const MeterDashboard = ({ setRedirect, setRedirectUrl, t }) => {
       text: t('Description'),
       classes: 'border-0 py-2 align-middle',
       sort: true
-    }
-  ];
-
-  const meterColumns = [
-    ...baseColumns,
+    },
     {
       dataField: 'startvalue',
       headerClasses: 'border-0',
@@ -334,18 +344,54 @@ const MeterDashboard = ({ setRedirect, setRedirectUrl, t }) => {
       text: t('Difference Value'),
       classes: 'border-0 py-2 align-middle',
       sort: true
-    }
+    },
   ];
 
-  const virtualOfflineColumns = baseColumns;
-
-  const getColumnsForTab = (tabId) => {
-    if (tabId === '1') {
-      return meterColumns;
-    } else {
-      return virtualOfflineColumns;
-    }
-  };
+  const virtualAndOfflineColumns = [
+    {
+      dataField: 'id',
+      headerClasses: 'border-0',
+      text: t('ID'),
+      classes: 'border-0 py-2 align-middle',
+      sort: true
+    },
+    {
+      dataField: 'name',
+      headerClasses: 'border-0',
+      text: t('Name'),
+      classes: 'border-0 py-2 align-middle',
+      formatter: nameFormatter,
+      sort: true
+    },
+    {
+      dataField: 'space',
+      headerClasses: 'border-0',
+      text: t('Space'),
+      classes: 'border-0 py-2 align-middle',
+      sort: true
+    },
+    {
+      dataField: 'costcenter',
+      headerClasses: 'border-0',
+      text: t('Cost Center'),
+      classes: 'border-0 py-2 align-middle',
+      sort: true
+    },
+    {
+      dataField: 'energycategory',
+      headerClasses: 'border-0',
+      text: t('Energy Category'),
+      classes: 'border-0 py-2 align-middle',
+      sort: true
+    },
+    {
+      dataField: 'description',
+      headerClasses: 'border-0',
+      text: t('Description'),
+      classes: 'border-0 py-2 align-middle',
+      sort: true
+    },
+  ];
 
   return (
       <Fragment>
@@ -373,7 +419,7 @@ const MeterDashboard = ({ setRedirect, setRedirectUrl, t }) => {
             <NavItem>
               <NavLink
                   className={activeTab === '1' ? 'active' : ''}
-                  onClick={() => { setActiveTab('1'); }}
+                  onClick={() => { handleTabChange('1'); }}
               >
                 {t('Meter List')}
               </NavLink>
@@ -381,7 +427,7 @@ const MeterDashboard = ({ setRedirect, setRedirectUrl, t }) => {
             <NavItem>
               <NavLink
                   className={activeTab === '2' ? 'active' : ''}
-                  onClick={() => { setActiveTab('2'); }}
+                  onClick={() => { handleTabChange('2'); }}
               >
                 {t('Virtual Meter List')}
               </NavLink>
@@ -389,7 +435,7 @@ const MeterDashboard = ({ setRedirect, setRedirectUrl, t }) => {
             <NavItem>
               <NavLink
                   className={activeTab === '3' ? 'active' : ''}
-                  onClick={() => { setActiveTab('3'); }}
+                  onClick={() => { handleTabChange('3'); }}
               >
                 {t('Offline Meter List')}
               </NavLink>
@@ -401,30 +447,30 @@ const MeterDashboard = ({ setRedirect, setRedirectUrl, t }) => {
               <DetailedDataTable
                   data={meterList}
                   title={t('Meter List')}
-                  columns={getColumnsForTab('1')}
+                  columns={meterColumns}
                   pagesize={50}
-                  page={tablePage}
-                  onChangePage={persistTablePage}
+                  page={meterTablePage}
+                  onChangePage={persistMeterTablePage}
               />
             </TabPane>
             <TabPane tabId="2">
               <DetailedDataTable
                   data={virtualMeterList}
                   title={t('Virtual Meter List')}
-                  columns={getColumnsForTab('2')}
+                  columns={virtualAndOfflineColumns}
                   pagesize={50}
-                  page={tablePage}
-                  onChangePage={persistTablePage}
+                  page={virtualMeterTablePage}
+                  onChangePage={setVirtualMeterTablePage}
               />
             </TabPane>
             <TabPane tabId="3">
               <DetailedDataTable
                   data={offlineMeterList}
                   title={t('Offline Meter List')}
-                  columns={getColumnsForTab('3')}
+                  columns={virtualAndOfflineColumns}
                   pagesize={50}
-                  page={tablePage}
-                  onChangePage={persistTablePage}
+                  page={offlineMeterTablePage}
+                  onChangePage={setOfflineMeterTablePage}
               />
             </TabPane>
           </TabContent>
