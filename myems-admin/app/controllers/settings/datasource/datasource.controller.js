@@ -6,6 +6,7 @@ app.controller('DataSourceController', function(
 	$scope,
 	$rootScope,
 	$window,
+	$timeout,
 	$uibModal,
 	$translate,
 	DataSourceService,
@@ -26,6 +27,9 @@ app.controller('DataSourceController', function(
 			} else {
 				$scope.datasources = [];
 			}
+			$timeout(function () {
+				angular.element('#datasourceTable').trigger('footable_redraw');
+			}, 0);
 		});
 
 	};
@@ -304,6 +308,9 @@ app.controller('DataSourceController', function(
 			DataSourceService.searchDataSources(trimmedKeyword, headers, (response) => {
 				$scope.datasources = (response.status === 200) ? response.data : [];
 				$scope.parentmeters = [...$scope.datasources];
+				$timeout(function () {
+					angular.element('#datasourceTable').trigger('footable_redraw');
+				}, 0);
 			});
 		}, 300);
 	};
