@@ -90,6 +90,7 @@ from reports import meterplan
 from reports import metersaving
 from reports import metersubmetersbalance
 from reports import metertracking
+from reports import meterdashboard
 from reports import metertrend
 from reports import powerquality
 from reports import microgriddashboard
@@ -1352,6 +1353,8 @@ api.add_route('/reports/metertrend',
               metertrend.Reporting())
 api.add_route('/reports/metertracking',
               metertracking.Reporting())
+api.add_route('/reports/meterdashboard',
+              meterdashboard.Reporting())
 api.add_route('/reports/microgriddashboard',
               microgriddashboard.Reporting())
 api.add_route('/reports/microgriddetails',

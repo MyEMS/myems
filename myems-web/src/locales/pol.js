@@ -1,4 +1,4 @@
-// Auto-split from i18n.js — language: pol
+﻿// Auto-split from i18n.js — language: pol
 export default {
     translation: {
         // routes & menus
@@ -89,6 +89,11 @@ export default {
         'Meter Batch Analysis': 'Analiza zbiorcza liczników',
         'Meter Comparison': 'Analiza porównawcza liczników',
         'Meter Tracking': 'Rejestr liczników',
+        'Meter Count': 'Liczba liczników',
+        'Virtual Meter Count': 'Liczba liczników wirtualnych',
+        'Offline Meter Count': 'Liczba liczników offline',
+        'Virtual Meter List': 'Lista Wirtualnych Liczników',
+        'Offline Meter List': 'Lista Liczników Offline',
         'Virtual Meter Saving': 'Analiza oszczędności energii przez liczniki wirtualneⒺ',
         'Virtual Meter Plan': 'Analiza planistyczna liczników wirtualnychⒺ',
         'Virtual Meter Energy': 'Analiza zużycia energii przez liczniki wirtualne',

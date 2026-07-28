@@ -1,4 +1,4 @@
-// Auto-split from i18n.js — language: fa
+﻿// Auto-split from i18n.js — language: fa
 export default {
     translation: {
         // routes & menus
@@ -89,6 +89,11 @@ export default {
         'Meter Batch Analysis': 'تحلیل انبوه کنتور',
         'Meter Comparison': 'تحلیل مقایسه‌ای کنتور',
         'Meter Tracking': 'دفترچه کنتور',
+        'Meter Count': 'تعداد کنتورها',
+        'Virtual Meter Count': 'تعداد کنتورهای مجازی',
+        'Offline Meter Count': 'تعداد کنتورهای آفلاین',
+        'Virtual Meter List': 'لیست کنتورهای مجازی',
+        'Offline Meter List': 'لیست کنتورهای آفلاین',
         'Virtual Meter Saving': 'تحلیل صرفه‌جویی کنتور مجازیⒺ',
         'Virtual Meter Plan': 'تحلیل برنامه کنتور مجازیⒺ',
         'Virtual Meter Energy': 'تحلیل انرژی کنتور مجازی',

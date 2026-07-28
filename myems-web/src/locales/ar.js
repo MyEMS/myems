@@ -1,4 +1,4 @@
-// Auto-split from i18n.js — language: ar
+﻿// Auto-split from i18n.js — language: ar
 export default {
     translation: {
         // routes & menus
@@ -89,6 +89,11 @@ export default {
         'Meter Batch Analysis': 'تحليل دفعة العدادات',
         'Meter Comparison': 'مقارنة العدادات',
         'Meter Tracking': 'تتبع العداد',
+        'Meter Count': 'عدد العدادات',
+        'Virtual Meter Count': 'عدد العدادات الافتراضية',
+        'Offline Meter Count': 'عدد العدادات غير المتصلة',
+        'Virtual Meter List': 'قائمة العدادات الافتراضية',
+        'Offline Meter List': 'قائمة العدادات غير المتصلة',
         'Virtual Meter Saving': 'توفير العداد الافتراضيⒺ',
         'Virtual Meter Plan': 'خطة العدادات الافتراضيةⒺ',
         'Virtual Meter Energy': 'طاقة العداد الافتراضي',

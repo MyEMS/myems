@@ -1009,6 +1009,7 @@ VALUES
 (327,'Meter Prediction','/meter/meterprediction',300,1),
 (328,'Virtual Meter Prediction','/meter/virtualmeterprediction',300,1),
 (329,'Offline Meter Prediction','/meter/offlinemeterprediction',300,1),
+(330,'Dashboard','/meter',300,0)
 (400,'Tenant Data','/tenant',NULL,0),
 (401,'Energy Category Data','/tenant/energycategory',400,0),
 (402,'Energy Item Data','/tenant/energyitem',400,0),
@@ -2757,7 +2758,7 @@ CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_versions` (
 INSERT INTO `myems_system_db`.`tbl_versions`
 (`id`, `version`, `release_date`)
 VALUES
-(1, '6.7.0', '2026-07-26');
+(1, '6.8.0RC', '2026-08-26');
 
 -- ---------------------------------------------------------------------------------------------------------------------
 -- Table `myems_system_db`.`tbl_wind_farms`

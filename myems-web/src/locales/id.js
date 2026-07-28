@@ -1,4 +1,4 @@
-// Auto-split from i18n.js — language: id
+﻿// Auto-split from i18n.js — language: id
 export default {
     translation: {
         // routes & menus
@@ -89,6 +89,11 @@ export default {
         'Meter Batch Analysis': 'Analisis Seri Dari Meter Pengukuran',
         'Meter Comparison': 'Analisi Komparatif Dari Meter Ukuran',
         'Meter Tracking': 'Pemberi Tabel Keukuran',
+        'Meter Count': 'Jumlah Meter',
+        'Virtual Meter Count': 'Jumlah Meter Virtual',
+        'Offline Meter Count': 'Jumlah Meter Offline',
+        'Virtual Meter List': 'Daftar Meter Virtual',
+        'Offline Meter List': 'Daftar Meter Offline',
         'Virtual Meter Saving': 'Analis Menyimpan Energi Tabel VirtualⒺ',
         'Virtual Meter Plan': 'Paket Meteran VirtualⒺ',
         'Virtual Meter Energy': 'Analis Konsum Energi Tabel Virtual',
