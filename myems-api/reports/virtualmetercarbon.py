@@ -490,7 +490,7 @@ class Reporting:
                 "cost_center_id": virtual_meter['cost_center_id'],
                 "energy_category_id": virtual_meter['energy_category_id'],
                 "energy_category_name": virtual_meter['energy_category_name'],
-                "unit_of_measure": 'KG',
+                "unit_of_measure": 'KGCO2E',
                 "kgce": virtual_meter['kgce'],
                 "kgco2e": virtual_meter['kgco2e'],
             },

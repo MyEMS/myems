@@ -565,7 +565,7 @@ class Reporting:
         if energy_category_set is not None and len(energy_category_set) > 0:
             for energy_category_id in energy_category_set:
                 result['base_period']['names'].append(energy_category_dict[energy_category_id]['name'])
-                result['base_period']['units'].append('KG')
+                result['base_period']['units'].append('KGCO2E')
                 result['base_period']['timestamps'].append(base[energy_category_id]['timestamps'])
                 result['base_period']['values'].append(base[energy_category_id]['values'])
                 result['base_period']['subtotals'].append(base[energy_category_id]['subtotal'])
@@ -589,13 +589,13 @@ class Reporting:
         result['reporting_period']['total'] = Decimal(0.0)
         result['reporting_period']['total_per_unit_area'] = Decimal(0.0)
         result['reporting_period']['total_increment_rate'] = Decimal(0.0)
-        result['reporting_period']['total_unit'] = 'KG'
+        result['reporting_period']['total_unit'] = 'KGCO2E'
 
         if energy_category_set is not None and len(energy_category_set) > 0:
             for energy_category_id in energy_category_set:
                 result['reporting_period']['names'].append(energy_category_dict[energy_category_id]['name'])
                 result['reporting_period']['energy_category_ids'].append(energy_category_id)
-                result['reporting_period']['units'].append('KG')
+                result['reporting_period']['units'].append('KGCO2E')
                 result['reporting_period']['timestamps'].append(reporting[energy_category_id]['timestamps'])
                 result['reporting_period']['values'].append(reporting[energy_category_id]['values'])
                 result['reporting_period']['subtotals'].append(reporting[energy_category_id]['subtotal'])
