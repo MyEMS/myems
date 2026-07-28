@@ -737,6 +737,7 @@ const SpaceDashboard = ({ setRedirect, setRedirectUrl, t }) => {
                     baseData={{}}
                     rates={spaceReportingRates}
                     options={spaceReportingOptions}
+                    showTrendSummaryStats={false}
                 />
 
                 <WorkingDaysConsumptionTable

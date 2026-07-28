@@ -523,7 +523,7 @@ class Reporting:
             "cost_center_id": meter['cost_center_id'],
             "energy_category_id": meter['energy_category_id'],
             "energy_category_name": meter['energy_category_name'],
-            "unit_of_measure": 'KG',
+            "unit_of_measure": 'KGCO2E',
             "kgce": meter['kgce'],
             "kgco2e": meter['kgco2e'],
         }, "base_period": {
