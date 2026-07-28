@@ -40,6 +40,7 @@ const EquipmentStatistics = loadable(() => import('../components/MyEMS/Equipment
 const EquipmentTracking = loadable(() => import('../components/MyEMS/Equipment/EquipmentTracking'), { fallback: loadingFallback });
 const EquipmentComparison = loadable(() => import('../components/MyEMS/Equipment/EquipmentComparison'), { fallback: loadingFallback });
 
+const MeterDashboard = loadable(() => import('../components/MyEMS/Meter/Dashboard'), { fallback: loadingFallback });
 const MeterBatch = loadable(() => import('../components/MyEMS/Meter/MeterBatch'), { fallback: loadingFallback });
 const MeterCarbon = loadable(() => import('../components/MyEMS/Meter/MeterCarbon'), { fallback: loadingFallback });
 const MeterComparison = loadable(() => import('../components/MyEMS/Meter/MeterComparison'), { fallback: loadingFallback });
@@ -180,6 +181,7 @@ const MyEMSRoutes = () => (
         <Route path="/equipment/comparison" exact component={EquipmentComparison} />
 
         {/*Meter*/}
+        <Route path="/meter" exact component={MeterDashboard} />
         <Route path="/meter/meterenergy" exact component={MeterEnergy} />
         <Route path="/meter/metercarbon" exact component={MeterCarbon} />
         <Route path="/meter/metercomparison" exact component={MeterComparison} />

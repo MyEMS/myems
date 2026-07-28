@@ -1,4 +1,4 @@
-// Auto-split from i18n.js — language: ko_KR
+﻿// Auto-split from i18n.js — language: ko_KR
 export default {
     translation: {
         // routes & menus
@@ -89,6 +89,11 @@ export default {
         'Meter Batch Analysis': '계량기 일괄 분석',
         'Meter Comparison': '계량기 비교 분석',
         'Meter Tracking': '계량기 대장',
+        'Meter Count': '미터 수',
+        'Virtual Meter Count': '가상 미터 수',
+        'Offline Meter Count': '오프라인 미터 수',
+        'Virtual Meter List': '가상 계량기 목록',
+        'Offline Meter List': '오프라인 계량기 목록',
         'Virtual Meter Saving': '가상 계량기 에너지 절약 분석Ⓔ',
         'Virtual Meter Plan': '가상 계량기 계획 분석Ⓔ',
         'Virtual Meter Energy': '가상 계량기 에너지 소비 분석',

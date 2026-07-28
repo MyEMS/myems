@@ -1,4 +1,4 @@
-// Auto-split from i18n.js — language: jp
+﻿// Auto-split from i18n.js — language: jp
 export default {
     translation: {
         // routes & menus
@@ -89,6 +89,11 @@ export default {
         'Meter Batch Analysis': '計量メータ一括分析',
         'Meter Comparison': '計量メータ比較分析',
         'Meter Tracking': '計量メータ台帳',
+        'Meter Count': 'メーター数',
+        'Virtual Meter Count': '仮想メーター数',
+        'Offline Meter Count': 'オフラインメーター数',
+        'Virtual Meter List': '仮想メーターリスト',
+        'Offline Meter List': 'オフラインメーターリスト',
         'Virtual Meter Saving': '仮想メータ省エネ分析Ⓔ',
         'Virtual Meter Plan': '仮想メータ計画分析Ⓔ',
         'Virtual Meter Energy': '仮想メータエネルギー分析',
