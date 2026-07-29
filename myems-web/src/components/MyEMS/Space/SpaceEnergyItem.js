@@ -1036,7 +1036,7 @@ const SpaceEnergyItem = ({ setRedirect, setRedirectUrl, t }) => {
               footnote={t('Per Unit Area')}
               footvalue={cardSummaryItem['subtotal_per_unit_area']}
               footunit={'(' + cardSummaryItem['unit'] + '/M²)'}
-              secondfootnote={t('Per Unit Area')}
+              secondfootnote={t('Per Capita')}
               secondfootvalue={cardSummaryItem['subtotal_per_capita']}
               secondfootunit={'(' + cardSummaryItem['unit'] + ')'}
             >
