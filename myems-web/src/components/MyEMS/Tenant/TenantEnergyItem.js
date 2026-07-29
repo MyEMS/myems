@@ -1096,7 +1096,7 @@ const TenantEnergyItem = ({ setRedirect, setRedirectUrl, t }) => {
               color="success"
               footnote={t('Per Capita')}
               footvalue={cardSummaryItem['subtotal_per_capita']}
-              footunit={'(' + cardSummaryItem['unit'] + '/人)'}
+              footunit={'(' + cardSummaryItem['unit'] + '/M²)'}
             >
               {cardSummaryItem['subtotal'] && (
                 <CountUp
