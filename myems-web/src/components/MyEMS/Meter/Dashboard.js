@@ -395,23 +395,29 @@ const MeterDashboard = ({ setRedirect, setRedirectUrl, t }) => {
 
   return (
       <Fragment>
-        <Spinner color="primary" hidden={!loading} />
+        <div>
+          <Breadcrumb>
+            <BreadcrumbItem>{t('Meter Data')}</BreadcrumbItem>
+            <BreadcrumbItem active>{t('Dashboard')}</BreadcrumbItem>
+          </Breadcrumb>
+        </div>
+        <Spinner color="primary" hidden={!loading}/>
         <div
             className="blank-page-image-container"
-            style={{ visibility: resultDataHidden ? 'visible' : 'hidden', display: resultDataHidden ? '' : 'none' }}
+            style={{visibility: resultDataHidden ? 'visible' : 'hidden', display: resultDataHidden ? '' : 'none'}}
         >
-          <img className="img-fluid" src={blankPage} alt="" />
+          <img className="img-fluid" src={blankPage} alt=""/>
         </div>
-        <div style={{ visibility: resultDataHidden ? 'hidden' : 'visible', display: resultDataHidden ? 'none' : '' }}>
+        <div style={{visibility: resultDataHidden ? 'hidden' : 'visible', display: resultDataHidden ? 'none' : ''}}>
           <div className="card-deck">
             <CardSummary title={t('Meter Count')} color="success">
-              <CountUp end={meterCount} duration={2} prefix="" separator="," decimals={0} decimal="." />
+              <CountUp end={meterCount} duration={2} prefix="" separator="," decimals={0} decimal="."/>
             </CardSummary>
             <CardSummary title={t('Virtual Meter Count')} color="info">
-              <CountUp end={virtualMeterCount} duration={2} prefix="" separator="," decimals={0} decimal="." />
+              <CountUp end={virtualMeterCount} duration={2} prefix="" separator="," decimals={0} decimal="."/>
             </CardSummary>
             <CardSummary title={t('Offline Meter Count')} color="warning">
-              <CountUp end={offlineMeterCount} duration={2} prefix="" separator="," decimals={0} decimal="." />
+              <CountUp end={offlineMeterCount} duration={2} prefix="" separator="," decimals={0} decimal="."/>
             </CardSummary>
           </div>
 
@@ -419,7 +425,9 @@ const MeterDashboard = ({ setRedirect, setRedirectUrl, t }) => {
             <NavItem>
               <NavLink
                   className={activeTab === '1' ? 'active' : ''}
-                  onClick={() => { handleTabChange('1'); }}
+                  onClick={() => {
+                    handleTabChange('1');
+                  }}
               >
                 {t('Meter List')}
               </NavLink>
@@ -427,7 +435,9 @@ const MeterDashboard = ({ setRedirect, setRedirectUrl, t }) => {
             <NavItem>
               <NavLink
                   className={activeTab === '2' ? 'active' : ''}
-                  onClick={() => { handleTabChange('2'); }}
+                  onClick={() => {
+                    handleTabChange('2');
+                  }}
               >
                 {t('Virtual Meter List')}
               </NavLink>
@@ -435,7 +445,9 @@ const MeterDashboard = ({ setRedirect, setRedirectUrl, t }) => {
             <NavItem>
               <NavLink
                   className={activeTab === '3' ? 'active' : ''}
-                  onClick={() => { handleTabChange('3'); }}
+                  onClick={() => {
+                    handleTabChange('3');
+                  }}
               >
                 {t('Offline Meter List')}
               </NavLink>
@@ -446,7 +458,6 @@ const MeterDashboard = ({ setRedirect, setRedirectUrl, t }) => {
             <TabPane tabId="1">
               <DetailedDataTable
                   data={meterList}
-                  title={t('Meter List')}
                   columns={meterColumns}
                   pagesize={50}
                   page={meterTablePage}
@@ -456,7 +467,6 @@ const MeterDashboard = ({ setRedirect, setRedirectUrl, t }) => {
             <TabPane tabId="2">
               <DetailedDataTable
                   data={virtualMeterList}
-                  title={t('Virtual Meter List')}
                   columns={virtualAndOfflineColumns}
                   pagesize={50}
                   page={virtualMeterTablePage}
@@ -466,7 +476,6 @@ const MeterDashboard = ({ setRedirect, setRedirectUrl, t }) => {
             <TabPane tabId="3">
               <DetailedDataTable
                   data={offlineMeterList}
-                  title={t('Offline Meter List')}
                   columns={virtualAndOfflineColumns}
                   pagesize={50}
                   page={offlineMeterTablePage}

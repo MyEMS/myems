@@ -1,6 +1,6 @@
 import React, {Fragment, useEffect, useState, useCallback} from 'react';
 import CountUp from 'react-countup';
-import {Col, Row, Card, CardBody} from 'reactstrap';
+import {Col, Row, Card, CardBody, BreadcrumbItem, Breadcrumb} from 'reactstrap';
 import {toast} from 'react-toastify';
 import {getCookieValue, createCookie, checkEmpty} from '../../../helpers/utils';
 import withRedirect from '../../../hoc/withRedirect';
@@ -441,6 +441,10 @@ const Dashboard = ({setRedirect, setRedirectUrl, t}) => {
 
     return (
         <Fragment>
+            <Breadcrumb>
+                <BreadcrumbItem>{t('Store Data')}</BreadcrumbItem>
+                <BreadcrumbItem active>{t('Dashboard')}</BreadcrumbItem>
+            </Breadcrumb>
             {/* Summary Cards - Using CardSummary component */}
             <div className="card-deck">
                 <CardSummary
