@@ -1092,8 +1092,8 @@ const StoreEnergyItem = ({ setRedirect, setRedirectUrl, t }) => {
                 UNIT: '(' + cardSummaryItem['unit'] + ')'
               })}
               color="success"
-              footnote={t('Per Capita')}
-              footvalue={cardSummaryItem['subtotal_per_capita']}
+              footnote={t('Per Unit Area')}
+              footvalue={cardSummaryItem['subtotal_per_unit_area']}
               footunit={'(' + cardSummaryItem['unit'] + '/M²)'}
             >
               {cardSummaryItem['subtotal'] && (
