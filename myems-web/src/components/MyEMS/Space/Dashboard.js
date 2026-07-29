@@ -2,7 +2,7 @@ import React, { Fragment, useEffect, useState, useContext, useCallback, useRef, 
 import {
     Row,
     Col,
-    Spinner
+    Spinner, Breadcrumb, BreadcrumbItem
 } from 'reactstrap';
 import CountUp from 'react-countup';
 import moment from 'moment';
@@ -543,9 +543,15 @@ const SpaceDashboard = ({ setRedirect, setRedirectUrl, t }) => {
 
     return (
         <Fragment>
+            <div>
+                <Breadcrumb>
+                    <BreadcrumbItem>{t('Space Data')}</BreadcrumbItem>
+                    <BreadcrumbItem active>{t('Dashboard')}</BreadcrumbItem>
+                </Breadcrumb>
+            </div>
             {loading && (
                 <div className="text-center py-5">
-                    <Spinner color="primary" style={{ width: '3rem', height: '3rem' }} />
+                    <Spinner color="primary" style={{width: '3rem', height: '3rem'}}/>
                     <span className="sr-only">{t('Loading')}...</span>
                 </div>
             )}
@@ -557,7 +563,7 @@ const SpaceDashboard = ({ setRedirect, setRedirectUrl, t }) => {
                     display: !loading && resultDataHidden ? '' : 'none'
                 }}
             >
-                <img className="img-fluid" src={blankPage} alt="" />
+                <img className="img-fluid" src={blankPage} alt=""/>
             </div>
 
             <div style={{
@@ -612,7 +618,8 @@ const SpaceDashboard = ({ setRedirect, setRedirectUrl, t }) => {
                             secondfootunit="(kgCE)"
                         >
                             {totalInTCE['value'] && (
-                                <CountUp end={totalInTCE['value']} duration={2} prefix="" separator="," decimal="." decimals={2} />
+                                <CountUp end={totalInTCE['value']} duration={2} prefix="" separator="," decimal="."
+                                         decimals={2}/>
                             )}
                         </CardSummary>
                     ) : (
@@ -633,7 +640,8 @@ const SpaceDashboard = ({ setRedirect, setRedirectUrl, t }) => {
                         secondfootunit="(kgCO2E)"
                     >
                         {totalInTCO2E['value'] && (
-                            <CountUp end={totalInTCO2E['value']} duration={2} prefix="" separator="," decimal="." decimals={2} />
+                            <CountUp end={totalInTCO2E['value']} duration={2} prefix="" separator="," decimal="."
+                                     decimals={2}/>
                         )}
                     </CardSummary>
                     <CardSummary
@@ -677,17 +685,18 @@ const SpaceDashboard = ({ setRedirect, setRedirectUrl, t }) => {
 
                 <Row noGutters>
                     <Col className="mb-3 pr-lg-2 mb-3">
-                        <SharePie data={timeOfUseShareData} title={t('Electricity Consumption by Time-Of-Use')} />
+                        <SharePie data={timeOfUseShareData} title={t('Electricity Consumption by Time-Of-Use')}/>
                     </Col>
                     {settings.showTCEData ? (
                         <Col className="mb-3 pr-lg-2 mb-3">
-                            <SharePie data={TCEShareData} title={t('Ton of Standard Coal by Energy Category')} />
+                            <SharePie data={TCEShareData} title={t('Ton of Standard Coal by Energy Category')}/>
                         </Col>
                     ) : (
                         <></>
                     )}
                     <Col className="mb-3 pr-lg-2 mb-3">
-                        <SharePie data={TCO2EShareData} title={t('Ton of Carbon Dioxide Emissions by Energy Category')} />
+                        <SharePie data={TCO2EShareData}
+                                  title={t('Ton of Carbon Dioxide Emissions by Energy Category')}/>
                     </Col>
                     {childSpaceProportionList.map((childSpaceProportionItem, index) => (
                         <Col className="mb-3 pr-lg-2 mb-3" key={childSpaceProportionItem['name'] + '_' + index}>
@@ -744,7 +753,7 @@ const SpaceDashboard = ({ setRedirect, setRedirectUrl, t }) => {
                     data={workingDaysConsumptionTableData}
                     columns={workingDaysConsumptionTableColumns}
                 />
-                <br />
+                <br/>
 
                 <ChildSpacesTable
                     data={childSpacesTableData}
