@@ -1094,7 +1094,7 @@ const ShopfloorEnergyItem = ({ setRedirect, setRedirectUrl, t }) => {
                 UNIT: '(' + cardSummaryItem['unit'] + ')'
               })}
               color="success"
-              footnote={t('Per Unit Area')}
+              footnote={t('Per Capita')}
               footvalue={cardSummaryItem['subtotal_per_unit_area']}
               footunit={'(' + cardSummaryItem['unit'] + '/M²)'}
             >
