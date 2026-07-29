@@ -1,6 +1,6 @@
 import React, {Fragment, useEffect, useState, useCallback} from 'react';
 import CountUp from 'react-countup';
-import {Col, Row, Card, CardBody} from 'reactstrap';
+import {Col, Row, Card, CardBody, Breadcrumb, BreadcrumbItem} from 'reactstrap';
 import {toast} from 'react-toastify';
 import {getCookieValue, createCookie, checkEmpty} from '../../../helpers/utils';
 import { Link } from 'react-router-dom';
@@ -398,6 +398,12 @@ const Dashboard = ({setRedirect, setRedirectUrl, t}) => {
 
   return (
       <Fragment>
+        <div>
+          <Breadcrumb>
+            <BreadcrumbItem>{t('Equipment Data')}</BreadcrumbItem>
+            <BreadcrumbItem active>{t('Dashboard')}</BreadcrumbItem>
+          </Breadcrumb>
+        </div>
         {/* Summary Cards */}
         <div className="card-deck">
           <CardSummary
@@ -477,11 +483,11 @@ const Dashboard = ({setRedirect, setRedirectUrl, t}) => {
               color="success"
           >
             <CountUp
-              end={costData.subtotals?.reduce((a, b) => a + b, 0) || 0}
-              duration={2}
-              decimals={2}
-              separator=","
-          />
+                end={costData.subtotals?.reduce((a, b) => a + b, 0) || 0}
+                duration={2}
+                decimals={2}
+                separator=","
+            />
           </CardSummary>
 
           <CardSummary
@@ -505,16 +511,16 @@ const Dashboard = ({setRedirect, setRedirectUrl, t}) => {
         {/* Charts Row - Four pie charts */}
         <Row noGutters>
           <Col className="mb-3 pr-lg-2 mb-3">
-            <SharePie data={energyCategoryPieData} title={t('Energy Consumption by Category')} />
+            <SharePie data={energyCategoryPieData} title={t('Energy Consumption by Category')}/>
           </Col>
           <Col className="mb-3 pr-lg-2 mb-3">
-            <SharePie data={costCategoryPieData} title={t('Costs by Energy Category')} />
+            <SharePie data={costCategoryPieData} title={t('Costs by Energy Category')}/>
           </Col>
           <Col className="mb-3 pr-lg-2 mb-3">
-            <SharePie data={tcePieData} title={t('Ton of Standard Coal by Energy Category')} />
+            <SharePie data={tcePieData} title={t('Ton of Standard Coal by Energy Category')}/>
           </Col>
           <Col className="mb-3 pr-lg-2 mb-3">
-            <SharePie data={tco2ePieData} title={t('Ton of Carbon Dioxide Emissions by Energy Category')} />
+            <SharePie data={tco2ePieData} title={t('Ton of Carbon Dioxide Emissions by Energy Category')}/>
           </Col>
         </Row>
 
@@ -546,85 +552,85 @@ const Dashboard = ({setRedirect, setRedirectUrl, t}) => {
                   <table className="table table-hover">
                     <thead className="thead-light">
                     <tr>
-                      <th 
-                        onClick={() => handleSort('id')}
-                        style={{cursor: 'pointer'}}
+                      <th
+                          onClick={() => handleSort('id')}
+                          style={{cursor: 'pointer'}}
                       >
                         {t('ID')}
-                        <FontAwesomeIcon 
-                          icon={sortConfig.key === 'id' ? (sortConfig.direction === 'asc' ? faSortUp : faSortDown) : faSort}
-                          className="ml-1"
+                        <FontAwesomeIcon
+                            icon={sortConfig.key === 'id' ? (sortConfig.direction === 'asc' ? faSortUp : faSortDown) : faSort}
+                            className="ml-1"
                         />
                       </th>
-                      <th 
-                        onClick={() => handleSort('name')}
-                        style={{cursor: 'pointer'}}
+                      <th
+                          onClick={() => handleSort('name')}
+                          style={{cursor: 'pointer'}}
                       >
                         {t('Equipment Name')}
-                        <FontAwesomeIcon 
-                          icon={sortConfig.key === 'name' ? (sortConfig.direction === 'asc' ? faSortUp : faSortDown) : faSort}
-                          className="ml-1"
+                        <FontAwesomeIcon
+                            icon={sortConfig.key === 'name' ? (sortConfig.direction === 'asc' ? faSortUp : faSortDown) : faSort}
+                            className="ml-1"
                         />
                       </th>
                       {energyData.names && energyData.names.map((categoryName, index) => (
-                          <th 
-                            key={`input-${index}`} 
-                            className="text-right"
-                            onClick={() => handleSort(`input_${index}`)}
-                            style={{cursor: 'pointer'}}
+                          <th
+                              key={`input-${index}`}
+                              className="text-right"
+                              onClick={() => handleSort(`input_${index}`)}
+                              style={{cursor: 'pointer'}}
                           >
                             {t(categoryName)} ({energyData.units[index] || ''})
-                            <FontAwesomeIcon 
-                              icon={sortConfig.key === `input_${index}` ? (sortConfig.direction === 'asc' ? faSortUp : faSortDown) : faSort}
-                              className="ml-1"
+                            <FontAwesomeIcon
+                                icon={sortConfig.key === `input_${index}` ? (sortConfig.direction === 'asc' ? faSortUp : faSortDown) : faSort}
+                                className="ml-1"
                             />
                           </th>
                       ))}
                       {reportingPeriodOutput.names && reportingPeriodOutput.names.map((outputName, index) => (
-                          <th 
-                            key={`output-${index}`} 
-                            className="text-right"
-                            onClick={() => handleSort(`output_${index}`)}
-                            style={{cursor: 'pointer'}}
+                          <th
+                              key={`output-${index}`}
+                              className="text-right"
+                              onClick={() => handleSort(`output_${index}`)}
+                              style={{cursor: 'pointer'}}
                           >
                             {t(outputName)} ({reportingPeriodOutput.units[index] || ''})
-                            <FontAwesomeIcon 
-                              icon={sortConfig.key === `output_${index}` ? (sortConfig.direction === 'asc' ? faSortUp : faSortDown) : faSort}
-                              className="ml-1"
+                            <FontAwesomeIcon
+                                icon={sortConfig.key === `output_${index}` ? (sortConfig.direction === 'asc' ? faSortUp : faSortDown) : faSort}
+                                className="ml-1"
                             />
                           </th>
                       ))}
-                      <th 
-                        className="text-right"
-                        onClick={() => handleSort('efficiency')}
-                        style={{cursor: 'pointer'}}
+                      <th
+                          className="text-right"
+                          onClick={() => handleSort('efficiency')}
+                          style={{cursor: 'pointer'}}
                       >
                         {t('Cumulative Efficiency')}
-                        <FontAwesomeIcon 
-                          icon={sortConfig.key === 'efficiency' ? (sortConfig.direction === 'asc' ? faSortUp : faSortDown) : faSort}
-                          className="ml-1"
+                        <FontAwesomeIcon
+                            icon={sortConfig.key === 'efficiency' ? (sortConfig.direction === 'asc' ? faSortUp : faSortDown) : faSort}
+                            className="ml-1"
                         />
                       </th>
-                      <th 
-                        className="text-right"
-                        onClick={() => handleSort('cost')}
-                        style={{cursor: 'pointer'}}
+                      <th
+                          className="text-right"
+                          onClick={() => handleSort('cost')}
+                          style={{cursor: 'pointer'}}
                       >
                         {t('Costs')} (CNY)
-                        <FontAwesomeIcon 
-                          icon={sortConfig.key === 'cost' ? (sortConfig.direction === 'asc' ? faSortUp : faSortDown) : faSort}
-                          className="ml-1"
+                        <FontAwesomeIcon
+                            icon={sortConfig.key === 'cost' ? (sortConfig.direction === 'asc' ? faSortUp : faSortDown) : faSort}
+                            className="ml-1"
                         />
                       </th>
-                      <th 
-                        className="text-right"
-                        onClick={() => handleSort('carbon')}
-                        style={{cursor: 'pointer'}}
+                      <th
+                          className="text-right"
+                          onClick={() => handleSort('carbon')}
+                          style={{cursor: 'pointer'}}
                       >
                         {t('Microgrid Carbon')} (kgCO2e)
-                        <FontAwesomeIcon 
-                          icon={sortConfig.key === 'carbon' ? (sortConfig.direction === 'asc' ? faSortUp : faSortDown) : faSort}
-                          className="ml-1"
+                        <FontAwesomeIcon
+                            icon={sortConfig.key === 'carbon' ? (sortConfig.direction === 'asc' ? faSortUp : faSortDown) : faSort}
+                            className="ml-1"
                         />
                       </th>
                     </tr>
@@ -638,7 +644,8 @@ const Dashboard = ({setRedirect, setRedirectUrl, t}) => {
                                   <strong>{equipment.id}</strong>
                                 </td>
                                 <td>
-                                  <Link to={'/equipment/energycategory?uuid=' + equipment.uuid} target="_blank" rel="noopener noreferrer">
+                                  <Link to={'/equipment/energycategory?uuid=' + equipment.uuid} target="_blank"
+                                        rel="noopener noreferrer">
                                     <strong>{equipment.name}</strong>
                                   </Link>
                                 </td>
