@@ -239,15 +239,16 @@ class Reporting:
 
                 space_ids = list(space_dict.keys())
                 if space_ids:
+                    space_ids_placeholders = ','.join(['%s'] * len(space_ids))
                     cursor_system_db.execute(" SELECT e.id, e.name AS equipment_name, "
                                              "        e.uuid AS equipment_uuid, s.name AS space_name, "
                                              "        s.id AS space_id, "
                                              "        cc.name AS cost_center_name, e.description "
                                              " FROM tbl_spaces s, tbl_spaces_equipments se, "
                                              "      tbl_equipments e, tbl_cost_centers cc "
-                                             " WHERE s.id IN ( " + ', '.join(map(str, space_ids)) + ") "
+                                             " WHERE s.id IN ( " + space_ids_placeholders + ") "
                                              "       AND se.space_id = s.id AND se.equipment_id = e.id "
-                                             "       AND e.cost_center_id = cc.id  ", )
+                                             "       AND e.cost_center_id = cc.id  ", tuple(space_ids))
                     rows_equipments = cursor_system_db.fetchall()
                     if rows_equipments is not None and len(rows_equipments) > 0:
                         for row in rows_equipments:
@@ -298,14 +299,15 @@ class Reporting:
                 ########################################################################################
                 if equipment_dict:
                     equipment_ids = list(equipment_dict.keys())
+                    equipment_ids_placeholders = ','.join(['%s'] * len(equipment_ids))
                     cursor_energy_db.execute(
                         " SELECT equipment_id, energy_category_id, SUM(actual_value) "
                         " FROM tbl_equipment_input_category_hourly "
-                        " WHERE equipment_id IN (" + ', '.join(map(str, equipment_ids)) + ") "
+                        " WHERE equipment_id IN (" + equipment_ids_placeholders + ") "
                         "     AND start_datetime_utc >= %s "
                         "     AND start_datetime_utc < %s "
                         " GROUP BY equipment_id, energy_category_id ",
-                        (reporting_start_datetime_utc, reporting_end_datetime_utc))
+                        tuple(equipment_ids) + (reporting_start_datetime_utc, reporting_end_datetime_utc))
                     rows_equipment_energy = cursor_energy_db.fetchall()
                     # build mapping: equipment_id -> {energy_category_id: sum_value}
                     energy_map = {}
@@ -322,11 +324,11 @@ class Reporting:
                     cursor_billing_db.execute(
                         " SELECT equipment_id, SUM(actual_value) "
                         " FROM tbl_equipment_input_category_hourly "
-                        " WHERE equipment_id IN (" + ', '.join(map(str, equipment_ids)) + ") "
+                        " WHERE equipment_id IN (" + equipment_ids_placeholders + ") "
                         "     AND start_datetime_utc >= %s "
                         "     AND start_datetime_utc < %s "
                         " GROUP BY equipment_id ",
-                        (reporting_start_datetime_utc, reporting_end_datetime_utc))
+                        tuple(equipment_ids) + (reporting_start_datetime_utc, reporting_end_datetime_utc))
                     rows_equipment_cost = cursor_billing_db.fetchall()
                     cost_map = {}
                     if rows_equipment_cost:
@@ -337,11 +339,11 @@ class Reporting:
                     cursor_carbon_db.execute(
                         " SELECT equipment_id, SUM(actual_value) "
                         " FROM tbl_equipment_input_category_hourly "
-                        " WHERE equipment_id IN (" + ', '.join(map(str, equipment_ids)) + ") "
+                        " WHERE equipment_id IN (" + equipment_ids_placeholders + ") "
                         "     AND start_datetime_utc >= %s "
                         "     AND start_datetime_utc < %s "
                         " GROUP BY equipment_id ",
-                        (reporting_start_datetime_utc, reporting_end_datetime_utc))
+                        tuple(equipment_ids) + (reporting_start_datetime_utc, reporting_end_datetime_utc))
                     rows_equipment_carbon = cursor_carbon_db.fetchall()
                     carbon_map = {}
                     if rows_equipment_carbon:
