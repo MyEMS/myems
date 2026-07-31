@@ -356,3 +356,9 @@ msgstr "Hari Bukan Bekerja"
 
 msgid "Working Days"
 msgstr "Hari Bekerja"
+
+msgid "Carbon Emissions"
+msgstr "Pelepasan Karbon"
+
+msgid "Costs"
+msgstr "Kos"

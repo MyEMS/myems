@@ -356,3 +356,9 @@ msgstr "Jours chômés"
 
 msgid "Working Days"
 msgstr "Jours ouvrables"
+
+msgid "Carbon Emissions"
+msgstr "Émissions de carbone"
+
+msgid "Costs"
+msgstr "Coûts"

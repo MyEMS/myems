@@ -356,3 +356,9 @@ msgstr "أيام العطلة"
 
 msgid "Working Days"
 msgstr "ايام الاسبوع"
+
+msgid "Carbon Emissions"
+msgstr "انبعاثات الكربون"
+
+msgid "Costs"
+msgstr "التكاليف"

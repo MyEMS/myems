@@ -356,3 +356,9 @@ msgstr "Ngày không làm việc"
 
 msgid "Working Days"
 msgstr "Ngày làm việc"
+
+msgid "Carbon Emissions"
+msgstr "Phát thải carbon"
+
+msgid "Costs"
+msgstr "Chi phí"

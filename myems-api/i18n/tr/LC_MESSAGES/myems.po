@@ -356,3 +356,9 @@ msgstr "Çalışma Dışı Günler"
 
 msgid "Working Days"
 msgstr "Çalışma Günleri"
+
+msgid "Carbon Emissions"
+msgstr "Karbon Emisyonları"
+
+msgid "Costs"
+msgstr "Maliyetler"
