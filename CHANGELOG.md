@@ -6,6 +6,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ## [Unreleased]
 ### Added
 - added meter dashboard to myems-api and myems-web
+- added authenticate via API-KEY to webmessage in myems-api
 ### Changed
 - changed carbon unit to KGCO2E in myems-api
 - updated data source page in myems-admin
