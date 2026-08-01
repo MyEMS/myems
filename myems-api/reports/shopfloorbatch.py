@@ -179,18 +179,27 @@ class Reporting:
             except Exception:
                 redis_client = None
 
+        # Establish database connections with proper exception handling
         cnx_system_db = None
         cnx_energy_db = None
-        cursor_system_db = None
-        cursor_energy_db = None
-        
+        cnx_billing_db = None
+        cnx_carbon_db = None
         try:
             cnx_system_db = mysql.connector.connect(**config.myems_system_db)
             cnx_energy_db = mysql.connector.connect(**config.myems_energy_db)
-            
+            cnx_billing_db = mysql.connector.connect(**config.myems_billing_db)
+            cnx_carbon_db = mysql.connector.connect(**config.myems_carbon_db)
+
+            # Create cursors with proper exception handling
+            cursor_system_db = None
+            cursor_energy_db = None
+            cursor_billing_db = None
+            cursor_carbon_db = None
             try:
                 cursor_system_db = cnx_system_db.cursor()
                 cursor_energy_db = cnx_energy_db.cursor()
+                cursor_billing_db = cnx_billing_db.cursor()
+                cursor_carbon_db = cnx_carbon_db.cursor()
 
                 cursor_system_db.execute(" SELECT name "
                                          " FROM tbl_spaces "
@@ -232,14 +241,15 @@ class Reporting:
 
                 space_ids = list(space_dict.keys())
                 if space_ids:
+                    space_ids_placeholders = ','.join(['%s'] * len(space_ids))
                     cursor_system_db.execute(" SELECT shopfloor.id, shopfloor.name AS shopfloor_name, "
                                              "        shopfloor.uuid AS shopfloor_uuid, s.name AS space_name, "
                                              "        s.id AS space_id, cc.name AS cost_center_name, shopfloor.description "
                                              " FROM tbl_spaces s, tbl_spaces_shopfloors ss,"
                                              " tbl_shopfloors shopfloor, tbl_cost_centers cc "
-                                             " WHERE s.id IN ( " + ', '.join(map(str, space_ids)) + ") "
+                                             " WHERE s.id IN ( " + space_ids_placeholders + ") "
                                              "       AND ss.space_id = s.id AND ss.shopfloor_id = shopfloor.id "
-                                             "       AND shopfloor.cost_center_id = cc.id  ", )
+                                             "       AND shopfloor.cost_center_id = cc.id  ", tuple(space_ids))
                     rows_shopfloors = cursor_system_db.fetchall()
                     if rows_shopfloors is not None and len(rows_shopfloors) > 0:
                         for row in rows_shopfloors:
@@ -287,40 +297,86 @@ class Reporting:
                                                      "unit_of_measure": row_energy_category[2]})
 
                 ###############################################################################################
-                # Step 5: query reporting period energy input
+                # Step 5: query reporting period energy input, cost, and carbon emissions
                 ###############################################################################################
                 if shopfloor_dict:
                     shopfloor_ids = list(shopfloor_dict.keys())
-                    cursor_energy_db.execute(
-                        " SELECT shopfloor_id, energy_category_id, SUM(actual_value) "
-                        " FROM tbl_shopfloor_input_category_hourly "
-                        " WHERE shopfloor_id IN (" + ', '.join(map(str, shopfloor_ids)) + ") "
-                        "     AND start_datetime_utc >= %s "
-                        "     AND start_datetime_utc < %s "
-                        " GROUP BY shopfloor_id, energy_category_id ",
-                        (reporting_start_datetime_utc, reporting_end_datetime_utc))
-                    rows_shopfloor_energy = cursor_energy_db.fetchall()
-                    energy_map = {}
-                    for row in rows_shopfloor_energy:
-                        energy_map.setdefault(row[0], {})[row[1]] = row[2]
-                    for shopfloor_id in shopfloor_dict:
-                        for energy_category in energy_category_list:
-                            subtotal = Decimal(0.0)
-                            if shopfloor_id in energy_map and energy_category['id'] in energy_map[shopfloor_id]:
-                                subtotal = energy_map[shopfloor_id][energy_category['id']]
-                            shopfloor_dict[shopfloor_id]['values'].append(subtotal)
+                    if not shopfloor_ids:
+                        shopfloor_ids = None
+                    else:
+                        shopfloor_ids_placeholders = ','.join(['%s'] * len(shopfloor_ids))
+                        # Query energy consumption
+                        cursor_energy_db.execute(
+                            " SELECT shopfloor_id, energy_category_id, SUM(actual_value) "
+                            " FROM tbl_shopfloor_input_category_hourly "
+                            " WHERE shopfloor_id IN (" + shopfloor_ids_placeholders + ") "
+                            "     AND start_datetime_utc >= %s "
+                            "     AND start_datetime_utc < %s "
+                            " GROUP BY shopfloor_id, energy_category_id ",
+                            tuple(shopfloor_ids) + (reporting_start_datetime_utc, reporting_end_datetime_utc))
+                        rows_shopfloor_energy = cursor_energy_db.fetchall()
+                        energy_map = {}
+                        for row in rows_shopfloor_energy:
+                            energy_map.setdefault(row[0], {})[row[1]] = row[2]
+                        for shopfloor_id in shopfloor_dict:
+                            for energy_category in energy_category_list:
+                                subtotal = Decimal(0.0)
+                                if shopfloor_id in energy_map and energy_category['id'] in energy_map[shopfloor_id]:
+                                    subtotal = energy_map[shopfloor_id][energy_category['id']]
+                                shopfloor_dict[shopfloor_id]['values'].append(subtotal)
+
+                        # Query cost
+                        cursor_billing_db.execute(
+                            " SELECT shopfloor_id, SUM(actual_value) "
+                            " FROM tbl_shopfloor_input_category_hourly "
+                            " WHERE shopfloor_id IN (" + shopfloor_ids_placeholders + ") "
+                            "     AND start_datetime_utc >= %s "
+                            "     AND start_datetime_utc < %s "
+                            " GROUP BY shopfloor_id ",
+                            tuple(shopfloor_ids) + (reporting_start_datetime_utc, reporting_end_datetime_utc))
+                        rows_shopfloor_cost = cursor_billing_db.fetchall()
+                        cost_map = {}
+                        for row in rows_shopfloor_cost:
+                            cost_map[row[0]] = row[1]
+
+                        # Query carbon emissions
+                        cursor_carbon_db.execute(
+                            " SELECT shopfloor_id, SUM(actual_value) "
+                            " FROM tbl_shopfloor_input_category_hourly "
+                            " WHERE shopfloor_id IN (" + shopfloor_ids_placeholders + ") "
+                            "     AND start_datetime_utc >= %s "
+                            "     AND start_datetime_utc < %s "
+                            " GROUP BY shopfloor_id ",
+                            tuple(shopfloor_ids) + (reporting_start_datetime_utc, reporting_end_datetime_utc))
+                        rows_shopfloor_carbon = cursor_carbon_db.fetchall()
+                        carbon_map = {}
+                        for row in rows_shopfloor_carbon:
+                            carbon_map[row[0]] = row[1]
+
+                        # Attach cost and carbon to shopfloor_dict
+                        for shopfloor_id in shopfloor_dict:
+                            shopfloor_dict[shopfloor_id]['cost'] = cost_map.get(shopfloor_id, 0.0)
+                            shopfloor_dict[shopfloor_id]['carbon_emissions'] = carbon_map.get(shopfloor_id, 0.0)
 
             finally:
                 if cursor_system_db:
                     cursor_system_db.close()
                 if cursor_energy_db:
                     cursor_energy_db.close()
-                
+                if cursor_billing_db:
+                    cursor_billing_db.close()
+                if cursor_carbon_db:
+                    cursor_carbon_db.close()
+
         finally:
             if cnx_system_db:
                 cnx_system_db.close()
             if cnx_energy_db:
                 cnx_energy_db.close()
+            if cnx_billing_db:
+                cnx_billing_db.close()
+            if cnx_carbon_db:
+                cnx_carbon_db.close()
 
         ################################################################################################################
         # Step 6: construct the report
@@ -335,6 +391,8 @@ class Reporting:
                 "cost_center_name": shopfloor['cost_center_name'],
                 "description": shopfloor['description'],
                 "values": shopfloor['values'],
+                "cost": shopfloor.get('cost', 0.0),
+                "carbon_emissions": shopfloor.get('carbon_emissions', 0.0),
             })
 
         result = {'shopfloors': shopfloor_list, 'energycategories': energy_category_list, 'excel_bytes_base64': None}

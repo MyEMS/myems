@@ -287,6 +287,30 @@ const CombinedEquipmentBatch = ({ setRedirect, setRedirectUrl, t }) => {
               }
             });
           });
+          detailed_column_list.push({
+            dataField: 'carbon_emissions',
+            text: t('Carbon Emissions') + ' (KGCO2E)',
+            sort: true,
+            formatter: function(decimalValue) {
+              if (typeof decimalValue === 'number') {
+                return decimalValue.toFixed(2);
+              } else {
+                return null;
+              }
+            }
+          });
+          detailed_column_list.push({
+            dataField: 'cost',
+            text: t('Costs') + ' (CNY)',
+            sort: true,
+            formatter: function(decimalValue) {
+              if (typeof decimalValue === 'number') {
+                return decimalValue.toFixed(2);
+              } else {
+                return null;
+              }
+            }
+          });
           setDetailedDataTableColumns(detailed_column_list);
           let combined_equipments = [];
           if (json['combined_equipments'].length > 0) {
@@ -300,6 +324,8 @@ const CombinedEquipmentBatch = ({ setRedirect, setRedirectUrl, t }) => {
               currentCombinedEquipment['values'].forEach((currentValue, energyCategoryIndex) => {
                 detailed_value['a' + energyCategoryIndex] = currentValue;
               });
+              detailed_value['carbon_emissions'] = currentCombinedEquipment['carbon_emissions'] || 0;
+              detailed_value['cost'] = currentCombinedEquipment['cost'] || 0;
               combined_equipments.push(detailed_value);
             });
           }
@@ -343,7 +369,7 @@ const CombinedEquipmentBatch = ({ setRedirect, setRedirectUrl, t }) => {
   };
 
   const buildSmartAnalysisContext = useCallback(() => {
-    const fixedFields = new Set(['id', 'name', 'uuid', 'space', 'costcenter']);
+    const fixedFields = new Set(['id', 'name', 'uuid', 'space', 'costcenter', 'carbon_emissions', 'cost']);
     const buildBatchRowSample = row => {
       if (!row || typeof row !== 'object') {
         return row;

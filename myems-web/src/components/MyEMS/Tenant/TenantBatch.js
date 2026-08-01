@@ -286,6 +286,30 @@ const TenantBatch = ({ setRedirect, setRedirectUrl, t }) => {
                 }
               });
             });
+            detailed_column_list.push({
+              dataField: 'carbon_emissions',
+              text: t('Carbon Emissions') + ' (KGCO2E)',
+              sort: true,
+              formatter: function(decimalValue) {
+                if (typeof decimalValue === 'number') {
+                  return decimalValue.toFixed(2);
+                } else {
+                  return null;
+                }
+              }
+            });
+            detailed_column_list.push({
+              dataField: 'cost',
+              text: t('Costs') + ' (CNY)',
+              sort: true,
+              formatter: function(decimalValue) {
+                if (typeof decimalValue === 'number') {
+                  return decimalValue.toFixed(2);
+                } else {
+                  return null;
+                }
+              }
+            });
 
             setDetailedDataTableColumns(detailed_column_list);
             json['tenants'].forEach((currentTenant, index) => {
@@ -298,6 +322,8 @@ const TenantBatch = ({ setRedirect, setRedirectUrl, t }) => {
               currentTenant['values'].forEach((currentValue, energyCategoryIndex) => {
                 detailed_value['a' + energyCategoryIndex] = currentValue;
               });
+              detailed_value['carbon_emissions'] = currentTenant['carbon_emissions'] || 0;
+              detailed_value['cost'] = currentTenant['cost'] || 0;
               tenants.push(detailed_value);
             });
           }
@@ -341,7 +367,7 @@ const TenantBatch = ({ setRedirect, setRedirectUrl, t }) => {
   };
 
   const buildSmartAnalysisContext = useCallback(() => {
-    const fixedFields = new Set(['id', 'name', 'uuid', 'space', 'costcenter']);
+    const fixedFields = new Set(['id', 'name', 'uuid', 'space', 'costcenter', 'carbon_emissions', 'cost']);
     const buildBatchRowSample = row => {
       if (!row || typeof row !== 'object') {
         return row;

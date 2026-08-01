@@ -181,15 +181,23 @@ class Reporting:
 
         cnx_system_db = None
         cnx_energy_db = None
+        cnx_billing_db = None
+        cnx_carbon_db = None
         try:
             cnx_system_db = mysql.connector.connect(**config.myems_system_db)
             cnx_energy_db = mysql.connector.connect(**config.myems_energy_db)
+            cnx_billing_db = mysql.connector.connect(**config.myems_billing_db)
+            cnx_carbon_db = mysql.connector.connect(**config.myems_carbon_db)
 
             cursor_system_db = None
             cursor_energy_db = None
+            cursor_billing_db = None
+            cursor_carbon_db = None
             try:
                 cursor_system_db = cnx_system_db.cursor()
                 cursor_energy_db = cnx_energy_db.cursor()
+                cursor_billing_db = cnx_billing_db.cursor()
+                cursor_carbon_db = cnx_carbon_db.cursor()
 
                 cursor_system_db.execute(" SELECT name "
                                          " FROM tbl_spaces "
@@ -231,14 +239,15 @@ class Reporting:
 
                 space_ids = list(space_dict.keys())
                 if space_ids:
+                    space_ids_placeholders = ','.join(['%s'] * len(space_ids))
                     cursor_system_db.execute(" SELECT t.id, t.name AS tenant_name, t.uuid AS tenant_uuid, "
                                              " s.name AS space_name, s.id AS space_id, "
                                              "        cc.name AS cost_center_name, t.description "
                                              " FROM tbl_spaces s, tbl_spaces_tenants st, tbl_tenants t, "
                                              " tbl_cost_centers cc "
-                                             " WHERE s.id IN ( " + ', '.join(map(str, space_ids)) + ") "
+                                             " WHERE s.id IN ( " + space_ids_placeholders + ") "
                                              "       AND st.space_id = s.id AND st.tenant_id = t.id "
-                                             "       AND t.cost_center_id = cc.id  ", )
+                                             "       AND t.cost_center_id = cc.id  ", tuple(space_ids))
                     rows_tenants = cursor_system_db.fetchall()
                     if rows_tenants is not None and len(rows_tenants) > 0:
                         for row in rows_tenants:
@@ -290,36 +299,83 @@ class Reporting:
                 ####################################################################################################
                 if tenant_dict:
                     tenant_ids = list(tenant_dict.keys())
-                    cursor_energy_db.execute(
-                        " SELECT tenant_id, energy_category_id, SUM(actual_value) "
-                        " FROM tbl_tenant_input_category_hourly "
-                        " WHERE tenant_id IN (" + ', '.join(map(str, tenant_ids)) + ") "
-                        "     AND start_datetime_utc >= %s "
-                        "     AND start_datetime_utc < %s "
-                        " GROUP BY tenant_id, energy_category_id ",
-                        (reporting_start_datetime_utc, reporting_end_datetime_utc))
-                    rows_tenant_energy = cursor_energy_db.fetchall()
-                    energy_map = {}
-                    for row in rows_tenant_energy:
-                        energy_map.setdefault(row[0], {})[row[1]] = row[2]
-                    for tenant_id in tenant_dict:
-                        for energy_category in energy_category_list:
-                            subtotal = Decimal(0.0)
-                            if tenant_id in energy_map and energy_category['id'] in energy_map[tenant_id]:
-                                subtotal = energy_map[tenant_id][energy_category['id']]
-                            tenant_dict[tenant_id]['values'].append(subtotal)
+                    if not tenant_ids:
+                        tenant_ids = None
+                    else:
+                        tenant_ids_placeholders = ','.join(['%s'] * len(tenant_ids))
+                        cursor_energy_db.execute(
+                            " SELECT tenant_id, energy_category_id, SUM(actual_value) "
+                            " FROM tbl_tenant_input_category_hourly "
+                            " WHERE tenant_id IN (" + tenant_ids_placeholders + ") "
+                            "     AND start_datetime_utc >= %s "
+                            "     AND start_datetime_utc < %s "
+                            " GROUP BY tenant_id, energy_category_id ",
+                            tuple(tenant_ids) + (reporting_start_datetime_utc, reporting_end_datetime_utc))
+                        rows_tenant_energy = cursor_energy_db.fetchall()
+                        energy_map = {}
+                        for row in rows_tenant_energy:
+                            energy_map.setdefault(row[0], {})[row[1]] = row[2]
+                        for tenant_id in tenant_dict:
+                            for energy_category in energy_category_list:
+                                subtotal = Decimal(0.0)
+                                if tenant_id in energy_map and energy_category['id'] in energy_map[tenant_id]:
+                                    subtotal = energy_map[tenant_id][energy_category['id']]
+                                tenant_dict[tenant_id]['values'].append(subtotal)
+
+                        # Query total cost for each tenant from billing db
+                        cursor_billing_db.execute(
+                            " SELECT tenant_id, SUM(actual_value) "
+                            " FROM tbl_tenant_input_category_hourly "
+                            " WHERE tenant_id IN (" + tenant_ids_placeholders + ") "
+                            "     AND start_datetime_utc >= %s "
+                            "     AND start_datetime_utc < %s "
+                            " GROUP BY tenant_id ",
+                            tuple(tenant_ids) + (reporting_start_datetime_utc, reporting_end_datetime_utc))
+                        rows_tenant_cost = cursor_billing_db.fetchall()
+                        cost_map = {}
+                        if rows_tenant_cost:
+                            for row in rows_tenant_cost:
+                                cost_map[row[0]] = float(row[1]) if row[1] else 0.0
+
+                        # Query total carbon emissions for each tenant from carbon db
+                        cursor_carbon_db.execute(
+                            " SELECT tenant_id, SUM(actual_value) "
+                            " FROM tbl_tenant_input_category_hourly "
+                            " WHERE tenant_id IN (" + tenant_ids_placeholders + ") "
+                            "     AND start_datetime_utc >= %s "
+                            "     AND start_datetime_utc < %s "
+                            " GROUP BY tenant_id ",
+                            tuple(tenant_ids) + (reporting_start_datetime_utc, reporting_end_datetime_utc))
+                        rows_tenant_carbon = cursor_carbon_db.fetchall()
+                        carbon_map = {}
+                        if rows_tenant_carbon:
+                            for row in rows_tenant_carbon:
+                                carbon_map[row[0]] = float(row[1]) if row[1] else 0.0
+
+                        # Attach cost and carbon to tenant_dict
+                        for tenant_id in tenant_dict:
+                            tenant_dict[tenant_id]['cost'] = cost_map.get(tenant_id, 0.0)
+                            tenant_dict[tenant_id]['carbon_emissions'] = carbon_map.get(tenant_id, 0.0)
 
             finally:
                 if cursor_system_db:
                     cursor_system_db.close()
                 if cursor_energy_db:
                     cursor_energy_db.close()
+                if cursor_billing_db:
+                    cursor_billing_db.close()
+                if cursor_carbon_db:
+                    cursor_carbon_db.close()
 
         finally:
             if cnx_system_db:
                 cnx_system_db.close()
             if cnx_energy_db:
                 cnx_energy_db.close()
+            if cnx_billing_db:
+                cnx_billing_db.close()
+            if cnx_carbon_db:
+                cnx_carbon_db.close()
 
         ################################################################################################################
         # Step 6: construct the report
@@ -334,6 +390,8 @@ class Reporting:
                 "cost_center_name": tenant['cost_center_name'],
                 "description": tenant['description'],
                 "values": tenant['values'],
+                "cost": tenant.get('cost', 0.0),
+                "carbon_emissions": tenant.get('carbon_emissions', 0.0),
             })
 
         result = {'tenants': tenant_list,
