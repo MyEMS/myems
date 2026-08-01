@@ -299,61 +299,64 @@ class Reporting:
                 ########################################################################################
                 if equipment_dict:
                     equipment_ids = list(equipment_dict.keys())
-                    equipment_ids_placeholders = ','.join(['%s'] * len(equipment_ids))
-                    cursor_energy_db.execute(
-                        " SELECT equipment_id, energy_category_id, SUM(actual_value) "
-                        " FROM tbl_equipment_input_category_hourly "
-                        " WHERE equipment_id IN (" + equipment_ids_placeholders + ") "
-                        "     AND start_datetime_utc >= %s "
-                        "     AND start_datetime_utc < %s "
-                        " GROUP BY equipment_id, energy_category_id ",
-                        tuple(equipment_ids) + (reporting_start_datetime_utc, reporting_end_datetime_utc))
-                    rows_equipment_energy = cursor_energy_db.fetchall()
-                    # build mapping: equipment_id -> {energy_category_id: sum_value}
-                    energy_map = {}
-                    for row in rows_equipment_energy:
-                        energy_map.setdefault(row[0], {})[row[1]] = row[2]
-                    for equipment_id in equipment_dict:
-                        for energy_category in energy_category_list:
-                            subtotal = Decimal(0.0)
-                            if equipment_id in energy_map and energy_category['id'] in energy_map[equipment_id]:
-                                subtotal = energy_map[equipment_id][energy_category['id']]
-                            equipment_dict[equipment_id]['values'].append(subtotal)
+                    if not equipment_ids:
+                        equipment_ids = None
+                    else:
+                        equipment_ids_placeholders = ','.join(['%s'] * len(equipment_ids))
+                        cursor_energy_db.execute(
+                            " SELECT equipment_id, energy_category_id, SUM(actual_value) "
+                            " FROM tbl_equipment_input_category_hourly "
+                            " WHERE equipment_id IN (" + equipment_ids_placeholders + ") "
+                            "     AND start_datetime_utc >= %s "
+                            "     AND start_datetime_utc < %s "
+                            " GROUP BY equipment_id, energy_category_id ",
+                            tuple(equipment_ids) + (reporting_start_datetime_utc, reporting_end_datetime_utc))
+                        rows_equipment_energy = cursor_energy_db.fetchall()
+                        # build mapping: equipment_id -> {energy_category_id: sum_value}
+                        energy_map = {}
+                        for row in rows_equipment_energy:
+                            energy_map.setdefault(row[0], {})[row[1]] = row[2]
+                        for equipment_id in equipment_dict:
+                            for energy_category in energy_category_list:
+                                subtotal = Decimal(0.0)
+                                if equipment_id in energy_map and energy_category['id'] in energy_map[equipment_id]:
+                                    subtotal = energy_map[equipment_id][energy_category['id']]
+                                equipment_dict[equipment_id]['values'].append(subtotal)
 
-                    # Query total cost for each equipment from billing db
-                    cursor_billing_db.execute(
-                        " SELECT equipment_id, SUM(actual_value) "
-                        " FROM tbl_equipment_input_category_hourly "
-                        " WHERE equipment_id IN (" + equipment_ids_placeholders + ") "
-                        "     AND start_datetime_utc >= %s "
-                        "     AND start_datetime_utc < %s "
-                        " GROUP BY equipment_id ",
-                        tuple(equipment_ids) + (reporting_start_datetime_utc, reporting_end_datetime_utc))
-                    rows_equipment_cost = cursor_billing_db.fetchall()
-                    cost_map = {}
-                    if rows_equipment_cost:
-                        for row in rows_equipment_cost:
-                            cost_map[row[0]] = float(row[1]) if row[1] else 0.0
+                        # Query total cost for each equipment from billing db
+                        cursor_billing_db.execute(
+                            " SELECT equipment_id, SUM(actual_value) "
+                            " FROM tbl_equipment_input_category_hourly "
+                            " WHERE equipment_id IN (" + equipment_ids_placeholders + ") "
+                            "     AND start_datetime_utc >= %s "
+                            "     AND start_datetime_utc < %s "
+                            " GROUP BY equipment_id ",
+                            tuple(equipment_ids) + (reporting_start_datetime_utc, reporting_end_datetime_utc))
+                        rows_equipment_cost = cursor_billing_db.fetchall()
+                        cost_map = {}
+                        if rows_equipment_cost:
+                            for row in rows_equipment_cost:
+                                cost_map[row[0]] = float(row[1]) if row[1] else 0.0
 
-                    # Query total carbon emissions for each equipment from carbon db
-                    cursor_carbon_db.execute(
-                        " SELECT equipment_id, SUM(actual_value) "
-                        " FROM tbl_equipment_input_category_hourly "
-                        " WHERE equipment_id IN (" + equipment_ids_placeholders + ") "
-                        "     AND start_datetime_utc >= %s "
-                        "     AND start_datetime_utc < %s "
-                        " GROUP BY equipment_id ",
-                        tuple(equipment_ids) + (reporting_start_datetime_utc, reporting_end_datetime_utc))
-                    rows_equipment_carbon = cursor_carbon_db.fetchall()
-                    carbon_map = {}
-                    if rows_equipment_carbon:
-                        for row in rows_equipment_carbon:
-                            carbon_map[row[0]] = float(row[1]) if row[1] else 0.0
+                        # Query total carbon emissions for each equipment from carbon db
+                        cursor_carbon_db.execute(
+                            " SELECT equipment_id, SUM(actual_value) "
+                            " FROM tbl_equipment_input_category_hourly "
+                            " WHERE equipment_id IN (" + equipment_ids_placeholders + ") "
+                            "     AND start_datetime_utc >= %s "
+                            "     AND start_datetime_utc < %s "
+                            " GROUP BY equipment_id ",
+                            tuple(equipment_ids) + (reporting_start_datetime_utc, reporting_end_datetime_utc))
+                        rows_equipment_carbon = cursor_carbon_db.fetchall()
+                        carbon_map = {}
+                        if rows_equipment_carbon:
+                            for row in rows_equipment_carbon:
+                                carbon_map[row[0]] = float(row[1]) if row[1] else 0.0
 
-                    # Attach cost and carbon to equipment_dict
-                    for equipment_id in equipment_dict:
-                        equipment_dict[equipment_id]['cost'] = cost_map.get(equipment_id, 0.0)
-                        equipment_dict[equipment_id]['carbon_emissions'] = carbon_map.get(equipment_id, 0.0)
+                        # Attach cost and carbon to equipment_dict
+                        for equipment_id in equipment_dict:
+                            equipment_dict[equipment_id]['cost'] = cost_map.get(equipment_id, 0.0)
+                            equipment_dict[equipment_id]['carbon_emissions'] = carbon_map.get(equipment_id, 0.0)
 
             finally:
                 if cursor_system_db:
