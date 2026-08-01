@@ -300,7 +300,7 @@ const EquipmentBatch = ({ setRedirect, setRedirectUrl, t }) => {
           });
           detailed_column_list.push({
             dataField: 'cost',
-            text: t('Costs'),
+            text: t('Costs')+ ' (CNY)',
             sort: true,
             formatter: function(decimalValue) {
               if (typeof decimalValue === 'number') {
