@@ -304,6 +304,10 @@ app.controller('ModalAddRuleCtrl', function($scope, $uibModalInstance, params) {
 			$scope.fddCodeOptions = ['COMBINEDEQUIPMENT01', 'COMBINEDEQUIPMENT02', 'COMBINEDEQUIPMENT03', 'COMBINEDEQUIPMENT04', 'COMBINEDEQUIPMENT05', 'COMBINEDEQUIPMENT06', 'COMBINEDEQUIPMENT07'];
 		} else if ($scope.rule.category === 'VIRTUALMETER') {
 			$scope.fddCodeOptions = ['VIRTUALMETER01', 'VIRTUALMETER02', 'VIRTUALMETER03', 'VIRTUALMETER04', 'VIRTUALMETER05', 'VIRTUALMETER06', 'VIRTUALMETER07'];
+		} else if ($scope.rule.category === 'GATEWAY') {
+			$scope.fddCodeOptions = ['GATEWAY01'];
+		} else if ($scope.rule.category === 'DATASOURCE') {
+			$scope.fddCodeOptions = ['DATASOURCE01'];
 		}
 	};
 
@@ -342,6 +346,10 @@ app.controller('ModalEditRuleCtrl', function($scope, $uibModalInstance, params) 
 			$scope.fddCodeOptions = ['COMBINEDEQUIPMENT01', 'COMBINEDEQUIPMENT02', 'COMBINEDEQUIPMENT03', 'COMBINEDEQUIPMENT04', 'COMBINEDEQUIPMENT05', 'COMBINEDEQUIPMENT06', 'COMBINEDEQUIPMENT07'];
 		} else if ($scope.rule.category === 'VIRTUALMETER') {
 			$scope.fddCodeOptions = ['VIRTUALMETER01', 'VIRTUALMETER02', 'VIRTUALMETER03', 'VIRTUALMETER04', 'VIRTUALMETER05', 'VIRTUALMETER06', 'VIRTUALMETER07'];
+		} else if ($scope.rule.category === 'GATEWAY') {
+			$scope.fddCodeOptions = ['GATEWAY01'];
+		} else if ($scope.rule.category === 'DATASOURCE') {
+			$scope.fddCodeOptions = ['DATASOURCE01'];
 		}
 	};
 
