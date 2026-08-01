@@ -26,6 +26,7 @@ import uuid
 from openpyxl import Workbook
 from openpyxl.drawing.image import Image
 from openpyxl.styles import PatternFill, Border, Side, Alignment, Font
+from openpyxl.utils import get_column_letter, column_index_from_string
 from core.utilities import round2
 
 
@@ -194,8 +195,9 @@ def generate_excel(report, space_name, reporting_start_datetime_local, reporting
 
     ca_len = len(report['energycategories'])
 
+    base_col_idx = column_index_from_string('D')
     for i in range(0, ca_len):
-        col = chr(ord('D') + i)
+        col = get_column_letter(base_col_idx + i)
         ws[col + '6'].fill = table_fill
         ws[col + '6'].font = name_font
         ws[col + '6'].alignment = c_c_alignment
@@ -204,7 +206,7 @@ def generate_excel(report, space_name, reporting_start_datetime_local, reporting
         ws[col + '6'].border = f_border
 
     # Carbon Emissions column header
-    carbon_col = chr(ord('D') + ca_len)
+    carbon_col = get_column_letter(base_col_idx + ca_len)
     ws[carbon_col + '6'].fill = table_fill
     ws[carbon_col + '6'].font = name_font
     ws[carbon_col + '6'].alignment = c_c_alignment
@@ -212,11 +214,11 @@ def generate_excel(report, space_name, reporting_start_datetime_local, reporting
     ws[carbon_col + '6'].border = f_border
 
     # Costs column header
-    cost_col = chr(ord('D') + ca_len + 1)
+    cost_col = get_column_letter(base_col_idx + ca_len + 1)
     ws[cost_col + '6'].fill = table_fill
     ws[cost_col + '6'].font = name_font
     ws[cost_col + '6'].alignment = c_c_alignment
-    ws[cost_col + '6'] = _('Costs')
+    ws[cost_col + '6'] = _('Costs') + ' (CNY)'
     ws[cost_col + '6'].border = f_border
 
     current_row_number = 7
@@ -233,22 +235,23 @@ def generate_excel(report, space_name, reporting_start_datetime_local, reporting
         ws['C' + str(current_row_number)] = report['equipments'][i]['space_name']
 
         ca_len = len(report['equipments'][i]['values'])
+        data_base_col_idx = column_index_from_string('D')
         for j in range(0, ca_len):
-            col = chr(ord('D') + j)
+            col = get_column_letter(data_base_col_idx + j)
             ws[col + str(current_row_number)].font = data_font
             ws[col + str(current_row_number)].border = f_border
             ws[col + str(current_row_number)].alignment = c_c_alignment
             ws[col + str(current_row_number)] = round2(report['equipments'][i]['values'][j], 2)
 
         # Carbon Emissions value
-        carbon_col = chr(ord('D') + ca_len)
+        carbon_col = get_column_letter(data_base_col_idx + ca_len)
         ws[carbon_col + str(current_row_number)].font = data_font
         ws[carbon_col + str(current_row_number)].border = f_border
         ws[carbon_col + str(current_row_number)].alignment = c_c_alignment
         ws[carbon_col + str(current_row_number)] = round2(report['equipments'][i].get('carbon_emissions', 0.0), 2)
 
         # Costs value
-        cost_col = chr(ord('D') + ca_len + 1)
+        cost_col = get_column_letter(data_base_col_idx + ca_len + 1)
         ws[cost_col + str(current_row_number)].font = data_font
         ws[cost_col + str(current_row_number)].border = f_border
         ws[cost_col + str(current_row_number)].alignment = c_c_alignment
