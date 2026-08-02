@@ -77,46 +77,41 @@ const EquipmentRealtimeCard = ({ equipmentId, equipmentName, pointValueMap, setR
 
   useEffect(() => {
     let isMounted = true;
-    let isResponseOK = false;
-    fetch(APIBaseURL + '/equipments/' + equipmentId + '/parameters', {
-      method: 'GET',
-      headers: {
-        'Content-type': 'application/json',
-        'User-UUID': getCookieValue('user_uuid'),
-        Token: getCookieValue('token')
-      },
-      body: null
-    })
-      .then(response => {
-        if (response.ok) {
-          isResponseOK = true;
-        }
-        return response.json();
-      })
-      .then(json => {
-        if (!isMounted) {
-          return;
-        }
-        if (isResponseOK) {
-          const parameterList = Array.isArray(json) ? json : [];
-          setEquipmentParameters(parameterList);
-          const firstPointParameter = parameterList.find(
-            item => item && item['parameter_type'] === 'point' && item['point'] && item['point']['id']
-          );
-          if (firstPointParameter) {
-            setMainPointId(firstPointParameter['point']['id']);
-            setMainPointName(firstPointParameter['name'] || firstPointParameter['point']['name']);
-          } else {
-            setMainPointId(undefined);
-            setMainPointName(undefined);
-          }
-        } else {
-          handleAPIError(json, setRedirect, setRedirectUrl, t, toast);
-        }
-      })
-      .catch(err => {
-        console.log(err);
+    const fetchData = async () => {
+      const response = await fetch(APIBaseURL + '/equipments/' + equipmentId + '/parameters', {
+        method: 'GET',
+        headers: {
+          'Content-type': 'application/json',
+          'User-UUID': getCookieValue('user_uuid'),
+          Token: getCookieValue('token')
+        },
+        body: null
       });
+      const json = await response.json();
+      if (!isMounted) {
+        return;
+      }
+      if (response.ok) {
+        const parameterList = Array.isArray(json) ? json : [];
+        setEquipmentParameters(parameterList);
+        const firstPointParameter = parameterList.find(
+          item => item && item['parameter_type'] === 'point' && item['point'] && item['point']['id']
+        );
+        if (firstPointParameter) {
+          setMainPointId(firstPointParameter['point']['id']);
+          setMainPointName(firstPointParameter['name'] || firstPointParameter['point']['name']);
+        } else {
+          setMainPointId(undefined);
+          setMainPointName(undefined);
+        }
+      } else {
+        handleAPIError(json, setRedirect, setRedirectUrl, t, toast);
+      }
+    };
+
+    fetchData().catch(err => {
+      console.log(err);
+    });
     return () => {
       isMounted = false;
     };
@@ -208,7 +203,7 @@ const EquipmentRealtimeCard = ({ equipmentId, equipmentName, pointValueMap, setR
   return (
     <Card className="h-100 bg-gradient">
       <CardHeader className="bg-transparent">
-        <h5 className="text-white">{equipmentName}</h5>
+        <h5 className="text-white">{String(equipmentName || '')}</h5>
         <div className="real-time-user display-4 font-weight-normal text-white">{currentMainValue}</div>
       </CardHeader>
       <CardBody className="text-white fs--1">

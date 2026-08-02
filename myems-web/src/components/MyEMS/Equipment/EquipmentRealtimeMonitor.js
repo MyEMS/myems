@@ -9,6 +9,18 @@ import { withTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
 import { APIBaseURL, settings } from '../../../config';
 
+const transformTreeData = nodes => {
+  if (!Array.isArray(nodes)) {
+    return [];
+  }
+  return nodes.map(node => {
+    const value = node && node.id !== undefined && node.id !== null ? node.id : undefined;
+    const label = node && node.name !== undefined && node.name !== null ? node.name : '';
+    const children = node && Array.isArray(node.children) && node.children.length > 0 ? transformTreeData(node.children) : undefined;
+    return { value, label, children };
+  });
+};
+
 const EquipmentRealtimeMonitor = ({ setRedirect, setRedirectUrl, t }) => {
   const [cursor, setCursor] = useState(0);
   const [maxCursor, setMaxCursor] = useState(0);
@@ -31,7 +43,7 @@ const EquipmentRealtimeMonitor = ({ setRedirect, setRedirectUrl, t }) => {
       createCookie('user_uuid', user_uuid, settings.cookieExpireTime);
       createCookie('token', token, settings.cookieExpireTime);
     }
-  });
+  }, [setRedirect, setRedirectUrl]);
 
   useEffect(() => {
     let timer = setInterval(() => {
@@ -40,7 +52,7 @@ const EquipmentRealtimeMonitor = ({ setRedirect, setRedirectUrl, t }) => {
         setRedirectUrl(`/authentication/basic/login`);
         setRedirect(true);
       }
-    }, 1000);
+    }, 30000);
     return () => clearInterval(timer);
   }, [setRedirect, setRedirectUrl]);
 
@@ -51,75 +63,58 @@ const EquipmentRealtimeMonitor = ({ setRedirect, setRedirectUrl, t }) => {
   const [pointValueMap, setPointValueMap] = useState({});
 
   useEffect(() => {
-    let isResponseOK = false;
-    fetch(APIBaseURL + '/spaces/tree', {
-      method: 'GET',
-      headers: {
-        'Content-type': 'application/json',
-        'User-UUID': getCookieValue('user_uuid'),
-        Token: getCookieValue('token')
-      },
-      body: null
-    })
-      .then(response => {
-        if (response.ok) {
-          isResponseOK = true;
-        }
-        return response.json();
-      })
-      .then(json => {
-        if (isResponseOK) {
-          json = JSON.parse(
-            JSON.stringify([json])
-              .split('"id":')
-              .join('"value":')
-              .split('"name":')
-              .join('"label":')
-          );
-          setCascaderOptions(json);
-          setSelectedSpaceName([json[0]].map(o => o.label));
-          let selectedSpaceID = [json[0]].map(o => o.value);
-          let isSecondResponseOK = false;
-          fetch(APIBaseURL + '/spaces/' + selectedSpaceID + '/equipments', {
-            method: 'GET',
-            headers: {
-              'Content-type': 'application/json',
-              'User-UUID': getCookieValue('user_uuid'),
-              Token: getCookieValue('token')
-            },
-            body: null
-          })
-            .then(response => {
-              if (response.ok) {
-                isSecondResponseOK = true;
-              }
-              return response.json();
-            })
-            .then(json => {
-              if (isSecondResponseOK) {
-                json = JSON.parse(JSON.stringify([json]));
-                setEquipmentList(json[0]);
-                setSpinnerHidden(true);
-              } else {
-                handleAPIError(json, setRedirect, setRedirectUrl, t, toast);
-              }
-            })
-            .catch(err => {
-              console.log(err);
-            });
-        } else {
-          handleAPIError(json, setRedirect, setRedirectUrl, t, toast);
-        }
-      })
-      .catch(err => {
-        console.log(err);
+    const fetchData = async () => {
+      const spaceTreeResponse = await fetch(APIBaseURL + '/spaces/tree', {
+        method: 'GET',
+        headers: {
+          'Content-type': 'application/json',
+          'User-UUID': getCookieValue('user_uuid'),
+          Token: getCookieValue('token')
+        },
+        body: null
       });
+      const spaceTreeJson = await spaceTreeResponse.json();
+      if (!spaceTreeResponse.ok) {
+        handleAPIError(spaceTreeJson, setRedirect, setRedirectUrl, t, toast);
+        return;
+      }
+      const nextOptions = transformTreeData([spaceTreeJson]);
+      setCascaderOptions(nextOptions);
+      if (nextOptions.length === 0 || !nextOptions[0] || !nextOptions[0].value) {
+        setSelectedSpaceName('');
+        setEquipmentList([]);
+        setSpinnerHidden(true);
+        return;
+      }
+      setSelectedSpaceName(nextOptions[0].label);
+      const selectedSpaceID = nextOptions[0].value;
+
+      const equipmentResponse = await fetch(APIBaseURL + '/spaces/' + selectedSpaceID + '/equipments', {
+        method: 'GET',
+        headers: {
+          'Content-type': 'application/json',
+          'User-UUID': getCookieValue('user_uuid'),
+          Token: getCookieValue('token')
+        },
+        body: null
+      });
+      const equipmentJson = await equipmentResponse.json();
+      if (!equipmentResponse.ok) {
+        handleAPIError(equipmentJson, setRedirect, setRedirectUrl, t, toast);
+        return;
+      }
+      setEquipmentList(Array.isArray(equipmentJson) ? equipmentJson : []);
+      setSpinnerHidden(true);
+    };
+
+    fetchData().catch(err => {
+      console.log(err);
+    });
   }, [setRedirect, setRedirectUrl, t]);
 
   useEffect(() => {
     let isMounted = true;
     const fetchPointRealtime = () => {
-      let isResponseOK = false;
       fetch(APIBaseURL + '/reports/pointrealtime', {
         method: 'GET',
         headers: {
@@ -129,20 +124,18 @@ const EquipmentRealtimeMonitor = ({ setRedirect, setRedirectUrl, t }) => {
         },
         body: null
       })
-        .then(response => {
-          if (response.ok) {
-            isResponseOK = true;
-          }
-          return response.json();
+        .then(async response => {
+          const json = await response.json();
+          return { response, json };
         })
         .then(json => {
           if (!isMounted) {
             return;
           }
-          if (isResponseOK) {
+          if (json.response.ok) {
             const nextMap = {};
-            if (Array.isArray(json)) {
-              json.forEach(item => {
+            if (Array.isArray(json.json)) {
+              json.json.forEach(item => {
                 if (item && item['point_id'] !== undefined && item['point_id'] !== null) {
                   nextMap[item['point_id']] = item['value'];
                 }
@@ -150,7 +143,7 @@ const EquipmentRealtimeMonitor = ({ setRedirect, setRedirectUrl, t }) => {
             }
             setPointValueMap(nextMap);
           } else {
-            handleAPIError(json, setRedirect, setRedirectUrl, t, toast);
+            handleAPIError(json.json, setRedirect, setRedirectUrl, t, toast);
           }
         })
         .catch(err => {
@@ -175,7 +168,6 @@ const EquipmentRealtimeMonitor = ({ setRedirect, setRedirectUrl, t }) => {
     setSelectedSpaceName(selectedOptions.map(o => o.label).join('/'));
     let selectedSpaceID = value[value.length - 1];
     setSpinnerHidden(false);
-    let isResponseOK = false;
     fetch(APIBaseURL + '/spaces/' + selectedSpaceID + '/equipments', {
       method: 'GET',
       headers: {
@@ -185,16 +177,13 @@ const EquipmentRealtimeMonitor = ({ setRedirect, setRedirectUrl, t }) => {
       },
       body: null
     })
-      .then(response => {
-        if (response.ok) {
-          isResponseOK = true;
-        }
-        return response.json();
+      .then(async response => {
+        const json = await response.json();
+        return { response, json };
       })
-      .then(json => {
-        if (isResponseOK) {
-          json = JSON.parse(JSON.stringify([json]));
-          setEquipmentList(json[0]);
+      .then(({ response, json }) => {
+        if (response.ok) {
+          setEquipmentList(Array.isArray(json) ? json : []);
           setSpinnerHidden(true);
         } else {
           handleAPIError(json, setRedirect, setRedirectUrl, t, toast);
