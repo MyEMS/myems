@@ -11,6 +11,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Changed
 - changed carbon unit to KGCO2E in myems-api
 - updated data source page in myems-admin
+- changed login page in myems-admin
 ### Fixed
 - fixed issue of meter realtime report in myems-web
 - fixed issue of space energy item in myems-web
