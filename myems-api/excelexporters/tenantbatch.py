@@ -179,6 +179,22 @@ def generate_excel(report, space_name, reporting_start_datetime_local, reporting
             " (" + report['energycategories'][i]['unit_of_measure'] + ")"
         ws[col + '7'].border = f_border
 
+    # Carbon Emissions column header
+    carbon_col = get_column_letter(column_index_from_string('D') + ca_len)
+    ws[carbon_col + '7'].fill = table_fill
+    ws[carbon_col + '7'].font = name_font
+    ws[carbon_col + '7'].alignment = c_c_alignment
+    ws[carbon_col + '7'] = _('Carbon Emissions') + ' (KGCO2E)'
+    ws[carbon_col + '7'].border = f_border
+
+    # Costs column header
+    cost_col = get_column_letter(column_index_from_string('D') + ca_len + 1)
+    ws[cost_col + '7'].fill = table_fill
+    ws[cost_col + '7'].font = name_font
+    ws[cost_col + '7'].alignment = c_c_alignment
+    ws[cost_col + '7'] = _('Costs') + ' (CNY)'
+    ws[cost_col + '7'].border = f_border
+
     current_row_number = 8
     for i in range(0, len(report['tenants'])):
 
@@ -199,6 +215,21 @@ def generate_excel(report, space_name, reporting_start_datetime_local, reporting
             ws[col + str(current_row_number)].border = f_border
             ws[col + str(current_row_number)].alignment = c_c_alignment
             ws[col + str(current_row_number)] = report['tenants'][i]['values'][j]
+
+        # Carbon Emissions value
+        carbon_col = get_column_letter(column_index_from_string('D') + ca_len)
+        ws[carbon_col + str(current_row_number)].font = title_font
+        ws[carbon_col + str(current_row_number)].border = f_border
+        ws[carbon_col + str(current_row_number)].alignment = c_c_alignment
+        ws[carbon_col + str(current_row_number)] = round(report['tenants'][i].get('carbon_emissions', 0.0), 2)
+
+        # Costs value
+        cost_col = get_column_letter(column_index_from_string('D') + ca_len + 1)
+        ws[cost_col + str(current_row_number)].font = title_font
+        ws[cost_col + str(current_row_number)].border = f_border
+        ws[cost_col + str(current_row_number)].alignment = c_c_alignment
+        ws[cost_col + str(current_row_number)] = round(report['tenants'][i].get('cost', 0.0), 2)
+
         current_row_number += 1
 
     filename = str(uuid.uuid4()) + '.xlsx'

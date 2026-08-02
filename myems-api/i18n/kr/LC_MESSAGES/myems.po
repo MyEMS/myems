@@ -356,3 +356,9 @@ msgstr "Non Working Days"
 
 msgid "Working Days"
 msgstr "Working Days"
+
+msgid "Carbon Emissions"
+msgstr "탄소 배출"
+
+msgid "Costs"
+msgstr "비용"

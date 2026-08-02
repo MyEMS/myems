@@ -356,3 +356,9 @@ msgstr "Arbeitsfreie Tage"
 
 msgid "Working Days"
 msgstr "Arbeitstage"
+
+msgid "Carbon Emissions"
+msgstr "CO2-Emissionen"
+
+msgid "Costs"
+msgstr "Kosten"

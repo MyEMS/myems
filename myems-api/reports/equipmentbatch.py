@@ -181,15 +181,23 @@ class Reporting:
 
         cnx_system_db = None
         cnx_energy_db = None
+        cnx_billing_db = None
+        cnx_carbon_db = None
         try:
             cnx_system_db = mysql.connector.connect(**config.myems_system_db)
             cnx_energy_db = mysql.connector.connect(**config.myems_energy_db)
+            cnx_billing_db = mysql.connector.connect(**config.myems_billing_db)
+            cnx_carbon_db = mysql.connector.connect(**config.myems_carbon_db)
             
             cursor_system_db = None
             cursor_energy_db = None
+            cursor_billing_db = None
+            cursor_carbon_db = None
             try:
                 cursor_system_db = cnx_system_db.cursor()
                 cursor_energy_db = cnx_energy_db.cursor()
+                cursor_billing_db = cnx_billing_db.cursor()
+                cursor_carbon_db = cnx_carbon_db.cursor()
 
                 cursor_system_db.execute(" SELECT name "
                                          " FROM tbl_spaces "
@@ -231,15 +239,16 @@ class Reporting:
 
                 space_ids = list(space_dict.keys())
                 if space_ids:
+                    space_ids_placeholders = ','.join(['%s'] * len(space_ids))
                     cursor_system_db.execute(" SELECT e.id, e.name AS equipment_name, "
                                              "        e.uuid AS equipment_uuid, s.name AS space_name, "
                                              "        s.id AS space_id, "
                                              "        cc.name AS cost_center_name, e.description "
                                              " FROM tbl_spaces s, tbl_spaces_equipments se, "
                                              "      tbl_equipments e, tbl_cost_centers cc "
-                                             " WHERE s.id IN ( " + ', '.join(map(str, space_ids)) + ") "
+                                             " WHERE s.id IN ( " + space_ids_placeholders + ") "
                                              "       AND se.space_id = s.id AND se.equipment_id = e.id "
-                                             "       AND e.cost_center_id = cc.id  ", )
+                                             "       AND e.cost_center_id = cc.id  ", tuple(space_ids))
                     rows_equipments = cursor_system_db.fetchall()
                     if rows_equipments is not None and len(rows_equipments) > 0:
                         for row in rows_equipments:
@@ -290,37 +299,84 @@ class Reporting:
                 ########################################################################################
                 if equipment_dict:
                     equipment_ids = list(equipment_dict.keys())
-                    cursor_energy_db.execute(
-                        " SELECT equipment_id, energy_category_id, SUM(actual_value) "
-                        " FROM tbl_equipment_input_category_hourly "
-                        " WHERE equipment_id IN (" + ', '.join(map(str, equipment_ids)) + ") "
-                        "     AND start_datetime_utc >= %s "
-                        "     AND start_datetime_utc < %s "
-                        " GROUP BY equipment_id, energy_category_id ",
-                        (reporting_start_datetime_utc, reporting_end_datetime_utc))
-                    rows_equipment_energy = cursor_energy_db.fetchall()
-                    # build mapping: equipment_id -> {energy_category_id: sum_value}
-                    energy_map = {}
-                    for row in rows_equipment_energy:
-                        energy_map.setdefault(row[0], {})[row[1]] = row[2]
-                    for equipment_id in equipment_dict:
-                        for energy_category in energy_category_list:
-                            subtotal = Decimal(0.0)
-                            if equipment_id in energy_map and energy_category['id'] in energy_map[equipment_id]:
-                                subtotal = energy_map[equipment_id][energy_category['id']]
-                            equipment_dict[equipment_id]['values'].append(subtotal)
+                    if not equipment_ids:
+                        equipment_ids = None
+                    else:
+                        equipment_ids_placeholders = ','.join(['%s'] * len(equipment_ids))
+                        cursor_energy_db.execute(
+                            " SELECT equipment_id, energy_category_id, SUM(actual_value) "
+                            " FROM tbl_equipment_input_category_hourly "
+                            " WHERE equipment_id IN (" + equipment_ids_placeholders + ") "
+                            "     AND start_datetime_utc >= %s "
+                            "     AND start_datetime_utc < %s "
+                            " GROUP BY equipment_id, energy_category_id ",
+                            tuple(equipment_ids) + (reporting_start_datetime_utc, reporting_end_datetime_utc))
+                        rows_equipment_energy = cursor_energy_db.fetchall()
+                        # build mapping: equipment_id -> {energy_category_id: sum_value}
+                        energy_map = {}
+                        for row in rows_equipment_energy:
+                            energy_map.setdefault(row[0], {})[row[1]] = row[2]
+                        for equipment_id in equipment_dict:
+                            for energy_category in energy_category_list:
+                                subtotal = Decimal(0.0)
+                                if equipment_id in energy_map and energy_category['id'] in energy_map[equipment_id]:
+                                    subtotal = energy_map[equipment_id][energy_category['id']]
+                                equipment_dict[equipment_id]['values'].append(subtotal)
+
+                        # Query total cost for each equipment from billing db
+                        cursor_billing_db.execute(
+                            " SELECT equipment_id, SUM(actual_value) "
+                            " FROM tbl_equipment_input_category_hourly "
+                            " WHERE equipment_id IN (" + equipment_ids_placeholders + ") "
+                            "     AND start_datetime_utc >= %s "
+                            "     AND start_datetime_utc < %s "
+                            " GROUP BY equipment_id ",
+                            tuple(equipment_ids) + (reporting_start_datetime_utc, reporting_end_datetime_utc))
+                        rows_equipment_cost = cursor_billing_db.fetchall()
+                        cost_map = {}
+                        if rows_equipment_cost:
+                            for row in rows_equipment_cost:
+                                cost_map[row[0]] = float(row[1]) if row[1] else 0.0
+
+                        # Query total carbon emissions for each equipment from carbon db
+                        cursor_carbon_db.execute(
+                            " SELECT equipment_id, SUM(actual_value) "
+                            " FROM tbl_equipment_input_category_hourly "
+                            " WHERE equipment_id IN (" + equipment_ids_placeholders + ") "
+                            "     AND start_datetime_utc >= %s "
+                            "     AND start_datetime_utc < %s "
+                            " GROUP BY equipment_id ",
+                            tuple(equipment_ids) + (reporting_start_datetime_utc, reporting_end_datetime_utc))
+                        rows_equipment_carbon = cursor_carbon_db.fetchall()
+                        carbon_map = {}
+                        if rows_equipment_carbon:
+                            for row in rows_equipment_carbon:
+                                carbon_map[row[0]] = float(row[1]) if row[1] else 0.0
+
+                        # Attach cost and carbon to equipment_dict
+                        for equipment_id in equipment_dict:
+                            equipment_dict[equipment_id]['cost'] = cost_map.get(equipment_id, 0.0)
+                            equipment_dict[equipment_id]['carbon_emissions'] = carbon_map.get(equipment_id, 0.0)
 
             finally:
                 if cursor_system_db:
                     cursor_system_db.close()
                 if cursor_energy_db:
                     cursor_energy_db.close()
+                if cursor_billing_db:
+                    cursor_billing_db.close()
+                if cursor_carbon_db:
+                    cursor_carbon_db.close()
 
         finally:
             if cnx_system_db:
                 cnx_system_db.close()
             if cnx_energy_db:
                 cnx_energy_db.close()
+            if cnx_billing_db:
+                cnx_billing_db.close()
+            if cnx_carbon_db:
+                cnx_carbon_db.close()
 
         ################################################################################################################
         # Step 6: construct the report
@@ -335,6 +391,8 @@ class Reporting:
                 "cost_center_name": equipment['cost_center_name'],
                 "description": equipment['description'],
                 "values": equipment['values'],
+                "cost": equipment.get('cost', 0.0),
+                "carbon_emissions": equipment.get('carbon_emissions', 0.0),
             })
 
         result = {'space_id': space_id,

@@ -182,16 +182,24 @@ class Reporting:
         # Establish database connections with proper exception handling
         cnx_system_db = None
         cnx_energy_db = None
+        cnx_billing_db = None
+        cnx_carbon_db = None
         try:
             cnx_system_db = mysql.connector.connect(**config.myems_system_db)
             cnx_energy_db = mysql.connector.connect(**config.myems_energy_db)
+            cnx_billing_db = mysql.connector.connect(**config.myems_billing_db)
+            cnx_carbon_db = mysql.connector.connect(**config.myems_carbon_db)
 
             # Create cursors with proper exception handling
             cursor_system_db = None
             cursor_energy_db = None
+            cursor_billing_db = None
+            cursor_carbon_db = None
             try:
                 cursor_system_db = cnx_system_db.cursor()
                 cursor_energy_db = cnx_energy_db.cursor()
+                cursor_billing_db = cnx_billing_db.cursor()
+                cursor_carbon_db = cnx_carbon_db.cursor()
 
                 cursor_system_db.execute(" SELECT name "
                                          " FROM tbl_spaces "
@@ -233,14 +241,15 @@ class Reporting:
 
                 space_ids = list(space_dict.keys())
                 if space_ids:
+                    space_ids_placeholders = ','.join(['%s'] * len(space_ids))
                     cursor_system_db.execute(" SELECT store.id, store.name AS store_name, store.uuid AS store_uuid, "
                                              " s.name AS space_name, s.id AS space_id, "
                                              " cc.name AS cost_center_name, store.description "
                                              " FROM tbl_spaces s, tbl_spaces_stores ss, "
                                              " tbl_stores store, tbl_cost_centers cc "
-                                             " WHERE s.id IN ( " + ', '.join(map(str, space_ids)) + ") "
+                                             " WHERE s.id IN ( " + space_ids_placeholders + ") "
                                              "       AND ss.space_id = s.id AND ss.store_id = store.id "
-                                             "       AND store.cost_center_id = cc.id  ", )
+                                             "       AND store.cost_center_id = cc.id  ", tuple(space_ids))
                     rows_stores = cursor_system_db.fetchall()
                     if rows_stores is not None and len(rows_stores) > 0:
                         for row in rows_stores:
@@ -292,36 +301,83 @@ class Reporting:
                 ################################################################################################
                 if store_dict:
                     store_ids = list(store_dict.keys())
-                    cursor_energy_db.execute(
-                        " SELECT store_id, energy_category_id, SUM(actual_value) "
-                        " FROM tbl_store_input_category_hourly "
-                        " WHERE store_id IN (" + ', '.join(map(str, store_ids)) + ") "
-                        "     AND start_datetime_utc >= %s "
-                        "     AND start_datetime_utc < %s "
-                        " GROUP BY store_id, energy_category_id ",
-                        (reporting_start_datetime_utc, reporting_end_datetime_utc))
-                    rows_store_energy = cursor_energy_db.fetchall()
-                    energy_map = {}
-                    for row in rows_store_energy:
-                        energy_map.setdefault(row[0], {})[row[1]] = row[2]
-                    for store_id in store_dict:
-                        for energy_category in energy_category_list:
-                            subtotal = Decimal(0.0)
-                            if store_id in energy_map and energy_category['id'] in energy_map[store_id]:
-                                subtotal = energy_map[store_id][energy_category['id']]
-                            store_dict[store_id]['values'].append(subtotal)
+                    if not store_ids:
+                        store_ids = None
+                    else:
+                        store_ids_placeholders = ','.join(['%s'] * len(store_ids))
+                        cursor_energy_db.execute(
+                            " SELECT store_id, energy_category_id, SUM(actual_value) "
+                            " FROM tbl_store_input_category_hourly "
+                            " WHERE store_id IN (" + store_ids_placeholders + ") "
+                            "     AND start_datetime_utc >= %s "
+                            "     AND start_datetime_utc < %s "
+                            " GROUP BY store_id, energy_category_id ",
+                            tuple(store_ids) + (reporting_start_datetime_utc, reporting_end_datetime_utc))
+                        rows_store_energy = cursor_energy_db.fetchall()
+                        energy_map = {}
+                        for row in rows_store_energy:
+                            energy_map.setdefault(row[0], {})[row[1]] = row[2]
+                        for store_id in store_dict:
+                            for energy_category in energy_category_list:
+                                subtotal = Decimal(0.0)
+                                if store_id in energy_map and energy_category['id'] in energy_map[store_id]:
+                                    subtotal = energy_map[store_id][energy_category['id']]
+                                store_dict[store_id]['values'].append(subtotal)
+
+                        # Query total cost for each store from billing db
+                        cursor_billing_db.execute(
+                            " SELECT store_id, SUM(actual_value) "
+                            " FROM tbl_store_input_category_hourly "
+                            " WHERE store_id IN (" + store_ids_placeholders + ") "
+                            "     AND start_datetime_utc >= %s "
+                            "     AND start_datetime_utc < %s "
+                            " GROUP BY store_id ",
+                            tuple(store_ids) + (reporting_start_datetime_utc, reporting_end_datetime_utc))
+                        rows_store_cost = cursor_billing_db.fetchall()
+                        cost_map = {}
+                        if rows_store_cost:
+                            for row in rows_store_cost:
+                                cost_map[row[0]] = float(row[1]) if row[1] else 0.0
+
+                        # Query total carbon emissions for each store from carbon db
+                        cursor_carbon_db.execute(
+                            " SELECT store_id, SUM(actual_value) "
+                            " FROM tbl_store_input_category_hourly "
+                            " WHERE store_id IN (" + store_ids_placeholders + ") "
+                            "     AND start_datetime_utc >= %s "
+                            "     AND start_datetime_utc < %s "
+                            " GROUP BY store_id ",
+                            tuple(store_ids) + (reporting_start_datetime_utc, reporting_end_datetime_utc))
+                        rows_store_carbon = cursor_carbon_db.fetchall()
+                        carbon_map = {}
+                        if rows_store_carbon:
+                            for row in rows_store_carbon:
+                                carbon_map[row[0]] = float(row[1]) if row[1] else 0.0
+
+                        # Attach cost and carbon to store_dict
+                        for store_id in store_dict:
+                            store_dict[store_id]['cost'] = cost_map.get(store_id, 0.0)
+                            store_dict[store_id]['carbon_emissions'] = carbon_map.get(store_id, 0.0)
 
             finally:
                 if cursor_system_db:
                     cursor_system_db.close()
                 if cursor_energy_db:
                     cursor_energy_db.close()
+                if cursor_billing_db:
+                    cursor_billing_db.close()
+                if cursor_carbon_db:
+                    cursor_carbon_db.close()
 
         finally:
             if cnx_system_db:
                 cnx_system_db.close()
             if cnx_energy_db:
                 cnx_energy_db.close()
+            if cnx_billing_db:
+                cnx_billing_db.close()
+            if cnx_carbon_db:
+                cnx_carbon_db.close()
 
         ################################################################################################################
         # Step 6: construct the report
@@ -336,6 +392,8 @@ class Reporting:
                 "cost_center_name": store['cost_center_name'],
                 "description": store['description'],
                 "values": store['values'],
+                "cost": store.get('cost', 0.0),
+                "carbon_emissions": store.get('carbon_emissions', 0.0),
             })
 
         result = {'stores': store_list,

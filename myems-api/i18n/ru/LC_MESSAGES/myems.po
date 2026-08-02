@@ -356,3 +356,9 @@ msgstr "Нерабочие дни"
 
 msgid "Working Days"
 msgstr "будний день"
+
+msgid "Carbon Emissions"
+msgstr "Выбросы углерода"
+
+msgid "Costs"
+msgstr "Затраты"
