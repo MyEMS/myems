@@ -25,7 +25,7 @@ const EquipmentRealtimeMonitor = ({ setRedirect, setRedirectUrl, t }) => {
   const [cursor, setCursor] = useState(0);
   const [maxCursor, setMaxCursor] = useState(0);
   const [selectEquipmentList, setSelectEquipmentList] = useState([]);
-  const len = 8;
+  const EQUIPMENTS_PER_PAGE = 8;
   const pointRealtimeRequestSeqRef = useRef(0);
 
   useEffect(() => {
@@ -207,14 +207,14 @@ const EquipmentRealtimeMonitor = ({ setRedirect, setRedirectUrl, t }) => {
   };
 
   useEffect(() => {
-    const nextMaxCursor = equipmentList.length > 0 ? Math.ceil(equipmentList.length / len) : 0;
+    const nextMaxCursor = equipmentList.length > 0 ? Math.ceil(equipmentList.length / EQUIPMENTS_PER_PAGE) : 0;
     setCursor(nextMaxCursor > 0 ? 1 : 0);
     setMaxCursor(nextMaxCursor);
   }, [equipmentList]);
 
   useEffect(() => {
     if (cursor >= 1) {
-      setSelectEquipmentList(equipmentList.slice((cursor - 1) * len, cursor * len));
+      setSelectEquipmentList(equipmentList.slice((cursor - 1) * EQUIPMENTS_PER_PAGE, cursor * EQUIPMENTS_PER_PAGE));
     }
   }, [cursor, equipmentList]);
 
@@ -284,7 +284,7 @@ const EquipmentRealtimeMonitor = ({ setRedirect, setRedirectUrl, t }) => {
             >
               <FontAwesomeIcon icon="chevron-left" />
             </Button>
-            {getPaginationArray(equipmentList.length, len, cursor)
+            {getPaginationArray(equipmentList.length, EQUIPMENTS_PER_PAGE, cursor)
               .filter(item => item !== 'ellipsis')
               .map(pageNumber => (
                 <Button
