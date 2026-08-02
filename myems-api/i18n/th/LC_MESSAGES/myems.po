@@ -356,3 +356,9 @@ msgstr "วันที่ไม่ได้ทํางาน"
 
 msgid "Working Days"
 msgstr "วันทําการ"
+
+msgid "Carbon Emissions"
+msgstr "การปล่อยก๊าซคาร์บอน"
+
+msgid "Costs"
+msgstr "ค่าใช้จ่าย"

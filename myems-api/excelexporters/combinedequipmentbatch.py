@@ -185,6 +185,22 @@ def generate_excel(report, space_name, reporting_start_datetime_local, reporting
             " (" + report['energycategories'][i]['unit_of_measure'] + ")"
         ws[col + '6'].border = f_border
 
+    # Carbon Emissions column header
+    carbon_col = chr(ord('E') + ca_len)
+    ws[carbon_col + '6'].fill = table_fill
+    ws[carbon_col + '6'].font = name_font
+    ws[carbon_col + '6'].alignment = c_c_alignment
+    ws[carbon_col + '6'] = _('Carbon Emissions') + ' (KGCO2E)'
+    ws[carbon_col + '6'].border = f_border
+
+    # Costs column header
+    cost_col = chr(ord('E') + ca_len + 1)
+    ws[cost_col + '6'].fill = table_fill
+    ws[cost_col + '6'].font = name_font
+    ws[cost_col + '6'].alignment = c_c_alignment
+    ws[cost_col + '6'] = _('Costs') + ' (CNY)'
+    ws[cost_col + '6'].border = f_border
+
     current_row_number = 7
     for i in range(0, len(report['combined_equipments'])):
 
@@ -210,6 +226,20 @@ def generate_excel(report, space_name, reporting_start_datetime_local, reporting
             ws[col + str(current_row_number)].border = f_border
             ws[col + str(current_row_number)].alignment = c_c_alignment
             ws[col + str(current_row_number)] = round2(report['combined_equipments'][i]['values'][j], 2)
+
+        # Carbon Emissions data
+        carbon_col = chr(ord('E') + ca_len)
+        ws[carbon_col + str(current_row_number)].font = data_font
+        ws[carbon_col + str(current_row_number)].border = f_border
+        ws[carbon_col + str(current_row_number)].alignment = c_c_alignment
+        ws[carbon_col + str(current_row_number)] = round2(report['combined_equipments'][i].get('carbon_emissions', 0.0), 2)
+
+        # Cost data
+        cost_col = chr(ord('E') + ca_len + 1)
+        ws[cost_col + str(current_row_number)].font = data_font
+        ws[cost_col + str(current_row_number)].border = f_border
+        ws[cost_col + str(current_row_number)].alignment = c_c_alignment
+        ws[cost_col + str(current_row_number)] = round2(report['combined_equipments'][i].get('cost', 0.0), 2)
 
         current_row_number += 1
 

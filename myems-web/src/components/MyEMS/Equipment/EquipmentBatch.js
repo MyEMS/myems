@@ -286,6 +286,30 @@ const EquipmentBatch = ({ setRedirect, setRedirectUrl, t }) => {
               }
             });
           });
+          detailed_column_list.push({
+            dataField: 'carbon_emissions',
+            text: t('Carbon Emissions') + ' (KGCO2E)',
+            sort: true,
+            formatter: function(decimalValue) {
+              if (typeof decimalValue === 'number') {
+                return decimalValue.toFixed(2);
+              } else {
+                return null;
+              }
+            }
+          });
+          detailed_column_list.push({
+            dataField: 'cost',
+            text: t('Costs')+ ' (CNY)',
+            sort: true,
+            formatter: function(decimalValue) {
+              if (typeof decimalValue === 'number') {
+                return decimalValue.toFixed(2);
+              } else {
+                return null;
+              }
+            }
+          });
           setDetailedDataTableColumns(detailed_column_list);
           let equipments = [];
           if (json['equipments'].length > 0) {
@@ -299,6 +323,8 @@ const EquipmentBatch = ({ setRedirect, setRedirectUrl, t }) => {
               currentEquipment['values'].forEach((currentValue, energyCategoryIndex) => {
                 detailed_value['a' + energyCategoryIndex] = currentValue;
               });
+              detailed_value['carbon_emissions'] = currentEquipment['carbon_emissions'] || 0;
+              detailed_value['cost'] = currentEquipment['cost'] || 0;
               equipments.push(detailed_value);
             });
           }
@@ -342,7 +368,7 @@ const EquipmentBatch = ({ setRedirect, setRedirectUrl, t }) => {
   };
 
   const buildSmartAnalysisContext = useCallback(() => {
-    const fixedFields = new Set(['id', 'name', 'uuid', 'space', 'costcenter']);
+    const fixedFields = new Set(['id', 'name', 'uuid', 'space', 'costcenter', 'carbon_emissions', 'cost']);
     const buildBatchRowSample = row => {
       if (!row || typeof row !== 'object') {
         return row;

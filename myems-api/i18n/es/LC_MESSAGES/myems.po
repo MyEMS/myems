@@ -356,3 +356,9 @@ msgstr "Días no laborables"
 
 msgid "Working Days"
 msgstr "Días laborables"
+
+msgid "Carbon Emissions"
+msgstr "Emisiones de carbono"
+
+msgid "Costs"
+msgstr "Costos"
