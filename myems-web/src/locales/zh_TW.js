@@ -1,4 +1,4 @@
-﻿// Auto-split from i18n.js — language: zh_TW
+// Auto-split from i18n.js — language: zh_TW
 export default {
     translation: {
         // routes & menus
@@ -69,6 +69,7 @@ export default {
         'Space Production': '產量能耗分析',
         'Equipment Tracking': '設備台賬',
         'Equipment Comparison': '對比分析',
+        'Equipment Realtime Monitor': '設備即時監控',
         'Shopfloor Comparison': '對比分析',
         'Store Comparison': '對比分析',
         'Space Comparison': '對比分析',
@@ -116,6 +117,7 @@ export default {
         'Combined Equipments': '組合設備',
         'Energy Storage Power Station List': '電站列表',
         'Energy Storage Power Station Details': '設備監控',
+        'Trend in the last hour of Main Parameter': '最近一小時主參數趨勢',
         'Energy Storage Power Station Reporting': '數據報表',
         'Energy Storage Power Station Alarm': '故障報警',
         'Energy Storage Power Station Maintenance': '維護保養',

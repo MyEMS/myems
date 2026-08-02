@@ -53,6 +53,7 @@ export const equipmentRoutes = {
     { to: '/equipment/prediction', name: 'Prediction' },
     { to: '/equipment/batch', name: 'Batch Analysis' },
     { to: '/equipment/tracking', name: 'Equipment Tracking' },
+    { to: '/equipment/realtimemonitor', name: 'Equipment Realtime Monitor' },
     { to: '/equipment/comparison', name: 'Equipment Comparison' }
   ]
 };
