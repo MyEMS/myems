@@ -163,6 +163,10 @@ const Notification = ({ setRedirect, setRedirectUrl, t }) => {
 
   const handleSubmit = e => {
     e.preventDefault();
+    if (!reportingPeriodDateRange[0] || !reportingPeriodDateRange[1]) {
+      toast.error(t('Select Date Range'));
+      return;
+    }
     console.log('handleSubmit');
     console.log(moment(reportingPeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss'));
     console.log(moment(reportingPeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss'));
@@ -272,13 +276,12 @@ const Notification = ({ setRedirect, setRedirectUrl, t }) => {
 
   let onReportingPeriodChange = DateRange => {
     if (DateRange == null) {
-      setReportingPeriodDateRange([null, null]);
-    } else {
-      if (moment(DateRange[1]).format('HH:mm:ss') === '00:00:00') {
-        DateRange[1] = endOfDay(DateRange[1]);
-      }
-      setReportingPeriodDateRange([DateRange[0], DateRange[1]]);
+      return;
     }
+    if (moment(DateRange[1]).format('HH:mm:ss') === '00:00:00') {
+      DateRange[1] = endOfDay(DateRange[1]);
+    }
+    setReportingPeriodDateRange([DateRange[0], DateRange[1]]);
   };
 
   const subjectFormatter = (dataField, { url }) => (
@@ -773,6 +776,9 @@ const Notification = ({ setRedirect, setRedirectUrl, t }) => {
   };
 
   const loadData = table => {
+    if (!reportingPeriodDateRange[0] || !reportingPeriodDateRange[1]) {
+      return;
+    }
     table.current.selectionContext.selected = [];
     onSelect();
     let isResponseOK = false;
@@ -843,10 +849,10 @@ const Notification = ({ setRedirect, setRedirectUrl, t }) => {
     <Fragment>
       <div>
         <Breadcrumb>
-          <BreadcrumbItem>{t('Notification')}</BreadcrumbItem>
-          <BreadcrumbItem active>
-            <Link to="/notification">{t('Notification')}</Link>
+          <BreadcrumbItem>
+            <Link to="/">{t('Home')}</Link>
           </BreadcrumbItem>
+          <BreadcrumbItem active>{t('Notification')}</BreadcrumbItem>
         </Breadcrumb>
       </div>
       <Card className="bg-light mb-3">
