@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useState } from 'react';
+import React, { Fragment, useEffect, useRef, useState } from 'react';
 import { Breadcrumb, BreadcrumbItem, Button, Card, CardBody, Col, Form, FormGroup, Input, Label, Row, Spinner } from 'reactstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Cascader from 'rc-cascader';
@@ -26,6 +26,7 @@ const EquipmentRealtimeMonitor = ({ setRedirect, setRedirectUrl, t }) => {
   const [maxCursor, setMaxCursor] = useState(0);
   const [selectEquipmentList, setSelectEquipmentList] = useState([]);
   const len = 8;
+  const pointRealtimeRequestSeqRef = useRef(0);
 
   useEffect(() => {
     let is_logged_in = getCookieValue('is_logged_in');
@@ -87,7 +88,7 @@ const EquipmentRealtimeMonitor = ({ setRedirect, setRedirectUrl, t }) => {
         return;
       }
       setSelectedSpaceName(nextOptions[0].label);
-      const selectedSpaceID = nextOptions[0].value;
+      const selectedSpaceID = String(nextOptions[0].value);
 
       const equipmentResponse = await fetch(APIBaseURL + '/spaces/' + selectedSpaceID + '/equipments', {
         method: 'GET',
@@ -115,6 +116,7 @@ const EquipmentRealtimeMonitor = ({ setRedirect, setRedirectUrl, t }) => {
   useEffect(() => {
     let isMounted = true;
     const fetchPointRealtime = () => {
+      const currentSeq = ++pointRealtimeRequestSeqRef.current;
       fetch(APIBaseURL + '/reports/pointrealtime', {
         method: 'GET',
         headers: {
@@ -130,6 +132,9 @@ const EquipmentRealtimeMonitor = ({ setRedirect, setRedirectUrl, t }) => {
         })
         .then(json => {
           if (!isMounted) {
+            return;
+          }
+          if (currentSeq !== pointRealtimeRequestSeqRef.current) {
             return;
           }
           if (json.response.ok) {
@@ -166,7 +171,14 @@ const EquipmentRealtimeMonitor = ({ setRedirect, setRedirectUrl, t }) => {
 
   let onSpaceCascaderChange = (value, selectedOptions) => {
     setSelectedSpaceName(selectedOptions.map(o => o.label).join('/'));
-    let selectedSpaceID = value[value.length - 1];
+    const selectedSpaceID = value && value.length > 0 && value[value.length - 1] !== undefined && value[value.length - 1] !== null
+      ? String(value[value.length - 1])
+      : '';
+    if (!selectedSpaceID) {
+      setEquipmentList([]);
+      setSpinnerHidden(true);
+      return;
+    }
     setSpinnerHidden(false);
     fetch(APIBaseURL + '/spaces/' + selectedSpaceID + '/equipments', {
       method: 'GET',
