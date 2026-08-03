@@ -10,7 +10,9 @@
 START TRANSACTION;
 
 INSERT INTO myems_system_db.tbl_menus (id,name,route, parent_menu_id,is_hidden)
-VALUES (330,'Dashboard','/meter',300,0);
+VALUES
+(217,'Equipment Realtime Monitor','/equipment/realtimemonitor',200,0),
+(330,'Dashboard','/meter',300,0);
 
 UPDATE `myems_system_db`.`tbl_versions` SET version='6.8.0RC', release_date='2026-08-26' WHERE id=1;
 
