@@ -6,7 +6,6 @@ import simplejson as json
 from core.useractivity import user_logger, access_control, api_key_control
 import config
 
-
 def _is_api_key_request(req):
     return ('API-KEY' in req.headers and
             isinstance(req.headers['API-KEY'], str) and

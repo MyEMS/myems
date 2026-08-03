@@ -694,7 +694,6 @@ const Notification = ({ setRedirect, setRedirectUrl, t }) => {
                     notificationList.push(notification);
                   });
                 }
-
                 setNotifications(notificationList);
                 setSpinnerHidden(true);
               }
