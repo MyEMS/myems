@@ -317,7 +317,7 @@ class WebMessageStatusNewCollection:
                                            description='API.WEB_MESSAGE_NOT_FOUND')
 
                 update_row = (" UPDATE tbl_web_messages "
-                              " SET status = %s, reply = %s "
+                              " SET status = %s, reply = %s, update_datetime_utc = UTC_TIMESTAMP() "
                               " WHERE status = %s AND user_id = %s ")
                 cursor.execute(update_row, (status,
                                             reply,
@@ -448,7 +448,7 @@ class WebMessageItem:
                                            description='API.WEB_MESSAGE_NOT_FOUND')
 
                 update_row = (" UPDATE tbl_web_messages "
-                              " SET status = %s, reply = %s "
+                              " SET status = %s, reply = %s, update_datetime_utc = UTC_TIMESTAMP() "
                               " WHERE id = %s ")
                 cursor.execute(update_row, (status,
                                             reply,
@@ -537,7 +537,7 @@ class WebMessageBatch:
             cnx = mysql.connector.connect(**config.myems_fdd_db)
             try:
                 cursor = cnx.cursor()
-                update_row = (" UPDATE tbl_web_messages  SET status = %s "
+                update_row = (" UPDATE tbl_web_messages  SET status = %s, update_datetime_utc = UTC_TIMESTAMP() "
                               " WHERE status = %s AND  id in (" + ids + ")")
                 cursor.execute(update_row, ('read', 'new',))
                 cnx.commit()
