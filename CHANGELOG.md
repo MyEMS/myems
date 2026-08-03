@@ -8,6 +8,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - added meter dashboard to myems-api and myems-web
 - added authenticate via API-KEY to webmessage in myems-api
 - added carbon emissions and costs to batch reports of combined equipment, equipment, shopfloor, store and tenant in myems-api and myems-web
+- added Equipment Realtime Monitor to myems-api and myems-web
+
 ### Changed
 - changed carbon unit to KGCO2E in myems-api
 - updated data source page in myems-admin

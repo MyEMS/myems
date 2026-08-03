@@ -38,6 +38,7 @@ const EquipmentPlan = loadable(() => import('../components/MyEMS/Equipment/Equip
 const EquipmentPrediction = loadable(() => import('../components/MyEMS/Equipment/EquipmentPrediction'), { fallback: loadingFallback });
 const EquipmentStatistics = loadable(() => import('../components/MyEMS/Equipment/EquipmentStatistics'), { fallback: loadingFallback });
 const EquipmentTracking = loadable(() => import('../components/MyEMS/Equipment/EquipmentTracking'), { fallback: loadingFallback });
+const EquipmentRealtimeMonitor = loadable(() => import('../components/MyEMS/Equipment/EquipmentRealtimeMonitor'), { fallback: loadingFallback });
 const EquipmentComparison = loadable(() => import('../components/MyEMS/Equipment/EquipmentComparison'), { fallback: loadingFallback });
 
 const MeterDashboard = loadable(() => import('../components/MyEMS/Meter/Dashboard'), { fallback: loadingFallback });
@@ -178,6 +179,7 @@ const MyEMSRoutes = () => (
         <Route path="/equipment/prediction" exact component={EquipmentPrediction} />
         <Route path="/equipment/statistics" exact component={EquipmentStatistics} />
         <Route path="/equipment/tracking" exact component={EquipmentTracking} />
+        <Route path="/equipment/realtimemonitor" exact component={EquipmentRealtimeMonitor} />
         <Route path="/equipment/comparison" exact component={EquipmentComparison} />
 
         {/*Meter*/}

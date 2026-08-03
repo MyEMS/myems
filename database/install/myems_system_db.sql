@@ -979,6 +979,7 @@ VALUES
 (214,'Equipment Comparison','/equipment/comparison',200,0),
 (215,'Prediction','/equipment/prediction',200,1),
 (216, 'Dashboard','/equipment',200,0),
+(217,'Equipment Realtime Monitor','/equipment/realtimemonitor',200,0),
 (300,'Meter Data','/meter',NULL,0),
 (301,'Meter Energy','/meter/meterenergy',300,0),
 (302,'Meter Cost','/meter/metercost',300,0),
