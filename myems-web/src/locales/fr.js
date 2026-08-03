@@ -1,4 +1,4 @@
-// Auto-split from i18n.js — language: fr
+﻿// Auto-split from i18n.js — language: fr
 export default {
     translation: {
         // routes & menus
@@ -62,9 +62,9 @@ export default {
         Load: 'Charger',
         Statistics: 'Statistiques',
         'Batch Analysis': 'Analyse des lots',
-        Saving: 'Épargne',
-        Plan: 'Plan',
-        Prediction: 'Prediction',
+        Saving: 'ÉpargneⒺ',
+        Plan: 'PlanⒺ',
+        Prediction: 'PredictionⒺ',
         'Production': 'Production',
         'Space Production': 'Space Production',
         'Equipment Tracking': 'Suivi de l’équipement',
@@ -76,15 +76,15 @@ export default {
         'Tenant Comparison': 'Comparaison des locataires',
         'Environment Monitor': 'Moniteur d’environnement',
         'Meter Energy': 'Compteur d’énergie',
-        'Meter Prediction': 'Prédiction du compteur',
-        'Virtual Meter Prediction': 'Prédiction du compteur virtuel',
-        'Offline Meter Prediction': 'Prédiction du compteur hors ligne',
+        'Meter Prediction': 'Prédiction du compteurⒺ',
+        'Virtual Meter Prediction': 'Prédiction du compteur virtuelⒺ',
+        'Offline Meter Prediction': 'Prédiction du compteur hors ligneⒺ',
         'Meter Carbon': 'Computer Émissions de CO2',
         'Meter Cost': 'Compteur Coût',
         'Meter Trend': 'Compteur Tendance',
         'Meter Realtime': 'Compteur en temps réel',
-        'Meter Saving': 'Compteur Économie',
-        'Meter Plan': 'plan de compteur',
+        'Meter Saving': 'Compteur ÉconomieⒺ',
+        'Meter Plan': 'plan de compteurⒺ',
         'Master Meter Submeters Balance': 'Balance des sous-compteurs du compteur maître',
         'Meter Batch Analysis': 'Compteur Analyse des lots ',
         'Meter Comparison': 'Compteurs Comparaison',
@@ -94,8 +94,8 @@ export default {
         'Offline Meter Count': 'Nombre de compteurs hors ligne',
         'Virtual Meter List': 'Liste des compteurs virtuels',
         'Offline Meter List': 'Liste des compteurs hors ligne',
-        'Virtual Meter Saving': 'Compteur Virtuel Économie',
-        'Virtual Meter Plan': 'Plan de compteur virtuel',
+        'Virtual Meter Saving': 'Compteur Virtuel ÉconomieⒺ',
+        'Virtual Meter Plan': 'Plan de compteur virtuelⒺ',
         'Virtual Meter Energy': 'Compteur Virtuel d’énergie',
         'Virtual Meter Carbon': 'Compteur Virtuel Émissions de CO2',
         'Virtual Meter Cost': 'Compteur Virtuel Coût',
@@ -105,13 +105,13 @@ export default {
         'Offline Meter Carbon': 'Compteur Hors Ligne Émissions de CO2',
         'Offline Meter Cost': 'Compteur Hors Ligne Coût',
         'Offline Meter Batch Analysis': 'Analyse des lots de compteurs hors ligne',
-        'Offline Meter Saving': 'Compteur Hors Ligne Économie',
-        'Offline Meter Plan': 'Plan de compteur hors ligne',
+        'Offline Meter Saving': 'Compteur Hors Ligne ÉconomieⒺ',
+        'Offline Meter Plan': 'Plan de compteur hors ligneⒺ',
         'Offline Meter Input': 'Compteur Hors Ligne Entrée',
         'Tenant Bill': 'Locataire Facture',
         'Energy Flow Diagram': 'Diagramme de flux d’énergie',
         'Distribution System': 'Réseau de distribution',
-        'SVG System': 'Systèmes de visualisation SCADA ',
+        'SVG System': 'Systèmes de visualisation SCADA Ⓔ',
         'Faults Data': 'Défauts',
         'Space Equipments': 'Espace Équipements',
         'Combined Equipments': 'Combinés Équipements',
@@ -1437,4 +1437,3 @@ export default {
         'Home': 'Accueil'
     }
 };
-

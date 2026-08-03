@@ -1,4 +1,4 @@
-// Auto-split from i18n.js — language: ms
+﻿// Auto-split from i18n.js — language: ms
 export default {
     translation: {
         // routes & menus
@@ -62,9 +62,9 @@ export default {
         Load: 'Memuatkan',
         Statistics: 'Statistik',
         'Batch Analysis': 'Analisis Kumpulan',
-        Saving: 'Menyimpan',
-        Plan: 'Rancang',
-        Prediction: 'Prediction',
+        Saving: 'MenyimpanⒺ',
+        Plan: 'RancangⒺ',
+        Prediction: 'PredictionⒺ',
         'Production': 'Production',
         'Space Production': 'Space Production',
         'Equipment Tracking': 'Penjejakan Peralatan',
@@ -76,15 +76,15 @@ export default {
         'Tenant Comparison': 'perbandingan penyewa',
         'Environment Monitor': 'Monitor Alam Sekitar',
         'Meter Energy': 'Tenaga Meter',
-        'Meter Prediction': 'Ramalan Meter',
-        'Virtual Meter Prediction': 'Ramalan Meter Maya',
-        'Offline Meter Prediction': 'Ramalan Meter Luar Talian',
+        'Meter Prediction': 'Ramalan MeterⒺ',
+        'Virtual Meter Prediction': 'Ramalan Meter MayaⒺ',
+        'Offline Meter Prediction': 'Ramalan Meter Luar TalianⒺ',
         'Meter Carbon': 'Meter Emisi CO2',
         'Meter Cost': 'Kos Meter',
         'Meter Trend': 'Meter Trend',
         'Meter Realtime': 'Meter Masa Nyata',
-        'Meter Saving': 'Penjimatan Meter',
-        'Meter Plan': 'Pelan Meter',
+        'Meter Saving': 'Penjimatan MeterⒺ',
+        'Meter Plan': 'Pelan MeterⒺ',
         'Master Meter Submeters Balance': 'Baki Submeter Meter Master',
         'Meter Batch Analysis': 'Analisis Kelompok Meter',
         'Meter Comparison': 'Perbandingan Meter',
@@ -94,8 +94,8 @@ export default {
         'Offline Meter Count': 'Bilangan Meter Luar Talian',
         'Virtual Meter List': 'Senarai Meter Maya',
         'Offline Meter List': 'Senarai Meter Luar Talian',
-        'Virtual Meter Saving': 'Penjimatan Meter Maya',
-        'Virtual Meter Plan': 'Pelan Meter Maya',
+        'Virtual Meter Saving': 'Penjimatan Meter MayaⒺ',
+        'Virtual Meter Plan': 'Pelan Meter MayaⒺ',
         'Virtual Meter Energy': 'Tenaga Meter Maya',
         'Virtual Meter Carbon': 'Emisi CO2 Meter Maya',
         'Virtual Meter Cost': 'Kos Meter Maya',
@@ -105,8 +105,8 @@ export default {
         'Offline Meter Carbon': 'Emisi Meter CO2 Offline',
         'Offline Meter Cost': 'Kos Meter Luar Talian',
         'Offline Meter Batch Analysis': 'Analisis kelompok meter luar talian',
-        'Offline Meter Saving': 'Penjimatan Meter Luar Talian',
-        'Offline Meter Plan': 'Pelan Meter Luar Talian',
+        'Offline Meter Saving': 'Penjimatan Meter Luar TalianⒺ',
+        'Offline Meter Plan': 'Pelan Meter Luar TalianⒺ',
         'Offline Meter Input': 'Input Meter Luar Talian',
         'Tenant Bill': 'Bil Penyewa',
         'Energy Flow Diagram': 'Gambar Rajah Aliran Tenaga',
@@ -1437,4 +1437,3 @@ akaun pendaftaran tidak sah. Sila cubalah.',
         'Home': 'Utama'
     }
 };
-

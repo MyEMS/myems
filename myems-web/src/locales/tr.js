@@ -1,4 +1,4 @@
-// Auto-split from i18n.js — language: tr
+﻿// Auto-split from i18n.js — language: tr
 export default {
     translation: {
         // routes & menus
@@ -62,9 +62,9 @@ export default {
         Load: 'Yük',
         Statistics: 'İstatistik',
         'Batch Analysis': 'Toplu Analiz',
-        Saving: 'Tasarruf',
-        Plan: 'Plan',
-        Prediction: 'Prediction',
+        Saving: 'TasarrufⒺ',
+        Plan: 'PlanⒺ',
+        Prediction: 'PredictionⒺ',
         'Production': 'Production',
         'Space Production': 'Space Production',
         'Equipment Tracking': 'Ekipman Takibi',
@@ -76,15 +76,15 @@ export default {
         'Tenant Comparison': 'Kiracı karşılaştırması',
         'Environment Monitor': 'Ortam İzleyicisi',
         'Meter Energy': 'Sayaç Enerjisi',
-        'Meter Prediction': 'Sayaç Tahmini',
-        'Virtual Meter Prediction': 'Sanal Sayaç Tahmini',
-        'Offline Meter Prediction': 'Çevrimdışı Sayaç Tahmini',
+        'Meter Prediction': 'Sayaç TahminiⒺ',
+        'Virtual Meter Prediction': 'Sanal Sayaç TahminiⒺ',
+        'Offline Meter Prediction': 'Çevrimdışı Sayaç TahminiⒺ',
         'Meter Carbon': 'Meter CO2 Emisyonları',
         'Meter Cost': 'Sayaç Maliyeti',
         'Meter Trend': 'Ölçüm Trendi',
         'Meter Realtime': 'Gerçek Zamanlı Ölçüm Cihazı',
-        'Meter Saving': 'Sayaç Tasarrufu',
-        'Meter Plan': 'Sayaç Planı',
+        'Meter Saving': 'Sayaç TasarrufuⒺ',
+        'Meter Plan': 'Sayaç PlanıⒺ',
         'Master Meter Submeters Balance': 'Ana Sayaç Alt Sayaç Dengesi',
         'Meter Batch Analysis': 'Sayaç Toplu Analizi',
         'Meter Comparison': 'Sayaç Karşılaştırması',
@@ -94,8 +94,8 @@ export default {
         'Offline Meter Count': 'Çevrimdışı Sayaç Sayısı',
         'Virtual Meter List': 'Sanal Sayaç Listesi',
         'Offline Meter List': 'Çevrimdışı Sayaç Listesi',
-        'Virtual Meter Saving': 'Sanal Sayaç Tasarrufu',
-        'Virtual Meter Plan': 'Sanal Sayaç Planı',
+        'Virtual Meter Saving': 'Sanal Sayaç TasarrufuⒺ',
+        'Virtual Meter Plan': 'Sanal Sayaç PlanıⒺ',
         'Virtual Meter Energy': 'Sanal Sayaç Enerji',
         'Virtual Meter Carbon': 'Sanal Meter CO2 Emisyonları',
         'Virtual Meter Cost': 'Sanal Sayaç Maliyeti',
@@ -105,8 +105,8 @@ export default {
         'Offline Meter Carbon': 'Çevrimiçi Meter CO2 Emisyonları',
         'Offline Meter Cost': 'Çevrimdışı Ölçüm Maliyeti',
         'Offline Meter Batch Analysis': 'Çevrimdışı Ölçüm Toplu Analizi',
-        'Offline Meter Saving': 'Çevrimdışı Sayaç Kaydetme',
-        'Offline Meter Plan': 'Çevrimdışı Sayaç Planı',
+        'Offline Meter Saving': 'Çevrimdışı Sayaç KaydetmeⒺ',
+        'Offline Meter Plan': 'Çevrimdışı Sayaç PlanıⒺ',
         'Offline Meter Input': 'Çevrimdışı Sayaç Girişi',
         'Tenant Bill': 'Kiracı Faturası',
         'Energy Flow Diagram': 'Enerji Akış Diyagramı',
@@ -1431,4 +1431,3 @@ bağlantısına tıklamış gibi görünüyorsunuz. Lütfen tekrar deneyin.',
         'Home': 'Ana Sayfa'
     }
 };
-

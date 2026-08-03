@@ -1,4 +1,4 @@
-// Auto-split from i18n.js — language: nl
+﻿// Auto-split from i18n.js — language: nl
 export default {
     translation: {
         // routes & menus
@@ -62,9 +62,9 @@ export default {
         Load: 'Belastingsanalyse',
         Statistics: 'Statistische analyse',
         'Batch Analysis': 'Batchanalyse',
-        Saving: 'Energiebesparingsanalyse',
-        Plan: 'Planningsanalyse',
-        Prediction: 'Voorspellingsanalyse',
+        Saving: 'EnergiebesparingsanalyseⒺ',
+        Plan: 'PlanningsanalyseⒺ',
+        Prediction: 'VoorspellingsanalyseⒺ',
         'Production': 'Productie',
         'Space Production': 'Productie-energieverbruiksanalyse',
         'Equipment Tracking': 'Apparatuurlogboek',
@@ -76,15 +76,15 @@ export default {
         'Tenant Comparison': 'Vergelijkende analyse',
         'Environment Monitor': 'Omgevingsmonitoring',
         'Meter Energy': 'Meetmeter energieverbruiksanalyse',
-        'Meter Prediction': 'Meter Voorspellingsanalyse',
-        'Virtual Meter Prediction': 'Virtuele Meter Voorspellingsanalyse',
-        'Offline Meter Prediction': 'Offline Meter Voorspellingsanalyse',
+        'Meter Prediction': 'Meter VoorspellingsanalyseⒺ',
+        'Virtual Meter Prediction': 'Virtuele Meter VoorspellingsanalyseⒺ',
+        'Offline Meter Prediction': 'Offline Meter VoorspellingsanalyseⒺ',
         'Meter Carbon': 'Meetmeter CO2-uitstootanalyse',
         'Meter Cost': 'Meetmeter kostenanalyse',
         'Meter Trend': 'Meetmeter trendanalyse',
         'Meter Realtime': 'Meetmeter realtime-analyse',
-        'Meter Saving': 'Meetmeter energiebesparingsanalyse',
-        'Meter Plan': 'Meetmeter planningsanalyse',
+        'Meter Saving': 'Meetmeter energiebesparingsanalyseⒺ',
+        'Meter Plan': 'Meetmeter planningsanalyseⒺ',
         'Master Meter Submeters Balance': 'Hoofd-/submeters balansanalyse',
         'Meter Batch Analysis': 'Meetmeter batchanalyse',
         'Meter Comparison': 'Meetmeter vergelijkende analyse',
@@ -94,8 +94,8 @@ export default {
         'Offline Meter Count': 'Aantal offline meters',
         'Virtual Meter List': 'Lijst virtuele meters',
         'Offline Meter List': 'Lijst offline meters',
-        'Virtual Meter Saving': 'Virtuele meter energiebesparingsanalyse',
-        'Virtual Meter Plan': 'Virtuele meter planningsanalyse',
+        'Virtual Meter Saving': 'Virtuele meter energiebesparingsanalyseⒺ',
+        'Virtual Meter Plan': 'Virtuele meter planningsanalyseⒺ',
         'Virtual Meter Energy': 'Virtuele meter energieverbruiksanalyse',
         'Virtual Meter Carbon': 'Virtuele meter CO2-uitstootanalyse',
         'Virtual Meter Cost': 'Virtuele meter kostenanalyse',
@@ -105,8 +105,8 @@ export default {
         'Offline Meter Carbon': 'Offline meter CO2-uitstootanalyse',
         'Offline Meter Cost': 'Offline meter kostenanalyse',
         'Offline Meter Batch Analysis': 'Offline meter batchanalyse',
-        'Offline Meter Saving': 'Offline meter energiebesparingsanalyse',
-        'Offline Meter Plan': 'Offline meter planningsanalyse',
+        'Offline Meter Saving': 'Offline meter energiebesparingsanalyseⒺ',
+        'Offline Meter Plan': 'Offline meter planningsanalyseⒺ',
         'Offline Meter Input': 'Offline meter gegevensinvoer',
         'Tenant Bill': 'Huurderrekening',
         'Energy Flow Diagram': 'Energieflowdiagram',
@@ -1409,4 +1409,3 @@ export default {
         'Home': 'Home'
     }
 };
-

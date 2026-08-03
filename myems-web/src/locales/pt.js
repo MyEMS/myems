@@ -1,4 +1,4 @@
-// Auto-split from i18n.js — language: pt
+﻿// Auto-split from i18n.js — language: pt
 export default {
     translation: {
         // routes & menus
@@ -62,9 +62,9 @@ export default {
         Load: 'Carregar',
         Statistics: 'Estatísticas',
         'Batch Analysis': 'Análise em Lote',
-        Saving: 'Poupança',
-        Plan: 'Planejamento',
-        Prediction: 'Prediction',
+        Saving: 'PoupançaⒺ',
+        Plan: 'PlanejamentoⒺ',
+        Prediction: 'PredictionⒺ',
         'Production': 'Produção',
         'Space Production': 'Produção Espacial',
         'Equipment Tracking': 'Rastreamento do equipamento',
@@ -75,15 +75,15 @@ export default {
         'Tenant Comparison': 'comparação de inquilinos',
         'Environment Monitor': 'Monitor Ambiente',
         'Meter Energy': 'Energia do medidor',
-        'Meter Prediction': 'Previsão do medidor',
-        'Virtual Meter Prediction': 'Previsão do medidor virtual',
-        'Offline Meter Prediction': 'Previsão do medidor offline',
+        'Meter Prediction': 'Previsão do medidorⒺ',
+        'Virtual Meter Prediction': 'Previsão do medidor virtualⒺ',
+        'Offline Meter Prediction': 'Previsão do medidor offlineⒺ',
         'Meter Carbon': 'Medidor de emissões de CO2',
         'Meter Cost': 'Custo do medidor',
         'Meter Trend': 'Tendência do medidor',
         'Meter Realtime': 'Medidor em Tempo Real',
-        'Meter Saving': 'Economia do medidor',
-        'Meter Plan': 'Plano do medidor',
+        'Meter Saving': 'Economia do medidorⒺ',
+        'Meter Plan': 'Plano do medidorⒺ',
         'Master Meter Submeters Balance': 'Master Metro Submeters Equilíbrio',
         'Meter Batch Analysis': 'Análise de lotes de medidores',
         'Meter Comparison': 'Comparação do medidor',
@@ -93,8 +93,8 @@ export default {
         'Offline Meter Count': 'Número de medidores offline',
         'Virtual Meter List': 'Lista de Medidores Virtuais',
         'Offline Meter List': 'Lista de Medidores Offline',
-        'Virtual Meter Saving': 'Poupança do medidor virtual',
-        'Virtual Meter Plan': 'Plano do medidor virtual',
+        'Virtual Meter Saving': 'Poupança do medidor virtualⒺ',
+        'Virtual Meter Plan': 'Plano do medidor virtualⒺ',
         'Virtual Meter Energy': 'Energia do medidor virtual',
         'Virtual Meter Carbon': 'Emissões de CO2 do medidor virtual',
         'Virtual Meter Cost': 'Custo do medidor virtual',
@@ -104,8 +104,8 @@ export default {
         'Offline Meter Carbon': 'Medidor off-line Emissões de CO2',
         'Offline Meter Cost': 'Custo do medidor offline',
         'Offline Meter Batch Analysis': 'Análise de lotes de medidores offline',
-        'Offline Meter Saving': 'Economia do medidor offline',
-        'Offline Meter Plan': 'Plano do medidor offline',
+        'Offline Meter Saving': 'Economia do medidor offlineⒺ',
+        'Offline Meter Plan': 'Plano do medidor offlineⒺ',
         'Offline Meter Input': 'Entrada do medidor offline',
         'Tenant Bill': 'Lei do inquilino',
         'Energy Flow Diagram': 'Diagrama de fluxo de energia',
@@ -1423,4 +1423,3 @@ em um link de conta de registro inválido. Por favor tente novamente.',
         'Home': 'Início'
     }
 };
-
