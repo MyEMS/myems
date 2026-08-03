@@ -1435,6 +1435,8 @@ Please copy it to the input box below.':
         mean: '平均值',
         std: '標準差',
         p5: 'P5',
-        p95: 'P95'
+        p95: 'P95',
+        'Home': '首頁'
     }
 };
+

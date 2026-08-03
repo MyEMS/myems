@@ -1433,6 +1433,8 @@ akaun pendaftaran tidak sah. Sila cubalah.',
         mean: 'Rata-rata',
         std: 'Simpangan baku',
         p5: 'P5',
-        p95: 'P95'
+        p95: 'P95',
+        'Home': 'Utama'
     }
 };
+

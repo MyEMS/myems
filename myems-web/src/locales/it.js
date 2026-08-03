@@ -1406,6 +1406,8 @@ export default {
         mean: 'media',
         std: 'deviazione standard',
         p5: 'P5',
-        p95: 'P95'
+        p95: 'P95',
+        'Home': 'Home'
     }
 };
+

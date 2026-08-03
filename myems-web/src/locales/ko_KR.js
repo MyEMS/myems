@@ -1400,6 +1400,8 @@ Please copy it to the input box below.':
         mean: '평균',
         std: '표준 편차',
         p5: 'P5',
-        p95: 'P95'
+        p95: 'P95',
+        'Home': '홈'
     }
 };
+

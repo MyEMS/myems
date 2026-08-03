@@ -462,7 +462,11 @@ const Notification = ({ setRedirect, setRedirectUrl, t }) => {
               'startdatetime=' +
               moment(reportingPeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss') +
               '&enddatetime=' +
-              moment(reportingPeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss'),
+              moment(reportingPeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss') +
+              '&priority=' +
+              priority +
+              '&status=' +
+              status,
             {
               method: 'GET',
               headers: {
@@ -559,7 +563,11 @@ const Notification = ({ setRedirect, setRedirectUrl, t }) => {
               'startdatetime=' +
               moment(reportingPeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss') +
               '&enddatetime=' +
-              moment(reportingPeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss'),
+              moment(reportingPeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss') +
+              '&priority=' +
+              priority +
+              '&status=' +
+              status,
             {
               method: 'GET',
               headers: {
@@ -651,7 +659,11 @@ const Notification = ({ setRedirect, setRedirectUrl, t }) => {
               'startdatetime=' +
               moment(reportingPeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss') +
               '&enddatetime=' +
-              moment(reportingPeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss'),
+              moment(reportingPeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss') +
+              '&priority=' +
+              priority +
+              '&status=' +
+              status,
             {
               method: 'GET',
               headers: {
@@ -948,9 +960,11 @@ const Notification = ({ setRedirect, setRedirectUrl, t }) => {
                 <FormGroup>
                   <br />
                   <ButtonGroup id="submit">
-                    <Button size="sm" color="success" disabled={submitButtonDisabled}>
-                      {t('Submit')}
-                    </Button>
+                    {!submitButtonDisabled && (
+                      <Button size="sm" color="success">
+                        {t('Submit')}
+                      </Button>
+                    )}
                   </ButtonGroup>
                 </FormGroup>
               </Col>

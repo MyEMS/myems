@@ -1433,6 +1433,8 @@ export default {
         mean: 'Moyenne',
         std: 'Écart type',
         p5: 'P5',
-        p95: 'P95'
+        p95: 'P95',
+        'Home': 'Accueil'
     }
 };
+

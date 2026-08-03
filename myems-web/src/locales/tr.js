@@ -1427,6 +1427,8 @@ bağlantısına tıklamış gibi görünüyorsunuz. Lütfen tekrar deneyin.',
         mean: 'Purata',
         std: 'Sisihan piawai',
         p5: 'P5',
-        p95: 'P95'
+        p95: 'P95',
+        'Home': 'Ana Sayfa'
     }
 };
+
