@@ -167,12 +167,7 @@ const Notification = ({ setRedirect, setRedirectUrl, t }) => {
       toast.error(t('Select Date Range'));
       return;
     }
-    console.log('handleSubmit');
-    console.log(moment(reportingPeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss'));
-    console.log(moment(reportingPeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss'));
-    console.log(priority);
-    console.log(status);
-
+    
     // disable submit button
     setSubmitButtonDisabled(true);
     // show spinner
@@ -221,8 +216,7 @@ const Notification = ({ setRedirect, setRedirectUrl, t }) => {
       .then(json => {
         if (isResponseOK) {
           setFetchSuccess(true);
-          console.log(json);
-          let notificationList = [];
+                    let notificationList = [];
 
           if (json.length > 0) {
             json.forEach((currentValue, index) => {
@@ -256,8 +250,7 @@ const Notification = ({ setRedirect, setRedirectUrl, t }) => {
         }
       })
       .catch(err => {
-        console.log(err);
-      });
+              });
   };
 
   const handleNextPage = ({ page, onPageChange }) => () => {
@@ -278,10 +271,11 @@ const Notification = ({ setRedirect, setRedirectUrl, t }) => {
     if (DateRange == null) {
       return;
     }
-    if (moment(DateRange[1]).format('HH:mm:ss') === '00:00:00') {
-      DateRange[1] = endOfDay(DateRange[1]);
+    const newDateRange = [...DateRange];
+    if (moment(newDateRange[1]).format('HH:mm:ss') === '00:00:00') {
+      newDateRange[1] = endOfDay(newDateRange[1]);
     }
-    setReportingPeriodDateRange([DateRange[0], DateRange[1]]);
+    setReportingPeriodDateRange([newDateRange[0], newDateRange[1]]);
   };
 
   const subjectFormatter = (dataField, { url }) => (
@@ -429,8 +423,7 @@ const Notification = ({ setRedirect, setRedirectUrl, t }) => {
   });
 
   const handleRead = id => {
-    console.log('Mark As Read: ', id);
-    let isResponseOK = false;
+        let isResponseOK = false;
     fetch(APIBaseURL + '/webmessages/' + id, {
       method: 'PUT',
       headers: {
@@ -453,8 +446,7 @@ const Notification = ({ setRedirect, setRedirectUrl, t }) => {
         }
       })
       .then(json => {
-        console.log(isResponseOK);
-        if (isResponseOK) {
+                if (isResponseOK) {
           let isResponseOK = false;
           fetch(
             APIBaseURL +
@@ -485,8 +477,7 @@ const Notification = ({ setRedirect, setRedirectUrl, t }) => {
             })
             .then(json => {
               if (isResponseOK) {
-                console.log(json);
-                setFetchSuccess(true);
+                                setFetchSuccess(true);
 
                 let notificationList = [];
 
@@ -524,13 +515,11 @@ const Notification = ({ setRedirect, setRedirectUrl, t }) => {
         }
       })
       .catch(err => {
-        console.log(err);
-      });
+              });
   };
 
   const handleAcknowledged = id => {
-    console.log('Mark As Acknowledged: ', id);
-    let isResponseOK = false;
+        let isResponseOK = false;
     fetch(APIBaseURL + '/webmessages/' + id, {
       method: 'PUT',
       headers: {
@@ -554,8 +543,7 @@ const Notification = ({ setRedirect, setRedirectUrl, t }) => {
         }
       })
       .then(json => {
-        console.log(isResponseOK);
-        if (isResponseOK) {
+                if (isResponseOK) {
           let isResponseOK = false;
           fetch(
             APIBaseURL +
@@ -586,8 +574,7 @@ const Notification = ({ setRedirect, setRedirectUrl, t }) => {
             })
             .then(json => {
               if (isResponseOK) {
-                console.log(json);
-                setFetchSuccess(true);
+                                setFetchSuccess(true);
 
                 let notificationList = [];
 
@@ -625,13 +612,11 @@ const Notification = ({ setRedirect, setRedirectUrl, t }) => {
         }
       })
       .catch(err => {
-        console.log(err);
-      });
+              });
   };
 
   const handledelete = id => {
-    console.log('Delete: ', id);
-    let isResponseOK = false;
+        let isResponseOK = false;
     fetch(APIBaseURL + '/webmessages/' + id, {
       method: 'DELETE',
       headers: {
@@ -650,8 +635,7 @@ const Notification = ({ setRedirect, setRedirectUrl, t }) => {
         }
       })
       .then(json => {
-        console.log(isResponseOK);
-        if (isResponseOK) {
+                if (isResponseOK) {
           let isResponseOK = false;
           fetch(
             APIBaseURL +
@@ -682,8 +666,7 @@ const Notification = ({ setRedirect, setRedirectUrl, t }) => {
             })
             .then(json => {
               if (isResponseOK) {
-                console.log(json);
-                setFetchSuccess(true);
+                                setFetchSuccess(true);
 
                 let notificationList = [];
 
@@ -721,8 +704,7 @@ const Notification = ({ setRedirect, setRedirectUrl, t }) => {
         }
       })
       .catch(err => {
-        console.log(err);
-      });
+              });
   };
 
   const batchDelete = () => {
@@ -752,8 +734,7 @@ const Notification = ({ setRedirect, setRedirectUrl, t }) => {
         }
       })
       .catch(err => {
-        console.log(err);
-      });
+              });
   };
 
   const batchRead = () => {
@@ -783,8 +764,7 @@ const Notification = ({ setRedirect, setRedirectUrl, t }) => {
         }
       })
       .catch(err => {
-        console.log(err);
-      });
+              });
   };
 
   const loadData = table => {
@@ -960,11 +940,9 @@ const Notification = ({ setRedirect, setRedirectUrl, t }) => {
                 <FormGroup>
                   <br />
                   <ButtonGroup id="submit">
-                    {!submitButtonDisabled && (
-                      <Button size="sm" color="success">
-                        {t('Submit')}
-                      </Button>
-                    )}
+                    <Button size="sm" color="success" disabled={submitButtonDisabled}>
+                      {t('Submit')}
+                    </Button>
                   </ButtonGroup>
                 </FormGroup>
               </Col>
