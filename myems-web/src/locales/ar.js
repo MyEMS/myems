@@ -588,6 +588,7 @@ export default {
         'Please wait for approval': 'يرجى انتظار الموافقة',
         //notification
         Notifications: 'الاخطارات',
+        'Notification': 'الإشعارات',
         'Mark all as read': 'وضع علامة مقروءة على الكل',
         'View all': 'كل',
         'Notification New': 'الجديد',
@@ -1429,6 +1430,7 @@ export default {
         mean: 'المتوسط',
         std: 'الانحراف المعياري',
         p5: 'P5',
-        p95: 'P95'
+        p95: 'P95',
+        'Home': 'الرئيسية'
     }
 };

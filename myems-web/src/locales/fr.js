@@ -591,6 +591,7 @@ export default {
         'Please wait for approval': 'Veuillez attendre l’approbation',
         //notification
         Notifications: 'Notifications',
+        'Notification': 'Notification',
         'Mark all as read': 'Marquer tout comme lu',
         'View all': 'Tout',
         'Notification New': 'NOUVEAU',
@@ -1435,6 +1436,7 @@ export default {
         mean: 'Moyenne',
         std: 'Écart type',
         p5: 'P5',
-        p95: 'P95'
+        p95: 'P95',
+        'Home': 'Accueil'
     }
 };

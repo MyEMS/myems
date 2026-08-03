@@ -18,72 +18,49 @@ import {
   DropdownToggle,
   InputGroup,
   UncontrolledDropdown,
-  Spinner
+  Spinner,
+  Breadcrumb,
+  BreadcrumbItem
 } from 'reactstrap';
 import Badge from 'reactstrap/es/Badge';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import FalconCardHeader from '../../common/FalconCardHeader';
 import { getPaginationArray } from '../../../helpers/utils';
 import { getCookieValue, createCookie, checkEmpty,handleAPIError } from '../../../helpers/utils';
-import Datetime from 'react-datetime';
+import { Link } from 'react-router-dom';
+import DateRangePickerWrapper from '../common/DateRangePickerWrapper';
+import { endOfDay } from 'date-fns';
 import withRedirect from '../../../hoc/withRedirect';
 import { withTranslation } from 'react-i18next';
 import moment from 'moment';
-import 'moment/locale/zh-cn';
-import 'moment/locale/zh-tw';
-import 'moment/locale/de';
-import 'moment/locale/fr';
-import 'moment/locale/es';
-import 'moment/locale/ru';
-import 'moment/locale/ar';
-import 'moment/locale/vi';
-import 'moment/locale/th';
-import 'moment/locale/tr';
-import 'moment/locale/ms';
-import 'moment/locale/id';
-import 'moment/locale/pt';
 import AppContext from '../../../context/Context';
 import { APIBaseURL, settings } from '../../../config';
 
-const getMomentLocale = language => {
-  switch (language) {
-    case 'zh_CN':
-      return 'zh-cn';
-    case 'zh_TW':
-      return 'zh-tw';
-    case 'de':
-      return 'de';
-    case 'fr':
-      return 'fr';
-    case 'es':
-      return 'es';
-    case 'ru':
-      return 'ru';
-    case 'ar':
-      return 'ar';
-    case 'vi':
-      return 'vi';
-    case 'th':
-      return 'th';
-    case 'tr':
-      return 'tr';
-    case 'ms':
-      return 'ms';
-    case 'id':
-      return 'id';
-    case 'pt':
-      return 'pt';
-    default:
-      return 'en';
-  }
-};
-
 const Notification = ({ setRedirect, setRedirectUrl, t }) => {
   const { language } = useContext(AppContext);
-  const momentLocale = getMomentLocale(language);
   let current_moment = moment();
-  const [startDatetime, setStartDatetime] = useState(current_moment.clone().subtract(1, 'months'));
-  const [endDatetime, setEndDatetime] = useState(current_moment);
+  const [reportingPeriodDateRange, setReportingPeriodDateRange] = useState([
+    current_moment.clone().subtract(1, 'months').startOf('day').toDate(),
+    current_moment.toDate()
+  ]);
+  const dateRangePickerLocale = {
+    sunday: t('sunday'),
+    monday: t('monday'),
+    tuesday: t('tuesday'),
+    wednesday: t('wednesday'),
+    thursday: t('thursday'),
+    friday: t('friday'),
+    saturday: t('saturday'),
+    ok: t('ok'),
+    today: t('today'),
+    yesterday: t('yesterday'),
+    hours: t('hours'),
+    minutes: t('minutes'),
+    seconds: t('seconds'),
+    last7Days: t('last7Days'),
+    formattedMonthPattern: 'yyyy-MM-dd'
+  };
+  const dateRangePickerStyle = { display: 'block', zIndex: 10 };
   const [status, setStatus] = useState('all');
   const [priority, setPriority] = useState('all');
 
@@ -114,13 +91,16 @@ const Notification = ({ setRedirect, setRedirectUrl, t }) => {
 
       let isResponseOK = false;
       if (!fetchSuccess) {
+        // disable submit button and show spinner during auto-submit
+        setSubmitButtonDisabled(true);
+        setSpinnerHidden(false);
         fetch(
           APIBaseURL +
             '/webmessages?' +
             'startdatetime=' +
-            startDatetime.format('YYYY-MM-DDTHH:mm:ss') +
+            moment(reportingPeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss') +
             '&enddatetime=' +
-            endDatetime.format('YYYY-MM-DDTHH:mm:ss') +
+            moment(reportingPeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss') +
             '&priority=' +
             priority +
             '&status=' +
@@ -156,10 +136,16 @@ const Notification = ({ setRedirect, setRedirectUrl, t }) => {
                   notification['created_datetime'] = moment(parseInt(json[index]['created_datetime'])).format(
                     'YYYY-MM-DD HH:mm:ss'
                   );
+                  notification['start_datetime'] = json[index]['start_datetime']
+                    ? moment(parseInt(json[index]['start_datetime'])).format('YYYY-MM-DD HH:mm:ss')
+                    : '';
+                  notification['end_datetime'] = json[index]['end_datetime']
+                    ? moment(parseInt(json[index]['end_datetime'])).format('YYYY-MM-DD HH:mm:ss')
+                    : '';
                   notification['status'] = json[index]['status'];
-                  notification['update_datetime'] = moment(parseInt(json[index]['update_datetime'])).format(
-                    'YYYY-MM-DD HH:mm:ss'
-                  );
+                  notification['update_datetime'] = json[index]['update_datetime']
+                    ? moment(parseInt(json[index]['update_datetime'])).format('YYYY-MM-DD HH:mm:ss')
+                    : '';
                   notification['url'] = json[index]['url'];
 
                   notificationList.push(notification);
@@ -168,7 +154,12 @@ const Notification = ({ setRedirect, setRedirectUrl, t }) => {
 
               setNotifications(notificationList);
               setSpinnerHidden(true);
+              setSubmitButtonDisabled(false);
             }
+          })
+          .catch(err => {
+            setSpinnerHidden(true);
+            setSubmitButtonDisabled(false);
           });
       }
     }
@@ -180,12 +171,11 @@ const Notification = ({ setRedirect, setRedirectUrl, t }) => {
 
   const handleSubmit = e => {
     e.preventDefault();
-    console.log('handleSubmit');
-    console.log(startDatetime.format('YYYY-MM-DDTHH:mm:ss'));
-    console.log(endDatetime.format('YYYY-MM-DDTHH:mm:ss'));
-    console.log(priority);
-    console.log(status);
-
+    if (!reportingPeriodDateRange[0] || !reportingPeriodDateRange[1]) {
+      toast.error(t('Select Date Range'));
+      return;
+    }
+    
     // disable submit button
     setSubmitButtonDisabled(true);
     // show spinner
@@ -201,9 +191,9 @@ const Notification = ({ setRedirect, setRedirectUrl, t }) => {
       APIBaseURL +
         '/webmessages?' +
         'startdatetime=' +
-        startDatetime.format('YYYY-MM-DDTHH:mm:ss') +
+        moment(reportingPeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss') +
         '&enddatetime=' +
-        endDatetime.format('YYYY-MM-DDTHH:mm:ss') +
+        moment(reportingPeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss') +
         '&priority=' +
         priority +
         '&status=' +
@@ -234,8 +224,7 @@ const Notification = ({ setRedirect, setRedirectUrl, t }) => {
       .then(json => {
         if (isResponseOK) {
           setFetchSuccess(true);
-          console.log(json);
-          let notificationList = [];
+                    let notificationList = [];
 
           if (json.length > 0) {
             json.forEach((currentValue, index) => {
@@ -245,14 +234,17 @@ const Notification = ({ setRedirect, setRedirectUrl, t }) => {
               notification['created_datetime'] = moment(parseInt(currentValue['created_datetime'])).format(
                 'YYYY-MM-DD HH:mm:ss'
               );
-              notification['start_datetime'] = moment(parseInt(json[index]['created_datetime'])).format(
-                'YYYY-MM-DD HH:mm:ss'
-              );
-              notification['end_datetime'] = moment(parseInt(json[index]['created_datetime'])).format(
-                'YYYY-MM-DD HH:mm:ss'
-              );
+              notification['start_datetime'] = currentValue['start_datetime']
+                ? moment(parseInt(currentValue['start_datetime'])).format('YYYY-MM-DD HH:mm:ss')
+                : '';
+              notification['end_datetime'] = currentValue['end_datetime']
+                ? moment(parseInt(currentValue['end_datetime'])).format('YYYY-MM-DD HH:mm:ss')
+                : '';
               notification['message'] = currentValue['message'];
               notification['status'] = currentValue['status'];
+              notification['update_datetime'] = currentValue['update_datetime']
+                ? moment(parseInt(currentValue['update_datetime'])).format('YYYY-MM-DD HH:mm:ss')
+                : '';
               notification['url'] = currentValue['url'];
 
               notificationList.push(notification);
@@ -266,8 +258,7 @@ const Notification = ({ setRedirect, setRedirectUrl, t }) => {
         }
       })
       .catch(err => {
-        console.log(err);
-      });
+              });
   };
 
   const handleNextPage = ({ page, onPageChange }) => () => {
@@ -284,20 +275,15 @@ const Notification = ({ setRedirect, setRedirectUrl, t }) => {
     });
   };
 
-  let onStartDatetimeChange = newDateTime => {
-    setStartDatetime(newDateTime);
-  };
-
-  let onEndDatetimeChange = newDateTime => {
-    setEndDatetime(newDateTime);
-  };
-
-  var getStartDatetime = function(currentDate) {
-    return currentDate.isBefore(moment(endDatetime, 'MM/DD/YYYY, hh:mm:ss a'));
-  };
-
-  var getEndDatetime = function(currentDate) {
-    return currentDate.isAfter(moment(startDatetime, 'MM/DD/YYYY, hh:mm:ss a'));
+  let onReportingPeriodChange = DateRange => {
+    if (DateRange == null) {
+      return;
+    }
+    const newDateRange = [...DateRange];
+    if (moment(newDateRange[1]).format('HH:mm:ss') === '00:00:00') {
+      newDateRange[1] = endOfDay(newDateRange[1]);
+    }
+    setReportingPeriodDateRange([newDateRange[0], newDateRange[1]]);
   };
 
   const subjectFormatter = (dataField, { url }) => (
@@ -445,8 +431,7 @@ const Notification = ({ setRedirect, setRedirectUrl, t }) => {
   });
 
   const handleRead = id => {
-    console.log('Mark As Read: ', id);
-    let isResponseOK = false;
+        let isResponseOK = false;
     fetch(APIBaseURL + '/webmessages/' + id, {
       method: 'PUT',
       headers: {
@@ -469,16 +454,19 @@ const Notification = ({ setRedirect, setRedirectUrl, t }) => {
         }
       })
       .then(json => {
-        console.log(isResponseOK);
-        if (isResponseOK) {
+                if (isResponseOK) {
           let isResponseOK = false;
           fetch(
             APIBaseURL +
               '/webmessages?' +
               'startdatetime=' +
-              startDatetime.format('YYYY-MM-DDTHH:mm:ss') +
+              moment(reportingPeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss') +
               '&enddatetime=' +
-              endDatetime.format('YYYY-MM-DDTHH:mm:ss'),
+              moment(reportingPeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss') +
+              '&priority=' +
+              priority +
+              '&status=' +
+              status,
             {
               method: 'GET',
               headers: {
@@ -497,8 +485,7 @@ const Notification = ({ setRedirect, setRedirectUrl, t }) => {
             })
             .then(json => {
               if (isResponseOK) {
-                console.log(json);
-                setFetchSuccess(true);
+                                setFetchSuccess(true);
 
                 let notificationList = [];
 
@@ -511,16 +498,16 @@ const Notification = ({ setRedirect, setRedirectUrl, t }) => {
                     notification['created_datetime'] = moment(parseInt(json[index]['created_datetime'])).format(
                       'YYYY-MM-DD HH:mm:ss'
                     );
-                    notification['start_datetime'] = moment(parseInt(json[index]['start_datetime'])).format(
-                      'YYYY-MM-DD HH:mm:ss'
-                    );
-                    notification['end_datetime'] = moment(parseInt(json[index]['end_datetime'])).format(
-                      'YYYY-MM-DD HH:mm:ss'
-                    );
+                    notification['start_datetime'] = json[index]['start_datetime']
+                      ? moment(parseInt(json[index]['start_datetime'])).format('YYYY-MM-DD HH:mm:ss')
+                      : '';
+                    notification['end_datetime'] = json[index]['end_datetime']
+                      ? moment(parseInt(json[index]['end_datetime'])).format('YYYY-MM-DD HH:mm:ss')
+                      : '';
                     notification['status'] = json[index]['status'];
-                    notification['update_datetime'] = moment(parseInt(json[index]['update_datetime'])).format(
-                      'YYYY-MM-DD HH:mm:ss'
-                    );
+                    notification['update_datetime'] = json[index]['update_datetime']
+                      ? moment(parseInt(json[index]['update_datetime'])).format('YYYY-MM-DD HH:mm:ss')
+                      : '';
                     notification['url'] = json[index]['url'];
 
                     notificationList.push(notification);
@@ -536,13 +523,11 @@ const Notification = ({ setRedirect, setRedirectUrl, t }) => {
         }
       })
       .catch(err => {
-        console.log(err);
-      });
+              });
   };
 
   const handleAcknowledged = id => {
-    console.log('Mark As Acknowledged: ', id);
-    let isResponseOK = false;
+        let isResponseOK = false;
     fetch(APIBaseURL + '/webmessages/' + id, {
       method: 'PUT',
       headers: {
@@ -566,16 +551,19 @@ const Notification = ({ setRedirect, setRedirectUrl, t }) => {
         }
       })
       .then(json => {
-        console.log(isResponseOK);
-        if (isResponseOK) {
+                if (isResponseOK) {
           let isResponseOK = false;
           fetch(
             APIBaseURL +
               '/webmessages?' +
               'startdatetime=' +
-              startDatetime.format('YYYY-MM-DDTHH:mm:ss') +
+              moment(reportingPeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss') +
               '&enddatetime=' +
-              endDatetime.format('YYYY-MM-DDTHH:mm:ss'),
+              moment(reportingPeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss') +
+              '&priority=' +
+              priority +
+              '&status=' +
+              status,
             {
               method: 'GET',
               headers: {
@@ -594,8 +582,7 @@ const Notification = ({ setRedirect, setRedirectUrl, t }) => {
             })
             .then(json => {
               if (isResponseOK) {
-                console.log(json);
-                setFetchSuccess(true);
+                                setFetchSuccess(true);
 
                 let notificationList = [];
 
@@ -608,16 +595,16 @@ const Notification = ({ setRedirect, setRedirectUrl, t }) => {
                     notification['created_datetime'] = moment(parseInt(json[index]['created_datetime'])).format(
                       'YYYY-MM-DD HH:mm:ss'
                     );
-                    notification['start_datetime'] = moment(parseInt(json[index]['start_datetime'])).format(
-                      'YYYY-MM-DD HH:mm:ss'
-                    );
-                    notification['end_datetime'] = moment(parseInt(json[index]['end_datetime'])).format(
-                      'YYYY-MM-DD HH:mm:ss'
-                    );
+                    notification['start_datetime'] = json[index]['start_datetime']
+                      ? moment(parseInt(json[index]['start_datetime'])).format('YYYY-MM-DD HH:mm:ss')
+                      : '';
+                    notification['end_datetime'] = json[index]['end_datetime']
+                      ? moment(parseInt(json[index]['end_datetime'])).format('YYYY-MM-DD HH:mm:ss')
+                      : '';
                     notification['status'] = json[index]['status'];
-                    notification['update_datetime'] = moment(parseInt(json[index]['update_datetime'])).format(
-                      'YYYY-MM-DD HH:mm:ss'
-                    );
+                    notification['update_datetime'] = json[index]['update_datetime']
+                      ? moment(parseInt(json[index]['update_datetime'])).format('YYYY-MM-DD HH:mm:ss')
+                      : '';
                     notification['url'] = json[index]['url'];
 
                     notificationList.push(notification);
@@ -633,13 +620,11 @@ const Notification = ({ setRedirect, setRedirectUrl, t }) => {
         }
       })
       .catch(err => {
-        console.log(err);
-      });
+              });
   };
 
   const handledelete = id => {
-    console.log('Delete: ', id);
-    let isResponseOK = false;
+        let isResponseOK = false;
     fetch(APIBaseURL + '/webmessages/' + id, {
       method: 'DELETE',
       headers: {
@@ -658,16 +643,19 @@ const Notification = ({ setRedirect, setRedirectUrl, t }) => {
         }
       })
       .then(json => {
-        console.log(isResponseOK);
-        if (isResponseOK) {
+                if (isResponseOK) {
           let isResponseOK = false;
           fetch(
             APIBaseURL +
               '/webmessages?' +
               'startdatetime=' +
-              startDatetime.format('YYYY-MM-DDTHH:mm:ss') +
+              moment(reportingPeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss') +
               '&enddatetime=' +
-              endDatetime.format('YYYY-MM-DDTHH:mm:ss'),
+              moment(reportingPeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss') +
+              '&priority=' +
+              priority +
+              '&status=' +
+              status,
             {
               method: 'GET',
               headers: {
@@ -686,8 +674,7 @@ const Notification = ({ setRedirect, setRedirectUrl, t }) => {
             })
             .then(json => {
               if (isResponseOK) {
-                console.log(json);
-                setFetchSuccess(true);
+                                setFetchSuccess(true);
 
                 let notificationList = [];
 
@@ -700,22 +687,21 @@ const Notification = ({ setRedirect, setRedirectUrl, t }) => {
                     notification['created_datetime'] = moment(parseInt(json[index]['created_datetime'])).format(
                       'YYYY-MM-DD HH:mm:ss'
                     );
-                    notification['start_datetime'] = moment(parseInt(json[index]['start_datetime'])).format(
-                      'YYYY-MM-DD HH:mm:ss'
-                    );
-                    notification['end_datetime'] = moment(parseInt(json[index]['end_datetime'])).format(
-                      'YYYY-MM-DD HH:mm:ss'
-                    );
+                    notification['start_datetime'] = json[index]['start_datetime']
+                      ? moment(parseInt(json[index]['start_datetime'])).format('YYYY-MM-DD HH:mm:ss')
+                      : '';
+                    notification['end_datetime'] = json[index]['end_datetime']
+                      ? moment(parseInt(json[index]['end_datetime'])).format('YYYY-MM-DD HH:mm:ss')
+                      : '';
                     notification['status'] = json[index]['status'];
-                    notification['update_datetime'] = moment(parseInt(json[index]['update_datetime'])).format(
-                      'YYYY-MM-DD HH:mm:ss'
-                    );
+                    notification['update_datetime'] = json[index]['update_datetime']
+                      ? moment(parseInt(json[index]['update_datetime'])).format('YYYY-MM-DD HH:mm:ss')
+                      : '';
                     notification['url'] = json[index]['url'];
 
                     notificationList.push(notification);
                   });
                 }
-
                 setNotifications(notificationList);
                 setSpinnerHidden(true);
               }
@@ -725,8 +711,7 @@ const Notification = ({ setRedirect, setRedirectUrl, t }) => {
         }
       })
       .catch(err => {
-        console.log(err);
-      });
+              });
   };
 
   const batchDelete = () => {
@@ -756,8 +741,7 @@ const Notification = ({ setRedirect, setRedirectUrl, t }) => {
         }
       })
       .catch(err => {
-        console.log(err);
-      });
+              });
   };
 
   const batchRead = () => {
@@ -787,11 +771,13 @@ const Notification = ({ setRedirect, setRedirectUrl, t }) => {
         }
       })
       .catch(err => {
-        console.log(err);
-      });
+              });
   };
 
   const loadData = table => {
+    if (!reportingPeriodDateRange[0] || !reportingPeriodDateRange[1]) {
+      return;
+    }
     table.current.selectionContext.selected = [];
     onSelect();
     let isResponseOK = false;
@@ -799,9 +785,9 @@ const Notification = ({ setRedirect, setRedirectUrl, t }) => {
       APIBaseURL +
         '/webmessages?' +
         'startdatetime=' +
-        startDatetime.format('YYYY-MM-DDTHH:mm:ss') +
+        moment(reportingPeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss') +
         '&enddatetime=' +
-        endDatetime.format('YYYY-MM-DDTHH:mm:ss') +
+        moment(reportingPeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss') +
         '&priority=' +
         priority +
         '&status=' +
@@ -835,16 +821,16 @@ const Notification = ({ setRedirect, setRedirectUrl, t }) => {
               notification['created_datetime'] = moment(parseInt(json[index]['created_datetime'])).format(
                 'YYYY-MM-DD HH:mm:ss'
               );
-              notification['start_datetime'] = moment(parseInt(json[index]['start_datetime'])).format(
-                'YYYY-MM-DD HH:mm:ss'
-              );
-              notification['end_datetime'] = moment(parseInt(json[index]['end_datetime'])).format(
-                'YYYY-MM-DD HH:mm:ss'
-              );
+              notification['start_datetime'] = json[index]['start_datetime']
+                ? moment(parseInt(json[index]['start_datetime'])).format('YYYY-MM-DD HH:mm:ss')
+                : '';
+              notification['end_datetime'] = json[index]['end_datetime']
+                ? moment(parseInt(json[index]['end_datetime'])).format('YYYY-MM-DD HH:mm:ss')
+                : '';
               notification['status'] = json[index]['status'];
-              notification['update_datetime'] = moment(parseInt(json[index]['update_datetime'])).format(
-                'YYYY-MM-DD HH:mm:ss'
-              );
+              notification['update_datetime'] = json[index]['update_datetime']
+                ? moment(parseInt(json[index]['update_datetime'])).format('YYYY-MM-DD HH:mm:ss')
+                : '';
               notification['url'] = json[index]['url'];
 
               notificationList.push(notification);
@@ -860,6 +846,14 @@ const Notification = ({ setRedirect, setRedirectUrl, t }) => {
 
   return (
     <Fragment>
+      <div>
+        <Breadcrumb>
+          <BreadcrumbItem>
+            <Link to="/">{t('Home')}</Link>
+          </BreadcrumbItem>
+          <BreadcrumbItem active>{t('Notification')}</BreadcrumbItem>
+        </Breadcrumb>
+      </div>
       <Card className="bg-light mb-3">
         <CardBody className="p-3">
           <Form onSubmit={handleSubmit}>
@@ -925,48 +919,22 @@ const Notification = ({ setRedirect, setRedirectUrl, t }) => {
                   </CustomInput>
                 </FormGroup>
               </Col>
-              <Col sm={2}>
+              <Col sm={3}>
                 <FormGroup className="form-group">
-                  <Label className={labelClasses} for="startDatetime">
-                    {t('Reporting Period Begins')}
+                  <Label className={labelClasses} for="reportingPeriodDateRangePicker">
+                    {t('Reporting Period')}
                   </Label>
-                  <Datetime
-                    key={`startDatetime-${language}`}
-                    locale={momentLocale}
-                    value={startDatetime}
-                    onChange={onStartDatetimeChange}
-                    isValidDate={getStartDatetime}
-                    closeOnSelect={true}
-                    inputProps={{
-                      className: 'form-control form-control-sm',
-                      id: 'startDatetime'
-                    }}
-                  />
-                </FormGroup>
-              </Col>
-              <Col sm={2}>
-                <FormGroup className="form-group">
-                  <Label className={labelClasses} for="endDatetime">
-                    {t('Reporting Period Ends')}
-                  </Label>
-                  <Datetime
-                    key={`endDatetime-${language}`}
-                    locale={momentLocale}
-                    value={endDatetime}
-                    onChange={onEndDatetimeChange}
-                    isValidDate={getEndDatetime}
-                    closeOnSelect={true}
-                    inputProps={{
-                      className: 'form-control form-control-sm',
-                      id: 'endDatetime'
-                    }}
-                  />
-                </FormGroup>
-              </Col>
-              <Col xs="auto">
-                <FormGroup>
                   <br />
-                  <Spinner color="primary" hidden={spinnerHidden} />
+                  <DateRangePickerWrapper
+                    id="reportingPeriodDateRangePicker"
+                    format="yyyy-MM-dd HH:mm:ss"
+                    value={reportingPeriodDateRange}
+                    onChange={onReportingPeriodChange}
+                    size="sm"
+                    style={dateRangePickerStyle}
+                    locale={dateRangePickerLocale}
+                    placeholder={t('Select Date Range')}
+                  />
                 </FormGroup>
               </Col>
               <Col xs="auto">
@@ -977,6 +945,12 @@ const Notification = ({ setRedirect, setRedirectUrl, t }) => {
                       {t('Submit')}
                     </Button>
                   </ButtonGroup>
+                </FormGroup>
+              </Col>
+              <Col xs="auto">
+                <FormGroup>
+                  <br />
+                  <Spinner color="primary" hidden={spinnerHidden} />
                 </FormGroup>
               </Col>
             </Row>
@@ -1031,16 +1005,20 @@ const Notification = ({ setRedirect, setRedirectUrl, t }) => {
                       >
                         <FontAwesomeIcon icon="chevron-left" />
                       </Button>
-                      {getPaginationArray(paginationProps.totalSize, paginationProps.sizePerPage).map(pageNo => (
-                        <Button
-                          color={paginationProps.page === pageNo ? 'falcon-primary' : 'falcon-default'}
-                          size="sm"
-                          className="ml-2"
-                          onClick={() => paginationProps.onPageChange(pageNo)}
-                          key={pageNo}
-                        >
-                          {pageNo}
-                        </Button>
+                      {getPaginationArray(paginationProps.totalSize, paginationProps.sizePerPage, paginationProps.page).map(pageNo => (
+                        pageNo === 'ellipsis' ? (
+                          <span key="ellipsis" className="ml-2 px-2 text-600">...</span>
+                        ) : (
+                          <Button
+                            color={paginationProps.page === pageNo ? 'falcon-primary' : 'falcon-default'}
+                            size="sm"
+                            className="ml-2"
+                            onClick={() => paginationProps.onPageChange(pageNo)}
+                            key={pageNo}
+                          >
+                            {pageNo}
+                          </Button>
+                        )
                       ))}
                       <Button
                         color="falcon-default"

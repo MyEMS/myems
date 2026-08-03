@@ -566,6 +566,7 @@ export default {
         'Please wait for approval': 'Proszę czekać na zatwierdzenie',
         //notification
         Notifications: 'Powiadomienia',
+        'Notification': 'Powiadomienie',
         'Mark all as read': 'Oznacz wszystkie jako przeczytane',
         'View all': 'Zobacz wszystkie',
         'Notification New': 'Nowe',
@@ -1407,6 +1408,7 @@ export default {
         mean: 'średnia',
         std: 'odchylenie standardowe',
         p5: 'P5',
-        p95: 'P95'
+        p95: 'P95',
+        'Home': 'Strona główna'
     }
 };

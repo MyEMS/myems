@@ -586,6 +586,7 @@ export default {
         'Please wait for approval': 'Vui lòng chờ phê duyệt',
         //notification
         Notifications: 'Thông báo',
+        'Notification': 'Thông báo',
         'Mark all as read': 'Đánh dấu tất cả là đã đọc',
         'View all': 'Tất cả',
         'Notification New': 'MỚI',
@@ -1428,6 +1429,7 @@ liên kết tài khoản đăng ký không hợp lệ. Vui lòng thử lại.',
         mean: 'เฉลี่ย',
         std: 'ส่วนเบี่ยงเบนมาตรฐาน',
         p5: 'P5',
-        p95: 'P95'
+        p95: 'P95',
+        'Home': 'Trang chủ'
     }
 };

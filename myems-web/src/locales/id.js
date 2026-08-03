@@ -593,6 +593,7 @@ export default {
         'Please wait for approval': 'Silakan Tunggu Ulang',
         //notification
         Notifications: 'Notis',
+        'Notification': 'Notifikasi',
         'Mark all as read': 'Set Semua Sebagai Baca',
         'View all': 'Seluruh',
         'Notification New': 'BaruNew',
@@ -1446,6 +1447,7 @@ export default {
         mean: 'Rata-rata',
         std: 'Simpangan baku',
         p5: 'P5',
-        p95: 'P95'
+        p95: 'P95',
+        'Home': 'Beranda'
     }
 };

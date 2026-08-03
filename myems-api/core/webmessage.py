@@ -6,7 +6,6 @@ import simplejson as json
 from core.useractivity import user_logger, access_control, api_key_control
 import config
 
-
 def _is_api_key_request(req):
     return ('API-KEY' in req.headers and
             isinstance(req.headers['API-KEY'], str) and
@@ -200,10 +199,10 @@ class WebMessageCollection:
                 meta_result = {"id": row[0],
                                "subject": row[1],
                                "message": row[2].replace("<br>", ""),
-                               "created_datetime": row[3].timestamp() * 1000 if isinstance(row[3], datetime) else None,
-                               "start_datetime": row[4].timestamp() * 1000 if isinstance(row[4], datetime) else None,
-                               "end_datetime": row[5].timestamp() * 1000 if isinstance(row[5], datetime) else None,
-                               "update_datetime": row[6].timestamp() * 1000 if isinstance(row[6], datetime) else None,
+                               "created_datetime": row[3].replace(tzinfo=timezone.utc).timestamp() * 1000 if isinstance(row[3], datetime) else None,
+                               "start_datetime": row[4].replace(tzinfo=timezone.utc).timestamp() * 1000 if isinstance(row[4], datetime) else None,
+                               "end_datetime": row[5].replace(tzinfo=timezone.utc).timestamp() * 1000 if isinstance(row[5], datetime) else None,
+                               "update_datetime": row[6].replace(tzinfo=timezone.utc).timestamp() * 1000 if isinstance(row[6], datetime) else None,
                                "status": row[7],
                                "reply": row[8]}
                 result.append(meta_result)
@@ -251,10 +250,10 @@ class WebMessageStatusNewCollection:
                 meta_result = {"id": row[0],
                                "subject": row[1],
                                "message": row[2].replace("<br>", ""),
-                               "created_datetime": row[3].timestamp() * 1000 if isinstance(row[3], datetime) else None,
-                               "start_datetime": row[4].timestamp() * 1000 if isinstance(row[4], datetime) else None,
-                               "end_datetime": row[5].timestamp() * 1000 if isinstance(row[5], datetime) else None,
-                               "update_datetime": row[6].timestamp() * 1000 if isinstance(row[6], datetime) else None,
+                               "created_datetime": row[3].replace(tzinfo=timezone.utc).timestamp() * 1000 if isinstance(row[3], datetime) else None,
+                               "start_datetime": row[4].replace(tzinfo=timezone.utc).timestamp() * 1000 if isinstance(row[4], datetime) else None,
+                               "end_datetime": row[5].replace(tzinfo=timezone.utc).timestamp() * 1000 if isinstance(row[5], datetime) else None,
+                               "update_datetime": row[6].replace(tzinfo=timezone.utc).timestamp() * 1000 if isinstance(row[6], datetime) else None,
                                "status": row[7],
                                "reply": row[8]}
                 result.append(meta_result)
@@ -317,10 +316,11 @@ class WebMessageStatusNewCollection:
                                            description='API.WEB_MESSAGE_NOT_FOUND')
 
                 update_row = (" UPDATE tbl_web_messages "
-                              " SET status = %s, reply = %s "
+                              " SET status = %s, reply = %s, update_datetime_utc = %s "
                               " WHERE status = %s AND user_id = %s ")
                 cursor.execute(update_row, (status,
                                             reply,
+                                            datetime.now(timezone.utc).replace(tzinfo=None),
                                             'new',
                                             user_id,))
                 cnx.commit()
@@ -379,10 +379,10 @@ class WebMessageItem:
         meta_result = {"id": row[0],
                        "subject": row[1],
                        "message": row[2].replace("<br>", ""),
-                       "created_datetime": row[3].timestamp() * 1000 if isinstance(row[3], datetime) else None,
-                       "start_datetime": row[4].timestamp() * 1000 if isinstance(row[4], datetime) else None,
-                       "end_datetime": row[5].timestamp() * 1000 if isinstance(row[5], datetime) else None,
-                       "update_datetime": row[6].timestamp() * 1000 if isinstance(row[6], datetime) else None,
+                       "created_datetime": row[3].replace(tzinfo=timezone.utc).timestamp() * 1000 if isinstance(row[3], datetime) else None,
+                       "start_datetime": row[4].replace(tzinfo=timezone.utc).timestamp() * 1000 if isinstance(row[4], datetime) else None,
+                       "end_datetime": row[5].replace(tzinfo=timezone.utc).timestamp() * 1000 if isinstance(row[5], datetime) else None,
+                       "update_datetime": row[6].replace(tzinfo=timezone.utc).timestamp() * 1000 if isinstance(row[6], datetime) else None,
                        "status": row[7],
                        "reply": row[8]}
 
@@ -448,10 +448,11 @@ class WebMessageItem:
                                            description='API.WEB_MESSAGE_NOT_FOUND')
 
                 update_row = (" UPDATE tbl_web_messages "
-                              " SET status = %s, reply = %s "
+                              " SET status = %s, reply = %s, update_datetime_utc = %s "
                               " WHERE id = %s ")
                 cursor.execute(update_row, (status,
                                             reply,
+                                            datetime.now(timezone.utc).replace(tzinfo=None),
                                             id_,))
                 cnx.commit()
 
@@ -537,9 +538,9 @@ class WebMessageBatch:
             cnx = mysql.connector.connect(**config.myems_fdd_db)
             try:
                 cursor = cnx.cursor()
-                update_row = (" UPDATE tbl_web_messages  SET status = %s "
+                update_row = (" UPDATE tbl_web_messages  SET status = %s, update_datetime_utc = %s "
                               " WHERE status = %s AND  id in (" + ids + ")")
-                cursor.execute(update_row, ('read', 'new',))
+                cursor.execute(update_row, ('read', datetime.now(timezone.utc).replace(tzinfo=None), 'new',))
                 cnx.commit()
 
             finally:

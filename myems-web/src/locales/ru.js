@@ -598,6 +598,7 @@ export default {
         'Please wait for approval': 'Пожалуйста, дождитесь одобрения',
         //notification
         Notifications: 'Уведомления',
+        'Notification': 'Уведомление',
         'Mark all as read': 'Пометить все как прочитанное',
         'View all': 'Bce',
         'Notification New': 'Новые функции',
@@ -1441,6 +1442,7 @@ export default {
         mean: 'المتوسط',
         std: 'الانحراف المعياري',
         p5: 'P5',
-        p95: 'P95'
+        p95: 'P95',
+        'Home': 'Главная'
     }
 };

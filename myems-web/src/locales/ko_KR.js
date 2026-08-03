@@ -561,6 +561,7 @@ Please copy it to the input box below.':
         'Please wait for approval': '승인을 기다려주세요',
         //notification
         Notifications: '알림',
+        'Notification': '알림',
         'Mark all as read': '모두 읽음으로 표시',
         'View all': '모두 보기',
         'Notification New': '새로운',
@@ -1402,6 +1403,7 @@ Please copy it to the input box below.':
         mean: '평균',
         std: '표준 편차',
         p5: 'P5',
-        p95: 'P95'
+        p95: 'P95',
+        'Home': '홈'
     }
 };
