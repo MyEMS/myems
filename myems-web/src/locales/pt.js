@@ -588,6 +588,7 @@ Por favor, copie-o para a caixa de entrada abaixo.',
         'Please wait for approval': 'Aguarde a aprovação',
         //notification
         Notifications: 'Notificações',
+        'Notification': 'Notificação',
         'Mark all as read': 'Marcar tudo como lido',
         'View all': 'Todos',
         'Notification New': 'NOVO',
@@ -1421,6 +1422,7 @@ em um link de conta de registro inválido. Por favor tente novamente.',
         mean: 'Média',
         std: 'Desvio padrão',
         p5: 'P5',
-        p95: 'P95'
+        p95: 'P95',
+        'Home': 'Início'
     }
 };

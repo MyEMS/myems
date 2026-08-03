@@ -587,6 +587,7 @@ export default {
             'Please wait for approval': 'กรุณารอการอนุมัติ',
             //notification
             Notifications: 'แจ้ง เตือน',
+            'Notification': 'การแจ้งเตือน',
             'Mark all as read': 'ทําเครื่องหมายทั้งหมดว่าอ่านแล้ว',
             'View all': 'ทั้งหมด',
             'Notification New': 'ใหม่',
@@ -1427,6 +1428,7 @@ export default {
             mean: 'Ortalama',
             std: 'Std',
             p5: 'P5',
-            p95: 'P95'
+            p95: 'P95',
+            'Home': 'หน้าแรก'
         }
 };

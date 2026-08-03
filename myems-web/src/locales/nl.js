@@ -566,6 +566,7 @@ export default {
         'Please wait for approval': 'Wacht op goedkeuring',
         //notification
         Notifications: 'Notificaties',
+        'Notification': 'Melding',
         'Mark all as read': 'Alles als gelezen markeren',
         'View all': 'Alles bekijken',
         'Notification New': 'Nieuw',
@@ -1407,6 +1408,7 @@ export default {
         mean: 'Gemiddelde',
         std: 'Standaardafwijking',
         p5: 'P5',
-        p95: 'P95'
+        p95: 'P95',
+        'Home': 'Home'
     }
 };

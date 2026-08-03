@@ -576,6 +576,7 @@ export default {
         'Please wait for approval': '请等待审核',
         //notification
         Notifications: '通知',
+        'Notification': '通知',
         'Mark all as read': '全部设为已读',
         'View all': '全部',
         'Notification New': '新的',
@@ -1426,6 +1427,7 @@ export default {
         mean: '平均值',
         std: '标准差',
         p5: 'P5',
-        p95: 'P95'
+        p95: 'P95',
+        'Home': '首页'
     }
 };

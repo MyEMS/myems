@@ -602,6 +602,7 @@ export default {
         'Please wait for approval': 'Please wait for approval',
         //notification
         Notifications: 'Notifications',
+        'Notification': 'Notification',
         'Mark all as read': 'Mark all as read',
         'View all': 'All',
         'Notification New': 'NEW',
@@ -1447,6 +1448,7 @@ export default {
         mean: 'Mean',
         std: 'Std',
         p5: 'P5',
-        p95: 'P95'
+        p95: 'P95',
+        'Home': 'Home'
     }
 };

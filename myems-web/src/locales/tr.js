@@ -588,6 +588,7 @@ export default {
         'Please wait for approval': 'Lütfen onay için bekleyin',
         //notification
         Notifications: 'Bildirim',
+        'Notification': 'Bildirim',
         'Mark all as read': 'Tümünü okundu olarak işaretle',
         'View all': 'Tüm',
         'Notification New': 'YENİ',
@@ -1429,6 +1430,7 @@ bağlantısına tıklamış gibi görünüyorsunuz. Lütfen tekrar deneyin.',
         mean: 'Purata',
         std: 'Sisihan piawai',
         p5: 'P5',
-        p95: 'P95'
+        p95: 'P95',
+        'Home': 'Ana Sayfa'
     }
 };

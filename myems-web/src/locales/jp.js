@@ -566,6 +566,7 @@ export default {
         'Please wait for approval': '承認をお待ちください',
         //notification
         Notifications: '通知',
+        'Notification': '通知',
         'Mark all as read': 'すべて既読にする',
         'View all': 'すべて表示',
         'Notification New': '新着',
@@ -1407,6 +1408,7 @@ export default {
         mean: '平均値',
         std: '標準偏差',
         p5: 'P5',
-        p95: 'P95'
+        p95: 'P95',
+        'Home': 'ホーム'
     }
 };

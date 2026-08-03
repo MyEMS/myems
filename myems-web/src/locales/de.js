@@ -594,6 +594,7 @@ export default {
         'Please wait for approval': 'Bitte warten Sie auf Genehmigung',
         //notification
         Notifications: 'Benachrichtigungen',
+        'Notification': 'Benachrichtigung',
         'Mark all as read': 'Markiere alle als gelesen',
         'View all': 'Alle',
         'Notification New': 'Neu',
@@ -1456,6 +1457,7 @@ export default {
         mean: 'Mittelwert',
         std: 'Standardabw.',
         p5: 'P5',
-        p95: 'P95'
+        p95: 'P95',
+        'Home': 'Startseite'
     }
 };
