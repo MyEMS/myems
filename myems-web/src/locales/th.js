@@ -1426,6 +1426,6 @@ export default {
             std: 'Std',
             p5: 'P5',
             p95: 'P95',
-        'Home': 'หน้าแรก'
+            'Home': 'หน้าแรก'
         }
 };
