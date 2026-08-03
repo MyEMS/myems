@@ -317,10 +317,11 @@ class WebMessageStatusNewCollection:
                                            description='API.WEB_MESSAGE_NOT_FOUND')
 
                 update_row = (" UPDATE tbl_web_messages "
-                              " SET status = %s, reply = %s, update_datetime_utc = UTC_TIMESTAMP() "
+                              " SET status = %s, reply = %s, update_datetime_utc = %s "
                               " WHERE status = %s AND user_id = %s ")
                 cursor.execute(update_row, (status,
                                             reply,
+                                            datetime.now(timezone.utc),
                                             'new',
                                             user_id,))
                 cnx.commit()
@@ -448,10 +449,11 @@ class WebMessageItem:
                                            description='API.WEB_MESSAGE_NOT_FOUND')
 
                 update_row = (" UPDATE tbl_web_messages "
-                              " SET status = %s, reply = %s, update_datetime_utc = UTC_TIMESTAMP() "
+                              " SET status = %s, reply = %s, update_datetime_utc = %s "
                               " WHERE id = %s ")
                 cursor.execute(update_row, (status,
                                             reply,
+                                            datetime.now(timezone.utc),
                                             id_,))
                 cnx.commit()
 
@@ -537,9 +539,9 @@ class WebMessageBatch:
             cnx = mysql.connector.connect(**config.myems_fdd_db)
             try:
                 cursor = cnx.cursor()
-                update_row = (" UPDATE tbl_web_messages  SET status = %s, update_datetime_utc = UTC_TIMESTAMP() "
+                update_row = (" UPDATE tbl_web_messages  SET status = %s, update_datetime_utc = %s "
                               " WHERE status = %s AND  id in (" + ids + ")")
-                cursor.execute(update_row, ('read', 'new',))
+                cursor.execute(update_row, ('read', datetime.now(timezone.utc), 'new',))
                 cnx.commit()
 
             finally:
