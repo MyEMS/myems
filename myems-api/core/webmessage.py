@@ -321,7 +321,7 @@ class WebMessageStatusNewCollection:
                               " WHERE status = %s AND user_id = %s ")
                 cursor.execute(update_row, (status,
                                             reply,
-                                            datetime.now(timezone.utc),
+                                            datetime.now(timezone.utc).replace(tzinfo=None),
                                             'new',
                                             user_id,))
                 cnx.commit()
@@ -453,7 +453,7 @@ class WebMessageItem:
                               " WHERE id = %s ")
                 cursor.execute(update_row, (status,
                                             reply,
-                                            datetime.now(timezone.utc),
+                                            datetime.now(timezone.utc).replace(tzinfo=None),
                                             id_,))
                 cnx.commit()
 
@@ -541,7 +541,7 @@ class WebMessageBatch:
                 cursor = cnx.cursor()
                 update_row = (" UPDATE tbl_web_messages  SET status = %s, update_datetime_utc = %s "
                               " WHERE status = %s AND  id in (" + ids + ")")
-                cursor.execute(update_row, ('read', datetime.now(timezone.utc), 'new',))
+                cursor.execute(update_row, ('read', datetime.now(timezone.utc).replace(tzinfo=None), 'new',))
                 cnx.commit()
 
             finally:
