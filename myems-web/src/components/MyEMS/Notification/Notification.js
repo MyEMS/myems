@@ -91,6 +91,9 @@ const Notification = ({ setRedirect, setRedirectUrl, t }) => {
 
       let isResponseOK = false;
       if (!fetchSuccess) {
+        // disable submit button and show spinner during auto-submit
+        setSubmitButtonDisabled(true);
+        setSpinnerHidden(false);
         fetch(
           APIBaseURL +
             '/webmessages?' +
@@ -151,7 +154,12 @@ const Notification = ({ setRedirect, setRedirectUrl, t }) => {
 
               setNotifications(notificationList);
               setSpinnerHidden(true);
+              setSubmitButtonDisabled(false);
             }
+          })
+          .catch(err => {
+            setSpinnerHidden(true);
+            setSubmitButtonDisabled(false);
           });
       }
     }
@@ -932,17 +940,17 @@ const Notification = ({ setRedirect, setRedirectUrl, t }) => {
               <Col xs="auto">
                 <FormGroup>
                   <br />
-                  <Spinner color="primary" hidden={spinnerHidden} />
-                </FormGroup>
-              </Col>
-              <Col xs="auto">
-                <FormGroup>
-                  <br />
                   <ButtonGroup id="submit">
                     <Button size="sm" color="success" disabled={submitButtonDisabled}>
                       {t('Submit')}
                     </Button>
                   </ButtonGroup>
+                </FormGroup>
+              </Col>
+              <Col xs="auto">
+                <FormGroup>
+                  <br />
+                  <Spinner color="primary" hidden={spinnerHidden} />
                 </FormGroup>
               </Col>
             </Row>
