@@ -600,6 +600,7 @@ export default {
         'Please wait for approval': 'Please wait for approval',
         //notification
         Notifications: 'Notifications',
+        'Notification': 'Notification',
         'Mark all as read': 'Mark all as read',
         'View all': 'All',
         'Notification New': 'NEW',

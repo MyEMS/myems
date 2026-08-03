@@ -564,6 +564,7 @@ export default {
         'Please wait for approval': 'Wacht op goedkeuring',
         //notification
         Notifications: 'Notificaties',
+        'Notification': 'Melding',
         'Mark all as read': 'Alles als gelezen markeren',
         'View all': 'Alles bekijken',
         'Notification New': 'Nieuw',

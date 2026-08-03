@@ -586,6 +586,7 @@ Por favor, copie-o para a caixa de entrada abaixo.',
         'Please wait for approval': 'Aguarde a aprovação',
         //notification
         Notifications: 'Notificações',
+        'Notification': 'Notificação',
         'Mark all as read': 'Marcar tudo como lido',
         'View all': 'Todos',
         'Notification New': 'NOVO',

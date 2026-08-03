@@ -559,6 +559,7 @@ Please copy it to the input box below.':
         'Please wait for approval': '승인을 기다려주세요',
         //notification
         Notifications: '알림',
+        'Notification': '알림',
         'Mark all as read': '모두 읽음으로 표시',
         'View all': '모두 보기',
         'Notification New': '새로운',

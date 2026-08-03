@@ -564,6 +564,7 @@ export default {
         'Please wait for approval': 'Proszę czekać na zatwierdzenie',
         //notification
         Notifications: 'Powiadomienia',
+        'Notification': 'Powiadomienie',
         'Mark all as read': 'Oznacz wszystkie jako przeczytane',
         'View all': 'Zobacz wszystkie',
         'Notification New': 'Nowe',

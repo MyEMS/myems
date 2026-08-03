@@ -591,6 +591,7 @@ export default {
         'Please wait for approval': 'Silakan Tunggu Ulang',
         //notification
         Notifications: 'Notis',
+        'Notification': 'Notifikasi',
         'Mark all as read': 'Set Semua Sebagai Baca',
         'View all': 'Seluruh',
         'Notification New': 'BaruNew',

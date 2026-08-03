@@ -585,6 +585,7 @@ export default {
             'Please wait for approval': 'กรุณารอการอนุมัติ',
             //notification
             Notifications: 'แจ้ง เตือน',
+            'Notification': 'การแจ้งเตือน',
             'Mark all as read': 'ทําเครื่องหมายทั้งหมดว่าอ่านแล้ว',
             'View all': 'ทั้งหมด',
             'Notification New': 'ใหม่',

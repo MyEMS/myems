@@ -586,6 +586,7 @@ export default {
         'Please wait for approval': 'يرجى انتظار الموافقة',
         //notification
         Notifications: 'الاخطارات',
+        'Notification': 'الإشعارات',
         'Mark all as read': 'وضع علامة مقروءة على الكل',
         'View all': 'كل',
         'Notification New': 'الجديد',

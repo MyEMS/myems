@@ -565,6 +565,7 @@ export default {
         'Please wait for approval': 'Attendi approvazione',
         //notification
         Notifications: 'Notifiche',
+        'Notification': 'Notifica',
         'Mark all as read': 'Segna tutte come lette',
         'View all': 'Visualizza tutte',
         'Notification New': 'Nuove',

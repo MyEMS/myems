@@ -584,6 +584,7 @@ export default {
         'Please wait for approval': 'Vui lòng chờ phê duyệt',
         //notification
         Notifications: 'Thông báo',
+        'Notification': 'Thông báo',
         'Mark all as read': 'Đánh dấu tất cả là đã đọc',
         'View all': 'Tất cả',
         'Notification New': 'MỚI',

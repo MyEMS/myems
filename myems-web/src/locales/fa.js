@@ -564,6 +564,7 @@ export default {
         'Please wait for approval': 'لطفاً منتظر تأیید باشید',
         //notification
         Notifications: 'اعلان‌ها',
+        'Notification': 'اعلان',
         'Mark all as read': 'علامت‌گذاری همه به عنوان خوانده‌شده',
         'View all': 'همه',
         'Notification New': 'جدید',

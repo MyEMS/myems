@@ -574,6 +574,7 @@ export default {
         'Please wait for approval': '请等待审核',
         //notification
         Notifications: '通知',
+        'Notification': '通知',
         'Mark all as read': '全部设为已读',
         'View all': '全部',
         'Notification New': '新的',

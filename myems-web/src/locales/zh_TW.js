@@ -568,6 +568,7 @@ Please copy it to the input box below.':
         'Please wait for approval': '請等待審核',
         //notification
         Notifications: '通知',
+        'Notification': '通知',
         'Mark all as read': '全部設為已讀',
         'View all': '全部',
         'Notification New': '新的',

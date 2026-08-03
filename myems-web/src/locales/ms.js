@@ -590,6 +590,7 @@ export default {
         'Please wait for approval': 'Sila tunggu kelulusan',
         //notification
         Notifications: 'Pemberitahuan',
+        'Notification': 'Pemberitahuan',
         'Mark all as read': 'Tandakan semua sebagai dibaca',
         'View all': 'Semua',
         'Notification New': 'BARU',
