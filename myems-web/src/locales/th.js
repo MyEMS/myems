@@ -1,4 +1,4 @@
-﻿// Auto-split from i18n.js 鈥?language: th
+// Auto-split from i18n.js -- language: th
 export default {
     translation: {
         // routes & menus
@@ -62,9 +62,9 @@ export default {
         Load: '喔犩覆喔｀赴',
         Statistics: '喔笘喔脆笗喔?,
         'Batch Analysis': '喔佮覆喔｀抚喔脆箑喔勦福喔侧赴喔箤喙佮笟喔椸笂喙?,
-        Saving: '喔佮覆喔｀笡喔｀赴喔涪喔编笖鈷?,
-        Plan: '喔о覆喔囙箒喔溹笝鈷?,
-        Prediction: 'Prediction鈷?,
+        Saving: '喔佮覆喔｀笡喔｀赴喔涪喔编笖',
+        Plan: '喔о覆喔囙箒喔溹笝',
+        Prediction: 'Prediction',
         'Production': 'Production',
         'Space Production': 'Space Production',
         'Equipment Tracking': '喔佮覆喔｀笗喔脆笖喔曕覆喔∴腑喔膏笡喔佮福喔撪箤',
@@ -76,15 +76,15 @@ export default {
         'Tenant Comparison': '喙€喔涏福喔掂涪喔氞箑喔椸傅喔⑧笟喔溹腹喙夃箑喔娻箞喔?,
         'Environment Monitor': '喔佮覆喔｀笗喔｀抚喔堗釜喔笟喔笭喔侧笧喙佮抚喔斷弗喙夃腑喔?,
         'Meter Energy': '喙€喔勦福喔粪箞喔竾喔о副喔斷笧喔ム副喔囙竾喔侧笝',
-        'Meter Prediction': '喔佮覆喔｀竸喔侧笖喔佮覆喔｀笓喙屶浮喔脆箑喔曕腑喔｀箤鈷?,
+        'Meter Prediction': '喔佮覆喔｀竸喔侧笖喔佮覆喔｀笓喙屶浮喔脆箑喔曕腑喔｀箤',
         'Virtual Meter Prediction': '喔佮覆喔｀竸喔侧笖喔佮覆喔｀笓喙屶浮喔脆箑喔曕腑喔｀箤喙€喔浮喔粪腑喔欌捄',
         'Offline Meter Prediction': '喔佮覆喔｀竸喔侧笖喔佮覆喔｀笓喙屶浮喔脆箑喔曕腑喔｀箤喔腑喔熰箘喔ム笝喙屸捄',
         'Meter Carbon': '喔∴覆喔曕福喔о副喔斷竵喔侧福喔涏弗喙堗腑喔?CO2',
         'Meter Cost': '喔勦箞喔侧浮喔脆箑喔曕腑喔｀箤',
         'Meter Trend': '喙€喔椸福喔權笖喙屶浮喔脆箑喔曕腑喔｀箤',
         'Meter Realtime': '喔∴复喙€喔曕腑喔｀箤喙€喔｀傅喔⑧弗喙勦笚喔∴箤',
-        'Meter Saving': '喔涏福喔班斧喔⑧副喔斷浮喔脆箑喔曕腑喔｀箤鈷?,
-        'Meter Plan': '喙佮笢喔權浮喔脆箑喔曕腑喔｀箤鈷?,
+        'Meter Saving': '喔涏福喔班斧喔⑧副喔斷浮喔脆箑喔曕腑喔｀箤',
+        'Meter Plan': '喙佮笢喔權浮喔脆箑喔曕腑喔｀箤',
         'Master Meter Submeters Balance': 'Master Meter Submeters 喔浮喔斷父喔?,
         'Meter Batch Analysis': '喔佮覆喔｀抚喔脆箑喔勦福喔侧赴喔箤喙佮笟喔椸笂喙屶浮喔脆箑喔曕腑喔｀箤',
         'Meter Comparison': '喔佮覆喔｀箑喔涏福喔掂涪喔氞箑喔椸傅喔⑧笟喔∴复喙€喔曕腑喔｀箤',

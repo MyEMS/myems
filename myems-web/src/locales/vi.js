@@ -1,4 +1,4 @@
-﻿// Auto-split from i18n.js 鈥?language: vi
+// Auto-split from i18n.js -- language: vi
 export default {
     translation: {
         // routes & menus
@@ -62,9 +62,9 @@ export default {
         Load: 'T岷',
         Statistics: 'Th峄憂g k锚',
         'Batch Analysis': 'Ph芒n t铆ch h脿ng lo岷',
-        Saving: 'Ti岷縯 ki峄噈鈷?,
-        Plan: 'K岷?ho岷h鈷?,
-        Prediction: 'Prediction鈷?,
+        Saving: 'Ti岷縯 ki峄噈',
+        Plan: 'K岷?ho岷h',
+        Prediction: 'Prediction',
         'Production': 'Production',
         'Space Production': 'Space Production',
         'Equipment Tracking': 'Theo d玫i thi岷縯 b峄?,
@@ -77,8 +77,8 @@ export default {
         'Environment Monitor': 'Gi谩m s谩t m么i tr瓢峄漬g',
         'Meter Energy': 'N膬ng l瓢峄g 膽o',
         'Meter Prediction': 'D峄?膽o谩n 膽峄搉g h峄撯捄',
-        'Virtual Meter Prediction': 'D峄?膽o谩n 膽峄搉g h峄?岷鈷?,
-        'Offline Meter Prediction': 'D峄?膽o谩n 膽峄搉g h峄?ngo岷 tuy岷縩鈷?,
+        'Virtual Meter Prediction': 'D峄?膽o谩n 膽峄搉g h峄?岷',
+        'Offline Meter Prediction': 'D峄?膽o谩n 膽峄搉g h峄?ngo岷 tuy岷縩',
         'Meter Carbon': 'Thi岷縯 b峄?ph谩t th岷 CO2',
         'Meter Cost': 'Chi ph铆 膽峄搉g h峄?膽o',
         'Meter Trend': 'Xu h瓢峄沶g 膽峄搉g h峄?膽o',
@@ -94,8 +94,8 @@ export default {
         'Offline Meter Count': 'S峄?l瓢峄g 膽峄搉g h峄?ngo岷 tuy岷縩',
         'Virtual Meter List': 'Danh s谩ch 膽峄搉g h峄?岷',
         'Offline Meter List': 'Danh s谩ch 膽峄搉g h峄?ngo岷 tuy岷縩',
-        'Virtual Meter Saving': 'Ti岷縯 ki峄噈 膽峄搉g h峄?岷鈷?,
-        'Virtual Meter Plan': 'K岷?ho岷h 膽峄搉g h峄?岷鈷?,
+        'Virtual Meter Saving': 'Ti岷縯 ki峄噈 膽峄搉g h峄?岷',
+        'Virtual Meter Plan': 'K岷?ho岷h 膽峄搉g h峄?岷',
         'Virtual Meter Energy': 'N膬ng l瓢峄g 膽峄搉g h峄?岷',
         'Virtual Meter Carbon': 'Kh铆 th岷 CO2 岷',
         'Virtual Meter Cost': 'Chi ph铆 膽峄搉g h峄?岷',
@@ -105,8 +105,8 @@ export default {
         'Offline Meter Carbon': 'Ph谩t th岷 CO2 cho thi岷縯 b峄?ngo岷 tuy岷縩',
         'Offline Meter Cost': 'Chi ph铆 膽峄搉g h峄?ngo岷 tuy岷縩',
         'Offline Meter Batch Analysis': 'Ph芒n t铆ch h脿ng lo岷 膽峄搉g h峄?ngo岷 tuy岷縩',
-        'Offline Meter Saving': 'Ti岷縯 ki峄噈 膽峄搉g h峄?ngo岷 tuy岷縩鈷?,
-        'Offline Meter Plan': 'G贸i 膽峄搉g h峄?膽o ngo岷 tuy岷縩鈷?,
+        'Offline Meter Saving': 'Ti岷縯 ki峄噈 膽峄搉g h峄?ngo岷 tuy岷縩',
+        'Offline Meter Plan': 'G贸i 膽峄搉g h峄?膽o ngo岷 tuy岷縩',
         'Offline Meter Input': '膼岷 v脿o 膽峄搉g h峄?ngo岷 tuy岷縩',
         'Tenant Bill': 'H贸a 膽啤n ng瓢峄漣 thu锚 nh脿',
         'Energy Flow Diagram': 'S啤 膽峄?d貌ng n膬ng l瓢峄g',

@@ -1,4 +1,4 @@
-﻿// Auto-split from i18n.js — language: zh_TW
+// Auto-split from i18n.js — language: zh_TW
 export default {
     translation: {
         // routes & menus

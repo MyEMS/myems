@@ -1,4 +1,4 @@
-﻿// Auto-split from i18n.js 鈥?language: zh_CN
+// Auto-split from i18n.js -- language: zh_CN
 export default {
     translation: {
         // routes & menus
@@ -490,7 +490,7 @@ export default {
         'AI Analysis': 'AI鍒嗘瀽',
         'AI analysis initial prompt':
             '璇蜂粎渚濇嵁涓嬪垪鎶ヨ〃 JSON 鏁版嵁锛氭鎷富瑕佺粨璁轰笌寮傚父锛屽姣斿熀鏈熶笌鎶ュ憡鏈燂紙濡傛湁锛夛紝骞剁粰鍑鸿妭鑳戒笌杩愮淮浼樺寲寤鸿銆傝鐢ㄧ函鏂囨湰鍒嗘璇存槑锛屼笉瑕佷娇鐢?Markdown锛堜笉瑕佺敤 #銆?*銆乣``銆佸垪琛ㄧ鍙风瓑锛夈€?,
-        'AI analysis loading': 'AI 姝ｅ湪鍒嗘瀽鎶ヨ〃鏁版嵁鈥?,
+        'AI analysis loading': 'AI 姝ｅ湪鍒嗘瀽鎶ヨ〃鏁版嵁',
         'AI analysis follow up placeholder': '閽堝鏈姤琛ㄧ户缁彁闂紙鍙€夛級',
         Send: '鍙戦€?,
         'AI analysis copy': '澶嶅埗',
