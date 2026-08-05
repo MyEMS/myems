@@ -3,7 +3,7 @@
 </p>
 <h1 align="center" style="margin: 30px 0 30px; font-weight: bold;">MyEMS v6.7.0</h1>
 <h3 align="center">行业领先的开源能源管理系统</h3>
-<h6 align="center">近千个项目案例</h6>
+<h6 align="center">上千个项目案例</h6>
 <h6 align="center">承诺永久开源</h6>
 <h6 align="center">QQ群和微信群内技术支持免费</h6>
 <h6 align="center">保持更新，每月发布1个小版本，每年发布1个大版本</h6>
@@ -124,35 +124,35 @@ MyEMS开源能源管理系统参考ISO 50001能源管理体系标准(GB/T 23331-
 
 ## MyEMS组件构成
 
-### MyEMS 数据库 (SQL)
+### MyEMS 数据库
 
 详见 [database](./database/README.md)介绍
 
-### MyEMS API 应用程序接口 (Python)
+### MyEMS API 应用程序接口
 
 详见 [myems-api](./myems-api/README.md)介绍
 
-### MyEMS 管理 UI (AngularJS version 1.x)
+### MyEMS 管理 UI
 
 详见 [myems-admin](myems-admin/README.md)介绍
 
-### MyEMS Modbus TCP 数据采集服务 (Python)
+### MyEMS Modbus TCP 数据采集服务
 
 详见 [myems-modbus-tcp](./myems-modbus-tcp/README.md)介绍
 
-### MyEMS 数据清洗服务 (Python)
+### MyEMS 数据清洗服务
 
 详见 [myems-cleaning](./myems-cleaning/README.md)介绍
 
-### MyEMS 数据规范化服务 (Python)
+### MyEMS 数据规范化服务
 
 详见 [myems-normalization](./myems-normalization/README.md)介绍
 
-### MyEMS 数据汇总服务 (Python)
+### MyEMS 数据汇总服务
 
 详见 [myems-aggregation](./myems-aggregation/README.md)介绍
 
-### MyEMS Web UI (ReactJS)
+### MyEMS Web UI
 
 详见 [myems-web](myems-web/README.md)介绍
 
@@ -192,14 +192,14 @@ Web UI:
 | 微信      | 13011132526 | ![WeChat: 13011132526](./docs/images/qr_code_wechat.png) |
 | 飞书      | 13011132526 | ![Feishu: 13011132526](./docs/images/qr_code_feishu.png) |
 | 微信公众号     | 开源能源管理系统 | ![开源能源管理系统](./docs/images/qr_code_mp_weixin.png) |
-| 微信视频号     | 开源能源管理系统 | ![开源能源管理系统](./docs/images/qr_code_wechat_channels.png) |
+| 微信视频号     | MyEMS开源能源管理系统 | ![MyEMS开源能源管理系统](./docs/images/qr_code_wechat_channels.png) |
 | 微信群     | 微信群 | ![微信群](./docs/images/qr_code_wechat_group.png) |
 | QQ群     | 792528967 | ![QQ群](./docs/images/qr_code_qq_group.png) |
 | 小红书     | 小红书 | ![Xiaohongshju](./docs/images/qr_code_xiaohongshu.png) |
 
 ## 视频
 
- 
+
 
 ## 🔖 推荐
 

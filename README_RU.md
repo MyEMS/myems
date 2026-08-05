@@ -3,7 +3,7 @@
 </p>
 <h1 align="center" style="margin: 30px 0 30px; font-weight: bold;">MyEMS v6.7.0</h1>
 <h3 align="center">Ведущая в отрасли система управления энергопотреблением с открытым исходным кодом</h3>
-<h6 align="center">Почти тысяча проектных случаев</h6>
+<h6 align="center">Более тысячи проектных случаев</h6>
 <h6 align="center">Обещание оставаться открытым исходным кодом навсегда</h6>
 <h6 align="center">Бесплатная техническая поддержка в группах QQ и WeChat</h6>
 <h6 align="center">Постоянное обновление, 1 минорная версия в месяц, 1 мажорная версия в год</h6>
@@ -124,35 +124,35 @@
 
 ## Состав компонентов MyEMS
 
-### База данных MyEMS (SQL)
+### База данных MyEMS
 
 См. введение [database](./database/README.md)
 
-### Интерфейс приложения API MyEMS (Python)
+### Интерфейс приложения API MyEMS
 
 См. введение [myems-api](./myems-api/README.md)
 
-### Интерфейс администратора MyEMS (AngularJS версия 1.x)
+### Интерфейс администратора MyEMS
 
 См. введение [myems-admin](myems-admin/README.md)
 
-### Служба сбора данных Modbus TCP MyEMS (Python)
+### Служба сбора данных Modbus TCP MyEMS
 
 См. введение [myems-modbus-tcp](./myems-modbus-tcp/README.md)
 
-### Служба очистки данных MyEMS (Python)
+### Служба очистки данных MyEMS
 
 См. введение [myems-cleaning](./myems-cleaning/README.md)
 
-### Служба нормализации данных MyEMS (Python)
+### Служба нормализации данных MyEMS
 
 См. введение [myems-normalization](./myems-normalization/README.md)
 
-### Служба агрегации данных MyEMS (Python)
+### Служба агрегации данных MyEMS
 
 См. введение [myems-aggregation](./myems-aggregation/README.md)
 
-### Веб-интерфейс MyEMS (ReactJS)
+### Веб-интерфейс MyEMS
 
 См. введение [myems-web](myems-web/README.md)
 
@@ -186,28 +186,21 @@ Web UI:
 - Контакт: Zhang Nengyuan
 - Телефон WeChat: (+86) 13011132526
 - Email: zny@myems.org
-- LINE ID: myems
-- WhatsApp: https://wa.me/message/6HB55A46RVAJP1
 
 | Platform | Description | QR Code |
-|----------|--------------|---------|
-| WeChat | 13011132526 | ![WeChat: 13011132526](./docs/images/qr_code_wechat.png) |
-| Line | MyEMS | ![Line: MyEMS](./docs/images/qr_code_line.png) |
-| WhatsApp | MyEMS | ![WhatsAPP: MyEMS](./docs/images/qr_code_whatsapp.png) |
-| Feishu | 13011132526 | ![Feishu: 13011132526](./docs/images/qr_code_feishu.png) |
-| Официальный аккаунт WeChat | Система управления энергопотреблением с открытым исходным кодом | ![Система управления энергопотреблением с открытым исходным кодом](./docs/images/qr_code_mp_weixin.png) |
-| Каналы WeChat | Система управления энергопотреблением с открытым исходным кодом | ![Система управления энергопотреблением с открытым исходным кодом](./docs/images/qr_code_wechat_channels.png) |
-| Группа WeChat | Группа WeChat | ![Группа WeChat](./docs/images/qr_code_wechat_group.png) |
-| Группа QQ | 792528967 | ![Группа QQ](./docs/images/qr_code_qq_group.png) |
-| Xiaohongshu | Xiaohongshu | ![Xiaohongshju](./docs/images/qr_code_xiaohongshu.png) |
+|---------|--------------|---------|
+| 微信      | 13011132526 | ![WeChat: 13011132526](./docs/images/qr_code_wechat.png) |
+| 飞书      | 13011132526 | ![Feishu: 13011132526](./docs/images/qr_code_feishu.png) |
+| 微信公众号     | Система управления энергопотреблением с открытым исходным кодом | ![Система управления энергопотреблением с открытым исходным кодом](./docs/images/qr_code_mp_weixin.png) |
+| 微信视频号     | MyEMS Система управления энергопотреблением с открытым исходным кодом | ![MyEMS Система управления энергопотреблением с открытым исходным кодом](./docs/images/qr_code_wechat_channels.png) |
+| 微信群     | Группа WeChat | ![Группа WeChat](./docs/images/qr_code_wechat_group.png) |
+| QQ群     | 792528967 | ![QQ群](./docs/images/qr_code_qq_group.png) |
+| 小红书     | Xiaohongshu | ![Xiaohongshju](./docs/images/qr_code_xiaohongshu.png) |
 
 ## Видео
 
-[BiliBili](https://space.bilibili.com/539108162)
 
-[YouTube](https://www.youtube.com/@myems)
-
-## 🔖 Дружественные ссылки
+## 🔖 Рекомендации
 
 - 👉 Форма рабочего процесса BPM Chichang с низким кодом : [https://gitee.com/opencc/ccflow](https://gitee.com/opencc/ccflow)
 - 👉 IoTGateway : Кроссплатформенный шлюз IoT на основе .NET6 [https://gitee.com/iioter/iotgateway](https://gitee.com/iioter/iotgateway)

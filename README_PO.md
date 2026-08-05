@@ -123,35 +123,35 @@ Szczegóły: [https://myems.cn/docs/category/installation](https://myems.cn/docs
 
 ## Komponenty MyEMS
 
-### Baza danych MyEMS (SQL)
+### Baza danych MyEMS
 
 Zobacz wprowadzenie [database](./database/README.md)
 
-### Interfejs API aplikacji MyEMS (Python)
+### Interfejs API aplikacji MyEMS
 
 Zobacz wprowadzenie [myems-api](./myems-api/README.md)
 
-### Interfejs administracyjny MyEMS (AngularJS wersja 1.x)
+### Interfejs administracyjny MyEMS
 
 Zobacz wprowadzenie [myems-admin](myems-admin/README.md)
 
-### Usługa pozyskiwania danych MyEMS Modbus TCP (Python)
+### Usługa pozyskiwania danych MyEMS Modbus TCP
 
 Zobacz wprowadzenie [myems-modbus-tcp](./myems-modbus-tcp/README.md)
 
-### Usługa oczyszczania danych MyEMS (Python)
+### Usługa oczyszczania danych MyEMS
 
 Zobacz wprowadzenie [myems-cleaning](./myems-cleaning/README.md)
 
-### Usługa normalizacji danych MyEMS (Python)
+### Usługa normalizacji danych MyEMS
 
 Zobacz wprowadzenie [myems-normalization](./myems-normalization/README.md)
 
-### Usługa agregacji danych MyEMS (Python)
+### Usługa agregacji danych MyEMS
 
 Zobacz wprowadzenie [myems-aggregation](./myems-aggregation/README.md)
 
-### Interfejs użytkownika MyEMS Web (ReactJS)
+### Interfejs użytkownika MyEMS Web
 
 Zobacz wprowadzenie [myems-web](myems-web/README.md)
 
@@ -185,28 +185,21 @@ Hasło: !MyEMS1
 - Osoba kontaktowa: Zhang Nengyuan
 - Telefon/WeChat: (+86) 13011132526
 - Email: zny@myems.org
-- ID LINE: myems
-- WhatsApp: https://wa.me/message/6HB55A46RVAJP1
 
 | Platform | Description | QR Code |
-|----------|--------------|---------|
-| WeChat | 13011132526 | ![WeChat: 13011132526](./docs/images/qr_code_wechat.png) |
-| Line | MyEMS | ![Line: MyEMS](./docs/images/qr_code_line.png) |
-| WhatsApp | MyEMS | ![WhatsAPP: MyEMS](./docs/images/qr_code_whatsapp.png) |
-| Feishu | 13011132526 | ![Feishu: 13011132526](./docs/images/qr_code_feishu.png) |
-| Oficjalny profil WeChat | Otwarty system zarządzania energią | ![Otwarty system zarządzania energią](./docs/images/qr_code_mp_weixin.png) |
-| Kanały WeChat | System Zarządzania Energią Open Source | ![System Zarządzania Energią Open Source](./docs/images/qr_code_wechat_channels.png) |
-| Grupa WeChat | Grupa WeChat | ![Grupa WeChat](./docs/images/qr_code_wechat_group.png) |
-| Grupa QQ | 792528967 | ![Grupa QQ](./docs/images/qr_code_qq_group.png) |
-| Xiaohongshu | Xiaohongshu | ![Xiaohongshu](./docs/images/qr_code_xiaohongshu.png) |
+|---------|--------------|---------|
+| 微信      | 13011132526 | ![WeChat: 13011132526](./docs/images/qr_code_wechat.png) |
+| 飞书      | 13011132526 | ![Feishu: 13011132526](./docs/images/qr_code_feishu.png) |
+| 微信公众号     | Otwarty system zarządzania energią | ![Otwarty system zarządzania energią](./docs/images/qr_code_mp_weixin.png) |
+| 微信视频号     | MyEMS System Zarządzania Energią Open Source | ![MyEMS System Zarządzania Energią Open Source](./docs/images/qr_code_wechat_channels.png) |
+| 微信群     | Grupa WeChat | ![Grupa WeChat](./docs/images/qr_code_wechat_group.png) |
+| QQ群     | 792528967 | ![QQ群](./docs/images/qr_code_qq_group.png) |
+| 小红书     | Xiaohongshu | ![Xiaohongshju](./docs/images/qr_code_xiaohongshu.png) |
 
 ## Wideo
 
-[BiliBili](https://space.bilibili.com/539108162)
 
-[YouTube](https://www.youtube.com/@myems)
-
-## 🔖 Linki przyjacielskie
+## 🔖 Rekomendacje
 
 - 👉 Chęciny BPM Low-Code Workflow Forms: [https://gitee.com/opencc/ccflow](https://gitee.com/opencc/ccflow)
 - 👉 IoTGateway: wieloplatformowa brama IoT oparta na .NET6 [https://gitee.com/iioter/iotgateway](https://gitee.com/iioter/iotgateway)

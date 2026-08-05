@@ -121,35 +121,35 @@ MyEMS 오픈소스 에너지 관리 시스템은 ISO 50001 에너지 관리 시�
 
 ## MyEMS 구성 요소
 
-### MyEMS 데이터베이스 (SQL)
+### MyEMS 데이터베이스
 
 자세한 내용은 [database](./database/README.md) 소개 참조
 
-### MyEMS API 애플리케이션 인터페이스 (Python)
+### MyEMS API 애플리케이션 인터페이스
 
 자세한 내용은 [myems-api](./myems-api/README.md) 소개 참조
 
-### MyEMS 관리 UI (AngularJS 버전 1.x)
+### MyEMS 관리 UI
 
 자세한 내용은 [myems-admin](myems-admin/README.md) 소개 참조
 
-### MyEMS Modbus TCP 데이터 수집 서비스 (Python)
+### MyEMS Modbus TCP 데이터 수집 서비스
 
 자세한 내용은 [myems-modbus-tcp](./myems-modbus-tcp/README.md) 소개 참조
 
-### MyEMS 데이터 정제 서비스 (Python)
+### MyEMS 데이터 정제 서비스
 
 자세한 내용은 [myems-cleaning](./myems-cleaning/README.md) 소개 참조
 
-### MyEMS 데이터 정규화 서비스 (Python)
+### MyEMS 데이터 정규화 서비스
 
 자세한 내용은 [myems-normalization](./myems-normalization/README.md) 소개 참조
 
-### MyEMS 데이터 집계 서비스 (Python)
+### MyEMS 데이터 집계 서비스
 
 자세한 내용은 [myems-aggregation](./myems-aggregation/README.md) 소개 참조
 
-### MyEMS Web UI (ReactJS)
+### MyEMS Web UI
 
 자세한 내용은 [myems-web](myems-web/README.md) 소개 참조
 
@@ -181,28 +181,22 @@ Web UI:
 - 담당자: Zhang Nengyuan
 - 전화/WeChat: (+86) 13011132526
 - 이메일: zny@myems.org
-- LINE ID: myems
-- WhatsApp: https://wa.me/message/6HB55A46RVAJP1
 
 | Platform | Description | QR Code |
-|----------|--------------|---------|
-| WeChat | 13011132526 | ![WeChat: 13011132526](./docs/images/qr_code_wechat.png) |
-| Line | MyEMS | ![Line: MyEMS](./docs/images/qr_code_line.png) |
-| WhatsApp | MyEMS | ![WhatsAPP: MyEMS](./docs/images/qr_code_whatsapp.png) |
-| Feishu | 13011132526 | ![Feishu: 13011132526](./docs/images/qr_code_feishu.png) |
-| 공식 WeChat 계정 | 오픈소스 에너지 관리 시스템 | ![오픈소스 에너지 관리 시스템](./docs/images/qr_code_mp_weixin.png) |
-| 위챗 채널 | 오픈 소스 에너지 관리 시스템 | ![오픈 소스 에너지 관리 시스템](./docs/images/qr_code_wechat_channels.png) |
-| WeChat 그룹 | WeChat 그룹 | ![WeChat 그룹](./docs/images/qr_code_wechat_group.png) |
-| QQ 그룹 | 792528967 | ![QQ 그룹](./docs/images/qr_code_qq_group.png) |
-| Xiaohongshu | Xiaohongshu (소셜 미디어) | ![Xiaohongshu](./docs/images/qr_code_xiaohongshu.png) |
+|---------|--------------|---------|
+| 微信      | 13011132526 | ![WeChat: 13011132526](./docs/images/qr_code_wechat.png) |
+| 飞书      | 13011132526 | ![Feishu: 13011132526](./docs/images/qr_code_feishu.png) |
+| 微信公众号     | 오픈소스 에너지 관리 시스템 | ![오픈소스 에너지 관리 시스템](./docs/images/qr_code_mp_weixin.png) |
+| 微信视频号     | MyEMS 오픈 소스 에너지 관리 시스템 | ![MyEMS 오픈 소스 에너지 관리 시스템](./docs/images/qr_code_wechat_channels.png) |
+| 微信群     | WeChat 그룹 | ![WeChat 그룹](./docs/images/qr_code_wechat_group.png) |
+| QQ群     | 792528967 | ![QQ群](./docs/images/qr_code_qq_group.png) |
+| 小红书     | Xiaohongshu | ![Xiaohongshju](./docs/images/qr_code_xiaohongshu.png) |
 
 ## 비디오
 
-[BiliBili](https://space.bilibili.com/539108162)
+ 
 
-[YouTube](https://www.youtube.com/@myems)
-
-## 🔖 추천 링크
+## 🔖 추천
 
 - 👉 치청 BPM 저코드 워크플로우 폼: [https://gitee.com/opencc/ccflow](https://gitee.com/opencc/ccflow)
 - 👉 IoTGateway: .NET6 기반 크로스 플랫폼 IoT 게이트웨이 [https://gitee.com/iioter/iotgateway](https://gitee.com/iioter/iotgateway)

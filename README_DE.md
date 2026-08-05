@@ -2,8 +2,8 @@
    <img alt="logo" src="https://myems.cn/img/myems.png" width="150" height="150">
 </p>
 <h1 align="center" style="margin: 30px 0 30px; font-weight: bold;">MyEMS v6.7.0</h1>
-<h6 align="center">Fast tausend Projektfälle</h6>
-<h6 align="center">Engagement für dauerhafte Open Source</h6>
+<h3 align="center">Branchenführendes Open-Source-Energiemanagementsystem</h3>
+<h6 align="center">Über tausend Projektfälle</h6>
 <h6 align="center">Engagement für dauerhafte Open Source</h6>
 <h6 align="center">Kostenloser technischer Support innerhalb von QQ- und WeChat-Gruppen</h6>
 <h6 align="center">Bleiben Sie auf dem Laufenden mit einer kleinen Version pro Monat und einer großen Version pro Jahr</h6>
@@ -124,35 +124,35 @@ Sehen [https://myems.cn/docs/category/installation](https://myems.cn/docs/catego
 
 ## Dieses Projekt besteht Komponenten:
 
-### MyEMS Database (SQL)
+### MyEMS Database
 
 Sehen [database](./database/README.md) Einleitung
 
-### MyEMS API (Python)
+### MyEMS API
 
 Sehen [myems-api](./myems-api/README.md) Einleitung
 
-### MyEMS Admin UI (AngularJS)
+### MyEMS Admin UI
 
 Sehen [myems-admin](myems-admin/README.md) Einleitung
 
-### MyEMS Modbus TCP Acquisition Service (Python)
+### MyEMS Modbus TCP Acquisition Service
 
 Sehen [myems-modbus-tcp](./myems-modbus-tcp/README.md) Einleitung
 
-### MyEMS Cleaning Service (Python)
+### MyEMS Cleaning Service
 
 Sehen [myems-cleaning](./myems-cleaning/README.md) Einleitung
 
-### MyEMS Normalization Service (Python)
+### MyEMS Normalization Service
 
 Sehen [myems-normalization](./myems-normalization/README.md) Einleitung
 
-### MyEMS Aggregation Service (Python)
+### MyEMS Aggregation Service
 
 Sehen [myems-aggregation](./myems-aggregation/README.md) Einleitung
 
-### MyEMS Web UI (ReactJS)
+### MyEMS Web UI
 
 Sehen [myems-web](myems-web/README.md) Einleitung
 
@@ -187,31 +187,22 @@ Passwort: !MyEMS1
 - Contact: Zhang Nengyuan
 - Tel & WeChat: (+86) 13011132526
 - Email: zny@myems.org
-- LINE ID: myems
-- WhatsApp: https://wa.me/message/6HB55A46RVAJP1
 
 | Platform | Description | QR Code |
-|----------|--------------|---------|
-| WeChat | 13011132526 | ![WeChat: 13011132526](./docs/images/qr_code_wechat.png) |
-| Line | MyEMS | ![Line: MyEMS](./docs/images/qr_code_line.png) |
-| WhatsApp | MyEMS | ![WhatsAPP: MyEMS](./docs/images/qr_code_whatsapp.png) |
-| Feishu | 13011132526 | ![Feishu: 13011132526](./docs/images/qr_code_feishu.png) |
-| Offizielles Abonnement Weixin | Open Source Energiemanagementsystem | ![Open Source Energiemanagementsystem](./docs/images/qr_code_mp_weixin.png) |
-| WeChat Channels | Open-Source-Energiemanagementsystem | ![Open-Source-Energiemanagementsystem](./docs/images/qr_code_wechat_channels.png) |
-| WeChat-Gruppe | WeChat-Gruppe | ![WeChat-Gruppe](./docs/images/qr_code_wechat_group.png) |
-| QQ-Gruppe | 792528967 | ![QQ Group 1](./docs/images/qr_code_qq_group.png) |
-| Xiaohongshu | Xiaohongshu | ![Xiaohongshju](./docs/images/qr_code_xiaohongshu.png) |
-
+|---------|--------------|---------|
+| 微信      | 13011132526 | ![WeChat: 13011132526](./docs/images/qr_code_wechat.png) |
+| 飞书      | 13011132526 | ![Feishu: 13011132526](./docs/images/qr_code_feishu.png) |
+| 微信公众号     | Open Source Energiemanagementsystem | ![Open Source Energiemanagementsystem](./docs/images/qr_code_mp_weixin.png) |
+| 微信视频号     | MyEMS Open-Source-Energiemanagementsystem | ![MyEMS Open-Source-Energiemanagementsystem](./docs/images/qr_code_wechat_channels.png) |
+| 微信群     | WeChat-Gruppe | ![WeChat-Gruppe](./docs/images/qr_code_wechat_group.png) |
+| QQ群     | 792528967 | ![QQ群](./docs/images/qr_code_qq_group.png) |
+| 小红书     | Xiaohongshu | ![Xiaohongshju](./docs/images/qr_code_xiaohongshu.png) |
 
 ## Videos
 
-[BiliBili](https://space.bilibili.com/539108162)
 
-[YouTube](https://www.youtube.com/@myems)
-
-
-## 🔖 AD Links
+## 🔖 Empfehlungen
 
 - 👉 JFlow&ccflow： [https://gitee.com/opencc/ccflow](https://gitee.com/opencc/ccflow)
-- 👉 IoTGateway: A cross-platform IoT gateway based on .net6 [https://github.com/iioter/iotgateway](https://github.com/iioter/iotgateway)
+- 👉 IoTGateway: A cross-platform IoT gateway based on .net6 [https://gitee.com/iioter/iotgateway](https://gitee.com/iioter/iotgateway)
 - 👉 Enjoy IoT: [https://gitee.com/open-enjoy/enjoy-iot](https://gitee.com/open-enjoy/enjoy-iot)

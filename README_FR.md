@@ -3,7 +3,7 @@
 </p>
 <h1 align="center" style="margin: 30px 0 30px; font-weight: bold;">MyEMS v6.7.0</h1>
 <h3 align="center">Système de gestion de l'énergie open source leader de l'industrie</h3>
-<h6 align="center">Près de mille projets de cas</h6>
+<h6 align="center">Plus de mille cas de projets</h6>
 <h6 align="center">Engagement à rester open source pour toujours</h6>
 <h6 align="center">Support technique gratuit dans les groupes QQ et WeChat</h6>
 <h6 align="center">Mise à jour continue, 1 version mineure par mois, 1 version majeure par an</h6>
@@ -124,35 +124,35 @@ Voir [https://myems.cn/docs/category/installation](https://myems.cn/docs/categor
 
 ## Composition des composants MyEMS
 
-### Base de données MyEMS (SQL)
+### Base de données MyEMS
 
 Voir l'introduction [database](./database/README.md)
 
-### Interface d'application API MyEMS (Python)
+### Interface d'application API MyEMS
 
 Voir l'introduction [myems-api](./myems-api/README.md)
 
-### Interface utilisateur d'administration MyEMS (AngularJS version 1.x)
+### Interface utilisateur d'administration MyEMS
 
 Voir l'introduction [myems-admin](myems-admin/README.md)
 
-### Service de collecte de données Modbus TCP MyEMS (Python)
+### Service de collecte de données Modbus TCP MyEMS
 
 Voir l'introduction [myems-modbus-tcp](./myems-modbus-tcp/README.md)
 
-### Service de nettoyage des données MyEMS (Python)
+### Service de nettoyage des données MyEMS
 
 Voir l'introduction [myems-cleaning](./myems-cleaning/README.md)
 
-### Service de normalisation des données MyEMS (Python)
+### Service de normalisation des données MyEMS
 
 Voir l'introduction [myems-normalization](./myems-normalization/README.md)
 
-### Service d'agrégation des données MyEMS (Python)
+### Service d'agrégation des données MyEMS
 
 Voir l'introduction [myems-aggregation](./myems-aggregation/README.md)
 
-### Interface utilisateur Web MyEMS (ReactJS)
+### Interface utilisateur Web MyEMS
 
 Voir l'introduction [myems-web](myems-web/README.md)
 
@@ -186,28 +186,21 @@ Mot de passe : !MyEMS1
 - Contact : Zhang Nengyuan
 - Téléphone WeChat : (+86) 13011132526
 - Email : zny@myems.org
-- LINE ID : myems
-- WhatsApp : https://wa.me/message/6HB55A46RVAJP1
 
 | Platform | Description | QR Code |
-|----------|--------------|---------|
-| WeChat | 13011132526 | ![WeChat: 13011132526](./docs/images/qr_code_wechat.png) |
-| Line | MyEMS | ![Line: MyEMS](./docs/images/qr_code_line.png) |
-| WhatsApp | MyEMS | ![WhatsAPP: MyEMS](./docs/images/qr_code_whatsapp.png) |
-| Feishu | 13011132526 | ![Feishu: 13011132526](./docs/images/qr_code_feishu.png) |
-| Compte officiel WeChat | Système de gestion de l'énergie open source | ![Système de gestion de l'énergie open source](./docs/images/qr_code_mp_weixin.png) |
-| WeChat Channels | Système de Gestion de l'Énergie Open Source | ![Système de Gestion de l'Énergie Open Source](./docs/images/qr_code_wechat_channels.png) |
-| Groupe WeChat | Groupe WeChat | ![Groupe WeChat](./docs/images/qr_code_wechat_group.png) |
-| Groupe QQ | 792528967 | ![Groupe QQ](./docs/images/qr_code_qq_group.png) |
-| Xiaohongshu | Xiaohongshu | ![Xiaohongshju](./docs/images/qr_code_xiaohongshu.png) |
+|---------|--------------|---------|
+| 微信      | 13011132526 | ![WeChat: 13011132526](./docs/images/qr_code_wechat.png) |
+| 飞书      | 13011132526 | ![Feishu: 13011132526](./docs/images/qr_code_feishu.png) |
+| 微信公众号     | Système de gestion de l'énergie open source | ![Système de gestion de l'énergie open source](./docs/images/qr_code_mp_weixin.png) |
+| 微信视频号     | MyEMS Système de Gestion de l'Énergie Open Source | ![MyEMS Système de Gestion de l'Énergie Open Source](./docs/images/qr_code_wechat_channels.png) |
+| 微信群     | Groupe WeChat | ![Groupe WeChat](./docs/images/qr_code_wechat_group.png) |
+| QQ群     | 792528967 | ![QQ群](./docs/images/qr_code_qq_group.png) |
+| 小红书     | Xiaohongshu | ![Xiaohongshju](./docs/images/qr_code_xiaohongshu.png) |
 
 ## Vidéos
 
-[BiliBili](https://space.bilibili.com/539108162)
 
-[YouTube](https://www.youtube.com/@myems)
-
-## 🔖 Liens d'amitié
+## 🔖 Recommandations
 
 - 👉 BPM Chichang low-code workflow form : [https://gitee.com/opencc/ccflow](https://gitee.com/opencc/ccflow)
 - 👉 IoTGateway : Passerelle IoT multiplateforme basée sur .NET6 [https://gitee.com/iioter/iotgateway](https://gitee.com/iioter/iotgateway)

@@ -3,7 +3,7 @@
 </p>
 <h1 align="center" style="margin: 30px 0 30px; font-weight: bold;">MyEMS v6.7.0</h1>
 <h3 align="center">業界領先的開源能源管理系統</h3>
-<h6 align="center">近千個專案案例</h6>
+<h6 align="center">上千個專案案例</h6>
 <h6 align="center">承諾永久開源</h6>
 <h6 align="center">QQ群和微信群內技術支援免費</h6>
 <h6 align="center">保持更新，每月發布1個小版本，每年發布1個大版本</h6>
@@ -124,35 +124,35 @@ MyEMS開源能源管理系統參考ISO 50001能源管理體系標準(GB/T 23331-
 
 ## MyEMS組件構成
 
-### MyEMS 資料庫 (SQL)
+### MyEMS 資料庫
 
 詳見 [database](./database/README.md)介紹
 
-### MyEMS API 應用程式介面 (Python)
+### MyEMS API 應用程式介面
 
 詳見 [myems-api](./myems-api/README.md)介紹
 
-### MyEMS 管理 UI (AngularJS version 1.x)
+### MyEMS 管理 UI
 
 詳見 [myems-admin](myems-admin/README.md)介紹
 
-### MyEMS Modbus TCP 資料採集服務 (Python)
+### MyEMS Modbus TCP 資料採集服務
 
 詳見 [myems-modbus-tcp](./myems-modbus-tcp/README.md)介紹
 
-### MyEMS 資料清洗服務 (Python)
+### MyEMS 資料清洗服務
 
 詳見 [myems-cleaning](./myems-cleaning/README.md)介紹
 
-### MyEMS 資料規範化服務 (Python)
+### MyEMS 資料規範化服務
 
 詳見 [myems-normalization](./myems-normalization/README.md)介紹
 
-### MyEMS 資料匯總服務 (Python)
+### MyEMS 資料匯總服務
 
 詳見 [myems-aggregation](./myems-aggregation/README.md)介紹
 
-### MyEMS Web UI (ReactJS)
+### MyEMS Web UI
 
 詳見 [myems-web](myems-web/README.md)介紹
 
@@ -186,28 +186,21 @@ Web UI:
 - 聯絡人: 張能遠
 - 電話微信: (+86) 13011132526
 - Email: zny@myems.org
-- LINE ID: myems
-- WhatsApp: https://wa.me/message/6HB55A46RVAJP1
 
 | Platform | Description | QR Code |
-|----------|--------------|---------|
-| WeChat | 13011132526 | ![WeChat: 13011132526](./docs/images/qr_code_wechat.png) |
-| Line | MyEMS | ![Line: MyEMS](./docs/images/qr_code_line.png) |
-| WhatsApp | MyEMS | ![WhatsAPP: MyEMS](./docs/images/qr_code_whatsapp.png) |
-| Feishu | 13011132526 | ![Feishu: 13011132526](./docs/images/qr_code_feishu.png) |
-| 微信公眾號 | 開源能源管理系統 | ![開源能源管理系統](./docs/images/qr_code_mp_weixin.png) |
-| 微信視頻號 | 開源能源管理系統 | ![開源能源管理系統](./docs/images/qr_code_wechat_channels.png) |
-| 微信群 | 微信群 | ![微信群](./docs/images/qr_code_wechat_group.png) |
-| QQ群 | 792528967 | ![QQ群](./docs/images/qr_code_qq_group.png) |
-| 小紅書 | 小紅書 | ![Xiaohongshju](./docs/images/qr_code_xiaohongshu.png) |
+|---------|--------------|---------|
+| 微信      | 13011132526 | ![WeChat: 13011132526](./docs/images/qr_code_wechat.png) |
+| 飞书      | 13011132526 | ![Feishu: 13011132526](./docs/images/qr_code_feishu.png) |
+| 微信公众号     | 開源能源管理系統 | ![開源能源管理系統](./docs/images/qr_code_mp_weixin.png) |
+| 微信视频号     | MyEMS開源能源管理系統 | ![MyEMS開源能源管理系統](./docs/images/qr_code_wechat_channels.png) |
+| 微信群     | 微信群 | ![微信群](./docs/images/qr_code_wechat_group.png) |
+| QQ群     | 792528967 | ![QQ群](./docs/images/qr_code_qq_group.png) |
+| 小红书     | 小紅書 | ![Xiaohongshju](./docs/images/qr_code_xiaohongshu.png) |
 
 ## 影片
 
-[BiliBili](https://space.bilibili.com/539108162)
 
-[YouTube](https://www.youtube.com/@myems)
-
-## 🔖 友情連結
+## 🔖 推薦
 
 - 👉 馳騁BPM低程式碼工作流程表單： [https://gitee.com/opencc/ccflow](https://gitee.com/opencc/ccflow)
 - 👉 IoTGateway:基於.NET6的跨平台物聯網閘道 [https://gitee.com/iioter/iotgateway](https://gitee.com/iioter/iotgateway)
