@@ -1010,7 +1010,7 @@ VALUES
 (327,'Meter Prediction','/meter/meterprediction',300,1),
 (328,'Virtual Meter Prediction','/meter/virtualmeterprediction',300,1),
 (329,'Offline Meter Prediction','/meter/offlinemeterprediction',300,1),
-(330,'Dashboard','/meter',300,0)
+(330,'Dashboard','/meter',300,0),
 (400,'Tenant Data','/tenant',NULL,0),
 (401,'Energy Category Data','/tenant/energycategory',400,0),
 (402,'Energy Item Data','/tenant/energyitem',400,0),
