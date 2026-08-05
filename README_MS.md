@@ -3,7 +3,7 @@
 </p>
 <h1 align="center" style="margin: 30px 0 30px; font-weight: bold;">MyEMS v6.7.0</h1>
 <h3 align="center">Sistem pengurusan tenaga sumber terbuka terkemuka industri</h3>
-<h6 align="center">Hampir seribu kes projek</h6>
+<h6 align="center">Lebih daripada seribu kes projek</h6>
 <h6 align="center">Berkomitmen untuk kekal sumber terbuka selama-lamanya</h6>
 <h6 align="center">Sokongan teknikal percuma dalam kumpulan QQ dan WeChat</h6>
 <h6 align="center">Penyelenggaraan berterusan, 1 versi minor setiap bulan, 1 versi major setiap tahun</h6>
@@ -124,35 +124,35 @@ Lihat [https://myems.cn/docs/category/installation](https://myems.cn/docs/catego
 
 ## Komposisi komponen MyEMS
 
-### Pangkalan data MyEMS (SQL)
+### Pangkalan data MyEMS
 
 Lihat pengenalan [database](./database/README.md)
 
-### Antara muka aplikasi API MyEMS (Python)
+### Antara muka aplikasi API MyEMS
 
 Lihat pengenalan [myems-api](./myems-api/README.md)
 
-### Antara muka pengguna Admin MyEMS (AngularJS versi 1.x)
+### Antara muka pengguna Admin MyEMS
 
 Lihat pengenalan [myems-admin](myems-admin/README.md)
 
-### Perkhidmatan pengumpulan data Modbus TCP MyEMS (Python)
+### Perkhidmatan pengumpulan data Modbus TCP MyEMS
 
 Lihat pengenalan [myems-modbus-tcp](./myems-modbus-tcp/README.md)
 
-### Perkhidmatan pembersihan data MyEMS (Python)
+### Perkhidmatan pembersihan data MyEMS
 
 Lihat pengenalan [myems-cleaning](./myems-cleaning/README.md)
 
-### Perkhidmatan penormalan data MyEMS (Python)
+### Perkhidmatan penormalan data MyEMS
 
 Lihat pengenalan [myems-normalization](./myems-normalization/README.md)
 
-### Perkhidmatan agregasi data MyEMS (Python)
+### Perkhidmatan agregasi data MyEMS
 
 Lihat pengenalan [myems-aggregation](./myems-aggregation/README.md)
 
-### Antara muka pengguna web MyEMS (ReactJS)
+### Antara muka pengguna web MyEMS
 
 Lihat pengenalan [myems-web](myems-web/README.md)
 
@@ -186,28 +186,21 @@ Kata laluan: !MyEMS1
 - Kenalan: Zhang Nengyuan
 - Telefon WeChat: (+86) 13011132526
 - E-mel: zny@myems.org
-- LINE ID: myems
-- WhatsApp: https://wa.me/message/6HB55A46RVAJP1
 
 | Platform | Description | QR Code |
-|----------|--------------|---------|
-| WeChat | 13011132526 | ![WeChat: 13011132526](./docs/images/qr_code_wechat.png) |
-| Line | MyEMS | ![Line: MyEMS](./docs/images/qr_code_line.png) |
-| WhatsApp | MyEMS | ![WhatsAPP: MyEMS](./docs/images/qr_code_whatsapp.png) |
-| Feishu | 13011132526 | ![Feishu: 13011132526](./docs/images/qr_code_feishu.png) |
-| Akaun rasmi WeChat | Sistem pengurusan tenaga sumber terbuka | ![Sistem pengurusan tenaga sumber terbuka](./docs/images/qr_code_mp_weixin.png) |
-| WeChat Channels | Sistem Pengurusan Tenaga Sumber Terbuka | ![Sistem Pengurusan Tenaga Sumber Terbuka](./docs/images/qr_code_wechat_channels.png) |
-| Kumpulan WeChat | Kumpulan WeChat | ![Kumpulan WeChat](./docs/images/qr_code_wechat_group.png) |
-| Kumpulan QQ | 792528967 | ![Kumpulan QQ](./docs/images/qr_code_qq_group.png) |
-| Xiaohongshu | Xiaohongshu | ![Xiaohongshju](./docs/images/qr_code_xiaohongshu.png) |
+|---------|--------------|---------|
+| 微信      | 13011132526 | ![WeChat: 13011132526](./docs/images/qr_code_wechat.png) |
+| 飞书      | 13011132526 | ![Feishu: 13011132526](./docs/images/qr_code_feishu.png) |
+| 微信公众号     | Sistem pengurusan tenaga sumber terbuka | ![Sistem pengurusan tenaga sumber terbuka](./docs/images/qr_code_mp_weixin.png) |
+| 微信视频号     | MyEMS Sistem Pengurusan Tenaga Sumber Terbuka | ![MyEMS Sistem Pengurusan Tenaga Sumber Terbuka](./docs/images/qr_code_wechat_channels.png) |
+| 微信群     | Kumpulan WeChat | ![Kumpulan WeChat](./docs/images/qr_code_wechat_group.png) |
+| QQ群     | 792528967 | ![QQ群](./docs/images/qr_code_qq_group.png) |
+| 小红书     | Xiaohongshu | ![Xiaohongshju](./docs/images/qr_code_xiaohongshu.png) |
 
 ## Video
 
-[BiliBili](https://space.bilibili.com/539108162)
 
-[YouTube](https://www.youtube.com/@myems)
-
-## 🔖 Pautan persahabatan
+## 🔖 Cadangan
 
 - 👉 Borang alur kerja BPM Chichang kod rendah : [https://gitee.com/opencc/ccflow](https://gitee.com/opencc/ccflow)
 - 👉 IoTGateway: Gerbang IoT merentas platform berdasarkan .NET6 [https://gitee.com/iioter/iotgateway](https://gitee.com/iioter/iotgateway)

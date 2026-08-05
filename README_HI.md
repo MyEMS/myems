@@ -3,7 +3,7 @@
 </p>
 <h1 align="center" style="margin: 30px 0 30px; font-weight: bold;">MyEMS v6.7.0</h1>
 <h3 align="center">उद्योग में अग्रणी ओपन सोर्स ऊर्जा प्रबंधन प्रणाली</h3>
-<h6 align="center">लगभग एक हजार परियोजना मामले</h6>
+<h6 align="center">हज़ारों परियोजना मामले</h6>
 <h6 align="center">हमेशा के लिए ओपन सोर्स रहने की प्रतिबद्धता</h6>
 <h6 align="center">QQ और WeChat समूहों में मुफ्त तकनीकी सहायता</h6>
 <h6 align="center">निरंतर रखरखाव, प्रति माह 1 माइनर संस्करण, प्रति वर्ष 1 मेजर संस्करण</h6>
@@ -125,35 +125,35 @@
 
 ## MyEMS घटक संरचना
 
-### MyEMS डेटाबेस (SQL)
+### MyEMS डेटाबेस
 
 परिचय देखें [database](./database/README.md)
 
-### MyEMS API एप्लिकेशन इंटरफेस (Python)
+### MyEMS API एप्लिकेशन इंटरफेस
 
 परिचय देखें [myems-api](./myems-api/README.md)
 
-### MyEMS एडमिन UI (AngularJS संस्करण 1.x)
+### MyEMS एडमिन UI
 
 परिचय देखें [myems-admin](myems-admin/README.md)
 
-### MyEMS Modbus TCP डेटा संग्रह सेवा (Python)
+### MyEMS Modbus TCP डेटा संग्रह सेवा
 
 परिचय देखें [myems-modbus-tcp](./myems-modbus-tcp/README.md)
 
-### MyEMS डेटा सफाई सेवा (Python)
+### MyEMS डेटा सफाई सेवा
 
 परिचय देखें [myems-cleaning](./myems-cleaning/README.md)
 
-### MyEMS डेटा सामान्यीकरण सेवा (Python)
+### MyEMS डेटा सामान्यीकरण सेवा
 
 परिचय देखें [myems-normalization](./myems-normalization/README.md)
 
-### MyEMS डेटा एकत्रीकरण सेवा (Python)
+### MyEMS डेटा एकत्रीकरण सेवा
 
 परिचय देखें [myems-aggregation](./myems-aggregation/README.md)
 
-### MyEMS वेब UI (ReactJS)
+### MyEMS वेब UI
 
 परिचय देखें [myems-web](myems-web/README.md)
 
@@ -187,28 +187,21 @@ Web UI:
 - संपर्क: Zhang Nengyuan
 - फोन WeChat: (+86) 13011132526
 - ईमेल: zny@myems.org
-- LINE ID: myems
-- WhatsApp: https://wa.me/message/6HB55A46RVAJP1
 
 | Platform | Description | QR Code |
-|----------|--------------|---------|
-| WeChat | 13011132526 | ![WeChat: 13011132526](./docs/images/qr_code_wechat.png) |
-| Line | MyEMS | ![Line: MyEMS](./docs/images/qr_code_line.png) |
-| WhatsApp | MyEMS | ![WhatsAPP: MyEMS](./docs/images/qr_code_whatsapp.png) |
-| Feishu | 13011132526 | ![Feishu: 13011132526](./docs/images/qr_code_feishu.png) |
-| आधिकारिक WeChat खाता | ओपन सोर्स ऊर्जा प्रबंधन प्रणाली | ![ओपन सोर्स ऊर्जा प्रबंधन प्रणाली](./docs/images/qr_code_mp_weixin.png) |
-| वीचैट चैनल | ओपन सोर्स एनर्जी मैनेजमेंट सिस्टम | ![ओपन सोर्स एनर्जी मैनेजमेंट सिस्टम](./docs/images/qr_code_wechat_channels.png) |
-| WeChat समूह | WeChat समूह | ![WeChat समूह](./docs/images/qr_code_wechat_group.png) |
-| QQ समूह | 792528967 | ![QQ समूह](./docs/images/qr_code_qq_group.png) |
-| Xiaohongshu | Xiaohongshu | ![Xiaohongshju](./docs/images/qr_code_xiaohongshu.png) |
+|---------|--------------|---------|
+| 微信      | 13011132526 | ![WeChat: 13011132526](./docs/images/qr_code_wechat.png) |
+| 飞书      | 13011132526 | ![Feishu: 13011132526](./docs/images/qr_code_feishu.png) |
+| 微信公众号     | ओपन सोर्स ऊर्जा प्रबंधन प्रणाली | ![ओपन सोर्स ऊर्जा प्रबंधन प्रणाली](./docs/images/qr_code_mp_weixin.png) |
+| 微信视频号     | MyEMS ओपन सोर्स एनर्जी मैनेजमेंट सिस्टम | ![MyEMS ओपन सोर्स एनर्जी मैनेजमेंट सिस्टम](./docs/images/qr_code_wechat_channels.png) |
+| 微信群     | WeChat समूह | ![WeChat समूह](./docs/images/qr_code_wechat_group.png) |
+| QQ群     | 792528967 | ![QQ群](./docs/images/qr_code_qq_group.png) |
+| 小红书     | Xiaohongshu | ![Xiaohongshju](./docs/images/qr_code_xiaohongshu.png) |
 
 ## वीडियो
 
-[BiliBili](https://space.bilibili.com/539108162)
 
-[YouTube](https://www.youtube.com/@myems)
-
-## 🔖 मित्रता लिंक
+## 🔖 अनुशंसाएँ
 
 - 👉 चिचांग BPM लो-कोड वर्कफ़्लो फॉर्म : [https://gitee.com/opencc/ccflow](https://gitee.com/opencc/ccflow)
 - 👉 IoTGateway: .NET6 आधारित क्रॉस-प्लेटफ़ॉर्म IoT गेटवे [https://gitee.com/iioter/iotgateway](https://gitee.com/iioter/iotgateway)

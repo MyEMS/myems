@@ -3,7 +3,7 @@
 </p>
 <h1 align="center" style="margin: 30px 0 30px; font-weight: bold;">MyEMS v6.7.0</h1>
 <h3 align="center">سامانه مدیریت انرژی متن‌باز پیشرو در صنعت</h3>
-<h6 align="center">نزدیک به هزار نمونه پروژه</h6>
+<h6 align="center">بیش از هزار نمونه پروژه</h6>
 <h6 align="center">تعهد به متن‌باز ماندن دائمی</h6>
 <h6 align="center">عضویت در گروه QQ و گروه WeChat، پشتیبانی فنی رایگان</h6>
 <h6 align="center">همواره در حال به‌روزرسانی، انتشار یک نسخه کوچک در هر ماه و یک نسخه بزرگ در هر سال</h6>
@@ -124,35 +124,35 @@
 
 ## اجزای تشکیل‌دهنده MyEMS
 
-### پایگاه داده MyEMS (SQL)
+### پایگاه داده MyEMS
 
 جهت مشاهده توضیحات به [database](./database/README.md) مراجعه نمایید
 
-### رابط برنامه‌نویسی کاربردی MyEMS (Python)
+### رابط برنامه‌نویسی کاربردی MyEMS
 
 جهت مشاهده توضیحات به [myems-api](./myems-api/README.md) مراجعه نمایید
 
-### رابط کاربری مدیریت MyEMS (AngularJS version 1.x)
+### رابط کاربری مدیریت MyEMS
 
 جهت مشاهده توضیحات به [myems-admin](myems-admin/README.md) مراجعه نمایید
 
-### سرویس جمع‌آوری داده Modbus TCP MyEMS (Python)
+### سرویس جمع‌آوری داده Modbus TCP MyEMS
 
 جهت مشاهده توضیحات به [myems-modbus-tcp](./myems-modbus-tcp/README.md) مراجعه نمایید
 
-### سرویس پالایش داده MyEMS (Python)
+### سرویس پالایش داده MyEMS
 
 جهت مشاهده توضیحات به [myems-cleaning](./myems-cleaning/README.md) مراجعه نمایید
 
-### سرویس نرمال‌سازی داده MyEMS (Python)
+### سرویس نرمال‌سازی داده MyEMS
 
 جهت مشاهده توضیحات به [myems-normalization](./myems-normalization/README.md) مراجعه نمایید
 
-### سرویس تجمیع داده MyEMS (Python)
+### سرویس تجمیع داده MyEMS
 
 جهت مشاهده توضیحات به [myems-aggregation](./myems-aggregation/README.md) مراجعه نمایید
 
-### رابط کاربری وب MyEMS (ReactJS)
+### رابط کاربری وب MyEMS
 
 جهت مشاهده توضیحات به [myems-web](myems-web/README.md) مراجعه نمایید
 
@@ -188,20 +188,19 @@
 - ایمیل: zny@myems.org
 
 | Platform | Description | QR Code |
-|----------|--------------|---------|
-| 微信 | 13011132526 | ![WeChat: 13011132526](./docs/images/qr_code_wechat.png) |
-| 飞书 | 13011132526 | ![Feishu: 13011132526](./docs/images/qr_code_feishu.png) |
-| 微信公众号 | سیستم مدیریت انرژی متن‌باز | ![سیستم مدیریت انرژی متن‌باز](./docs/images/qr_code_mp_weixin.png) |
-| 微信视频号 | سیستم مدیریت انرژی متن‌باز | ![سیستم مدیریت انرژی متن‌باز](./docs/images/qr_code_wechat_channels.png) |
-| 微信群 | گروه وی‌چت | ![گروه وی‌چت](./docs/images/qr_code_wechat_group.png) |
-| QQ群 | 792528967 | ![گروه QQ](./docs/images/qr_code_qq_group.png) |
-| 小红书 | Xiaohongshu | ![Xiaohongshju](./docs/images/qr_code_xiaohongshu.png) |
+|---------|--------------|---------|
+| 微信      | 13011132526 | ![WeChat: 13011132526](./docs/images/qr_code_wechat.png) |
+| 飞书      | 13011132526 | ![Feishu: 13011132526](./docs/images/qr_code_feishu.png) |
+| 微信公众号     | سیستم مدیریت انرژی متن‌باز | ![سیستم مدیریت انرژی متن‌باز](./docs/images/qr_code_mp_weixin.png) |
+| 微信视频号     | MyEMS سامانه مدیریت انرژی متن‌باز | ![MyEMS سامانه مدیریت انرژی متن‌باز](./docs/images/qr_code_wechat_channels.png) |
+| 微信群     | گروه وی‌چت | ![گروه وی‌چت](./docs/images/qr_code_wechat_group.png) |
+| QQ群     | 792528967 | ![QQ群](./docs/images/qr_code_qq_group.png) |
+| 小红书     | Xiaohongshu | ![Xiaohongshju](./docs/images/qr_code_xiaohongshu.png) |
 
 ## ویدیوها
 
- 
 
-## 🔖 پیوندهای دوستانه
+## 🔖 پیشنهادها
 
 - 👉 فرم‌های گردش‌کار کم‌کد Ccbpm: [https://gitee.com/opencc/ccflow](https://gitee.com/opencc/ccflow)
 - 👉 IoTGateway: درگاه اینترنت اشیا بین‌سکویی مبتنی بر .NET6 [https://gitee.com/iioter/iotgateway](https://gitee.com/iioter/iotgateway)

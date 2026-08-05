@@ -3,7 +3,7 @@
 </p>
 <h1 align="center" style="margin: 30px 0 30px; font-weight: bold;">MyEMS v6.7.0</h1>
 <h3 align="center">Sistem manajemen energi open source terdepan di industri</h3>
-<h6 align="center">Hampir seribu kasus proyek</h6>
+<h6 align="center">Lebih dari seribu kasus proyek</h6>
 <h6 align="center">Berkomitmen untuk tetap open source selamanya</h6>
 <h6 align="center">Dukungan teknis gratis di grup QQ dan WeChat</h6>
 <h6 align="center">Pemeliharaan berkelanjutan, 1 versi minor per bulan, 1 versi mayor per tahun</h6>
@@ -124,35 +124,35 @@ Lihat [https://myems.cn/docs/category/installation](https://myems.cn/docs/catego
 
 ## Komposisi komponen MyEMS
 
-### Database MyEMS (SQL)
+### Database MyEMS
 
 Lihat pengantar [database](./database/README.md)
 
-### Antarmuka aplikasi API MyEMS (Python)
+### Antarmuka aplikasi API MyEMS
 
 Lihat pengantar [myems-api](./myems-api/README.md)
 
-### Antarmuka pengguna Admin MyEMS (AngularJS versi 1.x)
+### Antarmuka pengguna Admin MyEMS
 
 Lihat pengantar [myems-admin](myems-admin/README.md)
 
-### Layanan pengumpulan data Modbus TCP MyEMS (Python)
+### Layanan pengumpulan data Modbus TCP MyEMS
 
 Lihat pengantar [myems-modbus-tcp](./myems-modbus-tcp/README.md)
 
-### Layanan pembersihan data MyEMS (Python)
+### Layanan pembersihan data MyEMS
 
 Lihat pengantar [myems-cleaning](./myems-cleaning/README.md)
 
-### Layanan normalisasi data MyEMS (Python)
+### Layanan normalisasi data MyEMS
 
 Lihat pengantar [myems-normalization](./myems-normalization/README.md)
 
-### Layanan agregasi data MyEMS (Python)
+### Layanan agregasi data MyEMS
 
 Lihat pengantar [myems-aggregation](./myems-aggregation/README.md)
 
-### Antarmuka pengguna web MyEMS (ReactJS)
+### Antarmuka pengguna web MyEMS
 
 Lihat pengantar [myems-web](myems-web/README.md)
 
@@ -186,28 +186,21 @@ Kata sandi: !MyEMS1
 - Kontak: Zhang Nengyuan
 - Telepon WeChat: (+86) 13011132526
 - Email: zny@myems.org
-- LINE ID: myems
-- WhatsApp: https://wa.me/message/6HB55A46RVAJP1
 
 | Platform | Description | QR Code |
-|----------|--------------|---------|
-| WeChat | 13011132526 | ![WeChat: 13011132526](./docs/images/qr_code_wechat.png) |
-| Line | MyEMS | ![Line: MyEMS](./docs/images/qr_code_line.png) |
-| WhatsApp | MyEMS | ![WhatsAPP: MyEMS](./docs/images/qr_code_whatsapp.png) |
-| Feishu | 13011132526 | ![Feishu: 13011132526](./docs/images/qr_code_feishu.png) |
-| Akun resmi WeChat | Sistem manajemen energi open source | ![Sistem manajemen energi open source](./docs/images/qr_code_mp_weixin.png) |
-| WeChat Channels | Sistem Manajemen Energi Sumber Terbuka | ![Sistem Manajemen Energi Sumber Terbuka](./docs/images/qr_code_wechat_channels.png) |
-| Grup WeChat | Grup WeChat | ![Grup WeChat](./docs/images/qr_code_wechat_group.png) |
-| Grup QQ | 792528967 | ![Grup QQ](./docs/images/qr_code_qq_group.png) |
-| Xiaohongshu | Xiaohongshu | ![Xiaohongshju](./docs/images/qr_code_xiaohongshu.png) |
+|---------|--------------|---------|
+| 微信      | 13011132526 | ![WeChat: 13011132526](./docs/images/qr_code_wechat.png) |
+| 飞书      | 13011132526 | ![Feishu: 13011132526](./docs/images/qr_code_feishu.png) |
+| 微信公众号     | Sistem manajemen energi open source | ![Sistem manajemen energi open source](./docs/images/qr_code_mp_weixin.png) |
+| 微信视频号     | MyEMS Sistem Manajemen Energi Sumber Terbuka | ![MyEMS Sistem Manajemen Energi Sumber Terbuka](./docs/images/qr_code_wechat_channels.png) |
+| 微信群     | Grup WeChat | ![Grup WeChat](./docs/images/qr_code_wechat_group.png) |
+| QQ群     | 792528967 | ![QQ群](./docs/images/qr_code_qq_group.png) |
+| 小红书     | Xiaohongshu | ![Xiaohongshju](./docs/images/qr_code_xiaohongshu.png) |
 
 ## Video
 
-[BiliBili](https://space.bilibili.com/539108162)
 
-[YouTube](https://www.youtube.com/@myems)
-
-## 🔖 Tautan persahabatan
+## 🔖 Rekomendasi
 
 - 👉 Formulir alur kerja BPM Chichang kode rendah : [https://gitee.com/opencc/ccflow](https://gitee.com/opencc/ccflow)
 - 👉 IoTGateway: Gateway IoT lintas platform berbasis .NET6 [https://gitee.com/iioter/iotgateway](https://gitee.com/iioter/iotgateway)

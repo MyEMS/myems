@@ -3,7 +3,7 @@
 </p>
 <h1 align="center" style="margin: 30px 0 30px; font-weight: bold;">MyEMS v6.7.0</h1>
 <h3 align="center">Endüstrinin önde gelen açık kaynak enerji yönetim sistemi</h3>
-<h6 align="center">Neredeyse bin proje vakası</h6>
+<h6 align="center">Bindan fazla proje vakası</h6>
 <h6 align="center">Sonsuza kadar açık kaynak kalma taahhüdü</h6>
 <h6 align="center">QQ ve WeChat gruplarında ücretsiz teknik destek</h6>
 <h6 align="center">Sürekli bakım, ayda 1 küçük sürüm, yılda 1 büyük sürüm</h6>
@@ -124,35 +124,35 @@ Detaylar için [https://myems.cn/docs/category/installation](https://myems.cn/do
 
 ## MyEMS Bileşen Kompozisyonu
 
-### MyEMS Veritabanı (SQL)
+### MyEMS Veritabanı
 
 Giriş için [database](./database/README.md) bakın
 
-### MyEMS API Uygulama Arayüzü (Python)
+### MyEMS API Uygulama Arayüzü
 
 Giriş için [myems-api](./myems-api/README.md) bakın
 
-### MyEMS Admin UI (AngularJS sürüm 1.x)
+### MyEMS Admin UI
 
 Giriş için [myems-admin](myems-admin/README.md) bakın
 
-### MyEMS Modbus TCP Veri Toplama Servisi (Python)
+### MyEMS Modbus TCP Veri Toplama Servisi
 
 Giriş için [myems-modbus-tcp](./myems-modbus-tcp/README.md) bakın
 
-### MyEMS Veri Temizleme Servisi (Python)
+### MyEMS Veri Temizleme Servisi
 
 Giriş için [myems-cleaning](./myems-cleaning/README.md) bakın
 
-### MyEMS Veri Normalizasyon Servisi (Python)
+### MyEMS Veri Normalizasyon Servisi
 
 Giriş için [myems-normalization](./myems-normalization/README.md) bakın
 
-### MyEMS Veri Toplama Servisi (Python)
+### MyEMS Veri Toplama Servisi
 
 Giriş için [myems-aggregation](./myems-aggregation/README.md) bakın
 
-### MyEMS Web UI (ReactJS)
+### MyEMS Web UI
 
 Giriş için [myems-web](myems-web/README.md) bakın
 
@@ -186,28 +186,21 @@ Kullanıcı adı: administrator
 - İletişim: Zhang Nengyuan
 - Telefon WeChat: (+86) 13011132526
 - E-posta: zny@myems.org
-- LINE ID: myems
-- WhatsApp: https://wa.me/message/6HB55A46RVAJP1
 
 | Platform | Description | QR Code |
-|----------|--------------|---------|
-| WeChat | 13011132526 | ![WeChat: 13011132526](./docs/images/qr_code_wechat.png) |
-| Line | MyEMS | ![Line: MyEMS](./docs/images/qr_code_line.png) |
-| WhatsApp | MyEMS | ![WhatsAPP: MyEMS](./docs/images/qr_code_whatsapp.png) |
-| Feishu | 13011132526 | ![Feishu: 13011132526](./docs/images/qr_code_feishu.png) |
-| Resmi WeChat Hesabı | Açık kaynak enerji yönetim sistemi | ![Açık kaynak enerji yönetim sistemi](./docs/images/qr_code_mp_weixin.png) |
-| WeChat Channels | Açık Kaynak Enerji Yönetim Sistemi | ![Açık Kaynak Enerji Yönetim Sistemi](./docs/images/qr_code_wechat_channels.png) |
-| WeChat Grubu | WeChat Grubu | ![WeChat Grubu](./docs/images/qr_code_wechat_group.png) |
-| QQ Grubu | 792528967 | ![QQ Grubu](./docs/images/qr_code_qq_group.png) |
-| Xiaohongshu | Xiaohongshu | ![Xiaohongshju](./docs/images/qr_code_xiaohongshu.png) |
+|---------|--------------|---------|
+| 微信      | 13011132526 | ![WeChat: 13011132526](./docs/images/qr_code_wechat.png) |
+| 飞书      | 13011132526 | ![Feishu: 13011132526](./docs/images/qr_code_feishu.png) |
+| 微信公众号     | Açık kaynak enerji yönetim sistemi | ![Açık kaynak enerji yönetim sistemi](./docs/images/qr_code_mp_weixin.png) |
+| 微信视频号     | MyEMS Açık Kaynak Enerji Yönetim Sistemi | ![MyEMS Açık Kaynak Enerji Yönetim Sistemi](./docs/images/qr_code_wechat_channels.png) |
+| 微信群     | WeChat Grubu | ![WeChat Grubu](./docs/images/qr_code_wechat_group.png) |
+| QQ群     | 792528967 | ![QQ群](./docs/images/qr_code_qq_group.png) |
+| 小红书     | Xiaohongshu | ![Xiaohongshju](./docs/images/qr_code_xiaohongshu.png) |
 
 ## Videolar
 
-[BiliBili](https://space.bilibili.com/539108162)
 
-[YouTube](https://www.youtube.com/@myems)
-
-## 🔖 Dostluk Bağlantıları
+## 🔖 Öneriler
 
 - 👉 Chichang BPM düşük kod iş akışı formu : [https://gitee.com/opencc/ccflow](https://gitee.com/opencc/ccflow)
 - 👉 IoTGateway: .NET6 tabanlı çapraz platform IoT ağ geçidi [https://gitee.com/iioter/iotgateway](https://gitee.com/iioter/iotgateway)

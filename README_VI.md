@@ -3,7 +3,7 @@
 </p>
 <h1 align="center" style="margin: 30px 0 30px; font-weight: bold;">MyEMS v6.7.0</h1>
 <h3 align="center">Hệ thống quản lý năng lượng mã nguồn mở hàng đầu ngành</h3>
-<h6 align="center">Gần một nghìn trường hợp dự án</h6>
+<h6 align="center">Hơn một nghìn trường hợp dự án</h6>
 <h6 align="center">Cam kết mã nguồn mở vĩnh viễn</h6>
 <h6 align="center">Hỗ trợ kỹ thuật miễn phí trong nhóm QQ và WeChat</h6>
 <h6 align="center">Bảo trì liên tục, 1 phiên bản nhỏ mỗi tháng, 1 phiên bản chính mỗi năm</h6>
@@ -124,35 +124,35 @@ Xem [https://myems.cn/docs/category/installation](https://myems.cn/docs/category
 
 ## Thành phần cấu tạo MyEMS
 
-### Cơ sở dữ liệu MyEMS (SQL)
+### Cơ sở dữ liệu MyEMS
 
 Xem giới thiệu [database](./database/README.md)
 
-### Giao diện ứng dụng API MyEMS (Python)
+### Giao diện ứng dụng API MyEMS
 
 Xem giới thiệu [myems-api](./myems-api/README.md)
 
-### Giao diện người dùng Admin MyEMS (AngularJS phiên bản 1.x)
+### Giao diện người dùng Admin MyEMS
 
 Xem giới thiệu [myems-admin](myems-admin/README.md)
 
-### Dịch vụ thu thập dữ liệu Modbus TCP MyEMS (Python)
+### Dịch vụ thu thập dữ liệu Modbus TCP MyEMS
 
 Xem giới thiệu [myems-modbus-tcp](./myems-modbus-tcp/README.md)
 
-### Dịch vụ làm sạch dữ liệu MyEMS (Python)
+### Dịch vụ làm sạch dữ liệu MyEMS
 
 Xem giới thiệu [myems-cleaning](./myems-cleaning/README.md)
 
-### Dịch vụ chuẩn hóa dữ liệu MyEMS (Python)
+### Dịch vụ chuẩn hóa dữ liệu MyEMS
 
 Xem giới thiệu [myems-normalization](./myems-normalization/README.md)
 
-### Dịch vụ tổng hợp dữ liệu MyEMS (Python)
+### Dịch vụ tổng hợp dữ liệu MyEMS
 
 Xem giới thiệu [myems-aggregation](./myems-aggregation/README.md)
 
-### Giao diện người dùng web MyEMS (ReactJS)
+### Giao diện người dùng web MyEMS
 
 Xem giới thiệu [myems-web](myems-web/README.md)
 
@@ -186,28 +186,21 @@ Mật khẩu: !MyEMS1
 - Liên hệ: Zhang Nengyuan
 - Điện thoại WeChat: (+86) 13011132526
 - Email: zny@myems.org
-- LINE ID: myems
-- WhatsApp: https://wa.me/message/6HB55A46RVAJP1
 
 | Platform | Description | QR Code |
-|----------|--------------|---------|
-| WeChat | 13011132526 | ![WeChat: 13011132526](./docs/images/qr_code_wechat.png) |
-| Line | MyEMS | ![Line: MyEMS](./docs/images/qr_code_line.png) |
-| WhatsApp | MyEMS | ![WhatsAPP: MyEMS](./docs/images/qr_code_whatsapp.png) |
-| Feishu | 13011132526 | ![Feishu: 13011132526](./docs/images/qr_code_feishu.png) |
-| Tài khoản WeChat chính thức | Hệ thống quản lý năng lượng mã nguồn mở | ![Hệ thống quản lý năng lượng mã nguồn mở](./docs/images/qr_code_mp_weixin.png) |
-| Kênh WeChat | Hệ thống Quản lý Năng lượng Mã nguồn Mở | ![Hệ thống Quản lý Năng lượng Mã nguồn Mở](./docs/images/qr_code_wechat_channels.png) |
-| Nhóm WeChat | Nhóm WeChat | ![Nhóm WeChat](./docs/images/qr_code_wechat_group.png) |
-| Nhóm QQ | 792528967 | ![Nhóm QQ](./docs/images/qr_code_qq_group.png) |
-| Xiaohongshu | Xiaohongshu | ![Xiaohongshju](./docs/images/qr_code_xiaohongshu.png) |
+|---------|--------------|---------|
+| 微信      | 13011132526 | ![WeChat: 13011132526](./docs/images/qr_code_wechat.png) |
+| 飞书      | 13011132526 | ![Feishu: 13011132526](./docs/images/qr_code_feishu.png) |
+| 微信公众号     | Hệ thống quản lý năng lượng mã nguồn mở | ![Hệ thống quản lý năng lượng mã nguồn mở](./docs/images/qr_code_mp_weixin.png) |
+| 微信视频号     | MyEMS Hệ thống Quản lý Năng lượng Mã nguồn Mở | ![MyEMS Hệ thống Quản lý Năng lượng Mã nguồn Mở](./docs/images/qr_code_wechat_channels.png) |
+| 微信群     | Nhóm WeChat | ![Nhóm WeChat](./docs/images/qr_code_wechat_group.png) |
+| QQ群     | 792528967 | ![QQ群](./docs/images/qr_code_qq_group.png) |
+| 小红书     | Xiaohongshu | ![Xiaohongshju](./docs/images/qr_code_xiaohongshu.png) |
 
 ## Video
 
-[BiliBili](https://space.bilibili.com/539108162)
 
-[YouTube](https://www.youtube.com/@myems)
-
-## 🔖 Liên kết hữu nghị
+## 🔖 Đề xuất
 
 - 👉 Biểu mẫu quy trình làm việc BPM Chichang mã thấp : [https://gitee.com/opencc/ccflow](https://gitee.com/opencc/ccflow)
 - 👉 IoTGateway: Cổng IoT đa nền tảng dựa trên .NET6 [https://gitee.com/iioter/iotgateway](https://gitee.com/iioter/iotgateway)
