@@ -17,6 +17,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Fixed
 - fixed issue of meter realtime report in myems-web
 - fixed issue of space energy item in myems-web
+- fixed issue of space tree in myems-api
 ### Removed
 
 ## [v6.7.0] - 2026-07-26
