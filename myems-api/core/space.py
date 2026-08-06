@@ -3743,12 +3743,19 @@ class SpaceTreeCollection:
                 node_dict = dict()
                 if rows_spaces is not None and len(rows_spaces) > 0:
                     for row in rows_spaces:
-                        parent_node = node_dict[row[3]] if row[3] is not None else None
-                        node = AnyNode(id=row[0], parent=parent_node, name=row[1])
+                        node = AnyNode(id=row[0], parent=None, name=row[1])
                         node.uuid = row[2]
                         node.latitude = float(row[4]) if row[4] is not None else None
                         node.longitude = float(row[5]) if row[5] is not None else None
                         node_dict[row[0]] = node
+                    for row in rows_spaces:
+                        if row[3] is not None and row[3] in node_dict:
+                            node_dict[row[0]].parent = node_dict[row[3]]
+
+                        
+                if space_id not in node_dict:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.SPACE_NOT_FOUND')
 
                 resp.text = JsonExporter(sort_keys=True).export(node_dict[space_id], )
             finally:
@@ -3804,8 +3811,14 @@ class SpaceTreeMetersEnergyCategoryCollection:
                 node_dict = dict()
                 if rows_spaces is not None and len(rows_spaces) > 0:
                     for row in rows_spaces:
-                        parent_node = node_dict[row[2]] if row[2] is not None else None
-                        node_dict[row[0]] = AnyNode(id=row[0], parent=parent_node, name=row[1])
+                        node_dict[row[0]] = AnyNode(id=row[0], parent=None, name=row[1])
+                    for row in rows_spaces:
+                        if row[2] is not None and row[2] in node_dict:
+                            node_dict[row[0]].parent = node_dict[row[2]]
+
+                if int(id_) not in node_dict:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.SPACE_NOT_FOUND')
                 ####################################################################################################
                 # Step 3: query energy categories of all meters in the space tree
                 ###################################################################################################
