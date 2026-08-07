@@ -41,6 +41,7 @@ import redis
 import simplejson as json
 import config
 import excelexporters.spaceenergycategory
+import pdfexporters.spaceenergycategory
 from core import utilities
 from core.useractivity import access_control, api_key_control
 
@@ -856,6 +857,16 @@ class Reporting:
                                                           reporting_period_end_datetime_local,
                                                           period_type,
                                                           language)
+            result['pdf_bytes_base64'] = \
+                pdfexporters.spaceenergycategory.export(result,
+                                                          space['name'],
+                                                          base_period_start_datetime_local,
+                                                          base_period_end_datetime_local,
+                                                          reporting_period_start_datetime_local,
+                                                          reporting_period_end_datetime_local,
+                                                          period_type,
+                                                          language)
+
 
         resp_text = json.dumps(result)
         resp.text = resp_text

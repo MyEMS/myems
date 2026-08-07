@@ -13,7 +13,11 @@ import {
   Input,
   Label,
   CustomInput,
-  Spinner
+  Spinner,
+  UncontrolledDropdown,
+  DropdownToggle,
+  DropdownMenu,
+  DropdownItem
 } from 'reactstrap';
 import CountUp from 'react-countup';
 import moment from 'moment';
@@ -27,7 +31,6 @@ import { getCookieValue, createCookie, checkEmpty, handleAPIError } from '../../
 import withRedirect from '../../../hoc/withRedirect';
 import { withTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
-import ButtonIcon from '../../common/ButtonIcon';
 import DeepSeekAnalysisModal from '../common/DeepSeekAnalysisModal';
 import { APIBaseURL, settings } from '../../../config';
 import { v4 as uuid } from 'uuid';
@@ -163,6 +166,7 @@ const SpaceEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => {
     { dataField: 'name', text: t('Child Spaces'), sort: true }
   ]);
   const [excelBytesBase64, setExcelBytesBase64] = useState(undefined);
+  const [pdfBytesBase64, setPdfBytesBase64] = useState(undefined);
 
   const [workingDaysConsumptionTableData, setWorkingDaysConsumptionTableData] = useState([]);
   const [workingDaysConsumptionTableColumns, setWorkingDaysConsumptionTableColumns] = useState([
@@ -809,6 +813,7 @@ const SpaceEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => {
             setChildSpacesTableColumns(child_space_column_list);
 
             setExcelBytesBase64(json['excel_bytes_base64']);
+            setPdfBytesBase64(json['pdf_bytes_base64']);
 
             // enable submit button
             setSubmitButtonDisabled(false);
@@ -856,6 +861,7 @@ const SpaceEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => {
       setParameterLineChartData,
       setParameterLineChartOptions,
       setExcelBytesBase64,
+      setPdfBytesBase64,
       t
     ]
   );
@@ -1136,21 +1142,37 @@ const SpaceEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => {
     loadData(url);
   };
 
-  const handleExport = e => {
+  const handleExport = (e, type) => {
     e.preventDefault();
-    const mimeType = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
-    const fileName = 'spaceenergycategory.xlsx';
-    var fileUrl = 'data:' + mimeType + ';base64,' + excelBytesBase64;
-    fetch(fileUrl)
-      .then(response => response.blob())
-      .then(blob => {
-        var link = window.document.createElement('a');
-        link.href = window.URL.createObjectURL(blob, { type: mimeType });
-        link.download = fileName;
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-      });
+    if (type === 'excel' && excelBytesBase64) {
+      const mimeType = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
+      const fileName = 'spaceenergycategory.xlsx';
+      const fileUrl = 'data:' + mimeType + ';base64,' + excelBytesBase64;
+      fetch(fileUrl)
+        .then(response => response.blob())
+        .then(blob => {
+          const link = window.document.createElement('a');
+          link.href = window.URL.createObjectURL(blob, { type: mimeType });
+          link.download = fileName;
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+        });
+    } else if (type === 'pdf' && pdfBytesBase64) {
+      const mimeType = 'application/pdf';
+      const fileName = 'spaceenergycategory.pdf';
+      const fileUrl = 'data:' + mimeType + ';base64,' + pdfBytesBase64;
+      fetch(fileUrl)
+        .then(response => response.blob())
+        .then(blob => {
+          const link = window.document.createElement('a');
+          link.href = window.URL.createObjectURL(blob, { type: mimeType });
+          link.download = fileName;
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+        });
+    }
   };
 
   const buildSmartAnalysisContext = useCallback(() => {
@@ -1361,16 +1383,23 @@ const SpaceEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => {
               </Col>
               <Col xs="auto">
                 <br />
-                <ButtonIcon
-                  icon="external-link-alt"
-                  transform="shrink-3 down-2"
-                  color="falcon-default"
-                  size="sm"
-                  hidden={exportButtonHidden}
-                  onClick={handleExport}
-                >
-                  {t('Export')}
-                </ButtonIcon>
+                <UncontrolledDropdown hidden={exportButtonHidden}>
+                  <DropdownToggle
+                    size="sm"
+                    color="falcon-default"
+                    caret
+                  >
+                    {t('Export')}
+                  </DropdownToggle>
+                  <DropdownMenu right>
+                    <DropdownItem onClick={e => handleExport(e, 'excel')}>
+                      EXCEL
+                    </DropdownItem>
+                    <DropdownItem onClick={e => handleExport(e, 'pdf')}>
+                      PDF
+                    </DropdownItem>
+                  </DropdownMenu>
+                </UncontrolledDropdown>
               </Col>
               {settings.enableAIAnalysis ? (
                 <Col xs="auto">
