@@ -1,0 +1,4 @@
+mysql-connector-python
+bacpypes
+schedule
+python-decouple
