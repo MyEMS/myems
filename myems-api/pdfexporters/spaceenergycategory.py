@@ -66,8 +66,6 @@ def setup_chinese_fonts():
     plt.rcParams['axes.unicode_minus'] = False
     return False
 
-setup_chinese_fonts()
-
 
 def _convert_decimals(obj):
     """Recursively convert Decimal values to float in nested data structures."""
@@ -95,6 +93,9 @@ class SpaceEnergyPDFExporter:
         Args:
             language: Language code ('zh_CN', 'en_US', etc.)
         """
+        # Setup Chinese fonts lazily on first instantiation
+        setup_chinese_fonts()
+
         self.language = language
         self.trans = get_translation(language)
         self.trans.install()
@@ -129,7 +130,7 @@ class SpaceEnergyPDFExporter:
                reporting_start_datetime_local: str,
                reporting_end_datetime_local: str,
                period_type: str,
-               language: str) -> str:
+               language: str) -> Optional[str]:
         """
         Export report data to PDF and return base64 encoded string.
 
@@ -144,7 +145,7 @@ class SpaceEnergyPDFExporter:
             language: Language code
 
         Returns:
-            str: Base64 encoded PDF data
+            Optional[str]: Base64 encoded PDF data, or None if report is invalid
         """
         if report is None:
             return None
@@ -186,12 +187,12 @@ class SpaceEnergyPDFExporter:
                      reporting_start_datetime_local: str,
                      reporting_end_datetime_local: str,
                      period_type: str,
-                     language: str) -> str:
+                     language: str) -> Optional[str]:
         """
         Generate PDF file from report data.
 
         Returns:
-            str: Path to generated PDF file
+            Optional[str]: Path to generated PDF file, or None if no data available
         """
         _ = self._
 
