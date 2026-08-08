@@ -26,14 +26,14 @@ The exported PDF file includes:
 import base64
 import os
 import uuid
-import tempfile
+
 from datetime import datetime
 from decimal import Decimal
 from typing import Optional, Dict, List, Any
 import logging
 
 import matplotlib.pyplot as plt
-import matplotlib.patches as mpatches
+
 from matplotlib.backends.backend_pdf import PdfPages
 from matplotlib.patches import Rectangle
 import matplotlib.gridspec as gridspec
