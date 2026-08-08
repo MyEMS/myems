@@ -59,7 +59,7 @@ def setup_chinese_fonts():
             plt.rcParams['font.sans-serif'] = [font]
             plt.rcParams['axes.unicode_minus'] = False
             return True
-        except:
+        except Exception:
             continue
 
     plt.rcParams['font.sans-serif'] = ['DejaVu Sans']
@@ -173,7 +173,7 @@ class SpaceEnergyPDFExporter:
                 # Clean up
                 try:
                     os.remove(pdf_filename)
-                except:
+                except Exception:
                     pass
 
         return result
