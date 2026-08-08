@@ -571,10 +571,12 @@ class SpaceEnergyPDFExporter:
         fig.suptitle(self.name + ' ' + _('Child Spaces Data'),
                      fontsize=16, weight='bold', y=0.98)
 
-        child_names = child.get('child_space_names_array', [[]])[0]
+        names_array = child.get('child_space_names_array', [])
+        child_names = names_array[0] if names_array else []
         category_names = child.get('energy_category_names', [])
         subtotals_array = child.get('subtotals_array', [])
-        child_ids = child.get('child_space_ids_array', [[]])[0]
+        ids_array = child.get('child_space_ids_array', [])
+        child_ids = ids_array[0] if ids_array else []
 
         # Table
         table_data = [[_('ID'), _('Child Space')] + category_names]
@@ -921,63 +923,4 @@ def export(report, name, base_period_start_datetime_local,
                            language)
 
 
-# Test
-if __name__ == "__main__":
-    # Sample test data
-    test_report = {
-        'reporting_period': {
-            'names': ['电', '自来水', '中水'],
-            'units': ['kWh', 'm³', 'm³'],
-            'subtotals': [1570628.07, 63, 194],
-            'subtotals_in_kgce': [193187, 5, 194],
-            'subtotals_in_kgco2e': [1457543, 57, 194],
-            'total_in_kgce': 193386,
-            'total_in_kgco2e': 1457794,
-            'energy_category_ids': [1, 2, 3],
-            'toppeaks': [0],
-            'onpeaks': [328455.95],
-            'midpeaks': [432981.16],
-            'offpeaks': [809190.96],
-            'timestamps': [['2026-07-31', '2026-08-01', '2026-08-02', '2026-08-03',
-                            '2026-08-04', '2026-08-05', '2026-08-06', '2026-08-07']],
-            'values': [[188809.09, 189814.99, 208445.8, 203288.06,
-                        198439.95, 199912.9, 225300.2, 156617.08]]
-        },
-        'base_period': {
-            'names': ['电', '自来水', '中水'],
-            'units': ['kWh', 'm³', 'm³'],
-            'timestamps': [[]],
-            'values': [[]],
-            'non_working_days_subtotals': [0, 0, 0],
-            'working_days_subtotals': [0, 0, 0]
-        },
-        'child_space': {
-            'child_space_ids_array': [[2, 3, 4, 5]],
-            'child_space_names_array': [['市政府', '办公楼', '商场', '酒店']],
-            'energy_category_names': ['电', '自来水'],
-            'units': ['kWh', 'm³'],
-            'subtotals_array': [[71686, 85303, 151314.13, 17630], [0, 0, 0, 0]]
-        },
-        'parameters': {
-            'names': ['温度', '湿度', '风速'],
-            'timestamps': [['2026-07-31', '2026-08-01'], ['2026-07-31', '2026-08-01'], ['2026-07-31', '2026-08-01']],
-            'values': [[28.5, 30.2], [65, 70], [3.2, 2.8]]
-        }
-    }
-
-    result = export(
-        test_report,
-        '一度城',
-        '2026-07-01 00:00:00',
-        '2026-07-31 00:00:00',
-        '2026-07-31 00:00:00',
-        '2026-08-07 16:57:56',
-        'daily',
-        'zh_CN'
-    )
-
-    if result:
-        print(f"✅ PDF generated and encoded to base64")
-        print(f"Base64 length: {len(result)}")
-    else:
-        print("❌ Failed to generate PDF")
+ 
