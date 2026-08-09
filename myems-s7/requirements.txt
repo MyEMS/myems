@@ -1,0 +1,4 @@
+mysql-connector-python
+python-snap7
+schedule
+python-decouple
