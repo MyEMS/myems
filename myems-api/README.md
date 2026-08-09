@@ -31,6 +31,36 @@ pip install waitress
 cd myems\myems-api
 waitress-serve --listen=0.0.0.0:8000 app:api
 ```
+#### Installation of Chinese language pack
+#### kylin11
+
+```
+yum install -y wqy-zenhei-fonts wqy-microhei-fonts
+fc-cache -fv
+
+```
+
+#### Ubuntu/Debian
+
+```
+sudo apt-get update
+sudo apt-get install fonts-wqy-zenhei fonts-wqy-microhei fonts-noto-cjk
+
+# OR
+sudo apt-get install xfonts-wqy ttf-wqy-zenhei ttf-wqy-microhei
+```
+
+#### CentOS/RHEL/Fedora
+
+```
+# CentOS/RHEL
+sudo yum install wqy-zenhei-fonts wqy-microhei-fonts
+
+# Fedora
+sudo dnf install wqy-zenhei-fonts wqy-microhei-fonts
+```
+
+
 
 ## Installation
 
