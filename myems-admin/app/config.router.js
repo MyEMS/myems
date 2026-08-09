@@ -402,11 +402,14 @@ app
                                                 files: [
                                                     'app/services/settings/costcenter/costcenter.service.js',
                                                     'app/services/settings/costcenter/costcentertariff.service.js',
+                                                    'app/services/settings/costcenter/costcenteremissionfactor.service.js',
                                                     'app/services/settings/tariff/tariff.service.js',
+                                                    'app/services/settings/emissionfactor/emissionfactor.service.js',
                                                     'app/services/settings/costcenter/costfile.service.js',
                                                     'app/controllers/settings/costcenter/costcenter.master.controller.js',
                                                     'app/controllers/settings/costcenter/costcenter.controller.js',
                                                     'app/controllers/settings/costcenter/costcentertariff.controller.js',
+                                                    'app/controllers/settings/costcenter/costcenteremissionfactor.controller.js',
                                                     'app/controllers/settings/costcenter/costfile.controller.js',
                                                     'app/controllers/common/export.controller.js',
                                                     'app/controllers/common/import.controller.js',
@@ -491,6 +494,51 @@ app
                                                     'app/services/settings/tariff/tariff.const.js',
                                                     'app/services/settings/category/category.service.js',
                                                     'app/controllers/settings/tariff/tariff.controller.js',
+                                                    'app/controllers/common/export.controller.js',
+                                                    'app/controllers/common/import.controller.js',
+                                                ]
+                                            }]);
+                                        }
+                                    );
+                                }
+                            ]
+                        }
+                    })
+                    .state('settings.emissionfactor', {
+                        url: "/emissionfactor",
+                        templateUrl: "views/settings/emissionfactor/emissionfactor.html",
+                        data: {
+                            pageTitle: 'MENU.SETTINGS.EMISSION_FACTOR'
+                        },
+                        resolve: {
+                            deps: [
+                                '$ocLazyLoad',
+                                function ($ocLazyLoad) {
+                                    return $ocLazyLoad.load(['ui.select', 'daterangepicker', 'toaster']).then(
+                                        function () {
+                                            return $ocLazyLoad.load([{
+                                                serie: true,
+                                                files: ['js/daterangepicker/daterangepicker.min.js', 'js/daterangepicker/daterangepicker.min.css']
+                                            }, {
+                                                name: 'daterangepicker',
+                                                files: ['js/daterangepicker/angular-daterangepicker.min.js']
+                                            }, {
+                                                files: ['js/plugins/footable/footable.all.min.js', 'css/plugins/footable/footable.core.css']
+                                            }, {
+                                                name: 'ui.footable',
+                                                files: ['js/plugins/footable/angular-footable.js']
+                                            }, {
+                                                files: ['js/plugins/sweetalert/sweetalert.min.js', 'css/plugins/sweetalert/sweetalert.css']
+                                            }, {
+                                                name: 'oitozero.ngSweetAlert',
+                                                files: ['js/plugins/sweetalert/angular-sweetalert.min.js']
+                                            }, {
+                                                serie: true,
+                                                files: [
+                                                    'app/services/settings/emissionfactor/emissionfactor.service.js',
+                                                    'app/services/settings/emissionfactor/emissionfactor.const.js',
+                                                    'app/services/settings/category/category.service.js',
+                                                    'app/controllers/settings/emissionfactor/emissionfactor.controller.js',
                                                     'app/controllers/common/export.controller.js',
                                                     'app/controllers/common/import.controller.js',
                                                 ]

@@ -243,6 +243,7 @@ def main(logger):
             # Retrieve carbon dioxide emission factor for the meter's energy category
             factor_dict[meter['energy_category_id']] = \
                 carbon_dioxide_emission_factor.get_energy_category_factor(
+                    meter['cost_center_id'],
                     meter['energy_category_id'],
                     start_datetime_utc,
                     end_datetime_utc)
@@ -261,7 +262,7 @@ def main(logger):
                     aggregated_value['actual_value'] = None
 
                     # Get emission factor and energy consumption for current time slot
-                    current_factor = factor_dict[meter['energy_category_id']]
+                    current_factor = factor_dict[meter['energy_category_id']].get(current_datetime_utc)
                     current_energy = energy_dict[current_datetime_utc].get(meter['energy_category_id'])
 
                     # Calculate carbon emissions if both factor and energy data are available

@@ -141,6 +141,86 @@
 						</div>
 					</uib-tab>
 
+					<!-- Tab: Bind Emission Factor -->
+					<uib-tab heading="{{'SETTING.BIND_EMISSION_FACTOR' | translate}}">
+						<div class="panel-body" ng-controller="CostCenterEmissionFactorController">
+							<!-- Collapsible description panel -->
+							<div class="alert alert-info">
+								<p>
+									{{'SETTING.BIND_EMISSION_FACTOR_DESCRIPTION' | translate}}
+									<a ng-click="isCollapsed = !isCollapsed" class="pull-right">
+										{{(isCollapsed ? 'COMMON.COLLAPSE' : 'COMMON.CLICK_TO_EXPAND_FOR_MORE_DESCRIPTION') | translate}}
+									</a>
+								</p>
+								<div uib-collapse="!isCollapsed">
+									<hr>
+									<p>{{'SETTING.BIND_EMISSION_FACTOR_DESCRIPTION_MORE' | translate}}</p>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-lg-3">
+									<div class="panel panel-info">
+										<div class="panel-heading">
+											{{'SETTING.SELECT_COSTCENTER' | translate}}
+										</div>
+										<div class="panel-body">
+											<div ng-repeat="costcenter in costcenters" class="radio radio-info">
+												<input type="radio" name="radioemissionfactor"
+													id="radioemissionfactor{{costcenter.id}}" ng-value="costcenter"
+													ng-model="$parent.currentCostCenter" ng-change="changeCostCenter()">
+												<label for="radioemissionfactor{{costcenter.id}}">
+													{{costcenter.name}}
+												</label>
+											</div>
+										</div>
+
+									</div>
+
+								</div>
+								<div class="col-lg-4">
+									<div class="panel panel-primary">
+										<div class="panel-heading">
+											{{currentCostCenter.name}}{{'SETTING.N_S_EMISSION_FACTOR' | translate}}
+										</div>
+										<div class="panel-body maxheight" x-hjc-drop-target="true"
+											x-on-drop="pairEmissionFactor(dragEl,dropEl)"
+											uib-tooltip="{{'SETTING.DRAG_TO_UNBIND' | translate}}">
+
+											<div class="btn btn-primary btn-rounded btn-block"
+												ng-repeat="costcenteremissionfactor in costcenteremissionfactors"
+												x-hjc-draggable="true"> {{costcenteremissionfactor.name}}
+											</div>
+
+										</div>
+									</div>
+									<div class="panel panel-danger">
+										<div class="panel-heading">
+											{{'SETTING.TRASH' | translate}}
+										</div>
+										<div class="panel-body trash">
+											<img class="trashcan" src="img/trashcan.png" x-hjc-drop-target="true"
+												x-on-drop="deleteEmissionFactorPair(dragEl,dropEl)">
+										</div>
+									</div>
+								</div>
+
+								<div class="col-lg-4">
+									<div class="panel panel-info">
+										<div class="panel-heading">
+											{{'SETTING.EMISSION_FACTOR_LIST' | translate}}
+										</div>
+										<div class="panel-body" uib-tooltip="{{'SETTING.DRAG_TO_BIND' | translate}}"
+											slim-scroll box-height="765px">
+											<div class="source btn btn-info btn-rounded btn-block"
+												ng-repeat="emissionfactor in emissionfactors" x-hjc-draggable="true"> {{emissionfactor.name}}
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</uib-tab>
+
 					<!-- Tab: Cost File -->
 					<uib-tab heading="{{'SETTING.COST_FILE' | translate}}">
 						<div class="panel-body" ng-controller="CostFileController">
