@@ -178,157 +178,6 @@ def setup_chinese_fonts():
     return False
 
 
-def diagnose_fonts():
-    """
-    Diagnostic function to check font availability on the system.
-    Useful for debugging font issues.
-    """
-    print("=" * 70)
-    print("Font Diagnosis Tool for Kylin V11")
-    print("=" * 70)
-
-    # 1. Check system font directories
-    print("\n1. Checking common font directories:")
-    common_paths = [
-        '/usr/share/fonts/',
-        '/usr/share/fonts/truetype/',
-        '/usr/share/fonts/wqy/',
-        '/usr/share/fonts/chinese/',
-        '/usr/share/fonts/google-noto-cjk/',
-        '/usr/share/fonts/noto-cjk/',
-        '/usr/share/fonts/truetype/noto/',
-        os.path.expanduser('~/.fonts/'),
-        os.path.expanduser('~/.local/share/fonts/'),
-    ]
-
-    found_fonts = []
-    for path in common_paths:
-        if os.path.exists(path):
-            print(f"  ✓ {path} exists")
-            try:
-                files = os.listdir(path)
-                font_files = [f for f in files if f.endswith(('.ttf', '.ttc', '.otf'))]
-                if font_files:
-                    print(f"    Found {len(font_files)} font files:")
-                    for f in font_files[:10]:
-                        print(f"      - {f}")
-                        found_fonts.append(os.path.join(path, f))
-                else:
-                    print("    No font files found")
-            except Exception as e:
-                print(f"    Error reading directory: {e}")
-        else:
-            print(f"  ✗ {path} does not exist")
-
-    # 2. Check matplotlib font manager
-    print("\n2. Checking matplotlib font manager:")
-    try:
-        import matplotlib.font_manager as fm
-        available_fonts = fm.fontManager.ttflist
-        print(f"  Total fonts available: {len(available_fonts)}")
-
-        # Search for Chinese fonts
-        chinese_fonts = []
-        for f in available_fonts:
-            font_name_lower = f.name.lower()
-            keywords = ['wenquan', 'noto', 'simhei', 'simsun', 'kaiti', 'fangsong',
-                        'stsong', 'stkaiti', 'stzhongsong', 'microsoft', 'pingfang',
-                        'heiti', 'cjk', 'chinese', 'cn', 'sc', 'tc']
-            if any(keyword in font_name_lower for keyword in keywords):
-                chinese_fonts.append((f.name, f.fname))
-
-        if chinese_fonts:
-            print(f"  Found {len(chinese_fonts)} Chinese fonts:")
-            for name, path in chinese_fonts[:20]:
-                print(f"    - {name}: {path}")
-        else:
-            print("  ⚠ No Chinese fonts found in matplotlib")
-
-    except Exception as e:
-        print(f"  Error: {e}")
-
-    # 3. Check matplotlib cache
-    print("\n3. Matplotlib cache:")
-    try:
-        cache_dir = matplotlib.get_cachedir()
-        print(f"  Cache directory: {cache_dir}")
-        if os.path.exists(cache_dir):
-            import shutil
-            size = sum(os.path.getsize(os.path.join(cache_dir, f))
-                       for f in os.listdir(cache_dir)
-                       if os.path.isfile(os.path.join(cache_dir, f)))
-            print(f"  Cache size: {size / 1024:.2f} KB")
-            print(f"  Number of files: {len(os.listdir(cache_dir))}")
-        else:
-            print("  Cache does not exist")
-    except Exception as e:
-        print(f"  Error: {e}")
-
-    # 4. Test font rendering
-    print("\n4. Testing font rendering:")
-    try:
-        # Setup fonts first
-        setup_chinese_fonts()
-
-        fig, ax = plt.subplots(figsize=(8, 3))
-        test_text = '中文测试 Chinese Test: 你好世界 Hello World'
-        ax.text(0.5, 0.5, test_text, fontsize=20, ha='center', va='center')
-        ax.set_xlim(0, 1)
-        ax.set_ylim(0, 1)
-        ax.axis('off')
-
-        test_file = '/tmp/test_chinese_font_kylin.pdf'
-        plt.savefig(test_file, dpi=150, bbox_inches='tight')
-        plt.close()
-
-        if os.path.exists(test_file):
-            size = os.path.getsize(test_file)
-            print(f"  ✓ Test PDF generated: {test_file}")
-            print(f"    Size: {size} bytes")
-            print(f"    You can check: {test_file}")
-        else:
-            print("  ✗ Failed to generate test PDF")
-
-    except Exception as e:
-        print(f"  ✗ Error testing font: {e}")
-
-    print("\n" + "=" * 70)
-    print("Diagnosis complete.")
-    print("If Chinese fonts are missing, install them with:")
-    print("  yum install -y wqy-zenhei-fonts wqy-microhei-fonts")
-    print("  fc-cache -fv")
-    print("Then rebuild matplotlib font cache:")
-    print("  rm -rf ~/.cache/matplotlib")
-    print("=" * 70)
-
-
-def rebuild_font_cache():
-    """
-    Rebuild matplotlib font cache.
-    Call this after installing new fonts.
-    """
-    logger.info("Rebuilding matplotlib font cache...")
-    try:
-        import matplotlib.font_manager as fm
-        fm._rebuild()
-        logger.info("Font cache rebuilt successfully")
-
-        # Clear matplotlib's internal cache
-        try:
-            cache_dir = matplotlib.get_cachedir()
-            if os.path.exists(cache_dir):
-                import shutil
-                shutil.rmtree(cache_dir)
-                logger.info(f"Cleared cache directory: {cache_dir}")
-        except Exception as e:
-            logger.warning(f"Could not clear cache directory: {e}")
-
-        return True
-    except Exception as e:
-        logger.error(f"Failed to rebuild font cache: {e}")
-        return False
-
-
 def _convert_decimals(obj):
     """Recursively convert Decimal values to float in nested data structures."""
     if isinstance(obj, Decimal):
@@ -342,10 +191,33 @@ def _convert_decimals(obj):
     return obj
 
 
+def _style_table_header(table, num_cols, header_color='#4472C4'):
+    """Style table header row with background color and white bold text."""
+    for j in range(num_cols):
+        table[0, j].set_facecolor(header_color)
+        table[0, j].set_text_props(color='white', weight='bold')
+
+
+def _style_table_alternate(table, num_rows, num_cols, alternate_color='#E8EDF5'):
+    """Style alternating rows in a table."""
+    for i in range(1, num_rows):
+        for j in range(num_cols):
+            if i % 2 == 0:
+                table[i, j].set_facecolor(alternate_color)
+
+
+def _style_table_borders(table, num_rows, num_cols):
+    """Add borders to all cells in a table."""
+    for i in range(num_rows):
+        for j in range(num_cols):
+            table[i, j].set_edgecolor('#333333')
+            table[i, j].set_linewidth(0.5)
+
+
 class SpaceEnergyPDFExporter:
     """
     Export space energy category data to PDF format.
-    Generates comprehensive reports with charts and tables.
+    Generates comprehensive reports with charts and tables matching Excel layout.
     """
 
     def __init__(self, language: str = 'zh_CN'):
@@ -380,6 +252,7 @@ class SpaceEnergyPDFExporter:
             'light': '#E8EDF5',
             'dark': '#2F2F2F',
             'table_header': '#4472C4',
+            'table_green': '#90EE90',
             'table_alternate': '#E8EDF5',
             'chart_colors': ['#4472C4', '#ED7D31', '#70AD47', '#FFC000', '#5B9BD5',
                              '#FF6B6B', '#9B59B6', '#1ABC9C', '#E67E22', '#2ECC71',
@@ -397,19 +270,6 @@ class SpaceEnergyPDFExporter:
                language: str) -> Optional[str]:
         """
         Export report data to PDF and return base64 encoded string.
-
-        Args:
-            report: Report data dictionary
-            name: Site/space name
-            base_period_start_datetime_local: Base period start
-            base_period_end_datetime_local: Base period end
-            reporting_start_datetime_local: Reporting period start
-            reporting_end_datetime_local: Reporting period end
-            period_type: Period type
-            language: Language code
-
-        Returns:
-            Optional[str]: Base64 encoded PDF data, or None if report is invalid
         """
         if report is None:
             return None
@@ -454,9 +314,6 @@ class SpaceEnergyPDFExporter:
                      language: str) -> Optional[str]:
         """
         Generate PDF file from report data.
-
-        Returns:
-            Optional[str]: Path to generated PDF file, or None if no data available
         """
         _ = self._
 
@@ -464,7 +321,16 @@ class SpaceEnergyPDFExporter:
         if "reporting_period" not in report.keys() or \
                 "names" not in report['reporting_period'].keys() or \
                 len(report['reporting_period']['names']) == 0:
-            return None
+            # Generate empty PDF
+            filename = str(uuid.uuid4()) + '.pdf'
+            with PdfPages(filename) as pdf:
+                self._create_cover_page(pdf, name, period_type,
+                                        reporting_start_datetime_local,
+                                        reporting_end_datetime_local,
+                                        base_period_start_datetime_local,
+                                        base_period_end_datetime_local,
+                                        False)
+            return filename
 
         # Generate unique filename
         filename = str(uuid.uuid4()) + '.pdf'
@@ -484,15 +350,20 @@ class SpaceEnergyPDFExporter:
         # Generate PDF
         with PdfPages(filename) as pdf:
             # Cover page
-            self._create_cover_page(pdf)
+            self._create_cover_page(pdf, name, period_type,
+                                    reporting_start_datetime_local,
+                                    reporting_end_datetime_local,
+                                    base_period_start_datetime_local,
+                                    base_period_end_datetime_local,
+                                    self.is_base_period_exists)
 
-            # Summary page - Reporting Period Consumption
+            # Summary page - Reporting Period Consumption (matching Excel rows 7-11)
             self._create_reporting_period_page(pdf)
 
-            # Time-of-use consumption
+            # Time-of-use consumption (matching Excel rows 13-19)
             self._create_time_of_use_page(pdf)
 
-            # TCE by category
+            # TCE by category (matching Excel row 20+)
             self._create_tce_page(pdf)
 
             # CO2E by category
@@ -516,8 +387,11 @@ class SpaceEnergyPDFExporter:
         logger.info(f"PDF generated: {filename}")
         return filename
 
-    def _create_cover_page(self, pdf: PdfPages):
-        """Create cover page."""
+    def _create_cover_page(self, pdf: PdfPages, name: str, period_type: str,
+                           reporting_start: str, reporting_end: str,
+                           base_period_start: str, base_period_end: str,
+                           has_base_period: bool):
+        """Create cover page matching Excel header section."""
         _ = self._
         fig, ax = plt.subplots(figsize=self.page_size)
         ax.axis('off')
@@ -527,26 +401,32 @@ class SpaceEnergyPDFExporter:
                                facecolor='#F8F9FA', edgecolor='none'))
 
         # Title
-        ax.text(0.5, 0.75, self.name, fontsize=36, ha='center',
+        ax.text(0.5, 0.75, name, fontsize=36, ha='center',
                 weight='bold', color='#4472C4', transform=ax.transAxes)
 
         ax.text(0.5, 0.65, _('Energy Consumption Report'), fontsize=28, ha='center',
                 weight='bold', transform=ax.transAxes)
 
-        # Subtitle
-        ax.text(0.5, 0.55, _('Space Energy Category Analysis'), fontsize=16, ha='center',
-                style='italic', color='#666666', transform=ax.transAxes)
+        # Info table matching Excel layout
+        info_data = [
+            [_('Name'), name, _('Period Type'), period_type],
+            [_('Reporting Start Datetime'), reporting_start,
+             _('Reporting End Datetime'), reporting_end],
+        ]
+        if has_base_period:
+            info_data.append([_('Base Period Start Datetime'), base_period_start,
+                              _('Base Period End Datetime'), base_period_end])
 
-        # Report period
-        ax.text(0.5, 0.40, _('Reporting Period') + ': ' + self.reporting_start + ' - ' + self.reporting_end,
-                fontsize=14, ha='center', transform=ax.transAxes)
+        table = ax.table(cellText=info_data, loc='center',
+                         cellLoc='center', colWidths=[0.2, 0.3, 0.2, 0.3])
+        table.auto_set_font_size(False)
+        table.set_fontsize(11)
 
-        ax.text(0.5, 0.35, _('Period Type') + ': ' + self.period_type,
-                fontsize=14, ha='center', transform=ax.transAxes)
-
-        if self.is_base_period_exists:
-            ax.text(0.5, 0.30, _('Base Period') + ': ' + self.base_period_start + ' - ' + self.base_period_end,
-                    fontsize=14, ha='center', transform=ax.transAxes)
+        # Style header
+        for i in range(len(info_data)):
+            for j in [0, 2]:
+                table[i, j].set_facecolor('#E8EDF5')
+                table[i, j].set_text_props(weight='bold')
 
         # Footer
         ax.text(0.5, 0.05, _('Generated') + ': ' + datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
@@ -557,79 +437,94 @@ class SpaceEnergyPDFExporter:
         plt.close()
 
     def _create_reporting_period_page(self, pdf: PdfPages):
-        """Create reporting period consumption page."""
+        """Create reporting period consumption page matching Excel rows 7-11. Table only, no chart."""
         _ = self._
-        fig = plt.figure(figsize=self.page_size)
-
         reporting_data = self.report['reporting_period']
         if "names" not in reporting_data.keys() or reporting_data['names'] is None:
-            plt.close()
             return
 
         names = reporting_data['names']
-        subtotals = reporting_data['subtotals']
         units = reporting_data['units']
+        subtotals = reporting_data['subtotals']
+        subtotals_per_unit_area = reporting_data.get('subtotals_per_unit_area', [])
+        increment_rates = reporting_data.get('increment_rates', [])
+        ca_len = len(names)
 
-        # Create layout: table on left, chart on right
-        gs = gridspec.GridSpec(1, 2, width_ratios=[0.5, 0.5])
-        ax_table = fig.add_subplot(gs[0])
-        ax_table.axis('off')
-        ax_chart = fig.add_subplot(gs[1])
+        fig, ax = plt.subplots(figsize=self.page_size)
+        ax.axis('off')
 
         # Title
         fig.suptitle(self.name + ' ' + _('Reporting Period Consumption'),
                      fontsize=16, weight='bold', y=0.98)
 
-        # Table
-        table_data = [[_('Category'), _('Consumption'), _('Unit')]]
-        for name, value, unit in zip(names, subtotals, units):
-            table_data.append([name, f'{round2(value, 2)}', unit])
+        # Build table matching Excel: rows = Consumption/PerUnitArea/IncrementRate
+        # Columns: label + each category + TCE + TCO2E
+        # Build column headers
+        col_headers = ['']
+        for i in range(ca_len):
+            col_headers.append(names[i] + ' (' + units[i] + ')')
+        col_headers.append(_('Ton of Standard Coal') + '(TCE)')
+        col_headers.append(_('Ton of Carbon Dioxide Emissions') + '(TCO2E)')
 
-        # Add TCE and CO2
+        # Build data rows
+        consumption_row = ['']
+        for i in range(ca_len):
+            consumption_row.append(str(round2(subtotals[i], 2)))
         total_kgce = reporting_data.get('total_in_kgce', 0)
         total_kgco2e = reporting_data.get('total_in_kgco2e', 0)
-        table_data.append([_('Ton of Standard Coal'), f'{round2(total_kgce/1000, 2)}', 'TCE'])
-        table_data.append([_('Ton of Carbon Dioxide Emissions'), f'{round2(total_kgco2e/1000, 2)}', 'TCO2E'])
+        consumption_row.append(str(round2(total_kgce / 1000, 2)))
+        consumption_row.append(str(round2(total_kgco2e / 1000, 2)))
 
-        table = ax_table.table(cellText=table_data, loc='center',
-                               cellLoc='center', colWidths=[0.4, 0.35, 0.25])
+        per_area_row = ['']
+        for i in range(ca_len):
+            val = subtotals_per_unit_area[i] if subtotals_per_unit_area and i < len(subtotals_per_unit_area) else None
+            per_area_row.append(str(round2(val, 2)) if val is not None else '')
+        total_kgce_per_area = reporting_data.get('total_in_kgce_per_unit_area', None)
+        total_kgco2e_per_area = reporting_data.get('total_in_kgco2e_per_unit_area', None)
+        per_area_row.append(str(round2(total_kgce_per_area / 1000, 2)) if total_kgce_per_area is not None else '')
+        per_area_row.append(str(round2(total_kgco2e_per_area / 1000, 2)) if total_kgco2e_per_area is not None else '')
+
+        increment_row = ['']
+        for i in range(ca_len):
+            val = increment_rates[i] if increment_rates and i < len(increment_rates) else None
+            increment_row.append(str(round2(val * 100, 2)) + '%' if val is not None else '')
+        inc_kgce = reporting_data.get('increment_rate_in_kgce', None)
+        inc_kgco2e = reporting_data.get('increment_rate_in_kgco2e', None)
+        increment_row.append(str(round2(inc_kgce * 100, 2)) + '%' if inc_kgce is not None else '')
+        increment_row.append(str(round2(inc_kgco2e * 100, 2)) + '%' if inc_kgco2e is not None else '')
+
+        table_data = [col_headers, consumption_row, per_area_row, increment_row]
+
+        # Adjust column widths
+        num_cols = len(col_headers)
+        col_widths = [0.12] + [0.08] * (num_cols - 1)
+        # Normalize widths to fit
+        total_w = sum(col_widths)
+        col_widths = [w / total_w for w in col_widths]
+
+        table = ax.table(cellText=table_data, loc='center',
+                         cellLoc='center', colWidths=col_widths)
         table.auto_set_font_size(False)
-        table.set_fontsize(11)
+        table.set_fontsize(8)
 
-        # Style header
-        for j in range(3):
-            table[0, j].set_facecolor(self.colors['table_header'])
-            table[0, j].set_text_props(color='white', weight='bold')
+        # Style header row (row 0 = column headers) with green like Excel
+        for j in range(num_cols):
+            table[0, j].set_facecolor('#90EE90')
+            table[0, j].set_text_props(weight='bold')
+        # Style row labels (first column of data rows)
+        for i in range(1, 4):
+            table[i, 0].set_facecolor('#90EE90')
+            table[i, 0].set_text_props(weight='bold')
 
-        # Style data rows
-        for i in range(1, len(table_data)):
-            for j in range(3):
-                if i % 2 == 0:
-                    table[i, j].set_facecolor(self.colors['table_alternate'])
-
-        # Bar chart
-        bar_colors = self.colors['chart_colors'][:len(names)]
-        bars = ax_chart.bar(names, subtotals, color=bar_colors)
-        ax_chart.set_ylabel(_('Consumption'))
-        ax_chart.set_title(_('Consumption by Category'), fontsize=14)
-        ax_chart.tick_params(axis='x', rotation=45)
-        ax_chart.grid(True, alpha=0.3, axis='y')
-
-        # Add value labels
-        for bar, v in zip(bars, subtotals):
-            ax_chart.text(bar.get_x() + bar.get_width()/2,
-                          bar.get_height() + max(subtotals)*0.02,
-                          f'{round2(v, 0)}', ha='center', fontsize=9)
+        _style_table_borders(table, len(table_data), num_cols)
 
         plt.tight_layout()
         pdf.savefig(fig)
         plt.close()
 
     def _create_time_of_use_page(self, pdf: PdfPages):
-        """Create time-of-use consumption page."""
+        """Create time-of-use consumption page matching Excel table + pie chart."""
         _ = self._
-        fig, axes = plt.subplots(1, 2, figsize=self.page_size)
-
         reporting_data = self.report['reporting_period']
 
         # Find electricity index
@@ -640,14 +535,7 @@ class SpaceEnergyPDFExporter:
                 break
 
         if electricity_index < 0:
-            # No electricity data
-            axes[0].text(0.5, 0.5, _('No electricity data available'),
-                         fontsize=14, ha='center', transform=axes[0].transAxes)
-            axes[0].axis('off')
-            axes[1].axis('off')
-            plt.tight_layout()
-            pdf.savefig(fig)
-            plt.close()
+            # No electricity data, skip this page
             return
 
         toppeaks = reporting_data.get('toppeaks', [])
@@ -657,236 +545,259 @@ class SpaceEnergyPDFExporter:
 
         categories = [_('TopPeak'), _('OnPeak'), _('MidPeak'), _('OffPeak')]
         values = [
-            toppeaks[electricity_index] if electricity_index < len(toppeaks) else 0,
-            onpeaks[electricity_index] if electricity_index < len(onpeaks) else 0,
-            midpeaks[electricity_index] if electricity_index < len(midpeaks) else 0,
-            offpeaks[electricity_index] if electricity_index < len(offpeaks) else 0
+            round2(toppeaks[electricity_index], 2) if electricity_index < len(toppeaks) else 0,
+            round2(onpeaks[electricity_index], 2) if electricity_index < len(onpeaks) else 0,
+            round2(midpeaks[electricity_index], 2) if electricity_index < len(midpeaks) else 0,
+            round2(offpeaks[electricity_index], 2) if electricity_index < len(offpeaks) else 0
         ]
 
-        # Left: Bar chart
-        colors = ['#FF1744', '#FF6F00', '#FDD835', '#00BCD4']
-        bars = axes[0].bar(categories, values, color=colors)
-        axes[0].set_title(_('Electricity Consumption by Time-Of-Use'), fontsize=14, weight='bold')
-        axes[0].set_ylabel('kWh')
-        axes[0].grid(True, alpha=0.3, axis='y')
+        fig = plt.figure(figsize=self.page_size)
+        gs = gridspec.GridSpec(1, 2, width_ratios=[0.4, 0.6])
+        ax_table = fig.add_subplot(gs[0])
+        ax_table.axis('off')
+        ax_chart = fig.add_subplot(gs[1])
 
-        total = sum(values)
-        for bar, v in zip(bars, values):
-            axes[0].text(bar.get_x() + bar.get_width()/2,
-                         bar.get_height() + max(values)*0.02 if max(values) > 0 else 1,
-                         f'{round2(v, 0)}', ha='center', fontsize=9)
-            if total > 0:
-                pct = (v/total)*100
-                axes[0].text(bar.get_x() + bar.get_width()/2,
-                             max(values)/10 if max(values) > 0 else 1,
-                             f'{pct:.1f}%', ha='center', va='center',
-                             color='white', weight='bold')
-
-        # Right: Pie chart
-        if total > 0:
-            axes[1].pie(values, labels=categories, autopct='%1.1f%%',
-                        colors=colors, explode=[0.05, 0, 0, 0])
-            axes[1].set_title(_('Distribution'), fontsize=14, weight='bold')
-        else:
-            axes[1].text(0.5, 0.5, _('No data'), fontsize=14, ha='center',
-                         transform=axes[1].transAxes)
-            axes[1].axis('off')
-
+        # Title matching Excel
         fig.suptitle(self.name + ' ' + _('Electricity Consumption by Time-Of-Use'),
                      fontsize=16, weight='bold', y=0.98)
+
+        # Table matching Excel rows 14-18: first col header is empty, second col header is the name
+        table_data = [
+            ['', _('Electricity Consumption by Time-Of-Use')],
+            [_('TopPeak'), str(values[0])],
+            [_('OnPeak'), str(values[1])],
+            [_('MidPeak'), str(values[2])],
+            [_('OffPeak'), str(values[3])],
+        ]
+
+        table = ax_table.table(cellText=table_data, loc='center',
+                               cellLoc='center', colWidths=[0.5, 0.5])
+        table.auto_set_font_size(False)
+        table.set_fontsize(11)
+
+        # Style header row with green
+        table[0, 0].set_facecolor('#90EE90')
+        table[0, 0].set_text_props(weight='bold')
+        table[0, 1].set_facecolor('#90EE90')
+        table[0, 1].set_text_props(weight='bold')
+        _style_table_borders(table, len(table_data), 2)
+
+        # Pie chart matching Excel
+        total = sum(values)
+        colors = ['#FF1744', '#FF6F00', '#FDD835', '#00BCD4']
+        if total > 0:
+            wedges, texts, autotexts = ax_chart.pie(
+                values, labels=categories, autopct='%1.1f%%',
+                colors=colors, startangle=90)
+            ax_chart.set_title(self.name + ' ' + _('Electricity Consumption by Time-Of-Use'),
+                               fontsize=12, weight='bold')
+        else:
+            ax_chart.text(0.5, 0.5, _('No data'), fontsize=14, ha='center',
+                          transform=ax_chart.transAxes)
+            ax_chart.axis('off')
+
         plt.tight_layout()
         pdf.savefig(fig)
         plt.close()
 
     def _create_tce_page(self, pdf: PdfPages):
-        """Create TCE by category page."""
+        """Create TCE by category page matching Excel table + pie chart."""
         _ = self._
-        fig, axes = plt.subplots(1, 2, figsize=self.page_size)
-
         reporting_data = self.report['reporting_period']
         names = reporting_data.get('names', [])
         subtotals_in_kgce = reporting_data.get('subtotals_in_kgce', [])
 
         if not subtotals_in_kgce or sum(subtotals_in_kgce) == 0:
-            axes[0].text(0.5, 0.5, _('No TCE data available'),
-                         fontsize=14, ha='center', transform=axes[0].transAxes)
-            axes[0].axis('off')
-            axes[1].axis('off')
-            plt.tight_layout()
-            pdf.savefig(fig)
-            plt.close()
             return
 
         # Convert to tonnes
-        tce_values = [v/1000 for v in subtotals_in_kgce]
+        tce_values = [round2(v / 1000, 3) for v in subtotals_in_kgce]
 
-        # Filter zero values
-        filtered = [(n, v) for n, v in zip(names, tce_values) if v > 0]
-        if not filtered:
-            axes[0].text(0.5, 0.5, _('No positive values'), fontsize=14, ha='center',
-                         transform=axes[0].transAxes)
-            axes[0].axis('off')
-            axes[1].axis('off')
-            plt.tight_layout()
-            pdf.savefig(fig)
-            plt.close()
-            return
+        fig = plt.figure(figsize=self.page_size)
+        gs = gridspec.GridSpec(1, 2, width_ratios=[0.4, 0.6])
+        ax_table = fig.add_subplot(gs[0])
+        ax_table.axis('off')
+        ax_chart = fig.add_subplot(gs[1])
 
-        f_names, f_values = zip(*filtered)
-
-        # Left: Bar chart
-        colors = self.colors['chart_colors'][:len(f_names)]
-        bars = axes[0].bar(f_names, f_values, color=colors)
-        axes[0].set_title(_('Ton of Standard Coal(TCE) by Energy Category'), fontsize=14, weight='bold')
-        axes[0].set_ylabel('TCE')
-        axes[0].tick_params(axis='x', rotation=45)
-        axes[0].grid(True, alpha=0.3, axis='y')
-
-        for bar, v in zip(bars, f_values):
-            axes[0].text(bar.get_x() + bar.get_width()/2,
-                         bar.get_height() + max(f_values)*0.02,
-                         f'{v:.3f}', ha='center', fontsize=9)
-
-        # Right: Pie chart
-        axes[1].pie(f_values, labels=f_names, autopct='%1.1f%%',
-                    colors=colors)
-        axes[1].set_title(_('Distribution'), fontsize=14, weight='bold')
-
+        # Title
         fig.suptitle(self.name + ' ' + _('Ton of Standard Coal(TCE) by Energy Category'),
                      fontsize=16, weight='bold', y=0.98)
+
+        # Table matching Excel: first col header is empty, second col header is the name
+        table_data = [['', _('Ton of Standard Coal(TCE) by Energy Category')]]
+        for i in range(len(names)):
+            table_data.append([names[i], str(tce_values[i])])
+
+        table = ax_table.table(cellText=table_data, loc='center',
+                               cellLoc='center', colWidths=[0.5, 0.5])
+        table.auto_set_font_size(False)
+        table.set_fontsize(10)
+
+        # Style header with green
+        table[0, 0].set_facecolor('#90EE90')
+        table[0, 0].set_text_props(weight='bold')
+        table[0, 1].set_facecolor('#90EE90')
+        table[0, 1].set_text_props(weight='bold')
+        _style_table_borders(table, len(table_data), 2)
+
+        # Pie chart matching Excel
+        filtered = [(n, v) for n, v in zip(names, tce_values) if v > 0]
+        if filtered:
+            f_names, f_values = zip(*filtered)
+            colors = self.colors['chart_colors'][:len(f_names)]
+            ax_chart.pie(f_values, labels=f_names, autopct='%1.1f%%', colors=colors)
+        ax_chart.set_title(self.name + ' ' + _('Ton of Standard Coal(TCE) by Energy Category'),
+                           fontsize=11, weight='bold')
+
         plt.tight_layout()
         pdf.savefig(fig)
         plt.close()
 
     def _create_co2e_page(self, pdf: PdfPages):
-        """Create CO2E by category page."""
+        """Create CO2E by category page matching Excel table + pie chart."""
         _ = self._
-        fig, axes = plt.subplots(1, 2, figsize=self.page_size)
-
         reporting_data = self.report['reporting_period']
         names = reporting_data.get('names', [])
         subtotals_in_kgco2e = reporting_data.get('subtotals_in_kgco2e', [])
 
         if not subtotals_in_kgco2e or sum(subtotals_in_kgco2e) == 0:
-            axes[0].text(0.5, 0.5, _('No CO2E data available'),
-                         fontsize=14, ha='center', transform=axes[0].transAxes)
-            axes[0].axis('off')
-            axes[1].axis('off')
-            plt.tight_layout()
-            pdf.savefig(fig)
-            plt.close()
             return
 
         # Convert to tonnes
-        co2e_values = [v/1000 for v in subtotals_in_kgco2e]
+        co2e_values = [round2(v / 1000, 3) for v in subtotals_in_kgco2e]
 
-        # Filter zero values
-        filtered = [(n, v) for n, v in zip(names, co2e_values) if v > 0]
-        if not filtered:
-            axes[0].text(0.5, 0.5, _('No positive values'), fontsize=14, ha='center',
-                         transform=axes[0].transAxes)
-            axes[0].axis('off')
-            axes[1].axis('off')
-            plt.tight_layout()
-            pdf.savefig(fig)
-            plt.close()
-            return
+        fig = plt.figure(figsize=self.page_size)
+        gs = gridspec.GridSpec(1, 2, width_ratios=[0.4, 0.6])
+        ax_table = fig.add_subplot(gs[0])
+        ax_table.axis('off')
+        ax_chart = fig.add_subplot(gs[1])
 
-        f_names, f_values = zip(*filtered)
-
-        # Left: Bar chart
-        colors = self.colors['chart_colors'][:len(f_names)]
-        bars = axes[0].bar(f_names, f_values, color=colors)
-        axes[0].set_title(_('Ton of Carbon Dioxide Emissions(TCO2E) by Energy Category'), fontsize=14, weight='bold')
-        axes[0].set_ylabel('TCO2E')
-        axes[0].tick_params(axis='x', rotation=45)
-        axes[0].grid(True, alpha=0.3, axis='y')
-
-        for bar, v in zip(bars, f_values):
-            axes[0].text(bar.get_x() + bar.get_width()/2,
-                         bar.get_height() + max(f_values)*0.02,
-                         f'{v:.3f}', ha='center', fontsize=9)
-
-        # Right: Pie chart
-        axes[1].pie(f_values, labels=f_names, autopct='%1.1f%%',
-                    colors=colors)
-        axes[1].set_title(_('Distribution'), fontsize=14, weight='bold')
-
+        # Title
         fig.suptitle(self.name + ' ' + _('Ton of Carbon Dioxide Emissions(TCO2E) by Energy Category'),
                      fontsize=16, weight='bold', y=0.98)
+
+        # Table matching Excel: first col header is empty, second col header is the name
+        table_data = [['', _('Ton of Carbon Dioxide Emissions(TCO2E) by Energy Category')]]
+        for i in range(len(names)):
+            table_data.append([names[i], str(co2e_values[i])])
+
+        table = ax_table.table(cellText=table_data, loc='center',
+                               cellLoc='center', colWidths=[0.5, 0.5])
+        table.auto_set_font_size(False)
+        table.set_fontsize(10)
+
+        # Style header with green
+        table[0, 0].set_facecolor('#90EE90')
+        table[0, 0].set_text_props(weight='bold')
+        table[0, 1].set_facecolor('#90EE90')
+        table[0, 1].set_text_props(weight='bold')
+        _style_table_borders(table, len(table_data), 2)
+
+        # Pie chart matching Excel
+        filtered = [(n, v) for n, v in zip(names, co2e_values) if v > 0]
+        if filtered:
+            f_names, f_values = zip(*filtered)
+            colors = self.colors['chart_colors'][:len(f_names)]
+            ax_chart.pie(f_values, labels=f_names, autopct='%1.1f%%', colors=colors)
+        ax_chart.set_title(self.name + ' ' + _('Ton of Carbon Dioxide Emissions(TCO2E) by Energy Category'),
+                           fontsize=11, weight='bold')
+
         plt.tight_layout()
         pdf.savefig(fig)
         plt.close()
 
     def _create_child_spaces_page(self, pdf: PdfPages):
-        """Create child spaces data page."""
+        """Create child spaces data page matching Excel table + multiple pie charts."""
         _ = self._
 
         child = self.report.get('child_space', {})
         if not child or 'energy_category_names' not in child or not child['energy_category_names']:
-            # Skip if no child space data
+            return
+        if 'child_space_ids_array' not in child or 'child_space_names_array' not in child:
+            return
+        if not child['child_space_ids_array'] or not child['child_space_names_array']:
+            return
+        if not child['child_space_names_array'][0] or len(child['child_space_names_array'][0]) == 0:
             return
 
-        fig = plt.figure(figsize=self.page_size)
-        gs = gridspec.GridSpec(1, 2, width_ratios=[0.6, 0.4])
-        ax_table = fig.add_subplot(gs[0])
-        ax_table.axis('off')
-        ax_chart = fig.add_subplot(gs[1])
+        names_array = child['child_space_names_array']
+        child_names = names_array[0]
+        child_ids = child['child_space_ids_array'][0]
+        category_names = child['energy_category_names']
+        units = child.get('units', [])
+        subtotals_array = child['subtotals_array']
+        ca_len = len(category_names)
+        space_len = len(child_names)
 
+        fig = plt.figure(figsize=self.page_size)
+
+        # Title
         fig.suptitle(self.name + ' ' + _('Child Spaces Data'),
                      fontsize=16, weight='bold', y=0.98)
 
-        names_array = child.get('child_space_names_array', [])
-        child_names = names_array[0] if names_array else []
-        category_names = child.get('energy_category_names', [])
-        subtotals_array = child.get('subtotals_array', [])
-        ids_array = child.get('child_space_ids_array', [])
-        child_ids = ids_array[0] if ids_array else []
+        # Build table data matching Excel: ID, Child Space, then for each category: Value, Percentage
+        col_headers = [_('ID'), _('Child Space')]
+        for i in range(ca_len):
+            col_headers.append(category_names[i] + ' (' + units[i] + ')')
+            col_headers.append('')  # Percentage column
 
-        # Table
-        table_data = [[_('ID'), _('Child Space')] + category_names]
-
-        for i, name in enumerate(child_names):
-            row = [str(child_ids[i]) if i < len(child_ids) else str(i+1), name]
-            for j in range(len(category_names)):
-                if j < len(subtotals_array) and i < len(subtotals_array[j]):
-                    row.append(f'{round2(subtotals_array[j][i], 2)}')
-                else:
-                    row.append('-')
+        table_data = [col_headers]
+        for i in range(space_len):
+            row = [str(child_ids[i]), child_names[i]]
+            for j in range(ca_len):
+                total = sum(subtotals_array[j]) if subtotals_array[j] else 0
+                val = round2(subtotals_array[j][i], 2) if i < len(subtotals_array[j]) else 0
+                row.append(str(val))
+                pct = str(round2(val / total * 100, 2)) + '%' if total > 0 else '0.00%'
+                row.append(pct)
             table_data.append(row)
 
-        # Limit rows for display
-        max_rows = 20
-        if len(table_data) > max_rows + 1:
-            table_data = table_data[:max_rows + 1]
+        # Layout: table on top, pie charts below
+        num_pie_rows = (ca_len + 2) // 3  # 3 charts per row
+        gs = gridspec.GridSpec(1 + num_pie_rows, 1, height_ratios=[0.5] + [0.5] * num_pie_rows)
+        ax_table = fig.add_subplot(gs[0])
+        ax_table.axis('off')
 
-        col_widths = [0.08, 0.22] + [0.14] * len(category_names)
+        # Column widths
+        num_cols = len(col_headers)
+        col_widths = [0.05, 0.12]
+        for i in range(ca_len):
+            col_widths.extend([0.08, 0.06])
+        # Normalize
+        total_w = sum(col_widths)
+        col_widths = [w / total_w for w in col_widths]
+
         table = ax_table.table(cellText=table_data, loc='center',
                                cellLoc='center', colWidths=col_widths)
         table.auto_set_font_size(False)
-        table.set_fontsize(8)
+        table.set_fontsize(7)
 
-        # Style header
-        for j in range(len(table_data[0])):
-            table[0, j].set_facecolor(self.colors['table_header'])
-            table[0, j].set_text_props(color='white', weight='bold')
+        # Style header with green
+        for j in range(num_cols):
+            table[0, j].set_facecolor('#90EE90')
+            table[0, j].set_text_props(weight='bold')
+        _style_table_borders(table, len(table_data), num_cols)
 
-        # Alternate row colors
-        for i in range(1, len(table_data)):
-            for j in range(len(table_data[0])):
-                if i % 2 == 0:
-                    table[i, j].set_facecolor(self.colors['table_alternate'])
+        # Pie charts - one per category, 3 per row
+        chart_axes = []
+        for i in range(ca_len):
+            row_idx = 1 + i // 3
+            col_idx = i % 3
+            if col_idx == 0:
+                row_gs = gridspec.GridSpecFromSubplotSpec(1, 3, subplot_spec=gs[row_idx])
+            ax_pie = fig.add_subplot(row_gs[col_idx])
+            chart_axes.append(ax_pie)
 
-        # Pie chart for first category
-        if category_names and subtotals_array and len(subtotals_array[0]) > 0:
-            values = subtotals_array[0]
+            # Calculate values for this category
+            values = []
+            for s in range(space_len):
+                val = subtotals_array[i][s] if s < len(subtotals_array[i]) else 0
+                values.append(val)
+
             labels = child_names[:len(values)]
-
-            # Filter zero values
             filtered = [(l, v) for l, v in zip(labels, values) if v > 0]
             if filtered:
                 f_labels, f_values = zip(*filtered)
-                # Limit to top 8 for readability
                 if len(f_labels) > 8:
                     sorted_data = sorted(zip(f_labels, f_values), key=lambda x: x[1], reverse=True)
                     top_data = sorted_data[:7]
@@ -895,16 +806,15 @@ class SpaceEnergyPDFExporter:
                     f_values = [v for _, v in top_data] + [other_sum]
 
                 colors = self.colors['chart_colors'][:len(f_labels)]
-                ax_chart.pie(f_values, labels=f_labels, autopct='%1.1f%%',
-                             colors=colors)
-                ax_chart.set_title(f'{category_names[0]} ' + _('Distribution'), fontsize=12, weight='bold')
+                ax_pie.pie(f_values, labels=f_labels, autopct='%1.1f%%', colors=colors)
+            ax_pie.set_title(category_names[i] + ' (' + units[i] + ')', fontsize=9, weight='bold')
 
         plt.tight_layout()
         pdf.savefig(fig)
         plt.close()
 
     def _create_base_period_working_days_page(self, pdf: PdfPages):
-        """Create base period working/non-working days comparison page."""
+        """Create base period working/non-working days page matching Excel table."""
         _ = self._
 
         base_period = self.report.get('base_period', {})
@@ -914,92 +824,112 @@ class SpaceEnergyPDFExporter:
         non_working = base_period.get('non_working_days_subtotals', [])
         working = base_period.get('working_days_subtotals', [])
         names = base_period.get('names', [])
+        units = base_period.get('units', [])
 
-        if not working or not non_working or sum(working) == 0:
+        if not working or not non_working:
+            return
+        if sum(working) == 0 and sum(non_working) == 0:
             return
 
+        ca_len = len(names)
+
         fig, ax = plt.subplots(figsize=self.page_size)
+        ax.axis('off')
 
-        x = np.arange(len(names))
-        width = 0.35
+        # Title
+        fig.suptitle(self.name + ' ' + _('Base Period Consumption'),
+                     fontsize=16, weight='bold', y=0.98)
 
-        bars1 = ax.bar(x - width/2, working, width, label=_('Working Days'), color='#70AD47')
-        bars2 = ax.bar(x + width/2, non_working, width, label=_('Non Working Days'), color='#ED7D31')
+        # Table matching Excel
+        col_headers = ['', _('Non Working Days') + _('Consumption'),
+                       _('Working Days') + _('Consumption')]
+        table_data = [col_headers]
 
-        ax.set_xlabel(_('Category'))
-        ax.set_ylabel(_('Consumption'))
-        ax.set_title(self.name + ' ' + _('Base Period Consumption - Working vs Non-Working Days'),
-                     fontsize=14, weight='bold')
-        ax.set_xticks(x)
-        ax.set_xticklabels(names, rotation=45)
-        ax.legend()
-        ax.grid(True, alpha=0.3, axis='y')
+        space_working_calendars = self.report.get('space', {}).get('working_calendars', [])
 
-        # Add value labels
-        for bar in bars1:
-            height = bar.get_height()
-            if height > 0:
-                ax.text(bar.get_x() + bar.get_width()/2, height + max(working)*0.02,
-                        f'{round2(height, 0)}', ha='center', fontsize=8)
+        for i in range(ca_len):
+            label = names[i] + ' (' + units[i] + ')'
+            nw_val = non_working[i] if i < len(non_working) else 0
+            w_val = working[i] if i < len(working) else 0
+            nw_display = str(nw_val) if len(space_working_calendars) > 0 and nw_val > 0 else '-'
+            w_display = str(w_val) if len(space_working_calendars) > 0 and w_val > 0 else '-'
+            table_data.append([label, nw_display, w_display])
 
-        for bar in bars2:
-            height = bar.get_height()
-            if height > 0:
-                ax.text(bar.get_x() + bar.get_width()/2, height + max(non_working)*0.02,
-                        f'{round2(height, 0)}', ha='center', fontsize=8)
+        num_cols = len(col_headers)
+        col_widths = [0.4, 0.3, 0.3]
+        table = ax.table(cellText=table_data, loc='center',
+                         cellLoc='center', colWidths=col_widths)
+        table.auto_set_font_size(False)
+        table.set_fontsize(10)
+
+        # Style header with green
+        for j in range(num_cols):
+            table[0, j].set_facecolor('#90EE90')
+            table[0, j].set_text_props(weight='bold')
+        _style_table_borders(table, len(table_data), num_cols)
 
         plt.tight_layout()
         pdf.savefig(fig)
         plt.close()
 
     def _create_reporting_working_days_page(self, pdf: PdfPages):
-        """Create reporting period working/non-working days comparison page."""
+        """Create reporting period working/non-working days page matching Excel table."""
         _ = self._
 
         reporting_period = self.report.get('reporting_period', {})
         non_working = reporting_period.get('non_working_days_subtotals', [])
         working = reporting_period.get('working_days_subtotals', [])
         names = reporting_period.get('names', [])
+        units = reporting_period.get('units', [])
 
-        if not working or not non_working or sum(working) == 0:
+        if not working or not non_working:
+            return
+        if sum(working) == 0 and sum(non_working) == 0:
             return
 
+        ca_len = len(names)
+
         fig, ax = plt.subplots(figsize=self.page_size)
+        ax.axis('off')
 
-        x = np.arange(len(names))
-        width = 0.35
+        # Title
+        fig.suptitle(self.name + ' ' + _('Reporting Period Consumption'),
+                     fontsize=16, weight='bold', y=0.98)
 
-        bars1 = ax.bar(x - width/2, working, width, label=_('Working Days'), color='#70AD47')
-        bars2 = ax.bar(x + width/2, non_working, width, label=_('Non Working Days'), color='#ED7D31')
+        # Table matching Excel
+        col_headers = ['', _('Non Working Days') + _('Consumption'),
+                       _('Working Days') + _('Consumption')]
+        table_data = [col_headers]
 
-        ax.set_xlabel(_('Category'))
-        ax.set_ylabel(_('Consumption'))
-        ax.set_title(self.name + ' ' + _('Reporting Period Consumption - Working vs Non-Working Days'),
-                     fontsize=14, weight='bold')
-        ax.set_xticks(x)
-        ax.set_xticklabels(names, rotation=45)
-        ax.legend()
-        ax.grid(True, alpha=0.3, axis='y')
+        space_working_calendars = self.report.get('space', {}).get('working_calendars', [])
 
-        # Add value labels
-        for bar in bars1:
-            height = bar.get_height()
-            if height > 0:
-                ax.text(bar.get_x() + bar.get_width()/2, height + max(working)*0.02,
-                        f'{round2(height, 0)}', ha='center', fontsize=8)
+        for i in range(ca_len):
+            label = names[i] + ' (' + units[i] + ')'
+            nw_val = non_working[i] if i < len(non_working) else 0
+            w_val = working[i] if i < len(working) else 0
+            nw_display = str(nw_val) if len(space_working_calendars) > 0 and nw_val > 0 else '-'
+            w_display = str(w_val) if len(space_working_calendars) > 0 and w_val > 0 else '-'
+            table_data.append([label, nw_display, w_display])
 
-        for bar in bars2:
-            height = bar.get_height()
-            if height > 0:
-                ax.text(bar.get_x() + bar.get_width()/2, height + max(non_working)*0.02,
-                        f'{round2(height, 0)}', ha='center', fontsize=8)
+        num_cols = len(col_headers)
+        col_widths = [0.4, 0.3, 0.3]
+        table = ax.table(cellText=table_data, loc='center',
+                         cellLoc='center', colWidths=col_widths)
+        table.auto_set_font_size(False)
+        table.set_fontsize(10)
+
+        # Style header with green
+        for j in range(num_cols):
+            table[0, j].set_facecolor('#90EE90')
+            table[0, j].set_text_props(weight='bold')
+        _style_table_borders(table, len(table_data), num_cols)
 
         plt.tight_layout()
         pdf.savefig(fig)
         plt.close()
 
     def _create_detailed_data_page(self, pdf: PdfPages):
-        """Create detailed data page with table and line charts."""
+        """Create detailed data page matching Excel full data table + line charts."""
         _ = self._
 
         reporting_data = self.report['reporting_period']
@@ -1009,148 +939,272 @@ class SpaceEnergyPDFExporter:
             return
 
         names = reporting_data.get('names', [])
+        units = reporting_data.get('units', [])
         values = reporting_data.get('values', [])
         subtotals = reporting_data.get('subtotals', [])
+        ca_len = len(names)
 
-        # Create one page per category with line chart
-        for i, name in enumerate(names):
-            if i >= len(values) or len(values[i]) == 0:
-                continue
-
-            fig, axes = plt.subplots(2, 1, figsize=self.page_size,
-                                     gridspec_kw={'height_ratios': [0.6, 0.4]})
-
-            # Line chart
-            ax_chart = axes[0]
+        if not self.is_base_period_exists:
+            # No base period: table with Datetime + each category
             times = timestamps[0]
-            data = values[i]
+            if len(times) == 0:
+                return
 
-            ax_chart.plot(range(len(data)), data, marker='o', linewidth=2,
-                          color='#4472C4', markersize=6, label=name)
-            ax_chart.fill_between(range(len(data)), data, alpha=0.2, color='#4472C4')
-
-            # Add trend line
-            if len(data) > 1:
-                z = np.polyfit(range(len(data)), data, 1)
-                p = np.poly1d(z)
-                ax_chart.plot(range(len(data)), p(range(len(data))), '--',
-                              color='#FF6B6B', linewidth=1.5, label=_('Trend'))
-
-            ax_chart.set_xticks(range(len(data)))
-            ax_chart.set_xticklabels([t[:10] for t in times], rotation=45, ha='right')
-            ax_chart.set_ylabel(name + ' (' + reporting_data['units'][i] + ')')
-            ax_chart.set_title(_('Reporting Period Consumption') + ' - ' + name,
-                               fontsize=14, weight='bold')
-            ax_chart.legend()
-            ax_chart.grid(True, alpha=0.3)
-
-            # Add average line
-            avg = np.mean(data)
-            ax_chart.axhline(y=avg, color='#70AD47', linestyle=':', linewidth=1.5,
-                             label=f'{_("Average")}: {round2(avg, 2)}')
-            ax_chart.legend()
-
-            # Data table
-            ax_table = axes[1]
+            fig = plt.figure(figsize=self.page_size)
+            gs_rows = 1 + ca_len  # table + one chart per category
+            gs = gridspec.GridSpec(gs_rows, 1, height_ratios=[0.6] + [0.4] * ca_len)
+            ax_table = fig.add_subplot(gs[0])
             ax_table.axis('off')
 
-            # Show last 10 entries
-            display_count = min(10, len(data))
-            start_idx = len(data) - display_count
+            fig.suptitle(self.name + ' ' + _('Detailed Data'),
+                         fontsize=16, weight='bold', y=0.98)
 
-            table_data = [[_('Time'), name + ' (' + reporting_data['units'][i] + ')']]
-            for j in range(display_count):
-                idx = start_idx + j
-                table_data.append([times[idx], f'{round2(data[idx], 2)}'])
+            # Table header
+            col_headers = [_('Datetime')]
+            for i in range(ca_len):
+                col_headers.append(names[i] + ' (' + units[i] + ')')
 
-            # Add subtotal
-            if subtotals and i < len(subtotals):
-                table_data.append([_('Subtotal'), f'{round2(subtotals[i], 2)}'])
+            table_data = [col_headers]
+            for t_idx in range(len(times)):
+                row = [times[t_idx]]
+                for j in range(ca_len):
+                    val = round2(values[j][t_idx], 2) if j < len(values) and t_idx < len(values[j]) else ''
+                    row.append(str(val))
+                table_data.append(row)
 
+            # Subtotal row
+            subtotal_row = [_('Subtotal')]
+            for i in range(ca_len):
+                subtotal_row.append(str(round2(subtotals[i], 2)) if i < len(subtotals) else '')
+            table_data.append(subtotal_row)
+
+            num_cols = len(col_headers)
+            col_widths = [0.15] + [0.85 / ca_len] * ca_len
             table = ax_table.table(cellText=table_data, loc='center',
-                                   cellLoc='center', colWidths=[0.5, 0.5])
+                                   cellLoc='center', colWidths=col_widths)
             table.auto_set_font_size(False)
-            table.set_fontsize(8)
+            table.set_fontsize(7)
 
-            # Style header
-            table[0, 0].set_facecolor(self.colors['table_header'])
-            table[0, 0].set_text_props(color='white', weight='bold')
-            table[0, 1].set_facecolor(self.colors['table_header'])
-            table[0, 1].set_text_props(color='white', weight='bold')
-
+            # Style header with green
+            for j in range(num_cols):
+                table[0, j].set_facecolor('#90EE90')
+                table[0, j].set_text_props(weight='bold')
             # Style subtotal row
-            if subtotals and i < len(subtotals):
-                last_row = len(table_data) - 1
-                table[last_row, 0].set_facecolor(self.colors['table_alternate'])
-                table[last_row, 0].set_text_props(weight='bold')
-                table[last_row, 1].set_facecolor(self.colors['table_alternate'])
-                table[last_row, 1].set_text_props(weight='bold')
+            last_row = len(table_data) - 1
+            for j in range(num_cols):
+                table[last_row, j].set_facecolor('#E8EDF5')
+                table[last_row, j].set_text_props(weight='bold')
+            _style_table_borders(table, len(table_data), num_cols)
+
+            # Line charts - one per category
+            for i in range(ca_len):
+                ax_chart = fig.add_subplot(gs[1 + i])
+                data = values[i] if i < len(values) else []
+                ax_chart.plot(range(len(data)), data, marker='o', linewidth=1.5,
+                              color='#4472C4', markersize=4, label=names[i])
+                ax_chart.fill_between(range(len(data)), data, alpha=0.2, color='#4472C4')
+                ax_chart.set_xticks(range(0, len(times), max(1, len(times) // 10)))
+                ax_chart.set_xticklabels([times[t][:10] for t in range(0, len(times), max(1, len(times) // 10))],
+                                         rotation=45, ha='right', fontsize=7)
+                ax_chart.set_ylabel(names[i] + ' (' + units[i] + ')')
+                ax_chart.set_title(_('Reporting Period Consumption') + ' - ' + names[i] +
+                                   ' (' + units[i] + ')', fontsize=10, weight='bold')
+                ax_chart.grid(True, alpha=0.3)
+
+            plt.tight_layout()
+            pdf.savefig(fig)
+            plt.close()
+        else:
+            # With base period: table with base + reporting data
+            base_period_data = self.report['base_period']
+            base_timestamps = base_period_data.get('timestamps', [])
+            base_values = base_period_data.get('values', [])
+            base_subtotals = base_period_data.get('subtotals', [])
+            base_names = base_period_data.get('names', [])
+            base_units = base_period_data.get('units', [])
+            base_ca_len = len(base_names)
+            reporting_ca_len = ca_len
+
+            base_times = base_timestamps[0] if base_timestamps else []
+            reporting_times = timestamps[0]
+
+            fig = plt.figure(figsize=self.page_size)
+            gs_rows = 1 + reporting_ca_len  # table + one chart per category
+            gs = gridspec.GridSpec(gs_rows, 1, height_ratios=[0.6] + [0.4] * reporting_ca_len)
+            ax_table = fig.add_subplot(gs[0])
+            ax_table.axis('off')
+
+            fig.suptitle(self.name + ' ' + _('Detailed Data'),
+                         fontsize=16, weight='bold', y=0.98)
+
+            # Table header: Base Period - Datetime, Base categories, Reporting Period - Datetime, Reporting categories
+            col_headers = [_('Base Period') + ' - ' + _('Datetime')]
+            for i in range(base_ca_len):
+                col_headers.append(_('Base Period') + ' - ' + base_names[i] + ' (' + base_units[i] + ')')
+            col_headers.append(_('Reporting Period') + ' - ' + _('Datetime'))
+            for i in range(reporting_ca_len):
+                col_headers.append(_('Reporting Period') + ' - ' + names[i] + ' (' + units[i] + ')')
+
+            max_len = max(len(base_times), len(reporting_times))
+            table_data = [col_headers]
+
+            for t_idx in range(max_len):
+                row = []
+                # Base period datetime
+                row.append(base_times[t_idx] if t_idx < len(base_times) else '')
+                # Base period values
+                for j in range(base_ca_len):
+                    if t_idx < len(base_values[j]):
+                        row.append(str(round2(base_values[j][t_idx], 2)))
+                    else:
+                        row.append('')
+                # Reporting period datetime
+                row.append(reporting_times[t_idx] if t_idx < len(reporting_times) else '')
+                # Reporting period values
+                for j in range(reporting_ca_len):
+                    if t_idx < len(values[j]):
+                        row.append(str(round2(values[j][t_idx], 2)))
+                    else:
+                        row.append('')
+                table_data.append(row)
+
+            # Subtotal rows
+            subtotal_row = [_('Subtotal')]
+            for i in range(base_ca_len):
+                subtotal_row.append(str(round2(base_subtotals[i], 2)) if i < len(base_subtotals) else '')
+            subtotal_row.append(_('Subtotal'))
+            for i in range(reporting_ca_len):
+                subtotal_row.append(str(round2(subtotals[i], 2)) if i < len(subtotals) else '')
+            table_data.append(subtotal_row)
+
+            num_cols = len(col_headers)
+            col_widths = [1.0 / num_cols] * num_cols
+            table = ax_table.table(cellText=table_data, loc='center',
+                                   cellLoc='center', colWidths=col_widths)
+            table.auto_set_font_size(False)
+            table.set_fontsize(6)
+
+            # Style header with green
+            for j in range(num_cols):
+                table[0, j].set_facecolor('#90EE90')
+                table[0, j].set_text_props(weight='bold')
+            # Style subtotal row
+            last_row = len(table_data) - 1
+            for j in range(num_cols):
+                table[last_row, j].set_facecolor('#E8EDF5')
+                table[last_row, j].set_text_props(weight='bold')
+            _style_table_borders(table, len(table_data), num_cols)
+
+            # Line charts - comparing base vs reporting for each category
+            for i in range(reporting_ca_len):
+                ax_chart = fig.add_subplot(gs[1 + i])
+                # Plot reporting period data
+                r_data = values[i] if i < len(values) else []
+                ax_chart.plot(range(len(r_data)), r_data, marker='o', linewidth=1.5,
+                              color='#4472C4', markersize=4,
+                              label=_('Reporting Period') + ' - ' + names[i])
+                # Plot base period data if available
+                if i < len(base_values):
+                    b_data = base_values[i]
+                    ax_chart.plot(range(len(b_data)), b_data, marker='s', linewidth=1.5,
+                                  color='#ED7D31', markersize=4,
+                                  label=_('Base Period') + ' - ' + base_names[i])
+                ax_chart.set_xticks(range(0, max_len, max(1, max_len // 10)))
+                ax_chart.set_xticklabels(
+                    [reporting_times[t][:10] if t < len(reporting_times) else ''
+                     for t in range(0, max_len, max(1, max_len // 10))],
+                    rotation=45, ha='right', fontsize=7)
+                ax_chart.set_ylabel(names[i] + ' (' + units[i] + ')')
+                ax_chart.set_title(_('Base Period Consumption') + ' / ' + _('Reporting Period Consumption') +
+                                   ' - ' + names[i] + ' (' + units[i] + ')', fontsize=9, weight='bold')
+                ax_chart.legend(fontsize=7)
+                ax_chart.grid(True, alpha=0.3)
 
             plt.tight_layout()
             pdf.savefig(fig)
             plt.close()
 
     def _create_parameters_page(self, pdf: PdfPages):
-        """Create parameters page with charts."""
+        """Create parameters pages: one page per parameter (table + line chart)."""
         _ = self._
 
         params = self.report.get('parameters', {})
         if not params or not params.get('names') or not params.get('timestamps'):
             return
 
-        names = params.get('names', [])
+        param_names = params.get('names', [])
         timestamps = params.get('timestamps', [])
         values = params.get('values', [])
 
-        # Create page for each parameter
-        for i, name in enumerate(names):
+        # Check if all timestamps are zero
+        all_zero = True
+        for ts_list in timestamps:
+            if ts_list and len(ts_list) > 0:
+                all_zero = False
+                break
+        if all_zero:
+            return
+
+        # One parameter: table page(s) then line chart on a separate page
+        rows_per_table = 50
+        for i, name in enumerate(param_names):
             if i >= len(timestamps) or len(timestamps[i]) == 0:
                 continue
             if i >= len(values) or len(values[i]) == 0:
                 continue
 
-            fig, axes = plt.subplots(2, 1, figsize=self.page_size,
-                                     gridspec_kw={'height_ratios': [0.6, 0.4]})
-
-            # Line chart
-            ax_chart = axes[0]
             times = timestamps[i]
             data = values[i]
+            data_len = len(times)
+            num_sets = (data_len + rows_per_table - 1) // rows_per_table
 
-            ax_chart.plot(range(len(data)), data, marker='o', linewidth=2,
-                          color='#5B9BD5', markersize=6, label=name)
-            ax_chart.fill_between(range(len(data)), data, alpha=0.2, color='#5B9BD5')
+            # --- Table page(s): full width, multiple sets side by side ---
+            fig = plt.figure(figsize=self.page_size)
+            fig.suptitle(self.name + ' ' + _('Parameters') + ' - ' + name,
+                         fontsize=16, weight='bold', y=0.98)
 
-            ax_chart.set_xticks(range(len(data)))
-            ax_chart.set_xticklabels([t[:10] for t in times], rotation=45, ha='right')
+            gs = gridspec.GridSpec(1, num_sets)
+
+            for s in range(num_sets):
+                start_row = s * rows_per_table
+                end_row = min(start_row + rows_per_table, data_len)
+
+                ax_tbl = fig.add_subplot(gs[s])
+                ax_tbl.axis('off')
+
+                tbl_data = [[_('Time'), name]]
+                for j in range(start_row, end_row):
+                    tbl_data.append([times[j], str(round2(data[j], 2))])
+
+                tbl = ax_tbl.table(cellText=tbl_data, loc='upper center',
+                                   cellLoc='center', colWidths=[0.5, 0.5])
+                tbl.auto_set_font_size(False)
+                tbl.set_fontsize(6)
+
+                tbl[0, 0].set_facecolor('#90EE90')
+                tbl[0, 0].set_text_props(weight='bold')
+                tbl[0, 1].set_facecolor('#90EE90')
+                tbl[0, 1].set_text_props(weight='bold')
+                _style_table_borders(tbl, len(tbl_data), 2)
+
+            plt.tight_layout()
+            pdf.savefig(fig)
+            plt.close()
+
+            # --- Line chart page: separate page ---
+            fig, ax_chart = plt.subplots(figsize=self.page_size)
+            ax_chart.plot(range(data_len), data, marker='o', linewidth=1.5,
+                          color='#5B9BD5', markersize=4, label=name)
+            ax_chart.fill_between(range(data_len), data, alpha=0.2, color='#5B9BD5')
+
+            step = max(1, data_len // 10)
+            ax_chart.set_xticks(range(0, data_len, step))
+            ax_chart.set_xticklabels([times[t][:10] for t in range(0, data_len, step)],
+                                     rotation=45, ha='right', fontsize=7)
             ax_chart.set_ylabel(name)
-            ax_chart.set_title(_('Parameters') + ' - ' + name,
+            ax_chart.set_title(self.name + ' ' + _('Parameters') + ' - ' + name,
                                fontsize=14, weight='bold')
             ax_chart.grid(True, alpha=0.3)
-
-            # Data table
-            ax_table = axes[1]
-            ax_table.axis('off')
-
-            # Show last 10 entries
-            display_count = min(10, len(data))
-            start_idx = len(data) - display_count
-
-            table_data = [[_('Time'), name]]
-            for j in range(display_count):
-                idx = start_idx + j
-                table_data.append([times[idx], f'{round2(data[idx], 2)}'])
-
-            table = ax_table.table(cellText=table_data, loc='center',
-                                   cellLoc='center', colWidths=[0.5, 0.5])
-            table.auto_set_font_size(False)
-            table.set_fontsize(8)
-
-            # Style header
-            table[0, 0].set_facecolor(self.colors['table_header'])
-            table[0, 0].set_text_props(color='white', weight='bold')
-            table[0, 1].set_facecolor(self.colors['table_header'])
-            table[0, 1].set_text_props(color='white', weight='bold')
 
             plt.tight_layout()
             pdf.savefig(fig)
