@@ -78,6 +78,23 @@
                 </form>
             </div>
             <div class="col-sm-8">
+                <div ng-show="emissionfactor.factor_type=='fixed'" class="panel panel-primary">
+                    <div class="panel-heading">
+                        <i class="fa fa-leaf"></i> {{'SETTING.EMISSION_FACTOR' | translate}}
+                    </div>
+                    <div class="panel-body text-center" style="padding: 40px 20px;">
+                        <h2 style="margin-top: 0; font-size: 36px; font-weight: bold; color: #1ab394;">
+                            {{ emissionfactor.factor || '---' }}
+                        </h2>
+                        <p style="font-size: 16px; color: #888;">
+                            {{ emissionfactor.unit_of_factor || 'kgCO2/kWh' }}
+                        </p>
+                        <p style="font-size: 14px; color: #aaa; margin-top: 10px;">
+                            <i class="fa fa-clock-o"></i>
+                            {{'SETTING.FIXED' | translate}} &mdash; {{'SETTING.FACTOR_24H_SAME' | translate}}
+                        </p>
+                    </div>
+                </div>
                 <table id="touFactorTable" ng-show="emissionfactor.factor_type=='timeofuse'" class="footable table table-bordered table-hover" data-sort="false" data-page-size="10" >
                     <thead>
                         <tr>

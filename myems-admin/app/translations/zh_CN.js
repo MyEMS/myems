@@ -485,6 +485,7 @@
         EMISSION_FACTOR_TIME_PERIODS_OVERLAP: "同一时段只允许有一种排放因子",
         EMISSION_FACTOR_NOT_FULL_DAY_COVERAGE: "排放因子的时间设置应覆盖完整24小时",
         EMISSION_FACTOR_VALIDITY_WARNING: "注意：每种能源分类的排放因子有效期需连续覆盖所需时间范围，不能缺失或重叠。",
+        FACTOR_24H_SAME: "24小时恒定值",
         FACTOR_TYPE: "因子类型",
         FACTOR: "因子值",
         FIXED: "固定因子",

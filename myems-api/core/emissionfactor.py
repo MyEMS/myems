@@ -281,6 +281,9 @@ class EmissionFactorCollection:
                         raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                                description='API.INVALID_EMISSION_FACTOR')
                     factor = new_values['data']['factor']
+                    if factor <= 0:
+                        raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                               description='API.INVALID_EMISSION_FACTOR')
 
                 add_row = (" INSERT INTO tbl_emission_factors "
                            "             (name, uuid, energy_category_id, factor_type, unit_of_factor, "
@@ -300,6 +303,9 @@ class EmissionFactorCollection:
                 # insert time of use factors
                 if factor_type == 'timeofuse':
                     for timeofuse in new_values['data']['timeofuse']:
+                        if timeofuse['factor'] <= 0:
+                            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                                   description='API.INVALID_EMISSION_FACTOR')
                         add_timeofuse = (" INSERT INTO tbl_emission_factors_timeofuses "
                                          " (emission_factor_id, start_time_of_day, end_time_of_day, factor) "
                                          " VALUES (%s, %s, %s, %s) ")
@@ -586,6 +592,9 @@ class EmissionFactorItem:
                         raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                                description='API.INVALID_EMISSION_FACTOR')
                     factor = new_values['data']['factor']
+                    if factor <= 0:
+                        raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                               description='API.INVALID_EMISSION_FACTOR')
 
                 # update emission factor itself
                 update_row = (" UPDATE tbl_emission_factors "
@@ -617,6 +626,9 @@ class EmissionFactorItem:
                         cnx.commit()
 
                         for timeofuse in new_values['data']['timeofuse']:
+                            if timeofuse['factor'] <= 0:
+                                raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                                       description='API.INVALID_EMISSION_FACTOR')
                             add_timeofuse = (" INSERT INTO tbl_emission_factors_timeofuses "
                                              " (emission_factor_id, start_time_of_day, end_time_of_day, factor) "
                                              " VALUES (%s, %s, %s, %s) ")
@@ -848,6 +860,9 @@ class EmissionFactorImport:
                         raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                                description='API.INVALID_EMISSION_FACTOR')
                     factor = new_values['factor']
+                    if factor <= 0:
+                        raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                               description='API.INVALID_EMISSION_FACTOR')
 
                 add_row = (" INSERT INTO tbl_emission_factors "
                            "             (name, uuid, energy_category_id, factor_type, unit_of_factor, "
@@ -867,6 +882,9 @@ class EmissionFactorImport:
                 # insert time of use factors
                 if factor_type == 'timeofuse':
                     for timeofuse in new_values['timeofuse']:
+                        if timeofuse['factor'] <= 0:
+                            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                                   description='API.INVALID_EMISSION_FACTOR')
                         add_timeofuse = (" INSERT INTO tbl_emission_factors_timeofuses "
                                          " (emission_factor_id, start_time_of_day, end_time_of_day, factor) "
                                          " VALUES (%s, %s, %s, %s) ")

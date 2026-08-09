@@ -472,6 +472,7 @@
                     EMISSION_FACTOR_TIME_PERIODS_OVERLAP: 'Only one factor is allowed in the same time period',
                     EMISSION_FACTOR_NOT_FULL_DAY_COVERAGE: 'The time settings of the emission factors should cover a full 24-hour period',
                     EMISSION_FACTOR_VALIDITY_WARNING: 'Note: The validity period of each emission factor must continuously cover the required time range, without any gaps or overlaps.',
+                    FACTOR_24H_SAME: 'Constant value for 24 hours',
                     FACTOR_TYPE: 'Factor Type',
                     FACTOR: 'Factor',
                     FIXED: 'Fixed',
