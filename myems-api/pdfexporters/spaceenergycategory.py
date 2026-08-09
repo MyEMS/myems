@@ -460,7 +460,7 @@ class SpaceEnergyPDFExporter:
         col_headers.append(_('Ton of Carbon Dioxide Emissions') + '(TCO2E)')
 
         # Build data rows
-        consumption_row = ['']
+        consumption_row = [_('Consumption')]
         for i in range(ca_len):
             consumption_row.append(str(round2(subtotals[i], 2)))
         total_kgce = reporting_data.get('total_in_kgce', 0)
@@ -468,7 +468,7 @@ class SpaceEnergyPDFExporter:
         consumption_row.append(str(round2(total_kgce / 1000, 2)))
         consumption_row.append(str(round2(total_kgco2e / 1000, 2)))
 
-        per_area_row = ['']
+        per_area_row = [_('Per Unit Area')]
         for i in range(ca_len):
             val = subtotals_per_unit_area[i] if subtotals_per_unit_area and i < len(subtotals_per_unit_area) else None
             per_area_row.append(str(round2(val, 2)) if val is not None else '')
@@ -477,7 +477,7 @@ class SpaceEnergyPDFExporter:
         per_area_row.append(str(round2(total_kgce_per_area / 1000, 2)) if total_kgce_per_area is not None else '')
         per_area_row.append(str(round2(total_kgco2e_per_area / 1000, 2)) if total_kgco2e_per_area is not None else '')
 
-        increment_row = ['']
+        increment_row = [_('Increment Rate')]
         for i in range(ca_len):
             val = increment_rates[i] if increment_rates and i < len(increment_rates) else None
             increment_row.append(str(round2(val * 100, 2)) + '%' if val is not None else '')
