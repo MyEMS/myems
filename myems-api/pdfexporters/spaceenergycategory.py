@@ -391,46 +391,39 @@ class SpaceEnergyPDFExporter:
                            reporting_start: str, reporting_end: str,
                            base_period_start: str, base_period_end: str,
                            has_base_period: bool):
-        """Create cover page matching Excel header section."""
+        """Create cover page matching Excel header section (rows 3-5)."""
         _ = self._
         fig, ax = plt.subplots(figsize=self.page_size)
         ax.axis('off')
 
-        # Background
-        ax.add_patch(Rectangle((0, 0), 1, 1, transform=ax.transAxes,
-                               facecolor='#F8F9FA', edgecolor='none'))
-
-        # Title
-        ax.text(0.5, 0.75, name, fontsize=36, ha='center',
-                weight='bold', color='#4472C4', transform=ax.transAxes)
-
-        ax.text(0.5, 0.65, _('Energy Consumption Report'), fontsize=28, ha='center',
-                weight='bold', transform=ax.transAxes)
-
-        # Info table matching Excel layout
+        # Info table matching Excel layout: label | value | label | value
         info_data = [
-            [_('Name'), name, _('Period Type'), period_type],
-            [_('Reporting Start Datetime'), reporting_start,
-             _('Reporting End Datetime'), reporting_end],
+            [_('Name') + ':', name, _('Period Type') + ':', period_type],
+            [_('Reporting Start Datetime') + ':', reporting_start,
+             _('Reporting End Datetime') + ':', reporting_end],
         ]
         if has_base_period:
-            info_data.append([_('Base Period Start Datetime'), base_period_start,
-                              _('Base Period End Datetime'), base_period_end])
+            info_data.append([_('Base Period Start Datetime') + ':', base_period_start,
+                              _('Base Period End Datetime') + ':', base_period_end])
 
         table = ax.table(cellText=info_data, loc='center',
                          cellLoc='center', colWidths=[0.2, 0.3, 0.2, 0.3])
         table.auto_set_font_size(False)
         table.set_fontsize(11)
 
-        # Style header
+        # Style cells matching Excel: labels right-aligned, values centered with bottom border
         for i in range(len(info_data)):
+            # Label columns (col 0 and col 2): right-aligned, no background
             for j in [0, 2]:
-                table[i, j].set_facecolor('#E8EDF5')
-                table[i, j].set_text_props(weight='bold')
-
-        # Footer
-        ax.text(0.5, 0.05, _('Generated') + ': ' + datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
-                fontsize=10, ha='center', color='#999999', transform=ax.transAxes)
+                table[i, j].set_text_props(ha='right')
+            # Value columns (col 1 and col 3): centered, bottom border only
+            for j in [1, 3]:
+                table[i, j].get_text().set_ha('center')
+                # Add bottom border to match Excel's b_border
+                from matplotlib.patches import Rectangle
+                # Use edgecolor for bottom border effect
+                table[i, j].set_edgecolor('#000000')
+                table[i, j].set_linewidth(0.5)
 
         plt.tight_layout()
         pdf.savefig(fig)
