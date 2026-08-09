@@ -33,6 +33,7 @@ from typing import Optional, Dict, List, Any
 import logging
 
 import matplotlib.pyplot as plt
+import matplotlib
 
 from matplotlib.backends.backend_pdf import PdfPages
 from matplotlib.patches import Rectangle
@@ -47,24 +48,285 @@ logger = logging.getLogger(__name__)
 
 # Setup Chinese font support
 def setup_chinese_fonts():
-    """Setup Chinese font support for matplotlib"""
-    font_list = [
-        'SimHei', 'Microsoft YaHei', 'WenQuanYi Micro Hei',
-        'Noto Sans CJK SC', 'PingFang SC', 'Heiti SC',
-        'DejaVu Sans', 'Arial Unicode MS'
+    """
+    Setup Chinese font support for matplotlib.
+    Enhanced version for Kylin V11 and other Linux systems.
+    """
+
+    # 1. First try to load fonts using absolute paths (most reliable)
+    font_paths = [
+        # Kylin system font paths
+        '/usr/share/fonts/wqy/wqy-microhei.ttc',
+        '/usr/share/fonts/wqy/wqy-zenhei.ttc',
+        '/usr/share/fonts/chinese/simhei.ttf',
+        '/usr/share/fonts/chinese/simsun.ttc',
+        '/usr/share/fonts/truetype/wqy/wqy-microhei.ttc',
+        '/usr/share/fonts/truetype/wqy/wqy-zenhei.ttc',
+        '/usr/share/fonts/google-noto-cjk/NotoSansCJK-Regular.ttc',
+        '/usr/share/fonts/noto-cjk/NotoSansCJK-Regular.ttc',
+        '/usr/share/fonts/truetype/noto/NotoSansCJK-Regular.ttc',
+        # User font directories
+        os.path.expanduser('~/.fonts/wqy-microhei.ttc'),
+        os.path.expanduser('~/.fonts/wqy-zenhei.ttc'),
+        os.path.expanduser('~/.fonts/simhei.ttf'),
+        os.path.expanduser('~/.local/share/fonts/wqy-microhei.ttc'),
+        os.path.expanduser('~/.local/share/fonts/wqy-zenhei.ttc'),
     ]
 
-    for font in font_list:
-        try:
-            plt.rcParams['font.sans-serif'] = [font]
-            plt.rcParams['axes.unicode_minus'] = False
-            return True
-        except Exception:
-            continue
+    # Try each font path
+    for font_path in font_paths:
+        if os.path.exists(font_path):
+            try:
+                # Clear existing font cache to force reload
+                if hasattr(matplotlib, '_get_cachedir'):
+                    cache_dir = matplotlib._get_cachedir()
+                    if os.path.exists(cache_dir):
+                        import shutil
+                        shutil.rmtree(cache_dir)
+                        logger.info(f"Cleared matplotlib font cache: {cache_dir}")
 
+                # Set font using file path
+                from matplotlib.font_manager import FontProperties
+                prop = FontProperties(fname=font_path)
+                plt.rcParams['font.family'] = prop.get_name()
+                plt.rcParams['axes.unicode_minus'] = False
+                logger.info(f"Successfully loaded font from: {font_path}")
+                return True
+            except Exception as e:
+                logger.warning(f"Failed to load font from {font_path}: {e}")
+                continue
+
+    # 2. Try using font names (if fonts are installed in system)
+    try:
+        import matplotlib.font_manager as fm
+        # Rebuild font cache if possible
+        try:
+            fm._rebuild()
+            logger.info("Rebuilt matplotlib font cache")
+        except Exception as e:
+            logger.warning(f"Could not rebuild font cache: {e}")
+
+        # Get available fonts
+        available_fonts = [f.name for f in fm.fontManager.ttflist]
+        logger.debug(f"Available fonts: {available_fonts[:20]}")
+
+        # Priority list of Chinese fonts
+        font_names = [
+            'WenQuanYi Micro Hei',
+            'WenQuanYi Zen Hei',
+            'Noto Sans CJK SC',
+            'Noto Sans CJK JP',
+            'Noto Sans CJK TC',
+            'Noto Sans S Chinese',
+            'Noto Sans SC',
+            'SimHei',
+            'Microsoft YaHei',
+            'PingFang SC',
+            'Heiti SC',
+            'STHeiti',
+            'STSong',
+            'STKaiti',
+            'FangSong',
+            'KaiTi',
+            'SimSun',
+            'AR PL UKai CN',
+            'AR PL UMing CN',
+        ]
+
+        for font_name in font_names:
+            # Check if font is available
+            is_available = False
+            for available in available_fonts:
+                if font_name.lower() in available.lower() or available.lower() in font_name.lower():
+                    is_available = True
+                    logger.info(f"Found matching font: {available} (requested: {font_name})")
+                    break
+
+            if is_available:
+                try:
+                    plt.rcParams['font.sans-serif'] = [font_name]
+                    plt.rcParams['axes.unicode_minus'] = False
+                    logger.info(f"Successfully set font to: {font_name}")
+                    return True
+                except Exception as e:
+                    logger.warning(f"Failed to set font {font_name}: {e}")
+                    continue
+
+        # 3. Try to auto-select any Chinese font
+        try:
+            for f in fm.fontManager.ttflist:
+                font_name_lower = f.name.lower()
+                keywords = ['wenquan', 'noto', 'simhei', 'simsun', 'kaiti', 'fangsong',
+                            'stsong', 'stkaiti', 'stzhongsong', 'microsoft', 'pingfang',
+                            'heiti', 'cjk', 'chinese', 'cn', 'sc', 'tc']
+                if any(keyword in font_name_lower for keyword in keywords):
+                    logger.info(f"Auto-selected font: {f.name}")
+                    plt.rcParams['font.sans-serif'] = [f.name]
+                    plt.rcParams['axes.unicode_minus'] = False
+                    return True
+        except Exception as e:
+            logger.warning(f"Failed to auto-select font: {e}")
+
+    except Exception as e:
+        logger.warning(f"Error during font setup: {e}")
+
+    # 4. Fallback to DejaVu Sans (may not display Chinese properly)
     plt.rcParams['font.sans-serif'] = ['DejaVu Sans']
     plt.rcParams['axes.unicode_minus'] = False
+    logger.warning("No Chinese font found, using DejaVu Sans (Chinese may not display correctly)")
+    logger.warning("Please install Chinese fonts: yum install wqy-zenhei-fonts wqy-microhei-fonts")
     return False
+
+
+def diagnose_fonts():
+    """
+    Diagnostic function to check font availability on the system.
+    Useful for debugging font issues.
+    """
+    print("=" * 70)
+    print("Font Diagnosis Tool for Kylin V11")
+    print("=" * 70)
+
+    # 1. Check system font directories
+    print("\n1. Checking common font directories:")
+    common_paths = [
+        '/usr/share/fonts/',
+        '/usr/share/fonts/truetype/',
+        '/usr/share/fonts/wqy/',
+        '/usr/share/fonts/chinese/',
+        '/usr/share/fonts/google-noto-cjk/',
+        '/usr/share/fonts/noto-cjk/',
+        '/usr/share/fonts/truetype/noto/',
+        os.path.expanduser('~/.fonts/'),
+        os.path.expanduser('~/.local/share/fonts/'),
+    ]
+
+    found_fonts = []
+    for path in common_paths:
+        if os.path.exists(path):
+            print(f"  ✓ {path} exists")
+            try:
+                files = os.listdir(path)
+                font_files = [f for f in files if f.endswith(('.ttf', '.ttc', '.otf'))]
+                if font_files:
+                    print(f"    Found {len(font_files)} font files:")
+                    for f in font_files[:10]:
+                        print(f"      - {f}")
+                        found_fonts.append(os.path.join(path, f))
+                else:
+                    print("    No font files found")
+            except Exception as e:
+                print(f"    Error reading directory: {e}")
+        else:
+            print(f"  ✗ {path} does not exist")
+
+    # 2. Check matplotlib font manager
+    print("\n2. Checking matplotlib font manager:")
+    try:
+        import matplotlib.font_manager as fm
+        available_fonts = fm.fontManager.ttflist
+        print(f"  Total fonts available: {len(available_fonts)}")
+
+        # Search for Chinese fonts
+        chinese_fonts = []
+        for f in available_fonts:
+            font_name_lower = f.name.lower()
+            keywords = ['wenquan', 'noto', 'simhei', 'simsun', 'kaiti', 'fangsong',
+                        'stsong', 'stkaiti', 'stzhongsong', 'microsoft', 'pingfang',
+                        'heiti', 'cjk', 'chinese', 'cn', 'sc', 'tc']
+            if any(keyword in font_name_lower for keyword in keywords):
+                chinese_fonts.append((f.name, f.fname))
+
+        if chinese_fonts:
+            print(f"  Found {len(chinese_fonts)} Chinese fonts:")
+            for name, path in chinese_fonts[:20]:
+                print(f"    - {name}: {path}")
+        else:
+            print("  ⚠ No Chinese fonts found in matplotlib")
+
+    except Exception as e:
+        print(f"  Error: {e}")
+
+    # 3. Check matplotlib cache
+    print("\n3. Matplotlib cache:")
+    try:
+        cache_dir = matplotlib.get_cachedir()
+        print(f"  Cache directory: {cache_dir}")
+        if os.path.exists(cache_dir):
+            import shutil
+            size = sum(os.path.getsize(os.path.join(cache_dir, f))
+                       for f in os.listdir(cache_dir)
+                       if os.path.isfile(os.path.join(cache_dir, f)))
+            print(f"  Cache size: {size / 1024:.2f} KB")
+            print(f"  Number of files: {len(os.listdir(cache_dir))}")
+        else:
+            print("  Cache does not exist")
+    except Exception as e:
+        print(f"  Error: {e}")
+
+    # 4. Test font rendering
+    print("\n4. Testing font rendering:")
+    try:
+        # Setup fonts first
+        setup_chinese_fonts()
+
+        fig, ax = plt.subplots(figsize=(8, 3))
+        test_text = '中文测试 Chinese Test: 你好世界 Hello World'
+        ax.text(0.5, 0.5, test_text, fontsize=20, ha='center', va='center')
+        ax.set_xlim(0, 1)
+        ax.set_ylim(0, 1)
+        ax.axis('off')
+
+        test_file = '/tmp/test_chinese_font_kylin.pdf'
+        plt.savefig(test_file, dpi=150, bbox_inches='tight')
+        plt.close()
+
+        if os.path.exists(test_file):
+            size = os.path.getsize(test_file)
+            print(f"  ✓ Test PDF generated: {test_file}")
+            print(f"    Size: {size} bytes")
+            print(f"    You can check: {test_file}")
+        else:
+            print("  ✗ Failed to generate test PDF")
+
+    except Exception as e:
+        print(f"  ✗ Error testing font: {e}")
+
+    print("\n" + "=" * 70)
+    print("Diagnosis complete.")
+    print("If Chinese fonts are missing, install them with:")
+    print("  yum install -y wqy-zenhei-fonts wqy-microhei-fonts")
+    print("  fc-cache -fv")
+    print("Then rebuild matplotlib font cache:")
+    print("  rm -rf ~/.cache/matplotlib")
+    print("=" * 70)
+
+
+def rebuild_font_cache():
+    """
+    Rebuild matplotlib font cache.
+    Call this after installing new fonts.
+    """
+    logger.info("Rebuilding matplotlib font cache...")
+    try:
+        import matplotlib.font_manager as fm
+        fm._rebuild()
+        logger.info("Font cache rebuilt successfully")
+
+        # Clear matplotlib's internal cache
+        try:
+            cache_dir = matplotlib.get_cachedir()
+            if os.path.exists(cache_dir):
+                import shutil
+                shutil.rmtree(cache_dir)
+                logger.info(f"Cleared cache directory: {cache_dir}")
+        except Exception as e:
+            logger.warning(f"Could not clear cache directory: {e}")
+
+        return True
+    except Exception as e:
+        logger.error(f"Failed to rebuild font cache: {e}")
+        return False
 
 
 def _convert_decimals(obj):
@@ -94,7 +356,9 @@ class SpaceEnergyPDFExporter:
             language: Language code ('zh_CN', 'en_US', etc.)
         """
         # Setup Chinese fonts lazily on first instantiation
-        setup_chinese_fonts()
+        font_setup_success = setup_chinese_fonts()
+        if not font_setup_success:
+            logger.warning("Chinese font setup failed, some text may not display correctly")
 
         self.language = language
         self.trans = get_translation(language)
@@ -922,6 +1186,3 @@ def export(report, name, base_period_start_datetime_local,
                            reporting_end_datetime_local,
                            period_type,
                            language)
-
-
- 
