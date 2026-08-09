@@ -15,3 +15,4 @@ kaleido==0.2.1
 requests==2.33.0
 redis==5.2.1
 bleach==6.1.0
+pandas==2.0.3
