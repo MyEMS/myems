@@ -32,8 +32,9 @@ from decimal import Decimal
 from typing import Optional, Dict, List, Any
 import logging
 
-import matplotlib.pyplot as plt
 import matplotlib
+matplotlib.use('Agg')  # Use non-interactive backend to avoid GUI thread warnings
+import matplotlib.pyplot as plt
 
 from matplotlib.backends.backend_pdf import PdfPages
 from matplotlib.patches import Rectangle
@@ -50,131 +51,29 @@ logger = logging.getLogger(__name__)
 def setup_chinese_fonts():
     """
     Setup Chinese font support for matplotlib.
-    Enhanced version for Kylin V11 and other Linux systems.
+    Loads the bundled NotoSansCJK font from pdfexporters/fonts/.
     """
-
-    # 1. First try to load fonts using absolute paths (most reliable)
-    font_paths = [
-        # Kylin system font paths
-        '/usr/share/fonts/wqy/wqy-microhei.ttc',
-        '/usr/share/fonts/wqy/wqy-zenhei.ttc',
-        '/usr/share/fonts/chinese/simhei.ttf',
-        '/usr/share/fonts/chinese/simsun.ttc',
-        '/usr/share/fonts/truetype/wqy/wqy-microhei.ttc',
-        '/usr/share/fonts/truetype/wqy/wqy-zenhei.ttc',
-        '/usr/share/fonts/google-noto-cjk/NotoSansCJK-Regular.ttc',
-        '/usr/share/fonts/noto-cjk/NotoSansCJK-Regular.ttc',
-        '/usr/share/fonts/truetype/noto/NotoSansCJK-Regular.ttc',
-        # User font directories
-        os.path.expanduser('~/.fonts/wqy-microhei.ttc'),
-        os.path.expanduser('~/.fonts/wqy-zenhei.ttc'),
-        os.path.expanduser('~/.fonts/simhei.ttf'),
-        os.path.expanduser('~/.local/share/fonts/wqy-microhei.ttc'),
-        os.path.expanduser('~/.local/share/fonts/wqy-zenhei.ttc'),
-    ]
-
-    # Try each font path
-    for font_path in font_paths:
-        if os.path.exists(font_path):
-            try:
-                # Clear existing font cache to force reload
-                if hasattr(matplotlib, '_get_cachedir'):
-                    cache_dir = matplotlib._get_cachedir()
-                    if os.path.exists(cache_dir):
-                        import shutil
-                        shutil.rmtree(cache_dir)
-                        logger.info(f"Cleared matplotlib font cache: {cache_dir}")
-
-                # Set font using file path
-                from matplotlib.font_manager import FontProperties
-                prop = FontProperties(fname=font_path)
-                plt.rcParams['font.family'] = prop.get_name()
-                plt.rcParams['axes.unicode_minus'] = False
-                logger.info(f"Successfully loaded font from: {font_path}")
-                return True
-            except Exception as e:
-                logger.warning(f"Failed to load font from {font_path}: {e}")
-                continue
-
-    # 2. Try using font names (if fonts are installed in system)
+    # Use bundled NotoSansCJK font for cross-platform CJK support
+    font_path = os.path.join(os.path.dirname(os.path.abspath(__file__)),
+                             'fonts', 'NotoSansCJK-Regular.ttc')
     try:
         import matplotlib.font_manager as fm
-        # Rebuild font cache if possible
-        try:
-            fm._rebuild()
-            logger.info("Rebuilt matplotlib font cache")
-        except Exception as e:
-            logger.warning(f"Could not rebuild font cache: {e}")
-
-        # Get available fonts
-        available_fonts = [f.name for f in fm.fontManager.ttflist]
-        logger.debug(f"Available fonts: {available_fonts[:20]}")
-
-        # Priority list of Chinese fonts
-        font_names = [
-            'WenQuanYi Micro Hei',
-            'WenQuanYi Zen Hei',
-            'Noto Sans CJK SC',
-            'Noto Sans CJK JP',
-            'Noto Sans CJK TC',
-            'Noto Sans S Chinese',
-            'Noto Sans SC',
-            'SimHei',
-            'Microsoft YaHei',
-            'PingFang SC',
-            'Heiti SC',
-            'STHeiti',
-            'STSong',
-            'STKaiti',
-            'FangSong',
-            'KaiTi',
-            'SimSun',
-            'AR PL UKai CN',
-            'AR PL UMing CN',
-        ]
-
-        for font_name in font_names:
-            # Check if font is available
-            is_available = False
-            for available in available_fonts:
-                if font_name.lower() in available.lower() or available.lower() in font_name.lower():
-                    is_available = True
-                    logger.info(f"Found matching font: {available} (requested: {font_name})")
-                    break
-
-            if is_available:
-                try:
-                    plt.rcParams['font.sans-serif'] = [font_name]
-                    plt.rcParams['axes.unicode_minus'] = False
-                    logger.info(f"Successfully set font to: {font_name}")
-                    return True
-                except Exception as e:
-                    logger.warning(f"Failed to set font {font_name}: {e}")
-                    continue
-
-        # 3. Try to auto-select any Chinese font
-        try:
-            for f in fm.fontManager.ttflist:
-                font_name_lower = f.name.lower()
-                keywords = ['wenquan', 'noto', 'simhei', 'simsun', 'kaiti', 'fangsong',
-                            'stsong', 'stkaiti', 'stzhongsong', 'microsoft', 'pingfang',
-                            'heiti', 'cjk', 'chinese', 'cn', 'sc', 'tc']
-                if any(keyword in font_name_lower for keyword in keywords):
-                    logger.info(f"Auto-selected font: {f.name}")
-                    plt.rcParams['font.sans-serif'] = [f.name]
-                    plt.rcParams['axes.unicode_minus'] = False
-                    return True
-        except Exception as e:
-            logger.warning(f"Failed to auto-select font: {e}")
-
+        # Register the font file with matplotlib font manager
+        fm.fontManager.addfont(font_path)
+        prop = fm.FontProperties(fname=font_path)
+        font_name = prop.get_name()
+        plt.rcParams['font.sans-serif'] = [font_name]
+        plt.rcParams['axes.unicode_minus'] = False
+        logger.info(f"Successfully loaded bundled font: {font_name} from {font_path}")
+        return True
     except Exception as e:
-        logger.warning(f"Error during font setup: {e}")
+        logger.warning(f"Failed to load bundled font from {font_path}: {e}")
 
-    # 4. Fallback to DejaVu Sans (may not display Chinese properly)
+    # Fallback to DejaVu Sans (may not display Chinese properly)
     plt.rcParams['font.sans-serif'] = ['DejaVu Sans']
     plt.rcParams['axes.unicode_minus'] = False
-    logger.warning("No Chinese font found, using DejaVu Sans (Chinese may not display correctly)")
-    logger.warning("Please install Chinese fonts: yum install wqy-zenhei-fonts wqy-microhei-fonts")
+    logger.warning("Failed to load bundled NotoSansCJK font, using DejaVu Sans "
+                   "(Chinese may not display correctly)")
     return False
 
 
