@@ -27,7 +27,7 @@ import base64
 import os
 import uuid
 
-from datetime import datetime
+
 from decimal import Decimal
 from typing import Optional, Dict, List, Any
 import logging
@@ -37,9 +37,9 @@ matplotlib.use('Agg')  # Use non-interactive backend to avoid GUI thread warning
 import matplotlib.pyplot as plt
 
 from matplotlib.backends.backend_pdf import PdfPages
-from matplotlib.patches import Rectangle
+
 import matplotlib.gridspec as gridspec
-import numpy as np
+
 
 from core.utilities import get_translation, round2
 
