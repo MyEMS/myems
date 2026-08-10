@@ -285,22 +285,22 @@ def main(logger):
 
                 try:
                     # Build INSERT statement for virtual meter carbon emissions data
-                    query = (" INSERT INTO tbl_virtual_meter_hourly "
-                                 "             (virtual_meter_id , start_datetime_utc , actual_value) "
-                                 " VALUES  (%s, %s, %s)")
+                    add_values = (" INSERT INTO tbl_virtual_meter_hourly "
+                                  "             (virtual_meter_id, "
+                                  "              start_datetime_utc, "
+                                  "              actual_value) "
+                                  " VALUES  ")
 
                     # Add each carbon emissions value to the INSERT statement
-                    data = list()
                     for aggregated_value in insert_100:
                         if aggregated_value['actual_value'] is not None and \
                                 isinstance(aggregated_value['actual_value'], Decimal):
-                            data.append((virtual_meter['id'],
-                            aggregated_value['start_datetime_utc'],
-                            aggregated_value['actual_value']))
+                            add_values += " (" + str(virtual_meter['id']) + ","
+                            add_values += "'" + aggregated_value['start_datetime_utc'].isoformat()[0:19] + "',"
+                            add_values += str(aggregated_value['actual_value']) + "), "
 
                     # Trim ", " at the end of string and then execute
-                    if data:
-                        cursor_carbon_db.executemany(query, data)
+                    cursor_carbon_db.execute(add_values[:-2])
                     cnx_carbon_db.commit()
                 except Exception as e:
                     logger.error("Error in step 6 of virtual_meter_carbon " + str(e))

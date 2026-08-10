@@ -294,24 +294,25 @@ def main(logger):
             if len(carbon_dict) > 0:
                 try:
                     # Prepare bulk insert statement for carbon emissions data
-                    query = (" INSERT INTO tbl_shopfloor_input_category_hourly "
-                                 "             (shopfloor_id , energy_category_id , start_datetime_utc , actual_value) "
-                                 " VALUES  (%s, %s, %s, %s)")
+                    add_values = (" INSERT INTO tbl_shopfloor_input_category_hourly "
+                                  "             (shopfloor_id, "
+                                  "              energy_category_id, "
+                                  "              start_datetime_utc, "
+                                  "              actual_value) "
+                                  " VALUES  ")
 
                     # Build values string for bulk insert
-                    data = list()
                     for current_datetime_utc in carbon_dict:
                         for energy_category_id in energy_category_list:
                             current_carbon = carbon_dict[current_datetime_utc].get(energy_category_id)
                             if current_carbon is not None and isinstance(current_carbon, Decimal):
-                                data.append((shopfloor['id'],
-                                energy_category_id,
-                                current_datetime_utc,
-                                current_carbon))
+                                add_values += " (" + str(shopfloor['id']) + ","
+                                add_values += " " + str(energy_category_id) + ","
+                                add_values += "'" + current_datetime_utc.isoformat()[0:19] + "',"
+                                add_values += str(current_carbon) + "), "
 
                     # Execute bulk insert (trim trailing ", " before execution)
-                    if data:
-                        cursor_carbon_db.executemany(query, data)
+                    cursor_carbon_db.execute(add_values[:-2])
                     cnx_carbon_db.commit()
                 except Exception as e:
                     logger.error("Error in step 6 of shopfloor_carbon_input_category " + str(e))

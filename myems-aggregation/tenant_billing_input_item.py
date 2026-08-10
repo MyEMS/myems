@@ -281,23 +281,25 @@ def main(logger):
             if len(billing_dict) > 0:
                 try:
                     # Prepare SQL statement for bulk insert
-                    query = (" INSERT INTO tbl_tenant_input_item_hourly "
-                                 "             (tenant_id , energy_item_id , start_datetime_utc , actual_value) "
-                                 " VALUES  (%s, %s, %s, %s)")
+                    add_values = (" INSERT INTO tbl_tenant_input_item_hourly "
+                                  "             (tenant_id, "
+                                  "              energy_item_id, "
+                                  "              start_datetime_utc, "
+                                  "              actual_value) "
+                                  " VALUES  ")
 
                     # Build values for bulk insert
-                    data = list()
                     for current_datetime_utc in billing_dict:
                         for energy_item_id in energy_item_list:
                             current_billing = billing_dict[current_datetime_utc].get(energy_item_id)
                             if current_billing is not None and isinstance(current_billing, Decimal):
-                                data.append((tenant['id'],
-                                energy_item_id,
-                                current_datetime_utc,
-                                billing_dict[current_datetime_utc][energy_item_id]))
+                                add_values += " (" + str(tenant['id']) + ","
+                                add_values += " " + str(energy_item_id) + ","
+                                add_values += "'" + current_datetime_utc.isoformat()[0:19] + "',"
+                                add_values += str(billing_dict[current_datetime_utc][energy_item_id]) + "), "
+                    # print("add_values:" + add_values)
                     # Remove trailing comma and space, then execute the query
-                    if data:
-                        cursor_billing_db.executemany(query, data)
+                    cursor_billing_db.execute(add_values[:-2])
                     cnx_billing_db.commit()
                 except Exception as e:
                     logger.error("Error in step 6 of tenant_billing_input_item " + str(e))

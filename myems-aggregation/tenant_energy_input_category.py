@@ -549,20 +549,22 @@ def worker(tenant):
         insert_100 = aggregated_values[:100]
         aggregated_values = aggregated_values[100:]
         try:
-            query = (" INSERT INTO tbl_tenant_input_category_hourly "
-                         "             (tenant_id , energy_category_id , start_datetime_utc , actual_value) "
-                         " VALUES  (%s, %s, %s, %s)")
+            add_values = (" INSERT INTO tbl_tenant_input_category_hourly "
+                          "             (tenant_id, "
+                          "              energy_category_id, "
+                          "              start_datetime_utc, "
+                          "              actual_value) "
+                          " VALUES  ")
 
-            data = list()
             for aggregated_value in insert_100:
                 for energy_category_id, actual_value in aggregated_value['meta_data'].items():
-                    data.append((tenant['id'],
-                    energy_category_id,
-                    aggregated_value['start_datetime_utc'],
-                    actual_value))
+                    add_values += " (" + str(tenant['id']) + ","
+                    add_values += " " + str(energy_category_id) + ","
+                    add_values += "'" + aggregated_value['start_datetime_utc'].isoformat()[0:19] + "',"
+                    add_values += str(actual_value) + "), "
+            # print("add_values:" + add_values)
             # trim ", " at the end of string and then execute
-            if data:
-                cursor_energy_db.executemany(query, data)
+            cursor_energy_db.execute(add_values[:-2])
             cnx_energy_db.commit()
 
         except Exception as e:

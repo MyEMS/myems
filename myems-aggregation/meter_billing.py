@@ -283,22 +283,22 @@ def main(logger):
 
                 try:
                     # Build INSERT statement for billing data
-                    query = (" INSERT INTO tbl_meter_hourly "
-                                 "             (meter_id , start_datetime_utc , actual_value) "
-                                 " VALUES  (%s, %s, %s)")
+                    add_values = (" INSERT INTO tbl_meter_hourly "
+                                  "             (meter_id, "
+                                  "              start_datetime_utc, "
+                                  "              actual_value) "
+                                  " VALUES  ")
 
                     # Add each billing value to the INSERT statement
-                    data = list()
                     for aggregated_value in insert_100:
                         if aggregated_value['actual_value'] is not None and \
                                 isinstance(aggregated_value['actual_value'], Decimal):
-                            data.append((meter['id'],
-                            aggregated_value['start_datetime_utc'],
-                            aggregated_value['actual_value']))
+                            add_values += " (" + str(meter['id']) + ","
+                            add_values += "'" + aggregated_value['start_datetime_utc'].isoformat()[0:19] + "',"
+                            add_values += str(aggregated_value['actual_value']) + "), "
 
                     # Trim ", " at the end of string and then execute
-                    if data:
-                        cursor_billing_db.executemany(query, data)
+                    cursor_billing_db.execute(add_values[:-2])
                     cnx_billing_db.commit()
                 except Exception as e:
                     logger.error("Error in step 6 of meter_billing " + str(e))

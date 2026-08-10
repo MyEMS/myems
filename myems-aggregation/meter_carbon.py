@@ -284,25 +284,23 @@ def main(logger):
                 aggregated_values = aggregated_values[100:]  # Remove processed items
 
                 try:
-                    # Use parameterized query for batch insert
-                    query = (" INSERT INTO tbl_meter_hourly "
-                             "             (meter_id, "
-                             "              start_datetime_utc, "
-                             "              actual_value) "
-                             " VALUES  (%s, %s, %s)")
+                    # Build INSERT statement for carbon emissions data
+                    add_values = (" INSERT INTO tbl_meter_hourly "
+                                  "             (meter_id, "
+                                  "              start_datetime_utc, "
+                                  "              actual_value) "
+                                  " VALUES  ")
 
-                    # Build parameter list for batch insert
-                    data = list()
+                    # Add each carbon emissions value to the INSERT statement
                     for aggregated_value in insert_100:
                         if aggregated_value['actual_value'] is not None and \
                                 isinstance(aggregated_value['actual_value'], Decimal):
-                            data.append((meter['id'],
-                                         aggregated_value['start_datetime_utc'],
-                                         aggregated_value['actual_value']))
+                            add_values += " (" + str(meter['id']) + ","
+                            add_values += "'" + aggregated_value['start_datetime_utc'].isoformat()[0:19] + "',"
+                            add_values += str(aggregated_value['actual_value']) + "), "
 
-                    # Execute parameterized batch insert
-                    if data:
-                        cursor_carbon_db.executemany(query, data)
+                    # Trim ", " at the end of string and then execute
+                    cursor_carbon_db.execute(add_values[:-2])
                     cnx_carbon_db.commit()
                 except Exception as e:
                     logger.error("Error in step 6 of meter_carbon " + str(e))

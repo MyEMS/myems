@@ -1195,22 +1195,23 @@ def worker(space):
 
         try:
             # Build INSERT statement for space energy input item data
-            query = (" INSERT INTO tbl_space_input_item_hourly "
-                         "             (space_id , energy_item_id , start_datetime_utc , actual_value) "
-                         " VALUES  (%s, %s, %s, %s)")
+            add_values = (" INSERT INTO tbl_space_input_item_hourly "
+                          "             (space_id, "
+                          "              energy_item_id, "
+                          "              start_datetime_utc, "
+                          "              actual_value) "
+                          " VALUES  ")
 
             # Add each aggregated value to the INSERT statement
-            data = list()
             for aggregated_value in insert_100:
                 for energy_item_id, actual_value in aggregated_value['meta_data'].items():
-                    data.append((space['id'],
-                    energy_item_id,
-                    aggregated_value['start_datetime_utc'],
-                    actual_value))
+                    add_values += " (" + str(space['id']) + ","
+                    add_values += " " + str(energy_item_id) + ","
+                    add_values += "'" + aggregated_value['start_datetime_utc'].isoformat()[0:19] + "',"
+                    add_values += str(actual_value) + "), "
 
             # Trim ", " at the end of string and then execute
-            if data:
-                cursor_energy_db.executemany(query, data)
+            cursor_energy_db.execute(add_values[:-2])
             cnx_energy_db.commit()
 
         except Exception as e:
