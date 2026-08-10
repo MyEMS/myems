@@ -12,7 +12,7 @@ The module supports:
 """
 
 import collections
-from datetime import timedelta
+from datetime import datetime, timedelta
 
 import mysql.connector
 
@@ -31,8 +31,8 @@ def get_energy_category_factor(cost_center_id, energy_category_id, start_datetim
     If no matching factor is found, it falls back to the static kgco2e field
     in tbl_energy_categories.
 
-    For 'fixed' factor type, the same factor value is used for all time slots.
-    For 'timeofuse' factor type, different factors are applied based on the time of day.
+    Different factors are applied based on the time of day.
+    A factor covering 00:00:00-24:00:00 represents a constant value.
 
     Args:
         cost_center_id: ID of the cost center for emission factor lookup
@@ -43,6 +43,16 @@ def get_energy_category_factor(cost_center_id, energy_category_id, start_datetim
     Returns:
         Dictionary mapping datetime_utc to factor value for each time slot in the period
     """
+    # Validate input parameters
+    if not isinstance(cost_center_id, int) or cost_center_id <= 0:
+        raise ValueError("Invalid cost_center_id")
+    if not isinstance(energy_category_id, int) or energy_category_id <= 0:
+        raise ValueError("Invalid energy_category_id")
+    if not isinstance(start_datetime_utc, datetime) or not isinstance(end_datetime_utc, datetime):
+        raise ValueError("Invalid start_datetime_utc or end_datetime_utc")
+    if start_datetime_utc > end_datetime_utc:
+        raise ValueError("start_datetime_utc must be before end_datetime_utc")
+
     # Get timezone offset in minutes for converting UTC to local time
     timezone_offset = int(config.utc_offset[1:3]) * 60 + int(config.utc_offset[4:6])
     if config.utc_offset[0] == '-':
@@ -60,7 +70,7 @@ def get_energy_category_factor(cost_center_id, energy_category_id, start_datetim
         cursor = cnx.cursor()
 
         # Query for emission factors that apply to the specified energy category and cost center
-        query_factors = (" SELECT ef.id, ef.factor_type, ef.factor, "
+        query_factors = (" SELECT ef.id, "
                          "        ef.valid_from_datetime_utc, ef.valid_through_datetime_utc "
                          " FROM tbl_emission_factors ef, tbl_cost_centers_emission_factors ccef "
                          " WHERE ef.energy_category_id = %s AND "
@@ -91,21 +101,19 @@ def get_energy_category_factor(cost_center_id, energy_category_id, start_datetim
     # Build emission factor dictionary with validity periods
     for row in rows_factors:
         emission_factor_dict[row[0]] = {
-            'factor_type': row[1],
-            'factor': row[2],
-            'valid_from_datetime_utc': row[3],
-            'valid_through_datetime_utc': row[4],
+            'valid_from_datetime_utc': row[1],
+            'valid_through_datetime_utc': row[2],
             'rates': list()
         }
 
-    # Retrieve time-of-use rates for timeofuse type factors
-    timeofuse_factor_ids = [k for k, v in emission_factor_dict.items() if v['factor_type'] == 'timeofuse']
-    if timeofuse_factor_ids:
+    # Retrieve time-of-use rates for all emission factors
+    factor_ids = list(emission_factor_dict.keys())
+    if factor_ids:
         try:
             query_timeofuse_factors = (" SELECT emission_factor_id, start_time_of_day, end_time_of_day, factor "
                                        " FROM tbl_emission_factors_timeofuses "
                                        " WHERE emission_factor_id IN ( " +
-                                       ', '.join(map(str, timeofuse_factor_ids)) + ")"
+                                       ', '.join(map(str, factor_ids)) + ")"
                                        " ORDER BY emission_factor_id, start_time_of_day ")
             cursor.execute(query_timeofuse_factors, )
             rows_timeofuse_factors = cursor.fetchall()
@@ -139,10 +147,7 @@ def get_energy_category_factor(cost_center_id, energy_category_id, start_datetim
 
         # Process each time slot within the factor validity period
         while current_datetime_utc < ef_value['valid_through_datetime_utc']:
-            if ef_value['factor_type'] == 'fixed':
-                # Fixed factor: same value for all time slots
-                result[current_datetime_utc] = ef_value['factor']
-            else:
+            if ef_value['rates']:
                 # Time-of-use factor: check each rate to find the applicable factor
                 for rate in ef_value['rates']:
                     # Convert UTC time to local time for time-of-use determination

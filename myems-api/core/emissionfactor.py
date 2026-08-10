@@ -114,7 +114,7 @@ class EmissionFactorCollection:
 
                 query = (" SELECT ef.id, ef.name, ef.uuid, "
                          "        ec.id AS energy_category_id, ec.name AS energy_category_name, "
-                         "        ef.factor_type, ef.unit_of_factor, ef.factor, "
+                         "        ef.unit_of_factor, "
                          "        ef.valid_from_datetime_utc, ef.valid_through_datetime_utc "
                          " FROM tbl_emission_factors ef, tbl_energy_categories ec "
                          " WHERE ef.energy_category_id = ec.id ")
@@ -139,33 +139,25 @@ class EmissionFactorCollection:
                                        "uuid": row[2],
                                        "energy_category": {"id": row[3],
                                                            "name": row[4]},
-                                       "factor_type": row[5],
-                                       "unit_of_factor": row[6],
-                                       "valid_from": (row[8].replace(tzinfo=timezone.utc)
+                                       "unit_of_factor": row[5],
+                                       "valid_from": (row[6].replace(tzinfo=timezone.utc)
                                                       + timedelta(minutes=timezone_offset)).isoformat()[0:19],
-                                       "valid_through": (row[9].replace(tzinfo=timezone.utc)
+                                       "valid_through": (row[7].replace(tzinfo=timezone.utc)
                                                          + timedelta(minutes=timezone_offset)).isoformat()[0:19]}
 
-                        if meta_result['factor_type'] == 'fixed':
-                            meta_result['factor'] = row[7]
-                        elif meta_result['factor_type'] == 'timeofuse':
-                            meta_result['timeofuse'] = list()
-                            query = (" SELECT start_time_of_day, end_time_of_day, factor "
-                                     " FROM tbl_emission_factors_timeofuses "
-                                     " WHERE emission_factor_id = %s  "
-                                     " ORDER BY id")
-                            cursor.execute(query, (meta_result['id'],))
-                            rows_timeofuses = cursor.fetchall()
-                            if rows_timeofuses is not None and len(rows_timeofuses) > 0:
-                                for row_timeofuse in rows_timeofuses:
-                                    meta_data = {"start_time_of_day": str(row_timeofuse[0]),
-                                                 "end_time_of_day": str(row_timeofuse[1]),
-                                                 "factor": row_timeofuse[2]}
-                                    meta_result['timeofuse'].append(meta_data)
-                        else:
-                            raise falcon.HTTPError(status=falcon.HTTP_400,
-                                                   title='API.ERROR',
-                                                   description='API.INVALID_EMISSION_FACTOR_TYPE')
+                        meta_result['timeofuse'] = list()
+                        query = (" SELECT start_time_of_day, end_time_of_day, factor "
+                                 " FROM tbl_emission_factors_timeofuses "
+                                 " WHERE emission_factor_id = %s  "
+                                 " ORDER BY id")
+                        cursor.execute(query, (meta_result['id'],))
+                        rows_timeofuses = cursor.fetchall()
+                        if rows_timeofuses is not None and len(rows_timeofuses) > 0:
+                            for row_timeofuse in rows_timeofuses:
+                                meta_data = {"start_time_of_day": str(row_timeofuse[0]),
+                                             "end_time_of_day": str(row_timeofuse[1]),
+                                             "factor": row_timeofuse[2]}
+                                meta_result['timeofuse'].append(meta_data)
 
                         result.append(meta_result)
             finally:
@@ -221,25 +213,19 @@ class EmissionFactorCollection:
                                    description='API.INVALID_ENERGY_CATEGORY_ID')
         energy_category_id = new_values['data']['energy_category']['id']
 
-        if 'factor_type' not in new_values['data'].keys() \
-           or str.strip(new_values['data']['factor_type']) not in ('fixed', 'timeofuse'):
-            raise falcon.HTTPError(status=falcon.HTTP_400,
-                                   title='API.BAD_REQUEST',
-                                   description='API.INVALID_EMISSION_FACTOR_TYPE')
-        factor_type = str.strip(new_values['data']['factor_type'])
-
-        if new_values['data']['factor_type'] == 'timeofuse':
-            if new_values['data']['timeofuse'] is None:
-                raise falcon.HTTPError(status=falcon.HTTP_400,
-                                       title='API.BAD_REQUEST',
-                                       description='API.INVALID_EMISSION_FACTOR_TIME_OF_USE_PRICING')
-
         if 'unit_of_factor' not in new_values['data'].keys() or \
                 not isinstance(new_values['data']['unit_of_factor'], str) or \
                 len(str.strip(new_values['data']['unit_of_factor'])) == 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_UNIT_OF_FACTOR')
         unit_of_factor = str.strip(new_values['data']['unit_of_factor'])
+
+        if 'timeofuse' not in new_values['data'].keys() or \
+                new_values['data']['timeofuse'] is None or \
+                len(new_values['data']['timeofuse']) == 0:
+            raise falcon.HTTPError(status=falcon.HTTP_400,
+                                   title='API.BAD_REQUEST',
+                                   description='API.INVALID_EMISSION_FACTOR_TIME_OF_USE_PRICING')
 
         timezone_offset = int(config.utc_offset[1:3]) * 60 + int(config.utc_offset[4:6])
         if config.utc_offset[0] == '-':
@@ -274,35 +260,20 @@ class EmissionFactorCollection:
                 valid_through = valid_through.replace(tzinfo=timezone.utc)
                 valid_through -= timedelta(minutes=timezone_offset)
 
-                factor = None
-                if factor_type == 'fixed':
-                    if 'factor' not in new_values['data'].keys() or \
-                            new_values['data']['factor'] is None:
-                        raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                               description='API.INVALID_EMISSION_FACTOR')
-                    factor = new_values['data']['factor']
-                    if factor <= 0:
-                        raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                               description='API.INVALID_EMISSION_FACTOR')
-
                 add_row = (" INSERT INTO tbl_emission_factors "
-                           "             (name, uuid, energy_category_id, factor_type, unit_of_factor, "
-                           "              factor, "
+                           "             (name, uuid, energy_category_id, unit_of_factor, "
                            "              valid_from_datetime_utc, valid_through_datetime_utc ) "
-                           " VALUES (%s, %s, %s, %s, %s, %s, %s, %s) ")
+                           " VALUES (%s, %s, %s, %s, %s, %s) ")
                 cursor.execute(add_row, (name,
                                          str(uuid.uuid4()),
                                          energy_category_id,
-                                         factor_type,
                                          unit_of_factor,
-                                         factor,
                                          valid_from,
                                          valid_through))
                 new_id = cursor.lastrowid
                 cnx.commit()
                 # insert time of use factors
-                if factor_type == 'timeofuse':
-                    for timeofuse in new_values['data']['timeofuse']:
+                for timeofuse in new_values['data']['timeofuse']:
                         if timeofuse['factor'] <= 0:
                             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                                    description='API.INVALID_EMISSION_FACTOR')
@@ -381,8 +352,7 @@ class EmissionFactorItem:
 
                 query = (" SELECT ef.id, ef.name, ef.uuid, "
                          "        ec.id AS energy_category_id, ec.name AS energy_category_name, "
-                         "        ef.factor_type, "
-                         "        ef.unit_of_factor, ef.factor, "
+                         "        ef.unit_of_factor, "
                          "        ef.valid_from_datetime_utc, ef.valid_through_datetime_utc "
                          " FROM tbl_emission_factors ef, tbl_energy_categories ec "
                          " WHERE ef.energy_category_id = ec.id AND ef.id = %s ")
@@ -401,28 +371,24 @@ class EmissionFactorItem:
                           "uuid": row[2],
                           "energy_category": {"id": row[3],
                                               "name": row[4]},
-                          "factor_type": row[5],
-                          "unit_of_factor": row[6],
-                          "valid_from": (row[8].replace(tzinfo=timezone.utc)
+                          "unit_of_factor": row[5],
+                          "valid_from": (row[6].replace(tzinfo=timezone.utc)
                                          + timedelta(minutes=timezone_offset)).isoformat()[0:19],
-                          "valid_through": (row[9].replace(tzinfo=timezone.utc)
+                          "valid_through": (row[7].replace(tzinfo=timezone.utc)
                                             + timedelta(minutes=timezone_offset)).isoformat()[0:19]}
 
-                if result['factor_type'] == 'fixed':
-                    result['factor'] = row[7]
-                elif result['factor_type'] == 'timeofuse':
-                    result['timeofuse'] = list()
-                    query = (" SELECT start_time_of_day, end_time_of_day, factor "
-                             " FROM tbl_emission_factors_timeofuses"
-                             " WHERE emission_factor_id = %s ")
-                    cursor.execute(query, (result['id'],))
-                    rows_timeofuses = cursor.fetchall()
-                    if rows_timeofuses is not None and len(rows_timeofuses) > 0:
-                        for row_timeofuse in rows_timeofuses:
-                            meta_data = {"start_time_of_day": str(row_timeofuse[0]),
-                                         "end_time_of_day": str(row_timeofuse[1]),
-                                         "factor": row_timeofuse[2]}
-                            result['timeofuse'].append(meta_data)
+                result['timeofuse'] = list()
+                query = (" SELECT start_time_of_day, end_time_of_day, factor "
+                         " FROM tbl_emission_factors_timeofuses"
+                         " WHERE emission_factor_id = %s ")
+                cursor.execute(query, (result['id'],))
+                rows_timeofuses = cursor.fetchall()
+                if rows_timeofuses is not None and len(rows_timeofuses) > 0:
+                    for row_timeofuse in rows_timeofuses:
+                        meta_data = {"start_time_of_day": str(row_timeofuse[0]),
+                                     "end_time_of_day": str(row_timeofuse[1]),
+                                     "factor": row_timeofuse[2]}
+                        result['timeofuse'].append(meta_data)
             finally:
                 if cursor:
                     cursor.close()
@@ -529,25 +495,19 @@ class EmissionFactorItem:
                                    description='API.INVALID_ENERGY_CATEGORY_ID')
         energy_category_id = new_values['data']['energy_category']['id']
 
-        if 'factor_type' not in new_values['data'].keys() \
-           or str.strip(new_values['data']['factor_type']) not in ('fixed', 'timeofuse'):
-            raise falcon.HTTPError(status=falcon.HTTP_400,
-                                   title='API.BAD_REQUEST',
-                                   description='API.INVALID_EMISSION_FACTOR_TYPE')
-        factor_type = str.strip(new_values['data']['factor_type'])
-
-        if new_values['data']['factor_type'] == 'timeofuse':
-            if new_values['data']['timeofuse'] is None:
-                raise falcon.HTTPError(status=falcon.HTTP_400,
-                                       title='API.BAD_REQUEST',
-                                       description='API.INVALID_EMISSION_FACTOR_TIME_OF_USE_PRICING')
-
         if 'unit_of_factor' not in new_values['data'].keys() or \
                 not isinstance(new_values['data']['unit_of_factor'], str) or \
                 len(str.strip(new_values['data']['unit_of_factor'])) == 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_UNIT_OF_FACTOR')
         unit_of_factor = str.strip(new_values['data']['unit_of_factor'])
+
+        if 'timeofuse' not in new_values['data'].keys() or \
+                new_values['data']['timeofuse'] is None or \
+                len(new_values['data']['timeofuse']) == 0:
+            raise falcon.HTTPError(status=falcon.HTTP_400,
+                                   title='API.BAD_REQUEST',
+                                   description='API.INVALID_EMISSION_FACTOR_TIME_OF_USE_PRICING')
 
         timezone_offset = int(config.utc_offset[1:3]) * 60 + int(config.utc_offset[4:6])
         if config.utc_offset[0] == '-':
@@ -585,47 +545,27 @@ class EmissionFactorItem:
                 valid_through = valid_through.replace(tzinfo=timezone.utc)
                 valid_through -= timedelta(minutes=timezone_offset)
 
-                factor = None
-                if factor_type == 'fixed':
-                    if 'factor' not in new_values['data'].keys() or \
-                            new_values['data']['factor'] is None:
-                        raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                               description='API.INVALID_EMISSION_FACTOR')
-                    factor = new_values['data']['factor']
-                    if factor <= 0:
-                        raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                               description='API.INVALID_EMISSION_FACTOR')
-
                 # update emission factor itself
                 update_row = (" UPDATE tbl_emission_factors "
-                              " SET name = %s, energy_category_id = %s, factor_type = %s, unit_of_factor = %s, "
-                              "     factor = %s, "
+                              " SET name = %s, energy_category_id = %s, unit_of_factor = %s, "
                               "     valid_from_datetime_utc = %s , valid_through_datetime_utc = %s "
                               " WHERE id = %s ")
                 cursor.execute(update_row, (name,
                                             energy_category_id,
-                                            factor_type,
                                             unit_of_factor,
-                                            factor,
                                             valid_from,
                                             valid_through,
                                             id_,))
                 cnx.commit()
 
                 # update time of use factors of the emission factor
-                if factor_type == 'timeofuse':
-                    if 'timeofuse' not in new_values['data'].keys() or new_values['data']['timeofuse'] is None:
-                        raise falcon.HTTPError(status=falcon.HTTP_400,
-                                               title='API.BAD_REQUEST',
-                                               description='API.INVALID_EMISSION_FACTOR_TIME_OF_USE_PRICING')
-                    else:
-                        # remove all (possible) exist factors
-                        cursor.execute(" DELETE FROM tbl_emission_factors_timeofuses "
-                                       " WHERE emission_factor_id = %s ",
-                                       (id_,))
-                        cnx.commit()
+                # remove all existing factors
+                cursor.execute(" DELETE FROM tbl_emission_factors_timeofuses "
+                               " WHERE emission_factor_id = %s ",
+                               (id_,))
+                cnx.commit()
 
-                        for timeofuse in new_values['data']['timeofuse']:
+                for timeofuse in new_values['data']['timeofuse']:
                             if timeofuse['factor'] <= 0:
                                 raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                                        description='API.INVALID_EMISSION_FACTOR')
@@ -703,8 +643,7 @@ class EmissionFactorExport:
 
                 query = (" SELECT ef.id, ef.name, ef.uuid, "
                          "        ec.id AS energy_category_id, ec.name AS energy_category_name, "
-                         "        ef.factor_type, "
-                         "        ef.unit_of_factor, ef.factor, "
+                         "        ef.unit_of_factor, "
                          "        ef.valid_from_datetime_utc, ef.valid_through_datetime_utc "
                          " FROM tbl_emission_factors ef, tbl_energy_categories ec "
                          " WHERE ef.energy_category_id = ec.id AND ef.id = %s ")
@@ -721,28 +660,24 @@ class EmissionFactorExport:
                 result = {"name": row[1],
                           "energy_category": {"id": row[3],
                                               "name": row[4]},
-                          "factor_type": row[5],
-                          "unit_of_factor": row[6],
-                          "valid_from": (row[8].replace(tzinfo=timezone.utc)
+                          "unit_of_factor": row[5],
+                          "valid_from": (row[6].replace(tzinfo=timezone.utc)
                                          + timedelta(minutes=timezone_offset)).isoformat()[0:19],
-                          "valid_through": (row[9].replace(tzinfo=timezone.utc)
+                          "valid_through": (row[7].replace(tzinfo=timezone.utc)
                                             + timedelta(minutes=timezone_offset)).isoformat()[0:19]}
 
-                if result['factor_type'] == 'fixed':
-                    result['factor'] = row[7]
-                elif result['factor_type'] == 'timeofuse':
-                    result['timeofuse'] = list()
-                    query = (" SELECT start_time_of_day, end_time_of_day, factor "
-                             " FROM tbl_emission_factors_timeofuses"
-                             " WHERE emission_factor_id = %s ")
-                    cursor.execute(query, (row[0],))
-                    rows_timeofuses = cursor.fetchall()
-                    if rows_timeofuses is not None and len(rows_timeofuses) > 0:
-                        for row_timeofuse in rows_timeofuses:
-                            meta_data = {"start_time_of_day": str(row_timeofuse[0]),
-                                         "end_time_of_day": str(row_timeofuse[1]),
-                                         "factor": row_timeofuse[2]}
-                            result['timeofuse'].append(meta_data)
+                result['timeofuse'] = list()
+                query = (" SELECT start_time_of_day, end_time_of_day, factor "
+                         " FROM tbl_emission_factors_timeofuses"
+                         " WHERE emission_factor_id = %s ")
+                cursor.execute(query, (row[0],))
+                rows_timeofuses = cursor.fetchall()
+                if rows_timeofuses is not None and len(rows_timeofuses) > 0:
+                    for row_timeofuse in rows_timeofuses:
+                        meta_data = {"start_time_of_day": str(row_timeofuse[0]),
+                                     "end_time_of_day": str(row_timeofuse[1]),
+                                     "factor": row_timeofuse[2]}
+                        result['timeofuse'].append(meta_data)
             finally:
                 if cursor:
                     cursor.close()
@@ -800,25 +735,19 @@ class EmissionFactorImport:
                                    description='API.INVALID_ENERGY_CATEGORY_ID')
         energy_category_id = new_values['energy_category']['id']
 
-        if 'factor_type' not in new_values.keys() \
-                or str.strip(new_values['factor_type']) not in ('fixed', 'timeofuse'):
-            raise falcon.HTTPError(status=falcon.HTTP_400,
-                                   title='API.BAD_REQUEST',
-                                   description='API.INVALID_EMISSION_FACTOR_TYPE')
-        factor_type = str.strip(new_values['factor_type'])
-
-        if new_values['factor_type'] == 'timeofuse':
-            if new_values['timeofuse'] is None:
-                raise falcon.HTTPError(status=falcon.HTTP_400,
-                                       title='API.BAD_REQUEST',
-                                       description='API.INVALID_EMISSION_FACTOR_TIME_OF_USE_PRICING')
-
         if 'unit_of_factor' not in new_values.keys() or \
                 not isinstance(new_values['unit_of_factor'], str) or \
                 len(str.strip(new_values['unit_of_factor'])) == 0:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_UNIT_OF_FACTOR')
         unit_of_factor = str.strip(new_values['unit_of_factor'])
+
+        if 'timeofuse' not in new_values.keys() or \
+                new_values['timeofuse'] is None or \
+                len(new_values['timeofuse']) == 0:
+            raise falcon.HTTPError(status=falcon.HTTP_400,
+                                   title='API.BAD_REQUEST',
+                                   description='API.INVALID_EMISSION_FACTOR_TIME_OF_USE_PRICING')
 
         timezone_offset = int(config.utc_offset[1:3]) * 60 + int(config.utc_offset[4:6])
         if config.utc_offset[0] == '-':
@@ -853,35 +782,20 @@ class EmissionFactorImport:
                 valid_through = valid_through.replace(tzinfo=timezone.utc)
                 valid_through -= timedelta(minutes=timezone_offset)
 
-                factor = None
-                if factor_type == 'fixed':
-                    if 'factor' not in new_values.keys() or \
-                            new_values['factor'] is None:
-                        raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                               description='API.INVALID_EMISSION_FACTOR')
-                    factor = new_values['factor']
-                    if factor <= 0:
-                        raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                               description='API.INVALID_EMISSION_FACTOR')
-
                 add_row = (" INSERT INTO tbl_emission_factors "
-                           "             (name, uuid, energy_category_id, factor_type, unit_of_factor, "
-                           "              factor, "
+                           "             (name, uuid, energy_category_id, unit_of_factor, "
                            "              valid_from_datetime_utc, valid_through_datetime_utc ) "
-                           " VALUES (%s, %s, %s, %s, %s, %s, %s, %s) ")
+                           " VALUES (%s, %s, %s, %s, %s, %s) ")
                 cursor.execute(add_row, (name,
                                          str(uuid.uuid4()),
                                          energy_category_id,
-                                         factor_type,
                                          unit_of_factor,
-                                         factor,
                                          valid_from,
                                          valid_through))
                 new_id = cursor.lastrowid
                 cnx.commit()
                 # insert time of use factors
-                if factor_type == 'timeofuse':
-                    for timeofuse in new_values['timeofuse']:
+                for timeofuse in new_values['timeofuse']:
                         if timeofuse['factor'] <= 0:
                             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                                    description='API.INVALID_EMISSION_FACTOR')
@@ -928,8 +842,7 @@ class EmissionFactorClone:
 
                 query = (" SELECT ef.id, ef.name, ef.uuid, "
                          "        ec.id AS energy_category_id, ec.name AS energy_category_name, "
-                         "        ef.factor_type, "
-                         "        ef.unit_of_factor, ef.factor, "
+                         "        ef.unit_of_factor, "
                          "        ef.valid_from_datetime_utc, ef.valid_through_datetime_utc "
                          " FROM tbl_emission_factors ef, tbl_energy_categories ec "
                          " WHERE ef.energy_category_id = ec.id AND ef.id = %s ")
@@ -944,25 +857,22 @@ class EmissionFactorClone:
                           "uuid": row[2],
                           "energy_category": {"id": row[3],
                                               "name": row[4]},
-                          "factor_type": row[5],
-                          "unit_of_factor": row[6],
-                          "factor": row[7],
-                          "valid_from": row[8].isoformat()[0:19],
-                          "valid_through": row[9].isoformat()[0:19]}
+                          "unit_of_factor": row[5],
+                          "valid_from": row[6].isoformat()[0:19],
+                          "valid_through": row[7].isoformat()[0:19]}
 
-                if result['factor_type'] == 'timeofuse':
-                    result['timeofuse'] = list()
-                    query = (" SELECT start_time_of_day, end_time_of_day, factor "
-                             " FROM tbl_emission_factors_timeofuses"
-                             " WHERE emission_factor_id = %s ")
-                    cursor.execute(query, (result['id'],))
-                    rows_timeofuses = cursor.fetchall()
-                    if rows_timeofuses is not None and len(rows_timeofuses) > 0:
-                        for row_timeofuse in rows_timeofuses:
-                            meta_data = {"start_time_of_day": str(row_timeofuse[0]),
-                                         "end_time_of_day": str(row_timeofuse[1]),
-                                         "factor": row_timeofuse[2]}
-                            result['timeofuse'].append(meta_data)
+                result['timeofuse'] = list()
+                query = (" SELECT start_time_of_day, end_time_of_day, factor "
+                         " FROM tbl_emission_factors_timeofuses"
+                         " WHERE emission_factor_id = %s ")
+                cursor.execute(query, (result['id'],))
+                rows_timeofuses = cursor.fetchall()
+                if rows_timeofuses is not None and len(rows_timeofuses) > 0:
+                    for row_timeofuse in rows_timeofuses:
+                        meta_data = {"start_time_of_day": str(row_timeofuse[0]),
+                                     "end_time_of_day": str(row_timeofuse[1]),
+                                     "factor": row_timeofuse[2]}
+                        result['timeofuse'].append(meta_data)
                 timezone_offset = int(config.utc_offset[1:3]) * 60 + int(config.utc_offset[4:6])
                 if config.utc_offset[0] == '-':
                     timezone_offset = -timezone_offset
@@ -972,23 +882,19 @@ class EmissionFactorClone:
                 ).isoformat(sep='-', timespec='seconds')
                 new_name = str.strip(result['name']) + suffix
                 add_row = (" INSERT INTO tbl_emission_factors "
-                           "             (name, uuid, energy_category_id, factor_type, unit_of_factor, "
-                           "              factor, "
+                           "             (name, uuid, energy_category_id, unit_of_factor, "
                            "              valid_from_datetime_utc, valid_through_datetime_utc ) "
-                           " VALUES (%s, %s, %s, %s, %s, %s, %s, %s) ")
+                           " VALUES (%s, %s, %s, %s, %s, %s) ")
                 cursor.execute(add_row, (new_name,
                                          str(uuid.uuid4()),
                                          result['energy_category']['id'],
-                                         result['factor_type'],
                                          result['unit_of_factor'],
-                                         result['factor'],
                                          result['valid_from'],
                                          result['valid_through']))
                 new_id = cursor.lastrowid
                 cnx.commit()
                 # insert time of use factors
-                if result['factor_type'] == 'timeofuse':
-                    for timeofuse in result['timeofuse']:
+                for timeofuse in result['timeofuse']:
                         add_timeofuse = (" INSERT INTO tbl_emission_factors_timeofuses "
                                          " (emission_factor_id, start_time_of_day, end_time_of_day, factor) "
                                          " VALUES (%s, %s, %s, %s) ")

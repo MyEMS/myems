@@ -2317,10 +2317,7 @@ CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_emission_factors` (
   `name` VARCHAR(128) NOT NULL,
   `uuid` CHAR(36) NOT NULL,
   `energy_category_id` BIGINT NOT NULL,
-  `factor_type` VARCHAR(45) NOT NULL
-  COMMENT 'Factor Type: fixed - Fixed Factor固定因子, timeofuse - Time of Use Factor分时因子',
   `unit_of_factor` VARCHAR(45) NOT NULL COMMENT 'Unit of Factor, e.g. kgCO2/kWh',
-  `factor` DECIMAL(21, 6) NULL COMMENT 'Factor value for fixed type',
   `valid_from_datetime_utc` DATETIME NOT NULL,
   `valid_through_datetime_utc` DATETIME NOT NULL,
   PRIMARY KEY (`id`));

@@ -292,25 +292,24 @@ def main(logger):
             if len(billing_dict) > 0:
                 try:
                     # Prepare bulk insert statement for billing data
-                    add_values = (" INSERT INTO tbl_shopfloor_input_item_hourly "
-                                  "             (shopfloor_id, "
-                                  "              energy_item_id, "
-                                  "              start_datetime_utc, "
-                                  "              actual_value) "
-                                  " VALUES  ")
+                    query = (" INSERT INTO tbl_shopfloor_input_item_hourly "
+                                 "             (shopfloor_id , energy_item_id , start_datetime_utc , actual_value) "
+                                 " VALUES  (%s, %s, %s, %s)")
 
                     # Build values string for bulk insert
+                    data = list()
                     for current_datetime_utc in billing_dict:
                         for energy_item_id in energy_item_list:
                             current_billing = billing_dict[current_datetime_utc].get(energy_item_id)
                             if current_billing is not None and isinstance(current_billing, Decimal):
-                                add_values += " (" + str(shopfloor['id']) + ","
-                                add_values += " " + str(energy_item_id) + ","
-                                add_values += "'" + current_datetime_utc.isoformat()[0:19] + "',"
-                                add_values += str(billing_dict[current_datetime_utc][energy_item_id]) + "), "
+                                data.append((shopfloor['id'],
+                                energy_item_id,
+                                current_datetime_utc,
+                                billing_dict[current_datetime_utc][energy_item_id]))
 
                     # Execute bulk insert (trim trailing ", " before execution)
-                    cursor_billing_db.execute(add_values[:-2])
+                    if data:
+                        cursor_billing_db.executemany(query, data)
                     cnx_billing_db.commit()
                 except Exception as e:
                     logger.error("Error in step 6 of shopfloor_billing_input_item " + str(e))

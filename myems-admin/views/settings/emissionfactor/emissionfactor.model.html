@@ -38,21 +38,6 @@
                         </div>
                     </div>
                     <div class="hr-line-dashed"></div>
-                    <div class="form-group"><label class="col-sm-5 control-label">{{'SETTING.FACTOR_TYPE' | translate}}<span class="text-danger">*</span></label>
-                        <div class="col-sm-7">
-                            <select ng-disabled="disable" required ng-model="emissionfactor.factor_type" class="form-control m-b" name="emissionfactor">
-                                <option value="fixed" selected>{{'SETTING.FIXED' | translate}} </option>
-                                <option value="timeofuse">{{'SETTING.TIMEOFUSE' | translate}} </option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="hr-line-dashed"></div>
-                    <div class="form-group" ng-show="emissionfactor.factor_type=='fixed'"><label class="col-sm-5 control-label">{{'SETTING.FACTOR' | translate}}<span class="text-danger">*</span></label>
-                        <div class="col-sm-7">
-                            <input ng-model="emissionfactor.factor" type="number" min="0" step="0.000001" class="form-control" required placeholder="{{'SETTING.INPUT_FACTOR_PLACEHOLDER' | translate}}">
-                        </div>
-                    </div>
-                    <div class="hr-line-dashed" ng-show="emissionfactor.factor_type=='fixed'"></div>
                     <div class="form-group"><label class="col-sm-5 control-label">{{'SETTING.UNIT' | translate}}<span class="text-danger">*</span></label>
                         <div class="col-sm-7">
                             <input ng-model="emissionfactor.unit_of_factor" type="text" class="form-control" required placeholder="{{'SETTING.INPUT_UNIT' | translate}}">
@@ -78,24 +63,7 @@
                 </form>
             </div>
             <div class="col-sm-8">
-                <div ng-show="emissionfactor.factor_type=='fixed'" class="panel panel-primary">
-                    <div class="panel-heading">
-                        <i class="fa fa-leaf"></i> {{'SETTING.EMISSION_FACTOR' | translate}}
-                    </div>
-                    <div class="panel-body text-center" style="padding: 40px 20px;">
-                        <h2 style="margin-top: 0; font-size: 36px; font-weight: bold; color: #1ab394;">
-                            {{ emissionfactor.factor || '---' }}
-                        </h2>
-                        <p style="font-size: 16px; color: #888;">
-                            {{ emissionfactor.unit_of_factor || 'kgCO2/kWh' }}
-                        </p>
-                        <p style="font-size: 14px; color: #aaa; margin-top: 10px;">
-                            <i class="fa fa-clock-o"></i>
-                            {{'SETTING.FIXED' | translate}} &mdash; {{'SETTING.FACTOR_24H_SAME' | translate}}
-                        </p>
-                    </div>
-                </div>
-                <table id="touFactorTable" ng-show="emissionfactor.factor_type=='timeofuse'" class="footable table table-bordered table-hover" data-sort="false" data-page-size="10" >
+                <table id="touFactorTable" class="footable table table-bordered table-hover" data-sort="false" data-page-size="10" >
                     <thead>
                         <tr>
                             <th class="text-center">{{'SETTING.TIME_OF_USE_START_TIME' | translate}}</th>
@@ -453,6 +421,6 @@
     <!-- Modal action buttons -->
     <div class="modal-footer">
         <button type="button" class="btn btn-white" ng-click="cancel()">{{'SETTING.CANCEL' | translate}}</button>
-        <button type="button" ng-disabled="!((emissionfactor.factor_type === 'fixed' && emissionfactor.name && emissionfactor.energy_category.id && emissionfactor.unit_of_factor && emissionfactor.factor) || (emissionfactor.factor_type === 'timeofuse' && emissionfactor.name && emissionfactor.energy_category.id && emissionfactor.unit_of_factor && timeofuse.length > 0))" class="btn btn-primary" ng-click="ok()">{{'SETTING.SAVE' | translate}}</button>
+        <button type="button" ng-disabled="!(emissionfactor.name && emissionfactor.energy_category.id && emissionfactor.unit_of_factor && timeofuse.length > 0)" class="btn btn-primary" ng-click="ok()">{{'SETTING.SAVE' | translate}}</button>
     </div>
 </div>

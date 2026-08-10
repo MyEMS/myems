@@ -267,24 +267,22 @@ def main(logger):
 
             if len(billing_dict) > 0:
                 try:
-                    add_values = (" INSERT INTO tbl_combined_equipment_output_category_hourly "
-                                  "             (combined_equipment_id, "
-                                  "              energy_category_id, "
-                                  "              start_datetime_utc, "
-                                  "              actual_value) "
-                                  " VALUES  ")
+                    query = (" INSERT INTO tbl_combined_equipment_output_category_hourly "
+                                 "             (combined_equipment_id , energy_category_id , start_datetime_utc , actual_value) "
+                                 " VALUES  (%s, %s, %s, %s)")
 
+                    data = list()
                     for current_datetime_utc in billing_dict:
                         for energy_category_id in energy_category_list:
                             current_billing = billing_dict[current_datetime_utc].get(energy_category_id)
                             if current_billing is not None and isinstance(current_billing, Decimal):
-                                add_values += " (" + str(combined_equipment['id']) + ","
-                                add_values += " " + str(energy_category_id) + ","
-                                add_values += "'" + current_datetime_utc.isoformat()[0:19] + "',"
-                                add_values += str(billing_dict[current_datetime_utc][energy_category_id]) + "), "
-                    # print("add_values:" + add_values)
+                                data.append((combined_equipment['id'],
+                                energy_category_id,
+                                current_datetime_utc,
+                                billing_dict[current_datetime_utc][energy_category_id]))
                     # trim ", " at the end of string and then execute
-                    cursor_billing_db.execute(add_values[:-2])
+                    if data:
+                        cursor_billing_db.executemany(query, data)
                     cnx_billing_db.commit()
                 except Exception as e:
                     logger.error("Error in step 6 of combined_equipment_billing_output_category " + str(e))

@@ -553,22 +553,20 @@ def worker(equipment):
         insert_100 = aggregated_values[:100]
         aggregated_values = aggregated_values[100:]
         try:
-            add_values = (" INSERT INTO tbl_equipment_output_category_hourly "
-                          "             (equipment_id, "
-                          "              energy_category_id, "
-                          "              start_datetime_utc, "
-                          "              actual_value) "
-                          " VALUES  ")
+            query = (" INSERT INTO tbl_equipment_output_category_hourly "
+                         "             (equipment_id , energy_category_id , start_datetime_utc , actual_value) "
+                         " VALUES  (%s, %s, %s, %s)")
 
+            data = list()
             for aggregated_value in insert_100:
                 for energy_category_id, actual_value in aggregated_value['meta_data'].items():
-                    add_values += " (" + str(equipment['id']) + ","
-                    add_values += " " + str(energy_category_id) + ","
-                    add_values += "'" + aggregated_value['start_datetime_utc'].isoformat()[0:19] + "',"
-                    add_values += str(actual_value) + "), "
-            # print("add_values:" + add_values)
+                    data.append((equipment['id'],
+                    energy_category_id,
+                    aggregated_value['start_datetime_utc'],
+                    actual_value))
             # trim ", " at the end of string and then execute
-            cursor_energy_db.execute(add_values[:-2])
+            if data:
+                cursor_energy_db.executemany(query, data)
             cnx_energy_db.commit()
 
         except Exception as e:

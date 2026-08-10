@@ -8,7 +8,6 @@ app.controller('EmissionFactorController', function(
 	$window,
 	$uibModal,
 	$translate,
-	FACTOR_TYPE,
 	EmissionFactorService,
 	CategoryService,
 	toaster,
@@ -41,10 +40,6 @@ app.controller('EmissionFactorController', function(
 			}
 		});
 
-	};
-
-	$scope.showFactorType = function(type) {
-		return FACTOR_TYPE[type];
 	};
 
 	// Open add modal and create emission factor
@@ -304,14 +299,12 @@ app.controller('EmissionFactorController', function(
 });
 
 // Modal controller for add dialog
-app.controller('ModalAddEmissionFactorCtrl', function($scope, $timeout, $uibModalInstance, FACTOR_TYPE, params, $translate) {
+app.controller('ModalAddEmissionFactorCtrl', function($scope, $timeout, $uibModalInstance, params, $translate) {
 
 	$scope.operation = "SETTING.ADD_EMISSION_FACTOR";
-	$scope.disable=false;
 	$scope.categories = params.categories;
 	$scope.timeofuse = [];
 	$scope.emissionfactor = {
-		factor_type: 'fixed',
 		valid_from: moment(),
 		valid_through: new Date(new Date().getFullYear(), 11, 31, 23, 59, 59)
 	};
@@ -449,7 +442,7 @@ app.controller('ModalAddEmissionFactorCtrl', function($scope, $timeout, $uibModa
         	}
     	}
 
-		if ($scope.emissionfactor.factor_type == 'timeofuse' && $scope.timeofuse.length > 0) {
+		if ($scope.timeofuse.length > 0) {
         	if ($scope.checkTimeOverlap($scope.timeofuse)) {
 				$scope.error.show = true;
 				$scope.error.message = $translate.instant("SETTING.EMISSION_FACTOR_TIME_PERIODS_OVERLAP");
@@ -477,9 +470,7 @@ app.controller('ModalAddEmissionFactorCtrl', function($scope, $timeout, $uibModa
 		$scope.error_rate_validity_period.show = false;
 		$scope.error_rate_validity_period.message= '';
 
-		if($scope.emissionfactor.factor_type=='timeofuse'){
-			$scope.emissionfactor.timeofuse=$scope.timeofuse;
-		}
+		$scope.emissionfactor.timeofuse=$scope.timeofuse;
 		$scope.emissionfactor.valid_from=moment($scope.emissionfactor.valid_from).format().slice(0,19);
 		$scope.emissionfactor.valid_through=moment($scope.emissionfactor.valid_through).format().slice(0,19);
 		$uibModalInstance.close($scope.emissionfactor);
@@ -501,64 +492,43 @@ app.controller('ModalAddEmissionFactorCtrl', function($scope, $timeout, $uibModa
 			return;
 		}
 
-		if ($scope.emissionfactor.factor_type == 'timeofuse') {
-			var tempTimeofuse = angular.copy($scope.timeofuse);
-			tempTimeofuse.push(angular.copy(t));
-
-			if (tempTimeofuse.length > 1) {
-				if ($scope.checkTimeOverlap(tempTimeofuse)) {
-					$scope.error.show = true;
-					$scope.error.message = $translate.instant("SETTING.EMISSION_FACTOR_TIME_PERIODS_OVERLAP");
-					return;
-				}
-			}
-		}
-
+		
 		$scope.error.show = false;
 		$scope.error.message = '';
 
 
-		if ($scope.emissionfactor.factor_type == 'timeofuse') {
-			if ($scope.timeofuse.length > 0) {
-				$scope.timeofuse.unshift(angular.copy(t));
-			} else {
-				$scope.timeofuse.push(angular.copy(t));
-			}
-			$scope.t={};
-			$scope.t.start_hour = '00';
-			$scope.t.start_min = '00';
-			$scope.t.start_second = '00';
-			$scope.t.end_hour = '23';
-			$scope.t.end_min = '59';
-			$scope.t.end_second = '59';
-			$scope.t.factor = 0.5;
-
-			$timeout(function() {
-				angular.element('#touFactorTable').trigger('footable_redraw');
-			}, 10);
+		if ($scope.timeofuse.length > 0) {
+			$scope.timeofuse.unshift(angular.copy(t));
+		} else {
+			$scope.timeofuse.push(angular.copy(t));
 		}
+		$scope.t={};
+		$scope.t.start_hour = '00';
+		$scope.t.start_min = '00';
+		$scope.t.start_second = '00';
+		$scope.t.end_hour = '23';
+		$scope.t.end_min = '59';
+		$scope.t.end_second = '59';
+		$scope.t.factor = 0.5;
+
+		$timeout(function() {
+			angular.element('#touFactorTable').trigger('footable_redraw');
+		}, 10);
 	};
 	$scope.delete = function(key) {
-		if($scope.emissionfactor.factor_type=='timeofuse'){
-			$scope.timeofuse.splice(key, 1);
-			$timeout(function() {
-				angular.element('#touFactorTable').trigger('footable_redraw');
-			}, 10);
-		}
+		$scope.timeofuse.splice(key, 1);
+		$timeout(function() {
+			angular.element('#touFactorTable').trigger('footable_redraw');
+		}, 10);
 	};
 });
 
 // Modal controller for edit dialog
-app.controller('ModalEditEmissionFactorCtrl', function($scope, $timeout, $uibModalInstance, FACTOR_TYPE, params, $translate) {
+app.controller('ModalEditEmissionFactorCtrl', function($scope, $timeout, $uibModalInstance, params, $translate) {
 	$scope.operation = "SETTING.EDIT_EMISSION_FACTOR";
-	$scope.disable=true;
 	$scope.emissionfactor = params.emissionfactor;
 	$scope.categories = params.categories;
-	if($scope.emissionfactor.factor_type == 'timeofuse'){
-		$scope.timeofuse = $scope.emissionfactor.timeofuse;
-	} else {
-		$scope.timeofuse = [];
-	}
+	$scope.timeofuse = $scope.emissionfactor.timeofuse || [];
 	$scope.t={};
 	$scope.t.start_hour = '00';
 	$scope.t.start_min = '00';
@@ -580,12 +550,7 @@ app.controller('ModalEditEmissionFactorCtrl', function($scope, $timeout, $uibMod
 		singleDatePicker: true,
 	};
 
-	$timeout(function() {
-		if ($scope.emissionfactor.factor_type == 'timeofuse') {
-			angular.element('#touFactorTable').trigger('footable_redraw');
-		}
-	}, 100);
-
+	
 	$scope.error = {
     	show: false,
     	message: ''
@@ -697,7 +662,7 @@ app.controller('ModalEditEmissionFactorCtrl', function($scope, $timeout, $uibMod
         	}
     	}
 
-		if ($scope.emissionfactor.factor_type == 'timeofuse' && $scope.timeofuse.length > 0) {
+		if ($scope.timeofuse.length > 0) {
         	if ($scope.checkTimeOverlap($scope.timeofuse)) {
 				$scope.error.show = true;
 				$scope.error.message = $translate.instant("SETTING.EMISSION_FACTOR_TIME_PERIODS_OVERLAP");
@@ -725,9 +690,7 @@ app.controller('ModalEditEmissionFactorCtrl', function($scope, $timeout, $uibMod
 		$scope.error_rate_validity_period.show = false;
 		$scope.error_rate_validity_period.message= '';
 
-		if($scope.emissionfactor.factor_type=='timeofuse'){
-			$scope.emissionfactor.timeofuse=$scope.timeofuse;
-		}
+		$scope.emissionfactor.timeofuse=$scope.timeofuse;
 
 		$scope.emissionfactor.valid_from=moment($scope.emissionfactor.valid_from).format().slice(0,19);
 		$scope.emissionfactor.valid_through=moment($scope.emissionfactor.valid_through).format().slice(0,19);
@@ -751,49 +714,33 @@ app.controller('ModalEditEmissionFactorCtrl', function($scope, $timeout, $uibMod
         	return;
     	}
 
-    	if ($scope.emissionfactor.factor_type == 'timeofuse') {
-			var tempTimeofuse = angular.copy($scope.timeofuse);
-			tempTimeofuse.push(angular.copy(t));
-
-			if (tempTimeofuse.length > 1) {
-				if ($scope.checkTimeOverlap(tempTimeofuse)) {
-					$scope.error.show = true;
-					$scope.error.message = $translate.instant("SETTING.EMISSION_FACTOR_TIME_PERIODS_OVERLAP");
-					return;
-				}
-			}
-		}
-
+    	
 		$scope.error.show = false;
 		$scope.error.message = '';
 
-		if ($scope.emissionfactor.factor_type == 'timeofuse') {
-			if ($scope.timeofuse.length > 0) {
-				$scope.timeofuse.unshift(angular.copy(t));
-			} else {
-				$scope.timeofuse.push(angular.copy(t));
-			}
-			$scope.t={};
-			$scope.t.start_hour = '00';
-			$scope.t.start_min = '00';
-			$scope.t.start_second = '00';
-			$scope.t.end_hour = '23';
-			$scope.t.end_min = '59';
-			$scope.t.end_second = '59';
-			$scope.t.factor = 0.5;
-
-			$timeout(function() {
-				angular.element('#touFactorTable').trigger('footable_redraw');
-			}, 10);
+		if ($scope.timeofuse.length > 0) {
+			$scope.timeofuse.unshift(angular.copy(t));
+		} else {
+			$scope.timeofuse.push(angular.copy(t));
 		}
+		$scope.t={};
+		$scope.t.start_hour = '00';
+		$scope.t.start_min = '00';
+		$scope.t.start_second = '00';
+		$scope.t.end_hour = '23';
+		$scope.t.end_min = '59';
+		$scope.t.end_second = '59';
+		$scope.t.factor = 0.5;
+
+		$timeout(function() {
+			angular.element('#touFactorTable').trigger('footable_redraw');
+		}, 10);
 	};
 
 	$scope.delete = function(key) {
-		if($scope.emissionfactor.factor_type=='timeofuse'){
-			$scope.timeofuse.splice(key, 1);
-			$timeout(function() {
-				angular.element('#touFactorTable').trigger('footable_redraw');
-			}, 10);
-		}
+		$scope.timeofuse.splice(key, 1);
+		$timeout(function() {
+			angular.element('#touFactorTable').trigger('footable_redraw');
+		}, 10);
 	};
 });

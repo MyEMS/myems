@@ -874,7 +874,7 @@ class CostCenterEmissionFactorCollection:
                 cursor = cnx.cursor()
 
                 query = (" SELECT ef.id, ef.name, ef.uuid, "
-                         "        ef.factor_type, ef.unit_of_factor "
+                         "        ef.unit_of_factor "
                          " FROM tbl_emission_factors ef, tbl_cost_centers_emission_factors ccef "
                          " WHERE ef.id = ccef.emission_factor_id AND ccef.cost_center_id = %s "
                          " ORDER BY ef.name ")
@@ -893,8 +893,7 @@ class CostCenterEmissionFactorCollection:
                 meta_result = {"id": row[0],
                                "name": row[1],
                                "uuid": row[2],
-                               "factor_type": row[3],
-                               "unit_of_factor": row[4]}
+                               "unit_of_factor": row[3]}
                 result.append(meta_result)
 
         # Store result in Redis cache

@@ -25,6 +25,22 @@ VALUES (117,'Dashboard','/space',100,0);
 INSERT INTO myems_system_db.tbl_menus (id,name,route, parent_menu_id,is_hidden)
 VALUES (330,'Dashboard','/meter',300,0);
 
+-- ---------------------------------------------------------------------------------------------------------------------
+-- Emission Factor simplification: remove fixed/timeofuse distinction.
+-- A 'fixed' factor is now represented as a single time-of-use period covering 00:00:00-24:00:00.
+-- ---------------------------------------------------------------------------------------------------------------------
+-- Migrate existing 'fixed' factors into a full-day time-of-use period
+INSERT INTO `myems_system_db`.`tbl_emission_factors_timeofuses`
+  (`emission_factor_id`, `start_time_of_day`, `end_time_of_day`, `factor`)
+SELECT `id`, '00:00:00', '24:00:00', `factor`
+FROM `myems_system_db`.`tbl_emission_factors`
+WHERE `factor_type` = 'fixed' AND `factor` IS NOT NULL;
+
+-- Drop the now-unused columns
+ALTER TABLE `myems_system_db`.`tbl_emission_factors`
+  DROP COLUMN `factor_type`,
+  DROP COLUMN `factor`;
+
 UPDATE `myems_system_db`.`tbl_versions`
 
 SET version='6.7.0', release_date='2026-07-26' WHERE id=1;
