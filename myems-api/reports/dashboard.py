@@ -406,6 +406,17 @@ class Reporting:
                 for key in sensor_dict:
                     if sensor_dict[key]['point_id_list'] is not None and len(sensor_dict[key]['point_id_list']) > 0:
                         cursor_historical.execute(" SELECT point_id, actual_value "
+                                                  " FROM tbl_energy_value_latest "
+                                                  " WHERE point_id in ({}) "
+                                                  " ORDER BY point_id ".
+                                                  format(','.join("{0}".format(x) for x in
+                                                                  sensor_dict[key]['point_id_list'])))
+                        rows_energy_values = cursor_historical.fetchall()
+                        if rows_energy_values is not None and len(rows_energy_values) > 0:
+                            for row in rows_energy_values:
+                                point_data_dict[row[0]] = row[1]
+
+                        cursor_historical.execute(" SELECT point_id, actual_value "
                                                   " FROM tbl_analog_value_latest "
                                                   " WHERE point_id in ({}) "
                                                   " ORDER BY point_id ".
