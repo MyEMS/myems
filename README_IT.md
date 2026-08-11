@@ -14,7 +14,7 @@
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/b2cd6049727240e2aaeb8fc7b4086166)](https://app.codacy.com/gh/MyEMS/myems/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade)
 
 
-[简体中文](./README_CN.md) | [English](./README_EN.md) | [Deutsch](./README_DE.md) | [Español](./README_ES.md) | [Français](./README_FR.md) | [Italiano](./README_IT.md) | [Nederlands](./README_NL.md) | [Polski](./README_PO.md) | [Português](./README_PT.md) | [Русский](./README_RU.md) | [日本語](./README_JP.md) | [한국어](./README_KR.md) | [繁體中文](./README_TW.md) | [العربية](./README_AR.md) | [فارسی](./README_FA.md) | [ไทย](./README_TH.md) | [हिन्दी](./README_HI.md) | [Bahasa Indonesia](./README_ID.md) | [Bahasa Melayu](./README_MS.md) | [Türkçe](./README_TR.md)
+[简体中文](./README_CN.md) | [English](./README.md) | [Deutsch](./README_DE.md) | [Español](./README_ES.md) | [Français](./README_FR.md) | [Italiano](./README_IT.md) | [Nederlands](./README_NL.md) | [Polski](./README_PO.md) | [Português](./README_PT.md) | [Русский](./README_RU.md) | [日本語](./README_JP.md) | [한국어](./README_KR.md) | [繁體中文](./README_TW.md) | [العربية](./README_AR.md) | [فارسی](./README_FA.md) | [ไทย](./README_TH.md) | [हिन्दी](./README_HI.md) | [Bahasa Indonesia](./README_ID.md) | [Bahasa Melayu](./README_MS.md) | [Türkçe](./README_TR.md) | [Tiếng Việt](./README_VI.md)
 ## Introduzione a MyEMS
 
 Il sistema open source di gestione dell'energia MyEMS fa riferimento allo standard di sistema di gestione dell'energia ISO 50001 (GB/T 23331-2020). È adatto per l'acquisizione, l'analisi e la rendicontazione di energia e emissioni di carbonio come elettricità, acqua, gas, raffreddamento, calore, ecc., in edifici, fabbriche, centri commerciali, ospedali, parchi industriali e centri di gestione dell'energia e del carbonio. Include anche funzioni opzionali per l'edizione aziendale come fotovoltaico, accumulo di energia, stazioni di ricarica, microreti, centrali elettriche virtuali, controllo dei dispositivi, diagnostica dei guasti, gestione degli ordini di lavoro, ottimizzazione dell'intelligenza artificiale. Sviluppato e mantenuto da un'azienda professionale esperta, garantisce supporto a lungo termine. Usiamo l'open source per aiutare le imprese, i gruppi aziendali, i parchi industriali e gli operatori energetici nello sviluppo a basse emissioni di carbonio!
@@ -89,11 +89,11 @@ Il sistema open source di gestione dell'energia MyEMS fa riferimento allo standa
 
 ## Funzioni dell'edizione Community di MyEMS
 
-Per dettagli vedere [https://myems.cn/docs/intro#myems-features](https://myems.cn/docs/intro#myems-features)
+Per dettagli vedere [https://myems.cn/it/docs/community](https://myems.cn/it/docs/community)
 
 ## Funzioni dell'edizione Enterprise di MyEMS
 
-Per dettagli vedere [https://myems.cn/docs/enterprise](https://myems.cn/docs/enterprise)
+Per dettagli vedere [https://myems.cn/it/docs/enterprise](https://myems.cn/it/docs/enterprise)
 
 
 ## Download di MyEMS (Edizione Community)
@@ -120,7 +120,7 @@ Per dettagli vedere [https://myems.cn/docs/enterprise](https://myems.cn/docs/ent
 
 ## Installazione di MyEMS (Edizione Community)
 
-Per dettagli vedere [https://myems.cn/docs/category/installation](https://myems.cn/docs/category/installation)
+Per dettagli vedere [https://myems.cn/it/docs/category/installation](https://myems.cn/it/docs/category/installation)
 
 ## Componenti di MyEMS
 

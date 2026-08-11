@@ -14,7 +14,7 @@
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/b2cd6049727240e2aaeb8fc7b4086166)](https://app.codacy.com/gh/MyEMS/myems/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade)
 
 
-[简体中文](./README_CN.md) | [English](./README_EN.md) | [Deutsch](./README_DE.md) | [Español](./README_ES.md) | [Français](./README_FR.md) | [Italiano](./README_IT.md) | [Nederlands](./README_NL.md) | [Polski](./README_PO.md) | [Português](./README_PT.md) | [Русский](./README_RU.md) | [日本語](./README_JP.md) | [한국어](./README_KR.md) | [繁體中文](./README_TW.md) | [العربية](./README_AR.md) | [فارسی](./README_FA.md) | [ไทย](./README_TH.md) | [हिन्दी](./README_HI.md) | [Bahasa Indonesia](./README_ID.md) | [Bahasa Melayu](./README_MS.md) | [Türkçe](./README_TR.md)
+[简体中文](./README_CN.md) | [English](./README.md) | [Deutsch](./README_DE.md) | [Español](./README_ES.md) | [Français](./README_FR.md) | [Italiano](./README_IT.md) | [Nederlands](./README_NL.md) | [Polski](./README_PO.md) | [Português](./README_PT.md) | [Русский](./README_RU.md) | [日本語](./README_JP.md) | [한국어](./README_KR.md) | [繁體中文](./README_TW.md) | [العربية](./README_AR.md) | [فارسی](./README_FA.md) | [ไทย](./README_TH.md) | [हिन्दी](./README_HI.md) | [Bahasa Indonesia](./README_ID.md) | [Bahasa Melayu](./README_MS.md) | [Türkçe](./README_TR.md) | [Tiếng Việt](./README_VI.md)
 ## MyEMS'ye Giriş
 
 Açık kaynak enerji yönetim sistemi MyEMS, ISO 50001 enerji yönetim standardına (GB/T 23331-2020) atıfta bulunur, binalar, fabrikalar, alışveriş merkezleri, hastaneler, endüstriyel parklar ve enerji ve karbon yönetim merkezleri için elektrik, su, gaz, soğuk, sıcak vb. için enerji ve karbon emisyonlarının toplanması, analizi ve raporlanması için uygulanabilir. Ayrıca fotovoltaik, enerji depolama, şarj istasyonları, mikro şebekeler, sanal güç santralleri, ekipman kontrolü, arıza teşhisi, iş emri yönetimi ve yapay zeka optimizasyonu gibi kurumsal sürüm isteğe bağlı işlevlerini de içerir. Deneyimli profesyonel bir şirket tarafından geliştirilmiş ve sürdürülmektedir, uzun vadeli desteği garanti eder. Kurumsal gruplar, endüstriyel parklar ve enerji operatörlerinin düşük karbonlu gelişimine yardımcı olmak için açık kaynak kullanın!
@@ -89,11 +89,11 @@ Açık kaynak enerji yönetim sistemi MyEMS, ISO 50001 enerji yönetim standard�
 
 ## MyEMS Topluluk Sürümü Özellikleri
 
-Detaylar için [https://myems.cn/docs/intro#myems-features](https://myems.cn/docs/intro#myems-features) bakın
+Detaylar için [https://myems.cn/tr/docs/community](https://myems.cn/tr/docs/community) bakın
 
 ## MyEMS Kurumsal Sürümü Özellikleri
 
-Detaylar için [https://myems.cn/docs/enterprise](https://myems.cn/docs/enterprise) bakın
+Detaylar için [https://myems.cn/tr/docs/enterprise](https://myems.cn/tr/docs/enterprise) bakın
 
 
 ## MyEMS İndirme (Topluluk Sürümü)
@@ -120,7 +120,7 @@ Detaylar için [https://myems.cn/docs/enterprise](https://myems.cn/docs/enterpri
 
 ## MyEMS Kurulum (Topluluk Sürümü)
 
-Detaylar için [https://myems.cn/docs/category/installation](https://myems.cn/docs/category/installation) bakın
+Detaylar için [https://myems.cn/tr/docs/category/installation](https://myems.cn/tr/docs/category/installation) bakın
 
 ## MyEMS Bileşen Kompozisyonu
 

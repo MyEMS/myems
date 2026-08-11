@@ -14,7 +14,7 @@
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/b2cd6049727240e2aaeb8fc7b4086166)](https://app.codacy.com/gh/MyEMS/myems/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade)
 
 
-[简体中文](./README_CN.md) | [English](./README_EN.md) | [Deutsch](./README_DE.md) | [Español](./README_ES.md) | [Français](./README_FR.md) | [Italiano](./README_IT.md) | [Nederlands](./README_NL.md) | [Polski](./README_PO.md) | [Português](./README_PT.md) | [Русский](./README_RU.md) | [日本語](./README_JP.md) | [한국어](./README_KR.md) | [繁體中文](./README_TW.md) | [العربية](./README_AR.md) | [فارسی](./README_FA.md) | [ไทย](./README_TH.md) | [हिन्दी](./README_HI.md) | [Bahasa Indonesia](./README_ID.md) | [Bahasa Melayu](./README_MS.md) | [Türkçe](./README_TR.md)
+[简体中文](./README_CN.md) | [English](./README.md) | [Deutsch](./README_DE.md) | [Español](./README_ES.md) | [Français](./README_FR.md) | [Italiano](./README_IT.md) | [Nederlands](./README_NL.md) | [Polski](./README_PO.md) | [Português](./README_PT.md) | [Русский](./README_RU.md) | [日本語](./README_JP.md) | [한국어](./README_KR.md) | [繁體中文](./README_TW.md) | [العربية](./README_AR.md) | [فارسی](./README_FA.md) | [ไทย](./README_TH.md) | [हिन्दी](./README_HI.md) | [Bahasa Indonesia](./README_ID.md) | [Bahasa Melayu](./README_MS.md) | [Türkçe](./README_TR.md) | [Tiếng Việt](./README_VI.md)
 ## MyEMS Introductie
 
 MyEMS open source energiebeheersysteem is gebaseerd op de ISO 50001 energiemanagement systeem standaard (GB/T 23331-2020). Het is geschikt voor het verzamelen, analyseren en rapporteren van energie en CO2-uitstoot (elektriciteit, water, gas, koude, warmte) voor gebouwen, fabrieken, winkelcentra, ziekenhuizen, campussen en energie- & koolstofmanagement centra. Daarnaast biedt het optionele Enterprise Edition functies zoals fotovoltaïsche energie, energieopslag, oplaadpalen, microgrids, virtuele energiecentrales, apparaatbesturing, foutdiagnose, werkorderbeheer en kunstmatige intelligentie optimalisatie. Ontwikkeld en onderhouden door een ervaren professioneel bedrijf, wat langdurige ondersteuning garandeert. Gebruik open source om bedrijven, industrieparken en energiebedrijven te ondersteunen in hun ontwikkeling naar lage CO2-uitstoot!
@@ -89,11 +89,11 @@ MyEMS open source energiebeheersysteem is gebaseerd op de ISO 50001 energiemanag
 
 ## MyEMS Community Edition Functies
 
-Zie voor details [https://myems.cn/docs/intro#myems-features](https://myems.cn/docs/intro#myems-features)
+Zie voor details [https://myems.cn/nl/docs/community](https://myems.cn/nl/docs/community)
 
 ## MyEMS Enterprise Edition Functies
 
-Zie voor details [https://myems.cn/docs/enterprise](https://myems.cn/docs/enterprise)
+Zie voor details [https://myems.cn/nl/docs/enterprise](https://myems.cn/nl/docs/enterprise)
 
 
 ## MyEMS Download (Community Editie)
@@ -120,7 +120,7 @@ Zie voor details [https://myems.cn/docs/enterprise](https://myems.cn/docs/enterp
 
 ## MyEMS Installatie (Community Editie)
 
-Zie voor details [https://myems.cn/docs/category/installation](https://myems.cn/docs/category/installation)
+Zie voor details [https://myems.cn/nl/docs/category/installation](https://myems.cn/nl/docs/category/installation)
 
 ## MyEMS Componenten
 
