@@ -14,7 +14,7 @@
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/b2cd6049727240e2aaeb8fc7b4086166)](https://app.codacy.com/gh/MyEMS/myems/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade)
 
 
-[简体中文](./README_CN.md) | [English](./README_EN.md) | [Deutsch](./README_DE.md) | [Español](./README_ES.md) | [Français](./README_FR.md) | [Italiano](./README_IT.md) | [Nederlands](./README_NL.md) | [Polski](./README_PO.md) | [Português](./README_PT.md) | [Русский](./README_RU.md) | [日本語](./README_JP.md) | [한국어](./README_KR.md) | [繁體中文](./README_TW.md) | [العربية](./README_AR.md) | [فارسی](./README_FA.md) | [ไทย](./README_TH.md) | [हिन्दी](./README_HI.md) | [Bahasa Indonesia](./README_ID.md) | [Bahasa Melayu](./README_MS.md) | [Türkçe](./README_TR.md)
+[简体中文](./README_CN.md) | [English](./README.md) | [Deutsch](./README_DE.md) | [Español](./README_ES.md) | [Français](./README_FR.md) | [Italiano](./README_IT.md) | [Nederlands](./README_NL.md) | [Polski](./README_PO.md) | [Português](./README_PT.md) | [Русский](./README_RU.md) | [日本語](./README_JP.md) | [한국어](./README_KR.md) | [繁體中文](./README_TW.md) | [العربية](./README_AR.md) | [فارسی](./README_FA.md) | [ไทย](./README_TH.md) | [हिन्दी](./README_HI.md) | [Bahasa Indonesia](./README_ID.md) | [Bahasa Melayu](./README_MS.md) | [Türkçe](./README_TR.md) | [Tiếng Việt](./README_VI.md)
 ## Pengenalan MyEMS
 
 Sistem pengurusan tenaga sumber terbuka MyEMS merujuk kepada piawaian ISO 50001 pengurusan tenaga (GB/T 23331-2020), terpakai untuk bangunan, kilang, pusat membeli-belah, hospital, taman perindustrian, dan pusat pengurusan tenaga dan karbon untuk pengumpulan, analisis, dan pelaporan tenaga dan pelepasan karbon untuk elektrik, air, gas, sejuk, haba, dll. Juga termasuk fungsi pilihan versi enterprise seperti fotovoltaik, penyimpanan tenaga, stesen pengecasan, mikrogrid, loji kuasa maya, kawalan peralatan, diagnostik kesilapan, pengurusan pesanan kerja, dan pengoptimuman kecerdasan buatan. Dibangunkan dan dikekalkan oleh syarikat profesional berpengalaman, menjamin sokongan jangka panjang. Gunakan sumber terbuka untuk membantu kumpulan korporat, taman perindustrian, dan pengendali tenaga dalam pembangunan rendah karbon!
@@ -89,11 +89,11 @@ Sistem pengurusan tenaga sumber terbuka MyEMS merujuk kepada piawaian ISO 50001 
 
 ## Ciri-ciri versi komuniti MyEMS
 
-Lihat [https://myems.cn/docs/intro#myems-features](https://myems.cn/docs/intro#myems-features) untuk butiran
+Lihat [https://myems.cn/ms/docs/community](https://myems.cn/ms/docs/community) untuk butiran
 
 ## Ciri-ciri versi enterprise MyEMS
 
-Lihat [https://myems.cn/docs/enterprise](https://myems.cn/docs/enterprise) untuk butiran
+Lihat [https://myems.cn/ms/docs/enterprise](https://myems.cn/ms/docs/enterprise) untuk butiran
 
 
 ## Muat turun MyEMS (versi komuniti)
@@ -120,7 +120,7 @@ Lihat [https://myems.cn/docs/enterprise](https://myems.cn/docs/enterprise) untuk
 
 ## Pemasangan MyEMS (versi komuniti)
 
-Lihat [https://myems.cn/docs/category/installation](https://myems.cn/docs/category/installation) untuk butiran
+Lihat [https://myems.cn/ms/docs/category/installation](https://myems.cn/ms/docs/category/installation) untuk butiran
 
 ## Komposisi komponen MyEMS
 

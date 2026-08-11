@@ -14,7 +14,7 @@
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/b2cd6049727240e2aaeb8fc7b4086166)](https://app.codacy.com/gh/MyEMS/myems/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade)
 
 
-[简体中文](./README_CN.md) | [English](./README_EN.md) | [Deutsch](./README_DE.md) | [Español](./README_ES.md) | [Français](./README_FR.md) | [Italiano](./README_IT.md) | [Nederlands](./README_NL.md) | [Polski](./README_PO.md) | [Português](./README_PT.md) | [Русский](./README_RU.md) | [日本語](./README_JP.md) | [한국어](./README_KR.md) | [繁體中文](./README_TW.md) | [العربية](./README_AR.md) | [فارسی](./README_FA.md) | [ไทย](./README_TH.md) | [हिन्दी](./README_HI.md) | [Bahasa Indonesia](./README_ID.md) | [Bahasa Melayu](./README_MS.md) | [Türkçe](./README_TR.md)
+[简体中文](./README_CN.md) | [English](./README.md) | [Deutsch](./README_DE.md) | [Español](./README_ES.md) | [Français](./README_FR.md) | [Italiano](./README_IT.md) | [Nederlands](./README_NL.md) | [Polski](./README_PO.md) | [Português](./README_PT.md) | [Русский](./README_RU.md) | [日本語](./README_JP.md) | [한국어](./README_KR.md) | [繁體中文](./README_TW.md) | [العربية](./README_AR.md) | [فارسی](./README_FA.md) | [ไทย](./README_TH.md) | [हिन्दी](./README_HI.md) | [Bahasa Indonesia](./README_ID.md) | [Bahasa Melayu](./README_MS.md) | [Türkçe](./README_TR.md) | [Tiếng Việt](./README_VI.md)
 ## Giới thiệu MyEMS
 
 Hệ thống quản lý năng lượng mã nguồn mở MyEMS tham chiếu tiêu chuẩn ISO 50001 quản lý năng lượng (GB/T 23331-2020), áp dụng cho các tòa nhà, nhà máy, trung tâm thương mại, bệnh viện, khu công nghiệp và trung tâm quản lý năng lượng và carbon để thu thập, phân tích và báo cáo năng lượng và phát thải carbon cho điện, nước, khí đốt, lạnh, nhiệt, v.v. Cũng bao gồm các chức năng tùy chọn của phiên bản doanh nghiệp như quang điện, lưu trữ năng lượng, trạm sạc, lưới điện vi mô, nhà máy điện ảo, điều khiển thiết bị, chẩn đoán lỗi, quản lý đơn hàng công việc và tối ưu hóa trí tuệ nhân tạo. Được phát triển và duy trì bởi một công ty chuyên nghiệp có kinh nghiệm, đảm bảo hỗ trợ lâu dài. Sử dụng mã nguồn mở để giúp các nhóm doanh nghiệp, khu công nghiệp và nhà khai thác năng lượng trong phát triển carbon thấp!
@@ -89,11 +89,11 @@ Hệ thống quản lý năng lượng mã nguồn mở MyEMS tham chiếu tiêu
 
 ## Tính năng phiên bản cộng đồng MyEMS
 
-Xem [https://myems.cn/docs/intro#myems-features](https://myems.cn/docs/intro#myems-features) để biết chi tiết
+Xem [https://myems.cn/vi/docs/community](https://myems.cn/vi/docs/community) để biết chi tiết
 
 ## Tính năng phiên bản doanh nghiệp MyEMS
 
-Xem [https://myems.cn/docs/enterprise](https://myems.cn/docs/enterprise) để biết chi tiết
+Xem [https://myems.cn/vi/docs/enterprise](https://myems.cn/vi/docs/enterprise) để biết chi tiết
 
 
 ## Tải xuống MyEMS (phiên bản cộng đồng)
@@ -120,7 +120,7 @@ Xem [https://myems.cn/docs/enterprise](https://myems.cn/docs/enterprise) để b
 
 ## Cài đặt MyEMS (phiên bản cộng đồng)
 
-Xem [https://myems.cn/docs/category/installation](https://myems.cn/docs/category/installation) để biết chi tiết
+Xem [https://myems.cn/vi/docs/category/installation](https://myems.cn/vi/docs/category/installation) để biết chi tiết
 
 ## Thành phần cấu tạo MyEMS
 

@@ -13,7 +13,7 @@
 [![Build Status](https://scrutinizer-ci.com/g/MyEMS/myems/badges/build.png?b=master)](https://scrutinizer-ci.com/g/MyEMS/myems/build-status/master)
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/b2cd6049727240e2aaeb8fc7b4086166)](https://app.codacy.com/gh/MyEMS/myems/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade)
 
-[简体中文](./README_CN.md) | [English](./README_EN.md) | [Deutsch](./README_DE.md) | [Español](./README_ES.md) | [Français](./README_FR.md) | [Italiano](./README_IT.md) | [Nederlands](./README_NL.md) | [Polski](./README_PO.md) | [Português](./README_PT.md) | [Русский](./README_RU.md) | [日本語](./README_JP.md) | [한국어](./README_KR.md) | [繁體中文](./README_TW.md) | [العربية](./README_AR.md) | [فارسی](./README_FA.md) | [ไทย](./README_TH.md) | [हिन्दी](./README_HI.md) | [Bahasa Indonesia](./README_ID.md) | [Bahasa Melayu](./README_MS.md) | [Türkçe](./README_TR.md)
+[简体中文](./README_CN.md) | [English](./README.md) | [Deutsch](./README_DE.md) | [Español](./README_ES.md) | [Français](./README_FR.md) | [Italiano](./README_IT.md) | [Nederlands](./README_NL.md) | [Polski](./README_PO.md) | [Português](./README_PT.md) | [Русский](./README_RU.md) | [日本語](./README_JP.md) | [한국어](./README_KR.md) | [繁體中文](./README_TW.md) | [العربية](./README_AR.md) | [فارسی](./README_FA.md) | [ไทย](./README_TH.md) | [हिन्दी](./README_HI.md) | [Bahasa Indonesia](./README_ID.md) | [Bahasa Melayu](./README_MS.md) | [Türkçe](./README_TR.md) | [Tiếng Việt](./README_VI.md)
 ## MyEMS 소개
 
 MyEMS 오픈소스 에너지 관리 시스템은 ISO 50001 에너지 관리 시스템 표준(GB/T 23331-2020)을 참조하며, 건물, 공장, 쇼핑몰, 병원, 산업단지, 에너지 탄소 관리 센터에서의 전력, 수도, 가스, 냉각, 난방 등 에너지 및 탄소 배출 수집, 분석, 보고뿐만 아니라 태양광, 에너지 저장, 충전기, 마이크로그리드, 가상 발전소, 장비 제어, 결함 진단, 작업 지시서 관리, 인공 지능 최적화 등 엔터프라이즈 버전 선택 기능을 포함합니다. 전문 개발 회사가 장기적인 지원을 보장하며 유지보수합니다. 오픈소스를 통해 기업 그룹, 산업단지, 에너지 사업자의 저탄소 발전을 지원합니다!
@@ -87,11 +87,11 @@ MyEMS 오픈소스 에너지 관리 시스템은 ISO 50001 에너지 관리 시�
 
 ## MyEMS 커뮤니티 에디션 기능
 
-자세한 내용은 [https://myems.cn/docs/intro#myems-features](https://myems.cn/docs/intro#myems-features) 참조
+자세한 내용은 [https://myems.cn/ko/docs/community](https://myems.cn/ko/docs/community) 참조
 
 ## MyEMS 엔터프라이즈 에디션 기능
 
-자세한 내용은 [https://myems.cn/docs/enterprise](https://myems.cn/docs/enterprise) 참조
+자세한 내용은 [https://myems.cn/ko/docs/enterprise](https://myems.cn/ko/docs/enterprise) 참조
 
 ## MyEMS 다운로드(커뮤니티 에디션)
 
@@ -117,7 +117,7 @@ MyEMS 오픈소스 에너지 관리 시스템은 ISO 50001 에너지 관리 시�
 
 ## MyEMS 설치(커뮤니티 에디션)
 
-자세한 내용은 [https://myems.cn/docs/category/installation](https://myems.cn/docs/category/installation) 참조
+자세한 내용은 [https://myems.cn/ko/docs/category/installation](https://myems.cn/ko/docs/category/installation) 참조
 
 ## MyEMS 구성 요소
 
