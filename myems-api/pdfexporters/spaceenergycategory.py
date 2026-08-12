@@ -133,7 +133,9 @@ class SpaceEnergyPDFExporter:
 
         self.language = language
         self.trans = get_translation(language)
-        self.trans.install()
+        # Do NOT call self.trans.install() - it modifies global builtins._
+        # which causes language cross-contamination in concurrent requests.
+        # Use instance-level gettext via self._ instead.
         self._ = self.trans.gettext
 
         # Page settings

@@ -1152,11 +1152,13 @@ const SpaceEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => {
         .then(response => response.blob())
         .then(blob => {
           const link = window.document.createElement('a');
-          link.href = window.URL.createObjectURL(blob, { type: mimeType });
+          const blobUrl = window.URL.createObjectURL(blob, { type: mimeType });
+          link.href = blobUrl;
           link.download = fileName;
           document.body.appendChild(link);
           link.click();
           document.body.removeChild(link);
+          setTimeout(() => window.URL.revokeObjectURL(blobUrl), 100);
         });
     } else if (type === 'pdf' && pdfBytesBase64) {
       const mimeType = 'application/pdf';
@@ -1166,11 +1168,13 @@ const SpaceEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => {
         .then(response => response.blob())
         .then(blob => {
           const link = window.document.createElement('a');
-          link.href = window.URL.createObjectURL(blob, { type: mimeType });
+          const blobUrl = window.URL.createObjectURL(blob, { type: mimeType });
+          link.href = blobUrl;
           link.download = fileName;
           document.body.appendChild(link);
           link.click();
           document.body.removeChild(link);
+          setTimeout(() => window.URL.revokeObjectURL(blobUrl), 100);
         });
     }
   };
