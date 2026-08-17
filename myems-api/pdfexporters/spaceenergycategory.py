@@ -261,14 +261,8 @@ class SpaceEnergyPDFExporter:
             # Summary page - Reporting Period Consumption (matching Excel rows 7-11)
             self._create_reporting_period_page(pdf)
 
-            # Time-of-use consumption (matching Excel rows 13-19)
-            self._create_time_of_use_page(pdf)
-
-            # TCE by category (matching Excel row 20+)
-            self._create_tce_page(pdf)
-
-            # CO2E by category
-            self._create_co2e_page(pdf)
+            # Combined analysis: Time-of-use electricity, TCE and TCO2E proportions (3 columns, table top + chart bottom)
+            self._create_combined_analysis_page(pdf)
 
             # Child spaces data
             self._create_child_spaces_page(pdf)
@@ -416,185 +410,158 @@ class SpaceEnergyPDFExporter:
         pdf.savefig(fig)
         plt.close()
 
-    def _create_time_of_use_page(self, pdf: PdfPages):
-        """Create time-of-use consumption page matching Excel table + pie chart."""
+    def _create_combined_analysis_page(self, pdf: PdfPages):
+        """Create combined analysis page with 3 columns (Time-of-use, TCE, TCO2E).
+        Each column has table on top and pie chart on bottom.
+        """
         _ = self._
         reporting_data = self.report['reporting_period']
+        names = reporting_data.get('names', [])
 
-        # Find electricity index
+        # --- Column 1: Time-of-use electricity consumption ---
         electricity_index = -1
         for i in range(len(reporting_data.get('energy_category_ids', []))):
             if reporting_data['energy_category_ids'][i] == 1:
                 electricity_index = i
                 break
 
-        if electricity_index < 0:
-            # No electricity data, skip this page
-            return
+        tou_exists = electricity_index >= 0
+        tou_categories = [_('TopPeak'), _('OnPeak'), _('MidPeak'), _('OffPeak')]
+        tou_values = []
+        if tou_exists:
+            toppeaks = reporting_data.get('toppeaks', [])
+            onpeaks = reporting_data.get('onpeaks', [])
+            midpeaks = reporting_data.get('midpeaks', [])
+            offpeaks = reporting_data.get('offpeaks', [])
+            tou_values = [
+                round2(toppeaks[electricity_index], 2) if electricity_index < len(toppeaks) else 0,
+                round2(onpeaks[electricity_index], 2) if electricity_index < len(onpeaks) else 0,
+                round2(midpeaks[electricity_index], 2) if electricity_index < len(midpeaks) else 0,
+                round2(offpeaks[electricity_index], 2) if electricity_index < len(offpeaks) else 0
+            ]
 
-        toppeaks = reporting_data.get('toppeaks', [])
-        onpeaks = reporting_data.get('onpeaks', [])
-        midpeaks = reporting_data.get('midpeaks', [])
-        offpeaks = reporting_data.get('offpeaks', [])
-
-        categories = [_('TopPeak'), _('OnPeak'), _('MidPeak'), _('OffPeak')]
-        values = [
-            round2(toppeaks[electricity_index], 2) if electricity_index < len(toppeaks) else 0,
-            round2(onpeaks[electricity_index], 2) if electricity_index < len(onpeaks) else 0,
-            round2(midpeaks[electricity_index], 2) if electricity_index < len(midpeaks) else 0,
-            round2(offpeaks[electricity_index], 2) if electricity_index < len(offpeaks) else 0
-        ]
-
-        fig = plt.figure(figsize=self.page_size)
-        gs = gridspec.GridSpec(1, 2, width_ratios=[0.4, 0.6])
-        ax_table = fig.add_subplot(gs[0])
-        ax_table.axis('off')
-        ax_chart = fig.add_subplot(gs[1])
-
-        # Title matching Excel
-        fig.suptitle(self.name + ' ' + _('Electricity Consumption by Time-Of-Use'),
-                     fontsize=16, weight='bold', y=0.98)
-
-        # Table matching Excel rows 14-18: first col header is empty, second col header is the name
-        table_data = [
-            ['', _('Electricity Consumption by Time-Of-Use')],
-            [_('TopPeak'), str(values[0])],
-            [_('OnPeak'), str(values[1])],
-            [_('MidPeak'), str(values[2])],
-            [_('OffPeak'), str(values[3])],
-        ]
-
-        table = ax_table.table(cellText=table_data, loc='center',
-                               cellLoc='center', colWidths=[0.5, 0.5])
-        table.auto_set_font_size(False)
-        table.set_fontsize(11)
-
-        # Style header row with green
-        table[0, 0].set_facecolor('#90EE90')
-        table[0, 0].set_text_props(weight='bold')
-        table[0, 1].set_facecolor('#90EE90')
-        table[0, 1].set_text_props(weight='bold')
-        _style_table_borders(table, len(table_data), 2)
-
-        # Pie chart matching Excel
-        total = sum(values)
-        colors = ['#FF1744', '#FF6F00', '#FDD835', '#00BCD4']
-        if total > 0:
-            wedges, texts, autotexts = ax_chart.pie(
-                values, labels=categories, autopct='%1.1f%%',
-                colors=colors, startangle=90)
-            ax_chart.set_title(self.name + ' ' + _('Electricity Consumption by Time-Of-Use'),
-                               fontsize=12, weight='bold')
-        else:
-            ax_chart.text(0.5, 0.5, _('No data'), fontsize=14, ha='center',
-                          transform=ax_chart.transAxes)
-            ax_chart.axis('off')
-
-        plt.tight_layout()
-        pdf.savefig(fig)
-        plt.close()
-
-    def _create_tce_page(self, pdf: PdfPages):
-        """Create TCE by category page matching Excel table + pie chart."""
-        _ = self._
-        reporting_data = self.report['reporting_period']
-        names = reporting_data.get('names', [])
+        # --- Column 2: TCE by category ---
         subtotals_in_kgce = reporting_data.get('subtotals_in_kgce', [])
+        tce_exists = subtotals_in_kgce and sum(subtotals_in_kgce) > 0
+        tce_values = [round2(v / 1000, 3) for v in subtotals_in_kgce] if tce_exists else []
 
-        if not subtotals_in_kgce or sum(subtotals_in_kgce) == 0:
-            return
-
-        # Convert to tonnes
-        tce_values = [round2(v / 1000, 3) for v in subtotals_in_kgce]
-
-        fig = plt.figure(figsize=self.page_size)
-        gs = gridspec.GridSpec(1, 2, width_ratios=[0.4, 0.6])
-        ax_table = fig.add_subplot(gs[0])
-        ax_table.axis('off')
-        ax_chart = fig.add_subplot(gs[1])
-
-        # Title
-        fig.suptitle(self.name + ' ' + _('Ton of Standard Coal(TCE) by Energy Category'),
-                     fontsize=16, weight='bold', y=0.98)
-
-        # Table matching Excel: first col header is empty, second col header is the name
-        table_data = [['', _('Ton of Standard Coal(TCE) by Energy Category')]]
-        for i in range(len(names)):
-            table_data.append([names[i], str(tce_values[i])])
-
-        table = ax_table.table(cellText=table_data, loc='center',
-                               cellLoc='center', colWidths=[0.5, 0.5])
-        table.auto_set_font_size(False)
-        table.set_fontsize(10)
-
-        # Style header with green
-        table[0, 0].set_facecolor('#90EE90')
-        table[0, 0].set_text_props(weight='bold')
-        table[0, 1].set_facecolor('#90EE90')
-        table[0, 1].set_text_props(weight='bold')
-        _style_table_borders(table, len(table_data), 2)
-
-        # Pie chart matching Excel
-        filtered = [(n, v) for n, v in zip(names, tce_values) if v > 0]
-        if filtered:
-            f_names, f_values = zip(*filtered)
-            colors = self.colors['chart_colors'][:len(f_names)]
-            ax_chart.pie(f_values, labels=f_names, autopct='%1.1f%%', colors=colors)
-        ax_chart.set_title(self.name + ' ' + _('Ton of Standard Coal(TCE) by Energy Category'),
-                           fontsize=11, weight='bold')
-
-        plt.tight_layout()
-        pdf.savefig(fig)
-        plt.close()
-
-    def _create_co2e_page(self, pdf: PdfPages):
-        """Create CO2E by category page matching Excel table + pie chart."""
-        _ = self._
-        reporting_data = self.report['reporting_period']
-        names = reporting_data.get('names', [])
+        # --- Column 3: CO2E by category ---
         subtotals_in_kgco2e = reporting_data.get('subtotals_in_kgco2e', [])
+        co2e_exists = subtotals_in_kgco2e and sum(subtotals_in_kgco2e) > 0
+        co2e_values = [round2(v / 1000, 3) for v in subtotals_in_kgco2e] if co2e_exists else []
 
-        if not subtotals_in_kgco2e or sum(subtotals_in_kgco2e) == 0:
+        # Skip page if no data at all
+        if not tou_exists and not tce_exists and not co2e_exists:
             return
 
-        # Convert to tonnes
-        co2e_values = [round2(v / 1000, 3) for v in subtotals_in_kgco2e]
-
         fig = plt.figure(figsize=self.page_size)
-        gs = gridspec.GridSpec(1, 2, width_ratios=[0.4, 0.6])
-        ax_table = fig.add_subplot(gs[0])
-        ax_table.axis('off')
-        ax_chart = fig.add_subplot(gs[1])
-
-        # Title
-        fig.suptitle(self.name + ' ' + _('Ton of Carbon Dioxide Emissions(TCO2E) by Energy Category'),
+        fig.suptitle(self.name + ' - ' + _('Energy Analysis'),
                      fontsize=16, weight='bold', y=0.98)
 
-        # Table matching Excel: first col header is empty, second col header is the name
-        table_data = [['', _('Ton of Carbon Dioxide Emissions(TCO2E) by Energy Category')]]
-        for i in range(len(names)):
-            table_data.append([names[i], str(co2e_values[i])])
+        # Layout: 2 rows x 3 columns (top: tables, bottom: pie charts)
+        gs = gridspec.GridSpec(2, 3,
+                               height_ratios=[0.35, 0.65],
+                               width_ratios=[1, 1, 1],
+                               hspace=0.3, wspace=0.25)
 
-        table = ax_table.table(cellText=table_data, loc='center',
-                               cellLoc='center', colWidths=[0.5, 0.5])
-        table.auto_set_font_size(False)
-        table.set_fontsize(10)
+        # ===== Column 1: Time-of-use electricity =====
+        ax_table1 = fig.add_subplot(gs[0, 0])
+        ax_table1.axis('off')
+        ax_chart1 = fig.add_subplot(gs[1, 0])
 
-        # Style header with green
-        table[0, 0].set_facecolor('#90EE90')
-        table[0, 0].set_text_props(weight='bold')
-        table[0, 1].set_facecolor('#90EE90')
-        table[0, 1].set_text_props(weight='bold')
-        _style_table_borders(table, len(table_data), 2)
+        tou_table_data = [
+            ['', _('Electricity Consumption by Time-Of-Use')],
+            [_('TopPeak'), str(tou_values[0]) if tou_exists else ''],
+            [_('OnPeak'), str(tou_values[1]) if tou_exists else ''],
+            [_('MidPeak'), str(tou_values[2]) if tou_exists else ''],
+            [_('OffPeak'), str(tou_values[3]) if tou_exists else ''],
+        ]
+        tbl1 = ax_table1.table(cellText=tou_table_data, loc='center',
+                                cellLoc='center', colWidths=[0.4, 0.6])
+        tbl1.auto_set_font_size(False)
+        tbl1.set_fontsize(9)
+        tbl1[0, 0].set_facecolor('#90EE90')
+        tbl1[0, 0].set_text_props(weight='bold')
+        tbl1[0, 1].set_facecolor('#90EE90')
+        tbl1[0, 1].set_text_props(weight='bold')
+        _style_table_borders(tbl1, len(tou_table_data), 2)
 
-        # Pie chart matching Excel
-        filtered = [(n, v) for n, v in zip(names, co2e_values) if v > 0]
-        if filtered:
-            f_names, f_values = zip(*filtered)
-            colors = self.colors['chart_colors'][:len(f_names)]
-            ax_chart.pie(f_values, labels=f_names, autopct='%1.1f%%', colors=colors)
-        ax_chart.set_title(self.name + ' ' + _('Ton of Carbon Dioxide Emissions(TCO2E) by Energy Category'),
-                           fontsize=11, weight='bold')
+        if tou_exists:
+            tou_colors = ['#FF1744', '#FF6F00', '#FDD835', '#00BCD4']
+            tou_total = sum(tou_values)
+            if tou_total > 0:
+                ax_chart1.pie(tou_values, labels=tou_categories, autopct='%1.1f%%',
+                               colors=tou_colors, startangle=90)
+            ax_chart1.set_title(_('Electricity Consumption by Time-Of-Use'),
+                                 fontsize=9, weight='bold')
+        else:
+            ax_chart1.text(0.5, 0.5, _('No data'), fontsize=12,
+                            ha='center', va='center', transform=ax_chart1.transAxes)
+            ax_chart1.axis('off')
+
+        # ===== Column 2: TCE by category =====
+        ax_table2 = fig.add_subplot(gs[0, 1])
+        ax_table2.axis('off')
+        ax_chart2 = fig.add_subplot(gs[1, 1])
+
+        tce_table_data = [['', _('Ton of Standard Coal(TCE) by Energy Category')]]
+        if tce_exists:
+            for i in range(len(names)):
+                tce_table_data.append([names[i], str(tce_values[i])])
+        tbl2 = ax_table2.table(cellText=tce_table_data, loc='center',
+                                cellLoc='center', colWidths=[0.4, 0.6])
+        tbl2.auto_set_font_size(False)
+        tbl2.set_fontsize(8)
+        tbl2[0, 0].set_facecolor('#90EE90')
+        tbl2[0, 0].set_text_props(weight='bold')
+        tbl2[0, 1].set_facecolor('#90EE90')
+        tbl2[0, 1].set_text_props(weight='bold')
+        _style_table_borders(tbl2, len(tce_table_data), 2)
+
+        if tce_exists:
+            tce_filtered = [(n, v) for n, v in zip(names, tce_values) if v > 0]
+            if tce_filtered:
+                tce_fn, tce_fv = zip(*tce_filtered)
+                tce_colors = self.colors['chart_colors'][:len(tce_fn)]
+                ax_chart2.pie(tce_fv, labels=tce_fn, autopct='%1.1f%%', colors=tce_colors)
+            ax_chart2.set_title(_('Ton of Standard Coal(TCE) by Energy Category'),
+                                 fontsize=9, weight='bold')
+        else:
+            ax_chart2.text(0.5, 0.5, _('No data'), fontsize=12,
+                            ha='center', va='center', transform=ax_chart2.transAxes)
+            ax_chart2.axis('off')
+
+        # ===== Column 3: CO2E by category =====
+        ax_table3 = fig.add_subplot(gs[0, 2])
+        ax_table3.axis('off')
+        ax_chart3 = fig.add_subplot(gs[1, 2])
+
+        co2e_table_data = [['', _('Ton of Carbon Dioxide Emissions(TCO2E) by Energy Category')]]
+        if co2e_exists:
+            for i in range(len(names)):
+                co2e_table_data.append([names[i], str(co2e_values[i])])
+        tbl3 = ax_table3.table(cellText=co2e_table_data, loc='center',
+                                cellLoc='center', colWidths=[0.4, 0.6])
+        tbl3.auto_set_font_size(False)
+        tbl3.set_fontsize(8)
+        tbl3[0, 0].set_facecolor('#90EE90')
+        tbl3[0, 0].set_text_props(weight='bold')
+        tbl3[0, 1].set_facecolor('#90EE90')
+        tbl3[0, 1].set_text_props(weight='bold')
+        _style_table_borders(tbl3, len(co2e_table_data), 2)
+
+        if co2e_exists:
+            co2e_filtered = [(n, v) for n, v in zip(names, co2e_values) if v > 0]
+            if co2e_filtered:
+                co2e_fn, co2e_fv = zip(*co2e_filtered)
+                co2e_colors = self.colors['chart_colors'][:len(co2e_fn)]
+                ax_chart3.pie(co2e_fv, labels=co2e_fn, autopct='%1.1f%%', colors=co2e_colors)
+            ax_chart3.set_title(_('Ton of Carbon Dioxide Emissions(TCO2E) by Energy Category'),
+                                 fontsize=9, weight='bold')
+        else:
+            ax_chart3.text(0.5, 0.5, _('No data'), fontsize=12,
+                            ha='center', va='center', transform=ax_chart3.transAxes)
+            ax_chart3.axis('off')
 
         plt.tight_layout()
         pdf.savefig(fig)
