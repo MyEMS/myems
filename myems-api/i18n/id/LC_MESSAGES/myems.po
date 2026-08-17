@@ -78,6 +78,13 @@ msgstr "Tons of Standard Coal (TCE) Ratio"
 msgid "Ton of Carbon Dioxide Emissions(TCO2E) by Energy Category"
 msgstr "Ton Emisi Dioksida Karbon (TCO2E) Sebagai Persentase"
 
+msgid "Energy Analysis"
+msgstr "Analisis Energi"
+
+msgid "Space Data - Energy Category Analysis"
+msgstr "Data Ruang - Analisis Klasifikasi Energi"
+
+
 msgid "Child Spaces Data"
 msgstr "Data Subspace"
 

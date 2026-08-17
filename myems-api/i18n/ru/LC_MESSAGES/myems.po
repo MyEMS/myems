@@ -78,6 +78,13 @@ msgstr "Тонна стандартного угля (ТВК) по энерге�
 msgid "Ton of Carbon Dioxide Emissions(TCO2E) by Energy Category"
 msgstr "Тонн выбросов углекислого газа (TCO2E) по энергетическим категориям"
 
+msgid "Energy Analysis"
+msgstr "Анализ энергопотребления"
+
+msgid "Space Data - Energy Category Analysis"
+msgstr "Данные пространства - Анализ категорий энергии"
+
+
 msgid "Child Spaces Data"
 msgstr "Данные о дочерних пространствах"
 

@@ -78,6 +78,13 @@ msgstr "Tonne de charbon standard (TCE) par catégorie d’énergie"
 msgid "Ton of Carbon Dioxide Emissions(TCO2E) by Energy Category"
 msgstr "Tonnes d’émissions de dioxyde de carbone (TCO2E) par catégorie d’énergie"
 
+msgid "Energy Analysis"
+msgstr "Analyse Énergétique"
+
+msgid "Space Data - Energy Category Analysis"
+msgstr "Données spatiales - Analyse de classification énergétique"
+
+
 msgid "Child Spaces Data"
 msgstr "Données sur les espaces enfants"
 

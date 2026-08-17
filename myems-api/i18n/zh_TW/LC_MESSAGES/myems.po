@@ -78,6 +78,13 @@ msgstr "噸標準煤（TCE）占比"
 msgid "Ton of Carbon Dioxide Emissions(TCO2E) by Energy Category"
 msgstr "噸二氧化碳排放（TCO2E）占比"
 
+msgid "Energy Analysis"
+msgstr "能耗分析"
+
+msgid "Space Data - Energy Category Analysis"
+msgstr "空間數據-能耗分類分析"
+
+
 msgid "Child Spaces Data"
 msgstr "子空間數據"
 

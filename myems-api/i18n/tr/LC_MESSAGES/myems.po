@@ -78,6 +78,13 @@ msgstr "Enerji Kategorisine Göre Ton Standart Kömür (TCE)"
 msgid "Ton of Carbon Dioxide Emissions(TCO2E) by Energy Category"
 msgstr "Enerji Kategorisine Göre Tonlarca Karbondioksit Emisyonu (TCO2E)"
 
+msgid "Energy Analysis"
+msgstr "Enerji Analizi"
+
+msgid "Space Data - Energy Category Analysis"
+msgstr "Alan Verileri - Enerji Kategori Analizi"
+
+
 msgid "Child Spaces Data"
 msgstr "Alt Alanlar Verileri"
 

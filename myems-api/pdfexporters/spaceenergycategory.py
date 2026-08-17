@@ -569,7 +569,6 @@ class SpaceEnergyPDFExporter:
                             ha='center', va='center', transform=ax_chart3.transAxes)
             ax_chart3.axis('off')
 
-        plt.tight_layout()
         pdf.savefig(fig)
         plt.close()
 
@@ -1091,7 +1090,6 @@ class SpaceEnergyPDFExporter:
                 ax_chart.set_title(name, fontsize=9, weight='bold')
                 ax_chart.grid(True, alpha=0.3)
 
-            plt.tight_layout()
             pdf.savefig(fig)
             plt.close()
 
