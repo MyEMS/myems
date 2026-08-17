@@ -18,7 +18,7 @@ import config
 ########################################################################################################################
 
 
-def process(logger, data_source_id, host, rack, slot, port):
+def process(logger, data_source_id, host, rack, slot, port, interval_in_seconds):
     # todo: update data source last seen datetime
     while True:
         # the outermost while loop
@@ -437,10 +437,7 @@ def process(logger, data_source_id, host, rack, slot, port):
                 # break the inner while loop to reconnect the s7 device
                 time.sleep(60)
                 break
-
             # sleep some seconds
-            time.sleep(config.interval_in_seconds)
+            time.sleep(interval_in_seconds)
         # end of inner while loop
-
     # end of the outermost while loop
-
