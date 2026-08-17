@@ -1,6 +1,5 @@
 import sys
 import telnetlib
-
 import snap7
 from snap7.snap7types import S7AreaPE, S7AreaMK, S7AreaCT, S7AreaTM
 

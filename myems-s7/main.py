@@ -116,9 +116,22 @@ def main():
             logger.error("Data Source Connection Invalid.")
             continue
 
+        # Validate or set default interval for data acquisition
+        if 'interval_in_seconds' not in server.keys() \
+            or (not isinstance(server['interval_in_seconds'], int)
+                and not isinstance(server['interval_in_seconds'], float)) \
+            or server['interval_in_seconds'] < 0 \
+                or server['interval_in_seconds'] > 3600:
+            # set the default interval
+            interval_in_seconds = 300
+        else:
+            # set interval from data source
+            interval_in_seconds = server['interval_in_seconds']
+
         # fork a worker process for each data source
-        Process(target=acquisition.process, args=(logger, row_data_source[0], server['host'], server['rack'],
-                                                  server['slot'], server['port'])).start()
+        Process(target=acquisition.process,
+                args=(logger, row_data_source[0], server['host'], server['rack'], server['slot'], server['port'],
+                      interval_in_seconds)).start()
 
 
 if __name__ == "__main__":

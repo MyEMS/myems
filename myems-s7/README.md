@@ -147,7 +147,6 @@ Uncheck 'Optimized block access' in Attributes of Block Properties
 
 
 ### Add Data Sources and Points in MyEMS Admin
-refer to https://github.com/myems/myesm-admin.git
 
 NOTE: If you modified S7 data sources and points, please restart this service:
 ```bash
@@ -160,7 +159,7 @@ s7
 ```
 Input data source connection (example):
 ```
-{"host":"192.168.0.2", "rack": 0, "slot": 1, "port":102}
+{"host":"192.168.0.2", "rack": 0, "slot": 1, "port":102, "interval_in_seconds":300}
 ```
 
 Input point address (example):
