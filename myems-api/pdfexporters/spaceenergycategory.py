@@ -283,30 +283,35 @@ class SpaceEnergyPDFExporter:
                            reporting_start: str, reporting_end: str,
                            base_period_start: str, base_period_end: str,
                            has_base_period: bool):
-        """Create cover page with logo image on top and 2x4 info table below."""
+        """Create cover page with logo, centered title, and borderless info list."""
         _ = self._
         fig = plt.figure(figsize=self.page_size)
 
-        # Layout: image on top, table below
-        gs = gridspec.GridSpec(2, 1, height_ratios=[0.5, 0.5])
-
-        # ===== Top: Logo image =====
-        ax_img = fig.add_subplot(gs[0])
-        ax_img.axis('off')
+        # ===== Logo image: 50% scale, centered above title =====
         img_path = os.path.join(os.path.dirname(os.path.abspath(__file__)),
                                 '..', 'excelexporters', 'myems.png')
         if os.path.exists(img_path):
             try:
                 img = plt.imread(img_path)
+                # Original: 530x90 px; at 50% scale display
+                img_w_inch = (img.shape[1] / self.dpi) * 0.5
+                img_h_inch = (img.shape[0] / self.dpi) * 0.5
+                page_w, page_h = self.page_size
+                # Convert inches to figure-relative coordinates
+                ax_img = fig.add_axes([0.5 - img_w_inch / page_w / 2,
+                                        0.62,
+                                        img_w_inch / page_w,
+                                        img_h_inch / page_h])
                 ax_img.imshow(img)
+                ax_img.axis('off')
             except Exception as e:
                 logger.warning(f"Failed to load logo image: {e}")
-        ax_img.axis('off')
 
-        # ===== Bottom: 2 columns x 4 rows info table =====
-        ax_table = fig.add_subplot(gs[1])
-        ax_table.axis('off')
+        # ===== Title: large bold text centered on page =====
+        fig.text(0.5, 0.50, _('Space Data - Energy Category Analysis'),
+                 fontsize=24, weight='bold', ha='center', va='center')
 
+        # ===== Info list: no table borders, centered below title =====
         info_data = [
             [_('Name') + ':', name],
             [_('Period Type') + ':', period_type],
@@ -317,19 +322,22 @@ class SpaceEnergyPDFExporter:
             info_data.append([_('Base Period Start Datetime') + ':', base_period_start])
             info_data.append([_('Base Period End Datetime') + ':', base_period_end])
 
+        ax_table = fig.add_axes([0.25, 0.10, 0.50, 0.35])
+        ax_table.axis('off')
+
         table = ax_table.table(cellText=info_data, loc='center',
                                 cellLoc='center', colWidths=[0.35, 0.65])
         table.auto_set_font_size(False)
-        table.set_fontsize(11)
+        table.set_fontsize(12)
 
-        # Style cells: labels right-aligned, values centered with bottom border
+        # Remove all borders, style labels and values
         for i in range(len(info_data)):
+            for j in [0, 1]:
+                table[i, j].set_edgecolor('white')
+                table[i, j].set_linewidth(0)
             table[i, 0].set_text_props(ha='right')
             table[i, 1].get_text().set_ha('center')
-            table[i, 1].set_edgecolor('#000000')
-            table[i, 1].set_linewidth(0.5)
 
-        plt.tight_layout()
         pdf.savefig(fig)
         plt.close()
 
