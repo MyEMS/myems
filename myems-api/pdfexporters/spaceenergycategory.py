@@ -258,10 +258,7 @@ class SpaceEnergyPDFExporter:
                                     base_period_end_datetime_local,
                                     self.is_base_period_exists)
 
-            # Summary page - Reporting Period Consumption (matching Excel rows 7-11)
-            self._create_reporting_period_page(pdf)
-
-            # Combined analysis: Time-of-use electricity, TCE and TCO2E proportions (3 columns, table top + chart bottom)
+            # Combined analysis: Reporting Period Consumption + Time-of-use, TCE, TCO2E (table top + 3 columns below)
             self._create_combined_analysis_page(pdf)
 
             # Child spaces data
@@ -324,99 +321,53 @@ class SpaceEnergyPDFExporter:
         pdf.savefig(fig)
         plt.close()
 
-    def _create_reporting_period_page(self, pdf: PdfPages):
-        """Create reporting period consumption page matching Excel rows 7-11. Table only, no chart."""
-        _ = self._
-        reporting_data = self.report['reporting_period']
-        if "names" not in reporting_data.keys() or reporting_data['names'] is None:
-            return
-
-        names = reporting_data['names']
-        units = reporting_data['units']
-        subtotals = reporting_data['subtotals']
-        subtotals_per_unit_area = reporting_data.get('subtotals_per_unit_area', [])
-        increment_rates = reporting_data.get('increment_rates', [])
-        ca_len = len(names)
-
-        fig, ax = plt.subplots(figsize=self.page_size)
-        ax.axis('off')
-
-        # Title
-        fig.suptitle(self.name + ' ' + _('Reporting Period Consumption'),
-                     fontsize=16, weight='bold', y=0.98)
-
-        # Build table matching Excel: rows = Consumption/PerUnitArea/IncrementRate
-        # Columns: label + each category + TCE + TCO2E
-        # Build column headers
-        col_headers = ['']
-        for i in range(ca_len):
-            col_headers.append(names[i] + ' (' + units[i] + ')')
-        col_headers.append(_('Ton of Standard Coal') + '(TCE)')
-        col_headers.append(_('Ton of Carbon Dioxide Emissions') + '(TCO2E)')
-
-        # Build data rows
-        consumption_row = [_('Consumption')]
-        for i in range(ca_len):
-            consumption_row.append(str(round2(subtotals[i], 2)))
-        total_kgce = reporting_data.get('total_in_kgce', 0)
-        total_kgco2e = reporting_data.get('total_in_kgco2e', 0)
-        consumption_row.append(str(round2(total_kgce / 1000, 2)))
-        consumption_row.append(str(round2(total_kgco2e / 1000, 2)))
-
-        per_area_row = [_('Per Unit Area')]
-        for i in range(ca_len):
-            val = subtotals_per_unit_area[i] if subtotals_per_unit_area and i < len(subtotals_per_unit_area) else None
-            per_area_row.append(str(round2(val, 2)) if val is not None else '')
-        total_kgce_per_area = reporting_data.get('total_in_kgce_per_unit_area', None)
-        total_kgco2e_per_area = reporting_data.get('total_in_kgco2e_per_unit_area', None)
-        per_area_row.append(str(round2(total_kgce_per_area / 1000, 2)) if total_kgce_per_area is not None else '')
-        per_area_row.append(str(round2(total_kgco2e_per_area / 1000, 2)) if total_kgco2e_per_area is not None else '')
-
-        increment_row = [_('Increment Rate')]
-        for i in range(ca_len):
-            val = increment_rates[i] if increment_rates and i < len(increment_rates) else None
-            increment_row.append(str(round2(val * 100, 2)) + '%' if val is not None else '')
-        inc_kgce = reporting_data.get('increment_rate_in_kgce', None)
-        inc_kgco2e = reporting_data.get('increment_rate_in_kgco2e', None)
-        increment_row.append(str(round2(inc_kgce * 100, 2)) + '%' if inc_kgce is not None else '')
-        increment_row.append(str(round2(inc_kgco2e * 100, 2)) + '%' if inc_kgco2e is not None else '')
-
-        table_data = [col_headers, consumption_row, per_area_row, increment_row]
-
-        # Adjust column widths
-        num_cols = len(col_headers)
-        col_widths = [0.12] + [0.08] * (num_cols - 1)
-        # Normalize widths to fit
-        total_w = sum(col_widths)
-        col_widths = [w / total_w for w in col_widths]
-
-        table = ax.table(cellText=table_data, loc='center',
-                         cellLoc='center', colWidths=col_widths)
-        table.auto_set_font_size(False)
-        table.set_fontsize(8)
-
-        # Style header row (row 0 = column headers) with green like Excel
-        for j in range(num_cols):
-            table[0, j].set_facecolor('#90EE90')
-            table[0, j].set_text_props(weight='bold')
-        # Style row labels (first column of data rows)
-        for i in range(1, 4):
-            table[i, 0].set_facecolor('#90EE90')
-            table[i, 0].set_text_props(weight='bold')
-
-        _style_table_borders(table, len(table_data), num_cols)
-
-        plt.tight_layout()
-        pdf.savefig(fig)
-        plt.close()
-
     def _create_combined_analysis_page(self, pdf: PdfPages):
-        """Create combined analysis page with 3 columns (Time-of-use, TCE, TCO2E).
-        Each column has table on top and pie chart on bottom.
+        """Create combined analysis page: Reporting Period Consumption table on top row,
+        then 3 columns (Time-of-use, TCE, TCO2E) below, each with table + pie chart.
         """
         _ = self._
         reporting_data = self.report['reporting_period']
         names = reporting_data.get('names', [])
+        units = reporting_data.get('units', [])
+        subtotals = reporting_data.get('subtotals', [])
+        subtotals_per_unit_area = reporting_data.get('subtotals_per_unit_area', [])
+        increment_rates = reporting_data.get('increment_rates', [])
+        ca_len = len(names)
+
+        # --- Build Reporting Period Consumption table data ---
+        rp_col_headers = ['']
+        for i in range(ca_len):
+            rp_col_headers.append(names[i] + ' (' + units[i] + ')')
+        rp_col_headers.append(_('Ton of Standard Coal') + '(TCE)')
+        rp_col_headers.append(_('Ton of Carbon Dioxide Emissions') + '(TCO2E)')
+
+        rp_consumption_row = [_('Consumption')]
+        for i in range(ca_len):
+            rp_consumption_row.append(str(round2(subtotals[i], 2)))
+        total_kgce = reporting_data.get('total_in_kgce', 0)
+        total_kgco2e = reporting_data.get('total_in_kgco2e', 0)
+        rp_consumption_row.append(str(round2(total_kgce / 1000, 2)))
+        rp_consumption_row.append(str(round2(total_kgco2e / 1000, 2)))
+
+        rp_per_area_row = [_('Per Unit Area')]
+        for i in range(ca_len):
+            val = subtotals_per_unit_area[i] if subtotals_per_unit_area and i < len(subtotals_per_unit_area) else None
+            rp_per_area_row.append(str(round2(val, 2)) if val is not None else '')
+        total_kgce_per_area = reporting_data.get('total_in_kgce_per_unit_area', None)
+        total_kgco2e_per_area = reporting_data.get('total_in_kgco2e_per_unit_area', None)
+        rp_per_area_row.append(str(round2(total_kgce_per_area / 1000, 2)) if total_kgce_per_area is not None else '')
+        rp_per_area_row.append(str(round2(total_kgco2e_per_area / 1000, 2)) if total_kgco2e_per_area is not None else '')
+
+        rp_increment_row = [_('Increment Rate')]
+        for i in range(ca_len):
+            val = increment_rates[i] if increment_rates and i < len(increment_rates) else None
+            rp_increment_row.append(str(round2(val * 100, 2)) + '%' if val is not None else '')
+        inc_kgce = reporting_data.get('increment_rate_in_kgce', None)
+        inc_kgco2e = reporting_data.get('increment_rate_in_kgco2e', None)
+        rp_increment_row.append(str(round2(inc_kgce * 100, 2)) + '%' if inc_kgce is not None else '')
+        rp_increment_row.append(str(round2(inc_kgco2e * 100, 2)) + '%' if inc_kgco2e is not None else '')
+
+        rp_table_data = [rp_col_headers, rp_consumption_row, rp_per_area_row, rp_increment_row]
 
         # --- Column 1: Time-of-use electricity consumption ---
         electricity_index = -1
@@ -450,24 +401,50 @@ class SpaceEnergyPDFExporter:
         co2e_exists = subtotals_in_kgco2e and sum(subtotals_in_kgco2e) > 0
         co2e_values = [round2(v / 1000, 3) for v in subtotals_in_kgco2e] if co2e_exists else []
 
-        # Skip page if no data at all
-        if not tou_exists and not tce_exists and not co2e_exists:
+        # Skip page if no reporting data and no analysis data
+        has_rp_data = "names" in reporting_data.keys() and reporting_data['names'] is not None
+        if not has_rp_data and not tou_exists and not tce_exists and not co2e_exists:
             return
 
         fig = plt.figure(figsize=self.page_size)
         fig.suptitle(self.name + ' - ' + _('Energy Analysis'),
                      fontsize=16, weight='bold', y=0.98)
 
-        # Layout: 2 rows x 3 columns (top: tables, bottom: pie charts)
-        gs = gridspec.GridSpec(2, 3,
-                               height_ratios=[0.35, 0.65],
-                               width_ratios=[1, 1, 1],
-                               hspace=0.3, wspace=0.25)
+        # Layout: top row = Reporting Period table (full width)
+        #         bottom area = 3 columns x 2 sub-rows (tables + pie charts)
+        gs_main = gridspec.GridSpec(2, 1, height_ratios=[0.28, 0.72], hspace=0.30)
+
+        # ===== Top row: Reporting Period Consumption table (full width) =====
+        ax_rp = fig.add_subplot(gs_main[0])
+        ax_rp.axis('off')
+
+        rp_num_cols = len(rp_col_headers)
+        rp_col_widths = [0.12] + [0.08] * (rp_num_cols - 1)
+        rp_total_w = sum(rp_col_widths)
+        rp_col_widths = [w / rp_total_w for w in rp_col_widths]
+
+        if has_rp_data:
+            tbl_rp = ax_rp.table(cellText=rp_table_data, loc='center',
+                                  cellLoc='center', colWidths=rp_col_widths)
+            tbl_rp.auto_set_font_size(False)
+            tbl_rp.set_fontsize(7)
+            for j in range(rp_num_cols):
+                tbl_rp[0, j].set_facecolor('#90EE90')
+                tbl_rp[0, j].set_text_props(weight='bold')
+            for i in range(1, 4):
+                tbl_rp[i, 0].set_facecolor('#90EE90')
+                tbl_rp[i, 0].set_text_props(weight='bold')
+            _style_table_borders(tbl_rp, len(rp_table_data), rp_num_cols)
+
+        # ===== Bottom area: 3 columns (Time-of-use, TCE, TCO2E) =====
+        gs_bottom = gridspec.GridSpecFromSubplotSpec(
+            2, 3, subplot_spec=gs_main[1],
+            height_ratios=[0.35, 0.65], wspace=0.25, hspace=0.20)
 
         # ===== Column 1: Time-of-use electricity =====
-        ax_table1 = fig.add_subplot(gs[0, 0])
+        ax_table1 = fig.add_subplot(gs_bottom[0, 0])
         ax_table1.axis('off')
-        ax_chart1 = fig.add_subplot(gs[1, 0])
+        ax_chart1 = fig.add_subplot(gs_bottom[1, 0])
 
         tou_table_data = [
             ['', _('Electricity Consumption by Time-Of-Use')],
@@ -500,9 +477,9 @@ class SpaceEnergyPDFExporter:
             ax_chart1.axis('off')
 
         # ===== Column 2: TCE by category =====
-        ax_table2 = fig.add_subplot(gs[0, 1])
+        ax_table2 = fig.add_subplot(gs_bottom[0, 1])
         ax_table2.axis('off')
-        ax_chart2 = fig.add_subplot(gs[1, 1])
+        ax_chart2 = fig.add_subplot(gs_bottom[1, 1])
 
         tce_table_data = [['', _('Ton of Standard Coal(TCE) by Energy Category')]]
         if tce_exists:
@@ -532,9 +509,9 @@ class SpaceEnergyPDFExporter:
             ax_chart2.axis('off')
 
         # ===== Column 3: CO2E by category =====
-        ax_table3 = fig.add_subplot(gs[0, 2])
+        ax_table3 = fig.add_subplot(gs_bottom[0, 2])
         ax_table3.axis('off')
-        ax_chart3 = fig.add_subplot(gs[1, 2])
+        ax_chart3 = fig.add_subplot(gs_bottom[1, 2])
 
         co2e_table_data = [['', _('Ton of Carbon Dioxide Emissions(TCO2E) by Energy Category')]]
         if co2e_exists:
