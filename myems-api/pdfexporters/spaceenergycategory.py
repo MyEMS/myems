@@ -293,9 +293,9 @@ class SpaceEnergyPDFExporter:
         if os.path.exists(img_path):
             try:
                 img = plt.imread(img_path)
-                # Original: 530x90 px; at 50% scale display
-                img_w_inch = (img.shape[1] / self.dpi) * 0.5
-                img_h_inch = (img.shape[0] / self.dpi) * 0.5
+                # Original: 530x90 px; at 100% scale display
+                img_w_inch = img.shape[1] / self.dpi
+                img_h_inch = img.shape[0] / self.dpi
                 page_w, page_h = self.page_size
                 # Convert inches to figure-relative coordinates
                 ax_img = fig.add_axes([0.5 - img_w_inch / page_w / 2,
