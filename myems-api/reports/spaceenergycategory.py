@@ -260,7 +260,8 @@ class Reporting:
                 redis_client = None
 
         trans = utilities.get_translation(language)
-        trans.install()
+        # Do NOT call trans.install() - it modifies global builtins._
+        # which causes language cross-contamination in concurrent requests.
         _ = trans.gettext
 
         ################################################################################################################
