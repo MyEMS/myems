@@ -25,6 +25,7 @@ The exported PDF file includes:
 
 import base64
 import os
+import time
 import uuid
 
 
@@ -183,7 +184,8 @@ class SpaceEnergyPDFExporter:
         """
         if report is None:
             return None
-
+        start_time = time.time()
+        logger.info(f"Starting PDF generation for {name}")
         # Generate PDF file
         pdf_filename = self.generate_pdf(
             report, name,
@@ -210,7 +212,8 @@ class SpaceEnergyPDFExporter:
                     os.remove(pdf_filename)
                 except Exception:
                     pass
-
+        elapsed = time.time() - start_time
+        logger.info(f"PDF generation completed in {elapsed:.2f}s for {name}")
         return result
 
     def generate_pdf(self,
