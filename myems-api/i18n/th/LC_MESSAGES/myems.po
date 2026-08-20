@@ -78,6 +78,13 @@ msgstr "ตันของถ่านหินมาตรฐาน (TCE) ต�
 msgid "Ton of Carbon Dioxide Emissions(TCO2E) by Energy Category"
 msgstr "ตันของการปล่อยก๊าซคาร์บอนไดออกไซด์ (TCO2E) ตามประเภทพลังงาน"
 
+msgid "Energy Analysis"
+msgstr "การวิเคราะห์พลังงาน"
+
+msgid "Space Data - Energy Category Analysis"
+msgstr "ข้อมูลพื้นที่ - การวิเคราะห์จัดหมู่พลังงาน"
+
+
 msgid "Child Spaces Data"
 msgstr "ข้อมูลพื้นที่ย่อย"
 

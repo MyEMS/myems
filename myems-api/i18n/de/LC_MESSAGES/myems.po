@@ -78,6 +78,13 @@ msgstr "Tonne Standardkohle(TCE) nach Energiekategorie"
 msgid "Ton of Carbon Dioxide Emissions(TCO2E) by Energy Category"
 msgstr "Tonne Kohlendioxidemissionen(TCO2E) nach Energiekategorie"
 
+msgid "Energy Analysis"
+msgstr "Energieanalyse"
+
+msgid "Space Data - Energy Category Analysis"
+msgstr "Raumdaten - Energiekategorieanalyse"
+
+
 msgid "Child Spaces Data"
 msgstr "Teil Platz Daten"
 
