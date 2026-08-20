@@ -33,9 +33,10 @@ import base64
 import os
 import time
 import uuid
+import io
 
 from decimal import Decimal
-from typing import Optional, Dict, List, Any
+from typing import Optional, Dict, List, Any, BinaryIO
 import logging
 
 import matplotlib
@@ -144,8 +145,6 @@ class SpaceEnergyDOCXExporter:
                              '#FF6B6B', '#9B59B6', '#1ABC9C', '#E67E22', '#2ECC71',
                              '#3498DB', '#E74C3C', '#2ECC71', '#F39C12', '#9B59B6']
 
-        self.temp_chart_files: List[str] = []
-
     def export(self,
                report: Dict[str, Any],
                name: str,
@@ -183,19 +182,18 @@ class SpaceEnergyDOCXExporter:
                     os.remove(docx_filename)
                 except Exception:
                     pass
-        self._cleanup_temp_charts()
         elapsed = time.time() - start_time
         logger.info(f"DOCX generation completed in {elapsed:.2f}s for {name}")
         return result
 
-    def _cleanup_temp_charts(self):
-        for f in self.temp_chart_files:
-            try:
-                if os.path.exists(f):
-                    os.remove(f)
-            except Exception:
-                pass
-        self.temp_chart_files = []
+    @staticmethod
+    def _fig_to_bytesio(fig, dpi: int) -> BinaryIO:
+        buf = io.BytesIO()
+        fig.tight_layout()
+        fig.savefig(buf, format='png', dpi=dpi, bbox_inches='tight')
+        plt.close(fig)
+        buf.seek(0)
+        return buf
 
     def _make_pie_chart(self, values, labels, title, colors=None):
         if not values or sum((v or 0) for v in values) == 0:
@@ -217,12 +215,7 @@ class SpaceEnergyDOCXExporter:
             f_colors = [c for _, _, c in top_data] + ['#999999']
         ax.pie(f_values, labels=f_labels, autopct='%1.1f%%', colors=f_colors, startangle=90)
         ax.set_title(title, fontsize=10, fontweight='bold')
-        filename = str(uuid.uuid4()) + '.png'
-        fig.tight_layout()
-        fig.savefig(filename, dpi=self.dpi, bbox_inches='tight')
-        plt.close(fig)
-        self.temp_chart_files.append(filename)
-        return filename
+        return self._fig_to_bytesio(fig, self.dpi)
 
     def generate_docx(self,
                       report: Dict[str, Any],
@@ -874,16 +867,12 @@ class SpaceEnergyDOCXExporter:
                 if plotted_any:
                     ax.legend(fontsize=6, loc='upper right', ncol=min(ca_len, 3))
                 ax.grid(True, alpha=0.3)
-                fname = str(uuid.uuid4()) + '.png'
-                fig.tight_layout()
-                fig.savefig(fname, dpi=self.dpi, bbox_inches='tight')
-                plt.close(fig)
-                self.temp_chart_files.append(fname)
+                chart_buf = self._fig_to_bytesio(fig, self.dpi)
 
                 p = doc.add_paragraph()
                 p.alignment = WD_ALIGN_PARAGRAPH.CENTER
                 run = p.add_run()
-                run.add_picture(fname, width=Inches(6.5))
+                run.add_picture(chart_buf, width=Inches(6.5))
 
                 if page < num_pages - 1:
                     doc.add_page_break()
@@ -1018,16 +1007,12 @@ class SpaceEnergyDOCXExporter:
                 if plotted_any:
                     ax.legend(fontsize=5, loc='upper right', ncol=2)
                 ax.grid(True, alpha=0.3)
-                fname = str(uuid.uuid4()) + '.png'
-                fig.tight_layout()
-                fig.savefig(fname, dpi=self.dpi, bbox_inches='tight')
-                plt.close(fig)
-                self.temp_chart_files.append(fname)
+                chart_buf = self._fig_to_bytesio(fig, self.dpi)
 
                 p = doc.add_paragraph()
                 p.alignment = WD_ALIGN_PARAGRAPH.CENTER
                 run = p.add_run()
-                run.add_picture(fname, width=Inches(6.5))
+                run.add_picture(chart_buf, width=Inches(6.5))
 
                 if page < num_pages - 1:
                     doc.add_page_break()
@@ -1115,16 +1100,12 @@ class SpaceEnergyDOCXExporter:
             ax.set_title(display_name, fontsize=9, fontweight='bold')
             ax.grid(True, alpha=0.3)
 
-            fname = str(uuid.uuid4()) + '.png'
-            fig.tight_layout()
-            fig.savefig(fname, dpi=self.dpi, bbox_inches='tight')
-            plt.close(fig)
-            self.temp_chart_files.append(fname)
+            chart_buf = self._fig_to_bytesio(fig, self.dpi)
 
             p = doc.add_paragraph()
             p.alignment = WD_ALIGN_PARAGRAPH.CENTER
             run = p.add_run()
-            run.add_picture(fname, width=Inches(5.5))
+            run.add_picture(chart_buf, width=Inches(5.5))
 
     # ---------- Base period existence ----------
     def _is_base_period_timestamp_exists(self, base_period_data: Dict) -> bool:
@@ -1138,9 +1119,6 @@ class SpaceEnergyDOCXExporter:
                 return True
 
         return False
-
-
-_exporter_cache = {}
 
 
 def export(report,
