@@ -42,6 +42,7 @@ import simplejson as json
 import config
 import excelexporters.spaceenergycategory
 import pdfexporters.spaceenergycategory
+import docxexporters.spaceenergycategory
 from core import utilities
 from core.useractivity import access_control, api_key_control
 
@@ -88,6 +89,7 @@ class Reporting:
         quick_mode = req.params.get('quickmode')
         export_excel = req.params.get('exportexcel')
         export_pdf = req.params.get('exportpdf')
+        export_docx = req.params.get('exportdocx')
 
         ################################################################################################################
         # Step 1: valid parameters
@@ -219,6 +221,12 @@ class Reporting:
                 len(str.strip(export_pdf)) > 0 and \
                 str.lower(str.strip(export_pdf)) in ('true', 't', 'on', 'yes', 'y'):
             is_export_pdf = True
+
+        is_export_docx = False
+        if export_docx is not None and \
+                len(str.strip(export_docx)) > 0 and \
+                str.lower(str.strip(export_docx)) in ('true', 't', 'on', 'yes', 'y'):
+            is_export_docx = True
 
         ############################################################################################################
         # Redis cache
@@ -864,7 +872,7 @@ class Reporting:
                     child_space_data[energy_category_id]['subtotals_in_kgce'])
                 result['child_space']['subtotals_in_kgco2e_array'].append(
                     child_space_data[energy_category_id]['subtotals_in_kgco2e'])
-        # export result to Excel/PDF file and then encode the file to base64 string
+        # export result to Excel/PDF/DOCX file and then encode the file to base64 string
         if not is_quick_mode:
             if is_export_excel:
                 result['excel_bytes_base64'] = \
@@ -886,6 +894,16 @@ class Reporting:
                                                             reporting_period_end_datetime_local,
                                                             period_type,
                                                             language)
+            if is_export_docx:
+                result['docx_bytes_base64'] = \
+                    docxexporters.spaceenergycategory.export(result,
+                                                             space['name'],
+                                                             base_period_start_datetime_local,
+                                                             base_period_end_datetime_local,
+                                                             reporting_period_start_datetime_local,
+                                                             reporting_period_end_datetime_local,
+                                                             period_type,
+                                                             language)
 
 
         resp_text = json.dumps(result)
