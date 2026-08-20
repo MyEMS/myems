@@ -124,6 +124,8 @@ const SpaceEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => {
   const [spinnerHidden, setSpinnerHidden] = useState(true);
   const [exportButtonHidden, setExportButtonHidden] = useState(true);
   const [resultDataHidden, setResultDataHidden] = useState(true);
+  const [exportExcel, setExportExcel] = useState(false);
+  const [exportPdf, setExportPdf] = useState(false);
   const [smartAnalysisOpen, setSmartAnalysisOpen] = useState(false);
   const [smartAnalysisContext, setSmartAnalysisContext] = useState(null);
 
@@ -213,6 +215,8 @@ const SpaceEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => {
       setExportButtonHidden(true);
       // hide result data
       setResultDataHidden(true);
+      setExcelBytesBase64(undefined);
+      setPdfBytesBase64(undefined);
 
       // Reinitialize tables
       setDetailedDataTableData([]);
@@ -819,8 +823,8 @@ const SpaceEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => {
             setSubmitButtonDisabled(false);
             // hide spinner
             setSpinnerHidden(true);
-            // show export button
-            setExportButtonHidden(false);
+            // show export button only when at least one export file was generated
+            setExportButtonHidden(!(json['excel_bytes_base64'] || json['pdf_bytes_base64']));
             // show result data
             setResultDataHidden(false);
           } else {
@@ -1138,7 +1142,11 @@ const SpaceEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => {
       '&reportingperiodenddatetime=' +
       moment(reportingPeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss') +
       '&language=' +
-      language;
+      language +
+      '&exportexcel=' +
+      exportExcel +
+      '&exportpdf=' +
+      exportPdf;
     loadData(url);
   };
 
@@ -1371,6 +1379,36 @@ const SpaceEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => {
               </Col>
               <Col xs="auto">
                 <FormGroup>
+                  <Label className={labelClasses}>
+                    {t('Export')}
+                    {t('(Optional)')}
+                  </Label>
+                  <div>
+                    <CustomInput
+                      type="checkbox"
+                      id="exportExcel"
+                      name="exportExcel"
+                      label="Excel"
+                      bsSize="sm"
+                      inline
+                      checked={exportExcel}
+                      onChange={({ target }) => setExportExcel(target.checked)}
+                    />
+                    <CustomInput
+                      type="checkbox"
+                      id="exportPdf"
+                      name="exportPdf"
+                      label="PDF"
+                      bsSize="sm"
+                      inline
+                      checked={exportPdf}
+                      onChange={({ target }) => setExportPdf(target.checked)}
+                    />
+                  </div>
+                </FormGroup>
+              </Col>
+              <Col xs="auto">
+                <FormGroup>
                   <br />
                   <ButtonGroup id="submit">
                     <Button size="sm" color="success" disabled={submitButtonDisabled}>
@@ -1396,12 +1434,16 @@ const SpaceEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => {
                     {t('Export')}
                   </DropdownToggle>
                   <DropdownMenu right>
-                    <DropdownItem onClick={e => handleExport(e, 'excel')}>
-                      EXCEL
-                    </DropdownItem>
-                    <DropdownItem onClick={e => handleExport(e, 'pdf')}>
-                      PDF
-                    </DropdownItem>
+                    {excelBytesBase64 ? (
+                      <DropdownItem onClick={e => handleExport(e, 'excel')}>
+                        EXCEL
+                      </DropdownItem>
+                    ) : null}
+                    {pdfBytesBase64 ? (
+                      <DropdownItem onClick={e => handleExport(e, 'pdf')}>
+                        PDF
+                      </DropdownItem>
+                    ) : null}
                   </DropdownMenu>
                 </UncontrolledDropdown>
               </Col>
@@ -1411,7 +1453,7 @@ const SpaceEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => {
                   <Button
                     color="falcon-default"
                     size="sm"
-                    hidden={exportButtonHidden}
+                    hidden={resultDataHidden}
                     onClick={openSmartAnalysis}
                   >
                     {t('AI Analysis')}
