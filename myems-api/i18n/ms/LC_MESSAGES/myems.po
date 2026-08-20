@@ -78,6 +78,13 @@ msgstr "Tan arang batu standard (TCE) mengikut kategori tenaga"
 msgid "Ton of Carbon Dioxide Emissions(TCO2E) by Energy Category"
 msgstr "Tan pelepasan karbon dioksida (TCO2E) mengikut kategori tenaga"
 
+msgid "Energy Analysis"
+msgstr "Analisis Tenaga"
+
+msgid "Space Data - Energy Category Analysis"
+msgstr "Data Ruang - Analisis Klasifikasi Tenaga"
+
+
 msgid "Child Spaces Data"
 msgstr "Data Ruang Kanak-kanak"
 

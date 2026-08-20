@@ -78,6 +78,13 @@ msgstr "نسبة أطنان الفحم القياسي (TCE)"
 msgid "Ton of Carbon Dioxide Emissions(TCO2E) by Energy Category"
 msgstr "النسبة المئوية لأطنان انبعاثات ثاني أكسيد الكربون (TCO2E)"
 
+msgid "Energy Analysis"
+msgstr "تحليل الطاقة"
+
+msgid "Space Data - Energy Category Analysis"
+msgstr "بيانات الفضاء - تحليل تصنيف الطاقة"
+
+
 msgid "Child Spaces Data"
 msgstr "بيانات الفضاء الفرعي"
 
