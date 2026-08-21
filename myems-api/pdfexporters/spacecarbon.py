@@ -11,7 +11,7 @@ Key Features:
 - Base period vs reporting period comparison
 - Time-of-use electricity carbon breakdown
 - Carbon emissions proportion charts
-- Detailed data with line charts
+- Detailed data tables with separate line charts per energy category
 - Multi-language support
 - Base64 encoding for file transmission
 
@@ -99,15 +99,13 @@ def _convert_decimals(obj):
 
 
 def _style_table_borders(table, num_rows, num_cols):
-    """Add borders to all cells in a table using vectorized line drawing."""
-    table_ax = getattr(table, 'ax', None) or getattr(table, 'axes', None) or plt.gca()
-    if num_rows > 1:
-        table_ax.hlines(range(num_rows), 0, 1, colors='#333333', linewidths=0.5,
-                        transform=table_ax.transAxes, clip_on=False)
-    if num_cols > 1:
-        table_ax.vlines(range(num_cols), 0, 1, colors='#333333', linewidths=0.5,
-                        transform=table_ax.transAxes, clip_on=False)
-    # Draw outer border (removed: no outer black frame)
+    """Add borders to all cells in a table."""
+    for i in range(num_rows):
+        for j in range(num_cols):
+            table[i, j].set_edgecolor('#333333')
+            table[i, j].set_linewidth(0.5)
+
+
 
 
 class SpaceCarbonPDFExporter:
@@ -261,8 +259,11 @@ class SpaceCarbonPDFExporter:
             # Time-of-use + Carbon proportion by category + Child space proportion
             self._create_combined_analysis_page(pdf)
 
-            # Detailed data
+            # Detailed data table pages
             self._create_detailed_data_page(pdf)
+
+            # Separate line charts for each energy category (matching Excel)
+            self._create_detailed_data_charts(pdf)
 
             # Parameters
             self._create_parameters_page(pdf)
@@ -503,7 +504,9 @@ class SpaceCarbonPDFExporter:
         plt.close()
 
     def _create_detailed_data_page(self, pdf: PdfPages):
-        """Create detailed data page matching Excel full data table + line charts."""
+        """Create detailed data table pages matching Excel full data table.
+        Charts are created separately in _create_detailed_data_charts.
+        """
         _ = self._
 
         reporting_data = self.report['reporting_period']
@@ -522,13 +525,12 @@ class SpaceCarbonPDFExporter:
         rows_per_page = 100
 
         if not self.is_base_period_exists:
-            # No base period: paginated table + combined chart per page
+            # No base period: paginated table only
             times = timestamps[0]
             if len(times) == 0:
                 return
 
             num_pages = (len(times) + rows_per_page - 1) // rows_per_page
-            marker_step = max(1, rows_per_page // 15)
 
             for page in range(num_pages):
                 start_row = page * rows_per_page
@@ -538,7 +540,7 @@ class SpaceCarbonPDFExporter:
                 fig.suptitle(self.name + ' ' + _('Detailed Data'),
                              fontsize=16, weight='bold', y=0.98)
 
-                gs = gridspec.GridSpec(2, 1, height_ratios=[0.55, 0.45])
+                gs = gridspec.GridSpec(1, 1)
                 ax_table = fig.add_subplot(gs[0])
                 ax_table.axis('off')
 
@@ -585,29 +587,10 @@ class SpaceCarbonPDFExporter:
                     table[last_row, j].set_text_props(weight='bold')
                 _style_table_borders(table, len(table_data), num_cols)
 
-                # Combined line chart - all categories + total
-                ax_chart = fig.add_subplot(gs[1])
-                for i in range(ca_len):
-                    data = values[i] if i < len(values) else []
-                    page_data = data[start_row:end_row]
-                    color = self.colors['chart_colors'][i % len(self.colors['chart_colors'])]
-                    ax_chart.plot(range(len(page_data)), page_data, linewidth=1.2,
-                                  color=color, label=names[i],
-                                  marker='o', markersize=3, markevery=marker_step)
-                step = max(1, (end_row - start_row) // 8)
-                ax_chart.set_xticks(range(0, end_row - start_row, step))
-                ax_chart.set_xticklabels([times[start_row + t][:10] for t in range(0, end_row - start_row, step)],
-                                         rotation=45, ha='right', fontsize=7)
-                ax_chart.set_title(_('Reporting Period Carbon Dioxide Emissions') + ' (' +
-                                   str(start_row + 1) + '-' + str(end_row) + ')',
-                                   fontsize=10, weight='bold')
-                ax_chart.legend(fontsize=6, loc='upper right', ncol=min(ca_len, 3))
-                ax_chart.grid(True, alpha=0.3)
-
                 pdf.savefig(fig)
                 plt.close()
         else:
-            # With base period: paginated table + combined comparison chart per page
+            # With base period: paginated table only
             base_period_data = self.report['base_period']
             base_timestamps = base_period_data.get('timestamps', [])
             base_values = base_period_data.get('values', [])
@@ -622,7 +605,6 @@ class SpaceCarbonPDFExporter:
 
             max_len = max(len(base_times), len(reporting_times))
             num_pages = (max_len + rows_per_page - 1) // rows_per_page
-            marker_step = max(1, rows_per_page // 15)
 
             for page in range(num_pages):
                 start_row = page * rows_per_page
@@ -632,7 +614,7 @@ class SpaceCarbonPDFExporter:
                 fig.suptitle(self.name + ' ' + _('Detailed Data'),
                              fontsize=16, weight='bold', y=0.98)
 
-                gs = gridspec.GridSpec(2, 1, height_ratios=[0.55, 0.45])
+                gs = gridspec.GridSpec(1, 1)
                 ax_table = fig.add_subplot(gs[0])
                 ax_table.axis('off')
 
@@ -700,32 +682,140 @@ class SpaceCarbonPDFExporter:
                     table[last_row, j].set_text_props(weight='bold')
                 _style_table_borders(table, len(table_data), num_cols)
 
-                # Combined comparison chart
-                ax_chart = fig.add_subplot(gs[1])
-                for i in range(reporting_ca_len):
-                    r_data = values[i] if i < len(values) else []
-                    r_page = r_data[start_row:end_row]
+                pdf.savefig(fig)
+                plt.close()
+
+    def _create_detailed_data_charts(self, pdf: PdfPages):
+        """Create separate line charts for each energy category, matching Excel behavior.
+        Charts < 5: all on one page. Charts >= 5: paginated, max 4 per page (2x2 grid).
+        """
+        _ = self._
+
+        reporting_data = self.report['reporting_period']
+        timestamps = reporting_data.get('timestamps', [])
+        names = reporting_data.get('names', [])
+        units = reporting_data.get('units', [])
+        values = reporting_data.get('values', [])
+
+        if not timestamps or len(timestamps[0]) == 0 or not names:
+            return
+
+        reporting_times = timestamps[0]
+        num_categories = len(names)
+        charts_per_page = 4  # 2x2 grid
+
+        if not self.is_base_period_exists:
+            # No base period: paginate charts
+            num_pages = (num_categories + charts_per_page - 1) // charts_per_page
+
+            for page in range(num_pages):
+                start_idx = page * charts_per_page
+                end_idx = min(start_idx + charts_per_page, num_categories)
+                page_categories = list(range(start_idx, end_idx))
+                n = len(page_categories)
+
+                fig = plt.figure(figsize=self.page_size)
+                fig.suptitle(self.name + ' ' + _('Detailed Data'),
+                             fontsize=16, weight='bold', y=0.98)
+
+                # Layout: 1 chart = full width; 2+ charts = 2-column grid
+                if n == 1:
+                    gs = gridspec.GridSpec(1, 1)
+                    axes = [fig.add_subplot(gs[0])]
+                else:
+                    num_rows = (n + 1) // 2
+                    gs = gridspec.GridSpec(num_rows, 2, hspace=0.35, wspace=0.25)
+                    axes = []
+                    for idx in range(n):
+                        row = idx // 2
+                        col = idx % 2
+                        axes.append(fig.add_subplot(gs[row, col]))
+
+                for idx, i in enumerate(page_categories):
+                    ax_chart = axes[idx]
+                    data = values[i] if i < len(values) else []
                     color = self.colors['chart_colors'][i % len(self.colors['chart_colors'])]
-                    ax_chart.plot(range(len(r_page)), r_page, linewidth=1.2,
-                                  color=color, marker='o', markersize=3, markevery=marker_step,
+                    ax_chart.plot(range(len(data)), data, linewidth=1.2,
+                                  color=color, marker='o', markersize=3,
+                                  markevery=max(1, len(data) // 30))
+
+                    step = max(1, len(data) // 10)
+                    ax_chart.set_xticks(range(0, len(data), step))
+                    ax_chart.set_xticklabels(
+                        [reporting_times[t][:10] for t in range(0, len(data), step)],
+                        rotation=45, ha='right', fontsize=7)
+                    ax_chart.set_title(_('Reporting Period Carbon Dioxide Emissions') + ' - ' +
+                                       names[i] + ' (' + units[i] + ')',
+                                       fontsize=9, weight='bold')
+                    ax_chart.grid(True, alpha=0.3)
+
+                pdf.savefig(fig)
+                plt.close()
+        else:
+            # With base period: paginate comparison charts
+            base_period_data = self.report['base_period']
+            base_timestamps = base_period_data.get('timestamps', [])
+            base_values = base_period_data.get('values', [])
+            base_names = base_period_data.get('names', [])
+            base_units = base_period_data.get('units', [])
+
+            num_pages = (num_categories + charts_per_page - 1) // charts_per_page
+
+            for page in range(num_pages):
+                start_idx = page * charts_per_page
+                end_idx = min(start_idx + charts_per_page, num_categories)
+                page_categories = list(range(start_idx, end_idx))
+                n = len(page_categories)
+
+                fig = plt.figure(figsize=self.page_size)
+                fig.suptitle(self.name + ' ' + _('Detailed Data'),
+                             fontsize=16, weight='bold', y=0.98)
+
+                # Layout: 1 chart = full width; 2+ charts = 2-column grid
+                if n == 1:
+                    gs = gridspec.GridSpec(1, 1)
+                    axes = [fig.add_subplot(gs[0])]
+                else:
+                    num_rows = (n + 1) // 2
+                    gs = gridspec.GridSpec(num_rows, 2, hspace=0.35, wspace=0.25)
+                    axes = []
+                    for idx in range(n):
+                        row = idx // 2
+                        col = idx % 2
+                        axes.append(fig.add_subplot(gs[row, col]))
+
+                for idx, i in enumerate(page_categories):
+                    ax_chart = axes[idx]
+
+                    # Reporting period line
+                    r_data = values[i] if i < len(values) else []
+                    color = self.colors['chart_colors'][i % len(self.colors['chart_colors'])]
+                    ax_chart.plot(range(len(r_data)), r_data, linewidth=1.2,
+                                  color=color, marker='o', markersize=3,
+                                  markevery=max(1, len(r_data) // 30),
                                   label=_('Reporting Period') + ' - ' + names[i])
+
+                    # Base period line (dashed)
                     if i < len(base_values):
                         b_data = base_values[i]
-                        b_page = b_data[start_row:end_row]
-                        ax_chart.plot(range(len(b_page)), b_page, linewidth=1.2,
+                        ax_chart.plot(range(len(r_data)), b_data[:len(r_data)], linewidth=1.2,
                                       color=color, linestyle='--', marker='s', markersize=3,
-                                      markevery=marker_step,
+                                      markevery=max(1, len(r_data) // 30),
                                       label=_('Base Period') + ' - ' + base_names[i])
-                step = max(1, (end_row - start_row) // 8)
-                ax_chart.set_xticks(range(0, end_row - start_row, step))
-                ax_chart.set_xticklabels(
-                    [reporting_times[start_row + t][:10] if start_row + t < len(reporting_times) else ''
-                     for t in range(0, end_row - start_row, step)],
-                    rotation=45, ha='right', fontsize=7)
-                ax_chart.set_title(str(start_row + 1) + '-' + str(end_row),
-                                   fontsize=9, weight='bold')
-                ax_chart.legend(fontsize=5, loc='upper right', ncol=2)
-                ax_chart.grid(True, alpha=0.3)
+
+                    step = max(1, len(r_data) // 10)
+                    ax_chart.set_xticks(range(0, len(r_data), step))
+                    ax_chart.set_xticklabels(
+                        [reporting_times[t][:10] if t < len(reporting_times) else ''
+                         for t in range(0, len(r_data), step)],
+                        rotation=45, ha='right', fontsize=7)
+                    ax_chart.set_title(
+                        _('Base Period Carbon Dioxide Emissions') + ' / ' +
+                        _('Reporting Period Carbon Dioxide Emissions') + ' - ' +
+                        names[i] + ' (' + units[i] + ')',
+                        fontsize=8, weight='bold')
+                    ax_chart.legend(fontsize=7)
+                    ax_chart.grid(True, alpha=0.3)
 
                 pdf.savefig(fig)
                 plt.close()
