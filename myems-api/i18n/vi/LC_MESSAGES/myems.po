@@ -369,3 +369,6 @@ msgstr "Phát thải carbon"
 
 msgid "Costs"
 msgstr "Chi phí"
+
+msgid "Carbon"
+msgstr "Khí thải CO2"

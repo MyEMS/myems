@@ -365,3 +365,6 @@ msgstr "Emisje Węgla"
 
 msgid "Costs"
 msgstr "Koszty"
+
+msgid "Carbon"
+msgstr "Analiza emisji CO2"

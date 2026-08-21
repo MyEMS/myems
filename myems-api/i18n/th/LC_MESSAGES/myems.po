@@ -369,3 +369,6 @@ msgstr "การปล่อยก๊าซคาร์บอน"
 
 msgid "Costs"
 msgstr "ค่าใช้จ่าย"
+
+msgid "Carbon"
+msgstr "การปล่อยกา๊สคาร์บอนได้อักษพาธ"

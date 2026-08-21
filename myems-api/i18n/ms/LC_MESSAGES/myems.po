@@ -369,3 +369,6 @@ msgstr "Pelepasan Karbon"
 
 msgid "Costs"
 msgstr "Kos"
+
+msgid "Carbon"
+msgstr "Karbon"
