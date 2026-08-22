@@ -369,3 +369,6 @@ msgstr "Выбросы углерода"
 
 msgid "Costs"
 msgstr "Затраты"
+
+msgid "Carbon"
+msgstr "Выбросы CO2"

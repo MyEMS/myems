@@ -369,3 +369,6 @@ msgstr "Karbon Emisyonları"
 
 msgid "Costs"
 msgstr "Maliyetler"
+
+msgid "Carbon"
+msgstr "CO2 Emisyonları"
