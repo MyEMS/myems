@@ -45,9 +45,10 @@ import matplotlib.pyplot as plt
 
 from docx import Document
 from docx.shared import Inches, Pt
-from docx.enum.text import WD_ALIGN_PARAGRAPH
+from docx.enum.text import WD_ALIGN_PARAGRAPH, WD_LINE_SPACING
 from docx.enum.table import WD_TABLE_ALIGNMENT
 from docx.oxml.ns import qn
+from docx.oxml import OxmlElement
 
 from core.utilities import get_translation, round2
 
@@ -95,10 +96,83 @@ def _convert_decimals(obj):
     return obj
 
 
-def _style_table_cell(cell, is_header=False, is_green=False, bold=False, font_size=10):
-    from docx.oxml import OxmlElement
+def _set_min_row_height(cell, height_twips=150, exact=False):
+    tr = cell._tc.getparent()
+    trPr = tr.get_or_add_trPr()
+    trHeight = OxmlElement('w:trHeight')
+    trHeight.set(qn('w:val'), str(height_twips))
+    trHeight.set(qn('w:hRule'), 'exact' if exact else 'atLeast')
+    existing = trPr.find(qn('w:trHeight'))
+    if existing is not None:
+        trPr.remove(existing)
+    trPr.append(trHeight)
+
+
+def _reset_cell_paragraph_spacing(cell, font_size=9):
+    line_twips = max(int(font_size * 20 * 1.15), 120)
+    for p in cell.paragraphs:
+        pf = p.paragraph_format
+        pf.space_before = Pt(0)
+        pf.space_after = Pt(0)
+        pf.line_spacing_rule = WD_LINE_SPACING.SINGLE
+        pPr = p._p.get_or_add_pPr()
+        spacing = OxmlElement('w:spacing')
+        spacing.set(qn('w:before'), '0')
+        spacing.set(qn('w:after'), '0')
+        spacing.set(qn('w:line'), str(line_twips))
+        spacing.set(qn('w:lineRule'), 'exact')
+        existing = pPr.find(qn('w:spacing'))
+        if existing is not None:
+            pPr.remove(existing)
+        pPr.append(spacing)
+        ind = pPr.find(qn('w:ind'))
+        if ind is not None:
+            pPr.remove(ind)
+
+
+def _set_cell_margins_zero(cell):
+    tc = cell._tc
+    tcPr = tc.get_or_add_tcPr()
+    tcMar = OxmlElement('w:tcMar')
+    for side in ['top', 'start', 'bottom', 'end']:
+        m = OxmlElement(f'w:{side}')
+        m.set(qn('w:w'), '0')
+        m.set(qn('w:type'), 'dxa')
+        tcMar.append(m)
+    existing = tcPr.find(qn('w:tcMar'))
+    if existing is not None:
+        tcPr.remove(existing)
+    tcPr.append(tcMar)
+
+
+def _remove_table_borders(table):
+    tbl = table._tbl
+    tblPr = tbl.tblPr if tbl.tblPr is not None else OxmlElement('w:tblPr')
+    tblBorders = OxmlElement('w:tblBorders')
+    for border_name in ['top', 'left', 'bottom', 'right', 'insideH', 'insideV']:
+        border = OxmlElement(f'w:{border_name}')
+        border.set(qn('w:val'), 'none')
+        border.set(qn('w:sz'), '0')
+        border.set(qn('w:space'), '0')
+        border.set(qn('w:color'), 'auto')
+        tblBorders.append(border)
+    existing = tblPr.find(qn('w:tblBorders'))
+    if existing is not None:
+        tblPr.remove(existing)
+    tblPr.append(tblBorders)
+    if tbl.tblPr is None:
+        tbl.insert(0, tblPr)
+
+
+def _style_table_cell(cell, is_header=False, is_green=False, bold=False, font_size=9):
     cell.paragraphs[0].runs[0].font.bold = bold
     cell.paragraphs[0].runs[0].font.size = Pt(font_size)
+    for p in cell.paragraphs:
+        p.alignment = WD_ALIGN_PARAGRAPH.CENTER
+    _reset_cell_paragraph_spacing(cell, font_size=font_size)
+    _set_cell_margins_zero(cell)
+    row_h = max(int(font_size * 20 * 1.3), 160)
+    _set_min_row_height(cell, height_twips=row_h, exact=False)
     tc = cell._tc
     tcPr = tc.get_or_add_tcPr()
     # Borders
@@ -198,7 +272,7 @@ class SpaceEnergyDOCXExporter:
     def _make_pie_chart(self, values, labels, title, colors=None):
         if not values or sum((v or 0) for v in values) == 0:
             return None
-        fig, ax = plt.subplots(figsize=(5, 4))
+        fig, ax = plt.subplots(figsize=(3.2, 2.6))
         if colors is None:
             colors = self.chart_colors[:len(labels)]
         filtered = [(l, v, c) for l, v, c in zip(labels, values, colors) if (v or 0) > 0]
@@ -215,6 +289,47 @@ class SpaceEnergyDOCXExporter:
             f_colors = [c for _, _, c in top_data] + ['#999999']
         ax.pie(f_values, labels=f_labels, autopct='%1.1f%%', colors=f_colors, startangle=90)
         ax.set_title(title, fontsize=10, fontweight='bold')
+        return self._fig_to_bytesio(fig, self.dpi)
+
+    def _make_pie_charts_row(self, charts):
+        if not charts:
+            return None
+        n = len(charts)
+        per_w = 3.2
+        fig, axes = plt.subplots(1, n, figsize=(per_w * n, 3.2))
+        if n == 1:
+            axes = [axes]
+        plotted_any = False
+        for idx, chart in enumerate(charts):
+            ax = axes[idx]
+            values = chart['values']
+            labels = chart['labels']
+            title = chart['title']
+            colors = chart.get('colors')
+            if not values or sum((v or 0) for v in values) == 0:
+                ax.axis('off')
+                continue
+            if colors is None:
+                colors = self.chart_colors[:len(labels)]
+            filtered = [(l, v, c) for l, v, c in zip(labels, values, colors) if (v or 0) > 0]
+            if not filtered:
+                ax.axis('off')
+                continue
+            f_labels, f_values, f_colors = zip(*filtered)
+            if len(f_labels) > 8:
+                sorted_data = sorted(zip(f_labels, f_values, f_colors), key=lambda x: x[1], reverse=True)
+                top_data = sorted_data[:7]
+                other_sum = sum(v for _, v, _ in sorted_data[7:])
+                f_labels = [l for l, _, _ in top_data] + [self._('Others')]
+                f_values = [v for _, v, _ in top_data] + [other_sum]
+                f_colors = [c for _, _, c in top_data] + ['#999999']
+            ax.pie(f_values, labels=f_labels, autopct='%1.1f%%', colors=f_colors, startangle=90)
+            ax.set_title(title, fontsize=10, fontweight='bold')
+            plotted_any = True
+        if not plotted_any:
+            plt.close(fig)
+            return None
+        plt.tight_layout(pad=1.0)
         return self._fig_to_bytesio(fig, self.dpi)
 
     def generate_docx(self,
@@ -469,31 +584,36 @@ class SpaceEnergyDOCXExporter:
         tou_categories = [_('TopPeak'), _('OnPeak'), _('MidPeak'), _('OffPeak')]
         tou_colors = ['#FF1744', '#FF6F00', '#FDD835', '#00BCD4']
 
-        self._add_heading_styled(doc, self.name + ' ' + _('Electricity Consumption by Time-Of-Use'), level=1)
+        chart_file = self._make_pie_chart(tou_values, tou_categories,
+                                          _('Electricity Consumption by Time-Of-Use'), colors=tou_colors)
 
-        table = doc.add_table(rows=5, cols=2)
-        table.alignment = WD_TABLE_ALIGNMENT.CENTER
-        h1 = table.cell(0, 0)
+        container = doc.add_table(rows=1, cols=2)
+        container.alignment = WD_TABLE_ALIGNMENT.CENTER
+        _remove_table_borders(container)
+        left_cell = container.cell(0, 0)
+        right_cell = container.cell(0, 1)
+
+        data_table = left_cell.add_table(rows=5, cols=2)
+        data_table.alignment = WD_TABLE_ALIGNMENT.CENTER
+        h1 = data_table.cell(0, 0)
         h1.text = ''
         _style_table_cell(h1, is_header=True, bold=True)
-        h2 = table.cell(0, 1)
+        h2 = data_table.cell(0, 1)
         h2.text = _('Electricity Consumption by Time-Of-Use')
         _style_table_cell(h2, is_header=True, bold=True)
         for i in range(4):
-            c1 = table.cell(i + 1, 0)
+            c1 = data_table.cell(i + 1, 0)
             c1.text = tou_categories[i]
             _style_table_cell(c1, bold=True)
-            c2 = table.cell(i + 1, 1)
+            c2 = data_table.cell(i + 1, 1)
             c2.text = str(tou_values[i])
             _style_table_cell(c2)
 
-        chart_file = self._make_pie_chart(tou_values, tou_categories,
-                                          _('Electricity Consumption by Time-Of-Use'), colors=tou_colors)
         if chart_file:
-            p = doc.add_paragraph()
+            p = right_cell.paragraphs[0]
             p.alignment = WD_ALIGN_PARAGRAPH.CENTER
             run = p.add_run()
-            run.add_picture(chart_file, width=Inches(4.5))
+            run.add_picture(chart_file, width=Inches(2.0))
 
     def _add_tce_section(self, doc):
         """Add Ton of Standard Coal(TCE) breakdown table and pie chart by energy category."""
@@ -513,31 +633,36 @@ class SpaceEnergyDOCXExporter:
         tce_values = [round2(subtotals_in_kgce[i] / 1000, 3) for i in range(ca_len)]
         display_names = names[:ca_len]
 
-        self._add_heading_styled(doc, self.name + ' ' + _('Ton of Standard Coal(TCE) by Energy Category'), level=1)
+        chart_file = self._make_pie_chart(tce_values, display_names,
+                                          _('Ton of Standard Coal(TCE) by Energy Category'))
 
-        table = doc.add_table(rows=ca_len + 1, cols=2)
-        table.alignment = WD_TABLE_ALIGNMENT.CENTER
-        h1 = table.cell(0, 0)
+        container = doc.add_table(rows=1, cols=2)
+        container.alignment = WD_TABLE_ALIGNMENT.CENTER
+        _remove_table_borders(container)
+        left_cell = container.cell(0, 0)
+        right_cell = container.cell(0, 1)
+
+        data_table = left_cell.add_table(rows=ca_len + 1, cols=2)
+        data_table.alignment = WD_TABLE_ALIGNMENT.CENTER
+        h1 = data_table.cell(0, 0)
         h1.text = ''
         _style_table_cell(h1, is_header=True, bold=True)
-        h2 = table.cell(0, 1)
+        h2 = data_table.cell(0, 1)
         h2.text = _('Ton of Standard Coal(TCE) by Energy Category')
         _style_table_cell(h2, is_header=True, bold=True)
         for i in range(ca_len):
-            c1 = table.cell(i + 1, 0)
+            c1 = data_table.cell(i + 1, 0)
             c1.text = display_names[i]
             _style_table_cell(c1, bold=True)
-            c2 = table.cell(i + 1, 1)
+            c2 = data_table.cell(i + 1, 1)
             c2.text = str(tce_values[i])
             _style_table_cell(c2)
 
-        chart_file = self._make_pie_chart(tce_values, display_names,
-                                          _('Ton of Standard Coal(TCE) by Energy Category'))
         if chart_file:
-            p = doc.add_paragraph()
+            p = right_cell.paragraphs[0]
             p.alignment = WD_ALIGN_PARAGRAPH.CENTER
             run = p.add_run()
-            run.add_picture(chart_file, width=Inches(4.5))
+            run.add_picture(chart_file, width=Inches(2.0))
 
     def _add_tco2e_section(self, doc):
         """Add Ton of CO2 Equivalent(TCO2E) breakdown table and pie chart by energy category."""
@@ -556,32 +681,36 @@ class SpaceEnergyDOCXExporter:
         co2e_values = [round2(subtotals_in_kgco2e[i] / 1000, 3) for i in range(ca_len)]
         display_names = names[:ca_len]
 
-        self._add_heading_styled(doc, self.name + ' ' +
-                                 _('Ton of Carbon Dioxide Emissions(TCO2E) by Energy Category'), level=1)
+        chart_file = self._make_pie_chart(co2e_values, display_names,
+                                          _('Ton of Carbon Dioxide Emissions(TCO2E) by Energy Category'))
 
-        table = doc.add_table(rows=ca_len + 1, cols=2)
-        table.alignment = WD_TABLE_ALIGNMENT.CENTER
-        h1 = table.cell(0, 0)
+        container = doc.add_table(rows=1, cols=2)
+        container.alignment = WD_TABLE_ALIGNMENT.CENTER
+        _remove_table_borders(container)
+        left_cell = container.cell(0, 0)
+        right_cell = container.cell(0, 1)
+
+        data_table = left_cell.add_table(rows=ca_len + 1, cols=2)
+        data_table.alignment = WD_TABLE_ALIGNMENT.CENTER
+        h1 = data_table.cell(0, 0)
         h1.text = ''
         _style_table_cell(h1, is_header=True, bold=True)
-        h2 = table.cell(0, 1)
+        h2 = data_table.cell(0, 1)
         h2.text = _('Ton of Carbon Dioxide Emissions(TCO2E) by Energy Category')
         _style_table_cell(h2, is_header=True, bold=True)
         for i in range(ca_len):
-            c1 = table.cell(i + 1, 0)
+            c1 = data_table.cell(i + 1, 0)
             c1.text = display_names[i]
             _style_table_cell(c1, bold=True)
-            c2 = table.cell(i + 1, 1)
+            c2 = data_table.cell(i + 1, 1)
             c2.text = str(co2e_values[i])
             _style_table_cell(c2)
 
-        chart_file = self._make_pie_chart(co2e_values, display_names,
-                                          _('Ton of Carbon Dioxide Emissions(TCO2E) by Energy Category'))
         if chart_file:
-            p = doc.add_paragraph()
+            p = right_cell.paragraphs[0]
             p.alignment = WD_ALIGN_PARAGRAPH.CENTER
             run = p.add_run()
-            run.add_picture(chart_file, width=Inches(4.5))
+            run.add_picture(chart_file, width=Inches(2.0))
 
     # ---------- Child spaces ----------
     def _add_child_spaces_section(self, doc):
@@ -649,6 +778,9 @@ class SpaceEnergyDOCXExporter:
                 c_pct.text = pct
                 _style_table_cell(c_pct)
 
+        charts_per_row = 3
+        per_chart_w = 3.2
+        charts_data = []
         for j in range(ca_len):
             values = []
             for s in range(space_len):
@@ -657,12 +789,25 @@ class SpaceEnergyDOCXExporter:
             labels = child_names[:len(values)]
             unit_j = units[j] if (units and j < len(units)) else ''
             chart_title = category_names[j] + ((' (' + unit_j + ')') if unit_j else '')
-            chart_file = self._make_pie_chart(values, labels, chart_title)
-            if chart_file:
-                p = doc.add_paragraph()
-                p.alignment = WD_ALIGN_PARAGRAPH.CENTER
-                run = p.add_run()
-                run.add_picture(chart_file, width=Inches(4.5))
+            charts_data.append({'values': values, 'labels': labels, 'title': chart_title})
+
+        doc.add_paragraph('')
+
+        num_rows = (ca_len + charts_per_row - 1) // charts_per_row
+        for row_idx in range(num_rows):
+            start = row_idx * charts_per_row
+            end = min(start + charts_per_row, ca_len)
+            row_charts = charts_data[start:end]
+            row_file = self._make_pie_charts_row(row_charts)
+            if not row_file:
+                continue
+            p = doc.add_paragraph()
+            p.alignment = WD_ALIGN_PARAGRAPH.CENTER
+            run = p.add_run()
+            total_w = per_chart_w * len(row_charts)
+            max_w = 10
+            insert_w = min(total_w, max_w)
+            run.add_picture(row_file, width=Inches(insert_w))
 
     # ---------- Working days (Base & Reporting) ----------
     def _add_base_period_working_days_section(self, doc):
@@ -869,6 +1014,7 @@ class SpaceEnergyDOCXExporter:
                 ax.grid(True, alpha=0.3)
                 chart_buf = self._fig_to_bytesio(fig, self.dpi)
 
+                doc.add_paragraph('')
                 p = doc.add_paragraph()
                 p.alignment = WD_ALIGN_PARAGRAPH.CENTER
                 run = p.add_run()
@@ -1009,6 +1155,7 @@ class SpaceEnergyDOCXExporter:
                 ax.grid(True, alpha=0.3)
                 chart_buf = self._fig_to_bytesio(fig, self.dpi)
 
+                doc.add_paragraph('')
                 p = doc.add_paragraph()
                 p.alignment = WD_ALIGN_PARAGRAPH.CENTER
                 run = p.add_run()
@@ -1053,9 +1200,9 @@ class SpaceEnergyDOCXExporter:
             return
 
         doc.add_page_break()
-        self._add_heading_styled(doc, _('Parameters Data'), level=1)
+        self._add_heading_styled(doc,self.name + ' ' + _('Parameters'), level=1)
 
-        rows_per_param = 25
+        rows_per_param = 10
 
         for pi in valid_params:
             name = param_names[pi]
@@ -1065,27 +1212,10 @@ class SpaceEnergyDOCXExporter:
             data_len = len(times)
 
             display_name = name + ((' (' + unit_i + ')') if unit_i else '')
-            self._add_heading_styled(doc, display_name, level=2)
 
             tbl_rows = min(rows_per_param, data_len)
-            table = doc.add_table(rows=tbl_rows + 1, cols=2)
-            table.alignment = WD_TABLE_ALIGNMENT.CENTER
-            h0 = table.cell(0, 0)
-            h0.text = _('Time')
-            _style_table_cell(h0, is_header=True, bold=True, font_size=8)
-            h1 = table.cell(0, 1)
-            h1.text = name
-            _style_table_cell(h1, is_header=True, bold=True, font_size=8)
-            for j in range(tbl_rows):
-                c_t = table.cell(j + 1, 0)
-                c_t.text = str(times[j])
-                _style_table_cell(c_t, font_size=7)
-                c_v = table.cell(j + 1, 1)
-                c_v.text = str(round2(data[j], 2))
-                _style_table_cell(c_v, font_size=7)
 
-            # Line chart with fill_between
-            fig, ax = plt.subplots(figsize=(6.0, 3.0))
+            fig, ax = plt.subplots(figsize=(5.0, 2.4))
             marker_step_p = max(1, data_len // 20)
             color = '#5B9BD5'
             ax.plot(range(data_len), data, linewidth=1.2,
@@ -1099,13 +1229,34 @@ class SpaceEnergyDOCXExporter:
             ax.set_ylabel(name, fontsize=8)
             ax.set_title(display_name, fontsize=9, fontweight='bold')
             ax.grid(True, alpha=0.3)
-
             chart_buf = self._fig_to_bytesio(fig, self.dpi)
 
-            p = doc.add_paragraph()
+            container = doc.add_table(rows=1, cols=2)
+            container.alignment = WD_TABLE_ALIGNMENT.CENTER
+            _remove_table_borders(container)
+            left_cell = container.cell(0, 0)
+            right_cell = container.cell(0, 1)
+
+            data_table = left_cell.add_table(rows=tbl_rows + 1, cols=2)
+            data_table.alignment = WD_TABLE_ALIGNMENT.CENTER
+            h0 = data_table.cell(0, 0)
+            h0.text = _('Time')
+            _style_table_cell(h0, is_header=True, bold=True, font_size=8)
+            h1 = data_table.cell(0, 1)
+            h1.text = name
+            _style_table_cell(h1, is_header=True, bold=True, font_size=8)
+            for j in range(tbl_rows):
+                c_t = data_table.cell(j + 1, 0)
+                c_t.text = str(times[j])
+                _style_table_cell(c_t, font_size=7)
+                c_v = data_table.cell(j + 1, 1)
+                c_v.text = str(round2(data[j], 2))
+                _style_table_cell(c_v, font_size=7)
+
+            p = right_cell.paragraphs[0]
             p.alignment = WD_ALIGN_PARAGRAPH.CENTER
             run = p.add_run()
-            run.add_picture(chart_buf, width=Inches(5.5))
+            run.add_picture(chart_buf, width=Inches(4.5))
 
     # ---------- Base period existence ----------
     def _is_base_period_timestamp_exists(self, base_period_data: Dict) -> bool:
