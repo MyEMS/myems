@@ -369,3 +369,6 @@ msgstr "碳排放"
 
 msgid "Costs"
 msgstr "成本"
+
+msgid "Carbon"
+msgstr "碳排放分析"

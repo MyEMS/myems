@@ -365,3 +365,6 @@ msgstr "炭素排出"
 
 msgid "Costs"
 msgstr "コスト"
+
+msgid "Carbon"
+msgstr "炭素排出分析"
