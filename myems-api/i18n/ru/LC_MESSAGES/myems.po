@@ -398,3 +398,7 @@ msgstr "Затраты"
 
 msgid "Carbon"
 msgstr "Выбросы CO2"
+
+
+msgid "Energy Prediction Analysis"
+msgstr "Анализ прогнозирования энергии"

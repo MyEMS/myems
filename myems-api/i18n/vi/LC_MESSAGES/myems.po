@@ -398,3 +398,7 @@ msgstr "Chi phí"
 
 msgid "Carbon"
 msgstr "Khí thải CO2"
+
+
+msgid "Energy Prediction Analysis"
+msgstr "Phân tích dự báo năng lượng"

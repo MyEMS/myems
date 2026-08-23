@@ -398,3 +398,7 @@ msgstr "Costi"
 
 msgid "Carbon"
 msgstr "Analisi Emissioni CO2"
+
+
+msgid "Energy Prediction Analysis"
+msgstr "Analisi di previsione energetica"

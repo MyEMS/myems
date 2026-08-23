@@ -398,3 +398,7 @@ msgstr "Kos"
 
 msgid "Carbon"
 msgstr "Karbon"
+
+
+msgid "Energy Prediction Analysis"
+msgstr "Analisis Ramalan Tenaga"

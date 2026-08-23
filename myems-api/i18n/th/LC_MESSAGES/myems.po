@@ -398,3 +398,7 @@ msgstr "ค่าใช้จ่าย"
 
 msgid "Carbon"
 msgstr "การปล่อยกา๊สคาร์บอนได้อักษพาธ"
+
+
+msgid "Energy Prediction Analysis"
+msgstr "การวิเคราะห์ทำนายพลังงาน"

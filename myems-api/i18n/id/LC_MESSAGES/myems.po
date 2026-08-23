@@ -398,3 +398,7 @@ msgstr "Biaya"
 
 msgid "Carbon"
 msgstr "Emisi CO2"
+
+
+msgid "Energy Prediction Analysis"
+msgstr "Analisis Prediksi Energi"

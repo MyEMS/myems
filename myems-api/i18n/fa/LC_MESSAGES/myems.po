@@ -398,3 +398,7 @@ msgstr "هزینه‌ها"
 
 msgid "Carbon"
 msgstr "تحليل انتشار کربن"
+
+
+msgid "Energy Prediction Analysis"
+msgstr "تحلیل پیش‌بینی انرژی"

@@ -394,3 +394,7 @@ msgstr "コスト"
 
 msgid "Carbon"
 msgstr "炭素排出分析"
+
+
+msgid "Energy Prediction Analysis"
+msgstr "エネルギー予測分析"

@@ -398,3 +398,7 @@ msgstr "التكاليف"
 
 msgid "Carbon"
 msgstr "انبعاثات ثاني أكسيد الكربون"
+
+
+msgid "Energy Prediction Analysis"
+msgstr "تحليل توقع الطاقة"
