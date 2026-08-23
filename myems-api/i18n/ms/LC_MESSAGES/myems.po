@@ -84,6 +84,10 @@ msgstr "Analisis Tenaga"
 msgid "Energy Saving Analysis"
 msgstr "Analisis Penjimatan Tenaga"
 
+msgid "Energy Plan Analysis"
+msgstr "Analisis Pelan Tenaga"
+
+
 
 msgid "Space Data - Energy Category Analysis"
 msgstr "Data Ruang - Analisis Klasifikasi Tenaga"
@@ -209,8 +213,16 @@ msgstr "Output"
 msgid "Base Period Saving"
 msgstr "Penjimatan Tempoh Asas"
 
+msgid "Base Period Plan"
+msgstr "Pelan Tempoh Asas"
+
+
 msgid "Reporting Period Saving"
 msgstr "Penjimatan Tempoh Pelaporan"
+
+msgid "Reporting Period Plan"
+msgstr "Pelan Tempoh Pelaporan"
+
 
 msgid "Baseline"
 msgstr "Garis dasar"
@@ -220,6 +232,10 @@ msgstr "Sebenar"
 
 msgid "Saving"
 msgstr "Menyimpan"
+
+msgid "Plan"
+msgstr "Pelan"
+
 
 msgid "Decreased"
 msgstr "Menurun"

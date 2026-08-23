@@ -84,6 +84,10 @@ msgstr "Análise de Energia"
 msgid "Energy Saving Analysis"
 msgstr "Análise de Economia de Energia"
 
+msgid "Energy Plan Analysis"
+msgstr "Análise do Plano Energético"
+
+
 
 msgid "Space Data - Energy Category Analysis"
 msgstr "Dados do espaço - Análise de classificação de energia"
@@ -209,8 +213,16 @@ msgstr "Saída"
 msgid "Base Period Saving"
 msgstr "Economia do Período Base"
 
+msgid "Base Period Plan"
+msgstr "Plano do Período Base"
+
+
 msgid "Reporting Period Saving"
 msgstr "Economia do período de relatório"
+
+msgid "Reporting Period Plan"
+msgstr "Plano do Período de Relatório"
+
 
 msgid "Baseline"
 msgstr "Linha de base"
@@ -220,6 +232,10 @@ msgstr "Atuais"
 
 msgid "Saving"
 msgstr "Poupança"
+
+msgid "Plan"
+msgstr "Plano"
+
 
 msgid "Decreased"
 msgstr "Diminuído"

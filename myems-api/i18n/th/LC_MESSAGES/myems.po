@@ -84,6 +84,10 @@ msgstr "การวิเคราะห์พลังงาน"
 msgid "Energy Saving Analysis"
 msgstr "การวิเคราะห์การประหลัดพลังงาน"
 
+msgid "Energy Plan Analysis"
+msgstr "การวิเคราะห์แผนพลังงาน"
+
+
 
 msgid "Space Data - Energy Category Analysis"
 msgstr "ข้อมูลพื้นที่ - การวิเคราะห์จัดหมู่พลังงาน"
@@ -209,8 +213,16 @@ msgstr "ผลิตภัณฑ์"
 msgid "Base Period Saving"
 msgstr "การออมระยะเวลาพื้นฐาน"
 
+msgid "Base Period Plan"
+msgstr "แผนช่วงพื้นฐาน"
+
+
 msgid "Reporting Period Saving"
 msgstr "การบันทึกรอบระยะเวลารายงาน"
+
+msgid "Reporting Period Plan"
+msgstr "แผนช่วงรายงาน"
+
 
 msgid "Baseline"
 msgstr "พื้นฐาน"
@@ -220,6 +232,10 @@ msgstr "จริง"
 
 msgid "Saving"
 msgstr "การประหยัด"
+
+msgid "Plan"
+msgstr "แผน"
+
 
 msgid "Decreased"
 msgstr "ลดลง"

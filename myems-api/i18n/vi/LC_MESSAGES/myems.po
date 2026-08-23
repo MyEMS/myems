@@ -84,6 +84,10 @@ msgstr "Phân tích Năng lượng"
 msgid "Energy Saving Analysis"
 msgstr "Phân tích Tiết kiệm Năng lượng"
 
+msgid "Energy Plan Analysis"
+msgstr "Phân tích Kế hoạch Năng lượng"
+
+
 
 msgid "Space Data - Energy Category Analysis"
 msgstr "Dữ liệu không gian - Phân tích phân loại năng lượng"
@@ -209,8 +213,16 @@ msgstr "Ra"
 msgid "Base Period Saving"
 msgstr "Tiết kiệm thời gian cơ bản"
 
+msgid "Base Period Plan"
+msgstr "Kế hoạch Kỳ Cơ sở"
+
+
 msgid "Reporting Period Saving"
 msgstr "Tiết kiệm kỳ báo cáo"
+
+msgid "Reporting Period Plan"
+msgstr "Kế hoạch Kỳ Báo cáo"
+
 
 msgid "Baseline"
 msgstr "Baseline"
@@ -220,6 +232,10 @@ msgstr "Thực tế"
 
 msgid "Saving"
 msgstr "Tiết kiệm"
+
+msgid "Plan"
+msgstr "Kế hoạch"
+
 
 msgid "Decreased"
 msgstr "Giảm"

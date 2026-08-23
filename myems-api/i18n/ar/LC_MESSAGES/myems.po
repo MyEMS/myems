@@ -84,6 +84,10 @@ msgstr "تحليل الطاقة"
 msgid "Energy Saving Analysis"
 msgstr "تحليل توفير الطاقة"
 
+msgid "Energy Plan Analysis"
+msgstr "تحليل خطة الطاقة"
+
+
 
 msgid "Space Data - Energy Category Analysis"
 msgstr "بيانات الفضاء - تحليل تصنيف الطاقة"
@@ -209,8 +213,16 @@ msgstr "الناتج"
 msgid "Base Period Saving"
 msgstr "وفورات فترة الأساس"
 
+msgid "Base Period Plan"
+msgstr "خطة الفترة الأساسية"
+
+
 msgid "Reporting Period Saving"
 msgstr "الوفورات في الفترة المشمولة بالتقرير"
+
+msgid "Reporting Period Plan"
+msgstr "خطة فترة الإبلاغ"
+
 
 msgid "Baseline"
 msgstr "الاساس"
@@ -220,6 +232,10 @@ msgstr "حقيقي"
 
 msgid "Saving"
 msgstr "تقتصد"
+
+msgid "Plan"
+msgstr "الخطة"
+
 
 msgid "Decreased"
 msgstr "نقصان"

@@ -84,6 +84,10 @@ msgstr "Enerji Analizi"
 msgid "Energy Saving Analysis"
 msgstr "Enerji Tasarrufu Analizi"
 
+msgid "Energy Plan Analysis"
+msgstr "Enerji Planı Analizi"
+
+
 
 msgid "Space Data - Energy Category Analysis"
 msgstr "Alan Verileri - Enerji Kategori Analizi"
@@ -209,8 +213,16 @@ msgstr "Çıktı"
 msgid "Base Period Saving"
 msgstr "Baz Dönem Tasarrufu"
 
+msgid "Base Period Plan"
+msgstr "Baz Dönem Planı"
+
+
 msgid "Reporting Period Saving"
 msgstr "Raporlama Dönemi Tasarrufu"
+
+msgid "Reporting Period Plan"
+msgstr "Raporlama Dönemi Planı"
+
 
 msgid "Baseline"
 msgstr "Taban çizgisi"
@@ -220,6 +232,10 @@ msgstr "Gerçek"
 
 msgid "Saving"
 msgstr "Tasarruf"
+
+msgid "Plan"
+msgstr "Plan"
+
 
 msgid "Decreased"
 msgstr "Azal -mış"

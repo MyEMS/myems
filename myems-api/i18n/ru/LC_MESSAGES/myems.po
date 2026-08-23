@@ -84,6 +84,10 @@ msgstr "Анализ энергопотребления"
 msgid "Energy Saving Analysis"
 msgstr "Анализ экономии энергии"
 
+msgid "Energy Plan Analysis"
+msgstr "Анализ энергетического плана"
+
+
 
 msgid "Space Data - Energy Category Analysis"
 msgstr "Данные пространства - Анализ категорий энергии"
@@ -209,8 +213,16 @@ msgstr "выпуск"
 msgid "Base Period Saving"
 msgstr "Экономия за базовый период"
 
+msgid "Base Period Plan"
+msgstr "План базового периода"
+
+
 msgid "Reporting Period Saving"
 msgstr "Экономия в отчетном периоде"
+
+msgid "Reporting Period Plan"
+msgstr "План отчётного периода"
+
 
 msgid "Baseline"
 msgstr "базис"
@@ -220,6 +232,10 @@ msgstr "действительный"
 
 msgid "Saving"
 msgstr "экономить"
+
+msgid "Plan"
+msgstr "План"
+
 
 msgid "Decreased"
 msgstr "убывать"

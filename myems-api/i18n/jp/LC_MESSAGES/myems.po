@@ -84,6 +84,10 @@ msgstr "エネルギー分析"
 msgid "Energy Saving Analysis"
 msgstr "省エネルギー分析"
 
+msgid "Energy Plan Analysis"
+msgstr "エネルギー計画分析"
+
+
 
 msgid "Child Spaces Data"
 msgstr "Child Spaces Data"
@@ -205,8 +209,16 @@ msgstr "Output"
 msgid "Base Period Saving"
 msgstr "Base Period Saving"
 
+msgid "Base Period Plan"
+msgstr "基準期間計画"
+
+
 msgid "Reporting Period Saving"
 msgstr "Reporting Period Saving"
+
+msgid "Reporting Period Plan"
+msgstr "報告期間計画"
+
 
 msgid "Baseline"
 msgstr "Baseline"
@@ -216,6 +228,10 @@ msgstr "Actual"
 
 msgid "Saving"
 msgstr "Saving"
+
+msgid "Plan"
+msgstr "計画"
+
 
 msgid "Decreased"
 msgstr "Decreased"

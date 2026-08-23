@@ -84,6 +84,10 @@ msgstr "能耗分析"
 msgid "Energy Saving Analysis"
 msgstr "节能分析"
 
+msgid "Energy Plan Analysis"
+msgstr "计划分析"
+
+
 
 msgid "Space Data - Energy Category Analysis"
 msgstr "空间数据-能耗分类分析"
@@ -209,8 +213,16 @@ msgstr "产出"
 msgid "Base Period Saving"
 msgstr "基准期节约"
 
+msgid "Base Period Plan"
+msgstr "基准期计划"
+
+
 msgid "Reporting Period Saving"
 msgstr "报告期节约"
+
+msgid "Reporting Period Plan"
+msgstr "报告期计划"
+
 
 msgid "Baseline"
 msgstr "基线"
@@ -220,6 +232,10 @@ msgstr "实际"
 
 msgid "Saving"
 msgstr "节约"
+
+msgid "Plan"
+msgstr "计划"
+
 
 msgid "Decreased"
 msgstr "减少"

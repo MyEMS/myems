@@ -84,6 +84,10 @@ msgstr "Energieanalyse"
 msgid "Energy Saving Analysis"
 msgstr "Analyse van Energiebesparing"
 
+msgid "Energy Plan Analysis"
+msgstr "Energieplan Analyse"
+
+
 
 msgid "Space Data - Energy Category Analysis"
 msgstr "Ruimtedata - Energiecategorie-analyse"
@@ -209,8 +213,16 @@ msgstr "Output"
 msgid "Base Period Saving"
 msgstr "Base Period Saving"
 
+msgid "Base Period Plan"
+msgstr "Basisperiode Plan"
+
+
 msgid "Reporting Period Saving"
 msgstr "Reporting Period Saving"
+
+msgid "Reporting Period Plan"
+msgstr "Rapportageperiode Plan"
+
 
 msgid "Baseline"
 msgstr "Baseline"
@@ -220,6 +232,10 @@ msgstr "Actual"
 
 msgid "Saving"
 msgstr "Saving"
+
+msgid "Plan"
+msgstr "Plan"
+
 
 msgid "Decreased"
 msgstr "Decreased"
