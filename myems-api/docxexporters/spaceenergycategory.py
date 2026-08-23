@@ -45,7 +45,7 @@ import matplotlib.pyplot as plt
 
 from docx import Document
 from docx.shared import Inches, Pt
-from docx.enum.text import WD_ALIGN_PARAGRAPH, WD_LINE_SPACING
+from docx.enum.text import WD_ALIGN_PARAGRAPH, WD_LINE_SPACING, WD_BREAK, WD_TAB_ALIGNMENT
 from docx.enum.table import WD_TABLE_ALIGNMENT
 from docx.oxml.ns import qn
 from docx.oxml import OxmlElement
@@ -457,17 +457,33 @@ class SpaceEnergyDOCXExporter:
             info_data.append([_('Base Period Start Datetime') + ':', base_period_start])
             info_data.append([_('Base Period End Datetime') + ':', base_period_end])
 
-        table = doc.add_table(rows=len(info_data), cols=2)
-        table.alignment = WD_TABLE_ALIGNMENT.CENTER
-        for i, (label, value) in enumerate(info_data):
-            cell_label = table.cell(i, 0)
-            cell_label.text = label
-            cell_label.paragraphs[0].runs[0].font.bold = True
-            cell_label.paragraphs[0].alignment = WD_ALIGN_PARAGRAPH.RIGHT
+        info_table = doc.add_table(rows=len(info_data), cols=2)
+        info_table.alignment = WD_TABLE_ALIGNMENT.CENTER
+        _remove_table_borders(info_table)
 
-            cell_value = table.cell(i, 1)
-            cell_value.text = str(value) if value is not None else ''
-            cell_value.paragraphs[0].alignment = WD_ALIGN_PARAGRAPH.LEFT
+        section = doc.sections[0]
+        half_w = Inches(3.2)
+        for i, (label, value) in enumerate(info_data):
+            c_label = info_table.cell(i, 0)
+            c_label.width = half_w
+            c_label.text = label
+            c_label.paragraphs[0].alignment = WD_ALIGN_PARAGRAPH.CENTER
+            r_lbl = c_label.paragraphs[0].runs[0]
+            r_lbl.bold = True
+            r_lbl.font.size = Pt(13)
+            r_lbl.font.name = 'Arial'
+            r_lbl._element.rPr.rFonts.set(qn('w:eastAsia'), 'SimSun')
+
+            c_value = info_table.cell(i, 1)
+            c_value.width = half_w
+            c_value.text = str(value) if value is not None else ''
+            c_value.paragraphs[0].alignment = WD_ALIGN_PARAGRAPH.CENTER
+            r_val = c_value.paragraphs[0].runs[0]
+            r_val.font.size = Pt(13)
+            r_val.font.name = 'Arial'
+            r_val._element.rPr.rFonts.set(qn('w:eastAsia'), 'SimSun')
+
+        doc.add_page_break()
 
     # ---------- Combined analysis equivalent ----------
     def _add_reporting_period_summary(self, doc):
@@ -556,6 +572,8 @@ class SpaceEnergyDOCXExporter:
         table.cell(3, tco2e_col).text = inc_tco2e_text
         _style_table_cell(table.cell(3, tco2e_col))
 
+        doc.add_paragraph('')
+
     def _add_time_of_use_section(self, doc):
         """Add Time-Of-Use electricity consumption table and pie chart."""
         _ = self._
@@ -613,7 +631,7 @@ class SpaceEnergyDOCXExporter:
             p = right_cell.paragraphs[0]
             p.alignment = WD_ALIGN_PARAGRAPH.CENTER
             run = p.add_run()
-            run.add_picture(chart_file, width=Inches(2.0))
+            run.add_picture(chart_file, width=Inches(1.6))
 
     def _add_tce_section(self, doc):
         """Add Ton of Standard Coal(TCE) breakdown table and pie chart by energy category."""
@@ -662,7 +680,7 @@ class SpaceEnergyDOCXExporter:
             p = right_cell.paragraphs[0]
             p.alignment = WD_ALIGN_PARAGRAPH.CENTER
             run = p.add_run()
-            run.add_picture(chart_file, width=Inches(2.0))
+            run.add_picture(chart_file, width=Inches(1.6))
 
     def _add_tco2e_section(self, doc):
         """Add Ton of CO2 Equivalent(TCO2E) breakdown table and pie chart by energy category."""
@@ -710,7 +728,7 @@ class SpaceEnergyDOCXExporter:
             p = right_cell.paragraphs[0]
             p.alignment = WD_ALIGN_PARAGRAPH.CENTER
             run = p.add_run()
-            run.add_picture(chart_file, width=Inches(2.0))
+            run.add_picture(chart_file, width=Inches(1.6))
 
     # ---------- Child spaces ----------
     def _add_child_spaces_section(self, doc):
@@ -1199,7 +1217,6 @@ class SpaceEnergyDOCXExporter:
         if not valid_params:
             return
 
-        doc.add_page_break()
         self._add_heading_styled(doc,self.name + ' ' + _('Parameters'), level=1)
 
         rows_per_param = 10
