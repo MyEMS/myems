@@ -398,3 +398,6 @@ msgstr "炭素排出分析"
 
 msgid "Energy Prediction Analysis"
 msgstr "エネルギー予測分析"
+
+msgid "Space Comparison Analysis"
+msgstr "スペース比較分析"

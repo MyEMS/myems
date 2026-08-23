@@ -9,6 +9,7 @@ import redis
 import simplejson as json
 import config
 import excelexporters.spacecomparison
+import pdfexporters.spacecomparison
 from core import utilities
 from core.useractivity import access_control, api_key_control
 
@@ -53,6 +54,8 @@ class Reporting:
         )
         language = req.params.get("language")
         quick_mode = req.params.get("quickmode")
+        export_excel = req.params.get('exportexcel')
+        export_pdf = req.params.get('exportpdf')
 
         ################################################################################################################
         # Step 1: valid parameters
@@ -218,6 +221,18 @@ class Reporting:
 
         # if turn quick mode on, do not return parameters data and excel file
         is_quick_mode = False
+
+        is_export_excel = False
+        if export_excel is not None and \
+                len(str.strip(export_excel)) > 0 and \
+                str.lower(str.strip(export_excel)) in ('true', 't', 'on', 'yes', 'y'):
+            is_export_excel = True
+
+        is_export_pdf = False
+        if export_pdf is not None and \
+                len(str.strip(export_pdf)) > 0 and \
+                str.lower(str.strip(export_pdf)) in ('true', 't', 'on', 'yes', 'y'):
+            is_export_pdf = True
         if (
             quick_mode is not None
             and len(str.strip(quick_mode)) > 0
@@ -263,6 +278,8 @@ class Reporting:
                     if reporting_end_datetime_utc_normalized else None,
                     "language": language,
                     "quickmode": is_quick_mode,
+                    "exportexcel": is_export_excel,
+                    "exportpdf": is_export_pdf,
                 }
                 cache_params_json = json.dumps(cache_params, sort_keys=True)
                 cache_key = 'report:spacecomparison:' + \
@@ -600,18 +617,37 @@ class Reporting:
             },
         }
 
-        # export result to Excel file and then encode the file to base64 string
+        result['excel_bytes_base64'] = None
+        result['pdf_bytes_base64'] = None
         if not is_quick_mode:
-            result["excel_bytes_base64"] = excelexporters.spacecomparison.export(
-                result,
-                space1["name"],
-                space2["name"],
-                energy_category["name"],
-                reporting_period_start_datetime_local,
-                reporting_period_end_datetime_local,
-                period_type,
-                language,
-            )
+            if is_export_excel:
+                try:
+                    result['excel_bytes_base64'] = excelexporters.spacecomparison.export(
+                        result,
+                        space1['name'],
+                        space2['name'],
+                        energy_category['name'],
+                        reporting_period_start_datetime_local,
+                        reporting_period_end_datetime_local,
+                        period_type,
+                        language,
+                    )
+                except Exception:
+                    logger.error("Failed to export Excel for SpaceComparison", exc_info=True)
+            if is_export_pdf:
+                try:
+                    result['pdf_bytes_base64'] = pdfexporters.spacecomparison.export(
+                        result,
+                        space1['name'],
+                        space2['name'],
+                        energy_category['name'],
+                        reporting_period_start_datetime_local,
+                        reporting_period_end_datetime_local,
+                        period_type,
+                        language,
+                    )
+                except Exception:
+                    logger.error("Failed to export PDF for SpaceComparison", exc_info=True)
 
         resp_text = json.dumps(result)
         resp.text = resp_text

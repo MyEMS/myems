@@ -402,3 +402,6 @@ msgstr "การปล่อยกา๊สคาร์บอนได้อั
 
 msgid "Energy Prediction Analysis"
 msgstr "การวิเคราะห์ทำนายพลังงาน"
+
+msgid "Space Comparison Analysis"
+msgstr "การวิเคราะห์เปรียบเทียบพื้นที่"

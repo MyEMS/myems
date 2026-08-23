@@ -402,3 +402,6 @@ msgstr "انبعاثات ثاني أكسيد الكربون"
 
 msgid "Energy Prediction Analysis"
 msgstr "تحليل توقع الطاقة"
+
+msgid "Space Comparison Analysis"
+msgstr "تحليل مقارنة المساحات"

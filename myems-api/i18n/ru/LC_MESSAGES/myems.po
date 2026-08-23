@@ -402,3 +402,6 @@ msgstr "Выбросы CO2"
 
 msgid "Energy Prediction Analysis"
 msgstr "Анализ прогнозирования энергии"
+
+msgid "Space Comparison Analysis"
+msgstr "Анализ сравнения пространств"

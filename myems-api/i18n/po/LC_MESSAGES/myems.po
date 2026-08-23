@@ -398,3 +398,6 @@ msgstr "Analiza emisji CO2"
 
 msgid "Energy Prediction Analysis"
 msgstr "Analiza prognozy energii"
+
+msgid "Space Comparison Analysis"
+msgstr "Analiza Porównania Przestrzeni"

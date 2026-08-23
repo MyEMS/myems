@@ -402,3 +402,6 @@ msgstr "CO2 Emisyonları"
 
 msgid "Energy Prediction Analysis"
 msgstr "Enerji Tahmin Analizi"
+
+msgid "Space Comparison Analysis"
+msgstr "Alan Karşılaştırma Analizi"

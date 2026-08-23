@@ -402,3 +402,6 @@ msgstr "碳排放分析"
 
 msgid "Energy Prediction Analysis"
 msgstr "预测分析"
+
+msgid "Space Comparison Analysis"
+msgstr "空间对比分析"

@@ -402,3 +402,6 @@ msgstr "Karbon"
 
 msgid "Energy Prediction Analysis"
 msgstr "Analisis Ramalan Tenaga"
+
+msgid "Space Comparison Analysis"
+msgstr "Analisis Perbandingan Ruang"
