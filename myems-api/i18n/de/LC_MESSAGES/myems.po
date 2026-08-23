@@ -142,8 +142,14 @@ msgstr "Basiszeitraum Kumulierte Effizienz"
 msgid "Reporting Period Cumulative Efficiency"
 msgstr "Berichtszeitraum Kumulative Effizienz"
 
+msgid "Efficiency"
+msgstr "Effizienz"
+
 msgid "Cumulative Efficiency"
 msgstr "Kumulative Effizienz"
+
+msgid "Income"
+msgstr "Einkommen"
 
 msgid "Base Period Income"
 msgstr "Basiszeitraum Einkommen"

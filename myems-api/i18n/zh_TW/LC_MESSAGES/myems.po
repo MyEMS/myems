@@ -142,8 +142,14 @@ msgstr "基準期累積效率"
 msgid "Reporting Period Cumulative Efficiency"
 msgstr "報告期累積效率"
 
+msgid "Efficiency"
+msgstr "效率分析"
+
 msgid "Cumulative Efficiency"
 msgstr "累積效率"
+
+msgid "Income"
+msgstr "收入分析"
 
 msgid "Base Period Income"
 msgstr "基準期收入"

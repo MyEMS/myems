@@ -138,8 +138,14 @@ msgstr "Base Period Cumulative Efficiency"
 msgid "Reporting Period Cumulative Efficiency"
 msgstr "Reporting Period Cumulative Efficiency"
 
+msgid "Efficiency"
+msgstr "効率"
+
 msgid "Cumulative Efficiency"
 msgstr "Cumulative Efficiency"
+
+msgid "Income"
+msgstr "収入分析"
 
 msgid "Base Period Income"
 msgstr "Base Period Income"

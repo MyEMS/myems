@@ -142,8 +142,14 @@ msgstr "Tempoh Asas Kecekapan Kumulatif"
 msgid "Reporting Period Cumulative Efficiency"
 msgstr "Tempoh Pelaporan Kecekapan Kumulatif"
 
+msgid "Efficiency"
+msgstr "Kecekapan"
+
 msgid "Cumulative Efficiency"
 msgstr "Kecekapan Kumulatif"
+
+msgid "Income"
+msgstr "Pendapatan"
 
 msgid "Base Period Income"
 msgstr "Pendapatan Tempoh Asas"

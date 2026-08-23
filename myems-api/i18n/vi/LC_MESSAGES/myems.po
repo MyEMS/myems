@@ -142,8 +142,14 @@ msgstr "Thời gian cơ sở Hiệu quả tích lũy"
 msgid "Reporting Period Cumulative Efficiency"
 msgstr "Kỳ báo cáo Hiệu quả tích lũy"
 
+msgid "Efficiency"
+msgstr "Hiệu quả"
+
 msgid "Cumulative Efficiency"
 msgstr "Hiệu quả tích lũy"
+
+msgid "Income"
+msgstr "Thu nhập"
 
 msgid "Base Period Income"
 msgstr "Thu nhập thời kỳ cơ sở"

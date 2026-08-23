@@ -142,8 +142,14 @@ msgstr "Eficiencia acumulada del período base"
 msgid "Reporting Period Cumulative Efficiency"
 msgstr "Eficiencia acumulada del período de presentación de informes"
 
+msgid "Efficiency"
+msgstr "Eficiencia"
+
 msgid "Cumulative Efficiency"
 msgstr "Eficiencia acumulada"
+
+msgid "Income"
+msgstr "Ingresos"
 
 msgid "Base Period Income"
 msgstr "Ingresos del período base"

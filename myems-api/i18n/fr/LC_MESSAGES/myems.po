@@ -142,8 +142,14 @@ msgstr "Efficacité cumulative de la période de référence"
 msgid "Reporting Period Cumulative Efficiency"
 msgstr "Période visée par le rapport Efficience cumulative"
 
+msgid "Efficiency"
+msgstr "Efficacité"
+
 msgid "Cumulative Efficiency"
 msgstr "Efficacité cumulative"
+
+msgid "Income"
+msgstr "Revenu"
 
 msgid "Base Period Income"
 msgstr "Revenu de la période de référence"

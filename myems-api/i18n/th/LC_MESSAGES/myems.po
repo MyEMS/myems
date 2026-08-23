@@ -142,8 +142,14 @@ msgstr "ประสิทธิภาพการสะสมของระย
 msgid "Reporting Period Cumulative Efficiency"
 msgstr "รอบระยะเวลารายงาน ประสิทธิภาพสะสม"
 
+msgid "Efficiency"
+msgstr "ประสิทธิภาพ"
+
 msgid "Cumulative Efficiency"
 msgstr "ประสิทธิภาพสะสม"
+
+msgid "Income"
+msgstr "รายได้"
 
 msgid "Base Period Income"
 msgstr "รายได้งวดฐาน"

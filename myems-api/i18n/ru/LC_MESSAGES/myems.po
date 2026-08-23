@@ -142,8 +142,14 @@ msgstr "Кумулятивная эффективность базисного �
 msgid "Reporting Period Cumulative Efficiency"
 msgstr "Кумулятивная эффективность за отчетный период"
 
+msgid "Efficiency"
+msgstr "Эффективность"
+
 msgid "Cumulative Efficiency"
 msgstr "Кумулятивная эффективность"
+
+msgid "Income"
+msgstr "Доход"
 
 msgid "Base Period Income"
 msgstr "Доход за базовый период"

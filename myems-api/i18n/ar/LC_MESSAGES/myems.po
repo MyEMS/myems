@@ -142,8 +142,14 @@ msgstr "الكفاءة التراكمية لفترة الأساس"
 msgid "Reporting Period Cumulative Efficiency"
 msgstr "الكفاءة التراكمية للفترة المشمولة بالتقرير"
 
+msgid "Efficiency"
+msgstr "كفاءة"
+
 msgid "Cumulative Efficiency"
 msgstr "الكفاءة التراكمية"
+
+msgid "Income"
+msgstr "الدخل"
 
 msgid "Base Period Income"
 msgstr "إيرادات فترة الأساس"

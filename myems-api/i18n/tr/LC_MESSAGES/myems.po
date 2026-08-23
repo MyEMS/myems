@@ -142,8 +142,14 @@ msgstr "Baz Dönem Kümülatif Verimlilik"
 msgid "Reporting Period Cumulative Efficiency"
 msgstr "Raporlama Dönemi Kümülatif Verimliliği"
 
+msgid "Efficiency"
+msgstr "Verimlilik"
+
 msgid "Cumulative Efficiency"
 msgstr "Kümülatif Verimlilik"
+
+msgid "Income"
+msgstr "Gelir"
 
 msgid "Base Period Income"
 msgstr "Baz Dönem Geliri"

@@ -142,8 +142,14 @@ msgstr "Efisiensi Kumulatif Periode Dasar"
 msgid "Reporting Period Cumulative Efficiency"
 msgstr "Efisiensi Kumulatif Selama Periode Laporan"
 
+msgid "Efficiency"
+msgstr "Efisiensi"
+
 msgid "Cumulative Efficiency"
 msgstr "Efisiensi Kumulatif"
+
+msgid "Income"
+msgstr "Pendapatan"
 
 msgid "Base Period Income"
 msgstr "Waktu Dasar Pendapatan"

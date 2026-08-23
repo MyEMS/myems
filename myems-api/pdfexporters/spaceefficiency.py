@@ -344,10 +344,17 @@ class SpaceEfficiencyPDFExporter:
         plt.close()
 
     @staticmethod
-    def _sanitize_numeric_data(data):
-        """Replace None values with NaN for matplotlib compatibility."""
-        import math
-        return [float(v) if v is not None else float('nan') for v in data]
+    def _filter_valid_data(data):
+        """Filter out None/NaN values, returning (valid_x_indices, valid_y_values) lists."""
+        xs, ys = [], []
+        for idx, v in enumerate(data):
+            if v is not None:
+                try:
+                    ys.append(float(v))
+                    xs.append(idx)
+                except (TypeError, ValueError):
+                    pass
+        return xs, ys
 
     def _create_detailed_data_charts(self, pdf: PdfPages):
         """Create separate line charts for each energy category, matching Excel behavior.
@@ -410,16 +417,18 @@ class SpaceEfficiencyPDFExporter:
                     try:
                         ax_chart = axes[idx]
                         raw_data = values[i] if i < len(values) else []
-                        data = self._sanitize_numeric_data(raw_data)
+                        xs, ys = self._filter_valid_data(raw_data)
                         color = self.colors['chart_colors'][i % len(self.colors['chart_colors'])]
-                        ax_chart.plot(range(len(data)), data, linewidth=1.2,
-                                      color=color, marker='o', markersize=3,
-                                      markevery=max(1, len(data) // 30))
+                        if len(xs) > 0:
+                            ax_chart.plot(xs, ys, linewidth=1.2,
+                                          color=color, marker='o', markersize=3,
+                                          markevery=max(1, len(xs) // 30))
 
-                        step = max(1, len(data) // 10)
-                        ax_chart.set_xticks(range(0, len(data), step))
+                        data_len = len(raw_data)
+                        step = max(1, data_len // 10)
+                        ax_chart.set_xticks(range(0, data_len, step))
                         ax_chart.set_xticklabels(
-                            [reporting_times[t][:10] for t in range(0, len(data), step)],
+                            [reporting_times[t][:10] for t in range(0, data_len, step)],
                             rotation=45, ha='right', fontsize=7)
                         ax_chart.set_title(_('Reporting Period Cumulative Efficiency') + ' - ' +
                                            names[i] + ' (' + units[i] + ')',
@@ -470,27 +479,30 @@ class SpaceEfficiencyPDFExporter:
 
                         # Reporting period line
                         r_raw = values[i] if i < len(values) else []
-                        r_data = self._sanitize_numeric_data(r_raw)
+                        r_xs, r_ys = self._filter_valid_data(r_raw)
                         color = self.colors['chart_colors'][i % len(self.colors['chart_colors'])]
-                        ax_chart.plot(range(len(r_data)), r_data, linewidth=1.2,
-                                      color=color, marker='o', markersize=3,
-                                      markevery=max(1, len(r_data) // 30),
-                                      label=_('Reporting Period') + ' - ' + names[i])
+                        if len(r_xs) > 0:
+                            ax_chart.plot(r_xs, r_ys, linewidth=1.2,
+                                          color=color, marker='o', markersize=3,
+                                          markevery=max(1, len(r_xs) // 30),
+                                          label=_('Reporting Period') + ' - ' + names[i])
 
                         # Base period line (dashed)
                         if i < len(base_values):
                             b_raw = base_values[i]
-                            b_data = self._sanitize_numeric_data(b_raw)
-                            ax_chart.plot(range(len(r_data)), b_data[:len(r_data)], linewidth=1.2,
-                                          color=color, linestyle='--', marker='s', markersize=3,
-                                          markevery=max(1, len(r_data) // 30),
-                                          label=_('Base Period') + ' - ' + base_names[i])
+                            b_xs, b_ys = self._filter_valid_data(b_raw)
+                            if len(b_xs) > 0:
+                                ax_chart.plot(b_xs, b_ys, linewidth=1.2,
+                                              color=color, linestyle='--', marker='s', markersize=3,
+                                              markevery=max(1, len(b_xs) // 30),
+                                              label=_('Base Period') + ' - ' + base_names[i])
 
-                        step = max(1, len(r_data) // 10)
-                        ax_chart.set_xticks(range(0, len(r_data), step))
+                        data_len = len(r_raw)
+                        step = max(1, data_len // 10)
+                        ax_chart.set_xticks(range(0, data_len, step))
                         ax_chart.set_xticklabels(
                             [reporting_times[t][:10] if t < len(reporting_times) else ''
-                             for t in range(0, len(r_data), step)],
+                             for t in range(0, data_len, step)],
                             rotation=45, ha='right', fontsize=7)
                         ax_chart.set_title(
                             _('Base Period Efficiency') + ' / ' +
