@@ -307,7 +307,7 @@ class SpaceStatisticsPDFExporter:
         for i in range(ca_len):
             col_headers.append(names[i] + ' (' + units[i] + ' )')
 
-        col_widths = [0.16] + [0.84 / ca_len] * ca_len
+        col_widths = [0.18] + [0.82 / ca_len] * ca_len
         total_w = sum(col_widths)
         col_widths = [w / total_w for w in col_widths]
 
@@ -322,7 +322,7 @@ class SpaceStatisticsPDFExporter:
         ]
 
         # --- Table 1: Statistics ---
-        ax1 = fig.add_axes([0.05, 0.50, 0.90, 0.42])
+        ax1 = fig.add_axes([0.05, 0.56, 0.90, 0.36])
         ax1.axis('off')
         ax1.text(0.0, 1.05, self.name + ' ' + _('Statistics'),
                  fontsize=12, weight='bold', transform=ax1.transAxes)
@@ -349,7 +349,7 @@ class SpaceStatisticsPDFExporter:
         tbl1 = ax1.table(cellText=table_data, loc='center',
                           cellLoc='center', colWidths=col_widths)
         tbl1.auto_set_font_size(False)
-        tbl1.set_fontsize(7)
+        tbl1.set_fontsize(8)
         num_cols = len(col_headers)
         # Header row styling
         for j in range(num_cols):
@@ -363,7 +363,7 @@ class SpaceStatisticsPDFExporter:
 
         # --- Table 2: Per Unit Area ---
         area = self.report.get('space', {}).get('area', None)
-        ax2 = fig.add_axes([0.05, 0.02, 0.90, 0.42])
+        ax2 = fig.add_axes([0.05, 0.02, 0.90, 0.48])
         ax2.axis('off')
 
         title_text = self.name + ' ' + _('Per Unit Area')
@@ -399,7 +399,7 @@ class SpaceStatisticsPDFExporter:
         tbl2 = ax2.table(cellText=per_area_table_data, loc='center',
                           cellLoc='center', colWidths=col_widths)
         tbl2.auto_set_font_size(False)
-        tbl2.set_fontsize(7)
+        tbl2.set_fontsize(8)
         for j in range(num_cols):
             tbl2[0, j].set_facecolor('#90EE90')
             tbl2[0, j].set_text_props(weight='bold')
@@ -425,7 +425,7 @@ class SpaceStatisticsPDFExporter:
         return xs, ys
 
     def _create_detailed_data_charts(self, pdf: PdfPages):
-        """Create line charts for each energy category.
+        """Create line charts for each energy category, up to 4 per page in 2x2 grid.
         Without base period: one chart per category showing reporting period values.
         With base period: one chart per category with base vs reporting comparison.
         """
@@ -442,31 +442,40 @@ class SpaceStatisticsPDFExporter:
 
         reporting_times = timestamps[0]
         num_categories = len(names)
+        charts_per_page = 4
 
         if not self.is_base_period_exists:
-            for i in range(num_categories):
+            for page_start in range(0, num_categories, charts_per_page):
+                page_end = min(page_start + charts_per_page, num_categories)
+                page_indices = list(range(page_start, page_end))
+                num_on_page = len(page_indices)
+
                 fig = plt.figure(figsize=self.page_size)
                 fig.suptitle(self.name + ' ' + _('Detailed Data'),
                              fontsize=16, weight='bold', y=0.98)
 
-                ax = fig.add_subplot(111)
-                raw_data = values[i] if i < len(values) else []
-                xs, ys = self._filter_valid_data(raw_data)
-                color = self.colors['chart_colors'][i % len(self.colors['chart_colors'])]
-                if ys:
-                    ax.plot(xs, ys, linewidth=1.2, color=color,
-                            marker='o', markersize=3,
-                            markevery=max(1, len(ys) // 30))
+                rows = (num_on_page + 1) // 2
+                gs = gridspec.GridSpec(rows, 2, hspace=0.35)
 
-                step = max(1, len(raw_data) // 10)
-                ax.set_xticks(range(0, len(raw_data), step))
-                ax.set_xticklabels(
-                    [reporting_times[t][:10] for t in range(0, len(raw_data), step)],
-                    rotation=45, ha='right', fontsize=7)
-                ax.set_title(_('Reporting Period Consumption') + ' - ' +
-                             names[i] + ' (' + units[i] + ')',
-                             fontsize=9, weight='bold')
-                ax.grid(True, alpha=0.3)
+                for slot, i in enumerate(page_indices):
+                    ax = fig.add_subplot(gs[slot // 2, slot % 2])
+                    raw_data = values[i] if i < len(values) else []
+                    xs, ys = self._filter_valid_data(raw_data)
+                    color = self.colors['chart_colors'][i % len(self.colors['chart_colors'])]
+                    if ys:
+                        ax.plot(xs, ys, linewidth=1.2, color=color,
+                                marker='o', markersize=3,
+                                markevery=max(1, len(ys) // 30))
+
+                    step = max(1, len(raw_data) // 10)
+                    ax.set_xticks(range(0, len(raw_data), step))
+                    ax.set_xticklabels(
+                        [reporting_times[t][:10] for t in range(0, len(raw_data), step)],
+                        rotation=45, ha='right', fontsize=7)
+                    ax.set_title(_('Reporting Period Consumption') + ' - ' +
+                                 names[i] + ' (' + units[i] + ')',
+                                 fontsize=9, weight='bold')
+                    ax.grid(True, alpha=0.3)
 
                 pdf.savefig(fig)
                 plt.close()
@@ -474,46 +483,54 @@ class SpaceStatisticsPDFExporter:
             base_period_data = self.report['base_period']
             base_values = base_period_data.get('values', [])
 
-            for i in range(num_categories):
+            for page_start in range(0, num_categories, charts_per_page):
+                page_end = min(page_start + charts_per_page, num_categories)
+                page_indices = list(range(page_start, page_end))
+                num_on_page = len(page_indices)
+
                 fig = plt.figure(figsize=self.page_size)
                 fig.suptitle(self.name + ' ' + _('Detailed Data'),
                              fontsize=16, weight='bold', y=0.98)
 
-                ax = fig.add_subplot(111)
+                rows = (num_on_page + 1) // 2
+                gs = gridspec.GridSpec(rows, 2, hspace=0.35)
 
-                # Reporting period line
-                r_data = values[i] if i < len(values) else []
-                r_xs, r_ys = self._filter_valid_data(r_data)
-                color = self.colors['chart_colors'][i % len(self.colors['chart_colors'])]
-                if r_ys:
-                    ax.plot(r_xs, r_ys, linewidth=1.2, color=color,
-                            marker='o', markersize=3,
-                            markevery=max(1, len(r_ys) // 30),
-                            label=_('Reporting Period') + ' - ' + names[i])
+                for slot, i in enumerate(page_indices):
+                    ax = fig.add_subplot(gs[slot // 2, slot % 2])
 
-                # Base period line (dashed)
-                if i < len(base_values):
-                    b_data = base_values[i]
-                    b_xs, b_ys = self._filter_valid_data(b_data)
-                    if b_ys:
-                        ax.plot(b_xs, b_ys, linewidth=1.2, color=color,
-                                linestyle='--', marker='s', markersize=3,
-                                markevery=max(1, len(b_ys) // 30),
-                                label=_('Base Period') + ' - ' + names[i])
+                    # Reporting period line
+                    r_data = values[i] if i < len(values) else []
+                    r_xs, r_ys = self._filter_valid_data(r_data)
+                    color = self.colors['chart_colors'][i % len(self.colors['chart_colors'])]
+                    if r_ys:
+                        ax.plot(r_xs, r_ys, linewidth=1.2, color=color,
+                                marker='o', markersize=3,
+                                markevery=max(1, len(r_ys) // 30),
+                                label=_('Reporting Period') + ' - ' + names[i])
 
-                step = max(1, len(r_data) // 10)
-                ax.set_xticks(range(0, len(r_data), step))
-                ax.set_xticklabels(
-                    [reporting_times[t][:10] if t < len(reporting_times) else ''
-                     for t in range(0, len(r_data), step)],
-                    rotation=45, ha='right', fontsize=7)
-                ax.set_title(
-                    _('Base Period Consumption') + ' / ' +
-                    _('Reporting Period Consumption') + ' - ' +
-                    names[i] + ' (' + units[i] + ')',
-                    fontsize=8, weight='bold')
-                ax.legend(fontsize=7)
-                ax.grid(True, alpha=0.3)
+                    # Base period line (dashed)
+                    if i < len(base_values):
+                        b_data = base_values[i]
+                        b_xs, b_ys = self._filter_valid_data(b_data)
+                        if b_ys:
+                            ax.plot(b_xs, b_ys, linewidth=1.2, color=color,
+                                    linestyle='--', marker='s', markersize=3,
+                                    markevery=max(1, len(b_ys) // 30),
+                                    label=_('Base Period') + ' - ' + names[i])
+
+                    step = max(1, len(r_data) // 10)
+                    ax.set_xticks(range(0, len(r_data), step))
+                    ax.set_xticklabels(
+                        [reporting_times[t][:10] if t < len(reporting_times) else ''
+                         for t in range(0, len(r_data), step)],
+                        rotation=45, ha='right', fontsize=7)
+                    ax.set_title(
+                        _('Base Period Consumption') + ' / ' +
+                        _('Reporting Period Consumption') + ' - ' +
+                        names[i] + ' (' + units[i] + ')',
+                        fontsize=8, weight='bold')
+                    ax.legend(fontsize=7)
+                    ax.grid(True, alpha=0.3)
 
                 pdf.savefig(fig)
                 plt.close()
