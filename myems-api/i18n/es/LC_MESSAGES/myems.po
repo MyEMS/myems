@@ -405,3 +405,6 @@ msgstr "Análisis de predicción energética"
 
 msgid "Space Comparison Analysis"
 msgstr "Análisis de Comparación de Espacios"
+
+msgid "Energy Item Analysis"
+msgstr "Análisis de Artículos de Energía"

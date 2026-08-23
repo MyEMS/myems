@@ -405,3 +405,6 @@ msgstr "预测分析"
 
 msgid "Space Comparison Analysis"
 msgstr "空间对比分析"
+
+msgid "Energy Item Analysis"
+msgstr "能耗分项分析"

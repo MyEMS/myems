@@ -405,3 +405,6 @@ msgstr "Enerji Tahmin Analizi"
 
 msgid "Space Comparison Analysis"
 msgstr "Alan Karşılaştırma Analizi"
+
+msgid "Energy Item Analysis"
+msgstr "Enerji Kalemi Analizi"

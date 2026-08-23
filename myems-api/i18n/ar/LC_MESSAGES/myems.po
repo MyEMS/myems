@@ -405,3 +405,6 @@ msgstr "تحليل توقع الطاقة"
 
 msgid "Space Comparison Analysis"
 msgstr "تحليل مقارنة المساحات"
+
+msgid "Energy Item Analysis"
+msgstr "تحليل عناصر الطاقة"

@@ -401,3 +401,6 @@ msgstr "エネルギー予測分析"
 
 msgid "Space Comparison Analysis"
 msgstr "スペース比較分析"
+
+msgid "Energy Item Analysis"
+msgstr "エネルギー項目分析"

@@ -405,3 +405,6 @@ msgstr "Analisis Prediksi Energi"
 
 msgid "Space Comparison Analysis"
 msgstr "Analisis Perbandingan Ruang"
+
+msgid "Energy Item Analysis"
+msgstr "Analisis Item Energi"

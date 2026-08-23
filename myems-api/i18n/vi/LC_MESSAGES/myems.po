@@ -405,3 +405,6 @@ msgstr "Phân tích dự báo năng lượng"
 
 msgid "Space Comparison Analysis"
 msgstr "Phân tích So sánh Không gian"
+
+msgid "Energy Item Analysis"
+msgstr "Phân tích Hạng mục Năng lượng"
