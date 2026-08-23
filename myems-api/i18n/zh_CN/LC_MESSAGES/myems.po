@@ -167,7 +167,7 @@ msgid "Proportion"
 msgstr "占比"
 
 msgid "Load"
-msgstr "负荷"
+msgstr "负荷分析"
 
 msgid "Base Period Average Load"
 msgstr "基准期平均负荷"
