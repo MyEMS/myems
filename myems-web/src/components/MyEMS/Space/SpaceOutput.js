@@ -13,7 +13,11 @@ import {
   Input,
   Label,
   CustomInput,
-  Spinner
+  Spinner,
+  UncontrolledDropdown,
+  DropdownToggle,
+  DropdownMenu,
+  DropdownItem
 } from 'reactstrap';
 import CountUp from 'react-countup';
 import moment from 'moment';
@@ -23,15 +27,16 @@ import DeepSeekAnalysisModal from '../common/DeepSeekAnalysisModal';
 import CardSummary from '../common/CardSummary';
 import MultiTrendChart from '../common/MultiTrendChart';
 import MultipleLineChart from '../common/MultipleLineChart';
+import SharePie from '../common/SharePie';
 import { getCookieValue, createCookie, checkEmpty, handleAPIError } from '../../../helpers/utils';
 import withRedirect from '../../../hoc/withRedirect';
 import { withTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
-import ButtonIcon from '../../common/ButtonIcon';
 import { APIBaseURL, settings } from '../../../config';
 import { periodTypeOptions } from '../common/PeriodTypeOptions';
 import { comparisonTypeOptions } from '../common/ComparisonTypeOptions';
 import DateRangePickerWrapper from '../common/DateRangePickerWrapper';
+import { v4 as uuid } from 'uuid';
 import { endOfDay } from 'date-fns';
 import AppContext from '../../../context/Context';
 import { Link } from 'react-router-dom';
@@ -114,6 +119,8 @@ const SpaceOutput = ({ setRedirect, setRedirectUrl, t }) => {
   const [spinnerHidden, setSpinnerHidden] = useState(true);
   const [exportButtonHidden, setExportButtonHidden] = useState(true);
   const [resultDataHidden, setResultDataHidden] = useState(true);
+  const [exportExcel, setExportExcel] = useState(false);
+  const [exportPdf, setExportPdf] = useState(false);
   const [smartAnalysisOpen, setSmartAnalysisOpen] = useState(false);
   const [smartAnalysisContext, setSmartAnalysisContext] = useState(null);
 
@@ -144,11 +151,17 @@ const SpaceOutput = ({ setRedirect, setRedirectUrl, t }) => {
   ]);
 
   const [childSpacesTableData, setChildSpacesTableData] = useState([]);
+  const [outputShareData, setOutputShareData] = useState([]);
+
+  const [childSpaceProportionList, setChildSpaceProportionList] = useState([]);
+  const [childSpaceSubtotalShareData, setChildSpaceSubtotalShareData] = useState([]);
+
   const [childSpacesTableColumns, setChildSpacesTableColumns] = useState([
     { dataField: 'id', text: t('ID'), sort: true },
     { dataField: 'name', text: t('Child Spaces'), sort: true }
   ]);
   const [excelBytesBase64, setExcelBytesBase64] = useState(undefined);
+  const [pdfBytesBase64, setPdfBytesBase64] = useState(undefined);
 
   const loadData = useCallback(
     spaceID => {
@@ -182,7 +195,11 @@ const SpaceOutput = ({ setRedirect, setRedirectUrl, t }) => {
           '&reportingperiodenddatetime=' +
           moment(reportingPeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss') +
           '&language=' +
-          language,
+          language +
+          '&exportexcel=' +
+          exportExcel +
+          '&exportpdf=' +
+          exportPdf,
         {
           method: 'GET',
           headers: {
@@ -213,7 +230,27 @@ const SpaceOutput = ({ setRedirect, setRedirectUrl, t }) => {
               cardSummaryItem['subtotal_per_capita'] = json['reporting_period']['subtotals_per_capita'][index];
               cardSummaryArray.push(cardSummaryItem);
             });
+            let cardSummaryItem = {};
+            cardSummaryItem['name'] = t('Total');
+            cardSummaryItem['unit'] = json['reporting_period']['total_unit'];
+            cardSummaryItem['subtotal'] = json['reporting_period']['total'];
+            cardSummaryItem['increment_rate'] =
+              parseFloat(json['reporting_period']['total_increment_rate'] * 100).toFixed(2) + '%';
+            cardSummaryItem['subtotal_per_unit_area'] = json['reporting_period']['total_per_unit_area'];
+            cardSummaryItem['subtotal_per_capita'] = json['reporting_period']['total_per_capita'];
+            cardSummaryArray.push(cardSummaryItem);
             setCardSummaryList(cardSummaryArray);
+
+            let outputDataArray = [];
+            json['reporting_period']['names'].forEach((currentValue, index) => {
+              let outputDataItem = {};
+              outputDataItem['id'] = index;
+              outputDataItem['name'] = currentValue;
+              outputDataItem['value'] = json['reporting_period']['subtotals'][index];
+              outputDataItem['color'] = '#' + (((1 << 24) * Math.random()) | 0).toString(16);
+              outputDataArray.push(outputDataItem);
+            });
+            setOutputShareData(outputDataArray);
 
             let base_timestamps = {};
             json['base_period']['timestamps'].forEach((currentValue, index) => {
@@ -311,19 +348,26 @@ const SpaceOutput = ({ setRedirect, setRedirectUrl, t }) => {
                   let detailed_value = {};
                   detailed_value['id'] = timestampIndex;
                   detailed_value['startdatetime'] = currentTimestamp;
+                  let total_current_timstamp = 0.0;
                   json['reporting_period']['values'].forEach((currentValue, energyCategoryIndex) => {
                     detailed_value['a' + energyCategoryIndex] =
                       json['reporting_period']['values'][energyCategoryIndex][timestampIndex];
+                    total_current_timstamp += json['reporting_period']['values'][energyCategoryIndex][timestampIndex];
                   });
+                  detailed_value['total'] = total_current_timstamp;
                   detailed_value_list.push(detailed_value);
                 });
               }
+
               let detailed_value = {};
               detailed_value['id'] = detailed_value_list.length;
               detailed_value['startdatetime'] = t('Subtotal');
+              let total_of_subtotals = 0.0;
               json['reporting_period']['subtotals'].forEach((currentValue, index) => {
                 detailed_value['a' + index] = currentValue;
+                total_of_subtotals += currentValue;
               });
+              detailed_value['total'] = total_of_subtotals;
               detailed_value_list.push(detailed_value);
               setTimeout(() => {
                 setDetailedDataTableData(detailed_value_list);
@@ -349,6 +393,18 @@ const SpaceOutput = ({ setRedirect, setRedirectUrl, t }) => {
                     }
                   }
                 });
+              });
+              detailed_column_list.push({
+                dataField: 'total',
+                text: t('Total') + ' (' + json['reporting_period']['total_unit'] + ')',
+                sort: true,
+                formatter: function(decimalValue) {
+                  if (typeof decimalValue === 'number') {
+                    return decimalValue.toFixed(2);
+                  } else {
+                    return null;
+                  }
+                }
               });
               setDetailedDataTableColumns(detailed_column_list);
             } else {
@@ -401,6 +457,32 @@ const SpaceOutput = ({ setRedirect, setRedirectUrl, t }) => {
                   }
                 });
               });
+              detailed_column_list.push({
+                dataField: 'basePeriodTotal',
+                text: t('Base Period') + ' - ' + t('Total') + ' (' + json['reporting_period']['total_unit'] + ')',
+                sort: true,
+                formatter: function(decimalValue) {
+                  if (typeof decimalValue === 'number') {
+                    return decimalValue.toFixed(2);
+                  } else {
+                    return null;
+                  }
+                }
+              });
+
+              detailed_column_list.push({
+                dataField: 'reportingPeriodTotal',
+                text: t('Reporting Period') + ' - ' + t('Total') + ' (' + json['reporting_period']['total_unit'] + ')',
+                sort: true,
+                formatter: function(decimalValue) {
+                  if (typeof decimalValue === 'number') {
+                    return decimalValue.toFixed(2);
+                  } else {
+                    return null;
+                  }
+                }
+              });
+
               setDetailedDataTableColumns(detailed_column_list);
 
               let detailed_value_list = [];
@@ -438,13 +520,19 @@ const SpaceOutput = ({ setRedirect, setRedirectUrl, t }) => {
                 let detailed_value = {};
                 detailed_value['id'] = detailed_value_list.length;
                 detailed_value['basePeriodDatetime'] = t('Subtotal');
+                let total_of_base_subtotals = 0.0;
                 json['base_period']['subtotals'].forEach((currentValue, index) => {
                   detailed_value['a' + index] = currentValue;
+                  total_of_base_subtotals += currentValue;
                 });
+                detailed_value['basePeriodTotal'] = total_of_base_subtotals;
                 detailed_value['reportingPeriodDatetime'] = t('Subtotal');
+                let total_of_reporting_subtotals = 0.0;
                 json['reporting_period']['subtotals'].forEach((currentValue, index) => {
                   detailed_value['b' + index] = currentValue;
+                  total_of_reporting_subtotals += currentValue;
                 });
+                detailed_value['reportingPeriodTotal'] = total_of_reporting_subtotals;
                 detailed_value_list.push(detailed_value);
                 setTimeout(() => {
                   setDetailedDataTableData(detailed_value_list);
@@ -452,16 +540,60 @@ const SpaceOutput = ({ setRedirect, setRedirectUrl, t }) => {
               }
             }
 
+            let childSpaceProportionArray = [];
+            json['child_space']['energy_category_names'].forEach((currentValue, energyCategoryIndex) => {
+              if (json['child_space']['child_space_names_array'][energyCategoryIndex].length > 0) {
+                let childSpaceProportionItem = {};
+                childSpaceProportionItem['data'] = [];
+                json['child_space']['child_space_names_array'][energyCategoryIndex].forEach(
+                  (currentSpaceName, spaceIndex) => {
+                    let childSpaceProportionItemDataItem = {};
+                    childSpaceProportionItemDataItem['id'] = spaceIndex;
+                    childSpaceProportionItemDataItem['name'] = currentSpaceName;
+                    childSpaceProportionItemDataItem['value'] =
+                      json['child_space']['subtotals_array'][energyCategoryIndex][spaceIndex];
+                    childSpaceProportionItemDataItem['color'] = '#' + (((1 << 24) * Math.random()) | 0).toString(16);
+                    childSpaceProportionItem['data'].push(childSpaceProportionItemDataItem);
+                  }
+                );
+
+                childSpaceProportionItem['name'] = json['child_space']['energy_category_names'][energyCategoryIndex];
+                childSpaceProportionItem['unit'] = json['child_space']['units'][energyCategoryIndex];
+                childSpaceProportionArray.push(childSpaceProportionItem);
+              }
+            });
+            setChildSpaceProportionList(childSpaceProportionArray);
+
+            let childSpaceSubtotalShareDataArray = [];
+            if (json['child_space']['child_space_names_array'].length > 0) {
+              json['child_space']['child_space_names_array'][0].forEach((currentSpaceName, spaceIndex) => {
+                let subtotal = 0.0;
+                json['child_space']['energy_category_names'].forEach((currentValue, energyCategoryIndex) => {
+                  subtotal += json['child_space']['subtotals_array'][energyCategoryIndex][spaceIndex];
+                });
+                let childSpaceSubtotalDataItem = {};
+                childSpaceSubtotalDataItem['id'] = spaceIndex;
+                childSpaceSubtotalDataItem['name'] = currentSpaceName;
+                childSpaceSubtotalDataItem['value'] = subtotal;
+                childSpaceSubtotalDataItem['color'] = '#' + (((1 << 24) * Math.random()) | 0).toString(16);
+                childSpaceSubtotalShareDataArray.push(childSpaceSubtotalDataItem);
+              });
+            }
+            setChildSpaceSubtotalShareData(childSpaceSubtotalShareDataArray);
+
             let child_space_value_list = [];
             if (json['child_space']['child_space_names_array'].length > 0) {
               json['child_space']['child_space_names_array'][0].forEach((currentSpaceName, spaceIndex) => {
                 let child_space_value = {};
                 child_space_value['id'] = json['child_space']['child_space_ids_array'][0][spaceIndex];
                 child_space_value['name'] = currentSpaceName;
+                let total = 0.0;
                 json['child_space']['energy_category_names'].forEach((currentValue, energyCategoryIndex) => {
                   child_space_value['a' + energyCategoryIndex] =
                     json['child_space']['subtotals_array'][energyCategoryIndex][spaceIndex];
+                  total += json['child_space']['subtotals_array'][energyCategoryIndex][spaceIndex];
                 });
+                child_space_value['total'] = total;
                 child_space_value_list.push(child_space_value);
               });
             }
@@ -495,16 +627,30 @@ const SpaceOutput = ({ setRedirect, setRedirectUrl, t }) => {
               });
             });
 
+            child_space_column_list.push({
+              dataField: 'total',
+              text: t('Total') + ' (' + json['child_space']['total_unit'] + ')',
+              sort: true,
+              formatter: function(decimalValue) {
+                if (typeof decimalValue === 'number') {
+                  return decimalValue.toFixed(2);
+                } else {
+                  return null;
+                }
+              }
+            });
+
             setChildSpacesTableColumns(child_space_column_list);
 
             setExcelBytesBase64(json['excel_bytes_base64']);
+            setPdfBytesBase64(json['pdf_bytes_base64']);
 
             // enable submit button
             setSubmitButtonDisabled(false);
             // hide spinner
             setSpinnerHidden(true);
-            // show export button
-            setExportButtonHidden(false);
+            // show export button only when at least one export file was generated
+            setExportButtonHidden(!(json['excel_bytes_base64'] || json['pdf_bytes_base64']));
             // show result data
             setResultDataHidden(false);
           } else {
@@ -525,6 +671,11 @@ const SpaceOutput = ({ setRedirect, setRedirectUrl, t }) => {
       setExportButtonHidden,
       setResultDataHidden,
       setDetailedDataTableData,
+      setChildSpacesTableData,
+      setExcelBytesBase64,
+      setPdfBytesBase64,
+      exportExcel,
+      exportPdf,
       t
     ]
   );
@@ -729,21 +880,41 @@ const SpaceOutput = ({ setRedirect, setRedirectUrl, t }) => {
     loadData(selectedSpaceID);
   };
 
-  const handleExport = e => {
+  const handleExport = (e, type) => {
     e.preventDefault();
-    const mimeType = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
-    const fileName = 'spaceoutput.xlsx';
-    var fileUrl = 'data:' + mimeType + ';base64,' + excelBytesBase64;
-    fetch(fileUrl)
-      .then(response => response.blob())
-      .then(blob => {
-        var link = window.document.createElement('a');
-        link.href = window.URL.createObjectURL(blob, { type: mimeType });
-        link.download = fileName;
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-      });
+    if (type === 'excel' && excelBytesBase64) {
+      const mimeType = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
+      const fileName = 'spaceoutput.xlsx';
+      const fileUrl = 'data:' + mimeType + ';base64,' + excelBytesBase64;
+      fetch(fileUrl)
+        .then(response => response.blob())
+        .then(blob => {
+          const link = window.document.createElement('a');
+          const blobUrl = window.URL.createObjectURL(blob, { type: mimeType });
+          link.href = blobUrl;
+          link.download = fileName;
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+          setTimeout(() => window.URL.revokeObjectURL(blobUrl), 100);
+        });
+    } else if (type === 'pdf' && pdfBytesBase64) {
+      const mimeType = 'application/pdf';
+      const fileName = 'spaceoutput.pdf';
+      const fileUrl = 'data:' + mimeType + ';base64,' + pdfBytesBase64;
+      fetch(fileUrl)
+        .then(response => response.blob())
+        .then(blob => {
+          const link = window.document.createElement('a');
+          const blobUrl = window.URL.createObjectURL(blob, { type: mimeType });
+          link.href = blobUrl;
+          link.download = fileName;
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+          setTimeout(() => window.URL.revokeObjectURL(blobUrl), 100);
+        });
+    }
   };
 
   const buildSmartAnalysisContext = useCallback(() => {
@@ -779,6 +950,9 @@ const SpaceOutput = ({ setRedirect, setRedirectUrl, t }) => {
             : null
       },
       cardSummaryList,
+      outputShare: outputShareData,
+      childSpaceProportion: childSpaceProportionList.slice(0, 80),
+      childSpaceSubtotalShare: childSpaceSubtotalShareData,
       detailedDataSample: detailedDataTableData.slice(0, 120),
       childSpacesSample: childSpacesTableData.slice(0, 80),
       parameterLineChart: {
@@ -799,6 +973,9 @@ const SpaceOutput = ({ setRedirect, setRedirectUrl, t }) => {
     reportingPeriodDateRange,
     basePeriodDateRange,
     cardSummaryList,
+    outputShareData,
+    childSpaceProportionList,
+    childSpaceSubtotalShareData,
     detailedDataTableData,
     childSpacesTableData,
     parameterLineChartLabels,
@@ -929,6 +1106,36 @@ const SpaceOutput = ({ setRedirect, setRedirectUrl, t }) => {
               </Col>
               <Col xs="auto">
                 <FormGroup>
+                  <Label className={labelClasses}>
+                    {t('Export')}
+                    {t('(Optional)')}
+                  </Label>
+                  <div>
+                    <CustomInput
+                      type="checkbox"
+                      id="exportExcel"
+                      name="exportExcel"
+                      label="Excel"
+                      bsSize="sm"
+                      inline
+                      checked={exportExcel}
+                      onChange={({ target }) => setExportExcel(target.checked)}
+                    />
+                    <CustomInput
+                      type="checkbox"
+                      id="exportPdf"
+                      name="exportPdf"
+                      label="PDF"
+                      bsSize="sm"
+                      inline
+                      checked={exportPdf}
+                      onChange={({ target }) => setExportPdf(target.checked)}
+                    />
+                  </div>
+                </FormGroup>
+              </Col>
+              <Col xs="auto">
+                <FormGroup>
                   <br />
                   <ButtonGroup id="submit">
                     <Button size="sm" color="success" disabled={submitButtonDisabled}>
@@ -945,16 +1152,27 @@ const SpaceOutput = ({ setRedirect, setRedirectUrl, t }) => {
               </Col>
               <Col xs="auto">
                 <br />
-                <ButtonIcon
-                  icon="external-link-alt"
-                  transform="shrink-3 down-2"
-                  color="falcon-default"
-                  size="sm"
-                  hidden={exportButtonHidden}
-                  onClick={handleExport}
-                >
-                  {t('Export')}
-                </ButtonIcon>
+                <UncontrolledDropdown hidden={exportButtonHidden}>
+                  <DropdownToggle
+                    size="sm"
+                    color="falcon-default"
+                    caret
+                  >
+                    {t('Export')}
+                  </DropdownToggle>
+                  <DropdownMenu right>
+                    {excelBytesBase64 ? (
+                      <DropdownItem onClick={e => handleExport(e, 'excel')}>
+                        EXCEL
+                      </DropdownItem>
+                    ) : null}
+                    {pdfBytesBase64 ? (
+                      <DropdownItem onClick={e => handleExport(e, 'pdf')}>
+                        PDF
+                      </DropdownItem>
+                    ) : null}
+                  </DropdownMenu>
+                </UncontrolledDropdown>
               </Col>
               {settings.enableAIAnalysis ? (
                 <Col xs="auto">
@@ -1010,6 +1228,25 @@ const SpaceOutput = ({ setRedirect, setRedirectUrl, t }) => {
             </CardSummary>
           ))}
         </div>
+        <Row noGutters>
+          <Col className="mb-3 pr-lg-2 mb-3">
+            <SharePie data={outputShareData} title={t('Output by Energy Category')} />
+          </Col>
+          {childSpaceProportionList.map(childSpaceProportionItem => (
+            <Col className="mb-3 pr-lg-2 mb-3" key={uuid()}>
+              <SharePie
+                data={childSpaceProportionItem['data']}
+                title={t('Child Space Proportion CATEGORY UNIT', {
+                  CATEGORY: childSpaceProportionItem['name'],
+                  UNIT: '(' + childSpaceProportionItem['unit'] + ')'
+                })}
+              />
+            </Col>
+          ))}
+          <Col className="mb-3 pr-lg-2 mb-3">
+            <SharePie data={childSpaceSubtotalShareData} title={t('Child Space Total Proportion')} />
+          </Col>
+        </Row>
 
         <MultiTrendChart
           reportingTitle={{
