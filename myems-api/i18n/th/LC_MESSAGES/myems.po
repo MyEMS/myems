@@ -81,6 +81,10 @@ msgstr "ตันของการปล่อยก๊าซคาร์บอ
 msgid "Energy Analysis"
 msgstr "การวิเคราะห์พลังงาน"
 
+msgid "Energy Saving Analysis"
+msgstr "การวิเคราะห์การประหลัดพลังงาน"
+
+
 msgid "Space Data - Energy Category Analysis"
 msgstr "ข้อมูลพื้นที่ - การวิเคราะห์จัดหมู่พลังงาน"
 

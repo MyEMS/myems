@@ -81,6 +81,10 @@ msgstr "Tan pelepasan karbon dioksida (TCO2E) mengikut kategori tenaga"
 msgid "Energy Analysis"
 msgstr "Analisis Tenaga"
 
+msgid "Energy Saving Analysis"
+msgstr "Analisis Penjimatan Tenaga"
+
+
 msgid "Space Data - Energy Category Analysis"
 msgstr "Data Ruang - Analisis Klasifikasi Tenaga"
 

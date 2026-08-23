@@ -81,6 +81,10 @@ msgstr "Enerji Kategorisine Göre Tonlarca Karbondioksit Emisyonu (TCO2E)"
 msgid "Energy Analysis"
 msgstr "Enerji Analizi"
 
+msgid "Energy Saving Analysis"
+msgstr "Enerji Tasarrufu Analizi"
+
+
 msgid "Space Data - Energy Category Analysis"
 msgstr "Alan Verileri - Enerji Kategori Analizi"
 

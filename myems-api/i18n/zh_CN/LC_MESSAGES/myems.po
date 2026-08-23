@@ -81,6 +81,10 @@ msgstr "吨二氧化碳排放(TCO2E)占比"
 msgid "Energy Analysis"
 msgstr "能耗分析"
 
+msgid "Energy Saving Analysis"
+msgstr "节能分析"
+
+
 msgid "Space Data - Energy Category Analysis"
 msgstr "空间数据-能耗分类分析"
 

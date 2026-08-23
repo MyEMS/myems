@@ -81,6 +81,10 @@ msgstr "Tấn khí thải carbon dioxide (TCO2E) theo loại năng lượng"
 msgid "Energy Analysis"
 msgstr "Phân tích Năng lượng"
 
+msgid "Energy Saving Analysis"
+msgstr "Phân tích Tiết kiệm Năng lượng"
+
+
 msgid "Space Data - Energy Category Analysis"
 msgstr "Dữ liệu không gian - Phân tích phân loại năng lượng"
 

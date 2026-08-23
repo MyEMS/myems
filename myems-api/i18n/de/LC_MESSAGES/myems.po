@@ -81,6 +81,10 @@ msgstr "Tonne Kohlendioxidemissionen(TCO2E) nach Energiekategorie"
 msgid "Energy Analysis"
 msgstr "Energieanalyse"
 
+msgid "Energy Saving Analysis"
+msgstr "Energiesparanalyse"
+
+
 msgid "Space Data - Energy Category Analysis"
 msgstr "Raumdaten - Energiekategorieanalyse"
 

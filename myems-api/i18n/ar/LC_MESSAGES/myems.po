@@ -81,6 +81,10 @@ msgstr "النسبة المئوية لأطنان انبعاثات ثاني أك�
 msgid "Energy Analysis"
 msgstr "تحليل الطاقة"
 
+msgid "Energy Saving Analysis"
+msgstr "تحليل توفير الطاقة"
+
+
 msgid "Space Data - Energy Category Analysis"
 msgstr "بيانات الفضاء - تحليل تصنيف الطاقة"
 

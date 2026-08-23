@@ -81,6 +81,10 @@ msgstr "Тонн выбросов углекислого газа (TCO2E) по �
 msgid "Energy Analysis"
 msgstr "Анализ энергопотребления"
 
+msgid "Energy Saving Analysis"
+msgstr "Анализ экономии энергии"
+
+
 msgid "Space Data - Energy Category Analysis"
 msgstr "Данные пространства - Анализ категорий энергии"
 

@@ -81,6 +81,10 @@ msgstr "Ton of Carbon Dioxide Emissions(TCO2E) by Energy Category"
 msgid "Energy Analysis"
 msgstr "エネルギー分析"
 
+msgid "Energy Saving Analysis"
+msgstr "省エネルギー分析"
+
+
 msgid "Child Spaces Data"
 msgstr "Child Spaces Data"
 
