@@ -208,7 +208,7 @@ msgid "Reporting Period Output"
 msgstr "报告期产出"
 
 msgid "Output"
-msgstr "产出"
+msgstr "产出分析"
 
 msgid "Base Period Saving"
 msgstr "基准期节约"
