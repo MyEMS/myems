@@ -408,3 +408,7 @@ msgstr "Phân tích So sánh Không gian"
 
 msgid "Energy Item Analysis"
 msgstr "Phân tích Hạng mục Năng lượng"
+
+
+msgid "Energy Consumption Analysis"
+msgstr "Phân tích Tiêu thụ Năng lượng"

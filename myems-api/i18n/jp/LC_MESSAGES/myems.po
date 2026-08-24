@@ -404,3 +404,7 @@ msgstr "スペース比較分析"
 
 msgid "Energy Item Analysis"
 msgstr "エネルギー項目分析"
+
+
+msgid "Energy Consumption Analysis"
+msgstr "エネルギー消費分析"

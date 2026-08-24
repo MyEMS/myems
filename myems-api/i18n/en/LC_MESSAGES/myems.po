@@ -408,3 +408,7 @@ msgstr "Space Comparison Analysis"
 
 msgid "Energy Item Analysis"
 msgstr "Energy Item Analysis"
+
+
+msgid "Energy Consumption Analysis"
+msgstr "Energy Consumption Analysis"

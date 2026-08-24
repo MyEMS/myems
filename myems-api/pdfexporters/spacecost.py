@@ -208,7 +208,7 @@ class SpaceCostPDFExporter:
         self.reporting_end = reporting_end_datetime_local
         self.period_type = period_type
 
-        self.is_base_period_exists = self._is_base_period_timestamp_exists(report['base_period'])
+        self.is_base_period_exists = self._is_base_period_timestamp_exists(report.get('base_period', {}))
 
         with PdfPages(filename) as pdf:
             # Cover page

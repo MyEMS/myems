@@ -408,3 +408,7 @@ msgstr "Alan Karşılaştırma Analizi"
 
 msgid "Energy Item Analysis"
 msgstr "Enerji Kalemi Analizi"
+
+
+msgid "Energy Consumption Analysis"
+msgstr "Enerji Tüketim Analizi"

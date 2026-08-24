@@ -206,8 +206,8 @@ class SpaceEfficiencyPDFExporter:
         self.reporting_end = reporting_end_datetime_local
         self.period_type = period_type
 
-        self.is_base_period_exists = self._is_base_period_timestamp_exists(
-            report['base_period_efficiency'])
+        base_data = report.get('base_period_efficiency', {})
+        self.is_base_period_exists = self._is_base_period_timestamp_exists(base_data)
 
         with PdfPages(filename) as pdf:
             # Cover page

@@ -639,12 +639,12 @@ class Reporting:
                     result['pdf_bytes_base64'] = pdfexporters.spacecomparison.export(
                         result,
                         space1['name'],
-                        space2['name'],
-                        energy_category['name'],
-                        reporting_period_start_datetime_local,
-                        reporting_period_end_datetime_local,
-                        period_type,
-                        language,
+                        base_period_start_datetime_local=None,
+                        base_period_end_datetime_local=None,
+                        reporting_start_datetime_local=reporting_period_start_datetime_local,
+                        reporting_end_datetime_local=reporting_period_end_datetime_local,
+                        period_type=period_type,
+                        language=language,
                     )
                 except Exception:
                     logger.error("Failed to export PDF for SpaceComparison", exc_info=True)

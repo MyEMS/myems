@@ -408,3 +408,7 @@ msgstr "Analisis Perbandingan Ruang"
 
 msgid "Energy Item Analysis"
 msgstr "Analisis Item Tenaga"
+
+
+msgid "Energy Consumption Analysis"
+msgstr "Analisis Penggunaan Tenaga"

@@ -408,3 +408,7 @@ msgstr "Анализ сравнения пространств"
 
 msgid "Energy Item Analysis"
 msgstr "Анализ Энергетических Пунктов"
+
+
+msgid "Energy Consumption Analysis"
+msgstr "Анализ потребления энергии"

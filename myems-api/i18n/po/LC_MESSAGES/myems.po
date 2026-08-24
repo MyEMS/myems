@@ -404,3 +404,7 @@ msgstr "Analiza Porównania Przestrzeni"
 
 msgid "Energy Item Analysis"
 msgstr "Analiza Pozycji Energetycznych"
+
+
+msgid "Energy Consumption Analysis"
+msgstr "Analiza Zużycia Energii"

@@ -408,3 +408,7 @@ msgstr "تحليل مقارنة المساحات"
 
 msgid "Energy Item Analysis"
 msgstr "تحليل عناصر الطاقة"
+
+
+msgid "Energy Consumption Analysis"
+msgstr "تحليل استهلاك الطاقة"

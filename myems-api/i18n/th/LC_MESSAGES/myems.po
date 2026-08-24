@@ -408,3 +408,7 @@ msgstr "การวิเคราะห์เปรียบเทียบพ
 
 msgid "Energy Item Analysis"
 msgstr "การวิเคราะห์รายการพลังงาน"
+
+
+msgid "Energy Consumption Analysis"
+msgstr "การวิเคราะห์การบริโภคพลังงาน"

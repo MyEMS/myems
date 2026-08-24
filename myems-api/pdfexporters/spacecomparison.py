@@ -575,13 +575,17 @@ class SpaceComparisonPDFExporter:
 
 
 # Convenience function for backward compatibility
-def export(report, space1_name, space2_name, energy_category_name,
-           reporting_start_datetime_local, reporting_end_datetime_local,
-           period_type, language):
+def export(report, name, base_period_start_datetime_local,
+           base_period_end_datetime_local, reporting_start_datetime_local,
+           reporting_end_datetime_local, period_type, language):
     """
     Export report data to PDF and return base64 encoded string.
-    This function maintains the same interface as the Excel exporter.
+    Provides a unified signature matching other PDF exporters.
+    Extracts space1_name, space2_name, and energy_category_name from report data.
     """
+    space1_name = report.get('space1', {}).get('name', name)
+    space2_name = report.get('space2', {}).get('name', '')
+    energy_category_name = report.get('energy_category', {}).get('name', '')
     exporter = SpaceComparisonPDFExporter(language)
     return exporter.export(report, space1_name, space2_name, energy_category_name,
                            reporting_start_datetime_local,

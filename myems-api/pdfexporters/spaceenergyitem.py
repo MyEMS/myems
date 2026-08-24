@@ -161,6 +161,16 @@ class SpaceEnergyItemPDFExporter:
                              '#3498DB', '#E74C3C', '#2ECC71', '#F39C12', '#9B59B6']
         }
 
+    def _is_base_period_timestamp_exists(self, base_period_data):
+        """Check if base period timestamp exists."""
+        timestamps = base_period_data.get('timestamps', [])
+        if not timestamps:
+            return False
+        for timestamp in timestamps:
+            if timestamp and len(timestamp) > 0:
+                return True
+        return False
+
     def export(self,
                report: Dict[str, Any],
                name: str,
@@ -238,7 +248,7 @@ class SpaceEnergyItemPDFExporter:
         self.reporting_end = reporting_end_datetime_local
         self.period_type = period_type
 
-        self.is_base_period_exists = _is_base_period_timestamp_exists(report['base_period'])
+        self.is_base_period_exists = self._is_base_period_timestamp_exists(report.get('base_period', {}))
 
         with PdfPages(filename) as pdf:
             # Cover page
