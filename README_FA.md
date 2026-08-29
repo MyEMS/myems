@@ -1,7 +1,7 @@
 <p align="center">
    <img alt="logo" src="https://myems.cn/img/myems.png" width="150" height="150">
 </p>
-<h1 align="center" style="margin: 30px 0 30px; font-weight: bold;">MyEMS v6.7.0</h1>
+<h1 align="center" style="margin: 30px 0 30px; font-weight: bold;">MyEMS v6.8.0</h1>
 <h3 align="center">سامانه مدیریت انرژی متن‌باز پیشرو در صنعت</h3>
 <h6 align="center">بیش از هزار نمونه پروژه</h6>
 <h6 align="center">تعهد به متن‌باز ماندن دائمی</h6>

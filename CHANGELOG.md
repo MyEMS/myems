@@ -5,6 +5,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 ### Added
+### Changed
+### Fixed
+### Removed
+
+## [v6.8.0] - 2026-08-29
+### Added
 - added meter dashboard to myems-api and myems-web
 - added authenticate via API-KEY to webmessage in myems-api
 - added carbon emissions and costs to batch reports of combined equipment, equipment, shopfloor, store and tenant in myems-api and myems-web
@@ -24,6 +30,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - fixed issue of space energy item in myems-web
 - fixed issue of space tree in myems-api
 ### Removed
+- None
 
 ## [v6.7.0] - 2026-07-26
 ### Added
@@ -2363,7 +2370,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Removed
 -   None.
 
-[Unreleased]: https://gitee.com/MyEMS/myems/compare/v6.7.0...HEAD
+[Unreleased]: https://gitee.com/MyEMS/myems/compare/v6.8.0...HEAD
+[6.8.0]: https://gitee.com/MyEMS/myems/compare/v6.7.0...v6.8.0
 [6.7.0]: https://gitee.com/MyEMS/myems/compare/v6.6.0...v6.7.0
 [6.6.0]: https://gitee.com/MyEMS/myems/compare/v6.5.0...v6.6.0
 [6.5.0]: https://gitee.com/MyEMS/myems/compare/v6.4.0...v6.5.0
