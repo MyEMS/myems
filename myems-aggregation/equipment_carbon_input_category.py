@@ -245,6 +245,7 @@ def main(logger):
             for energy_category_id in energy_category_list:
                 factor_dict[energy_category_id] = \
                     carbon_dioxide_emission_factor.get_energy_category_factor(
+                        equipment['cost_center_id'],
                         energy_category_id,
                         start_datetime_utc,
                         end_datetime_utc)
@@ -260,7 +261,7 @@ def main(logger):
                     carbon_dict[current_datetime_utc] = dict()
                     for energy_category_id in energy_category_list:
                         # Get emission factor and energy consumption for current category
-                        current_factor = factor_dict[energy_category_id]
+                        current_factor = factor_dict[energy_category_id].get(current_datetime_utc)
                         current_energy = energy_dict[current_datetime_utc].get(energy_category_id)
 
                         # Calculate carbon emissions if both factor and energy data are available

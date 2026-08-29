@@ -243,6 +243,7 @@ def main(logger):
             # Retrieve carbon dioxide emission factor for the meter's energy category
             factor_dict[meter['energy_category_id']] = \
                 carbon_dioxide_emission_factor.get_energy_category_factor(
+                    meter['cost_center_id'],
                     meter['energy_category_id'],
                     start_datetime_utc,
                     end_datetime_utc)
@@ -261,7 +262,7 @@ def main(logger):
                     aggregated_value['actual_value'] = None
 
                     # Get emission factor and energy consumption for current time slot
-                    current_factor = factor_dict[meter['energy_category_id']]
+                    current_factor = factor_dict[meter['energy_category_id']].get(current_datetime_utc)
                     current_energy = energy_dict[current_datetime_utc].get(meter['energy_category_id'])
 
                     # Calculate carbon emissions if both factor and energy data are available
@@ -283,23 +284,25 @@ def main(logger):
                 aggregated_values = aggregated_values[100:]  # Remove processed items
 
                 try:
-                    # Build INSERT statement for carbon emissions data
-                    add_values = (" INSERT INTO tbl_meter_hourly "
-                                  "             (meter_id, "
-                                  "              start_datetime_utc, "
-                                  "              actual_value) "
-                                  " VALUES  ")
+                    # Use parameterized query for batch insert
+                    query = (" INSERT INTO tbl_meter_hourly "
+                             "             (meter_id, "
+                             "              start_datetime_utc, "
+                             "              actual_value) "
+                             " VALUES  (%s, %s, %s)")
 
-                    # Add each carbon emissions value to the INSERT statement
+                    # Build parameter list for batch insert
+                    data = list()
                     for aggregated_value in insert_100:
                         if aggregated_value['actual_value'] is not None and \
                                 isinstance(aggregated_value['actual_value'], Decimal):
-                            add_values += " (" + str(meter['id']) + ","
-                            add_values += "'" + aggregated_value['start_datetime_utc'].isoformat()[0:19] + "',"
-                            add_values += str(aggregated_value['actual_value']) + "), "
+                            data.append((meter['id'],
+                                         aggregated_value['start_datetime_utc'],
+                                         aggregated_value['actual_value']))
 
-                    # Trim ", " at the end of string and then execute
-                    cursor_carbon_db.execute(add_values[:-2])
+                    # Execute parameterized batch insert
+                    if data:
+                        cursor_carbon_db.executemany(query, data)
                     cnx_carbon_db.commit()
                 except Exception as e:
                     logger.error("Error in step 6 of meter_carbon " + str(e))
