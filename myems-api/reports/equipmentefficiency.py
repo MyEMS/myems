@@ -41,6 +41,7 @@ import redis
 import simplejson as json
 import config
 import excelexporters.equipmentefficiency
+import pdfexporters.equipmentefficiency
 from core import utilities
 from core.useractivity import access_control, api_key_control
 
@@ -81,6 +82,8 @@ class Reporting:
         reporting_period_end_datetime_local = req.params.get('reportingperiodenddatetime')
         language = req.params.get('language')
         quick_mode = req.params.get('quickmode')
+        export_excel = req.params.get('exportexcel')
+        export_pdf = req.params.get('exportpdf')
 
         ################################################################################################################
         # Step 1: valid parameters
@@ -193,6 +196,18 @@ class Reporting:
                 str.lower(str.strip(quick_mode)) in ('true', 't', 'on', 'yes', 'y'):
             is_quick_mode = True
 
+        is_export_excel = False
+        if export_excel is not None and \
+                len(str.strip(export_excel)) > 0 and \
+                str.lower(str.strip(export_excel)) in ('true', 't', 'on', 'yes', 'y'):
+            is_export_excel = True
+
+        is_export_pdf = False
+        if export_pdf is not None and \
+                len(str.strip(export_pdf)) > 0 and \
+                str.lower(str.strip(export_pdf)) in ('true', 't', 'on', 'yes', 'y'):
+            is_export_pdf = True
+
         ############################################################################################################
         # Redis cache
         ############################################################################################################
@@ -235,6 +250,8 @@ class Reporting:
                     if reporting_end_datetime_utc_normalized else None,
                     "language": language,
                     "quickmode": is_quick_mode,
+                    "exportexcel": is_export_excel,
+                    "exportpdf": is_export_pdf,
                 }
                 cache_params_json = json.dumps(cache_params, sort_keys=True)
                 cache_key = \
@@ -898,19 +915,32 @@ class Reporting:
             "values": parameters_data['values']
         }
 
-        # export result to Excel file and then encode the file to base64 string
+        # export result to Excel file and/or PDF file and then encode the file to base64 string
         result['excel_bytes_base64'] = None
+        result['pdf_bytes_base64'] = None
         if not is_quick_mode:
-            result['excel_bytes_base64'] = \
-                excelexporters.equipmentefficiency.export(
-                    result,
-                    equipment['name'],
-                    base_period_start_datetime_local,
-                    base_period_end_datetime_local,
-                    reporting_period_start_datetime_local,
-                    reporting_period_end_datetime_local,
-                    period_type,
-                    language)
+            if is_export_excel:
+                result['excel_bytes_base64'] = \
+                    excelexporters.equipmentefficiency.export(
+                        result,
+                        equipment['name'],
+                        base_period_start_datetime_local,
+                        base_period_end_datetime_local,
+                        reporting_period_start_datetime_local,
+                        reporting_period_end_datetime_local,
+                        period_type,
+                        language)
+            if is_export_pdf:
+                result['pdf_bytes_base64'] = \
+                    pdfexporters.equipmentefficiency.export(
+                        result,
+                        equipment['name'],
+                        base_period_start_datetime_local,
+                        base_period_end_datetime_local,
+                        reporting_period_start_datetime_local,
+                        reporting_period_end_datetime_local,
+                        period_type,
+                        language)
 
         resp_text = json.dumps(result)
         resp.text = resp_text
