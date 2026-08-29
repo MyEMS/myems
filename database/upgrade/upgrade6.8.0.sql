@@ -57,6 +57,6 @@ CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_cost_centers_emission_factors`
 CREATE INDEX `tbl_cost_centers_emission_factors_index_1`
 ON `myems_system_db`.`tbl_cost_centers_emission_factors` (`cost_center_id`);
 
-UPDATE `myems_system_db`.`tbl_versions` SET version='6.8.0RC', release_date='2026-08-26' WHERE id=1;
+UPDATE `myems_system_db`.`tbl_versions` SET version='6.8.0', release_date='2026-08-29' WHERE id=1;
 
 COMMIT;
