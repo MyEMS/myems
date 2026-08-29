@@ -44,6 +44,9 @@ def clear_costcenter_cache(cost_center_id=None):
             # Also clear tariff list cache for this cost center
             tariff_list_cache_key = f'costcenter:tariff:list:{cost_center_id}'
             redis_client.delete(tariff_list_cache_key)
+            # Also clear emission factor list cache for this cost center
+            emission_factor_list_cache_key = f'costcenter:emissionfactor:list:{cost_center_id}'
+            redis_client.delete(emission_factor_list_cache_key)
 
     except Exception:
         # If cache clear fails, ignore and continue
@@ -813,6 +816,226 @@ class CostCenterTariffItem:
                 cnx.close()
 
         # Clear cache after removing tariff from cost center
+        clear_costcenter_cache(cost_center_id=id_)
+
+        resp.status = falcon.HTTP_204
+
+
+class CostCenterEmissionFactorCollection:
+    def __init__(self):
+        pass
+
+    @staticmethod
+    def on_get(req, resp, id_):
+        """Handles GET requests"""
+        if 'API-KEY' not in req.headers or \
+                not isinstance(req.headers['API-KEY'], str) or \
+                len(str.strip(req.headers['API-KEY'])) == 0:
+            access_control(req)
+        else:
+            api_key_control(req)
+        if not id_.isdigit() or int(id_) <= 0:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_COST_CENTER_ID')
+
+        # Redis cache key
+        cache_key = f'costcenter:emissionfactor:list:{id_}'
+        cache_expire = 28800  # 8 hours in seconds (long-term cache)
+
+        # Try to get from Redis cache (only if Redis is enabled)
+        redis_client = None
+        if config.redis.get('is_enabled', False):
+            try:
+                redis_client = redis.Redis(
+                    host=config.redis['host'],
+                    port=config.redis['port'],
+                    password=config.redis['password'] if config.redis['password'] else None,
+                    db=config.redis['db'],
+                    decode_responses=True,
+                    socket_connect_timeout=2,
+                    socket_timeout=2
+                )
+                redis_client.ping()
+                cached_result = redis_client.get(cache_key)
+                if cached_result:
+                    resp.text = cached_result
+                    return
+            except Exception:
+                # If Redis connection fails, continue to database query
+                pass
+
+        # Cache miss or Redis error - query database
+        cnx = None
+        cursor = None
+        rows = []
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
+
+                query = (" SELECT ef.id, ef.name, ef.uuid, "
+                         "        ef.unit_of_factor "
+                         " FROM tbl_emission_factors ef, tbl_cost_centers_emission_factors ccef "
+                         " WHERE ef.id = ccef.emission_factor_id AND ccef.cost_center_id = %s "
+                         " ORDER BY ef.name ")
+                cursor.execute(query, (id_,))
+                rows = cursor.fetchall()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
+
+        result = list()
+        if rows is not None and len(rows) > 0:
+            for row in rows:
+                meta_result = {"id": row[0],
+                               "name": row[1],
+                               "uuid": row[2],
+                               "unit_of_factor": row[3]}
+                result.append(meta_result)
+
+        # Store result in Redis cache
+        result_json = json.dumps(result)
+        if redis_client:
+            try:
+                redis_client.setex(cache_key, cache_expire, result_json)
+            except Exception:
+                # If cache set fails, ignore and continue
+                pass
+
+        resp.text = result_json
+
+    @staticmethod
+    @user_logger
+    def on_post(req, resp, id_):
+        """Handles POST requests"""
+        admin_control(req)
+        try:
+            raw_json = req.stream.read().decode('utf-8')
+        except UnicodeDecodeError as ex:
+            print("Failed to decode request")
+            raise falcon.HTTPError(status=falcon.HTTP_400,
+                                   title='API.BAD_REQUEST',
+                                   description='API.INVALID_ENCODING')
+        except Exception as ex:
+            print("Unexpected error reading request stream")
+            raise falcon.HTTPError(status=falcon.HTTP_400,
+                                   title='API.BAD_REQUEST',
+                                   description='API.FAILED_TO_READ_REQUEST_STREAM')
+
+        if not id_.isdigit() or int(id_) <= 0:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_COST_CENTER_ID')
+
+        new_values = json.loads(raw_json)
+
+        cnx = None
+        cursor = None
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
+
+                cursor.execute(" SELECT name "
+                               " FROM tbl_cost_centers "
+                               " WHERE id = %s ", (id_,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.COST_CENTER_NOT_FOUND')
+
+                cursor.execute(" SELECT name "
+                               " FROM tbl_emission_factors "
+                               " WHERE id = %s ", (new_values['data']['emission_factor_id'],))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.EMISSION_FACTOR_NOT_FOUND')
+
+                cursor.execute(" SELECT id "
+                               " FROM tbl_cost_centers_emission_factors "
+                               " WHERE cost_center_id = %s AND emission_factor_id = %s ",
+                               (id_, new_values['data']['emission_factor_id']))
+                rows = cursor.fetchall()
+                if rows is not None and len(rows) > 0:
+                    raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                           description='API.EMISSION_FACTOR_IS_ALREADY_ASSOCIATED_WITH_COST_CENTER')
+
+                add_row = (" INSERT INTO tbl_cost_centers_emission_factors "
+                           "             (cost_center_id, emission_factor_id) "
+                           " VALUES (%s, %s) ")
+                cursor.execute(add_row, (id_, new_values['data']['emission_factor_id'],))
+                cnx.commit()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
+
+        # Clear cache after adding emission factor to cost center
+        clear_costcenter_cache(cost_center_id=id_)
+
+        resp.status = falcon.HTTP_201
+        resp.location = '/costcenters/' + str(id_) + '/emissionfactors/' + str(new_values['data']['emission_factor_id'])
+
+
+class CostCenterEmissionFactorItem:
+    def __init__(self):
+        pass
+
+    @staticmethod
+    @user_logger
+    def on_delete(req, resp, id_, eid):
+        """Handles DELETE requests"""
+        admin_control(req)
+        if not id_.isdigit() or int(id_) <= 0:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_COST_CENTER_ID')
+
+        if not eid.isdigit() or int(eid) <= 0:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_EMISSION_FACTOR_ID')
+
+        cnx = None
+        cursor = None
+        try:
+            cnx = mysql.connector.connect(**config.myems_system_db)
+            try:
+                cursor = cnx.cursor()
+
+                cursor.execute(" SELECT name "
+                               " FROM tbl_cost_centers "
+                               " WHERE id = %s ", (id_,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.COST_CENTER_NOT_FOUND')
+
+                cursor.execute(" SELECT name "
+                               " FROM tbl_emission_factors "
+                               " WHERE id = %s ", (eid,))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.EMISSION_FACTOR_NOT_FOUND')
+
+                cursor.execute(" SELECT id "
+                               " FROM tbl_cost_centers_emission_factors "
+                               " WHERE cost_center_id = %s AND emission_factor_id = %s ", (id_, eid))
+                if cursor.fetchone() is None:
+                    raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
+                                           description='API.EMISSION_FACTOR_IS_NOT_ASSOCIATED_WITH_COST_CENTER')
+
+                cursor.execute(" DELETE FROM tbl_cost_centers_emission_factors "
+                               " WHERE cost_center_id = %s AND emission_factor_id = %s ", (id_, eid))
+                cnx.commit()
+            finally:
+                if cursor:
+                    cursor.close()
+        finally:
+            if cnx:
+                cnx.close()
+
+        # Clear cache after removing emission factor from cost center
         clear_costcenter_cache(cost_center_id=id_)
 
         resp.status = falcon.HTTP_204

@@ -12,7 +12,7 @@ from core import advancedreport, apikey, command, controlmode, energyflowdiagram
     shopfloor, webmessage, distributionsystem, store, emailmessage, tenanttype, wechatmessage, space, gateway, \
     offlinemeter, rule, energycategory, sensor, energyitem, notification, menu, datarepairfile, workingcalendar, \
     microgrid,  virtualpowerplant, energystoragecontainer, energystoragepowerstation, photovoltaicpowerstation, \
-    windfarm, energyplanfile, svg, protocol, ticket, iotsimcard, log
+    windfarm, energyplanfile, svg, protocol, ticket, iotsimcard, log, emissionfactor
 
 from reports import advancedreportfile
 from reports import combinedequipmentbatch
@@ -306,6 +306,10 @@ api.add_route('/costcenters/{id_}/tariffs',
               costcenter.CostCenterTariffCollection())
 api.add_route('/costcenters/{id_}/tariffs/{tid}',
               costcenter.CostCenterTariffItem())
+api.add_route('/costcenters/{id_}/emissionfactors',
+              costcenter.CostCenterEmissionFactorCollection())
+api.add_route('/costcenters/{id_}/emissionfactors/{eid}',
+              costcenter.CostCenterEmissionFactorItem())
 
 api.add_route('/costfiles',
               costfile.CostFileCollection())
@@ -1037,6 +1041,17 @@ api.add_route('/tariffs/import',
               tariff.TariffImport())
 api.add_route('/tariffs/{id_}/clone',
               tariff.TariffClone())
+
+api.add_route('/emissionfactors',
+              emissionfactor.EmissionFactorCollection())
+api.add_route('/emissionfactors/{id_}',
+              emissionfactor.EmissionFactorItem())
+api.add_route('/emissionfactors/{id_}/export',
+              emissionfactor.EmissionFactorExport())
+api.add_route('/emissionfactors/import',
+              emissionfactor.EmissionFactorImport())
+api.add_route('/emissionfactors/{id_}/clone',
+              emissionfactor.EmissionFactorClone())
 
 api.add_route('/tenants',
               tenant.TenantCollection())
