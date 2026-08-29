@@ -412,3 +412,6 @@ msgstr "Analisis Item Energi"
 
 msgid "Energy Consumption Analysis"
 msgstr "Analisis Konsumsi Energi"
+
+msgid "Batch Analysis"
+msgstr "Analisis Batch"

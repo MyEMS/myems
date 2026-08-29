@@ -412,3 +412,6 @@ msgstr "Анализ Энергетических Пунктов"
 
 msgid "Energy Consumption Analysis"
 msgstr "Анализ потребления энергии"
+
+msgid "Batch Analysis"
+msgstr "Анализ партии"

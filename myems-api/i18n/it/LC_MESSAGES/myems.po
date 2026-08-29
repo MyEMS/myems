@@ -412,3 +412,6 @@ msgstr "Analisi delle Voci Energetiche"
 
 msgid "Energy Consumption Analysis"
 msgstr "Analisi dei Consumi Energetici"
+
+msgid "Batch Analysis"
+msgstr "Analisi Batch"

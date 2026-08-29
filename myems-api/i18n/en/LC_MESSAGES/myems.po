@@ -412,3 +412,6 @@ msgstr "Energy Item Analysis"
 
 msgid "Energy Consumption Analysis"
 msgstr "Energy Consumption Analysis"
+
+msgid "Batch Analysis"
+msgstr "Batch Analysis"

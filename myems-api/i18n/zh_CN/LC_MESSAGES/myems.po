@@ -412,3 +412,6 @@ msgstr "能耗分项分析"
 
 msgid "Energy Consumption Analysis"
 msgstr "消耗分析"
+
+msgid "Batch Analysis"
+msgstr "批量分析"

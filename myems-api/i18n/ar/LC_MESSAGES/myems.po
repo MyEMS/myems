@@ -412,3 +412,6 @@ msgstr "تحليل عناصر الطاقة"
 
 msgid "Energy Consumption Analysis"
 msgstr "تحليل استهلاك الطاقة"
+
+msgid "Batch Analysis"
+msgstr "تحليل الدفعة"

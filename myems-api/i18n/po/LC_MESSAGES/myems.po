@@ -408,3 +408,6 @@ msgstr "Analiza Pozycji Energetycznych"
 
 msgid "Energy Consumption Analysis"
 msgstr "Analiza Zużycia Energii"
+
+msgid "Batch Analysis"
+msgstr "Analiza zbiorcza"

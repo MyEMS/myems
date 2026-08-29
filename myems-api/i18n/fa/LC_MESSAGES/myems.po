@@ -412,3 +412,6 @@ msgstr "تحلیل آیتم‌های انرژی"
 
 msgid "Energy Consumption Analysis"
 msgstr "تحلیل مصرف انرژی"
+
+msgid "Batch Analysis"
+msgstr "تحلیل دسته‌ای"

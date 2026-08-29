@@ -408,3 +408,6 @@ msgstr "エネルギー項目分析"
 
 msgid "Energy Consumption Analysis"
 msgstr "エネルギー消費分析"
+
+msgid "Batch Analysis"
+msgstr "バッチ分析"

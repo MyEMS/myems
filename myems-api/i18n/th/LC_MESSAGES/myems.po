@@ -412,3 +412,6 @@ msgstr "การวิเคราะห์รายการพลังงา
 
 msgid "Energy Consumption Analysis"
 msgstr "การวิเคราะห์การบริโภคพลังงาน"
+
+msgid "Batch Analysis"
+msgstr "การวิเคราะห์ชุด"
