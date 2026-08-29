@@ -414,3 +414,6 @@ msgstr "Analiza zbiorcza"
 
 msgid "Equipment Comparison"
 msgstr "Porównanie Wyposażenia"
+
+msgid "Equipment Tracking"
+msgstr "Śledzenie Wyposarzenia"

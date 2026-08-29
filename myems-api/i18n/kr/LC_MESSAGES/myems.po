@@ -414,3 +414,6 @@ msgstr "일괄 분석"
 
 msgid "Equipment Comparison"
 msgstr "장비 비교"
+
+msgid "Equipment Tracking"
+msgstr "장비 추적"

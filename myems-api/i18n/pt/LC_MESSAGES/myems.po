@@ -418,3 +418,6 @@ msgstr "Análise em Lote"
 
 msgid "Equipment Comparison"
 msgstr "Comparação de Equipamentos"
+
+msgid "Equipment Tracking"
+msgstr "Rastreamento de Equipamentos"

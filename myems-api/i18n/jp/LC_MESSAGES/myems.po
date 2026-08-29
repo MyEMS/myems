@@ -414,3 +414,6 @@ msgstr "バッチ分析"
 
 msgid "Equipment Comparison"
 msgstr "設備比較"
+
+msgid "Equipment Tracking"
+msgstr "設備追跡"

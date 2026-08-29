@@ -418,3 +418,6 @@ msgstr "تحلیل دسته‌ای"
 
 msgid "Equipment Comparison"
 msgstr "مقایسه تجهیزات"
+
+msgid "Equipment Tracking"
+msgstr "ردیابی تجهیزات"

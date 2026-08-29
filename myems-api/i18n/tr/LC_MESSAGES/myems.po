@@ -418,3 +418,6 @@ msgstr "Toplu Analiz"
 
 msgid "Equipment Comparison"
 msgstr "Ekipman Karşılaştırması"
+
+msgid "Equipment Tracking"
+msgstr "Ekipman Takibi"

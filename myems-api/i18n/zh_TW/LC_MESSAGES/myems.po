@@ -418,3 +418,6 @@ msgstr "批量分析"
 
 msgid "Equipment Comparison"
 msgstr "對比分析"
+
+msgid "Equipment Tracking"
+msgstr "設備臺賬"

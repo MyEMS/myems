@@ -418,3 +418,6 @@ msgstr "Charge Analyse"
 
 msgid "Equipment Comparison"
 msgstr "Ausrüstungsvergleich"
+
+msgid "Equipment Tracking"
+msgstr "Ausrüstungsverfolgung"

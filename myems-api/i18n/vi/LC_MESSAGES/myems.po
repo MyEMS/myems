@@ -418,3 +418,6 @@ msgstr "Phân tích hàng loạt"
 
 msgid "Equipment Comparison"
 msgstr "So sánh Thiết bị"
+
+msgid "Equipment Tracking"
+msgstr "Theo dõi Thiết bị"

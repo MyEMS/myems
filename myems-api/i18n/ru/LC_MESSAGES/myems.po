@@ -418,3 +418,6 @@ msgstr "Анализ партии"
 
 msgid "Equipment Comparison"
 msgstr "Сравнение оборудования"
+
+msgid "Equipment Tracking"
+msgstr "Отслеживание оборудования"

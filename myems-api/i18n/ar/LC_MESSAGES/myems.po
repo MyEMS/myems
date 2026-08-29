@@ -418,3 +418,6 @@ msgstr "تحليل الدفعة"
 
 msgid "Equipment Comparison"
 msgstr "مقارنة المعدات"
+
+msgid "Equipment Tracking"
+msgstr "تتبع المعدات"

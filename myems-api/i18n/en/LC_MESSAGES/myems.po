@@ -418,3 +418,6 @@ msgstr "Batch Analysis"
 
 msgid "Equipment Comparison"
 msgstr "Equipment Comparison"
+
+msgid "Equipment Tracking"
+msgstr "Equipment Tracking"
