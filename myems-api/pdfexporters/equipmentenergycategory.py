@@ -309,7 +309,7 @@ class EquipmentEnergyPDFExporter:
                 logger.warning(f"Failed to load logo image: {e}")
 
         # ===== Title: large bold text centered on page =====
-        fig.text(0.5, 0.50, _('Equipment Data - Energy Category Analysis'),
+        fig.text(0.5, 0.50, _('Energy Analysis'),
                  fontsize=24, weight='bold', ha='center', va='center')
 
         # ===== Info list: no table borders, centered below title =====
