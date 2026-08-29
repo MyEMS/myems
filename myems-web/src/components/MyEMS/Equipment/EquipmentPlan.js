@@ -13,7 +13,11 @@ import {
   Input,
   Label,
   CustomInput,
-  Spinner
+  Spinner,
+  UncontrolledDropdown,
+  DropdownToggle,
+  DropdownMenu,
+  DropdownItem
 } from 'reactstrap';
 import CountUp from 'react-countup';
 import moment from 'moment';
@@ -26,7 +30,6 @@ import { getCookieValue, createCookie, checkEmpty, handleAPIError } from '../../
 import withRedirect from '../../../hoc/withRedirect';
 import { withTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
-import ButtonIcon from '../../common/ButtonIcon';
 import DeepSeekAnalysisModal from '../common/DeepSeekAnalysisModal';
 import { APIBaseURL, settings } from '../../../config';
 import { periodTypeOptions } from '../common/PeriodTypeOptions';
@@ -147,7 +150,10 @@ const EquipmentPlan = ({ setRedirect, setRedirectUrl, t }) => {
     { dataField: 'startdatetime', text: t('Datetime'), sort: true }
   ]);
   const [excelBytesBase64, setExcelBytesBase64] = useState(undefined);
-
+  const [pdfBytesBase64, setPdfBytesBase64] = useState(undefined);
+  const [exportExcel, setExportExcel] = useState(false);
+  const [exportPdf, setExportPdf] = useState(false);
+  
   useEffect(() => {
     let isResponseOK = false;
     fetch(APIBaseURL + '/spaces/tree', {
@@ -440,7 +446,10 @@ const EquipmentPlan = ({ setRedirect, setRedirectUrl, t }) => {
 
     // Reinitialize tables
     setDetailedDataTableData([]);
-
+    setPdfBytesBase64(undefined);
+    setExportExcel(false);
+    setExportPdf(false);
+    
     let isResponseOK = false;
     fetch(
       APIBaseURL +
@@ -458,7 +467,11 @@ const EquipmentPlan = ({ setRedirect, setRedirectUrl, t }) => {
         '&reportingperiodenddatetime=' +
         moment(reportingPeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss') +
         '&language=' +
-        language,
+        language +
+        '&exportexcel=' +
+        exportExcel +
+        '&exportpdf=' +
+        exportPdf,
       {
         method: 'GET',
         headers: {
@@ -761,13 +774,14 @@ const EquipmentPlan = ({ setRedirect, setRedirectUrl, t }) => {
           }
 
           setExcelBytesBase64(json['excel_bytes_base64']);
-
+          setPdfBytesBase64(json['pdf_bytes_base64']);
+          
           // enable submit button
           setSubmitButtonDisabled(false);
           // hide spinner
           setSpinnerHidden(true);
           // show export button
-          setExportButtonHidden(false);
+          setExportButtonHidden(!(json['excel_bytes_base64'] || json['pdf_bytes_base64']));
           // show result data
           setResultDataHidden(false);
         } else {
@@ -779,11 +793,19 @@ const EquipmentPlan = ({ setRedirect, setRedirectUrl, t }) => {
       });
   };
 
-  const handleExport = e => {
+  const handleExport = (e, type) => {
     e.preventDefault();
-    const mimeType = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
-    const fileName = 'equipmentsaving.xlsx';
-    var fileUrl = 'data:' + mimeType + ';base64,' + excelBytesBase64;
+    let mimeType, fileName, base64Data;
+    if (type === 'pdf') {
+      mimeType = 'application/pdf';
+      fileName = 'equipmentplan.pdf';
+      base64Data = pdfBytesBase64;
+    } else {
+      mimeType = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
+      fileName = 'equipmentplan.xlsx';
+      base64Data = excelBytesBase64;
+    }
+    var fileUrl = 'data:' + mimeType + ';base64,' + base64Data;
     fetch(fileUrl)
       .then(response => response.blob())
       .then(blob => {
@@ -793,6 +815,7 @@ const EquipmentPlan = ({ setRedirect, setRedirectUrl, t }) => {
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
+        window.URL.revokeObjectURL(link.href);
       });
   };
 
@@ -1038,6 +1061,30 @@ const EquipmentPlan = ({ setRedirect, setRedirectUrl, t }) => {
               </Col>
               <Col xs="auto">
                 <FormGroup>
+                  <Label className={labelClasses}>
+                    {t('Export')}
+                    {t('(Optional)')}
+                  </Label>
+                  <div>
+                    <CustomInput
+                      type="checkbox"
+                      id="exportExcel"
+                      label="Excel"
+                      checked={exportExcel}
+                      onChange={e => setExportExcel(e.target.checked)}
+                    />
+                    <CustomInput
+                      type="checkbox"
+                      id="exportPdf"
+                      label="PDF"
+                      checked={exportPdf}
+                      onChange={e => setExportPdf(e.target.checked)}
+                    />
+                  </div>
+                </FormGroup>
+              </Col>
+              <Col xs="auto">
+                <FormGroup>
                   <br />
                   <ButtonGroup id="submit">
                     <Button size="sm" color="success" disabled={submitButtonDisabled}>
@@ -1054,16 +1101,19 @@ const EquipmentPlan = ({ setRedirect, setRedirectUrl, t }) => {
               </Col>
               <Col xs="auto">
                 <br />
-                <ButtonIcon
-                  icon="external-link-alt"
-                  transform="shrink-3 down-2"
-                  color="falcon-default"
-                  size="sm"
-                  hidden={exportButtonHidden}
-                  onClick={handleExport}
-                >
-                  {t('Export')}
-                </ButtonIcon>
+                <UncontrolledDropdown>
+                  <DropdownToggle size="sm" color="success" caret hidden={exportButtonHidden}>
+                    {t('Export')}
+                  </DropdownToggle>
+                  <DropdownMenu>
+                    <DropdownItem onClick={e => handleExport(e, 'excel')} disabled={!excelBytesBase64}>
+                      Excel
+                    </DropdownItem>
+                    <DropdownItem onClick={e => handleExport(e, 'pdf')} disabled={!pdfBytesBase64}>
+                      PDF
+                    </DropdownItem>
+                  </DropdownMenu>
+                </UncontrolledDropdown>
               </Col>
               {settings.enableAIAnalysis ? (
                 <Col xs="auto">
