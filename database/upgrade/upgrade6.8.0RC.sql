@@ -1,27 +1,40 @@
 -- ---------------------------------------------------------------------------------------------------------------------
 -- 警告：升级前备份数据库
 -- WARNING: BACKUP YOUR DATABASE BEFORE UPGRADING
--- 此脚本仅用于将6.7.0升级到6.8.0RC
--- THIS SCRIPT IS ONLY FOR UPGRADING 6.7.0 TO 6.8.0RC
+-- 此脚本仅用于将6.7.0升级到6.8.0
+-- THIS SCRIPT IS ONLY FOR UPGRADING 6.7.0 TO 6.8.0
 -- 当前版本号在`myems_system_db`.`tbl_versions`中查看
 -- THE CURRENT VERSION CAN BE FOUND AT `myems_system_db`.`tbl_versions`
 -- ---------------------------------------------------------------------------------------------------------------------
 
 START TRANSACTION;
 
-CREATE TABLE IF NOT EXISTS `myems_production_db`.`tbl_equipment_hourly` (
-  `id` BIGINT NOT NULL AUTO_INCREMENT,
-  `equipment_id` BIGINT NOT NULL,
-  `start_datetime_utc` DATETIME NOT NULL,
-  `product_id` BIGINT NOT NULL,
-  `product_count` DECIMAL(21, 6) NOT NULL,
-  PRIMARY KEY (`id`));
-CREATE INDEX `tbl_equipment_hourly_index_1`
-ON `myems_production_db`.`tbl_equipment_hourly` (`equipment_id`, `product_id`, `start_datetime_utc`);
+INSERT INTO myems_system_db.tbl_menus (id,name,route, parent_menu_id,is_hidden)
+VALUES
+(217,'Equipment Realtime Monitor','/equipment/realtimemonitor',200,0),
+(330,'Dashboard','/meter',300,0);
 
 -- ---------------------------------------------------------------------------------------------------------------------
--- Ensure `tbl_emission_factors_timeofuses` exists (for upgrades from versions before this table was introduced)
+-- Table `myems_system_db`.`tbl_emission_factors`
 -- ---------------------------------------------------------------------------------------------------------------------
+
+CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_emission_factors` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(128) NOT NULL,
+  `uuid` CHAR(36) NOT NULL,
+  `energy_category_id` BIGINT NOT NULL,
+  `unit_of_factor` VARCHAR(45) NOT NULL COMMENT 'Unit of Factor, e.g. kgCO2/kWh',
+  `valid_from_datetime_utc` DATETIME NOT NULL,
+  `valid_through_datetime_utc` DATETIME NOT NULL,
+  PRIMARY KEY (`id`));
+CREATE INDEX `tbl_emission_factors_index_1` ON `myems_system_db`.`tbl_emission_factors` (`name`);
+CREATE INDEX `tbl_emission_factors_index_2`
+ON `myems_system_db`.`tbl_emission_factors` (`energy_category_id`, `valid_from_datetime_utc`, `valid_through_datetime_utc`);
+
+-- ---------------------------------------------------------------------------------------------------------------------
+-- Table `myems_system_db`.`tbl_emission_factors_timeofuses`
+-- ---------------------------------------------------------------------------------------------------------------------
+
 CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_emission_factors_timeofuses` (
   `id` BIGINT NOT NULL AUTO_INCREMENT,
   `emission_factor_id` BIGINT NOT NULL,
@@ -33,23 +46,17 @@ CREATE INDEX `tbl_emission_factors_timeofuses_index_1`
 ON `myems_system_db`.`tbl_emission_factors_timeofuses` (`emission_factor_id`, `start_time_of_day`);
 
 -- ---------------------------------------------------------------------------------------------------------------------
--- Emission Factor simplification: remove fixed/timeofuse distinction.
--- A 'fixed' factor is now represented as a single time-of-use period covering 00:00:00-24:00:00.
+-- Table `myems_system_db`.`tbl_cost_centers_emission_factors`
 -- ---------------------------------------------------------------------------------------------------------------------
--- Migrate existing 'fixed' factors into a full-day time-of-use period
-INSERT INTO `myems_system_db`.`tbl_emission_factors_timeofuses`
-  (`emission_factor_id`, `start_time_of_day`, `end_time_of_day`, `factor`)
-SELECT `id`, '00:00:00', '24:00:00', `factor`
-FROM `myems_system_db`.`tbl_emission_factors`
-WHERE `factor_type` = 'fixed' AND `factor` IS NOT NULL;
 
--- Drop the now-unused columns
-ALTER TABLE `myems_system_db`.`tbl_emission_factors`
-  DROP COLUMN IF EXISTS `factor_type`,
-  DROP COLUMN IF EXISTS `factor`;
+CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_cost_centers_emission_factors` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `cost_center_id` BIGINT NOT NULL,
+  `emission_factor_id` BIGINT NOT NULL,
+  PRIMARY KEY (`id`));
+CREATE INDEX `tbl_cost_centers_emission_factors_index_1`
+ON `myems_system_db`.`tbl_cost_centers_emission_factors` (`cost_center_id`);
 
-UPDATE `myems_system_db`.`tbl_versions`
-
-SET version='6.8.0RC', release_date='2026-08-10' WHERE id=1;
+UPDATE `myems_system_db`.`tbl_versions` SET version='6.8.0RC', release_date='2026-08-26' WHERE id=1;
 
 COMMIT;
