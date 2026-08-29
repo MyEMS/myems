@@ -12,7 +12,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - added myems-bacnet to acquire data from BACnet devices (HVAC)
 - added myems-s7 to acquire data from S7 devices (PLC)
 - added split scroll to myems-admin
-- added pdf exporter for space energy category report in myems-api and myems-web
+- added pdf exporters for space reports in myems-api and myems-web
 - added docx exporter for space energy category report in myems-api and myems-web
 ### Changed
 - changed carbon unit to KGCO2E in myems-api
