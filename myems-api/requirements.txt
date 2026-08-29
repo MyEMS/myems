@@ -17,3 +17,4 @@ redis==5.2.1
 bleach==6.1.0
 numpy==1.24.4
 matplotlib==3.7.5
+python-docx==1.1.2
