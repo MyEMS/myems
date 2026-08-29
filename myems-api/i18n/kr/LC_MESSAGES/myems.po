@@ -81,6 +81,14 @@ msgstr "Ton of Carbon Dioxide Emissions(TCO2E) by Energy Category"
 msgid "Energy Analysis"
 msgstr "에너지 분석"
 
+msgid "Energy Saving Analysis"
+msgstr "에너지 절약 분석"
+
+msgid "Energy Plan Analysis"
+msgstr "에너지 계획 분석"
+
+
+
 msgid "Child Spaces Data"
 msgstr "Child Spaces Data"
 
@@ -138,8 +146,14 @@ msgstr "Base Period Cumulative Efficiency"
 msgid "Reporting Period Cumulative Efficiency"
 msgstr "Reporting Period Cumulative Efficiency"
 
+msgid "Efficiency"
+msgstr "효율"
+
 msgid "Cumulative Efficiency"
 msgstr "Cumulative Efficiency"
+
+msgid "Income"
+msgstr "수입 분석"
 
 msgid "Base Period Income"
 msgstr "Base Period Income"
@@ -195,8 +209,16 @@ msgstr "Output"
 msgid "Base Period Saving"
 msgstr "Base Period Saving"
 
+msgid "Base Period Plan"
+msgstr "기준 기간 계획"
+
+
 msgid "Reporting Period Saving"
 msgstr "Reporting Period Saving"
+
+msgid "Reporting Period Plan"
+msgstr "보고 기간 계획"
+
 
 msgid "Baseline"
 msgstr "Baseline"
@@ -206,6 +228,10 @@ msgstr "Actual"
 
 msgid "Saving"
 msgstr "Saving"
+
+msgid "Plan"
+msgstr "계획"
+
 
 msgid "Decreased"
 msgstr "Decreased"
@@ -368,3 +394,17 @@ msgstr "비용"
 
 msgid "Carbon"
 msgstr "탄소 배출 분석"
+
+
+msgid "Energy Prediction Analysis"
+msgstr "에너지 예측 분석"
+
+msgid "Space Comparison Analysis"
+msgstr "공간 비교 분석"
+
+msgid "Energy Item Analysis"
+msgstr "에너지 항목 분석"
+
+
+msgid "Energy Consumption Analysis"
+msgstr "에너지 소비 분석"

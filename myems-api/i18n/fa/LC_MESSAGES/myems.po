@@ -81,6 +81,14 @@ msgstr "Ton of Carbon Dioxide Emissions(TCO2E) by Energy Category"
 msgid "Energy Analysis"
 msgstr "تحلیل انرژی"
 
+msgid "Energy Saving Analysis"
+msgstr "تحلیل صرفه‌جویی انرژی"
+
+msgid "Energy Plan Analysis"
+msgstr "تحلیل برنامه انرژی"
+
+
+
 msgid "Space Data - Energy Category Analysis"
 msgstr "داده‌های فضا - تحلیل دسته‌بندی انرژی"
 
@@ -142,8 +150,14 @@ msgstr "Base Period Cumulative Efficiency"
 msgid "Reporting Period Cumulative Efficiency"
 msgstr "Reporting Period Cumulative Efficiency"
 
+msgid "Efficiency"
+msgstr "کارایی"
+
 msgid "Cumulative Efficiency"
 msgstr "Cumulative Efficiency"
+
+msgid "Income"
+msgstr "درآمد"
 
 msgid "Base Period Income"
 msgstr "Base Period Income"
@@ -199,8 +213,16 @@ msgstr "Output"
 msgid "Base Period Saving"
 msgstr "Base Period Saving"
 
+msgid "Base Period Plan"
+msgstr "برنامه دوره پایه"
+
+
 msgid "Reporting Period Saving"
 msgstr "Reporting Period Saving"
+
+msgid "Reporting Period Plan"
+msgstr "برنامه دوره گزارش"
+
 
 msgid "Baseline"
 msgstr "Baseline"
@@ -210,6 +232,10 @@ msgstr "Actual"
 
 msgid "Saving"
 msgstr "Saving"
+
+msgid "Plan"
+msgstr "برنامه"
+
 
 msgid "Decreased"
 msgstr "Decreased"
@@ -372,3 +398,17 @@ msgstr "هزینه‌ها"
 
 msgid "Carbon"
 msgstr "تحليل انتشار کربن"
+
+
+msgid "Energy Prediction Analysis"
+msgstr "تحلیل پیش‌بینی انرژی"
+
+msgid "Space Comparison Analysis"
+msgstr "تحلیل مقایسه فضاها"
+
+msgid "Energy Item Analysis"
+msgstr "تحلیل آیتم‌های انرژی"
+
+
+msgid "Energy Consumption Analysis"
+msgstr "تحلیل مصرف انرژی"

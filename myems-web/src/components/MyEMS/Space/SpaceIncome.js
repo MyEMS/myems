@@ -13,7 +13,11 @@ import {
   Input,
   Label,
   CustomInput,
-  Spinner
+  Spinner,
+  UncontrolledDropdown,
+  DropdownToggle,
+  DropdownMenu,
+  DropdownItem
 } from 'reactstrap';
 import CountUp from 'react-countup';
 import moment from 'moment';
@@ -28,11 +32,11 @@ import { getCookieValue, createCookie, checkEmpty, handleAPIError } from '../../
 import withRedirect from '../../../hoc/withRedirect';
 import { withTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
-import ButtonIcon from '../../common/ButtonIcon';
 import { APIBaseURL, settings } from '../../../config';
 import { periodTypeOptions } from '../common/PeriodTypeOptions';
 import { comparisonTypeOptions } from '../common/ComparisonTypeOptions';
 import DateRangePickerWrapper from '../common/DateRangePickerWrapper';
+import { v4 as uuid } from 'uuid';
 import { endOfDay } from 'date-fns';
 import AppContext from '../../../context/Context';
 import { Link } from 'react-router-dom';
@@ -115,11 +119,16 @@ const SpaceIncome = ({ setRedirect, setRedirectUrl, t }) => {
   const [spinnerHidden, setSpinnerHidden] = useState(true);
   const [exportButtonHidden, setExportButtonHidden] = useState(true);
   const [resultDataHidden, setResultDataHidden] = useState(true);
+  const [exportExcel, setExportExcel] = useState(false);
+  const [exportPdf, setExportPdf] = useState(false);
   const [smartAnalysisOpen, setSmartAnalysisOpen] = useState(false);
   const [smartAnalysisContext, setSmartAnalysisContext] = useState(null);
 
   //Results
   const [incomeShareData, setIncomeShareData] = useState([]);
+
+  const [childSpaceProportionList, setChildSpaceProportionList] = useState([]);
+  const [childSpaceSubtotalShareData, setChildSpaceSubtotalShareData] = useState([]);
 
   const [cardSummaryList, setCardSummaryList] = useState([]);
 
@@ -152,6 +161,7 @@ const SpaceIncome = ({ setRedirect, setRedirectUrl, t }) => {
     { dataField: 'name', text: t('Child Spaces'), sort: true }
   ]);
   const [excelBytesBase64, setExcelBytesBase64] = useState(undefined);
+  const [pdfBytesBase64, setPdfBytesBase64] = useState(undefined);
 
   const loadData = useCallback(
     spaceID => {
@@ -185,7 +195,11 @@ const SpaceIncome = ({ setRedirect, setRedirectUrl, t }) => {
           '&reportingperiodenddatetime=' +
           moment(reportingPeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss') +
           '&language=' +
-          language,
+          language +
+          '&exportexcel=' +
+          exportExcel +
+          '&exportpdf=' +
+          exportPdf,
         {
           method: 'GET',
           headers: {
@@ -538,6 +552,47 @@ const SpaceIncome = ({ setRedirect, setRedirectUrl, t }) => {
               }
             }
 
+            let childSpaceProportionArray = [];
+            json['child_space']['energy_category_names'].forEach((currentValue, energyCategoryIndex) => {
+              if (json['child_space']['child_space_names_array'][energyCategoryIndex].length > 0) {
+                let childSpaceProportionItem = {};
+                childSpaceProportionItem['data'] = [];
+                json['child_space']['child_space_names_array'][energyCategoryIndex].forEach(
+                  (currentSpaceName, spaceIndex) => {
+                    let childSpaceProportionItemDataItem = {};
+                    childSpaceProportionItemDataItem['id'] = spaceIndex;
+                    childSpaceProportionItemDataItem['name'] = currentSpaceName;
+                    childSpaceProportionItemDataItem['value'] =
+                      json['child_space']['subtotals_array'][energyCategoryIndex][spaceIndex];
+                    childSpaceProportionItemDataItem['color'] = '#' + (((1 << 24) * Math.random()) | 0).toString(16);
+                    childSpaceProportionItem['data'].push(childSpaceProportionItemDataItem);
+                  }
+                );
+
+                childSpaceProportionItem['name'] = json['child_space']['energy_category_names'][energyCategoryIndex];
+                childSpaceProportionItem['unit'] = json['child_space']['units'][energyCategoryIndex];
+                childSpaceProportionArray.push(childSpaceProportionItem);
+              }
+            });
+            setChildSpaceProportionList(childSpaceProportionArray);
+
+            let childSpaceSubtotalShareDataArray = [];
+            if (json['child_space']['child_space_names_array'].length > 0) {
+              json['child_space']['child_space_names_array'][0].forEach((currentSpaceName, spaceIndex) => {
+                let subtotal = 0.0;
+                json['child_space']['energy_category_names'].forEach((currentValue, energyCategoryIndex) => {
+                  subtotal += json['child_space']['subtotals_array'][energyCategoryIndex][spaceIndex];
+                });
+                let childSpaceSubtotalDataItem = {};
+                childSpaceSubtotalDataItem['id'] = spaceIndex;
+                childSpaceSubtotalDataItem['name'] = currentSpaceName;
+                childSpaceSubtotalDataItem['value'] = subtotal;
+                childSpaceSubtotalDataItem['color'] = '#' + (((1 << 24) * Math.random()) | 0).toString(16);
+                childSpaceSubtotalShareDataArray.push(childSpaceSubtotalDataItem);
+              });
+            }
+            setChildSpaceSubtotalShareData(childSpaceSubtotalShareDataArray);
+
             let child_space_value_list = [];
             if (json['child_space']['child_space_names_array'].length > 0) {
               json['child_space']['child_space_names_array'][0].forEach((currentSpaceName, spaceIndex) => {
@@ -599,13 +654,14 @@ const SpaceIncome = ({ setRedirect, setRedirectUrl, t }) => {
             setChildSpacesTableColumns(child_space_column_list);
 
             setExcelBytesBase64(json['excel_bytes_base64']);
+            setPdfBytesBase64(json['pdf_bytes_base64']);
 
             // enable submit button
             setSubmitButtonDisabled(false);
             // hide spinner
             setSpinnerHidden(true);
-            // show export button
-            setExportButtonHidden(false);
+            // show export button only when at least one export file was generated
+            setExportButtonHidden(!(json['excel_bytes_base64'] || json['pdf_bytes_base64']));
             // show result data
             setResultDataHidden(false);
           } else {
@@ -627,6 +683,10 @@ const SpaceIncome = ({ setRedirect, setRedirectUrl, t }) => {
       setResultDataHidden,
       setDetailedDataTableData,
       setChildSpacesTableData,
+      setExcelBytesBase64,
+      setPdfBytesBase64,
+      exportExcel,
+      exportPdf,
       t
     ]
   );
@@ -831,21 +891,41 @@ const SpaceIncome = ({ setRedirect, setRedirectUrl, t }) => {
     loadData(selectedSpaceID);
   };
 
-  const handleExport = e => {
+  const handleExport = (e, type) => {
     e.preventDefault();
-    const mimeType = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
-    const fileName = 'spaceincome.xlsx';
-    var fileUrl = 'data:' + mimeType + ';base64,' + excelBytesBase64;
-    fetch(fileUrl)
-      .then(response => response.blob())
-      .then(blob => {
-        var link = window.document.createElement('a');
-        link.href = window.URL.createObjectURL(blob, { type: mimeType });
-        link.download = fileName;
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-      });
+    if (type === 'excel' && excelBytesBase64) {
+      const mimeType = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
+      const fileName = 'spaceincome.xlsx';
+      const fileUrl = 'data:' + mimeType + ';base64,' + excelBytesBase64;
+      fetch(fileUrl)
+        .then(response => response.blob())
+        .then(blob => {
+          const link = window.document.createElement('a');
+          const blobUrl = window.URL.createObjectURL(blob, { type: mimeType });
+          link.href = blobUrl;
+          link.download = fileName;
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+          setTimeout(() => window.URL.revokeObjectURL(blobUrl), 100);
+        });
+    } else if (type === 'pdf' && pdfBytesBase64) {
+      const mimeType = 'application/pdf';
+      const fileName = 'spaceincome.pdf';
+      const fileUrl = 'data:' + mimeType + ';base64,' + pdfBytesBase64;
+      fetch(fileUrl)
+        .then(response => response.blob())
+        .then(blob => {
+          const link = window.document.createElement('a');
+          const blobUrl = window.URL.createObjectURL(blob, { type: mimeType });
+          link.href = blobUrl;
+          link.download = fileName;
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+          setTimeout(() => window.URL.revokeObjectURL(blobUrl), 100);
+        });
+    }
   };
 
   const buildSmartAnalysisContext = useCallback(() => {
@@ -882,6 +962,8 @@ const SpaceIncome = ({ setRedirect, setRedirectUrl, t }) => {
       },
       cardSummaryList,
       incomeShare: incomeShareData,
+      childSpaceProportion: childSpaceProportionList.slice(0, 80),
+      childSpaceSubtotalShare: childSpaceSubtotalShareData,
       detailedDataSample: detailedDataTableData.slice(0, 120),
       childSpacesSample: childSpacesTableData.slice(0, 80),
       parameterLineChart: {
@@ -903,6 +985,8 @@ const SpaceIncome = ({ setRedirect, setRedirectUrl, t }) => {
     basePeriodDateRange,
     cardSummaryList,
     incomeShareData,
+    childSpaceProportionList,
+    childSpaceSubtotalShareData,
     detailedDataTableData,
     childSpacesTableData,
     parameterLineChartLabels,
@@ -1033,6 +1117,36 @@ const SpaceIncome = ({ setRedirect, setRedirectUrl, t }) => {
               </Col>
               <Col xs="auto">
                 <FormGroup>
+                  <Label className={labelClasses}>
+                    {t('Export')}
+                    {t('(Optional)')}
+                  </Label>
+                  <div>
+                    <CustomInput
+                      type="checkbox"
+                      id="exportExcel"
+                      name="exportExcel"
+                      label="Excel"
+                      bsSize="sm"
+                      inline
+                      checked={exportExcel}
+                      onChange={({ target }) => setExportExcel(target.checked)}
+                    />
+                    <CustomInput
+                      type="checkbox"
+                      id="exportPdf"
+                      name="exportPdf"
+                      label="PDF"
+                      bsSize="sm"
+                      inline
+                      checked={exportPdf}
+                      onChange={({ target }) => setExportPdf(target.checked)}
+                    />
+                  </div>
+                </FormGroup>
+              </Col>
+              <Col xs="auto">
+                <FormGroup>
                   <br />
                   <ButtonGroup id="submit">
                     <Button size="sm" color="success" disabled={submitButtonDisabled}>
@@ -1049,16 +1163,27 @@ const SpaceIncome = ({ setRedirect, setRedirectUrl, t }) => {
               </Col>
               <Col xs="auto">
                 <br />
-                <ButtonIcon
-                  icon="external-link-alt"
-                  transform="shrink-3 down-2"
-                  color="falcon-default"
-                  size="sm"
-                  hidden={exportButtonHidden}
-                  onClick={handleExport}
-                >
-                  {t('Export')}
-                </ButtonIcon>
+                <UncontrolledDropdown hidden={exportButtonHidden}>
+                  <DropdownToggle
+                    size="sm"
+                    color="falcon-default"
+                    caret
+                  >
+                    {t('Export')}
+                  </DropdownToggle>
+                  <DropdownMenu right>
+                    {excelBytesBase64 ? (
+                      <DropdownItem onClick={e => handleExport(e, 'excel')}>
+                        EXCEL
+                      </DropdownItem>
+                    ) : null}
+                    {pdfBytesBase64 ? (
+                      <DropdownItem onClick={e => handleExport(e, 'pdf')}>
+                        PDF
+                      </DropdownItem>
+                    ) : null}
+                  </DropdownMenu>
+                </UncontrolledDropdown>
               </Col>
               {settings.enableAIAnalysis ? (
                 <Col xs="auto">
@@ -1114,6 +1239,20 @@ const SpaceIncome = ({ setRedirect, setRedirectUrl, t }) => {
         <Row noGutters>
           <Col className="mb-3 pr-lg-2 mb-3">
             <SharePie data={incomeShareData} title={t('Incomes by Energy Category')} />
+          </Col>
+          {childSpaceProportionList.map(childSpaceProportionItem => (
+            <Col className="mb-3 pr-lg-2 mb-3" key={uuid()}>
+              <SharePie
+                data={childSpaceProportionItem['data']}
+                title={t('Child Space Proportion CATEGORY UNIT', {
+                  CATEGORY: childSpaceProportionItem['name'],
+                  UNIT: '(' + childSpaceProportionItem['unit'] + ')'
+                })}
+              />
+            </Col>
+          ))}
+          <Col className="mb-3 pr-lg-2 mb-3">
+            <SharePie data={childSpaceSubtotalShareData} title={t('Child Space Total Proportion')} />
           </Col>
         </Row>
 

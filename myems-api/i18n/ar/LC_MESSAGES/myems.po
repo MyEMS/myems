@@ -81,6 +81,14 @@ msgstr "النسبة المئوية لأطنان انبعاثات ثاني أك�
 msgid "Energy Analysis"
 msgstr "تحليل الطاقة"
 
+msgid "Energy Saving Analysis"
+msgstr "تحليل توفير الطاقة"
+
+msgid "Energy Plan Analysis"
+msgstr "تحليل خطة الطاقة"
+
+
+
 msgid "Space Data - Energy Category Analysis"
 msgstr "بيانات الفضاء - تحليل تصنيف الطاقة"
 
@@ -142,8 +150,14 @@ msgstr "الكفاءة التراكمية لفترة الأساس"
 msgid "Reporting Period Cumulative Efficiency"
 msgstr "الكفاءة التراكمية للفترة المشمولة بالتقرير"
 
+msgid "Efficiency"
+msgstr "كفاءة"
+
 msgid "Cumulative Efficiency"
 msgstr "الكفاءة التراكمية"
+
+msgid "Income"
+msgstr "الدخل"
 
 msgid "Base Period Income"
 msgstr "إيرادات فترة الأساس"
@@ -199,8 +213,16 @@ msgstr "الناتج"
 msgid "Base Period Saving"
 msgstr "وفورات فترة الأساس"
 
+msgid "Base Period Plan"
+msgstr "خطة الفترة الأساسية"
+
+
 msgid "Reporting Period Saving"
 msgstr "الوفورات في الفترة المشمولة بالتقرير"
+
+msgid "Reporting Period Plan"
+msgstr "خطة فترة الإبلاغ"
+
 
 msgid "Baseline"
 msgstr "الاساس"
@@ -210,6 +232,10 @@ msgstr "حقيقي"
 
 msgid "Saving"
 msgstr "تقتصد"
+
+msgid "Plan"
+msgstr "الخطة"
+
 
 msgid "Decreased"
 msgstr "نقصان"
@@ -372,3 +398,17 @@ msgstr "التكاليف"
 
 msgid "Carbon"
 msgstr "انبعاثات ثاني أكسيد الكربون"
+
+
+msgid "Energy Prediction Analysis"
+msgstr "تحليل توقع الطاقة"
+
+msgid "Space Comparison Analysis"
+msgstr "تحليل مقارنة المساحات"
+
+msgid "Energy Item Analysis"
+msgstr "تحليل عناصر الطاقة"
+
+
+msgid "Energy Consumption Analysis"
+msgstr "تحليل استهلاك الطاقة"

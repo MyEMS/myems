@@ -81,6 +81,14 @@ msgstr "Ton of Carbon Dioxide Emissions(TCO2E) by Energy Category"
 msgid "Energy Analysis"
 msgstr "Analisi Energetica"
 
+msgid "Energy Saving Analysis"
+msgstr "Analisi del Risparmio Energetico"
+
+msgid "Energy Plan Analysis"
+msgstr "Analisi del Piano Energetico"
+
+
+
 msgid "Space Data - Energy Category Analysis"
 msgstr "Dati dello spazio - Analisi della classificazione energetica"
 
@@ -142,8 +150,14 @@ msgstr "Base Period Cumulative Efficiency"
 msgid "Reporting Period Cumulative Efficiency"
 msgstr "Reporting Period Cumulative Efficiency"
 
+msgid "Efficiency"
+msgstr "Efficienza"
+
 msgid "Cumulative Efficiency"
 msgstr "Cumulative Efficiency"
+
+msgid "Income"
+msgstr "Reddito"
 
 msgid "Base Period Income"
 msgstr "Base Period Income"
@@ -199,8 +213,16 @@ msgstr "Output"
 msgid "Base Period Saving"
 msgstr "Base Period Saving"
 
+msgid "Base Period Plan"
+msgstr "Piano del Periodo Base"
+
+
 msgid "Reporting Period Saving"
 msgstr "Reporting Period Saving"
+
+msgid "Reporting Period Plan"
+msgstr "Piano del Periodo di Rendicontazione"
+
 
 msgid "Baseline"
 msgstr "Baseline"
@@ -210,6 +232,10 @@ msgstr "Actual"
 
 msgid "Saving"
 msgstr "Saving"
+
+msgid "Plan"
+msgstr "Piano"
+
 
 msgid "Decreased"
 msgstr "Decreased"
@@ -372,3 +398,17 @@ msgstr "Costi"
 
 msgid "Carbon"
 msgstr "Analisi Emissioni CO2"
+
+
+msgid "Energy Prediction Analysis"
+msgstr "Analisi di previsione energetica"
+
+msgid "Space Comparison Analysis"
+msgstr "Analisi di Confronto degli Spazi"
+
+msgid "Energy Item Analysis"
+msgstr "Analisi delle Voci Energetiche"
+
+
+msgid "Energy Consumption Analysis"
+msgstr "Analisi dei Consumi Energetici"

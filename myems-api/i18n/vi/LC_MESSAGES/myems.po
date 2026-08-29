@@ -81,6 +81,14 @@ msgstr "Tấn khí thải carbon dioxide (TCO2E) theo loại năng lượng"
 msgid "Energy Analysis"
 msgstr "Phân tích Năng lượng"
 
+msgid "Energy Saving Analysis"
+msgstr "Phân tích Tiết kiệm Năng lượng"
+
+msgid "Energy Plan Analysis"
+msgstr "Phân tích Kế hoạch Năng lượng"
+
+
+
 msgid "Space Data - Energy Category Analysis"
 msgstr "Dữ liệu không gian - Phân tích phân loại năng lượng"
 
@@ -142,8 +150,14 @@ msgstr "Thời gian cơ sở Hiệu quả tích lũy"
 msgid "Reporting Period Cumulative Efficiency"
 msgstr "Kỳ báo cáo Hiệu quả tích lũy"
 
+msgid "Efficiency"
+msgstr "Hiệu quả"
+
 msgid "Cumulative Efficiency"
 msgstr "Hiệu quả tích lũy"
+
+msgid "Income"
+msgstr "Thu nhập"
 
 msgid "Base Period Income"
 msgstr "Thu nhập thời kỳ cơ sở"
@@ -199,8 +213,16 @@ msgstr "Ra"
 msgid "Base Period Saving"
 msgstr "Tiết kiệm thời gian cơ bản"
 
+msgid "Base Period Plan"
+msgstr "Kế hoạch Kỳ Cơ sở"
+
+
 msgid "Reporting Period Saving"
 msgstr "Tiết kiệm kỳ báo cáo"
+
+msgid "Reporting Period Plan"
+msgstr "Kế hoạch Kỳ Báo cáo"
+
 
 msgid "Baseline"
 msgstr "Baseline"
@@ -210,6 +232,10 @@ msgstr "Thực tế"
 
 msgid "Saving"
 msgstr "Tiết kiệm"
+
+msgid "Plan"
+msgstr "Kế hoạch"
+
 
 msgid "Decreased"
 msgstr "Giảm"
@@ -372,3 +398,17 @@ msgstr "Chi phí"
 
 msgid "Carbon"
 msgstr "Khí thải CO2"
+
+
+msgid "Energy Prediction Analysis"
+msgstr "Phân tích dự báo năng lượng"
+
+msgid "Space Comparison Analysis"
+msgstr "Phân tích So sánh Không gian"
+
+msgid "Energy Item Analysis"
+msgstr "Phân tích Hạng mục Năng lượng"
+
+
+msgid "Energy Consumption Analysis"
+msgstr "Phân tích Tiêu thụ Năng lượng"
