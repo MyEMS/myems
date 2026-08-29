@@ -100,7 +100,8 @@ def generate_excel(report,
                    period_type,
                    language):
     trans = get_translation(language)
-    trans.install()
+    # Do NOT call trans.install() - it modifies global builtins._
+    # which causes language cross-contamination in concurrent requests.
     _ = trans.gettext
     wb = Workbook()
     ws = wb.active
@@ -328,6 +329,9 @@ def generate_excel(report,
                 current_sheet_parameters_row_number = current_row_number
                 real_timestamps_len = timestamps_data_not_equal_0(report['parameters']['timestamps'])
                 current_row_number += 6*real_timestamps_len + 2
+            else:
+                # reserve space for charts even when no parameters data
+                current_row_number += ca_len * 6 + 1
 
             ws['B' + str(current_row_number)].font = title_font
             ws['B' + str(current_row_number)] = name + ' ' + _('Detailed Data')
@@ -438,6 +442,9 @@ def generate_excel(report,
                 current_sheet_parameters_row_number = current_row_number
                 real_timestamps_len = timestamps_data_not_equal_0(report['parameters']['timestamps'])
                 current_row_number += 6*real_timestamps_len + 2
+            else:
+                # reserve space for chart even when no parameters data
+                current_row_number += reporting_period_data_ca_len * 6 + 1
 
             ws['B' + str(current_row_number)].font = title_font
             ws['B' + str(current_row_number)] = name + ' ' + _('Detailed Data')

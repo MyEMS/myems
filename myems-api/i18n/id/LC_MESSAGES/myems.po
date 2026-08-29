@@ -81,6 +81,14 @@ msgstr "Ton Emisi Dioksida Karbon (TCO2E) Sebagai Persentase"
 msgid "Energy Analysis"
 msgstr "Analisis Energi"
 
+msgid "Energy Saving Analysis"
+msgstr "Analisis Penghematan Energi"
+
+msgid "Energy Plan Analysis"
+msgstr "Analisis Rencana Energi"
+
+
+
 msgid "Space Data - Energy Category Analysis"
 msgstr "Data Ruang - Analisis Klasifikasi Energi"
 
@@ -142,8 +150,14 @@ msgstr "Efisiensi Kumulatif Periode Dasar"
 msgid "Reporting Period Cumulative Efficiency"
 msgstr "Efisiensi Kumulatif Selama Periode Laporan"
 
+msgid "Efficiency"
+msgstr "Efisiensi"
+
 msgid "Cumulative Efficiency"
 msgstr "Efisiensi Kumulatif"
+
+msgid "Income"
+msgstr "Pendapatan"
 
 msgid "Base Period Income"
 msgstr "Waktu Dasar Pendapatan"
@@ -199,8 +213,16 @@ msgstr "Output"
 msgid "Base Period Saving"
 msgstr "Basis Period Savings"
 
+msgid "Base Period Plan"
+msgstr "Rencana Periode Dasar"
+
+
 msgid "Reporting Period Saving"
 msgstr "Reporting Period Savings"
+
+msgid "Reporting Period Plan"
+msgstr "Rencana Periode Pelaporan"
+
 
 msgid "Baseline"
 msgstr "Baseline"
@@ -210,6 +232,10 @@ msgstr "Aktual"
 
 msgid "Saving"
 msgstr "Simpan"
+
+msgid "Plan"
+msgstr "Rencana"
+
 
 msgid "Decreased"
 msgstr "Reduce"
@@ -372,3 +398,17 @@ msgstr "Biaya"
 
 msgid "Carbon"
 msgstr "Emisi CO2"
+
+
+msgid "Energy Prediction Analysis"
+msgstr "Analisis Prediksi Energi"
+
+msgid "Space Comparison Analysis"
+msgstr "Analisis Perbandingan Ruang"
+
+msgid "Energy Item Analysis"
+msgstr "Analisis Item Energi"
+
+
+msgid "Energy Consumption Analysis"
+msgstr "Analisis Konsumsi Energi"

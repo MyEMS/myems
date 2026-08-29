@@ -81,6 +81,14 @@ msgstr "ตันของการปล่อยก๊าซคาร์บอ
 msgid "Energy Analysis"
 msgstr "การวิเคราะห์พลังงาน"
 
+msgid "Energy Saving Analysis"
+msgstr "การวิเคราะห์การประหลัดพลังงาน"
+
+msgid "Energy Plan Analysis"
+msgstr "การวิเคราะห์แผนพลังงาน"
+
+
+
 msgid "Space Data - Energy Category Analysis"
 msgstr "ข้อมูลพื้นที่ - การวิเคราะห์จัดหมู่พลังงาน"
 
@@ -142,8 +150,14 @@ msgstr "ประสิทธิภาพการสะสมของระย
 msgid "Reporting Period Cumulative Efficiency"
 msgstr "รอบระยะเวลารายงาน ประสิทธิภาพสะสม"
 
+msgid "Efficiency"
+msgstr "ประสิทธิภาพ"
+
 msgid "Cumulative Efficiency"
 msgstr "ประสิทธิภาพสะสม"
+
+msgid "Income"
+msgstr "รายได้"
 
 msgid "Base Period Income"
 msgstr "รายได้งวดฐาน"
@@ -199,8 +213,16 @@ msgstr "ผลิตภัณฑ์"
 msgid "Base Period Saving"
 msgstr "การออมระยะเวลาพื้นฐาน"
 
+msgid "Base Period Plan"
+msgstr "แผนช่วงพื้นฐาน"
+
+
 msgid "Reporting Period Saving"
 msgstr "การบันทึกรอบระยะเวลารายงาน"
+
+msgid "Reporting Period Plan"
+msgstr "แผนช่วงรายงาน"
+
 
 msgid "Baseline"
 msgstr "พื้นฐาน"
@@ -210,6 +232,10 @@ msgstr "จริง"
 
 msgid "Saving"
 msgstr "การประหยัด"
+
+msgid "Plan"
+msgstr "แผน"
+
 
 msgid "Decreased"
 msgstr "ลดลง"
@@ -372,3 +398,17 @@ msgstr "ค่าใช้จ่าย"
 
 msgid "Carbon"
 msgstr "การปล่อยกา๊สคาร์บอนได้อักษพาธ"
+
+
+msgid "Energy Prediction Analysis"
+msgstr "การวิเคราะห์ทำนายพลังงาน"
+
+msgid "Space Comparison Analysis"
+msgstr "การวิเคราะห์เปรียบเทียบพื้นที่"
+
+msgid "Energy Item Analysis"
+msgstr "การวิเคราะห์รายการพลังงาน"
+
+
+msgid "Energy Consumption Analysis"
+msgstr "การวิเคราะห์การบริโภคพลังงาน"

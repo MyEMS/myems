@@ -81,6 +81,14 @@ msgstr "Ton of Carbon Dioxide Emissions(TCO2E) by Energy Category"
 msgid "Energy Analysis"
 msgstr "Energieanalyse"
 
+msgid "Energy Saving Analysis"
+msgstr "Analyse van Energiebesparing"
+
+msgid "Energy Plan Analysis"
+msgstr "Energieplan Analyse"
+
+
+
 msgid "Space Data - Energy Category Analysis"
 msgstr "Ruimtedata - Energiecategorie-analyse"
 
@@ -142,8 +150,14 @@ msgstr "Base Period Cumulative Efficiency"
 msgid "Reporting Period Cumulative Efficiency"
 msgstr "Reporting Period Cumulative Efficiency"
 
+msgid "Efficiency"
+msgstr "Efficiëntie"
+
 msgid "Cumulative Efficiency"
 msgstr "Cumulative Efficiency"
+
+msgid "Income"
+msgstr "Inkomen"
 
 msgid "Base Period Income"
 msgstr "Base Period Income"
@@ -199,8 +213,16 @@ msgstr "Output"
 msgid "Base Period Saving"
 msgstr "Base Period Saving"
 
+msgid "Base Period Plan"
+msgstr "Basisperiode Plan"
+
+
 msgid "Reporting Period Saving"
 msgstr "Reporting Period Saving"
+
+msgid "Reporting Period Plan"
+msgstr "Rapportageperiode Plan"
+
 
 msgid "Baseline"
 msgstr "Baseline"
@@ -210,6 +232,10 @@ msgstr "Actual"
 
 msgid "Saving"
 msgstr "Saving"
+
+msgid "Plan"
+msgstr "Plan"
+
 
 msgid "Decreased"
 msgstr "Decreased"
@@ -372,3 +398,17 @@ msgstr "Kosten"
 
 msgid "Carbon"
 msgstr "CO2-uitstootanalyse"
+
+
+msgid "Energy Prediction Analysis"
+msgstr "Energievoorspellingsanalyse"
+
+msgid "Space Comparison Analysis"
+msgstr "Analyse van Ruimtevergelijking"
+
+msgid "Energy Item Analysis"
+msgstr "Energie-item Analyse"
+
+
+msgid "Energy Consumption Analysis"
+msgstr "Analyse van Energieverbruik"

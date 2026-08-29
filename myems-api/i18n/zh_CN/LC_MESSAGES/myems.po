@@ -81,6 +81,14 @@ msgstr "吨二氧化碳排放(TCO2E)占比"
 msgid "Energy Analysis"
 msgstr "能耗分析"
 
+msgid "Energy Saving Analysis"
+msgstr "节能分析"
+
+msgid "Energy Plan Analysis"
+msgstr "计划分析"
+
+
+
 msgid "Space Data - Energy Category Analysis"
 msgstr "空间数据-能耗分类分析"
 
@@ -142,8 +150,14 @@ msgstr "基准期累积效率"
 msgid "Reporting Period Cumulative Efficiency"
 msgstr "报告期累积效率"
 
+msgid "Efficiency"
+msgstr "效率分析"
+
 msgid "Cumulative Efficiency"
 msgstr "累积效率"
+
+msgid "Income"
+msgstr "收入分析"
 
 msgid "Base Period Income"
 msgstr "基准期收入"
@@ -161,7 +175,7 @@ msgid "Proportion"
 msgstr "占比"
 
 msgid "Load"
-msgstr "负荷"
+msgstr "负荷分析"
 
 msgid "Base Period Average Load"
 msgstr "基准期平均负荷"
@@ -194,13 +208,21 @@ msgid "Reporting Period Output"
 msgstr "报告期产出"
 
 msgid "Output"
-msgstr "产出"
+msgstr "产出分析"
 
 msgid "Base Period Saving"
 msgstr "基准期节约"
 
+msgid "Base Period Plan"
+msgstr "基准期计划"
+
+
 msgid "Reporting Period Saving"
 msgstr "报告期节约"
+
+msgid "Reporting Period Plan"
+msgstr "报告期计划"
+
 
 msgid "Baseline"
 msgstr "基线"
@@ -210,6 +232,10 @@ msgstr "实际"
 
 msgid "Saving"
 msgstr "节约"
+
+msgid "Plan"
+msgstr "计划"
+
 
 msgid "Decreased"
 msgstr "减少"
@@ -372,3 +398,17 @@ msgstr "成本"
 
 msgid "Carbon"
 msgstr "碳排放分析"
+
+
+msgid "Energy Prediction Analysis"
+msgstr "预测分析"
+
+msgid "Space Comparison Analysis"
+msgstr "空间对比分析"
+
+msgid "Energy Item Analysis"
+msgstr "能耗分项分析"
+
+
+msgid "Energy Consumption Analysis"
+msgstr "消耗分析"

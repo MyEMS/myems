@@ -81,6 +81,14 @@ msgstr "Tonnes d’émissions de dioxyde de carbone (TCO2E) par catégorie d’�
 msgid "Energy Analysis"
 msgstr "Analyse Énergétique"
 
+msgid "Energy Saving Analysis"
+msgstr "Analyse des Économies d'Énergie"
+
+msgid "Energy Plan Analysis"
+msgstr "Analyse du Plan Énergétique"
+
+
+
 msgid "Space Data - Energy Category Analysis"
 msgstr "Données spatiales - Analyse de classification énergétique"
 
@@ -142,8 +150,14 @@ msgstr "Efficacité cumulative de la période de référence"
 msgid "Reporting Period Cumulative Efficiency"
 msgstr "Période visée par le rapport Efficience cumulative"
 
+msgid "Efficiency"
+msgstr "Efficacité"
+
 msgid "Cumulative Efficiency"
 msgstr "Efficacité cumulative"
+
+msgid "Income"
+msgstr "Revenu"
 
 msgid "Base Period Income"
 msgstr "Revenu de la période de référence"
@@ -199,8 +213,16 @@ msgstr "Sortie"
 msgid "Base Period Saving"
 msgstr "Économie de la période de référence"
 
+msgid "Base Period Plan"
+msgstr "Plan de la Période de Base"
+
+
 msgid "Reporting Period Saving"
 msgstr "Économies de la période de déclaration"
+
+msgid "Reporting Period Plan"
+msgstr "Plan de la Période de Rapport"
+
 
 msgid "Baseline"
 msgstr "Ligne de base"
@@ -210,6 +232,10 @@ msgstr "Réel"
 
 msgid "Saving"
 msgstr "Épargne"
+
+msgid "Plan"
+msgstr "Plan"
+
 
 msgid "Decreased"
 msgstr "Diminué"
@@ -372,3 +398,17 @@ msgstr "Coûts"
 
 msgid "Carbon"
 msgstr "Émissions de CO2"
+
+
+msgid "Energy Prediction Analysis"
+msgstr "Analyse de prédiction énergétique"
+
+msgid "Space Comparison Analysis"
+msgstr "Analyse de Comparaison des Espaces"
+
+msgid "Energy Item Analysis"
+msgstr "Analyse des Articles Énergétiques"
+
+
+msgid "Energy Consumption Analysis"
+msgstr "Analyse de la Consommation Énergétique"

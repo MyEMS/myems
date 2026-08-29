@@ -81,6 +81,14 @@ msgstr "Enerji Kategorisine Göre Tonlarca Karbondioksit Emisyonu (TCO2E)"
 msgid "Energy Analysis"
 msgstr "Enerji Analizi"
 
+msgid "Energy Saving Analysis"
+msgstr "Enerji Tasarrufu Analizi"
+
+msgid "Energy Plan Analysis"
+msgstr "Enerji Planı Analizi"
+
+
+
 msgid "Space Data - Energy Category Analysis"
 msgstr "Alan Verileri - Enerji Kategori Analizi"
 
@@ -142,8 +150,14 @@ msgstr "Baz Dönem Kümülatif Verimlilik"
 msgid "Reporting Period Cumulative Efficiency"
 msgstr "Raporlama Dönemi Kümülatif Verimliliği"
 
+msgid "Efficiency"
+msgstr "Verimlilik"
+
 msgid "Cumulative Efficiency"
 msgstr "Kümülatif Verimlilik"
+
+msgid "Income"
+msgstr "Gelir"
 
 msgid "Base Period Income"
 msgstr "Baz Dönem Geliri"
@@ -199,8 +213,16 @@ msgstr "Çıktı"
 msgid "Base Period Saving"
 msgstr "Baz Dönem Tasarrufu"
 
+msgid "Base Period Plan"
+msgstr "Baz Dönem Planı"
+
+
 msgid "Reporting Period Saving"
 msgstr "Raporlama Dönemi Tasarrufu"
+
+msgid "Reporting Period Plan"
+msgstr "Raporlama Dönemi Planı"
+
 
 msgid "Baseline"
 msgstr "Taban çizgisi"
@@ -210,6 +232,10 @@ msgstr "Gerçek"
 
 msgid "Saving"
 msgstr "Tasarruf"
+
+msgid "Plan"
+msgstr "Plan"
+
 
 msgid "Decreased"
 msgstr "Azal -mış"
@@ -372,3 +398,17 @@ msgstr "Maliyetler"
 
 msgid "Carbon"
 msgstr "CO2 Emisyonları"
+
+
+msgid "Energy Prediction Analysis"
+msgstr "Enerji Tahmin Analizi"
+
+msgid "Space Comparison Analysis"
+msgstr "Alan Karşılaştırma Analizi"
+
+msgid "Energy Item Analysis"
+msgstr "Enerji Kalemi Analizi"
+
+
+msgid "Energy Consumption Analysis"
+msgstr "Enerji Tüketim Analizi"
