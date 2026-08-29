@@ -415,3 +415,6 @@ msgstr "Phân tích Tiêu thụ Năng lượng"
 
 msgid "Batch Analysis"
 msgstr "Phân tích hàng loạt"
+
+msgid "Equipment Comparison"
+msgstr "So sánh Thiết bị"

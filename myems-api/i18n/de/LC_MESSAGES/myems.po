@@ -415,3 +415,6 @@ msgstr "Energieverbrauchs-Analyse"
 
 msgid "Batch Analysis"
 msgstr "Charge Analyse"
+
+msgid "Equipment Comparison"
+msgstr "Ausrüstungsvergleich"

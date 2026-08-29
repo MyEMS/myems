@@ -415,3 +415,6 @@ msgstr "Analyse van Energieverbruik"
 
 msgid "Batch Analysis"
 msgstr "Batchanalyse"
+
+msgid "Equipment Comparison"
+msgstr "Apparatuur Vergelijking"

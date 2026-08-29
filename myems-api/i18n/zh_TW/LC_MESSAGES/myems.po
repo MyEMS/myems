@@ -415,3 +415,6 @@ msgstr "消耗分析"
 
 msgid "Batch Analysis"
 msgstr "批量分析"
+
+msgid "Equipment Comparison"
+msgstr "對比分析"

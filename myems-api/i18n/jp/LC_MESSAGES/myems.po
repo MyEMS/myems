@@ -411,3 +411,6 @@ msgstr "エネルギー消費分析"
 
 msgid "Batch Analysis"
 msgstr "バッチ分析"
+
+msgid "Equipment Comparison"
+msgstr "設備比較"

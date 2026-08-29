@@ -415,3 +415,6 @@ msgstr "Análisis de Consumo de Energía"
 
 msgid "Batch Analysis"
 msgstr "Análisis por Lotes"
+
+msgid "Equipment Comparison"
+msgstr "Comparación de Equipos"

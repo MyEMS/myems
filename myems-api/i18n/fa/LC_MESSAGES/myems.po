@@ -415,3 +415,6 @@ msgstr "تحلیل مصرف انرژی"
 
 msgid "Batch Analysis"
 msgstr "تحلیل دسته‌ای"
+
+msgid "Equipment Comparison"
+msgstr "مقایسه تجهیزات"
