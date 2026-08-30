@@ -1104,17 +1104,25 @@ const EquipmentSaving = ({ setRedirect, setRedirectUrl, t }) => {
               </Col>
               <Col xs="auto">
                 <br />
-                <UncontrolledDropdown>
-                  <DropdownToggle size="sm" color="success" caret hidden={exportButtonHidden}>
+                <UncontrolledDropdown hidden={exportButtonHidden}>
+                  <DropdownToggle
+                    size="sm"
+                    color="falcon-default"
+                    caret
+                  >
                     {t('Export')}
                   </DropdownToggle>
-                  <DropdownMenu>
-                    <DropdownItem onClick={e => handleExport(e, 'excel')} disabled={!excelBytesBase64}>
-                      Excel
-                    </DropdownItem>
-                    <DropdownItem onClick={e => handleExport(e, 'pdf')} disabled={!pdfBytesBase64}>
-                      PDF
-                    </DropdownItem>
+                  <DropdownMenu right>
+                    {excelBytesBase64 ? (
+                      <DropdownItem onClick={e => handleExport(e, 'excel')}>
+                        EXCEL
+                      </DropdownItem>
+                    ) : null}
+                    {pdfBytesBase64 ? (
+                      <DropdownItem onClick={e => handleExport(e, 'pdf')}>
+                        PDF
+                      </DropdownItem>
+                    ) : null}
                   </DropdownMenu>
                 </UncontrolledDropdown>
               </Col>

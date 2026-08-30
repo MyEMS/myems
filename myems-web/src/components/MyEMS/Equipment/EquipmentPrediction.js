@@ -2561,27 +2561,43 @@ const EquipmentPrediction = ({ setRedirect, setRedirectUrl, t }) => {
 
                 <br />
 
-                <UncontrolledDropdown>
+                <UncontrolledDropdown hidden={exportButtonHidden}>
 
-                  <DropdownToggle size="sm" color="success" caret hidden={exportButtonHidden}>
+                  <DropdownToggle
+
+                    size="sm"
+
+                    color="falcon-default"
+
+                    caret
+
+                  >
 
                     {t('Export')}
 
                   </DropdownToggle>
 
-                  <DropdownMenu>
+                  <DropdownMenu right>
 
-                    <DropdownItem onClick={e => handleExport(e, 'excel')} disabled={!excelBytesBase64}>
+                    {excelBytesBase64 ? (
 
-                      Excel
+                      <DropdownItem onClick={e => handleExport(e, 'excel')}>
 
-                    </DropdownItem>
+                        EXCEL
 
-                    <DropdownItem onClick={e => handleExport(e, 'pdf')} disabled={!pdfBytesBase64}>
+                      </DropdownItem>
 
-                      PDF
+                    ) : null}
 
-                    </DropdownItem>
+                    {pdfBytesBase64 ? (
+
+                      <DropdownItem onClick={e => handleExport(e, 'pdf')}>
+
+                        PDF
+
+                      </DropdownItem>
+
+                    ) : null}
 
                   </DropdownMenu>
 
