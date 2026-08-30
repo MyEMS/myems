@@ -441,8 +441,7 @@ const EquipmentStatistics = ({ setRedirect, setRedirectUrl, t }) => {
     // Reinitialize tables
     setDetailedDataTableData([]);
     setPdfBytesBase64(undefined);
-    setExportExcel(false);
-    setExportPdf(false);
+
 
     let isResponseOK = false;
     fetch(
@@ -1037,6 +1036,8 @@ const EquipmentStatistics = ({ setRedirect, setRedirectUrl, t }) => {
                       type="checkbox"
                       id="exportExcel"
                       label="Excel"
+                      bsSize="sm"
+                      inline
                       checked={exportExcel}
                       onChange={e => setExportExcel(e.target.checked)}
                     />
@@ -1044,6 +1045,8 @@ const EquipmentStatistics = ({ setRedirect, setRedirectUrl, t }) => {
                       type="checkbox"
                       id="exportPdf"
                       label="PDF"
+                      bsSize="sm"
+                      inline
                       checked={exportPdf}
                       onChange={e => setExportPdf(e.target.checked)}
                     />

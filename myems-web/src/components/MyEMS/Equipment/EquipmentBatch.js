@@ -222,8 +222,7 @@ const EquipmentBatch = ({ setRedirect, setRedirectUrl, t }) => {
     setResultDataHidden(true);
     // reset export states
     setPdfBytesBase64(undefined);
-    setExportExcel(false);
-    setExportPdf(false);
+
 
     // Reinitialize tables
     setEquipmentList([]);

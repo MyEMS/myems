@@ -439,8 +439,7 @@ const EquipmentIncome = ({ setRedirect, setRedirectUrl, t }) => {
     // hide export button
     setExportButtonHidden(true);
     setPdfBytesBase64(undefined);
-    setExportExcel(false);
-    setExportPdf(false);
+
     // hide result data
     setResultDataHidden(true);
 

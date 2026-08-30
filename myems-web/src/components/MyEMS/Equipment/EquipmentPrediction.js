@@ -354,11 +354,6 @@ const EquipmentPrediction = ({ setRedirect, setRedirectUrl, t }) => {
 
       setPdfBytesBase64(undefined);
 
-      setExportExcel(false);
-
-      setExportPdf(false);
-
-
 
       let isResponseOK = false;
 
@@ -2490,7 +2485,13 @@ const EquipmentPrediction = ({ setRedirect, setRedirectUrl, t }) => {
 
                       id="exportExcel"
 
+                      name="exportExcel"
+
                       label="Excel"
+
+                      bsSize="sm"
+
+                      inline
 
                       checked={exportExcel}
 
@@ -2504,7 +2505,13 @@ const EquipmentPrediction = ({ setRedirect, setRedirectUrl, t }) => {
 
                       id="exportPdf"
 
+                      name="exportPdf"
+
                       label="PDF"
+
+                      bsSize="sm"
+
+                      inline
 
                       checked={exportPdf}
 

@@ -504,8 +504,7 @@ const EquipmentComparison = ({ setRedirect, setRedirectUrl, t }) => {
     setSpinnerHidden(false);
     // hide export button
     setExportButtonHidden(true);
-    setExportExcel(false);
-    setExportPdf(false);
+
     // hide result data
     setResultDataHidden(true);
 

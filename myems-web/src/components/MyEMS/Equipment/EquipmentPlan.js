@@ -447,8 +447,7 @@ const EquipmentPlan = ({ setRedirect, setRedirectUrl, t }) => {
     // Reinitialize tables
     setDetailedDataTableData([]);
     setPdfBytesBase64(undefined);
-    setExportExcel(false);
-    setExportPdf(false);
+
     
     let isResponseOK = false;
     fetch(
@@ -1069,14 +1068,20 @@ const EquipmentPlan = ({ setRedirect, setRedirectUrl, t }) => {
                     <CustomInput
                       type="checkbox"
                       id="exportExcel"
+                      name="exportExcel"
                       label="Excel"
+                      bsSize="sm"
+                      inline
                       checked={exportExcel}
                       onChange={e => setExportExcel(e.target.checked)}
                     />
                     <CustomInput
                       type="checkbox"
                       id="exportPdf"
+                      name="exportPdf"
                       label="PDF"
+                      bsSize="sm"
+                      inline
                       checked={exportPdf}
                       onChange={e => setExportPdf(e.target.checked)}
                     />

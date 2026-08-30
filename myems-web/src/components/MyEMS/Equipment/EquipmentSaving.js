@@ -447,8 +447,7 @@ const EquipmentSaving = ({ setRedirect, setRedirectUrl, t }) => {
     // Reinitialize tables
     setDetailedDataTableData([]);
     setPdfBytesBase64(undefined);
-    setExportExcel(false);
-    setExportPdf(false);
+
 
     let isResponseOK = false;
     fetch(
@@ -1061,12 +1060,17 @@ const EquipmentSaving = ({ setRedirect, setRedirectUrl, t }) => {
               </Col>
               <Col xs="auto">
                 <FormGroup>
-                  <br />
-                  <div className="d-flex align-items-center pt-1">
+                  <Label className={labelClasses}>
+                    {t('Export')}
+                    {t('(Optional)')}
+                  </Label>
+                  <div>
                     <CustomInput
                       type="checkbox"
                       id="exportExcel"
                       label="Excel"
+                      bsSize="sm"
+                      inline
                       checked={exportExcel}
                       onChange={e => setExportExcel(e.target.checked)}
                     />
@@ -1074,6 +1078,8 @@ const EquipmentSaving = ({ setRedirect, setRedirectUrl, t }) => {
                       type="checkbox"
                       id="exportPdf"
                       label="PDF"
+                      bsSize="sm"
+                      inline
                       checked={exportPdf}
                       onChange={e => setExportPdf(e.target.checked)}
                     />
