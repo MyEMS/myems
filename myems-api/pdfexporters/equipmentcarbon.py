@@ -298,7 +298,7 @@ class EquipmentCarbonPDFExporter:
                 logger.warning(f"Failed to load logo image: {e}")
 
         # ===== Title: internationalized "Carbon" (e.g. "碳排放分析" in zh_CN) =====
-        fig.text(0.5, 0.50, _('Carbon'),
+        fig.text(0.5, 0.50, _('Equipment Data') + ' - ' + _('Carbon'),
                  fontsize=24, weight='bold', ha='center', va='center')
 
         # ===== Info list =====

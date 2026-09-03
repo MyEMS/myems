@@ -256,7 +256,7 @@ class EquipmentSavingPDFExporter:
                 logger.warning(f"Failed to load logo image: {e}")
 
         # Title - "Energy Saving Analysis" translates to "节能分析" in zh_CN
-        fig.text(0.5, 0.50, _('Energy Saving Analysis'),
+        fig.text(0.5, 0.50, _('Equipment Data') + ' - ' +_('Energy Saving Analysis'),
                  fontsize=24, weight='bold', ha='center', va='center')
 
         # Info list

@@ -256,7 +256,7 @@ class EquipmentPlanPDFExporter:
                 logger.warning(f"Failed to load logo image: {e}")
 
         # Title
-        fig.text(0.5, 0.50, _('Energy Plan Analysis'),
+        fig.text(0.5, 0.50, _('Equipment Data') + ' - ' +_('Energy Plan Analysis'),
                  fontsize=24, weight='bold', ha='center', va='center')
 
         # Info list

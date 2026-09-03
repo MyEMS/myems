@@ -421,3 +421,9 @@ msgstr "Ausrüstungsvergleich"
 
 msgid "Equipment Tracking"
 msgstr "Ausrüstungsverfolgung"
+
+msgid "Equipment Data"
+msgstr "Ausrüstungsdaten"
+
+msgid "Energy Category Analysis"
+msgstr "Energiekategorieanalyse"

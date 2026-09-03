@@ -421,3 +421,9 @@ msgstr "Confronto Apparecchiature"
 
 msgid "Equipment Tracking"
 msgstr "Tracciamento Apparecchiature"
+
+msgid "Equipment Data"
+msgstr "Dati delle apparecchiature"
+
+msgid "Energy Category Analysis"
+msgstr "Analisi della classificazione energetica"

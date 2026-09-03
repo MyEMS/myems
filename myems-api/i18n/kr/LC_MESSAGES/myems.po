@@ -417,3 +417,9 @@ msgstr "장비 비교"
 
 msgid "Equipment Tracking"
 msgstr "장비 추적"
+
+msgid "Equipment Data"
+msgstr "장비 데이터"
+
+msgid "Energy Category Analysis"
+msgstr "에너지 카테고리 분석"

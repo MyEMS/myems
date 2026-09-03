@@ -421,3 +421,9 @@ msgstr "Perbandingan Peralatan"
 
 msgid "Equipment Tracking"
 msgstr "Pelacakan Peralatan"
+
+msgid "Equipment Data"
+msgstr "Data Peralatan"
+
+msgid "Energy Category Analysis"
+msgstr "Analisis Klasifikasi Energi"

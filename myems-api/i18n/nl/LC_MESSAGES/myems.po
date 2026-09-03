@@ -421,3 +421,9 @@ msgstr "Apparatuur Vergelijking"
 
 msgid "Equipment Tracking"
 msgstr "Apparatuur Tracking"
+
+msgid "Equipment Data"
+msgstr "Apparatuurdata"
+
+msgid "Energy Category Analysis"
+msgstr "Energiecategorie-analyse"

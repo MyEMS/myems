@@ -257,7 +257,7 @@ class EquipmentEfficiencyPDFExporter:
                 logger.warning(f"Failed to load logo image: {e}")
 
         # Title
-        fig.text(0.5, 0.50, _('Efficiency'),
+        fig.text(0.5, 0.50, _('Equipment Data') + ' - ' +_('Efficiency'),
                  fontsize=24, weight='bold', ha='center', va='center')
 
         # Info list

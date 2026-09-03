@@ -268,7 +268,7 @@ class EquipmentPredictionPDFExporter:
                 logger.warning(f"Failed to load logo image: {e}")
 
         # Title
-        fig.text(0.5, 0.50, _('Energy Prediction Analysis'),
+        fig.text(0.5, 0.50, _('Equipment Data') + ' - ' +_('Energy Prediction Analysis'),
                  fontsize=24, weight='bold', ha='center', va='center')
 
         # Info list

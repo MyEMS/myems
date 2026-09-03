@@ -421,3 +421,9 @@ msgstr "Ekipman Karşılaştırması"
 
 msgid "Equipment Tracking"
 msgstr "Ekipman Takibi"
+
+msgid "Equipment Data"
+msgstr "Ekipman Verileri"
+
+msgid "Energy Category Analysis"
+msgstr "Enerji Kategori Analizi"
