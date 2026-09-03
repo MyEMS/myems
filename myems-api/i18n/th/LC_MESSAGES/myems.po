@@ -412,3 +412,12 @@ msgstr "การวิเคราะห์รายการพลังงา
 
 msgid "Energy Consumption Analysis"
 msgstr "การวิเคราะห์การบริโภคพลังงาน"
+
+msgid "Batch Analysis"
+msgstr "การวิเคราะห์ชุด"
+
+msgid "Equipment Comparison"
+msgstr "การเปรียบเทียบอุปกรณ์"
+
+msgid "Equipment Tracking"
+msgstr "การติดตามอุปกรณ์"

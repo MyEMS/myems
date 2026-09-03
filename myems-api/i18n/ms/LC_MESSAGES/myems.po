@@ -412,3 +412,12 @@ msgstr "Analisis Item Tenaga"
 
 msgid "Energy Consumption Analysis"
 msgstr "Analisis Penggunaan Tenaga"
+
+msgid "Batch Analysis"
+msgstr "Analisis Kelompok"
+
+msgid "Equipment Comparison"
+msgstr "Perbandingan Peralatan"
+
+msgid "Equipment Tracking"
+msgstr "Penjejakan Peralatan"

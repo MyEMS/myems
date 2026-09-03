@@ -412,3 +412,12 @@ msgstr "Анализ Энергетических Пунктов"
 
 msgid "Energy Consumption Analysis"
 msgstr "Анализ потребления энергии"
+
+msgid "Batch Analysis"
+msgstr "Анализ партии"
+
+msgid "Equipment Comparison"
+msgstr "Сравнение оборудования"
+
+msgid "Equipment Tracking"
+msgstr "Отслеживание оборудования"
