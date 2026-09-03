@@ -5,6 +5,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 ### Added
+- added docx exporters for space reports in myems-api and myems-web
 ### Changed
 ### Fixed
 ### Removed
