@@ -256,7 +256,7 @@ class EquipmentStatisticsPDFExporter:
                 logger.warning(f"Failed to load logo image: {e}")
 
         # Title - _('Statistics') translates to "统计分析" in zh_CN
-        fig.text(0.5, 0.50, _('Statistics'),
+        fig.text(0.5, 0.50, _('Equipment Data') + ' - ' +_('Statistics'),
                  fontsize=24, weight='bold', ha='center', va='center')
 
         # Info list

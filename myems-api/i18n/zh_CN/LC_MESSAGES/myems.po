@@ -421,3 +421,9 @@ msgstr "对比分析"
 
 msgid "Equipment Tracking"
 msgstr "设备台账"
+
+msgid "Equipment Data"
+msgstr "设备数据"
+
+msgid "Energy Category Analysis"
+msgstr "能耗分类分析"

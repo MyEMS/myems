@@ -421,3 +421,9 @@ msgstr "مقایسه تجهیزات"
 
 msgid "Equipment Tracking"
 msgstr "ردیابی تجهیزات"
+
+msgid "Equipment Data"
+msgstr "داده‌های تجهیزات"
+
+msgid "Energy Category Analysis"
+msgstr "تحلیل دسته‌بندی انرژی"

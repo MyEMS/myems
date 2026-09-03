@@ -257,7 +257,7 @@ class EquipmentOutputPDFExporter:
                 logger.warning(f"Failed to load logo image: {e}")
 
         # Title
-        fig.text(0.5, 0.50, _('Output'),
+        fig.text(0.5, 0.50, _('Equipment Data') + ' - ' +_('Output'),
                  fontsize=24, weight='bold', ha='center', va='center')
 
         # Info list

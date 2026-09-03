@@ -186,7 +186,7 @@ class EquipmentTrackingPDFExporter:
                 logger.warning(f"Failed to load logo image: {e}")
 
         # Title - _('Equipment Tracking') translates to "设备台账" in zh_CN
-        fig.text(0.5, 0.50, _('Equipment Tracking'),
+        fig.text(0.5, 0.50, _('Equipment Data') + ' - ' +_('Equipment Tracking'),
                  fontsize=24, weight='bold', ha='center', va='center')
 
         # Info list

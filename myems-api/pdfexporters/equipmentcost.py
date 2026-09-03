@@ -257,7 +257,7 @@ class EquipmentCostPDFExporter:
                 logger.warning(f"Failed to load logo image: {e}")
 
         # Title - _('Cost') translates to "成本分析" in zh_CN
-        fig.text(0.5, 0.50, _('Cost'),
+        fig.text(0.5, 0.50, _('Equipment Data') + ' - ' +_('Cost'),
                  fontsize=24, weight='bold', ha='center', va='center')
 
         # Info list

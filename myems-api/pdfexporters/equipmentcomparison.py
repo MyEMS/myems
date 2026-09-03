@@ -215,14 +215,14 @@ class EquipmentComparisonPDFExporter:
                 logger.warning(f"Failed to load logo image: {e}")
 
         # Title - _('Equipment Comparison') translates to "对比分析" in zh_CN
-        fig.text(0.5, 0.50, _('Equipment Comparison'),
+        fig.text(0.5, 0.50,_('Equipment Data') + ' - ' +_('Equipment Comparison'),
                  fontsize=24, weight='bold', ha='center', va='center')
 
         # Info list
         unit = self.report.get('energy_category', {}).get('unit_of_measure', '')
         info_data = [
-            [_('Equipment') + '1:', self.equipment1_name],
-            [_('Equipment') + '2:', self.equipment2_name],
+            [_('Equipment Data') + '1:', self.equipment1_name],
+            [_('Equipment Data') + '2:', self.equipment2_name],
             [_('Energy Category') + ':', self.energy_category_name],
             [_('Period Type') + ':', self.period_type],
             [_('Reporting Start Datetime') + ':', self.reporting_start],
