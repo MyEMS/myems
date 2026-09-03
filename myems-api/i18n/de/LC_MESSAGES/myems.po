@@ -412,3 +412,12 @@ msgstr "Energieartikelanalyse"
 
 msgid "Energy Consumption Analysis"
 msgstr "Energieverbrauchs-Analyse"
+
+msgid "Batch Analysis"
+msgstr "Charge Analyse"
+
+msgid "Equipment Comparison"
+msgstr "Ausrüstungsvergleich"
+
+msgid "Equipment Tracking"
+msgstr "Ausrüstungsverfolgung"

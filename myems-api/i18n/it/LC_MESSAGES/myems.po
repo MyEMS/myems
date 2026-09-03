@@ -412,3 +412,12 @@ msgstr "Analisi delle Voci Energetiche"
 
 msgid "Energy Consumption Analysis"
 msgstr "Analisi dei Consumi Energetici"
+
+msgid "Batch Analysis"
+msgstr "Analisi Batch"
+
+msgid "Equipment Comparison"
+msgstr "Confronto Apparecchiature"
+
+msgid "Equipment Tracking"
+msgstr "Tracciamento Apparecchiature"

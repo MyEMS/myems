@@ -412,3 +412,12 @@ msgstr "Enerji Kalemi Analizi"
 
 msgid "Energy Consumption Analysis"
 msgstr "Enerji Tüketim Analizi"
+
+msgid "Batch Analysis"
+msgstr "Toplu Analiz"
+
+msgid "Equipment Comparison"
+msgstr "Ekipman Karşılaştırması"
+
+msgid "Equipment Tracking"
+msgstr "Ekipman Takibi"

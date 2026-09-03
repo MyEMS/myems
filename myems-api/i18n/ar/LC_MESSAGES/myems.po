@@ -412,3 +412,12 @@ msgstr "تحليل عناصر الطاقة"
 
 msgid "Energy Consumption Analysis"
 msgstr "تحليل استهلاك الطاقة"
+
+msgid "Batch Analysis"
+msgstr "تحليل الدفعة"
+
+msgid "Equipment Comparison"
+msgstr "مقارنة المعدات"
+
+msgid "Equipment Tracking"
+msgstr "تتبع المعدات"

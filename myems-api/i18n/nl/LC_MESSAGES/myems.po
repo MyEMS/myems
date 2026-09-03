@@ -412,3 +412,12 @@ msgstr "Energie-item Analyse"
 
 msgid "Energy Consumption Analysis"
 msgstr "Analyse van Energieverbruik"
+
+msgid "Batch Analysis"
+msgstr "Batchanalyse"
+
+msgid "Equipment Comparison"
+msgstr "Apparatuur Vergelijking"
+
+msgid "Equipment Tracking"
+msgstr "Apparatuur Tracking"
