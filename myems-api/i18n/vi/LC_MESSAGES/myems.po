@@ -421,3 +421,9 @@ msgstr "So sánh Thiết bị"
 
 msgid "Equipment Tracking"
 msgstr "Theo dõi Thiết bị"
+
+msgid "Equipment Data"
+msgstr "Dữ liệu thiết bị"
+
+msgid "Energy Category Analysis"
+msgstr "Phân tích phân loại năng lượng"

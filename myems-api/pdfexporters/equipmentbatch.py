@@ -211,7 +211,7 @@ class EquipmentBatchPDFExporter:
                 logger.warning(f"Failed to load logo image: {e}")
 
         # Title - _('Batch Analysis') translates to "批量分析" in zh_CN
-        fig.text(0.5, 0.50, _('Batch Analysis'),
+        fig.text(0.5, 0.50, _('Equipment Data') + ' - ' +_('Batch Analysis'),
                  fontsize=24, weight='bold', ha='center', va='center')
 
         # Info list
@@ -219,7 +219,6 @@ class EquipmentBatchPDFExporter:
             [_('Space') + ':', self.space_name],
             [_('Reporting Start Datetime') + ':', self.reporting_start],
             [_('Reporting End Datetime') + ':', self.reporting_end],
-            [_('Equipment Count') + ':', str(len(self.report.get('equipments', [])))],
         ]
 
         ax_table = fig.add_axes([0.25, 0.10, 0.50, 0.35])

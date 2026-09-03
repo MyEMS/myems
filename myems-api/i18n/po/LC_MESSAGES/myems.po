@@ -417,3 +417,9 @@ msgstr "Porównanie Wyposażenia"
 
 msgid "Equipment Tracking"
 msgstr "Śledzenie Wyposarzenia"
+
+msgid "Equipment Data"
+msgstr "Dane wyposażenia"
+
+msgid "Energy Category Analysis"
+msgstr "Analiza kategorii energii"

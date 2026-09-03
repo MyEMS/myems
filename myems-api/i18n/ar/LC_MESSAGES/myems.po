@@ -421,3 +421,9 @@ msgstr "مقارنة المعدات"
 
 msgid "Equipment Tracking"
 msgstr "تتبع المعدات"
+
+msgid "Equipment Data"
+msgstr "بيانات المعدات"
+
+msgid "Energy Category Analysis"
+msgstr "تحليل تصنيف الطاقة"

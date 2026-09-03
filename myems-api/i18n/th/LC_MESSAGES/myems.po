@@ -421,3 +421,9 @@ msgstr "การเปรียบเทียบอุปกรณ์"
 
 msgid "Equipment Tracking"
 msgstr "การติดตามอุปกรณ์"
+
+msgid "Equipment Data"
+msgstr "ข้อมูลอุปกรณ์"
+
+msgid "Energy Category Analysis"
+msgstr "การวิเคราะห์จัดหมู่พลังงาน"

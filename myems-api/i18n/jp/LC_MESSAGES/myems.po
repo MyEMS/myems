@@ -417,3 +417,9 @@ msgstr "設備比較"
 
 msgid "Equipment Tracking"
 msgstr "設備追跡"
+
+msgid "Equipment Data"
+msgstr "設備データ"
+
+msgid "Energy Category Analysis"
+msgstr "エネルギーカテゴリ分析"
