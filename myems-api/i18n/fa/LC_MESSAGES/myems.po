@@ -427,3 +427,36 @@ msgstr "داده‌های تجهیزات"
 
 msgid "Energy Category Analysis"
 msgstr "تحلیل دسته‌بندی انرژی"
+
+msgid "Meter Data"
+msgstr "داده‌های کنتور"
+
+msgid "Meter Energy"
+msgstr "تحلیل انرژی کنتور"
+
+msgid "Meter Carbon"
+msgstr "تحلیل کربن کنتور"
+
+msgid "Meter Cost"
+msgstr "تحلیل هزینه کنتور"
+
+msgid "Meter Trend"
+msgstr "تحلیل روند کنتور"
+
+msgid "Meter Saving"
+msgstr "تحلیل صرفه‌جویی کنتور"
+
+msgid "Meter Plan"
+msgstr "تحلیل برنامه کنتور"
+
+msgid "Meter Prediction"
+msgstr "تحلیل پیش‌بینی کنتور"
+
+msgid "Prediction"
+msgstr "تحلیل پیش‌بینی"
+
+msgid "Reporting Period Prediction"
+msgstr "پیش‌بینی دوره گزارش"
+
+msgid "Meter Submeters Balance"
+msgstr "تحلیل تعادل کنتور اصلی-فرعی"

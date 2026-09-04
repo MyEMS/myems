@@ -423,3 +423,36 @@ msgstr "Dane wyposażenia"
 
 msgid "Energy Category Analysis"
 msgstr "Analiza kategorii energii"
+
+msgid "Meter Data"
+msgstr "Dane liczników"
+
+msgid "Meter Energy"
+msgstr "Analiza zużycia energii przez liczniki"
+
+msgid "Meter Carbon"
+msgstr "Analiza emisji CO2 przez liczniki"
+
+msgid "Meter Cost"
+msgstr "Analiza kosztów liczników"
+
+msgid "Meter Trend"
+msgstr "Analiza trendów liczników"
+
+msgid "Meter Saving"
+msgstr "Analiza oszczędności energii przez liczniki"
+
+msgid "Meter Plan"
+msgstr "Analiza planistyczna liczników"
+
+msgid "Meter Prediction"
+msgstr "Prognoza licznika"
+
+msgid "Prediction"
+msgstr "Analiza predykcyjna"
+
+msgid "Reporting Period Prediction"
+msgstr "Prognoza w okresie raportowania"
+
+msgid "Meter Submeters Balance"
+msgstr "Analiza bilansu licznika głównego i podliczników"

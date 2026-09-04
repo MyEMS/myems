@@ -427,3 +427,36 @@ msgstr "Dati delle apparecchiature"
 
 msgid "Energy Category Analysis"
 msgstr "Analisi della classificazione energetica"
+
+msgid "Meter Data"
+msgstr "Dati Contatore"
+
+msgid "Meter Energy"
+msgstr "Analisi Consumo Contatore"
+
+msgid "Meter Carbon"
+msgstr "Analisi Emissioni CO2 Contatore"
+
+msgid "Meter Cost"
+msgstr "Analisi Costi Contatore"
+
+msgid "Meter Trend"
+msgstr "Analisi Trend Contatore"
+
+msgid "Meter Saving"
+msgstr "Analisi Risparmio Contatore"
+
+msgid "Meter Plan"
+msgstr "Analisi Piano Contatore"
+
+msgid "Meter Prediction"
+msgstr "Previsione contatore"
+
+msgid "Prediction"
+msgstr "Analisi Previsionale"
+
+msgid "Reporting Period Prediction"
+msgstr "Previsione Periodo Report"
+
+msgid "Meter Submeters Balance"
+msgstr "Analisi Bilanciamento Contatore Principale-Sottocontatori"

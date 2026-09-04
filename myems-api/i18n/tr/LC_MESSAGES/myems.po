@@ -427,3 +427,36 @@ msgstr "Ekipman Verileri"
 
 msgid "Energy Category Analysis"
 msgstr "Enerji Kategori Analizi"
+
+msgid "Meter Data"
+msgstr "Metre"
+
+msgid "Meter Energy"
+msgstr "Sayaç Enerjisi"
+
+msgid "Meter Carbon"
+msgstr "Meter CO2 Emisyonları"
+
+msgid "Meter Cost"
+msgstr "Sayaç Maliyeti"
+
+msgid "Meter Trend"
+msgstr "Ölçüm Trendi"
+
+msgid "Meter Saving"
+msgstr "Sayaç Tasarrufu"
+
+msgid "Meter Plan"
+msgstr "Sayaç Planı"
+
+msgid "Meter Prediction"
+msgstr "Sayaç Tahmini"
+
+msgid "Prediction"
+msgstr "Tahmin"
+
+msgid "Reporting Period Prediction"
+msgstr "Raporlama Dönemi Tahmini"
+
+msgid "Meter Submeters Balance"
+msgstr "Ana Sayaç Alt Sayaç Dengesi"

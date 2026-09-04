@@ -427,3 +427,36 @@ msgstr "Data Peralatan"
 
 msgid "Energy Category Analysis"
 msgstr "Analisis Klasifikasi Tenaga"
+
+msgid "Meter Data"
+msgstr "Meter"
+
+msgid "Meter Energy"
+msgstr "Tenaga Meter"
+
+msgid "Meter Carbon"
+msgstr "Meter Emisi CO2"
+
+msgid "Meter Cost"
+msgstr "Kos Meter"
+
+msgid "Meter Trend"
+msgstr "Meter Trend"
+
+msgid "Meter Saving"
+msgstr "Penjimatan Meter"
+
+msgid "Meter Plan"
+msgstr "Pelan Meter"
+
+msgid "Meter Prediction"
+msgstr "Ramalan Meter"
+
+msgid "Prediction"
+msgstr "Ramalan"
+
+msgid "Reporting Period Prediction"
+msgstr "Ramalan Tempoh Pelaporan"
+
+msgid "Meter Submeters Balance"
+msgstr "Baki Submeter Meter Master"

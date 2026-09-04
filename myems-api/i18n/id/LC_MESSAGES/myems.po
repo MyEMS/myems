@@ -427,3 +427,36 @@ msgstr "Data Peralatan"
 
 msgid "Energy Category Analysis"
 msgstr "Analisis Klasifikasi Energi"
+
+msgid "Meter Data"
+msgstr "Data Meter"
+
+msgid "Meter Energy"
+msgstr "Analis Konsumsi Energi Dari Meter"
+
+msgid "Meter Carbon"
+msgstr "Meter Emisi CO2"
+
+msgid "Meter Cost"
+msgstr "Analisi Biaya Tabel Pengukuran"
+
+msgid "Meter Trend"
+msgstr "Analisi Trend Meters"
+
+msgid "Meter Saving"
+msgstr "Analisis Penyimpanan Energi Dari Ukuran Meter"
+
+msgid "Meter Plan"
+msgstr "Rencana Meteran"
+
+msgid "Meter Prediction"
+msgstr "Prediksi Meter"
+
+msgid "Prediction"
+msgstr "Prediksi"
+
+msgid "Reporting Period Prediction"
+msgstr "Prediksi Periode Pelaporan"
+
+msgid "Meter Submeters Balance"
+msgstr "Analisi Bilansi Tabel Skor Total"

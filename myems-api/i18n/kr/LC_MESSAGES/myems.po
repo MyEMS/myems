@@ -423,3 +423,36 @@ msgstr "장비 데이터"
 
 msgid "Energy Category Analysis"
 msgstr "에너지 카테고리 분석"
+
+msgid "Meter Data"
+msgstr "계량기 데이터"
+
+msgid "Meter Energy"
+msgstr "계량기 에너지 소비 분석"
+
+msgid "Meter Carbon"
+msgstr "계량기 탄소 배출 분석"
+
+msgid "Meter Cost"
+msgstr "계량기 비용 분석"
+
+msgid "Meter Trend"
+msgstr "계량기 추세 분석"
+
+msgid "Meter Saving"
+msgstr "계량기 에너지 절약 분석"
+
+msgid "Meter Plan"
+msgstr "계량기 계획 분석"
+
+msgid "Meter Prediction"
+msgstr "계량기 예측"
+
+msgid "Prediction"
+msgstr "예측 분석"
+
+msgid "Reporting Period Prediction"
+msgstr "보고 기간 예측"
+
+msgid "Meter Submeters Balance"
+msgstr "주계량기 및 부계량기 균형 분석"

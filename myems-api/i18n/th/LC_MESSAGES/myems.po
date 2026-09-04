@@ -427,3 +427,36 @@ msgstr "ข้อมูลอุปกรณ์"
 
 msgid "Energy Category Analysis"
 msgstr "การวิเคราะห์จัดหมู่พลังงาน"
+
+msgid "Meter Data"
+msgstr "แม้ตร์"
+
+msgid "Meter Energy"
+msgstr "เครื่องวัดพลังงาน"
+
+msgid "Meter Carbon"
+msgstr "มาตรวัดการปล่อย CO2"
+
+msgid "Meter Cost"
+msgstr "ค่ามิเตอร์"
+
+msgid "Meter Trend"
+msgstr "เทรนด์มิเตอร์"
+
+msgid "Meter Saving"
+msgstr "ประหยัดมิเตอร์"
+
+msgid "Meter Plan"
+msgstr "แผนมิเตอร์"
+
+msgid "Meter Prediction"
+msgstr "การคาดการณ์มิเตอร์"
+
+msgid "Prediction"
+msgstr "การคาดการณ์"
+
+msgid "Reporting Period Prediction"
+msgstr "การคาดการณ์รอบระยะเวลารายงาน"
+
+msgid "Meter Submeters Balance"
+msgstr "Master Meter Submeters สมดุล"

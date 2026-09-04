@@ -427,3 +427,36 @@ msgstr "بيانات المعدات"
 
 msgid "Energy Category Analysis"
 msgstr "تحليل تصنيف الطاقة"
+
+msgid "Meter Data"
+msgstr "متر"
+
+msgid "Meter Energy"
+msgstr "طاقة المتر"
+
+msgid "Meter Carbon"
+msgstr "متر انبعاثات ثاني أكسيد الكربون"
+
+msgid "Meter Cost"
+msgstr "تكلفة المتر"
+
+msgid "Meter Trend"
+msgstr "متر الاتجاه"
+
+msgid "Meter Saving"
+msgstr "توفير العداد"
+
+msgid "Meter Plan"
+msgstr "خطة العداد"
+
+msgid "Meter Prediction"
+msgstr "تنبؤ العداد"
+
+msgid "Prediction"
+msgstr "تنبؤ"
+
+msgid "Reporting Period Prediction"
+msgstr "التوقعات في الفترة المشمولة بالتقرير"
+
+msgid "Meter Submeters Balance"
+msgstr "ماستر ميتر عدادات فرعية الرصيد"

@@ -427,3 +427,36 @@ msgstr "Apparatuurdata"
 
 msgid "Energy Category Analysis"
 msgstr "Energiecategorie-analyse"
+
+msgid "Meter Data"
+msgstr "Meetgegevens"
+
+msgid "Meter Energy"
+msgstr "Meetmeter energieverbruiksanalyse"
+
+msgid "Meter Carbon"
+msgstr "Meetmeter CO2-uitstootanalyse"
+
+msgid "Meter Cost"
+msgstr "Meetmeter kostenanalyse"
+
+msgid "Meter Trend"
+msgstr "Meetmeter trendanalyse"
+
+msgid "Meter Saving"
+msgstr "Meetmeter energiebesparingsanalyse"
+
+msgid "Meter Plan"
+msgstr "Meetmeter planningsanalyse"
+
+msgid "Meter Prediction"
+msgstr "Meter Voorspellingsanalyse"
+
+msgid "Prediction"
+msgstr "Voorspellingsanalyse"
+
+msgid "Reporting Period Prediction"
+msgstr "Rapportageperiode voorspelling"
+
+msgid "Meter Submeters Balance"
+msgstr "Hoofd-/submeters balansanalyse"

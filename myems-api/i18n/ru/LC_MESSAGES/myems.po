@@ -427,3 +427,36 @@ msgstr "Данные оборудования"
 
 msgid "Energy Category Analysis"
 msgstr "Анализ категорий энергии"
+
+msgid "Meter Data"
+msgstr "Метр"
+
+msgid "Meter Energy"
+msgstr "Счетчик энергии"
+
+msgid "Meter Carbon"
+msgstr "Выбросы CO2 по приборам"
+
+msgid "Meter Cost"
+msgstr "Стоимость счетчика"
+
+msgid "Meter Trend"
+msgstr "Тренд счетчика"
+
+msgid "Meter Saving"
+msgstr "Экономия счетчиков"
+
+msgid "Meter Plan"
+msgstr "Метрический план"
+
+msgid "Meter Prediction"
+msgstr "Прогноз счетчика"
+
+msgid "Prediction"
+msgstr "Прогноз"
+
+msgid "Reporting Period Prediction"
+msgstr "Прогноз в отчетном периоде"
+
+msgid "Meter Submeters Balance"
+msgstr "Весы счетчиков Master Meter"

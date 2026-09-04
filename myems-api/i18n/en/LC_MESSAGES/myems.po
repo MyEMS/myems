@@ -427,3 +427,36 @@ msgstr "Equipment Data"
 
 msgid "Energy Category Analysis"
 msgstr "Energy Category Analysis"
+
+msgid "Meter Data"
+msgstr "Meter Data"
+
+msgid "Meter Energy"
+msgstr "Meter Energy"
+
+msgid "Meter Carbon"
+msgstr "Meter CO2 Emissions"
+
+msgid "Meter Cost"
+msgstr "Meter Cost"
+
+msgid "Meter Trend"
+msgstr "Meter Trend"
+
+msgid "Meter Saving"
+msgstr "Meter Saving"
+
+msgid "Meter Plan"
+msgstr "Meter Plan"
+
+msgid "Meter Prediction"
+msgstr "Meter Prediction"
+
+msgid "Prediction"
+msgstr "Prediction"
+
+msgid "Reporting Period Prediction"
+msgstr "Reporting Period Prediction"
+
+msgid "Meter Submeters Balance"
+msgstr "Master Meter Submeters Balance"

@@ -427,3 +427,36 @@ msgstr "Dados de equipamentos"
 
 msgid "Energy Category Analysis"
 msgstr "Análise de classificação de energia"
+
+msgid "Meter Data"
+msgstr "Medidor"
+
+msgid "Meter Energy"
+msgstr "Energia do medidor"
+
+msgid "Meter Carbon"
+msgstr "Medidor de emissões de CO2"
+
+msgid "Meter Cost"
+msgstr "Custo do medidor"
+
+msgid "Meter Trend"
+msgstr "Tendência do medidor"
+
+msgid "Meter Saving"
+msgstr "Economia do medidor"
+
+msgid "Meter Plan"
+msgstr "Plano do medidor"
+
+msgid "Meter Prediction"
+msgstr "Previsão do medidor"
+
+msgid "Prediction"
+msgstr "Previsão"
+
+msgid "Reporting Period Prediction"
+msgstr "Previsão do período de relatório"
+
+msgid "Meter Submeters Balance"
+msgstr "Master Metro Submeters Equilíbrio"

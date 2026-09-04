@@ -427,3 +427,36 @@ msgstr "Dữ liệu thiết bị"
 
 msgid "Energy Category Analysis"
 msgstr "Phân tích phân loại năng lượng"
+
+msgid "Meter Data"
+msgstr "Mét"
+
+msgid "Meter Energy"
+msgstr "Năng lượng đo"
+
+msgid "Meter Carbon"
+msgstr "Thiết bị phát thải CO2"
+
+msgid "Meter Cost"
+msgstr "Chi phí đồng hồ đo"
+
+msgid "Meter Trend"
+msgstr "Xu hướng đồng hồ đo"
+
+msgid "Meter Saving"
+msgstr "Tiết kiệm đồng hồ"
+
+msgid "Meter Plan"
+msgstr "Kế hoạch đồng hồ"
+
+msgid "Meter Prediction"
+msgstr "Dự đoán đồng hồ"
+
+msgid "Prediction"
+msgstr "Dự báo"
+
+msgid "Reporting Period Prediction"
+msgstr "Dự báo kỳ báo cáo"
+
+msgid "Meter Submeters Balance"
+msgstr "Master Meter Submeters Balance"

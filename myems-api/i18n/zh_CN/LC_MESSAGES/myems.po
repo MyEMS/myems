@@ -427,3 +427,36 @@ msgstr "设备数据"
 
 msgid "Energy Category Analysis"
 msgstr "能耗分类分析"
+
+msgid "Meter Data"
+msgstr "计量表数据"
+
+msgid "Meter Energy"
+msgstr "计量表能耗分析"
+
+msgid "Meter Carbon"
+msgstr "计量表碳排放分析"
+
+msgid "Meter Cost"
+msgstr "计量表成本分析"
+
+msgid "Meter Trend"
+msgstr "计量表趋势分析"
+
+msgid "Meter Saving"
+msgstr "计量表节能分析"
+
+msgid "Meter Plan"
+msgstr "计量表计划分析"
+
+msgid "Meter Prediction"
+msgstr "计量表预测分析"
+
+msgid "Prediction"
+msgstr "预测分析"
+
+msgid "Reporting Period Prediction"
+msgstr "报告期预测"
+
+msgid "Meter Submeters Balance"
+msgstr "总分表平衡分析"
