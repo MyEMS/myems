@@ -328,7 +328,7 @@ class MeterTrendPDFExporter:
             return
 
         num_rows = len(time_axis)
-        rows_per_page = 50
+        rows_per_page = 30  # 50 rows overflow the page and clip rows, see doc 3.5
         num_pages = (num_rows + rows_per_page - 1) // rows_per_page
         marker_step = max(1, rows_per_page // 15)
 
@@ -360,8 +360,9 @@ class MeterTrendPDFExporter:
             fig.suptitle(self.name + ' ' + _('Trend'),
                          fontsize=16, weight='bold', y=0.98)
 
-            gs = gridspec.GridSpec(2, 1, height_ratios=[0.55, 0.45], hspace=0.25)
-            ax_table = fig.add_subplot(gs[0])
+            # Fixed axes instead of GridSpec: the table is pinned to its box via
+            # bbox so that all rows stay inside the page.
+            ax_table = fig.add_axes([0.06, 0.42, 0.88, 0.50])
             ax_table.axis('off')
 
             # Build table rows; values rounded to 3 decimals (matches Excel)
@@ -377,7 +378,8 @@ class MeterTrendPDFExporter:
                 table_data.append(row)
 
             table = ax_table.table(cellText=table_data, loc='center',
-                                   cellLoc='center', colWidths=col_widths)
+                                   cellLoc='center', colWidths=col_widths,
+                                   bbox=[0, 0, 1, 1])
             table.auto_set_font_size(False)
             table.set_fontsize(fontsize)
 
@@ -388,7 +390,7 @@ class MeterTrendPDFExporter:
             _style_table_borders(table, len(table_data), num_cols)
 
             # Combined multi-series line chart of the current page
-            ax_chart = fig.add_subplot(gs[1])
+            ax_chart = fig.add_axes([0.08, 0.11, 0.84, 0.26])
             for i in range(ca_len):
                 series_vals = []
                 for j in range(start_row, end_row):
@@ -412,7 +414,6 @@ class MeterTrendPDFExporter:
             ax_chart.legend(fontsize=6, loc='best', ncol=legend_ncol, framealpha=0.6)
             ax_chart.grid(True, alpha=0.3)
 
-            plt.tight_layout(rect=[0, 0, 1, 0.96])
             pdf.savefig(fig)
             plt.close()
 
@@ -439,7 +440,7 @@ class MeterTrendPDFExporter:
 
         # Batch 4 parameters per page
         batch_size = 4
-        rows_per_param = 25
+        rows_per_param = 12  # a quarter-page slot holds about 12 readable rows
         num_batches = (len(param_names) + batch_size - 1) // batch_size
 
         for batch in range(num_batches):
@@ -461,7 +462,7 @@ class MeterTrendPDFExporter:
                          fontsize=16, weight='bold', y=0.98)
 
             gs = gridspec.GridSpec(len(valid_params), 2, width_ratios=[0.35, 0.65],
-                                   hspace=0.30)
+                                   hspace=0.50)
 
             for idx, pi in enumerate(valid_params):
                 param_name = param_names[pi]
@@ -469,7 +470,7 @@ class MeterTrendPDFExporter:
                 data = values[pi]
                 data_len = len(times)
 
-                # Compact table (first 25 rows)
+                # Compact table (first 12 rows)
                 ax_tbl = fig.add_subplot(gs[idx, 0])
                 ax_tbl.axis('off')
                 tbl_rows = min(rows_per_param, data_len)
@@ -477,7 +478,8 @@ class MeterTrendPDFExporter:
                 for j in range(tbl_rows):
                     tbl_data.append([times[j], str(round2(data[j], 2))])
                 tbl = ax_tbl.table(cellText=tbl_data, loc='upper center',
-                                   cellLoc='center', colWidths=[0.5, 0.5])
+                                   cellLoc='center', colWidths=[0.5, 0.5],
+                                   bbox=[0, 0, 1, 1])
                 tbl.auto_set_font_size(False)
                 tbl.set_fontsize(5)
                 tbl[0, 0].set_facecolor(self.colors['table_header'])
@@ -495,8 +497,9 @@ class MeterTrendPDFExporter:
                 ax_chart.fill_between(range(data_len), data, alpha=0.15, color='#5B9BD5')
                 step = max(1, data_len // 8)
                 ax_chart.set_xticks(range(0, data_len, step))
-                ax_chart.set_xticklabels([times[t] for t in range(0, data_len, step)],
-                                         rotation=45, ha='right', fontsize=6)
+                ax_chart.set_xticklabels([str(times[t])[5:16].replace('T', ' ')
+                                          for t in range(0, data_len, step)],
+                                         rotation=45, ha='right', fontsize=5)
                 ax_chart.set_ylabel(param_name, fontsize=8)
                 ax_chart.set_title(_('Parameters') + ' - ' + param_name,
                                    fontsize=9, weight='bold')

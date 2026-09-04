@@ -396,7 +396,7 @@ class MeterCarbonPDFExporter:
         category_label = self.energy_category_name + " (" + self.unit_of_measure + ")"
         chart_title = _('Reporting Period Carbon Dioxide Emissions') + ' - ' + category_label
 
-        rows_per_page = 50
+        rows_per_page = 30  # 50 rows overflow the page and clip rows, see doc 3.5
 
         if not self.is_base_period_exists:
             if len(reporting_times) == 0:
@@ -412,8 +412,7 @@ class MeterCarbonPDFExporter:
                 fig.suptitle(self.name + ' ' + _('Detailed Data'),
                              fontsize=16, weight='bold', y=0.98)
 
-                gs = gridspec.GridSpec(2, 1, height_ratios=[0.55, 0.45])
-                ax_table = fig.add_subplot(gs[0])
+                ax_table = fig.add_axes([0.06, 0.42, 0.88, 0.50])
                 ax_table.axis('off')
 
                 col_headers = [_('Datetime'), category_label]
@@ -428,7 +427,8 @@ class MeterCarbonPDFExporter:
 
                 num_cols = len(col_headers)
                 table = ax_table.table(cellText=table_data, loc='center',
-                                       cellLoc='center', colWidths=[0.5, 0.5])
+                                       cellLoc='center', colWidths=[0.5, 0.5],
+                                       bbox=[0, 0, 1, 1])
                 table.auto_set_font_size(False)
                 table.set_fontsize(7)
 
@@ -442,7 +442,7 @@ class MeterCarbonPDFExporter:
                 _style_table_borders(table, len(table_data), num_cols)
 
                 # Line chart of the current page
-                ax_chart = fig.add_subplot(gs[1])
+                ax_chart = fig.add_axes([0.08, 0.11, 0.84, 0.26])
                 page_data = reporting_values[start_row:end_row]
                 ax_chart.plot(range(len(page_data)), page_data, linewidth=1.2,
                               color=self.colors['chart_colors'][0],
@@ -457,7 +457,6 @@ class MeterCarbonPDFExporter:
                 ax_chart.legend(fontsize=7, loc='upper right')
                 ax_chart.grid(True, alpha=0.3)
 
-                plt.tight_layout()
                 pdf.savefig(fig)
                 plt.close()
         else:
@@ -481,8 +480,7 @@ class MeterCarbonPDFExporter:
                 fig.suptitle(self.name + ' ' + _('Detailed Data'),
                              fontsize=16, weight='bold', y=0.98)
 
-                gs = gridspec.GridSpec(2, 1, height_ratios=[0.55, 0.45])
-                ax_table = fig.add_subplot(gs[0])
+                ax_table = fig.add_axes([0.06, 0.42, 0.88, 0.50])
                 ax_table.axis('off')
 
                 col_headers = [
@@ -509,7 +507,8 @@ class MeterCarbonPDFExporter:
 
                 num_cols = len(col_headers)
                 table = ax_table.table(cellText=table_data, loc='center',
-                                       cellLoc='center', colWidths=[0.25] * num_cols)
+                                       cellLoc='center', colWidths=[0.25] * num_cols,
+                                       bbox=[0, 0, 1, 1])
                 table.auto_set_font_size(False)
                 table.set_fontsize(6)
 
@@ -523,7 +522,7 @@ class MeterCarbonPDFExporter:
                 _style_table_borders(table, len(table_data), num_cols)
 
                 # Line chart of the current page, base period and reporting period overlaid
-                ax_chart = fig.add_subplot(gs[1])
+                ax_chart = fig.add_axes([0.08, 0.11, 0.84, 0.26])
                 page_data = reporting_values[start_row:min(end_row, len(reporting_values))]
                 ax_chart.plot(range(len(page_data)), page_data, linewidth=1.2,
                               color=self.colors['chart_colors'][0],
@@ -549,7 +548,6 @@ class MeterCarbonPDFExporter:
                 ax_chart.legend(fontsize=7, loc='upper right')
                 ax_chart.grid(True, alpha=0.3)
 
-                plt.tight_layout()
                 pdf.savefig(fig)
                 plt.close()
 
@@ -576,7 +574,7 @@ class MeterCarbonPDFExporter:
 
         # Batch 4 parameters per page
         batch_size = 4
-        rows_per_param = 25
+        rows_per_param = 12  # a quarter-page slot holds about 12 readable rows
         num_batches = (len(param_names) + batch_size - 1) // batch_size
 
         for batch in range(num_batches):
@@ -598,7 +596,7 @@ class MeterCarbonPDFExporter:
                          fontsize=16, weight='bold', y=0.98)
 
             gs = gridspec.GridSpec(len(valid_params), 2, width_ratios=[0.35, 0.65],
-                                   hspace=0.30)
+                                   hspace=0.50)
 
             for idx, pi in enumerate(valid_params):
                 param_name = param_names[pi]
@@ -606,7 +604,7 @@ class MeterCarbonPDFExporter:
                 data = values[pi]
                 data_len = len(times)
 
-                # Compact table (first 25 rows)
+                # Compact table (first 12 rows)
                 ax_tbl = fig.add_subplot(gs[idx, 0])
                 ax_tbl.axis('off')
                 tbl_rows = min(rows_per_param, data_len)
@@ -614,7 +612,8 @@ class MeterCarbonPDFExporter:
                 for j in range(tbl_rows):
                     tbl_data.append([times[j], str(round2(data[j], 2))])
                 tbl = ax_tbl.table(cellText=tbl_data, loc='upper center',
-                                   cellLoc='center', colWidths=[0.5, 0.5])
+                                   cellLoc='center', colWidths=[0.5, 0.5],
+                                   bbox=[0, 0, 1, 1])
                 tbl.auto_set_font_size(False)
                 tbl.set_fontsize(5)
                 tbl[0, 0].set_facecolor(self.colors['table_header'])
@@ -632,8 +631,9 @@ class MeterCarbonPDFExporter:
                 ax_chart.fill_between(range(data_len), data, alpha=0.15, color='#5B9BD5')
                 step = max(1, data_len // 8)
                 ax_chart.set_xticks(range(0, data_len, step))
-                ax_chart.set_xticklabels([times[t] for t in range(0, data_len, step)],
-                                         rotation=45, ha='right', fontsize=6)
+                ax_chart.set_xticklabels([str(times[t])[5:16].replace('T', ' ')
+                                          for t in range(0, data_len, step)],
+                                         rotation=45, ha='right', fontsize=5)
                 ax_chart.set_ylabel(param_name, fontsize=8)
                 ax_chart.set_title(_('Parameters') + ' - ' + param_name,
                                    fontsize=9, weight='bold')
