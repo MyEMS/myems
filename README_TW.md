@@ -3,7 +3,7 @@
 </p>
 <h1 align="center" style="margin: 30px 0 30px; font-weight: bold;">MyEMS v6.8.0</h1>
 <h3 align="center">業界領先的開源能源管理系統</h3>
-<h6 align="center">上千個專案案例</h6>
+<h6 align="center">上千個專案案例，榮獲CMA檢測認證</h6>
 <h6 align="center">承諾永久開源</h6>
 <h6 align="center">QQ群和微信群內技術支援免費</h6>
 <h6 align="center">保持更新，每月發布1個小版本，每年發布1個大版本</h6>

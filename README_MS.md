@@ -3,7 +3,7 @@
 </p>
 <h1 align="center" style="margin: 30px 0 30px; font-weight: bold;">MyEMS v6.8.0</h1>
 <h3 align="center">Sistem pengurusan tenaga sumber terbuka terkemuka industri</h3>
-<h6 align="center">Lebih daripada seribu kes projek</h6>
+<h6 align="center">Lebih daripada seribu kes projek, menerima pensijilan ujian CMA</h6>
 <h6 align="center">Berkomitmen untuk kekal sumber terbuka selama-lamanya</h6>
 <h6 align="center">Sokongan teknikal percuma dalam kumpulan QQ dan WeChat</h6>
 <h6 align="center">Penyelenggaraan berterusan, 1 versi minor setiap bulan, 1 versi major setiap tahun</h6>

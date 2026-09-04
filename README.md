@@ -3,7 +3,7 @@
 </p>
 <h1 align="center" style="margin: 30px 0 30px; font-weight: bold;">MyEMS v6.8.0</h1>
 <h3 align="center">Industry Leading Open Source Energy Management System</h3>
-<h6 align="center">Nearly a thousand project cases</h6>
+<h6 align="center">Nearly a thousand project cases, awarded CMA testing certification</h6>
 <h6 align="center">Commitment to permanent open source</h6>
 <h6 align="center">Free technical support within QQ and WeChat groups</h6>
 <h6 align="center">Keep updating, release one small version every month and one large version every year</h6>

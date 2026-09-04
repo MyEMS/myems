@@ -3,7 +3,7 @@
 </p>
 <h1 align="center" style="margin: 30px 0 30px; font-weight: bold;">MyEMS v6.8.0</h1>
 <h3 align="center">Sistem manajemen energi open source terdepan di industri</h3>
-<h6 align="center">Lebih dari seribu kasus proyek</h6>
+<h6 align="center">Lebih dari seribu kasus proyek, meraih sertifikasi pengujian CMA</h6>
 <h6 align="center">Berkomitmen untuk tetap open source selamanya</h6>
 <h6 align="center">Dukungan teknis gratis di grup QQ dan WeChat</h6>
 <h6 align="center">Pemeliharaan berkelanjutan, 1 versi minor per bulan, 1 versi mayor per tahun</h6>
