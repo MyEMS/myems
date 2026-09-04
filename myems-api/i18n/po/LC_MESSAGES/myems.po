@@ -456,3 +456,9 @@ msgstr "Prognoza w okresie raportowania"
 
 msgid "Meter Submeters Balance"
 msgstr "Analiza bilansu licznika głównego i podliczników"
+
+msgid "Meter Comparison"
+msgstr "Analiza porównawcza liczników"
+
+msgid "Meter Tracking"
+msgstr "Rejestr liczników"

@@ -460,3 +460,9 @@ msgstr "Previsione Periodo Report"
 
 msgid "Meter Submeters Balance"
 msgstr "Analisi Bilanciamento Contatore Principale-Sottocontatori"
+
+msgid "Meter Comparison"
+msgstr "Analisi Comparativa Contatori"
+
+msgid "Meter Tracking"
+msgstr "Registro Contatori"

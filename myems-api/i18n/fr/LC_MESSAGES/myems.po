@@ -460,3 +460,9 @@ msgstr "Prédiction de la période de déclaration"
 
 msgid "Meter Submeters Balance"
 msgstr "Balance des sous-compteurs du compteur maître"
+
+msgid "Meter Comparison"
+msgstr "Comparaison de compteurs"
+
+msgid "Meter Tracking"
+msgstr "Compteurs Suivi"

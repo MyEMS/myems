@@ -456,3 +456,9 @@ msgstr "보고 기간 예측"
 
 msgid "Meter Submeters Balance"
 msgstr "주계량기 및 부계량기 균형 분석"
+
+msgid "Meter Comparison"
+msgstr "계량기 비교 분석"
+
+msgid "Meter Tracking"
+msgstr "계량기 대장"

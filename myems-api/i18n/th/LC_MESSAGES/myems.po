@@ -460,3 +460,9 @@ msgstr "การคาดการณ์รอบระยะเวลารา
 
 msgid "Meter Submeters Balance"
 msgstr "Master Meter Submeters สมดุล"
+
+msgid "Meter Comparison"
+msgstr "การเปรียบเทียบมิเตอร์"
+
+msgid "Meter Tracking"
+msgstr "การติดตามมิเตอร์"

@@ -42,6 +42,7 @@ import simplejson as json
 from anytree import AnyNode, LevelOrderIter
 import config
 import excelexporters.meterbatch
+import pdfexporters.meterbatch
 from core.useractivity import access_control, api_key_control
 
 logger = logging.getLogger(__name__)
@@ -74,6 +75,8 @@ class Reporting:
         reporting_period_end_datetime_local = req.params.get('reportingperiodenddatetime')
         language = req.params.get('language')
         quick_mode = req.params.get('quickmode')
+        export_excel = req.params.get('exportexcel')
+        export_pdf = req.params.get('exportpdf')
 
         ################################################################################################################
         # Step 1: valid parameters
@@ -136,6 +139,20 @@ class Reporting:
                 str.lower(str.strip(quick_mode)) in ('true', 't', 'on', 'yes', 'y'):
             is_quick_mode = True
 
+        # export to Excel file only when explicitly requested
+        is_export_excel = False
+        if export_excel is not None and \
+                len(str.strip(export_excel)) > 0 and \
+                str.lower(str.strip(export_excel)) in ('true', 't', 'on', 'yes', 'y'):
+            is_export_excel = True
+
+        # export to PDF file only when explicitly requested
+        is_export_pdf = False
+        if export_pdf is not None and \
+                len(str.strip(export_pdf)) > 0 and \
+                str.lower(str.strip(export_pdf)) in ('true', 't', 'on', 'yes', 'y'):
+            is_export_pdf = True
+
         ############################################################################################################
         # Redis cache
         ############################################################################################################
@@ -169,6 +186,8 @@ class Reporting:
                     if reporting_end_datetime_utc_normalized else None,
                     "language": language,
                     "quickmode": is_quick_mode,
+                    "exportexcel": is_export_excel,
+                    "exportpdf": is_export_pdf,
                 }
                 cache_params_json = json.dumps(cache_params, sort_keys=True)
                 cache_key = 'report:meterbatch:' + hashlib.sha256(cache_params_json.encode('utf-8')).hexdigest()
@@ -397,17 +416,26 @@ class Reporting:
             'meters': meter_list,
             'energycategories': energy_category_list,
             "date_list": [date_obj.strftime('%Y-%m-%d') for date_obj in date_list],
-            "excel_bytes_base64": None
+            "excel_bytes_base64": None,
+            "pdf_bytes_base64": None
         }
 
-        # export result to Excel file and then encode the file to base64 string
+        # export result to Excel/PDF file and then encode the file to base64 string
         if not is_quick_mode:
-            result['excel_bytes_base64'] = \
-                excelexporters.meterbatch.export(result,
-                                                 space_name,
-                                                 reporting_period_start_datetime_local,
-                                                 reporting_period_end_datetime_local,
-                                                 language)
+            if is_export_excel:
+                result['excel_bytes_base64'] = \
+                    excelexporters.meterbatch.export(result,
+                                                     space_name,
+                                                     reporting_period_start_datetime_local,
+                                                     reporting_period_end_datetime_local,
+                                                     language)
+            if is_export_pdf:
+                result['pdf_bytes_base64'] = \
+                    pdfexporters.meterbatch.export(result,
+                                                   space_name,
+                                                   reporting_period_start_datetime_local,
+                                                   reporting_period_end_datetime_local,
+                                                   language)
         resp_text = json.dumps(result)
         resp.text = resp_text
 

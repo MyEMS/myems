@@ -460,3 +460,9 @@ msgstr "Прогноз в отчетном периоде"
 
 msgid "Meter Submeters Balance"
 msgstr "Весы счетчиков Master Meter"
+
+msgid "Meter Comparison"
+msgstr "Сравнение счетчиков"
+
+msgid "Meter Tracking"
+msgstr "Слежение за счетчиком"

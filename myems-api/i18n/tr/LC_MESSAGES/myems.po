@@ -460,3 +460,9 @@ msgstr "Raporlama Dönemi Tahmini"
 
 msgid "Meter Submeters Balance"
 msgstr "Ana Sayaç Alt Sayaç Dengesi"
+
+msgid "Meter Comparison"
+msgstr "Sayaç Karşılaştırması"
+
+msgid "Meter Tracking"
+msgstr "Sayaç Takibi"

@@ -460,3 +460,9 @@ msgstr "報告期預測"
 
 msgid "Meter Submeters Balance"
 msgstr "總分表平衡分析"
+
+msgid "Meter Comparison"
+msgstr "計量表對比分析"
+
+msgid "Meter Tracking"
+msgstr "計量表台賬"

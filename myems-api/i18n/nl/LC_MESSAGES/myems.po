@@ -460,3 +460,9 @@ msgstr "Rapportageperiode voorspelling"
 
 msgid "Meter Submeters Balance"
 msgstr "Hoofd-/submeters balansanalyse"
+
+msgid "Meter Comparison"
+msgstr "Meter vergelijkende analyse"
+
+msgid "Meter Tracking"
+msgstr "Meetmeter logboek"

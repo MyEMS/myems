@@ -460,3 +460,9 @@ msgstr "التوقعات في الفترة المشمولة بالتقرير"
 
 msgid "Meter Submeters Balance"
 msgstr "ماستر ميتر عدادات فرعية الرصيد"
+
+msgid "Meter Comparison"
+msgstr "مقارنة العدادات"
+
+msgid "Meter Tracking"
+msgstr "تتبع العداد"

@@ -460,3 +460,9 @@ msgstr "پیش‌بینی دوره گزارش"
 
 msgid "Meter Submeters Balance"
 msgstr "تحلیل تعادل کنتور اصلی-فرعی"
+
+msgid "Meter Comparison"
+msgstr "تحلیل مقایسه‌ای کنتور"
+
+msgid "Meter Tracking"
+msgstr "دفترچه کنتور"

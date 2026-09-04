@@ -460,3 +460,9 @@ msgstr "Dự báo kỳ báo cáo"
 
 msgid "Meter Submeters Balance"
 msgstr "Master Meter Submeters Balance"
+
+msgid "Meter Comparison"
+msgstr "So sánh đồng hồ"
+
+msgid "Meter Tracking"
+msgstr "Theo dõi đồng hồ đo"

@@ -460,3 +460,9 @@ msgstr "Ramalan Tempoh Pelaporan"
 
 msgid "Meter Submeters Balance"
 msgstr "Baki Submeter Meter Master"
+
+msgid "Meter Comparison"
+msgstr "Perbandingan Meter"
+
+msgid "Meter Tracking"
+msgstr "Penjejakan Meter"

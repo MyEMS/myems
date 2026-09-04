@@ -460,3 +460,9 @@ msgstr "Reporting Period Prediction"
 
 msgid "Meter Submeters Balance"
 msgstr "Master Meter Submeters Balance"
+
+msgid "Meter Comparison"
+msgstr "Meter Comparison"
+
+msgid "Meter Tracking"
+msgstr "Meter Tracking"

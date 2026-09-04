@@ -460,3 +460,9 @@ msgstr "Prediksi Periode Pelaporan"
 
 msgid "Meter Submeters Balance"
 msgstr "Analisi Bilansi Tabel Skor Total"
+
+msgid "Meter Comparison"
+msgstr "Perbandingan Meter"
+
+msgid "Meter Tracking"
+msgstr "Pemberi Tabel Keukuran"
