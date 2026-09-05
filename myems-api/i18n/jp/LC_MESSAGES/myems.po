@@ -462,3 +462,77 @@ msgstr "メーター比較分析"
 
 msgid "Meter Tracking"
 msgstr "計量メータ台帳"
+
+msgid "Power Quality Data"
+msgstr "電力品質データ"
+msgid "Power Quality Analysis"
+msgstr "電力品質分析"
+
+msgid "Point"
+msgstr "ポイント"
+
+msgid "Category"
+msgstr "カテゴリ"
+
+msgid "Type"
+msgstr "種類"
+
+msgid "Limit"
+msgstr "限界値"
+
+msgid "Normal Limit"
+msgstr "正常限界値"
+
+msgid "Severe Limit"
+msgstr "深刻限界値"
+
+msgid "Compliance"
+msgstr "適合率"
+
+msgid "Worst Deviation"
+msgstr "最大偏差"
+
+msgid "Worst Time"
+msgstr "最大偏差発生時刻"
+
+msgid "Virtual Meter Energy"
+msgstr "仮想メーターエネルギー分析"
+
+msgid "Virtual Meter Carbon"
+msgstr "仮想メータ炭素排出分析"
+
+msgid "Virtual Meter Cost"
+msgstr "仮想メータコスト分析"
+
+msgid "Virtual Meter Batch Analysis"
+msgstr "仮想メータ一括分析"
+
+msgid "Virtual Meter Saving"
+msgstr "仮想メータ省エネ分析"
+
+msgid "Virtual Meter Plan"
+msgstr "仮想メータ計画分析"
+
+msgid "Virtual Meter Prediction"
+msgstr "仮想メーター予測"
+
+msgid "Virtual Meter Comparison"
+msgstr "仮想メータ比較分析"
+
+msgid "Offline Meter Energy"
+msgstr "オフラインメータエネルギー分析"
+
+msgid "Offline Meter Carbon"
+msgstr "オフラインメータ炭素排出分析"
+
+msgid "Offline Meter Cost"
+msgstr "オフラインメータコスト分析"
+
+msgid "Offline Meter Batch Analysis"
+msgstr "オフラインメーター一括分析"
+
+msgid "Offline Meter Saving"
+msgstr "オフラインメーター省エネ分析"
+
+msgid "Offline Meter Plan"
+msgstr "オフラインメーター計画分析"

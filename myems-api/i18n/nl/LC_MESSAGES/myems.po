@@ -466,3 +466,77 @@ msgstr "Meter vergelijkende analyse"
 
 msgid "Meter Tracking"
 msgstr "Meetmeter logboek"
+
+msgid "Power Quality Data"
+msgstr "Stroomkwaliteitsgegevens"
+msgid "Power Quality Analysis"
+msgstr "Stroomkwaliteitsanalyse"
+
+msgid "Point"
+msgstr "Punt"
+
+msgid "Category"
+msgstr "Categorie"
+
+msgid "Type"
+msgstr "Type"
+
+msgid "Limit"
+msgstr "Limiet"
+
+msgid "Normal Limit"
+msgstr "Normale limiet"
+
+msgid "Severe Limit"
+msgstr "Ernstige limiet"
+
+msgid "Compliance"
+msgstr "Naleving"
+
+msgid "Worst Deviation"
+msgstr "Slechtste afwijking"
+
+msgid "Worst Time"
+msgstr "Tijd slechtste afwijking"
+
+msgid "Virtual Meter Energy"
+msgstr "Virtuele meter energie-analyse"
+
+msgid "Virtual Meter Carbon"
+msgstr "Virtuele meter CO2-uitstootanalyse"
+
+msgid "Virtual Meter Cost"
+msgstr "Virtuele meter kostenanalyse"
+
+msgid "Virtual Meter Batch Analysis"
+msgstr "Virtuele meter batchanalyse"
+
+msgid "Virtual Meter Saving"
+msgstr "Virtuele meter energiebesparingsanalyse"
+
+msgid "Virtual Meter Plan"
+msgstr "Virtuele meter planningsanalyse"
+
+msgid "Virtual Meter Prediction"
+msgstr "Virtuele Meter Voorspellingsanalyse"
+
+msgid "Virtual Meter Comparison"
+msgstr "Virtuele meter vergelijkende analyse"
+
+msgid "Offline Meter Energy"
+msgstr "Offline meter energieverbruiksanalyse"
+
+msgid "Offline Meter Carbon"
+msgstr "Offline meter CO2-uitstootanalyse"
+
+msgid "Offline Meter Cost"
+msgstr "Offline meter kostenanalyse"
+
+msgid "Offline Meter Batch Analysis"
+msgstr "Batchanalyse van offline meters"
+
+msgid "Offline Meter Saving"
+msgstr "Besparing van offline meters"
+
+msgid "Offline Meter Plan"
+msgstr "Plan van offline meters"

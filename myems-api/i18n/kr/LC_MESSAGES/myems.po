@@ -462,3 +462,77 @@ msgstr "계량기 비교 분석"
 
 msgid "Meter Tracking"
 msgstr "계량기 대장"
+
+msgid "Power Quality Data"
+msgstr "전력 품질 데이터"
+msgid "Power Quality Analysis"
+msgstr "전력 품질 분석"
+
+msgid "Point"
+msgstr "지점"
+
+msgid "Category"
+msgstr "카테고리"
+
+msgid "Type"
+msgstr "유형"
+
+msgid "Limit"
+msgstr "한계값"
+
+msgid "Normal Limit"
+msgstr "정상 한계값"
+
+msgid "Severe Limit"
+msgstr "심각 한계값"
+
+msgid "Compliance"
+msgstr "준수율"
+
+msgid "Worst Deviation"
+msgstr "최악 편차"
+
+msgid "Worst Time"
+msgstr "최악 편차 시각"
+
+msgid "Virtual Meter Energy"
+msgstr "가상 계량기 에너지 소비 분석"
+
+msgid "Virtual Meter Carbon"
+msgstr "가상 계량기 탄소 배출 분석"
+
+msgid "Virtual Meter Cost"
+msgstr "가상 계량기 비용 분석"
+
+msgid "Virtual Meter Batch Analysis"
+msgstr "가상 계량기 일괄 분석"
+
+msgid "Virtual Meter Saving"
+msgstr "가상 계량기 에너지 절약 분석"
+
+msgid "Virtual Meter Plan"
+msgstr "가상 계량기 계획 분석"
+
+msgid "Virtual Meter Prediction"
+msgstr "가상 계량기 예측"
+
+msgid "Virtual Meter Comparison"
+msgstr "가상 계량기 비교 분석"
+
+msgid "Offline Meter Energy"
+msgstr "오프라인 계량기 에너지 소비 분석"
+
+msgid "Offline Meter Carbon"
+msgstr "오프라인 계량기 탄소 배출 분석"
+
+msgid "Offline Meter Cost"
+msgstr "오프라인 계량기 비용 분석"
+
+msgid "Offline Meter Batch Analysis"
+msgstr "오프라인 미터 일괄 분석"
+
+msgid "Offline Meter Saving"
+msgstr "오프라인 미터 절약 분석"
+
+msgid "Offline Meter Plan"
+msgstr "오프라인 미터 계획 분석"

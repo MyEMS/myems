@@ -462,3 +462,77 @@ msgstr "Analiza porównawcza liczników"
 
 msgid "Meter Tracking"
 msgstr "Rejestr liczników"
+
+msgid "Power Quality Data"
+msgstr "Dane jakości energii"
+msgid "Power Quality Analysis"
+msgstr "Analiza jakości energii"
+
+msgid "Point"
+msgstr "Punkt"
+
+msgid "Category"
+msgstr "Kategoria"
+
+msgid "Type"
+msgstr "Typ"
+
+msgid "Limit"
+msgstr "Limit"
+
+msgid "Normal Limit"
+msgstr "Limit normalny"
+
+msgid "Severe Limit"
+msgstr "Limit poważny"
+
+msgid "Compliance"
+msgstr "Zgodność"
+
+msgid "Worst Deviation"
+msgstr "Najgorsze odchylenie"
+
+msgid "Worst Time"
+msgstr "Czas najgorszego odchylenia"
+
+msgid "Virtual Meter Energy"
+msgstr "Analiza zużycia energii przez liczniki wirtualne"
+
+msgid "Virtual Meter Carbon"
+msgstr "Analiza emisji CO2 przez liczniki wirtualne"
+
+msgid "Virtual Meter Cost"
+msgstr "Analiza kosztów liczników wirtualnych"
+
+msgid "Virtual Meter Batch Analysis"
+msgstr "Analiza zbiorcza liczników wirtualnych"
+
+msgid "Virtual Meter Saving"
+msgstr "Analiza oszczędności energii przez liczniki wirtualne"
+
+msgid "Virtual Meter Plan"
+msgstr "Analiza planistyczna liczników wirtualnych"
+
+msgid "Virtual Meter Prediction"
+msgstr "Prognoza wirtualnego licznika"
+
+msgid "Virtual Meter Comparison"
+msgstr "Analiza porównawcza liczników wirtualnych"
+
+msgid "Offline Meter Energy"
+msgstr "Analiza zużycia energii przez liczniki offline"
+
+msgid "Offline Meter Carbon"
+msgstr "Analiza emisji CO2 przez liczniki offline"
+
+msgid "Offline Meter Cost"
+msgstr "Analiza kosztów liczników offline"
+
+msgid "Offline Meter Batch Analysis"
+msgstr "Analiza wsadowa liczników offline"
+
+msgid "Offline Meter Saving"
+msgstr "Oszczędności liczników offline"
+
+msgid "Offline Meter Plan"
+msgstr "Plan liczników offline"

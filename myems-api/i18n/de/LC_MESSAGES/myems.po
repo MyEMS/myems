@@ -466,3 +466,77 @@ msgstr "Meter Vergleich"
 
 msgid "Meter Tracking"
 msgstr "Meterverfolgung"
+
+msgid "Power Quality Data"
+msgstr "Stromqualitätsdaten"
+msgid "Power Quality Analysis"
+msgstr "Stromqualitätsanalyse"
+
+msgid "Point"
+msgstr "Messpunkt"
+
+msgid "Category"
+msgstr "Kategorie"
+
+msgid "Type"
+msgstr "Typ"
+
+msgid "Limit"
+msgstr "Grenzwert"
+
+msgid "Normal Limit"
+msgstr "Normaler Grenzwert"
+
+msgid "Severe Limit"
+msgstr "Schwerer Grenzwert"
+
+msgid "Compliance"
+msgstr "Konformität"
+
+msgid "Worst Deviation"
+msgstr "Schlechteste Abweichung"
+
+msgid "Worst Time"
+msgstr "Zeitpunkt der schlechtesten Abweichung"
+
+msgid "Virtual Meter Energy"
+msgstr "Virtuelles Meter Energie"
+
+msgid "Virtual Meter Carbon"
+msgstr "Virtuelles Meter CO2 Emissionen"
+
+msgid "Virtual Meter Cost"
+msgstr "Virtuelles Meter Kosten"
+
+msgid "Virtual Meter Batch Analysis"
+msgstr "Virtuelles Meter Charge Analyse"
+
+msgid "Virtual Meter Saving"
+msgstr "Virtual Meter Sparen"
+
+msgid "Virtual Meter Plan"
+msgstr "Virtueller Zählerplan"
+
+msgid "Virtual Meter Prediction"
+msgstr "Virtuelle Zählerprognose"
+
+msgid "Virtual Meter Comparison"
+msgstr "Vergleich virtueller Zähler"
+
+msgid "Offline Meter Energy"
+msgstr "Offline Meter Energie"
+
+msgid "Offline Meter Carbon"
+msgstr "Offline Meter CO2 Emissionen"
+
+msgid "Offline Meter Cost"
+msgstr "Offline Meter Kosten"
+
+msgid "Offline Meter Batch Analysis"
+msgstr "Offline-Meter-Stapelanalyse"
+
+msgid "Offline Meter Saving"
+msgstr "Offline Meter Einsparung"
+
+msgid "Offline Meter Plan"
+msgstr "Offline Meter Plan"

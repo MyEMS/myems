@@ -466,3 +466,77 @@ msgstr "Analisi Comparativa Contatori"
 
 msgid "Meter Tracking"
 msgstr "Registro Contatori"
+
+msgid "Power Quality Data"
+msgstr "Dati qualità energia"
+msgid "Power Quality Analysis"
+msgstr "Analisi qualità energia"
+
+msgid "Point"
+msgstr "Punto"
+
+msgid "Category"
+msgstr "Categoria"
+
+msgid "Type"
+msgstr "Tipo"
+
+msgid "Limit"
+msgstr "Limite"
+
+msgid "Normal Limit"
+msgstr "Limite normale"
+
+msgid "Severe Limit"
+msgstr "Limite severo"
+
+msgid "Compliance"
+msgstr "Conformità"
+
+msgid "Worst Deviation"
+msgstr "Peggiore deviazione"
+
+msgid "Worst Time"
+msgstr "Ora della peggiore deviazione"
+
+msgid "Virtual Meter Energy"
+msgstr "Analisi Consumo Contatore Virtuale"
+
+msgid "Virtual Meter Carbon"
+msgstr "Analisi Emissioni CO2 Contatore Virtuale"
+
+msgid "Virtual Meter Cost"
+msgstr "Analisi Costi Contatore Virtuale"
+
+msgid "Virtual Meter Batch Analysis"
+msgstr "Analisi Batch Contatore Virtuale"
+
+msgid "Virtual Meter Saving"
+msgstr "Analisi Risparmio Contatore Virtuale"
+
+msgid "Virtual Meter Plan"
+msgstr "Analisi Piano Contatore Virtuale"
+
+msgid "Virtual Meter Prediction"
+msgstr "Previsione contatore virtuale"
+
+msgid "Virtual Meter Comparison"
+msgstr "Analisi Comparativa Contatori Virtuali"
+
+msgid "Offline Meter Energy"
+msgstr "Analisi Consumo Contatore Offline"
+
+msgid "Offline Meter Carbon"
+msgstr "Analisi Emissioni CO2 Contatore Offline"
+
+msgid "Offline Meter Cost"
+msgstr "Analisi Costi Contatore Offline"
+
+msgid "Offline Meter Batch Analysis"
+msgstr "Analisi batch dei contatori offline"
+
+msgid "Offline Meter Saving"
+msgstr "Risparmio dei contatori offline"
+
+msgid "Offline Meter Plan"
+msgstr "Piano dei contatori offline"

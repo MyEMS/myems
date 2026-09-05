@@ -466,3 +466,77 @@ msgstr "So sánh đồng hồ"
 
 msgid "Meter Tracking"
 msgstr "Theo dõi đồng hồ đo"
+
+msgid "Power Quality Data"
+msgstr "Dữ liệu chất lượng điện năng"
+msgid "Power Quality Analysis"
+msgstr "Phân tích chất lượng điện năng"
+
+msgid "Point"
+msgstr "Điểm"
+
+msgid "Category"
+msgstr "Nhóm"
+
+msgid "Type"
+msgstr "Loại"
+
+msgid "Limit"
+msgstr "Giới hạn"
+
+msgid "Normal Limit"
+msgstr "Giới hạn bình thường"
+
+msgid "Severe Limit"
+msgstr "Giới hạn nghiêm trọng"
+
+msgid "Compliance"
+msgstr "Tỷ lệ đạt"
+
+msgid "Worst Deviation"
+msgstr "Độ lệch tệ nhất"
+
+msgid "Worst Time"
+msgstr "Thời điểm tệ nhất"
+
+msgid "Virtual Meter Energy"
+msgstr "Năng lượng đồng hồ ảo"
+
+msgid "Virtual Meter Carbon"
+msgstr "Khí thải CO2 ảo"
+
+msgid "Virtual Meter Cost"
+msgstr "Chi phí đồng hồ ảo"
+
+msgid "Virtual Meter Batch Analysis"
+msgstr "Phân tích hàng loạt đồng hồ ảo"
+
+msgid "Virtual Meter Saving"
+msgstr "Tiết kiệm đồng hồ ảo"
+
+msgid "Virtual Meter Plan"
+msgstr "Kế hoạch đồng hồ ảo"
+
+msgid "Virtual Meter Prediction"
+msgstr "Dự đoán đồng hồ ảo"
+
+msgid "Virtual Meter Comparison"
+msgstr "So sánh công tơ ảo"
+
+msgid "Offline Meter Energy"
+msgstr "Đồng hồ đo năng lượng ngoại tuyến"
+
+msgid "Offline Meter Carbon"
+msgstr "Phát thải CO2 cho thiết bị ngoại tuyến"
+
+msgid "Offline Meter Cost"
+msgstr "Chi phí đồng hồ ngoại tuyến"
+
+msgid "Offline Meter Batch Analysis"
+msgstr "Phân tích hàng loạt đồng hồ ngoại tuyến"
+
+msgid "Offline Meter Saving"
+msgstr "Tiết kiệm đồng hồ ngoại tuyến"
+
+msgid "Offline Meter Plan"
+msgstr "Kế hoạch đồng hồ ngoại tuyến"

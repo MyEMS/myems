@@ -466,3 +466,77 @@ msgstr "Comparação de Medidores"
 
 msgid "Meter Tracking"
 msgstr "Rastreamento do medidor"
+
+msgid "Power Quality Data"
+msgstr "Dados de qualidade de energia"
+msgid "Power Quality Analysis"
+msgstr "Análise de qualidade de energia"
+
+msgid "Point"
+msgstr "Ponto"
+
+msgid "Category"
+msgstr "Categoria"
+
+msgid "Type"
+msgstr "Tipo"
+
+msgid "Limit"
+msgstr "Limite"
+
+msgid "Normal Limit"
+msgstr "Limite normal"
+
+msgid "Severe Limit"
+msgstr "Limite severo"
+
+msgid "Compliance"
+msgstr "Conformidade"
+
+msgid "Worst Deviation"
+msgstr "Pior desvio"
+
+msgid "Worst Time"
+msgstr "Hora do pior desvio"
+
+msgid "Virtual Meter Energy"
+msgstr "Energia do Medidor Virtual"
+
+msgid "Virtual Meter Carbon"
+msgstr "Emissões de CO2 do medidor virtual"
+
+msgid "Virtual Meter Cost"
+msgstr "Custo do medidor virtual"
+
+msgid "Virtual Meter Batch Analysis"
+msgstr "Análise de lotes de medidores virtuais"
+
+msgid "Virtual Meter Saving"
+msgstr "Poupança do medidor virtual"
+
+msgid "Virtual Meter Plan"
+msgstr "Plano do medidor virtual"
+
+msgid "Virtual Meter Prediction"
+msgstr "Previsão do medidor virtual"
+
+msgid "Virtual Meter Comparison"
+msgstr "Comparação de Medidores Virtuais"
+
+msgid "Offline Meter Energy"
+msgstr "Energia do medidor offline"
+
+msgid "Offline Meter Carbon"
+msgstr "Medidor off-line Emissões de CO2"
+
+msgid "Offline Meter Cost"
+msgstr "Custo do medidor offline"
+
+msgid "Offline Meter Batch Analysis"
+msgstr "Análise em lote de medidores offline"
+
+msgid "Offline Meter Saving"
+msgstr "Economia de medidores offline"
+
+msgid "Offline Meter Plan"
+msgstr "Plano de medidores offline"

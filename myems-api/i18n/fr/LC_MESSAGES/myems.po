@@ -466,3 +466,77 @@ msgstr "Comparaison de compteurs"
 
 msgid "Meter Tracking"
 msgstr "Compteurs Suivi"
+
+msgid "Power Quality Data"
+msgstr "Données de qualité de l'énergie"
+msgid "Power Quality Analysis"
+msgstr "Analyse de qualité de l'énergie"
+
+msgid "Point"
+msgstr "Point"
+
+msgid "Category"
+msgstr "Catégorie"
+
+msgid "Type"
+msgstr "Type"
+
+msgid "Limit"
+msgstr "Limite"
+
+msgid "Normal Limit"
+msgstr "Limite normale"
+
+msgid "Severe Limit"
+msgstr "Limite sévère"
+
+msgid "Compliance"
+msgstr "Conformité"
+
+msgid "Worst Deviation"
+msgstr "Pire écart"
+
+msgid "Worst Time"
+msgstr "Heure du pire écart"
+
+msgid "Virtual Meter Energy"
+msgstr "Énergie du compteur virtuel"
+
+msgid "Virtual Meter Carbon"
+msgstr "Compteur Virtuel Émissions de CO2"
+
+msgid "Virtual Meter Cost"
+msgstr "Compteur Virtuel Coût"
+
+msgid "Virtual Meter Batch Analysis"
+msgstr "Analyse par lots de tables virtuelles"
+
+msgid "Virtual Meter Saving"
+msgstr "Compteur Virtuel Économie"
+
+msgid "Virtual Meter Plan"
+msgstr "Plan de compteur virtuel"
+
+msgid "Virtual Meter Prediction"
+msgstr "Prédiction du compteur virtuel"
+
+msgid "Virtual Meter Comparison"
+msgstr "Comparaison de compteurs virtuels"
+
+msgid "Offline Meter Energy"
+msgstr "Compteur Hors Ligne d’énergie"
+
+msgid "Offline Meter Carbon"
+msgstr "Compteur Hors Ligne Émissions de CO2"
+
+msgid "Offline Meter Cost"
+msgstr "Compteur Hors Ligne Coût"
+
+msgid "Offline Meter Batch Analysis"
+msgstr "Analyse par lots des compteurs hors ligne"
+
+msgid "Offline Meter Saving"
+msgstr "Économies des compteurs hors ligne"
+
+msgid "Offline Meter Plan"
+msgstr "Plan des compteurs hors ligne"

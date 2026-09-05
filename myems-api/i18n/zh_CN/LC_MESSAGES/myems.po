@@ -466,3 +466,77 @@ msgstr "计量表对比分析"
 
 msgid "Meter Tracking"
 msgstr "计量表台账"
+
+msgid "Power Quality Data"
+msgstr "电能质量数据"
+msgid "Power Quality Analysis"
+msgstr "电能质量分析"
+
+msgid "Point"
+msgstr "点位"
+
+msgid "Category"
+msgstr "类别"
+
+msgid "Type"
+msgstr "类型"
+
+msgid "Limit"
+msgstr "限值"
+
+msgid "Normal Limit"
+msgstr "正常限值"
+
+msgid "Severe Limit"
+msgstr "严重限值"
+
+msgid "Compliance"
+msgstr "合格率"
+
+msgid "Worst Deviation"
+msgstr "最差偏差"
+
+msgid "Worst Time"
+msgstr "最差发生时间"
+
+msgid "Virtual Meter Energy"
+msgstr "虚拟表能耗分析"
+
+msgid "Virtual Meter Carbon"
+msgstr "虚拟表碳排放分析"
+
+msgid "Virtual Meter Cost"
+msgstr "虚拟表成本分析"
+
+msgid "Virtual Meter Batch Analysis"
+msgstr "虚拟表批量分析"
+
+msgid "Virtual Meter Saving"
+msgstr "虚拟表节能分析"
+
+msgid "Virtual Meter Plan"
+msgstr "虚拟表计划分析"
+
+msgid "Virtual Meter Prediction"
+msgstr "虚拟表预测分析"
+
+msgid "Virtual Meter Comparison"
+msgstr "虚拟表对比分析"
+
+msgid "Offline Meter Energy"
+msgstr "离线表能耗分析"
+
+msgid "Offline Meter Carbon"
+msgstr "离线表碳排放分析"
+
+msgid "Offline Meter Cost"
+msgstr "离线表成本分析"
+
+msgid "Offline Meter Batch Analysis"
+msgstr "离线表批量分析"
+
+msgid "Offline Meter Saving"
+msgstr "离线表节能分析"
+
+msgid "Offline Meter Plan"
+msgstr "离线表计划分析"

@@ -466,3 +466,77 @@ msgstr "การเปรียบเทียบมิเตอร์"
 
 msgid "Meter Tracking"
 msgstr "การติดตามมิเตอร์"
+
+msgid "Power Quality Data"
+msgstr "ข้อมูลคุณภาพพลังงาน"
+msgid "Power Quality Analysis"
+msgstr "การวิเคราะห์คุณภาพพลังงาน"
+
+msgid "Point"
+msgstr "จุดวัด"
+
+msgid "Category"
+msgstr "หมวดหมู่"
+
+msgid "Type"
+msgstr "ประเภท"
+
+msgid "Limit"
+msgstr "ขีดจำกัด"
+
+msgid "Normal Limit"
+msgstr "ขีดจำกัดปกติ"
+
+msgid "Severe Limit"
+msgstr "ขีดจำกัดรุนแรง"
+
+msgid "Compliance"
+msgstr "ความสอดคล้อง"
+
+msgid "Worst Deviation"
+msgstr "ความเบี่ยงเบนแย่สุด"
+
+msgid "Worst Time"
+msgstr "เวลาความเบี่ยงเบนแย่สุด"
+
+msgid "Virtual Meter Energy"
+msgstr "เครื่องวัดพลังงานเสมือน"
+
+msgid "Virtual Meter Carbon"
+msgstr "เสมือนมิเตอร์ปล่อย CO2"
+
+msgid "Virtual Meter Cost"
+msgstr "ค่ามิเตอร์เสมือน"
+
+msgid "Virtual Meter Batch Analysis"
+msgstr "การวิเคราะห์แบทช์มิเตอร์เสมือน"
+
+msgid "Virtual Meter Saving"
+msgstr "การบันทึกมิเตอร์เสมือน"
+
+msgid "Virtual Meter Plan"
+msgstr "แผนมิเตอร์เสมือน"
+
+msgid "Virtual Meter Prediction"
+msgstr "การคาดการณ์มิเตอร์เสมือน"
+
+msgid "Virtual Meter Comparison"
+msgstr "การเปรียบเทียบมิติเสมือน"
+
+msgid "Offline Meter Energy"
+msgstr "เครื่องวัดพลังงานออฟไลน์"
+
+msgid "Offline Meter Carbon"
+msgstr "ออฟไลน์มิเตอร์ปล่อย CO2"
+
+msgid "Offline Meter Cost"
+msgstr "ค่ามิเตอร์ออฟไลน์"
+
+msgid "Offline Meter Batch Analysis"
+msgstr "การวิเคราะห์เป็นชุดของมิเตอร์ออฟไลน์"
+
+msgid "Offline Meter Saving"
+msgstr "การประหยัดของมิเตอร์ออฟไลน์"
+
+msgid "Offline Meter Plan"
+msgstr "แผนของมิเตอร์ออฟไลน์"

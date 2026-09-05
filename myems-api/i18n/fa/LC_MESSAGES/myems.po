@@ -466,3 +466,77 @@ msgstr "تحلیل مقایسه‌ای کنتور"
 
 msgid "Meter Tracking"
 msgstr "دفترچه کنتور"
+
+msgid "Power Quality Data"
+msgstr "داده‌های کیفیت توان"
+msgid "Power Quality Analysis"
+msgstr "تحلیل کیفیت توان"
+
+msgid "Point"
+msgstr "نقطه"
+
+msgid "Category"
+msgstr "دسته"
+
+msgid "Type"
+msgstr "نوع"
+
+msgid "Limit"
+msgstr "حد"
+
+msgid "Normal Limit"
+msgstr "حد عادی"
+
+msgid "Severe Limit"
+msgstr "حد شدید"
+
+msgid "Compliance"
+msgstr "انطباق"
+
+msgid "Worst Deviation"
+msgstr "بدترین انحراف"
+
+msgid "Worst Time"
+msgstr "زمان بدترین انحراف"
+
+msgid "Virtual Meter Energy"
+msgstr "تحلیل مصرف انرژی کنتور مجازی"
+
+msgid "Virtual Meter Carbon"
+msgstr "تحلیل کربن کنتور مجازی"
+
+msgid "Virtual Meter Cost"
+msgstr "تحلیل هزینه کنتور مجازی"
+
+msgid "Virtual Meter Batch Analysis"
+msgstr "تحلیل انبوه کنتور مجازی"
+
+msgid "Virtual Meter Saving"
+msgstr "تحلیل صرفه‌جویی کنتور مجازی"
+
+msgid "Virtual Meter Plan"
+msgstr "تحلیل برنامه کنتور مجازی"
+
+msgid "Virtual Meter Prediction"
+msgstr "تحلیل پیش‌بینی کنتور مجازی"
+
+msgid "Virtual Meter Comparison"
+msgstr "تحلیل مقایسه‌ای کنتور مجازی"
+
+msgid "Offline Meter Energy"
+msgstr "تحلیل انرژی کنتور آفلاین"
+
+msgid "Offline Meter Carbon"
+msgstr "تحلیل کربن کنتور آفلاین"
+
+msgid "Offline Meter Cost"
+msgstr "تحلیل هزینه کنتور آفلاین"
+
+msgid "Offline Meter Batch Analysis"
+msgstr "تحلیل دسته‌ای کنتورهای آفلاین"
+
+msgid "Offline Meter Saving"
+msgstr "صرفه‌جویی کنتورهای آفلاین"
+
+msgid "Offline Meter Plan"
+msgstr "برنامه کنتورهای آفلاین"
