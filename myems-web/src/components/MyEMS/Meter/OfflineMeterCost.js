@@ -980,24 +980,30 @@ const OfflineMeterCost = ({ setRedirect, setRedirectUrl, t }) => {
               </Col>
               <Col xs="auto">
                 <FormGroup>
-                  <Label className={labelClasses}>{t('Export')}</Label>
-                  <br />
-                  <CustomInput
-                    type="checkbox"
-                    id="exportExcel"
-                    name="exportExcel"
-                    label="Excel"
-                    checked={exportExcel}
-                    onChange={e => setExportExcel(e.target.checked)}
-                  />
-                  <CustomInput
-                    type="checkbox"
-                    id="exportPdf"
-                    name="exportPdf"
-                    label="PDF"
-                    checked={exportPdf}
-                    onChange={e => setExportPdf(e.target.checked)}
-                  />
+                  <Label className={labelClasses}>
+                    {t('Export')}
+                    {t('(Optional)')}
+                  </Label>
+                  <div>
+                    <CustomInput
+                      type="checkbox"
+                      id="exportExcel"
+                      name="exportExcel"
+                      label="Excel"
+                      inline
+                      checked={exportExcel}
+                      onChange={e => setExportExcel(e.target.checked)}
+                    />
+                    <CustomInput
+                      type="checkbox"
+                      id="exportPdf"
+                      name="exportPdf"
+                      label="PDF"
+                      inline
+                      checked={exportPdf}
+                      onChange={e => setExportPdf(e.target.checked)}
+                    />
+                  </div>
                 </FormGroup>
               </Col>
               <Col xs="auto">

@@ -810,13 +810,17 @@ const VirtualMeterComparison = ({ setRedirect, setRedirectUrl, t }) => {
               </Col>
               <Col xs="auto">
                 <FormGroup>
-                  <Label className={labelClasses}>{t('Export')}</Label>
+                  <Label className={labelClasses}>
+                    {t('Export')}
+                    {t('(Optional)')}
+                  </Label>
                   <br />
                   <CustomInput
                     type="checkbox"
                     id="exportExcel"
                     name="exportExcel"
                     label="Excel"
+                    inline
                     checked={exportExcel}
                     onChange={e => setExportExcel(e.target.checked)}
                   />
@@ -825,6 +829,7 @@ const VirtualMeterComparison = ({ setRedirect, setRedirectUrl, t }) => {
                     id="exportPdf"
                     name="exportPdf"
                     label="PDF"
+                    inline
                     checked={exportPdf}
                     onChange={e => setExportPdf(e.target.checked)}
                   />
