@@ -428,7 +428,7 @@
                     SELECT_PHOTOVOLTAIC_POWER_STATION: 'Pilih Stesen Kuasa Fotovoltaic',
                     SELECT_WIND_FARM: 'Pilih Peternakan Angin',
                     IS_INPUT_COUNTED: 'Apakah input energi dihitung dalam',
-                    IS_ENABLED: 'Is Enabled',
+                    IS_ENABLED: 'Diaktifkan',
                     IS_OUTPUT_COUNTED: 'Apakah output energi dihitung',
                     BIND_COMMAND: 'Perintah Bind Ⓔ',
                     BIND_DATA_SOURCE: 'Penghubungan Sumber Data Berhasil',

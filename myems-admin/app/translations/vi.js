@@ -397,7 +397,7 @@
                     SELECT_PHOTOVOLTAIC_POWER_STATION: 'Chọn nhà máy điện PV',
                     SELECT_WIND_FARM: 'Chọn trang trại gió',
                     IS_INPUT_COUNTED: 'Năng lượng đầu vào có được tính vào không',
-                    IS_ENABLED: 'Is Enabled',
+                    IS_ENABLED: 'Được bật',
                     IS_OUTPUT_COUNTED: 'Sản lượng năng lượng có được tính không',
                     BIND_COMMAND: 'Lệnh ràng buộc Ⓔ',
                     BIND_COMMAND_DESCRIPTION: 'Quản lý lệnh điều khiển đồng hồ; liên kết lệnh thao tác cho đồng hồ hỗ trợ điều khiển từ xa.',

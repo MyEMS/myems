@@ -422,7 +422,7 @@
                     SELECT_PHOTOVOLTAIC_POWER_STATION: 'Fotovoltaïsche energiecentrale selecteren',
                     SELECT_WIND_FARM: 'Windpark selecteren',
                     IS_INPUT_COUNTED: 'Energieverbruik meegenomen in totalen',
-                    IS_ENABLED: 'Is Enabled',
+                    IS_ENABLED: 'Is ingeschakeld',
                     IS_OUTPUT_COUNTED: 'Energieproductie meegenomen in totalen',
                     BIND_COMMAND: 'Commando koppelen Ⓔ',
                     BIND_DATA_SOURCE: 'Gegevensbron koppelen',

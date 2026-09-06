@@ -427,7 +427,7 @@
                     SELECT_PHOTOVOLTAIC_POWER_STATION: '태양광 발전소 선택',
                     SELECT_WIND_FARM: '풍력 발전 단지 선택',
                     IS_INPUT_COUNTED: '에너지 소비 집계 포함',
-                    IS_ENABLED: 'Is Enabled',
+                    IS_ENABLED: '활성화',
                     IS_OUTPUT_COUNTED: '에너지 생산 집계 포함',
                     BIND_COMMAND: '명령 바인딩 Ⓔ',
                     BIND_DATA_SOURCE: '데이터 소스 바인딩',
