@@ -424,7 +424,7 @@
                     SELECT_PHOTOVOLTAIC_POWER_STATION: 'اختيار محطة الطاقة الضوئية',
                     SELECT_WIND_FARM: 'اختيار مزرعة الرياح',
                     IS_INPUT_COUNTED: 'هل يتم احتساب مدخلات الطاقة في',
-                    IS_ENABLED: 'Is Enabled'
+                    IS_ENABLED: 'Is Enabled',
                     IS_OUTPUT_COUNTED: 'هل يتم حساب ناتج الطاقة',
                     BIND_COMMAND: 'أمر الربط Ⓔ',
                     BIND_DATA_SOURCE: 'ربط مصدر البيانات',

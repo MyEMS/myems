@@ -397,7 +397,7 @@
                     SELECT_PHOTOVOLTAIC_POWER_STATION: 'Fotovoltaik güç istasyonu seçin',
                     SELECT_WIND_FARM: 'Rüzgar Çiftliğini Seç',
                     IS_INPUT_COUNTED: 'Enerji girdisi sayılır mı',
-                    IS_ENABLED: 'Is Enabled'
+                    IS_ENABLED: 'Is Enabled',
                     IS_OUTPUT_COUNTED: 'Enerji Çıkışı Sayılır mı',
                     BIND_COMMAND: 'Komutu bağlama Ⓔ',
                     BIND_COMMAND_DESCRIPTION: 'Sayaç kontrol komutu yönetimi; uzaktan kumandalı sayaçlar için işlem komutlarını ilişkilendirir.',

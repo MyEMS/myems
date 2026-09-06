@@ -397,7 +397,7 @@
                     SELECT_PHOTOVOLTAIC_POWER_STATION: 'Выберите фотоэлектрическую электростанцию',
                     SELECT_WIND_FARM: 'Выберите ветровое поле',
                     IS_INPUT_COUNTED: 'Учитывается ли подводимая энергия',
-                    IS_ENABLED: 'Is Enabled'
+                    IS_ENABLED: 'Is Enabled',
                     IS_OUTPUT_COUNTED: 'Учитывается ли выработка энергии',
                     BIND_COMMAND: 'Команда привязки Ⓔ',
                     BIND_COMMAND_DESCRIPTION: 'Управление командами управления счётчиками; сопоставление команд со счётчиками с дистанционным управлением.',

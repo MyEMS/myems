@@ -428,7 +428,6 @@
                     SELECT_PHOTOVOLTAIC_POWER_STATION: 'Choisir une centrale photovoltaïque',
                     SELECT_WIND_FARM: 'Choisir un parc éolien',
                     IS_INPUT_COUNTED: 'L’apport d’énergie est-il compté dans',
-                    IS_ENABLED: 'Is Enabled'
                     IS_OUTPUT_COUNTED: 'La production d’énergie est-elle comptée',
                     BIND_COMMAND: 'Bind, commande Ⓔ',
                     BIND_DATA_SOURCE: 'Lier la source de données',

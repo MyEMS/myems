@@ -161,7 +161,7 @@
                     CATEGORY: 'Category',
                     PRIORITY: 'Priority',
                     CHANNEL: 'Channel',
-                    IS_ENABLED: 'Is Enabled'
+                    IS_ENABLED: 'Is Enabled',
                     LAST_RUN_DATETIME: 'Last Run Datetime',
                     NEXT_RUN_DATETIME: 'Next Run Datetime',
                     EXPRESSION: 'Expression',

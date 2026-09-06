@@ -422,7 +422,7 @@
                     SELECT_PHOTOVOLTAIC_POWER_STATION: 'Wybierz elektrownię fotowoltaiczną',
                     SELECT_WIND_FARM: 'Wybierz farmę wiatrową',
                     IS_INPUT_COUNTED: 'Zużycie wliczane do podsumowania',
-                    IS_ENABLED: 'Is Enabled'
+                    IS_ENABLED: 'Is Enabled',
                     IS_OUTPUT_COUNTED: 'Wytwarzanie energii wliczane do podsumowania',
                     BIND_COMMAND: 'Przypisz polecenie Ⓔ',
                     BIND_DATA_SOURCE: 'Przypisz źródło danych',
