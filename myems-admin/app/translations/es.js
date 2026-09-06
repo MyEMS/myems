@@ -427,6 +427,7 @@
                     SELECT_PHOTOVOLTAIC_POWER_STATION: 'Selección de plantas fotovoltaicas',
                     SELECT_WIND_FARM: 'Selección de parques eólicos',
                     IS_INPUT_COUNTED: '¿Se cuenta la entrada de energía en',
+                    IS_ENABLED: 'Is Enabled'
                     IS_OUTPUT_COUNTED: '¿Se cuenta la producción de energía?',
                     BIND_COMMAND: 'Comando Enlazar Ⓔ',
                     BIND_DATA_SOURCE: 'Enlazar origen de datos',

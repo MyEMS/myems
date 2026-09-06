@@ -397,6 +397,7 @@
                     SELECT_PHOTOVOLTAIC_POWER_STATION: 'เลือกสถานีไฟฟ้าโซลาร์เซลล์',
                     SELECT_WIND_FARM: 'เลือกฟาร์มกังหันลม',
                     IS_INPUT_COUNTED: 'กําลังป้อนพลังงานนับใน',
+                    IS_ENABLED: 'Is Enabled'
                     IS_OUTPUT_COUNTED: 'มีการนับปริมาณพลังงานหรือไม่',
                     BIND_COMMAND: 'ผูกคําสั่ง Ⓔ',
                     BIND_COMMAND_DESCRIPTION: 'การจัดการคำสั่งควบคุมมิเตอร์ เชื่อมโยงคำสั่งการทำงานสำหรับมิเตอร์ที่รองรับการควบคุมระยะไกล',

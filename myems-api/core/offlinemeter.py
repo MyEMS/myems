@@ -172,7 +172,7 @@ class OfflineMeterCollection:
                                                     "uuid": row[2]}
 
                 query = (" SELECT id, name, uuid, energy_category_id, "
-                         "        is_counted, hourly_low_limit, hourly_high_limit, "
+                         "        is_counted, is_enabled, hourly_low_limit, hourly_high_limit, "
                          "        energy_item_id, cost_center_id, description "
                          " FROM tbl_offline_meters ")
                 params = []
@@ -198,11 +198,12 @@ class OfflineMeterCollection:
                                "uuid": row[2],
                                "energy_category": energy_category_dict.get(row[3], None),
                                "is_counted": True if row[4] else False,
-                               "hourly_low_limit": row[5],
-                               "hourly_high_limit": row[6],
-                               "energy_item": energy_item_dict.get(row[7], None),
-                               "cost_center": cost_center_dict.get(row[8], None),
-                               "description": row[9]}
+                               "is_enabled": True if row[5] else False,
+                               "hourly_low_limit": row[6],
+                               "hourly_high_limit": row[7],
+                               "energy_item": energy_item_dict.get(row[8], None),
+                               "cost_center": cost_center_dict.get(row[9], None),
+                               "description": row[10]}
                 result.append(meta_result)
 
         # Store result in Redis cache
@@ -255,6 +256,12 @@ class OfflineMeterCollection:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_IS_COUNTED_VALUE')
         is_counted = new_values['data']['is_counted']
+
+        if 'is_enabled' not in new_values['data'].keys() or \
+                not isinstance(new_values['data']['is_enabled'], bool):
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_IS_ENABLED_VALUE')
+        is_enabled = new_values['data']['is_enabled']
 
         if 'hourly_low_limit' not in new_values['data'].keys() or \
                 not (isinstance(new_values['data']['hourly_low_limit'], float) or
@@ -344,13 +351,14 @@ class OfflineMeterCollection:
 
                 add_values = (" INSERT INTO tbl_offline_meters "
                               "    (name, uuid, energy_category_id, "
-                              "     is_counted, hourly_low_limit, hourly_high_limit, "
+                              "     is_counted, is_enabled, hourly_low_limit, hourly_high_limit, "
                               "     cost_center_id, energy_item_id, description) "
-                              " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s) ")
+                              " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s) ")
                 cursor.execute(add_values, (name,
                                             str(uuid.uuid4()),
                                             energy_category_id,
                                             is_counted,
+                                            is_enabled,
                                             hourly_low_limit,
                                             hourly_high_limit,
                                             cost_center_id,
@@ -694,6 +702,12 @@ class OfflineMeterItem:
                                    description='API.INVALID_IS_COUNTED_VALUE')
         is_counted = new_values['data']['is_counted']
 
+        if 'is_enabled' not in new_values['data'].keys() or \
+                not isinstance(new_values['data']['is_enabled'], bool):
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_IS_ENABLED_VALUE')
+        is_enabled = new_values['data']['is_enabled']
+
         if 'hourly_low_limit' not in new_values['data'].keys() or \
                 not (isinstance(new_values['data']['hourly_low_limit'], float) or
                      isinstance(new_values['data']['hourly_low_limit'], int)):
@@ -788,12 +802,14 @@ class OfflineMeterItem:
 
                 update_row = (" UPDATE tbl_offline_meters "
                               " SET name = %s, energy_category_id = %s,"
-                              "     is_counted = %s, hourly_low_limit = %s, hourly_high_limit = %s, "
+                              "     is_counted = %s, is_enabled = %s, "
+                              "     hourly_low_limit = %s, hourly_high_limit = %s, "
                               "     cost_center_id = %s, energy_item_id = %s, description = %s "
                               " WHERE id = %s ")
                 cursor.execute(update_row, (name,
                                             energy_category_id,
                                             is_counted,
+                                            is_enabled,
                                             hourly_low_limit,
                                             hourly_high_limit,
                                             cost_center_id,
@@ -1083,13 +1099,14 @@ class OfflineMeterImport:
 
                 add_values = (" INSERT INTO tbl_offline_meters "
                               "    (name, uuid, energy_category_id, "
-                              "     is_counted, hourly_low_limit, hourly_high_limit, "
+                              "     is_counted, is_enabled, hourly_low_limit, hourly_high_limit, "
                               "     cost_center_id, energy_item_id, description) "
-                              " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s) ")
+                              " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s) ")
                 cursor.execute(add_values, (name,
                                             str(uuid.uuid4()),
                                             energy_category_id,
                                             is_counted,
+                                            is_enabled,
                                             hourly_low_limit,
                                             hourly_high_limit,
                                             cost_center_id,
@@ -1189,11 +1206,12 @@ class OfflineMeterClone:
                                "uuid": row[2],
                                "energy_category": energy_category_dict.get(row[3], None),
                                "is_counted": True if row[4] else False,
-                               "hourly_low_limit": row[5],
-                               "hourly_high_limit": row[6],
-                               "energy_item": energy_item_dict.get(row[7], None),
-                               "cost_center": cost_center_dict.get(row[8], None),
-                               "description": row[9]}
+                               "is_enabled": True if row[5] else False,
+                               "hourly_low_limit": row[6],
+                               "hourly_high_limit": row[7],
+                               "energy_item": energy_item_dict.get(row[8], None),
+                               "cost_center": cost_center_dict.get(row[9], None),
+                               "description": row[10]}
 
                 timezone_offset = int(config.utc_offset[1:3]) * 60 + int(config.utc_offset[4:6])
                 if config.utc_offset[0] == '-':
@@ -1209,13 +1227,14 @@ class OfflineMeterClone:
                 
                 add_values = (" INSERT INTO tbl_offline_meters "
                               "    (name, uuid, energy_category_id, "
-                              "     is_counted, hourly_low_limit, hourly_high_limit, "
+                              "     is_counted, is_enabled, hourly_low_limit, hourly_high_limit, "
                               "     cost_center_id, energy_item_id, description) "
-                              " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s) ")
+                              " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s) ")
                 cursor.execute(add_values, (new_name,
                                             str(uuid.uuid4()),
                                             meta_result['energy_category']['id'],
                                             meta_result['is_counted'],
+                                            meta_result['is_enabled'],
                                             meta_result['hourly_low_limit'],
                                             meta_result['hourly_high_limit'],
                                             meta_result['cost_center']['id'],

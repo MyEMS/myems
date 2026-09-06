@@ -172,7 +172,7 @@ class MeterCollection:
                                                      "uuid": row[2]}
 
                 query_base = (" SELECT id, name, uuid, energy_category_id, "
-                              "        is_counted, hourly_low_limit, hourly_high_limit, "
+                              "        is_counted, is_enabled, hourly_low_limit, hourly_high_limit, "
                               "        cost_center_id, energy_item_id, master_meter_id, description "
                               " FROM tbl_meters ")
                 params = []
@@ -198,12 +198,13 @@ class MeterCollection:
                                "uuid": row[2],
                                "energy_category": energy_category_dict.get(row[3], None),
                                "is_counted": True if row[4] else False,
-                               "hourly_low_limit": row[5],
-                               "hourly_high_limit": row[6],
-                               "cost_center": cost_center_dict.get(row[7], None),
-                               "energy_item": energy_item_dict.get(row[8], None),
-                               "master_meter": master_meter_dict.get(row[9], None),
-                               "description": row[10],
+                               "is_enabled": True if row[5] else False,
+                               "hourly_low_limit": row[6],
+                               "hourly_high_limit": row[7],
+                               "cost_center": cost_center_dict.get(row[8], None),
+                               "energy_item": energy_item_dict.get(row[9], None),
+                               "master_meter": master_meter_dict.get(row[10], None),
+                               "description": row[11],
                                "qrcode": "meter:" + row[2]}
                 result.append(meta_result)
 
@@ -257,6 +258,12 @@ class MeterCollection:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_IS_COUNTED_VALUE')
         is_counted = new_values['data']['is_counted']
+
+        if 'is_enabled' not in new_values['data'].keys() or \
+                not isinstance(new_values['data']['is_enabled'], bool):
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_IS_ENABLED_VALUE')
+        is_enabled = new_values['data']['is_enabled']
 
         if 'hourly_low_limit' not in new_values['data'].keys() or \
                 not (isinstance(new_values['data']['hourly_low_limit'], float) or
@@ -368,13 +375,15 @@ class MeterCollection:
                                 description='API.MASTER_METER_DOES_NOT_BELONG_TO_SAME_ENERGY_CATEGORY')
 
                 add_values = (" INSERT INTO tbl_meters "
-                              "    (name, uuid, energy_category_id, is_counted, hourly_low_limit, hourly_high_limit,"
+                              "    (name, uuid, energy_category_id, is_counted, is_enabled, "
+                              "     hourly_low_limit, hourly_high_limit,"
                               "     cost_center_id, energy_item_id, master_meter_id, description) "
-                              " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s) ")
+                              " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) ")
                 cursor.execute(add_values, (name,
                                             str(uuid.uuid4()),
                                             energy_category_id,
                                             is_counted,
+                                            is_enabled,
                                             hourly_low_limit,
                                             hourly_high_limit,
                                             cost_center_id,
@@ -502,7 +511,7 @@ class MeterItem:
                                                      "uuid": row[2]}
 
                 query = (" SELECT id, name, uuid, energy_category_id, "
-                         "        is_counted, hourly_low_limit, hourly_high_limit, "
+                         "        is_counted, is_enabled, hourly_low_limit, hourly_high_limit, "
                          "        cost_center_id, energy_item_id, master_meter_id, description "
                          " FROM tbl_meters "
                          " WHERE id = %s ")
@@ -524,12 +533,13 @@ class MeterItem:
                        "uuid": row[2],
                        "energy_category": energy_category_dict.get(row[3], None),
                        "is_counted": True if row[4] else False,
-                       "hourly_low_limit": row[5],
-                       "hourly_high_limit": row[6],
-                       "cost_center": cost_center_dict.get(row[7], None),
-                       "energy_item": energy_item_dict.get(row[8], None),
-                       "master_meter": master_meter_dict.get(row[9], None),
-                       "description": row[10],
+                       "is_enabled": True if row[5] else False,
+                       "hourly_low_limit": row[6],
+                       "hourly_high_limit": row[7],
+                       "cost_center": cost_center_dict.get(row[8], None),
+                       "energy_item": energy_item_dict.get(row[9], None),
+                       "master_meter": master_meter_dict.get(row[10], None),
+                       "description": row[11],
                        "qrcode": "meter:"+row[2]}
 
         # Store result in Redis cache
@@ -911,6 +921,12 @@ class MeterItem:
                                    description='API.INVALID_IS_COUNTED_VALUE')
         is_counted = new_values['data']['is_counted']
 
+        if 'is_enabled' not in new_values['data'].keys() or \
+                not isinstance(new_values['data']['is_enabled'], bool):
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_IS_ENABLED_VALUE')
+        is_enabled = new_values['data']['is_enabled']
+
         if 'hourly_low_limit' not in new_values['data'].keys() or \
                 not (isinstance(new_values['data']['hourly_low_limit'], float) or
                      isinstance(new_values['data']['hourly_low_limit'], int)):
@@ -1040,13 +1056,14 @@ class MeterItem:
                                                description='API.CANNOT_SET_EXISTING_SUBMETER_AS_MASTER_METER')
 
                 update_row = (" UPDATE tbl_meters "
-                              " SET name = %s, energy_category_id = %s, is_counted = %s, "
+                              " SET name = %s, energy_category_id = %s, is_counted = %s, is_enabled = %s, "
                               "     hourly_low_limit = %s, hourly_high_limit = %s, "
                               "     cost_center_id = %s, energy_item_id = %s, master_meter_id = %s, description = %s "
                               " WHERE id = %s ")
                 cursor.execute(update_row, (name,
                                             energy_category_id,
                                             is_counted,
+                                            is_enabled,
                                             hourly_low_limit,
                                             hourly_high_limit,
                                             cost_center_id,
@@ -2006,13 +2023,15 @@ class MeterImport:
                                 description='API.MASTER_METER_DOES_NOT_BELONG_TO_SAME_ENERGY_CATEGORY')
 
                 add_values = (" INSERT INTO tbl_meters "
-                              "    (name, uuid, energy_category_id, is_counted, hourly_low_limit, hourly_high_limit,"
+                              "    (name, uuid, energy_category_id, is_counted, is_enabled, "
+                              "     hourly_low_limit, hourly_high_limit,"
                               "     cost_center_id, energy_item_id, master_meter_id, description) "
-                              " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s) ")
+                              " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) ")
                 cursor.execute(add_values, (name,
                                             str(uuid.uuid4()),
                                             energy_category_id,
                                             is_counted,
+                                            is_enabled,
                                             hourly_low_limit,
                                             hourly_high_limit,
                                             cost_center_id,
@@ -2114,7 +2133,7 @@ class MeterClone:
                                                      "uuid": row[2]}
 
                 query = (" SELECT id, name, uuid, energy_category_id, "
-                         "        is_counted, hourly_low_limit, hourly_high_limit, "
+                         "        is_counted, is_enabled, hourly_low_limit, hourly_high_limit, "
                          "        cost_center_id, energy_item_id, master_meter_id, description "
                          " FROM tbl_meters "
                          " WHERE id = %s ")
@@ -2124,18 +2143,19 @@ class MeterClone:
                 if row is None:
                     raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                            description='API.METER_NOT_FOUND')
-                
+
                 meta_result = {"id": row[0],
                                "name": row[1],
                                "uuid": row[2],
                                "energy_category_id": row[3],
                                "is_counted": row[4],
-                               "hourly_low_limit": row[5],
-                               "hourly_high_limit": row[6],
-                               "cost_center_id": row[7],
-                               "energy_item_id": row[8],
-                               "master_meter_id": row[9],
-                               "description": row[10],
+                               "is_enabled": row[5],
+                               "hourly_low_limit": row[6],
+                               "hourly_high_limit": row[7],
+                               "cost_center_id": row[8],
+                               "energy_item_id": row[9],
+                               "master_meter_id": row[10],
+                               "description": row[11],
                                "points": None}
                 
                 query = (" SELECT p.id, p.name, "
@@ -2164,13 +2184,15 @@ class MeterClone:
                 new_name = str.strip(meta_result['name']) + suffix
 
                 add_values = (" INSERT INTO tbl_meters "
-                              "    (name, uuid, energy_category_id, is_counted, hourly_low_limit, hourly_high_limit,"
+                              "    (name, uuid, energy_category_id, is_counted, is_enabled, "
+                              "     hourly_low_limit, hourly_high_limit,"
                               "     cost_center_id, energy_item_id, master_meter_id, description) "
-                              " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s) ")
+                              " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) ")
                 cursor.execute(add_values, (new_name,
                                             str(uuid.uuid4()),
                                             meta_result['energy_category_id'],
                                             meta_result['is_counted'],
+                                            meta_result['is_enabled'],
                                             meta_result['hourly_low_limit'],
                                             meta_result['hourly_high_limit'],
                                             meta_result['cost_center_id'],

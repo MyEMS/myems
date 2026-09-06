@@ -422,6 +422,7 @@
                     SELECT_PHOTOVOLTAIC_POWER_STATION: 'انتخاب نیروگاه فتوولتائیک',
                     SELECT_WIND_FARM: 'انتخاب مزرعه بادی',
                     IS_INPUT_COUNTED: 'مصرف انرژی در جمع‌بندی لحاظ شود',
+                    IS_ENABLED: 'Is Enabled'
                     IS_OUTPUT_COUNTED: 'تولید انرژی در جمع‌بندی لحاظ شود',
                     BIND_COMMAND: 'الزام‌آوری فرمان Ⓔ',
                     BIND_DATA_SOURCE: 'الزام‌آوری منبع داده',

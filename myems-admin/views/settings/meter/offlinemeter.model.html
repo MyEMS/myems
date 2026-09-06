@@ -67,6 +67,15 @@
 
                 </div>
             </div>
+
+            <div class="form-group"><label class="col-sm-4 control-label">{{'SETTING.IS_ENABLED' | translate}}</label>
+                <div class="col-sm-8">
+                    <div class="checkbox checkbox-success">
+                        <input id="chk_offlinemeter_isenabled" type="checkbox" ng-model="offlinemeter.is_enabled" ng-checked="offlinemeter.is_enabled">
+                        <label for="chk_offlinemeter_isenabled">{{'SETTING.IS_ENABLED' | translate}}</label>
+                    </div>
+                </div>
+            </div>
             <div class="hr-line-dashed"></div>
             <div class="form-group"><label class="col-sm-4 control-label">{{'METER.HOURLY_LOW_LIMIT' | translate}}<span class="text-danger">*</span></label>
                 <div class="col-sm-8">

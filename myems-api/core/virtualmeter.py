@@ -146,8 +146,8 @@ class VirtualMeterCollection:
                                                     "name": row[1],
                                                     "uuid": row[2]}
 
-                query = (" SELECT id, name, uuid, equation, energy_category_id, is_counted, cost_center_id, "
-                         "        energy_item_id, description "
+                query = (" SELECT id, name, uuid, equation, energy_category_id, is_counted, is_enabled, "
+                         "        cost_center_id, energy_item_id, description "
                          " FROM tbl_virtual_meters ")
                 params = []
                 if search_query:
@@ -167,9 +167,10 @@ class VirtualMeterCollection:
                                        "equation": row[3],
                                        "energy_category": energy_category_dict.get(row[4], None),
                                        "is_counted": True if row[5] else False,
-                                       "cost_center": cost_center_dict.get(row[6], None),
-                                       "energy_item": energy_item_dict.get(row[7], None),
-                                       "description": row[8],
+                                       "is_enabled": True if row[6] else False,
+                                       "cost_center": cost_center_dict.get(row[7], None),
+                                       "energy_item": energy_item_dict.get(row[8], None),
+                                       "description": row[9],
                                        "expression": {}}
 
                         expression = dict()
@@ -279,6 +280,11 @@ class VirtualMeterCollection:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_IS_COUNTED_VALUE')
         is_counted = new_values['data']['is_counted']
+
+        if 'is_enabled' not in new_values['data'].keys() or not isinstance(new_values['data']['is_enabled'], bool):
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_IS_ENABLED_VALUE')
+        is_enabled = new_values['data']['is_enabled']
 
         if 'cost_center_id' not in new_values['data'].keys() or \
                 not isinstance(new_values['data']['cost_center_id'], int) or \
@@ -423,14 +429,15 @@ class VirtualMeterCollection:
                                                    description='API.VIRTUAL_METER_OF_VARIABLE_NOT_FOUND')
 
                 add_values = (" INSERT INTO tbl_virtual_meters "
-                              "     (name, uuid, equation, energy_category_id, is_counted, "
+                              "     (name, uuid, equation, energy_category_id, is_counted, is_enabled, "
                               "      cost_center_id, energy_item_id, description) "
-                              " VALUES (%s, %s, %s, %s, %s, %s, %s, %s) ")
+                              " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s) ")
                 cursor.execute(add_values, (name,
                                             str(uuid.uuid4()),
                                             new_values['data']['expression']['equation'].lower(),
                                             energy_category_id,
                                             is_counted,
+                                            is_enabled,
                                             cost_center_id,
                                             energy_item_id,
                                             description))
@@ -563,9 +570,10 @@ class VirtualMeterItem:
                                    "equation": row[3],
                                    "energy_category": energy_category_dict.get(row[4], None),
                                    "is_counted": True if row[5] else False,
-                                   "cost_center": cost_center_dict.get(row[6], None),
-                                   "energy_item": energy_item_dict.get(row[7], None),
-                                   "description": row[8],
+                                   "is_enabled": True if row[6] else False,
+                                   "cost_center": cost_center_dict.get(row[7], None),
+                                   "energy_item": energy_item_dict.get(row[8], None),
+                                   "description": row[9],
                                    "expression": {}}
 
                 expression = dict()
@@ -855,6 +863,11 @@ class VirtualMeterItem:
                                    description='API.INVALID_IS_COUNTED_VALUE')
         is_counted = new_values['data']['is_counted']
 
+        if 'is_enabled' not in new_values['data'].keys() or not isinstance(new_values['data']['is_enabled'], bool):
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_IS_ENABLED_VALUE')
+        is_enabled = new_values['data']['is_enabled']
+
         if 'cost_center_id' not in new_values['data'].keys() or \
                 not isinstance(new_values['data']['cost_center_id'], int) or \
                 new_values['data']['cost_center_id'] <= 0:
@@ -1008,12 +1021,14 @@ class VirtualMeterItem:
                 try:
                     update_row = (" UPDATE tbl_virtual_meters "
                                   " SET name = %s, equation = %s, energy_category_id = %s, is_counted = %s, "
+                                  "     is_enabled = %s, "
                                   "     cost_center_id = %s, energy_item_id = %s, description = %s "
                                   " WHERE id = %s ")
                     cursor.execute(update_row, (name,
                                                 new_values['data']['expression']['equation'].lower(),
                                                 energy_category_id,
                                                 is_counted,
+                                                is_enabled,
                                                 cost_center_id,
                                                 energy_item_id,
                                                 description,
@@ -1161,9 +1176,10 @@ class VirtualMeterExport:
                                    "equation": row[3],
                                    "energy_category": energy_category_dict.get(row[4], None),
                                    "is_counted": True if row[5] else False,
-                                   "cost_center": cost_center_dict.get(row[6], None),
-                                   "energy_item": energy_item_dict.get(row[7], None),
-                                   "description": row[8],
+                                   "is_enabled": True if row[6] else False,
+                                   "cost_center": cost_center_dict.get(row[7], None),
+                                   "energy_item": energy_item_dict.get(row[8], None),
+                                   "description": row[9],
                                    "expression": {}}
 
                 expression = dict()
@@ -1419,14 +1435,15 @@ class VirtualMeterImport:
                                                    description='API.VIRTUAL_METER_OF_VARIABLE_NOT_FOUND')
 
                 add_values = (" INSERT INTO tbl_virtual_meters "
-                              "     (name, uuid, equation, energy_category_id, is_counted, "
+                              "     (name, uuid, equation, energy_category_id, is_counted, is_enabled, "
                               "      cost_center_id, energy_item_id, description) "
-                              " VALUES (%s, %s, %s, %s, %s, %s, %s, %s) ")
+                              " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s) ")
                 cursor.execute(add_values, (name,
                                             str(uuid.uuid4()),
                                             new_values['expression']['equation'].lower(),
                                             energy_category_id,
                                             is_counted,
+                                            is_enabled,
                                             cost_center_id,
                                             energy_item_id,
                                             description))
@@ -1527,9 +1544,10 @@ class VirtualMeterClone:
                                    "equation": row[3],
                                    "energy_category": energy_category_dict.get(row[4], None),
                                    "is_counted": True if row[5] else False,
-                                   "cost_center": cost_center_dict.get(row[6], None),
-                                   "energy_item": energy_item_dict.get(row[7], None),
-                                   "description": row[8],
+                                   "is_enabled": True if row[6] else False,
+                                   "cost_center": cost_center_dict.get(row[7], None),
+                                   "energy_item": energy_item_dict.get(row[8], None),
+                                   "description": row[9],
                                    "expression": {}}
 
                 expression = dict()
@@ -1593,14 +1611,15 @@ class VirtualMeterClone:
                 new_name = str.strip(meta_result['name']) + suffix
                 energy_item_id = meta_result['energy_item']['id'] if meta_result['energy_item'] is not None else None
                 add_values = (" INSERT INTO tbl_virtual_meters "
-                              "     (name, uuid, equation, energy_category_id, is_counted, "
+                              "     (name, uuid, equation, energy_category_id, is_counted, is_enabled, "
                               "      cost_center_id, energy_item_id, description) "
-                              " VALUES (%s, %s, %s, %s, %s, %s, %s, %s) ")
+                              " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s) ")
                 cursor.execute(add_values, (new_name,
                                             str(uuid.uuid4()),
                                             meta_result['expression']['equation'].lower(),
                                             meta_result['energy_category']['id'],
                                             meta_result['is_counted'],
+                                            meta_result['is_enabled'],
                                             meta_result['cost_center']['id'],
                                             energy_item_id,
                                             meta_result['description']))

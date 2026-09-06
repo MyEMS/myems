@@ -428,6 +428,7 @@
                     SELECT_PHOTOVOLTAIC_POWER_STATION: 'Selecione a Estação de Energia Fotovoltaica',
                     SELECT_WIND_FARM: 'Selecione o Parque Eólico',
                     IS_INPUT_COUNTED: 'A Entrada de Energia é Contabilizada',
+                    IS_ENABLED: 'Is Enabled'
                     IS_OUTPUT_COUNTED: 'A Saída de Energia é Contabilizada',
                     BIND_COMMAND: 'Vincular Comando Ⓔ',
                     BIND_DATA_SOURCE: 'Vincular Fonte de Dados',

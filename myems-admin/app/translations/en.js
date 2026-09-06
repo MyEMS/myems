@@ -161,7 +161,7 @@
                     CATEGORY: 'Category',
                     PRIORITY: 'Priority',
                     CHANNEL: 'Channel',
-                    IS_ENABLED: 'Is Enabled',
+                    IS_ENABLED: 'Is Enabled'
                     LAST_RUN_DATETIME: 'Last Run Datetime',
                     NEXT_RUN_DATETIME: 'Next Run Datetime',
                     EXPRESSION: 'Expression',
@@ -416,6 +416,7 @@
                     SELECT_PHOTOVOLTAIC_POWER_STATION: 'Select Photovoltaic Power Station',
                     SELECT_WIND_FARM: 'Select Wind Farm',
                     IS_INPUT_COUNTED: 'Is Energy Input Counted In',
+                    IS_ENABLED: 'Is Enabled',
                     IS_OUTPUT_COUNTED: 'Is Energy Output Counted',
                     BIND_COMMAND: 'Bind Command Ⓔ',
                     BIND_COMMAND_DESCRIPTION: 'Meter control command management; associate operation commands for meters that support remote control.',

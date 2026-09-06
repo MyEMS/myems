@@ -427,6 +427,7 @@
                     SELECT_PHOTOVOLTAIC_POWER_STATION: 'Seleziona Centrale Fotovoltaica',
                     SELECT_WIND_FARM: 'Seleziona Parco Eolico',
                     IS_INPUT_COUNTED: 'Consumo incluso nella somma',
+                    IS_ENABLED: 'Is Enabled'
                     IS_OUTPUT_COUNTED: 'Produzione energia inclusa nella somma',
                     BIND_COMMAND: 'Associa Comando Ⓔ',
                     BIND_DATA_SOURCE: 'Associa Sorgente Dati',
