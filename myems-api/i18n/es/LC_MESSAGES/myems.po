@@ -427,3 +427,6 @@ msgstr "Datos de equipos"
 
 msgid "Energy Category Analysis"
 msgstr "Análisis de clasificación de energía"
+
+msgid "Combined Equipment"
+msgstr "Equipo Combinado"

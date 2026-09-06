@@ -427,3 +427,6 @@ msgstr "ข้อมูลอุปกรณ์"
 
 msgid "Energy Category Analysis"
 msgstr "การวิเคราะห์จัดหมู่พลังงาน"
+
+msgid "Combined Equipment"
+msgstr "อุปกรณ์รวม"

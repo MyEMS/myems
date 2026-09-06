@@ -12,7 +12,12 @@ import {
   FormGroup,
   Input,
   Label,
+  CustomInput,
   Spinner,
+  UncontrolledDropdown,
+  DropdownToggle,
+  DropdownMenu,
+  DropdownItem,
   Media
 } from 'reactstrap';
 import moment from 'moment';
@@ -106,6 +111,8 @@ const CombinedEquipmentBatch = ({ setRedirect, setRedirectUrl, t }) => {
   const [smartAnalysisOpen, setSmartAnalysisOpen] = useState(false);
   const [smartAnalysisContext, setSmartAnalysisContext] = useState(null);
   const [resultDataHidden, setResultDataHidden] = useState(true);
+  const [exportExcel, setExportExcel] = useState(false);
+  const [exportDocx, setExportDocx] = useState(false);
 
   //Results
   const [detailedDataTableColumns, setDetailedDataTableColumns] = useState([
@@ -130,6 +137,7 @@ const CombinedEquipmentBatch = ({ setRedirect, setRedirectUrl, t }) => {
     { dataField: 'space', text: t('Space'), sort: true }
   ]);
   const [excelBytesBase64, setExcelBytesBase64] = useState(undefined);
+  const [docxBytesBase64, setDocxBytesBase64] = useState(undefined);
 
   useEffect(() => {
     let isResponseOK = false;
@@ -214,6 +222,8 @@ const CombinedEquipmentBatch = ({ setRedirect, setRedirectUrl, t }) => {
     setExportButtonHidden(true);
     // hide result data
     setResultDataHidden(true);
+    setExcelBytesBase64(undefined);
+    setDocxBytesBase64(undefined);
 
     // Reinitialize tables
     setCombinedEquipmentList([]);
@@ -229,7 +239,11 @@ const CombinedEquipmentBatch = ({ setRedirect, setRedirectUrl, t }) => {
         '&reportingperiodenddatetime=' +
         moment(reportingPeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss') +
         '&language=' +
-        language,
+        language +
+        '&exportexcel=' +
+        exportExcel +
+        '&exportdocx=' +
+        exportDocx,
       {
         method: 'GET',
         headers: {
@@ -333,6 +347,7 @@ const CombinedEquipmentBatch = ({ setRedirect, setRedirectUrl, t }) => {
           setCombinedEquipmentList(combined_equipments);
 
           setExcelBytesBase64(json['excel_bytes_base64']);
+          setDocxBytesBase64(json['docx_bytes_base64']);
 
           // enable submit button
           setSubmitButtonDisabled(false);
@@ -351,21 +366,41 @@ const CombinedEquipmentBatch = ({ setRedirect, setRedirectUrl, t }) => {
       });
   };
 
-  const handleExport = e => {
+  const handleExport = (e, type) => {
     e.preventDefault();
-    const mimeType = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
-    const fileName = 'combinedequipmentbatch.xlsx';
-    var fileUrl = 'data:' + mimeType + ';base64,' + excelBytesBase64;
-    fetch(fileUrl)
-      .then(response => response.blob())
-      .then(blob => {
-        var link = window.document.createElement('a');
-        link.href = window.URL.createObjectURL(blob, { type: mimeType });
-        link.download = fileName;
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-      });
+    if (type === 'excel' && excelBytesBase64) {
+      const mimeType = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
+      const fileName = 'combinedequipmentbatch.xlsx';
+      const fileUrl = 'data:' + mimeType + ';base64,' + excelBytesBase64;
+      fetch(fileUrl)
+        .then(response => response.blob())
+        .then(blob => {
+          const link = window.document.createElement('a');
+          const blobUrl = window.URL.createObjectURL(blob, { type: mimeType });
+          link.href = blobUrl;
+          link.download = fileName;
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+          setTimeout(() => window.URL.revokeObjectURL(blobUrl), 100);
+        });
+    } else if (type === 'docx' && docxBytesBase64) {
+      const mimeType = 'application/vnd.openxmlformats-officedocument.wordprocessingml.document';
+      const fileName = 'combinedequipmentbatch.docx';
+      const fileUrl = 'data:' + mimeType + ';base64,' + docxBytesBase64;
+      fetch(fileUrl)
+        .then(response => response.blob())
+        .then(blob => {
+          const link = window.document.createElement('a');
+          const blobUrl = window.URL.createObjectURL(blob, { type: mimeType });
+          link.href = blobUrl;
+          link.download = fileName;
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+          setTimeout(() => window.URL.revokeObjectURL(blobUrl), 100);
+        });
+    }
   };
 
   const buildSmartAnalysisContext = useCallback(() => {
@@ -492,6 +527,15 @@ const CombinedEquipmentBatch = ({ setRedirect, setRedirectUrl, t }) => {
                   />
                 </FormGroup>
               </Col>
+              <Col xs={6} sm={3}>
+                <FormGroup className="form-group">
+                  <Label className={labelClasses}>{t('Export')}{t('(Optional)')}</Label>
+                  <div>
+                    <CustomInput type="checkbox" id="exportExcel" name="exportExcel" label="Excel" bsSize="sm" inline checked={exportExcel} onChange={({ target }) => setExportExcel(target.checked)} />
+                    <CustomInput type="checkbox" id="exportDocx" name="exportDocx" label="DOCX" bsSize="sm" inline checked={exportDocx} onChange={({ target }) => setExportDocx(target.checked)} />
+                  </div>
+                </FormGroup>
+              </Col>
               <Col xs="auto">
                 <FormGroup>
                   <br />
@@ -510,16 +554,13 @@ const CombinedEquipmentBatch = ({ setRedirect, setRedirectUrl, t }) => {
               </Col>
               <Col xs="auto">
                 <br />
-                <ButtonIcon
-                  icon="external-link-alt"
-                  transform="shrink-3 down-2"
-                  color="falcon-default"
-                  size="sm"
-                  hidden={exportButtonHidden}
-                  onClick={handleExport}
-                >
-                  {t('Export')}
-                </ButtonIcon>
+                <UncontrolledDropdown hidden={exportButtonHidden}>
+                  <DropdownToggle color="falcon-default" size="sm" caret>{t('Export')}</DropdownToggle>
+                  <DropdownMenu right>
+                    {excelBytesBase64 ? (<DropdownItem onClick={e => handleExport(e, 'excel')}>{t('EXCEL')}</DropdownItem>) : null}
+                    {docxBytesBase64 ? (<DropdownItem onClick={e => handleExport(e, 'docx')}>{t('DOCX')}</DropdownItem>) : null}
+                  </DropdownMenu>
+                </UncontrolledDropdown>
               </Col>
               {settings.enableAIAnalysis ? (
                 <Col xs="auto">

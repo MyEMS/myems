@@ -427,3 +427,6 @@ msgstr "Dati delle apparecchiature"
 
 msgid "Energy Category Analysis"
 msgstr "Analisi della classificazione energetica"
+
+msgid "Combined Equipment"
+msgstr "Apparecchiatura Combinata"
