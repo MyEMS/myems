@@ -21,6 +21,6 @@ ALTER TABLE `myems_system_db`.`tbl_virtual_meters`
 ADD COLUMN `is_enabled` BOOL NOT NULL DEFAULT 1 AFTER `is_counted`;
 
 -- UPDATE VERSION NUMBER
-UPDATE `myems_system_db`.`tbl_versions` SET version='6.8.1', release_date='2026-09-06' WHERE id=1;
+UPDATE `myems_system_db`.`tbl_versions` SET version='6.8.1', release_date='2024-09-06' WHERE id=1;
 
 COMMIT;

@@ -281,10 +281,13 @@ class VirtualMeterCollection:
                                    description='API.INVALID_IS_COUNTED_VALUE')
         is_counted = new_values['data']['is_counted']
 
-        if 'is_enabled' not in new_values['data'].keys() or not isinstance(new_values['data']['is_enabled'], bool):
+        if 'is_enabled' not in new_values['data'].keys():
+            is_enabled = True
+        elif not isinstance(new_values['data']['is_enabled'], bool):
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_IS_ENABLED_VALUE')
-        is_enabled = new_values['data']['is_enabled']
+        else:
+            is_enabled = new_values['data']['is_enabled']
 
         if 'cost_center_id' not in new_values['data'].keys() or \
                 not isinstance(new_values['data']['cost_center_id'], int) or \
@@ -863,10 +866,13 @@ class VirtualMeterItem:
                                    description='API.INVALID_IS_COUNTED_VALUE')
         is_counted = new_values['data']['is_counted']
 
-        if 'is_enabled' not in new_values['data'].keys() or not isinstance(new_values['data']['is_enabled'], bool):
+        if 'is_enabled' not in new_values['data'].keys():
+            is_enabled = True
+        elif not isinstance(new_values['data']['is_enabled'], bool):
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_IS_ENABLED_VALUE')
-        is_enabled = new_values['data']['is_enabled']
+        else:
+            is_enabled = new_values['data']['is_enabled']
 
         if 'cost_center_id' not in new_values['data'].keys() or \
                 not isinstance(new_values['data']['cost_center_id'], int) or \
