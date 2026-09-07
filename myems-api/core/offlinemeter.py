@@ -474,7 +474,7 @@ class OfflineMeterItem:
                                                     "uuid": row[2]}
 
                 query = (" SELECT id, name, uuid, energy_category_id, "
-                         "        is_counted, hourly_low_limit, hourly_high_limit, "
+                         "        is_counted, is_enabled, hourly_low_limit, hourly_high_limit, "
                          "        energy_item_id, cost_center_id, description "
                          " FROM tbl_offline_meters "
                          " WHERE id = %s ")
@@ -490,17 +490,18 @@ class OfflineMeterItem:
         if row is None:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.OFFLINE_METER_NOT_FOUND')
-        
+
         meta_result = {"id": row[0],
                        "name": row[1],
                        "uuid": row[2],
                        "energy_category": energy_category_dict.get(row[3], None),
                        "is_counted": True if row[4] else False,
-                       "hourly_low_limit": row[5],
-                       "hourly_high_limit": row[6],
-                       "energy_item": energy_item_dict.get(row[7], None),
-                       "cost_center": cost_center_dict.get(row[8], None),
-                       "description": row[9]}
+                       "is_enabled": True if row[5] else False,
+                       "hourly_low_limit": row[6],
+                       "hourly_high_limit": row[7],
+                       "energy_item": energy_item_dict.get(row[8], None),
+                       "cost_center": cost_center_dict.get(row[9], None),
+                       "description": row[10]}
 
         # Store result in Redis cache
         result_json = json.dumps(meta_result)
@@ -926,7 +927,7 @@ class OfflineMeterExport:
                                                     "uuid": row[2]}
 
                 query = (" SELECT id, name, uuid, energy_category_id, "
-                         "        is_counted, hourly_low_limit, hourly_high_limit, "
+                         "        is_counted, is_enabled, hourly_low_limit, hourly_high_limit, "
                          "        energy_item_id, cost_center_id, description "
                          " FROM tbl_offline_meters "
                          " WHERE id = %s ")
@@ -942,17 +943,18 @@ class OfflineMeterExport:
         if row is None:
             raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                    description='API.OFFLINE_METER_NOT_FOUND')
-        
+
         meta_result = {"id": row[0],
                        "name": row[1],
                        "uuid": row[2],
                        "energy_category": energy_category_dict.get(row[3], None),
                        "is_counted": True if row[4] else False,
-                       "hourly_low_limit": row[5],
-                       "hourly_high_limit": row[6],
-                       "energy_item": energy_item_dict.get(row[7], None),
-                       "cost_center": cost_center_dict.get(row[8], None),
-                       "description": row[9]}
+                       "is_enabled": True if row[5] else False,
+                       "hourly_low_limit": row[6],
+                       "hourly_high_limit": row[7],
+                       "energy_item": energy_item_dict.get(row[8], None),
+                       "cost_center": cost_center_dict.get(row[9], None),
+                       "description": row[10]}
 
         # Store result in Redis cache
         result_json = json.dumps(meta_result)
@@ -1010,6 +1012,14 @@ class OfflineMeterImport:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_IS_COUNTED_VALUE')
         is_counted = new_values['is_counted']
+
+        if 'is_enabled' not in new_values.keys():
+            is_enabled = True
+        elif not isinstance(new_values['is_enabled'], bool):
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_IS_ENABLED_VALUE')
+        else:
+            is_enabled = new_values['is_enabled']
 
         if 'hourly_low_limit' not in new_values.keys() or \
                 not (isinstance(new_values['hourly_low_limit'], float) or
@@ -1194,7 +1204,7 @@ class OfflineMeterClone:
                                                     "uuid": row[2]}
 
                 query = (" SELECT id, name, uuid, energy_category_id, "
-                         "        is_counted, hourly_low_limit, hourly_high_limit, "
+                         "        is_counted, is_enabled, hourly_low_limit, hourly_high_limit, "
                          "        energy_item_id, cost_center_id, description "
                          " FROM tbl_offline_meters "
                          " WHERE id = %s ")

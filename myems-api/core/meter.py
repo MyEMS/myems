@@ -1194,7 +1194,7 @@ class MeterSubmeterCollection:
                                                     "uuid": row[2]}
 
                 query = (" SELECT id, name, uuid, energy_category_id, "
-                         "        is_counted, hourly_low_limit, hourly_high_limit, "
+                         "        is_counted, is_enabled, hourly_low_limit, hourly_high_limit, "
                          "        cost_center_id, energy_item_id, master_meter_id, description "
                          " FROM tbl_meters "
                          " WHERE master_meter_id = %s "
@@ -1216,12 +1216,13 @@ class MeterSubmeterCollection:
                                "uuid": row[2],
                                "energy_category": energy_category_dict.get(row[3], None),
                                "is_counted": True if row[4] else False,
-                               "hourly_low_limit": row[5],
-                               "hourly_high_limit": row[6],
-                               "cost_center": cost_center_dict.get(row[7], None),
-                               "energy_item": energy_item_dict.get(row[8], None),
+                               "is_enabled": True if row[5] else False,
+                               "hourly_low_limit": row[6],
+                               "hourly_high_limit": row[7],
+                               "cost_center": cost_center_dict.get(row[8], None),
+                               "energy_item": energy_item_dict.get(row[9], None),
                                "master_meter": master_meter,
-                               "description": row[10]}
+                               "description": row[11]}
                 result.append(meta_result)
 
         # Store result in Redis cache
@@ -1808,7 +1809,7 @@ class MeterExport:
                                                      "uuid": row[2]}
 
                 query = (" SELECT id, name, uuid, energy_category_id, "
-                         "        is_counted, hourly_low_limit, hourly_high_limit, "
+                         "        is_counted, is_enabled, hourly_low_limit, hourly_high_limit, "
                          "        cost_center_id, energy_item_id, master_meter_id, description "
                          " FROM tbl_meters "
                          " WHERE id = %s ")
@@ -1818,16 +1819,17 @@ class MeterExport:
                 if row is None:
                     raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                            description='API.METER_NOT_FOUND')
-                
+
                 meta_result = {"name": row[1],
                                "energy_category": energy_category_dict.get(row[3], None),
                                "is_counted": True if row[4] else False,
-                               "hourly_low_limit": row[5],
-                               "hourly_high_limit": row[6],
-                               "cost_center": cost_center_dict.get(row[7], None),
-                               "energy_item": energy_item_dict.get(row[8], None),
-                               "master_meter": master_meter_dict.get(row[9], None),
-                               "description": row[10],
+                               "is_enabled": True if row[5] else False,
+                               "hourly_low_limit": row[6],
+                               "hourly_high_limit": row[7],
+                               "cost_center": cost_center_dict.get(row[8], None),
+                               "energy_item": energy_item_dict.get(row[9], None),
+                               "master_meter": master_meter_dict.get(row[10], None),
+                               "description": row[11],
                                "points": None}
                 
                 query = (" SELECT p.id, p.name, "
@@ -1908,6 +1910,14 @@ class MeterImport:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_IS_COUNTED_VALUE')
         is_counted = new_values['is_counted']
+
+        if 'is_enabled' not in new_values.keys():
+            is_enabled = True
+        elif not isinstance(new_values['is_enabled'], bool):
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_IS_ENABLED_VALUE')
+        else:
+            is_enabled = new_values['is_enabled']
 
         if 'hourly_low_limit' not in new_values.keys() or \
                 not (isinstance(new_values['hourly_low_limit'], float) or

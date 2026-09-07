@@ -72722,7 +72722,7 @@
 				"body": {
 					"mode": "json",
 					"parameter": [],
-					"raw": "{\n\t\"data\": {\n\t\t\"name\": \"PM20\",\n\t\t\"energy_category_id\": 1,\n\t\t\"hourly_low_limit\": 0,\n\t\t\"hourly_high_limit\": 999.99,\n\t\t\"is_counted\": true,\n\t\t\"cost_center_id\": 1,\n\t\t\"energy_item_id\": 1,\n\t\t\"master_meter_id\": 1,\n\t\t\"description\": \"空调用电\"\n\t}\n}",
+					"raw": "{\n\t\"data\": {\n\t\t\"name\": \"PM20\",\n\t\t\"energy_category_id\": 1,\n\t\t\"hourly_low_limit\": 0,\n\t\t\"hourly_high_limit\": 999.99,\n\t\t\"is_counted\": true, \"is_enabled\": true,\n\t\t\"cost_center_id\": 1,\n\t\t\"energy_item_id\": 1,\n\t\t\"master_meter_id\": 1,\n\t\t\"description\": \"空调用电\"\n\t}\n}",
 					"raw_parameter": [],
 					"raw_schema": {
 						"type": "object",
@@ -72756,6 +72756,9 @@
 									},
 									"energy_category_id": {
 										"type": "integer"
+									},
+									"is_enabled": {
+										"type": "boolean"
 									}
 								}
 							}
@@ -72988,7 +72991,7 @@
 				"body": {
 					"mode": "json",
 					"parameter": [],
-					"raw": "{\n\t\"data\": {\n\t\t\"name\": \"PM201\",\n\t\t\"energy_category_id\": 1,\n\t\t\"hourly_low_limit\": 0,\n\t\t\"hourly_high_limit\": 999.99,\n\t\t\"is_counted\": true,\n\t\t\"cost_center_id\": 1,\n\t\t\"energy_item_id\": 1,\n\t\t\"master_meter_id\": 1,\n\t\t\"description\": \"空调用电\"\n\t}\n}",
+					"raw": "{\n\t\"data\": {\n\t\t\"name\": \"PM201\",\n\t\t\"energy_category_id\": 1,\n\t\t\"hourly_low_limit\": 0,\n\t\t\"hourly_high_limit\": 999.99,\n\t\t\"is_counted\": true, \"is_enabled\": true,\n\t\t\"cost_center_id\": 1,\n\t\t\"energy_item_id\": 1,\n\t\t\"master_meter_id\": 1,\n\t\t\"description\": \"空调用电\"\n\t}\n}",
 					"raw_parameter": [],
 					"raw_schema": {
 						"type": "object",
@@ -73022,6 +73025,9 @@
 									},
 									"energy_category_id": {
 										"type": "integer"
+									},
+									"is_enabled": {
+										"type": "boolean"
 									}
 								}
 							}
@@ -75603,7 +75609,7 @@
 				"body": {
 					"mode": "json",
 					"parameter": [],
-					"raw": "{\n\t\"name\": \"计量表1\",\n\t\"uuid\": \"5ca47bc5-22c2-47fc-b906-33222191ea40\",\n\t\"energy_category\": {\n\t\t\"id\": 1,\n\t\t\"name\": \"电\",\n\t\t\"uuid\": \"6d0753ed-8b43-4332-b6fd-d2f5813831d3\"\n\t},\n\t\"is_counted\": true,\n\t\"hourly_low_limit\": 0,\n\t\"hourly_high_limit\": 999.999,\n\t\"cost_center\": {\n\t\t\"id\": 1,\n\t\t\"name\": \"test\",\n\t\t\"uuid\": \"76d86222-96c5-4653-8162-bfbcd7edd5ad\"\n\t},\n\t\"energy_item\": {\n\t\t\"id\": 1,\n\t\t\"name\": \"照明和插座用电\",\n\t\t\"uuid\": \"cade4e78-2b85-4bea-ab6e-0d6accc88d03\"\n\t},\n\t\"master_meter\": null,\n\t\"description\": \"meter1\",\n\t\"points\": [\n\t\t{\n\t\t\t\"id\": 1,\n\t\t\t\"name\": \"Active Energy Import Tariff 1\"\n\t\t}\n\t]\n}",
+					"raw": "{\n\t\"name\": \"计量表1\",\n\t\"uuid\": \"5ca47bc5-22c2-47fc-b906-33222191ea40\",\n\t\"energy_category\": {\n\t\t\"id\": 1,\n\t\t\"name\": \"电\",\n\t\t\"uuid\": \"6d0753ed-8b43-4332-b6fd-d2f5813831d3\"\n\t},\n\t\"is_counted\": true, \"is_enabled\": true,\n\t\"hourly_low_limit\": 0,\n\t\"hourly_high_limit\": 999.999,\n\t\"cost_center\": {\n\t\t\"id\": 1,\n\t\t\"name\": \"test\",\n\t\t\"uuid\": \"76d86222-96c5-4653-8162-bfbcd7edd5ad\"\n\t},\n\t\"energy_item\": {\n\t\t\"id\": 1,\n\t\t\"name\": \"照明和插座用电\",\n\t\t\"uuid\": \"cade4e78-2b85-4bea-ab6e-0d6accc88d03\"\n\t},\n\t\"master_meter\": null,\n\t\"description\": \"meter1\",\n\t\"points\": [\n\t\t{\n\t\t\t\"id\": 1,\n\t\t\t\"name\": \"Active Energy Import Tariff 1\"\n\t\t}\n\t]\n}",
 					"raw_parameter": [],
 					"raw_schema": {
 						"type": "object",
@@ -75684,6 +75690,9 @@
 							},
 							"hourly_high_limit": {
 								"type": "number"
+							},
+							"is_enabled": {
+								"type": "boolean"
 							}
 						}
 					},
@@ -92080,7 +92089,7 @@
 				"body": {
 					"mode": "json",
 					"parameter": [],
-					"raw": "{\n\t\"data\": {\n\t\t\"name\": \"OfflinePM21\",\n\t\t\"energy_category_id\": 1,\n\t\t\"hourly_low_limit\": 0,\n\t\t\"hourly_high_limit\": 999.99,\n\t\t\"is_counted\": true,\n\t\t\"cost_center_id\": 1,\n\t\t\"energy_item_id\": 1,\n\t\t\"description\": \"空调用电\"\n\t}\n}",
+					"raw": "{\n\t\"data\": {\n\t\t\"name\": \"OfflinePM21\",\n\t\t\"energy_category_id\": 1,\n\t\t\"hourly_low_limit\": 0,\n\t\t\"hourly_high_limit\": 999.99,\n\t\t\"is_counted\": true, \"is_enabled\": true,\n\t\t\"cost_center_id\": 1,\n\t\t\"energy_item_id\": 1,\n\t\t\"description\": \"空调用电\"\n\t}\n}",
 					"raw_parameter": [],
 					"raw_schema": {
 						"type": "object",
@@ -92111,6 +92120,9 @@
 									},
 									"energy_category_id": {
 										"type": "integer"
+									},
+									"is_enabled": {
+										"type": "boolean"
 									}
 								}
 							}
@@ -92343,7 +92355,7 @@
 				"body": {
 					"mode": "json",
 					"parameter": [],
-					"raw": "{\n\t\"data\": {\n\t\t\"name\": \"OfflinePM201\",\n\t\t\"energy_category_id\": 1,\n\t\t\"hourly_low_limit\": 0,\n\t\t\"hourly_high_limit\": 999.99,\n\t\t\"is_counted\": true,\n\t\t\"cost_center_id\": 1,\n\t\t\"energy_item_id\": 1,\n\t\t\"description\": \"空调用电\"\n\t}\n}",
+					"raw": "{\n\t\"data\": {\n\t\t\"name\": \"OfflinePM201\",\n\t\t\"energy_category_id\": 1,\n\t\t\"hourly_low_limit\": 0,\n\t\t\"hourly_high_limit\": 999.99,\n\t\t\"is_counted\": true, \"is_enabled\": true,\n\t\t\"cost_center_id\": 1,\n\t\t\"energy_item_id\": 1,\n\t\t\"description\": \"空调用电\"\n\t}\n}",
 					"raw_parameter": [],
 					"raw_schema": {
 						"type": "object",
@@ -92374,6 +92386,9 @@
 									},
 									"energy_category_id": {
 										"type": "integer"
+									},
+									"is_enabled": {
+										"type": "boolean"
 									}
 								}
 							}
@@ -93072,7 +93087,7 @@
 				"body": {
 					"mode": "json",
 					"parameter": [],
-					"raw": "{\n\t\"name\": \"离线表101\",\n\t\"energy_category\": {\n\t\t\"id\": 1,\n\t\t\"name\": \"电\",\n\t\t\"uuid\": \"6d0753ed-8b43-4332-b6fd-d2f5813831d3\"\n\t},\n\t\"is_counted\": true,\n\t\"hourly_low_limit\": 0,\n\t\"hourly_high_limit\": 999.999,\n\t\"energy_item\": {\n\t\t\"id\": 1,\n\t\t\"name\": \"照明和插座用电\",\n\t\t\"uuid\": \"cade4e78-2b85-4bea-ab6e-0d6accc88d03\"\n\t},\n\t\"cost_center\": {\n\t\t\"id\": 1,\n\t\t\"name\": \"成本中心\",\n\t\t\"uuid\": \"d97b9736-c4f9-4005-a534-6af3487303ad\"\n\t},\n\t\"description\": \"offlinemeter1\"\n}",
+					"raw": "{\n\t\"name\": \"离线表101\",\n\t\"energy_category\": {\n\t\t\"id\": 1,\n\t\t\"name\": \"电\",\n\t\t\"uuid\": \"6d0753ed-8b43-4332-b6fd-d2f5813831d3\"\n\t},\n\t\"is_counted\": true, \"is_enabled\": true,\n\t\"hourly_low_limit\": 0,\n\t\"hourly_high_limit\": 999.999,\n\t\"energy_item\": {\n\t\t\"id\": 1,\n\t\t\"name\": \"照明和插座用电\",\n\t\t\"uuid\": \"cade4e78-2b85-4bea-ab6e-0d6accc88d03\"\n\t},\n\t\"cost_center\": {\n\t\t\"id\": 1,\n\t\t\"name\": \"成本中心\",\n\t\t\"uuid\": \"d97b9736-c4f9-4005-a534-6af3487303ad\"\n\t},\n\t\"description\": \"offlinemeter1\"\n}",
 					"raw_parameter": [],
 					"raw_schema": {
 						"type": "object",
@@ -93133,6 +93148,9 @@
 							},
 							"hourly_high_limit": {
 								"type": "number"
+							},
+							"is_enabled": {
+								"type": "boolean"
 							}
 						}
 					},
@@ -170743,7 +170761,7 @@
 				"body": {
 					"mode": "json",
 					"parameter": [],
-					"raw": "{\n\t\"data\": {\n\t\t\"name\": \"VM10\",\n\t\t\"energy_category_id\": 1,\n\t\t\"is_counted\": true,\n\t\t\"cost_center_id\": 1,\n\t\t\"energy_item_id\": 1,\n\t\t\"description\": \"virtual description\",\n\t\t\"expression\": {\n\t\t\t\"equation\": \"x1+x2-x3\",\n\t\t\t\"variables\": [\n\t\t\t\t{\n\t\t\t\t\t\"name\": \"x1\",\n\t\t\t\t\t\"meter_type\": \"meter\",\n\t\t\t\t\t\"meter_id\": 1\n\t\t\t\t},\n\t\t\t\t{\n\t\t\t\t\t\"name\": \"x2\",\n\t\t\t\t\t\"meter_type\": \"meter\",\n\t\t\t\t\t\"meter_id\": 2\n\t\t\t\t},\n\t\t\t\t{\n\t\t\t\t\t\"name\": \"x3\",\n\t\t\t\t\t\"meter_type\": \"meter\",\n\t\t\t\t\t\"meter_id\": 3\n\t\t\t\t}\n\t\t\t]\n\t\t}\n\t}\n}",
+					"raw": "{\n\t\"data\": {\n\t\t\"name\": \"VM10\",\n\t\t\"energy_category_id\": 1,\n\t\t\"is_counted\": true, \"is_enabled\": true,\n\t\t\"cost_center_id\": 1,\n\t\t\"energy_item_id\": 1,\n\t\t\"description\": \"virtual description\",\n\t\t\"expression\": {\n\t\t\t\"equation\": \"x1+x2-x3\",\n\t\t\t\"variables\": [\n\t\t\t\t{\n\t\t\t\t\t\"name\": \"x1\",\n\t\t\t\t\t\"meter_type\": \"meter\",\n\t\t\t\t\t\"meter_id\": 1\n\t\t\t\t},\n\t\t\t\t{\n\t\t\t\t\t\"name\": \"x2\",\n\t\t\t\t\t\"meter_type\": \"meter\",\n\t\t\t\t\t\"meter_id\": 2\n\t\t\t\t},\n\t\t\t\t{\n\t\t\t\t\t\"name\": \"x3\",\n\t\t\t\t\t\"meter_type\": \"meter\",\n\t\t\t\t\t\"meter_id\": 3\n\t\t\t\t}\n\t\t\t]\n\t\t}\n\t}\n}",
 					"raw_parameter": [],
 					"raw_schema": {
 						"type": "object",
@@ -170793,6 +170811,9 @@
 									},
 									"energy_category_id": {
 										"type": "integer"
+									},
+									"is_enabled": {
+										"type": "boolean"
 									}
 								}
 							}
@@ -171025,7 +171046,7 @@
 				"body": {
 					"mode": "json",
 					"parameter": [],
-					"raw": "{\n\t\"data\": {\n\t\t\"name\": \"VM11\",\n\t\t\"energy_category_id\": 1,\n\t\t\"is_counted\": true,\n\t\t\"cost_center_id\": 1,\n\t\t\"energy_item_id\": 1,\n\t\t\"description\": \"virtual description\",\n\t\t\"expression\": {\n\t\t\t\"equation\": \"x1+x2-x3\",\n\t\t\t\"variables\": [\n\t\t\t\t{\n\t\t\t\t\t\"name\": \"x1\",\n\t\t\t\t\t\"meter_type\": \"meter\",\n\t\t\t\t\t\"meter_id\": 1\n\t\t\t\t},\n\t\t\t\t{\n\t\t\t\t\t\"name\": \"x2\",\n\t\t\t\t\t\"meter_type\": \"meter\",\n\t\t\t\t\t\"meter_id\": 2\n\t\t\t\t},\n\t\t\t\t{\n\t\t\t\t\t\"name\": \"x3\",\n\t\t\t\t\t\"meter_type\": \"meter\",\n\t\t\t\t\t\"meter_id\": 3\n\t\t\t\t}\n\t\t\t]\n\t\t}\n\t}\n}",
+					"raw": "{\n\t\"data\": {\n\t\t\"name\": \"VM11\",\n\t\t\"energy_category_id\": 1,\n\t\t\"is_counted\": true, \"is_enabled\": true,\n\t\t\"cost_center_id\": 1,\n\t\t\"energy_item_id\": 1,\n\t\t\"description\": \"virtual description\",\n\t\t\"expression\": {\n\t\t\t\"equation\": \"x1+x2-x3\",\n\t\t\t\"variables\": [\n\t\t\t\t{\n\t\t\t\t\t\"name\": \"x1\",\n\t\t\t\t\t\"meter_type\": \"meter\",\n\t\t\t\t\t\"meter_id\": 1\n\t\t\t\t},\n\t\t\t\t{\n\t\t\t\t\t\"name\": \"x2\",\n\t\t\t\t\t\"meter_type\": \"meter\",\n\t\t\t\t\t\"meter_id\": 2\n\t\t\t\t},\n\t\t\t\t{\n\t\t\t\t\t\"name\": \"x3\",\n\t\t\t\t\t\"meter_type\": \"meter\",\n\t\t\t\t\t\"meter_id\": 3\n\t\t\t\t}\n\t\t\t]\n\t\t}\n\t}\n}",
 					"raw_parameter": [],
 					"raw_schema": {
 						"type": "object",
@@ -171075,6 +171096,9 @@
 									},
 									"energy_category_id": {
 										"type": "integer"
+									},
+									"is_enabled": {
+										"type": "boolean"
 									}
 								}
 							}
@@ -171773,7 +171797,7 @@
 				"body": {
 					"mode": "json",
 					"parameter": [],
-					"raw": "{\n\t\"name\": \"虚拟表12\",\n\t\"equation\": \"x1+x2+x3\",\n\t\"energy_category\": {\n\t\t\"id\": 1,\n\t\t\"name\": \"电\",\n\t\t\"uuid\": \"6d0753ed-8b43-4332-b6fd-d2f5813831d3\"\n\t},\n\t\"is_counted\": true,\n\t\"cost_center\": {\n\t\t\"id\": 1,\n\t\t\"name\": \"成本中心\",\n\t\t\"uuid\": \"d97b9736-c4f9-4005-a534-6af3487303ad\"\n\t},\n\t\"energy_item\": {\n\t\t\"id\": 1,\n\t\t\"name\": \"照明和插座用电\",\n\t\t\"uuid\": \"cade4e78-2b85-4bea-ab6e-0d6accc88d03\"\n\t},\n\t\"description\": \"virtual description\",\n\t\"expression\": {\n\t\t\"equation\": \"x1+x2+x3\",\n\t\t\"variables\": [\n\t\t\t{\n\t\t\t\t\"id\": 1,\n\t\t\t\t\"name\": \"x1\",\n\t\t\t\t\"meter_type\": \"meter\",\n\t\t\t\t\"meter_id\": 1,\n\t\t\t\t\"meter_name\": \"计量表1\"\n\t\t\t},\n\t\t\t{\n\t\t\t\t\"id\": 2,\n\t\t\t\t\"name\": \"x2\",\n\t\t\t\t\"meter_type\": \"meter\",\n\t\t\t\t\"meter_id\": 2,\n\t\t\t\t\"meter_name\": \"计量表2\"\n\t\t\t},\n\t\t\t{\n\t\t\t\t\"id\": 3,\n\t\t\t\t\"name\": \"x3\",\n\t\t\t\t\"meter_type\": \"meter\",\n\t\t\t\t\"meter_id\": 3,\n\t\t\t\t\"meter_name\": \"计量表3\"\n\t\t\t}\n\t\t]\n\t}\n}",
+					"raw": "{\n\t\"name\": \"虚拟表12\",\n\t\"equation\": \"x1+x2+x3\",\n\t\"energy_category\": {\n\t\t\"id\": 1,\n\t\t\"name\": \"电\",\n\t\t\"uuid\": \"6d0753ed-8b43-4332-b6fd-d2f5813831d3\"\n\t},\n\t\"is_counted\": true, \"is_enabled\": true,\n\t\"cost_center\": {\n\t\t\"id\": 1,\n\t\t\"name\": \"成本中心\",\n\t\t\"uuid\": \"d97b9736-c4f9-4005-a534-6af3487303ad\"\n\t},\n\t\"energy_item\": {\n\t\t\"id\": 1,\n\t\t\"name\": \"照明和插座用电\",\n\t\t\"uuid\": \"cade4e78-2b85-4bea-ab6e-0d6accc88d03\"\n\t},\n\t\"description\": \"virtual description\",\n\t\"expression\": {\n\t\t\"equation\": \"x1+x2+x3\",\n\t\t\"variables\": [\n\t\t\t{\n\t\t\t\t\"id\": 1,\n\t\t\t\t\"name\": \"x1\",\n\t\t\t\t\"meter_type\": \"meter\",\n\t\t\t\t\"meter_id\": 1,\n\t\t\t\t\"meter_name\": \"计量表1\"\n\t\t\t},\n\t\t\t{\n\t\t\t\t\"id\": 2,\n\t\t\t\t\"name\": \"x2\",\n\t\t\t\t\"meter_type\": \"meter\",\n\t\t\t\t\"meter_id\": 2,\n\t\t\t\t\"meter_name\": \"计量表2\"\n\t\t\t},\n\t\t\t{\n\t\t\t\t\"id\": 3,\n\t\t\t\t\"name\": \"x3\",\n\t\t\t\t\"meter_type\": \"meter\",\n\t\t\t\t\"meter_id\": 3,\n\t\t\t\t\"meter_name\": \"计量表3\"\n\t\t\t}\n\t\t]\n\t}\n}",
 					"raw_parameter": [],
 					"raw_schema": {
 						"type": "object",
@@ -171862,6 +171886,9 @@
 										"type": "string"
 									}
 								}
+							},
+							"is_enabled": {
+								"type": "boolean"
 							}
 						}
 					},

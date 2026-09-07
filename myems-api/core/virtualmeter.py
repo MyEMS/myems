@@ -557,7 +557,7 @@ class VirtualMeterItem:
                                                     "name": row[1],
                                                     "uuid": row[2]}
 
-                query = (" SELECT id, name, uuid, equation, energy_category_id, is_counted, cost_center_id, "
+                query = (" SELECT id, name, uuid, equation, energy_category_id, is_counted, is_enabled, cost_center_id, "
                          "        energy_item_id, description "
                          " FROM tbl_virtual_meters "
                          " WHERE id = %s ")
@@ -1167,7 +1167,7 @@ class VirtualMeterExport:
                                                     "name": row[1],
                                                     "uuid": row[2]}
 
-                query = (" SELECT id, name, uuid, equation, energy_category_id, is_counted, cost_center_id, "
+                query = (" SELECT id, name, uuid, equation, energy_category_id, is_counted, is_enabled, cost_center_id, "
                          "        energy_item_id, description "
                          " FROM tbl_virtual_meters "
                          " WHERE id = %s ")
@@ -1293,6 +1293,14 @@ class VirtualMeterImport:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_IS_COUNTED_VALUE')
         is_counted = new_values['is_counted']
+
+        if 'is_enabled' not in new_values.keys():
+            is_enabled = True
+        elif not isinstance(new_values['is_enabled'], bool):
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_IS_ENABLED_VALUE')
+        else:
+            is_enabled = new_values['is_enabled']
 
         if 'cost_center' not in new_values.keys() or \
             new_values['cost_center'] is None or \
@@ -1534,7 +1542,7 @@ class VirtualMeterClone:
                         cost_center_dict[row[0]] = {"id": row[0],
                                                     "name": row[1],
                                                     "uuid": row[2]}
-                query = (" SELECT id, name, uuid, equation, energy_category_id, is_counted, cost_center_id, "
+                query = (" SELECT id, name, uuid, equation, energy_category_id, is_counted, is_enabled, cost_center_id, "
                          "        energy_item_id, description "
                          " FROM tbl_virtual_meters "
                          " WHERE id = %s ")
