@@ -427,3 +427,6 @@ msgstr "Equipment Data"
 
 msgid "Energy Category Analysis"
 msgstr "Energy Category Analysis"
+
+msgid "Combined Equipment"
+msgstr "Combined Equipment"

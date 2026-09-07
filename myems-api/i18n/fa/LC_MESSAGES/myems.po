@@ -427,3 +427,6 @@ msgstr "داده‌های تجهیزات"
 
 msgid "Energy Category Analysis"
 msgstr "تحلیل دسته‌بندی انرژی"
+
+msgid "Combined Equipment"
+msgstr "تجهیزات ترکیبی"

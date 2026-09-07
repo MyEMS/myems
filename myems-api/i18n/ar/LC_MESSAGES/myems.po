@@ -427,3 +427,6 @@ msgstr "بيانات المعدات"
 
 msgid "Energy Category Analysis"
 msgstr "تحليل تصنيف الطاقة"
+
+msgid "Combined Equipment"
+msgstr "المعدات المجمعة"

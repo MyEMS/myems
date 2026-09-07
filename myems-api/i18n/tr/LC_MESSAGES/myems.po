@@ -427,3 +427,6 @@ msgstr "Ekipman Verileri"
 
 msgid "Energy Category Analysis"
 msgstr "Enerji Kategori Analizi"
+
+msgid "Combined Equipment"
+msgstr "Birleşik Ekipman"

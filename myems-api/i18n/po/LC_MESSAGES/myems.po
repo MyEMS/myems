@@ -423,3 +423,6 @@ msgstr "Dane wyposażenia"
 
 msgid "Energy Category Analysis"
 msgstr "Analiza kategorii energii"
+
+msgid "Combined Equipment"
+msgstr "Urządzenie zespolone"

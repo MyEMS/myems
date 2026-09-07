@@ -423,3 +423,6 @@ msgstr "장비 데이터"
 
 msgid "Energy Category Analysis"
 msgstr "에너지 카테고리 분석"
+
+msgid "Combined Equipment"
+msgstr "복합 설비"

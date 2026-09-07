@@ -427,3 +427,6 @@ msgstr "Ausrüstungsdaten"
 
 msgid "Energy Category Analysis"
 msgstr "Energiekategorieanalyse"
+
+msgid "Combined Equipment"
+msgstr "Kombinierte Ausrüstung"

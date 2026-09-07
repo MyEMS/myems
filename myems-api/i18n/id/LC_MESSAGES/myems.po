@@ -427,3 +427,6 @@ msgstr "Data Peralatan"
 
 msgid "Energy Category Analysis"
 msgstr "Analisis Klasifikasi Energi"
+
+msgid "Combined Equipment"
+msgstr "Peralatan Gabungan"

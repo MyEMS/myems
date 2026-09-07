@@ -423,3 +423,6 @@ msgstr "設備データ"
 
 msgid "Energy Category Analysis"
 msgstr "エネルギーカテゴリ分析"
+
+msgid "Combined Equipment"
+msgstr "複合設備"
