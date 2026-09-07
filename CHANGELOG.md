@@ -7,6 +7,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Added
 - added docx exporters for space reports in myems-api and myems-web
 - added pdf exporters for equipment reports in myems-api and myems-web
+- added docx exporters for combined equipment reports in myems-api and myems-web
 ### Changed
 - changed the tariff price precision from 6 decimal places to 8 decimal places
 ### Fixed
