@@ -427,3 +427,6 @@ msgstr "設備數據"
 
 msgid "Energy Category Analysis"
 msgstr "能耗分類分析"
+
+msgid "Combined Equipment"
+msgstr "組合設備"

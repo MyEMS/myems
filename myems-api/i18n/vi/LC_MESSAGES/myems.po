@@ -427,3 +427,6 @@ msgstr "Dữ liệu thiết bị"
 
 msgid "Energy Category Analysis"
 msgstr "Phân tích phân loại năng lượng"
+
+msgid "Combined Equipment"
+msgstr "Thiết bị kết hợp"

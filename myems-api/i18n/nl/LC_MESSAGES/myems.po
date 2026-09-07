@@ -427,3 +427,6 @@ msgstr "Apparatuurdata"
 
 msgid "Energy Category Analysis"
 msgstr "Energiecategorie-analyse"
+
+msgid "Combined Equipment"
+msgstr "Gecombineerde Apparatuur"

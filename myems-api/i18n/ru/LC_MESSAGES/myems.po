@@ -427,3 +427,6 @@ msgstr "Данные оборудования"
 
 msgid "Energy Category Analysis"
 msgstr "Анализ категорий энергии"
+
+msgid "Combined Equipment"
+msgstr "Комбинированное Оборудование"
