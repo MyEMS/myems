@@ -104,6 +104,23 @@ ADD COLUMN `is_enabled` BOOL NOT NULL DEFAULT 1 AFTER `is_counted`;
 ALTER TABLE `myems_system_db`.`tbl_virtual_meters`
 ADD COLUMN `is_enabled` BOOL NOT NULL DEFAULT 1 AFTER `is_counted`;
 
+-- Add `is_enabled` flag to combined equipments, equipments, shopfloors, stores and tenants.
+-- Defaults to 1 (enabled) so existing records keep their previous behaviour.
+ALTER TABLE `myems_system_db`.`tbl_combined_equipments`
+ADD COLUMN `is_enabled` BOOL NOT NULL DEFAULT 1 AFTER `is_output_counted`;
+
+ALTER TABLE `myems_system_db`.`tbl_equipments`
+ADD COLUMN `is_enabled` BOOL NOT NULL DEFAULT 1 AFTER `is_output_counted`;
+
+ALTER TABLE `myems_system_db`.`tbl_shopfloors`
+ADD COLUMN `is_enabled` BOOL NOT NULL DEFAULT 1 AFTER `is_input_counted`;
+
+ALTER TABLE `myems_system_db`.`tbl_stores`
+ADD COLUMN `is_enabled` BOOL NOT NULL DEFAULT 1 AFTER `is_input_counted`;
+
+ALTER TABLE `myems_system_db`.`tbl_tenants`
+ADD COLUMN `is_enabled` BOOL NOT NULL DEFAULT 1 AFTER `is_input_counted`;
+
 UPDATE `myems_system_db`.`tbl_versions` SET version='6.9.0RC', release_date='2026-09-26' WHERE id=1;
 
 COMMIT;

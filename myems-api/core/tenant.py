@@ -177,7 +177,7 @@ class TenantCollection:
 
             query = (" SELECT id, name, uuid, "
                      "        buildings, floors, rooms, area, tenant_type_id, "
-                     "        is_input_counted, is_key_tenant, "
+                     "        is_input_counted, is_enabled, is_key_tenant, "
                      "        lease_number, lease_start_datetime_utc, lease_end_datetime_utc, is_in_lease, "
                      "        contact_id, cost_center_id, description "
                      " FROM tbl_tenants ")
@@ -215,17 +215,18 @@ class TenantCollection:
                                "area": row[6],
                                "tenant_type": tenant_type_dict.get(row[7], None),
                                "is_input_counted": bool(row[8]),
-                               "is_key_tenant": bool(row[9]),
-                               "lease_number": row[10],
+                               "is_enabled": bool(row[9]),
+                               "is_key_tenant": bool(row[10]),
+                               "lease_number": row[11],
                                "lease_start_datetime":
-                                   (row[11].replace(tzinfo=timezone.utc) +
+                                   (row[12].replace(tzinfo=timezone.utc) +
                                     timedelta(minutes=timezone_offset)).isoformat()[0:19],
-                               "lease_end_datetime": (row[12].replace(tzinfo=timezone.utc) +
+                               "lease_end_datetime": (row[13].replace(tzinfo=timezone.utc) +
                                                       timedelta(minutes=timezone_offset)).isoformat()[0:19],
-                               "is_in_lease": bool(row[13]),
-                               "contact": contact_dict.get(row[14], None),
-                               "cost_center": cost_center_dict.get(row[15], None),
-                               "description": row[16],
+                               "is_in_lease": bool(row[14]),
+                               "contact": contact_dict.get(row[15], None),
+                               "cost_center": cost_center_dict.get(row[16], None),
+                               "description": row[17],
                                "qrcode": 'tenant:' + row[2]}
                 result.append(meta_result)
 
@@ -308,6 +309,14 @@ class TenantCollection:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_IS_INPUT_COUNTED_VALUE')
         is_input_counted = new_values['data']['is_input_counted']
+
+        if 'is_enabled' not in new_values['data'].keys():
+            is_enabled = True
+        elif not isinstance(new_values['data']['is_enabled'], bool):
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_IS_ENABLED_VALUE')
+        else:
+            is_enabled = new_values['data']['is_enabled']
 
         if 'is_key_tenant' not in new_values['data'].keys() or \
                 not isinstance(new_values['data']['is_key_tenant'], bool):
@@ -405,10 +414,10 @@ class TenantCollection:
 
             add_values = (" INSERT INTO tbl_tenants "
                           "    (name, uuid, buildings, floors, rooms, area, tenant_type_id, "
-                          "     is_input_counted, is_key_tenant, "
+                          "     is_input_counted, is_enabled, is_key_tenant, "
                           "     lease_number, lease_start_datetime_utc, lease_end_datetime_utc, is_in_lease, "
                           "     contact_id, cost_center_id, description) "
-                          " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) ")
+                          " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) ")
             cursor.execute(add_values, (name,
                                         str(uuid.uuid4()),
                                         buildings,
@@ -417,6 +426,7 @@ class TenantCollection:
                                         area,
                                         tenant_type_id,
                                         is_input_counted,
+                                        is_enabled,
                                         is_key_tenant,
                                         lease_number,
                                         lease_start_datetime_utc,
@@ -527,7 +537,7 @@ class TenantItem:
 
             query = (" SELECT id, name, uuid, "
                      "        buildings, floors, rooms, area, tenant_type_id,"
-                     "        is_key_tenant, is_input_counted, "
+                     "        is_key_tenant, is_input_counted, is_enabled, "
                      "        lease_number, lease_start_datetime_utc, lease_end_datetime_utc, is_in_lease, "
                      "        contact_id, cost_center_id, description "
                      " FROM tbl_tenants "
@@ -553,15 +563,16 @@ class TenantItem:
                                "tenant_type": tenant_type_dict.get(row[7], None),
                                "is_key_tenant": bool(row[8]),
                                "is_input_counted": bool(row[9]),
-                               "lease_number": row[10],
-                               "lease_start_datetime": (row[11].replace(tzinfo=timezone.utc) +
+                               "is_enabled": bool(row[10]),
+                               "lease_number": row[11],
+                               "lease_start_datetime": (row[12].replace(tzinfo=timezone.utc) +
                                                         timedelta(minutes=timezone_offset)).isoformat()[0:19],
-                               "lease_end_datetime": (row[12].replace(tzinfo=timezone.utc) +
+                               "lease_end_datetime": (row[13].replace(tzinfo=timezone.utc) +
                                                       timedelta(minutes=timezone_offset)).isoformat()[0:19],
-                               "is_in_lease": bool(row[13]),
-                               "contact": contact_dict.get(row[14], None),
-                               "cost_center": cost_center_dict.get(row[15], None),
-                               "description": row[16],
+                               "is_in_lease": bool(row[14]),
+                               "contact": contact_dict.get(row[15], None),
+                               "cost_center": cost_center_dict.get(row[16], None),
+                               "description": row[17],
                                "qrcode": 'tenant:' + row[2]}
         finally:
             if cursor:
@@ -719,6 +730,14 @@ class TenantItem:
                                    description='API.INVALID_IS_INPUT_COUNTED_VALUE')
         is_input_counted = new_values['data']['is_input_counted']
 
+        if 'is_enabled' not in new_values['data'].keys():
+            is_enabled = True
+        elif not isinstance(new_values['data']['is_enabled'], bool):
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_IS_ENABLED_VALUE')
+        else:
+            is_enabled = new_values['data']['is_enabled']
+
         if 'is_key_tenant' not in new_values['data'].keys() or \
                 not isinstance(new_values['data']['is_key_tenant'], bool):
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
@@ -822,7 +841,7 @@ class TenantItem:
 
             update_row = (" UPDATE tbl_tenants "
                           " SET name = %s, buildings = %s, floors = %s, rooms = %s, area = %s, "
-                          "     tenant_type_id = %s, is_input_counted = %s, "
+                          "     tenant_type_id = %s, is_input_counted = %s, is_enabled = %s, "
                           "     is_key_tenant = %s, lease_number = %s, lease_start_datetime_utc = %s, "
                           "     lease_end_datetime_utc = %s, is_in_lease = %s, contact_id = %s, cost_center_id = %s, "
                           "     description = %s "
@@ -834,6 +853,7 @@ class TenantItem:
                                         area,
                                         tenant_type_id,
                                         is_input_counted,
+                                        is_enabled,
                                         is_key_tenant,
                                         lease_number,
                                         lease_start_datetime_utc,
@@ -2396,7 +2416,7 @@ class TenantExport:
 
             query = (" SELECT id, name, uuid, "
                      "        buildings, floors, rooms, area, tenant_type_id,"
-                     "        is_key_tenant, is_input_counted, "
+                     "        is_key_tenant, is_input_counted, is_enabled, "
                      "        lease_number, lease_start_datetime_utc, lease_end_datetime_utc, is_in_lease, "
                      "        contact_id, cost_center_id, description "
                      " FROM tbl_tenants "
@@ -2421,15 +2441,16 @@ class TenantExport:
                                "tenant_type": tenant_type_dict.get(row[7], None),
                                "is_key_tenant": bool(row[8]),
                                "is_input_counted": bool(row[9]),
-                               "lease_number": row[10],
-                               "lease_start_datetime": (row[11].replace(tzinfo=timezone.utc) +
+                               "is_enabled": bool(row[10]),
+                               "lease_number": row[11],
+                               "lease_start_datetime": (row[12].replace(tzinfo=timezone.utc) +
                                                         timedelta(minutes=timezone_offset)).isoformat()[0:19],
-                               "lease_end_datetime": (row[12].replace(tzinfo=timezone.utc) +
+                               "lease_end_datetime": (row[13].replace(tzinfo=timezone.utc) +
                                                       timedelta(minutes=timezone_offset)).isoformat()[0:19],
-                               "is_in_lease": bool(row[13]),
-                               "contact": contact_dict.get(row[14], None),
-                               "cost_center": cost_center_dict.get(row[15], None),
-                               "description": row[16],
+                               "is_in_lease": bool(row[14]),
+                               "contact": contact_dict.get(row[15], None),
+                               "cost_center": cost_center_dict.get(row[16], None),
+                               "description": row[17],
                                "commands": None,
                                "meters": None,
                                "offline_meters": None,
@@ -2675,6 +2696,14 @@ class TenantImport:
                                    description='API.INVALID_IS_INPUT_COUNTED_VALUE')
         is_input_counted = new_values['is_input_counted']
 
+        if 'is_enabled' not in new_values.keys():
+            is_enabled = True
+        elif not isinstance(new_values['is_enabled'], bool):
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_IS_ENABLED_VALUE')
+        else:
+            is_enabled = new_values['is_enabled']
+
         if 'is_key_tenant' not in new_values.keys() or \
                 not isinstance(new_values['is_key_tenant'], bool):
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
@@ -2771,10 +2800,10 @@ class TenantImport:
 
             add_values = (" INSERT INTO tbl_tenants "
                           "    (name, uuid, buildings, floors, rooms, area, tenant_type_id, "
-                          "     is_input_counted, is_key_tenant, "
+                          "     is_input_counted, is_enabled, is_key_tenant, "
                           "     lease_number, lease_start_datetime_utc, lease_end_datetime_utc, is_in_lease, "
                           "     contact_id, cost_center_id, description) "
-                          " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) ")
+                          " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) ")
             cursor.execute(add_values, (name,
                                         str(uuid.uuid4()),
                                         buildings,
@@ -2783,6 +2812,7 @@ class TenantImport:
                                         area,
                                         tenant_type_id,
                                         is_input_counted,
+                                        is_enabled,
                                         is_key_tenant,
                                         lease_number,
                                         lease_start_datetime_utc,
@@ -3002,7 +3032,7 @@ class TenantClone:
 
             query = (" SELECT id, name, uuid, "
                      "        buildings, floors, rooms, area, tenant_type_id,"
-                     "        is_key_tenant, is_input_counted, "
+                     "        is_key_tenant, is_input_counted, is_enabled, "
                      "        lease_number, lease_start_datetime_utc, lease_end_datetime_utc, is_in_lease, "
                      "        contact_id, cost_center_id, description "
                      " FROM tbl_tenants "
@@ -3028,15 +3058,16 @@ class TenantClone:
                                "tenant_type": tenant_type_dict.get(row[7], None),
                                "is_key_tenant": bool(row[8]),
                                "is_input_counted": bool(row[9]),
-                               "lease_number": row[10],
-                               "lease_start_datetime": (row[11].replace(tzinfo=timezone.utc) +
+                               "is_enabled": bool(row[10]),
+                               "lease_number": row[11],
+                               "lease_start_datetime": (row[12].replace(tzinfo=timezone.utc) +
                                                         timedelta(minutes=timezone_offset)).isoformat()[0:19],
-                               "lease_end_datetime": (row[12].replace(tzinfo=timezone.utc) +
+                               "lease_end_datetime": (row[13].replace(tzinfo=timezone.utc) +
                                                       timedelta(minutes=timezone_offset)).isoformat()[0:19],
-                               "is_in_lease": bool(row[13]),
-                               "contact": contact_dict.get(row[14], None),
-                               "cost_center": cost_center_dict.get(row[15], None),
-                               "description": row[16],
+                               "is_in_lease": bool(row[14]),
+                               "contact": contact_dict.get(row[15], None),
+                               "cost_center": cost_center_dict.get(row[16], None),
+                               "description": row[17],
                                "commands": None,
                                "meters": None,
                                "offline_meters": None,
@@ -3201,10 +3232,10 @@ class TenantClone:
                 new_name = str.strip(meta_result['name']) + suffix
                 add_values = (" INSERT INTO tbl_tenants "
                               "    (name, uuid, buildings, floors, rooms, area, tenant_type_id, "
-                              "     is_input_counted, is_key_tenant, "
+                              "     is_input_counted, is_enabled, is_key_tenant, "
                               "     lease_number, lease_start_datetime_utc, lease_end_datetime_utc, is_in_lease, "
                               "     contact_id, cost_center_id, description) "
-                              " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) ")
+                              " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) ")
                 cursor.execute(add_values, (new_name,
                                             str(uuid.uuid4()),
                                             meta_result['buildings'],
@@ -3213,6 +3244,7 @@ class TenantClone:
                                             meta_result['area'],
                                             meta_result['tenant_type']['id'],
                                             meta_result['is_input_counted'],
+                                            meta_result['is_enabled'],
                                             meta_result['is_key_tenant'],
                                             meta_result['lease_number'],
                                             meta_result['lease_start_datetime'],

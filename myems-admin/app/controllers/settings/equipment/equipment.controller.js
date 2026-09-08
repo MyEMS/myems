@@ -320,6 +320,7 @@ app.controller("ModalAddEquipmentCtrl", function(  $scope,  $uibModalInstance, p
   	$scope.equipment = {
     	is_input_counted: false,
     	is_output_counted: false,
+    	is_enabled: true,
     	efficiency_indicator: 0.0,
   	};
   	$scope.ok = function() {

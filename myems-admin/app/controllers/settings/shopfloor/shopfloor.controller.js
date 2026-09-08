@@ -99,6 +99,9 @@ app.controller('ShopfloorController', function (
 			if (angular.isDefined(shopfloor.is_input_counted) == false) {
 				shopfloor.is_input_counted = false;
 			}
+			if (angular.isDefined(shopfloor.is_enabled) == false) {
+				shopfloor.is_enabled = true;
+			}
 			let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 			ShopfloorService.addShopfloor(shopfloor, headers, function (response) {
 				if (angular.isDefined(response.status) && response.status === 201) {
@@ -146,6 +149,9 @@ app.controller('ShopfloorController', function (
 			modifiedShopfloor.contact_id = modifiedShopfloor.contact.id;
 			if (angular.isDefined(shopfloor.is_input_counted) == false) {
 				shopfloor.is_input_counted = false;
+			}
+			if (angular.isDefined(modifiedShopfloor.is_enabled) == false) {
+				modifiedShopfloor.is_enabled = true;
 			}
 			let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 			ShopfloorService.editShopfloor(modifiedShopfloor, headers, function (response) {
