@@ -9703,7 +9703,7 @@
                 ],
                 "body": {
                   "mode": "raw",
-                  "raw": "{\"data\":{\"name\":\"PM20\", \"energy_category_id\":1, \"hourly_low_limit\":0.000, \"hourly_high_limit\":999.99, \"is_counted\":true, \"cost_center_id\":1, \"energy_item_id\":1, \"master_meter_id\":1, \"description\":\"空调用电\"}}"
+                  "raw": "{\"data\":{\"name\":\"PM20\", \"energy_category_id\":1, \"hourly_low_limit\":0.000, \"hourly_high_limit\":999.99, \"is_counted\":true, \"is_enabled\":true, \"cost_center_id\":1, \"energy_item_id\":1, \"master_meter_id\":1, \"description\":\"空调用电\"}}"
                 },
                 "url": {
                   "raw": "{{base_url}}/meters",
@@ -9741,7 +9741,7 @@
                 ],
                 "body": {
                   "mode": "raw",
-                  "raw": "{\"data\":{\"name\":\"PM201\", \"energy_category_id\":1, \"hourly_low_limit\":0.000, \"hourly_high_limit\":999.99, \"is_counted\":true, \"cost_center_id\":1, \"energy_item_id\":1, \"master_meter_id\":1, \"description\":\"空调用电\"}}"
+                  "raw": "{\"data\":{\"name\":\"PM201\", \"energy_category_id\":1, \"hourly_low_limit\":0.000, \"hourly_high_limit\":999.99, \"is_counted\":true, \"is_enabled\":true, \"cost_center_id\":1, \"energy_item_id\":1, \"master_meter_id\":1, \"description\":\"空调用电\"}}"
                 },
                 "url": {
                   "raw": "{{base_url}}/meters/4",
@@ -10149,7 +10149,7 @@
                 ],
                 "body": {
                   "mode": "raw",
-                  "raw": "{\n    \"name\": \"计量表1\",\n    \"uuid\": \"5ca47bc5-22c2-47fc-b906-33222191ea40\",\n    \"energy_category\": {\n        \"id\": 1,\n        \"name\": \"电\",\n        \"uuid\": \"6d0753ed-8b43-4332-b6fd-d2f5813831d3\"\n    },\n    \"is_counted\": true,\n    \"hourly_low_limit\": 0.000,\n    \"hourly_high_limit\": 999.999,\n    \"cost_center\": {\n        \"id\": 1,\n        \"name\": \"test\",\n        \"uuid\": \"76d86222-96c5-4653-8162-bfbcd7edd5ad\"\n    },\n    \"energy_item\": {\n        \"id\": 1,\n        \"name\": \"照明和插座用电\",\n        \"uuid\": \"cade4e78-2b85-4bea-ab6e-0d6accc88d03\"\n    },\n    \"master_meter\": null,\n    \"description\": \"meter1\",\n    \"points\": [\n        {\n            \"id\": 1,\n            \"name\": \"Active Energy Import Tariff 1\"\n        }\n    ]\n}"
+                  "raw": "{\n    \"name\": \"计量表1\",\n    \"uuid\": \"5ca47bc5-22c2-47fc-b906-33222191ea40\",\n    \"energy_category\": {\n        \"id\": 1,\n        \"name\": \"电\",\n        \"uuid\": \"6d0753ed-8b43-4332-b6fd-d2f5813831d3\"\n    },\n    \"is_counted\": true, \"is_enabled\": true,\n    \"hourly_low_limit\": 0.000,\n    \"hourly_high_limit\": 999.999,\n    \"cost_center\": {\n        \"id\": 1,\n        \"name\": \"test\",\n        \"uuid\": \"76d86222-96c5-4653-8162-bfbcd7edd5ad\"\n    },\n    \"energy_item\": {\n        \"id\": 1,\n        \"name\": \"照明和插座用电\",\n        \"uuid\": \"cade4e78-2b85-4bea-ab6e-0d6accc88d03\"\n    },\n    \"master_meter\": null,\n    \"description\": \"meter1\",\n    \"points\": [\n        {\n            \"id\": 1,\n            \"name\": \"Active Energy Import Tariff 1\"\n        }\n    ]\n}"
                 },
                 "url": {
                   "raw": "{{base_url}}/meters/import",
@@ -12679,7 +12679,7 @@
                 ],
                 "body": {
                   "mode": "raw",
-                  "raw": "{\"data\":{\"name\":\"OfflinePM21\", \"energy_category_id\":1, \"hourly_low_limit\":0.000, \"hourly_high_limit\":999.99, \"is_counted\":true, \"cost_center_id\":1, \"energy_item_id\":1, \"description\":\"空调用电\"}}"
+                  "raw": "{\"data\":{\"name\":\"OfflinePM21\", \"energy_category_id\":1, \"hourly_low_limit\":0.000, \"hourly_high_limit\":999.99, \"is_counted\":true, \"is_enabled\":true, \"cost_center_id\":1, \"energy_item_id\":1, \"description\":\"空调用电\"}}"
                 },
                 "url": {
                   "raw": "{{base_url}}/offlinemeters",
@@ -12717,7 +12717,7 @@
                 ],
                 "body": {
                   "mode": "raw",
-                  "raw": "{\"data\":{\"name\":\"OfflinePM201\", \"energy_category_id\":1, \"hourly_low_limit\":0.000, \"hourly_high_limit\":999.99, \"is_counted\":true, \"cost_center_id\":1, \"energy_item_id\":1, \"description\":\"空调用电\"}}"
+                  "raw": "{\"data\":{\"name\":\"OfflinePM201\", \"energy_category_id\":1, \"hourly_low_limit\":0.000, \"hourly_high_limit\":999.99, \"is_counted\":true, \"is_enabled\":true, \"cost_center_id\":1, \"energy_item_id\":1, \"description\":\"空调用电\"}}"
                 },
                 "url": {
                   "raw": "{{base_url}}/offlinemeters/3",
@@ -12827,7 +12827,7 @@
                 ],
                 "body": {
                   "mode": "raw",
-                  "raw": "{\r\n    \"name\": \"离线表101\",\r\n    \"energy_category\": {\r\n        \"id\": 1,\r\n        \"name\": \"电\",\r\n        \"uuid\": \"6d0753ed-8b43-4332-b6fd-d2f5813831d3\"\r\n    },\r\n    \"is_counted\": true,\r\n    \"hourly_low_limit\": 0.000,\r\n    \"hourly_high_limit\": 999.999,\r\n    \"energy_item\": {\r\n        \"id\": 1,\r\n        \"name\": \"照明和插座用电\",\r\n        \"uuid\": \"cade4e78-2b85-4bea-ab6e-0d6accc88d03\"\r\n    },\r\n    \"cost_center\": {\r\n        \"id\": 1,\r\n        \"name\": \"成本中心\",\r\n        \"uuid\": \"d97b9736-c4f9-4005-a534-6af3487303ad\"\r\n    },\r\n    \"description\": \"offlinemeter1\"\r\n}",
+                  "raw": "{\r\n    \"name\": \"离线表101\",\r\n    \"energy_category\": {\r\n        \"id\": 1,\r\n        \"name\": \"电\",\r\n        \"uuid\": \"6d0753ed-8b43-4332-b6fd-d2f5813831d3\"\r\n    },\r\n    \"is_counted\": true, \"is_enabled\": true,\r\n    \"hourly_low_limit\": 0.000,\r\n    \"hourly_high_limit\": 999.999,\r\n    \"energy_item\": {\r\n        \"id\": 1,\r\n        \"name\": \"照明和插座用电\",\r\n        \"uuid\": \"cade4e78-2b85-4bea-ab6e-0d6accc88d03\"\r\n    },\r\n    \"cost_center\": {\r\n        \"id\": 1,\r\n        \"name\": \"成本中心\",\r\n        \"uuid\": \"d97b9736-c4f9-4005-a534-6af3487303ad\"\r\n    },\r\n    \"description\": \"offlinemeter1\"\r\n}",
                   "options": {
                     "raw": {
                       "language": "json"
@@ -24403,7 +24403,7 @@
                 ],
                 "body": {
                   "mode": "raw",
-                  "raw": "{\"data\":{\"name\":\"VM10\", \"energy_category_id\":1, \"is_counted\": true, \"cost_center_id\":1, \"energy_item_id\":1, \"description\":\"virtual description\", \"expression\": {\"equation\":\"x1+x2-x3\", \"variables\":[{\"name\":\"x1\", \"meter_type\":\"meter\", \"meter_id\":1},{\"name\":\"x2\", \"meter_type\":\"meter\", \"meter_id\":2},{\"name\":\"x3\", \"meter_type\":\"meter\", \"meter_id\":3}] } }}"
+                  "raw": "{\"data\":{\"name\":\"VM10\", \"energy_category_id\":1, \"is_counted\": true, \"is_enabled\": true, \"cost_center_id\":1, \"energy_item_id\":1, \"description\":\"virtual description\", \"expression\": {\"equation\":\"x1+x2-x3\", \"variables\":[{\"name\":\"x1\", \"meter_type\":\"meter\", \"meter_id\":1},{\"name\":\"x2\", \"meter_type\":\"meter\", \"meter_id\":2},{\"name\":\"x3\", \"meter_type\":\"meter\", \"meter_id\":3}] } }}"
                 },
                 "url": {
                   "raw": "{{base_url}}/virtualmeters",
@@ -24441,7 +24441,7 @@
                 ],
                 "body": {
                   "mode": "raw",
-                  "raw": "{\"data\":{\"name\":\"VM11\", \"energy_category_id\":1, \"is_counted\": true, \"cost_center_id\":1, \"energy_item_id\":1, \"description\":\"virtual description\", \"expression\": {\"equation\":\"x1+x2-x3\", \"variables\":[{\"name\":\"x1\", \"meter_type\":\"meter\", \"meter_id\":1},{\"name\":\"x2\", \"meter_type\":\"meter\", \"meter_id\":2},{\"name\":\"x3\", \"meter_type\":\"meter\", \"meter_id\":3}] } }}"
+                  "raw": "{\"data\":{\"name\":\"VM11\", \"energy_category_id\":1, \"is_counted\": true, \"is_enabled\": true, \"cost_center_id\":1, \"energy_item_id\":1, \"description\":\"virtual description\", \"expression\": {\"equation\":\"x1+x2-x3\", \"variables\":[{\"name\":\"x1\", \"meter_type\":\"meter\", \"meter_id\":1},{\"name\":\"x2\", \"meter_type\":\"meter\", \"meter_id\":2},{\"name\":\"x3\", \"meter_type\":\"meter\", \"meter_id\":3}] } }}"
                 },
                 "url": {
                   "raw": "{{base_url}}/virtualmeters/3",
@@ -24551,7 +24551,7 @@
                 ],
                 "body": {
                   "mode": "raw",
-                  "raw": "{\r\n    \"name\": \"虚拟表12\",\r\n    \"equation\": \"x1+x2+x3\",\r\n    \"energy_category\": {\r\n        \"id\": 1,\r\n        \"name\": \"电\",\r\n        \"uuid\": \"6d0753ed-8b43-4332-b6fd-d2f5813831d3\"\r\n    },\r\n    \"is_counted\": true,\r\n    \"cost_center\": {\r\n        \"id\": 1,\r\n        \"name\": \"成本中心\",\r\n        \"uuid\": \"d97b9736-c4f9-4005-a534-6af3487303ad\"\r\n    },\r\n    \"energy_item\": {\r\n        \"id\": 1,\r\n        \"name\": \"照明和插座用电\",\r\n        \"uuid\": \"cade4e78-2b85-4bea-ab6e-0d6accc88d03\"\r\n    },\r\n    \"description\": \"virtual description\",\r\n    \"expression\": {\r\n        \"equation\": \"x1+x2+x3\",\r\n        \"variables\": [\r\n            {\r\n                \"id\": 1,\r\n                \"name\": \"x1\",\r\n                \"meter_type\": \"meter\",\r\n                \"meter_id\": 1,\r\n                \"meter_name\": \"计量表1\"\r\n            },\r\n            {\r\n                \"id\": 2,\r\n                \"name\": \"x2\",\r\n                \"meter_type\": \"meter\",\r\n                \"meter_id\": 2,\r\n                \"meter_name\": \"计量表2\"\r\n            },\r\n            {\r\n                \"id\": 3,\r\n                \"name\": \"x3\",\r\n                \"meter_type\": \"meter\",\r\n                \"meter_id\": 3,\r\n                \"meter_name\": \"计量表3\"\r\n            }\r\n        ]\r\n    }\r\n}",
+                  "raw": "{\r\n    \"name\": \"虚拟表12\",\r\n    \"equation\": \"x1+x2+x3\",\r\n    \"energy_category\": {\r\n        \"id\": 1,\r\n        \"name\": \"电\",\r\n        \"uuid\": \"6d0753ed-8b43-4332-b6fd-d2f5813831d3\"\r\n    },\r\n    \"is_counted\": true, \"is_enabled\": true,\r\n    \"cost_center\": {\r\n        \"id\": 1,\r\n        \"name\": \"成本中心\",\r\n        \"uuid\": \"d97b9736-c4f9-4005-a534-6af3487303ad\"\r\n    },\r\n    \"energy_item\": {\r\n        \"id\": 1,\r\n        \"name\": \"照明和插座用电\",\r\n        \"uuid\": \"cade4e78-2b85-4bea-ab6e-0d6accc88d03\"\r\n    },\r\n    \"description\": \"virtual description\",\r\n    \"expression\": {\r\n        \"equation\": \"x1+x2+x3\",\r\n        \"variables\": [\r\n            {\r\n                \"id\": 1,\r\n                \"name\": \"x1\",\r\n                \"meter_type\": \"meter\",\r\n                \"meter_id\": 1,\r\n                \"meter_name\": \"计量表1\"\r\n            },\r\n            {\r\n                \"id\": 2,\r\n                \"name\": \"x2\",\r\n                \"meter_type\": \"meter\",\r\n                \"meter_id\": 2,\r\n                \"meter_name\": \"计量表2\"\r\n            },\r\n            {\r\n                \"id\": 3,\r\n                \"name\": \"x3\",\r\n                \"meter_type\": \"meter\",\r\n                \"meter_id\": 3,\r\n                \"meter_name\": \"计量表3\"\r\n            }\r\n        ]\r\n    }\r\n}",
                   "options": {
                     "raw": {
                       "language": "json"

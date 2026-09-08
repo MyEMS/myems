@@ -1083,6 +1083,7 @@ CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_meters` (
   `uuid` CHAR(36) NOT NULL,
   `energy_category_id` BIGINT NOT NULL,
   `is_counted` BOOL NOT NULL,
+  `is_enabled` BOOL NOT NULL DEFAULT 1,
   `hourly_low_limit` DECIMAL(21, 6) NOT NULL
   COMMENT 'Inclusive. The default is 0. If the meter has accuracy problems, set the value to a small positive value, such as 0.100',
   `hourly_high_limit` DECIMAL(21, 6) NOT NULL
@@ -1469,6 +1470,7 @@ CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_offline_meters` (
   `uuid` CHAR(36) NOT NULL,
   `energy_category_id` BIGINT NOT NULL,
   `is_counted` BOOL NOT NULL,
+  `is_enabled` BOOL NOT NULL DEFAULT 1,
   `hourly_low_limit` DECIMAL(21, 6)  NOT NULL COMMENT 'Inclusive. Default is 0.',
   `hourly_high_limit` DECIMAL(21, 6)  NOT NULL COMMENT 'Inclusive. Maximum energy consumption per hour.',
   `cost_center_id` BIGINT NOT NULL,
@@ -2735,6 +2737,7 @@ CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_virtual_meters` (
   `equation` LONGTEXT NOT NULL,
   `energy_category_id` BIGINT NOT NULL,
   `is_counted` BOOL NOT NULL,
+  `is_enabled` BOOL NOT NULL DEFAULT 1,
   `cost_center_id` BIGINT NOT NULL,
   `energy_item_id` BIGINT,
   `description` VARCHAR(255),

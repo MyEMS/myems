@@ -375,7 +375,8 @@ app.controller('ModalAddOfflineMeterCtrl', function($scope, $uibModalInstance, p
 	$scope.energyitems = [];
 	$scope.costcenters = params.costcenters;
 	$scope.offlinemeter = {
-		is_counted: false
+		is_counted: false,
+		is_enabled: true
 	};
 	$scope.ok = function() {
 		$uibModalInstance.close($scope.offlinemeter);
