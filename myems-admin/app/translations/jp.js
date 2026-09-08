@@ -427,6 +427,7 @@
                     SELECT_PHOTOVOLTAIC_POWER_STATION: '太陽光発電所を選択',
                     SELECT_WIND_FARM: '風力発電所を選択',
                     IS_INPUT_COUNTED: 'エネルギー消費が集計に含まれる',
+                    IS_ENABLED: '有効化',
                     IS_OUTPUT_COUNTED: 'エネルギー生産が集計に含まれる',
                     BIND_COMMAND: 'コマンドをバインド Ⓔ',
                     BIND_DATA_SOURCE: 'データソースをバインド',

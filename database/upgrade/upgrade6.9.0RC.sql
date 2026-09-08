@@ -93,6 +93,16 @@ MODIFY COLUMN `actual_value` DECIMAL(23, 8) NOT NULL;
 ALTER TABLE `myems_billing_db`.`tbl_virtual_meter_hourly`
 MODIFY COLUMN `actual_value` DECIMAL(23, 8) NOT NULL;
 
+-- Add `is_enabled` flag to meters, virtual meters and offline meters.
+-- Defaults to 1 (enabled) so existing meters keep their previous behaviour.
+ALTER TABLE `myems_system_db`.`tbl_meters`
+ADD COLUMN `is_enabled` BOOL NOT NULL DEFAULT 1 AFTER `is_counted`;
+
+ALTER TABLE `myems_system_db`.`tbl_offline_meters`
+ADD COLUMN `is_enabled` BOOL NOT NULL DEFAULT 1 AFTER `is_counted`;
+
+ALTER TABLE `myems_system_db`.`tbl_virtual_meters`
+ADD COLUMN `is_enabled` BOOL NOT NULL DEFAULT 1 AFTER `is_counted`;
 
 UPDATE `myems_system_db`.`tbl_versions` SET version='6.9.0RC', release_date='2026-09-26' WHERE id=1;
 
