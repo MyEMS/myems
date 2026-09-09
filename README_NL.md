@@ -3,7 +3,7 @@
 </p>
 <h1 align="center" style="margin: 30px 0 30px; font-weight: bold;">MyEMS v6.8.0</h1>
 <h3 align="center">Toonaangevend Open Source Energiebeheersysteem</h3>
-<h6 align="center">Meer dan duizend projectvoorbeelden</h6>
+<h6 align="center">Meer dan duizend projectvoorbeelden, CMA-testcertificering</h6>
 <h6 align="center">Toegezegd permanent open source</h6>
 <h6 align="center">Gratis technische ondersteuning in QQ- en WeChat-groepen</h6>
 <h6 align="center">Wordt voortdurend bijgewerkt: 1 kleine versie per maand, 1 grote versie per jaar</h6>

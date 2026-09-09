@@ -3,7 +3,7 @@
 </p>
 <h1 align="center" style="margin: 30px 0 30px; font-weight: bold;">MyEMS v6.8.0</h1>
 <h3 align="center">نظام إدارة الطاقة مفتوح المصدر الرائد في الصناعة</h3>
-<h6 align="center">آلاف حالات المشاريع</h6>
+<h6 align="center">آلاف حالات المشاريع، حاصل على شهادة اختبار CMA</h6>
 <h6 align="center">ملتزم بالبقاء مفتوح المصدر إلى الأبد</h6>
 <h6 align="center">دعم فني مجاني في مجموعات QQ و WeChat</h6>
 <h6 align="center">صيانة مستمرة، إصدار صغير واحد شهرياً، إصدار رئيسي واحد سنوياً</h6>

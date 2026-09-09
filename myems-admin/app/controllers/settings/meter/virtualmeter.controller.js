@@ -427,6 +427,7 @@ app.controller('ModalAddVirtualMeterCtrl', function($timeout, $scope,
 	$scope.currentMeter = {};
 	$scope.virtualmeter = {
 		is_counted: false,
+		is_enabled: true,
 		expression: {
 			variables: []
 		}

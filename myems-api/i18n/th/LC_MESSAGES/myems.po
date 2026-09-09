@@ -540,3 +540,5 @@ msgstr "การประหยัดของมิเตอร์ออฟไ
 
 msgid "Offline Meter Plan"
 msgstr "แผนของมิเตอร์ออฟไลน์"
+msgid "Combined Equipment"
+msgstr "อุปกรณ์รวม"

@@ -44,6 +44,7 @@
 										<th class="text-center">{{'SETTING.CATEGORY' | translate}}</th>
 										<th class="text-center">{{'SETTING.ENERGY_ITEM' | translate}} ({{'SETTING.OPTIONAL' | translate}})</th>
 										<th class="text-center">{{'SETTING.IS_INPUT_COUNTED' | translate}}</th>
+										<th class="text-center">{{'SETTING.IS_ENABLED' | translate}}</th>
 										<th class="text-center">{{'SETTING.COSTCENTER' | translate}}</th>
 										<th class="text-center">{{'METER.MASTER_METER' | translate}} ({{'SETTING.OPTIONAL' | translate}})</th>
 										<th class="text-center">{{'SETTING.DESCRIPTION' | translate}} ({{'SETTING.OPTIONAL' | translate}})</th>
@@ -59,6 +60,8 @@
 										<td class="text-center">{{ meter.energy_item.name }}</td>
 										<td class="text-center">
 											{{ meter.is_counted==false?'SETTING.NO':'SETTING.YES' | translate }}</td>
+										<td class="text-center">
+											{{ meter.is_enabled==false?'SETTING.NO':'SETTING.YES' | translate }}</td>
 										<td class="text-center">{{meter.cost_center.name}}</td>
 										<td class="text-center">{{meter.master_meter.name}}</td>
 										<td class="text-center">{{meter.description}}</td>
@@ -227,6 +230,7 @@
 														<th class="text-center">{{'SETTING.CATEGORY' | translate}}</th>
 														<th class="text-center">{{'SETTING.ENERGY_ITEM' | translate}} ({{'SETTING.OPTIONAL' | translate}})</th>
 														<th class="text-center">{{'SETTING.IS_INPUT_COUNTED' | translate}}</th>
+														<th class="text-center">{{'SETTING.IS_ENABLED' | translate}}</th>
 														<th class="text-center">{{'METER.HOURLY_LOW_LIMIT' | translate}}</th>
 														<th class="text-center">{{'METER.HOURLY_HIGH_LIMIT' | translate}}</th>
 														<th class="text-center">{{'SETTING.COSTCENTER' | translate}}</th>
@@ -242,6 +246,9 @@
 														<td class="text-center">{{ meter.energy_item.name }}</td>
 														<td class="text-center">
 															{{ meter.is_counted==false?'SETTING.NO':'SETTING.YES' | translate }}
+														</td>
+														<td class="text-center">
+															{{ meter.is_enabled==false?'SETTING.NO':'SETTING.YES' | translate }}
 														</td>
 														<td class="text-center">{{ meter.hourly_low_limit }}</td>
 														<td class="text-center">{{ meter.hourly_high_limit }}</td>
@@ -307,6 +314,7 @@
 										<th class="text-center">{{'SETTING.CATEGORY' | translate}}</th>
 										<th class="text-center">{{'SETTING.ENERGY_ITEM' | translate}} ({{'SETTING.OPTIONAL' | translate}})</th>
 										<th class="text-center">{{'SETTING.IS_INPUT_COUNTED' | translate}}</th>
+										<th class="text-center">{{'SETTING.IS_ENABLED' | translate}}</th>
 										<th class="text-center">{{'SETTING.COSTCENTER' | translate}}</th>
 										<th class="text-center">{{'SETTING.DESCRIPTION' | translate}} ({{'SETTING.OPTIONAL' | translate}})</th>
 										<th class="text-center">{{'SETTING.ACTION' | translate}}</th>
@@ -320,6 +328,9 @@
 										<td class="text-center">{{ virtualmeter.energy_item.name }}</td>
 										<td class="text-center">
 											{{ virtualmeter.is_counted==false?'SETTING.NO':'SETTING.YES' | translate }}
+										</td>
+										<td class="text-center">
+											{{ virtualmeter.is_enabled==false?'SETTING.NO':'SETTING.YES' | translate }}
 										</td>
 										<td class="text-center">{{ virtualmeter.cost_center.name }}</td>
 										<td class="text-center">{{ virtualmeter.description }}</td>
@@ -384,6 +395,7 @@
 										<th class="text-center">{{'SETTING.CATEGORY' | translate}}</th>
 										<th class="text-center">{{'SETTING.ENERGY_ITEM' | translate}} ({{'SETTING.OPTIONAL' | translate}})</th>
 										<th class="text-center">{{'SETTING.IS_INPUT_COUNTED' | translate}}</th>
+										<th class="text-center">{{'SETTING.IS_ENABLED' | translate}}</th>
 										<th class="text-center">{{'METER.HOURLY_LOW_LIMIT' | translate}}</th>
 										<th class="text-center">{{'METER.HOURLY_HIGH_LIMIT' | translate}}</th>
 										<th class="text-center">{{'SETTING.COSTCENTER' | translate}}</th>
@@ -399,6 +411,9 @@
 										<td class="text-center">{{ offlinemeter.energy_item.name }}</td>
 										<td class="text-center">
 											{{ offlinemeter.is_counted==false?'SETTING.NO':'SETTING.YES' | translate }}
+										</td>
+										<td class="text-center">
+											{{ offlinemeter.is_enabled==false?'SETTING.NO':'SETTING.YES' | translate }}
 										</td>
 										<td class="text-center">{{ offlinemeter.hourly_low_limit }}</td>
 										<td class="text-center">{{ offlinemeter.hourly_high_limit }}</td>

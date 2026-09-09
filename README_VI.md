@@ -3,7 +3,7 @@
 </p>
 <h1 align="center" style="margin: 30px 0 30px; font-weight: bold;">MyEMS v6.8.0</h1>
 <h3 align="center">Hệ thống quản lý năng lượng mã nguồn mở hàng đầu ngành</h3>
-<h6 align="center">Hơn một nghìn trường hợp dự án</h6>
+<h6 align="center">Hơn một nghìn trường hợp dự án, đạt chứng nhận kiểm định CMA</h6>
 <h6 align="center">Cam kết mã nguồn mở vĩnh viễn</h6>
 <h6 align="center">Hỗ trợ kỹ thuật miễn phí trong nhóm QQ và WeChat</h6>
 <h6 align="center">Bảo trì liên tục, 1 phiên bản nhỏ mỗi tháng, 1 phiên bản chính mỗi năm</h6>

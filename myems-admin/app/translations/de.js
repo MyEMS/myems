@@ -396,6 +396,7 @@
                     SELECT_PHOTOVOLTAIC_POWER_STATION: 'Wählen Sie Photovoltaik-Kraftwerk',
                     SELECT_WIND_FARM: 'Windpark auswählen',
                     IS_INPUT_COUNTED: 'Zusammenfassung der Verbrauchsbeteiligung',
+                    IS_ENABLED: 'Ist aktiviert',
                     IS_OUTPUT_COUNTED: 'Zusammenfassung der Beteiligung an der Energieabgabe',
                     BIND_COMMAND: 'Bindebefehl Ⓔ',
                     BIND_COMMAND_DESCRIPTION: 'Steuerbefehlsverwaltung für Zähler; ordnet fernsteuerbaren Messgeräten Betriebsbefehle zu.',
