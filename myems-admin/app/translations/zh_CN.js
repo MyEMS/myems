@@ -428,6 +428,7 @@
         SELECT_WIND_FARM: "选择风电场",
 
         IS_INPUT_COUNTED: "能耗参与汇总",
+        IS_ENABLED: "是否启用",
         IS_OUTPUT_COUNTED: "能源产出参与汇总",
         BIND_COMMAND: "绑定指令 ㊭",
         BIND_COMMAND_DESCRIPTION: "计量表控制指令管理；为支持远程控制的仪表关联操作指令。",

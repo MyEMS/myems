@@ -3,7 +3,7 @@
 </p>
 <h1 align="center" style="margin: 30px 0 30px; font-weight: bold;">MyEMS v6.8.0</h1>
 <h3 align="center">Endüstrinin önde gelen açık kaynak enerji yönetim sistemi</h3>
-<h6 align="center">Bindan fazla proje vakası</h6>
+<h6 align="center">Bindan fazla proje vakası, CMA test sertifikası aldı</h6>
 <h6 align="center">Sonsuza kadar açık kaynak kalma taahhüdü</h6>
 <h6 align="center">QQ ve WeChat gruplarında ücretsiz teknik destek</h6>
 <h6 align="center">Sürekli bakım, ayda 1 küçük sürüm, yılda 1 büyük sürüm</h6>

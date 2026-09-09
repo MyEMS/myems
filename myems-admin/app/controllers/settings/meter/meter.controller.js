@@ -524,7 +524,8 @@ app.controller('ModalAddMeterCtrl', function($scope, $uibModalInstance, params) 
 	$scope.energyitems = [];
 	$scope.parentmeters = params.parentmeters;
 	$scope.meter = {
-		is_counted: false
+		is_counted: false,
+		is_enabled: true
 	};
 	$scope.ok = function() {
 		$uibModalInstance.close($scope.meter);

@@ -1083,6 +1083,7 @@ CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_meters` (
   `uuid` CHAR(36) NOT NULL,
   `energy_category_id` BIGINT NOT NULL,
   `is_counted` BOOL NOT NULL,
+  `is_enabled` BOOL NOT NULL DEFAULT 1,
   `hourly_low_limit` DECIMAL(21, 6) NOT NULL
   COMMENT 'Inclusive. The default is 0. If the meter has accuracy problems, set the value to a small positive value, such as 0.100',
   `hourly_high_limit` DECIMAL(21, 6) NOT NULL
@@ -1469,6 +1470,7 @@ CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_offline_meters` (
   `uuid` CHAR(36) NOT NULL,
   `energy_category_id` BIGINT NOT NULL,
   `is_counted` BOOL NOT NULL,
+  `is_enabled` BOOL NOT NULL DEFAULT 1,
   `hourly_low_limit` DECIMAL(21, 6)  NOT NULL COMMENT 'Inclusive. Default is 0.',
   `hourly_high_limit` DECIMAL(21, 6)  NOT NULL COMMENT 'Inclusive. Maximum energy consumption per hour.',
   `cost_center_id` BIGINT NOT NULL,
@@ -2302,7 +2304,7 @@ CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_tariffs_timeofuses` (
   `end_time_of_day` TIME NOT NULL,
   `peak_type` VARCHAR(8) NOT NULL
   COMMENT 'Peak Type: \ntoppeak - Top-Peak尖\nonpeak - On-Peak峰\nmidpeak - Mid-Peak平\noffpeak - Off-Peak谷\ndeep - Deep-Valley深谷',
-  `price` DECIMAL(21, 6) NOT NULL,
+  `price` DECIMAL(23, 8) NOT NULL,
   PRIMARY KEY (`id`));
 CREATE INDEX `tbl_tariffs_timeofuses_index_1`
 ON `myems_system_db`.`tbl_tariffs_timeofuses` (`tariff_id`, `start_time_of_day`);
@@ -2735,6 +2737,7 @@ CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_virtual_meters` (
   `equation` LONGTEXT NOT NULL,
   `energy_category_id` BIGINT NOT NULL,
   `is_counted` BOOL NOT NULL,
+  `is_enabled` BOOL NOT NULL DEFAULT 1,
   `cost_center_id` BIGINT NOT NULL,
   `energy_item_id` BIGINT,
   `description` VARCHAR(255),
@@ -2805,7 +2808,7 @@ CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_versions` (
 INSERT INTO `myems_system_db`.`tbl_versions`
 (`id`, `version`, `release_date`)
 VALUES
-(1, '6.8.0', '2026-08-29');
+(1, '6.9.0RC', '2026-09-26');
 
 -- ---------------------------------------------------------------------------------------------------------------------
 -- Table `myems_system_db`.`tbl_wind_farms`
