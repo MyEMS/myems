@@ -114,6 +114,9 @@ app.controller('StoreController', function(
 			if (angular.isDefined(store.is_input_counted) == false) {
 				store.is_input_counted = false;
 			}
+			if (angular.isDefined(store.is_enabled) == false) {
+				store.is_enabled = true;
+			}
 			let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 			StoreService.addStore(store, headers, function(response) {
 				if (angular.isDefined(response.status) && response.status === 201) {
@@ -163,6 +166,9 @@ app.controller('StoreController', function(
 			modifiedStore.contact_id=modifiedStore.contact.id;
 			if (angular.isDefined(store.is_input_counted) == false) {
 				store.is_input_counted = false;
+			}
+			if (angular.isDefined(modifiedStore.is_enabled) == false) {
+				modifiedStore.is_enabled = true;
 			}
 			let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 			StoreService.editStore(modifiedStore, headers, function(response) {
@@ -345,6 +351,10 @@ app.controller('ModalAddStoreCtrl', function($scope, $uibModalInstance,params) {
 	$scope.storetypes=params.storetypes;
 	$scope.costcenters=params.costcenters;
 	$scope.contacts=params.contacts;
+	$scope.store = {
+		is_input_counted: false,
+		is_enabled: true
+	};
 	$scope.ok = function() {
 		$uibModalInstance.close($scope.store);
 	};

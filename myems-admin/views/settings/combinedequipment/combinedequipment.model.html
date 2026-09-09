@@ -46,6 +46,14 @@
                     </div>
                 </div>
 			</div>
+            <div class="form-group"><label class="col-sm-3 control-label">{{'SETTING.IS_ENABLED' | translate}}</label>
+                <div class="col-sm-9">
+                    <div class="checkbox checkbox-success">
+                        <input id="chk_combinedequipment_isenabled" type="checkbox" ng-model="combinedequipment.is_enabled" ng-checked="combinedequipment.is_enabled">
+                        <label for="chk_combinedequipment_isenabled">{{'SETTING.IS_ENABLED' | translate}}</label>
+                    </div>
+                </div>
+            </div>
             <div class="form-group"><label class="col-sm-3 control-label">{{'COMBINED_EQUIPMENT.COST_CENTER' | translate}}<span class="text-danger">*</span></label>
                 <div class="col-sm-9">
                     <ui-select ng-model="combinedequipment.cost_center.id" theme="bootstrap" required>

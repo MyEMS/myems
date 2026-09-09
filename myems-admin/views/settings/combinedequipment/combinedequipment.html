@@ -41,6 +41,7 @@
 										<th class="text-center">{{'SETTING.NAME' | translate}}</th>
 										<th class="text-center">{{'SETTING.IS_INPUT_COUNTED' | translate}}</th>
 										<th class="text-center">{{'SETTING.IS_OUTPUT_COUNTED' | translate}}</th>
+										<th class="text-center">{{'SETTING.IS_ENABLED' | translate}}</th>
 										<th class="text-center">{{'SETTING.DESCRIPTION' | translate}} ({{'SETTING.OPTIONAL' | translate}})</th>
 										<th class="text-center">{{'SETTING.ACTION' | translate}}</th>
 									</tr>
@@ -54,6 +55,9 @@
 										</td>
 										<td class="text-center">
 											{{ combinedequipment.is_output_counted==false?'SETTING.NO':'SETTING.YES' | translate }}
+										</td>
+										<td class="text-center">
+											{{ combinedequipment.is_enabled==false?'SETTING.NO':'SETTING.YES' | translate }}
 										</td>
 										<td class="text-center">{{ combinedequipment.description }}</td>
 										<td class="text-center">
