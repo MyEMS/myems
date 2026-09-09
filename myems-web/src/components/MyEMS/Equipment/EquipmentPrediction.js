@@ -320,9 +320,13 @@ const EquipmentPrediction = ({ setRedirect, setRedirectUrl, t }) => {
 
   const [pdfBytesBase64, setPdfBytesBase64] = useState(undefined);
 
+  const [docxBytesBase64, setDocxBytesBase64] = useState(undefined);
+
   const [exportExcel, setExportExcel] = useState(false);
 
   const [exportPdf, setExportPdf] = useState(false);
+
+  const [exportDocx, setExportDocx] = useState(false);
 
 
 
@@ -353,6 +357,8 @@ const EquipmentPrediction = ({ setRedirect, setRedirectUrl, t }) => {
       setDetailedDataTableData([]);
 
       setPdfBytesBase64(undefined);
+
+      setDocxBytesBase64(undefined);
 
 
       let isResponseOK = false;
@@ -1053,6 +1059,7 @@ const EquipmentPrediction = ({ setRedirect, setRedirectUrl, t }) => {
 
             setPdfBytesBase64(json['pdf_bytes_base64']);
 
+            setDocxBytesBase64(json['docx_bytes_base64']);
 
 
             // enable submit button
@@ -1065,7 +1072,7 @@ const EquipmentPrediction = ({ setRedirect, setRedirectUrl, t }) => {
 
             // show export button
 
-            setExportButtonHidden(!(json['excel_bytes_base64'] || json['pdf_bytes_base64']));
+            setExportButtonHidden(!(json['excel_bytes_base64'] || json['pdf_bytes_base64'] || json['docx_bytes_base64']));
 
             // show result data
 
@@ -1101,7 +1108,11 @@ const EquipmentPrediction = ({ setRedirect, setRedirectUrl, t }) => {
 
       setResultDataHidden,
 
-      setDetailedDataTableData
+      setDetailedDataTableData,
+
+      exportDocx,
+
+      setDocxBytesBase64
 
     ]
 
@@ -1343,13 +1354,25 @@ const EquipmentPrediction = ({ setRedirect, setRedirectUrl, t }) => {
 
         '&language=' +
 
-        language;
+        language +
+
+        '&exportexcel=' +
+
+        exportExcel +
+
+        '&exportpdf=' +
+
+        exportPdf +
+
+        '&exportdocx=' +
+
+        exportDocx;
 
       loadData(url);
 
     }
 
-  }, [uuid, periodType, basePeriodDateRange, reportingPeriodDateRange, language, loadData]);
+  }, [uuid, periodType, basePeriodDateRange, reportingPeriodDateRange, language, loadData, exportExcel, exportPdf, exportDocx]);
 
 
 
@@ -1913,7 +1936,11 @@ const EquipmentPrediction = ({ setRedirect, setRedirectUrl, t }) => {
 
       '&exportpdf=' +
 
-      exportPdf;
+      exportPdf +
+
+      '&exportdocx=' +
+
+      exportDocx;
 
     loadData(url);
 
@@ -1934,6 +1961,14 @@ const EquipmentPrediction = ({ setRedirect, setRedirectUrl, t }) => {
       fileName = 'equipmentprediction.pdf';
 
       base64Data = pdfBytesBase64;
+
+    } else if (type === 'docx' && docxBytesBase64) {
+
+      mimeType = 'application/vnd.openxmlformats-officedocument.wordprocessingml.document';
+
+      fileName = 'equipmentprediction.docx';
+
+      base64Data = docxBytesBase64;
 
     } else {
 
@@ -2519,6 +2554,26 @@ const EquipmentPrediction = ({ setRedirect, setRedirectUrl, t }) => {
 
                     />
 
+                    <CustomInput
+
+                      type="checkbox"
+
+                      id="exportDocx"
+
+                      name="exportDocx"
+
+                      label="DOCX"
+
+                      bsSize="sm"
+
+                      inline
+
+                      checked={exportDocx}
+
+                      onChange={e => setExportDocx(e.target.checked)}
+
+                    />
+
                   </div>
 
                 </FormGroup>
@@ -2594,6 +2649,16 @@ const EquipmentPrediction = ({ setRedirect, setRedirectUrl, t }) => {
                       <DropdownItem onClick={e => handleExport(e, 'pdf')}>
 
                         PDF
+
+                      </DropdownItem>
+
+                    ) : null}
+
+                    {docxBytesBase64 ? (
+
+                      <DropdownItem onClick={e => handleExport(e, 'docx')}>
+
+                        DOCX
 
                       </DropdownItem>
 

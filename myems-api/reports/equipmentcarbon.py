@@ -42,6 +42,7 @@ import simplejson as json
 import config
 import excelexporters.equipmentcarbon
 import pdfexporters.equipmentcarbon
+import docxexporters.equipmentcarbon
 from core import utilities
 from core.useractivity import access_control, api_key_control
 
@@ -84,6 +85,7 @@ class Reporting:
         quick_mode = req.params.get('quickmode')
         export_excel = req.params.get('exportexcel')
         export_pdf = req.params.get('exportpdf')
+        export_docx = req.params.get('exportdocx')
 
         ################################################################################################################
         # Step 1: valid parameters
@@ -208,6 +210,12 @@ class Reporting:
                 str.lower(str.strip(export_pdf)) in ('true', 't', 'on', 'yes', 'y'):
             is_export_pdf = True
 
+        is_export_docx = False
+        if export_docx is not None and \
+                len(str.strip(export_docx)) > 0 and \
+                str.lower(str.strip(export_docx)) in ('true', 't', 'on', 'yes', 'y'):
+            is_export_docx = True
+
         ############################################################################################################
         # Redis cache
         ############################################################################################################
@@ -252,6 +260,7 @@ class Reporting:
                     "quickmode": is_quick_mode,
                     "exportexcel": is_export_excel,
                     "exportpdf": is_export_pdf,
+                    "exportdocx": is_export_docx,
                 }
                 cache_params_json = json.dumps(cache_params, sort_keys=True)
                 cache_key = 'report:equipmentcarbon:' + hashlib.sha256(cache_params_json.encode('utf-8')).hexdigest()
@@ -636,6 +645,7 @@ class Reporting:
                 }
                 result['excel_bytes_base64'] = None
                 result['pdf_bytes_base64'] = None
+                result['docx_bytes_base64'] = None
                 if not is_quick_mode:
                     if is_export_excel:
                         result['excel_bytes_base64'] = excelexporters.equipmentcarbon.export(
@@ -657,6 +667,20 @@ class Reporting:
                             reporting_period_end_datetime_local,
                             period_type,
                             language)
+                    if is_export_docx:
+                        try:
+                            result['docx_bytes_base64'] = \
+                                docxexporters.equipmentcarbon.export(
+                                    result,
+                                    equipment['name'],
+                                    base_period_start_datetime_local,
+                                    base_period_end_datetime_local,
+                                    reporting_period_start_datetime_local,
+                                    reporting_period_end_datetime_local,
+                                    period_type,
+                                    language)
+                        except Exception:
+                            logger.error("Failed to export DOCX", exc_info=True)
 
             finally:
                 if cursor_system:

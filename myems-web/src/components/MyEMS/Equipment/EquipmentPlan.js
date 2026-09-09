@@ -151,8 +151,10 @@ const EquipmentPlan = ({ setRedirect, setRedirectUrl, t }) => {
   ]);
   const [excelBytesBase64, setExcelBytesBase64] = useState(undefined);
   const [pdfBytesBase64, setPdfBytesBase64] = useState(undefined);
+  const [docxBytesBase64, setDocxBytesBase64] = useState(undefined);
   const [exportExcel, setExportExcel] = useState(false);
   const [exportPdf, setExportPdf] = useState(false);
+  const [exportDocx, setExportDocx] = useState(false);
   
   useEffect(() => {
     let isResponseOK = false;
@@ -447,6 +449,7 @@ const EquipmentPlan = ({ setRedirect, setRedirectUrl, t }) => {
     // Reinitialize tables
     setDetailedDataTableData([]);
     setPdfBytesBase64(undefined);
+    setDocxBytesBase64(undefined);
 
     
     let isResponseOK = false;
@@ -470,7 +473,9 @@ const EquipmentPlan = ({ setRedirect, setRedirectUrl, t }) => {
         '&exportexcel=' +
         exportExcel +
         '&exportpdf=' +
-        exportPdf,
+        exportPdf +
+        '&exportdocx=' +
+        exportDocx,
       {
         method: 'GET',
         headers: {
@@ -774,13 +779,14 @@ const EquipmentPlan = ({ setRedirect, setRedirectUrl, t }) => {
 
           setExcelBytesBase64(json['excel_bytes_base64']);
           setPdfBytesBase64(json['pdf_bytes_base64']);
+          setDocxBytesBase64(json['docx_bytes_base64']);
           
           // enable submit button
           setSubmitButtonDisabled(false);
           // hide spinner
           setSpinnerHidden(true);
           // show export button
-          setExportButtonHidden(!(json['excel_bytes_base64'] || json['pdf_bytes_base64']));
+          setExportButtonHidden(!(json['excel_bytes_base64'] || json['pdf_bytes_base64'] || json['docx_bytes_base64']));
           // show result data
           setResultDataHidden(false);
         } else {
@@ -799,6 +805,10 @@ const EquipmentPlan = ({ setRedirect, setRedirectUrl, t }) => {
       mimeType = 'application/pdf';
       fileName = 'equipmentplan.pdf';
       base64Data = pdfBytesBase64;
+    } else if (type === 'docx' && docxBytesBase64) {
+      mimeType = 'application/vnd.openxmlformats-officedocument.wordprocessingml.document';
+      fileName = 'equipmentplan.docx';
+      base64Data = docxBytesBase64;
     } else {
       mimeType = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
       fileName = 'equipmentplan.xlsx';
@@ -1085,6 +1095,16 @@ const EquipmentPlan = ({ setRedirect, setRedirectUrl, t }) => {
                       checked={exportPdf}
                       onChange={e => setExportPdf(e.target.checked)}
                     />
+                    <CustomInput
+                      type="checkbox"
+                      id="exportDocx"
+                      name="exportDocx"
+                      label="DOCX"
+                      bsSize="sm"
+                      inline
+                      checked={exportDocx}
+                      onChange={e => setExportDocx(e.target.checked)}
+                    />
                   </div>
                 </FormGroup>
               </Col>
@@ -1123,6 +1143,11 @@ const EquipmentPlan = ({ setRedirect, setRedirectUrl, t }) => {
                     {pdfBytesBase64 ? (
                       <DropdownItem onClick={e => handleExport(e, 'pdf')}>
                         PDF
+                      </DropdownItem>
+                    ) : null}
+                    {docxBytesBase64 ? (
+                      <DropdownItem onClick={e => handleExport(e, 'docx')}>
+                        DOCX
                       </DropdownItem>
                     ) : null}
                   </DropdownMenu>

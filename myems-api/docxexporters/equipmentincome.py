@@ -1,12 +1,12 @@
 """
-Combined Equipment Income DOCX Exporter
+Equipment Income DOCX Exporter
 
-This module provides functionality to export combined equipment income data to DOCX format.
-It generates comprehensive reports showing income analysis for combined equipments
+This module provides functionality to export equipment income data to DOCX format.
+It generates comprehensive reports showing income analysis for equipment
 with detailed breakdown by energy categories and time periods.
 
 Key Features:
-- Combined Equipment income analysis
+- Equipment Data income analysis
 - Base period vs reporting period comparison
 - Income breakdown by energy categories
 - Detailed data with line charts
@@ -187,9 +187,9 @@ def _style_table_cell(cell, is_header=False, is_green=False, bold=False, font_si
     tcPr.append(shd)
 
 
-class CombinedEquipmentIncomeDOCXExporter:
+class EquipmentIncomeDOCXExporter:
     """
-    Export combined equipment income data to DOCX format.
+    Export equipment income data to DOCX format.
     Generates comprehensive reports with charts and tables matching Excel layout.
     """
 
@@ -365,7 +365,7 @@ class CombinedEquipmentIncomeDOCXExporter:
 
         title = doc.add_paragraph()
         title.alignment = WD_ALIGN_PARAGRAPH.CENTER
-        run = title.add_run(f"{_('Combined Equipment')} - {_('Income')}")
+        run = title.add_run(f"{_('Equipment Data')} - {_('Income')}")
         
         run.font.size = Pt(24)
         run.font.bold = True
@@ -417,7 +417,6 @@ class CombinedEquipmentIncomeDOCXExporter:
         names = reporting_data.get('names', [])
         units = reporting_data.get('units', [])
         subtotals = reporting_data.get('subtotals', [])
-        subtotals_per_unit_area = reporting_data.get('subtotals_per_unit_area', [])
         increment_rates = reporting_data.get('increment_rates', [])
         ca_len = len(names)
 
@@ -427,7 +426,7 @@ class CombinedEquipmentIncomeDOCXExporter:
         self._add_heading_styled(doc, self.name + ' - ' + _('Reporting Period Income'), level=1)
 
         num_cols = ca_len + 1
-        table = doc.add_table(rows=4, cols=num_cols)
+        table = doc.add_table(rows=3, cols=num_cols)
         table.alignment = WD_TABLE_ALIGNMENT.CENTER
 
         headers = ['']
@@ -440,7 +439,7 @@ class CombinedEquipmentIncomeDOCXExporter:
             cell.text = h
             _style_table_cell(cell, is_header=True, bold=True)
 
-        row_labels = [_('Income'), _('Per Unit Area'), _('Increment Rate')]
+        row_labels = [_('Income'), _('Increment Rate')]
         for r_idx, row_label in enumerate(row_labels, start=1):
             cell = table.cell(r_idx, 0)
             cell.text = row_label
@@ -453,12 +452,7 @@ class CombinedEquipmentIncomeDOCXExporter:
             cell_cons.text = str(round2(val, 2)) if val is not None else ''
             _style_table_cell(cell_cons)
 
-            cell_area = table.cell(2, col)
-            val = subtotals_per_unit_area[i] if (subtotals_per_unit_area and i < len(subtotals_per_unit_area)) else None
-            cell_area.text = str(round2(val, 2)) if val is not None else ''
-            _style_table_cell(cell_area)
-
-            cell_inc = table.cell(3, col)
+            cell_inc = table.cell(2, col)
             val = increment_rates[i] if (increment_rates and i < len(increment_rates)) else None
             cell_inc.text = (str(round2(val * 100, 2)) + '%') if val is not None else ''
             _style_table_cell(cell_inc)
@@ -827,7 +821,7 @@ def export(report,
     Export report data to DOCX and return base64 encoded string.
     This function maintains the same interface as the Excel exporter.
     """
-    exporter = CombinedEquipmentIncomeDOCXExporter(language)
+    exporter = EquipmentIncomeDOCXExporter(language)
     return exporter.export(report, name,
                            base_period_start_datetime_local,
                            base_period_end_datetime_local,
