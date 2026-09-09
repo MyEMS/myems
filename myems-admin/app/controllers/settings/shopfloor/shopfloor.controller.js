@@ -328,6 +328,9 @@ app.controller('ModalAddShopfloorCtrl', function ($scope, $uibModalInstance, par
 	$scope.operation = "SHOPFLOOR.ADD_SHOPFLOOR";
 	$scope.costcenters = params.costcenters;
 	$scope.contacts = params.contacts;
+	$scope.shopfloor = {
+		is_enabled: true
+	};
 	$scope.ok = function () {
 		$uibModalInstance.close($scope.shopfloor);
 	};

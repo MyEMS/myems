@@ -351,6 +351,10 @@ app.controller('ModalAddStoreCtrl', function($scope, $uibModalInstance,params) {
 	$scope.storetypes=params.storetypes;
 	$scope.costcenters=params.costcenters;
 	$scope.contacts=params.contacts;
+	$scope.store = {
+		is_input_counted: false,
+		is_enabled: true
+	};
 	$scope.ok = function() {
 		$uibModalInstance.close($scope.store);
 	};
