@@ -70,6 +70,7 @@ const EquipmentTracking = ({ setRedirect, setRedirectUrl, t }) => {
   const [exportButtonHidden, setExportButtonHidden] = useState(true);
   const [excelBytesBase64, setExcelBytesBase64] = useState(undefined);
   const [pdfBytesBase64, setPdfBytesBase64] = useState(undefined);
+  const [docxBytesBase64, setDocxBytesBase64] = useState(undefined);
   const [smartAnalysisOpen, setSmartAnalysisOpen] = useState(false);
   const [smartAnalysisContext, setSmartAnalysisContext] = useState(null);
 
@@ -108,7 +109,7 @@ const EquipmentTracking = ({ setRedirect, setRedirectUrl, t }) => {
           // begin of getting equipment list
           let isSecondResponseOK = false;
           fetch(APIBaseURL + '/reports/equipmenttracking?spaceid=' + selectedSpaceID +
-            '&language=' + language + '&exportexcel=true&exportpdf=true', {
+            '&language=' + language + '&exportexcel=true&exportpdf=true&exportdocx=true', {
             method: 'GET',
             headers: {
               'Content-type': 'application/json',
@@ -154,11 +155,12 @@ const EquipmentTracking = ({ setRedirect, setRedirectUrl, t }) => {
 
                 setExcelBytesBase64(json['excel_bytes_base64']);
                 setPdfBytesBase64(json['pdf_bytes_base64']);
+                setDocxBytesBase64(json['docx_bytes_base64']);
 
                 // hide spinner
                 setSpinnerHidden(true);
                 // show export button
-                setExportButtonHidden(!(json['excel_bytes_base64'] || json['pdf_bytes_base64']));
+                setExportButtonHidden(!(json['excel_bytes_base64'] || json['pdf_bytes_base64'] || json['docx_bytes_base64']));
               } else {
                 handleAPIError(json, setRedirect, setRedirectUrl, t, toast);
               }
@@ -255,7 +257,7 @@ const EquipmentTracking = ({ setRedirect, setRedirectUrl, t }) => {
     // begin of getting equipment list
     let isResponseOK = false;
     fetch(APIBaseURL + '/reports/equipmenttracking?spaceid=' + selectedSpaceID + '&language=' + language +
-      '&exportexcel=true&exportpdf=true', {
+      '&exportexcel=true&exportpdf=true&exportdocx=true', {
       method: 'GET',
       headers: {
         'Content-type': 'application/json',
@@ -301,11 +303,12 @@ const EquipmentTracking = ({ setRedirect, setRedirectUrl, t }) => {
 
           setExcelBytesBase64(json['excel_bytes_base64']);
           setPdfBytesBase64(json['pdf_bytes_base64']);
+          setDocxBytesBase64(json['docx_bytes_base64']);
 
           // hide spinner
           setSpinnerHidden(true);
           // show export button
-          setExportButtonHidden(!(json['excel_bytes_base64'] || json['pdf_bytes_base64']));
+          setExportButtonHidden(!(json['excel_bytes_base64'] || json['pdf_bytes_base64'] || json['docx_bytes_base64']));
         } else {
           handleAPIError(json, setRedirect, setRedirectUrl, t, toast);
         }
@@ -319,14 +322,20 @@ const EquipmentTracking = ({ setRedirect, setRedirectUrl, t }) => {
   const handleExport = (e, type) => {
     e.preventDefault();
     let mimeType, fileName, base64Data;
-    if (type === 'pdf') {
+    if (type === 'pdf' && pdfBytesBase64) {
       mimeType = 'application/pdf';
       fileName = 'equipmenttracking.pdf';
       base64Data = pdfBytesBase64;
-    } else {
+    } else if (type === 'docx' && docxBytesBase64) {
+      mimeType = 'application/vnd.openxmlformats-officedocument.wordprocessingml.document';
+      fileName = 'equipmenttracking.docx';
+      base64Data = docxBytesBase64;
+    } else if (type === 'excel' && excelBytesBase64) {
       mimeType = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
       fileName = 'equipmenttracking.xlsx';
       base64Data = excelBytesBase64;
+    } else {
+      return;
     }
     var fileUrl = 'data:' + mimeType + ';base64,' + base64Data;
     fetch(fileUrl)
@@ -418,6 +427,11 @@ const EquipmentTracking = ({ setRedirect, setRedirectUrl, t }) => {
                     {pdfBytesBase64 ? (
                       <DropdownItem onClick={e => handleExport(e, 'pdf')}>
                         PDF
+                      </DropdownItem>
+                    ) : null}
+                    {docxBytesBase64 ? (
+                      <DropdownItem onClick={e => handleExport(e, 'docx')}>
+                        DOCX
                       </DropdownItem>
                     ) : null}
                   </DropdownMenu>

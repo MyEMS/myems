@@ -1,23 +1,28 @@
 """
-Combined Equipment Income DOCX Exporter
+Equipment Energy Item DOCX Exporter
 
-This module provides functionality to export combined equipment income data to DOCX format.
-It generates comprehensive reports showing income analysis for combined equipments
-with detailed breakdown by energy categories and time periods.
+This module provides functionality to export equipment energy item data to DOCX format.
+It generates comprehensive reports showing energy consumption breakdown by specific energy items
+for equipments with detailed analysis and visualizations.
 
 Key Features:
-- Combined Equipment income analysis
+- Equipment energy consumption by energy items
 - Base period vs reporting period comparison
-- Income breakdown by energy categories
-- Detailed data with line charts
+- Energy item proportion analysis by category group with pie charts
+- Detailed data charts per energy item
+- Associated equipments data with charts
+- Parameter data (if available)
 - Multi-language support
 - Base64 encoding for file transmission
 
 The exported DOCX file includes:
 - Cover page with logo and report metadata
-- Combined analysis page (reporting period income table)
-- Detailed data charts (paginated, up to 4 per page in 2x2 grid)
-- Parameter data pages
+- Reporting period consumption summary (values, increment rate)
+- Category group tables + per-category pie charts (energy items grouped by energy category)
+- Detailed time-series paginated tables + per-page trend line charts
+  (two layouts: without base period, with base period side-by-side comparison)
+- Associated equipments data table + per-item pie charts
+- Parameter data (sensors, tariffs, etc.) tables + line charts with filled area
 """
 
 import base64
@@ -85,6 +90,15 @@ def _convert_decimals(obj):
     elif isinstance(obj, tuple):
         return tuple(_convert_decimals(item) for item in obj)
     return obj
+
+
+def _group_by_category(category_list):
+    category_dict = dict()
+    for i, value in enumerate(category_list):
+        if value not in category_dict.keys():
+            category_dict[value] = list()
+        category_dict[value].append(i)
+    return category_dict
 
 
 def _set_min_row_height(cell, height_twips=150, exact=False):
@@ -187,9 +201,9 @@ def _style_table_cell(cell, is_header=False, is_green=False, bold=False, font_si
     tcPr.append(shd)
 
 
-class CombinedEquipmentIncomeDOCXExporter:
+class EquipmentEnergyItemDOCXExporter:
     """
-    Export combined equipment income data to DOCX format.
+    Export equipment energy item data to DOCX format.
     Generates comprehensive reports with charts and tables matching Excel layout.
     """
 
@@ -197,10 +211,13 @@ class CombinedEquipmentIncomeDOCXExporter:
         font_setup_success = setup_chinese_fonts()
         if not font_setup_success:
             logger.warning("Chinese font setup failed, some text may not display correctly")
+
         self.language = language
         self.trans = get_translation(language)
         self._ = self.trans.gettext
+
         self.dpi = 120
+
         self.chart_colors = ['#4472C4', '#ED7D31', '#70AD47', '#FFC000', '#5B9BD5',
                              '#FF6B6B', '#9B59B6', '#1ABC9C', '#E67E22', '#2ECC71',
                              '#3498DB', '#E74C3C', '#2ECC71', '#F39C12', '#9B59B6']
@@ -255,6 +272,69 @@ class CombinedEquipmentIncomeDOCXExporter:
         buf.seek(0)
         return buf
 
+    def _make_pie_chart(self, values, labels, title, colors=None):
+        if not values or sum((v or 0) for v in values) == 0:
+            return None
+        fig, ax = plt.subplots(figsize=(3.2, 2.6))
+        if colors is None:
+            colors = self.chart_colors[:len(labels)]
+        filtered = [(l, v, c) for l, v, c in zip(labels, values, colors) if (v or 0) > 0]
+        if not filtered:
+            plt.close(fig)
+            return None
+        f_labels, f_values, f_colors = zip(*filtered)
+        if len(f_labels) > 8:
+            sorted_data = sorted(zip(f_labels, f_values, f_colors), key=lambda x: x[1], reverse=True)
+            top_data = sorted_data[:7]
+            other_sum = sum(v for _, v, _ in sorted_data[7:])
+            f_labels = [l for l, _, _ in top_data] + [self._('Others')]
+            f_values = [v for _, v, _ in top_data] + [other_sum]
+            f_colors = [c for _, _, c in top_data] + ['#999999']
+        ax.pie(f_values, labels=f_labels, autopct='%1.1f%%', colors=f_colors, startangle=90)
+        ax.set_title(title, fontsize=10, fontweight='bold')
+        return self._fig_to_bytesio(fig, self.dpi)
+
+    def _make_pie_charts_row(self, charts):
+        if not charts:
+            return None
+        n = len(charts)
+        per_w = 3.2
+        fig, axes = plt.subplots(1, n, figsize=(per_w * n, 3.2))
+        if n == 1:
+            axes = [axes]
+        plotted_any = False
+        for idx, chart in enumerate(charts):
+            ax = axes[idx]
+            values = chart['values']
+            labels = chart['labels']
+            title = chart['title']
+            colors = chart.get('colors')
+            if not values or sum((v or 0) for v in values) == 0:
+                ax.axis('off')
+                continue
+            if colors is None:
+                colors = self.chart_colors[:len(labels)]
+            filtered = [(l, v, c) for l, v, c in zip(labels, values, colors) if (v or 0) > 0]
+            if not filtered:
+                ax.axis('off')
+                continue
+            f_labels, f_values, f_colors = zip(*filtered)
+            if len(f_labels) > 8:
+                sorted_data = sorted(zip(f_labels, f_values, f_colors), key=lambda x: x[1], reverse=True)
+                top_data = sorted_data[:7]
+                other_sum = sum(v for _, v, _ in sorted_data[7:])
+                f_labels = [l for l, _, _ in top_data] + [self._('Others')]
+                f_values = [v for _, v, _ in top_data] + [other_sum]
+                f_colors = [c for _, _, c in top_data] + ['#999999']
+            ax.pie(f_values, labels=f_labels, autopct='%1.1f%%', colors=f_colors, startangle=90)
+            ax.set_title(title, fontsize=10, fontweight='bold')
+            plotted_any = True
+        if not plotted_any:
+            plt.close(fig)
+            return None
+        plt.tight_layout(pad=1.0)
+        return self._fig_to_bytesio(fig, self.dpi)
+
     def generate_docx(self,
                       report: Dict[str, Any],
                       name: str,
@@ -285,6 +365,7 @@ class CombinedEquipmentIncomeDOCXExporter:
             return filename
 
         filename = str(uuid.uuid4()) + '.docx'
+
         self.report = _convert_decimals(report)
         self.name = name
         self.base_period_start = base_period_start_datetime_local
@@ -292,6 +373,7 @@ class CombinedEquipmentIncomeDOCXExporter:
         self.reporting_start = reporting_start_datetime_local
         self.reporting_end = reporting_end_datetime_local
         self.period_type = period_type
+
         self.is_base_period_exists = self._is_base_period_timestamp_exists(report['base_period'])
 
         doc = Document()
@@ -311,22 +393,31 @@ class CombinedEquipmentIncomeDOCXExporter:
                              base_period_end_datetime_local,
                              self.is_base_period_exists)
 
-        has_combined = self._has_combined_analysis()
+        has_summary = self._has_consumption_summary()
+        has_category = self._has_category_group_sections()
         has_detailed = self._has_detailed_data_charts()
+        has_associated = self._has_associated_equipments_section()
         has_params = self._has_parameters_section()
 
-        if has_combined or has_detailed or has_params:
+        if has_summary or has_category or has_detailed or has_associated or has_params:
             doc.add_page_break()
 
-        if has_combined:
-            self._add_combined_analysis(doc)
-            if has_detailed:
-                doc.add_page_break()
+        if has_summary:
+            self._add_consumption_summary(doc)
+
+        if has_category:
+            self._add_category_group_sections(doc)
+
+        if (has_summary or has_category) and has_detailed:
+            doc.add_page_break()
 
         if has_detailed:
             self._add_detailed_data_charts(doc)
-            if has_params:
+            if has_associated or has_params:
                 doc.add_page_break()
+
+        if has_associated:
+            self._add_associated_equipments_section(doc)
 
         if has_params:
             self._add_parameters_section(doc)
@@ -335,6 +426,7 @@ class CombinedEquipmentIncomeDOCXExporter:
         logger.info(f"DOCX generated: {filename}")
         return filename
 
+    # ---------- Utility ----------
     def _add_heading_styled(self, doc, text, level=1):
         heading = doc.add_heading(level=level)
         run = heading.add_run(text)
@@ -365,7 +457,7 @@ class CombinedEquipmentIncomeDOCXExporter:
 
         title = doc.add_paragraph()
         title.alignment = WD_ALIGN_PARAGRAPH.CENTER
-        run = title.add_run(f"{_('Combined Equipment')} - {_('Income')}")
+        run = title.add_run(f"{_('Equipment Data')} - {_('Energy Item Analysis')}")
         
         run.font.size = Pt(24)
         run.font.bold = True
@@ -411,36 +503,39 @@ class CombinedEquipmentIncomeDOCXExporter:
             r_val.font.name = 'Arial'
             r_val._element.rPr.rFonts.set(qn('w:eastAsia'), 'SimSun')
 
-    def _add_combined_analysis(self, doc):
+    # ---------- Consumption Summary ----------
+    def _add_consumption_summary(self, doc):
+        """Add reporting period consumption summary table matching Excel layout."""
         _ = self._
         reporting_data = self.report['reporting_period']
         names = reporting_data.get('names', [])
+        energy_category_names = reporting_data.get('energy_category_names', [])
         units = reporting_data.get('units', [])
         subtotals = reporting_data.get('subtotals', [])
-        subtotals_per_unit_area = reporting_data.get('subtotals_per_unit_area', [])
         increment_rates = reporting_data.get('increment_rates', [])
         ca_len = len(names)
 
         if ca_len == 0:
             return
 
-        self._add_heading_styled(doc, self.name + ' - ' + _('Reporting Period Income'), level=1)
+        self._add_heading_styled(doc, self.name + ' - ' + _('Reporting Period Consumption'), level=1)
 
         num_cols = ca_len + 1
-        table = doc.add_table(rows=4, cols=num_cols)
+        table = doc.add_table(rows=3, cols=num_cols)
         table.alignment = WD_TABLE_ALIGNMENT.CENTER
 
         headers = ['']
         for i in range(ca_len):
             unit_i = units[i] if (units and i < len(units)) else ''
-            headers.append(names[i] + ((' (' + unit_i + ')') if unit_i else ''))
+            cat_i = energy_category_names[i] if (energy_category_names and i < len(energy_category_names)) else ''
+            headers.append(names[i] + ' ' + cat_i + ((' (' + unit_i + ')') if unit_i else ''))
 
         for j, h in enumerate(headers):
             cell = table.cell(0, j)
             cell.text = h
-            _style_table_cell(cell, is_header=True, bold=True)
+            _style_table_cell(cell, is_header=True, bold=True, font_size=8)
 
-        row_labels = [_('Income'), _('Per Unit Area'), _('Increment Rate')]
+        row_labels = [_('Consumption'), _('Increment Rate')]
         for r_idx, row_label in enumerate(row_labels, start=1):
             cell = table.cell(r_idx, 0)
             cell.text = row_label
@@ -451,20 +546,88 @@ class CombinedEquipmentIncomeDOCXExporter:
             cell_cons = table.cell(1, col)
             val = subtotals[i] if (subtotals and i < len(subtotals)) else None
             cell_cons.text = str(round2(val, 2)) if val is not None else ''
-            _style_table_cell(cell_cons)
+            _style_table_cell(cell_cons, font_size=8)
 
-            cell_area = table.cell(2, col)
-            val = subtotals_per_unit_area[i] if (subtotals_per_unit_area and i < len(subtotals_per_unit_area)) else None
-            cell_area.text = str(round2(val, 2)) if val is not None else ''
-            _style_table_cell(cell_area)
-
-            cell_inc = table.cell(3, col)
+            cell_inc = table.cell(2, col)
             val = increment_rates[i] if (increment_rates and i < len(increment_rates)) else None
             cell_inc.text = (str(round2(val * 100, 2)) + '%') if val is not None else ''
-            _style_table_cell(cell_inc)
+            _style_table_cell(cell_inc, font_size=8)
 
-    def _add_detailed_data_charts(self, doc):
+        doc.add_paragraph('')
+
+    # ---------- Category Group Sections ----------
+    def _add_category_group_sections(self, doc):
+        """Add grouped energy item tables and pie charts by energy category."""
         _ = self._
+        reporting_data = self.report['reporting_period']
+        names = reporting_data.get('names', [])
+        energy_category_names = reporting_data.get('energy_category_names', [])
+        units = reporting_data.get('units', [])
+        subtotals = reporting_data.get('subtotals', [])
+
+        if not names or not energy_category_names:
+            return
+
+        category_dict = _group_by_category(energy_category_names)
+
+        for category_name, item_indices in category_dict.items():
+            if not item_indices:
+                continue
+            unit = units[item_indices[0]] if (units and item_indices[0] < len(units)) else ''
+
+            self._add_heading_styled(doc, self.name + ' ' + category_name +
+                                     ((' (' + unit + ')') if unit else '') + ' ' + _('by Energy Item'), level=1)
+
+            container = doc.add_table(rows=1, cols=2)
+            container.alignment = WD_TABLE_ALIGNMENT.CENTER
+            _remove_table_borders(container)
+            left_cell = container.cell(0, 0)
+            right_cell = container.cell(0, 1)
+
+            item_len = len(item_indices)
+            data_table = left_cell.add_table(rows=item_len + 1, cols=2)
+            data_table.alignment = WD_TABLE_ALIGNMENT.CENTER
+            h1 = data_table.cell(0, 0)
+            h1.text = ''
+            _style_table_cell(h1, is_header=True, bold=True)
+            h2 = data_table.cell(0, 1)
+            h2.text = _('Consumption')
+            _style_table_cell(h2, is_header=True, bold=True)
+
+            pie_labels = []
+            pie_values = []
+            for row_idx, idx in enumerate(item_indices):
+                unit_idx = units[idx] if (units and idx < len(units)) else ''
+                label = names[idx] + ((' (' + unit_idx + ')') if unit_idx else '')
+                c1 = data_table.cell(row_idx + 1, 0)
+                c1.text = label
+                _style_table_cell(c1, bold=True, font_size=8)
+                val = round2(subtotals[idx], 3) if (subtotals and idx < len(subtotals)) else 0
+                c2 = data_table.cell(row_idx + 1, 1)
+                c2.text = str(val)
+                _style_table_cell(c2, font_size=8)
+                pie_labels.append(label)
+                pie_values.append(val)
+
+            chart_title = category_name + ((' (' + unit + ')') if unit else '')
+            chart_file = self._make_pie_chart(pie_values, pie_labels, chart_title)
+            if chart_file:
+                p = right_cell.paragraphs[0]
+                p.alignment = WD_ALIGN_PARAGRAPH.CENTER
+                run = p.add_run()
+                run.add_picture(chart_file, width=Inches(3.0))
+
+            doc.add_paragraph('')
+
+    # ---------- Detailed Data Charts ----------
+    def _add_detailed_data_charts(self, doc):
+        """Add separate line charts for each energy item, matching Excel behavior.
+        Charts paginated, max 4 per page (2 columns table layout).
+        With base period: dual-line comparison (base dashed, reporting solid).
+        Odd number of charts: last row merges cells and centers single chart.
+        """
+        _ = self._
+
         reporting_data = self.report['reporting_period']
         timestamps = reporting_data.get('timestamps', [])
         names = reporting_data.get('names', [])
@@ -475,7 +638,7 @@ class CombinedEquipmentIncomeDOCXExporter:
             return
 
         reporting_times = timestamps[0]
-        num_categories = len(names)
+        num_items = len(names)
         charts_per_page = 4
 
         self._add_heading_styled(doc, self.name + ' ' + _('Detailed Data'), level=1)
@@ -489,14 +652,15 @@ class CombinedEquipmentIncomeDOCXExporter:
             ax.set_xticks(range(0, raw_len, step))
             ax.set_xticklabels(
                 [reporting_times[t][:10] if t < len(reporting_times) else ''
-                for t in range(0, raw_len, step)],
+                 for t in range(0, raw_len, step)],
                 rotation=45, ha='right', fontsize=7)
 
         if not self.is_base_period_exists:
-            for page_start in range(0, num_categories, charts_per_page):
-                page_end = min(page_start + charts_per_page, num_categories)
+            for page_start in range(0, num_items, charts_per_page):
+                page_end = min(page_start + charts_per_page, num_items)
                 page_indices = list(range(page_start, page_end))
                 num_on_page = len(page_indices)
+
                 rows = (num_on_page + 1) // 2
 
                 for row_idx in range(rows):
@@ -523,7 +687,7 @@ class CombinedEquipmentIncomeDOCXExporter:
                                 markevery=max(1, len(safe_data) // 30))
                         _set_ticks(ax, len(raw_data))
                         unit_i = units[i] if (units and i < len(units)) else ''
-                        ax.set_title(_('Reporting Period Income') + ' - ' +
+                        ax.set_title(_('Reporting Period Consumption') + ' - ' +
                                      names[i] + ((' (' + unit_i + ')') if unit_i else ''),
                                      fontsize=9, fontweight='bold')
                         ax.grid(True, alpha=0.3)
@@ -554,7 +718,7 @@ class CombinedEquipmentIncomeDOCXExporter:
                                     markevery=max(1, len(safe_data) // 30))
                             _set_ticks(ax, len(raw_data))
                             unit_i = units[i] if (units and i < len(units)) else ''
-                            ax.set_title(_('Reporting Period Income') + ' - ' +
+                            ax.set_title(_('Reporting Period Consumption') + ' - ' +
                                          names[i] + ((' (' + unit_i + ')') if unit_i else ''),
                                          fontsize=9, fontweight='bold')
                             ax.grid(True, alpha=0.3)
@@ -566,17 +730,18 @@ class CombinedEquipmentIncomeDOCXExporter:
                             run = p.add_run()
                             run.add_picture(chart_buf, width=Inches(4.8))
 
-                if page_end < num_categories:
+                if page_end < num_items:
                     doc.add_page_break()
         else:
             base_period_data = self.report['base_period']
             base_values = base_period_data.get('values', [])
             base_names = base_period_data.get('names', [])
 
-            for page_start in range(0, num_categories, charts_per_page):
-                page_end = min(page_start + charts_per_page, num_categories)
+            for page_start in range(0, num_items, charts_per_page):
+                page_end = min(page_start + charts_per_page, num_items)
                 page_indices = list(range(page_start, page_end))
                 num_on_page = len(page_indices)
+
                 rows = (num_on_page + 1) // 2
 
                 for row_idx in range(rows):
@@ -620,8 +785,8 @@ class CombinedEquipmentIncomeDOCXExporter:
                         _set_ticks(ax, len(r_data))
                         unit_i = units[i] if (units and i < len(units)) else ''
                         ax.set_title(
-                            _('Base Period Income') + ' / ' +
-                            _('Reporting Period Income') + ' - ' +
+                            _('Base Period Consumption') + ' / ' +
+                            _('Reporting Period Consumption') + ' - ' +
                             names[i] + ((' (' + unit_i + ')') if unit_i else ''),
                             fontsize=8, fontweight='bold')
                         if len(safe_r) > 0 or has_base_line:
@@ -671,8 +836,8 @@ class CombinedEquipmentIncomeDOCXExporter:
                             _set_ticks(ax, len(r_data))
                             unit_i = units[i] if (units and i < len(units)) else ''
                             ax.set_title(
-                                _('Base Period Income') + ' / ' +
-                                _('Reporting Period Income') + ' - ' +
+                                _('Base Period Consumption') + ' / ' +
+                                _('Reporting Period Consumption') + ' - ' +
                                 names[i] + ((' (' + unit_i + ')') if unit_i else ''),
                                 fontsize=8, fontweight='bold')
                             if len(safe_r) > 0 or has_base_line:
@@ -686,11 +851,105 @@ class CombinedEquipmentIncomeDOCXExporter:
                             run = p.add_run()
                             run.add_picture(chart_buf, width=Inches(4.8))
 
-                if page_end < num_categories:
+                if page_end < num_items:
                     doc.add_page_break()
 
-    def _add_parameters_section(self, doc):
+    # ---------- Associated Equipments ----------
+    def _add_associated_equipments_section(self, doc):
+        """Add associated equipments data table with per-item pie charts."""
         _ = self._
+
+        associated = self.report.get('associated_equipment', {})
+        if not associated or 'energy_item_names' not in associated or not associated['energy_item_names']:
+            return
+        if 'associated_equipment_names_array' not in associated:
+            return
+        if not associated['associated_equipment_names_array'] or not associated['associated_equipment_names_array'][0] or len(associated['associated_equipment_names_array'][0]) == 0:
+            return
+
+        reporting_data = self.report['reporting_period']
+        names_array = associated['associated_equipment_names_array']
+        child_names = names_array[0]
+        child_ids = associated.get('associated_equipment_ids', list(range(len(child_names))))
+        energy_item_names = associated['energy_item_names']
+        subtotals_array = associated['subtotals_array']
+        item_len = len(energy_item_names)
+        equipment_len = len(child_names)
+
+        self._add_heading_styled(doc, self.name + ' ' + _('Associated Equipments Data'), level=1)
+
+        num_cols = 2 + item_len
+        table = doc.add_table(rows=equipment_len + 1, cols=num_cols)
+        table.alignment = WD_TABLE_ALIGNMENT.CENTER
+
+        c0 = table.cell(0, 0)
+        c0.text = _('ID')
+        _style_table_cell(c0, is_header=True, bold=True)
+        c1 = table.cell(0, 1)
+        c1.text = _('Associated Equipment')
+        _style_table_cell(c1, is_header=True, bold=True)
+        for j in range(item_len):
+            col = 2 + j
+            unit_j = reporting_data['units'][j] if (reporting_data.get('units') and j < len(reporting_data['units'])) else ''
+            hdr = table.cell(0, col)
+            hdr.text = reporting_data['names'][j] + ((' (' + unit_j + ')') if unit_j else '')
+            _style_table_cell(hdr, is_header=True, bold=True, font_size=8)
+
+        for i in range(equipment_len):
+            r_idx = i + 1
+            c_id = table.cell(r_idx, 0)
+            c_id.text = str(child_ids[i])
+            _style_table_cell(c_id, font_size=8)
+            c_name = table.cell(r_idx, 1)
+            c_name.text = child_names[i]
+            _style_table_cell(c_name, font_size=8)
+            for j in range(item_len):
+                col = 2 + j
+                val = round2(subtotals_array[j][i], 2) if (j < len(subtotals_array) and i < len(subtotals_array[j])) else 0
+                c_val = table.cell(r_idx, col)
+                c_val.text = str(val)
+                _style_table_cell(c_val, font_size=8)
+
+        charts_per_row = 3
+        per_chart_w = 3.2
+        charts_data = []
+        for j in range(item_len):
+            values = []
+            for s in range(equipment_len):
+                v = subtotals_array[j][s] if (j < len(subtotals_array) and s < len(subtotals_array[j])) else 0
+                values.append(v or 0)
+            labels = child_names[:len(values)]
+            unit_j = reporting_data['units'][j] if (reporting_data.get('units') and j < len(reporting_data['units'])) else ''
+            chart_title = reporting_data['names'][j] + ((' (' + unit_j + ')') if unit_j else '')
+            charts_data.append({'values': values, 'labels': labels, 'title': chart_title})
+
+        doc.add_paragraph('')
+
+        num_rows = (item_len + charts_per_row - 1) // charts_per_row
+        for row_idx in range(num_rows):
+            start = row_idx * charts_per_row
+            end = min(start + charts_per_row, item_len)
+            row_charts = charts_data[start:end]
+            row_file = self._make_pie_charts_row(row_charts)
+            if not row_file:
+                continue
+            p = doc.add_paragraph()
+            p.alignment = WD_ALIGN_PARAGRAPH.CENTER
+            run = p.add_run()
+            total_w = per_chart_w * len(row_charts)
+            max_w = 10
+            insert_w = min(total_w, max_w)
+            run.add_picture(row_file, width=Inches(insert_w))
+
+    # ---------- Parameters ----------
+    def _add_parameters_section(self, doc):
+        """Add parameter data (sensors/tariffs) tables and filled line charts.
+
+        Filters valid parameters: each parameter must have non-empty timestamps
+        and values arrays before rendering a compact table + trend chart.
+        """
+        _ = self._
+
         params = self.report.get('parameters', {})
         if not params or not params.get('names') or not params.get('timestamps'):
             return
@@ -727,7 +986,9 @@ class CombinedEquipmentIncomeDOCXExporter:
             times = timestamps[pi]
             data = values[pi]
             data_len = len(times)
+
             display_name = name + ((' (' + unit_i + ')') if unit_i else '')
+
             tbl_rows = min(rows_per_param, data_len)
 
             fig, ax = plt.subplots(figsize=(5.0, 2.4))
@@ -773,25 +1034,45 @@ class CombinedEquipmentIncomeDOCXExporter:
             run = p.add_run()
             run.add_picture(chart_buf, width=Inches(4.5))
 
+    # ---------- Base period existence ----------
     def _is_base_period_timestamp_exists(self, base_period_data: Dict) -> bool:
         timestamps = base_period_data.get('timestamps', [])
+
         if not timestamps:
             return False
+
         for timestamp in timestamps:
             if timestamp and len(timestamp) > 0:
                 return True
+
         return False
 
-    def _has_combined_analysis(self) -> bool:
+    def _has_consumption_summary(self) -> bool:
         reporting_data = self.report['reporting_period']
         names = reporting_data.get('names', [])
         return len(names) > 0
+
+    def _has_category_group_sections(self) -> bool:
+        reporting_data = self.report['reporting_period']
+        names = reporting_data.get('names', [])
+        energy_category_names = reporting_data.get('energy_category_names', [])
+        return bool(names and energy_category_names)
 
     def _has_detailed_data_charts(self) -> bool:
         reporting_data = self.report['reporting_period']
         timestamps = reporting_data.get('timestamps', [])
         names = reporting_data.get('names', [])
         return bool(timestamps and len(timestamps[0]) > 0 and names)
+
+    def _has_associated_equipments_section(self) -> bool:
+        associated = self.report.get('associated_equipment', {})
+        if not associated or 'energy_item_names' not in associated or not associated['energy_item_names']:
+            return False
+        if 'associated_equipment_names_array' not in associated:
+            return False
+        if not associated['associated_equipment_names_array'] or not associated['associated_equipment_names_array'][0] or len(associated['associated_equipment_names_array'][0]) == 0:
+            return False
+        return True
 
     def _has_parameters_section(self) -> bool:
         params = self.report.get('parameters', {})
@@ -827,7 +1108,7 @@ def export(report,
     Export report data to DOCX and return base64 encoded string.
     This function maintains the same interface as the Excel exporter.
     """
-    exporter = CombinedEquipmentIncomeDOCXExporter(language)
+    exporter = EquipmentEnergyItemDOCXExporter(language)
     return exporter.export(report, name,
                            base_period_start_datetime_local,
                            base_period_end_datetime_local,

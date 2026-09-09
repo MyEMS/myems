@@ -1,23 +1,26 @@
 """
-Combined Equipment Income DOCX Exporter
+Equipment Data Carbon DOCX Exporter
 
-This module provides functionality to export combined equipment income data to DOCX format.
-It generates comprehensive reports showing income analysis for combined equipments
-with detailed breakdown by energy categories and time periods.
+This module provides functionality to export equipment carbon emissions data to DOCX format.
+It generates comprehensive reports showing carbon dioxide emissions for equipments
+with detailed analysis including base period comparison, time-of-use breakdown,
+and proportion analysis.
 
 Key Features:
-- Combined Equipment income analysis
+- Equipment Data carbon emissions analysis
 - Base period vs reporting period comparison
-- Income breakdown by energy categories
-- Detailed data with line charts
+- Time-of-use electricity carbon breakdown
+- Carbon emissions proportion charts
+- Detailed data tables with separate line charts per energy category
 - Multi-language support
 - Base64 encoding for file transmission
 
 The exported DOCX file includes:
 - Cover page with logo and report metadata
-- Combined analysis page (reporting period income table)
-- Detailed data charts (paginated, up to 4 per page in 2x2 grid)
-- Parameter data pages
+- Combined analysis section (reporting period table + time-of-use + carbon proportion)
+- Detailed data section (paginated tables)
+- Separate line charts for each energy category
+- Parameter data tables with filled line charts
 """
 
 import base64
@@ -33,6 +36,7 @@ import logging
 import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
+import numpy as np
 
 from docx import Document
 from docx.shared import Inches, Pt
@@ -187,9 +191,9 @@ def _style_table_cell(cell, is_header=False, is_green=False, bold=False, font_si
     tcPr.append(shd)
 
 
-class CombinedEquipmentIncomeDOCXExporter:
+class EquipmentCarbonDOCXExporter:
     """
-    Export combined equipment income data to DOCX format.
+    Export equipment carbon emissions data to DOCX format.
     Generates comprehensive reports with charts and tables matching Excel layout.
     """
 
@@ -197,10 +201,13 @@ class CombinedEquipmentIncomeDOCXExporter:
         font_setup_success = setup_chinese_fonts()
         if not font_setup_success:
             logger.warning("Chinese font setup failed, some text may not display correctly")
+
         self.language = language
         self.trans = get_translation(language)
         self._ = self.trans.gettext
+
         self.dpi = 120
+
         self.chart_colors = ['#4472C4', '#ED7D31', '#70AD47', '#FFC000', '#5B9BD5',
                              '#FF6B6B', '#9B59B6', '#1ABC9C', '#E67E22', '#2ECC71',
                              '#3498DB', '#E74C3C', '#2ECC71', '#F39C12', '#9B59B6']
@@ -255,6 +262,28 @@ class CombinedEquipmentIncomeDOCXExporter:
         buf.seek(0)
         return buf
 
+    def _make_pie_chart(self, values, labels, title, colors=None):
+        if not values or sum((v or 0) for v in values) == 0:
+            return None
+        fig, ax = plt.subplots(figsize=(3.2, 2.6))
+        if colors is None:
+            colors = self.chart_colors[:len(labels)]
+        filtered = [(l, v, c) for l, v, c in zip(labels, values, colors) if (v or 0) > 0]
+        if not filtered:
+            plt.close(fig)
+            return None
+        f_labels, f_values, f_colors = zip(*filtered)
+        if len(f_labels) > 8:
+            sorted_data = sorted(zip(f_labels, f_values, f_colors), key=lambda x: x[1], reverse=True)
+            top_data = sorted_data[:7]
+            other_sum = sum(v for _, v, _ in sorted_data[7:])
+            f_labels = [l for l, _, _ in top_data] + [self._('Others')]
+            f_values = [v for _, v, _ in top_data] + [other_sum]
+            f_colors = [c for _, _, c in top_data] + ['#999999']
+        ax.pie(f_values, labels=f_labels, autopct='%1.1f%%', colors=f_colors, startangle=90)
+        ax.set_title(title, fontsize=10, fontweight='bold')
+        return self._fig_to_bytesio(fig, self.dpi)
+
     def generate_docx(self,
                       report: Dict[str, Any],
                       name: str,
@@ -285,6 +314,7 @@ class CombinedEquipmentIncomeDOCXExporter:
             return filename
 
         filename = str(uuid.uuid4()) + '.docx'
+
         self.report = _convert_decimals(report)
         self.name = name
         self.base_period_start = base_period_start_datetime_local
@@ -292,6 +322,7 @@ class CombinedEquipmentIncomeDOCXExporter:
         self.reporting_start = reporting_start_datetime_local
         self.reporting_end = reporting_end_datetime_local
         self.period_type = period_type
+
         self.is_base_period_exists = self._is_base_period_timestamp_exists(report['base_period'])
 
         doc = Document()
@@ -311,30 +342,16 @@ class CombinedEquipmentIncomeDOCXExporter:
                              base_period_end_datetime_local,
                              self.is_base_period_exists)
 
-        has_combined = self._has_combined_analysis()
-        has_detailed = self._has_detailed_data_charts()
-        has_params = self._has_parameters_section()
-
-        if has_combined or has_detailed or has_params:
-            doc.add_page_break()
-
-        if has_combined:
-            self._add_combined_analysis(doc)
-            if has_detailed:
-                doc.add_page_break()
-
-        if has_detailed:
-            self._add_detailed_data_charts(doc)
-            if has_params:
-                doc.add_page_break()
-
-        if has_params:
-            self._add_parameters_section(doc)
+        self._add_combined_analysis_section(doc)
+        self._add_detailed_data_section(doc)
+        self._add_detailed_data_charts_section(doc)
+        self._add_parameters_section(doc)
 
         doc.save(filename)
         logger.info(f"DOCX generated: {filename}")
         return filename
 
+    # ---------- Utility ----------
     def _add_heading_styled(self, doc, text, level=1):
         heading = doc.add_heading(level=level)
         run = heading.add_run(text)
@@ -365,8 +382,7 @@ class CombinedEquipmentIncomeDOCXExporter:
 
         title = doc.add_paragraph()
         title.alignment = WD_ALIGN_PARAGRAPH.CENTER
-        run = title.add_run(f"{_('Combined Equipment')} - {_('Income')}")
-        
+        run = title.add_run(f"{_('Equipment Data')} - {_('Carbon')}")
         run.font.size = Pt(24)
         run.font.bold = True
         run.font.name = 'Arial'
@@ -411,40 +427,47 @@ class CombinedEquipmentIncomeDOCXExporter:
             r_val.font.name = 'Arial'
             r_val._element.rPr.rFonts.set(qn('w:eastAsia'), 'SimSun')
 
-    def _add_combined_analysis(self, doc):
+        doc.add_page_break()
+
+    # ---------- Combined analysis ----------
+    def _add_combined_analysis_section(self, doc):
         _ = self._
         reporting_data = self.report['reporting_period']
         names = reporting_data.get('names', [])
         units = reporting_data.get('units', [])
         subtotals = reporting_data.get('subtotals', [])
-        subtotals_per_unit_area = reporting_data.get('subtotals_per_unit_area', [])
         increment_rates = reporting_data.get('increment_rates', [])
+        total_unit = reporting_data.get('total_unit', 'KGCO2E')
         ca_len = len(names)
 
         if ca_len == 0:
             return
 
-        self._add_heading_styled(doc, self.name + ' - ' + _('Reporting Period Income'), level=1)
+        self._add_heading_styled(doc, self.name + ' - ' + _('Reporting Period Carbon Dioxide Emissions'), level=1)
 
-        num_cols = ca_len + 1
-        table = doc.add_table(rows=4, cols=num_cols)
+        num_cols = ca_len + 2
+        table = doc.add_table(rows=3, cols=num_cols)
         table.alignment = WD_TABLE_ALIGNMENT.CENTER
 
         headers = ['']
         for i in range(ca_len):
             unit_i = units[i] if (units and i < len(units)) else ''
             headers.append(names[i] + ((' (' + unit_i + ')') if unit_i else ''))
+        headers.append(_('Total') + '(' + total_unit + ')')
 
         for j, h in enumerate(headers):
             cell = table.cell(0, j)
             cell.text = h
             _style_table_cell(cell, is_header=True, bold=True)
 
-        row_labels = [_('Income'), _('Per Unit Area'), _('Increment Rate')]
+        row_labels = [_('Carbon Dioxide Emissions'), _('Increment Rate')]
         for r_idx, row_label in enumerate(row_labels, start=1):
             cell = table.cell(r_idx, 0)
             cell.text = row_label
             _style_table_cell(cell, is_green=True, bold=True)
+
+        total_val = reporting_data.get('total', 0)
+        total_inc_rate = reporting_data.get('total_increment_rate', None)
 
         for i in range(ca_len):
             col = i + 1
@@ -453,18 +476,378 @@ class CombinedEquipmentIncomeDOCXExporter:
             cell_cons.text = str(round2(val, 2)) if val is not None else ''
             _style_table_cell(cell_cons)
 
-            cell_area = table.cell(2, col)
-            val = subtotals_per_unit_area[i] if (subtotals_per_unit_area and i < len(subtotals_per_unit_area)) else None
-            cell_area.text = str(round2(val, 2)) if val is not None else ''
-            _style_table_cell(cell_area)
-
-            cell_inc = table.cell(3, col)
+            cell_inc = table.cell(2, col)
             val = increment_rates[i] if (increment_rates and i < len(increment_rates)) else None
             cell_inc.text = (str(round2(val * 100, 2)) + '%') if val is not None else ''
             _style_table_cell(cell_inc)
 
-    def _add_detailed_data_charts(self, doc):
+        total_col = ca_len + 1
+        table.cell(1, total_col).text = str(round2(total_val, 2))
+        _style_table_cell(table.cell(1, total_col))
+        total_inc_text = (str(round2(total_inc_rate * 100, 2)) + '%') if total_inc_rate is not None else ''
+        table.cell(2, total_col).text = total_inc_text
+        _style_table_cell(table.cell(2, total_col))
+
+        doc.add_paragraph('')
+
+        electricity_index = -1
+        for i in range(len(reporting_data.get('energy_category_ids', []))):
+            if reporting_data['energy_category_ids'][i] == 1:
+                electricity_index = i
+                break
+
+        tou_exists = electricity_index >= 0
+        tou_categories = [_('TopPeak'), _('OnPeak'), _('MidPeak'), _('OffPeak')]
+        tou_values = []
+        if tou_exists:
+            toppeaks = reporting_data.get('toppeaks', [])
+            onpeaks = reporting_data.get('onpeaks', [])
+            midpeaks = reporting_data.get('midpeaks', [])
+            offpeaks = reporting_data.get('offpeaks', [])
+            tou_values = [
+                round2(toppeaks[electricity_index], 2) if electricity_index < len(toppeaks) else 0,
+                round2(onpeaks[electricity_index], 2) if electricity_index < len(onpeaks) else 0,
+                round2(midpeaks[electricity_index], 2) if electricity_index < len(midpeaks) else 0,
+                round2(offpeaks[electricity_index], 2) if electricity_index < len(offpeaks) else 0,
+            ]
+
+        carbon_exists = subtotals and sum((v or 0) for v in subtotals) > 0
+        carbon_values = [round2(v, 3) for v in subtotals] if carbon_exists else []
+
+        container = doc.add_table(rows=1, cols=2)
+        container.alignment = WD_TABLE_ALIGNMENT.CENTER
+        _remove_table_borders(container)
+        left_cell = container.cell(0, 0)
+        right_cell = container.cell(0, 1)
+
+        tou_table = left_cell.add_table(rows=5, cols=2)
+        tou_table.alignment = WD_TABLE_ALIGNMENT.CENTER
+        h1 = tou_table.cell(0, 0)
+        h1.text = ''
+        _style_table_cell(h1, is_header=True, bold=True)
+        h2 = tou_table.cell(0, 1)
+        h2.text = _('Electricity Carbon Dioxide Emissions by Time-Of-Use')
+        _style_table_cell(h2, is_header=True, bold=True)
+        for i in range(4):
+            c1 = tou_table.cell(i + 1, 0)
+            c1.text = tou_categories[i]
+            _style_table_cell(c1, bold=True)
+            c2 = tou_table.cell(i + 1, 1)
+            c2.text = str(tou_values[i]) if tou_exists else ''
+            _style_table_cell(c2)
+
+        tou_colors = ['#FF1744', '#FF6F00', '#FDD835', '#00BCD4']
+        chart_file = None
+        if tou_exists and sum(tou_values) > 0:
+            chart_file = self._make_pie_chart(tou_values, tou_categories,
+                                              _('Electricity Carbon Dioxide Emissions by Time-Of-Use'),
+                                              colors=tou_colors)
+        if chart_file:
+            p = left_cell.add_paragraph()
+            p.alignment = WD_ALIGN_PARAGRAPH.CENTER
+            run = p.add_run()
+            run.add_picture(chart_file, width=Inches(3.2))
+
+        carbon_rows = ca_len + 1
+        carbon_table = right_cell.add_table(rows=carbon_rows, cols=2)
+        carbon_table.alignment = WD_TABLE_ALIGNMENT.CENTER
+        hc1 = carbon_table.cell(0, 0)
+        hc1.text = ''
+        _style_table_cell(hc1, is_header=True, bold=True)
+        hc2 = carbon_table.cell(0, 1)
+        hc2.text = _('Carbon Dioxide Emissions Proportion')
+        _style_table_cell(hc2, is_header=True, bold=True)
+        for i in range(ca_len):
+            c1 = carbon_table.cell(i + 1, 0)
+            c1.text = names[i]
+            _style_table_cell(c1, bold=True)
+            c2 = carbon_table.cell(i + 1, 1)
+            c2.text = str(carbon_values[i]) if carbon_exists else ''
+            _style_table_cell(c2)
+
+        carbon_chart_file = None
+        if carbon_exists:
+            carbon_chart_file = self._make_pie_chart(carbon_values, names,
+                                                     _('Carbon Dioxide Emissions Proportion'))
+        if carbon_chart_file:
+            right_cell.add_paragraph('')
+            p = right_cell.add_paragraph()
+            p.alignment = WD_ALIGN_PARAGRAPH.CENTER
+            run = p.add_run()
+            run.add_picture(carbon_chart_file, width=Inches(3.2))
+
+        if self.is_base_period_exists:
+            base_period_data = self.report.get('base_period', {})
+            bp_names = base_period_data.get('names', [])
+            bp_units = base_period_data.get('units', [])
+            bp_subtotals = base_period_data.get('subtotals', [])
+            bp_increment_rates = base_period_data.get('increment_rates', [])
+            bp_total_unit = base_period_data.get('total_unit', 'KGCO2E')
+            bp_ca_len = len(bp_names)
+
+            if bp_ca_len > 0:
+                doc.add_page_break()
+
+                self._add_heading_styled(doc, self.name + ' - ' +
+                                         _('Base Period Carbon Dioxide Emissions'), level=1)
+
+                bp_num_cols = bp_ca_len + 2
+                bp_table = doc.add_table(rows=3, cols=bp_num_cols)
+                bp_table.alignment = WD_TABLE_ALIGNMENT.CENTER
+
+                bp_headers = ['']
+                for i in range(bp_ca_len):
+                    bp_ui = bp_units[i] if (bp_units and i < len(bp_units)) else ''
+                    bp_headers.append(bp_names[i] + ((' (' + bp_ui + ')') if bp_ui else ''))
+                bp_headers.append(_('Total') + '(' + bp_total_unit + ')')
+
+                for j, h in enumerate(bp_headers):
+                    c = bp_table.cell(0, j)
+                    c.text = h
+                    _style_table_cell(c, is_header=True, bold=True)
+
+                bp_row_labels = [_('Carbon Dioxide Emissions'), _('Increment Rate')]
+                for r_idx, lbl in enumerate(bp_row_labels, start=1):
+                    c = bp_table.cell(r_idx, 0)
+                    c.text = lbl
+                    _style_table_cell(c, is_green=True, bold=True)
+
+                bp_total_val = base_period_data.get('total', 0)
+                bp_total_inc = base_period_data.get('total_increment_rate', None)
+
+                for i in range(bp_ca_len):
+                    col = i + 1
+                    c_sub = bp_table.cell(1, col)
+                    v = bp_subtotals[i] if (bp_subtotals and i < len(bp_subtotals)) else None
+                    c_sub.text = str(round2(v, 2)) if v is not None else ''
+                    _style_table_cell(c_sub)
+
+                    c_inc = bp_table.cell(2, col)
+                    vi = bp_increment_rates[i] if (bp_increment_rates and i < len(bp_increment_rates)) else None
+                    c_inc.text = (str(round2(vi * 100, 2)) + '%') if vi is not None else ''
+                    _style_table_cell(c_inc)
+
+                bp_tc = bp_ca_len + 1
+                bp_table.cell(1, bp_tc).text = str(round2(bp_total_val, 2))
+                _style_table_cell(bp_table.cell(1, bp_tc))
+                bp_inc_text = (str(round2(bp_total_inc * 100, 2)) + '%') if bp_total_inc is not None else ''
+                bp_table.cell(2, bp_tc).text = bp_inc_text
+                _style_table_cell(bp_table.cell(2, bp_tc))
+
+        doc.add_page_break()
+
+    # ---------- Detailed data ----------
+    def _add_detailed_data_section(self, doc):
         _ = self._
+
+        reporting_data = self.report['reporting_period']
+        timestamps = reporting_data.get('timestamps', [])
+
+        if not timestamps or len(timestamps[0]) == 0:
+            return
+
+        names = reporting_data.get('names', [])
+        units = reporting_data.get('units', [])
+        values = reporting_data.get('values', [])
+        subtotals = reporting_data.get('subtotals', [])
+        total_unit = reporting_data.get('total_unit', 'KGCO2E')
+        ca_len = len(names)
+
+        rows_per_page = 50
+
+        self._add_heading_styled(doc, self.name + ' ' + _('Detailed Data'), level=1)
+
+        if not self.is_base_period_exists:
+            times = timestamps[0]
+            if len(times) == 0:
+                return
+
+            num_pages = (len(times) + rows_per_page - 1) // rows_per_page
+
+            for page in range(num_pages):
+                start_row = page * rows_per_page
+                end_row = min(start_row + rows_per_page, len(times))
+                page_rows = end_row - start_row
+
+                col_headers = [_('Datetime')]
+                for i in range(ca_len):
+                    unit_i = units[i] if (units and i < len(units)) else ''
+                    col_headers.append(names[i] + ((' (' + unit_i + ')') if unit_i else ''))
+                col_headers.append(_('Total') + '(' + total_unit + ')')
+
+                num_cols = len(col_headers)
+                table = doc.add_table(rows=page_rows + 2, cols=num_cols)
+                table.alignment = WD_TABLE_ALIGNMENT.CENTER
+
+                for j, h in enumerate(col_headers):
+                    c = table.cell(0, j)
+                    c.text = h
+                    _style_table_cell(c, is_header=True, bold=True, font_size=8)
+
+                for t_idx in range(page_rows):
+                    global_idx = start_row + t_idx
+                    r_idx = t_idx + 1
+                    c0 = table.cell(r_idx, 0)
+                    c0.text = str(times[global_idx])
+                    _style_table_cell(c0, font_size=8)
+                    row_total = 0.0
+                    for j in range(ca_len):
+                        col = j + 1
+                        val = round2(values[j][global_idx], 2) \
+                            if j < len(values) and global_idx < len(values[j]) else ''
+                        c = table.cell(r_idx, col)
+                        c.text = str(val) if val != '' else ''
+                        _style_table_cell(c, font_size=8)
+                        if j < len(values) and global_idx < len(values[j]):
+                            row_total += values[j][global_idx]
+                    c_total = table.cell(r_idx, ca_len + 1)
+                    c_total.text = str(round2(row_total, 2))
+                    _style_table_cell(c_total, font_size=8)
+
+                subtotal_row_idx = page_rows + 1
+                c_sub_lbl = table.cell(subtotal_row_idx, 0)
+                c_sub_lbl.text = _('Subtotal')
+                _style_table_cell(c_sub_lbl, bold=True, font_size=8)
+                total_of_subtotals = 0.0
+                for i in range(ca_len):
+                    col = i + 1
+                    c = table.cell(subtotal_row_idx, col)
+                    val = subtotals[i] if (subtotals and i < len(subtotals)) else None
+                    c.text = str(round2(val, 2)) if val is not None else ''
+                    _style_table_cell(c, bold=True, font_size=8)
+                    total_of_subtotals += val if val is not None else 0
+                c_total_sub = table.cell(subtotal_row_idx, ca_len + 1)
+                c_total_sub.text = str(round2(total_of_subtotals, 2))
+                _style_table_cell(c_total_sub, bold=True, font_size=8)
+
+                if page < num_pages - 1:
+                    doc.add_page_break()
+        else:
+            base_period_data = self.report['base_period']
+            base_timestamps = base_period_data.get('timestamps', [])
+            base_values = base_period_data.get('values', [])
+            base_subtotals = base_period_data.get('subtotals', [])
+            base_names = base_period_data.get('names', [])
+            base_units = base_period_data.get('units', [])
+            base_ca_len = len(base_names)
+            reporting_ca_len = ca_len
+
+            base_times = base_timestamps[0] if base_timestamps else []
+            reporting_times = timestamps[0]
+
+            max_len = max(len(base_times), len(reporting_times))
+            num_pages = (max_len + rows_per_page - 1) // rows_per_page
+
+            for page in range(num_pages):
+                start_row = page * rows_per_page
+                end_row = min(start_row + rows_per_page, max_len)
+                page_rows = end_row - start_row
+
+                col_headers = [_('Base Period') + ' - ' + _('Datetime')]
+                for i in range(base_ca_len):
+                    bui = base_units[i] if (base_units and i < len(base_units)) else ''
+                    col_headers.append(_('Base Period') + ' - ' + base_names[i] +
+                                       ((' (' + bui + ')') if bui else ''))
+                col_headers.append(_('Base Period') + ' - ' + _('Total') + '(' + total_unit + ')')
+                col_headers.append(_('Reporting Period') + ' - ' + _('Datetime'))
+                for i in range(reporting_ca_len):
+                    rui = units[i] if (units and i < len(units)) else ''
+                    col_headers.append(_('Reporting Period') + ' - ' + names[i] +
+                                       ((' (' + rui + ')') if rui else ''))
+                col_headers.append(_('Reporting Period') + ' - ' + _('Total') + '(' + total_unit + ')')
+
+                num_cols = len(col_headers)
+                table = doc.add_table(rows=page_rows + 2, cols=num_cols)
+                table.alignment = WD_TABLE_ALIGNMENT.CENTER
+
+                for j, h in enumerate(col_headers):
+                    c = table.cell(0, j)
+                    c.text = h
+                    _style_table_cell(c, is_header=True, bold=True, font_size=7)
+
+                for t_idx in range(page_rows):
+                    global_idx = start_row + t_idx
+                    r_idx = t_idx + 1
+                    col = 0
+                    c_bt = table.cell(r_idx, col)
+                    c_bt.text = base_times[global_idx] if global_idx < len(base_times) else ''
+                    _style_table_cell(c_bt, font_size=7)
+                    col += 1
+                    base_total = 0.0
+                    for j in range(base_ca_len):
+                        c = table.cell(r_idx, col)
+                        if j < len(base_values) and global_idx < len(base_values[j]):
+                            c.text = str(round2(base_values[j][global_idx], 2))
+                            base_total += base_values[j][global_idx]
+                        else:
+                            c.text = ''
+                        _style_table_cell(c, font_size=7)
+                        col += 1
+                    c_bt_total = table.cell(r_idx, col)
+                    c_bt_total.text = str(round2(base_total, 2)) if global_idx < len(base_times) else ''
+                    _style_table_cell(c_bt_total, font_size=7)
+                    col += 1
+                    c_rt = table.cell(r_idx, col)
+                    c_rt.text = reporting_times[global_idx] if global_idx < len(reporting_times) else ''
+                    _style_table_cell(c_rt, font_size=7)
+                    col += 1
+                    rp_total = 0.0
+                    for j in range(reporting_ca_len):
+                        c = table.cell(r_idx, col)
+                        if j < len(values) and global_idx < len(values[j]):
+                            c.text = str(round2(values[j][global_idx], 2))
+                            rp_total += values[j][global_idx]
+                        else:
+                            c.text = ''
+                        _style_table_cell(c, font_size=7)
+                        col += 1
+                    c_rt_total = table.cell(r_idx, col)
+                    c_rt_total.text = str(round2(rp_total, 2)) if global_idx < len(reporting_times) else ''
+                    _style_table_cell(c_rt_total, font_size=7)
+
+                sub_idx = page_rows + 1
+                col = 0
+                c_s0 = table.cell(sub_idx, col)
+                c_s0.text = _('Subtotal')
+                _style_table_cell(c_s0, bold=True, font_size=7)
+                col += 1
+                base_total_all = 0.0
+                for i in range(base_ca_len):
+                    c = table.cell(sub_idx, col)
+                    val = base_subtotals[i] if (base_subtotals and i < len(base_subtotals)) else None
+                    c.text = str(round2(val, 2)) if val is not None else ''
+                    _style_table_cell(c, bold=True, font_size=7)
+                    base_total_all += val if val is not None else 0
+                    col += 1
+                c_bsub = table.cell(sub_idx, col)
+                c_bsub.text = str(round2(base_total_all, 2))
+                _style_table_cell(c_bsub, bold=True, font_size=7)
+                col += 1
+                c_s1 = table.cell(sub_idx, col)
+                c_s1.text = _('Subtotal')
+                _style_table_cell(c_s1, bold=True, font_size=7)
+                col += 1
+                rp_total_all = 0.0
+                for i in range(reporting_ca_len):
+                    c = table.cell(sub_idx, col)
+                    val = subtotals[i] if (subtotals and i < len(subtotals)) else None
+                    c.text = str(round2(val, 2)) if val is not None else ''
+                    _style_table_cell(c, bold=True, font_size=7)
+                    rp_total_all += val if val is not None else 0
+                    col += 1
+                c_rsub = table.cell(sub_idx, col)
+                c_rsub.text = str(round2(rp_total_all, 2))
+                _style_table_cell(c_rsub, bold=True, font_size=7)
+
+                if page < num_pages - 1:
+                    doc.add_page_break()
+
+        doc.add_page_break()
+
+    # ---------- Detailed data charts ----------
+    def _add_detailed_data_charts_section(self, doc):
+        _ = self._
+
         reporting_data = self.report['reporting_period']
         timestamps = reporting_data.get('timestamps', [])
         names = reporting_data.get('names', [])
@@ -489,7 +872,7 @@ class CombinedEquipmentIncomeDOCXExporter:
             ax.set_xticks(range(0, raw_len, step))
             ax.set_xticklabels(
                 [reporting_times[t][:10] if t < len(reporting_times) else ''
-                for t in range(0, raw_len, step)],
+                 for t in range(0, raw_len, step)],
                 rotation=45, ha='right', fontsize=7)
 
         if not self.is_base_period_exists:
@@ -497,6 +880,7 @@ class CombinedEquipmentIncomeDOCXExporter:
                 page_end = min(page_start + charts_per_page, num_categories)
                 page_indices = list(range(page_start, page_end))
                 num_on_page = len(page_indices)
+
                 rows = (num_on_page + 1) // 2
 
                 for row_idx in range(rows):
@@ -523,7 +907,7 @@ class CombinedEquipmentIncomeDOCXExporter:
                                 markevery=max(1, len(safe_data) // 30))
                         _set_ticks(ax, len(raw_data))
                         unit_i = units[i] if (units and i < len(units)) else ''
-                        ax.set_title(_('Reporting Period Income') + ' - ' +
+                        ax.set_title(_('Reporting Period Carbon Dioxide Emissions') + ' - ' +
                                      names[i] + ((' (' + unit_i + ')') if unit_i else ''),
                                      fontsize=9, fontweight='bold')
                         ax.grid(True, alpha=0.3)
@@ -554,7 +938,7 @@ class CombinedEquipmentIncomeDOCXExporter:
                                     markevery=max(1, len(safe_data) // 30))
                             _set_ticks(ax, len(raw_data))
                             unit_i = units[i] if (units and i < len(units)) else ''
-                            ax.set_title(_('Reporting Period Income') + ' - ' +
+                            ax.set_title(_('Reporting Period Carbon Dioxide Emissions') + ' - ' +
                                          names[i] + ((' (' + unit_i + ')') if unit_i else ''),
                                          fontsize=9, fontweight='bold')
                             ax.grid(True, alpha=0.3)
@@ -577,6 +961,7 @@ class CombinedEquipmentIncomeDOCXExporter:
                 page_end = min(page_start + charts_per_page, num_categories)
                 page_indices = list(range(page_start, page_end))
                 num_on_page = len(page_indices)
+
                 rows = (num_on_page + 1) // 2
 
                 for row_idx in range(rows):
@@ -620,8 +1005,8 @@ class CombinedEquipmentIncomeDOCXExporter:
                         _set_ticks(ax, len(r_data))
                         unit_i = units[i] if (units and i < len(units)) else ''
                         ax.set_title(
-                            _('Base Period Income') + ' / ' +
-                            _('Reporting Period Income') + ' - ' +
+                            _('Base Period Carbon Dioxide Emissions') + ' / ' +
+                            _('Reporting Period Carbon Dioxide Emissions') + ' - ' +
                             names[i] + ((' (' + unit_i + ')') if unit_i else ''),
                             fontsize=8, fontweight='bold')
                         if len(safe_r) > 0 or has_base_line:
@@ -671,8 +1056,8 @@ class CombinedEquipmentIncomeDOCXExporter:
                             _set_ticks(ax, len(r_data))
                             unit_i = units[i] if (units and i < len(units)) else ''
                             ax.set_title(
-                                _('Base Period Income') + ' / ' +
-                                _('Reporting Period Income') + ' - ' +
+                                _('Base Period Carbon Dioxide Emissions') + ' / ' +
+                                _('Reporting Period Carbon Dioxide Emissions') + ' - ' +
                                 names[i] + ((' (' + unit_i + ')') if unit_i else ''),
                                 fontsize=8, fontweight='bold')
                             if len(safe_r) > 0 or has_base_line:
@@ -689,8 +1074,12 @@ class CombinedEquipmentIncomeDOCXExporter:
                 if page_end < num_categories:
                     doc.add_page_break()
 
+        doc.add_page_break()
+
+    # ---------- Parameters ----------
     def _add_parameters_section(self, doc):
         _ = self._
+
         params = self.report.get('parameters', {})
         if not params or not params.get('names') or not params.get('timestamps'):
             return
@@ -727,7 +1116,9 @@ class CombinedEquipmentIncomeDOCXExporter:
             times = timestamps[pi]
             data = values[pi]
             data_len = len(times)
+
             display_name = name + ((' (' + unit_i + ')') if unit_i else '')
+
             tbl_rows = min(rows_per_param, data_len)
 
             fig, ax = plt.subplots(figsize=(5.0, 2.4))
@@ -773,46 +1164,18 @@ class CombinedEquipmentIncomeDOCXExporter:
             run = p.add_run()
             run.add_picture(chart_buf, width=Inches(4.5))
 
+    # ---------- Base period existence ----------
     def _is_base_period_timestamp_exists(self, base_period_data: Dict) -> bool:
         timestamps = base_period_data.get('timestamps', [])
+
         if not timestamps:
             return False
+
         for timestamp in timestamps:
             if timestamp and len(timestamp) > 0:
                 return True
+
         return False
-
-    def _has_combined_analysis(self) -> bool:
-        reporting_data = self.report['reporting_period']
-        names = reporting_data.get('names', [])
-        return len(names) > 0
-
-    def _has_detailed_data_charts(self) -> bool:
-        reporting_data = self.report['reporting_period']
-        timestamps = reporting_data.get('timestamps', [])
-        names = reporting_data.get('names', [])
-        return bool(timestamps and len(timestamps[0]) > 0 and names)
-
-    def _has_parameters_section(self) -> bool:
-        params = self.report.get('parameters', {})
-        if not params or not params.get('names') or not params.get('timestamps'):
-            return False
-        p_timestamps = params.get('timestamps', [])
-        all_zero = True
-        for ts_list in p_timestamps:
-            if ts_list and len(ts_list) > 0:
-                all_zero = False
-                break
-        if all_zero:
-            return False
-        p_names = params.get('names', [])
-        p_values = params.get('values', [])
-        valid_params = []
-        for i in range(len(p_names)):
-            if i < len(p_timestamps) and len(p_timestamps[i]) > 0:
-                if i < len(p_values) and len(p_values[i]) > 0:
-                    valid_params.append(i)
-        return bool(valid_params)
 
 
 def export(report,
@@ -827,7 +1190,7 @@ def export(report,
     Export report data to DOCX and return base64 encoded string.
     This function maintains the same interface as the Excel exporter.
     """
-    exporter = CombinedEquipmentIncomeDOCXExporter(language)
+    exporter = EquipmentCarbonDOCXExporter(language)
     return exporter.export(report, name,
                            base_period_start_datetime_local,
                            base_period_end_datetime_local,
