@@ -428,5 +428,118 @@ msgstr "Ekipman Verileri"
 msgid "Energy Category Analysis"
 msgstr "Enerji Kategori Analizi"
 
+msgid "Meter Data"
+msgstr "Metre"
+
+msgid "Meter Energy"
+msgstr "Sayaç Enerjisi"
+
+msgid "Meter Carbon"
+msgstr "Meter CO2 Emisyonları"
+
+msgid "Meter Cost"
+msgstr "Sayaç Maliyeti"
+
+msgid "Meter Trend"
+msgstr "Ölçüm Trendi"
+
+msgid "Meter Saving"
+msgstr "Sayaç Tasarrufu"
+
+msgid "Meter Plan"
+msgstr "Sayaç Planı"
+
+msgid "Meter Prediction"
+msgstr "Sayaç Tahmini"
+
+msgid "Prediction"
+msgstr "Tahmin"
+
+msgid "Reporting Period Prediction"
+msgstr "Raporlama Dönemi Tahmini"
+
+msgid "Meter Submeters Balance"
+msgstr "Ana Sayaç Alt Sayaç Dengesi"
+
+msgid "Meter Comparison"
+msgstr "Sayaç Karşılaştırması"
+
+msgid "Meter Tracking"
+msgstr "Sayaç Takibi"
+
+msgid "Power Quality Data"
+msgstr "Güç Kalitesi Verileri"
+msgid "Power Quality Analysis"
+msgstr "Güç Kalitesi Analizi"
+
+msgid "Point"
+msgstr "Nokta"
+
+msgid "Category"
+msgstr "Kategori"
+
+msgid "Type"
+msgstr "Tür"
+
+msgid "Limit"
+msgstr "Limit"
+
+msgid "Normal Limit"
+msgstr "Normal Limit"
+
+msgid "Severe Limit"
+msgstr "Ciddi Limit"
+
+msgid "Compliance"
+msgstr "Uygunluk"
+
+msgid "Worst Deviation"
+msgstr "En Kötü Sapma"
+
+msgid "Worst Time"
+msgstr "En Kötü Sapma Zamanı"
+
+msgid "Virtual Meter Energy"
+msgstr "Sanal Sayaç Enerjisi"
+
+msgid "Virtual Meter Carbon"
+msgstr "Sanal Meter CO2 Emisyonları"
+
+msgid "Virtual Meter Cost"
+msgstr "Sanal Sayaç Maliyeti"
+
+msgid "Virtual Meter Batch Analysis"
+msgstr "Sanal Ölçüm Toplu Analizi"
+
+msgid "Virtual Meter Saving"
+msgstr "Sanal Sayaç Tasarrufu"
+
+msgid "Virtual Meter Plan"
+msgstr "Sanal Sayaç Planı"
+
+msgid "Virtual Meter Prediction"
+msgstr "Sanal Sayaç Tahmini"
+
+msgid "Virtual Meter Comparison"
+msgstr "Sanal Sayaç Karşılaştırması"
+
+msgid "Offline Meter Energy"
+msgstr "Çevrimdışı Sayaç Enerjisi"
+
+msgid "Offline Meter Carbon"
+msgstr "Çevrimiçi Meter CO2 Emisyonları"
+
+msgid "Offline Meter Cost"
+msgstr "Çevrimdışı Ölçüm Maliyeti"
+
+msgid "Offline Meter Batch Analysis"
+msgstr "Çevrimdışı Sayaç Toplu Analizi"
+
+msgid "Offline Meter Saving"
+msgstr "Çevrimdışı Sayaç Tasarrufu"
+
+msgid "Offline Meter Plan"
+msgstr "Çevrimdışı Sayaç Planı"
+
 msgid "Combined Equipment"
 msgstr "Birleşik Ekipman"

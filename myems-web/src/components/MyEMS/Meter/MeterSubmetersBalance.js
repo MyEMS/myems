@@ -13,7 +13,11 @@ import {
   Input,
   Label,
   CustomInput,
-  Spinner
+  Spinner,
+  UncontrolledDropdown,
+  DropdownToggle,
+  DropdownMenu,
+  DropdownItem
 } from 'reactstrap';
 import CountUp from 'react-countup';
 import Cascader from 'rc-cascader';
@@ -26,7 +30,6 @@ import { getCookieValue, createCookie, checkEmpty, handleAPIError } from '../../
 import withRedirect from '../../../hoc/withRedirect';
 import { withTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
-import ButtonIcon from '../../common/ButtonIcon';
 import { APIBaseURL, settings } from '../../../config';
 import { periodTypeOptions } from '../common/PeriodTypeOptions';
 import DateRangePickerWrapper from '../common/DateRangePickerWrapper';
@@ -109,6 +112,8 @@ const MeterSubmetersBalance = ({ setRedirect, setRedirectUrl, t }) => {
   const [submitButtonDisabled, setSubmitButtonDisabled] = useState(true);
   const [spinnerHidden, setSpinnerHidden] = useState(true);
   const [exportButtonHidden, setExportButtonHidden] = useState(true);
+  const [exportExcel, setExportExcel] = useState(false);
+  const [exportPdf, setExportPdf] = useState(false);
   const [resultDataHidden, setResultDataHidden] = useState(true);
   const [smartAnalysisOpen, setSmartAnalysisOpen] = useState(false);
   const [smartAnalysisContext, setSmartAnalysisContext] = useState(null);
@@ -132,6 +137,7 @@ const MeterSubmetersBalance = ({ setRedirect, setRedirectUrl, t }) => {
   ]);
   const [detailedDataTableData, setDetailedDataTableData] = useState([]);
   const [excelBytesBase64, setExcelBytesBase64] = useState(undefined);
+  const [pdfBytesBase64, setPdfBytesBase64] = useState(undefined);
 
   useEffect(() => {
     let isResponseOK = false;
@@ -345,6 +351,9 @@ const MeterSubmetersBalance = ({ setRedirect, setRedirectUrl, t }) => {
     setExportButtonHidden(true);
     // hide result data
     setResultDataHidden(true);
+    // reset export files
+    setExcelBytesBase64(undefined);
+    setPdfBytesBase64(undefined);
 
     // Reinitialize tables
     setDetailedDataTableData([]);
@@ -362,7 +371,11 @@ const MeterSubmetersBalance = ({ setRedirect, setRedirectUrl, t }) => {
         '&reportingperiodenddatetime=' +
         moment(reportingPeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss') +
         '&language=' +
-        language,
+        language +
+        '&exportexcel=' +
+        exportExcel +
+        '&exportpdf=' +
+        exportPdf,
       {
         method: 'GET',
         headers: {
@@ -523,13 +536,14 @@ const MeterSubmetersBalance = ({ setRedirect, setRedirectUrl, t }) => {
           }, 0);
 
           setExcelBytesBase64(json['excel_bytes_base64']);
+          setPdfBytesBase64(json['pdf_bytes_base64']);
 
           // enable submit button
           setSubmitButtonDisabled(false);
           // hide spinner
           setSpinnerHidden(true);
-          // show export button
-          setExportButtonHidden(false);
+          // show export button only when at least one export file was generated
+          setExportButtonHidden(!(json['excel_bytes_base64'] || json['pdf_bytes_base64']));
           // show result data
           setResultDataHidden(false);
         } else {
@@ -541,21 +555,41 @@ const MeterSubmetersBalance = ({ setRedirect, setRedirectUrl, t }) => {
       });
   };
 
-  const handleExport = e => {
+  const handleExport = (e, type) => {
     e.preventDefault();
-    const mimeType = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
-    const fileName = 'metersubmetersbalance.xlsx';
-    var fileUrl = 'data:' + mimeType + ';base64,' + excelBytesBase64;
-    fetch(fileUrl)
-      .then(response => response.blob())
-      .then(blob => {
-        var link = window.document.createElement('a');
-        link.href = window.URL.createObjectURL(blob, { type: mimeType });
-        link.download = fileName;
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-      });
+    if (type === 'excel' && excelBytesBase64) {
+      const mimeType = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
+      const fileName = 'metersubmetersbalance.xlsx';
+      const fileUrl = 'data:' + mimeType + ';base64,' + excelBytesBase64;
+      fetch(fileUrl)
+        .then(response => response.blob())
+        .then(blob => {
+          const link = window.document.createElement('a');
+          const blobUrl = window.URL.createObjectURL(blob, { type: mimeType });
+          link.href = blobUrl;
+          link.download = fileName;
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+          setTimeout(() => window.URL.revokeObjectURL(blobUrl), 100);
+        });
+    } else if (type === 'pdf' && pdfBytesBase64) {
+      const mimeType = 'application/pdf';
+      const fileName = 'metersubmetersbalance.pdf';
+      const fileUrl = 'data:' + mimeType + ';base64,' + pdfBytesBase64;
+      fetch(fileUrl)
+        .then(response => response.blob())
+        .then(blob => {
+          const link = window.document.createElement('a');
+          const blobUrl = window.URL.createObjectURL(blob, { type: mimeType });
+          link.href = blobUrl;
+          link.download = fileName;
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+          setTimeout(() => window.URL.revokeObjectURL(blobUrl), 100);
+        });
+    }
   };
 
   const buildSmartAnalysisContext = useCallback(() => {
@@ -734,6 +768,36 @@ const MeterSubmetersBalance = ({ setRedirect, setRedirectUrl, t }) => {
               </Col>
               <Col xs="auto">
                 <FormGroup>
+                  <Label className={labelClasses}>
+                    {t('Export')}
+                    {t('(Optional)')}
+                  </Label>
+                  <div>
+                    <CustomInput
+                      type="checkbox"
+                      id="exportExcel"
+                      name="exportExcel"
+                      label="Excel"
+                      bsSize="sm"
+                      inline
+                      checked={exportExcel}
+                      onChange={({ target }) => setExportExcel(target.checked)}
+                    />
+                    <CustomInput
+                      type="checkbox"
+                      id="exportPdf"
+                      name="exportPdf"
+                      label="PDF"
+                      bsSize="sm"
+                      inline
+                      checked={exportPdf}
+                      onChange={({ target }) => setExportPdf(target.checked)}
+                    />
+                  </div>
+                </FormGroup>
+              </Col>
+              <Col xs="auto">
+                <FormGroup>
                   <br />
                   <ButtonGroup id="submit">
                     <Button size="sm" color="success" disabled={submitButtonDisabled}>
@@ -750,16 +814,19 @@ const MeterSubmetersBalance = ({ setRedirect, setRedirectUrl, t }) => {
               </Col>
               <Col xs="auto">
                 <br />
-                <ButtonIcon
-                  icon="external-link-alt"
-                  transform="shrink-3 down-2"
-                  color="falcon-default"
-                  size="sm"
-                  hidden={exportButtonHidden}
-                  onClick={handleExport}
-                >
-                  {t('Export')}
-                </ButtonIcon>
+                <UncontrolledDropdown hidden={exportButtonHidden}>
+                  <DropdownToggle size="sm" color="falcon-default" caret>
+                    {t('Export')}
+                  </DropdownToggle>
+                  <DropdownMenu right>
+                    {excelBytesBase64 ? (
+                      <DropdownItem onClick={e => handleExport(e, 'excel')}>EXCEL</DropdownItem>
+                    ) : null}
+                    {pdfBytesBase64 ? (
+                      <DropdownItem onClick={e => handleExport(e, 'pdf')}>PDF</DropdownItem>
+                    ) : null}
+                  </DropdownMenu>
+                </UncontrolledDropdown>
               </Col>
               {settings.enableAIAnalysis ? (
                 <Col xs="auto">

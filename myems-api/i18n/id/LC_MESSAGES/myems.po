@@ -428,5 +428,118 @@ msgstr "Data Peralatan"
 msgid "Energy Category Analysis"
 msgstr "Analisis Klasifikasi Energi"
 
+msgid "Meter Data"
+msgstr "Data Meter"
+
+msgid "Meter Energy"
+msgstr "Analis Konsumsi Energi Dari Meter"
+
+msgid "Meter Carbon"
+msgstr "Meter Emisi CO2"
+
+msgid "Meter Cost"
+msgstr "Analisi Biaya Tabel Pengukuran"
+
+msgid "Meter Trend"
+msgstr "Analisi Trend Meters"
+
+msgid "Meter Saving"
+msgstr "Analisis Penyimpanan Energi Dari Ukuran Meter"
+
+msgid "Meter Plan"
+msgstr "Rencana Meteran"
+
+msgid "Meter Prediction"
+msgstr "Prediksi Meter"
+
+msgid "Prediction"
+msgstr "Prediksi"
+
+msgid "Reporting Period Prediction"
+msgstr "Prediksi Periode Pelaporan"
+
+msgid "Meter Submeters Balance"
+msgstr "Analisi Bilansi Tabel Skor Total"
+
+msgid "Meter Comparison"
+msgstr "Perbandingan Meter"
+
+msgid "Meter Tracking"
+msgstr "Pemberi Tabel Keukuran"
+
+msgid "Power Quality Data"
+msgstr "Data Kualitas Daya"
+msgid "Power Quality Analysis"
+msgstr "Analisis Kualitas Daya"
+
+msgid "Point"
+msgstr "Titik"
+
+msgid "Category"
+msgstr "Kategori"
+
+msgid "Type"
+msgstr "Jenis"
+
+msgid "Limit"
+msgstr "Batas"
+
+msgid "Normal Limit"
+msgstr "Batas Normal"
+
+msgid "Severe Limit"
+msgstr "Batas Parah"
+
+msgid "Compliance"
+msgstr "Kepatuhan"
+
+msgid "Worst Deviation"
+msgstr "Deviasi Terburuk"
+
+msgid "Worst Time"
+msgstr "Waktu Terburuk"
+
+msgid "Virtual Meter Energy"
+msgstr "Energi Meter Virtual"
+
+msgid "Virtual Meter Carbon"
+msgstr "Emisi CO2 Meter Virtual"
+
+msgid "Virtual Meter Cost"
+msgstr "Analisa Biaya Tabel Virtual"
+
+msgid "Virtual Meter Batch Analysis"
+msgstr "Analisa Batch Tabel Virtual"
+
+msgid "Virtual Meter Saving"
+msgstr "Analis Menyimpan Energi Tabel Virtual"
+
+msgid "Virtual Meter Plan"
+msgstr "Paket Meteran Virtual"
+
+msgid "Virtual Meter Prediction"
+msgstr "Prediksi Meter Virtual"
+
+msgid "Virtual Meter Comparison"
+msgstr "Perbandingan Meter Virtual"
+
+msgid "Offline Meter Energy"
+msgstr "Analis Konsum Energi Jadual Offline"
+
+msgid "Offline Meter Carbon"
+msgstr "Emisi Meter CO2 Offline"
+
+msgid "Offline Meter Cost"
+msgstr "Analisi Biaya Tabel Offline"
+
+msgid "Offline Meter Batch Analysis"
+msgstr "Analisis Batch Meter Offline"
+
+msgid "Offline Meter Saving"
+msgstr "Penghematan Meter Offline"
+
+msgid "Offline Meter Plan"
+msgstr "Rencana Meter Offline"
+
 msgid "Combined Equipment"
 msgstr "Peralatan Gabungan"

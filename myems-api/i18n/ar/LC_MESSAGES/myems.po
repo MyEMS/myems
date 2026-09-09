@@ -428,5 +428,118 @@ msgstr "بيانات المعدات"
 msgid "Energy Category Analysis"
 msgstr "تحليل تصنيف الطاقة"
 
+msgid "Meter Data"
+msgstr "متر"
+
+msgid "Meter Energy"
+msgstr "طاقة المتر"
+
+msgid "Meter Carbon"
+msgstr "متر انبعاثات ثاني أكسيد الكربون"
+
+msgid "Meter Cost"
+msgstr "تكلفة المتر"
+
+msgid "Meter Trend"
+msgstr "متر الاتجاه"
+
+msgid "Meter Saving"
+msgstr "توفير العداد"
+
+msgid "Meter Plan"
+msgstr "خطة العداد"
+
+msgid "Meter Prediction"
+msgstr "تنبؤ العداد"
+
+msgid "Prediction"
+msgstr "تنبؤ"
+
+msgid "Reporting Period Prediction"
+msgstr "التوقعات في الفترة المشمولة بالتقرير"
+
+msgid "Meter Submeters Balance"
+msgstr "ماستر ميتر عدادات فرعية الرصيد"
+
+msgid "Meter Comparison"
+msgstr "مقارنة العدادات"
+
+msgid "Meter Tracking"
+msgstr "تتبع العداد"
+
+msgid "Power Quality Data"
+msgstr "بيانات جودة الطاقة"
+msgid "Power Quality Analysis"
+msgstr "تحليل جودة الطاقة"
+
+msgid "Point"
+msgstr "النقطة"
+
+msgid "Category"
+msgstr "الفئة"
+
+msgid "Type"
+msgstr "النوع"
+
+msgid "Limit"
+msgstr "الحد"
+
+msgid "Normal Limit"
+msgstr "الحد الطبيعي"
+
+msgid "Severe Limit"
+msgstr "الحد الشديد"
+
+msgid "Compliance"
+msgstr "الامتثال"
+
+msgid "Worst Deviation"
+msgstr "أسوأ انحراف"
+
+msgid "Worst Time"
+msgstr "وقت أسوأ انحراف"
+
+msgid "Virtual Meter Energy"
+msgstr "طاقة العداد الافتراضي"
+
+msgid "Virtual Meter Carbon"
+msgstr "صك الظاهري انبعاثات ثاني أكسيد الكربون"
+
+msgid "Virtual Meter Cost"
+msgstr "تكلفة العداد الافتراضي"
+
+msgid "Virtual Meter Batch Analysis"
+msgstr "تحليل دفعة العدادات الافتراضية"
+
+msgid "Virtual Meter Saving"
+msgstr "توفير العداد الافتراضي"
+
+msgid "Virtual Meter Plan"
+msgstr "خطة العدادات الافتراضية"
+
+msgid "Virtual Meter Prediction"
+msgstr "تنبؤ العداد الافتراضي"
+
+msgid "Virtual Meter Comparison"
+msgstr "مقارنة العدادات الافتراضية"
+
+msgid "Offline Meter Energy"
+msgstr "طاقة العداد غير المتصل بالإنترنت"
+
+msgid "Offline Meter Carbon"
+msgstr "انبعاثات ثاني أكسيد الكربون من خط الصك"
+
+msgid "Offline Meter Cost"
+msgstr "تكلفة العداد غير متصل"
+
+msgid "Offline Meter Batch Analysis"
+msgstr "تحليل دفعة العدادات غير المتصلة"
+
+msgid "Offline Meter Saving"
+msgstr "توفير العدادات غير المتصلة"
+
+msgid "Offline Meter Plan"
+msgstr "خطة العدادات غير المتصلة"
+
 msgid "Combined Equipment"
 msgstr "المعدات المجمعة"
