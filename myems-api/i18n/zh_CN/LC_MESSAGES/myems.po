@@ -540,3 +540,7 @@ msgstr "离线表节能分析"
 
 msgid "Offline Meter Plan"
 msgstr "离线表计划分析"
+
+
+msgid "Combined Equipment"
+msgstr "组合设备"

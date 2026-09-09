@@ -540,3 +540,6 @@ msgstr "Tiết kiệm đồng hồ ngoại tuyến"
 
 msgid "Offline Meter Plan"
 msgstr "Kế hoạch đồng hồ ngoại tuyến"
+
+msgid "Combined Equipment"
+msgstr "Thiết bị kết hợp"

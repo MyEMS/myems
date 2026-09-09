@@ -540,3 +540,6 @@ msgstr "Penghematan Meter Offline"
 
 msgid "Offline Meter Plan"
 msgstr "Rencana Meter Offline"
+
+msgid "Combined Equipment"
+msgstr "Peralatan Gabungan"

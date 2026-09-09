@@ -540,3 +540,6 @@ msgstr "صرفه‌جویی کنتورهای آفلاین"
 
 msgid "Offline Meter Plan"
 msgstr "برنامه کنتورهای آفلاین"
+
+msgid "Combined Equipment"
+msgstr "تجهیزات ترکیبی"

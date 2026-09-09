@@ -536,3 +536,6 @@ msgstr "オフラインメーター省エネ分析"
 
 msgid "Offline Meter Plan"
 msgstr "オフラインメーター計画分析"
+
+msgid "Combined Equipment"
+msgstr "複合設備"

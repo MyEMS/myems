@@ -536,3 +536,6 @@ msgstr "Oszczędności liczników offline"
 
 msgid "Offline Meter Plan"
 msgstr "Plan liczników offline"
+
+msgid "Combined Equipment"
+msgstr "Urządzenie zespolone"

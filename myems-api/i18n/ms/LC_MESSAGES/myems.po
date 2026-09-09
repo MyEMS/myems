@@ -540,3 +540,6 @@ msgstr "Penjimatan Meter Luar Talian"
 
 msgid "Offline Meter Plan"
 msgstr "Pelan Meter Luar Talian"
+
+msgid "Combined Equipment"
+msgstr "Peralatan Gabungan"

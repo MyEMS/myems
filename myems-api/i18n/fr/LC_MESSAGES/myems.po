@@ -540,3 +540,6 @@ msgstr "Économies des compteurs hors ligne"
 
 msgid "Offline Meter Plan"
 msgstr "Plan des compteurs hors ligne"
+
+msgid "Combined Equipment"
+msgstr "Équipement Combiné"

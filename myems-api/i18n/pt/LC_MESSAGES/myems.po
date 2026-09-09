@@ -540,3 +540,6 @@ msgstr "Economia de medidores offline"
 
 msgid "Offline Meter Plan"
 msgstr "Plano de medidores offline"
+
+msgid "Combined Equipment"
+msgstr "Equipamento Combinado"

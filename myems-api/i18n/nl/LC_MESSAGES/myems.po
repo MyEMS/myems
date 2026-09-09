@@ -540,3 +540,6 @@ msgstr "Besparing van offline meters"
 
 msgid "Offline Meter Plan"
 msgstr "Plan van offline meters"
+
+msgid "Combined Equipment"
+msgstr "Gecombineerde Apparatuur"

@@ -540,3 +540,6 @@ msgstr "Çevrimdışı Sayaç Tasarrufu"
 
 msgid "Offline Meter Plan"
 msgstr "Çevrimdışı Sayaç Planı"
+
+msgid "Combined Equipment"
+msgstr "Birleşik Ekipman"
