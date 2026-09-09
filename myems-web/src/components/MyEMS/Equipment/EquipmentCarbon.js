@@ -141,8 +141,10 @@ const EquipmentCarbon = ({ setRedirect, setRedirectUrl, t }) => {
   ]);
   const [excelBytesBase64, setExcelBytesBase64] = useState(undefined);
   const [pdfBytesBase64, setPdfBytesBase64] = useState(undefined);
+  const [docxBytesBase64, setDocxBytesBase64] = useState(undefined);
   const [exportExcel, setExportExcel] = useState(false);
   const [exportPdf, setExportPdf] = useState(false);
+  const [exportDocx, setExportDocx] = useState(false);
   useEffect(() => {
     let isResponseOK = false;
     fetch(APIBaseURL + '/spaces/tree', {
@@ -434,6 +436,7 @@ const EquipmentCarbon = ({ setRedirect, setRedirectUrl, t }) => {
     // Reinitialize tables
     setDetailedDataTableData([]);
     setPdfBytesBase64(undefined);
+    setDocxBytesBase64(undefined);
 
     let isResponseOK = false;
     fetch(
@@ -456,7 +459,9 @@ const EquipmentCarbon = ({ setRedirect, setRedirectUrl, t }) => {
         '&exportexcel=' +
         exportExcel +
         '&exportpdf=' +
-        exportPdf,
+        exportPdf +
+        '&exportdocx=' +
+        exportDocx,
       {
         method: 'GET',
         headers: {
@@ -835,12 +840,13 @@ const EquipmentCarbon = ({ setRedirect, setRedirectUrl, t }) => {
           }
           setExcelBytesBase64(json['excel_bytes_base64']);
           setPdfBytesBase64(json['pdf_bytes_base64']);
+          setDocxBytesBase64(json['docx_bytes_base64']);
           // enable submit button
           setSubmitButtonDisabled(false);
           // hide spinner
           setSpinnerHidden(true);
           // show export button
-          setExportButtonHidden(!(json['excel_bytes_base64'] || json['pdf_bytes_base64']));
+          setExportButtonHidden(!(json['excel_bytes_base64'] || json['pdf_bytes_base64'] || json['docx_bytes_base64']));
           // show result data
           setResultDataHidden(false);
         } else {
@@ -873,6 +879,22 @@ const EquipmentCarbon = ({ setRedirect, setRedirectUrl, t }) => {
       const mimeType = 'application/pdf';
       const fileName = 'equipmentcarbon.pdf';
       const fileUrl = 'data:' + mimeType + ';base64,' + pdfBytesBase64;
+      fetch(fileUrl)
+        .then(response => response.blob())
+        .then(blob => {
+          const link = window.document.createElement('a');
+          const blobUrl = window.URL.createObjectURL(blob, { type: mimeType });
+          link.href = blobUrl;
+          link.download = fileName;
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+          setTimeout(() => window.URL.revokeObjectURL(blobUrl), 100);
+        });
+    } else if (type === 'docx' && docxBytesBase64) {
+      const mimeType = 'application/vnd.openxmlformats-officedocument.wordprocessingml.document';
+      const fileName = 'equipmentcarbon.docx';
+      const fileUrl = 'data:' + mimeType + ';base64,' + docxBytesBase64;
       fetch(fileUrl)
         .then(response => response.blob())
         .then(blob => {
@@ -1151,6 +1173,16 @@ const EquipmentCarbon = ({ setRedirect, setRedirectUrl, t }) => {
                       checked={exportPdf}
                       onChange={({ target }) => setExportPdf(target.checked)}
                     />
+                    <CustomInput
+                      type="checkbox"
+                      id="exportDocx"
+                      name="exportDocx"
+                      label="DOCX"
+                      bsSize="sm"
+                      inline
+                      checked={exportDocx}
+                      onChange={({ target }) => setExportDocx(target.checked)}
+                    />
                   </div>
                 </FormGroup>
               </Col>
@@ -1189,6 +1221,11 @@ const EquipmentCarbon = ({ setRedirect, setRedirectUrl, t }) => {
                     {pdfBytesBase64 ? (
                       <DropdownItem onClick={e => handleExport(e, 'pdf')}>
                         PDF
+                      </DropdownItem>
+                    ) : null}
+                    {docxBytesBase64 ? (
+                      <DropdownItem onClick={e => handleExport(e, 'docx')}>
+                        DOCX
                       </DropdownItem>
                     ) : null}
                   </DropdownMenu>

@@ -1,23 +1,25 @@
 """
-Combined Equipment Income DOCX Exporter
+Equipment Data Cost DOCX Exporter
 
-This module provides functionality to export combined equipment income data to DOCX format.
-It generates comprehensive reports showing income analysis for combined equipments
+This module provides functionality to export equipment cost data to DOCX format.
+It generates comprehensive reports showing cost analysis for equipment
 with detailed breakdown by energy categories and time periods.
 
 Key Features:
-- Combined Equipment income analysis
+- Equipment cost analysis
 - Base period vs reporting period comparison
-- Income breakdown by energy categories
+- Cost breakdown by energy categories
+- Cost proportion analysis with charts
 - Detailed data with line charts
+- Associated equipment analysis
 - Multi-language support
 - Base64 encoding for file transmission
 
 The exported DOCX file includes:
 - Cover page with logo and report metadata
-- Combined analysis page (reporting period income table)
+- Combined analysis section (reporting period costs table + time-of-use + cost proportion)
 - Detailed data charts (paginated, up to 4 per page in 2x2 grid)
-- Parameter data pages
+- Parameter data pages (each with compact table and filled line chart)
 """
 
 import base64
@@ -187,9 +189,9 @@ def _style_table_cell(cell, is_header=False, is_green=False, bold=False, font_si
     tcPr.append(shd)
 
 
-class CombinedEquipmentIncomeDOCXExporter:
+class EquipmentCostDOCXExporter:
     """
-    Export combined equipment income data to DOCX format.
+    Export equipment cost data to DOCX format.
     Generates comprehensive reports with charts and tables matching Excel layout.
     """
 
@@ -197,10 +199,13 @@ class CombinedEquipmentIncomeDOCXExporter:
         font_setup_success = setup_chinese_fonts()
         if not font_setup_success:
             logger.warning("Chinese font setup failed, some text may not display correctly")
+
         self.language = language
         self.trans = get_translation(language)
         self._ = self.trans.gettext
+
         self.dpi = 120
+
         self.chart_colors = ['#4472C4', '#ED7D31', '#70AD47', '#FFC000', '#5B9BD5',
                              '#FF6B6B', '#9B59B6', '#1ABC9C', '#E67E22', '#2ECC71',
                              '#3498DB', '#E74C3C', '#2ECC71', '#F39C12', '#9B59B6']
@@ -255,6 +260,28 @@ class CombinedEquipmentIncomeDOCXExporter:
         buf.seek(0)
         return buf
 
+    def _make_pie_chart(self, values, labels, title, colors=None):
+        if not values or sum((v or 0) for v in values) == 0:
+            return None
+        fig, ax = plt.subplots(figsize=(3.2, 2.6))
+        if colors is None:
+            colors = self.chart_colors[:len(labels)]
+        filtered = [(l, v, c) for l, v, c in zip(labels, values, colors) if (v or 0) > 0]
+        if not filtered:
+            plt.close(fig)
+            return None
+        f_labels, f_values, f_colors = zip(*filtered)
+        if len(f_labels) > 8:
+            sorted_data = sorted(zip(f_labels, f_values, f_colors), key=lambda x: x[1], reverse=True)
+            top_data = sorted_data[:7]
+            other_sum = sum(v for _, v, _ in sorted_data[7:])
+            f_labels = [l for l, _, _ in top_data] + [self._('Others')]
+            f_values = [v for _, v, _ in top_data] + [other_sum]
+            f_colors = [c for _, _, c in top_data] + ['#999999']
+        ax.pie(f_values, labels=f_labels, autopct='%1.1f%%', colors=f_colors, startangle=90)
+        ax.set_title(title, fontsize=10, fontweight='bold')
+        return self._fig_to_bytesio(fig, self.dpi)
+
     def generate_docx(self,
                       report: Dict[str, Any],
                       name: str,
@@ -285,6 +312,7 @@ class CombinedEquipmentIncomeDOCXExporter:
             return filename
 
         filename = str(uuid.uuid4()) + '.docx'
+
         self.report = _convert_decimals(report)
         self.name = name
         self.base_period_start = base_period_start_datetime_local
@@ -292,6 +320,7 @@ class CombinedEquipmentIncomeDOCXExporter:
         self.reporting_start = reporting_start_datetime_local
         self.reporting_end = reporting_end_datetime_local
         self.period_type = period_type
+
         self.is_base_period_exists = self._is_base_period_timestamp_exists(report['base_period'])
 
         doc = Document()
@@ -311,30 +340,15 @@ class CombinedEquipmentIncomeDOCXExporter:
                              base_period_end_datetime_local,
                              self.is_base_period_exists)
 
-        has_combined = self._has_combined_analysis()
-        has_detailed = self._has_detailed_data_charts()
-        has_params = self._has_parameters_section()
-
-        if has_combined or has_detailed or has_params:
-            doc.add_page_break()
-
-        if has_combined:
-            self._add_combined_analysis(doc)
-            if has_detailed:
-                doc.add_page_break()
-
-        if has_detailed:
-            self._add_detailed_data_charts(doc)
-            if has_params:
-                doc.add_page_break()
-
-        if has_params:
-            self._add_parameters_section(doc)
+        self._add_combined_analysis_section(doc)
+        self._add_detailed_data_charts_section(doc)
+        self._add_parameters_section(doc)
 
         doc.save(filename)
         logger.info(f"DOCX generated: {filename}")
         return filename
 
+    # ---------- Utility ----------
     def _add_heading_styled(self, doc, text, level=1):
         heading = doc.add_heading(level=level)
         run = heading.add_run(text)
@@ -365,8 +379,7 @@ class CombinedEquipmentIncomeDOCXExporter:
 
         title = doc.add_paragraph()
         title.alignment = WD_ALIGN_PARAGRAPH.CENTER
-        run = title.add_run(f"{_('Combined Equipment')} - {_('Income')}")
-        
+        run = title.add_run(f"{_('Equipment Data')} - {_('Cost')}")
         run.font.size = Pt(24)
         run.font.bold = True
         run.font.name = 'Arial'
@@ -411,60 +424,177 @@ class CombinedEquipmentIncomeDOCXExporter:
             r_val.font.name = 'Arial'
             r_val._element.rPr.rFonts.set(qn('w:eastAsia'), 'SimSun')
 
-    def _add_combined_analysis(self, doc):
+        doc.add_page_break()
+
+    # ---------- Combined analysis ----------
+    def _add_combined_analysis_section(self, doc):
+        """Add combined analysis section: Reporting Period Costs table,
+        then 2 columns (Time-of-use table+chart, Cost proportion table+chart).
+        Equipment does not have Per Unit Area or Per Capita data.
+        """
         _ = self._
         reporting_data = self.report['reporting_period']
         names = reporting_data.get('names', [])
         units = reporting_data.get('units', [])
         subtotals = reporting_data.get('subtotals', [])
-        subtotals_per_unit_area = reporting_data.get('subtotals_per_unit_area', [])
         increment_rates = reporting_data.get('increment_rates', [])
+        total_unit = reporting_data.get('total_unit', '')
         ca_len = len(names)
 
         if ca_len == 0:
             return
 
-        self._add_heading_styled(doc, self.name + ' - ' + _('Reporting Period Income'), level=1)
+        self._add_heading_styled(doc, self.name + ' - ' + _('Reporting Period Costs'), level=1)
 
-        num_cols = ca_len + 1
-        table = doc.add_table(rows=4, cols=num_cols)
+        num_cols = ca_len + 2
+        table = doc.add_table(rows=3, cols=num_cols)
         table.alignment = WD_TABLE_ALIGNMENT.CENTER
 
         headers = ['']
         for i in range(ca_len):
             unit_i = units[i] if (units and i < len(units)) else ''
             headers.append(names[i] + ((' (' + unit_i + ')') if unit_i else ''))
+        headers.append(_('Total') + '(' + total_unit + ')')
 
         for j, h in enumerate(headers):
             cell = table.cell(0, j)
             cell.text = h
             _style_table_cell(cell, is_header=True, bold=True)
 
-        row_labels = [_('Income'), _('Per Unit Area'), _('Increment Rate')]
+        row_labels = [_('Cost'), _('Increment Rate')]
         for r_idx, row_label in enumerate(row_labels, start=1):
             cell = table.cell(r_idx, 0)
             cell.text = row_label
             _style_table_cell(cell, is_green=True, bold=True)
 
+        total_val = reporting_data.get('total', 0)
+        total_inc_rate = reporting_data.get('total_increment_rate', None)
+
         for i in range(ca_len):
             col = i + 1
-            cell_cons = table.cell(1, col)
+            cell_cost = table.cell(1, col)
             val = subtotals[i] if (subtotals and i < len(subtotals)) else None
-            cell_cons.text = str(round2(val, 2)) if val is not None else ''
-            _style_table_cell(cell_cons)
+            cell_cost.text = str(round2(val, 2)) if val is not None else ''
+            _style_table_cell(cell_cost)
 
-            cell_area = table.cell(2, col)
-            val = subtotals_per_unit_area[i] if (subtotals_per_unit_area and i < len(subtotals_per_unit_area)) else None
-            cell_area.text = str(round2(val, 2)) if val is not None else ''
-            _style_table_cell(cell_area)
-
-            cell_inc = table.cell(3, col)
+            cell_inc = table.cell(2, col)
             val = increment_rates[i] if (increment_rates and i < len(increment_rates)) else None
             cell_inc.text = (str(round2(val * 100, 2)) + '%') if val is not None else ''
             _style_table_cell(cell_inc)
 
-    def _add_detailed_data_charts(self, doc):
+        total_col = ca_len + 1
+
+        table.cell(1, total_col).text = str(round2(total_val, 2))
+        _style_table_cell(table.cell(1, total_col))
+
+        total_inc_text = (str(round2(total_inc_rate * 100, 2)) + '%') if total_inc_rate is not None else ''
+        table.cell(2, total_col).text = total_inc_text
+        _style_table_cell(table.cell(2, total_col))
+
+        doc.add_paragraph('')
+
+        electricity_index = -1
+        for i in range(len(reporting_data.get('energy_category_ids', []))):
+            if reporting_data['energy_category_ids'][i] == 1:
+                electricity_index = i
+                break
+
+        tou_exists = electricity_index >= 0
+        tou_categories = [_('TopPeak'), _('OnPeak'), _('MidPeak'), _('OffPeak')]
+        tou_values = []
+        if tou_exists:
+            toppeaks = reporting_data.get('toppeaks', [])
+            onpeaks = reporting_data.get('onpeaks', [])
+            midpeaks = reporting_data.get('midpeaks', [])
+            offpeaks = reporting_data.get('offpeaks', [])
+            tou_values = [
+                round2(toppeaks[electricity_index], 2) if electricity_index < len(toppeaks) else 0,
+                round2(onpeaks[electricity_index], 2) if electricity_index < len(onpeaks) else 0,
+                round2(midpeaks[electricity_index], 2) if electricity_index < len(midpeaks) else 0,
+                round2(offpeaks[electricity_index], 2) if electricity_index < len(offpeaks) else 0
+            ]
+        tou_colors = ['#FF1744', '#FF6F00', '#FDD835', '#00BCD4']
+
+        cost_exists = subtotals and sum((v or 0) for v in subtotals) > 0
+        cost_values = [round2(v, 3) for v in subtotals] if cost_exists else []
+
+        container_main = doc.add_table(rows=1, cols=2)
+        container_main.alignment = WD_TABLE_ALIGNMENT.CENTER
+        _remove_table_borders(container_main)
+        left_container = container_main.cell(0, 0)
+        right_container = container_main.cell(0, 1)
+
+        tou_container = left_container.add_table(rows=2, cols=1)
+        _remove_table_borders(tou_container)
+        tou_table_cell = tou_container.cell(0, 0)
+        tou_chart_cell = tou_container.cell(1, 0)
+
+        tou_table = tou_table_cell.add_table(rows=5, cols=2)
+        tou_table.alignment = WD_TABLE_ALIGNMENT.CENTER
+        th1 = tou_table.cell(0, 0)
+        th1.text = ''
+        _style_table_cell(th1, is_header=True, bold=True)
+        th2 = tou_table.cell(0, 1)
+        th2.text = _('Electricity Cost by Time-Of-Use')
+        _style_table_cell(th2, is_header=True, bold=True)
+        for i in range(4):
+            c1 = tou_table.cell(i + 1, 0)
+            c1.text = tou_categories[i]
+            _style_table_cell(c1, bold=True)
+            c2 = tou_table.cell(i + 1, 1)
+            c2.text = str(tou_values[i]) if tou_exists else ''
+            _style_table_cell(c2)
+
+        if tou_exists and sum(tou_values) > 0:
+            tou_chart_file = self._make_pie_chart(tou_values, tou_categories,
+                                                   _('Electricity Cost by Time-Of-Use'), colors=tou_colors)
+            if tou_chart_file:
+                p = tou_chart_cell.paragraphs[0]
+                p.alignment = WD_ALIGN_PARAGRAPH.CENTER
+                run = p.add_run()
+                run.add_picture(tou_chart_file, width=Inches(2.6))
+
+        cost_container = right_container.add_table(rows=2, cols=1)
+        _remove_table_borders(cost_container)
+        cost_table_cell = cost_container.cell(0, 0)
+        cost_chart_cell = cost_container.cell(1, 0)
+
+        cost_table_rows = ca_len + 1
+        cost_table = cost_table_cell.add_table(rows=cost_table_rows, cols=2)
+        cost_table.alignment = WD_TABLE_ALIGNMENT.CENTER
+        ch1 = cost_table.cell(0, 0)
+        ch1.text = ''
+        _style_table_cell(ch1, is_header=True, bold=True)
+        ch2 = cost_table.cell(0, 1)
+        ch2.text = _('Costs Proportion')
+        _style_table_cell(ch2, is_header=True, bold=True)
+        for i in range(ca_len):
+            c1 = cost_table.cell(i + 1, 0)
+            c1.text = names[i]
+            _style_table_cell(c1, bold=True)
+            c2 = cost_table.cell(i + 1, 1)
+            c2.text = str(cost_values[i]) if cost_exists else ''
+            _style_table_cell(c2)
+
+        if cost_exists:
+            cost_chart_file = self._make_pie_chart(cost_values, names, _('Costs Proportion'))
+            if cost_chart_file:
+                cost_chart_cell.add_paragraph('')
+                p = cost_chart_cell.paragraphs[len(cost_chart_cell.paragraphs) - 1]
+                p.alignment = WD_ALIGN_PARAGRAPH.CENTER
+                run = p.add_run()
+                run.add_picture(cost_chart_file, width=Inches(2.6))
+
+        doc.add_page_break()
+
+    # ---------- Detailed data charts ----------
+    def _add_detailed_data_charts_section(self, doc):
+        """Add separate line charts for each energy category, matching Excel behavior.
+        Uses independent sub-plots placed in a borderless Word table per row;
+        odd charts in the last row merge both cells and center the chart.
+        """
         _ = self._
+
         reporting_data = self.report['reporting_period']
         timestamps = reporting_data.get('timestamps', [])
         names = reporting_data.get('names', [])
@@ -489,7 +619,7 @@ class CombinedEquipmentIncomeDOCXExporter:
             ax.set_xticks(range(0, raw_len, step))
             ax.set_xticklabels(
                 [reporting_times[t][:10] if t < len(reporting_times) else ''
-                for t in range(0, raw_len, step)],
+                 for t in range(0, raw_len, step)],
                 rotation=45, ha='right', fontsize=7)
 
         if not self.is_base_period_exists:
@@ -497,6 +627,7 @@ class CombinedEquipmentIncomeDOCXExporter:
                 page_end = min(page_start + charts_per_page, num_categories)
                 page_indices = list(range(page_start, page_end))
                 num_on_page = len(page_indices)
+
                 rows = (num_on_page + 1) // 2
 
                 for row_idx in range(rows):
@@ -516,14 +647,15 @@ class CombinedEquipmentIncomeDOCXExporter:
                         raw_data = values[i] if i < len(values) else []
                         safe_data = _safe_list(raw_data)
                         color = self.chart_colors[i % len(self.chart_colors)]
+                        unit_i = units[i] if (units and i < len(units)) else ''
 
                         fig, ax = plt.subplots(figsize=(4.8, 3.0))
+                        marker_step = max(1, len(safe_data) // 30)
                         ax.plot(range(len(safe_data)), safe_data, linewidth=1.2,
                                 color=color, marker='o', markersize=3,
-                                markevery=max(1, len(safe_data) // 30))
+                                markevery=marker_step)
                         _set_ticks(ax, len(raw_data))
-                        unit_i = units[i] if (units and i < len(units)) else ''
-                        ax.set_title(_('Reporting Period Income') + ' - ' +
+                        ax.set_title(_('Reporting Period Costs') + ' - ' +
                                      names[i] + ((' (' + unit_i + ')') if unit_i else ''),
                                      fontsize=9, fontweight='bold')
                         ax.grid(True, alpha=0.3)
@@ -547,14 +679,15 @@ class CombinedEquipmentIncomeDOCXExporter:
                             raw_data = values[i] if i < len(values) else []
                             safe_data = _safe_list(raw_data)
                             color = self.chart_colors[i % len(self.chart_colors)]
+                            unit_i = units[i] if (units and i < len(units)) else ''
 
                             fig, ax = plt.subplots(figsize=(4.8, 3.0))
+                            marker_step = max(1, len(safe_data) // 30)
                             ax.plot(range(len(safe_data)), safe_data, linewidth=1.2,
                                     color=color, marker='o', markersize=3,
-                                    markevery=max(1, len(safe_data) // 30))
+                                    markevery=marker_step)
                             _set_ticks(ax, len(raw_data))
-                            unit_i = units[i] if (units and i < len(units)) else ''
-                            ax.set_title(_('Reporting Period Income') + ' - ' +
+                            ax.set_title(_('Reporting Period Costs') + ' - ' +
                                          names[i] + ((' (' + unit_i + ')') if unit_i else ''),
                                          fontsize=9, fontweight='bold')
                             ax.grid(True, alpha=0.3)
@@ -577,6 +710,7 @@ class CombinedEquipmentIncomeDOCXExporter:
                 page_end = min(page_start + charts_per_page, num_categories)
                 page_indices = list(range(page_start, page_end))
                 num_on_page = len(page_indices)
+
                 rows = (num_on_page + 1) // 2
 
                 for row_idx in range(rows):
@@ -596,11 +730,13 @@ class CombinedEquipmentIncomeDOCXExporter:
                         r_data = values[i] if i < len(values) else []
                         safe_r = _safe_list(r_data)
                         color = self.chart_colors[i % len(self.chart_colors)]
+                        unit_i = units[i] if (units and i < len(units)) else ''
 
                         fig, ax = plt.subplots(figsize=(4.8, 3.0))
+                        marker_step = max(1, len(safe_r) // 30)
                         ax.plot(range(len(safe_r)), safe_r, linewidth=1.2,
                                 color=color, marker='o', markersize=3,
-                                markevery=max(1, len(safe_r) // 30),
+                                markevery=marker_step,
                                 label=_('Reporting Period') + ' - ' + names[i])
 
                         has_base_line = False
@@ -612,20 +748,18 @@ class CombinedEquipmentIncomeDOCXExporter:
                             x_b = list(range(len(safe_b)))
                             ax.plot(x_b, safe_b, linewidth=1.2,
                                     color=color, linestyle='--', marker='s', markersize=3,
-                                    markevery=max(1, len(safe_r) // 30),
+                                    markevery=marker_step,
                                     label=_('Base Period') + ' - ' +
                                           (base_names[i] if i < len(base_names) else ''))
                             has_base_line = True
 
                         _set_ticks(ax, len(r_data))
-                        unit_i = units[i] if (units and i < len(units)) else ''
-                        ax.set_title(
-                            _('Base Period Income') + ' / ' +
-                            _('Reporting Period Income') + ' - ' +
-                            names[i] + ((' (' + unit_i + ')') if unit_i else ''),
-                            fontsize=8, fontweight='bold')
+                        ax.set_title(_('Base Period Costs') + ' / ' +
+                                     _('Reporting Period Costs') + ' - ' +
+                                     names[i] + ((' (' + unit_i + ')') if unit_i else ''),
+                                     fontsize=8, fontweight='bold')
                         if len(safe_r) > 0 or has_base_line:
-                            ax.legend(fontsize=7)
+                            ax.legend(fontsize=6)
                         ax.grid(True, alpha=0.3)
                         chart_buf = self._fig_to_bytesio(fig, self.dpi)
 
@@ -647,11 +781,13 @@ class CombinedEquipmentIncomeDOCXExporter:
                             r_data = values[i] if i < len(values) else []
                             safe_r = _safe_list(r_data)
                             color = self.chart_colors[i % len(self.chart_colors)]
+                            unit_i = units[i] if (units and i < len(units)) else ''
 
                             fig, ax = plt.subplots(figsize=(4.8, 3.0))
+                            marker_step = max(1, len(safe_r) // 30)
                             ax.plot(range(len(safe_r)), safe_r, linewidth=1.2,
                                     color=color, marker='o', markersize=3,
-                                    markevery=max(1, len(safe_r) // 30),
+                                    markevery=marker_step,
                                     label=_('Reporting Period') + ' - ' + names[i])
 
                             has_base_line = False
@@ -663,18 +799,16 @@ class CombinedEquipmentIncomeDOCXExporter:
                                 x_b = list(range(len(safe_b)))
                                 ax.plot(x_b, safe_b, linewidth=1.2,
                                         color=color, linestyle='--', marker='s', markersize=3,
-                                        markevery=max(1, len(safe_r) // 30),
+                                        markevery=marker_step,
                                         label=_('Base Period') + ' - ' +
                                               (base_names[i] if i < len(base_names) else ''))
                                 has_base_line = True
 
                             _set_ticks(ax, len(r_data))
-                            unit_i = units[i] if (units and i < len(units)) else ''
-                            ax.set_title(
-                                _('Base Period Income') + ' / ' +
-                                _('Reporting Period Income') + ' - ' +
-                                names[i] + ((' (' + unit_i + ')') if unit_i else ''),
-                                fontsize=8, fontweight='bold')
+                            ax.set_title(_('Base Period Costs') + ' / ' +
+                                         _('Reporting Period Costs') + ' - ' +
+                                         names[i] + ((' (' + unit_i + ')') if unit_i else ''),
+                                         fontsize=8, fontweight='bold')
                             if len(safe_r) > 0 or has_base_line:
                                 ax.legend(fontsize=6)
                             ax.grid(True, alpha=0.3)
@@ -689,8 +823,11 @@ class CombinedEquipmentIncomeDOCXExporter:
                 if page_end < num_categories:
                     doc.add_page_break()
 
+    # ---------- Parameters ----------
     def _add_parameters_section(self, doc):
+        """Add parameters section: each parameter with compact table + filled line chart."""
         _ = self._
+
         params = self.report.get('parameters', {})
         if not params or not params.get('names') or not params.get('timestamps'):
             return
@@ -717,6 +854,7 @@ class CombinedEquipmentIncomeDOCXExporter:
         if not valid_params:
             return
 
+        doc.add_page_break()
         self._add_heading_styled(doc, self.name + ' ' + _('Parameters'), level=1)
 
         rows_per_param = 10
@@ -727,7 +865,9 @@ class CombinedEquipmentIncomeDOCXExporter:
             times = timestamps[pi]
             data = values[pi]
             data_len = len(times)
+
             display_name = name + ((' (' + unit_i + ')') if unit_i else '')
+
             tbl_rows = min(rows_per_param, data_len)
 
             fig, ax = plt.subplots(figsize=(5.0, 2.4))
@@ -773,46 +913,18 @@ class CombinedEquipmentIncomeDOCXExporter:
             run = p.add_run()
             run.add_picture(chart_buf, width=Inches(4.5))
 
+    # ---------- Base period existence ----------
     def _is_base_period_timestamp_exists(self, base_period_data: Dict) -> bool:
         timestamps = base_period_data.get('timestamps', [])
+
         if not timestamps:
             return False
+
         for timestamp in timestamps:
             if timestamp and len(timestamp) > 0:
                 return True
+
         return False
-
-    def _has_combined_analysis(self) -> bool:
-        reporting_data = self.report['reporting_period']
-        names = reporting_data.get('names', [])
-        return len(names) > 0
-
-    def _has_detailed_data_charts(self) -> bool:
-        reporting_data = self.report['reporting_period']
-        timestamps = reporting_data.get('timestamps', [])
-        names = reporting_data.get('names', [])
-        return bool(timestamps and len(timestamps[0]) > 0 and names)
-
-    def _has_parameters_section(self) -> bool:
-        params = self.report.get('parameters', {})
-        if not params or not params.get('names') or not params.get('timestamps'):
-            return False
-        p_timestamps = params.get('timestamps', [])
-        all_zero = True
-        for ts_list in p_timestamps:
-            if ts_list and len(ts_list) > 0:
-                all_zero = False
-                break
-        if all_zero:
-            return False
-        p_names = params.get('names', [])
-        p_values = params.get('values', [])
-        valid_params = []
-        for i in range(len(p_names)):
-            if i < len(p_timestamps) and len(p_timestamps[i]) > 0:
-                if i < len(p_values) and len(p_values[i]) > 0:
-                    valid_params.append(i)
-        return bool(valid_params)
 
 
 def export(report,
@@ -827,7 +939,7 @@ def export(report,
     Export report data to DOCX and return base64 encoded string.
     This function maintains the same interface as the Excel exporter.
     """
-    exporter = CombinedEquipmentIncomeDOCXExporter(language)
+    exporter = EquipmentCostDOCXExporter(language)
     return exporter.export(report, name,
                            base_period_start_datetime_local,
                            base_period_end_datetime_local,

@@ -393,11 +393,34 @@ class CombinedEquipmentEnergyItemDOCXExporter:
                              base_period_end_datetime_local,
                              self.is_base_period_exists)
 
-        self._add_consumption_summary(doc)
-        self._add_category_group_sections(doc)
-        self._add_detailed_data_charts(doc)
-        self._add_child_combined_equipments_section(doc)
-        self._add_parameters_section(doc)
+        has_summary = self._has_consumption_summary()
+        has_category = self._has_category_group_sections()
+        has_detailed = self._has_detailed_data_charts()
+        has_child = self._has_child_combined_equipments_section()
+        has_params = self._has_parameters_section()
+
+        if has_summary or has_category or has_detailed or has_child or has_params:
+            doc.add_page_break()
+
+        if has_summary:
+            self._add_consumption_summary(doc)
+
+        if has_category:
+            self._add_category_group_sections(doc)
+
+        if (has_summary or has_category) and has_detailed:
+            doc.add_page_break()
+
+        if has_detailed:
+            self._add_detailed_data_charts(doc)
+            if has_child or has_params:
+                doc.add_page_break()
+
+        if has_child:
+            self._add_child_combined_equipments_section(doc)
+
+        if has_params:
+            self._add_parameters_section(doc)
 
         doc.save(filename)
         logger.info(f"DOCX generated: {filename}")
@@ -479,8 +502,6 @@ class CombinedEquipmentEnergyItemDOCXExporter:
             r_val.font.size = Pt(13)
             r_val.font.name = 'Arial'
             r_val._element.rPr.rFonts.set(qn('w:eastAsia'), 'SimSun')
-
-        doc.add_page_break()
 
     # ---------- Consumption Summary ----------
     def _add_consumption_summary(self, doc):
@@ -626,7 +647,6 @@ class CombinedEquipmentEnergyItemDOCXExporter:
         num_items = len(names)
         charts_per_page = 4
 
-        doc.add_page_break()
         self._add_heading_styled(doc, self.name + ' ' + _('Detailed Data'), level=1)
 
         def _safe_list(raw):
@@ -840,8 +860,6 @@ class CombinedEquipmentEnergyItemDOCXExporter:
                 if page_end < num_items:
                     doc.add_page_break()
 
-        doc.add_page_break()
-
     # ---------- Child Combined Equipments ----------
     def _add_child_combined_equipments_section(self, doc):
         """Add child combined equipments data table with per-item pie charts."""
@@ -1037,6 +1055,56 @@ class CombinedEquipmentEnergyItemDOCXExporter:
                 return True
 
         return False
+
+    def _has_consumption_summary(self) -> bool:
+        reporting_data = self.report['reporting_period']
+        names = reporting_data.get('names', [])
+        return len(names) > 0
+
+    def _has_category_group_sections(self) -> bool:
+        reporting_data = self.report['reporting_period']
+        names = reporting_data.get('names', [])
+        energy_category_names = reporting_data.get('energy_category_names', [])
+        return bool(names and energy_category_names)
+
+    def _has_detailed_data_charts(self) -> bool:
+        reporting_data = self.report['reporting_period']
+        timestamps = reporting_data.get('timestamps', [])
+        names = reporting_data.get('names', [])
+        return bool(timestamps and len(timestamps[0]) > 0 and names)
+
+    def _has_child_combined_equipments_section(self) -> bool:
+        child = self.report.get('child_combined_equipment', {})
+        if not child or 'energy_item_names' not in child or not child['energy_item_names']:
+            return False
+        if 'child_combined_equipment_ids_array' not in child or 'child_combined_equipment_names_array' not in child:
+            return False
+        if not child['child_combined_equipment_ids_array'] or not child['child_combined_equipment_names_array']:
+            return False
+        if not child['child_combined_equipment_names_array'][0] or len(child['child_combined_equipment_names_array'][0]) == 0:
+            return False
+        return True
+
+    def _has_parameters_section(self) -> bool:
+        params = self.report.get('parameters', {})
+        if not params or not params.get('names') or not params.get('timestamps'):
+            return False
+        p_timestamps = params.get('timestamps', [])
+        all_zero = True
+        for ts_list in p_timestamps:
+            if ts_list and len(ts_list) > 0:
+                all_zero = False
+                break
+        if all_zero:
+            return False
+        p_names = params.get('names', [])
+        p_values = params.get('values', [])
+        valid_params = []
+        for i in range(len(p_names)):
+            if i < len(p_timestamps) and len(p_timestamps[i]) > 0:
+                if i < len(p_values) and len(p_values[i]) > 0:
+                    valid_params.append(i)
+        return bool(valid_params)
 
 
 def export(report,
