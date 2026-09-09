@@ -428,5 +428,117 @@ msgstr "ข้อมูลอุปกรณ์"
 msgid "Energy Category Analysis"
 msgstr "การวิเคราะห์จัดหมู่พลังงาน"
 
+msgid "Meter Data"
+msgstr "แม้ตร์"
+
+msgid "Meter Energy"
+msgstr "เครื่องวัดพลังงาน"
+
+msgid "Meter Carbon"
+msgstr "มาตรวัดการปล่อย CO2"
+
+msgid "Meter Cost"
+msgstr "ค่ามิเตอร์"
+
+msgid "Meter Trend"
+msgstr "เทรนด์มิเตอร์"
+
+msgid "Meter Saving"
+msgstr "ประหยัดมิเตอร์"
+
+msgid "Meter Plan"
+msgstr "แผนมิเตอร์"
+
+msgid "Meter Prediction"
+msgstr "การคาดการณ์มิเตอร์"
+
+msgid "Prediction"
+msgstr "การคาดการณ์"
+
+msgid "Reporting Period Prediction"
+msgstr "การคาดการณ์รอบระยะเวลารายงาน"
+
+msgid "Meter Submeters Balance"
+msgstr "Master Meter Submeters สมดุล"
+
+msgid "Meter Comparison"
+msgstr "การเปรียบเทียบมิเตอร์"
+
+msgid "Meter Tracking"
+msgstr "การติดตามมิเตอร์"
+
+msgid "Power Quality Data"
+msgstr "ข้อมูลคุณภาพพลังงาน"
+msgid "Power Quality Analysis"
+msgstr "การวิเคราะห์คุณภาพพลังงาน"
+
+msgid "Point"
+msgstr "จุดวัด"
+
+msgid "Category"
+msgstr "หมวดหมู่"
+
+msgid "Type"
+msgstr "ประเภท"
+
+msgid "Limit"
+msgstr "ขีดจำกัด"
+
+msgid "Normal Limit"
+msgstr "ขีดจำกัดปกติ"
+
+msgid "Severe Limit"
+msgstr "ขีดจำกัดรุนแรง"
+
+msgid "Compliance"
+msgstr "ความสอดคล้อง"
+
+msgid "Worst Deviation"
+msgstr "ความเบี่ยงเบนแย่สุด"
+
+msgid "Worst Time"
+msgstr "เวลาความเบี่ยงเบนแย่สุด"
+
+msgid "Virtual Meter Energy"
+msgstr "เครื่องวัดพลังงานเสมือน"
+
+msgid "Virtual Meter Carbon"
+msgstr "เสมือนมิเตอร์ปล่อย CO2"
+
+msgid "Virtual Meter Cost"
+msgstr "ค่ามิเตอร์เสมือน"
+
+msgid "Virtual Meter Batch Analysis"
+msgstr "การวิเคราะห์แบทช์มิเตอร์เสมือน"
+
+msgid "Virtual Meter Saving"
+msgstr "การบันทึกมิเตอร์เสมือน"
+
+msgid "Virtual Meter Plan"
+msgstr "แผนมิเตอร์เสมือน"
+
+msgid "Virtual Meter Prediction"
+msgstr "การคาดการณ์มิเตอร์เสมือน"
+
+msgid "Virtual Meter Comparison"
+msgstr "การเปรียบเทียบมิติเสมือน"
+
+msgid "Offline Meter Energy"
+msgstr "เครื่องวัดพลังงานออฟไลน์"
+
+msgid "Offline Meter Carbon"
+msgstr "ออฟไลน์มิเตอร์ปล่อย CO2"
+
+msgid "Offline Meter Cost"
+msgstr "ค่ามิเตอร์ออฟไลน์"
+
+msgid "Offline Meter Batch Analysis"
+msgstr "การวิเคราะห์เป็นชุดของมิเตอร์ออฟไลน์"
+
+msgid "Offline Meter Saving"
+msgstr "การประหยัดของมิเตอร์ออฟไลน์"
+
+msgid "Offline Meter Plan"
+msgstr "แผนของมิเตอร์ออฟไลน์"
 msgid "Combined Equipment"
 msgstr "อุปกรณ์รวม"

@@ -428,5 +428,118 @@ msgstr "Данные оборудования"
 msgid "Energy Category Analysis"
 msgstr "Анализ категорий энергии"
 
+msgid "Meter Data"
+msgstr "Метр"
+
+msgid "Meter Energy"
+msgstr "Счетчик энергии"
+
+msgid "Meter Carbon"
+msgstr "Выбросы CO2 по приборам"
+
+msgid "Meter Cost"
+msgstr "Стоимость счетчика"
+
+msgid "Meter Trend"
+msgstr "Тренд счетчика"
+
+msgid "Meter Saving"
+msgstr "Экономия счетчиков"
+
+msgid "Meter Plan"
+msgstr "Метрический план"
+
+msgid "Meter Prediction"
+msgstr "Прогноз счетчика"
+
+msgid "Prediction"
+msgstr "Прогноз"
+
+msgid "Reporting Period Prediction"
+msgstr "Прогноз в отчетном периоде"
+
+msgid "Meter Submeters Balance"
+msgstr "Весы счетчиков Master Meter"
+
+msgid "Meter Comparison"
+msgstr "Сравнение счетчиков"
+
+msgid "Meter Tracking"
+msgstr "Слежение за счетчиком"
+
+msgid "Power Quality Data"
+msgstr "Данные о качестве электроэнергии"
+msgid "Power Quality Analysis"
+msgstr "Анализ качества электроэнергии"
+
+msgid "Point"
+msgstr "Точка"
+
+msgid "Category"
+msgstr "Категория"
+
+msgid "Type"
+msgstr "Тип"
+
+msgid "Limit"
+msgstr "Предел"
+
+msgid "Normal Limit"
+msgstr "Нормальный предел"
+
+msgid "Severe Limit"
+msgstr "Жёсткий предел"
+
+msgid "Compliance"
+msgstr "Соответствие"
+
+msgid "Worst Deviation"
+msgstr "Худшее отклонение"
+
+msgid "Worst Time"
+msgstr "Время худшего отклонения"
+
+msgid "Virtual Meter Energy"
+msgstr "Энергия виртуального счетчика"
+
+msgid "Virtual Meter Carbon"
+msgstr "Выбросы CO2 виртуальными приборами"
+
+msgid "Virtual Meter Cost"
+msgstr "Стоимость виртуального счетчика"
+
+msgid "Virtual Meter Batch Analysis"
+msgstr "Анализ партии виртуальных счетчиков"
+
+msgid "Virtual Meter Saving"
+msgstr "Экономия виртуальных счетчиков"
+
+msgid "Virtual Meter Plan"
+msgstr "План виртуального счетчика"
+
+msgid "Virtual Meter Prediction"
+msgstr "Прогноз виртуального счетчика"
+
+msgid "Virtual Meter Comparison"
+msgstr "Сравнение виртуальных счетчиков"
+
+msgid "Offline Meter Energy"
+msgstr "Автономный счетчик энергии"
+
+msgid "Offline Meter Carbon"
+msgstr "Выбросы CO2 из автономных приборов"
+
+msgid "Offline Meter Cost"
+msgstr "Стоимость автономного счетчика"
+
+msgid "Offline Meter Batch Analysis"
+msgstr "Пакетный анализ офлайн-счётчиков"
+
+msgid "Offline Meter Saving"
+msgstr "Экономия офлайн-счётчиков"
+
+msgid "Offline Meter Plan"
+msgstr "План офлайн-счётчиков"
+
 msgid "Combined Equipment"
 msgstr "Комбинированное Оборудование"

@@ -428,5 +428,118 @@ msgstr "設備數據"
 msgid "Energy Category Analysis"
 msgstr "能耗分類分析"
 
+msgid "Meter Data"
+msgstr "計量表數據"
+
+msgid "Meter Energy"
+msgstr "計量表能耗分析"
+
+msgid "Meter Carbon"
+msgstr "計量表碳排放分析"
+
+msgid "Meter Cost"
+msgstr "計量表成本分析"
+
+msgid "Meter Trend"
+msgstr "計量表趨勢分析"
+
+msgid "Meter Saving"
+msgstr "計量表節能分析"
+
+msgid "Meter Plan"
+msgstr "計量表計劃分析"
+
+msgid "Meter Prediction"
+msgstr "計量表預測分析"
+
+msgid "Prediction"
+msgstr "預測分析"
+
+msgid "Reporting Period Prediction"
+msgstr "報告期預測"
+
+msgid "Meter Submeters Balance"
+msgstr "總分表平衡分析"
+
+msgid "Meter Comparison"
+msgstr "計量表對比分析"
+
+msgid "Meter Tracking"
+msgstr "計量表台賬"
+
+msgid "Power Quality Data"
+msgstr "電能質量數據"
+msgid "Power Quality Analysis"
+msgstr "電能質量分析"
+
+msgid "Point"
+msgstr "點位"
+
+msgid "Category"
+msgstr "類別"
+
+msgid "Type"
+msgstr "類型"
+
+msgid "Limit"
+msgstr "限值"
+
+msgid "Normal Limit"
+msgstr "正常限值"
+
+msgid "Severe Limit"
+msgstr "嚴重限值"
+
+msgid "Compliance"
+msgstr "合格率"
+
+msgid "Worst Deviation"
+msgstr "最差偏差"
+
+msgid "Worst Time"
+msgstr "最差發生時間"
+
+msgid "Virtual Meter Energy"
+msgstr "虛擬表能耗分析"
+
+msgid "Virtual Meter Carbon"
+msgstr "虛擬表碳排放分析"
+
+msgid "Virtual Meter Cost"
+msgstr "虛擬表成本分析"
+
+msgid "Virtual Meter Batch Analysis"
+msgstr "虛擬表批量分析"
+
+msgid "Virtual Meter Saving"
+msgstr "虛擬表節能分析"
+
+msgid "Virtual Meter Plan"
+msgstr "虛擬表計劃分析"
+
+msgid "Virtual Meter Prediction"
+msgstr "虛擬表預測分析"
+
+msgid "Virtual Meter Comparison"
+msgstr "虛擬表對比分析"
+
+msgid "Offline Meter Energy"
+msgstr "離線表能耗分析"
+
+msgid "Offline Meter Carbon"
+msgstr "離線表碳排放分析"
+
+msgid "Offline Meter Cost"
+msgstr "離線表成本分析"
+
+msgid "Offline Meter Batch Analysis"
+msgstr "離線表批量分析"
+
+msgid "Offline Meter Saving"
+msgstr "離線表節能分析"
+
+msgid "Offline Meter Plan"
+msgstr "離線表計劃分析"
+
 msgid "Combined Equipment"
 msgstr "組合設備"

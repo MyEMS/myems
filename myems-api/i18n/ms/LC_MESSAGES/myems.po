@@ -428,5 +428,118 @@ msgstr "Data Peralatan"
 msgid "Energy Category Analysis"
 msgstr "Analisis Klasifikasi Tenaga"
 
+msgid "Meter Data"
+msgstr "Meter"
+
+msgid "Meter Energy"
+msgstr "Tenaga Meter"
+
+msgid "Meter Carbon"
+msgstr "Meter Emisi CO2"
+
+msgid "Meter Cost"
+msgstr "Kos Meter"
+
+msgid "Meter Trend"
+msgstr "Meter Trend"
+
+msgid "Meter Saving"
+msgstr "Penjimatan Meter"
+
+msgid "Meter Plan"
+msgstr "Pelan Meter"
+
+msgid "Meter Prediction"
+msgstr "Ramalan Meter"
+
+msgid "Prediction"
+msgstr "Ramalan"
+
+msgid "Reporting Period Prediction"
+msgstr "Ramalan Tempoh Pelaporan"
+
+msgid "Meter Submeters Balance"
+msgstr "Baki Submeter Meter Master"
+
+msgid "Meter Comparison"
+msgstr "Perbandingan Meter"
+
+msgid "Meter Tracking"
+msgstr "Penjejakan Meter"
+
+msgid "Power Quality Data"
+msgstr "Data Kualiti Kuasa"
+msgid "Power Quality Analysis"
+msgstr "Analisis Kualiti Kuasa"
+
+msgid "Point"
+msgstr "Titik"
+
+msgid "Category"
+msgstr "Kategori"
+
+msgid "Type"
+msgstr "Jenis"
+
+msgid "Limit"
+msgstr "Had"
+
+msgid "Normal Limit"
+msgstr "Had Normal"
+
+msgid "Severe Limit"
+msgstr "Had Serius"
+
+msgid "Compliance"
+msgstr "Pematuhan"
+
+msgid "Worst Deviation"
+msgstr "Sisihan Terburuk"
+
+msgid "Worst Time"
+msgstr "Masa Terburuk"
+
+msgid "Virtual Meter Energy"
+msgstr "Tenaga Meter Maya"
+
+msgid "Virtual Meter Carbon"
+msgstr "Emisi CO2 Meter Maya"
+
+msgid "Virtual Meter Cost"
+msgstr "Kos Meter Maya"
+
+msgid "Virtual Meter Batch Analysis"
+msgstr "Analisis kelompok meter maya"
+
+msgid "Virtual Meter Saving"
+msgstr "Penjimatan Meter Maya"
+
+msgid "Virtual Meter Plan"
+msgstr "Pelan Meter Maya"
+
+msgid "Virtual Meter Prediction"
+msgstr "Ramalan Meter Maya"
+
+msgid "Virtual Meter Comparison"
+msgstr "Perbandingan Meter Maya"
+
+msgid "Offline Meter Energy"
+msgstr "Tenaga Meter Luar Talian"
+
+msgid "Offline Meter Carbon"
+msgstr "Emisi Meter CO2 Offline"
+
+msgid "Offline Meter Cost"
+msgstr "Kos Meter Luar Talian"
+
+msgid "Offline Meter Batch Analysis"
+msgstr "Analisis Kelompok Meter Luar Talian"
+
+msgid "Offline Meter Saving"
+msgstr "Penjimatan Meter Luar Talian"
+
+msgid "Offline Meter Plan"
+msgstr "Pelan Meter Luar Talian"
+
 msgid "Combined Equipment"
 msgstr "Peralatan Gabungan"

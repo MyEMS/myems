@@ -428,5 +428,118 @@ msgstr "Dados de equipamentos"
 msgid "Energy Category Analysis"
 msgstr "Análise de classificação de energia"
 
+msgid "Meter Data"
+msgstr "Medidor"
+
+msgid "Meter Energy"
+msgstr "Energia do medidor"
+
+msgid "Meter Carbon"
+msgstr "Medidor de emissões de CO2"
+
+msgid "Meter Cost"
+msgstr "Custo do medidor"
+
+msgid "Meter Trend"
+msgstr "Tendência do medidor"
+
+msgid "Meter Saving"
+msgstr "Economia do medidor"
+
+msgid "Meter Plan"
+msgstr "Plano do medidor"
+
+msgid "Meter Prediction"
+msgstr "Previsão do medidor"
+
+msgid "Prediction"
+msgstr "Previsão"
+
+msgid "Reporting Period Prediction"
+msgstr "Previsão do período de relatório"
+
+msgid "Meter Submeters Balance"
+msgstr "Master Metro Submeters Equilíbrio"
+
+msgid "Meter Comparison"
+msgstr "Comparação de Medidores"
+
+msgid "Meter Tracking"
+msgstr "Rastreamento do medidor"
+
+msgid "Power Quality Data"
+msgstr "Dados de qualidade de energia"
+msgid "Power Quality Analysis"
+msgstr "Análise de qualidade de energia"
+
+msgid "Point"
+msgstr "Ponto"
+
+msgid "Category"
+msgstr "Categoria"
+
+msgid "Type"
+msgstr "Tipo"
+
+msgid "Limit"
+msgstr "Limite"
+
+msgid "Normal Limit"
+msgstr "Limite normal"
+
+msgid "Severe Limit"
+msgstr "Limite severo"
+
+msgid "Compliance"
+msgstr "Conformidade"
+
+msgid "Worst Deviation"
+msgstr "Pior desvio"
+
+msgid "Worst Time"
+msgstr "Hora do pior desvio"
+
+msgid "Virtual Meter Energy"
+msgstr "Energia do Medidor Virtual"
+
+msgid "Virtual Meter Carbon"
+msgstr "Emissões de CO2 do medidor virtual"
+
+msgid "Virtual Meter Cost"
+msgstr "Custo do medidor virtual"
+
+msgid "Virtual Meter Batch Analysis"
+msgstr "Análise de lotes de medidores virtuais"
+
+msgid "Virtual Meter Saving"
+msgstr "Poupança do medidor virtual"
+
+msgid "Virtual Meter Plan"
+msgstr "Plano do medidor virtual"
+
+msgid "Virtual Meter Prediction"
+msgstr "Previsão do medidor virtual"
+
+msgid "Virtual Meter Comparison"
+msgstr "Comparação de Medidores Virtuais"
+
+msgid "Offline Meter Energy"
+msgstr "Energia do medidor offline"
+
+msgid "Offline Meter Carbon"
+msgstr "Medidor off-line Emissões de CO2"
+
+msgid "Offline Meter Cost"
+msgstr "Custo do medidor offline"
+
+msgid "Offline Meter Batch Analysis"
+msgstr "Análise em lote de medidores offline"
+
+msgid "Offline Meter Saving"
+msgstr "Economia de medidores offline"
+
+msgid "Offline Meter Plan"
+msgstr "Plano de medidores offline"
+
 msgid "Combined Equipment"
 msgstr "Equipamento Combinado"

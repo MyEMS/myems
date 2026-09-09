@@ -5,6 +5,7 @@ import mysql.connector
 import simplejson as json
 import config
 import excelexporters.powerquality
+import pdfexporters.powerquality
 from core import utilities
 from core.useractivity import access_control, api_key_control
 
@@ -103,6 +104,22 @@ class Reporting:
                 len(str.strip(quick_mode)) > 0 and \
                 str.lower(str.strip(quick_mode)) in ('true', 't', 'on', 'yes', 'y'):
             is_quick_mode = True
+
+        # parse export parameters
+        export_excel = req.params.get('exportexcel')
+        export_pdf = req.params.get('exportpdf')
+
+        is_export_excel = False
+        if export_excel is not None and \
+                len(str.strip(export_excel)) > 0 and \
+                str.lower(str.strip(export_excel)) in ('true', 't', 'on', 'yes', 'y'):
+            is_export_excel = True
+
+        is_export_pdf = False
+        if export_pdf is not None and \
+                len(str.strip(export_pdf)) > 0 and \
+                str.lower(str.strip(export_pdf)) in ('true', 't', 'on', 'yes', 'y'):
+            is_export_pdf = True
 
         trans = utilities.get_translation(language)
         trans.install()
@@ -477,11 +494,21 @@ class Reporting:
             },
             "parameters": None,
             "analysis": analysis,
-            "excel_bytes_base64": None
+            "excel_bytes_base64": None,
+            "pdf_bytes_base64": None
         }
+        
         # export result to Excel file and then encode the file to base64 string
         if not is_quick_mode:
-            result['excel_bytes_base64'] = excelexporters.powerquality.export(result,
+            if is_export_excel:
+                result['excel_bytes_base64'] = excelexporters.powerquality.export(result,
+                                                                              meter['name'],
+                                                                              reporting_period_start_datetime_local,
+                                                                              reporting_period_end_datetime_local,
+                                                                              None,
+                                                                              language)
+            if is_export_pdf:
+                result['pdf_bytes_base64'] = pdfexporters.powerquality.export(result,
                                                                               meter['name'],
                                                                               reporting_period_start_datetime_local,
                                                                               reporting_period_end_datetime_local,

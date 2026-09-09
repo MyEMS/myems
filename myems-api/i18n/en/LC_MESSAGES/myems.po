@@ -428,5 +428,118 @@ msgstr "Equipment Data"
 msgid "Energy Category Analysis"
 msgstr "Energy Category Analysis"
 
+msgid "Meter Data"
+msgstr "Meter Data"
+
+msgid "Meter Energy"
+msgstr "Meter Energy"
+
+msgid "Meter Carbon"
+msgstr "Meter CO2 Emissions"
+
+msgid "Meter Cost"
+msgstr "Meter Cost"
+
+msgid "Meter Trend"
+msgstr "Meter Trend"
+
+msgid "Meter Saving"
+msgstr "Meter Saving"
+
+msgid "Meter Plan"
+msgstr "Meter Plan"
+
+msgid "Meter Prediction"
+msgstr "Meter Prediction"
+
+msgid "Prediction"
+msgstr "Prediction"
+
+msgid "Reporting Period Prediction"
+msgstr "Reporting Period Prediction"
+
+msgid "Meter Submeters Balance"
+msgstr "Master Meter Submeters Balance"
+
+msgid "Meter Comparison"
+msgstr "Meter Comparison"
+
+msgid "Meter Tracking"
+msgstr "Meter Tracking"
+
+msgid "Power Quality Data"
+msgstr "Power Quality Data"
+msgid "Power Quality Analysis"
+msgstr "Power Quality Analysis"
+
+msgid "Point"
+msgstr "Point"
+
+msgid "Category"
+msgstr "Category"
+
+msgid "Type"
+msgstr "Type"
+
+msgid "Limit"
+msgstr "Limit"
+
+msgid "Normal Limit"
+msgstr "Normal Limit"
+
+msgid "Severe Limit"
+msgstr "Severe Limit"
+
+msgid "Compliance"
+msgstr "Compliance"
+
+msgid "Worst Deviation"
+msgstr "Worst Deviation"
+
+msgid "Worst Time"
+msgstr "Worst Time"
+
+msgid "Virtual Meter Energy"
+msgstr "Virtual Meter Energy"
+
+msgid "Virtual Meter Carbon"
+msgstr "Virtual Meter CO2 Emissions"
+
+msgid "Virtual Meter Cost"
+msgstr "Virtual Meter Cost"
+
+msgid "Virtual Meter Batch Analysis"
+msgstr "Virtual Meter Batch Analysis"
+
+msgid "Virtual Meter Saving"
+msgstr "Virtual Meter Saving"
+
+msgid "Virtual Meter Plan"
+msgstr "Virtual Meter Plan"
+
+msgid "Virtual Meter Prediction"
+msgstr "Virtual Meter Prediction"
+
+msgid "Virtual Meter Comparison"
+msgstr "Virtual Meter Comparison"
+
+msgid "Offline Meter Energy"
+msgstr "Offline Meter Energy"
+
+msgid "Offline Meter Carbon"
+msgstr "Offline Meter CO2 Emissions"
+
+msgid "Offline Meter Cost"
+msgstr "Offline Meter Cost"
+
+msgid "Offline Meter Batch Analysis"
+msgstr "Offline Meter Batch Analysis"
+
+msgid "Offline Meter Saving"
+msgstr "Offline Meter Saving"
+
+msgid "Offline Meter Plan"
+msgstr "Offline Meter Plan"
+
 msgid "Combined Equipment"
 msgstr "Combined Equipment"
