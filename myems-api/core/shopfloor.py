@@ -168,7 +168,7 @@ class ShopfloorCollection:
                                                     "uuid": row[2]}
 
                 query = (" SELECT id, name, uuid, "
-                         "        area, is_input_counted, "
+                         "        area, is_input_counted, is_enabled, "
                          "        contact_id, cost_center_id, description "
                          " FROM tbl_shopfloors ")
                 params = []
@@ -187,9 +187,10 @@ class ShopfloorCollection:
                                        "uuid": row[2],
                                        "area": row[3],
                                        "is_input_counted": bool(row[4]),
-                                       "contact": contact_dict.get(row[5], None),
-                                       "cost_center": cost_center_dict.get(row[6], None),
-                                       "description": row[7],
+                                       "is_enabled": bool(row[5]),
+                                       "contact": contact_dict.get(row[6], None),
+                                       "cost_center": cost_center_dict.get(row[7], None),
+                                       "description": row[8],
                                        "qrcode": "shopfloor:" + row[2]}
                         result.append(meta_result)
 
@@ -251,6 +252,14 @@ class ShopfloorCollection:
                                    description='API.INVALID_IS_INPUT_COUNTED_VALUE')
         is_input_counted = new_values['data']['is_input_counted']
 
+        if 'is_enabled' not in new_values['data'].keys():
+            is_enabled = True
+        elif not isinstance(new_values['data']['is_enabled'], bool):
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_IS_ENABLED_VALUE')
+        else:
+            is_enabled = new_values['data']['is_enabled']
+
         if 'contact_id' in new_values['data'].keys():
             if new_values['data']['contact_id'] <= 0:
                 raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
@@ -310,13 +319,14 @@ class ShopfloorCollection:
                                                description='API.COST_CENTER_NOT_FOUND')
 
                 add_values = (" INSERT INTO tbl_shopfloors "
-                              "    (name, uuid, area, is_input_counted, "
+                              "    (name, uuid, area, is_input_counted, is_enabled, "
                               "     contact_id, cost_center_id, description) "
-                              " VALUES (%s, %s, %s, %s, %s, %s, %s) ")
+                              " VALUES (%s, %s, %s, %s, %s, %s, %s, %s) ")
                 cursor.execute(add_values, (name,
                                             str(uuid.uuid4()),
                                             area,
                                             is_input_counted,
+                                            is_enabled,
                                             contact_id,
                                             cost_center_id,
                                             description))
@@ -411,7 +421,7 @@ class ShopfloorItem:
                                                     "uuid": row[2]}
 
                 query = (" SELECT id, name, uuid, "
-                         "        area, is_input_counted, contact_id, cost_center_id, description "
+                         "        area, is_input_counted, is_enabled, contact_id, cost_center_id, description "
                          " FROM tbl_shopfloors "
                          " WHERE id = %s ")
                 cursor.execute(query, (id_,))
@@ -426,9 +436,10 @@ class ShopfloorItem:
                                "uuid": row[2],
                                "area": row[3],
                                "is_input_counted": bool(row[4]),
-                               "contact": contact_dict.get(row[5], None),
-                               "cost_center": cost_center_dict.get(row[6], None),
-                               "description": row[7],
+                               "is_enabled": bool(row[5]),
+                               "contact": contact_dict.get(row[6], None),
+                               "cost_center": cost_center_dict.get(row[7], None),
+                               "description": row[8],
                                "qrcode": "shopfloor:" + row[2]}
 
                 # Store result in Redis cache
@@ -565,6 +576,14 @@ class ShopfloorItem:
                                    description='API.INVALID_IS_INPUT_COUNTED_VALUE')
         is_input_counted = new_values['data']['is_input_counted']
 
+        if 'is_enabled' not in new_values['data'].keys():
+            is_enabled = True
+        elif not isinstance(new_values['data']['is_enabled'], bool):
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_IS_ENABLED_VALUE')
+        else:
+            is_enabled = new_values['data']['is_enabled']
+
         if 'contact_id' in new_values['data'].keys():
             if new_values['data']['contact_id'] <= 0:
                 raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
@@ -631,12 +650,14 @@ class ShopfloorItem:
                                                description='API.COST_CENTER_NOT_FOUND')
 
                 update_row = (" UPDATE tbl_shopfloors "
-                              " SET name = %s, area = %s, is_input_counted = %s, contact_id = %s, cost_center_id = %s, "
+                              " SET name = %s, area = %s, is_input_counted = %s, is_enabled = %s, "
+                              "     contact_id = %s, cost_center_id = %s, "
                               "     description = %s "
                               " WHERE id = %s ")
                 cursor.execute(update_row, (name,
                                             area,
                                             is_input_counted,
+                                            is_enabled,
                                             contact_id,
                                             cost_center_id,
                                             description,
@@ -2399,7 +2420,7 @@ class ShopfloorExport:
                                                     "uuid": row[2]}
 
                 query = (" SELECT id, name, uuid, "
-                         "        area, is_input_counted, contact_id, cost_center_id, description "
+                         "        area, is_input_counted, is_enabled, contact_id, cost_center_id, description "
                          " FROM tbl_shopfloors "
                          " WHERE id = %s ")
                 cursor.execute(query, (id_,))
@@ -2413,9 +2434,10 @@ class ShopfloorExport:
                                    "name": row[1],
                                    "area": row[3],
                                    "is_input_counted": bool(row[4]),
-                                   "contact": contact_dict.get(row[5], None),
-                                   "cost_center": cost_center_dict.get(row[6], None),
-                                   "description": row[7],
+                                   "is_enabled": bool(row[5]),
+                                   "contact": contact_dict.get(row[6], None),
+                                   "cost_center": cost_center_dict.get(row[7], None),
+                                   "description": row[8],
                                    "equipments": None,
                                    "commands": None,
                                    "meters": None,
@@ -2644,6 +2666,14 @@ class ShopfloorImport:
                                    description='API.INVALID_IS_INPUT_COUNTED_VALUE')
         is_input_counted = new_values['is_input_counted']
 
+        if 'is_enabled' not in new_values.keys():
+            is_enabled = True
+        elif not isinstance(new_values['is_enabled'], bool):
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_IS_ENABLED_VALUE')
+        else:
+            is_enabled = new_values['is_enabled']
+
         if 'id' in new_values['contact'].keys():
             if new_values['contact']['id'] <= 0:
                 raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
@@ -2703,13 +2733,14 @@ class ShopfloorImport:
                                                description='API.COST_CENTER_NOT_FOUND')
 
                 add_values = (" INSERT INTO tbl_shopfloors "
-                              "    (name, uuid, area, is_input_counted, "
+                              "    (name, uuid, area, is_input_counted, is_enabled, "
                               "     contact_id, cost_center_id, description) "
-                              " VALUES (%s, %s, %s, %s, %s, %s, %s) ")
+                              " VALUES (%s, %s, %s, %s, %s, %s, %s, %s) ")
                 cursor.execute(add_values, (name,
                                             str(uuid.uuid4()),
                                             area,
                                             is_input_counted,
+                                            is_enabled,
                                             contact_id,
                                             cost_center_id,
                                             description))
@@ -2933,7 +2964,7 @@ class ShopfloorClone:
                                                     "uuid": row[2]}
 
                 query = (" SELECT id, name, uuid, "
-                         "        area, is_input_counted, contact_id, cost_center_id, description "
+                         "        area, is_input_counted, is_enabled, contact_id, cost_center_id, description "
                          " FROM tbl_shopfloors "
                          " WHERE id = %s ")
                 cursor.execute(query, (id_,))
@@ -2948,9 +2979,10 @@ class ShopfloorClone:
                                    "uuid": row[2],
                                    "area": row[3],
                                    "is_input_counted": bool(row[4]),
-                                   "contact": contact_dict.get(row[5], None),
-                                   "cost_center": cost_center_dict.get(row[6], None),
-                                   "description": row[7],
+                                   "is_enabled": bool(row[5]),
+                                   "contact": contact_dict.get(row[6], None),
+                                   "cost_center": cost_center_dict.get(row[7], None),
+                                   "description": row[8],
                                    "equipments": None,
                                    "commands": None,
                                    "meters": None,
@@ -3133,13 +3165,14 @@ class ShopfloorClone:
                     ).isoformat(sep='-', timespec='seconds')
                     new_name = str.strip(meta_result['name']) + suffix
                     add_values = (" INSERT INTO tbl_shopfloors "
-                                  "    (name, uuid, area, is_input_counted, "
+                                  "    (name, uuid, area, is_input_counted, is_enabled, "
                                   "     contact_id, cost_center_id, description) "
-                                  " VALUES (%s, %s, %s, %s, %s, %s, %s) ")
+                                  " VALUES (%s, %s, %s, %s, %s, %s, %s, %s) ")
                     cursor.execute(add_values, (new_name,
                                                 str(uuid.uuid4()),
                                                 meta_result['area'],
                                                 meta_result['is_input_counted'],
+                                                meta_result['is_enabled'],
                                                 meta_result['contact']['id'],
                                                 meta_result['cost_center']['id'],
                                                 meta_result['description']))

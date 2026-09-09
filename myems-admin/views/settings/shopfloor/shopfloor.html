@@ -45,6 +45,7 @@
 										<th class="text-center">{{'SETTING.NAME' | translate}}</th>
 										<th class="text-center">{{'SETTING.CONTACT' | translate}}</th>
 										<th class="text-center">{{'SETTING.IS_INPUT_COUNTED' | translate}}</th>
+										<th class="text-center">{{'SETTING.IS_ENABLED' | translate}}</th>
 										<th class="text-center">{{'SETTING.COSTCENTER' | translate}}</th>
 										<th class="text-center">{{'SETTING.DESCRIPTION' | translate}} ({{'SETTING.OPTIONAL' | translate}})</th>
 										<th class="text-center">{{'SETTING.ACTION' | translate}}</th>
@@ -57,6 +58,9 @@
 										<td class="text-center">{{ shopfloor.contact.name }}</td>
 										<td class="text-center">
 											{{ shopfloor.is_input_counted==false?'SETTING.NO':'SETTING.YES' | translate }}
+										</td>
+										<td class="text-center">
+											{{ shopfloor.is_enabled==false?'SETTING.NO':'SETTING.YES' | translate }}
 										</td>
 										<td class="text-center">{{shopfloor.cost_center.name}}</td>
 										<td class="text-center">{{ shopfloor.description }}</td>

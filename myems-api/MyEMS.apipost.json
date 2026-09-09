@@ -10381,7 +10381,7 @@
 				"body": {
 					"mode": "json",
 					"parameter": [],
-					"raw": "{\n\t\"data\": {\n\t\t\"name\": \"MyEMS Chiller Plant\",\n\t\t\"is_input_counted\": true,\n\t\t\"is_output_counted\": false,\n\t\t\"cost_center_id\": 1,\n\t\t\"efficiency_indicator\": 0.0,\n\t\t\"svg_id\": 1,\n\t\t\"camera_url\": \"http://XXX\",\n\t\t\"description\": \"equipment description\"\n\t}\n}",
+					"raw": "{\n\t\"data\": {\n\t\t\"name\": \"MyEMS Chiller Plant\",\n\t\t\"is_input_counted\": true,\n\t\t\"is_output_counted\": false, \"is_enabled\": true,\n\t\t\"cost_center_id\": 1,\n\t\t\"efficiency_indicator\": 0.0,\n\t\t\"svg_id\": 1,\n\t\t\"camera_url\": \"http://XXX\",\n\t\t\"description\": \"equipment description\"\n\t}\n}",
 					"raw_parameter": [],
 					"raw_schema": {
 						"type": "object",
@@ -10409,6 +10409,9 @@
 										"type": "boolean"
 									},
 									"is_output_counted": {
+										"type": "boolean"
+									},
+									"is_enabled": {
 										"type": "boolean"
 									}
 								}
@@ -10875,7 +10878,7 @@
 				"body": {
 					"mode": "json",
 					"parameter": [],
-					"raw": "{\n\t\"data\": {\n\t\t\"name\": \"MyEMS Combined Chiller Plant\",\n\t\t\"is_input_counted\": true,\n\t\t\"is_output_counted\": true,\n\t\t\"cost_center_id\": 1,\n\t\t\"efficiency_indicator\": 0.0,\n\t\t\"svg_id\": 1,\n\t\t\"camera_url\": \"http://XXXs\",\n\t\t\"description\": \"equipment description\"\n\t}\n}",
+					"raw": "{\n\t\"data\": {\n\t\t\"name\": \"MyEMS Combined Chiller Plant\",\n\t\t\"is_input_counted\": true,\n\t\t\"is_output_counted\": true, \"is_enabled\": true,\n\t\t\"cost_center_id\": 1,\n\t\t\"efficiency_indicator\": 0.0,\n\t\t\"svg_id\": 1,\n\t\t\"camera_url\": \"http://XXXs\",\n\t\t\"description\": \"equipment description\"\n\t}\n}",
 					"raw_parameter": [],
 					"raw_schema": {
 						"type": "object",
@@ -10903,6 +10906,9 @@
 										"type": "boolean"
 									},
 									"is_output_counted": {
+										"type": "boolean"
+									},
+									"is_enabled": {
 										"type": "boolean"
 									}
 								}
@@ -17629,7 +17635,7 @@
 				"body": {
 					"mode": "json",
 					"parameter": [],
-					"raw": "{\n\t\"name\": \"组合式设备_1\",\n\t\"is_input_counted\": true,\n\t\"is_output_counted\": false,\n\t\"cost_center\": {\n\t\t\"id\": 1,\n\t\t\"name\": \"成本中心\",\n\t\t\"uuid\": \"d97b9736-c4f9-4005-a534-6af3487303ad\"\n\t},\n\t\"efficiency_indicator\": 0.0,\n\t\"svg\": {\n\t\t\"id\": 1,\n\t\t\"name\": \"SVG1\",\n\t\t\"uuid\": \"9d6d23fe-8014-4c0d-bb91-32eb2fa48862\"\n\t},\n\t\"camera_url\": \"http://XXX\",\n\t\"description\": \"description\",\n\t\"equipments\": [\n\t\t{\n\t\t\t\"id\": 1,\n\t\t\t\"name\": \"设备1\",\n\t\t\t\"uuid\": \"bfa8b106-89a1-49ca-9b2b-a481ac41a873\"\n\t\t}\n\t],\n\t\"commands\": null,\n\t\"meters\": [\n\t\t{\n\t\t\t\"id\": 1,\n\t\t\t\"name\": \"计量表1\",\n\t\t\t\"uuid\": \"5ca47bc5-22c2-47fc-b906-33222191ea40\",\n\t\t\t\"is_output\": false\n\t\t}\n\t],\n\t\"offline_meters\": [\n\t\t{\n\t\t\t\"id\": 1,\n\t\t\t\"name\": \"离线表1\",\n\t\t\t\"uuid\": \"62f473e0-1a35-41f3-9c30-8110d75d65bb\",\n\t\t\t\"is_output\": false\n\t\t}\n\t],\n\t\"virtual_meters\": [\n\t\t{\n\t\t\t\"id\": 1,\n\t\t\t\"name\": \"虚拟表1\",\n\t\t\t\"uuid\": \"3fff2cfb-f755-44c8-a919-6135205a8573\",\n\t\t\t\"is_output\": false\n\t\t}\n\t],\n\t\"parameters\": [\n\t\t{\n\t\t\t\"id\": 1,\n\t\t\t\"name\": \"serial number\",\n\t\t\t\"parameter_type\": \"constant\",\n\t\t\t\"constant\": \"bfa8b106\",\n\t\t\t\"point\": null,\n\t\t\t\"numerator_meter\": null,\n\t\t\t\"denominator_meter\": null\n\t\t},\n\t\t{\n\t\t\t\"id\": 2,\n\t\t\t\"name\": \"manufacturer\",\n\t\t\t\"parameter_type\": \"constant\",\n\t\t\t\"constant\": \"York\",\n\t\t\t\"point\": null,\n\t\t\t\"numerator_meter\": null,\n\t\t\t\"denominator_meter\": null\n\t\t},\n\t\t{\n\t\t\t\"id\": 3,\n\t\t\t\"name\": \"maintainer\",\n\t\t\t\"parameter_type\": \"constant\",\n\t\t\t\"constant\": \"Johnson Controls\",\n\t\t\t\"point\": null,\n\t\t\t\"numerator_meter\": null,\n\t\t\t\"denominator_meter\": null\n\t\t},\n\t\t{\n\t\t\t\"id\": 4,\n\t\t\t\"name\": \"use life start\",\n\t\t\t\"parameter_type\": \"constant\",\n\t\t\t\"constant\": \"2016-01-01\",\n\t\t\t\"point\": null,\n\t\t\t\"numerator_meter\": null,\n\t\t\t\"denominator_meter\": null\n\t\t},\n\t\t{\n\t\t\t\"id\": 5,\n\t\t\t\"name\": \"use life end\",\n\t\t\t\"parameter_type\": \"constant\",\n\t\t\t\"constant\": \"2025-12-31\",\n\t\t\t\"point\": null,\n\t\t\t\"numerator_meter\": null,\n\t\t\t\"denominator_meter\": null\n\t\t},\n\t\t{\n\t\t\t\"id\": 6,\n\t\t\t\"name\": \"model number\",\n\t\t\t\"parameter_type\": \"constant\",\n\t\t\t\"constant\": \"CH01\",\n\t\t\t\"point\": null,\n\t\t\t\"numerator_meter\": null,\n\t\t\t\"denominator_meter\": null\n\t\t},\n\t\t{\n\t\t\t\"id\": 7,\n\t\t\t\"name\": \"nominal cooling capacity\",\n\t\t\t\"parameter_type\": \"constant\",\n\t\t\t\"constant\": \"90.000 kW\",\n\t\t\t\"point\": null,\n\t\t\t\"numerator_meter\": null,\n\t\t\t\"denominator_meter\": null\n\t\t},\n\t\t{\n\t\t\t\"id\": 8,\n\t\t\t\"name\": \"nominal cooling input power\",\n\t\t\t\"parameter_type\": \"constant\",\n\t\t\t\"constant\": \"100.000 kW\",\n\t\t\t\"point\": null,\n\t\t\t\"numerator_meter\": null,\n\t\t\t\"denominator_meter\": null\n\t\t},\n\t\t{\n\t\t\t\"id\": 9,\n\t\t\t\"name\": \"nominal cooling cop\",\n\t\t\t\"parameter_type\": \"constant\",\n\t\t\t\"constant\": \"5\",\n\t\t\t\"point\": null,\n\t\t\t\"numerator_meter\": null,\n\t\t\t\"denominator_meter\": null\n\t\t},\n\t\t{\n\t\t\t\"id\": 10,\n\t\t\t\"name\": \"nominal cooling operating current\",\n\t\t\t\"parameter_type\": \"constant\",\n\t\t\t\"constant\": \"120.000 A\",\n\t\t\t\"point\": null,\n\t\t\t\"numerator_meter\": null,\n\t\t\t\"denominator_meter\": null\n\t\t},\n\t\t{\n\t\t\t\"id\": 11,\n\t\t\t\"name\": \"rated input power\",\n\t\t\t\"parameter_type\": \"constant\",\n\t\t\t\"constant\": \"100.000 kW\",\n\t\t\t\"point\": null,\n\t\t\t\"numerator_meter\": null,\n\t\t\t\"denominator_meter\": null\n\t\t},\n\t\t{\n\t\t\t\"id\": 12,\n\t\t\t\"name\": \"nominal chilled water flow rate\",\n\t\t\t\"parameter_type\": \"constant\",\n\t\t\t\"constant\": \"30 m2/h\",\n\t\t\t\"point\": null,\n\t\t\t\"numerator_meter\": null,\n\t\t\t\"denominator_meter\": null\n\t\t},\n\t\t{\n\t\t\t\"id\": 13,\n\t\t\t\"name\": \"nominal cooling water flow_rate\",\n\t\t\t\"parameter_type\": \"constant\",\n\t\t\t\"constant\": \"50 m2/h\",\n\t\t\t\"point\": null,\n\t\t\t\"numerator_meter\": null,\n\t\t\t\"denominator_meter\": null\n\t\t},\n\t\t{\n\t\t\t\"id\": 14,\n\t\t\t\"name\": \"status\",\n\t\t\t\"parameter_type\": \"point\",\n\t\t\t\"constant\": null,\n\t\t\t\"point\": {\n\t\t\t\t\"id\": 1,\n\t\t\t\t\"name\": \"Active Energy Import Tariff 1\"\n\t\t\t},\n\t\t\t\"numerator_meter\": null,\n\t\t\t\"denominator_meter\": null\n\t\t},\n\t\t{\n\t\t\t\"id\": 15,\n\t\t\t\"name\": \"inlet chilled water temperature\",\n\t\t\t\"parameter_type\": \"point\",\n\t\t\t\"constant\": null,\n\t\t\t\"point\": {\n\t\t\t\t\"id\": 2,\n\t\t\t\t\"name\": \"Working hours counter\"\n\t\t\t},\n\t\t\t\"numerator_meter\": null,\n\t\t\t\"denominator_meter\": null\n\t\t},\n\t\t{\n\t\t\t\"id\": 16,\n\t\t\t\"name\": \"chilled_water instantaneous flow rate\",\n\t\t\t\"parameter_type\": \"point\",\n\t\t\t\"constant\": null,\n\t\t\t\"point\": {\n\t\t\t\t\"id\": 3,\n\t\t\t\t\"name\": \"Current a\"\n\t\t\t},\n\t\t\t\"numerator_meter\": null,\n\t\t\t\"denominator_meter\": null\n\t\t},\n\t\t{\n\t\t\t\"id\": 17,\n\t\t\t\"name\": \"instantaneous power\",\n\t\t\t\"parameter_type\": \"point\",\n\t\t\t\"constant\": null,\n\t\t\t\"point\": {\n\t\t\t\t\"id\": 4,\n\t\t\t\t\"name\": \"Active Power a\"\n\t\t\t},\n\t\t\t\"numerator_meter\": null,\n\t\t\t\"denominator_meter\": null\n\t\t}\n\t]\n}",
+					"raw": "{\n\t\"name\": \"组合式设备_1\",\n\t\"is_input_counted\": true,\n\t\"is_output_counted\": false, \"is_enabled\": true,\n\t\"cost_center\": {\n\t\t\"id\": 1,\n\t\t\"name\": \"成本中心\",\n\t\t\"uuid\": \"d97b9736-c4f9-4005-a534-6af3487303ad\"\n\t},\n\t\"efficiency_indicator\": 0.0,\n\t\"svg\": {\n\t\t\"id\": 1,\n\t\t\"name\": \"SVG1\",\n\t\t\"uuid\": \"9d6d23fe-8014-4c0d-bb91-32eb2fa48862\"\n\t},\n\t\"camera_url\": \"http://XXX\",\n\t\"description\": \"description\",\n\t\"equipments\": [\n\t\t{\n\t\t\t\"id\": 1,\n\t\t\t\"name\": \"设备1\",\n\t\t\t\"uuid\": \"bfa8b106-89a1-49ca-9b2b-a481ac41a873\"\n\t\t}\n\t],\n\t\"commands\": null,\n\t\"meters\": [\n\t\t{\n\t\t\t\"id\": 1,\n\t\t\t\"name\": \"计量表1\",\n\t\t\t\"uuid\": \"5ca47bc5-22c2-47fc-b906-33222191ea40\",\n\t\t\t\"is_output\": false\n\t\t}\n\t],\n\t\"offline_meters\": [\n\t\t{\n\t\t\t\"id\": 1,\n\t\t\t\"name\": \"离线表1\",\n\t\t\t\"uuid\": \"62f473e0-1a35-41f3-9c30-8110d75d65bb\",\n\t\t\t\"is_output\": false\n\t\t}\n\t],\n\t\"virtual_meters\": [\n\t\t{\n\t\t\t\"id\": 1,\n\t\t\t\"name\": \"虚拟表1\",\n\t\t\t\"uuid\": \"3fff2cfb-f755-44c8-a919-6135205a8573\",\n\t\t\t\"is_output\": false\n\t\t}\n\t],\n\t\"parameters\": [\n\t\t{\n\t\t\t\"id\": 1,\n\t\t\t\"name\": \"serial number\",\n\t\t\t\"parameter_type\": \"constant\",\n\t\t\t\"constant\": \"bfa8b106\",\n\t\t\t\"point\": null,\n\t\t\t\"numerator_meter\": null,\n\t\t\t\"denominator_meter\": null\n\t\t},\n\t\t{\n\t\t\t\"id\": 2,\n\t\t\t\"name\": \"manufacturer\",\n\t\t\t\"parameter_type\": \"constant\",\n\t\t\t\"constant\": \"York\",\n\t\t\t\"point\": null,\n\t\t\t\"numerator_meter\": null,\n\t\t\t\"denominator_meter\": null\n\t\t},\n\t\t{\n\t\t\t\"id\": 3,\n\t\t\t\"name\": \"maintainer\",\n\t\t\t\"parameter_type\": \"constant\",\n\t\t\t\"constant\": \"Johnson Controls\",\n\t\t\t\"point\": null,\n\t\t\t\"numerator_meter\": null,\n\t\t\t\"denominator_meter\": null\n\t\t},\n\t\t{\n\t\t\t\"id\": 4,\n\t\t\t\"name\": \"use life start\",\n\t\t\t\"parameter_type\": \"constant\",\n\t\t\t\"constant\": \"2016-01-01\",\n\t\t\t\"point\": null,\n\t\t\t\"numerator_meter\": null,\n\t\t\t\"denominator_meter\": null\n\t\t},\n\t\t{\n\t\t\t\"id\": 5,\n\t\t\t\"name\": \"use life end\",\n\t\t\t\"parameter_type\": \"constant\",\n\t\t\t\"constant\": \"2025-12-31\",\n\t\t\t\"point\": null,\n\t\t\t\"numerator_meter\": null,\n\t\t\t\"denominator_meter\": null\n\t\t},\n\t\t{\n\t\t\t\"id\": 6,\n\t\t\t\"name\": \"model number\",\n\t\t\t\"parameter_type\": \"constant\",\n\t\t\t\"constant\": \"CH01\",\n\t\t\t\"point\": null,\n\t\t\t\"numerator_meter\": null,\n\t\t\t\"denominator_meter\": null\n\t\t},\n\t\t{\n\t\t\t\"id\": 7,\n\t\t\t\"name\": \"nominal cooling capacity\",\n\t\t\t\"parameter_type\": \"constant\",\n\t\t\t\"constant\": \"90.000 kW\",\n\t\t\t\"point\": null,\n\t\t\t\"numerator_meter\": null,\n\t\t\t\"denominator_meter\": null\n\t\t},\n\t\t{\n\t\t\t\"id\": 8,\n\t\t\t\"name\": \"nominal cooling input power\",\n\t\t\t\"parameter_type\": \"constant\",\n\t\t\t\"constant\": \"100.000 kW\",\n\t\t\t\"point\": null,\n\t\t\t\"numerator_meter\": null,\n\t\t\t\"denominator_meter\": null\n\t\t},\n\t\t{\n\t\t\t\"id\": 9,\n\t\t\t\"name\": \"nominal cooling cop\",\n\t\t\t\"parameter_type\": \"constant\",\n\t\t\t\"constant\": \"5\",\n\t\t\t\"point\": null,\n\t\t\t\"numerator_meter\": null,\n\t\t\t\"denominator_meter\": null\n\t\t},\n\t\t{\n\t\t\t\"id\": 10,\n\t\t\t\"name\": \"nominal cooling operating current\",\n\t\t\t\"parameter_type\": \"constant\",\n\t\t\t\"constant\": \"120.000 A\",\n\t\t\t\"point\": null,\n\t\t\t\"numerator_meter\": null,\n\t\t\t\"denominator_meter\": null\n\t\t},\n\t\t{\n\t\t\t\"id\": 11,\n\t\t\t\"name\": \"rated input power\",\n\t\t\t\"parameter_type\": \"constant\",\n\t\t\t\"constant\": \"100.000 kW\",\n\t\t\t\"point\": null,\n\t\t\t\"numerator_meter\": null,\n\t\t\t\"denominator_meter\": null\n\t\t},\n\t\t{\n\t\t\t\"id\": 12,\n\t\t\t\"name\": \"nominal chilled water flow rate\",\n\t\t\t\"parameter_type\": \"constant\",\n\t\t\t\"constant\": \"30 m2/h\",\n\t\t\t\"point\": null,\n\t\t\t\"numerator_meter\": null,\n\t\t\t\"denominator_meter\": null\n\t\t},\n\t\t{\n\t\t\t\"id\": 13,\n\t\t\t\"name\": \"nominal cooling water flow_rate\",\n\t\t\t\"parameter_type\": \"constant\",\n\t\t\t\"constant\": \"50 m2/h\",\n\t\t\t\"point\": null,\n\t\t\t\"numerator_meter\": null,\n\t\t\t\"denominator_meter\": null\n\t\t},\n\t\t{\n\t\t\t\"id\": 14,\n\t\t\t\"name\": \"status\",\n\t\t\t\"parameter_type\": \"point\",\n\t\t\t\"constant\": null,\n\t\t\t\"point\": {\n\t\t\t\t\"id\": 1,\n\t\t\t\t\"name\": \"Active Energy Import Tariff 1\"\n\t\t\t},\n\t\t\t\"numerator_meter\": null,\n\t\t\t\"denominator_meter\": null\n\t\t},\n\t\t{\n\t\t\t\"id\": 15,\n\t\t\t\"name\": \"inlet chilled water temperature\",\n\t\t\t\"parameter_type\": \"point\",\n\t\t\t\"constant\": null,\n\t\t\t\"point\": {\n\t\t\t\t\"id\": 2,\n\t\t\t\t\"name\": \"Working hours counter\"\n\t\t\t},\n\t\t\t\"numerator_meter\": null,\n\t\t\t\"denominator_meter\": null\n\t\t},\n\t\t{\n\t\t\t\"id\": 16,\n\t\t\t\"name\": \"chilled_water instantaneous flow rate\",\n\t\t\t\"parameter_type\": \"point\",\n\t\t\t\"constant\": null,\n\t\t\t\"point\": {\n\t\t\t\t\"id\": 3,\n\t\t\t\t\"name\": \"Current a\"\n\t\t\t},\n\t\t\t\"numerator_meter\": null,\n\t\t\t\"denominator_meter\": null\n\t\t},\n\t\t{\n\t\t\t\"id\": 17,\n\t\t\t\"name\": \"instantaneous power\",\n\t\t\t\"parameter_type\": \"point\",\n\t\t\t\"constant\": null,\n\t\t\t\"point\": {\n\t\t\t\t\"id\": 4,\n\t\t\t\t\"name\": \"Active Power a\"\n\t\t\t},\n\t\t\t\"numerator_meter\": null,\n\t\t\t\"denominator_meter\": null\n\t\t}\n\t]\n}",
 					"raw_parameter": [],
 					"raw_schema": {
 						"type": "object",
@@ -17762,6 +17768,9 @@
 								"type": "boolean"
 							},
 							"is_output_counted": {
+								"type": "boolean"
+							},
+							"is_enabled": {
 								"type": "boolean"
 							}
 						}
@@ -60343,7 +60352,7 @@
 				"body": {
 					"mode": "json",
 					"parameter": [],
-					"raw": "{\n\t\"data\": {\n\t\t\"name\": \"MyEMS Chiller\",\n\t\t\"is_input_counted\": true,\n\t\t\"is_output_counted\": false,\n\t\t\"cost_center_id\": 1,\n\t\t\"efficiency_indicator\": 0.0,\n\t\t\"svg_id\": 1,\n\t\t\"camera_url\": \"http://XXX\",\n\t\t\"description\": \"equipment description\"\n\t}\n}",
+					"raw": "{\n\t\"data\": {\n\t\t\"name\": \"MyEMS Chiller\",\n\t\t\"is_input_counted\": true,\n\t\t\"is_output_counted\": false, \"is_enabled\": true,\n\t\t\"cost_center_id\": 1,\n\t\t\"efficiency_indicator\": 0.0,\n\t\t\"svg_id\": 1,\n\t\t\"camera_url\": \"http://XXX\",\n\t\t\"description\": \"equipment description\"\n\t}\n}",
 					"raw_parameter": [],
 					"raw_schema": {
 						"type": "object",
@@ -60371,6 +60380,9 @@
 										"type": "boolean"
 									},
 									"is_output_counted": {
+										"type": "boolean"
+									},
+									"is_enabled": {
 										"type": "boolean"
 									}
 								}
@@ -60837,7 +60849,7 @@
 				"body": {
 					"mode": "json",
 					"parameter": [],
-					"raw": "{\n\t\"data\": {\n\t\t\"name\": \"new MyEMS Chiller\",\n\t\t\"is_input_counted\": true,\n\t\t\"is_output_counted\": true,\n\t\t\"cost_center_id\": 1,\n\t\t\"efficiency_indicator\": 0.0,\n\t\t\"svg_id\": 1,\n\t\t\"camera_url\": \"http://XXX\",\n\t\t\"description\": \"equipment description\"\n\t}\n}",
+					"raw": "{\n\t\"data\": {\n\t\t\"name\": \"new MyEMS Chiller\",\n\t\t\"is_input_counted\": true,\n\t\t\"is_output_counted\": true, \"is_enabled\": true,\n\t\t\"cost_center_id\": 1,\n\t\t\"efficiency_indicator\": 0.0,\n\t\t\"svg_id\": 1,\n\t\t\"camera_url\": \"http://XXX\",\n\t\t\"description\": \"equipment description\"\n\t}\n}",
 					"raw_parameter": [],
 					"raw_schema": {
 						"type": "object",
@@ -60865,6 +60877,9 @@
 										"type": "boolean"
 									},
 									"is_output_counted": {
+										"type": "boolean"
+									},
+									"is_enabled": {
 										"type": "boolean"
 									}
 								}
@@ -66646,7 +66661,7 @@
 				"body": {
 					"mode": "json",
 					"parameter": [],
-					"raw": "{\n\t\"name\": \"设备_1\",\n\t\"is_input_counted\": true,\n\t\"is_output_counted\": false,\n\t\"cost_center\": {\n\t\t\"id\": 1,\n\t\t\"name\": \"成本中心\",\n\t\t\"uuid\": \"d97b9736-c4f9-4005-a534-6af3487303ad\"\n\t},\n\t\"efficiency_indicator\": 0.0,\n\t\"svg\": {\n\t\t\"id\": 1,\n\t\t\"name\": \"SVG1\",\n\t\t\"uuid\": \"9d6d23fe-8014-4c0d-bb91-32eb2fa48862\"\n\t},\n\t\"camera_url\": \"http://XXX\",\n\t\"description\": \"description\",\n\t\"commands\": null,\n\t\"meters\": [\n\t\t{\n\t\t\t\"id\": 1,\n\t\t\t\"name\": \"计量表1\",\n\t\t\t\"uuid\": \"5ca47bc5-22c2-47fc-b906-33222191ea40\",\n\t\t\t\"energy_category\": {\n\t\t\t\t\"id\": 1,\n\t\t\t\t\"name\": \"电\",\n\t\t\t\t\"uuid\": \"6d0753ed-8b43-4332-b6fd-d2f5813831d3\"\n\t\t\t},\n\t\t\t\"is_output\": false\n\t\t}\n\t],\n\t\"offline_meters\": [\n\t\t{\n\t\t\t\"id\": 1,\n\t\t\t\"name\": \"离线表1\",\n\t\t\t\"uuid\": \"62f473e0-1a35-41f3-9c30-8110d75d65bb\",\n\t\t\t\"energy_category\": {\n\t\t\t\t\"id\": 1,\n\t\t\t\t\"name\": \"电\",\n\t\t\t\t\"uuid\": \"6d0753ed-8b43-4332-b6fd-d2f5813831d3\"\n\t\t\t},\n\t\t\t\"is_output\": false\n\t\t}\n\t],\n\t\"virtual_meters\": [\n\t\t{\n\t\t\t\"id\": 1,\n\t\t\t\"name\": \"虚拟表1\",\n\t\t\t\"uuid\": \"3fff2cfb-f755-44c8-a919-6135205a8573\",\n\t\t\t\"energy_category\": {\n\t\t\t\t\"id\": 1,\n\t\t\t\t\"name\": \"电\",\n\t\t\t\t\"uuid\": \"6d0753ed-8b43-4332-b6fd-d2f5813831d3\"\n\t\t\t},\n\t\t\t\"is_output\": false\n\t\t}\n\t],\n\t\"parameters\": [\n\t\t{\n\t\t\t\"id\": 1,\n\t\t\t\"name\": \"serial number\",\n\t\t\t\"parameter_type\": \"constant\",\n\t\t\t\"constant\": \"bfa8b106\",\n\t\t\t\"point\": null,\n\t\t\t\"numerator_meter\": null,\n\t\t\t\"denominator_meter\": null\n\t\t},\n\t\t{\n\t\t\t\"id\": 2,\n\t\t\t\"name\": \"manufacturer\",\n\t\t\t\"parameter_type\": \"constant\",\n\t\t\t\"constant\": \"York\",\n\t\t\t\"point\": null,\n\t\t\t\"numerator_meter\": null,\n\t\t\t\"denominator_meter\": null\n\t\t},\n\t\t{\n\t\t\t\"id\": 3,\n\t\t\t\"name\": \"maintainer\",\n\t\t\t\"parameter_type\": \"constant\",\n\t\t\t\"constant\": \"Johnson Controls\",\n\t\t\t\"point\": null,\n\t\t\t\"numerator_meter\": null,\n\t\t\t\"denominator_meter\": null\n\t\t},\n\t\t{\n\t\t\t\"id\": 4,\n\t\t\t\"name\": \"use life start\",\n\t\t\t\"parameter_type\": \"constant\",\n\t\t\t\"constant\": \"2016-01-01\",\n\t\t\t\"point\": null,\n\t\t\t\"numerator_meter\": null,\n\t\t\t\"denominator_meter\": null\n\t\t},\n\t\t{\n\t\t\t\"id\": 5,\n\t\t\t\"name\": \"use life end\",\n\t\t\t\"parameter_type\": \"constant\",\n\t\t\t\"constant\": \"2025-12-31\",\n\t\t\t\"point\": null,\n\t\t\t\"numerator_meter\": null,\n\t\t\t\"denominator_meter\": null\n\t\t},\n\t\t{\n\t\t\t\"id\": 6,\n\t\t\t\"name\": \"model number\",\n\t\t\t\"parameter_type\": \"constant\",\n\t\t\t\"constant\": \"CH01\",\n\t\t\t\"point\": null,\n\t\t\t\"numerator_meter\": null,\n\t\t\t\"denominator_meter\": null\n\t\t},\n\t\t{\n\t\t\t\"id\": 7,\n\t\t\t\"name\": \"nominal cooling capacity\",\n\t\t\t\"parameter_type\": \"constant\",\n\t\t\t\"constant\": \"90.000 kW\",\n\t\t\t\"point\": null,\n\t\t\t\"numerator_meter\": null,\n\t\t\t\"denominator_meter\": null\n\t\t},\n\t\t{\n\t\t\t\"id\": 8,\n\t\t\t\"name\": \"nominal cooling input power\",\n\t\t\t\"parameter_type\": \"constant\",\n\t\t\t\"constant\": \"100.000 kW\",\n\t\t\t\"point\": null,\n\t\t\t\"numerator_meter\": null,\n\t\t\t\"denominator_meter\": null\n\t\t},\n\t\t{\n\t\t\t\"id\": 9,\n\t\t\t\"name\": \"nominal cooling cop\",\n\t\t\t\"parameter_type\": \"constant\",\n\t\t\t\"constant\": \"5\",\n\t\t\t\"point\": null,\n\t\t\t\"numerator_meter\": null,\n\t\t\t\"denominator_meter\": null\n\t\t},\n\t\t{\n\t\t\t\"id\": 10,\n\t\t\t\"name\": \"nominal cooling operating current\",\n\t\t\t\"parameter_type\": \"constant\",\n\t\t\t\"constant\": \"120.000 A\",\n\t\t\t\"point\": null,\n\t\t\t\"numerator_meter\": null,\n\t\t\t\"denominator_meter\": null\n\t\t},\n\t\t{\n\t\t\t\"id\": 11,\n\t\t\t\"name\": \"rated input power\",\n\t\t\t\"parameter_type\": \"constant\",\n\t\t\t\"constant\": \"100.000 kW\",\n\t\t\t\"point\": null,\n\t\t\t\"numerator_meter\": null,\n\t\t\t\"denominator_meter\": null\n\t\t},\n\t\t{\n\t\t\t\"id\": 12,\n\t\t\t\"name\": \"nominal chilled water flow rate\",\n\t\t\t\"parameter_type\": \"constant\",\n\t\t\t\"constant\": \"30 m2/h\",\n\t\t\t\"point\": null,\n\t\t\t\"numerator_meter\": null,\n\t\t\t\"denominator_meter\": null\n\t\t},\n\t\t{\n\t\t\t\"id\": 13,\n\t\t\t\"name\": \"nominal cooling water flow_rate\",\n\t\t\t\"parameter_type\": \"constant\",\n\t\t\t\"constant\": \"50 m2/h\",\n\t\t\t\"point\": null,\n\t\t\t\"numerator_meter\": null,\n\t\t\t\"denominator_meter\": null\n\t\t},\n\t\t{\n\t\t\t\"id\": 14,\n\t\t\t\"name\": \"status\",\n\t\t\t\"parameter_type\": \"point\",\n\t\t\t\"constant\": null,\n\t\t\t\"point\": {\n\t\t\t\t\"id\": 1,\n\t\t\t\t\"name\": \"Active Energy Import Tariff 1\"\n\t\t\t},\n\t\t\t\"numerator_meter\": null,\n\t\t\t\"denominator_meter\": null\n\t\t},\n\t\t{\n\t\t\t\"id\": 15,\n\t\t\t\"name\": \"inlet chilled water temperature\",\n\t\t\t\"parameter_type\": \"point\",\n\t\t\t\"constant\": null,\n\t\t\t\"point\": {\n\t\t\t\t\"id\": 2,\n\t\t\t\t\"name\": \"Working hours counter\"\n\t\t\t},\n\t\t\t\"numerator_meter\": null,\n\t\t\t\"denominator_meter\": null\n\t\t},\n\t\t{\n\t\t\t\"id\": 16,\n\t\t\t\"name\": \"chilled_water instantaneous flow rate\",\n\t\t\t\"parameter_type\": \"point\",\n\t\t\t\"constant\": null,\n\t\t\t\"point\": {\n\t\t\t\t\"id\": 3,\n\t\t\t\t\"name\": \"Current a\"\n\t\t\t},\n\t\t\t\"numerator_meter\": null,\n\t\t\t\"denominator_meter\": null\n\t\t},\n\t\t{\n\t\t\t\"id\": 17,\n\t\t\t\"name\": \"instantaneous power\",\n\t\t\t\"parameter_type\": \"point\",\n\t\t\t\"constant\": null,\n\t\t\t\"point\": {\n\t\t\t\t\"id\": 4,\n\t\t\t\t\"name\": \"Active Power a\"\n\t\t\t},\n\t\t\t\"numerator_meter\": null,\n\t\t\t\"denominator_meter\": null\n\t\t},\n\t\t{\n\t\t\t\"id\": 18,\n\t\t\t\"name\": \"COP\",\n\t\t\t\"parameter_type\": \"fraction\",\n\t\t\t\"constant\": null,\n\t\t\t\"point\": null,\n\t\t\t\"numerator_meter\": {\n\t\t\t\t\"type\": \"meter\",\n\t\t\t\t\"id\": 1,\n\t\t\t\t\"name\": \"计量表1\",\n\t\t\t\t\"uuid\": \"5ca47bc5-22c2-47fc-b906-33222191ea40\"\n\t\t\t},\n\t\t\t\"denominator_meter\": {\n\t\t\t\t\"uuid\": \"3fff2cfb-f755-44c8-a919-6135205a8573\"\n\t\t\t}\n\t\t}\n\t]\n}",
+					"raw": "{\n\t\"name\": \"设备_1\",\n\t\"is_input_counted\": true,\n\t\"is_output_counted\": false, \"is_enabled\": true,\n\t\"cost_center\": {\n\t\t\"id\": 1,\n\t\t\"name\": \"成本中心\",\n\t\t\"uuid\": \"d97b9736-c4f9-4005-a534-6af3487303ad\"\n\t},\n\t\"efficiency_indicator\": 0.0,\n\t\"svg\": {\n\t\t\"id\": 1,\n\t\t\"name\": \"SVG1\",\n\t\t\"uuid\": \"9d6d23fe-8014-4c0d-bb91-32eb2fa48862\"\n\t},\n\t\"camera_url\": \"http://XXX\",\n\t\"description\": \"description\",\n\t\"commands\": null,\n\t\"meters\": [\n\t\t{\n\t\t\t\"id\": 1,\n\t\t\t\"name\": \"计量表1\",\n\t\t\t\"uuid\": \"5ca47bc5-22c2-47fc-b906-33222191ea40\",\n\t\t\t\"energy_category\": {\n\t\t\t\t\"id\": 1,\n\t\t\t\t\"name\": \"电\",\n\t\t\t\t\"uuid\": \"6d0753ed-8b43-4332-b6fd-d2f5813831d3\"\n\t\t\t},\n\t\t\t\"is_output\": false\n\t\t}\n\t],\n\t\"offline_meters\": [\n\t\t{\n\t\t\t\"id\": 1,\n\t\t\t\"name\": \"离线表1\",\n\t\t\t\"uuid\": \"62f473e0-1a35-41f3-9c30-8110d75d65bb\",\n\t\t\t\"energy_category\": {\n\t\t\t\t\"id\": 1,\n\t\t\t\t\"name\": \"电\",\n\t\t\t\t\"uuid\": \"6d0753ed-8b43-4332-b6fd-d2f5813831d3\"\n\t\t\t},\n\t\t\t\"is_output\": false\n\t\t}\n\t],\n\t\"virtual_meters\": [\n\t\t{\n\t\t\t\"id\": 1,\n\t\t\t\"name\": \"虚拟表1\",\n\t\t\t\"uuid\": \"3fff2cfb-f755-44c8-a919-6135205a8573\",\n\t\t\t\"energy_category\": {\n\t\t\t\t\"id\": 1,\n\t\t\t\t\"name\": \"电\",\n\t\t\t\t\"uuid\": \"6d0753ed-8b43-4332-b6fd-d2f5813831d3\"\n\t\t\t},\n\t\t\t\"is_output\": false\n\t\t}\n\t],\n\t\"parameters\": [\n\t\t{\n\t\t\t\"id\": 1,\n\t\t\t\"name\": \"serial number\",\n\t\t\t\"parameter_type\": \"constant\",\n\t\t\t\"constant\": \"bfa8b106\",\n\t\t\t\"point\": null,\n\t\t\t\"numerator_meter\": null,\n\t\t\t\"denominator_meter\": null\n\t\t},\n\t\t{\n\t\t\t\"id\": 2,\n\t\t\t\"name\": \"manufacturer\",\n\t\t\t\"parameter_type\": \"constant\",\n\t\t\t\"constant\": \"York\",\n\t\t\t\"point\": null,\n\t\t\t\"numerator_meter\": null,\n\t\t\t\"denominator_meter\": null\n\t\t},\n\t\t{\n\t\t\t\"id\": 3,\n\t\t\t\"name\": \"maintainer\",\n\t\t\t\"parameter_type\": \"constant\",\n\t\t\t\"constant\": \"Johnson Controls\",\n\t\t\t\"point\": null,\n\t\t\t\"numerator_meter\": null,\n\t\t\t\"denominator_meter\": null\n\t\t},\n\t\t{\n\t\t\t\"id\": 4,\n\t\t\t\"name\": \"use life start\",\n\t\t\t\"parameter_type\": \"constant\",\n\t\t\t\"constant\": \"2016-01-01\",\n\t\t\t\"point\": null,\n\t\t\t\"numerator_meter\": null,\n\t\t\t\"denominator_meter\": null\n\t\t},\n\t\t{\n\t\t\t\"id\": 5,\n\t\t\t\"name\": \"use life end\",\n\t\t\t\"parameter_type\": \"constant\",\n\t\t\t\"constant\": \"2025-12-31\",\n\t\t\t\"point\": null,\n\t\t\t\"numerator_meter\": null,\n\t\t\t\"denominator_meter\": null\n\t\t},\n\t\t{\n\t\t\t\"id\": 6,\n\t\t\t\"name\": \"model number\",\n\t\t\t\"parameter_type\": \"constant\",\n\t\t\t\"constant\": \"CH01\",\n\t\t\t\"point\": null,\n\t\t\t\"numerator_meter\": null,\n\t\t\t\"denominator_meter\": null\n\t\t},\n\t\t{\n\t\t\t\"id\": 7,\n\t\t\t\"name\": \"nominal cooling capacity\",\n\t\t\t\"parameter_type\": \"constant\",\n\t\t\t\"constant\": \"90.000 kW\",\n\t\t\t\"point\": null,\n\t\t\t\"numerator_meter\": null,\n\t\t\t\"denominator_meter\": null\n\t\t},\n\t\t{\n\t\t\t\"id\": 8,\n\t\t\t\"name\": \"nominal cooling input power\",\n\t\t\t\"parameter_type\": \"constant\",\n\t\t\t\"constant\": \"100.000 kW\",\n\t\t\t\"point\": null,\n\t\t\t\"numerator_meter\": null,\n\t\t\t\"denominator_meter\": null\n\t\t},\n\t\t{\n\t\t\t\"id\": 9,\n\t\t\t\"name\": \"nominal cooling cop\",\n\t\t\t\"parameter_type\": \"constant\",\n\t\t\t\"constant\": \"5\",\n\t\t\t\"point\": null,\n\t\t\t\"numerator_meter\": null,\n\t\t\t\"denominator_meter\": null\n\t\t},\n\t\t{\n\t\t\t\"id\": 10,\n\t\t\t\"name\": \"nominal cooling operating current\",\n\t\t\t\"parameter_type\": \"constant\",\n\t\t\t\"constant\": \"120.000 A\",\n\t\t\t\"point\": null,\n\t\t\t\"numerator_meter\": null,\n\t\t\t\"denominator_meter\": null\n\t\t},\n\t\t{\n\t\t\t\"id\": 11,\n\t\t\t\"name\": \"rated input power\",\n\t\t\t\"parameter_type\": \"constant\",\n\t\t\t\"constant\": \"100.000 kW\",\n\t\t\t\"point\": null,\n\t\t\t\"numerator_meter\": null,\n\t\t\t\"denominator_meter\": null\n\t\t},\n\t\t{\n\t\t\t\"id\": 12,\n\t\t\t\"name\": \"nominal chilled water flow rate\",\n\t\t\t\"parameter_type\": \"constant\",\n\t\t\t\"constant\": \"30 m2/h\",\n\t\t\t\"point\": null,\n\t\t\t\"numerator_meter\": null,\n\t\t\t\"denominator_meter\": null\n\t\t},\n\t\t{\n\t\t\t\"id\": 13,\n\t\t\t\"name\": \"nominal cooling water flow_rate\",\n\t\t\t\"parameter_type\": \"constant\",\n\t\t\t\"constant\": \"50 m2/h\",\n\t\t\t\"point\": null,\n\t\t\t\"numerator_meter\": null,\n\t\t\t\"denominator_meter\": null\n\t\t},\n\t\t{\n\t\t\t\"id\": 14,\n\t\t\t\"name\": \"status\",\n\t\t\t\"parameter_type\": \"point\",\n\t\t\t\"constant\": null,\n\t\t\t\"point\": {\n\t\t\t\t\"id\": 1,\n\t\t\t\t\"name\": \"Active Energy Import Tariff 1\"\n\t\t\t},\n\t\t\t\"numerator_meter\": null,\n\t\t\t\"denominator_meter\": null\n\t\t},\n\t\t{\n\t\t\t\"id\": 15,\n\t\t\t\"name\": \"inlet chilled water temperature\",\n\t\t\t\"parameter_type\": \"point\",\n\t\t\t\"constant\": null,\n\t\t\t\"point\": {\n\t\t\t\t\"id\": 2,\n\t\t\t\t\"name\": \"Working hours counter\"\n\t\t\t},\n\t\t\t\"numerator_meter\": null,\n\t\t\t\"denominator_meter\": null\n\t\t},\n\t\t{\n\t\t\t\"id\": 16,\n\t\t\t\"name\": \"chilled_water instantaneous flow rate\",\n\t\t\t\"parameter_type\": \"point\",\n\t\t\t\"constant\": null,\n\t\t\t\"point\": {\n\t\t\t\t\"id\": 3,\n\t\t\t\t\"name\": \"Current a\"\n\t\t\t},\n\t\t\t\"numerator_meter\": null,\n\t\t\t\"denominator_meter\": null\n\t\t},\n\t\t{\n\t\t\t\"id\": 17,\n\t\t\t\"name\": \"instantaneous power\",\n\t\t\t\"parameter_type\": \"point\",\n\t\t\t\"constant\": null,\n\t\t\t\"point\": {\n\t\t\t\t\"id\": 4,\n\t\t\t\t\"name\": \"Active Power a\"\n\t\t\t},\n\t\t\t\"numerator_meter\": null,\n\t\t\t\"denominator_meter\": null\n\t\t},\n\t\t{\n\t\t\t\"id\": 18,\n\t\t\t\"name\": \"COP\",\n\t\t\t\"parameter_type\": \"fraction\",\n\t\t\t\"constant\": null,\n\t\t\t\"point\": null,\n\t\t\t\"numerator_meter\": {\n\t\t\t\t\"type\": \"meter\",\n\t\t\t\t\"id\": 1,\n\t\t\t\t\"name\": \"计量表1\",\n\t\t\t\t\"uuid\": \"5ca47bc5-22c2-47fc-b906-33222191ea40\"\n\t\t\t},\n\t\t\t\"denominator_meter\": {\n\t\t\t\t\"uuid\": \"3fff2cfb-f755-44c8-a919-6135205a8573\"\n\t\t\t}\n\t\t}\n\t]\n}",
 					"raw_parameter": [],
 					"raw_schema": {
 						"type": "object",
@@ -66804,6 +66819,9 @@
 								"type": "boolean"
 							},
 							"is_output_counted": {
+								"type": "boolean"
+							},
+							"is_enabled": {
 								"type": "boolean"
 							}
 						}
@@ -114467,7 +114485,7 @@
 				"body": {
 					"mode": "json",
 					"parameter": [],
-					"raw": "{\n\t\"data\": {\n\t\t\"name\": \"MyEMS Shopfloor2\",\n\t\t\"area\": 999.99,\n\t\t\"is_input_counted\": true,\n\t\t\"contact_id\": 1,\n\t\t\"cost_center_id\": 1,\n\t\t\"description\": \"Shopfloor description\"\n\t}\n}",
+					"raw": "{\n\t\"data\": {\n\t\t\"name\": \"MyEMS Shopfloor2\",\n\t\t\"area\": 999.99,\n\t\t\"is_input_counted\": true, \"is_enabled\": true,\n\t\t\"contact_id\": 1,\n\t\t\"cost_center_id\": 1,\n\t\t\"description\": \"Shopfloor description\"\n\t}\n}",
 					"raw_parameter": [],
 					"raw_schema": {
 						"type": "object",
@@ -114491,6 +114509,9 @@
 										"type": "integer"
 									},
 									"is_input_counted": {
+										"type": "boolean"
+									},
+									"is_enabled": {
 										"type": "boolean"
 									}
 								}
@@ -114724,7 +114745,7 @@
 				"body": {
 					"mode": "json",
 					"parameter": [],
-					"raw": "{\n\t\"data\": {\n\t\t\"name\": \"MyEMS Shopfloor2\",\n\t\t\"area\": 999.99,\n\t\t\"is_input_counted\": true,\n\t\t\"contact_id\": 1,\n\t\t\"cost_center_id\": 1,\n\t\t\"description\": \"Shopfloor description\"\n\t}\n}",
+					"raw": "{\n\t\"data\": {\n\t\t\"name\": \"MyEMS Shopfloor2\",\n\t\t\"area\": 999.99,\n\t\t\"is_input_counted\": true, \"is_enabled\": true,\n\t\t\"contact_id\": 1,\n\t\t\"cost_center_id\": 1,\n\t\t\"description\": \"Shopfloor description\"\n\t}\n}",
 					"raw_parameter": [],
 					"raw_schema": {
 						"type": "object",
@@ -114748,6 +114769,9 @@
 										"type": "integer"
 									},
 									"is_input_counted": {
+										"type": "boolean"
+									},
+									"is_enabled": {
 										"type": "boolean"
 									}
 								}
@@ -121111,7 +121135,7 @@
 				"body": {
 					"mode": "json",
 					"parameter": [],
-					"raw": "{\n\t\"name\": \"车间_1\",\n\t\"area\": 99999.999,\n\t\"is_input_counted\": true,\n\t\"contact\": {\n\t\t\"id\": 1,\n\t\t\"name\": \"江工\",\n\t\t\"uuid\": \"5c5ce6e8-8d00-46b3-9602-4e1520a8b43f\"\n\t},\n\t\"cost_center\": {\n\t\t\"id\": 1,\n\t\t\"name\": \"成本中心\",\n\t\t\"uuid\": \"d97b9736-c4f9-4005-a534-6af3487303ad\"\n\t},\n\t\"description\": \"MyEMS Project\",\n\t\"equipments\": [\n\t\t{\n\t\t\t\"id\": 1,\n\t\t\t\"name\": \"设备1\",\n\t\t\t\"uuid\": \"bfa8b106-89a1-49ca-9b2b-a481ac41a873\"\n\t\t}\n\t],\n\t\"commands\": null,\n\t\"meters\": [\n\t\t{\n\t\t\t\"id\": 1,\n\t\t\t\"name\": \"计量表1\",\n\t\t\t\"uuid\": \"5ca47bc5-22c2-47fc-b906-33222191ea40\"\n\t\t}\n\t],\n\t\"offline_meters\": [\n\t\t{\n\t\t\t\"id\": 1,\n\t\t\t\"name\": \"离线表1\",\n\t\t\t\"uuid\": \"62f473e0-1a35-41f3-9c30-8110d75d65bb\"\n\t\t}\n\t],\n\t\"virtual_meters\": [\n\t\t{\n\t\t\t\"id\": 1,\n\t\t\t\"name\": \"虚拟表1\",\n\t\t\t\"uuid\": \"3fff2cfb-f755-44c8-a919-6135205a8573\"\n\t\t}\n\t],\n\t\"points\": null,\n\t\"sensors\": [\n\t\t{\n\t\t\t\"id\": 1,\n\t\t\t\"name\": \"传感器1\",\n\t\t\t\"uuid\": \"ba450606-6f39-41e0-8caf-75b528635511\"\n\t\t}\n\t],\n\t\"working_calendars\": null\n}",
+					"raw": "{\n\t\"name\": \"车间_1\",\n\t\"area\": 99999.999,\n\t\"is_input_counted\": true, \"is_enabled\": true,\n\t\"contact\": {\n\t\t\"id\": 1,\n\t\t\"name\": \"江工\",\n\t\t\"uuid\": \"5c5ce6e8-8d00-46b3-9602-4e1520a8b43f\"\n\t},\n\t\"cost_center\": {\n\t\t\"id\": 1,\n\t\t\"name\": \"成本中心\",\n\t\t\"uuid\": \"d97b9736-c4f9-4005-a534-6af3487303ad\"\n\t},\n\t\"description\": \"MyEMS Project\",\n\t\"equipments\": [\n\t\t{\n\t\t\t\"id\": 1,\n\t\t\t\"name\": \"设备1\",\n\t\t\t\"uuid\": \"bfa8b106-89a1-49ca-9b2b-a481ac41a873\"\n\t\t}\n\t],\n\t\"commands\": null,\n\t\"meters\": [\n\t\t{\n\t\t\t\"id\": 1,\n\t\t\t\"name\": \"计量表1\",\n\t\t\t\"uuid\": \"5ca47bc5-22c2-47fc-b906-33222191ea40\"\n\t\t}\n\t],\n\t\"offline_meters\": [\n\t\t{\n\t\t\t\"id\": 1,\n\t\t\t\"name\": \"离线表1\",\n\t\t\t\"uuid\": \"62f473e0-1a35-41f3-9c30-8110d75d65bb\"\n\t\t}\n\t],\n\t\"virtual_meters\": [\n\t\t{\n\t\t\t\"id\": 1,\n\t\t\t\"name\": \"虚拟表1\",\n\t\t\t\"uuid\": \"3fff2cfb-f755-44c8-a919-6135205a8573\"\n\t\t}\n\t],\n\t\"points\": null,\n\t\"sensors\": [\n\t\t{\n\t\t\t\"id\": 1,\n\t\t\t\"name\": \"传感器1\",\n\t\t\t\"uuid\": \"ba450606-6f39-41e0-8caf-75b528635511\"\n\t\t}\n\t],\n\t\"working_calendars\": null\n}",
 					"raw_parameter": [],
 					"raw_schema": {
 						"type": "object",
@@ -121249,6 +121273,9 @@
 							},
 							"working_calendars": {
 								"type": "null"
+							},
+							"is_enabled": {
+								"type": "boolean"
 							}
 						}
 					},
@@ -137326,7 +137353,7 @@
 				"body": {
 					"mode": "json",
 					"parameter": [],
-					"raw": "{\n\t\"data\": {\n\t\t\"name\": \"麦当劳(新王府井店)\",\n\t\t\"address\": \"北京市东城区王府井大街200号工美大厦1层010-65120499\",\n\t\t\"latitude\": 39.909429,\n\t\t\"longitude\": 116.416993,\n\t\t\"area\": 600,\n\t\t\"store_type_id\": 1,\n\t\t\"is_input_counted\": true,\n\t\t\"contact_id\": 1,\n\t\t\"cost_center_id\": 1,\n\t\t\"description\": \"Classic, long-running fast-food chain known for its burgers, fries & shakes.\"\n\t}\n}",
+					"raw": "{\n\t\"data\": {\n\t\t\"name\": \"麦当劳(新王府井店)\",\n\t\t\"address\": \"北京市东城区王府井大街200号工美大厦1层010-65120499\",\n\t\t\"latitude\": 39.909429,\n\t\t\"longitude\": 116.416993,\n\t\t\"area\": 600,\n\t\t\"store_type_id\": 1,\n\t\t\"is_input_counted\": true, \"is_enabled\": true,\n\t\t\"contact_id\": 1,\n\t\t\"cost_center_id\": 1,\n\t\t\"description\": \"Classic, long-running fast-food chain known for its burgers, fries & shakes.\"\n\t}\n}",
 					"raw_parameter": [],
 					"raw_schema": {
 						"type": "object",
@@ -137362,6 +137389,9 @@
 										"type": "integer"
 									},
 									"is_input_counted": {
+										"type": "boolean"
+									},
+									"is_enabled": {
 										"type": "boolean"
 									}
 								}
@@ -137595,7 +137625,7 @@
 				"body": {
 					"mode": "json",
 					"parameter": [],
-					"raw": "{\n\t\"data\": {\n\t\t\"name\": \"麦当劳(新王府井店)\",\n\t\t\"address\": \"北京市东城区王府井大街200号工美大厦1层010-65120499\",\n\t\t\"latitude\": 39.909429,\n\t\t\"longitude\": 116.416993,\n\t\t\"area\": 600,\n\t\t\"store_type_id\": 1,\n\t\t\"is_input_counted\": true,\n\t\t\"contact_id\": 1,\n\t\t\"cost_center_id\": 1,\n\t\t\"description\": \"Classic, long-running fast-food chain known for its burgers, fries & shakes.\"\n\t}\n}",
+					"raw": "{\n\t\"data\": {\n\t\t\"name\": \"麦当劳(新王府井店)\",\n\t\t\"address\": \"北京市东城区王府井大街200号工美大厦1层010-65120499\",\n\t\t\"latitude\": 39.909429,\n\t\t\"longitude\": 116.416993,\n\t\t\"area\": 600,\n\t\t\"store_type_id\": 1,\n\t\t\"is_input_counted\": true, \"is_enabled\": true,\n\t\t\"contact_id\": 1,\n\t\t\"cost_center_id\": 1,\n\t\t\"description\": \"Classic, long-running fast-food chain known for its burgers, fries & shakes.\"\n\t}\n}",
 					"raw_parameter": [],
 					"raw_schema": {
 						"type": "object",
@@ -137631,6 +137661,9 @@
 										"type": "integer"
 									},
 									"is_input_counted": {
+										"type": "boolean"
+									},
+									"is_enabled": {
 										"type": "boolean"
 									}
 								}
@@ -143519,7 +143552,7 @@
 				"body": {
 					"mode": "json",
 					"parameter": [],
-					"raw": "{\n\t\"name\": \"麦当劳_1\",\n\t\"address\": \"北京市东城区东打磨厂街7号\",\n\t\"latitude\": 39.899493,\n\t\"longitude\": 116.412041,\n\t\"area\": 500,\n\t\"store_type\": {\n\t\t\"id\": 1,\n\t\t\"name\": \"餐饮\",\n\t\t\"uuid\": \"494d7d5e-e139-4629-b957-99ea4caf0401\"\n\t},\n\t\"is_input_counted\": true,\n\t\"contact\": {\n\t\t\"id\": 1,\n\t\t\"name\": \"江工\",\n\t\t\"uuid\": \"5c5ce6e8-8d00-46b3-9602-4e1520a8b43f\"\n\t},\n\t\"cost_center\": {\n\t\t\"id\": 1,\n\t\t\"name\": \"成本中心\",\n\t\t\"uuid\": \"d97b9736-c4f9-4005-a534-6af3487303ad\"\n\t},\n\t\"description\": \"MacDonalds\",\n\t\"commands\": null,\n\t\"meters\": [\n\t\t{\n\t\t\t\"id\": 1,\n\t\t\t\"name\": \"计量表1\",\n\t\t\t\"uuid\": \"5ca47bc5-22c2-47fc-b906-33222191ea40\"\n\t\t}\n\t],\n\t\"offline_meters\": [\n\t\t{\n\t\t\t\"id\": 1,\n\t\t\t\"name\": \"离线表1\",\n\t\t\t\"uuid\": \"62f473e0-1a35-41f3-9c30-8110d75d65bb\"\n\t\t}\n\t],\n\t\"virtual_meters\": [\n\t\t{\n\t\t\t\"id\": 1,\n\t\t\t\"name\": \"虚拟表1\",\n\t\t\t\"uuid\": \"3fff2cfb-f755-44c8-a919-6135205a8573\"\n\t\t}\n\t],\n\t\"points\": null,\n\t\"sensors\": [\n\t\t{\n\t\t\t\"id\": 1,\n\t\t\t\"name\": \"传感器1\",\n\t\t\t\"uuid\": \"ba450606-6f39-41e0-8caf-75b528635511\"\n\t\t}\n\t],\n\t\"working_calendars\": null\n}",
+					"raw": "{\n\t\"name\": \"麦当劳_1\",\n\t\"address\": \"北京市东城区东打磨厂街7号\",\n\t\"latitude\": 39.899493,\n\t\"longitude\": 116.412041,\n\t\"area\": 500,\n\t\"store_type\": {\n\t\t\"id\": 1,\n\t\t\"name\": \"餐饮\",\n\t\t\"uuid\": \"494d7d5e-e139-4629-b957-99ea4caf0401\"\n\t},\n\t\"is_input_counted\": true, \"is_enabled\": true,\n\t\"contact\": {\n\t\t\"id\": 1,\n\t\t\"name\": \"江工\",\n\t\t\"uuid\": \"5c5ce6e8-8d00-46b3-9602-4e1520a8b43f\"\n\t},\n\t\"cost_center\": {\n\t\t\"id\": 1,\n\t\t\"name\": \"成本中心\",\n\t\t\"uuid\": \"d97b9736-c4f9-4005-a534-6af3487303ad\"\n\t},\n\t\"description\": \"MacDonalds\",\n\t\"commands\": null,\n\t\"meters\": [\n\t\t{\n\t\t\t\"id\": 1,\n\t\t\t\"name\": \"计量表1\",\n\t\t\t\"uuid\": \"5ca47bc5-22c2-47fc-b906-33222191ea40\"\n\t\t}\n\t],\n\t\"offline_meters\": [\n\t\t{\n\t\t\t\"id\": 1,\n\t\t\t\"name\": \"离线表1\",\n\t\t\t\"uuid\": \"62f473e0-1a35-41f3-9c30-8110d75d65bb\"\n\t\t}\n\t],\n\t\"virtual_meters\": [\n\t\t{\n\t\t\t\"id\": 1,\n\t\t\t\"name\": \"虚拟表1\",\n\t\t\t\"uuid\": \"3fff2cfb-f755-44c8-a919-6135205a8573\"\n\t\t}\n\t],\n\t\"points\": null,\n\t\"sensors\": [\n\t\t{\n\t\t\t\"id\": 1,\n\t\t\t\"name\": \"传感器1\",\n\t\t\t\"uuid\": \"ba450606-6f39-41e0-8caf-75b528635511\"\n\t\t}\n\t],\n\t\"working_calendars\": null\n}",
 					"raw_parameter": [],
 					"raw_schema": {
 						"type": "object",
@@ -143663,6 +143696,9 @@
 							},
 							"working_calendars": {
 								"type": "null"
+							},
+							"is_enabled": {
+								"type": "boolean"
 							}
 						}
 					},
@@ -149967,7 +150003,7 @@
 				"body": {
 					"mode": "json",
 					"parameter": [],
-					"raw": "{\n\t\"data\": {\n\t\t\"name\": \"Starbucks\",\n\t\t\"buildings\": \"Building #1\",\n\t\t\"floors\": \"L1 L2 L3\",\n\t\t\"rooms\": \"1201b+2247+3F\",\n\t\t\"area\": 418.8,\n\t\t\"tenant_type_id\": 9,\n\t\t\"is_input_counted\": true,\n\t\t\"is_key_tenant\": true,\n\t\t\"lease_number\": \"6b0da806\",\n\t\t\"lease_start_datetime\": \"2021-01-01T00:00:00\",\n\t\t\"lease_end_datetime\": \"2022-01-01T00:00:00\",\n\t\t\"is_in_lease\": true,\n\t\t\"contact_id\": 1,\n\t\t\"cost_center_id\": 1,\n\t\t\"description\": \"my description\"\n\t}\n}",
+					"raw": "{\n\t\"data\": {\n\t\t\"name\": \"Starbucks\",\n\t\t\"buildings\": \"Building #1\",\n\t\t\"floors\": \"L1 L2 L3\",\n\t\t\"rooms\": \"1201b+2247+3F\",\n\t\t\"area\": 418.8,\n\t\t\"tenant_type_id\": 9,\n\t\t\"is_input_counted\": true, \"is_enabled\": true,\n\t\t\"is_key_tenant\": true,\n\t\t\"lease_number\": \"6b0da806\",\n\t\t\"lease_start_datetime\": \"2021-01-01T00:00:00\",\n\t\t\"lease_end_datetime\": \"2022-01-01T00:00:00\",\n\t\t\"is_in_lease\": true,\n\t\t\"contact_id\": 1,\n\t\t\"cost_center_id\": 1,\n\t\t\"description\": \"my description\"\n\t}\n}",
 					"raw_parameter": [],
 					"raw_schema": {
 						"type": "object",
@@ -150020,6 +150056,9 @@
 									"lease_start_datetime": {
 										"type": "string",
 										"format": "style"
+									},
+									"is_enabled": {
+										"type": "boolean"
 									}
 								}
 							}
@@ -150252,7 +150291,7 @@
 				"body": {
 					"mode": "json",
 					"parameter": [],
-					"raw": "{\n\t\"data\": {\n\t\t\"name\": \"Hermes 爱马仕\",\n\t\t\"buildings\": \"Building #1\",\n\t\t\"floors\": \"L1 L2 L3 L4 L5\",\n\t\t\"rooms\": \"1201b+2247+3F\",\n\t\t\"area\": 818.8,\n\t\t\"tenant_type_id\": 9,\n\t\t\"is_input_counted\": true,\n\t\t\"is_key_tenant\": true,\n\t\t\"lease_number\": \"6b0da806\",\n\t\t\"lease_start_datetime_utc\": \"2021-01-01T00:00:00\",\n\t\t\"lease_end_datetime_utc\": \"2022-01-01T00:00:00\",\n\t\t\"is_in_lease\": true,\n\t\t\"contact_id\": 1,\n\t\t\"cost_center_id\": 1,\n\t\t\"description\": \"my description\"\n\t}\n}",
+					"raw": "{\n\t\"data\": {\n\t\t\"name\": \"Hermes 爱马仕\",\n\t\t\"buildings\": \"Building #1\",\n\t\t\"floors\": \"L1 L2 L3 L4 L5\",\n\t\t\"rooms\": \"1201b+2247+3F\",\n\t\t\"area\": 818.8,\n\t\t\"tenant_type_id\": 9,\n\t\t\"is_input_counted\": true, \"is_enabled\": true,\n\t\t\"is_key_tenant\": true,\n\t\t\"lease_number\": \"6b0da806\",\n\t\t\"lease_start_datetime_utc\": \"2021-01-01T00:00:00\",\n\t\t\"lease_end_datetime_utc\": \"2022-01-01T00:00:00\",\n\t\t\"is_in_lease\": true,\n\t\t\"contact_id\": 1,\n\t\t\"cost_center_id\": 1,\n\t\t\"description\": \"my description\"\n\t}\n}",
 					"raw_parameter": [],
 					"raw_schema": {
 						"type": "object",
@@ -150305,6 +150344,9 @@
 									"lease_start_datetime_utc": {
 										"type": "string",
 										"format": "style"
+									},
+									"is_enabled": {
+										"type": "boolean"
 									}
 								}
 							}
@@ -155959,7 +156001,7 @@
 				"body": {
 					"mode": "json",
 					"parameter": [],
-					"raw": "{\n\t\"name\": \"Starbucks星巴克_1\",\n\t\"buildings\": \"Building #1\",\n\t\"floors\": \"L1 L2 L3\",\n\t\"rooms\": \"1201b+2247+3F\",\n\t\"area\": 418.8,\n\t\"tenant_type\": {\n\t\t\"id\": 9,\n\t\t\"name\": \"非整层办公租户\",\n\t\t\"uuid\": \"55bbcba7-d8a0-44a0-9a9f-2f085e3cb044\"\n\t},\n\t\"is_key_tenant\": true,\n\t\"is_input_counted\": true,\n\t\"lease_number\": \"6b0da806\",\n\t\"lease_start_datetime\": \"2020-01-01T00:00:00\",\n\t\"lease_end_datetime\": \"2023-01-01T00:00:00\",\n\t\"is_in_lease\": true,\n\t\"contact\": {\n\t\t\"id\": 1,\n\t\t\"name\": \"江工\",\n\t\t\"uuid\": \"5c5ce6e8-8d00-46b3-9602-4e1520a8b43f\"\n\t},\n\t\"cost_center\": {\n\t\t\"id\": 1,\n\t\t\"name\": \"成本中心\",\n\t\t\"uuid\": \"d97b9736-c4f9-4005-a534-6af3487303ad\"\n\t},\n\t\"description\": \"my description\",\n\t\"commands\": null,\n\t\"meters\": [\n\t\t{\n\t\t\t\"id\": 1,\n\t\t\t\"name\": \"计量表1\",\n\t\t\t\"uuid\": \"5ca47bc5-22c2-47fc-b906-33222191ea40\"\n\t\t}\n\t],\n\t\"offline_meters\": [\n\t\t{\n\t\t\t\"id\": 1,\n\t\t\t\"name\": \"离线表1\",\n\t\t\t\"uuid\": \"62f473e0-1a35-41f3-9c30-8110d75d65bb\"\n\t\t}\n\t],\n\t\"virtual_meters\": [\n\t\t{\n\t\t\t\"id\": 1,\n\t\t\t\"name\": \"虚拟表1\",\n\t\t\t\"uuid\": \"3fff2cfb-f755-44c8-a919-6135205a8573\"\n\t\t}\n\t],\n\t\"points\": null,\n\t\"sensors\": [\n\t\t{\n\t\t\t\"id\": 1,\n\t\t\t\"name\": \"传感器1\",\n\t\t\t\"uuid\": \"ba450606-6f39-41e0-8caf-75b528635511\"\n\t\t}\n\t],\n\t\"working_calendars\": null\n}",
+					"raw": "{\n\t\"name\": \"Starbucks星巴克_1\",\n\t\"buildings\": \"Building #1\",\n\t\"floors\": \"L1 L2 L3\",\n\t\"rooms\": \"1201b+2247+3F\",\n\t\"area\": 418.8,\n\t\"tenant_type\": {\n\t\t\"id\": 9,\n\t\t\"name\": \"非整层办公租户\",\n\t\t\"uuid\": \"55bbcba7-d8a0-44a0-9a9f-2f085e3cb044\"\n\t},\n\t\"is_key_tenant\": true,\n\t\"is_input_counted\": true, \"is_enabled\": true,\n\t\"lease_number\": \"6b0da806\",\n\t\"lease_start_datetime\": \"2020-01-01T00:00:00\",\n\t\"lease_end_datetime\": \"2023-01-01T00:00:00\",\n\t\"is_in_lease\": true,\n\t\"contact\": {\n\t\t\"id\": 1,\n\t\t\"name\": \"江工\",\n\t\t\"uuid\": \"5c5ce6e8-8d00-46b3-9602-4e1520a8b43f\"\n\t},\n\t\"cost_center\": {\n\t\t\"id\": 1,\n\t\t\"name\": \"成本中心\",\n\t\t\"uuid\": \"d97b9736-c4f9-4005-a534-6af3487303ad\"\n\t},\n\t\"description\": \"my description\",\n\t\"commands\": null,\n\t\"meters\": [\n\t\t{\n\t\t\t\"id\": 1,\n\t\t\t\"name\": \"计量表1\",\n\t\t\t\"uuid\": \"5ca47bc5-22c2-47fc-b906-33222191ea40\"\n\t\t}\n\t],\n\t\"offline_meters\": [\n\t\t{\n\t\t\t\"id\": 1,\n\t\t\t\"name\": \"离线表1\",\n\t\t\t\"uuid\": \"62f473e0-1a35-41f3-9c30-8110d75d65bb\"\n\t\t}\n\t],\n\t\"virtual_meters\": [\n\t\t{\n\t\t\t\"id\": 1,\n\t\t\t\"name\": \"虚拟表1\",\n\t\t\t\"uuid\": \"3fff2cfb-f755-44c8-a919-6135205a8573\"\n\t\t}\n\t],\n\t\"points\": null,\n\t\"sensors\": [\n\t\t{\n\t\t\t\"id\": 1,\n\t\t\t\"name\": \"传感器1\",\n\t\t\t\"uuid\": \"ba450606-6f39-41e0-8caf-75b528635511\"\n\t\t}\n\t],\n\t\"working_calendars\": null\n}",
 					"raw_parameter": [],
 					"raw_schema": {
 						"type": "object",
@@ -156119,6 +156161,9 @@
 							"lease_start_datetime": {
 								"type": "string",
 								"format": "style"
+							},
+							"is_enabled": {
+								"type": "boolean"
 							}
 						}
 					},

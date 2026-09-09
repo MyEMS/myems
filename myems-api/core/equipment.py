@@ -161,7 +161,7 @@ class EquipmentCollection:
 
                 search_query = req.get_param('q')
                 query_base = (" SELECT id, name, uuid, "
-                              "        is_input_counted, is_output_counted, "
+                              "        is_input_counted, is_output_counted, is_enabled, "
                               "        cost_center_id, efficiency_indicator, svg_id, camera_url, description "
                               " FROM tbl_equipments ")
                 params = []
@@ -183,11 +183,12 @@ class EquipmentCollection:
                                        "uuid": row[2],
                                        "is_input_counted": bool(row[3]),
                                        "is_output_counted": bool(row[4]),
-                                       "cost_center": cost_center_dict.get(row[5], None),
-                                       "efficiency_indicator": Decimal(row[6]),
-                                       "svg": svg_dict.get(row[7], None),
-                                       "camera_url": row[8],
-                                       "description": row[9],
+                                       "is_enabled": bool(row[5]),
+                                       "cost_center": cost_center_dict.get(row[6], None),
+                                       "efficiency_indicator": Decimal(row[7]),
+                                       "svg": svg_dict.get(row[8], None),
+                                       "camera_url": row[9],
+                                       "description": row[10],
                                        "qrcode": 'equipment:' + row[2]}
                         result.append(meta_result)
             finally:
@@ -251,6 +252,14 @@ class EquipmentCollection:
             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                    description='API.INVALID_IS_OUTPUT_COUNTED_VALUE')
         is_output_counted = new_values['data']['is_output_counted']
+
+        if 'is_enabled' not in new_values['data'].keys():
+            is_enabled = True
+        elif not isinstance(new_values['data']['is_enabled'], bool):
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_IS_ENABLED_VALUE')
+        else:
+            is_enabled = new_values['data']['is_enabled']
 
         if 'cost_center_id' not in new_values['data'].keys() or \
                 not isinstance(new_values['data']['cost_center_id'], int) or \
@@ -327,13 +336,14 @@ class EquipmentCollection:
                                                description='API.SVG_NOT_FOUND')
 
                 add_values = (" INSERT INTO tbl_equipments "
-                              "    (name, uuid, is_input_counted, is_output_counted, "
+                              "    (name, uuid, is_input_counted, is_output_counted, is_enabled, "
                               "     cost_center_id, efficiency_indicator, svg_id, camera_url, description) "
-                              " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s) ")
+                              " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s) ")
                 cursor.execute(add_values, (name,
                                             str(uuid.uuid4()),
                                             is_input_counted,
                                             is_output_counted,
+                                            is_enabled,
                                             cost_center_id,
                                             efficiency_indicator,
                                             svg_id,
@@ -432,7 +442,7 @@ class EquipmentItem:
                                             "uuid": row[2]}
 
                 query = (" SELECT id, name, uuid, "
-                         "        is_input_counted, is_output_counted, "
+                         "        is_input_counted, is_output_counted, is_enabled, "
                          "        cost_center_id, efficiency_indicator, svg_id, camera_url, description "
                          " FROM tbl_equipments "
                          " WHERE id = %s ")
@@ -454,11 +464,12 @@ class EquipmentItem:
                        "uuid": row[2],
                        "is_input_counted": bool(row[3]),
                        "is_output_counted": bool(row[4]),
-                       "cost_center": cost_center_dict.get(row[5], None),
-                       "efficiency_indicator": Decimal(row[6]),
-                       "svg": svg_dict.get(row[7], None),
-                       "camera_url": row[8],
-                       "description": row[9],
+                       "is_enabled": bool(row[5]),
+                       "cost_center": cost_center_dict.get(row[6], None),
+                       "efficiency_indicator": Decimal(row[7]),
+                       "svg": svg_dict.get(row[8], None),
+                       "camera_url": row[9],
+                       "description": row[10],
                        "qrcode": 'equipment:' + row[2]}
 
         # Store result in Redis cache
@@ -601,6 +612,14 @@ class EquipmentItem:
                                    description='API.INVALID_IS_OUTPUT_COUNTED_VALUE')
         is_output_counted = new_values['data']['is_output_counted']
 
+        if 'is_enabled' not in new_values['data'].keys():
+            is_enabled = True
+        elif not isinstance(new_values['data']['is_enabled'], bool):
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_IS_ENABLED_VALUE')
+        else:
+            is_enabled = new_values['data']['is_enabled']
+
         if 'cost_center_id' not in new_values['data'].keys() or \
                 not isinstance(new_values['data']['cost_center_id'], int) or \
                 new_values['data']['cost_center_id'] <= 0:
@@ -681,13 +700,14 @@ class EquipmentItem:
                                                description='API.SVG_NOT_FOUND')
 
                 update_row = (" UPDATE tbl_equipments "
-                              " SET name = %s, is_input_counted = %s, is_output_counted = %s, "
+                              " SET name = %s, is_input_counted = %s, is_output_counted = %s, is_enabled = %s, "
                               "     cost_center_id = %s, efficiency_indicator = %s, svg_id = %s, camera_url = %s, "
                               "     description = %s "
                               " WHERE id = %s ")
                 cursor.execute(update_row, (name,
                                             is_input_counted,
                                             is_output_counted,
+                                            is_enabled,
                                             cost_center_id,
                                             efficiency_indicator,
                                             svg_id,
@@ -737,7 +757,7 @@ class EquipmentItem:
                     raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                            description='API.EQUIPMENT_NOT_FOUND')
 
-                query = (" SELECT name, is_input_counted, is_output_counted, "
+                query = (" SELECT name, is_input_counted, is_output_counted, is_enabled, "
                          "        cost_center_id, efficiency_indicator, svg_id, camera_url, description "
                          " FROM tbl_equipments "
                          " WHERE id = %s ")
@@ -749,9 +769,9 @@ class EquipmentItem:
                                            description='API.EQUIPMENT_NOT_FOUND')
                 else:
                     add_values = (" INSERT INTO tbl_equipments "
-                                  "    (name, uuid, is_input_counted, is_output_counted, "
+                                  "    (name, uuid, is_input_counted, is_output_counted, is_enabled, "
                                   "     cost_center_id, efficiency_indicator, svg_id, camera_url, description) "
-                                  " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s) ")
+                                  " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s) ")
                     cursor.execute(add_values, (row[0] + ' Copy',
                                                 str(uuid.uuid4()),
                                                 row[1],
@@ -760,7 +780,8 @@ class EquipmentItem:
                                                 row[4],
                                                 row[5],
                                                 row[6],
-                                                row[7]))
+                                                row[7],
+                                                row[8]))
                     new_id = cursor.lastrowid
                     cnx.commit()
 
@@ -2654,7 +2675,7 @@ class EquipmentExport:
                                             "uuid": row[2]}
     
                 query = (" SELECT id, name, uuid, "
-                         "        is_input_counted, is_output_counted, "
+                         "        is_input_counted, is_output_counted, is_enabled, "
                          "        cost_center_id, efficiency_indicator, svg_id, camera_url, description "
                          " FROM tbl_equipments "
                          " WHERE id = %s ")
@@ -2669,11 +2690,12 @@ class EquipmentExport:
                                    "name": row[1],
                                    "is_input_counted": bool(row[3]),
                                    "is_output_counted": bool(row[4]),
-                                   "cost_center": cost_center_dict.get(row[5], None),
-                                   "efficiency_indicator": Decimal(row[6]) if row[6] is not None else None,
-                                   "svg": svg_dict.get(row[7], None),
-                                   "camera_url": row[8],
-                                   "description": row[9],
+                                   "is_enabled": bool(row[5]),
+                                   "cost_center": cost_center_dict.get(row[6], None),
+                                   "efficiency_indicator": Decimal(row[7]) if row[7] is not None else None,
+                                   "svg": svg_dict.get(row[8], None),
+                                   "camera_url": row[9],
+                                   "description": row[10],
                                    "commands": None,
                                    "meters": None,
                                    "offline_meters": None,
@@ -2916,6 +2938,14 @@ class EquipmentImport:
                                    description='API.INVALID_IS_OUTPUT_COUNTED_VALUE')
         is_output_counted = new_values['is_output_counted']
 
+        if 'is_enabled' not in new_values.keys():
+            is_enabled = True
+        elif not isinstance(new_values['is_enabled'], bool):
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_IS_ENABLED_VALUE')
+        else:
+            is_enabled = new_values['is_enabled']
+
         if 'id' not in new_values['cost_center'].keys() or \
                 not isinstance(new_values['cost_center']['id'], int) or \
                 new_values['cost_center']['id'] <= 0:
@@ -2993,13 +3023,14 @@ class EquipmentImport:
                                                description='API.SVG_NOT_FOUND')
         
                 add_values = (" INSERT INTO tbl_equipments "
-                              "    (name, uuid, is_input_counted, is_output_counted, "
+                              "    (name, uuid, is_input_counted, is_output_counted, is_enabled, "
                               "     cost_center_id, efficiency_indicator, svg_id, camera_url, description) "
-                              " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s) ")
+                              " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s) ")
                 cursor.execute(add_values, (name,
                                             str(uuid.uuid4()),
                                             is_input_counted,
                                             is_output_counted,
+                                            is_enabled,
                                             cost_center_id,
                                             efficiency_indicator,
                                             svg_id,
@@ -3278,7 +3309,7 @@ class EquipmentClone:
                                                     "uuid": row[2]}
         
                 query = (" SELECT id, name, uuid, "
-                         "        is_input_counted, is_output_counted, "
+                         "        is_input_counted, is_output_counted, is_enabled, "
                          "        cost_center_id, efficiency_indicator, svg_id, camera_url, description "
                          " FROM tbl_equipments "
                          " WHERE id = %s ")
@@ -3294,11 +3325,12 @@ class EquipmentClone:
                                    "uuid": row[2],
                                    "is_input_counted": bool(row[3]),
                                    "is_output_counted": bool(row[4]),
-                                   "cost_center": cost_center_dict.get(row[5], None),
-                                   "efficiency_indicator": Decimal(row[6]) if row[6] is not None else None,
-                                   "svg_id": row[7],
-                                   "camera_url": row[8],
-                                   "description": row[9],
+                                   "is_enabled": bool(row[5]),
+                                   "cost_center": cost_center_dict.get(row[6], None),
+                                   "efficiency_indicator": Decimal(row[7]) if row[7] is not None else None,
+                                   "svg_id": row[8],
+                                   "camera_url": row[9],
+                                   "description": row[10],
                                    "commands": None,
                                    "meters": None,
                                    "offline_meters": None,
@@ -3497,13 +3529,14 @@ class EquipmentClone:
                     ).isoformat(sep='-', timespec='seconds')
                     new_name = str.strip(meta_result['name']) + suffix
                     add_values = (" INSERT INTO tbl_equipments "
-                                  "    (name, uuid, is_input_counted, is_output_counted, "
+                                  "    (name, uuid, is_input_counted, is_output_counted, is_enabled, "
                                   "     cost_center_id, efficiency_indicator, svg_id, camera_url, description) "
-                                  " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s) ")
+                                  " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s) ")
                     cursor.execute(add_values, (new_name,
                                                 str(uuid.uuid4()),
                                                 meta_result['is_input_counted'],
                                                 meta_result['is_output_counted'],
+                                                meta_result['is_enabled'],
                                                 meta_result['cost_center']['id'],
                                                 meta_result.get('efficiency_indicator', Decimal('0.0')),
                                                 meta_result['svg_id'],

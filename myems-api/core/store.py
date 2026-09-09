@@ -180,7 +180,7 @@ class StoreCollection:
 
                 query = (" SELECT id, name, uuid, "
                          "        address, latitude, longitude, area, store_type_id, "
-                         "        is_input_counted, contact_id, cost_center_id, description "
+                         "        is_input_counted, is_enabled, contact_id, cost_center_id, description "
                          " FROM tbl_stores ")
                 params = []
                 if search_query:
@@ -203,9 +203,10 @@ class StoreCollection:
                                        "area": row[6],
                                        "store_type": store_type_dict.get(row[7], None),
                                        "is_input_counted": bool(row[8]),
-                                       "contact": contact_dict.get(row[9], None),
-                                       "cost_center": cost_center_dict.get(row[10], None),
-                                       "description": row[11],
+                                       "is_enabled": bool(row[9]),
+                                       "contact": contact_dict.get(row[10], None),
+                                       "cost_center": cost_center_dict.get(row[11], None),
+                                       "description": row[12],
                                        "qrcode": 'store:' + row[2]}
                         result.append(meta_result)
             finally:
@@ -299,6 +300,14 @@ class StoreCollection:
                                    description='API.INVALID_IS_INPUT_COUNTED_VALUE')
         is_input_counted = new_values['data']['is_input_counted']
 
+        if 'is_enabled' not in new_values['data'].keys():
+            is_enabled = True
+        elif not isinstance(new_values['data']['is_enabled'], bool):
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_IS_ENABLED_VALUE')
+        else:
+            is_enabled = new_values['data']['is_enabled']
+
         if 'contact_id' not in new_values['data'].keys() or \
                 not isinstance(new_values['data']['contact_id'], int) or \
                 new_values['data']['contact_id'] <= 0:
@@ -363,9 +372,9 @@ class StoreCollection:
 
                 add_values = (" INSERT INTO tbl_stores "
                               "    (name, uuid, address, latitude, longitude, area, store_type_id, "
-                              "     is_input_counted, "
+                              "     is_input_counted, is_enabled, "
                               "     contact_id, cost_center_id, description) "
-                              " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) ")
+                              " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) ")
                 cursor.execute(add_values, (name,
                                             str(uuid.uuid4()),
                                             address,
@@ -374,6 +383,7 @@ class StoreCollection:
                                             area,
                                             store_type_id,
                                             is_input_counted,
+                                            is_enabled,
                                             contact_id,
                                             cost_center_id,
                                             description))
@@ -482,7 +492,7 @@ class StoreItem:
 
                 query = (" SELECT id, name, uuid, "
                          "        address, latitude, longitude, area, store_type_id,"
-                         "        is_input_counted, "
+                         "        is_input_counted, is_enabled, "
                          "        contact_id, cost_center_id, description "
                          " FROM tbl_stores "
                          " WHERE id = %s ")
@@ -502,9 +512,10 @@ class StoreItem:
                                    "area": row[6],
                                    "store_type": store_type_dict.get(row[7], None),
                                    "is_input_counted": bool(row[8]),
-                                   "contact": contact_dict.get(row[9], None),
-                                   "cost_center": cost_center_dict.get(row[10], None),
-                                   "description": row[11],
+                                   "is_enabled": bool(row[9]),
+                                   "contact": contact_dict.get(row[10], None),
+                                   "cost_center": cost_center_dict.get(row[11], None),
+                                   "description": row[12],
                                    "qrcode": 'store:' + row[2]}
             finally:
                 if cursor:
@@ -670,6 +681,14 @@ class StoreItem:
                                    description='API.INVALID_IS_INPUT_COUNTED_VALUE')
         is_input_counted = new_values['data']['is_input_counted']
 
+        if 'is_enabled' not in new_values['data'].keys():
+            is_enabled = True
+        elif not isinstance(new_values['data']['is_enabled'], bool):
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_IS_ENABLED_VALUE')
+        else:
+            is_enabled = new_values['data']['is_enabled']
+
         if 'contact_id' not in new_values['data'].keys() or \
                 not isinstance(new_values['data']['contact_id'], int) or \
                 new_values['data']['contact_id'] <= 0:
@@ -741,7 +760,7 @@ class StoreItem:
 
                 update_row = (" UPDATE tbl_stores "
                               " SET name = %s, address = %s, latitude = %s, longitude = %s, area = %s, "
-                              "     store_type_id = %s, is_input_counted = %s, "
+                              "     store_type_id = %s, is_input_counted = %s, is_enabled = %s, "
                               "     contact_id = %s, cost_center_id = %s, "
                               "     description = %s "
                               " WHERE id = %s ")
@@ -752,6 +771,7 @@ class StoreItem:
                                             area,
                                             store_type_id,
                                             is_input_counted,
+                                            is_enabled,
                                             contact_id,
                                             cost_center_id,
                                             description,
@@ -2361,7 +2381,7 @@ class StoreExport:
 
                 query = (" SELECT id, name, uuid, "
                          "        address, latitude, longitude, area, store_type_id,"
-                         "        is_input_counted, "
+                         "        is_input_counted, is_enabled, "
                          "        contact_id, cost_center_id, description "
                          " FROM tbl_stores "
                          " WHERE id = %s ")
@@ -2380,9 +2400,10 @@ class StoreExport:
                                    "area": row[6],
                                    "store_type": store_type_dict.get(row[7], None),
                                    "is_input_counted": bool(row[8]),
-                                   "contact": contact_dict.get(row[9], None),
-                                   "cost_center": cost_center_dict.get(row[10], None),
-                                   "description": row[11],
+                                   "is_enabled": bool(row[9]),
+                                   "contact": contact_dict.get(row[10], None),
+                                   "cost_center": cost_center_dict.get(row[11], None),
+                                   "description": row[12],
                                    "commands": None,
                                    "meters": None,
                                    "offline_meters": None,
@@ -2629,6 +2650,14 @@ class StoreImport:
                                    description='API.INVALID_IS_INPUT_COUNTED_VALUE')
         is_input_counted = new_values['is_input_counted']
 
+        if 'is_enabled' not in new_values.keys():
+            is_enabled = True
+        elif not isinstance(new_values['is_enabled'], bool):
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_IS_ENABLED_VALUE')
+        else:
+            is_enabled = new_values['is_enabled']
+
         if 'id' not in new_values['contact'].keys() or \
                 not isinstance(new_values['contact']['id'], int) or \
                 new_values['contact']['id'] <= 0:
@@ -2693,9 +2722,9 @@ class StoreImport:
 
                 add_values = (" INSERT INTO tbl_stores "
                               "    (name, uuid, address, latitude, longitude, area, store_type_id, "
-                              "     is_input_counted, "
+                              "     is_input_counted, is_enabled, "
                               "     contact_id, cost_center_id, description) "
-                              " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) ")
+                              " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) ")
                 cursor.execute(add_values, (name,
                                             str(uuid.uuid4()),
                                             address,
@@ -2704,6 +2733,7 @@ class StoreImport:
                                             area,
                                             store_type_id,
                                             is_input_counted,
+                                            is_enabled,
                                             contact_id,
                                             cost_center_id,
                                             description))
@@ -2921,7 +2951,7 @@ class StoreClone:
 
                 query = (" SELECT id, name, uuid, "
                          "        address, latitude, longitude, area, store_type_id,"
-                         "        is_input_counted, "
+                         "        is_input_counted, is_enabled, "
                          "        contact_id, cost_center_id, description "
                          " FROM tbl_stores "
                          " WHERE id = %s ")
@@ -2941,9 +2971,10 @@ class StoreClone:
                                    "area": row[6],
                                    "store_type": store_type_dict.get(row[7], None),
                                    "is_input_counted": bool(row[8]),
-                                   "contact": contact_dict.get(row[9], None),
-                                   "cost_center": cost_center_dict.get(row[10], None),
-                                   "description": row[11],
+                                   "is_enabled": bool(row[9]),
+                                   "contact": contact_dict.get(row[10], None),
+                                   "cost_center": cost_center_dict.get(row[11], None),
+                                   "description": row[12],
                                    "commands": None,
                                    "meters": None,
                                    "offline_meters": None,
@@ -3066,9 +3097,9 @@ class StoreClone:
                     new_name = str.strip(meta_result['name']) + suffix
                     add_values = (" INSERT INTO tbl_stores "
                                   "    (name, uuid, address, latitude, longitude, area, store_type_id, "
-                                  "     is_input_counted, "
+                                  "     is_input_counted, is_enabled, "
                                   "     contact_id, cost_center_id, description) "
-                                  " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) ")
+                                  " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) ")
                     cursor.execute(add_values, (new_name,
                                                 str(uuid.uuid4()),
                                                 meta_result['address'],
@@ -3077,6 +3108,7 @@ class StoreClone:
                                                 meta_result['area'],
                                                 meta_result['store_type']['id'],
                                                 meta_result['is_input_counted'],
+                                                meta_result['is_enabled'],
                                                 meta_result['contact']['id'],
                                                 meta_result['cost_center']['id'],
                                                 meta_result['description']))

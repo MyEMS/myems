@@ -97,6 +97,9 @@ app.controller('TenantController', function (
 			if (angular.isDefined(tenant.is_in_lease) == false) {
 				tenant.is_in_lease = false;
 			}
+			if (angular.isDefined(tenant.is_enabled) == false) {
+				tenant.is_enabled = true;
+			}
 			let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 			TenantService.addTenant(tenant, headers, function (response) {
 				if (angular.isDefined(response.status) && response.status === 201) {
@@ -152,6 +155,9 @@ app.controller('TenantController', function (
 			}
 			if (angular.isDefined(tenant.is_in_lease) == false) {
 				tenant.is_in_lease = false;
+			}
+			if (angular.isDefined(modifiedTenant.is_enabled) == false) {
+				modifiedTenant.is_enabled = true;
 			}
 			let headers = { "User-UUID": $scope.cur_user.uuid, "Token": $scope.cur_user.token };
 			TenantService.editTenant(modifiedTenant, headers, function (response) {
@@ -363,7 +369,8 @@ app.controller('ModalAddTenantCtrl', function ($scope, $uibModalInstance, params
 	$scope.contacts = params.contacts;
 	$scope.tenant = {
 		lease_start_datetime: moment(),
-		lease_end_datetime: moment()
+		lease_end_datetime: moment(),
+		is_enabled: true
 	};
 	$scope.dtOptions = {
 		locale: {
