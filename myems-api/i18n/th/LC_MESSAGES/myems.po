@@ -542,3 +542,12 @@ msgid "Offline Meter Plan"
 msgstr "แผนของมิเตอร์ออฟไลน์"
 msgid "Combined Equipment"
 msgstr "อุปกรณ์รวม"
+
+msgid "Tenant Data"
+msgstr "ข้อมูลผู้เช่า"
+
+msgid "Tenant Bill"
+msgstr "บิลผู้เช่า"
+
+msgid "Tenant Comparison"
+msgstr "การเปรียบเทียบผู้เช่า"

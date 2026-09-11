@@ -543,3 +543,12 @@ msgstr "Kế hoạch đồng hồ ngoại tuyến"
 
 msgid "Combined Equipment"
 msgstr "Thiết bị kết hợp"
+
+msgid "Tenant Data"
+msgstr "Dữ liệu người thuê"
+
+msgid "Tenant Bill"
+msgstr "Hóa đơn người thuê"
+
+msgid "Tenant Comparison"
+msgstr "So sánh người thuê"

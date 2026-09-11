@@ -543,3 +543,12 @@ msgstr "Plan des compteurs hors ligne"
 
 msgid "Combined Equipment"
 msgstr "Équipement Combiné"
+
+msgid "Tenant Data"
+msgstr "Données des locataires"
+
+msgid "Tenant Bill"
+msgstr "Facture du locataire"
+
+msgid "Tenant Comparison"
+msgstr "Comparaison des locataires"
