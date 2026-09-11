@@ -543,3 +543,12 @@ msgstr "برنامه کنتورهای آفلاین"
 
 msgid "Combined Equipment"
 msgstr "تجهیزات ترکیبی"
+
+msgid "Tenant Data"
+msgstr "داده‌های مستأجر"
+
+msgid "Tenant Bill"
+msgstr "صورت‌حساب مستأجر"
+
+msgid "Tenant Comparison"
+msgstr "مقایسه مستأجران"

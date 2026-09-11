@@ -543,3 +543,12 @@ msgstr "離線表計劃分析"
 
 msgid "Combined Equipment"
 msgstr "組合設備"
+
+msgid "Tenant Data"
+msgstr "租戶數據"
+
+msgid "Tenant Bill"
+msgstr "租戶賬單"
+
+msgid "Tenant Comparison"
+msgstr "對比分析"

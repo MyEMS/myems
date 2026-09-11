@@ -543,3 +543,12 @@ msgstr "План офлайн-счётчиков"
 
 msgid "Combined Equipment"
 msgstr "Комбинированное Оборудование"
+
+msgid "Tenant Data"
+msgstr "Данные арендатора"
+
+msgid "Tenant Bill"
+msgstr "Счёт арендатора"
+
+msgid "Tenant Comparison"
+msgstr "Сравнение арендаторов"

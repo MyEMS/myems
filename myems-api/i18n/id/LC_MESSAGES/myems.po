@@ -543,3 +543,12 @@ msgstr "Rencana Meter Offline"
 
 msgid "Combined Equipment"
 msgstr "Peralatan Gabungan"
+
+msgid "Tenant Data"
+msgstr "Data Penyewa"
+
+msgid "Tenant Bill"
+msgstr "Tagihan Penyewa"
+
+msgid "Tenant Comparison"
+msgstr "Perbandingan Penyewa"
