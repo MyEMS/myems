@@ -543,3 +543,12 @@ msgstr "Offline Meter Plan"
 
 msgid "Combined Equipment"
 msgstr "Combined Equipment"
+
+msgid "Tenant Data"
+msgstr "Tenant Data"
+
+msgid "Tenant Bill"
+msgstr "Tenant Bill"
+
+msgid "Tenant Comparison"
+msgstr "Tenant Comparison"

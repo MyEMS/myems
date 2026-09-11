@@ -12,6 +12,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - added pdf exporters for reports of meters, offline meters and virtual meters in myems-api and myems-web
 - added docx exporters for equipment reports in myems-api and myems-web
 - added is_enabled to combined equipment, equipment, shopfloor, store and tenant in myems-api and myems-admin
+- added pdf exporters for reports of tenants in myems-api and myems-web
 ### Changed
 - changed the tariff price precision from 6 decimal places to 8 decimal places
 ### Fixed

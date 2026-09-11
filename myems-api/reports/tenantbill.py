@@ -41,6 +41,7 @@ import redis
 import simplejson as json
 import config
 import excelexporters.tenantbill
+import pdfexporters.tenantbill
 from core import utilities
 from core.useractivity import access_control, api_key_control
 
@@ -75,6 +76,8 @@ class Reporting:
         reporting_period_start_datetime_local = req.params.get('reportingperiodstartdatetime')
         reporting_period_end_datetime_local = req.params.get('reportingperiodenddatetime')
         language = req.params.get('language')
+        export_excel = req.params.get('exportexcel')
+        export_pdf = req.params.get('exportpdf')
         # This value is intentionally left daily
         period_type = 'daily'
 
@@ -144,6 +147,19 @@ class Reporting:
         ############################################################################################################
         # Redis cache
         ############################################################################################################
+        # default not to export; only generate files when the corresponding option is checked
+        is_export_excel = False
+        if export_excel is not None and \
+                len(str.strip(export_excel)) > 0 and \
+                str.lower(str.strip(export_excel)) in ('true', 't', 'on', 'yes', 'y'):
+            is_export_excel = True
+
+        is_export_pdf = False
+        if export_pdf is not None and \
+                len(str.strip(export_pdf)) > 0 and \
+                str.lower(str.strip(export_pdf)) in ('true', 't', 'on', 'yes', 'y'):
+            is_export_pdf = True
+
         cache_key = None
         cache_expire = 1800  # 30 minutes
         redis_client = None
@@ -174,6 +190,8 @@ class Reporting:
                     "reporting_end_datetime_utc": reporting_end_datetime_utc_normalized.isoformat()
                     if reporting_end_datetime_utc_normalized else None,
                     "language": language,
+                    "exportexcel": is_export_excel,
+                    "exportpdf": is_export_pdf,
                 }
                 cache_params_json = json.dumps(cache_params, sort_keys=True)
                 cache_key = 'report:tenantbill:' + hashlib.sha256(cache_params_json.encode('utf-8')).hexdigest()
@@ -186,7 +204,8 @@ class Reporting:
                 redis_client = None
 
         trans = utilities.get_translation(language)
-        trans.install()
+        # Do NOT call trans.install() - it modifies global builtins._
+        # which causes language cross-contamination in concurrent requests.
         _ = trans.gettext
 
         ################################################################################################################
@@ -449,13 +468,23 @@ class Reporting:
             "values": parameters_data['values']
         }
 
-        # export result to Excel file and then encode the file to base64 string
-        result['excel_bytes_base64'] = excelexporters.tenantbill.export(result,
-                                                                        tenant['name'],
-                                                                        reporting_period_start_datetime_local,
-                                                                        reporting_period_end_datetime_local,
-                                                                        period_type,
-                                                                        language)
+        result['excel_bytes_base64'] = None
+        result['pdf_bytes_base64'] = None
+        # export result to Excel/PDF file and then encode the file to base64 string
+        if is_export_excel:
+            result['excel_bytes_base64'] = excelexporters.tenantbill.export(result,
+                                                                            tenant['name'],
+                                                                            reporting_period_start_datetime_local,
+                                                                            reporting_period_end_datetime_local,
+                                                                            period_type,
+                                                                            language)
+        if is_export_pdf:
+            result['pdf_bytes_base64'] = pdfexporters.tenantbill.export(result,
+                                                                               tenant['name'],
+                                                                               reporting_period_start_datetime_local,
+                                                                               reporting_period_end_datetime_local,
+                                                                               period_type,
+                                                                               language)
 
         resp_text = json.dumps(result)
         resp.text = resp_text

@@ -544,3 +544,12 @@ msgstr "离线表计划分析"
 
 msgid "Combined Equipment"
 msgstr "组合设备"
+
+msgid "Tenant Data"
+msgstr "租户数据"
+
+msgid "Tenant Bill"
+msgstr "租户账单"
+
+msgid "Tenant Comparison"
+msgstr "对比分析"

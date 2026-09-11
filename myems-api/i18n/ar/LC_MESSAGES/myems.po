@@ -543,3 +543,12 @@ msgstr "خطة العدادات غير المتصلة"
 
 msgid "Combined Equipment"
 msgstr "المعدات المجمعة"
+
+msgid "Tenant Data"
+msgstr "بيانات المستأجرين"
+
+msgid "Tenant Bill"
+msgstr "فاتورة المستأجر"
+
+msgid "Tenant Comparison"
+msgstr "مقارنة المستأجرين"
