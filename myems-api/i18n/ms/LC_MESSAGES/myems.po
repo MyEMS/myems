@@ -544,6 +544,9 @@ msgstr "Pelan Meter Luar Talian"
 msgid "Combined Equipment"
 msgstr "Peralatan Gabungan"
 
+msgid "Tenant"
+msgstr "Penyewa"
+
 msgid "Tenant Data"
 msgstr "Data Penyewa"
 
@@ -552,3 +555,12 @@ msgstr "Bil Penyewa"
 
 msgid "Tenant Comparison"
 msgstr "Perbandingan Penyewa"
+
+msgid "Store Data"
+msgstr "Data Kedai"
+
+msgid "Store Comparison"
+msgstr "Perbandingan Kedai"
+
+msgid "Store"
+msgstr "Kedai"

@@ -544,6 +544,9 @@ msgstr "خطة العدادات غير المتصلة"
 msgid "Combined Equipment"
 msgstr "المعدات المجمعة"
 
+msgid "Tenant"
+msgstr "المستأجر"
+
 msgid "Tenant Data"
 msgstr "بيانات المستأجرين"
 
@@ -552,3 +555,12 @@ msgstr "فاتورة المستأجر"
 
 msgid "Tenant Comparison"
 msgstr "مقارنة المستأجرين"
+
+msgid "Store Data"
+msgstr "بيانات المتجر"
+
+msgid "Store Comparison"
+msgstr "مقارنة المتاجر"
+
+msgid "Store"
+msgstr "المتجر"

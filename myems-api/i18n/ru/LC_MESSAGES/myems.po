@@ -544,6 +544,9 @@ msgstr "План офлайн-счётчиков"
 msgid "Combined Equipment"
 msgstr "Комбинированное Оборудование"
 
+msgid "Tenant"
+msgstr "Арендатор"
+
 msgid "Tenant Data"
 msgstr "Данные арендатора"
 
@@ -552,3 +555,12 @@ msgstr "Счёт арендатора"
 
 msgid "Tenant Comparison"
 msgstr "Сравнение арендаторов"
+
+msgid "Store Data"
+msgstr "Данные магазина"
+
+msgid "Store Comparison"
+msgstr "Сравнение магазинов"
+
+msgid "Store"
+msgstr "Магазин"

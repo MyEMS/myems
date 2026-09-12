@@ -540,6 +540,9 @@ msgstr "오프라인 미터 계획 분석"
 msgid "Combined Equipment"
 msgstr "복합 설비"
 
+msgid "Tenant"
+msgstr "임차인"
+
 msgid "Tenant Data"
 msgstr "임차인 데이터"
 
@@ -548,3 +551,12 @@ msgstr "임차인 청구서"
 
 msgid "Tenant Comparison"
 msgstr "임차인 비교"
+
+msgid "Store Data"
+msgstr "매장 데이터"
+
+msgid "Store Comparison"
+msgstr "비교 분석"
+
+msgid "Store"
+msgstr "매장"

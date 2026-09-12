@@ -540,6 +540,9 @@ msgstr "Plan liczników offline"
 msgid "Combined Equipment"
 msgstr "Urządzenie zespolone"
 
+msgid "Tenant"
+msgstr "Najemca"
+
 msgid "Tenant Data"
 msgstr "Dane najemców"
 
@@ -548,3 +551,12 @@ msgstr "Rachunek najemcy"
 
 msgid "Tenant Comparison"
 msgstr "Porównanie najemców"
+
+msgid "Store Data"
+msgstr "Dane sklepów"
+
+msgid "Store Comparison"
+msgstr "Analiza porównawcza sklepów"
+
+msgid "Store"
+msgstr "Sklep"

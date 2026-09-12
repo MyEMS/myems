@@ -299,9 +299,15 @@ class StorePredictionPDFExporter:
                                str(w_val) if w_val and w_val > 0 else '-'])
 
         num_cols = len(col_headers)
+        # Anchor the table to a bounded band instead of filling the whole page
+        # (bbox=[0, 0, 1, 1] would stretch a few-row table into very tall rows);
+        # the height follows the row count so rows keep a consistent size.
+        num_rows = len(table_data)
+        band_h = min(1.0, num_rows * 0.12)
+        band_y = (1.0 - band_h) / 2.0
         table = ax.table(cellText=table_data, loc='center',
                          cellLoc='center', colWidths=[0.4, 0.3, 0.3],
-                         bbox=[0, 0, 1, 1])
+                         bbox=[0, band_y, 1, band_h])
         table.auto_set_font_size(False)
         table.set_fontsize(10)
         for j in range(num_cols):

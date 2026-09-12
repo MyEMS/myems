@@ -544,6 +544,9 @@ msgstr "Çevrimdışı Sayaç Planı"
 msgid "Combined Equipment"
 msgstr "Birleşik Ekipman"
 
+msgid "Tenant"
+msgstr "Kiracı"
+
 msgid "Tenant Data"
 msgstr "Kiracı Verileri"
 
@@ -552,3 +555,12 @@ msgstr "Kiracı Faturası"
 
 msgid "Tenant Comparison"
 msgstr "Kiracı Karşılaştırması"
+
+msgid "Store Data"
+msgstr "Mağaza Verileri"
+
+msgid "Store Comparison"
+msgstr "Mağaza Karşılaştırması"
+
+msgid "Store"
+msgstr "Mağaza"
