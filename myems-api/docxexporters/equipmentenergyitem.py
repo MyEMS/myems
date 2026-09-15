@@ -452,7 +452,7 @@ class EquipmentEnergyItemDOCXExporter:
             except Exception as e:
                 logger.warning(f"Failed to load logo image: {e}")
 
-        for _unused in range(3):
+        for _unused in range(2):
             doc.add_paragraph('')
 
         title = doc.add_paragraph()
@@ -465,7 +465,7 @@ class EquipmentEnergyItemDOCXExporter:
         r = run._element
         r.rPr.rFonts.set(qn('w:eastAsia'), 'SimSun')
 
-        for _unused in range(3):
+        for _unused in range(2):
             doc.add_paragraph('')
 
         info_data = [

@@ -114,6 +114,7 @@ const MeterSubmetersBalance = ({ setRedirect, setRedirectUrl, t }) => {
   const [exportButtonHidden, setExportButtonHidden] = useState(true);
   const [exportExcel, setExportExcel] = useState(false);
   const [exportPdf, setExportPdf] = useState(false);
+  const [exportDocx, setExportDocx] = useState(false);
   const [resultDataHidden, setResultDataHidden] = useState(true);
   const [smartAnalysisOpen, setSmartAnalysisOpen] = useState(false);
   const [smartAnalysisContext, setSmartAnalysisContext] = useState(null);
@@ -138,6 +139,7 @@ const MeterSubmetersBalance = ({ setRedirect, setRedirectUrl, t }) => {
   const [detailedDataTableData, setDetailedDataTableData] = useState([]);
   const [excelBytesBase64, setExcelBytesBase64] = useState(undefined);
   const [pdfBytesBase64, setPdfBytesBase64] = useState(undefined);
+  const [docxBytesBase64, setDocxBytesBase64] = useState(undefined);
 
   useEffect(() => {
     let isResponseOK = false;
@@ -354,6 +356,7 @@ const MeterSubmetersBalance = ({ setRedirect, setRedirectUrl, t }) => {
     // reset export files
     setExcelBytesBase64(undefined);
     setPdfBytesBase64(undefined);
+    setDocxBytesBase64(undefined);
 
     // Reinitialize tables
     setDetailedDataTableData([]);
@@ -375,7 +378,9 @@ const MeterSubmetersBalance = ({ setRedirect, setRedirectUrl, t }) => {
         '&exportexcel=' +
         exportExcel +
         '&exportpdf=' +
-        exportPdf,
+        exportPdf +
+        '&exportdocx=' +
+        exportDocx,
       {
         method: 'GET',
         headers: {
@@ -537,13 +542,14 @@ const MeterSubmetersBalance = ({ setRedirect, setRedirectUrl, t }) => {
 
           setExcelBytesBase64(json['excel_bytes_base64']);
           setPdfBytesBase64(json['pdf_bytes_base64']);
+          setDocxBytesBase64(json['docx_bytes_base64']);
 
           // enable submit button
           setSubmitButtonDisabled(false);
           // hide spinner
           setSpinnerHidden(true);
           // show export button only when at least one export file was generated
-          setExportButtonHidden(!(json['excel_bytes_base64'] || json['pdf_bytes_base64']));
+          setExportButtonHidden(!(json['excel_bytes_base64'] || json['pdf_bytes_base64'] || json['docx_bytes_base64']));
           // show result data
           setResultDataHidden(false);
         } else {
@@ -577,6 +583,22 @@ const MeterSubmetersBalance = ({ setRedirect, setRedirectUrl, t }) => {
       const mimeType = 'application/pdf';
       const fileName = 'metersubmetersbalance.pdf';
       const fileUrl = 'data:' + mimeType + ';base64,' + pdfBytesBase64;
+      fetch(fileUrl)
+        .then(response => response.blob())
+        .then(blob => {
+          const link = window.document.createElement('a');
+          const blobUrl = window.URL.createObjectURL(blob, { type: mimeType });
+          link.href = blobUrl;
+          link.download = fileName;
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+          setTimeout(() => window.URL.revokeObjectURL(blobUrl), 100);
+        });
+    } else if (type === 'docx' && docxBytesBase64) {
+      const mimeType = 'application/vnd.openxmlformats-officedocument.wordprocessingml.document';
+      const fileName = 'metersubmetersbalance.docx';
+      const fileUrl = 'data:' + mimeType + ';base64,' + docxBytesBase64;
       fetch(fileUrl)
         .then(response => response.blob())
         .then(blob => {
@@ -667,7 +689,8 @@ const MeterSubmetersBalance = ({ setRedirect, setRedirectUrl, t }) => {
     detailedDataTableData,
     parameterLineChartLabels,
     parameterLineChartOptions,
-    parameterLineChartData
+    parameterLineChartData,
+    exportDocx
   ]);
 
   const openSmartAnalysis = () => {
@@ -793,6 +816,16 @@ const MeterSubmetersBalance = ({ setRedirect, setRedirectUrl, t }) => {
                       checked={exportPdf}
                       onChange={({ target }) => setExportPdf(target.checked)}
                     />
+                    <CustomInput
+                      type="checkbox"
+                      id="exportDocx"
+                      name="exportDocx"
+                      label="DOCX"
+                      bsSize="sm"
+                      inline
+                      checked={exportDocx}
+                      onChange={({ target }) => setExportDocx(target.checked)}
+                    />
                   </div>
                 </FormGroup>
               </Col>
@@ -824,6 +857,9 @@ const MeterSubmetersBalance = ({ setRedirect, setRedirectUrl, t }) => {
                     ) : null}
                     {pdfBytesBase64 ? (
                       <DropdownItem onClick={e => handleExport(e, 'pdf')}>PDF</DropdownItem>
+                    ) : null}
+                    {docxBytesBase64 ? (
+                      <DropdownItem onClick={e => handleExport(e, 'docx')}>DOCX</DropdownItem>
                     ) : null}
                   </DropdownMenu>
                 </UncontrolledDropdown>

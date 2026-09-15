@@ -21,6 +21,7 @@ import redis
 import simplejson as json
 import config
 import excelexporters.offlinemeterprediction
+import docxexporters.offlinemeterprediction
 from core import utilities
 from core.useractivity import access_control, api_key_control
 
@@ -57,6 +58,9 @@ class Reporting:
         reporting_period_end_datetime = req.params.get('reportingperiodenddatetime')
         language = req.params.get('language')
         quick_mode = req.params.get('quickmode')
+        export_excel = req.params.get('exportexcel')
+        export_pdf = req.params.get('exportpdf')
+        export_docx = req.params.get('exportdocx')
 
         ################################################################################################################
         # Step 1: valid parameters
@@ -154,6 +158,25 @@ class Reporting:
                 str.lower(str.strip(quick_mode)) in ('true', 't', 'on', 'yes', 'y'):
             is_quick_mode = True
 
+        # default not to export; only generate files when the corresponding option is checked
+        is_export_excel = False
+        if export_excel is not None and \
+                len(str.strip(export_excel)) > 0 and \
+                str.lower(str.strip(export_excel)) in ('true', 't', 'on', 'yes', 'y'):
+            is_export_excel = True
+
+        is_export_pdf = False
+        if export_pdf is not None and \
+                len(str.strip(export_pdf)) > 0 and \
+                str.lower(str.strip(export_pdf)) in ('true', 't', 'on', 'yes', 'y'):
+            is_export_pdf = True
+
+        is_export_docx = False
+        if export_docx is not None and \
+                len(str.strip(export_docx)) > 0 and \
+                str.lower(str.strip(export_docx)) in ('true', 't', 'on', 'yes', 'y'):
+            is_export_docx = True
+
         ############################################################################################################
         # Redis cache
         ############################################################################################################
@@ -195,6 +218,9 @@ class Reporting:
                     if reporting_end_datetime_utc_normalized else None,
                     "language": language,
                     "quickmode": is_quick_mode,
+                    "exportexcel": is_export_excel,
+                    "exportpdf": is_export_pdf,
+                    "exportdocx": is_export_docx,
                 }
                 cache_params_json = json.dumps(cache_params, sort_keys=True)
                 cache_key = 'report:offlinemeterenergy:' + hashlib.sha256(cache_params_json.encode('utf-8')).hexdigest()
@@ -412,20 +438,32 @@ class Reporting:
             "names": parameters_data['names'],
             "timestamps": parameters_data['timestamps'],
             "values": parameters_data['values']
-        }, 'excel_bytes_base64': None}
+        }, 'excel_bytes_base64': None, 'pdf_bytes_base64': None, 'docx_bytes_base64': None}
 
-        # export result to Excel file and then encode the file to base64 string
+        # export result to Excel/PDF/DOCX file and then encode the file to base64 string
         if not is_quick_mode:
-            result['excel_bytes_base64'] = excelexporters.offlinemeterprediction.export(
-                result,
-                offline_meter['name'],
-                base_period_start_datetime_local,
-                base_period_end_datetime_local,
-                reporting_period_start_datetime,
-                reporting_period_end_datetime,
-                period_type,
-                language
-            )
+            if is_export_excel:
+                result['excel_bytes_base64'] = excelexporters.offlinemeterprediction.export(
+                    result,
+                    offline_meter['name'],
+                    base_period_start_datetime_local,
+                    base_period_end_datetime_local,
+                    reporting_period_start_datetime,
+                    reporting_period_end_datetime,
+                    period_type,
+                    language
+                )
+            if is_export_docx:
+                result['docx_bytes_base64'] = docxexporters.offlinemeterprediction.export(
+                    result,
+                    offline_meter['name'],
+                    base_period_start_datetime_local,
+                    base_period_end_datetime_local,
+                    reporting_period_start_datetime,
+                    reporting_period_end_datetime,
+                    period_type,
+                    language
+                )
 
         resp_text = json.dumps(result)
         resp.text = resp_text
