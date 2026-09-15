@@ -544,6 +544,9 @@ msgstr "Offline Meter Plan"
 msgid "Combined Equipment"
 msgstr "Kombinierte Ausrüstung"
 
+msgid "Tenant"
+msgstr "Mieter"
+
 msgid "Tenant Data"
 msgstr "Mieterdaten"
 
@@ -552,3 +555,12 @@ msgstr "Mieterrechnung"
 
 msgid "Tenant Comparison"
 msgstr "Mietervergleich"
+
+msgid "Store Data"
+msgstr "Geschäftsdaten"
+
+msgid "Store Comparison"
+msgstr "Geschäft Vergleich"
+
+msgid "Store"
+msgstr "Geschäft"

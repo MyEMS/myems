@@ -540,6 +540,9 @@ msgstr "オフラインメーター計画分析"
 msgid "Combined Equipment"
 msgstr "複合設備"
 
+msgid "Tenant"
+msgstr "テナント"
+
 msgid "Tenant Data"
 msgstr "テナントデータ"
 
@@ -548,3 +551,12 @@ msgstr "テナント請求書"
 
 msgid "Tenant Comparison"
 msgstr "テナント比較"
+
+msgid "Store Data"
+msgstr "店舗データ"
+
+msgid "Store Comparison"
+msgstr "比較分析"
+
+msgid "Store"
+msgstr "店舗"

@@ -544,6 +544,9 @@ msgstr "Plan de medidores fuera de línea"
 msgid "Combined Equipment"
 msgstr "Equipo Combinado"
 
+msgid "Tenant"
+msgstr "Inquilino"
+
 msgid "Tenant Data"
 msgstr "Datos de inquilinos"
 
@@ -552,3 +555,12 @@ msgstr "Factura del inquilino"
 
 msgid "Tenant Comparison"
 msgstr "Comparación de inquilinos"
+
+msgid "Store Data"
+msgstr "Datos de la Tienda"
+
+msgid "Store Comparison"
+msgstr "Comparación de Tiendas"
+
+msgid "Store"
+msgstr "Tienda"

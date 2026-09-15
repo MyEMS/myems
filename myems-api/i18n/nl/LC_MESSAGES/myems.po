@@ -544,6 +544,9 @@ msgstr "Plan van offline meters"
 msgid "Combined Equipment"
 msgstr "Gecombineerde Apparatuur"
 
+msgid "Tenant"
+msgstr "Huurder"
+
 msgid "Tenant Data"
 msgstr "Huurdersgegevens"
 
@@ -552,3 +555,12 @@ msgstr "Huurdersfactuur"
 
 msgid "Tenant Comparison"
 msgstr "Vergelijking van huurders"
+
+msgid "Store Data"
+msgstr "Winkelgegevens"
+
+msgid "Store Comparison"
+msgstr "Vergelijkende analyse"
+
+msgid "Store"
+msgstr "Winkel"

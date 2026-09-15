@@ -365,15 +365,21 @@ class TenantBillPDFExporter:
         if os.path.exists(img_path):
             try:
                 img = plt.imread(img_path)
-                img_h_inch = 1.2
+                img_h_inch = 1.0
                 img_w_inch = img_h_inch * img.shape[1] / max(1, img.shape[0])
                 page_w, page_h = self.page_size
+                # Keep the logo in the top-right corner above the info blocks (which
+                # reach up to y=0.895); otherwise the white table cells of the bill
+                # block are drawn later and cover the lower part of the logo.
                 ax_img = fig.add_axes([0.95 - img_w_inch / page_w,
-                                       0.94 - img_h_inch / page_h,
+                                       0.985 - img_h_inch / page_h,
                                        img_w_inch / page_w,
                                        img_h_inch / page_h])
                 ax_img.imshow(img)
                 ax_img.axis('off')
+                # Draw the logo on top with a transparent background so it is never clipped
+                ax_img.patch.set_visible(False)
+                ax_img.set_zorder(5)
             except Exception as e:
                 logger.warning(f"Failed to load logo image: {e}")
 

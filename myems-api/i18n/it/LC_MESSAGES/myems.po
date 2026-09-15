@@ -544,6 +544,9 @@ msgstr "Piano dei contatori offline"
 msgid "Combined Equipment"
 msgstr "Apparecchiatura Combinata"
 
+msgid "Tenant"
+msgstr "Inquilino"
+
 msgid "Tenant Data"
 msgstr "Dati degli inquilini"
 
@@ -552,3 +555,12 @@ msgstr "Fattura dell'inquilino"
 
 msgid "Tenant Comparison"
 msgstr "Confronto degli inquilini"
+
+msgid "Store Data"
+msgstr "Dati Negozio"
+
+msgid "Store Comparison"
+msgstr "Analisi Comparativa"
+
+msgid "Store"
+msgstr "Negozio"
