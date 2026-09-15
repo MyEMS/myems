@@ -545,6 +545,9 @@ msgstr "离线表计划分析"
 msgid "Combined Equipment"
 msgstr "组合设备"
 
+msgid "Tenant"
+msgstr "租户"
+
 msgid "Tenant Data"
 msgstr "租户数据"
 
@@ -553,3 +556,12 @@ msgstr "租户账单"
 
 msgid "Tenant Comparison"
 msgstr "对比分析"
+
+msgid "Store Data"
+msgstr "门店数据"
+
+msgid "Store Comparison"
+msgstr "对比分析"
+
+msgid "Store"
+msgstr "门店"

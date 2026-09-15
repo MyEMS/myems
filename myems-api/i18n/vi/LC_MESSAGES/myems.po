@@ -544,6 +544,9 @@ msgstr "Kế hoạch đồng hồ ngoại tuyến"
 msgid "Combined Equipment"
 msgstr "Thiết bị kết hợp"
 
+msgid "Tenant"
+msgstr "Người thuê"
+
 msgid "Tenant Data"
 msgstr "Dữ liệu người thuê"
 
@@ -552,3 +555,12 @@ msgstr "Hóa đơn người thuê"
 
 msgid "Tenant Comparison"
 msgstr "So sánh người thuê"
+
+msgid "Store Data"
+msgstr "Dữ liệu cửa hàng"
+
+msgid "Store Comparison"
+msgstr "So sánh cửa hàng"
+
+msgid "Store"
+msgstr "Cửa hàng"
