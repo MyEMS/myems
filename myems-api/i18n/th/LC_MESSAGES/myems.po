@@ -563,3 +563,9 @@ msgstr "การเปรียบเทียบร้านค้า"
 
 msgid "Store"
 msgstr "ร้านค้า"
+
+msgid "Shopfloor Data"
+msgstr "ข้อมูลโรงผลิต"
+
+msgid "Shopfloor Comparison"
+msgstr "การประเมินผลการผลิต"

@@ -564,3 +564,9 @@ msgstr "مقارنة المتاجر"
 
 msgid "Store"
 msgstr "المتجر"
+
+msgid "Shopfloor Data"
+msgstr "بيانات ورشة العمل"
+
+msgid "Shopfloor Comparison"
+msgstr "مقارنة ورش العمل"

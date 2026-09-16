@@ -564,3 +564,9 @@ msgstr "Perbandingan Kedai"
 
 msgid "Store"
 msgstr "Kedai"
+
+msgid "Shopfloor Data"
+msgstr "Data Tingkat Kedai"
+
+msgid "Shopfloor Comparison"
+msgstr "Perbandingan Tingkat Kedai"

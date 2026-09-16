@@ -564,3 +564,9 @@ msgstr "Store Comparison"
 
 msgid "Store"
 msgstr "Store"
+
+msgid "Shopfloor Data"
+msgstr "Shopfloor"
+
+msgid "Shopfloor Comparison"
+msgstr "Shopfloor Comparison"

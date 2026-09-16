@@ -560,3 +560,9 @@ msgstr "Analiza porównawcza sklepów"
 
 msgid "Store"
 msgstr "Sklep"
+
+msgid "Shopfloor Data"
+msgstr "Dane hal produkcyjnych"
+
+msgid "Shopfloor Comparison"
+msgstr "Analiza porównawcza hal produkcyjnych"
