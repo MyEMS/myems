@@ -549,14 +549,16 @@ const ShopfloorLoad = ({ setRedirect, setRedirectUrl, t }) => {
           setShopfloorReportingData(reporting_values);
 
           let rates = {};
-          json['reporting_period']['rates_of_sub_maximums'].forEach((currentValue, index) => {
-            let currentRate = [];
-            currentValue.forEach(rate => {
-              currentRate.push(rate ? parseFloat(rate * 100).toFixed(2) : '0.00');
+          if (json['reporting_period']['rates_of_sub_maximums']) {
+            json['reporting_period']['rates_of_sub_maximums'].forEach((currentValue, index) => {
+              let currentRate = [];
+              currentValue.forEach(rate => {
+                currentRate.push(rate ? parseFloat(rate * 100).toFixed(2) : '0.00');
+              });
+              rates['a' + index] = currentRate;
             });
-            rates['a' + index] = currentRate;
-          });
-          setShopfloorReportingRates(rates);
+            setShopfloorReportingRates(rates);
+          }
 
           let options = [];
           json['reporting_period']['names'].forEach((currentValue, index) => {
