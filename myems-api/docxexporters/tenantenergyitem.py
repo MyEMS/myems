@@ -660,78 +660,213 @@ class TenantEnergyItemDOCXExporter:
         names = reporting_data.get('names', [])
         units = reporting_data.get('units', [])
         values = reporting_data.get('values', [])
+        subtotals = reporting_data.get('subtotals', [])
 
         if not timestamps or len(timestamps[0]) == 0 or not names:
             return
 
         reporting_times = timestamps[0]
-        charts_per_page = 4
         num_items = len(names)
+        rows_per_page = 25
 
         doc.add_page_break()
-        self._add_heading_styled(doc, self.name + ' ' + _('Detailed Data'), level=1)
 
         if not self.is_base_period_exists:
-            all_charts = []
+            first_item = True
             for i in range(num_items):
-                raw_data = values[i] if i < len(values) else []
-                xs, ys = self._filter_valid_data(raw_data)
                 color = self.chart_colors[i % len(self.chart_colors)]
-                fig, ax = plt.subplots(figsize=(4.8, 3.0))
-                if ys:
-                    ax.plot(xs, ys, linewidth=1.2, color=color,
-                            marker='o', markersize=3,
-                            markevery=max(1, len(ys) // 30))
-                step = max(1, len(raw_data) // 10)
-                ax.set_xticks(range(0, len(raw_data), step))
-                ax.set_xticklabels(
-                    [reporting_times[t][:10] for t in range(0, len(raw_data), step)],
-                    rotation=45, ha='right', fontsize=7)
                 unit_i = units[i] if (units and i < len(units)) else ''
-                ax.set_title(_('Reporting Period Energy Item') + ' - ' +
-                             names[i] + ' (' + unit_i + ')',
-                             fontsize=9, fontweight='bold')
-                ax.grid(True, alpha=0.3)
-                all_charts.append(self._fig_to_bytesio(fig, self.dpi))
-            self._render_2x2_charts(doc, all_charts)
+                raw_data = values[i] if i < len(values) else []
+                total_rows = max(len(raw_data), len(reporting_times))
+                if total_rows == 0:
+                    continue
+                num_pages = (total_rows + rows_per_page - 1) // rows_per_page
+                for page in range(num_pages):
+                    start_row = page * rows_per_page
+                    end_row = min(start_row + rows_per_page, total_rows)
+                    if first_item and page == 0:
+                        self._add_heading_styled(doc, self.name + ' ' + _('Detailed Data'), level=1)
+                        first_item = False
+                    container = doc.add_table(rows=2, cols=1)
+                    container.alignment = WD_TABLE_ALIGNMENT.CENTER
+                    _remove_table_borders(container)
+                    table_cell = container.cell(0, 0)
+                    chart_cell = container.cell(1, 0)
+                    col_headers = [_('Datetime'), names[i] + ' (' + unit_i + ')']
+                    table_data = [col_headers]
+                    for t_idx in range(start_row, end_row):
+                        row_vals = [reporting_times[t_idx] if t_idx < len(reporting_times) else '']
+                        v = raw_data[t_idx] if t_idx < len(raw_data) else None
+                        row_vals.append(str(round2(v, 2)) if v is not None else '')
+                        table_data.append(row_vals)
+                    total_row = [_('Total')]
+                    v = subtotals[i] if (subtotals and i < len(subtotals)) else None
+                    total_row.append(str(round2(v, 2)) if v is not None else '')
+                    table_data.append(total_row)
+                    num_cols = len(col_headers)
+                    data_table = table_cell.add_table(rows=len(table_data), cols=num_cols)
+                    data_table.alignment = WD_TABLE_ALIGNMENT.CENTER
+                    p_elem = table_cell.paragraphs[0]._element
+                    p_elem.getparent().remove(p_elem)
+                    for j in range(num_cols):
+                        cell = data_table.cell(0, j)
+                        cell.text = col_headers[j]
+                        _style_table_cell(cell, is_header=True, bold=True, font_size=8)
+                    for di in range(1, len(table_data) - 1):
+                        for j in range(num_cols):
+                            cell = data_table.cell(di, j)
+                            cell.text = table_data[di][j]
+                            _style_table_cell(cell, font_size=7)
+                    last_row = len(table_data) - 1
+                    for j in range(num_cols):
+                        cell = data_table.cell(last_row, j)
+                        cell.text = table_data[last_row][j]
+                        _style_table_cell(cell, bold=True, font_size=7)
+                    fig, ax_chart = plt.subplots(figsize=(8.5, 2.8))
+                    page_len = end_row - start_row
+                    page_data = []
+                    for t_idx in range(start_row, end_row):
+                        v = raw_data[t_idx] if t_idx < len(raw_data) else None
+                        page_data.append(float(v) if v is not None else 0.0)
+                    marker_step = max(1, page_len // 15)
+                    ax_chart.plot(range(page_len), page_data, linewidth=1.2,
+                                  color=color, marker='o', markersize=3,
+                                  markevery=marker_step,
+                                  label=names[i] + ' (' + unit_i + ')')
+                    step = max(1, page_len // 8)
+                    tick_positions = list(range(0, page_len, step))
+                    tick_labels = []
+                    for t in tick_positions:
+                        if start_row + t < len(reporting_times):
+                            tick_labels.append(reporting_times[start_row + t])
+                    tick_positions = tick_positions[:len(tick_labels)]
+                    ax_chart.set_xticks(tick_positions)
+                    ax_chart.set_xticklabels(tick_labels, rotation=45, ha='right', fontsize=7)
+                    ax_chart.set_title(_('Reporting Period Energy Item') + ' - ' + names[i] + ((' (' + unit_i + ')') if unit_i else ''),
+                                       fontsize=10, weight='bold')
+                    ax_chart.legend(fontsize=7, loc='upper right')
+                    ax_chart.grid(True, alpha=0.3)
+                    chart_buf = self._fig_to_bytesio(fig, self.dpi)
+                    p = chart_cell.paragraphs[0]
+                    p.alignment = WD_ALIGN_PARAGRAPH.CENTER
+                    run = p.add_run()
+                    run.add_picture(chart_buf, width=Inches(8.5))
+                    if page < num_pages - 1:
+                        doc.add_page_break()
+                if i < num_items - 1:
+                    doc.add_page_break()
         else:
             base_period_data = self.report['base_period']
+            base_timestamps = base_period_data.get('timestamps', [[]])
+            base_times = base_timestamps[0] if len(base_timestamps) > 0 else []
             base_values = base_period_data.get('values', [])
-            all_charts = []
+            base_subtotals = base_period_data.get('subtotals', [])
+            first_item = True
             for i in range(num_items):
                 color = self.chart_colors[i % len(self.chart_colors)]
-                fig, ax = plt.subplots(figsize=(4.8, 3.0))
-                r_data = values[i] if i < len(values) else []
-                r_xs, r_ys = self._filter_valid_data(r_data)
-                if r_ys:
-                    ax.plot(r_xs, r_ys, linewidth=1.2, color=color,
-                            marker='o', markersize=3,
-                            markevery=max(1, len(r_ys) // 30),
-                            label=_('Reporting Period') + ' - ' + names[i])
-                if i < len(base_values):
-                    b_data = base_values[i]
-                    b_xs, b_ys = self._filter_valid_data(b_data)
-                    if b_ys:
-                        ax.plot(b_xs, b_ys, linewidth=1.2, color=color,
-                                linestyle='--', marker='s', markersize=3,
-                                markevery=max(1, len(b_ys) // 30),
-                                label=_('Base Period') + ' - ' + names[i])
-                step = max(1, len(r_data) // 10)
-                ax.set_xticks(range(0, len(r_data), step))
-                ax.set_xticklabels(
-                    [reporting_times[t][:10] if t < len(reporting_times) else ''
-                     for t in range(0, len(r_data), step)],
-                    rotation=45, ha='right', fontsize=7)
                 unit_i = units[i] if (units and i < len(units)) else ''
-                ax.set_title(
-                    _('Base Period') + ' / ' + _('Reporting Period') + ' - ' +
-                    names[i] + ' (' + unit_i + ')',
-                    fontsize=8, fontweight='bold')
-                if r_ys or (i < len(base_values) and b_ys):
-                    ax.legend(fontsize=7)
-                ax.grid(True, alpha=0.3)
-                all_charts.append(self._fig_to_bytesio(fig, self.dpi))
-            self._render_2x2_charts(doc, all_charts)
+                r_data = values[i] if i < len(values) else []
+                b_data = base_values[i] if i < len(base_values) else []
+                total_rows = max(len(r_data), len(reporting_times), len(b_data), len(base_times))
+                if total_rows == 0:
+                    continue
+                num_pages = (total_rows + rows_per_page - 1) // rows_per_page
+                for page in range(num_pages):
+                    start_row = page * rows_per_page
+                    end_row = min(start_row + rows_per_page, total_rows)
+                    if first_item and page == 0:
+                        self._add_heading_styled(doc, self.name + ' ' + _('Detailed Data'), level=1)
+                        first_item = False
+                    container = doc.add_table(rows=2, cols=1)
+                    container.alignment = WD_TABLE_ALIGNMENT.CENTER
+                    _remove_table_borders(container)
+                    table_cell = container.cell(0, 0)
+                    chart_cell = container.cell(1, 0)
+                    col_headers = [
+                        _('Base Period') + ' - ' + _('Datetime'),
+                        _('Base Period') + ' - ' + names[i] + ' (' + unit_i + ')',
+                        _('Reporting Period') + ' - ' + _('Datetime'),
+                        _('Reporting Period') + ' - ' + names[i] + ' (' + unit_i + ')'
+                    ]
+                    table_data = [col_headers]
+                    for t_idx in range(start_row, end_row):
+                        row_vals = [
+                            base_times[t_idx] if t_idx < len(base_times) else '',
+                            (str(round2(b_data[t_idx], 2)) if (t_idx < len(b_data) and b_data[t_idx] is not None) else ''),
+                            reporting_times[t_idx] if t_idx < len(reporting_times) else '',
+                            (str(round2(r_data[t_idx], 2)) if (t_idx < len(r_data) and r_data[t_idx] is not None) else '')
+                        ]
+                        table_data.append(row_vals)
+                    total_row = [
+                        _('Total'),
+                        (str(round2(base_subtotals[i], 2)) if (base_subtotals and i < len(base_subtotals) and base_subtotals[i] is not None) else ''),
+                        _('Total'),
+                        (str(round2(subtotals[i], 2)) if (subtotals and i < len(subtotals) and subtotals[i] is not None) else '')
+                    ]
+                    table_data.append(total_row)
+                    num_cols = len(col_headers)
+                    data_table = table_cell.add_table(rows=len(table_data), cols=num_cols)
+                    data_table.alignment = WD_TABLE_ALIGNMENT.CENTER
+                    p_elem = table_cell.paragraphs[0]._element
+                    p_elem.getparent().remove(p_elem)
+                    for j in range(num_cols):
+                        cell = data_table.cell(0, j)
+                        cell.text = col_headers[j]
+                        _style_table_cell(cell, is_header=True, bold=True, font_size=7)
+                    for di in range(1, len(table_data) - 1):
+                        for j in range(num_cols):
+                            cell = data_table.cell(di, j)
+                            cell.text = table_data[di][j]
+                            _style_table_cell(cell, font_size=6)
+                    last_row = len(table_data) - 1
+                    for j in range(num_cols):
+                        cell = data_table.cell(last_row, j)
+                        cell.text = table_data[last_row][j]
+                        _style_table_cell(cell, bold=True, font_size=6)
+                    fig, ax_chart = plt.subplots(figsize=(8.5, 2.8))
+                    page_len = end_row - start_row
+                    page_r = []
+                    for t_idx in range(start_row, end_row):
+                        v = r_data[t_idx] if t_idx < len(r_data) else None
+                        page_r.append(float(v) if v is not None else 0.0)
+                    marker_step = max(1, page_len // 15)
+                    ax_chart.plot(range(page_len), page_r, linewidth=1.2,
+                                  color=color, marker='o', markersize=3,
+                                  markevery=marker_step,
+                                  label=_('Reporting Period') + ' - ' + names[i])
+                    page_b = []
+                    for t_idx in range(start_row, end_row):
+                        v = b_data[t_idx] if t_idx < len(b_data) else None
+                        page_b.append(float(v) if v is not None else 0.0)
+                    ax_chart.plot(range(page_len), page_b, linewidth=1.2,
+                                  color=color, linestyle='--',
+                                  marker='s', markersize=3,
+                                  markevery=marker_step,
+                                  label=_('Base Period') + ' - ' + names[i])
+                    step = max(1, page_len // 8)
+                    tick_positions = list(range(0, page_len, step))
+                    tick_labels = []
+                    for t in tick_positions:
+                        if start_row + t < len(reporting_times):
+                            tick_labels.append(reporting_times[start_row + t])
+                    tick_positions = tick_positions[:len(tick_labels)]
+                    ax_chart.set_xticks(tick_positions)
+                    ax_chart.set_xticklabels(tick_labels, rotation=45, ha='right', fontsize=7)
+                    ax_chart.set_title(
+                        _('Base Period') + ' / ' + _('Reporting Period') + ' - ' +
+                        names[i] + ((' (' + unit_i + ')') if unit_i else ''),
+                        fontsize=10, weight='bold')
+                    ax_chart.legend(fontsize=6, loc='upper right')
+                    ax_chart.grid(True, alpha=0.3)
+                    chart_buf = self._fig_to_bytesio(fig, self.dpi)
+                    p = chart_cell.paragraphs[0]
+                    p.alignment = WD_ALIGN_PARAGRAPH.CENTER
+                    run = p.add_run()
+                    run.add_picture(chart_buf, width=Inches(8.5))
+                    if page < num_pages - 1:
+                        doc.add_page_break()
+                if i < num_items - 1:
+                    doc.add_page_break()
 
         if has_next:
             doc.add_page_break()

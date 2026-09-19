@@ -405,8 +405,8 @@ class TenantBillDOCXExporter:
         col_headers, detail_rows = self._build_detail_rows()
         total_cols = len(col_headers)
 
-        first_page_rows = 22
-        other_page_rows = 30
+        first_page_rows = 50
+        other_page_rows = 60
 
         pages = []
         if not detail_rows:
@@ -425,12 +425,24 @@ class TenantBillDOCXExporter:
             _remove_table_borders(notice_container)
 
             header_cell = notice_container.cell(0, 0)
+            if header_cell.paragraphs:
+                p = header_cell.paragraphs[0]._element
+                p.getparent().remove(p)
             if page_index == 0:
                 self._draw_notice_header(header_cell, tenant_data, currency_unit, total_cost, taxes)
             else:
                 self._draw_notice_simple_title(header_cell)
 
             table_cell = notice_container.cell(1, 0)
+            if table_cell.paragraphs:
+                p = table_cell.paragraphs[0]._element
+                p.getparent().remove(p)
+            for _unused in range(2):
+                p = table_cell.add_paragraph('')
+                pf = p.paragraph_format
+                pf.space_before = Pt(0)
+                pf.space_after = Pt(0)
+                pf.line_spacing_rule = WD_LINE_SPACING.SINGLE
             table_data = [col_headers] + page_rows
             num_data_rows = len(table_data)
 
@@ -449,7 +461,17 @@ class TenantBillDOCXExporter:
                     cell.text = table_data[i_row][j_col]
                     _style_table_cell(cell, font_size=table_font_size)
 
+            for _unused in range(2):
+                p = table_cell.add_paragraph('')
+                pf = p.paragraph_format
+                pf.space_before = Pt(0)
+                pf.space_after = Pt(0)
+                pf.line_spacing_rule = WD_LINE_SPACING.SINGLE
+
             footer_cell = notice_container.cell(2, 0)
+            if footer_cell.paragraphs:
+                p = footer_cell.paragraphs[0]._element
+                p.getparent().remove(p)
             is_last = page_index == page_total - 1
             self._draw_notice_footer(footer_cell, currency_unit, total_cost, taxes, is_last)
 
@@ -551,7 +573,10 @@ class TenantBillDOCXExporter:
         _remove_table_borders(header_info_container)
 
         title_row = header_info_container.cell(0, 0)
-        p_logo_anchor = title_row.paragraphs[0]
+        if title_row.paragraphs:
+            p = title_row.paragraphs[0]._element
+            p.getparent().remove(p)
+        p_logo_anchor = title_row.add_paragraph()
 
         img_path = os.path.join(os.path.dirname(os.path.abspath(__file__)),
                                 '..', 'excelexporters', 'myemslogo.png')
@@ -578,12 +603,21 @@ class TenantBillDOCXExporter:
             r_lease.rPr.rFonts.set(qn('w:eastAsia'), 'SimSun')
 
         contact_row = header_info_container.cell(1, 0)
+        if contact_row.paragraphs:
+            p = contact_row.paragraphs[0]._element
+            p.getparent().remove(p)
         contact_container = contact_row.add_table(rows=1, cols=2)
         contact_container.alignment = WD_TABLE_ALIGNMENT.CENTER
         _remove_table_borders(contact_container)
 
         left_cell = contact_container.cell(0, 0)
+        if left_cell.paragraphs:
+            p = left_cell.paragraphs[0]._element
+            p.getparent().remove(p)
         right_cell = contact_container.cell(0, 1)
+        if right_cell.paragraphs:
+            p = right_cell.paragraphs[0]._element
+            p.getparent().remove(p)
 
         left_rows = [
             str(tenant_data.get('name', '') or ''),
@@ -631,7 +665,7 @@ class TenantBillDOCXExporter:
 
     def _draw_notice_simple_title(self, container_cell):
         _ = self._
-        p_title = container_cell.paragraphs[0]
+        p_title = container_cell.add_paragraph()
         p_title.alignment = WD_ALIGN_PARAGRAPH.CENTER
         run_title = p_title.add_run(_('Payment Notice'))
         run_title.font.size = Pt(16)
@@ -665,10 +699,16 @@ class TenantBillDOCXExporter:
         _remove_table_borders(footer_container)
         footer_container.cell(0, 0).merge(footer_container.cell(0, 1))
         merged_cell = footer_container.cell(0, 0)
+        if merged_cell.paragraphs:
+            p = merged_cell.paragraphs[0]._element
+            p.getparent().remove(p)
 
         right_align_container = merged_cell.add_table(rows=1, cols=3)
         _remove_table_borders(right_align_container)
         right_cell = right_align_container.cell(0, 2)
+        if right_cell.paragraphs:
+            p = right_cell.paragraphs[0]._element
+            p.getparent().remove(p)
 
         inner_footer_table = right_cell.add_table(rows=len(footer_rows), cols=2)
         _remove_table_borders(inner_footer_table)
