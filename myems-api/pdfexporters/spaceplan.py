@@ -220,6 +220,9 @@ class SpacePlanPDFExporter:
             # Combined analysis page (plan table + TCE/TCO2E breakdown tables with pie charts)
             self._create_combined_analysis_page(pdf)
 
+            # Detailed data table pages (paginated)
+            self._create_detailed_data_page(pdf)
+
             # Detailed data charts (paginated, up to 4 per page in 2x2 grid)
             self._create_detailed_data_charts(pdf)
 
@@ -458,6 +461,158 @@ class SpacePlanPDFExporter:
                 except (TypeError, ValueError):
                     pass
         return xs, ys
+
+    def _create_detailed_data_page(self, pdf: PdfPages):
+        """Create detailed data table pages matching Excel full data table."""
+        _ = self._
+
+        reporting_data = self.report['reporting_period']
+        timestamps = reporting_data.get('timestamps', [])
+
+        if not timestamps or len(timestamps[0]) == 0:
+            return
+
+        names = reporting_data.get('names', [])
+        units = reporting_data.get('units', [])
+        values_saving = reporting_data.get('values_saving', [])
+        subtotals_saving = reporting_data.get('subtotals_saving', [])
+        ca_len = len(names)
+
+        rows_per_page = 100
+
+        if not self.is_base_period_exists:
+            times = timestamps[0]
+            if len(times) == 0:
+                return
+
+            num_pages = (len(times) + rows_per_page - 1) // rows_per_page
+
+            for page in range(num_pages):
+                start_row = page * rows_per_page
+                end_row = min(start_row + rows_per_page, len(times))
+
+                fig = plt.figure(figsize=self.page_size)
+                fig.suptitle(self.name + ' ' + _('Detailed Data'),
+                             fontsize=16, weight='bold', y=0.98)
+
+                gs = gridspec.GridSpec(1, 1)
+                ax_table = fig.add_subplot(gs[0])
+                ax_table.axis('off')
+
+                col_headers = [_('Datetime')]
+                for i in range(ca_len):
+                    col_headers.append(names[i] + ' (' + units[i] + ')')
+
+                table_data = [col_headers]
+                for t_idx in range(start_row, end_row):
+                    row = [times[t_idx]]
+                    for j in range(ca_len):
+                        val = values_saving[j][t_idx] if j < len(values_saving) and t_idx < len(values_saving[j]) else None
+                        row.append(str(round2(val, 2)) if val is not None else '')
+                    table_data.append(row)
+
+                subtotal_row = [_('Subtotal')]
+                for i in range(ca_len):
+                    subtotal_row.append(str(round2(subtotals_saving[i], 2)) if i < len(subtotals_saving) else '')
+                table_data.append(subtotal_row)
+
+                num_cols = len(col_headers)
+                col_widths = [0.12] + [0.88 / ca_len] * ca_len
+                table = ax_table.table(cellText=table_data, loc='center',
+                                       cellLoc='center', colWidths=col_widths)
+                table.auto_set_font_size(False)
+                table.set_fontsize(7)
+
+                for j in range(num_cols):
+                    table[0, j].set_facecolor('#90EE90')
+                    table[0, j].set_text_props(weight='bold')
+                last_row = len(table_data) - 1
+                for j in range(num_cols):
+                    table[last_row, j].set_facecolor('#E8EDF5')
+                    table[last_row, j].set_text_props(weight='bold')
+                _style_table_borders(table, len(table_data), num_cols)
+
+                pdf.savefig(fig)
+                plt.close()
+        else:
+            base_period_data = self.report['base_period']
+            base_timestamps = base_period_data.get('timestamps', [])
+            base_values_saving = base_period_data.get('values_saving', [])
+            base_subtotals_saving = base_period_data.get('subtotals_saving', [])
+            base_names = base_period_data.get('names', [])
+            base_units = base_period_data.get('units', [])
+            base_ca_len = len(base_names)
+            reporting_ca_len = ca_len
+
+            base_times = base_timestamps[0] if base_timestamps else []
+            reporting_times = timestamps[0]
+
+            max_len = max(len(base_times), len(reporting_times))
+            num_pages = (max_len + rows_per_page - 1) // rows_per_page
+
+            for page in range(num_pages):
+                start_row = page * rows_per_page
+                end_row = min(start_row + rows_per_page, max_len)
+
+                fig = plt.figure(figsize=self.page_size)
+                fig.suptitle(self.name + ' ' + _('Detailed Data'),
+                             fontsize=16, weight='bold', y=0.98)
+
+                gs = gridspec.GridSpec(1, 1)
+                ax_table = fig.add_subplot(gs[0])
+                ax_table.axis('off')
+
+                col_headers = [_('Base Period') + ' - ' + _('Datetime')]
+                for i in range(base_ca_len):
+                    col_headers.append(_('Base Period') + ' - ' + base_names[i] + ' (' + base_units[i] + ')')
+                col_headers.append(_('Reporting Period') + ' - ' + _('Datetime'))
+                for i in range(reporting_ca_len):
+                    col_headers.append(_('Reporting Period') + ' - ' + names[i] + ' (' + units[i] + ')')
+
+                table_data = [col_headers]
+                for t_idx in range(start_row, end_row):
+                    row = []
+                    row.append(base_times[t_idx] if t_idx < len(base_times) else '')
+                    for j in range(base_ca_len):
+                        if t_idx < len(base_values_saving[j]):
+                            row.append(str(round2(base_values_saving[j][t_idx], 2)))
+                        else:
+                            row.append('')
+                    row.append(reporting_times[t_idx] if t_idx < len(reporting_times) else '')
+                    for j in range(reporting_ca_len):
+                        if t_idx < len(values_saving[j]):
+                            row.append(str(round2(values_saving[j][t_idx], 2)))
+                        else:
+                            row.append('')
+                    table_data.append(row)
+
+                subtotal_row = [_('Subtotal')]
+                for i in range(base_ca_len):
+                    subtotal_row.append(str(round2(base_subtotals_saving[i], 2)) if i < len(base_subtotals_saving) else '')
+                subtotal_row.append(_('Subtotal'))
+                for i in range(reporting_ca_len):
+                    subtotal_row.append(str(round2(subtotals_saving[i], 2)) if i < len(subtotals_saving) else '')
+                table_data.append(subtotal_row)
+
+                num_cols = len(col_headers)
+                col_widths = [1.0 / num_cols] * num_cols
+                table = ax_table.table(cellText=table_data, loc='center',
+                                       cellLoc='center', colWidths=col_widths)
+                table.auto_set_font_size(False)
+                table.set_fontsize(6)
+
+                for j in range(num_cols):
+                    table[0, j].set_facecolor('#90EE90')
+                    table[0, j].set_text_props(weight='bold')
+                last_row = len(table_data) - 1
+                for j in range(num_cols):
+                    table[last_row, j].set_facecolor('#E8EDF5')
+                    table[last_row, j].set_text_props(weight='bold')
+                _style_table_borders(table, len(table_data), num_cols)
+
+                pdf.savefig(fig)
+                plt.close()
+
 
     def _create_detailed_data_charts(self, pdf: PdfPages):
         """Create line charts for each energy category, up to 4 per page in 2x2 grid.

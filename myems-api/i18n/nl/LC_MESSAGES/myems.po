@@ -564,3 +564,9 @@ msgstr "Vergelijkende analyse"
 
 msgid "Store"
 msgstr "Winkel"
+
+msgid "Shopfloor Data"
+msgstr "Werkvloergegevens"
+
+msgid "Shopfloor Comparison"
+msgstr "Vergelijkende analyse"

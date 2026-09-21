@@ -564,3 +564,9 @@ msgstr "Analisi Comparativa"
 
 msgid "Store"
 msgstr "Negozio"
+
+msgid "Shopfloor Data"
+msgstr "Dati Reparto Produzione"
+
+msgid "Shopfloor Comparison"
+msgstr "Analisi Comparativa"

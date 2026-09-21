@@ -564,3 +564,9 @@ msgstr "So sánh cửa hàng"
 
 msgid "Store"
 msgstr "Cửa hàng"
+
+msgid "Shopfloor Data"
+msgstr "Dữ liệu tầng cửa hàng"
+
+msgid "Shopfloor Comparison"
+msgstr "So sánh tầng cửa hàng"

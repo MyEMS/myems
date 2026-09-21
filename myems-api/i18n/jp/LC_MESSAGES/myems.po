@@ -560,3 +560,9 @@ msgstr "比較分析"
 
 msgid "Store"
 msgstr "店舗"
+
+msgid "Shopfloor Data"
+msgstr "ショップフロアデータ"
+
+msgid "Shopfloor Comparison"
+msgstr "比較分析"
