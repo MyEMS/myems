@@ -564,3 +564,9 @@ msgstr "對比分析"
 
 msgid "Store"
 msgstr "門店"
+
+msgid "Shopfloor Data"
+msgstr "車間數據"
+
+msgid "Shopfloor Comparison"
+msgstr "對比分析"

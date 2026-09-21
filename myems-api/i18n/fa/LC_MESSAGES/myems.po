@@ -564,3 +564,9 @@ msgstr "تحلیل مقایسه‌ای"
 
 msgid "Store"
 msgstr "فروشگاه"
+
+msgid "Shopfloor Data"
+msgstr "داده‌های کارگاه"
+
+msgid "Shopfloor Comparison"
+msgstr "تحلیل مقایسه‌ای"

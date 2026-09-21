@@ -564,3 +564,9 @@ msgstr "Mağaza Karşılaştırması"
 
 msgid "Store"
 msgstr "Mağaza"
+
+msgid "Shopfloor Data"
+msgstr "Üretim Alanı Verileri"
+
+msgid "Shopfloor Comparison"
+msgstr "Üretim Alanı Karşılaştırması"

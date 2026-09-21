@@ -564,3 +564,9 @@ msgstr "Perbandingan Toko"
 
 msgid "Store"
 msgstr "Toko"
+
+msgid "Shopfloor Data"
+msgstr "Data Lantai Produksi"
+
+msgid "Shopfloor Comparison"
+msgstr "Perbandingan Lantai Produksi"
