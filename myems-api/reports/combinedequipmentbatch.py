@@ -173,6 +173,12 @@ class Reporting:
                     str.lower(str.strip(export_docx)) in ('true', 't', 'on', 'yes', 'y'):
                 is_export_docx = True
 
+            is_export_pdf = False
+            if export_pdf is not None and \
+                    len(str.strip(export_pdf)) > 0 and \
+                    str.lower(str.strip(export_pdf)) in ('true', 't', 'on', 'yes', 'y'):
+                is_export_pdf = True
+
             ############################################################################################################
             # Redis cache
             ############################################################################################################
@@ -208,7 +214,7 @@ class Reporting:
                         "quickmode": is_quick_mode,
                         "exportexcel": is_export_excel,
                         "exportdocx": is_export_docx,
-                    "exportpdf": is_export_pdf,
+                        "exportpdf": is_export_pdf,
                     }
                     cache_params_json = json.dumps(cache_params, sort_keys=True)
                     cache_key = 'report:combinedequipmentbatch:' + \
@@ -433,7 +439,7 @@ class Reporting:
             })
 
         result = {'combined_equipments': combined_equipment_list, 'energycategories': energy_category_list,
-                  'excel_bytes_base64': None, 'docx_bytes_base64': None}
+                  'excel_bytes_base64': None, 'docx_bytes_base64': None, 'pdf_bytes_base64': None}
 
         # export result to Excel/DOCX file and then encode the file to base64 string
         if not is_quick_mode:
@@ -461,13 +467,10 @@ class Reporting:
                 try:
                     result['pdf_bytes_base64'] = \
                         pdfexporters.combinedequipmentbatch.export(result,
-                                                                    combined_equipment['name'],
-                                                                    base_period_start_datetime_local,
-                                                                    base_period_end_datetime_local,
-                                                                    reporting_period_start_datetime_local,
-                                                                    reporting_period_end_datetime_local,
-                                                                    period_type,
-                                                                    language)
+                                                                     space_name,
+                                                                     reporting_period_start_datetime_local,
+                                                                     reporting_period_end_datetime_local,
+                                                                     language)
                 except Exception:
                     logger.error("Failed to export PDF", exc_info=True)
         resp_text = json.dumps(result)

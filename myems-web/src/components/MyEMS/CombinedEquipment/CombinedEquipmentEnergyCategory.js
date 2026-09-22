@@ -206,7 +206,7 @@ const CombinedEquipmentEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => 
       setResultDataHidden(true);
       setExcelBytesBase64(undefined);
       setDocxBytesBase64(undefined);
-    setPdfBytesBase64(undefined);
+      setPdfBytesBase64(undefined);
 
       // Reinitialize tables
       setDetailedDataTableData([]);
@@ -716,7 +716,7 @@ const CombinedEquipmentEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => 
 
             setExcelBytesBase64(json['excel_bytes_base64']);
             setDocxBytesBase64(json['docx_bytes_base64']);
-      setPdfBytesBase64(json['pdf_bytes_base64']);
+            setPdfBytesBase64(json['pdf_bytes_base64']);
 
             // enable submit button
             setSubmitButtonDisabled(false);
@@ -852,7 +852,7 @@ const CombinedEquipmentEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => 
         exportPdf;
       loadData(url);
     }
-  }, [uuid, periodType, basePeriodDateRange, reportingPeriodDateRange, language, loadData, exportExcel, exportDocx]);
+  }, [uuid, periodType, basePeriodDateRange, reportingPeriodDateRange, language, loadData, exportExcel, exportDocx, exportPdf]);
 
   const labelClasses = 'ls text-uppercase text-600 font-weight-semi-bold mb-0';
 
@@ -1070,7 +1070,9 @@ const CombinedEquipmentEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => 
       '&exportexcel=' +
       exportExcel +
       '&exportdocx=' +
-      exportDocx;
+      exportDocx +
+      '&exportpdf=' +
+      exportPdf;
     loadData(url);
   };
 
@@ -1379,8 +1381,8 @@ const CombinedEquipmentEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => 
                   <div>
                     <CustomInput type="checkbox" id="exportExcel" name="exportExcel" label="Excel" bsSize="sm" inline checked={exportExcel} onChange={({ target }) => setExportExcel(target.checked)} />
                     <CustomInput type="checkbox" id="exportDocx" name="exportDocx" label="DOCX" bsSize="sm" inline checked={exportDocx} onChange={({ target }) => setExportDocx(target.checked)} />
-                  
-                    <CustomInput type="checkbox" id="exportPdf" name="exportPdf" label="PDF" bsSize="sm" inline checked={exportPdf} onChange={({ target }) => setExportPdf(target.checked)} /></div>
+                    <CustomInput type="checkbox" id="exportPdf" name="exportPdf" label="PDF" bsSize="sm" inline checked={exportPdf} onChange={({ target }) => setExportPdf(target.checked)} />
+                  </div>
                 </FormGroup>
               </Col>
               <Col xs="auto">

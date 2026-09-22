@@ -16,7 +16,7 @@ Key Features:
 The exported PDF file includes:
 - Cover page with report metadata (Energy Plan Analysis)
 - Combined analysis page (plan summary table + TCE/TCO2E breakdown tables with pie charts)
-- Detailed data charts (paginated, up to 4 per page in 2x2 grid)
+- Detailed data charts (one per page, full-width centered)
 - Parameter data pages (batched 4 per page)
 """
 
@@ -223,7 +223,7 @@ class CombinedEquipmentPlanPDFExporter:
             # Detailed data table pages (paginated)
             self._create_detailed_data_page(pdf)
 
-            # Detailed data charts (paginated, up to 4 per page in 2x2 grid)
+            # Detailed data charts (one per page, full-width centered)
             self._create_detailed_data_charts(pdf)
 
             # Parameters (batched)
@@ -330,28 +330,18 @@ class CombinedEquipmentPlanPDFExporter:
 
         rp_table_data = [col_headers, plan_row, increment_row]
 
-        # ===== Build TCE breakdown table data =====
-        kgce_sum = sum(subtotals_in_kgce_saving) if subtotals_in_kgce_saving else 0
-        tce_table_data = [['', _('Energy Category'),
-                           _('Plan') + ' (TCE)',
-                           _('Ton of Standard Coal(TCE) by Energy Category')]]
+        # ===== Build TCE breakdown table data (proportion shown as pie chart, not text) =====
+        tce_table_data = [['', _('Energy Category'), _('Plan') + ' (TCE)']]
         for i in range(ca_len):
             plan_tce = round2(subtotals_in_kgce_saving[i] / 1000, 3) if i < len(subtotals_in_kgce_saving) else 0
-            proportion = (str(round2(subtotals_in_kgce_saving[i] / kgce_sum * 100, 2)) + '%'
-                          if abs(kgce_sum) > 0 else '-')
-            tce_table_data.append([str(i + 1), names[i], str(plan_tce), proportion])
+            tce_table_data.append([str(i + 1), names[i], str(plan_tce)])
 
-        # ===== Build TCO2E breakdown table data =====
-        kgco2e_sum = sum(subtotals_in_kgco2e_saving) if subtotals_in_kgco2e_saving else 0
-        co2e_table_data = [['', _('Energy Category'),
-                            _('Plan') + ' (TCO2E)',
-                            _('Ton of Carbon Dioxide Emissions(TCO2E) by Energy Category')]]
+        # ===== Build TCO2E breakdown table data (proportion shown as pie chart, not text) =====
+        co2e_table_data = [['', _('Energy Category'), _('Plan') + ' (TCO2E)']]
         for i in range(ca_len):
             plan_co2e = (round2(subtotals_in_kgco2e_saving[i] / 1000, 3)
                          if i < len(subtotals_in_kgco2e_saving) else 0)
-            proportion = (str(round2(subtotals_in_kgco2e_saving[i] / kgco2e_sum * 100, 2)) + '%'
-                          if abs(kgco2e_sum) > 0 else '-')
-            co2e_table_data.append([str(i + 1), names[i], str(plan_co2e), proportion])
+            co2e_table_data.append([str(i + 1), names[i], str(plan_co2e)])
 
         # ===== Create figure with nested layout =====
         fig = plt.figure(figsize=self.page_size)
@@ -382,59 +372,59 @@ class CombinedEquipmentPlanPDFExporter:
             tbl_rp[i, 0].set_text_props(weight='bold')
         _style_table_borders(tbl_rp, len(rp_table_data), rp_num_cols)
 
-        # ===== Bottom: 2 columns (TCE left, TCO2E right), each with table + pie =====
+        # ===== Bottom: 2 rows (TCE top, TCO2E bottom), each with table left + pie right =====
         gs_bottom = gridspec.GridSpecFromSubplotSpec(
             2, 2, subplot_spec=gs_main[1],
-            width_ratios=[0.45, 0.55], height_ratios=[0.40, 0.60],
-            hspace=0.20, wspace=0.15)
+            width_ratios=[0.40, 0.60], height_ratios=[0.50, 0.50],
+            hspace=0.25, wspace=0.15)
 
-        # --- TCE table (bottom-left) ---
+        # --- TCE table (left) ---
         ax_tce_tbl = fig.add_subplot(gs_bottom[0, 0])
         ax_tce_tbl.axis('off')
         tbl_tce = ax_tce_tbl.table(cellText=tce_table_data, loc='center',
-                                   cellLoc='center', colWidths=[0.1, 0.3, 0.25, 0.35])
+                                   cellLoc='center', colWidths=[0.15, 0.45, 0.40])
         tbl_tce.auto_set_font_size(False)
-        tbl_tce.set_fontsize(7)
-        for j in range(4):
+        tbl_tce.set_fontsize(8)
+        for j in range(3):
             tbl_tce[0, j].set_facecolor('#90EE90')
             tbl_tce[0, j].set_text_props(weight='bold')
-        _style_table_borders(tbl_tce, len(tce_table_data), 4)
+        _style_table_borders(tbl_tce, len(tce_table_data), 3)
 
-        # --- TCE pie chart (bottom-right) ---
+        # --- TCE pie chart (right) - visual proportion (use abs for negative savings) ---
         ax_tce_pie = fig.add_subplot(gs_bottom[0, 1])
-        tce_values = [round2(v / 1000, 3) for v in subtotals_in_kgce_saving] if subtotals_in_kgce_saving else []
-        tce_filtered = [(n, v) for n, v in zip(names, tce_values) if v > 0]
+        tce_values = [round2(abs(v) / 1000, 3) for v in subtotals_in_kgce_saving] if subtotals_in_kgce_saving else []
+        tce_filtered = [(n, v) for n, v in zip(names, tce_values) if v != 0]
         if tce_filtered:
             tce_fn, tce_fv = zip(*tce_filtered)
             tce_colors = self.colors['chart_colors'][:len(tce_fn)]
             ax_tce_pie.pie(tce_fv, labels=tce_fn, autopct='%1.1f%%',
                            colors=tce_colors, startangle=90)
-        ax_tce_pie.set_title(self.name + ' ' + _('Ton of Standard Coal(TCE) by Energy Category'),
-                             fontsize=9, weight='bold')
+        ax_tce_pie.set_title(_('Ton of Standard Coal(TCE) by Energy Category'),
+                             fontsize=10, weight='bold')
 
-        # --- TCO2E table (bottom-left) ---
+        # --- TCO2E table (left) ---
         ax_co2e_tbl = fig.add_subplot(gs_bottom[1, 0])
         ax_co2e_tbl.axis('off')
         tbl_co2e = ax_co2e_tbl.table(cellText=co2e_table_data, loc='center',
-                                     cellLoc='center', colWidths=[0.1, 0.3, 0.25, 0.35])
+                                     cellLoc='center', colWidths=[0.15, 0.45, 0.40])
         tbl_co2e.auto_set_font_size(False)
-        tbl_co2e.set_fontsize(7)
-        for j in range(4):
+        tbl_co2e.set_fontsize(8)
+        for j in range(3):
             tbl_co2e[0, j].set_facecolor('#90EE90')
             tbl_co2e[0, j].set_text_props(weight='bold')
-        _style_table_borders(tbl_co2e, len(co2e_table_data), 4)
+        _style_table_borders(tbl_co2e, len(co2e_table_data), 3)
 
-        # --- TCO2E pie chart (bottom-right) ---
+        # --- TCO2E pie chart (right) - visual proportion (use abs for negative savings) ---
         ax_co2e_pie = fig.add_subplot(gs_bottom[1, 1])
-        co2e_values = [round2(v / 1000, 3) for v in subtotals_in_kgco2e_saving] if subtotals_in_kgco2e_saving else []
-        co2e_filtered = [(n, v) for n, v in zip(names, co2e_values) if v > 0]
+        co2e_values = [round2(abs(v) / 1000, 3) for v in subtotals_in_kgco2e_saving] if subtotals_in_kgco2e_saving else []
+        co2e_filtered = [(n, v) for n, v in zip(names, co2e_values) if v != 0]
         if co2e_filtered:
             co2e_fn, co2e_fv = zip(*co2e_filtered)
             co2e_colors = self.colors['chart_colors'][:len(co2e_fn)]
             ax_co2e_pie.pie(co2e_fv, labels=co2e_fn, autopct='%1.1f%%',
                             colors=co2e_colors, startangle=90)
-        ax_co2e_pie.set_title(self.name + ' ' + _('Ton of Carbon Dioxide Emissions(TCO2E) by Energy Category'),
-                              fontsize=9, weight='bold')
+        ax_co2e_pie.set_title(_('Ton of Carbon Dioxide Emissions(TCO2E) by Energy Category'),
+                              fontsize=10, weight='bold')
 
         pdf.savefig(fig)
         plt.close()
@@ -605,7 +595,7 @@ class CombinedEquipmentPlanPDFExporter:
 
 
     def _create_detailed_data_charts(self, pdf: PdfPages):
-        """Create line charts for each energy category, up to 4 per page in 2x2 grid.
+        """Create line charts for each energy category, one chart per page full-width centered.
         Without base period: one chart per category showing reporting period plan values.
         With base period: one chart per category with base vs reporting comparison.
         """
@@ -622,40 +612,38 @@ class CombinedEquipmentPlanPDFExporter:
 
         reporting_times = timestamps[0]
         num_categories = len(names)
-        charts_per_page = 4
 
         if not self.is_base_period_exists:
-            for page_start in range(0, num_categories, charts_per_page):
-                page_end = min(page_start + charts_per_page, num_categories)
-                page_indices = list(range(page_start, page_end))
-                num_on_page = len(page_indices)
-
+            for i in range(num_categories):
                 fig = plt.figure(figsize=self.page_size)
-                fig.suptitle(self.name + ' ' + _('Detailed Data'),
+                fig.suptitle(self.name + ' ' + _('Detailed Data') +
+                             ' (' + str(i + 1) + '/' + str(num_categories) + ')',
                              fontsize=16, weight='bold', y=0.98)
 
-                rows = (num_on_page + 1) // 2
-                gs = gridspec.GridSpec(rows, 2, hspace=0.35)
+                # Full-page chart centered
+                gs = gridspec.GridSpec(1, 1)
+                ax = fig.add_subplot(gs[0, 0])
 
-                for slot, i in enumerate(page_indices):
-                    ax = fig.add_subplot(gs[slot // 2, slot % 2])
-                    raw_data = values_saving[i] if i < len(values_saving) else []
-                    xs, ys = self._filter_valid_data(raw_data)
-                    color = self.colors['chart_colors'][i % len(self.colors['chart_colors'])]
-                    if ys:
-                        ax.plot(xs, ys, linewidth=1.2, color=color,
-                                marker='o', markersize=3,
-                                markevery=max(1, len(ys) // 30))
+                raw_data = values_saving[i] if i < len(values_saving) else []
+                xs, ys = self._filter_valid_data(raw_data)
+                color = self.colors['chart_colors'][i % len(self.colors['chart_colors'])]
+                if ys:
+                    ax.plot(xs, ys, linewidth=1.5, color=color,
+                            marker='o', markersize=4,
+                            markevery=max(1, len(ys) // 40))
 
-                    step = max(1, len(raw_data) // 10)
-                    ax.set_xticks(range(0, len(raw_data), step))
-                    ax.set_xticklabels(
-                        [reporting_times[t][:10] for t in range(0, len(raw_data), step)],
-                        rotation=45, ha='right', fontsize=7)
-                    ax.set_title(_('Reporting Period Plan') + ' - ' +
-                                 names[i] + ' (' + units[i] + ')',
-                                 fontsize=9, weight='bold')
-                    ax.grid(True, alpha=0.3)
+                step = max(1, len(raw_data) // 15)
+                ax.set_xticks(range(0, len(raw_data), step))
+                ax.set_xticklabels(
+                    [reporting_times[t][:10] for t in range(0, len(raw_data), step)],
+                    rotation=45, ha='right', fontsize=8)
+                ax.set_title(_('Reporting Period Plan') + ' - ' +
+                             names[i] + ' (' + units[i] + ')',
+                             fontsize=12, weight='bold')
+                ax.grid(True, alpha=0.3)
+
+                # Center the plot area with margins
+                fig.subplots_adjust(left=0.08, right=0.95, top=0.88, bottom=0.12)
 
                 pdf.savefig(fig)
                 plt.close()
@@ -663,54 +651,52 @@ class CombinedEquipmentPlanPDFExporter:
             base_period_data = self.report['base_period']
             base_values_saving = base_period_data.get('values_saving', [])
 
-            for page_start in range(0, num_categories, charts_per_page):
-                page_end = min(page_start + charts_per_page, num_categories)
-                page_indices = list(range(page_start, page_end))
-                num_on_page = len(page_indices)
-
+            for i in range(num_categories):
                 fig = plt.figure(figsize=self.page_size)
-                fig.suptitle(self.name + ' ' + _('Detailed Data'),
+                fig.suptitle(self.name + ' ' + _('Detailed Data') +
+                             ' (' + str(i + 1) + '/' + str(num_categories) + ')',
                              fontsize=16, weight='bold', y=0.98)
 
-                rows = (num_on_page + 1) // 2
-                gs = gridspec.GridSpec(rows, 2, hspace=0.35)
+                # Full-page chart centered
+                gs = gridspec.GridSpec(1, 1)
+                ax = fig.add_subplot(gs[0, 0])
 
-                for slot, i in enumerate(page_indices):
-                    ax = fig.add_subplot(gs[slot // 2, slot % 2])
+                # Reporting period line
+                r_data = values_saving[i] if i < len(values_saving) else []
+                r_xs, r_ys = self._filter_valid_data(r_data)
+                color = self.colors['chart_colors'][i % len(self.colors['chart_colors'])]
+                if r_ys:
+                    ax.plot(r_xs, r_ys, linewidth=1.5, color=color,
+                            marker='o', markersize=4,
+                            markevery=max(1, len(r_ys) // 40),
+                            label=_('Reporting Period') + ' - ' + names[i])
 
-                    # Reporting period line
-                    r_data = values_saving[i] if i < len(values_saving) else []
-                    r_xs, r_ys = self._filter_valid_data(r_data)
-                    color = self.colors['chart_colors'][i % len(self.colors['chart_colors'])]
-                    if r_ys:
-                        ax.plot(r_xs, r_ys, linewidth=1.2, color=color,
-                                marker='o', markersize=3,
-                                markevery=max(1, len(r_ys) // 30),
-                                label=_('Reporting Period') + ' - ' + names[i])
+                # Base period line (dashed)
+                if i < len(base_values_saving):
+                    b_data = base_values_saving[i]
+                    b_xs, b_ys = self._filter_valid_data(b_data)
+                    if b_ys:
+                        ax.plot(b_xs, b_ys, linewidth=1.5, color=color,
+                                linestyle='--', marker='s', markersize=4,
+                                markevery=max(1, len(b_ys) // 40),
+                                label=_('Base Period') + ' - ' + names[i])
 
-                    # Base period line (dashed)
-                    if i < len(base_values_saving):
-                        b_data = base_values_saving[i]
-                        b_xs, b_ys = self._filter_valid_data(b_data)
-                        if b_ys:
-                            ax.plot(b_xs, b_ys, linewidth=1.2, color=color,
-                                    linestyle='--', marker='s', markersize=3,
-                                    markevery=max(1, len(b_ys) // 30),
-                                    label=_('Base Period') + ' - ' + names[i])
+                step = max(1, len(r_data) // 15)
+                ax.set_xticks(range(0, len(r_data), step))
+                ax.set_xticklabels(
+                    [reporting_times[t][:10] if t < len(reporting_times) else ''
+                     for t in range(0, len(r_data), step)],
+                    rotation=45, ha='right', fontsize=8)
+                ax.set_title(
+                    _('Base Period Plan') + ' / ' +
+                    _('Reporting Period Plan') + ' - ' +
+                    names[i] + ' (' + units[i] + ')',
+                    fontsize=11, weight='bold')
+                ax.legend(fontsize=9, loc='best')
+                ax.grid(True, alpha=0.3)
 
-                    step = max(1, len(r_data) // 10)
-                    ax.set_xticks(range(0, len(r_data), step))
-                    ax.set_xticklabels(
-                        [reporting_times[t][:10] if t < len(reporting_times) else ''
-                         for t in range(0, len(r_data), step)],
-                        rotation=45, ha='right', fontsize=7)
-                    ax.set_title(
-                        _('Base Period Plan') + ' / ' +
-                        _('Reporting Period Plan') + ' - ' +
-                        names[i] + ' (' + units[i] + ')',
-                        fontsize=8, weight='bold')
-                    ax.legend(fontsize=7)
-                    ax.grid(True, alpha=0.3)
+                # Center the plot area with margins
+                fig.subplots_adjust(left=0.08, right=0.95, top=0.88, bottom=0.12)
 
                 pdf.savefig(fig)
                 plt.close()

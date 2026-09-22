@@ -1195,6 +1195,11 @@ const CombinedEquipmentEnergyItem = ({ setRedirect, setRedirectUrl, t }) => {
                         {t('DOCX')}
                       </DropdownItem>
                     ) : null}
+                    {pdfBytesBase64 ? (
+                      <DropdownItem onClick={e => handleExport(e, 'pdf')}>
+                        {t('PDF')}
+                      </DropdownItem>
+                    ) : null}
                   </DropdownMenu>
                 </UncontrolledDropdown>
               </Col>

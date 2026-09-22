@@ -1144,6 +1144,16 @@ const CombinedEquipmentStatistics = ({ setRedirect, setRedirectUrl, t }) => {
                       checked={exportDocx}
                       onChange={({ target }) => setExportDocx(target.checked)}
                     />
+                    <CustomInput
+                      type="checkbox"
+                      id="exportPdf"
+                      name="exportPdf"
+                      label="PDF"
+                      bsSize="sm"
+                      inline
+                      checked={exportPdf}
+                      onChange={({ target }) => setExportPdf(target.checked)}
+                    />
                   </div>
                 </FormGroup>
               </Col>
@@ -1182,6 +1192,11 @@ const CombinedEquipmentStatistics = ({ setRedirect, setRedirectUrl, t }) => {
                     {docxBytesBase64 ? (
                       <DropdownItem onClick={e => handleExport(e, 'docx')}>
                         {t('DOCX')}
+                      </DropdownItem>
+                    ) : null}
+                    {pdfBytesBase64 ? (
+                      <DropdownItem onClick={e => handleExport(e, 'pdf')}>
+                        {t('PDF')}
                       </DropdownItem>
                     ) : null}
                   </DropdownMenu>

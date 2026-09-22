@@ -246,6 +246,14 @@ class Reporting:
         ):
             is_export_docx = True
 
+        is_export_pdf = False
+        if (
+                export_pdf is not None
+                and len(str.strip(export_pdf)) > 0
+                and str.lower(str.strip(export_pdf)) in ("true", "t", "on", "yes", "y")
+        ):
+            is_export_pdf = True
+
         ############################################################################################################
         # Redis cache
         ############################################################################################################
@@ -599,6 +607,7 @@ class Reporting:
         # export result to Excel file and then encode the file to base64 string
         result["excel_bytes_base64"] = None
         result["docx_bytes_base64"] = None
+        result["pdf_bytes_base64"] = None
         if not is_quick_mode:
             if is_export_excel:
                 try:
@@ -632,9 +641,9 @@ class Reporting:
                 try:
                     result['pdf_bytes_base64'] = \
                         pdfexporters.combinedequipmentcomparison.export(result,
-                                                                    combined_equipment['name'],
-                                                                    base_period_start_datetime_local,
-                                                                    base_period_end_datetime_local,
+                                                                    combined_equipment1['name'],
+                                                                    combined_equipment2['name'],
+                                                                    energy_category['name'],
                                                                     reporting_period_start_datetime_local,
                                                                     reporting_period_end_datetime_local,
                                                                     period_type,

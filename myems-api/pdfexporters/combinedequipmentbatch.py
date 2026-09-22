@@ -244,15 +244,15 @@ class CombinedEquipmentBatchPDFExporter:
         carbon emissions, and costs. Paginates if too many equipment rows.
         """
         _ = self._
-        equipments = self.report.get('equipments', [])
+        equipments = self.report.get('combined_equipments', [])
         energy_categories = self.report.get('energycategories', [])
 
         if not equipments:
             return
 
         ca_len = len(energy_categories)
-        # Column headers: Name, Space, EC1(unit), EC2(unit), ..., Carbon(KGCO2E), Cost(CNY)
-        col_headers = [_('Name'), _('Space')]
+        # Column headers: ID, Name, Space, EC1(unit), EC2(unit), ..., Carbon(KGCO2E), Cost(CNY)
+        col_headers = [_('ID'), _('Name'), _('Space')]
         for ec in energy_categories:
             col_headers.append(ec['name'] + ' (' + ec['unit_of_measure'] + ')')
         col_headers.append(_('Carbon Emissions') + ' (KGCO2E)')
@@ -282,7 +282,7 @@ class CombinedEquipmentBatchPDFExporter:
             # Build table data
             table_data = [col_headers]
             for eq in page_equipments:
-                row = [eq['equipment_name'], eq['space_name']]
+                row = [str(eq.get('id', '')), eq.get('combined_equipment_name', ''), eq.get('space_name', '')]
                 for j in range(ca_len):
                     val = eq['values'][j] if j < len(eq['values']) else 0
                     row.append(str(round2(val, 2)))
@@ -293,11 +293,11 @@ class CombinedEquipmentBatchPDFExporter:
             ax = fig.add_axes([0.02, 0.05, 0.96, 0.88])
             ax.axis('off')
 
-            # Column widths: Name=0.15, Space=0.15, energy cols share remaining, carbon=0.08, cost=0.08
-            fixed_w = 0.15 + 0.15 + 0.08 + 0.08  # Name + Space + Carbon + Cost
+            # Column widths: ID=0.06, Name=0.15, Space=0.12, energy cols share remaining, carbon=0.09, cost=0.08
+            fixed_w = 0.06 + 0.15 + 0.12 + 0.09 + 0.08  # ID + Name + Space + Carbon + Cost
             remaining_w = 1.0 - fixed_w
             ec_col_w = remaining_w / ca_len if ca_len > 0 else 0.1
-            col_widths = [0.15, 0.15] + [ec_col_w] * ca_len + [0.08, 0.08]
+            col_widths = [0.06, 0.15, 0.12] + [ec_col_w] * ca_len + [0.09, 0.08]
             # Normalize
             total_w = sum(col_widths)
             col_widths = [w / total_w for w in col_widths]
@@ -317,13 +317,15 @@ class CombinedEquipmentBatchPDFExporter:
 
             # First column (Name) styling
             for i in range(1, len(table_data)):
-                tbl[i, 0].set_facecolor('#90EE90')
-                tbl[i, 0].set_text_props(weight='bold')
+                tbl[i, 0].set_facecolor('#E8EDF5')
+                tbl[i, 1].set_facecolor('#90EE90')
+                tbl[i, 1].set_text_props(weight='bold')
 
             # Alternate row colors
             for i in range(2, len(table_data), 2):
                 for j in range(total_cols):
-                    tbl[i, j].set_facecolor('#E8EDF5')
+                    if tbl[i, j].get_facecolor()[:3] != (0.565, 0.933, 0.565):  # not green
+                        tbl[i, j].set_facecolor('#E8EDF5')
 
             _style_table_borders(tbl, len(table_data), total_cols)
 

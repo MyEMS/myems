@@ -1038,6 +1038,16 @@ const CombinedEquipmentComparison = ({ setRedirect, setRedirectUrl, t }) => {
                       checked={exportDocx}
                       onChange={({ target }) => setExportDocx(target.checked)}
                     />
+                    <CustomInput
+                      type="checkbox"
+                      id="exportPdf"
+                      name="exportPdf"
+                      label="PDF"
+                      bsSize="sm"
+                      inline
+                      checked={exportPdf}
+                      onChange={({ target }) => setExportPdf(target.checked)}
+                    />
                   </div>
                 </FormGroup>
               </Col>
