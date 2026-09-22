@@ -570,3 +570,6 @@ msgstr "Shopfloor"
 
 msgid "Shopfloor Comparison"
 msgstr "Shopfloor Comparison"
+
+msgid "Combined Equipment Data"
+msgstr "Combined Equipment Data"

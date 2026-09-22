@@ -570,3 +570,6 @@ msgstr "بيانات ورشة العمل"
 
 msgid "Shopfloor Comparison"
 msgstr "مقارنة ورش العمل"
+
+msgid "Combined Equipment Data"
+msgstr "بيانات المعدات المدمجة"

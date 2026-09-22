@@ -570,3 +570,6 @@ msgstr "Dados da Oficina"
 
 msgid "Shopfloor Comparison"
 msgstr "Comparação de Oficinas"
+
+msgid "Combined Equipment Data"
+msgstr "Dados de Equipamentos Combinados"

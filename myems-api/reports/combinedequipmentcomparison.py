@@ -10,6 +10,7 @@ import simplejson as json
 import config
 import excelexporters.combinedequipmentcomparison
 import docxexporters.combinedequipmentcomparison
+import pdfexporters.combinedequipmentcomparison
 from core import utilities
 from core.useractivity import access_control, api_key_control
 
@@ -56,6 +57,7 @@ class Reporting:
         quick_mode = req.params.get("quickmode")
         export_excel = req.params.get('exportexcel')
         export_docx = req.params.get('exportdocx')
+        export_pdf = req.params.get('exportpdf')
 
         ################################################################################################################
         # Step 1: valid parameters
@@ -284,6 +286,7 @@ class Reporting:
                     "quickmode": is_quick_mode,
                     "exportexcel": is_export_excel,
                     "exportdocx": is_export_docx,
+                    "exportpdf": is_export_pdf,
                 }
                 cache_params_json = json.dumps(cache_params, sort_keys=True)
                 cache_key = 'report:combinedequipmentcomparison:' + \
@@ -625,6 +628,19 @@ class Reporting:
                     )
                 except Exception:
                     logger.error("Failed to export DOCX", exc_info=True)
+            if is_export_pdf:
+                try:
+                    result['pdf_bytes_base64'] = \
+                        pdfexporters.combinedequipmentcomparison.export(result,
+                                                                    combined_equipment['name'],
+                                                                    base_period_start_datetime_local,
+                                                                    base_period_end_datetime_local,
+                                                                    reporting_period_start_datetime_local,
+                                                                    reporting_period_end_datetime_local,
+                                                                    period_type,
+                                                                    language)
+                except Exception:
+                    logger.error("Failed to export PDF", exc_info=True)
 
         resp_text = json.dumps(result)
         resp.text = resp_text

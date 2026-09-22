@@ -570,3 +570,6 @@ msgstr "داده‌های کارگاه"
 
 msgid "Shopfloor Comparison"
 msgstr "تحلیل مقایسه‌ای"
+
+msgid "Combined Equipment Data"
+msgstr "داده‌های تجهیزات ترکیبی"

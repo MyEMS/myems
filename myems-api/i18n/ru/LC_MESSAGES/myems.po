@@ -570,3 +570,6 @@ msgstr "Данные цеха"
 
 msgid "Shopfloor Comparison"
 msgstr "Сравнение цехов"
+
+msgid "Combined Equipment Data"
+msgstr "Данные комбинированного оборудования"

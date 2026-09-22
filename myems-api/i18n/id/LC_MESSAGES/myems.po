@@ -570,3 +570,6 @@ msgstr "Data Lantai Produksi"
 
 msgid "Shopfloor Comparison"
 msgstr "Perbandingan Lantai Produksi"
+
+msgid "Combined Equipment Data"
+msgstr "Data Peralatan Gabungan"

@@ -566,3 +566,6 @@ msgstr "작업장 데이터"
 
 msgid "Shopfloor Comparison"
 msgstr "비교 분석"
+
+msgid "Combined Equipment Data"
+msgstr "복합 장비 데이터"

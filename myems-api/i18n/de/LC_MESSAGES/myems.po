@@ -570,3 +570,6 @@ msgstr "Werkstatt"
 
 msgid "Shopfloor Comparison"
 msgstr "Werkstatt Vergleich"
+
+msgid "Combined Equipment Data"
+msgstr "Kombinierte Gerätedaten"
