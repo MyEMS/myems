@@ -59,7 +59,7 @@ const DetailedDataTable = ({ title, data, columns, pagesize, t, page: controlled
   const lastIndex = Math.min(firstIndex + pagesize, totalSize);
   const pageData = useMemo(() => data.slice(firstIndex, lastIndex), [data, firstIndex, lastIndex]);
 
-  // Sticky first column: nowrap + opaque backgrounds (see .sticky-first-column CSS)
+  // Sticky first column: nowrap + theme-aware opaque backgrounds (see .sticky-first-column CSS)
   const enhancedColumns = useMemo(() => {
     const mergeClass = (existing, added) => {
       if (existing == null || existing === '') return added;
@@ -92,37 +92,36 @@ const DetailedDataTable = ({ title, data, columns, pagesize, t, page: controlled
         }
         .table-scroll-container thead th {
           white-space: nowrap;
+          background-color: var(--light) !important;
         }
         .sticky-first-column {
           position: sticky !important;
           left: 0 !important;
           z-index: 10 !important;
           white-space: nowrap !important;
-          background-color: #ffffff !important;
+          background-color: var(--white) !important;
           background-clip: padding-box !important;
-          box-shadow: 2px 0 6px rgba(0, 0, 0, 0.12) !important;
+          box-shadow: 2px 0 6px rgba(0, 0, 0, 0.18) !important;
         }
         .table-scroll-container thead .sticky-first-column {
-          background-color: #f8f9fa !important;
+          background-color: var(--light) !important;
           z-index: 12 !important;
         }
-        .table-scroll-container tbody td.sticky-first-column {
-          background-color: #ffffff !important;
+        .table-scroll-container tbody td {
+          background-color: var(--white) !important;
         }
-        .table-scroll-container tbody tr:hover .sticky-first-column {
-          background-color: #f1f3f5 !important;
+        .table-scroll-container tbody td.sticky-first-column {
+          background-color: var(--white) !important;
         }
         .table-scroll-container tbody tr:nth-of-type(even) td {
-          background-color: #f1f3f5;
-        }
-        .table-scroll-container tbody tr:nth-of-type(even):hover td {
-          background-color: #e9ecef;
+          background-color: var(--light) !important;
         }
         .table-scroll-container tbody tr:nth-of-type(even) .sticky-first-column {
-          background-color: #f1f3f5 !important;
+          background-color: var(--light) !important;
         }
-        .table-scroll-container tbody tr:nth-of-type(even):hover .sticky-first-column {
-          background-color: #e9ecef !important;
+        .table-scroll-container tbody tr:hover td,
+        .table-scroll-container tbody tr:hover .sticky-first-column {
+          background-image: linear-gradient(rgba(44, 123, 229, 0.12), rgba(44, 123, 229, 0.12));
         }
       `}</style>
       <Card>
