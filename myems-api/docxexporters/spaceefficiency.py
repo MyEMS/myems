@@ -413,8 +413,6 @@ class SpaceEfficiencyDOCXExporter:
             r_val.font.name = 'Arial'
             r_val._element.rPr.rFonts.set(qn('w:eastAsia'), 'SimSun')
 
-        doc.add_page_break()
-
     def _add_combined_analysis_section(self, doc):
         _ = self._
         reporting_data = self.report['reporting_period_efficiency']
@@ -427,6 +425,7 @@ class SpaceEfficiencyDOCXExporter:
         if ca_len == 0:
             return
 
+        doc.add_page_break()
         self._add_heading_styled(doc, self.name + ' - ' + _('Reporting Period Cumulative Efficiency'), level=1)
 
         num_cols = ca_len + 1
@@ -471,172 +470,236 @@ class SpaceEfficiencyDOCXExporter:
         names = reporting_data.get('names', [])
         units = reporting_data.get('units', [])
         values = reporting_data.get('values', [])
+        cumulations = reporting_data.get('cumulations', [])
 
         if not timestamps or len(timestamps[0]) == 0 or not names:
             return
 
         reporting_times = timestamps[0]
         num_categories = len(names)
+        rows_per_table_page = 45
+
+        is_base = self.is_base_period_exists
+        if is_base:
+            base_period_data = self.report['base_period_efficiency']
+            base_timestamps = base_period_data.get('timestamps', [[]])
+            base_times = base_timestamps[0] if len(base_timestamps) > 0 else []
+            base_values = base_period_data.get('values', [])
+            base_cumulations = base_period_data.get('cumulations', [])
+        else:
+            base_times = []
+            base_values = []
+            base_cumulations = []
+
+        header_font = 8
+        data_font = 7
 
         doc.add_page_break()
         self._add_heading_styled(doc, self.name + ' ' + _('Detailed Data'), level=1)
 
+        first_table_page = True
+        for i in range(num_categories):
+            unit_i = units[i] if (units and i < len(units)) else ''
+            value_unit = (' (' + unit_i + ')') if unit_i else ''
+            r_data = values[i] if i < len(values) else []
+            r_total = cumulations[i] if (cumulations and i < len(cumulations)) else None
+            b_data = base_values[i] if i < len(base_values) else []
+            b_total = base_cumulations[i] if (base_cumulations and i < len(base_cumulations)) else None
+
+            if not is_base:
+                total_rows = max(len(r_data), len(reporting_times))
+                if total_rows == 0:
+                    continue
+                num_pages = (total_rows + rows_per_table_page - 1) // rows_per_table_page
+                for page in range(num_pages):
+                    start_row = page * rows_per_table_page
+                    end_row = min(start_row + rows_per_table_page, total_rows)
+                    if not first_table_page:
+                        doc.add_page_break()
+                    first_table_page = False
+                    col_headers = [_('Datetime'), names[i] + ' ' + _('Efficiency') + value_unit]
+                    table_data = [col_headers]
+                    for t_idx in range(start_row, end_row):
+                        row_vals = [reporting_times[t_idx] if t_idx < len(reporting_times) else '']
+                        v = r_data[t_idx] if t_idx < len(r_data) else None
+                        row_vals.append(str(round2(v, 2)) if v is not None else '')
+                        table_data.append(row_vals)
+                    total_row = [_('Total')]
+                    total_row.append(str(round2(r_total, 2)) if r_total is not None else '')
+                    table_data.append(total_row)
+                    num_cols = len(col_headers)
+                    data_table = doc.add_table(rows=len(table_data), cols=num_cols)
+                    data_table.alignment = WD_TABLE_ALIGNMENT.CENTER
+                    for j in range(num_cols):
+                        cell = data_table.cell(0, j)
+                        cell.text = col_headers[j]
+                        _style_table_cell(cell, is_header=True, bold=True, font_size=header_font)
+                    for di in range(1, len(table_data) - 1):
+                        for j in range(num_cols):
+                            cell = data_table.cell(di, j)
+                            cell.text = table_data[di][j]
+                            _style_table_cell(cell, font_size=data_font)
+                    last_row = len(table_data) - 1
+                    for j in range(num_cols):
+                        cell = data_table.cell(last_row, j)
+                        cell.text = table_data[last_row][j]
+                        _style_table_cell(cell, bold=True, font_size=data_font)
+            else:
+                total_rows = max(len(r_data), len(b_data), len(reporting_times), len(base_times))
+                if total_rows == 0:
+                    continue
+                num_pages = (total_rows + rows_per_table_page - 1) // rows_per_table_page
+                for page in range(num_pages):
+                    start_row = page * rows_per_table_page
+                    end_row = min(start_row + rows_per_table_page, total_rows)
+                    if not first_table_page:
+                        doc.add_page_break()
+                    first_table_page = False
+                    col_headers = [
+                        _('Base Period') + ' - ' + _('Datetime'),
+                        _('Base Period') + ' - ' + names[i] + ' ' + _('Efficiency') + value_unit,
+                        _('Reporting Period') + ' - ' + _('Datetime'),
+                        _('Reporting Period') + ' - ' + names[i] + ' ' + _('Efficiency') + value_unit
+                    ]
+                    table_data = [col_headers]
+                    for t_idx in range(start_row, end_row):
+                        rv = r_data[t_idx] if t_idx < len(r_data) else None
+                        bv = b_data[t_idx] if t_idx < len(b_data) else None
+                        row_vals = [
+                            base_times[t_idx] if t_idx < len(base_times) else '',
+                            (str(round2(bv, 2)) if bv is not None else ''),
+                            reporting_times[t_idx] if t_idx < len(reporting_times) else '',
+                            (str(round2(rv, 2)) if rv is not None else '')
+                        ]
+                        table_data.append(row_vals)
+                    total_row = [
+                        _('Total'),
+                        (str(round2(b_total, 2)) if b_total is not None else ''),
+                        _('Total'),
+                        (str(round2(r_total, 2)) if r_total is not None else '')
+                    ]
+                    table_data.append(total_row)
+                    num_cols = len(col_headers)
+                    data_table = doc.add_table(rows=len(table_data), cols=num_cols)
+                    data_table.alignment = WD_TABLE_ALIGNMENT.CENTER
+                    for j in range(num_cols):
+                        cell = data_table.cell(0, j)
+                        cell.text = col_headers[j]
+                        _style_table_cell(cell, is_header=True, bold=True, font_size=header_font)
+                    for di in range(1, len(table_data) - 1):
+                        for j in range(num_cols):
+                            cell = data_table.cell(di, j)
+                            cell.text = table_data[di][j]
+                            _style_table_cell(cell, font_size=data_font)
+                    last_row = len(table_data) - 1
+                    for j in range(num_cols):
+                        cell = data_table.cell(last_row, j)
+                        cell.text = table_data[last_row][j]
+                        _style_table_cell(cell, bold=True, font_size=data_font)
+
+        doc.add_page_break()
+        self._add_heading_styled(doc, self.name + ' ' + _('Detailed Data'), level=1)
+
+        def _set_ticks(ax, raw_len, times):
+            step = max(1, raw_len // 10)
+            ax.set_xticks(range(0, raw_len, step))
+            ax.set_xticklabels(
+                [times[t][:10] if t < len(times) else '' for t in range(0, raw_len, step)],
+                rotation=45, ha='right', fontsize=7)
+
+        all_charts = []
+        fig_w, fig_h = 8.5, 3.2
+        display_w = 8.5
         chart_colors = self.chart_colors
         N = len(chart_colors)
 
-        if not self.is_base_period_exists:
-            per_row_charts = 2
-            max_per_page = 4
-            drawn_so_far = 0
+        for i in range(num_categories):
+            color = chart_colors[i % N]
+            unit_i = units[i] if (units and i < len(units)) else ''
+            value_unit = (' (' + unit_i + ')') if unit_i else ''
 
-            for row_start in range(0, num_categories, per_row_charts):
-                row_end = min(row_start + per_row_charts, num_categories)
-                row_categories = list(range(row_start, row_end))
-                row_size = len(row_categories)
+            if not is_base:
+                raw_data = values[i] if i < len(values) else []
+                safe_data = [(v if isinstance(v, (int, float)) else 0)
+                             if v is not None else 0 for v in raw_data]
+                fig, ax = plt.subplots(figsize=(fig_w, fig_h))
+                marker_step = max(1, len(safe_data) // 30) if safe_data else 1
+                if len(safe_data) > 0:
+                    ax.plot(range(len(safe_data)), safe_data, linewidth=1.2,
+                            color=color, marker='o', markersize=3,
+                            markevery=marker_step)
+                _set_ticks(ax, len(raw_data), reporting_times)
+                ax.set_title(_('Reporting Period Cumulative Efficiency') + ' - ' +
+                             names[i] + value_unit,
+                             fontsize=9, fontweight='bold')
+                ax.grid(True, alpha=0.3)
+                all_charts.append(self._fig_to_bytesio(fig, self.dpi))
+            else:
+                r_raw = values[i] if i < len(values) else []
+                b_raw = base_values[i] if i < len(base_values) else None
+                safe_r = [(v if isinstance(v, (int, float)) else 0)
+                          if v is not None else 0 for v in r_raw]
+                if b_raw is not None:
+                    safe_b = [(v if isinstance(v, (int, float)) else 0)
+                              if v is not None else 0 for v in b_raw]
+                else:
+                    safe_b = None
 
-                container = doc.add_table(rows=1, cols=per_row_charts)
+                fig, ax = plt.subplots(figsize=(fig_w, fig_h))
+                marker_step = max(1, len(safe_r) // 30) if safe_r else 1
+                has_reporting_line = (len(safe_r) > 0)
+                has_base_line = (safe_b is not None and len(safe_b) > 0)
+                if has_reporting_line:
+                    ax.plot(range(len(safe_r)), safe_r, linewidth=1.2,
+                            color=color, marker='o', markersize=3,
+                            markevery=marker_step,
+                            label=_('Reporting Period') + ' - ' + names[i])
+                if has_base_line:
+                    safe_b_cut = safe_b[:len(safe_r)]
+                    x_b = list(range(len(safe_b_cut)))
+                    ax.plot(x_b, safe_b_cut, linewidth=1.2,
+                            color=color, linestyle='--', marker='s', markersize=3,
+                            markevery=marker_step,
+                            label=_('Base Period') + ' - ' + names[i])
+                _set_ticks(ax, len(r_raw), reporting_times)
+                ax.set_title(_('Base Period Efficiency') + ' / ' +
+                             _('Reporting Period Efficiency') + ' - ' +
+                             names[i] + value_unit,
+                             fontsize=8, fontweight='bold')
+                if has_reporting_line or has_base_line:
+                    ax.legend(fontsize=7)
+                ax.grid(True, alpha=0.3)
+                all_charts.append(self._fig_to_bytesio(fig, self.dpi))
+
+        num_total_charts = len(all_charts)
+        charts_per_page = 2
+        first_chart_page = True
+
+        for page_start in range(0, num_total_charts, charts_per_page):
+            page_end = min(page_start + charts_per_page, num_total_charts)
+            page_bufs = all_charts[page_start:page_end]
+            num_on_page = len(page_bufs)
+
+            if not first_chart_page:
+                doc.add_page_break()
+            first_chart_page = False
+
+            if num_on_page == 1:
+                chart_buf = page_bufs[0]
+                p = doc.add_paragraph()
+                p.alignment = WD_ALIGN_PARAGRAPH.CENTER
+                run = p.add_run()
+                run.add_picture(chart_buf, width=Inches(display_w))
+            elif num_on_page == 2:
+                container = doc.add_table(rows=2, cols=1)
                 container.alignment = WD_TABLE_ALIGNMENT.CENTER
                 _remove_table_borders(container)
-
-                if row_size == 1:
-                    container.cell(0, 0).merge(container.cell(0, 1))
-
-                for local_idx, i in enumerate(row_categories):
-                    raw_data = values[i] if i < len(values) else []
-                    unit_i = units[i] if (units and i < len(units)) else ''
-                    color = chart_colors[i % N]
-                    data_len = len(raw_data)
-                    marker_step = max(1, data_len // 30)
-                    safe_data = [(v if isinstance(v, (int, float)) else 0)
-                                 if v is not None else 0 for v in raw_data]
-
-                    fig_w, fig_h = 4.8, 3.0
-                    single_mode = (row_size == 1)
-                    if single_mode:
-                        fig_w, fig_h = 4.8, 3.0
-
-                    fig, ax = plt.subplots(figsize=(fig_w, fig_h))
-                    if len(safe_data) > 0:
-                        ax.plot(range(len(safe_data)), safe_data,
-                                linewidth=1.2,
-                                color=color, marker='o', markersize=3,
-                                markevery=marker_step)
-                    step = max(1, data_len // 10) if data_len > 0 else 1
-                    ax.set_xticks(range(0, data_len, step))
-                    xlabels = []
-                    for t in range(0, data_len, step):
-                        xlabels.append(
-                            reporting_times[t][:10] if t < len(reporting_times) else '')
-                    ax.set_xticklabels(xlabels, rotation=45, ha='right', fontsize=7)
-                    title = _('Reporting Period Cumulative Efficiency') + ' - ' + \
-                            names[i] + ((' (' + unit_i + ')') if unit_i else '')
-                    ax.set_title(title, fontsize=9, fontweight='bold')
-                    ax.grid(True, alpha=0.3)
-                    plt.tight_layout(pad=1.0)
-                    chart_buf = self._fig_to_bytesio(fig, self.dpi)
-
-                    cell_idx = 0 if single_mode else local_idx
-                    cell = container.cell(0, cell_idx)
+                for ci, buf in enumerate(page_bufs):
+                    cell = container.cell(ci, 0)
                     p = cell.paragraphs[0]
                     p.alignment = WD_ALIGN_PARAGRAPH.CENTER
                     run = p.add_run()
-                    run.add_picture(chart_buf, width=Inches(4.8))
-
-                drawn_so_far += row_size
-                if drawn_so_far >= max_per_page and drawn_so_far < num_categories \
-                        and (drawn_so_far % max_per_page == 0):
-                    doc.add_page_break()
-        else:
-            base_period_data = self.report['base_period_efficiency']
-            base_timestamps = base_period_data.get('timestamps', [])
-            base_values = base_period_data.get('values', [])
-            base_names = base_period_data.get('names', [])
-            base_units = base_period_data.get('units', [])
-
-            per_row_charts = 2
-            max_per_page = 4
-            drawn_so_far = 0
-
-            for row_start in range(0, num_categories, per_row_charts):
-                row_end = min(row_start + per_row_charts, num_categories)
-                row_categories = list(range(row_start, row_end))
-                row_size = len(row_categories)
-
-                container = doc.add_table(rows=1, cols=per_row_charts)
-                container.alignment = WD_TABLE_ALIGNMENT.CENTER
-                _remove_table_borders(container)
-
-                if row_size == 1:
-                    container.cell(0, 0).merge(container.cell(0, 1))
-
-                for local_idx, i in enumerate(row_categories):
-                    r_raw = values[i] if i < len(values) else []
-                    unit_i = units[i] if (units and i < len(units)) else ''
-                    b_raw = base_values[i] if i < len(base_values) else None
-                    b_name = base_names[i] if i < len(base_names) else names[i]
-                    color = chart_colors[i % N]
-                    data_len = len(r_raw)
-                    marker_step = max(1, data_len // 30)
-
-                    safe_r = [(v if isinstance(v, (int, float)) else 0)
-                              if v is not None else 0 for v in r_raw]
-                    if b_raw is not None:
-                        safe_b = [(v if isinstance(v, (int, float)) else 0)
-                                  if v is not None else 0 for v in b_raw]
-                    else:
-                        safe_b = None
-
-                    fig_w, fig_h = 4.8, 3.0
-                    single_mode = (row_size == 1)
-                    if single_mode:
-                        fig_w, fig_h = 4.8, 3.0
-
-                    fig, ax = plt.subplots(figsize=(fig_w, fig_h))
-                    has_reporting_line = (len(safe_r) > 0)
-                    has_base_line = (safe_b is not None and len(safe_b) > 0)
-                    if has_reporting_line:
-                        ax.plot(range(len(safe_r)), safe_r,
-                                linewidth=1.2,
-                                color=color, marker='o', markersize=3,
-                                markevery=marker_step,
-                                label=_('Reporting Period') + ' - ' + names[i])
-                    if has_base_line:
-                        safe_b_cut = safe_b[:len(safe_r)]
-                        x_b = list(range(len(safe_b_cut)))
-                        ax.plot(x_b, safe_b_cut,
-                                linewidth=1.2,
-                                color=color, linestyle='--', marker='s', markersize=3,
-                                markevery=marker_step,
-                                label=_('Base Period') + ' - ' + b_name)
-
-                    step = max(1, data_len // 10) if data_len > 0 else 1
-                    ax.set_xticks(range(0, data_len, step))
-                    xlabels = []
-                    for t in range(0, data_len, step):
-                        xlabels.append(
-                            reporting_times[t][:10] if t < len(reporting_times) else '')
-                    ax.set_xticklabels(xlabels, rotation=45, ha='right', fontsize=7)
-                    title = _('Base Period Efficiency') + ' / ' + \
-                            _('Reporting Period Efficiency') + ' - ' + \
-                            names[i] + ((' (' + unit_i + ')') if unit_i else '')
-                    ax.set_title(title, fontsize=9, fontweight='bold')
-                    if has_reporting_line or has_base_line:
-                        ax.legend(fontsize=7)
-                    ax.grid(True, alpha=0.3)
-                    plt.tight_layout(pad=1.0)
-                    chart_buf = self._fig_to_bytesio(fig, self.dpi)
-
-                    cell_idx = 0 if single_mode else local_idx
-                    cell = container.cell(0, cell_idx)
-                    p = cell.paragraphs[0]
-                    p.alignment = WD_ALIGN_PARAGRAPH.CENTER
-                    run = p.add_run()
-                    run.add_picture(chart_buf, width=Inches(4.8))
-
-                drawn_so_far += row_size
-                if drawn_so_far >= max_per_page and drawn_so_far < num_categories \
-                        and (drawn_so_far % max_per_page == 0):
-                    doc.add_page_break()
+                    run.add_picture(buf, width=Inches(display_w))
 
     def _add_parameters_section(self, doc):
         _ = self._

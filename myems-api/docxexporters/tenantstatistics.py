@@ -1,22 +1,22 @@
 """
-Space Plan DOCX Exporter
+Tenant Statistics DOCX Exporter
 
-This module provides functionality to export space plan data to DOCX format.
-It generates comprehensive reports showing energy plan analysis for spaces
-with detailed breakdown by energy categories and time periods.
+This module provides functionality to export tenant statistics data to DOCX format.
+It generates comprehensive reports showing statistical analysis for tenants
+with detailed breakdown by energy categories and base vs reporting comparison.
 
 Key Features:
-- Space energy plan analysis (plan - actual)
-- Base period vs reporting period comparison
-- Plan breakdown by energy categories (TCE/TCO2E)
-- Detailed data with line charts
+- Tenant statistics analysis (mean/median/min/max/std/variance)
+- Base period vs reporting period side-by-side comparison tables
+- Per unit area statistics
+- Increment rates
 - Multi-language support
 - Base64 encoding for file transmission
 
 The exported DOCX file includes:
-- Cover page with logo and report metadata (Space Data - Plan Analysis)
-- Combined analysis page (plan summary table + TCE/TCO2E breakdown tables with pie charts)
-- Detailed data charts (paginated, up to 4 per page in 2x2 grid)
+- Cover page with logo and report metadata (Tenant Data - Statistics)
+- Statistics summary (2 tables: 6 statistics + increment rates; per unit area stats)
+- Detailed data charts + Base/Reporting comparison table (spacecarbon dual column)
 - Parameter data tables + line charts with filled area
 """
 
@@ -36,7 +36,7 @@ import matplotlib.pyplot as plt
 
 from docx import Document
 from docx.shared import Inches, Pt
-from docx.enum.text import WD_ALIGN_PARAGRAPH, WD_LINE_SPACING, WD_BREAK, WD_TAB_ALIGNMENT
+from docx.enum.text import WD_ALIGN_PARAGRAPH, WD_LINE_SPACING
 from docx.enum.table import WD_TABLE_ALIGNMENT
 from docx.oxml.ns import qn
 from docx.oxml import OxmlElement
@@ -63,11 +63,11 @@ def setup_chinese_fonts():
         font_name = prop.get_name()
         plt.rcParams['font.sans-serif'] = [font_name]
         plt.rcParams['axes.unicode_minus'] = False
-        logger.info(f"Successfully loaded bundled font: {font_name} from {font_path}")
+        logger.info("Successfully loaded bundled font: %s from %s", font_name, font_path)
         _font_setup_done = True
         return True
     except Exception as e:
-        logger.warning(f"Failed to load bundled font from {font_path}: {e}")
+        logger.warning("Failed to load bundled font from %s: %s", font_path, e)
 
     plt.rcParams['font.sans-serif'] = ['DejaVu Sans']
     plt.rcParams['axes.unicode_minus'] = False
@@ -126,7 +126,7 @@ def _set_cell_margins_zero(cell):
     tcPr = tc.get_or_add_tcPr()
     tcMar = OxmlElement('w:tcMar')
     for side in ['top', 'start', 'bottom', 'end']:
-        m = OxmlElement(f'w:{side}')
+        m = OxmlElement('w:' + side)
         m.set(qn('w:w'), '0')
         m.set(qn('w:type'), 'dxa')
         tcMar.append(m)
@@ -141,7 +141,7 @@ def _remove_table_borders(table):
     tblPr = tbl.tblPr if tbl.tblPr is not None else OxmlElement('w:tblPr')
     tblBorders = OxmlElement('w:tblBorders')
     for border_name in ['top', 'left', 'bottom', 'right', 'insideH', 'insideV']:
-        border = OxmlElement(f'w:{border_name}')
+        border = OxmlElement('w:' + border_name)
         border.set(qn('w:val'), 'none')
         border.set(qn('w:sz'), '0')
         border.set(qn('w:space'), '0')
@@ -156,6 +156,8 @@ def _remove_table_borders(table):
 
 
 def _style_table_cell(cell, is_header=False, is_green=False, bold=False, font_size=9):
+    if not cell.paragraphs[0].runs:
+        cell.paragraphs[0].add_run('')
     cell.paragraphs[0].runs[0].font.bold = bold
     cell.paragraphs[0].runs[0].font.size = Pt(font_size)
     for p in cell.paragraphs:
@@ -168,7 +170,7 @@ def _style_table_cell(cell, is_header=False, is_green=False, bold=False, font_si
     tcPr = tc.get_or_add_tcPr()
     tcBorders = OxmlElement('w:tcBorders')
     for border_name in ['top', 'left', 'bottom', 'right']:
-        border = OxmlElement(f'w:{border_name}')
+        border = OxmlElement('w:' + border_name)
         border.set(qn('w:val'), 'single')
         border.set(qn('w:sz'), '4')
         border.set(qn('w:space'), '0')
@@ -187,10 +189,10 @@ def _style_table_cell(cell, is_header=False, is_green=False, bold=False, font_si
     tcPr.append(shd)
 
 
-class SpacePlanDOCXExporter:
+class TenantStatisticsDOCXExporter:
     """
-    Export space plan data to DOCX format.
-    Generates comprehensive reports with charts and tables matching Excel layout.
+    Export tenant statistics data to DOCX format.
+    Matches PDF layout with stats tables + detailed comparison + parameters.
     """
 
     def __init__(self, language: str = 'zh_CN'):
@@ -220,7 +222,7 @@ class SpacePlanDOCXExporter:
         if report is None:
             return None
         start_time = time.time()
-        logger.info(f"Starting DOCX generation for {name}")
+        logger.info("Starting DOCX generation for %s", name)
 
         docx_filename = self.generate_docx(
             report, name,
@@ -239,14 +241,14 @@ class SpacePlanDOCXExporter:
                     binary_data = binary_file.read()
                 result = base64.b64encode(binary_data).decode('utf-8')
             except Exception as e:
-                logger.error(f"Failed to encode DOCX: {str(e)}")
+                logger.error("Failed to encode DOCX: %s", str(e))
             finally:
                 try:
                     os.remove(docx_filename)
                 except Exception:
                     pass
         elapsed = time.time() - start_time
-        logger.info(f"DOCX generation completed in {elapsed:.2f}s for {name}")
+        logger.info("DOCX generation completed in %.2fs for %s", elapsed, name)
         return result
 
     @staticmethod
@@ -299,6 +301,10 @@ class SpacePlanDOCXExporter:
             section.orientation = 1
             section.page_width = Inches(11.69)
             section.page_height = Inches(8.27)
+            section.left_margin = Inches(0.5)
+            section.right_margin = Inches(0.5)
+            section.top_margin = Inches(0.5)
+            section.bottom_margin = Inches(0.5)
             self._add_cover_page(doc, name, period_type,
                                  reporting_start_datetime_local,
                                  reporting_end_datetime_local,
@@ -319,7 +325,8 @@ class SpacePlanDOCXExporter:
         self.reporting_end = reporting_end_datetime_local
         self.period_type = period_type
 
-        self.is_base_period_exists = self._is_base_period_timestamp_exists(report['base_period'])
+        self.is_base_period_exists = self._is_base_period_timestamp_exists(
+            report.get('base_period', {}))
 
         doc = Document()
         section = doc.sections[0]
@@ -338,12 +345,12 @@ class SpacePlanDOCXExporter:
                              base_period_end_datetime_local,
                              self.is_base_period_exists)
 
-        self._add_combined_analysis(doc)
-        self._add_detailed_data_charts(doc)
+        self._add_statistics_tables(doc)
+        self._add_detailed_data_section(doc)
         self._add_parameters_section(doc)
 
         doc.save(filename)
-        logger.info(f"DOCX generated: {filename}")
+        logger.info("DOCX generated: %s", filename)
         return filename
 
     def _add_heading_styled(self, doc, text, level=1):
@@ -369,14 +376,14 @@ class SpacePlanDOCXExporter:
                 run = p.add_run()
                 run.add_picture(img_path, width=Inches(7.0))
             except Exception as e:
-                logger.warning(f"Failed to load logo image: {e}")
+                logger.warning("Failed to load logo image: %s", e)
 
         for _unused in range(3):
             doc.add_paragraph('')
 
         title = doc.add_paragraph()
         title.alignment = WD_ALIGN_PARAGRAPH.CENTER
-        run = title.add_run(_('Energy Plan Analysis'))
+        run = title.add_run(_('Tenant Data') + ' - ' + _('Statistics'))
         run.font.size = Pt(24)
         run.font.bold = True
         run.font.name = 'Arial'
@@ -421,217 +428,401 @@ class SpacePlanDOCXExporter:
             r_val.font.name = 'Arial'
             r_val._element.rPr.rFonts.set(qn('w:eastAsia'), 'SimSun')
 
+        doc.add_page_break()
 
-    def _add_combined_analysis(self, doc):
-        """Add combined analysis: Reporting Period Plan summary table on top,
-        TCE/TCO2E breakdown tables with pie charts below (two columns)."""
+    def _add_statistics_tables(self, doc):
+        """Add two tables: core statistics + increment rates (12 rows + per unit area
+        statistics with the same structure)."""
+        _ = self._
+
+        reporting_data = self.report['reporting_period']
+        names = reporting_data.get('names', [])
+        units = reporting_data.get('units', [])
+        ca_len = len(names)
+        if ca_len == 0:
+            return
+
+        self._add_heading_styled(doc, self.name + ' - ' + _('Statistics'),
+                                 level=1)
+
+        means = reporting_data.get('means', [])
+        medians = reporting_data.get('medians', [])
+        minimums = reporting_data.get('minimums', [])
+        maximums = reporting_data.get('maximums', [])
+        stdevs = reporting_data.get('stdevs', [])
+        variances = reporting_data.get('variances', [])
+        means_ir = reporting_data.get('means_increment_rates', [])
+        medians_ir = reporting_data.get('medians_increment_rates', [])
+        minimums_ir = reporting_data.get('minimums_increment_rates', [])
+        maximums_ir = reporting_data.get('maximums_increment_rates', [])
+        stdevs_ir = reporting_data.get('stdevs_increment_rates', [])
+        variances_ir = reporting_data.get('variances_increment_rates', [])
+
+        num_cols = ca_len + 1
+        table_rows = 13
+
+        stats_table_title = doc.add_paragraph()
+        stats_table_title_run = stats_table_title.add_run(self.name + ' ' + _('Statistics'))
+        stats_table_title_run.font.bold = True
+        stats_table_title_run.font.name = 'Arial'
+        stats_table_title_run.font.size = Pt(12)
+        r = stats_table_title_run._element
+        r.rPr.rFonts.set(qn('w:eastAsia'), 'SimSun')
+
+        stats_table = doc.add_table(rows=table_rows, cols=num_cols)
+        stats_table.alignment = WD_TABLE_ALIGNMENT.CENTER
+
+        h0 = stats_table.cell(0, 0)
+        h0.text = ''
+        _style_table_cell(h0, is_header=True, bold=True, font_size=8)
+        for j in range(ca_len):
+            unit_i = units[j] if (units and j < len(units)) else ''
+            c_h = stats_table.cell(0, j + 1)
+            c_h.text = names[j] + ' (' + unit_i + ')'
+            _style_table_cell(c_h, is_header=True, bold=True, font_size=8)
+
+        stat_field_list = [
+            (1, _('Arithmetic Mean'), means),
+            (2, _('Arithmetic Mean') + ' - ' + _('Increment Rate'), means_ir, True),
+            (3, _('Median (Middle Value)'), medians),
+            (4, _('Median (Middle Value)') + ' - ' + _('Increment Rate'), medians_ir, True),
+            (5, _('Minimum Value'), minimums),
+            (6, _('Minimum Value') + ' - ' + _('Increment Rate'), minimums_ir, True),
+            (7, _('Maximum Value'), maximums),
+            (8, _('Maximum Value') + ' - ' + _('Increment Rate'), maximums_ir, True),
+            (9, _('Sample Standard Deviation'), stdevs),
+            (10, _('Sample Standard Deviation') + ' - ' + _('Increment Rate'), stdevs_ir, True),
+            (11, _('Sample Variance'), variances),
+            (12, _('Sample Variance') + ' - ' + _('Increment Rate'), variances_ir, True),
+        ]
+
+        for item in stat_field_list:
+            if len(item) == 3:
+                row_num, label, values_list = item
+                is_percent = False
+            else:
+                row_num, label, values_list, is_percent = item
+            if row_num >= table_rows:
+                continue
+            c_row = stats_table.cell(row_num, 0)
+            c_row.text = label
+            _style_table_cell(c_row, is_green=True, bold=True, font_size=8)
+            for j in range(ca_len):
+                val = values_list[j] if (values_list and j < len(values_list)) else None
+                if is_percent:
+                    pct_val = (val * 100.0) if val is not None else 0.0
+                    text_v = '{:.2f}%'.format(pct_val)
+                else:
+                    text_v = '' if val is None else str(round2(val, 2))
+                c_val = stats_table.cell(row_num, j + 1)
+                c_val.text = text_v
+                _style_table_cell(c_val, font_size=8)
+
+        doc.add_paragraph('')
+
+        # Per unit area statistics table
+        means_pua = reporting_data.get('means_per_unit_area', [])
+        medians_pua = reporting_data.get('medians_per_unit_area', [])
+        minimums_pua = reporting_data.get('minimums_per_unit_area', [])
+        maximums_pua = reporting_data.get('maximums_per_unit_area', [])
+        stdevs_pua = reporting_data.get('stdevs_per_unit_area', [])
+        variances_pua = reporting_data.get('variances_per_unit_area', [])
+
+        pua_table_title = doc.add_paragraph()
+        pua_title_text = self.name + ' ' + _('Per Unit Area')
+        area = self.report.get('tenant', {}).get('area', None)
+        if area is not None:
+            pua_title_text += '    ' + str(area) + 'M\u00b2'
+        pua_table_title_run = pua_table_title.add_run(pua_title_text)
+        pua_table_title_run.font.bold = True
+        pua_table_title_run.font.name = 'Arial'
+        pua_table_title_run.font.size = Pt(12)
+        r = pua_table_title_run._element
+        r.rPr.rFonts.set(qn('w:eastAsia'), 'SimSun')
+
+        pua_table = doc.add_table(rows=7, cols=num_cols)
+        pua_table.alignment = WD_TABLE_ALIGNMENT.CENTER
+
+        hp0 = pua_table.cell(0, 0)
+        hp0.text = ''
+        _style_table_cell(hp0, is_header=True, bold=True, font_size=8)
+        for j in range(ca_len):
+            unit_i = units[j] if (units and j < len(units)) else ''
+            c_h = pua_table.cell(0, j + 1)
+            if unit_i:
+                c_h.text = names[j] + ' (' + unit_i + '/M\u00b2)'
+            else:
+                c_h.text = names[j] + ' (/M\u00b2)'
+            _style_table_cell(c_h, is_header=True, bold=True, font_size=8)
+
+        pua_field_list = [
+            (1, _('Arithmetic Mean'), means_pua),
+            (2, _('Median (Middle Value)'), medians_pua),
+            (3, _('Minimum Value'), minimums_pua),
+            (4, _('Maximum Value'), maximums_pua),
+            (5, _('Sample Standard Deviation'), stdevs_pua),
+            (6, _('Sample Variance'), variances_pua),
+        ]
+        for row_num, label, values_list in pua_field_list:
+            c_row = pua_table.cell(row_num, 0)
+            c_row.text = label
+            _style_table_cell(c_row, is_green=True, bold=True, font_size=8)
+            for j in range(ca_len):
+                val = values_list[j] if (values_list and j < len(values_list)) else None
+                text_v = str(round2(val, 2)) if val is not None else ''
+                c_val = pua_table.cell(row_num, j + 1)
+                c_val.text = text_v
+                _style_table_cell(c_val, font_size=8)
+
+    def _add_detailed_data_section(self, doc):
         _ = self._
         reporting_data = self.report['reporting_period']
         names = reporting_data.get('names', [])
         units = reporting_data.get('units', [])
-        subtotals_saving = reporting_data.get('subtotals_saving', [])
-        subtotals_per_unit_area_saving = reporting_data.get('subtotals_per_unit_area_saving', [])
-        increment_rates_saving = reporting_data.get('increment_rates_saving', [])
-        subtotals_in_kgce_saving = reporting_data.get('subtotals_in_kgce_saving', [])
-        subtotals_in_kgco2e_saving = reporting_data.get('subtotals_in_kgco2e_saving', [])
+        values = reporting_data.get('values', [])
+        timestamps = reporting_data.get('timestamps', [])
+        subtotals = reporting_data.get('subtotals', [])
         ca_len = len(names)
-
-        if ca_len == 0:
+        if ca_len == 0 or not timestamps or len(timestamps[0]) == 0:
             return
-
         doc.add_page_break()
-        self._add_heading_styled(doc, self.name + ' - ' + _('Reporting Period Plan'), level=1)
+        reporting_times = timestamps[0]
+        rows_per_page = 25
+        if not self.is_base_period_exists:
+            first_category = True
+            for i in range(ca_len):
+                color = self.chart_colors[i % len(self.chart_colors)]
+                unit_i = units[i] if (units and i < len(units)) else ''
+                raw_data = values[i] if i < len(values) else []
+                total_rows = max(len(raw_data), len(reporting_times))
+                if total_rows == 0:
+                    continue
+                num_pages = (total_rows + rows_per_page - 1) // rows_per_page
+                for page in range(num_pages):
+                    start_row = page * rows_per_page
+                    end_row = min(start_row + rows_per_page, total_rows)
+                    if first_category and page == 0:
+                        self._add_heading_styled(doc, self.name + ' ' + _('Detailed Data'), level=1)
+                        first_category = False
+                    container = doc.add_table(rows=2, cols=1)
+                    container.alignment = WD_TABLE_ALIGNMENT.CENTER
+                    _remove_table_borders(container)
+                    table_cell = container.cell(0, 0)
+                    chart_cell = container.cell(1, 0)
+                    col_headers = [_('Datetime'), names[i] + ' (' + unit_i + ')']
+                    table_data = [col_headers]
+                    for t_idx in range(start_row, end_row):
+                        row_vals = [reporting_times[t_idx] if t_idx < len(reporting_times) else '']
+                        v = raw_data[t_idx] if t_idx < len(raw_data) else None
+                        row_vals.append(str(round2(v, 2)) if v is not None else '')
+                        table_data.append(row_vals)
+                    total_row = [_('Total')]
+                    v = subtotals[i] if (subtotals and i < len(subtotals)) else None
+                    total_row.append(str(round2(v, 2)) if v is not None else '')
+                    table_data.append(total_row)
+                    num_cols = len(col_headers)
+                    data_table = table_cell.add_table(rows=len(table_data), cols=num_cols)
+                    data_table.alignment = WD_TABLE_ALIGNMENT.CENTER
+                    p_elem = table_cell.paragraphs[0]._element
+                    p_elem.getparent().remove(p_elem)
+                    for j in range(num_cols):
+                        cell = data_table.cell(0, j)
+                        cell.text = col_headers[j]
+                        _style_table_cell(cell, is_header=True, bold=True, font_size=8)
+                    for di in range(1, len(table_data) - 1):
+                        for j in range(num_cols):
+                            cell = data_table.cell(di, j)
+                            cell.text = table_data[di][j]
+                            _style_table_cell(cell, font_size=7)
+                    last_row = len(table_data) - 1
+                    for j in range(num_cols):
+                        cell = data_table.cell(last_row, j)
+                        cell.text = table_data[last_row][j]
+                        _style_table_cell(cell, bold=True, font_size=7)
+                    fig, ax_chart = plt.subplots(figsize=(8.5, 2.8))
+                    page_len = end_row - start_row
+                    page_data = []
+                    for t_idx in range(start_row, end_row):
+                        v = raw_data[t_idx] if t_idx < len(raw_data) else None
+                        page_data.append(float(v) if v is not None else 0.0)
+                    marker_step = max(1, page_len // 15)
+                    ax_chart.plot(range(page_len), page_data, linewidth=1.2,
+                                  color=color, marker='o', markersize=3,
+                                  markevery=marker_step,
+                                  label=names[i] + ' (' + unit_i + ')')
+                    step = max(1, page_len // 8)
+                    tick_positions = list(range(0, page_len, step))
+                    tick_labels = []
+                    for t in tick_positions:
+                        if start_row + t < len(reporting_times):
+                            tick_labels.append(reporting_times[start_row + t])
+                    tick_positions = tick_positions[:len(tick_labels)]
+                    ax_chart.set_xticks(tick_positions)
+                    ax_chart.set_xticklabels(tick_labels, rotation=45, ha='right', fontsize=7)
+                    ax_chart.set_title(_('Reporting Period Consumption') + ' - ' + names[i] + ' (' + unit_i + ')',
+                                       fontsize=10, weight='bold')
+                    ax_chart.legend(fontsize=7, loc='upper right')
+                    ax_chart.grid(True, alpha=0.3)
+                    chart_buf = self._fig_to_bytesio(fig, self.dpi)
+                    p = chart_cell.paragraphs[0]
+                    p.alignment = WD_ALIGN_PARAGRAPH.CENTER
+                    run = p.add_run()
+                    run.add_picture(chart_buf, width=Inches(8.5))
+                    if page < num_pages - 1:
+                        doc.add_page_break()
+                if i < ca_len - 1:
+                    doc.add_page_break()
+        else:
+            base_period_data = self.report['base_period']
+            base_values = base_period_data.get('values', [])
+            base_times_list = base_period_data.get('timestamps', [[]])
+            base_times = base_times_list[0] if len(base_times_list) > 0 else []
+            base_subtotals = base_period_data.get('subtotals', [])
+            first_category = True
+            for i in range(ca_len):
+                color = self.chart_colors[i % len(self.chart_colors)]
+                unit_i = units[i] if (units and i < len(units)) else ''
+                r_data = values[i] if i < len(values) else []
+                b_data = base_values[i] if i < len(base_values) else []
+                total_rows = max(len(r_data), len(reporting_times), len(b_data), len(base_times))
+                if total_rows == 0:
+                    continue
+                num_pages = (total_rows + rows_per_page - 1) // rows_per_page
+                for page in range(num_pages):
+                    start_row = page * rows_per_page
+                    end_row = min(start_row + rows_per_page, total_rows)
+                    if first_category and page == 0:
+                        self._add_heading_styled(doc, self.name + ' ' + _('Detailed Data'), level=1)
+                        first_category = False
+                    container = doc.add_table(rows=2, cols=1)
+                    container.alignment = WD_TABLE_ALIGNMENT.CENTER
+                    _remove_table_borders(container)
+                    table_cell = container.cell(0, 0)
+                    chart_cell = container.cell(1, 0)
+                    col_headers = [
+                        _('Base Period') + ' - ' + _('Datetime'),
+                        _('Base Period') + ' - ' + names[i] + ' (' + unit_i + ')',
+                        _('Reporting Period') + ' - ' + _('Datetime'),
+                        _('Reporting Period') + ' - ' + names[i] + ' (' + unit_i + ')'
+                    ]
+                    table_data = [col_headers]
+                    for t_idx in range(start_row, end_row):
+                        row_vals = [
+                            base_times[t_idx] if t_idx < len(base_times) else '',
+                            (str(round2(b_data[t_idx], 2)) if (t_idx < len(b_data) and b_data[t_idx] is not None) else ''),
+                            reporting_times[t_idx] if t_idx < len(reporting_times) else '',
+                            (str(round2(r_data[t_idx], 2)) if (t_idx < len(r_data) and r_data[t_idx] is not None) else '')
+                        ]
+                        table_data.append(row_vals)
+                    total_row = [
+                        _('Total'),
+                        (str(round2(base_subtotals[i], 2)) if (base_subtotals and i < len(base_subtotals) and base_subtotals[i] is not None) else ''),
+                        _('Total'),
+                        (str(round2(subtotals[i], 2)) if (subtotals and i < len(subtotals) and subtotals[i] is not None) else '')
+                    ]
+                    table_data.append(total_row)
+                    num_cols = len(col_headers)
+                    data_table = table_cell.add_table(rows=len(table_data), cols=num_cols)
+                    data_table.alignment = WD_TABLE_ALIGNMENT.CENTER
+                    p_elem = table_cell.paragraphs[0]._element
+                    p_elem.getparent().remove(p_elem)
+                    for j in range(num_cols):
+                        cell = data_table.cell(0, j)
+                        cell.text = col_headers[j]
+                        _style_table_cell(cell, is_header=True, bold=True, font_size=7)
+                    for di in range(1, len(table_data) - 1):
+                        for j in range(num_cols):
+                            cell = data_table.cell(di, j)
+                            cell.text = table_data[di][j]
+                            _style_table_cell(cell, font_size=6)
+                    last_row = len(table_data) - 1
+                    for j in range(num_cols):
+                        cell = data_table.cell(last_row, j)
+                        cell.text = table_data[last_row][j]
+                        _style_table_cell(cell, bold=True, font_size=6)
+                    fig, ax_chart = plt.subplots(figsize=(8.5, 2.8))
+                    page_len = end_row - start_row
+                    page_r = []
+                    for t_idx in range(start_row, end_row):
+                        v = r_data[t_idx] if t_idx < len(r_data) else None
+                        page_r.append(float(v) if v is not None else 0.0)
+                    marker_step = max(1, page_len // 15)
+                    ax_chart.plot(range(page_len), page_r, linewidth=1.2,
+                                  color=color, marker='o', markersize=3,
+                                  markevery=marker_step,
+                                  label=_('Reporting Period') + ' - ' + names[i])
+                    page_b = []
+                    for t_idx in range(start_row, end_row):
+                        v = b_data[t_idx] if t_idx < len(b_data) else None
+                        page_b.append(float(v) if v is not None else 0.0)
+                    ax_chart.plot(range(page_len), page_b, linewidth=1.2,
+                                  color=color, linestyle='--',
+                                  marker='s', markersize=3,
+                                  markevery=marker_step,
+                                  label=_('Base Period') + ' - ' + names[i])
+                    step = max(1, page_len // 8)
+                    tick_positions = list(range(0, page_len, step))
+                    tick_labels = []
+                    for t in tick_positions:
+                        if start_row + t < len(reporting_times):
+                            tick_labels.append(reporting_times[start_row + t])
+                    tick_positions = tick_positions[:len(tick_labels)]
+                    ax_chart.set_xticks(tick_positions)
+                    ax_chart.set_xticklabels(tick_labels, rotation=45, ha='right', fontsize=7)
+                    ax_chart.set_title(
+                        _('Base Period') + ' / ' + _('Reporting Period') + ' - ' +
+                        names[i] + ' (' + unit_i + ')',
+                        fontsize=10, weight='bold')
+                    ax_chart.legend(fontsize=6, loc='upper right')
+                    ax_chart.grid(True, alpha=0.3)
+                    chart_buf = self._fig_to_bytesio(fig, self.dpi)
+                    p = chart_cell.paragraphs[0]
+                    p.alignment = WD_ALIGN_PARAGRAPH.CENTER
+                    run = p.add_run()
+                    run.add_picture(chart_buf, width=Inches(8.5))
+                    if page < num_pages - 1:
+                        doc.add_page_break()
+                if i < ca_len - 1:
+                    doc.add_page_break()
 
-        num_cols = ca_len + 3
-        table = doc.add_table(rows=4, cols=num_cols)
-        table.alignment = WD_TABLE_ALIGNMENT.CENTER
-
-        headers = ['']
-        for i in range(ca_len):
-            unit_i = units[i] if (units and i < len(units)) else ''
-            headers.append(names[i] + ' (' + _('Plan') + ' - ' + _('Actual') + ')(' + unit_i + ')')
-        headers.append(_('Ton of Standard Coal') + ' (' + _('Plan') + ' - ' + _('Actual') + ') (TCE)')
-        headers.append(_('Ton of Carbon Dioxide Emissions') + ' (' + _('Plan') + ' - ' + _('Actual') + ') (TCO2E)')
-
-        for j, h in enumerate(headers):
-            cell = table.cell(0, j)
-            cell.text = h
-            _style_table_cell(cell, is_header=True, bold=True, font_size=8)
-
-        row_labels = [_('Plan'), _('Per Unit Area'), _('Increment Rate')]
-        for r_idx, row_label in enumerate(row_labels, start=1):
-            cell = table.cell(r_idx, 0)
-            cell.text = row_label
-            _style_table_cell(cell, is_green=True, bold=True, font_size=8)
-
-        total_kgce = reporting_data.get('total_in_kgce_saving', 0)
-        total_kgco2e = reporting_data.get('total_in_kgco2e_saving', 0)
-        total_kgce_per_area = reporting_data.get('total_in_kgce_per_unit_area_saving', None)
-        total_kgco2e_per_area = reporting_data.get('total_in_kgco2e_per_unit_area_saving', None)
-        inc_kgce = reporting_data.get('increment_rate_in_kgce_saving', None)
-        inc_kgco2e = reporting_data.get('increment_rate_in_kgco2e_saving', None)
-
-        for i in range(ca_len):
-            col = i + 1
-            cell_plan = table.cell(1, col)
-            val = subtotals_saving[i] if (subtotals_saving and i < len(subtotals_saving)) else None
-            cell_plan.text = str(round2(val, 2)) if val is not None else ''
-            _style_table_cell(cell_plan, font_size=8)
-
-            cell_area = table.cell(2, col)
-            val = subtotals_per_unit_area_saving[i] if (subtotals_per_unit_area_saving and i < len(subtotals_per_unit_area_saving)) else None
-            cell_area.text = str(round2(val, 2)) if val is not None else ''
-            _style_table_cell(cell_area, font_size=8)
-
-            cell_inc = table.cell(3, col)
-            val = increment_rates_saving[i] if (increment_rates_saving and i < len(increment_rates_saving)) else None
-            cell_inc.text = (str(round2(val * 100, 2)) + '%') if val is not None else ''
-            _style_table_cell(cell_inc, font_size=8)
-
-        tce_col = ca_len + 1
-        tco2e_col = ca_len + 2
-
-        table.cell(1, tce_col).text = str(round2(total_kgce / 1000, 2))
-        _style_table_cell(table.cell(1, tce_col), font_size=8)
-        table.cell(1, tco2e_col).text = str(round2(total_kgco2e / 1000, 2))
-        _style_table_cell(table.cell(1, tco2e_col), font_size=8)
-
-        tce_area_text = (str(round2(total_kgce_per_area / 1000, 2))
-                         if total_kgce_per_area is not None else '')
-        table.cell(2, tce_col).text = tce_area_text
-        _style_table_cell(table.cell(2, tce_col), font_size=8)
-        tco2e_area_text = (str(round2(total_kgco2e_per_area / 1000, 2))
-                           if total_kgco2e_per_area is not None else '')
-        table.cell(2, tco2e_col).text = tco2e_area_text
-        _style_table_cell(table.cell(2, tco2e_col), font_size=8)
-
-        inc_tce_text = (str(round2(inc_kgce * 100, 2)) + '%') if inc_kgce is not None else ''
-        table.cell(3, tce_col).text = inc_tce_text
-        _style_table_cell(table.cell(3, tce_col), font_size=8)
-        inc_tco2e_text = (str(round2(inc_kgco2e * 100, 2)) + '%') if inc_kgco2e is not None else ''
-        table.cell(3, tco2e_col).text = inc_tco2e_text
-        _style_table_cell(table.cell(3, tco2e_col), font_size=8)
-
-        doc.add_paragraph('')
-
-        self._add_tce_breakdown(doc, names, subtotals_in_kgce_saving, _('Plan'))
-        self._add_tco2e_breakdown(doc, names, subtotals_in_kgco2e_saving, _('Plan'))
-
-    def _add_tce_breakdown(self, doc, names, subtotals_in_kgce_saving, row_label_prefix):
-        """Add TCE breakdown table + pie chart side-by-side."""
-        _ = self._
-        if not subtotals_in_kgce_saving or len(subtotals_in_kgce_saving) == 0:
-            return
-        ca_len = min(len(names), len(subtotals_in_kgce_saving))
-        if ca_len == 0:
-            return
-
-        kgce_sum = sum(v or 0 for v in subtotals_in_kgce_saving)
-        tce_values = [round2(subtotals_in_kgce_saving[i] / 1000, 3) for i in range(ca_len)]
-        display_names = names[:ca_len]
-
-        chart_file = self._make_pie_chart(tce_values, display_names,
-                                          _('Ton of Standard Coal(TCE) by Energy Category'))
-
-        container = doc.add_table(rows=1, cols=2)
-        container.alignment = WD_TABLE_ALIGNMENT.CENTER
-        _remove_table_borders(container)
-        left_cell = container.cell(0, 0)
-        right_cell = container.cell(0, 1)
-
-        data_table = left_cell.add_table(rows=ca_len + 1, cols=4)
-        data_table.alignment = WD_TABLE_ALIGNMENT.CENTER
-        h0 = data_table.cell(0, 0)
-        h0.text = ''
-        _style_table_cell(h0, is_header=True, bold=True, font_size=8)
-        h1 = data_table.cell(0, 1)
-        h1.text = _('Energy Category')
-        _style_table_cell(h1, is_header=True, bold=True, font_size=8)
-        h2 = data_table.cell(0, 2)
-        h2.text = row_label_prefix + ' (TCE)'
-        _style_table_cell(h2, is_header=True, bold=True, font_size=8)
-        h3 = data_table.cell(0, 3)
-        h3.text = _('Ton of Standard Coal(TCE) by Energy Category')
-        _style_table_cell(h3, is_header=True, bold=True, font_size=8)
-        for i in range(ca_len):
-            c0 = data_table.cell(i + 1, 0)
-            c0.text = str(i + 1)
-            _style_table_cell(c0, font_size=8)
-            c1 = data_table.cell(i + 1, 1)
-            c1.text = display_names[i]
-            _style_table_cell(c1, bold=True, font_size=8)
-            c2 = data_table.cell(i + 1, 2)
-            c2.text = str(tce_values[i])
-            _style_table_cell(c2, font_size=8)
-            c3 = data_table.cell(i + 1, 3)
-            proportion = (str(round2(subtotals_in_kgce_saving[i] / kgce_sum * 100, 2)) + '%'
-                          if abs(kgce_sum) > 0 else '-')
-            c3.text = proportion
-            _style_table_cell(c3, font_size=8)
-
-        if chart_file:
-            p = right_cell.paragraphs[0]
-            p.alignment = WD_ALIGN_PARAGRAPH.CENTER
-            run = p.add_run()
-            run.add_picture(chart_file, width=Inches(2.4))
-
-    def _add_tco2e_breakdown(self, doc, names, subtotals_in_kgco2e_saving, row_label_prefix):
-        """Add TCO2E breakdown table + pie chart side-by-side."""
-        _ = self._
-        if not subtotals_in_kgco2e_saving or len(subtotals_in_kgco2e_saving) == 0:
-            return
-        ca_len = min(len(names), len(subtotals_in_kgco2e_saving))
-        if ca_len == 0:
-            return
-
-        kgco2e_sum = sum(v or 0 for v in subtotals_in_kgco2e_saving)
-        co2e_values = [round2(subtotals_in_kgco2e_saving[i] / 1000, 3) for i in range(ca_len)]
-        display_names = names[:ca_len]
-
-        chart_file = self._make_pie_chart(co2e_values, display_names,
-                                          _('Ton of Carbon Dioxide Emissions(TCO2E) by Energy Category'))
-
-        container = doc.add_table(rows=1, cols=2)
-        container.alignment = WD_TABLE_ALIGNMENT.CENTER
-        _remove_table_borders(container)
-        left_cell = container.cell(0, 0)
-        right_cell = container.cell(0, 1)
-
-        data_table = left_cell.add_table(rows=ca_len + 1, cols=4)
-        data_table.alignment = WD_TABLE_ALIGNMENT.CENTER
-        h0 = data_table.cell(0, 0)
-        h0.text = ''
-        _style_table_cell(h0, is_header=True, bold=True, font_size=8)
-        h1 = data_table.cell(0, 1)
-        h1.text = _('Energy Category')
-        _style_table_cell(h1, is_header=True, bold=True, font_size=8)
-        h2 = data_table.cell(0, 2)
-        h2.text = row_label_prefix + ' (TCO2E)'
-        _style_table_cell(h2, is_header=True, bold=True, font_size=8)
-        h3 = data_table.cell(0, 3)
-        h3.text = _('Ton of Carbon Dioxide Emissions(TCO2E) by Energy Category')
-        _style_table_cell(h3, is_header=True, bold=True, font_size=8)
-        for i in range(ca_len):
-            c0 = data_table.cell(i + 1, 0)
-            c0.text = str(i + 1)
-            _style_table_cell(c0, font_size=8)
-            c1 = data_table.cell(i + 1, 1)
-            c1.text = display_names[i]
-            _style_table_cell(c1, bold=True, font_size=8)
-            c2 = data_table.cell(i + 1, 2)
-            c2.text = str(co2e_values[i])
-            _style_table_cell(c2, font_size=8)
-            c3 = data_table.cell(i + 1, 3)
-            proportion = (str(round2(subtotals_in_kgco2e_saving[i] / kgco2e_sum * 100, 2)) + '%'
-                          if abs(kgco2e_sum) > 0 else '-')
-            c3.text = proportion
-            _style_table_cell(c3, font_size=8)
-
-        if chart_file:
-            p = right_cell.paragraphs[0]
-            p.alignment = WD_ALIGN_PARAGRAPH.CENTER
-            run = p.add_run()
-            run.add_picture(chart_file, width=Inches(2.4))
+    def _render_2x2_chart_page(self, doc, all_charts):
+        charts_per_page = 4
+        num_total = len(all_charts)
+        for page_start in range(0, num_total, charts_per_page):
+            page_end = min(page_start + charts_per_page, num_total)
+            num_on_page = page_end - page_start
+            rows = (num_on_page + 1) // 2
+            for row_idx in range(rows):
+                slot0 = row_idx * 2
+                slot1 = slot0 + 1
+                has_left = slot0 < num_on_page
+                has_right = slot1 < num_on_page
+                if has_left and not has_right:
+                    container = doc.add_table(rows=1, cols=2)
+                    container.alignment = WD_TABLE_ALIGNMENT.CENTER
+                    _remove_table_borders(container)
+                    container.cell(0, 0).merge(container.cell(0, 1))
+                    cell = container.cell(0, 0)
+                    p = cell.paragraphs[0]
+                    p.alignment = WD_ALIGN_PARAGRAPH.CENTER
+                    run = p.add_run()
+                    run.add_picture(all_charts[page_start + slot0], width=Inches(4.8))
+                else:
+                    cols = min(2, num_on_page - row_idx * 2)
+                    container = doc.add_table(rows=1, cols=cols)
+                    container.alignment = WD_TABLE_ALIGNMENT.CENTER
+                    _remove_table_borders(container)
+                    for col_idx in range(cols):
+                        slot = row_idx * 2 + col_idx
+                        if slot >= num_on_page:
+                            continue
+                        cell = container.cell(0, col_idx)
+                        p = cell.paragraphs[0]
+                        p.alignment = WD_ALIGN_PARAGRAPH.CENTER
+                        run = p.add_run()
+                        run.add_picture(all_charts[page_start + slot], width=Inches(4.8))
+            if page_end < num_total:
+                doc.add_page_break()
 
     @staticmethod
     def _filter_valid_data(data):
@@ -645,245 +836,8 @@ class SpacePlanDOCXExporter:
                     pass
         return xs, ys
 
-    def _add_detailed_data_charts(self, doc):
-        """Add detailed data line charts, up to 4 per page in 2x2 grid.
-        Without base period: single line chart per category.
-        With base period: solid/dashed comparison chart per category.
-        """
-        _ = self._
-
-        reporting_data = self.report['reporting_period']
-        timestamps = reporting_data.get('timestamps', [])
-        names = reporting_data.get('names', [])
-        units = reporting_data.get('units', [])
-        values_saving = reporting_data.get('values_saving', [])
-        subtotals_saving = reporting_data.get('subtotals_saving', [])
-
-        if not timestamps or len(timestamps[0]) == 0 or not names:
-            return
-
-        reporting_times = timestamps[0]
-        num_categories = len(names)
-        rows_per_table_page = 45
-
-        is_base = self.is_base_period_exists
-        if is_base:
-            base_period_data = self.report['base_period']
-            base_values_saving = base_period_data.get('values_saving', [])
-            base_subtotals_saving = base_period_data.get('subtotals_saving', [])
-            base_timestamps = base_period_data.get('timestamps', [[]])
-            base_times = base_timestamps[0] if len(base_timestamps) > 0 else []
-        else:
-            base_times = []
-            base_values_saving = []
-            base_subtotals_saving = []
-
-        header_font = 8
-        data_font = 7
-
-        doc.add_page_break()
-        self._add_heading_styled(doc, self.name + ' ' + _('Detailed Data'), level=1)
-
-        first_table_page = True
-        for i in range(num_categories):
-            unit_i = units[i] if (units and i < len(units)) else ''
-            value_unit = (' (' + unit_i + ')') if unit_i else ''
-            r_data = values_saving[i] if i < len(values_saving) else []
-            r_total = subtotals_saving[i] if (subtotals_saving and i < len(subtotals_saving)) else None
-            b_data = base_values_saving[i] if i < len(base_values_saving) else []
-            b_total = base_subtotals_saving[i] if (base_subtotals_saving and i < len(base_subtotals_saving)) else None
-
-            if not is_base:
-                total_rows = max(len(r_data), len(reporting_times))
-                if total_rows == 0:
-                    continue
-                num_pages = (total_rows + rows_per_table_page - 1) // rows_per_table_page
-                for page in range(num_pages):
-                    start_row = page * rows_per_table_page
-                    end_row = min(start_row + rows_per_table_page, total_rows)
-                    if not first_table_page:
-                        doc.add_page_break()
-                    first_table_page = False
-                    col_headers = [_('Datetime'), names[i] + value_unit]
-                    table_data = [col_headers]
-                    for t_idx in range(start_row, end_row):
-                        row_vals = [reporting_times[t_idx] if t_idx < len(reporting_times) else '']
-                        v = r_data[t_idx] if t_idx < len(r_data) else None
-                        row_vals.append(str(round2(v, 2)) if v is not None else '')
-                        table_data.append(row_vals)
-                    total_row = [_('Total')]
-                    total_row.append(str(round2(r_total, 2)) if r_total is not None else '')
-                    table_data.append(total_row)
-                    num_cols = len(col_headers)
-                    data_table = doc.add_table(rows=len(table_data), cols=num_cols)
-                    data_table.alignment = WD_TABLE_ALIGNMENT.CENTER
-                    for j in range(num_cols):
-                        cell = data_table.cell(0, j)
-                        cell.text = col_headers[j]
-                        _style_table_cell(cell, is_header=True, bold=True, font_size=header_font)
-                    for di in range(1, len(table_data) - 1):
-                        for j in range(num_cols):
-                            cell = data_table.cell(di, j)
-                            cell.text = table_data[di][j]
-                            _style_table_cell(cell, font_size=data_font)
-                    last_row = len(table_data) - 1
-                    for j in range(num_cols):
-                        cell = data_table.cell(last_row, j)
-                        cell.text = table_data[last_row][j]
-                        _style_table_cell(cell, bold=True, font_size=data_font)
-            else:
-                total_rows = max(len(r_data), len(b_data), len(reporting_times), len(base_times))
-                if total_rows == 0:
-                    continue
-                num_pages = (total_rows + rows_per_table_page - 1) // rows_per_table_page
-                for page in range(num_pages):
-                    start_row = page * rows_per_table_page
-                    end_row = min(start_row + rows_per_table_page, total_rows)
-                    if not first_table_page:
-                        doc.add_page_break()
-                    first_table_page = False
-                    col_headers = [
-                        _('Base Period') + ' - ' + _('Datetime'),
-                        _('Base Period') + ' - ' + names[i] + value_unit,
-                        _('Reporting Period') + ' - ' + _('Datetime'),
-                        _('Reporting Period') + ' - ' + names[i] + value_unit
-                    ]
-                    table_data = [col_headers]
-                    for t_idx in range(start_row, end_row):
-                        rv = r_data[t_idx] if t_idx < len(r_data) else None
-                        bv = b_data[t_idx] if t_idx < len(b_data) else None
-                        row_vals = [
-                            base_times[t_idx] if t_idx < len(base_times) else '',
-                            (str(round2(bv, 2)) if bv is not None else ''),
-                            reporting_times[t_idx] if t_idx < len(reporting_times) else '',
-                            (str(round2(rv, 2)) if rv is not None else '')
-                        ]
-                        table_data.append(row_vals)
-                    total_row = [
-                        _('Total'),
-                        (str(round2(b_total, 2)) if b_total is not None else ''),
-                        _('Total'),
-                        (str(round2(r_total, 2)) if r_total is not None else '')
-                    ]
-                    table_data.append(total_row)
-                    num_cols = len(col_headers)
-                    data_table = doc.add_table(rows=len(table_data), cols=num_cols)
-                    data_table.alignment = WD_TABLE_ALIGNMENT.CENTER
-                    for j in range(num_cols):
-                        cell = data_table.cell(0, j)
-                        cell.text = col_headers[j]
-                        _style_table_cell(cell, is_header=True, bold=True, font_size=header_font)
-                    for di in range(1, len(table_data) - 1):
-                        for j in range(num_cols):
-                            cell = data_table.cell(di, j)
-                            cell.text = table_data[di][j]
-                            _style_table_cell(cell, font_size=data_font)
-                    last_row = len(table_data) - 1
-                    for j in range(num_cols):
-                        cell = data_table.cell(last_row, j)
-                        cell.text = table_data[last_row][j]
-                        _style_table_cell(cell, bold=True, font_size=data_font)
-
-        doc.add_page_break()
-        self._add_heading_styled(doc, self.name + ' ' + _('Detailed Data'), level=1)
-
-        def _set_ticks(ax, raw_len, times):
-            step = max(1, raw_len // 10)
-            ax.set_xticks(range(0, raw_len, step))
-            ax.set_xticklabels(
-                [times[t][:10] if t < len(times) else '' for t in range(0, raw_len, step)],
-                rotation=45, ha='right', fontsize=7)
-
-        all_charts = []
-        fig_w, fig_h = 8.5, 3.2
-        display_w = 8.5
-
-        for i in range(num_categories):
-            color = self.chart_colors[i % len(self.chart_colors)]
-            unit_i = units[i] if (units and i < len(units)) else ''
-            value_unit = (' (' + unit_i + ')') if unit_i else ''
-
-            if not is_base:
-                raw_data = values_saving[i] if i < len(values_saving) else []
-                xs, ys = self._filter_valid_data(raw_data)
-                fig, ax = plt.subplots(figsize=(fig_w, fig_h))
-                marker_step = max(1, len(ys) // 30) if ys else 1
-                if ys:
-                    ax.plot(xs, ys, linewidth=1.2, color=color,
-                            marker='o', markersize=3,
-                            markevery=marker_step)
-                _set_ticks(ax, len(raw_data), reporting_times)
-                ax.set_title(_('Reporting Period Plan') + ' - ' +
-                             names[i] + value_unit,
-                             fontsize=9, fontweight='bold')
-                ax.grid(True, alpha=0.3)
-                all_charts.append(self._fig_to_bytesio(fig, self.dpi))
-            else:
-                r_data = values_saving[i] if i < len(values_saving) else []
-                r_xs, r_ys = self._filter_valid_data(r_data)
-                b_data_arr = base_values_saving
-                fig, ax = plt.subplots(figsize=(fig_w, fig_h))
-                marker_step = max(1, len(r_ys) // 30) if r_ys else 1
-                if r_ys:
-                    ax.plot(r_xs, r_ys, linewidth=1.2, color=color,
-                            marker='o', markersize=3,
-                            markevery=marker_step,
-                            label=_('Reporting Period') + ' - ' + names[i])
-                has_base_line = False
-                if i < len(b_data_arr):
-                    b_data = b_data_arr[i]
-                    b_xs, b_ys = self._filter_valid_data(b_data)
-                    marker_step_b = max(1, len(b_ys) // 30) if b_ys else 1
-                    if b_ys:
-                        ax.plot(b_xs, b_ys, linewidth=1.2, color=color,
-                                linestyle='--', marker='s', markersize=3,
-                                markevery=marker_step_b,
-                                label=_('Base Period') + ' - ' + names[i])
-                        has_base_line = True
-                _set_ticks(ax, len(r_data), reporting_times)
-                ax.set_title(_('Base Period Plan') + ' / ' +
-                             _('Reporting Period Plan') + ' - ' +
-                             names[i] + value_unit,
-                             fontsize=8, fontweight='bold')
-                if len(r_ys) > 0 or has_base_line:
-                    ax.legend(fontsize=7)
-                ax.grid(True, alpha=0.3)
-                all_charts.append(self._fig_to_bytesio(fig, self.dpi))
-
-        num_total_charts = len(all_charts)
-        charts_per_page = 2
-        first_chart_page = True
-
-        for page_start in range(0, num_total_charts, charts_per_page):
-            page_end = min(page_start + charts_per_page, num_total_charts)
-            page_bufs = all_charts[page_start:page_end]
-            num_on_page = len(page_bufs)
-
-            if not first_chart_page:
-                doc.add_page_break()
-            first_chart_page = False
-
-            if num_on_page == 1:
-                chart_buf = page_bufs[0]
-                p = doc.add_paragraph()
-                p.alignment = WD_ALIGN_PARAGRAPH.CENTER
-                run = p.add_run()
-                run.add_picture(chart_buf, width=Inches(display_w))
-            elif num_on_page == 2:
-                container = doc.add_table(rows=2, cols=1)
-                container.alignment = WD_TABLE_ALIGNMENT.CENTER
-                _remove_table_borders(container)
-                for ci, buf in enumerate(page_bufs):
-                    cell = container.cell(ci, 0)
-                    p = cell.paragraphs[0]
-                    p.alignment = WD_ALIGN_PARAGRAPH.CENTER
-                    run = p.add_run()
-                    run.add_picture(buf, width=Inches(display_w))
-
     def _add_parameters_section(self, doc):
-        """Add parameter data tables and filled line charts."""
         _ = self._
-
         params = self.report.get('parameters', {})
         if not params or not params.get('names') or not params.get('timestamps'):
             return
@@ -901,9 +855,8 @@ class SpacePlanDOCXExporter:
         if all_zero:
             return
 
-        all_params = list(range(len(param_names)))
         valid_params = []
-        for i in all_params:
+        for i in range(len(param_names)):
             if i < len(timestamps) and len(timestamps[i]) > 0:
                 if i < len(values) and len(values[i]) > 0:
                     valid_params.append(i)
@@ -992,9 +945,9 @@ def export(report,
            language):
     """
     Export report data to DOCX and return base64 encoded string.
-    This function maintains the same interface as the Excel exporter.
+    This function maintains the same interface as the PDF exporter.
     """
-    exporter = SpacePlanDOCXExporter(language)
+    exporter = TenantStatisticsDOCXExporter(language)
     return exporter.export(report, name,
                            base_period_start_datetime_local,
                            base_period_end_datetime_local,
