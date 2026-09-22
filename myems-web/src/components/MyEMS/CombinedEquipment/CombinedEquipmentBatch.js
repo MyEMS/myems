@@ -554,9 +554,9 @@ const CombinedEquipmentBatch = ({ setRedirect, setRedirectUrl, t }) => {
               </Col>
               <Col xs="auto">
                 <br />
-                <UncontrolledDropdown hidden={exportButtonHidden}>
+                <UncontrolledDropdown hidden={exportButtonHidden} inNavbar>
                   <DropdownToggle color="falcon-default" size="sm" caret>{t('Export')}</DropdownToggle>
-                  <DropdownMenu right>
+                  <DropdownMenu style={{ left: 0, right: 'auto', top: '100%' }}>
                     {excelBytesBase64 ? (<DropdownItem onClick={e => handleExport(e, 'excel')}>{t('EXCEL')}</DropdownItem>) : null}
                     {docxBytesBase64 ? (<DropdownItem onClick={e => handleExport(e, 'docx')}>{t('DOCX')}</DropdownItem>) : null}
                   </DropdownMenu>

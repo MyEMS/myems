@@ -286,16 +286,16 @@ const SidePanelModal = ({ autoShow, showOnce, autoShowDelay, cookieExpireTime, p
                     >
                         <div className="d-flex align-items-center justify-content-center">
         <span
-            className={`font-weight-semi-bold small text-uppercase ${isDark ? 'text-white' : 'text-800'}`}
-            style={{letterSpacing: '0.06em', fontSize: '0.8rem'}}
+            className={`font-weight-semi-bold small text-uppercase ${isDark ? '' : 'text-800'}`}
+            style={{letterSpacing: '0.06em', fontSize: '0.8rem', color: isDark ? '#d8e2ef' : undefined}}
         >
           {t('ContactInfo') || '联系方式'}
         </span>
                         </div>
                     </div>
                     <div className="px-2 py-2">
-                        <div className={`small mb-1 ${isDark ? 'text-white-50' : 'text-muted'}`}
-                             style={{lineHeight: 1.45, fontSize: '0.85rem'}}>
+                        <div className={`small mb-1 ${isDark ? '' : 'text-muted'}`}
+                             style={{lineHeight: 1.45, fontSize: '0.85rem', color: isDark ? 'rgba(216, 226, 239, 0.82)' : undefined}}>
                             {t('ProductWebsite') || '产品官网'}:
                             {' '}
                             <a className={isDark ? 'text-info' : 'text-primary'} href="https://myems.cn" target="_blank"
@@ -303,8 +303,8 @@ const SidePanelModal = ({ autoShow, showOnce, autoShowDelay, cookieExpireTime, p
                                 myems.cn
                             </a>
                         </div>
-                        <div className={`small mb-1 ${isDark ? 'text-white-50' : 'text-muted'}`}
-                             style={{lineHeight: 1.45, fontSize: '0.85rem'}}>
+                        <div className={`small mb-1 ${isDark ? '' : 'text-muted'}`}
+                             style={{lineHeight: 1.45, fontSize: '0.85rem', color: isDark ? 'rgba(216, 226, 239, 0.82)' : undefined}}>
                             {t('CompanyWebsite') || '公司官网'}:
                             {' '}
                             <a className={isDark ? 'text-info' : 'text-primary'} href="https://hassoft.cn"
@@ -312,12 +312,13 @@ const SidePanelModal = ({ autoShow, showOnce, autoShowDelay, cookieExpireTime, p
                                 hassoft.cn
                             </a>
                         </div>
-                        <div className={`small mb-0 ${isDark ? 'text-white-50' : 'text-muted'}`}
-                             style={{lineHeight: 1.45, fontSize: '0.85rem'}}>
+                        <div className={`small mb-0 ${isDark ? '' : 'text-muted'}`}
+                             style={{lineHeight: 1.45, fontSize: '0.85rem', color: isDark ? 'rgba(216, 226, 239, 0.82)' : undefined}}>
                             {t('SalesPhone') || '销售电话'}:
                             {' '}
-                            <a className={isDark ? 'text-white text-decoration-none' : 'text-dark text-decoration-none'}
-                               href="tel:+8613011132526">
+                            <a className={isDark ? 'text-decoration-none' : 'text-dark text-decoration-none'}
+                               href="tel:+8613011132526"
+                               style={{color: isDark ? '#d8e2ef' : undefined}}>
                                 +86 130 1113 2526
                             </a>
                         </div>
