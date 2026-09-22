@@ -597,12 +597,12 @@ const CombinedEquipmentBatch = ({ setRedirect, setRedirectUrl, t }) => {
           }
           .table-scroll-container thead th.combined-equipment-batch-sticky-id,
           .table-scroll-container thead th.combined-equipment-batch-sticky-name {
-            background-color: #f8f9fa !important;
+            background-color: var(--light) !important;
             z-index: 2 !important;
           }
           .table-scroll-container tbody td.combined-equipment-batch-sticky-id,
           .table-scroll-container tbody td.combined-equipment-batch-sticky-name {
-            background-color: #ffffff !important;
+            background-color: var(--white) !important;
             z-index: 1 !important;
           }
           .table-scroll-container thead .sticky-first-column {
@@ -611,17 +611,13 @@ const CombinedEquipmentBatch = ({ setRedirect, setRedirectUrl, t }) => {
           .table-scroll-container tbody td.sticky-first-column {
             z-index: 1 !important;
           }
-          .table-scroll-container tbody tr:hover td.combined-equipment-batch-sticky-id,
-          .table-scroll-container tbody tr:hover td.combined-equipment-batch-sticky-name {
-            background-color: #f1f3f5 !important;
-          }
           .table-scroll-container tbody tr:nth-of-type(even) td.combined-equipment-batch-sticky-id,
           .table-scroll-container tbody tr:nth-of-type(even) td.combined-equipment-batch-sticky-name {
-            background-color: #f1f3f5 !important;
+            background-color: var(--light) !important;
           }
-          .table-scroll-container tbody tr:nth-of-type(even):hover td.combined-equipment-batch-sticky-id,
-          .table-scroll-container tbody tr:nth-of-type(even):hover td.combined-equipment-batch-sticky-name {
-            background-color: #e9ecef !important;
+          .table-scroll-container tbody tr:hover td.combined-equipment-batch-sticky-id,
+          .table-scroll-container tbody tr:hover td.combined-equipment-batch-sticky-name {
+            background-image: linear-gradient(rgba(44, 123, 229, 0.12), rgba(44, 123, 229, 0.12));
           }
           .table-scroll-container thead th.combined-equipment-batch-sticky-id,
           .table-scroll-container tbody td.combined-equipment-batch-sticky-id {

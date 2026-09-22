@@ -669,36 +669,32 @@ const VirtualMeterBatch = ({ setRedirect, setRedirectUrl, t }) => {
           .${stickyScopeClassName} .table-scroll-container tbody td:nth-child(1) {
             left: 0;
             z-index: 3;
-            background-color: #ffffff;
+            background-color: var(--white);
           }
           .${stickyScopeClassName} .table-scroll-container tbody td:nth-child(2) {
             left: ${stickySecondColumnLeft}px;
             z-index: 2;
-            background-color: #ffffff;
-            border-right: 1px solid #dee2e6;
+            background-color: var(--white);
+            border-right: 1px solid rgba(116, 129, 148, 0.35);
           }
           .${stickyScopeClassName} .table-scroll-container thead th:nth-child(1) {
             left: 0;
             z-index: 6;
-            background-color: #f8f9fa;
+            background-color: var(--light);
           }
           .${stickyScopeClassName} .table-scroll-container thead th:nth-child(2) {
             left: ${stickySecondColumnLeft}px;
             z-index: 5;
-            background-color: #f8f9fa;
-            border-right: 1px solid #dee2e6;
-          }
-          .${stickyScopeClassName} .table-scroll-container tbody tr:hover td:nth-child(1),
-          .${stickyScopeClassName} .table-scroll-container tbody tr:hover td:nth-child(2) {
-            background-color: #f1f3f5;
+            background-color: var(--light);
+            border-right: 1px solid rgba(116, 129, 148, 0.35);
           }
           .${stickyScopeClassName} .table-scroll-container tbody tr:nth-of-type(even) td:nth-child(1),
           .${stickyScopeClassName} .table-scroll-container tbody tr:nth-of-type(even) td:nth-child(2) {
-            background-color: #f1f3f5;
+            background-color: var(--light);
           }
-          .${stickyScopeClassName} .table-scroll-container tbody tr:nth-of-type(even):hover td:nth-child(1),
-          .${stickyScopeClassName} .table-scroll-container tbody tr:nth-of-type(even):hover td:nth-child(2) {
-            background-color: #e9ecef;
+          .${stickyScopeClassName} .table-scroll-container tbody tr:hover td:nth-child(1),
+          .${stickyScopeClassName} .table-scroll-container tbody tr:hover td:nth-child(2) {
+            background-image: linear-gradient(rgba(44, 123, 229, 0.12), rgba(44, 123, 229, 0.12));
           }
         `}</style>
         <DetailedDataTable

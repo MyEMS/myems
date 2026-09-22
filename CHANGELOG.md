@@ -19,7 +19,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Changed
 - changed the tariff price precision from 6 decimal places to 8 decimal places
 ### Fixed
-- fixed DetailedDataTable color issue in myems-web
+- fixed color issues in myems-web
 ### Removed
 
 ## [v6.8.0] - 2026-08-29
