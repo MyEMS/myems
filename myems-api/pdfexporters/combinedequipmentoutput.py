@@ -207,7 +207,7 @@ class CombinedEquipmentOutputPDFExporter:
         self.reporting_end = reporting_end_datetime_local
         self.period_type = period_type
 
-        self.is_base_period_exists = self._is_base_period_timestamp_exists(report['base_period'])
+        self.is_base_period_exists = self._is_base_period_timestamp_exists(report.get('base_period', {}))
 
         with PdfPages(filename) as pdf:
             # Cover page
@@ -418,7 +418,7 @@ class CombinedEquipmentOutputPDFExporter:
                 pdf.savefig(fig)
                 plt.close()
         else:
-            base_period_data = self.report['base_period']
+            base_period_data = self.report.get('base_period', {})
             base_timestamps = base_period_data.get('timestamps', [])
             base_values = base_period_data.get('values', [])
             base_subtotals = base_period_data.get('subtotals', [])
@@ -565,7 +565,7 @@ class CombinedEquipmentOutputPDFExporter:
                 plt.close()
         else:
             # With base period: paginate comparison charts
-            base_period_data = self.report['base_period']
+            base_period_data = self.report.get('base_period', {})
             base_timestamps = base_period_data.get('timestamps', [])
             base_values = base_period_data.get('values', [])
             base_names = base_period_data.get('names', [])
