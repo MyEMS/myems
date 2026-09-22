@@ -553,8 +553,6 @@ class PowerQualityDOCXExporter:
             table_data = [col_headers] + all_rows[start_idx:end_idx]
             data_table = doc.add_table(rows=len(table_data), cols=num_cols)
             data_table.alignment = WD_TABLE_ALIGNMENT.CENTER
-            p_elem = data_table.paragraphs[0]._element
-            p_elem.getparent().remove(p_elem)
 
             for j in range(num_cols):
                 cell = data_table.cell(0, j)
