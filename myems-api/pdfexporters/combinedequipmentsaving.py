@@ -605,7 +605,8 @@ class CombinedEquipmentSavingPDFExporter:
 
 
     def _create_detailed_data_charts(self, pdf: PdfPages):
-        """Create line charts for each energy category, up to 4 per page in 2x2 grid.
+        """Create line charts for each energy category, one chart per row centered on page.
+        2 charts per page in single-column layout for maximum readability.
         Without base period: one chart per category showing reporting period saving values.
         With base period: one chart per category with base vs reporting comparison.
         """
@@ -622,7 +623,7 @@ class CombinedEquipmentSavingPDFExporter:
 
         reporting_times = timestamps[0]
         num_categories = len(names)
-        charts_per_page = 4
+        charts_per_page = 2  # 2 per page in single column for spread-out centered layout
 
         if not self.is_base_period_exists:
             for page_start in range(0, num_categories, charts_per_page):
@@ -634,27 +635,30 @@ class CombinedEquipmentSavingPDFExporter:
                 fig.suptitle(self.name + ' ' + _('Detailed Data'),
                              fontsize=16, weight='bold', y=0.98)
 
-                rows = (num_on_page + 1) // 2
-                gs = gridspec.GridSpec(rows, 2, hspace=0.35)
+                # Single-column layout, centered with generous spacing
+                gs = gridspec.GridSpec(num_on_page, 1,
+                                       left=0.10, right=0.90,
+                                       top=0.88, bottom=0.08,
+                                       hspace=0.45)
 
                 for slot, i in enumerate(page_indices):
-                    ax = fig.add_subplot(gs[slot // 2, slot % 2])
+                    ax = fig.add_subplot(gs[slot, 0])
                     raw_data = values_saving[i] if i < len(values_saving) else []
                     xs, ys = self._filter_valid_data(raw_data)
                     color = self.colors['chart_colors'][i % len(self.colors['chart_colors'])]
                     if ys:
-                        ax.plot(xs, ys, linewidth=1.2, color=color,
-                                marker='o', markersize=3,
-                                markevery=max(1, len(ys) // 30))
+                        ax.plot(xs, ys, linewidth=1.5, color=color,
+                                marker='o', markersize=4,
+                                markevery=max(1, len(ys) // 25))
 
-                    step = max(1, len(raw_data) // 10)
+                    step = max(1, len(raw_data) // 12)
                     ax.set_xticks(range(0, len(raw_data), step))
                     ax.set_xticklabels(
                         [reporting_times[t][:10] for t in range(0, len(raw_data), step)],
-                        rotation=45, ha='right', fontsize=7)
+                        rotation=45, ha='right', fontsize=8)
                     ax.set_title(_('Reporting Period Saving') + ' - ' +
                                  names[i] + ' (' + units[i] + ')',
-                                 fontsize=9, weight='bold')
+                                 fontsize=11, weight='bold', pad=10)
                     ax.grid(True, alpha=0.3)
 
                 pdf.savefig(fig)
@@ -672,20 +676,23 @@ class CombinedEquipmentSavingPDFExporter:
                 fig.suptitle(self.name + ' ' + _('Detailed Data'),
                              fontsize=16, weight='bold', y=0.98)
 
-                rows = (num_on_page + 1) // 2
-                gs = gridspec.GridSpec(rows, 2, hspace=0.35)
+                # Single-column layout, centered with generous spacing
+                gs = gridspec.GridSpec(num_on_page, 1,
+                                       left=0.10, right=0.90,
+                                       top=0.88, bottom=0.08,
+                                       hspace=0.45)
 
                 for slot, i in enumerate(page_indices):
-                    ax = fig.add_subplot(gs[slot // 2, slot % 2])
+                    ax = fig.add_subplot(gs[slot, 0])
 
                     # Reporting period line
                     r_data = values_saving[i] if i < len(values_saving) else []
                     r_xs, r_ys = self._filter_valid_data(r_data)
                     color = self.colors['chart_colors'][i % len(self.colors['chart_colors'])]
                     if r_ys:
-                        ax.plot(r_xs, r_ys, linewidth=1.2, color=color,
-                                marker='o', markersize=3,
-                                markevery=max(1, len(r_ys) // 30),
+                        ax.plot(r_xs, r_ys, linewidth=1.5, color=color,
+                                marker='o', markersize=4,
+                                markevery=max(1, len(r_ys) // 25),
                                 label=_('Reporting Period') + ' - ' + names[i])
 
                     # Base period line (dashed)
@@ -693,23 +700,23 @@ class CombinedEquipmentSavingPDFExporter:
                         b_data = base_values_saving[i]
                         b_xs, b_ys = self._filter_valid_data(b_data)
                         if b_ys:
-                            ax.plot(b_xs, b_ys, linewidth=1.2, color=color,
-                                    linestyle='--', marker='s', markersize=3,
-                                    markevery=max(1, len(b_ys) // 30),
+                            ax.plot(b_xs, b_ys, linewidth=1.5, color=color,
+                                    linestyle='--', marker='s', markersize=4,
+                                    markevery=max(1, len(b_ys) // 25),
                                     label=_('Base Period') + ' - ' + names[i])
 
-                    step = max(1, len(r_data) // 10)
+                    step = max(1, len(r_data) // 12)
                     ax.set_xticks(range(0, len(r_data), step))
                     ax.set_xticklabels(
                         [reporting_times[t][:10] if t < len(reporting_times) else ''
                          for t in range(0, len(r_data), step)],
-                        rotation=45, ha='right', fontsize=7)
+                        rotation=45, ha='right', fontsize=8)
                     ax.set_title(
                         _('Base Period Saving') + ' / ' +
                         _('Reporting Period Saving') + ' - ' +
                         names[i] + ' (' + units[i] + ')',
-                        fontsize=8, weight='bold')
-                    ax.legend(fontsize=7)
+                        fontsize=10, weight='bold', pad=10)
+                    ax.legend(fontsize=8, loc='upper right')
                     ax.grid(True, alpha=0.3)
 
                 pdf.savefig(fig)

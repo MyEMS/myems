@@ -1,24 +1,25 @@
 """
-CombinedEquipment Energy Category PDF Exporter
+Combined Equipment Energy Category PDF Exporter
 
-This module provides functionality to export equipment energy category data to PDF format.
+This module provides functionality to export combined equipment energy category data to PDF format.
 It generates comprehensive reports showing energy consumption breakdown by categories
-for equipment with detailed analysis and visualizations.
+for combined equipment with detailed analysis and visualizations.
 
 Key Features:
-- CombinedEquipment energy consumption by category
+- Combined equipment energy consumption by category
 - Base period vs reporting period comparison
-- Energy category proportion analysis
+- Energy category proportion analysis (TCE, TCO2E)
+- Time-of-use electricity consumption analysis
 - Detailed data with charts
+- Parameter data pages
 - Multi-language support
 - Base64 encoding for file transmission
 
 The exported PDF file includes:
-- Energy consumption summary by category
-- Base period comparison data
-- Category proportion analysis with pie charts
-- Detailed time-series data with line charts
-- Parameter data (if available)
+- Cover page with report metadata
+- Combined analysis page (reporting period consumption table + TOU + TCE + TCO2E)
+- Detailed data table pages with line charts (paginated)
+- Parameter data pages (batched 4 per page)
 """
 
 import base64
@@ -26,13 +27,12 @@ import os
 import time
 import uuid
 
-
 from decimal import Decimal
 from typing import Optional, Dict, List, Any
 import logging
 
 import matplotlib
-matplotlib.use('Agg')  # Use non-interactive backend to avoid GUI thread warnings
+matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 
 from matplotlib.backends.backend_pdf import PdfPages
@@ -46,7 +46,7 @@ from core.utilities import get_translation, round2
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
 
-# Module-level font setup cache - load TTC font only once
+# Module-level font setup cache
 _font_setup_done = False
 
 
@@ -60,12 +60,10 @@ def setup_chinese_fonts():
     if _font_setup_done:
         return True
 
-    # Use bundled NotoSansCJK font for cross-platform CJK support
     font_path = os.path.join(os.path.dirname(os.path.abspath(__file__)),
                              'fonts', 'NotoSansCJK-Regular.ttc')
     try:
         import matplotlib.font_manager as fm
-        # Register the font file with matplotlib font manager
         fm.fontManager.addfont(font_path)
         prop = fm.FontProperties(fname=font_path)
         font_name = prop.get_name()
@@ -77,11 +75,9 @@ def setup_chinese_fonts():
     except Exception as e:
         logger.warning(f"Failed to load bundled font from {font_path}: {e}")
 
-    # Fallback to DejaVu Sans (may not display Chinese properly)
     plt.rcParams['font.sans-serif'] = ['DejaVu Sans']
     plt.rcParams['axes.unicode_minus'] = False
-    logger.warning("Failed to load bundled NotoSansCJK font, using DejaVu Sans "
-                   "(Chinese may not display correctly)")
+    logger.warning("Failed to load bundled NotoSansCJK font, using DejaVu Sans")
     return False
 
 
@@ -98,21 +94,6 @@ def _convert_decimals(obj):
     return obj
 
 
-def _style_table_header(table, num_cols, header_color='#4472C4'):
-    """Style table header row with background color and white bold text."""
-    for j in range(num_cols):
-        table[0, j].set_facecolor(header_color)
-        table[0, j].set_text_props(color='white', weight='bold')
-
-
-def _style_table_alternate(table, num_rows, num_cols, alternate_color='#E8EDF5'):
-    """Style alternating rows in a table."""
-    for i in range(1, num_rows):
-        for j in range(num_cols):
-            if i % 2 == 0:
-                table[i, j].set_facecolor(alternate_color)
-
-
 def _style_table_borders(table, num_rows, num_cols):
     """Add borders to all cells in a table."""
     for i in range(num_rows):
@@ -121,45 +102,27 @@ def _style_table_borders(table, num_rows, num_cols):
             table[i, j].set_linewidth(0.5)
 
 
-class CombinedEquipmentEnergyPDFExporter:
+class CombinedEquipmentEnergyCategoryPDFExporter:
     """
-    Export equipment energy category data to PDF format.
+    Export combined equipment energy category data to PDF format.
     Generates comprehensive reports with charts and tables matching Excel layout.
     """
 
     def __init__(self, language: str = 'zh_CN'):
-        """
-        Initialize the PDF exporter.
-
-        Args:
-            language: Language code ('zh_CN', 'en_US', etc.)
-        """
-        # Setup Chinese fonts lazily on first instantiation
         font_setup_success = setup_chinese_fonts()
         if not font_setup_success:
             logger.warning("Chinese font setup failed, some text may not display correctly")
 
         self.language = language
         self.trans = get_translation(language)
-        # Do NOT call self.trans.install() - it modifies global builtins._
-        # which causes language cross-contamination in concurrent requests.
-        # Use instance-level gettext via self._ instead.
         self._ = self.trans.gettext
 
-        # Page settings
-        self.page_size = (11.69, 8.27)  # A4 landscape
+        # Page settings - A4 landscape
+        self.page_size = (11.69, 8.27)
         self.dpi = 80
 
-        # Color scheme (matching Excel style)
+        # Color scheme
         self.colors = {
-            'primary': '#4472C4',
-            'secondary': '#ED7D31',
-            'success': '#70AD47',
-            'info': '#5B9BD5',
-            'warning': '#FFC000',
-            'danger': '#FF6B6B',
-            'light': '#E8EDF5',
-            'dark': '#2F2F2F',
             'table_header': '#4472C4',
             'table_green': '#90EE90',
             'table_alternate': '#E8EDF5',
@@ -177,14 +140,12 @@ class CombinedEquipmentEnergyPDFExporter:
                reporting_end_datetime_local: str,
                period_type: str,
                language: str) -> Optional[str]:
-        """
-        Export report data to PDF and return base64 encoded string.
-        """
+        """Export report data to PDF and return base64 encoded string."""
         if report is None:
             return None
         start_time = time.time()
         logger.info(f"Starting PDF generation for {name}")
-        # Generate PDF file
+
         pdf_filename = self.generate_pdf(
             report, name,
             base_period_start_datetime_local,
@@ -195,7 +156,6 @@ class CombinedEquipmentEnergyPDFExporter:
             language
         )
 
-        # Encode to base64
         result = ''
         if pdf_filename and os.path.exists(pdf_filename):
             try:
@@ -205,7 +165,6 @@ class CombinedEquipmentEnergyPDFExporter:
             except Exception as e:
                 logger.error(f"Failed to encode PDF: {str(e)}")
             finally:
-                # Clean up
                 try:
                     os.remove(pdf_filename)
                 except Exception:
@@ -223,16 +182,12 @@ class CombinedEquipmentEnergyPDFExporter:
                      reporting_end_datetime_local: str,
                      period_type: str,
                      language: str) -> Optional[str]:
-        """
-        Generate PDF file from report data.
-        """
+        """Generate PDF file from report data."""
         _ = self._
 
-        # Check if there is data
         if "reporting_period" not in report.keys() or \
                 "names" not in report['reporting_period'].keys() or \
                 len(report['reporting_period']['names']) == 0:
-            # Generate empty PDF
             filename = str(uuid.uuid4()) + '.pdf'
             with PdfPages(filename) as pdf:
                 self._create_cover_page(pdf, name, period_type,
@@ -243,10 +198,8 @@ class CombinedEquipmentEnergyPDFExporter:
                                         False)
             return filename
 
-        # Generate unique filename
         filename = str(uuid.uuid4()) + '.pdf'
 
-        # Prepare data for PDF generation
         self.report = _convert_decimals(report)
         self.name = name
         self.base_period_start = base_period_start_datetime_local
@@ -255,10 +208,8 @@ class CombinedEquipmentEnergyPDFExporter:
         self.reporting_end = reporting_end_datetime_local
         self.period_type = period_type
 
-        # Check if base period exists
-        self.is_base_period_exists = self._is_base_period_timestamp_exists(report['base_period'])
+        self.is_base_period_exists = self._is_base_period_timestamp_exists(report.get('base_period', {}))
 
-        # Generate PDF
         with PdfPages(filename) as pdf:
             # Cover page
             self._create_cover_page(pdf, name, period_type,
@@ -268,10 +219,10 @@ class CombinedEquipmentEnergyPDFExporter:
                                     base_period_end_datetime_local,
                                     self.is_base_period_exists)
 
-            # Combined analysis: Reporting Period Consumption + Time-of-use, TCE, TCO2E (table top + 3 columns below)
+            # Combined analysis: Reporting Period Consumption + TOU, TCE, TCO2E
             self._create_combined_analysis_page(pdf)
 
-            # Detailed data
+            # Detailed data table + charts
             self._create_detailed_data_page(pdf)
 
             # Parameters
@@ -280,25 +231,23 @@ class CombinedEquipmentEnergyPDFExporter:
         logger.info(f"PDF generated: {filename}")
         return filename
 
-    def _create_cover_page(self, pdf: PdfPages, name: str, period_type: str,
-                           reporting_start: str, reporting_end: str,
-                           base_period_start: str, base_period_end: str,
-                           has_base_period: bool):
+    def _create_cover_page(self, pdf, name, period_type,
+                           reporting_start, reporting_end,
+                           base_period_start, base_period_end,
+                           has_base_period):
         """Create cover page with logo, centered title, and borderless info list."""
         _ = self._
         fig = plt.figure(figsize=self.page_size)
 
-        # ===== Logo image: 50% scale, centered above title =====
+        # Logo
         img_path = os.path.join(os.path.dirname(os.path.abspath(__file__)),
                                 '..', 'excelexporters', 'myems.png')
         if os.path.exists(img_path):
             try:
                 img = plt.imread(img_path)
-                # Original: 530x90 px; at 100% scale display
                 img_w_inch = img.shape[1] / self.dpi
                 img_h_inch = img.shape[0] / self.dpi
                 page_w, page_h = self.page_size
-                # Convert inches to figure-relative coordinates
                 ax_img = fig.add_axes([0.5 - img_w_inch / page_w / 2,
                                         0.62,
                                         img_w_inch / page_w,
@@ -308,11 +257,11 @@ class CombinedEquipmentEnergyPDFExporter:
             except Exception as e:
                 logger.warning(f"Failed to load logo image: {e}")
 
-        # ===== Title: large bold text centered on page =====
+        # Title
         fig.text(0.5, 0.50, _('Combined Equipment Data') + ' - ' + _('Energy Category Analysis'),
                  fontsize=24, weight='bold', ha='center', va='center')
 
-        # ===== Info list: no table borders, centered below title =====
+        # Info list
         info_data = [
             [_('Name') + ':', name],
             [_('Period Type') + ':', period_type],
@@ -331,7 +280,6 @@ class CombinedEquipmentEnergyPDFExporter:
         table.auto_set_font_size(False)
         table.set_fontsize(12)
 
-        # Remove all borders, style labels and values
         for i in range(len(info_data)):
             for j in [0, 1]:
                 table[i, j].set_edgecolor('white')
@@ -759,7 +707,7 @@ class CombinedEquipmentEnergyPDFExporter:
                 pdf.savefig(fig)
                 plt.close()
 
-    def _create_parameters_page(self, pdf: PdfPages):
+    def _create_parameters_page(self, pdf):
         """Create parameters pages: batch 4 parameters per page with compact table + chart."""
         _ = self._
 
@@ -848,17 +796,14 @@ class CombinedEquipmentEnergyPDFExporter:
             pdf.savefig(fig)
             plt.close()
 
-    def _is_base_period_timestamp_exists(self, base_period_data: Dict) -> bool:
+    def _is_base_period_timestamp_exists(self, base_period_data):
         """Check if base period timestamp exists."""
         timestamps = base_period_data.get('timestamps', [])
-
         if not timestamps:
             return False
-
         for timestamp in timestamps:
             if timestamp and len(timestamp) > 0:
                 return True
-
         return False
 
 
@@ -870,7 +815,7 @@ def export(report, name, base_period_start_datetime_local,
     Export report data to PDF and return base64 encoded string.
     This function maintains the same interface as the Excel exporter.
     """
-    exporter = CombinedEquipmentEnergyPDFExporter(language)
+    exporter = CombinedEquipmentEnergyCategoryPDFExporter(language)
     return exporter.export(report, name,
                            base_period_start_datetime_local,
                            base_period_end_datetime_local,
