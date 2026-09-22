@@ -27,26 +27,34 @@ const ChildSpacesTable = ({ title, data, columns, t }) => {
         }
         .child-spaces-table-scroll thead th {
           white-space: nowrap;
+          background-color: var(--light) !important;
         }
         .child-spaces-table-scroll thead th:first-child,
         .child-spaces-table-scroll tbody td:first-child {
           position: sticky;
           left: 0;
           white-space: nowrap;
-          background-color: #fff;
-          box-shadow: 2px 0 6px rgba(0, 0, 0, 0.06);
+          background-clip: padding-box;
+          box-shadow: 2px 0 6px rgba(0, 0, 0, 0.18);
         }
         .child-spaces-table-scroll thead th:first-child {
           z-index: 3;
+          background-color: var(--light) !important;
+        }
+        .child-spaces-table-scroll tbody td {
+          background-color: var(--white) !important;
         }
         .child-spaces-table-scroll tbody td:first-child {
           z-index: 2;
+          background-color: var(--white) !important;
         }
-        .child-spaces-table-scroll .table-striped tbody tr:nth-of-type(odd) td:first-child {
-          background-color: rgba(0, 0, 0, 0.05);
+        .child-spaces-table-scroll tbody tr:nth-of-type(even) td,
+        .child-spaces-table-scroll tbody tr:nth-of-type(even) td:first-child {
+          background-color: var(--light) !important;
         }
-        .child-spaces-table-scroll .table-hover tbody tr:hover td:first-child {
-          background-color: rgba(0, 0, 0, 0.075);
+        .child-spaces-table-scroll tbody tr:hover td,
+        .child-spaces-table-scroll tbody tr:hover td:first-child {
+          background-image: linear-gradient(rgba(44, 123, 229, 0.12), rgba(44, 123, 229, 0.12));
         }
       `}</style>
       <Card>
