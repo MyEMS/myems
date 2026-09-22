@@ -1204,7 +1204,7 @@ const EquipmentCarbon = ({ setRedirect, setRedirectUrl, t }) => {
               </Col>
               <Col xs="auto">
                 <br />
-                <UncontrolledDropdown hidden={exportButtonHidden}>
+                <UncontrolledDropdown hidden={exportButtonHidden} inNavbar>
                   <DropdownToggle
                     size="sm"
                     color="falcon-default"
@@ -1212,7 +1212,7 @@ const EquipmentCarbon = ({ setRedirect, setRedirectUrl, t }) => {
                   >
                     {t('Export')}
                   </DropdownToggle>
-                  <DropdownMenu right>
+                  <DropdownMenu style={{ left: 0, right: 'auto', top: '100%' }}>
                     {excelBytesBase64 ? (
                       <DropdownItem onClick={e => handleExport(e, 'excel')}>
                         EXCEL

@@ -2616,7 +2616,7 @@ const EquipmentPrediction = ({ setRedirect, setRedirectUrl, t }) => {
 
                 <br />
 
-                <UncontrolledDropdown hidden={exportButtonHidden}>
+                <UncontrolledDropdown hidden={exportButtonHidden} inNavbar>
 
                   <DropdownToggle
 
@@ -2632,7 +2632,7 @@ const EquipmentPrediction = ({ setRedirect, setRedirectUrl, t }) => {
 
                   </DropdownToggle>
 
-                  <DropdownMenu right>
+                  <DropdownMenu style={{ left: 0, right: 'auto', top: '100%' }}>
 
                     {excelBytesBase64 ? (
 
