@@ -641,7 +641,7 @@ class CombinedEquipmentLoadDOCXExporter:
                             table_data.append(row_vals)
                         total_row = [_('Total')]
                         if r_total is None:
-                            _, ys = self._filter_valid_data(r_data)
+                            _xs, ys = self._filter_valid_data(r_data)
                             r_total = sum(ys) if ys else None
                         total_row.append(str(round2(r_total, 2)) if r_total is not None else '')
                         table_data.append(total_row)
@@ -691,10 +691,10 @@ class CombinedEquipmentLoadDOCXExporter:
                             ]
                             table_data.append(row_vals)
                         if b_total is None:
-                            _, b_ys = self._filter_valid_data(b_data)
+                            _xs, b_ys = self._filter_valid_data(b_data)
                             b_total = sum(b_ys) if b_ys else None
                         if r_total is None:
-                            _, r_ys = self._filter_valid_data(r_data)
+                            _xs, r_ys = self._filter_valid_data(r_data)
                             r_total = sum(r_ys) if r_ys else None
                         total_row = [
                             _('Total'),
