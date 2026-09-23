@@ -523,11 +523,11 @@ class CombinedEquipmentStatisticsDOCXExporter:
 
             r_total = subtotals[i] if (subtotals and i < len(subtotals)) else None
             if r_total is None:
-                _, ys = self._filter_valid_data(r_data)
+                _xs, ys = self._filter_valid_data(r_data)
                 r_total = sum(ys) if ys else None
             b_total = base_subtotals[i] if (base_subtotals and i < len(base_subtotals)) else None
             if b_total is None and is_base:
-                _, b_ys = self._filter_valid_data(b_data)
+                _xs, b_ys = self._filter_valid_data(b_data)
                 b_total = sum(b_ys) if b_ys else None
 
             if not is_base:
