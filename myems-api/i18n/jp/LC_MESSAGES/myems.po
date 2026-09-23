@@ -566,3 +566,6 @@ msgstr "ショップフロアデータ"
 
 msgid "Shopfloor Comparison"
 msgstr "比較分析"
+
+msgid "Combined Equipment Data"
+msgstr "統合設備データ"

@@ -570,3 +570,6 @@ msgstr "Data Tingkat Kedai"
 
 msgid "Shopfloor Comparison"
 msgstr "Perbandingan Tingkat Kedai"
+
+msgid "Combined Equipment Data"
+msgstr "Data Peralatan Gabungan"

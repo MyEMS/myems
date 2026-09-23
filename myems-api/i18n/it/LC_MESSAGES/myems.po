@@ -570,3 +570,6 @@ msgstr "Dati Reparto Produzione"
 
 msgid "Shopfloor Comparison"
 msgstr "Analisi Comparativa"
+
+msgid "Combined Equipment Data"
+msgstr "Dati Apparecchiature Combinate"

@@ -570,3 +570,6 @@ msgstr "Werkvloergegevens"
 
 msgid "Shopfloor Comparison"
 msgstr "Vergelijkende analyse"
+
+msgid "Combined Equipment Data"
+msgstr "Gecombineerde Apparatuurgegevens"

@@ -570,3 +570,6 @@ msgstr "Dữ liệu tầng cửa hàng"
 
 msgid "Shopfloor Comparison"
 msgstr "So sánh tầng cửa hàng"
+
+msgid "Combined Equipment Data"
+msgstr "Dữ liệu Thiết bị Kết hợp"
