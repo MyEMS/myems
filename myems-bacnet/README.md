@@ -65,14 +65,14 @@ docker network create --subnet=172.18.0.0/16 myems
 ```
 Ensure that BACNET_DEVICE_LOCAL_ADDRESS is 172.18.0.8 in .env file
 
-* Run a Docker container on Linux with dummy license file (run as superuser)
+* Run a Docker container on Linux (run as superuser)
 ```bash
-docker run -d --net myems --ip 172.18.0.8  -v /myems-bacnet/.env:/app/.env:ro -v /myems-bacnet/license.lic:/app/license.lic:ro --log-opt max-size=1m --log-opt max-file=2 --restart always --name myems-bacnet myems-bacnet
+docker run -d --net myems --ip 172.18.0.8  -v /myems-bacnet/.env:/app/.env:ro --log-opt max-size=1m --log-opt max-file=2 --restart always --name myems-bacnet myems-bacnet
 ```
 
-* Run a Docker container on Windows with dummy license file (Run as Administrator)
+* Run a Docker container on Windows (Run as Administrator)
 ```bash
-docker run -d --net myems --ip 172.18.0.8 -v c:\myems-bacnet\.env:/app/.env:ro -v c:\myems-bacnet\license.lic:/app/license.lic:ro --log-opt max-size=1m --log-opt max-file=2 --restart always --name myems-bacnet myems-bacnet
+docker run -d --net myems --ip 172.18.0.8 -v c:\myems-bacnet\.env:/app/.env:ro --log-opt max-size=1m --log-opt max-file=2 --restart always --name myems-bacnet myems-bacnet
 ```
 
 * -d Run container in background and print container ID
