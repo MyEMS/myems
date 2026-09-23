@@ -520,12 +520,12 @@ class EquipmentStatisticsDOCXExporter:
             r_data = values[i] if i < len(values) else []
             r_total = subtotals[i] if (subtotals and i < len(subtotals)) else None
             if r_total is None:
-                _, r_ys = self._filter_valid_data(r_data)
+                _xs, r_ys = self._filter_valid_data(r_data)
                 r_total = round2(sum(r_ys), 2) if r_ys else None
             b_data = base_values[i] if i < len(base_values) else []
             b_total = base_subtotals[i] if (base_subtotals and i < len(base_subtotals)) else None
             if b_total is None:
-                _, b_ys = self._filter_valid_data(b_data)
+                _xs, b_ys = self._filter_valid_data(b_data)
                 b_total = round2(sum(b_ys), 2) if b_ys else None
 
             if not is_base:
