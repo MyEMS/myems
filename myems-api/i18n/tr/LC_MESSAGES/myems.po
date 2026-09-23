@@ -570,3 +570,6 @@ msgstr "Üretim Alanı Verileri"
 
 msgid "Shopfloor Comparison"
 msgstr "Üretim Alanı Karşılaştırması"
+
+msgid "Combined Equipment Data"
+msgstr "Kombine Ekipman Verileri"

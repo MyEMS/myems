@@ -571,3 +571,6 @@ msgstr "车间数据"
 
 msgid "Shopfloor Comparison"
 msgstr "对比分析"
+
+msgid "Combined Equipment Data"
+msgstr "组合设备数据"

@@ -566,3 +566,6 @@ msgstr "Dane hal produkcyjnych"
 
 msgid "Shopfloor Comparison"
 msgstr "Analiza porównawcza hal produkcyjnych"
+
+msgid "Combined Equipment Data"
+msgstr "Dane Połączonych Urządzeń"

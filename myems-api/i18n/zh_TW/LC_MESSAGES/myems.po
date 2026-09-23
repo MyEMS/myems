@@ -570,3 +570,6 @@ msgstr "車間數據"
 
 msgid "Shopfloor Comparison"
 msgstr "對比分析"
+
+msgid "Combined Equipment Data"
+msgstr "組合設備數據"

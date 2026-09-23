@@ -570,3 +570,6 @@ msgstr "Datos del Taller"
 
 msgid "Shopfloor Comparison"
 msgstr "Comparación de Talleres"
+
+msgid "Combined Equipment Data"
+msgstr "Datos de Equipos Combinados"

@@ -122,6 +122,7 @@ const CombinedEquipmentPlan = ({ setRedirect, setRedirectUrl, t }) => {
   const [resultDataHidden, setResultDataHidden] = useState(true);
   const [exportExcel, setExportExcel] = useState(false);
   const [exportDocx, setExportDocx] = useState(false);
+  const [exportPdf, setExportPdf] = useState(false);
 
   //Results
   const [TCEShareData, setTCEShareData] = useState([]);
@@ -166,6 +167,7 @@ const CombinedEquipmentPlan = ({ setRedirect, setRedirectUrl, t }) => {
 
   const [excelBytesBase64, setExcelBytesBase64] = useState(undefined);
   const [docxBytesBase64, setDocxBytesBase64] = useState(undefined);
+  const [pdfBytesBase64, setPdfBytesBase64] = useState(undefined);
 
   useEffect(() => {
     let isResponseOK = false;
@@ -456,6 +458,7 @@ const CombinedEquipmentPlan = ({ setRedirect, setRedirectUrl, t }) => {
     setResultDataHidden(true);
     setExcelBytesBase64(undefined);
     setDocxBytesBase64(undefined);
+    setPdfBytesBase64(undefined);
 
     // Reinitialize tables
     setDetailedDataTableData([]);
@@ -482,7 +485,9 @@ const CombinedEquipmentPlan = ({ setRedirect, setRedirectUrl, t }) => {
         '&exportexcel=' +
         exportExcel +
         '&exportdocx=' +
-        exportDocx,
+        exportDocx +
+        '&exportpdf=' +
+        exportPdf,
       {
         method: 'GET',
         headers: {
@@ -839,6 +844,7 @@ const CombinedEquipmentPlan = ({ setRedirect, setRedirectUrl, t }) => {
 
           setExcelBytesBase64(json['excel_bytes_base64']);
           setDocxBytesBase64(json['docx_bytes_base64']);
+      setPdfBytesBase64(json['pdf_bytes_base64']);
 
           // enable submit button
           setSubmitButtonDisabled(false);
@@ -879,6 +885,22 @@ const CombinedEquipmentPlan = ({ setRedirect, setRedirectUrl, t }) => {
       const mimeType = 'application/vnd.openxmlformats-officedocument.wordprocessingml.document';
       const fileName = 'combinedequipmentplan.docx';
       const fileUrl = 'data:' + mimeType + ';base64,' + docxBytesBase64;
+      fetch(fileUrl)
+        .then(response => response.blob())
+        .then(blob => {
+          const link = window.document.createElement('a');
+          const blobUrl = window.URL.createObjectURL(blob, { type: mimeType });
+          link.href = blobUrl;
+          link.download = fileName;
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+          setTimeout(() => window.URL.revokeObjectURL(blobUrl), 100);
+        });
+    } else if (type === 'pdf' && pdfBytesBase64) {
+      const mimeType = 'application/pdf';
+      const fileName = 'combinedequipmentplan.pdf';
+      const fileUrl = 'data:' + mimeType + ';base64,' + pdfBytesBase64;
       fetch(fileUrl)
         .then(response => response.blob())
         .then(blob => {
@@ -1161,6 +1183,16 @@ const CombinedEquipmentPlan = ({ setRedirect, setRedirectUrl, t }) => {
                       checked={exportDocx}
                       onChange={({ target }) => setExportDocx(target.checked)}
                     />
+                    <CustomInput
+                      type="checkbox"
+                      id="exportPdf"
+                      name="exportPdf"
+                      label="PDF"
+                      bsSize="sm"
+                      inline
+                      checked={exportPdf}
+                      onChange={({ target }) => setExportPdf(target.checked)}
+                    />
                   </div>
                 </FormGroup>
               </Col>
@@ -1187,6 +1219,7 @@ const CombinedEquipmentPlan = ({ setRedirect, setRedirectUrl, t }) => {
                   <DropdownMenu style={{ left: 0, right: 'auto', top: '100%' }}>
                     {excelBytesBase64 ? (<DropdownItem onClick={e => handleExport(e, 'excel')}>{t('EXCEL')}</DropdownItem>) : null}
                     {docxBytesBase64 ? (<DropdownItem onClick={e => handleExport(e, 'docx')}>{t('DOCX')}</DropdownItem>) : null}
+                    {pdfBytesBase64 ? (<DropdownItem onClick={e => handleExport(e, 'pdf')}>{t('PDF')}</DropdownItem>) : null}
                   </DropdownMenu>
                 </UncontrolledDropdown>
               </Col>

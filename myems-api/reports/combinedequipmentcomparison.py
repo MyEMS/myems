@@ -10,6 +10,7 @@ import simplejson as json
 import config
 import excelexporters.combinedequipmentcomparison
 import docxexporters.combinedequipmentcomparison
+import pdfexporters.combinedequipmentcomparison
 from core import utilities
 from core.useractivity import access_control, api_key_control
 
@@ -56,6 +57,7 @@ class Reporting:
         quick_mode = req.params.get("quickmode")
         export_excel = req.params.get('exportexcel')
         export_docx = req.params.get('exportdocx')
+        export_pdf = req.params.get('exportpdf')
 
         ################################################################################################################
         # Step 1: valid parameters
@@ -244,6 +246,14 @@ class Reporting:
         ):
             is_export_docx = True
 
+        is_export_pdf = False
+        if (
+                export_pdf is not None
+                and len(str.strip(export_pdf)) > 0
+                and str.lower(str.strip(export_pdf)) in ("true", "t", "on", "yes", "y")
+        ):
+            is_export_pdf = True
+
         ############################################################################################################
         # Redis cache
         ############################################################################################################
@@ -284,6 +294,7 @@ class Reporting:
                     "quickmode": is_quick_mode,
                     "exportexcel": is_export_excel,
                     "exportdocx": is_export_docx,
+                    "exportpdf": is_export_pdf,
                 }
                 cache_params_json = json.dumps(cache_params, sort_keys=True)
                 cache_key = 'report:combinedequipmentcomparison:' + \
@@ -596,6 +607,7 @@ class Reporting:
         # export result to Excel file and then encode the file to base64 string
         result["excel_bytes_base64"] = None
         result["docx_bytes_base64"] = None
+        result["pdf_bytes_base64"] = None
         if not is_quick_mode:
             if is_export_excel:
                 try:
@@ -625,6 +637,19 @@ class Reporting:
                     )
                 except Exception:
                     logger.error("Failed to export DOCX", exc_info=True)
+            if is_export_pdf:
+                try:
+                    result['pdf_bytes_base64'] = \
+                        pdfexporters.combinedequipmentcomparison.export(result,
+                                                                    combined_equipment1['name'],
+                                                                    combined_equipment2['name'],
+                                                                    energy_category['name'],
+                                                                    reporting_period_start_datetime_local,
+                                                                    reporting_period_end_datetime_local,
+                                                                    period_type,
+                                                                    language)
+                except Exception:
+                    logger.error("Failed to export PDF", exc_info=True)
 
         resp_text = json.dumps(result)
         resp.text = resp_text

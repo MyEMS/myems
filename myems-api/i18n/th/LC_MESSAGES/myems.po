@@ -569,3 +569,6 @@ msgstr "ข้อมูลโรงผลิต"
 
 msgid "Shopfloor Comparison"
 msgstr "การประเมินผลการผลิต"
+
+msgid "Combined Equipment Data"
+msgstr "ข้อมูลอุปกรณ์รวม"
