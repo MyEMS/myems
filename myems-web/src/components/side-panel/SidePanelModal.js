@@ -110,6 +110,47 @@ const SidePanelModal = ({ autoShow, showOnce, autoShowDelay, cookieExpireTime, p
                 </Button>
             </ButtonGroup>
             <hr/>
+            <h5 className="fs-0 d-flex align-items-center">
+                {t('Language')}{' '}
+            </h5>
+            <p className="fs--1">{t('Switch between languages')}</p>
+            <div className="btn-group-toggle btn-block btn-group-navbar-style">
+                <ButtonGroup className="btn-block">
+                    <LanguageRadioBtn btnName={'zh_CN'}/>
+                    <LanguageRadioBtn btnName={'en'}/>
+                    <LanguageRadioBtn btnName={'de'}/>
+                </ButtonGroup>
+                <ButtonGroup className="btn-block">
+                    <LanguageRadioBtn btnName={'fr'}/>
+                    <LanguageRadioBtn btnName={'es'}/>
+                    <LanguageRadioBtn btnName={'ru'}/>
+                </ButtonGroup>
+                <ButtonGroup className="btn-block">
+                    <LanguageRadioBtn btnName={'ar'}/>
+                    <LanguageRadioBtn btnName={'vi'}/>
+                    <LanguageRadioBtn btnName={'th'}/>
+                </ButtonGroup>
+                <ButtonGroup className="btn-block">
+                    <LanguageRadioBtn btnName={'tr'}/>
+                    <LanguageRadioBtn btnName={'ms'}/>
+                    <LanguageRadioBtn btnName={'id'}/>
+                </ButtonGroup>
+                <ButtonGroup className="btn-block">
+                    <LanguageRadioBtn btnName={'zh_TW'}/>
+                    <LanguageRadioBtn btnName={'pt'}/>
+                    <LanguageRadioBtn btnName={'ko_KR'}/>
+                </ButtonGroup>
+                <ButtonGroup className="btn-block">
+                    <LanguageRadioBtn btnName={'it'}/>
+                    <LanguageRadioBtn btnName={'pol'}/>
+                    <LanguageRadioBtn btnName={'nl'}/>
+                </ButtonGroup>
+                <ButtonGroup className="btn-block">
+                    <LanguageRadioBtn btnName={'jp'}/>
+                    <LanguageRadioBtn btnName={'fa'}/>
+                </ButtonGroup>
+            </div>
+            <hr/>
             <Flex justify="between">
                 <Media className="flex-grow-1">
                     <img src={leftArrowFromLeft} alt="" width={20} className="mr-2"/>
@@ -151,9 +192,6 @@ const SidePanelModal = ({ autoShow, showOnce, autoShowDelay, cookieExpireTime, p
                 <Media body>
                     <Flex align="center" tag="h5" className="fs-0">
                         {t('Navigation Position')}
-                        <Badge color="success" pill className="badge-soft-success fs--2 ml-2">
-                            New
-                        </Badge>
                     </Flex>
                     <p className="fs--1 mb-2">{t('Select a suitable navigation system for your web application')}</p>
                     <CustomInput
@@ -208,50 +246,6 @@ const SidePanelModal = ({ autoShow, showOnce, autoShowDelay, cookieExpireTime, p
                 <ButtonGroup className="btn-block mt-3">
                     <VerticalNavRadioBtn img={card} btnName={t('Card')}/>
                     <VerticalNavRadioBtn img={vibrant} btnName={t('Vibrant')}/>
-                </ButtonGroup>
-            </div>
-            <hr/>
-            <h5 className="fs-0 d-flex align-items-center">
-                {t('Language')}{' '}
-                <Badge pill color="soft-success" className="fs--2 ml-2">
-                    new
-                </Badge>
-            </h5>
-            <p className="fs--1">{t('Switch between languages')}</p>
-            <div className="btn-group-toggle btn-block btn-group-navbar-style">
-                <ButtonGroup className="btn-block">
-                    <LanguageRadioBtn btnName={'zh_CN'}/>
-                    <LanguageRadioBtn btnName={'en'}/>
-                    <LanguageRadioBtn btnName={'de'}/>
-                </ButtonGroup>
-                <ButtonGroup className="btn-block">
-                    <LanguageRadioBtn btnName={'fr'}/>
-                    <LanguageRadioBtn btnName={'es'}/>
-                    <LanguageRadioBtn btnName={'ru'}/>
-                </ButtonGroup>
-                <ButtonGroup className="btn-block">
-                    <LanguageRadioBtn btnName={'ar'}/>
-                    <LanguageRadioBtn btnName={'vi'}/>
-                    <LanguageRadioBtn btnName={'th'}/>
-                </ButtonGroup>
-                <ButtonGroup className="btn-block">
-                    <LanguageRadioBtn btnName={'tr'}/>
-                    <LanguageRadioBtn btnName={'ms'}/>
-                    <LanguageRadioBtn btnName={'id'}/>
-                </ButtonGroup>
-                <ButtonGroup className="btn-block">
-                    <LanguageRadioBtn btnName={'zh_TW'}/>
-                    <LanguageRadioBtn btnName={'pt'}/>
-                    <LanguageRadioBtn btnName={'ko_KR'}/>
-                </ButtonGroup>
-                <ButtonGroup className="btn-block">
-                    <LanguageRadioBtn btnName={'it'}/>
-                    <LanguageRadioBtn btnName={'pol'}/>
-                    <LanguageRadioBtn btnName={'nl'}/>
-                </ButtonGroup>
-                <ButtonGroup className="btn-block">
-                    <LanguageRadioBtn btnName={'jp'}/>
-                    <LanguageRadioBtn btnName={'fa'}/>
                 </ButtonGroup>
             </div>
             <hr/>
