@@ -1376,8 +1376,8 @@ export default {
 
         MasterMeter: '総メータ',
         SubMeter: 'サブメータ',
-        'Power Quality': '電力量質',
-        'About Power Quality': '電力量質について',
+        'Power Quality': '電力品質',
+        'About Power Quality': '電力品質について',
         Category: 'カテゴリー',
         Type: 'タイプ',
         Limit: '限界値',
