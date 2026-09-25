@@ -71,6 +71,7 @@ export async function changeLanguage(lng) {
         i18n.addResourceBundle(lng, 'translation', module?.default?.translation || {}, true, true);
     }
     await i18n.changeLanguage(lng);
+    document.title = `MyEMS | ${i18n.t('An Industry Leading Open Source Energy Management System')}`;
 }
 
 export default i18n;
