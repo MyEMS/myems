@@ -14,7 +14,7 @@ import leftArrowFromLeft from '../../assets/img/icons/left-arrow-from-left.svg';
 import arrowsH from '../../assets/img/icons/arrows-h.svg';
 import paragraph from '../../assets/img/icons/paragraph.svg';
 import settings from '../../assets/img/illustrations/settings.png';
-import QRcode from '../../assets/img/generic/QRcode.png';
+import wechatQRCode from '../../assets/img/contact/wechat_qr_code.png';
 import Flex from '../common/Flex';
 import ScrollBarCustom from '../common/ScrollBarCustom';
 import { createCookie, getCookieValue, getPageName } from '../../helpers/utils';
@@ -336,7 +336,7 @@ const SidePanelModal = ({ autoShow, showOnce, autoShowDelay, cookieExpireTime, p
                                 }}
                             >
                                 <img
-                                    src={QRcode}
+                                    src={wechatQRCode}
                                     alt="微信二维码"
                                     className="rounded"
                                     style={{
