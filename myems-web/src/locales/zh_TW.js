@@ -101,6 +101,7 @@ export default {
         'Virtual Meter Carbon': '虛擬表碳排放分析',
         'Virtual Meter Cost': '虛擬表成本分析',
         'Virtual Meter Batch Analysis': '虛擬表批量分析',
+        'Virtual Meter Comparison': '虛擬表對比分析',
         'Offline Meter Energy': '離線表能耗分析',
         'Offline Meter Carbon': '離線表碳排放分析',
         'Offline Meter Cost': '離線表成本分析',

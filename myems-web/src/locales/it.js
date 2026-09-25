@@ -2,7 +2,7 @@
 export default {
     translation: {
 // routes & menus
-        Dashboard: 'Dashboard',
+        Dashboard: 'Panoramica',
         'Space Data': 'Dati Spazio',
         'Equipment Data': 'Dati Attrezzatura',
         'Meter Data': 'Dati Contatore',
