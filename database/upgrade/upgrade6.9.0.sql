@@ -121,6 +121,6 @@ ADD COLUMN `is_enabled` BOOL NOT NULL DEFAULT 1 AFTER `is_input_counted`;
 ALTER TABLE `myems_system_db`.`tbl_tenants`
 ADD COLUMN `is_enabled` BOOL NOT NULL DEFAULT 1 AFTER `is_input_counted`;
 
-UPDATE `myems_system_db`.`tbl_versions` SET version='6.9.0RC', release_date='2026-09-26' WHERE id=1;
+UPDATE `myems_system_db`.`tbl_versions` SET version='6.9.0', release_date='2026-09-27' WHERE id=1;
 
 COMMIT;
