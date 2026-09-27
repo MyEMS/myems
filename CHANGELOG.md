@@ -5,6 +5,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 ### Added
+### Changed
+### Fixed
+### Removed
+
+
+## [v6.9.0] - 2026-09-27
+### Added
 - added docx exporters for space reports in myems-api and myems-web
 - added pdf exporters for equipment reports in myems-api and myems-web
 - added docx exporters for combined equipment reports in myems-api and myems-web
@@ -27,6 +34,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Fixed
 - fixed color issues in myems-web
 ### Removed
+- None
 
 ## [v6.8.0] - 2026-08-29
 ### Added
@@ -2389,7 +2397,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Removed
 -   None.
 
-[Unreleased]: https://gitee.com/MyEMS/myems/compare/v6.8.0...HEAD
+[Unreleased]: https://gitee.com/MyEMS/myems/compare/v6.9.0...HEAD
+[6.9.0]: https://gitee.com/MyEMS/myems/compare/v6.8.0...v6.9.0
 [6.8.0]: https://gitee.com/MyEMS/myems/compare/v6.7.0...v6.8.0
 [6.7.0]: https://gitee.com/MyEMS/myems/compare/v6.6.0...v6.7.0
 [6.6.0]: https://gitee.com/MyEMS/myems/compare/v6.5.0...v6.6.0
