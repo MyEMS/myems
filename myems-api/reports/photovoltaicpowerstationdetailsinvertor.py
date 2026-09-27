@@ -386,13 +386,13 @@ class Reporting:
                         startup_time = latest_value_dict.get(row[92], None)
                         current_invertor['startup_time'] = \
                             (datetime.utcfromtimestamp(int(startup_time) / 1000) + timedelta(minutes=timezone_offset))\
-                            .isoformat()[0:19] \
+                            .strftime('%Y-%m-%d %H:%M:%S') \
                             if startup_time is not None else None
                         shutdown_time = latest_value_dict.get(row[93], None)
                         current_invertor['shutdown_time'] = \
                             (datetime.utcfromtimestamp(int(shutdown_time) / 1000) +
                              timedelta(minutes=timezone_offset)) \
-                            .isoformat()[0:19] \
+                            .strftime('%Y-%m-%d %H:%M:%S') \
                             if shutdown_time is not None else None
                         invertor_list.append(current_invertor)
 

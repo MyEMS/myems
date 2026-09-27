@@ -195,6 +195,8 @@ const MultipleLineChart = ({ reportingTitle, baseTitle, labels, data, options, y
     setInterval(labels[values[0]] ? parseInt(labels[values[0]].length / 20) : 0);
   }, [lastMoment]);
 
+  const formatTimeLabel = label => (typeof label === 'string' ? label.replace('T', ' ') : label);
+
   let getOption = () => {
     return {
       legend: {
@@ -217,7 +219,7 @@ const MultipleLineChart = ({ reportingTitle, baseTitle, labels, data, options, y
       },
       xAxis: {
         type: 'category',
-        data: lineLabels ? lineLabels : ['0'],
+        data: lineLabels ? lineLabels.map(formatTimeLabel) : ['0'],
         axisLabel: {
           interval: interval,
           color: rgbaColor(isDark ? '#fff' : '#000', 0.8),

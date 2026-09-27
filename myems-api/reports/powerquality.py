@@ -213,7 +213,7 @@ class Reporting:
                         for utc_dt, actual_value in rows:
                             current_datetime_local = utc_dt.replace(tzinfo=timezone.utc) + \
                                                      timedelta(minutes=timezone_offset)
-                            current_datetime = current_datetime_local.isoformat()[0:19]
+                            current_datetime = current_datetime_local.strftime('%Y-%m-%d %H:%M:%S')
                             point_timestamp_list.append(current_datetime)
                             point_value_list.append(actual_value)
                     reporting['names'].append(point['name'] + ' (' + point['units'] + ')')

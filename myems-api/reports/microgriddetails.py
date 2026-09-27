@@ -708,7 +708,7 @@ class Reporting:
                         for row_meter_hourly in rows_meter_hourly:
                             current_datetime_local = row_meter_hourly[0].replace(tzinfo=timezone.utc) + \
                                                      timedelta(minutes=timezone_offset)
-                            current_datetime = current_datetime_local.isoformat()[0:19]
+                            current_datetime = current_datetime_local.strftime('%Y-%m-%d %H:%M:%S')
 
                             actual_value = Decimal(0.0) if row_meter_hourly[1] is None else row_meter_hourly[1]
 

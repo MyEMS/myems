@@ -338,8 +338,8 @@ class Reporting:
                     cursor_production.execute(" DELETE FROM tbl_space_hourly WHERE space_id = %s AND product_id = %s "
                                               " AND start_datetime_utc >= %s AND start_datetime_utc < %s ",
                                               (production_data['space_id'], production_data['product_id'],
-                                               start_datetime_utc.isoformat()[0:19],
-                                               end_datetime_utc.isoformat()[0:19]))
+                                               start_datetime_utc.strftime('%Y-%m-%d %H:%M:%S'),
+                                               end_datetime_utc.strftime('%Y-%m-%d %H:%M:%S')))
 
                     cnx_production.commit()
 
@@ -353,7 +353,7 @@ class Reporting:
                             actual_value = daily_value - sum_24hours + actual_value
                         add_values += " (" + str(production_data['space_id']) + ","
                         add_values += str(production_data['product_id']) + ","
-                        add_values += "'" + start_datetime_utc.isoformat()[0:19] + "',"
+                        add_values += "'" + start_datetime_utc.strftime('%Y-%m-%d %H:%M:%S') + "',"
                         add_values += str(actual_value) + "), "
                         start_datetime_utc += timedelta(minutes=config.minutes_to_count)
                     # trim ", " at the end of string and then execute

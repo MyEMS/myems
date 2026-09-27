@@ -443,7 +443,7 @@ class Reporting:
                             current_datetime_local = row_tenant_periodically[0].replace(tzinfo=timezone.utc) + \
                                                      timedelta(minutes=timezone_offset)
                             if period_type == 'hourly':
-                                current_datetime = current_datetime_local.isoformat()[0:19]
+                                current_datetime = current_datetime_local.strftime('%Y-%m-%d %H:%M:%S')
                             elif period_type == 'daily':
                                 current_datetime = current_datetime_local.isoformat()[0:10]
                             elif period_type == 'weekly':
@@ -483,7 +483,7 @@ class Reporting:
                             current_datetime_local = row_tenant_periodically[0].replace(tzinfo=timezone.utc) + \
                                                      timedelta(minutes=timezone_offset)
                             if period_type == 'hourly':
-                                current_datetime = current_datetime_local.isoformat()[0:19]
+                                current_datetime = current_datetime_local.strftime('%Y-%m-%d %H:%M:%S')
                             elif period_type == 'daily':
                                 current_datetime = current_datetime_local.isoformat()[0:10]
                             elif period_type == 'weekly':
@@ -561,7 +561,7 @@ class Reporting:
                             current_datetime_local = row_tenant_periodically[0].replace(tzinfo=timezone.utc) + \
                                                      timedelta(minutes=timezone_offset)
                             if period_type == 'hourly':
-                                current_datetime = current_datetime_local.isoformat()[0:19]
+                                current_datetime = current_datetime_local.strftime('%Y-%m-%d %H:%M:%S')
                             elif period_type == 'daily':
                                 current_datetime = current_datetime_local.isoformat()[0:10]
                             elif period_type == 'weekly':
@@ -602,7 +602,7 @@ class Reporting:
                             current_datetime_local = row_tenant_periodically[0].replace(tzinfo=timezone.utc) + \
                                                      timedelta(minutes=timezone_offset)
                             if period_type == 'hourly':
-                                current_datetime = current_datetime_local.isoformat()[0:19]
+                                current_datetime = current_datetime_local.strftime('%Y-%m-%d %H:%M:%S')
                             elif period_type == 'daily':
                                 current_datetime = current_datetime_local.isoformat()[0:10]
                             elif period_type == 'weekly':
@@ -654,7 +654,7 @@ class Reporting:
                         for k, v in energy_category_tariff_dict.items():
                             # convert k from utc to local
                             k = k + timedelta(minutes=timezone_offset)
-                            tariff_timestamp_list.append(k.isoformat()[0:19])
+                            tariff_timestamp_list.append(k.strftime('%Y-%m-%d %H:%M:%S'))
                             tariff_value_list.append(v)
 
                         parameters_data['names'].append(_('Tariff') + '-' +
