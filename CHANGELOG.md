@@ -19,6 +19,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - added docx exporters for tenant reports in myems-api and myems-web
 - added docx exporters for combined equipment reports in myems-api and myems-web
 - added myems opc ua service to acquire data from OPC UA server
+- added docx exporters for shopfloor reports in myems-api and myems-web
+- added docx exporters for tenant reports in myems-api and myems-web
 ### Changed
 - changed the tariff price precision from 6 decimal places to 8 decimal places
 ### Fixed
