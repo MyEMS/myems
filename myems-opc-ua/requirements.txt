@@ -1,0 +1,5 @@
+mysql-connector-python==9.6.0
+asyncua
+schedule
+python-decouple==3.8
+telnetlib3
