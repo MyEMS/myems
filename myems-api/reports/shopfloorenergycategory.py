@@ -42,6 +42,7 @@ import simplejson as json
 import config
 import excelexporters.shopfloorenergycategory
 import pdfexporters.shopfloorenergycategory
+import docxexporters.shopfloorenergycategory
 from core import utilities
 from core.useractivity import access_control, api_key_control
 
@@ -86,6 +87,7 @@ class Reporting:
         quick_mode = req.params.get('quickmode')
         export_excel = req.params.get('exportexcel')
         export_pdf = req.params.get('exportpdf')
+        export_docx = req.params.get('exportdocx')
 
         ################################################################################################################
         # Step 1: valid parameters
@@ -215,6 +217,12 @@ class Reporting:
                 str.lower(str.strip(export_pdf)) in ('true', 't', 'on', 'yes', 'y'):
             is_export_pdf = True
 
+        is_export_docx = False
+        if export_docx is not None and \
+                len(str.strip(export_docx)) > 0 and \
+                str.lower(str.strip(export_docx)) in ('true', 't', 'on', 'yes', 'y'):
+            is_export_docx = True
+
         ############################################################################################################
         # Redis cache
         ############################################################################################################
@@ -259,6 +267,7 @@ class Reporting:
                     "quickmode": is_quick_mode,
                     "exportexcel": is_export_excel,
                     "exportpdf": is_export_pdf,
+                    "exportdocx": is_export_docx,
                 }
                 cache_params_json = json.dumps(cache_params, sort_keys=True)
                 cache_key = 'report:shopfloorenergycategory:' + hashlib.sha256(
@@ -774,6 +783,7 @@ class Reporting:
         }
         result['excel_bytes_base64'] = None
         result['pdf_bytes_base64'] = None
+        result['docx_bytes_base64'] = None
         # export result to Excel/PDF file and then encode the file to base64 string
         if not is_quick_mode:
             if is_export_excel:
@@ -787,6 +797,15 @@ class Reporting:
                                                               language)
             if is_export_pdf:
                 result['pdf_bytes_base64'] = pdfexporters.shopfloorenergycategory.export(result,
+                                                              shopfloor['name'],
+                                                              base_period_start_datetime_local,
+                                                              base_period_end_datetime_local,
+                                                              reporting_period_start_datetime_local,
+                                                              reporting_period_end_datetime_local,
+                                                              period_type,
+                                                              language)
+            if is_export_docx:
+                result['docx_bytes_base64'] = docxexporters.shopfloorenergycategory.export(result,
                                                               shopfloor['name'],
                                                               base_period_start_datetime_local,
                                                               base_period_end_datetime_local,
