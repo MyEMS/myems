@@ -161,8 +161,10 @@ const ShopfloorPrediction = ({ setRedirect, setRedirectUrl, t }) => {
   ]);
   const [excelBytesBase64, setExcelBytesBase64] = useState(undefined);
   const [pdfBytesBase64, setPdfBytesBase64] = useState(undefined);
+  const [docxBytesBase64, setDocxBytesBase64] = useState(undefined);
   const [exportExcel, setExportExcel] = useState(false);
   const [exportPdf, setExportPdf] = useState(false);
+  const [exportDocx, setExportDocx] = useState(false);
 
   const [workingDaysConsumptionTableData, setWorkingDaysConsumptionTableData] = useState([]);
   const [workingDaysConsumptionTableColumns, setWorkingDaysConsumptionTableColumns] = useState([
@@ -179,6 +181,7 @@ const ShopfloorPrediction = ({ setRedirect, setRedirectUrl, t }) => {
       setExportButtonHidden(true);
     setExcelBytesBase64(undefined);
     setPdfBytesBase64(undefined);
+    setDocxBytesBase64(undefined);
       // hide result data
       setResultDataHidden(true);
 
@@ -690,13 +693,14 @@ const ShopfloorPrediction = ({ setRedirect, setRedirectUrl, t }) => {
 
             setExcelBytesBase64(json['excel_bytes_base64']);
             setPdfBytesBase64(json['pdf_bytes_base64']);
+            setDocxBytesBase64(json['docx_bytes_base64']);
 
             // enable submit button
             setSubmitButtonDisabled(false);
             // hide spinner
             setSpinnerHidden(true);
             // show export button
-            setExportButtonHidden(!(json['excel_bytes_base64'] || json['pdf_bytes_base64']));
+            setExportButtonHidden(!(json['excel_bytes_base64'] || json['pdf_bytes_base64'] || json['docx_bytes_base64']));
             // show result data
             setResultDataHidden(false);
           } else {
@@ -829,7 +833,9 @@ const ShopfloorPrediction = ({ setRedirect, setRedirectUrl, t }) => {
         '&exportexcel=' +
         exportExcel +
         '&exportpdf=' +
-        exportPdf;
+        exportPdf +
+        '&exportdocx=' +
+        exportDocx;
       loadData(url);
     }
   }, [uuid, periodType, basePeriodDateRange, reportingPeriodDateRange, language, loadData]);
@@ -1115,7 +1121,9 @@ const ShopfloorPrediction = ({ setRedirect, setRedirectUrl, t }) => {
         '&exportexcel=' +
         exportExcel +
         '&exportpdf=' +
-        exportPdf;
+        exportPdf +
+        '&exportdocx=' +
+        exportDocx;
     loadData(url);
   };
 
@@ -1141,6 +1149,22 @@ const ShopfloorPrediction = ({ setRedirect, setRedirectUrl, t }) => {
       const mimeType = 'application/pdf';
       const fileName = 'shopfloorprediction.pdf';
       const fileUrl = 'data:' + mimeType + ';base64,' + pdfBytesBase64;
+      fetch(fileUrl)
+        .then(response => response.blob())
+        .then(blob => {
+          const link = window.document.createElement('a');
+          const blobUrl = window.URL.createObjectURL(blob, { type: mimeType });
+          link.href = blobUrl;
+          link.download = fileName;
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+          setTimeout(() => window.URL.revokeObjectURL(blobUrl), 100);
+        });
+    } else if (type === 'docx' && docxBytesBase64) {
+      const mimeType = 'application/vnd.openxmlformats-officedocument.wordprocessingml.document';
+      const fileName = 'shopfloorprediction.docx';
+      const fileUrl = 'data:' + mimeType + ';base64,' + docxBytesBase64;
       fetch(fileUrl)
         .then(response => response.blob())
         .then(blob => {
@@ -1431,6 +1455,16 @@ const ShopfloorPrediction = ({ setRedirect, setRedirectUrl, t }) => {
                     checked={exportPdf}
                     onChange={({ target }) => setExportPdf(target.checked)}
                   />
+                  <CustomInput
+                    type="checkbox"
+                    id="exportDocx"
+                    name="exportDocx"
+                    label="DOCX"
+                    bsSize="sm"
+                    inline
+                    checked={exportDocx}
+                    onChange={({ target }) => setExportDocx(target.checked)}
+                  />
                 </FormGroup>
               </Col>
               <Col xs="auto">
@@ -1461,6 +1495,9 @@ const ShopfloorPrediction = ({ setRedirect, setRedirectUrl, t }) => {
                     ) : null}
                     {pdfBytesBase64 ? (
                       <DropdownItem onClick={e => handleExport(e, 'pdf')}>PDF</DropdownItem>
+                    ) : null}
+                    {docxBytesBase64 ? (
+                      <DropdownItem onClick={e => handleExport(e, 'docx')}>DOCX</DropdownItem>
                     ) : null}
                   </DropdownMenu>
                 </UncontrolledDropdown>

@@ -1,4 +1,4 @@
-﻿// Auto-split from i18n.js — language: zh_TW
+// Auto-split from i18n.js — language: zh_TW
 export default {
     translation: {
         // routes & menus
@@ -8,7 +8,7 @@ export default {
         'Meter Data': '計量表數據',
         'Tenant Data': '租⼾數據',
         'Store Data': '⾨店數據',
-        'Shopfloor Data': '⾞間數據',
+        'Shopfloor Data': '車間數據',
         'Combined Equipment Data': '組合設備數據',
         'Auxiliary System': '輔助系統',
         Microgrid: '微電網',
@@ -250,7 +250,7 @@ export default {
         'Virtual Meter': '虛擬表',
         Tenant: '租⼾',
         Store: '⾨店',
-        Shopfloor: '⾞間',
+        Shopfloor: '車間',
         'Combined Equipment': '組合設備',
         'Cost Center': '成本中⼼',
         Name: '名稱',
