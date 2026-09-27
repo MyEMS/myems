@@ -118,7 +118,7 @@ modbus-tcp
 ```
 Data source connection example:
 ```
-{"host":"10.9.67.99","port":502,"interval_in_seconds":60]}
+{"host":"10.9.67.99","port":502,"interval_in_seconds":60}
 ```
 
 Point address example:
@@ -186,9 +186,11 @@ else it will be ignored.
 ### References
 
 [1]. http://myems.cn
-  
-[2]. http://www.modbus.org/tech.php
-  
-[3]. https://github.com/ljean/modbus-tk
 
-[4]. https://docs.python.org/3/library/struct.html#format-strings
+[2]. https://github.com/myems/myems
+  
+[3]. http://www.modbus.org/tech.php
+  
+[4]. https://github.com/ljean/modbus-tk
+
+[5]. https://docs.python.org/3/library/struct.html#format-strings
