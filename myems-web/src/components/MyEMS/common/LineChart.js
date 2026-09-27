@@ -7,6 +7,10 @@ import AppContext from '../../../context/Context';
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Tooltip, Legend);
 
+const formatTimeLabel = label => (typeof label === 'string' ? label.replace('T', ' ') : label);
+
+const formatTimeLabels = labels => (Array.isArray(labels) ? labels.map(formatTimeLabel) : labels);
+
 const LineChart = ({ reportingTitle, baseTitle, labels, data, options, defaultOption }) => {
   const [selectedLabel, setSelectedLabel] = useState(defaultOption || 'a0');
   const [option, setOption] = useState(defaultOption || 'a0');
@@ -44,7 +48,7 @@ const LineChart = ({ reportingTitle, baseTitle, labels, data, options, defaultOp
             tension: 0.4
           }
         ],
-        labels: labels[selectedLabel]
+        labels: formatTimeLabels(labels[selectedLabel])
       };
       setLineData(chartData);
     }
@@ -82,7 +86,8 @@ const LineChart = ({ reportingTitle, baseTitle, labels, data, options, defaultOp
         yPadding: 10,
         displayColors: false,
         callbacks: {
-          label: tooltipItem => `${labels[selectedLabel][tooltipItem.index]} - ${tooltipItem.yLabel}`,
+          label: tooltipItem =>
+            `${formatTimeLabel(labels[selectedLabel][tooltipItem.index])} - ${tooltipItem.yLabel}`,
           title: () => null
         }
       },

@@ -178,7 +178,7 @@ class Reporting:
                                 for utc_dt, actual_value in rows:
                                     current_datetime_local = utc_dt.replace(tzinfo=timezone.utc) + \
                                                              timedelta(minutes=timezone_offset)
-                                    current_datetime = current_datetime_local.isoformat()[0:19]
+                                    current_datetime = current_datetime_local.strftime('%Y-%m-%d %H:%M:%S')
                                     energy_value_data['timestamps'].append(current_datetime)
                                     energy_value_data['values'].append(actual_value)
                         elif point['object_type'] == 'ANALOG_VALUE':
@@ -186,7 +186,7 @@ class Reporting:
                                 for utc_dt, actual_value in rows:
                                     current_datetime_local = utc_dt.replace(tzinfo=timezone.utc) + \
                                                              timedelta(minutes=timezone_offset)
-                                    current_datetime = current_datetime_local.isoformat()[0:19]
+                                    current_datetime = current_datetime_local.strftime('%Y-%m-%d %H:%M:%S')
                                     point_timestamps.append(current_datetime)
                                     point_values.append(actual_value)
                             parameters_data['names'].append(point['name'] + ' (' + point['units'] + ')')
@@ -197,7 +197,7 @@ class Reporting:
                                 for utc_dt, actual_value in rows:
                                     current_datetime_local = utc_dt.replace(tzinfo=timezone.utc) + \
                                                              timedelta(minutes=timezone_offset)
-                                    current_datetime = current_datetime_local.isoformat()[0:19]
+                                    current_datetime = current_datetime_local.strftime('%Y-%m-%d %H:%M:%S')
                                     point_timestamps.append(current_datetime)
                                     point_values.append(actual_value)
                             parameters_data['names'].append(point['name'] + ' (' + point['units'] + ')')

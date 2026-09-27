@@ -8,6 +8,9 @@ import { APIBaseURL } from '../../../config';
 import { getCookieValue, floatFormatter } from '../../../helpers/utils';
 import { toast } from 'react-toastify';
 import withRedirect from '../../../hoc/withRedirect';
+const formatTimeLabels = labels =>
+  Array.isArray(labels) ? labels.map(label => (typeof label === 'string' ? label.replace('T', ' ') : label)) : labels;
+
 const dividerBorder = '1px solid rgba(255, 255, 255, 0.24)';
 const listItemBorderColor = 'rgba(255, 255, 255, 0.12)';
 const chartPanelStyle = {
@@ -129,10 +132,11 @@ class RealtimeChart extends Component {
           let length = json['energy_value']['values'].length;
           let trendLog =
             length > 60 ? json['energy_value']['values'].slice(length - 60, length) : json['energy_value']['values'];
-          let timestamps =
+          let timestamps = formatTimeLabels(
             length > 60
               ? json['energy_value']['timestamps'].slice(length - 60, length)
-              : json['energy_value']['timestamps'];
+              : json['energy_value']['timestamps']
+          );
           let currentEnergyValue = undefined;
           let energyValuePointName = json['energy_value']['name'];
           let pointList = [];
@@ -190,7 +194,7 @@ class RealtimeChart extends Component {
         .then(json => {
           if (isResponseOK) {
             let trendLog = json['energy_value']['values'];
-            let timestamps = json['energy_value']['timestamps'];
+            let timestamps = formatTimeLabels(json['energy_value']['timestamps']);
             let currentEnergyValue = undefined;
             let energyValuePointName = json['energy_value']['name'];
             let pointList = [];

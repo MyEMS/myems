@@ -14,6 +14,10 @@ const defaultSorted = [
   }
 ];
 
+const datetimeFields = new Set(['startdatetime', 'basePeriodDatetime', 'reportingPeriodDatetime']);
+
+const formatTimeLabel = value => (typeof value === 'string' ? value.replace('T', ' ') : value);
+
 const DetailedDataTable = ({ title, data, columns, pagesize, t, page: controlledPage, onChangePage }) => {
   // Persist current page to prevent flicker/jumps when parent re-renders
   const [uncontrolledPage, setUncontrolledPage] = useState(1);
@@ -67,14 +71,27 @@ const DetailedDataTable = ({ title, data, columns, pagesize, t, page: controlled
       return `${existing} ${added}`.trim();
     };
     return columns.map((col, index) => {
-      if (index === 0) {
-        return {
+      let next = col;
+      if (datetimeFields.has(col.dataField)) {
+        const existingFormatter = col.formatter;
+        next = {
           ...col,
-          classes: mergeClass(col.classes, 'sticky-first-column'),
-          headerClasses: mergeClass(col.headerClasses, 'sticky-first-column')
+          formatter: (cell, row, rowIndex, formatExtraData) => {
+            const formatted = formatTimeLabel(cell);
+            return existingFormatter
+              ? existingFormatter(formatted, row, rowIndex, formatExtraData)
+              : formatted;
+          }
         };
       }
-      return col;
+      if (index === 0) {
+        return {
+          ...next,
+          classes: mergeClass(next.classes, 'sticky-first-column'),
+          headerClasses: mergeClass(next.headerClasses, 'sticky-first-column')
+        };
+      }
+      return next;
     });
   }, [columns]);
 

@@ -137,8 +137,8 @@ class Reporting:
 
                         cursor_energy.execute("DELETE FROM tbl_offline_meter_hourly WHERE offline_meter_id = %s "
                                               "AND start_datetime_utc >= %s AND start_datetime_utc < %s ",
-                                              (offline_meter_id, start_datetime_utc.isoformat()[0:19],
-                                               end_datetime_utc.isoformat()[0:19]))
+                                              (offline_meter_id, start_datetime_utc.strftime('%Y-%m-%d %H:%M:%S'),
+                                               end_datetime_utc.strftime('%Y-%m-%d %H:%M:%S')))
 
                         cnx_energy.commit()
                         # check with hourly low limit and hourly high limit
@@ -156,7 +156,7 @@ class Reporting:
                             if start_datetime_utc == last_date_utc and sum_24hours != daily_value:
                                 actual_value = daily_value - sum_24hours + actual_value
                             add_values += " (" + str(offline_meter_id) + ","
-                            add_values += "'" + start_datetime_utc.isoformat()[0:19] + "',"
+                            add_values += "'" + start_datetime_utc.strftime('%Y-%m-%d %H:%M:%S') + "',"
                             add_values += str(actual_value) + "), "
                             start_datetime_utc += timedelta(minutes=config.minutes_to_count)
                         # trim ", " at the end of string and then execute

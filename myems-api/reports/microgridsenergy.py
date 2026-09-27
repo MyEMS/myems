@@ -184,7 +184,7 @@ class Reporting:
                         current_datetime_local = row_charge_periodically[0].replace(tzinfo=timezone.utc) + \
                                                  timedelta(minutes=timezone_offset)
                         if period_type == 'hourly':
-                            current_datetime = current_datetime_local.isoformat()[0:19]
+                            current_datetime = current_datetime_local.strftime('%Y-%m-%d %H:%M:%S')
                         elif period_type == 'daily':
                             current_datetime = current_datetime_local.isoformat()[0:10]
                         elif period_type == 'weekly':
@@ -227,7 +227,7 @@ class Reporting:
                         current_datetime_local = row_charge_periodically[0].replace(tzinfo=timezone.utc) + \
                                                  timedelta(minutes=timezone_offset)
                         if period_type == 'hourly':
-                            current_datetime = current_datetime_local.isoformat()[0:19]
+                            current_datetime = current_datetime_local.strftime('%Y-%m-%d %H:%M:%S')
                         elif period_type == 'daily':
                             current_datetime = current_datetime_local.isoformat()[0:10]
                         elif period_type == 'weekly':
@@ -282,7 +282,7 @@ class Reporting:
                         current_datetime_local = row_charge_periodically[0].replace(tzinfo=timezone.utc) + \
                                                  timedelta(minutes=timezone_offset)
                         if period_type == 'hourly':
-                            current_datetime = current_datetime_local.isoformat()[0:19]
+                            current_datetime = current_datetime_local.strftime('%Y-%m-%d %H:%M:%S')
                         elif period_type == 'daily':
                             current_datetime = current_datetime_local.isoformat()[0:10]
                         elif period_type == 'weekly':
@@ -327,7 +327,7 @@ class Reporting:
                         current_datetime_local = row_discharge_periodically[0].replace(tzinfo=timezone.utc) + \
                                                  timedelta(minutes=timezone_offset)
                         if period_type == 'hourly':
-                            current_datetime = current_datetime_local.isoformat()[0:19]
+                            current_datetime = current_datetime_local.strftime('%Y-%m-%d %H:%M:%S')
                         elif period_type == 'daily':
                             current_datetime = current_datetime_local.isoformat()[0:10]
                         elif period_type == 'weekly':
@@ -382,7 +382,7 @@ class Reporting:
                         current_datetime_local = row_charge_periodically[0].replace(tzinfo=timezone.utc) + \
                                                  timedelta(minutes=timezone_offset)
                         if period_type == 'hourly':
-                            current_datetime = current_datetime_local.isoformat()[0:19]
+                            current_datetime = current_datetime_local.strftime('%Y-%m-%d %H:%M:%S')
                         elif period_type == 'daily':
                             current_datetime = current_datetime_local.isoformat()[0:10]
                         elif period_type == 'weekly':
@@ -426,7 +426,7 @@ class Reporting:
                         current_datetime_local = row_discharge_periodically[0].replace(tzinfo=timezone.utc) + \
                                                  timedelta(minutes=timezone_offset)
                         if period_type == 'hourly':
-                            current_datetime = current_datetime_local.isoformat()[0:19]
+                            current_datetime = current_datetime_local.strftime('%Y-%m-%d %H:%M:%S')
                         elif period_type == 'daily':
                             current_datetime = current_datetime_local.isoformat()[0:10]
                         elif period_type == 'weekly':

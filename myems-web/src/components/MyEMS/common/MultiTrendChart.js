@@ -105,7 +105,7 @@ const MultiTrendChart = ({
             borderRadius: 4
           }
         ],
-        labels: undefinedConvertsToEmptyArray(reportingLabels[option])
+        labels: undefinedConvertsToEmptyArray(reportingLabels[option]).map(formatTimeLabel)
       };
       setLineData(chartData);
     }
@@ -125,9 +125,9 @@ const MultiTrendChart = ({
           callbacks: {
             title: function(context) {
               if (context[0].datasetIndex - 1) {
-                return `${reportingLabels[option][context[0].dataIndex]}`;
+                return `${formatTimeLabel(reportingLabels[option][context[0].dataIndex])}`;
               } else {
-                return `${baseLabels[option][context[0].dataIndex]}`;
+                return `${formatTimeLabel(baseLabels[option][context[0].dataIndex])}`;
               }
             },
             label: function(context) {
@@ -189,6 +189,8 @@ const MultiTrendChart = ({
       hover: { mode: 'label' }
     }
   };
+
+  const formatTimeLabel = label => (typeof label === 'string' ? label.replace('T', ' ') : label);
 
   const undefinedConvertsToEmptyArray = value => {
     if (value === undefined) {
