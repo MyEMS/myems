@@ -260,7 +260,7 @@ def worker(virtual_meter):
         # Get all physical meters associated with the expression
         ########################################################################################################
 
-        cursor_system_db.execute(" SELECT m.id as meter_id, v.name as variable_name "
+        cursor_system_db.execute(" SELECT m.id as meter_id, v.name as variable_name, m.is_enabled "
                                  " FROM tbl_meters m, tbl_variables v "
                                  " WHERE m.id = v.meter_id "
                                  "       AND v.meter_type = 'meter' "
@@ -269,13 +269,15 @@ def worker(virtual_meter):
         rows = cursor_system_db.fetchall()
         if rows is not None and len(rows) > 0:
             for row in rows:
-                meter_list_in_expression.append({"meter_id": row[0], "variable_name": row[1].lower()})
+                meter_list_in_expression.append({"meter_id": row[0],
+                                                 "variable_name": row[1].lower(),
+                                                 "is_enabled": row[2]})
 
         ########################################################################################################
         # Get all virtual meters associated with the expression
         ########################################################################################################
 
-        cursor_system_db.execute(" SELECT m.id as virtual_meter_id, v.name as variable_name "
+        cursor_system_db.execute(" SELECT m.id as virtual_meter_id, v.name as variable_name, m.is_enabled "
                                  " FROM tbl_virtual_meters m, tbl_variables v "
                                  " WHERE m.id = v.meter_id "
                                  "       AND v.meter_type = 'virtual_meter' "
@@ -285,13 +287,14 @@ def worker(virtual_meter):
         if rows is not None and len(rows) > 0:
             for row in rows:
                 virtual_meter_list_in_expression.append({"virtual_meter_id": row[0],
-                                                         "variable_name": row[1].lower()})
+                                                         "variable_name": row[1].lower(),
+                                                         "is_enabled": row[2]})
 
         ########################################################################################################
         # Get all offline meters associated with the expression
         ########################################################################################################
 
-        cursor_system_db.execute(" SELECT m.id as offline_meter_id, v.name as variable_name "
+        cursor_system_db.execute(" SELECT m.id as offline_meter_id, v.name as variable_name, m.is_enabled "
                                  " FROM tbl_offline_meters m, tbl_variables v "
                                  " WHERE m.id = v.meter_id "
                                  "       AND v.meter_type = 'offline_meter' "
@@ -301,7 +304,8 @@ def worker(virtual_meter):
         if rows is not None and len(rows) > 0:
             for row in rows:
                 offline_meter_list_in_expression.append({"offline_meter_id": row[0],
-                                                         "variable_name": row[1].lower()})
+                                                         "variable_name": row[1].lower(),
+                                                         "is_enabled": row[2]})
     except Exception as e:
         if cursor_energy_db:
             cursor_energy_db.close()
@@ -324,6 +328,12 @@ def worker(virtual_meter):
     if meter_list_in_expression is not None and len(meter_list_in_expression) > 0:
         try:
             for meter_in_expression in meter_list_in_expression:
+                # A disabled meter stays in the equation as 0 and must not stall the common time window.
+                if not meter_in_expression['is_enabled']:
+                    print("Meter id " + str(meter_in_expression['meter_id'])
+                          + " variable '" + meter_in_expression['variable_name']
+                          + "' is disabled, substitute 0 for '" + virtual_meter['name'] + "'")
+                    continue
                 meter_id = str(meter_in_expression['meter_id'])
                 query = (" SELECT start_datetime_utc, actual_value "
                          " FROM tbl_meter_hourly "
@@ -350,6 +360,12 @@ def worker(virtual_meter):
     if virtual_meter_list_in_expression is not None and len(virtual_meter_list_in_expression) > 0:
         try:
             for virtual_meter_in_expression in virtual_meter_list_in_expression:
+                # A disabled virtual meter stays in the equation as 0 and must not stall the common time window.
+                if not virtual_meter_in_expression['is_enabled']:
+                    print("Virtual meter id " + str(virtual_meter_in_expression['virtual_meter_id'])
+                          + " variable '" + virtual_meter_in_expression['variable_name']
+                          + "' is disabled, substitute 0 for '" + virtual_meter['name'] + "'")
+                    continue
                 virtual_meter_id = str(virtual_meter_in_expression['virtual_meter_id'])
                 query = (" SELECT start_datetime_utc, actual_value "
                          " FROM tbl_virtual_meter_hourly "
@@ -377,6 +393,12 @@ def worker(virtual_meter):
     if offline_meter_list_in_expression is not None and len(offline_meter_list_in_expression) > 0:
         try:
             for offline_meter_in_expression in offline_meter_list_in_expression:
+                # A disabled offline meter stays in the equation as 0 and must not stall the common time window.
+                if not offline_meter_in_expression['is_enabled']:
+                    print("Offline meter id " + str(offline_meter_in_expression['offline_meter_id'])
+                          + " variable '" + offline_meter_in_expression['variable_name']
+                          + "' is disabled, substitute 0 for '" + virtual_meter['name'] + "'")
+                    continue
                 offline_meter_id = str(offline_meter_in_expression['offline_meter_id'])
                 query = (" SELECT start_datetime_utc, actual_value "
                          " FROM tbl_offline_meter_hourly "
@@ -454,6 +476,9 @@ def worker(virtual_meter):
     # Evaluate the mathematical expression using SymPy
     print("evaluating the equation with SymPy...")
     normalized_values = list()
+    skipped_hour_count = 0
+    first_skipped_datetime_utc = None
+    first_evaluation_error = None
 
     ############################################################################################################
     # Converting Strings to SymPy Expressions
@@ -485,25 +510,39 @@ def worker(virtual_meter):
             # Evaluating the expression at current_datetime_utc
             ####################################################################################################
 
-            # Substitute physical meter values into the expression
+            # Substitute physical meter values into the expression.
+            # Disabled meters are bound to 0 and are absent from energy_meter_hourly.
             if meter_list_in_expression is not None and len(meter_list_in_expression) > 0:
                 for meter_in_expression in meter_list_in_expression:
-                    meter_id = str(meter_in_expression['meter_id'])
-                    actual_value = energy_meter_hourly[meter_id].get(current_datetime_utc, Decimal(0.0))
+                    if not meter_in_expression['is_enabled']:
+                        actual_value = Decimal(0.0)
+                    else:
+                        meter_id = str(meter_in_expression['meter_id'])
+                        actual_value = energy_meter_hourly[meter_id].get(current_datetime_utc, Decimal(0.0))
                     subs[meter_in_expression['variable_name']] = actual_value
 
-            # Substitute virtual meter values into the expression
+            # Substitute virtual meter values into the expression.
+            # Disabled virtual meters are bound to 0 and are absent from energy_virtual_meter_hourly.
             if virtual_meter_list_in_expression is not None and len(virtual_meter_list_in_expression) > 0:
                 for virtual_meter_in_expression in virtual_meter_list_in_expression:
-                    virtual_meter_id = str(virtual_meter_in_expression['virtual_meter_id'])
-                    actual_value = energy_virtual_meter_hourly[virtual_meter_id].get(current_datetime_utc, Decimal(0.0))
+                    if not virtual_meter_in_expression['is_enabled']:
+                        actual_value = Decimal(0.0)
+                    else:
+                        virtual_meter_id = str(virtual_meter_in_expression['virtual_meter_id'])
+                        actual_value = energy_virtual_meter_hourly[virtual_meter_id].get(
+                            current_datetime_utc, Decimal(0.0))
                     subs[virtual_meter_in_expression['variable_name']] = actual_value
 
-            # Substitute offline meter values into the expression
+            # Substitute offline meter values into the expression.
+            # Disabled offline meters are bound to 0 and are absent from energy_offline_meter_hourly.
             if offline_meter_list_in_expression is not None and len(offline_meter_list_in_expression) > 0:
                 for offline_meter_in_expression in offline_meter_list_in_expression:
-                    offline_meter_id = str(offline_meter_in_expression['offline_meter_id'])
-                    actual_value = energy_offline_meter_hourly[offline_meter_id].get(current_datetime_utc, Decimal(0.0))
+                    if not offline_meter_in_expression['is_enabled']:
+                        actual_value = Decimal(0.0)
+                    else:
+                        offline_meter_id = str(offline_meter_in_expression['offline_meter_id'])
+                        actual_value = energy_offline_meter_hourly[offline_meter_id].get(
+                            current_datetime_utc, Decimal(0.0))
                     subs[offline_meter_in_expression['variable_name']] = actual_value
 
             ####################################################################################################
@@ -513,10 +552,19 @@ def worker(virtual_meter):
             # using the subs flag, which takes a dictionary of Symbol: point pairs.
             ####################################################################################################
 
-            # Evaluate the mathematical expression with current variable values
-            meta_data['actual_value'] = expr.evalf(subs=subs)
-
-            normalized_values.append(meta_data)
+            # Evaluate the mathematical expression with current variable values.
+            # A disabled divisor yields zoo or nan. Skip that hour so the other hours are still saved.
+            try:
+                evaluated = expr.evalf(subs=subs)
+                if getattr(evaluated, 'is_finite', None) is not True:
+                    raise ValueError("non-finite result " + str(evaluated))
+                meta_data['actual_value'] = evaluated
+                normalized_values.append(meta_data)
+            except Exception as hour_error:
+                skipped_hour_count += 1
+                if first_skipped_datetime_utc is None:
+                    first_skipped_datetime_utc = current_datetime_utc
+                    first_evaluation_error = str(hour_error)
 
             current_datetime_utc += timedelta(minutes=config.minutes_to_count)
 
@@ -562,5 +610,11 @@ def worker(virtual_meter):
         cursor_energy_db.close()
     if cnx_energy_db:
         cnx_energy_db.close()
+
+    if skipped_hour_count > 0:
+        return ("Skipped " + str(skipped_hour_count)
+                + " hour(s) with a non-finite result for '" + virtual_meter['name']
+                + "', first at " + first_skipped_datetime_utc.isoformat()[0:19]
+                + ": " + first_evaluation_error)
 
     return None
