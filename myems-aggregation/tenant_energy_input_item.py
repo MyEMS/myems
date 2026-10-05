@@ -251,6 +251,7 @@ def worker(tenant):
                                  " WHERE m.id = tm.offline_meter_id "
                                  "       AND m.energy_item_id is NOT NULL "
                                  "       AND m.is_counted = 1 "
+                                 "       AND m.is_enabled = 1 "
                                  "       AND tm.tenant_id = %s ",
                                  (tenant['id'],))
         rows_offline_meters = cursor_system_db.fetchall()

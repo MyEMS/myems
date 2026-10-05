@@ -264,6 +264,7 @@ def worker(space):
                                  " FROM tbl_offline_meters m, tbl_spaces_offline_meters sm "
                                  " WHERE m.id = sm.offline_meter_id "
                                  "       AND m.is_counted = 1 "
+                                 "       AND m.is_enabled = 1 "
                                  "       AND sm.space_id = %s ",
                                  (space['id'],))
         rows_offline_meters = cursor_system_db.fetchall()

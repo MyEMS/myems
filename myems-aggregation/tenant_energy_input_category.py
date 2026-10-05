@@ -247,6 +247,7 @@ def worker(tenant):
                                  " FROM tbl_offline_meters m, tbl_tenants_offline_meters tm "
                                  " WHERE m.id = tm.offline_meter_id "
                                  "       AND m.is_counted = 1 "
+                                 "       AND m.is_enabled = 1 "
                                  "       AND tm.tenant_id = %s ",
                                  (tenant['id'],))
         rows_offline_meters = cursor_system_db.fetchall()

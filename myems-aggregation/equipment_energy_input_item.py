@@ -253,6 +253,7 @@ def worker(equipment):
                                  " WHERE m.id = em.offline_meter_id "
                                  "       AND m.energy_item_id is NOT NULL "
                                  "       AND m.is_counted = 1 "
+                                 "       AND m.is_enabled = 1 "
                                  "       AND em.is_output = 0 "
                                  "       AND em.equipment_id = %s ",
                                  (equipment['id'],))
