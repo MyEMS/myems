@@ -188,6 +188,7 @@ def worker(combined_equipment):
                                  " FROM tbl_meters m, tbl_combined_equipments_meters em "
                                  " WHERE m.id = em.meter_id "
                                  "       AND m.is_counted = 1 "
+                                 "       AND m.is_enabled = 1 "
                                  "       AND em.is_output = 1 "
                                  "       AND em.combined_equipment_id = %s ",
                                  (combined_equipment['id'],))
