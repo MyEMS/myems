@@ -431,6 +431,7 @@ def worker(space):
                                  " FROM tbl_tenants t, tbl_spaces_tenants st "
                                  " WHERE t.id = st.tenant_id "
                                  "       AND t.is_input_counted = 1 "
+                                 "       AND t.is_enabled = 1 "
                                  "       AND st.space_id = %s ",
                                  (space['id'],))
         rows_tenants = cursor_system_db.fetchall()

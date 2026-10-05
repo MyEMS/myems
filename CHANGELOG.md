@@ -12,6 +12,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - changed the aggregation algorithms to determine whether the equipment is enabled in myems-aggregation
 - changed the aggregation algorithms to determine whether the shopfloor is enabled in myems-aggregation
 - changed the aggregation algorithms to determine whether the store is enabled in myems-aggregation
+- changed the aggregation algorithms to determine whether the tenant is enabled in myems-aggregation
 ### Fixed
 - fixed issue of dockerfile in myems-s7
 ### Removed
