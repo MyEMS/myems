@@ -185,6 +185,7 @@ def worker(tenant):
                                  " FROM tbl_meters m, tbl_tenants_meters tm "
                                  " WHERE m.id = tm.meter_id "
                                  "       AND m.is_counted = 1 "
+                                 "       AND m.is_enabled = 1 "
                                  "       AND tm.tenant_id = %s ",
                                  (tenant['id'],))
         rows_meters = cursor_system_db.fetchall()

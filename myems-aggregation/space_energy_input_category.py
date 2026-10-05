@@ -198,6 +198,7 @@ def worker(space):
                                  " FROM tbl_meters m, tbl_spaces_meters sm "
                                  " WHERE m.id = sm.meter_id "
                                  "       AND m.is_counted = 1 "
+                                 "       AND m.is_enabled = 1 "
                                  "       AND sm.space_id = %s ",
                                  (space['id'],))
         rows_meters = cursor_system_db.fetchall()
