@@ -299,6 +299,7 @@ def worker(space):
                                  " FROM tbl_combined_equipments e, tbl_spaces_combined_equipments se "
                                  " WHERE e.id = se.combined_equipment_id "
                                  "       AND e.is_input_counted = 1 "
+                                 "       AND e.is_enabled = 1 "
                                  "       AND se.space_id = %s ",
                                  (space['id'],))
         rows_combined_equipments = cursor_system_db.fetchall()
@@ -331,6 +332,7 @@ def worker(space):
                                  " FROM tbl_equipments e, tbl_spaces_equipments se "
                                  " WHERE e.id = se.equipment_id "
                                  "       AND e.is_input_counted = 1 "
+                                 "       AND e.is_enabled = 1 "
                                  "       AND se.space_id = %s ",
                                  (space['id'],))
         rows_equipments = cursor_system_db.fetchall()
