@@ -36,12 +36,14 @@ import matplotlib.pyplot as plt
 
 from docx import Document
 from docx.shared import Inches, Pt
+from docx.enum.section import WD_SECTION
 from docx.enum.text import WD_ALIGN_PARAGRAPH, WD_LINE_SPACING, WD_BREAK, WD_TAB_ALIGNMENT
 from docx.enum.table import WD_TABLE_ALIGNMENT
 from docx.oxml.ns import qn
 from docx.oxml import OxmlElement
 
 from core.utilities import get_translation, round2
+from .docxcommon import configure_cover_section, configure_body_section
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
@@ -294,6 +296,7 @@ class SpaceSavingDOCXExporter:
         if "reporting_period" not in report.keys() or \
                 "names" not in report['reporting_period'].keys() or \
                 len(report['reporting_period']['names']) == 0:
+            self.name = name
             doc = Document()
             section = doc.sections[0]
             section.orientation = 1
@@ -305,6 +308,7 @@ class SpaceSavingDOCXExporter:
                                  base_period_start_datetime_local,
                                  base_period_end_datetime_local,
                                  False)
+            configure_cover_section(doc.sections[0])
             filename = str(uuid.uuid4()) + '.docx'
             doc.save(filename)
             return filename
@@ -337,6 +341,7 @@ class SpaceSavingDOCXExporter:
                              base_period_start_datetime_local,
                              base_period_end_datetime_local,
                              self.is_base_period_exists)
+        configure_cover_section(doc.sections[0])
 
         self._add_combined_analysis(doc)
         self._add_detailed_data_charts(doc)
@@ -376,7 +381,7 @@ class SpaceSavingDOCXExporter:
 
         title = doc.add_paragraph()
         title.alignment = WD_ALIGN_PARAGRAPH.CENTER
-        run = title.add_run(_('Energy Saving Analysis'))
+        run = title.add_run(f"{_('Space Data')} - {_('Energy Saving Analysis')}")
         run.font.size = Pt(24)
         run.font.bold = True
         run.font.name = 'Arial'
@@ -388,7 +393,7 @@ class SpaceSavingDOCXExporter:
 
         info_data = [
             [_('Name') + ':', name],
-            [_('Period Type') + ':', period_type],
+            [_('Period Type') + ':', _(period_type)],
             [_('Reporting Start Datetime') + ':', reporting_start],
             [_('Reporting End Datetime') + ':', reporting_end],
         ]
@@ -421,7 +426,6 @@ class SpaceSavingDOCXExporter:
             r_val.font.name = 'Arial'
             r_val._element.rPr.rFonts.set(qn('w:eastAsia'), 'SimSun')
 
-
     def _add_combined_analysis(self, doc):
         """Add combined analysis: Reporting Period Saving summary table on top,
         TCE/TCO2E breakdown tables with pie charts below (two columns)."""
@@ -439,7 +443,18 @@ class SpaceSavingDOCXExporter:
         if ca_len == 0:
             return
 
-        doc.add_page_break()
+        body_section = doc.add_section(WD_SECTION.NEW_PAGE)
+        body_section.orientation = 1
+        body_section.page_width = Inches(11.69)
+        body_section.page_height = Inches(8.27)
+        body_section.left_margin = Inches(0.5)
+        body_section.right_margin = Inches(0.5)
+        body_section.top_margin = Inches(0.5)
+        body_section.bottom_margin = Inches(0.5)
+        header_title = (f"{_('Space Data')} - {_('Energy Saving Analysis')}"
+                        f"  |  {self.name}")
+        configure_body_section(body_section, header_title=header_title)
+
         self._add_heading_styled(doc, self.name + ' - ' + _('Reporting Period Saving'), level=1)
 
         num_cols = ca_len + 3
@@ -511,8 +526,6 @@ class SpaceSavingDOCXExporter:
         inc_tco2e_text = (str(round2(inc_kgco2e * 100, 2)) + '%') if inc_kgco2e is not None else ''
         table.cell(3, tco2e_col).text = inc_tco2e_text
         _style_table_cell(table.cell(3, tco2e_col), font_size=8)
-
-        doc.add_paragraph('')
 
         self._add_tce_breakdown(doc, names, subtotals_in_kgce_saving, _('Saving'))
         self._add_tco2e_breakdown(doc, names, subtotals_in_kgco2e_saving, _('Saving'))
@@ -796,8 +809,8 @@ class SpaceSavingDOCXExporter:
                 rotation=45, ha='right', fontsize=7)
 
         all_charts = []
-        fig_w, fig_h = 8.5, 3.2
-        display_w = 8.5
+        fig_w, fig_h = 10.5, 3.2
+        display_w = 10.5
 
         for i in range(num_categories):
             color = self.chart_colors[i % len(self.chart_colors)]

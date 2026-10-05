@@ -40,12 +40,14 @@ import numpy as np
 
 from docx import Document
 from docx.shared import Inches, Pt
+from docx.enum.section import WD_SECTION
 from docx.enum.text import WD_ALIGN_PARAGRAPH, WD_LINE_SPACING, WD_BREAK, WD_TAB_ALIGNMENT
 from docx.enum.table import WD_TABLE_ALIGNMENT
 from docx.oxml.ns import qn
 from docx.oxml import OxmlElement
 
 from core.utilities import get_translation, round2
+from .docxcommon import configure_cover_section, configure_body_section
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
@@ -298,6 +300,7 @@ class SpaceCarbonDOCXExporter:
         if "reporting_period" not in report.keys() or \
                 "names" not in report['reporting_period'].keys() or \
                 len(report['reporting_period']['names']) == 0:
+            self.name = name
             doc = Document()
             section = doc.sections[0]
             section.orientation = 1
@@ -309,6 +312,7 @@ class SpaceCarbonDOCXExporter:
                                  base_period_start_datetime_local,
                                  base_period_end_datetime_local,
                                  False)
+            configure_cover_section(doc.sections[0])
             filename = str(uuid.uuid4()) + '.docx'
             doc.save(filename)
             return filename
@@ -341,6 +345,7 @@ class SpaceCarbonDOCXExporter:
                              base_period_start_datetime_local,
                              base_period_end_datetime_local,
                              self.is_base_period_exists)
+        configure_cover_section(doc.sections[0])
 
         self._add_combined_analysis_section(doc)
         self._add_detailed_data_section(doc)
@@ -382,7 +387,7 @@ class SpaceCarbonDOCXExporter:
 
         title = doc.add_paragraph()
         title.alignment = WD_ALIGN_PARAGRAPH.CENTER
-        run = title.add_run(_('Carbon'))
+        run = title.add_run(f"{_('Space Data')} - {_('Carbon')}")
         run.font.size = Pt(24)
         run.font.bold = True
         run.font.name = 'Arial'
@@ -394,7 +399,7 @@ class SpaceCarbonDOCXExporter:
 
         info_data = [
             [_('Name') + ':', name],
-            [_('Period Type') + ':', period_type],
+            [_('Period Type') + ':', _(period_type)],
             [_('Reporting Start Datetime') + ':', reporting_start],
             [_('Reporting End Datetime') + ':', reporting_end],
         ]
@@ -427,8 +432,6 @@ class SpaceCarbonDOCXExporter:
             r_val.font.name = 'Arial'
             r_val._element.rPr.rFonts.set(qn('w:eastAsia'), 'SimSun')
 
-        doc.add_page_break()
-
     # ---------- Combined analysis ----------
     def _add_combined_analysis_section(self, doc):
         _ = self._
@@ -443,6 +446,18 @@ class SpaceCarbonDOCXExporter:
 
         if ca_len == 0:
             return
+
+        body_section = doc.add_section(WD_SECTION.NEW_PAGE)
+        body_section.orientation = 1
+        body_section.page_width = Inches(11.69)
+        body_section.page_height = Inches(8.27)
+        body_section.left_margin = Inches(0.5)
+        body_section.right_margin = Inches(0.5)
+        body_section.top_margin = Inches(0.5)
+        body_section.bottom_margin = Inches(0.5)
+        header_title = (f"{_('Space Data')} - {_('Carbon')}"
+                        f"  |  {self.name}")
+        configure_body_section(body_section, header_title=header_title)
 
         self._add_heading_styled(doc, self.name + ' - ' + _('Reporting Period Carbon Dioxide Emissions'), level=1)
 
@@ -654,8 +669,6 @@ class SpaceCarbonDOCXExporter:
                 bp_table.cell(3, bp_tc).text = bp_inc_text
                 _style_table_cell(bp_table.cell(3, bp_tc))
 
-        doc.add_page_break()
-
     # ---------- Detailed data ----------
     def _add_detailed_data_section(self, doc):
         _ = self._
@@ -673,8 +686,12 @@ class SpaceCarbonDOCXExporter:
         total_unit = reporting_data.get('total_unit', 'KGCO2E')
         ca_len = len(names)
 
-        rows_per_page = 50
+        rows_per_page = 45
 
+        header_font = 8
+        data_font = 7
+
+        doc.add_page_break()
         self._add_heading_styled(doc, self.name + ' ' + _('Detailed Data'), level=1)
 
         if not self.is_base_period_exists:
@@ -702,14 +719,14 @@ class SpaceCarbonDOCXExporter:
                 for j, h in enumerate(col_headers):
                     c = table.cell(0, j)
                     c.text = h
-                    _style_table_cell(c, is_header=True, bold=True, font_size=8)
+                    _style_table_cell(c, is_header=True, bold=True, font_size=header_font)
 
                 for t_idx in range(page_rows):
                     global_idx = start_row + t_idx
                     r_idx = t_idx + 1
                     c0 = table.cell(r_idx, 0)
                     c0.text = str(times[global_idx])
-                    _style_table_cell(c0, font_size=8)
+                    _style_table_cell(c0, font_size=data_font)
                     row_total = 0.0
                     for j in range(ca_len):
                         col = j + 1
@@ -717,28 +734,28 @@ class SpaceCarbonDOCXExporter:
                             if j < len(values) and global_idx < len(values[j]) else ''
                         c = table.cell(r_idx, col)
                         c.text = str(val) if val != '' else ''
-                        _style_table_cell(c, font_size=8)
+                        _style_table_cell(c, font_size=data_font)
                         if j < len(values) and global_idx < len(values[j]):
                             row_total += values[j][global_idx]
                     c_total = table.cell(r_idx, ca_len + 1)
                     c_total.text = str(round2(row_total, 2))
-                    _style_table_cell(c_total, font_size=8)
+                    _style_table_cell(c_total, font_size=data_font)
 
                 subtotal_row_idx = page_rows + 1
                 c_sub_lbl = table.cell(subtotal_row_idx, 0)
                 c_sub_lbl.text = _('Subtotal')
-                _style_table_cell(c_sub_lbl, bold=True, font_size=8)
+                _style_table_cell(c_sub_lbl, bold=True, font_size=data_font)
                 total_of_subtotals = 0.0
                 for i in range(ca_len):
                     col = i + 1
                     c = table.cell(subtotal_row_idx, col)
                     val = subtotals[i] if (subtotals and i < len(subtotals)) else None
                     c.text = str(round2(val, 2)) if val is not None else ''
-                    _style_table_cell(c, bold=True, font_size=8)
+                    _style_table_cell(c, bold=True, font_size=data_font)
                     total_of_subtotals += val if val is not None else 0
                 c_total_sub = table.cell(subtotal_row_idx, ca_len + 1)
                 c_total_sub.text = str(round2(total_of_subtotals, 2))
-                _style_table_cell(c_total_sub, bold=True, font_size=8)
+                _style_table_cell(c_total_sub, bold=True, font_size=data_font)
 
                 if page < num_pages - 1:
                     doc.add_page_break()
@@ -783,7 +800,7 @@ class SpaceCarbonDOCXExporter:
                 for j, h in enumerate(col_headers):
                     c = table.cell(0, j)
                     c.text = h
-                    _style_table_cell(c, is_header=True, bold=True, font_size=7)
+                    _style_table_cell(c, is_header=True, bold=True, font_size=header_font)
 
                 for t_idx in range(page_rows):
                     global_idx = start_row + t_idx
@@ -791,7 +808,7 @@ class SpaceCarbonDOCXExporter:
                     col = 0
                     c_bt = table.cell(r_idx, col)
                     c_bt.text = base_times[global_idx] if global_idx < len(base_times) else ''
-                    _style_table_cell(c_bt, font_size=7)
+                    _style_table_cell(c_bt, font_size=data_font)
                     col += 1
                     base_total = 0.0
                     for j in range(base_ca_len):
@@ -801,15 +818,15 @@ class SpaceCarbonDOCXExporter:
                             base_total += base_values[j][global_idx]
                         else:
                             c.text = ''
-                        _style_table_cell(c, font_size=7)
+                        _style_table_cell(c, font_size=data_font)
                         col += 1
                     c_bt_total = table.cell(r_idx, col)
                     c_bt_total.text = str(round2(base_total, 2)) if global_idx < len(base_times) else ''
-                    _style_table_cell(c_bt_total, font_size=7)
+                    _style_table_cell(c_bt_total, font_size=data_font)
                     col += 1
                     c_rt = table.cell(r_idx, col)
                     c_rt.text = reporting_times[global_idx] if global_idx < len(reporting_times) else ''
-                    _style_table_cell(c_rt, font_size=7)
+                    _style_table_cell(c_rt, font_size=data_font)
                     col += 1
                     rp_total = 0.0
                     for j in range(reporting_ca_len):
@@ -819,45 +836,45 @@ class SpaceCarbonDOCXExporter:
                             rp_total += values[j][global_idx]
                         else:
                             c.text = ''
-                        _style_table_cell(c, font_size=7)
+                        _style_table_cell(c, font_size=data_font)
                         col += 1
                     c_rt_total = table.cell(r_idx, col)
                     c_rt_total.text = str(round2(rp_total, 2)) if global_idx < len(reporting_times) else ''
-                    _style_table_cell(c_rt_total, font_size=7)
+                    _style_table_cell(c_rt_total, font_size=data_font)
 
                 sub_idx = page_rows + 1
                 col = 0
                 c_s0 = table.cell(sub_idx, col)
                 c_s0.text = _('Subtotal')
-                _style_table_cell(c_s0, bold=True, font_size=7)
+                _style_table_cell(c_s0, bold=True, font_size=data_font)
                 col += 1
                 base_total_all = 0.0
                 for i in range(base_ca_len):
                     c = table.cell(sub_idx, col)
                     val = base_subtotals[i] if (base_subtotals and i < len(base_subtotals)) else None
                     c.text = str(round2(val, 2)) if val is not None else ''
-                    _style_table_cell(c, bold=True, font_size=7)
+                    _style_table_cell(c, bold=True, font_size=data_font)
                     base_total_all += val if val is not None else 0
                     col += 1
                 c_bsub = table.cell(sub_idx, col)
                 c_bsub.text = str(round2(base_total_all, 2))
-                _style_table_cell(c_bsub, bold=True, font_size=7)
+                _style_table_cell(c_bsub, bold=True, font_size=data_font)
                 col += 1
                 c_s1 = table.cell(sub_idx, col)
                 c_s1.text = _('Subtotal')
-                _style_table_cell(c_s1, bold=True, font_size=7)
+                _style_table_cell(c_s1, bold=True, font_size=data_font)
                 col += 1
                 rp_total_all = 0.0
                 for i in range(reporting_ca_len):
                     c = table.cell(sub_idx, col)
                     val = subtotals[i] if (subtotals and i < len(subtotals)) else None
                     c.text = str(round2(val, 2)) if val is not None else ''
-                    _style_table_cell(c, bold=True, font_size=7)
+                    _style_table_cell(c, bold=True, font_size=data_font)
                     rp_total_all += val if val is not None else 0
                     col += 1
                 c_rsub = table.cell(sub_idx, col)
                 c_rsub.text = str(round2(rp_total_all, 2))
-                _style_table_cell(c_rsub, bold=True, font_size=7)
+                _style_table_cell(c_rsub, bold=True, font_size=data_font)
 
                 if page < num_pages - 1:
                     doc.add_page_break()
@@ -879,7 +896,7 @@ class SpaceCarbonDOCXExporter:
 
         reporting_times = timestamps[0]
         num_categories = len(names)
-        charts_per_page = 4
+        charts_per_page = 2
 
         self._add_heading_styled(doc, self.name + ' ' + _('Detailed Data'), level=1)
 
@@ -901,74 +918,36 @@ class SpaceCarbonDOCXExporter:
                 page_indices = list(range(page_start, page_end))
                 num_on_page = len(page_indices)
 
-                rows = (num_on_page + 1) // 2
+                rows = num_on_page
+                container = doc.add_table(rows=rows, cols=1)
+                container.alignment = WD_TABLE_ALIGNMENT.CENTER
+                _remove_table_borders(container)
 
                 for row_idx in range(rows):
-                    slot0 = row_idx * 2
-                    slot1 = slot0 + 1
-                    has_left = slot0 < num_on_page
-                    has_right = slot1 < num_on_page
+                    if row_idx >= num_on_page:
+                        continue
+                    cell = container.cell(row_idx, 0)
+                    i = page_indices[row_idx]
+                    raw_data = values[i] if i < len(values) else []
+                    safe_data = _safe_list(raw_data)
+                    color = self.chart_colors[i % len(self.chart_colors)]
 
-                    if has_left and not has_right:
-                        container = doc.add_table(rows=1, cols=2)
-                        container.alignment = WD_TABLE_ALIGNMENT.CENTER
-                        _remove_table_borders(container)
-                        container.cell(0, 0).merge(container.cell(0, 1))
-                        cell = container.cell(0, 0)
+                    fig, ax = plt.subplots(figsize=(10.5, 3.2))
+                    ax.plot(range(len(safe_data)), safe_data, linewidth=1.2,
+                            color=color, marker='o', markersize=3,
+                            markevery=max(1, len(safe_data) // 30))
+                    _set_ticks(ax, len(raw_data))
+                    unit_i = units[i] if (units and i < len(units)) else ''
+                    ax.set_title(_('Reporting Period Carbon Dioxide Emissions') + ' - ' +
+                                 names[i] + ((' (' + unit_i + ')') if unit_i else ''),
+                                 fontsize=9, fontweight='bold')
+                    ax.grid(True, alpha=0.3)
+                    chart_buf = self._fig_to_bytesio(fig, self.dpi)
 
-                        i = page_indices[slot0]
-                        raw_data = values[i] if i < len(values) else []
-                        safe_data = _safe_list(raw_data)
-                        color = self.chart_colors[i % len(self.chart_colors)]
-
-                        fig, ax = plt.subplots(figsize=(4.8, 3.0))
-                        ax.plot(range(len(safe_data)), safe_data, linewidth=1.2,
-                                color=color, marker='o', markersize=3,
-                                markevery=max(1, len(safe_data) // 30))
-                        _set_ticks(ax, len(raw_data))
-                        unit_i = units[i] if (units and i < len(units)) else ''
-                        ax.set_title(_('Reporting Period Carbon Dioxide Emissions') + ' - ' +
-                                     names[i] + ((' (' + unit_i + ')') if unit_i else ''),
-                                     fontsize=9, fontweight='bold')
-                        ax.grid(True, alpha=0.3)
-                        chart_buf = self._fig_to_bytesio(fig, self.dpi)
-
-                        p = cell.paragraphs[0]
-                        p.alignment = WD_ALIGN_PARAGRAPH.CENTER
-                        run = p.add_run()
-                        run.add_picture(chart_buf, width=Inches(4.8))
-                    else:
-                        container_cols = min(2, num_on_page - row_idx * 2)
-                        container = doc.add_table(rows=1, cols=container_cols)
-                        container.alignment = WD_TABLE_ALIGNMENT.CENTER
-                        _remove_table_borders(container)
-
-                        for col_idx in range(container_cols):
-                            slot = row_idx * 2 + col_idx
-                            if slot >= num_on_page:
-                                continue
-                            i = page_indices[slot]
-                            raw_data = values[i] if i < len(values) else []
-                            safe_data = _safe_list(raw_data)
-                            color = self.chart_colors[i % len(self.chart_colors)]
-
-                            fig, ax = plt.subplots(figsize=(4.8, 3.0))
-                            ax.plot(range(len(safe_data)), safe_data, linewidth=1.2,
-                                    color=color, marker='o', markersize=3,
-                                    markevery=max(1, len(safe_data) // 30))
-                            _set_ticks(ax, len(raw_data))
-                            unit_i = units[i] if (units and i < len(units)) else ''
-                            ax.set_title(_('Reporting Period Carbon Dioxide Emissions') + ' - ' +
-                                         names[i] + ((' (' + unit_i + ')') if unit_i else ''),
-                                         fontsize=9, fontweight='bold')
-                            ax.grid(True, alpha=0.3)
-                            chart_buf = self._fig_to_bytesio(fig, self.dpi)
-
-                            cell = container.cell(0, col_idx)
-                            p = cell.paragraphs[0]
-                            p.alignment = WD_ALIGN_PARAGRAPH.CENTER
-                            run = p.add_run()
-                            run.add_picture(chart_buf, width=Inches(4.8))
+                    p = cell.paragraphs[0]
+                    p.alignment = WD_ALIGN_PARAGRAPH.CENTER
+                    run = p.add_run()
+                    run.add_picture(chart_buf, width=Inches(10.5))
 
                 if page_end < num_categories:
                     doc.add_page_break()
@@ -982,114 +961,56 @@ class SpaceCarbonDOCXExporter:
                 page_indices = list(range(page_start, page_end))
                 num_on_page = len(page_indices)
 
-                rows = (num_on_page + 1) // 2
+                rows = num_on_page
+                container = doc.add_table(rows=rows, cols=1)
+                container.alignment = WD_TABLE_ALIGNMENT.CENTER
+                _remove_table_borders(container)
 
                 for row_idx in range(rows):
-                    slot0 = row_idx * 2
-                    slot1 = slot0 + 1
-                    has_left = slot0 < num_on_page
-                    has_right = slot1 < num_on_page
+                    if row_idx >= num_on_page:
+                        continue
+                    cell = container.cell(row_idx, 0)
+                    i = page_indices[row_idx]
+                    r_data = values[i] if i < len(values) else []
+                    safe_r = _safe_list(r_data)
+                    color = self.chart_colors[i % len(self.chart_colors)]
 
-                    if has_left and not has_right:
-                        container = doc.add_table(rows=1, cols=2)
-                        container.alignment = WD_TABLE_ALIGNMENT.CENTER
-                        _remove_table_borders(container)
-                        container.cell(0, 0).merge(container.cell(0, 1))
-                        cell = container.cell(0, 0)
+                    fig, ax = plt.subplots(figsize=(10.5, 3.2))
+                    ax.plot(range(len(safe_r)), safe_r, linewidth=1.2,
+                            color=color, marker='o', markersize=3,
+                            markevery=max(1, len(safe_r) // 30),
+                            label=_('Reporting Period') + ' - ' + names[i])
 
-                        i = page_indices[slot0]
-                        r_data = values[i] if i < len(values) else []
-                        safe_r = _safe_list(r_data)
-                        color = self.chart_colors[i % len(self.chart_colors)]
-
-                        fig, ax = plt.subplots(figsize=(4.8, 3.0))
-                        ax.plot(range(len(safe_r)), safe_r, linewidth=1.2,
-                                color=color, marker='o', markersize=3,
+                    has_base_line = False
+                    if i < len(base_values):
+                        b_data = base_values[i]
+                        safe_b = _safe_list(b_data)
+                        if len(safe_b) > len(safe_r):
+                            safe_b = safe_b[:len(safe_r)]
+                        x_b = list(range(len(safe_b)))
+                        ax.plot(x_b, safe_b, linewidth=1.2,
+                                color=color, linestyle='--', marker='s', markersize=3,
                                 markevery=max(1, len(safe_r) // 30),
-                                label=_('Reporting Period') + ' - ' + names[i])
+                                label=_('Base Period') + ' - ' +
+                                      (base_names[i] if i < len(base_names) else ''))
+                        has_base_line = True
 
-                        has_base_line = False
-                        if i < len(base_values):
-                            b_data = base_values[i]
-                            safe_b = _safe_list(b_data)
-                            if len(safe_b) > len(safe_r):
-                                safe_b = safe_b[:len(safe_r)]
-                            x_b = list(range(len(safe_b)))
-                            ax.plot(x_b, safe_b, linewidth=1.2,
-                                    color=color, linestyle='--', marker='s', markersize=3,
-                                    markevery=max(1, len(safe_r) // 30),
-                                    label=_('Base Period') + ' - ' +
-                                          (base_names[i] if i < len(base_names) else ''))
-                            has_base_line = True
+                    _set_ticks(ax, len(r_data))
+                    unit_i = units[i] if (units and i < len(units)) else ''
+                    ax.set_title(
+                        _('Base Period Carbon Dioxide Emissions') + ' / ' +
+                        _('Reporting Period Carbon Dioxide Emissions') + ' - ' +
+                        names[i] + ((' (' + unit_i + ')') if unit_i else ''),
+                        fontsize=8, fontweight='bold')
+                    if len(safe_r) > 0 or has_base_line:
+                        ax.legend(fontsize=7)
+                    ax.grid(True, alpha=0.3)
+                    chart_buf = self._fig_to_bytesio(fig, self.dpi)
 
-                        _set_ticks(ax, len(r_data))
-                        unit_i = units[i] if (units and i < len(units)) else ''
-                        ax.set_title(
-                            _('Base Period Carbon Dioxide Emissions') + ' / ' +
-                            _('Reporting Period Carbon Dioxide Emissions') + ' - ' +
-                            names[i] + ((' (' + unit_i + ')') if unit_i else ''),
-                            fontsize=8, fontweight='bold')
-                        if len(safe_r) > 0 or has_base_line:
-                            ax.legend(fontsize=7)
-                        ax.grid(True, alpha=0.3)
-                        chart_buf = self._fig_to_bytesio(fig, self.dpi)
-
-                        p = cell.paragraphs[0]
-                        p.alignment = WD_ALIGN_PARAGRAPH.CENTER
-                        run = p.add_run()
-                        run.add_picture(chart_buf, width=Inches(4.8))
-                    else:
-                        container_cols = min(2, num_on_page - row_idx * 2)
-                        container = doc.add_table(rows=1, cols=container_cols)
-                        container.alignment = WD_TABLE_ALIGNMENT.CENTER
-                        _remove_table_borders(container)
-
-                        for col_idx in range(container_cols):
-                            slot = row_idx * 2 + col_idx
-                            if slot >= num_on_page:
-                                continue
-                            i = page_indices[slot]
-                            r_data = values[i] if i < len(values) else []
-                            safe_r = _safe_list(r_data)
-                            color = self.chart_colors[i % len(self.chart_colors)]
-
-                            fig, ax = plt.subplots(figsize=(4.8, 3.0))
-                            ax.plot(range(len(safe_r)), safe_r, linewidth=1.2,
-                                    color=color, marker='o', markersize=3,
-                                    markevery=max(1, len(safe_r) // 30),
-                                    label=_('Reporting Period') + ' - ' + names[i])
-
-                            has_base_line = False
-                            if i < len(base_values):
-                                b_data = base_values[i]
-                                safe_b = _safe_list(b_data)
-                                if len(safe_b) > len(safe_r):
-                                    safe_b = safe_b[:len(safe_r)]
-                                x_b = list(range(len(safe_b)))
-                                ax.plot(x_b, safe_b, linewidth=1.2,
-                                        color=color, linestyle='--', marker='s', markersize=3,
-                                        markevery=max(1, len(safe_r) // 30),
-                                        label=_('Base Period') + ' - ' +
-                                              (base_names[i] if i < len(base_names) else ''))
-                                has_base_line = True
-
-                            _set_ticks(ax, len(r_data))
-                            unit_i = units[i] if (units and i < len(units)) else ''
-                            ax.set_title(
-                                _('Base Period Carbon Dioxide Emissions') + ' / ' +
-                                _('Reporting Period Carbon Dioxide Emissions') + ' - ' +
-                                names[i] + ((' (' + unit_i + ')') if unit_i else ''),
-                                fontsize=8, fontweight='bold')
-                            if len(safe_r) > 0 or has_base_line:
-                                ax.legend(fontsize=6)
-                            ax.grid(True, alpha=0.3)
-                            chart_buf = self._fig_to_bytesio(fig, self.dpi)
-
-                            cell = container.cell(0, col_idx)
-                            p = cell.paragraphs[0]
-                            p.alignment = WD_ALIGN_PARAGRAPH.CENTER
-                            run = p.add_run()
-                            run.add_picture(chart_buf, width=Inches(4.8))
+                    p = cell.paragraphs[0]
+                    p.alignment = WD_ALIGN_PARAGRAPH.CENTER
+                    run = p.add_run()
+                    run.add_picture(chart_buf, width=Inches(10.5))
 
                 if page_end < num_categories:
                     doc.add_page_break()

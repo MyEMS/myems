@@ -574,3 +574,21 @@ msgstr "对比分析"
 
 msgid "Combined Equipment Data"
 msgstr "组合设备数据"
+
+msgid "hourly"
+msgstr "时"
+
+msgid "daily"
+msgstr "日"
+
+msgid "weekly"
+msgstr "周"
+
+msgid "monthly"
+msgstr "月"
+
+msgid "yearly"
+msgstr "年"
+
+msgid "Space Data"
+msgstr "空间数据"

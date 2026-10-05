@@ -573,3 +573,21 @@ msgstr "Üretim Alanı Karşılaştırması"
 
 msgid "Combined Equipment Data"
 msgstr "Kombine Ekipman Verileri"
+
+msgid "hourly"
+msgstr "Saatlik"
+
+msgid "daily"
+msgstr "Günlük"
+
+msgid "weekly"
+msgstr "Haftalık"
+
+msgid "monthly"
+msgstr "Aylık"
+
+msgid "yearly"
+msgstr "Yıllık"
+
+msgid "Space Data"
+msgstr "Alan Verileri"

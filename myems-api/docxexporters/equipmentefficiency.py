@@ -38,11 +38,14 @@ import numpy as np
 from docx import Document
 from docx.shared import Inches, Pt
 from docx.enum.text import WD_ALIGN_PARAGRAPH, WD_LINE_SPACING
+from docx.enum.section import WD_SECTION
 from docx.enum.table import WD_TABLE_ALIGNMENT
 from docx.oxml.ns import qn
 from docx.oxml import OxmlElement
 
 from core.utilities import get_translation, round2
+
+from .docxcommon import configure_cover_section, configure_body_section
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
@@ -290,12 +293,14 @@ class EquipmentEfficiencyDOCXExporter:
             section.orientation = 1
             section.page_width = Inches(11.69)
             section.page_height = Inches(8.27)
+            self.name = name
             self._add_cover_section(doc, name, period_type,
                                     reporting_start_datetime_local,
                                     reporting_end_datetime_local,
                                     base_period_start_datetime_local,
                                     base_period_end_datetime_local,
                                     False)
+            configure_cover_section(doc.sections[0])
             filename = str(uuid.uuid4()) + '.docx'
             doc.save(filename)
             return filename
@@ -329,6 +334,8 @@ class EquipmentEfficiencyDOCXExporter:
                                 base_period_start_datetime_local,
                                 base_period_end_datetime_local,
                                 self.is_base_period_exists)
+
+        configure_cover_section(doc.sections[0])
 
         self._add_combined_analysis_section(doc)
         self._add_detailed_data_charts_section(doc)
@@ -380,7 +387,7 @@ class EquipmentEfficiencyDOCXExporter:
 
         info_data = [
             [_('Name') + ':', name],
-            [_('Period Type') + ':', period_type],
+            [_('Period Type') + ':', _(period_type)],
             [_('Reporting Start Datetime') + ':', reporting_start],
             [_('Reporting End Datetime') + ':', reporting_end],
         ]
@@ -413,8 +420,6 @@ class EquipmentEfficiencyDOCXExporter:
             r_val.font.name = 'Arial'
             r_val._element.rPr.rFonts.set(qn('w:eastAsia'), 'SimSun')
 
-        doc.add_page_break()
-
     def _add_combined_analysis_section(self, doc):
         _ = self._
         reporting_data = self.report['reporting_period_efficiency']
@@ -434,6 +439,18 @@ class EquipmentEfficiencyDOCXExporter:
 
         if ca_len == 0:
             return
+
+        body_section = doc.add_section(WD_SECTION.NEW_PAGE)
+        body_section.orientation = 1
+        body_section.page_width = Inches(11.69)
+        body_section.page_height = Inches(8.27)
+        body_section.left_margin = Inches(0.5)
+        body_section.right_margin = Inches(0.5)
+        body_section.top_margin = Inches(0.5)
+        body_section.bottom_margin = Inches(0.5)
+        header_title = (f"{_('Equipment Data')} - {_('Efficiency')}"
+                        f"  |  {self.name}")
+        configure_body_section(body_section, header_title=header_title)
 
         self._add_heading_styled(doc, self.name + ' - ' + _('Reporting Period Cumulative Efficiency'), level=1)
 
@@ -521,100 +538,13 @@ class EquipmentEfficiencyDOCXExporter:
 
         reporting_times = timestamps[0]
         num_categories = len(names)
+        rows_per_table_page = 45
 
-        doc.add_page_break()
-        self._add_heading_styled(doc, self.name + ' ' + _('Detailed Data'), level=1)
-
-        chart_colors = self.chart_colors
-        N = len(chart_colors)
-
-        if not self.is_base_period_exists:
-            per_row_charts = 2
-            max_per_page = 4
-            drawn_so_far = 0
-
-            chart_items = []
-            for i in range(num_categories):
-                unit_i = units[i] if (units and i < len(units)) else ''
-                num_name_i = numerator_names[i] if (numerator_names and i < len(numerator_names)) else ''
-                num_unit_i = numerator_units[i] if (numerator_units and i < len(numerator_units)) else ''
-                den_name_i = denominator_names[i] if (denominator_names and i < len(denominator_names)) else ''
-                den_unit_i = denominator_units[i] if (denominator_units and i < len(denominator_units)) else ''
-                chart_items.append({
-                    'data': values[i] if i < len(values) else [],
-                    'title': _('Reporting Period Cumulative Efficiency') + ' - ' +
-                             names[i] + ((' (' + unit_i + ')') if unit_i else ''),
-                    'color_idx': i
-                })
-                chart_items.append({
-                    'data': numerator_values[i] if i < len(numerator_values) else [],
-                    'title': _('Reporting Period Cumulative Efficiency') + ' - ' +
-                             names[i] + '-' + num_name_i + ((' (' + num_unit_i + ')') if num_unit_i else ''),
-                    'color_idx': i
-                })
-                chart_items.append({
-                    'data': denominator_values[i] if i < len(denominator_values) else [],
-                    'title': _('Reporting Period Cumulative Efficiency') + ' - ' +
-                             names[i] + '-' + den_name_i + ((' (' + den_unit_i + ')') if den_unit_i else ''),
-                    'color_idx': i
-                })
-
-            total_charts = len(chart_items)
-            for row_start in range(0, total_charts, per_row_charts):
-                row_end = min(row_start + per_row_charts, total_charts)
-                row_items = chart_items[row_start:row_end]
-                row_size = len(row_items)
-
-                container = doc.add_table(rows=1, cols=per_row_charts)
-                container.alignment = WD_TABLE_ALIGNMENT.CENTER
-                _remove_table_borders(container)
-
-                if row_size == 1:
-                    container.cell(0, 0).merge(container.cell(0, 1))
-
-                for local_idx, item in enumerate(row_items):
-                    raw_data = item['data']
-                    color = chart_colors[item['color_idx'] % N]
-                    data_len = len(raw_data)
-                    marker_step = max(1, data_len // 30)
-                    safe_data = [(v if isinstance(v, (int, float)) else 0)
-                                 if v is not None else 0 for v in raw_data]
-
-                    fig_w, fig_h = 4.8, 3.0
-                    single_mode = (row_size == 1)
-
-                    fig, ax = plt.subplots(figsize=(fig_w, fig_h))
-                    if len(safe_data) > 0:
-                        ax.plot(range(len(safe_data)), safe_data,
-                                linewidth=1.2,
-                                color=color, marker='o', markersize=3,
-                                markevery=marker_step)
-                    step = max(1, data_len // 10) if data_len > 0 else 1
-                    ax.set_xticks(range(0, data_len, step))
-                    xlabels = []
-                    for t in range(0, data_len, step):
-                        xlabels.append(
-                            reporting_times[t][:10] if t < len(reporting_times) else '')
-                    ax.set_xticklabels(xlabels, rotation=45, ha='right', fontsize=7)
-                    ax.set_title(item['title'], fontsize=9, fontweight='bold')
-                    ax.grid(True, alpha=0.3)
-                    plt.tight_layout(pad=1.0)
-                    chart_buf = self._fig_to_bytesio(fig, self.dpi)
-
-                    cell_idx = 0 if single_mode else local_idx
-                    cell = container.cell(0, cell_idx)
-                    p = cell.paragraphs[0]
-                    p.alignment = WD_ALIGN_PARAGRAPH.CENTER
-                    run = p.add_run()
-                    run.add_picture(chart_buf, width=Inches(4.8))
-
-                drawn_so_far += row_size
-                if drawn_so_far >= max_per_page and drawn_so_far < total_charts \
-                        and (drawn_so_far % max_per_page == 0):
-                    doc.add_page_break()
-        else:
+        is_base = self.is_base_period_exists
+        if is_base:
             base_period_data = self.report['base_period_efficiency']
-            base_timestamps = base_period_data.get('timestamps', [])
+            base_timestamps = base_period_data.get('timestamps', [[]])
+            base_times = base_timestamps[0] if len(base_timestamps) > 0 else []
             base_values = base_period_data.get('values', [])
             base_numerator_values = base_period_data.get('numerator_values', [])
             base_denominator_values = base_period_data.get('denominator_values', [])
@@ -624,208 +554,302 @@ class EquipmentEfficiencyDOCXExporter:
             base_numerator_units = base_period_data.get('numerator_units', [])
             base_denominator_names = base_period_data.get('denominator_names', [])
             base_denominator_units = base_period_data.get('denominator_units', [])
+            base_cumulations = base_period_data.get('cumulations', [])
+            base_numerator_cumulations = base_period_data.get('numerator_cumulation', [])
+            base_denominator_cumulations = base_period_data.get('denominator_cumulation', [])
+        else:
+            base_times = []
+            base_values = []
+            base_numerator_values = []
+            base_denominator_values = []
+            base_names = []
+            base_units = []
+            base_numerator_names = []
+            base_numerator_units = []
+            base_denominator_names = []
+            base_denominator_units = []
+            base_cumulations = []
+            base_numerator_cumulations = []
+            base_denominator_cumulations = []
 
-            per_row_charts = 2
-            max_per_page = 4
-            drawn_so_far = 0
+        header_font = 8
+        data_font = 7
 
-            chart_items = []
-            for i in range(num_categories):
-                unit_i = units[i] if (units and i < len(units)) else ''
-                num_name_i = numerator_names[i] if (numerator_names and i < len(numerator_names)) else ''
-                num_unit_i = numerator_units[i] if (numerator_units and i < len(numerator_units)) else ''
-                den_name_i = denominator_names[i] if (denominator_names and i < len(denominator_names)) else ''
-                den_unit_i = denominator_units[i] if (denominator_units and i < len(denominator_units)) else ''
+        doc.add_page_break()
+        self._add_heading_styled(doc, self.name + ' ' + _('Detailed Data'), level=1)
+
+        first_table_page = True
+        for i in range(num_categories):
+            unit_i = units[i] if (units and i < len(units)) else ''
+            num_name_i = numerator_names[i] if (numerator_names and i < len(numerator_names)) else ''
+            num_unit_i = numerator_units[i] if (numerator_units and i < len(numerator_units)) else ''
+            den_name_i = denominator_names[i] if (denominator_names and i < len(denominator_names)) else ''
+            den_unit_i = denominator_units[i] if (denominator_units and i < len(denominator_units)) else ''
+
+            r_data = values[i] if i < len(values) else []
+            r_num_data = numerator_values[i] if i < len(numerator_values) else []
+            r_den_data = denominator_values[i] if i < len(denominator_values) else []
+            r_total = cumulations[i] if (cumulations and i < len(cumulations)) else None
+            r_num_total = numerator_cumulations[i] if (numerator_cumulations and i < len(numerator_cumulations)) else None
+            r_den_total = denominator_cumulations[i] if (denominator_cumulations and i < len(denominator_cumulations)) else None
+
+            if not is_base:
+                sub_items = [
+                    (names[i] + ((' (' + unit_i + ')') if unit_i else ''),
+                     r_data, r_total),
+                    (names[i] + '-' + num_name_i + ((' (' + num_unit_i + ')') if num_unit_i else ''),
+                     r_num_data, r_num_total),
+                    (names[i] + '-' + den_name_i + ((' (' + den_unit_i + ')') if den_unit_i else ''),
+                     r_den_data, r_den_total),
+                ]
+                for (col_name, data_arr, total_val) in sub_items:
+                    total_rows = max(len(data_arr), len(reporting_times))
+                    if total_rows == 0:
+                        continue
+                    num_pages = (total_rows + rows_per_table_page - 1) // rows_per_table_page
+                    for page in range(num_pages):
+                        start_row = page * rows_per_table_page
+                        end_row = min(start_row + rows_per_table_page, total_rows)
+                        if not first_table_page:
+                            doc.add_page_break()
+                        first_table_page = False
+                        col_headers = [_('Datetime'), col_name]
+                        table_data = [col_headers]
+                        for t_idx in range(start_row, end_row):
+                            row_vals = [reporting_times[t_idx] if t_idx < len(reporting_times) else '']
+                            v1 = data_arr[t_idx] if t_idx < len(data_arr) else None
+                            row_vals.append(str(round2(v1, 2)) if v1 is not None else '')
+                            table_data.append(row_vals)
+                        total_row = [_('Total')]
+                        total_row.append(str(round2(total_val, 2)) if total_val is not None else '')
+                        table_data.append(total_row)
+                        num_cols = len(col_headers)
+                        data_table = doc.add_table(rows=len(table_data), cols=num_cols)
+                        data_table.alignment = WD_TABLE_ALIGNMENT.CENTER
+                        for j in range(num_cols):
+                            cell = data_table.cell(0, j)
+                            cell.text = col_headers[j]
+                            _style_table_cell(cell, is_header=True, bold=True, font_size=header_font)
+                        for di in range(1, len(table_data) - 1):
+                            for j in range(num_cols):
+                                cell = data_table.cell(di, j)
+                                cell.text = table_data[di][j]
+                                _style_table_cell(cell, font_size=data_font)
+                        last_row = len(table_data) - 1
+                        for j in range(num_cols):
+                            cell = data_table.cell(last_row, j)
+                            cell.text = table_data[last_row][j]
+                            _style_table_cell(cell, bold=True, font_size=data_font)
+            else:
+                b_data = base_values[i] if i < len(base_values) else []
+                b_num_data = base_numerator_values[i] if i < len(base_numerator_values) else []
+                b_den_data = base_denominator_values[i] if i < len(base_denominator_values) else []
+                b_total = base_cumulations[i] if (base_cumulations and i < len(base_cumulations)) else None
+                b_num_total = base_numerator_cumulations[i] if (base_numerator_cumulations and i < len(base_numerator_cumulations)) else None
+                b_den_total = base_denominator_cumulations[i] if (base_denominator_cumulations and i < len(base_denominator_cumulations)) else None
+                b_name_i = base_names[i] if (base_names and i < len(base_names)) else names[i]
                 b_unit_i = base_units[i] if (base_units and i < len(base_units)) else ''
-                b_num_name_i = base_numerator_names[i] if (base_numerator_names and i < len(base_numerator_names)) else ''
+                b_num_name_i = base_numerator_names[i] if (base_numerator_names and i < len(base_numerator_names)) else num_name_i
                 b_num_unit_i = base_numerator_units[i] if (base_numerator_units and i < len(base_numerator_units)) else ''
-                b_den_name_i = base_denominator_names[i] if (base_denominator_names and i < len(base_denominator_names)) else ''
+                b_den_name_i = base_denominator_names[i] if (base_denominator_names and i < len(base_denominator_names)) else den_name_i
                 b_den_unit_i = base_denominator_units[i] if (base_denominator_units and i < len(base_denominator_units)) else ''
-                chart_items.append({
-                    'r_data': values[i] if i < len(values) else [],
-                    'b_data': base_values[i] if i < len(base_values) else None,
-                    'r_name': names[i],
-                    'b_name': base_names[i] if i < len(base_names) else names[i],
-                    'title': _('Base Period Efficiency') + ' / ' +
-                             _('Reporting Period Efficiency') + ' - ' +
-                             names[i] + ((' (' + unit_i + ')') if unit_i else ''),
-                    'color_idx': i
-                })
-                chart_items.append({
-                    'r_data': numerator_values[i] if i < len(numerator_values) else [],
-                    'b_data': base_numerator_values[i] if i < len(base_numerator_values) else None,
-                    'r_name': names[i] + '-' + num_name_i,
-                    'b_name': (base_names[i] if i < len(base_names) else names[i]) + '-' + b_num_name_i,
-                    'title': _('Base Period Efficiency') + ' / ' +
-                             _('Reporting Period Efficiency') + ' - ' +
-                             names[i] + '-' + num_name_i + ((' (' + num_unit_i + ')') if num_unit_i else ''),
-                    'color_idx': i
-                })
-                chart_items.append({
-                    'r_data': denominator_values[i] if i < len(denominator_values) else [],
-                    'b_data': base_denominator_values[i] if i < len(base_denominator_values) else None,
-                    'r_name': names[i] + '-' + den_name_i,
-                    'b_name': (base_names[i] if i < len(base_names) else names[i]) + '-' + b_den_name_i,
-                    'title': _('Base Period Efficiency') + ' / ' +
-                             _('Reporting Period Efficiency') + ' - ' +
-                             names[i] + '-' + den_name_i + ((' (' + den_unit_i + ')') if den_unit_i else ''),
-                    'color_idx': i
-                })
 
-            total_charts = len(chart_items)
-            for row_start in range(0, total_charts, per_row_charts):
-                row_end = min(row_start + per_row_charts, total_charts)
-                row_items = chart_items[row_start:row_end]
-                row_size = len(row_items)
+                sub_items = [
+                    (names[i] + ((' (' + unit_i + ')') if unit_i else ''),
+                     b_name_i + ((' (' + b_unit_i + ')') if b_unit_i else ''),
+                     r_data, b_data, r_total, b_total),
+                    (names[i] + '-' + num_name_i + ((' (' + num_unit_i + ')') if num_unit_i else ''),
+                     b_name_i + '-' + b_num_name_i + ((' (' + b_num_unit_i + ')') if b_num_unit_i else ''),
+                     r_num_data, b_num_data, r_num_total, b_num_total),
+                    (names[i] + '-' + den_name_i + ((' (' + den_unit_i + ')') if den_unit_i else ''),
+                     b_name_i + '-' + b_den_name_i + ((' (' + b_den_unit_i + ')') if b_den_unit_i else ''),
+                     r_den_data, b_den_data, r_den_total, b_den_total),
+                ]
+                for (r_col, b_col, r_arr, b_arr, r_tot, b_tot) in sub_items:
+                    total_rows = max(len(r_arr), len(b_arr), len(reporting_times), len(base_times))
+                    if total_rows == 0:
+                        continue
+                    num_pages = (total_rows + rows_per_table_page - 1) // rows_per_table_page
+                    for page in range(num_pages):
+                        start_row = page * rows_per_table_page
+                        end_row = min(start_row + rows_per_table_page, total_rows)
+                        if not first_table_page:
+                            doc.add_page_break()
+                        first_table_page = False
+                        col_headers = [
+                            _('Base Period') + ' - ' + _('Datetime'),
+                            _('Base Period') + ' - ' + b_col,
+                            _('Reporting Period') + ' - ' + _('Datetime'),
+                            _('Reporting Period') + ' - ' + r_col,
+                        ]
+                        table_data = [col_headers]
+                        for t_idx in range(start_row, end_row):
+                            bv = b_arr[t_idx] if t_idx < len(b_arr) else None
+                            rv = r_arr[t_idx] if t_idx < len(r_arr) else None
+                            row_vals = [
+                                base_times[t_idx] if t_idx < len(base_times) else '',
+                                (str(round2(bv, 2)) if bv is not None else ''),
+                                reporting_times[t_idx] if t_idx < len(reporting_times) else '',
+                                (str(round2(rv, 2)) if rv is not None else ''),
+                            ]
+                            table_data.append(row_vals)
+                        total_row = [
+                            _('Total'),
+                            (str(round2(b_tot, 2)) if b_tot is not None else ''),
+                            _('Total'),
+                            (str(round2(r_tot, 2)) if r_tot is not None else ''),
+                        ]
+                        table_data.append(total_row)
+                        num_cols = len(col_headers)
+                        data_table = doc.add_table(rows=len(table_data), cols=num_cols)
+                        data_table.alignment = WD_TABLE_ALIGNMENT.CENTER
+                        for j in range(num_cols):
+                            cell = data_table.cell(0, j)
+                            cell.text = col_headers[j]
+                            _style_table_cell(cell, is_header=True, bold=True, font_size=header_font)
+                        for di in range(1, len(table_data) - 1):
+                            for j in range(num_cols):
+                                cell = data_table.cell(di, j)
+                                cell.text = table_data[di][j]
+                                _style_table_cell(cell, font_size=data_font)
+                        last_row = len(table_data) - 1
+                        for j in range(num_cols):
+                            cell = data_table.cell(last_row, j)
+                            cell.text = table_data[last_row][j]
+                            _style_table_cell(cell, bold=True, font_size=data_font)
 
-                container = doc.add_table(rows=1, cols=per_row_charts)
-                container.alignment = WD_TABLE_ALIGNMENT.CENTER
-                _remove_table_borders(container)
+        doc.add_page_break()
+        self._add_heading_styled(doc, self.name + ' ' + _('Detailed Data'), level=1)
 
-                if row_size == 1:
-                    container.cell(0, 0).merge(container.cell(0, 1))
+        def _set_ticks(ax, raw_len, times):
+            step = max(1, raw_len // 10)
+            ax.set_xticks(range(0, raw_len, step))
+            ax.set_xticklabels(
+                [times[t][:10] if t < len(times) else '' for t in range(0, raw_len, step)],
+                rotation=45, ha='right', fontsize=7)
 
-                for local_idx, item in enumerate(row_items):
-                    r_raw = item['r_data']
-                    b_raw = item['b_data']
-                    color = chart_colors[item['color_idx'] % N]
+        all_charts = []
+        fig_w, fig_h = 10.5, 3.2
+        display_w = 10.5
+        chart_colors = self.chart_colors
+        N = len(chart_colors)
+
+        for i in range(num_categories):
+            color = chart_colors[i % N]
+            unit_i = units[i] if (units and i < len(units)) else ''
+            num_name_i = numerator_names[i] if (numerator_names and i < len(numerator_names)) else ''
+            num_unit_i = numerator_units[i] if (numerator_units and i < len(numerator_units)) else ''
+            den_name_i = denominator_names[i] if (denominator_names and i < len(denominator_names)) else ''
+            den_unit_i = denominator_units[i] if (denominator_units and i < len(denominator_units)) else ''
+
+            r_data_list = [
+                values[i] if i < len(values) else [],
+                numerator_values[i] if i < len(numerator_values) else [],
+                denominator_values[i] if i < len(denominator_values) else []
+            ]
+            titles_no_base = [
+                _('Reporting Period Cumulative Efficiency') + ' - ' + names[i] + ((' (' + unit_i + ')') if unit_i else ''),
+                _('Reporting Period Cumulative Efficiency') + ' - ' + names[i] + '-' + num_name_i + ((' (' + num_unit_i + ')') if num_unit_i else ''),
+                _('Reporting Period Cumulative Efficiency') + ' - ' + names[i] + '-' + den_name_i + ((' (' + den_unit_i + ')') if den_unit_i else ''),
+            ]
+            r_name_list = [names[i], names[i] + '-' + num_name_i, names[i] + '-' + den_name_i]
+
+            if not is_base:
+                for si, raw_data in enumerate(r_data_list):
+                    data_len = len(raw_data)
+                    safe_data = [(v if isinstance(v, (int, float)) else 0)
+                                 if v is not None else 0 for v in raw_data]
+                    fig, ax = plt.subplots(figsize=(fig_w, fig_h))
+                    marker_step = max(1, data_len // 30) if data_len > 0 else 1
+                    if len(safe_data) > 0:
+                        ax.plot(range(len(safe_data)), safe_data,
+                                linewidth=1.2,
+                                color=color, marker='o', markersize=3,
+                                markevery=marker_step)
+                    _set_ticks(ax, data_len, reporting_times)
+                    ax.set_title(titles_no_base[si], fontsize=9, fontweight='bold')
+                    ax.grid(True, alpha=0.3)
+                    all_charts.append(self._fig_to_bytesio(fig, self.dpi))
+            else:
+                b_data_list = [
+                    base_values[i] if i < len(base_values) else None,
+                    base_numerator_values[i] if i < len(base_numerator_values) else None,
+                    base_denominator_values[i] if i < len(base_denominator_values) else None,
+                ]
+                b_name_i = base_names[i] if (base_names and i < len(base_names)) else names[i]
+                b_num_name_i = base_numerator_names[i] if (base_numerator_names and i < len(base_numerator_names)) else num_name_i
+                b_den_name_i = base_denominator_names[i] if (base_denominator_names and i < len(base_denominator_names)) else den_name_i
+                b_name_list = [b_name_i, b_name_i + '-' + b_num_name_i, b_name_i + '-' + b_den_name_i]
+                titles_with_base = [
+                    _('Base Period Efficiency') + ' / ' + _('Reporting Period Efficiency') + ' - ' + names[i] + ((' (' + unit_i + ')') if unit_i else ''),
+                    _('Base Period Efficiency') + ' / ' + _('Reporting Period Efficiency') + ' - ' + names[i] + '-' + num_name_i + ((' (' + num_unit_i + ')') if num_unit_i else ''),
+                    _('Base Period Efficiency') + ' / ' + _('Reporting Period Efficiency') + ' - ' + names[i] + '-' + den_name_i + ((' (' + den_unit_i + ')') if den_unit_i else ''),
+                ]
+                for si in range(3):
+                    r_raw = r_data_list[si]
                     data_len = len(r_raw)
-                    marker_step = max(1, data_len // 30)
-
+                    marker_step = max(1, data_len // 30) if data_len > 0 else 1
                     safe_r = [(v if isinstance(v, (int, float)) else 0)
                               if v is not None else 0 for v in r_raw]
+                    b_raw = b_data_list[si]
+                    safe_b = None
+                    has_base_line = False
                     if b_raw is not None:
                         safe_b = [(v if isinstance(v, (int, float)) else 0)
                                   if v is not None else 0 for v in b_raw]
-                    else:
-                        safe_b = None
-
-                    fig_w, fig_h = 4.8, 3.0
-                    single_mode = (row_size == 1)
-
                     fig, ax = plt.subplots(figsize=(fig_w, fig_h))
-                    has_reporting_line = (len(safe_r) > 0)
-                    has_base_line = (safe_b is not None and len(safe_b) > 0)
-                    if has_reporting_line:
+                    if len(safe_r) > 0:
                         ax.plot(range(len(safe_r)), safe_r,
                                 linewidth=1.2,
                                 color=color, marker='o', markersize=3,
                                 markevery=marker_step,
-                                label=_('Reporting Period') + ' - ' + item['r_name'])
-                    if has_base_line:
+                                label=_('Reporting Period') + ' - ' + r_name_list[si])
+                    if safe_b is not None and len(safe_b) > 0:
                         safe_b_cut = safe_b[:len(safe_r)]
                         x_b = list(range(len(safe_b_cut)))
+                        marker_step_b = max(1, len(safe_b) // 30) if len(safe_b) > 0 else 1
                         ax.plot(x_b, safe_b_cut,
                                 linewidth=1.2,
                                 color=color, linestyle='--', marker='s', markersize=3,
-                                markevery=marker_step,
-                                label=_('Base Period') + ' - ' + item['b_name'])
-
-                    step = max(1, data_len // 10) if data_len > 0 else 1
-                    ax.set_xticks(range(0, data_len, step))
-                    xlabels = []
-                    for t in range(0, data_len, step):
-                        xlabels.append(
-                            reporting_times[t][:10] if t < len(reporting_times) else '')
-                    ax.set_xticklabels(xlabels, rotation=45, ha='right', fontsize=7)
-                    ax.set_title(item['title'], fontsize=9, fontweight='bold')
-                    if has_reporting_line or has_base_line:
+                                markevery=marker_step_b,
+                                label=_('Base Period') + ' - ' + b_name_list[si])
+                        has_base_line = True
+                    _set_ticks(ax, data_len, reporting_times)
+                    ax.set_title(titles_with_base[si], fontsize=8, fontweight='bold')
+                    if len(safe_r) > 0 or has_base_line:
                         ax.legend(fontsize=7)
                     ax.grid(True, alpha=0.3)
-                    plt.tight_layout(pad=1.0)
-                    chart_buf = self._fig_to_bytesio(fig, self.dpi)
+                    all_charts.append(self._fig_to_bytesio(fig, self.dpi))
 
-                    cell_idx = 0 if single_mode else local_idx
-                    cell = container.cell(0, cell_idx)
+        num_total_charts = len(all_charts)
+        charts_per_page = 2
+        first_chart_page = True
+
+        for page_start in range(0, num_total_charts, charts_per_page):
+            page_end = min(page_start + charts_per_page, num_total_charts)
+            page_bufs = all_charts[page_start:page_end]
+            num_on_page = len(page_bufs)
+
+            if not first_chart_page:
+                doc.add_page_break()
+            first_chart_page = False
+
+            if num_on_page == 1:
+                chart_buf = page_bufs[0]
+                p = doc.add_paragraph()
+                p.alignment = WD_ALIGN_PARAGRAPH.CENTER
+                run = p.add_run()
+                run.add_picture(chart_buf, width=Inches(display_w))
+            elif num_on_page == 2:
+                container = doc.add_table(rows=2, cols=1)
+                container.alignment = WD_TABLE_ALIGNMENT.CENTER
+                _remove_table_borders(container)
+                for ci, buf in enumerate(page_bufs):
+                    cell = container.cell(ci, 0)
                     p = cell.paragraphs[0]
                     p.alignment = WD_ALIGN_PARAGRAPH.CENTER
                     run = p.add_run()
-                    run.add_picture(chart_buf, width=Inches(4.8))
-
-                drawn_so_far += row_size
-                if drawn_so_far >= max_per_page and drawn_so_far < total_charts \
-                        and (drawn_so_far % max_per_page == 0):
-                    doc.add_page_break()
-
-        ca_len = len(names)
-        time_len = len(reporting_times)
-        if ca_len > 0 and time_len > 0:
-            doc.add_page_break()
-            self._add_heading_styled(doc, self.name + ' ' + _('Detailed Data'), level=1)
-
-            num_cols = ca_len * 3 + 1
-            rows = time_len + 2
-            table = doc.add_table(rows=rows, cols=num_cols)
-            table.alignment = WD_TABLE_ALIGNMENT.CENTER
-
-            h_cell = table.cell(0, 0)
-            h_cell.text = _('Datetime')
-            _style_table_cell(h_cell, is_header=True, bold=True)
-
-            for i in range(ca_len):
-                base_c = i * 3 + 1
-                unit_i = units[i] if (units and i < len(units)) else ''
-                c1 = table.cell(0, base_c)
-                c1.text = names[i] + ((' (' + unit_i + ')') if unit_i else '')
-                _style_table_cell(c1, is_header=True, bold=True)
-
-                num_name_i = numerator_names[i] if (numerator_names and i < len(numerator_names)) else ''
-                num_unit_i = numerator_units[i] if (numerator_units and i < len(numerator_units)) else ''
-                c2 = table.cell(0, base_c + 1)
-                c2.text = names[i] + '-' + num_name_i + ((' (' + num_unit_i + ')') if num_unit_i else '')
-                _style_table_cell(c2, is_header=True, bold=True)
-
-                den_name_i = denominator_names[i] if (denominator_names and i < len(denominator_names)) else ''
-                den_unit_i = denominator_units[i] if (denominator_units and i < len(denominator_units)) else ''
-                c3 = table.cell(0, base_c + 2)
-                c3.text = names[i] + '-' + den_name_i + ((' (' + den_unit_i + ')') if den_unit_i else '')
-                _style_table_cell(c3, is_header=True, bold=True)
-
-            for t_idx in range(time_len):
-                tc = table.cell(t_idx + 1, 0)
-                tc.text = str(reporting_times[t_idx])
-                _style_table_cell(tc, font_size=8)
-
-                for i in range(ca_len):
-                    base_c = i * 3 + 1
-                    v1 = values[i][t_idx] if (i < len(values) and t_idx < len(values[i])) else None
-                    c1 = table.cell(t_idx + 1, base_c)
-                    c1.text = str(round2(v1, 2)) if v1 is not None else ''
-                    _style_table_cell(c1, font_size=8)
-
-                    v2 = numerator_values[i][t_idx] if (i < len(numerator_values) and t_idx < len(numerator_values[i])) else None
-                    c2 = table.cell(t_idx + 1, base_c + 1)
-                    c2.text = str(round2(v2, 2)) if v2 is not None else ''
-                    _style_table_cell(c2, font_size=8)
-
-                    v3 = denominator_values[i][t_idx] if (i < len(denominator_values) and t_idx < len(denominator_values[i])) else None
-                    c3 = table.cell(t_idx + 1, base_c + 2)
-                    c3.text = str(round2(v3, 2)) if v3 is not None else ''
-                    _style_table_cell(c3, font_size=8)
-
-            subtotal_row = time_len + 1
-            sc = table.cell(subtotal_row, 0)
-            sc.text = _('Subtotal')
-            _style_table_cell(sc, is_green=True, bold=True)
-
-            for i in range(ca_len):
-                base_c = i * 3 + 1
-                cv1 = cumulations[i] if (cumulations and i < len(cumulations)) else None
-                c1 = table.cell(subtotal_row, base_c)
-                c1.text = str(round2(cv1, 2)) if cv1 is not None else ''
-                _style_table_cell(c1, bold=True)
-
-                cv2 = numerator_cumulations[i] if (numerator_cumulations and i < len(numerator_cumulations)) else None
-                c2 = table.cell(subtotal_row, base_c + 1)
-                c2.text = str(round2(cv2, 2)) if cv2 is not None else ''
-                _style_table_cell(c2, bold=True)
-
-                cv3 = denominator_cumulations[i] if (denominator_cumulations and i < len(denominator_cumulations)) else None
-                c3 = table.cell(subtotal_row, base_c + 2)
-                c3.text = str(round2(cv3, 2)) if cv3 is not None else ''
-                _style_table_cell(c3, bold=True)
-
-        doc.add_paragraph('')
+                    run.add_picture(buf, width=Inches(display_w))
 
     def _add_parameters_section(self, doc):
         _ = self._

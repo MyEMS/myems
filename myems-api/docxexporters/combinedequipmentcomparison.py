@@ -38,11 +38,14 @@ import matplotlib.pyplot as plt
 from docx import Document
 from docx.shared import Inches, Pt
 from docx.enum.text import WD_ALIGN_PARAGRAPH, WD_LINE_SPACING, WD_BREAK, WD_TAB_ALIGNMENT
+from docx.enum.section import WD_SECTION
 from docx.enum.table import WD_TABLE_ALIGNMENT
 from docx.oxml.ns import qn
 from docx.oxml import OxmlElement
 
 from core.utilities import get_translation, round2
+
+from .docxcommon import configure_cover_section, configure_body_section
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
@@ -299,11 +302,14 @@ class CombinedEquipmentComparisonDOCXExporter:
             section.orientation = 1
             section.page_width = Inches(11.69)
             section.page_height = Inches(8.27)
+            self.combined_equipment1_name = combined_equipment1_name
+            self.combined_equipment2_name = combined_equipment2_name
             self._add_cover_page(doc, combined_equipment1_name, combined_equipment2_name,
                                  energy_category_name,
                                  reporting_start_datetime_local,
                                  reporting_end_datetime_local,
                                  period_type)
+            configure_cover_section(doc.sections[0])
             filename = str(uuid.uuid4()) + '.docx'
             doc.save(filename)
             return filename
@@ -334,6 +340,8 @@ class CombinedEquipmentComparisonDOCXExporter:
                              reporting_start_datetime_local,
                              reporting_end_datetime_local,
                              period_type)
+
+        configure_cover_section(doc.sections[0])
 
         self._add_combined_analysis_section(doc)
         self._add_detailed_data_section(doc)
@@ -387,7 +395,7 @@ class CombinedEquipmentComparisonDOCXExporter:
             [_('Combined Equipment') + '1:', combined_equipment1_name],
             [_('Combined Equipment') + '2:', combined_equipment2_name],
             [_('Energy Category') + ':', energy_category_name],
-            [_('Period Type') + ':', period_type],
+            [_('Period Type') + ':', _(period_type)],
             [_('Reporting Start Datetime') + ':', reporting_start],
             [_('Reporting End Datetime') + ':', reporting_end],
         ]
@@ -417,8 +425,6 @@ class CombinedEquipmentComparisonDOCXExporter:
             r_val.font.name = 'Arial'
             r_val._element.rPr.rFonts.set(qn('w:eastAsia'), 'SimSun')
 
-        doc.add_page_break()
-
     def _add_combined_analysis_section(self, doc):
         """Add combined analysis section: Consumption summary table + comparison chart."""
         _ = self._
@@ -432,6 +438,17 @@ class CombinedEquipmentComparisonDOCXExporter:
 
         unit = self.unit
         cat_name = self.energy_category_name
+
+        body_section = doc.add_section(WD_SECTION.NEW_PAGE)
+        body_section.orientation = 1
+        body_section.page_width = Inches(11.69)
+        body_section.page_height = Inches(8.27)
+        body_section.left_margin = Inches(0.5)
+        body_section.right_margin = Inches(0.5)
+        body_section.top_margin = Inches(0.5)
+        body_section.bottom_margin = Inches(0.5)
+        header_title = f"{_('Combined Equipment')} - {_('Equipment Comparison')}  |  {self.combined_equipment1_name} vs {self.combined_equipment2_name}"
+        configure_body_section(body_section, header_title=header_title)
 
         self._add_heading_styled(doc, self.combined_equipment1_name + ' & ' + self.combined_equipment2_name + ' - ' +
                                  _('Reporting Period Consumption'), level=1)
@@ -468,7 +485,7 @@ class CombinedEquipmentComparisonDOCXExporter:
             ys1 = self._sanitize_values(values1)
             ys2 = self._sanitize_values(values2)
 
-            fig, ax = plt.subplots(figsize=(9.75, 5.25))
+            fig, ax = plt.subplots(figsize=(10.5, 5.25))
             marker_step = max(1, len(xs) // 30)
 
             ax.plot(xs, ys1, linewidth=1.5, color='#4472C4',
@@ -495,7 +512,7 @@ class CombinedEquipmentComparisonDOCXExporter:
             p = doc.add_paragraph()
             p.alignment = WD_ALIGN_PARAGRAPH.CENTER
             run = p.add_run()
-            run.add_picture(chart_buf, width=Inches(9.75))
+            run.add_picture(chart_buf, width=Inches(10.5))
 
         doc.add_page_break()
 

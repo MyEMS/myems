@@ -573,3 +573,21 @@ msgstr "Werkstatt Vergleich"
 
 msgid "Combined Equipment Data"
 msgstr "Kombinierte Gerätedaten"
+
+msgid "hourly"
+msgstr "Stündlich"
+
+msgid "daily"
+msgstr "Täglich"
+
+msgid "weekly"
+msgstr "Wöchentlich"
+
+msgid "monthly"
+msgstr "Monatlich"
+
+msgid "yearly"
+msgstr "Jährlich"
+
+msgid "Space Data"
+msgstr "Raumdaten"

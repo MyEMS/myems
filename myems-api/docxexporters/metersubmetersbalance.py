@@ -38,12 +38,14 @@ import matplotlib.pyplot as plt
 
 from docx import Document
 from docx.shared import Inches, Pt
+from docx.enum.section import WD_SECTION
 from docx.enum.text import WD_ALIGN_PARAGRAPH, WD_LINE_SPACING
 from docx.enum.table import WD_TABLE_ALIGNMENT
 from docx.oxml.ns import qn
 from docx.oxml import OxmlElement
 
 from core.utilities import get_translation, round2
+from .docxcommon import configure_cover_section, configure_body_section
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
@@ -158,6 +160,8 @@ def _remove_table_borders(table):
 
 
 def _style_table_cell(cell, is_header=False, is_green=False, bold=False, font_size=9):
+    if not cell.paragraphs[0].runs:
+        cell.paragraphs[0].add_run('')
     cell.paragraphs[0].runs[0].font.bold = bold
     cell.paragraphs[0].runs[0].font.size = Pt(font_size)
     for p in cell.paragraphs:
@@ -263,6 +267,18 @@ class MeterSubmetersBalanceDOCXExporter:
         buf.seek(0)
         return buf
 
+    @staticmethod
+    def _filter_valid_data(data):
+        xs, ys = [], []
+        for idx, v in enumerate(data):
+            if v is not None:
+                try:
+                    ys.append(float(v))
+                    xs.append(idx)
+                except (TypeError, ValueError):
+                    pass
+        return xs, ys
+
     def generate_docx(self,
                       report: Dict[str, Any],
                       name: str,
@@ -280,10 +296,11 @@ class MeterSubmetersBalanceDOCXExporter:
             section.orientation = 1
             section.page_width = Inches(11.69)
             section.page_height = Inches(8.27)
+            self.name = name
             self._add_cover_page(doc, name, period_type,
                                  reporting_start_datetime_local,
-                                 reporting_end_datetime_local,
-                                 has_next=False)
+                                 reporting_end_datetime_local)
+            configure_cover_section(doc.sections[0])
             filename = str(uuid.uuid4()) + '.docx'
             doc.save(filename)
             return filename
@@ -313,16 +330,17 @@ class MeterSubmetersBalanceDOCXExporter:
         reporting_data = self.report['reporting_period']
         reporting_times = reporting_data.get('timestamps', [])
         has_detailed = reporting_times is not None and len(reporting_times) > 0
-        has_params = self._has_valid_parameters(self.report.get('parameters', {}))
-        has_balance = True
 
         self._add_cover_page(doc, name, period_type,
                              reporting_start_datetime_local,
-                             reporting_end_datetime_local,
-                             has_next=(has_balance or has_detailed or has_params))
+                             reporting_end_datetime_local)
 
-        self._add_balance_summary(doc, has_next=(has_detailed or has_params))
-        self._add_detailed_data_pages(doc, has_next=has_params)
+        configure_cover_section(doc.sections[0])
+
+        self._add_balance_summary(doc)
+        if has_detailed:
+            self._add_detailed_data_table(doc)
+            self._add_detailed_data_charts(doc)
         self._add_parameters_section(doc)
 
         doc.save(filename)
@@ -339,8 +357,7 @@ class MeterSubmetersBalanceDOCXExporter:
         return heading
 
     def _add_cover_page(self, doc, name, period_type,
-                        reporting_start, reporting_end,
-                        has_next=True):
+                        reporting_start, reporting_end):
         _ = self._
         img_path = os.path.join(os.path.dirname(os.path.abspath(__file__)),
                                 '..', 'excelexporters', 'myems.png')
@@ -370,7 +387,7 @@ class MeterSubmetersBalanceDOCXExporter:
 
         info_data = [
             [_('Name') + ':', name],
-            [_('Period Type') + ':', period_type],
+            [_('Period Type') + ':', _(period_type)],
             [_('Reporting Start Datetime') + ':', reporting_start],
             [_('Reporting End Datetime') + ':', reporting_end],
         ]
@@ -400,11 +417,20 @@ class MeterSubmetersBalanceDOCXExporter:
             r_val.font.name = 'Arial'
             r_val._element.rPr.rFonts.set(qn('w:eastAsia'), 'SimSun')
 
-        if has_next:
-            doc.add_page_break()
-
-    def _add_balance_summary(self, doc, has_next=True):
+    def _add_balance_summary(self, doc):
         _ = self._
+
+        body_section = doc.add_section(WD_SECTION.NEW_PAGE)
+        body_section.orientation = 1
+        body_section.page_width = Inches(11.69)
+        body_section.page_height = Inches(8.27)
+        body_section.left_margin = Inches(0.5)
+        body_section.right_margin = Inches(0.5)
+        body_section.top_margin = Inches(0.5)
+        body_section.bottom_margin = Inches(0.5)
+        header_title = f"{_('Meter Data')} - {_('Meter Submeters Balance')}  |  {self.name}"
+        configure_body_section(body_section, header_title=header_title)
+
         reporting_data = self.report['reporting_period']
 
         percentage_difference = reporting_data.get('percentage_difference', None)
@@ -447,11 +473,74 @@ class MeterSubmetersBalanceDOCXExporter:
                 else:
                     _style_table_cell(cell, font_size=9)
 
-        if has_next:
-            doc.add_paragraph('')
-            doc.add_page_break()
+    def _add_detailed_data_table(self, doc):
+        _ = self._
 
-    def _add_detailed_data_pages(self, doc, has_next=True):
+        reporting_data = self.report['reporting_period']
+        reporting_times = reporting_data.get('timestamps', [])
+        difference_values = reporting_data.get('difference_values', [])
+
+        if reporting_times is None or len(reporting_times) == 0:
+            return
+
+        doc.add_page_break()
+
+        category_label = self.energy_category_name + " (" + self.unit_of_measure + ")"
+
+        rows_per_table_page = 45
+        header_font = 8
+        data_font = 7
+        num_rows = len(reporting_times)
+        num_pages = (num_rows + rows_per_table_page - 1) // rows_per_table_page
+
+        col_headers = [_('Datetime'), category_label]
+        num_cols = len(col_headers)
+
+        first_table_page = True
+        for page in range(num_pages):
+            start_row = page * rows_per_table_page
+            end_row = min(start_row + rows_per_table_page, num_rows)
+            is_last_page = (end_row == num_rows)
+
+            if not first_table_page:
+                doc.add_page_break()
+            first_table_page = False
+
+            if page == 0:
+                self._add_heading_styled(doc, self.name + ' ' + _('Detailed Data'), level=1)
+
+            table_data = [col_headers]
+            for t_idx in range(start_row, end_row):
+                value = str(round2(difference_values[t_idx], 2)) \
+                    if t_idx < len(difference_values) else ''
+                table_data.append([reporting_times[t_idx], value])
+
+            if is_last_page:
+                table_data.append([_('Total'),
+                                   str(round2(reporting_data['master_meter_consumption_in_category'], 2))])
+
+            data_table = doc.add_table(rows=len(table_data), cols=num_cols)
+            data_table.alignment = WD_TABLE_ALIGNMENT.CENTER
+
+            for j in range(num_cols):
+                cell = data_table.cell(0, j)
+                cell.text = col_headers[j]
+                _style_table_cell(cell, is_header=True, bold=True, font_size=header_font)
+
+            for i in range(1, len(table_data) - (1 if is_last_page else 0)):
+                for j in range(num_cols):
+                    cell = data_table.cell(i, j)
+                    cell.text = table_data[i][j]
+                    _style_table_cell(cell, font_size=data_font)
+
+            if is_last_page:
+                last_row = len(table_data) - 1
+                for j in range(num_cols):
+                    cell = data_table.cell(last_row, j)
+                    cell.text = table_data[last_row][j]
+                    _style_table_cell(cell, bold=True, font_size=data_font)
+
+    def _add_detailed_data_charts(self, doc):
         _ = self._
 
         reporting_data = self.report['reporting_period']
@@ -464,87 +553,66 @@ class MeterSubmetersBalanceDOCXExporter:
         category_label = self.energy_category_name + " (" + self.unit_of_measure + ")"
         chart_title = _('Difference') + ' - ' + category_label
 
-        rows_per_page = 25
-        num_rows = len(reporting_times)
-        num_pages = (num_rows + rows_per_page - 1) // rows_per_page
-        marker_step = max(1, rows_per_page // 15)
+        doc.add_page_break()
+        self._add_heading_styled(doc, self.name + ' ' + _('Detailed Data'), level=1)
 
-        col_headers = [_('Datetime'), category_label]
-        num_cols = len(col_headers)
+        def _set_ticks(ax, raw_len, times):
+            step = max(1, raw_len // 10)
+            ax.set_xticks(range(0, raw_len, step))
+            ax.set_xticklabels(
+                [times[t][:10] if t < len(times) else '' for t in range(0, raw_len, step)],
+                rotation=45, ha='right', fontsize=7)
 
-        for page in range(num_pages):
-            start_row = page * rows_per_page
-            end_row = min(start_row + rows_per_page, num_rows)
+        all_charts = []
+        fig_w, fig_h = 10.5, 3.2
+        display_w = 10.5
 
-            if page == 0:
-                self._add_heading_styled(doc, self.name + ' ' + _('Detailed Data'), level=1)
+        raw_len = len(reporting_times)
+        fig, ax = plt.subplots(figsize=(fig_w, fig_h))
+        diff_xs, diff_ys = self._filter_valid_data(difference_values)
+        marker_step = max(1, len(diff_ys) // 30) if diff_ys else 1
+        if diff_ys:
+            ax.plot(diff_xs, diff_ys, linewidth=1.2,
+                    color=self.chart_colors[0],
+                    marker='o', markersize=3,
+                    markevery=marker_step,
+                    label=category_label)
+        _set_ticks(ax, raw_len, reporting_times)
+        ax.set_title(chart_title, fontsize=9, fontweight='bold')
+        if diff_ys:
+            ax.legend(fontsize=7)
+        ax.grid(True, alpha=0.3)
+        all_charts.append(self._fig_to_bytesio(fig, self.dpi))
 
-            container = doc.add_table(rows=2, cols=1)
-            container.alignment = WD_TABLE_ALIGNMENT.CENTER
-            _remove_table_borders(container)
-            table_cell = container.cell(0, 0)
-            chart_cell = container.cell(1, 0)
+        num_total_charts = len(all_charts)
+        charts_per_page = 2
+        first_chart_page = True
 
-            table_data = [col_headers]
-            for t_idx in range(start_row, end_row):
-                value = str(round2(difference_values[t_idx], 2)) \
-                    if t_idx < len(difference_values) else ''
-                table_data.append([reporting_times[t_idx], value])
+        for page_start in range(0, num_total_charts, charts_per_page):
+            page_end = min(page_start + charts_per_page, num_total_charts)
+            page_bufs = all_charts[page_start:page_end]
+            num_on_page = len(page_bufs)
 
-            has_total_row = end_row == num_rows
-            if has_total_row:
-                table_data.append([_('Total'),
-                                   str(round2(reporting_data['master_meter_consumption_in_category'], 2))])
-
-            data_table = table_cell.add_table(rows=len(table_data), cols=num_cols)
-            data_table.alignment = WD_TABLE_ALIGNMENT.CENTER
-            p_elem = table_cell.paragraphs[0]._element
-            p_elem.getparent().remove(p_elem)
-
-            for j in range(num_cols):
-                cell = data_table.cell(0, j)
-                cell.text = col_headers[j]
-                _style_table_cell(cell, is_header=True, bold=True, font_size=8)
-
-            for i in range(1, len(table_data) - 1):
-                for j in range(num_cols):
-                    cell = data_table.cell(i, j)
-                    cell.text = table_data[i][j]
-                    _style_table_cell(cell, font_size=7)
-
-            if has_total_row:
-                last_row = len(table_data) - 1
-                for j in range(num_cols):
-                    cell = data_table.cell(last_row, j)
-                    cell.text = table_data[last_row][j]
-                    _style_table_cell(cell, bold=True, font_size=7)
-
-            fig, ax_chart = plt.subplots(figsize=(8.5, 2.8))
-            page_data = difference_values[start_row:min(end_row, len(difference_values))]
-            ax_chart.plot(range(len(page_data)), page_data, linewidth=1.2,
-                          color=self.chart_colors[0],
-                          marker='o', markersize=3, markevery=marker_step,
-                          label=category_label)
-            step = max(1, (end_row - start_row) // 8)
-            ax_chart.set_xticks(range(0, end_row - start_row, step))
-            ax_chart.set_xticklabels([reporting_times[start_row + t]
-                                      for t in range(0, end_row - start_row, step)],
-                                     rotation=45, ha='right', fontsize=7)
-            ax_chart.set_title(chart_title, fontsize=10, weight='bold')
-            ax_chart.legend(fontsize=7, loc='upper right')
-            ax_chart.grid(True, alpha=0.3)
-            chart_buf = self._fig_to_bytesio(fig, self.dpi)
-
-            p = chart_cell.paragraphs[0]
-            p.alignment = WD_ALIGN_PARAGRAPH.CENTER
-            run = p.add_run()
-            run.add_picture(chart_buf, width=Inches(8.5))
-
-            if page < num_pages - 1:
+            if not first_chart_page:
                 doc.add_page_break()
+            first_chart_page = False
 
-        if has_next:
-            doc.add_page_break()
+            if num_on_page == 1:
+                chart_buf = page_bufs[0]
+                p = doc.add_paragraph()
+                p.alignment = WD_ALIGN_PARAGRAPH.CENTER
+                run = p.add_run()
+                run.add_picture(chart_buf, width=Inches(display_w))
+            elif num_on_page == 2:
+                container = doc.add_table(rows=2, cols=1)
+                container.alignment = WD_TABLE_ALIGNMENT.CENTER
+                _remove_table_borders(container)
+                for ci, buf in enumerate(page_bufs):
+                    cell = container.cell(ci, 0)
+                    p = cell.paragraphs[0]
+                    p.alignment = WD_ALIGN_PARAGRAPH.CENTER
+                    run = p.add_run()
+                    run.add_picture(buf, width=Inches(display_w))
 
     def _add_parameters_section(self, doc):
         _ = self._
@@ -575,6 +643,7 @@ class MeterSubmetersBalanceDOCXExporter:
         if not valid_params:
             return
 
+        doc.add_page_break()
         self._add_heading_styled(doc, self.name + ' ' + _('Parameters'), level=1)
 
         rows_per_param = 10

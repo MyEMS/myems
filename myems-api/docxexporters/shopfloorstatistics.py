@@ -36,12 +36,14 @@ import matplotlib.pyplot as plt
 
 from docx import Document
 from docx.shared import Inches, Pt
+from docx.enum.section import WD_SECTION
 from docx.enum.text import WD_ALIGN_PARAGRAPH, WD_LINE_SPACING, WD_BREAK, WD_TAB_ALIGNMENT
 from docx.enum.table import WD_TABLE_ALIGNMENT
 from docx.oxml.ns import qn
 from docx.oxml import OxmlElement
 
 from core.utilities import get_translation, round2
+from .docxcommon import configure_cover_section, configure_body_section
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
@@ -277,12 +279,14 @@ class ShopfloorStatisticsDOCXExporter:
             section.orientation = 1
             section.page_width = Inches(11.69)
             section.page_height = Inches(8.27)
+            self.name = name
             self._add_cover_page(doc, name, period_type,
                                  reporting_start_datetime_local,
                                  reporting_end_datetime_local,
                                  base_period_start_datetime_local,
                                  base_period_end_datetime_local,
                                  False)
+            configure_cover_section(doc.sections[0])
             filename = str(uuid.uuid4()) + '.docx'
             doc.save(filename)
             return filename
@@ -315,6 +319,7 @@ class ShopfloorStatisticsDOCXExporter:
                              base_period_start_datetime_local,
                              base_period_end_datetime_local,
                              self.is_base_period_exists)
+        configure_cover_section(doc.sections[0])
 
         self._add_statistics_section(doc)
         self._add_detailed_data_charts(doc)
@@ -367,7 +372,7 @@ class ShopfloorStatisticsDOCXExporter:
 
         info_data = [
             [_('Name') + ':', name],
-            [_('Period Type') + ':', period_type],
+            [_('Period Type') + ':', _(period_type)],
             [_('Reporting Start Datetime') + ':', reporting_start],
             [_('Reporting End Datetime') + ':', reporting_end],
         ]
@@ -410,6 +415,19 @@ class ShopfloorStatisticsDOCXExporter:
         if ca_len == 0:
             return
 
+        body_section = doc.add_section(WD_SECTION.NEW_PAGE)
+        body_section.orientation = 1
+        body_section.page_width = Inches(11.69)
+        body_section.page_height = Inches(8.27)
+        body_section.left_margin = Inches(0.5)
+        body_section.right_margin = Inches(0.5)
+        body_section.top_margin = Inches(0.5)
+        body_section.bottom_margin = Inches(0.5)
+        _ = self._
+        header_title = (f"{_('Shopfloor Data')} - {_('Statistics')}"
+                        f"  |  {self.name}")
+        configure_body_section(body_section, header_title=header_title)
+
         col_headers = ['']
         for i in range(ca_len):
             unit_i = units[i] if (units and i < len(units)) else ''
@@ -426,7 +444,6 @@ class ShopfloorStatisticsDOCXExporter:
             ('variances', _('Sample Variance')),
         ]
 
-        doc.add_page_break()
         self._add_heading_styled(doc, self.name + ' ' + _('Statistics'), level=1)
 
         table_data = [col_headers[:]]
@@ -680,8 +697,8 @@ class ShopfloorStatisticsDOCXExporter:
                 rotation=45, ha='right', fontsize=7)
 
         all_charts = []
-        fig_w, fig_h = 8.5, 3.2
-        display_w = 8.5
+        fig_w, fig_h = 10.5, 3.2
+        display_w = 10.5
 
         for i in range(num_categories):
             color = self.chart_colors[i % len(self.chart_colors)]

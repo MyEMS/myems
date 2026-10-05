@@ -38,9 +38,11 @@ from docx import Document
 from docx.shared import Inches, Pt
 from docx.enum.text import WD_ALIGN_PARAGRAPH, WD_LINE_SPACING
 from docx.enum.table import WD_TABLE_ALIGNMENT
+from docx.enum.section import WD_SECTION
 from docx.oxml.ns import qn
 from docx.oxml import OxmlElement
 
+from .docxcommon import configure_cover_section, configure_body_section
 from core.utilities import get_translation, round2
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
@@ -289,6 +291,21 @@ class VirtualMeterComparisonDOCXExporter:
                                  reporting_start_datetime_local,
                                  reporting_end_datetime_local,
                                  period_type, has_next=False)
+            self.name1 = name1
+            self.name2 = name2
+            configure_cover_section(doc.sections[0])
+            if len(doc.sections) >= 2:
+                body_section = doc.sections[1]
+                body_section.orientation = 1
+                body_section.page_width = Inches(11.69)
+                body_section.page_height = Inches(8.27)
+                body_section.left_margin = Inches(0.5)
+                body_section.right_margin = Inches(0.5)
+                body_section.top_margin = Inches(0.5)
+                body_section.bottom_margin = Inches(0.5)
+                header_title = (_('Meter Data') + ' - ' + _('Virtual Meter Comparison')
+                                + '  |  ' + self.name1 + ' vs ' + self.name2)
+                configure_body_section(body_section, header_title)
             filename = str(uuid.uuid4()) + '.docx'
             doc.save(filename)
             return filename
@@ -302,12 +319,12 @@ class VirtualMeterComparisonDOCXExporter:
         self.reporting_end = reporting_end_datetime_local
         self.period_type = period_type
 
-        meter1 = self.report.get('virtual_meter1', {})
-        meter2 = self.report.get('virtual_meter2', {})
-        self.ec1 = meter1.get('energy_category_name', '')
-        self.unit1 = meter1.get('unit_of_measure', '')
-        self.ec2 = meter2.get('energy_category_name', '')
-        self.unit2 = meter2.get('unit_of_measure', '')
+        meter1 = self.report.get('virtualmeter1', {})
+        meter2 = self.report.get('virtualmeter2', {})
+        self.ec1 = meter1.get('energy_category_name', '') or ''
+        self.unit1 = meter1.get('unit_of_measure', '') or ''
+        self.ec2 = meter2.get('energy_category_name', '') or ''
+        self.unit2 = meter2.get('unit_of_measure', '') or ''
 
         rp1 = self.report.get('reporting_period1', {})
         timestamps = rp1.get('timestamps', [])
@@ -330,6 +347,20 @@ class VirtualMeterComparisonDOCXExporter:
                              reporting_end_datetime_local,
                              period_type,
                              has_next=(has_summary or has_linechart or has_detailed))
+
+        configure_cover_section(doc.sections[0])
+        if len(doc.sections) >= 2:
+            body_section = doc.sections[1]
+            body_section.orientation = 1
+            body_section.page_width = Inches(11.69)
+            body_section.page_height = Inches(8.27)
+            body_section.left_margin = Inches(0.5)
+            body_section.right_margin = Inches(0.5)
+            body_section.top_margin = Inches(0.5)
+            body_section.bottom_margin = Inches(0.5)
+            header_title = (_('Meter Data') + ' - ' + _('Virtual Meter Comparison')
+                            + '  |  ' + self.name1 + ' vs ' + self.name2)
+            configure_body_section(body_section, header_title)
 
         self._add_consumption_summary(doc, has_next=(has_linechart or has_detailed))
         self._add_line_chart_section(doc, has_next=has_detailed)
@@ -381,7 +412,7 @@ class VirtualMeterComparisonDOCXExporter:
         info_data = [
             [_('Name') + '1:', name1],
             [_('Name') + '2:', name2],
-            [_('Period Type') + ':', period_type],
+            [_('Period Type') + ':', _(period_type)],
             [_('Reporting Start Datetime') + ':', reporting_start],
             [_('Reporting End Datetime') + ':', reporting_end],
         ]
@@ -412,7 +443,7 @@ class VirtualMeterComparisonDOCXExporter:
             r_val._element.rPr.rFonts.set(qn('w:eastAsia'), 'SimSun')
 
         if has_next:
-            doc.add_page_break()
+            doc.add_section(WD_SECTION.NEW_PAGE)
 
     def _add_consumption_summary(self, doc, has_next=True):
         """Add consumption summary table matching PDF layout:
@@ -485,7 +516,7 @@ class VirtualMeterComparisonDOCXExporter:
         ys1 = self._sanitize_values(values1)
         ys2 = self._sanitize_values(values2)
 
-        fig, ax = plt.subplots(figsize=(9.75, 5.25))
+        fig, ax = plt.subplots(figsize=(10.5, 5.25))
         marker_step = max(1, len(xs) // 30)
 
         m1_label = self.name1 + ' ' + self.ec1 + ' (' + self.unit1 + ')'
@@ -520,7 +551,7 @@ class VirtualMeterComparisonDOCXExporter:
         p = doc.add_paragraph()
         p.alignment = WD_ALIGN_PARAGRAPH.CENTER
         run = p.add_run()
-        run.add_picture(chart_buf, width=Inches(9.75))
+        run.add_picture(chart_buf, width=Inches(10.5))
 
         if has_next:
             doc.add_page_break()
@@ -541,7 +572,9 @@ class VirtualMeterComparisonDOCXExporter:
         if not timestamps or len(timestamps) == 0:
             return
 
-        rows_per_page = 30
+        rows_per_page = 45
+        header_font = 8
+        data_font = 7
 
         self._add_heading_styled(doc, self.name1 + ' and ' + self.name2 + ' ' +
                                  _('Detailed Data'), level=1)
@@ -567,32 +600,32 @@ class VirtualMeterComparisonDOCXExporter:
             for j, h in enumerate(col_headers):
                 c = table.cell(0, j)
                 c.text = h
-                _style_table_cell(c, is_header=True, bold=True, font_size=8)
+                _style_table_cell(c, is_header=True, bold=True, font_size=header_font)
 
             for t_idx in range(page_rows):
                 global_idx = start_row + t_idx
                 r_idx = t_idx + 1
                 c0 = table.cell(r_idx, 0)
                 c0.text = str(timestamps[global_idx])
-                _style_table_cell(c0, font_size=8)
+                _style_table_cell(c0, font_size=data_font)
 
                 v1 = round2(values1[global_idx], 2) \
                     if global_idx < len(values1) and values1[global_idx] is not None else ''
                 c1 = table.cell(r_idx, 1)
                 c1.text = str(v1) if v1 != '' else ''
-                _style_table_cell(c1, font_size=8)
+                _style_table_cell(c1, font_size=data_font)
 
                 v2 = round2(values2[global_idx], 2) \
                     if global_idx < len(values2) and values2[global_idx] is not None else ''
                 c2 = table.cell(r_idx, 2)
                 c2.text = str(v2) if v2 != '' else ''
-                _style_table_cell(c2, font_size=8)
+                _style_table_cell(c2, font_size=data_font)
 
                 vd = round2(diff_values[global_idx], 2) \
                     if global_idx < len(diff_values) and diff_values[global_idx] is not None else ''
                 c3 = table.cell(r_idx, 3)
                 c3.text = str(vd) if vd != '' else ''
-                _style_table_cell(c3, font_size=8)
+                _style_table_cell(c3, font_size=data_font)
 
             total_row_idx = page_rows + 1
             total1 = round2(rp1.get('total_in_category', 0), 2)
@@ -601,16 +634,16 @@ class VirtualMeterComparisonDOCXExporter:
 
             c_t0 = table.cell(total_row_idx, 0)
             c_t0.text = _('Total')
-            _style_table_cell(c_t0, bold=True, font_size=8)
+            _style_table_cell(c_t0, bold=True, font_size=data_font)
             c_t1 = table.cell(total_row_idx, 1)
             c_t1.text = str(total1)
-            _style_table_cell(c_t1, bold=True, font_size=8)
+            _style_table_cell(c_t1, bold=True, font_size=data_font)
             c_t2 = table.cell(total_row_idx, 2)
             c_t2.text = str(total2)
-            _style_table_cell(c_t2, bold=True, font_size=8)
+            _style_table_cell(c_t2, bold=True, font_size=data_font)
             c_t3 = table.cell(total_row_idx, 3)
             c_t3.text = str(total_diff)
-            _style_table_cell(c_t3, bold=True, font_size=8)
+            _style_table_cell(c_t3, bold=True, font_size=data_font)
 
             if page < num_pages - 1:
                 doc.add_page_break()

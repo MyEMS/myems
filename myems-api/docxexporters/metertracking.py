@@ -38,12 +38,14 @@ import matplotlib.pyplot as plt
 
 from docx import Document
 from docx.shared import Inches, Pt
+from docx.enum.section import WD_SECTION
 from docx.enum.text import WD_ALIGN_PARAGRAPH, WD_LINE_SPACING
 from docx.enum.table import WD_TABLE_ALIGNMENT
 from docx.oxml.ns import qn
 from docx.oxml import OxmlElement
 
 from core.utilities import get_translation, round2
+from .docxcommon import configure_cover_section, configure_body_section
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
@@ -275,7 +277,6 @@ class MeterTrackingDOCXExporter:
         self.reporting_end = reporting_end_datetime_local
 
         meters = self.report.get('meters', [])
-        has_next = isinstance(meters, list) and len(meters) > 0
 
         doc = Document()
         section = doc.sections[0]
@@ -287,7 +288,9 @@ class MeterTrackingDOCXExporter:
         section.top_margin = Inches(0.5)
         section.bottom_margin = Inches(0.5)
 
-        self._add_cover_page(doc, has_next=has_next)
+        self._add_cover_page(doc)
+
+        configure_cover_section(doc.sections[0])
 
         if meters and len(meters) > 0:
             self._add_data_tables(doc, meters)
@@ -305,7 +308,7 @@ class MeterTrackingDOCXExporter:
         r.rPr.rFonts.set(qn('w:eastAsia'), 'SimSun')
         return heading
 
-    def _add_cover_page(self, doc, has_next=True):
+    def _add_cover_page(self, doc):
         _ = self._
         img_path = os.path.join(os.path.dirname(os.path.abspath(__file__)),
                                 '..', 'excelexporters', 'myems.png')
@@ -373,15 +376,23 @@ class MeterTrackingDOCXExporter:
             r_val.font.name = 'Arial'
             r_val._element.rPr.rFonts.set(qn('w:eastAsia'), 'SimSun')
 
-        if has_next:
-            doc.add_page_break()
-
     def _add_data_tables(self, doc, meters):
         """Add meter tracking data tables with pagination.
         Columns: ID, Name, Space, Cost Center, Energy Category, Description,
                  Start Value, End Value, Difference Value
         """
         _ = self._
+
+        body_section = doc.add_section(WD_SECTION.NEW_PAGE)
+        body_section.orientation = 1
+        body_section.page_width = Inches(11.69)
+        body_section.page_height = Inches(8.27)
+        body_section.left_margin = Inches(0.5)
+        body_section.right_margin = Inches(0.5)
+        body_section.top_margin = Inches(0.5)
+        body_section.bottom_margin = Inches(0.5)
+        header_title = f"{_('Meter Data')} - {_('Meter Tracking')}  |  {self.space_name}"
+        configure_body_section(body_section, header_title=header_title)
 
         col_headers = [_('ID'), _('Name'), _('Space'), _('Cost Center'),
                        _('Energy Category'), _('Description'),

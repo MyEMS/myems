@@ -34,11 +34,14 @@ import matplotlib.pyplot as plt
 from docx import Document
 from docx.shared import Inches, Pt
 from docx.enum.text import WD_ALIGN_PARAGRAPH, WD_LINE_SPACING, WD_BREAK, WD_TAB_ALIGNMENT
+from docx.enum.section import WD_SECTION
 from docx.enum.table import WD_TABLE_ALIGNMENT
 from docx.oxml.ns import qn
 from docx.oxml import OxmlElement
 
 from core.utilities import get_translation, round2
+
+from .docxcommon import configure_cover_section, configure_body_section
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
@@ -265,6 +268,8 @@ class EquipmentTrackingDOCXExporter:
 
         self._add_cover_page(doc, space_name)
 
+        configure_cover_section(doc.sections[0])
+
         if equipments and len(equipments) > 0:
             self._add_data_tables(doc, equipments)
 
@@ -339,8 +344,6 @@ class EquipmentTrackingDOCXExporter:
             r_val.font.name = 'Arial'
             r_val._element.rPr.rFonts.set(qn('w:eastAsia'), 'SimSun')
 
-        doc.add_page_break()
-
     def _add_data_tables(self, doc, equipments):
         """Add equipment data tables with pagination.
         Columns: ID, Name, Space, Cost Center, Description
@@ -354,6 +357,18 @@ class EquipmentTrackingDOCXExporter:
 
         max_rows_per_page = 25
         num_pages = (num_equipment + max_rows_per_page - 1) // max_rows_per_page
+
+        body_section = doc.add_section(WD_SECTION.NEW_PAGE)
+        body_section.orientation = 1
+        body_section.page_width = Inches(11.69)
+        body_section.page_height = Inches(8.27)
+        body_section.left_margin = Inches(0.5)
+        body_section.right_margin = Inches(0.5)
+        body_section.top_margin = Inches(0.5)
+        body_section.bottom_margin = Inches(0.5)
+        header_title = (f"{_('Equipment Data')} - {_('Tracking')}"
+                        f"  |  {self.space_name}")
+        configure_body_section(body_section, header_title=header_title)
 
         for page in range(num_pages):
             start_idx = page * max_rows_per_page

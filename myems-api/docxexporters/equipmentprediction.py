@@ -39,11 +39,14 @@ import matplotlib.pyplot as plt
 from docx import Document
 from docx.shared import Inches, Pt
 from docx.enum.text import WD_ALIGN_PARAGRAPH, WD_LINE_SPACING, WD_BREAK, WD_TAB_ALIGNMENT
+from docx.enum.section import WD_SECTION
 from docx.enum.table import WD_TABLE_ALIGNMENT
 from docx.oxml.ns import qn
 from docx.oxml import OxmlElement
 
 from core.utilities import get_translation, round2
+
+from .docxcommon import configure_cover_section, configure_body_section
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
@@ -301,12 +304,14 @@ class EquipmentPredictionDOCXExporter:
             section.orientation = 1
             section.page_width = Inches(11.69)
             section.page_height = Inches(8.27)
+            self.name = name
             self._add_cover_page(doc, name, period_type,
                                  reporting_start_datetime_local,
                                  reporting_end_datetime_local,
                                  base_period_start_datetime_local,
                                  base_period_end_datetime_local,
                                  False)
+            configure_cover_section(doc.sections[0])
             filename = str(uuid.uuid4()) + '.docx'
             doc.save(filename)
             return filename
@@ -339,6 +344,8 @@ class EquipmentPredictionDOCXExporter:
                              base_period_start_datetime_local,
                              base_period_end_datetime_local,
                              self.is_base_period_exists)
+
+        configure_cover_section(doc.sections[0])
 
         self._add_combined_analysis(doc)
         self._add_detailed_data_table(doc)
@@ -391,7 +398,7 @@ class EquipmentPredictionDOCXExporter:
 
         info_data = [
             [_('Name') + ':', name],
-            [_('Period Type') + ':', period_type],
+            [_('Period Type') + ':', _(period_type)],
             [_('Reporting Start Datetime') + ':', reporting_start],
             [_('Reporting End Datetime') + ':', reporting_end],
         ]
@@ -424,8 +431,6 @@ class EquipmentPredictionDOCXExporter:
             r_val.font.name = 'Arial'
             r_val._element.rPr.rFonts.set(qn('w:eastAsia'), 'SimSun')
 
-        doc.add_page_break()
-
     def _add_combined_analysis(self, doc):
         _ = self._
         reporting_data = self.report['reporting_period']
@@ -439,6 +444,18 @@ class EquipmentPredictionDOCXExporter:
 
         if ca_len == 0:
             return
+
+        body_section = doc.add_section(WD_SECTION.NEW_PAGE)
+        body_section.orientation = 1
+        body_section.page_width = Inches(11.69)
+        body_section.page_height = Inches(8.27)
+        body_section.left_margin = Inches(0.5)
+        body_section.right_margin = Inches(0.5)
+        body_section.top_margin = Inches(0.5)
+        body_section.bottom_margin = Inches(0.5)
+        header_title = (f"{_('Equipment Data')} - {_('Prediction')}"
+                        f"  |  {self.name}")
+        configure_body_section(body_section, header_title=header_title)
 
         self._add_heading_styled(doc, self.name + ' - ' + _('Reporting Period Consumption'), level=1)
 
@@ -617,7 +634,6 @@ class EquipmentPredictionDOCXExporter:
             run = p.add_run()
             run.add_picture(co2e_chart, width=Inches(2.8))
 
-        doc.add_page_break()
 
     def _add_detailed_data_table(self, doc):
         _ = self._
@@ -634,9 +650,13 @@ class EquipmentPredictionDOCXExporter:
         subtotals = reporting_data.get('subtotals', [])
         ca_len = len(names)
 
-        rows_per_page = 50
+        rows_per_page = 45
 
-        self._add_heading_styled(doc, _('Detailed Data'), level=1)
+        header_font = 8
+        data_font = 7
+
+        doc.add_page_break()
+        self._add_heading_styled(doc, self.name + ' ' + _('Detailed Data'), level=1)
 
         if not self.is_base_period_exists:
             times = timestamps[0]
@@ -662,32 +682,32 @@ class EquipmentPredictionDOCXExporter:
                 for j, h in enumerate(col_headers):
                     c = table.cell(0, j)
                     c.text = h
-                    _style_table_cell(c, is_header=True, bold=True, font_size=8)
+                    _style_table_cell(c, is_header=True, bold=True, font_size=header_font)
 
                 for t_idx in range(page_rows):
                     global_idx = start_row + t_idx
                     r_idx = t_idx + 1
                     c0 = table.cell(r_idx, 0)
                     c0.text = str(times[global_idx])
-                    _style_table_cell(c0, font_size=8)
+                    _style_table_cell(c0, font_size=data_font)
                     for j in range(ca_len):
                         col = j + 1
                         val = round2(values[j][global_idx], 2) \
                             if j < len(values) and global_idx < len(values[j]) else ''
                         c = table.cell(r_idx, col)
                         c.text = str(val) if val != '' else ''
-                        _style_table_cell(c, font_size=8)
+                        _style_table_cell(c, font_size=data_font)
 
                 subtotal_row_idx = page_rows + 1
                 c_sub_lbl = table.cell(subtotal_row_idx, 0)
                 c_sub_lbl.text = _('Subtotal')
-                _style_table_cell(c_sub_lbl, bold=True, font_size=8)
+                _style_table_cell(c_sub_lbl, bold=True, font_size=data_font)
                 for i in range(ca_len):
                     col = i + 1
                     c = table.cell(subtotal_row_idx, col)
                     val = subtotals[i] if (subtotals and i < len(subtotals)) else None
                     c.text = str(round2(val, 2)) if val is not None else ''
-                    _style_table_cell(c, bold=True, font_size=8)
+                    _style_table_cell(c, bold=True, font_size=data_font)
 
                 if page < num_pages - 1:
                     doc.add_page_break()
@@ -730,7 +750,7 @@ class EquipmentPredictionDOCXExporter:
                 for j, h in enumerate(col_headers):
                     c = table.cell(0, j)
                     c.text = h
-                    _style_table_cell(c, is_header=True, bold=True, font_size=7)
+                    _style_table_cell(c, is_header=True, bold=True, font_size=header_font)
 
                 for t_idx in range(page_rows):
                     global_idx = start_row + t_idx
@@ -738,7 +758,7 @@ class EquipmentPredictionDOCXExporter:
                     col = 0
                     c_bt = table.cell(r_idx, col)
                     c_bt.text = base_times[global_idx] if global_idx < len(base_times) else ''
-                    _style_table_cell(c_bt, font_size=7)
+                    _style_table_cell(c_bt, font_size=data_font)
                     col += 1
                     for j in range(base_ca_len):
                         c = table.cell(r_idx, col)
@@ -746,11 +766,11 @@ class EquipmentPredictionDOCXExporter:
                             c.text = str(round2(base_values[j][global_idx], 2))
                         else:
                             c.text = ''
-                        _style_table_cell(c, font_size=7)
+                        _style_table_cell(c, font_size=data_font)
                         col += 1
                     c_rt = table.cell(r_idx, col)
                     c_rt.text = reporting_times[global_idx] if global_idx < len(reporting_times) else ''
-                    _style_table_cell(c_rt, font_size=7)
+                    _style_table_cell(c_rt, font_size=data_font)
                     col += 1
                     for j in range(reporting_ca_len):
                         c = table.cell(r_idx, col)
@@ -758,30 +778,30 @@ class EquipmentPredictionDOCXExporter:
                             c.text = str(round2(values[j][global_idx], 2))
                         else:
                             c.text = ''
-                        _style_table_cell(c, font_size=7)
+                        _style_table_cell(c, font_size=data_font)
                         col += 1
 
                 sub_idx = page_rows + 1
                 col = 0
                 c_s0 = table.cell(sub_idx, col)
                 c_s0.text = _('Subtotal')
-                _style_table_cell(c_s0, bold=True, font_size=7)
+                _style_table_cell(c_s0, bold=True, font_size=data_font)
                 col += 1
                 for i in range(base_ca_len):
                     c = table.cell(sub_idx, col)
                     val = base_subtotals[i] if (base_subtotals and i < len(base_subtotals)) else None
                     c.text = str(round2(val, 2)) if val is not None else ''
-                    _style_table_cell(c, bold=True, font_size=7)
+                    _style_table_cell(c, bold=True, font_size=data_font)
                     col += 1
                 c_s1 = table.cell(sub_idx, col)
                 c_s1.text = _('Subtotal')
-                _style_table_cell(c_s1, bold=True, font_size=7)
+                _style_table_cell(c_s1, bold=True, font_size=data_font)
                 col += 1
                 for i in range(reporting_ca_len):
                     c = table.cell(sub_idx, col)
                     val = subtotals[i] if (subtotals and i < len(subtotals)) else None
                     c.text = str(round2(val, 2)) if val is not None else ''
-                    _style_table_cell(c, bold=True, font_size=7)
+                    _style_table_cell(c, bold=True, font_size=data_font)
                     col += 1
 
                 if page < num_pages - 1:
@@ -801,13 +821,13 @@ class EquipmentPredictionDOCXExporter:
 
         reporting_times = timestamps[0]
         num_categories = len(names)
-        charts_per_page = 4
+        charts_per_page = 2
 
         doc.add_page_break()
         self._add_heading_styled(doc, self.name + ' ' + _('Detailed Data'), level=1)
 
-        fig_w, fig_h = 4.8, 3.0
-        display_w = 4.8
+        fig_w, fig_h = 10.5, 3.2
+        display_w = 10.5
 
         if not self.is_base_period_exists:
             all_charts = []
@@ -839,42 +859,20 @@ class EquipmentPredictionDOCXExporter:
                 page_indices = list(range(page_start, page_end))
                 num_on_page = len(page_indices)
 
-                rows = (num_on_page + 1) // 2
+                rows = num_on_page
+                container = doc.add_table(rows=rows, cols=1)
+                container.alignment = WD_TABLE_ALIGNMENT.CENTER
+                _remove_table_borders(container)
 
                 for row_idx in range(rows):
-                    slot0 = row_idx * 2
-                    slot1 = slot0 + 1
-                    has_left = slot0 < num_on_page
-                    has_right = slot1 < num_on_page
-
-                    if has_left and not has_right:
-                        container = doc.add_table(rows=1, cols=2)
-                        container.alignment = WD_TABLE_ALIGNMENT.CENTER
-                        _remove_table_borders(container)
-                        container.cell(0, 0).merge(container.cell(0, 1))
-                        cell = container.cell(0, 0)
-                        chart_buf = all_charts[page_indices[slot0]]
-                        p = cell.paragraphs[0]
-                        p.alignment = WD_ALIGN_PARAGRAPH.CENTER
-                        run = p.add_run()
-                        run.add_picture(chart_buf, width=Inches(display_w))
-                    else:
-                        container_cols = min(2, num_on_page - row_idx * 2)
-                        container = doc.add_table(rows=1, cols=container_cols)
-                        container.alignment = WD_TABLE_ALIGNMENT.CENTER
-                        _remove_table_borders(container)
-
-                        for col_idx in range(container_cols):
-                            slot = row_idx * 2 + col_idx
-                            if slot >= num_on_page:
-                                continue
-                            chart_buf = all_charts[page_indices[slot]]
-
-                            cell = container.cell(0, col_idx)
-                            p = cell.paragraphs[0]
-                            p.alignment = WD_ALIGN_PARAGRAPH.CENTER
-                            run = p.add_run()
-                            run.add_picture(chart_buf, width=Inches(display_w))
+                    if row_idx >= num_on_page:
+                        continue
+                    chart_buf = all_charts[page_indices[row_idx]]
+                    cell = container.cell(row_idx, 0)
+                    p = cell.paragraphs[0]
+                    p.alignment = WD_ALIGN_PARAGRAPH.CENTER
+                    run = p.add_run()
+                    run.add_picture(chart_buf, width=Inches(display_w))
 
                 if page_end < num_total_charts:
                     doc.add_page_break()
@@ -925,42 +923,20 @@ class EquipmentPredictionDOCXExporter:
                 page_indices = list(range(page_start, page_end))
                 num_on_page = len(page_indices)
 
-                rows = (num_on_page + 1) // 2
+                rows = num_on_page
+                container = doc.add_table(rows=rows, cols=1)
+                container.alignment = WD_TABLE_ALIGNMENT.CENTER
+                _remove_table_borders(container)
 
                 for row_idx in range(rows):
-                    slot0 = row_idx * 2
-                    slot1 = slot0 + 1
-                    has_left = slot0 < num_on_page
-                    has_right = slot1 < num_on_page
-
-                    if has_left and not has_right:
-                        container = doc.add_table(rows=1, cols=2)
-                        container.alignment = WD_TABLE_ALIGNMENT.CENTER
-                        _remove_table_borders(container)
-                        container.cell(0, 0).merge(container.cell(0, 1))
-                        cell = container.cell(0, 0)
-                        chart_buf = all_charts[page_indices[slot0]]
-                        p = cell.paragraphs[0]
-                        p.alignment = WD_ALIGN_PARAGRAPH.CENTER
-                        run = p.add_run()
-                        run.add_picture(chart_buf, width=Inches(display_w))
-                    else:
-                        container_cols = min(2, num_on_page - row_idx * 2)
-                        container = doc.add_table(rows=1, cols=container_cols)
-                        container.alignment = WD_TABLE_ALIGNMENT.CENTER
-                        _remove_table_borders(container)
-
-                        for col_idx in range(container_cols):
-                            slot = row_idx * 2 + col_idx
-                            if slot >= num_on_page:
-                                continue
-                            chart_buf = all_charts[page_indices[slot]]
-
-                            cell = container.cell(0, col_idx)
-                            p = cell.paragraphs[0]
-                            p.alignment = WD_ALIGN_PARAGRAPH.CENTER
-                            run = p.add_run()
-                            run.add_picture(chart_buf, width=Inches(display_w))
+                    if row_idx >= num_on_page:
+                        continue
+                    chart_buf = all_charts[page_indices[row_idx]]
+                    cell = container.cell(row_idx, 0)
+                    p = cell.paragraphs[0]
+                    p.alignment = WD_ALIGN_PARAGRAPH.CENTER
+                    run = p.add_run()
+                    run.add_picture(chart_buf, width=Inches(display_w))
 
                 if page_end < num_total_charts:
                     doc.add_page_break()
