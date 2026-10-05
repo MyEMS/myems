@@ -232,6 +232,7 @@ def worker(space):
                                  " FROM tbl_virtual_meters m, tbl_spaces_virtual_meters sm "
                                  " WHERE m.id = sm.virtual_meter_id "
                                  "       AND m.is_counted = 1 "
+                                 "       AND m.is_enabled = 1 "
                                  "       AND m.energy_item_id is NOT NULL "
                                  "       AND sm.space_id = %s ",
                                  (space['id'],))

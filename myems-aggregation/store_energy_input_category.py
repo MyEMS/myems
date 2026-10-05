@@ -216,6 +216,7 @@ def worker(store):
                                  " FROM tbl_virtual_meters m, tbl_stores_virtual_meters sm "
                                  " WHERE m.id = sm.virtual_meter_id "
                                  "       AND m.is_counted = 1 "
+                                 "       AND m.is_enabled = 1 "
                                  "       AND sm.store_id = %s ",
                                  (store['id'],))
         rows_virtual_meters = cursor_system_db.fetchall()

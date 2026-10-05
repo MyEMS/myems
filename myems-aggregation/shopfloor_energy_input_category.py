@@ -218,6 +218,7 @@ def worker(shopfloor):
                                  " FROM tbl_virtual_meters m, tbl_shopfloors_virtual_meters tm "
                                  " WHERE m.id = tm.virtual_meter_id "
                                  "       AND m.is_counted = 1 "
+                                 "       AND m.is_enabled = 1 "
                                  "       AND tm.shopfloor_id = %s ",
                                  (shopfloor['id'],))
         rows_virtual_meters = cursor_system_db.fetchall()

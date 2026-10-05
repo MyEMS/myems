@@ -219,6 +219,7 @@ def worker(store):
                                  " WHERE m.id = sm.virtual_meter_id "
                                  "       AND m.energy_item_id is NOT NULL "
                                  "       AND m.is_counted = 1 "
+                                 "       AND m.is_enabled = 1 "
                                  "       AND sm.store_id = %s ",
                                  (store['id'],))
         rows_virtual_meters = cursor_system_db.fetchall()
