@@ -367,6 +367,7 @@ def worker(space):
                                  " FROM tbl_shopfloors s, tbl_spaces_shopfloors ss "
                                  " WHERE s.id = ss.shopfloor_id "
                                  "       AND s.is_input_counted = 1 "
+                                 "       AND s.is_enabled = 1 "
                                  "       AND ss.space_id = %s ",
                                  (space['id'],))
         rows_shopfloors = cursor_system_db.fetchall()
