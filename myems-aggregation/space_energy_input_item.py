@@ -232,6 +232,7 @@ def worker(space):
                                  " FROM tbl_virtual_meters m, tbl_spaces_virtual_meters sm "
                                  " WHERE m.id = sm.virtual_meter_id "
                                  "       AND m.is_counted = 1 "
+                                 "       AND m.is_enabled = 1 "
                                  "       AND m.energy_item_id is NOT NULL "
                                  "       AND sm.space_id = %s ",
                                  (space['id'],))
@@ -300,6 +301,7 @@ def worker(space):
                                  " FROM tbl_combined_equipments e, tbl_spaces_combined_equipments se "
                                  " WHERE e.id = se.combined_equipment_id "
                                  "       AND e.is_input_counted = 1 "
+                                 "       AND e.is_enabled = 1 "
                                  "       AND se.space_id = %s ",
                                  (space['id'],))
         rows_combined_equipments = cursor_system_db.fetchall()
@@ -332,6 +334,7 @@ def worker(space):
                                  " FROM tbl_equipments e, tbl_spaces_equipments se "
                                  " WHERE e.id = se.equipment_id "
                                  "       AND e.is_input_counted = 1 "
+                                 "       AND e.is_enabled = 1 "
                                  "       AND se.space_id = %s ",
                                  (space['id'],))
         rows_equipments = cursor_system_db.fetchall()
@@ -364,6 +367,7 @@ def worker(space):
                                  " FROM tbl_shopfloors s, tbl_spaces_shopfloors ss "
                                  " WHERE s.id = ss.shopfloor_id "
                                  "       AND s.is_input_counted = 1 "
+                                 "       AND s.is_enabled = 1 "
                                  "       AND ss.space_id = %s ",
                                  (space['id'],))
         rows_shopfloors = cursor_system_db.fetchall()
@@ -396,6 +400,7 @@ def worker(space):
                                  " FROM tbl_stores s, tbl_spaces_stores ss "
                                  " WHERE s.id = ss.store_id "
                                  "       AND s.is_input_counted = 1 "
+                                 "       AND s.is_enabled = 1 "
                                  "       AND ss.space_id = %s ",
                                  (space['id'],))
         rows_stores = cursor_system_db.fetchall()
@@ -428,6 +433,7 @@ def worker(space):
                                  " FROM tbl_tenants t, tbl_spaces_tenants st "
                                  " WHERE t.id = st.tenant_id "
                                  "       AND t.is_input_counted = 1 "
+                                 "       AND t.is_enabled = 1 "
                                  "       AND st.space_id = %s ",
                                  (space['id'],))
         rows_tenants = cursor_system_db.fetchall()

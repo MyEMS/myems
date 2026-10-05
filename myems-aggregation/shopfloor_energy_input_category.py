@@ -218,6 +218,7 @@ def worker(shopfloor):
                                  " FROM tbl_virtual_meters m, tbl_shopfloors_virtual_meters tm "
                                  " WHERE m.id = tm.virtual_meter_id "
                                  "       AND m.is_counted = 1 "
+                                 "       AND m.is_enabled = 1 "
                                  "       AND tm.shopfloor_id = %s ",
                                  (shopfloor['id'],))
         rows_virtual_meters = cursor_system_db.fetchall()
@@ -249,6 +250,7 @@ def worker(shopfloor):
                                  " FROM tbl_offline_meters m, tbl_shopfloors_offline_meters tm "
                                  " WHERE m.id = tm.offline_meter_id "
                                  "       AND m.is_counted = 1 "
+                                 "       AND m.is_enabled = 1 "
                                  "       AND tm.shopfloor_id = %s ",
                                  (shopfloor['id'],))
         rows_offline_meters = cursor_system_db.fetchall()
@@ -280,6 +282,7 @@ def worker(shopfloor):
                                  " FROM tbl_equipments e, tbl_shopfloors_equipments se "
                                  " WHERE e.id = se.equipment_id "
                                  "       AND e.is_input_counted = 1 "
+                                 "       AND e.is_enabled = 1 "
                                  "       AND se.shopfloor_id = %s ",
                                  (shopfloor['id'],))
         rows_equipments = cursor_system_db.fetchall()

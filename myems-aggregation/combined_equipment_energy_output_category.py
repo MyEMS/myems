@@ -220,6 +220,7 @@ def worker(combined_equipment):
                                  " FROM tbl_virtual_meters m, tbl_combined_equipments_virtual_meters em "
                                  " WHERE m.id = em.virtual_meter_id "
                                  "       AND m.is_counted = 1 "
+                                 "       AND m.is_enabled = 1 "
                                  "       AND em.is_output = 1 "
                                  "       AND em.combined_equipment_id = %s ",
                                  (combined_equipment['id'],))
@@ -252,6 +253,7 @@ def worker(combined_equipment):
                                  " FROM tbl_offline_meters m, tbl_combined_equipments_offline_meters em "
                                  " WHERE m.id = em.offline_meter_id "
                                  "       AND m.is_counted = 1 "
+                                 "       AND m.is_enabled = 1 "
                                  "       AND em.is_output = 1 "
                                  "       AND em.combined_equipment_id = %s ",
                                  (combined_equipment['id'],))
@@ -284,6 +286,7 @@ def worker(combined_equipment):
                                  " FROM tbl_equipments e, tbl_combined_equipments_equipments ce "
                                  " WHERE e.id = ce.equipment_id "
                                  "       AND e.is_output_counted = 1 "
+                                 "       AND e.is_enabled = 1 "
                                  "       AND ce.combined_equipment_id = %s ",
                                  (combined_equipment['id'],))
         rows_equipments = cursor_system_db.fetchall()
