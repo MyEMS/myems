@@ -592,3 +592,6 @@ msgstr "年"
 
 msgid "Space Data"
 msgstr "空间数据"
+
+msgid "compare"
+msgstr "对比"

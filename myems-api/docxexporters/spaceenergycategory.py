@@ -364,9 +364,13 @@ class SpaceEnergyDOCXExporter:
             self.name = name
             doc = Document()
             section = doc.sections[0]
-            section.orientation = 1  # landscape
-            section.page_width = Inches(11.69)
-            section.page_height = Inches(8.27)
+            section.orientation = 0
+            section.page_width = Inches(8.27)
+            section.page_height = Inches(11.69)
+            section.left_margin = Inches(0.5)
+            section.right_margin = Inches(0.5)
+            section.top_margin = Inches(0.5)
+            section.bottom_margin = Inches(0.5)
             self._add_cover_page(doc, name, period_type,
                                  reporting_start_datetime_local,
                                  reporting_end_datetime_local,
@@ -393,9 +397,9 @@ class SpaceEnergyDOCXExporter:
 
         doc = Document()
         section = doc.sections[0]
-        section.orientation = 1
-        section.page_width = Inches(11.69)
-        section.page_height = Inches(8.27)
+        section.orientation = 0
+        section.page_width = Inches(8.27)
+        section.page_height = Inches(11.69)
         section.left_margin = Inches(0.5)
         section.right_margin = Inches(0.5)
         section.top_margin = Inches(0.5)
@@ -517,9 +521,9 @@ class SpaceEnergyDOCXExporter:
             return
 
         body_section = doc.add_section(WD_SECTION.NEW_PAGE)
-        body_section.orientation = 1
-        body_section.page_width = Inches(11.69)
-        body_section.page_height = Inches(8.27)
+        body_section.orientation = 0
+        body_section.page_width = Inches(8.27)
+        body_section.page_height = Inches(11.69)
         body_section.left_margin = Inches(0.5)
         body_section.right_margin = Inches(0.5)
         body_section.top_margin = Inches(0.5)
@@ -782,6 +786,7 @@ class SpaceEnergyDOCXExporter:
         ca_len = len(category_names)
         space_len = len(child_names)
 
+        doc.add_page_break()
         self._add_heading_styled(doc, self.name + ' ' + _('Child Spaces Data'), level=1)
 
         num_cols = 2 + ca_len * 2
@@ -825,7 +830,7 @@ class SpaceEnergyDOCXExporter:
                 _style_table_cell(c_pct)
 
         charts_per_row = 3
-        per_chart_w = 3.2
+        per_chart_w = 2.3
         charts_data = []
         for j in range(ca_len):
             values = []
@@ -851,7 +856,7 @@ class SpaceEnergyDOCXExporter:
             p.alignment = WD_ALIGN_PARAGRAPH.CENTER
             run = p.add_run()
             total_w = per_chart_w * len(row_charts)
-            max_w = 10
+            max_w = 7.0
             insert_w = min(total_w, max_w)
             run.add_picture(row_file, width=Inches(insert_w))
 
@@ -876,6 +881,7 @@ class SpaceEnergyDOCXExporter:
 
         ca_len = len(names)
 
+        doc.add_page_break()
         self._add_heading_styled(doc, self.name + ' ' + _('Base Period Consumption'), level=1)
 
         col_headers = ['', _('Non Working Days') + _('Consumption'),
@@ -923,6 +929,8 @@ class SpaceEnergyDOCXExporter:
 
         ca_len = len(names)
 
+        if not self.is_base_period_exists:
+            doc.add_page_break()
         self._add_heading_styled(doc, self.name + ' ' + _('Reporting Period Consumption'), level=1)
 
         col_headers = ['', _('Non Working Days') + _('Consumption'),
@@ -969,7 +977,7 @@ class SpaceEnergyDOCXExporter:
 
         reporting_times = timestamps[0]
         num_categories = len(names)
-        rows_per_table_page = 45
+        rows_per_table_page = 70
 
         is_base = self.is_base_period_exists
         if is_base:
@@ -1125,8 +1133,8 @@ class SpaceEnergyDOCXExporter:
                 rotation=45, ha='right', fontsize=7)
 
         all_charts = []
-        fig_w, fig_h = 10.5, 3.2
-        display_w = 10.5
+        fig_w, fig_h = 7.27, 3.2
+        display_w = 7.27
         chart_colors = self.chart_colors
         N = len(chart_colors)
 
@@ -1179,7 +1187,7 @@ class SpaceEnergyDOCXExporter:
                 all_charts.append(self._fig_to_bytesio(fig, self.dpi))
 
         num_total_charts = len(all_charts)
-        charts_per_page = 2
+        charts_per_page = 3
         first_chart_page = True
 
         for page_start in range(0, num_total_charts, charts_per_page):
@@ -1197,8 +1205,8 @@ class SpaceEnergyDOCXExporter:
                 p.alignment = WD_ALIGN_PARAGRAPH.CENTER
                 run = p.add_run()
                 run.add_picture(chart_buf, width=Inches(display_w))
-            elif num_on_page == 2:
-                container = doc.add_table(rows=2, cols=1)
+            else:
+                container = doc.add_table(rows=num_on_page, cols=1)
                 container.alignment = WD_TABLE_ALIGNMENT.CENTER
                 _remove_table_borders(container)
                 for ci, buf in enumerate(page_bufs):

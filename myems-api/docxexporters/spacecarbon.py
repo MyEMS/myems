@@ -303,9 +303,13 @@ class SpaceCarbonDOCXExporter:
             self.name = name
             doc = Document()
             section = doc.sections[0]
-            section.orientation = 1
-            section.page_width = Inches(11.69)
-            section.page_height = Inches(8.27)
+            section.orientation = 0
+            section.page_width = Inches(8.27)
+            section.page_height = Inches(11.69)
+            section.left_margin = Inches(0.5)
+            section.right_margin = Inches(0.5)
+            section.top_margin = Inches(0.5)
+            section.bottom_margin = Inches(0.5)
             self._add_cover_page(doc, name, period_type,
                                  reporting_start_datetime_local,
                                  reporting_end_datetime_local,
@@ -331,9 +335,9 @@ class SpaceCarbonDOCXExporter:
 
         doc = Document()
         section = doc.sections[0]
-        section.orientation = 1
-        section.page_width = Inches(11.69)
-        section.page_height = Inches(8.27)
+        section.orientation = 0
+        section.page_width = Inches(8.27)
+        section.page_height = Inches(11.69)
         section.left_margin = Inches(0.5)
         section.right_margin = Inches(0.5)
         section.top_margin = Inches(0.5)
@@ -448,9 +452,9 @@ class SpaceCarbonDOCXExporter:
             return
 
         body_section = doc.add_section(WD_SECTION.NEW_PAGE)
-        body_section.orientation = 1
-        body_section.page_width = Inches(11.69)
-        body_section.page_height = Inches(8.27)
+        body_section.orientation = 0
+        body_section.page_width = Inches(8.27)
+        body_section.page_height = Inches(11.69)
         body_section.left_margin = Inches(0.5)
         body_section.right_margin = Inches(0.5)
         body_section.top_margin = Inches(0.5)
@@ -686,7 +690,7 @@ class SpaceCarbonDOCXExporter:
         total_unit = reporting_data.get('total_unit', 'KGCO2E')
         ca_len = len(names)
 
-        rows_per_page = 45
+        rows_per_page = 70
 
         header_font = 8
         data_font = 7
@@ -896,7 +900,9 @@ class SpaceCarbonDOCXExporter:
 
         reporting_times = timestamps[0]
         num_categories = len(names)
-        charts_per_page = 2
+        charts_per_page = 3
+        chart_fig_w = 7.27
+        chart_display_w = 7.27
 
         self._add_heading_styled(doc, self.name + ' ' + _('Detailed Data'), level=1)
 
@@ -932,7 +938,7 @@ class SpaceCarbonDOCXExporter:
                     safe_data = _safe_list(raw_data)
                     color = self.chart_colors[i % len(self.chart_colors)]
 
-                    fig, ax = plt.subplots(figsize=(10.5, 3.2))
+                    fig, ax = plt.subplots(figsize=(chart_fig_w, 3.2))
                     ax.plot(range(len(safe_data)), safe_data, linewidth=1.2,
                             color=color, marker='o', markersize=3,
                             markevery=max(1, len(safe_data) // 30))
@@ -947,7 +953,7 @@ class SpaceCarbonDOCXExporter:
                     p = cell.paragraphs[0]
                     p.alignment = WD_ALIGN_PARAGRAPH.CENTER
                     run = p.add_run()
-                    run.add_picture(chart_buf, width=Inches(10.5))
+                    run.add_picture(chart_buf, width=Inches(chart_display_w))
 
                 if page_end < num_categories:
                     doc.add_page_break()
@@ -975,7 +981,7 @@ class SpaceCarbonDOCXExporter:
                     safe_r = _safe_list(r_data)
                     color = self.chart_colors[i % len(self.chart_colors)]
 
-                    fig, ax = plt.subplots(figsize=(10.5, 3.2))
+                    fig, ax = plt.subplots(figsize=(chart_fig_w, 3.2))
                     ax.plot(range(len(safe_r)), safe_r, linewidth=1.2,
                             color=color, marker='o', markersize=3,
                             markevery=max(1, len(safe_r) // 30),
@@ -1010,7 +1016,7 @@ class SpaceCarbonDOCXExporter:
                     p = cell.paragraphs[0]
                     p.alignment = WD_ALIGN_PARAGRAPH.CENTER
                     run = p.add_run()
-                    run.add_picture(chart_buf, width=Inches(10.5))
+                    run.add_picture(chart_buf, width=Inches(chart_display_w))
 
                 if page_end < num_categories:
                     doc.add_page_break()

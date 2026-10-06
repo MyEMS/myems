@@ -366,9 +366,13 @@ class SpaceEnergyItemDOCXExporter:
             self.name = name
             doc = Document()
             section = doc.sections[0]
-            section.orientation = 1
-            section.page_width = Inches(11.69)
-            section.page_height = Inches(8.27)
+            section.orientation = 0
+            section.page_width = Inches(8.27)
+            section.page_height = Inches(11.69)
+            section.left_margin = Inches(0.5)
+            section.right_margin = Inches(0.5)
+            section.top_margin = Inches(0.5)
+            section.bottom_margin = Inches(0.5)
             self._add_cover_page(doc, name, period_type,
                                  reporting_start_datetime_local,
                                  reporting_end_datetime_local,
@@ -394,9 +398,9 @@ class SpaceEnergyItemDOCXExporter:
 
         doc = Document()
         section = doc.sections[0]
-        section.orientation = 1
-        section.page_width = Inches(11.69)
-        section.page_height = Inches(8.27)
+        section.orientation = 0
+        section.page_width = Inches(8.27)
+        section.page_height = Inches(11.69)
         section.left_margin = Inches(0.5)
         section.right_margin = Inches(0.5)
         section.top_margin = Inches(0.5)
@@ -513,9 +517,9 @@ class SpaceEnergyItemDOCXExporter:
             return
 
         body_section = doc.add_section(WD_SECTION.NEW_PAGE)
-        body_section.orientation = 1
-        body_section.page_width = Inches(11.69)
-        body_section.page_height = Inches(8.27)
+        body_section.orientation = 0
+        body_section.page_width = Inches(8.27)
+        body_section.page_height = Inches(11.69)
         body_section.left_margin = Inches(0.5)
         body_section.right_margin = Inches(0.5)
         body_section.top_margin = Inches(0.5)
@@ -626,7 +630,7 @@ class SpaceEnergyItemDOCXExporter:
                 p = right_cell.paragraphs[0]
                 p.alignment = WD_ALIGN_PARAGRAPH.CENTER
                 run = p.add_run()
-                run.add_picture(chart_file, width=Inches(3.0))
+                run.add_picture(chart_file, width=Inches(1.6))
 
             doc.add_paragraph('')
 
@@ -646,7 +650,7 @@ class SpaceEnergyItemDOCXExporter:
 
         reporting_times = timestamps[0]
         num_items = len(names)
-        rows_per_table_page = 45
+        rows_per_table_page = 70
 
         is_base = self.is_base_period_exists
         if is_base:
@@ -782,8 +786,8 @@ class SpaceEnergyItemDOCXExporter:
                 rotation=45, ha='right', fontsize=7)
 
         all_charts = []
-        fig_w, fig_h = 10.5, 3.2
-        display_w = 10.5
+        fig_w, fig_h = 7.27, 3.2
+        display_w = 7.27
 
         for i in range(num_items):
             color = self.chart_colors[i % len(self.chart_colors)]
@@ -841,7 +845,7 @@ class SpaceEnergyItemDOCXExporter:
                 all_charts.append(self._fig_to_bytesio(fig, self.dpi))
 
         num_total_charts = len(all_charts)
-        charts_per_page = 2
+        charts_per_page = 3
         first_chart_page = True
 
         for page_start in range(0, num_total_charts, charts_per_page):
@@ -859,8 +863,8 @@ class SpaceEnergyItemDOCXExporter:
                 p.alignment = WD_ALIGN_PARAGRAPH.CENTER
                 run = p.add_run()
                 run.add_picture(chart_buf, width=Inches(display_w))
-            elif num_on_page == 2:
-                container = doc.add_table(rows=2, cols=1)
+            else:
+                container = doc.add_table(rows=num_on_page, cols=1)
                 container.alignment = WD_TABLE_ALIGNMENT.CENTER
                 _remove_table_borders(container)
                 for ci, buf in enumerate(page_bufs):
@@ -930,7 +934,7 @@ class SpaceEnergyItemDOCXExporter:
                 _style_table_cell(c_val, font_size=8)
 
         charts_per_row = 3
-        per_chart_w = 3.2
+        per_chart_w = 2.3
         charts_data = []
         for j in range(item_len):
             values = []
@@ -956,7 +960,7 @@ class SpaceEnergyItemDOCXExporter:
             p.alignment = WD_ALIGN_PARAGRAPH.CENTER
             run = p.add_run()
             total_w = per_chart_w * len(row_charts)
-            max_w = 10
+            max_w = 7.0
             insert_w = min(total_w, max_w)
             run.add_picture(row_file, width=Inches(insert_w))
 
