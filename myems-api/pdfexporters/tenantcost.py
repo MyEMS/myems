@@ -27,6 +27,7 @@ import matplotlib.pyplot as plt
 from matplotlib.backends.backend_pdf import PdfPages
 
 import matplotlib.gridspec as gridspec
+from matplotlib.lines import Line2D
 
 
 from core.utilities import get_translation, round2
@@ -106,8 +107,8 @@ class TenantCostPDFExporter:
         self.trans = get_translation(language)
         self._ = self.trans.gettext
 
-        # Page settings - A4 landscape
-        self.page_size = (11.69, 8.27)
+        # Page settings - A4 portrait
+        self.page_size = (8.27, 11.69)  # A4 portrait
         self.dpi = 80
 
         # Color scheme
@@ -199,6 +200,13 @@ class TenantCostPDFExporter:
 
         self.is_base_period_exists = self._is_base_period_timestamp_exists(report.get('base_period', {}))
 
+        # Header/footer setup for body pages (cover page is excluded)
+        _ = self._
+        self.header_title = (f"{_('Tenant Data')} - {_('Cost')}"
+                             f"  |  {self.name}")
+        # Body page counter; cover page is not counted, body starts at 1
+        self.current_page_number = 0
+
         with PdfPages(filename) as pdf:
             # Cover page
             self._create_cover_page(pdf, name, period_type,
@@ -222,6 +230,31 @@ class TenantCostPDFExporter:
 
         logger.info(f"PDF generated: {filename}")
         return filename
+
+    def _draw_header_footer(self, fig):
+        """Draw the standard MyEMS header (centered title + grey separator) and
+        footer (centered current page number) on a body page figure.
+        The cover page must NOT call this method.
+        """
+        # Header: centered title near top edge
+        fig.text(0.5, 0.97, self.header_title,
+                 fontsize=9, ha='center', va='center')
+        # Header separator line (light grey), just below header text
+        sep = Line2D([0.05, 0.95], [0.955, 0.955],
+                     transform=fig.transFigure, color='#999999', lw=0.8)
+        fig.add_artist(sep)
+        # Footer: centered current page number near bottom edge
+        fig.text(0.5, 0.02, str(self.current_page_number),
+                 fontsize=9, ha='center', va='center')
+
+    def _save_body_page(self, pdf, fig):
+        """Unified exit for every non-cover page: bump the page counter, draw
+        header/footer, then save and close the figure.
+        """
+        self.current_page_number += 1
+        self._draw_header_footer(fig)
+        pdf.savefig(fig)
+        plt.close(fig)
 
     def _create_cover_page(self, pdf, name, period_type,
                            reporting_start, reporting_end,
@@ -256,7 +289,7 @@ class TenantCostPDFExporter:
         # Info list
         info_data = [
             [_('Name') + ':', name],
-            [_('Period Type') + ':', period_type],
+            [_('Period Type') + ':', _(period_type)],
             [_('Reporting Start Datetime') + ':', reporting_start],
             [_('Reporting End Datetime') + ':', reporting_end],
         ]
@@ -352,11 +385,11 @@ class TenantCostPDFExporter:
 
         fig = plt.figure(figsize=self.page_size)
         fig.suptitle(self.name + ' - ' + _('Reporting Period Costs'),
-                     fontsize=16, weight='bold', y=0.98)
+                     fontsize=16, weight='bold', y=0.94)
 
         # Layout: top row = Reporting Period table (full width)
         #         bottom area = 2 columns (Time-of-use + Cost proportion)
-        gs_main = gridspec.GridSpec(2, 1, height_ratios=[0.28, 0.72], hspace=0.30)
+        gs_main = gridspec.GridSpec(2, 1, height_ratios=[0.28, 0.72], hspace=0.30, top=0.90, bottom=0.05, left=0.04, right=0.96)
 
         # ===== Top row: Reporting Period Costs table =====
         ax_rp = fig.add_subplot(gs_main[0])
@@ -451,8 +484,7 @@ class TenantCostPDFExporter:
                             ha='center', va='center', transform=ax_chart2.transAxes)
             ax_chart2.axis('off')
 
-        pdf.savefig(fig)
-        plt.close()
+        self._save_body_page(pdf, fig)
 
     def _create_detailed_data_page(self, pdf: PdfPages):
         """Create detailed data table pages matching Excel full data table."""
@@ -485,7 +517,7 @@ class TenantCostPDFExporter:
 
                 fig = plt.figure(figsize=self.page_size)
                 fig.suptitle(self.name + ' ' + _('Detailed Data'),
-                             fontsize=16, weight='bold', y=0.98)
+                             fontsize=16, weight='bold', y=0.94)
 
                 gs = gridspec.GridSpec(1, 1)
                 ax_table = fig.add_subplot(gs[0])
@@ -524,8 +556,7 @@ class TenantCostPDFExporter:
                     table[last_row, j].set_text_props(weight='bold')
                 _style_table_borders(table, len(table_data), num_cols)
 
-                pdf.savefig(fig)
-                plt.close()
+                self._save_body_page(pdf, fig)
         else:
             base_period_data = self.report['base_period']
             base_timestamps = base_period_data.get('timestamps', [])
@@ -548,7 +579,7 @@ class TenantCostPDFExporter:
 
                 fig = plt.figure(figsize=self.page_size)
                 fig.suptitle(self.name + ' ' + _('Detailed Data'),
-                             fontsize=16, weight='bold', y=0.98)
+                             fontsize=16, weight='bold', y=0.94)
 
                 gs = gridspec.GridSpec(1, 1)
                 ax_table = fig.add_subplot(gs[0])
@@ -602,8 +633,7 @@ class TenantCostPDFExporter:
                     table[last_row, j].set_text_props(weight='bold')
                 _style_table_borders(table, len(table_data), num_cols)
 
-                pdf.savefig(fig)
-                plt.close()
+                self._save_body_page(pdf, fig)
 
 
     def _create_detailed_data_charts(self, pdf: PdfPages):
@@ -637,7 +667,7 @@ class TenantCostPDFExporter:
 
                 fig = plt.figure(figsize=self.page_size)
                 fig.suptitle(self.name + ' ' + _('Detailed Data'),
-                             fontsize=16, weight='bold', y=0.98)
+                             fontsize=16, weight='bold', y=0.94)
 
                 # Layout: 1 chart = full width; 2+ charts = 2-column grid
                 if n == 1:
@@ -670,8 +700,7 @@ class TenantCostPDFExporter:
                                        fontsize=9, weight='bold')
                     ax_chart.grid(True, alpha=0.3)
 
-                pdf.savefig(fig)
-                plt.close()
+                self._save_body_page(pdf, fig)
         else:
             # With base period: paginate comparison charts
             base_period_data = self.report['base_period']
@@ -690,7 +719,7 @@ class TenantCostPDFExporter:
 
                 fig = plt.figure(figsize=self.page_size)
                 fig.suptitle(self.name + ' ' + _('Detailed Data'),
-                             fontsize=16, weight='bold', y=0.98)
+                             fontsize=16, weight='bold', y=0.94)
 
                 # Layout: 1 chart = full width; 2+ charts = 2-column grid
                 if n == 1:
@@ -738,8 +767,7 @@ class TenantCostPDFExporter:
                     ax_chart.legend(fontsize=7)
                     ax_chart.grid(True, alpha=0.3)
 
-                pdf.savefig(fig)
-                plt.close()
+                self._save_body_page(pdf, fig)
 
     def _create_parameters_page(self, pdf):
         """Create parameters pages: batch 4 parameters per page with compact table + chart."""
@@ -784,10 +812,10 @@ class TenantCostPDFExporter:
             fig = plt.figure(figsize=self.page_size)
             fig.suptitle(self.name + ' ' + _('Parameters') +
                          ' (' + str(batch_start + 1) + '-' + str(batch_end) + ')',
-                         fontsize=16, weight='bold', y=0.98)
+                         fontsize=16, weight='bold', y=0.94)
 
             gs = gridspec.GridSpec(len(valid_params), 2, width_ratios=[0.35, 0.65],
-                                   hspace=0.50)
+                                   hspace=0.50, top=0.90, bottom=0.05, left=0.04, right=0.96)
 
             for idx, pi in enumerate(valid_params):
                 name = param_names[pi]
@@ -827,8 +855,7 @@ class TenantCostPDFExporter:
                 ax_chart.set_title(name, fontsize=9, weight='bold')
                 ax_chart.grid(True, alpha=0.3)
 
-            pdf.savefig(fig)
-            plt.close()
+            self._save_body_page(pdf, fig)
 
     def _is_base_period_timestamp_exists(self, base_period_data):
         """Check if base period timestamp exists."""

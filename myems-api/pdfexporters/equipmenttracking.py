@@ -32,6 +32,8 @@ import matplotlib.pyplot as plt
 
 from matplotlib.backends.backend_pdf import PdfPages
 
+from matplotlib.lines import Line2D
+
 from core.utilities import get_translation
 
 # Configure logging
@@ -109,8 +111,8 @@ class EquipmentTrackingPDFExporter:
         self.trans = get_translation(language)
         self._ = self.trans.gettext
 
-        # Page settings - A4 landscape
-        self.page_size = (11.69, 8.27)
+        # Page settings - A4 portrait
+        self.page_size = (8.27, 11.69)  # A4 portrait
         self.dpi = 80
 
     def export(self,
@@ -152,6 +154,13 @@ class EquipmentTrackingPDFExporter:
         self.report = _convert_decimals(report)
         self.space_name = space_name
 
+        # Header/footer setup for body pages (cover page is excluded)
+        _ = self._
+        self.header_title = (f"{_('Equipment Data')} - {_('Tracking')}"
+                             f"  |  {self.space_name}")
+        # Body page counter; cover page is not counted, body starts at 1
+        self.current_page_number = 0
+
         with PdfPages(filename) as pdf:
             # Cover page
             self._create_cover_page(pdf)
@@ -161,6 +170,31 @@ class EquipmentTrackingPDFExporter:
 
         logger.info(f"PDF generated: {filename}")
         return filename
+
+    def _draw_header_footer(self, fig):
+        """Draw the standard MyEMS header (centered title + grey separator) and
+        footer (centered current page number) on a body page figure.
+        The cover page must NOT call this method.
+        """
+        # Header: centered title near top edge
+        fig.text(0.5, 0.97, self.header_title,
+                 fontsize=9, ha='center', va='center')
+        # Header separator line (light grey), just below header text
+        sep = Line2D([0.05, 0.95], [0.955, 0.955],
+                     transform=fig.transFigure, color='#999999', lw=0.8)
+        fig.add_artist(sep)
+        # Footer: centered current page number near bottom edge
+        fig.text(0.5, 0.02, str(self.current_page_number),
+                 fontsize=9, ha='center', va='center')
+
+    def _save_body_page(self, pdf, fig):
+        """Unified exit for every non-cover page: bump the page counter, draw
+        header/footer, then save and close the figure.
+        """
+        self.current_page_number += 1
+        self._draw_header_footer(fig)
+        pdf.savefig(fig)
+        plt.close(fig)
 
     def _create_cover_page(self, pdf: PdfPages):
         """Create cover page with logo, centered title, and borderless info list."""
@@ -241,11 +275,11 @@ class EquipmentTrackingPDFExporter:
             fig = plt.figure(figsize=self.page_size)
             if num_pages == 1:
                 fig.suptitle(self.space_name + ' - ' + _('Equipment Tracking'),
-                             fontsize=16, weight='bold', y=0.98)
+                             fontsize=16, weight='bold', y=0.94)
             else:
                 fig.suptitle(self.space_name + ' - ' + _('Equipment Tracking') +
                              ' (' + str(page + 1) + '/' + str(num_pages) + ')',
-                             fontsize=16, weight='bold', y=0.98)
+                             fontsize=16, weight='bold', y=0.94)
 
             # Build table data
             table_data = [col_headers]
@@ -287,8 +321,7 @@ class EquipmentTrackingPDFExporter:
 
             _style_table_borders(tbl, len(table_data), total_cols)
 
-            pdf.savefig(fig)
-            plt.close()
+            self._save_body_page(pdf, fig)
 
 
 # Convenience function for backward compatibility
