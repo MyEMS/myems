@@ -271,7 +271,6 @@ class EquipmentCarbonPDFExporter:
             self._create_detailed_data_page(pdf)
 
             # Separate line charts for each energy category (matching Excel)
-            self._create_detailed_data_charts(pdf)
 
             # Parameters
             self._create_parameters_page(pdf)
@@ -546,7 +545,7 @@ class EquipmentCarbonPDFExporter:
         total_unit = reporting_data.get('total_unit', 'KGCO2E')
         ca_len = len(names)
 
-        rows_per_page = 100
+        rows_per_page = 40
 
         if not self.is_base_period_exists:
             # No base period: paginated table only
@@ -564,8 +563,38 @@ class EquipmentCarbonPDFExporter:
                 fig.suptitle(self.name + ' ' + _('Detailed Data'),
                              fontsize=16, weight='bold', y=0.94)
 
-                gs = gridspec.GridSpec(1, 1)
-                ax_table = fig.add_subplot(gs[0])
+                gs = gridspec.GridSpec(2, 1, height_ratios=[1, 1],
+                                       hspace=0.55,
+                                       top=0.88, bottom=0.04, left=0.05, right=0.96)
+
+                # ---- top half: detailed data line charts (all categories) ----
+                n_charts = len(names)
+                if n_charts > 0:
+                    if n_charts <= 3:
+                        ct_rows, ct_cols = 1, n_charts
+                    else:
+                        ct_rows, ct_cols = 2, (n_charts + 1) // 2
+                    gs_charts = gs[0].subgridspec(ct_rows, ct_cols,
+                                                  hspace=0.60, wspace=0.25)
+                    for i in range(n_charts):
+                        ax_chart = fig.add_subplot(gs_charts[i // ct_cols, i % ct_cols])
+                        cdata = values[i] if i < len(values) else []
+                        ccolor = self.colors['chart_colors'][i % len(self.colors['chart_colors'])]
+                        ax_chart.plot(range(len(cdata)), cdata, linewidth=1.0,
+                                      color=ccolor, marker='o', markersize=2,
+                                      markevery=max(1, len(cdata) // 30))
+                        cstep = max(1, len(cdata) // 8)
+                        ax_chart.set_xticks(range(0, len(cdata), cstep))
+                        ax_chart.set_xticklabels(
+                            [times[t][:10] if t < len(times) else ''
+                             for t in range(0, len(cdata), cstep)],
+                            rotation=45, ha='right', fontsize=6)
+                        ax_chart.set_title(_('Reporting Period Carbon Dioxide Emissions') + ' - ' + names[i] + ' (' + units[i] + ')',
+                                           fontsize=7, weight='bold')
+                        ax_chart.grid(True, alpha=0.3)
+
+                # ---- bottom half: detailed data table ----
+                ax_table = fig.add_subplot(gs[1])
                 ax_table.axis('off')
 
                 # Table header
@@ -637,8 +666,47 @@ class EquipmentCarbonPDFExporter:
                 fig.suptitle(self.name + ' ' + _('Detailed Data'),
                              fontsize=16, weight='bold', y=0.94)
 
-                gs = gridspec.GridSpec(1, 1)
-                ax_table = fig.add_subplot(gs[0])
+                gs = gridspec.GridSpec(2, 1, height_ratios=[1, 1],
+                                       hspace=0.55,
+                                       top=0.88, bottom=0.04, left=0.05, right=0.96)
+
+                # ---- top half: detailed data line charts (reporting vs base) ----
+                n_charts = len(names)
+                if n_charts > 0:
+                    if n_charts <= 3:
+                        ct_rows, ct_cols = 1, n_charts
+                    else:
+                        ct_rows, ct_cols = 2, (n_charts + 1) // 2
+                    gs_charts = gs[0].subgridspec(ct_rows, ct_cols,
+                                                  hspace=0.60, wspace=0.25)
+                    for i in range(n_charts):
+                        ax_chart = fig.add_subplot(gs_charts[i // ct_cols, i % ct_cols])
+                        cdata = values[i] if i < len(values) else []
+                        ccolor = self.colors['chart_colors'][i % len(self.colors['chart_colors'])]
+                        ax_chart.plot(range(len(cdata)), cdata, linewidth=1.0,
+                                      color=ccolor, marker='o', markersize=2,
+                                      markevery=max(1, len(cdata) // 30),
+                                      label=_('Reporting Period') + ' - ' + names[i])
+                        if i < len(base_values):
+                            b_data = base_values[i]
+                            ax_chart.plot(range(len(cdata)), b_data[:len(cdata)],
+                                          linewidth=1.0, color=ccolor, linestyle='--',
+                                          marker='s', markersize=2,
+                                          markevery=max(1, len(cdata) // 30),
+                                          label=_('Base Period') + ' - ' + base_names[i])
+                        cstep = max(1, len(cdata) // 8)
+                        ax_chart.set_xticks(range(0, len(cdata), cstep))
+                        ax_chart.set_xticklabels(
+                            [reporting_times[t][:10] if t < len(reporting_times) else ''
+                             for t in range(0, len(cdata), cstep)],
+                            rotation=45, ha='right', fontsize=6)
+                        ax_chart.set_title(_('Base Period Carbon Dioxide Emissions') + ' / ' + _('Reporting Period Carbon Dioxide Emissions') + ' - ' + names[i] + ' (' + units[i] + ')',
+                                           fontsize=7, weight='bold')
+                        ax_chart.legend(fontsize=6)
+                        ax_chart.grid(True, alpha=0.3)
+
+                # ---- bottom half: wide detailed data table ----
+                ax_table = fig.add_subplot(gs[1])
                 ax_table.axis('off')
 
                 col_headers = [_('Base Period') + ' - ' + _('Datetime')]
