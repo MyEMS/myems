@@ -573,3 +573,21 @@ msgstr "Analisi Comparativa"
 
 msgid "Combined Equipment Data"
 msgstr "Dati Apparecchiature Combinate"
+
+msgid "hourly"
+msgstr "Orario"
+
+msgid "daily"
+msgstr "Giornaliero"
+
+msgid "weekly"
+msgstr "Settimanale"
+
+msgid "monthly"
+msgstr "Mensile"
+
+msgid "yearly"
+msgstr "Annuale"
+
+msgid "Space Data"
+msgstr "Dati Spaziali"

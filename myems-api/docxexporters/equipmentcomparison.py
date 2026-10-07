@@ -36,11 +36,14 @@ import matplotlib.pyplot as plt
 from docx import Document
 from docx.shared import Inches, Pt
 from docx.enum.text import WD_ALIGN_PARAGRAPH, WD_LINE_SPACING
+from docx.enum.section import WD_SECTION
 from docx.enum.table import WD_TABLE_ALIGNMENT
 from docx.oxml.ns import qn
 from docx.oxml import OxmlElement
 
 from core.utilities import get_translation, round2
+
+from .docxcommon import configure_cover_section, configure_body_section
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
@@ -297,11 +300,14 @@ class EquipmentComparisonDOCXExporter:
             section.orientation = 1
             section.page_width = Inches(11.69)
             section.page_height = Inches(8.27)
+            self.equipment1_name = equipment1_name
+            self.equipment2_name = equipment2_name
             self._add_cover_page(doc, equipment1_name, equipment2_name,
                                  energy_category_name,
                                  reporting_start_datetime_local,
                                  reporting_end_datetime_local,
                                  period_type)
+            configure_cover_section(doc.sections[0])
             filename = str(uuid.uuid4()) + '.docx'
             doc.save(filename)
             return filename
@@ -332,6 +338,8 @@ class EquipmentComparisonDOCXExporter:
                              reporting_start_datetime_local,
                              reporting_end_datetime_local,
                              period_type)
+
+        configure_cover_section(doc.sections[0])
 
         self._add_combined_analysis_section(doc)
         self._add_detailed_data_section(doc)
@@ -384,7 +392,7 @@ class EquipmentComparisonDOCXExporter:
             [_('Equipment Data') + '1:', equipment1_name],
             [_('Equipment Data') + '2:', equipment2_name],
             [_('Energy Category') + ':', energy_category_name],
-            [_('Period Type') + ':', period_type],
+            [_('Period Type') + ':', _(period_type)],
             [_('Reporting Start Datetime') + ':', reporting_start],
             [_('Reporting End Datetime') + ':', reporting_end],
         ]
@@ -414,8 +422,6 @@ class EquipmentComparisonDOCXExporter:
             r_val.font.name = 'Arial'
             r_val._element.rPr.rFonts.set(qn('w:eastAsia'), 'SimSun')
 
-        doc.add_page_break()
-
     def _add_combined_analysis_section(self, doc):
         """Add combined analysis section: Consumption summary table + comparison chart."""
         _ = self._
@@ -429,6 +435,18 @@ class EquipmentComparisonDOCXExporter:
 
         unit = self.unit
         cat_name = self.energy_category_name
+
+        body_section = doc.add_section(WD_SECTION.NEW_PAGE)
+        body_section.orientation = 1
+        body_section.page_width = Inches(11.69)
+        body_section.page_height = Inches(8.27)
+        body_section.left_margin = Inches(0.5)
+        body_section.right_margin = Inches(0.5)
+        body_section.top_margin = Inches(0.5)
+        body_section.bottom_margin = Inches(0.5)
+        header_title = (f"{_('Equipment Data')} - {_('Equipment Comparison')}"
+                        f"  |  {self.equipment1_name} & {self.equipment2_name}")
+        configure_body_section(body_section, header_title=header_title)
 
         self._add_heading_styled(doc, self.equipment1_name + ' & ' + self.equipment2_name + ' - ' +
                                  _('Reporting Period Consumption'), level=1)
@@ -465,7 +483,7 @@ class EquipmentComparisonDOCXExporter:
             ys1 = self._sanitize_values(values1)
             ys2 = self._sanitize_values(values2)
 
-            fig, ax = plt.subplots(figsize=(9.75, 5.25))
+            fig, ax = plt.subplots(figsize=(10.5, 5.25))
             marker_step = max(1, len(xs) // 30)
 
             ax.plot(xs, ys1, linewidth=1.5, color='#4472C4',
@@ -492,7 +510,7 @@ class EquipmentComparisonDOCXExporter:
             p = doc.add_paragraph()
             p.alignment = WD_ALIGN_PARAGRAPH.CENTER
             run = p.add_run()
-            run.add_picture(chart_buf, width=Inches(9.75))
+            run.add_picture(chart_buf, width=Inches(10.5))
 
         doc.add_page_break()
 
@@ -514,7 +532,9 @@ class EquipmentComparisonDOCXExporter:
 
         unit = self.unit
         cat_name = self.energy_category_name
-        rows_per_page = 50
+        rows_per_page = 45
+        header_font = 8
+        data_font = 7
 
         self._add_heading_styled(doc, self.equipment1_name + ' & ' + self.equipment2_name + ' ' +
                                  _('Detailed Data'), level=1)
@@ -540,32 +560,32 @@ class EquipmentComparisonDOCXExporter:
             for j, h in enumerate(col_headers):
                 c = table.cell(0, j)
                 c.text = h
-                _style_table_cell(c, is_header=True, bold=True, font_size=8)
+                _style_table_cell(c, is_header=True, bold=True, font_size=header_font)
 
             for t_idx in range(page_rows):
                 global_idx = start_row + t_idx
                 r_idx = t_idx + 1
                 c0 = table.cell(r_idx, 0)
                 c0.text = str(timestamps[global_idx])
-                _style_table_cell(c0, font_size=8)
+                _style_table_cell(c0, font_size=data_font)
 
                 v1 = round2(values1[global_idx], 2) \
                     if global_idx < len(values1) and values1[global_idx] is not None else ''
                 c1 = table.cell(r_idx, 1)
                 c1.text = str(v1) if v1 != '' else ''
-                _style_table_cell(c1, font_size=8)
+                _style_table_cell(c1, font_size=data_font)
 
                 v2 = round2(values2[global_idx], 2) \
                     if global_idx < len(values2) and values2[global_idx] is not None else ''
                 c2 = table.cell(r_idx, 2)
                 c2.text = str(v2) if v2 != '' else ''
-                _style_table_cell(c2, font_size=8)
+                _style_table_cell(c2, font_size=data_font)
 
                 vd = round2(diff_values[global_idx], 2) \
                     if global_idx < len(diff_values) and diff_values[global_idx] is not None else ''
                 c3 = table.cell(r_idx, 3)
                 c3.text = str(vd) if vd != '' else ''
-                _style_table_cell(c3, font_size=8)
+                _style_table_cell(c3, font_size=data_font)
 
             total_row_idx = page_rows + 1
             total1 = round2(reporting_data1.get('total_in_category', 0), 2)
@@ -574,16 +594,16 @@ class EquipmentComparisonDOCXExporter:
 
             c_t0 = table.cell(total_row_idx, 0)
             c_t0.text = _('Total')
-            _style_table_cell(c_t0, bold=True, font_size=8)
+            _style_table_cell(c_t0, bold=True, font_size=data_font)
             c_t1 = table.cell(total_row_idx, 1)
             c_t1.text = str(total1)
-            _style_table_cell(c_t1, bold=True, font_size=8)
+            _style_table_cell(c_t1, bold=True, font_size=data_font)
             c_t2 = table.cell(total_row_idx, 2)
             c_t2.text = str(total2)
-            _style_table_cell(c_t2, bold=True, font_size=8)
+            _style_table_cell(c_t2, bold=True, font_size=data_font)
             c_t3 = table.cell(total_row_idx, 3)
             c_t3.text = str(total_diff)
-            _style_table_cell(c_t3, bold=True, font_size=8)
+            _style_table_cell(c_t3, bold=True, font_size=data_font)
 
             if page < num_pages - 1:
                 doc.add_page_break()

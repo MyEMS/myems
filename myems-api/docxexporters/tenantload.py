@@ -38,9 +38,11 @@ from docx import Document
 from docx.shared import Inches, Pt
 from docx.enum.text import WD_ALIGN_PARAGRAPH, WD_LINE_SPACING
 from docx.enum.table import WD_TABLE_ALIGNMENT
+from docx.enum.section import WD_SECTION
 from docx.oxml.ns import qn
 from docx.oxml import OxmlElement
 
+from .docxcommon import configure_cover_section, configure_body_section
 from core.utilities import get_translation, round2
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
@@ -301,6 +303,8 @@ class TenantLoadDOCXExporter:
                                  base_period_start_datetime_local,
                                  base_period_end_datetime_local,
                                  False)
+            self.name = name
+            configure_cover_section(doc.sections[0])
             filename = str(uuid.uuid4()) + '.docx'
             doc.save(filename)
             return filename
@@ -334,6 +338,8 @@ class TenantLoadDOCXExporter:
                              base_period_start_datetime_local,
                              base_period_end_datetime_local,
                              self.is_base_period_exists)
+
+        configure_cover_section(doc.sections[0])
 
         self._add_combined_analysis(doc)
         self._add_detailed_data_charts(doc)
@@ -385,7 +391,7 @@ class TenantLoadDOCXExporter:
 
         info_data = [
             [_('Name') + ':', name],
-            [_('Period Type') + ':', period_type],
+            [_('Period Type') + ':', _(period_type)],
             [_('Reporting Start Datetime') + ':', reporting_start],
             [_('Reporting End Datetime') + ':', reporting_end],
         ]
@@ -418,8 +424,6 @@ class TenantLoadDOCXExporter:
             r_val.font.name = 'Arial'
             r_val._element.rPr.rFonts.set(qn('w:eastAsia'), 'SimSun')
 
-        doc.add_page_break()
-
     def _add_combined_analysis(self, doc):
         _ = self._
         reporting_data = self.report['reporting_period']
@@ -437,6 +441,17 @@ class TenantLoadDOCXExporter:
 
         if ca_len == 0:
             return
+
+        body_section = doc.add_section(WD_SECTION.NEW_PAGE)
+        body_section.orientation = 1
+        body_section.page_width = Inches(11.69)
+        body_section.page_height = Inches(8.27)
+        body_section.left_margin = Inches(0.5)
+        body_section.right_margin = Inches(0.5)
+        body_section.top_margin = Inches(0.5)
+        body_section.bottom_margin = Inches(0.5)
+        header_title = f"{_('Tenant Data')} - {_('Load')}  |  {self.name}"
+        configure_body_section(body_section, header_title=header_title)
 
         col_headers_with_units = ['']
         for i in range(ca_len):
@@ -550,6 +565,7 @@ class TenantLoadDOCXExporter:
 
     def _add_detailed_data_charts(self, doc):
         _ = self._
+
         reporting_data = self.report['reporting_period']
         timestamps = reporting_data.get('timestamps', [])
         names = reporting_data.get('names', [])
@@ -558,127 +574,20 @@ class TenantLoadDOCXExporter:
         sub_maximums = reporting_data.get('sub_maximums', [])
         averages = reporting_data.get('averages', [])
         maximums = reporting_data.get('maximums', [])
+
         if not timestamps or len(timestamps[0]) == 0 or not names:
             return
-        doc.add_page_break()
+
         reporting_times = timestamps[0]
         num_categories = len(names)
         has_sub_averages = len(sub_averages) > 0
         has_sub_maximums = len(sub_maximums) > 0
         if not has_sub_averages and not has_sub_maximums:
             return
-        rows_per_page = 25
-        if not self.is_base_period_exists:
-            first_category = True
-            for i in range(num_categories):
-                unit_i = units[i] if (units and i < len(units)) else ''
-                avg_data = sub_averages[i] if (has_sub_averages and i < len(sub_averages)) else []
-                max_data = sub_maximums[i] if (has_sub_maximums and i < len(sub_maximums)) else []
-                total_rows = max(len(avg_data), len(max_data), len(reporting_times))
-                if total_rows == 0:
-                    continue
-                num_pages = (total_rows + rows_per_page - 1) // rows_per_page
-                for page in range(num_pages):
-                    start_row = page * rows_per_page
-                    end_row = min(start_row + rows_per_page, total_rows)
-                    if first_category and page == 0:
-                        self._add_heading_styled(doc, self.name + ' ' + _('Detailed Data'), level=1)
-                        first_category = False
-                    container = doc.add_table(rows=2, cols=1)
-                    container.alignment = WD_TABLE_ALIGNMENT.CENTER
-                    _remove_table_borders(container)
-                    table_cell = container.cell(0, 0)
-                    chart_cell = container.cell(1, 0)
-                    col_headers = [_('Datetime')]
-                    if has_sub_averages:
-                        col_headers.append(names[i] + ' ' + _('Average Load') + ((' (' + unit_i + '/H)') if unit_i else ''))
-                    if has_sub_maximums:
-                        col_headers.append(names[i] + ' ' + _('Maximum Load') + ((' (' + unit_i + '/H)') if unit_i else ''))
-                    table_data = [col_headers]
-                    for t_idx in range(start_row, end_row):
-                        row_vals = [reporting_times[t_idx] if t_idx < len(reporting_times) else '']
-                        if has_sub_averages:
-                            v = avg_data[t_idx] if t_idx < len(avg_data) else None
-                            row_vals.append(str(round2(v, 2)) if v is not None else '')
-                        if has_sub_maximums:
-                            v = max_data[t_idx] if t_idx < len(max_data) else None
-                            row_vals.append(str(round2(v, 2)) if v is not None else '')
-                        table_data.append(row_vals)
-                    total_row = [_('Total/Aggregate')]
-                    if has_sub_averages:
-                        v = averages[i] if (averages and i < len(averages)) else None
-                        total_row.append(str(round2(v, 2)) if v is not None else '')
-                    if has_sub_maximums:
-                        v = maximums[i] if (maximums and i < len(maximums)) else None
-                        total_row.append(str(round2(v, 2)) if v is not None else '')
-                    table_data.append(total_row)
-                    num_cols = len(col_headers)
-                    data_table = table_cell.add_table(rows=len(table_data), cols=num_cols)
-                    data_table.alignment = WD_TABLE_ALIGNMENT.CENTER
-                    p_elem = table_cell.paragraphs[0]._element
-                    p_elem.getparent().remove(p_elem)
-                    for j in range(num_cols):
-                        cell = data_table.cell(0, j)
-                        cell.text = col_headers[j]
-                        _style_table_cell(cell, is_header=True, bold=True, font_size=8)
-                    for di in range(1, len(table_data) - 1):
-                        for j in range(num_cols):
-                            cell = data_table.cell(di, j)
-                            cell.text = table_data[di][j]
-                            _style_table_cell(cell, font_size=7)
-                    last_row = len(table_data) - 1
-                    for j in range(num_cols):
-                        cell = data_table.cell(last_row, j)
-                        cell.text = table_data[last_row][j]
-                        _style_table_cell(cell, bold=True, font_size=7)
-                    fig, ax_chart = plt.subplots(figsize=(8.5, 2.8))
-                    page_len = end_row - start_row
-                    if has_sub_averages:
-                        page_avg = []
-                        for t_idx in range(start_row, end_row):
-                            v = avg_data[t_idx] if t_idx < len(avg_data) else None
-                            page_avg.append(float(v) if v is not None else 0.0)
-                        ax_chart.plot(range(page_len), page_avg, linewidth=1.2,
-                                      color=self.chart_colors[0],
-                                      marker='o', markersize=3,
-                                      markevery=max(1, page_len // 15),
-                                      label=names[i] + ' ' + _('Average Load'))
-                    if has_sub_maximums:
-                        page_max = []
-                        for t_idx in range(start_row, end_row):
-                            v = max_data[t_idx] if t_idx < len(max_data) else None
-                            page_max.append(float(v) if v is not None else 0.0)
-                        ax_chart.plot(range(page_len), page_max, linewidth=1.2,
-                                      color=self.chart_colors[1],
-                                      marker='s', markersize=3,
-                                      markevery=max(1, page_len // 15),
-                                      label=names[i] + ' ' + _('Maximum Load'))
-                    step = max(1, page_len // 8)
-                    tick_positions = list(range(0, page_len, step))
-                    tick_labels = []
-                    for t in tick_positions:
-                        if start_row + t < len(reporting_times):
-                            tick_labels.append(reporting_times[start_row + t])
-                    tick_positions = tick_positions[:len(tick_labels)]
-                    ax_chart.set_xticks(tick_positions)
-                    ax_chart.set_xticklabels(tick_labels, rotation=45, ha='right', fontsize=7)
-                    title = _('Reporting Period Load') + ' - ' + names[i]
-                    if unit_i:
-                        title = title + ' (' + unit_i + '/H)'
-                    ax_chart.set_title(title, fontsize=10, weight='bold')
-                    if has_sub_averages or has_sub_maximums:
-                        ax_chart.legend(fontsize=7, loc='upper right')
-                    ax_chart.grid(True, alpha=0.3)
-                    chart_buf = self._fig_to_bytesio(fig, self.dpi)
-                    p = chart_cell.paragraphs[0]
-                    p.alignment = WD_ALIGN_PARAGRAPH.CENTER
-                    run = p.add_run()
-                    run.add_picture(chart_buf, width=Inches(8.5))
-                    if page < num_pages - 1:
-                        doc.add_page_break()
-                if i < num_categories - 1:
-                    doc.add_page_break()
-        else:
+        rows_per_table_page = 45
+
+        is_base = self.is_base_period_exists
+        if is_base:
             base_period_data = self.report['base_period']
             base_timestamps = base_period_data.get('timestamps', [[]])
             base_times = base_timestamps[0] if len(base_timestamps) > 0 else []
@@ -686,40 +595,107 @@ class TenantLoadDOCXExporter:
             base_sub_maximums = base_period_data.get('sub_maximums', [])
             base_averages = base_period_data.get('averages', [])
             base_maximums = base_period_data.get('maximums', [])
-            first_category = True
-            for i in range(num_categories):
-                unit_i = units[i] if (units and i < len(units)) else ''
-                r_avg = sub_averages[i] if (has_sub_averages and i < len(sub_averages)) else []
-                r_max = sub_maximums[i] if (has_sub_maximums and i < len(sub_maximums)) else []
-                b_avg = base_sub_averages[i] if (has_sub_averages and i < len(base_sub_averages)) else []
-                b_max = base_sub_maximums[i] if (has_sub_maximums and i < len(base_sub_maximums)) else []
-                total_rows = max(len(r_avg), len(r_max), len(reporting_times), len(b_avg), len(b_max), len(base_times))
+        else:
+            base_times = []
+            base_sub_averages = []
+            base_sub_maximums = []
+            base_averages = []
+            base_maximums = []
+
+        header_font = 8
+        data_font = 7
+
+        doc.add_page_break()
+        self._add_heading_styled(doc, self.name + ' ' + _('Detailed Data'), level=1)
+
+        first_table_page = True
+        for i in range(num_categories):
+            unit_i = units[i] if (units and i < len(units)) else ''
+            value_unit = ((' (' + unit_i + '/H)') if unit_i else '')
+
+            r_avg = sub_averages[i] if (has_sub_averages and i < len(sub_averages)) else []
+            r_max = sub_maximums[i] if (has_sub_maximums and i < len(sub_maximums)) else []
+            r_avg_total = averages[i] if (averages and i < len(averages)) else None
+            r_max_total = maximums[i] if (maximums and i < len(maximums)) else None
+
+            b_avg = base_sub_averages[i] if (has_sub_averages and i < len(base_sub_averages)) else []
+            b_max = base_sub_maximums[i] if (has_sub_maximums and i < len(base_sub_maximums)) else []
+            b_avg_total = base_averages[i] if (base_averages and i < len(base_averages)) else None
+            b_max_total = base_maximums[i] if (base_maximums and i < len(base_maximums)) else None
+
+            if not is_base:
+                total_rows = max(len(r_avg), len(r_max), len(reporting_times))
                 if total_rows == 0:
                     continue
-                num_pages = (total_rows + rows_per_page - 1) // rows_per_page
+                num_pages = (total_rows + rows_per_table_page - 1) // rows_per_table_page
                 for page in range(num_pages):
-                    start_row = page * rows_per_page
-                    end_row = min(start_row + rows_per_page, total_rows)
-                    if first_category and page == 0:
-                        self._add_heading_styled(doc, self.name + ' ' + _('Detailed Data'), level=1)
-                        first_category = False
-                    container = doc.add_table(rows=2, cols=1)
-                    container.alignment = WD_TABLE_ALIGNMENT.CENTER
-                    _remove_table_borders(container)
-                    table_cell = container.cell(0, 0)
-                    chart_cell = container.cell(1, 0)
+                    start_row = page * rows_per_table_page
+                    end_row = min(start_row + rows_per_table_page, total_rows)
+                    if not first_table_page:
+                        doc.add_page_break()
+                    first_table_page = False
+                    col_headers = [_('Datetime')]
+                    if has_sub_averages:
+                        col_headers.append(names[i] + ' ' + _('Average Load') + value_unit)
+                    if has_sub_maximums:
+                        col_headers.append(names[i] + ' ' + _('Maximum Load') + value_unit)
+                    table_data = [col_headers]
+                    for t_idx in range(start_row, end_row):
+                        row_vals = [reporting_times[t_idx] if t_idx < len(reporting_times) else '']
+                        if has_sub_averages:
+                            v = r_avg[t_idx] if t_idx < len(r_avg) else None
+                            row_vals.append(str(round2(v, 2)) if v is not None else '')
+                        if has_sub_maximums:
+                            v = r_max[t_idx] if t_idx < len(r_max) else None
+                            row_vals.append(str(round2(v, 2)) if v is not None else '')
+                        table_data.append(row_vals)
+                    total_row = [_('Total/Aggregate')]
+                    if has_sub_averages:
+                        total_row.append(str(round2(r_avg_total, 2)) if r_avg_total is not None else '')
+                    if has_sub_maximums:
+                        total_row.append(str(round2(r_max_total, 2)) if r_max_total is not None else '')
+                    table_data.append(total_row)
+                    num_cols = len(col_headers)
+                    data_table = doc.add_table(rows=len(table_data), cols=num_cols)
+                    data_table.alignment = WD_TABLE_ALIGNMENT.CENTER
+                    for j in range(num_cols):
+                        cell = data_table.cell(0, j)
+                        cell.text = col_headers[j]
+                        _style_table_cell(cell, is_header=True, bold=True, font_size=header_font)
+                    for di in range(1, len(table_data) - 1):
+                        for j in range(num_cols):
+                            cell = data_table.cell(di, j)
+                            cell.text = table_data[di][j]
+                            _style_table_cell(cell, font_size=data_font)
+                    last_row = len(table_data) - 1
+                    for j in range(num_cols):
+                        cell = data_table.cell(last_row, j)
+                        cell.text = table_data[last_row][j]
+                        _style_table_cell(cell, bold=True, font_size=data_font)
+            else:
+                total_rows = max(len(r_avg), len(r_max), len(reporting_times),
+                                 len(b_avg), len(b_max), len(base_times))
+                if total_rows == 0:
+                    continue
+                num_pages = (total_rows + rows_per_table_page - 1) // rows_per_table_page
+                for page in range(num_pages):
+                    start_row = page * rows_per_table_page
+                    end_row = min(start_row + rows_per_table_page, total_rows)
+                    if not first_table_page:
+                        doc.add_page_break()
+                    first_table_page = False
                     col_headers = []
                     if len(base_times) > 0:
                         col_headers.append(_('Base Period') + ' - ' + _('Datetime'))
                         if has_sub_averages:
-                            col_headers.append(_('Base Period') + ' - ' + names[i] + ' ' + _('Average Load') + ((' (' + unit_i + '/H)') if unit_i else ''))
+                            col_headers.append(_('Base Period') + ' - ' + names[i] + ' ' + _('Average Load') + value_unit)
                         if has_sub_maximums:
-                            col_headers.append(_('Base Period') + ' - ' + names[i] + ' ' + _('Maximum Load') + ((' (' + unit_i + '/H)') if unit_i else ''))
+                            col_headers.append(_('Base Period') + ' - ' + names[i] + ' ' + _('Maximum Load') + value_unit)
                     col_headers.append(_('Reporting Period') + ' - ' + _('Datetime'))
                     if has_sub_averages:
-                        col_headers.append(_('Reporting Period') + ' - ' + names[i] + ' ' + _('Average Load') + ((' (' + unit_i + '/H)') if unit_i else ''))
+                        col_headers.append(_('Reporting Period') + ' - ' + names[i] + ' ' + _('Average Load') + value_unit)
                     if has_sub_maximums:
-                        col_headers.append(_('Reporting Period') + ' - ' + names[i] + ' ' + _('Maximum Load') + ((' (' + unit_i + '/H)') if unit_i else ''))
+                        col_headers.append(_('Reporting Period') + ' - ' + names[i] + ' ' + _('Maximum Load') + value_unit)
                     table_data = [col_headers]
                     for t_idx in range(start_row, end_row):
                         row_vals = []
@@ -743,100 +719,155 @@ class TenantLoadDOCXExporter:
                     if len(base_times) > 0:
                         total_row.append(_('Total/Aggregate'))
                         if has_sub_averages:
-                            v = base_averages[i] if (base_averages and i < len(base_averages)) else None
-                            total_row.append(str(round2(v, 2)) if v is not None else '')
+                            total_row.append(str(round2(b_avg_total, 2)) if b_avg_total is not None else '')
                         if has_sub_maximums:
-                            v = base_maximums[i] if (base_maximums and i < len(base_maximums)) else None
-                            total_row.append(str(round2(v, 2)) if v is not None else '')
+                            total_row.append(str(round2(b_max_total, 2)) if b_max_total is not None else '')
                     total_row.append(_('Total/Aggregate'))
                     if has_sub_averages:
-                        v = averages[i] if (averages and i < len(averages)) else None
-                        total_row.append(str(round2(v, 2)) if v is not None else '')
+                        total_row.append(str(round2(r_avg_total, 2)) if r_avg_total is not None else '')
                     if has_sub_maximums:
-                        v = maximums[i] if (maximums and i < len(maximums)) else None
-                        total_row.append(str(round2(v, 2)) if v is not None else '')
+                        total_row.append(str(round2(r_max_total, 2)) if r_max_total is not None else '')
                     table_data.append(total_row)
                     num_cols = len(col_headers)
-                    data_table = table_cell.add_table(rows=len(table_data), cols=num_cols)
+                    data_table = doc.add_table(rows=len(table_data), cols=num_cols)
                     data_table.alignment = WD_TABLE_ALIGNMENT.CENTER
-                    p_elem = table_cell.paragraphs[0]._element
-                    p_elem.getparent().remove(p_elem)
                     for j in range(num_cols):
                         cell = data_table.cell(0, j)
                         cell.text = col_headers[j]
-                        _style_table_cell(cell, is_header=True, bold=True, font_size=7)
+                        _style_table_cell(cell, is_header=True, bold=True, font_size=header_font)
                     for di in range(1, len(table_data) - 1):
                         for j in range(num_cols):
                             cell = data_table.cell(di, j)
                             cell.text = table_data[di][j]
-                            _style_table_cell(cell, font_size=6)
+                            _style_table_cell(cell, font_size=data_font)
                     last_row = len(table_data) - 1
                     for j in range(num_cols):
                         cell = data_table.cell(last_row, j)
                         cell.text = table_data[last_row][j]
-                        _style_table_cell(cell, bold=True, font_size=6)
-                    fig, ax_chart = plt.subplots(figsize=(8.5, 2.8))
-                    page_len = end_row - start_row
-                    if has_sub_averages:
-                        page_r_avg = []
-                        for t_idx in range(start_row, end_row):
-                            v = r_avg[t_idx] if t_idx < len(r_avg) else None
-                            page_r_avg.append(float(v) if v is not None else 0.0)
-                        ax_chart.plot(range(page_len), page_r_avg, linewidth=1.2,
-                                      color=self.chart_colors[0], marker='o', markersize=3,
-                                      markevery=max(1, page_len // 15),
-                                      label=names[i] + ' ' + _('Reporting Period Average Load'))
-                        page_b_avg = []
-                        for t_idx in range(start_row, end_row):
-                            v = b_avg[t_idx] if t_idx < len(b_avg) else None
-                            page_b_avg.append(float(v) if v is not None else 0.0)
-                        ax_chart.plot(range(page_len), page_b_avg, linewidth=1.2,
-                                      color=self.chart_colors[0], linestyle='--',
-                                      marker='s', markersize=3,
-                                      markevery=max(1, page_len // 15),
-                                      label=names[i] + ' ' + _('Base Period Average Load'))
-                    if has_sub_maximums:
-                        page_r_max = []
-                        for t_idx in range(start_row, end_row):
-                            v = r_max[t_idx] if t_idx < len(r_max) else None
-                            page_r_max.append(float(v) if v is not None else 0.0)
-                        ax_chart.plot(range(page_len), page_r_max, linewidth=1.2,
-                                      color=self.chart_colors[1], marker='o', markersize=3,
-                                      markevery=max(1, page_len // 15),
-                                      label=names[i] + ' ' + _('Reporting Period Maximum Load'))
-                        page_b_max = []
-                        for t_idx in range(start_row, end_row):
-                            v = b_max[t_idx] if t_idx < len(b_max) else None
-                            page_b_max.append(float(v) if v is not None else 0.0)
-                        ax_chart.plot(range(page_len), page_b_max, linewidth=1.2,
-                                      color=self.chart_colors[1], linestyle='--',
-                                      marker='s', markersize=3,
-                                      markevery=max(1, page_len // 15),
-                                      label=names[i] + ' ' + _('Base Period Maximum Load'))
-                    step = max(1, page_len // 8)
-                    tick_positions = list(range(0, page_len, step))
-                    tick_labels = []
-                    for t in tick_positions:
-                        if start_row + t < len(reporting_times):
-                            tick_labels.append(reporting_times[start_row + t])
-                    tick_positions = tick_positions[:len(tick_labels)]
-                    ax_chart.set_xticks(tick_positions)
-                    ax_chart.set_xticklabels(tick_labels, rotation=45, ha='right', fontsize=7)
-                    title = _('Base Period Load') + ' / ' + _('Reporting Period Load') + ' - ' + names[i]
-                    if unit_i:
-                        title = title + ' (' + unit_i + '/H)'
-                    ax_chart.set_title(title, fontsize=10, weight='bold')
-                    ax_chart.legend(fontsize=6, loc='upper right')
-                    ax_chart.grid(True, alpha=0.3)
-                    chart_buf = self._fig_to_bytesio(fig, self.dpi)
-                    p = chart_cell.paragraphs[0]
+                        _style_table_cell(cell, bold=True, font_size=data_font)
+
+        doc.add_page_break()
+        self._add_heading_styled(doc, self.name + ' ' + _('Detailed Data'), level=1)
+
+        def _set_ticks(ax, raw_len, times):
+            step = max(1, raw_len // 10)
+            ax.set_xticks(range(0, raw_len, step))
+            ax.set_xticklabels(
+                [times[t][:10] if t < len(times) else '' for t in range(0, raw_len, step)],
+                rotation=45, ha='right', fontsize=7)
+
+        all_charts = []
+        fig_w, fig_h = 10.5, 3.2
+        display_w = 10.5
+
+        for i in range(num_categories):
+            color_avg = self.chart_colors[0]
+            color_max = self.chart_colors[1]
+            unit_i = units[i] if (units and i < len(units)) else ''
+            value_unit = ((' (' + unit_i + '/H)') if unit_i else '')
+
+            if not is_base:
+                avg_data = sub_averages[i] if (has_sub_averages and i < len(sub_averages)) else []
+                max_data = sub_maximums[i] if (has_sub_maximums and i < len(sub_maximums)) else []
+                raw_len = max(len(avg_data), len(max_data), len(reporting_times))
+                fig, ax = plt.subplots(figsize=(fig_w, fig_h))
+                if has_sub_averages:
+                    avg_xs, avg_ys = self._filter_valid_data(avg_data)
+                    marker_step = max(1, len(avg_ys) // 30) if avg_ys else 1
+                    if avg_ys:
+                        ax.plot(avg_xs, avg_ys, linewidth=1.2, color=color_avg,
+                                marker='o', markersize=3,
+                                markevery=marker_step,
+                                label=names[i] + ' ' + _('Average Load'))
+                if has_sub_maximums:
+                    max_xs, max_ys = self._filter_valid_data(max_data)
+                    marker_step_m = max(1, len(max_ys) // 30) if max_ys else 1
+                    if max_ys:
+                        ax.plot(max_xs, max_ys, linewidth=1.2, color=color_max,
+                                marker='s', markersize=3,
+                                markevery=marker_step_m,
+                                label=names[i] + ' ' + _('Maximum Load'))
+                _set_ticks(ax, raw_len, reporting_times)
+                title = _('Reporting Period Load') + ' - ' + names[i] + value_unit
+                ax.set_title(title, fontsize=9, fontweight='bold')
+                if has_sub_averages or has_sub_maximums:
+                    ax.legend(fontsize=7)
+                ax.grid(True, alpha=0.3)
+                all_charts.append(self._fig_to_bytesio(fig, self.dpi))
+            else:
+                r_avg = sub_averages[i] if (has_sub_averages and i < len(sub_averages)) else []
+                r_max = sub_maximums[i] if (has_sub_maximums and i < len(sub_maximums)) else []
+                b_avg = base_sub_averages[i] if (has_sub_averages and i < len(base_sub_averages)) else []
+                b_max = base_sub_maximums[i] if (has_sub_maximums and i < len(base_sub_maximums)) else []
+                raw_len = max(len(r_avg), len(r_max), len(reporting_times),
+                              len(b_avg), len(b_max), len(base_times))
+                fig, ax = plt.subplots(figsize=(fig_w, fig_h))
+                if has_sub_averages:
+                    r_xs, r_ys = self._filter_valid_data(r_avg)
+                    marker_step = max(1, len(r_ys) // 30) if r_ys else 1
+                    if r_ys:
+                        ax.plot(r_xs, r_ys, linewidth=1.2, color=color_avg,
+                                marker='o', markersize=3,
+                                markevery=marker_step,
+                                label=_('Reporting Period') + ' - ' + names[i] + ' ' + _('Average Load'))
+                    b_xs, b_ys = self._filter_valid_data(b_avg)
+                    marker_step_b = max(1, len(b_ys) // 30) if b_ys else 1
+                    if b_ys:
+                        ax.plot(b_xs, b_ys, linewidth=1.2, color=color_avg,
+                                linestyle='--', marker='s', markersize=3,
+                                markevery=marker_step_b,
+                                label=_('Base Period') + ' - ' + names[i] + ' ' + _('Average Load'))
+                if has_sub_maximums:
+                    r_xs_m, r_ys_m = self._filter_valid_data(r_max)
+                    marker_step_m = max(1, len(r_ys_m) // 30) if r_ys_m else 1
+                    if r_ys_m:
+                        ax.plot(r_xs_m, r_ys_m, linewidth=1.2, color=color_max,
+                                marker='o', markersize=3,
+                                markevery=marker_step_m,
+                                label=_('Reporting Period') + ' - ' + names[i] + ' ' + _('Maximum Load'))
+                    b_xs_m, b_ys_m = self._filter_valid_data(b_max)
+                    marker_step_bm = max(1, len(b_ys_m) // 30) if b_ys_m else 1
+                    if b_ys_m:
+                        ax.plot(b_xs_m, b_ys_m, linewidth=1.2, color=color_max,
+                                linestyle='--', marker='s', markersize=3,
+                                markevery=marker_step_bm,
+                                label=_('Base Period') + ' - ' + names[i] + ' ' + _('Maximum Load'))
+                _set_ticks(ax, raw_len, reporting_times)
+                title = _('Base Period Load') + ' / ' + _('Reporting Period Load') + ' - ' + names[i] + value_unit
+                ax.set_title(title, fontsize=8, fontweight='bold')
+                ax.legend(fontsize=7)
+                ax.grid(True, alpha=0.3)
+                all_charts.append(self._fig_to_bytesio(fig, self.dpi))
+
+        num_total_charts = len(all_charts)
+        charts_per_page = 2
+        first_chart_page = True
+
+        for page_start in range(0, num_total_charts, charts_per_page):
+            page_end = min(page_start + charts_per_page, num_total_charts)
+            page_bufs = all_charts[page_start:page_end]
+            num_on_page = len(page_bufs)
+
+            if not first_chart_page:
+                doc.add_page_break()
+            first_chart_page = False
+
+            if num_on_page == 1:
+                chart_buf = page_bufs[0]
+                p = doc.add_paragraph()
+                p.alignment = WD_ALIGN_PARAGRAPH.CENTER
+                run = p.add_run()
+                run.add_picture(chart_buf, width=Inches(display_w))
+            elif num_on_page == 2:
+                container = doc.add_table(rows=2, cols=1)
+                container.alignment = WD_TABLE_ALIGNMENT.CENTER
+                _remove_table_borders(container)
+                for ci, buf in enumerate(page_bufs):
+                    cell = container.cell(ci, 0)
+                    p = cell.paragraphs[0]
                     p.alignment = WD_ALIGN_PARAGRAPH.CENTER
                     run = p.add_run()
-                    run.add_picture(chart_buf, width=Inches(8.5))
-                    if page < num_pages - 1:
-                        doc.add_page_break()
-                if i < num_categories - 1:
-                    doc.add_page_break()
+                    run.add_picture(buf, width=Inches(display_w))
 
     def _add_parameters_section(self, doc):
         _ = self._

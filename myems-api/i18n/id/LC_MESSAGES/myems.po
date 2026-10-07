@@ -573,3 +573,21 @@ msgstr "Perbandingan Lantai Produksi"
 
 msgid "Combined Equipment Data"
 msgstr "Data Peralatan Gabungan"
+
+msgid "hourly"
+msgstr "Per jam"
+
+msgid "daily"
+msgstr "Harian"
+
+msgid "weekly"
+msgstr "Mingguan"
+
+msgid "monthly"
+msgstr "Bulanan"
+
+msgid "yearly"
+msgstr "Tahunan"
+
+msgid "Space Data"
+msgstr "Data Ruang"

@@ -573,3 +573,21 @@ msgstr "مقارنة ورش العمل"
 
 msgid "Combined Equipment Data"
 msgstr "بيانات المعدات المدمجة"
+
+msgid "hourly"
+msgstr "ساعة"
+
+msgid "daily"
+msgstr "يوم"
+
+msgid "weekly"
+msgstr "أسبوع"
+
+msgid "monthly"
+msgstr "شهر"
+
+msgid "yearly"
+msgstr "سنة"
+
+msgid "Space Data"
+msgstr "بيانات المساحة"

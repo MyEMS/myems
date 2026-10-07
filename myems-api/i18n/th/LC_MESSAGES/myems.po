@@ -572,3 +572,21 @@ msgstr "การประเมินผลการผลิต"
 
 msgid "Combined Equipment Data"
 msgstr "ข้อมูลอุปกรณ์รวม"
+
+msgid "hourly"
+msgstr "รายชั่วโมง"
+
+msgid "daily"
+msgstr "รายวัน"
+
+msgid "weekly"
+msgstr "รายสัปดาห์"
+
+msgid "monthly"
+msgstr "รายเดือน"
+
+msgid "yearly"
+msgstr "รายปี"
+
+msgid "Space Data"
+msgstr "ข้อมูลพื้นที่"

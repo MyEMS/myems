@@ -573,3 +573,21 @@ msgstr "Сравнение цехов"
 
 msgid "Combined Equipment Data"
 msgstr "Данные комбинированного оборудования"
+
+msgid "hourly"
+msgstr "Часовой"
+
+msgid "daily"
+msgstr "Ежедневный"
+
+msgid "weekly"
+msgstr "Еженедельный"
+
+msgid "monthly"
+msgstr "Ежемесячный"
+
+msgid "yearly"
+msgstr "Ежегодный"
+
+msgid "Space Data"
+msgstr "Пространственные данные"

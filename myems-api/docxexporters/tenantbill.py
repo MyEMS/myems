@@ -33,9 +33,11 @@ from docx import Document
 from docx.shared import Inches, Pt
 from docx.enum.text import WD_ALIGN_PARAGRAPH, WD_LINE_SPACING
 from docx.enum.table import WD_TABLE_ALIGNMENT
+from docx.enum.section import WD_SECTION
 from docx.oxml.ns import qn
 from docx.oxml import OxmlElement
 
+from .docxcommon import configure_cover_section, configure_body_section
 from core.utilities import get_translation, round2
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
@@ -270,7 +272,6 @@ class TenantBillDOCXExporter:
         self.name = name
         self.reporting_start = reporting_start_datetime_local
         self.reporting_end = reporting_end_datetime_local
-        self.period_type = 'daily'
 
         doc = Document()
         section = doc.sections[0]
@@ -285,6 +286,8 @@ class TenantBillDOCXExporter:
         self._add_cover_page(doc, name,
                              reporting_start_datetime_local,
                              reporting_end_datetime_local)
+
+        configure_cover_section(doc.sections[0])
 
         self._add_payment_notice_section(doc)
 
@@ -360,8 +363,6 @@ class TenantBillDOCXExporter:
             r_val.font.name = 'Arial'
             r_val._element.rPr.rFonts.set(qn('w:eastAsia'), 'SimSun')
 
-        doc.add_page_break()
-
     def _build_detail_rows(self):
         _ = self._
         reporting_period = self.report.get('reporting_period') or {}
@@ -419,6 +420,18 @@ class TenantBillDOCXExporter:
                 offset += other_page_rows
 
         page_total = len(pages)
+
+        body_section = doc.add_section(WD_SECTION.NEW_PAGE)
+        body_section.orientation = 1
+        body_section.page_width = Inches(11.69)
+        body_section.page_height = Inches(8.27)
+        body_section.left_margin = Inches(0.5)
+        body_section.right_margin = Inches(0.5)
+        body_section.top_margin = Inches(0.5)
+        body_section.bottom_margin = Inches(0.5)
+        header_title = f"{_('Tenant Data')} - {_('Tenant Bill')}  |  {self.name}"
+        configure_body_section(body_section, header_title=header_title)
+
         for page_index, page_rows in enumerate(pages):
             notice_container = doc.add_table(rows=3, cols=1)
             notice_container.alignment = WD_TABLE_ALIGNMENT.CENTER
