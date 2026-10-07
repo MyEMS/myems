@@ -591,3 +591,7 @@ msgstr "Hằng năm"
 
 msgid "Space Data"
 msgstr "Dữ liệu Không gian"
+
+
+msgid "compare"
+msgstr "so sánh"

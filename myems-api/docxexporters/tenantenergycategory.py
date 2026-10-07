@@ -267,7 +267,7 @@ class TenantEnergyCategoryDOCXExporter:
     def _make_pie_chart(self, values, labels, title, colors=None):
         if not values or sum((v or 0) for v in values) == 0:
             return None
-        fig, ax = plt.subplots(figsize=(3.2, 2.6))
+        fig, ax = plt.subplots(figsize=(2.4, 2.7))
         if colors is None:
             colors = self.chart_colors[:len(labels)]
         filtered = [(l, v, c) for l, v, c in zip(labels, values, colors) if (v or 0) > 0]
@@ -302,9 +302,9 @@ class TenantEnergyCategoryDOCXExporter:
                 len(report['reporting_period']['names']) == 0:
             doc = Document()
             section = doc.sections[0]
-            section.orientation = 1
-            section.page_width = Inches(11.69)
-            section.page_height = Inches(8.27)
+            section.orientation = 0
+            section.page_width = Inches(8.27)
+            section.page_height = Inches(11.69)
             section.left_margin = Inches(0.5)
             section.right_margin = Inches(0.5)
             section.top_margin = Inches(0.5)
@@ -336,9 +336,9 @@ class TenantEnergyCategoryDOCXExporter:
 
         doc = Document()
         section = doc.sections[0]
-        section.orientation = 1
-        section.page_width = Inches(11.69)
-        section.page_height = Inches(8.27)
+        section.orientation = 0
+        section.page_width = Inches(8.27)
+        section.page_height = Inches(11.69)
         section.left_margin = Inches(0.5)
         section.right_margin = Inches(0.5)
         section.top_margin = Inches(0.5)
@@ -472,9 +472,9 @@ class TenantEnergyCategoryDOCXExporter:
             return
 
         body_section = doc.add_section(WD_SECTION.NEW_PAGE)
-        body_section.orientation = 1
-        body_section.page_width = Inches(11.69)
-        body_section.page_height = Inches(8.27)
+        body_section.orientation = 0
+        body_section.page_width = Inches(8.27)
+        body_section.page_height = Inches(11.69)
         body_section.left_margin = Inches(0.5)
         body_section.right_margin = Inches(0.5)
         body_section.top_margin = Inches(0.5)
@@ -551,6 +551,8 @@ class TenantEnergyCategoryDOCXExporter:
             _style_table_cell(c_co2e, font_size=8)
 
         doc.add_paragraph('')
+        per_pie_w = 2.4
+        per_pie_h = 2.7
 
         # ===== Column 1: Time-of-use electricity =====
         electricity_index = -1
@@ -613,7 +615,7 @@ class TenantEnergyCategoryDOCXExporter:
             pr = tou_cell.add_paragraph()
             pr.alignment = WD_ALIGN_PARAGRAPH.CENTER
             run = pr.add_run()
-            run.add_picture(pie_tou, width=Inches(2.8))
+            run.add_picture(pie_tou, width=Inches(per_pie_w), height=Inches(per_pie_h))
 
         # ====== Column 2: TCE by category (table top + pie bottom) ======
         tce_values = [round2((subtotals_in_kgce[i] / 1000
@@ -642,7 +644,7 @@ class TenantEnergyCategoryDOCXExporter:
             pr = tce_cell.add_paragraph()
             pr.alignment = WD_ALIGN_PARAGRAPH.CENTER
             run = pr.add_run()
-            run.add_picture(pie_tce, width=Inches(2.8))
+            run.add_picture(pie_tce, width=Inches(per_pie_w), height=Inches(per_pie_h))
 
         # ====== Column 3: TCO2E by category (table top + pie bottom) ======
         co2e_values = [round2((subtotals_in_kgco2e[i] / 1000
@@ -671,7 +673,7 @@ class TenantEnergyCategoryDOCXExporter:
             pr = co2e_cell.add_paragraph()
             pr.alignment = WD_ALIGN_PARAGRAPH.CENTER
             run = pr.add_run()
-            run.add_picture(pie_co2e, width=Inches(2.8))
+            run.add_picture(pie_co2e, width=Inches(per_pie_w), height=Inches(per_pie_h))
 
         doc.add_page_break()
 
@@ -779,7 +781,7 @@ class TenantEnergyCategoryDOCXExporter:
 
         reporting_times = timestamps[0]
         num_categories = len(names)
-        rows_per_table_page = 45
+        rows_per_table_page = 70
 
         is_base = self.is_base_period_exists
         if is_base:
@@ -917,8 +919,8 @@ class TenantEnergyCategoryDOCXExporter:
                 rotation=45, ha='right', fontsize=7)
 
         all_charts = []
-        fig_w, fig_h = 10.5, 3.2
-        display_w = 10.5
+        fig_w, fig_h = 7.27, 3.2
+        display_w = 7.27
 
         for i in range(num_categories):
             color = self.chart_colors[i % len(self.chart_colors)]
@@ -973,7 +975,7 @@ class TenantEnergyCategoryDOCXExporter:
                 all_charts.append(self._fig_to_bytesio(fig, self.dpi))
 
         num_total_charts = len(all_charts)
-        charts_per_page = 2
+        charts_per_page = 3
         first_chart_page = True
 
         for page_start in range(0, num_total_charts, charts_per_page):
@@ -991,8 +993,8 @@ class TenantEnergyCategoryDOCXExporter:
                 p.alignment = WD_ALIGN_PARAGRAPH.CENTER
                 run = p.add_run()
                 run.add_picture(chart_buf, width=Inches(display_w))
-            elif num_on_page == 2:
-                container = doc.add_table(rows=2, cols=1)
+            else:
+                container = doc.add_table(rows=num_on_page, cols=1)
                 container.alignment = WD_TABLE_ALIGNMENT.CENTER
                 _remove_table_borders(container)
                 for ci, buf in enumerate(page_bufs):

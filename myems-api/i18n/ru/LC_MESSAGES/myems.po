@@ -591,3 +591,7 @@ msgstr "Ежегодный"
 
 msgid "Space Data"
 msgstr "Пространственные данные"
+
+
+msgid "compare"
+msgstr "сравнить"

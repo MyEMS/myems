@@ -258,9 +258,9 @@ class EquipmentTrackingDOCXExporter:
 
         doc = Document()
         section = doc.sections[0]
-        section.orientation = 1
-        section.page_width = Inches(11.69)
-        section.page_height = Inches(8.27)
+        section.orientation = 0
+        section.page_width = Inches(8.27)
+        section.page_height = Inches(11.69)
         section.left_margin = Inches(0.5)
         section.right_margin = Inches(0.5)
         section.top_margin = Inches(0.5)
@@ -359,9 +359,9 @@ class EquipmentTrackingDOCXExporter:
         num_pages = (num_equipment + max_rows_per_page - 1) // max_rows_per_page
 
         body_section = doc.add_section(WD_SECTION.NEW_PAGE)
-        body_section.orientation = 1
-        body_section.page_width = Inches(11.69)
-        body_section.page_height = Inches(8.27)
+        body_section.orientation = 0
+        body_section.page_width = Inches(8.27)
+        body_section.page_height = Inches(11.69)
         body_section.left_margin = Inches(0.5)
         body_section.right_margin = Inches(0.5)
         body_section.top_margin = Inches(0.5)

@@ -591,3 +591,7 @@ msgstr "سالانه"
 
 msgid "Space Data"
 msgstr "داده‌های فضا"
+
+
+msgid "compare"
+msgstr "مقایسه"

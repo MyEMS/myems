@@ -591,3 +591,7 @@ msgstr "Yıllık"
 
 msgid "Space Data"
 msgstr "Alan Verileri"
+
+
+msgid "compare"
+msgstr "karşılaştır"

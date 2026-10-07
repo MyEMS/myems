@@ -587,3 +587,7 @@ msgstr "연별"
 
 msgid "Space Data"
 msgstr "공간 데이터"
+
+
+msgid "compare"
+msgstr "비교"
