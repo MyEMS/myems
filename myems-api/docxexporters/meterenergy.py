@@ -37,11 +37,14 @@ import matplotlib.pyplot as plt
 from docx import Document
 from docx.shared import Inches, Pt
 from docx.enum.text import WD_ALIGN_PARAGRAPH, WD_LINE_SPACING
+from docx.enum.section import WD_SECTION
 from docx.enum.table import WD_TABLE_ALIGNMENT
 from docx.oxml.ns import qn
 from docx.oxml import OxmlElement
 
 from core.utilities import get_translation, round2
+
+from .docxcommon import configure_cover_section, configure_body_section
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
@@ -258,6 +261,18 @@ class MeterEnergyDOCXExporter:
         buf.seek(0)
         return buf
 
+    @staticmethod
+    def _filter_valid_data(data):
+        xs, ys = [], []
+        for idx, v in enumerate(data):
+            if v is not None:
+                try:
+                    ys.append(float(v))
+                    xs.append(idx)
+                except (TypeError, ValueError):
+                    pass
+        return xs, ys
+
     def generate_docx(self,
                       report: Dict[str, Any],
                       name: str,
@@ -277,13 +292,14 @@ class MeterEnergyDOCXExporter:
             section.orientation = 1
             section.page_width = Inches(11.69)
             section.page_height = Inches(8.27)
+            self.name = name
             self._add_cover_page(doc, name, period_type,
                                  reporting_start_datetime_local,
                                  reporting_end_datetime_local,
                                  base_period_start_datetime_local,
                                  base_period_end_datetime_local,
-                                 False,
-                                 has_next=False)
+                                 False)
+            configure_cover_section(doc.sections[0])
             filename = str(uuid.uuid4()) + '.docx'
             doc.save(filename)
             return filename
@@ -324,11 +340,13 @@ class MeterEnergyDOCXExporter:
                              reporting_end_datetime_local,
                              base_period_start_datetime_local,
                              base_period_end_datetime_local,
-                             self.is_base_period_exists,
-                             has_next=(has_consumption or has_detailed or has_params))
+                             self.is_base_period_exists)
 
-        self._add_consumption_summary(doc, has_next=(has_detailed or has_params))
-        self._add_detailed_data_pages(doc, has_next=has_params)
+        configure_cover_section(doc.sections[0])
+
+        self._add_consumption_summary(doc)
+        self._add_detailed_data_table(doc)
+        self._add_detailed_data_charts(doc)
         self._add_parameters_section(doc)
 
         doc.save(filename)
@@ -348,8 +366,7 @@ class MeterEnergyDOCXExporter:
     def _add_cover_page(self, doc, name, period_type,
                         reporting_start, reporting_end,
                         base_period_start, base_period_end,
-                        has_base_period,
-                        has_next=True):
+                        has_base_period):
         _ = self._
         img_path = os.path.join(os.path.dirname(os.path.abspath(__file__)),
                                 '..', 'excelexporters', 'myems.png')
@@ -379,7 +396,7 @@ class MeterEnergyDOCXExporter:
 
         info_data = [
             [_('Name') + ':', name],
-            [_('Period Type') + ':', period_type],
+            [_('Period Type') + ':', _(period_type)],
             [_('Reporting Start Datetime') + ':', reporting_start],
             [_('Reporting End Datetime') + ':', reporting_end],
         ]
@@ -412,15 +429,24 @@ class MeterEnergyDOCXExporter:
             r_val.font.name = 'Arial'
             r_val._element.rPr.rFonts.set(qn('w:eastAsia'), 'SimSun')
 
-        if has_next:
-            doc.add_page_break()
-
     # ---------- Consumption Summary ----------
-    def _add_consumption_summary(self, doc, has_next=True):
+    def _add_consumption_summary(self, doc):
         """Add reporting period consumption summary table."""
         _ = self._
         reporting_data = self.report['reporting_period']
         base_period_data = self.report['base_period']
+
+        body_section = doc.add_section(WD_SECTION.NEW_PAGE)
+        body_section.orientation = 1
+        body_section.page_width = Inches(11.69)
+        body_section.page_height = Inches(8.27)
+        body_section.left_margin = Inches(0.5)
+        body_section.right_margin = Inches(0.5)
+        body_section.top_margin = Inches(0.5)
+        body_section.bottom_margin = Inches(0.5)
+        header_title = (f"{_('Meter Data')} - {_('Meter Energy')}"
+                        f"  |  {self.name}")
+        configure_body_section(body_section, header_title=header_title)
 
         increment_rate = reporting_data.get('increment_rate', None)
         increment_rate_text = str(round2(increment_rate * 100, 2)) + "%" \
@@ -468,13 +494,8 @@ class MeterEnergyDOCXExporter:
             cell_inc.text = increment_row[j]
             _style_table_cell(cell_inc, font_size=8)
 
-        if has_next:
-            doc.add_paragraph('')
-            doc.add_page_break()
-
     # ---------- Detailed Data Pages ----------
-    def _add_detailed_data_pages(self, doc, has_next=True):
-        """Add detailed data pages: paginated tables + per-page trend line charts."""
+    def _add_detailed_data_table(self, doc):
         _ = self._
 
         reporting_data = self.report['reporting_period']
@@ -484,103 +505,83 @@ class MeterEnergyDOCXExporter:
         if len(reporting_times) == 0:
             return
 
-        category_label = self.energy_category_name + " (" + self.unit_of_measure + ")"
-
-        rows_per_page = 25
-
         if not self.is_base_period_exists:
-            num_pages = (len(reporting_times) + rows_per_page - 1) // rows_per_page
-            marker_step = max(1, rows_per_page // 15)
-
-            for page in range(num_pages):
-                start_row = page * rows_per_page
-                end_row = min(start_row + rows_per_page, len(reporting_times))
-
-                if page == 0:
-                    self._add_heading_styled(doc, self.name + ' ' + _('Detailed Data'), level=1)
-
-                container = doc.add_table(rows=2, cols=1)
-                container.alignment = WD_TABLE_ALIGNMENT.CENTER
-                _remove_table_borders(container)
-                table_cell = container.cell(0, 0)
-                chart_cell = container.cell(1, 0)
-
-                col_headers = [_('Datetime'), category_label]
-                table_data = [col_headers]
-                for t_idx in range(start_row, end_row):
-                    table_data.append([reporting_times[t_idx],
-                                       str(round2(reporting_values[t_idx], 2))])
-
-                table_data.append([_('Total'),
-                                   str(round2(reporting_data['total_in_category'], 2))])
-
-                num_cols = len(col_headers)
-                data_table = table_cell.add_table(rows=len(table_data), cols=num_cols)
-                data_table.alignment = WD_TABLE_ALIGNMENT.CENTER
-                p_elem = table_cell.paragraphs[0]._element
-                p_elem.getparent().remove(p_elem)
-
-                for j in range(num_cols):
-                    cell = data_table.cell(0, j)
-                    cell.text = col_headers[j]
-                    _style_table_cell(cell, is_header=True, bold=True, font_size=8)
-
-                for i in range(1, len(table_data) - 1):
-                    for j in range(num_cols):
-                        cell = data_table.cell(i, j)
-                        cell.text = table_data[i][j]
-                        _style_table_cell(cell, font_size=7)
-
-                last_row = len(table_data) - 1
-                for j in range(num_cols):
-                    cell = data_table.cell(last_row, j)
-                    cell.text = table_data[last_row][j]
-                    _style_table_cell(cell, bold=True, font_size=7)
-
-                fig, ax_chart = plt.subplots(figsize=(8.5, 2.8))
-                page_data = reporting_values[start_row:end_row]
-                ax_chart.plot(range(len(page_data)), page_data, linewidth=1.2,
-                              color=self.chart_colors[0],
-                              marker='o', markersize=3, markevery=marker_step,
-                              label=category_label)
-                step = max(1, (end_row - start_row) // 8)
-                ax_chart.set_xticks(range(0, end_row - start_row, step))
-                ax_chart.set_xticklabels([reporting_times[start_row + t]
-                                          for t in range(0, end_row - start_row, step)],
-                                         rotation=45, ha='right', fontsize=7)
-                ax_chart.set_title(_('Reporting Period Consumption') + ' - ' + category_label,
-                                   fontsize=10, weight='bold')
-                ax_chart.legend(fontsize=7, loc='upper right')
-                ax_chart.grid(True, alpha=0.3)
-                chart_buf = self._fig_to_bytesio(fig, self.dpi)
-
-                p = chart_cell.paragraphs[0]
-                p.alignment = WD_ALIGN_PARAGRAPH.CENTER
-                run = p.add_run()
-                run.add_picture(chart_buf, width=Inches(8.5))
-
-                if page < num_pages - 1:
-                    doc.add_page_break()
+            pass
         else:
             base_period_data = self.report['base_period']
             base_times = base_period_data.get('timestamps', [])
             base_values = base_period_data.get('values', [])
 
-            num_pages = (len(reporting_times) + rows_per_page - 1) // rows_per_page
-            marker_step = max(1, rows_per_page // 15)
+        category_label_parts = []
+        if self.energy_category_name:
+            category_label_parts.append(self.energy_category_name)
+        if self.unit_of_measure:
+            category_label_parts.append('(' + self.unit_of_measure + ')')
+        category_label = ' '.join(category_label_parts) if category_label_parts else ''
+
+        rows_per_table_page = 45
+        header_font = 8
+        data_font = 7
+
+        doc.add_page_break()
+        self._add_heading_styled(doc, self.name + ' ' + _('Detailed Data'), level=1)
+
+        first_table_page = True
+
+        if not self.is_base_period_exists:
+            num_pages = (len(reporting_times) + rows_per_table_page - 1) // rows_per_table_page
 
             for page in range(num_pages):
-                start_row = page * rows_per_page
-                end_row = min(start_row + rows_per_page, len(reporting_times))
+                start_row = page * rows_per_table_page
+                end_row = min(start_row + rows_per_table_page, len(reporting_times))
 
-                if page == 0:
-                    self._add_heading_styled(doc, self.name + ' ' + _('Detailed Data'), level=1)
+                if not first_table_page:
+                    doc.add_page_break()
+                first_table_page = False
 
-                container = doc.add_table(rows=2, cols=1)
-                container.alignment = WD_TABLE_ALIGNMENT.CENTER
-                _remove_table_borders(container)
-                table_cell = container.cell(0, 0)
-                chart_cell = container.cell(1, 0)
+                col_headers = [_('Datetime'), category_label]
+                table_data = [col_headers]
+                for t_idx in range(start_row, end_row):
+                    v = reporting_values[t_idx] if t_idx < len(reporting_values) else None
+                    table_data.append([reporting_times[t_idx] if t_idx < len(reporting_times) else '',
+                                       str(round2(v, 2)) if v is not None else ''])
+
+                is_last_page = (page == num_pages - 1)
+                if is_last_page:
+                    table_data.append([_('Total'),
+                                       str(round2(reporting_data['total_in_category'], 2))])
+
+                num_cols = len(col_headers)
+                data_table = doc.add_table(rows=len(table_data), cols=num_cols)
+                data_table.alignment = WD_TABLE_ALIGNMENT.CENTER
+
+                for j in range(num_cols):
+                    cell = data_table.cell(0, j)
+                    cell.text = col_headers[j]
+                    _style_table_cell(cell, is_header=True, bold=True, font_size=header_font)
+
+                for di in range(1, len(table_data) - (1 if is_last_page else 0)):
+                    for j in range(num_cols):
+                        cell = data_table.cell(di, j)
+                        cell.text = table_data[di][j]
+                        _style_table_cell(cell, font_size=data_font)
+
+                if is_last_page:
+                    last_row = len(table_data) - 1
+                    for j in range(num_cols):
+                        cell = data_table.cell(last_row, j)
+                        cell.text = table_data[last_row][j]
+                        _style_table_cell(cell, bold=True, font_size=data_font)
+        else:
+            num_pages = (len(reporting_times) + rows_per_table_page - 1) // rows_per_table_page
+
+            for page in range(num_pages):
+                start_row = page * rows_per_table_page
+                end_row = min(start_row + rows_per_table_page, len(reporting_times))
+
+                if not first_table_page:
+                    doc.add_page_break()
+                first_table_page = False
 
                 col_headers = [
                     _('Base Period') + ' - ' + _('Datetime'),
@@ -591,72 +592,160 @@ class MeterEnergyDOCXExporter:
                 table_data = [col_headers]
                 for t_idx in range(start_row, end_row):
                     base_time = base_times[t_idx] if t_idx < len(base_times) else ''
-                    base_value = str(round2(base_values[t_idx], 2)) \
-                        if t_idx < len(base_values) else ''
+                    bv = base_values[t_idx] if t_idx < len(base_values) else None
+                    base_value = str(round2(bv, 2)) if bv is not None else ''
                     table_data.append([base_time, base_value,
                                        reporting_times[t_idx],
                                        str(round2(reporting_values[t_idx], 2))])
 
-                table_data.append([_('Total'),
-                                   str(round2(base_period_data['total_in_category'], 2)),
-                                   _('Total'),
-                                   str(round2(reporting_data['total_in_category'], 2))])
+                is_last_page = (page == num_pages - 1)
+                if is_last_page:
+                    table_data.append([_('Total'),
+                                       str(round2(base_period_data['total_in_category'], 2)),
+                                       _('Total'),
+                                       str(round2(reporting_data['total_in_category'], 2))])
 
                 num_cols = len(col_headers)
-                data_table = table_cell.add_table(rows=len(table_data), cols=num_cols)
+                data_table = doc.add_table(rows=len(table_data), cols=num_cols)
                 data_table.alignment = WD_TABLE_ALIGNMENT.CENTER
-                p_elem = table_cell.paragraphs[0]._element
-                p_elem.getparent().remove(p_elem)
 
                 for j in range(num_cols):
                     cell = data_table.cell(0, j)
                     cell.text = col_headers[j]
-                    _style_table_cell(cell, is_header=True, bold=True, font_size=7)
+                    _style_table_cell(cell, is_header=True, bold=True, font_size=header_font)
 
-                for i in range(1, len(table_data) - 1):
+                for di in range(1, len(table_data) - (1 if is_last_page else 0)):
                     for j in range(num_cols):
-                        cell = data_table.cell(i, j)
-                        cell.text = table_data[i][j]
-                        _style_table_cell(cell, font_size=6)
+                        cell = data_table.cell(di, j)
+                        cell.text = table_data[di][j]
+                        _style_table_cell(cell, font_size=data_font)
 
-                last_row = len(table_data) - 1
-                for j in range(num_cols):
-                    cell = data_table.cell(last_row, j)
-                    cell.text = table_data[last_row][j]
-                    _style_table_cell(cell, bold=True, font_size=6)
+                if is_last_page:
+                    last_row = len(table_data) - 1
+                    for j in range(num_cols):
+                        cell = data_table.cell(last_row, j)
+                        cell.text = table_data[last_row][j]
+                        _style_table_cell(cell, bold=True, font_size=data_font)
 
-                fig, ax_chart = plt.subplots(figsize=(8.5, 2.8))
-                page_data = reporting_values[start_row:end_row]
-                ax_chart.plot(range(len(page_data)), page_data, linewidth=1.2,
-                              color=self.chart_colors[0],
-                              marker='o', markersize=3, markevery=marker_step,
-                              label=_('Reporting Period') + ' - ' + category_label)
-                base_page_data = base_values[start_row:end_row]
-                ax_chart.plot(range(len(base_page_data)), base_page_data, linewidth=1.2,
-                              color=self.chart_colors[1], linestyle='--',
-                              marker='s', markersize=3, markevery=marker_step,
-                              label=_('Base Period') + ' - ' + category_label)
-                step = max(1, (end_row - start_row) // 8)
-                ax_chart.set_xticks(range(0, end_row - start_row, step))
-                ax_chart.set_xticklabels([reporting_times[start_row + t]
-                                          for t in range(0, end_row - start_row, step)],
-                                         rotation=45, ha='right', fontsize=7)
-                ax_chart.set_title(_('Reporting Period Consumption') + ' - ' + category_label,
-                                   fontsize=10, weight='bold')
-                ax_chart.legend(fontsize=7, loc='upper right')
-                ax_chart.grid(True, alpha=0.3)
-                chart_buf = self._fig_to_bytesio(fig, self.dpi)
+    def _add_detailed_data_charts(self, doc):
+        _ = self._
 
-                p = chart_cell.paragraphs[0]
+        reporting_data = self.report['reporting_period']
+        reporting_times = reporting_data.get('timestamps', [])
+        reporting_values = reporting_data.get('values', [])
+
+        if len(reporting_times) == 0:
+            return
+
+        is_base = self.is_base_period_exists
+        if is_base:
+            base_period_data = self.report['base_period']
+            base_times = base_period_data.get('timestamps', [])
+            base_values = base_period_data.get('values', [])
+        else:
+            base_times = []
+            base_values = []
+
+        if not is_base:
+            raw_len = max(len(reporting_values), len(reporting_times))
+            if raw_len == 0:
+                return
+        else:
+            raw_len = max(len(reporting_values), len(reporting_times),
+                          len(base_values), len(base_times))
+            if raw_len == 0:
+                return
+
+        category_label_parts = []
+        if self.energy_category_name:
+            category_label_parts.append(self.energy_category_name)
+        if self.unit_of_measure:
+            category_label_parts.append('(' + self.unit_of_measure + ')')
+        category_label = ' '.join(category_label_parts) if category_label_parts else ''
+
+        doc.add_page_break()
+        self._add_heading_styled(doc, self.name + ' ' + _('Detailed Data'), level=1)
+
+        fig_w, fig_h = 10.5, 3.2
+        display_w = 10.5
+        charts_per_page = 2
+
+        def _set_ticks(ax, raw_len, times):
+            step = max(1, raw_len // 10)
+            ax.set_xticks(range(0, raw_len, step))
+            ax.set_xticklabels(
+                [times[t][:10] if t < len(times) else '' for t in range(0, raw_len, step)],
+                rotation=45, ha='right', fontsize=7)
+
+        all_charts = []
+
+        if not is_base:
+            fig, ax = plt.subplots(figsize=(fig_w, fig_h))
+            r_xs, r_ys = self._filter_valid_data(reporting_values)
+            marker_step = max(1, len(r_ys) // 30) if r_ys else 1
+            if r_ys:
+                ax.plot(r_xs, r_ys, linewidth=1.2, color=self.chart_colors[0],
+                        marker='o', markersize=3,
+                        markevery=marker_step,
+                        label=category_label)
+            _set_ticks(ax, raw_len, reporting_times)
+            title = _('Reporting Period Consumption') + ' - ' + category_label
+            ax.set_title(title, fontsize=9, fontweight='bold')
+            if r_ys:
+                ax.legend(fontsize=7)
+            ax.grid(True, alpha=0.3)
+            all_charts.append(self._fig_to_bytesio(fig, self.dpi))
+        else:
+            fig, ax = plt.subplots(figsize=(fig_w, fig_h))
+            r_xs, r_ys = self._filter_valid_data(reporting_values)
+            marker_step = max(1, len(r_ys) // 30) if r_ys else 1
+            if r_ys:
+                ax.plot(r_xs, r_ys, linewidth=1.2, color=self.chart_colors[0],
+                        marker='o', markersize=3,
+                        markevery=marker_step,
+                        label=_('Reporting Period') + ' - ' + category_label)
+            b_xs, b_ys = self._filter_valid_data(base_values)
+            marker_step_b = max(1, len(b_ys) // 30) if b_ys else 1
+            if b_ys:
+                ax.plot(b_xs, b_ys, linewidth=1.2, color=self.chart_colors[1],
+                        linestyle='--', marker='s', markersize=3,
+                        markevery=marker_step_b,
+                        label=_('Base Period') + ' - ' + category_label)
+            _set_ticks(ax, raw_len, reporting_times)
+            title = _('Reporting Period Consumption') + ' - ' + category_label
+            ax.set_title(title, fontsize=8, fontweight='bold')
+            ax.legend(fontsize=7)
+            ax.grid(True, alpha=0.3)
+            all_charts.append(self._fig_to_bytesio(fig, self.dpi))
+
+        num_total_charts = len(all_charts)
+        first_chart_page = True
+
+        for page_start in range(0, num_total_charts, charts_per_page):
+            page_end = min(page_start + charts_per_page, num_total_charts)
+            page_bufs = all_charts[page_start:page_end]
+            num_on_page = len(page_bufs)
+
+            if not first_chart_page:
+                doc.add_page_break()
+            first_chart_page = False
+
+            if num_on_page == 1:
+                chart_buf = page_bufs[0]
+                p = doc.add_paragraph()
                 p.alignment = WD_ALIGN_PARAGRAPH.CENTER
                 run = p.add_run()
-                run.add_picture(chart_buf, width=Inches(8.5))
-
-                if page < num_pages - 1:
-                    doc.add_page_break()
-
-        if has_next:
-            doc.add_page_break()
+                run.add_picture(chart_buf, width=Inches(display_w))
+            elif num_on_page == 2:
+                container = doc.add_table(rows=2, cols=1)
+                container.alignment = WD_TABLE_ALIGNMENT.CENTER
+                _remove_table_borders(container)
+                for ci, buf in enumerate(page_bufs):
+                    cell = container.cell(ci, 0)
+                    p = cell.paragraphs[0]
+                    p.alignment = WD_ALIGN_PARAGRAPH.CENTER
+                    run = p.add_run()
+                    run.add_picture(buf, width=Inches(display_w))
 
     # ---------- Parameters ----------
     def _add_parameters_section(self, doc):
@@ -688,6 +777,7 @@ class MeterEnergyDOCXExporter:
         if not valid_params:
             return
 
+        doc.add_page_break()
         self._add_heading_styled(doc, self.name + ' ' + _('Parameters'), level=1)
 
         rows_per_param = 10

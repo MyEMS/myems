@@ -43,9 +43,11 @@ from docx import Document
 from docx.shared import Inches, Pt
 from docx.enum.text import WD_ALIGN_PARAGRAPH, WD_LINE_SPACING, WD_BREAK, WD_TAB_ALIGNMENT
 from docx.enum.table import WD_TABLE_ALIGNMENT
+from docx.enum.section import WD_SECTION
 from docx.oxml.ns import qn
 from docx.oxml import OxmlElement
 
+from .docxcommon import configure_cover_section, configure_body_section
 from core.utilities import get_translation, round2
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
@@ -304,12 +306,14 @@ class StoreEnergyCategoryDOCXExporter:
             section.orientation = 1
             section.page_width = Inches(11.69)
             section.page_height = Inches(8.27)
+            self.name = name
             self._add_cover_page(doc, name, period_type,
                                  reporting_start_datetime_local,
                                  reporting_end_datetime_local,
                                  base_period_start_datetime_local,
                                  base_period_end_datetime_local,
                                  False)
+            configure_cover_section(doc.sections[0])
             filename = str(uuid.uuid4()) + '.docx'
             doc.save(filename)
             return filename
@@ -342,6 +346,8 @@ class StoreEnergyCategoryDOCXExporter:
                              base_period_start_datetime_local,
                              base_period_end_datetime_local,
                              self.is_base_period_exists)
+
+        configure_cover_section(doc.sections[0])
 
         self._add_reporting_period_summary(doc)
         self._add_time_of_use_section(doc)
@@ -398,7 +404,7 @@ class StoreEnergyCategoryDOCXExporter:
 
         info_data = [
             [_('Name') + ':', name],
-            [_('Period Type') + ':', period_type],
+            [_('Period Type') + ':', _(period_type)],
             [_('Reporting Start Datetime') + ':', reporting_start],
             [_('Reporting End Datetime') + ':', reporting_end],
         ]
@@ -445,7 +451,17 @@ class StoreEnergyCategoryDOCXExporter:
         if ca_len == 0:
             return
 
-        doc.add_page_break()
+        body_section = doc.add_section(WD_SECTION.NEW_PAGE)
+        body_section.orientation = 1
+        body_section.page_width = Inches(11.69)
+        body_section.page_height = Inches(8.27)
+        body_section.left_margin = Inches(0.5)
+        body_section.right_margin = Inches(0.5)
+        body_section.top_margin = Inches(0.5)
+        body_section.bottom_margin = Inches(0.5)
+        header_title = f"{_('Store Data')} - {_('Energy Category Analysis')}  |  {self.name}"
+        configure_body_section(body_section, header_title=header_title)
+
         self._add_heading_styled(doc, self.name + ' - ' + _('Reporting Period Consumption'), level=1)
 
         num_cols = ca_len + 3
@@ -515,8 +531,6 @@ class StoreEnergyCategoryDOCXExporter:
         inc_tco2e_text = (str(round2(inc_kgco2e * 100, 2)) + '%') if inc_kgco2e is not None else ''
         table.cell(3, tco2e_col).text = inc_tco2e_text
         _style_table_cell(table.cell(3, tco2e_col))
-
-        doc.add_paragraph('')
 
     def _add_time_of_use_section(self, doc):
         """Add Time-Of-Use electricity consumption table and pie chart."""
@@ -946,8 +960,8 @@ class StoreEnergyCategoryDOCXExporter:
                 rotation=45, ha='right', fontsize=7)
 
         all_charts = []
-        fig_w, fig_h = 8.5, 3.2
-        display_w = 8.5
+        fig_w, fig_h = 10.5, 3.2
+        display_w = 10.5
 
         for i in range(num_categories):
             color = self.chart_colors[i % len(self.chart_colors)]

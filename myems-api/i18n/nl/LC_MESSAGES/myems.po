@@ -573,3 +573,21 @@ msgstr "Vergelijkende analyse"
 
 msgid "Combined Equipment Data"
 msgstr "Gecombineerde Apparatuurgegevens"
+
+msgid "hourly"
+msgstr "Per uur"
+
+msgid "daily"
+msgstr "Dagelijks"
+
+msgid "weekly"
+msgstr "Wekelijks"
+
+msgid "monthly"
+msgstr "Maandelijks"
+
+msgid "yearly"
+msgstr "Jaarlijks"
+
+msgid "Space Data"
+msgstr "Ruimtegegevens"

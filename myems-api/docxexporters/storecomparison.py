@@ -37,9 +37,11 @@ from docx import Document
 from docx.shared import Inches, Pt
 from docx.enum.text import WD_ALIGN_PARAGRAPH, WD_LINE_SPACING
 from docx.enum.table import WD_TABLE_ALIGNMENT
+from docx.enum.section import WD_SECTION
 from docx.oxml.ns import qn
 from docx.oxml import OxmlElement
 
+from .docxcommon import configure_cover_section, configure_body_section
 from core.utilities import get_translation, round2
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
@@ -297,11 +299,14 @@ class StoreComparisonDOCXExporter:
             section.orientation = 1
             section.page_width = Inches(11.69)
             section.page_height = Inches(8.27)
+            self.store1_name = store1_name
+            self.store2_name = store2_name
             self._add_cover_page(doc, store1_name, store2_name,
                                  energy_category_name,
                                  reporting_start_datetime_local,
                                  reporting_end_datetime_local,
                                  period_type)
+            configure_cover_section(doc.sections[0])
             filename = str(uuid.uuid4()) + '.docx'
             doc.save(filename)
             return filename
@@ -332,6 +337,8 @@ class StoreComparisonDOCXExporter:
                              reporting_start_datetime_local,
                              reporting_end_datetime_local,
                              period_type)
+
+        configure_cover_section(doc.sections[0])
 
         self._add_combined_analysis_section(doc)
         self._add_detailed_data_section(doc)
@@ -384,7 +391,7 @@ class StoreComparisonDOCXExporter:
             [_('Store Data') + '1:', store1_name],
             [_('Store Data') + '2:', store2_name],
             [_('Energy Category') + ':', energy_category_name],
-            [_('Period Type') + ':', period_type],
+            [_('Period Type') + ':', _(period_type)],
             [_('Reporting Start Datetime') + ':', reporting_start],
             [_('Reporting End Datetime') + ':', reporting_end],
         ]
@@ -428,7 +435,17 @@ class StoreComparisonDOCXExporter:
         unit = self.unit
         cat_name = self.energy_category_name
 
-        doc.add_page_break()
+        body_section = doc.add_section(WD_SECTION.NEW_PAGE)
+        body_section.orientation = 1
+        body_section.page_width = Inches(11.69)
+        body_section.page_height = Inches(8.27)
+        body_section.left_margin = Inches(0.5)
+        body_section.right_margin = Inches(0.5)
+        body_section.top_margin = Inches(0.5)
+        body_section.bottom_margin = Inches(0.5)
+        header_title = f"{_('Store Data')} - {_('Store Comparison')}  |  {self.store1_name} & {self.store2_name}"
+        configure_body_section(body_section, header_title=header_title)
+
         self._add_heading_styled(doc, self.store1_name + ' & ' + self.store2_name + ' - ' +
                                  _('Reporting Period Consumption'), level=1)
 
@@ -464,7 +481,7 @@ class StoreComparisonDOCXExporter:
             ys1 = self._sanitize_values(values1)
             ys2 = self._sanitize_values(values2)
 
-            fig, ax = plt.subplots(figsize=(9.75, 5.25))
+            fig, ax = plt.subplots(figsize=(10.5, 5.25))
             marker_step = max(1, len(xs) // 30)
 
             ax.plot(xs, ys1, linewidth=1.5, color='#4472C4',
@@ -491,7 +508,7 @@ class StoreComparisonDOCXExporter:
             p = doc.add_paragraph()
             p.alignment = WD_ALIGN_PARAGRAPH.CENTER
             run = p.add_run()
-            run.add_picture(chart_buf, width=Inches(9.75))
+            run.add_picture(chart_buf, width=Inches(10.5))
 
     def _add_detailed_data_section(self, doc):
         """Add detailed time-series data tables ."""

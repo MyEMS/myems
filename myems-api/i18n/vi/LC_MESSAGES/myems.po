@@ -573,3 +573,21 @@ msgstr "So sánh tầng cửa hàng"
 
 msgid "Combined Equipment Data"
 msgstr "Dữ liệu Thiết bị Kết hợp"
+
+msgid "hourly"
+msgstr "Theo giờ"
+
+msgid "daily"
+msgstr "Hằng ngày"
+
+msgid "weekly"
+msgstr "Hằng tuần"
+
+msgid "monthly"
+msgstr "Hằng tháng"
+
+msgid "yearly"
+msgstr "Hằng năm"
+
+msgid "Space Data"
+msgstr "Dữ liệu Không gian"

@@ -573,3 +573,21 @@ msgstr "Shopfloor Comparison"
 
 msgid "Combined Equipment Data"
 msgstr "Combined Equipment Data"
+
+msgid "hourly"
+msgstr "Hourly"
+
+msgid "daily"
+msgstr "Daily"
+
+msgid "weekly"
+msgstr "Weekly"
+
+msgid "monthly"
+msgstr "Monthly"
+
+msgid "yearly"
+msgstr "Yearly"
+
+msgid "Space Data"
+msgstr "Space Data"

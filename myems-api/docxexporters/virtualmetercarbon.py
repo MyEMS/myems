@@ -38,9 +38,11 @@ from docx import Document
 from docx.shared import Inches, Pt
 from docx.enum.text import WD_ALIGN_PARAGRAPH, WD_LINE_SPACING
 from docx.enum.table import WD_TABLE_ALIGNMENT
+from docx.enum.section import WD_SECTION
 from docx.oxml.ns import qn
 from docx.oxml import OxmlElement
 
+from .docxcommon import configure_cover_section, configure_body_section
 from core.utilities import get_translation, round2
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
@@ -258,6 +260,18 @@ class VirtualMeterCarbonDOCXExporter:
         buf.seek(0)
         return buf
 
+    @staticmethod
+    def _filter_valid_data(data):
+        xs, ys = [], []
+        for idx, v in enumerate(data):
+            if v is not None:
+                try:
+                    ys.append(float(v))
+                    xs.append(idx)
+                except (TypeError, ValueError):
+                    pass
+        return xs, ys
+
     def generate_docx(self,
                       report: Dict[str, Any],
                       name: str,
@@ -282,8 +296,9 @@ class VirtualMeterCarbonDOCXExporter:
                                  reporting_end_datetime_local,
                                  base_period_start_datetime_local,
                                  base_period_end_datetime_local,
-                                 False,
-                                 has_next=False)
+                                 False)
+            self.name = name
+            configure_cover_section(doc.sections[0])
             filename = str(uuid.uuid4()) + '.docx'
             doc.save(filename)
             return filename
@@ -324,11 +339,14 @@ class VirtualMeterCarbonDOCXExporter:
                              reporting_end_datetime_local,
                              base_period_start_datetime_local,
                              base_period_end_datetime_local,
-                             self.is_base_period_exists,
-                             has_next=(has_consumption or has_detailed or has_params))
+                             self.is_base_period_exists)
 
-        self._add_consumption_summary(doc, has_next=(has_detailed or has_params))
-        self._add_detailed_data_pages(doc, has_next=has_params)
+        configure_cover_section(doc.sections[0])
+
+        self._add_consumption_summary(doc)
+        if has_detailed:
+            self._add_detailed_data_table(doc)
+            self._add_detailed_data_charts(doc)
         self._add_parameters_section(doc)
 
         doc.save(filename)
@@ -347,8 +365,7 @@ class VirtualMeterCarbonDOCXExporter:
     def _add_cover_page(self, doc, name, period_type,
                         reporting_start, reporting_end,
                         base_period_start, base_period_end,
-                        has_base_period,
-                        has_next=True):
+                        has_base_period):
         _ = self._
         img_path = os.path.join(os.path.dirname(os.path.abspath(__file__)),
                                 '..', 'excelexporters', 'myems.png')
@@ -378,7 +395,7 @@ class VirtualMeterCarbonDOCXExporter:
 
         info_data = [
             [_('Name') + ':', name],
-            [_('Period Type') + ':', period_type],
+            [_('Period Type') + ':', _(period_type)],
             [_('Reporting Start Datetime') + ':', reporting_start],
             [_('Reporting End Datetime') + ':', reporting_end],
         ]
@@ -411,13 +428,22 @@ class VirtualMeterCarbonDOCXExporter:
             r_val.font.name = 'Arial'
             r_val._element.rPr.rFonts.set(qn('w:eastAsia'), 'SimSun')
 
-        if has_next:
-            doc.add_page_break()
-
-    def _add_consumption_summary(self, doc, has_next=True):
+    def _add_consumption_summary(self, doc):
         """Add reporting period carbon dioxide emissions summary table."""
         _ = self._
         reporting_data = self.report['reporting_period']
+
+        body_section = doc.add_section(WD_SECTION.NEW_PAGE)
+        body_section.orientation = 1
+        body_section.page_width = Inches(11.69)
+        body_section.page_height = Inches(8.27)
+        body_section.left_margin = Inches(0.5)
+        body_section.right_margin = Inches(0.5)
+        body_section.top_margin = Inches(0.5)
+        body_section.bottom_margin = Inches(0.5)
+        header_title = (_('Meter Data') + ' - ' + _('Virtual Meter Carbon')
+                        + '  |  ' + self.name)
+        configure_body_section(body_section, header_title)
 
         increment_rate = reporting_data.get('increment_rate', None)
         increment_rate_text = str(round2(increment_rate * 100, 2)) + "%" \
@@ -465,12 +491,8 @@ class VirtualMeterCarbonDOCXExporter:
             cell_inc.text = increment_row[j]
             _style_table_cell(cell_inc, font_size=8)
 
-        if has_next:
-            doc.add_paragraph('')
-            doc.add_page_break()
-
-    def _add_detailed_data_pages(self, doc, has_next=True):
-        """Add detailed data pages: paginated tables + per-page trend line charts."""
+    def _add_detailed_data_table(self, doc):
+        """Add detailed data tables only (paginated, 45 rows per page)."""
         _ = self._
 
         reporting_data = self.report['reporting_period']
@@ -481,27 +503,28 @@ class VirtualMeterCarbonDOCXExporter:
             return
 
         category_label = self.energy_category_name + " (" + self.unit_of_measure + ")"
+        rows_per_table_page = 45
+        header_font = 8
+        data_font = 7
 
-        rows_per_page = 25
+        doc.add_page_break()
+        self._add_heading_styled(doc, self.name + ' ' + _('Detailed Data'), level=1)
+
+        first_table_page = True
 
         if not self.is_base_period_exists:
             if len(reporting_times) == 0:
                 return
-            num_pages = (len(reporting_times) + rows_per_page - 1) // rows_per_page
-            marker_step = max(1, rows_per_page // 15)
+            total_rows = len(reporting_times)
+            num_pages = (total_rows + rows_per_table_page - 1) // rows_per_table_page
 
             for page in range(num_pages):
-                start_row = page * rows_per_page
-                end_row = min(start_row + rows_per_page, len(reporting_times))
+                start_row = page * rows_per_table_page
+                end_row = min(start_row + rows_per_table_page, total_rows)
 
-                if page == 0:
-                    self._add_heading_styled(doc, self.name + ' ' + _('Detailed Data'), level=1)
-
-                container = doc.add_table(rows=2, cols=1)
-                container.alignment = WD_TABLE_ALIGNMENT.CENTER
-                _remove_table_borders(container)
-                table_cell = container.cell(0, 0)
-                chart_cell = container.cell(1, 0)
+                if not first_table_page:
+                    doc.add_page_break()
+                first_table_page = False
 
                 col_headers = [_('Datetime'), category_label]
                 table_data = [col_headers]
@@ -513,78 +536,42 @@ class VirtualMeterCarbonDOCXExporter:
                                    str(round2(reporting_data['total_in_category'], 2))])
 
                 num_cols = len(col_headers)
-                data_table = table_cell.add_table(rows=len(table_data), cols=num_cols)
+                data_table = doc.add_table(rows=len(table_data), cols=num_cols)
                 data_table.alignment = WD_TABLE_ALIGNMENT.CENTER
-                p_elem = table_cell.paragraphs[0]._element
-                p_elem.getparent().remove(p_elem)
 
                 for j in range(num_cols):
                     cell = data_table.cell(0, j)
                     cell.text = col_headers[j]
-                    _style_table_cell(cell, is_header=True, bold=True, font_size=8)
+                    _style_table_cell(cell, is_header=True, bold=True, font_size=header_font)
 
                 for i in range(1, len(table_data) - 1):
                     for j in range(num_cols):
                         cell = data_table.cell(i, j)
                         cell.text = table_data[i][j]
-                        _style_table_cell(cell, font_size=7)
+                        _style_table_cell(cell, font_size=data_font)
 
                 last_row = len(table_data) - 1
                 for j in range(num_cols):
                     cell = data_table.cell(last_row, j)
                     cell.text = table_data[last_row][j]
-                    _style_table_cell(cell, bold=True, font_size=7)
-
-                fig, ax_chart = plt.subplots(figsize=(8.5, 2.8))
-                page_data = reporting_values[start_row:end_row]
-                ax_chart.plot(range(len(page_data)), page_data, linewidth=1.2,
-                              color=self.chart_colors[0],
-                              marker='o', markersize=3, markevery=marker_step,
-                              label=category_label)
-                step = max(1, (end_row - start_row) // 8)
-                ax_chart.set_xticks(range(0, end_row - start_row, step))
-                ax_chart.set_xticklabels([reporting_times[start_row + t]
-                                          for t in range(0, end_row - start_row, step)],
-                                         rotation=45, ha='right', fontsize=7)
-                ax_chart.set_title(_('Reporting Period Carbon Dioxide Emissions') + ' - ' + category_label,
-                                   fontsize=10, weight='bold')
-                ax_chart.legend(fontsize=7, loc='upper right')
-                ax_chart.grid(True, alpha=0.3)
-                chart_buf = self._fig_to_bytesio(fig, self.dpi)
-
-                p = chart_cell.paragraphs[0]
-                p.alignment = WD_ALIGN_PARAGRAPH.CENTER
-                run = p.add_run()
-                run.add_picture(chart_buf, width=Inches(8.5))
-
-                if page < num_pages - 1:
-                    doc.add_page_break()
+                    _style_table_cell(cell, bold=True, font_size=data_font)
         else:
             base_period_data = self.report['base_period']
             base_times = base_period_data.get('timestamps', [])
             base_values = base_period_data.get('values', [])
 
-            base_chart_title = _('Base Period Carbon Dioxide Emissions') + ' / ' + \
-                               _('Reporting Period Carbon Dioxide Emissions') + ' - ' + category_label
-
             total_rows = max(len(reporting_times), len(base_times))
             if total_rows == 0:
                 return
-            num_pages = (total_rows + rows_per_page - 1) // rows_per_page
-            marker_step = max(1, rows_per_page // 15)
+            num_pages = (total_rows + rows_per_table_page - 1) // rows_per_table_page
 
             for page in range(num_pages):
-                start_row = page * rows_per_page
-                end_row = min(start_row + rows_per_page, total_rows)
+                start_row = page * rows_per_table_page
+                end_row = min(start_row + rows_per_table_page, total_rows)
 
-                if page == 0:
-                    self._add_heading_styled(doc, self.name + ' ' + _('Detailed Data'), level=1)
-
-                container = doc.add_table(rows=2, cols=1)
-                container.alignment = WD_TABLE_ALIGNMENT.CENTER
-                _remove_table_borders(container)
-                table_cell = container.cell(0, 0)
-                chart_cell = container.cell(1, 0)
+                if not first_table_page:
+                    doc.add_page_break()
+                first_table_page = False
 
                 col_headers = [
                     _('Base Period') + ' - ' + _('Datetime'),
@@ -603,70 +590,144 @@ class VirtualMeterCarbonDOCXExporter:
                     table_data.append([base_time, base_value, rep_time, rep_value])
 
                 table_data.append([_('Total'),
-                                   str(round2(base_period_data['total_in_category'], 2)),
+                                   str(round2(base_period_data.get('total_in_category', 0), 2)),
                                    _('Total'),
                                    str(round2(reporting_data['total_in_category'], 2))])
 
                 num_cols = len(col_headers)
-                data_table = table_cell.add_table(rows=len(table_data), cols=num_cols)
+                data_table = doc.add_table(rows=len(table_data), cols=num_cols)
                 data_table.alignment = WD_TABLE_ALIGNMENT.CENTER
-                p_elem = table_cell.paragraphs[0]._element
-                p_elem.getparent().remove(p_elem)
 
                 for j in range(num_cols):
                     cell = data_table.cell(0, j)
                     cell.text = col_headers[j]
-                    _style_table_cell(cell, is_header=True, bold=True, font_size=7)
+                    _style_table_cell(cell, is_header=True, bold=True, font_size=header_font)
 
                 for i in range(1, len(table_data) - 1):
                     for j in range(num_cols):
                         cell = data_table.cell(i, j)
                         cell.text = table_data[i][j]
-                        _style_table_cell(cell, font_size=6)
+                        _style_table_cell(cell, font_size=data_font)
 
                 last_row = len(table_data) - 1
                 for j in range(num_cols):
                     cell = data_table.cell(last_row, j)
                     cell.text = table_data[last_row][j]
-                    _style_table_cell(cell, bold=True, font_size=6)
+                    _style_table_cell(cell, bold=True, font_size=data_font)
 
-                fig, ax_chart = plt.subplots(figsize=(8.5, 2.8))
-                page_data = reporting_values[start_row:min(end_row, len(reporting_values))]
-                ax_chart.plot(range(len(page_data)), page_data, linewidth=1.2,
-                              color=self.chart_colors[0],
-                              marker='o', markersize=3, markevery=marker_step,
-                              label=_('Reporting Period') + ' - ' + category_label)
-                base_page_data = base_values[start_row:min(end_row, len(base_values))]
-                ax_chart.plot(range(len(base_page_data)), base_page_data, linewidth=1.2,
-                              color=self.chart_colors[1], linestyle='--',
-                              marker='s', markersize=3, markevery=marker_step,
-                              label=_('Base Period') + ' - ' + category_label)
-                page_len = end_row - start_row
-                step = max(1, page_len // 8)
-                tick_positions = []
-                tick_labels = []
-                for t in range(0, page_len, step):
-                    idx = start_row + t
-                    if idx < len(reporting_times):
-                        tick_positions.append(t)
-                        tick_labels.append(reporting_times[idx])
-                ax_chart.set_xticks(tick_positions)
-                ax_chart.set_xticklabels(tick_labels, rotation=45, ha='right', fontsize=7)
-                ax_chart.set_title(base_chart_title, fontsize=10, weight='bold')
-                ax_chart.legend(fontsize=7, loc='upper right')
-                ax_chart.grid(True, alpha=0.3)
-                chart_buf = self._fig_to_bytesio(fig, self.dpi)
+    def _add_detailed_data_charts(self, doc):
+        """Add full-length detailed data charts only (2 charts per page, 10.5x3.2 in)."""
+        _ = self._
 
-                p = chart_cell.paragraphs[0]
+        reporting_data = self.report['reporting_period']
+        reporting_times = reporting_data.get('timestamps', [])
+        reporting_values = reporting_data.get('values', [])
+
+        if len(reporting_times) == 0 and not self.is_base_period_exists:
+            return
+
+        category_label = self.energy_category_name + " (" + self.unit_of_measure + ")"
+
+        def _set_ticks(ax, raw_len, times):
+            step = max(1, raw_len // 10)
+            ax.set_xticks(range(0, raw_len, step))
+            ax.set_xticklabels(
+                [times[t][:10] if t < len(times) else '' for t in range(0, raw_len, step)],
+                rotation=45, ha='right', fontsize=7)
+
+        doc.add_page_break()
+        self._add_heading_styled(doc, self.name + ' ' + _('Detailed Data'), level=1)
+
+        all_charts = []
+        fig_w, fig_h = 10.5, 3.2
+        display_w = 10.5
+
+        color_rep = self.chart_colors[0]
+        color_base = self.chart_colors[1]
+
+        is_base = self.is_base_period_exists
+        if not is_base:
+            raw_len = len(reporting_times)
+            if raw_len == 0:
+                return
+            fig, ax = plt.subplots(figsize=(fig_w, fig_h))
+            xs, ys = self._filter_valid_data(reporting_values)
+            marker_step = max(1, len(ys) // 30) if ys else 1
+            if ys:
+                ax.plot(xs, ys, linewidth=1.2, color=color_rep,
+                        marker='o', markersize=3,
+                        markevery=marker_step,
+                        label=category_label)
+            _set_ticks(ax, raw_len, reporting_times)
+            title = _('Reporting Period Carbon Dioxide Emissions') + ' - ' + category_label
+            ax.set_title(title, fontsize=9, fontweight='bold')
+            if ys:
+                ax.legend(fontsize=7)
+            ax.grid(True, alpha=0.3)
+            all_charts.append(self._fig_to_bytesio(fig, self.dpi))
+        else:
+            base_period_data = self.report['base_period']
+            base_times = base_period_data.get('timestamps', [])
+            base_values = base_period_data.get('values', [])
+
+            raw_len = max(len(reporting_times), len(base_times))
+            if raw_len == 0:
+                return
+            fig, ax = plt.subplots(figsize=(fig_w, fig_h))
+
+            r_xs, r_ys = self._filter_valid_data(reporting_values)
+            marker_step = max(1, len(r_ys) // 30) if r_ys else 1
+            if r_ys:
+                ax.plot(r_xs, r_ys, linewidth=1.2, color=color_rep,
+                        marker='o', markersize=3,
+                        markevery=marker_step,
+                        label=_('Reporting Period') + ' - ' + category_label)
+
+            b_xs, b_ys = self._filter_valid_data(base_values)
+            marker_step_b = max(1, len(b_ys) // 30) if b_ys else 1
+            if b_ys:
+                ax.plot(b_xs, b_ys, linewidth=1.2, color=color_base,
+                        linestyle='--', marker='s', markersize=3,
+                        markevery=marker_step_b,
+                        label=_('Base Period') + ' - ' + category_label)
+
+            _set_ticks(ax, raw_len, reporting_times)
+            title = (_('Base Period Carbon Dioxide Emissions') + ' / ' +
+                     _('Reporting Period Carbon Dioxide Emissions') + ' - ' + category_label)
+            ax.set_title(title, fontsize=8, fontweight='bold')
+            ax.legend(fontsize=7)
+            ax.grid(True, alpha=0.3)
+            all_charts.append(self._fig_to_bytesio(fig, self.dpi))
+
+        num_total_charts = len(all_charts)
+        charts_per_page = 2
+        first_chart_page = True
+
+        for page_start in range(0, num_total_charts, charts_per_page):
+            page_end = min(page_start + charts_per_page, num_total_charts)
+            page_bufs = all_charts[page_start:page_end]
+            num_on_page = len(page_bufs)
+
+            if not first_chart_page:
+                doc.add_page_break()
+            first_chart_page = False
+
+            if num_on_page == 1:
+                chart_buf = page_bufs[0]
+                p = doc.add_paragraph()
                 p.alignment = WD_ALIGN_PARAGRAPH.CENTER
                 run = p.add_run()
-                run.add_picture(chart_buf, width=Inches(8.5))
-
-                if page < num_pages - 1:
-                    doc.add_page_break()
-
-        if has_next:
-            doc.add_page_break()
+                run.add_picture(chart_buf, width=Inches(display_w))
+            elif num_on_page == 2:
+                container = doc.add_table(rows=2, cols=1)
+                container.alignment = WD_TABLE_ALIGNMENT.CENTER
+                _remove_table_borders(container)
+                for ci, buf in enumerate(page_bufs):
+                    cell = container.cell(ci, 0)
+                    p = cell.paragraphs[0]
+                    p.alignment = WD_ALIGN_PARAGRAPH.CENTER
+                    run = p.add_run()
+                    run.add_picture(buf, width=Inches(display_w))
 
     def _add_parameters_section(self, doc):
         """Add parameters section: each parameter with compact table + filled line chart."""
@@ -697,6 +758,7 @@ class VirtualMeterCarbonDOCXExporter:
         if not valid_params:
             return
 
+        doc.add_page_break()
         self._add_heading_styled(doc, self.name + ' ' + _('Parameters'), level=1)
 
         rows_per_param = 10

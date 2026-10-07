@@ -38,9 +38,11 @@ from docx import Document
 from docx.shared import Inches, Pt
 from docx.enum.text import WD_ALIGN_PARAGRAPH, WD_LINE_SPACING
 from docx.enum.table import WD_TABLE_ALIGNMENT
+from docx.enum.section import WD_SECTION
 from docx.oxml.ns import qn
 from docx.oxml import OxmlElement
 
+from .docxcommon import configure_cover_section, configure_body_section
 from core.utilities import get_translation, round2
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
@@ -269,6 +271,21 @@ class VirtualMeterBatchDOCXExporter:
         meters = self.report.get('virtual_meters', [])
         has_next = isinstance(meters, list) and len(meters) > 0
         self._add_cover_page(doc, has_next=has_next)
+
+        configure_cover_section(doc.sections[0])
+        if len(doc.sections) >= 2:
+            body_section = doc.sections[1]
+            body_section.orientation = 1
+            body_section.page_width = Inches(11.69)
+            body_section.page_height = Inches(8.27)
+            body_section.left_margin = Inches(0.5)
+            body_section.right_margin = Inches(0.5)
+            body_section.top_margin = Inches(0.5)
+            body_section.bottom_margin = Inches(0.5)
+            header_title = (_('Meter Data') + ' - ' + _('Virtual Meter Batch Analysis')
+                            + '  |  ' + self.space_name)
+            configure_body_section(body_section, header_title)
+
         self._add_batch_data_table(doc)
 
         doc.save(filename)
@@ -344,7 +361,7 @@ class VirtualMeterBatchDOCXExporter:
             r_val._element.rPr.rFonts.set(qn('w:eastAsia'), 'SimSun')
 
         if has_next:
-            doc.add_page_break()
+            doc.add_section(WD_SECTION.NEW_PAGE)
 
     def _add_batch_data_table(self, doc):
         """Add the main batch data table showing all virtual meters with their daily

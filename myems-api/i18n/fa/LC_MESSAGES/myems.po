@@ -573,3 +573,21 @@ msgstr "تحلیل مقایسه‌ای"
 
 msgid "Combined Equipment Data"
 msgstr "داده‌های تجهیزات ترکیبی"
+
+msgid "hourly"
+msgstr "ساعتی"
+
+msgid "daily"
+msgstr "روزانه"
+
+msgid "weekly"
+msgstr "هفتگی"
+
+msgid "monthly"
+msgstr "ماهانه"
+
+msgid "yearly"
+msgstr "سالانه"
+
+msgid "Space Data"
+msgstr "داده‌های فضا"

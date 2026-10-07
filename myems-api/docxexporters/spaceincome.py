@@ -36,12 +36,14 @@ import matplotlib.pyplot as plt
 
 from docx import Document
 from docx.shared import Inches, Pt
+from docx.enum.section import WD_SECTION
 from docx.enum.text import WD_ALIGN_PARAGRAPH, WD_LINE_SPACING, WD_BREAK, WD_TAB_ALIGNMENT
 from docx.enum.table import WD_TABLE_ALIGNMENT
 from docx.oxml.ns import qn
 from docx.oxml import OxmlElement
 
 from core.utilities import get_translation, round2
+from .docxcommon import configure_cover_section, configure_body_section
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
@@ -281,17 +283,23 @@ class SpaceIncomeDOCXExporter:
         if "reporting_period" not in report.keys() or \
                 "names" not in report['reporting_period'].keys() or \
                 len(report['reporting_period']['names']) == 0:
+            self.name = name
             doc = Document()
             section = doc.sections[0]
-            section.orientation = 1
-            section.page_width = Inches(11.69)
-            section.page_height = Inches(8.27)
+            section.orientation = 0
+            section.page_width = Inches(8.27)
+            section.page_height = Inches(11.69)
+            section.left_margin = Inches(0.5)
+            section.right_margin = Inches(0.5)
+            section.top_margin = Inches(0.5)
+            section.bottom_margin = Inches(0.5)
             self._add_cover_page(doc, name, period_type,
                                  reporting_start_datetime_local,
                                  reporting_end_datetime_local,
                                  base_period_start_datetime_local,
                                  base_period_end_datetime_local,
                                  False)
+            configure_cover_section(doc.sections[0])
             filename = str(uuid.uuid4()) + '.docx'
             doc.save(filename)
             return filename
@@ -308,9 +316,9 @@ class SpaceIncomeDOCXExporter:
 
         doc = Document()
         section = doc.sections[0]
-        section.orientation = 1
-        section.page_width = Inches(11.69)
-        section.page_height = Inches(8.27)
+        section.orientation = 0
+        section.page_width = Inches(8.27)
+        section.page_height = Inches(11.69)
         section.left_margin = Inches(0.5)
         section.right_margin = Inches(0.5)
         section.top_margin = Inches(0.5)
@@ -322,6 +330,8 @@ class SpaceIncomeDOCXExporter:
                              base_period_start_datetime_local,
                              base_period_end_datetime_local,
                              self.is_base_period_exists)
+        configure_cover_section(doc.sections[0])
+
         self._add_combined_analysis(doc)
         self._add_detailed_data_charts(doc)
         self._add_parameters_section(doc)
@@ -360,7 +370,7 @@ class SpaceIncomeDOCXExporter:
 
         title = doc.add_paragraph()
         title.alignment = WD_ALIGN_PARAGRAPH.CENTER
-        run = title.add_run(_('Income'))
+        run = title.add_run(f"{_('Space Data')} - {_('Income')}")
         run.font.size = Pt(24)
         run.font.bold = True
         run.font.name = 'Arial'
@@ -372,7 +382,7 @@ class SpaceIncomeDOCXExporter:
 
         info_data = [
             [_('Name') + ':', name],
-            [_('Period Type') + ':', period_type],
+            [_('Period Type') + ':', _(period_type)],
             [_('Reporting Start Datetime') + ':', reporting_start],
             [_('Reporting End Datetime') + ':', reporting_end],
         ]
@@ -405,7 +415,6 @@ class SpaceIncomeDOCXExporter:
             r_val.font.name = 'Arial'
             r_val._element.rPr.rFonts.set(qn('w:eastAsia'), 'SimSun')
 
-
     def _add_combined_analysis(self, doc):
         _ = self._
         reporting_data = self.report['reporting_period']
@@ -419,7 +428,18 @@ class SpaceIncomeDOCXExporter:
         if ca_len == 0:
             return
 
-        doc.add_page_break()
+        body_section = doc.add_section(WD_SECTION.NEW_PAGE)
+        body_section.orientation = 0
+        body_section.page_width = Inches(8.27)
+        body_section.page_height = Inches(11.69)
+        body_section.left_margin = Inches(0.5)
+        body_section.right_margin = Inches(0.5)
+        body_section.top_margin = Inches(0.5)
+        body_section.bottom_margin = Inches(0.5)
+        header_title = (f"{_('Space Data')} - {_('Income')}"
+                        f"  |  {self.name}")
+        configure_body_section(body_section, header_title=header_title)
+
         self._add_heading_styled(doc, self.name + ' - ' + _('Reporting Period Income'), level=1)
 
         num_cols = ca_len + 1
@@ -473,7 +493,7 @@ class SpaceIncomeDOCXExporter:
 
         reporting_times = timestamps[0]
         num_categories = len(names)
-        rows_per_table_page = 45
+        rows_per_table_page = 70
 
         is_base = self.is_base_period_exists
         if is_base:
@@ -609,8 +629,8 @@ class SpaceIncomeDOCXExporter:
                 rotation=45, ha='right', fontsize=7)
 
         all_charts = []
-        fig_w, fig_h = 8.5, 3.2
-        display_w = 8.5
+        fig_w, fig_h = 7.27, 3.2
+        display_w = 7.27
 
         for i in range(num_categories):
             color = self.chart_colors[i % len(self.chart_colors)]
@@ -668,7 +688,7 @@ class SpaceIncomeDOCXExporter:
                 all_charts.append(self._fig_to_bytesio(fig, self.dpi))
 
         num_total_charts = len(all_charts)
-        charts_per_page = 2
+        charts_per_page = 3
         first_chart_page = True
 
         for page_start in range(0, num_total_charts, charts_per_page):
@@ -686,8 +706,8 @@ class SpaceIncomeDOCXExporter:
                 p.alignment = WD_ALIGN_PARAGRAPH.CENTER
                 run = p.add_run()
                 run.add_picture(chart_buf, width=Inches(display_w))
-            elif num_on_page == 2:
-                container = doc.add_table(rows=2, cols=1)
+            else:
+                container = doc.add_table(rows=num_on_page, cols=1)
                 container.alignment = WD_TABLE_ALIGNMENT.CENTER
                 _remove_table_borders(container)
                 for ci, buf in enumerate(page_bufs):

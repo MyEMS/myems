@@ -569,3 +569,21 @@ msgstr "Analiza porównawcza hal produkcyjnych"
 
 msgid "Combined Equipment Data"
 msgstr "Dane Połączonych Urządzeń"
+
+msgid "hourly"
+msgstr "Godzinowy"
+
+msgid "daily"
+msgstr "Dzienny"
+
+msgid "weekly"
+msgstr "Tygodniowy"
+
+msgid "monthly"
+msgstr "Miesięczny"
+
+msgid "yearly"
+msgstr "Roczny"
+
+msgid "Space Data"
+msgstr "Dane Przestrzenne"

@@ -40,9 +40,11 @@ from docx import Document
 from docx.shared import Inches, Pt
 from docx.enum.text import WD_ALIGN_PARAGRAPH, WD_LINE_SPACING
 from docx.enum.table import WD_TABLE_ALIGNMENT
+from docx.enum.section import WD_SECTION
 from docx.oxml.ns import qn
 from docx.oxml import OxmlElement
 
+from .docxcommon import configure_cover_section, configure_body_section
 from core.utilities import get_translation, round2
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
@@ -256,6 +258,18 @@ class PowerQualityDOCXExporter:
         buf.seek(0)
         return buf
 
+    @staticmethod
+    def _filter_valid_data(data):
+        xs, ys = [], []
+        for idx, v in enumerate(data):
+            if v is not None:
+                try:
+                    ys.append(float(v))
+                    xs.append(idx)
+                except (TypeError, ValueError):
+                    pass
+        return xs, ys
+
     def generate_docx(self,
                       report: Dict[str, Any],
                       name: str,
@@ -284,11 +298,24 @@ class PowerQualityDOCXExporter:
 
         reporting_data = self.report.get('reporting_period', {})
         names = reporting_data.get('names', [])
-        has_trend = isinstance(names, list) and len(names) > 0
+        timestamps = reporting_data.get('timestamps', [])
+        has_trend = False
+        if isinstance(names, list) and len(names) > 0:
+            for ts_list in timestamps:
+                if ts_list is not None and len(ts_list) > 0:
+                    has_trend = True
+                    break
         analysis = self.report.get('analysis')
         has_analysis = isinstance(analysis, list) and len(analysis) > 0
-        self._add_cover_page(doc, has_next=(has_trend or has_analysis))
-        self._add_trend_pages(doc, has_next=has_analysis)
+
+        self._add_cover_page(doc)
+
+        configure_cover_section(doc.sections[0])
+
+        if has_trend:
+            self._add_trend_table(doc)
+            self._add_trend_charts(doc)
+
         self._add_analysis_pages(doc)
 
         doc.save(filename)
@@ -304,7 +331,7 @@ class PowerQualityDOCXExporter:
         r.rPr.rFonts.set(qn('w:eastAsia'), 'SimSun')
         return heading
 
-    def _add_cover_page(self, doc, has_next=True):
+    def _add_cover_page(self, doc):
         _ = self._
         img_path = os.path.join(os.path.dirname(os.path.abspath(__file__)),
                                 '..', 'excelexporters', 'myems.png')
@@ -363,10 +390,7 @@ class PowerQualityDOCXExporter:
             r_val.font.name = 'Arial'
             r_val._element.rPr.rFonts.set(qn('w:eastAsia'), 'SimSun')
 
-        if has_next:
-            doc.add_page_break()
-
-    def _add_trend_pages(self, doc, has_next=True):
+    def _add_trend_table(self, doc):
         _ = self._
 
         reporting_data = self.report.get('reporting_period', {})
@@ -387,107 +411,175 @@ class PowerQualityDOCXExporter:
         if len(time_axis) == 0:
             return
 
+        body_section = doc.add_section(WD_SECTION.NEW_PAGE)
+        body_section.orientation = 1
+        body_section.page_width = Inches(11.69)
+        body_section.page_height = Inches(8.27)
+        body_section.left_margin = Inches(0.5)
+        body_section.right_margin = Inches(0.5)
+        body_section.top_margin = Inches(0.5)
+        body_section.bottom_margin = Inches(0.5)
+        header_title = (f"{_('Power Quality Data')} - {_('Power Quality Analysis')}"
+                        f"  |  {self.name}")
+        configure_body_section(body_section, header_title=header_title)
+
+        rows_per_table_page = 45
+        header_font = 8
+        data_font = 7
         num_rows = len(time_axis)
-        rows_per_page = 25
-        num_pages = (num_rows + rows_per_page - 1) // rows_per_page
-        marker_step = max(1, rows_per_page // 15)
+        num_pages = (num_rows + rows_per_table_page - 1) // rows_per_table_page
 
         col_headers = [_('Datetime')] + [str(names[i]) for i in range(ca_len)]
         num_cols = len(col_headers)
 
-        datetime_w = 0.22
-        series_w = (1.0 - datetime_w) / ca_len
-        col_widths = [datetime_w] + [series_w] * ca_len
+        totals = [Decimal('0') for _ in range(ca_len)]
+        for i in range(ca_len):
+            if i < len(values) and values[i] is not None:
+                for v in values[i]:
+                    if v is not None:
+                        try:
+                            totals[i] += Decimal(str(v))
+                        except (TypeError, ValueError):
+                            pass
 
-        if num_cols <= 5:
-            fontsize = 7
-        elif num_cols <= 9:
-            fontsize = 6
-        else:
-            fontsize = 5
-
-        nan = float('nan')
-
+        first_table_page = True
         for page in range(num_pages):
-            start_row = page * rows_per_page
-            end_row = min(start_row + rows_per_page, num_rows)
-            page_len = end_row - start_row
+            start_row = page * rows_per_table_page
+            end_row = min(start_row + rows_per_table_page, num_rows)
+            is_last_page = (end_row == num_rows)
+
+            if not first_table_page:
+                doc.add_page_break()
+            first_table_page = False
 
             if page == 0:
                 self._add_heading_styled(doc, self.name + ' ' + _('Trend'), level=1)
 
-            container = doc.add_table(rows=2, cols=1)
-            container.alignment = WD_TABLE_ALIGNMENT.CENTER
-            _remove_table_borders(container)
-            table_cell = container.cell(0, 0)
-            chart_cell = container.cell(1, 0)
-
             table_data = [col_headers]
-            for j in range(start_row, end_row):
-                row = [str(time_axis[j])]
+            for t_idx in range(start_row, end_row):
+                row = [str(time_axis[t_idx])]
                 for i in range(ca_len):
                     cell = ''
                     if i < len(values) and values[i] is not None and \
-                            j < len(values[i]) and values[i][j] is not None:
-                        cell = str(round2(values[i][j], 3))
+                            t_idx < len(values[i]) and values[i][t_idx] is not None:
+                        cell = str(round2(values[i][t_idx], 3))
                     row.append(cell)
                 table_data.append(row)
 
-            data_table = table_cell.add_table(rows=len(table_data), cols=num_cols)
-            data_table.alignment = WD_TABLE_ALIGNMENT.CENTER
+            if is_last_page:
+                total_row = [_('Total')]
+                for i in range(ca_len):
+                    total_row.append(str(round2(float(totals[i]), 3)))
+                table_data.append(total_row)
 
-            tc = table_cell._tc
-            p_elements = tc.findall(qn('w:p'))
-            for p_elem in p_elements:
-                if len(p_elem.findall(qn('w:r'))) == 0:
-                    tc.remove(p_elem)
+            data_table = doc.add_table(rows=len(table_data), cols=num_cols)
+            data_table.alignment = WD_TABLE_ALIGNMENT.CENTER
 
             for j in range(num_cols):
                 cell = data_table.cell(0, j)
                 cell.text = col_headers[j]
-                _style_table_cell(cell, is_green=True, bold=True, font_size=fontsize)
+                _style_table_cell(cell, is_green=True, bold=True, font_size=header_font)
 
-            for i in range(1, len(table_data)):
+            data_end = len(table_data) - (1 if is_last_page else 0)
+            for i in range(1, data_end):
                 for j in range(num_cols):
                     cell = data_table.cell(i, j)
                     cell.text = table_data[i][j]
-                    _style_table_cell(cell, font_size=fontsize)
+                    _style_table_cell(cell, font_size=data_font)
 
-            fig, ax_chart = plt.subplots(figsize=(8.5, 2.8))
-            for i in range(ca_len):
-                series_vals = []
-                for j in range(start_row, end_row):
-                    if i < len(values) and values[i] is not None and \
-                            j < len(values[i]) and values[i][j] is not None:
-                        series_vals.append(float(values[i][j]))
-                    else:
-                        series_vals.append(nan)
+            if is_last_page:
+                last_row = len(table_data) - 1
+                for j in range(num_cols):
+                    cell = data_table.cell(last_row, j)
+                    cell.text = table_data[last_row][j]
+                    _style_table_cell(cell, bold=True, font_size=data_font)
+
+    def _add_trend_charts(self, doc):
+        _ = self._
+
+        reporting_data = self.report.get('reporting_period', {})
+        names = reporting_data.get('names', [])
+        timestamps = reporting_data.get('timestamps', [])
+        values = reporting_data.get('values', [])
+
+        if names is None or len(names) == 0:
+            return
+
+        ca_len = len(names)
+
+        time_axis = []
+        for ts_list in timestamps:
+            if ts_list is not None and len(ts_list) > 0:
+                time_axis = ts_list
+                break
+        if len(time_axis) == 0:
+            return
+
+        def _set_ticks(ax, raw_len, times):
+            step = max(1, raw_len // 10)
+            ax.set_xticks(range(0, raw_len, step))
+            ax.set_xticklabels(
+                [times[t][:10] if t < len(times) else '' for t in range(0, raw_len, step)],
+                rotation=45, ha='right', fontsize=7)
+
+        doc.add_page_break()
+        self._add_heading_styled(doc, self.name + ' ' + _('Trend'), level=1)
+
+        all_charts = []
+        fig_w, fig_h = 10.5, 3.2
+        display_w = 10.5
+
+        raw_len = len(time_axis)
+        fig, ax = plt.subplots(figsize=(fig_w, fig_h))
+        for i in range(ca_len):
+            series_data = []
+            if i < len(values) and values[i] is not None:
+                series_data = values[i]
+            xs, ys = self._filter_valid_data(series_data)
+            marker_step = max(1, len(ys) // 30) if ys else 1
+            if ys:
                 color = self.chart_colors[i % len(self.chart_colors)]
-                ax_chart.plot(range(page_len), series_vals, linewidth=1.2,
-                              color=color, marker='o', markersize=2.5,
-                              markevery=marker_step, label=str(names[i]))
+                ax.plot(xs, ys, linewidth=1.2,
+                        color=color,
+                        marker='o', markersize=3,
+                        markevery=marker_step,
+                        label=str(names[i]))
+        _set_ticks(ax, raw_len, time_axis)
+        ax.set_title(_('Trend'), fontsize=9, fontweight='bold')
+        legend_ncol = 1 if ca_len <= 4 else 2
+        ax.legend(fontsize=7, loc='best', ncol=legend_ncol, framealpha=0.6)
+        ax.grid(True, alpha=0.3)
+        all_charts.append(self._fig_to_bytesio(fig, self.dpi))
 
-            step = max(1, page_len // 8)
-            ax_chart.set_xticks(range(0, page_len, step))
-            ax_chart.set_xticklabels([str(time_axis[start_row + t])
-                                      for t in range(0, page_len, step)],
-                                     rotation=45, ha='right', fontsize=7)
-            ax_chart.set_title(_('Trend'), fontsize=10, weight='bold')
-            legend_ncol = 1 if ca_len <= 4 else 2
-            ax_chart.legend(fontsize=6, loc='best', ncol=legend_ncol, framealpha=0.6)
-            ax_chart.grid(True, alpha=0.3)
-            chart_buf = self._fig_to_bytesio(fig, self.dpi)
+        num_total_charts = len(all_charts)
+        charts_per_page = 2
+        first_chart_page = True
 
-            p = chart_cell.paragraphs[0]
-            p.alignment = WD_ALIGN_PARAGRAPH.CENTER
-            run = p.add_run()
-            run.add_picture(chart_buf, width=Inches(8.5))
+        for page_start in range(0, num_total_charts, charts_per_page):
+            page_end = min(page_start + charts_per_page, num_total_charts)
+            page_bufs = all_charts[page_start:page_end]
+            num_on_page = len(page_bufs)
 
-            if page < num_pages - 1:
+            if not first_chart_page:
                 doc.add_page_break()
+            first_chart_page = False
 
-        if has_next:
-            doc.add_page_break()
+            if num_on_page == 1:
+                chart_buf = page_bufs[0]
+                p = doc.add_paragraph()
+                p.alignment = WD_ALIGN_PARAGRAPH.CENTER
+                run = p.add_run()
+                run.add_picture(chart_buf, width=Inches(display_w))
+            elif num_on_page == 2:
+                container = doc.add_table(rows=2, cols=1)
+                container.alignment = WD_TABLE_ALIGNMENT.CENTER
+                _remove_table_borders(container)
+                for ci, buf in enumerate(page_bufs):
+                    cell = container.cell(ci, 0)
+                    p = cell.paragraphs[0]
+                    p.alignment = WD_ALIGN_PARAGRAPH.CENTER
+                    run = p.add_run()
+                    run.add_picture(buf, width=Inches(display_w))
 
     def _add_analysis_pages(self, doc):
         _ = self._

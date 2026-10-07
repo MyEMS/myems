@@ -569,3 +569,21 @@ msgstr "비교 분석"
 
 msgid "Combined Equipment Data"
 msgstr "복합 장비 데이터"
+
+msgid "hourly"
+msgstr "시간별"
+
+msgid "daily"
+msgstr "일별"
+
+msgid "weekly"
+msgstr "주별"
+
+msgid "monthly"
+msgstr "월별"
+
+msgid "yearly"
+msgstr "연별"
+
+msgid "Space Data"
+msgstr "공간 데이터"
