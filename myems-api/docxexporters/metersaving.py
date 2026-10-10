@@ -290,9 +290,13 @@ class MeterSavingDOCXExporter:
         if not has_saving_data:
             doc = Document()
             section = doc.sections[0]
-            section.orientation = 1
-            section.page_width = Inches(11.69)
-            section.page_height = Inches(8.27)
+            section.orientation = 0
+            section.page_width = Inches(8.27)
+            section.page_height = Inches(11.69)
+            section.left_margin = Inches(0.5)
+            section.right_margin = Inches(0.5)
+            section.top_margin = Inches(0.5)
+            section.bottom_margin = Inches(0.5)
             self.name = name
             self._add_cover_page(doc, name, period_type,
                                  reporting_start_datetime_local,
@@ -322,9 +326,9 @@ class MeterSavingDOCXExporter:
 
         doc = Document()
         section = doc.sections[0]
-        section.orientation = 1
-        section.page_width = Inches(11.69)
-        section.page_height = Inches(8.27)
+        section.orientation = 0
+        section.page_width = Inches(8.27)
+        section.page_height = Inches(11.69)
         section.left_margin = Inches(0.5)
         section.right_margin = Inches(0.5)
         section.top_margin = Inches(0.5)
@@ -449,9 +453,9 @@ class MeterSavingDOCXExporter:
         increment_row = [_('Increment Rate'), increment_rate_text, increment_rate_text, increment_rate_text]
 
         body_section = doc.add_section(WD_SECTION.NEW_PAGE)
-        body_section.orientation = 1
-        body_section.page_width = Inches(11.69)
-        body_section.page_height = Inches(8.27)
+        body_section.orientation = 0
+        body_section.page_width = Inches(8.27)
+        body_section.page_height = Inches(11.69)
         body_section.left_margin = Inches(0.5)
         body_section.right_margin = Inches(0.5)
         body_section.top_margin = Inches(0.5)
@@ -513,7 +517,7 @@ class MeterSavingDOCXExporter:
             category_label_parts.append('(' + self.unit_of_measure + ')')
         category_label = ' '.join(category_label_parts) if category_label_parts else ''
 
-        rows_per_table_page = 45
+        rows_per_table_page = 70
         header_font = 8
         data_font = 7
 
@@ -661,9 +665,10 @@ class MeterSavingDOCXExporter:
         doc.add_page_break()
         self._add_heading_styled(doc, self.name + ' ' + _('Detailed Data'), level=1)
 
-        fig_w, fig_h = 10.5, 3.2
-        display_w = 10.5
-        charts_per_page = 2
+        all_charts = []
+        fig_w, fig_h = 7.27, 3.2
+        display_w = 7.27
+        charts_per_page = 3
 
         def _set_ticks(ax, raw_len, times):
             step = max(1, raw_len // 10)
@@ -671,8 +676,6 @@ class MeterSavingDOCXExporter:
             ax.set_xticklabels(
                 [times[t][:10] if t < len(times) else '' for t in range(0, raw_len, step)],
                 rotation=45, ha='right', fontsize=7)
-
-        all_charts = []
 
         if not is_base:
             fig, ax = plt.subplots(figsize=(fig_w, fig_h))
@@ -715,6 +718,7 @@ class MeterSavingDOCXExporter:
             all_charts.append(self._fig_to_bytesio(fig, self.dpi))
 
         num_total_charts = len(all_charts)
+        charts_per_page = 3
         first_chart_page = True
 
         for page_start in range(0, num_total_charts, charts_per_page):
@@ -732,8 +736,8 @@ class MeterSavingDOCXExporter:
                 p.alignment = WD_ALIGN_PARAGRAPH.CENTER
                 run = p.add_run()
                 run.add_picture(chart_buf, width=Inches(display_w))
-            elif num_on_page == 2:
-                container = doc.add_table(rows=2, cols=1)
+            else:
+                container = doc.add_table(rows=num_on_page, cols=1)
                 container.alignment = WD_TABLE_ALIGNMENT.CENTER
                 _remove_table_borders(container)
                 for ci, buf in enumerate(page_bufs):

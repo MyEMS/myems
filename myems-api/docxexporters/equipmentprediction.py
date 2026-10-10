@@ -266,7 +266,7 @@ class EquipmentPredictionDOCXExporter:
     def _make_pie_chart(self, values, labels, title, colors=None):
         if not values or sum((v or 0) for v in values) == 0:
             return None
-        fig, ax = plt.subplots(figsize=(3.2, 2.6))
+        fig, ax = plt.subplots(figsize=(2.4, 2.7))
         if colors is None:
             colors = self.chart_colors[:len(labels)]
         filtered = [(l, v, c) for l, v, c in zip(labels, values, colors) if (v or 0) > 0]
@@ -301,9 +301,13 @@ class EquipmentPredictionDOCXExporter:
                 len(report['reporting_period']['names']) == 0:
             doc = Document()
             section = doc.sections[0]
-            section.orientation = 1
-            section.page_width = Inches(11.69)
-            section.page_height = Inches(8.27)
+            section.orientation = 0
+            section.page_width = Inches(8.27)
+            section.page_height = Inches(11.69)
+            section.left_margin = Inches(0.5)
+            section.right_margin = Inches(0.5)
+            section.top_margin = Inches(0.5)
+            section.bottom_margin = Inches(0.5)
             self.name = name
             self._add_cover_page(doc, name, period_type,
                                  reporting_start_datetime_local,
@@ -330,9 +334,9 @@ class EquipmentPredictionDOCXExporter:
 
         doc = Document()
         section = doc.sections[0]
-        section.orientation = 1
-        section.page_width = Inches(11.69)
-        section.page_height = Inches(8.27)
+        section.orientation = 0
+        section.page_width = Inches(8.27)
+        section.page_height = Inches(11.69)
         section.left_margin = Inches(0.5)
         section.right_margin = Inches(0.5)
         section.top_margin = Inches(0.5)
@@ -446,9 +450,9 @@ class EquipmentPredictionDOCXExporter:
             return
 
         body_section = doc.add_section(WD_SECTION.NEW_PAGE)
-        body_section.orientation = 1
-        body_section.page_width = Inches(11.69)
-        body_section.page_height = Inches(8.27)
+        body_section.orientation = 0
+        body_section.page_width = Inches(8.27)
+        body_section.page_height = Inches(11.69)
         body_section.left_margin = Inches(0.5)
         body_section.right_margin = Inches(0.5)
         body_section.top_margin = Inches(0.5)
@@ -586,7 +590,7 @@ class EquipmentPredictionDOCXExporter:
             p = tou_chart_cell.paragraphs[0]
             p.alignment = WD_ALIGN_PARAGRAPH.CENTER
             run = p.add_run()
-            run.add_picture(tou_chart, width=Inches(2.8))
+            run.add_picture(tou_chart, width=Inches(2.4), height=Inches(2.7))
 
         tce_table_data_rows = ca_len + 1
         tce_table = tce_table_cell.add_table(rows=tce_table_data_rows, cols=2)
@@ -609,7 +613,7 @@ class EquipmentPredictionDOCXExporter:
             p = tce_chart_cell.paragraphs[0]
             p.alignment = WD_ALIGN_PARAGRAPH.CENTER
             run = p.add_run()
-            run.add_picture(tce_chart, width=Inches(2.8))
+            run.add_picture(tce_chart, width=Inches(2.4), height=Inches(2.7))
 
         co2e_table_data_rows = ca_len + 1
         co2e_table = co2e_table_cell.add_table(rows=co2e_table_data_rows, cols=2)
@@ -632,7 +636,7 @@ class EquipmentPredictionDOCXExporter:
             p = co2e_chart_cell.paragraphs[0]
             p.alignment = WD_ALIGN_PARAGRAPH.CENTER
             run = p.add_run()
-            run.add_picture(co2e_chart, width=Inches(2.8))
+            run.add_picture(co2e_chart, width=Inches(2.4), height=Inches(2.7))
 
 
     def _add_detailed_data_table(self, doc):
@@ -650,7 +654,7 @@ class EquipmentPredictionDOCXExporter:
         subtotals = reporting_data.get('subtotals', [])
         ca_len = len(names)
 
-        rows_per_page = 45
+        rows_per_page = 70
 
         header_font = 8
         data_font = 7
@@ -821,16 +825,16 @@ class EquipmentPredictionDOCXExporter:
 
         reporting_times = timestamps[0]
         num_categories = len(names)
-        charts_per_page = 2
+        charts_per_page = 3
 
         doc.add_page_break()
         self._add_heading_styled(doc, self.name + ' ' + _('Detailed Data'), level=1)
 
-        fig_w, fig_h = 10.5, 3.2
-        display_w = 10.5
+        all_charts = []
+        fig_w, fig_h = 7.27, 3.2
+        display_w = 7.27
 
         if not self.is_base_period_exists:
-            all_charts = []
             for i in range(num_categories):
                 data = values[i] if i < len(values) else []
                 color = self.chart_colors[i % len(self.chart_colors)]
@@ -852,36 +856,11 @@ class EquipmentPredictionDOCXExporter:
                              fontsize=9, fontweight='bold')
                 ax.grid(True, alpha=0.3)
                 all_charts.append(self._fig_to_bytesio(fig, self.dpi))
-
-            num_total_charts = len(all_charts)
-            for page_start in range(0, num_total_charts, charts_per_page):
-                page_end = min(page_start + charts_per_page, num_total_charts)
-                page_indices = list(range(page_start, page_end))
-                num_on_page = len(page_indices)
-
-                rows = num_on_page
-                container = doc.add_table(rows=rows, cols=1)
-                container.alignment = WD_TABLE_ALIGNMENT.CENTER
-                _remove_table_borders(container)
-
-                for row_idx in range(rows):
-                    if row_idx >= num_on_page:
-                        continue
-                    chart_buf = all_charts[page_indices[row_idx]]
-                    cell = container.cell(row_idx, 0)
-                    p = cell.paragraphs[0]
-                    p.alignment = WD_ALIGN_PARAGRAPH.CENTER
-                    run = p.add_run()
-                    run.add_picture(chart_buf, width=Inches(display_w))
-
-                if page_end < num_total_charts:
-                    doc.add_page_break()
         else:
             base_period_data = self.report['base_period']
             base_values = base_period_data.get('values', [])
             base_names = base_period_data.get('names', [])
 
-            all_charts = []
             for i in range(num_categories):
                 fig, ax = plt.subplots(figsize=(fig_w, fig_h))
 
@@ -917,29 +896,33 @@ class EquipmentPredictionDOCXExporter:
                 ax.grid(True, alpha=0.3)
                 all_charts.append(self._fig_to_bytesio(fig, self.dpi))
 
-            num_total_charts = len(all_charts)
-            for page_start in range(0, num_total_charts, charts_per_page):
-                page_end = min(page_start + charts_per_page, num_total_charts)
-                page_indices = list(range(page_start, page_end))
-                num_on_page = len(page_indices)
+        num_total_charts = len(all_charts)
+        first_chart_page = True
+        for page_start in range(0, num_total_charts, charts_per_page):
+            page_end = min(page_start + charts_per_page, num_total_charts)
+            page_bufs = all_charts[page_start:page_end]
+            num_on_page = len(page_bufs)
 
-                rows = num_on_page
-                container = doc.add_table(rows=rows, cols=1)
+            if not first_chart_page:
+                doc.add_page_break()
+            first_chart_page = False
+
+            if num_on_page == 1:
+                chart_buf = page_bufs[0]
+                p = doc.add_paragraph()
+                p.alignment = WD_ALIGN_PARAGRAPH.CENTER
+                run = p.add_run()
+                run.add_picture(chart_buf, width=Inches(display_w))
+            else:
+                container = doc.add_table(rows=num_on_page, cols=1)
                 container.alignment = WD_TABLE_ALIGNMENT.CENTER
                 _remove_table_borders(container)
-
-                for row_idx in range(rows):
-                    if row_idx >= num_on_page:
-                        continue
-                    chart_buf = all_charts[page_indices[row_idx]]
-                    cell = container.cell(row_idx, 0)
+                for ci, buf in enumerate(page_bufs):
+                    cell = container.cell(ci, 0)
                     p = cell.paragraphs[0]
                     p.alignment = WD_ALIGN_PARAGRAPH.CENTER
                     run = p.add_run()
-                    run.add_picture(chart_buf, width=Inches(display_w))
-
-                if page_end < num_total_charts:
-                    doc.add_page_break()
+                    run.add_picture(buf, width=Inches(display_w))
 
         doc.add_page_break()
 

@@ -591,3 +591,7 @@ msgstr "Anual"
 
 msgid "Space Data"
 msgstr "Datos de Espacio"
+
+
+msgid "compare"
+msgstr "comparar"

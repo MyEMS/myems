@@ -290,9 +290,13 @@ class VirtualMeterPredictionDOCXExporter:
         if not has_prediction_data:
             doc = Document()
             section = doc.sections[0]
-            section.orientation = 1
-            section.page_width = Inches(11.69)
-            section.page_height = Inches(8.27)
+            section.orientation = 0
+            section.page_width = Inches(8.27)
+            section.page_height = Inches(11.69)
+            section.left_margin = Inches(0.5)
+            section.right_margin = Inches(0.5)
+            section.top_margin = Inches(0.5)
+            section.bottom_margin = Inches(0.5)
             is_base = self._is_base_period_timestamp_exists(report.get('base_period', {}))
             self._add_cover_page(doc, name, period_type,
                                  reporting_start_datetime_local,
@@ -323,9 +327,9 @@ class VirtualMeterPredictionDOCXExporter:
 
         doc = Document()
         section = doc.sections[0]
-        section.orientation = 1
-        section.page_width = Inches(11.69)
-        section.page_height = Inches(8.27)
+        section.orientation = 0
+        section.page_width = Inches(8.27)
+        section.page_height = Inches(11.69)
         section.left_margin = Inches(0.5)
         section.right_margin = Inches(0.5)
         section.top_margin = Inches(0.5)
@@ -436,9 +440,9 @@ class VirtualMeterPredictionDOCXExporter:
         reporting_data = self.report['reporting_period']
 
         body_section = doc.add_section(WD_SECTION.NEW_PAGE)
-        body_section.orientation = 1
-        body_section.page_width = Inches(11.69)
-        body_section.page_height = Inches(8.27)
+        body_section.orientation = 0
+        body_section.page_width = Inches(8.27)
+        body_section.page_height = Inches(11.69)
         body_section.left_margin = Inches(0.5)
         body_section.right_margin = Inches(0.5)
         body_section.top_margin = Inches(0.5)
@@ -505,7 +509,7 @@ class VirtualMeterPredictionDOCXExporter:
             return
 
         category_label = self.energy_category_name + " (" + self.unit_of_measure + ")"
-        rows_per_table_page = 45
+        rows_per_table_page = 70
         header_font = 8
         data_font = 7
 
@@ -641,8 +645,8 @@ class VirtualMeterPredictionDOCXExporter:
         self._add_heading_styled(doc, self.name + ' ' + _('Detailed Data'), level=1)
 
         all_charts = []
-        fig_w, fig_h = 10.5, 3.2
-        display_w = 10.5
+        fig_w, fig_h = 7.27, 3.2
+        display_w = 7.27
 
         color_rep = self.chart_colors[0]
         color_base = self.chart_colors[1]
@@ -702,7 +706,7 @@ class VirtualMeterPredictionDOCXExporter:
             all_charts.append(self._fig_to_bytesio(fig, self.dpi))
 
         num_total_charts = len(all_charts)
-        charts_per_page = 2
+        charts_per_page = 3
         first_chart_page = True
 
         for page_start in range(0, num_total_charts, charts_per_page):
@@ -720,8 +724,8 @@ class VirtualMeterPredictionDOCXExporter:
                 p.alignment = WD_ALIGN_PARAGRAPH.CENTER
                 run = p.add_run()
                 run.add_picture(chart_buf, width=Inches(display_w))
-            elif num_on_page == 2:
-                container = doc.add_table(rows=2, cols=1)
+            else:
+                container = doc.add_table(rows=num_on_page, cols=1)
                 container.alignment = WD_TABLE_ALIGNMENT.CENTER
                 _remove_table_borders(container)
                 for ci, buf in enumerate(page_bufs):

@@ -591,3 +591,7 @@ msgstr "Tahunan"
 
 msgid "Space Data"
 msgstr "Data Ruang"
+
+
+msgid "compare"
+msgstr "bandingkan"

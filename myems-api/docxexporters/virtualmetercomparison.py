@@ -284,9 +284,13 @@ class VirtualMeterComparisonDOCXExporter:
                 len(report['reporting_period1']['values']) == 0:
             doc = Document()
             section = doc.sections[0]
-            section.orientation = 1
-            section.page_width = Inches(11.69)
-            section.page_height = Inches(8.27)
+            section.orientation = 0
+            section.page_width = Inches(8.27)
+            section.page_height = Inches(11.69)
+            section.left_margin = Inches(0.5)
+            section.right_margin = Inches(0.5)
+            section.top_margin = Inches(0.5)
+            section.bottom_margin = Inches(0.5)
             self._add_cover_page(doc, name1, name2,
                                  reporting_start_datetime_local,
                                  reporting_end_datetime_local,
@@ -296,9 +300,9 @@ class VirtualMeterComparisonDOCXExporter:
             configure_cover_section(doc.sections[0])
             if len(doc.sections) >= 2:
                 body_section = doc.sections[1]
-                body_section.orientation = 1
-                body_section.page_width = Inches(11.69)
-                body_section.page_height = Inches(8.27)
+                body_section.orientation = 0
+                body_section.page_width = Inches(8.27)
+                body_section.page_height = Inches(11.69)
                 body_section.left_margin = Inches(0.5)
                 body_section.right_margin = Inches(0.5)
                 body_section.top_margin = Inches(0.5)
@@ -334,9 +338,9 @@ class VirtualMeterComparisonDOCXExporter:
 
         doc = Document()
         section = doc.sections[0]
-        section.orientation = 1
-        section.page_width = Inches(11.69)
-        section.page_height = Inches(8.27)
+        section.orientation = 0
+        section.page_width = Inches(8.27)
+        section.page_height = Inches(11.69)
         section.left_margin = Inches(0.5)
         section.right_margin = Inches(0.5)
         section.top_margin = Inches(0.5)
@@ -351,9 +355,9 @@ class VirtualMeterComparisonDOCXExporter:
         configure_cover_section(doc.sections[0])
         if len(doc.sections) >= 2:
             body_section = doc.sections[1]
-            body_section.orientation = 1
-            body_section.page_width = Inches(11.69)
-            body_section.page_height = Inches(8.27)
+            body_section.orientation = 0
+            body_section.page_width = Inches(8.27)
+            body_section.page_height = Inches(11.69)
             body_section.left_margin = Inches(0.5)
             body_section.right_margin = Inches(0.5)
             body_section.top_margin = Inches(0.5)
@@ -362,7 +366,7 @@ class VirtualMeterComparisonDOCXExporter:
                             + '  |  ' + self.name1 + ' vs ' + self.name2)
             configure_body_section(body_section, header_title)
 
-        self._add_consumption_summary(doc, has_next=(has_linechart or has_detailed))
+        self._add_consumption_summary(doc, has_next=(not has_linechart and has_detailed))
         self._add_line_chart_section(doc, has_next=has_detailed)
         self._add_detailed_data_section(doc)
 
@@ -461,8 +465,9 @@ class VirtualMeterComparisonDOCXExporter:
         total1 = round2(rp1.get('total_in_category', 0), 2)
         total2 = round2(rp2.get('total_in_category', 0), 2)
 
-        self._add_heading_styled(doc, self.name1 + ' & ' + self.name2 + ' - ' +
-                                 _('Consumption'), level=1)
+        self._add_heading_styled(doc, self.name1 + ' ' + _('compare') + ' ' +
+                                 self.name2 + ' - ' +
+                                 _('Reporting Period Consumption'), level=1)
 
         container = doc.add_table(rows=2, cols=1)
         container.alignment = WD_TABLE_ALIGNMENT.CENTER
@@ -509,14 +514,11 @@ class VirtualMeterComparisonDOCXExporter:
         if not timestamps or len(timestamps) == 0:
             return
 
-        self._add_heading_styled(doc, self.name1 + ' & ' + self.name2 + ' - ' +
-                                 _('Reporting Period Consumption'), level=1)
-
         xs = list(range(len(timestamps)))
         ys1 = self._sanitize_values(values1)
         ys2 = self._sanitize_values(values2)
 
-        fig, ax = plt.subplots(figsize=(10.5, 5.25))
+        fig, ax = plt.subplots(figsize=(7.27, 5.25))
         marker_step = max(1, len(xs) // 30)
 
         m1_label = self.name1 + ' ' + self.ec1 + ' (' + self.unit1 + ')'
@@ -551,7 +553,7 @@ class VirtualMeterComparisonDOCXExporter:
         p = doc.add_paragraph()
         p.alignment = WD_ALIGN_PARAGRAPH.CENTER
         run = p.add_run()
-        run.add_picture(chart_buf, width=Inches(10.5))
+        run.add_picture(chart_buf, width=Inches(7.27))
 
         if has_next:
             doc.add_page_break()
@@ -572,11 +574,12 @@ class VirtualMeterComparisonDOCXExporter:
         if not timestamps or len(timestamps) == 0:
             return
 
-        rows_per_page = 45
+        rows_per_page = 70
         header_font = 8
         data_font = 7
 
-        self._add_heading_styled(doc, self.name1 + ' and ' + self.name2 + ' ' +
+        self._add_heading_styled(doc, self.name1 + ' ' + _('compare') + ' ' +
+                                 self.name2 + ' ' +
                                  _('Detailed Data'), level=1)
 
         col_headers = [

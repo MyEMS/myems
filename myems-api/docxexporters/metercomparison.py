@@ -285,9 +285,13 @@ class MeterComparisonDOCXExporter:
                 len(report['reporting_period1']['values']) == 0:
             doc = Document()
             section = doc.sections[0]
-            section.orientation = 1
-            section.page_width = Inches(11.69)
-            section.page_height = Inches(8.27)
+            section.orientation = 0
+            section.page_width = Inches(8.27)
+            section.page_height = Inches(11.69)
+            section.left_margin = Inches(0.5)
+            section.right_margin = Inches(0.5)
+            section.top_margin = Inches(0.5)
+            section.bottom_margin = Inches(0.5)
             self.name1 = name1
             self.name2 = name2
             self._add_cover_page(doc, name1, name2,
@@ -298,9 +302,9 @@ class MeterComparisonDOCXExporter:
             configure_cover_section(doc.sections[0])
             if len(doc.sections) >= 2:
                 body_section = doc.sections[1]
-                body_section.orientation = 1
-                body_section.page_width = Inches(11.69)
-                body_section.page_height = Inches(8.27)
+                body_section.orientation = 0
+                body_section.page_width = Inches(8.27)
+                body_section.page_height = Inches(11.69)
                 body_section.left_margin = Inches(0.5)
                 body_section.right_margin = Inches(0.5)
                 body_section.top_margin = Inches(0.5)
@@ -330,9 +334,9 @@ class MeterComparisonDOCXExporter:
 
         doc = Document()
         section = doc.sections[0]
-        section.orientation = 1
-        section.page_width = Inches(11.69)
-        section.page_height = Inches(8.27)
+        section.orientation = 0
+        section.page_width = Inches(8.27)
+        section.page_height = Inches(11.69)
         section.left_margin = Inches(0.5)
         section.right_margin = Inches(0.5)
         section.top_margin = Inches(0.5)
@@ -353,9 +357,9 @@ class MeterComparisonDOCXExporter:
         configure_cover_section(doc.sections[0])
         if len(doc.sections) >= 2:
             body_section = doc.sections[1]
-            body_section.orientation = 1
-            body_section.page_width = Inches(11.69)
-            body_section.page_height = Inches(8.27)
+            body_section.orientation = 0
+            body_section.page_width = Inches(8.27)
+            body_section.page_height = Inches(11.69)
             body_section.left_margin = Inches(0.5)
             body_section.right_margin = Inches(0.5)
             body_section.top_margin = Inches(0.5)
@@ -462,7 +466,7 @@ class MeterComparisonDOCXExporter:
         ec2_unit_label = self.ec2 + ' (' + self.unit2 + ')'
         combined_ec_unit = ec1_unit_label + ' / ' + ec2_unit_label
 
-        self._add_heading_styled(doc, self.name1 + ' & ' + self.name2 + ' - ' +
+        self._add_heading_styled(doc, self.name1 + ' ' + _('compare') + ' ' + self.name2 + ' - ' +
                                  _('Reporting Period Consumption'), level=1)
 
         summary_data = [
@@ -497,7 +501,7 @@ class MeterComparisonDOCXExporter:
             ys1 = self._sanitize_values(values1)
             ys2 = self._sanitize_values(values2)
 
-            fig, ax = plt.subplots(figsize=(10.5, 5.25))
+            fig, ax = plt.subplots(figsize=(7.27, 3.63))
             marker_step = max(1, len(xs) // 30)
 
             m1_label = self.name1 + ' ' + self.ec1 + ' (' + self.unit1 + ')'
@@ -532,7 +536,7 @@ class MeterComparisonDOCXExporter:
             p = doc.add_paragraph()
             p.alignment = WD_ALIGN_PARAGRAPH.CENTER
             run = p.add_run()
-            run.add_picture(chart_buf, width=Inches(10.5))
+            run.add_picture(chart_buf, width=Inches(7.27))
 
     def _add_detailed_data_section(self, doc):
         """Add detailed time-series data tables with timestamps, values, and difference."""
@@ -550,12 +554,12 @@ class MeterComparisonDOCXExporter:
         if not timestamps or len(timestamps) == 0:
             return
 
-        rows_per_page = 45
+        rows_per_page = 70
         header_font = 8
         data_font = 7
 
         doc.add_page_break()
-        self._add_heading_styled(doc, self.name1 + ' & ' + self.name2 + ' ' +
+        self._add_heading_styled(doc, self.name1 + ' ' + _('compare') + ' ' + self.name2 + ' ' +
                                  _('Detailed Data'), level=1)
 
         col_headers = [
