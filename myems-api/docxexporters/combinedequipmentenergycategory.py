@@ -364,9 +364,9 @@ class CombinedEquipmentEnergyCategoryDOCXExporter:
                 len(report['reporting_period']['names']) == 0:
             doc = Document()
             section = doc.sections[0]
-            section.orientation = 1  # landscape
-            section.page_width = Inches(11.69)
-            section.page_height = Inches(8.27)
+            section.orientation = 0
+            section.page_width = Inches(8.27)
+            section.page_height = Inches(11.69)
             section.left_margin = Inches(0.5)
             section.right_margin = Inches(0.5)
             section.top_margin = Inches(0.5)
@@ -398,9 +398,9 @@ class CombinedEquipmentEnergyCategoryDOCXExporter:
 
         doc = Document()
         section = doc.sections[0]
-        section.orientation = 1
-        section.page_width = Inches(11.69)
-        section.page_height = Inches(8.27)
+        section.orientation = 0
+        section.page_width = Inches(8.27)
+        section.page_height = Inches(11.69)
         section.left_margin = Inches(0.5)
         section.right_margin = Inches(0.5)
         section.top_margin = Inches(0.5)
@@ -523,9 +523,9 @@ class CombinedEquipmentEnergyCategoryDOCXExporter:
             return
 
         body_section = doc.add_section(WD_SECTION.NEW_PAGE)
-        body_section.orientation = 1
-        body_section.page_width = Inches(11.69)
-        body_section.page_height = Inches(8.27)
+        body_section.orientation = 0
+        body_section.page_width = Inches(8.27)
+        body_section.page_height = Inches(11.69)
         body_section.left_margin = Inches(0.5)
         body_section.right_margin = Inches(0.5)
         body_section.top_margin = Inches(0.5)
@@ -978,7 +978,7 @@ class CombinedEquipmentEnergyCategoryDOCXExporter:
 
         reporting_times = timestamps[0]
         num_categories = len(names)
-        rows_per_table_page = 45
+        rows_per_table_page = 70
         header_font = 8
         data_font = 7
 
@@ -1117,8 +1117,8 @@ class CombinedEquipmentEnergyCategoryDOCXExporter:
         self._add_heading_styled(doc, self.name + ' ' + _('Detailed Data'), level=1)
 
         all_charts = []
-        fig_w, fig_h = 10.5, 3.2
-        display_w = 10.5
+        fig_w, fig_h = 7.27, 3.2
+        display_w = 7.27
 
         def _set_ticks(ax, raw_len, times):
             step = max(1, raw_len // 10)
@@ -1182,31 +1182,35 @@ class CombinedEquipmentEnergyCategoryDOCXExporter:
                 ax.grid(True, alpha=0.3)
                 all_charts.append(self._fig_to_bytesio(fig, self.dpi))
 
-        charts_per_page = 2
         num_total_charts = len(all_charts)
+        charts_per_page = 3
+        first_chart_page = True
+
         for page_start in range(0, num_total_charts, charts_per_page):
-            if page_start > 0:
-                doc.add_page_break()
             page_end = min(page_start + charts_per_page, num_total_charts)
-            num_on_page = page_end - page_start
+            page_bufs = all_charts[page_start:page_end]
+            num_on_page = len(page_bufs)
+
+            if not first_chart_page:
+                doc.add_page_break()
+            first_chart_page = False
 
             if num_on_page == 1:
-                chart_buf = all_charts[page_start]
+                chart_buf = page_bufs[0]
                 p = doc.add_paragraph()
                 p.alignment = WD_ALIGN_PARAGRAPH.CENTER
                 run = p.add_run()
                 run.add_picture(chart_buf, width=Inches(display_w))
             else:
-                container = doc.add_table(rows=2, cols=1)
+                container = doc.add_table(rows=num_on_page, cols=1)
                 container.alignment = WD_TABLE_ALIGNMENT.CENTER
                 _remove_table_borders(container)
-                for slot in range(num_on_page):
-                    cell = container.cell(slot, 0)
-                    chart_buf = all_charts[page_start + slot]
+                for ci, buf in enumerate(page_bufs):
+                    cell = container.cell(ci, 0)
                     p = cell.paragraphs[0]
                     p.alignment = WD_ALIGN_PARAGRAPH.CENTER
                     run = p.add_run()
-                    run.add_picture(chart_buf, width=Inches(display_w))
+                    run.add_picture(buf, width=Inches(display_w))
 
     # ---------- Parameters ----------
     def _add_parameters_section(self, doc):
@@ -1337,61 +1341,69 @@ class CombinedEquipmentEnergyCategoryDOCXExporter:
             doc.add_page_break()
             self._add_heading_styled(doc, eq_name + ' ' + _('Detailed Data'), level=1)
 
-            drawn_so_far = 0
-            for row_start in range(0, ca_len, per_row_charts):
-                row_end = min(row_start + per_row_charts, ca_len)
-                row_cats = list(range(row_start, row_end))
-                row_size = len(row_cats)
+            all_charts = []
+            fig_w, fig_h = 7.27, 3.2
+            display_w = 7.27
 
-                container = doc.add_table(rows=1, cols=per_row_charts)
-                container.alignment = WD_TABLE_ALIGNMENT.CENTER
-                _remove_table_borders(container)
+            for i in range(ca_len):
+                raw_data = values[i] if i < len(values) else []
+                unit_i = units[i] if (units and i < len(units)) else ''
+                name_i = names[i] if i < len(names) else ''
+                color = chart_colors[i % N]
+                data_len = len(raw_data)
+                marker_step = max(1, data_len // 30)
+                safe_data = [(v if isinstance(v, (int, float)) else 0)
+                             if v is not None else 0 for v in raw_data]
 
-                if row_size == 1:
-                    container.cell(0, 0).merge(container.cell(0, 1))
+                fig, ax = plt.subplots(figsize=(fig_w, fig_h))
+                if len(safe_data) > 0:
+                    ax.plot(range(len(safe_data)), safe_data,
+                            linewidth=1.2,
+                            color=color, marker='o', markersize=3,
+                            markevery=marker_step)
+                step = max(1, data_len // 10) if data_len > 0 else 1
+                ax.set_xticks(range(0, data_len, step))
+                xlabels = []
+                for t in range(0, data_len, step):
+                    xlabels.append(
+                        reporting_times[t][:10] if t < len(reporting_times) else '')
+                ax.set_xticklabels(xlabels, rotation=45, ha='right', fontsize=7)
+                title = _('Reporting Period Consumption') + ' - ' + \
+                        name_i + ((' (' + unit_i + ')') if unit_i else '')
+                ax.set_title(title, fontsize=9, fontweight='bold')
+                ax.grid(True, alpha=0.3)
+                plt.tight_layout(pad=1.0)
+                all_charts.append(self._fig_to_bytesio(fig, self.dpi))
 
-                for local_idx, i in enumerate(row_cats):
-                    raw_data = values[i] if i < len(values) else []
-                    unit_i = units[i] if (units and i < len(units)) else ''
-                    name_i = names[i] if i < len(names) else ''
-                    color = chart_colors[i % N]
-                    data_len = len(raw_data)
-                    marker_step = max(1, data_len // 30)
-                    safe_data = [(v if isinstance(v, (int, float)) else 0)
-                                 if v is not None else 0 for v in raw_data]
+            num_total_charts = len(all_charts)
+            charts_per_page = 3
+            first_chart_page = True
 
-                    fig_w, fig_h = 10.5, 3.2
-                    fig, ax = plt.subplots(figsize=(fig_w, fig_h))
-                    if len(safe_data) > 0:
-                        ax.plot(range(len(safe_data)), safe_data,
-                                linewidth=1.2,
-                                color=color, marker='o', markersize=3,
-                                markevery=marker_step)
-                    step = max(1, data_len // 10) if data_len > 0 else 1
-                    ax.set_xticks(range(0, data_len, step))
-                    xlabels = []
-                    for t in range(0, data_len, step):
-                        xlabels.append(
-                            reporting_times[t][:10] if t < len(reporting_times) else '')
-                    ax.set_xticklabels(xlabels, rotation=45, ha='right', fontsize=7)
-                    title = _('Reporting Period Consumption') + ' - ' + \
-                            name_i + ((' (' + unit_i + ')') if unit_i else '')
-                    ax.set_title(title, fontsize=9, fontweight='bold')
-                    ax.grid(True, alpha=0.3)
-                    plt.tight_layout(pad=1.0)
-                    chart_buf = self._fig_to_bytesio(fig, self.dpi)
+            for page_start in range(0, num_total_charts, charts_per_page):
+                page_end = min(page_start + charts_per_page, num_total_charts)
+                page_bufs = all_charts[page_start:page_end]
+                num_on_page = len(page_bufs)
 
-                    cell_idx = 0 if (row_size == 1) else local_idx
-                    cell = container.cell(0, cell_idx)
-                    p = cell.paragraphs[0]
+                if not first_chart_page:
+                    doc.add_page_break()
+                first_chart_page = False
+
+                if num_on_page == 1:
+                    chart_buf = page_bufs[0]
+                    p = doc.add_paragraph()
                     p.alignment = WD_ALIGN_PARAGRAPH.CENTER
                     run = p.add_run()
-                    run.add_picture(chart_buf, width=Inches(10.5))
-
-                drawn_so_far += row_size
-                if drawn_so_far >= max_per_page and drawn_so_far < ca_len \
-                        and (drawn_so_far % max_per_page == 0):
-                    doc.add_page_break()
+                    run.add_picture(chart_buf, width=Inches(display_w))
+                else:
+                    container = doc.add_table(rows=num_on_page, cols=1)
+                    container.alignment = WD_TABLE_ALIGNMENT.CENTER
+                    _remove_table_borders(container)
+                    for ci, buf in enumerate(page_bufs):
+                        cell = container.cell(ci, 0)
+                        p = cell.paragraphs[0]
+                        p.alignment = WD_ALIGN_PARAGRAPH.CENTER
+                        run = p.add_run()
+                        run.add_picture(buf, width=Inches(display_w))
 
             num_cols = ca_len + 1
             time_len = len(reporting_times)
@@ -1399,35 +1411,38 @@ class CombinedEquipmentEnergyCategoryDOCXExporter:
             table = doc.add_table(rows=rows, cols=num_cols)
             table.alignment = WD_TABLE_ALIGNMENT.CENTER
 
+            header_font = 8
+            data_font = 7
+
             h0 = table.cell(0, 0)
             h0.text = _('Datetime')
-            _style_table_cell(h0, is_header=True, bold=True)
+            _style_table_cell(h0, is_header=True, bold=True, font_size=header_font)
             for i in range(ca_len):
                 name_i = names[i] if i < len(names) else ''
                 unit_i = units[i] if (units and i < len(units)) else ''
                 hi = table.cell(0, i + 1)
                 hi.text = name_i + ((' (' + unit_i + ')') if unit_i else '')
-                _style_table_cell(hi, is_header=True, bold=True)
+                _style_table_cell(hi, is_header=True, bold=True, font_size=header_font)
 
             for t_idx in range(time_len):
                 tc = table.cell(t_idx + 1, 0)
                 tc.text = str(reporting_times[t_idx])
-                _style_table_cell(tc, font_size=8)
+                _style_table_cell(tc, font_size=data_font)
                 for i in range(ca_len):
                     vi = values[i][t_idx] if (i < len(values) and t_idx < len(values[i])) else None
                     cc = table.cell(t_idx + 1, i + 1)
                     cc.text = str(round2(vi, 2)) if vi is not None else ''
-                    _style_table_cell(cc, font_size=8)
+                    _style_table_cell(cc, font_size=data_font)
 
             s_row = time_len + 1
             sc = table.cell(s_row, 0)
             sc.text = _('Subtotal')
-            _style_table_cell(sc, is_green=True, bold=True)
+            _style_table_cell(sc, is_green=True, bold=True, font_size=data_font)
             for i in range(ca_len):
                 sv = subtotals[i] if (subtotals and i < len(subtotals)) else None
                 si = table.cell(s_row, i + 1)
                 si.text = str(round2(sv, 2)) if sv is not None else ''
-                _style_table_cell(si, bold=True)
+                _style_table_cell(si, bold=True, font_size=data_font)
 
             doc.add_paragraph('')
 

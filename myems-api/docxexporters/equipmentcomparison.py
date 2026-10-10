@@ -297,9 +297,13 @@ class EquipmentComparisonDOCXExporter:
                 len(report['reporting_period1']['values']) == 0:
             doc = Document()
             section = doc.sections[0]
-            section.orientation = 1
-            section.page_width = Inches(11.69)
-            section.page_height = Inches(8.27)
+            section.orientation = 0
+            section.page_width = Inches(8.27)
+            section.page_height = Inches(11.69)
+            section.left_margin = Inches(0.5)
+            section.right_margin = Inches(0.5)
+            section.top_margin = Inches(0.5)
+            section.bottom_margin = Inches(0.5)
             self.equipment1_name = equipment1_name
             self.equipment2_name = equipment2_name
             self._add_cover_page(doc, equipment1_name, equipment2_name,
@@ -325,9 +329,9 @@ class EquipmentComparisonDOCXExporter:
 
         doc = Document()
         section = doc.sections[0]
-        section.orientation = 1
-        section.page_width = Inches(11.69)
-        section.page_height = Inches(8.27)
+        section.orientation = 0
+        section.page_width = Inches(8.27)
+        section.page_height = Inches(11.69)
         section.left_margin = Inches(0.5)
         section.right_margin = Inches(0.5)
         section.top_margin = Inches(0.5)
@@ -437,9 +441,9 @@ class EquipmentComparisonDOCXExporter:
         cat_name = self.energy_category_name
 
         body_section = doc.add_section(WD_SECTION.NEW_PAGE)
-        body_section.orientation = 1
-        body_section.page_width = Inches(11.69)
-        body_section.page_height = Inches(8.27)
+        body_section.orientation = 0
+        body_section.page_width = Inches(8.27)
+        body_section.page_height = Inches(11.69)
         body_section.left_margin = Inches(0.5)
         body_section.right_margin = Inches(0.5)
         body_section.top_margin = Inches(0.5)
@@ -448,7 +452,8 @@ class EquipmentComparisonDOCXExporter:
                         f"  |  {self.equipment1_name} & {self.equipment2_name}")
         configure_body_section(body_section, header_title=header_title)
 
-        self._add_heading_styled(doc, self.equipment1_name + ' & ' + self.equipment2_name + ' - ' +
+        self._add_heading_styled(doc, self.equipment1_name + ' ' + _('compare') + ' ' +
+                                 self.equipment2_name + ' - ' +
                                  _('Reporting Period Consumption'), level=1)
 
         summary_data = [
@@ -483,7 +488,7 @@ class EquipmentComparisonDOCXExporter:
             ys1 = self._sanitize_values(values1)
             ys2 = self._sanitize_values(values2)
 
-            fig, ax = plt.subplots(figsize=(10.5, 5.25))
+            fig, ax = plt.subplots(figsize=(7.27, 5.25))
             marker_step = max(1, len(xs) // 30)
 
             ax.plot(xs, ys1, linewidth=1.5, color='#4472C4',
@@ -510,7 +515,7 @@ class EquipmentComparisonDOCXExporter:
             p = doc.add_paragraph()
             p.alignment = WD_ALIGN_PARAGRAPH.CENTER
             run = p.add_run()
-            run.add_picture(chart_buf, width=Inches(10.5))
+            run.add_picture(chart_buf, width=Inches(7.27))
 
         doc.add_page_break()
 
@@ -532,11 +537,12 @@ class EquipmentComparisonDOCXExporter:
 
         unit = self.unit
         cat_name = self.energy_category_name
-        rows_per_page = 45
+        rows_per_page = 70
         header_font = 8
         data_font = 7
 
-        self._add_heading_styled(doc, self.equipment1_name + ' & ' + self.equipment2_name + ' ' +
+        self._add_heading_styled(doc, self.equipment1_name + ' ' + _('compare') + ' ' +
+                                 self.equipment2_name + ' ' +
                                  _('Detailed Data'), level=1)
 
         num_pages = (len(timestamps) + rows_per_page - 1) // rows_per_page

@@ -590,3 +590,7 @@ msgstr "รายปี"
 
 msgid "Space Data"
 msgstr "ข้อมูลพื้นที่"
+
+
+msgid "compare"
+msgstr "เปรียบเทียบ"
