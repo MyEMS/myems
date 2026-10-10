@@ -470,7 +470,7 @@ class CombinedEquipmentEfficiencyPDFExporter:
                             [times[t][:10] if t < len(times) else ''
                              for t in range(0, len(cdata), cstep)],
                             rotation=45, ha='right', fontsize=6)
-                        ax_chart.set_title(_('Reporting Period Cumulative Efficiency') + ' - ' + chart_info['title'],
+                        ax_chart.set_title(_('Reporting Period Cumulative Efficiency') + ' - ' + names[i],
                                            fontsize=7, weight='bold')
                         ax_chart.grid(True, alpha=0.3)
 
@@ -570,7 +570,7 @@ class CombinedEquipmentEfficiencyPDFExporter:
                             [reporting_times[t][:10] if t < len(reporting_times) else ''
                              for t in range(0, len(cdata), cstep)],
                             rotation=45, ha='right', fontsize=6)
-                        ax_chart.set_title(_('Base Period Cumulative Efficiency') + ' / ' + _('Reporting Period Cumulative Efficiency') + ' - ' + chart_info['title'],
+                        ax_chart.set_title(_('Base Period Cumulative Efficiency') + ' / ' + _('Reporting Period Cumulative Efficiency') + ' - ' + names[i],
                                            fontsize=7, weight='bold')
                         ax_chart.legend(fontsize=6)
                         ax_chart.grid(True, alpha=0.3)
