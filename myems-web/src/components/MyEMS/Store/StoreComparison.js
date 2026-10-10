@@ -722,7 +722,7 @@ const StoreComparison = ({ setRedirect, setRedirectUrl, t }) => {
         });
     } else if (type === 'pdf' && pdfBytesBase64) {
       const mimeType = 'application/pdf';
-      const fileName = 'StoreComparison.pdf';
+      const fileName = 'storecomparison.pdf';
       const fileUrl = 'data:' + mimeType + ';base64,' + pdfBytesBase64;
       fetch(fileUrl)
         .then(response => response.blob())
