@@ -1030,16 +1030,6 @@ const CombinedEquipmentComparison = ({ setRedirect, setRedirectUrl, t }) => {
                     />
                     <CustomInput
                       type="checkbox"
-                      id="exportDocx"
-                      name="exportDocx"
-                      label="DOCX"
-                      bsSize="sm"
-                      inline
-                      checked={exportDocx}
-                      onChange={({ target }) => setExportDocx(target.checked)}
-                    />
-                    <CustomInput
-                      type="checkbox"
                       id="exportPdf"
                       name="exportPdf"
                       label="PDF"
@@ -1047,6 +1037,16 @@ const CombinedEquipmentComparison = ({ setRedirect, setRedirectUrl, t }) => {
                       inline
                       checked={exportPdf}
                       onChange={({ target }) => setExportPdf(target.checked)}
+                    />
+                    <CustomInput
+                      type="checkbox"
+                      id="exportDocx"
+                      name="exportDocx"
+                      label="DOCX"
+                      bsSize="sm"
+                      inline
+                      checked={exportDocx}
+                      onChange={({ target }) => setExportDocx(target.checked)}
                     />
                   </div>
                 </FormGroup>

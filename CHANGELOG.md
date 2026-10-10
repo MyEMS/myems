@@ -15,6 +15,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - changed the aggregation algorithms to determine whether the tenant is enabled in myems-aggregation
 - changed the virtual meter aggregation algorithm to determine whether the variable is enabled in myems-normalization
 - changed docx exporters in myems-api
+- changed combined equipment reports in myems-web
 ### Fixed
 - fixed issue of dockerfile in myems-s7
 ### Removed

@@ -1171,9 +1171,9 @@ const CombinedEquipmentLoad = ({ setRedirect, setRedirectUrl, t }) => {
                   <Label className={labelClasses}>{t('Export')}{t('(Optional)')}</Label>
                   <div>
                     <CustomInput type="checkbox" id="exportExcel" name="exportExcel" label="Excel" bsSize="sm" inline checked={exportExcel} onChange={({ target }) => setExportExcel(target.checked)} />
-                    <CustomInput type="checkbox" id="exportDocx" name="exportDocx" label="DOCX" bsSize="sm" inline checked={exportDocx} onChange={({ target }) => setExportDocx(target.checked)} />
+                    <CustomInput type="checkbox" id="exportPdf" name="exportPdf" label="PDF" bsSize="sm" inline checked={exportPdf} onChange={({ target }) => setExportPdf(target.checked)} />
                   
-                    <CustomInput type="checkbox" id="exportPdf" name="exportPdf" label="PDF" bsSize="sm" inline checked={exportPdf} onChange={({ target }) => setExportPdf(target.checked)} /></div>
+                    <CustomInput type="checkbox" id="exportDocx" name="exportDocx" label="DOCX" bsSize="sm" inline checked={exportDocx} onChange={({ target }) => setExportDocx(target.checked)} /></div>
                 </FormGroup>
               </Col>
               <Col xs="auto">
