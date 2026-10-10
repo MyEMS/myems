@@ -980,7 +980,7 @@ class SpaceEnergyItemPDFExporter:
                          ' (' + str(batch_start + 1) + '-' + str(batch_end) + ')',
                          fontsize=16, weight='bold', y=0.94)
 
-            gs = gridspec.GridSpec(len(valid_params), 2, width_ratios=[0.35, 0.65],
+            gs = gridspec.GridSpec(batch_size, 2, width_ratios=[0.35, 0.65],
                                    hspace=0.30, top=0.90, bottom=0.05, left=0.04, right=0.96)
 
             for idx, pi in enumerate(valid_params):
