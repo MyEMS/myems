@@ -508,7 +508,7 @@ const SpaceComparison = ({ setRedirect, setRedirectUrl, t }) => {
     const type = e.target.textContent.trim().toLowerCase();
     if (type === 'excel' && excelBytesBase64) {
       const mimeType = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
-      const fileName = 'SpaceComparison.xlsx';
+      const fileName = 'spacecomparison.xlsx';
       const fileUrl = 'data:' + mimeType + ';base64,' + excelBytesBase64;
       fetch(fileUrl)
         .then(response => response.blob())
@@ -524,7 +524,7 @@ const SpaceComparison = ({ setRedirect, setRedirectUrl, t }) => {
         });
     } else if (type === 'pdf' && pdfBytesBase64) {
       const mimeType = 'application/pdf';
-      const fileName = 'SpaceComparison.pdf';
+      const fileName = 'spacecomparison.pdf';
       const fileUrl = 'data:' + mimeType + ';base64,' + pdfBytesBase64;
       fetch(fileUrl)
         .then(response => response.blob())

@@ -728,7 +728,7 @@ const OfflineMeterSaving = ({ setRedirect, setRedirectUrl, t }) => {
         });
     } else if (type === 'pdf' && pdfBytesBase64) {
       const mimeType = 'application/pdf';
-      const fileName = 'OfflineMeterSaving.pdf';
+      const fileName = 'offlinemetersaving.pdf';
       const fileUrl = 'data:' + mimeType + ';base64,' + pdfBytesBase64;
       fetch(fileUrl)
         .then(response => response.blob())
