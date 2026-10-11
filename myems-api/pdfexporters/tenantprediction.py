@@ -92,6 +92,20 @@ def _style_table_borders(table, num_rows, num_cols):
             table[i, j].set_linewidth(0.5)
 
 
+def _uniform_row_bbox(num_rows, max_rows):
+    """Compute a bbox [x, y, width, height] (axes coordinates) for ax.table that
+    keeps row height uniform across tables and pages.
+    The table block is anchored to the top of the axes and its height follows the
+    number of rows, so tables with fewer rows keep the standard per-row height
+    instead of being stretched to absurdly tall rows (same convention as
+    tenantbill.py).
+    """
+    if max_rows <= 0:
+        return [0, 0, 1, 1]
+    fill_ratio = min(1.0, float(num_rows) / max_rows)
+    return [0, 1 - fill_ratio, 1, fill_ratio]
+
+
 class TenantPredictionPDFExporter:
     """
     Export tenant prediction data to PDF format.
@@ -331,9 +345,11 @@ class TenantPredictionPDFExporter:
                                str(w_val) if w_val and w_val > 0 else '-'])
 
         num_cols = len(col_headers)
-        table = ax.table(cellText=table_data, loc='center',
+        # Full-page table: 64-row capacity keeps the same per-row height as the
+        # half-page detailed data tables (32 rows per half page)
+        table = ax.table(cellText=table_data, loc='upper center',
                          cellLoc='center', colWidths=[0.4, 0.3, 0.3],
-                         bbox=[0, 0, 1, 1])
+                         bbox=_uniform_row_bbox(len(table_data), 64))
         table.auto_set_font_size(False)
         table.set_fontsize(10)
         for j in range(num_cols):
@@ -504,8 +520,9 @@ class TenantPredictionPDFExporter:
         rp_total_w = sum(rp_col_widths)
         rp_col_widths = [w / rp_total_w for w in rp_col_widths]
 
-        tbl_rp = ax_rp.table(cellText=rp_table_data, loc='center',
-                             cellLoc='center', colWidths=rp_col_widths)
+        tbl_rp = ax_rp.table(cellText=rp_table_data, loc='upper center',
+                             cellLoc='center', colWidths=rp_col_widths,
+                             bbox=_uniform_row_bbox(len(rp_table_data), 13))
         tbl_rp.auto_set_font_size(False)
         tbl_rp.set_fontsize(7)
         for j in range(rp_num_cols):
@@ -532,8 +549,9 @@ class TenantPredictionPDFExporter:
             [_('MidPeak'), str(tou_values[2]) if tou_exists else ''],
             [_('OffPeak'), str(tou_values[3]) if tou_exists else ''],
         ]
-        tbl_tou = ax_tou_tbl.table(cellText=tou_table_data, loc='center',
-                                    cellLoc='center', colWidths=[0.4, 0.6])
+        tbl_tou = ax_tou_tbl.table(cellText=tou_table_data, loc='upper center',
+                                    cellLoc='center', colWidths=[0.4, 0.6],
+                                    bbox=_uniform_row_bbox(len(tou_table_data), 13))
         tbl_tou.auto_set_font_size(False)
         tbl_tou.set_fontsize(8)
         tbl_tou[0, 0].set_facecolor('#90EE90')
@@ -561,8 +579,9 @@ class TenantPredictionPDFExporter:
         # --- TCE table (bottom-center) ---
         ax_tce_tbl = fig.add_subplot(gs_bottom[0, 1])
         ax_tce_tbl.axis('off')
-        tbl_tce = ax_tce_tbl.table(cellText=tce_table_data, loc='center',
-                                   cellLoc='center', colWidths=[0.35, 0.65])
+        tbl_tce = ax_tce_tbl.table(cellText=tce_table_data, loc='upper center',
+                                   cellLoc='center', colWidths=[0.35, 0.65],
+                                   bbox=_uniform_row_bbox(len(tce_table_data), 13))
         tbl_tce.auto_set_font_size(False)
         tbl_tce.set_fontsize(8)
         for j in range(2):
@@ -585,8 +604,9 @@ class TenantPredictionPDFExporter:
         # --- TCO2E table (bottom-right) ---
         ax_co2e_tbl = fig.add_subplot(gs_bottom[0, 2])
         ax_co2e_tbl.axis('off')
-        tbl_co2e = ax_co2e_tbl.table(cellText=co2e_table_data, loc='center',
-                                     cellLoc='center', colWidths=[0.35, 0.65])
+        tbl_co2e = ax_co2e_tbl.table(cellText=co2e_table_data, loc='upper center',
+                                     cellLoc='center', colWidths=[0.35, 0.65],
+                                     bbox=_uniform_row_bbox(len(co2e_table_data), 13))
         tbl_co2e.auto_set_font_size(False)
         tbl_co2e.set_fontsize(8)
         for j in range(2):
@@ -694,8 +714,9 @@ class TenantPredictionPDFExporter:
 
                 num_cols = len(col_headers)
                 col_widths = [0.12] + [0.88 / ca_len] * ca_len
-                table = ax_table.table(cellText=table_data, loc='center',
-                                       cellLoc='center', colWidths=col_widths, bbox=[0, 0, 1, 1])
+                table = ax_table.table(cellText=table_data, loc='upper center',
+                                       cellLoc='center', colWidths=col_widths,
+                                       bbox=_uniform_row_bbox(len(table_data), rows_per_page + 2))
                 table.auto_set_font_size(False)
                 table.set_fontsize(7)
 
@@ -810,8 +831,9 @@ class TenantPredictionPDFExporter:
 
                 num_cols = len(col_headers)
                 col_widths = [1.0 / num_cols] * num_cols
-                table = ax_table.table(cellText=table_data, loc='center',
-                                       cellLoc='center', colWidths=col_widths, bbox=[0, 0, 1, 1])
+                table = ax_table.table(cellText=table_data, loc='upper center',
+                                       cellLoc='center', colWidths=col_widths,
+                                       bbox=_uniform_row_bbox(len(table_data), rows_per_page + 2))
                 table.auto_set_font_size(False)
                 table.set_fontsize(6)
 
@@ -1018,7 +1040,8 @@ class TenantPredictionPDFExporter:
                 for j in range(tbl_rows):
                     tbl_data.append([times[j], safe_data[j]])
                 tbl = ax_tbl.table(cellText=tbl_data, loc='upper center',
-                                   cellLoc='center', colWidths=[0.5, 0.5], bbox=[0, 0, 1, 1])
+                                   cellLoc='center', colWidths=[0.5, 0.5],
+                                   bbox=_uniform_row_bbox(len(tbl_data), rows_per_param + 1))
                 tbl.auto_set_font_size(False)
                 tbl.set_fontsize(6)
                 tbl[0, 0].set_facecolor('#90EE90')
