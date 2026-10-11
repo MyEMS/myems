@@ -38,6 +38,7 @@ import matplotlib.pyplot as plt
 from matplotlib.backends.backend_pdf import PdfPages
 
 import matplotlib.gridspec as gridspec
+from matplotlib.lines import Line2D
 
 
 from core.utilities import get_translation, round2
@@ -147,7 +148,7 @@ class EquipmentEnergyPDFExporter:
         self._ = self.trans.gettext
 
         # Page settings
-        self.page_size = (11.69, 8.27)  # A4 landscape
+        self.page_size = (8.27, 11.69)  # A4 portrait
         self.dpi = 80
 
         # Color scheme (matching Excel style)
@@ -259,6 +260,13 @@ class EquipmentEnergyPDFExporter:
         self.is_base_period_exists = self._is_base_period_timestamp_exists(report['base_period'])
 
         # Generate PDF
+        # Header/footer setup for body pages (cover page is excluded)
+        _ = self._
+        self.header_title = (f"{_('Equipment Data')} - {_('Energy Analysis')}"
+                             f"  |  {self.name}")
+        # Body page counter; cover page is not counted, body starts at 1
+        self.current_page_number = 0
+
         with PdfPages(filename) as pdf:
             # Cover page
             self._create_cover_page(pdf, name, period_type,
@@ -279,6 +287,31 @@ class EquipmentEnergyPDFExporter:
 
         logger.info(f"PDF generated: {filename}")
         return filename
+
+    def _draw_header_footer(self, fig):
+        """Draw the standard MyEMS header (centered title + grey separator) and
+        footer (centered current page number) on a body page figure.
+        The cover page must NOT call this method.
+        """
+        # Header: centered title near top edge
+        fig.text(0.5, 0.97, self.header_title,
+                 fontsize=9, ha='center', va='center')
+        # Header separator line (light grey), just below header text
+        sep = Line2D([0.05, 0.95], [0.955, 0.955],
+                     transform=fig.transFigure, color='#999999', lw=0.8)
+        fig.add_artist(sep)
+        # Footer: centered current page number near bottom edge
+        fig.text(0.5, 0.02, str(self.current_page_number),
+                 fontsize=9, ha='center', va='center')
+
+    def _save_body_page(self, pdf, fig):
+        """Unified exit for every non-cover page: bump the page counter, draw
+        header/footer, then save and close the figure.
+        """
+        self.current_page_number += 1
+        self._draw_header_footer(fig)
+        pdf.savefig(fig)
+        plt.close(fig)
 
     def _create_cover_page(self, pdf: PdfPages, name: str, period_type: str,
                            reporting_start: str, reporting_end: str,
@@ -315,7 +348,7 @@ class EquipmentEnergyPDFExporter:
         # ===== Info list: no table borders, centered below title =====
         info_data = [
             [_('Name') + ':', name],
-            [_('Period Type') + ':', period_type],
+            [_('Period Type') + ':', _(period_type)],
             [_('Reporting Start Datetime') + ':', reporting_start],
             [_('Reporting End Datetime') + ':', reporting_end],
         ]
@@ -419,11 +452,11 @@ class EquipmentEnergyPDFExporter:
 
         fig = plt.figure(figsize=self.page_size)
         fig.suptitle(self.name + ' - ' + _('Reporting Period Consumption'),
-                     fontsize=16, weight='bold', y=0.98)
+                     fontsize=16, weight='bold', y=0.94)
 
         # Layout: top row = Reporting Period table (full width)
         #         bottom area = 3 columns x 2 sub-rows (tables + pie charts)
-        gs_main = gridspec.GridSpec(2, 1, height_ratios=[0.25, 0.75], hspace=0.30)
+        gs_main = gridspec.GridSpec(2, 1, height_ratios=[0.25, 0.75], hspace=0.30, top=0.90, bottom=0.05, left=0.04, right=0.96)
 
         # ===== Top row: Reporting Period Consumption table (full width) =====
         ax_rp = fig.add_subplot(gs_main[0])
@@ -551,8 +584,7 @@ class EquipmentEnergyPDFExporter:
                             ha='center', va='center', transform=ax_chart3.transAxes)
             ax_chart3.axis('off')
 
-        pdf.savefig(fig)
-        plt.close()
+        self._save_body_page(pdf, fig)
 
     def _create_detailed_data_page(self, pdf: PdfPages):
         """Create detailed data page matching Excel full data table + line charts."""
@@ -587,7 +619,7 @@ class EquipmentEnergyPDFExporter:
 
                 fig = plt.figure(figsize=self.page_size)
                 fig.suptitle(self.name + ' ' + _('Detailed Data'),
-                             fontsize=16, weight='bold', y=0.98)
+                             fontsize=16, weight='bold', y=0.94)
 
                 gs = gridspec.GridSpec(2, 1, height_ratios=[0.55, 0.45])
                 ax_table = fig.add_subplot(gs[0])
@@ -648,8 +680,7 @@ class EquipmentEnergyPDFExporter:
                 ax_chart.grid(True, alpha=0.3)
 
                 plt.tight_layout()
-                pdf.savefig(fig)
-                plt.close()
+                self._save_body_page(pdf, fig)
         else:
             # With base period: paginated table + combined comparison chart per page
             base_period_data = self.report['base_period']
@@ -674,7 +705,7 @@ class EquipmentEnergyPDFExporter:
 
                 fig = plt.figure(figsize=self.page_size)
                 fig.suptitle(self.name + ' ' + _('Detailed Data'),
-                             fontsize=16, weight='bold', y=0.98)
+                             fontsize=16, weight='bold', y=0.94)
 
                 gs = gridspec.GridSpec(2, 1, height_ratios=[0.55, 0.45])
                 ax_table = fig.add_subplot(gs[0])
@@ -756,8 +787,7 @@ class EquipmentEnergyPDFExporter:
                 ax_chart.grid(True, alpha=0.3)
 
                 plt.tight_layout()
-                pdf.savefig(fig)
-                plt.close()
+                self._save_body_page(pdf, fig)
 
     def _create_parameters_page(self, pdf: PdfPages):
         """Create parameters pages: batch 4 parameters per page with compact table + chart."""
@@ -802,10 +832,10 @@ class EquipmentEnergyPDFExporter:
             fig = plt.figure(figsize=self.page_size)
             fig.suptitle(self.name + ' ' + _('Parameters') +
                          ' (' + str(batch_start + 1) + '-' + str(batch_end) + ')',
-                         fontsize=16, weight='bold', y=0.98)
+                         fontsize=16, weight='bold', y=0.94)
 
-            gs = gridspec.GridSpec(len(valid_params), 2, width_ratios=[0.35, 0.65],
-                                   hspace=0.30)
+            gs = gridspec.GridSpec(batch_size, 2, width_ratios=[0.35, 0.65],
+                                   hspace=0.30, top=0.90, bottom=0.05, left=0.04, right=0.96)
 
             for idx, pi in enumerate(valid_params):
                 name = param_names[pi]
@@ -845,8 +875,7 @@ class EquipmentEnergyPDFExporter:
                 ax_chart.set_title(name, fontsize=9, weight='bold')
                 ax_chart.grid(True, alpha=0.3)
 
-            pdf.savefig(fig)
-            plt.close()
+            self._save_body_page(pdf, fig)
 
     def _is_base_period_timestamp_exists(self, base_period_data: Dict) -> bool:
         """Check if base period timestamp exists."""

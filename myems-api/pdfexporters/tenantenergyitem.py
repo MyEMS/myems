@@ -27,6 +27,7 @@ import matplotlib.pyplot as plt
 from matplotlib.backends.backend_pdf import PdfPages
 
 import matplotlib.gridspec as gridspec
+from matplotlib.lines import Line2D
 
 
 from core.utilities import get_translation, round2
@@ -135,8 +136,8 @@ class TenantEnergyItemPDFExporter:
         self.trans = get_translation(language)
         self._ = self.trans.gettext
 
-        # Page settings - A4 landscape
-        self.page_size = (11.69, 8.27)
+        # Page settings - A4 portrait
+        self.page_size = (8.27, 11.69)  # A4 portrait
         self.dpi = 80
 
         # Color scheme
@@ -238,6 +239,13 @@ class TenantEnergyItemPDFExporter:
 
         self.is_base_period_exists = self._is_base_period_timestamp_exists(report.get('base_period', {}))
 
+        # Header/footer setup for body pages (cover page is excluded)
+        _ = self._
+        self.header_title = (f"{_('Tenant Data')} - {_('Energy Item Analysis')}"
+                             f"  |  {self.name}")
+        # Body page counter; cover page is not counted, body starts at 1
+        self.current_page_number = 0
+
         with PdfPages(filename) as pdf:
             # Cover page
             self._create_cover_page(pdf, name, period_type,
@@ -257,7 +265,6 @@ class TenantEnergyItemPDFExporter:
             # Detailed data table pages (paginated)
             self._create_detailed_data_page(pdf)
 
-            self._create_detailed_data_charts(pdf)
 
 
             # Parameters (batched)
@@ -265,6 +272,31 @@ class TenantEnergyItemPDFExporter:
 
         logger.info(f"PDF generated: {filename}")
         return filename
+
+    def _draw_header_footer(self, fig):
+        """Draw the standard MyEMS header (centered title + grey separator) and
+        footer (centered current page number) on a body page figure.
+        The cover page must NOT call this method.
+        """
+        # Header: centered title near top edge
+        fig.text(0.5, 0.97, self.header_title,
+                 fontsize=9, ha='center', va='center')
+        # Header separator line (light grey), just below header text
+        sep = Line2D([0.05, 0.95], [0.955, 0.955],
+                     transform=fig.transFigure, color='#999999', lw=0.8)
+        fig.add_artist(sep)
+        # Footer: centered current page number near bottom edge
+        fig.text(0.5, 0.02, str(self.current_page_number),
+                 fontsize=9, ha='center', va='center')
+
+    def _save_body_page(self, pdf, fig):
+        """Unified exit for every non-cover page: bump the page counter, draw
+        header/footer, then save and close the figure.
+        """
+        self.current_page_number += 1
+        self._draw_header_footer(fig)
+        pdf.savefig(fig)
+        plt.close(fig)
 
     def _create_cover_page(self, pdf, name, period_type,
                            reporting_start, reporting_end,
@@ -299,7 +331,7 @@ class TenantEnergyItemPDFExporter:
         # Info list
         info_data = [
             [_('Name') + ':', name],
-            [_('Period Type') + ':', period_type],
+            [_('Period Type') + ':', _(period_type)],
             [_('Reporting Start Datetime') + ':', reporting_start],
             [_('Reporting End Datetime') + ':', reporting_end],
         ]
@@ -360,7 +392,7 @@ class TenantEnergyItemPDFExporter:
 
         fig = plt.figure(figsize=self.page_size)
         fig.suptitle(self.name + ' - ' + _('Reporting Period Consumption'),
-                     fontsize=16, weight='bold', y=0.98)
+                     fontsize=16, weight='bold', y=0.94)
 
         ax_rp = fig.add_axes([0.03, 0.10, 0.94, 0.80])
         ax_rp.axis('off')
@@ -382,8 +414,7 @@ class TenantEnergyItemPDFExporter:
             tbl_rp[i, 0].set_text_props(weight='bold')
         _style_table_borders(tbl_rp, len(rp_table_data), rp_num_cols)
 
-        pdf.savefig(fig)
-        plt.close()
+        self._save_body_page(pdf, fig)
 
     def _create_category_group_pages(self, pdf: PdfPages):
         """Create grouped energy item tables and pie charts by energy category."""
@@ -403,7 +434,7 @@ class TenantEnergyItemPDFExporter:
             unit = units[item_indices[0]]
             fig = plt.figure(figsize=self.page_size)
             fig.suptitle(self.name + ' ' + category_name + ' (' + unit + ') by Energy Item',
-                         fontsize=14, weight='bold', y=0.98)
+                         fontsize=14, weight='bold', y=0.94)
 
             # Table on the left
             ax_tbl = fig.add_axes([0.05, 0.10, 0.40, 0.80])
@@ -440,8 +471,7 @@ class TenantEnergyItemPDFExporter:
             ax_pie.legend(wedges, labels, loc='lower center', fontsize=7,
                           bbox_to_anchor=(0.5, -0.15), ncol=2)
 
-            pdf.savefig(fig)
-            plt.close()
+            self._save_body_page(pdf, fig)
 
     def _create_detailed_data_page(self, pdf: PdfPages):
         """Create detailed data table pages matching Excel full data table."""
@@ -459,7 +489,7 @@ class TenantEnergyItemPDFExporter:
         subtotals = reporting_data.get('subtotals', [])
         ca_len = len(names)
 
-        rows_per_page = 100
+        rows_per_page = 40
 
         if not self.is_base_period_exists:
             times = timestamps[0]
@@ -474,10 +504,40 @@ class TenantEnergyItemPDFExporter:
 
                 fig = plt.figure(figsize=self.page_size)
                 fig.suptitle(self.name + ' ' + _('Detailed Data'),
-                             fontsize=16, weight='bold', y=0.98)
+                             fontsize=16, weight='bold', y=0.94)
 
-                gs = gridspec.GridSpec(1, 1)
-                ax_table = fig.add_subplot(gs[0])
+                gs = gridspec.GridSpec(2, 1, height_ratios=[1, 1],
+                                       hspace=0.55,
+                                       top=0.88, bottom=0.04, left=0.05, right=0.96)
+
+                # ---- top half: detailed data line charts (all categories) ----
+                n_charts = len(names)
+                if n_charts > 0:
+                    if n_charts <= 3:
+                        ct_rows, ct_cols = 1, n_charts
+                    else:
+                        ct_rows, ct_cols = 2, (n_charts + 1) // 2
+                    gs_charts = gs[0].subgridspec(ct_rows, ct_cols,
+                                                  hspace=0.60, wspace=0.25)
+                    for i in range(n_charts):
+                        ax_chart = fig.add_subplot(gs_charts[i // ct_cols, i % ct_cols])
+                        cdata = values[i] if i < len(values) else []
+                        ccolor = self.colors['chart_colors'][i % len(self.colors['chart_colors'])]
+                        ax_chart.plot(range(len(cdata)), cdata, linewidth=1.0,
+                                      color=ccolor, marker='o', markersize=2,
+                                      markevery=max(1, len(cdata) // 30))
+                        cstep = max(1, len(cdata) // 8)
+                        ax_chart.set_xticks(range(0, len(cdata), cstep))
+                        ax_chart.set_xticklabels(
+                            [times[t][:10] if t < len(times) else ''
+                             for t in range(0, len(cdata), cstep)],
+                            rotation=45, ha='right', fontsize=6)
+                        ax_chart.set_title(_('Reporting Period Consumption') + ' - ' + names[i] + ' (' + units[i] + ')',
+                                           fontsize=7, weight='bold')
+                        ax_chart.grid(True, alpha=0.3)
+
+                # ---- bottom half: detailed data table ----
+                ax_table = fig.add_subplot(gs[1])
                 ax_table.axis('off')
 
                 col_headers = [_('Datetime')]
@@ -513,8 +573,7 @@ class TenantEnergyItemPDFExporter:
                     table[last_row, j].set_text_props(weight='bold')
                 _style_table_borders(table, len(table_data), num_cols)
 
-                pdf.savefig(fig)
-                plt.close()
+                self._save_body_page(pdf, fig)
         else:
             base_period_data = self.report['base_period']
             base_timestamps = base_period_data.get('timestamps', [])
@@ -537,10 +596,49 @@ class TenantEnergyItemPDFExporter:
 
                 fig = plt.figure(figsize=self.page_size)
                 fig.suptitle(self.name + ' ' + _('Detailed Data'),
-                             fontsize=16, weight='bold', y=0.98)
+                             fontsize=16, weight='bold', y=0.94)
 
-                gs = gridspec.GridSpec(1, 1)
-                ax_table = fig.add_subplot(gs[0])
+                gs = gridspec.GridSpec(2, 1, height_ratios=[1, 1],
+                                       hspace=0.55,
+                                       top=0.88, bottom=0.04, left=0.05, right=0.96)
+
+                # ---- top half: detailed data line charts (reporting vs base) ----
+                n_charts = len(names)
+                if n_charts > 0:
+                    if n_charts <= 3:
+                        ct_rows, ct_cols = 1, n_charts
+                    else:
+                        ct_rows, ct_cols = 2, (n_charts + 1) // 2
+                    gs_charts = gs[0].subgridspec(ct_rows, ct_cols,
+                                                  hspace=0.60, wspace=0.25)
+                    for i in range(n_charts):
+                        ax_chart = fig.add_subplot(gs_charts[i // ct_cols, i % ct_cols])
+                        cdata = values[i] if i < len(values) else []
+                        ccolor = self.colors['chart_colors'][i % len(self.colors['chart_colors'])]
+                        ax_chart.plot(range(len(cdata)), cdata, linewidth=1.0,
+                                      color=ccolor, marker='o', markersize=2,
+                                      markevery=max(1, len(cdata) // 30),
+                                      label=_('Reporting Period') + ' - ' + names[i])
+                        if i < len(base_values):
+                            b_data = base_values[i]
+                            ax_chart.plot(range(len(cdata)), b_data[:len(cdata)],
+                                          linewidth=1.0, color=ccolor, linestyle='--',
+                                          marker='s', markersize=2,
+                                          markevery=max(1, len(cdata) // 30),
+                                          label=_('Base Period') + ' - ' + base_names[i])
+                        cstep = max(1, len(cdata) // 8)
+                        ax_chart.set_xticks(range(0, len(cdata), cstep))
+                        ax_chart.set_xticklabels(
+                            [reporting_times[t][:10] if t < len(reporting_times) else ''
+                             for t in range(0, len(cdata), cstep)],
+                            rotation=45, ha='right', fontsize=6)
+                        ax_chart.set_title(_('Base Period Consumption') + ' / ' + _('Reporting Period Consumption') + ' - ' + names[i] + ' (' + units[i] + ')',
+                                           fontsize=7, weight='bold')
+                        ax_chart.legend(fontsize=6)
+                        ax_chart.grid(True, alpha=0.3)
+
+                # ---- bottom half: wide detailed data table ----
+                ax_table = fig.add_subplot(gs[1])
                 ax_table.axis('off')
 
                 col_headers = [_('Base Period') + ' - ' + _('Datetime')]
@@ -591,8 +689,7 @@ class TenantEnergyItemPDFExporter:
                     table[last_row, j].set_text_props(weight='bold')
                 _style_table_borders(table, len(table_data), num_cols)
 
-                pdf.savefig(fig)
-                plt.close()
+                self._save_body_page(pdf, fig)
 
 
     def _create_detailed_data_charts(self, pdf: PdfPages):
@@ -627,7 +724,7 @@ class TenantEnergyItemPDFExporter:
 
                 fig = plt.figure(figsize=self.page_size)
                 fig.suptitle(self.name + ' ' + _('Detailed Data'),
-                             fontsize=16, weight='bold', y=0.98)
+                             fontsize=16, weight='bold', y=0.94)
 
                 if n == 1:
                     gs = gridspec.GridSpec(1, 1)
@@ -659,8 +756,7 @@ class TenantEnergyItemPDFExporter:
                                        fontsize=9, weight='bold')
                     ax_chart.grid(True, alpha=0.3)
 
-                pdf.savefig(fig)
-                plt.close()
+                self._save_body_page(pdf, fig)
         else:
             # With base period: dual-line comparison charts
             base_period_data = self.report['base_period']
@@ -678,7 +774,7 @@ class TenantEnergyItemPDFExporter:
 
                 fig = plt.figure(figsize=self.page_size)
                 fig.suptitle(self.name + ' ' + _('Detailed Data'),
-                             fontsize=16, weight='bold', y=0.98)
+                             fontsize=16, weight='bold', y=0.94)
 
                 if n == 1:
                     gs = gridspec.GridSpec(1, 1)
@@ -725,8 +821,7 @@ class TenantEnergyItemPDFExporter:
                     ax_chart.legend(fontsize=7)
                     ax_chart.grid(True, alpha=0.3)
 
-                pdf.savefig(fig)
-                plt.close()
+                self._save_body_page(pdf, fig)
 
 
     def _create_parameters_page(self, pdf):
@@ -767,10 +862,10 @@ class TenantEnergyItemPDFExporter:
             fig = plt.figure(figsize=self.page_size)
             fig.suptitle(self.name + ' ' + _('Parameters') +
                          ' (' + str(batch_start + 1) + '-' + str(batch_end) + ')',
-                         fontsize=16, weight='bold', y=0.98)
+                         fontsize=16, weight='bold', y=0.94)
 
-            gs = gridspec.GridSpec(len(valid_params), 2, width_ratios=[0.35, 0.65],
-                                   hspace=0.50)
+            gs = gridspec.GridSpec(batch_size, 2, width_ratios=[0.35, 0.65],
+                                   hspace=0.50, top=0.90, bottom=0.05, left=0.04, right=0.96)
 
             for idx, pi in enumerate(valid_params):
                 pname = param_names[pi]
@@ -810,8 +905,7 @@ class TenantEnergyItemPDFExporter:
                 ax_chart.set_title(pname, fontsize=9, weight='bold')
                 ax_chart.grid(True, alpha=0.3)
 
-            pdf.savefig(fig)
-            plt.close()
+            self._save_body_page(pdf, fig)
 
 
 # Convenience function for backward compatibility
